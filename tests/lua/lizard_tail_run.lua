@@ -1,6 +1,7 @@
 -- Controlled damage/navigation verifies real Run ownership, not natural play.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
-local Run,C,A,Data=require('abyss_run'),require('abyss_combat'),require('abyss_actor'),require('abyss_data')
+local Run,C,A=require('abyss_run'),require('abyss_combat'),require('abyss_actor')
+local Data=(...)or require('abyss_data')
 local Tail=require('abyss_lizard_tail')
 local n=0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end

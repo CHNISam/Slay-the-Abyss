@@ -319,7 +319,7 @@ function M.obtainRelic(run,id)
         if definition.id=='circlet' then
             RelicHooks.obtainCirclet(staged);return true,definition.id
         end
-        for _,owned in ipairs(staged.relics) do if owned==definition.id then return false,'relic_already_owned' end end
+        for _,owned in ipairs(staged.relics) do if RelicHooks.localId(owned)==definition.id then return false,'relic_already_owned' end end
         local position
         if definition.replaces then
             for i,owned in ipairs(staged.relics) do if owned==definition.replaces then position=i;break end end

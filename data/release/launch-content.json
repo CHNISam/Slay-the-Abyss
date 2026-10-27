@@ -33,6 +33,18 @@
     }
   ],
   "profiles": {
+    "lizardTail": {
+      "tasks": ["TASK-14.1", "TASK-47"],
+      "entryPoints": ["src/lua/abyss_lizard_tail.lua", "src/lua/abyss_player_revive.lua", "src/lua/abyss_run.lua", "src/lua/abyss_relic_hooks.lua", "src/lua/abyss_hp_loss.lua"],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": ["tests/lizard-tail-run.test.mjs", "tests/lizard-tail-action-order.test.mjs", "tests/lizard-tail-persistence.test.mjs", "tests/lua/lizard_tail_run.lua", "tests/lua/lizard_tail_action_order.lua", "tests/lua/lizard_tail_persistence.lua"]
+      },
+      "platform": {"status": "pending-per-item", "evidence": []},
+      "live": {"status": "pending-natural-acquisition-and-execution", "evidence": []},
+      "presentation": "existing-hero-detail-local-coverage-device-acceptance-pending",
+      "limitation": "Controlled rare-tier draw uses unmodified full source seed65536 queue, then actual obtain/fatal/rollback and chapter/map ownership. Fairy/Bark/Flower queue vectors and controlled prior chapter completions are not natural acquisition or gameplay. Native per-item/device and noncombat owned-relic detail remain pending."
+    },
     "blackStar": {
       "tasks": [
         "TASK-14.1",
@@ -3769,6 +3781,16 @@
     }
   ],
   "relics": [
+    {
+      "id": "lizard_tail",
+      "sourceId": "Lizard Tail",
+      "source": "data/relics.json#lizard_tail",
+      "profile": "lizardTail",
+      "rarity": "rare",
+      "channels": ["treasure", "shop_relic"],
+      "prerequisite": "none",
+      "naturalExecutionLimitation": "Source rare-tier and permanent acquire/fatal APIs are tested with controlled tier, HP and route boundaries. Natural treasure/shop acquisition, device play and cross-session persistence are not granted."
+    },
     {
       "id": "mark_of_bloom",
       "sourceId": "Mark of the Bloom",

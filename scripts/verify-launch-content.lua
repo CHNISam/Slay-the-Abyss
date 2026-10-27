@@ -119,6 +119,14 @@ for _, event in ipairs(manifest.events) do
     for choice in pairs(wanted) do assert(choices[choice], 'Missing production event option: ' .. event.id .. '/' .. choice) end
 end
 for _, relic in ipairs(data.relics.relics) do
+    if relic.id=='lizard_tail' then
+        assert(relic.sourceId=='Lizard Tail'and relic.rarity=='rare','Lizard Tail fixed source/rarity mismatch')
+        assert(relic.trigger=='hooks'and type(relic.effects)=='table'and next(relic.effects)==nil,
+            'Lizard Tail requires empty hook effects')
+        -- Bind the actual supplied bundle, never a stale generated data module.
+        assert(loadfile('tests/lua/lizard_tail_run.lua'))(data)
+        assert(loadfile('tests/lua/lizard_tail_persistence.lua'))(data)
+    end
     if relic.id=='black_star' then assert(relic.rarity=='boss','Black Star requires Boss rarity')end
     if relic.rarity == 'boss' then
         if relic.id=='black_star' then
