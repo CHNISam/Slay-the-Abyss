@@ -90,13 +90,20 @@ function M.actions(_state,enemy,intent)
  enemy.heartBuffCount=(enemy.heartBuffCount or 0)+1
  return plan
 end
-function M.capDamage(enemy,amount)
+-- Source owner.onAttack observes ToChangeDamage before constructing reactions.
+-- Preview without spending: Actor remains the sole committed budget owner.
+function M.incomingAmount(enemy,amount)
  if not M.owns(enemy)or not enemy.statuses or enemy.statuses.invincible==nil then return amount end
  assert(type(amount)=='number'and amount>=0 and amount%1==0,'invalid committed damage')
  local budget=enemy.statuses.invincible
  assert(type(budget)=='number'and budget>=0 and budget%1==0,'invalid Invincible budget')
- local allowed=math.min(amount,budget)
- enemy.statuses.invincible=budget-allowed -- zero is a present power, not removal.
+ return math.min(amount,budget)
+end
+function M.capDamage(enemy,amount)
+ local allowed=M.incomingAmount(enemy,amount)
+ if M.owns(enemy)and enemy.statuses and enemy.statuses.invincible~=nil then
+  enemy.statuses.invincible=enemy.statuses.invincible-allowed -- zero is a present power, not removal.
+ end
  return allowed
 end
 function M.startTurn(enemy)

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-27 20:19'
+updated_date: '2026-10-27 20:57'
 labels:
   - required
   - sts1
@@ -74,4 +74,6 @@ PR262入口修复：在原始地图被复制和房间钩子执行前，复用既
 2026-10-28第四幕c5测试包已真实写入并独立读回213模块，正式资格/三钥匙门、绿钥匙、盾矛、心脏和确认真结局代码现可随该冻结候选由用户自行导入。组合复审捕获并修复两项：Map.snapshot洗掉原图元表，直接原图严格restore并拒root/nodes/末节点伪造；自动牌错误改变包围朝向，改为仅手动指定目标/定向药水转向，免费手动与原native/advanced及回滚保留。两项先真实RED再GREEN，10组转向、4组Nodes/3组严格Host与意图邻接通过；三名交叉独立复审绑定c5无未解Critical/Important。原源码4e因构建期间输入变化被标准门禁拒绝，保留为检查点；最终c5重新完整验证后交付，不抹去旧失败。没有本包官方导入、ready、自然取得三钥匙/资格、Lizard/BlackStar完整生产遗物、自然四职业连续四幕或平台持久化证据，不关闭AC。
 
 PR262独立P1入口修复候选：原始图在复制及房间hooks前，经既有Run幕诞生事实和Map.restore重建/路径重播验证。只改Nodes前置校验，不改来源RNG或奖励owner；旧无诞生事实且无燃烧字段的组件API保留，false字段不当作缺省。伪造有效seed2流真实RED（原public enter成功），修复后核心4组GREEN；既有Emerald/终幕14项和来源队列/地图/跨幕15项Node测试零失败零跳过，原30秒fixture预算保留。语法、207模块/1209边架构、固定Luacheck84历史诊断零新增均通过；遗留入口/事务切片与最终false字段补测仍运行，独立精确提交复查及完整当前SHA Quality尚待，不推送、不改状态/AC，也不宣称自然/平台/M3验收。
+
+2026-10-27 PR262 合并前来源复核：精确61b19351（79e76774玩法同树）真实Strike证明无敌额度0仍构造淬毒动作并误耗人工制品；固定sts@319009d5的AbstractMonster先执行目标ToChangeDamage，再执行Envenom.onAttack。最小修复复用Heart额度主人，抽出只读incomingAmount供Envenom判断，Actor仍唯一实际扣额度。新增原生/高级用牌队列0→1→1与纯预览/全格挡回归；定向Heart、触发器、毒构筑及架构/Luacheck通过，退回旧Combat时新断言真实变红。详见docs/reviews/PR262-HEART-ENVENOM-CAP-20261027.md。仅本地离线修复，不更改负责人/状态/AC；新SHA完整Quality、合入、同源原生与四职业自然四幕仍待证明。
 <!-- SECTION:NOTES:END -->
