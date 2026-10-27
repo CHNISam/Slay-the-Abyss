@@ -1,0 +1,78 @@
+{
+  "entry": "tests/lua/character_shop.lua",
+  "base": "bcddf98aeabb7618ad56710926cd7aa4bf11b915",
+  "acceptedSourceSha256LF": "44ac3839d7b0af35b0856398f266e567a9f380e69b2e6e371857a59557e51c40",
+  "migrationNote": "Only the obsolete contentMode tag was migrated; full source queue/trace/read-only/RNG/price invariants were added. All original card, colorless, potion assertions and original 1..8/1..16 seed loops remain. This locks the complete migrated pre-partition body. The 64-context fourth logical group is split at whole-class boundaries so each class still evaluates its original across-all-16-seeds shopSeen/rewardSeen assertions.",
+  "migratedSourceSha256LF": "3adf23a2a372c9a2f0e41a4d720f56949f8c94e553df03412a431856ccc88be7",
+  "edits": [
+    {
+      "before": "local count=0\n",
+      "after": "local part=... or 1\nassert(part>=1 and part<=3 and part%1==0,'invalid character shop part')\nlocal count,registered=0,0\n"
+    },
+    {
+      "before": "local function test(name,fn) fn();count=count+1;print('ok character shop '..count..' - '..name) end",
+      "after": "local function test(name,fn) registered=registered+1;if (registered<=3)~=(part==1)then return end;fn();count=count+1;print('ok character shop '..registered..' - '..name)end"
+    },
+    {
+      "before": "for _,id in ipairs({'silent','defect','watcher','ironclad'}) do",
+      "after": "for _,id in ipairs(part==2 and {'silent','defect'} or {'watcher','ironclad'}) do"
+    },
+    {
+      "before": "print('CHARACTER_SHOP_PASS '..count)",
+      "after": "print('CHARACTER_SHOP_PASS '..count)\nprint('CHARACTER_SHOP_PART '..part..' REGISTERED '..registered..' EXECUTED '..count)"
+    }
+  ],
+  "parts": [
+    {
+      "file": "character_shop.lua",
+      "part": 1,
+      "groups": [
+        1,
+        2,
+        3
+      ],
+      "poisonClasses": []
+    },
+    {
+      "file": "character_shop_budget_2.lua",
+      "part": 2,
+      "groups": [
+        4
+      ],
+      "poisonClasses": [
+        "silent",
+        "defect"
+      ]
+    },
+    {
+      "file": "character_shop_budget_3.lua",
+      "part": 3,
+      "groups": [
+        4
+      ],
+      "poisonClasses": [
+        "watcher",
+        "ironclad"
+      ]
+    }
+  ],
+  "timeoutMilliseconds": 30000,
+  "poisonSeeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ]
+}
