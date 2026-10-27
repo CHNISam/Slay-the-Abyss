@@ -1,5 +1,7 @@
 {
   "layers": {
+    "abyss_act4_enemies": "core",
+    "abyss_ending_actions": "core",
     "abyss_corrupt_heart": "core",
     "abyss_spire_pair": "core",
     "abyss_emerald_elite": "core",

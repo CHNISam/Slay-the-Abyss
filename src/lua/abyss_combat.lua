@@ -1449,11 +1449,18 @@ function M.resolveEnemyAction(state,effect,enemy)
     elseif stage=='v4Complete'then require('abyss_original_v4').endEnemyAction(M,state)
     elseif stage=='duringTurn'then
         require('abyss_act3_powers').duringTurn(M,state,enemy)
+    elseif stage=='regenerate'then
+        if Actors.isActive(enemy)then
+            local healed=math.min(enemy.maxHp-enemy.hp,effect.payload)
+            enemy.hp=enemy.hp+healed
+            event(state,'heal',{target=enemy.id,amount=healed,status='regenerate_monster'})
+        end
     elseif stage=='ownerEnd'then
         if Actors.isActive(enemy)then
             Actors.endTurn(state,enemy)
             if effect.advanced and not Awakened.owns(enemy)then
                 local deferred=enemy.ai and enemy.ai.kind=='act3'and enemy.ai.policy=='transient'
+                    or (enemy.statuses.regenerate_monster or 0)>0
                 local powers=deferred and {} or require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy)
                 for i=#powers,1,-1 do
                     CardActions.enqueue(state,{op='enemyAction',stage='endPower',payload=powers[i]},enemy,nil,nil,true)
@@ -1518,6 +1525,19 @@ local function platedGroupEnd(state)
     for _,enemy in ipairs(state.enemies)do
         PlatedArmor.preEndCards(state,enemy,CardActions.enqueueReaction)
         Awakened.ownerEnd(Actors,state,enemy,CardActions.enqueueReaction)
+        if not Awakened.owns(enemy)and Actors.isActive(enemy)and (enemy.statuses.regenerate_monster or 0)>0 then
+            -- Source monster owner-end Powers are one stable list. Keep a
+            -- burning elite's Regen and later Shackled in acquisition order.
+            for _,id in ipairs(Actors.powerSequence(enemy,{'regenerate_monster','shackled'}))do
+                if id=='regenerate_monster'then
+                    CardActions.enqueue(state,{op='enemyAction',stage='regenerate',payload=enemy.statuses[id]},enemy)
+                else
+                    for _,power in ipairs(require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy))do
+                        CardActions.enqueue(state,{op='enemyAction',stage='endPower',payload=power},enemy)
+                    end
+                end
+            end
+        end
     end
     CardActions.drain(M,state)
 end
@@ -1988,6 +2008,17 @@ function M.new(data, options)
     require('abyss_writhing_mass').bindMaster(state,options.masterDeck,options.nextMasterDeckUid)
     local misc=options.roomStreams and options.roomStreams.miscRng or options.miscRng
     if misc then state.miscRng=SourceRandom.cloneState(misc)end
+    if options.emeraldBoost then
+        local ok,reason=require('abyss_emerald_elite').apply(state.enemies,options.emeraldBoost,{
+            applyPower=function(actor,id,amount)return Actors.applyPower(state,actor,id,amount,actor)end,
+            increaseMaxHp=function(actor,amount)
+                local maximum=actor.maxHp+0.0+amount
+                if maximum>2147483647 then return false,'emerald_hp_overflow'end
+                actor.maxHp,actor.hp=maximum,actor.hp+amount
+                return true
+            end})
+        if not ok then return nil,reason end
+    end
     if options.beforeFirstTurn then
         local ok, reason = options.beforeFirstTurn(state)
         if not ok then return nil, reason end

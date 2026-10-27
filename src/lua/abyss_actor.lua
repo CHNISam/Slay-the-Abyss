@@ -739,7 +739,9 @@ function M.endTurn(state, actor)
     actor.powerOrder=powers
     if changed then state.events[#state.events].frame = Events.frame(state) end
     local transient=actor.ai and actor.ai.kind=='act3'and actor.ai.policy=='transient'
-    if not transient and not Awakened.owns(actor)then require('abyss_colorless_cards').endOwnerTurn(state,actor)end
+    if not transient and not Awakened.owns(actor)and (actor.statuses.regenerate_monster or 0)<=0 then
+        require('abyss_colorless_cards').endOwnerTurn(state,actor)
+    end
     require('abyss_silent_final_cards').endTurn(state,actor)
 end
 
