@@ -1,0 +1,83 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Pinned community decompilation mirror; independent behavior implementation, not authenticated PC binary execution",
+  "sources": [
+    {
+      "path": "neow/NeowEvent.java",
+      "sha256": "0ac56abd6001eb1452b06b9ccaefba3de3fc9e2d88588ac907be0a0afafa5a83",
+      "gitBlobSha": "b9c6153581889ffd7cf7d8dc1161b92f2991e29b",
+      "size": 17111
+    },
+    {
+      "path": "neow/NeowReward.java",
+      "sha256": "b3a61dcf11b694d9dae54ad0a57f972388593051793097e5eb7204090af17f36",
+      "gitBlobSha": "a41ef63e5b30058568d014c574f7b6f96a782c71",
+      "size": 20991
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "gitBlobSha": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "size": 45485
+    },
+    {
+      "path": "cards/AbstractCard.java",
+      "sha256": "bcd472ececfd8ce4150ccd4eb6dd07a2e2dc43e139196fe00de34705cf1a2a61",
+      "gitBlobSha": "bc88307d010bdd37cf55a4b60b79209fa78b0aa6",
+      "size": 116908
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "size": 98339
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "size": 42311
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "size": 115023
+    },
+    {
+      "path": "helpers/CardLibrary.java",
+      "sha256": "ac123d5376862fb1d1d382284e14a9dc0e955395f415265ae29f9aa8a2b6237a",
+      "gitBlobSha": "0775b5df368e428a7d919ce80cf8df7f1d06b2af",
+      "size": 54244
+    },
+    {
+      "path": "helpers/PotionHelper.java",
+      "sha256": "159ffee06ab09c24063b992f5babe57907916a99a23f4a3ad721b8c922be2a2f",
+      "gitBlobSha": "271f568db6a9b78f3d1f0e38416cf44f27c4e8bf",
+      "size": 12922
+    },
+    {
+      "path": "random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "size": 2596
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "size": 4473
+    },
+    {
+      "path": "relics/NeowsLament.java",
+      "sha256": "5e50ad24e9978828078619d789a0c4830e4a72c51e9b1bfb2799a7c7e69ea4cc",
+      "gitBlobSha": "74365e0991cb75c5bd3b1366bad1f286efe2a4e4",
+      "size": 1702
+    }
+  ],
+  "oracle": {
+    "path": "tools/oracles/sts1_neow.py",
+    "sha256": "7f98e29512c512cb9f55a4e59f65cb7a2866e334a8d416ef1fdf6a099cf47394",
+    "vectorCount": 128
+  }
+}
