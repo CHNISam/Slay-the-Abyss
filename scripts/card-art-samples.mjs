@@ -1,11 +1,17 @@
 // Candidate assembly only. Geometry is read by the pinned Image Editor parser,
 // never fitted/exported here. The ordinary card component remains unchanged.
-import { readFileSync } from 'node:fs';
+import { readFileSync, realpathSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { join, dirname, isAbsolute } from 'node:path';
+import { fileRecord, sha256 } from './evidence-files.mjs';
+import { toLua } from './build-lua-data.mjs';
+import luaparse from 'luaparse';
 
 const editorCommit = '103025f9095d8089e3f9bf097f4d0c5fe039d546';
 const vector = (x, n) => Array.isArray(x) && x.length === n && x.every(Number.isFinite);
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+// Preserve filesystem-selected symlink/.. identity before applying root guards.
+const inputRecord=(path,root)=>fileRecord(realpathSync.native(isAbsolute(path)?path:`${root}/${path}`),root);
 export const nativeArtSlotPath = index => [`group${String(Math.floor(index/60)).padStart(3,'0')}`, `shape${String(index).padStart(4,'0')}`];
 
 export function nativeCardArtArgs(argv) {
@@ -62,9 +68,10 @@ export function nativeArtPool(capacity) {
   return {name:'artSamples',kind:'container',position:[0,40],size:[144,64],visible:false,children};
 }
 
-export function prepareNativeCardArt(options) {
+export function prepareNativeCardArt(options,{root}={}) {
   if (!options) return null;
-  const source = typeof options.registry === 'string' ? readFileSync(options.registry) : null;
+  const registryPath=typeof options.registry==='string'?(root?inputRecord(options.registry,root).path:options.registry):null;
+  const source = registryPath ? readFileSync(registryPath) : null;
   const registry = source ? JSON.parse(source) : structuredClone(options.registry);
   const capacity = validateNativeCardArt(registry), hosts = options.hosts;
   const inputPaths=[];
@@ -75,10 +82,11 @@ export function prepareNativeCardArt(options) {
       const key=entry.cardId+'/'+entry.kind;
       if(seen.has(key)||!['lua','json'].includes(entry.kind)||!registry.assets[entry.cardId]||typeof entry.path!=='string'
         || entry.sha256!==registry.assets[entry.cardId][entry.kind+'Sha256'])throw new Error('Invalid native art source provenance');
-      if(createHash('sha256').update(readFileSync(entry.path)).digest('hex')!==entry.sha256)throw new Error('Native art original source hash mismatch');
-      seen.add(key);inputPaths.push(entry.path);
+      const path=root?inputRecord(entry.path,root).path:entry.path;
+      if(createHash('sha256').update(readFileSync(path)).digest('hex')!==entry.sha256)throw new Error('Native art original source hash mismatch');
+      seen.add(key);inputPaths.push(path);
     }
-    inputPaths.push(options.registry);
+    inputPaths.push(registryPath);
   }
   if (!Array.isArray(hosts) || !hosts.length || hosts.length > 10 || new Set(hosts).size !== hosts.length
     || hosts.some(p=>typeof p!=='string' || !/^(battlePanel\/card(?:[1-9]|10)|nodePanel\/(shopView\/card[1-7]|pickerView\/(card[1-6]|before|after|target)))$/.test(p))) {
@@ -124,4 +132,70 @@ export function nativeArtReceipt(candidate) {
     capacity:candidate.capacity,controlsPerPool,staticPools:candidate.hosts.length,
     staticAddedControls:controlsPerPool*candidate.hosts.length,deckTemplateEnabled:false,
     officialImport:'not_run',PC:'not_run',physicalAndroid:'not_run',performance:'not_measured'};
+}
+
+// Candidate-only provenance, separate from the ordinary source payload digest.
+// These records bind actual art inputs AND the generated files consumed by MCP.
+export function nativeCardArtBuildReceipt(candidate,{root,directory}) {
+  const expected=nativeArtReceipt(candidate);
+  const generated=JSON.parse(readFileSync(join(directory,'native-card-art-receipt.json'),'utf8'));
+  if(!same(generated,expected))throw new Error('Generated native art receipt differs from requested candidate');
+  const layout=JSON.parse(readFileSync(join(directory,'game-ui.json'),'utf8'));
+  const pools=[];
+  function visit(node,path=[]) {
+    const next=[...path,node.name];
+    if(node.name==='artSamples')pools.push({path:path.join('/'),node});
+    for(const child of node.children??node.controls??[])visit(child,next);
+  }
+  visit(layout);
+  if(pools.length!==candidate.hosts.length || candidate.hosts.some(host=>
+    pools.filter(pool=>pool.path.endsWith('/'+host) && same(pool.node,nativeArtPool(candidate.capacity))).length!==1))
+    throw new Error('Generated native art layout does not consume the selected pools');
+  const templates=JSON.parse(readFileSync(join(directory,'game-ui-templates.json'),'utf8'));
+  pools.length=0;templates.forEach(template=>visit(template));
+  if(pools.length)throw new Error('Native art deck templates must stay disabled');
+  const presentation=readFileSync(join(directory,'abyss_presentation.lua'),'utf8');
+  const cards=Object.fromEntries(Object.keys(candidate.registry.assets).map(id=>[id,{}]));
+  bindNativeArtPresentation(cards,candidate);
+  const chunk=luaparse.parse(presentation,{luaVersion:'5.3',ranges:true,encodingMode:'pseudo-latin1'});
+  const result=chunk.body.length===1&&chunk.body[0];
+  const table=result?.type==='ReturnStatement'&&result.arguments.length===1&&result.arguments[0];
+  if(table?.type!=='TableConstructorExpression')throw new Error('Generated presentation does not consume a literal native art table');
+  // toLua generates canonical bracket keys. Reject aliases/bare keys and any
+  // duplicates rather than overlooking Lua's last-key-wins table semantics.
+  for(const current of [table,...table.fields.map(row=>row.value)]) {
+    const keys=new Set();
+    if(current.type!=='TableConstructorExpression')throw new Error('Generated presentation does not consume canonical card tables');
+    for(const row of current.fields) {
+      if(row.type!=='TableKey'||row.key.type!=='StringLiteral'||row.key.raw!==toLua(row.key.value)||keys.has(row.key.value))
+        throw new Error('Generated presentation does not consume unique canonical card fields');
+      keys.add(row.key.value);
+    }
+  }
+  const field=(table,key)=>table.fields.filter(row=>row.key.value===key);
+  for(const [id,card] of Object.entries(cards)) {
+    const entries=field(table,id),native=entries.length===1?field(entries[0].value,'nativeArt'):[];
+    if(native.length!==1||presentation.slice(...native[0].value.range)!==toLua(card.nativeArt))
+      throw new Error('Generated presentation does not consume native art slots for '+id);
+  }
+  if(table.fields.filter(row=>field(row.value,'nativeArt').length).length!==Object.keys(cards).length)
+    throw new Error('Generated presentation consumes undeclared native art');
+  const inputs=candidate.inputPaths.map(path=>fileRecord(path,root));
+  const outputs=['game-ui.json','game-ui-templates.json','abyss_presentation.lua','native-card-art-receipt.json']
+    .map(name=>fileRecord(join(directory,name),root));
+  return {...expected,registry:inputs.at(-1),inputs,inputDigest:sha256(JSON.stringify(inputs)),outputs};
+}
+
+export function verifyNativeCardArtReceipt(receipt,{root=process.cwd()}={}) {
+  if(receipt===undefined)return;
+  if(!receipt || !Array.isArray(receipt.inputs) || !Array.isArray(receipt.outputs)
+    || receipt.inputs.length<3 || receipt.outputs.length!==4 || !receipt.registry?.path)
+    throw new Error('Incomplete native art candidate provenance');
+  for(const record of [...receipt.inputs,...receipt.outputs]) {
+    const actual=fileRecord(record.path,root);
+    if(!same(actual,record))throw new Error('Native art input/output changed since candidate build');
+  }
+  const candidate=prepareNativeCardArt({registry:receipt.registry.path,hosts:receipt.hosts},{root});
+  const expected=nativeCardArtBuildReceipt(candidate,{root,directory:dirname(receipt.outputs[0].path)});
+  if(!same(receipt,expected))throw new Error('Native art candidate provenance or generated consumption differs');
 }

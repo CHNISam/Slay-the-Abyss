@@ -73,6 +73,18 @@ ABYSS_NATIVE_ART_LITERAL_REGISTRY=build/native-art-review/literal.json \
   node --test --test-concurrency=1 tests/native-card-art-source-equivalence.test.mjs
 ```
 
-普通 `build:ui` 仍为零新增；显式档位仅 0/1/5/10，每卡池含2657图形、45组和1根控件，即新增2703/13515/27030。计数包括隐藏预分配，不是FPS、内存或平台上限。实机顺序必须先基线、再单卡，稳定后才能另行评估5/10；不要直接导入十卡高控件候选。正式 native builder 会重建默认UI，接入时须通过其已有 `prepare(generatedDirectory)` 钩子生成这份布局，不能假定先运行本命令就会保留到最终GIL。
+普通 `build:ui` 仍为零新增；显式档位仅 0/1/5/10，每卡池含2657图形、45组和1根控件，即新增2703/13515/27030。计数包括隐藏预分配，不是FPS、内存或平台上限。实机顺序必须先基线、再单卡，稳定后才能另行评估5/10；不要直接导入十卡高控件候选。正式 native builder 仍会重新生成UI，不能假定先运行 `build:ui` 就会保留到最终GIL。现在须在正式入口显式传入同一份 registry 和卡数（或既有的 `--native-card-art-host=<真实宿主>`）；它复用已有生成器，把布局交给 `scene_add_client_ui`，动态插画资料打包进 `abyss_presentation` 并做原有模块读回、旧脚本清理、结算图复用与BGM参数检查。
+
+正式候选先做同一底图的基线，再做单卡；下例不启动试玩、不操作官方客户端：
+
+```sh
+node scripts/build-native-candidate.mjs <clean-base.gil> build/native-art-review/baseline
+node scripts/build-native-candidate.mjs <clean-base.gil> build/native-art-review/one \
+  --native-card-art-registry=build/native-art-review/literal.json --native-card-art-count=1
+```
+
+API 使用 `buildNativeCandidate({baseMap, nativeCardArt: {registry, count: 1}})`，或把 `count` 换成显式 `hosts: ['battlePanel/card1']`。默认不提供该选项、或显式 `count: 0` 时仍为零新增；5/10只是显式实验档位，不是容量或性能批准。正式入口只接受本仓库内有原始Lua/JSON来源的文件registry；不接受无来源内存对象。自定义 `prepare` 与启用原生卡图不能组合，避免静默丢图或绕过原保护。
+
+每轮独立目录的 `candidate.json.nativeCardArt` 记录源Lua/JSON、派生registry的真实摘要及路径、实际生成布局/动态展示模块的摘要、宿主和控件预算。既有 `payloadDigest` 含义不变；额外来源在MCP连接前、打包结束及UI验收时复核，改源、改registry或改生成物都拒绝沿用。原生音频包装保留并复核该证据，不改变BGM或结算流程；现有音频CLI不隐式开启卡图。保留整个候选目录以便复验，不能只复制GIL后丢弃其生成文件。`--playtest` 仍默认关闭，live write保持0；本入口测试使用 **MCP mock**，不代表官方编译、导入或实机通过。
 
 截至2026-10-27，原生启动的 CursorArea 字段缺陷仍在已核对的 develop，PR257已关闭未合并，其启动修复由开放PR259承接，尚未进入本候选基线。本候选严格mock保留原缺陷必失败断言，并仅以单行内存替换验证后续图元接点；这不是已修主线或实际游戏ready证明。官方导入、存档写入、PC、实体安卓和真实性能全部待验。原生图库预览缺图须失败退出，不允许把缺失图层当画质降级；已认可源图不因此重绘。

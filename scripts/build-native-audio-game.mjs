@@ -6,6 +6,7 @@ import { pathToFileURL } from 'node:url';
 import { buildNativeCandidateFromToolchain, sourceInputs, payloadDigest } from './build-native-candidate.mjs';
 import { fileRecord } from './evidence-files.mjs';
 import { releaseBuildArgs, gitSourceIdentity } from './release-notes.mjs';
+import { verifyNativeCardArtReceipt } from './card-art-samples.mjs';
 
 function runScript(script, args, root) {
   const result = spawnSync(process.execPath, [script, ...args], { cwd: root, stdio: 'inherit' });
@@ -21,6 +22,7 @@ export async function buildNativeAudioGame({ baseMap, output = 'build/native-aud
   // never assume a shared full/candidate.json that could be missing or stale.
   const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey });
   if (fileRecord(full.mapPath).sha256 !== full.candidate.sha256) throw new Error('Full candidate changed before audio packaging');
+  verifyNativeCardArtReceipt(full.nativeCardArt,{root});
   run('scripts/build-native-bgm-candidate.mjs', [full.mapPath, join(directory, 'audio'), full.receiptPath], root);
   const receiptPath = join(directory, 'audio/candidate.json');
   const audio = JSON.parse(readFileSync(receiptPath, 'utf8'));
@@ -28,13 +30,15 @@ export async function buildNativeAudioGame({ baseMap, output = 'build/native-aud
     || fileRecord(audio.mapPath).sha256 !== audio.sha256 || audio.candidate?.sha256 !== audio.sha256
     || !full.buildId || audio.buildId !== full.buildId) throw new Error('Final audio artifact/build marker is not bound to the full candidate');
   if (payloadDigest(sourceInputs(root)) !== full.payloadDigest) throw new Error('Source changed during audio packaging');
+  verifyNativeCardArtReceipt(full.nativeCardArt,{root});
   if (releaseCandidate) {
     const identity = gitSourceIdentity(root);
     if (identity.sourceCommit !== full.sourceCommit || identity.sourceDirty || full.sourceDirty !== false
       || !full.release?.notesSha256) throw new Error('Release candidate provenance changed during audio packaging');
   }
   Object.assign(audio, { sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,
-    sourceReceipt: fileRecord(full.receiptPath), ...(full.release ? { release: full.release } : {}) });
+    sourceReceipt: fileRecord(full.receiptPath), ...(full.release ? { release: full.release } : {}),
+    ...(full.nativeCardArt ? { nativeCardArt: full.nativeCardArt } : {}) });
   writeFileSync(receiptPath, JSON.stringify(audio, null, 2) + '\n');
   return { ...audio, receiptPath };
 }

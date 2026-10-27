@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 17:48'
+updated_date: '2026-10-27 18:27'
 due_date: '2026-10-28'
 labels:
   - art
@@ -55,6 +55,8 @@ ordinal: 31000
 2026-10-27 02:54 UTC Owner明确要求修复最新develop卡牌布局并提交PR：在fix/dot-approved-card-layout独立树恢复批准nameBand30/art64，文字兼容高度与背景分离，复用共享card-face覆盖战斗/奖励/牌库/商店；卡图占位保持明确，不拉伸144x34旧稿，不改规则。原生Agent负责最小产品修复和测试，dot根唯一Backlog/Git/PR写入者，负责前后预览与独立审查。先保留失败回归再修复，相关测试与当前SHA完整Quality分层记录；未经实机不宣称视觉验收。此前八张稿未获风格批准，不扩量。
 
 2026-10-27 dot按Owner继续制作并用Git管理正式美术资产的要求，在feat/dot-reviewed-card-assets独立树保全已获视觉认可的整备武装、重剑斩：1. 复核当前develop与开放PR共享写入范围，保留既有任务状态、负责人及AC；2. 将真实源图、实际提示词、可编辑原生JSON/Lua、精简来源/阶段元数据纳入稳定card_id资产目录，旧34高候选和失败研究不覆盖；3. 补无快照字面Lua/JSON及散列、尺寸、图层/蒙版/来源回归，登记现有法律资产清单，不改变许可策略；4. 独立审查和当前SHA完整CI后提PR。只做源资产保全和登记，不启用共享运行时、不改战斗规则；官方导入、1/5/10卡与设备验收继续待验。
+
+正式候选入口后续切片：复用现有native builder透传显式art registry/hosts，默认关闭；把实际消费的原生源、派生registry和控件预算绑定既有receipt。MCP创建前检查输入稳定性、输出别名及生成物确实消费；不安全的custom prepare组合明确拒绝。先失败回归，再用MCP mock走真实layout/presentation装配；不改结算/BGM/清理门禁，不调用客户端。PR261本轮CI终态后再合入增量，避免反复取消重跑。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -93,4 +95,6 @@ PR240首候选f7fc855已发布。完整本地Node终态1594通过/1失败/零跳
 2026-10-27 两张身份修正版星陨剑/重剑斩已获Owner离线视觉认可，按已批准源字节登记，旧重剑否决只留历史；整备武装不重传。现行6个LFS对象5,983,528字节，本轮只新增上传4对象4,202,803字节，不扩泛下载。PR253已于17:40 UTC正常合入develop d16be8db，精确head e7f879be的Quality15作业及Licenses成功，交付工程/历史保全，不代表美术实机通过。新的逐card_id接线候选默认0新增，显式1/5/10卡每宿主新增2703控件，动态文字仍由Combat/CardDisplay提供；源字面与装配API逐控件等价2/2通过，仅mock。牌库池不启用；实机先基线再单卡，不能直接上十卡。PR257已关闭未合并，develop原生CursorArea启动问题仍是外部依赖；内存替换只作诊断，候选不宣称native ready。常规B4/稳定0未恢复，官方导入、存档、PC及实体安卓性能均待验，AC/负责人/状态不变。
 
 启动依赖最新核实：PR259明确承接已关闭的255/257，尚未合并；不是无人处理，不接管其修复。PR256卡框及PR260节点/商店UI仍是独立开放候选，当前本切片以已合并d16be8db为明确基准；后续涉及共享卡面时重跑受影响回归。
+
+正式native CLI/API入口本地增量完成：显式art参数进入既有prepareBuild，既有receipt绑定实际原生输入、registry及生成布局/动态presentation；UI验收与audio保留并校验来源，默认零新增/playtest关闭/liveWrite=0不变。两项独立复审P2（路径别名误读、Lua等价键覆盖伪消费）已以负控修复，root重跑受影响全集117/117零跳过、工程4/4变异kill及语法/network/license通过。两张真实原生2657/2043图元经正式入口MCP mock单卡装配与逐控件等价验证，不是官方编译。云端未找到可运行MCP及已确认干净base GIL，未安装/未调用真实MCP/未写游戏存档；PC及实体安卓仍待验。当前815d275完整CI继续等终态后才统一推增量，不反复取消重跑。
 <!-- SECTION:NOTES:END -->

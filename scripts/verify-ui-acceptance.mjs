@@ -7,6 +7,7 @@ import { fileRecord, validDate, sha256 } from './evidence-files.mjs';
 import { inside } from './evidence-files.mjs';
 import { requireStartupEvidence } from './native-playtest-evidence.mjs';
 import { sourceInputs, payloadDigest } from './build-native-candidate.mjs';
+import { verifyNativeCardArtReceipt } from './card-art-samples.mjs';
 
 const validate=new Ajv({strict:true,allErrors:true}).compile(JSON.parse(readFileSync(new URL('../schemas/ui-acceptance.schema.json',import.meta.url),'utf8')));
 function decodeImage(file) {
@@ -65,6 +66,11 @@ export function reviewUiAcceptance(manifest, expected, {evidenceRoot=process.cwd
   return errors;
 }
 
+export function verifyUiCandidateInputs(receipt,candidateFile,{root=process.cwd()}={}) {
+  if(receipt.candidate.sha256!==fileRecord(candidateFile).sha256 || receipt.payloadDigest!==payloadDigest(sourceInputs(root)))throw new Error('Candidate receipt/payload is stale');
+  verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const [manifestFile = 'docs/design/ui-acceptance.json', candidateFile] = process.argv.slice(2);
   if (!candidateFile) throw new Error('Usage: node scripts/verify-ui-acceptance.mjs <review.json> <candidate.gil>');
@@ -72,7 +78,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const receipt=JSON.parse(readFileSync(join(dirname(resolve(candidateFile)),'candidate.json'),'utf8'));
   const startup=JSON.parse(readFileSync(join(dirname(resolve(candidateFile)),'startup-evidence.json'),'utf8'));
   const hash=fileRecord(candidateFile).sha256;
-  if(receipt.candidate.sha256!==hash || receipt.payloadDigest!==payloadDigest(sourceInputs(process.cwd())))throw new Error('Candidate receipt/payload is stale');
+  verifyUiCandidateInputs(receipt,candidateFile);
   if(startup.candidateHash!==hash||startup.buildId!==receipt.buildId)throw new Error('Startup evidence belongs to another candidate/build');
   inside(dirname(resolve(candidateFile)),startup.expected.runDir);
   const toolRoot=process.env.MILIASTRA_MCP_ROOT||'D:/MiliastraTools/genshin-miliastra-mcp';
