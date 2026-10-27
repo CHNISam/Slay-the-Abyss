@@ -61,7 +61,7 @@ function M.retaliate(state, source, target, amount)
     local lost = Actors.retaliate(state, source, target, amount)
     if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     EnemyAI.hpLost(state, target, before, before > 0)
-    if not state.resolvingEffects then EnemyAI.flush(state) end
+    if not state.resolvingEffects and not (state.drainingCardActions and state.phase=='enemy') then EnemyAI.flush(state) end
     return lost
 end
 
