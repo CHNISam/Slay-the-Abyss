@@ -104,7 +104,10 @@ function M.options(run,event)
 end
 local function upgradeable(run,card)
  local d=def(run,card.cardId)
- return d and Capability.isImplemented(d) and d.upgrade and next(d.upgrade)~=nil and (not card.upgraded or d.repeatable==true)
+ if not d or not d.upgrade or next(d.upgrade)==nil or card.upgraded and d.repeatable~=true then return false end
+ local upgraded=Copy(d)
+ for key,value in pairs(d.upgrade)do upgraded[key]=value end
+ return Capability.isImplemented(upgraded)
 end
 local function candidates(run,kind)
  if kind~='UPGRADE_CARD'then return Purge.purgeCards(run)end
@@ -239,7 +242,9 @@ local function selectCard(run,event,uid)
  if uid==nil or type(uid)~='number' or not event.selectionUids[uid] or not unique(run,uid)then return false,'invalid_card'end
  for _,selected in ipairs(event.selectedUids)do if uid==selected then return false,'invalid_card'end end
  local kind=event.selectedType
- if not find(candidates(run,kind),uid,'uid')then return false,'card_not_purgeable'end
+ if not find(candidates(run,kind),uid,'uid')then
+  return false,kind=='UPGRADE_CARD'and 'card_not_upgradeable' or 'card_not_purgeable'
+ end
  event.selectedUids[#event.selectedUids+1]=uid
  if #event.selectedUids<event.selectionTotal then return true,'choose_card'end
  local selected={}

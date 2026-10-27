@@ -14,7 +14,7 @@ test('Neow evidence binds the oracle and previous-run floor history rather than 
  assert.equal(source.historyContract.standardAbandon,'overwrite with saved floor_num >= 16 ? 1 : 0');
  assert.equal(source.historyContract.standardVictory,'overwrite with 1');
 });
-for(const [file,marker,count]of [['neow_offers.lua','NEOW_OFFERS',5],['neow_rewards.lua','NEOW_REWARDS',11]]){
+for(const [file,marker,count]of [['neow_offers.lua','NEOW_OFFERS',5],['neow_rewards.lua','NEOW_REWARDS',12]]){
  test(`Neow source offers and execution: ${file}`,()=>{
   const result=runLua(`tests/lua/${file}`);
   assert.equal(result.status,0,result.stdout+result.stderr);

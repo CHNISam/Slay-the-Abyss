@@ -131,4 +131,13 @@ test('unsupported permanent acquisition refuses same original card without redra
  reject(r,'reward_1',nil,'bounded_neow_refusal');Run.obtainCard=original;r.data=oldData
  assert(choose(r,'reward_1'));eq(r.nodeFlow.event.stage,'neow_result');finish(r)
 end)
+test('stale unsupported upgrade is refused before changing permanent card then recovers',function()
+ local r=fixture(4);assert(choose(r,'reward_1'));local uid=r.deck[1].uid
+ local original=r.data;r.data=C.copy(r.data)
+ for _,definition in ipairs(r.data.cards.cards)do
+  if definition.id==r.deck[1].cardId then definition.upgrade.effects={{op='neow_missing_upgrade_operation'}}end
+ end
+ reject(r,'select',uid,'card_not_upgradeable');eq(r.deck[1].upgraded,false)
+ r.data=original;assert(choose(r,'select',uid));eq(r.deck[1].upgraded,true);finish(r)
+end)
 print('NEOW_REWARDS '..n..' passed')
