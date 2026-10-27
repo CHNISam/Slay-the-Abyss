@@ -19,8 +19,8 @@ function M.enqueue(state, effect, source, target, instance, top)
     if top then table.insert(state.cardActions, 1, item) else state.cardActions[#state.cardActions+1] = item end
 end
 
--- Damage callbacks join the queue that already owns the action. This never
--- starts a continuation or changes HP-loss/Rupture's native routing.
+-- Damage/HP-loss callbacks join the queue that already owns the action.
+-- This enqueues an effect, never a second action manager or a continuation.
 function M.enqueueReaction(state,effect,top)
     if state.actionQueue then
         local queue=require('abyss_action_queue')
