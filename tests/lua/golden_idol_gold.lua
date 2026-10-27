@@ -25,11 +25,14 @@ local stolen=terminal(true);stolen.rewards.stolenGold={type='STOLEN_GOLD',amount
 gold=stolen.gold;assert(Run.gainGold(stolen,333)==333);assert(stolen.gold==gold+333)
 local ecto=terminal(true);ecto.relics[#ecto.relics+1]='ectoplasm';gold=ecto.gold;assert(Run.claimGoldReward(ecto));assert(ecto.gold==gold and ecto.rewards.gold==19)
 local F=dofile('tests/lua/support/golden_idol_fixture.lua')
--- A real TreasureRoom fallback remains direct base gold; SPECIAL Idol is not a chest candidate.
+-- Source TreasureRoom gold remains direct base gold. The real Mask after-hook
+-- removes its relic, retaining a gold-only component without filtering content.
 local chest,map,node=F.fixture();assert(Run.obtainRelic(chest,'golden_idol'))
-for i=#chest.data.relics.relics,1,-1 do local d=chest.data.relics.relics[i];if d.rarity~='special'and d.rarity~='starter'then table.remove(chest.data.relics.relics,i)end end
+dofile('tests/lua/support/source_treasure_claims.lua').goldOnly(chest)
 for _,v in ipairs(map.nodes)do if v.id==node then v.type='treasure';v.eventId=nil end end
-assert(F.Nodes.enter(chest,map,node));assert(chest.nodeFlow.reward.gold==15);gold=chest.gold;assert(F.Nodes.claimTreasure(chest));assert(chest.gold==gold+15)
+assert(F.Nodes.enter(chest,map,node));assert(F.Nodes.openTreasure(chest));assert(chest.nodeFlow.reward.gold==23)
+assert(#chest.nodeFlow.reward.items==1 and chest.nodeFlow.reward.items[1].kind=='gold')
+gold=chest.gold;assert(F.Nodes.claimTreasure(chest));assert(chest.gold==gold+23)
 -- Actual formal reward boundary keeps bonus + card/potion/RNG updates private on a later failure.
 local source=Run.new(F.D,'42');assert(Run.obtainRelic(source,'golden_idol'));assert(Run.startRoomCombat(source,'normal'));for _,e in ipairs(source.combat.enemies)do e.hp=0 end
 local saved=C.copy(source);local P=require('abyss_potion_rewards');local prepare=P.prepare
