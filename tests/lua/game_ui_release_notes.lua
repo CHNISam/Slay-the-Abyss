@@ -71,7 +71,7 @@ test('latest confirmed history is default and version navigation resets complete
     local many={};for i=1,16 do many[i]='测试虚构新增条目'..i end
     local recent=fake('v9.9.2','2099-12-31',many,{'测试虚构优化'}, {'测试虚构修复'})
     local older=fake('v9.9.1','2099-12-30',{}, {'测试虚构旧版优化'})
-    notes({recent,older},{version='v0.1.0',notesDate='2099-12-31',added={'测试虚构候选内容'},improved={},fixed={}})
+    notes({recent,older})
     local ui,root=F.fixture()
     assert(entry(root).click() and text(root,'version')=='v9.9.2')
     assert(text(root,'date')=='发布日期 2099-12-31 · 发布记录 1 / 2')
@@ -188,6 +188,8 @@ test('controller isolates focus, cancels to the originating menu entry and rejec
     assert(not entry(root).canControllerFocus and not root:GetChild('menuPanel'):GetChild('start'):GetChild('hit').canControllerFocus)
     assert(not root:GetChild('exitEntry'):GetChild('open'):GetChild('hit').canControllerFocus)
     assert(not hit(root,'close').click(),'native synthetic click after Confirm cannot close immediately')
+    ui:update(0);focus=hit(root,'history');assert(focus.navigationListeners.confirm())
+    assert(ui.releaseNotesUI.view=='history')
     ui:update(0);focus=hit(root,'current');assert(focus.navigationListeners.confirm())
     assert(ui.releaseNotesUI.view=='current')
     ui:update(0);assert(focus.navigationListeners.cancel())
