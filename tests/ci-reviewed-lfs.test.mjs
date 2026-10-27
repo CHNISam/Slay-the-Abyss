@@ -10,7 +10,7 @@ import * as lfs from '../scripts/ci-reviewed-lfs.mjs';
 import { reviewedPngPaths, needsReviewedAssets, verifyReviewedPngs, prepareReviewedAssets, lfsEnvironment, lfsArguments } from '../scripts/ci-reviewed-lfs.mjs';
 
 const root = resolve('.');
-const expectedPaths = ['armaments', 'heavy_blade'].flatMap(id => ['source.png', 'preview-native.png'].map(name => `art/cards/traveler-geo/${id}/${name}`));
+const expectedPaths = ['armaments', 'cleave', 'heavy_blade'].flatMap(id => ['source.png', 'preview-native.png'].map(name => `art/cards/traveler-geo/${id}/${name}`));
 const source = readFileSync('scripts/ci-reviewed-lfs.mjs', 'utf8');
 // Synthetic pixels keep this CI-contract test independent of the real asset
 // consumer's shard. Only the frozen data table changes in this test copy;
@@ -57,7 +57,7 @@ function fixture(t) {
     if (path === extra) { Buffer.from([137,80,78,71,13,10,26,10]).copy(png); png.write('IHDR',12); }
     mkdirSync(join(dir,path,'..'), {recursive:true}); writeFileSync(join(dir,path),png); bytes.set(path,png);
   }
-  for (const id of ['armaments','heavy_blade']) {
+  for (const id of ['armaments','cleave','heavy_blade']) {
     const files = Object.fromEntries(['source.png','preview-native.png'].map(name => { const b=bytes.get(`art/cards/traveler-geo/${id}/${name}`); return [name,{bytes:b.length,sha256:createHash('sha256').update(b).digest('hex')}]; }));
     writeFileSync(join(dir,`art/cards/traveler-geo/${id}/asset.json`),JSON.stringify({files}));
   }
@@ -78,13 +78,15 @@ function workflowContract(quality, licenses) {
   assert.doesNotMatch(quality.match(/\n  presentation:\n([\s\S]*?)(?=\n  engineering-posix-shards:)/)[1],/ci-reviewed-lfs|lfs:\s*true/);
 }
 
-test('only the exact four reviewed PNG paths are eligible; child auth is ephemeral and sanitized', () => {
+test('only the exact six reviewed PNG paths are eligible; child auth is ephemeral and sanitized', () => {
   assert.deepEqual(reviewedPngPaths, expectedPaths);
   assert.deepEqual(lfs.frozenObjects,[
     ['e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332',1750604],
     ['b7b2cd9c4fdfa3f1d893156405a51afc8b8bd1b65a776a9f704086c97685b2ff',30121],
-    ['f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5',1769446],
-    ['6fefbbcbdaa503a1df1c04d282dc9f8cac0fdb36fb189e75aa89427b438b30b1',30178],
+    ['6e37a7b9264154a2cd7e6560a625cf001b3b00d63e8fdbf4d01369a714397155',2091086],
+    ['271c49cc6248cf46ea029cc63387c682858b43c29288eb32b44d24175e662b39',36567],
+    ['1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc',2041123],
+    ['aefb4d2ca114a8738029249fba8b1bdc4f6235be648684cbfe348ed496388936',34027],
   ]);
   assert.deepEqual(lfsArguments.slice(-6), ['lfs','pull','--include',expectedPaths.join(','),'--exclude','']);
   assert.ok(lfsArguments.includes('credential.helper=')); assert.ok(lfsArguments.includes('lfs.transfer.maxretries=0'));
@@ -125,7 +127,7 @@ test('non-owner shard does not inspect PNGs or start Git, while materialized byt
   assert.equal(fixtureLfs.prepareReviewedAssets({root:f.dir,env:{...process.env,CI_LFS_TOKEN:''}}).status,'cached');
 });
 
-test('actual git lfs pull materializes four objects offline, leaves unrelated future LFS data untouched, and then reuses them', t => {
+test('actual git lfs pull materializes six objects offline, leaves unrelated future LFS data untouched, and then reuses them', t => {
   const f=fixture(t);
   // pull scans the current index; unlike fetch it does not apply these recent
   // history defaults. The unrelated object's local cache is deliberately absent.
@@ -178,11 +180,11 @@ function replaceIndexPointer(dir, path, pointer) {
   assert.equal(r.status,0,r.stderr); git(dir,'update-index','--cacheinfo','100644',r.stdout.trim(),path);
 }
 test('frozen payload budget and OIDs reject oversized or changed pointers before any transfer', t => {
-  assert.equal(lfs.maxReviewedPngBytes,3580349);
+  assert.equal(lfs.maxReviewedPngBytes,5983528);
   const oversized=fixture(t), path=expectedPaths[0];
   const pointer=git(oversized.dir,'show',':'+path)+'\n';
   replaceIndexPointer(oversized.dir,path,pointer.replace(/size \d+/,'size 1073741824'));
-  assert.throws(()=>fixtureLfs.prepareReviewedAssets({root:oversized.dir,env:{...process.env,CI_LFS_TOKEN:''}}),/payload exceeds.*3580349/);
+  assert.throws(()=>fixtureLfs.prepareReviewedAssets({root:oversized.dir,env:{...process.env,CI_LFS_TOKEN:''}}),/payload exceeds.*5983528/);
   const changed=fixture(t);
   replaceIndexPointer(changed.dir,path,(git(changed.dir,'show',':'+path)+'\n').replace(/oid sha256:[0-9a-f]{64}/,'oid sha256:'+'0'.repeat(64)));
   assert.throws(()=>fixtureLfs.prepareReviewedAssets({root:changed.dir,env:{...process.env,CI_LFS_TOKEN:''}}),/does not match the frozen reviewed object/);
@@ -197,4 +199,12 @@ test('a fresh runner with empty LFS filter configuration still materializes with
   const before=readFileSync(join(f.dir,'.git/config'));
   assert.equal(fixtureLfs.prepareReviewedAssets({root:f.dir,env:{...process.env,CI_LFS_TOKEN:''}}).status,'materialized');
   assert.deepEqual(readFileSync(join(f.dir,'.git/config')),before,'command-only filters never persist in Git config');
+});
+
+
+test('current reviewed PNG budget includes the identity-repair pair, not archived Heavy objects', () => {
+  assert.equal(reviewedPngPaths.length, 6);
+  assert.equal(lfs.maxReviewedPngBytes, 5983528);
+  assert.equal(lfs.frozenObjects.reduce((sum, row) => sum + row[1], 0), lfs.maxReviewedPngBytes);
+  assert.ok(!lfs.frozenObjects.some(([sha]) => sha === 'f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5'));
 });

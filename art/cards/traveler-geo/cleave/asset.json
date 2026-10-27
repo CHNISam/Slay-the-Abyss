@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "card_id": "cleave",
+  "assetRole": "reviewed-formal-source-asset",
+  "files": {
+    "source.png": {
+      "path": "cleave/source.png",
+      "sha256": "6e37a7b9264154a2cd7e6560a625cf001b3b00d63e8fdbf4d01369a714397155",
+      "bytes": 2091086
+    },
+    "prompt.txt": {
+      "path": "cleave/prompt.txt",
+      "sha256": "a8ecb77654dd3fe2af1ff2153169d80198902605391f30551c4eb340419cec01",
+      "bytes": 4208
+    },
+    "native-art.json": {
+      "path": "cleave/native-art.json",
+      "sha256": "f60eaf057ea4a94231525047ea9d54afda09a7857bc671209cedebd2677b6eff",
+      "bytes": 1748513
+    },
+    "native-art.lua": {
+      "path": "cleave/native-art.lua",
+      "sha256": "3c9eaa03741391f594846e59708563d4912a96b8757092112ce3cabb7c2e5185",
+      "bytes": 481737,
+      "originalExport": {
+        "sha256": "51c13e236148bfa3c78b055a45a4e55dc7c9d7b0daae807db3575de4dd08a646",
+        "bytes": 481738,
+        "removedTrailingLf": 1
+      }
+    },
+    "preview-native.png": {
+      "path": "cleave/preview-native.png",
+      "sha256": "271c49cc6248cf46ea029cc63387c682858b43c29288eb32b44d24175e662b39",
+      "bytes": 36567
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeSize": [
+    144,
+    64
+  ],
+  "previewSize": [
+    576,
+    256
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "generation": {
+    "tool": "builtin imagegen",
+    "modelAndSeed": "not-exposed-by-tool",
+    "sourceRevision": "identity-repair-pair-r01/cleave/source-01",
+    "nativeRevision": "native-cleave-identity-r01",
+    "sourceIsUserUpload": false,
+    "sourceIsRuntimePNG": false,
+    "generationCountForThisSource": 1,
+    "steps": [
+      {
+        "step": 1,
+        "mode": "reference-based original source illustration",
+        "promptPath": "cleave/prompt.txt",
+        "promptSha256": "a8ecb77654dd3fe2af1ff2153169d80198902605391f30551c4eb340419cec01",
+        "inputReferenceSha256": [
+          "a75cb2440c20b3a941d8144d14f9b59ff9f630175b0626e9eeb59c28a88fb62e",
+          "8b6610e719c6a227703edd5e27fdaba6eededb60776949825dc162d94285b70b",
+          "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+        ],
+        "outputSourceSha256": "6e37a7b9264154a2cd7e6560a625cf001b3b00d63e8fdbf4d01369a714397155",
+        "outputSize": [
+          1881,
+          836
+        ],
+        "outputIncluded": true,
+        "sourcePostprocessing": "none",
+        "toolWallTimeSeconds": 32.2,
+        "cost": "not-reported"
+      }
+    ]
+  },
+  "toolchain": {
+    "editorRepository": "https://github.com/1475505/Miliastra-image-editor-webui",
+    "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+    "nativeMethod": "manual-source-coordinate-contour-tracing",
+    "exportBytes": "json-preserved-lua-extra-final-lf-removed",
+    "editorSnapshot": "optional-editing-metadata-not-runtime-truth"
+  },
+  "controls": {
+    "images": 2657,
+    "masks": 0,
+    "artworkTotal": 2657,
+    "nativeGalleryImages": 3,
+    "text": 0,
+    "hostIncluded": false
+  },
+  "mask": {
+    "imageIndices": [],
+    "canvasEditorMask": "editor-only-not-an-extra-runtime-control",
+    "deviceValidation": "unverified"
+  },
+  "galleryResources": [
+    {
+      "id": 106056,
+      "url": "https://oss.070077.xyz/images/sprite/106056.png",
+      "sha256": "62492988816157c79d460d97d32238e16e40b8d72b7c3be192b11f764332c9cb",
+      "bytes": 4484
+    },
+    {
+      "id": 106057,
+      "url": "https://oss.070077.xyz/images/sprite/106057.png",
+      "sha256": "dc2484a8c1dc677deb2f7f28ca33932a83abf7c88ed320d69da903d37c11b963",
+      "bytes": 13807
+    }
+  ],
+  "approval": {
+    "date": "2026-10-27",
+    "status": "owner-reviewed-offline-visual",
+    "scope": [
+      "source-design",
+      "native-redraw",
+      "full-card-offline-preview",
+      "geo-traveler-identity"
+    ],
+    "productionRuntimeApproved": false,
+    "reviewedFiles": {
+      "source.png": "6e37a7b9264154a2cd7e6560a625cf001b3b00d63e8fdbf4d01369a714397155",
+      "native-art.json": "f60eaf057ea4a94231525047ea9d54afda09a7857bc671209cedebd2677b6eff",
+      "native-art.lua": "3c9eaa03741391f594846e59708563d4912a96b8757092112ce3cabb7c2e5185",
+      "preview-native.png": "271c49cc6248cf46ea029cc63387c682858b43c29288eb32b44d24175e662b39"
+    }
+  },
+  "validation": {
+    "runtimeBinding": "unbound",
+    "officialImport": "not-run",
+    "deviceXYZAndMasks": "unverified",
+    "repeatedEntryCleanup": "unverified",
+    "multiCardPerformance": "not-run",
+    "phonePerformance": "not-run",
+    "fullPoolApproval": "not-approved"
+  },
+  "runtimeFallback": "placeholder-type-icon",
+  "preview": {
+    "kind": "literal-lua-readback",
+    "scale": 4,
+    "editorSnapshotUsed": false,
+    "officialClient": false
+  },
+  "fullCardAssembly": {
+    "oneXArtPixels": "matched-offline",
+    "fourXExactPixels": "failed-quantization-difference",
+    "fourXChangedPixels": 11,
+    "thresholdRelaxed": false,
+    "cardTextIncludedInAsset": false,
+    "dataCommit": "ac8cc52454db85939ee131ece85bfd421af7b7bd",
+    "variants": [
+      "base",
+      "upgraded"
+    ],
+    "oneXChangedPixels": 0
+  },
+  "references": [
+    {
+      "url": "https://kqm-uploads.keqingmains.com/wp-content/uploads/2022/02/elemental-skill-100_-speed-min-1.gif",
+      "sha256": "a75cb2440c20b3a941d8144d14f9b59ff9f630175b0626e9eeb59c28a88fb62e",
+      "classification": "Third-party recorded gameplay, not official promotional video",
+      "role": "generation-step-1-construct-identity",
+      "included": false
+    },
+    {
+      "url": "https://bbs.hoyolab.com/hoyowiki/picture/character/旅行者(岩)/battle_talent_1/battle_talent_1.png",
+      "sha256": "8b6610e719c6a227703edd5e27fdaba6eededb60776949825dc162d94285b70b",
+      "classification": "HoYoWiki official-domain skill icon",
+      "role": "generation-step-1-construct-identity",
+      "included": false
+    },
+    {
+      "path": "armaments/source.png",
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "role": "painterly-style-only",
+      "included": true
+    }
+  ],
+  "provenance": "PROVENANCE.md",
+  "identity": {
+    "character": "Lumine",
+    "element": "Geo",
+    "template": "geo-traveler-card-identity-v0.1",
+    "carriers": [
+      "low-broad-segmented-round-construct",
+      "flat-ring-cap",
+      "structural-angular-amber-veins"
+    ],
+    "genericGoldSymbolsSufficient": false
+  }
+}

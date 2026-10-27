@@ -1,41 +1,46 @@
 {
   "schemaVersion": 1,
   "card_id": "heavy_blade",
-  "assetRole": "design-counterexample-pending-revision",
+  "assetRole": "reviewed-formal-source-asset",
   "files": {
     "source.png": {
       "path": "heavy_blade/source.png",
-      "sha256": "f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5",
-      "bytes": 1769446
+      "sha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc",
+      "bytes": 2041123
     },
     "prompt.txt": {
       "path": "heavy_blade/prompt.txt",
-      "sha256": "cc3d1e634a7c9cec0c91b7d03624f8d66f79136dead1bfc14ed8ef3e6f6ad677",
-      "bytes": 2935
+      "sha256": "afd836fccaa82db0822a91c06332a6469720e5e6fa29a4512c96102cf3832a84",
+      "bytes": 4729
+    },
+    "prompt-repair.txt": {
+      "path": "heavy_blade/prompt-repair.txt",
+      "sha256": "c1338fc8c2ebc58d2bdd30342ed3ffb8923d00750504f4bd5738333492845028",
+      "bytes": 2565
     },
     "native-art.json": {
       "path": "heavy_blade/native-art.json",
-      "sha256": "337632a85aa0f1df9b9d077ecb919a67caa92d98175bda39d188c86ad418b2b2",
-      "bytes": 961040
+      "sha256": "38708d271df2b168f71e90fae0f8780bb0acefc522bde1f313cb0d4a4e6fdee0",
+      "bytes": 1343390
     },
     "native-art.lua": {
       "path": "heavy_blade/native-art.lua",
-      "sha256": "db35c898e427d1487766484817384b190407d7cc46ec3a2212ee878db39e1e47",
-      "bytes": 624748,
+      "sha256": "6e0b632d02e285e6412a2cfbc13c95ae6b28498259b031d0b23f5992cfd8903f",
+      "bytes": 368509,
       "originalExport": {
-        "sha256": "0f8ad60f1e7ff4d4d10fe4bb69b62297a92a5e268c1e13d471f9a4c4413ba54b",
-        "bytes": 624749,
+        "sha256": "e6806d636256a89091b093c8fd38838b62ad796479990156cbd66f4b5a3f52a1",
+        "bytes": 368510,
         "removedTrailingLf": 1
       }
     },
     "preview-native.png": {
       "path": "heavy_blade/preview-native.png",
-      "sha256": "6fefbbcbdaa503a1df1c04d282dc9f8cac0fdb36fb189e75aa89427b438b30b1",
-      "bytes": 30178
+      "sha256": "aefb4d2ca114a8738029249fba8b1bdc4f6235be648684cbfe348ed496388936",
+      "bytes": 34027
     }
   },
   "sourceSize": [
-    1881,
+    1882,
     836
   ],
   "nativeSize": [
@@ -48,10 +53,10 @@
   ],
   "adaptation": {
     "mode": "contain",
-    "scale": 0.07655502392344497,
+    "scale": 0.0765143464399575,
     "offset": [
       0,
-      0
+      0.017003188097767463
     ],
     "crop": null,
     "stretch": false
@@ -59,11 +64,52 @@
   "generation": {
     "tool": "builtin imagegen",
     "modelAndSeed": "not-exposed-by-tool",
-    "sourceRevision": "compact-heavy-blade/source-01",
-    "nativeRevision": "compact-heavy-blade/native-art",
+    "sourceRevision": "identity-repair-pair-r01/heavy_blade/source-02",
+    "nativeRevision": "native-heavy-identity-r01",
     "sourceIsUserUpload": false,
     "sourceIsRuntimePNG": false,
-    "generationCountForThisSource": 1
+    "generationCountForThisSource": 2,
+    "steps": [
+      {
+        "step": 1,
+        "mode": "reference-based original source illustration",
+        "promptPath": "heavy_blade/prompt.txt",
+        "promptSha256": "afd836fccaa82db0822a91c06332a6469720e5e6fa29a4512c96102cf3832a84",
+        "inputReferenceSha256": [
+          "3c153a9ef5302f1f39595a92386b5ac8bcbfef8391f02c85e2c5c084b3f25c0f",
+          "1fb7a86ecd5d32a412b826192f5c912d637669c83d2910367c868eb2e714e83a",
+          "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+        ],
+        "outputSourceSha256": "9010fe24ff0c1220d54e724943c6f31a2e3524f1d127a0c46dd35bfb396531ae",
+        "outputSize": [
+          1881,
+          836
+        ],
+        "outputIncluded": false,
+        "sourcePostprocessing": "none",
+        "toolWallTimeSeconds": 42.6,
+        "cost": "not-reported"
+      },
+      {
+        "step": 2,
+        "mode": "precise-object-edit",
+        "promptPath": "heavy_blade/prompt-repair.txt",
+        "promptSha256": "c1338fc8c2ebc58d2bdd30342ed3ffb8923d00750504f4bd5738333492845028",
+        "inputReferenceSha256": [
+          "9010fe24ff0c1220d54e724943c6f31a2e3524f1d127a0c46dd35bfb396531ae"
+        ],
+        "outputSourceSha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc",
+        "outputSize": [
+          1882,
+          836
+        ],
+        "outputIncluded": true,
+        "sourcePostprocessing": "none",
+        "toolWallTimeSeconds": 30.7,
+        "cost": "not-reported",
+        "inputSourceSha256": "9010fe24ff0c1220d54e724943c6f31a2e3524f1d127a0c46dd35bfb396531ae"
+      }
+    ]
   },
   "toolchain": {
     "editorRepository": "https://github.com/1475505/Miliastra-image-editor-webui",
@@ -73,17 +119,15 @@
     "editorSnapshot": "optional-editing-metadata-not-runtime-truth"
   },
   "controls": {
-    "images": 1476,
-    "masks": 1,
-    "artworkTotal": 1477,
+    "images": 2043,
+    "masks": 0,
+    "artworkTotal": 2043,
     "nativeGalleryImages": 3,
     "text": 0,
     "hostIncluded": false
   },
   "mask": {
-    "imageIndices": [
-      1396
-    ],
+    "imageIndices": [],
     "canvasEditorMask": "editor-only-not-an-extra-runtime-control",
     "deviceValidation": "unverified"
   },
@@ -103,22 +147,20 @@
   ],
   "approval": {
     "date": "2026-10-27",
-    "status": "revision-required-character-identity",
-    "scope": [],
+    "status": "owner-reviewed-offline-visual",
+    "scope": [
+      "source-design",
+      "native-redraw",
+      "full-card-offline-preview",
+      "geo-traveler-identity"
+    ],
     "productionRuntimeApproved": false,
-    "reasonCode": "generic-warrior-not-geo-traveler",
-    "history": [
-      {
-        "date": "2026-10-27",
-        "status": "owner-reviewed-offline-visual",
-        "scope": [
-          "source-design",
-          "native-redraw",
-          "full-card-offline-preview"
-        ],
-        "productionRuntimeApproved": false
-      }
-    ]
+    "reviewedFiles": {
+      "source.png": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc",
+      "native-art.json": "38708d271df2b168f71e90fae0f8780bb0acefc522bde1f313cb0d4a4e6fdee0",
+      "native-art.lua": "6e0b632d02e285e6412a2cfbc13c95ae6b28498259b031d0b23f5992cfd8903f",
+      "preview-native.png": "aefb4d2ca114a8738029249fba8b1bdc4f6235be648684cbfe348ed496388936"
+    }
   },
   "validation": {
     "runtimeBinding": "unbound",
@@ -139,23 +181,134 @@
   "fullCardAssembly": {
     "oneXArtPixels": "matched-offline",
     "fourXExactPixels": "failed-quantization-difference",
-    "fourXChangedPixels": 47,
+    "fourXChangedPixels": 4,
     "thresholdRelaxed": false,
-    "cardTextIncludedInAsset": false
+    "cardTextIncludedInAsset": false,
+    "dataCommit": "ac8cc52454db85939ee131ece85bfd421af7b7bd",
+    "variants": [
+      "base",
+      "upgraded"
+    ],
+    "oneXChangedPixels": 0
   },
   "references": [
     {
+      "url": "https://wiki.hoyolab.com/pc/genshin/entry/2674?lang=en-us",
+      "sha256": "3c153a9ef5302f1f39595a92386b5ac8bcbfef8391f02c85e2c5c084b3f25c0f",
+      "role": "generation-step-1-original-Lumine-costume",
+      "included": false
+    },
+    {
+      "url": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/01/30/35428890/73a764cfed99006fde29809217674c17_3719118094244535276.gif",
+      "sha256": "1fb7a86ecd5d32a412b826192f5c912d637669c83d2910367c868eb2e714e83a",
+      "classification": "HoYoWiki official-domain model idle recording; community-edited official platform",
+      "role": "generation-step-1-original-Lumine-costume",
+      "included": false
+    },
+    {
       "path": "armaments/source.png",
       "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
-      "role": "prompt-image-1-style-only",
+      "role": "painterly-style-only",
       "included": true
     },
     {
-      "url": "https://static.spire.moe/image/sts/portraits/red/attack/heavy_blade.png",
-      "sha256": "689b321f0166fec64c9b849dc22733d7be095f55c2a248eade355b1ba40b1603",
-      "role": "prompt-image-2-silhouette-force-contact-method-only",
+      "kind": "intermediate-generated-source",
+      "sha256": "9010fe24ff0c1220d54e724943c6f31a2e3524f1d127a0c46dd35bfb396531ae",
+      "role": "generation-step-2-edit-target-inherits-step-1-identity",
       "included": false
     }
   ],
-  "provenance": "PROVENANCE.md"
+  "provenance": "PROVENANCE.md",
+  "identity": {
+    "character": "Lumine",
+    "element": "Geo",
+    "template": "geo-traveler-card-identity-v0.1",
+    "carriers": [
+      "connected-white-petal-skirt-and-pale-blue-trim",
+      "dark-waist-and-gold-arched-waist-ornament",
+      "one-handed-straight-sword-single-edge-contact"
+    ],
+    "genericGoldSymbolsSufficient": false
+  },
+  "supersededRevisions": [
+    {
+      "revision": "compact-heavy-blade/source-01",
+      "gitCommit": "dc439fe83279a4f75ce526ecc757b7da8b6cc7cf",
+      "files": {
+        "source.png": {
+          "path": "heavy_blade/source.png",
+          "sha256": "f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5",
+          "bytes": 1769446
+        },
+        "prompt.txt": {
+          "path": "heavy_blade/prompt.txt",
+          "sha256": "cc3d1e634a7c9cec0c91b7d03624f8d66f79136dead1bfc14ed8ef3e6f6ad677",
+          "bytes": 2935
+        },
+        "native-art.json": {
+          "path": "heavy_blade/native-art.json",
+          "sha256": "337632a85aa0f1df9b9d077ecb919a67caa92d98175bda39d188c86ad418b2b2",
+          "bytes": 961040
+        },
+        "native-art.lua": {
+          "path": "heavy_blade/native-art.lua",
+          "sha256": "db35c898e427d1487766484817384b190407d7cc46ec3a2212ee878db39e1e47",
+          "bytes": 624748,
+          "originalExport": {
+            "sha256": "0f8ad60f1e7ff4d4d10fe4bb69b62297a92a5e268c1e13d471f9a4c4413ba54b",
+            "bytes": 624749,
+            "removedTrailingLf": 1
+          }
+        },
+        "preview-native.png": {
+          "path": "heavy_blade/preview-native.png",
+          "sha256": "6fefbbcbdaa503a1df1c04d282dc9f8cac0fdb36fb189e75aa89427b438b30b1",
+          "bytes": 30178
+        }
+      },
+      "assetRole": "design-counterexample-pending-revision",
+      "approval": {
+        "date": "2026-10-27",
+        "status": "revision-required-character-identity",
+        "scope": [],
+        "productionRuntimeApproved": false,
+        "reasonCode": "generic-warrior-not-geo-traveler",
+        "history": [
+          {
+            "date": "2026-10-27",
+            "status": "owner-reviewed-offline-visual",
+            "scope": [
+              "source-design",
+              "native-redraw",
+              "full-card-offline-preview"
+            ],
+            "productionRuntimeApproved": false
+          }
+        ]
+      },
+      "controls": {
+        "images": 1476,
+        "masks": 1,
+        "artworkTotal": 1477,
+        "nativeGalleryImages": 3,
+        "text": 0,
+        "hostIncluded": false
+      },
+      "mask": {
+        "imageIndices": [
+          1396
+        ],
+        "canvasEditorMask": "editor-only-not-an-extra-runtime-control",
+        "deviceValidation": "unverified"
+      },
+      "fullCardAssembly": {
+        "oneXArtPixels": "matched-offline",
+        "fourXExactPixels": "failed-quantization-difference",
+        "fourXChangedPixels": 47,
+        "thresholdRelaxed": false,
+        "cardTextIncludedInAsset": false
+      },
+      "appliesNewApproval": false
+    }
+  ]
 }
