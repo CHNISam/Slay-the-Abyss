@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 8
+local sliceRegistered,sliceExecuted=0,0
 -- Offline presentation boundaries only. Later combat content remains gated.
 local F = dofile('tests/lua/support/game_ui_fixture.lua')
 local Map, MapUI, Acts = require('abyss_map'), require('abyss_map_ui'), require('abyss_acts')
@@ -5,7 +8,13 @@ local Run, Nodes = require('abyss_run'), require('abyss_nodes')
 local Q, Pool = require('abyss_encounter_queue'), require('abyss_event_pool')
 local Layout, Theme = require('abyss_map_layout'), require('abyss_theme')
 local passed = 0
-local function test(name, fn) fn(); passed=passed+1; print('PASS '..name) end
+local function test(name, fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    fn();sliceExecuted=sliceExecuted+1;passed=passed+1
+    print('PASS '..name)
+    print('MAP_CHAPTER_CASE '..sliceRegistered)
+end
 local function same(a,b,path)
     path=path or 'state'; assert(type(a)==type(b),path)
     if type(a)~='table' then assert(a==b,path..': '..tostring(a)..' ~= '..tostring(b)); return end
@@ -378,3 +387,7 @@ test('non-table map nodes fail closed without rendering or mutating owners',func
 end)
 
 print('LUA_MAP_CHAPTERS_PASS '..passed)
+
+assert(sliceRegistered==38,'all thirty-eight original map groups must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'every selected map group must execute')
+print('MAP_CHAPTER_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)
