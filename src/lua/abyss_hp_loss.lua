@@ -14,15 +14,15 @@ function M.notify(state,owner,target,amount)
     if state.originalV4 then require('abyss_original_v4_health').hpEvent(state,amount) end
     require('abyss_warrior_status_cards').onHpLost(state,amount)
     require('abyss_silent_final_cards').onHpLost(state)
-    if state.player.hp<=0 then
-        require('abyss_potion_fairy').fatal(state)
-        return
-    end
     local plan=require('abyss_warrior_strength_cards').planHpLost(state,owner,amount)
     -- Powers dispatch before relics. Both callbacks insert TOP actions, so
     -- a later Puzzle Draw must run before Rupture's ApplyPower, on either owner.
     for _,action in ipairs(plan.top) do
         require('abyss_card_actions').enqueueReaction(state,action.effect,true)
     end
+    require('abyss_relic_hooks').wasHpLost(state,target,amount)
+    -- Fatal interception follows Power/relic HP-loss callbacks. A successful
+    -- Fairy returns to the current action with their TOP reactions still queued.
+    if state.player.hp<=0 then require('abyss_potion_fairy').fatal(state) end
 end
 return M

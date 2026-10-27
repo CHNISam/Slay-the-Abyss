@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 06:10'
+updated_date: '2026-10-27 06:38'
 due_date: '2026-10-28'
 labels:
   - required
@@ -51,6 +51,8 @@ ordinal: 43000
 2026-10-27 M3 独立小切片：在已合入 c91f0d22 上复用冻结的 Rupture 原生队列修复。先用同一真实卡牌/道具用例重现原生回调中力量过早生效，再让已有 TOP 反应队列承接 action.effect；验证 Puzzle 抽牌次序、原子回滚、原有三种执行 owner 与静态/关键变异。只改两处生产文件和两份测试，经独立 PR 完整 CI 集成；不改 Fatal/Fairy 已知差异，不覆盖 PR238 本机未提交合并，不勾完整组合或平台验收。
 
 2026-10-27并发独立审查复现Stasis/CorpseExplosion同优先级死亡Power破序；按AbstractMonster.die稳定powerOrder统一同一enqueueReaction，保留Boss/Spore TOP，正反顺序native/advanced及失败原子/UID重试验证。主session已集成24ad402，原11组先5红后全绿。
+
+2026-10-27执行中重新同步develop b164fda：复用已合入PR245致命损血/Fairy前Power和遗物回调修复，保留PR238 Masterful Stab真实损血成本通知；按新31组源预期及独立死亡队列11组组合验证，不重写或忽略在途修复。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
