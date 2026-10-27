@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 05:41'
+updated_date: '2026-10-27 07:08'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -130,4 +130,6 @@ ordinal: 75000
 2026-10-26验收进度校准：范围冻结与现有交付盘点两项已完成；原14项全内容/自然玩法要求保持未勾，不以盘点完成代替全M3通过。
 
 2026-10-27最新核对：M3仍为四职业及第一至第四幕完整交付，未验收。GitHub实时读回PR238为OPEN/DRAFT，head a4dac7723af8262a314758c87d92f421afea4911，CONFLICTING且当前检查为空；无作业不是CI通过。主集成树m3-next-content正在同步develop fc51f198，18个冲突路径仍为unmerged、合并未提交。下一步先修复合并后inventory_restore和tungsten_rod_channels两项失败，再核完整diff、提交同步、推同一PR并验当前SHA全部必要CI；随后补同候选自然获取/四职业跨幕/平台证据。未生成新GIL、未导入、未实机、未通过verify:ui。依据根HANDOFF-PR238-20261027-115033-STOP.md及build/pr238-resume-20261027-091929/fc51-final-focused.json；本轮仅核对任务，不继续开发或占用键鼠。
+
+本轮只收口PR238既有范围，不继续扩内容。完整原战斗UI53组、原红钥匙核心15/UI14组、地图38组、职业商店88输入均按完整正文/原断言/原种子验证；必要分片保留各原30/60秒且机器核一次覆盖。第二轮Linux单进程完整JS在原20min作业上限被取消，未冒称整套通过；复用既有隔离VM分片机制收口当前SHA全部Quality。没有本轮GIL/官方导入/键鼠窗口/截图/verify:ui，四职业自然四幕与终幕未完成保持。最终PR合并证据以当前HEAD实际GitHub状态为准。
 <!-- SECTION:NOTES:END -->
