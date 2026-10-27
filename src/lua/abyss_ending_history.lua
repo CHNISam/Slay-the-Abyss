@@ -39,10 +39,19 @@ function M.read(owner)
   readStatus=owner.readStatus,persistence=owner.persistence}
 end
 local function identity(run)
- local role=run.character;if role==nil then role='ironclad'end
+ local role,data=run.character,run.data
+ if type(data)=='table'then
+  if data.originalV4Role~=nil or data.originalV4Rules~=nil then return nil end
+  -- Historical Profile.prepare -> Run.new keeps its canonical pair in data,
+  -- without run.character. Missing or conflicting metadata is not a traveler.
+  local selected=data.experimentalCharacter
+  if selected~=nil or data.characterId~=nil then
+   if selected~=data.characterId or role~=nil and role~=selected then return nil end
+   role=selected
+  end
+ end
+ if role==nil then role='ironclad'end
  if not roles[role]then return nil end
- local data=run.data
- if type(data)=='table'and(data.originalV4Role~=nil or data.originalV4Rules~=nil)then return nil end
  local profile=run.characterProfile
  if profile~=nil then
   if not plain(profile)or profile.originalV4~=nil and profile.originalV4~=false then return nil end
