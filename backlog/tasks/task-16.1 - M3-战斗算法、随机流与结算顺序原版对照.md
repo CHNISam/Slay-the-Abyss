@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 06:38'
+updated_date: '2026-10-27 06:50'
 due_date: '2026-10-28'
 labels:
   - required
@@ -107,4 +107,6 @@ ordinal: 43000
 当前 PR238 远端 a4dac772 的 HP-loss 原生分支仍直接 applyPower，本小片尚未被该分支覆盖。PR238 本机未提交合并中的库存恢复/Tungsten 两份失败另行只读定位，不能用本片通过替代它们或整项 M3 通过。
 
 2026-10-27 Rupture 原生 TOP 排序切片：相同 36 组实际 Bloodletting/Hemokinesis 测试在 c91f0d22 为 31 通过/5 原生分支失败，最小修复后 36/36；28 份原有 Lua 夹具、3 个 Node 包装、语法、架构（145 模块/715 边）、固定 Luacheck 与 4 项关键变异均通过。只把力量效果交给已有反应队列，不新增调度器；保留版本公告和最新卡牌布局。Fatal/Fairy 的 12 个前后对照输出相同，仅证明本片未改它，原版差异仍未解决。本轮无平台导入/实玩，发布后当前 SHA 完整 Quality 仍为合并门禁；本地切片通过不关闭全组合或自然来源验收。
+
+本轮独立审查在4c24aa0通过真实Defect/Puzzle战斗确认StaticDischarge同步充能破坏TOP顺序：末敌被提前击杀、Puzzle draw3被清。复用原manager修复，先复现红例并验证末敌、Buffer、Tungsten、Fairy；不重建队列。当前相关范围保持未完成。四职业遗物完整来源队列已修复，40组全队列/RNG向量及正式渠道通过，最终当前SHA完整CI仍待验。
 <!-- SECTION:NOTES:END -->

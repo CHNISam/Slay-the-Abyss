@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 06:38'
+updated_date: '2026-10-27 06:52'
 due_date: '2026-10-28'
 labels:
   - required
@@ -114,4 +114,6 @@ ordinal: 42000
 2026-10-27 库存测试账本定位：精确 c91 加 PR238 四项遗物定义后，f9_l2 宝箱正常获得聚财罐，f10_l1 精英房入口实际金币 738→750；旧 expectedGold 未计该进房间奖励。只补独立原版 MawBank 12 金币/失效-2/Ectoplasm 预期，完整保留 seed21、购买 Iron Wave/石头及每个原断言和8份非法快照。原 c91 与四遗物组合均5组通过；移除真实 Maw 发金币的负例被原第4组断言拦下（738≠750），父线程再次跑真实夹具通过。原版依据 aeubanks/sts@319009d5 的 MawBank.java、AbstractPlayer loseGold/gainGold；不是认证PC二进制。未重放 PR238 本机 STOP 快照，不能据此声称其完整合并已修复；Tungsten seed91 受遗物池增长影响及普通宝箱/商店尚非完整原版队列的问题仍单列。
 
 2026-10-27当前develop已合入PR244的MawBank独立金币预期与PR245实际损血Puzzle回调；本轮共享source队列/宝箱迁移继续保留这两项，原31组fatal回归及同SHA组合检查继续执行。
+
+主整合复核补正四职业遗物来源：Run按真实STS职业使用shared+对应色完整队列，5次relicRng randomLong洗牌；商店尾取，宝箱/精英首取。40组Java全队列/随机向量、starter资格及Shop/Treasure/Elite正式API定向通过，旧红池/向量不改。缺定义保持原sourceId并unavailable，未缩池重抽。ToxicEgg购买后刷新未售货架技能预览、不改永久deck或RNG，reward owner追加/删除长度拒绝也已通过。当前PR238@4c24aa0完整Quality在跑，后续必要回归迁移和独立P1修复仍需整合；原全效果与自然平台AC不勾。
 <!-- SECTION:NOTES:END -->
