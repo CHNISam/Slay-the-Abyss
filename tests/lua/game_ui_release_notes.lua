@@ -205,5 +205,59 @@ test('retro source versions use version dates instead of claiming platform publi
     assert(hit(root,'close').click() and ui.mode=='menu')
 end)
 
+test('all fourteen bundled source versions navigate every page and return safely',function()
+    Narrative.releaseNotes=original
+    local total=#original.history;assert(total>=14)
+    local ui,root=F.fixture(nil,nil,nil,pointer)
+    local start=root:GetChild('menuPanel'):GetChild('start'):GetChild('hit')
+    start.listeners.down();start.listeners.up()
+    assert(tap(entry(root)))
+    assert(not start.click() and not ui:start() and ui.run==nil)
+    local function verify(i)
+        local notice=original.history[i]
+        assert(text(root,'version')==notice.version and ui.releaseNotesUI.page==1)
+        assert(text(root,'date')=='版本日期 '..notice.versionDate..' · 版本记录 '..i..' / '..total)
+        local expected={}
+        for _,section in ipairs({{'added','新增'},{'improved','优化'},{'fixed','修复'}})do
+            for _,bullet in ipairs(notice[section[1]] or {})do
+                local row=section[2]..' · '
+                for _,codepoint in utf8.codes(bullet)do
+                    if utf8.len(row)==F.Theme.layout.releaseNotes.rowCharacters then
+                        expected[#expected+1]=row;row='　'
+                    end
+                    row=row..utf8.char(codepoint)
+                end
+                expected[#expected+1]=row
+            end
+        end
+        assert(#expected>0,'actual source version must contain its changelog prose')
+        local pages=ui.releaseNotesUI.pages
+        local rows=F.Theme.layout.releaseNotes.rows
+        assert(pages==math.ceil(#expected/rows))
+        local function verifyPage(p)
+            for row=1,rows do
+                assert(text(root,'row'..row)==(expected[(p-1)*rows+row] or ''),
+                    notice.version..' page '..p..' row '..row..' must show its own prose or empty tail')
+            end
+        end
+        verifyPage(1)
+        for p=2,pages do assert(tap(hit(root,'next')) and ui.releaseNotesUI.page==p);verifyPage(p)end
+        assert(not tap(hit(root,'next')))
+        for p=pages-1,1,-1 do assert(tap(hit(root,'previous')) and ui.releaseNotesUI.page==p);verifyPage(p)end
+        assert(not tap(hit(root,'previous')))
+    end
+    for i=1,total do
+        verify(i)
+        if i<total then assert(tap(hit(root,'older')))end
+    end
+    assert(not tap(hit(root,'older')))
+    for i=total-1,1,-1 do assert(tap(hit(root,'newer')));verify(i)end
+    assert(not tap(hit(root,'newer')))
+    assert(tap(hit(root,'close')) and ui.mode=='menu' and ui.run==nil)
+    assert(not start.click() and ui.run==nil)
+    assert(tap(entry(root)) and text(root,'version')==original.history[1].version)
+    assert(tap(hit(root,'close')) and tap(start) and ui.mode=='map')
+end)
+
 Narrative.releaseNotes=original
 print('LUA_GAME_UI_RELEASE_NOTES_PASS '..count)
