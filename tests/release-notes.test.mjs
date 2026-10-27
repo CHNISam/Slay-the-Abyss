@@ -40,8 +40,9 @@ test('engineering baseline has version and source, no current notice or invented
   assert.equal('currentNotice' in result, false);
   assert.deepEqual(JSON.parse(readFileSync('data/release/publications.json')), { schemaVersion: 1, releases: [] });
   const indexed = parseChangelog(readFileSync('CHANGELOG.md', 'utf8'));
-  assert.equal(indexed.size, 14, 'the checked-in backfilled version ledger is complete');
-  assert.ok(indexed.has('v0.10.1'));
+  assert.ok(indexed.size >= 14, 'the checked-in backfilled versions must not disappear');
+  assert.ok(indexed.has(`v${JSON.parse(readFileSync('package.json', 'utf8')).version}`),
+    'the current code version must have visible notes');
 });
 test('unknown source is honestly omitted in a non-Git snapshot, never claimed clean', t => {
   const f = fixture(t), result = loadReleaseNotes({ root: f.root });
