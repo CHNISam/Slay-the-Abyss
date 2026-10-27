@@ -3,9 +3,9 @@ id: TASK-20
 title: 保存发布版本、更新说明和投稿凭证
 status: In Progress
 assignee:
-  - '@Codex'
+  - Furinya
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-27 09:35'
+updated_date: '2026-10-27 09:59'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
@@ -55,4 +55,6 @@ ordinal: 20000
 2026-10-27 本地实现：手动 Release Please 提案（不自动 Tag/Release）、CHANGELOG 单一公告正文、空的真实发布凭证、原生菜单公告与完整分页已接通。同步 develop 00229c1 的 PR #240/#241 后，389 项相关 Node/真实 Lua 桥接检查全通过；构建、语法、架构（145 模块/716 边）、固定 Luacheck（无新增诊断）与 Backlog 校验通过。独立审查修复已发布版本重用和最终音频构建标识/回执绑定缺口。完整当前 PR CI、原生导入/实机显示与真实发布仍分别待证据，不宣称任务全部完成。
 
 2026-10-27：PR247最新HEAD f09549a29ae32f87120af6f6b92de3ca320ab360的Licenses inventory与Quality四分片/presentation/engineering-posix/check全部SUCCESS，已squash合入develop fa93ac9ff23e7e5cbcf74813d1f9fa776219a314。按索引核对14节点祖先关系和北京时间日期，原子推送14个注释源码Tag，远端逐个peeled SHA读回匹配；v0.10.1固定fa93ac9，不移动旧Tag。版本与Milestone分开。公告/发布溯源专项38项：32通过、0失败、6项Windows符号链接权限跳过；真实Lua宿主9组包括实际14版本前后切换、逐页往返、关闭重开与旧输入隔离。先前缺构建数据的失败已补build:data后重跑通过。仅离线，不是平台实机；AC3等待千星奇域导入与本轮日志/截图，AC2/5等待真实发布凭证，任务保持In Progress。
+
+PR249评审修正：负责人按现行AGENTS保持Furinya。实际14版宿主遍历增加新增/优化/修复正文、空尾行的逐版双向核对；保留原长Unicode分页测试与历史授权记录，不触碰PR250在途修改。
 <!-- SECTION:NOTES:END -->
