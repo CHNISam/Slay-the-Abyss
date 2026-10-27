@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 09:48'
 due_date: '2026-10-28'
 labels:
   - art
@@ -49,4 +49,6 @@ ordinal: 32000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-26：基于 develop 4c75a31 的离线景片校验切片，六份现有 JSON 身份核对及实际输入预检通过；直接运行 24 项定向测试通过，仓库现有递归发现入口也执行同一组 24 项并通过（不是 48 个独立用例）。新增 tests/art/__init__.py 保证递归发现；README 明确目录尺寸与 yaw 包围盒只用于离线预检。没有修改模型、场景输入、GIA、游戏规则或正式存档。当前提交的完整 Quality 尚待执行，官方导入、真实 GUID、碰撞、脚高、画面及性能仍未验证；本次不勾选任务 AC。拟以 feat/dot-scene-validator 独立 Draft PR 交付。
+
+2026-10-27场景路线已确定：优先复用GI/千星官方允许使用的原生3D与布景。首发不批量拟合绘制全屏高清战斗背景；只保留必要的低成本前景或环境差异化。原始模型导入、镜头、碰撞与退出清理验收继续有效。
 <!-- SECTION:NOTES:END -->
