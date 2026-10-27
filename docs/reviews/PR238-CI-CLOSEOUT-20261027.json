@@ -1,0 +1,221 @@
+{
+  "failedRemoteHead": "28869011c26bcead7f925e78f00dbda454daa231",
+  "integratedParent": "961982be",
+  "nodeRuntime": "24.18.0",
+  "inputSnapshot": "build/pr238-resume-20261027-091929",
+  "snapshotDirtyTrees": 15,
+  "snapshotVerifiedFiles": 185,
+  "pendingFixRuns": [
+    {
+      "fixture": "inventory_parity",
+      "exit": 0,
+      "seconds": 12.57,
+      "log": "build/pr238-resume-20261027-091929/inventory_parity-green.log"
+    },
+    {
+      "fixture": "small_slimes",
+      "exit": 1,
+      "seconds": 30.155,
+      "log": "build/pr238-resume-20261027-091929/small_slimes-green.log"
+    },
+    {
+      "fixture": "temporary_stat_removal_frames",
+      "exit": 0,
+      "seconds": 0.872,
+      "log": "build/pr238-resume-20261027-091929/temporary_stat_removal_frames-green.log"
+    },
+    {
+      "fixture": "card_feedback",
+      "exit": 0,
+      "seconds": 3.466,
+      "log": "build/pr238-resume-20261027-091929/card_feedback-green.log"
+    },
+    {
+      "fixture": "flex",
+      "exit": 0,
+      "seconds": 20.412,
+      "log": "build/pr238-resume-20261027-091929/flex-green.log"
+    },
+    {
+      "fixture": "potion_flex_speed",
+      "exit": 1,
+      "seconds": 30.175,
+      "log": "build/pr238-resume-20261027-091929/potion_flex_speed-green.log"
+    },
+    {
+      "fixture": "artifact_power",
+      "exit": 0,
+      "seconds": 1.729,
+      "log": "build/pr238-resume-20261027-091929/artifact_power-green.log"
+    },
+    {
+      "fixture": "artifact_runtime",
+      "exit": 0,
+      "seconds": 10.173,
+      "log": "build/pr238-resume-20261027-091929/artifact_runtime-green.log"
+    },
+    {
+      "fixture": "signed_status_caps",
+      "exit": 0,
+      "seconds": 2.118,
+      "log": "build/pr238-resume-20261027-091929/signed_status_caps-green.log"
+    }
+  ],
+  "integratedRuns": [
+    {
+      "check": "build-data",
+      "exit": 0,
+      "seconds": 0.312,
+      "log": "build/pr238-resume-20261027-091929/build-data-integrated.log"
+    },
+    {
+      "check": "slice-contracts",
+      "exit": 0,
+      "seconds": 6.061,
+      "log": "build/pr238-resume-20261027-091929/slice-contracts-integrated.log"
+    },
+    {
+      "check": "node_transactions.lua",
+      "exit": 0,
+      "seconds": 23.392,
+      "log": "build/pr238-resume-20261027-091929/node_transactions.lua-integrated.log"
+    },
+    {
+      "check": "node_transactions_slice_2.lua",
+      "exit": 0,
+      "seconds": 7.655,
+      "log": "build/pr238-resume-20261027-091929/node_transactions_slice_2.lua-integrated.log"
+    },
+    {
+      "check": "node_transactions_slice_3.lua",
+      "exit": 0,
+      "seconds": 1.836,
+      "log": "build/pr238-resume-20261027-091929/node_transactions_slice_3.lua-integrated.log"
+    },
+    {
+      "check": "node_transactions_slice_4.lua",
+      "exit": 0,
+      "seconds": 7.465,
+      "log": "build/pr238-resume-20261027-091929/node_transactions_slice_4.lua-integrated.log"
+    },
+    {
+      "check": "spike_slime_l.lua",
+      "exit": 0,
+      "seconds": 2.595,
+      "log": "build/pr238-resume-20261027-091929/spike_slime_l.lua-integrated.log"
+    },
+    {
+      "check": "spike_slime_l_slice_2.lua",
+      "exit": 1,
+      "seconds": 30.102,
+      "log": "build/pr238-resume-20261027-091929/spike_slime_l_slice_2.lua-integrated.log"
+    },
+    {
+      "check": "spike_slime_l_slice_3.lua",
+      "exit": 0,
+      "seconds": 1.74,
+      "log": "build/pr238-resume-20261027-091929/spike_slime_l_slice_3.lua-integrated.log"
+    },
+    {
+      "check": "small_slimes.lua",
+      "exit": 0,
+      "seconds": 7.634,
+      "log": "build/pr238-resume-20261027-091929/small_slimes.lua-integrated.log"
+    },
+    {
+      "check": "small_slimes_slice_2.lua",
+      "exit": 0,
+      "seconds": 9.007,
+      "log": "build/pr238-resume-20261027-091929/small_slimes_slice_2.lua-integrated.log"
+    },
+    {
+      "check": "small_slimes_slice_3.lua",
+      "exit": 0,
+      "seconds": 9.409,
+      "log": "build/pr238-resume-20261027-091929/small_slimes_slice_3.lua-integrated.log"
+    },
+    {
+      "check": "small_slimes_slice_4.lua",
+      "exit": 0,
+      "seconds": 21.676,
+      "log": "build/pr238-resume-20261027-091929/small_slimes_slice_4.lua-integrated.log"
+    },
+    {
+      "check": "potion_flex_speed.lua",
+      "exit": 0,
+      "seconds": 6.451,
+      "log": "build/pr238-resume-20261027-091929/potion_flex_speed.lua-integrated.log"
+    },
+    {
+      "check": "potion_flex_speed_slice_2.lua",
+      "exit": 0,
+      "seconds": 3.783,
+      "log": "build/pr238-resume-20261027-091929/potion_flex_speed_slice_2.lua-integrated.log"
+    },
+    {
+      "check": "potion_flex_speed_slice_3.lua",
+      "exit": 0,
+      "seconds": 2.916,
+      "log": "build/pr238-resume-20261027-091929/potion_flex_speed_slice_3.lua-integrated.log"
+    },
+    {
+      "check": "potion_flex_speed_slice_4.lua",
+      "exit": 0,
+      "seconds": 8.382,
+      "log": "build/pr238-resume-20261027-091929/potion_flex_speed_slice_4.lua-integrated.log"
+    },
+    {
+      "check": "mutation-strength",
+      "exit": 0,
+      "seconds": 17.837,
+      "log": "build/pr238-resume-20261027-091929/mutation-strength-integrated.log"
+    }
+  ],
+  "supersedingSpikeHistoryRuns": [
+    {
+      "check": "slice-contracts-final",
+      "exit": 0,
+      "seconds": 0.164,
+      "markers": [],
+      "log": "build/pr238-resume-20261027-091929/slice-contracts-final.log"
+    },
+    {
+      "check": "spike-history-2",
+      "exit": 0,
+      "seconds": 11.404,
+      "markers": [
+        "SPIKE_SLIME_L_HISTORIES 1 2 200"
+      ],
+      "log": "build/pr238-resume-20261027-091929/spike-history-2.log"
+    },
+    {
+      "check": "spike-history-4",
+      "exit": 0,
+      "seconds": 10.787,
+      "markers": [
+        "SPIKE_SLIME_L_HISTORIES 3 4 200"
+      ],
+      "log": "build/pr238-resume-20261027-091929/spike-history-4.log"
+    },
+    {
+      "check": "spike-history-5",
+      "exit": 0,
+      "seconds": 8.808,
+      "markers": [
+        "SPIKE_SLIME_L_HISTORIES 5 6 200"
+      ],
+      "log": "build/pr238-resume-20261027-091929/spike-history-5.log"
+    }
+  ],
+  "coverage": {
+    "logicalGroups": 57,
+    "nodeTransactions": 11,
+    "spikeSlimeL": 17,
+    "spikeHistories": 600,
+    "smallSlimes": 18,
+    "staticEncountersInLastGroup": 16,
+    "potionFlexSpeed": 11
+  },
+  "ci": "pending exact final head; see PR238",
+  "platform": "No new GIL/import/live play/screenshots/verify:ui; M3 remains incomplete"
+}

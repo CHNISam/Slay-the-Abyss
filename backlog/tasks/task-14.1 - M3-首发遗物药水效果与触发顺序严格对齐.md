@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 00:55'
+updated_date: '2026-10-27 01:32'
 due_date: '2026-10-28'
 labels:
   - required
@@ -71,6 +71,10 @@ ordinal: 42000
 2026-10-27 第三批本地组合：接入钨合金棍ff01，先复核所有NORMAL/THORNS/HP_LOSS路径，公开Run自伤漏接已证红并交独立修复；合并时保留Orichalcum与金神像账本，汇总值按真实绑定重新派生。只在真实获取、次序、回滚及组合门禁通过后记录本地交付，原全池与平台验收不勾选。
 
 2026-10-27 288 CI实证药水basic文件仍30111ms超时，旧本地23.597s不能判最终达标，原任务继续。仅分片原完整输入/断言，第一逻辑组独立，目标/slot/phase失败与overflow按瓶有界分片，原11逻辑和获取1组全部一次覆盖、每片30s不增；真正逐片达标及整体机器计数通过后推CI，不改生产或缩减输入。
+
+2026-10-27 288 Lua实际发现inventory_parity两瓶Regen叠10后的末回合顺序/衰减断言失败；按固定RegenPower来源核当前队列，先原RED，再最小生产修复或有证据的旧瞬间预期迁移，保持heal先于敌人/单次衰减和完整原组，不能用改期望掩盖。
+
+2026-10-27 PR238收口：Regen原10组已在原30秒内通过；临时属性frame关联Flex/Speed回归实际原30秒超时，保留原完整用例/构造/断言，仅按组有界分片并核对完整覆盖。保留全量组合及平台未验收状态。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -115,4 +119,6 @@ ordinal: 42000
 2026-10-27 第三批隔离组合2349400c已实际跑20份原30秒回归全绿，包含Rod六份及Orichalcum、Run晚领奖和关联敌人；原9份Rod raw来源hash已父核。卡牌自伤真P2最小修复已组合；Guardian Sharp Hide另有真实3未减为2反例，仍修复中，不能称全HP路径或全遗物通过。详细头/夹具hash/日志和缺项见docs/reviews/M3-THIRD-CONTENT-INTEGRATION-20261027.md。当前无新GIL或平台。
 
 2026-10-27 Rod/ToxicEgg/RedMask已集中到PR238候选，卡自伤及Guardian反伤漏hook、native TOP抽牌次序已修复；Toxic来源漏绑同步修，实际46定义/45注册/1后备，原目录8项通过。药水原2+5+4和获取1组全绿，超时文件23.597秒达原30秒标准；全池/全部组合/平台仍未验，不勾父任务。
+
+2026-10-27 PR238遗留修复：临时属性完成态frame的8新例及card_feedback/Flex/Artifact/signed caps通过；Regen原10组12570ms通过，保留heal10/50HP+10层→enemy_turn50+9→受击44+9及RNG。Flex/Speed原11组四片6451/3783/2916/8382ms全绿，原30秒与全部输入/断言不变。来源/RED/覆盖锁和机器结果见docs/reviews/PR238-CI-CLOSEOUT-20261027.md/json。最终云端待实际结果，全池组合与平台未验收。
 <!-- SECTION:NOTES:END -->

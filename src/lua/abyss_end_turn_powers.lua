@@ -138,6 +138,8 @@ function M.apply(combat,state,effect,queue)
   local keep={};for _,id in ipairs(p.temporaryPowerOrder or {})do if id~=stat then keep[#keep+1]=id end end
   p.temporaryPowerOrder=#keep>0 and keep or nil
   keep={};for _,id in ipairs(p.powerOrder or {})do if id~='lose_'..stat then keep[#keep+1]=id end end;p.powerOrder=keep
+  -- Match Actor.endTurn: publish the completed loss/removal, not stale debt.
+  state.events[#state.events].frame=Events.frame(state)
  elseif effect.op=='ownerEndClearNoDraw'then
   p.noDraw=false;Events.emit(state,'no_draw_removed',{target=p.id})
  elseif effect.op=='ownerEndBombReduce'then

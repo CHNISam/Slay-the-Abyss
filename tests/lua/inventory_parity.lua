@@ -146,14 +146,36 @@ test("two Regen Potions stack to ten then heal before enemy action and decay onc
     local state = run.combat
     equal(state.player.hp, 40); equal(state.player.statuses.regen, 10)
     state.enemies[1].intents = { { effects = { { op = "damage", value = 6 } } } }
+    local random = require("abyss_sts_random")
+    local streams = {}
+    for _, name in ipairs({ "cardRandomRng", "miscRng" }) do
+        streams[name] = random.snapshot(state[name])
+    end
     assert(Run.endTurn(run))
     equal(state.player.hp, 44); equal(state.player.statuses.regen, 9)
-    local healIndex, damageIndex
+    local healIndex, enemyTurnIndex, damageIndex, heals = nil, nil, nil, 0
     for index, event in ipairs(state.events) do
-        if event.kind == "heal" and event.detail.status == "regen" then healIndex = index end
-        if event.kind == "damage" and event.detail.target == "player" then damageIndex = index end
+        -- Ordinary Regen now uses the shared queued heal, which has no old
+        -- Actor.tick status tag. Lock the actual amount and presentation order.
+        if event.kind == "heal" and event.detail.target == "player" then
+            healIndex, heals = index, heals + 1
+            equal(event.detail.amount, 10)
+            equal(event.frame.player.hp, 50); equal(event.frame.player.statuses.regen, 10)
+        elseif event.kind == "enemy_turn" then
+            enemyTurnIndex = index
+            equal(event.frame.player.hp, 50); equal(event.frame.player.statuses.regen, 9)
+        elseif event.kind == "damage" and event.detail.target == "player" then
+            damageIndex = index
+            equal(event.frame.player.hp, 44); equal(event.frame.player.statuses.regen, 9)
+        end
     end
-    assert(healIndex and damageIndex and healIndex < damageIndex)
+    equal(heals, 1)
+    assert(healIndex and enemyTurnIndex and damageIndex and healIndex < enemyTurnIndex and enemyTurnIndex < damageIndex)
+    for name, before in pairs(streams) do
+        local after = random.snapshot(state[name])
+        equal(after.counter, before.counter)
+        equal(after.words[1], before.words[1]); equal(after.words[2], before.words[2])
+    end
 end)
 
 test("final-enemy potion kill skips Regen turn end and heals only Burning Blood", function()

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 00:55'
+updated_date: '2026-10-27 01:32'
 due_date: '2026-10-28'
 labels:
   - required
@@ -52,6 +52,10 @@ ordinal: 43000
 完整RC相邻回归实证普通宿主漏调Orichalcum。父复用已核遗物资格函数，将固定6格挡与前置能力/球放同一现队列、保留V4原路径；先原common九例/双派发交错红，再检查有无原格挡、末敌清队列、RNG与失败重试，不按职业条件补规则。
 
 2026-10-27 最终288 CI仍证Gold13组文件30s、UI27-47分片60s超时；相对改善不算完成。Gold按不改原13正文/输入分7+6两文件并机器锁原正文/唯一索引；UI按1-26/27-38/39-44/45-47/48-53原完整case细分，每片原60s不增，逐片测最后慢组。另shop-relic负例按稳定membership_card定位替代已失效index0，不改schema放行。集中修全部真实必过项后一次推最终CI。
+
+2026-10-27 288整批Lua实际新增三项：card_feedback临时力量清除frame、small_slimes第18组完整Run/reference的masterDeck对照及node_transactions/spike_slime_l原30秒超时。分别保留固定源判定、原完整比较/16静态组/RNG、原所有用例并有界分片；不无据改数值/忽略masterDeck或增加时限。并行只修本轮必过项，原case达标及最终CI证据才收口。
+
+2026-10-27 PR238接手收口：保全所有dirty快照后集成已验证UI/药水提交，串行原预算验证临时属性frame及静态遭遇修复；node_transactions和spike_slime_l仅按原完整用例有界分片，冻结正文/输入并机器核对一次覆盖，保留ABYSS_MUTATION_CASE及M3变异断言路径。实际测试新增small_slimes原30秒超时，也按原完整用例分片；不加时、不删断言。最终同一PR当前SHA完整必要CI成功后才合并，M3/平台缺口不勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -108,4 +112,6 @@ ordinal: 43000
 2026-10-27 相邻完整回归补Orichalcum：原common九例8绿1红、双派发新队列六例3绿3红；复用纯资格与现prelude后原九例及新八例全绿（1.514/1.201秒），包含源TOP6/Metal3/Orb/Jugg BOT、RNG和仅该遗物晚失败重试。旧Act2移除零层护甲的nil/0夹具按固定RemovePower更正并加不再格挡，原34例全绿6.237秒；生产敌人规则未改。新源锁/边界见M3-ORICHALCUM-END-TURN-20261027。完整RC CI仍待结果。
 
 2026-10-27 按用户尽快集成要求集中到PR238：RNG所有权、稀疏potions兼容、native SharpHide队列顺序及必要旧回归均已实际修复；组合f46a33ab构建/数据/架构158-919/静态104零新增、两条核心实证用例通过。旧d8 JS1489通过4失败119旧权限skip及CI超时日志保留；最终完整当前SHA CI待验，未勾全量或平台。停止新内容扩项和重复本地整套检查。
+
+2026-10-27 PR238集中收口：保全15个dirty树185文件且哈希一致，集成最终UI/药水提交及三处遗留修复。node原11组、Spike原17组与完整600历史、small原18组含16静态组、Flex/Speed原11组均在原30秒分片内通过；完整正文hash/一次覆盖门禁通过，14项runner检查通过，M1–M4均killed_by_assertion且M3原入口保留。真实超时及替代绿证据见docs/reviews/PR238-CI-CLOSEOUT-20261027.md/json。仅定向验证，最终PR当前SHA全部必要CI待实际结果，M3/平台不勾。
 <!-- SECTION:NOTES:END -->
