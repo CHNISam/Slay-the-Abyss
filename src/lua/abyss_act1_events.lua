@@ -6,8 +6,10 @@ local Random=require('abyss_sts_random')
 local Wheel=require('abyss_wheel_event')
 local Potions=require('abyss_potion_events')
 local Trade=require('abyss_trade_event')
-local M={ids={sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true,scrap_ooze=true,wheel=true,lab=true,woman_in_blue=true,we_meet_again=true}}
+local GoldenIdol=require('abyss_golden_idol_event')
+local M={ids={golden_idol=true,sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true,scrap_ooze=true,wheel=true,lab=true,woman_in_blue=true,we_meet_again=true}}
 function M.prepare(run,event,miscRng)
+    if event.id=='golden_idol'then return GoldenIdol.prepare(run,event)end
     if event.id=='big_fish' then event.healAmount=math.floor(run.maxHp/3) end
     if event.id=='scrap_ooze' then event.damage,event.chance,event.totalDamage=3,25,0 end
     if event.id=='wheel' then Wheel.prepare(run,event) end
@@ -43,6 +45,7 @@ local function obtainRelic(run,id)
     return ok,localId
 end
 function M.options(run,event,upgradeCards)
+    if event.id=='golden_idol'then return GoldenIdol.options(run,event)end
     if event.id=='we_meet_again' then return Trade.options(run,event) end
     if Potions.ids[event.id] then return Potions.options(run,event) end
     if event.id=='wheel' then return Wheel.options(run,event) end
@@ -68,6 +71,7 @@ function M.options(run,event,upgradeCards)
     return {}
 end
 function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+    if flow.event.id=='golden_idol'then return GoldenIdol.choose(run,flow,choice,uid)end
     local event=flow.event
     if event.id=='we_meet_again' then return Trade.choose(run,flow,choice,uid) end
     if Potions.ids[event.id] then return Potions.choose(run,flow,choice,uid) end

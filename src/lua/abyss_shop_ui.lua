@@ -103,7 +103,7 @@ function M.new(controller, ui)
         show(box, offer ~= nil) show(price, offer ~= nil)
         if not offer then return end
         local availability = offerState(offer)
-        fillCard(box, offer.id, false, { dim = offer.sold or availability.poor or offer.unavailable,
+        fillCard(box, offer.id, offer.upgraded==true, { dim = offer.sold or availability.poor or offer.unavailable,
             veil = offer.sold, stamp = cardStamp(offer) })
         if offer.unavailable then writeMissingCard(box, offer) end
         fillPrice(price, offer.price, availability.price)

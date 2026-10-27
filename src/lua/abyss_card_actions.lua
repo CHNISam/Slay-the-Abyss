@@ -5,7 +5,7 @@ local Events = require("abyss_events")
 local PlatedArmor = require('abyss_plated_armor')
 local Act2Powers = require('abyss_act2_powers')
 local M = {}
-local operations = { discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -69,8 +69,28 @@ function M.fresh(combat, state, id, prototype)
         require('abyss_warrior_status_cards').created(state,c,'make_copy')
     end
     c.uid=state.nextUid
+    c.uuid=c.uid
     state.nextUid=state.nextUid+1.0
     assert(state.nextUid>c.uid and state.nextUid<math.huge,"nextUid cannot advance")
+    if not prototype then require('abyss_defect_final_cards').created(state,c)end
+    return c
+end
+
+-- Source generation sites invoke this explicitly: constructors and hand /
+-- discard effects can each call upgrade, including repeatable Searing Blow.
+-- Retrieval and stat-equivalent copy construction alone never invoke it.
+function M.created(combat,state,card)
+    if (state.player.statuses.master_reality or 0)==0 then return false end
+    local d=assert(state.catalog.cards[card.cardId],'unknown generated card')
+    if d.type~='curse' and d.type~='status' then return combat.upgrade(state,card)end
+    return false
+end
+
+function M.sameInstance(combat,state,prototype)
+    assert(type(prototype)=='table'and type(prototype.uid)=='number','missing same-instance prototype')
+    local c=M.fresh(combat,state,prototype.cardId,prototype)
+    c.uuid=prototype.uuid or prototype.uid
+    c.deckUid=prototype.deckUid
     return c
 end
 
@@ -157,7 +177,12 @@ function M.applyChoice(combat,state,item,uid)
                 for _,pile in ipairs({eligible,other}) do for _,v in ipairs(pile) do state.hand[#state.hand+1]=v end end
                 count=count+1
             end
-            for _=1,count do M.toHand(state,M.fresh(combat,state,c.cardId,c)) end
+            for _=1,count do
+                local generated=M.fresh(combat,state,c.cardId,c)
+                M.created(combat,state,generated)
+                M.created(combat,state,generated)
+                M.toHand(state,generated)
+            end
         end
     else error("invalid choice operation") end
     Events.emit(state,"card_choice_resolved",{op=op,uid=uid})
@@ -165,6 +190,7 @@ end
 
 function M.choose(combat,state,token,uid)
     local choice=state.pendingChoice
+    if choice and choice.op=='silentFinal'then return require('abyss_silent_final_cards').choose(combat,state,token,uid)end
     if choice and choice.op=='colorless' then return require('abyss_colorless_cards').choose(combat,state,token,uid) end
     if not choice or token~=choice.token then return false,"stale_card_choice" end
     if choice.op=='discover' then
@@ -232,6 +258,9 @@ function M.apply(combat,state,item)
         return
     end
     if op=='enemyAction'then return combat.resolveEnemyAction(state,e,source)end
+    if op=='classPotion'then return require('abyss_class_potions').apply(combat,state,e)end
+    if op=='silentFinal'then return require('abyss_silent_final_cards').apply(combat,state,item)end
+    if require('abyss_watcher_final_cards').ops[op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end
     if op=='obtainPotion' then
         state.generatedPotionOffers=state.generatedPotionOffers or {}
         state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}
@@ -274,6 +303,8 @@ function M.apply(combat,state,item)
     elseif op=="makeTempCardInHand" or op=="makeTempCardInDraw" then
         for _=1,value do
             local v=M.fresh(combat,state,e.card)
+            M.created(combat,state,v)
+            if op=='makeTempCardInHand' then M.created(combat,state,v)end
             if op=="makeTempCardInHand" then M.toHand(state,v)
             else table.insert(state.draw,combat.cardRandom(state,#state.draw+1),v) end
         end
@@ -287,6 +318,8 @@ function M.apply(combat,state,item)
         end
         local v=M.fresh(combat,state,pool[combat.cardRandom(state,#pool)])
         v.costForTurn=0
+        M.created(combat,state,v)
+        M.created(combat,state,v)
         M.toHand(state,v)
     elseif op=="doubleStrength" then
         local amount=source.statuses.strength or 0
@@ -349,6 +382,8 @@ function M.apply(combat,state,item)
             Events.emit(state,"heal",{target=source.id,amount=amount})
             require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
+    elseif op=='capturedSharpHide'then
+        combat.capturedSharpHide(state,e)
     elseif op=="dispose" then
         combat.disposeCard(state,item)
     elseif op=="effectBatch" then combat.applyEffects(state,e.effects,source,target,c)
@@ -357,15 +392,15 @@ end
 
 -- Only source-supported retained actions may survive victory. Selection and
 -- draws are cleared, but disposal, damage, ordinary block and healing survive.
-local retained={originalV4=true,dispose=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
+local retained={originalV4=true,dispose=true,capturedSharpHide=true,damage=true,damageAll=true,damageRandom=true,loseHp=true,block=true,heal=true,feed=true,reaper=true,effectBatch=true}
 function M.drain(combat,state)
     if state.drainingCardActions then return end
     state.drainingCardActions=true
-    while not state.pendingChoice do
+    while not state.pendingChoice and not state.pendingDiscard and not state.actionQueue do
         local outcome=combat.outcome(state)
         if state.cardActions and #state.cardActions>0 then
             local item=table.remove(state.cardActions,1)
-            local keep=retained[item.effect.op] or M.reactionRetained(item.effect)
+            local keep=retained[item.effect.op] or (M.reactionRetained(item.effect) or item.effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(item.effect))
             if item.effect.op=='enemyAction'then keep=combat.enemyActionRetained(item.effect)end
             if not outcome or outcome=="victory" and keep then M.apply(combat,state,item) end
         elseif not outcome and state.queuedCards and #state.queuedCards>0 then
@@ -373,6 +408,7 @@ function M.drain(combat,state)
         else break end
     end
     state.drainingCardActions=nil
-    if not state.pendingChoice then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
+    if not state.pendingChoice and not state.pendingDiscard and not state.actionQueue then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end
+    if combat.finishEarlyTurn then combat.finishEarlyTurn(state)end
 end
 return M

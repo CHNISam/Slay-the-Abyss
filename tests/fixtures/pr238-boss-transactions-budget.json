@@ -1,0 +1,59 @@
+{
+  "entry": "tests/lua/boss_reward_transactions.lua",
+  "base": "7593e8272b363f06d3cdaa62f29967756b3c1102",
+  "originalSha256LF": "2f8a29658c795d1a294db695c69ded84bf79262b65893c564a6c32c5c3afbb05",
+  "edits": [
+    {
+      "before": "local fixture = dofile('tests/helpers/boss_rewards.lua')\n",
+      "after": "local part=... or 1\nassert(part>=1 and part<=7 and part%1==0,'invalid boss transaction part')\nlocal fixture = dofile('tests/helpers/boss_rewards.lua')\n"
+    },
+    {
+      "before": "for choice = 0, 3 do",
+      "after": "for choice = part<=4 and part-1 or 1, part<=4 and part-1 or 0 do"
+    },
+    {
+      "before": "for _, tier in ipairs({'normal', 'elite'}) do",
+      "after": "for _, tier in ipairs(part==5 and {'normal'} or part==6 and {'elite'} or {}) do"
+    },
+    {
+      "before": "local run = Run.new(data, 42)\nrun.floor = 16",
+      "after": "if part==7 then\nlocal run = Run.new(data, 42)\nrun.floor = 16"
+    },
+    {
+      "before": "print('ok unfinished, defeated and repeated boss completion never award extra resources')",
+      "after": "print('ok unfinished, defeated and repeated boss completion never award extra resources')\nend\nprint('PR238_BOSS_TRANSACTION_PART '..part)"
+    }
+  ],
+  "parts": [
+    {
+      "file": "boss_reward_transactions.lua",
+      "part": 1
+    },
+    {
+      "file": "boss_reward_transactions_budget_2.lua",
+      "part": 2
+    },
+    {
+      "file": "boss_reward_transactions_budget_3.lua",
+      "part": 3
+    },
+    {
+      "file": "boss_reward_transactions_budget_4.lua",
+      "part": 4
+    },
+    {
+      "file": "boss_reward_transactions_budget_5.lua",
+      "part": 5
+    },
+    {
+      "file": "boss_reward_transactions_budget_6.lua",
+      "part": 6
+    },
+    {
+      "file": "boss_reward_transactions_budget_7.lua",
+      "part": 7
+    }
+  ],
+  "timeoutMilliseconds": 30000,
+  "reviewedMigration": "Gold claims use the real independent source-range offer; static midpoint constants are no longer the payout contract."
+}

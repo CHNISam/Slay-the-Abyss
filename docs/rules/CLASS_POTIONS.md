@@ -1,0 +1,45 @@
+# 职业专属药水接线
+
+第一片仅补Focus Potion（`focus_potion`，普通）与Potion of Capacity（`potion_of_capacity`，罕见）。固定社区反编译源为319009d5，输入摘要见 `tests/fixtures/class-potions-source-lock.json`；不是官方源码或正版PC实测证明。
+
+`abyss_class_potions`在Run.new已经脱离调用者的私有目录注册实际实现的定义；Inventory排BOT行动，CardActions委派给该模块。集中药水复用Focus的ApplyPower路径，获得2集中、Bark为4，正增益不消耗Artifact；已有负集中同样按正入量处理，并同步充能球。扩容药水复用球槽API，增加2槽、Bark为4，上限10；槽为空且不生成球；异职业默认无容器时，仅在实际行动执行期初始化0槽后增加。该初始化保留已获得的集中。
+
+没有修改药水JSON、各职业33项母池、稀有度、概率或随机算法。全局目录可识别新增瓶子，正常职业来源仍由既有character规则决定；Darkness仍保留源身份并明确不可领取，未塞占位定义或重抽。共用PotionText提供本场战斗、Bark数值、集中不影响等离子、空槽及10槽上限说明。
+
+专用 `class_potion_focus_capacity.lua`最初真实Run.obtainPotion为unknown_potion证红；接线后覆盖2/4效力、Artifact、负集中、0/8/10槽、异职业、BOT次序、同battle根引用及失败事务保留瓶子/资源/RNG。Bark自然遗物渠道在本片外，夹具显式提供被动定义，不冒充自然获取。
+
+`class_potion_focus_capacity_channels.lua`不改初始牌组、生命或RNG，真实打赢seed10/28的cultist，按冻结独立oracle前缀同稀有度置换核对结果及RNG词/计数，领取、携带并再战使用；真实初始商店购买/满槽失败不重抽；seed9 Entropic实际生成并使用两瓶，33项母池和调用者数据保持不变。没有全量Quality、完整自然路线或平台验收结论。
+
+第二片在实际Watcher私有目录补Bottled Miracle（`bottled_miracle`，普通）与Ambrosia（`ambrosia`，稀有）。默认Native宿主尚无完整Miracle目录与姿态回合生命周期，因此不注册这两瓶；这是依赖可用性边界，不改变任何职业来源资格。完整共享目录与默认宿主由TASK-59另接，不能用手工跨职业注入冒充正常获得。未实现的StancePotion仍在Watcher33项源池中，抽中后明确报告不可获得，不滤池、不重抽。
+
+瓶装奇迹BOT创建2张奇迹，树皮为4张；复用现有MakeTempCardInHand路径，构造/展示分别经过真实Master Reality升级入口，普通奇迹只升为奇迹+一次。生成牌0费、保留、消耗，基础获得1能量、升级获得2；满手溢出进弃牌，实体UID/UUID全新、无deckUid、不写永久牌组。
+
+仙酒源码虽有2点potency，use完全不读取它，树皮不增加次数：只BOT执行一次ChangeStanceAction("Divinity")，入场+3能量、普通攻击×3，下次自己回合开始退出；已在神格时成功耗瓶但不重复入场/获得能量。Combat新增15行resolvePotionActions，拒绝已有actionQueue或pendingPlay，复用既有queuedHandlers与ActionQueue，不伪造出牌上下文。原玩家BOT药水遗物动作（当前Toy Ornithopter）保持在姿态产生的后续能量/格挡/Flurry动作之前；不改手动出牌或回合生命周期。整个桥接仍在Run.usePotion的原私有快照中。
+
+真实Run最初unknown_potion为RED；`class_potion_miracle_ambrosia.lua`覆盖2/4张、MR、溢出、UID、实际奇迹出牌消耗、同battle引用、神格倍伤/重复喝/下回合退出及实际Vigilance、Mental Fortress、Rushdown、Flurry联动。`class_potion_ambrosia_queue.lua`检查真实事件先转姿态、再Toy治疗（仍未加能量）、最后完成时已+3；故障夹具将手牌上限依赖损坏，使Flurry最后移动失败，观察私有快照已完成姿态/治疗/能量后证实整个事务回滚，并直接检查已有队列的重入拒绝。没有把故障夹具当作自然遭遇。
+
+`class_potion_watcher_channels.lua`以不变初始牌组/HP/RNG真实打赢seed10/109初战，核对冻结oracle同稀有度替换的精确RNG词/计数，领取后再战使用；商店seed3/10购买、满槽失败保持价格/随机状态；独立Python固定源oracle给出Entropic seed392的Ambrosia/Forge/BottledMiracle和计数9，生产实际生成并使用两瓶；seed5仍实际报告中间抽中StancePotion不可获得，后续LiquidBronze不重抽。三份专用测试各低于5秒，保留原30秒时限；未做全量检查、完整自然路线或平台验收。
+
+桥接追加修复：携带relic来源的Heal动作仍委派原CardActions治疗路径，保留Magic Flower的binary32/Java四舍五入和Mark of Bloom禁疗，而不是落入原高级Reaper的裸治疗分支。`class_potion_relic_heal.lua`真实Ambrosia→Toy+Flower最初红于5而非8，修复后Flower=8、Bloom=0、二者=0均成立。夹具显式提供这两个被动遗物定义，不宣称其自然获得。
+
+第三片补Essence of Darkness（`essence_of_darkness`，稀有）。实际动作执行期读取总球槽数（含空槽），每槽生成1个Dark、树皮每槽2个。没有EvokeAll前置动作，也不以现有球数计量；0槽是成功空效果。沿用本模块全局可识别策略；无profile且无容器的真实宿主仅在行动执行时初始化0槽，不假装Defect，也不宣称异职业正常来源会抽到此瓶。Source角色33项池和RNG完全不变，Defect三瓶均真实可获得；Watcher的StancePotion仍明确缺失且保留来源身份。
+
+固定源EssenceOfDarknessAction同步调用channelOrb：空槽即时填入；每个满槽请求TOP排EvokeOrbAction→ChannelAction（仅省略无规则作用的动画）。本片复用现有药水桥接和Orbs的空槽channel/prepareEvoke/resolve，Combat仅增加内部动作委派与已经排入Evoke的胜利保留判定，不修改职业卡或原Orbs行为。Dark初始储伤6，Focus只改其被动增长；唤起复用既有LockOn、最低HP锁定、Lightning独立cardRandomRng及channel history。
+
+EvokeOrbAction源码类型是DAMAGE。若首个唤起杀死最后敌人，已排的后续Evoke仍移除球，ChannelAction清除。Frost唤起仍给格挡；保留的Plasma唤起在清尾后新建GainEnergyAction，仍获得能量。本片对该已验证的Plasma胜利边界单独复用原能量范围断言并发出既有orb_effect记录，不扩张其他能量或职业卡规则。Toy作为原BOT Heal在这些TOP动作之后执行。
+
+`class_potion_darkness.lua`最初真实Run.obtainPotion为unknown_potion证红；接线后验证1/2效力、初始Lightning和全空3槽、Focus/初始储伤/生成历史/精确随机消费，以及Watcher与无profile真实0槽宿主。`class_potion_darkness_queue.lua`覆盖满槽首唤起末敌死亡后Frost/Plasma保留、零补位与Toy顺序；自定义双敌数值夹具证明非末敌死亡后继续补位、Dark最低HP/LockOn且球伤不受Strength/Weak/Vulnerable修正；第二唤起异常前私有状态已完成第一击和cardRandom消费/生成历史，再验证整Run的瓶子、生命、能量、事件、原引用与RNG词全部回滚。这些数值/故障夹具不是自然遭遇证据。
+
+`class_potion_darkness_channels.lua`保持真实Defect初始牌组/HP/RNG打赢seed109初战，核对冻结源oracle稀有前缀置换及精确RNG词/计数，领取并下战使用；seed10商店slot3购买/满槽失败保持随机状态后实际使用；独立源oracle的Entropic seed392得到Darkness/Forge/Focus、计数9，真实生成并使用。旧Focus/Capacity来源fixture仅同步Darkness已可获得这一事实，未改抽样或删断言。专用短测保留原30秒上限，无完整自然路线、全量检查或平台验收结论。
+
+第四片补Watcher私有目录的Stance Potion（`stance_potion`，罕见），不扩张默认Native宿主的姿态生命周期或正常来源资格。源码StancePotion按Wrath→Calm打开不可跳过的ChooseOneAction，ChooseWrath/ChooseCalm选择后才BOT添加ChangeStanceAction；potency为0，树皮不增加选择次数。`abyss_potion_stance`保存纯姿态option记录和typed pendingPotionChoice，不创建卡牌/UID，也不借用pendingPlay。新增模块已登记architecture；ChoiceUI的两项说明分别明确愤怒普通攻击造成/受到伤害翻倍、离开平静获得2能量，同姿态选项同样能成功耗瓶。
+
+Run.usePotion的原快照提交时瓶子已消耗，ActionQueue暂停在选择动作，Toy尚未治疗，出牌/回合/其它药水/丢瓶均被阻止。确认通过`Run.choosePotionStance(run,selected,token,generation,expectedBattle)`，精确绑定当前battle引用、回合、generation、token和暂停动作；选择的ChangeStance排在原BOT尾部，所以先Toy治疗、再转换姿态、再依实际Power顺序结算Rushdown/MentalFortress/退出平静能量/Flurry。没有伪造正在出牌的卡或触发普通onUseCard。每次选择覆盖完整Run的Snapshot；晚失败恢复同一暂停队列与强制选择、瓶子仍保持先前已耗状态，可用同token重试，成功后重复token拒绝。使用阶段失败则连瓶子一并保留。
+
+真实GameUI→ChoiceUI→BattleUI传递typed option键与battle owner；选项不经过卡面格式化，不显示虚构费用。既有触点上下文同时约束Run、battle、pending对象、turn、combatGeneration、UI generation和候选记录身份。窗口resize、旧Run/battle和过期Down/Up/Click均不能提交。退出弹窗暂时关闭选择显示，取消退出后重新展示同一强制pending对象，未返瓶、未治疗、无跳过操作。
+
+`class_potion_stance.lua`真实unknown_potion证红后覆盖两姿态、Bark、相同姿态、实际Calm退出能量/愤怒双向普通攻击倍率、耗瓶/强制阻塞、错误token/generation/battle、无实体UID变化及使用阶段失败回滚。`class_potion_stance_queue.lua`用实际出牌取得Rushdown/MentalFortress，验证Toy先于转姿态、Flurry与2张抽牌；在实际Flurry尾动作后注入失败，完整Run恢复到同一耗瓶选择并能重试。另一局显式加载既有真实Warrior status定义组件、实际打出Fire Breathing，再让Rushdown抽真实Burn击杀末敌：正式奖励生成后故障注入仍能完整回滚全部Run字段及随机状态，随后同token重试成功并走公开领奖到地图。此跨色/低HP局部样例不是完整跨色catalog或自然通关证据。
+
+`class_potion_stance_ui.lua`离线真实Host验证两项完整中文、无伪造费用、确认、退出取消以及resize/旧Run/旧battle触点拒绝；替换owner是明确的对抗夹具，非平台输入。`class_potion_stance_channels.lua`不改初始HP/牌组/RNG打赢Watcher seed28，奖励源词/计数5固定；seed0商店slot1正常购买、满槽不重抽；Entropic seed5固定Flex/Stance/LiquidBronze、计数17，均实际取得并完成typed选择。既有Watcher/Darkness渠道夹具只同步Stance已实现的可用事实，33项母池/资格/概率不变。
+
+普通ChoiceUI原19组的薄伪Run在9513f8cf原Combat/Run/ChoiceUI临时快照同样首组失败：先前共享永久变更接线要求run.deck，而该wrap只提供phase/combat/generation。本片按真实合同仅补`deck={}`，保留19组原断言、输入与规模；这是旧夹具迁移，不作为typed实现的通过证明。Ambrosia原动作顺序、晚失败回滚及Flower/Bloom回归另行通过。6条ChoiceUI历史W431仅按源码方法行/引用声明行/column/code/归一化message严格一对一迁移：方法144/152/173/177/181/193→155/163/184/188/192/205，upvalue声明67→74的原源行完全相同，其余105条逐字段相同；总数111未增加，不新增豁免或抑制诊断。专用脚本保持原30秒预算；无全量Quality、平台导入/实机或完整自然路线验收结论。

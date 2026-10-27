@@ -8,6 +8,7 @@ local CardRandom = require('abyss_card_random')
 local External=require('abyss_external_random')
 local Primitive=require('abyss_randomxs128')
 local PotionPool=require('abyss_potion_random')
+local RelicHooks=require('abyss_relic_hooks')
 local S = {}
 local f32, floor = R.float32, math.floor
 local bases = { common=150, uncommon=250, rare=300, shop=150 }
@@ -53,6 +54,7 @@ local function relicCandidates(run,rarity,stock,roomFloor)
         -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
         allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
             and ((def.id~='darkstone_periapt' and def.sourceId~='Darkstone Periapt') or (roomFloor or run.floor or 1)<=48)
+        allowed=allowed and (def.id~='toxic_egg' or (roomFloor or run.floor or 1)<=48)
         for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
         if allowed then pool[#pool+1]=def end
     end
@@ -80,11 +82,13 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
     sourceCardId=metadata and metadata.sourceId or def and (def.sourceId or def.sts_name or def.id) or selected
     local available=def and Capability.isImplemented(def)
     local multiplier=R.randomFloatBetween(rng.merchant,f32(.9),f32(1.1))
-    return { slot=slot, id=selected, type=def and def.type or metadata and metadata.type or kind or 'skill',color=color,
+    local offer={ slot=slot, id=selected, type=def and def.type or metadata and metadata.type or kind or 'skill',color=color,
         rarity=rarity, unavailable=not available, sold=false,sourceCardId=sourceCardId,
         price=Price.quoteCard({rarity=rarity,multiplier=multiplier,color=color,
             phase=restock and 'restock' or 'initial',courier=restock and owns(run,'courier') or false,
             membership=restock and owns(run,'membership_card') or false}) }
+    if available then RelicHooks.onPreviewObtainCard(run,offer,def)end
+    return offer
 end
 local function itemOffer(run,rng,category,slot,stock,restock,roomFloor)
     local rarity,selected

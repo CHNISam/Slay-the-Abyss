@@ -14,13 +14,24 @@ local aliases={['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',Ceram
  Boot='boot',Akabeko='akabeko',['Pen Nib']='pen_nib',Nunchaku='nunchaku',
  PreservedInsect='preserved_insect',['Red Skull']='red_skull',['Centennial Puzzle']='centennial_puzzle',
  ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
- WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet'}
+ WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod',
+ ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg'}
 function M.localId(id)return aliases[id] or id end
 function M.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
  return false
 end
 local function integer(n)return type(n)=='number' and n%1==0 and n>=0 and n<=2147483647 end
+-- AbstractPlayer.damage dispatches this after onAttacked (including Static
+-- Discharge), before Powers.onLoseHp and the actual HP/death notification.
+-- Event owners use the same permanent relic list, never a historical battle.
+function M.onLoseHpLast(owner,amount)
+ assert(type(amount)=='number'and amount%1==0 and amount>=0 and amount<=9007199254740991,'invalid final HP loss')
+ for _,id in ipairs(owner.relics or {})do
+  if M.localId(id)=='tungsten_rod'and amount>0 then amount=amount-1 end
+ end
+ return amount
+end
 local function counters(owner)
  owner.relicCounters=owner.relicCounters or {};return owner.relicCounters
 end
@@ -74,6 +85,14 @@ function M.onEquip(run,id,upgradeApi)
   assert(integer(run.maxHp) and run.maxHp+7<=2147483647,'invalid max health')
   run.maxHp=run.maxHp+7;healRun(run,7)
  elseif id=='whetstone' or id=='war_paint' then equipmentUpgrade(run,id,upgradeApi)
+ elseif id=='toxic_egg' then
+  -- ToxicEgg2.onEquip visits CombatRewardScreen.rewards only. Dream Catcher
+  -- opens CardRewardScreen directly; neither it nor old shop shelves belongs here.
+  if run.phase=='reward' and run.rewards and not run.rewards.cardResolved then M.previewCardReward(run,run.rewards)end
+  local event=run.nodeFlow and run.nodeFlow.event
+  if event and event.id=='sensory_stone' and event.rewardScreenOpen then
+   for _,reward in ipairs(event.rewards or {})do if not reward.claimed then M.previewCardReward(run,reward)end end
+  end
  end
 end
 function M.obtainCirclet(run)
@@ -137,6 +156,33 @@ function M.beforeObtainCard(run,definition)
  end
  return true
 end
+local function eggUpgrade(card,definition)
+ assert(type(definition)=='table','missing permanent card definition')
+ if definition.type=='skill' and not card.upgraded and type(definition.upgrade)=='table' and next(definition.upgrade)then
+  card.upgrades=(card.upgrades or 0)+1;card.upgraded=true
+ end
+end
+-- Preview is deliberately separate from obtaining: no gold, UID, curse charge,
+-- master-deck callback or random consumption. Mutate only the private offer.
+function M.onPreviewObtainCard(run,card,definition)
+ for _,id in ipairs(run.relics or {})do
+  if M.localId(id)=='toxic_egg' then eggUpgrade(card,definition)end
+ end
+end
+function M.previewCardReward(run,reward,skipUpgraded)
+ if not M.owns(run,'toxic_egg')then return end
+ for i,value in ipairs(reward.cards or {})do
+  local card=type(value)=='table' and value or {cardId=value,upgraded=reward.cardUpgrades and reward.cardUpgrades[i]==true}
+  local definition
+  for _,d in ipairs(run.data.cards.cards)do if d.id==card.cardId then definition=d;break end end
+  -- getRewardCards continues after a successful random upgrade. onEquip and
+  -- RewardItem(COLORLESS) instead dispatch every card, even already upgraded.
+  if not skipUpgraded or not card.upgraded then M.onPreviewObtainCard(run,card,definition)end
+  if type(value)=='string' and card.upgraded then
+   reward.cardUpgrades=reward.cardUpgrades or {};reward.cardUpgrades[i]=true
+  end
+ end
+end
 -- Called on the private card entity immediately before permanent insertion,
 -- never on combat generation, upgrade or removal. One dispatch per obtain.
 function M.onObtainCard(run,card,definition,permanentApi)
@@ -150,6 +196,7 @@ function M.onObtainCard(run,card,definition,permanentApi)
    assert(permanentApi and type(permanentApi.increaseMaxHp)=='function','missing permanent health API')
    local ok,why=permanentApi.increaseMaxHp(run,6)
    if not ok then return false,why end
+  elseif M.localId(id)=='toxic_egg' then eggUpgrade(card,definition)
   end
  end
  return true
@@ -269,6 +316,10 @@ function M.battleStart(state,id)
   local before=state.player.hp;state.player.hp=math.min(state.player.maxHp,before+2)
   E.emit(state,'heal',{target=state.player.id,amount=state.player.hp-before,relic=id})
   M.hpChanged(state,state.player,before)
+ elseif id=='red_mask'then
+  for _,enemy in ipairs(state.enemies)do
+   if A.isActive(enemy)then A.applyPower(state,enemy,'weak',1,state.player,false)end
+  end
  elseif id=='bag_of_marbles' then
   for _,enemy in ipairs(state.enemies)do
    if A.isActive(enemy)then A.applyPower(state,enemy,'vulnerable',1,state.player)end
@@ -283,10 +334,14 @@ function M.battleStart(state,id)
   end
  else error('unsupported battle hook '..tostring(id))end
 end
-function M.onPlayerEndTurn(state)
+function M.endTurnBlock(state)
  if not A.isActive(state.player)then return end
  -- Fixed GainBlockAction bypasses Dexterity/Frail. Eligibility is observed at
  -- hook dispatch, before end-turn cards/powers, not after their queued effects.
- if M.owns(state,'orichalcum') and state.player.block==0 then A.block(state,state.player,6,true)end
+ if M.owns(state,'orichalcum') and state.player.block==0 then return 6 end
+end
+function M.onPlayerEndTurn(state)
+ local amount=M.endTurnBlock(state)
+ if amount then A.block(state,state.player,amount,true)end
 end
 return M

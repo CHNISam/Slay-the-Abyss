@@ -3,9 +3,9 @@ id: TASK-30
 title: 拖牌到场上，松手就出牌
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 05:41'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -57,6 +57,8 @@ ordinal: 36000
 本轮：对照固定原版的抓牌、跟手、选敌、释放与取消流程。先复现拖动重复计算整手牌的问题，再分开位置更新与战斗重绘；保留目标数值预览、回合和触点校验、松手一次提交。执行专项和相关回归，分层记录证据。
 
 按用户最新明确要求迁移社区AbstractPlayer源码交互：提取可审查状态机，迁移原版跟手坐标、相对起点出牌线、持续选敌和取消分支；原生控件适配与点选后备保留。先红后绿验证并同步差异，当前SHA质量检查通过后合并现有PR231。
+
+2026-10-27并发复核：cards独立树按AbstractCard/CardGroup核对位置插值、悬停回位和只读战斗牌堆；保留已修144×64与拖牌状态机。主session接共享入口，定向验证，实机AC保持未完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

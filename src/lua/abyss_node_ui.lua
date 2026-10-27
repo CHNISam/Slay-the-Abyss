@@ -18,6 +18,7 @@ local CardDisplay = require('abyss_card_display')
 local Combat = require('abyss_combat')
 local Act1Events = require('abyss_act1_events')
 local Act2Events = require('abyss_act2_events')
+local Act3Events = require('abyss_act3_events')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
@@ -30,8 +31,9 @@ local reasons = {
     card_not_upgradeable = "这张卡牌无法继续升级", potion_slots_full = "药水槽已满", potions_blocked = "遗物效果禁止获得药水",
     camp_choice_made = "本次营地已选择升级或休息", no_pending_node = "此节点已经完成",
     wrong_node_type = "当前节点不支持此操作", relic_already_owned = "已持有这件遗物",
-    invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
+    event_obtain_content_unavailable = "当前遗物的获牌效果尚未接齐，本次未改变资源", event_damage_content_unavailable = "当前遗物的事件伤害尚未接齐，本次未改变资源", stale_event_health = "生命上限已变化，请重新查看事件", stale_event_card = "候选卡牌已变化，请重新查看事件", invalid_event_choice = "此事件选项不可用", event_unavailable = "当前没有满足条件的已实现事件", stale_action = "界面已变化，请重新选择",
     event_content_unavailable = "事件所需卡牌数据不可用", invalid_deck_uid = "卡牌编号异常，未领取奖励",
+    event_reward_content_unavailable = "当前遗物的无色奖励效果尚未接齐，本次未改变资源",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
@@ -40,6 +42,12 @@ local events = {
     mausoleum={name='古墓'},
     addict={name='瘾君子'},
     back_to_basics={name='古老文字'},
+    tomb_red_mask={name='红面具领主之墓',body='面具守护着陵墓中的财宝。',leave='你离开了陵墓。'},
+    sensory_stone={name='Sensory Stone',body='石中封存着记忆。',leave='你离开了石头。'},
+    winding_halls={name='Winding Halls',body='曲折通道等待着你的选择。',leave='你离开了通道。'},
+    moai_head={name='巨像之首',body='石像等待着你的献祭。',leave='你离开了巨像。'},
+    falling={name='坠落',body='落石正在崩塌。你必须在手中的卡牌之间作出取舍。',leave='你重新站稳，继续赶路。'},
+    golden_idol={name='Golden Idol',body='一件遗物摆在古老的石台上。',leave='你离开了石台。'},
     sssserpent={name='长蛇的交易',body='一条长蛇许诺金币，代价是一张诅咒。',leave='你离开了长蛇。'},
     big_fish={name='大鱼',body='三件礼物悬在面前。你只能选取一件。',leave='你带着选择的礼物离开。'},
     accursed_blacksmith={name='诅咒铁匠',body='古旧的铁砧尚有余温，旁边散落着可疑的器具。',leave='你离开了铁砧。'},
@@ -162,6 +170,20 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         return definition and definition.name or id
     end
     local function potionText(id) return require('abyss_potion_text').describe(self.run,id) end
+    local function eventOptionText(option)
+        if option.rewardCard then
+            local definition=assert(card(option.cardId),'missing reward definition')
+            local display=assert(self.presentation[option.cardId],'missing reward display')
+            local cost=display.cost
+            if option.upgraded and definition.upgrade and definition.upgrade.cost~=nil then cost=number(definition.upgrade.cost)end
+            return '费用 '..cost..' · '..typeNames[definition.type]..' · '
+                ..({rare='稀有',uncommon='罕见'})[definition.rarity]..'｜'
+                ..CardDisplay.permanentText(display,definition,option)
+        end
+        return option.description..(option.potionId and '\n'..potionText(option.potionId)or'')
+            ..(option.cardId and '\n「'..cardName(option.cardId,option.upgraded,option.upgrades)..'」'or'')
+            ..(not option.enabled and '（当前条件不足）'or'')
+    end
     -- Relic data has no prose; describe its sourced trigger and effects.
     local function relicText(id)
         if id=='membership_card' then return '所有商店商品半价。' end
@@ -434,8 +456,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local id = node.event and node.event.id or (result and result.eventId)
         local copy = events[id] or { name = kinds.event, body = "", leave = "你离开了。" }
         event:GetChild("name").text = copy.name
-        local mode=self.run.data.rules.events.poolMode
-        event:GetChild("caption").text = Act2Events.ids[id] and kinds.event or mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
+        local mode=self.run.unknown and self.run.unknown.pools and self.run.unknown.pools.mode or self.run.data.rules.events.poolMode
+        event:GetChild("caption").text = (Act2Events.ids[id] or Act3Events.ids[id]) and kinds.event or mode=='restricted-seven' and "未知事件 · 受限事件池（7种）"
             or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         local body=result and result.text or node.event and node.event.body or copy.body
         if not result and node.event and node.event.stage=='result' and node.event.obtainedRelicId then
@@ -462,13 +484,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if id ~= 'cleric' and id ~= 'purifier' then
                 for _,option in ipairs(info.options) do
                     local selected=option
-                    rows[#rows+1]={title='［'..selected.title..'］',description=selected.description..(selected.potionId and '\n'..potionText(selected.potionId) or '')..
-                        (selected.cardId and '\n「'..cardName(selected.cardId,selected.upgraded,selected.upgrades)..'」' or '')..
-                        (not selected.enabled and '（当前条件不足）' or ''),enabled=selected.enabled,handler=function()
+                    rows[#rows+1]={title='［'..(selected.rewardCard and cardName(selected.cardId,selected.upgraded)or selected.title)..'］',
+                        description=eventOptionText(selected),enabled=selected.enabled,handler=function()
                         -- Repeated-search events retain the same command after
                         -- rendering new odds. An old callback is still stale.
                         if self.view~=view or self.renderRun~=self.run or self.renderMap~=self.map then return false,'stale_action' end
-                        if Act1Events.ids[id] or Act2Events.ids[id] then
+                        if Act1Events.ids[id] or (Act2Events.ids[id] or Act3Events.ids[id]) then
                             return commit('chooseEvent',selected.choice,function()
                                 local outcome=self.run.nodeFlow.event
                                 local text=outcome.body or '请选择一张卡牌。'
@@ -556,7 +577,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 action("eventView/option" .. i, row.enabled, row.handler, row.description)
             end
         end
-        if Act2Events.ids[id] then return copy.name .. ' · 请选择上方选项' end
+        if (Act2Events.ids[id] or Act3Events.ids[id]) then return copy.name .. ' · 请选择上方选项' end
         return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
     end
 
@@ -709,7 +730,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         end
         if active and node.type=='camp' and node.restReward and not node.restReward.resolved then
             self.mode,self.picker='picker','dream_catcher';self.restRows={}
-            for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=false}end
+            for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=node.restReward.cardUpgrades and node.restReward.cardUpgrades[i]==true}end
         end
         if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel') then
             if node.event.stage=='choose_card' then
@@ -800,7 +821,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local function restReward(choice)
                 local id=node.restReward.cards[choice]
                 return commit('claimRestReward',choice,function()
-                    local text=choice==0 and '已跳过卡牌奖励' or ('已获得「'..cardName(id,false)..'」')
+                    local obtained=self.run.deck[#self.run.deck]
+                    local text=choice==0 and '已跳过卡牌奖励' or ('已获得「'..cardName(id,obtained.upgraded,obtained.upgrades)..'」')
                     self.mode,self.picker,self.selected='main',nil,nil
                     return text,{choice='rest',healed=self.run.nodeFlow.restHealed,rewardText=text}
                 end)

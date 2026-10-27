@@ -159,11 +159,11 @@ test('No Draw and full hand suppress Evolve without moving piles or RNG',functio
     s.player.noDraw=false;for _=1,10 do s.hand[#s.hand+1]=newCard(s,'strike') end
     C.draw(s,3);Actions.drain(C,s);eq(#s.draw,1);eq(s.seed,seed)
 end)
-test('Ethereal exhaust keeps nonethereal hand capacity until Dark Embrace resolves; all draws then discard',function()
+test('Ethereal exhaust queues Dark Embrace draws behind end-turn discard',function()
     local s=battle({'dazed'});for _=1,9 do s.hand[#s.hand+1]=newCard(s,'strike') end
     s.draw={newCard(s,'strike'),newCard(s,'strike'),newCard(s,'strike')};s.player.statuses.dark_embrace=3
     s.rules.player.drawPerTurn=0;s.rules.player.energyPerTurn=0
-    assert(C.endTurn(s));eq(#s.exhaust,1);eq(#s.hand,0);eq(#s.discard,10);eq(#s.draw,2)
+    assert(C.endTurn(s));eq(#s.exhaust,1);eq(#s.hand,3);eq(#s.discard,9);eq(#s.draw,0)
 end)
 test('Metallicize precedes Burn so its fixed Block absorbs end-turn damage',function()
     local s=battle({'burn'});s.player.statuses.metallicize=3;s.player.statuses.dexterity=10;s.player.statuses.frail=1
@@ -225,6 +225,7 @@ test('Havoc disposes before its queued card draws, allowing that draw to reshuff
 end)
 test('Double Tap Fiend Fire waits for exhaust draw tails before the repeated hand snapshot',function()
     local s=battle({'fiend_fire','defend','strike'});s.player.statuses.double_tap=1;s.player.statuses.dark_embrace=1
+    require('abyss_exhaust').rememberPower(s,'dark_embrace')
     for _=1,6 do s.draw[#s.draw+1]=newCard(s,'strike') end
     play(s);eq(s.enemies[1].hp,465);eq(#s.hand,3);eq(#s.exhaust,6)
 end)

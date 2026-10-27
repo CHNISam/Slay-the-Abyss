@@ -4,10 +4,7 @@ local Actors=require('abyss_actor')
 local Events=require('abyss_events')
 local M={}
 local MAX=2147483647
-local function copy(x)
- if type(x)~='table' then return x end
- local y={};for k,v in pairs(x) do y[k]=copy(v) end;return y
-end
+local copy=require('abyss_copy').copy
 local function integer(v,lo) return type(v)=='number' and v==v and v%1==0 and v>=(lo or 0) and v<=MAX end
 local function gain(id,n) return {op='gainStrengthPower',status=id,value=n} end
 local cards={

@@ -3,7 +3,7 @@ local Random=require('abyss_sts_random')
 local Events=require('abyss_events')
 local M={}
 local MAX=2147483647
-local modes={exhaust_random=true,exhaust_choose=true,put_on_deck=true}
+local modes={exhaust_random=true,exhaust_choose=true,put_on_deck=true,recycle=true}
 local function integer(n,lo,hi)
     return type(n)=='number' and n==n and n%1==0 and n>=lo and n<=hi
 end
@@ -52,6 +52,11 @@ local function exhaustSupported(s,card)
 end
 local function move(s,entry,mode)
     local card=entry.card
+    if mode=='recycle'then
+        require('abyss_defect_final_cards').recycle(s,card,require('abyss_action_queue'))
+        Events.emit(s,'hand_choice_move',{uid=card.uid,cardId=card.cardId,mode=mode,pile='exhaust'})
+        return
+    end
     local destination=mode=='put_on_deck' and 'draw' or 'exhaust'
     if destination=='exhaust' and require('abyss_action_queue').active(s) then
         require('abyss_exhaust').move(s,card,'hand',require('abyss_action_queue'),{onExhaustRelics=s.onExhaustRelics or {}})

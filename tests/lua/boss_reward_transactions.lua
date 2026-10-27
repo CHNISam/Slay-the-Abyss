@@ -1,8 +1,10 @@
+local part=... or 1
+assert(part>=1 and part<=7 and part%1==0,'invalid boss transaction part')
 local fixture = dofile('tests/helpers/boss_rewards.lua')
 local Run, data, bossWin = fixture.Run, fixture.data, fixture.bossWin
 local equal, same = fixture.equal, fixture.same
 local Combat = require('abyss_combat')
-for choice = 0, 3 do
+for choice = part<=4 and part-1 or 1, part<=4 and part-1 or 0 do
     local run = bossWin(42)
     assert(Run.claimGoldReward(run)) -- isolate the following card transaction
     local options, before = Run.rewardOptions(run), Combat.copy(run)
@@ -38,7 +40,7 @@ local legacy = {
     {42, 58063, 'iron_wave,thunderclap,carnage', 35128},
     {65535, 13080, 'battle_trance,hemokinesis,flex', 17029},
 }
-for _, tier in ipairs({'normal', 'elite'}) do
+for _, tier in ipairs(part==5 and {'normal'} or part==6 and {'elite'} or {}) do
     for _, fixture in ipairs(legacy) do
         local run = Run.new(data, fixture[1])
         assert(Run.startCombat(run, 'cultist_solo'))
@@ -51,11 +53,14 @@ for _, tier in ipairs({'normal', 'elite'}) do
         local expected,rng,offset=require('abyss_card_pool').prepareRewards(replay)
         same(Run.rewardOptions(run),expected);same(run.cardRng,rng);equal(run.cardRarityOffset,offset)
         equal(run.gold, data.rules.player.startingGold)
+        local amount=run.rewards.gold
+        assert(amount%1==0 and amount>=(tier=='normal'and 10 or 25) and amount<=(tier=='normal'and 20 or 35))
         assert(Run.claimGoldReward(run))
-        equal(run.gold, data.rules.player.startingGold + data.rules.rewards[tier .. 'Gold'])
+        equal(run.gold, data.rules.player.startingGold + amount)
     end
 end
 print('ok normal and elite dispatch commit shared card RNG and leave combat RNG unchanged')
+if part==7 then
 local run = Run.new(data, 42)
 run.floor = 16
 assert(Run.startCombat(run, 'boss_guardian'))
@@ -71,4 +76,6 @@ equal(run.gold, data.rules.player.startingGold + data.rules.rewards.bossGold)
 before = Combat.copy(run)
 equal(Run.finishCombat(run), false); same(run, before)
 print('ok unfinished, defeated and repeated boss completion never award extra resources')
+end
+print('PR238_BOSS_TRANSACTION_PART '..part)
 print('LUA_BOSS_REWARD_TRANSACTIONS_PASS')

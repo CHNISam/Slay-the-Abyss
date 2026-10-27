@@ -1,0 +1,155 @@
+{
+  "productionSource": "5f19576e",
+  "integrationTestCommit": "346be8e0",
+  "node": "24.18.0",
+  "platform": "Windows x64",
+  "timezone": "Asia/Irkutsk UTC+8",
+  "budget": "Original scripts/test-lua.mjs defaults; no timeout or assertion changes",
+  "scope": "Offline component/UI fixtures; no natural route, GIL, import, client log or platform acceptance",
+  "results": [
+    {
+      "fixture": "tests/lua/act3_shapes_defect_integration.lua",
+      "sha256": "624019f85a0b4d66b6106d3f41296f24b5716fba34e495a2ddb1bc8c0e257b1b",
+      "exitCode": 0,
+      "milliseconds": 1047.1587
+    },
+    {
+      "fixture": "tests/lua/act3_shapes.lua",
+      "sha256": "8fa311ee99c7e8bb15e3eee944bcb8db9180b69ea3d85dfd465ca3dd458ec64f",
+      "exitCode": 0,
+      "milliseconds": 4970.506600000001
+    },
+    {
+      "fixture": "tests/lua/act3_orb_walker.lua",
+      "sha256": "0265cbb7577cadadd8965def8c5dde5650661d76f7f880db856d585c32d4553a",
+      "exitCode": 0,
+      "milliseconds": 3001.2357999999995
+    },
+    {
+      "fixture": "tests/lua/act3_moai_event.lua",
+      "sha256": "08e073a8a758be5a27c9efcb6f987d96e209ac81ff65d9aba06b2fa170f10464",
+      "exitCode": 0,
+      "milliseconds": 4660.626200000001
+    },
+    {
+      "fixture": "tests/lua/act3_moai_ui.lua",
+      "sha256": "966e10c042ec716ea1bc7224b428cbf1d51acde838cc49245a8f1b0823928e77",
+      "exitCode": 0,
+      "milliseconds": 1519.1653999999999
+    },
+    {
+      "fixture": "tests/lua/act3_moai_natural.lua",
+      "sha256": "c183d619af891935bf8e78a7ce7bbc79e2dc6ceb8ccfe1b5e559150d352d1325",
+      "exitCode": 0,
+      "milliseconds": 579.8107
+    },
+    {
+      "fixture": "tests/lua/act3_winding_event.lua",
+      "sha256": "5635f632fcfcfe29c388084bf50c68f1012b135c8a37b4678d406f7b75fb5e54",
+      "exitCode": 0,
+      "milliseconds": 696.9434999999994
+    },
+    {
+      "fixture": "tests/lua/act3_winding_outcomes.lua",
+      "sha256": "1ffddba2dd832d10743cfd44441d026f0a086bf09d2631f53c241249666015e4",
+      "exitCode": 0,
+      "milliseconds": 2233.2297
+    },
+    {
+      "fixture": "tests/lua/act3_winding_rollback.lua",
+      "sha256": "5d019e8f21b46b2637edbca3c531de22057d9448948b5bd2d6cbf2e171c2ee82",
+      "exitCode": 0,
+      "milliseconds": 3096.427300000003
+    },
+    {
+      "fixture": "tests/lua/act3_winding_rounding.lua",
+      "sha256": "c708085de8902c1acaf6481161f9b431f1554bb03e0341fa5071126d435abaeb",
+      "exitCode": 0,
+      "milliseconds": 1464.5567999999985
+    },
+    {
+      "fixture": "tests/lua/act3_winding_natural.lua",
+      "sha256": "06b994545c185313c418dc5dc701460e60219015f61aacf250c2c08aacc6e9ce",
+      "exitCode": 0,
+      "milliseconds": 670.2983999999997
+    },
+    {
+      "fixture": "tests/lua/act3_winding_ui.lua",
+      "sha256": "49597fe3993e3b51d35c66e8aa77eb76fb1eecd9f1813499fb3696e7ba14d8e4",
+      "exitCode": 0,
+      "milliseconds": 1449.6365000000005
+    },
+    {
+      "fixture": "tests/lua/class_potion_relic_heal.lua",
+      "sha256": "49e350cc9a1527130db275cacfe5d8873d014caee30e3b661ee1c157336c4940",
+      "exitCode": 0,
+      "milliseconds": 1207.9763999999996
+    },
+    {
+      "fixture": "tests/lua/class_potion_darkness.lua",
+      "sha256": "eaaef5f09c938d1229ee0324debc861f3a031bc6e3d3ed0da3220509a16541c1",
+      "exitCode": 0,
+      "milliseconds": 1711.0980999999992
+    },
+    {
+      "fixture": "tests/lua/class_potion_darkness_queue.lua",
+      "sha256": "d26f0203a3de962a4bfa95fc1c9356aa922193e9d4567fb1088b25a2aa0a54d6",
+      "exitCode": 0,
+      "milliseconds": 1082.3810000000012
+    },
+    {
+      "fixture": "tests/lua/class_potion_darkness_channels.lua",
+      "sha256": "1e8e7d26ae9d9708b8bb3fc22e8f1a8d9d050f75978356656abec3b22f3fc28b",
+      "exitCode": 0,
+      "milliseconds": 1610.4585999999981
+    },
+    {
+      "fixture": "tests/lua/class_potion_stance.lua",
+      "sha256": "7e5b860a10013659842ab1a7122ceeb20fe7111500946c51ad3a3f33fa83fab0",
+      "exitCode": 0,
+      "milliseconds": 3888.285299999996
+    },
+    {
+      "fixture": "tests/lua/class_potion_stance_queue.lua",
+      "sha256": "cceeff630184b34cbd4b3bd2065661253c8362cf64e3839e070274fc7955de3c",
+      "exitCode": 0,
+      "milliseconds": 1981.4654999999984
+    },
+    {
+      "fixture": "tests/lua/class_potion_stance_channels.lua",
+      "sha256": "c51c85bf476eb8fe90dbd7c3d48d38ba61a45fe2ec7711e906417105d521a566",
+      "exitCode": 0,
+      "milliseconds": 1662.1677999999956
+    },
+    {
+      "fixture": "tests/lua/class_potion_stance_ui.lua",
+      "sha256": "5f08ab3e445d26c662ba3d2752a05319b2a25c0e63e3eb1b812aedd3e467e6b8",
+      "exitCode": 0,
+      "milliseconds": 1894.8675999999978
+    },
+    {
+      "fixture": "tests/lua/choice_ui.lua",
+      "sha256": "fd4b2f972983e0d565729d909a3592d709ef6a3013245c23858252112055184e",
+      "exitCode": 0,
+      "milliseconds": 4277.518299999996
+    },
+    {
+      "fixture": "tests/lua/game_ui_owner_initialization.lua",
+      "sha256": "2b99265f963dc5ba231fb29f59f30b85fbcc461189f54cc9b8ac33c1ff303df8",
+      "exitCode": 0,
+      "milliseconds": 1394.854800000001
+    },
+    {
+      "fixture": "tests/lua/queued_player_defeat.lua",
+      "sha256": "46ea5e3659ff5ce1aaad16a7a5f1dc566efab9c8978af67e7998d3aba617b83e",
+      "exitCode": 0,
+      "milliseconds": 627.6326000000045
+    },
+    {
+      "fixture": "tests/lua/queued_enemy_status.lua",
+      "sha256": "edd4ad464786a4ef9fbb1f83e8be75f5946c2691c25543eec541001c18e06ac7",
+      "exitCode": 0,
+      "milliseconds": 986.1381000000038
+    }
+  ]
+}

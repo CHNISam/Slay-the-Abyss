@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 05:41'
 due_date: '2026-10-28'
 labels:
   - required
@@ -58,6 +58,8 @@ ordinal: 41000
 2026-10-26本轮M3并行：colorless独立工作树补完整无色牌及合法SPECIAL生成依赖，配合inventory接真实药水生成/商店；保留固定源序与稀有度，子集不可冒充完整货架。父线程统一集成。
 
 本轮完整职业来源池已接后，商店须按固定typed来源ID选择并保留未实现身份，不按Capability删池；父线程补正常/补货/失败原子性红绿，既有价格与浮点公式保持。
+
+2026-10-27并发复核：treasure独立树对固定Small/Medium/LargeChest、AbstractChest、TreasureRoomBoss实现箱型/共同roll/金币/共享遗物队列/钩子，主session接正常Nodes与蓝钥匙互斥。缺定义不缩池不重抽，严格入口与回滚定向验证。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

@@ -1,10 +1,7 @@
 -- Explicit opt-in definitions; Corruption costs and exhaust hooks live in Core.
 -- Audited against aeubanks/sts@319009d5df0a82d9fb0f23cc22322286c6a87ec0.
 local M={}
-local function copy(value)
-    if type(value)~='table' then return value end
-    local result={};for key,child in pairs(value) do result[key]=copy(child) end;return result
-end
+local copy=require('abyss_copy').copy
 local function power(id,value) return {{op='gainExhaustPower',status=id,value=value}} end
 local function pact(count)
     return {{op='handChoice',mode='exhaust_choose',value=1},{op='draw',value=count}}

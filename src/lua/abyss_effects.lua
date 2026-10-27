@@ -4,10 +4,11 @@ local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local CardActions = require("abyss_card_actions")
 local EnemyRandom = require("abyss_enemy_random")
-local extensionOps={gainMantra=true,applyMantra=true,removeMantra=true,gainDevotion=true,gainExhaustPower=true,gainOrbPower=true,
+local extensionOps={defectFinal=true,gainMantra=true,applyMantra=true,removeMantra=true,gainDevotion=true,gainExhaustPower=true,gainOrbPower=true,
     gainEnergyIfDiscard=true,calculatedGamble=true}
 for op in pairs(require('abyss_build_actions').ops) do extensionOps[op]=true end
 for op in pairs(require('abyss_flow_actions').ops) do extensionOps[op]=true end
+for op in pairs(require('abyss_watcher_final_cards').ops) do extensionOps[op]=true end
 
 local coreOps = { handChoice=true, whirlwind=true, reaperDamage=true, scry=true, multiplyPoison=true, bouncingPoison=true, gainOrbSlots=true, loseOrbSlots=true, applyBias=true, gainFocus=true, gainStancePower=true, innerPeace=true, requestDiscard=true, channelOrb=true, dualcastOrb=true, darkImpulseOrb=true, changeStance=true, generateShivs = true, damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
@@ -36,6 +37,10 @@ coreOps.enemyTorchSpawn=true
 coreOps.enemyTorchRevive=true
 coreOps.enemyBronzeSpawn=true
 coreOps.enemyStasis=true
+coreOps.enemyBurnBoth=true
+clearedAfterDamage.enemyBurnBoth=true
+coreOps.enemyDazedDraw=true
+clearedAfterDamage.enemyDazedDraw=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -92,7 +97,8 @@ local function targetGroup(effects)
 end
 
 function M.requiresQueue(effects)
-    for _,effect in ipairs(effects) do
+    for _,effect in ipairs(effects) do if type(effect)=='table' and effect.op=='defectFinal'then return true end
+        if type(effect)=='table' and require('abyss_watcher_final_cards').ops[effect.op] then return true end
         if type(effect)=='table' and effect.op=='requestDiscard' then return true end
         if type(effect)=='table' and effect.op=='conditional' and effect['if']=='target_poison' then return true end
         if type(effect)=='table' and require('abyss_build_actions').ops[effect.op] then return true end
@@ -135,7 +141,7 @@ local function supported(effects, branch)
     for effectIndex, effect in ipairs(effects) do
         if type(effect) ~= "table" then return false, "invalid_effect" end
         local op = effect.op
-        if type(op) ~= "string" then return false, "invalid_effect" end
+        if type(op) ~= "string" then return false, "invalid_effect" end; if op=='defectFinal' and not require('abyss_defect_final_cards').supports(effect)then return false,'invalid_defect_final' end
         if op == "conditional" then
             -- Combat preflights top-level damage targets; never enable a
             -- conditional-only card or recursively hidden target requirement.
@@ -190,12 +196,13 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         if state.player.hp <= 0 or source.escaped then break end
         if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
         local op, value = effect.op, effect.value
-        if groupStart and index == groupStart + 1 then
-            -- The adjacent second member was consumed by the first, not queued again.
-        elseif cleared and (clearedAfterDamage[op] or op=="gainEnergyIfDiscard") then
-            -- Cancel only still-queued mapped actions, never earlier effects or
-            -- retained Block/HP-loss. Card disposal remains owned by Combat.
-        elseif source.hp <= 0 and op ~= "makeTempCardInDiscard" then
+        -- The adjacent second member is already consumed. Victory cancels only
+        -- still-queued mapped actions; retained Block/HP-loss and card disposal
+        -- keep their existing owners.
+        local consumed = groupStart and index == groupStart + 1
+        local cancelled = cleared and (clearedAfterDamage[op] or op=="gainEnergyIfDiscard")
+        if not consumed and not cancelled then
+        if source.hp <= 0 and op ~= "makeTempCardInDiscard" and op~='enemyBurnBoth' then
             assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
             -- ApplyPower guards its target, not its dead source. Only the
             -- source-verified single-player queued status path is enabled.
@@ -341,7 +348,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- grow together; stat-equivalent copies have a fresh UID instead.
             local seen={}
             local function grow(c)
-                if not c or c.uid~=playedCard.uid or seen[c] then return end
+                if not c or (c.uuid or c.uid)~=(playedCard.uuid or playedCard.uid) or seen[c] then return end
                 seen[c]=true
                 local previous=c.damageBonus or 0
                 local bonus=previous+0.0+value
@@ -368,7 +375,9 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             end
             assert(nextUid < math.huge and nextUid - uid == value, "nextUid cannot advance")
             for i = 0, value - 1 do
-                state.discard[#state.discard + 1] = {uid = uid + 0.0 + i, cardId = effect.card, upgraded = false}
+                local generated={uid = uid + 0.0 + i, cardId = effect.card, upgraded = false}
+                require('abyss_watcher_final_cards').created(combat,state,generated)
+                state.discard[#state.discard + 1] = generated
             end
             state.nextUid = nextUid
             if value > 0 then Events.emit(state, "cards_created", {source = source.id, cardId = effect.card, amount = value, pile = "discard"}) end
@@ -386,6 +395,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- costForTurn. The new identity remains independent of its source.
             local created = combat.copy(playedCard)
             created.uid = uid
+            require('abyss_watcher_final_cards').created(combat,state,created)
             state.discard[#state.discard + 1] = created
             state.nextUid = nextUid
         elseif op == "loseHp" then
@@ -393,11 +403,17 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- source-alive guard stops the card when this payment is lethal.
             local before = source.hp
             if (source.statuses.intangible or 0)>0 then value=math.min(value,1) end
+            value=require('abyss_defect_final_cards').incoming(state,source,value)
+            if source==state.player then value=require('abyss_relic_hooks').onLoseHpLast(state,value) end
             source.hp = math.max(0, source.hp - value)
             Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='enemyBurnBoth' then
+            require('abyss_act3_powers').burnBoth(state,source)
+        elseif op=='enemyDazedDraw' then
+            require('abyss_act3_powers').dazedDraw(state,source)
         elseif op=='enemyStasis' then
             require('abyss_act2_stasis').apply(combat,state,source)
         elseif op=='enemyBronzeSpawn' then
@@ -480,7 +496,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 -- empty-list self fallback draws nothing. Legacy fixtures keep their adapter.
                 local recipient = #candidates > 0 and candidates[EnemyRandom.integer(state, #candidates, combat.random)] or source
                 combat.block(state, recipient, value, true)
-            else combat.block(state, source, value, effect.fixed) end
+            else combat.block(state, source, value, effect.fixed,effect.blockCallbackAmount) end
         elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
         elseif op == "draw" then combat.draw(state, value)
         elseif op == "noDrawThisTurn" then Actors.applyNoDraw(state, source)
@@ -527,6 +543,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 end
             end
         else error("unsupported effect: " .. tostring(op)) end
+        end
         if clearsOnFinalDamage[op] and combat.outcome(state) == "victory" then cleared = true end
     end
     return dealt

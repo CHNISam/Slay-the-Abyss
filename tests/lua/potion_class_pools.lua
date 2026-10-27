@@ -41,6 +41,6 @@ for _,character in ipairs({'silent','defect','watcher'})do
  end
  for _,id in ipairs(prefixes[character])do assert(seen[id],character..' '..id)end
  assert(not seen.BloodPotion and not seen.ElixirPotion and not seen.HeartOfIron)
- if character=='silent'then eq(seen['Poison Potion'].unavailable,false)else eq(seen[prefixes[character][1]].unavailable,true)end
+ if character=='silent'or character=='defect'then eq(seen[prefixes[character][1]].unavailable,false)else eq(seen[prefixes[character][1]].unavailable,true)end
 end
 print('LUA_POTION_CLASS_POOLS_PASS 4+shared')

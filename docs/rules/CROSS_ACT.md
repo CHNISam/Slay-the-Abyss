@@ -61,3 +61,19 @@ npm run verify:backlog
 - 诅咒说明仅接受既有Curses.isImplemented的严格元数据；保留批准的名称和已有文字，补四职业实际渲染及错误生命周期拒绝用例。Louse诊断逐字段只差combatGeneration；独立期望断言每个fresh Run首次战斗必须为1，完整状态比较不删字段、不弱化。全部11份失败文件及共享Vigor、跨幕核心共13份定向文件复跑通过。
 - 第三幕首强例外已用固定源独立整数解释器的原始seed10复现。终幕固定普通/精英/Boss队列各3槽由TheEnding方法事实独立抽取；不抽样或重置monsterRng。最终6项Node独立向量/第一幕回归与架构、固定Luacheck、diff和Backlog检查通过。
 - 没有把上述分批恢复写成“最终一次完整check全绿”，没有同SHA远端CI、官方候选、导入或平台试玩；M3整体和TASK-63均不转Done。
+
+## Falling 独立切片
+
+第三幕 Falling 的公开节点事务、原生选择界面和完整来源池抽取已接入。固定源规则、独立 RNG 向量及专用命令见 [ACT3_FALLING.md](ACT3_FALLING.md)。这是一项本地事件证据；其余第三幕事件、完整 campaign 与平台验收仍按原任务保留缺口。
+
+## Moai Head 独立切片
+
+Moai Head 已接直接减生命上限后治疗、canonical Golden Idol 献祭/333金、原生 UI 和公开事务回滚。固定源与专用证据见 [ACT3_MOAI.md](ACT3_MOAI.md)。后续 [Golden Idol 独立切片](GOLDEN_IDOL.md) 已接第一幕实际取得与战斗 GOLD 加成，并验证同一持有者的真实战斗→献祭链；完整跨幕路线、整幕和平台验收仍未完成。
+
+## Winding Halls 独立切片
+
+Winding Halls的三选择、真实获得/诅咒阻止、NORMAL null-owner伤害与致死后两Madness事务、原生UI及完整池选择已接。详情与四个未实现遗物hook的明确拒绝边界见 [ACT3_WINDING.md](ACT3_WINDING.md)；两条基线已有Effects静态告警尚待父组合治理，本片不报完整工程/整幕/平台通过。
+
+## Sensory Stone 独立切片
+
+Sensory Stone 已接完整35普通无色的1/2/3组冻结奖励、组内去重/持久cardRng、可重开Skip、Proceed后LEAVE、HP_LOSS先奖后伤、真实永久UID与原生UI。规则与依赖见 [ACT3_SENSORY_STONE.md](ACT3_SENSORY_STONE.md)。这是当前RC之后的独立内容，复用真实Rod共享接口；未接奖励遗物/Lizard明确拒绝。默认全事件、第三幕全部内容、自然连续通关与平台仍未完成。

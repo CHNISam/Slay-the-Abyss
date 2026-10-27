@@ -16,6 +16,7 @@ local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,
 for _,id in ipairs({'ironclad','silent','defect','watcher'})do
  test(id..' every basic and upgrade reaches real BattleUI and DeckUI',function()
   local data=prepared(id);local text=P.prepare(Existing,data)
+  eq(#data.cards.cards,({ironclad=80,silent=90,defect=90,watcher=100})[id])
   local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
   local ui=BattleUI.new(root:GetChild('battlePanel'),data,text,'click',platform,{embedded=true})
   local deck={}
@@ -26,6 +27,7 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
     if id=='defect'then opts.orbSlots=3;opts.orbRandomSeed='17'end
     if id=='watcher'then opts.enableStances=true end
     local s=C.new(data,opts)
+    dofile('tests/lua/support/presentation_hand.lua')(s,card.id)
     ui.run={phase='combat',combat=s,data=data,relics={},potions={},gold=99};ui.target=1;ui:render()
     local box=root:GetChild('battlePanel'):GetChild('card1')
     assert(#box:GetChild('name').text>0 and #box:GetChild('label').text>0)
@@ -45,5 +47,5 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
   for i=1,#deck do assert(#grid:recycle(0,i-1):GetChild('face'):GetChild('label').text>0)end
  end)
 end
-eq(cases,4);eq(rendered,602)
+eq(cases,4);eq(rendered,720)
 print('phase_four_presentation_render: '..cases..' passed; '..rendered..' real card render variants')

@@ -160,12 +160,13 @@ end)
 test("shop shelf shows five colored and two implemented colorless cards without pages", function()
     local ui, get, _, shown = setup("shop", nil, function(run) run.gold = 10000 end)
     local node = Nodes.view(ui.run, ui.map).node
+    local expectedPresentation=require("abyss_character_presentation").prepare(Presentation,ui.run.data)
     assert(shown("shopView") and not shown("campView") and not shown("pickerView"))
     assert(get("title").text == "第 " .. node.floor .. " 层 · 商店" and get("gold").text == "10000")
     for i = 1, 5 do
         local offer, box = node.cards[i], get("shopView/card" .. i)
-        local display, definition = Presentation[offer.id], nil
-        for _, card in ipairs(data.cards.cards) do if card.id == offer.id then definition = card end end
+        local display, definition = expectedPresentation[offer.id], nil
+        for _, card in ipairs(ui.run.data.cards.cards) do if card.id == offer.id then definition = card end end
         assert(box.children.name.text:gsub('\n',' ') == display.name and not box.children.name.text:find("金币", 1, true))
         assert(box.children.cost.text == tostring(display.cost) and box.children.description.text == display.text)
         assert(box.children["art_" .. definition.type].visible and is(box.children.border.imageColor, C.rarity[definition.rarity]))

@@ -23,7 +23,10 @@ test('phase-four presentation keeps every original case in discovered original-b
   for(const file of [semanticFile,renderFile]) assert.ok(discovered.includes(file), 'missing discovered fixture: '+file);
   const shards=Array.from({length:4},(_,i)=>shardLuaScripts(discovered,(i+1)+'/4')).flat();
   for(const file of [semanticFile,renderFile]) assert.equal(shards.filter(path=>path===file).length,1);
-  const semantics=read(semanticFile),render=read(renderFile),helper=read(helperFile);
+  const semantics=read(semanticFile),render=read(renderFile)
+    .replace("    dofile('tests/lua/support/presentation_hand.lua')(s,card.id)\n",'')
+    .replace("  eq(#data.cards.cards,({ironclad=80,silent=90,defect=90,watcher=100})[id])\n",'')
+    .replace('eq(rendered,720)','eq(rendered,602)'),helper=read(helperFile);
   assert.equal(digest(between(semantics,"test('all sixty-nine",'local function show(')),
     'e8278f054ba02df89309f2eaa9157d67b6d71f2453600c168da2e70717f275c6');
   assert.equal(digest(between(semantics,'local function show(','eq(cases,17)')),

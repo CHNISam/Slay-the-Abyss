@@ -4,7 +4,7 @@ local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
 local RelicHooks = require('abyss_relic_hooks')
 local M = {}
-local supported = { generatePotions=true, discover=true, channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
+local supported = { classPotion=true, silentGhost=true, silentShivs=true, generatePotions=true, discover=true, channelOrb=true, makeMiracle=true, damage = true, damageAll = true, upgradeHand = true, healPercent = true, increaseMaxHp = true, block = true, draw = true, energy = true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
     gainStatus = true, applyStatus = true, gainTemporaryStrength = true, gainTemporaryDexterity = true }
 local maximum = 2147483647
@@ -60,7 +60,7 @@ function M.opening(definitions, owned, persistentCounters, context)
         if not relic then return nil, "unknown_relic" end
         if id=='blood_vial' or id=='akabeko' then
             table.insert(battleTop,1,{{op='relic_hook',id=id}})
-        elseif id=='bag_of_marbles' or id=='pen_nib' or id=='red_skull' then
+        elseif id=='bag_of_marbles' or id=='pen_nib' or id=='red_skull' or id=='red_mask' then
             bottom[#bottom+1]={{op='relic_hook',id=id}}
         elseif relic.trigger == "combat_start" then
             local position = openingPosition[id]
@@ -119,6 +119,7 @@ local function validate(state, effects, targetIndex)
     end
     for _, effect in ipairs(effects) do
         if not supported[effect.op] then return false, "unsupported_effect:" .. tostring(effect.op) end
+        if effect.op=='classPotion'and not require('abyss_class_potions').validate(effect)then return false,'invalid_class_potion'end
         if effect.op == 'upgradeHand' then
             if effect.all ~= true then return false, 'invalid_potion_upgrade' end
         elseif not integer(effect.value) then return false, "invalid_effect_value" end
@@ -148,9 +149,12 @@ function M.apply(state, effects, targetIndex, run, deferDrain)
     local target = state.enemies[targetIndex]
     for _, effect in ipairs(effects) do
         local op, value = effect.op, effect.value
-        if op=='generatePotions' then
+        if op=='classPotion'then require('abyss_card_actions').enqueue(state,effect)
+        elseif op=='silentShivs'then require('abyss_card_actions').enqueue(state,{op='silentFinal',kind='potionShivs',value=value})
+        elseif op=='silentGhost'then require('abyss_card_actions').enqueue(state,{op='gainStatus',status='intangible',value=value})
+        elseif op=='generatePotions' then
             local ids,rng=require('abyss_potion_generation').prepare(run,true)
-            state.potionRandomRng=rng
+            state.potionRandomRng=rng;state.potionRng=require('abyss_sts_random').cloneState(rng)
             state.generatedPotionOffers={}
             for _,id in ipairs(ids)do
                 require('abyss_card_actions').enqueue(state,{op='obtainPotion',id=id,

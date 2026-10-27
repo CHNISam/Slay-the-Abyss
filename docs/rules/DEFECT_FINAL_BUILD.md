@@ -1,0 +1,41 @@
+# 机器人剩余牌实际接线
+
+本轮复用归档Final的事实与中文定义，并重新核对固定319009源。采用现有Combat/ActionQueue/HandChoice/Run所有权；不引入归档旧sourceUid、第二套永久牌引用或缩水生成池。固定ZIP SHA256为`3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458`，来源为aeubanks/sts commit `319009d5df0a82d9fb0f23cc22322286c6a87ec0`的社区反编译，尚无正版PC二进制认证。
+
+第一片完成7张基础/升级真实入口：Recursion、GeneticAlgorithm、Recycle、Scrape、AllForOne、Fission、Reboot。Profile从56到63张；剩余12张仍未登记为可玩。查阅的源包括各牌constructor/use/upgrade、RedoAction、IncreaseMiscAction、GetAllInBattleInstances、RecycleAction、ScrapeFollowUpAction、FissionAction、ShuffleAllAction、PutOnDeckAction、ShuffleAction。
+
+- 递归唤起后重新生成同一球对象，暗球储能不重置，末敌死亡取消生成尾部。
+- 遗传算法在出牌前捕获旧misc格挡，动作增加同uuid所有牌堆/在用/limbo/自动队列实例，永久变化只由deckUid认领。StatEquivalent独立；真实Duplication产生1+3格挡、永久misc5，仅原牌消耗。
+- 回收复用真实手牌UID选择与代次/token；空手无动作，单张自动，多张暂停。先排返能TOP，再走真实消耗钩子；X读取当时能量，免费打出标记不改变源costForTurn。
+- 刮削只记录本次真实抽入手牌的对象，非零且非免费牌逐张主动弃牌，复用真实discard钩子。
+- 万物一心按基础费用/免费标记筛弃牌，回手动作排在当前牌处置后，满手保持原弃牌。
+- 裂变按原已填球数给能量/抽牌，升级逐槽唤起，复用末敌死亡后的队列清理。
+- 重启使用原shuffleRng先洗弃牌、cardRandomRng逐张随机移手牌（包括单张random0）、再洗抽牌。升级抽牌超过现有牌数会另消耗源EmptyDeckShuffle调用；测试明确保留该第三次shuffle。
+
+`defect_final_actions.lua`先以unknown deck card红，随后7张各基础/升级共14个真实Run场景绿；涵盖原对象、永久Smoke后成长、选择恢复、能量、球及RNG计数。`defect_genetic_copies.lua`覆盖永久/临时真实药水复制、stat-equivalent隔离及purge。宿主owner注入测试不替代牌效果测试。展示通过CharacterPresentation生成已知动作说明，Genetic格挡复用动态block预览。未知Final动作/数值在Capability拒绝。
+
+以上仅离线核心实现，不宣称完整75、正式平台导入、实机UI或原版二进制比对通过。
+
+第二片接入7张生命周期牌（累计14/19，Profile70）：Rebound、ForceField、Equilibrium、Amplify、EchoForm、MachineLearning、SelfRepair。固定源复核ReboundPower.justEvoked、EchoPower.cardsDoubledThisTurn、AmplifyPower、EquilibriumPower、DrawPower、ForceField.configureCostsOnNewCard/triggerOnCardPlayed、SelfRepair的HEALING及RepairPower宿主胜利边界。
+
+普通牌在这些Power/力场存在时进入真实队列以保持相同生命周期。力场仅在hand/draw/discard收到能力牌事件，新构造牌按已发生能力历史减费，排除exhaust中的停留时间；增幅/回响共用既有同UUID purge队列，不重放effects冒充出牌。弹回跳过自身后作用于下一次处置；消耗/purge/能力优先。均衡仅保留非虚无手牌，轮末减层；机器学习只增加正常回合抽牌；自我修复仅一次真实胜利治疗并由Run复制最终HP，Smoke不触发。
+
+`defect_final_powers.lua`先红unknown generated ForceField，随后7张基础/升级真实Combat使用、回合结束/下回合、复制次数和真实Run胜利同步绿（约1.9秒）。旧自动生命周期及Genetic复制回归继续绿。仍缺Buffer、StaticDischarge、HelloWorld、WhiteNoise、CreativeAI及全池执行矩阵，不能据70定义声称完整75已验收。
+
+第三片接Buffer/StaticDischarge（累计16/19，Profile72）。固定AbstractPlayer.damage先扣格挡，再Buffer.onAttackedToChangeDamage，再Static.onAttacked；HP_LOSS绕格挡但经过Intangible与Buffer。Buffer只消耗正数未格挡生命损失，所有攻击/THORNS/HP_LOSS/自身/空owner均适用。Static仅外部NORMAL的正数生命损失产生TOP闪电，复用真实球槽/唤起/RNG；全部格挡、Buffer归零、THORNS、自损及无owner不生成。致死后原TOP队列不执行；若Fairy救活则仍可继续合法反应。
+
+`defect_final_defenses.lua`先红缺Buffer定义，随后基础/升级真实出牌与damage/retaliate/loseHp链绿（约1.2秒），包括完全格挡不耗层、基础/升级层数、多种损失类型、静电与Buffer组合、致死不生成。剩余3张随机生成牌必须先补齐完整合法来源池再验收，不使用72张现有子集生成。
+
+第四片接HelloWorld、WhiteNoise、CreativeAI，累计19/19，Profile75。Hello使用当前职业live common正序；WhiteNoise/Creative使用src common→uncommon→rare顺序筛Power且排HEALING。每个合法候选必须具备真实定义及Capability；缺候选明确抛错并由外层事务恢复，不过滤后重抽。Defect池为完整18普通/13非治疗能力，顺序对照固定catalog。合法混色使用宿主职业池，未完成的外职业依赖仍明确拒绝。
+
+WhiteNoise在use构造时抽样一次，并将生成牌本回合设为0费；回合Power按既有Schedule顺序在start钩子构造时选完，再执行手牌生成。临时牌用fresh新uid/uuid无deckUid，不触发draw钩子；满手放discard。MasterReality调用共享显式created回调两次（源HandAction及展示创建两个入口），不在fresh复制时隐式升级；本树仅提取Watcher ef16e05的共享M.created供验证，父组合时保留同方法一份。
+
+`defect_final_generation.lua`先红缺pool接口，随后基础/升级的use/start来源顺序、RNG计数、治疗排除、生成身份、缺Echo候选失败回滚及MasterReality升级绿（约0.9秒）。`defect-final-source-identities.test.mjs`以独立固定registration按class核对19定义，含Recursion/Equilibrium显示名误填、Genetic错填另一个有效sourceId的负例，3组绿。
+
+经父线程协调CPU，`defect_final_matrix.lua`在原默认30秒预算内完成75张×基础/升级=150次真实C.play（6.205秒），含真实手牌/牌堆选择续队列、Preview、中文说明生成、物理UID唯一检查。首次因本树尚未生成abyss_presentation在0.401秒报缺模块；本树正常build:ui后同矩阵全部通过，未改预算/删变体。原character_presentation整套门禁尚未跑；留待最终组合树安排单份窗口。该矩阵不是每个组合/边界的穷尽证明，也不替代各专属效果断言或平台实测。
+
+最终死亡边界核证纠正：0074308仅凭AbstractRoom.endTurn推断普通Power先于Regret/Burn，提前移除Rebound/Amplify，属于错误修复。继续核对固定GameActionManager.callEndOfTurnActions/cardQueue及AbstractRoom.update后确认：先pre-card Powers/Orbs及自动回合结束牌，牌队列清空后才调用普通Power.atEndOfTurn。现恢复后卡阶段，按Schedule顺序处理Final普通回合末Power及均衡当前手牌标记。`defect_final_end_cleanup.lua`保留两个正确场景：致死Regret中断前两个Power仍存在、原cardInUse/UID留死亡界面；存活Regret随后正常移除。此纠正保留证据，不把先前错误断言的绿当作规则证明。
+
+独立交叉审发现百年积木与万物一心争位：wasHPLost的TOP Draw3原本放进另一条native cardActions，晚于活跃ActionQueue里的BOTTOM弃牌回手。最小共享修复将Puzzle的普通Draw动作pushTop到当前活跃ActionQueue，无活跃队列时保持原CardActions TOP；不改AllForOne回手时机。固定CentennialPuzzle.wasHPLost/AllCostToHandAction已复核。`relic_top_bridge.lua`指定真实Run争位先红后绿（1.755秒），同时验无Puzzle、满手自动牌、Void真实抽牌回调、后续真实Warcry选择续队列和真实draw后故意抛错的完整对象/HP/能量/RNG/遗物标记回滚；旧centennial_puzzle_queue继续绿（0.313秒），无新增Lua静态警告。
+
+HEALING实际定义独立核对：71个非basic Defect源定义与固定cardSourceMetadata全部一致，固定registration中BLUE唯一HEALING为SelfRepair；实际self_repair.healing=true，genetic_algorithm、claw及其余70个源牌均false。没有缩母池或以metadata代替实际定义资格。

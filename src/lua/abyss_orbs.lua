@@ -134,7 +134,7 @@ function M.dualcast(state,api)
     -- Resolve the first hit before constructing the second target-selection action.
     return M.evoke(state,api,true)
 end
-function M.channel(state,kind,api)
+local function channel(state,kind,api,existing)
     assert(kinds[kind],'unsupported orb kind')
     local o=container(state)
     if o.slots==0 or not running(state) then return false end
@@ -142,10 +142,15 @@ function M.channel(state,kind,api)
         M.evoke(state,api)
         if not running(state) then return false end
     end
-    o.balls[#o.balls+1]={kind=kind,stored=kind=='dark' and 6 or nil}
+    o.balls[#o.balls+1]=existing or {kind=kind,stored=kind=='dark' and 6 or nil}
     require('abyss_defect_engine_cards').onChannel(state,kind)
     emit(state,'orb_channel',{orb=kind})
     return true
+end
+function M.channel(state,kind,api)return channel(state,kind,api)end
+function M.rechannel(state,ball,api)
+    assert(type(ball)=='table' and kinds[ball.kind],'invalid existing orb')
+    return channel(state,ball.kind,api,ball)
 end
 -- Construct a passive action now, before queued Focus changes execute.
 -- Dark is the exception: its stored damage grows synchronously in the hook.

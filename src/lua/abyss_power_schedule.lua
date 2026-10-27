@@ -148,4 +148,44 @@ function M.list(actorOrState,filter)
     end)
     return entries
 end
+
+-- Owner-end also has legacy Powers represented by primitive fields (No Draw
+-- and temporary stat debts). Their successful applications already record
+-- actor.powerOrder; use that acquisition record without inventing a second
+-- serial or guessing how several unrecorded raw fixture Powers were acquired.
+function M.ownerEnd(state,filter,synthetic)
+    local actor=owner(state);plain(filter,'missing owner-end filter')
+    synthetic=synthetic or {}
+    local active={}
+    for id in pairs(filter)do
+        local virtual=synthetic[id]
+        local n=virtual and virtual.amount or rawget(actor.statuses,id)
+        if n~=nil then
+            assert(integer(n,-MAX,MAX),'invalid owner-end Power amount')
+            active[id]={id=id,amount=n,priority=virtual and virtual.priority or priority(state,actor,id)}
+        end
+    end
+    local positions,ordered={},{}
+    local history=actor.powerOrder or {};plain(history,'invalid owner-end acquisition order')
+    local count=0;for k in pairs(history)do assert(integer(k,1,MAX),'invalid owner-end acquisition index');count=count+1 end
+    local seen={}
+    for i=1,count do
+        local id=rawget(history,i);assert(type(id)=='string'and not seen[id],'invalid owner-end acquisition entry');seen[id]=true
+        if active[id]then local entry=active[id];entry.order=i;ordered[#ordered+1]=entry;positions[id]=i end
+    end
+    local total=0;for _ in pairs(active)do total=total+1 end
+    for id,entry in pairs(active)do
+        if not positions[id]then
+            assert(total==1,'missing owner-end acquisition history: '..id)
+            entry.order=1;ordered[1]=entry;positions[id]=1
+        end
+    end
+    local recorded=read(actor);local previous=0
+    for _,entry in ipairs(recorded)do if active[entry.id]then
+        assert(entry.priority==active[entry.id].priority and positions[entry.id]>previous,'inconsistent owner-end Power schedule')
+        previous=positions[entry.id]
+    end end
+    table.sort(ordered,function(a,b)return a.priority==b.priority and a.order<b.order or a.priority<b.priority end)
+    return ordered
+end
 return M

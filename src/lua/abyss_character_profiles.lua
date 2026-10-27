@@ -8,10 +8,7 @@ local specs={
     watcher={hp=72,color="purple",suffix="P",count=4,module="abyss_watcher_cards",extras={"eruption","vigilance"},
         relic="pure_water",relicSource="PureWater",effect={op="makeMiracle",value=1}},
 }
-local function copy(v)
-    if type(v)~="table" then return v end
-    local r={};for k,x in pairs(v) do r[k]=copy(x) end;return r
-end
+local copy=require('abyss_copy').copy
 local function basic(id,sourceId,color,attack)
     local op=attack and "damage" or "block"
     return {id=id,sourceId=sourceId,sts_name=attack and "Strike" or "Defend",name=attack and "打击" or "防御",
@@ -47,16 +44,19 @@ function M.prepare(data,id)
         prepared=require('abyss_silent_attack_cards').withCardDefinitions(prepared)
         prepared=require('abyss_card_triggers').withCards(prepared,id)
         prepared=require('abyss_silent_tactics_cards').withCardDefinitions(prepared)
+        prepared=require('abyss_silent_final_cards').withCardDefinitions(prepared)
     elseif id=="defect" then
         prepared=require("abyss_orb_powers").withCards(prepared)
         prepared=require("abyss_defect_utility_cards").withCards(prepared)
         prepared=require('abyss_card_triggers').withCards(prepared,id)
         prepared=require('abyss_defect_engine_cards').withCards(prepared)
         prepared=require('abyss_retrieval_cards').withCards(prepared,id)
+        prepared=require('abyss_defect_final_cards').withCards(prepared)
     elseif id=="watcher" then
         prepared=require("abyss_retained_cards").withCards(prepared)
         prepared=require("abyss_watcher_attack_cards").withCards(prepared)
         prepared=require('abyss_watcher_flow_cards').withCards(prepared)
+        prepared=require('abyss_watcher_final_cards').withCards(prepared)
     end
     local cards=prepared.cards.cards
     -- Foundation helpers currently contain only this class's verified subset.
@@ -84,6 +84,10 @@ function M.prepare(data,id)
     for _,card in ipairs(spec.extras) do deck[#deck+1]=card end
     prepared.cards.starter_deck={cards=deck,note="Experimental "..id.." source starter; incomplete class pool"}
     prepared.cards.note="Experimental "..id.." foundation subset; not a complete class pool or release qualification"
+    if id=='defect'then
+        prepared.cards.starter_deck.note='Fixed319009 Defect starter deck'
+        prepared.cards.note='Fixed319009 Defect 75-card offline implementation; platform release qualification pending'
+    end
     local rules=prepared.rules.player
     rules.maxHp=spec.hp;rules.energyPerTurn=3;rules.drawPerTurn=5;rules.startingGold=99
     rules.startingRelics={spec.relic}

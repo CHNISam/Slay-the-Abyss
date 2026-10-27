@@ -1,0 +1,84 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Tungsten Rod only; fixed decompiled source, not certified PC binary or device acceptance",
+  "files": {
+    "relics/TungstenRod.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/TungstenRod.java",
+      "sha256": "690106967f973f2a478b48bb0b5561023474289b99d8a65cd30437e2265fe09a"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    "cards/DamageInfo.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/DamageInfo.java",
+      "sha256": "cc16469d78473a1d37bf18a152014d9d1625859a5a7bd0923387f4ee8d942a5a"
+    },
+    "powers/BufferPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/BufferPower.java",
+      "sha256": "c37a54fe614dd9588e298e9d2de0d283bb45c31b58f8aeae7447676093502b60"
+    },
+    "powers/StaticDischargePower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/StaticDischargePower.java",
+      "sha256": "93b86d1b514f5da259978d98e45061dc0483ba48fbfd9e09882df6faa15d94ef"
+    },
+    "potions/FairyPotion.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FairyPotion.java",
+      "sha256": "c292f97254f11ca34e0792b3899be966418d32ea5e8ce3e18cbcbaa5f4500e25"
+    },
+    "relics/LizardTail.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/LizardTail.java",
+      "sha256": "9ee5bd6aad4aa34a4d79cdd69f97160913b71d0f9e727f9ae8d7b26e2f281b90"
+    },
+    "helpers/RelicLibrary.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/RelicLibrary.java",
+      "sha256": "e0fed2c9c4559dcf0bf3a19190a46af09a3300a9741757cc62550fdc5889874c"
+    }
+  },
+  "contracts": {
+    "sourceId": "TungstenRod",
+    "rarity": "RARE",
+    "positiveLossReduction": 1,
+    "zeroUnchanged": true,
+    "allDamageTypes": [
+      "NORMAL",
+      "THORNS",
+      "HP_LOSS"
+    ],
+    "order": [
+      "decrementBlock",
+      "onAttackedToChangeDamage (Buffer)",
+      "onAttacked (Static)",
+      "relic.onLoseHpLast (Rod)",
+      "power.onLoseHp",
+      "HP/death/Fairy"
+    ],
+    "staticChecksPreRodPositiveAmount": true,
+    "bufferZeroPreventsStatic": true,
+    "outsideDamageUsesRunRelicsOnly": true
+  },
+  "routes": {
+    "sourceRare": {
+      "seed": "5",
+      "head": "TungstenRod",
+      "explicitTier": "rare",
+      "wholePoolUnfiltered": true
+    },
+    "ordinaryTreasure": {
+      "seed": 54,
+      "actualClaim": true
+    },
+    "ordinaryShop": {
+      "seed": 1,
+      "slot": 2,
+      "price": 290,
+      "actualPurchase": true,
+      "goldBoundary": "Run.gainGold(300), not natural economy evidence"
+    }
+  }
+}

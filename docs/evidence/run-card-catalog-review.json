@@ -1,0 +1,111 @@
+{
+  "reviewBeforeHead": "66a1afd1",
+  "baseline": {
+    "beforeRunHead": "01c1f94f",
+    "script": "build/catalog-array-baseline.lua",
+    "status": 0,
+    "signal": null,
+    "output": [
+      null,
+      "REVIEW_BASELINE\t01c1f94f\tfalse\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\tfalse\tstatusArray\tfalse\nREVIEW_BASELINE\treview-fix\tfalse\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\tfalse\tstatusArray\tfalse\nREVIEW_BASELINE\t01c1f94f\ttrue\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\ttrue\tstatusArray\ttrue\nREVIEW_BASELINE\treview-fix\ttrue\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\ttrue\tstatusArray\ttrue\n",
+      ""
+    ],
+    "pid": 26608,
+    "stdout": "REVIEW_BASELINE\t01c1f94f\tfalse\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\tfalse\tstatusArray\tfalse\nREVIEW_BASELINE\treview-fix\tfalse\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\tfalse\tstatusArray\tfalse\nREVIEW_BASELINE\t01c1f94f\ttrue\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\ttrue\tstatusArray\ttrue\nREVIEW_BASELINE\treview-fix\ttrue\tcycle\ttrue\tstrikeAlias\ttrue\tcardArray\ttrue\tstatusArray\ttrue\n",
+    "stderr": ""
+  },
+  "beforeObserved": [
+    {
+      "fixture": "run_card_catalog_review_graph",
+      "elapsedMs": 1059,
+      "status": 1,
+      "error": "abyss_warrior_cards.lua:4: stack overflow"
+    },
+    {
+      "fixture": "run_card_catalog_review_red_foreign",
+      "elapsedMs": 1043,
+      "status": 1,
+      "error": "foreign red rules must reject for silent"
+    },
+    {
+      "fixture": "run_card_catalog_review_array",
+      "status": 1,
+      "error": "old registered caller card-array alias must remain the actual full catalogue",
+      "toolWallTimeSeconds": 1.1209974
+    }
+  ],
+  "afterResults": [
+    {
+      "fixture": "run_card_catalog_review_graph",
+      "elapsedMs": 1870,
+      "status": 0,
+      "stdout": "RUN_CARD_CATALOG_REVIEW_GRAPH_PASS exact cards extension cycle and Strike directory alias across default/four selected classes\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_card_catalog_review_red_foreign",
+      "elapsedMs": 1013,
+      "status": 0,
+      "stdout": "RUN_CARD_CATALOG_REVIEW_RED_FOREIGN_PASS selected native current value retained and incompatible red foreign rule rejected for all other classes\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_card_catalog_review_array",
+      "elapsedMs": 798,
+      "status": 0,
+      "stdout": "RUN_CARD_CATALOG_REVIEW_ARRAY_PASS baseline-supported registered card/status array aliases and two-Run private ownership\n",
+      "stderr": ""
+    },
+    {
+      "fixture": "run_card_catalog_red_contract",
+      "elapsedMs": 301,
+      "status": 0,
+      "stdout": "RUN_CARD_CATALOG_RED_CONTRACT_PASS all frozen75 hashes, real semantic negatives and metadata/cycle exclusion\n",
+      "stderr": ""
+    }
+  ],
+  "productionHashes": {
+    "src/lua/abyss_run_card_catalog.lua": "90bed7f73c19dcc8d8b7119565738c34a5744fcfb21cdb94c49412ab270ef6f0",
+    "src/lua/abyss_run_red_card_contract.lua": "933b9b7855e99736474cdff4c051a12a4613750bfe322061f3b3604aedf86397"
+  },
+  "originalGates": [
+    {
+      "node": "v24.18.0",
+      "head": "4f96062807c3dafc0ce6367842fc22d464c38b7b",
+      "fixture": "tests/lua/character_shop.lua",
+      "fixtureSha256": "8f40c6869af27e8afdb5b64545b5c7a11d4503104100ea83ffac3ba804a03428",
+      "deadlineMs": 30000,
+      "started": "2026-10-26T20:30:35.385Z",
+      "status": 0,
+      "signal": null,
+      "output": [
+        null,
+        "ok character shop 1 - silent merchant uses complete source identities and shared colorless cards\nok character shop 2 - defect merchant uses complete source identities and shared colorless cards\nok character shop 3 - watcher merchant uses complete source identities and shared colorless cards\nok character shop 4 - Poison Potion class eligibility agrees in merchant and reward selection\nCHARACTER_SHOP_PASS 4\n",
+        ""
+      ],
+      "pid": 23616,
+      "stdout": "ok character shop 1 - silent merchant uses complete source identities and shared colorless cards\nok character shop 2 - defect merchant uses complete source identities and shared colorless cards\nok character shop 3 - watcher merchant uses complete source identities and shared colorless cards\nok character shop 4 - Poison Potion class eligibility agrees in merchant and reward selection\nCHARACTER_SHOP_PASS 4\n",
+      "stderr": "",
+      "elapsedMs": 24026
+    },
+    {
+      "node": "v24.18.0",
+      "head": "4f96062807c3dafc0ce6367842fc22d464c38b7b",
+      "fixture": "tests/lua/character_presentation.lua",
+      "fixtureSha256": "ce4391dfe326ca9b0c60e6d6f0a4e9b15be1ad8a398d185dc5fb661e76ee959f",
+      "deadlineMs": 30000,
+      "started": "2026-10-26T20:30:59.413Z",
+      "status": 0,
+      "signal": null,
+      "output": [
+        null,
+        "ok 1 ironclad all profile cards basic and upgraded reach real battle and deck render\nok 2 silent all profile cards basic and upgraded reach real battle and deck render\nok 3 defect all profile cards basic and upgraded reach real battle and deck render\nok 4 watcher all profile cards basic and upgraded reach real battle and deck render\nok 5 existing approved display remains detached and known unchanged cards retain wording\nok 6 new dynamic damage tokens follow actual Combat preview instead of static base\nok 7 Shiv Miracle discard triggers X cost retain exhaust and ethereal are truthful\nok 8 unknown op in either branch refuses even if existing presentation is available\nok 9 unknown status orb hand mode and empty card explicitly refuse\nok 10 Accuracy Infinite Blades and Mantra helpers provide exact new base and upgrade displays\nok 11 independent exhaust discard orb and retained helpers expose every new base and upgraded card\nok 12 new effect order counts upgrades and historical keywords are not generic placeholders\nok 13 unknown new exhaust or orb Power remains a rejection\nok 14 retained growth is read from real CardDefinition and CardPreview after a real turn\nok 15 Sands and Eviscerate live costs come from Combat overrides while presentation stores base cost\nok 16 all supported shared curses render in each class and reject incompatible lifecycle metadata\nCHARACTER_PRESENTATION_PASS 16 rendered_card_variants=758\n",
+        ""
+      ],
+      "pid": 39012,
+      "stdout": "ok 1 ironclad all profile cards basic and upgraded reach real battle and deck render\nok 2 silent all profile cards basic and upgraded reach real battle and deck render\nok 3 defect all profile cards basic and upgraded reach real battle and deck render\nok 4 watcher all profile cards basic and upgraded reach real battle and deck render\nok 5 existing approved display remains detached and known unchanged cards retain wording\nok 6 new dynamic damage tokens follow actual Combat preview instead of static base\nok 7 Shiv Miracle discard triggers X cost retain exhaust and ethereal are truthful\nok 8 unknown op in either branch refuses even if existing presentation is available\nok 9 unknown status orb hand mode and empty card explicitly refuse\nok 10 Accuracy Infinite Blades and Mantra helpers provide exact new base and upgrade displays\nok 11 independent exhaust discard orb and retained helpers expose every new base and upgraded card\nok 12 new effect order counts upgrades and historical keywords are not generic placeholders\nok 13 unknown new exhaust or orb Power remains a rejection\nok 14 retained growth is read from real CardDefinition and CardPreview after a real turn\nok 15 Sands and Eviscerate live costs come from Combat overrides while presentation stores base cost\nok 16 all supported shared curses render in each class and reject incompatible lifecycle metadata\nCHARACTER_PRESENTATION_PASS 16 rendered_card_variants=758\n",
+      "stderr": "",
+      "elapsedMs": 21475
+    }
+  ]
+}

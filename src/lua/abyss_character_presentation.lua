@@ -36,6 +36,16 @@ local function dense(t)
     return n
 end
 local function fragments(card,dynamic,path)
+    if card.silentFinalCard then return require('abyss_silent_final_cards').describe(card,dynamic)end
+    if card.watcherFinal then
+        local templates={swivel='获得 {effects.0.value} 点格挡。你的下一张攻击免费。',
+            conclude='对所有敌人造成 {effects.0.value} 点伤害。结束你的回合。',
+            ragnarok='对随机敌人造成 {effects.0.value} 点伤害，共 '..tostring((card.effects[1] or {}).times or 0)..' 次。',
+            lesson_learned='造成 {effects.0.value} 点伤害。若本次击杀非仆从，随机升级永久牌组中的1张牌。消耗。',
+            spirit_shield='每有1张其他手牌获得格挡（当前 {effects.0.value} 点）。',
+            expunger='造成 {effects.0.value} 点伤害，共 {expungerHits} 次。'}
+        return dynamic and templates[card.id] or require('abyss_watcher_final_cards').describe(card)
+    end
     if card.colorlessNative then return require('abyss_colorless_cards').describe(card,dynamic) end
     path=path or 'effects'
     if card.condition~=nil then assert(card.condition=='only_attacks_in_hand' or card.condition=='draw_pile_empty','unknown card condition') end
@@ -79,7 +89,8 @@ local function fragments(card,dynamic,path)
             return dynamic and live[op] and ('{'..path..'.'..(i-1)..'.value}') or number(e.value)
         end
         local text
-        if op=='damage' or op=='damageAll' then
+        if op=='defectFinal'then text=require('abyss_defect_final_cards').describe(e)
+        elseif op=='damage' or op=='damageAll' then
             text=(op=='damage' and '对目标造成 ' or '对每个敌人造成 ')..value()..' 点伤害'
             if e.times then assert(integer(e.times) and e.times>0,'invalid hit count');text=text..'，重复 '..number(e.times)..' 次' end
         elseif op=='block' then text='获得 '..value()..' 点格挡'
@@ -311,7 +322,8 @@ local function fragments(card,dynamic,path)
     elseif card.id=='perfected_strike' then
         assert(card.strikeBonus==2 or card.strikeBonus==3,'invalid Perfected Strike bonus')
         text=text..'手牌、抽牌堆和弃牌堆中每有一张带打击标签的牌，基础伤害增加 '..number(card.strikeBonus)..'。'
-    elseif card.id=='brilliance' then text=text..'本场战斗每获得 1 点真言，基础伤害增加 1。' end
+    elseif card.id=='brilliance' then text=text..'本场战斗每获得 1 点真言，基础伤害增加 1。'
+    elseif card.id=='force_field'then text=text..'本场战斗每打出 1 张能力牌，本牌基础费用降低 1，最低0。' end
     if card.id=='blood_for_blood' then text=text..'本场战斗每次实际失去生命，本牌费用降低 1，最低 0。'
     elseif card.id=='flurry_of_blows' then text=text..'每次实际改变姿态后，若本牌在弃牌堆且手牌未满，将其返回手牌。'
     elseif card.id=='weave' then text=text..'占卜非空抽牌堆时，若本牌在弃牌堆且手牌未满，将其返回手牌。' end
@@ -366,7 +378,7 @@ end
 function M.prepare(existing,prepared)
     assert(type(existing)=='table' and type(prepared)=='table' and prepared.cards and type(prepared.cards.cards)=='table','invalid presentation inputs')
     local out=copy(existing)
-    local nativeBundle=prepared.originalV4Role or not prepared.experimentalCharacter and prepared.cards.sourcePools~=nil
+    local nativeBundle=prepared.originalV4Role or not prepared.runCardCatalog and not prepared.experimentalCharacter and prepared.cards.sourcePools~=nil
     local seen={}
     for _,card in ipairs(prepared.cards.cards) do
         assert(type(card.id)=='string' and not seen[card.id],'duplicate or invalid card id');seen[card.id]=true

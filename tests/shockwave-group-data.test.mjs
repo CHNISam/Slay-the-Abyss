@@ -54,7 +54,7 @@ for (const scope of ['slimed','regret','unplayable','inactive-intent','shop-reli
   const value=[];value.targetGroup=false;
   if(scope==='inactive-intent') {
     const intent=d.enemies.enemies.flatMap(e=>e.intents).find(i=>i.kind==='sleep');intent.effects=value;
-  } else if(scope==='shop-relic') d.relics.relics[0].effects=value;
+  } else if(scope==='shop-relic') d.relics.relics.find(r=>r.id==='membership_card').effects=value;
   else d.cards.cards.find(c=>scope==='unplayable'?c.type==='status'&&c.cost===-2:c.id===scope).effects=value;
   assert.match(validateContent(d).join('\n'),/targetGroup|target group/);
 });

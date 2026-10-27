@@ -19,6 +19,7 @@ local Fountain = require('abyss_fountain')
 local RelicHooks = require('abyss_relic_hooks')
 local Act1Events = require('abyss_act1_events')
 local Act2Events = require('abyss_act2_events')
+local Act3Events = require('abyss_act3_events')
 local Acts = require('abyss_acts')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
@@ -90,6 +91,7 @@ local function unownedRelics(run,roomFloor)
     for _, relic in ipairs(run.data.relics.relics) do
         if (relic.rarity=='common' or relic.rarity=='uncommon' or relic.rarity=='rare')
             and ((relic.id~='darkstone_periapt' and relic.sourceId~='Darkstone Periapt') or roomFloor<=48)
+            and (relic.id~='toxic_egg' or (roomFloor or run.floor or 1)<=48)
             and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
     end
     table.sort(result)
@@ -142,6 +144,7 @@ local function prepare(run, node, miscRng)
         flow.event = { id = id }
         if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
         if Act2Events.ids[id] then Act2Events.prepare(run,flow.event) end
+        if Act3Events.ids[id] then Act3Events.prepare(run,flow.event,miscRng) end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
@@ -218,7 +221,8 @@ local function enter(run, map, nodeId)
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
             and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain'
-            and not Act1Events.ids[id] and not Act2Events.ids[id] then return false, "event_unavailable" end
+            and not Act1Events.ids[id] and not Act2Events.ids[id] and not Act3Events.ids[id] then return false, "event_unavailable" end
+        if Act3Events.ids[id] and run.act~=3 then return false,'event_unavailable'end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
@@ -408,12 +412,14 @@ function M.rest(run)
             -- previous encounter. Its persistent card RNG/offset still advance.
             local context={data=owner.data,cardRng=owner.cardRng,
                 cardRarityOffset=owner.cardRarityOffset,encounterTier='normal'}
-            local cards,rng,offset=CardPool.prepareRewards(context)
+            local cards,rng,offset,upgrades=CardPool.prepareRewards(context)
             for _,id in ipairs(cards)do
                 if not Capability.isImplemented(find(owner.data.cards.cards,id))then error('card_content_unavailable')end
             end
             owner.cardRng,owner.cardRarityOffset=rng,offset
-            return {cards=cards,resolved=false}
+            local reward={cards=cards,resolved=false,cardUpgrades=upgrades}
+            RelicHooks.previewCardReward(owner,reward,true)
+            return reward
         end)
         if flow.restReward then return true,'choose_rest_card' end
         return complete(staged)
@@ -427,7 +433,8 @@ function M.claimRestReward(run,choice)
         if flow.campChoice~='rest' or not reward or reward.resolved then return false,'no_pending_reward' end
         if type(choice)~='number' or choice%1~=0 or choice<0 or choice>#reward.cards then return false,'invalid_reward_choice' end
         if choice>0 then
-            local ok,why=Run.obtainCard(staged,reward.cards[choice]);if not ok then return false,why end
+            local ok,why=Run.obtainCard(staged,reward.cards[choice],
+                {upgraded=reward.cardUpgrades and reward.cardUpgrades[choice]==true});if not ok then return false,why end
         end
         reward.resolved,reward.choice=true,choice
         return complete(staged)
@@ -484,7 +491,7 @@ local function purchaseCommand(run, category, reference, bySlot)
     run.gold = run.gold - offer.price
     RelicHooks.onSpendGold(run,'shop')
     if category == "cards" then
-        local ok,why=Run.obtainCard(run,id);if not ok then return false,why end
+        local ok,why=Run.obtainCard(run,id,{upgraded=offer.upgraded,upgrades=offer.upgrades});if not ok then return false,why end
     elseif category=='potions' then
         local ok,why=Run.obtainPotion(run,offer.id);if not ok then return false,why end
     else
@@ -650,6 +657,7 @@ function M.eventOptions(run,flow)
     local id,e=flow.event.id,flow.event
     if Act1Events.ids[id] then return Act1Events.options(run,e,upgradeCards) end
     if Act2Events.ids[id] then return Act2Events.options(run,e) end
+    if Act3Events.ids[id] then return Act3Events.options(run,e) end
     local rows={}
     local function option(choice,title,description,enabled,picker)
         rows[#rows+1]={choice=choice,title=title,description=description,enabled=enabled~=false,picker=picker}
@@ -701,6 +709,14 @@ local function chooseEvent(run, choice, uid)
         if not ok or status~='complete' then return ok,status end
         flow.eventChoice=choice
         return complete(run)
+    end
+    if Act3Events.ids[id] then
+        local ok,status=Act3Events.choose(run,flow,choice,uid)
+        if ok and run.hp==0 then
+            flow.eventChoice=choice;complete(run);run.phase='defeat';return true,'defeat'
+        end
+        if not ok or status~='complete'then return ok,status end
+        flow.eventChoice=choice;return complete(run)
     end
     if Act1Events.ids[id] then
         local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)

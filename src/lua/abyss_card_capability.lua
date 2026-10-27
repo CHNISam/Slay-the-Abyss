@@ -6,6 +6,7 @@ local M={}
 local function empty(effects)return type(effects)=='table' and next(effects)==nil end
 function M.isImplemented(card)
     if type(card)~='table' then return false end
+    if card.watcherFinal and not require('abyss_watcher_final_cards').supported(card) then return false end
     if card.originalV4 then
         local e=type(card.effects)=='table' and #card.effects==1 and card.effects[1]
         return (card.type=='attack' or card.type=='skill') and e and e.op=='originalV4'
@@ -41,7 +42,8 @@ function M.isImplemented(card)
     end
     if card.type~='attack' and card.type~='skill' and card.type~='power' then return false end
     if card.cost == -2 then
-        return (card.id == "tactician" or card.id == "reflex") and card.type == "skill" and empty(card.effects)
+        return (card.id == "tactician" or card.id == "reflex" or card.id=='deus_ex_machina' and card.onDrawFinal~=nil)
+            and card.type == "skill" and empty(card.effects)
     end
     return Effects.supported(card.effects)==true
 end

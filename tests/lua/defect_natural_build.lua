@@ -1,4 +1,4 @@
--- Natural Run-entry harness:56 executable Profile cards, full71 source rewards.
+-- Natural Run-entry harness:75 executable Profile cards, full71 source rewards.
 -- floor += 1 after real rewards is the only progress shortcut. No HP, energy,
 -- deck, enemy, power or RNG injection; not Map/PC probability/platform proof.
 -- The full source pool invalidated restricted56 seed5's first offer. Seeds below
@@ -15,7 +15,7 @@ local normalCount=0
 for _,card in ipairs(prepared.cards.cards) do
     if card.type~='status' and card.type~='curse' and card.rarity~='special' then normalCount=normalCount+1 end
 end
-eq(normalCount,56)
+eq(normalCount,75)
 local sourceCount=0
 for _,pool in pairs(prepared.cards.sourcePools.reward) do sourceCount=sourceCount+#pool end
 eq(sourceCount,71)
@@ -207,4 +207,4 @@ local function scenario(spec)
         ..' loop_hooks='..loopHooks..' aoe_actions='..aoeActions..' multi_aoe='..multiAoe..' focused_frost='..#focusedFrost)
 end
 for _,spec in ipairs(cases) do scenario(spec) end
-print('DEFECT_NATURAL_BUILD_PASS 2 source_pool=true profile_cards=56 source_rewards=71 run_entry_harness=true')
+print('DEFECT_NATURAL_BUILD_PASS 2 source_pool=true profile_cards=75 source_rewards=71 run_entry_harness=true')

@@ -104,6 +104,7 @@ local function rewardPending()
     same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
     return run, map
 end
+local stockByRun=setmetatable({},{__mode="k"})
 local function atShop()
     local run, map = rewardPending()
     assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
@@ -147,7 +148,12 @@ end)
 
 test("invalid restored snapshots leave a purchased shop and its valid continuation untouched", function()
     local run, map = atShop()
-    assert(Nodes.buyCard(run, "iron_wave")); assert(Nodes.buyRelic(run, "oddly_smooth_stone"))
+    local shelf=Nodes.view(run,map).node
+    local boughtCard=assert(shelf.cards[1]).id
+    local boughtRelic
+    for _,item in ipairs(shelf.relics)do if not item.unavailable then boughtRelic=item.id;break end end
+    assert(boughtRelic,'the frozen shop must contain an implemented relic')
+    assert(Nodes.buyCard(run,boughtCard));assert(Nodes.buyRelic(run,boughtRelic))
     local valid = Map.snapshot(map)
     local changes = {
         {"forged stock", function(s) s.nodeFlow = copy(run.nodeFlow) end},
@@ -170,26 +176,26 @@ test("invalid restored snapshots leave a purchased shop and its valid continuati
     end
     local restored = assert(Map.restore(run.data, valid))
     equal(#Nodes.available(run, restored), 0)
-    refuse(run, restored, function() return Nodes.buyCard(run, "iron_wave") end, "item_unavailable")
-    refuse(run, restored, function() return Nodes.buyRelic(run, "oddly_smooth_stone") end, "item_unavailable")
+    refuse(run, restored, function() return Nodes.buyCard(run, boughtCard) end, "item_unavailable")
+    refuse(run, restored, function() return Nodes.buyRelic(run, boughtRelic) end, "item_unavailable")
     assert(Nodes.leaveShop(run)); enter(run, restored, reach(run,restored,'shop'), "shop")
-    for _, item in ipairs(Nodes.view(run, restored).node.relics) do assert(item.id ~= "oddly_smooth_stone") end
-    equal(run.deck[12].cardId, "iron_wave"); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
+    for _, item in ipairs(Nodes.view(run, restored).node.relics) do assert(item.id ~= boughtRelic) end
+    equal(run.deck[12].cardId, boughtCard); equal(run.deck[12].uid, 12); equal(run.nextDeckUid, 13)
     same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
 end)
 
 test("valid but stale restored progress cannot reenter a completed purchase or spend inventory", function()
     local run, map, previous = atShop()
     local view = Nodes.view(run, map).node
-    local price = offer(view.cards, "iron_wave").price + offer(view.relics, "oddly_smooth_stone").price
+    local price = offer(view.cards, stockByRun[run].card).price + offer(view.relics, stockByRun[run].relic).price
     local gold = run.gold
-    assert(Nodes.buyCard(run, "iron_wave")); assert(Nodes.buyRelic(run, "oddly_smooth_stone"))
+    assert(Nodes.buyCard(run, stockByRun[run].card)); assert(Nodes.buyRelic(run, stockByRun[run].relic))
     equal(run.gold, gold - price); assert(Nodes.leaveShop(run))
     local current = assert(Map.restore(run.data, Map.snapshot(map)))
     local stale = assert(Map.restore(run.data, previous))
     equal(#Nodes.available(run, stale), 0)
     refuse(run, stale, function() return Nodes.enter(run, stale, run.nodeFlow.id) end, "map_mismatch")
-    refuse(run, current, function() return Nodes.buyRelic(run, "oddly_smooth_stone") end, "no_pending_node")
+    refuse(run, current, function() return Nodes.buyRelic(run, stockByRun[run].relic) end, "no_pending_node")
     local shop,earned=reach(run,current,'shop')
     enter(run, current, shop, "shop")
     equal(run.gold, gold - price + earned); equal(run.nextDeckUid, 13)
@@ -199,7 +205,8 @@ end)
 
 test("restored route preserves removed and upgraded permanent UIDs and relics into the next battle", function()
     local run, map = atShop()
-    assert(Nodes.buyCard(run, "iron_wave")); assert(Nodes.buyRelic(run, "oddly_smooth_stone"))
+    assert(Nodes.buyCard(run, stockByRun[run].card)); assert(Nodes.buyRelic(run, stockByRun[run].relic))
+    assert(Run.obtainRelic(run,'oddly_smooth_stone')) -- retain the exact cross-room Dexterity hook assertion
     assert(Nodes.removeCard(run, 1)); assert(Nodes.leaveShop(run))
     map = assert(Map.restore(run.data, Map.snapshot(map)))
     enter(run, map, reach(run,map,'shop'), "shop"); assert(Nodes.leaveShop(run))
@@ -208,7 +215,7 @@ test("restored route preserves removed and upgraded permanent UIDs and relics in
     assert(Nodes.upgrade(run, 2))
     enter(run, map, reach(run,map,'treasure'), "treasure")
     local relic = Nodes.view(run, map).node.reward.relicId
-    assert(relic and relic ~= "oddly_smooth_stone" and relic ~= "burning_blood")
+    assert(relic and relic ~= stockByRun[run].relic and relic ~= "oddly_smooth_stone" and relic ~= "burning_blood")
     assert(Nodes.claimTreasure(run))
     map = assert(Map.restore(run.data, Map.snapshot(map)))
     local elite=reach(run,map,'elite')
@@ -219,7 +226,7 @@ test("restored route preserves removed and upgraded permanent UIDs and relics in
     same(run.potions, {[1] = "fire_potion", [3] = "regen_potion"})
     equal(run.combat.player.statuses.dexterity, 1)
     local permanent = {}; for _, card in ipairs(run.deck) do permanent[card.uid] = card end
-    equal(permanent[1], nil); equal(permanent[2].upgraded, true); equal(permanent[12].cardId, "iron_wave")
+    equal(permanent[1], nil); equal(permanent[2].upgraded, true); equal(permanent[12].cardId, stockByRun[run].card)
     -- Combat allocates its own transient UIDs; persistent ownership is the
     -- unchanged Run deck plus one independent battle instance per card/upgrade.
     local expected, actual, battleUids, cards = {}, {}, {}, 0

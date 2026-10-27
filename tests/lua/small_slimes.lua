@@ -2,7 +2,10 @@
 package.path = 'src/lua/?.lua;build/lua/?.lua;' .. package.path
 local Run, Map, Nodes = require('abyss_run'), require('abyss_map'), require('abyss_nodes')
 local C, R, Data = require('abyss_combat'), require('abyss_sts_random'), require('abyss_data')
-local count, failed = 0, 0
+local first,last=...
+first,last=first or 1,last or 6
+assert(first>=1 and last<=18 and first<=last,'invalid budget slice')
+local count, failed, registered = 0, 0, 0
 local function eq(a,b,label) assert(a==b,(label or 'value')..': expected '..tostring(b)..', got '..tostring(a)) end
 local function same(a,b,path)
     path=path or 'state';eq(type(a),type(b),path)
@@ -27,9 +30,10 @@ local function freeze(...)
     end
 end
 local function test(name,fn)
+    registered=registered+1;if registered<first or registered>last then return end
     count=count+1;local ok,err=pcall(fn)
     if not ok then failed=failed+1 end
-    print((ok and 'ok ' or 'not ok ')..count..' - '..name..(ok and '' or ': '..tostring(err)))
+    print((ok and 'ok ' or 'not ok ')..registered..' - '..name..(ok and '' or ': '..tostring(err)))
 end
 local function ids(battle)
     local result={};for i,e in ipairs(battle.enemies) do result[i]=e.definitionId end;return result
@@ -227,6 +231,7 @@ test('other 16 static encounter groups retain their member order and consume no 
     local seen=0
     for _,e in ipairs(Data.enemies.encounters) do if e.id~='small_slimes' and e.id~='gremlin_gang' then
         seen=seen+1;local run=Run.new(Data,42);run.floor=e.minFloor
+        local deckOwner,deckBefore,unchangedDeck=run.deck,C.copy(run.deck),freeze(run.deck)
         local misc=run.miscRng;local stable=freeze(misc)
         assert(Run.startCombat(run,e.id));same(ids(run.combat),assert(unchangedGroups[e.id]))
         if e.louseCount then
@@ -234,12 +239,29 @@ test('other 16 static encounter groups retain their member order and consume no 
             same(run.miscRng,wanted)
         else eq(run.miscRng,misc) end
         stable()
-        local reference=C.new(run.data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck,
+        local reference=C.new(run.data,{seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,
+            cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchangedGroups[e.id],deck=run.deck,
+            masterDeck=run.deck,miscRng=run.miscRng,cardRng=run.cardRng,
             beforeFirstTurn=function(state)
+                state.potionRng=run.shopRng and R.cloneState(run.shopRng.potion) or R.fromSeed(run.runSeed)
+                state.potionCharacter=require('abyss_potion_random').character(run)
                 state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run)
                 return true
             end})
         assert(reference.potionInventory~=run.potions,'standalone reference must own a private potion inventory')
+        eq(run.deck,deckOwner);same(run.deck,deckBefore);unchangedDeck()
+        assert(reference.masterDeck~=run.deck and run.combat.masterDeck~=run.deck,'master deck snapshots must be private')
+        same(reference.masterDeck,deckBefore);same(run.combat.masterDeck,deckBefore)
+        local permanent={};for _,card in ipairs(deckBefore)do assert(not permanent[card.uid]);permanent[card.uid]=card end
+        for _,battle in ipairs({run.combat,reference})do
+            local held,owned=0,{}
+            for _,pile in ipairs({battle.hand,battle.draw,battle.discard,battle.exhaust})do for _,card in ipairs(pile)do
+                local owner=assert(permanent[card.deckUid],'missing permanent UID owner')
+                assert(not owned[card.deckUid],'duplicated permanent card owner');owned[card.deckUid]=true
+                eq(card.cardId,owner.cardId);eq(card.upgraded,owner.upgraded);held=held+1
+            end end
+            eq(held,#deckBefore)
+        end
         same(Data.rules.player.startingRelics,{'burning_blood'})
         reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
         local generation=run.combatGeneration
@@ -251,5 +273,7 @@ test('other 16 static encounter groups retain their member order and consume no 
     end end
     eq(seen,16)
 end)
+assert(registered==18,'all original cases must remain registered')
+assert(count==last-first+1,'each selected case must execute')
 assert(failed==0,tostring(failed)..' failed of '..count)
 print('SMALL_SLIMES_PASS '..count)

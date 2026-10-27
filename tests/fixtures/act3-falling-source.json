@@ -1,0 +1,87 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Raw members of locally audited fixed ZIP; independent Lua behavior, not authenticated PC binary execution.",
+  "files": {
+    "events/beyond/Falling.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/Falling.java",
+      "sha256": "ae6ed951929324894a0bba6de04d0360337db3b47bd73f2b678ec06e1def2d56"
+    },
+    "helpers/CardHelper.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/CardHelper.java",
+      "sha256": "a3ded368496bb998dc80fc5c9d6ca6bf10a958aad679644786fb325ecc5ce4fc"
+    },
+    "cards/CardGroup.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    },
+    "random/Random.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172"
+    },
+    "dungeons/TheBeyond.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheBeyond.java",
+      "sha256": "dbc559c7a80e98197f0d9d61e76cffa737dab9a9f21981bc535671523152d46b"
+    }
+  },
+  "contracts": {
+    "sampleOrder": [
+      "attack",
+      "skill",
+      "power"
+    ],
+    "displayOrder": [
+      "skill",
+      "power",
+      "attack"
+    ],
+    "bottleFlags": [
+      "inBottleFlame",
+      "inBottleLightning",
+      "inBottleTornado"
+    ],
+    "singletonConsumesRandom": true,
+    "singleCategoryAutoSelect": false,
+    "escapeOnlyWhenNoCandidates": true,
+    "preservePermanentUid": true,
+    "motherPool": [
+      "Falling",
+      "MindBloom",
+      "The Moai Head",
+      "Mysterious Sphere",
+      "SensoryStone",
+      "Tomb of Lord Red Mask",
+      "Winding Halls"
+    ]
+  },
+  "oracle": {
+    "roomSeed": "77",
+    "bounds": [
+      2,
+      2,
+      2
+    ],
+    "indices": [
+      0,
+      1,
+      1
+    ],
+    "uids": [
+      101,
+      202,
+      302
+    ],
+    "words": [
+      "58ecdcb139ff8c6b",
+      "4654e3216996cb9f"
+    ],
+    "counter": 3
+  },
+  "naturalRoute": {
+    "runSeed": "8",
+    "act": 3,
+    "floor": 35,
+    "mode": "full",
+    "eventId": "falling",
+    "originalId": "Falling"
+  }
+}

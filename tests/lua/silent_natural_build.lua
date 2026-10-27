@@ -184,7 +184,7 @@ local function attempt(seed,quiet)
  local starter={};for _,c in ipairs(run.deck)do assert(not c.upgraded);starter[c.cardId]=(starter[c.cardId]or 0)+1 end
  assert(starter.strike_green==5 and starter.defend_green==5 and starter.neutralize==1 and starter.survivor==1,'unmodified12-card Silent starter')
  local green,basic=0,0;for _,c in ipairs(run.data.cards.cards)do if c.color=='green'and c.rarity~='special'and c.type~='status'and c.type~='curse'then green=green+1;if c.rarity=='basic'then basic=basic+1 end end end
- assert(green==61 and basic==4,'fixed61-green executable Profile definitions include4 basics')
+ assert(green==75 and basic==4,'complete75-green executable Profile definitions include4 basics')
  local sourceCount=0;for _,pool in pairs(run.data.cards.sourcePools.reward)do sourceCount=sourceCount+#pool end
  assert(sourceCount==71,'full71-green source rewards remain unfiltered')
  local plannedRewards={'poisoned_stab','finisher','bane','storm_of_steel'}

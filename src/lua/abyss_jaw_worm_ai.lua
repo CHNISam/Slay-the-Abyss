@@ -1,4 +1,4 @@
--- Act 1 Jaw Worm decision only. Source: TASK-15-jaw-worm-ai.md.
+-- Fixed JawWorm decision; Act1 forces Chomp, Act3 hard constructor does not.
 -- Source rooms use independent STS aiRng; explicit fixtures retain their callback.
 local M = {}
 local R=require('abyss_enemy_random')
@@ -24,8 +24,18 @@ end
 
 function M.initialize(state, enemy, random)
     enemy.jawLast, enemy.jawPrevious = nil, nil
-    random(state, enemy.ai.rollRange) -- rollMove consumes a primary draw even on forced Chomp
-    select(enemy, enemy.ai.chompIntent)
+    local roll=random(state, enemy.ai.rollRange)-1 -- primary is consumed even on forced Act1 Chomp
+    local next=enemy.ai.chompIntent
+    if enemy.ai.hardMode==true then
+        next=M.choose(enemy.ai,nil,nil,roll,function()return R.float(state,random)end)
+    end
+    select(enemy,next)
+end
+
+function M.preBattle(state,enemy,actors)
+    if enemy.ai.hardMode~=true then return end
+    actors.applyPower(state,enemy,'strength',enemy.ai.preBattleStrength,enemy)
+    actors.block(state,enemy,enemy.ai.preBattleBlock,true)
 end
 
 function M.advance(state, enemy, random)

@@ -147,7 +147,7 @@ function M.startTurn(state, generate)
     for _, uid in ipairs(uids) do
         local card = byUid[uid]
         assert(type(uid) == "number" and uid % 1 == 0 and uid >= 1 and uid <= MAX and not seen[uid] and not before[uid]
-            and card and card.cardId == "shiv" and card.upgraded == false, "invalid generated Shiv")
+            and card and card.cardId == "shiv" and card.upgraded == ((state.player.statuses.master_reality or 0)>0), "invalid generated Shiv")
         seen[uid] = true
     end
     for _, uid in ipairs(uids) do byUid[uid].shivAccuracyBonus = bonus end

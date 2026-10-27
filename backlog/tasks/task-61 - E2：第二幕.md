@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 05:41'
 labels:
   - required
   - sts1
@@ -47,6 +47,8 @@ type: feature
 2026-10-26本轮M3并行：act2独立工作树按固定来源补第二幕怪物组的A0数据/AI和正式构造分派，保留未实现内容拒绝边界，不代用第一幕怪物。Host/章节UI由父线程负责，事件和药水另树；统一集成和回归后再判各层验收。
 
 本轮组合审查独立补齐章节非稀有奖励升级0/25/50/50%的源序、纯数据保留、UID领取及下一战；主线程接升级卡面与缺定义奖励的明确不可领取显示，身份与随机消费不重抽。
+
+2026-10-27并发复核：events独立树先补The Joust真实屏序/随机时点与独立模块，主session接Act2Events/Nodes/UI；其后补Neow等真缺项，不改变原事件池顺序/资格/概率，不以full开关冒充完整可玩。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

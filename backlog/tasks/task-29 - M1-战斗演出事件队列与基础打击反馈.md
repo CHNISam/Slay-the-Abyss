@@ -3,9 +3,9 @@ id: TASK-29
 title: 让出牌、受击和敌人行动都有反馈
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 05:41'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -40,3 +40,9 @@ ordinal: 38000
 - [ ] #4 在同一个游戏版本实测画面和声音，保存截图或录像，没听验的音效写明。
 - [ ] #5 本任务负责人收集TASK-29.1及4.1同版本原生演出和音效证据，交TASK-4审阅，独立音效存档试听不能替代正式游戏混音。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-27并发复核：combat独立树按固定GameActionManager/DamageAction/VFXAction调用链补feedback连续出牌边界，保留现有引擎；定向回归与正式UI入口验证，主session接线集成，实机证据不伪造。
+<!-- SECTION:PLAN:END -->

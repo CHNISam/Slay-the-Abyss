@@ -16,10 +16,13 @@ const curseEvents = {
   regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
   decay: ['explicit_event:wheel:accept'],
+    injury: ['explicit_event:golden_idol:injury'],
 };
 const specialRelicEvents = {
+  red_mask: ['explicit_event:tomb_red_mask:pay'],
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
-  spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer'],
+    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take'],
+    golden_idol: ['explicit_event:golden_idol:take'],
 };
 const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const runtimeModules = Object.entries({
@@ -201,7 +204,8 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     check(card.rarity===actual?.rarity&&card.type===actual?.type&&card.rarity===reference?.rarity.toLowerCase(),`sharedCards/${card.id}: classification drift`);
     check(actual?.supported===true,`sharedCards/${card.id}: unsupported runtime effect`);
     same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard']:
-      ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation'])],`sharedCards/${card.id} channels`);
+      ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation']),
+        'explicit_event:sensory_stone:card_reward'],`sharedCards/${card.id} channels`);
     check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);
   }
   same(manifest.runtime?.modules, runtimeModules, 'runtime deployment relationships');

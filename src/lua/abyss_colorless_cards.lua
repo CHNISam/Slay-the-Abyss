@@ -93,18 +93,24 @@ function M.powerDescription(actor,id)
         end end
     end
 end
-function M.withCards(data)
+function M.withCards(data,owned)
     if data.colorlessCards then
         local present={};for _,d in ipairs(data.cards.cards)do present[d.id]=true end
         local complete=true;for _,d in ipairs(cards)do if not present[d.id]then complete=false end end
         if complete then return data end
     end
-    local out={};for k,v in pairs(data)do out[k]=v end
-    out.cards={};for k,v in pairs(data.cards)do out.cards[k]=v end
-    out.cards.cards={};for i,d in ipairs(data.cards.cards)do out.cards.cards[i]=d end
-    out.cards.sourcePools=copy(data.cards.sourcePools or {})
-    out.statuses={};for k,v in pairs(data.statuses)do out.statuses[k]=v end
-    out.statuses.statuses={};for i,d in ipairs(data.statuses.statuses)do out.statuses.statuses[i]=d end
+    -- Run's catalogue assembler already owns its complete private graph. Keep
+    -- its containers/arrays/maps live while adding these definitions. Public
+    -- registration and Combat callers retain the existing detached path.
+    local out=data
+    if not owned then
+        out={};for k,v in pairs(data)do out[k]=v end
+        out.cards={};for k,v in pairs(data.cards)do out.cards[k]=v end
+        out.cards.cards={};for i,d in ipairs(data.cards.cards)do out.cards.cards[i]=d end
+        out.cards.sourcePools=copy(data.cards.sourcePools or {})
+        out.statuses={};for k,v in pairs(data.statuses)do out.statuses[k]=v end
+        out.statuses.statuses={};for i,d in ipairs(data.statuses.statuses)do out.statuses.statuses[i]=d end
+    end
     local seen={}
     for _,d in ipairs(out.cards.cards)do seen[d.id]=true end
     for _,d in ipairs(cards)do if not seen[d.id]then out.cards.cards[#out.cards.cards+1]=copy(d)end end
@@ -307,8 +313,9 @@ function M.choose(combat,state,token,uid)
 end
 local function growBattleInstances(state,original,amount)
     local seen={}
+    local uuid=original.uuid or original.uid
     local function grow(c)
-        if c and not seen[c] and (c.uid==original.uid or original.deckUid and c.deckUid==original.deckUid)then
+        if c and not seen[c] and (c.uuid or c.uid)==uuid then
             seen[c]=true;c.misc=(c.misc or 15)+amount
         end
     end

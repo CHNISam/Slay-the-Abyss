@@ -6,7 +6,8 @@ local M={}
 local MAX=2147483647
 local pileNames={"hand","draw","discard","exhaust"}
 local specs={headbutt={source="discard",destination="draw"},exhume={source="exhaust",destination="hand"},
-    hologram={source="discard",destination="hand"},seek={source="draw",destination="hand"}}
+    hologram={source="discard",destination="hand"},seek={source="draw",destination="hand"},
+    meditate={source='discard',destination='hand'},omniscience={source='draw',destination='autoplay'}}
 local rarity={basic=0,special=1,common=2,uncommon=3,rare=4,curse=5,status=1}
 local function integer(n,lo,hi) return type(n)=="number" and n==n and n%1==0 and n>=lo and n<=hi end
 local function dense(t)
@@ -62,7 +63,7 @@ local function candidates(s,mode,requested)
     -- BetterDrawPileToHand sorts a TEMPORARY group only when it must ask.
     -- Locale display names are current data names, not an asserted original
     -- language pack. Never reorder the real draw pile for this presentation.
-    if mode=="seek" and #result>requested then
+    if mode=='omniscience' or mode=="seek" and #result>requested then
         local original={};for i,uid in ipairs(result) do original[uid]=i end
         local keys={}
         for _,card in ipairs(s.draw) do
@@ -131,15 +132,24 @@ local function restoreExcluded(s)
     end
     for _,card in ipairs(excluded) do s.exhaust[#s.exhaust+1]=card end
 end
-local function resolve(s,p,uids,current)
+local function resolve(s,p,uids,current,combat,auto)
     for _,uid in ipairs(uids) do
         local card=assert(current.byUid[uid],"retrieval card missing").card
+        if p.mode=='omniscience' then
+            assert(combat,'Omniscience requires the host queue API')
+            remove(s,p.source,card);card.exhaust=true
+            local energyOnUse=s.energy -- Both NewQueue actions precede cardQueue execution.
+            combat.queueCard(s,card,{append=true,exhaustCards=true,randomTarget=true,energyOnUse=energyOnUse})
+            local duplicate=require('abyss_card_actions').fresh(combat,s,card.cardId,card)
+            combat.queueCard(s,duplicate,{append=true,purge=true,exhaustCards=true,randomTarget=true,energyOnUse=energyOnUse})
+        else
         local destination=p.destination
         if destination=="hand" and #s.hand>=10 then
             if p.mode=="seek" then destination="discard"
             else destination=p.source end -- Hologram stays in discard; no fake discard trigger.
         end
         if destination~=p.source then
+            if p.mode=='meditate' then card.retain=true end
             remove(s,p.source,card);s[destination][#s[destination]+1]=card
             if p.mode=="exhume" and (s.player.statuses.corruption or 0)~=0 then
                 -- Exhume explicitly sets a skill's turn cost; it is NOT a draw
@@ -148,15 +158,17 @@ local function resolve(s,p,uids,current)
             elseif p.mode=="seek" and destination=="discard" then discardHook(s) end
             Events.emit(s,"pile_choice_move",{mode=p.mode,uid=card.uid,cardId=card.cardId,source=p.source,destination=destination})
         end
+        if p.mode=='meditate' and auto then card.retain=true end
+        end
     end
     if p.mode=="exhume" and #p.piles.exhaust>1 then restoreExcluded(s) end
     s.pendingPileChoice=nil
     return true
 end
 function M.active(s) return type(s)=="table" and s.pendingPileChoice~=nil end
-function M.begin(s,mode,count,generation)
+function M.begin(s,mode,count,generation,combat)
     local spec=assert(specs[mode],"unknown retrieval mode")
-    assert(integer(count,0,MAX) and ((mode=="seek" or mode=="hologram") or count==1),"invalid retrieval count")
+    assert(integer(count,0,MAX) and ((mode=="seek" or mode=="hologram" or mode=='meditate') or count==1),"invalid retrieval count")
     assert(integer(generation,0,MAX),"retrieval requires explicit combat generation")
     assert(type(s)=="table" and not s.pendingPileChoice and not s.pendingHandChoice and not s.pendingScry and not s.pendingDiscard,
         "another selection is pending")
@@ -168,19 +180,19 @@ function M.begin(s,mode,count,generation)
     if #uids==0 then return true end
     assert(integer(s.pileChoiceSerial or 0,0,MAX-1),"retrieval token overflow")
     local rawCount=#s[spec.source]
-    local auto=mode=="exhume" and rawCount==1 or mode~="exhume" and rawCount<=count
+    local auto=mode~='omniscience' and (mode=="exhume" and rawCount==1 or mode~="exhume" and rawCount<=count)
     return transaction(s,function()
         s.pileChoiceSerial=(s.pileChoiceSerial or 0)+1
         local p={mode=mode,source=spec.source,destination=spec.destination,requested=count,count=math.min(count,#uids),
             minCount=math.min(count,#uids),maxCount=math.min(count,#uids),token=s.pileChoiceSerial,generation=generation,
             turn=s.turn,piles=current.piles,using=current.using,candidateUids=uids,excludedUids=excluded}
-        if auto then return resolve(s,p,uids,current) end
+        if auto then return resolve(s,p,uids,current,combat,true) end
         s.pendingPileChoice=p
         Events.emit(s,"pile_choice",{mode=mode,source=spec.source,count=p.count,candidates=#uids,token=p.token,generation=generation})
         return "pause"
     end)
 end
-function M.choose(s,uids,token,generation)
+function M.choose(s,uids,token,generation,combat)
     if not live(s) then return false,"not_player_turn" end
     local p=s.pendingPileChoice
     if type(p)~="table" or not integer(token,1,MAX) or p.token~=token or s.pileChoiceSerial~=token then return false,"stale_pile_choice_token" end
@@ -194,7 +206,7 @@ function M.choose(s,uids,token,generation)
         if not integer(uid,1,MAX) or not allowed[uid] or selected[uid] then return false,"invalid_pile_choice_uid" end
         selected[uid]=true
     end
-    return transaction(s,function()return resolve(s,p,uids,current)end)
+    return transaction(s,function()return resolve(s,p,uids,current,combat,false)end)
 end
 function M.view(s)
     local p=type(s)=="table" and s.pendingPileChoice

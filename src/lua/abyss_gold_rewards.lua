@@ -1,7 +1,18 @@
--- Normal, non-Daily PC A0 combat gold. Fixed AbstractRoom source and unsupported
--- modifiers/shared chest-stream boundary: docs/reviews/TASK-13.1-combat-gold.md.
+-- Normal, non-Daily PC A0 base combat gold: AbstractRoom source.
+-- Frozen Golden Idol bonus: docs/rules/GOLDEN_IDOL.md; chest stream stays separate.
 local R = require('abyss_sts_random')
 local M = {}
+-- RewardItem.GOLD freezes this bonus when the non-TreasureRoom offer is made.
+-- Source adds round(base*.25f), rather than truncating/rounding the total.
+function M.offerAmount(base,owner)
+    assert(type(base)=='number' and base%1==0 and base>=0 and base<=2147483647,'invalid gold offer')
+    local bonus=0
+    for _,id in ipairs(owner and owner.relics or {})do
+        if id=='golden_idol'then bonus=math.floor(R.float32(R.float32(base)*R.float32(.25))+.5);break end
+    end
+    assert(base+0.0+bonus<=2147483647,'gold offer overflow')
+    return base+0.0+bonus,bonus
+end
 
 -- Prepare privately; the reward transaction publishes the selected stream only
 -- after every reward is ready. Claiming the offered gold draws no randomness.

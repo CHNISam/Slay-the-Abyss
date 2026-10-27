@@ -5,7 +5,7 @@ local Random=require('abyss_sts_random')
 local Exhaust=require('abyss_exhaust')
 local M={}
 local MAX=2147483647
-local function copy(x) if type(x)~='table' then return x end;local y={};for k,v in pairs(x) do y[k]=copy(v) end;return y end
+local copy=require('abyss_copy').copy
 local function integer(n,lo) return type(n)=='number' and n==n and n%1==0 and n>=(lo or 0) and n<=MAX end
 local function make(op,n,extra) local e={op=op,value=n};for k,v in pairs(extra or {}) do e[k]=v end;return e end
 local function action(e) return {kind='effect',effect=e} end

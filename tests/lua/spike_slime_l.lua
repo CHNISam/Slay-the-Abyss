@@ -1,10 +1,20 @@
 -- Fixed-source A0 Large Spike pre-split contract; TASK-15.12.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local C,Data,Run=require('abyss_combat'),require('abyss_data'),require('abyss_run')
-local passed,failed=0,0
+local first,last,historyFirst,historyLast=...
+first,last=first or 1,last or 5
+assert(first>=1 and last<=17 and first<=last,'invalid budget slice')
+historyFirst,historyLast=historyFirst or 1,historyLast or 6
+assert(historyFirst>=1 and historyLast<=6 and historyFirst<=historyLast,'invalid history slice')
+local passed,failed,registered=0,0,0
 local function eq(a,b,label) assert(a==b,(label or 'value')..': expected '..tostring(b)..', got '..tostring(a)) end
 local function same(a,b) if type(a)~='table' then return eq(a,b) end;for k,v in pairs(a)do same(v,b[k])end;for k in pairs(b)do assert(a[k]~=nil)end end
-local function test(name,fn) local ok,why=pcall(fn);if ok then passed=passed+1 else failed=failed+1 end;print((ok and 'PASS ' or 'FAIL ')..name..(ok and '' or ': '..tostring(why))) end
+local function test(name,fn)
+ registered=registered+1;if registered<first or registered>last then return end
+ local ok,why=pcall(fn);if ok then passed=passed+1 else failed=failed+1 end
+ print((ok and 'PASS ' or 'FAIL ')..name..(ok and '' or ': '..tostring(why)))
+ print('SPIKE_SLIME_L_CASE '..registered)
+end
 local function battle(ids,deck,seed) return C.new(Data,{enemies=ids or {'spike_slime_l'},deck=deck or {'defend'},seed=seed or 42}) end
 local function force(e,id) for i,v in ipairs(e.intents)do if v.id==id then e.intentIndex=i;return end end;error('missing '..id)end
 local function count(s,id) local n=0;for _,pile in ipairs({s.hand,s.draw,s.discard,s.exhaust})do for _,c in ipairs(pile)do if c.cardId==id then n=n+1 end end end;return n end
@@ -24,11 +34,15 @@ for _,r in ipairs({0,29,30,99})do test('opening boundary '..r,function()
 end)end
 test('runtime dispatcher covers all 600 controlled action histories and rolls',function()
  local histories={{1,0},{2,0},{1,1},{2,2},{1,2},{2,1}}
- for _,h in ipairs(histories)do for r=0,99 do observe(r,function(calls)
+ local historyCases=0
+ for history,h in ipairs(histories)do if history>=historyFirst and history<=historyLast then for r=0,99 do observe(r,function(calls)
+  historyCases=historyCases+1
   local s=battle();local e=s.enemies[1];force(e,'spike_slime_l_'..h[1]);e.spikeLast=h[2]>0 and 'spike_slime_l_'..h[2] or nil
   local before=#calls;assert(C.endTurn(s));local want=r<30 and 1 or 2;if h[1]==h[2] then want=3-h[1] end
   eq(C.intent(s,1).id,'spike_slime_l_'..want);eq(primary(calls,before),1);eq(e.spikePrevious,h[2]>0 and 'spike_slime_l_'..h[2] or nil);eq(e.spikeLast,'spike_slime_l_'..h[1])
- end)end end
+ end)end end end
+ eq(historyCases,(historyLast-historyFirst+1)*100)
+ print('SPIKE_SLIME_L_HISTORIES '..historyFirst..' '..historyLast..' '..historyCases)
 end)
 test('two attacks produce four Slimed then force Frail before another attack',function()
  observe(0,function(calls)local s=battle();for _,want in ipairs({1,2,1})do local before=#calls;assert(C.endTurn(s));eq(C.intent(s,1).id,'spike_slime_l_'..want);eq(primary(calls,before),1)end
@@ -85,4 +99,6 @@ test('failed card action rolls back actor identity history and random state in p
  eq(ok,false);assert(tostring(why):find('SPIKE_L_FAILURE',1,true));same(s,before);eq(s.enemies[1],enemy);eq(s.hand,hand);eq(s.events,events)
  end)
 end)
+assert(registered==17,'all original cases must remain registered')
+assert(passed+failed==last-first+1,'each selected case must execute')
 print(passed..' Large Spike groups passed; '..failed..' failed');assert(failed==0)
