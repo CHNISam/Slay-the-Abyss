@@ -47,5 +47,6 @@ assert(run.combat.player.hp==before.combat.player.hp and run.combat.rng==before.
 assert(host:closeExit());host:refresh()
 for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
+trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
 assert(trace.count==72915 and trace.hash==148113441,'ordered native writes changed from the frozen contract')
