@@ -6,6 +6,7 @@ local Theme = require("abyss_theme")
 local Events = require("abyss_events")
 local Feedback = require("abyss_feedback")
 local CardView = require("abyss_battle_card_view")
+local CardInput = require("abyss_card_input")
 local EnemyView = require('abyss_battle_enemy_view')
 local StatusView = require("abyss_battle_status_view")
 local PotionView = require("abyss_battle_potion_view")
@@ -204,18 +205,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         assert(entry,'enemy has no visible presentation slot')
         return enemySlot(count,slot,entry.actor)
     end
-    -- Targeted cards enter the docked aiming pose after crossing the line.
-    -- No-target commits use the release point inside the explicit field below.
+    -- Source PC behavior: the card center follows the pointer, not the grab offset.
     local function dragPose(g)
-        local origin, h = g.origin or {g.sx,g.sy}, L.card.size[2]*D.scale
-        local x, y = origin[1]+g.x-g.sx, origin[2]+g.y-g.sy
-        return x, y, y+h/2-D.commitOverlap*h >= D.lineY or g.y >= D.lineY, y < D.cancelY
-    end
-    -- Once armed, only pulling the card clearly back into the hand disarms it, so a
-    -- wobble or release jitter near the line never turns an intended play into a cancel.
-    local function arm(g)
-        local _, _, crossed, back = dragPose(g)
-        if crossed then g.armed = true elseif back then g.armed = false end
+        return g.x, g.y + (g.touchScreen and 270*g.sourceScale or 0)
     end
     local function inPlayArea(x,y)
         local area = D.playArea
@@ -227,22 +219,24 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not dragReady(g) then return false end
         local battle = g.battle
         local ok, reason = Combat.canPlay(battle,g.uid,nil)
-        if ok then return inPlayArea(g.x,g.y), nil end
-        if reason ~= "invalid_target" then return false end
-        if not g.armed then return false end
-        local rows=EnemyView.slots(battle)
+        if not ok and reason ~= "invalid_target" then return false end
+        local hovered
+        local rows = EnemyView.slots(battle)
         local count = #rows
         for i, entry in ipairs(rows) do
-            local enemy=entry.actor
+            local enemy = entry.actor
             local x, _, portrait, step = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
             if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
                 and math.abs(g.y-L.enemyRow.y) <= portrait/2+D.reticlePad
-                and Combat.canPlay(battle,g.uid,entry.index) then
-                return true, entry.index, true
+                and Actors.isActive(enemy) then
+                hovered = entry.index; break
             end
         end
-        return false, nil, true
+        CardInput.sample(g, g.x, g.y, hovered, not ok)
+        if g.cancelled then return false, nil, g.aiming end
+        if ok then return g.dropZone, nil end
+        return g.aiming and hovered ~= nil and Combat.canPlay(battle,g.uid,hovered) or false, hovered, g.aiming
     end
     local function button(name, enabled, primary, caption)
         local box = child(name)
@@ -258,12 +252,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local closeInfo -- defined with the detail panel below
     function self:resize(width, height)
-        local cancelled = cancelPotionAim("已取消药水瞄准。") or self.gesture ~= nil
+        local cancelled = cancelPotionAim("已取消药水瞄准。") or self.gesture ~= nil or self.carry ~= nil
         cancelCardInputs()
         cancelPotionInputs()
         cancelActionInputs()
         for _, input in ipairs(enemyInputs) do input.held, input.released = nil, nil end
-        if cancelled then self.gesture, self.selected, self.suppressClick = nil, nil, true end
+        if cancelled then self.gesture, self.carry, self.selected, self.suppressClick = nil, nil, nil, true end
         if closeInfo() then cancelled = true end
         self.canvasWidth, self.canvasHeight = width, height
         local k = math.min(width / Theme.canvas.base[1], height / Theme.canvas.base[2])
@@ -341,6 +335,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not run or run.phase ~= "combat" or not run.potions[slot] or slot>Run.potionCapacity(run) then return end
         return {kind="potion",index=0,slot=slot,potionId=run.potions[slot],inventory=run.potions}
     end
+    local function placeHandHit(box, w, h, restAngle, baseY, y, scale)
+        local r = restAngle * math.pi / 180
+        local c,s = math.abs(math.cos(r)),math.abs(math.sin(r))
+        local restH,restW = (h*c+w*s)/2,(w*c+h*s)/2
+        local hotH = h*Theme.motion.hoverScale/2
+        local low = math.min(baseY-restH,baseY+Theme.motion.hoverLift-hotH)
+        local high = math.max(baseY+restH,baseY+Theme.motion.hoverLift+hotH)
+        local dy,a = (low+high)/2-y,box.localRotationZ*math.pi/180
+        local hit = box:GetChild('hit')
+        -- Inverse the card transform: one world-space hit rectangle covers both poses.
+        hit:SetAnchoredPosition(math.sin(a)*dy/scale,math.cos(a)*dy/scale)
+        hit:SetSizeDelta(math.max(restW*2,w*Theme.motion.hoverScale)/scale,(high-low)/scale)
+        hit:SetLocalScale(1,1,1)
+        hit.localRotationZ = -box.localRotationZ
+    end
     local function placeCard(box, count, index, selected)
         local w, h = L.card.size[1], L.card.size[2]
         local spacing = count <= 1 and 0 or math.max(L.hand.spacingMin, math.min(L.hand.spacingMax, (L.hand.maxWidth - w) / (count - 1)))
@@ -349,11 +358,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local radians = math.abs(angle) * math.pi / 180
         local halfHeight = (h * math.cos(radians) + w * math.sin(radians)) / 2
         local floor = -Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + halfHeight
-        local x, y = distance * spacing, math.max(floor, L.hand.y - math.abs(distance) * L.hand.arcDrop) + (selected and Theme.motion.hoverLift or 0)
+        local baseY = math.max(floor,L.hand.y-math.abs(distance)*L.hand.arcDrop)
+        local x, y = distance * spacing, baseY + (selected and Theme.motion.hoverLift or 0)
         box:SetAnchoredPosition(x, y)
         local scale = selected and Theme.motion.hoverScale or 1
         box:SetLocalScale(scale, scale, 1)
         box.localRotationZ = selected and 0 or angle
+        placeHandHit(box,w,h,angle,baseY,y,scale)
         box:GetChild("glow"):SetVisible(selected)
         box:SetAsLastSibling()
         return {x, y}
@@ -367,6 +378,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return hot and R.hoverScale or R.scale, hot and R.hoverLift or 0
     end
     local function placeReward(box, count, index, anim, hot)
+        local hit = box:GetChild('hit')
+        hit:SetAnchoredPosition(0,0)
+        hit:SetSizeDelta(L.card.size[1],L.card.size[2])
+        hit:SetLocalScale(1,1,1)
+        hit.localRotationZ = 0
         local x = (index - 1 - (count - 1) / 2) * R.step
         box:SetAnchoredPosition(x, R.y + anim.lift + anim.rise)
         box:SetLocalScale(anim.scale, anim.scale, 1)
@@ -381,12 +397,17 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         placeCard = placeCard, placeReward = placeReward,
         dragTarget = dragTarget, dragPose = dragPose, enemyPosition = enemyPosition,
     })
+    local function canHover()
+        return self.active and not self.busy and not self.gesture and not self.carry
+    end
     function self:setHover(slot)
         local run = self.run
-        if slot and not (self.active and not self.busy and run and run.phase == "reward"
-            and self.rewardScreen == "cards" and Run.rewardOptions(run)[slot]) then slot = nil end
+        local reward = run and run.phase == 'reward' and self.rewardScreen == 'cards' and Run.rewardOptions(run)[slot]
+        local hand = run and run.phase == 'combat' and run.combat.phase == 'player' and run.combat.hand[slot]
+        if slot and not (canHover() and (reward or hand)) then slot,hand = nil,nil end
         if self.hover == slot then return end
         self.hover = slot
+        self.handHover = hand and {run=run,battle=run.combat,turn=run.combat.turn,slot=slot,uid=hand.uid}
         self:render(true)
     end
     local function pruneInputs(inputs, ready)
@@ -404,6 +425,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         if view.gesture and not cardReady(view.gesture) then
             view.gesture, view.selected, view.suppressClick = nil, nil, true
+        end
+        if view.carry and (view.selected ~= view.carry.uid or not cardReady(view.carry)) then
+            if view.selected == view.carry.uid then view.selected = nil end
+            view.carry = nil
         end
         pruneInputs(cardInputs, cardReady)
         pruneInputs(potionInputs, potionReady)
@@ -443,6 +468,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not enemyPlayback then playbackIntents = nil end
         return {run = run, battle = battle, fighting = fighting, enemyPlayback = enemyPlayback}
     end
+    local function handHoverReady()
+        local token,run = self.handHover,self.run
+        if not token then return false end
+        local instance = token.battle.hand[token.slot]
+        return canHover() and run == token.run and run.phase == 'combat' and run.combat == token.battle
+            and token.battle.turn == token.turn and token.battle.phase == 'player'
+            and instance and instance.uid == token.uid
+    end
     local function syncRewardOwner(frame)
         local run = frame.run
         local reward = not self.busy and run and run.phase == "reward"
@@ -457,7 +490,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         frame.picking = reward and self.rewardScreen == "cards"
         frame.listing = reward and self.rewardScreen == "list"
-        if not reward then self.hover = nil end
+        if reward then self.handHover = nil
+        elseif not handHoverReady() then self.hover,self.handHover = nil,nil end
     end
     local function syncRewardEntrance(frame)
         if frame.picking and (not self.rewardView or self.rewardView.rewards ~= frame.run.rewards) then
@@ -854,6 +888,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not command then return false, "invalid_choice_kind" end
         return perform(function() return command(self.run,uids,token,generation) end)
     end
+    local updateCarry
     local function helpContextChanged(help)
         local current = self.run and self.run.combat
         local actor = current and (help.spec.index == 0 and current.player or current.enemies[help.spec.index])
@@ -906,6 +941,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
     end
     function self:update(dt)
+        if self.gesture then self.gesture.elapsed = (self.gesture.elapsed or 0) + dt end
+        if updateCarry then updateCarry() end
         if self.potionAim and not aimReady(self.potionAim) then self:render() end
         updateHelp(dt)
         if self.feedbackRun and (self.feedbackRun ~= self.run or self.feedbackBattle ~= (self.run and self.run.combat)) then
@@ -1089,10 +1126,35 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         g.x,g.y = x,y
         if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
         if g.moving then
-            arm(g)
             self.suppressClick,self.selected = true,g.uid
-            self:render()
+            local valid, target, aiming = dragTarget(g)
+            if g.cancelled then
+                g.input.held, g.input.released = nil, nil
+                self.gesture, self.selected = nil, nil
+                self:render(); return
+            end
+            if g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
+                self:render()
+            else
+                cardView.renderDrag(valid, target, aiming, true)
+            end
         end
+    end
+    updateCarry = function()
+        local g = self.carry
+        if not g then return end
+        if not cardReady(g) or self.selected ~= g.uid then self:render(); return end
+        if not platform.cursorPosition or g.touchScreen then return end
+        local x,y = point({GetUIPos=platform.cursorPosition})
+        if not x or x == g.x and y == g.y then return end
+        g.x,g.y = x,y
+        local valid,target,aiming = dragTarget(g)
+        if g.cancelled then
+            self.carry,self.selected = nil,nil
+            self:render()
+        elseif g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
+            self:render()
+        else cardView.renderDrag(valid,target,aiming,true) end
     end
     local function releaseCardTap(event, input, ended)
         local touch = event and event.touchId
@@ -1116,9 +1178,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             return
         end
         g.input.released = nil
-        self.suppressClick,self.selected = true,valid and g.uid or nil
+        local action = x and CardInput.release(g, valid) or 'cancel'
+        self.carry = (action == 'target' or action == 'carry') and g or nil
+        self.suppressClick,self.selected = true,action ~= 'cancel' and g.uid or nil
         self:render()
-        if valid then self:playSelected(target)
+        if action == 'play' then self:playSelected(target)
         else notice("") end
     end
     local function release(event, input, ended)
@@ -1332,6 +1396,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local ok, reason = Combat.canPlay(battle, instance.uid, nil)
         if not ok and reason ~= "invalid_target" then return end
         g.sx, g.sy, g.x, g.y, g.origin = x, y, x, y, self.cardPositions[instance.uid]
+        CardInput.begin(g, Theme.canvas.base[2], platform.touchScreen and platform.touchScreen(), Theme.canvas.base[1])
+        self.carry = nil
         self.gesture = g
     end
     local function bindCardControls()
@@ -1576,6 +1642,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
     end
     bindDetailControls()
+    local keys = platform.keyEvents
+    if keys and keys.KeyboardSprintKeyDown and root.AddKeyEventListener then
+        -- The official UI maps SprintKey to the user's right-mouse binding.
+        root:AddKeyEventListener(keys.KeyboardSprintKeyDown, function()
+            if not self.active or not (self.gesture or self.carry or self.selected) then return false end
+            cancelCardInputs()
+            self.gesture,self.carry,self.selected,self.hover = nil,nil,nil,nil
+            self.suppressClick = true
+            self:render()
+            return true
+        end)
+    end
     refresh()
     return self
 end

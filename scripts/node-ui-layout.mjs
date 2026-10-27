@@ -1,4 +1,5 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
+import { cardFaceChildren } from './card-face.mjs';
 import { merchantControl } from './cinematic-ui-layout.mjs';
 
 // Approved PR19 node screens (shop, camp/forge, event, treasure) as one native
@@ -34,28 +35,8 @@ export function nodeLayout(theme = nativeTheme) {
 
   // Approved 148x208 card: rarity frame, name band, type-coloured art, type line, text, cost disc.
   function card(name, position, interactive = true) {
-    const card = theme.layout.card, [w, h] = card.size, b = space.border, top = h / 2;
-    const artY = top - card.nameBand - card.art / 2 - b;
-    const typeY = top - card.nameBand - card.art - card.typeLine / 2 - b;
-    const disc = [-w / 2 + card.costDisc / 2, top - card.costDisc / 2];
-    return { name, kind: 'container', position, size: [w, h], children: [
-      hidden({ ...plate('glow', frame([0, 0], [w + space.xl, h + space.xl]), color.goldBright), image: image.glow }),
-      plate('border', frame([0, 0], [w, h]), color.rarity.basic),
-      plate('plate', frame([0, 0], [w - b * 2, h - b * 2]), color.panel),
-      plate('nameBand', frame([0, top - card.nameBand / 2 - b], [w - b * 2, card.nameBand]), color.panelRaised),
-      text('name', frame([card.costDisc / 2, top - card.nameBand / 2 - b], [w - card.costDisc - space.s, card.nameBand]),
-        '', font.cardName),
-      plate('artPlate', frame([0, artY], [w - b * 2, card.art]), color.cardType.attack),
-      ...Object.entries(icon.cardArt).map(([kind, id]) => hidden(picture(`art_${kind}`, [0, artY, Math.min(lineHeight,card.art), Math.min(lineHeight,card.art)], id))),
-      text('type', frame([0, typeY], [w - space.s, lineHeight]), '', font.small, color.gold),
-      text('description', frame([0, -top + card.textBox[1] / 2 + space.xs], card.textBox), '', font.card),
-      { ...plate('costDisc', frame(disc, [card.costDisc, card.costDisc]), color.energy), image: image.disc },
-      text('cost', frame(disc, [card.costDisc, lineHeight]), '', font.number, color.textOnLight),
-      hidden(plate('veil', frame([0, 0], [w, h]), color.backdropVeil)),
-      hidden(plate('stampPlate', frame([0, 0], [w - b * 2, lineHeight + space.s]), color.panelSunken)),
-      hidden(text('stamp', frame([0, 0], [w - space.s, lineHeight]), '', font.label, color.goldBright)),
-      ...(interactive ? [hit([w, h])] : []),
-    ] };
+    return { name, kind: 'container', position, size: [...theme.layout.card.size],
+      children: cardFaceChildren(theme, 'node', interactive) };
   }
   function price(name, x, y) {
     const [w, h] = layout.price.size, coin = layout.price.coin;

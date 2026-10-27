@@ -6,6 +6,7 @@ import { spawnSync } from 'node:child_process';
 import { fileRecord, inside, sha256, writeExclusive, prepareOutputDirectory } from './evidence-files.mjs';
 import { requireStartupEvidence } from './native-playtest-evidence.mjs';
 import { settlementGraphSource } from './settlement-graph.mjs';
+import { nativeUiVariables } from './native-candidate-scripts.mjs';
 
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
@@ -84,7 +85,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       receipt.outputs.push(fileRecord(destination,workspace));
       moduleDigests[name]=fileRecord(destination).sha256;
       await call('scene_set_client_script',{mapPath,name,sourceFile:destination,outputName:'abyss-full-game-test',
-        ...(name==='abyss_ui'?{variables:[{name:'nativeBgmEnabled',type:'boolean',value:false}]}:{})});
+        ...(name==='abyss_ui'?{variables:nativeUiVariables()}:{})});
     }
     for(const template of templates)await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});
     await call('scene_add_client_ui',{...layout,mapPath,replace:true,outputName:'abyss-full-game-test'});
