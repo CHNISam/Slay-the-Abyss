@@ -27,6 +27,16 @@ local function settleStandalone(state,settle)
     -- New tails may now exist; recheck owners, not their newly created queue.
     if settle and not actionOwned(state) and (state.cardActions or state.queuedCards) then CardActions.drain(M,state)end
 end
+local function enemyEffectsPending(state)
+    -- TOP reactions still belong to the queued enemy completion. BOTTOM
+    -- callbacks after that completion must flush now, before player input.
+    if state.drainingCardActions and state.phase=='enemy' then
+        for _,item in ipairs(state.cardActions or {})do
+            if item.effect.op=='enemyAction' and item.effect.stage=='effectsComplete' then return true end
+        end
+    end
+    return false
+end
 
 function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
     local settle=standaloneBoundary(state,retaliation)
@@ -49,7 +59,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
     EnemyAI.hpLost(state, target, before, before > 0 and (not source or sourceBefore > 0))
     if source and source ~= target then EnemyAI.hpLost(state, source, sourceBefore, thornsCallback) end -- normal thorns
     if not state.resolvingEffects then
-        EnemyAI.flush(state)
+        if not enemyEffectsPending(state) then EnemyAI.flush(state) end
         if not state.resolvingCard then Actors.flushCurlUp(state) end
     end
     settleStandalone(state,settle)
@@ -61,7 +71,7 @@ function M.retaliate(state, source, target, amount)
     local lost = Actors.retaliate(state, source, target, amount)
     if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     EnemyAI.hpLost(state, target, before, before > 0)
-    if not state.resolvingEffects and not (state.drainingCardActions and state.phase=='enemy') then EnemyAI.flush(state) end
+    if not state.resolvingEffects and not enemyEffectsPending(state) then EnemyAI.flush(state) end
     return lost
 end
 
@@ -93,7 +103,7 @@ local function resolveEffects(state, effects, source, target, playedCard, queued
     if not called then error(dealt, 0) end
     if not previous and not deferCompletion then
         EnemyAI.afterEffects(state, source)
-        EnemyAI.flush(state, source)
+        if not enemyEffectsPending(state) then EnemyAI.flush(state, source) end
         if not state.resolvingCard and not queuedEnemyAction then Actors.flushCurlUp(state) end
     end
     settleStandalone(state,settle)
