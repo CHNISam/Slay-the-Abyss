@@ -77,8 +77,14 @@ end)
 test("node and deck overlays retain state when exit is cancelled",function()
     local ui,root=F.fixture(nil,function() return true end)
     assert(ui:start()); ui.run.hp=20
-    local available=Nodes.available(ui.run,ui.map)[1]
-    for _,node in ipairs(ui.map.nodes) do if node.id==available.id then node.type="camp" end end
+    -- Stage navigation along the unchanged canonical graph; prior rooms are
+    -- not played here because this case isolates exit/deck overlay ownership.
+    local Map=require('abyss_map')
+    local routes=dofile('tests/lua/support/map_routes.lua')
+    local path=routes.to(ui.map,function(node)return node.type=='camp'end)
+    for i=1,#path-1 do assert(Map.choose(ui.map,path[i]))end
+    ui.run.floor=ui.map.floor
+    local available=routes.at(ui.map,path[#path])
     assert(ui.mapUI:choose(available.id))
     assert(ui:openDeck()); local cards=ui.deckUI.cards
     local before=Combat.copy(ui.run)

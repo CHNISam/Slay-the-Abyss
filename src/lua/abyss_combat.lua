@@ -62,7 +62,8 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
     local poison
     if source==state.player and not fixed and (source.statuses.envenom or 0)>0 then
         local amount=normalAmount or Actors.attackAmount(state,source,target,base)
-        poison=require('abyss_card_triggers').onAttack(state,source,target,math.max(0,amount-target.block),'NORMAL')
+        local received=require('abyss_corrupt_heart').incomingAmount(target,math.max(0,amount-target.block))
+        poison=require('abyss_card_triggers').onAttack(state,source,target,received,'NORMAL')
     end
     local thornsCallback = source and before > 0 and sourceBefore > 0 and not fixed and not retaliation
         and (target.statuses.thorns or 0)+(target.statuses.flame_barrier or 0) > 0

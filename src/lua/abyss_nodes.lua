@@ -317,7 +317,30 @@ local function enter(run, map, nodeId)
     return true
 end
 
+local function validateEntryMap(run,map)
+    if type(map)~='table' or getmetatable(map)~=nil then return false,'invalid_snapshot' end
+    -- Chapter birth facts, not caller-supplied markers, decide whether this is
+    -- a canonical map. Keep the old no-birth component API, but never let an
+    -- Emerald contract manufacture its own context or downgrade a born map.
+    local canonical=run.mapBirthAct~=nil or run.mapBirthContext~=nil
+        or map.emeraldSelection~=nil or map.mapRng~=nil or map.emeraldBoost~=nil
+    if not canonical and type(map.nodes)=='table' then
+        for _,node in next,map.nodes do
+            if type(node)=='table' and rawget(node,'hasEmeraldKey')~=nil then canonical=true;break end
+        end
+    end
+    if canonical then
+        local restored,reason=M.restoreMap(run,map)
+        if not restored then return false,reason end
+    end
+    return true
+end
+
 function M.enter(run,map,nodeId)
+    -- Validate the original graph/continuous stream before a copy can discard
+    -- metatables and before room hooks, encounter consumption or battle setup.
+    local valid,why=validateEntryMap(run,map)
+    if not valid then return false,why end
     -- Map.choose and every entry hook stay private until battle setup and room
     -- preparation both succeed. Keep the public map/root/path owners stable.
     local stagedMap=Combat.copy(map)

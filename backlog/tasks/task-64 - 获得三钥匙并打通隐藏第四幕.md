@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-27 19:38'
+updated_date: '2026-10-27 20:57'
 labels:
   - required
   - sts1
@@ -46,6 +46,8 @@ ordinal: 109000
 2026-10-27继续保留真实资格阻塞：宝箱新多奖励蓝钥匙只牺牲关联基础遗物，金币/额外遗物独立；已有红钥匙不重做。跨局历史、燃烧精英及终幕自然完整链仍未认证，不用测试给定history当自然解锁。
 
 2026-10-28在第三幕候选交付/完整CI期间推进依赖已满足的离线切片：按固定319009来源，独立实现盾矛与心脏的敌人/AI/源动作模块及向量；燃烧精英模块单独负责有资格地图选点、持续mapRng四强化和独立绿钥匙owner。三个切片不并发改共享Map/Run/Nodes/Combat/UI，父线程按边界接共享hooks和正式入口。先真实RED→GREEN、再完整失败回滚/既有RNG与呈现回归；任何组件完成不冒充终幕可达、三钥匙自然获得或持久平台验收。
+
+PR262入口修复：在原始地图被复制和房间钩子执行前，复用既有Map.restore与Run幕诞生上下文验证规范地图及连续mapRng。保留无诞生上下文的旧组件入口；带燃烧契约而缺上下文必须拒绝。先记录伪造有效流/选择/标记/元表的RED，再验证无副作用拒绝、正常生成/恢复/已战斗后的延续、晚失败回滚及原队列回归；不改状态或AC，不混入Stage1历史或Eggs。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -70,4 +72,8 @@ ordinal: 109000
 2026-10-28第四幕组合离线验证：真实54盾矛/55心脏入口、三钥匙及源队列资格、燃烧精英/独立绿钥匙、Invincible/Beat/Surrounded与背刺、源特殊意图、等待继续页及true_victory已在独立树接通。组合207模块/1209边分层、固定Luacheck84历史诊断零新增、界面入口/全部受检helper复杂度门禁通过，四语义变异均被原断言杀死；四职业受控真实52→55、完整source四stream、奖励顺序、Beat双死/Fairy/Mark、Nodes/严格Host/完整意图与绿钥匙12项组合回归全通过零跳过。受控已达51/历史/钥匙及999攻击只用于接线，不算自然通关；原生GIL与完整当前SHA CI尚待，Lizard Tail和Black Star等生产遗物缺口、历史平台持久化、四职业自然连续四幕及实机继续未完成，不勾AC。
 
 2026-10-28第四幕c5测试包已真实写入并独立读回213模块，正式资格/三钥匙门、绿钥匙、盾矛、心脏和确认真结局代码现可随该冻结候选由用户自行导入。组合复审捕获并修复两项：Map.snapshot洗掉原图元表，直接原图严格restore并拒root/nodes/末节点伪造；自动牌错误改变包围朝向，改为仅手动指定目标/定向药水转向，免费手动与原native/advanced及回滚保留。两项先真实RED再GREEN，10组转向、4组Nodes/3组严格Host与意图邻接通过；三名交叉独立复审绑定c5无未解Critical/Important。原源码4e因构建期间输入变化被标准门禁拒绝，保留为检查点；最终c5重新完整验证后交付，不抹去旧失败。没有本包官方导入、ready、自然取得三钥匙/资格、Lizard/BlackStar完整生产遗物、自然四职业连续四幕或平台持久化证据，不关闭AC。
+
+PR262独立P1入口修复候选：原始图在复制及房间hooks前，经既有Run幕诞生事实和Map.restore重建/路径重播验证。只改Nodes前置校验，不改来源RNG或奖励owner；旧无诞生事实且无燃烧字段的组件API保留，false字段不当作缺省。伪造有效seed2流真实RED（原public enter成功），修复后核心4组GREEN；既有Emerald/终幕14项和来源队列/地图/跨幕15项Node测试零失败零跳过，原30秒fixture预算保留。语法、207模块/1209边架构、固定Luacheck84历史诊断零新增均通过；遗留入口/事务切片与最终false字段补测仍运行，独立精确提交复查及完整当前SHA Quality尚待，不推送、不改状态/AC，也不宣称自然/平台/M3验收。
+
+2026-10-27 PR262 合并前来源复核：精确61b19351（79e76774玩法同树）真实Strike证明无敌额度0仍构造淬毒动作并误耗人工制品；固定sts@319009d5的AbstractMonster先执行目标ToChangeDamage，再执行Envenom.onAttack。最小修复复用Heart额度主人，抽出只读incomingAmount供Envenom判断，Actor仍唯一实际扣额度。新增原生/高级用牌队列0→1→1与纯预览/全格挡回归；定向Heart、触发器、毒构筑及架构/Luacheck通过，退回旧Combat时新断言真实变红。详见docs/reviews/PR262-HEART-ENVENOM-CAP-20261027.md。仅本地离线修复，不更改负责人/状态/AC；新SHA完整Quality、合入、同源原生与四职业自然四幕仍待证明。
 <!-- SECTION:NOTES:END -->
