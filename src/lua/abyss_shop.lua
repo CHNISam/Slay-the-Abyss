@@ -113,6 +113,18 @@ function S.prepare(run,roomFloor)
     return stock
 end
 function S.afterPurchase(run,flow,category,offer)
+    -- StoreRelic.purchaseRelic refreshes every existing card preview after
+    -- onEquip, before Courier can replace the purchased slot.
+    if category=='relics' then
+        for _,card in ipairs(flow.cards)do
+            for _,definition in ipairs(run.data.cards.cards)do
+                if definition.id==card.id then
+                    RelicHooks.onPreviewObtainCard(run,card,definition)
+                    break
+                end
+            end
+        end
+    end
     if category=='relics' and offer.id=='membership_card' then
         for _,name in ipairs({'cards','relics','potions'}) do
             for _,o in ipairs(flow[name]) do o.price=floor(f32(o.price*f32(.5))+.5) end

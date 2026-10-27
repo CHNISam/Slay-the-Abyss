@@ -915,7 +915,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.mode, self.picker, self.selected, self.notice = "main", nil, nil, "" self:render() return true
         end)
         if active and node.type=='treasure' and node.chest then
-            show(back,true);back:GetChild('label').text='离开宝箱';state(back,true)
+            show(back,true);back:GetChild('label').text=node.roomKind=='boss_treasure' and '跳过遗物' or '离开宝箱';state(back,true)
             action('back',true,function()return commit('leaveTreasure',nil,function()return '已离开宝箱' end)end)
         elseif active and node.roomKind == "boss_treasure" and self.opened then
             show(back, true) back:GetChild("label").text = "跳过遗物" state(back, true)

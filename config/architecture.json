@@ -171,7 +171,9 @@
     "abyss_treasure_ui": "ui",
     "abyss_relic_rewards": "core",
     "abyss_neow": "core",
-    "abyss_act3_bosses": "core"
+    "abyss_act3_bosses": "core",
+    "abyss_neow_history": "core",
+    "abyss_treasure_source": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [

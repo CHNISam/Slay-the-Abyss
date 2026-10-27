@@ -685,6 +685,9 @@ function M.treasureSource(run,map)
         if type(flow.chest)~='table'or getmetatable(flow.chest)~=nil or flow.chest.opened~=true then return nil,'chest_closed'end
         modern,why=TreasureSource.pair(reward);if not modern then return nil,why end
         if modern.relicAvailable and not find(run.data.relics.relics,modern.relicId)then return nil,'treasure_choice_unavailable'end
+        if owns(run.relics,modern.relicId) and modern.relicId~='circlet' and modern.relicId~='Circlet'then
+            return nil,'treasure_choice_unavailable'
+        end
     else
     if type(reward)~='table' or getmetatable(reward)~=nil or type(reward.relicId)~='string'
         or type(reward.sapphireKey)~='table' or getmetatable(reward.sapphireKey)~=nil

@@ -70,6 +70,7 @@ end
 
 local function sameRelics(token,rewards)
     if token.relics~=rewards.relics then return false end
+    if #token.relicState~=#(rewards.relics or {})then return false end
     for i,item in ipairs(rewards.relics or {})do
         local old=token.relicState[i]
         if not old or old.id~=item.id or old.sourceId~=item.sourceId or old.claimed~=item.claimed or old.unavailable~=item.unavailable then return false end
