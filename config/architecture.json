@@ -1,5 +1,7 @@
 {
   "layers": {
+    "abyss_battle_ending_intent": "ui",
+    "abyss_node_ui_ending": "ui",
     "abyss_emerald_rewards": "core",
     "abyss_battle_reward_layout": "ui",
     "abyss_act4_enemies": "core",
