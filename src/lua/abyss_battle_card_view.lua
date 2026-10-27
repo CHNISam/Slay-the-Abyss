@@ -167,7 +167,7 @@ function M.new(view, controls)
         CardDisplay.writeBody(box:GetChild("label"), text)
         ink(box:GetChild("label"), enabled and C.text or C.textMuted)
         box:GetChild("cost").text = card.missing and '—' or costText(definition)
-        ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
+        ink(box:GetChild("cost"), enabled and C.energy or C.danger)
         tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
     end
 
@@ -175,6 +175,9 @@ function M.new(view, controls)
         local definition, enabled = card.definition, card.enabled
         tint(box:GetChild("border"), (card.selected or hovered) and C.goldBright
             or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
+        -- The title banner and its rule carry rarity, as on the original cards.
+        tint(box:GetChild("nameBand"), C.rarityBand[definition.rarity] or C.rarityBand.basic)
+        tint(box:GetChild("nameRule"), C.rarity[definition.rarity] or C.line)
         tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
         CardDisplay.writeArt(box:GetChild("art"), definition, picture)
     end

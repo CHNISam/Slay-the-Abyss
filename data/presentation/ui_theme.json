@@ -56,6 +56,9 @@
     "buff": "#E6A24A",
     "debuff": "#A77BE0",
     "focus": "#F2D9A2",
+    "cardShadow": "#00000059",
+    "cardBody": "#161820",
+    "cardWell": "#0D0E12",
     "cardType": {
       "attack": "#B9483F",
       "skill": "#3F7FB9",
@@ -63,10 +66,18 @@
       "status": "#5C5F6B"
     },
     "rarity": {
-      "basic": "#8A8F9C",
-      "common": "#5F8FD6",
-      "uncommon": "#A974E0",
-      "rare": "#E0A243"
+      "basic": "#34363C",
+      "common": "#8C929D",
+      "uncommon": "#3F7FC6",
+      "rare": "#D4A54A",
+      "curse": "#6B4A44"
+    },
+    "rarityBand": {
+      "basic": "#24262B",
+      "common": "#3A3E46",
+      "uncommon": "#1F4677",
+      "rare": "#5E4111",
+      "curse": "#4A322E"
     },
     "node": {
       "visited": "#8E7448",
@@ -104,6 +115,7 @@
     "cardName": 17,
     "small": 14,
     "number": 22,
+    "cost": 24,
     "numberLarge": 34,
     "minimum": 14
   },
@@ -659,7 +671,17 @@
         132,
         92
       ],
-      "costDisc": 40
+      "costDisc": 40,
+      "trim": {
+        "shadow": 3,
+        "costOverhang": 4,
+        "costRing": 4,
+        "keyline": 1,
+        "typeTag": [
+          60,
+          16
+        ]
+      }
     },
     "hand": {
       "y": -250,

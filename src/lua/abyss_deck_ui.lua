@@ -100,6 +100,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         CardDisplay.writeBody(face:GetChild("label"),text)
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
+        tint(face:GetChild("nameBand"), Theme.color.rarityBand[definition.rarity] or Theme.color.rarityBand.basic)
+        tint(face:GetChild("nameRule"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
         CardDisplay.writeArt(face:GetChild("art"), definition, picture)
         local selected=false
