@@ -30,7 +30,7 @@ function M.enqueueReaction(state,effect,top)
 end
 function M.reactionRetained(effect)
     return PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
-        or effect.op=='damageRandom'
+        or effect.op=='damageRandom' or effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(effect)
 end
 
 local function remove(pile, uid)

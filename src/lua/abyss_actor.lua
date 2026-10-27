@@ -283,13 +283,20 @@ local function battleEnding(state)
 end
 
 local function queueDeathPower(state, target, before, reactions)
-    require('abyss_silent_final_cards').death(state,target,before)
     if before>0 and target.hp<=0 and not target.escaped then
-        Act2Powers.died(state,target,function(s,effect,top)
+        local function deathReaction(s,effect,top)
             -- Death's TOP actions join the existing reverse TOP damage batch,
             -- above onAttacked Thorns; BOTTOM returns join the owning queue.
             if top then reactions[#reactions+1]={effect=effect}else reaction(s,effect)end
-        end)
+        end
+        -- Both source Powers have priority 5: AbstractMonster.die visits them
+        -- in stable acquisition order. Their BOTTOM actions must also enter
+        -- the same manager when this damage belongs to an advanced play.
+        for _,id in ipairs(M.powerSequence(target,{'stasis','corpse_explosion'}))do
+            if id=='stasis' then Act2Powers.stasisDied(state,target,deathReaction)
+            else require('abyss_silent_final_cards').death(state,target,before,deathReaction)end
+        end
+        Act2Powers.died(state,target,deathReaction)
     end
     if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
         and not target.stolenGoldRewarded then

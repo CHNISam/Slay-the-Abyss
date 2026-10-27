@@ -181,11 +181,11 @@ function M.endTurn(s,actor)
  if actor~=s.player then return end
  if actor.statuses.burst then remove(s,'burst')end
 end
-function M.death(s,actor,before)
+function M.death(s,actor,before,push)
  local n=actor.statuses.corpse_explosion or 0
  if before<=0 or actor.hp>0 or n<=0 or actor.escaped or actor==s.player then return end
  local live=false;for _,e in ipairs(s.enemies)do if A().isActive(e)then live=true end end
- if live then actions().enqueue(s,{op='silentFinal',kind='corpseDamage',value=actor.maxHp*n})end
+ if live then (push or actions().enqueueReaction)(s,{op='silentFinal',kind='corpseDamage',value=actor.maxHp*n})end
 end
 function M.prepare(combat,s,e)
  if e.op~='silentFinal'then return e end

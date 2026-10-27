@@ -71,8 +71,10 @@ function M.onDraw(s,card,base)
  end
  card.freeToPlayOnce=false
 end
-function M.died(s,e,push)
+function M.stasisDied(s,e,push)
  local stasis=Stasis.death(s,e);if stasis then push(s,stasis)end
+end
+function M.died(s,e,push)
  -- Both source bosses queue DAMAGE-typed SuicideAction at TOP. Stasis and
  -- Leader's EscapeAction remain BOTTOM, with their original constructor data.
  if e.ai and (e.ai.policy=='collector' or e.ai.policy=='automaton')then push(s,{op='boss_dead'},true) end
