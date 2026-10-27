@@ -23,4 +23,26 @@
 
 ## 本切片未完成的范围
 
-原主题中的 `hitStop=0.05`、`hitStopHeavy=0.1`、重击阈值与蓄势曲线是项目自己的画面设计，不能当作原版参数。当前 damage 步骤等待主题 base 再加该停顿；它与固定 DamageAction 的精确等待边界仍有差异。当前也没有正常设置入口切换原版 FAST_MODE，未在本切片假造已接通。敌人逐招音效与 VFX/伤害的精确先后也须按对应 AI/action 调用链继续核对，不能由这次保留 VFX 的修复推断全部一致。
+原主题中的 `hitStop=0.05`、`hitStopHeavy=0.1`、重击阈值与蓄势曲线是项目自己的画面设计，不能当作原版参数。敌人逐招音效与 VFX/伤害的精确先后仍须按对应 AI/action 调用链继续核对，不能由这次保留 VFX 的修复推断全部一致。
+
+## 后续：动作等待与快慢模式
+
+在同一现有 feedback 边界内，将 damage gate 改为固定 `DamageAction` 的 0.1 秒和普通模式额外 0.1 秒；自制 hit-stop 继续画面冻结但不再增加输入阻塞。`DamageAllEnemiesAction` 的默认 base 是 `Settings.ACTION_DUR_FAST=0.25`，快模式只移除额外 0.1；没有用统一倍速缩短所有动画。
+
+`WhirlwindAction` 每轮明确使用 `DamageAllEnemiesAction(isFast=true)`，因此 base 为 0.1，每轮各有等待和音效。原分类把整张旋风的多轮合为一个群体，已改为每次目标序列重复开始新轮，保留每轮一次 cue。`Brilliance.use`、`FlechetteAction.update`、`BarrageAction.update` 明确使用 superFast DamageAction，这三种普通模式同样不追加 0.1 后等待。
+
+新增 API 为 `feedback:setFastMode(boolean)`；每批 begin 将模式冻结在 `playbackFastMode`，中途切换在下一命令生效。主 session 持有正式 `battleUI.fastMode` 与设置入口，接线是在普通 `perform` 调用 `feedback:begin` 前同步 `self.feedback:setFastMode(self.fastMode == true)`；本工作树只验证真实 host 出牌和 adapter API，设置按钮本身的验收由主 session 集成后完成。
+
+新增回归扩展为 8 组，实际全部通过。源时长断言覆盖普通/快模式、重击、Cleave、三轮 Whirlwind、上述三个 superFast 来源、模式切换；原 `feedback_polish` 的全部 17 组保留，只将三个“等待时间必须额外加项目 hit-stop”的错误预期改为更严格的固定源 0.2 秒上下界，视觉冻结断言仍保留。以旧生产 feedback 独立运行这些新源区间断言时，原普通、重击、致命三组实际失败；新代码通过。原 startup recovery 5 组通过，未变更超时或 runner。
+
+新增核对文件的 SHA256：
+
+| 固定参考 | SHA256 |
+|---|---|
+| `actions/common/DamageAllEnemiesAction.java` | `3562ea16a19d0951b36198a4191fd48358c7cb408595ef2c503fc4b7763ec123` |
+| `actions/unique/WhirlwindAction.java` | `80438c28161227043e2a489cd9da373947d1d6d2646fa07e41b2c4ad902aa96e` |
+| `cards/purple/Brilliance.java` | `6ce900f30a94f7c99cf44fc022f2c2e5da5bda4c35638d00f304e4a531150a26` |
+| `actions/unique/FlechetteAction.java` | `a23ddc4092aae1d031c24e7596e2f92ba9ea7be9257f5f75c492a23f3836ee62` |
+| `actions/defect/BarrageAction.java` | `b8a842b45ca8fee18daad81758ad218c6d337646ef80ccd2aceb74ce4f0923fe` |
+
+仍未声称完整原版时间轴：当前 `play` 飞牌段继续采用批准主题的 0.2 秒；Bludgeon 等卡的专属前置 WaitAction、VFX 先于 HP 改变的准确帧、非 damage 事件的动作 provenance、球与药水专属 action flag 等尚需逐链补齐。完整 UI/音画实机仍未验收。

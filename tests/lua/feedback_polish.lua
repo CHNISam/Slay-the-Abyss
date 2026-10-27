@@ -106,13 +106,14 @@ test("normal attack: card lifts then lands on contact, hit-stop holds the knockb
     h.feedback:update(T.hitStop / 2)
     assert(near(h.portrait("enemy1").x, S.m), "knockback is held during hit-stop")
     local _, held = h.until_(function(e) return e.kind ~= "damage" end, true)
-    assert(held + T.hitStop / 2 >= T.base + T.hitStop - 0.011, "step length includes the hit-stop")
+    local gate = held + T.hitStop / 2
+    assert(gate >= 0.2 - 0.011 and gate <= 0.2 + 0.011, "DamageAction and its normal post-wait total 0.2; visual hit-stop adds no action delay")
     assert(h.stage.x == 0, "a normal hit on an enemy does not shake the screen")
     h.drain()
     assert(h.portrait("enemy1").x == 0 and h.portrait("hero").x == 0 and h.stage.x == 0)
 end)
 
-test("heavy attack: uniform shard burst, larger knockback and number, screen shake and longer hold", function()
+test("heavy attack: uniform shard burst, larger knockback and number, screen shake and longer visual hold", function()
     local h = harness({"bludgeon"}, {"jaw_worm"}, function(s) s.enemies[1].hp, s.enemies[1].maxHp = 80, 80 end)
     h.play() h.until_(kind("damage"))
     assert(h.sounds[#h.sounds] == "hit_heavy", "one heavy contact cue, not a second layered hit")
@@ -121,7 +122,8 @@ test("heavy attack: uniform shard burst, larger knockback and number, screen sha
     assert(near(h.portrait("enemy1").x, S.l) and near(h.part("enemy1", "floating").localScaleX, 2))
     local shook = false
     local _, held = h.until_(function(e) shook = shook or h.stage.x ~= 0 return e.kind ~= "damage" end, true)
-    assert(shook and held >= T.base + T.hitStopHeavy - 0.011)
+    assert(shook and held >= 0.2 - 0.011 and held <= 0.2 + 0.011,
+        "heavy visual hold does not extend the fixed DamageAction/post-wait gate")
 end)
 
 test("multi-hit: each strike re-lunges and alternates shard orientation and number drift", function()
@@ -238,7 +240,8 @@ test("killing blow: heavy hold, then the enemy gleams, collapses and is hidden",
     local h = harness({"strike"}, {"jaw_worm"}, function(s) s.enemies[1].hp = 3 end)
     h.play() h.until_(kind("damage"))
     local _, held = h.until_(kind("death"))
-    assert(held >= T.base + T.hitStopHeavy - 0.011)
+    assert(held >= 0.2 - 0.011 and held <= 0.2 + 0.011,
+        "a lethal visual hold does not extend the fixed DamageAction/post-wait gate")
     h.feedback:update(T.slow / 2)
     local portrait = h.portrait("enemy1")
     assert(portrait.localScaleY < 1 and portrait.y < 0 and h.part("enemy1", "impact").visible)

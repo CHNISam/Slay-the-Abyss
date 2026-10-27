@@ -15,13 +15,16 @@ local function same(a, b)
     for k, v in pairs(b) do same(a[k], v) end
     for k in pairs(a) do assert(b[k] ~= nil, "unexpected state field") end
 end
-local function setup()
+local function setup(deck, data, combatOptions)
+    data = data or F.Data
     local sounds = {}
-    local host, root = F.fixture(nil, nil, nil, nil, nil, function(cue) sounds[#sounds + 1] = cue end)
+    local host, root = F.fixture(data, nil, nil, nil, nil, function(cue) sounds[#sounds + 1] = cue end)
     assert(host:start())
     assert(Run.startCombat(host.run, "cultist_solo"))
     -- Controlled deck, ordinary Run.play via the actual host card/target controls.
-    host.run.combat = F.Combat.new(F.Data, {deck = {"strike", "defend", "strike"}, enemies = {"cultist", "cultist"}, seed = 11})
+    local options = {deck = deck or {"strike", "defend", "strike"}, enemies = {"cultist", "cultist"}, seed = 11}
+    for key, value in pairs(combatOptions or {}) do options[key] = value end
+    host.run.combat = F.Combat.new(data, options)
     host:refresh()
     return host, root:GetChild("battlePanel"), sounds
 end
@@ -118,6 +121,100 @@ test("cancelling or replacing the battle clears retained VFX and does not leak s
     local heard = #sounds
     for _ = 1, 20 do host:update(0.05) end
     assert(#sounds == heard, "old battle effects never replay")
+end)
+
+local function damageWait(host, finalAreaTarget)
+    local feedback = host.battleUI.feedback
+    for _ = 1, 100 do
+        if feedback.current and feedback.current.kind == "damage"
+            and (not finalAreaTarget or feedback.current.detail.target == finalAreaTarget) then break end
+        assert(feedback.busy, "action gate released before the expected damage")
+        host:update(0.01)
+    end
+    local current, elapsed = feedback.current, 0
+    assert(current and current.kind == "damage", "damage step was never reached")
+    for _ = 1, 100 do
+        if not feedback.busy or feedback.current ~= current then return elapsed end
+        host:update(0.01)
+        elapsed = elapsed + 0.01
+    end
+    error("damage step never finished")
+end
+local function durationNear(actual, expected)
+    assert(actual >= expected - 0.000001 and actual <= expected + 0.010001,
+        "source action duration " .. expected .. ", observed " .. actual)
+end
+
+test("DamageAction waits 0.1 plus normal-only 0.1, independently of the visual hit-stop", function()
+    for _, fast in ipairs({false, true}) do
+        for _, id in ipairs({"strike", "bludgeon"}) do
+            local host, panel = setup({id})
+            local feedback = host.battleUI.feedback
+            feedback:setFastMode(fast)
+            play(host, panel, id, 1)
+            durationNear(damageWait(host), fast and 0.1 or 0.2)
+            assert(not host.battleUI.busy and next(feedback.effects) ~= nil,
+                "input resumes while the independent VFX finishes")
+            assert(feedback.effects[host.run.combat.enemies[1].id].stop ==
+                (id == "bludgeon" and Theme.motion.hitStopHeavy or Theme.motion.hitStop),
+                "source waits must preserve the approved visual stop")
+        end
+    end
+end)
+
+test("a speed change takes effect on the next command rather than truncating an active action", function()
+    local host, panel = setup()
+    local feedback = host.battleUI.feedback
+    play(host, panel, "strike", 1)
+    feedback:setFastMode(true)
+    durationNear(damageWait(host), 0.2)
+    play(host, panel, "strike", 2)
+    durationNear(damageWait(host), 0.1)
+    assert(not pcall(function() feedback:setFastMode("fast") end), "mode must be boolean")
+    assert(feedback.fastMode == true)
+end)
+
+test("DamageAllEnemiesAction keeps its 0.25 base and only removes the normal post-wait", function()
+    for _, fast in ipairs({false, true}) do
+        local host, panel, sounds = setup({"cleave"})
+        host.battleUI.feedback:setFastMode(fast)
+        play(host, panel, "cleave")
+        durationNear(damageWait(host, host.run.combat.enemies[2].id), fast and 0.25 or 0.35)
+        assert(count(sounds, "hit") == 1, "an area action still emits one contact cue")
+    end
+end)
+
+test("Whirlwind keeps each source isFast area action and contact cue instead of collapsing all rounds", function()
+    for _, fast in ipairs({false, true}) do
+        local host, panel, sounds = setup({"whirlwind"})
+        local feedback = host.battleUI.feedback
+        feedback:setFastMode(fast)
+        play(host, panel, "whirlwind")
+        for _ = 1, 3 do
+            durationNear(damageWait(host, host.run.combat.enemies[2].id), fast and 0.1 or 0.2)
+        end
+        assert(count(sounds, "hit") == 3, "three area passes each produce one cue")
+        assert(not feedback.busy and host.run.combat.energy == 0)
+    end
+end)
+
+test("Brilliance, Flechettes and Barrage preserve source superFast DamageAction flags in normal mode", function()
+    local watcher = require("abyss_watcher_attack_cards").withCards(require("abyss_watcher_cards").withFoundationCards(F.Data))
+    local silent = require("abyss_silent_tactics_cards").withCardDefinitions(F.Data)
+    local defect = require("abyss_defect_utility_cards").withCards(require("abyss_defect_cards").withFoundationCards(F.Data))
+    for _, spec in ipairs({{"brilliance", watcher}, {"flechettes", silent}, {"barrage", defect}}) do
+        local id, data = spec[1], spec[2]
+        local host, panel = setup({id, "defend", "defend"}, data, id == "barrage" and {orbSlots = 3, orbRandomSeed = "17"} or nil)
+        if id == "barrage" then
+            assert(require("abyss_orbs").channel(host.run.combat, "frost", F.Combat))
+            assert(require("abyss_orbs").channel(host.run.combat, "plasma", F.Combat))
+            host:refresh()
+        end
+        play(host, panel, id, 1)
+        durationNear(damageWait(host), 0.1)
+        if id ~= "brilliance" then durationNear(damageWait(host), 0.1) end
+        assert(not host.battleUI.busy)
+    end
 end)
 
 assert(failed == 0, failed .. " continuous-card feedback tests failed")
