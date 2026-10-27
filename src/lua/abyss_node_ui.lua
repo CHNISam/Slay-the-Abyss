@@ -13,6 +13,7 @@ local Narrative = require("abyss_narrative")
 local Merchant = require("abyss_merchant")
 local ShopUI = require("abyss_shop_ui")
 local M = {}
+local Controller = require('abyss_controller')
 local CardDisplay = require('abyss_card_display')
 local Combat = require('abyss_combat')
 local Act1Events = require('abyss_act1_events')
@@ -1071,7 +1072,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local hit = box:GetChild("hit")
         actionInputs[name] = {box=box,hit=hit}
         local input
+        Controller.bind(options.controller,hit,'node',function()return self:press(name)end,function()
+            local entry=self.actions[name]
+            return self.visible and not self.busy and entry and entry.enabled
+        end,name=='confirm' and 90 or name=='back' and 100 or 10)
         hit:AddCursorEventListener(clickEvent, function(event)
+            if Controller.pointerBlocked(options.controller)then return false end
             if swallow and (event == nil or event.touchId == nil or event.touchId == swallow.touch) then
                 swallow = nil
                 return false, "swiped"

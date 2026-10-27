@@ -837,7 +837,10 @@
       ],
       "uidHeight": 18,
       "pressedScale": 0.96,
-      "nodeTitleWidth": 1000
+      "nodeTitleWidth": 1000,
+      "previous": [-430, -316, 200, 48],
+      "next": [430, -316, 200, 48],
+      "pageHint": [0, -316, 640, 40]
     },
     "button": {
       "primary": [

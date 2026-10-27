@@ -51,10 +51,24 @@ test('deck overlay and close remain inside approved canvas safe areas at every d
   for (const device of Object.values(theme.canvas.devices)) {
     const k = Math.min(device[0] / theme.canvas.base[0], device[1] / theme.canvas.base[1]);
     const panel = layout.controls.find(c => c.name === 'deckPanel');
-    for (const c of [panel.children.find(c => c.name === 'close'), panel.children.find(c => c.name === 'grid'),
-      layout.controls.find(c => c.name === 'deckEntry').children.find(c => c.name === 'open')]) {
+    for (const c of ['close','grid','previous','next','pageHint'].map(name => panel.children.find(c => c.name === name)).concat([
+      layout.controls.find(c => c.name === 'deckEntry').children.find(c => c.name === 'open')])) {
       assert.ok((Math.abs(c.position[0]) + c.size[0] / 2 + theme.canvas.safe.x) * k <= device[0] / 2);
       assert.ok((Math.abs(c.position[1]) + c.size[1] / 2 + theme.canvas.safe.y) * k <= device[1] / 2);
     }
+  }
+});
+
+test('controller overlays isolate nearest-control navigation and deck pages leave the card viewport clear', () => {
+  const layout = gameLayout(undefined, {originalCharacters: true});
+  for (const name of ['deckPanel','potionPanel','choicePanel','characterPanel','exitPanel','prologuePanel']) {
+    assert.equal(layout.controls.find(c => c.name === name).isolateNavigation, true, name);
+  }
+  const deck = layout.controls.find(c => c.name === 'deckPanel');
+  const grid = deck.children.find(c => c.name === 'grid');
+  for (const name of ['previous','next','pageHint']) {
+    const control = deck.children.find(c => c.name === name);
+    assert.equal(control.visible, false, 'controller-only paging starts hidden');
+    assert.ok(control.position[1] + control.size[1] / 2 < grid.position[1] - grid.size[1] / 2);
   }
 });

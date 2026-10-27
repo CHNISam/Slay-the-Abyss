@@ -3,6 +3,7 @@ local Run=require('abyss_run')
 local Theme=require('abyss_theme')
 local integer=require('abyss_numbers').integer
 local M={}
+local Controller=require('abyss_controller')
 local function find(entries,id)for _,entry in ipairs(entries)do if entry.id==id then return entry end end end
 function M.new(root,clickEvent,platform,allowed,onChange,onClose)
     local self={root=root,visible=false,generation=0}
@@ -73,6 +74,7 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
                     and (not token.battle or token.turn==token.battle.turn and token.battlePhase==token.battle.phase))
         end
         local cursor=platform.cursorEvents or {}
+        Controller.bind(platform.controller,hit,'potions',action,function()return valid()end,name=='cancel' and 100 or 10)
         if cursor.CursorDown and cursor.CursorUp then
             hit:AddCursorEventListener(cursor.CursorDown,function(event)
                 observed=true;held,released=nil,nil
@@ -86,6 +88,7 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
             if cursor.CursorEndDrag then hit:AddCursorEventListener(cursor.CursorEndDrag,function()held,released=nil,nil end)end
         end
         hit:AddCursorEventListener(clickEvent,function(event)
+            if Controller.pointerBlocked(platform.controller)then return false end
             if observed then
                 local token=released;released=nil
                 if not token or token.touch~=(event and event.touchId) or not valid(token)then return false end

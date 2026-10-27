@@ -54,7 +54,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       text('label', frame([0, stats.label], [cw - space.l, font.label + space.l]), '', font.label, color.textDim),
       text('value', frame([0, stats.value], [cw - space.l, font.numberLarge + space.l]), '', font.numberLarge, color.text),
     ] });
-  return {
+  const layoutTree = {
     name: 'SlayTheAbyss', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true,
     controls: [
       { name: 'battlePanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: battleControls },
@@ -91,4 +91,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       ...exitControls(theme),
     ],
   };
+  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'prologuePanel']);
+  for (const control of layoutTree.controls) if (overlays.has(control.name)) control.isolateNavigation = true;
+  return layoutTree;
 }

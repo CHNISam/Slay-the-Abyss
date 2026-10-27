@@ -4,7 +4,7 @@ title: 以后再做手柄支持
 status: To Do
 assignee: []
 created_date: '2026-10-23 12:24'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 02:41'
 labels: []
 dependencies: []
 references:
@@ -28,3 +28,15 @@ ordinal: 41000
 - [ ] #2 手柄能完成出牌、选目标、确认取消、结束回合、地图和各类房间，不会卡住焦点。
 - [ ] #3 用真实手柄完整玩过；没有设备时明确写未验证，不能说已经支持。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-27：将现有PR229手柄离线实现按真实共同祖先对照当前M3与卡牌输入源码逐项迁移；保留当前启动、卡牌UID/目标所有权和地图无绑定模式，再接入章节安全补丁。静态、布局与相关Lua通过后，原样运行26项第四阶段呈现测试和30秒预算；真实手柄与平台实测仍未验证，不修改验收项或任务状态。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-27：现有PR229手柄实现已在独立副本按当前M3、卡牌输入与章节地图安全源码逐项整合；初轮28个离线阶段通过，原始21项呈现文件保持原断言与30秒预算，替身导航方法改为共享原型后28.004秒通过。来源与本轮边界补入docs/backlog-details/TASK-40.md。没有改任务状态、优先级、负责人或验收项；真实手柄、官方导入和实机UI仍未验证，远端新HEAD完整Quality尚未运行。
+<!-- SECTION:NOTES:END -->
