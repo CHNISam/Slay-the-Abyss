@@ -1,5 +1,6 @@
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local GameUI, Combat, Nodes, Data = F.GameUI, F.Combat, F.Nodes, F.Data
+local Map = require('abyss_map')
 local Presentation, Layout, Viewport, Theme = F.Presentation, F.Layout, F.Viewport, F.Theme
 local preview, control, fixture = F.preview, F.control, F.fixture
 local statValue, resultText, mapControl, click, win = F.statValue, F.resultText, F.mapControl, F.click, F.win
@@ -115,8 +116,16 @@ test("node overlay preserves the node presentation while preventing underlying t
     local ui, root = fixture()
     ui:start()
     ui.run.hp = 20 -- Rest is enabled only below full health in the approved camp UI.
-    local available = Nodes.available(ui.run,ui.map)[1]
-    for _, node in ipairs(ui.map.nodes) do if node.id == available.id then node.type = "camp" end end
+    -- Position the existing source map at a real camp. Skipped rooms are a
+    -- fixture boundary; topology and the Host's frozen birth context stay intact.
+    local available
+    while not available do
+        local choices = Nodes.available(ui.run,ui.map)
+        assert(#choices > 0, "source route must contain a camp")
+        for _, node in ipairs(choices) do if node.type == "camp" then available = node; break end end
+        if not available then assert(Map.choose(ui.map,choices[1].id)) end
+    end
+    ui:refresh()
     assert(ui.mapUI:choose(available.id) and ui.mode == "node")
     local before = Combat.copy(ui.run)
     openDeck(ui,root)
