@@ -95,10 +95,84 @@ def reject_output_alias(output, inputs):
             raise ValueError(f'Output must not overwrite an input file: {source}')
 
 
+def assemble_candidate(drawing, name):
+    """Read-only 144x64, unmasked literal adapter; not an image exporter."""
+    if drawing.get('format') != 'gia' or drawing.get('root') != [0, 0, 144, 64, .5, .5, .5, .5, .5, .5, 1, 1, 0]:
+        raise ValueError(f'{name}: native candidate requires an identity 144x64 canvas')
+    if drawing.get('textboxes') or drawing.get('bindings') or drawing.get('textMasks'):
+        raise ValueError(f'{name}: candidate artwork cannot own text or prefab bindings')
+    if any(mask.get('enabled') or mask.get('enableSoftEdge') for mask in drawing.get('imageMasks', [])):
+        raise ValueError(f'{name}: this candidate requires zero masks')
+    rows, rotations, image_types = drawing['rows'], drawing.get('rotations', []), drawing.get('imageTypes', [])
+    if not rows or len(rows) != len(rotations) or len(rows) != len(image_types):
+        raise ValueError(f'{name}: incomplete literal native property arrays')
+    slots = []
+    for row, angles, image_type in zip(rows, rotations, image_types):
+        if len(row) != 18 or len(angles) != 2 or not all(type(n) in (int, float) and math.isfinite(n) for n in [*row, *angles]):
+            raise ValueError(f'{name}: invalid native slot values')
+        if row[0] not in (100001, 100003, 106056, 106057) or image_type not in ('basic', 'stretch'):
+            raise ValueError(f'{name}: unsupported native image or type')
+        if min(row[3:5]) <= 0 or row[5:11] != [.5] * 6 or row[11:13] != [1, 1]:
+            raise ValueError(f'{name}: unsupported slot geometry')
+        if any(n != int(n) or not 0 <= n <= 255 for n in row[14:18]):
+            raise ValueError(f'{name}: invalid native RGBA')
+        slots.append(dict(image=row[0], position=row[1:3], size=row[3:5], pivot=row[5:7],
+                          anchorMin=row[7:9], anchorMax=row[9:11], scale=row[11:13],
+                          rotation=[*angles, row[13]], colour=row[14:18], imageType=image_type))
+    return slots
+
+
+def read_candidate_registry(path, read_drawing):
+    registry = json.loads(path.read_text(encoding='utf-8'))
+    if registry.get('schemaVersion') != 1 or not 1 <= len(registry.get('assets', [])) <= 2:
+        raise ValueError('Invalid native candidate registry')
+    assets, source_inputs = {}, []
+    for entry in registry['assets']:
+        card_id = entry.get('cardId')
+        if card_id not in ('cleave', 'heavy_blade') or card_id in assets:
+            raise ValueError('Invalid or duplicate candidate card_id')
+        payload = {}
+        for kind in ('lua', 'json'):
+            source = (path.parent / entry[kind]).resolve()
+            payload[kind] = source.read_bytes()
+            if hashlib.sha256(payload[kind]).hexdigest() != entry.get(kind + 'Sha256'):
+                raise ValueError(f'{card_id}: {kind} source hash mismatch')
+            source_inputs.append(dict(cardId=card_id, kind=kind, path=str(source), sha256=entry[kind + 'Sha256']))
+        scene = json.loads(payload['json'])
+        if [scene.get('canvas', {}).get(k) for k in ('width', 'height')] != [144, 64]:
+            raise ValueError(f'{card_id}: JSON canvas mismatch')
+        # Do not execute the standalone lifecycle or trust the encoded snapshot.
+        literal = payload['lua'].decode('utf-8').replace('\r\n', '\n').split('-- 编辑器回导数据')[0]
+        slots = assemble_candidate(read_drawing(literal), card_id)
+        if len(scene.get('elements', [])) != len(slots):
+            raise ValueError(f'{card_id}: JSON/literal element count mismatch')
+        assets[card_id] = dict(cardId=card_id, luaSha256=entry['luaSha256'], jsonSha256=entry['jsonSha256'], slots=slots)
+    return dict(schemaVersion=2, editorCommit=EDITOR_COMMIT, canvas=[144, 64], assets=assets, sourceInputs=source_inputs)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--editor', type=Path, required=True)
+    parser.add_argument('--candidate-registry', type=Path)
+    parser.add_argument('--candidate-output', type=Path)
     args = parser.parse_args()
+    if args.candidate_registry is not None or args.candidate_output is not None:
+        if args.candidate_registry is None or args.candidate_output is None:
+            parser.error('Candidate registry and output must be supplied together')
+        registry = args.candidate_registry.resolve()
+        entries = json.loads(registry.read_text(encoding='utf-8')).get('assets', [])
+        inputs = [registry, Path(__file__), *[(registry.parent / entry[k]).resolve() for entry in entries for k in ('lua', 'json')]]
+        reject_output_alias(args.candidate_output, inputs)
+        actual = subprocess.check_output(['git', '-C', str(args.editor), 'rev-parse', 'HEAD'], text=True).strip()
+        if actual != EDITOR_COMMIT:
+            raise ValueError('Pinned upstream editor revision mismatch')
+        sys.path.insert(0, str(args.editor / 'backend'))
+        from app import lua_scene
+        result = read_candidate_registry(registry, lua_scene.read_drawing)
+        args.candidate_output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        print(json.dumps(dict(output=str(args.candidate_output), images={k: len(v['slots']) for k, v in result['assets'].items()},
+                             officialImport='not_run', inGame='not_run')))
+        return
     output = ROOT / 'art/cards/geo-samples/native-layout.json'
     sources = [ROOT / 'art/cards/geo-samples' / name / f'native-art.{extension}'
                for name in IDS for extension in ('lua', 'json')]

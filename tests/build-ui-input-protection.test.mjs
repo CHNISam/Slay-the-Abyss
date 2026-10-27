@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { copyFileSync, cpSync, linkSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { copyFileSync, cpSync, existsSync, linkSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -64,6 +64,22 @@ for (const mode of ['hardlink', 'symlink']) test(`UI build retains legitimate ${
   build(root);
   assert.match(readFileSync(backing, 'utf8'), /^-- Generated from the approved narrative/);
   assert.deepEqual(readFileSync(target), readFileSync(backing));
+}));
+
+test('ordinary UI CLI builds without npm dependencies and preserves zero-art defaults', () => cliFixture(root => {
+  assert.equal(existsSync(join(root, 'node_modules')), false, 'fixture must not borrow installed npm dependencies');
+  const entry = spawnSync(process.execPath, ['--input-type=module', '-e',
+    "await import('./scripts/build-native-candidate.mjs'); const {verifyNativeCardArtReceipt}=await import('./scripts/card-art-samples.mjs'); verifyNativeCardArtReceipt(undefined);"],
+    { cwd: root, encoding: 'utf8' });
+  assert.equal(entry.status, 0, entry.stderr);
+  const before = inputs.map(file => readFileSync(join(root, 'data', file)));
+  const result = spawnSync(process.execPath, ['scripts/build-ui.mjs', 'out'], { cwd: root, encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Native battle UI and Traveler display module built/);
+  assert.deepEqual(readdirSync(join(root, 'out')).sort(), [...outputs].sort());
+  assert.doesNotMatch(readFileSync(join(root, 'out/game-ui.json'), 'utf8'), /"artSamples"/);
+  assert.doesNotMatch(readFileSync(join(root, 'out/abyss_presentation.lua'), 'utf8'), /\["nativeArt"\]/);
+  inputs.forEach((file, index) => assert.deepEqual(readFileSync(join(root, 'data', file)), before[index]));
 }));
 
 for (const mode of ['hardlink', 'symlink']) test(`UI CLI rejects narrative ${mode} without success output`, t => cliFixture(root => {

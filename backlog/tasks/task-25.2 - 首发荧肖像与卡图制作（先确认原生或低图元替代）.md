@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 17:43'
+updated_date: '2026-10-27 20:54'
 due_date: '2026-10-28'
 labels:
   - art
@@ -55,6 +55,8 @@ ordinal: 31000
 2026-10-27 02:54 UTC Owner明确要求修复最新develop卡牌布局并提交PR：在fix/dot-approved-card-layout独立树恢复批准nameBand30/art64，文字兼容高度与背景分离，复用共享card-face覆盖战斗/奖励/牌库/商店；卡图占位保持明确，不拉伸144x34旧稿，不改规则。原生Agent负责最小产品修复和测试，dot根唯一Backlog/Git/PR写入者，负责前后预览与独立审查。先保留失败回归再修复，相关测试与当前SHA完整Quality分层记录；未经实机不宣称视觉验收。此前八张稿未获风格批准，不扩量。
 
 2026-10-27 dot按Owner继续制作并用Git管理正式美术资产的要求，在feat/dot-reviewed-card-assets独立树保全已获视觉认可的整备武装、重剑斩：1. 复核当前develop与开放PR共享写入范围，保留既有任务状态、负责人及AC；2. 将真实源图、实际提示词、可编辑原生JSON/Lua、精简来源/阶段元数据纳入稳定card_id资产目录，旧34高候选和失败研究不覆盖；3. 补无快照字面Lua/JSON及散列、尺寸、图层/蒙版/来源回归，登记现有法律资产清单，不改变许可策略；4. 独立审查和当前SHA完整CI后提PR。只做源资产保全和登记，不启用共享运行时、不改战斗规则；官方导入、1/5/10卡与设备验收继续待验。
+
+正式候选入口后续切片：复用现有native builder透传显式art registry/hosts，默认关闭；把实际消费的原生源、派生registry和控件预算绑定既有receipt。MCP创建前检查输入稳定性、输出别名及生成物确实消费；不安全的custom prepare组合明确拒绝。先失败回归，再用MCP mock走真实layout/presentation装配；不改结算/BGM/清理门禁，不调用客户端。PR261本轮CI终态后再合入增量，避免反复取消重跑。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -86,9 +88,25 @@ PR240首候选f7fc855已发布。完整本地Node终态1594通过/1失败/零跳
 
 2026-10-27精修样卡按当前144×64插图区设计；旧144×34的四张原生候选可复用绘制数据，但不得纵向拉伸当作正式成品。先保留至少三种不同机制的原生精修卡，用真实卡框与动态数值装配审图。
 
-负责人字段规范化：原记录 @codex 作为历史执行者信息保留；任务负责人为 Furinya。
-
 本切片执行者dot，唯一仓库/Backlog写入由dot根协调；两份已认可原生样本为整备1834图片/0mask与重剑1476图片/1mask，144x64。认可仅属离线视觉；完整卡1x艺术区装配一致，4x分别25/47像素量化差按FAIL保留，不抬阈值。新磐岩为第三机制候选，尚待用户质量审阅；未扩大75张。
 
 2026-10-27 后续人审覆盖旧正评：重剑斩、招架还击、星陨剑缺少岩旅行者身份，受影响紧凑卡图模板按ART-08暂停；整备保留参考，不连坐重画。重剑元数据改为身份待修反例，旧批准只留history，并新增阻止旧好评重新放行的红绿回归（红4/10，修复10/10）。复用Sheet ART-00～12；常规B=4、稳定次数0、普通队列未恢复，本轮仅星陨剑+重剑斩2张身份修复样卡。两初稿实际生成32.2/42.6秒、各1次、串行；人工耗时和费用未测，不倒推首过率，重剑斩的刺/斩接触另作定向修复。源稿、原生、正式装配、PC/实体安卓分别验收，最终至少3机制AC不变且未勾。LFS四对象已上传；PR253 f362精确head的Quality13作业及Licenses成功，正式hosted已4/4取回验原PNG SHA；设计修复及新metadata head仍需独立复审与CI，不把工程绿等同美术通过。
+
+2026-10-27 两张身份修正版星陨剑/重剑斩已获Owner离线视觉认可，按已批准源字节登记，旧重剑否决只留历史；整备武装不重传。现行6个LFS对象5,983,528字节，本轮只新增上传4对象4,202,803字节，不扩泛下载。PR253已于17:40 UTC正常合入develop d16be8db，精确head e7f879be的Quality15作业及Licenses成功，交付工程/历史保全，不代表美术实机通过。新的逐card_id接线候选默认0新增，显式1/5/10卡每宿主新增2703控件，动态文字仍由Combat/CardDisplay提供；源字面与装配API逐控件等价2/2通过，仅mock。牌库池不启用；实机先基线再单卡，不能直接上十卡。PR257已关闭未合并，develop原生CursorArea启动问题仍是外部依赖；内存替换只作诊断，候选不宣称native ready。常规B4/稳定0未恢复，官方导入、存档、PC及实体安卓性能均待验，AC/负责人/状态不变。
+
+启动依赖最新核实：PR259明确承接已关闭的255/257，尚未合并；不是无人处理，不接管其修复。PR256卡框及PR260节点/商店UI仍是独立开放候选，当前本切片以已合并d16be8db为明确基准；后续涉及共享卡面时重跑受影响回归。
+
+正式native CLI/API入口本地增量完成：显式art参数进入既有prepareBuild，既有receipt绑定实际原生输入、registry及生成布局/动态presentation；UI验收与audio保留并校验来源，默认零新增/playtest关闭/liveWrite=0不变。两项独立复审P2（路径别名误读、Lua等价键覆盖伪消费）已以负控修复，root重跑受影响全集117/117零跳过、工程4/4变异kill及语法/network/license通过。两张真实原生2657/2043图元经正式入口MCP mock单卡装配与逐控件等价验证，不是官方编译。云端未找到可运行MCP及已确认干净base GIL，未安装/未调用真实MCP/未写游戏存档；PC及实体安卓仍待验。当前815d275完整CI继续等终态后才统一推增量，不反复取消重跑。
+
+54e4ac1真实CI发现默认构建依赖回归：新增顶层luaparse导入使无npm依赖的presentation构建及Linux/Windows临时CLI保护fixture在保护断言前失败。已用原3个alias负控复现；仅在实际native消费校验时惰性加载parser，新增默认无依赖CLI成功/零art回归，原保护断言和实际解析保持。root重跑UI保护206+native相关117共323/323零跳过；独立复审确认native缺parser仍fail-closed。未给CI加安装步骤、未改依赖声明或阈值。原生test-affected能够选中该间接消费者，此次是手选测试集合遗漏，不改工程规范掩盖。修复继续在本PR验当前head，旧117或旧head绿灯不外推。
+
+同步PR259负责人规范化：原记录 @codex 为历史执行者，负责人保留最新develop的Furinya。保留本PR全部美术候选记录，状态/AC不变。aaf5134完整15作业已通过，但合并预审发现develop已合入PR259，旧绿灯不代表新组合。下一步移除已过时的CursorArea内存替换，在真实修复源码上验证原生样卡。
+
+PR259同步后共享宿主正例直接执行真实源码，不再注入启动修复；保留不支持CursorArea字段及缺失GameUI图片枚举转发两项独立负控，strict mock未放宽。root重建data/UI并重跑新组合237/237、0跳过，含两张实际原生源逐控件等价及正式入口MCP mock；状态/AC不变，真实GIL/导入/设备仍待验。当前组合需重新取得独立审查与完整CI，不复用aaf旧预审。
+
+07bf1af完整Quality40570340304终态失败：Windows7的Sapphire 8–14累计超30秒，Windows8的card_help_release/looter_potion_ui也超30秒；后两项在develop e0 push同样失败。三项均原预算本地复现，无断言失败。最小测试分片保留原始全部60组/全部断言及严格mock，30秒上限不变，不改生产代码/runner/全局CI。Sapphire原体hash不变，21组四段约13–19秒；另外39组/53次完整tree十段约8–16秒，JS只加静态guard不重复跑昂贵Lua。两份独立复审含覆盖/变异/CRLF模拟通过，root应用后7项相关静态检查通过；Linux证据不冒充Windows，当前完整CI仍须重新验证。
+
+7ea183e CI另检出遗漏的旧modern Sapphire分片守卫：仍要求8–14，属于本轮测试接线遗漏而非runner故障。只同步原lock的slices与守卫消费路径，原体hash、21组/17组UI完整性及30秒断言全部保留；新增缺组/重复/替换负控。真实使用的4个显式Lua路径让既有test-affected现在选中modern守卫，不改全局selector/CI。root完整三份Sapphire套件及UI静态guard23/23、零跳过；最后仅路径显式化后modern4/4再次通过，实际相关计划包含两个Sapphire消费者。未重跑无变化的昂贵Lua，当前head完整CI仍未通过。
+
+20:53同步已合入PR263（7fe3101）：另一执行者已独立修复card_help_release/looter_potion_ui预算，直接逐字保留其6个测试文件及TASK74记录，撤掉dot重复分片/guard；不把PR263成果算dot交付。保留未被覆盖的Sapphire四段与modern守卫、原生样卡接线。root8项上游/modern静态合同通过，所有原断言/预算不变；产品代码与已审a896一致。此前a896未触发Actions因与新主线冲突，非平台失效。当前新组合仍待独立复审、完整CI及verify:delivery，实机缺口不变。
 <!-- SECTION:NOTES:END -->

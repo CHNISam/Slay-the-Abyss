@@ -1838,27 +1838,47 @@
       "category": "game-ip-ai-redraw"
     },
     "art/cards/traveler-geo/catalog.json": {
-      "sha256": "37095140c296ec3af146807d39d1e16e111bbe70d99eb5b8f21e33cab91a8fe4",
+      "sha256": "67f673fa9d936fffbf07ed857891e5c6fd2911b6c44e6300a36355b6a438adf9",
       "category": "game-ip-ai-redraw"
     },
     "art/cards/traveler-geo/heavy_blade/asset.json": {
-      "sha256": "ae99c3c0353003a9b9e7a8d76fe78ccff7b4e757caffacfe98c1956f08ff82e1",
+      "sha256": "08dc67a6e8a77f8a0cfdaad4701f24cd3ec047f63ec1be8cf8abd91a9e0dc5d8",
       "category": "game-ip-ai-redraw"
     },
     "art/cards/traveler-geo/heavy_blade/native-art.json": {
-      "sha256": "337632a85aa0f1df9b9d077ecb919a67caa92d98175bda39d188c86ad418b2b2",
+      "sha256": "38708d271df2b168f71e90fae0f8780bb0acefc522bde1f313cb0d4a4e6fdee0",
       "category": "game-ip-ai-redraw"
     },
     "art/cards/traveler-geo/heavy_blade/native-art.lua": {
-      "sha256": "db35c898e427d1487766484817384b190407d7cc46ec3a2212ee878db39e1e47",
+      "sha256": "6e0b632d02e285e6412a2cfbc13c95ae6b28498259b031d0b23f5992cfd8903f",
       "category": "editor-runtime"
     },
     "art/cards/traveler-geo/heavy_blade/preview-native.png": {
-      "sha256": "6fefbbcbdaa503a1df1c04d282dc9f8cac0fdb36fb189e75aa89427b438b30b1",
+      "sha256": "aefb4d2ca114a8738029249fba8b1bdc4f6235be648684cbfe348ed496388936",
       "category": "game-ip-ai-redraw"
     },
     "art/cards/traveler-geo/heavy_blade/source.png": {
-      "sha256": "f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5",
+      "sha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/cleave/asset.json": {
+      "sha256": "13f587d4f8869cf5eecbf69e81732df252fefe3e66cbc462fd51886f169c4316",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/cleave/native-art.lua": {
+      "sha256": "3c9eaa03741391f594846e59708563d4912a96b8757092112ce3cabb7c2e5185",
+      "category": "editor-runtime"
+    },
+    "art/cards/traveler-geo/cleave/native-art.json": {
+      "sha256": "f60eaf057ea4a94231525047ea9d54afda09a7857bc671209cedebd2677b6eff",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/cleave/preview-native.png": {
+      "sha256": "271c49cc6248cf46ea029cc63387c682858b43c29288eb32b44d24175e662b39",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/cleave/source.png": {
+      "sha256": "6e37a7b9264154a2cd7e6560a625cf001b3b00d63e8fdbf4d01369a714397155",
       "category": "game-ip-ai-redraw"
     }
   }

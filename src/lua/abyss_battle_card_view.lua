@@ -177,6 +177,7 @@ function M.new(view, controls)
             or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
         tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
         CardDisplay.writeArt(box:GetChild("art"), definition, picture)
+        CardDisplay.writeNativeArt(box,definition,card.display.nativeArt,controls.platform,box:GetChild('art'))
     end
 
     local function place(box, card, context, i)
@@ -210,7 +211,7 @@ function M.new(view, controls)
         local instance = context.fighting and context.battle.hand[i]
         local id = instance and instance.cardId or context.rewards[i]
         box:SetVisible(id ~= nil and id ~= false)
-        if not id then return end
+        if not id then CardDisplay.clearNativeArt(box);return end
         local card = slotCard(context, instance, id, i)
         writeName(box, card)
         writeDetails(box, card, context.battle, aimUid, aimTarget)

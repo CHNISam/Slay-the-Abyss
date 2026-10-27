@@ -6,6 +6,7 @@
   },
   "cards": {
     "armaments": "armaments/asset.json",
+    "cleave": "cleave/asset.json",
     "heavy_blade": "heavy_blade/asset.json"
   }
 }

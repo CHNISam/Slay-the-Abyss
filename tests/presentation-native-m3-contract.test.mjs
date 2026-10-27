@@ -9,6 +9,30 @@ const digest=value=>createHash('sha256').update(value).digest('hex');
 const manifestBytes=readFileSync(`${directory}/review.json`);
 assert.equal(digest(manifestBytes),'889ee9c585b2661569e2161cc836c4f431d1c41105e8eccfc821f584dc7ccbde');
 const review=JSON.parse(manifestBytes);
+// Accepted PR261 (develop77262) adds an opt-in platform binding and a strict
+// helper. The ordinary77278-record capture is exactly unchanged. Keep the
+// historical c5 manifest/archives immutable and invert only these two reviewed
+// hunks after checking the complete current source identity, never a wildcard.
+const acceptedNativeArt={
+ 'src/lua/abyss_battle_ui.lua':{
+  sha256:'91d0cce1a3c6ef5a437175209f3fd2b086111de3f57f4756f15840e01412ee94',
+  before:'        child = child, show = show, ink = ink, tint = tint, picture = picture,\n',
+  after:'        child = child, show = show, ink = ink, tint = tint, picture = picture, platform = platform,\n',
+ },
+ 'tests/lua/support/native_ui_contract.lua':{
+  sha256:'7828c10e6e90f5e3da7ddb393d17d05b393159ce7e7f20f3b55cad0385dbd0a1',
+  before:'',after:'function M.transform3(x,y,z)\n    M.sizeDelta(x,y);M.sizeDelta(z,0)\nend\n',
+ },
+};
+function historicalSourceHash(path,source){
+ const text=source.replaceAll('\r\n','\n'),binding=acceptedNativeArt[path];
+ if(!binding)return digest(text);
+ assert.equal(digest(text),binding.sha256,'complete accepted PR261 source identity must match');
+ assert.equal(text.split(binding.after).length,2,'exactly one reviewed native-art compatibility hunk');
+ const original=text.replace(binding.after,binding.before);
+ assert.equal(digest(original),review.sourceInputs[path],'exact inverse must recover historical source identity');
+ return digest(original);
+}
 function capture(name){
  const bytes=readFileSync(`${directory}/${name}.json.gz`);
  assert.equal(digest(bytes),review[name].archiveSha256);
@@ -54,10 +78,21 @@ test('paired e0/c5 captures retain all 72915 original native writes and exactly 
  const delta=verify(baseline.entries,current.entries);
  const counts={};for(const item of delta){const entry=review.writes.find(row=>row.row===item.row);counts[entry.category]=(counts[entry.category]||0)+1;}
  assert.deepEqual(counts,review.categories);
- verifySources(Object.fromEntries(Object.keys(review.sourceInputs).map(path=>[path,digest(readFileSync(path,'utf8').replaceAll('\r\n','\n'))])));
+ verifySources(Object.fromEntries(Object.keys(review.sourceInputs).map(path=>[path,historicalSourceHash(path,readFileSync(path,'utf8'))])));
  const fixture=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8');
  assert.match(fixture,/trace:assertNativeInteraction\(\)/);
  assert.match(fixture,/assert\(trace.count==77278 and trace.hash==1948853637/);
+});
+test('accepted native-art compatibility permits only its two complete identities and exact historical inverses',()=>{
+ assert.deepEqual(Object.keys(acceptedNativeArt),['src/lua/abyss_battle_ui.lua','tests/lua/support/native_ui_contract.lua']);
+ for(const [path,binding]of Object.entries(acceptedNativeArt)){
+  const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  assert.equal(historicalSourceHash(path,source),review.sourceInputs[path]);
+  assert.equal(historicalSourceHash(path,source.replaceAll('\n','\r\n')),review.sourceInputs[path]);
+  assert.throws(()=>historicalSourceHash(path,source+'\n-- unreviewed source drift\n'),/complete accepted PR261 source identity/);
+  assert.throws(()=>historicalSourceHash(path,source.replace(binding.after,binding.before)),/complete accepted PR261 source identity/,'accepted binding/helper cannot be silently removed');
+  assert.throws(()=>historicalSourceHash(path,source.replace(binding.after,binding.after+binding.after)),/complete accepted PR261 source identity/,'duplicate compatibility edits cannot be hidden');
+ }
 });
 test('native trace proof rejects deleted changed reordered old writes and unreviewed additions',()=>{
  const original=current.entries;

@@ -9,6 +9,7 @@ import { settlementGraphSource } from './settlement-graph.mjs';
 import { nativeUiVariables } from './native-candidate-scripts.mjs';
 import { loadReleaseNotes, notesSha256, gitSourceIdentity, releaseBuildArgs } from './release-notes.mjs';
 import { toLua } from './build-lua-data.mjs';
+import { nativeCardArtArgs, prepareNativeCardArt, nativeCardArtBuildReceipt, verifyNativeCardArtReceipt } from './card-art-samples.mjs';
 
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
@@ -33,9 +34,11 @@ export function sourceInputs(root) {
   return files.sort().map(path=>{const {sha256,bytes}=fileRecord(join(root,path),root);return {path,sha256,bytes};});
 }
 export const payloadDigest = inputs => sha256(JSON.stringify(inputs));
-function prepareBuild(root, directory, {releaseCandidate,workKey}) {
+function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt}) {
   for(const args of [['scripts/build-lua-data.mjs','data',join(directory,'abyss_data.lua')],
-    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(releaseCandidate?['--release-candidate']:[])]]) {
+    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(releaseCandidate?['--release-candidate']:[]),
+      ...(nativeCardArt?[`--native-card-art-registry=${nativeCardArt.registry}`,
+        ...nativeCardArt.hosts.map(host=>`--native-card-art-host=${host}`)]:[])]]) {
     const result=spawnSync(process.execPath,args,{cwd:root,encoding:'utf8',timeout:60000,maxBuffer:4*1024*1024});
     if(result.error || result.status!==0)throw new Error(`Rebuild failed: ${result.error?.message || result.stderr}`);
   }
@@ -46,8 +49,25 @@ function checkTree(control) {
 }
 export async function buildNativeCandidate({baseMap,output='build/candidates',root=process.cwd(),client,createClient,
   prepare,generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog,
-  releaseCandidate=false,workKey='alpha-test'}={}) {
-  root=resolve(root); const base=fileRecord(resolve(baseMap));
+  releaseCandidate=false,workKey='alpha-test',nativeCardArt}={}) {
+  root=resolve(root);
+  if(prepare && nativeCardArt!==undefined)throw new Error('Custom prepare cannot be combined with native art options');
+  if(nativeCardArt!==undefined) {
+    if(!nativeCardArt || typeof nativeCardArt!=='object' || Array.isArray(nativeCardArt)
+      || Object.keys(nativeCardArt).some(key=>!['registry','hosts','count'].includes(key)))throw new Error('Invalid native art options');
+    if(nativeCardArt.count!==undefined) {
+      if(nativeCardArt.hosts!==undefined || ![0,1,5,10].includes(nativeCardArt.count))throw new Error('Native art requires count 0/1/5/10 OR hosts');
+      nativeCardArt=nativeCardArt.count===0?undefined:{registry:nativeCardArt.registry,hosts:Array.from({length:nativeCardArt.count},(_,i)=>`battlePanel/card${i+1}`)};
+    }
+    if(nativeCardArt) {
+      if(typeof nativeCardArt.registry!=='string'||!nativeCardArt.registry)throw new Error('Native art candidate requires a file registry');
+    }
+  }
+  const art=prepareNativeCardArt(nativeCardArt,{root});
+  if(art)nativeCardArt={...nativeCardArt,registry:art.inputPaths.at(-1)};
+  if(art&&!Object.hasOwn(generatedModules,'abyss_presentation'))throw new Error('Native art requires the generated presentation module');
+  const artInputs=art?.inputPaths.map(path=>fileRecord(path,root));
+  const base=fileRecord(resolve(root,baseMap));
   const outputRoot=prepareOutputDirectory(root,output);
   const buildId=randomUUID(),workspace=join(outputRoot,buildId); mkdirSync(workspace); inside(root,workspace);
   const generated=join(workspace,'generated'),payload=join(workspace,'payload'); mkdirSync(generated);mkdirSync(payload);
@@ -78,7 +98,11 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     return data;
   }
   try {
-    if(prepare)prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey});
+    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt});
+    if(art) {
+      if(payloadDigest(art.inputPaths.map(path=>fileRecord(path,root)))!==payloadDigest(artInputs))throw new Error('Native art input changed during preparation');
+      receipt.nativeCardArt=nativeCardArtBuildReceipt(art,{root,directory:generated});
+    }
     if(releaseCandidate && !readFileSync(join(generated,'abyss_narrative.lua'),'utf8')
       .includes(`["releaseNotes"]=${toLua(releaseNotes)}`))throw new Error('Bundled release notes differ from candidate provenance');
     const layout=JSON.parse(readFileSync(join(generated,'game-ui.json'),'utf8'));
@@ -91,6 +115,10 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       modules.set(name,join(generated,`${name}.lua`));
     }
     if(!modules.has('abyss_ui'))throw new Error('Missing entry module abyss_ui');
+    if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during preparation');
+    verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});
+    // Preflight missing/unreadable modules before starting any MCP process.
+    for(const source of modules.values())fileRecord(source);
     client??=await createClient(workspace);
     for(const uri of ['miliastra://workflow','miliastra://platform-rules'])writeExclusive(join(workspace,`${uri.split('//')[1]}.json`),await client.readResource({uri}));
     const moduleDigests={};
@@ -151,6 +179,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     receipt.moduleDigests=moduleDigests;
     receipt.checkedModules=names;receipt.warnings={count:checked.warnings,problems:checked.problems??[],review:'not_run'};
     if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during packaging');
+    verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});
     if(releaseCandidate) {
       const identity=gitSourceIdentity(root);
       if(identity.sourceCommit!==sourceCommit||identity.sourceDirty!==false)throw new Error('Release candidate source identity changed during packaging');
@@ -187,10 +216,11 @@ export async function buildNativeCandidateFromToolchain(options) {
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const args=process.argv.slice(2),playtest=args.includes('--playtest');
-    const {paths,options}=releaseBuildArgs(args.filter(arg=>arg!=='--playtest'));
+    const native=nativeCardArtArgs(args.filter(arg=>arg!=='--playtest'));
+    const {paths,options}=releaseBuildArgs(native.args);
     const [baseMap,output]=paths;
-    if(!baseMap||paths.length>2)throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory] [--playtest] [--release-candidate] [--work-key=alpha-test]');
-    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options});
+    if(!baseMap||paths.length>2)throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory] [--playtest] [--release-candidate] [--work-key=alpha-test] [--native-card-art-registry=<file> --native-card-art-count=0|1|5|10 | --native-card-art-host=<host>]');
+    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,nativeCardArt:native.nativeCardArt});
     console.log(`Candidate receipt: ${receipt.receiptPath}\nStatic check passed. Official import/gameplay require separate evidence.`);
   }catch(error){console.error(error.message);process.exitCode=1;}
 }

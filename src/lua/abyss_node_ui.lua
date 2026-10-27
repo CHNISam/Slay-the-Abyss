@@ -221,7 +221,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     -- Approved card face. look: dim (greyed but readable), veil (sold/removed), selected (glow),
     -- stamp (overlay word), changed (cost highlight).
-    local function fillCard(box, id, upgraded, look)
+    local artFaces={};local function fillCard(box, id, upgraded, look)
         look = look or {}
         local definition, display = card(id) or {}, self.presentation[id] or {}
         local instance=look.instance or {cardId=id,upgraded=upgraded==true}
@@ -242,7 +242,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or cost ~= nil and number(cost) or ""
         tint(box:GetChild("costDisc"), look.dim and C.energyEmpty or look.changed and C.positive or C.energy)
         for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
-        CardDisplay.writeArt(box:GetChild("art_" .. kind), definition, picture)
+        CardDisplay.writeArt(box:GetChild("art_" .. kind), definition, picture);if CardDisplay.writeNativeArt(box,definition,display.nativeArt,options,box:GetChild('art_'..kind))then artFaces[box]=true end
         tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
         tint(box:GetChild("border"), look.selected and C.goldBright or look.dim and C.line or C.rarity[definition.rarity] or C.line)
         show(box:GetChild("glow"), look.selected)
@@ -1053,7 +1053,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     function self:render()
         if not self.run then root:SetVisible(false);return false, "node_unbound" end
-        resetButtons()
+        resetButtons();local previousArt=artFaces;artFaces={}
         inspectCards={}
         local view = Nodes.view(self.run, self.map)
         local node = view.node
@@ -1073,7 +1073,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         bindFooter(back,confirm,backLabel,confirmLabel,confirmOk,skipRestReward)
         bindTreasureBack(back,node,active)
         action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil, nil, recallObserve)
-        bindStagedEventActions(node)
+        bindStagedEventActions(node);for box in pairs(previousArt)do if not artFaces[box]then CardDisplay.clearNativeArt(box)end end
         self.failed = false
     end
 
@@ -1108,7 +1108,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
         if value and not self.run then return false, "node_unbound" end
-        if not value then resetButtons() end
+        if not value then resetButtons();for box in pairs(artFaces)do CardDisplay.clearNativeArt(box)end;artFaces={} end
         local wasVisible = self.visible
         self.visible = value root:SetVisible(value)
         if not value and self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then
