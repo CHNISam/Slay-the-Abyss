@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 local GameUI = require("abyss_game_ui")
 local Combat = require("abyss_combat")
 local Nodes = require("abyss_nodes")
@@ -17,7 +18,7 @@ local Control = {}
 local controlMethods = { __index = Control }
 function Control:GetChild(name) return self.children[name] end
 function Control:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
-function Control:SetSizeDelta(width, height) self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
+function Control:SetSizeDelta(width, height) NativeContract.sizeDelta(width,height); self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
 function Control:SetLocalScale(x, y, z) self.scale = {x, y, z}; self.localScaleX, self.localScaleY = x, y end
 function Control:SetAnchoredPosition(x, y) self.x, self.y = x, y end
 function Control:SetImage(...)
@@ -26,19 +27,19 @@ function Control:SetImage(...)
     assert(source == "static" and type(id) == "number"); self.imageId = id
 end
 function Control:SetAsLastSibling() self.raised = true end
-function Control:AddCursorEventListener(event, fn)
+function Control:AddCursorEventListener(event, fn) NativeContract.listener(event,fn);
     assert(self.kind~='container','Native containers do not support AddCursorEventListener; use a cursorArea')
     self.listeners = self.listeners or {}
     assert(not self.listeners[event], "duplicate cursor listener: " .. tostring(event))
     self.listeners[event] = fn
     if event == "click" then self.click = fn end
 end
-function Control:AddKeyEventListener(event, fn)
+function Control:AddKeyEventListener(event, fn) NativeContract.listener(event,fn);
     self.keyListeners = self.keyListeners or {}
     assert(not self.keyListeners[event], 'duplicate key listener')
     self.keyListeners[event] = fn
 end
-function Control:AddNavigationEventListener(event,fn)
+function Control:AddNavigationEventListener(event,fn) NativeContract.listener(event,fn);
     self.navigationListeners=self.navigationListeners or {}
     assert(not self.navigationListeners[event],'duplicate navigation listener')
     self.navigationListeners[event]=fn

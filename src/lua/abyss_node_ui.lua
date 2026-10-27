@@ -734,41 +734,43 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.run.nodeFlow ~= nil and self.run.nodeFlow.id == result.nodeId and self.run.nodeFlow.complete == true
     end
 
-    function self:render()
-        if not self.run then root:SetVisible(false);return false, "node_unbound" end
-        resetButtons()
-        inspectCards={}
-        local view = Nodes.view(self.run, self.map)
-        local node = view.node
+    local function syncNodeIdentity(node)
         if self.renderRun ~= self.run or self.renderMap ~= self.map or self.nodeId ~= (node and node.id) then
             self.page, self.relicPage, self.pickPage, self.mode, self.picker = 1, 1, 1, "main", nil
             self.selected, self.opened, self.notice, self.result, self.treasureChoice = nil, false, "", nil, 1
             self.upgradeRows = node and node.upgradeCards or {}
             self.removeRows = snapshotDeck(node and node.purgeCards or {})
         end
-        self.renderRun, self.renderMap, self.nodeId = self.run, self.map, node and node.id
-        self.view, self.actions = view, {}
-        local result = self:holding() and self.result or nil
-        local active = node and kinds[node.type] and not node.complete and view.phase == "node"
-        if active then self.removeRows=snapshotDeck(node.purgeCards) end
+    end
+    local function syncLivingPicker(node,active)
         if active and node.type=='event' and node.event.id=='living_wall' and node.event.stage=='choose_card' then
             self.mode,self.picker='picker','living_'..node.event.choice
             self.removeRows=snapshotDeck(node.event.purgeCards)
             self.upgradeRows=node.upgradeCards
         end
+    end
+    local function syncLibraryPicker(node)
+        self.mode,self.picker='picker','library_offer'
+        self.offerRows=Combat.copy(node.event.offers)
+        if not find(self.offerRows,self.selected,'offerToken')then self.selected=nil end
+    end
+    local function syncAct2PurgePicker(node)
+        self.mode,self.picker='picker',node.event.id=='beggar' and 'beggar_purge' or 'basics_purge'
+        self.removeRows=Combat.copy(node.event.purgeCards)
+        local matches=0
+        for _, instance in ipairs(self.run.deck) do if instance.uid==self.selected then matches=matches+1 end end
+        if matches~=1 or not find(self.removeRows,self.selected,'uid') then self.selected=nil end
+    end
+    local function syncAct2Picker(node,active)
         if active and node.type=='event' and Act2Events.ids[node.event.id] then
             if node.event.id=='the_library' and node.event.stage=='choose_offer' then
-                self.mode,self.picker='picker','library_offer'
-                self.offerRows=Combat.copy(node.event.offers)
-                if not find(self.offerRows,self.selected,'offerToken')then self.selected=nil end
+                syncLibraryPicker(node)
             elseif (node.event.id=='beggar' or node.event.id=='back_to_basics') and node.event.stage=='choose_card' then
-                self.mode,self.picker='picker',node.event.id=='beggar' and 'beggar_purge' or 'basics_purge'
-                self.removeRows=Combat.copy(node.event.purgeCards)
-                local matches=0
-                for _, instance in ipairs(self.run.deck) do if instance.uid==self.selected then matches=matches+1 end end
-                if matches~=1 or not find(self.removeRows,self.selected,'uid') then self.selected=nil end
+                syncAct2PurgePicker(node)
             else self.mode,self.picker,self.selected='main',nil,nil end
         end
+    end
+    local function syncNeowPicker(node,active)
         if active and node.type=='event' and node.event.id=='neow'then
             if node.event.stage=='neow_choose_card'then
                 self.mode,self.picker='picker','neow_card'
@@ -776,10 +778,14 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 if not find(self.removeRows,self.selected,'uid')then self.selected=nil end
             else self.mode,self.picker,self.selected='main',nil,nil end
         end
+    end
+    local function syncRestPicker(node,active)
         if active and node.type=='camp' and node.restReward and not node.restReward.resolved then
             self.mode,self.picker='picker','dream_catcher';self.restRows={}
             for i,id in ipairs(node.restReward.cards)do self.restRows[i]={uid=i,cardId=id,upgraded=node.restReward.cardUpgrades and node.restReward.cardUpgrades[i]==true}end
         end
+    end
+    local function syncAct1Picker(node,active)
         if active and node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel') then
             if node.event.stage=='choose_card' then
                 self.mode,self.picker='picker','act1_'..node.event.choice
@@ -787,19 +793,35 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 self.upgradeRows=node.upgradeCards
             else self.mode,self.picker,self.selected='main',nil,nil end
         end
-        renderTopBar(node)
-        local screen, hint, recallSource, treasureSource = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
+    end
+    local function syncNodePicker(node,active)
+        syncLivingPicker(node,active)
+        syncAct2Picker(node,active)
+        syncNeowPicker(node,active)
+        syncRestPicker(node,active)
+        syncAct1Picker(node,active)
+    end
+    local function nodeScreen(_view,node,result,active)
+        local screen, hint = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
         if node and node.complete then hint = "本节点已完成，可以返回路线。" end
         if active and self.mode == "picker" then screen = "pickerView"
         elseif active then screen = node.type .. "View"
         elseif result then screen = result.view end
         if active and node.type == "camp" and node.campChoice == "upgrade" then self.mode, self.picker, screen = "picker", "upgrade", "pickerView" end
+        return screen,hint
+    end
+    local function renderNodePage(view,node,result,active)
+        local screen,hint=nodeScreen(view,node,result,active)
+        local recallSource,treasureSource
         for _, name in ipairs({ "shopView", "campView", "pickerView", "eventView", "treasureView" }) do show(child(name), name == screen) end
         if screen == "shopView" then hint = renderShop(view, node)
         elseif screen == "campView" then hint, recallSource = renderCamp(view, node, result)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
         elseif screen == "eventView" then hint = renderEvent(view, node, result)
         elseif screen == "treasureView" then hint, treasureSource = renderTreasure(view, node) end
+        return screen,hint,recallSource,treasureSource
+    end
+    local function refreshNodeNotice(node,active,hint)
         -- The merchant speaks in his own dialogue box; the notice keeps only shop facts.
         if node and node.type == "shop" and (self.merchantNode ~= node.id or self.merchantRun ~= self.run) then
             self.merchantNode, self.merchantRun = node.id, self.run
@@ -809,134 +831,189 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         child("notice").text = self.notice ~= "" and self.notice or hint
         ink(child("notice"), self.failed and self.notice ~= "" and C.danger or C.text)
 
-        local back, confirm = child("back"), child("confirm")
-        local backLabel, confirmLabel, confirmOk, confirmFn,skipRestReward,recallObserve
-        if result then
-            confirmLabel, confirmOk = "继续", true
-            confirmFn = function()
-                self.result, self.notice = nil, ""
-                self:render() if onChange then onChange(true, "continue", self) end
-                return true, "continue"
-            end
-        elseif node and node.complete then
-            confirmLabel, confirmOk = view.phase == 'act_transition' and "前往下一幕" or "返回路线", true
-            confirmFn = function() if onChange then onChange(true, "complete", self) end return true, "complete" end
-        elseif screen == "shopView" then
-            confirmLabel, confirmOk = "离开商店", true
-            confirmFn = function()
-                -- The farewell stays on screen like a camp/event result, so it is actually seen.
-                return commit("leaveShop", nil, function() return "", {} end)
-            end
-        elseif screen == "campView" and recallSource then
-            local sourceRun, sourceMap, sourceFlow = self.run, self.map, self.run.nodeFlow
-            confirmLabel, confirmOk = "Recall", true
-            local function owned()
-                local attached = root:GetChild("confirm") == confirm
-                local hostAttached = not rootParent or rootParent:GetChild("nodePanel") == root
-                local look, parent = buttonLooks[confirm], confirm
-                if not attached or confirm.parent ~= root or not look or not look.enabled or look.selected then return false end
-                while parent do
-                    if not parent.visible then return false end
-                    parent = parent.parent
-                end
-                -- Final ownership check follows the last native read: GetChild can reenter a host render.
-                local entry = self.actions.confirm
-                return hostAttached and root.parent == rootParent and self.root == root and self.visible and not self.busy
-                    and self.run == sourceRun and self.map == sourceMap
-                    and self.run.nodeFlow == sourceFlow and self.run.roomGeneration == recallSource.roomGeneration
-                    and self.run.act == recallSource.act and entry and entry.enabled and entry.handler == confirmFn
-            end
-            recallObserve = function()
-                if not owned() or type(Nodes.recallSource) ~= "function" or type(Nodes.recall) ~= "function" then return false end
-                local currentSource = Nodes.recallSource(sourceRun, sourceMap)
-                if type(currentSource) ~= "table" then return false end
-                for key, value in pairs(recallSource) do if currentSource[key] ~= value then return false end end
-                return owned()
-            end
-            confirmFn = function()
-                -- Never adopt a fresh token at Click, even after a repaired context.
-                if not owned() or type(Nodes.recall) ~= "function" then return false, "stale_action" end
-                return commit("recall", recallSource, function() return "Recall · Ruby", { choice = "recall" } end)
-            end
-        elseif screen == "treasureView" and treasureSource then
-            confirmLabel, confirmOk = "蓝钥匙", true
-            confirmFn, recallObserve = bindTreasureChoice("confirm", confirm, treasureSource, "sapphire", relicName(treasureSource.relicId))
-        elseif screen == "pickerView" then
-            local selected = self.selected
-            local living=node.type=='event' and node.event.id=='living_wall'
-            local act1=node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel')
-            local dream=self.picker=='dream_catcher'
-            local function restReward(choice)
-                local id=node.restReward.cards[choice]
-                return commit('claimRestReward',choice,function()
-                    local obtained=self.run.deck[#self.run.deck]
-                    local text=choice==0 and '已跳过卡牌奖励' or ('已获得「'..cardName(id,obtained.upgraded,obtained.upgrades)..'」')
-                    self.mode,self.picker,self.selected='main',nil,nil
-                    return text,{choice='rest',healed=self.run.nodeFlow.restHealed,rewardText=text}
-                end)
-            end
-            if dream then
-                confirmLabel,backLabel='选择此牌','跳过卡牌'
-                skipRestReward=function()return restReward(0)end
-            elseif self.picker=='neow_card' or self.picker=='library_offer'then
-                confirmLabel='确认选择'
-            elseif self.picker=='beggar_purge' or self.picker=='basics_purge' then
-                confirmLabel='确认移除'
-            elseif act1 then
-                confirmLabel=self.picker=='act1_forge' and '确认升级' or self.picker=='act1_change' and '确认变换' or self.picker=='act1_purge' and '确认移除' or '确认献祭'
-            elseif living then
-                confirmLabel=self.picker=='living_grow' and '确认升级' or self.picker=='living_change' and '确认变换' or '确认移除'
-            elseif self.picker == "upgrade" then
-                confirmLabel = "确认升级"
-                if not node.campChoice then backLabel = "返回" end
-            elseif self.picker == "remove" then
-                confirmLabel, backLabel = "删除 · " .. node.removePrice .. " 金币", "返回"
-            else
-                confirmLabel, backLabel = node.event.removeCost > 0 and ("净化 · " .. node.event.removeCost .. " 金币") or "祈祷 · 移除", "返回"
-            end
-            confirmOk = selected ~= nil
-            confirmFn = function()
-                if dream then return restReward(selected) end
-                if self.picker=='neow_card' or self.picker=='library_offer'then
-                    return commit('chooseEvent','select',function()
-                        self.selected=nil;return self.run.nodeFlow.event.body
-                    end,selected)
-                end
-                if self.picker=='beggar_purge' or self.picker=='basics_purge' then
-                    return commit('chooseEvent','purge',function()return '已移除所选卡牌' end,selected)
-                end
-                local instance = find(self.upgradeRows, selected, "uid") or find(self.removeRows, selected, "uid")
-                local name = instance and cardName(instance.cardId, instance.upgraded,instance.upgrades) or ""
-                local command = act1 and 'chooseAct1EventCard' or living and "chooseLivingWallCard" or self.picker == "upgrade" and (node.type=="event" and "upgradeEvent" or "upgrade")
-                    or self.picker=='wing_purge' and 'purgeWing' or self.picker == "remove" and "removeCard" or "purifyEvent"
-                return commit(command, selected, function(before)
-                    if act1 then
-                        local text=self.run.nodeFlow.event.body or '选择完成。'
-                        return text,{text=text}
-                    end
-                    if living then
-                        local event=self.run.nodeFlow.event
-                        local text
-                        if event.choice=='grow' then text='已升级「'..name..'」'
-                        elseif event.choice=='forget' then text='已移除「'..name..'」'
-                        else
-                            local card=find(self.run.deck,event.obtainedCardUid,'uid')
-                            text='「'..name..'」已变换为「'..cardName(card.cardId,card.upgraded)..'」'
-                        end
-                        return text,{text=text}
-                    end
-                    if command == "upgrade" or command=='upgradeEvent' then
-                        local upgraded=find(self.run.deck,selected,'uid')
-                        local text="已升级「"..name.."」→「"..cardName(instance.cardId,true,upgraded.upgrades).."」"
-                        return text, { choice = "upgrade", card = instance, text=text }
-                    end
-                    local paid = before.gold - self.run.gold
-                    local text = "已移除「" .. name .. "」" .. (paid > 0 and (" · 支付 " .. number(paid) .. " 金币") or "")
-                    return text, { card = instance, text = "「" .. name .. "」已从牌组中移除" ..
-                        (paid > 0 and ("，支付 " .. number(paid) .. " 金币。") or "。") .. "\n牌组现有 " .. #self.run.deck .. " 张。" }
-                end)
-            end
+    end
+    local function eventPickerLabel(living,act1)
+        local confirmLabel
+        if act1 then
+            confirmLabel=self.picker=='act1_forge' and '确认升级' or self.picker=='act1_change' and '确认变换' or self.picker=='act1_purge' and '确认移除' or '确认献祭'
+        elseif living then
+            confirmLabel=self.picker=='living_grow' and '确认升级' or self.picker=='living_change' and '确认变换' or '确认移除'
         end
+        return confirmLabel
+    end
+    local function pickerLabels(node,living,act1,dream,restReward)
+        local backLabel,confirmLabel,skipRestReward
+        if dream then
+            confirmLabel,backLabel='选择此牌','跳过卡牌'
+            skipRestReward=function()return restReward(0)end
+        elseif self.picker=='neow_card' or self.picker=='library_offer'then
+            confirmLabel='确认选择'
+        elseif self.picker=='beggar_purge' or self.picker=='basics_purge' then
+            confirmLabel='确认移除'
+        elseif act1 or living then
+            confirmLabel=eventPickerLabel(living,act1)
+        elseif self.picker == "upgrade" then
+            confirmLabel = "确认升级"
+            if not node.campChoice then backLabel = "返回" end
+        elseif self.picker == "remove" then
+            confirmLabel, backLabel = "删除 · " .. node.removePrice .. " 金币", "返回"
+        else
+            confirmLabel, backLabel = node.event.removeCost > 0 and ("净化 · " .. node.event.removeCost .. " 金币") or "祈祷 · 移除", "返回"
+        end
+        return backLabel,confirmLabel,skipRestReward
+    end
+    local function pickerCommand(node,act1,living)
+        local command = act1 and 'chooseAct1EventCard' or living and "chooseLivingWallCard" or self.picker == "upgrade" and (node.type=="event" and "upgradeEvent" or "upgrade")
+            or self.picker=='wing_purge' and 'purgeWing' or self.picker == "remove" and "removeCard" or "purifyEvent"
+        return command
+    end
+    local function pickerFooter(node)
+        local backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward
+        local selected = self.selected
+        local living=node.type=='event' and node.event.id=='living_wall'
+        local act1=node.type=='event' and (node.event.id=='accursed_blacksmith' or node.event.id=='bonfire' or node.event.id=='transmogrifier' or node.event.id=='wheel')
+        local dream=self.picker=='dream_catcher'
+        local function restReward(choice)
+            local id=node.restReward.cards[choice]
+            return commit('claimRestReward',choice,function()
+                local obtained=self.run.deck[#self.run.deck]
+                local text=choice==0 and '已跳过卡牌奖励' or ('已获得「'..cardName(id,obtained.upgraded,obtained.upgrades)..'」')
+                self.mode,self.picker,self.selected='main',nil,nil
+                return text,{choice='rest',healed=self.run.nodeFlow.restHealed,rewardText=text}
+            end)
+        end
+        backLabel,confirmLabel,skipRestReward=pickerLabels(node,living,act1,dream,restReward)
+        confirmOk = selected ~= nil
+        confirmFn = function()
+            if dream then return restReward(selected) end
+            if self.picker=='neow_card' or self.picker=='library_offer'then
+                return commit('chooseEvent','select',function()
+                    self.selected=nil;return self.run.nodeFlow.event.body
+                end,selected)
+            end
+            if self.picker=='beggar_purge' or self.picker=='basics_purge' then
+                return commit('chooseEvent','purge',function()return '已移除所选卡牌' end,selected)
+            end
+            local instance = find(self.upgradeRows, selected, "uid") or find(self.removeRows, selected, "uid")
+            local name = instance and cardName(instance.cardId, instance.upgraded,instance.upgrades) or ""
+            local command=pickerCommand(node,act1,living)
+            return commit(command, selected, function(before)
+                if act1 then
+                    local text=self.run.nodeFlow.event.body or '选择完成。'
+                    return text,{text=text}
+                end
+                if living then
+                    local event=self.run.nodeFlow.event
+                    local text
+                    if event.choice=='grow' then text='已升级「'..name..'」'
+                    elseif event.choice=='forget' then text='已移除「'..name..'」'
+                    else
+                        local obtainedCard=find(self.run.deck,event.obtainedCardUid,'uid')
+                        text='「'..name..'」已变换为「'..cardName(obtainedCard.cardId,obtainedCard.upgraded)..'」'
+                    end
+                    return text,{text=text}
+                end
+                if command == "upgrade" or command=='upgradeEvent' then
+                    local upgraded=find(self.run.deck,selected,'uid')
+                    local text="已升级「"..name.."」→「"..cardName(instance.cardId,true,upgraded.upgrades).."」"
+                    return text, { choice = "upgrade", card = instance, text=text }
+                end
+                local paid = before.gold - self.run.gold
+                local text = "已移除「" .. name .. "」" .. (paid > 0 and (" · 支付 " .. number(paid) .. " 金币") or "")
+                return text, { card = instance, text = "「" .. name .. "」已从牌组中移除" ..
+                    (paid > 0 and ("，支付 " .. number(paid) .. " 金币。") or "。") .. "\n牌组现有 " .. #self.run.deck .. " 张。" }
+            end)
+        end
+        return backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,nil
+    end
+    local function treasureFooter(treasureSource, confirm)
+        local confirmLabel,confirmOk,confirmFn,recallObserve
+        confirmLabel, confirmOk = "蓝钥匙", true
+        confirmFn, recallObserve = bindTreasureChoice("confirm", confirm, treasureSource, "sapphire", relicName(treasureSource.relicId))
+        return nil,confirmLabel,confirmOk,confirmFn,nil,recallObserve
+    end
+    local function recallFooter(recallSource, confirm)
+        local confirmLabel,confirmOk,confirmFn,recallObserve
+        local sourceRun, sourceMap, sourceFlow = self.run, self.map, self.run.nodeFlow
+        confirmLabel, confirmOk = "Recall", true
+        local function attachedControls()
+            local attached = root:GetChild("confirm") == confirm
+            local hostAttached = not rootParent or rootParent:GetChild("nodePanel") == root
+            local look, parent = buttonLooks[confirm], confirm
+            if not attached or confirm.parent ~= root or not look or not look.enabled or look.selected then return false end
+            while parent do
+                if not parent.visible then return false end
+                parent = parent.parent
+            end
+            return true,hostAttached
+        end
+        local function owned()
+            local valid,hostAttached=attachedControls()
+            if not valid then return false end
+            -- Final ownership check follows the last native read: GetChild can reenter a host render.
+            local entry = self.actions.confirm
+            return hostAttached and root.parent == rootParent and self.root == root and self.visible and not self.busy
+                and self.run == sourceRun and self.map == sourceMap
+                and self.run.nodeFlow == sourceFlow and self.run.roomGeneration == recallSource.roomGeneration
+                and self.run.act == recallSource.act and entry and entry.enabled and entry.handler == confirmFn
+        end
+        recallObserve = function()
+            if not owned() or type(Nodes.recallSource) ~= "function" or type(Nodes.recall) ~= "function" then return false end
+            local currentSource = Nodes.recallSource(sourceRun, sourceMap)
+            if type(currentSource) ~= "table" then return false end
+            for key, value in pairs(recallSource) do if currentSource[key] ~= value then return false end end
+            return owned()
+        end
+        confirmFn = function()
+            -- Never adopt a fresh token at Click, even after a repaired context.
+            if not owned() or type(Nodes.recall) ~= "function" then return false, "stale_action" end
+            return commit("recall", recallSource, function() return "Recall · Ruby", { choice = "recall" } end)
+        end
+        return nil,confirmLabel,confirmOk,confirmFn,nil,recallObserve
+    end
+    local function shopFooter()
+        local confirmLabel,confirmOk,confirmFn
+        confirmLabel, confirmOk = "离开商店", true
+        confirmFn = function()
+            -- The farewell stays on screen like a camp/event result, so it is actually seen.
+            return commit("leaveShop", nil, function() return "", {} end)
+        end
+        return nil,confirmLabel,confirmOk,confirmFn,nil,nil
+    end
+    local function completedFooter(view)
+        local confirmLabel,confirmOk,confirmFn
+        confirmLabel, confirmOk = view.phase == 'act_transition' and "前往下一幕" or "返回路线", true
+        confirmFn = function() if onChange then onChange(true, "complete", self) end return true, "complete" end
+        return nil,confirmLabel,confirmOk,confirmFn,nil,nil
+    end
+    local function resultFooter()
+        local confirmLabel,confirmOk,confirmFn
+        confirmLabel, confirmOk = "继续", true
+        confirmFn = function()
+            self.result, self.notice = nil, ""
+            self:render() if onChange then onChange(true, "continue", self) end
+            return true, "continue"
+        end
+        return nil,confirmLabel,confirmOk,confirmFn,nil,nil
+    end
+    local function chooseFooter(result,node,view,screen,recallSource,treasureSource,confirm)
+        local backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve
+        if result then
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=resultFooter()
+        elseif node and node.complete then
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=completedFooter(view)
+        elseif screen == "shopView" then
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=shopFooter()
+        elseif screen == "campView" and recallSource then
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=recallFooter(recallSource, confirm)
+        elseif screen == "treasureView" and treasureSource then
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=treasureFooter(treasureSource, confirm)
+        elseif screen == "pickerView" then
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=pickerFooter(node)
+        end
+        return backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve
+    end
+    local function bindFooter(back,confirm,backLabel,confirmLabel,confirmOk,skipRestReward)
         show(back, backLabel ~= nil) show(confirm, confirmLabel ~= nil)
         if backLabel then back:GetChild("label").text = backLabel state(back, true) end
         if confirmLabel then confirm:GetChild("label").text = confirmLabel state(confirm, confirmOk, false, true) end
@@ -944,6 +1021,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if skipRestReward then return skipRestReward() end
             self.mode, self.picker, self.selected, self.notice = "main", nil, nil, "" self:render() return true
         end)
+    end
+    local function bindTreasureBack(back,node,active)
         if active and node.type=='treasure' and node.chest then
             show(back,true);back:GetChild('label').text=node.roomKind=='boss_treasure' and '跳过遗物' or '离开宝箱';state(back,true)
             action('back',true,function()return commit('leaveTreasure',nil,function()return '已离开宝箱' end)end)
@@ -953,7 +1032,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 return commit("claimBossTreasure", 0, function() return "已跳过首领遗物" end)
             end)
         end
-        action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil, nil, recallObserve)
+    end
+    local function bindStagedEventActions(node)
         if node and node.type=='event' and stagedEvent(node.event.id) then
             for key, entry in pairs(self.actions) do
                 if key=='confirm' or key=='back' or key:match('^eventView/') or key:match('^pickerView/') then
@@ -961,6 +1041,30 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 end
             end
         end
+    end
+    function self:render()
+        if not self.run then root:SetVisible(false);return false, "node_unbound" end
+        resetButtons()
+        inspectCards={}
+        local view = Nodes.view(self.run, self.map)
+        local node = view.node
+        syncNodeIdentity(node)
+        self.renderRun, self.renderMap, self.nodeId = self.run, self.map, node and node.id
+        self.view, self.actions = view, {}
+        local result = self:holding() and self.result or nil
+        local active = node and kinds[node.type] and not node.complete and view.phase == "node"
+        if active then self.removeRows=snapshotDeck(node.purgeCards) end
+        syncNodePicker(node,active)
+        renderTopBar(node)
+        local screen,hint,recallSource,treasureSource=renderNodePage(view,node,result,active)
+        refreshNodeNotice(node,active,hint)
+        local back, confirm = child("back"), child("confirm")
+        local backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve
+        backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=chooseFooter(result,node,view,screen,recallSource,treasureSource,confirm)
+        bindFooter(back,confirm,backLabel,confirmLabel,confirmOk,skipRestReward)
+        bindTreasureBack(back,node,active)
+        action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil, nil, recallObserve)
+        bindStagedEventActions(node)
         self.failed = false
     end
 

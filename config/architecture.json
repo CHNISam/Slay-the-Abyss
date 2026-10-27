@@ -178,7 +178,18 @@
     "abyss_act3_bosses": "core",
     "abyss_neow_history": "core",
     "abyss_treasure_source": "core",
-    "abyss_awakened_one": "core"
+    "abyss_awakened_one": "core",
+    "abyss_act2_ai_moves": "core",
+    "abyss_combat_effect_cards": "core",
+    "abyss_combat_effect_choice": "core",
+    "abyss_combat_effect_damage": "core",
+    "abyss_combat_effect_dispatch": "core",
+    "abyss_combat_effect_powers": "core",
+    "abyss_effects_cards": "core",
+    "abyss_effects_damage": "core",
+    "abyss_effects_enemy": "core",
+    "abyss_effects_powers": "core",
+    "abyss_character_presentation_text": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [
@@ -266,31 +277,6 @@
       "from": "abyss_colorless_cards",
       "to": "abyss_card_actions",
       "reason": "Generation and UID choices call the initialized host dispatcher at runtime."
-    },
-    {
-      "from": "abyss_actor",
-      "to": "abyss_flow_actions",
-      "reason": "Block callbacks enqueue prepared actions at runtime; Actor does not initialize the dispatcher."
-    },
-    {
-      "from": "abyss_build_actions",
-      "to": "abyss_combat",
-      "reason": "Generated card upgrades call the initialized host API during card resolution only."
-    },
-    {
-      "from": "abyss_actor",
-      "to": "abyss_orbs",
-      "reason": "Static Discharge channels via a damage reaction after module initialization."
-    },
-    {
-      "from": "abyss_actor",
-      "to": "abyss_combat",
-      "reason": "A standalone Static Discharge reaction needs the loaded host API; never imported during Actor initialization."
-    },
-    {
-      "from": "abyss_turn_powers",
-      "to": "abyss_flow_actions",
-      "reason": "Turn hook construction commits explicit prepared RNG only at runtime."
     },
     {
       "from": "abyss_actor",

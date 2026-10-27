@@ -42,8 +42,34 @@ test('dynamic Lua imports cannot disappear from related coverage', () => {
 test('deleted, unknown, data, build and unmapped changes fail closed to complete regression', () => {
   for (const paths of [[], ['src/lua/deleted.lua'], ['data/cards.json'], ['package.json'], ['scripts/test-lua.mjs'], ['tests/lua/unrelated.lua', 'docs/ENGINEERING.md']])
     assert.equal(selectTests(paths, sources).full, true, String(paths));
-  assert.equal(selectTests(['src/lua/abyss_high.lua'], { ...sources, 'tests/lua/relevant.lua': '' }).full, false,
-    'dynamic Lua builders remain selected even when literal coverage is absent');
+  assert.equal(selectTests(['src/lua/abyss_high.lua'], { ...sources, 'tests/lua/relevant.lua': '' }).full, true,
+    'dynamic Lua builders cannot prove coverage for an unmapped input');
+});
+
+const mixedSources = {
+  ...sources,
+  'scripts/unmapped.mjs': 'export const unused=1',
+  'src/lua/abyss_unmapped.lua': 'return {}',
+  'tests/support/unmapped.lua': 'return {}',
+  'tests/discovery.test.mjs': 'import {readdirSync} from "node:fs"; readdirSync(directory)',
+};
+for (const unmapped of ['scripts/unmapped.mjs', 'src/lua/abyss_unmapped.lua', 'tests/support/unmapped.lua']) {
+  for (const changed of [[unmapped], ['scripts/pure.mjs', unmapped], [unmapped, 'src/lua/abyss_low.lua']]) {
+    test(`every unmapped input forces complete regression: ${changed.join(', ')}`, () => {
+      const plan = selectTests(changed, mixedSources);
+      assert.equal(plan.full, true, changed.join(', '));
+      assert.ok(plan.reason.includes(unmapped), plan.reason);
+      assert.deepEqual([plan.fast, plan.integration, plan.lua], [[], [], []]);
+    });
+  }
+}
+
+test('each mapped change retains its own direct or transitive regression', () => {
+  const plan = selectTests(['scripts/pure.mjs', 'src/lua/abyss_low.lua', 'tests/lua/unrelated.lua'], sources);
+  assert.equal(plan.full, false);
+  assert.deepEqual(plan.fast, ['tests/pure.test.mjs']);
+  assert.deepEqual(plan.integration, ['tests/dynamic.test.mjs']);
+  assert.deepEqual(plan.lua, ['tests/lua/relevant.lua', 'tests/lua/unrelated.lua']);
 });
 
 const luaSources = {

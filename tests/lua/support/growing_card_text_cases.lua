@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 return function(first,last,cardFirst,cardLast)
 first,last=first or 1,last or math.huge
 cardFirst,cardLast=cardFirst or 1,cardLast or 80
@@ -18,9 +19,9 @@ local function control(definition)
     for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
     function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
     function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-    function c:AddCursorEventListener(event, fn) assert(event == "click") self.click = fn end
+    function c:AddCursorEventListener(event, fn) NativeContract.listener(event,fn); assert(event == "click") self.click = fn end
     function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
+    function c:SetSizeDelta(x, y) NativeContract.sizeDelta(x,y); self.sizeDeltaX, self.sizeDeltaY = x, y end
     function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
     function c:SetImage(source, id) assert(source == "static" and type(id) == "number") self.imageId = id end
     function c:SetAsLastSibling() self.raised = true end
@@ -174,5 +175,5 @@ end)
 print("growing_card_text: " .. (count-failed) .. "/" .. count .. " passed")
 assert(failed==0, failed .. " growing_card_text failures")
 
-return registered
+return registered, control
 end

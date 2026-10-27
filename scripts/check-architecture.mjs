@@ -42,6 +42,14 @@ export function analyzeSources(sources,policy,generated=generatedRuntimeModules)
     }
     visit(ast);
   }
+  const seenDeferredImports=new Set();
+  for(const {from,to} of policy.deferredImports??[]) {
+    const key=`${from}:${to}`;
+    if(seenDeferredImports.has(key))errors.push({file:'config/architecture.json',line:1,message:`Duplicate deferred import exception: ${from} -> ${to}`});
+    else if(!edges.some(edge=>edge.from===from&&edge.to===to&&edge.reviewedDeferred))
+      errors.push({file:'config/architecture.json',line:1,message:`Stale deferred import exception: ${from} -> ${to}`});
+    seenDeferredImports.add(key);
+  }
   const active=new Set(),done=new Set();
   function cycle(name,trail=[]) {
     if(active.has(name)){errors.push({file:`src/lua/${name}.lua`,line:1,message:`Dependency cycle: ${[...trail,name].join(' -> ')}`});return;}

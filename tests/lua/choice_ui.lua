@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path="src/lua/?.lua;build/lua/?.lua;"..package.path
 local ChoiceUI=require("abyss_choice_ui")
 local Combat=require("abyss_combat")
@@ -15,7 +16,7 @@ local function control(name)
     function c:GetChild(key) return self.children[key] end
     function c:SetVisible(value) self.visible=value end
     function c:SetAsLastSibling() self.raised=true end
-    function c:AddCursorEventListener(event,fn) assert(not self.listeners[event]);self.listeners[event]=fn end
+    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn); assert(not self.listeners[event]);self.listeners[event]=fn end
     return c
 end
 local function button(name)
