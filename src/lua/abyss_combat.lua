@@ -160,14 +160,14 @@ local function makeEnemy(state, id, serial, explicitHp)
             local policy = enemy.ai and enemy.ai.kind
             local supported = kind == "escape" and policy == "looter"
                 or kind == "charge" and policy == "charge_then_attack"
-                or kind == "split" and (policy == "spike_slime_l" or policy == "acid_slime_l")
+                or kind == "split" and (policy == "spike_slime_l" or policy == "acid_slime_l" or policy == "act1_boss" and enemy.ai.policy=="slime_boss")
             assert(supported and enemy.ai[kind .. "Intent"] == intent.id,
                 kind .. " intent requires matching AI")
             assert(type(intent.effects) == "table" and next(intent.effects) == nil, kind .. " intent has effects")
         elseif intent.kind == 'unknown' and enemy.ai and enemy.ai.kind=='act3'
             and enemy.ai.policy=='exploder' and intent.id=='wait' then
             assert(type(intent.effects)=='table'and next(intent.effects)==nil,'Exploder wait has effects')
-        elseif intent.kind == "sleep" or intent.kind == "stunned" then
+        elseif intent.kind == "sleep" or intent.kind == "stunned" or intent.kind=="unknown" and enemy.ai and enemy.ai.kind=="act1_boss" then
             assert(type(intent.effects) == "table" and next(intent.effects) == nil, "inactive enemy intent has effects")
         else assert(Effects.supported(intent.effects), "unsupported enemy intent") end
     end
@@ -198,12 +198,13 @@ end
 
 local function splitEnemy(state, parent)
     local ai, position = parent.ai, nil
-    assert(ai and (ai.kind == "spike_slime_l" or ai.kind == "acid_slime_l") and ai.splitCount == 2, "unsupported enemy split")
+    assert(ai and (ai.kind == "spike_slime_l" or ai.kind == "acid_slime_l" or ai.kind=="act1_boss" and ai.policy=="slime_boss") and ai.splitCount == 2, "unsupported enemy split")
     for i, enemy in ipairs(state.enemies) do if enemy == parent then position = i; break end end
     assert(position and parent.hp > 0, "invalid split parent")
     local children, hp = {}, parent.hp -- capture before the non-triggering death
     for i = 1, ai.splitCount do
-        children[i] = makeEnemy(state, ai.splitEnemy, state.nextEnemyId, hp)
+        children[i] = makeEnemy(state, ai.splitEnemies and ai.splitEnemies[i] or ai.splitEnemy, state.nextEnemyId, hp)
+        if ai.splitPositions then children[i].sourcePosition=copy(ai.splitPositions[i]) end
         state.nextEnemyId = state.nextEnemyId + 1
     end
     -- Suicide(false): no damage, death Power, relic callback or extra reward.
@@ -2178,6 +2179,8 @@ function M.new(data, options)
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }
     if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
+    require('abyss_act1_bosses').register(state.catalog,copy)
+    require('abyss_act3_bosses').register(state.catalog,copy)
     for _,enemy in ipairs(require('abyss_act2_enemies').enemies)do
         assert(not state.catalog.enemies[enemy.id],'duplicate Act2 enemy')
         state.catalog.enemies[enemy.id]=copy(enemy)

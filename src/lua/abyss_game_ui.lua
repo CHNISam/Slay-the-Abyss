@@ -28,6 +28,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
+    local speed=menu:GetChild('battleSpeed')
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local exitGeneration, menuGeneration = 0, 0
     local menuPointerSealed = false
@@ -44,6 +45,14 @@ function M.new(root, data, presentation, clickEvent, platform)
     local selectable=experimental or originalCharacters
     if selectable then assert(characterPanel and root:GetChild("choicePanel"), "experimental class layout required") end
     local characterIds = originalCharacters and {"hutao","arlecchino","furina","raiden"} or {"ironclad", "silent", "defect", "watcher"}
+    self.fastMode=false
+    self.setFastMode=function(_,enabled)
+        if type(enabled)~='boolean' or self.disabled or self.battleUI and self.battleUI.busy then return false end
+        self.fastMode=enabled
+        if self.battleUI then self.battleUI.fastMode=enabled;self.battleUI.feedback:setFastMode(enabled)end
+        if speed then speed:GetChild('label').text=enabled and '战斗速度：快速' or '战斗速度：普通'end
+        return true
+    end
     local menuRun, menuMode
     local requestSettlement
     local ready = false
@@ -55,7 +64,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
     end
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
-        platform, { embedded = true, onChange = changed })
+        platform, { embedded = true, onChange = changed, onPile=function(kind)return self:openDeck(kind)end })
     self.mapUI = MapUI.new(child("mapPanel"), nil, function(node)
         if self.disabled or not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
@@ -131,10 +140,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         return requestSettlement(self.mode == "victory")
     end
 
-    self.openDeck = function(_)
+    self.openDeck = function(_,pileKind)
         if self.disabled or self.characterOpen or self.choiceUI and self.choiceUI.visible or self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
             or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
-        if not self.deckUI:open(self.run) then return false end
+        if pileKind then
+            if self.mode~='battle' or not self.deckUI:openPile(self.run,pileKind)then return false end
+        elseif not self.deckUI:open(self.run)then return false end
         self.battleUI.selected = nil
         self:refresh()
         return true
@@ -336,7 +347,8 @@ function M.new(root, data, presentation, clickEvent, platform)
             self.choiceUI:refresh(run,not self.battleUI.busy and not self.exitOpen and not self.settlementRequested
                 and not self.settlementBusy and not self.deckUI.visible and not self.potionUI.visible)
         end
-        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
+        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run
+            or self.deckUI.pileKind and (run.phase~='combat' or run.combat~=self.deckUI.battle))then self.deckUI:close()end
         if run and run.phase=="combat" and run.combat.pendingChoice and not self.battleUI.busy
             and not self.deckUI.visible and not self.exitOpen then
             self.deckUI:open(run,run.combat.pendingChoice,function(token,uid)
@@ -603,6 +615,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local cursor = platform.cursorEvents or {}
         local function available()
             if self.disabled or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy then return false end
+            if kind=='battleSpeed' then return self.mode=='menu' and not self.characterOpen and not self.exitOpen and not self.deckUI.visible end
             if characterAction then
                 return selectable and self.characterOpen==true and not self.exitOpen
                     and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
@@ -668,6 +681,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     -- Result actions use the same pointer ownership as exit actions, and also
     -- expire whenever their menu/run context is hidden or replaced.
+    if speed then bindCommand(speed,'battleSpeed',function()return self:setFastMode(not self.fastMode)end)end
     bindCommand(start, "start", function() return self:start() end)
     bindCommand(settlement, "settle", function() return self:settle() end)
     bindCommand(child("combatRewards"), "combatRewards", function()

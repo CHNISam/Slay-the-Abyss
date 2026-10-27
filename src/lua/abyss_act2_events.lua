@@ -5,10 +5,12 @@ local Run=require('abyss_run')
 local Purge=require('abyss_living_wall')
 local Random=require('abyss_sts_random')
 local Basics=require('abyss_back_to_basics')
-local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true}}
+local Joust=require('abyss_joust_event')
+local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true}}
 local GOLD_COST=75
 
 function M.prepare(run,event)
+    if event.id=='joust' then return Joust.prepare(run,event) end
     if event.id=='back_to_basics' then return Basics.prepare(run,event) end
     event.stage='intro'
     if event.id=='addict' then event.body='一位商贩提供一件遗物，价格是85金币。';return end
@@ -20,6 +22,7 @@ local function row(choice,title,description,enabled,picker)
 end
 
 function M.options(run,event)
+    if event.id=='joust' then return Joust.options(run,event) end
     if event.id=='back_to_basics' then return Basics.options(run,event) end
     if event.id=='addict' then
         if event.stage=='intro' then
@@ -135,6 +138,7 @@ function M.view(run,event)
 end
 
 function M.choose(run,flow,choice,uid,upgradeable)
+    if flow.event.id=='joust' then return Joust.choose(run,flow,choice,uid) end
     local event=flow.event
     if event.id=='back_to_basics' then return Basics.choose(run,flow,choice,uid,upgradeable) end
     if event.id=='addict' then return chooseAddict(run,event,choice,uid) end

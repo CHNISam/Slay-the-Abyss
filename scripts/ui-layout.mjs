@@ -218,6 +218,11 @@ export function battleLayout() {
   }
   // Keep potion explanations in the existing full-canvas group. This avoids
   // exceeding the platform's 60 direct children when rewards and aiming coexist.
+  for (let i = 1; i <= 2; i++) {
+    const relic = button(`relicReward${i}`, l.battleRewards.rowOrigin, l.battleRewards.rowSize, '遗物', false, f.body);
+    relic.visible = false;
+    potionHelp.push(relic);
+  }
   potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));

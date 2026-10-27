@@ -13,6 +13,7 @@ local EncounterQueue = require("abyss_encounter_queue")
 local RoomEncounters = require("abyss_room_encounters")
 local CardRandom = require("abyss_card_random")
 local RelicPool = require('abyss_relic_pool')
+local RelicRewards=require('abyss_relic_rewards')
 local RelicHooks = require('abyss_relic_hooks')
 local Acts = require('abyss_acts')
 local M = {}
@@ -457,8 +458,8 @@ function M.startRoomCombat(run,tier)
             if run.floor~=50 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
                 return false,'unsupported_boss_initialization'
             end
-            local resolved,reason=require('abyss_act3_enemies').resolve(run.bossInitialization.bossList[1],tier)
-            if not resolved then return false,reason end
+            local resolved,reason=require('abyss_act3_bosses').resolve(run.bossInitialization.bossList[1],tier)
+            if not resolved then return false,reason or 'act_content_unavailable'end
             encounter=resolved
         elseif act==2 then
             if run.floor~=33 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
@@ -466,10 +467,13 @@ function M.startRoomCombat(run,tier)
             end
             encounter=require('abyss_act2_enemies').resolve(run.bossInitialization.bossList[1],tier)
             if not encounter then return false,'act_content_unavailable' end
-        elseif run.floor~=16 or not run.bossInitialization or run.bossInitialization.profile~='guardian-unseen' then
+        elseif run.floor~=16 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table'
+            or (run.bossInitialization.profile~='guardian-unseen' and run.bossInitialization.profile~='source-history'
+                and run.bossInitialization.profile~='source-unlocked') then
             return false,'unsupported_boss_initialization'
         else
-            encounter={id='boss_guardian',tier='boss',source='The Guardian',enemies={'guardian'}}
+            encounter=require('abyss_act1_bosses').resolve(run.bossInitialization.bossList[1],tier)
+            if not encounter then return false,'act_content_unavailable' end
         end
     else
         local source,reason
@@ -562,12 +566,18 @@ local function finishCombat(run)
         if allEscaped then gold = 0 end
     end
     gold=GoldRewards.offerAmount(gold,run)
+    local relicReward
+    if run.combat.roomSeed and run.encounterTier=='elite' then
+        local prepared,why=RelicRewards.elite(run);if not prepared then return false,why end
+        relicReward=prepared.items;run.relicPool=prepared.relicPool
+    end
     local choices,nextCardRng,offset,cardUpgrades=CardPool.prepareRewards(run)
     run.cardRng,run.cardRarityOffset=nextCardRng,offset
     local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
     PotionRewards.commit(run,potionRng,potionModifier)
     run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
+    if relicReward then run.rewards.relics=relicReward end
     RelicHooks.previewCardReward(run,run.rewards,true)
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
@@ -659,6 +669,19 @@ local function validGold(n)
 end
 
 -- RewardItem.GOLD: the victory creates an offer; clicking it grants the money.
+function M.claimRelicReward(run,index)
+    return M.transaction(run,function(staged)
+        local rewards=staged.phase=='reward' and staged.rewards
+        if type(index)~='number' or index%1~=0 then return false,'invalid_relic_reward' end
+        local item=rewards and rewards.relics and rewards.relics[index]
+        if not item or item.claimed then return false,'no_pending_relic_reward' end
+        if item.unavailable then return false,'relic_content_unavailable' end
+        local ok,why=M.obtainRelic(staged,item.id);if not ok then return false,why end
+        item.claimed=true
+        return true,item.id
+    end)
+end
+
 function M.claimGoldReward(run)
     local rewards = run.phase == "reward" and run.rewards
     if not rewards or rewards.goldClaimed ~= false then return false, "no_pending_gold" end

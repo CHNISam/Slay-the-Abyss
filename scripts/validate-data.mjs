@@ -617,7 +617,7 @@ export function validateContent(bundle) {
     if (entry.scoreModifier !== undefined && (kind !== 'relics' || entry.id !== 'spirit_poop' || entry.scoreModifier !== -1)) fail(`${p}.scoreModifier`, 'must match source Spirit Poop penalty');
     if (entry.encounterTiers !== undefined) array(entry.encounterTiers, `${p}.encounterTiers`).forEach((tier, j) => enumeration(tier, tiers, `${p}.encounterTiers[${j}]`));
     if (kind === 'relics' && entry.trigger === 'hooks') {
-      if (!['darkstone_periapt', 'omamori', 'ceramic_fish', 'potion_belt', 'meal_ticket', 'maw_bank', 'blood_vial', 'bag_of_marbles', 'orichalcum',
+      if (!['neows_lament', 'darkstone_periapt', 'omamori', 'ceramic_fish', 'potion_belt', 'meal_ticket', 'maw_bank', 'blood_vial', 'bag_of_marbles', 'orichalcum',
         'strawberry', 'regal_pillow', 'toy_ornithopter', 'whetstone', 'war_paint',
         'happy_flower', 'ancient_tea_set', 'art_of_war', 'boot', 'akabeko', 'pen_nib', 'nunchaku',
         'preserved_insect', 'red_skull', 'centennial_puzzle', 'tiny_chest', 'juzu_bracelet', 'dream_catcher',

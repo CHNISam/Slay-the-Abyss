@@ -165,7 +165,7 @@ local function supported(effects, branch)
             or not (op=="block" or op=="damage" or op=="damageAll" or CardActions.supports(op))) then
             return false, "invalid_fixed_block"
         end
-        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally" and effect.target~='automaton') then
+        if effect.target ~= nil and (op ~= "block" or effect.target ~= "random_ally" and effect.target~='automaton' and effect.target~='all_allies') then
             return false, "invalid_effect_target"
         end
         if op == "damage" then targetChecked = true end
@@ -375,7 +375,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             end
             assert(nextUid < math.huge and nextUid - uid == value, "nextUid cannot advance")
             for i = 0, value - 1 do
-                local generated={uid = uid + 0.0 + i, cardId = effect.card, upgraded = false}
+                local generated={uid = uid + 0.0 + i, cardId = effect.card, upgraded = effect.upgraded==true}
                 require('abyss_watcher_final_cards').created(combat,state,generated)
                 state.discard[#state.discard + 1] = generated
             end
@@ -462,7 +462,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 Events.emit(state,'status',{source=source.id,target=source.id,status=id,amount=-n})
             end
         elseif op=='enemyHealAll' or op=='enemyStrengthAll' then
-            assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 enemy action only')
+            assert(source~=state.player and source.ai and (source.ai.kind=='act2' or op=='enemyStrengthAll' and source.ai.kind=='act3_boss' and source.ai.policy=='donu'),'unsupported enemy group action')
             -- takeTurn queues one action per then-active monster reference.
             -- Resolve that fixed group, rechecking each target but not the caster.
             local recipients={}
@@ -479,7 +479,10 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 end
             end
         elseif op == "block" then
-            if effect.target=='automaton' then
+            if effect.target=='all_allies' then
+                assert(source~=state.player and source.ai and source.ai.kind=='act3_boss' and source.ai.policy=='deca','Deca group Block only')
+                for _,ally in ipairs(state.enemies)do if Actors.isActive(ally)then combat.block(state,ally,value,true)end end
+            elseif effect.target=='automaton' then
                 assert(source.ai and source.ai.policy=='orb','Bronze support only')
                 for _,ally in ipairs(state.enemies)do if ally.definitionId=='automaton' and Actors.isActive(ally)then combat.block(state,ally,value,true);break end end
             elseif effect.target == "random_ally" then

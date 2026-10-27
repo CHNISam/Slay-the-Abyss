@@ -5,7 +5,7 @@ local A=require('abyss_actor')
 local E=require('abyss_events')
 local S=require('abyss_sts_random')
 local M={}
-local aliases={['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
+local aliases={NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
  MealTicket='meal_ticket',MawBank='maw_bank',['Blood Vial']='blood_vial',
  ['Bag of Marbles']='bag_of_marbles',Orichalcum='orichalcum',Ectoplasm='ectoplasm',
  Strawberry='strawberry',['Regal Pillow']='regal_pillow',['Toy Ornithopter']='toy_ornithopter',
@@ -65,7 +65,8 @@ local function equipmentUpgrade(run,id,api)
 end
 function M.onEquip(run,id,upgradeApi)
  id=M.localId(id)
- if id=='omamori' then counters(run).omamori=2
+ if id=='neows_lament' then counters(run).neows_lament=3
+ elseif id=='omamori' then counters(run).omamori=2
  elseif id=='maw_bank' then counters(run).maw_bank=0
  elseif id=='happy_flower' then counters(run).happy_flower=0
  elseif id=='pen_nib' or id=='nunchaku' then counters(run)[id]=0
@@ -226,6 +227,18 @@ function M.bindBattle(state,owned,persistentCounters)
 end
 function M.preBattle(state,context)
  context=context or {}
+ -- NeowsLament.atBattleStart directly sets current health, before queued
+ -- opening actions; this is neither damage nor an HP-loss/death callback.
+ if M.owns(state,'neows_lament')then
+  local left=state.relicCounters.neows_lament
+  assert(type(left)=='number' and left%1==0 and (left==-2 or left>=1 and left<=3),'invalid Neow counter')
+  if left>0 then
+   state.relicCounters.neows_lament=left==1 and -2 or left-1
+   for _,enemy in ipairs(state.enemies)do
+    enemy.hp=1;E.emit(state,'relic_hp_set',{relic='neows_lament',target=enemy.id,hp=1})
+   end
+  end
+ end
  if M.owns(state,'preserved_insect') and (context.eliteTrigger==true or (context.tier=='elite' and context.eliteTrigger~=false))then
   for _,enemy in ipairs(state.enemies)do
    local maximum=math.floor(S.float32(enemy.maxHp*S.float32(.75)))

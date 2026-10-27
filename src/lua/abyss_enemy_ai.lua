@@ -1,5 +1,7 @@
 -- Enemy-specific decision state; all values and intent references come from data.
 local M = {}
+local Act3Bosses=require("abyss_act3_bosses")
+local Act1Bosses=require("abyss_act1_bosses")
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local Guardian = require("abyss_guardian_ai")
@@ -38,6 +40,7 @@ function M.prepare(state, enemy, random)
 end
 
 function M.preBattle(state, enemy, random)
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.preBattle(state,enemy) end
     if enemy.ai and enemy.ai.kind=='jaw_worm'then return JawWorm.preBattle(state,enemy,Actors)end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.preBattle(state,enemy) end
     if enemy.ai and enemy.ai.kind == 'act2' then return Act2.preBattle(state,enemy) end
@@ -46,6 +49,8 @@ function M.preBattle(state, enemy, random)
 end
 
 function M.initialize(state, enemy, random)
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.initialize(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.initialize(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.initialize(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == 'act2' then return Act2.initialize(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.initialize(state, enemy, random) end
@@ -109,6 +114,7 @@ local function slimeDamaged(state, enemy)
 end
 
 function M.hpLost(state, enemy, before, damageCall)
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.hpLost(state,enemy,before,damageCall) end
     if enemy.ai and (enemy.ai.kind == "spike_slime_l" or enemy.ai.kind == "acid_slime_l") then
         -- The source damage override runs even on blocked/zero damage. Start
         -- powers invoke this hook only on real HP loss, not on a plain turn.
@@ -185,6 +191,8 @@ end
 -- Acid S sets its next move directly instead; do not invent a queued roll.
 local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random, executedIntent)
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.afterAction(state,enemy,random,executedIntent) end
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.afterAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.afterAction(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == 'act2' then return Act2.afterAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.afterAction(state, enemy) end
@@ -229,6 +237,7 @@ function M.flush(state, actingSource)
 end
 
 function M.beforeAction(state, enemy, random, executedIntent)
+    if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.beforeAction(state,enemy,executedIntent) end
     if enemy.ai and enemy.ai.kind=='act3' then return Act3.beforeAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind=='act2' then Act2.beforeAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind == "looter" then return Looter.beforeAction(state, enemy, random, executedIntent) end
@@ -240,6 +249,7 @@ function M.beforeAction(state, enemy, random, executedIntent)
 end
 
 function M.afterEffects(state, source)
+    if source.ai and source.ai.kind=="act1_boss" then return Act1Bosses.afterEffects(state,source) end
     if source.ai and source.ai.kind == "guardian" then Guardian.afterEffects(state, source) end
 end
 

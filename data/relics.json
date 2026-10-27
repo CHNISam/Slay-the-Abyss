@@ -460,6 +460,15 @@
       "rarity": "special",
       "trigger": "hooks",
       "effects": []
+    },
+    {
+      "id": "neows_lament",
+      "sourceId": "NeowsBlessing",
+      "name": "远古悲叹",
+      "description": "前3场战斗开始时，将所有初始敌人的当前生命设为1；不改变最大生命。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
     }
   ]
 }

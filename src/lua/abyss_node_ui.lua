@@ -38,6 +38,7 @@ local reasons = {
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
 local events = {
+    joust={name='决斗'},
     beggar={name='乞丐'},
     mausoleum={name='古墓'},
     addict={name='瘾君子'},
@@ -632,6 +633,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     local function renderTreasure(view, node)
+        if node.chest then return require('abyss_treasure_ui').render({self=self,node=node,child=child,
+            show=show,tint=tint,state=state,picture=picture,action=action,commit=commit,relicName=relicName,relicText=relicText}) end
         local chest = child("treasureView")
         local reward = node.reward
         local boss = node.roomKind == "boss_treasure"
@@ -889,7 +892,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if skipRestReward then return skipRestReward() end
             self.mode, self.picker, self.selected, self.notice = "main", nil, nil, "" self:render() return true
         end)
-        if active and node.roomKind == "boss_treasure" and self.opened then
+        if active and node.type=='treasure' and node.chest then
+            show(back,true);back:GetChild('label').text='离开宝箱';state(back,true)
+            action('back',true,function()return commit('leaveTreasure',nil,function()return '已离开宝箱' end)end)
+        elseif active and node.roomKind == "boss_treasure" and self.opened then
             show(back, true) back:GetChild("label").text = "跳过遗物" state(back, true)
             action("back", true, function()
                 return commit("claimBossTreasure", 0, function() return "已跳过首领遗物" end)
@@ -976,7 +982,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local cue = command == "upgrade" and "forge"
                 or command == "upgradeEvent" and "reward"
                 or command == "rest" and "rest"
-                or (command == "claimTreasure" or command == "claimBossTreasure" or command == "chooseTreasure") and argument ~= 0 and "reward"
+                or (command == "claimTreasure" or command == "claimBossTreasure" or command == "chooseTreasure" or command=="claimTreasureReward") and argument ~= 0 and "reward"
                 or (command == "removeCard" or command == "purifyEvent" or command == "purgeWing") and "card_remove"
             if cue and options.sound then pcall(options.sound, cue) end
             local notice, hold = describe(before)

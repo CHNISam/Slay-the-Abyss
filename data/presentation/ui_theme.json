@@ -474,6 +474,11 @@
         "colour": true,
         "note": "Use existing currency glyph for the gold-reward effect; dedicated relic art and device acceptance remain M4 pending.",
         "placeholder": true
+      },
+      "neows_lament": {
+        "id": 100114,
+        "placeholder": true,
+        "note": "Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending."
       }
     },
     "cardPortraits": {
@@ -1729,7 +1734,13 @@
         "stagger": 0.06,
         "breathe": 2.8,
         "breatheScale": 0.04
-      }
+      },
+      "battleSpeed": [
+        280,
+        -222,
+        220,
+        52
+      ]
     },
     "vista": {
       "note": "封印遗迹远景剪影（标题、结算与开场共用）。全部为平台图片库原生形状着色；高塔偏右，给居中的标题和按钮留出干净底面。TASK-4.2 的三维远景接入后，可在宿主隐藏本组而不动其他控件。",
@@ -1938,7 +1949,7 @@
           "from": [
             -360,
             -30,
-            1.0
+            1
           ],
           "to": [
             -381,

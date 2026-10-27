@@ -3461,6 +3461,31 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Default Act1 mode remains restricted-seven. Development campaign seed14 proves the full seven-item Act3 source pool room boundary; held-mask branch is a permanent-inventory fixture. Whole natural campaign and PC/platform/live acceptance pending."
+    },
+    {
+      "id": "joust",
+      "originalId": "The Joust",
+      "choices": [
+        "continue",
+        "bet_against",
+        "bet_for",
+        "leave"
+      ],
+      "stages": [
+        "halt",
+        "explanation",
+        "pre_joust",
+        "joust",
+        "complete"
+      ],
+      "eligibility": "Act 2/3 one-time source pool, requires at least 50 gold; source pool mode and history gates preserved.",
+      "source": "src/lua/abyss_joust_event.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Public Nodes and generated UI wiring; fixed-source five-screen wager semantics. Full source-pool normal campaign eligibility/history and platform acceptance remain pending."
     }
   ],
   "relics": [
@@ -3975,6 +4000,18 @@
       ],
       "naturalAcquisitionLimitation": "Actual named SPECIAL obtain from Tomb only; excluded from ordinary treasure/shop source queues. The source Masked Bandits path is unimplemented and not claimed.",
       "naturalExecutionLimitation": "Opening BOT Weak1/Artifact/first-round expiry and repeated battles locally covered; dedicated relic art, whole campaign and platform/live acceptance pending."
+    },
+    {
+      "id": "neows_lament",
+      "sourceId": "NeowsBlessing",
+      "source": "data/relics.json#neows_lament",
+      "channels": [
+        "explicit:Nodes.beginNeow:THREE_ENEMY_KILL"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Neow opening choice; exact three-battle direct HP/counter hooks. Whole-campaign/native acceptance pending.",
+      "profile": "relics",
+      "rarity": "special"
     }
   ],
   "potions": [

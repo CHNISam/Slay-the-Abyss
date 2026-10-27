@@ -132,6 +132,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         ] },
         button('start', layout.start, '启程', { inset: layout.buttonInset, fontSize: font.heading,
           colour: color.textOnLight, fill: color.gold, border: color.goldBright }),
+        button('battleSpeed', theme.layout.nativeMenu.battleSpeed, '战斗速度：普通', { inset: layout.buttonInset, fontSize: font.label, states: true }),
         notice.entry, notice.version,
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },

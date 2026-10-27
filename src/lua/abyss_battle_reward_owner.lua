@@ -32,6 +32,8 @@ function M.capture(token, view, run)
     token.cardChoices = rewards and Combat.copy(rewards.cards)
     token.upgrades = rewards and rewards.cardUpgrades
     token.cardUpgrades = rewards and Combat.copy(rewards.cardUpgrades or {})
+    token.relics=rewards and rewards.relics
+    token.relicState=rewards and Combat.copy(rewards.relics or {})
     captureGold(token, rewards)
     capturePotion(token, rewards)
     return token
@@ -71,6 +73,11 @@ function M.ready(view, token)
     if not run or run.phase ~= "reward" or run.rewards ~= token.rewards or run.combat ~= token.battle then return false end
     if token.rewardScreen ~= view.rewardScreen or token.rewardEpoch ~= view.rewardEpoch then return false end
     local rewards = run.rewards
+    if token.relics~=rewards.relics then return false end
+    for i,item in ipairs(rewards.relics or {})do
+        local old=token.relicState[i]
+        if not old or old.id~=item.id or old.sourceId~=item.sourceId or old.claimed~=item.claimed or old.unavailable~=item.unavailable then return false end
+    end
     if not sameGoldAndCards(token, rewards) then return false end
     if not samePotion(token, rewards.potion) then return false end
     if rewards.manualContinue and not sameManualPage(token, view, rewards) then return false end

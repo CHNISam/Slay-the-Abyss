@@ -75,7 +75,7 @@ test('existing project effects are mapped honestly and the exact missing set is 
     if (definition.sourceId) assert.equal(row.id, definition.sourceId, `${row.projectId} exact source ID`);
   }
   assert.equal(mapped.filter(row => row.tier === 'common').length, 33);
-  assert.equal(mapped.length, 46);
+  assert.equal(mapped.length, 47);
   assert.deepEqual(fallbackIds, ['circlet']);
   assert.ok(!catalog.registrationOrder.includes('Circlet'), 'fallback must not be inserted into the source registration/queues');
   for (const row of fallbacks) {
@@ -86,12 +86,12 @@ test('existing project effects are mapped honestly and the exact missing set is 
   assert.match(byId.get('Spirit Poop').implementationLimitation, /no production total-score/);
   const missingQueue = catalog.relics.filter(row => row.scope === 'act1-queue' && !row.projectId);
   assert.equal(missingQueue.length, 89);
-  assert.equal(catalog.relics.filter(row => row.scope !== 'later-act-only' && !row.projectId).length, 96);
+  assert.equal(catalog.relics.filter(row => row.scope !== 'later-act-only' && !row.projectId).length, 95);
   assert.equal(catalog.relics.filter(row => row.tier === 'rare' && row.projectId).length, 1);
   assert.ok(missingQueue.some(row => row.id === 'PrismaticShard'));
   assert.ok(missingQueue.some(row => row.id === 'WingedGreaves'));
   assert.equal(catalog.summary.queueMissing, missingQueue.length);
-  assert.equal(catalog.summary.act1Missing, 96);
+  assert.equal(catalog.summary.act1Missing, 95);
   assert.equal(catalog.summary.existingLocalEffects, data.length);
   assert.equal(catalog.summary.registeredLocalEffects, mapped.length);
   assert.equal(catalog.summary.fallbackLocalEffects, fallbackIds.length);

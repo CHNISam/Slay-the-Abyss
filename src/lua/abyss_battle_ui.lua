@@ -55,7 +55,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local playbackIntents
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name)
-        local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward'
+        local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward' or name:match('^relicReward%d$')
         local found=(nested and stage:GetChild('potionHelp') or stage):GetChild(name)
         return assert(found, "missing UI control " .. name)
     end
@@ -143,6 +143,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             and self.selectionEpoch == g.selectionEpoch and not needsTarget(g.battle, instance)
     end
     local function rewardListActionReady(g, rewards)
+        local relicIndex=g.name:match('^relicReward(%d)$')
+        if relicIndex then
+            local item=rewards.relics and rewards.relics[tonumber(relicIndex)]
+            return item and not item.claimed and not item.unavailable
+        end
         if g.name == "cardReward" then return not rewards.cardResolved end
         if g.name == "goldReward" then return rewards.goldClaimed == false end
         if g.name == "claimPotion" then return rewards.potion and not rewards.potion.resolved end
@@ -556,6 +561,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         place("goldReward", frame.listing and not run.rewards.goldClaimed)
         place("stolenGold", frame.stolen and not frame.stolen.claimed)
+        for i=1,2 do
+            local item=frame.listing and run.rewards.relics and run.rewards.relics[i]
+            place('relicReward'..i,item and not item.claimed)
+        end
         place("claimPotion", frame.pendingPotion)
         place("cardReward", frame.listing and not run.rewards.cardResolved)
         show("potionReward", frame.pendingPotion == true)
@@ -563,6 +572,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local function renderRewardButtons(frame)
         local run = frame.run
+        for i=1,2 do
+            local item=frame.listing and run.rewards.relics and run.rewards.relics[i]
+            local definition=item and require('abyss_relic_rewards').definition(run,item.sourceId)
+            local caption=item and ((definition and definition.name or item.sourceId)..(item.unavailable and ' · 尚不可领取' or ''))or '遗物'
+            button('relicReward'..i,self.active and item and not item.claimed and not item.unavailable or false,false,caption)
+        end
         button("goldReward", self.active and frame.listing and run.rewards.goldClaimed == false, false,
             frame.listing and number(run.rewards.gold) .. " 金币" or "金币")
         button("cardReward", self.active and frame.listing and not run.rewards.cardResolved, false, "选择一张卡牌加入牌组")
@@ -676,6 +691,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local battle = frame.battle
         label("draw", battle and tostring(#battle.draw) or "0")
         label("discard", battle and tostring(#battle.discard) or "0")
+        for _,kind in ipairs({'draw','discard','exhaust'})do
+            local hit=child(kind..'Icon'):GetChild('hit')
+            hit:SetVisible(frame.fighting==true)
+            hit.interactable=options.onPile~=nil and frame.active==true
+        end
         label("statuses", frame.fighting and battle.phase ~= "player" and not self.busy and "敌方回合" or "")
         if frame.fighting then unit(child("hero"), frame.player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
     end
@@ -884,6 +904,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         -- No core callback is retained by playback. The committed result is immutable to it.
         self.feedbackLast = #battle.events
+        self.feedback:setFastMode(self.fastMode==true)
         self.feedback:begin(before, battle, first, presentation, origin)
         return ok, reason
     end
@@ -958,6 +979,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         self.feedback:update(dt)
         updateRewardCards(dt)
+        cardView.update(dt)
     end
     function self:setActive(active)
         assert(type(active) == "boolean", "active must be boolean")
@@ -1364,6 +1386,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local ok = Run.claimGoldReward(self.run)
         if ok then notice("金币已领取。") refresh(true) end
     end)
+    for i=1,2 do
+        local slot=i
+        bind('relicReward'..slot,function()
+            if not self.active or self.busy or self.rewardScreen~='list' or not self.run then return false end
+            local ok,why=Run.claimRelicReward(self.run,slot)
+            if ok then notice('已获得遗物。');refresh(true)end
+            return ok,why
+        end)
+    end
     bind("claimPotion", function() return self:claimPotionReward() end)
     bind("stolenGold", function()
         if self.active and self.run and not self.busy and self.rewardScreen == "list"
@@ -1725,6 +1756,22 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
     end
     bindDetailControls()
+    for _,kind in ipairs({'draw','discard','exhaust'})do
+        local hit=child(kind..'Icon'):GetChild('hit')
+        local function available()
+            return options.onPile~=nil and self.active and not self.busy and not self.gesture and not self.carry
+                and self.run and self.run.phase=='combat' and self.run.combat.phase=='player'
+        end
+        local function openPile()
+            if available()then return options.onPile(kind)end
+            return false
+        end
+        hit:AddCursorEventListener(clickEvent,function()
+            if Controller.pointerBlocked(controller)then return false end
+            return openPile()
+        end)
+        Controller.bind(controller,hit,'battle',openPile,available,80)
+    end
     local keys = platform.keyEvents
     if keys and keys.KeyboardSprintKeyDown and root.AddKeyEventListener then
         -- The official UI maps SprintKey to the user's right-mouse binding.

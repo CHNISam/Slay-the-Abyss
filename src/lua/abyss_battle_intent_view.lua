@@ -9,7 +9,7 @@ local M = {}
 local C = Theme.color
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local intentLabels = { defend = "防御", buff = "强化", debuff = "削弱", charge = "蓄能", sleep = "沉睡",
-    stunned = "苏醒", split = "分裂", escape = "逃跑" }
+    unknown = "未知", stunned = "苏醒", split = "分裂", escape = "逃跑" }
 local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
     applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
     enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
@@ -50,8 +50,10 @@ local specialIntents = {
         return special("stunned", "unknown", "刚被惊醒，本回合不行动。")
     end,
     split = function(state, enemy)
-        local child = state.catalog.enemies[enemy.ai.splitEnemy]
-        return special("split", "unknown", "分裂为两只" .. child.name .. "，各自生命等于分裂时的当前生命。")
+        local children=enemy.ai.splitEnemies
+        local child = state.catalog.enemies[children and children[1] or enemy.ai.splitEnemy]
+        local names=children and (child.name .. '和' .. state.catalog.enemies[children[2]].name) or ('两只' .. child.name)
+        return special("split", "unknown", "分裂为" .. names .. "，各自生命等于分裂时的当前生命。")
     end,
 }
 
@@ -122,7 +124,8 @@ local function blockEffect(v, effect)
     local master = effect.target == 'automaton'
     local amount = number(Combat.blockAmount(v.state, v.copy, effect.value, effect.fixed or master or effect.target == "random_ally"))
     local ally = effect.target == "random_ally"
-    local text = master and '使青铜机枢获得 '..amount..' 点格挡'
+    local text = effect.target=='all_allies' and '敌方全体存活单位各获得 '..amount..' 点格挡'
+        or master and '使青铜机枢获得 '..amount..' 点格挡'
         or ally and "让一名随机队友获得 " .. amount .. " 点格挡（没有队友时给自己）" or "获得 " .. amount .. " 点格挡"
     v.result[#v.result + 1] = text
     v.rows[#v.rows + 1] = { icon = "defend", colour = C.block, name = "格挡 " .. amount,
@@ -160,6 +163,7 @@ end
 local function discardEffect(v, effect)
     local value = number(effect.value)
     local name = assert(v.state.catalog.cards[effect.card]).name
+    if effect.upgraded or effect.card=='burn' and v.enemy.hexBurnUpgraded then name=name..'+'end
     local text = "将 " .. value .. " 张「" .. name .. "」放入你的弃牌堆"
     v.result[#v.result + 1] = text
     v.rows[#v.rows + 1] = { icon = "debuff", colour = C.debuff, name = "塞入「" .. name .. "」×" .. value, text = text }
@@ -241,6 +245,9 @@ function M.intentView(state, index)
     for _, effect in ipairs(intent.effects) do
         local describe = effects[effect.op] or unknownEffect
         describe(view, effect)
+    end
+    if view.enemy.ai and view.enemy.ai.kind=='act1_boss' and intent.id=='inferno'then
+        act2Row(view,'灼伤强化','升级抽牌堆和弃牌堆中的灼伤，并向弃牌堆加入3张灼伤+','debuff')
     end
     return joinedView(view)
 end

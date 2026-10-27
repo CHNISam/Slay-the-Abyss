@@ -9,9 +9,11 @@ local External=require('abyss_external_random')
 local Primitive=require('abyss_randomxs128')
 local PotionPool=require('abyss_potion_random')
 local RelicHooks=require('abyss_relic_hooks')
+local RelicPool=require('abyss_relic_pool')
+local RelicRewards=require('abyss_relic_rewards')
 local S = {}
 local f32, floor = R.float32, math.floor
-local bases = { common=150, uncommon=250, rare=300, shop=150 }
+local bases = { common=150, uncommon=250, rare=300, shop=150, special=400, boss=999, starter=300 }
 local potionBases = { common=50, uncommon=75, rare=100 }
 local function owns(run,id)
     for _,v in ipairs(run.relics) do if v==id then return true end end
@@ -43,24 +45,6 @@ local function streams(run)
     local seed=run.eventSeed or string.format('%.0f',run.seed)
     return { merchant=R.fromSeed(seed),potion=R.fromSeed(seed) }
 end
-local function pick(rng,list)
-    if #list==0 then return nil end
-    return list[R.randomInt(rng,#list-1)+1]
-end
-local function relicCandidates(run,rarity,stock,roomFloor)
-    local pool={}
-    for _,def in ipairs(run.data.relics.relics) do
-        local allowed=def.rarity==rarity
-        -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
-        allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
-            and ((def.id~='darkstone_periapt' and def.sourceId~='Darkstone Periapt') or (roomFloor or run.floor or 1)<=48)
-        allowed=allowed and (def.id~='toxic_egg' or (roomFloor or run.floor or 1)<=48)
-        for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
-        if allowed then pool[#pool+1]=def end
-    end
-    table.sort(pool,function(a,b) return (a.sourceId or a.id)<(b.sourceId or b.id) end)
-    return pool
-end
 local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,restock,external)
     local def,sourceCardId,selected,metadata
     -- The original rerolls both rarity and card for duplicate attack/skill.
@@ -90,32 +74,27 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
     if available then RelicHooks.onPreviewObtainCard(run,offer,def)end
     return offer
 end
-local function itemOffer(run,rng,category,slot,stock,restock,roomFloor)
-    local rarity,selected
+local function itemOffer(run,rng,category,slot,restock,roomFloor,relicPool)
+    local selected,def
     if category=='potions' then
-        selected=PotionPool.sample({potionRng=rng.potion},{character=PotionPool.character(run)});rarity=selected.rarity
-    else rarity=slot==3 and not restock and 'shop' or S.relicRarity(R.randomInt(rng.merchant,99)) end
-    local pool=not selected and relicCandidates(run,rarity,stock,roomFloor) or nil
-    if restock and category=='relics' then
-        local filtered={}
-        for _,d in ipairs(pool) do
-            if d.id~='smiling_mask' and d.id~='courier' and d.id~='old_coin' and d.id~='maw_bank' then filtered[#filtered+1]=d end
-        end
-        pool=filtered
-    end
-    local def
-    if selected then
+        selected=PotionPool.sample({potionRng=rng.potion},{character=PotionPool.character(run)})
         for _,entry in ipairs(run.data.potions.potions)do if entry.id==selected.id then def=entry;break end end
-    else def=pick(rng.merchant,pool)end
+    else
+        selected=RelicRewards.shop(run,assert(relicPool,'missing shared relic pool'),rng.merchant,slot,
+            {restock=restock,floor=roomFloor})
+        def=RelicRewards.definition(run,selected.sourceId)
+    end
+    local rarity=selected.rarity
     local base=(category=='potions' and potionBases or bases)[rarity]
     local price=floor(f32(base*R.randomFloatBetween(rng.merchant,f32(.95),f32(1.05)))+.5)
-    return { slot=slot,id=selected and selected.id or def and def.id or '__missing_'..category..'_'..slot,rarity=rarity,
-        unavailable=not def,sold=false,price=discount(run,price) }
+    return {slot=slot,id=selected.id,rarity=rarity,sourceId=selected.sourceId,sourceTrace=selected.trace,
+        sourceRejected=selected.rejected,unavailable=not def,sold=false,price=discount(run,price)}
 end
 function S.prepare(run,roomFloor)
     local rng=streams(run)
     local cardOwner=CardRandom.clone(run)
-    local stock={cards={},relics={},potions={},shopRng=rng,cardRandom=cardOwner,contentMode='restricted-supported-pools'}
+    local pool=RelicPool.restore(RelicPool.snapshot(assert(run.relicPool,'missing shared relic pool')),run.relicPool.catalog)
+    local stock={cards={},relics={},potions={},shopRng=rng,cardRandom=cardOwner,relicPool=pool,contentMode='source-queues'}
     -- Original V4 has no Power cards: its fifth colored shelf is explicitly Skill.
     local kinds=run.characterProfile and run.characterProfile.originalV4 and {'attack','attack','skill','skill','skill'} or {'attack','attack','skill','skill','power'}
     for i,kind in ipairs(kinds) do
@@ -129,7 +108,7 @@ function S.prepare(run,roomFloor)
     local o=stock.cards[sale];o.sale=true
     o.price=floor(o.price/2)
     for _,offer in ipairs(stock.cards) do offer.price=discount(run,offer.price) end
-    for i=1,3 do stock.relics[i]=itemOffer(run,rng,'relics',i,stock.relics,nil,roomFloor) end
+    for i=1,3 do stock.relics[i]=itemOffer(run,rng,'relics',i,nil,roomFloor,pool) end
     for i=1,3 do stock.potions[i]=itemOffer(run,rng,'potions',i) end
     return stock
 end
@@ -147,7 +126,11 @@ function S.afterPurchase(run,flow,category,offer)
         if offer.color=='colorless' then rarity=R.randomFloat(flow.shopRng.merchant)<f32(.3) and 'rare' or 'uncommon' end
         if offer.color=='colored' then transaction=External.begin() end
         fresh=cardOffer(run,flow.shopRng,cardOwner,offer.slot,offer.color=='colored' and offer.type or nil,offer.color,rarity,nil,true,transaction and transaction.state)
-    else fresh=itemOffer(run,flow.shopRng,category,offer.slot,flow.relics,true) end
+    else
+        local pool=category=='relics' and RelicPool.restore(RelicPool.snapshot(run.relicPool),run.relicPool.catalog) or nil
+        fresh=itemOffer(run,flow.shopRng,category,offer.slot,true,run.floor,pool)
+        if pool then run.relicPool=pool end
+    end
     flow[category][offer.slot]=fresh
     run.shopRng=flow.shopRng
     if cardOwner then CardRandom.commit(run,cardOwner) end
