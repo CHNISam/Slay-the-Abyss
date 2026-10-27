@@ -12,7 +12,7 @@ local function validSnapshot(value)
  for role in pairs(roles)do if type(value.wins[role])~='boolean'then return false end end
  return true
 end
-local function load(owner)
+local function readProvider(owner)
  if owner.loaded then return end;owner.loaded=true
  if type(owner.reader)~='function'then return end
  local called,value=pcall(owner.reader)
@@ -27,7 +27,7 @@ function M.new(provider)
   loaded=false,readStatus='unavailable',persistence='unavailable',sessionWon=false}
 end
 function M.read(owner)
- load(owner)
+ readProvider(owner)
  local known,unlocked=true,true
  for role in pairs(roles)do
   if owner.wins[role]==nil then known=false end

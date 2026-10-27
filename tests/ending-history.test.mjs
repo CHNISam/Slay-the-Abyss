@@ -2,6 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {runLua} from '../scripts/test-lua.mjs';
+test('ending history names remain compatible with the native sandbox forbidden-call scanner',()=>{
+ // The native setClientScript scanner rejects this token even for a local
+ // function. Keep provider reading distinct from unavailable dynamic loading.
+ assert.doesNotMatch(readFileSync('src/lua/abyss_ending_history.lua','utf8'),/(?<![.:\w])(?:loadfile|dofile|load)\s*\(/);
+});
 test('ending history has distinct fixed-source WIN and standard-run rules',()=>{
  const lock=JSON.parse(readFileSync('tests/fixtures/ending-history-source-lock.json','utf8'));
  assert.equal(lock.sourceCommit,'319009d5df0a82d9fb0f23cc22322286c6a87ec0');
