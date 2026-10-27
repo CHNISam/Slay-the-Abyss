@@ -380,7 +380,7 @@ function M.endingProceedSource(run,map)
         or flow.encounterId~=owner.encounterId or type(map)~='table' then return nil,'ending_proceed_source_mismatch' end
     local birth=Run.mapContext(run)
     if not birth or not birth.endingUnlocked or not birth.emeraldOwned then return nil,'ending_history_required' end
-    local ok,restored=pcall(function()return M.restoreMap(run,Map.snapshot(map))end)
+    local ok,restored=pcall(function()return M.restoreMap(run,map)end)
     if not ok or not restored or map.act~=4 or map.floor~=55 or not matchingMap(flow,map)
         or map.path[#map.path]~=flow.id then return nil,'map_mismatch' end
     local last=restored.nodes[#restored.nodes]

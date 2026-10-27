@@ -28,10 +28,25 @@ test(function()
  assert(run.endingProceed==owner)
 end)
 test(function()
+ local run,map,owner=F.fixture();local clean=Map.snapshot(map)
+ for _,scope in ipairs({'root','nodes','last'})do
+  local bad=C.copy(map);local target=scope=='root'and bad or scope=='nodes'and bad.nodes or bad.nodes[#bad.nodes]
+  local original=scope=='root'and clean or scope=='nodes'and clean.nodes or clean.nodes[#clean.nodes]
+  bad.nodes[#bad.nodes].type='event'
+  local meta={__pairs=function()return next,original,nil end}
+  setmetatable(target,meta)
+  local before=C.copy(run,{[run.data]=run.data});local flow=run.nodeFlow
+  assert(not Nodes.proceedEnding(run,bad,owner),'raw '..scope..' map metatable must not be copied away')
+  F.same(run,before);assert(run.nodeFlow==flow and run.endingProceed==owner)
+  assert(getmetatable(target)==meta and rawget(bad.nodes[#bad.nodes],'type')=='event')
+ end
+end)
+
+test(function()
  local run,map,owner=F.fixture();local graph=C.copy(map)
  assert(Nodes.proceedEnding(run,map,owner))
  assert(run.phase=='victory'and run.ending=='true_victory'and not run.endingProceed and not run.rewards)
  assert(run.nodeFlow.complete and run.nodeFlow.result=='true_victory')
  F.same(map,graph);assert(not Nodes.proceedEnding(run,map,owner))
 end)
-print('ENDING_PROCEED_NODES 3 groups; 0 failed; natural/platform NOT_RUN')
+print('ENDING_PROCEED_NODES 4 groups; 0 failed; natural/platform NOT_RUN')
