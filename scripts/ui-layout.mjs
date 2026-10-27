@@ -12,6 +12,12 @@ const aligned = (control, align = 'left') => ({ ...control, text: { ...control.t
 const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image, colour });
 const panel = (name, x, y, w, h, colour) => picture(name, x, y, w, h, im.rect, colour);
 const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
+const clickableImage = (image, target) => {
+  const { name, position, size } = image;
+  return { name, kind: 'container', position, size, children: [
+    { ...image, name: 'image', position: [0, 0] }, target,
+  ] };
+};
 
 function button(name, position, size, label, primary = false, fontSize = f.heading) {
   const [w, h] = size;
@@ -150,9 +156,9 @@ export function battleLayout() {
     const top = Math.min(height / 2 - theme.canvas.safe.y,
       Math.max(py + l.drawPile.size[1] / 2, by + b.disc / 2, py + b.label[1] + b.label[3] / 2));
     return [
-      { ...picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim), children: [
+      clickableImage(picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
         { ...hit(right - left, top - bottom), position: [(left + right) / 2 - x, (bottom + top) / 2 - py] },
-      ] },
+      ),
       picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, c.goldDim),
       picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.disc - s.border * 2, im.disc, c.panelSunken),
       text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.label, c.goldBright),
@@ -185,10 +191,10 @@ export function battleLayout() {
     text('title', 0, y, 350, bar.height, '战斗', f.heading, c.gold),
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
-    { ...glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim), children: [
+    clickableImage(glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim),
       { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, bar.height),
         position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2, 0] },
-    ] }, chip('exhaust', bar.exhaust, c.textDim),
+    ), chip('exhaust', bar.exhaust, c.textDim),
     unit('hero', l.player.position, l.player.portrait, true),
     text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '', f.body, c.goldBright),
     text('statuses', -380, 194, 350, 26, '', f.small, c.textDim),
