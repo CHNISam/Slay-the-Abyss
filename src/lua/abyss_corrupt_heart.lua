@@ -37,7 +37,7 @@ function M.register(catalog,copy)
 end
 local function select(enemy,id)
  for i,intent in ipairs(enemy.intents)do if intent.id==id then
-  enemy.intentIndex=i;enemy.heartLast=id;return
+  enemy.intentIndex=i;enemy.heartLast=id;enemy.heartBuffPlan=nil;return
  end end
  error('unknown Heart intent: '..tostring(id))
 end
@@ -59,15 +59,14 @@ function M.initialize(state,enemy,random)
  enemy.heartFirst=true;enemy.heartMoveCount=0;enemy.heartBuffCount=0
  return M.advance(state,enemy,random)
 end
-function M.preBattle(state,enemy)
+function M.preBattle(_state,enemy)
  assert(M.owns(enemy),'not a Heart owner')
  enemy.heartInvincibleMax=300
  return {{op='gainStatus',status='invincible',value=300},
   {op='gainStatus',status='beat_of_death',value=1}}
 end
-function M.actions(state,enemy,intent)
+function M.buffPlan(enemy)
  assert(M.owns(enemy),'not a Heart owner')
- if intent.id~='buff'then return Copy(intent.effects)end
  local strength=(enemy.statuses or {}).strength or 0
  local stage=enemy.heartBuffCount or 0
  local extra={op='gainStatus',status='strength',value=50}
@@ -75,10 +74,21 @@ function M.actions(state,enemy,intent)
  elseif stage==1 then extra.status,extra.value='beat_of_death',1
  elseif stage==2 then extra.status,extra.value='painful_stabs',-1
  elseif stage==3 then extra.value=10 end
- -- Source captures the strength repair and increments the escalation counter
- -- while constructing takeTurn's queue, before either ApplyPower resolves.
- enemy.heartBuffCount=stage+1
  return {{op='gainStatus',status='strength',value=math.max(0,-strength)+2},extra}
+end
+function M.previewEffects(enemy,intent)
+ if intent.id~='buff'then return Copy(intent.effects)end
+ return Copy(enemy.heartBuffPlan or M.buffPlan(enemy))
+end
+function M.actions(_state,enemy,intent)
+ assert(M.owns(enemy),'not a Heart owner')
+ if intent.id~='buff'then return Copy(intent.effects)end
+ local plan=M.buffPlan(enemy)
+ -- Immutable captured plan survives detached animation frames. Replace it only
+ -- on the next move, so preview never advances escalation or repairs strength.
+ enemy.heartBuffPlan=Copy(plan)
+ enemy.heartBuffCount=(enemy.heartBuffCount or 0)+1
+ return plan
 end
 function M.capDamage(enemy,amount)
  if not M.owns(enemy)or not enemy.statuses or enemy.statuses.invincible==nil then return amount end

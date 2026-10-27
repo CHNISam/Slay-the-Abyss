@@ -1,7 +1,9 @@
 -- Fixed319009 A0 Shield/Spear component. Combat owns execution and rollback.
 local Random=require('abyss_enemy_random')
 local f32=require('abyss_sts_random').float32
+local Copy=require('abyss_copy').copy
 local M={}
+local fortifyBlock,piercerStrength,bashLoss=30,2,-1
 local function move(id,kind,effects)return{id=id,kind=kind,effects=effects or {}}end
 M.enemies={
  {id='spire_shield',sourceId='SpireShield',name='尖塔之盾',tier='elite',hp=110,
@@ -32,7 +34,7 @@ function M.resolve(source,tier)
  return{id='ending_spire_pair',tier=tier,source=source,enemies={'spire_shield','spire_spear'}}
 end
 local function select(enemy,id)
- for i,intent in ipairs(enemy.intents)do if intent.id==id then enemy.intentIndex=i;return end end
+ for i,intent in ipairs(enemy.intents)do if intent.id==id then enemy.intentIndex=i;enemy.spireSmashBlock=nil;return end end
  error('unknown Spire pair intent: '..tostring(id))
 end
 function M.advance(state,enemy,random)
@@ -110,6 +112,21 @@ local function attacks(actions,state,enemy,base,times,snapshotDamage)
  for _=1,times do append(actions,'damage',enemy,state.player,{value=base,normalAmount=output})end
  return output
 end
+function M.previewEffects(state,enemy,intent,snapshotDamage)
+ local effects=Copy(intent.effects)
+ if intent.id=='fortify'then
+  effects[#effects+1]={op='block',target='all_allies',fixed=true,value=fortifyBlock}
+ elseif intent.id=='piercer'then
+  effects[#effects+1]={op='enemyStrengthAll',value=piercerStrength}
+ elseif intent.id=='bash'then
+  effects[#effects+1]={op='spireBashDebuff',value=bashLoss,focusPossible=state.orbs~=nil and state.orbs.slots>0}
+ elseif intent.id=='smash'then
+  local output=enemy.spireSmashBlock
+  if output==nil then output=M.actualDamage(state,enemy,snapshotDamage(state,enemy,intent.effects[1].value))end
+  effects[#effects+1]={op='block',fixed=true,value=output}
+ end
+ return effects
+end
 function M.takeTurn(state,enemy,random,snapshotDamage)
  assert(M.owns(enemy),'Spire pair action owner required')
  local intent=assert(enemy.intents[enemy.intentIndex],'missing Spire pair intent').id
@@ -117,14 +134,15 @@ function M.takeTurn(state,enemy,random,snapshotDamage)
  if intent=='bash'then
   attacks(actions,state,enemy,12,1,snapshotDamage)
   local focus=state.orbs and state.orbs.slots>0 and Random.boolean(state,random)
-  append(actions,'power',enemy,state.player,{status=focus and 'focus'or 'strength',value=-1})
+  append(actions,'power',enemy,state.player,{status=focus and 'focus'or 'strength',value=bashLoss})
  elseif intent=='fortify'or intent=='piercer'then
   for _,target in ipairs(state.enemies)do
    append(actions,intent=='fortify'and 'block'or 'power',enemy,target,
-    intent=='fortify'and {value=30}or {status='strength',value=2})
+    intent=='fortify'and {value=fortifyBlock}or {status='strength',value=piercerStrength})
   end
  elseif intent=='smash'then
   local output=attacks(actions,state,enemy,34,1,snapshotDamage)
+  enemy.spireSmashBlock=output
   append(actions,'block',enemy,enemy,{value=output})
  elseif intent=='burn_strike'then
   attacks(actions,state,enemy,5,2,snapshotDamage)

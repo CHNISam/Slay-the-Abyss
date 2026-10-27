@@ -4,6 +4,7 @@ local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local Theme = require("abyss_theme")
 local StatusView = require("abyss_battle_status_view")
+local EndingIntent = require('abyss_battle_ending_intent')
 local number = require("abyss_numbers").integer
 local M = {}
 local C = Theme.color
@@ -13,6 +14,7 @@ local intentLabels = { defend = "防御", buff = "强化", debuff = "削弱", ch
 local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
     applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
     enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
+    heartStatusDraw='debuff',spireBashDebuff='debuff',heartPainfulStabs='buff',
     enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff',
     enemyBronzeSpawn = 'buff', enemyStasis = 'debuff', writhingParasite='debuff', enemyBurnBoth='debuff', enemyDazedDraw='debuff',awakenedVoid='debuff' }
 
@@ -74,6 +76,7 @@ end
 
 local function newPreview(state, index, intent)
     local preview = Events.frame(state)
+    preview.rules,preview.catalog=state.rules,state.catalog
     preview.events = {}
     local soften = state.originalV4 and require("abyss_original_v4").intentReduction(state, index) or 0
     return { state = state, enemy = state.enemies[index], intent = intent, preview = preview,
@@ -90,7 +93,7 @@ local function theft(v)
 end
 
 local function attackHits(v, effect)
-    local amount = Combat.intentAttackAmount(v.state, v.copy, v.player, effect.value)
+    local amount = Combat.intentAttackAmount(v.preview, v.copy, v.player, effect.value)
     local times = effect.times or 1
     local hits, total, unequal = {}, 0, false
     for hit = 1, times do
@@ -265,6 +268,7 @@ end
 function M.intentView(state, index)
     local intent = Combat.intent(state, index)
     if not intent then return goneView(state, index) end
+    intent=EndingIntent.project(state,state.enemies[index],intent)
     if state.enemies[index].ai and state.enemies[index].ai.kind=='darkling'and intent.id=='reincarnate'then
         local hp=number(math.floor(state.enemies[index].maxHp/2))
         return {value='',kind='buff',label='复生',text='本次行动回复 '..hp..' 点生命，恢复共生，随后重新选招。',
@@ -280,8 +284,9 @@ function M.intentView(state, index)
     local view = newPreview(state, index, intent)
     theft(view)
     for _, effect in ipairs(intent.effects) do
-        local describe = effects[effect.op] or unknownEffect
-        describe(view, effect)
+        local describe = effects[effect.op]
+        if describe then describe(view,effect)
+        elseif not EndingIntent.describe(view,effect)then unknownEffect(view)end
     end
     if view.enemy.ai and view.enemy.ai.kind=='act1_boss' and intent.id=='inferno'then
         act2Row(view,'灼伤强化','升级抽牌堆和弃牌堆中的灼伤，并向弃牌堆加入3张灼伤+','debuff')

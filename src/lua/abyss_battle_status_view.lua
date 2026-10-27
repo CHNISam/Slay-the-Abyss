@@ -4,7 +4,7 @@ local M = {}
 local always = "本场战斗"
 
 function M.statusKind(entry)
-    if entry.id=='regrow'then return entry.kind end -- -1 is a no-number BUFF sentinel.
+    if entry.id=='regrow'or entry.id=='painful_stabs'then return entry.kind end -- -1 is a no-number BUFF sentinel.
     -- Negative Strength/Dexterity follow the core's Artifact debuff gate.
     return entry.amount < 0 and "debuff" or entry.kind
 end
