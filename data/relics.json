@@ -118,6 +118,15 @@
       ]
     },
     {
+      "id": "black_star",
+      "sourceId": "Black Star",
+      "name": "黑星",
+      "description": "精英敌人额外掉落1件遗物。额外遗物不会是营火遗物。",
+      "rarity": "boss",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
       "id": "black_blood",
       "name": "深燃之心",
       "description": "替换余烬之心。每场战斗胜利后回复12点生命。",

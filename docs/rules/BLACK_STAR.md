@@ -1,0 +1,62 @@
+# 黑星：生产定义与现代源宝箱取得
+
+本切片补充 `black_star` / `Black Star` 的 Boss 稀有度生产定义，使用既有
+`hooks`、空通用 effects。校验器仅登记该已实现 hook ID，未知 hook 和非空
+generic effects 继续拒绝。原 `RelicRewards.elite`、概率、完整源队列和战斗逻辑
+均未修改；旧 `Inventory.bossEligible` 三件白名单也未修改。
+
+## 固定来源
+
+档案：`.artifacts/sts1-fixed-source/sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip`。
+所有 member 以 `sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/` 为前缀。
+
+| member | SHA-256 |
+| --- | --- |
+| `relics/BlackStar.java` | `74308ad3606083cb7055b0b508fadd523e77934a7a9824342a473371ce233f0e` |
+| `rooms/MonsterRoomElite.java` | `c5207d745f383e1de615e613da8e5c8f832e237444c3b757d85a61f8b3f5ee3f` |
+| `rewards/chests/BossChest.java` | `bad4fa7b36ffe2662030b6310414bbd5a5dc5108e2ff432f0322b262075b221a` |
+
+原版 BlackStar 在精英房显示提示，实际奖励由 MonsterRoomElite.dropReward 负责。
+精英先独立投第一次稀有度（0–49普通、50–82罕见、83–99稀有）并取遗物，
+持有黑星时再独立投一次稀有度，并取非营火遗物；额外遗物排除 Peace Pipe、
+Shovel、Girya。普通战斗不获得遗物。绿钥匙是独立奖励，可同时领取两件遗物。
+
+BossChest 从真实 Boss 源队列产生三选一，现代 Nodes source chest 经公开
+claim/Run.obtainRelic 取得生产定义。campaign 的现代宝箱存在于17和33层；
+本切片覆盖17层取得后进入第二幕，不宣称旧显式三 Boss 奖励入口已支持黑星。
+
+## 离线证据与边界
+
+`tests/fixtures/black-star-oracle.py` 是独立 Python 固定源码解释，采用精确整数
+XS128 和 Java48/Collections shuffle，读取完整 pinned source catalog，不导入
+生产选择逻辑。seed144 的三 Boss offer 是 Astrolabe、Tiny House、Black Star。
+初始化五次源 shuffle 后 counter=5，后续精英两次 tier roll 为74和94；普通奖励
+是 Toxic Egg 2，额外奖励跳过 Peace Pipe 后得到 TungstenRod，counter=7。
+夹具对两个完整 RNG snapshot、来源身份、tier 和 skip trace 逐项断言。
+catalog 的顺序仍是已锁定 host JDK17 HashMap 顺序，并非已认证 PC 二进制顺序。
+
+真实 RED：缺少生产定义时 `BLACK_STAR_PRODUCTION_DEFINITION_MISSING`，约199ms。
+首次 GREEN：生产定义后 Node 3/3，总3.440s；其中公开 Run/Nodes fixture 3.250s。
+夹具通过公开 BossChest 选择第三件取得黑星，随后真实正常房与绿精英构造、结算、
+两件遗物领取及独立绿钥匙领取。没有直接塞入 owned 黑星、伪造 definition、缩减
+完整源目录或替换源队列。Boss 获得后晚抛错及精英双遗物抽取后 Potion 准备晚抛错
+均验证全图内容回滚和关键原引用保留，拒绝重复领取。
+
+最终独占串行复验：`node --test --test-concurrency=1 tests/black-star.test.mjs tests/launch-content.test.mjs`
+26/26 GREEN、37.332s，其中专用公开路径2.850s、两个完整runtime拒绝负例合计16.400s，
+原清单22组全部保留且通过（真实生产runtime门禁9.451s）。每次Lua仍为原30秒预算。
+输出保留在该工作树 ignored `build/black-star-final.log`。
+
+原清单Lua门禁假设所有Boss都走旧三件谓词，新增定义曾真实触发
+`Unobtainable Boss relic: black_star`。修正仅为唯一 `black_star` 分支：强校验
+Boss稀有度、精确source ID、固定source commit、五tier完整大小及Boss22身份顺序，
+再运行本切片真实宝箱取得及后续精英夹具。其他Boss仍走原强校验。完整负例确认
+错误黑星source映射、陌生Boss仍拒绝；schema未知hook、非空通用effects也仍拒绝。
+
+受控部分：跳过前序地图战斗的合法导航；将真实构造的敌人 HP 置零形成结算边界；
+第二幕绿精英资格使用受控账号历史。以上是本地生产接线与规则证据，不是自然全程
+通关、自然获得/执行、原版 PC 执行或千星实机/UI验收。TASK14.1完整遗物池仍未完成。
+
+复验：先 `node scripts/build-lua-data.mjs`，再串行运行
+`node --test --test-concurrency=1 tests/black-star.test.mjs`；完整清单门禁为
+`node --test --test-concurrency=1 tests/launch-content.test.mjs`。

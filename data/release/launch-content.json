@@ -33,6 +33,35 @@
     }
   ],
   "profiles": {
+    "blackStar": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_relic_rewards.lua",
+        "src/lua/abyss_relic_pool.lua",
+        "src/lua/abyss_run.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/black-star.test.mjs",
+          "tests/lua/black_star.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "existing-controls-device-acceptance-pending",
+      "limitation": "Modern full-source BossChest acquisition and subsequent elite two independent rarity draws/noncamp reward are covered with controlled navigation and terminal enemy HP. Legacy Inventory.bossEligible remains unchanged. No natural campaign, PC binary order or native acceptance claim."
+    },
     "mindBloom": {
       "tasks": [
         "TASK-13.1.2",
@@ -3845,6 +3874,18 @@
         "treasure",
         "shop_relic"
       ]
+    },
+    {
+      "id": "black_star",
+      "sourceId": "Black Star",
+      "source": "data/relics.json#black_star",
+      "profile": "blackStar",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "prerequisite": "none",
+      "naturalExecutionLimitation": "This fixture covers the modern source BossChest at floor17 followed by Act2 elite loot; campaign also routes a source BossChest at floor33. Controlled preceding navigation and enemy HP do not demonstrate natural acquisition or execution."
     },
     {
       "id": "black_blood",

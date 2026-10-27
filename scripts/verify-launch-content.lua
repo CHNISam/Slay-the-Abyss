@@ -119,8 +119,26 @@ for _, event in ipairs(manifest.events) do
     for choice in pairs(wanted) do assert(choices[choice], 'Missing production event option: ' .. event.id .. '/' .. choice) end
 end
 for _, relic in ipairs(data.relics.relics) do
+    if relic.id=='black_star' then assert(relic.rarity=='boss','Black Star requires Boss rarity')end
     if relic.rarity == 'boss' then
-        assert(Inventory.bossEligible(relic, data.rules.player.startingRelics), 'Unobtainable Boss relic: ' .. relic.id)
+        if relic.id=='black_star' then
+            assert(relic.sourceId=='Black Star','Black Star source ID mismatch')
+            local catalog=assert(data.relicSource,'Missing full source relic catalog')
+            assert(catalog.sourceCommit=='319009d5df0a82d9fb0f23cc22322286c6a87ec0','Black Star source catalog mismatch')
+            for tier,size in pairs({common=33,uncommon=30,rare=28,shop=17,boss=22})do
+                assert(#catalog.queues[tier]==size,'Incomplete Black Star source relic catalog')
+            end
+            local boss={'Fusion Hammer','Velvet Choker','Runic Dome','SlaversCollar','Snecko Eye',"Pandora's Box",'Cursed Key','Busted Crown',
+                'Ectoplasm','Tiny House','Sozu',"Philosopher's Stone",'Astrolabe','Black Star','SacredBark','Empty Cage',
+                'Runic Pyramid','Calling Bell','Coffee Dripper','Black Blood','Mark of Pain','Runic Cube'}
+            assert(#catalog.queues.boss==#boss,'Incomplete Black Star source Boss catalog')
+            for i,id in ipairs(boss)do assert(catalog.queues.boss[i]==id,'Black Star source Boss catalog drift')end
+            -- Actual modern source chest claim and following source elite loot;
+            -- no admission via the legacy three-relic explicit-ID predicate.
+            dofile('tests/lua/black_star.lua')
+        else
+            assert(Inventory.bossEligible(relic, data.rules.player.startingRelics), 'Unobtainable Boss relic: ' .. relic.id)
+        end
     end
 end
 print('Launch production support predicates verified; no platform or live evidence granted.')
