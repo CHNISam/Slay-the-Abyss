@@ -417,11 +417,18 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             end end
         elseif op=='enemyVampireDamage' then
             assert(source~=state.player and source.ai and source.ai.policy=='parasite','Parasite attack only')
-            local lost=combat.damage(state,source,target,value)
+            local reactions={}
+            local lost=combat.damage(state,source,target,value,false,reactions)
             dealt=dealt+lost
-            if Actors.isActive(source) and state.player.hp>0 then
-                local healed=math.min(lost,source.maxHp-source.hp);source.hp=source.hp+healed
-                Events.emit(state,'heal',{source=source.id,target=source.id,amount=healed})
+            -- Vampire queues TOP Heal(lastDamageTaken) above onAttacked's
+            -- reactions. The captured loss precedes Fairy's revival; a fatal
+            -- non-Fairy hit opens the death screen before either queued action.
+            if state.player.hp>0 then
+                if lost>0 and Actors.isActive(source) then
+                    local healed=math.min(lost,source.maxHp-source.hp);source.hp=source.hp+healed
+                    Events.emit(state,'heal',{source=source.id,target=source.id,amount=healed})
+                end
+                Actors.resolveDamageReactions(state,reactions,combat.retaliate)
             end
         elseif op=='enemyCleanse' then
             assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 cleanse only')
@@ -440,7 +447,13 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             end
         elseif op=='enemyHealAll' or op=='enemyStrengthAll' then
             assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 enemy action only')
+            -- takeTurn queues one action per then-active monster reference.
+            -- Resolve that fixed group, rechecking each target but not the caster.
+            local recipients={}
             for _,ally in ipairs(state.enemies)do
+                if Actors.isActive(ally)then recipients[#recipients+1]=ally end
+            end
+            for _,ally in ipairs(recipients)do
                 if Actors.isActive(ally)then
                     if op=='enemyHealAll' then
                         local healed=math.min(value,ally.maxHp-ally.hp)

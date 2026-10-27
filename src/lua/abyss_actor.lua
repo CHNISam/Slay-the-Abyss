@@ -2,12 +2,15 @@
 local M = {}
 local Events = require("abyss_events")
 local Act2Powers = require('abyss_act2_powers')
+local PlatedArmor = require('abyss_plated_armor')
 
 -- Require lazily: card actions use Actor arithmetic, and hooks only enqueue
 -- data. Combat owns draining, choices, death interruption and transactionality.
 local function enqueue(state,e,source,top)
-    require("abyss_card_actions").enqueue(state,e,source,nil,nil,top)
+    assert(not source or source==state.player,'reaction owner must be player')
+    require("abyss_card_actions").enqueueReaction(state,e,top)
 end
+local function reaction(state,e,top)require('abyss_card_actions').enqueueReaction(state,e,top)end
 -- Equal-priority original Powers are stably sorted: their hooks retain the
 -- order of first application. Legacy raw-status fixtures get an explicit order.
 function M.powerSequence(actor,ids)
@@ -263,7 +266,13 @@ local function battleEnding(state)
 end
 
 local function queueDeathPower(state, target, before, reactions)
-    if before>0 and target.hp<=0 and not target.escaped then Act2Powers.died(state,target) end
+    if before>0 and target.hp<=0 and not target.escaped then
+        Act2Powers.died(state,target,function(s,effect,top)
+            -- Death's TOP actions join the existing reverse TOP damage batch,
+            -- above onAttacked Thorns; BOTTOM returns join the owning queue.
+            if top then reactions[#reactions+1]={effect=effect}else reaction(s,effect)end
+        end)
+    end
     if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
         and not target.stolenGoldRewarded then
         local stolen = target.stolenGold or 0
@@ -287,6 +296,8 @@ function M.resolveDamageReactions(state, reactions, retaliate)
             if M.isActive(state.player) then M.block(state,state.player,hit.effect.value,true) end
         elseif hit.effect and hit.effect.op=='cardTriggerPoison' then
             require('abyss_card_triggers').resolveEnvenom(state,hit.effect)
+        elseif hit.effect and Act2Powers.supports(hit.effect.op)then
+            Act2Powers.apply(M,state,hit.effect)
         elseif hit.status then
             if not battleEnding(state) then
                 M.applyPower(state, hit.target, hit.status, hit.amount, hit.source, hit.sourceIsMonster)
@@ -371,15 +382,16 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
     end
     local lost = math.min(target.hp, unblocked)
-    Act2Powers.damaged(state,source,target,lost,fixed)
+    -- Monster wasHPLost precedes onAttacked; the player uses the opposite
+    -- order. In particular Book's onInflictDamage follows player Plated.
+    if target~=state.player then PlatedArmor.hpLost(state,source,target,lost,not fixed,reaction)end
+    Act2Powers.damaged(state,source,target,lost,fixed,reaction)
     target.hp = target.hp - lost
     notifyHpLost(state,source,target,lost)
     Events.emit(state, "damage", { source = source and source.id, target = target.id, amount = lost, blocked = absorbed })
-    if not fixed and source and source ~= target and lost > 0 and (target.statuses.plated_armor or 0) > 0 then
-        target.statuses.plated_armor = target.statuses.plated_armor - 1
-        Events.emit(state, 'status', {source=target.id,target=target.id,status='plated_armor',amount=-1})
-    end
+    if target==state.player then PlatedArmor.hpLost(state,source,target,lost,not fixed,reaction)end
     require('abyss_relic_hooks').hpChanged(state,target,before)
+    Act2Powers.inflicted(state,source,lost,fixed,reaction)
     -- Curl Up locks on the first nonlethal NORMAL hit, but its actions go to
     -- the BOTTOM, behind every already-queued hit/effect and card disposal.
     -- Keep this FIFO separate from Angry/Thorns/Spore's reverse TOP reactions.
@@ -387,8 +399,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     if source and target ~= state.player and not fixed and lost > 0 and target.hp > 0
         and curl > 0 and not target.curlUpTriggered then
         target.curlUpTriggered = true
-        state.curlUpQueue = state.curlUpQueue or {}
-        state.curlUpQueue[#state.curlUpQueue + 1] = {target=target, amount=curl}
+        reaction(state,{op='resolveCurlUp',targetId=target.id,value=curl})
     end
     -- Angry is a queued positive Strength Power after an unblocked NORMAL hit.
     -- Fixed inventory damage, poison and retaliation use non-NORMAL paths.
@@ -453,7 +464,6 @@ end
 
 -- Only the bounded Curl Up bottom tail. Combat owns the outer action boundary.
 function M.flushCurlUp(state)
-    Act2Powers.flush(M,state)
     local queue = state.curlUpQueue
     state.curlUpQueue = nil
     -- The original death screen stops action-manager updates immediately.
@@ -514,9 +524,6 @@ end
 
 function M.endTurn(state, actor)
     if actor~=state.player and M.isActive(actor) then
-        for _,id in ipairs(M.powerSequence(actor,{'plated_armor','metallicize'}))do
-            M.block(state,actor,actor.statuses[id],true)
-        end
         if (actor.statuses.malleable or 0)>0 then actor.statuses.malleable=3 end
     end
     tick(state, actor, "turn_end")

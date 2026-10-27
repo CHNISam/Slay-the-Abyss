@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-26 16:39'
+updated_date: '2026-10-27 02:00'
 labels:
   - required
   - sts1
@@ -60,4 +60,8 @@ type: feature
 2026-10-27组合复审：真实Leader重复Rally保留尸体后，活敌真实索引超过5导致界面不可见已复现。独立m3-summon-visibility树正在分离显示槽与actor身份，保留核心尸体、点选/拖牌/帮助/反馈及旧输入保护；缺陷修复及当前SHA完整检查完成前不提高父任务验收状态。
 
 2026-10-27组合修复已合入隔离候选源码：第二幕19常规编组含3Boss本地可进入，召唤5槽映射保留核心尸体/真实actor索引与UID；章节非稀有奖励升级按0/25/50/50%贯通到真实卡面、纯数据奖励与永久领取。首轮完整JS1437通过/5失败/119既有条件跳过，五处旧合同已逐项核实并定向修复，完整检查重跑中。事件专属敌人、第二幕事件、自然全程与平台仍未验，父任务不Done。
+
+补齐Beggar、Mausoleum、Addict事务及现有控件界面，接入Darkstone永久诅咒钩子；修正Mystic接收者引用快照、Vampire治疗先于反伤、V4 Life Suck攻击识别、Plated及相关反应进入已有队列的顺序。保留空所有者菜单与Start失败发布边界。实现见src/lua/abyss_act2_events.lua、abyss_node_ui.lua、abyss_effects.lua、abyss_plated_armor.lua；顺序与限制见docs/rules/ACT2_ENEMIES.md。回归见tests/lua/m3_combined_queue.lua、m3_current_owner_event_keys.lua、plated_armor_queue.lua、act2_party_snapshot.lua、act2_vampire_order.lua、original_v4_vampire_attack.lua及原game_ui_owner_initialization.lua、game_ui_phase_four.lua。本地聚焦与相关回归通过，完整Quality以PR当前提交检查状态为准。原生客户端、自然四职业连续四幕、历史生产/持久化、全源事件/遗物/宝箱池仍未证明；空必选牌组不提供跳过或退款，死亡攻击者Vampire与部分Darkstone战斗健康上下文限制保留。 本轮基于最新develop增量整合，保留原版来源拖牌/持续选目标、共享卡面装配与卡牌ID美术接线；未引入新的同步反应结算。
+
+古老文字（Back to Basics）本地增量按固定319009d5来源实现：优雅免费复用永久删牌/Parasite钩子，非瓶装可清除牌按唯一UID选择，空合法组直接结果。简洁仅认八个源初始打击/防御ID，瓶装牌照常升级，已升级牌不重复；零目标有效，缺失/不支持的源目标升级内容在任何写入前原子拒绝。原创V4可选优雅，简洁因初始源标签映射未确认明确不可用（实现边界，不是源职业规则）。两分支均结果页另按离开回图；四参选牌内部canCancel=true，其余升级/变形/清除/任意数量标记为false，正常事件不显示取消，不套用Beggar付费强制元数据。既有NodeUI控件、13项完整实验池精确映射与默认受限七事件池保留。新17公开事务/9生成控件组、既有三Act2事件/UI/目录、永久删牌事务及源钩子相关回归通过；架构143模块701边、固定Luacheck无新增诊断，四关键语义变异均由原断言杀死。实现与来源限制见docs/rules/BACK_TO_BASICS.md，回归见tests/back-to-basics-event.test.mjs及tests/lua/back_to_basics_event.lua、back_to_basics_ui.lua。完整Quality与官方客户端/自然四职业连续流程NOT_RUN，不勾全量AC，不关闭TASK61/M3。
 <!-- SECTION:NOTES:END -->

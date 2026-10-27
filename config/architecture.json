@@ -140,7 +140,10 @@
     "abyss_original_v4_profiles": "core",
     "abyss_original_v4_health": "core",
     "abyss_original_v4_data": "core",
-    "abyss_original_v4_display": "ui"
+    "abyss_original_v4_display": "ui",
+    "abyss_act2_events": "core",
+    "abyss_back_to_basics": "core",
+    "abyss_plated_armor": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [

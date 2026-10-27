@@ -221,7 +221,8 @@ function M.commitCard(run,offer)
         if card.upgraded and not definition.upgrade then return false,'card_not_upgradeable' end
         -- Relics receive the private entity before master-deck insertion.
         -- Acquisition upgrades must never mutate the shared definition.
-        RelicHooks.onObtainCard(staged,card,definition)
+        local accepted,reason=RelicHooks.onObtainCard(staged,card,definition,{increaseMaxHp=M.increaseMaxHp})
+        if accepted==false then return false,reason end
         staged.deck[#staged.deck+1]=card;staged.nextDeckUid=uid+1.0
         return true,uid
     end)

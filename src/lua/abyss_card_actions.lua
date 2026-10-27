@@ -2,6 +2,8 @@
 -- choice; no UI callbacks, platform objects, or permanent deck writes live here.
 local Actors = require("abyss_actor")
 local Events = require("abyss_events")
+local PlatedArmor = require('abyss_plated_armor')
+local Act2Powers = require('abyss_act2_powers')
 local M = {}
 local operations = { discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
@@ -15,6 +17,20 @@ function M.enqueue(state, effect, source, target, instance, top)
     state.cardActions = state.cardActions or {}
     local item = {effect=effect, source=source or state.player, target=target, instance=instance}
     if top then table.insert(state.cardActions, 1, item) else state.cardActions[#state.cardActions+1] = item end
+end
+
+-- Damage callbacks join the queue that already owns the action. This never
+-- starts a continuation or changes HP-loss/Rupture's native routing.
+function M.enqueueReaction(state,effect,top)
+    if state.actionQueue then
+        local queue=require('abyss_action_queue')
+        local action={kind='effect',effect=effect}
+        if top then queue.pushTop(state,action)else queue.pushBottom(state,action)end
+    else M.enqueue(state,effect,nil,nil,nil,top)end
+end
+function M.reactionRetained(effect)
+    return PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
+        or effect.op=='damageRandom'
 end
 
 local function remove(pile, uid)
@@ -207,6 +223,15 @@ end
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
+    if PlatedArmor.supports(op)then return PlatedArmor.apply(combat,state,e,M.enqueueReaction)end
+    if Act2Powers.supports(op)then return Act2Powers.apply(Actors,state,e)end
+    if op=='resolveCurlUp'then
+        for _,enemy in ipairs(state.enemies)do
+            if enemy.id==e.targetId then Actors.resolveCurlUp(state,enemy,e.value);break end
+        end
+        return
+    end
+    if op=='enemyAction'then return combat.resolveEnemyAction(state,e,source)end
     if op=='obtainPotion' then
         state.generatedPotionOffers=state.generatedPotionOffers or {}
         state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}
@@ -340,7 +365,9 @@ function M.drain(combat,state)
         local outcome=combat.outcome(state)
         if state.cardActions and #state.cardActions>0 then
             local item=table.remove(state.cardActions,1)
-            if not outcome or outcome=="victory" and retained[item.effect.op] then M.apply(combat,state,item) end
+            local keep=retained[item.effect.op] or M.reactionRetained(item.effect)
+            if item.effect.op=='enemyAction'then keep=combat.enemyActionRetained(item.effect)end
+            if not outcome or outcome=="victory" and keep then M.apply(combat,state,item) end
         elseif not outcome and state.queuedCards and #state.queuedCards>0 then
             combat.resolveQueuedCard(state,table.remove(state.queuedCards,1))
         else break end

@@ -1,7 +1,7 @@
 -- Track successful applications for the hooks this engine dispatches.
 local Schedule=require('abyss_power_schedule')
 local M={ids={thorns=true,flame_barrier=true,block_return=true,sharp_hide=true,choked=true,
-    shackled=true,blur=true,metallicize=true,like_water=true,combust=true,rage=true,study=true}}
+    shackled=true,blur=true,metallicize=true,plated_armor=true,like_water=true,combust=true,rage=true,study=true}}
 for id in pairs(require('abyss_turn_powers').scheduledIds) do M.ids[id]=true end
 local function absentGuardianHide(actor,id,value)
     return id=='sharp_hide' and value==0 and actor.ai and actor.ai.kind=='guardian'

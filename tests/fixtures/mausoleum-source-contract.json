@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenanceBoundary": "Pinned decompiled read-only mirror, not official source or a PC-binary certification. Connector UTF-8 bytes reproduce each pinned Git blob SHA and byte size; Java bytes are retained only in external review proof, not shipped in product.",
+  "sources": [
+    {
+      "path": "cards/curses/Writhe.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Writhe.java",
+      "gitBlobSha": "e6e825a25cbc1d4a1244bffc33baf8294393ebbe",
+      "size": 1040,
+      "sha256": "9c6b5dfd72225f1500456784fea3268864f8c2b72a9f8bd0fe4ac425714885d8"
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "size": 115023,
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    {
+      "path": "dungeons/TheCity.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheCity.java",
+      "gitBlobSha": "f4681bc8c8a242d26bfc64564cca959d7cffd956",
+      "size": 8194,
+      "sha256": "16a79d6922e3f2eaeb72c09beb177682319fda6b85302470c8d955b673260e3b"
+    },
+    {
+      "path": "events/city/TheMausoleum.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/TheMausoleum.java",
+      "gitBlobSha": "8e0e1eed6cada5587d376e6a3237d25d57429299",
+      "size": 4080,
+      "sha256": "7f375b4d8016f5a9d5f99e343bd88c3a664ff561f82a475fc455a9b3ef50511d"
+    },
+    {
+      "path": "random/Random.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "size": 2596,
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172"
+    },
+    {
+      "path": "relics/AbstractRelic.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "gitBlobSha": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "size": 39442,
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167"
+    },
+    {
+      "path": "relics/CeramicFish.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/CeramicFish.java",
+      "gitBlobSha": "77b06f9a3cfb60ac52b8f4d8a4670c0c2fb139f1",
+      "size": 1243,
+      "sha256": "bf8a18d2488d17304a0c9bd153c42898065aa00cbecb424cd1e59e66b2d6fa1c"
+    },
+    {
+      "path": "relics/DarkstonePeriapt.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/DarkstonePeriapt.java",
+      "gitBlobSha": "7cff88ec76f796024b9b8f7bb567215dd14d1933",
+      "size": 1434,
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde"
+    },
+    {
+      "path": "relics/Omamori.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Omamori.java",
+      "gitBlobSha": "cdd7410338a2e8e9d8a08f51e0c8a4d596a4dcec",
+      "size": 1276,
+      "sha256": "9a4ec0639162f5031e74587dcf5ad191209dd92f2063d4747495ccb265d5cf6f"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "gitBlobSha": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "size": 33565,
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "size": 4473,
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52"
+    }
+  ],
+  "behavior": {
+    "ascension": 0,
+    "introChoices": [
+      "open",
+      "leave"
+    ],
+    "curseChancePercent": 50,
+    "curseId": "Writhe",
+    "curseRng": "miscRng.randomBoolean() exactly once on open only",
+    "relicRng": "relicRng.random(0,99) exactly once for event tier: common <50, uncommon <83, rare otherwise",
+    "screenlessRejects": [
+      "Bottled Flame",
+      "Bottled Lightning",
+      "Bottled Tornado",
+      "Whetstone"
+    ],
+    "sourceOrder": [
+      "miscBoolean",
+      "prepareWritheOldOmamoriIfCursed",
+      "selectScreenlessRelic",
+      "equipRelic",
+      "resolveWritheAgainstNewRelicsIfCursed",
+      "resultScreen",
+      "separateLeave"
+    ],
+    "leave": "INTRO leave produces RESULT before the next leave opens map; no RNG or rewards"
+  },
+  "implementationBoundary": "Local existing-controls NodeUI wired with mocked-local generated-control/public Nodes+Run tests, preserving open/RESULT/separate leave and real relic/curse consequences. Darkstone Periapt has a separately labeled outside-combat permanent-obtain dependency implementation in this local composition. Full original relic pool still lacks other definitions/hooks; all full-pool/native/campaign/natural acceptance NOT_RUN; history producer/persistence remains UNWIRED. Active or retained combat health contexts remain unavailable. Source facts unchanged."
+}

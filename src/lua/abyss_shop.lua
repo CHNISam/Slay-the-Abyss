@@ -46,12 +46,13 @@ local function pick(rng,list)
     if #list==0 then return nil end
     return list[R.randomInt(rng,#list-1)+1]
 end
-local function relicCandidates(run,rarity,stock)
+local function relicCandidates(run,rarity,stock,roomFloor)
     local pool={}
     for _,def in ipairs(run.data.relics.relics) do
         local allowed=def.rarity==rarity
         -- Both relics' canSpawn reject ShopRoom, even on the initial shelf.
         allowed=allowed and not owns(run,def.id) and def.id~='courier' and def.id~='smiling_mask'
+            and ((def.id~='darkstone_periapt' and def.sourceId~='Darkstone Periapt') or (roomFloor or run.floor or 1)<=48)
         for _,o in ipairs(stock or {}) do if o.id==def.id then allowed=false end end
         if allowed then pool[#pool+1]=def end
     end
@@ -85,12 +86,12 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
             phase=restock and 'restock' or 'initial',courier=restock and owns(run,'courier') or false,
             membership=restock and owns(run,'membership_card') or false}) }
 end
-local function itemOffer(run,rng,category,slot,stock,restock)
+local function itemOffer(run,rng,category,slot,stock,restock,roomFloor)
     local rarity,selected
     if category=='potions' then
         selected=PotionPool.sample({potionRng=rng.potion},{character=PotionPool.character(run)});rarity=selected.rarity
     else rarity=slot==3 and not restock and 'shop' or S.relicRarity(R.randomInt(rng.merchant,99)) end
-    local pool=not selected and relicCandidates(run,rarity,stock) or nil
+    local pool=not selected and relicCandidates(run,rarity,stock,roomFloor) or nil
     if restock and category=='relics' then
         local filtered={}
         for _,d in ipairs(pool) do
@@ -107,7 +108,7 @@ local function itemOffer(run,rng,category,slot,stock,restock)
     return { slot=slot,id=selected and selected.id or def and def.id or '__missing_'..category..'_'..slot,rarity=rarity,
         unavailable=not def,sold=false,price=discount(run,price) }
 end
-function S.prepare(run)
+function S.prepare(run,roomFloor)
     local rng=streams(run)
     local cardOwner=CardRandom.clone(run)
     local stock={cards={},relics={},potions={},shopRng=rng,cardRandom=cardOwner,contentMode='restricted-supported-pools'}
@@ -124,7 +125,7 @@ function S.prepare(run)
     local o=stock.cards[sale];o.sale=true
     o.price=floor(o.price/2)
     for _,offer in ipairs(stock.cards) do offer.price=discount(run,offer.price) end
-    for i=1,3 do stock.relics[i]=itemOffer(run,rng,'relics',i,stock.relics) end
+    for i=1,3 do stock.relics[i]=itemOffer(run,rng,'relics',i,stock.relics,nil,roomFloor) end
     for i=1,3 do stock.potions[i]=itemOffer(run,rng,'potions',i) end
     return stock
 end
