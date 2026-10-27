@@ -1,0 +1,46 @@
+{
+  "base": "0a773c1c8e736b564514c2c61adeaa6af541f023",
+  "entry": "tests/lua/game_ui_class_powers.lua",
+  "originalGitBlob": "78b385b579da7d67fac3c9d2345e916a19d5d28b",
+  "originalSha256LF": "1065c2741373b7ab5e14405d655a10afedb77c6a4e10be7aa4a77dcc8b07727c",
+  "total": 30,
+  "timeoutMilliseconds": 30000,
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5\nlocal sliceRegistered=0\n",
+  "before": "for _,case in ipairs(cases) do\n",
+  "after": "for _,case in ipairs(cases) do\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then\n",
+  "endBefore": "end\nprint(\"GAME_UI_CLASS_POWERS_PASS \"..count)\n",
+  "endAfter": "    print(\"GAME_UI_CLASS_POWERS_CASE \"..sliceRegistered)\n    end\nend\nprint(\"GAME_UI_CLASS_POWERS_PASS \"..count)\n",
+  "footer": "\nassert(sliceRegistered==30,\"all thirty original class power cases must register\")\nassert(count==sliceLast-sliceFirst+1,\"every selected original class power case must execute\")\nprint(\"GAME_UI_CLASS_POWERS_SLICE \"..sliceFirst..\" \"..sliceLast..\" \"..count)\n",
+  "slices": [
+    {
+      "path": "tests/lua/game_ui_class_powers.lua",
+      "first": 1,
+      "last": 5
+    },
+    {
+      "path": "tests/lua/game_ui_class_powers_slice_2.lua",
+      "first": 6,
+      "last": 10
+    },
+    {
+      "path": "tests/lua/game_ui_class_powers_slice_3.lua",
+      "first": 11,
+      "last": 15
+    },
+    {
+      "path": "tests/lua/game_ui_class_powers_slice_4.lua",
+      "first": 16,
+      "last": 20
+    },
+    {
+      "path": "tests/lua/game_ui_class_powers_slice_5.lua",
+      "first": 21,
+      "last": 25
+    },
+    {
+      "path": "tests/lua/game_ui_class_powers_slice_6.lua",
+      "first": 26,
+      "last": 30
+    }
+  ]
+}
