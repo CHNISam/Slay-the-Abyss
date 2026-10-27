@@ -130,5 +130,44 @@ test('combat hover lifts the real card and clears after exit or a changed hand',
     assert(ui.hover==nil,'hover transferred to a new card in the same slot')
 end)
 
+test('combat hover keeps the hit rectangle fixed for one, five and ten card hands', function()
+    local function hitBounds(card)
+        local hit=card:GetChild('hit')
+        local a=(card.localRotationZ or 0)*math.pi/180
+        local z=a+(hit.localRotationZ or 0)*math.pi/180
+        local s=card.localScaleX or 1
+        local dx,dy=(hit.x or 0)*s,(hit.y or 0)*s
+        local x,y=card.x+math.cos(a)*dx-math.sin(a)*dy,card.y+math.sin(a)*dx+math.cos(a)*dy
+        local w=hit.sizeDeltaX*s*(hit.localScaleX or 1)/2
+        local h=hit.sizeDeltaY*s*(hit.localScaleY or 1)/2
+        local rx,ry=math.abs(math.cos(z))*w+math.abs(math.sin(z))*h,math.abs(math.sin(z))*w+math.abs(math.cos(z))*h
+        return {x-rx,x+rx,y-ry,y+ry}
+    end
+    for _,count in ipairs({1,5,10}) do
+        local deck={};for i=1,count do deck[i]='defend' end
+        local host,ui,panel,event=H.setup(deck)
+        H.F.Combat.draw(host.run.combat,count)
+        assert(#host.run.combat.hand==count)
+        host:refresh()
+        for i=1,count do
+            local name='card'..i
+            local card=panel:GetChild(name)
+            local before=hitBounds(card)
+            event(name,'enter',7)
+            local after=hitBounds(card)
+            for edge=1,4 do assert(math.abs(before[edge]-after[edge])<0.000001,'hover moved its pointer hit rectangle') end
+            assert(card.y-card.sizeDeltaY*card.localScaleY/2>=before[3]-0.000001)
+            assert(card.y+card.sizeDeltaY*card.localScaleY/2<=before[4]+0.000001)
+            event(name,'exit',7)
+        end
+        host.run.phase='reward'
+        host.run.rewards={gold=0,goldClaimed=true,cards={'defend'},cardResolved=false,manualContinue=true}
+        host:refresh();ui.rewardScreen='cards';ui:render()
+        local hit=panel:GetChild('card1'):GetChild('hit')
+        assert(hit.x==0 and hit.y==0 and hit.localRotationZ==0 and hit.localScaleX==1,
+            'reward card inherited the inverse hand-hit transform')
+    end
+end)
+
 print('LUA_CARD_INPUT_PORT_PASS ' .. passed)
 assert(failed==0,'source input failures: '..failed)

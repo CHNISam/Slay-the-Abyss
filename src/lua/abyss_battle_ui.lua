@@ -335,6 +335,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not run or run.phase ~= "combat" or not run.potions[slot] or slot>Run.potionCapacity(run) then return end
         return {kind="potion",index=0,slot=slot,potionId=run.potions[slot],inventory=run.potions}
     end
+    local function placeHandHit(box, w, h, restAngle, baseY, y, scale)
+        local r = restAngle * math.pi / 180
+        local c,s = math.abs(math.cos(r)),math.abs(math.sin(r))
+        local restH,restW = (h*c+w*s)/2,(w*c+h*s)/2
+        local hotH = h*Theme.motion.hoverScale/2
+        local low = math.min(baseY-restH,baseY+Theme.motion.hoverLift-hotH)
+        local high = math.max(baseY+restH,baseY+Theme.motion.hoverLift+hotH)
+        local dy,a = (low+high)/2-y,box.localRotationZ*math.pi/180
+        local hit = box:GetChild('hit')
+        -- Inverse the card transform: one world-space hit rectangle covers both poses.
+        hit:SetAnchoredPosition(math.sin(a)*dy/scale,math.cos(a)*dy/scale)
+        hit:SetSizeDelta(math.max(restW*2,w*Theme.motion.hoverScale)/scale,(high-low)/scale)
+        hit:SetLocalScale(1,1,1)
+        hit.localRotationZ = -box.localRotationZ
+    end
     local function placeCard(box, count, index, selected)
         local w, h = L.card.size[1], L.card.size[2]
         local spacing = count <= 1 and 0 or math.max(L.hand.spacingMin, math.min(L.hand.spacingMax, (L.hand.maxWidth - w) / (count - 1)))
@@ -343,11 +358,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local radians = math.abs(angle) * math.pi / 180
         local halfHeight = (h * math.cos(radians) + w * math.sin(radians)) / 2
         local floor = -Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + halfHeight
-        local x, y = distance * spacing, math.max(floor, L.hand.y - math.abs(distance) * L.hand.arcDrop) + (selected and Theme.motion.hoverLift or 0)
+        local baseY = math.max(floor,L.hand.y-math.abs(distance)*L.hand.arcDrop)
+        local x, y = distance * spacing, baseY + (selected and Theme.motion.hoverLift or 0)
         box:SetAnchoredPosition(x, y)
         local scale = selected and Theme.motion.hoverScale or 1
         box:SetLocalScale(scale, scale, 1)
         box.localRotationZ = selected and 0 or angle
+        placeHandHit(box,w,h,angle,baseY,y,scale)
         box:GetChild("glow"):SetVisible(selected)
         box:SetAsLastSibling()
         return {x, y}
@@ -361,6 +378,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return hot and R.hoverScale or R.scale, hot and R.hoverLift or 0
     end
     local function placeReward(box, count, index, anim, hot)
+        local hit = box:GetChild('hit')
+        hit:SetAnchoredPosition(0,0)
+        hit:SetSizeDelta(L.card.size[1],L.card.size[2])
+        hit:SetLocalScale(1,1,1)
+        hit.localRotationZ = 0
         local x = (index - 1 - (count - 1) / 2) * R.step
         box:SetAnchoredPosition(x, R.y + anim.lift + anim.rise)
         box:SetLocalScale(anim.scale, anim.scale, 1)
