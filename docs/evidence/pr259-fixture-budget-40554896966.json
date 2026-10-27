@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "runId": 40554896966,
+  "runAttempt": 1,
+  "failedHeadSha": "b420e8b267bbdbf2d5d7c68bc7d893faa130047c",
+  "reviewedBaseSha": "d16be8db337656f50b1bccabc1436044b00dd4bb",
+  "actualFailedJob": {
+    "id": 122368790687,
+    "name": "rules (1/8)",
+    "jobDurationSeconds": 1110,
+    "luaStepDurationSeconds": 908
+  },
+  "initiallyReportedJob": {
+    "id": 122368790834,
+    "name": "rules (5/8)",
+    "conclusion": "success"
+  },
+  "originalJobLog": {
+    "path": "build/pr259-ci-40554896966/rules1-raw.log",
+    "bytes": 290421,
+    "sha256": "850995db62eba34a9984096768e1fb59725c9a6a32615c8e35c92dffa8b0e2ce"
+  },
+  "ciFailures": [
+    {
+      "file": "tests/lua/looter_potion_ui_held.lua",
+      "logLine": 1997,
+      "atUtc": "2026-10-27T18:09:06.7460065Z",
+      "reason": "ETIMEDOUT",
+      "limitMs": 30000,
+      "reportedMs": 30067,
+      "completedInternalCases": "unknown"
+    },
+    {
+      "file": "tests/lua/run_turn_reward_rollback.lua",
+      "logLine": 2267,
+      "atUtc": "2026-10-27T18:13:23.3610470Z",
+      "reason": "ETIMEDOUT",
+      "limitMs": 30000,
+      "reportedMs": 30047,
+      "completedCases": 5,
+      "totalCases": 6,
+      "unfinishedCase": "retain/reject"
+    }
+  ],
+  "localAdditionalRed": {
+    "file": "tests/lua/looter_potion_ui_released.lua",
+    "reason": "ETIMEDOUT",
+    "limitMs": 30000,
+    "reportedMs": 30099.3431,
+    "freshSetupLines": 19,
+    "completedInternalCases": "unknown",
+    "log": "build/pr259-fixture-budget/green.log",
+    "logSha256": "f8307304d17d87aeaf843c24bbfc417c2a1821e468708495a028f0e36e49e46b"
+  },
+  "sourceAssertionsFailed": false,
+  "partition": {
+    "heldControls": 5,
+    "heldChangesPerControl": 5,
+    "releasedControls": 5,
+    "releasedChangesPerControl": 5,
+    "rollbackKinds": [
+      "turn",
+      "choice",
+      "retain"
+    ],
+    "rollbackFailuresPerKind": [
+      "throw",
+      "reject"
+    ],
+    "rawFixtureCount": 13,
+    "perFixtureTimeoutMs": 30000,
+    "seed": 42,
+    "cultistHp": 52
+  },
+  "finalFixtureResultsMs": {
+    "looter_potion_ui_held.lua": 10317.1828,
+    "looter_potion_ui_held_slice_2.lua": 9398.7689,
+    "looter_potion_ui_held_slice_3.lua": 9601.9205,
+    "looter_potion_ui_held_slice_4.lua": 9677.7866,
+    "looter_potion_ui_held_slice_5.lua": 10396.6614,
+    "looter_potion_ui_released.lua": 6010.019,
+    "looter_potion_ui_released_slice_2.lua": 6281.0742,
+    "looter_potion_ui_released_slice_3.lua": 5819.3578,
+    "looter_potion_ui_released_slice_4.lua": 5879.4195,
+    "looter_potion_ui_released_slice_5.lua": 6125.9182,
+    "run_turn_reward_rollback.lua": 12289.2118,
+    "run_turn_reward_rollback_choice.lua": 15228.5289,
+    "run_turn_reward_rollback_retain.lua": 14351.8108
+  },
+  "finalGuardTests": 2,
+  "finalReleasedRun": {
+    "log": "build/pr259-fixture-budget/released-green.log",
+    "logSha256": "9dbd273a152d052e70d6b4e17b78ed1316efbd84b595e618e182d6005c191ec6",
+    "tests": 7,
+    "passed": 7,
+    "durationMs": 30234.2466
+  },
+  "limits": [
+    "All original coverage passed across two bounded verification runs; not one complete Quality rerun.",
+    "No product source, mock, workflow, original assertion, source seed or timeout budget changed.",
+    "Current repaired SHA complete CI and delivery remain pending integration."
+  ]
+}

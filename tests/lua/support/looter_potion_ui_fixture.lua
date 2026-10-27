@@ -11,8 +11,11 @@ local function reward(manual)
 end
 -- Each entry runs one half of the same 50-case Cartesian product. Every case
 -- still creates its own full generated UI tree and seed-42 reward fixture.
-local function changedRewardActions(released)
- for _,name in ipairs({'card1','skip','stolenGold','claimPotion','goldReward'}) do
+local function changedRewardActions(released,selected)
+ assert(selected==nil or type(selected)=='number'and selected%1==0 and selected>=1 and selected<=5,'invalid held budget slice')
+ local executed=0
+ for index,name in ipairs({'card1','skip','stolenGold','claimPotion','goldReward'}) do
+  if selected==nil or index==selected then
   for _,change in ipairs({'cards','choice','amount','type','mode'}) do
    local h,u,p,e,t=reward(true);local run=h.run;local gold,uid=run.gold,run.nextDeckUid
    if name=='card1' or name=='skip' then t('cardReward',0) end
@@ -25,7 +28,10 @@ local function changedRewardActions(released)
    if not released then e(name,'up',1) end;e(name,'click',1)
    assert(run.phase=='reward' and run.gold==gold and run.nextDeckUid==uid and not run.rewards.cardResolved
     and not run.rewards.stolenGold.claimed and not run.rewards.potion.resolved,name..' '..change)
+   executed=executed+1
   end
+  end -- held budget boundary
  end
+ return executed
 end
 return {Run=Run,C=C,Theme=Theme,reward=reward,changedRewardActions=changedRewardActions}
