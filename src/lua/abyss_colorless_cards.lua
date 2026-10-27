@@ -341,7 +341,7 @@ function M.apply(combat,state,item)
             if a.value==1 and combat.combatBaseCost(state,c)>1 then c.costOverride=1 end
         end
     elseif kind=='discovery'then
-        require('abyss_card_actions').enqueue(state,{op='discover',value=1,exclude='discovery'},nil,nil,nil,true)
+        require('abyss_card_actions').enqueueReaction(state,{op='discover',value=1,exclude='discovery'},true)
     elseif kind=='purity'or kind=='secret'or kind=='forethought'then return select(combat,state,item)
     elseif kind=='madness'then
         local better,possible=false,false

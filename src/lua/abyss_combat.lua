@@ -751,6 +751,10 @@ queuedHandlers.effect = function(state, action, queue)
         return PlatedArmor.apply(M,state,action.effect,CardActions.enqueueReaction)
     end
     if Act2Powers.supports(action.effect.op)then return Act2Powers.apply(Actors,state,action.effect)end
+    if action.effect.op=='discover'then
+        require('abyss_potion_discovery').begin(M,state,action.effect)
+        return 'pause'
+    end
     if action.effect.op=='potionStanceChoice'then return require('abyss_potion_stance').begin(state)end
     if require('abyss_end_turn_powers').ops[action.effect.op]then return require('abyss_end_turn_powers').apply(M,state,action.effect,queue)end
     if action.effect.op=='ownerEndRetain'then
@@ -1452,6 +1456,13 @@ end
 function M.chooseCard(state,token,uid)
     local restore=require("abyss_snapshot").capture(state)
     local called,ok,reason=pcall(function()
+        if state.actionQueue and state.pendingChoice and state.pendingChoice.op=='discover'then
+            local accepted,why=require('abyss_potion_discovery').choose(M,state,token,uid,CardActions)
+            if not accepted then return false,why end
+            local result=require('abyss_action_queue').resume(state,queuedHandlers)
+            if result~='pause'then finishQueuedPlay(state)end
+            return true
+        end
         if state.pendingChoice and state.pendingChoice.op=='watcher_final' then
             local accepted,why=require('abyss_watcher_final_cards').choose(M,state,token,uid)
             if not accepted then return false,why end

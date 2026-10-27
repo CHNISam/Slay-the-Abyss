@@ -336,12 +336,15 @@ test("fresh battles do not share statuses temporary strength or definitions", fu
     eq(definition("poison").name, "中毒")
 end)
 
-test("dead enemy attacker cannot regenerate or let later enemies act", function()
+test("player defeat stops queued Thorns enemy regeneration and later enemies", function()
     local s = battle({ "jaw_worm", "jaw_worm" }); local e = s.enemies[1]
     e.hp = 1; status(e, "regen", 9); status(s.player, "thorns", 1)
     s.player.hp = 1
     Combat.endTurn(s)
-    eq(e.hp, 0); eq(e.statuses.regen, 9); eq(e.intentIndex, 1)
+    -- ThornsPower adds a TOP DamageAction. AbstractPlayer.damage opens the
+    -- death screen before it can run; AbstractRoom stops the action manager.
+    -- Preserve this lethal hit, original actors and later-enemy assertions.
+    eq(e.hp, 1); eq(e.statuses.regen, 9); eq(e.intentIndex, 1)
     eq(s.enemies[2].intentIndex, 1); eq(s.phase, "defeat")
 end)
 
