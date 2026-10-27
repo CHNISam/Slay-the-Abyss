@@ -10,8 +10,10 @@ trace:attach(cursor,'root/battlePanel/drawIcon/hit')
 assert(cursor.unsetField==nil,'function __index must retain its real missing-field behavior')
 rejects(function()return cursor.interactable end,'CursorArea')
 rejects(function()cursor.interactable=false end,'CursorArea')
-rejects(function()return cursor.activeInHierarchy end,'activeInHierarchy')
-rejects(function()cursor.activeInHierarchy=false end,'activeInHierarchy')
+assert(cursor.activeInHierarchy==true,'tracing must preserve the documented hierarchy read')
+rejects(function()cursor.activeInHierarchy=false end,'read-only')
+F.setEngineActive(cursor,false);assert(cursor.activeInHierarchy==false)
+F.setEngineActive(cursor,true);assert(cursor.activeInHierarchy==true)
 assert(rawget(cursor,'kind')=='cursorArea','tracing must not remove the strict factory type discriminator')
 cursor.raycastTarget=false
 local expected=Trace.new();expected:add({'root/battlePanel/drawIcon/hit','interactable',false})
@@ -19,6 +21,8 @@ assert(trace.count==expected.count and trace.hash==expected.hash,'only the revie
 
 local preset=F.control({name='confirm',kind='presetButton'})
 trace:attach(preset,'root/choicePanel/confirm/hit')
+assert(preset.activeInHierarchy==true)
+rejects(function()preset.activeInHierarchy=false end,'read-only')
 preset.interactable=false;preset.raycastTarget=false
 expected:add({'root/choicePanel/confirm/hit','interactable',false})
 assert(trace.count==expected.count and trace.hash==expected.hash,'mirrored native raycast writes invert only the P0 field addition')

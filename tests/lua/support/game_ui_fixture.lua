@@ -15,14 +15,34 @@ end
 -- These methods capture no node state. Keep them as own fields so overrides
 -- and pairs/rawget see the same control shape without per-node closures.
 local Control = {}
+-- The engine owns activation. Expose only the documented read-only hierarchy
+-- result on controls; tests change private engine state, not native properties.
+local engineActive = setmetatable({}, { __mode = 'k' })
+local function activeInHierarchy(control)
+    while control do
+        if engineActive[control] == false then return false end
+        control = control.parent
+    end
+    return true
+end
+local function setEngineActive(control,value)
+    assert(type(value)=='boolean'); engineActive[control]=value
+end
 local function nativeField(control,key)
-    assert(key~='activeInHierarchy','Native control has no activeInHierarchy field')
     assert(key~='interactable' or rawget(control,'kind')~='cursorArea',
         'Native CursorArea has no interactable field; use raycastTarget')
 end
 local controlMethods = {
-    __index = function(control,key) nativeField(control,key); return Control[key] end,
-    __newindex = function(control,key,value) nativeField(control,key); rawset(control,key,value) end,
+    __index = function(control,key)
+        nativeField(control,key)
+        if key=='activeInHierarchy' then return activeInHierarchy(control) end
+        return Control[key]
+    end,
+    __newindex = function(control,key,value)
+        nativeField(control,key)
+        assert(key~='activeInHierarchy','Native activeInHierarchy is read-only')
+        rawset(control,key,value)
+    end,
 }
 function Control:GetChild(name) return self.children[name] end
 function Control:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
@@ -173,6 +193,7 @@ return {
     Theme = Theme,
     preview = preview,
     control = control,
+    setEngineActive = setEngineActive,
     fixture = fixture,
     statValue = statValue,
     resultText = resultText,

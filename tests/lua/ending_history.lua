@@ -117,4 +117,32 @@ test('failed persistence keeps authentic session progress but reports failure an
   eq(H.read(H.new({read=function()error('offline')end})).unlocked,false)
  end
 end)
+test('real legacy profiles retain their own class and cannot turn Watcher or inconsistent metadata into Ironclad',function()
+ local Run,Profiles,Data=require('abyss_run'),require('abyss_character_profiles'),require('abyss_data')
+ for _,role in ipairs({'ironclad','silent','defect','watcher'})do
+  local prepared=Profiles.prepare(Data,role)
+  local run=Run.new(prepared,'42',{experimental=true,campaign=true})
+  eq(run.character,nil);eq(run.data.experimentalCharacter,role);eq(run.data.characterId,role)
+  local writes=0;local owner=H.new({write=function(delta)
+   writes=writes+1;eq(delta.version,1)
+   for key,value in pairs(delta.wins)do eq(key,role);eq(value,true)end
+   return true
+  end})
+  assert(H.begin(owner,run,{seedSet=false,isDailyRun=false,isTrial=false}))
+  eq(H.finish(owner,run,terminal(run)),role~='watcher')
+  local wins=H.read(owner).wins
+  for _,key in ipairs({'ironclad','silent','defect'})do eq(wins[key],key==role and true or nil)end
+  eq(writes,role=='watcher'and 0 or 1)
+ end
+ for _,case in ipairs({
+  {data={experimentalCharacter='silent',characterId='defect'}},
+  {data={experimentalCharacter='silent'}},{data={characterId='silent'}},
+  {data={experimentalCharacter='unknown',characterId='unknown'}},
+  {character='ironclad',data={experimentalCharacter='silent',characterId='silent'}},
+ })do
+  local owner=H.new();local run={character=case.character,data=case.data,campaign=true,act=1,floor=1,phase='map',runSeed='42'}
+  assert(H.begin(owner,run,{seedSet=false,isDailyRun=false,isTrial=false}))
+  eq(H.finish(owner,run,terminal(run)),false);eq(next(H.read(owner).wins),nil)
+ end
+end)
 print('ENDING_HISTORY '..count..' passed')

@@ -3,7 +3,7 @@
 local M = {}
 local function visible(control)
     while control do
-        if control.alive == false or control.visible == false then return false end
+        if control.alive == false or control.visible == false or control.activeInHierarchy == false then return false end
         control = control.parent
     end
     return true
