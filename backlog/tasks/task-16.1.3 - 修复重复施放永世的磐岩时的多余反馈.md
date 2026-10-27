@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 11:17'
-updated_date: '2026-10-24 13:04'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - required
@@ -17,7 +17,7 @@ references:
   - docs/reviews/TASK-16-m3-card-audit.md
   - docs/reviews/TASK-16.1.3-barricade-repeat.md
 parent_task_id: TASK-16.1
-priority: high
+priority: medium
 type: bug
 ordinal: 87000
 ---

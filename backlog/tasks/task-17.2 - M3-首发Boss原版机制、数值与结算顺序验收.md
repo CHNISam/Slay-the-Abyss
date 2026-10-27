@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-26 12:52'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -18,7 +18,7 @@ references:
   - docs/reviews/TASK-17.2-guardian-death-tail.md
   - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-17
-priority: high
+priority: medium
 type: task
 ordinal: 76000
 ---

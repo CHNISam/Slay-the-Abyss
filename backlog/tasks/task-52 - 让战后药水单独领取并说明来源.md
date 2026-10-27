@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:45'
-updated_date: '2026-10-26 12:52'
+updated_date: '2026-10-27 04:15'
 labels:
   - required ui rule-parity
 milestone: m-4
@@ -15,7 +15,7 @@ references:
   - docs/backlog-details/TASK-52-UI-READABILITY.md
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+priority: medium
 type: bug
 ordinal: 87000
 ---

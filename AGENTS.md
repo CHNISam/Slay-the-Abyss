@@ -119,6 +119,9 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 ## 任务写给人看
 
+- 每项当前任务必须通过Backlog CLI设置High/Medium/Low；High仅用于当前依赖链上的阻塞，未完成High最多5项，总验收不重复占位；其余首发必做为Medium，可选/投稿后工作为Low，Done移出High。每次升High说明阻塞理由，解除后及时重排；不改验收或截止日来凑排序。`npm run verify:backlog`检查空值、非法值、Done占High和High队列上限，完整规划见docs/backlog-details/BACKLOG-UPDATE-20261027.md。
+- M3标题与验收必须覆盖四职业及第一至隐藏第四幕，M4覆盖全职业与全章节；M5最终回归承接完整范围。修改范围后同步Backlog里程碑、任务、SCOPE、MILESTONES和HANDOFF，再核对实际GUI所服务的任务库；不得只更新另一工作树。`verify:backlog`校验M3/M4标题范围，不能用第一幕测试切片替代全量验收。
+
 - 标题直接说要做什么；说明用日常中文，验收项一次说一件事。别在任务首页堆命令、缩写、版本编号、迁移历史和代理执行说明。
 - 技术要求、执行方案和历史证据放在 docs/backlog-details/ 的对应附件，任务保留附件链接。执行时仍须读附件，精简文字不降低原验收标准。
 - 里程碑内的必做任务全部完成、验收齐全后，及时用 Backlog CLI 归档里程碑；任务状态和完成证据保留。

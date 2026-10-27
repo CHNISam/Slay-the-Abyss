@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 12:55'
-updated_date: '2026-10-26 12:52'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -15,7 +15,7 @@ references:
   - docs/design/ui-acceptance.json
   - docs/backlog-details/TASK-39.md
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+priority: medium
 type: bug
 ordinal: 51000
 ---

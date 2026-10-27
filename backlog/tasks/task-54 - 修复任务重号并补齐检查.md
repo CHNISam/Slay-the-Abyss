@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 16:49'
-updated_date: '2026-10-24 17:04'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - required
@@ -15,7 +15,7 @@ references:
   - docs/DELIVERY-CLOSEOUT.md
   - scripts/verify-backlog-roadmap.mjs
   - docs/reviews/TASK-54-backlog-id-integrity.md
-priority: high
+priority: medium
 type: bug
 ordinal: 92000
 ---

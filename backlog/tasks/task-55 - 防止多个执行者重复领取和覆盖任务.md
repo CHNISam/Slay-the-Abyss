@@ -5,10 +5,10 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 02:00'
-updated_date: '2026-10-25 13:32'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
-priority: high
+priority: medium
 type: bug
 ordinal: 94000
 ---

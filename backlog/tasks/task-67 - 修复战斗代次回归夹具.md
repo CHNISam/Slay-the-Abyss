@@ -5,9 +5,10 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 07:10'
-updated_date: '2026-10-26 07:15'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
+priority: medium
 ordinal: 114000
 ---
 

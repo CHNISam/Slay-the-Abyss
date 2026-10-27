@@ -4,7 +4,7 @@ title: 投稿后再查：能否更新、要不要做第二件作品
 status: To Do
 assignee: []
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 04:15'
 labels:
   - optional
   - post-submission
@@ -12,6 +12,7 @@ labels:
 dependencies: []
 references:
   - docs/backlog-details/TASK-21.md
+priority: low
 ordinal: 21000
 ---
 

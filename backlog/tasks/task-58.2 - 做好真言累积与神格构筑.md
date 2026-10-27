@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 08:14'
-updated_date: '2026-10-26 13:00'
+updated_date: '2026-10-27 04:15'
 labels:
   - required
   - sts1
@@ -18,7 +18,7 @@ references:
 documentation:
   - docs/rules/WATCHER_MANTRA.md
 parent_task_id: TASK-58
-priority: high
+priority: medium
 type: feature
 ordinal: 103000
 ---

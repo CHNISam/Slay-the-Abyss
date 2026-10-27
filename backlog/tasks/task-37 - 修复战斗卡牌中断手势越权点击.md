@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 10:40'
-updated_date: '2026-10-23 11:40'
+updated_date: '2026-10-27 04:15'
 labels:
   - ui
   - combat
@@ -17,7 +17,7 @@ references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/103'
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/68#issuecomment-6363058359'
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/105'
-priority: high
+priority: medium
 type: bug
 ordinal: 48000
 ---

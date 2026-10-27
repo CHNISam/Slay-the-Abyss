@@ -5,11 +5,12 @@ status: Blocked
 assignee:
   - Furinya
 created_date: '2026-10-26 07:01'
-updated_date: '2026-10-26 09:29'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
 dependencies: []
+priority: medium
 ordinal: 113000
 ---
 

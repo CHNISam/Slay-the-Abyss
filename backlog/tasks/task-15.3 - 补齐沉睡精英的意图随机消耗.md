@@ -5,13 +5,13 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-23 19:58'
-updated_date: '2026-10-23 20:24'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/132'
 parent_task_id: TASK-15
-priority: high
+priority: medium
 type: bug
 ordinal: 61000
 ---

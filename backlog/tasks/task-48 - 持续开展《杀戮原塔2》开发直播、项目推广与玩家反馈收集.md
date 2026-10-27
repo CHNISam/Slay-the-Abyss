@@ -4,7 +4,7 @@ title: 持续做开发直播、推广和收集反馈
 status: To Do
 assignee: []
 created_date: '2026-10-24 02:20'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 04:15'
 labels:
   - 直播
   - 推广
@@ -14,6 +14,7 @@ dependencies: []
 references:
   - docs/MILESTONES.md
   - docs/backlog-details/TASK-48.md
+priority: low
 type: task
 ordinal: 79000
 ---

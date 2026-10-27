@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 06:11'
-updated_date: '2026-10-26 12:06'
+updated_date: '2026-10-27 04:15'
 labels:
   - required
   - sts1
@@ -17,7 +17,7 @@ references:
     https://github.com/aeubanks/sts/tree/319009d5df0a82d9fb0f23cc22322286c6a87ec0
   - docs/BACKLOG-RECONCILE-20261026.md
 parent_task_id: TASK-59
-priority: high
+priority: medium
 type: feature
 ordinal: 96000
 ---

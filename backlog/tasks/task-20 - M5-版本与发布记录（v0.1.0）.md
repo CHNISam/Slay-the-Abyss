@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 07:01'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
@@ -14,6 +14,7 @@ dependencies:
 references:
   - docs/backlog-details/TASK-20.md
   - docs/DELIVERY-CLOSEOUT.md
+priority: medium
 ordinal: 20000
 ---
 

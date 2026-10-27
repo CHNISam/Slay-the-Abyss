@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-26 12:56'
+updated_date: '2026-10-27 04:20'
 due_date: '2026-10-28'
 labels:
   - awaiting-live
@@ -18,7 +18,7 @@ references:
   - docs/backlog-details/TASK-38.md
   - docs/DELIVERY-CLOSEOUT.md
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+priority: medium
 type: feature
 ordinal: 39000
 ---
@@ -26,7 +26,7 @@ ordinal: 39000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-确认手机只靠触屏就能完成游戏，文字看得清、按钮点得到，不需要鼠标或键盘。
+在实体手机上仅靠触屏完成全职业与全章节正式流程，包含换幕、选牌、钥匙、普通和真结局；逐项记录设备及同候选结果。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -36,6 +36,7 @@ ordinal: 39000
 - [ ] #3 常用手机屏幕下界面不出屏；拖牌受限时仍能用点选出牌。
 - [ ] #4 记录实测手机和操作结果，没通过的写清楚；预览不能代替手机实测。
 - [ ] #5 同一候选实测跨战斗首次点牌、旧触点、药水、奖励、弹窗和取消退出的真实事件派发；已完成本地手势切片不能代替手机验收。
+- [ ] #6 同一候选四职业及已批准原创角色的完整操作矩阵覆盖第一至隐藏第四幕、换幕与两种结局，未测角色或章节明确留待验，第一幕或编辑器预览不代替。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -52,4 +53,6 @@ P1手机横屏露底修复：基于最新develop，把共享canvasBackdrop改为
 2026-10-25用户明确选择本轮先只做离线验证，之后另约输入设备时间；因此本轮不做官方导入、设备预览、原生试玩、手机或性能实测。源码79244ee已推Draft PR207；2项背景几何回归（旧版真实失败）、9组尺寸与重复缩放、15项游戏宿主回归通过，完整check和存档副本仍在执行。
 
 候选79244ee已独立审计通过：65/65模块、2824控件/max60、静态0错35警告、四设备宿主/根/背景拉伸零增量。候选与报告见docs/evidence/mobile-fullbleed-20261025.json。完整npm check的JS1366项中1247通过/119环境跳过/0失败；Lua阶段发现同机M3 CI40174178038已在本地任务启动后开始，已停止自己的全量进程保留日志以恢复串行，不报本地完整通过。最终SHA完整CI仍必须完成；verify:ui实为6屏partial/5屏pending。
+
+2026-10-27同类范围审计：承接已批准四职业与第一至隐藏第四幕完整范围及原创角色责任，纠正仅第一幕总验收口径；原验收证据保留，本轮新增要求均未勾，不声称新增实机通过。
 <!-- SECTION:NOTES:END -->

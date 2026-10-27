@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-27 04:10'
+updated_date: '2026-10-27 04:15'
 labels:
   - required
   - sts1
@@ -23,7 +23,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
-priority: high
+priority: medium
 type: feature
 ---
 

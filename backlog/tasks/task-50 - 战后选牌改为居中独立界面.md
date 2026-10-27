@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 07:42'
-updated_date: '2026-10-26 12:56'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -19,7 +19,7 @@ references:
   - docs/DELIVERY-CLOSEOUT.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/169'
   - docs/BACKLOG-AUDIT-20261026.md
-priority: high
+priority: medium
 type: enhancement
 ordinal: 84000
 ---

@@ -4,7 +4,7 @@ title: 先试试两个人能不能合作玩
 status: To Do
 assignee: []
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 04:15'
 labels:
   - P2 optional coop
 dependencies:
@@ -13,7 +13,7 @@ references:
   - docs/SCOPE.md
   - docs/TOOLCHAIN.md
   - docs/backlog-details/TASK-33.md
-priority: medium
+priority: low
 type: spike
 ordinal: 45000
 ---

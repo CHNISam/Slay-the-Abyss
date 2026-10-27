@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 09:05'
-updated_date: '2026-10-26 12:06'
+updated_date: '2026-10-27 04:15'
 labels:
   - required
   - sts1
@@ -17,7 +17,7 @@ references:
 documentation:
   - docs/rules/DEFECT_ORB_POWERS.md
 parent_task_id: TASK-57
-priority: high
+priority: medium
 type: feature
 ordinal: 106000
 ---

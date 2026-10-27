@@ -4,7 +4,7 @@ title: 首发以后再评估国际服发行
 status: To Do
 assignee: []
 created_date: '2026-10-22 15:58'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 04:15'
 labels:
   - publishing
   - future
@@ -12,6 +12,7 @@ labels:
 dependencies: []
 references:
   - docs/backlog-details/TASK-26.md
+priority: low
 type: task
 ordinal: 28000
 ---

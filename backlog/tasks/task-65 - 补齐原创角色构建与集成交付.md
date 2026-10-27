@@ -5,12 +5,12 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 06:03'
-updated_date: '2026-10-26 06:44'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
 dependencies: []
-priority: high
+priority: medium
 type: feature
 ordinal: 112000
 ---

@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-25 06:11'
-updated_date: '2026-10-26 12:54'
+updated_date: '2026-10-27 04:15'
 labels:
   - required
   - sts1
@@ -19,7 +19,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/rules/WATCHER_FLOW_BUILD.md
 parent_task_id: TASK-58
-priority: high
+priority: medium
 type: feature
 ordinal: 99000
 ---

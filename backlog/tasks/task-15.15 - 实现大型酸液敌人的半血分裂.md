@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 06:32'
-updated_date: '2026-10-24 06:52'
+updated_date: '2026-10-27 04:15'
 labels: []
 milestone: m-4
 dependencies:
@@ -17,7 +17,7 @@ references:
   - docs/reviews/TASK-15.15-acid-slime-split.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/164'
 parent_task_id: TASK-15
-priority: high
+priority: medium
 type: bug
 ordinal: 83000
 ---

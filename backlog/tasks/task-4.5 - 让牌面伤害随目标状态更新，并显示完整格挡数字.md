@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-10-26 13:18'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-24'
 labels:
   - awaiting-live
@@ -16,7 +16,7 @@ references:
   - docs/M3-NUMERIC-LIVE-20261024.md
   - docs/BACKLOG-AUDIT-20261026.md
 parent_task_id: TASK-4
-priority: high
+priority: medium
 type: bug
 ordinal: 86000
 ---

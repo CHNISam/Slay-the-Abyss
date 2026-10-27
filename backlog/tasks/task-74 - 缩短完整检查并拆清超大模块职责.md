@@ -5,11 +5,12 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-26 16:37'
+updated_date: '2026-10-27 04:15'
 labels: []
 dependencies: []
 references:
   - docs/backlog-details/TASK-74.md
+priority: medium
 ordinal: 118000
 ---
 

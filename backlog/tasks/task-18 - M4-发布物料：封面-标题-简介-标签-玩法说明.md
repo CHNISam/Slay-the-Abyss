@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Codex'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-24 07:01'
+updated_date: '2026-10-27 04:20'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -13,6 +13,7 @@ dependencies: []
 references:
   - docs/backlog-details/TASK-18.md
   - docs/DELIVERY-CLOSEOUT.md
+priority: medium
 ordinal: 18000
 ---
 
@@ -28,4 +29,11 @@ ordinal: 18000
 - [ ] #2 标题、简介和标签齐全，符合发布要求。
 - [ ] #3 一页玩法说明讲清操作、规则和通关条件。
 - [ ] #4 实际打开发布和报名页面核对字段、图片要求和作品编号，留截图；这里只检查，不代你发布。
+- [ ] #5 最终物料对四职业、第一至隐藏第四幕和已批准原创角色的描述与该RC真实验收一致；不沿用仅第一幕介绍，也不把未实测或未开放内容宣传为已交付。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-27同类范围审计：承接已批准四职业与第一至隐藏第四幕完整范围及原创角色责任，纠正仅第一幕总验收口径；原验收证据保留，本轮新增要求均未勾，不声称新增实机通过。
+<!-- SECTION:NOTES:END -->

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-26 20:24'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - art
@@ -21,6 +21,7 @@ references:
   - docs/backlog-details/TASK-25.2.md
   - docs/DELIVERY-CLOSEOUT.md
 parent_task_id: TASK-25
+priority: medium
 type: task
 ordinal: 31000
 ---

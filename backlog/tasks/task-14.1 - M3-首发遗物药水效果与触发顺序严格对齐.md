@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 04:10'
+updated_date: '2026-10-27 04:21'
 due_date: '2026-10-28'
 labels:
   - required
@@ -104,4 +104,6 @@ ordinal: 42000
 2026-10-27事件Fairy8组已在集成树独立复验，含Bark/Bloom、物理槽、陈旧战斗隔离、后续缺遗物导致的HP/瓶/RNG/owner完整回滚；鲜血治疗22组与实际缺牌/升级奖励2组通过。当前PR234完整门禁仍待新SHA结果，不将专项当全池组合或实机。
 
 2026-10-27最新合并回归核对：PR238远端仍a4dac772、草稿且冲突，未合并；fc51f198同步尚未提交。最后定向结果inventory_restore失败13.626秒（750 ~= 738），tungsten_rod_channels失败1.045秒（smiling_mask ~= tungsten_rod）；toxic_egg_profiles通过1.996秒、relic_top_bridge通过2.890秒。先按真实恢复/自然获取路径诊断，不删断言、缩池或升预算。证据根build/pr238-resume-20261027-091929/fc51-final-focused.json及同目录fc51-final-*.log。不得沿用同步前成功认证本次合并，全池与平台AC继续未勾。
+
+2026-10-27优先级重排：High：当前PR238库存恢复与道具正常来源回归失败，直接阻塞整合收口。 解除后移出High再提升下一项；不放宽原验收。
 <!-- SECTION:NOTES:END -->

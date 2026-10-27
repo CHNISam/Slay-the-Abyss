@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-26 15:39'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -25,7 +25,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
 parent_task_id: TASK-13.1
-priority: high
+priority: medium
 ordinal: 54000
 ---
 

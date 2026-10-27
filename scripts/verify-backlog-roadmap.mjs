@@ -13,8 +13,43 @@ export function readTaskHeader(source) {
     const block = header.match(new RegExp(`^${key}:[ \\t]*\\r?\\n((?:[ \\t]+-[^\\r\\n]*\\r?\\n?)+)`, 'm'));
     return [...(block?.[1] ?? '').matchAll(/^[ \t]+-[ \t]+(.+)$/gm)].map(m => m[1].trim().replace(/^['"]|['"]$/g, ''));
   };
-  return { id: scalar('id'), status: scalar('status'), milestone: scalar('milestone'),
+  return { id: scalar('id'), status: scalar('status'), priority: scalar('priority'), milestone: scalar('milestone'),
     parentTaskId: scalar('parent_task_id'), assignees: list('assignee'), labels: list('labels') };
+}
+
+// Priority describes the current queue, not whether a launch requirement matters.
+// Historical completed/ records are deliberately not reclassified.
+export function auditPriorities(tasks) {
+  const errors = [], high = [];
+  for (const task of tasks) {
+    if (!['high', 'medium', 'low'].includes(task.priority)) errors.push(`${task.id}: 缺少有效优先级（high/medium/low）`);
+    if (task.priority !== 'high') continue;
+    if (task.status === 'Done') errors.push(`${task.id}: 已完成任务不应占用当前 High 队列`);
+    else high.push(task.id);
+  }
+  if (high.length > 5) errors.push(`未完成 High 任务 ${high.length} 项，超过5项上限：${high.join('、')}；请按依赖重新排序`);
+  return errors;
+}
+
+export function auditMilestoneScope(titles) {
+  const contracts = [
+    { stage: 'M3', required: ['四职业', '第一至隐藏第四幕'] },
+    { stage: 'M4', required: ['全职业', '全章节'] },
+  ];
+  return contracts.flatMap(({ stage, required }) => {
+    const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
+    return matches.length === 1 && required.every(part => matches[0].includes(part)) ? []
+      : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不能退回仅第一幕或缺少该关口`];
+  });
+}
+
+export function verifyMilestoneScope(root = '.') {
+  const directory = join(root, 'backlog/milestones');
+  const titles = readdirSync(directory).filter(name => name.endsWith('.md')).map(name => {
+    const source = readFileSync(join(directory, name), 'utf8');
+    return source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
+  });
+  return auditMilestoneScope(titles);
 }
 
 // Match Backlog's identity comparison, not a task-ID format requirement.
@@ -74,10 +109,10 @@ export function verifyBacklogRoadmap(root = '.') {
     const stage = title.match(/^(M[1-6])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
-  return auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed);
+  return [...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed), ...auditPriorities(tasks)];
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const errors = verifyBacklogRoadmap();
+  const errors = [...verifyBacklogRoadmap(), ...verifyMilestoneScope()];
   if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
-  else console.log('活动及已完成任务编号唯一；未完成首发任务的里程碑、排期和负责人检查通过；不认证平台或实机。');
+  else console.log('任务编号、首发排期、负责人及M3/M4完整范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证平台或实机。');
 }

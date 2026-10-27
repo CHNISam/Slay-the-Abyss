@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 04:10'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -21,7 +21,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
-priority: high
+priority: medium
 type: task
 ordinal: 75000
 ---
@@ -66,6 +66,8 @@ ordinal: 75000
 接手后先修复变异检查的精确选例；保留15秒与120秒预算及全部断言，正常Lua仍全跑。专项与四个真实变异通过后按当前SHA重新CI、原生合并并释放，再移交清理旧树。附件增量随后另行合法登记。
 
 在当前已批准的effects和gremlin_gang文件范围内修复正式房间Protect错用LCG的组合缺陷；先验证AI计数及下一次roll的独立预期，再最小改接现有EnemyRandom适配器，保留legacy ABI。新增生产改动后原RC只作旧版本证据，最终SHA统一CI。
+
+2026-10-27优先级治理：逐项读取当前任务，按当前M3依赖与已知PR238阻塞重排；High聚焦14.1/16.1/59/62四项，其余首发Medium，独立可选Low，已完成记录Medium。补现有verify:backlog门禁：当前任务目录不允许空/非法优先级，未完成High最多5项；历史completed目录不追溯。同步根GUI可见任务，验证分布、业务元数据不变及门禁正反例，同PR241交付。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

@@ -4,7 +4,7 @@ title: 成就系统：等账号权限具备后再做
 status: Blocked
 assignee: []
 created_date: '2026-10-24 01:10'
-updated_date: '2026-10-24 03:15'
+updated_date: '2026-10-27 04:15'
 labels:
   - P1
   - post-release
@@ -15,7 +15,7 @@ references:
   - docs/TOOLCHAIN.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/147'
   - docs/backlog-details/TASK-45.md
-priority: medium
+priority: low
 type: feature
 ordinal: 73000
 ---

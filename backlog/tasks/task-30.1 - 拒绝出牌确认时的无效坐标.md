@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@dot'
 created_date: '2026-10-24 14:10'
-updated_date: '2026-10-24 15:28'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - required
@@ -16,7 +16,7 @@ references:
     https://github.com/CHNISam/Slay-the-Abyss/pull/183#pullrequestreview-5638534554
   - docs/reviews/TASK-30.1-play-area-coordinates.md
 parent_task_id: TASK-30
-priority: high
+priority: medium
 type: bug
 ordinal: 90000
 ---
