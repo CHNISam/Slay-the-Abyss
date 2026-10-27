@@ -14,6 +14,7 @@ local RoomEncounters = require("abyss_room_encounters")
 local CardRandom = require("abyss_card_random")
 local RelicPool = require('abyss_relic_pool')
 local RelicRewards=require('abyss_relic_rewards')
+local EventCombat=require('abyss_event_combat')
 local RelicHooks = require('abyss_relic_hooks')
 local Acts = require('abyss_acts')
 local M = {}
@@ -438,7 +439,10 @@ local function startEncounter(run, encounter, sourceRoom)
     end
     if sourceRoom then
         options.roomSeed,options.roomStreams=sourceRoom.seed,sourceRoom
-        if encounter.sourceEncounter then
+        if sourceRoom.preparedEncounter then
+            options.enemies,options.sourceEncounter=nil,nil
+            options.preparedEncounter=sourceRoom.preparedEncounter
+        elseif encounter.sourceEncounter then
             options.enemies=nil;options.sourceEncounter=encounter.sourceEncounter
             options.encounterBoundary={
                 misc={boolean=function()return EventRandom.randomBoolean(sourceRoom.miscRng)end,
@@ -461,6 +465,7 @@ local function startEncounter(run, encounter, sourceRoom)
     run.encounterSource,battle.encounterSource=encounter.source,encounter.source
     if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
+    run.eventCombat = nil
     run.pendingCombatRewards = nil
     return true
 end
@@ -476,6 +481,16 @@ function M.roomStreams(run,floor)
     return {seed=seed,monsterHpRng=EventRandom.fromSeed(seed),aiRng=EventRandom.fromSeed(seed),
         shuffleRng=EventRandom.fromSeed(seed),cardRandomRng=EventRandom.fromSeed(seed),
         miscRng=EventRandom.fromSeed(seed),visualRng=EventRandom.fromSeed(seed)}
+end
+
+function M.prepareEventEncounter(run,source,floor,misc)
+    return EventCombat.prepare(run,source,floor,M.roomStreams,misc)
+end
+
+function M.startEventCombat(run)
+    return M.transaction(run,function(staged)
+        return EventCombat.start(staged,staged.nodeFlow,M,startEncounter)
+    end)
 end
 
 function M.startRoomCombat(run,tier)
@@ -529,7 +544,7 @@ function M.startRoomCombat(run,tier)
     if not called then return false,'combat_unavailable' end
     if not ok then return false,reason end
     staged.miscRng=room.miscRng
-    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng','relicCounters'})do run[key]=staged[key]end
+    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng','relicCounters','eventCombat'})do run[key]=staged[key]end
     if nextQueue then run.encounters=nextQueue end
     run.roomGeneration=run.roomGeneration+1
     run.pendingCombatRewards=nil
@@ -564,6 +579,14 @@ function M.restoreEncounters(run,snapshot)
     return true
 end
 
+local function combatEndHealing(run)
+    for _,id in ipairs(run.relics)do
+        local relic=find(run.data.relics.relics,id)
+        if relic and relic.trigger=='combat_end'then
+            for _,effect in ipairs(relic.effects)do if effect.op=='heal'then M.heal(run,effect.value)end end
+        end
+    end
+end
 local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
@@ -583,13 +606,11 @@ local function finishCombat(run)
         return true
     end
     -- Combat-end relics apply once, before the reward transaction is offered.
-    for _, id in ipairs(run.relics) do
-        local relic = find(run.data.relics.relics, id)
-        if relic and relic.trigger == "combat_end" then
-            for _, effect in ipairs(relic.effects) do
-                if effect.op == "heal" then run.hp = math.min(run.maxHp, run.hp + effect.value) end
-            end
-        end
+    combatEndHealing(run)
+    if run.eventCombat then
+        local rewards,why=EventCombat.finish(run);if not rewards then return false,why end
+        run.rewards,run.phase=rewards,'reward';run.victories=run.victories+1
+        return true
     end
     local gold, goldStream, nextGoldRng
     if run.combat.roomSeed then
@@ -648,7 +669,7 @@ local function applyPermanentChanges(run)
     if run.phase=='combat' and battle.miscRng then run.miscRng=EventRandom.cloneState(battle.miscRng)end
     if run.phase=='combat' and battle.cardRng then run.cardRng=EventRandom.cloneState(battle.cardRng)end
 end
-function M.finishCombat(run)
+local function finishCombatTransaction(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     if not run.combat.roomSeed then
         local ok,reason=finishCombat(run);if ok then applyPermanentChanges(run)end;return ok,reason
@@ -664,6 +685,15 @@ function M.finishCombat(run)
     for key in pairs(run) do run[key] = staged[key] end
     for key, value in pairs(staged) do run[key] = value end
     return true
+end
+
+function M.finishCombat(run)
+    if run.phase~='combat'then return false,'not_in_combat'end
+    local restore=require('abyss_snapshot').capture(run)
+    local called,ok,reason=pcall(finishCombatTransaction,run)
+    if not called then restore();error(ok,0)end
+    if not ok then restore()end
+    return ok,reason
 end
 
 function M.rewardOptions(run)
@@ -1120,6 +1150,16 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     end
     if battle.smoked then
         battle.phase='escaped'
+        if candidate.eventCombat then
+            if battle.miscRng then candidate.miscRng=EventRandom.cloneState(battle.miscRng)end
+            if battle.cardRng then candidate.cardRng=EventRandom.cloneState(battle.cardRng)end
+            candidate.shopRng=candidate.shopRng and Combat.copy(candidate.shopRng)
+            local called,accepted=pcall(function()
+                combatEndHealing(candidate)
+                return EventCombat.escape(candidate)
+            end)
+            if not called or not accepted then return false,'potion_effect_failed'end
+        end
         candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil
         candidate.lastResult={outcome='escaped',turn=battle.turn,encounterId=run.encounterId}
     end
@@ -1135,6 +1175,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     for key in pairs(root) do root[key] = nil end
     for key, value in pairs(battle) do root[key] = value end
     candidate.combat = root
+    run.eventCombat,run.rewards,run.pendingCombatRewards=candidate.eventCombat,candidate.rewards,candidate.pendingCombatRewards
     for key, value in pairs(candidate) do run[key] = value end
     return true
 end

@@ -144,20 +144,20 @@ local function validatePrepared(prepared,options)
  assert(type(prepared.actors)=='table'and #prepared.actors>0,'empty prepared encounter')
  assert(type(prepared.actorIds)=='table'and #prepared.actorIds==#prepared.actors,'prepared actor identities missing')
 end
-local function adoptAdditions(catalog,additions)
+local function adoptAdditions(catalog,preparedAdditions)
  for _,kind in ipairs({'cards','enemies','statuses'})do
-  for id,definition in pairs(additions[kind]or {})do
+  for id,definition in pairs(preparedAdditions[kind]or {})do
    assert(not catalog[kind][id],'prepared constructor definition conflicts with current catalog')
    catalog[kind][id]=Copy(definition)
   end
  end
 end
-local function validateActor(state,actor,index,prepared)
+local function validateActor(state,actor,actorIndex,prepared)
  assert(state.catalog.enemies[actor.definitionId],'prepared enemy definition missing')
- assert(actor.definitionId==prepared.actorIds[index],'prepared actor identity mismatch')
- assert(actor.id==actor.definitionId..'_'..index and actor.hp==actor.maxHp and actor.hp>0,'invalid prepared enemy identity or HP')
+ assert(actor.definitionId==prepared.actorIds[actorIndex],'prepared actor identity mismatch')
+ assert(actor.id==actor.definitionId..'_'..actorIndex and actor.hp==actor.maxHp and actor.hp>0,'invalid prepared enemy identity or HP')
  assert(actor.block==0 and actor.intentIndex==1 and type(actor.statuses)=='table'and next(actor.statuses)==nil,'prepared actor already initialized')
- if prepared.enemyIds then assert(actor.definitionId==prepared.enemyIds[index],'prepared actor source mismatch')end
+ if prepared.enemyIds then assert(actor.definitionId==prepared.enemyIds[actorIndex],'prepared actor source mismatch')end
  Actors.bindStatuses(actor,state.catalog.statuses)
 end
 function M.adopt(state,options)

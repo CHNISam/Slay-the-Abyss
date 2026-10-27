@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-27 15:53'
+updated_date: '2026-10-27 17:03'
 labels:
   - required
   - sts1
@@ -59,4 +59,6 @@ type: feature
 2026-10-27 独立源码增量候选补Awakened One两阶段、Writhing Mass、Giant Head：真实0HP半死/复活与非目标选择连续性、源AI/RNG/Reactive与永久Parasite取得、Slow实际卡实例afterUse时点及Java浮点次序均有固定319009d5来源和独立审查。补通用Run.play完整事务边界，晚期奖励抛错或拒绝恢复原始对象/RNG/永久牌并可重试。五叶合并保留现有三职业内容、Ghosts和源码公告，87项Node与177组既有Lua回归通过；178模块/1050边、Luacheck89历史警告0新增、构建/数据/UI主题门禁通过。此候选未包含下一批Time Eater/Nemesis/Reptomancer/Darklings，不宣称全第三幕/全M3/自然四职业四幕或原生验收；整项AC不关闭，当前新PR完整Quality待证。
 
 本轮Codex并行分工：MindBloom模块、MysteriousSphere模块、终幕资格审计/历史owner独立树推进；共享Run/Nodes/Act3Events/EventPool/遗物配置由主线程集成，任务库串行CLI更新。用户正在自行试玩，全部执行者禁用桌面输入。事件战斗仍是EventRoom：源金币与稀有遗物在选择时准备，通用药水和卡牌在战后按原顺序执行；不冒用Boss终局或缩池。
+
+2026-10-28 真实第三幕事件桥已接MindBloom/Sphere、预构造敌人、EventRoom固定金币/RARE与药水→卡牌奖励、烟雾弹结束结算、Mark共享及Run/Nodes治疗。独立审查发现跨房间旧owner残留、永久牌同步晚失败泄露和逃跑nil未发布，均有真实RED→GREEN；扩展桥12.350秒通过，来源桥7/7及相邻印记/历史/第三幕12/12通过，198模块1148边、84历史零新增/358度量。详细证据见docs/reviews/M3-EVENT-COMBAT-INTEGRATION-20261028.md。组件已挑入当前独立集成树；完整当前SHA CI和PR尚待收口，未新导入/实机/自然四职业通过，不关闭AC或M3。
 <!-- SECTION:NOTES:END -->
