@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, readFileSync, mkdirSync, linkSync, symlinkSync, rmSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
+import { loadReleaseNotes, notesSha256, gitSourceIdentity } from '../scripts/release-notes.mjs';
+import { toLua } from '../scripts/build-lua-data.mjs';
 
 const script = new URL('../scripts/build-native-candidate.mjs', import.meta.url);
 
@@ -17,7 +20,7 @@ async function fixture(t, overrides = {}) {
   writeFileSync(join(root,'base.gil'),'ORIGINAL');
   const output=join(root,'output'); mkdirSync(output);
   const names=[],sources=new Map(),calls=[]; let workspace;
-  const {scriptContent,existingScripts=[],graphs=[],signals=[],...checkOverrides}=overrides;
+  const {scriptContent,existingScripts=[],graphs=[],signals=[],prepareGenerated,...checkOverrides}=overrides;
   const client={async readResource(){return {contents:[]};},async callTool({name,arguments:args}) {
     calls.push({name,args});
     let data={};
@@ -33,7 +36,7 @@ async function fixture(t, overrides = {}) {
     return {structuredContent:data};
   }};
   // The fake SDK has no native process; filesystem and manifest checks stay real.
-  const prepare=dir=>{workspace=dirname(dir);names.length=0;writeFileSync(join(dir,'game-ui.json'),'{"controls":[]}');writeFileSync(join(dir,'game-ui-templates.json'),'[]');};
+  const prepare=dir=>{workspace=dirname(dir);names.length=0;writeFileSync(join(dir,'game-ui.json'),'{"controls":[]}');writeFileSync(join(dir,'game-ui-templates.json'),'[]');prepareGenerated?.(dir);};
   return {root,output,calls,run:extra=>mod.buildNativeCandidate({root,baseMap:join(root,'base.gil'),output,client,prepare,
     generatedModules:{},sourceCommit:'f'.repeat(40),...extra})};
 }
@@ -130,3 +133,44 @@ for(const [label,override] of [['empty',{checked:[]}],['missing',{checked:['othe
     assert.equal(existsSync(join(f.output,'candidate.json')),false);
   });
 }
+
+async function releaseFixture(t, stale = false, mutate = () => {}) {
+  let root;
+  const f=await fixture(t,{prepareGenerated:dir=>{
+    const notes=loadReleaseNotes({root,releaseCandidate:true});
+    writeFileSync(join(dir,'abyss_narrative.lua'),stale?'return {}':`return {["releaseNotes"]=${toLua(notes)}}`);
+    mutate(root);
+  }});
+  root=f.root;mkdirSync(join(root,'data/release'));
+  writeFileSync(join(root,'package.json'),'{"version":"0.1.1"}');
+  writeFileSync(join(root,'package-lock.json'),'{"version":"0.1.1","packages":{"":{"version":"0.1.1"}}}');
+  writeFileSync(join(root,'.release-please-manifest.json'),'{".":"0.1.1"}');
+  writeFileSync(join(root,'CHANGELOG.md'),'## 0.1.1 (2026-10-27)\n\n### 新增\n\n* 随候选打包的版本说明。\n');
+  writeFileSync(join(root,'data/release/publications.json'),'{"schemaVersion":1,"releases":[]}');
+  writeFileSync(join(root,'.gitignore'),'output/\n');
+  for(const args of [['init','-q'],['add','.'],['-c','user.name=Release Fixture','-c','user.email=fixture@example.invalid','commit','-qm','fixture']]) {
+    const git=spawnSync('git',args,{cwd:root,encoding:'utf8'});assert.equal(git.status,0,git.stderr);
+  }
+  return {...f,run:extra=>f.run({sourceCommit:gitSourceIdentity(root).sourceCommit,
+    generatedModules:{abyss_narrative:'scripts/build-ui.mjs'},releaseCandidate:true,...extra})};
+}
+test('explicit frozen native candidate packages exact notes and binds version/source/notes hash without publication',async t=>{
+  const f=await releaseFixture(t),receipt=await f.run();
+  const notes=loadReleaseNotes({root:f.root,releaseCandidate:true});
+  assert.deepEqual(receipt.release,{version:'v0.1.1',workKey:'alpha-test',notesSha256:notesSha256(notes.currentNotice)});
+  assert.equal(receipt.sourceDirty,false);assert.equal(receipt.sourceCommit,notes.build.sourceCommit);
+  assert(receipt.checkedModules.includes('abyss_narrative'));
+  assert.deepEqual(JSON.parse(readFileSync(join(f.root,'data/release/publications.json'))).releases,[]);
+});
+test('stale or omitted native narrative cannot claim frozen release provenance',async t=>{
+  const stale=await releaseFixture(t,true);await assert.rejects(stale.run(),/Bundled release notes differ/);
+  const omitted=await releaseFixture(t);await assert.rejects(omitted.run({generatedModules:{}}),/must package.*narrative/);
+});
+test('frozen native candidate rejects dirty source and misleading source SHA',async t=>{
+  const f=await releaseFixture(t);
+  await assert.rejects(f.run({sourceCommit:'f'.repeat(40)}),/differs from checkout/);
+  writeFileSync(join(f.root,'data/input.json'),'{"dirty":true}');
+  await assert.rejects(f.run(),/clean source checkout/);
+  const concurrent=await releaseFixture(t,false,root=>writeFileSync(join(root,'untracked.txt'),'late change'));
+  await assert.rejects(concurrent.run(),/source identity changed during packaging/);
+});

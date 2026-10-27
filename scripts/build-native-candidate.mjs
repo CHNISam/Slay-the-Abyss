@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, mkdirSync, writeFileSync, copyFileSync, constants } from 'node:fs';
+import { readFileSync, readdirSync, mkdirSync, writeFileSync, copyFileSync, constants, existsSync } from 'node:fs';
 import { resolve, join, basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { randomUUID } from 'node:crypto';
@@ -7,6 +7,8 @@ import { fileRecord, inside, sha256, writeExclusive, prepareOutputDirectory } fr
 import { requireStartupEvidence } from './native-playtest-evidence.mjs';
 import { settlementGraphSource } from './settlement-graph.mjs';
 import { nativeUiVariables } from './native-candidate-scripts.mjs';
+import { loadReleaseNotes, notesSha256, gitSourceIdentity, releaseBuildArgs } from './release-notes.mjs';
+import { toLua } from './build-lua-data.mjs';
 
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
@@ -24,14 +26,16 @@ export function sourceInputs(root) {
   for(const dir of ['src/lua','data','scripts']) {
     try{walk(dir);}catch(error){if(error.code!=='ENOENT')throw error;}
   }
-  for(const file of ['package.json','package-lock.json','tools/render_traveler_cards.py','config/architecture.json']) {
+  for(const file of ['package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json',
+    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json']) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
   return files.sort().map(path=>{const {sha256,bytes}=fileRecord(join(root,path),root);return {path,sha256,bytes};});
 }
 export const payloadDigest = inputs => sha256(JSON.stringify(inputs));
-function prepareBuild(root, directory) {
-  for(const args of [['scripts/build-lua-data.mjs','data',join(directory,'abyss_data.lua')],['scripts/build-ui.mjs',directory]]) {
+function prepareBuild(root, directory, {releaseCandidate,workKey}) {
+  for(const args of [['scripts/build-lua-data.mjs','data',join(directory,'abyss_data.lua')],
+    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(releaseCandidate?['--release-candidate']:[])]]) {
     const result=spawnSync(process.execPath,args,{cwd:root,encoding:'utf8',timeout:60000,maxBuffer:4*1024*1024});
     if(result.error || result.status!==0)throw new Error(`Rebuild failed: ${result.error?.message || result.stderr}`);
   }
@@ -41,7 +45,8 @@ function checkTree(control) {
   for(const child of control.children??[])checkTree(child);
 }
 export async function buildNativeCandidate({baseMap,output='build/candidates',root=process.cwd(),client,createClient,
-  prepare=dir=>prepareBuild(root,dir),generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog}={}) {
+  prepare,generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog,
+  releaseCandidate=false,workKey='alpha-test'}={}) {
   root=resolve(root); const base=fileRecord(resolve(baseMap));
   const outputRoot=prepareOutputDirectory(root,output);
   const buildId=randomUUID(),workspace=join(outputRoot,buildId); mkdirSync(workspace); inside(root,workspace);
@@ -53,6 +58,14 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
   const receipt={schemaVersion:1,buildId,sourceCommit,sourceDirty:dirtyResult.status===0?Boolean(dirtyResult.stdout.trim()):null,
     payloadDigest:digest,startedAt:new Date().toISOString(),mcpVersion,inputs,baseMap:base,outputs:[],
     liveWriteEnabled:false,statuses:{staticCheck:'not_run',officialImport:'not_run',playtest:'not_run'}};
+  let releaseNotes;
+  if(releaseCandidate || existsSync(join(root,'package.json'))) {
+    if(releaseCandidate && !Object.hasOwn(generatedModules,'abyss_narrative'))throw new Error('Release candidate must package the generated narrative module');
+    if(releaseCandidate && gitSourceIdentity(root).sourceCommit!==sourceCommit)throw new Error('Release candidate source commit differs from checkout');
+    releaseNotes=loadReleaseNotes({root,releaseCandidate,workKey,sourceIdentity:receipt});
+    receipt.release={version:releaseNotes.build.version,workKey,
+      ...(releaseNotes.currentNotice?{notesSha256:notesSha256(releaseNotes.currentNotice)}:{})};
+  }
   let mapPath=join(workspace,'base.gil');copyFileSync(base.path,mapPath,constants.COPYFILE_EXCL);
   let sequence=0;
   async function call(name,args) {
@@ -65,7 +78,9 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     return data;
   }
   try {
-    prepare(generated);
+    if(prepare)prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey});
+    if(releaseCandidate && !readFileSync(join(generated,'abyss_narrative.lua'),'utf8')
+      .includes(`["releaseNotes"]=${toLua(releaseNotes)}`))throw new Error('Bundled release notes differ from candidate provenance');
     const layout=JSON.parse(readFileSync(join(generated,'game-ui.json'),'utf8'));
     const templates=JSON.parse(readFileSync(join(generated,'game-ui-templates.json'),'utf8'));
     layout.controls.forEach(checkTree);templates.forEach(checkTree);
@@ -136,6 +151,10 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     receipt.moduleDigests=moduleDigests;
     receipt.checkedModules=names;receipt.warnings={count:checked.warnings,problems:checked.problems??[],review:'not_run'};
     if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during packaging');
+    if(releaseCandidate) {
+      const identity=gitSourceIdentity(root);
+      if(identity.sourceCommit!==sourceCommit||identity.sourceDirty!==false)throw new Error('Release candidate source identity changed during packaging');
+    }
     const finalMap=join(workspace,'candidate.gil');copyFileSync(mapPath,finalMap,constants.COPYFILE_EXCL);mapPath=finalMap;
     receipt.mapPath=mapPath;receipt.candidate=fileRecord(mapPath,workspace);receipt.outputs.push(receipt.candidate,fileRecord(join(generated,'game-ui.json')),fileRecord(join(generated,'game-ui-templates.json')));
     receipt.statuses.staticCheck='pass';receipt.completedAt=new Date().toISOString();receipt.receiptPath=join(workspace,'candidate.json');
@@ -154,18 +173,24 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
   } finally { await client?.close?.(); }
 }
 
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
-  try {
-    const [baseMap,output,mode]=process.argv.slice(2);if(!baseMap)throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory] [--playtest]');
+export async function buildNativeCandidateFromToolchain(options) {
     const toolRoot=process.env.MILIASTRA_MCP_ROOT||'D:/MiliastraTools/genshin-miliastra-mcp';
     const sdk=join(toolRoot,'node_modules/@modelcontextprotocol/sdk/dist/esm/client');
     const {Client}=await import(pathToFileURL(join(sdk,'index.js'))),{StdioClientTransport}=await import(pathToFileURL(join(sdk,'stdio.js')));
     const {inspectDebugLog}=await import(pathToFileURL(join(toolRoot,'src/debug-log.mjs')));
-    const receipt=await buildNativeCandidate({baseMap,output,playtest:mode==='--playtest',
+    return buildNativeCandidate({...options,
       mcpVersion:JSON.parse(readFileSync(join(toolRoot,'package.json'),'utf8')).version,
       decodeLog:bytes=>inspectDebugLog(bytes,{limit:100000}),
       createClient:async workspace=>{const client=new Client({name:'abyss-native-candidate',version:'2.0'});
         await client.connect(new StdioClientTransport({command:process.execPath,args:[join(toolRoot,'src/server.mjs')],env:{...process.env,MILIASTRA_WORKSPACE:workspace,MILIASTRA_ALLOW_LIVE_WRITE:'0'}}));return client;}});
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
+  try {
+    const args=process.argv.slice(2),playtest=args.includes('--playtest');
+    const {paths,options}=releaseBuildArgs(args.filter(arg=>arg!=='--playtest'));
+    const [baseMap,output]=paths;
+    if(!baseMap||paths.length>2)throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory] [--playtest] [--release-candidate] [--work-key=alpha-test]');
+    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options});
     console.log(`Candidate receipt: ${receipt.receiptPath}\nStatic check passed. Official import/gameplay require separate evidence.`);
   }catch(error){console.error(error.message);process.exitCode=1;}
 }

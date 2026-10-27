@@ -1,23 +1,18 @@
 # TASK-20 开发附件
 
-任务首页只保留好理解的目标。下面保存原始技术要求、执行方案和已有证据；这些要求继续有效，开发时须一并遵守。
+## 当前约定
 
+2026-10-27 用户要求补齐轻量版本管理与原生更新公告。原先“正式首发 v0.1.0”约定已被替代：Alpha 使用无后缀 `0.x.x`，未来正式参赛首发目标为 `v1.0.0`。当前代码字段 `0.1.0` 不代表已核实发布，历史 Alpha 不补造版本。
 
-## Description
+使用 `CHNISam/agent-skills` 的 release-please / git-workflow，保留现有 develop/master 分工。Release Please 仅手动产生版本提案与 CHANGELOG，不因日常合并创建 Tag、GitHub Release 或发布游戏。版本事实、静态公告时间边界、下一次 Alpha 与正式首发步骤统一见 [发布操作单](../PUBLISHING.md#版本与公告2026-10-27-起)。
 
-<!-- SECTION:DESCRIPTION:BEGIN -->
-首次真实发布打 v0.1.0 tag 并写简洁 CHANGELOG；tag 对应已验收提交，不与 milestone 一一绑定，不被 release-please 配置阻塞。
-<!-- SECTION:DESCRIPTION:END -->
+## 实现与验收范围
 
-## Acceptance Criteria
-<!-- AC:BEGIN -->
-- [ ] #1 v0.1.0 tag 打在已验收的发布提交上
-- [ ] #2 CHANGELOG 简洁，遵循 Conventional Commits
-- [ ] #3 不创建无意义的 Alpha/RC 中间版本
-<!-- AC:END -->
+- 主菜单常驻「更新公告」，打开默认最新已确认发布，支持历史切换、关闭和返回。暂无记录时明确空状态；随构建的未发布说明不伪装成历史。
+- 复用 Lua 原生 UI、主题和现有构建。公告正文来自 CHANGELOG，真实历史由 `data/release/publications.json` 凭证关联；不增加联网接口、数据库、存档、已读状态、小红点或自动弹窗。
+- 测试版本一致性、空记录、历史切换、关闭/返回、输入隔离和更新数据后的构建结果；当前 PR 完整 Quality 成功后集成。离线测试与平台原生实测分开报告。
+- 本轮不修改战斗、地图、存档或 master，不向平台发布或报名，不建立重复任务。
 
-## Implementation Notes
+## 发布收口仍待真实证据
 
-<!-- SECTION:NOTES:BEGIN -->
-依docs/PUBLISHING.md：实际成功投稿之后再打已验收版本tag/CHANGELOG。M5以TASK-6成功凭证+本任务记录齐全收口。
-<!-- SECTION:NOTES:END -->
+TASK-6 依赖保留用于正式投稿凭证，不阻塞本轮已授权的离线工具和公告实现。实际发布验收项保持未完成，直到用户完成发布并取得作品/投稿成功证据。届时版本号、交付提交、构建 hash、说明与作品身份必须一致，注释 Tag 指向已验收的原交付提交，不指向事后凭证提交；发布后不移动 Tag、不复用版本号。

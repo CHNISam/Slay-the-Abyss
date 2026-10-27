@@ -17,6 +17,8 @@ function fixture(action, cli = false) {
     // Every case owns fresh mutable data/output. Only CLI cases need a script
     // tree; the in-process cases use the real already-imported production code.
     cpSync(resolve('data'), join(root, 'data'), { recursive: true });
+    for (const file of ['package.json', 'package-lock.json', '.release-please-manifest.json', 'CHANGELOG.md'])
+      copyFileSync(resolve(file), join(root, file));
     if (cli) cpSync(resolve('scripts'), join(root, 'scripts'), { recursive: true });
     mkdirSync(join(root, 'tools'));
     copyFileSync(resolve('tools/render_traveler_cards.py'), join(root, 'tools/render_traveler_cards.py'));
@@ -91,6 +93,8 @@ test('UI rejection preserves existing outputs when the final batch target aliase
 test('UI CLI protects the imported module-relative theme when working in a different data directory', () => cliFixture(root => {
   const cwd = join(root, 'other');
   mkdirSync(cwd); cpSync(join(root, 'data'), join(cwd, 'data'), { recursive: true });
+  for (const file of ['package.json', 'package-lock.json', '.release-please-manifest.json', 'CHANGELOG.md'])
+    copyFileSync(join(root, file), join(cwd, file));
   cpSync(join(root, 'tools'), join(cwd, 'tools'), { recursive: true }); mkdirSync(join(cwd, 'out'));
   const input = join(root, 'data/presentation/ui_theme.json');
   const before = readFileSync(input);

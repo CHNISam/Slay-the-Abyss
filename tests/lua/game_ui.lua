@@ -472,9 +472,25 @@ test("startup failure is visible without log subscription and hides the dead sta
     local menu = stage:GetChild("menuPanel")
     assert(menu.visible and menu:GetChild("summary").text:match("INJECTED_STARTUP_FAILURE"))
     assert(not menu:GetChild("start").visible and script.updating == false)
+    assert(not menu:GetChild('releaseNotes').visible and not menu:GetChild('codeVersion').visible)
+    assert(not stage:GetChild('releaseNotesPanel').visible)
     assert(not stage:GetChild("mapPanel").visible and not stage:GetChild("battlePanel").visible)
     OnStart() OnUpdate(0.1)
     GameUI.new = originalNew
+    -- A stale/mismatched imported tree must still show the startup diagnostic,
+    -- even though the newly required notice panel and menu controls are absent.
+    local stale = control({ children = Layout })
+    local staleStage = stale:GetChild('stage')
+    staleStage.children.releaseNotesPanel = nil
+    staleStage:GetChild('menuPanel').children.releaseNotes = nil
+    staleStage:GetChild('menuPanel').children.codeVersion = nil
+    script = {object=stale, EnableUpdate=function(self,value) self.updating=value end}
+    dofile('src/lua/abyss_ui.lua')
+    OnStart()
+    local staleMenu = staleStage:GetChild('menuPanel')
+    assert(staleMenu.visible and staleMenu:GetChild('summary').visible)
+    assert(staleMenu:GetChild('summary').text:match('missing game panel releaseNotesPanel'))
+    assert(not staleMenu:GetChild('start').visible and script.updating == false)
     script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)
 

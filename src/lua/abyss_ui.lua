@@ -9,7 +9,7 @@ local function failed(phase, reason)
     pcall(function()
         local stage = script.object:GetChild("stage")
         for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel", "deckEntry", "deckPanel",
-            "characterPanel", "choicePanel", "potionPanel", "potionEntry", "prologuePanel", "exitPanel", "exitEntry", "combatRewards"}) do
+            "characterPanel", "choicePanel", "potionPanel", "potionEntry", "prologuePanel", "releaseNotesPanel", "exitPanel", "exitEntry", "combatRewards"}) do
             local panel=stage:GetChild(name)
             if panel then panel:SetVisible(false) end
         end
@@ -17,6 +17,9 @@ local function failed(phase, reason)
         menu:SetVisible(true)
         menu:SetAsLastSibling()
         menu:GetChild("start"):SetVisible(false)
+        local notices, codeVersion = menu:GetChild('releaseNotes'), menu:GetChild('codeVersion')
+        if notices then notices:SetVisible(false) end
+        if codeVersion then codeVersion:SetVisible(false) end
         local settle = menu:GetChild("settle")
         if settle then settle:SetVisible(false) end
         local result = menu:GetChild("result")
