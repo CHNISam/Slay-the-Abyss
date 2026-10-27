@@ -16,15 +16,24 @@ local function fixture(options)
 end
 local function terminal(ui)
  local run,map=ui.run,ui.map
- run.act=3 -- controlled chapter boundary; freeze its real birth before canonical generation.
- local third=Map.generate(run.data,run.runSeed,3,assert(Run.freezeMapContext(run)))
+ -- Controlled prior chapter completions, not a played route. Let the real
+ -- transition freeze each chapter's birth facts and preserve source owners.
+ while run.act<3 do
+  local floor=run.act*17
+  run.phase,run.pendingAct,run.floor='act_transition',run.act+1,floor
+  run.nodeFlow={floor=floor,complete=true,roomKind='boss_treasure',result='boss_treasure_complete'}
+  assert(Run.advanceAct(run))
+ end
+ local third=Map.generate(run.data,run.runSeed,3,assert(Run.mapContext(run)))
  for k in pairs(map)do map[k]=nil end;for k,v in pairs(third)do map[k]=v end
  while Map.available(map)[1].floor<51 do assert(Map.choose(map,Map.available(map)[1].id))end
  run.act,run.floor,run.phase=3,50,'map';run.encounterTier,run.encounterId='boss','controlled_third_boss'
  run.lastResult={outcome='victory',encounterId=run.encounterId}
  run.nodeFlow={id=map.currentNodeId,floor=50,type='boss',complete=true,result='boss_victory',
   mapSeed=map.seed,mapSignature=map.sourceSignature}
+ assert(F.Nodes.restoreMap(run,map),'controlled terminal must use the canonical chapter map')
  assert(F.Nodes.enter(run,map,Map.available(map)[1].id));eq(run.phase,'victory');eq(run.floor,51)
+ eq(run.nodeFlow.roomKind,'ending');eq(run.nodeFlow.result,'normal_victory')
 end
 test('Host reads qualification before first map generation and missing provider remains unknown',function()
  local calls={};local generate=Map.generate
