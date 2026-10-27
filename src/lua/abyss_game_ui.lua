@@ -319,16 +319,13 @@ function M.new(root, data, presentation, clickEvent, platform)
             return false
         end)
     end
-    self.refresh = function(_)
-        if self.disabled then return false,"ui_disabled" end
-        local run = self.run
+    local function finishRunFlow(run)
         if run and (run.phase=='victory' or run.phase=='defeat')then NeowHistory.finish(neowHistory,run,run.phase)end
         if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
         end
-        local prologue = self.prologue
-        if prologue and prologue:covering() and (not run or self.settlementRequested) then prologue:cancel() end
-        local covering = prologue and prologue:covering() or false
+    end
+    local function selectMode(run,prologue)
         if self.battleUI.busy then self.mode = "battle"
         elseif not run then self.mode = "menu"
         elseif prologue and prologue:opaque() then self.mode = "prologue"
@@ -339,23 +336,32 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- Camp/event results stay on screen until the player presses 继续.
         elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
+    end
+    local function syncMenuContext(run,inMenu)
         if menuRun ~= run or menuMode ~= self.mode then
             menuGeneration = menuGeneration + 1
             menuRun, menuMode = run, self.mode
         end
-        local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         if self.characterOpen and (not inMenu or self.settlementRequested or self.settlementBusy) then
             self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         end
+    end
+    local function syncReleaseNotes(covering)
         self.releaseNotesUI:sync(self.mode=='menu' and not self.characterOpen and not self.exitOpen and not covering
             and not self.disabled and not self.settlementRequested and not self.settlementBusy,
             exitGeneration..':'..menuGeneration)
+    end
+    local function syncCardChoice(run)
         if self.choiceUI then
             self.choiceUI:refresh(run,not self.battleUI.busy and not self.exitOpen and not self.settlementRequested
                 and not self.settlementBusy and not self.deckUI.visible and not self.potionUI.visible)
         end
+    end
+    local function closeStaleDeck(run,inMenu)
         if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run
-            or self.deckUI.pileKind and (run.phase~='combat' or run.combat~=self.deckUI.battle))then self.deckUI:close()end
+        or self.deckUI.pileKind and (run.phase~='combat' or run.combat~=self.deckUI.battle))then self.deckUI:close()end
+    end
+    local function openCardChoice(run)
         if run and run.phase=="combat" and run.combat.pendingChoice and not self.battleUI.busy
             and not self.deckUI.visible and not self.exitOpen then
             self.deckUI:open(run,run.combat.pendingChoice,function(token,uid)
@@ -363,27 +369,24 @@ function M.new(root, data, presentation, clickEvent, platform)
                 self:refresh()
             end)
         end
-        local deckOpen = self.deckUI.visible
-        if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
-        local potionOpen=self.potionUI.visible
-        local blocked = self.exitOpen or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy or self.characterOpen
-            or self.choiceUI and self.choiceUI.visible
+    end
+    local function syncRewardReturn(run,deckOpen,potionOpen,blocked,covering)
         local returnAvailable = self.mode == "map" and run and run.pendingCombatRewards ~= nil
             and not deckOpen and not potionOpen and not blocked and not covering or false
         if self.rewardReturnAvailable ~= returnAvailable then
             self.rewardReturnAvailable = returnAvailable
             self.rewardReturnGeneration = (self.rewardReturnGeneration or 0) + 1
         end
-        child("combatRewards"):SetVisible(returnAvailable)
-        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
-        child("potionEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        return returnAvailable
+    end
+    local function refreshPotionEntry(run)
         local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
         potionHit.interactable=canManagePotions(run)
         for _,state in ipairs({"normal","hover","pressed","disabled"})do
             potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..Run.potionCapacity(run) or "药水"
         end
-        child("nodePanel"):GetChild("potions"):SetVisible(false)
-        if potionOpen then self.potionUI:render()end
+    end
+    local function refreshDeckEntry(run)
         local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
         deckHit.interactable = not self.battleUI.busy
         -- The shared deck button carries the deck size, so no screen repeats it as loose text.
@@ -391,51 +394,61 @@ function M.new(root, data, presentation, clickEvent, platform)
             local variant = deckHit:GetChild(state)
             if variant then variant:GetChild("label").text = run and "卡组 " .. #run.deck or "卡组" end
         end
-        menu:SetVisible(inMenu)
-        self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked)
-        child("battlePanel"):SetVisible(self.mode == "battle")
-        self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
-        child("mapPanel"):SetVisible(self.mode == "map")
+    end
+    local function refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
+        child("combatRewards"):SetVisible(returnAvailable)
+        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("potionEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        refreshPotionEntry(run)
+        child("nodePanel"):GetChild("potions"):SetVisible(false)
+        if potionOpen then self.potionUI:render()end
+        refreshDeckEntry(run)
+    end
+    local function refreshMapResources(run)
         if run then
             local resources = child("mapPanel"):GetChild("resources")
             resources:GetChild("hp").text = number(run.hp) .. "/" .. number(run.maxHp)
             resources:GetChild("gold").text = number(run.gold)
         end
+    end
+    local function refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
+        menu:SetVisible(inMenu)
+        self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked)
+        child("battlePanel"):SetVisible(self.mode == "battle")
+        self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
+        child("mapPanel"):SetVisible(self.mode == "map")
+        refreshMapResources(run)
         self.nodeUI:setVisible(self.mode == "node" and not deckOpen and not potionOpen and not blocked)
         child("nodePanel"):SetVisible(self.mode == "node")
-        if self.mode == "battle" then
-            self.battleUI:render()
-            if run.phase == "combat" and self.presentedBattle ~= run.combat then
-                self.presentedBattle = run.combat
-                local guardian = false
-                for _, enemy in ipairs(run.combat.enemies) do
-                    if enemy.definitionId == "guardian" then guardian = true end
-                end
-                child("battlePanel"):GetChild("notice").text = guardian
-                    and Narrative.flow.bossEntrance.full or ""
+    end
+    local function renderBattlePage(run)
+        self.battleUI:render()
+        if run.phase == "combat" and self.presentedBattle ~= run.combat then
+            self.presentedBattle = run.combat
+            local guardian = false
+            for _, enemy in ipairs(run.combat.enemies) do
+                if enemy.definitionId == "guardian" then guardian = true end
             end
-        elseif self.mode == "map" then
-            -- While the cinematic's last fade uncovers the map, the map is visible but inert.
-            self.mapUI:setNavigationEnabled(not deckOpen and not potionOpen and not blocked and not covering and #Nodes.available(run, self.map) > 0)
-            if run.neowStatus=='unavailable' and self.map.floor==0 and not self.mapUI.entryError then
-                self.mapUI.entryError='开局恩赐暂不可用：未取得上一局历史；本次保持原开局资源。'
-                self.mapUI:render()
-            end
-        elseif self.mode == "node" then self.nodeUI:render() end
-        bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
-        present()
-        menu:GetChild('codeVersion'):SetVisible(self.mode=='menu')
-        if speed then speed:SetVisible(self.mode=='menu')end
-        if characterPanel then
-            characterPanel:SetVisible(self.characterOpen==true)
-            if self.characterOpen then characterPanel:SetAsLastSibling() end
+            child("battlePanel"):GetChild("notice").text = guardian
+                and Narrative.flow.bossEntrance.full or ""
         end
-        if self.choiceUI and self.choiceUI.visible then self.choiceUI.root:SetAsLastSibling() end
-        -- Shared utilities stay above the deck overlay; the confirmation stays
-        -- above every page, including an in-flight battle presentation.
-        exitEntry:SetVisible(not self.releaseNotesUI.visible and not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
-        exitEntry:SetAsLastSibling()
-        exitPanel:SetVisible(self.exitOpen == true)
+    end
+    local function renderMapPage(run,deckOpen,potionOpen,blocked,covering)
+        -- While the cinematic's last fade uncovers the map, the map is visible but inert.
+        self.mapUI:setNavigationEnabled(not deckOpen and not potionOpen and not blocked and not covering and #Nodes.available(run, self.map) > 0)
+        if run.neowStatus=='unavailable' and self.map.floor==0 and not self.mapUI.entryError then
+            self.mapUI.entryError='开局恩赐暂不可用：未取得上一局历史；本次保持原开局资源。'
+            self.mapUI:render()
+        end
+    end
+    local function renderCurrentPage(run,deckOpen,potionOpen,blocked,covering)
+        if self.mode == "battle" then
+            renderBattlePage(run)
+        elseif self.mode == "map" then
+            renderMapPage(run,deckOpen,potionOpen,blocked,covering)
+        elseif self.mode == "node" then self.nodeUI:render() end
+    end
+    local function refreshExitDialog()
         if self.exitOpen then
             exitPanel:SetAsLastSibling()
             local message = self.run and "确认退出本局？本局进度不会保留。\n将进入平台结算，随后可选择离开。"
@@ -449,6 +462,52 @@ function M.new(root, data, presentation, clickEvent, platform)
                 exitPanel:GetChild(name):GetChild("hit").interactable = enabled
             end
         end
+    end
+    local function refreshForeground()
+        menu:GetChild('codeVersion'):SetVisible(self.mode=='menu')
+        if speed then speed:SetVisible(self.mode=='menu')end
+        if characterPanel then
+            characterPanel:SetVisible(self.characterOpen==true)
+            if self.characterOpen then characterPanel:SetAsLastSibling() end
+        end
+        if self.choiceUI and self.choiceUI.visible then self.choiceUI.root:SetAsLastSibling() end
+        -- Shared utilities stay above the deck overlay; the confirmation stays
+        -- above every page, including an in-flight battle presentation.
+        exitEntry:SetVisible(not self.releaseNotesUI.visible and not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
+        exitEntry:SetAsLastSibling()
+        exitPanel:SetVisible(self.exitOpen == true)
+        refreshExitDialog()
+    end
+    local function overlaysBlocked()
+        local blocked = self.exitOpen or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy or self.characterOpen
+            or self.choiceUI and self.choiceUI.visible
+        return blocked
+    end
+    self.refresh = function(_)
+        if self.disabled then return false,"ui_disabled" end
+        local run = self.run
+        finishRunFlow(run)
+        local prologue = self.prologue
+        if prologue and prologue:covering() and (not run or self.settlementRequested) then prologue:cancel() end
+        local covering = prologue and prologue:covering() or false
+        selectMode(run,prologue)
+        local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
+        syncMenuContext(run,inMenu)
+        syncReleaseNotes(covering)
+        syncCardChoice(run)
+        closeStaleDeck(run,inMenu)
+        openCardChoice(run)
+        local deckOpen = self.deckUI.visible
+        if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
+        local potionOpen=self.potionUI.visible
+        local blocked=overlaysBlocked()
+        local returnAvailable=syncRewardReturn(run,deckOpen,potionOpen,blocked,covering)
+        refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
+        refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
+        renderCurrentPage(run,deckOpen,potionOpen,blocked,covering)
+        bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
+        present()
+        refreshForeground()
         self:syncController()
     end
     self.closeCharacters = function(_)

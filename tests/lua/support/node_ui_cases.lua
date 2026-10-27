@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 return function(first,last,cardFirst,cardLast)
 first,last=first or 1,last or math.huge
 cardFirst,cardLast=cardFirst or 1,cardLast or 80
@@ -36,13 +37,12 @@ local function control(spec, parent)
         local source, id = ...
         assert(source == "static" and type(id) == "number") self.imageId = id
     end
-    function c:SetSizeDelta(width,height)
-        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)
+    function c:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);
         self.size={width,height};self.sizeDeltaX,self.sizeDeltaY=width,height
     end
     function c:SetLocalScale(x,y,z) self.scale = {x,y,z} end
     function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:AddCursorEventListener(event, callback)
+    function c:AddCursorEventListener(event, callback) NativeContract.listener(event,callback);
         assert(not self.listeners[event], "duplicate listener " .. event)
         self.listeners[event] = callback
         if event == "click" then self.click = callback end
@@ -844,5 +844,5 @@ test('repeatable Searing Blow shows its actual before/after levels and damage',f
 end)
 print("LUA_NODE_UI_PASS " .. count)
 
-return registered
+return registered, control
 end

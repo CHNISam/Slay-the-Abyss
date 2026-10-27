@@ -90,10 +90,11 @@ export function selectTests(changed, sources) {
     function visit(path) { if (seen.has(path)) return; seen.add(path); for (const dep of deps.get(path) ?? []) visit(dep); }
     visit(start); return seen;
   };
-  const affected = new Set(changed), selected = [];
+  const affected = new Set(changed), mapped = new Set(), selected = [];
   const luaChange = changed.some(p => p.startsWith('src/lua/'));
   for (const test of roots) {
     const dependencies = closure(test);
+    for (const path of changed) if (dependencies.has(path)) mapped.add(path);
     // Dynamic Lua builders are conservatively included for every Lua change.
     // Literal dependency analysis must not silently omit generated test programs.
     const dynamicLua = luaChange && ([...dependencies].some(p => dynamicImports.has(p)) || (js.includes(test)
@@ -105,7 +106,10 @@ export function selectTests(changed, sources) {
       && [...dependencies].some(p => /readdirSync|\bimport\s*\(\s*[^'"\s)]/.test(sources[p] ?? ''));
     if ([...dependencies].some(p => affected.has(p)) || dynamicLua || dynamicScript) selected.push(test);
   }
-  if (!selected.length) return fallback('No statically mapped test; use the complete check');
+  // Dynamic candidates supplement known coverage; their presence cannot prove
+  // that an otherwise unmapped change is safe to leave out of the full check.
+  const unmapped = changed.find(path => !mapped.has(path));
+  if (unmapped) return fallback(`No statically mapped test for input: ${unmapped}`);
   const isIntegration = test => [...closure(test)].some(p => integration.has(p));
   return { full: false, reason: 'Transitive imports and literal fixture references',
     fast: selected.filter(p => js.includes(p) && !isIntegration(p)),

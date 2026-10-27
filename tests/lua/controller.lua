@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 local Controller = require('abyss_controller')
 local focus, enabled = nil, true
 local api = {events={Confirm='confirm',Cancel='cancel',Focus='focus'},
@@ -6,7 +7,7 @@ local api = {events={Confirm='confirm',Cancel='cancel',Focus='focus'},
     isController=function()return enabled end}
 local function control(parent)
     local c={visible=true,interactable=true,parent=parent,listeners={},links={}}
-    function c:AddNavigationEventListener(e,fn)assert(not self.listeners[e]);self.listeners[e]=fn end
+    function c:AddNavigationEventListener(e,fn) NativeContract.listener(e,fn);assert(not self.listeners[e]);self.listeners[e]=fn end
     function c:SetControllerNavigation(d,m,target)self.links[d]={m,target}end
     return c
 end

@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 -- Real Run/Map/Nodes and generated native controls; no gameplay rules are mocked.
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI, Nodes = require("abyss_node_ui"), require("abyss_nodes")
@@ -8,13 +9,12 @@ local function control(spec, parent)
     local box = {parent=parent, visible=spec.visible~=false, children={}, listeners={}}
     function box:GetChild(key) return self.children[key] end
     function box:SetVisible(value) self.visible=value end
-    function box:SetSizeDelta(width,height)
-        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)
+    function box:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);
         self.size={width,height};self.sizeDeltaX,self.sizeDeltaY=width,height
     end
     function box:SetLocalScale(x,y,z) self.scale={x,y,z} end
     function box:SetAnchoredPosition(x,y) self.x,self.y=x,y end
-    function box:AddCursorEventListener(event, fn)
+    function box:AddCursorEventListener(event, fn) NativeContract.listener(event,fn);
         assert(not self.listeners[event], "duplicate listener") self.listeners[event]=fn
     end
     for _, child in ipairs(spec.children or {}) do box.children[child.name]=control(child,box) end

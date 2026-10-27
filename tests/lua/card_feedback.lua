@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI = require("abyss_battle_ui")
 local Combat = require("abyss_combat")
@@ -14,9 +15,9 @@ local function control(definition)
     for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
     function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
     function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-    function c:AddCursorEventListener(event, fn) assert(event == "click") self.click = fn end
+    function c:AddCursorEventListener(event, fn) NativeContract.listener(event,fn); assert(event == "click") self.click = fn end
     function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
+    function c:SetSizeDelta(x, y) NativeContract.sizeDelta(x,y); self.sizeDeltaX, self.sizeDeltaY = x, y end
     function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
     function c:SetImage(source, id) assert(source == "static" and type(id) == "number") self.imageId = id end
     function c:SetAsLastSibling() self.raised = true end

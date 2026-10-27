@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 local Viewport = require("abyss_viewport")
 local Layout = require("abyss_ui_layout")
 local backdropSpec, stageSpec
@@ -9,7 +10,7 @@ assert(backdropSpec and stageSpec)
 local stage = {}
 function stage:SetLocalScale(x, y, z) self.scale = {x, y, z} end
 local backdrop = { delta = {backdropSpec.size[1], backdropSpec.size[2]} }
-function backdrop:SetSizeDelta(w, h) self.delta = {w, h} end
+function backdrop:SetSizeDelta(w, h) NativeContract.sizeDelta(w,h); self.delta = {w, h} end
 local root = {}
 function root:GetChild(name)
     if name == "stage" then return stage end

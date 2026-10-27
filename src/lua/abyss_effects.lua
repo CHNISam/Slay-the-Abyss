@@ -1,9 +1,7 @@
 -- Effect interpreter for the core-supported operations.
 local M = {}
 local Actors = require("abyss_actor")
-local Events = require("abyss_events")
 local CardActions = require("abyss_card_actions")
-local EnemyRandom = require("abyss_enemy_random")
 local extensionOps={defectFinal=true,gainMantra=true,applyMantra=true,removeMantra=true,gainDevotion=true,gainExhaustPower=true,gainOrbPower=true,
     gainEnergyIfDiscard=true,calculatedGamble=true}
 for op in pairs(require('abyss_build_actions').ops) do extensionOps[op]=true end
@@ -185,371 +183,63 @@ local function targets(state, source)
     return { state.player }
 end
 
+local operationHandlers={}
+for _,handlers in ipairs({require('abyss_effects_damage'),require('abyss_effects_cards'),
+    require('abyss_effects_powers'),require('abyss_effects_enemy')})do
+    for op,handler in pairs(handlers)do operationHandlers[op]=handler end
+end
+
+local function continueEffects(combat,state,source,queuedEnemyAction)
+    -- Defeat/escape stops the owner. A dead enemy's captured payload can still
+    -- resolve while the encounter continues, under its existing queue owner.
+    if state.player.hp<=0 or source.escaped then return false end
+    return not (source.hp<=0 and (not queuedEnemyAction or combat.outcome(state)))
+end
+
+local function applyOne(context)
+    local effect,source,state=context.effect,context.source,context.state
+    local op,value=effect.op,effect.value
+    if source.hp<=0 and op~='makeTempCardInDiscard' and op~='enemyBurnBoth' and op~='awakenedVoid' then
+        assert(coreOps[op] or op=='conditional','unsupported effect: '..tostring(op))
+        if op=='applyStatus' and context.target==state.player and context.target.hp>0 then
+            Actors.applyPower(state,context.target,effect.status,value,source)
+        end
+        return context.dealt
+    end
+    if op=='awakenedVoid'then
+        -- This captured owner action precedes generic CardActions admission.
+        operationHandlers.awakenedVoid(context)
+        return context.dealt
+    end
+    if CardActions.supports(op) then
+        CardActions.apply(context.combat,state,{effect=effect,source=source,target=context.target,instance=context.playedCard})
+        return context.dealt
+    end
+    local handler=operationHandlers[op]
+    assert(handler,'unsupported effect: '..tostring(op))
+    return handler(context) or context.dealt
+end
+
 function M.apply(combat, state, effects, source, target, playedCard, queuedEnemyAction)
     local groupStart, invalid = targetGroup(effects)
     assert(not invalid and (not groupStart or (source == state.player and not queuedEnemyAction)),
-        "invalid_target_group")
-    local dealt = 0
-    local cleared = combat.outcome(state)=="victory"
-    for index, effect in ipairs(effects) do
-        -- Defeat stops the action manager, unlike victory's selective clear.
-        -- Keep current damage reactions, but never start another queued effect.
-        if state.player.hp <= 0 or source.escaped then break end
-        if source.hp <= 0 and (not queuedEnemyAction or combat.outcome(state)) then break end
-        local op, value = effect.op, effect.value
-        -- The adjacent second member is already consumed. Victory cancels only
-        -- still-queued mapped actions; retained Block/HP-loss and card disposal
-        -- keep their existing owners.
-        local consumed = groupStart and index == groupStart + 1
-        local cancelled = cleared and (clearedAfterDamage[op] or op=="gainEnergyIfDiscard")
+        'invalid_target_group')
+    local context={combat=combat,state=state,effects=effects,source=source,target=target,playedCard=playedCard,
+        queuedEnemyAction=queuedEnemyAction,groupStart=groupStart,interpreter=M,targets=targets}
+    local dealt=0
+    local cleared=combat.outcome(state)=='victory'
+    for index,effect in ipairs(effects)do
+        if not continueEffects(combat,state,source,queuedEnemyAction)then break end
+        local op=effect.op
+        -- The paired target-first status action consumed its adjacent member.
+        -- Victory clears only the mapped tail; retained actions keep ownership.
+        local consumed=groupStart and index==groupStart+1
+        local cancelled=cleared and (clearedAfterDamage[op] or op=='gainEnergyIfDiscard')
         if not consumed and not cancelled then
-        if source.hp <= 0 and op ~= "makeTempCardInDiscard" and op~='enemyBurnBoth' and op~='awakenedVoid' then
-            assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
-            -- ApplyPower guards its target, not its dead source. Only the
-            -- source-verified single-player queued status path is enabled.
-            -- Later damage, dead-owner Block/buffs and unverified ops stay off.
-            if op == "applyStatus" and target == state.player and target.hp > 0 then
-                Actors.applyPower(state, target, effect.status, value, source)
-            end
-        elseif op=='awakenedVoid'then require('abyss_awakened_one').void(state,source)
-        elseif CardActions.supports(op) then
-            CardActions.apply(combat,state,{effect=effect,source=source,target=target,instance=playedCard})
-        elseif op == "damage" or op == "damageAll" then
-            local selected = op == "damageAll" and targets(state, source) or { target }
-            for _ = 1, effect.times or 1 do
-                local retaliation = op == "damageAll" and {} or nil
-                for _, victim in ipairs(selected) do
-                    -- Both callers capture NORMAL output; retain the older
-                    -- per-target resolved ABI alongside class queue snapshots.
-                    local snapshot=effect.normalAmount
-                    if snapshot==nil and effect.normalAmounts then snapshot=effect.normalAmounts[victim.id] end
-                    if snapshot==nil and effect.resolved then snapshot=effect.resolved[victim.id] end
-                    dealt = dealt + combat.damage(state, source, victim, value, effect.fixed, retaliation,snapshot)
-                end
-                -- Angry, Thorns and death powers add reactions to the top:
-                -- finish this area hit, then resolve in reverse target order.
-                if retaliation then
-                    Actors.resolveDamageReactions(state, retaliation, combat.retaliate)
-                end
-                if combat.outcome(state) then break end
-            end
-        elseif op=="gainEnergyIfDiscard" then
-            assert(source==state.player,"player discard refund only")
-            require("abyss_silent_discard_cards").gainEnergyIfDiscard(state,value)
-        elseif op=="calculatedGamble" then
-            error("Gamble requires the continuation queue")
-        elseif op=="gainExhaustPower" then
-            assert(source==state.player,"player exhaust power only")
-            local id=effect.status
-            if id=="corruption" then require("abyss_corruption").apply(state,value)
-            else
-                assert(id=="feel_no_pain" or id=="dark_embrace","unsupported exhaust power")
-                assert(type(value)=="number" and value%1==0 and value>0 and value<=2147483647,"invalid exhaust power amount")
-                if not combat.outcome(state) then
-                    Actors.applyPower(state,state.player,id,value,state.player)
-                    require("abyss_exhaust").rememberPower(state,id)
-                end
-            end
-        elseif op == "gainDevotion" then
-            assert(source==state.player and state.player.stance,"stance mechanics not enabled")
-            require("abyss_mantra").applyDevotion(state,value)
-        elseif op=="gainMantra" or op=="applyMantra" or op=="removeMantra" then
-            error("Mantra requires the continuation queue")
-        elseif op == "handChoice" or op == "whirlwind" or op == "reaperDamage" then
-            error("effect requires the continuation queue")
-        elseif op == "scry" then
-            error("scry requires the continuation queue")
-        elseif op == "multiplyPoison" or op == "bouncingPoison" then
-            assert(source == state.player, "player poison only")
-            if not combat.outcome(state) then
-                local Poison = require("abyss_poison")
-                if op == "multiplyPoison" then Poison.multiply(state, target, value, combat)
-                else Poison.flask(state, value, combat) end
-            end
-        elseif op == "gainOrbSlots" or op == "loseOrbSlots" then
-            assert(source == state.player and state.orbs, "orb mechanics not enabled")
-            if not combat.outcome(state) then
-                local Orbs = require("abyss_orbs")
-                if op == "gainOrbSlots" then Orbs.gainSlots(state, value) else Orbs.loseSlots(state, value) end
-            end
-        elseif op == "applyBias" then
-            assert(source == state.player and state.orbs and value == 1, "unsupported Bias application")
-            if not combat.outcome(state) then
-                if Actors.applyPower(state,state.player,"bias",value,state.player) then
-                    require("abyss_orb_powers").recordApplied(state,"bias")
-                end
-            end
-        elseif op=="gainOrbPower" then
-            assert(source==state.player and state.orbs,"orb mechanics not enabled")
-            require("abyss_orb_powers").apply(state,effect.status,value)
-        elseif op == "gainFocus" then
-            assert(source == state.player and state.orbs, "orb mechanics not enabled")
-            assert(type(value) == "number" and value % 1 == 0 and value >= -2147483647 and value <= 2147483647,
-                "invalid Focus increment")
-            if not combat.outcome(state) then Actors.applyPower(state, state.player, "focus", value, state.player) end
-        elseif op == "gainStancePower" then
-            assert(source == state.player and state.player.stance, "stance mechanics not enabled")
-            assert(effect.status == "rushdown" or effect.status == "mental_fortress", "unsupported stance power")
-            assert(type(value) == "number" and value % 1 == 0 and value > 0, "invalid stance power")
-            if not combat.outcome(state) then
-                Actors.applyPower(state, state.player, effect.status, value, state.player)
-                state.stancePowerOrder = state.stancePowerOrder or {}
-                local found = false
-                for _, id in ipairs(state.stancePowerOrder) do if id == effect.status then found = true end end
-                if not found then state.stancePowerOrder[#state.stancePowerOrder + 1] = effect.status end
-            end
-        elseif op == "innerPeace" then
-            assert(source == state.player and state.player.stance, "stance mechanics not enabled")
-            assert(value == 3 or value == 4, "unsupported Inner Peace draw")
-            if not combat.outcome(state) then
-                if state.player.stance == "Calm" then combat.draw(state, value)
-                else require("abyss_stances").change(state, "Calm") end
-            end
-        elseif op == "requestDiscard" then
-            assert(source == state.player and not queuedEnemyAction, "player discard only")
-            if not combat.outcome(state) then
-                local ok, reason = require("abyss_discard").begin(state, value)
-                assert(ok, reason)
-            end
-        elseif op == "changeStance" then
-            assert(source == state.player and state.player.stance, "stance mechanics not enabled")
-            if not combat.outcome(state) then
-                require("abyss_stances").change(state, effect.stance)
-            end
-        elseif op == "channelOrb" or op == "dualcastOrb" or op == "darkImpulseOrb" then
-            assert(source == state.player and state.orbs, "orb mechanics not enabled")
-            assert(value == 1, "unsupported orb repetition")
-            if not combat.outcome(state) then
-                local Orbs = require("abyss_orbs")
-                if op == "channelOrb" then Orbs.channel(state, effect.orb, combat)
-                elseif op == "dualcastOrb" then Orbs.dualcast(state, combat)
-                else Orbs.darkImpulse(state) end
-            end
-        elseif op == "generateShivs" then
-            assert(source == state.player and not queuedEnemyAction, "player generation only")
-            if not combat.outcome(state) then
-                assert(effect.upgraded==nil or type(effect.upgraded)=='boolean','invalid generated Shiv upgrade')
-                require("abyss_silent").generateShivs(state, value, effect.upgraded==true)
-            end
-        elseif op == "damageEqualToBlock" then
-            -- Current block is the attack base, not a payment or fixed damage.
-            dealt = dealt + combat.damage(state, source, target, source.block,nil,nil,effect.resolved and effect.resolved[target.id])
-        elseif op == "conditional" then
-            -- Damage leaves the target's statuses intact, even on a lethal hit.
-            -- The outer source-alive guard still stops thorns-killed attackers.
-            assert(effect["if"] == "target_vulnerable" or effect['if']=='target_poison', "unsupported condition")
-            local status=effect['if']=='target_poison' and 'poison' or 'vulnerable'
-            if target and (target.statuses[status] or 0) > 0 then
-                dealt = dealt + M.apply(combat, state, effect["then"], source, target, playedCard)
-            end
-        elseif op == "increaseDamageThisCombat" then
-            assert(type(playedCard) == "table", "growth requires played card")
-            assert(type(value) == "number" and value >= 0 and value < math.huge and value % 1 == 0, "invalid card damage growth")
-            -- Double Tap's makeSameInstanceOf shares the original UUID. Its
-            -- queued copy, resolving instance and all matching combat piles
-            -- grow together; stat-equivalent copies have a fresh UID instead.
-            local seen={}
-            local function grow(c)
-                if not c or (c.uuid or c.uid)~=(playedCard.uuid or playedCard.uid) or seen[c] then return end
-                seen[c]=true
-                local previous=c.damageBonus or 0
-                local bonus=previous+0.0+value
-                assert(bonus<math.huge and (value==0 or bonus>previous),"card damage growth cannot advance")
-                c.damageBonus=bonus
-            end
-            grow(playedCard);grow(state.cardInUse)
-            for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust}) do for _,c in ipairs(pile) do grow(c) end end
-            for _,queued in ipairs(state.queuedCards or {}) do grow(queued.card) end
-        elseif op == "makeTempCardInDiscard" then
-            -- Bounded action ABI: fresh catalog copies, never the Run deck or
-            -- a copy of the resolving card (Anger has a separate operation).
-            -- A queued MakeTempCard action has no owner-death guard. The outer
-            -- gate still rejects dead public sources and final-combat tails.
-            assert(type(effect.card) == "string" and state.catalog.cards[effect.card], "unknown temporary card")
-            assert(type(value) == "number" and value % 1 == 0 and value >= 0 and value <= 5, "invalid temporary card count")
-            local uid = state.nextUid
-            assert(type(uid) == "number" and uid > 0 and uid < math.huge and uid % 1 == 0, "invalid nextUid")
-            local nextUid = uid + 0.0 + value
-            -- Check each increment as well as the batch before mutating piles;
-            -- binary64 may round a batch into duplicate/nonadvancing UIDs.
-            for i = 1, value do
-                assert(uid + 0.0 + i > uid + 0.0 + (i - 1), "nextUid cannot advance")
-            end
-            assert(nextUid < math.huge and nextUid - uid == value, "nextUid cannot advance")
-            for i = 0, value - 1 do
-                local generated={uid = uid + 0.0 + i, cardId = effect.card, upgraded = effect.upgraded==true}
-                require('abyss_watcher_final_cards').created(combat,state,generated)
-                state.discard[#state.discard + 1] = generated
-            end
-            state.nextUid = nextUid
-            if value > 0 then Events.emit(state, "cards_created", {source = source.id, cardId = effect.card, amount = value, pile = "discard"}) end
-        elseif op == "addCardToDiscard" then
-            -- This operation copies the resolving card, not its catalog default.
-            -- New combat-only instances must never mutate Run's permanent deck.
-            assert(type(playedCard) == "table", "copy requires played card")
-            assert(type(effect.card) == "string" and state.catalog.cards[effect.card], "unknown copy card")
-            assert(effect.card == playedCard.cardId, "copy must match played card")
-            local uid = state.nextUid
-            assert(type(uid) == "number" and uid > 0 and uid % 1 == 0, "invalid nextUid")
-            local nextUid = uid + 1.0 -- do not wrap signed 32-bit Fengari integers
-            assert(nextUid > uid and nextUid < math.huge, "nextUid cannot advance")
-            -- Anger uses a stat-equivalent copy, including combat damage and
-            -- costForTurn. The new identity remains independent of its source.
-            local created = combat.copy(playedCard)
-            created.uid = uid
-            require('abyss_watcher_final_cards').created(combat,state,created)
-            state.discard[#state.discard + 1] = created
-            state.nextUid = nextUid
-        elseif op == "loseHp" then
-            -- HP payment is not an attack or a status tick. The next effect's
-            -- source-alive guard stops the card when this payment is lethal.
-            local before = source.hp
-            if (source.statuses.intangible or 0)>0 then value=math.min(value,1) end
-            value=require('abyss_defect_final_cards').incoming(state,source,value)
-            if source==state.player then value=require('abyss_relic_hooks').onLoseHpLast(state,value) end
-            source.hp = math.max(0, source.hp - value)
-            Events.emit(state, "hp_loss", {source = source.id, target = source.id, amount = before - source.hp, blocked = 0})
-            -- Actor owns the single HP-loss notification for either queue.
-            Actors.hpLostFromCard(state,source,before-source.hp)
-            require('abyss_relic_hooks').hpChanged(state,source,before)
-        elseif op=='enemyBurnBoth' then
-            require('abyss_act3_powers').burnBoth(state,source)
-        elseif op=='enemyDazedDraw' then
-            require('abyss_act3_powers').dazedDraw(state,source)
-        elseif op=='enemyStasis' then
-            require('abyss_act2_stasis').apply(combat,state,source)
-        elseif op=='enemyBronzeSpawn' then
-            assert(source.ai and source.ai.policy=='automaton','Automaton spawn only')
-            require('abyss_act2_summons').bronze(combat,state)
-        elseif op=='enemyTorchSpawn' or op=='enemyTorchRevive' then
-            assert(source.ai and source.ai.policy=='collector','Collector summon only')
-            require('abyss_act2_summons').torches(combat,state,source,op=='enemyTorchRevive')
-        elseif op=='enemyRally' then
-            assert(source.ai and source.ai.policy=='leader','Leader summon only')
-            require('abyss_act2_summons').rally(combat,state,source)
-        elseif op=='enemyEncourage' then
-            assert(source.ai and source.ai.policy=='leader','Leader Encourage only')
-            for _,ally in ipairs(state.enemies)do if Actors.isActive(ally) then
-                Actors.applyPower(state,ally,'strength',value,source)
-                if ally~=source then Actors.block(state,ally,6,true) end
-            end end
-        elseif op=='enemyVampireDamage' then
-            assert(source~=state.player and source.ai and source.ai.policy=='parasite','Parasite attack only')
-            local reactions={}
-            local lost=combat.damage(state,source,target,value,false,reactions)
-            dealt=dealt+lost
-            -- Vampire queues TOP Heal(lastDamageTaken) above onAttacked's
-            -- reactions. The captured loss precedes Fairy's revival; a fatal
-            -- non-Fairy hit opens the death screen before either queued action.
-            if state.player.hp>0 then
-                if lost>0 and Actors.isActive(source) then
-                    local healed=math.min(lost,source.maxHp-source.hp);source.hp=source.hp+healed
-                    Events.emit(state,'heal',{source=source.id,target=source.id,amount=healed})
-                end
-                Actors.resolveDamageReactions(state,reactions,combat.retaliate)
-            end
-        elseif op=='enemyCleanse' then
-            assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 cleanse only')
-            local ids={}
-            for id,n in pairs(source.statuses)do
-                if source.statusDefinitions[id].kind=='debuff' or (id=='strength' or id=='dexterity' or id=='focus') and n<0 then ids[#ids+1]=id end
-            end
-            table.sort(ids)
-            for _,id in ipairs(ids)do
-                local n=source.statuses[id]
-                require('abyss_power_schedule').remove(state,source,id)
-                source.statuses[id]=nil
-                local order={};for _,old in ipairs(source.powerOrder or {})do if old~=id then order[#order+1]=old end end
-                source.powerOrder=order
-                Events.emit(state,'status',{source=source.id,target=source.id,status=id,amount=-n})
-            end
-        elseif op=='enemyHealAll' or op=='enemyStrengthAll' then
-            assert(source~=state.player and source.ai and (source.ai.kind=='act2' or op=='enemyStrengthAll' and source.ai.kind=='act3_boss' and source.ai.policy=='donu'),'unsupported enemy group action')
-            -- takeTurn queues one action per then-active monster reference.
-            -- Resolve that fixed group, rechecking each target but not the caster.
-            local recipients={}
-            for _,ally in ipairs(state.enemies)do
-                if Actors.isActive(ally)then recipients[#recipients+1]=ally end
-            end
-            for _,ally in ipairs(recipients)do
-                if Actors.isActive(ally)then
-                    if op=='enemyHealAll' then
-                        local healed=math.min(value,ally.maxHp-ally.hp)
-                        ally.hp=ally.hp+healed
-                        Events.emit(state,'heal',{source=source.id,target=ally.id,amount=healed})
-                    else Actors.applyPower(state,ally,'strength',value,source) end
-                end
-            end
-        elseif op == "block" then
-            if effect.target=='all_allies' then
-                assert(source~=state.player and source.ai and source.ai.kind=='act3_boss' and source.ai.policy=='deca','Deca group Block only')
-                for _,ally in ipairs(state.enemies)do if Actors.isActive(ally)then combat.block(state,ally,value,true)end end
-            elseif effect.target=='automaton' then
-                assert(source.ai and source.ai.policy=='orb','Bronze support only')
-                for _,ally in ipairs(state.enemies)do if ally.definitionId=='automaton' and Actors.isActive(ally)then combat.block(state,ally,value,true);break end end
-            elseif effect.target == "random_ally" then
-                assert(source ~= state.player, "random ally Block requires an enemy")
-                local candidates, member = {}, false
-                for _, ally in ipairs(state.enemies) do
-                    if ally == source then member = true
-                    elseif Actors.isActive(ally) and ally.intents[ally.intentIndex].kind ~= "escape" then
-                        candidates[#candidates + 1] = ally
-                    end
-                end
-                assert(member, "random ally Block source is not in the encounter")
-                -- Source rooms spend the AI stream even for one eligible ally;
-                -- empty-list self fallback draws nothing. Legacy fixtures keep their adapter.
-                local recipient = #candidates > 0 and candidates[EnemyRandom.integer(state, #candidates, combat.random)] or source
-                combat.block(state, recipient, value, true)
-            else combat.block(state, source, value, effect.fixed,effect.blockCallbackAmount) end
-        elseif op == "doubleBlock" then combat.block(state, source, source.block, true)
-        elseif op == "draw" then combat.draw(state, value)
-        elseif op == "noDrawThisTurn" then Actors.applyNoDraw(state, source)
-        elseif op == "energy" then state.energy = state.energy + value
-        elseif op == "gainStatus" then
-            if source==state.player and effect.status=="accuracy" then
-                require("abyss_shivs").applyAccuracy(state,value)
-            else
-            -- Barricade.use does not queue another Power when already held.
-            -- Match only the card's valid one-layer application; explicit zero,
-            -- malformed amounts/old stacks and other definitions still take
-            -- the original Actor validation path, not a generic no-op filter.
-            local repeatBarricade = source == state.player and (effect.status == "barricade" or effect.status=="corruption")
-                and value == 1 and source.statuses[effect.status] == 1
-            if repeatBarricade then
-                local definitions = source.statusDefinitions
-                local definition = type(definitions) == "table" and definitions[effect.status]
-                repeatBarricade = type(definition) == "table" and definition.stack == "none"
-            end
-            if not repeatBarricade then Actors.applyPower(state, source, effect.status, value, source) end
-            if effect.status=="combust" then source.combustHpLoss=(source.combustHpLoss or 0)+1 end
-            end
-        elseif op == "gainTemporaryStrength" then
-            combat.addTemporaryStrength(source, value, state)
-        elseif op == "applyStatus" then
-            if Actors.isActive(target) then Actors.applyPower(state, target, effect.status, value, source,nil,effect.poisonBonus) end
-        elseif op == "applyStatusAll" then
-            if index == groupStart then
-                for _, victim in ipairs(state.enemies) do
-                    for member = groupStart, groupStart + 1 do
-                        -- Recheck before each application, not just each target.
-                        -- Keep Artifact consumption and independent event frames in Actor.
-                        if not Actors.isActive(source) then break end
-                        if Actors.isActive(victim) then
-                            local status = effects[member]
-                            Actors.applyPower(state, victim, status.status, status.value, source,nil,status.poisonBonus)
-                        end
-                    end
-                    if not Actors.isActive(source) then break end
-                end
-            else
-                for _, victim in ipairs(targets(state, source)) do
-                    if Actors.isActive(victim) then Actors.applyPower(state, victim, effect.status, value, source,nil,effect.poisonBonus) end
-                end
-            end
-        else error("unsupported effect: " .. tostring(op)) end
+            context.index,context.effect,context.dealt=index,effect,dealt
+            dealt=applyOne(context)
         end
-        if clearsOnFinalDamage[op] and combat.outcome(state) == "victory" then cleared = true end
+        if clearsOnFinalDamage[op] and combat.outcome(state)=='victory'then cleared=true end
     end
     return dealt
 end
