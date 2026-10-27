@@ -21,7 +21,7 @@ function M.inflicted(s,source,lost,fixed,push)
 end
 function M.apply(api,s,entry)
  if s.player.hp<=0 then return true end
- local live=false;for _,e in ipairs(s.enemies)do if api.isActive(e)then live=true end end
+ local live=false;for _,e in ipairs(s.enemies)do if api.isPresent(e)then live=true end end
  local target
  for _,e in ipairs(s.enemies)do if e.id==entry.targetId then target=e;break end end
  if entry.targetId==s.player.id then target=s.player end
@@ -47,10 +47,10 @@ function M.apply(api,s,entry)
   end
  return true
 end
-function M.afterCard(s,reactions)
+function M.afterCard(s,reactions,api)
  local amount=reactions and reactions.hex or 0
  if amount==0 or s.player.hp<=0 then return end
- local live=false;for _,e in ipairs(s.enemies)do if e.hp>0 and not e.escaped then live=true end end
+ local live=false;for _,e in ipairs(s.enemies)do if api.isPresent(e)then live=true end end
  if not live then return end
  for _=1,amount do
   assert(s.catalog.cards.dazed,'missing Hex Dazed')

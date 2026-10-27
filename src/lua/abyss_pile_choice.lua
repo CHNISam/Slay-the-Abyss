@@ -1,6 +1,6 @@
 -- Retrieval moves original instances; all persisted choice state is plain data.
 -- Combat/Run owns queue resume and the surrounding whole-card transaction.
-local Events=require("abyss_events")
+local Events=require("abyss_events");local Actors=require('abyss_actor')
 local Snapshot=require("abyss_snapshot")
 local M={}
 local MAX=2147483647
@@ -24,7 +24,7 @@ end
 local function live(s)
     if type(s)~="table" or s.phase~="player" or type(s.player)~="table" or type(s.player.statuses)~="table"
         or type(s.player.hp)~="number" or s.player.hp<=0 or not dense(s.enemies) then return false end
-    for _,enemy in ipairs(s.enemies) do if type(enemy)=="table" and type(enemy.hp)=="number" and enemy.hp>0 and not enemy.escaped then return true end end
+    for _,enemy in ipairs(s.enemies) do if type(enemy)=="table" and type(enemy.hp)=="number" and Actors.isPresent(enemy) then return true end end
     return false
 end
 local function fact(card) return {uid=card.uid,cardId=card.cardId,upgraded=card.upgraded==true} end

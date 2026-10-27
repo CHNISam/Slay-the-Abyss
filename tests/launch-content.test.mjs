@@ -36,11 +36,11 @@ test('expanded content records actual channels without granting natural acquisit
   const manifest = fresh();
   const definitions = name => JSON.parse(readFileSync(`data/${name}.json`, 'utf8'))[name];
   assert.deepEqual(manifest.relics.map(row => row.id).sort(), definitions('relics').map(row => row.id).sort());
-  assert.equal(manifest.relics.filter(row => row.rarity === 'common').length, 33);
+  assert.equal(manifest.relics.filter(row => row.rarity === 'common').length, 36);
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 24);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 25);
   assert.equal(manifest.sharedCards.length,39);
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),

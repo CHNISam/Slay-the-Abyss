@@ -35,7 +35,7 @@ end
 local function live(s)
     if not Actors.isActive(s.player) then return false end
     dense(s.enemies)
-    for _,enemy in ipairs(s.enemies) do if Actors.isActive(enemy) then return true end end
+    for _,enemy in ipairs(s.enemies) do if Actors.isPresent(enemy) then return true end end
     return false
 end
 local function order(s)
@@ -194,7 +194,8 @@ function M.onAttack(s,source,target,damageAmount,damageType)
     local found=false
     for _,enemy in ipairs(s.enemies) do if enemy==target then found=true;break end end
     assert(found and type(target.id)=="string","invalid Envenom target")
-    return action("envenom",{op="cardTriggerPoison",targetId=target.id,value=n})
+    return action("envenom",{op="cardTriggerPoison",targetId=target.id,value=n,
+        poisonBonus=Actors.poisonBonus(s,target,source)})
 end
 function M.resolveEnvenom(s,effect)
     powers(s);plain(effect,"invalid Envenom action")
@@ -206,9 +207,10 @@ function M.resolveEnvenom(s,effect)
     local old=target.statuses.poison or 0
     assert(integer(old,0,MAX),"invalid existing Envenom poison")
     -- PoisonPower's constructor caps a NEW Power, while an existing Power's
-    -- stack uses the uncapped action amount. Snake Skull is not supported here.
+    -- stack uses the uncapped action amount. Actor adds Snake Skull after this
+    -- constructor cap, before the shared Artifact gate.
     local value=old>0 and effect.value or math.min(9999,effect.value)
-    return Actors.applyPower(s,target,"poison",value,s.player)
+    return Actors.applyPower(s,target,"poison",value,s.player,nil,effect.poisonBonus)
 end
 function M.resolveDamageAll(s,effect,api)
     powers(s);plain(effect,"invalid Thousand Cuts action")

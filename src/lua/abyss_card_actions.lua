@@ -5,7 +5,7 @@ local Events = require("abyss_events")
 local PlatedArmor = require('abyss_plated_armor')
 local Act2Powers = require('abyss_act2_powers')
 local M = {}
-local operations = { classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { writhingRoll=true,writhingParasite=true, classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -29,7 +29,7 @@ function M.enqueueReaction(state,effect,top)
     else M.enqueue(state,effect,nil,nil,nil,top)end
 end
 function M.reactionRetained(effect)
-    return PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
+    return effect.op=='awakenedAction' and effect.kind=='heal' or PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
         or effect.op=='damageRandom' or effect.op=='staticRetaliation'
         or effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(effect)
 end
@@ -250,6 +250,9 @@ end
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
+    if op=='writhingRoll'then return require('abyss_writhing_mass').roll(state,e.targetId)end
+    if op=='writhingParasite'then return require('abyss_writhing_mass').obtainParasite(state,source)end
+    if op=='giantHeadSlow'then return require('abyss_giant_head').applySlow(Actors,state,e)end
     if PlatedArmor.supports(op)then return PlatedArmor.apply(combat,state,e,M.enqueueReaction)end
     if Act2Powers.supports(op)then return Act2Powers.apply(Actors,state,e)end
     if op=='resolveCurlUp'then
@@ -384,6 +387,8 @@ function M.apply(combat,state,item)
             Events.emit(state,"heal",{target=source.id,amount=amount})
             require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
+    elseif op=='awakenedAction'then
+        require('abyss_awakened_one').resolve(Actors,state,e)
     elseif op=='capturedSharpHide'then
         combat.capturedSharpHide(state,e)
     elseif op=="dispose" then

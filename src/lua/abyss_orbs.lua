@@ -18,7 +18,11 @@ local function apiReady(state,api,lightning)
     assert(api and type(api.damage)=='function' and type(api.block)=='function','missing orb combat API')
     if lightning then assert(state.cardRandomRng,'lightning requires independent cardRandomRng'); Random.snapshot(state.cardRandomRng) end
 end
-local function running(state) return living(state.player) and #candidates(state)>0 end
+local function running(state)
+    if not living(state.player)then return false end
+    for _,enemy in ipairs(state.enemies)do if Actors.isPresent(enemy)then return true end end
+    return false
+end
 local function container(state)
     local o=assert(state.orbs,'orbs not initialized')
     assert(integer(o.slots) and o.slots>=0 and o.slots<=10 and #o.balls<=o.slots,'invalid orb slots')
@@ -112,7 +116,7 @@ function M.resolve(state,a,api)
         elseif a.kind=='lightning' then
             local enemies=candidates(state)
             assert(state.cardRandomRng,'lightning requires independent cardRandomRng')
-            target=enemies[Random.randomInt(state.cardRandomRng,#enemies-1)+1]
+            if #enemies>0 then target=enemies[Random.randomInt(state.cardRandomRng,#enemies-1)+1]end
         end
         if living(target) then api.damage(state,state.player,target,require('abyss_defect_engine_cards').orbDamage(target,a.amount),true) end
     end

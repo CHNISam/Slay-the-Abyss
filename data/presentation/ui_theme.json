@@ -469,6 +469,21 @@
         "placeholder": true,
         "note": "暂沿用现有遗物图标；专属美术与设备验收待完成。"
       },
+      "snake_skull": {
+        "id": 102031,
+        "placeholder": true,
+        "note": "异蛇头骨（Snake Skull）暂沿用主题现有遗物图标；专属美术与设备验收待完成。"
+      },
+      "data_disk": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "数据磁盘（DataDisk）暂沿用主题现有护符图标；专属美术与设备验收待完成。"
+      },
+      "damaru": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "手摇鼓（Damaru）暂沿用主题现有护符图标；专属美术与设备验收待完成。"
+      },
       "golden_idol": {
         "id": 105077,
         "colour": true,

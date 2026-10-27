@@ -8,7 +8,7 @@ local MAX=2147483647
 local function integer(n) return type(n)=='number' and n==math.floor(n) and n>=0 and n<=MAX end
 local function live(state)
     if not Actors.isActive(state.player) then return false end
-    for _,enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then return true end end
+    for _,enemy in ipairs(state.enemies) do if Actors.isPresent(enemy) then return true end end
     return false
 end
 local function copy(v)

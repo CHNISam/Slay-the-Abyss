@@ -632,7 +632,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function bindCommand(box, kind, action)
         local hit = box:GetChild("hit")
         local held, released, observed
-        local resultAction = kind == "start" or kind == "settle"
+        local menuAction = kind == "start" or kind == "settle" or kind == "battleSpeed"
         local rewardAction = kind == "combatRewards"
         local characterAction = kind == "character_cancel" or kind:match("^character_%d$")~=nil
         local cursor = platform.cursorEvents or {}
@@ -648,7 +648,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 return self.rewardReturnAvailable == true and self.mode == "map" and self.run and self.run.phase == "map" and self.run.pendingCombatRewards ~= nil
                     and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
             end
-            if resultAction then
+            if menuAction then
                 if self.releaseNotesUI.visible or self.exitOpen or self.deckUI.visible then return false end
                 return self.mode == "victory" or self.mode == "defeat"
                     or kind == "start" and self.mode == "menu"
@@ -657,7 +657,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         local function current(token)
             return token and token.generation == exitGeneration and token.run == self.run
-                and (not resultAction and not characterAction or token.menuGeneration == menuGeneration) and available()
+                and (not menuAction and not characterAction or token.menuGeneration == menuGeneration) and available()
                 and (not rewardAction or token.menuGeneration == menuGeneration and token.pending == self.run.pendingCombatRewards
                     and token.rewardGeneration == self.rewardReturnGeneration)
         end
@@ -690,7 +690,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end,action,available,kind=='cancel' and 1 or kind=='open' and 200 or 100)
         hit:AddCursorEventListener(clickEvent, function(event)
             if Controller.pointerBlocked(controller)then return false end
-            if observed or cursor.CursorDown and cursor.CursorUp and (touch(event) ~= nil or resultAction and menuPointerSealed) then
+            if observed or cursor.CursorDown and cursor.CursorUp and (touch(event) ~= nil or menuAction and menuPointerSealed) then
                 local token = released
                 if not current(token) then
                     if not held or held.touch == touch(event) then held, released = nil, nil end
@@ -702,7 +702,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             return action()
         end)
     end
-    -- Result actions use the same pointer ownership as exit actions, and also
+    -- Source menu actions use the same pointer ownership as exit actions, and also
     -- expire whenever their menu/run context is hidden or replaced.
     bindCommand(start, "start", function() return self:start() end)
     if speed then bindCommand(speed,'battleSpeed',function()return self:setFastMode(not self.fastMode)end)end

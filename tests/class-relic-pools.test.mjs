@@ -13,12 +13,16 @@ const catalogs=JSON.parse(read('data/catalogs/sts1-class-relic-queues.json'));
 const sha=path=>createHash('sha256').update(read(path).replaceAll('\r\n','\n')).digest('hex');
 test('all three chosen-class relic catalogs retain complete source registrations and stable shared order',()=>{
  const old=JSON.parse(read('data/catalogs/sts1-relic-queues.json'));
- const registration=read('tests/fixtures/sts1-relic-library-registration.tsv').replaceAll('\r\n','\n').trim().split('\n').map(line=>line.split('\t'));
- const red=new Set(registration.filter(row=>row[0]==='red').map(row=>row[2]));
+ const registrationText=read('tests/fixtures/sts1-relic-library-registration.tsv').replaceAll('\r\n','\n');
  assert.equal(sha(vectors.generator),vectors.generatorSha256);
  assert.equal(sha(vectors.jdkGenerator),vectors.jdkGeneratorSha256);
  assert.equal(sha(vectors.seedInput),vectors.seedInputSha256);
  assert.equal(sha(vectors.luaFixture),vectors.luaSha256);
+ // Windows checkout CRLF must not become part of a source relic identity.
+ for (const text of [registrationText,registrationText.replaceAll('\n','\r\n')]) {
+ const registration=text.trim().split(/\r?\n/).map(line=>line.split('\t'));
+ const red=new Set(registration.filter(row=>row[0]==='red').map(row=>row[2]));
+ assert.ok(red.has('Red Skull'),'exact Ironclad source identity survives LF and CRLF');
  for (const [character,library] of [['silent','green'],['defect','blue'],['watcher','purple']]) {
   const source=catalogs[character];assert.equal(source.character,character);assert.equal(source.sourceCommit,vectors.sourceCommit);
   for (const [tier,ids] of Object.entries(source.queues)) {
@@ -27,6 +31,7 @@ test('all three chosen-class relic catalogs retain complete source registrations
    assert.deepEqual(ids.filter(id=>extra.includes(id)).sort(),extra.sort());
    assert.ok(ids.every(id=>!red.has(id)));
   }
+ }
  }
 });
 test('content loader and validation require each complete chosen-class source',()=>{

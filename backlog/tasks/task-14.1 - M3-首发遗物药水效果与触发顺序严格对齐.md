@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 06:52'
+updated_date: '2026-10-27 09:37'
 due_date: '2026-10-28'
 labels:
   - required
@@ -116,4 +116,6 @@ ordinal: 42000
 2026-10-27当前develop已合入PR244的MawBank独立金币预期与PR245实际损血Puzzle回调；本轮共享source队列/宝箱迁移继续保留这两项，原31组fatal回归及同SHA组合检查继续执行。
 
 主整合复核补正四职业遗物来源：Run按真实STS职业使用shared+对应色完整队列，5次relicRng randomLong洗牌；商店尾取，宝箱/精英首取。40组Java全队列/随机向量、starter资格及Shop/Treasure/Elite正式API定向通过，旧红池/向量不改。缺定义保持原sourceId并unavailable，未缩池重抽。ToxicEgg购买后刷新未售货架技能预览、不改永久deck或RNG，reward owner追加/删除长度拒绝也已通过。当前PR238@4c24aa0完整Quality在跑，后续必要回归迁移和独立P1修复仍需整合；原全效果与自然平台AC不勾。
+
+2026-10-27 独立源码增量候选新增Snake Skull/DataDisk/Damaru三件真实效果与正式取得渠道。Poison奖励在ApplyPower构造时捕获而非执行时追认；DataDisk按持有顺序入TOP开战Focus；Damaru按原版null来源入BOTTOM回合Mantra，复用真实Divinity/Devotion。相关来源、生命周期/交易回滚、四职业渠道和独立审查通过；集成补齐三件在既有主题的显式占位图标，不冒充专用美术/实机验收。87项组合Node与177组既有Lua回归通过，源池和RNG不改。本批仅补三件，不宣称整个遗物池或所有死亡遗物回调完成；当前新PR完整Quality待证。
 <!-- SECTION:NOTES:END -->

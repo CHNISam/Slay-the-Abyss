@@ -44,7 +44,7 @@ function M.release(api,s,entry)
  local c=s.act2StasisCards and s.act2StasisCards[entry.ownerId]
  if not c then return end
  s.act2StasisCards[entry.ownerId]=nil
- local live=false;for _,e in ipairs(s.enemies)do if api.isActive(e)then live=true end end
+ local live=false;for _,e in ipairs(s.enemies)do if api.isPresent(e)then live=true end end
  if not live or s.player.hp<=0 then return end
  local pile=entry.forceDiscard or #s.hand>=s.rules.player.maxHand
  local destination=pile and s.discard or s.hand

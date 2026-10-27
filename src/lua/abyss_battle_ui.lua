@@ -302,7 +302,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local run = self.run
         if not self.active or self.busy or self.gesture or not run or run.phase ~= "combat" then return false end
         local actor = index == 0 and run.combat.player or run.combat.enemies[index]
-        if not Actors.isActive(actor) then return false end
+        if not Actors.isPresent(actor) then return false end
         cancelPotionAim("已取消药水瞄准。")
         if self.info and self.info.index == index and self.info.id == actor.id then closeInfo()
         else self.info = {index = index, id = actor.id, battle = run.combat} end
@@ -313,7 +313,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local run=self.run
         if not self.active or self.busy or not run or run.phase~="combat" then return false end
         local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
-        if not actor or actor.hp<=0 then return false end
+        if not Actors.isPresent(actor)then return false end
         cancelPotionAim("已取消药水瞄准。")
         self.info={index=spec.index,id=actor.id,battle=run.combat,kind=spec.kind,statusId=spec.statusId,
             offset=spec.offset,uid=spec.uid,source=source,transient=transient==true,
@@ -325,7 +325,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local run=self.run
         if not spec or not self.active or self.busy or not run or run.phase~="combat" then return end
         local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
-        if not actor or actor.hp<=0 then return end
+        if not Actors.isPresent(actor)then return end
         self.help={spec=spec,source=source,held=held,touch=touch,t=0,run=run,battle=run.combat,
             turn=run.combat.turn,actor=actor,card=card}
     end
@@ -924,7 +924,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local current = self.run and self.run.combat
         local actor = current and (help.spec.index == 0 and current.player or current.enemies[help.spec.index])
         return not self.active or self.busy or self.run ~= help.run or current ~= help.battle
-            or current.turn ~= help.turn or actor ~= help.actor or actor.hp <= 0
+            or current.turn ~= help.turn or actor ~= help.actor or not Actors.isPresent(actor)
             or help.spec.screenSlot and not sameEnemySlot(help.spec.screenSlot,actor,current)
     end
     local function helpPointerChanged(help)
@@ -1624,7 +1624,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function helpActorReady(token,run)
         local spec=token.spec
         local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
-        return actor==token.actor and token.actor.hp>0
+        return actor==token.actor and Actors.isPresent(token.actor)
             and (not spec.screenSlot or sameEnemySlot(spec.screenSlot,token.actor,run.combat))
     end
     local function statusActorAt(slot)
@@ -1737,7 +1737,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local position=slot
                 bindHelp(child(name):GetChild("statusRow"):GetChild("hit"..slot),function()
                     local battle,index,actor=statusActorAt(screenSlot)
-                    if not actor or actor.hp<=0 then return end
+                    if not Actors.isPresent(actor)then return end
                     local entries=Combat.statusView(actor)
                     local width=index==0 and L.hpBar.size[1] or select(2,enemyPosition(battle,index))
                     local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))

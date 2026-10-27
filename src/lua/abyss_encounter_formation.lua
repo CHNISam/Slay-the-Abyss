@@ -11,6 +11,7 @@ function M.supports(source)return sources[source]==true end
 sources['Gremlin Leader']=true
 sources['3 Shapes'],sources['4 Shapes'],sources['Sphere and 2 Shapes']=true,true,true
 sources['Jaw Worm Horde']=true
+sources['Awakened One']=true
 function M.assemble(source,boundary)
  assert(M.supports(source),'unsupported source formation: '..tostring(source))
  assert(type(boundary)=='table' and type(boundary.misc)=='table'
@@ -57,7 +58,11 @@ function M.assemble(source,boundary)
   return f32(base+f32(value))
  end
  local result={}
- if source=='Jaw Worm Horde'then
+ if source=='Awakened One'then
+  result[1]=make('cultist',-590,10)
+  result[2]=make('cultist',-298,-10)
+  result[3]=make('awakened_one',100,15)
+ elseif source=='Jaw Worm Horde'then
   result[1]=make('jaw_worm_hard',-490,-5)
   result[2]=make('jaw_worm_hard',-150,20)
   result[3]=make('jaw_worm_hard',175,5)

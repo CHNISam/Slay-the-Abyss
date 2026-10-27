@@ -18,6 +18,7 @@ local function select(e,id)
  error('unknown Act3 Boss intent: '..tostring(id))
 end
 function M.register(catalog,copy)
+ require('abyss_awakened_one').register(catalog,copy)
  for _,enemy in ipairs(M.enemies)do
   assert(not catalog.enemies[enemy.id],'duplicate Act3 Boss')
   catalog.enemies[enemy.id]=copy(enemy)
@@ -36,6 +37,10 @@ function M.afterAction(state,e,random,executedIntent)
  select(e,executedIntent.id=='beam' and defending or 'beam')
 end
 function M.resolve(source,tier)
+ if source=='Awakened One'then
+  if tier~='boss'then return nil,'encounter_tier_mismatch'end
+  return {id='act3_awakened_one',tier='boss',source=source,sourceEncounter=source}
+ end
  if source~='Donu and Deca'then return nil,'act_content_unavailable'end
  if tier~='boss'then return nil,'encounter_tier_mismatch'end
  return {id='act3_donu_deca',tier='boss',source=source,enemies={'deca','donu'}}

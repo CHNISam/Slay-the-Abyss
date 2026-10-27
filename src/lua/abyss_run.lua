@@ -264,7 +264,10 @@ function M.commitCard(run,offer)
         if type(offer)~='table' then return false,'invalid_card_offer' end
         local definition=cardDefinition(staged,offer.cardId)
         if not Capability.isImplemented(definition) then return false,'card_content_unavailable' end
-        if offer.blocked then return true,'curse_blocked' end
+        if offer.blocked then
+            require('abyss_writhing_mass').externalObtain(staged)
+            return true,'curse_blocked'
+        end
         local uid=staged.nextDeckUid
         if type(uid)~='number' or uid%1~=0 or uid<1 or uid>=9007199254740991.0 then return false,'invalid_deck_uid' end
         for _,card in ipairs(staged.deck) do if card.uid==uid then return false,'invalid_deck_uid' end end
@@ -280,6 +283,7 @@ function M.commitCard(run,offer)
         local accepted,reason=RelicHooks.onObtainCard(staged,card,definition,{increaseMaxHp=M.increaseMaxHp})
         if accepted==false then return false,reason end
         staged.deck[#staged.deck+1]=card;staged.nextDeckUid=uid+1.0
+        require('abyss_writhing_mass').externalObtain(staged,card)
         return true,uid
     end)
 end
@@ -326,6 +330,15 @@ function M.obtainRelic(run,id)
                 card.upgrades=(card.upgrades or (card.upgraded and 1 or 0))+1
                 card.upgraded=true;return true
             end})
+        -- These source relics have no onEquip benefit. External obtains during
+        -- active combat only publish ownership to the existing battle hooks;
+        -- DataDisk still waits for the next atBattleStart. Keep unrelated
+        -- legacy relic-snapshot behavior unchanged.
+        if staged.phase=='combat' and staged.combat and not RelicHooks.owns(staged.combat,definition.id) and
+            (definition.id=='snake_skull' or definition.id=='data_disk' or definition.id=='damaru') then
+            staged.combat.relics=staged.combat.relics or {}
+            staged.combat.relics[#staged.combat.relics+1]=definition.id
+        end
         return true,definition.id
     end)
 end
@@ -399,7 +412,7 @@ local function startEncounter(run, encounter, sourceRoom)
     end
     local battle
     local options={cardRandomSeed=RunSeed.forFloor(run.runSeed,run.floor),shuffleSeed=RunSeed.forFloor(run.runSeed,run.floor),seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=enemies,
-        masterDeck=run.deck,miscRng=nextMiscRng or run.miscRng,cardRng=run.cardRng,
+        masterDeck=run.deck,nextMasterDeckUid=run.nextDeckUid,miscRng=nextMiscRng or run.miscRng,cardRng=run.cardRng,
         beforeOpeningDraw=function(state)
             if opening.preDraw then
                 local ok, openingReason = Inventory.applyOpening(state,opening.preDraw)
@@ -630,6 +643,7 @@ local function applyPermanentChanges(run)
             end
         end
     end
+    require('abyss_writhing_mass').syncMaster(run)
     battle.ritualDaggerGrowth,battle.masterDeckChanges=nil,nil
     if run.phase=='combat' and battle.miscRng then run.miscRng=EventRandom.cloneState(battle.miscRng)end
     if run.phase=='combat' and battle.cardRng then run.cardRng=EventRandom.cloneState(battle.cardRng)end
@@ -819,15 +833,26 @@ function M.play(run, uid, targetIndex, commandId)
         if replay~=nil then return replay,why end
     end
     if run.phase ~= "combat" then return false, "not_in_combat" end
-    local ok, reason = Combat.play(run.combat, uid, targetIndex, commandId)
-    if ok then
-        syncBattlePotions(run)
-        if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
-        run.gold = run.combat.player.gold
-        run.relicCounters=Combat.copy(run.combat.relicCounters or {})
-        applyPermanentChanges(run)
-        if Combat.outcome(run.combat) then M.finishCombat(run) end
-    end
+    -- The public command includes permanent/inventory publication and source
+    -- reward preparation, not just Combat.play's smaller battle transaction.
+    local restore=require('abyss_snapshot').capture(run)
+    local called,ok,reason=pcall(function()
+        local accepted,why=Combat.play(run.combat,uid,targetIndex,commandId)
+        if accepted then
+            syncBattlePotions(run)
+            if commandId and run.originalCommands then run.originalCommands[commandId]={uid=uid,target=targetIndex,generation=run.roomGeneration}end
+            run.gold=run.combat.player.gold
+            run.relicCounters=Combat.copy(run.combat.relicCounters or {})
+            applyPermanentChanges(run)
+            if Combat.outcome(run.combat) then
+                local completed,detail=M.finishCombat(run)
+                if not completed then return false,detail end
+            end
+        end
+        return accepted,why
+    end)
+    if not called then restore();error(ok,0)end
+    if not ok then restore()end
     return ok, reason
 end
 
@@ -1078,7 +1103,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     local candidate = {}
     for key, value in pairs(run) do candidate[key] = value end
     candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(battle.potionInventory), battle.player.gold
-    candidate.deck=(battle.ritualDaggerGrowth or battle.masterDeckChanges) and Combat.copy(run.deck) or run.deck
+    candidate.deck=(battle.ritualDaggerGrowth or battle.masterDeckChanges or battle.masterDeckObtains) and Combat.copy(run.deck) or run.deck
     candidate.hp,candidate.maxHp=battle.player.hp,battle.player.maxHp
     candidate.relicCounters=Combat.copy(battle.relicCounters)
     if battle.generatedPotionOffers then candidate.lastPotionGeneration=Combat.copy(battle.generatedPotionOffers)end

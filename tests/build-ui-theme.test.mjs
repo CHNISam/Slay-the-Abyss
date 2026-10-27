@@ -25,6 +25,24 @@ test('shipped theme passes validation and covers every enemy, status, potion, re
   assert.deepEqual(validateTheme(theme(), content), []);
 });
 
+test('source class-common relics retain localized identities and explicit temporary theme mappings', () => {
+  const shipped = theme();
+  for (const [id, sourceId, name, picture] of [
+    ['snake_skull', 'Snake Skull', '异蛇头骨', 102031],
+    ['data_disk', 'DataDisk', '数据磁盘', 102028],
+    ['damaru', 'Damaru', '手摇鼓', 102028],
+  ]) {
+    const definition = content.relics.relics.find(relic => relic.id === id);
+    assert.equal(definition?.sourceId, sourceId);
+    assert.equal(definition?.name, name);
+    assert.equal(shipped.icon.relic[id].id, picture);
+    assert.equal(shipped.icon.relic[id].placeholder, true);
+    assert.match(shipped.icon.relic[id].note, /专属美术与设备验收待完成/);
+    const missing = structuredClone(shipped); delete missing.icon.relic[id];
+    assert.ok(validateTheme(missing, content).includes(`icon.relic has no picture for ${id}`));
+  }
+});
+
 test('actor action sounds cannot silently disappear from a player or enemy profile', () => {
   for (const key of ['player_action', ...content.enemies.enemies.map(enemy => `action_${enemy.id}`)]) {
     const broken = theme();

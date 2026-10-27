@@ -58,7 +58,7 @@ function M.opening(definitions, owned, persistentCounters, context)
         local relic
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
         if not relic then return nil, "unknown_relic" end
-        if id=='blood_vial' or id=='akabeko' then
+        if id=='blood_vial' or id=='akabeko' or id=='data_disk' then
             table.insert(battleTop,1,{{op='relic_hook',id=id}})
         elseif id=='bag_of_marbles' or id=='pen_nib' or id=='red_skull' or id=='red_mask' then
             bottom[#bottom+1]={{op='relic_hook',id=id}}

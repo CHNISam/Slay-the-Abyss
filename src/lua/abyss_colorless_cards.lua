@@ -390,7 +390,8 @@ function M.apply(combat,state,item)
     elseif kind=='mayhemPlay'then
         for _=1,a.value do
             local live={};for i,enemy in ipairs(state.enemies)do if Actors.isActive(enemy)then live[#live+1]=i end end
-            if #live>0 then combat.autoplayTop(state,live[combat.cardRandom(state,#live)],false,true)end
+            if #live>0 then combat.autoplayTop(state,live[combat.cardRandom(state,#live)],false,true)
+            elseif not combat.outcome(state)then combat.autoplayTop(state,nil,false,true)end
         end
     elseif kind=='sadisticDamage'then combat.damage(state,state.player,item.target,a.value,true)
     elseif kind=='greed'or kind=='ritual'then
