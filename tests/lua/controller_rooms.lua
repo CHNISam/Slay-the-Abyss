@@ -1,5 +1,12 @@
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Map=require('abyss_run'),require('abyss_map')
+local Random,Pool=require('abyss_sts_random'),require('abyss_relic_pool')
+local function same(a,b)
+    if type(a)~='table' or type(b)~='table' then return a==b end
+    for key,value in pairs(a)do if not same(value,b[key])then return false end end
+    for key in pairs(b)do if a[key]==nil then return false end end
+    return true
+end
 local focus
 local api={events={Confirm='confirm',Cancel='cancel',Focus='focus'},directions={Left='left',Right='right'},
     modes={Specified='specified'},getFocus=function()return focus end,setFocus=function(c)focus=c end,
@@ -49,7 +56,35 @@ assert(#ui.run.deck==before,'remove must commit through the existing room comman
 press('confirm');press('confirm');assert(ui.mode=='map');ui:disable()
 print('controller rooms: shop buy, sold item, remove and leave passed')
 ui,root,press,hit=setup('treasure')
-press('treasureView/chest');press('treasureView/take')
+assert(press('treasureView/chest'))
+local treasureRandom,relicPool=Random.snapshot(ui.run.treasureRng),Pool.snapshot(ui.run.relicPool)
+local sourceOffers={}
+for _,item in ipairs(ui.run.nodeFlow.reward.items)do sourceOffers[item.slot]=F.Combat.copy(item)end
+while ui.run.phase=='node' do
+    local items=ui.run.nodeFlow.reward.items
+    assert(#items>0,'completed reward list must return to the map')
+    local choice
+    for index,item in ipairs(items)do
+        assert(same(item,sourceOffers[item.slot]),'controller readback replaced a prepared source identity')
+        if not choice and (item.kind~='relic' or item.available==true)then choice=index end
+    end
+    if not choice then
+        for _,item in ipairs(items)do assert(item.kind=='relic' and item.available==false)end
+        local gold,relics=ui.run.gold,F.Combat.copy(ui.run.relics)
+        assert(press('back'),'controller must explicitly leave unsupported source identities')
+        assert(ui.run.gold==gold and same(ui.run.relics,relics),'leaving granted a substitute reward')
+        break
+    end
+    while ui.nodeUI.treasureChoice<choice do assert(press('treasureView/next'))end
+    while ui.nodeUI.treasureChoice>choice do assert(press('treasureView/previous'))end
+    local pending=#items
+    assert(press('treasureView/take'))
+    assert(#ui.run.nodeFlow.reward.items<pending,'each controller claim must consume a displayed source item')
+    assert(same(Random.snapshot(ui.run.treasureRng),treasureRandom),'claim consumed another treasure roll')
+    assert(same(Pool.snapshot(ui.run.relicPool),relicPool),'claim consumed the shared relic queue again')
+end
+assert(same(Random.snapshot(ui.run.treasureRng),treasureRandom))
+assert(same(Pool.snapshot(ui.run.relicPool),relicPool))
 assert(ui.mode=='map');ui:disable()
 print('controller rooms: treasure claim returns to the map passed')
 ui,root,press,hit=setup('event')

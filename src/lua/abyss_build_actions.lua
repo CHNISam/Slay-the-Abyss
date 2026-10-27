@@ -25,7 +25,6 @@ end
 function M.makeCard(state,effect)
     local id=effect.cardId or effect.card
     assert(type(id)=='string' and state.catalog.cards[id],'unknown temporary card')
-    assert((state.player.statuses.master_reality or 0)==0,'Master Reality generation unsupported')
     local count=integer(effect.value)
     local pile=effect.pile or 'hand'
     assert(pile=='hand' or pile=='draw','invalid temporary destination')
@@ -39,6 +38,8 @@ function M.makeCard(state,effect)
         local uid=state.nextUid
         assert(type(uid)=='number' and uid>0 and uid%1==0 and uid+1.0>uid and uid+1.0<math.huge and not seen[uid],'invalid nextUid')
         local card={uid=uid,cardId=id,upgraded=effect.upgraded==true}
+        require('abyss_watcher_final_cards').created(require('abyss_combat'),state,card)
+        if pile=='hand' then require('abyss_watcher_final_cards').created(require('abyss_combat'),state,card)end
         require('abyss_warrior_status_cards').created(state,card,'make_copy')
         if id=='shiv' then require('abyss_shivs').created(state,card) end
         state.nextUid=uid+1.0;seen[uid]=true

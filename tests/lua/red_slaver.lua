@@ -87,10 +87,10 @@ end)
 test("first player owner end removes the whole power without consuming Artifact",function()
  local s=battle();force(s.enemies[1],"red_slaver_2");roll(99,function() assert(C.endTurn(s)) end)
  C.addStatus(s.player,"entangled",1);C.addStatus(s.player,"artifact",1);s.events={}
- roll(0,function() assert(C.endTurn(s)) end);eq(s.player.statuses.entangled,0);eq(s.player.statuses.artifact,1)
+  roll(0,function() assert(C.endTurn(s)) end);eq(s.player.statuses.entangled or 0,0);eq(#A.powerSequence(s.player,{'entangled'}),0);eq(s.player.statuses.artifact,1)
  local removed,intent
  for i,event in ipairs(s.events) do
-  if event.kind=="status" and event.detail.status=="entangled" then removed=i;eq(event.detail.amount,-2);eq(event.frame.player.statuses.artifact,1) end
+   if event.kind=="status_removed" and event.detail.status=="entangled" then removed=i;eq(event.detail.amount,-2);eq(event.frame.player.statuses.artifact,1) end
   if event.kind=="intent" then intent=i end
  end
  assert(removed and intent and removed<intent);assert(C.canPlay(s,uid(s,"strike"),1))

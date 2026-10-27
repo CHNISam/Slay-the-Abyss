@@ -1,0 +1,28 @@
+{
+  "base": "2425ad622eed31ad6a965b90086a6838a1db96f4",
+  "timeoutMilliseconds": 30000,
+  "entry": "tests/lua/inventory_restore.lua",
+  "total": 5,
+  "migratedFullBodySha256LF": "2dd8dc80b7f3bedcd54d74cd9209fade670800d32e8da7238edcfc7954b1f0d9",
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2\nlocal sliceRegistered,sliceExecuted=0,0\n",
+  "before": "local function test(name, fn)\n    fn(); count = count + 1; print(\"ok inventory_restore \" .. count .. \" - \" .. name)\nend",
+  "after": "local function test(name, fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n    sliceExecuted=sliceExecuted+1\n    fn(); count = count + 1; print(\"ok inventory_restore \" .. count .. \" - \" .. name)\nend",
+  "footer": "\nassert(sliceRegistered==5,\"all five original restore groups must remain registered\")\nassert(sliceExecuted==sliceLast-sliceFirst+1,\"every selected restore group must execute\")\n",
+  "slices": [
+    {
+      "path": "tests/lua/inventory_restore.lua",
+      "first": 1,
+      "last": 2
+    },
+    {
+      "path": "tests/lua/inventory_restore_slice_2.lua",
+      "first": 3,
+      "last": 3
+    },
+    {
+      "path": "tests/lua/inventory_restore_slice_3.lua",
+      "first": 4,
+      "last": 5
+    }
+  ]
+}

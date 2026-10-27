@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 43,
-    "queueMissing": 91,
-    "act1Missing": 99,
-    "registeredLocalEffects": 42,
+    "existingLocalEffects": 48,
+    "queueMissing": 89,
+    "act1Missing": 95,
+    "registeredLocalEffects": 47,
     "fallbackLocalEffects": 1
   },
   "queueProtocol": {
@@ -1807,10 +1807,11 @@
         "rewards-shop-acquisition"
       ],
       "sourceHooks": [],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "golden_idol",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/GoldenIdol.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Actual event obtain/trap choices, rounded non-chest GOLD offer bonus and same-owner Moai sacrifice are locally wired. SPECIAL remains event-only and outside ordinary treasure/shop queues; complete natural event/campaign, dedicated art and PC/platform/live acceptance remain pending."
     },
     {
       "id": "Gremlin Horn",
@@ -2642,8 +2643,8 @@
         "atBattleStart",
         "setCounter"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "neows_lament",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/NeowsLament.java",
       "unlockSource": null,
       "dependencyNote": "NeowsLament class: three battles set each starting monster HP to one; special Neow choice, not common/rare/boss queue."
@@ -3395,11 +3396,12 @@
       "sourceHooks": [
         "atBattleStart"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "red_mask",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/RedMask.java",
       "excludedReason": "Act2 Masked Bandits / Act3 Red Mask Tomb",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Actual Tomb event obtain and opening BOT Weak1 are locally wired. Source SPECIAL and later-act scope unchanged; Masked Bandits, full natural campaign, dedicated art and PC/platform/live acceptance pending."
     },
     {
       "id": "Regal Pillow",
@@ -4129,10 +4131,11 @@
         "onObtainCard",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "toxic_egg",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/ToxicEgg2.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Skill acquisition and source-specific preview/equip hooks, max-floor48 and local channels are implemented. Existing restricted shop/treasure distribution, complete natural campaign and PC/platform/live acceptance remain pending."
     },
     {
       "id": "Toy Ornithopter",
@@ -4194,10 +4197,11 @@
       "sourceHooks": [
         "onLoseHpLast"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "tungsten_rod",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/TungstenRod.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Shared onLoseHpLast is wired in battle/event HP paths with actual treasure/shop and source Rare-head component evidence. Complete source acquisition wrappers, whole campaign and platform/live acceptance remain pending."
     },
     {
       "id": "Turnip",

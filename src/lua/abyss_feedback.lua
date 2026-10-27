@@ -7,6 +7,10 @@ local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
 local ROW = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2
 -- Curve shapes, not tunables: pop overshoot, gentle swell and peak portrait flash strength.
 local OVERSHOOT, SWELL, FLASH = 1 / 3, 1 / 6, 0.85
+-- Fixed action waits from DamageAction / DamageAllEnemiesAction at sts@319009d5.
+-- Theme hit-stop belongs to the independent VFX clock, never the action gate.
+local DAMAGE_DURATION, AREA_DURATION, POST_ATTACK_WAIT = 0.1, 0.25, 0.1
+local skipDamageWait = {brilliance = true, flechettes = true, barrage = true}
 local function n(value) return string.format("%.0f", value or 0) end
 local function clamp(x) return x < 0 and 0 or x > 1 and 1 or x end
 local function easeOut(x) x = clamp(x) return 1 - (1 - x) * (1 - x) end
@@ -27,12 +31,15 @@ local function classify(queue, catalog)
             if entry.kind == "play" then
                 for _, effect in ipairs(catalog.cards[d.cardId].effects) do area = area or effect.op == "damageAll" end
             end
-            context = {kind = entry.kind, area = area, hits = {}}
+            context = {kind = entry.kind, area = area, cardId = d.cardId, hits = {}}
             styles[i] = {context = context}
         else
             local style = {context = context}
             styles[i] = style
-            if entry.kind == "damage" and context then context.hits[#context.hits + 1] = style end
+            if entry.kind == "damage" and context then
+                style.target = d.target
+                context.hits[#context.hits + 1] = style
+            end
             if entry.kind == "status_damage" then style.form = "dot"
             elseif entry.kind == "hp_loss" then style.form = "self" end
             local total = (d.amount or 0) + (d.blocked or 0)
@@ -49,22 +56,35 @@ local function classify(queue, catalog)
             end
         end
     end
-    for _, style in pairs(styles) do
-        local hits = style.context and style.context.hits
-        if hits and not style.form and #hits > 0 then
-            for k, hit in ipairs(hits) do
-                if hit == style then
-                    style.form = style.context.area and "area" or #hits > 1 and "multi" or "single"
-                    style.hit, style.hits = k, #hits
+    for _, style in ipairs(styles) do
+        local groupContext = style.context
+        if groupContext and not groupContext.classified then
+            groupContext.classified = true
+            local rounds, round, targets = {}, {}, {}
+            for _, hit in ipairs(groupContext.hits) do
+                -- Repeated damageAll actions (Whirlwind) have one action wait
+                -- and one contact cue per pass, not one for the entire card.
+                if groupContext.area and targets[hit.target] then
+                    rounds[#rounds + 1], round, targets = round, {}, {}
                 end
+                round[#round + 1], targets[hit.target] = hit, true
+            end
+            rounds[#rounds + 1] = round
+            for _, group in ipairs(rounds) do for k, hit in ipairs(group) do
+                hit.form = groupContext.area and "area" or #group > 1 and "multi" or "single"
+                hit.hit, hit.hits = k, #group
+            end
             end
         end
     end
     return styles
 end
 
-local function duration(entry, style)
+local function duration(entry, style, fastMode)
     local kind = entry.kind
+    if kind == "action_wait" then
+        return fastMode and math.min(entry.detail.seconds, 0.1) or entry.detail.seconds
+    end
     if kind == "play" then return T.base end
     if banners[kind] then return T.banner end
     if kind == "intent" then return T.enemyActionGap end
@@ -73,7 +93,12 @@ local function duration(entry, style)
     if kind == "death" then return entry.detail.chained and 0 or T.slow end
     -- Area hits land on consecutive rendered frames: one shockwave rippling across the row.
     if kind == "damage" and style.form == "area" and style.hit < style.hits then return 0 end
-    if kind == "damage" then return T.base + (style.stop or 0) end
+    if kind == "damage" then
+        local context = style.context or {}
+        local base = style.form == "area" and context.cardId ~= "whirlwind" and AREA_DURATION or DAMAGE_DURATION
+        local skip = fastMode or skipDamageWait[context.cardId] and style.form ~= "area"
+        return base + (not skip and POST_ATTACK_WAIT or 0)
+    end
     if hurts(kind) or kind == "block" or kind == "status" or kind == "heal" then return T.base end
     return 0
 end
@@ -92,7 +117,7 @@ local function pose(keys, age)
 end
 
 function M.new(stage, platform, present, complete)
-    local self = { busy = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
+    local self = { busy = false, fastMode = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
     local overlay = stage:GetChild("feedback")
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
@@ -139,6 +164,7 @@ function M.new(stage, platform, present, complete)
         if self.slotOwners[slot]~=id then resetUnit('enemy'..slot) self.slotOwners[slot]=id end
     end
     function self:reset()
+        self.battle = nil
         stage:SetAnchoredPosition(0, 0)
         hideOverlay(false, true)
         for _, name in ipairs({"banner", "bannerPlate"}) do
@@ -303,13 +329,23 @@ function M.new(stage, platform, present, complete)
         end
     end
     function self:start(before, battle, first, presentation, origin)
-        self:reset()
+        -- GameActionManager releases its action gate independently of the
+        -- dungeon's effectList. A subsequent card in this battle must not erase
+        -- a previous target's still-running number, HP ghost or recovery pose.
+        -- Cancellation, failure and battle replacement retain full cleanup.
+        if self.battle ~= battle then self:reset() end
+        self.battle = battle
+        self.playbackFastMode = self.fastMode
         self.presentation, self.origin, self.acting = presentation, origin, nil
         self.shadow = {catalog = battle.catalog, rules = battle.rules}
         for k, v in pairs(before) do self.shadow[k] = v end
-        for _, a in ipairs(before.enemies) do if a.hp <= 0 then self.deaths[a.id] = true end end
+        self.deaths = {}
+        for _, a in ipairs(before.enemies) do
+            if a.hp <= 0 then self.deaths[a.id] = true
+            else self.dying[a.id] = nil end
+        end
         self.queue, self.index, self.elapsed = {}, 0, 0
-        local previous, area, pending = before, false, {}
+        local previous, area, pending, preDamageWait = before, false, {}, nil
         local function flush()
             -- Deaths read the latest frame so a deferred fade never rewinds later hits.
             -- Simultaneous kills collapse together: chained deaths start on consecutive frames, one cue.
@@ -324,7 +360,14 @@ function M.new(stage, platform, present, complete)
             if entry.kind == "play" then
                 area = false
                 for _, effect in ipairs(battle.catalog.cards[entry.detail.cardId].effects) do area = area or effect.op == "damageAll" end
+                -- Bludgeon.use queues zero-wait VFX, WaitAction(0.8), then damage.
+                -- This is a presentation wait; committed core events stay untouched.
+                preDamageWait = entry.detail.cardId == "bludgeon" and 0.8 or nil
             elseif entry.kind ~= "damage" then area = false end
+            if entry.kind == "damage" and entry.detail.source == "player" and preDamageWait then
+                self.queue[#self.queue + 1] = {kind = "action_wait", detail = {seconds = preDamageWait}, frame = previous}
+                preDamageWait = nil
+            end
             self.queue[#self.queue + 1] = entry
             if entry.frame then
                 local priorActors = {}
@@ -482,7 +525,7 @@ function M.new(stage, platform, present, complete)
             assert(type(dt) == "number" and dt == dt and dt >= 0 and dt < math.huge, "invalid frame delta")
             self.elapsed = self.elapsed + dt
             -- At most one visible step per update: a stalled frame cannot skip an enemy turn.
-            if self.busy and self.elapsed >= duration(self.current, self.style) then
+            if self.busy and self.elapsed >= duration(self.current, self.style, self.playbackFastMode) then
                 self.index = self.index + 1
                 local entry = self.queue[self.index]
                 if not entry then finish() return end
@@ -538,6 +581,10 @@ function M.new(stage, platform, present, complete)
             stage:SetAnchoredPosition(shake, 0)
         end)
         if not ok then finish(failure) end
+    end
+    function self.setFastMode(owner, enabled)
+        assert(type(enabled) == "boolean", "fast mode must be boolean")
+        owner.fastMode = enabled
     end
     -- Called only after the rule transaction; even start/control failure must unlock.
     function self:begin(...)

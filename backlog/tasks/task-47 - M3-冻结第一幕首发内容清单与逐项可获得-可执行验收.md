@@ -3,9 +3,9 @@ id: TASK-47
 title: 确定首发内容，并逐项确认真的能玩
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 07:08'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -68,6 +68,8 @@ ordinal: 75000
 在当前已批准的effects和gremlin_gang文件范围内修复正式房间Protect错用LCG的组合缺陷；先验证AI计数及下一次roll的独立预期，再最小改接现有EnemyRandom适配器，保留legacy ABI。新增生产改动后原RC只作旧版本证据，最终SHA统一CI。
 
 2026-10-27优先级治理：逐项读取当前任务，按当前M3依赖与已知PR238阻塞重排；High聚焦14.1/16.1/59/62四项，其余首发Medium，独立可选Low，已完成记录Medium。补现有verify:backlog门禁：当前任务目录不允许空/非法优先级，未完成High最多5项；历史completed目录不追溯。同步根GUI可见任务，验证分布、业务元数据不变及门禁正反例，同PR241交付。
+
+2026-10-27并发复核：bosses独立树补确实缺失Hexaghost/SlimeBoss，按固定AI/阶段/随机消耗实现独立模块；主session接真实遭遇和数据，不把已有地图当完整章节；自然四职业全幕及平台验收继续未完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -128,4 +130,6 @@ ordinal: 75000
 2026-10-26验收进度校准：范围冻结与现有交付盘点两项已完成；原14项全内容/自然玩法要求保持未勾，不以盘点完成代替全M3通过。
 
 2026-10-27最新核对：M3仍为四职业及第一至第四幕完整交付，未验收。GitHub实时读回PR238为OPEN/DRAFT，head a4dac7723af8262a314758c87d92f421afea4911，CONFLICTING且当前检查为空；无作业不是CI通过。主集成树m3-next-content正在同步develop fc51f198，18个冲突路径仍为unmerged、合并未提交。下一步先修复合并后inventory_restore和tungsten_rod_channels两项失败，再核完整diff、提交同步、推同一PR并验当前SHA全部必要CI；随后补同候选自然获取/四职业跨幕/平台证据。未生成新GIL、未导入、未实机、未通过verify:ui。依据根HANDOFF-PR238-20261027-115033-STOP.md及build/pr238-resume-20261027-091929/fc51-final-focused.json；本轮仅核对任务，不继续开发或占用键鼠。
+
+本轮只收口PR238既有范围，不继续扩内容。完整原战斗UI53组、原红钥匙核心15/UI14组、地图38组、职业商店88输入均按完整正文/原断言/原种子验证；必要分片保留各原30/60秒且机器核一次覆盖。第二轮Linux单进程完整JS在原20min作业上限被取消，未冒称整套通过；复用既有隔离VM分片机制收口当前SHA全部Quality。没有本轮GIL/官方导入/键鼠窗口/截图/verify:ui，四职业自然四幕与终幕未完成保持。最终PR合并证据以当前HEAD实际GitHub状态为准。
 <!-- SECTION:NOTES:END -->

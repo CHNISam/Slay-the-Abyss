@@ -1,0 +1,85 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Fixed decompiled source and component interpretation, not authenticated PC binary/platform qualification",
+  "files": {
+    "events/beyond/TombRedMask.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/TombRedMask.java",
+      "sha256": "515880ea139fc92c80f42ae6c7e026ddac23eff0c3dd07891ab687c5d4612053"
+    },
+    "relics/RedMask.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/RedMask.java",
+      "sha256": "870885c0415d842394a8ed487570ce11429b43f951afc96cd523593f1125cb82"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "powers/WeakPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/WeakPower.java",
+      "sha256": "17072c70ffbf219440dea75069910630d745654c4bf58cf528e937a7d747d973"
+    },
+    "powers/ArtifactPower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/ArtifactPower.java",
+      "sha256": "7f0c3a5df2f204c6f0fa3fb152a807895b330f26b0f0970f4ef060ee9b919ac7"
+    },
+    "actions/common/ApplyPowerAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47"
+    },
+    "dungeons/AbstractDungeon.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    "dungeons/TheBeyond.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheBeyond.java",
+      "sha256": "dbc559c7a80e98197f0d9d61e76cffa737dab9a9f21981bc535671523152d46b"
+    },
+    "rooms/AbstractRoom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    "relics/AbstractRelic.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167"
+    },
+    "actions/GameActionManager.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    "helpers/RelicLibrary.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/RelicLibrary.java",
+      "sha256": "e0fed2c9c4559dcf0bf3a19190a46af09a3300a9741757cc62550fdc5889874c"
+    }
+  },
+  "contracts": {
+    "sourceId": "Tomb of Lord Red Mask",
+    "relicSourceId": "Red Mask",
+    "act": 3,
+    "goldReward": 222,
+    "payment": "all current gold, including zero",
+    "relicTier": "SPECIAL",
+    "opening": "BOTTOM per-monster Weak1 with isSourceMonster=false",
+    "initialMaskChoices": [
+      "wear",
+      "leave"
+    ],
+    "initialNoMaskChoices": [
+      "wear (disabled)",
+      "pay",
+      "leave"
+    ],
+    "resultChoices": [
+      "leave"
+    ],
+    "constructorMiscDraws": 0,
+    "choiceRngDraws": 0,
+    "namedRelicPoolDraws": 0,
+    "goldIsRewardItem": false
+  },
+  "oracle": {
+    "generator": "tools/oracles/sts1_tomb_red_mask.py",
+    "generatorSha256LF": "6316a1f050a8f81c6ec8a62b8d97c5afea42f0f6c2733d10b90b2271352ef6b7",
+    "fixtureSha256LF": "118cfc6fca547a12236dd75a967ab10b424b6e89341c8a408530002a3044d32f"
+  }
+}

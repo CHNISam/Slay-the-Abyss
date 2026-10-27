@@ -1,4 +1,7 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
 local H=dofile('tests/lua/support/gremlin_gang_fixture.lua')
+H.selectCases(sliceFirst,sliceLast)
 local Run,Map,Nodes,C,R,I,Data=H.Run,H.Map,H.Nodes,H.C,H.R,H.I,H.Data
 local eq,same,freeze,test,ids,oracle,vectors,force,direct,nodeSetup,normal,unknown,enter,streamAfter=H.eq,H.same,H.freeze,H.test,H.ids,H.oracle,H.vectors,H.force,H.direct,H.nodeSetup,H.normal,H.unknown,H.enter,H.streamAfter
 for i,v in ipairs(vectors) do test('literal source vector '..i..' constructs four ordered independent instances',function()
@@ -19,8 +22,8 @@ for i,v in ipairs(vectors) do test('literal source vector '..i..' constructs fou
  end)
  -- Independent Combat constructor proves slot-to-HP/AI correspondence under
  -- CURRENT separate misc vs shared Combat stream. Not Java cross-stream order.
- local reference=C.new(run.data,{seed=run.seed,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),hp=run.hp,gold=run.gold,deck=run.deck,enemies=v[2],
-  beforeFirstTurn=function(state)state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run);return true end})
+ local reference=C.new(run.data,{seed=run.seed,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,enemies=v[2],masterDeck=run.deck,miscRng=run.miscRng,cardRng=run.cardRng,
+  beforeFirstTurn=function(state)state.potionRng=run.shopRng and R.cloneState(run.shopRng.potion)or R.fromSeed(run.runSeed);state.potionCharacter=require('abyss_potion_random').character(run);state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run);return true end})
  assert(reference.potionInventory~=run.potions,'independent constructor owns its potion snapshot')
  same(Data.rules.player.startingRelics,{'burning_blood'})
  reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
@@ -87,8 +90,8 @@ test('all other 17 encounters keep construction and their declared misc consumpt
   if e.id=='small_slimes' then local wanted=R.cloneState(oldMisc);R.randomBoolean(wanted);same(run.miscRng,wanted)
   elseif e.louseCount then local wanted=R.cloneState(oldMisc);for _=1,e.louseCount do R.randomBoolean(wanted) end;same(run.miscRng,wanted)
   else eq(run.miscRng,oldMisc) end
-  local reference=C.new(run.data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck,
-   beforeFirstTurn=function(state)state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run);return true end})
+  local reference=C.new(run.data,{seed=42,cardRandomSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),shuffleSeed=string.format('%.0f',tonumber(run.eventSeed)+run.floor),enemies=unchanged[e.id],deck=run.deck,hp=run.hp,maxHp=run.maxHp,gold=run.gold,masterDeck=run.deck,miscRng=run.miscRng,cardRng=run.cardRng,
+   beforeFirstTurn=function(state)state.potionRng=run.shopRng and R.cloneState(run.shopRng.potion)or R.fromSeed(run.runSeed);state.potionCharacter=require('abyss_potion_random').character(run);state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run);return true end})
   assert(reference.potionInventory~=run.potions,'independent constructor owns its potion snapshot')
   same(Data.rules.player.startingRelics,{'burning_blood'})
   reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}

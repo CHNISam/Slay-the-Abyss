@@ -1,3 +1,7 @@
+local sliceFirst,sliceLast,seedFirst,seedLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4
+seedFirst,seedLast=seedFirst or 1,seedLast or 128
+local sliceRegistered,sliceExecuted=0,0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Combat = require("abyss_combat")
 local Run = require("abyss_run")
@@ -11,6 +15,10 @@ local function same(a, b)
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected field " .. tostring(k)) end
 end
 local function test(name, fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+
     count = count + 1
     local ok, reason = pcall(fn)
     if not ok then failed = failed + 1 end
@@ -196,10 +204,13 @@ end
 test("real starter reward joins permanent deck and is usable in next battle", function()
     local selected, choice
     for seed = 1, 128 do
+        if seed>=seedFirst and seed<=seedLast then
         local run = win(seed)
         for i, id in ipairs(Run.rewardOptions(run)) do if id == "dropkick" then selected, choice = run, i; break end end
-        if selected then break end
+        if selected then assert(seed==26,'source reward boundary changed');break end
+        end
     end
+    if not selected and seedLast<26 then print('PR238_SEARCH_PREFIX '..seedFirst..' '..seedLast);return end
     assert(selected, "dropkick never offered in real victory rewards")
     local old = Combat.copy(selected.deck)
     assert(Run.claimCardReward(selected, choice)); dofile('tests/lua/support/finish_combat_rewards.lua')(selected); equal(#selected.deck, #old + 1)
@@ -227,3 +238,7 @@ test("real starter reward joins permanent deck and is usable in next battle", fu
 end)
 assert(failed == 0, failed .. "/" .. count .. " vulnerable combo tests failed")
 print("vulnerable combo tests passed: " .. count)
+
+assert(sliceRegistered==52,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

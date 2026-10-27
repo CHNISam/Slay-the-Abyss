@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2
+local sliceRegistered,sliceExecuted=0,0
 package.path='src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;'..package.path
 local F=require('support.game_ui_fixture')
 local X=require('support.experimental_ui_fixture')
@@ -8,7 +11,11 @@ local Theme=require('abyss_theme')
 local Data=require('abyss_data')
 local count=0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
-local function test(name,fn)fn();count=count+1;print('ok game_ui_phase_four '..count..' - '..name)end
+local function test(name,fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+fn();count=count+1;print('ok game_ui_phase_four '..count..' - '..name)end
 local cursor={CursorDown='down',CursorUp='up',CursorExit='exit',CursorEndDrag='enddrag'}
 local classIndex={ironclad=1,silent=2,defect=3,watcher=4}
 local function control(root,path)
@@ -69,14 +76,14 @@ local function play(ui,root,id,target)
  click(root,target and 'battlePanel/enemy1' or 'battlePanel/playArea')
  drain(ui);return instance
 end
-test('four real profiles contain 238 ordinary cards without counting auxiliary cards',function()
+test('legacy raw profiles keep66 red and75 per new class without counting auxiliary cards',function()
  local total=0
- for id,want in pairs({ironclad=66,silent=61,defect=56,watcher=55})do
+ for id,want in pairs({ironclad=66,silent=75,defect=75,watcher=75})do
   local d=Profiles.prepare(Data,id);local n=0
   for _,c in ipairs(d.cards.cards)do if c.type~='status'and c.type~='curse'and c.rarity~='special'then n=n+1 end end
   eq(n,want);total=total+n
  end
- eq(total,238)
+ eq(total,291)
 end)
 local choiceSpecs={
  {character='ironclad',card='headbutt',source='discard',destination='draw',count=1,target=true},
@@ -213,3 +220,7 @@ for _,spec in ipairs(powerCases)do
  end)
 end
 print('GAME_UI_PHASE_FOUR_PASS '..count)
+
+assert(sliceRegistered==26,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

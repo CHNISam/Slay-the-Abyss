@@ -10,6 +10,59 @@ local D = L.cardDrag
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local M = {}
 
+local function lerpSnap(value, target, dt, rate, threshold)
+    local nextValue=value+(target-value)*math.min(1,dt*rate)
+    return math.abs(nextValue-target)<threshold and target or nextValue
+end
+
+local function handTarget(count, index, hot, point)
+    local restAngle=-(index-(count-1)/2)*L.hand.arcDegrees
+    return {x=point[1],y=point[2],scale=hot and Theme.motion.hoverScale or 1,
+        angle=hot and 0 or restAngle,restAngle=restAngle,
+        baseY=point[2]-(hot and Theme.motion.hoverLift or 0)}
+end
+
+local function placeHandHit(box, pose, target)
+    local w,h=L.card.size[1],L.card.size[2]
+    local r=target.restAngle*math.pi/180
+    local c,s=math.abs(math.cos(r)),math.abs(math.sin(r))
+    local restH,restW=(h*c+w*s)/2,(w*c+h*s)/2
+    local hotH=h*Theme.motion.hoverScale/2
+    local low=math.min(target.baseY-restH,target.baseY+Theme.motion.hoverLift-hotH)
+    local high=math.max(target.baseY+restH,target.baseY+Theme.motion.hoverLift+hotH)
+    local dy,a=(low+high)/2-pose.y,pose.angle*math.pi/180
+    local hit=box:GetChild('hit')
+    hit:SetAnchoredPosition(math.sin(a)*dy/pose.scale,math.cos(a)*dy/pose.scale)
+    hit:SetSizeDelta(math.max(restW*2,w*Theme.motion.hoverScale)/pose.scale,(high-low)/pose.scale)
+    hit:SetLocalScale(1,1,1);hit.localRotationZ=-pose.angle
+end
+
+local function applyHandPose(entry)
+    local box,pose=entry.box,entry.current
+    box:SetAnchoredPosition(pose.x,pose.y)
+    box:SetLocalScale(pose.scale,pose.scale,1)
+    box.localRotationZ=pose.angle
+    placeHandHit(box,pose,entry.target)
+end
+
+local function advancePose(entry, dt, fast)
+    local pose,target=entry.current,entry.target
+    for _=1,fast and 2 or 1 do
+        pose.x=lerpSnap(pose.x,target.x,dt,6,Theme.canvas.base[1]/1920)
+        pose.y=lerpSnap(pose.y,target.y,dt,6,Theme.canvas.base[1]/1920)
+    end
+    pose.scale=lerpSnap(pose.scale,target.scale,dt,7.5,0.003)
+    pose.angle=lerpSnap(pose.angle,target.angle,dt,12,0.003)
+end
+
+local function pileMembership(battle)
+    local result={}
+    for _,name in ipairs({"draw","discard","exhaust"}) do
+        for _,card in ipairs(battle and battle[name] or {}) do result[card.uid]=true end
+    end
+    return result
+end
+
 local function cardDefinition(data, battle, instance, id)
     local definition = instance and Combat.cardDefinition(battle, instance)
     if definition then return definition end
@@ -51,6 +104,33 @@ function M.new(view, controls)
     local ink, tint, picture = controls.ink, controls.tint, controls.picture
     local placeCard, placeReward = controls.placeCard, controls.placeReward
     local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
+    local handBattle,handPoses,previousPiles=nil,{},{}
+    local handWidth,handHeight
+    local function syncHandViewport(current)
+        if current~=handBattle or view.canvasWidth~=handWidth or view.canvasHeight~=handHeight then
+            -- Resizing invalidates a captured drag. Its old display coordinates
+            -- cannot survive after the capture layer has been removed.
+            handBattle,handPoses,previousPiles=current,{},{}
+            handWidth,handHeight=view.canvasWidth,view.canvasHeight
+        end
+    end
+    local function handPose(box,instance,count,index,hot)
+        local point=placeCard(box,count,index,hot)
+        local target=handTarget(count,index,hot,point)
+        local entry=handPoses[instance.uid]
+        if not entry then
+            entry={current={x=target.x,y=target.y,scale=target.scale,angle=target.angle}}
+            if previousPiles[instance.uid] then
+                -- AbstractPlayer.draw/CardGroup.moveToHand start at the draw pile,
+                -- at .12 against the source's ordinary .75 hand scale.
+                entry.current={x=L.drawPile.position[1],y=L.drawPile.position[2],scale=0.12/0.75,angle=0}
+            end
+            handPoses[instance.uid]=entry
+        end
+        entry.box,entry.target,entry.visible=box,target,true
+        applyHandPose(entry)
+        return {entry.current.x,entry.current.y}
+    end
     local function currentAim()
         local held = view.gesture or view.carry
         if held and held.moving then
@@ -105,7 +185,8 @@ function M.new(view, controls)
             pose = placeReward(box, #context.rewards, i, view.rewardView.cards[i], view.hover == i)
         else
             local count = context.fighting and #context.battle.hand or #context.rewards
-            pose = placeCard(box, count, i - 1, card.selected == true or context.active and view.hover == i)
+            local hot=card.selected==true or context.active and view.hover==i
+            pose=card.instance and handPose(box,card.instance,count,i-1,hot) or placeCard(box,count,i-1,hot)
         end
         if card.instance then view.cardPositions[card.instance.uid] = pose end
     end
@@ -143,6 +224,9 @@ function M.new(view, controls)
         local context = { data = data, presentation = presentation, battle = battle, fighting = fighting,run=view.run,
             active = active, reward = reward, rewards = picking and Run.rewardOptions(view.run) or {} }
         local aimUid, aimTarget = currentAim()
+        local current=fighting and view.run and view.run.combat
+        syncHandViewport(current)
+        for _,entry in pairs(handPoses) do entry.visible=false end
         view.cardPositions = {}
         local playable, selectedBox = false, nil
         for i = 1, 10 do
@@ -150,6 +234,8 @@ function M.new(view, controls)
             if card then playable = playable or card.enabled end
             selectedBox = hotBox or selectedBox
         end
+        for uid,entry in pairs(handPoses) do if not entry.visible then handPoses[uid]=nil end end
+        previousPiles=pileMembership(fighting and battle)
         if selectedBox then selectedBox:SetAsLastSibling() end
         return playable
     end
@@ -165,6 +251,8 @@ function M.new(view, controls)
         box:SetAnchoredPosition(x, y)
         box:SetLocalScale(D.scale, D.scale, 1)
         box.localRotationZ = 0
+        local entry=handPoses[g.uid]
+        if entry then entry.current={x=x,y=y,scale=D.scale,angle=0} end
         return x, y, h
     end
 
@@ -224,6 +312,17 @@ function M.new(view, controls)
             g.drawn, g.drawnValid, g.drawnTarget, g.drawnAiming = true, valid, target, aiming
         end
     end
-    return { renderCards = renderCards, renderDrag = renderDrag }
+    local function update(dt)
+        if not handBattle or dt<=0 then return end
+        local held=view.gesture or view.carry
+        for uid,entry in pairs(handPoses) do
+            if not (held and held.moving and held.uid==uid) then
+                advancePose(entry,dt,view.fastMode==true)
+                applyHandPose(entry)
+                view.cardPositions[uid]={entry.current.x,entry.current.y}
+            end
+        end
+    end
+    return { renderCards = renderCards, renderDrag = renderDrag, update = update }
 end
 return M

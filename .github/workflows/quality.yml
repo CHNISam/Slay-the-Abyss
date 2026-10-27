@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: ${{ fromJSON(inputs.runner_pool == 'local-special' && '[1]' || '[1,2,3,4]') }}
+        shard: ${{ fromJSON(inputs.runner_pool == 'local-special' && '[1]' || '[1,2,3,4,5,6,7,8]') }}
     timeout-minutes: ${{ inputs.runner_pool == 'local-special' && 75 || 30 }}
     defaults:
       run:
@@ -233,7 +233,14 @@ jobs:
       - run: node scripts/build-ui.mjs
         env:
           ABYSS_PYTHON: python3
-  engineering-posix:
+  engineering-posix-shards:
+    name: engineering-posix (${{ matrix.shard }}/${{ strategy.job-total }})
+    # Separate hosted VMs keep generated files isolated and retain the original
+    # 20-minute budget. Node partitions every JS file once, serially per VM.
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -254,13 +261,17 @@ jobs:
       - run: python3 -m pip install --disable-pip-version-check --retries 0 --timeout 30 Pillow==12.3.0
       - run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --fetch-retries=0 --fetch-timeout=30000
       - run: npm run setup:lua-static
-      - run: npm test
+      - name: POSIX JavaScript regression shard
+        run: |
+          npm run build:data
+          npm run build:ui
+          node --test --test-concurrency=1 --test-shard=${{ matrix.shard }}/${{ strategy.job-total }} tests/*.test.mjs
         env:
           ABYSS_PYTHON: python3
       - run: npm run check:engineering
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: engineering-${{ github.run_id }}-${{ github.run_attempt }}
+          name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
           path: |
             build/architecture.json
             build/lua-static.json
@@ -269,3 +280,14 @@ jobs:
             build/test-strength/*/report.json
           retention-days: 7
           if-no-files-found: error
+  engineering-posix:
+    # Preserve the required check name and reject every non-success outcome.
+    needs: engineering-posix-shards
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require every POSIX regression shard
+        env:
+          ENGINEERING_RESULT: ${{ needs.engineering-posix-shards.result }}
+        run: test "$ENGINEERING_RESULT" = success

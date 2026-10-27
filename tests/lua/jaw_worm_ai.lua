@@ -1,10 +1,18 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+local sliceRegistered=0
 -- Independent STS1 A0 expectations: developer-posted getMove and pinned method bodies.
 -- The controlled rolls below are input values, never claims about original seeds.
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Combat, data = require("abyss_combat"), require("abyss_data")
 local count = 0
 local function eq(a,b,label) assert(a==b,(label or "value")..": expected "..tostring(b)..", got "..tostring(a)) end
-local function test(name,fn) fn(); count=count+1; print("ok jaw "..count.." - "..name) end
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    fn(); count=count+1; print("ok jaw "..count.." - "..name)
+    print("JAW_WORM_AI_CASE "..sliceRegistered)
+end
 local function battle(enemies,seed)
     return Combat.new(data,{enemies=enemies or {"jaw_worm"},deck={"defend"},seed=seed or 42})
 end
@@ -161,3 +169,7 @@ test("failed card preserves sampled actor and flat decision history atomically",
     eq(e.hp,hp); eq(e.jawLast,last); eq(e.jawPrevious,previous); eq(e.intentIndex,index); eq(s.seed,seed)
 end)
 print("LUA_JAW_WORM_AI_PASS "..count)
+
+assert(sliceRegistered==13,"all thirteen original Jaw Worm groups must register")
+assert(count==sliceLast-sliceFirst+1,"every selected original Jaw Worm group must execute")
+print("JAW_WORM_AI_SLICE "..sliceFirst.." "..sliceLast.." "..count)

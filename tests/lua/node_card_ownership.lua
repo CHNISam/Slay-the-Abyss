@@ -92,6 +92,21 @@ test("old shop card cannot buy in a restarted run",function()
     assert(ui.mode=="defeat")
     local old=ui.run; ui.seed=42
     F.click(root,"menuPanel","start"); assert(ui.run~=old)
+    -- The real defeated Run now supplies this host's previous-run history.
+    -- Complete the actual generated opening before navigating the new map;
+    -- do not erase its pending node or reinterpret the held old shop gesture.
+    assert(old.floor<16 and ui.mode=='node' and ui.run.nodeFlow.event.id=='neow')
+    local freshHp,freshMax,freshGold,freshDeck=ui.run.hp,ui.run.maxHp,ui.run.gold,#ui.run.deck
+    assert(freshHp==ui.run.data.rules.player.maxHp and freshMax==freshHp)
+    assert(freshGold==ui.run.data.rules.player.startingGold and freshDeck==#ui.run.data.cards.starter_deck.cards)
+    F.click(root,'nodePanel','eventView/option1')
+    assert(#ui.run.nodeFlow.event.rewards==2 and ui.run.nodeFlow.event.rewards[2].type=='TEN_PERCENT_HP_BONUS')
+    local hpBonus=ui.run.nodeFlow.event.hpBonus
+    F.click(root,'nodePanel','eventView/option2')
+    assert(ui.run.hp==freshHp+hpBonus and ui.run.maxHp==freshMax+hpBonus)
+    assert(ui.run.gold==freshGold and #ui.run.deck==freshDeck)
+    F.click(root,'nodePanel','eventView/option1')
+    assert(ui.mode=='map' and ui.run.nodeFlow.complete and ui.run.neowStatus=='complete')
     reachShop(ui,root)
     local gold,n=ui.run.gold,#ui.run.deck
     emit(h,"up",11); emit(h,"click",11)

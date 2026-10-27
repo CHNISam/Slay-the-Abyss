@@ -67,7 +67,9 @@ test("invalid generation is rejected before pile, event or UID mutation",functio
     local s=fresh(); Silent.generateShivs(s,1);s.nextUid=s.hand[1].uid
     assert(not pcall(Silent.generateShivs,s,1));eq(#s.hand,1)
     s=fresh(); s.phase="victory";assert(not pcall(Silent.generateShivs,s,1))
-    s=fresh();s.player.statuses.master_reality=1;assert(not pcall(Silent.generateShivs,s,1));eq(#s.hand,0)
+    s=fresh();s.player.statuses.master_reality=1
+    local created=Silent.generateShivs(s,1);eq(#created,1);eq(#s.hand,1)
+    assert(s.hand[1].upgraded);eq(Combat.cardDefinition(s,s.hand[1]).effects[1].value,6)
 end)
 test("zero generation is a no-op and temporary cards stay out of source deck",function()
     local deck={"defend"};local s=fresh(deck);local uid,events=s.nextUid,#s.events

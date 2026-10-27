@@ -3,6 +3,7 @@ local registered=0
 -- Real generated NodeUI + Nodes commands. Prior route/history are staged, not earned/persistent evidence.
 local UI,Nodes,Run,Map=require('abyss_node_ui'),require('abyss_nodes'),require('abyss_run'),require('abyss_map')
 local Copy,Data=require('abyss_combat').copy,require('abyss_data')
+local SourceFixture=dofile('tests/lua/support/sapphire_source_fixture.lua')
 local Layout,Presentation=require('abyss_ui_layout'),require('abyss_presentation')
 local events={CursorEnter='enter',CursorExit='exit',CursorDown='down',CursorUp='up',CursorEndDrag='endDrag'}
 local count=0
@@ -72,6 +73,7 @@ local function room(kind,options)
             if relic.rarity=='common' or relic.rarity=='uncommon' or relic.rarity=='rare' then run.relics[#run.relics+1]=relic.id end
         end
     end
+    SourceFixture.stage(run,{exhausted=options.exhausted,boss=kind=='boss_treasure'})
     local map,id=beforeNode(kind,act)
     if kind=='boss_treasure' then
         run.nodeFlow={id=map.currentNodeId,floor=map.floor,type='boss',complete=true,result='boss_victory',
@@ -125,16 +127,17 @@ test('standalone keeps exact closed/open states and legacy displayed reward acti
     local run,map=treasure({standalone=true});local before,mapBefore=Copy(run),Copy(map)
     local ui,get,shown,click=setup(run,map);same(run,before);same(map,mapBefore)
     assert(shown('treasureView/closed') and not shown('treasureView/open') and not shown('treasureView/take') and not shown('confirm'))
-    assert(get('notice').text=='宝箱就在眼前');assert(click('treasureView/chest'));same(run,before);same(map,mapBefore)
+    assert(get('notice').text=='小型宝箱就在眼前；可以打开或直接离开。')
+    assert(Nodes.openTreasure(before));assert(click('treasureView/chest'));same(run,before);same(map,mapBefore)
     assert(shown('treasureView/open') and not shown('treasureView/closed') and shown('treasureView/reward') and not shown('confirm'))
-    assert(get('treasureView/take/label').text=='拿取并离开' and get('notice').text=='宝箱已打开 · 获得遗物')
+    assert(get('treasureView/take/label').text=='领取奖励' and get('notice').text=='领取所需奖励，或离开宝箱。')
     unchanged(run,map,function()return ui:press('confirm')end)
-    legacy(run,map,'claimTreasure',nil,function()return click('treasureView/take')end)
+    legacy(run,map,'claimTreasureReward',assert(Nodes.treasureRewardSource(run,run.nodeFlow.reward.items[1].slot)),function()return click('treasureView/take')end)
 end)
 
 test('opened eligible chest privately binds the exact rendered token for BOTH public choices',function()
     for _,choice in ipairs({'relic','sapphire'})do
-        local run,map=treasure();local before,mapBefore=Copy(run),Copy(map)
+        local run,map=treasure();local before,mapBefore=Copy(run),Copy(map);assert(Nodes.openTreasure(before))
         local project,command=Nodes.treasureSource,Nodes.chooseTreasure;local projections,renderSource=0,nil
         Nodes.treasureSource=function(...)local token,reason=project(...);projections=projections+1;renderSource=token;return token,reason end
         local ui,get,shown,click=setup(run,map);assert(projections==0 and not shown('confirm'))
@@ -178,11 +181,12 @@ test('missing history owned key malformed eligibility never offers a key or inve
     for _,options in ipairs({{qualified=false},{owned=true},{standalone=true}})do
         local run,map,ui,get,shown,click=opened(options);assert(not shown('confirm'))
         unchanged(run,map,function()return ui:press('confirm')end)
-        assert(get('treasureView/take/label').text=='拿取并离开')
-        legacy(run,map,'claimTreasure',nil,function()return click('treasureView/take')end)
+        assert(get('treasureView/take/label').text=='领取奖励')
+        legacy(run,map,'claimTreasureReward',assert(Nodes.treasureRewardSource(run,run.nodeFlow.reward.items[1].slot)),function()return click('treasureView/take')end)
     end
-    local run,map=treasure();run.keys.emerald='false';local ui,_,shown,click=setup(run,map)
-    assert(click('treasureView/chest') and not shown('confirm'));unchanged(run,map,function()return ui:press('confirm')end)
+    local run,map=treasure();local ui,_,shown,click=setup(run,map)
+    assert(click('treasureView/chest'));run.keys.emerald='false';ui:render()
+    assert(not shown('confirm'));unchanged(run,map,function()return ui:press('confirm')end)
 end)
 
 test('missing core API or absent/malformed token has no UI fallback key grant',function()
@@ -198,10 +202,10 @@ test('missing core API or absent/malformed token has no UI fallback key grant',f
     end
 end)
 
-test('gold fallback and Boss chest retain their old claims and never show Sapphire',function()
+test('source gold-only after relic removal and Boss chest retain independent claims without Sapphire',function()
     local run,map,_,get,shown,click=opened({exhausted=true});assert(not shown('confirm'))
-    assert(get('treasureView/reward/description').text=='遗物已全部持有，改为金币')
-    legacy(run,map,'claimTreasure',nil,function()return click('treasureView/take')end)
+    assert(get('treasureView/reward/description').text=='独立领取宝箱金币。')
+    legacy(run,map,'claimTreasureReward',assert(Nodes.treasureRewardSource(run,run.nodeFlow.reward.items[1].slot)),function()return click('treasureView/take')end)
     run,map=room('boss_treasure');local ui;ui,get,shown,click=setup(run,map);assert(click('treasureView/chest'))
     assert(not shown('confirm') and shown('back') and get('back/label').text=='跳过遗物')
     assert(click('treasureView/next'));local selected=ui.treasureChoice
@@ -225,6 +229,14 @@ test('run map and chapter replacement never adopt a new source at late Click',fu
         assert(not run.keys.sapphire and not nextRun.keys.sapphire);ui:render();assert(click('treasureView/chest'))
         parity(nextRun,nextMap,choice,function()return click(paths[choice],7)end)
     end
+    -- Opening also spends source RNG and may run permanent curse hooks. An old
+    -- closed chest callback must not open an entirely different current room.
+    local run,map=treasure();local ui,_,_,click=setup(run,map)
+    local stale=ui.actions['treasureView/chest'].handler
+    local nextRun,nextMap=treasure({act=2});ui.run,ui.map=nextRun,nextMap
+    unchanged(nextRun,nextMap,stale)
+    ui:render();local expected=Copy(nextRun);assert(Nodes.openTreasure(expected))
+    assert(click('treasureView/chest'));same(nextRun,expected)
 end)
 
 test('generation flow reward link relic and map source changes invalidate both choices',function()

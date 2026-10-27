@@ -1,9 +1,13 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+local sliceRegistered,sliceExecuted=0,0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local loaded, Nodes = pcall(require, "abyss_nodes")
 assert(loaded, "TASK-13 requires abyss_nodes node flow service")
 local Run, Map = require("abyss_run"), require("abyss_map")
 local Combat, Effects = require("abyss_combat"), require("abyss_effects")
 local data = require("abyss_data")
+local SourceTreasure=dofile('tests/lua/support/source_treasure_claims.lua')
 local count = 0
 local function equal(a, b) assert(a == b, tostring(a) .. " ~= " .. tostring(b)) end
 local function same(a, b)
@@ -12,7 +16,11 @@ local function same(a, b)
     for k, v in pairs(a) do same(v, b[k]) end
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected key " .. tostring(k)) end
 end
-local function test(name, fn) fn(); count = count + 1; print("ok nodes " .. count .. " - " .. name) end
+local function test(name, fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+ fn(); count = count + 1; print("ok nodes " .. count .. " - " .. name) end
 local function rejected(run, map, fn, reason)
     local beforeRun, beforeMap = Combat.copy(run), Map.snapshot(map)
     local ok, actual = fn(); equal(ok, false)
@@ -20,8 +28,9 @@ local function rejected(run, map, fn, reason)
     same(run, beforeRun); same(map, beforeMap)
 end
 -- Stage preceding navigation with the real map API; each test enters its target via Nodes.
-local function before(kind, source, seed, minimumFloor)
+local function before(kind, source, seed, minimumFloor,relicSeed)
     local run, map = Run.new(source or data, seed or 42), Map.generate(source or data, seed or 42)
+    if relicSeed then run.relicPool=require('abyss_relic_pool').new(relicSeed,run.data.relicSource)end
     while true do
         local available = Map.available(map)
         for _, node in ipairs(available) do
@@ -31,8 +40,8 @@ local function before(kind, source, seed, minimumFloor)
         assert(Map.choose(map, available[1].id))
     end
 end
-local function entered(kind, source, seed, minimumFloor)
-    local run, map, node = before(kind, source, seed, minimumFloor)
+local function entered(kind, source, seed, minimumFloor,relicSeed)
+    local run, map, node = before(kind, source, seed, minimumFloor,relicSeed)
     assert(Nodes.enter(run, map, node.id)); return run, map, node
 end
 local function easyData()
@@ -150,7 +159,9 @@ test("shop offers only playable cards and purchases unique permanent cards atomi
 end)
 
 test("shop relic stock excludes owned items and writes inventory after payment", function()
-    local run, map = entered("shop")
+    -- Independent complete queue seed2 yields Membership Card at the shop tail;
+    -- merchant/card/map retain their original seed42 history.
+    local run, map = entered("shop",nil,nil,nil,'2')
     local offers = Nodes.view(run, map).node.relics; assert(#offers > 0)
     for _, offer in ipairs(offers) do assert(offer.id ~= "burning_blood") end
     local offer = offers[3]; run.gold = offer.price - 1
@@ -211,6 +222,7 @@ end)
 test("treasure is deterministic, grants an unowned relic once, and copies its view", function()
     local a, map = entered("treasure", nil, 18)
     local b, otherMap = entered("treasure", nil, 18)
+    assert(Nodes.openTreasure(a));assert(Nodes.openTreasure(b))
     local view = Nodes.view(a, map); same(view.node.reward, Nodes.view(b, otherMap).node.reward)
     local id = view.node.reward.relicId; assert(id and id ~= "burning_blood")
     view.node.reward.relicId = "fake"
@@ -219,11 +231,13 @@ test("treasure is deterministic, grants an unowned relic once, and copies its vi
     rejected(a, map, function() return Nodes.claimTreasure(a) end)
 end)
 
-test("treasure with all relics owned uses the existing normal gold reward", function()
+test("treasure with exhausted ordinary queues uses Circlet and source chest gold", function()
     local run, map, node = before("treasure")
     run.relics = {}; for _, relic in ipairs(data.relics.relics) do run.relics[#run.relics + 1] = relic.id end
+    SourceTreasure.depleted(run)
     assert(Nodes.enter(run, map, node.id)); local gold = run.gold
-    assert(Nodes.claimTreasure(run)); equal(run.gold, gold + data.rules.rewards.normalGold)
+    assert(Nodes.openTreasure(run));equal(run.nodeFlow.reward.relicId,'circlet');equal(run.nodeFlow.reward.gold,23)
+    assert(Nodes.claimTreasure(run)); equal(run.gold, gold + 23);equal(run.relicCounters.circlet,2)
 end)
 
 test("Cleric replaces fabricated gold and potion rewards with a one-time sourced service", function()
@@ -294,7 +308,7 @@ test("shops keep configured deletion increments and purchases across independent
         if run.phase == "combat" then
             finishBattle(run); assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
         elseif node.type == "camp" then assert(Nodes.rest(run))
-        elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
+        elseif node.type == "treasure" then assert(SourceTreasure.claim(run))
         elseif node.type == "event" then assert(Nodes.chooseEvent(run, "leave"))
         elseif node.type == "shop" then
             shops = shops + 1
@@ -351,7 +365,7 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
             if node.type == "boss" then equal(result, "boss_victory") end
         elseif node.type == "camp" then assert(Nodes.rest(run))
         elseif node.type == "shop" then assert(Nodes.leaveShop(run))
-        elseif node.type == "treasure" then assert(Nodes.claimTreasure(run))
+        elseif node.type == "treasure" then assert(SourceTreasure.claim(run))
         elseif node.type == "event" then assert(Nodes.chooseEvent(run, "leave")) end
     end
     equal(#map.path, data.rules.map.bossFloor)
@@ -363,3 +377,7 @@ test("existing node flows reach Boss16 and expose the separate pending Boss trea
 end)
 
 print("LUA_NODES_PASS " .. count)
+
+assert(sliceRegistered==21,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
+local sliceRegistered=0
 package.path="src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;"..package.path
 local F=require("support.game_ui_fixture")
 local X=require("support.experimental_ui_fixture")
@@ -23,6 +26,8 @@ local cases={
 }
 local count=0
 for _,case in ipairs(cases) do
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then
     local id,cardId,status,value=table.unpack(case)
     local ui,root=X.new();assert(ui:start(id))
     -- A deterministic branch fixture, not a natural-acquisition assertion.
@@ -46,5 +51,11 @@ for _,case in ipairs(cases) do
     end
     assert(found,status)
     count=count+1;print("ok class power "..count.." - actual "..cardId.." feedback and status render")
+    print("GAME_UI_CLASS_POWERS_CASE "..sliceRegistered)
+    end
 end
 print("GAME_UI_CLASS_POWERS_PASS "..count)
+
+assert(sliceRegistered==30,"all thirty original class power cases must register")
+assert(count==sliceLast-sliceFirst+1,"every selected original class power case must execute")
+print("GAME_UI_CLASS_POWERS_SLICE "..sliceFirst.." "..sliceLast.." "..count)

@@ -1,0 +1,134 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Actual raw members in audited local fixed ZIP; independent implementation, not authenticated PC binary execution.",
+  "files": {
+    "events/beyond/MoaiHead.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/MoaiHead.java",
+      "sha256": "dfe22d211e8d7edb95ed0e75aa6b177bb5f2282164be52231b8f44412c0bfa42"
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "relics/GoldenIdol.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/GoldenIdol.java",
+      "sha256": "063065e1da41f27eb786b89935bd0ec32be4c7e93b59fa693eb2c92a3bb16dd4"
+    },
+    "relics/AbstractRelic.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167"
+    },
+    "relics/MarkOfTheBloom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MarkOfTheBloom.java",
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434"
+    },
+    "relics/MagicFlower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MagicFlower.java",
+      "sha256": "e3940116e47e36eb3eea9f048a1808ffe2f8b6654db9e30cab9cce8496054eaf"
+    },
+    "potions/FairyPotion.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FairyPotion.java",
+      "sha256": "c292f97254f11ca34e0792b3899be966418d32ea5e8ce3e18cbcbaa5f4500e25"
+    },
+    "relics/Ectoplasm.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Ectoplasm.java",
+      "sha256": "717861865521c87b8b3dfbfd94a33a336ee968ce728a1f011f87dafb9471a7d7"
+    },
+    "dungeons/TheBeyond.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/TheBeyond.java",
+      "sha256": "dbc559c7a80e98197f0d9d61e76cffa737dab9a9f21981bc535671523152d46b"
+    }
+  },
+  "contracts": {
+    "act": 3,
+    "fraction": 0.125,
+    "gold": 333,
+    "canonicalRelicId": "golden_idol",
+    "halfHealthEligibility": false,
+    "maxHealthChangesBeforeHeal": true,
+    "damageOrFairyPath": false,
+    "flowerOnlyInCombat": true,
+    "bloomBlocksHealNotMaxHealthLoss": true,
+    "initialChoices": [
+      "heal",
+      "give_idol",
+      "leave"
+    ],
+    "resultChoices": [
+      "leave"
+    ],
+    "ascension": 0
+  },
+  "roundingOracle": [
+    {
+      "maxHp": 1,
+      "loss": 0
+    },
+    {
+      "maxHp": 3,
+      "loss": 0
+    },
+    {
+      "maxHp": 4,
+      "loss": 1
+    },
+    {
+      "maxHp": 11,
+      "loss": 1
+    },
+    {
+      "maxHp": 12,
+      "loss": 2
+    },
+    {
+      "maxHp": 20,
+      "loss": 3
+    },
+    {
+      "maxHp": 80,
+      "loss": 10
+    },
+    {
+      "maxHp": 16777219,
+      "loss": 2097153
+    },
+    {
+      "maxHp": 2147483647,
+      "loss": 268435456
+    }
+  ],
+  "naturalRoute": {
+    "runSeed": "32",
+    "floor": 35,
+    "fullHp": true,
+    "originalId": "The Moai Head",
+    "selectionRoll": 0.5846460461616516,
+    "selectionIndex": 2,
+    "eventRng": {
+      "words": [
+        "1cca48eb804a9c6a",
+        "575093616d9669c0"
+      ],
+      "counter": 1
+    },
+    "selectionRng": {
+      "words": [
+        "3e5aca543a2af754",
+        "d9bce1fd0d24cd51"
+      ],
+      "counter": 3
+    },
+    "miscRng": {
+      "words": [
+        "297b44a673fb0841",
+        "a7435b3cded0370f"
+      ],
+      "counter": 0
+    }
+  },
+  "unimplementedDependency": "GoldenIdol definition/normal acquisition and its generic +25% combat gold reward remain outside this component. Idol trade uses a canonical held-owner fixture."
+}

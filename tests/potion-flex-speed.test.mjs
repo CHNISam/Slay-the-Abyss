@@ -12,6 +12,17 @@ test('source Flex and Speed are base-five common self potions in the complete so
  }
 });
 test('real Run use preserves source delayed-loss and Artifact order',()=>{
- buildLuaData();const r=runLua('tests/lua/potion_flex_speed.lua');
- assert.equal(r.status,0,r.stderr||r.stdout);assert.match(r.stdout,/LUA_POTION_FLEX_SPEED_PASS 11/);
+ buildLuaData();const seen=[];
+ for(const [file,first,last]of [
+  ['potion_flex_speed.lua',1,3],['potion_flex_speed_slice_2.lua',4,7],
+  ['potion_flex_speed_slice_3.lua',8,10],['potion_flex_speed_slice_4.lua',11,11],
+ ]){
+  const started=Date.now(),r=runLua('tests/lua/'+file);
+  assert.equal(r.status,0,r.stderr||r.stdout);
+  assert.match(r.stdout,new RegExp('^LUA_POTION_FLEX_SPEED_PASS '+(last-first+1)+'$','m'));
+  const indices=[...r.stdout.matchAll(/^ok Flex Speed (\d+) - /gm)].map(m=>Number(m[1]));
+  assert.deepEqual(indices,Array.from({length:last-first+1},(_,i)=>first+i));
+  seen.push(...indices);console.log('Flex/Speed '+first+'-'+last+': '+(Date.now()-started)+'ms');
+ }
+ assert.equal(seen.length,11);assert.deepEqual(seen,Array.from({length:11},(_,i)=>i+1));
 });

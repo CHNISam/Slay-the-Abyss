@@ -1,0 +1,35 @@
+# 观者最后20张卡的本地组件
+
+TASK-58沿用固定319009d5源ZIP、既有fixture/catalog及class-final归档中的自行编写事实定义。20张差集均已接真实事务、选择或回合hook；Beta／Omega／Expunger、Wish三选项和Deus生成的Miracle具有实际路径。紫色normal定义为75张，来源奖励池仍为71张原顺序加4张基础牌，不过滤缺项或重抽。
+
+这不是普通入口全部齐备或平台验收结论。Watcher Profile仍只装载本职业定义；Foreign Influence需要的跨职业真实catalog由父TASK59统一组合。抽到缺真实定义会回滚整次操作，不能把合并catalog组件fixture当作普通Watcher入口已通过。
+
+## 关键源边界
+
+- Swivel免费攻击跨回合保留；非purge攻击消耗一层，自动牌和X牌沿用共享队列免费上下文。
+- Ragnarok逐击选择当时活敌并重算伤害；Expunger保存生成X，复制保留属性并换物理UID；Judgment绕过格挡和伤害修正，仍调用死亡路径；Omega使用无来源反伤伤害。
+- Meditate复用真实UID检索，auto-all溢出也标保留；Omniscience单候选仍选择，原牌强制消耗，statEquivalent副本purge。两个NewQueue均在首次自动激活前捕获同一能量，不把第二次X改为首轮Plasma唤醒后的能量。
+- Vault走完整玩家清理和新回合，跳过敌方及轮末减层；Conclude真实提前结束并取消等待自动牌的使用；Blasphemy按HP_LOSS99999结算，Deva保留独立递增量。
+- Deus只在真抽牌时TOP消耗并生成Miracle；Foresight可在起回合暂停占卜，再继续普通抽牌。生成或检索不冒充真抽牌。
+- Wave按正float格挡回调排虚弱，包含999上限及floor前不足1；Establishment按优先级25扫描当时保留手牌，再与化沙队列降费组合。
+- Lesson按masterDeck原序筛canUpgrade，用房间miscRng（单候选也消费），只提交永久UID升级；共用Genetic／Ritual Dagger的owner边界，不升级战斗副本。
+- Foreign完整候选为106张非HEALING攻击（common43／uncommon48／rare15）。每次尝试依次消费cardRandom稀有度与shuffleLong、持久cardRng索引；sourceId排序抹去shuffle排列但保留long消费，重复ID重走全段。它不动rarityOffset，也不生成Discovery的第二组。Wish／Lesson的HEALING同时落到实际定义，母池仍保留两者。
+- Master Reality由源生成站点显式调用共享CardActions.created。HandAction与ShowHand各一次、普通Discard一次、DrawPile一次；检索和Omni纯复制不调用。DualWield先复制再调用两个入口，singleton留手原牌和手选替换分支的原实体／永久牌不被升级。已升级普通牌不重复，Searing Blow按实际入口次数升级。
+
+## 依赖与证据
+
+共享依赖只集成一次：322a6b1→本树3155125，db3035e→2b18446d，00ea94c→201ccc56，23863a9→a88e5267。Watcher自身增量与共享created独立提交，父线程按功能合并共享hook。
+
+watcher_final_75_matrix.lua在源逻辑HEAD ee3b3fa、原30秒预算内实际完成75张×基本／升级共150次用牌／真抽牌执行，10.426秒；包含typed选择续队列和永久升级，采用合并真实catalog，不使用假定义。首轮在Signature Move非法通用填充手牌处失败，改为符合原资格的技能填充后重跑，未降低150断言或时限。
+
+独立Python64源oracle两流seed1的Foreign选项为Melter／Immolate／Compile Driver，cardRandom counter6、cardRng counter3。组件Lua核对选项、消费、取回不再生成、缺定义整次回滚和持久成功命令边界；JS逐项核106身份／资格与固定独立registry一致。
+
+新增分片短例先红后绿覆盖伤害生成、回合、真抽牌、保留、Wish所有结果、Lesson singleton／minion／真实Run最后击杀／晚失败回滚、Shiv基本及已升级／Accuracy／11张溢出／Infinite Blades。原生UI点击验证Wish第三项、Omni单牌和关闭后的旧回调；显示核当前护盾／伤害和Expunger实际次数。
+
+既有Watcher Retain21例、Scry18例、Stances15例及共享auto生命周期实际通过。原有“不支持Establishment／Watcher Chrysalis”预期改为真实增长和生成数值断言，原例数、池顺序和时限保留。Deus全量呈现fixture通过真实检索取回已消耗原对象，不能假定真抽后仍在手牌。
+
+交叉审查的三个P2均已独立先红后绿：7ba711df验证Omni+单槽Plasma+Tempest两版均24伤／能量4（0.784秒）；b1d24c9e验证DualWield两选择分支×两版本×两原牌升级状态的8组合（1.117秒）；ee3b3fa验证真实seed148 skill_potion及seed38 attack_potion排HEALING、两组Discovery完整RNG words／counter、71实际定义与源metadata标签一致及母池不变（1.083秒）。
+
+提前结束源边界另核GameActionManager先actions再cardQueue；PressEndTurn立即清等待自动牌，之后才等native物理清理结束并调用实际endTurn，拒绝会抛出并由外层回滚。真实后继攻击／抽牌／选择、最后一敌／死亡、Omni→Wish两次暂停恢复例均通过（1.838秒），不会多打下一张。取消牌清一次性标记并遵循Power／消耗／Tantrum回堆处置。
+
+最终全项目Quality、普通Run跨职业完整catalog和全部来源获取由父线程整合验收；本树没有自然连续通关、正式候选导入或实机证据，没有游戏／桌面操作。

@@ -1,0 +1,35 @@
+{
+  "base": "54c29a78fcc831f20c15b062c173773158fdf58b",
+  "originalGitBlob": "895747f9158c6c14e1158bfc8d6372b6da122ffa",
+  "originalSha256LF": "20cb975546649c960292ef460c50494dbc7cdbd44abda39920d657890ece6d8a",
+  "originalBytesLF": 19758,
+  "entry": "tests/lua/map_chapters.lua",
+  "total": 38,
+  "timeoutMilliseconds": 30000,
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 8\nlocal sliceRegistered,sliceExecuted=0,0\n",
+  "before": "local function test(name, fn) fn(); passed=passed+1; print('PASS '..name) end",
+  "after": "local function test(name, fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n    fn();sliceExecuted=sliceExecuted+1;passed=passed+1\n    print('PASS '..name)\n    print('MAP_CHAPTER_CASE '..sliceRegistered)\nend",
+  "footer": "\nassert(sliceRegistered==38,'all thirty-eight original map groups must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'every selected map group must execute')\nprint('MAP_CHAPTER_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+  "slices": [
+    {
+      "path": "tests/lua/map_chapters.lua",
+      "first": 1,
+      "last": 8
+    },
+    {
+      "path": "tests/lua/map_chapters_slice_2.lua",
+      "first": 9,
+      "last": 16
+    },
+    {
+      "path": "tests/lua/map_chapters_slice_3.lua",
+      "first": 17,
+      "last": 29
+    },
+    {
+      "path": "tests/lua/map_chapters_slice_4.lua",
+      "first": 30,
+      "last": 38
+    }
+  ]
+}

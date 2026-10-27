@@ -1,0 +1,21 @@
+{
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "locks": [
+    {
+      "lock": "act3-transient-source-lock.json",
+      "rawMembers": 21,
+      "matched": true
+    },
+    {
+      "lock": "sensory-stone-source.json",
+      "rawMembers": 67,
+      "matched": true
+    },
+    {
+      "lock": "tungsten-rod-source.json",
+      "rawMembers": 9,
+      "matched": true
+    }
+  ],
+  "boundary": "Raw fixed decompiled ZIP comparison only; no original PC binary or platform certification"
+}

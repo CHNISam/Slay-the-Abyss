@@ -1,0 +1,84 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+
+const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
+const job = name => (workflow + '\n  end-of-workflow:\n')
+  .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
+const shards = job('engineering-posix-shards');
+const aggregate = job('engineering-posix');
+const shardCommand = 'node --test --test-concurrency=1 --test-shard=${{ matrix.shard }}/${{ strategy.job-total }} tests/*.test.mjs';
+const setup = `    name: engineering-posix (\${{ matrix.shard }}/\${{ strategy.job-total }})
+    # Separate hosted VMs keep generated files isolated and retain the original
+    # 20-minute budget. Node partitions every JS file once, serially per VM.
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+`;
+
+test('POSIX shards preserve the original job gates, toolchain and 20-minute budget', () => {
+  assert.ok(shards?.startsWith(setup));
+  assert.match(shards, /^    runs-on: ubuntu-24\.04\n    timeout-minutes: 20\n/m);
+  assert.doesNotMatch(shards, /^    if:|continue-on-error:|self-hosted/m);
+  const commands = shards.match(/      - name: POSIX JavaScript regression shard\n        run: \|\n((?:          .+\n)+)/)?.[1]
+    .trim().split('\n').map(line => line.trim());
+  assert.deepEqual(commands, ['npm run build:data', 'npm run build:ui', shardCommand]);
+  const originalTest = JSON.parse(readFileSync('package.json', 'utf8')).scripts.test.split(' && ');
+  assert.deepEqual(commands.map(line => line.replace(' --test-shard=${{ matrix.shard }}/${{ strategy.job-total }}', '')), originalTest);
+  // Exact inverse of only the partitioning changes: the job in Git c78c59b,
+  // including setup, all engineering gates, artifact contents and deadlines.
+  const restored = '  engineering-posix:\n' + shards.replace(setup, '')
+    .replace('      - name: POSIX JavaScript regression shard\n        run: |\n          npm run build:data\n          npm run build:ui\n          ' + shardCommand + '\n', '      - run: npm test\n')
+    .replace('name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}', 'name: engineering-${{ github.run_id }}-${{ github.run_attempt }}');
+  assert.equal(createHash('sha256').update(restored).digest('hex'), 'ce93ae9253a5b7ee3b7082dc977f5dc8b09e765afa23097e47804d6d42874254');
+});
+
+test('required engineering-posix aggregate runs always and rejects missing, skipped and cancelled shards', () => {
+  assert.match(aggregate, /^    needs: engineering-posix-shards$/m);
+  assert.match(aggregate, /^    if: always\(\)$/m);
+  assert.doesNotMatch(aggregate, /continue-on-error:|\|\| true/);
+  assert.match(aggregate, /^          ENGINEERING_RESULT: \$\{\{ needs.engineering-posix-shards.result \}\}$/m);
+  const command = aggregate.match(/^        run: (.+)$/m)?.[1];
+  assert.equal(command, 'test "$ENGINEERING_RESULT" = success');
+  // Execute the exact production shell predicate, including an absent value.
+  const shell = process.platform === 'win32' ? join(process.env.ProgramFiles, 'Git', 'bin', 'bash.exe') : '/bin/sh';
+  for (const result of [undefined, '', 'skipped', 'cancelled', 'failure', 'timed_out', 'success']) {
+    const env = { ...process.env };
+    delete env.ENGINEERING_RESULT;
+    if (result !== undefined) env.ENGINEERING_RESULT = result;
+    const actual = spawnSync(shell, ['-c', command], { env, encoding: 'utf8', windowsHide: true, timeout: 30000 });
+    assert.ifError(actual.error);
+    assert.equal(actual.status === 0, result === 'success', `aggregate result ${String(result)}: ${actual.stderr}`);
+  }
+});
+
+test('native Node two-shard selection executes every current JS file name exactly once', t => {
+  const files = readdirSync('tests').filter(name => name.endsWith('.test.mjs')).sort();
+  assert.ok(files.length > 0);
+  const root = mkdtempSync(join(tmpdir(), 'abyss-posix-shards-'));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  // Name-only probes exercise Node's real file partitioner without rerunning
+  // the game suite or sharing generated outputs between CI workspaces.
+  for (const name of files) writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
+  const seen = [];
+  const env = { ...process.env };
+  // This is a separate CLI, as on each VM, rather than a child test file of
+  // the contract's own runner (Node otherwise disables nested CLI discovery).
+  delete env.NODE_TEST_CONTEXT;
+  for (let shard = 1; shard <= 2; shard++) {
+    const args = ['--test', '--test-concurrency=1', `--test-shard=${shard}/2`, '--test-reporter=tap', ...files.map(name => join(root, name))];
+    const result = spawnSync(process.execPath, args, { env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024 });
+    assert.ifError(result.error);
+    assert.equal(result.status, 0, result.stderr + result.stdout);
+    const selected = [...result.stdout.matchAll(/^# Subtest: ([^\r\n]+)$/gm)].map(match => match[1]);
+    assert.ok(selected.length > 0 && selected.length < files.length, `shard ${shard} must contain a proper subset`);
+    seen.push(...selected);
+  }
+  assert.equal(new Set(seen).size, seen.length, 'no test file can execute in both shards');
+  assert.deepEqual(seen.sort(), files, 'every real tests/*.test.mjs name executes once');
+});

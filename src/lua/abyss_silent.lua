@@ -86,7 +86,7 @@ function M.withFoundationCards(data)
 end
 
 -- Resolved generation action; the shared effect dispatcher owns card payment.
--- Master Reality remains unsupported; Accuracy stamps the new instance base.
+-- Explicit source creation callbacks upgrade before Accuracy stamps the base.
 function M.generateShivs(state, count, upgraded)
     assert(type(state) == "table" and state.phase == "player"
         and not require("abyss_combat").outcome(state), "generation requires live player combat")
@@ -94,8 +94,6 @@ function M.generateShivs(state, count, upgraded)
     assert(upgraded == nil or type(upgraded) == "boolean", "invalid upgrade flag")
     assert(integer(state.nextUid, 1, 2147483647 - count), "card UID overflow")
     assert(state.rules.player.maxHand == 10 and #state.hand <= 10, "unsupported hand capacity")
-    assert((state.player.statuses.master_reality or 0) == 0,
-        "unsupported generated-card power")
     local card = assert(state.catalog.cards.shiv, "register foundation cards before combat")
     assert(card.type == "attack" and card.cost == 0 and card.exhaust == true
         and card.effects[1].op == "damage" and card.effects[1].value == 4
@@ -115,6 +113,8 @@ function M.generateShivs(state, count, upgraded)
     local generated = {}
     for _ = 1, count do
         local instance = {uid=state.nextUid, cardId="shiv", upgraded=upgraded == true}
+        require('abyss_card_actions').created(require('abyss_combat'),state,instance)
+        require('abyss_card_actions').created(require('abyss_combat'),state,instance)
         require("abyss_shivs").created(state,instance)
         state.nextUid = state.nextUid + 1
         local destination = #state.hand < 10 and "hand" or "discard"

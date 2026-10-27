@@ -3,6 +3,7 @@ local Combat = require("abyss_combat")
 local Actor = require("abyss_actor")
 local data = require("abyss_data")
 local count = 0
+local owners=setmetatable({},{__mode='k'})
 local function eq(a, b) assert(a == b, "expected " .. tostring(b) .. ", got " .. tostring(a)) end
 local function same(a, b)
     eq(type(a), type(b))
@@ -12,9 +13,14 @@ local function same(a, b)
 end
 local function test(name, run) run(); count = count + 1; print("ok status " .. count .. " - " .. name) end
 local function battle(enemies)
-    return Combat.new(data, { deck = { "strike", "defend", "bash" }, enemies = enemies or { "jaw_worm" }, seed = 42 })
+    local state=Combat.new(data, { deck = { "strike", "defend", "bash" }, enemies = enemies or { "jaw_worm" }, seed = 42 })
+    owners[state.player]=state;for _,actor in ipairs(state.enemies)do owners[actor]=state end
+    return state
 end
-local function status(actor, id, value) Combat.addStatus(actor, id, value) end
+local function status(actor, id, value)
+    if owners[actor] then Actor.status(owners[actor],actor,id,value,actor,false)
+    else Combat.addStatus(actor,id,value)end
+end
 local function definition(id)
     for _, entry in ipairs(data.statuses.statuses) do if entry.id == id then return entry end end
     error("missing status definition: " .. id)
@@ -330,12 +336,15 @@ test("fresh battles do not share statuses temporary strength or definitions", fu
     eq(definition("poison").name, "中毒")
 end)
 
-test("dead enemy attacker cannot regenerate or let later enemies act", function()
+test("player defeat stops queued Thorns enemy regeneration and later enemies", function()
     local s = battle({ "jaw_worm", "jaw_worm" }); local e = s.enemies[1]
     e.hp = 1; status(e, "regen", 9); status(s.player, "thorns", 1)
     s.player.hp = 1
     Combat.endTurn(s)
-    eq(e.hp, 0); eq(e.statuses.regen, 9); eq(e.intentIndex, 1)
+    -- ThornsPower adds a TOP DamageAction. AbstractPlayer.damage opens the
+    -- death screen before it can run; AbstractRoom stops the action manager.
+    -- Preserve this lethal hit, original actors and later-enemy assertions.
+    eq(e.hp, 1); eq(e.statuses.regen, 9); eq(e.intentIndex, 1)
     eq(s.enemies[2].intentIndex, 1); eq(s.phase, "defeat")
 end)
 

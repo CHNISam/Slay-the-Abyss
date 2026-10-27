@@ -27,10 +27,18 @@ M.contentId.Lab='lab'
 M.contentId['The Woman in Blue']='woman_in_blue'
 M.contentId.WeMeetAgain='we_meet_again'
 M.contentId.Beggar='beggar'
+M.contentId['The Joust']='joust'
 M.contentId['The Mausoleum']='mausoleum'
 M.contentId.Addict='addict'
 M.contentId['Back to Basics']='back_to_basics'
+M.contentId.Falling='falling'
+M.contentId['Golden Idol']='golden_idol'
+M.contentId['Winding Halls']='winding_halls'
+M.contentId.SensoryStone='sensory_stone'
+M.contentId['The Moai Head']='moai_head'
+M.contentId['Tomb of Lord Red Mask']='tomb_red_mask'
 M.contentId.Ghosts='ghosts'
+
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     if chapter==nil then chapter=1 end

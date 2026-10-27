@@ -40,8 +40,18 @@ test('shop and treasure relic grants initialize acquisition counters',function()
  local shop=fixture('shop');local offer=shop.nodeFlow.relics[1]
  offer.id='omamori';offer.price=20;offer.unavailable=false
  assert(Nodes.buyRelic(shop,'omamori'));eq(shop.relicCounters.omamori,2)
- local chest=fixture('treasure');chest.nodeFlow.reward={relicId='omamori'}
- assert(Nodes.claimTreasure(chest));eq(chest.relicCounters.omamori,2)
+ local chest=fixture('treasure');assert(Nodes.openTreasure(chest))
+ -- This acquisition-hook fixture explicitly adds an Omamori offer AFTER the
+ -- real source chest has opened. Preserve every original identity and queue;
+ -- the added test offer is not a claim of natural Omamori acquisition.
+ local items,slot=chest.nodeFlow.reward.items,0
+ for _,item in ipairs(items)do slot=math.max(slot,item.slot)end
+ slot=slot+1
+ items[#items+1]={slot=slot,kind='relic',id='omamori',sourceId='Omamori',available=true,origin='fixture'}
+ local counter=chest.relicPool.rng.counter
+ local token=assert(Nodes.treasureRewardSource(chest,slot))
+ assert(Nodes.claimTreasureReward(chest,token));eq(chest.relicCounters.omamori,2)
+ eq(chest.relicPool.rng.counter,counter)
  local uid=chest.nextDeckUid;assert(Run.obtainCard(chest,'regret'));eq(chest.nextDeckUid,uid)
 end)
 test('purification invokes the same permanent removal hook',function()

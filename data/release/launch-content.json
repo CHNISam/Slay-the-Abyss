@@ -168,8 +168,7 @@
       "tasks": [
         "TASK-13.1.2",
         "TASK-12.5",
-        "TASK-47",
-        "TASK-61"
+        "TASK-47"
       ],
       "entryPoints": [
         "src/lua/abyss_event_pool.lua",
@@ -210,7 +209,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events and seventeen additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Five additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics, Ghosts) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4. Ghosts A0 caches entry maxHP loss, decreases current maxHP before five real permanent Apparition obtains, then retains result until Leave. Toxic Egg capability is absent from this parent; no manual reward upgrades or full acquisition-hook completeness claim."
+      "limitation": "Seven default random events and 24 additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Six additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics, Ghosts, Joust) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4. Ghosts A0 caches entry maxHP loss, decreases current maxHP before five real permanent Apparition obtains, then retains result until Leave. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; no manual reward upgrades or full acquisition-hook completeness claim."
     },
     "relics": {
       "tasks": [
@@ -236,7 +235,22 @@
           "tests/lua/boss_relic_effects.lua",
           "tests/lua/common_relic_hooks.lua",
           "tests/lua/common_relic_final.lua",
-          "tests/lua/special_relics.lua"
+          "tests/lua/special_relics.lua",
+          "tests/lua/tungsten_rod.lua",
+          "tests/lua/tungsten_rod_interactions.lua",
+          "tests/lua/tungsten_rod_channels.lua",
+          "tests/lua/tungsten_rod_transactions.lua",
+          "tests/lua/toxic_egg_obtain.lua",
+          "tests/lua/toxic_egg_battle.lua",
+          "tests/lua/toxic_egg_rest.lua",
+          "tests/lua/toxic_egg_shop.lua",
+          "tests/lua/toxic_egg_events.lua",
+          "tests/lua/toxic_egg_madness.lua",
+          "tests/lua/toxic_egg_eligibility.lua",
+          "tests/lua/toxic_egg_ui.lua",
+          "tests/lua/toxic_egg_event_ui.lua",
+          "tests/lua/toxic_egg_profiles.lua",
+          "tests/lua/toxic_egg_equip_rollback.lua"
         ]
       },
       "platform": {
@@ -374,6 +388,215 @@
         "evidence": []
       },
       "limitation": "35 ordinary shared cards plus four SPECIAL mechanics dependencies. SPECIAL event acquisition and per-item natural/platform acceptance remain pending. These are not part of any 75-card class count."
+    },
+    "falling": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/act3_falling_event.lua",
+          "tests/lua/act3_falling_ui.lua",
+          "tests/lua/act3_falling_natural.lua",
+          "tests/act3-falling-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "One Act 3 event only. Default Act 1 restricted-seven unchanged; source-full development campaign and exact transactions tested locally. Remaining Act 3 events and platform evidence are not covered."
+    },
+    "moai": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_moai_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/act3_moai_event.lua",
+          "tests/lua/act3_moai_ui.lua",
+          "tests/lua/act3_moai_natural.lua",
+          "tests/act3-moai-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "One Act3 event component. Golden Idol acquire/combat reward/same-owner sacrifice is now covered by goldenIdol profile; historical held-owner fixtures remain. No complete campaign or platform/live acceptance."
+    },
+    "winding": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_winding_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/act3_winding_event.lua",
+          "tests/lua/act3_winding_outcomes.lua",
+          "tests/lua/act3_winding_rollback.lua",
+          "tests/lua/act3_winding_rounding.lua",
+          "tests/lua/act3_winding_natural.lua",
+          "tests/lua/act3_winding_ui.lua",
+          "tests/act3-winding-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Winding Halls component; unsupported permanent damage/revival relic hooks reject atomically. No full M3, complete natural run or platform acceptance."
+    },
+    "goldenIdol": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_golden_idol_event.lua",
+        "src/lua/abyss_act1_events.lua",
+        "src/lua/abyss_gold_rewards.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/golden_idol_event.lua",
+          "tests/lua/golden_idol_costs.lua",
+          "tests/lua/golden_idol_rollback.lua",
+          "tests/lua/golden_idol_rounding.lua",
+          "tests/lua/golden_idol_gold.lua",
+          "tests/lua/golden_idol_natural.lua",
+          "tests/lua/golden_idol_ui.lua",
+          "tests/lua/golden_idol_channels.lua",
+          "tests/golden-idol-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Actual single relic/event component and source-pool boundary selection; full default Act1 admission, whole campaign and platform/live remain pending. Existing currency glyph is an explicitly documented temporary art fallback."
+    },
+    "sensoryStone": {
+      "tasks": [
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_sensory_stone_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_event_pool.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/sensory_stone_event.lua",
+          "tests/lua/sensory_stone_rng.lua",
+          "tests/lua/sensory_stone_natural.lua",
+          "tests/lua/sensory_stone_outcomes.lua",
+          "tests/lua/sensory_stone_rollback.lua",
+          "tests/lua/sensory_stone_tungsten.lua",
+          "tests/lua/sensory_stone_ui.lua",
+          "tests/lua/sensory_stone_profiles.lua",
+          "tests/sensory-stone-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Single event with all35 ordinary colorless rewards, frozen groups and source skip/reopen lifecycle. Source selection/public commands are components; full Act3/campaign/default full admission and device/live acceptance are incomplete."
+    },
+    "tomb": {
+      "tasks": [
+        "TASK-13.1.2",
+        "TASK-14.1",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_tomb_red_mask_event.lua",
+        "src/lua/abyss_act3_events.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua",
+        "src/lua/abyss_inventory.lua",
+        "src/lua/abyss_relic_hooks.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/tomb_red_mask_natural.lua",
+          "tests/lua/tomb_red_mask_event.lua",
+          "tests/lua/tomb_red_mask_guards.lua",
+          "tests/lua/tomb_red_mask_rollback.lua",
+          "tests/lua/tomb_red_mask_opening.lua",
+          "tests/lua/tomb_red_mask_opening_rollback.lua",
+          "tests/lua/tomb_red_mask_ui.lua",
+          "tests/tomb-red-mask-source.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Complete single event plus required Red Mask opening Weak; seed14 full-pool room component and explicit held-mask branch fixtures. Masked Bandits, whole natural campaign, dedicated relic art and PC/platform/live qualification remain pending."
     }
   },
   "cards": [
@@ -1718,6 +1941,7 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:golden_idol:injury",
         "explicit_event:transmogrifier:change",
         "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
@@ -3110,7 +3334,195 @@
         "count": 5,
         "through": "Run.obtainCard"
       },
-      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / public Nodes+Run and generated-control tests. Native-client acceptance NOT_RUN; natural campaign/history/persistence and complete source-pool acceptance remain pending. Five fresh permanent Apparition obtains dispatch existing hooks after cached maxHP cost; no picker, seeded event RNG, damage/heal/Fairy dispatch or manual upgrades. Toxic Egg capability is absent from this parent; complete generic onMasterDeckChange relic support is not claimed. Active/retained combat health owners explicitly refuse; supported normal event context keeps result then separate Leave."
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / public Nodes+Run and generated-control tests. Native-client acceptance NOT_RUN; natural campaign/history/persistence and complete source-pool acceptance remain pending. Five fresh permanent Apparition obtains dispatch existing hooks after cached maxHP cost; no picker, seeded event RNG, damage/heal/Fairy dispatch or manual upgrades. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; complete generic onMasterDeckChange relic support is not claimed. Active/retained combat health owners explicitly refuse; supported normal event context keeps result then separate Leave."
+    },
+    {
+      "id": "falling",
+      "originalId": "Falling",
+      "choices": [
+        "continue",
+        "skill",
+        "power",
+        "attack",
+        "escape",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choice",
+        "result"
+      ],
+      "eligibility": "Act 3 only; naturally reachable through the unfiltered development campaign full source pool.",
+      "source": "src/lua/abyss_act3_events.lua",
+      "profile": "falling",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Excluded from default Act 1 restricted-seven inventory; Act 3 development campaign seed8 has local full-pool evidence. Complete campaign, platform and live acceptance remain pending.",
+      "act": 3
+    },
+    {
+      "id": "moai_head",
+      "originalId": "The Moai Head",
+      "act": 3,
+      "choices": [
+        "heal",
+        "give_idol",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "result"
+      ],
+      "eligibility": "Act 3; no half-health eligibility. Golden Idol trade option requires canonical held golden_idol.",
+      "source": "src/lua/abyss_moai_event.lua",
+      "profile": "moai",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Outside default Act1 inventory. Local development campaign seed32 proves unfiltered full-HP event entry; goldenIdol profile now supplies actual event acquisition, ordinary GOLD +25% and same-owner sacrifice component evidence. Whole-campaign, platform and live acceptance remain pending."
+    },
+    {
+      "id": "winding_halls",
+      "originalId": "Winding Halls",
+      "act": 3,
+      "choices": [
+        "continue",
+        "madness",
+        "writhe",
+        "max_hp",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choice",
+        "result"
+      ],
+      "eligibility": "Act 3 source entry; mandatory three choices after Continue. NORMAL damage has null owner.",
+      "source": "src/lua/abyss_winding_event.lua",
+      "profile": "winding",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage still refuses held lizard_tail until its real shared revival hook exists. Tungsten Rod now shares actual battle/event final HP-loss reduction. Toxic Egg now upgrades both actually obtained Madness cards once; Writhe still refuses held darkstone_periapt. Complete relic acquisition, whole-campaign and platform/live acceptance remain pending."
+    },
+    {
+      "id": "golden_idol",
+      "originalId": "Golden Idol",
+      "act": 1,
+      "choices": [
+        "take",
+        "leave",
+        "injury",
+        "damage",
+        "max_hp"
+      ],
+      "stages": [
+        "intro",
+        "trap",
+        "result"
+      ],
+      "eligibility": "Act1 source normal event; no additional eligibility. Taking immediately obtains Golden Idol (Circlet if duplicate) before mandatory trap cost.",
+      "source": "src/lua/abyss_golden_idol_event.lua",
+      "profile": "goldenIdol",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held lizard_tail NORMAL damage or darkstone_periapt curse obtain refuses until real shared hooks exist; Tungsten Rod final HP-loss reduction is wired. Full campaign/platform/live acceptance pending."
+    },
+    {
+      "id": "sensory_stone",
+      "originalId": "SensoryStone",
+      "act": 3,
+      "choices": [
+        "continue",
+        "one",
+        "two",
+        "three",
+        "open_1",
+        "take_1_1",
+        "take_1_2",
+        "take_1_3",
+        "skip_1",
+        "open_2",
+        "take_2_1",
+        "take_2_2",
+        "take_2_3",
+        "skip_2",
+        "open_3",
+        "take_3_1",
+        "take_3_2",
+        "take_3_3",
+        "skip_3",
+        "proceed",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choice",
+        "rewards",
+        "cards",
+        "result"
+      ],
+      "eligibility": "Act3 ordinary source event, no extra health eligibility; source rewards precede null-owner HP_LOSS.",
+      "source": "src/lua/abyss_sensory_stone_event.lua",
+      "profile": "sensoryStone",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Toxic Egg now previews and obtains real upgraded Skills in every reward group. Held unimplemented Question/Crown/Molten Egg/Frozen Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
+    },
+    {
+      "id": "tomb_red_mask",
+      "originalId": "Tomb of Lord Red Mask",
+      "act": 3,
+      "choices": [
+        "wear",
+        "pay",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "result"
+      ],
+      "eligibility": "Third-act ordinary event; no gold or HP admission threshold, zero-gold payment is legal.",
+      "source": "src/lua/abyss_tomb_red_mask_event.lua",
+      "profile": "tomb",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default Act1 mode remains restricted-seven. Development campaign seed14 proves the full seven-item Act3 source pool room boundary; held-mask branch is a permanent-inventory fixture. Whole natural campaign and PC/platform/live acceptance pending."
+    },
+    {
+      "id": "joust",
+      "originalId": "The Joust",
+      "choices": [
+        "continue",
+        "bet_against",
+        "bet_for",
+        "leave"
+      ],
+      "stages": [
+        "halt",
+        "explanation",
+        "pre_joust",
+        "joust",
+        "complete"
+      ],
+      "eligibility": "Act 2/3 one-time source pool, requires at least 50 gold; source pool mode and history gates preserved.",
+      "source": "src/lua/abyss_joust_event.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Public Nodes and generated UI wiring; fixed-source five-screen wager semantics. Full source-pool normal campaign eligibility/history and platform acceptance remain pending."
     }
   ],
   "relics": [
@@ -3558,10 +3970,11 @@
       "profile": "relics",
       "rarity": "special",
       "channels": [
-        "explicit_event:bonfire:repeat_curse_offer"
+        "explicit_event:bonfire:repeat_curse_offer",
+        "explicit_event:golden_idol:repeat_take"
       ],
       "sourceId": "Circlet",
-      "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue."
+      "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue. Golden Idol repeat take also yields/increments the actual Circlet before trap choice."
     },
     {
       "id": "darkstone_periapt",
@@ -3575,6 +3988,67 @@
       "sourceId": "Darkstone Periapt",
       "naturalExecutionLimitation": "Permanent curse obtains only with no active or retained combat owner. Active combat or pending reward/combat health contexts reject atomically until source heal-modifier dispatch and run/combat health synchronization are integrated. Full source treasure/shop acquisition, natural play and platform evidence remain pending.",
       "naturalAcquisitionLimitation": "Existing restricted treasure/shop candidate APIs apply only this newly admitted source max-floor gate (destination floor<=48; no supported Endless mode). This is not full original queue/probability acquisition parity."
+    },
+    {
+      "id": "toxic_egg",
+      "sourceId": "Toxic Egg 2",
+      "source": "data/relics.json#toxic_egg",
+      "profile": "relics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Seed8 actual Big Fish box selects Toxic Egg from the untouched complete source event relic queue, then equips it and obtains the real curse. Existing ordinary treasure and shop still use their explicitly restricted supported candidate sets; this slice does not certify their original full-pool distributions. Both enforce this relic's non-Endless floor48 maximum.",
+      "naturalExecutionLimitation": "Permanent Skill acquire and source-defined reward/shop preview upgrade once without RNG. Existing deck, shop shelves and direct Dream Catcher offers are not upgraded on equipment. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
+    },
+    {
+      "id": "tungsten_rod",
+      "sourceId": "TungstenRod",
+      "source": "data/relics.json#tungsten_rod",
+      "profile": "relics",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Shared onLoseHpLast reduces each positive HP loss by one in battle and events. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
+    },
+    {
+      "id": "golden_idol",
+      "sourceId": "Golden Idol",
+      "source": "data/relics.json#golden_idol",
+      "profile": "goldenIdol",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:golden_idol:take"
+      ],
+      "naturalAcquisitionLimitation": "Actual acquisition is through the Golden Idol event only; SPECIAL remains excluded from ordinary treasure/shop source pools. Default full-event admission, complete campaign and platform/live evidence pending.",
+      "naturalExecutionLimitation": "Component proves actual event acquire, real starter source battle/ordinary GOLD freeze/claim and same-owner Moai333. Dedicated relic art/device acceptance pending."
+    },
+    {
+      "id": "red_mask",
+      "sourceId": "Red Mask",
+      "source": "data/relics.json#red_mask",
+      "profile": "tomb",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:tomb_red_mask:pay"
+      ],
+      "naturalAcquisitionLimitation": "Actual named SPECIAL obtain from Tomb only; excluded from ordinary treasure/shop source queues. The source Masked Bandits path is unimplemented and not claimed.",
+      "naturalExecutionLimitation": "Opening BOT Weak1/Artifact/first-round expiry and repeated battles locally covered; dedicated relic art, whole campaign and platform/live acceptance pending."
+    },
+    {
+      "id": "neows_lament",
+      "sourceId": "NeowsBlessing",
+      "source": "data/relics.json#neows_lament",
+      "channels": [
+        "explicit:Nodes.beginNeow:THREE_ENEMY_KILL"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Neow opening choice; exact three-battle direct HP/counter hooks. Whole-campaign/native acceptance pending.",
+      "profile": "relics",
+      "rarity": "special"
     }
   ],
   "potions": [
@@ -4395,9 +4869,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "bandage_up",
@@ -4411,9 +4886,10 @@
         "upgraded"
       ],
       "channels": [
-        "shop_colorless_card"
+        "shop_colorless_card",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "blind",
@@ -4428,9 +4904,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "chrysalis",
@@ -4445,9 +4922,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "dark_shackles",
@@ -4462,9 +4940,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "deep_breath",
@@ -4479,9 +4958,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "discovery",
@@ -4496,9 +4976,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "dramatic_entrance",
@@ -4513,9 +4994,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "enlightenment",
@@ -4530,9 +5012,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "finesse",
@@ -4547,9 +5030,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "flash_of_steel",
@@ -4564,9 +5048,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "forethought",
@@ -4581,9 +5066,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "good_instincts",
@@ -4598,9 +5084,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "hand_of_greed",
@@ -4615,9 +5102,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "impatience",
@@ -4632,9 +5120,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "jack_of_all_trades",
@@ -4649,9 +5138,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "madness",
@@ -4666,9 +5156,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "magnetism",
@@ -4683,9 +5174,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "master_of_strategy",
@@ -4700,9 +5192,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "mayhem",
@@ -4717,9 +5210,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "metamorphosis",
@@ -4734,9 +5228,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "mind_blast",
@@ -4751,9 +5246,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "panacea",
@@ -4768,9 +5264,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "panache",
@@ -4785,9 +5282,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "panic_button",
@@ -4802,9 +5300,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "purity",
@@ -4819,9 +5318,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "sadistic_nature",
@@ -4836,9 +5336,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "secret_technique",
@@ -4853,9 +5354,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "secret_weapon",
@@ -4870,9 +5372,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "swift_strike",
@@ -4887,9 +5390,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "the_bomb",
@@ -4904,9 +5408,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "thinking_ahead",
@@ -4921,9 +5426,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "transmutation",
@@ -4938,9 +5444,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "trip",
@@ -4955,9 +5462,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "violence",
@@ -4972,9 +5480,10 @@
       ],
       "channels": [
         "shop_colorless_card",
-        "shared_card_generation"
+        "shared_card_generation",
+        "explicit_event:sensory_stone:card_reward"
       ],
-      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
       "id": "apparition",
@@ -4991,7 +5500,7 @@
         "explicit:Run.obtainCard",
         "explicit_event:ghosts:accept"
       ],
-      "naturalAcquisitionLimitation": "Shared canonical skill with explicit Run.obtainCard and Ghosts A0 five-card source event acquisition locally covered. Default restricted-seven does not randomly admit Ghosts; controlled full Act2 source draw is tested, not a natural campaign. Toxic Egg capability is absent from this parent. Natural/platform acceptance NOT_RUN."
+      "naturalAcquisitionLimitation": "Shared canonical skill with explicit Run.obtainCard and Ghosts A0 five-card source event acquisition locally covered. Default restricted-seven does not randomly admit Ghosts; controlled full Act2 source draw is tested, not a natural campaign. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards. Natural/platform acceptance NOT_RUN."
     },
     {
       "id": "bite",

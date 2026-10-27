@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+local sliceRegistered,sliceExecuted=0,0
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local P=require('abyss_character_presentation')
 local Profiles=require('abyss_character_profiles')
@@ -11,7 +14,11 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local BattleUI=require('abyss_battle_ui')
 local DeckUI=require('abyss_deck_ui')
 local cases=0
-local function test(name,fn)fn();cases=cases+1;print('ok '..cases..' '..name)end
+local function test(name,fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+fn();cases=cases+1;print('ok '..cases..' '..name)end
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
 local rendered=0
@@ -32,6 +39,14 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'}) do
     if id=='defect' then options.orbSlots=3;options.orbRandomSeed='17' end
     if id=='watcher' then options.enableStances=true end
     local battle=C.new(prepared,options)
+    if card.id=='deus_ex_machina' then
+     -- True draw must exhaust Deus. Recover that original through the actual
+     -- retrieval action to render its unplayable face without faking a draw.
+     while #battle.hand>0 do battle.discard[#battle.discard+1]=table.remove(battle.hand)end
+     local original=assert(battle.exhaust[1])
+     require('abyss_card_actions').applyChoice(C,battle,{effect={op='recoverExhaust',value=1}},original.uid)
+     assert(battle.hand[1]==original and original.cardId==card.id)
+    end
     run.phase='combat';run.combat=battle
     battleUI.run=run;battleUI.target=1;battleUI:render()
     local box=root:GetChild('battlePanel'):GetChild('card1')
@@ -296,3 +311,7 @@ test('all supported shared curses render in each class and reject incompatible l
  end
 end)
 print('CHARACTER_PRESENTATION_PASS '..cases..' rendered_card_variants='..rendered)
+
+assert(sliceRegistered==16,'all original cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

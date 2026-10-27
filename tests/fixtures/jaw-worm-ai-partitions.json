@@ -1,0 +1,29 @@
+{
+  "base": "2f3879eb4b7bd7d08d83601e99c90cb82a5aceea",
+  "entry": "tests/lua/jaw_worm_ai.lua",
+  "originalGitBlob": "8b82d3ddf251a65bbac461279c0476baba2ab52f",
+  "originalSha256LF": "4cfea5a462f3682c95d9cd7882d800a787e71d95722b2b32e499877d4b725560",
+  "total": 13,
+  "timeoutMilliseconds": 30000,
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1\nlocal sliceRegistered=0\n",
+  "before": "local function test(name,fn) fn(); count=count+1; print(\"ok jaw \"..count..\" - \"..name) end",
+  "after": "local function test(name,fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n    fn(); count=count+1; print(\"ok jaw \"..count..\" - \"..name)\n    print(\"JAW_WORM_AI_CASE \"..sliceRegistered)\nend",
+  "footer": "\nassert(sliceRegistered==13,\"all thirteen original Jaw Worm groups must register\")\nassert(count==sliceLast-sliceFirst+1,\"every selected original Jaw Worm group must execute\")\nprint(\"JAW_WORM_AI_SLICE \"..sliceFirst..\" \"..sliceLast..\" \"..count)\n",
+  "slices": [
+    {
+      "path": "tests/lua/jaw_worm_ai.lua",
+      "first": 1,
+      "last": 1
+    },
+    {
+      "path": "tests/lua/jaw_worm_ai_slice_2.lua",
+      "first": 2,
+      "last": 11
+    },
+    {
+      "path": "tests/lua/jaw_worm_ai_slice_3.lua",
+      "first": 12,
+      "last": 13
+    }
+  ]
+}

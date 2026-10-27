@@ -40,7 +40,7 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 17);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 24);
   assert.equal(manifest.sharedCards.length,39);
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
@@ -50,7 +50,7 @@ test('expanded content records actual channels without granting natural acquisit
 test('gate rejects promoting explicit events, SPECIAL relics and pending potions into natural pools', () => {
   const event = fresh(); event.events.find(row => row.id === 'big_fish').channels = ['unknown_room:event'];
   assert.ok(validateLaunchContent(event, { runtime: false }).some(error => error.includes('events/big_fish channels')));
-  for (const id of ['warped_tongs', 'spirit_poop', 'circlet']) {
+  for (const id of ['warped_tongs', 'spirit_poop', 'circlet', 'golden_idol']) {
     const manifest = fresh(); manifest.relics.find(row => row.id === id).channels = ['treasure', 'shop_relic'];
     assert.ok(validateLaunchContent(manifest, { runtime: false }).some(error => error.includes(`relics/${id} channels`)));
   }
@@ -211,7 +211,6 @@ test('Back to Basics inventory keeps source-correct empty completion and V4 impl
  assert.match(row.naturalAcquisitionLimitation,/V4 supports Elegance/);assert.match(row.naturalAcquisitionLimitation,/not a source class rule/);
  assert.match(row.naturalAcquisitionLimitation,/Native-client acceptance NOT_RUN/);
 });
-
 
 test('Ghosts launch ledger binds actual cached health cost and real five-card source acquisition without claiming natural completion',()=>{
  const manifest=fresh(),row=manifest.events.find(event=>event.id==='ghosts');

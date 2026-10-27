@@ -85,6 +85,16 @@ test('original default and explicit timeout plus maxBuffer reach spawnSync uncha
     ['tests/lua/battle_ui.lua', {}, 60000],
     ['tests/lua/battle_ui_slice_2.lua', {}, 60000],
     ['tests/lua/battle_ui_slice_2.lua', { timeout: 321 }, 321],
+    ['tests/lua/battle_ui_slice_3.lua', {}, 60000],
+    ['tests/lua/battle_ui_slice_3.lua', { timeout: 321 }, 321],
+    ['tests/lua/battle_ui_slice_4.lua', {}, 60000],
+    ['tests/lua/battle_ui_slice_4.lua', { timeout: 321 }, 321],
+    ['tests/lua/battle_ui_slice_5.lua', {}, 60000],
+    ['tests/lua/battle_ui_slice_5.lua', { timeout: 321 }, 321],
+    ['tests/lua/battle_ui_slice_6.lua', {}, 60000],
+    ['tests/lua/battle_ui_slice_6.lua', { timeout: 321 }, 321],
+    ['tests/lua/battle_ui_slice_7.lua', {}, 60000],
+    ['tests/lua/battle_ui_slice_7.lua', { timeout: 321 }, 321],
     ['tests/lua/living_wall_slice_2.lua', {}, 30000],
     ['tests/lua/living_wall_slice_3.lua', {}, 30000],
     ['tests/lua/diagnostic.lua', { timeout: 321 }, 321],
@@ -96,6 +106,7 @@ test('original default and explicit timeout plus maxBuffer reach spawnSync uncha
       assert.equal(command, process.execPath);
       assert.equal(args[0], '/diagnostic-fixture/lua-cli.js');
       assert.equal(args[1], '-e');
+      if (script.startsWith('tests/lua/battle_ui')) assert.match(args[2], /abyss-ui-test-/);
       assert.equal(settings.timeout, timeout);
       assert.equal(settings.maxBuffer, 1024 * 1024);
       assert.equal(settings.encoding, 'utf8');

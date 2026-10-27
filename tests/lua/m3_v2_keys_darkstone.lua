@@ -1,7 +1,8 @@
 -- Integration only: history, prior routing and destination room types are
 -- explicitly staged; actual public entry/obtain/key commands are exercised.
 local Run,Nodes,Map=require('abyss_run'),require('abyss_nodes'),require('abyss_map')
-local C,Data=require('abyss_combat'),require('abyss_data')
+local C,Data,R=require('abyss_combat'),require('abyss_data'),require('abyss_sts_random')
+local Source=dofile('tests/lua/support/darkstone_source_fixture.lua')
 local count=0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function same(a,b,seen)
@@ -33,16 +34,19 @@ local function toCamp(r)
  end
 end
 local function chest(floor)
- local data=C.copy(Data);local relics={}
- for _,relic in ipairs(data.relics.relics)do if relic.id=='darkstone_periapt'or relic.rarity=='starter'then relics[#relics+1]=relic end end
- data.relics.relics=relics
- local r=Run.new(data,'42',{experimental=true,campaign=true});r.act=3;r.endingUnlocked=true
- local m=Map.generate(data,r.runSeed,3)
+ local r=Run.new(Data,'42',{experimental=true,campaign=true});r.act=3;r.endingUnlocked=true
+ Source.chest(r)
+ local m=Map.generate(r.data,r.runSeed,3)
  while Map.available(m)[1].floor<floor do assert(Map.choose(m,Map.available(m)[1].id))end
  r.floor=m.floor;eq(r.floor,floor-1)
  local next=Map.available(m)[1]
  for _,n in ipairs(m.nodes)do if n.id==next.id then n.type='treasure';n.roomKind=nil end end
- assert(Nodes.enter(r,m,next.id));eq(r.floor,floor);return r,m
+ assert(Nodes.enter(r,m,next.id));eq(r.floor,floor)
+ eq(r.nodeFlow.chest.opened,false);eq(r.nodeFlow.reward.relicId,nil)
+ local stream=R.snapshot(r.treasureRng);eq(stream.counter,2)
+ assert(Nodes.openTreasure(r));eq(r.nodeFlow.chest.kind,'medium');eq(r.nodeFlow.chest.relicTier,'uncommon')
+ same(R.snapshot(r.treasureRng),stream)
+ return r,m
 end
 
 test('ignored nested stale Recall rolls back prior Darkstone curse health/card/gold and every original owner',function()
@@ -76,12 +80,18 @@ test('destination48 linked Darkstone or Sapphire is one exclusive choice; replay
  end
 end)
 
-test('destination49 gold fallback has neither Darkstone nor a synthesized Sapphire choice',function()
- local r,m=chest(49);eq(r.nodeFlow.reward.relicId,nil);eq(r.nodeFlow.reward.sapphireKey,nil)
- assert(not Nodes.treasureSource(r,m));local gold,slots=r.gold,#r.relics
+test('destination49 source fallback retains its identity and linked Sapphire without Darkstone benefit',function()
+ local r,m=chest(49);eq(r.nodeFlow.reward.relicId,'InkBottle');eq(r.nodeFlow.reward.gold,nil)
+ local item=Source.base(r.nodeFlow);eq(item.sourceId,'InkBottle');eq(#item.trace,2)
+ eq(item.trace[1].id,'Darkstone Periapt');eq(item.trace[2].id,'InkBottle')
+ local token=assert(Nodes.treasureSource(r,m));eq(token.relicId,'InkBottle')
+ local gold,slots,max,hp=r.gold,#r.relics,r.maxHp,r.hp
  refusal(r,m,function()return Nodes.chooseTreasure(r,m,{},'sapphire')end)
- assert(Nodes.claimTreasure(r));eq(r.gold,gold+Data.rules.rewards.normalGold);eq(#r.relics,slots)
- assert(not r.keys.sapphire and not r.keys.ruby and not r.keys.emerald)
+ refusal(r,m,function()return Nodes.chooseTreasure(r,m,token,'relic')end,'relic_content_unavailable')
+ assert(Nodes.chooseTreasure(r,m,token,'sapphire'));eq(r.gold,gold);eq(#r.relics,slots)
+ assert(r.keys.sapphire and not r.keys.ruby and not r.keys.emerald)
+ assert(Run.obtainCard(r,'writhe'));eq(r.maxHp,max);eq(r.hp,hp)
+ for _,choice in ipairs({'relic','sapphire'})do refusal(r,m,function()return Nodes.chooseTreasure(r,m,token,choice)end)end
  refusal(r,m,function()return Nodes.claimTreasure(r)end)
 end)
 print('M3_V2_KEYS_DARKSTONE '..count..' passed')

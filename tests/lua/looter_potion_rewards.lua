@@ -90,7 +90,14 @@ test('manual leave retains the earned Boss16 to separate chest17 route',function
   assert(Nodes.completeCombat(run,map));assert(run.nodeFlow.result=='boss_victory' and run.phase=='map')
   local restored=assert(Map.restore(Data,Map.snapshot(map)));local node=Nodes.available(run,restored)[1]
   assert(node.roomKind=='boss_treasure' and node.floor==17);assert(Nodes.enter(run,restored,node.id))
-  assert(run.phase=='node');assert(Nodes.claimBossTreasure(run,choice));assert(run.phase=='victory')
+  assert(run.phase=='node')
+  if choice>0 and not run.nodeFlow.reward.items[choice].available then
+   -- Full source stock may select an unimplemented identity. Refuse it without
+   -- rerolling or changing owners, then take the actual public skip route.
+   rejectUnchanged(run,function()return Nodes.claimBossTreasure(run,choice)end,'relic_content_unavailable')
+   assert(Nodes.claimBossTreasure(run,0))
+  else assert(Nodes.claimBossTreasure(run,choice))end
+  assert(run.phase=='victory')
   assert(not Nodes.claimBossTreasure(run,choice) and not Run.leaveCombatRewards(run))
  end
 end)

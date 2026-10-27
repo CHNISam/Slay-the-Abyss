@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-25 03:46'
-updated_date: '2026-10-27 04:21'
+updated_date: '2026-10-27 05:41'
 labels:
   - required
   - sts1
@@ -49,6 +49,8 @@ ordinal: 95000
 按完整四职业75张与全部四幕原范围推进。独立工作树实现与审查，主线程集成共享结算、完整来源池与原生UI；当前SHA完整Quality通过后按PR合入develop。旧任务锁已停用，不沿用历史paused或不提交约束。自然构筑、正式平台入口与同候选实机分别留证，缺项不勾验收。
 
 2026-10-27 首批唯一CI阻塞：717750d7的game_ui_phase_four在30秒原时限超时，其余三个rules分片/工程/呈现通过。独立feat/m3-host-init-perf先剖析真实Host初始化/渲染/私有快照开销，再最小优化生产实现；保留全部原26用例/断言和原时限，不降低输入规模、不拆分绕门禁、不建输入identity缓存。以同Node24/默认时限前后对照、数据隔离/异常恢复及相关Host回归验证；不重开已完成TASK74绝对复杂度验收。
+
+2026-10-27主session：最新develop确认c91f0d22。复用在途PR238 a4dac772，逐冲突保留当前第二幕/钥匙/队列及新增四职业/第三幕；串行集成PR243/244，定向回归后用精确HEAD完整Quality和独立审查正常PR合入develop。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

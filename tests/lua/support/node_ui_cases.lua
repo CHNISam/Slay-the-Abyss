@@ -11,6 +11,7 @@ local Layout = require("abyss_ui_layout")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local C = Theme.color
+local SourceTreasure=dofile('tests/lua/support/source_treasure_claims.lua')
 local cursorEvents = { CursorEnter="enter", CursorExit="exit", CursorDown="down", CursorUp="up", CursorEndDrag="endDrag" }
 local count = 0
 local function test(name, fn)
@@ -52,9 +53,10 @@ local function control(spec, parent)
     for _, item in ipairs(spec.children or {}) do c.children[item.name] = control(item, c) end
     return c
 end
-local function entered(kind, source, seed)
+local function entered(kind, source, seed,relicSeed)
     source = source or data
     local run, map = Run.new(source, seed or 42), Map.generate(source, seed or 42)
+    if relicSeed then run.relicPool=require('abyss_relic_pool').new(relicSeed,run.data.relicSource)end
     while true do
         local choices = Map.available(map)
         for _, node in ipairs(choices) do
@@ -70,11 +72,11 @@ local function same(a, b)
     for k, v in pairs(a) do same(v, b[k]) end
     for k in pairs(b) do assert(a[k] ~= nil) end
 end
-local function setup(kind, source, prepare, events, sound)
+local function setup(kind, source, prepare, events, sound,relicSeed)
     if kind == "event" and not source then
         source = Combat.copy(data); source.rules.events.encounterId = "cleric"
     end
-    local run, map = entered(kind, source)
+    local run, map = entered(kind, source,nil,relicSeed)
     if prepare then prepare(run) end
     local root, changes = control(findSpec(Layout, "nodePanel")), {}
     -- The real GameUI.start prepares the registered run's complete catalog.
@@ -132,8 +134,13 @@ test("rest and treasure sound once per action and audio errors cannot undo a com
     ui, get, click = setup("treasure", nil, nil, nil, sound)
     assert(click("treasureView/chest") and sounds[2] == "treasure_open")
     ui:render(); assert(not ui:press("treasureView/chest") and #sounds == 2)
+    local oldTake=ui.actions['treasureView/take'].handler
     assert(click("treasureView/take") and sounds[3] == "reward")
-    ui:render(); assert(not ui:press("treasureView/take") and #sounds == 3)
+    ui:render(); assert(not oldTake() and #sounds == 3)
+    -- Seed42 has independently claimable gold and a relic. A fresh action may
+    -- take the second item, while the old action never plays sound twice.
+    assert(click('treasureView/take') and sounds[4]=='reward')
+    ui:render(); assert(not ui:press("treasureView/take") and #sounds == 4)
     ui, get, click = setup("camp", nil, function(run) run.hp = 20 end, nil, function() error("audio unavailable") end)
     assert(click("campView/rest") and ui.run.hp > 20)
 end)
@@ -160,12 +167,13 @@ end)
 test("shop shelf shows five colored and two implemented colorless cards without pages", function()
     local ui, get, _, shown = setup("shop", nil, function(run) run.gold = 10000 end)
     local node = Nodes.view(ui.run, ui.map).node
+    local expectedPresentation=require("abyss_character_presentation").prepare(Presentation,ui.run.data)
     assert(shown("shopView") and not shown("campView") and not shown("pickerView"))
     assert(get("title").text == "第 " .. node.floor .. " 层 · 商店" and get("gold").text == "10000")
     for i = 1, 5 do
         local offer, box = node.cards[i], get("shopView/card" .. i)
-        local display, definition = Presentation[offer.id], nil
-        for _, card in ipairs(data.cards.cards) do if card.id == offer.id then definition = card end end
+        local display, definition = expectedPresentation[offer.id], nil
+        for _, card in ipairs(ui.run.data.cards.cards) do if card.id == offer.id then definition = card end end
         assert(box.children.name.text:gsub('\n',' ') == display.name and not box.children.name.text:find("金币", 1, true))
         assert(box.children.cost.text == tostring(display.cost) and box.children.description.text == display.text)
         assert(box.children["art_" .. definition.type].visible and is(box.children.border.imageColor, C.rarity[definition.rarity]))
@@ -211,7 +219,9 @@ test("unaffordable goods turn the price red, grey the card and explain without c
 end)
 
 test("shop relic row shows sourced effect text and buys through Nodes", function()
-    local ui, get, click = setup("shop", nil, function(run) run.gold = 10000 end)
+    -- Complete independent relic queue seed2 puts Membership at the Shop tail;
+    -- map/card/merchant seed42 and the original purchase assertions remain.
+    local ui, get, click = setup("shop", nil, function(run) run.gold = 10000 end,nil,nil,'2')
     local node = Nodes.view(ui.run, ui.map).node
     local first = node.relics[3]
     local tile = get("shopView/relic3")
@@ -504,39 +514,45 @@ test("Cleric stale affordability is revalidated by Nodes without consuming the e
     assert(click("back") and click("eventView/option3") and ui.run.phase == "map")
 end)
 
-test("treasure opens visually first, then grants the actual relic once", function()
+test("treasure opens through source hooks, then grants the actual relic once", function()
     local ui, get, click, shown, changes = setup("treasure")
-    local reward = Nodes.view(ui.run, ui.map).node.reward
     assert(shown("treasureView/closed") and shown("treasureView/hint") and not shown("treasureView/take"))
     local before = Combat.copy(ui.run)
-    assert(click("treasureView/chest")) same(ui.run, before)
-    assert(#changes == 0 and shown("treasureView/open") and shown("treasureView/reward"))
+    assert(Nodes.openTreasure(before));assert(click("treasureView/chest")) same(ui.run, before)
+    assert(#changes == 1 and shown("treasureView/open") and shown("treasureView/reward"))
+    local reward = Nodes.view(ui.run, ui.map).node.reward
+    assert(reward.gold==23 and #reward.items==2)
+    assert(click('treasureView/next')) -- show the base relic after the gold row
     local row = get("treasureView/reward")
     local relic for _, item in ipairs(data.relics.relics) do if item.id == reward.relicId then relic = item end end
     assert(row.children.name.text == "遗物 · " .. relic.name and row.children.icon.imageId == Theme.icon.relic[relic.id])
     assert(row.children.description.text:find("。", 1, true))
     assert(click("treasureView/take")) assert(ui.run.relics[#ui.run.relics] == reward.relicId)
-    assert(get("notice").text == "已获得遗物「" .. relic.name .. "」" and not ui:holding())
+    assert(get("notice").text == "已领取「" .. relic.name .. "」" and not ui:holding())
+    assert(ui.run.phase=='node' and ui.run.nodeFlow.reward.gold==23)
+    assert(click('treasureView/take')) -- remaining independent gold, not a second relic
     before = Combat.copy(ui.run) assert(not shown("treasureView") and not ui:press("treasureView/take")) same(ui.run, before)
 end)
 
-test("gold treasure explains the fallback and is claimed through Nodes", function()
+test("source gold-only after relic removal is explained and claimed through Nodes", function()
     local run, map = Run.new(data, 42), Map.generate(data, 42)
     while true do
         local choices = Map.available(map) local treasure
         for _, node in ipairs(choices) do if node.type == "treasure" then treasure = node break end end
         if treasure then
             run.relics = {} for _, relic in ipairs(data.relics.relics) do run.relics[#run.relics + 1] = relic.id end
+            SourceTreasure.goldOnly(run)
             assert(Nodes.enter(run, map, treasure.id)) break
         end
         assert(Map.choose(map, choices[1].id))
     end
     local ui, get, click = setup("shop")
     ui.run, ui.map = run, map ui:render()
-    local gold, reward = run.gold, Nodes.view(run, map).node.reward.gold
+    local gold = run.gold
     click("treasureView/chest")
+    local reward = Nodes.view(run, map).node.reward.gold;assert(reward==23)
     assert(get("treasureView/reward").children.name.text == reward .. " 金币")
-    assert(get("treasureView/reward").children.description.text == "遗物已全部持有，改为金币")
+    assert(get("treasureView/reward").children.description.text == "独立领取宝箱金币。")
     assert(get("treasureView/reward").children.icon.imageId == Theme.icon.gold.id)
     assert(click("treasureView/take")) assert(run.gold == gold + reward)
 end)
@@ -554,7 +570,8 @@ test("hidden input, external completion and a replaced run reject stale commands
     local oldRun, oldBefore = ui.run, Combat.copy(ui.run) ui.run, ui.map = entered("treasure")
     before = Combat.copy(ui.run) assert(not ui:press("treasureView/chest")) same(ui.run, before) same(oldRun, oldBefore)
     ui:render() assert(ui.page == 1 and ui.mode == "main" and not ui.opened)
-    assert(ui:press("treasureView/chest") and ui:press("treasureView/take") and ui.run.phase == "map")
+    assert(ui:press("treasureView/chest") and ui:press("treasureView/take"))
+    assert(ui:press('treasureView/take') and ui.run.phase == "map") -- source gold and relic are distinct
 end)
 
 test("a held result belongs to its run; a fresh run renders safely and restart resets navigation", function()

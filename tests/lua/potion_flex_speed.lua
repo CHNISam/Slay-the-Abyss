@@ -2,7 +2,10 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,C,A=require('abyss_run'),require('abyss_combat'),require('abyss_actor')
 local Data=require('abyss_data')
 local base=Run.new(Data,42)
-local count=0
+local first,last=...
+first,last=first or 1,last or 3
+assert(first>=1 and last<=11 and first<=last,'invalid budget slice')
+local count,registered=0,0
 local specs={{'flex_potion','strength','temporaryStrength','lose_strength'},
  {'speed_potion','dexterity','temporaryDexterity','lose_dexterity'}}
 local function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end
@@ -11,7 +14,10 @@ local function same(a,b)
  for k,v in pairs(a) do same(v,b[k]) end
  for k in pairs(b) do assert(a[k]~=nil,'unexpected '..tostring(k)) end
 end
-local function test(name,fn) fn();count=count+1;print('ok Flex Speed '..count..' - '..name) end
+local function test(name,fn)
+ registered=registered+1;if registered<first or registered>last then return end
+ fn();count=count+1;print('ok Flex Speed '..registered..' - '..name)
+end
 local function battle(ids)
  local run=C.copy(base)
  for _,id in ipairs(ids) do assert(Run.obtainPotion(run,id)) end
@@ -142,4 +148,6 @@ test('invalid use and unblocked debt overflow are atomic; Artifact-blocked nonex
   eq(run.combat.player[v[3]],2147483647);eq(run.combat.player.statuses[v[2]],5)
  end
 end)
+assert(registered==11,'all original cases must remain registered')
+assert(count==last-first+1,'each selected case must execute')
 print('LUA_POTION_FLEX_SPEED_PASS '..count)

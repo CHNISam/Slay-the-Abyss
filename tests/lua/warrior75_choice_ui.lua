@@ -3,6 +3,8 @@ local Run=require('abyss_run')
 local ui,root=F.fixture()
 ui:start();assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
 local s=ui.run.combat
+-- This controlled fixture owns the historical native DeckUI choice ABI.
+dofile('tests/lua/support/native_choice_catalog.lua')(s)
 s.player.statuses.corruption=1
 s.hand={{uid=101,cardId='burning_pact',upgraded=false},{uid=102,cardId='sentinel',upgraded=true},{uid=103,cardId='defend',upgraded=false}}
 s.draw={{uid=104,cardId='strike',upgraded=false},{uid=105,cardId='strike',upgraded=false}}

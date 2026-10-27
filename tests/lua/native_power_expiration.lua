@@ -25,7 +25,7 @@ local function battle(ids, relic)
     if relic then assert(Run.obtainRelic(run, relic)) end
     for _, id in ipairs(ids) do assert(Run.obtainCard(run, id)) end
     assert(Run.startCombat(run, "cultist_solo"))
-    equal(run.combat.experimentalMechanics, nil, "native combat path")
+    equal(run.combat.experimentalMechanics, true, "ordinary complete-catalog combat path")
     equal(run.combat.turn, 1)
     return run
 end

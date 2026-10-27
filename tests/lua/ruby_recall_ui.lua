@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7
+local sliceRegistered,sliceExecuted=0,0
 -- Actual NodeUI/Nodes integration with generated controls and mocked native calls.
 -- History qualification is controlled input, not earned/persistent campaign evidence.
 local UI,Nodes,Run,Map=require('abyss_node_ui'),require('abyss_nodes'),require('abyss_run'),require('abyss_map')
@@ -5,7 +8,13 @@ local Copy,Data=require('abyss_combat').copy,require('abyss_data')
 local Layout,Presentation=require('abyss_ui_layout'),require('abyss_presentation')
 local events={CursorEnter='enter',CursorExit='exit',CursorDown='down',CursorUp='up',CursorEndDrag='endDrag'}
 local count=0
-local function test(name,fn)fn();count=count+1;print('ok ruby recall UI '..count..' - '..name)end
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    fn();sliceExecuted=sliceExecuted+1;count=count+1
+    print('ok ruby recall UI '..count..' - '..name)
+    print('RUBY_RECALL_UI_CASE '..sliceRegistered)
+end
 local function same(a,b,path,seen)
     if a==b then return end
     path=path or 'state';assert(type(a)==type(b),path..' type')
@@ -264,3 +273,7 @@ test('native attachment read reentry cannot commit a retired paint or detached h
     end
 end)
 print('RUBY_RECALL_UI_PASS '..count)
+
+assert(sliceRegistered==14,'all fourteen original Recall UI groups must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'every selected Recall UI group must execute')
+print('RUBY_RECALL_UI_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

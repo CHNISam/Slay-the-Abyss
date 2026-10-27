@@ -134,7 +134,14 @@ test("host restart: old run held pointer cannot confirm a new run card",function
     local restart = root:GetChild("menuPanel"):GetChild("start"):GetChild("hit")
     restart.listeners.down({touchId=8}); restart.listeners.up({touchId=8})
     assert(restart.click({touchId=8}))
-    assert(host.run~=oldRun and host.mode=="map")
+    assert(host.run~=oldRun and host.mode=="node" and host.run.neowHistorySource=="session-completed-run")
+    -- A real defeat supplies mini-Neow history to this host's next run.
+    -- Take the HP blessing through generated buttons, preserving the starter deck.
+    assert(F.click(root,"nodePanel","eventView/option1"))
+    assert(#host.run.nodeFlow.event.rewards==2 and host.run.nodeFlow.event.neowBossCount==0)
+    assert(F.click(root,"nodePanel","eventView/option2"))
+    assert(F.click(root,"nodePanel","eventView/option1"))
+    assert(host.mode=="map" and host.run.neowStatus=="complete")
     -- Real host restart and real map navigation; new battle retains its unmodified starter deck.
     assert(host.mapUI:choose(F.Nodes.available(host.run,host.map)[1].id))
     local battle=host.run.combat

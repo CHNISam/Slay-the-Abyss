@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2
+local sliceRegistered,sliceExecuted=0,0
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Run, Combat = require("abyss_run"), require("abyss_combat")
 local Nodes, Map = require("abyss_nodes"), require("abyss_map")
@@ -12,6 +15,10 @@ local function same(a, b)
     for k in pairs(b) do assert(a[k] ~= nil, "unexpected key " .. tostring(k)) end
 end
 local function test(name, fn)
+ sliceRegistered=sliceRegistered+1
+ if mutationCase then if name~=mutationCase then return end elseif sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+
     if mutationCase and name ~= mutationCase then return end
     fn(); count = count + 1; print("ok inventory " .. count .. " - " .. name)
 end
@@ -213,15 +220,9 @@ end
 
 test("legacy six-opening fixture keeps resources across two original-enemy battles and the acquired relic persists into the next battle", function()
     local source = Combat.copy(data)
-    -- This historical six-opening transaction fixture deliberately isolates its
-    -- Anchor chest. Full-pool order/probability and the added persistent hooks
-    -- have independent suites; their newly added definitions must not silently
-    -- turn this fixed-relic fixture into a different acquisition assertion.
-    local legacyRelics={}
-    for _,relic in ipairs(source.relics.relics)do
-        if relic.trigger~='hooks' then legacyRelics[#legacyRelics+1]=relic end
-    end
-    source.relics.relics=legacyRelics
+    -- Keep the complete source queues and every implemented relic definition.
+    -- The historical six-opening contract explicitly adds an Anchor component
+    -- offer after verifying the real chest draw; it is not natural-drop evidence.
     source.rules.player.startingGold = 1000 -- isolate shop affordability, retaining original enemies/cards/combat values
     source.rules.events.encounterId='purifier' -- explicit content fixture; unknown RNG has its own route tests
     -- A real connected source-map route reaches events/shop/camp/chest before
@@ -256,10 +257,50 @@ test("legacy six-opening fixture keeps resources across two original-enemy battl
         assert(Nodes.enter(run, map, node.id))
         if run.phase == "combat" then nextBattleType = node.type break
         elseif node.type == "treasure" then
-            local reward = Nodes.view(run, map).node.reward
-            if reward.relicId then acquiredId=reward.relicId; acquired = true
-            else gold = gold + reward.gold end
-            assert(Nodes.claimTreasure(run))
+            local Treasure,Pool,Random=require('abyss_treasure'),require('abyss_relic_pool'),require('abyss_sts_random')
+            local beforeOpen=Combat.copy(run)
+            local expected=assert(Treasure.open(run,run.nodeFlow.chest,run.nodeFlow.reward))
+            same(run,beforeOpen)
+            assert(Nodes.openTreasure(run))
+            same(run.nodeFlow.reward.items,expected.reward.items)
+            same(Pool.snapshot(run.relicPool),Pool.snapshot(expected.relicPool))
+            same(Random.snapshot(run.treasureRng),Random.snapshot(expected.treasureRng))
+            same(Random.snapshot(run.cardRng),Random.snapshot(expected.cardRng))
+            local originalItems=Combat.copy(run.nodeFlow.reward.items)
+            local lastSlot,missing=0,false
+            for _,item in ipairs(originalItems)do
+                lastSlot=math.max(lastSlot,item.slot)
+                if item.kind=='relic'then
+                    local definition=require('abyss_relic_rewards').definition(run,item.sourceId)
+                    equal(item.available,definition~=nil)
+                    equal(item.id,definition and definition.id or item.sourceId)
+                    if not definition then
+                        missing=true
+                        local before,flow,reward=Combat.copy(run),run.nodeFlow,run.nodeFlow.reward
+                        local token=assert(Nodes.treasureRewardSource(run,item.slot))
+                        local ok,reason=Nodes.claimTreasureReward(run,token)
+                        assert(not ok and reason=='relic_content_unavailable')
+                        same(run,before);equal(run.nodeFlow,flow);equal(run.nodeFlow.reward,reward)
+                    end
+                elseif item.kind=='gold'then
+                    local token=assert(Nodes.treasureRewardSource(run,item.slot))
+                    assert(Nodes.claimTreasureReward(run,token));gold=gold+item.amount
+                end
+            end
+            assert(missing,'seed70 preserves its missing-definition source identity without rerolling')
+            local pool,rng=Pool.snapshot(run.relicPool),{treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)}
+            local items=run.nodeFlow.reward.items
+            local originalRemaining=Combat.copy(items)
+            local component={kind='relic',slot=lastSlot+1,id='anchor',sourceId='Anchor',available=true,origin='fixture'}
+            items[#items+1]=component
+            for i,item in ipairs(originalRemaining)do same(items[i],item)end
+            same(Pool.snapshot(run.relicPool),pool)
+            same({treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)},rng)
+            local token=assert(Nodes.treasureRewardSource(run,component.slot))
+            assert(Nodes.claimTreasureReward(run,token));acquiredId=component.id;acquired=true
+            same(Pool.snapshot(run.relicPool),pool)
+            same({treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)},rng)
+            if run.phase=='node'then assert(Nodes.leaveTreasure(run))end
         elseif node.type == "event" then
             visitedEvent = true
             assert(Nodes.chooseEvent(run, "leave"))
@@ -319,3 +360,7 @@ end)
 
 assert(not mutationCase or count == 1, "unknown or duplicate inventory mutation case")
 print("LUA_INVENTORY_PASS " .. count)
+
+assert(sliceRegistered==12,'all original cases must register')
+assert(mutationCase or sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')
+print('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

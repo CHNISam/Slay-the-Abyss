@@ -4,6 +4,8 @@ local Driver=dofile('scripts/warrior75-native-autoplay.lua')
 local Run=require('abyss_run')
 local ui=F.fixture();assert(ui:start());assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
 local s=ui.run.combat
+-- The native autoplay driver owns the historical DeckUI choice ABI.
+dofile('tests/lua/support/native_choice_catalog.lua')(s)
 -- Explicit local fixture tests command routing, not a normal-run claim.
 s.hand={{uid=101,cardId='burning_pact'},{uid=102,cardId='wound'},{uid=103,cardId='strike'}}
 s.draw={};s.discard={};s.exhaust={};s.nextUid=104

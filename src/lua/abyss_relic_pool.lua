@@ -131,4 +131,7 @@ end
 function M.screenless(state,tier,context)
  return selectRelic(state,tier,context,false,{'Bottled Flame','Bottled Lightning','Bottled Tornado','Whetstone'})
 end
+function M.noncamp(state,tier,context)
+ return selectRelic(state,tier,context,false,{'Peace Pipe','Shovel','Girya'})
+end
 return M

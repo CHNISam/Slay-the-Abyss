@@ -34,7 +34,8 @@ local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=tr
     whirlwind=true,reaperDamage=true}
 for _,op in ipairs({'barrageDamage','bowlingBash','ftlDamage','heelHook','nextBlock','xBlock','halt',
     'fearNoEvil','wallop','flowDamage','blizzardDamage','sunderDamage','randomEngineAttack','thunderStrike',
-    'finisherDamage','flechettesDamage','skewer','glassKnife','stackBlock','autoShields','escapePlan'}) do eligible[op]=true end
+    'finisherDamage','flechettesDamage','skewer','glassKnife','stackBlock','autoShields','escapePlan',
+    'watcherFinalRagnarok','watcherFinalExpungerHits','watcherFinalLessonLearned','watcherFinalSpiritShield'}) do eligible[op]=true end
 -- Conservative visible-glyph budget. Native autoSize does not guarantee that
 -- a dynamically replaced long name fits its original one-line heading.
 local function units(text)
@@ -134,6 +135,7 @@ end
 -- Encodes only the numeric dynamic variable, never the surrounding sentence.
 -- Native colour parsing verified by the independent 1849 probe (see evidence).
 function M.format(template, definition, preview, palette)
+    template=template:gsub('{expungerHits}',function()return integer(definition.expungerHits or 0)end)
     local values = M.values(definition, preview)
     template=template:gsub('{effects%.(%d+)%.then%.(%d+)%.value}',function(rawParent,rawChild)
         local parent,child=tonumber(rawParent)+1,tonumber(rawChild)

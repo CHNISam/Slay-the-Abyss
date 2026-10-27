@@ -33,8 +33,26 @@ test('victory still retains Block while clearing status-card tail',function()
  C.applyEffects(s,{{op='damage',value=6},{op='block',value=7},{op='makeTempCardInDiscard',card='slimed',value=2}},s.player,e)
  eq(C.outcome(s),'victory');eq(s.player.block,7);eq(#s.discard,0)
 end)
-test('simultaneous death keeps defeat priority and stops later payload',function()
+test('lethal enemy attack opens death screen before queued player Thorns and later payload',function()
  local s=battle('spike_slime_m');force(s.enemies[1],'spike_slime_m_1');s.player.hp=1;s.enemies[1].hp=1;C.addStatus(s.player,'thorns',1)
- local uid=s.nextUid;assert(C.endTurn(s));eq(s.player.hp,0);eq(s.enemies[1].hp,0);eq(s.phase,'defeat');eq(s.nextUid,uid)
+ -- ThornsPower.onAttacked adds a TOP DamageAction; it is not synchronous.
+ -- AbstractPlayer.damage opens DeathScreen before returning to DamageAction,
+ -- and AbstractRoom.update stops advancing the manager while isScreenUp.
+ local uid=s.nextUid;s.events={};assert(C.endTurn(s));eq(s.player.hp,0);eq(s.enemies[1].hp,1);eq(s.phase,'defeat');eq(s.nextUid,uid)
+ for _,event in ipairs(s.events)do
+  assert(not(event.kind=='status_damage'and event.detail.status=='thorns'),'queued Thorns executed after defeat')
+  assert(event.kind~='cards_created'and event.kind~='player_turn','post-defeat payload '..event.kind)
+ end
+end)
+test('simultaneous death keeps defeat priority and stops later payload',function()
+ local s=C.new(Data,{enemies={'spike_slime_m'},deck={'strike'},seed=42})
+ local e=s.enemies[1];s.player.hp=1;e.hp=1;C.addStatus(e,'thorns',1)
+ -- Killing the final monster retains its queued DAMAGE-typed Thorns action.
+ -- That action can then kill the player; defeat still wins over victory,
+ -- and the later UseCardAction must not discard the card after death.
+ local uid=s.nextUid
+ assert(C.play(s,s.hand[1].uid,1))
+ eq(s.player.hp,0);eq(e.hp,0);eq(C.outcome(s),'defeat');eq(s.phase,'defeat');eq(s.nextUid,uid)
+ eq(s.player.block,0);eq(#s.discard,0)
 end)
 print(passed..' defeat queue groups passed; '..failed..' failed');assert(failed==0)

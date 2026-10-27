@@ -1,0 +1,877 @@
+{
+  "base": "7593e8272b363f06d3cdaa62f29967756b3c1102",
+  "timeoutMilliseconds": 30000,
+  "fixtures": [
+    {
+      "entry": "tests/lua/sneaky_gremlin.lua",
+      "total": 8,
+      "originalSha256LF": "2c443d8f81c97531ae8c55e89a51ab8d5ddfb2199fe0e67d33ffda436bf74493",
+      "edits": [
+        {
+          "before": "-- Fixed A0 mirror expectations, not generated from the production definition.\n",
+          "after": "local sliceFirst,sliceLast,seedFirst,seedLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1\nseedFirst,seedLast=seedFirst or 0,seedLast or 127\nlocal sliceRegistered,sliceExecuted=0,0\n-- Fixed A0 mirror expectations, not generated from the production definition.\n"
+        },
+        {
+          "before": "local function test(name, fn)",
+          "after": "local function test(name, fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n"
+        },
+        {
+          "before": "    for seed=0,127 do\n        local run=Run.new(data,seed);",
+          "after": "    for seed=seedFirst,seedLast do\n        local run=Run.new(data,seed);"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==8,'all original cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')\nprint('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "file": "sneaky_gremlin.lua",
+          "first": 1,
+          "last": 1
+        },
+        {
+          "file": "sneaky_gremlin_budget_2.lua",
+          "first": 2,
+          "last": 2
+        },
+        {
+          "file": "sneaky_gremlin_budget_3.lua",
+          "first": 3,
+          "last": 3
+        },
+        {
+          "file": "sneaky_gremlin_budget_4.lua",
+          "first": 4,
+          "last": 4
+        },
+        {
+          "file": "sneaky_gremlin_budget_5.lua",
+          "first": 5,
+          "last": 5
+        },
+        {
+          "file": "sneaky_gremlin_budget_6.lua",
+          "first": 6,
+          "last": 6
+        },
+        {
+          "file": "sneaky_gremlin_budget_7.lua",
+          "first": 7,
+          "last": 7
+        },
+        {
+          "file": "sneaky_gremlin_budget_8.lua",
+          "first": 8,
+          "last": 8,
+          "seedRange": [
+            0,
+            31
+          ]
+        },
+        {
+          "file": "sneaky_gremlin_budget_9.lua",
+          "first": 8,
+          "last": 8,
+          "seedRange": [
+            32,
+            63
+          ]
+        },
+        {
+          "file": "sneaky_gremlin_budget_10.lua",
+          "first": 8,
+          "last": 8,
+          "seedRange": [
+            64,
+            95
+          ]
+        },
+        {
+          "file": "sneaky_gremlin_budget_11.lua",
+          "first": 8,
+          "last": 8,
+          "seedRange": [
+            96,
+            127
+          ]
+        }
+      ],
+      "seedCoverage": {
+        "case": 8,
+        "first": 0,
+        "last": 127,
+        "originalLast": 127,
+        "firstQualifyingReward": null
+      }
+    },
+    {
+      "entry": "tests/lua/growing_attack.lua",
+      "total": 36,
+      "originalSha256LF": "0d0e74204e67fc7d465f03808bc3cf7e7aed8b0e16c4d3810e6d6a6f95d1c1a3",
+      "edits": [
+        {
+          "before": "package.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n",
+          "after": "local sliceFirst,sliceLast,seedFirst,seedLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3\nseedFirst,seedLast=seedFirst or 1,seedLast or 128\nlocal sliceRegistered,sliceExecuted=0,0\npackage.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n"
+        },
+        {
+          "before": "local function test(name, fn)",
+          "after": "local function test(name, fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n"
+        },
+        {
+          "before": "    for seed=1,128 do\n        local candidate=Run.new(data,seed); assert(Run.startCombat(candidate,\"cultist_solo\")); finishBattle(candidate)\n        for i,id in ipairs(Run.rewardOptions(candidate)) do if id==\"rampage\" then run,choice=candidate,i; break end end\n        if run then break end\n    end\n",
+          "after": "    for seed=1,128 do\n        if seed>=seedFirst and seed<=seedLast then\n        local candidate=Run.new(data,seed); assert(Run.startCombat(candidate,\"cultist_solo\")); finishBattle(candidate)\n        for i,id in ipairs(Run.rewardOptions(candidate)) do if id==\"rampage\" then run,choice=candidate,i; break end end\n        if run then assert(seed==49,'source reward boundary changed');break end\n        end\n    end\n    if not run and seedLast<49 then print('PR238_SEARCH_PREFIX '..seedFirst..' '..seedLast);return end\n"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==36,'all original cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')\nprint('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "file": "growing_attack.lua",
+          "first": 1,
+          "last": 3
+        },
+        {
+          "file": "growing_attack_budget_2.lua",
+          "first": 4,
+          "last": 6
+        },
+        {
+          "file": "growing_attack_budget_3.lua",
+          "first": 7,
+          "last": 9
+        },
+        {
+          "file": "growing_attack_budget_4.lua",
+          "first": 10,
+          "last": 12
+        },
+        {
+          "file": "growing_attack_budget_5.lua",
+          "first": 13,
+          "last": 15
+        },
+        {
+          "file": "growing_attack_budget_6.lua",
+          "first": 16,
+          "last": 18
+        },
+        {
+          "file": "growing_attack_budget_7.lua",
+          "first": 19,
+          "last": 21
+        },
+        {
+          "file": "growing_attack_budget_8.lua",
+          "first": 22,
+          "last": 24
+        },
+        {
+          "file": "growing_attack_budget_9.lua",
+          "first": 25,
+          "last": 27
+        },
+        {
+          "file": "growing_attack_budget_10.lua",
+          "first": 28,
+          "last": 30
+        },
+        {
+          "file": "growing_attack_budget_11.lua",
+          "first": 31,
+          "last": 33
+        },
+        {
+          "file": "growing_attack_budget_12.lua",
+          "first": 34,
+          "last": 35
+        },
+        {
+          "file": "growing_attack_budget_13.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            1,
+            4
+          ]
+        },
+        {
+          "file": "growing_attack_budget_14.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            5,
+            8
+          ]
+        },
+        {
+          "file": "growing_attack_budget_15.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            9,
+            12
+          ]
+        },
+        {
+          "file": "growing_attack_budget_16.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            13,
+            16
+          ]
+        },
+        {
+          "file": "growing_attack_budget_17.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            17,
+            20
+          ]
+        },
+        {
+          "file": "growing_attack_budget_18.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            21,
+            24
+          ]
+        },
+        {
+          "file": "growing_attack_budget_19.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            25,
+            28
+          ]
+        },
+        {
+          "file": "growing_attack_budget_20.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            29,
+            32
+          ]
+        },
+        {
+          "file": "growing_attack_budget_21.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            33,
+            36
+          ]
+        },
+        {
+          "file": "growing_attack_budget_22.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            37,
+            40
+          ]
+        },
+        {
+          "file": "growing_attack_budget_23.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            41,
+            44
+          ]
+        },
+        {
+          "file": "growing_attack_budget_24.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            45,
+            48
+          ]
+        },
+        {
+          "file": "growing_attack_budget_25.lua",
+          "first": 36,
+          "last": 36,
+          "seedRange": [
+            49,
+            49
+          ]
+        }
+      ],
+      "seedCoverage": {
+        "case": 36,
+        "first": 1,
+        "last": 49,
+        "originalLast": 128,
+        "firstQualifyingReward": 49
+      }
+    },
+    {
+      "entry": "tests/lua/inventory.lua",
+      "total": 12,
+      "originalSha256LF": "e2b8b060247381f7e1f66dbbea71b407a8a52fa32b1f09503be75157a6f63768",
+      "edits": [
+        {
+          "before": "package.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n",
+          "after": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2\nlocal sliceRegistered,sliceExecuted=0,0\npackage.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n"
+        },
+        {
+          "before": "local function test(name, fn)",
+          "after": "local function test(name, fn)\n sliceRegistered=sliceRegistered+1\n if mutationCase then if name~=mutationCase then return end elseif sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n"
+        },
+        {
+          "before": "    -- This historical six-opening transaction fixture deliberately isolates its\n    -- Anchor chest. Full-pool order/probability and the added persistent hooks\n    -- have independent suites; their newly added definitions must not silently\n    -- turn this fixed-relic fixture into a different acquisition assertion.\n    local legacyRelics={}\n    for _,relic in ipairs(source.relics.relics)do\n        if relic.trigger~='hooks' then legacyRelics[#legacyRelics+1]=relic end\n    end\n    source.relics.relics=legacyRelics\n",
+          "after": "    -- Keep the complete source queues and every implemented relic definition.\n    -- The historical six-opening contract explicitly adds an Anchor component\n    -- offer after verifying the real chest draw; it is not natural-drop evidence.\n"
+        },
+        {
+          "before": "        elseif node.type == \"treasure\" then\n            local reward = Nodes.view(run, map).node.reward\n            if reward.relicId then acquiredId=reward.relicId; acquired = true\n            else gold = gold + reward.gold end\n            assert(Nodes.claimTreasure(run))\n",
+          "after": "        elseif node.type == \"treasure\" then\n            local Treasure,Pool,Random=require('abyss_treasure'),require('abyss_relic_pool'),require('abyss_sts_random')\n            local beforeOpen=Combat.copy(run)\n            local expected=assert(Treasure.open(run,run.nodeFlow.chest,run.nodeFlow.reward))\n            same(run,beforeOpen)\n            assert(Nodes.openTreasure(run))\n            same(run.nodeFlow.reward.items,expected.reward.items)\n            same(Pool.snapshot(run.relicPool),Pool.snapshot(expected.relicPool))\n            same(Random.snapshot(run.treasureRng),Random.snapshot(expected.treasureRng))\n            same(Random.snapshot(run.cardRng),Random.snapshot(expected.cardRng))\n            local originalItems=Combat.copy(run.nodeFlow.reward.items)\n            local lastSlot,missing=0,false\n            for _,item in ipairs(originalItems)do\n                lastSlot=math.max(lastSlot,item.slot)\n                if item.kind=='relic'then\n                    local definition=require('abyss_relic_rewards').definition(run,item.sourceId)\n                    equal(item.available,definition~=nil)\n                    equal(item.id,definition and definition.id or item.sourceId)\n                    if not definition then\n                        missing=true\n                        local before,flow,reward=Combat.copy(run),run.nodeFlow,run.nodeFlow.reward\n                        local token=assert(Nodes.treasureRewardSource(run,item.slot))\n                        local ok,reason=Nodes.claimTreasureReward(run,token)\n                        assert(not ok and reason=='relic_content_unavailable')\n                        same(run,before);equal(run.nodeFlow,flow);equal(run.nodeFlow.reward,reward)\n                    end\n                elseif item.kind=='gold'then\n                    local token=assert(Nodes.treasureRewardSource(run,item.slot))\n                    assert(Nodes.claimTreasureReward(run,token));gold=gold+item.amount\n                end\n            end\n            assert(missing,'seed70 preserves its missing-definition source identity without rerolling')\n            local pool,rng=Pool.snapshot(run.relicPool),{treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)}\n            local items=run.nodeFlow.reward.items\n            local originalRemaining=Combat.copy(items)\n            local component={kind='relic',slot=lastSlot+1,id='anchor',sourceId='Anchor',available=true,origin='fixture'}\n            items[#items+1]=component\n            for i,item in ipairs(originalRemaining)do same(items[i],item)end\n            same(Pool.snapshot(run.relicPool),pool)\n            same({treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)},rng)\n            local token=assert(Nodes.treasureRewardSource(run,component.slot))\n            assert(Nodes.claimTreasureReward(run,token));acquiredId=component.id;acquired=true\n            same(Pool.snapshot(run.relicPool),pool)\n            same({treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)},rng)\n            if run.phase=='node'then assert(Nodes.leaveTreasure(run))end\n"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==12,'all original cases must register')\nassert(mutationCase or sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')\nprint('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "file": "inventory.lua",
+          "first": 1,
+          "last": 2
+        },
+        {
+          "file": "inventory_budget_2.lua",
+          "first": 3,
+          "last": 4
+        },
+        {
+          "file": "inventory_budget_3.lua",
+          "first": 5,
+          "last": 5
+        },
+        {
+          "file": "inventory_budget_7.lua",
+          "first": 6,
+          "last": 6
+        },
+        {
+          "file": "inventory_budget_4.lua",
+          "first": 7,
+          "last": 8
+        },
+        {
+          "file": "inventory_budget_5.lua",
+          "first": 9,
+          "last": 10
+        },
+        {
+          "file": "inventory_budget_6.lua",
+          "first": 11,
+          "last": 12
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/vulnerable_combo.lua",
+      "total": 52,
+      "originalSha256LF": "35cbda2137abc4fd1e49b28d44a3ca7ca3e5d112b02abcd8bfab382e30219510",
+      "edits": [
+        {
+          "before": "package.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n",
+          "after": "local sliceFirst,sliceLast,seedFirst,seedLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4\nseedFirst,seedLast=seedFirst or 1,seedLast or 128\nlocal sliceRegistered,sliceExecuted=0,0\npackage.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n"
+        },
+        {
+          "before": "local function test(name, fn)",
+          "after": "local function test(name, fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n"
+        },
+        {
+          "before": "    for seed = 1, 128 do\n        local run = win(seed)\n        for i, id in ipairs(Run.rewardOptions(run)) do if id == \"dropkick\" then selected, choice = run, i; break end end\n        if selected then break end\n    end\n",
+          "after": "    for seed = 1, 128 do\n        if seed>=seedFirst and seed<=seedLast then\n        local run = win(seed)\n        for i, id in ipairs(Run.rewardOptions(run)) do if id == \"dropkick\" then selected, choice = run, i; break end end\n        if selected then assert(seed==26,'source reward boundary changed');break end\n        end\n    end\n    if not selected and seedLast<26 then print('PR238_SEARCH_PREFIX '..seedFirst..' '..seedLast);return end\n"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==52,'all original cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')\nprint('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "file": "vulnerable_combo.lua",
+          "first": 1,
+          "last": 4
+        },
+        {
+          "file": "vulnerable_combo_budget_2.lua",
+          "first": 5,
+          "last": 8
+        },
+        {
+          "file": "vulnerable_combo_budget_3.lua",
+          "first": 9,
+          "last": 12
+        },
+        {
+          "file": "vulnerable_combo_budget_4.lua",
+          "first": 13,
+          "last": 16
+        },
+        {
+          "file": "vulnerable_combo_budget_5.lua",
+          "first": 17,
+          "last": 20
+        },
+        {
+          "file": "vulnerable_combo_budget_6.lua",
+          "first": 21,
+          "last": 24
+        },
+        {
+          "file": "vulnerable_combo_budget_7.lua",
+          "first": 25,
+          "last": 28
+        },
+        {
+          "file": "vulnerable_combo_budget_8.lua",
+          "first": 29,
+          "last": 32
+        },
+        {
+          "file": "vulnerable_combo_budget_9.lua",
+          "first": 33,
+          "last": 36
+        },
+        {
+          "file": "vulnerable_combo_budget_10.lua",
+          "first": 37,
+          "last": 40
+        },
+        {
+          "file": "vulnerable_combo_budget_11.lua",
+          "first": 41,
+          "last": 44
+        },
+        {
+          "file": "vulnerable_combo_budget_12.lua",
+          "first": 45,
+          "last": 48
+        },
+        {
+          "file": "vulnerable_combo_budget_13.lua",
+          "first": 49,
+          "last": 51
+        },
+        {
+          "file": "vulnerable_combo_budget_14.lua",
+          "first": 52,
+          "last": 52,
+          "seedRange": [
+            1,
+            4
+          ]
+        },
+        {
+          "file": "vulnerable_combo_budget_15.lua",
+          "first": 52,
+          "last": 52,
+          "seedRange": [
+            5,
+            8
+          ]
+        },
+        {
+          "file": "vulnerable_combo_budget_16.lua",
+          "first": 52,
+          "last": 52,
+          "seedRange": [
+            9,
+            12
+          ]
+        },
+        {
+          "file": "vulnerable_combo_budget_17.lua",
+          "first": 52,
+          "last": 52,
+          "seedRange": [
+            13,
+            16
+          ]
+        },
+        {
+          "file": "vulnerable_combo_budget_18.lua",
+          "first": 52,
+          "last": 52,
+          "seedRange": [
+            17,
+            20
+          ]
+        },
+        {
+          "file": "vulnerable_combo_budget_19.lua",
+          "first": 52,
+          "last": 52,
+          "seedRange": [
+            21,
+            24
+          ]
+        },
+        {
+          "file": "vulnerable_combo_budget_20.lua",
+          "first": 52,
+          "last": 52,
+          "seedRange": [
+            25,
+            26
+          ]
+        }
+      ],
+      "seedCoverage": {
+        "case": 52,
+        "first": 1,
+        "last": 26,
+        "originalLast": 128,
+        "firstQualifyingReward": 26
+      }
+    },
+    {
+      "entry": "tests/lua/character_presentation.lua",
+      "total": 16,
+      "originalSha256LF": "1402deed3202e6eabdcf8239665281f3ba90fef7b730fe3e58eab69c92ef8812",
+      "edits": [
+        {
+          "before": "package.path='src/lua/?.lua;build/lua/?.lua;'..package.path\n",
+          "after": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1\nlocal sliceRegistered,sliceExecuted=0,0\npackage.path='src/lua/?.lua;build/lua/?.lua;'..package.path\n"
+        },
+        {
+          "before": "local function test(name,fn)",
+          "after": "local function test(name,fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==16,'all original cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')\nprint('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "file": "character_presentation.lua",
+          "first": 1,
+          "last": 1
+        },
+        {
+          "file": "character_presentation_budget_2.lua",
+          "first": 2,
+          "last": 2
+        },
+        {
+          "file": "character_presentation_budget_3.lua",
+          "first": 3,
+          "last": 3
+        },
+        {
+          "file": "character_presentation_budget_4.lua",
+          "first": 4,
+          "last": 4
+        },
+        {
+          "file": "character_presentation_budget_5.lua",
+          "first": 5,
+          "last": 5
+        },
+        {
+          "file": "character_presentation_budget_6.lua",
+          "first": 6,
+          "last": 6
+        },
+        {
+          "file": "character_presentation_budget_7.lua",
+          "first": 7,
+          "last": 7
+        },
+        {
+          "file": "character_presentation_budget_8.lua",
+          "first": 8,
+          "last": 8
+        },
+        {
+          "file": "character_presentation_budget_9.lua",
+          "first": 9,
+          "last": 9
+        },
+        {
+          "file": "character_presentation_budget_10.lua",
+          "first": 10,
+          "last": 10
+        },
+        {
+          "file": "character_presentation_budget_11.lua",
+          "first": 11,
+          "last": 11
+        },
+        {
+          "file": "character_presentation_budget_12.lua",
+          "first": 12,
+          "last": 12
+        },
+        {
+          "file": "character_presentation_budget_13.lua",
+          "first": 13,
+          "last": 13
+        },
+        {
+          "file": "character_presentation_budget_14.lua",
+          "first": 14,
+          "last": 14
+        },
+        {
+          "file": "character_presentation_budget_15.lua",
+          "first": 15,
+          "last": 15
+        },
+        {
+          "file": "character_presentation_budget_16.lua",
+          "first": 16,
+          "last": 16
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/game_ui_phase_four.lua",
+      "total": 26,
+      "originalSha256LF": "70988c41a5d0ed7f222e099ffd304859a16142455a88b23258f1de0e03c64057",
+      "edits": [
+        {
+          "before": "package.path='src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;'..package.path\n",
+          "after": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2\nlocal sliceRegistered,sliceExecuted=0,0\npackage.path='src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;'..package.path\n"
+        },
+        {
+          "before": "local function test(name,fn)",
+          "after": "local function test(name,fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==26,'all original cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')\nprint('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "file": "game_ui_phase_four.lua",
+          "first": 1,
+          "last": 2
+        },
+        {
+          "file": "game_ui_phase_four_budget_2.lua",
+          "first": 3,
+          "last": 4
+        },
+        {
+          "file": "game_ui_phase_four_budget_3.lua",
+          "first": 5,
+          "last": 6
+        },
+        {
+          "file": "game_ui_phase_four_budget_4.lua",
+          "first": 7,
+          "last": 8
+        },
+        {
+          "file": "game_ui_phase_four_budget_5.lua",
+          "first": 9,
+          "last": 10
+        },
+        {
+          "file": "game_ui_phase_four_budget_6.lua",
+          "first": 11,
+          "last": 12
+        },
+        {
+          "file": "game_ui_phase_four_budget_7.lua",
+          "first": 13,
+          "last": 14
+        },
+        {
+          "file": "game_ui_phase_four_budget_8.lua",
+          "first": 15,
+          "last": 16
+        },
+        {
+          "file": "game_ui_phase_four_budget_9.lua",
+          "first": 17,
+          "last": 18
+        },
+        {
+          "file": "game_ui_phase_four_budget_10.lua",
+          "first": 19,
+          "last": 20
+        },
+        {
+          "file": "game_ui_phase_four_budget_11.lua",
+          "first": 21,
+          "last": 22
+        },
+        {
+          "file": "game_ui_phase_four_budget_12.lua",
+          "first": 23,
+          "last": 24
+        },
+        {
+          "file": "game_ui_phase_four_budget_13.lua",
+          "first": 25,
+          "last": 26
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/nodes.lua",
+      "total": 21,
+      "originalSha256LF": "d9f75a26a56e8f8088a44bd6b4a40c22ad8bb6a9c7172e15011b8077e5261781",
+      "edits": [
+        {
+          "before": "package.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n",
+          "after": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1\nlocal sliceRegistered,sliceExecuted=0,0\npackage.path = \"src/lua/?.lua;build/lua/?.lua;\" .. package.path\n"
+        },
+        {
+          "before": "local function test(name, fn)",
+          "after": "local function test(name, fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n"
+        },
+        {
+          "before": "local Run, Map = require(\"abyss_run\"), require(\"abyss_map\")\nlocal Combat, Effects = require(\"abyss_combat\"), require(\"abyss_effects\")\nlocal data = require(\"abyss_data\")\nlocal count = 0\nlocal function equal(a, b) assert(a == b, tostring(a) .. \" ~= \" .. tostring(b)) end\nlocal function same(a, b)\n",
+          "after": "local Run, Map = require(\"abyss_run\"), require(\"abyss_map\")\nlocal Combat, Effects = require(\"abyss_combat\"), require(\"abyss_effects\")\nlocal data = require(\"abyss_data\")\nlocal SourceTreasure=dofile('tests/lua/support/source_treasure_claims.lua')\nlocal count = 0\nlocal function equal(a, b) assert(a == b, tostring(a) .. \" ~= \" .. tostring(b)) end\nlocal function same(a, b)\n"
+        },
+        {
+          "before": "    same(run, beforeRun); same(map, beforeMap)\nend\n-- Stage preceding navigation with the real map API; each test enters its target via Nodes.\nlocal function before(kind, source, seed, minimumFloor)\n    local run, map = Run.new(source or data, seed or 42), Map.generate(source or data, seed or 42)\n    while true do\n        local available = Map.available(map)\n        for _, node in ipairs(available) do\n",
+          "after": "    same(run, beforeRun); same(map, beforeMap)\nend\n-- Stage preceding navigation with the real map API; each test enters its target via Nodes.\nlocal function before(kind, source, seed, minimumFloor,relicSeed)\n    local run, map = Run.new(source or data, seed or 42), Map.generate(source or data, seed or 42)\n    if relicSeed then run.relicPool=require('abyss_relic_pool').new(relicSeed,run.data.relicSource)end\n    while true do\n        local available = Map.available(map)\n        for _, node in ipairs(available) do\n"
+        },
+        {
+          "before": "        assert(Map.choose(map, available[1].id))\n    end\nend\nlocal function entered(kind, source, seed, minimumFloor)\n    local run, map, node = before(kind, source, seed, minimumFloor)\n    assert(Nodes.enter(run, map, node.id)); return run, map, node\nend\nlocal function easyData()\n",
+          "after": "        assert(Map.choose(map, available[1].id))\n    end\nend\nlocal function entered(kind, source, seed, minimumFloor,relicSeed)\n    local run, map, node = before(kind, source, seed, minimumFloor,relicSeed)\n    assert(Nodes.enter(run, map, node.id)); return run, map, node\nend\nlocal function easyData()\n"
+        },
+        {
+          "before": "end)\n\ntest(\"shop relic stock excludes owned items and writes inventory after payment\", function()\n    local run, map = entered(\"shop\")\n    local offers = Nodes.view(run, map).node.relics; assert(#offers > 0)\n    for _, offer in ipairs(offers) do assert(offer.id ~= \"burning_blood\") end\n    local offer = offers[3]; run.gold = offer.price - 1\n",
+          "after": "end)\n\ntest(\"shop relic stock excludes owned items and writes inventory after payment\", function()\n    -- Independent complete queue seed2 yields Membership Card at the shop tail;\n    -- merchant/card/map retain their original seed42 history.\n    local run, map = entered(\"shop\",nil,nil,nil,'2')\n    local offers = Nodes.view(run, map).node.relics; assert(#offers > 0)\n    for _, offer in ipairs(offers) do assert(offer.id ~= \"burning_blood\") end\n    local offer = offers[3]; run.gold = offer.price - 1\n"
+        },
+        {
+          "before": "test(\"treasure is deterministic, grants an unowned relic once, and copies its view\", function()\n    local a, map = entered(\"treasure\", nil, 18)\n    local b, otherMap = entered(\"treasure\", nil, 18)\n    local view = Nodes.view(a, map); same(view.node.reward, Nodes.view(b, otherMap).node.reward)\n    local id = view.node.reward.relicId; assert(id and id ~= \"burning_blood\")\n    view.node.reward.relicId = \"fake\"\n",
+          "after": "test(\"treasure is deterministic, grants an unowned relic once, and copies its view\", function()\n    local a, map = entered(\"treasure\", nil, 18)\n    local b, otherMap = entered(\"treasure\", nil, 18)\n    assert(Nodes.openTreasure(a));assert(Nodes.openTreasure(b))\n    local view = Nodes.view(a, map); same(view.node.reward, Nodes.view(b, otherMap).node.reward)\n    local id = view.node.reward.relicId; assert(id and id ~= \"burning_blood\")\n    view.node.reward.relicId = \"fake\"\n"
+        },
+        {
+          "before": "    rejected(a, map, function() return Nodes.claimTreasure(a) end)\nend)\n\ntest(\"treasure with all relics owned uses the existing normal gold reward\", function()\n    local run, map, node = before(\"treasure\")\n    run.relics = {}; for _, relic in ipairs(data.relics.relics) do run.relics[#run.relics + 1] = relic.id end\n    assert(Nodes.enter(run, map, node.id)); local gold = run.gold\n    assert(Nodes.claimTreasure(run)); equal(run.gold, gold + data.rules.rewards.normalGold)\nend)\n\ntest(\"Cleric replaces fabricated gold and potion rewards with a one-time sourced service\", function()\n",
+          "after": "    rejected(a, map, function() return Nodes.claimTreasure(a) end)\nend)\n\ntest(\"treasure with exhausted ordinary queues uses Circlet and source chest gold\", function()\n    local run, map, node = before(\"treasure\")\n    run.relics = {}; for _, relic in ipairs(data.relics.relics) do run.relics[#run.relics + 1] = relic.id end\n    SourceTreasure.depleted(run)\n    assert(Nodes.enter(run, map, node.id)); local gold = run.gold\n    assert(Nodes.openTreasure(run));equal(run.nodeFlow.reward.relicId,'circlet');equal(run.nodeFlow.reward.gold,23)\n    assert(Nodes.claimTreasure(run)); equal(run.gold, gold + 23);equal(run.relicCounters.circlet,2)\nend)\n\ntest(\"Cleric replaces fabricated gold and potion rewards with a one-time sourced service\", function()\n"
+        },
+        {
+          "before": "        if run.phase == \"combat\" then\n            finishBattle(run); assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))\n        elseif node.type == \"camp\" then assert(Nodes.rest(run))\n        elseif node.type == \"treasure\" then assert(Nodes.claimTreasure(run))\n        elseif node.type == \"event\" then assert(Nodes.chooseEvent(run, \"leave\"))\n        elseif node.type == \"shop\" then\n            shops = shops + 1\n",
+          "after": "        if run.phase == \"combat\" then\n            finishBattle(run); assert(Run.claimCardReward(run, 0)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))\n        elseif node.type == \"camp\" then assert(Nodes.rest(run))\n        elseif node.type == \"treasure\" then assert(SourceTreasure.claim(run))\n        elseif node.type == \"event\" then assert(Nodes.chooseEvent(run, \"leave\"))\n        elseif node.type == \"shop\" then\n            shops = shops + 1\n"
+        },
+        {
+          "before": "            if node.type == \"boss\" then equal(result, \"boss_victory\") end\n        elseif node.type == \"camp\" then assert(Nodes.rest(run))\n        elseif node.type == \"shop\" then assert(Nodes.leaveShop(run))\n        elseif node.type == \"treasure\" then assert(Nodes.claimTreasure(run))\n        elseif node.type == \"event\" then assert(Nodes.chooseEvent(run, \"leave\")) end\n    end\n    equal(#map.path, data.rules.map.bossFloor)\n",
+          "after": "            if node.type == \"boss\" then equal(result, \"boss_victory\") end\n        elseif node.type == \"camp\" then assert(Nodes.rest(run))\n        elseif node.type == \"shop\" then assert(Nodes.leaveShop(run))\n        elseif node.type == \"treasure\" then assert(SourceTreasure.claim(run))\n        elseif node.type == \"event\" then assert(Nodes.chooseEvent(run, \"leave\")) end\n    end\n    equal(#map.path, data.rules.map.bossFloor)\n"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==21,'all original cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected cases must execute')\nprint('PR238_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "file": "nodes.lua",
+          "first": 1,
+          "last": 1
+        },
+        {
+          "file": "nodes_budget_2.lua",
+          "first": 2,
+          "last": 3
+        },
+        {
+          "file": "nodes_budget_3.lua",
+          "first": 4,
+          "last": 5
+        },
+        {
+          "file": "nodes_budget_4.lua",
+          "first": 6,
+          "last": 7
+        },
+        {
+          "file": "nodes_budget_5.lua",
+          "first": 8,
+          "last": 9
+        },
+        {
+          "file": "nodes_budget_6.lua",
+          "first": 10,
+          "last": 11
+        },
+        {
+          "file": "nodes_budget_7.lua",
+          "first": 12,
+          "last": 13
+        },
+        {
+          "file": "nodes_budget_8.lua",
+          "first": 14,
+          "last": 15
+        },
+        {
+          "file": "nodes_budget_9.lua",
+          "first": 16,
+          "last": 17
+        },
+        {
+          "file": "nodes_budget_10.lua",
+          "first": 18,
+          "last": 19
+        },
+        {
+          "file": "nodes_budget_11.lua",
+          "first": 20,
+          "last": 21
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/gremlin_gang.lua",
+      "total": 19,
+      "originalSha256LF": "48d9bd2df4781d6fcd7994eb3a4e7696cd223a6c78943f35eb46ac8140b86b35",
+      "edits": [
+        {
+          "before": "local H=dofile('tests/lua/support/gremlin_gang_fixture.lua')\n",
+          "after": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5\nlocal H=dofile('tests/lua/support/gremlin_gang_fixture.lua')\nH.selectCases(sliceFirst,sliceLast)\n"
+        }
+      ],
+      "footer": "",
+      "slices": [
+        {
+          "file": "gremlin_gang.lua",
+          "first": 1,
+          "last": 5
+        },
+        {
+          "file": "gremlin_gang_budget_2.lua",
+          "first": 6,
+          "last": 10
+        },
+        {
+          "file": "gremlin_gang_budget_3.lua",
+          "first": 11,
+          "last": 17
+        },
+        {
+          "file": "gremlin_gang_budget_4.lua",
+          "first": 18,
+          "last": 18
+        },
+        {
+          "file": "gremlin_gang_budget_5.lua",
+          "first": 19,
+          "last": 19
+        }
+      ],
+      "helper": {
+        "path": "tests/lua/support/gremlin_gang_fixture.lua",
+        "originalSha256LF": "b57f5e66d94ccad7259a3bee4723862613ad02228b0cfdafafae3582faec713c",
+        "edits": [
+          {
+            "before": "local count,failed=0,0",
+            "after": "local count,failed=0,0\nlocal rangeFirst,rangeLast,executed=1,math.huge,0\nlocal function selectCases(first,last)rangeFirst,rangeLast=first,last end"
+          },
+          {
+            "before": " count=count+1;local ok,err=pcall(fn);",
+            "after": " count=count+1;if count<rangeFirst or count>rangeLast then return end;executed=executed+1;local ok,err=pcall(fn);"
+          },
+          {
+            "before": "print(marker..' '..count)",
+            "after": "assert(executed==math.min(expected,rangeLast)-rangeFirst+1,'selected gremlin cases must execute')\nprint(marker..' '..executed..' registered='..count)"
+          },
+          {
+            "before": "finish=finish}",
+            "after": "finish=finish,selectCases=selectCases}"
+          }
+        ]
+      }
+    }
+  ]
+}

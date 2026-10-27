@@ -114,14 +114,12 @@ function M.afterCard(state, reactions)
     for _, reaction in ipairs(reactions) do
         local player = state.player
         if player.hp <= 0 then break end
-        -- THORNS-type damage can outlive its owner. It consumes Block, ignores
-        -- attack modifiers, and cannot trigger normal thorns recursively.
-        local blocked = math.min(player.block, reaction.amount)
-        local lost = math.min(player.hp, reaction.amount - blocked)
-        player.block, player.hp = player.block - blocked, player.hp - lost
-        Actors.hpLostFromDamage(state,player,lost)
-        Events.emit(state, "status_damage", {source = reaction.source, target = player.id,
-            status = "sharp_hide", amount = lost, blocked = blocked})
+        -- Keep the captured owner even if this Attack killed it. Actor's
+        -- THORNS path owns Block, final HP modifiers, notifications and Fairy.
+        local owner
+        for _,enemy in ipairs(state.enemies)do if enemy.id==reaction.source then owner=enemy;break end end
+        assert(owner,'missing captured Sharp Hide owner')
+        Actors.retaliate(state,owner,player,reaction.amount,'sharp_hide')
     end
 end
 

@@ -32,11 +32,9 @@ local function guard(state,instance,card)
     assert(card.id==instance.cardId and card.type==spec.type and card.cost==spec.cost,"unsupported retained base modification")
     assert(card.selfRetain==true,"retained build card missing selfRetain")
     assert(not card.ethereal and not instance.ethereal,"unsupported_currentcompound")
-    assert(not instance.retain,"unsupported_temporary_retain_compound")
     local establishment=state.player.statuses.establishment or 0
     local corruption=state.player.statuses.corruption or 0
     assert(integer(establishment) and integer(corruption),"invalid retained cost Power")
-    assert(establishment==0,"unsupported_retained_establishment")
     -- Corruption is handled by the shared instance-cost/payment/exhaust ABI.
     -- Retain changes base Block only; it must not reapply or erase those costs.
     for _,field in ipairs(fields) do

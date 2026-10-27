@@ -149,6 +149,8 @@ test("selection never spends energy; target click or explicit battlefield click 
     local id, energy = battle.hand[1].uid, battle.energy
     click("card1")
     assert(#battle.hand == 5 and battle.energy == energy and ui.selected == id)
+    assert(stage.children.card1.localScaleX == 1, "selection must preserve the current pose before interpolation")
+    for _ = 1, 80 do ui:update(1 / 60) end
     assert(stage.children.card1.children.glow.visible and stage.children.card1.localScaleX == Theme.motion.hoverScale)
     local _, reason = Combat.canPlay(battle, id, nil)
     click(reason == "invalid_target" and "enemy1" or "playArea")

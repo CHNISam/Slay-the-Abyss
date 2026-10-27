@@ -1,8 +1,26 @@
 {
   "relics": [
-    { "id": "membership_card", "name": "会员卡", "rarity": "shop", "trigger": "shop", "effects": [] },
-    { "id": "courier", "name": "快递员", "rarity": "uncommon", "trigger": "shop", "effects": [] },
-    { "id": "smiling_mask", "name": "微笑面具", "rarity": "common", "trigger": "shop", "effects": [] },
+    {
+      "id": "membership_card",
+      "name": "会员卡",
+      "rarity": "shop",
+      "trigger": "shop",
+      "effects": []
+    },
+    {
+      "id": "courier",
+      "name": "快递员",
+      "rarity": "uncommon",
+      "trigger": "shop",
+      "effects": []
+    },
+    {
+      "id": "smiling_mask",
+      "name": "微笑面具",
+      "rarity": "common",
+      "trigger": "shop",
+      "effects": []
+    },
     {
       "id": "burning_blood",
       "name": "余烬之心",
@@ -97,7 +115,12 @@
       "rarity": "boss",
       "trigger": "combat_end",
       "replaces": "burning_blood",
-      "effects": [{ "op": "heal", "value": 12 }]
+      "effects": [
+        {
+          "op": "heal",
+          "value": 12
+        }
+      ]
     },
     {
       "id": "slavers_collar",
@@ -105,8 +128,16 @@
       "description": "在精英和首领战斗中，每回合开始时额外获得1点能量。",
       "rarity": "boss",
       "trigger": "turn_start",
-      "encounterTiers": ["elite", "boss"],
-      "effects": [{ "op": "energy", "value": 1 }]
+      "encounterTiers": [
+        "elite",
+        "boss"
+      ],
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
     },
     {
       "id": "sozu",
@@ -115,7 +146,12 @@
       "rarity": "boss",
       "trigger": "turn_start",
       "blocksPotions": true,
-      "effects": [{ "op": "energy", "value": 1 }]
+      "effects": [
+        {
+          "op": "energy",
+          "value": 1
+        }
+      ]
     },
     {
       "id": "omamori",
@@ -386,6 +422,51 @@
       "name": "Darkstone Periapt",
       "description": "每当一张诅咒牌实际加入永久牌组，最大生命增加6，并按治疗规则回复6生命。",
       "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "red_mask",
+      "sourceId": "Red Mask",
+      "name": "绯红仪面",
+      "description": "每场战斗开始时，对所有敌人施加1回合虚弱：普通攻击伤害减少25%。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "toxic_egg",
+      "sourceId": "Toxic Egg 2",
+      "name": "淬毒胎石",
+      "description": "每当你获得一张技能牌时，将其升级。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "tungsten_rod",
+      "sourceId": "TungstenRod",
+      "name": "钨钢短杖",
+      "description": "每次将要失去生命时，失去的生命值减少1。",
+      "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "golden_idol",
+      "sourceId": "Golden Idol",
+      "name": "鎏金神像",
+      "description": "非宝箱GOLD奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "neows_lament",
+      "sourceId": "NeowsBlessing",
+      "name": "远古悲叹",
+      "description": "前3场战斗开始时，将所有初始敌人的当前生命设为1；不改变最大生命。",
+      "rarity": "special",
       "trigger": "hooks",
       "effects": []
     }

@@ -187,7 +187,15 @@ end
 function M.initializeBoss(s,seen)
     local nextState=M.clone(s)
     local act=s.act or 1
-    if act==1 then return {profile='guardian-unseen',bossList={'The Guardian','The Guardian'}},nextState end
+    if act==1 then
+        seen=seen or {};assert(type(seen)=='table','invalid boss history')
+        if not seen.GUARDIAN then return {profile='guardian-unseen',bossList={'The Guardian','The Guardian'}},nextState end
+        if not seen.GHOST then return {profile='source-history',bossList={'Hexaghost','Hexaghost'}},nextState end
+        if not seen.SLIME then return {profile='source-history',bossList={'Slime Boss','Slime Boss'}},nextState end
+        local list={'The Guardian','Hexaghost','Slime Boss'}
+        R.shuffle(nextState.monsterRng,list)
+        return {profile='source-unlocked',bossList=list},nextState
+    end
     if act==4 then return {profile='ending',bossList={'The Heart','The Heart','The Heart'}},nextState end
     seen=seen or {}
     assert(type(seen)=='table','invalid boss history')

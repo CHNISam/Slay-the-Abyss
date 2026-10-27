@@ -19,7 +19,11 @@ local Fountain = require('abyss_fountain')
 local RelicHooks = require('abyss_relic_hooks')
 local Act1Events = require('abyss_act1_events')
 local Act2Events = require('abyss_act2_events')
+local Act3Events = require('abyss_act3_events')
 local Acts = require('abyss_acts')
+local Treasure=require('abyss_treasure')
+local Neow=require('abyss_neow')
+local TreasureSource=require('abyss_treasure_source')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -90,6 +94,7 @@ local function unownedRelics(run,roomFloor)
     for _, relic in ipairs(run.data.relics.relics) do
         if (relic.rarity=='common' or relic.rarity=='uncommon' or relic.rarity=='rare')
             and ((relic.id~='darkstone_periapt' and relic.sourceId~='Darkstone Periapt') or roomFloor<=48)
+            and (relic.id~='toxic_egg' or (roomFloor or run.floor or 1)<=48)
             and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
     end
     table.sort(result)
@@ -118,6 +123,11 @@ local function prepare(run, node, miscRng)
         flow.upgradesLeft = run.data.rules.camp.upgradeCount
     elseif node.type == "shop" then
         for k,v in pairs(Shop.prepare(run,node.floor)) do flow[k]=v end
+    elseif node.type=='treasure' and run.relicPool then
+        local prepared,why=Treasure.create(run,{floor=node.floor,boss=node.roomKind=='boss_treasure'})
+        assert(prepared,why)
+        for _,key in ipairs({'treasureRng','relicPool','cardRng','relicCounters'})do run[key]=prepared[key]end
+        flow.chest,flow.reward=prepared.chest,prepared.reward
     elseif node.roomKind == "boss_treasure" then
         local pool, choices = {}, {}
         for _, relic in ipairs(run.data.relics.relics) do
@@ -142,6 +152,7 @@ local function prepare(run, node, miscRng)
         flow.event = { id = id }
         if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
         if Act2Events.ids[id] then Act2Events.prepare(run,flow.event) end
+        if Act3Events.ids[id] then Act3Events.prepare(run,flow.event,miscRng) end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
@@ -218,7 +229,8 @@ local function enter(run, map, nodeId)
         local id = node.eventId or run.data.rules.events.encounterId
         if id ~= "cleric" and id ~= "purifier" and id~='goop' and id~='upgrade_shrine'
             and id~='golden_wing' and id~='shining_light' and id~='golden_shrine' and id~='living_wall' and id~='fountain'
-            and not Act1Events.ids[id] and not Act2Events.ids[id] then return false, "event_unavailable" end
+            and not Act1Events.ids[id] and not Act2Events.ids[id] and not Act3Events.ids[id] then return false, "event_unavailable" end
+        if Act3Events.ids[id] and run.act~=3 then return false,'event_unavailable'end
         if id == "cleric" and run.gold < run.data.rules.events.cleric.minGold then
             return false, "event_unavailable"
         end
@@ -266,6 +278,7 @@ local function enter(run, map, nodeId)
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
     if flow.type == 'shop' then
+        run.relicPool=flow.relicPool;flow.relicPool=nil
         run.shopRng=flow.shopRng
         CardRandom.commit(run,flow.cardRandom)
         flow.cardRandom=nil -- Only the Run owns the persistent card stream.
@@ -285,6 +298,20 @@ function M.enter(run,map,nodeId)
     for i=#map.path,1,-1 do map.path[i]=nil end
     for i,id in ipairs(stagedMap.path)do map.path[i]=id end
     return true,reason
+end
+
+-- Opening is outside the map. It must not count as a visited room, spend an
+-- event draw, or run room-entry relic hooks. Existing direct Run.new stays valid.
+function M.beginNeow(run,map,history)
+    if type(map)~='table' or type(map.path)~='table' or map.floor~=0 or map.currentNodeId~=nil or #map.path~=0 then return false,'neow_opening_unavailable' end
+    return Run.transaction(run,function(staged)
+        if staged.phase~='map' or staged.nodeFlow~=nil or staged.runSeed~=map.runSeed then return false,'neow_opening_unavailable' end
+        local flow={type='event',roomKind='neow',mapSeed=map.seed,mapSignature=map.sourceSignature,floor=map.floor,event={id='neow'}}
+        local ok,why=Neow.prepare(staged,flow.event,history);if not ok then return false,why end
+        staged.nodeFlow,staged.phase,staged.floor=flow,'node',0
+        staged.neowStatus='available'
+        return true
+    end)
 end
 
 function M.advanceAct(run,map)
@@ -327,6 +354,7 @@ function M.view(run, map)
             if node.event.id=='transmogrifier' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if node.event.id=='wheel' then node.event.purgeCards=LivingWall.purgeCards(run) end
             if Act2Events.ids[node.event.id] then Act2Events.view(run,node.event) end
+            if node.event.id=='neow'then Neow.view(run,node.event)end
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
                 node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
@@ -408,12 +436,14 @@ function M.rest(run)
             -- previous encounter. Its persistent card RNG/offset still advance.
             local context={data=owner.data,cardRng=owner.cardRng,
                 cardRarityOffset=owner.cardRarityOffset,encounterTier='normal'}
-            local cards,rng,offset=CardPool.prepareRewards(context)
+            local cards,rng,offset,upgrades=CardPool.prepareRewards(context)
             for _,id in ipairs(cards)do
                 if not Capability.isImplemented(find(owner.data.cards.cards,id))then error('card_content_unavailable')end
             end
             owner.cardRng,owner.cardRarityOffset=rng,offset
-            return {cards=cards,resolved=false}
+            local reward={cards=cards,resolved=false,cardUpgrades=upgrades}
+            RelicHooks.previewCardReward(owner,reward,true)
+            return reward
         end)
         if flow.restReward then return true,'choose_rest_card' end
         return complete(staged)
@@ -427,7 +457,8 @@ function M.claimRestReward(run,choice)
         if flow.campChoice~='rest' or not reward or reward.resolved then return false,'no_pending_reward' end
         if type(choice)~='number' or choice%1~=0 or choice<0 or choice>#reward.cards then return false,'invalid_reward_choice' end
         if choice>0 then
-            local ok,why=Run.obtainCard(staged,reward.cards[choice]);if not ok then return false,why end
+            local ok,why=Run.obtainCard(staged,reward.cards[choice],
+                {upgraded=reward.cardUpgrades and reward.cardUpgrades[choice]==true});if not ok then return false,why end
         end
         reward.resolved,reward.choice=true,choice
         return complete(staged)
@@ -471,27 +502,24 @@ local function purchaseCommand(run, category, reference, bySlot)
         if Run.potionCount(run)>=Run.potionCapacity(run) then return false,'potion_slots_full' end
         if not find(run.data.potions.potions,offer.id) then return false,'unknown_potion' end
     end
-    -- Stage discounts and restock before charging or granting anything. An
-    -- invalid stream/content adapter must not leave half a purchase committed.
-    local stagedRun,stagedFlow={},Combat.copy(flow)
-    for k,v in pairs(run) do stagedRun[k]=v end
-    if category=='relics' then
-        stagedRun.relics=Combat.copy(run.relics)
-        stagedRun.relics[#stagedRun.relics+1]=id
-    end
-    local called,transaction=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
-    if not called then return false,'shop_content_unavailable' end
+    -- Run.transaction rolls back payment/equip if restock fails. Equip first:
+    -- source StoreRelic.purchaseRelic observes its effects during Courier draw.
     run.gold = run.gold - offer.price
     RelicHooks.onSpendGold(run,'shop')
     if category == "cards" then
-        local ok,why=Run.obtainCard(run,id);if not ok then return false,why end
+        local ok,why=Run.obtainCard(run,id,{upgraded=offer.upgraded,upgrades=offer.upgrades});if not ok then return false,why end
     elseif category=='potions' then
         local ok,why=Run.obtainPotion(run,offer.id);if not ok then return false,why end
     else
         local ok,why=Run.obtainRelic(run,id);if not ok then return false,why end
     end
+    local stagedRun,stagedFlow={},Combat.copy(flow)
+    for k,v in pairs(run)do stagedRun[k]=v end
+    local called,transaction=pcall(Shop.afterPurchase,stagedRun,stagedFlow,category,stagedFlow[category][offer.slot])
+    if not called then return false,'shop_content_unavailable' end
     flow.cards,flow.relics,flow.potions,flow.shopRng=stagedFlow.cards,stagedFlow.relics,stagedFlow.potions,stagedFlow.shopRng
     run.shopRng=flow.shopRng
+    run.relicPool=stagedRun.relicPool
     run.cardRng,run.cardRarityOffset=stagedRun.cardRng,stagedRun.cardRarityOffset
     -- Commit session entropy only after all staged grants/hooks succeed.
     if transaction and not pcall(External.commit,transaction) then return false,'shop_content_unavailable' end
@@ -538,9 +566,97 @@ function M.leaveShop(run)
     return complete(run)
 end
 
+local function openSourceTreasure(run,flow)
+    local prepared,why=Treasure.open(run,flow.chest,flow.reward)
+    if not prepared then return false,why end
+    for _,key in ipairs({'treasureRng','relicPool','cardRng','relicCounters'})do run[key]=prepared[key]end
+    for _,id in ipairs(prepared.curseSourceIds)do
+        local ok,reason=Run.obtainCard(run,id);if not ok then return false,reason end
+    end
+    flow.chest,flow.reward=prepared.chest,prepared.reward
+    return true
+end
+function M.openTreasure(run)
+    return Run.transaction(run,function(staged)
+        local flow,why=pending(staged,'treasure');if not flow then return false,why end
+        if not flow.chest then return false,'source_chest_required' end
+        return openSourceTreasure(staged,flow)
+    end)
+end
+function M.treasureRewardSource(run,slot)
+    local flow,why=pending(run,'treasure');if not flow then return nil,why end
+    if type(flow.chest)~='table' or getmetatable(flow.chest)~=nil or flow.chest.opened~=true then return nil,'chest_closed' end
+    if run.floor~=flow.floor or type(flow.floor)~='number' or flow.floor%1~=0 or flow.floor<1 or flow.floor>55
+        or type(flow.id)~='string' or flow.id=='' or type(run.runSeed)~='string' or flow.mapSeed~=run.runSeed
+        or type(flow.mapSignature)~='string' or flow.mapSignature==''
+        or type(run.roomGeneration)~='number' or run.roomGeneration%1~=0 or run.roomGeneration<1 or run.roomGeneration>2147483647
+        or type(flow.reward)~='table' or getmetatable(flow.reward)~=nil
+        or type(flow.reward.items)~='table' or getmetatable(flow.reward.items)~=nil or flow.complete~=false
+        or type(slot)~='number' or slot%1~=0 or slot<1 then return nil,'treasure_source_mismatch' end
+    for _,item in ipairs(flow.reward.items)do if item.slot==slot then
+        return {id=flow.id,floor=flow.floor,roomGeneration=run.roomGeneration,slot=slot,
+            kind=item.kind,sourceId=item.sourceId or item.kind}
+    end end
+    return nil,'treasure_reward_unavailable'
+end
+local function takeSourceTreasure(run,flow,slot)
+    local taken,why=Treasure.take(flow.reward,slot);if not taken then return false,why end
+    local item=taken.item
+    if item.kind=='relic' then
+        local ok,reason=Run.obtainRelic(run,item.id);if not ok then return false,reason end
+    elseif item.kind=='gold' then Run.gainGold(run,item.amount)
+    else
+        local eligible,reason=endingKeyEligible(run,'sapphire');if not eligible then return false,reason end
+        run.keys.sapphire=true
+    end
+    flow.reward=taken.reward
+    if item.kind=='sapphire' or item.origin=='base' then flow.treasureChoice=item.kind end
+    return true,item.kind
+end
+function M.claimTreasureReward(run,token)
+    -- Validate plain source owners before copying can erase a metatable.
+    if type(token)~='table' or getmetatable(token)~=nil then
+        return Run.transaction(run,function()return false,'treasure_source_mismatch'end)
+    end
+    local initial,reason=M.treasureRewardSource(run,token.slot)
+    if not initial then return Run.transaction(run,function()return false,reason end)end
+    return Run.transaction(run,function(staged)
+        if type(token)~='table' or getmetatable(token)~=nil then return false,'treasure_source_mismatch' end
+        local fields={id=true,floor=true,roomGeneration=true,slot=true,kind=true,sourceId=true}
+        for key in pairs(token)do if not fields[key]then return false,'treasure_source_mismatch' end end
+        local live,why=M.treasureRewardSource(staged,token.slot);if not live then return false,why end
+        for key,value in pairs(live)do if token[key]~=value then return false,'treasure_source_mismatch' end end
+        local flow=staged.nodeFlow
+        if flow.roomKind=='boss_treasure' then return false,'boss_treasure_choice_required' end
+        local ok,kind=takeSourceTreasure(staged,flow,token.slot);if not ok then return false,kind end
+        if #flow.reward.items==0 then return complete(staged,kind) end
+        return true,kind
+    end)
+end
+function M.leaveTreasure(run)
+    return Run.transaction(run,function(staged)
+        local flow,why=pending(staged,'treasure');if not flow then return false,why end
+        if flow.roomKind=='boss_treasure' then
+            complete(staged,'boss_treasure_complete')
+            if staged.campaign then staged.phase,staged.pendingAct='act_transition',(staged.act or 1)+1
+            else staged.phase='victory' end
+            return true,'boss_treasure_complete'
+        end
+        return complete(staged,'treasure_skipped')
+    end)
+end
+
 local function claimTreasure(run)
     local flow, reason = pending(run, "treasure"); if not flow then return false, reason end
     if flow.roomKind == "boss_treasure" then return false, "boss_treasure_choice_required" end
+    if flow.chest then
+        if not flow.chest.opened then local ok,why=openSourceTreasure(run,flow);if not ok then return false,why end end
+        local items=Combat.copy(flow.reward.items)
+        for _,item in ipairs(items)do if item.kind~='sapphire' then
+            local ok,why=takeSourceTreasure(run,flow,item.slot);if not ok then return false,why end
+        end end
+        return complete(run)
+    end
     if flow.reward.relicId then
         if owns(run.relics, flow.reward.relicId) then return false, "relic_already_owned" end
         local ok,why=Run.obtainRelic(run,flow.reward.relicId);if not ok then return false,why end
@@ -564,6 +680,15 @@ function M.treasureSource(run,map)
     if flow.roomKind=='boss_treasure' then return nil,'boss_treasure_choice_required' end
     local eligible,why=endingKeyEligible(run,'sapphire');if not eligible then return nil,why end
     local reward=flow.reward
+    local modern
+    if flow.chest then
+        if type(flow.chest)~='table'or getmetatable(flow.chest)~=nil or flow.chest.opened~=true then return nil,'chest_closed'end
+        modern,why=TreasureSource.pair(reward);if not modern then return nil,why end
+        if modern.relicAvailable and not find(run.data.relics.relics,modern.relicId)then return nil,'treasure_choice_unavailable'end
+        if owns(run.relics,modern.relicId) and modern.relicId~='circlet' and modern.relicId~='Circlet'then
+            return nil,'treasure_choice_unavailable'
+        end
+    else
     if type(reward)~='table' or getmetatable(reward)~=nil or type(reward.relicId)~='string'
         or type(reward.sapphireKey)~='table' or getmetatable(reward.sapphireKey)~=nil
         or reward.sapphireKey.relicId~=reward.relicId or owns(run.relics,reward.relicId)
@@ -573,6 +698,7 @@ function M.treasureSource(run,map)
     end
     for key in pairs(reward.sapphireKey)do
         if key~='relicId' then return nil,'treasure_reward_shape_unsupported' end
+    end
     end
     if type(map)~='table' or type(map.nodes)~='table' or type(map.path)~='table'
         or type(run.runSeed)~='string' or type(flow.mapSeed)~='string' or flow.mapSeed~=run.runSeed
@@ -593,14 +719,19 @@ function M.treasureSource(run,map)
         or (node.type~='treasure' and not (node.type=='event' and flow.sourceType=='event')) then
         return nil,'treasure_source_mismatch'
     end
-    return {id=flow.id,floor=flow.floor,act=run.act or 1,runSeed=run.runSeed,
+    local token={id=flow.id,floor=flow.floor,act=run.act or 1,runSeed=run.runSeed,
         mapSeed=flow.mapSeed,mapSignature=flow.mapSignature,roomGeneration=run.roomGeneration,relicId=reward.relicId}
+    if modern then
+        token.baseSlot,token.keySlot,token.itemsSignature=modern.baseSlot,modern.keySlot,modern.itemsSignature
+    end
+    return token
 end
 
 local function treasureChoiceSource(run,map,source,choice)
     local current,reason=M.treasureSource(run,map);if not current then return false,reason end
     if type(source)~='table' or getmetatable(source)~=nil then return false,'treasure_source_mismatch' end
     for key,value in pairs(current)do if source[key]~=value then return false,'treasure_source_mismatch' end end
+    for key in pairs(source)do if current[key]==nil then return false,'treasure_source_mismatch'end end
     if choice~='relic' and choice~='sapphire' then return false,'invalid_treasure_choice' end
     return true
 end
@@ -612,6 +743,13 @@ function M.chooseTreasure(run,map,source,choice)
     if not valid then return Run.transaction(run,function()return false,reason end)end
     return Run.transaction(run,function(staged)
         local live,why=treasureChoiceSource(staged,map,source,choice);if not live then return false,why end
+        local flow=staged.nodeFlow
+        if flow.chest then
+            local ok,kind=takeSourceTreasure(staged,flow,choice=='sapphire'and source.keySlot or source.baseSlot)
+            if not ok then return false,kind end
+            if #flow.reward.items==0 then return complete(staged,choice=='relic'and 'complete'or kind)end
+            return true,kind
+        end
         if choice=='relic' then return claimTreasure(staged) end
         -- The BLUE effect's gameplay result only changes this flag. Expire its
         -- linked relic in the same transaction; no obtain/equip or gold hook.
@@ -629,7 +767,15 @@ local function claimBossTreasure(run, choice)
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #flow.reward.relics then
         return false, "invalid_boss_relic_choice"
     end
-    if choice > 0 then
+    if flow.chest then
+        if choice>0 then
+            if not flow.chest.opened then local ok,why=openSourceTreasure(run,flow);if not ok then return false,why end end
+            local item=flow.reward.items[choice]
+            if not item or item.kind~='relic' then return false,'invalid_boss_relic_choice' end
+            local ok,why=takeSourceTreasure(run,flow,item.slot);if not ok then return false,why end
+            flow.chosenRelic=item.id
+        end
+    elseif choice > 0 then
         local id = flow.reward.relics[choice]
         local relic = find(run.data.relics.relics, id)
         if not relic or not Inventory.bossEligible(relic, run.relics) then return false, "boss_relic_unavailable" end
@@ -648,8 +794,10 @@ end
 
 function M.eventOptions(run,flow)
     local id,e=flow.event.id,flow.event
+    if id=='neow'then return Neow.options(run,e)end
     if Act1Events.ids[id] then return Act1Events.options(run,e,upgradeCards) end
     if Act2Events.ids[id] then return Act2Events.options(run,e) end
+    if Act3Events.ids[id] then return Act3Events.options(run,e) end
     local rows={}
     local function option(choice,title,description,enabled,picker)
         rows[#rows+1]={choice=choice,title=title,description=description,enabled=enabled~=false,picker=picker}
@@ -695,12 +843,26 @@ end
 local function chooseEvent(run, choice, uid)
     local flow, reason = pending(run, "event"); if not flow then return false, reason end
     local id = flow.event.id
+    if id=='neow'then
+        local ok,status=Neow.choose(run,flow,choice,uid)
+        if not ok or status~='complete'then return ok,status end
+        flow.eventChoice=choice;run.neowStatus='complete'
+        return complete(run)
+    end
     local rules = run.data.rules.events[id] or {}
     if Act2Events.ids[id] then
         local ok,status=Act2Events.choose(run,flow,choice,uid,upgradeable)
         if not ok or status~='complete' then return ok,status end
         flow.eventChoice=choice
         return complete(run)
+    end
+    if Act3Events.ids[id] then
+        local ok,status=Act3Events.choose(run,flow,choice,uid)
+        if ok and run.hp==0 then
+            flow.eventChoice=choice;complete(run);run.phase='defeat';return true,'defeat'
+        end
+        if not ok or status~='complete'then return ok,status end
+        flow.eventChoice=choice;return complete(run)
     end
     if Act1Events.ids[id] then
         local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)

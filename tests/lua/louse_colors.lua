@@ -69,8 +69,11 @@ end
 local function referenceBattle(run,roster)
  local seed=require('abyss_run_seed').forFloor(run.runSeed,run.floor)
  local reference=C.new(run.data,{seed=run.seed,hp=run.hp,maxHp=run.maxHp,gold=run.gold,deck=run.deck,
-  enemies=roster,cardRandomSeed=seed,shuffleSeed=seed,
-  beforeFirstTurn=function(state)state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run);return true end})
+  enemies=roster,cardRandomSeed=seed,shuffleSeed=seed,masterDeck=run.deck,miscRng=run.miscRng,cardRng=run.cardRng,
+  beforeFirstTurn=function(state)
+   state.potionRng=run.shopRng and R.cloneState(run.shopRng.potion)or R.fromSeed(run.runSeed)
+   state.potionCharacter=require('abyss_potion_random').character(run)
+   state.potionInventory=C.copy(run.potions);state.potionCapacity=Run.potionCapacity(run);return true end})
  assert(reference.potionInventory~=run.potions,'independent constructor owns its potion snapshot')
  assert(equal(Data.rules.player.startingRelics,{'burning_blood'}))
  reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}

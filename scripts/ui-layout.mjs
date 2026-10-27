@@ -141,8 +141,18 @@ export function battleLayout() {
   // Pile counts sit on a dark badge at the icon's inner corner, with a caption below.
   const pile = (name, icon, [x, py], caption, side) => {
     const b = l.pileBadge, [bx, by] = [x + side * b.offset[0], py + b.offset[1]];
+    const left = Math.max(-width / 2 + theme.canvas.safe.x,
+      Math.min(x - l.drawPile.size[0] / 2, bx - b.disc / 2, x + b.label[0] - b.label[2] / 2));
+    const right = Math.min(width / 2 - theme.canvas.safe.x,
+      Math.max(x + l.drawPile.size[0] / 2, bx + b.disc / 2, x + b.label[0] + b.label[2] / 2));
+    const bottom = Math.max(-height / 2 + theme.canvas.safe.y,
+      Math.min(py - l.drawPile.size[1] / 2, by - b.disc / 2, py + b.label[1] - b.label[3] / 2));
+    const top = Math.min(height / 2 - theme.canvas.safe.y,
+      Math.max(py + l.drawPile.size[1] / 2, by + b.disc / 2, py + b.label[1] + b.label[3] / 2));
     return [
-      picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
+      { ...picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim), children: [
+        { ...hit(right - left, top - bottom), position: [(left + right) / 2 - x, (bottom + top) / 2 - py] },
+      ] },
       picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, c.goldDim),
       picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.disc - s.border * 2, im.disc, c.panelSunken),
       text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.label, c.goldBright),
@@ -175,7 +185,10 @@ export function battleLayout() {
     text('title', 0, y, 350, bar.height, '战斗', f.heading, c.gold),
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
-    glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim), chip('exhaust', bar.exhaust, c.textDim),
+    { ...glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim), children: [
+      { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, bar.height),
+        position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2, 0] },
+    ] }, chip('exhaust', bar.exhaust, c.textDim),
     unit('hero', l.player.position, l.player.portrait, true),
     text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '', f.body, c.goldBright),
     text('statuses', -380, 194, 350, 26, '', f.small, c.textDim),
@@ -205,6 +218,11 @@ export function battleLayout() {
   }
   // Keep potion explanations in the existing full-canvas group. This avoids
   // exceeding the platform's 60 direct children when rewards and aiming coexist.
+  for (let i = 1; i <= 2; i++) {
+    const relic = button(`relicReward${i}`, l.battleRewards.rowOrigin, l.battleRewards.rowSize, '遗物', false, f.body);
+    relic.visible = false;
+    potionHelp.push(relic);
+  }
   potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
   for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));

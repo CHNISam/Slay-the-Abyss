@@ -3,6 +3,8 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
 local C,R,I,Data=require('abyss_combat'),require('abyss_sts_random'),require('abyss_inventory'),require('abyss_data')
 local count,failed=0,0
+local rangeFirst,rangeLast,executed=1,math.huge,0
+local function selectCases(first,last)rangeFirst,rangeLast=first,last end
 local function eq(a,b,label) if a~=b then assert(false,(label or 'value')..': expected '..tostring(b)..', got '..tostring(a)) end end
 local function same(a,b,path)
  path=path or 'state';eq(type(a),type(b),path)
@@ -36,7 +38,7 @@ local function freeze(...)
  end
 end
 local function test(name,fn)
- count=count+1;local ok,err=pcall(fn);if not ok then failed=failed+1 end
+ count=count+1;if count<rangeFirst or count>rangeLast then return end;executed=executed+1;local ok,err=pcall(fn);if not ok then failed=failed+1 end
  print((ok and 'ok ' or 'not ok ')..count..' - '..name..(ok and '' or ': '..tostring(err)))
 end
 local function ids(battle) local out={};for i,e in ipairs(battle.enemies) do out[i]=e.definitionId end;return out end
@@ -163,6 +165,7 @@ end
 local function finish(expected,marker)
 eq(count,expected,'registered original groups')
 assert(failed==0,tostring(failed)..' failed of '..count)
-print(marker..' '..count)
+assert(executed==math.min(expected,rangeLast)-rangeFirst+1,'selected gremlin cases must execute')
+print(marker..' '..executed..' registered='..count)
 end
-return {Run=Run,Map=Map,Nodes=Nodes,C=C,R=R,I=I,Data=Data,eq=eq,same=same,sameRunCombat=sameRunCombat,freeze=freeze,test=test,ids=ids,oracle=oracle,vectors=vectors,force=force,direct=direct,nodeSetup=nodeSetup,normal=normal,unknown=unknown,enter=enter,streamAfter=streamAfter,frontierCases=frontierCases,failureCases=failureCases,finish=finish}
+return {Run=Run,Map=Map,Nodes=Nodes,C=C,R=R,I=I,Data=Data,eq=eq,same=same,sameRunCombat=sameRunCombat,freeze=freeze,test=test,ids=ids,oracle=oracle,vectors=vectors,force=force,direct=direct,nodeSetup=nodeSetup,normal=normal,unknown=unknown,enter=enter,streamAfter=streamAfter,frontierCases=frontierCases,failureCases=failureCases,finish=finish,selectCases=selectCases}

@@ -1,0 +1,75 @@
+{
+  "natural": {
+    "seed": "14",
+    "floor": 35,
+    "zeroBasedIndex": 5,
+    "eventRng": {
+      "words": [
+        "1212b40cf65e84d0",
+        "77b7a35e647db2d7"
+      ],
+      "counter": 1
+    },
+    "selectionRng": {
+      "words": [
+        "63de3239da6caeb1",
+        "bb5bc3e4ecde15ee"
+      ],
+      "counter": 3
+    },
+    "miscRng": {
+      "words": [
+        "cf8ffb89367b9db1",
+        "6ceb5da532af3c3b"
+      ],
+      "counter": 0
+    }
+  },
+  "goldReward": 222,
+  "cases": [
+    {
+      "gold": 0,
+      "mask": false,
+      "choice": "pay",
+      "resultGold": 0,
+      "resultMask": true
+    },
+    {
+      "gold": 1,
+      "mask": false,
+      "choice": "pay",
+      "resultGold": 0,
+      "resultMask": true
+    },
+    {
+      "gold": 99,
+      "mask": false,
+      "choice": "pay",
+      "resultGold": 0,
+      "resultMask": true
+    },
+    {
+      "gold": 222,
+      "mask": false,
+      "choice": "pay",
+      "resultGold": 0,
+      "resultMask": true
+    },
+    {
+      "gold": 17,
+      "mask": true,
+      "ectoplasm": false,
+      "choice": "wear",
+      "resultGold": 239,
+      "resultMask": true
+    },
+    {
+      "gold": 17,
+      "mask": true,
+      "ectoplasm": true,
+      "choice": "wear",
+      "resultGold": 17,
+      "resultMask": true
+    }
+  ]
+}

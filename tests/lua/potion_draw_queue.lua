@@ -1,5 +1,6 @@
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,C,A,R,Data=require('abyss_run'),require('abyss_combat'),require('abyss_actor'),require('abyss_sts_random'),require('abyss_data')
+local StatusPowers=require('abyss_warrior_status_cards')
 local passed,failed=0,0
 local function test(name,fn)
  local ok,why=pcall(fn)
@@ -35,7 +36,7 @@ local function battle(id,top,extra)
 end
 for _,id in ipairs({'swift_potion','snecko_oil'}) do
  test(id..' keeps Evolve draws behind initial potion actions and leaves player commands usable',function()
-  local run,s=battle(id,'dazed','defend');A.applyPower(s,s.player,'evolve',1,s.player)
+  local run,s=battle(id,'dazed','defend');StatusPowers.applyPower(s,'evolve',1)
   local rng=R.cloneState(s.cardRandomRng);local expected={}
   if id=='snecko_oil' then for i=1,4 do expected[i]=R.randomInt(rng,3) end end
   assert(Run.usePotion(run,1));assert(#s.hand==(id=='swift_potion' and 4 or 6))
@@ -49,12 +50,12 @@ for _,id in ipairs({'swift_potion','snecko_oil'}) do
   assert(Run.endTurn(run),'resolved draw must not leave card_choice_pending')
  end)
  test(id..' drains FireBreathing after Burn and keeps nonlethal combat usable',function()
-  local run,s=battle(id,'burn');A.applyPower(s,s.player,'fire_breathing',6,s.player)
+  local run,s=battle(id,'burn');StatusPowers.applyPower(s,'fire_breathing',6)
   local hp=s.enemies[1].hp;assert(Run.usePotion(run,1));assert(s.enemies[1].hp==hp-6)
   assert(not s.cardActions and not s.queuedCards and run.phase=='combat');assert(Run.endTurn(run))
  end)
  test(id..' finishes initial costs before triggered victory and resolves rewards without a queue lock',function()
-  local run,s=battle(id,'burn');A.applyPower(s,s.player,'fire_breathing',999,s.player)
+  local run,s=battle(id,'burn');StatusPowers.applyPower(s,'fire_breathing',999)
   local rng=R.cloneState(s.cardRandomRng)
   if id=='snecko_oil' then for i=1,4 do R.randomInt(rng,3) end end
   assert(Run.usePotion(run,1))
@@ -64,14 +65,15 @@ for _,id in ipairs({'swift_potion','snecko_oil'}) do
   assert(run.phase=='map');assert(Run.startCombat(run,'cultist_solo'));assert(Run.endTurn(run))
  end)
  test(id..' triggered draw failure rolls back every live value and reference',function()
-  local run,s=battle(id,'dazed','invalid_draw_fixture');A.applyPower(s,s.player,'evolve',1,s.player)
+  local run,s=battle(id,'dazed','invalid_draw_fixture');StatusPowers.applyPower(s,'evolve',1)
   local before=C.copy(run);local check=frozen(run)
   local ok,why=Run.usePotion(run,1);assert(not ok and why=='potion_effect_failed')
   same(run,before);check();assert(run.potions[1]==id and not s.cardActions)
  end)
  test(id..' triggered victory reward failure cannot commit potion draw or reward RNG',function()
-  local run,s=battle(id,'burn');A.applyPower(s,s.player,'fire_breathing',999,s.player)
+  local run,s=battle(id,'burn');StatusPowers.applyPower(s,'fire_breathing',999)
   run.cardRng={invalid_reward_fixture=true}
+  s.cardRng=run.cardRng -- the current combat owns the continuous reward stream
   local before=C.copy(run);local check=frozen(run)
   local ok,why=Run.usePotion(run,1);assert(not ok and why=='potion_effect_failed')
   same(run,before);check();assert(run.phase=='combat' and run.potions[1]==id)
@@ -87,7 +89,7 @@ test('Snecko full hand skips draw/shuffle but still randomizes every eligible ex
  same(R.snapshot(s.cardRandomRng),R.snapshot(rng));assert(not s.cardActions)
 end)
 test('Snecko random-cost failure rolls back initial draw and leaves trigger tail unpublished',function()
- local run,s=battle('snecko_oil','dazed','defend');A.applyPower(s,s.player,'evolve',1,s.player)
+ local run,s=battle('snecko_oil','dazed','defend');StatusPowers.applyPower(s,'evolve',1)
  s.cardRandomRng={invalid_cost_fixture=true}
  local before=C.copy(run);local check=frozen(run)
  local ok,why=Run.usePotion(run,1);assert(not ok and why=='potion_effect_failed')
@@ -95,7 +97,7 @@ test('Snecko random-cost failure rolls back initial draw and leaves trigger tail
 end)
 test('Snecko queues all initial actions before the post-use heal and draw-trigger tails',function()
  local run,s=battle('snecko_oil','burn');s.player.hp=20;run.hp=20
- A.applyPower(s,s.player,'fire_breathing',999,s.player)
+ StatusPowers.applyPower(s,'fire_breathing',999)
  local queued=0;local start=#s.events
  assert(Run.usePotion(run,1,nil,function(candidate)
   queued=queued+1
@@ -113,7 +115,7 @@ test('Snecko queues all initial actions before the post-use heal and draw-trigge
 end)
 test('post-use heal resolves after Snecko costs but before Evolve additional draw',function()
  local run,s=battle('snecko_oil','dazed','defend');s.player.hp=20;run.hp=20
- A.applyPower(s,s.player,'evolve',1,s.player)
+ StatusPowers.applyPower(s,'evolve',1)
  local start=#s.events
  assert(Run.usePotion(run,1,nil,function(candidate)
   require('abyss_card_actions').enqueue(candidate,{op='heal',value=5})
@@ -124,7 +126,7 @@ test('post-use heal resolves after Snecko costs but before Evolve additional dra
  assert(s.hand[6].uid==2000 and s.hand[6].costOverride==nil)
 end)
 test('post-use hook failure leaves queued potion actions and bottle uncommitted',function()
- local run,s=battle('snecko_oil','dazed','defend');A.applyPower(s,s.player,'evolve',1,s.player)
+ local run,s=battle('snecko_oil','dazed','defend');StatusPowers.applyPower(s,'evolve',1)
  local before=C.copy(run);local check=frozen(run)
  local ok,why=Run.usePotion(run,1,nil,function(candidate)
   require('abyss_card_actions').enqueue(candidate,{op='heal',value=5})

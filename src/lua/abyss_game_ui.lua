@@ -16,11 +16,13 @@ local ReleaseNotesUI = require("abyss_release_notes_ui")
 local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
+local NeowHistory=require('abyss_neow_history')
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
     -- never while constructing the title screen or refreshing the UI.
     local self = { root = root, data = data, seed = platform.seed, mode = "menu" }
+    local neowHistory=NeowHistory.new(platform.readNeowHistory)
     local controller = Controller.new(platform.controllerApi,root)
     self.controller = controller
     platform.controller = controller
@@ -28,6 +30,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
+    local speed=menu:GetChild('battleSpeed')
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local exitGeneration, menuGeneration = 0, 0
     local menuPointerSealed = false
@@ -44,6 +47,18 @@ function M.new(root, data, presentation, clickEvent, platform)
     local selectable=experimental or originalCharacters
     if selectable then assert(characterPanel and root:GetChild("choicePanel"), "experimental class layout required") end
     local characterIds = originalCharacters and {"hutao","arlecchino","furina","raiden"} or {"ironclad", "silent", "defect", "watcher"}
+    self.fastMode=false
+    self.setFastMode=function(_,enabled)
+        if type(enabled)~='boolean' or self.disabled or self.battleUI and self.battleUI.busy then return false end
+        if self.mode~='menu' or self.characterOpen or self.exitOpen
+            or (self.releaseNotesUI and self.releaseNotesUI.visible) or (self.deckUI and self.deckUI.visible)
+            or (self.potionUI and self.potionUI.visible) or (self.choiceUI and self.choiceUI.visible)
+            or self.settlementRequested or self.settlementBusy then return false end
+        self.fastMode=enabled
+        if self.battleUI then self.battleUI.fastMode=enabled;self.battleUI.feedback:setFastMode(enabled)end
+        if speed then speed:GetChild('label').text=enabled and '战斗速度：快速' or '战斗速度：普通'end
+        return true
+    end
     local menuRun, menuMode
     local requestSettlement
     local ready = false
@@ -55,7 +70,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
     end
     self.battleUI = BattleUI.new(child("battlePanel"), data, presentation, clickEvent,
-        platform, { embedded = true, onChange = changed })
+        platform, { embedded = true, onChange = changed, onPile=function(kind)return self:openDeck(kind)end })
     self.mapUI = MapUI.new(child("mapPanel"), nil, function(node)
         if self.disabled or not self.run or self.mode ~= "map" or self.deckUI and self.deckUI.visible then return false, "not_on_map" end
         local ok, reason = Nodes.enter(self.run, self.map, node.id)
@@ -75,8 +90,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
     if selectable then
         self.choiceUI = require("abyss_choice_ui").new(child("choicePanel"),presentation,clickEvent,platform,
-            function(kind,uids,token,generation)
-                return self.battleUI:chooseCards(kind,uids,token,generation)
+            function(kind,uids,token,generation,battle)
+                return self.battleUI:chooseCards(kind,uids,token,generation,battle)
             end)
     end
     local function canManagePotions(run)
@@ -131,10 +146,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         return requestSettlement(self.mode == "victory")
     end
 
-    self.openDeck = function(_)
+    self.openDeck = function(_,pileKind)
         if self.disabled or self.characterOpen or self.choiceUI and self.choiceUI.visible or self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
             or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
-        if not self.deckUI:open(self.run) then return false end
+        if pileKind then
+            if self.mode~='battle' or not self.deckUI:openPile(self.run,pileKind)then return false end
+        elseif not self.deckUI:open(self.run)then return false end
         self.battleUI.selected = nil
         self:refresh()
         return true
@@ -305,6 +322,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.refresh = function(_)
         if self.disabled then return false,"ui_disabled" end
         local run = self.run
+        if run and (run.phase=='victory' or run.phase=='defeat')then NeowHistory.finish(neowHistory,run,run.phase)end
         if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
         end
@@ -336,7 +354,8 @@ function M.new(root, data, presentation, clickEvent, platform)
             self.choiceUI:refresh(run,not self.battleUI.busy and not self.exitOpen and not self.settlementRequested
                 and not self.settlementBusy and not self.deckUI.visible and not self.potionUI.visible)
         end
-        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run) then self.deckUI:close() end
+        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run
+            or self.deckUI.pileKind and (run.phase~='combat' or run.combat~=self.deckUI.battle))then self.deckUI:close()end
         if run and run.phase=="combat" and run.combat.pendingChoice and not self.battleUI.busy
             and not self.deckUI.visible and not self.exitOpen then
             self.deckUI:open(run,run.combat.pendingChoice,function(token,uid)
@@ -398,10 +417,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode == "map" then
             -- While the cinematic's last fade uncovers the map, the map is visible but inert.
             self.mapUI:setNavigationEnabled(not deckOpen and not potionOpen and not blocked and not covering and #Nodes.available(run, self.map) > 0)
+            if run.neowStatus=='unavailable' and self.map.floor==0 and not self.mapUI.entryError then
+                self.mapUI.entryError='开局恩赐暂不可用：未取得上一局历史；本次保持原开局资源。'
+                self.mapUI:render()
+            end
         elseif self.mode == "node" then self.nodeUI:render() end
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
         menu:GetChild('codeVersion'):SetVisible(self.mode=='menu')
+        if speed then speed:SetVisible(self.mode=='menu')end
         if characterPanel then
             characterPanel:SetVisible(self.characterOpen==true)
             if self.characterOpen then characterPanel:SetAsLastSibling() end
@@ -462,6 +486,13 @@ function M.new(root, data, presentation, clickEvent, platform)
         local run = Run.new(data,rawSeed,selection)
         local runPresentation = (selection and selection.character or run.data.colorlessCards) and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
         local map = Map.generate(run.data,rawSeed)
+        local history,historyReason=NeowHistory.read(neowHistory,run.character)
+        if history then
+            local ok,why=Nodes.beginNeow(run,map,history);if not ok then return false,why end
+            run.neowHistorySource=history.source
+        else
+            run.neowStatus,run.neowUnavailableReason='unavailable',historyReason
+        end
         self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.battleUI:setData(run.data,runPresentation)
         self.nodeUI.presentation=runPresentation
@@ -526,6 +557,10 @@ function M.new(root, data, presentation, clickEvent, platform)
             return false, "settlement_request_failed"
         end
         self.settlementRequested, self.settlementError, self.exitError = true, nil, nil
+        if self.run then
+            local phase=self.run.phase
+            NeowHistory.finish(neowHistory,self.run,(phase=='victory' or phase=='defeat')and phase or 'abandon')
+        end
         exitGeneration = exitGeneration + 1
         self:refresh()
         return true, "settlement_requested"
@@ -603,6 +638,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local cursor = platform.cursorEvents or {}
         local function available()
             if self.disabled or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy then return false end
+            if kind=='battleSpeed' then return self.mode=='menu' and not self.characterOpen and not self.exitOpen and not self.deckUI.visible end
             if characterAction then
                 return selectable and self.characterOpen==true and not self.exitOpen
                     and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
@@ -669,6 +705,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     -- Result actions use the same pointer ownership as exit actions, and also
     -- expire whenever their menu/run context is hidden or replaced.
     bindCommand(start, "start", function() return self:start() end)
+    if speed then bindCommand(speed,'battleSpeed',function()return self:setFastMode(not self.fastMode)end)end
     bindCommand(settlement, "settle", function() return self:settle() end)
     bindCommand(child("combatRewards"), "combatRewards", function()
         local ok, reason = Run.reopenCombatRewards(self.run)

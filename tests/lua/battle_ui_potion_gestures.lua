@@ -44,7 +44,13 @@ test("old run pointer cannot consume new run bottle after real defeat restart",f
     local restart = r:GetChild("menuPanel"):GetChild("start"):GetChild("hit")
     restart.listeners.down({touchId=8}); restart.listeners.up({touchId=8})
     assert(restart.click({touchId=8}))
-    assert(h.run~=old and h.mode=="map")
+    assert(h.run~=old and h.mode=="node" and h.run.neowHistorySource=="session-completed-run")
+    -- This host has real defeat history: finish mini Neow via normal buttons.
+    assert(F.click(r,"nodePanel","eventView/option1"))
+    assert(#h.run.nodeFlow.event.rewards==2 and h.run.nodeFlow.event.neowBossCount==0)
+    assert(F.click(r,"nodePanel","eventView/option2"))
+    assert(F.click(r,"nodePanel","eventView/option1"))
+    assert(h.mode=="map" and h.run.neowStatus=="complete")
     assert(h.mapUI:choose(F.Nodes.available(h.run,h.map)[1].id))
     -- There is no natural acquisition chain yet. Explicit real inventory grant.
     assert(Run.obtainPotion(h.run,"block_potion"));h:refresh()

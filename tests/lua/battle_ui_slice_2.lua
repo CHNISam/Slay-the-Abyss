@@ -1,1 +1,1 @@
-dofile('tests/lua/support/battle_ui_cases.lua')(27,53)
+dofile('tests/lua/support/battle_ui_cases.lua')(27,33)

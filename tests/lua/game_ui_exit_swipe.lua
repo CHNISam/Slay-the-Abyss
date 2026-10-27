@@ -4,9 +4,12 @@ Enum = {CursorEventType=cursor} -- Native NodeUI uses the global enum fallback.
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local passed, failed = 0, 0
 
-local function setup()
+local function setup(relicSeed)
     local host, root = F.fixture(nil, function() return true end, nil, cursor)
     assert(host:start())
+    -- Independent complete source queue for the relic-purchase component only;
+    -- the original run/map/card/merchant seed1 and all gestures stay unchanged.
+    if relicSeed then host.run.relicPool=require('abyss_relic_pool').new(relicSeed,host.run.data.relicSource) end
     local destination = F.Nodes.available(host.run, host.map)[1]
     -- Explicit setup: force the first available node to shop and fund purchases.
     -- Node entry, offers, paging, purchases and inventory use real commands/rules.
@@ -85,7 +88,7 @@ test("old leave hold cannot execute after exit cancel and fresh input works", fu
 end)
 
 test("old relic hold cannot buy after exit cancel and fresh input works", function()
-    local host, ui, emit, tap = setup()
+    local host, ui, emit, tap = setup(dofile('tests/fixtures/economy_relic_seeds.lua').membership.seed)
     local gold, count = host.run.gold, #host.run.relics
     emit("shopView/relic3", "down", 11)
     assert(host:openExit() and host:closeExit())

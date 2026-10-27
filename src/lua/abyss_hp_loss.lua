@@ -13,6 +13,7 @@ function M.notify(state,owner,target,amount)
     if target~=state.player or amount<=0 then return end
     if state.originalV4 then require('abyss_original_v4_health').hpEvent(state,amount) end
     require('abyss_warrior_status_cards').onHpLost(state,amount)
+    require('abyss_silent_final_cards').onHpLost(state)
     local plan=require('abyss_warrior_strength_cards').planHpLost(state,owner,amount)
     -- Powers dispatch before relics. Both callbacks insert TOP actions, so
     -- a later Puzzle Draw must run before Rupture's ApplyPower, on either owner.

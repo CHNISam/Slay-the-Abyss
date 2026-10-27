@@ -1,0 +1,44 @@
+{
+  "entry": "tests/lua/boss_treasure.lua",
+  "base": "2425ad622eed31ad6a965b90086a6838a1db96f4",
+  "acceptedSourceSha256LF": "ec372b6e095d0881b9bb014c265121916a1a0cb5cc84ebc75735d080709edeb5",
+  "migrationNote": "The reviewed diff migrates the obsolete three-supported-relic oracle to actual 22-source offers, unavailable rejection, source eligibility and Circlet fallback. Original eight groups and input seed42/17 remain; external JDK seed65536 adds Black Blood eligibility coverage. This hash locks the entire migrated pre-partition source, not a claim that old wrong assertions were kept unchanged.",
+  "migratedSourceSha256LF": "1f08c9bbddf177ced8ce852ed59165ccddd41515dfe6843f3d166bdc90304418",
+  "edits": [
+    {
+      "before": "local count = 0\n",
+      "after": "local part=... or 1\nassert(part==1 or part==2,'invalid Boss treasure part')\nlocal count,registered = 0,0\n"
+    },
+    {
+      "before": "local function test(name,fn) fn();count=count+1;print('ok boss treasure '..count..' - '..name) end",
+      "after": "local function test(name,fn) registered=registered+1;if math.floor((registered-1)/4)+1~=part then return end;fn();count=count+1;print('ok boss treasure '..registered..' - '..name) end"
+    },
+    {
+      "before": "print('LUA_BOSS_TREASURE_PASS '..count)",
+      "after": "print('LUA_BOSS_TREASURE_PASS '..count)\nprint('BOSS_TREASURE_PART '..part..' REGISTERED '..registered..' EXECUTED '..count)"
+    }
+  ],
+  "parts": [
+    {
+      "file": "boss_treasure.lua",
+      "part": 1,
+      "groups": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "file": "boss_treasure_budget_2.lua",
+      "part": 2,
+      "groups": [
+        5,
+        6,
+        7,
+        8
+      ]
+    }
+  ],
+  "timeoutMilliseconds": 30000
+}

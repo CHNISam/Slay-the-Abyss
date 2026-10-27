@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 2
+local sliceRegistered,sliceExecuted=0,0
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local P=require('abyss_character_presentation')
 local Profiles=require('abyss_character_profiles')
@@ -13,7 +16,13 @@ local DeckUI=require('abyss_deck_ui')
 local Frozen=dofile('tests/lua/support/frozen_display_877c4af.lua')
 local cases,rendered=0,0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
-local function test(name,fn)fn();cases=cases+1;print('ok phase_three_presentation '..cases..' - '..name)end
+local function test(name,fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ fn();sliceExecuted=sliceExecuted+1;cases=cases+1
+ print('ok phase_three_presentation '..cases..' - '..name)
+ print('PHASE_THREE_CASE '..sliceRegistered)
+end
 local function has(d,id)for _,c in ipairs(d.cards.cards)do if c.id==id then return true end end end
 local function prepared(id,source)
  local d=Profiles.prepare(source or Data,id)
@@ -35,6 +44,7 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
     if id=='defect'then opts.orbSlots=3;opts.orbRandomSeed='17'end
     if id=='watcher'then opts.enableStances=true end
     local s=C.new(data,opts)
+    dofile('tests/lua/support/presentation_hand.lua')(s,card.id)
     ui.run={phase='combat',combat=s,data=data,relics={},potions={},gold=99};ui.target=1;ui:render()
     local box=root:GetChild('battlePanel'):GetChild('card1')
     assert(#box:GetChild('name').text>0 and #box:GetChild('label').text>0)
@@ -142,3 +152,7 @@ test('unknown operations statuses conditions and nested branches still reject',f
  for _,field in ipairs({'condition','costMode'})do local d=prepared('watcher');d.cards.cards[1][field]='invented';assert(not pcall(P.prepare,Existing,d))end
 end)
 print('phase_three_presentation: '..cases..' passed; '..rendered..' real card render variants')
+
+assert(sliceRegistered==12,'all twelve original presentation groups must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'every selected presentation group must execute')
+print('PHASE_THREE_SLICE '..sliceFirst..' '..sliceLast..' '..sliceExecuted..' '..rendered)

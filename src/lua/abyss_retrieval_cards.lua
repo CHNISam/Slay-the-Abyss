@@ -1,9 +1,6 @@
 -- Fixed319009 retrieval definitions, grouped by their original character.
 local M={}
-local function copy(v)
-    if type(v)~="table" then return v end
-    local out={};for k,x in pairs(v) do out[k]=copy(x) end;return out
-end
+local copy=require('abyss_copy').copy
 local function choice(mode,count) return {op="pileChoice",mode=mode,value=count} end
 local groups={
     ironclad={

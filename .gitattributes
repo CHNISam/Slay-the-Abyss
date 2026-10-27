@@ -31,3 +31,6 @@ tests/lua/original_v4_*_base_*.lua text eol=lf
 tests/lua/original_v4_*_upgrade_*.lua text eol=lf
 # This chapter oracle is byte-hashed in source provenance on every OS.
 tools/oracles/sts1_chapter_queues.py text eol=lf
+
+# New independent Neow oracle is byte-hashed on Windows and POSIX.
+tools/oracles/sts1_neow.py text eol=lf

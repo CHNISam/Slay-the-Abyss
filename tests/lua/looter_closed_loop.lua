@@ -14,16 +14,18 @@ local function win()
   if chosen then assert(R.play(r,chosen.uid,1)) else assert(R.endTurn(r)) end
  end
  eq(r.phase,'reward');eq(r.combat.enemies[1].hp,0);eq(r.combat.enemies[1].escaped,false)
- eq(r.combat.turn,4);eq(r.rewards.stolenGold.amount,45);eq(r.gold,54);eq(r.combat.player.gold,54)
- assert(R.claimGoldReward(r));eq(r.gold,69)
+ -- The complete ordinary catalog initializes the same seed's draw stream;
+ -- this real starter replay now wins after two Mug actions, not three.
+ eq(r.combat.turn,3);eq(r.rewards.stolenGold.amount,30);eq(r.gold,69);eq(r.combat.player.gold,69)
+ eq(r.rewards.gold,15);assert(R.claimGoldReward(r));eq(r.gold,84)
  return r
 end
 for _,first in ipairs({'gold','card','skip','leave'}) do
  local r=win();local seed=r.seed;local old=r.combat;local uid=r.nextDeckUid
- if first=='leave' then assert(R.leaveCombatRewards(r));eq(r.gold,69)
+ if first=='leave' then assert(R.leaveCombatRewards(r));eq(r.gold,84)
  else
   if first=='gold' then assert(R.claimStolenGoldReward(r));assert(R.claimCardReward(r,1))
-  else assert(R.claimCardReward(r,first=='skip' and 0 or 1));eq(r.phase,'reward');eq(r.gold,69);assert(R.claimStolenGoldReward(r)) end
+  else assert(R.claimCardReward(r,first=='skip' and 0 or 1));eq(r.phase,'reward');eq(r.gold,84);assert(R.claimStolenGoldReward(r)) end
   eq(r.gold,114);eq(r.phase,'reward');eq(R.claimStolenGoldReward(r),false);eq(R.claimCardReward(r,1),false)
   eq(r.nextDeckUid,uid+(first=='skip' and 0 or 1));assert(R.leaveCombatRewards(r))
  end
@@ -35,5 +37,13 @@ end
 print('LOOTER_REAL_KILL_CLAIM_CROSS_NODE_PASS 4 orders')
 -- Boundary fixtures below are explicit, not natural starter wins.
 local r=R.new(D,42);r.floor=4;assert(R.startCombat(r,'looter_solo'));r.combat.player.hp=1;A.addStatus(r.combat.player,'thorns',100)
-assert(R.endTurn(r));eq(r.phase,'defeat');eq(r.hp,0);eq(r.rewards,nil);eq(r.gold,84);eq(r.combat.stolenGoldReward,15);eq(r.victories,0)
-print('LOOTER_SIMULTANEOUS_DEFEAT_PASS')
+local enemyHp=r.combat.enemies[1].hp
+-- Pinned STS1 319009d5: ThornsPower.onAttacked queues a TOP DamageAction;
+-- AbstractPlayer.damage reaches DeathScreen first, and AbstractDungeon.update
+-- stops combat actions for a dead player. Looter.die therefore never refunds.
+assert(R.endTurn(r));eq(r.phase,'defeat');eq(r.hp,0);eq(r.rewards,nil);eq(r.gold,84);eq(r.combat.stolenGoldReward,0);eq(r.victories,0)
+eq(r.combat.enemies[1].hp,enemyHp);assert(enemyHp>0);eq(r.combat.enemies[1].stolenGold,15)
+for _,event in ipairs(r.combat.events)do
+ assert(not(event.kind=='status_damage' and event.detail.status=='thorns'),'queued Thorns executed after player death')
+end
+print('LOOTER_PLAYER_DEATH_BEFORE_QUEUED_THORNS_PASS')

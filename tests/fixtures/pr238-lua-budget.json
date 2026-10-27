@@ -1,0 +1,203 @@
+{
+  "base": "28869011c26bcead7f925e78f00dbda454daa231",
+  "timeoutMilliseconds": 30000,
+  "fixtures": [
+    {
+      "entry": "tests/lua/node_transactions.lua",
+      "total": 11,
+      "originalSha256LF": "528d6b198a4de35e7e6cf2b6fb4a3fea938a410485a0ab539dc51ac2d3b7ac40",
+      "baseSha256LF": "528d6b198a4de35e7e6cf2b6fb4a3fea938a410485a0ab539dc51ac2d3b7ac40",
+      "reviewedMigration": false,
+      "edits": [
+        {
+          "before": "local count, refusals = 0, 0",
+          "after": "local first,last=...\nfirst,last=first or 1,last or 7\nassert(first>=1 and last<=11 and first<=last,'invalid budget slice')\nlocal count, refusals, registered = 0, 0, 0"
+        },
+        {
+          "before": "local function test(name, fn)\n    if mutationCase and name ~= mutationCase then return end\n    proofCase = name; fn(); count = count + 1; print(\"ok node transactions \" .. count .. \" - \" .. name)\nend",
+          "after": "local function test(name, fn)\n    registered = registered + 1\n    if mutationCase then\n        if name ~= mutationCase then return end\n    elseif registered < first or registered > last then return end\n    proofCase = name; fn(); count = count + 1; print(\"ok node transactions \" .. registered .. \" - \" .. name)\nend"
+        },
+        {
+          "before": "assert(not mutationCase or count == 1, \"unknown or duplicate node mutation case\")",
+          "after": "assert(registered==11,'all original cases must remain registered')\nassert(mutationCase or count==last-first+1,'each selected case must execute')\nassert(not mutationCase or count == 1, \"unknown or duplicate node mutation case\")"
+        }
+      ],
+      "slices": [
+        {
+          "file": "node_transactions.lua",
+          "first": 1,
+          "last": 7
+        },
+        {
+          "file": "node_transactions_slice_2.lua",
+          "first": 8,
+          "last": 9
+        },
+        {
+          "file": "node_transactions_slice_3.lua",
+          "first": 10,
+          "last": 10
+        },
+        {
+          "file": "node_transactions_slice_4.lua",
+          "first": 11,
+          "last": 11
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/spike_slime_l.lua",
+      "total": 17,
+      "originalSha256LF": "bdebb245c0a7517586646a237627936245f226266303548348f840b241fcf620",
+      "baseSha256LF": "bdebb245c0a7517586646a237627936245f226266303548348f840b241fcf620",
+      "reviewedMigration": false,
+      "edits": [
+        {
+          "before": "local passed,failed=0,0",
+          "after": "local first,last,historyFirst,historyLast=...\nfirst,last=first or 1,last or 5\nassert(first>=1 and last<=17 and first<=last,'invalid budget slice')\nhistoryFirst,historyLast=historyFirst or 1,historyLast or 6\nassert(historyFirst>=1 and historyLast<=6 and historyFirst<=historyLast,'invalid history slice')\nlocal passed,failed,registered=0,0,0"
+        },
+        {
+          "before": "local function test(name,fn) local ok,why=pcall(fn);if ok then passed=passed+1 else failed=failed+1 end;print((ok and 'PASS ' or 'FAIL ')..name..(ok and '' or ': '..tostring(why))) end",
+          "after": "local function test(name,fn)\n registered=registered+1;if registered<first or registered>last then return end\n local ok,why=pcall(fn);if ok then passed=passed+1 else failed=failed+1 end\n print((ok and 'PASS ' or 'FAIL ')..name..(ok and '' or ': '..tostring(why)))\n print('SPIKE_SLIME_L_CASE '..registered)\nend"
+        },
+        {
+          "before": "print(passed..' Large Spike groups passed; '..failed..' failed');assert(failed==0)",
+          "after": "assert(registered==17,'all original cases must remain registered')\nassert(passed+failed==last-first+1,'each selected case must execute')\nprint(passed..' Large Spike groups passed; '..failed..' failed');assert(failed==0)"
+        },
+        {
+          "before": " for _,h in ipairs(histories)do for r=0,99 do observe(r,function(calls)",
+          "after": " local historyCases=0\n for history,h in ipairs(histories)do if history>=historyFirst and history<=historyLast then for r=0,99 do observe(r,function(calls)\n  historyCases=historyCases+1"
+        },
+        {
+          "before": " end)end end\nend)",
+          "after": " end)end end end\n eq(historyCases,(historyLast-historyFirst+1)*100)\n print('SPIKE_SLIME_L_HISTORIES '..historyFirst..' '..historyLast..' '..historyCases)\nend)"
+        }
+      ],
+      "slices": [
+        {
+          "file": "spike_slime_l.lua",
+          "first": 1,
+          "last": 5
+        },
+        {
+          "file": "spike_slime_l_slice_2.lua",
+          "first": 6,
+          "last": 6,
+          "historyRange": [
+            1,
+            2
+          ]
+        },
+        {
+          "file": "spike_slime_l_slice_4.lua",
+          "first": 6,
+          "last": 6,
+          "historyRange": [
+            3,
+            4
+          ]
+        },
+        {
+          "file": "spike_slime_l_slice_5.lua",
+          "first": 6,
+          "last": 6,
+          "historyRange": [
+            5,
+            6
+          ]
+        },
+        {
+          "file": "spike_slime_l_slice_3.lua",
+          "first": 7,
+          "last": 17
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/small_slimes.lua",
+      "total": 18,
+      "originalSha256LF": "34e2084e95bfa57fe8036243668141801c35cb2facad97060eb31260b5522297",
+      "baseSha256LF": "b3470968474d8de670b7ffc1f344bcb1a1f8027be5934ef1ef83c04a0138dee8",
+      "reviewedMigration": true,
+      "edits": [
+        {
+          "before": "local count, failed = 0, 0",
+          "after": "local first,last=...\nfirst,last=first or 1,last or 6\nassert(first>=1 and last<=18 and first<=last,'invalid budget slice')\nlocal count, failed, registered = 0, 0, 0"
+        },
+        {
+          "before": "local function test(name,fn)\n    count=count+1;local ok,err=pcall(fn)\n    if not ok then failed=failed+1 end\n    print((ok and 'ok ' or 'not ok ')..count..' - '..name..(ok and '' or ': '..tostring(err)))\nend",
+          "after": "local function test(name,fn)\n    registered=registered+1;if registered<first or registered>last then return end\n    count=count+1;local ok,err=pcall(fn)\n    if not ok then failed=failed+1 end\n    print((ok and 'ok ' or 'not ok ')..registered..' - '..name..(ok and '' or ': '..tostring(err)))\nend"
+        },
+        {
+          "before": "assert(failed==0,tostring(failed)..' failed of '..count)",
+          "after": "assert(registered==18,'all original cases must remain registered')\nassert(count==last-first+1,'each selected case must execute')\nassert(failed==0,tostring(failed)..' failed of '..count)"
+        }
+      ],
+      "slices": [
+        {
+          "file": "small_slimes.lua",
+          "first": 1,
+          "last": 6
+        },
+        {
+          "file": "small_slimes_slice_2.lua",
+          "first": 7,
+          "last": 11
+        },
+        {
+          "file": "small_slimes_slice_3.lua",
+          "first": 12,
+          "last": 17
+        },
+        {
+          "file": "small_slimes_slice_4.lua",
+          "first": 18,
+          "last": 18
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/potion_flex_speed.lua",
+      "total": 11,
+      "originalSha256LF": "d6e4fe8c9183485b47842232a6eb4014e97b9b6e36fc4417df23e59ed8fd502f",
+      "baseSha256LF": "d6e4fe8c9183485b47842232a6eb4014e97b9b6e36fc4417df23e59ed8fd502f",
+      "reviewedMigration": false,
+      "edits": [
+        {
+          "before": "local count=0",
+          "after": "local first,last=...\nfirst,last=first or 1,last or 3\nassert(first>=1 and last<=11 and first<=last,'invalid budget slice')\nlocal count,registered=0,0"
+        },
+        {
+          "before": "local function test(name,fn) fn();count=count+1;print('ok Flex Speed '..count..' - '..name) end",
+          "after": "local function test(name,fn)\n registered=registered+1;if registered<first or registered>last then return end\n fn();count=count+1;print('ok Flex Speed '..registered..' - '..name)\nend"
+        },
+        {
+          "before": "print('LUA_POTION_FLEX_SPEED_PASS '..count)",
+          "after": "assert(registered==11,'all original cases must remain registered')\nassert(count==last-first+1,'each selected case must execute')\nprint('LUA_POTION_FLEX_SPEED_PASS '..count)"
+        }
+      ],
+      "slices": [
+        {
+          "file": "potion_flex_speed.lua",
+          "first": 1,
+          "last": 3
+        },
+        {
+          "file": "potion_flex_speed_slice_2.lua",
+          "first": 4,
+          "last": 7
+        },
+        {
+          "file": "potion_flex_speed_slice_3.lua",
+          "first": 8,
+          "last": 10
+        },
+        {
+          "file": "potion_flex_speed_slice_4.lua",
+          "first": 11,
+          "last": 11
+        }
+      ]
+    }
+  ]
+}

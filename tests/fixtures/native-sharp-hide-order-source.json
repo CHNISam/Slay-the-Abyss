@@ -1,0 +1,57 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Native Sharp Hide independent DAMAGE then TOP HP-loss callback then physical UseCardAction disposal; raw-source lock, not a PC/live oracle",
+  "files": {
+    "powers/SharpHidePower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/SharpHidePower.java",
+      "sha256": "a7cf449a907ca34569059aca1310619deb597d32cdd84201815d024614ff576a"
+    },
+    "relics/CentennialPuzzle.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/CentennialPuzzle.java",
+      "sha256": "b1069310819ff2fdd812467a1d0f461d9d40cea376e244268dfdc270217dd56e"
+    },
+    "actions/utility/UseCardAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/UseCardAction.java",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f"
+    },
+    "actions/common/DrawCardAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DrawCardAction.java",
+      "sha256": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18"
+    },
+    "actions/GameActionManager.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    "actions/common/DamageAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAction.java",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec"
+    },
+    "cards/CardGroup.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8"
+    },
+    "actions/common/EmptyDeckShuffleAction.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/EmptyDeckShuffleAction.java",
+      "sha256": "b4fc6be1df7caa1906705469500c40e81135a41614b54448346ddb0fec0bb2b2"
+    },
+    "monsters/exordium/TheGuardian.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/exordium/TheGuardian.java",
+      "sha256": "40571fa4c941d70c1814b0c0ff5cffa7d8933e24b49d95f2b531a3dc05598d56"
+    },
+    "cards/red/SearingBlow.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/SearingBlow.java",
+      "sha256": "93aed26c36c2bdfdac23b3d38da135332dcaefe8b43f66461bdbb69b85a1765b"
+    }
+  },
+  "contracts": {
+    "onUseCardType": "ATTACK",
+    "damageType": "THORNS",
+    "sharpHideAmountA0": 3,
+    "puzzleTopDraw": 3,
+    "deadOwnerCancels": false,
+    "postCombatRetainedActionType": "DAMAGE",
+    "nativeCardDisposedAfterHpTriggeredTopDraw": true,
+    "emptyDrawAndDiscardCanDrawLimboCard": false
+  }
+}
