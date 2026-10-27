@@ -39,7 +39,7 @@ local events = {
     beggar={name='乞丐'},
     mausoleum={name='古墓'},
     addict={name='瘾君子'},
-    back_to_basics={name='古老文字'},
+    back_to_basics={name='古老文字'},ghosts={name='幽灵'},
     sssserpent={name='长蛇的交易',body='一条长蛇许诺金币，代价是一张诅咒。',leave='你离开了长蛇。'},
     big_fish={name='大鱼',body='三件礼物悬在面前。你只能选取一件。',leave='你带着选择的礼物离开。'},
     accursed_blacksmith={name='诅咒铁匠',body='古旧的铁砧尚有余温，旁边散落着可疑的器具。',leave='你离开了铁砧。'},

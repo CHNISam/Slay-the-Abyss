@@ -30,6 +30,7 @@ M.contentId.Beggar='beggar'
 M.contentId['The Mausoleum']='mausoleum'
 M.contentId.Addict='addict'
 M.contentId['Back to Basics']='back_to_basics'
+M.contentId.Ghosts='ghosts'
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     if chapter==nil then chapter=1 end

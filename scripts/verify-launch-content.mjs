@@ -200,7 +200,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     same(card.versions,['base','upgraded'],`sharedCards/${card.id} versions`);
     check(card.rarity===actual?.rarity&&card.type===actual?.type&&card.rarity===reference?.rarity.toLowerCase(),`sharedCards/${card.id}: classification drift`);
     check(actual?.supported===true,`sharedCards/${card.id}: unsupported runtime effect`);
-    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard']:
+    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard',...(card.id==='apparition'?['explicit_event:ghosts:accept']:[])]:
       ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation'])],`sharedCards/${card.id} channels`);
     check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);
   }
@@ -287,6 +287,16 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     if (explicit) {
       check(event.originalId === explicitEvents[event.id], `events/${event.id}: source ID drift`);
       check(Boolean(event.naturalAcquisitionLimitation), `events/${event.id}: missing explicit-only boundary`);
+      if (event.id === 'ghosts') {
+        same(event.choices,['accept','leave'],'events/ghosts choices');
+        same(event.stages,['intro','result'],'events/ghosts stages');
+        check(event.source==='src/lua/abyss_ghosts_event.lua','events/ghosts source module');
+        same(event.healthCost,{kind:'max_hp_loss',cachedAt:'room_entry',formula:'ceil(float32(float32(maxHp)*0.5)), capped at maxHp-1',
+          appliedTo:'current_max_hp',minimumMaxHp:1,order:'before_permanent_obtains'},'events/ghosts cached health cost');
+        same(event.permanentRewards,{cardId:'apparition',sourceId:'Ghostly',count:5,through:'Run.obtainCard'},'events/ghosts permanent rewards');
+        for (const boundary of ['Native-client acceptance NOT_RUN','Toxic Egg','result then separate Leave'])
+          check(event.naturalAcquisitionLimitation?.includes(boundary),`events/ghosts: missing ${boundary} boundary`);
+      }
     }
   }
   for (const category of ['cards', 'potions', 'events']) for (const row of manifest.exclusions[category]) {
