@@ -269,6 +269,8 @@
       "boss": 102033
     },
     "status": {
+      "time_warp": 102024,
+      "draw_reduction": 102045,
       "flame_barrier": 103055,
       "evolve": 103056,
       "fire_breathing": 103055,

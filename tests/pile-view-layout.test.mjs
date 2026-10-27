@@ -7,6 +7,11 @@ test('pile view cursor areas cover their existing icons and counts within the sa
   const [w, h] = theme.canvas.base;
   for (const name of ['draw', 'discard', 'exhaust']) {
     const icon = stage.children.find(c => c.name === `${name}Icon`);
+    assert.equal(icon.kind, 'container', `${name} entry must legally hold its hit area`);
+    const image = icon.children.find(c => c.name === 'image');
+    assert.equal(image.kind, 'image');
+    assert.deepEqual(image.position, [0, 0]);
+    assert.deepEqual(image.size, icon.size);
     const target = icon.children.find(c => c.name === 'hit');
     assert.equal(target.kind, 'cursorArea');
     assert.equal(target.focusable, true);

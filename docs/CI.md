@@ -8,7 +8,9 @@ TASK-74正式退役已停用任务锁的源码和29项专属测试，并移除�
 
 日常使用 `npm run test:fast -- --base origin/develop` 获取快速反馈，`npm run test:related -- --base origin/develop`验证相关集成；`--plan`只列出受影响集合。未知输入及基础设施变更回退全量。最终执行 `npm run check`，不能把快速层的成功当作完整验收。
 
-完整 Windows 回归分成四个独立 VM 的 `rules (i/4)`。JS 使用 Node 原生 `--test-shard=i/4`；Lua 使用 `--shard i/4`，每片内部均串行。每个脚本保持独立进程、原超时和完整断言，输出按文件聚合，失败仍跑完剩余文件并非零退出。`check` 汇总所有分片，失败、取消或跳过均不放行；三个必需检查名称不变。可信 local-special 手动诊断仍单片串行、保留原75分钟作业预算。细节与实际耗时见 [TASK-74](backlog-details/TASK-74.md)。
+完整 Windows 回归分成八个独立 VM 的 `rules (i/8)`。JS 使用 Node 原生 `--test-shard=i/8`；Lua 使用 `--shard i/8`，每片内部均串行。POSIX 的完整 JS 回归分成四个独立 VM 的 `engineering-posix (i/4)`，使用同一 Node 原生分片，每个文件在该平台执行一次，每片保留完整工程门禁与原20分钟作业预算。每个脚本保持独立进程、原超时和完整断言，输出按文件聚合，失败仍跑完剩余文件并非零退出。`check` 与 `engineering-posix` 分别汇总各自所有分片，失败、取消或跳过均不放行；三个必需检查名称不变，完整托管Quality共15个作业。可信 local-special 手动诊断仍单片串行、保留原75分钟作业预算。细节与实际耗时见 [TASK-74](backlog-details/TASK-74.md)。
+
+PR252的运行40524983643中，POSIX旧第一片975项JS全部通过，耗时1192.218秒；随后工程门禁亦通过，但加上安装与取证使作业越过20分钟总预算。四片继续使用隔离VM和片内串行，减少单VM分配到的测试文件数；不增加作业或单fixture超时，也不删测试。新分片的实际完成时长仍须当前SHA官方CI验证。
 
 本地 `npm run check` 保持完整串行；需要诊断某片时可用 `npm run test:lua -- --shard 1/4`，单片成功不代替完整检查。进程和文件系统测试保留独立临时目录。UI保护矩阵每个用例仍拥有新data/out目录，不共享可变状态。
 

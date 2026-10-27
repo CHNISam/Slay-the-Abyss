@@ -2,6 +2,15 @@
 local Actors=require('abyss_actor')
 local Events=require('abyss_events')
 local M={}
+function M.reptomancerSummon(context)
+    require('abyss_reptomancer').summon(context.combat,context.state,context.source)
+end
+function M.daggerSacrifice(context)
+    Actors.sacrificeDagger(context.state,context.source,assert(context.effect.value,'missing captured Dagger HP'))
+end
+function M.timeEater(context)
+    require('abyss_time_eater').execute(context.combat,context.state,context.effect,context.source,require('abyss_card_actions'))
+end
 function M.awakenedVoid(context)
     require('abyss_awakened_one').void(context.state,context.source)
 end

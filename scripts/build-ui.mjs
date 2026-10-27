@@ -15,7 +15,13 @@ import { loadReleaseNotes, releaseInputPaths, releaseBuildArgs } from './release
 export function assertNativeUiCapacity(layout) {
   const visit = (controls, path) => {
     if (controls.length > 60) throw new Error(`${path}: ${controls.length} direct children exceeds the platform limit of 60`);
-    for (const control of controls) visit(control.children ?? [], `${path}/${control.name}`);
+    for (const control of controls) {
+      const childPath = `${path}/${control.name}`;
+      if (control.children?.length && control.kind !== 'container' && control.kind !== 'presetButton') {
+        throw new Error(`${childPath}: only a container or presetButton may hold child controls`);
+      }
+      visit(control.children ?? [], childPath);
+    }
   };
   visit(layout.controls ?? layout.children ?? [], layout.name ?? 'native UI');
 }

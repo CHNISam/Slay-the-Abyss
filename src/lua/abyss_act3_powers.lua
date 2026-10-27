@@ -26,6 +26,7 @@ function M.resolveShift(api,state,effect)
  api.applyPower(state,target,'strength',-n,target)
 end
 function M.ownerEnd(api,state,actor)
+ require('abyss_nemesis').ownerEnd(api,state,actor)
  if not transient(actor)or not api.isActive(actor)then return end
  local n=actor.statuses.shackled
  if n==nil then return end

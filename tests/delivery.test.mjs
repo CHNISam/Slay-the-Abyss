@@ -24,8 +24,10 @@ function mergedEvidence() {
 test('normal delivery includes the current complete hosted Quality matrices',()=>{
   const workflow=readFileSync(qualityWorkflowPath,'utf8');
   assert.match(workflow,/shard: \$\{\{ fromJSON\(inputs.runner_pool == 'local-special' && '\[1\]' \|\| '\[1,2,3,4,5,6,7,8\]'\) \}\}/);
-  assert.match(workflow,/engineering-posix-shards:[\s\S]*?shard: \[1, 2\]/);
-  assert.equal(fullQualityJobs.length,13);
+  assert.match(workflow,/engineering-posix-shards:[\s\S]*?shard: \[1, 2, 3, 4\]/);
+  assert.deepEqual(fullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
+    Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`));
+  assert.equal(fullQualityJobs.length,15);
 });
 
 test('post-merge delivery binds the actual squash commit, source tree and its own full Quality run',()=>{

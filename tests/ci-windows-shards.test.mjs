@@ -8,7 +8,7 @@ import { spawnSync } from 'node:child_process';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
 
 const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
-const job = name => (workflow + '\n  end-of-workflow:\n')
+const job = (name, source = workflow) => (source + '\n  end-of-workflow:\n')
   .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
 
 test('eight Windows VMs change only the hosted matrix, preserving every gate and original deadline', () => {
@@ -18,12 +18,27 @@ test('eight Windows VMs change only the hosted matrix, preserving every gate and
   assert.match(rules, /^    timeout-minutes: \$\{\{ inputs.runner_pool == 'local-special' && 75 \|\| 30 \}\}$/m);
   assert.match(rules, /node --test --test-concurrency=1 --test-shard=\$\{\{ matrix.shard \}\}\/\$\{\{ strategy.job-total \}\} tests\/\*\.test\.mjs/);
   assert.match(rules, /node scripts\/test-lua.mjs --shard \$\{\{ matrix.shard \}\}\/\$\{\{ strategy.job-total \}\}/);
-  // Restore the single matrix edit to the full workflow in Git 9226012.
+  // Restore the Windows matrix edit and the reviewed POSIX 2 -> 4 partition
+  // to the full workflow in Git 9226012. The original hash stays unchanged.
   // This also freezes the existing hosted isolation, gate commands, toolchain,
   // strict aggregates and POSIX shards, rather than permitting hidden omissions.
-  const restored = workflow.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'");
+  const restore = source => {
+    const posix = job('engineering-posix-shards', source);
+    assert.equal((posix?.match(/^        shard: \[1, 2, 3, 4\]$/gm) ?? []).length, 1,
+      'only the single reviewed POSIX matrix may be inverted');
+    return source.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'")
+      .replace(posix, posix.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2]'));
+  };
+  const restored = restore(workflow);
   assert.notEqual(restored, workflow);
   assert.equal(createHash('sha256').update(restored).digest('hex'), '3a45b50a847b89870825560a6f3d83906a2a02a062c9dc5b2469e7d0439b15f0');
+  assert.throws(() => restore(workflow.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2, 3]')),
+    /single reviewed POSIX matrix/);
+  assert.throws(() => restore(workflow.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2, 3, 4]\n        shard: [1, 2, 3, 4]')),
+    /single reviewed POSIX matrix/);
+  const missingGate = restore(workflow.replace('      - run: npm run check:engineering', '      - run: echo omitted'));
+  assert.notEqual(createHash('sha256').update(missingGate).digest('hex'), createHash('sha256').update(restored).digest('hex'),
+    'the precise partition inverse cannot hide unrelated workflow edits');
 });
 
 test('the real Lua partitioner retains every discovered raw fixture exactly once across eight VMs', () => {

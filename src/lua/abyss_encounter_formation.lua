@@ -9,9 +9,11 @@ local sources={['Small Slimes']=true,['Gremlin Gang']=true,['2 Louse']=true,['3 
  ['Lots of Slimes']=true,['Exordium Thugs']=true,['Exordium Wildlife']=true}
 function M.supports(source)return sources[source]==true end
 sources['Gremlin Leader']=true
+sources['Reptomancer']=true
 sources['3 Shapes'],sources['4 Shapes'],sources['Sphere and 2 Shapes']=true,true,true
 sources['Jaw Worm Horde']=true
 sources['Awakened One']=true
+sources['3 Darklings']=true
 function M.assemble(source,boundary)
  assert(M.supports(source),'unsupported source formation: '..tostring(source))
  assert(type(boundary)=='table' and type(boundary.misc)=='table'
@@ -58,10 +60,18 @@ function M.assemble(source,boundary)
   return f32(base+f32(value))
  end
  local result={}
- if source=='Awakened One'then
+ if source=='3 Darklings'then
+  result[1]=make('darkling',-440,10)
+  result[2]=make('darkling',-140,30)
+  result[3]=make('darkling',180,-5)
+ elseif source=='Awakened One'then
   result[1]=make('cultist',-590,10)
   result[2]=make('cultist',-298,-10)
   result[3]=make('awakened_one',100,15)
+ elseif source=='Reptomancer'then
+  result[1]=make('snake_dagger',-220,115)
+  result[2]=make('reptomancer',-20,10)
+  result[3]=make('snake_dagger',210,75)
  elseif source=='Jaw Worm Horde'then
   result[1]=make('jaw_worm_hard',-490,-5)
   result[2]=make('jaw_worm_hard',-150,20)

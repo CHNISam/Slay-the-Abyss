@@ -3,6 +3,15 @@ local Actors=require('abyss_actor')
 local Events=require('abyss_events')
 local EnemyAI=require('abyss_enemy_ai')
 local Handlers={}
+function Handlers.darklingAction(c)
+    require('abyss_darklings').resolve(c.state,c.effect);return true
+end
+function Handlers.reptomancerSuicide(c)
+    return require('abyss_reptomancer').cleanup(Actors,c.state,c.effect)
+end
+function Handlers.timeEater(c)
+    return require('abyss_time_eater').execute(c.combat,c.state,c.effect,c.state.player,require('abyss_card_actions'))
+end
 function Handlers.orbStart(c)
     local M=c.combat
     local state=c.state

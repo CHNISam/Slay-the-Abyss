@@ -26,12 +26,30 @@ local uid=r.nextDeckUid
 assert(F.Nodes.chooseEvent(r,'open_1'));assert(F.Nodes.chooseEvent(r,'take_1_2'));assert(F.Nodes.chooseEvent(r,'open_2'));assert(F.Nodes.chooseEvent(r,'take_2_1'))
 F.eq(r.deck[#r.deck-1].cardId,'bandage_up');F.eq(r.deck[#r.deck].cardId,'bandage_up');F.eq(r.deck[#r.deck-1].uid,uid);F.eq(r.deck[#r.deck].uid,uid+1)
 local rng=F.R.snapshot(r.cardRng);assert(F.Nodes.chooseEvent(r,'proceed'));assert(F.Nodes.chooseEvent(r,'leave'))
--- This fixed source queue selects an unimplemented Act3 encounter. Preserve
--- that real refusal; never reroll/replace it merely to get continuation proof.
-local before=F.C.copy(r);local started,why=F.Run.startRoomCombat(r,'normal');F.eq(started,false);F.eq(why,'act_content_unavailable');F.same(r,before)
--- Separate real Combat constructor component proves UID ownership without
--- pretending the unavailable same-run encounter was entered.
+-- Keep the independent constructor ownership control, without consuming the
+-- real Run's source encounter queue or its persistent card reward stream.
 local replay=F.C.new(r.data,{deck=r.deck,enemies={'cultist'},seed=139,cardRng=r.cardRng})
 local seen={};for _,pile in ipairs({replay.hand,replay.draw})do for _,c in ipairs(pile)do if c.cardId=='bandage_up'then seen[c.deckUid]=true end end end
+assert(seen[uid]and seen[uid+1]);F.same(F.R.snapshot(r.cardRng),rng)
+-- The original source encounter is now implemented. Preserve the late-setup
+-- refusal contract with an actual injected fault, then retry the SAME queue.
+local expected=F.Q.peek(r.encounters,'normal');local before=F.C.copy(r)
+local refs,visited={},{}
+local function capture(owner)
+ if visited[owner]then return end;visited[owner]=true
+ for key,value in pairs(owner)do if type(value)=='table'then
+  refs[#refs+1]={owner,key,value};capture(value)
+ end end
+end
+capture(r)
+local original,reached=F.C.new,false
+F.C.new=function(...)original(...);reached=true;error('INJECTED_SENSORY_NEXT_ROOM_SETUP')end
+local called,started,why=pcall(F.Run.startRoomCombat,r,'normal');F.C.new=original
+assert(called and reached);F.eq(started,false);F.eq(why,'combat_unavailable');F.same(r,before)
+for _,ref in ipairs(refs)do assert(ref[1][ref[2]]==ref[3],'failed setup replaced an original owner')end
+assert(F.Run.startRoomCombat(r,'normal'));F.eq(r.encounterSource,expected)
+seen={};for _,pile in ipairs({r.combat.hand,r.combat.draw,r.combat.discard,r.combat.exhaust})do
+ for _,c in ipairs(pile)do if c.cardId=='bandage_up'then seen[c.deckUid]=true end end
+end
 assert(seen[uid]and seen[uid+1]);F.same(F.R.snapshot(r.cardRng),rng)
 print('SENSORY_STONE_RNG_PASS 15 independent normal seed vectors/all35 source order/rare-reset/no-upgrade-roll/within-group retries/memory Java shuffle; cross-group duplicates real UIDs')

@@ -27,7 +27,7 @@ end
 test('source encounter keeps Deca before Donu and refuses other tiers',function()
  local encounter=assert(Bosses.resolve('Donu and Deca','boss'))
  eq(encounter.enemies[1],'deca');eq(encounter.enemies[2],'donu')
- eq(Bosses.resolve('Donu and Deca','normal'),nil);eq(Bosses.resolve('Time Eater','boss'),nil)
+ eq(Bosses.resolve('Donu and Deca','normal'),nil);eq(Bosses.resolve('Unknown Act3 Boss','boss'),nil)
 end)
 test('normal third-act room creates both at 250 HP with two Artifact and two opening rolls',function()
  local run,s=room();eq(run.encounterSource,'Donu and Deca')
