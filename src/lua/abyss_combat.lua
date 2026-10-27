@@ -1105,7 +1105,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
     local triggerActive=#triggerPlan.top+#triggerPlan.beforeUse+#triggerPlan.afterUse>0
         or (state.player.statuses.envenom or 0)>0
-    local advanced=Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0 or triggerActive
+    local advanced=Effects.requiresQueue(card.effects) or card.experimental==true or require('abyss_hp_loss').requiresQueue(state) or triggerActive
     if not advanced then
         actions[1]={kind="effect",effect={op="effectBatch",effects=copy(card.effects)}}
     else
@@ -1201,7 +1201,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     end
     local coreOnly=true
     for _,e in ipairs(items) do if CardActions.supports(e.op) then coreOnly=false end end
-    if coreOnly and not (state.player.statuses.rupture and state.player.statuses.rupture>0) then
+    if coreOnly and not require('abyss_hp_loss').requiresQueue(state) then
         local batch={}
         for _,e in ipairs(items) do
             if e.op=="effectBatch" then for _,part in ipairs(e.effects) do batch[#batch+1]=part end
@@ -1357,7 +1357,7 @@ function M.play(state, uid, targetIndex, commandId)
     if (state.player.statuses.evolve or 0)>0 or (state.player.statuses.fire_breathing or 0)>0 then
         for _,effect in ipairs(card.effects) do if effect.op=='draw' or effect.op=='requestDiscard' then drawHooks=true end end
     end
-    local queued = Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0
+    local queued = Effects.requiresQueue(card.effects) or card.experimental==true or require('abyss_hp_loss').requiresQueue(state)
         or state.player.stance~=nil
         or drawHooks or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
     local restore = queued and require("abyss_snapshot").capture(state) or savePlayState(state,instance)

@@ -91,7 +91,7 @@ local function reach(run,map,kind)
 end
 local function rewardPending()
     local source = copy(data)
-    -- Funding + explicit event fixture: unchanged cards, combat stats, offers, relic and potion effects.
+    -- Funding + explicit event fixture: unchanged source pools, combat stats and item effects.
     source.rules.player.startingGold = 1000
     source.rules.events.encounterId='purifier' -- restoration ownership is independent of unknown-room sampling
     local run, map = Run.new(source, 36), Map.generate(source, 36)
@@ -109,7 +109,13 @@ local function atShop()
     assert(Run.claimCardReward(run, 1)); dofile('tests/lua/support/finish_combat_rewards.lua')(run); assert(Nodes.completeCombat(run, map))
     local shop=reach(run,map,'shop')
     local previous = Map.snapshot(map)
+    -- Explicit merchant-stream fixture, not natural seed-36 campaign stock.
+    -- Seed 21 selects the purchased Stone from the complete, unfiltered relic
+    -- pool; card, combat, map and potion streams retain their actual history.
+    run.shopRng.merchant = require("abyss_sts_random").fromSeed("21")
     enter(run, map, shop, "shop")
+    equal(run.nodeFlow.cards[1].id, "iron_wave", "purchase card fixture")
+    equal(run.nodeFlow.relics[1].id, "oddly_smooth_stone", "purchase relic fixture")
     return run, map, previous
 end
 local function offer(list, id)
