@@ -16,7 +16,8 @@ local Awakened=require('abyss_awakened_one')
 local Darklings=require('abyss_darklings')
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, block = Actors.block,
-    attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
+    attackAmount = Actors.attackAmount,intentAttackAmount=Actors.intentAttackAmount,
+    faceTarget=Actors.faceTarget,blockAmount = Actors.blockAmount }
 
 -- UseCardAction visits each source monster's sorted Power list, not module
 -- batches. Preserve group order and stable acquisition order for equal priority.
@@ -892,6 +893,7 @@ local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
     end
 end
 local function beginQueuedPlay(state, uid, targetIndex, instance, position, card, automatic)
+    if card.target=='ENEMY'or card.target=='SELF_AND_ENEMY'then Actors.faceTarget(state,state.enemies[targetIndex])end
     local previous = state.resolvingCard
     state.resolvingCard = true
     local reactions = EnemyAI.cardReactions(state, card)
@@ -1007,6 +1009,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
 end
 
 local function queueNativePlay(state, uid, targetIndex, instance, card, free, forceExhaust, purge, top, energyOnUse)
+    if card.target=='ENEMY'or card.target=='SELF_AND_ENEMY'then Actors.faceTarget(state,state.enemies[targetIndex])end
     state.resolvingCard = true
     state.cardInUse=instance
     state.cardsPlayedThisTurn=state.cardsPlayedThisTurn or {};state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}

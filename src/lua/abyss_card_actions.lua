@@ -397,6 +397,8 @@ function M.apply(combat,state,item)
         require('abyss_darklings').resolve(state,e)
     elseif op=='heartBeat'then
         combat.heartBeat(state,e)
+    elseif op=='spireDeathRemove'then
+        Actors.removeSpireDeathPower(state,e)
     elseif op=='awakenedAction'then
         require('abyss_awakened_one').resolve(Actors,state,e)
     elseif op=='capturedSharpHide'then

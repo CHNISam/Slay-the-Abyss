@@ -90,7 +90,7 @@ local function theft(v)
 end
 
 local function attackHits(v, effect)
-    local amount = Combat.attackAmount(v.state, v.copy, v.player, effect.value)
+    local amount = Combat.intentAttackAmount(v.state, v.copy, v.player, effect.value)
     local times = effect.times or 1
     local hits, total, unequal = {}, 0, false
     for hit = 1, times do

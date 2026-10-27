@@ -1114,6 +1114,7 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
     candidate.potionRng=run.shopRng and EventRandom.cloneState(run.shopRng.potion)or EventRandom.fromSeed(run.runSeed)
     candidate.potionInventory=Combat.copy(run.potions)
     local called, ok, reason = pcall(function()
+        if potion.targetPolicy=='enemy_one'then Combat.faceTarget(candidate,candidate.enemies[targetIndex])end
         local applied,why=Inventory.apply(candidate,effects,targetIndex,run,true)
         if not applied then return false,why end
         -- Integration point for COMBAT onUsePotion hooks: append their actions

@@ -32,6 +32,25 @@ function M.powerSequence(actor,ids)
     for _,id in ipairs(ids) do if not seen[id] and (actor.statuses[id] or 0)~=0 then result[#result+1]=id end end
     return result
 end
+local function removeSpirePower(state,actor,id)
+    assert(id=='back_attack'or id=='surrounded','unsupported Spire Power removal')
+    local amount=actor.statuses[id]
+    require('abyss_power_schedule').remove(state,actor,id)
+    actor.statuses[id]=nil
+    if amount~=nil then Events.emit(state,'status',{target=actor.id,status=id,amount=-amount})end
+end
+function M.faceTarget(state,target)
+    return require('abyss_spire_pair').faceTarget({isActive=M.isActive,applyPower=M.applyPower,
+        removePower=removeSpirePower},state,target)
+end
+function M.removeSpireDeathPower(state,effect)
+    local target=effect.targetId==state.player.id and state.player or nil
+    for _,enemy in ipairs(state.enemies)do if enemy.id==effect.targetId then target=enemy;break end end
+    assert(target and (target==state.player and effect.status=='surrounded'
+        or require('abyss_spire_pair').owns(target)and effect.status=='back_attack'),'invalid Spire death Power owner')
+    removeSpirePower(state,target,effect.status)
+    return true
+end
 local function notifyHpLost(state,owner,actor,amount)
     if actor~=state.player or amount<=0 then return end
     -- The 238 notifier owns the single damagedThisCombat increment, actual
@@ -342,6 +361,9 @@ local function queueDeathPower(state, target, before, reactions)
             Awakened.deathFinish(state,target,deathReaction)
         end
         require('abyss_reptomancer').died(state,target,deathReaction)
+        require('abyss_spire_pair').died(state,target,function(effect)
+            reaction(state,{op='spireDeathRemove',targetId=effect.targetId,status=effect.status})
+        end)
     end
     if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
         and not target.stolenGoldRewarded then
@@ -453,7 +475,7 @@ function M.suicideTransient(state,target)
     M.resolveDamageReactions(state,reactions)
 end
 
-function M.attackAmount(state, source, target, base, fixed)
+local function attackFloat(state, source, target, base, fixed)
     -- Force float arithmetic before modifiers: Fengari integers are 32-bit,
     -- while game Lua uses wider integers. Integer multiplication would wrap.
     local amount = base + 0.0
@@ -476,8 +498,19 @@ function M.attackAmount(state, source, target, base, fixed)
     end
     if not fixed and target.statuses.slow~=nil then amount=require('abyss_giant_head').receive(state,target,amount) end
     if not fixed and (target.statuses.flight or 0)>0 then amount=amount/2 end
-    if intangible(target) then amount=math.min(amount,1) end
-    return math.max(0, math.floor(amount))
+    return amount
+end
+function M.attackAmount(state,source,target,base,fixed)
+    local amount=attackFloat(state,source,target,base,fixed)
+    if intangible(target)then amount=math.min(amount,1)end
+    return math.max(0,math.floor(amount))
+end
+function M.intentAttackAmount(state,source,target,base,fixed)
+    if not fixed and target==state.player and require('abyss_spire_pair').owns(source)then
+        return require('abyss_spire_pair').intentDamage(state,source,attackFloat(state,source,target,base,fixed),
+            function(amount)return intangible(target)and math.min(amount,1)or amount end)
+    end
+    return M.attackAmount(state,source,target,base,fixed)
 end
 
 -- An area attack collects retaliation until all of its targets are damaged.
@@ -523,7 +556,10 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
             and normalAmount>=0 and normalAmount<=9007199254740991 and normalAmount%1==0,
             "invalid normal damage snapshot")
         amount = normalAmount
-    else amount = M.attackAmount(state, source, target, base, fixed) end
+    else
+        amount=M.attackAmount(state,source,target,base,fixed)
+        if not fixed and target==state.player then amount=require('abyss_spire_pair').actualDamage(state,source,amount)end
+    end
     if intangible(target) then amount=math.min(amount,1) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
