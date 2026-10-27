@@ -40,7 +40,7 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 16);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 17);
   assert.equal(manifest.sharedCards.length,39);
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
@@ -210,4 +210,21 @@ test('Back to Basics inventory keeps source-correct empty completion and V4 impl
  assert.match(row.naturalAcquisitionLimitation,/Empty Elegance and zero-upgrade Simplicity reach result then separate Leave/);
  assert.match(row.naturalAcquisitionLimitation,/V4 supports Elegance/);assert.match(row.naturalAcquisitionLimitation,/not a source class rule/);
  assert.match(row.naturalAcquisitionLimitation,/Native-client acceptance NOT_RUN/);
+});
+
+
+test('Ghosts launch ledger binds actual cached health cost and real five-card source acquisition without claiming natural completion',()=>{
+ const manifest=fresh(),row=manifest.events.find(event=>event.id==='ghosts');
+ assert.equal(row.originalId,'Ghosts');assert.equal(row.poolMode,'explicit-only');assert.deepEqual(row.channels,['explicit:Nodes.enter']);
+ assert.deepEqual(row.choices,['accept','leave']);assert.deepEqual(row.stages,['intro','result']);
+ assert.deepEqual(row.permanentRewards,{cardId:'apparition',sourceId:'Ghostly',count:5,through:'Run.obtainCard'});
+ assert.match(row.naturalAcquisitionLimitation,/Native-client acceptance NOT_RUN/);assert.match(row.naturalAcquisitionLimitation,/Toxic Egg/);
+ assert.deepEqual(manifest.sharedCards.find(card=>card.id==='apparition').channels,['explicit:Run.obtainCard','explicit_event:ghosts:accept']);
+ for(const mutate of [m=>m.events.find(e=>e.id==='ghosts').permanentRewards.count=3,
+   m=>m.events.find(e=>e.id==='ghosts').healthCost.cachedAt='accept',
+   m=>m.events.find(e=>e.id==='ghosts').healthCost.order='after_permanent_obtains',
+   m=>m.events.find(e=>e.id==='ghosts').naturalAcquisitionLimitation='all passed',
+   m=>m.sharedCards.find(c=>c.id==='apparition').channels=['explicit:Run.obtainCard']]){
+  const bad=fresh();mutate(bad);assert.ok(validateLaunchContent(bad,{runtime:false}).some(error=>/ghosts|apparition/.test(error)));
+ }
 });
