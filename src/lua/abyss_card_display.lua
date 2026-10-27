@@ -30,6 +30,71 @@ function M.writeArt(control,definition,picture)
     picture(control,image)
     control:SetSizeDelta(width,height)
 end
+-- Candidate-only binding into controls already owned by the real card face.
+-- Weak keys do not keep recycled native controls alive. Failed versions wait
+-- for explicit clear/rebind rather than retrying thousands of writes per frame.
+local appliedArt = setmetatable({}, {__mode='k'})
+local function nativePool(box)
+    local ok,pool=pcall(box.GetChild,box,'artSamples')
+    return ok and pool or nil
+end
+function M.clearNativeArt(box)
+    local pool=nativePool(box)
+    if pool then
+        pool:SetVisible(false)
+        local previous=appliedArt[pool]
+        if previous then
+            for _,control in ipairs(previous.controls)do control:SetVisible(false)end
+        end
+        appliedArt[pool]=nil
+    end
+end
+local function nativeSlot(pool,index)
+    local group=assert(pool:GetChild(string.format('group%03d',math.floor((index-1)/60))),'missing native art group')
+    return assert(group:GetChild(string.format('shape%04d',index-1)),'missing native art slot')
+end
+local function writeNativeSlot(control,slot,platform)
+    control:SetImage(platform.imageSource,slot.image)
+    local imageType=assert(platform.imageTypes and platform.imageTypes[slot.imageType],'missing native image type enum')
+    control.imageType=imageType
+    assert(control.imageType==imageType,'native image type rejected')
+    control:SetAnchorMin(slot.anchorMin[1],slot.anchorMin[2])
+    control:SetAnchorMax(slot.anchorMax[1],slot.anchorMax[2])
+    control:SetPivot(slot.pivot[1],slot.pivot[2])
+    control:SetSizeDelta(slot.size[1],slot.size[2])
+    control:SetLocalScale(slot.scale[1],slot.scale[2],1)
+    assert(control:SetLocalRotation(slot.rotation[1],slot.rotation[2],slot.rotation[3])~=false,'native XYZ rotation rejected')
+    control:SetAnchoredPosition(slot.position[1],slot.position[2])
+    control.imageColor=platform.color(slot.colour[1],slot.colour[2],slot.colour[3],slot.colour[4])
+    control:SetVisible(true)
+end
+function M.writeNativeArt(box,definition,metadata,platform,fallback)
+    local pool=nativePool(box)
+    if not pool then return false end
+    pool:SetVisible(false);fallback:SetVisible(true)
+    if not metadata or metadata.cardId~=definition.id then M.clearNativeArt(box);return false end
+    local previous=appliedArt[pool]
+    if not previous or previous.metadata~=metadata then
+        local controls={}
+        local ok,reason=pcall(function()
+            for index=1,metadata.capacity do
+                controls[index]=nativeSlot(pool,index);controls[index]:SetVisible(false)
+            end
+            for index,slot in ipairs(metadata.slots)do
+                writeNativeSlot(controls[index],slot,platform)
+            end
+        end)
+        if not ok then for _,control in ipairs(controls)do control:SetVisible(false)end end
+        previous={metadata=metadata,ok=ok,reason=reason,controls=controls}
+        appliedArt[pool]=previous
+        if not ok then
+            print('ABYSS_NATIVE_ART rejected card_id='..tostring(definition.id)..' lua_sha256='..tostring(metadata.luaSha256)..' reason='..tostring(reason))
+        end
+    end
+    if not previous.ok then return false,previous.reason end
+    pool:SetVisible(true);fallback:SetVisible(false)
+    return true
+end
 local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=true,reaper=true,damageRandom=true,secondWind=true,
     whirlwind=true,reaperDamage=true}
 for _,op in ipairs({'barrageDamage','bowlingBash','ftlDamage','heelHook','nextBlock','xBlock','halt',

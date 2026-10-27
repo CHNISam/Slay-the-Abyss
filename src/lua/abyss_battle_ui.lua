@@ -404,7 +404,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return {x, R.y}
     end
     local cardView = CardView.new(self, {
-        child = child, show = show, ink = ink, tint = tint, picture = picture,
+        child = child, show = show, ink = ink, tint = tint, picture = picture, platform = platform,
         placeCard = placeCard, placeReward = placeReward,
         dragTarget = dragTarget, dragPose = dragPose, enemyPosition = enemyPosition,
     })

@@ -64,6 +64,7 @@ function OnStart()
                       return device==Enum.Device.Controller or device==Enum.Device.MobileController
                   end},
               color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, keyEvents = Enum.KeyEventType,
+              imageTypes = Enum.ImageType and {basic=Enum.ImageType.Basic,stretch=Enum.ImageType.Stretch},
               cursorPosition = function() return game.GetCursorUIPos() end,
               touchScreen = function() return game.GetDevice() == Enum.Device.Mobile end,
               sound = function(cue)
