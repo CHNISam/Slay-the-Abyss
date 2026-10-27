@@ -3,9 +3,9 @@ id: TASK-56
 title: 补齐猎人剩余14张卡并完成完整卡池验收
 status: In Progress
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

@@ -3,9 +3,9 @@ id: TASK-43
 title: 防止过期触摸结束回合或跳过奖励
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 12:57'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-2
 dependencies: []
@@ -43,6 +43,8 @@ ordinal: 52000
 主审计真实配对输入8过5败，独立BattleUI2过2败。新增30组按8+8+8+6拆分，精确基线13过17败，候选全部通过；独立56组基线13过43败、候选56全过。现有79个Native Lua脚本全部通过；初次6个缺失快照工具输入补齐精确blob后重跑，不作为代码失败。两条旧卡牌用例仅改为完整Down/Up/Click，所有原断言保留，改后在基线仍11/11通过。只改四类BattleUI绑定，保留卡牌/药水tokens及混合Click-only宿主；不改GameUI重开、规则或数值。未运行被拒绝的本地npm全量检查/安装；正式Fengari与平台派发待验。
 
 2026-10-23独立审计固定12647ab：四类action8+8+8+6共30项通过，卡牌11、药水9+11与独立探针3，合计64项exit0。仅回退PR112父1ad78f3生产模块，独立3项0过3败，恢复3过；恢复blob与候选精确一致。PR112最终head43e137fd、Quality39958882308两作业SUCCESS，已合1060b57。报告.artifacts/m1-audit/action/REPORT.md；真实平台派发单独保留。注意根GUI同号TASK40为手柄，不可将其误勾。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

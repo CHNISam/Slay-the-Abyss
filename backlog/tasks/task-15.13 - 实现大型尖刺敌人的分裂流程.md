@@ -3,9 +3,9 @@ id: TASK-15.13
 title: 实现大型尖刺敌人的分裂流程
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 00:21'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -35,6 +35,12 @@ ordinal: 72000
 <!-- SECTION:PLAN:BEGIN -->
 独立核对源身份与插入队列；建立真实负例；最小分裂构造/行动快照/反馈身份与UI接线；独立评审及正式CI后集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

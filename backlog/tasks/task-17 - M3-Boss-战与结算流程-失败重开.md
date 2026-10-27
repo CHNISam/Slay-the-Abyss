@@ -3,9 +3,9 @@ id: TASK-17
 title: 接通Boss、Boss宝箱和胜败结算
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -53,6 +53,8 @@ Boss遗物暂限定为Black Blood、Slavers Collar、Sozu三件完整实现，�
 本轮原生自动流程固定源522e547、候选601f9401、官方测试存档1843：连续1至17层正常数值通关，17层真实领取Sozu后进入游戏胜利及官方胜利结算。新25号日志4032条、ready1、266动作全部成功、胜利客户端请求/服务端打印各1；独立复核资源闭合34HP/131金/17卡/3遗物。原runner未真正离开导致logFile=null；真实退出后16:29:59新gia落盘，保留原status及延迟采集证据。AC2失败/游戏内重开/官方重新挑战仍未取证；随后PR169界面组合单独本地验证，不能冒充本轮实测。
 
 用户本轮确认已亲测重开和平台重新挑战；既有正常死亡/正式失败结算、Boss16到独立宝箱17的正式胜利证据及当前单次结算/重置回归共同补齐AC2。保留旧自动流程未覆盖重开的真实范围。详见docs/M2-CLOSEOUT-20261024.md。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

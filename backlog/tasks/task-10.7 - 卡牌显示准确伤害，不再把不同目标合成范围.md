@@ -3,9 +3,9 @@ id: TASK-10.7
 title: 卡牌显示准确伤害，不再把不同目标合成范围
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 04:23'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-2
 dependencies: []
@@ -45,6 +45,8 @@ ordinal: 81000
 2026-10-24预览专项夹具14阶段离线通过：未瞄准4/易伤目标6、双击5×2、群攻基础6及实际6/9、格挡/费用/整数资源和拒绝非法小数；核心副本结算oracle及唯一一次正常Strike一致。统一诊断副本hash01dd3927…已编译写副本，尚未官方导入/实机复验，保留AC。
 
 2026-10-24官方1841/01dd副本run ced168e4完成14阶段原生画面和837条新日志独立复核：未瞄准4、瞄准易伤6、取消4、双击5x2、群攻显示6且逐目标6/9、格挡5、费用1/1/1/1/2、资源整数可读。核心状态/RNG只读断言通过；预览段只有t647一次正常Strike，t648伤害6，能量3到2/手牌5到4/敌HP44到38。非法小数拒绝与原版失败证据保留于证据包regressions，不伪称本轮运行旧客户端。逐图hash及唯一出牌审计见docs/evidence/m1-live-20261024/reviews/preview-live-review.json。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

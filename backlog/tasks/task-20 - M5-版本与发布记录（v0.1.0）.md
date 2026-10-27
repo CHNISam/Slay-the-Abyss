@@ -3,9 +3,9 @@ id: TASK-20
 title: 保存发布版本、更新说明和投稿凭证
 status: In Progress
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-27 11:01'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0

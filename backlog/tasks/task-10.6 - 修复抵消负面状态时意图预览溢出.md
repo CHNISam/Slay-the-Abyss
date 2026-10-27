@@ -3,9 +3,9 @@ id: TASK-10.6
 title: 修复负面状态被抵消时的意图显示报错
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 02:42'
-updated_date: '2026-10-24 05:49'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-2
 dependencies:
@@ -48,6 +48,8 @@ CI超时复核：保持30秒上限和逐帧断言，缩小两组播放的无关�
 2026-10-24当前7e1123b复跑：intent-artifact-preview.test.mjs驱动真实GameUI Artifact预览12组与播放3组均过，连同布局/主题共13个Node测试全过；battle_ui 52/52过。上界抵消/无Artifact非法溢出/真实状态和RNG不变/未行动敌人动态更新及取消换局均覆盖。PR152最终head73a1c305的Quality40057518426 check120763673014、presentation120763672871独立API复核success；已有作者与独立评审红绿/突变证据见docs/testing/task10-6-artifact-intent-preview.md。仅关闭本地修复切片；九状态、完整UI和平台任务不变。
 
 2026-10-24 PR162 run40066537158在旧播放夹具30秒处超时。测试修复91e0983只保留相关原始Defend/Fat/Jaw定义与完整rules/statuses，原3组按1+1+1独立运行，全部15测试体和逐帧断言不减；本地10.25/6.98/1.13秒，核心字段/事件快照和反馈轨迹等价，旧缓存突变仍被拒绝。证据在.artifacts/m1-artifact-test-cost，最终当前SHA CI另验。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

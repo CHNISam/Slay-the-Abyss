@@ -3,9 +3,9 @@ id: TASK-3.2
 title: M1 战斗存档副本导入验收
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 22:20'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 labels: []
 milestone: m-2
 dependencies:
@@ -43,6 +43,8 @@ TASK-29/PR52候选已由用户手动导入并打开，官方新存档1073741834�
 2026-10-23独立证据审计确认原61425e4官方存档1073741835已含32内嵌/外部Lua同源、1590控件/模板及镜头/出生配置复读，AC2可据此勾选。读回也证实该候选场景配置不合TASK2，scene-safe v2已补但尚未导入。AC1导入日志与整体继续保留。报告.artifacts/m1-audit/platform/REPORT.md。
 
 2026-10-24新真实证据：固定源5165a78，候选hash8ff910c6772c729cf86cf26dd9d48f73c2de4ccffdf5fbc1b0029d9286f54288，官方导入测试save1073741838，run9bb0abe3-9602-418b-a729-25fc739523c2实际imported/opened-and-saved并进入完整战斗。32内嵌/32外部Lua、1695UI/模板、镜头出生复苏/单人阵营/全部图挂载独立复读一致；图身份/22节点一致，官方重序列化完整payload未认证，不扩大为语义证明。repo内docs/M1-LIVE-ACCEPTANCE.md及docs/evidence/m1-live-5165a78.json保留读回、截图、64条新日志及hash。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

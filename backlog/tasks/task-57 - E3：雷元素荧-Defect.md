@@ -3,9 +3,9 @@ id: TASK-57
 title: 补齐机器人剩余19张卡并完成完整卡池验收
 status: In Progress
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

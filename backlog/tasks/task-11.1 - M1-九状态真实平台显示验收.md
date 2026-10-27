@@ -3,9 +3,9 @@ id: TASK-11.1
 title: 实测九种状态显示是否正确
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 22:20'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -43,6 +43,8 @@ ordinal: 33000
 2026-10-24多代理收口：固定c0f2076普通候选40模块/UI/结算图独立读回通过，hash1db5c9aa…；独立诊断副本01dd3927…仅改入口和新增3探针，39生产模块逐字不变，静态0错误。9状态54双方详情+整局只读离线整链通过。两次自动试玩均在前台切换前失败，无本轮ready或日志，不勾平台AC；待原神手动置前后执行660秒统一流程。复现脚本、模块与截图表在.artifacts/m1-closeout-20261024。
 
 2026-10-24真实run ced168e4-7e7a-4699-97b4-4873610e0c41已在官方测试存档1073741841完成；诊断hash01dd39274f42ddaccf73e68fdf7bcbe4986919f96c297e94e6d6c4483bef297a，43内嵌脚本/UI读回相符。本轮自动订阅clientScriptLog，新日志837条未截断，ready t2、complete9 t387；九类型54次双方状态/54次整局只读断言、真实回合结算匹配。独立亲看43/54详情阶段，九种全覆盖，缺11图如实保留。完整姓名/层数详情可读；常驻小图标数字、手机物理触控与全UI门禁仍属M4未通过边界。证据docs/evidence/m1-live-20261024/reviews/status-live-review.json及status-live-log-review.json，原始gia SHA7e7c52a217a0bbe3d3db1b35c812661b6694d3ee12ea8b5256a8d267e72e3d57。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

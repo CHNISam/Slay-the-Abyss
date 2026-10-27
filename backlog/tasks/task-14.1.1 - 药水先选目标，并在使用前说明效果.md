@@ -3,9 +3,9 @@ id: TASK-14.1.1
 title: 药水先选目标，并在使用前说明效果
 status: Done
 assignee:
-  - '@codex'
+  - '@Furinya'
 created_date: '2026-10-24 17:09'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-4
 dependencies: []
@@ -44,6 +44,8 @@ ordinal: 92000
 固定实现951c2bb，候选7d978a1独立读回48模块逐byte一致、2391控件/max59、UI/模板/结算图身份一致，读前读后hash不变。首两项仅按本地切片验收；完整门禁仍在复跑，第三项未勾，父任务与原神/手机验收不关闭。
 
 最终npm run check退出0：JS1108过/118跳过、180个Lua文件全过、Python21过/1权限相关跳过。原型与展示文本一致性回归通过。源码哈希核对不变；完整日志、红绿证据、13场景零裁切离线预览和候选独立读回均已归档。未官方导入、实机、物理手机或verify:ui验收；32条静态警告原样保留。
+
+负责人字段规范化：原记录 @codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

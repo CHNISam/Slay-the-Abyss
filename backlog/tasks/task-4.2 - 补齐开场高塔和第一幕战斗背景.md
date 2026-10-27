@@ -3,9 +3,9 @@ id: TASK-4.2
 title: 补齐开场高塔和第一幕战斗背景
 status: To Do
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 06:50'
-updated_date: '2026-10-27 09:48'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-28'
 labels:
   - art
@@ -48,4 +48,6 @@ ordinal: 83000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-27用户已决定优先使用GI/千星官方可用的原生场景；不将自绘整屏背景作为首发依赖。此前2D方案若不采用，保存这个决定并按原验收#8/#9记录3D替代及实际游戏显示证据。普通、精英、Boss至少有可辨认的环境差异；不可只凭静态图判断。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

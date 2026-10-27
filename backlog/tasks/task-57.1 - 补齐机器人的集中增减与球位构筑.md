@@ -3,9 +3,9 @@ id: TASK-57.1
 title: 补齐机器人的集中增减与球位构筑
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 06:11'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

@@ -3,9 +3,9 @@ id: TASK-15.1
 title: 补齐蓄力敌人的开场意图随机消耗
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 19:02'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,12 @@ ordinal: 59000
 <!-- SECTION:PLAN:BEGIN -->
 核对来源及所有权；构造真实初始化负例；最小数据/初始化修复；测试及独立评审后正常PR集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

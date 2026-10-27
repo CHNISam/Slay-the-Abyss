@@ -3,9 +3,9 @@ id: TASK-34
 title: 配好背景音乐和场景切歌
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-23 07:34'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -70,4 +70,6 @@ ordinal: 46000
 最终集成候选冻结源277c2a8、hash04c0e28c40bab1e67620566a5eb3ad4ac19f7f53206a0effe317f0d0351fe6ac，路径在新证据中。原生BGM图83节点、双true且全部模块独立读回匹配；保持liveWrite=0。用户取消试听前置，直接采用后再反馈；实际听验状态仍NOT_TESTED。
 
 2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

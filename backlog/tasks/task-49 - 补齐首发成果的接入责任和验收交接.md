@@ -3,9 +3,9 @@ id: TASK-49
 title: 补齐首发成果的接入责任和验收交接
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 06:57'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - launch
@@ -62,6 +62,8 @@ ordinal: 84000
 e66 CI取消原因已核：957 JS通过/0失败/118条件skip，Lua完成131/141入口（已记录679158ms）后触发15分钟整项时限；无断言失败。仅将check完整作业预算调20分钟，不改每夹具30/60秒、集合、断言或presentation5分钟。最终当前SHA完整CI仍需通过。
 
 报告口径复核：TASK-29/29.1原已有实机验收责任，不把正常待验计为断层；第5组计入的真实缺口是35等已完成输入修复仍指向已Done的3，缺少跨战斗首点/真实设备承接，现已由38/42/5明确。演出同版本与录像AC为相关澄清，不重复算缺陷。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

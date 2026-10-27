@@ -3,9 +3,9 @@ id: TASK-30.1
 title: 拒绝出牌确认时的无效坐标
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 14:10'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -49,6 +49,8 @@ ordinal: 90000
 原头097c622的Quality40102429513双成功后，主线新合PR182到b91a461，故重新接合而未直接沿用旧头认证。以3c3为共同祖先自然合并UI/MILESTONES，保留182其余424份代码/数据/测试；最新并集31专项、BattleUI53、176原生Lua、1091纯Node、22Python及独立96+7通过。新并集仍须自身SHA CI，不认证平台或旧候选实机。
 
 PR184最终f6d0446在Quality40104681083 attempt2两个job成功后，已squash合入1511f0a。attempt1是测试前Git fetch curl56/earlyEOF失败，仅重试失败作业一次，未改代码/超时/预算。本地新主线并集和独立评审结果见报告；父任务30平台验收不变。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -3,9 +3,9 @@ id: TASK-67
 title: 修复战斗代次回归夹具
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-26 07:10'
-updated_date: '2026-10-27 04:23'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:

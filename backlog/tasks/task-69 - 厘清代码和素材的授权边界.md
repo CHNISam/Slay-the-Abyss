@@ -3,9 +3,9 @@ id: TASK-69
 title: 厘清代码和素材的授权边界
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-26 09:32'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
