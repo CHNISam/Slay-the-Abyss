@@ -1,8 +1,18 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1
+local sliceRegistered,sliceExecuted=0,0
+local function sourcePart(fn)
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+ sliceExecuted=sliceExecuted+1
+ fn()
+end
 -- Controlled continuous source streams and real acquisition commands; these
 -- fixtures do not claim natural-floor progression or platform acceptance.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run=require('abyss_run');local C=require('abyss_combat');local Pool=require('abyss_card_pool');local Shop=require('abyss_shop');local Nodes=require('abyss_nodes')
 local data=require('abyss_data');local Capability=require('abyss_card_capability')
+sourcePart(function()
 local run=Run.new(data,42,{character='silent',experimental=true});local expected={};local total=0
 for _,rarity in ipairs({'common','uncommon','rare'})do for _,id in ipairs(run.data.cards.sourcePools.reward[rarity])do
  expected[id]=true;total=total+1;local definition
@@ -36,10 +46,17 @@ for _=1,1500 do
 end
 assert(count==71,'shop closure '..count)
 print('ok all71 source identities sampled then really purchased')
+end)
 for _,spec in ipairs({{0,1,'cunning_potion'},{10,3,'ghost_in_a_jar'}})do
+ sourcePart(function()
  local r=Run.new(data,spec[1],{character='silent',experimental=true});local flow=Shop.prepare(r)
  assert(flow.potions[spec[2]].id==spec[3]and not flow.potions[spec[2]].unavailable)
  r.phase='node';r.nodeFlow=flow;flow.type='shop';r.gold=100000;r.shopRng=flow.shopRng
  assert(Nodes.buyPotion(r,spec[2]));assert(r.potions[1]==spec[3])
  print('ok normal initial Silent shop purchases '..spec[3])
+ end)
 end
+
+assert(sliceRegistered==3,'the coupled source stream and both original potion controls must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'every selected Silent source part must execute')
+print('SILENT_FINAL_SOURCE_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

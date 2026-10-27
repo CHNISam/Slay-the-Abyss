@@ -70,3 +70,28 @@ test('copy and stolen-reward partitions reconstruct every byte of both original 
   assert.deepEqual(covered,Array.from({length:known.total},(_,i)=>i+1));
  }
 });
+
+test('Silent source partitions preserve the coupled reward-to-shop stream and both independent potion controls byte-for-byte',()=>{
+ const row=p.silentFinal;
+ const entry='tests/lua/silent_final_sources.lua',tail='tests/lua/silent_final_sources_potions.lua';
+ assert.equal(row.entry,entry);assert.equal(row.total,3);assert.equal(row.originalBytesLF,2643);
+ assert.equal(row.originalSha256LF,'3a8395181bae1c2618bf727e12aa8576d2287ac9a9323a81120dd3df9364aeb9');
+ assert.equal(row.originalGitBlob,'239d1e1b51b478b95200dc48346f951c8a8ec1ac');
+ const prefix="local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1\nlocal sliceRegistered,sliceExecuted=0,0\nlocal function sourcePart(fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n fn()\nend\n";
+ const replacements=[
+  {before:"local run=Run.new(data,42,{character='silent',experimental=true});local expected={};local total=0\n",after:"sourcePart(function()\nlocal run=Run.new(data,42,{character='silent',experimental=true});local expected={};local total=0\n"},
+  {before:"for _,spec in ipairs({{0,1,'cunning_potion'},{10,3,'ghost_in_a_jar'}})do\n",after:"end)\nfor _,spec in ipairs({{0,1,'cunning_potion'},{10,3,'ghost_in_a_jar'}})do\n sourcePart(function()\n"},
+  {before:" print('ok normal initial Silent shop purchases '..spec[3])\nend\n",after:" print('ok normal initial Silent shop purchases '..spec[3])\n end)\nend\n"},
+ ];
+ const footer="\nassert(sliceRegistered==3,'the coupled source stream and both original potion controls must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'every selected Silent source part must execute')\nprint('SILENT_FINAL_SOURCE_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n";
+ assert.equal(row.prefix,prefix);assert.deepEqual(row.replacements,replacements);assert.equal(row.footer,footer);
+ let original=read(entry);assert.ok(original.startsWith(prefix)&&original.endsWith(footer));
+ original=original.slice(prefix.length,-footer.length);
+ for(const replacement of replacements){assert.equal(original.split(replacement.after).length,2);original=original.replace(replacement.after,replacement.before);}
+ assert.equal(sha(original),row.originalSha256LF);const bytes=Buffer.from(original);assert.equal(bytes.length,2643);
+ assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),row.originalGitBlob);
+ assert.deepEqual(row.slices,[{path:entry,first:1,last:1},{path:tail,first:2,last:3}]);
+ assert.deepEqual(discovered.filter(path=>path.startsWith(entry.slice(0,-4))),[entry,tail]);
+ assert.equal(read(tail),`assert(loadfile('${entry}'))(2,3)\n`);
+ assert.deepEqual(row.slices.flatMap(part=>Array.from({length:part.last-part.first+1},(_,i)=>part.first+i)),[1,2,3]);
+});
