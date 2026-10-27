@@ -249,6 +249,10 @@ local descriptions = {
 }
 descriptions.draw_card_next_turn = descriptions.draw_next_turn
 descriptions.energized_blue = descriptions.energized
+descriptions.regrow = function()
+    return "生命归零后休眠；第二次行动时回复半数最大生命", "复生",
+        "所有暗影同时休眠时，全体被击败"
+end
 
 -- Returns the effect, duration tag and optional condition, naming real values.
 function M.statusDetail(entry, rules, actor)
