@@ -247,7 +247,9 @@ function M.new(view, controls)
         -- An aiming card parks under the line so it never hides the enemy row.
         if aiming then
             local floor = -Theme.canvas.base[2]/2 + Theme.canvas.safe.y + h/2
-            x, y = 0, math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
+            -- Preserve the grabbed column; centring here looks like the held
+            -- card has snapped onto an unrelated card in the middle of the hand.
+            x, y = g.origin[1], math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
         end
         box:SetAnchoredPosition(x, y)
         box:SetLocalScale(D.scale, D.scale, 1)

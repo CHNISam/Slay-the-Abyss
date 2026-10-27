@@ -1151,7 +1151,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local valid, target, aiming = dragTarget(g)
             if g.cancelled then
                 g.input.held, g.input.released = nil, nil
-                self.gesture, self.selected = nil, nil
+                self.gesture, self.selected, self.hover, self.handHover = nil, nil, nil, nil
                 self:render(); return
             end
             if g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
@@ -1171,7 +1171,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         g.x,g.y = x,y
         local valid,target,aiming = dragTarget(g)
         if g.cancelled then
-            self.carry,self.selected = nil,nil
+            self.carry,self.selected,self.hover,self.handHover = nil,nil,nil,nil
             self:render()
         elseif g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
             self:render()
@@ -1476,6 +1476,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if not ok and reason ~= "invalid_target" then return end
         g.sx, g.sy, g.x, g.y, g.origin = x, y, x, y, self.cardPositions[instance.uid]
         CardInput.begin(g, Theme.canvas.base[2], platform.touchScreen and platform.touchScreen(), Theme.canvas.base[1])
+        g.handCancelY = L.hand.y + Theme.motion.hoverLift
+        self.hover, self.handHover = nil, nil
         self.carry = nil
         self.gesture = g
     end
