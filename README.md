@@ -1,6 +1,6 @@
 # 杀戮原塔2 / Slay the Abyss
 
-原神「千星奇域」平台上的卡牌关卡项目。开发入口见 [交接说明](docs/HANDOFF.md) 与 [工具链](docs/TOOLCHAIN.md)。公众开发基线和 GitHub 默认分支为 **develop**；master 只用于正式发行。
+原神「千星奇域」平台上的卡牌关卡项目。开发入口见 [交接说明](docs/HANDOFF.md) 与 [工具链](docs/TOOLCHAIN.md)。公众开发基线和 GitHub 默认分支为 **develop**；master 只用于正式发行。版本可在 [版本总览](docs/versions/README.md) 和 [更新说明](CHANGELOG.md) 查看，与 Backlog 里程碑分开管理。
 
 ## 授权与商用
 
