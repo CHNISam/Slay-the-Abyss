@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 19:29'
+updated_date: '2026-10-27 20:05'
 due_date: '2026-10-28'
 labels:
   - art
@@ -103,4 +103,6 @@ PR240首候选f7fc855已发布。完整本地Node终态1594通过/1失败/零跳
 同步PR259负责人规范化：原记录 @codex 为历史执行者，负责人保留最新develop的Furinya。保留本PR全部美术候选记录，状态/AC不变。aaf5134完整15作业已通过，但合并预审发现develop已合入PR259，旧绿灯不代表新组合。下一步移除已过时的CursorArea内存替换，在真实修复源码上验证原生样卡。
 
 PR259同步后共享宿主正例直接执行真实源码，不再注入启动修复；保留不支持CursorArea字段及缺失GameUI图片枚举转发两项独立负控，strict mock未放宽。root重建data/UI并重跑新组合237/237、0跳过，含两张实际原生源逐控件等价及正式入口MCP mock；状态/AC不变，真实GIL/导入/设备仍待验。当前组合需重新取得独立审查与完整CI，不复用aaf旧预审。
+
+07bf1af完整Quality40570340304终态失败：Windows7的Sapphire 8–14累计超30秒，Windows8的card_help_release/looter_potion_ui也超30秒；后两项在develop e0 push同样失败。三项均原预算本地复现，无断言失败。最小测试分片保留原始全部60组/全部断言及严格mock，30秒上限不变，不改生产代码/runner/全局CI。Sapphire原体hash不变，21组四段约13–19秒；另外39组/53次完整tree十段约8–16秒，JS只加静态guard不重复跑昂贵Lua。两份独立复审含覆盖/变异/CRLF模拟通过，root应用后7项相关静态检查通过；Linux证据不冒充Windows，当前完整CI仍须重新验证。
 <!-- SECTION:NOTES:END -->

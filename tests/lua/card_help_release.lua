@@ -1,8 +1,14 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
+local sliceRegistered=0
 -- A released card press must never become delayed help or eat the first target tap.
 -- Exercise real Run/Combat/controller callbacks with the generated UI test fixture.
 local H = dofile('tests/lua/support/battle_gesture_fixture.lua')
 local passed, failed = 0, 0
 local function test(name, fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    print('CARD_HELP_RELEASE_CASE '..sliceRegistered)
     local ok, why = pcall(fn)
     if ok then passed = passed + 1 else failed = failed + 1 end
     print((ok and 'PASS ' or 'FAIL ') .. name .. (ok and '' or ': ' .. tostring(why)))
@@ -208,3 +214,7 @@ test('old coordinate-free release preserves newer hover on the same control', fu
 end)
 print('LUA_CARD_HELP_RELEASE ' .. passed .. ' passed; ' .. failed .. ' failed')
 assert(failed == 0, 'card-help ownership regressions failed')
+
+assert(sliceRegistered==31,'all original card_help_release cases must register')
+assert(passed==sliceLast-sliceFirst+1,'every selected card_help_release case must pass')
+print('CARD_HELP_RELEASE_SLICE '..sliceFirst..' '..sliceLast..' '..passed)
