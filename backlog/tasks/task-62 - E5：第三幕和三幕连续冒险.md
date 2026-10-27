@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-27 09:37'
+updated_date: '2026-10-27 15:53'
 labels:
   - required
   - sts1
@@ -39,6 +39,12 @@ type: feature
 - [x] #4 第三幕35至51层地图、来源队列及普通结局/三钥匙门边界基础已合入PR213并有对应回归。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-27用户试玩期间持续离线冲刺：按固定319009d5来源独立补MindBloom和MysteriousSphere；子线程各实现事件阶段和源规则，主线程接事件战斗构造/房间奖励桥、完整事务、原生显示及机器清单。保留普通怪物/Boss队列和原预算，先单项红绿再串行共享全链回归；当前可玩测试包b12beab2保持冻结。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
@@ -51,4 +57,6 @@ type: feature
 2026-10-27优先级重排：High：第三幕敌人/事件/结局仍在PR238，当前先完成该集成再开放完整四幕验收。 解除后移出High再提升下一项；不放宽原验收。
 
 2026-10-27 独立源码增量候选补Awakened One两阶段、Writhing Mass、Giant Head：真实0HP半死/复活与非目标选择连续性、源AI/RNG/Reactive与永久Parasite取得、Slow实际卡实例afterUse时点及Java浮点次序均有固定319009d5来源和独立审查。补通用Run.play完整事务边界，晚期奖励抛错或拒绝恢复原始对象/RNG/永久牌并可重试。五叶合并保留现有三职业内容、Ghosts和源码公告，87项Node与177组既有Lua回归通过；178模块/1050边、Luacheck89历史警告0新增、构建/数据/UI主题门禁通过。此候选未包含下一批Time Eater/Nemesis/Reptomancer/Darklings，不宣称全第三幕/全M3/自然四职业四幕或原生验收；整项AC不关闭，当前新PR完整Quality待证。
+
+本轮Codex并行分工：MindBloom模块、MysteriousSphere模块、终幕资格审计/历史owner独立树推进；共享Run/Nodes/Act3Events/EventPool/遗物配置由主线程集成，任务库串行CLI更新。用户正在自行试玩，全部执行者禁用桌面输入。事件战斗仍是EventRoom：源金币与稀有遗物在选择时准备，通用药水和卡牌在战后按原顺序执行；不冒用Boss终局或缩池。
 <!-- SECTION:NOTES:END -->
