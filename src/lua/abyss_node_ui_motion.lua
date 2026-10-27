@@ -14,6 +14,7 @@ function M.new(owner,child,options)
   if options.color then box.imageColor=options.color(c.r,c.g,c.b,math.floor((c.a or 255)*clamp(alpha)))end
  end
  function state:cancel()
+  if not self.active and not owner.presentationBusy then return end
   self.active=nil;owner.presentationBusy=nil;effect:SetVisible(false)
   panel:GetChild('burst'):SetVisible(false)
   for _,key in ipairs({'closed','open','glow'})do panel:GetChild(key):SetLocalScale(1,1,1)end

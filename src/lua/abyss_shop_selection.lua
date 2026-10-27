@@ -22,10 +22,12 @@ function M.new(owner, root, options)
         return true
     end
     function state:clear()
+        local repaint=self.selected~=nil or self.focus~=nil or self.dirty
         self.selected, self.focus = nil, nil
-        self:paint(1)
+        if repaint then self.dirty=true;self:paint(1) end
     end
     function state:begin()
+        self.dirty=true
         self.entries = {}
         self.focus = nil
         if self.selected and (not observe(self.selected) or owner.run.gold < self.selected.price) then self.selected = nil end
@@ -66,26 +68,32 @@ function M.new(owner, root, options)
         if mobile() or not owner.visible or owner.mode ~= 'main' then return end
         local q = self.entries[key]
         -- Insufficient funds must not prevent reading a card or item.
-        if q and not q.offer.sold and not q.offer.unavailable then self.focus = key end
+        if q and not q.offer.sold and not q.offer.unavailable then self.focus = key;self.dirty=true end
     end
-    function state:exit(key) if self.focus == key then self.focus = nil end end
+    function state:exit(key) if self.focus == key then self.focus = nil;self.dirty=true end end
     function state:isSelected(key) return self.selected and self.selected.key == key end
+    local function paintCard(i,x,focused,cardFocus,amount)
+        local key='shopView/card'..i
+        local target=focused==key and L.hoverScale or 1
+        local scale=(state.scales[i] or 1)+(target-(state.scales[i] or 1))*amount
+        local moving=math.abs(scale-target)>=.001
+        if not moving then scale=target end
+        state.scales[i]=scale
+        local shift=i>5 and cardFocus and L.focusRowShift or 0
+        local box=root:GetChild('card'..i)
+        box:SetLocalScale(scale,scale,1);box:SetAnchoredPosition(x,L.cardRows[i]-shift)
+        box:GetChild('glow'):SetVisible(focused==key)
+        root:GetChild('price'..i):SetAnchoredPosition(x,L.priceRows[i]-shift-(scale-1)*Theme.layout.card.size[2]/2)
+        return moving
+    end
     function state:paint(dt)
+        if not self.dirty then return end
         local focused = self.selected and self.selected.key or self.focus
         local cardFocus = focused and focused:match('card%d+$') ~= nil
         local amount = math.min(1, math.max(0, dt) / L.hoverDuration)
+        local moving=false
         for i, x in ipairs(L.columns) do
-            local key = 'shopView/card' .. i
-            local target = focused == key and L.hoverScale or 1
-            local scale = (self.scales[i] or 1) + (target - (self.scales[i] or 1)) * amount
-            self.scales[i] = scale
-            local shift = i > 5 and cardFocus and L.focusRowShift or 0
-            local box = root:GetChild('card' .. i)
-            box:SetLocalScale(scale, scale, 1)
-            box:SetAnchoredPosition(x, L.cardRows[i] - shift)
-            box:GetChild('glow'):SetVisible(focused == key)
-            root:GetChild('price' .. i):SetAnchoredPosition(x,
-                L.priceRows[i] - shift - (scale - 1) * Theme.layout.card.size[2] / 2)
+            moving=paintCard(i,x,focused,cardFocus,amount) or moving
         end
         local q = focused and self.entries[focused]
         local detail = root:GetChild('detail')
@@ -95,14 +103,15 @@ function M.new(owner, root, options)
             detail:GetChild('name').text = q.name
             detail:GetChild('description').text = q.description
         end
+        self.dirty=moving
     end
     function state:update(dt)
         if self.selected and (not observe(self.selected) or owner.run.gold < self.selected.price) then
             self:clear(); owner:render(); return
         end
         if not owner.visible or owner.mode ~= 'main' or not owner.run.nodeFlow
-            or owner.run.nodeFlow.type ~= 'shop' then self.focus = nil end
-        if self.focus and not current(self.entries[self.focus]) then self.focus = nil end
+            or owner.run.nodeFlow.type ~= 'shop' then self:clear();return end
+        if self.focus and not current(self.entries[self.focus]) then self.focus = nil;self.dirty=true end
         self:paint(dt)
     end
     return state
