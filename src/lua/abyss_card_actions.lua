@@ -30,6 +30,7 @@ function M.enqueueReaction(state,effect,top)
     else M.enqueue(state,effect,nil,nil,nil,top)end
 end
 function M.reactionRetained(effect)
+    if require('abyss_corrupt_heart').retained(effect)then return true end
     if effect.op=='reptomancerSuicide'then return true end
     return TimeEater.retained(effect) or effect.op=='awakenedAction' and effect.kind=='heal' or PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
         or effect.op=='damageRandom' or effect.op=='staticRetaliation'
@@ -394,6 +395,8 @@ function M.apply(combat,state,item)
         end
     elseif op=='darklingAction'then
         require('abyss_darklings').resolve(state,e)
+    elseif op=='heartBeat'then
+        combat.heartBeat(state,e)
     elseif op=='awakenedAction'then
         require('abyss_awakened_one').resolve(Actors,state,e)
     elseif op=='capturedSharpHide'then

@@ -22,9 +22,11 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
 -- batches. Preserve group order and stable acquisition order for equal priority.
 local function afterUsePowers(state,context,instance)
     for _,enemy in ipairs(state.enemies)do
-        for _,power in ipairs(require('abyss_power_schedule').list(enemy,{slow=true,time_warp=true}))do
+        for _,power in ipairs(require('abyss_power_schedule').list(enemy,{slow=true,time_warp=true,beat_of_death=true}))do
             if power.id=='slow'then
                 require('abyss_giant_head').afterUse(state,context,CardActions.enqueueReaction,instance,enemy)
+            elseif power.id=='beat_of_death'then
+                require('abyss_corrupt_heart').afterUse(state,enemy,instance,CardActions.enqueueReaction)
             else TimeEater.afterUse(state,instance,CardActions.enqueueReaction,enemy)end
         end
     end
@@ -1110,6 +1112,18 @@ function M.staticRetaliation(state,effect)
         M.retaliate(state,state.player,enemy,effect.value);return true
     end end
     return true -- The captured target has already left the monster group.
+end
+
+function M.heartBeat(state,effect)
+    assert(type(effect.value)=='number'and effect.value%1==0 and effect.value>=0,'invalid captured Beat damage')
+    for _,enemy in ipairs(state.enemies)do
+        if enemy.id==effect.sourceId then
+            assert(require('abyss_corrupt_heart').owns(enemy),'invalid Beat source')
+            M.retaliate(state,enemy,state.player,effect.value)
+            return true
+        end
+    end
+    error('missing captured Beat source')
 end
 
 function M.disposeCard(state,item)

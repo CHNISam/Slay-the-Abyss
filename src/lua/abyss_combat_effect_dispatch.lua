@@ -12,6 +12,7 @@ end
 local Handlers={}
 local function reactions(c)
     local M,state,action,queue=c.combat,c.state,c.action,c.queue
+    if action.effect.op=='heartBeat'then return true,M.heartBeat(state,action.effect)end
     if action.effect.op=='awakenedAction'then
         Awakened.resolve(Actors,state,action.effect)
         return true,true
