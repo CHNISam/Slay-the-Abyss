@@ -93,8 +93,25 @@ test("explicit skip reaches victory and restart replaces all previous run state"
     local previous,amount=ui.run,#ui.run.relics
     assert(ui.nodeUI:press("back"))
     assert(ui.mode=="victory" and #ui.run.relics==amount)
-    assert(ui:start() and ui.run~=previous and ui.mode=="map")
-    assert(ui.map.floor==0 and ui.run.nodeFlow==nil and ui.run.combat==nil and ui.run.rewards==nil)
+    assert(ui:start() and ui.run~=previous and ui.mode=="node")
+    assert(ui.map.floor==0 and ui.run.nodeFlow~=previous.nodeFlow and ui.run.combat==nil and ui.run.rewards==nil)
+    assert(ui.run.nodeFlow.roomKind=='neow' and ui.run.nodeFlow.event.stage=='neow_intro' and not ui.run.nodeFlow.complete)
+    assert(ui.run.victories==0 and ui.run.elapsedSeconds==0)
+    assert(#ui.run.deck==10 and ui.run.gold==F.Data.rules.player.startingGold)
+    assert(#ui.run.relics==#F.Data.rules.player.startingRelics and Run.potionCount(ui.run)==0)
+    assert(ui.nodeUI.result==nil and ui.nodeUI.treasureChoice==1)
+    -- Source history comes from the victory above. The unchanged next seed2
+    -- offers three potions in slot2; declining its three independent rewards
+    -- is a normal source choice and preserves every old reset/economy check.
+    assert(ui.run.neowHistorySource=='session-completed-run' and previous.floor>=16)
+    assert(ui.nodeUI:press('eventView/option1'))
+    assert(#ui.run.nodeFlow.event.rewards==4 and ui.run.nodeFlow.event.rewards[2].type=='THREE_SMALL_POTIONS')
+    assert(ui.nodeUI:press('eventView/option2'))
+    assert(ui.run.nodeFlow.event.stage=='neow_potions' and #ui.run.nodeFlow.event.potionOffers==3)
+    for _,offer in ipairs(ui.run.nodeFlow.event.potionOffers)do assert(not offer.claimed)end
+    assert(ui.nodeUI:press('eventView/option4'))
+    assert(ui.nodeUI:press('eventView/option1') and ui.mode=='map' and ui.mapUI.navigationEnabled)
+    assert(ui.map.floor==0 and ui.run.nodeFlow.complete and ui.run.neowStatus=='complete' and ui.run.combat==nil and ui.run.rewards==nil)
     assert(ui.run.victories==0 and ui.run.elapsedSeconds==0)
     assert(#ui.run.deck==10 and ui.run.gold==F.Data.rules.player.startingGold)
     assert(#ui.run.relics==#F.Data.rules.player.startingRelics and Run.potionCount(ui.run)==0)
