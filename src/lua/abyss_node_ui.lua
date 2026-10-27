@@ -40,7 +40,7 @@ local reasons = {
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
-local function stagedEvent(id)return id=='neow' or Act2Events.ids[id]end
+local function stagedEvent(id)return id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local events = {
     neow={name='高塔恩赐'},
     joust={name='决斗'},
