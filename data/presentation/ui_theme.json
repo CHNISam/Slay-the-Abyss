@@ -400,6 +400,16 @@
       "speed_potion": "#FFFFFF"
     },
     "relic": {
+      "black_star": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "黑星暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"
+      },
+      "lizard_tail": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "蜥蜴尾巴暂沿用批准主题现有宝箱图标；实际剩余次数由只读详情展示，专属美术与设备验收待完成。"
+      },
       "membership_card": 102026,
       "courier": 102007,
       "smiling_mask": 102031,

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 15:07'
+updated_date: '2026-10-27 20:59'
 due_date: '2026-10-28'
 labels:
   - required
@@ -26,6 +26,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
+  - docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -120,4 +121,6 @@ ordinal: 42000
 2026-10-27 独立源码增量候选新增Snake Skull/DataDisk/Damaru三件真实效果与正式取得渠道。Poison奖励在ApplyPower构造时捕获而非执行时追认；DataDisk按持有顺序入TOP开战Focus；Damaru按原版null来源入BOTTOM回合Mantra，复用真实Divinity/Devotion。相关来源、生命周期/交易回滚、四职业渠道和独立审查通过；集成补齐三件在既有主题的显式占位图标，不冒充专用美术/实机验收。87项组合Node与177组既有Lua回归通过，源池和RNG不改。本批仅补三件，不宣称整个遗物池或所有死亡遗物回调完成；当前新PR完整Quality待证。
 
 2026-10-27运行时重算：以81f3ffd2的实际Run.new入口加载当前JSON与Lua，四职业各75张共300张的基本/升级Capability均通过；战士reward/src/shop各72个唯一ID，其他职业各71个，逐ID双版本无缺定义；四职业各33瓶药水均通过生产available定义检查。第三幕3弱/8强/3精英与三Boss均有生产路由，七普通事件仍缺MindBloom和Mysterious Sphere映射。PR252本次记待合，最终合并由主线程另行核对。证据：docs/evidence/m3-runtime-audit-20261027.json及docs/backlog-details/BACKLOG-UPDATE-20261027.md本轮节。Capability不代表逐牌实际执行或原版完整一致；定义注册和路由不代表自然获取、概率全链或平台通关。本次只更正首页与追加事实，状态、负责人、优先级、依赖和全部验收项保持，不新增勾选；历史数量和旧备注保留原样。
+
+2026-10-28四幕PR262与用户试玩并行的独立遗物切片：BlackStar已按全22件Boss池固定来源真实抽到、经Boss宝箱领取，再真实精英双遗物/独立绿钥匙及晚失败回滚验证；launch gate读取实际传入数据，28项回归通过，尚未合并或进入当前GIL。LizardTail零依赖回调、生产rare定义与获得/致命协调在独立23c50ef6 checkpoint接通，真实Run8组、组件/数据5项、原Fairy战斗6组与事件8组通过，架构209模块1221边、固定Luacheck84历史诊断零新增。源RedSkull血量回调先于复活并走既有TOP动作，Mark外门、最左Fairy优先、Tail永久-2与晚失败回滚保留。独立动作顺序、暂停选择/跨幕存续、旧事件夹具迁移、获得渠道与只读详情仍在复核，详见docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md；不改AC5-8/状态，不将受控获得与离线测试冒充自然取得、完整CI、候选或实机通过。免费路径受限窗口未知，未探测或回退收费模型，native Codex独立叶并行，费用节省未知。
 <!-- SECTION:NOTES:END -->
