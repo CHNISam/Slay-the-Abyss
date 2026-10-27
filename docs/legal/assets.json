@@ -5,7 +5,7 @@
   "categories": {
     "editor-runtime": {
       "status": "export contains editor textbox/mask template code plus MIT runtime; assess these portions only",
-      "evidence": "THIRD_PARTY_NOTICES.md; fixed editor backend/app/lua_scene.py and lua_mask.py"
+      "evidence": "THIRD_PARTY_NOTICES.md; fixed editor backend/app/lua_scene.py and lua_mask.py; art/cards/traveler-geo/PROVENANCE.md"
     },
     "primitive-runtime": {
       "status": "MIT runtime; content rights separate",
@@ -33,7 +33,7 @@
     },
     "game-ip-ai-redraw": {
       "status": "AI-assisted source art manually reconstructed as native geometry; platform-project candidate only; no game-IP sublicense or commercial clearance",
-      "evidence": "art/cards/geo-samples/PROVENANCE.md; art/cards/geo-samples/README.md"
+      "evidence": "art/cards/geo-samples/PROVENANCE.md; art/cards/geo-samples/README.md; art/cards/traveler-geo/PROVENANCE.md"
     }
   },
   "files": {
@@ -1816,6 +1816,50 @@
     "docs/experiments/art-portrait/source.png": {
       "sha256": "c5f92493eadde781bded8b90e853279f6b862abfa659365aed3286778b3b445e",
       "category": "portrait-experiment"
+    },
+    "art/cards/traveler-geo/armaments/asset.json": {
+      "sha256": "f47c789c9ed909cd9f6cab10c927f50d92e3f0f472ba9de46639cbb553ee9b71",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/armaments/native-art.json": {
+      "sha256": "277afd4d54a2a6a2688205c81e29663ff3253d19df72759ead8621935f9a3e0a",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/armaments/native-art.lua": {
+      "sha256": "b120cb5d4d30372611c539b69c8b04af1c8ea5feafbdb561c1eabb37443c8a04",
+      "category": "editor-runtime"
+    },
+    "art/cards/traveler-geo/armaments/preview-native.png": {
+      "sha256": "b7b2cd9c4fdfa3f1d893156405a51afc8b8bd1b65a776a9f704086c97685b2ff",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/armaments/source.png": {
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/catalog.json": {
+      "sha256": "37095140c296ec3af146807d39d1e16e111bbe70d99eb5b8f21e33cab91a8fe4",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/heavy_blade/asset.json": {
+      "sha256": "9e36f2b20aba9080546dbff2a71617274b74bbedde56b4461ebb81366ff07450",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/heavy_blade/native-art.json": {
+      "sha256": "337632a85aa0f1df9b9d077ecb919a67caa92d98175bda39d188c86ad418b2b2",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/heavy_blade/native-art.lua": {
+      "sha256": "db35c898e427d1487766484817384b190407d7cc46ec3a2212ee878db39e1e47",
+      "category": "editor-runtime"
+    },
+    "art/cards/traveler-geo/heavy_blade/preview-native.png": {
+      "sha256": "6fefbbcbdaa503a1df1c04d282dc9f8cac0fdb36fb189e75aa89427b438b30b1",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/heavy_blade/source.png": {
+      "sha256": "f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5",
+      "category": "game-ip-ai-redraw"
     }
   }
 }

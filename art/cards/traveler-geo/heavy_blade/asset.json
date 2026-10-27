@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "card_id": "heavy_blade",
+  "assetRole": "reviewed-formal-source-asset",
+  "files": {
+    "source.png": {
+      "path": "heavy_blade/source.png",
+      "sha256": "f396062d29b6845b58bf0043c1941a2219d9ca501ae6520c8579d555d73008d5",
+      "bytes": 1769446
+    },
+    "prompt.txt": {
+      "path": "heavy_blade/prompt.txt",
+      "sha256": "cc3d1e634a7c9cec0c91b7d03624f8d66f79136dead1bfc14ed8ef3e6f6ad677",
+      "bytes": 2935
+    },
+    "native-art.json": {
+      "path": "heavy_blade/native-art.json",
+      "sha256": "337632a85aa0f1df9b9d077ecb919a67caa92d98175bda39d188c86ad418b2b2",
+      "bytes": 961040
+    },
+    "native-art.lua": {
+      "path": "heavy_blade/native-art.lua",
+      "sha256": "db35c898e427d1487766484817384b190407d7cc46ec3a2212ee878db39e1e47",
+      "bytes": 624748,
+      "originalExport": {
+        "sha256": "0f8ad60f1e7ff4d4d10fe4bb69b62297a92a5e268c1e13d471f9a4c4413ba54b",
+        "bytes": 624749,
+        "removedTrailingLf": 1
+      }
+    },
+    "preview-native.png": {
+      "path": "heavy_blade/preview-native.png",
+      "sha256": "6fefbbcbdaa503a1df1c04d282dc9f8cac0fdb36fb189e75aa89427b438b30b1",
+      "bytes": 30178
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeSize": [
+    144,
+    64
+  ],
+  "previewSize": [
+    576,
+    256
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0,
+      0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "generation": {
+    "tool": "builtin imagegen",
+    "modelAndSeed": "not-exposed-by-tool",
+    "sourceRevision": "compact-heavy-blade/source-01",
+    "nativeRevision": "compact-heavy-blade/native-art",
+    "sourceIsUserUpload": false,
+    "sourceIsRuntimePNG": false,
+    "generationCountForThisSource": 1
+  },
+  "toolchain": {
+    "editorRepository": "https://github.com/1475505/Miliastra-image-editor-webui",
+    "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+    "nativeMethod": "manual-source-coordinate-contour-tracing",
+    "exportBytes": "json-preserved-lua-extra-final-lf-removed",
+    "editorSnapshot": "optional-editing-metadata-not-runtime-truth"
+  },
+  "controls": {
+    "images": 1476,
+    "masks": 1,
+    "artworkTotal": 1477,
+    "nativeGalleryImages": 3,
+    "text": 0,
+    "hostIncluded": false
+  },
+  "mask": {
+    "imageIndices": [
+      1396
+    ],
+    "canvasEditorMask": "editor-only-not-an-extra-runtime-control",
+    "deviceValidation": "unverified"
+  },
+  "galleryResources": [
+    {
+      "id": 106056,
+      "url": "https://oss.070077.xyz/images/sprite/106056.png",
+      "sha256": "62492988816157c79d460d97d32238e16e40b8d72b7c3be192b11f764332c9cb",
+      "bytes": 4484
+    },
+    {
+      "id": 106057,
+      "url": "https://oss.070077.xyz/images/sprite/106057.png",
+      "sha256": "dc2484a8c1dc677deb2f7f28ca33932a83abf7c88ed320d69da903d37c11b963",
+      "bytes": 13807
+    }
+  ],
+  "approval": {
+    "date": "2026-10-27",
+    "status": "owner-reviewed-offline-visual",
+    "scope": [
+      "source-design",
+      "native-redraw",
+      "full-card-offline-preview"
+    ],
+    "productionRuntimeApproved": false
+  },
+  "validation": {
+    "runtimeBinding": "unbound",
+    "officialImport": "not-run",
+    "deviceXYZAndMasks": "unverified",
+    "repeatedEntryCleanup": "unverified",
+    "multiCardPerformance": "not-run",
+    "phonePerformance": "not-run",
+    "fullPoolApproval": "not-approved"
+  },
+  "runtimeFallback": "placeholder-type-icon",
+  "preview": {
+    "kind": "literal-lua-readback",
+    "scale": 4,
+    "editorSnapshotUsed": false,
+    "officialClient": false
+  },
+  "fullCardAssembly": {
+    "oneXArtPixels": "matched-offline",
+    "fourXExactPixels": "failed-quantization-difference",
+    "fourXChangedPixels": 47,
+    "thresholdRelaxed": false,
+    "cardTextIncludedInAsset": false
+  },
+  "references": [
+    {
+      "path": "armaments/source.png",
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "role": "prompt-image-1-style-only",
+      "included": true
+    },
+    {
+      "url": "https://static.spire.moe/image/sts/portraits/red/attack/heavy_blade.png",
+      "sha256": "689b321f0166fec64c9b849dc22733d7be095f55c2a248eade355b1ba40b1603",
+      "role": "prompt-image-2-silhouette-force-contact-method-only",
+      "included": false
+    }
+  ],
+  "provenance": "PROVENANCE.md"
+}
