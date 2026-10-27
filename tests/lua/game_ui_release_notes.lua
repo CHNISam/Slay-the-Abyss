@@ -41,7 +41,7 @@ test('empty baseline is honest, manual-only, ownerless and has no gameplay state
     assert(root:GetChild('menuPanel'):GetChild('codeVersion').text=='代码版本 v0.1.0 · 来源 aaaaaaa')
     ui:update(10);ui:refresh();assert(not ui.releaseNotesUI.visible,'no automatic popup')
     assert(entry(root).click() and ui.releaseNotesUI.visible and ui.run==nil)
-    assert(text(root,'row1')=='暂无已确认的发布记录')
+    assert(text(root,'row1')=='暂无版本记录')
     assert(text(root,'row2')=='当前为代码基线，暂无随附版本说明')
     assert(text(root,'date')=='' and text(root,'page')=='第 1 / 1 页')
     Snapshot.capture('notice-empty',root,F.Layout)
@@ -104,7 +104,7 @@ test('prepared current notice is separate, never published history, with honest 
     Snapshot.capture('notice-current',root,F.Layout)
     assert(text(root,'build')=='代码版本 v0.1.0 · 来源 aaaaaaa · 本地修改')
     assert(not root:GetChild('releaseNotesPanel'):GetChild('older').visible)
-    assert(hit(root,'history').click() and text(root,'row1')=='暂无已确认的发布记录')
+    assert(hit(root,'history').click() and text(root,'row1')=='暂无版本记录')
     assert(hit(root,'close').click() and entry(root).click() and ui.releaseNotesUI.view=='current','without any published history reopen defaults to the clearly labeled bundle notes')
 end)
 
@@ -193,5 +193,15 @@ test('controller isolates focus, cancels to the originating menu entry and rejec
     ui:update(0);assert(focus.navigationListeners.cancel())
     assert(not ui.releaseNotesUI.visible and ui.controller.scope=='menu' and focus==entry(root))
 end)
+
+test('retro source versions use version dates instead of claiming platform publication',function()
+    notes({{version='v0.10.1',versionDate='2026-10-27',added={},improved={},fixed={'修复战斗顺序'}}})
+    local ui,root=F.fixture()
+    assert(entry(root).click() and text(root,'version')=='v0.10.1')
+    assert(text(root,'date')=='版本日期 2026-10-27 · 版本记录 1 / 1')
+    assert(text(root,'row1')=='修复 · 修复战斗顺序')
+    assert(hit(root,'close').click() and ui.mode=='menu')
+end)
+
 Narrative.releaseNotes=original
 print('LUA_GAME_UI_RELEASE_NOTES_PASS '..count)
