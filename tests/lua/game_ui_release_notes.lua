@@ -81,7 +81,8 @@ test('latest confirmed history is default and version navigation resets complete
     while hit(root,'next').interactable do
         assert(hit(root,'next').click());for _,line in ipairs(page(root))do actual[#actual+1]=line end
     end
-    assert(#actual==18 and text(root,'page')=='第 3 / 3 页')
+    local pages=math.ceil(18/F.Theme.layout.releaseNotes.rows)
+    assert(#actual==18 and text(root,'page')=='第 '..pages..' / '..pages..' 页')
     for i=1,16 do assert(actual[i]=='新增 · '..many[i])end
     assert(actual[17]=='优化 · 测试虚构优化' and actual[18]=='修复 · 测试虚构修复')
     assert(not hit(root,'next').click(),'end of content must not wrap')
@@ -90,7 +91,7 @@ test('latest confirmed history is default and version navigation resets complete
     assert(hit(root,'newer').click() and text(root,'row1')=='新增 · '..many[1])
     assert(hit(root,'next').click() and hit(root,'previous').click())
     assert(hit(root,'close').click() and entry(root).click())
-    assert(text(root,'version')=='v9.9.2' and text(root,'page')=='第 1 / 3 页','reopen resets to actual latest')
+    assert(text(root,'version')=='v9.9.2' and text(root,'page')=='第 1 / '..pages..' 页','reopen resets to actual latest')
 end)
 
 test('prepared current notice is separate, never published history, with honest date and dirty source',function()
@@ -224,6 +225,9 @@ test('all fourteen bundled source versions navigate every page and return safely
     assert(not start.click() and not ui:start() and ui.run==nil)
     local function verify(i)
         local notice=original.history[i]
+        assert(text(root,'developmentTitle')=='开发透明 · 源码公开')
+        assert(text(root,'developmentSummary')=='代码已公开到开源社区。')
+        assert(text(root,'developmentLicense')=='项目原创代码采用 PolyForm Noncommercial 1.0.0 非商用许可，第三方内容遵循各自授权。')
         assert(text(root,'version')==notice.version and ui.releaseNotesUI.page==1)
         assert(text(root,'date')=='版本日期 '..notice.versionDate..' · 版本记录 '..i..' / '..total)
         local expected={}
