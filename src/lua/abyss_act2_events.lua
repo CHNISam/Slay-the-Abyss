@@ -6,13 +6,15 @@ local Purge=require('abyss_living_wall')
 local Random=require('abyss_sts_random')
 local Basics=require('abyss_back_to_basics')
 local Joust=require('abyss_joust_event')
+local Library=require('abyss_library_event')
 local Ghosts=require('abyss_ghosts_event')
-local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,ghosts=true}}
+local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true}}
 local GOLD_COST=75
 
 function M.prepare(run,event)
     if event.id=='joust' then return Joust.prepare(run,event) end
     if event.id=='ghosts' then return Ghosts.prepare(run,event) end
+    if event.id=='the_library' then return Library.prepare(run,event) end
     if event.id=='back_to_basics' then return Basics.prepare(run,event) end
     event.stage='intro'
     if event.id=='addict' then event.body='一位商贩提供一件遗物，价格是85金币。';return end
@@ -26,6 +28,7 @@ end
 function M.options(run,event)
     if event.id=='joust' then return Joust.options(run,event) end
     if event.id=='ghosts' then return Ghosts.options(run,event) end
+    if event.id=='the_library' then return Library.options(run,event) end
     if event.id=='back_to_basics' then return Basics.options(run,event) end
     if event.id=='addict' then
         if event.stage=='intro' then
@@ -133,6 +136,7 @@ end
 -- opens even an empty mandatory grid; its empty-group resolution is unproven.
 -- Keep this boundary pending instead of inventing zero-choice success/refunds.
 function M.view(run,event)
+    if event.id=='the_library' then return Library.view(run,event) end
     if event.id=='back_to_basics' then return Basics.view(run,event) end
     if event.stage~='choose_card' then return end
     event.purgeCards=Purge.purgeCards(run)
@@ -141,6 +145,7 @@ function M.view(run,event)
 end
 
 function M.choose(run,flow,choice,uid,upgradeable)
+    if flow.event.id=='the_library' then return Library.choose(run,flow,choice,uid) end
     if flow.event.id=='joust' then return Joust.choose(run,flow,choice,uid) end
     local event=flow.event
     if event.id=='ghosts' then return Ghosts.choose(run,flow,choice,uid) end

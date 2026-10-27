@@ -469,6 +469,33 @@
       "rarity": "special",
       "trigger": "hooks",
       "effects": []
+    },
+    {
+      "id": "snake_skull",
+      "sourceId": "Snake Skull",
+      "name": "异蛇头骨",
+      "description": "每当你对其他目标施加中毒时，额外施加1层中毒。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "data_disk",
+      "sourceId": "DataDisk",
+      "name": "数据磁盘",
+      "description": "每场战斗开始时，获得1层集中。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "damaru",
+      "sourceId": "Damaru",
+      "name": "手摇鼓",
+      "description": "每个你的回合开始时，获得1层真言。",
+      "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
     }
   ]
 }

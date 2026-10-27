@@ -8,6 +8,7 @@ local function select(enemy,id)
 end
 function M.advance(state,enemy,random)
  local policy=enemy.ai.policy
+ if policy=='writhing_mass'then return require('abyss_writhing_mass').advance(state,enemy,random)end
  assert(policy=='orb_walker'or policy=='repulsor'or policy=='spiker'or policy=='exploder'
   or policy=='maw'or policy=='spire_growth'or policy=='transient','unsupported Act3 AI')
  local n=random(state,100)-1
@@ -52,6 +53,7 @@ function M.advance(state,enemy,random)
  select(enemy,id)
 end
 function M.initialize(state,enemy,random)
+ if enemy.ai.policy=='writhing_mass'then return require('abyss_writhing_mass').initialize(state,enemy,random)end
  enemy.act3Last,enemy.act3Previous=nil,nil
  enemy.spikeCount=enemy.ai.policy=='spiker'and 0 or nil
  enemy.exploderTurns=enemy.ai.policy=='exploder'and 0 or nil
@@ -60,6 +62,7 @@ function M.initialize(state,enemy,random)
  M.advance(state,enemy,random)
 end
 function M.preBattle(state,enemy)
+ if enemy.ai.policy=='writhing_mass'then return require('abyss_writhing_mass').preBattle(state,enemy,A)end
  local policy=enemy.ai.policy
  if policy=='orb_walker'then A.applyPower(state,enemy,'generic_strength_up',3,enemy)
  elseif policy=='spiker'then A.applyPower(state,enemy,'thorns',3,enemy)
@@ -69,6 +72,7 @@ function M.preBattle(state,enemy)
  else assert(policy=='repulsor'or policy=='maw'or policy=='spire_growth','unsupported Act3 pre-battle policy')end
 end
 function M.beforeAction(_,enemy,_,intent)
+ if enemy.ai.policy=='writhing_mass'then return require('abyss_writhing_mass').beforeAction(enemy,intent)end
  if enemy.ai.policy=='transient'then
   enemy.transientCount=enemy.transientCount+1
   local nextMove=Copy(enemy.intents[1]);nextMove.effects[1].value=30+enemy.transientCount*10

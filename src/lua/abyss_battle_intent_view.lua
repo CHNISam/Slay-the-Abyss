@@ -14,7 +14,7 @@ local effectKinds = { damage = "attack", block = "defend", gainStatus = "buff",
     applyStatus = "debuff", makeTempCardInDiscard = "debuff", enemyVampireDamage = "attack",
     enemyHealAll = "buff", enemyStrengthAll = "buff", enemyCleanse = "buff",
     enemyRally = 'buff', enemyEncourage = 'buff', enemyTorchSpawn = 'buff', enemyTorchRevive = 'buff',
-    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff', enemyBurnBoth='debuff', enemyDazedDraw='debuff' }
+    enemyBronzeSpawn = 'buff', enemyStasis = 'debuff', writhingParasite='debuff', enemyBurnBoth='debuff', enemyDazedDraw='debuff',awakenedVoid='debuff' }
 
 -- Mixed moves show the first other effect kind in the original icon priority.
 function M.intentBadge(intent)
@@ -33,6 +33,12 @@ local function special(kind, icon, text, note)
 end
 
 local specialIntents = {
+    unknown = function(_,enemy)
+        if enemy.ai and enemy.ai.kind=='awakened_one'then
+            return special('unknown','unknown','重生：本次行动恢复至300点生命，随后进入第二形态。')
+        end
+        return special('unknown','unknown','下一步行动未知。')
+    end,
     escape = function()
         return special("escape", "unknown", "逃离战场，不返还已窃取的金币。")
     end,
@@ -219,7 +225,13 @@ local function groupEffect(v,effect)
     else name,text='净化','移除自身全部负面状态及暂时失去力量的状态' end
     act2Row(v,name,text,'buff')
 end
-local effects = { damage = attackEffect, damageAll = attackEffect, block = blockEffect,
+local function parasiteEffect(v)
+    act2Row(v,'寄生','永久获得一张寄生诅咒；本场战斗的牌堆不加入此牌','debuff','整场战斗只施放一次；御守可阻止获得')
+end
+local function awakenedVoidEffect(v)
+    act2Row(v,'虚空','将1张虚空放入抽牌堆的随机位置','debuff','抽到时失去1点能量；虚无')
+end
+local effects = { writhingParasite=parasiteEffect,awakenedVoid=awakenedVoidEffect,damage = attackEffect, damageAll = attackEffect, block = blockEffect,
     enemyBurnBoth=burnBothEffect,enemyDazedDraw=dazedDrawEffect,
     enemyVampireDamage=vampireEffect,enemyStasis=stasisEffect,
     enemyRally=summonEffect,enemyTorchSpawn=summonEffect,enemyTorchRevive=summonEffect,

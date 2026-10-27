@@ -2,6 +2,7 @@
 -- Reuses native controls and OnUpdate; no coroutine, timers, assets or Tween callbacks.
 local Theme = require("abyss_theme")
 local EnemyView=require('abyss_battle_enemy_view')
+local Actors=require('abyss_actor')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
 local ROW = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2
@@ -341,7 +342,7 @@ function M.new(stage, platform, present, complete)
         for k, v in pairs(before) do self.shadow[k] = v end
         self.deaths = {}
         for _, a in ipairs(before.enemies) do
-            if a.hp <= 0 then self.deaths[a.id] = true
+            if a.hp <= 0 and not Actors.isPresent(a)then self.deaths[a.id] = true
             else self.dying[a.id] = nil end
         end
         self.queue, self.index, self.elapsed = {}, 0, 0
@@ -374,7 +375,7 @@ function M.new(stage, platform, present, complete)
                 for _, a in ipairs(previous.enemies) do priorActors[a.id] = a end
                 for _, a in ipairs(entry.frame.enemies) do
                     local prior = priorActors[a.id]
-                    if prior and prior.hp > 0 and a.hp <= 0 then pending[#pending + 1] = a.id end
+                    if prior and prior.hp > 0 and a.hp <= 0 and not Actors.isPresent(a)then pending[#pending + 1] = a.id end
                 end
                 previous = entry.frame
             end

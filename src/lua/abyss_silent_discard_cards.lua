@@ -87,7 +87,7 @@ function M.gainEnergyIfDiscard(state, value)
     assert(value == 2, "unsupported discard refund")
     if not Actors.isActive(state.player) then return false end
     local enemyAlive = false
-    for _, enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then enemyAlive = true end end
+    for _, enemy in ipairs(state.enemies) do if Actors.isPresent(enemy) then enemyAlive = true end end
     if not enemyAlive or counter(state) == 0 then return false end
     assert(integer(state.energy) and state.energy <= MAX - value, "discard refund overflow")
     state.energy = state.energy + value

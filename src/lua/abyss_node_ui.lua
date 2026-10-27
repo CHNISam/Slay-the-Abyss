@@ -48,6 +48,7 @@ local events = {
     mausoleum={name='古墓'},
     addict={name='瘾君子'},
     back_to_basics={name='古老文字'},
+    the_library={name='图书馆'},
     tomb_red_mask={name='红面具领主之墓',body='面具守护着陵墓中的财宝。',leave='你离开了陵墓。'},
     sensory_stone={name='追忆石碑',body='石中封存着记忆。',leave='你离开了石头。'},
     winding_halls={name='迷途回廊',body='曲折通道等待着你的选择。',leave='你离开了通道。'},
@@ -263,6 +264,25 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local flowId, flowFloor, eventId = sourceFlow.id, sourceFlow.floor, sourceEvent.id
         local selected, mode, picker, page = self.selected, self.mode, self.picker, self.pickPage
         local original, handler, retired = entry.handler, nil, false
+        local offers, offerEpoch, offerSnapshot = sourceEvent.offers, sourceEvent.offerEpoch, {}
+        if eventId=='the_library' then
+            for i, offered in ipairs(offers or {}) do
+                offerSnapshot[i]={owner=offered,cardId=offered.cardId,sourceCardId=offered.sourceCardId,
+                    rarity=offered.rarity,upgraded=offered.upgraded,upgrades=offered.upgrades,offerToken=offered.offerToken}
+            end
+        end
+        local function sameOffers()
+            if eventId~='the_library' then return true end
+            if sourceEvent.offers~=offers or sourceEvent.offerEpoch~=offerEpoch or #(offers or {})~=#offerSnapshot then return false end
+            for i, expected in ipairs(offerSnapshot) do
+                local offered=offers[i]
+                if offered~=expected.owner then return false end
+                for _, field in ipairs({'cardId','sourceCardId','rarity','upgraded','upgrades','offerToken'})do
+                    if offered[field]~=expected[field]then return false end
+                end
+            end
+            return true
+        end
         local box, owners = root, {}
         for part in key:gmatch("[^/]+") do
             local owner = box
@@ -298,6 +318,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 and sourceFlow.id == flowId and sourceFlow.floor == flowFloor and sourceFlow.type == "event"
                 and sourceEvent.id == eventId and sourceEvent.stage == stage and sourceEvent.choice == choice
                 and self.selected == selected and self.mode == mode and self.picker == picker and self.pickPage == page
+                and sameOffers()
         end
         local function observe()
             if owned() then return true end
@@ -392,8 +413,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local transform = self.picker=='living_change' or self.picker=='act1_change'
             or self.picker=='neow_card' and node.event.selectedType:match('^TRANSFORM')~=nil
         local dream=self.picker=='dream_catcher'
-        local rows = dream and self.restRows or upgrade and self.upgradeRows or self.removeRows
-        local selected = result and result.card or self.selected and find(rows, self.selected, "uid")
+        local library=self.picker=='library_offer'
+        local acquiring=dream or library
+        local rows = library and self.offerRows or dream and self.restRows or upgrade and self.upgradeRows or self.removeRows
+        local selected = result and result.card or self.selected and find(rows, self.selected, library and 'offerToken' or 'uid')
         local pageCount = math.max(1, math.ceil(#rows / PICK_PAGE))
         self.pickPage = math.max(1, math.min(self.pickPage or 1, pageCount))
         self.pageCount = pageCount
@@ -402,7 +425,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             local box = picker:GetChild("card" .. i)
             show(box, instance)
             if instance then
-                local owned = not dream and find(self.run.deck, instance.uid, "uid") or nil
+                local owned = not acquiring and find(self.run.deck, instance.uid, "uid") or nil
                 local ambiguous = false
                 if self.picker=='beggar_purge' or self.picker=='basics_purge' then
                     local matches=0
@@ -410,11 +433,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                     ambiguous=matches~=1
                     if ambiguous then owned=nil end
                 end
-                local available = not ambiguous and (dream or owned ~= nil and (not upgrade or find(node.upgradeCards, instance.uid, "uid") ~= nil))
-                local stamp = ambiguous and "编号异常" or not dream and (not owned and "已移除" or (upgrade and owned.upgraded and not card(instance.cardId).repeatable and "已升级")) or nil
+                local available = not ambiguous and (acquiring or owned ~= nil and (not upgrade or find(node.upgradeCards, instance.uid, "uid") ~= nil))
+                local stamp = ambiguous and "编号异常" or not acquiring and (not owned and "已移除" or (upgrade and owned.upgraded and not card(instance.cardId).repeatable and "已升级")) or nil
                 fillCard(box, instance.cardId, owned and owned.upgraded or instance.upgraded,
-                    { dim = not available, veil = stamp ~= nil, stamp = stamp, selected = self.selected == instance.uid,instance=owned or instance })
-                local uid = instance.uid
+                    { dim = not available, veil = stamp ~= nil, stamp = stamp, selected = self.selected == (library and instance.offerToken or instance.uid),instance=owned or instance })
+                local uid = library and instance.offerToken or instance.uid
                 action("pickerView/card" .. i, available, function()
                     self.selected, self.notice = uid, "" self:render() return true
                 end, stamp and ("这张卡牌" .. stamp) or "这张卡牌无法升级")
@@ -429,7 +452,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             .. (self.swipeEnabled and " · 左右拖动翻页" or "")) or ""
         show(before, upgrade and selected) show(after, upgrade and selected)
         show(picker:GetChild("arrow"), upgrade and selected) show(target, not upgrade and selected)
-        picker:GetChild("empty").text = selected and "" or (dream and '点选一张卡牌加入牌组，也可以跳过' or upgrade and "点选上方卡牌，查看升级前后对比" or transform and '点选上方要变换的卡牌' or "点选上方要移除的卡牌")
+        picker:GetChild("empty").text = selected and "" or (library and '点选一张卡牌加入牌组，不能跳过' or dream and '点选一张卡牌加入牌组，也可以跳过' or upgrade and "点选上方卡牌，查看升级前后对比" or transform and '点选上方要变换的卡牌' or "点选上方要移除的卡牌")
         picker:GetChild("label").text, picker:GetChild("hint").text = "", ""
         if selected and upgrade then
             local display = self.presentation[selected.cardId] or {}
@@ -443,8 +466,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             picker:GetChild("hint").text = changed and ("费用 " .. display.cost .. " → " .. display.upgradeCost) or "效果增强"
         elseif selected then
             fillCard(target, selected.cardId, selected.upgraded, { stamp = result and "已移除" or nil, dim = result ~= nil, veil = result ~= nil,instance=selected })
-            picker:GetChild("label").text = dream and '将加入牌组' or transform and "将变换为随机的新卡牌" or result and "已移除" or "将从牌组移除"
-            picker:GetChild("hint").text = dream and ('牌组 '..#self.run.deck..' → '..(#self.run.deck+1)..' 张') or transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
+            picker:GetChild("label").text = acquiring and '将加入牌组' or transform and "将变换为随机的新卡牌" or result and "已移除" or "将从牌组移除"
+            picker:GetChild("hint").text = acquiring and ('牌组 '..#self.run.deck..' → '..(#self.run.deck+1)..' 张') or transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#self.run.deck + (result and 1 or 0)) .. " → " ..
                 (#self.run.deck - (result and 0 or 1)) .. " 张"
         end
         if self.picker=='neow_card'then return '开局恩赐 · 还需选择 '..node.event.selection.count..' 张卡牌，不能取消' end
@@ -455,6 +478,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             end
             return '已支付75金币 · 必须移除一张非瓶装、可清除的永久牌，不能取消'
         end
+        if library then return '图书馆 · 从20张不同的卡牌中选择一张，不能跳过' end
         if dream then return '捕梦网 · 选择一张卡牌加入牌组，或跳过奖励' end
         if upgrade then return "选择一张卡牌升级 · 剩余 " .. (result and 0 or node.upgradesLeft) .. " 次" end
         if transform then return '选择一张卡牌变换' end
@@ -596,7 +620,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     local function bindTreasureChoice(key, box, source, choice, name)
         local sourceRun, sourceMap, sourceFlow, sourceView = self.run, self.map, self.run.nodeFlow, self.view
         local sourceReward, sourceParent = sourceFlow.reward, box.parent
-        local sourceLink = sourceReward.sapphireKey
+        local sourceLink, sourceItems = sourceReward.sapphireKey, sourceReward.items
         local handler
         local function owned()
             local control, links = root, {}
@@ -622,7 +646,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
                 and self.run == sourceRun and self.map == sourceMap and self.view == sourceView
                 and self.mode == "main" and self.opened == true and self.run.nodeFlow == sourceFlow
                 and self.run.roomGeneration == source.roomGeneration and self.run.act == source.act
-                and sourceFlow.reward == sourceReward and sourceReward.sapphireKey == sourceLink
+                and sourceFlow.reward == sourceReward and sourceReward.sapphireKey == sourceLink and sourceReward.items == sourceItems
                 and sourceReward.relicId == source.relicId and sourceLink and sourceLink.relicId == source.relicId
                 and entry and entry.enabled and entry.handler == handler
         end
@@ -733,7 +757,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             self.upgradeRows=node.upgradeCards
         end
         if active and node.type=='event' and Act2Events.ids[node.event.id] then
-            if (node.event.id=='beggar' or node.event.id=='back_to_basics') and node.event.stage=='choose_card' then
+            if node.event.id=='the_library' and node.event.stage=='choose_offer' then
+                self.mode,self.picker='picker','library_offer'
+                self.offerRows=Combat.copy(node.event.offers)
+                if not find(self.offerRows,self.selected,'offerToken')then self.selected=nil end
+            elseif (node.event.id=='beggar' or node.event.id=='back_to_basics') and node.event.stage=='choose_card' then
                 self.mode,self.picker='picker',node.event.id=='beggar' and 'beggar_purge' or 'basics_purge'
                 self.removeRows=Combat.copy(node.event.purgeCards)
                 local matches=0
@@ -850,7 +878,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             if dream then
                 confirmLabel,backLabel='选择此牌','跳过卡牌'
                 skipRestReward=function()return restReward(0)end
-            elseif self.picker=='neow_card'then
+            elseif self.picker=='neow_card' or self.picker=='library_offer'then
                 confirmLabel='确认选择'
             elseif self.picker=='beggar_purge' or self.picker=='basics_purge' then
                 confirmLabel='确认移除'
@@ -869,7 +897,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             confirmOk = selected ~= nil
             confirmFn = function()
                 if dream then return restReward(selected) end
-                if self.picker=='neow_card'then
+                if self.picker=='neow_card' or self.picker=='library_offer'then
                     return commit('chooseEvent','select',function()
                         self.selected=nil;return self.run.nodeFlow.event.body
                     end,selected)

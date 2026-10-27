@@ -1,0 +1,352 @@
+{
+  "scope": "Awakened One A0 encounter source slice; not complete M3 or full relic interactions",
+  "baseSha": "0a773c1c8e736b564514c2c61adeaa6af541f023",
+  "productionDigestSha256": "8cbf480e9e95aab78832b0e201b1161eb582da71ed096b2e4b07b04a1f9ae89a",
+  "productionFileCount": 33,
+  "files": [
+    {
+      "path": "config/architecture.json",
+      "sha256": "f7af0e19c16ff1b3a13950a3b42a22c8e478cdc7967aebc6e084ee8c1e8bcacd",
+      "bytes": 14187
+    },
+    {
+      "path": "config/luacheck-baseline.json",
+      "sha256": "6389923f9a1abec12c84233d408ad74af554e2beb95f2efe7b50291a00e10f2a",
+      "bytes": 22990
+    },
+    {
+      "path": "docs/evidence/awakened-one-mutations.json",
+      "sha256": "6151fce185d9b899b445edff2db5867e750c866c6553be13d5d8ae425e429498",
+      "bytes": 12871
+    },
+    {
+      "path": "docs/evidence/awakened-one-source.json",
+      "sha256": "3a99b259fbe45a163699156495aa87357cf787277a3414c030abfd50323ba933",
+      "bytes": 13808
+    },
+    {
+      "path": "docs/evidence/awakened-one-static-relocations.json",
+      "sha256": "c2d2a81374f4592949e4ee7802323d21a3d6b0a8cb23c3e116e824db5f58ae3c",
+      "bytes": 4001
+    },
+    {
+      "path": "docs/reviews/AWAKENED-ONE-SOURCE-20261027.md",
+      "sha256": "c8924f0f214e48589798f7008a9a9b326e07782dba7aae6bae82befcdd642c16",
+      "bytes": 9712
+    },
+    {
+      "path": "src/lua/abyss_act2_powers.lua",
+      "sha256": "932be96c2a0d7bdc084191dcd8fcbebeb4b33600715b73dc462114281cbca80d",
+      "bytes": 4314
+    },
+    {
+      "path": "src/lua/abyss_act2_stasis.lua",
+      "sha256": "0a1b6da54329fe7c00cfb45bb57dfc1ff53663cd7437e1bb17b35f702181466a",
+      "bytes": 2718
+    },
+    {
+      "path": "src/lua/abyss_act3_bosses.lua",
+      "sha256": "fa9c93bbfc86e521e4e0db84b0e7a59edef53b1c2a816a9903cb7c5158b94886",
+      "bytes": 2286
+    },
+    {
+      "path": "src/lua/abyss_actor.lua",
+      "sha256": "9c197d63f1fa3f1b2ec742360e20166d50b87c4d1fbaf78d4d76e7fe40d5729d",
+      "bytes": 38590
+    },
+    {
+      "path": "src/lua/abyss_awakened_one.lua",
+      "sha256": "0d8fbb76c5db90539e995aabd2f02660184481463b842045b5687b38ab42de36",
+      "bytes": 8216
+    },
+    {
+      "path": "src/lua/abyss_battle_enemy_view.lua",
+      "sha256": "8eb6a8875bffd9096d8de2209e536783d6779185ba6dff2bb4f962bed97feaff",
+      "bytes": 1936
+    },
+    {
+      "path": "src/lua/abyss_battle_info_view.lua",
+      "sha256": "af1fa9a1ed340204e3a47488efd5dcab08182a2cbdcc6e44c9ab26744fba0fed",
+      "bytes": 11983
+    },
+    {
+      "path": "src/lua/abyss_battle_intent_view.lua",
+      "sha256": "875375dccc54c7461e027dc5f1f0a38172130b0b8170cf3c4643b5e09a7ba4a6",
+      "bytes": 13653
+    },
+    {
+      "path": "src/lua/abyss_battle_ui.lua",
+      "sha256": "c402089af428407ae906e34ee532963fab5214e7098c0335202de37da7e8cc28",
+      "bytes": 96668
+    },
+    {
+      "path": "src/lua/abyss_card_actions.lua",
+      "sha256": "ecc270ea6430f49ab6baa7df65a92b6c0dc1bb94fcab74255aa969e683a6f67a",
+      "bytes": 22463
+    },
+    {
+      "path": "src/lua/abyss_card_triggers.lua",
+      "sha256": "f82285a2faf0a5b0a6fbff6f5364747fe6d24d2a424d3e002325c78f64f3ccf3",
+      "bytes": 15103
+    },
+    {
+      "path": "src/lua/abyss_colorless_cards.lua",
+      "sha256": "5576274ef47cf51358e0fc43d4810d34f9e80ab828b271008ceb6f0be1aa52d4",
+      "bytes": 28427
+    },
+    {
+      "path": "src/lua/abyss_combat.lua",
+      "sha256": "3affd35417dc1d3f4a8da111d7a8df69432e7c0169106211d9a8c0ff02659459",
+      "bytes": 128450
+    },
+    {
+      "path": "src/lua/abyss_discard.lua",
+      "sha256": "5742fbad7b6daf65b324ff9c0143d458f1fb864c006237ef5b150f4e34524265",
+      "bytes": 11323
+    },
+    {
+      "path": "src/lua/abyss_effects.lua",
+      "sha256": "af630f112ccfe705ccaddda89a254d40a5e098830c7c7f3334cf055a1d82bac5",
+      "bytes": 34867
+    },
+    {
+      "path": "src/lua/abyss_encounter_formation.lua",
+      "sha256": "4b89effc067e799e8ed9bf396fd3dbb6d9900dc69a02168d73aeefe2449f9288",
+      "bytes": 5477
+    },
+    {
+      "path": "src/lua/abyss_enemy_ai.lua",
+      "sha256": "6398f0215c0e8ceb3ebb22d6731153227abc884d57557d2e9e16056363f092eb",
+      "bytes": 14886
+    },
+    {
+      "path": "src/lua/abyss_exhaust.lua",
+      "sha256": "a1bec39f4e9b2945f55f58bdcd0bef796313877694a71d4a8e842f0c4c1aa4eb",
+      "bytes": 5950
+    },
+    {
+      "path": "src/lua/abyss_feedback.lua",
+      "sha256": "1fa56711aed5fb7a8c379e81ead997ca80c772f3e3b9f683b68303738fde0d48",
+      "bytes": 35289
+    },
+    {
+      "path": "src/lua/abyss_hand_choice.lua",
+      "sha256": "4779464a8dbdb4e8531071e3c61b2217a8ed99aec3788275aba10e054a0e2d76",
+      "bytes": 6443
+    },
+    {
+      "path": "src/lua/abyss_mantra.lua",
+      "sha256": "371d7a8f86d29a0b58b5d4efaeae6033cc89813a1b3b61d8d8def8bbc8e67b71",
+      "bytes": 6404
+    },
+    {
+      "path": "src/lua/abyss_orb_powers.lua",
+      "sha256": "7fd3fe6cad6a519c352403f65276caaae6eccc49c2a59bae64fd58de3a3ab811",
+      "bytes": 6670
+    },
+    {
+      "path": "src/lua/abyss_orbs.lua",
+      "sha256": "8db88dc31db3e60e779e737cbb49b776f817ba3fdc945b8f7779fbb35b3442bf",
+      "bytes": 10730
+    },
+    {
+      "path": "src/lua/abyss_pile_choice.lua",
+      "sha256": "a0d0e6cec6cc92b3e1d59425e712cdf1c0fb183fb2cc88653daf8931ba39edb5",
+      "bytes": 12107
+    },
+    {
+      "path": "src/lua/abyss_power_order.lua",
+      "sha256": "114ea710c6427e93bbc00664f4b6f11db1b3da9e82027c01d9d80b22e0e5fd54",
+      "bytes": 1674
+    },
+    {
+      "path": "src/lua/abyss_relic_hooks.lua",
+      "sha256": "90a7afbfe2c0583078988add316ee43d3a4da4609d63862957630b1bf045c2ab",
+      "bytes": 18353
+    },
+    {
+      "path": "src/lua/abyss_scry.lua",
+      "sha256": "786a5b20a63abaf08f1251402238e410fedf4aefab47abd75a38ab9fc3f1d4a5",
+      "bytes": 5897
+    },
+    {
+      "path": "src/lua/abyss_silent_discard_cards.lua",
+      "sha256": "b64414afecc1ba0026c649fa794f7923656ba737e282c3933f3d2c8e87973159",
+      "bytes": 4714
+    },
+    {
+      "path": "src/lua/abyss_silent_final_cards.lua",
+      "sha256": "a8648acd0e294f142be20bc4e1561ceded10c1455ec8b493cc96c7e1f6d36fef",
+      "bytes": 17651
+    },
+    {
+      "path": "src/lua/abyss_turn_powers.lua",
+      "sha256": "659a32aea7a726eef5aafb961702d8f99f3ffc705ba57d55aa52a901746f7dd3",
+      "bytes": 9685
+    },
+    {
+      "path": "src/lua/abyss_warrior_strength_cards.lua",
+      "sha256": "222eca8efdd2568cd81dd21c1cb3b2f738e7326ac5d37ae33f66cca3be6176da",
+      "bytes": 9696
+    },
+    {
+      "path": "tests/awakened-one.test.mjs",
+      "sha256": "14b4d4674fc3c21c1fee1a26478f1a6f73ec9474213722e8b295c346c5fcd90e",
+      "bytes": 1055
+    },
+    {
+      "path": "tests/lua/awakened_one.lua",
+      "sha256": "5519a09872afbd4ec1652297c99b90f9e8833d362a54d200d9eb75eba4e49bf7",
+      "bytes": 16238
+    },
+    {
+      "path": "tests/lua/awakened_one_presence.lua",
+      "sha256": "3210391e3e8b85ad6b57a809a6ca349471904e69702513c79380196e2c57674d",
+      "bytes": 7757
+    },
+    {
+      "path": "tests/lua/awakened_one_ui.lua",
+      "sha256": "880fa6dc16efe949e2104ef514caceb64e4873c38af19b2b080cca7389f89e96",
+      "bytes": 2946
+    }
+  ],
+  "validation": {
+    "ownTests": {
+      "command": "node --test --test-concurrency=1 tests/awakened-one.test.mjs",
+      "nodeTests": 3,
+      "sourceContractGroups": 38,
+      "nonTargetContinuationGroups": 13,
+      "generatedControlFixture": "tests/lua/awakened_one_ui.lua",
+      "status": "passed",
+      "milliseconds": 8399
+    },
+    "adjacentNodeSuites": {
+      "command": "node --test --test-concurrency=1 tests/awakened-one.test.mjs tests/donu-deca.test.mjs tests/act1-bosses.test.mjs tests/death-power-order.test.mjs tests/act2-stasis-source-order.test.mjs tests/bosses-intent-ui.test.mjs",
+      "status": "passed",
+      "observedNodeTests": 7,
+      "note": "This earlier run included the then-current own2 Node tests; final own3 result is recorded separately. R2 only changes the Awakened death Block boundary; source/continuation/control fixtures and death-order/Donu-Deca were rerun after it. The other related fixtures preceded R2 and their non-Awakened source paths are unchanged."
+    },
+    "relatedLuaFixtures": {
+      "runner": "runLua from scripts/test-lua.mjs, serial, unchanged default per-fixture deadlines",
+      "files": [
+        "tests/lua/card_triggers.lua",
+        "tests/lua/defect_orb_powers.lua",
+        "tests/lua/watcher_mantra.lua",
+        "tests/lua/turn_power_plans.lua",
+        "tests/lua/silent_discard_build.lua",
+        "tests/lua/warrior_strength_build.lua",
+        "tests/lua/atomic_play.lua",
+        "tests/lua/feedback_events.lua",
+        "tests/lua/feedback_polish.lua",
+        "tests/lua/feedback_start_recovery.lua",
+        "tests/lua/feedback_continuous_cards.lua",
+        "tests/lua/status_help.lua",
+        "tests/lua/pile_choice.lua",
+        "tests/lua/common_relic_final.lua",
+        "tests/lua/warrior_status_build.lua",
+        "tests/lua/watcher_scry.lua",
+        "tests/lua/warrior_choices.lua",
+        "tests/lua/silent_discard.lua",
+        "tests/lua/warrior_exhaust.lua",
+        "tests/lua/defect_orbs.lua",
+        "tests/lua/colorless_actions.lua",
+        "tests/lua/colorless_powers.lua"
+      ],
+      "count": 22,
+      "status": "passed",
+      "note": "MISSING_SCRIPT probes in related-corrective-gates.log were not executed and are not counted; only its three actual PASS fixtures are included."
+    },
+    "architecture": {
+      "command": "npm run check:architecture",
+      "status": "passed",
+      "modules": 174,
+      "edges": 1006
+    },
+    "static": {
+      "command": "npm run check:lua-static",
+      "status": "passed",
+      "pinnedLuacheck": "1.2.0",
+      "historicalWarnings": 89,
+      "newWarnings": 0,
+      "battleRenderMaximum": 10,
+      "scopedFunctionMaximum": 15,
+      "warningRelocationsOnly": 9
+    },
+    "sensitivity": {
+      "redBaseline": "Original0a resolver test fails its own source availability assertion",
+      "realMutantsKilled": 18,
+      "realMutantsTotal": 18,
+      "perFixtureTimeoutMilliseconds": 30000,
+      "sourceFilesUnchanged": true
+    },
+    "diffWhitespace": {
+      "command": "git diff --check",
+      "status": "passed"
+    },
+    "adjacentR2DeathSuites": {
+      "command": "node --test --test-concurrency=1 tests/death-power-order.test.mjs tests/donu-deca.test.mjs",
+      "status": "passed",
+      "nodeTests": 2
+    }
+  },
+  "evidenceLevels": {
+    "controlledRulesComponents": "passed",
+    "publicRunRoomBoundaryFixture": "passed; manually constructed act3 floor50, not a natural campaign",
+    "generatedControlFixture": "passed; actual generated listeners/Host/Run/Combat, controlled HP boundary",
+    "naturalFourClassFourActRoute": "not_run",
+    "nativeCandidate": "not_run",
+    "officialImport": "not_run",
+    "liveClient": "not_run",
+    "pcOrPhoneAcceptance": "not_run",
+    "fullCurrentIntegratedQuality": "parent_owned_not_run_here",
+    "onMonsterDeathRelicDispatcher": "not_implemented_shared_capability; no Horn/Specimen completeness claim"
+  },
+  "rawLogs": [
+    {
+      "path": "../m3-awakened-evidence/final-focused.log",
+      "sha256": "c0495d2cf560b8ae6f1cc7e7981a11ef8ce78985d0e8eff8dc9e97a9e5fce697"
+    },
+    {
+      "path": "../m3-awakened-evidence/related-bosses.log",
+      "sha256": "237ecf685a371d78a0dfa926e0c6f821c9b4a8b0df2eee1a7fb7fa7f853222fc"
+    },
+    {
+      "path": "../m3-awakened-evidence/related-presence-feedback.log",
+      "sha256": "0006f1b5678bdeb5a686589767193e8fc20d850986fb41d2eb70f71248e42d64"
+    },
+    {
+      "path": "../m3-awakened-evidence/related-corrective-gates.log",
+      "sha256": "4f2cbd3f0f063613bd59091a873a058a427d0434f8537ca60c1581750231d1b7"
+    },
+    {
+      "path": "../m3-awakened-evidence/related-corrective-final.log",
+      "sha256": "dfcebb419c66018cb8191c2e40adfacd6b96cc4d7f5c51ca61d0615cb5ce5c20"
+    },
+    {
+      "path": "../m3-awakened-evidence/source-mutations-final.log",
+      "sha256": "ed74f00edb79d36e720ee66911d9514fa7289cb376361b1c37fa98a9282af2d4"
+    },
+    {
+      "path": "../m3-awakened-evidence/presence-mutations-final.log",
+      "sha256": "8e29d8319e734645c11f32a3a915bacf0dd5b7e49962d94d5abdace6adca4ec6"
+    },
+    {
+      "path": "../m3-awakened-evidence/final-architecture.log",
+      "sha256": "fb86727972e31788de22aa58a3b883c23bc7bf9f9e68d9d44592a8139d7d210f"
+    },
+    {
+      "path": "../m3-awakened-evidence/final-static.log",
+      "sha256": "ee601b8092358f8d9f3ea9f52f1247fb6219141346d7759f816fee7bf3e0e290"
+    },
+    {
+      "path": "../m3-awakened-evidence/red-baseline.log",
+      "sha256": "2cc98e24e7d5e2e9b1c58d51a45d38bdf54fdcba59bafd9f94c734f645a52668"
+    },
+    {
+      "path": "../m3-awakened-evidence/final-adjacent-death.log",
+      "sha256": "d0e669880b9a7b5ceac353813d2d18a1cc420cfec33bce1108c7f80c1423018c"
+    }
+  ],
+  "revision": "R2: exact residual Block superclass/override boundary, independently reviewed",
+  "productionDigestSerialization": "UTF-8 concatenation of sorted src/config rows: path + NUL + sha256 + newline"
+}

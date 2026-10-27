@@ -21,6 +21,8 @@ const setup = `    name: engineering-posix (\${{ matrix.shard }}/\${{ strategy.j
         shard: [1, 2]
 `;
 
+const lfsShardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs --shard=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
+
 test('POSIX shards preserve the original job gates, toolchain and 20-minute budget', () => {
   assert.ok(shards?.startsWith(setup));
   assert.match(shards, /^    runs-on: ubuntu-24\.04\n    timeout-minutes: 20\n/m);
@@ -32,7 +34,9 @@ test('POSIX shards preserve the original job gates, toolchain and 20-minute budg
   assert.deepEqual(commands.map(line => line.replace(' --test-shard=${{ matrix.shard }}/${{ strategy.job-total }}', '')), originalTest);
   // Exact inverse of only the partitioning changes: the job in Git c78c59b,
   // including setup, all engineering gates, artifact contents and deadlines.
-  const restored = '  engineering-posix:\n' + shards.replace(setup, '')
+  // Strip only the exact new step immediately before the unchanged shard command.
+  const beforeLfs = shards.replace(lfsShardStep + '      - name: POSIX JavaScript regression shard\n', '      - name: POSIX JavaScript regression shard\n');
+  const restored = '  engineering-posix:\n' + beforeLfs.replace(setup, '')
     .replace('      - name: POSIX JavaScript regression shard\n        run: |\n          npm run build:data\n          npm run build:ui\n          ' + shardCommand + '\n', '      - run: npm test\n')
     .replace('name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}', 'name: engineering-${{ github.run_id }}-${{ github.run_attempt }}');
   assert.equal(createHash('sha256').update(restored).digest('hex'), 'ce93ae9253a5b7ee3b7082dc977f5dc8b09e765afa23097e47804d6d42874254');

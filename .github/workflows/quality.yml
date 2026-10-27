@@ -58,6 +58,7 @@ jobs:
           CI_SHA: ${{ github.sha }}
           CI_REF: ${{ github.ref }}
           CI_REPOSITORY: ${{ github.repository }}
+          GIT_LFS_SKIP_SMUDGE: '1'
         run: |
           $ErrorActionPreference = 'Stop'
           if ((Get-Location).Path -ne $env:GITHUB_WORKSPACE) { throw 'Unexpected checkout directory' }
@@ -174,6 +175,11 @@ jobs:
       # exactly once across the VMs, retaining both Windows and POSIX coverage.
       - run: npm run verify:backlog
       - run: npm run check:syntax
+      - name: Materialize reviewed PNGs for this shard
+        timeout-minutes: 2
+        env:
+          CI_LFS_TOKEN: ${{ github.token }}
+        run: node scripts/ci-reviewed-lfs.mjs --shard=${{ matrix.shard }}/${{ strategy.job-total }}
       - name: JavaScript regression shard
         run: |
           npm run build:data
@@ -261,6 +267,11 @@ jobs:
       - run: python3 -m pip install --disable-pip-version-check --retries 0 --timeout 30 Pillow==12.3.0
       - run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --fetch-retries=0 --fetch-timeout=30000
       - run: npm run setup:lua-static
+      - name: Materialize reviewed PNGs for this shard
+        timeout-minutes: 2
+        env:
+          CI_LFS_TOKEN: ${{ github.token }}
+        run: node scripts/ci-reviewed-lfs.mjs --shard=${{ matrix.shard }}/${{ strategy.job-total }}
       - name: POSIX JavaScript regression shard
         run: |
           npm run build:data

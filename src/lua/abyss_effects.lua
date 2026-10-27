@@ -10,7 +10,7 @@ for op in pairs(require('abyss_build_actions').ops) do extensionOps[op]=true end
 for op in pairs(require('abyss_flow_actions').ops) do extensionOps[op]=true end
 for op in pairs(require('abyss_watcher_final_cards').ops) do extensionOps[op]=true end
 
-local coreOps = { handChoice=true, whirlwind=true, reaperDamage=true, scry=true, multiplyPoison=true, bouncingPoison=true, gainOrbSlots=true, loseOrbSlots=true, applyBias=true, gainFocus=true, gainStancePower=true, innerPeace=true, requestDiscard=true, channelOrb=true, dualcastOrb=true, darkImpulseOrb=true, changeStance=true, generateShivs = true, damage = true, damageAll = true, block = true, draw = true, energy = true,
+local coreOps = { awakenedVoid=true, handChoice=true, whirlwind=true, reaperDamage=true, scry=true, multiplyPoison=true, bouncingPoison=true, gainOrbSlots=true, loseOrbSlots=true, applyBias=true, gainFocus=true, gainStancePower=true, innerPeace=true, requestDiscard=true, channelOrb=true, dualcastOrb=true, darkImpulseOrb=true, changeStance=true, generateShivs = true, damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
     loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true, addCardToDiscard = true,
     increaseDamageThisCombat = true, makeTempCardInDiscard = true }
@@ -41,6 +41,7 @@ coreOps.enemyBurnBoth=true
 clearedAfterDamage.enemyBurnBoth=true
 coreOps.enemyDazedDraw=true
 clearedAfterDamage.enemyDazedDraw=true
+clearedAfterDamage.awakenedVoid=true
 
 local function targetGroup(effects)
     local found, misplaced, cyclic = false, false, false
@@ -202,7 +203,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         local consumed = groupStart and index == groupStart + 1
         local cancelled = cleared and (clearedAfterDamage[op] or op=="gainEnergyIfDiscard")
         if not consumed and not cancelled then
-        if source.hp <= 0 and op ~= "makeTempCardInDiscard" and op~='enemyBurnBoth' then
+        if source.hp <= 0 and op ~= "makeTempCardInDiscard" and op~='enemyBurnBoth' and op~='awakenedVoid' then
             assert(coreOps[op] or op == "conditional", "unsupported effect: " .. tostring(op))
             -- ApplyPower guards its target, not its dead source. Only the
             -- source-verified single-player queued status path is enabled.
@@ -210,6 +211,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             if op == "applyStatus" and target == state.player and target.hp > 0 then
                 Actors.applyPower(state, target, effect.status, value, source)
             end
+        elseif op=='awakenedVoid'then require('abyss_awakened_one').void(state,source)
         elseif CardActions.supports(op) then
             CardActions.apply(combat,state,{effect=effect,source=source,target=target,instance=playedCard})
         elseif op == "damage" or op == "damageAll" then
@@ -525,7 +527,7 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
         elseif op == "gainTemporaryStrength" then
             combat.addTemporaryStrength(source, value, state)
         elseif op == "applyStatus" then
-            if Actors.isActive(target) then Actors.applyPower(state, target, effect.status, value, source) end
+            if Actors.isActive(target) then Actors.applyPower(state, target, effect.status, value, source,nil,effect.poisonBonus) end
         elseif op == "applyStatusAll" then
             if index == groupStart then
                 for _, victim in ipairs(state.enemies) do
@@ -535,14 +537,14 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                         if not Actors.isActive(source) then break end
                         if Actors.isActive(victim) then
                             local status = effects[member]
-                            Actors.applyPower(state, victim, status.status, status.value, source)
+                            Actors.applyPower(state, victim, status.status, status.value, source,nil,status.poisonBonus)
                         end
                     end
                     if not Actors.isActive(source) then break end
                 end
             else
                 for _, victim in ipairs(targets(state, source)) do
-                    if Actors.isActive(victim) then Actors.applyPower(state, victim, effect.status, value, source) end
+                    if Actors.isActive(victim) then Actors.applyPower(state, victim, effect.status, value, source,nil,effect.poisonBonus) end
                 end
             end
         else error("unsupported effect: " .. tostring(op)) end

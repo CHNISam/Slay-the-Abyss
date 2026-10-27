@@ -151,7 +151,7 @@ function M.planHook(state,id,phase)
  elseif id=='brutality' and phase=='turn_start_post_draw' then
   result.bottom={action('draw',n),action('loseHp',n)}
  elseif id=='combust' and phase=='turn_end' then
-  local living=false;for _,e in ipairs(state.enemies) do if e.hp>0 and not e.escaped then living=true end end
+  local living=false;for _,e in ipairs(state.enemies) do if Actors.isPresent(e) then living=true end end
   if living then
    local loss=state.player.combustHpLoss;assert(integer(loss,1),'missing Combust HP-loss count')
    result.bottom={action('loseHp',loss),action('combustDamage',n)}

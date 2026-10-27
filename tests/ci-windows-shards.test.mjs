@@ -11,6 +11,8 @@ const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAl
 const job = name => (workflow + '\n  end-of-workflow:\n')
   .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
 
+const lfsShardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs --shard=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
+
 test('eight Windows VMs change only the hosted matrix, preserving every gate and original deadline', () => {
   const rules = job('rules');
   assert.match(rules, /shard: \$\{\{ fromJSON\(inputs.runner_pool == 'local-special' && '\[1\]' \|\| '\[1,2,3,4,5,6,7,8\]'\) \}\}/);
@@ -21,7 +23,13 @@ test('eight Windows VMs change only the hosted matrix, preserving every gate and
   // Restore the single matrix edit to the full workflow in Git 9226012.
   // This also freezes the existing hosted isolation, gate commands, toolchain,
   // strict aggregates and POSIX shards, rather than permitting hidden omissions.
-  const restored = workflow.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'");
+  // Remove only the exact reviewed-PNG additions at their intended positions.
+  // The separate LFS contract tests reject altered permissions, scope and ordering.
+  const beforeLfs = workflow
+    .replace(lfsShardStep + '      - name: JavaScript regression shard\n', '      - name: JavaScript regression shard\n')
+    .replace(lfsShardStep + '      - name: POSIX JavaScript regression shard\n', '      - name: POSIX JavaScript regression shard\n')
+    .replace("          CI_REPOSITORY: ${{ github.repository }}\n          GIT_LFS_SKIP_SMUDGE: '1'\n        run:", "          CI_REPOSITORY: ${{ github.repository }}\n        run:");
+  const restored = beforeLfs.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'");
   assert.notEqual(restored, workflow);
   assert.equal(createHash('sha256').update(restored).digest('hex'), '3a45b50a847b89870825560a6f3d83906a2a02a062c9dc5b2469e7d0439b15f0');
 });

@@ -76,6 +76,19 @@ for _, event in ipairs(manifest.events) do
         end
         assert(Nodes.chooseEvent(run,'proceed'));collect()
     end
+    if event.id=='the_library' then
+        assert(Nodes.chooseEvent(run,'read'))
+        flow=run.nodeFlow
+        assert(#flow.event.offers==20,'Library requires the complete20 offer group')
+        local seen={}
+        for _,card in ipairs(flow.event.offers)do
+            assert(not seen[card.sourceCardId] and card.uid==nil,'Library source offers must be unique detached previews')
+            seen[card.sourceCardId]=true
+        end
+        assert(Nodes.chooseEvent(run,'select',flow.event.offers[1].offerToken))
+        flow=run.nodeFlow
+        for _,option in ipairs(Nodes.eventOptions(run,flow))do choices[option.choice]=true end
+    end
     for _,stage in ipairs(event.id=='sensory_stone'and{}or event.stages or {}) do
         flow.event.stage=stage
         if stage=='potion_rewards' then

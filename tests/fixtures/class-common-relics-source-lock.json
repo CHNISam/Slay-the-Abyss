@@ -1,0 +1,88 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "repository": "https://github.com/aeubanks/sts",
+  "scope": "Independent method-derived expectations; community decompile, not certified PC binary",
+  "files": [
+    {
+      "path": "relics/SneckoSkull.java",
+      "sha256": "32ba31b71fd008dcc7b89f5a3fb0305bffd61187939e1d74df5952ed5b52f2e0"
+    },
+    {
+      "path": "relics/DataDisk.java",
+      "sha256": "417db756ee540b6dc615e8c18af6fb4a08782b51da5aa824e4b86628c250e212"
+    },
+    {
+      "path": "relics/Damaru.java",
+      "sha256": "b58d2ab3a46679af1e5a4855a688876113d2767a4c2e0e0c98f38686a7eab4bb"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47"
+    },
+    {
+      "path": "powers/PoisonPower.java",
+      "sha256": "b4269eafb2a23282142e9c5460510e4a876d7abb3c62ae6d7a2211b5826ac6c2"
+    },
+    {
+      "path": "powers/FocusPower.java",
+      "sha256": "266d04b57ccb01daaff326346c21b2935caa82158eaf2a12f6291ba453491da4"
+    },
+    {
+      "path": "powers/watcher/MantraPower.java",
+      "sha256": "a28abb19643bcce1c9899e1ac72f0f8bf966da4b2644de1c130e32c8986fa5af"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3"
+    },
+    {
+      "path": "cards/green/Catalyst.java",
+      "sha256": "710f945951fa80cece3975afd8e1daf60b680f96d122f9b4e05f6fa8fca2a553"
+    },
+    {
+      "path": "cards/green/CripplingPoison.java",
+      "sha256": "259e92705fec47cdc644308a63c82d88468b501c9a2bd872e53629b26ec817a1"
+    },
+    {
+      "path": "powers/NoxiousFumesPower.java",
+      "sha256": "add060dc8068d0b706b5503f52f72b73be92a70870e38d3587a98eabd7403559"
+    },
+    {
+      "path": "powers/EnvenomPower.java",
+      "sha256": "f5624c590e288208e5517a0c02e586593bd9e7a9962134c53059e35fb42a534e"
+    },
+    {
+      "path": "actions/unique/BouncingFlaskAction.java",
+      "sha256": "3dd61c8b76ce1894284d814cb4b66fd652caee959b10fd3167d41df9e958c096"
+    },
+    {
+      "path": "actions/unique/DoublePoisonAction.java",
+      "sha256": "2fa089c6c33a13d85789a704f02c4561beeb56395d34849aa80712633dabd2cf"
+    }
+  ],
+  "facts": {
+    "snake_skull": {
+      "sourceId": "Snake Skull",
+      "rarity": "common",
+      "bonus": 1,
+      "hook": "ApplyPowerAction constructor; player source, different target, Poison only; increment new-power and stack amount before Artifact",
+      "construction": "Explicit Poison ApplyPower actions snapshot bonus at card use / Fumes post-draw / Envenom onAttack. DoublePoisonAction and BouncingFlaskAction construct ApplyPower only during their own update."
+    },
+    "data_disk": {
+      "sourceId": "DataDisk",
+      "rarity": "common",
+      "focus": 1,
+      "hook": "atBattleStart TOP ApplyPower(player,player,FocusPower(1),1); no onEquip"
+    },
+    "damaru": {
+      "sourceId": "Damaru",
+      "rarity": "common",
+      "mantra": 1,
+      "hook": "atTurnStart BOTTOM ApplyPower(player,null,MantraPower(1),1); no onEquip"
+    }
+  }
+}

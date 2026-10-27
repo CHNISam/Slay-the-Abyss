@@ -10,7 +10,7 @@ local function stateOf(state)
 end
 local function live(state)
     if state.player.hp<=0 or state.phase=="victory" or state.phase=="defeat" then return false end
-    for _,enemy in ipairs(state.enemies) do if Actors.isActive(enemy) then return true end end
+    for _,enemy in ipairs(state.enemies) do if Actors.isPresent(enemy) then return true end end
     return false
 end
 local function queueApi(queue,state)
@@ -36,7 +36,7 @@ end
 
 -- Apply one previously constructed incoming MantraPower. No constructor count
 -- here. First-application >=10 is deliberately refused pending full PC evidence.
-function M.apply(state,amount,queue)
+function M.apply(state,amount,queue,nullSource)
     local player=stateOf(state)
     assert(integer(amount),"invalid Mantra amount")
     if not live(state) then return true end
@@ -49,7 +49,9 @@ function M.apply(state,amount,queue)
     if threshold then queueApi(queue,state) end
     -- Mantra is explicitly BUFF in the source. Positive application does not
     -- consume Artifact; Actor retains the shared status validation/events.
-    Actors.applyPower(state,player,"mantra",amount,player)
+    local source,sourceIsMonster=player
+    if nullSource then source,sourceIsMonster=nil,false end
+    Actors.applyPower(state,player,"mantra",amount,source,sourceIsMonster)
     if threshold then
         player.statuses.mantra=total-10
         queue.pushTop(state,{kind="effect",effect={op="changeStance",stance="Divinity"}})
