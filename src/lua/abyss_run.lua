@@ -1168,4 +1168,34 @@ function M.potionView(run)
     return result
 end
 
+-- Permanent upgrades reuse the existing card definition/upgrade owner. They
+-- never obtain a new card, replace its UID, or filter out bottled instances.
+local function permanentUpgradeContext(run,uid)
+    local instance
+    for _,card in ipairs(run.deck)do
+        if card.uid==uid then
+            if instance then return nil,nil,'invalid_card' end
+            instance=card
+        end
+    end
+    if not instance then return nil,nil,'invalid_card' end
+    local definition=cardDefinition(run,instance.cardId)
+    if not definition then return nil,nil,'card_content_unavailable' end
+    return {catalog={cards={[instance.cardId]=definition}}},instance
+end
+function M.canUpgradeCard(run,uid)
+    local context,instance,why=permanentUpgradeContext(run,uid)
+    if not context then return false,why end
+    if not Combat.canUpgrade(context,instance)then return false,'card_not_upgradeable'end
+    return true
+end
+function M.upgradeCard(run,uid)
+    return M.transaction(run,function(staged)
+        local context,instance,why=permanentUpgradeContext(staged,uid)
+        if not context then return false,why end
+        if not Combat.upgrade(context,instance)then return false,'card_not_upgradeable'end
+        return true,instance.uid
+    end)
+end
+
 return M

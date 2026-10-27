@@ -1,0 +1,92 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Independent A0 source interpretation and component tests; not PC-binary or natural/platform qualification",
+  "files": {
+    "events/beyond/MindBloom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/MindBloom.java",
+      "sha256": "8b0bf1c73646d31c3b2229b4a08db0dbcedf2e731d01dda3316afcf6bb4d2769"
+    },
+    "relics/MarkOfTheBloom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MarkOfTheBloom.java",
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434"
+    },
+    "events/AbstractImageEvent.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/AbstractImageEvent.java",
+      "sha256": "438f8c014c563c51f2f14d8f98839e71a7c4a45db314d9b36be8c76ba0b2d92f"
+    },
+    "events/AbstractEvent.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/AbstractEvent.java",
+      "sha256": "4527717d367f8f7e9a11bb3be30361ffaa92aff1b49e581ce060b179b0797c13"
+    },
+    "rooms/EventRoom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/EventRoom.java",
+      "sha256": "66ffb50ba3410cbd7fd55ea7b5f8c896f40689c34c584d48a2640dde432f172f"
+    },
+    "rooms/AbstractRoom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05"
+    },
+    "screens/CombatRewardScreen.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/CombatRewardScreen.java",
+      "sha256": "7929ca75599e96c076f9abe2c90576a606c87984174328d10533ada8ee37e70b"
+    },
+    "dungeons/AbstractDungeon.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b"
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+    },
+    "vfx/cardManip/ShowCardAndObtainEffect.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52"
+    },
+    "cards/curses/Normality.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Normality.java",
+      "sha256": "a2507e05e0528022e2b29bbe9e07182d6bfc0bc1fe7fc8b7394e3868f301ce08"
+    },
+    "cards/curses/Doubt.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Doubt.java",
+      "sha256": "7e0bb0737ad110eca88a5b32c6d077e3f99ea4fbc99c716c14d9ef540c98dd0b"
+    }
+  },
+  "contracts": {
+    "optionOrder": [
+      "fight",
+      "awake",
+      "rich-or-healthy"
+    ],
+    "floorCondition": "floorNum % 50 <= 40",
+    "gold": 999,
+    "normalityCopies": 2,
+    "heal": "heal(maxHealth) before Doubt obtain",
+    "upgrade": "every canUpgrade physical master-deck card once, in original order, including bottled and repeatable cards; Mark obtained last",
+    "markHealResult": 0,
+    "fightGold": 50,
+    "fightRelicTier": "RARE",
+    "relicTiming": "after encounter HP constructors, before opening AI/preBattle",
+    "roomClass": "EventRoom",
+    "noCardsInRewards": false,
+    "reopen": "inherited empty method; no second event menu",
+    "miscLongDraws": 1,
+    "otherChoiceGameplayRngDraws": 0
+  },
+  "oracle": {
+    "path": "tests/fixtures/mind-bloom-oracle.py",
+    "sha256LF": "8b832dfad0f2a77c31ddc02594d6465581aa90b333535075b156bdfbd37f9950",
+    "dependency": "tools/sts1-card-rng-oracle.py",
+    "dependencySha256LF": "3c0667f93636463eb951f7df97e2f01202087a368eef3cf0a76756613bedfa56",
+    "fixtureSha256LF": "9906e5265b21bc9a291e2cbfa831849dacc9a2017cdcfae1b09e2a59861a448f"
+  },
+  "limitations": [
+    "No official import/live/UI evidence",
+    "Shared event-combat bridge and permanent upgrade APIs/Mark registration require parent integration",
+    "Source Java stays only in read-only archive, never product"
+  ]
+}
