@@ -3,9 +3,9 @@ id: TASK-3.3
 title: 游戏中随时可以退出本局
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-23 13:10'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -50,6 +50,8 @@ ordinal: 51000
 M2原生新截图覆盖各阶段可见退出入口，生成树/真实控件退出与取消回归继续通过；本轮自动正常流程未执行物理退出取消、物理手机或平台重挑战，剩余AC不外推完成。
 
 复用既有地图/战斗退出、5165同源奖励/地图/商店/牌库退出取消及正式失败结算证据；当前退出、手势隔离、主题与常见画布回归通过，功能验收收口。真实手机触控仍如实未测，后续TASK-38/42/4继续。详见docs/M2-CLOSEOUT-20261024.md。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

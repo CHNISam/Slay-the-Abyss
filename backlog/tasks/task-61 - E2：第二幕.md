@@ -3,9 +3,9 @@ id: TASK-61
 title: 接齐第二幕敌人、事件和正式游玩流程
 status: In Progress
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-27 09:37'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

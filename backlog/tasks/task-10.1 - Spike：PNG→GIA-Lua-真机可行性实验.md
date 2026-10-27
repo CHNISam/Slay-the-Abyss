@@ -3,9 +3,9 @@ id: TASK-10.1
 title: 先验证卡图能不能放进游戏
 status: Done
 assignee:
-  - '@codex'
+  - '@Furinya'
 created_date: '2026-10-22 15:57'
-updated_date: '2026-10-27 04:23'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - technical-spike
@@ -35,6 +35,12 @@ ordinal: 26000
 - [x] #2 分别记清文件做出、导入、游戏显示和点击的结果；不改正式存档，不自动发布。
 - [x] #3 给出可用规格、手机等设备的风险；做不到时说明替代办法。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @codex 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

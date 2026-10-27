@@ -3,9 +3,9 @@ id: TASK-4.5
 title: 修复格挡数字裁切，并按原版核实伤害预览
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-24'
 labels:
   - awaiting-live
@@ -55,4 +55,6 @@ ordinal: 86000
 2026-10-26全面复核：本轮53个原战斗UI用例和card_preview通过，已交付布局/领取/跳过/预览条款补勾；当前版实机截图与设备条款仍保留。
 
 2026-10-26将原混合AC2分成自动回归已通过和当前版实机待验，原要求完整保留。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

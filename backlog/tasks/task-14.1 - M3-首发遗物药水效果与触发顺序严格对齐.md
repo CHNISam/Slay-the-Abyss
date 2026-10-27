@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 09:37'
+updated_date: '2026-10-27 15:07'
 due_date: '2026-10-28'
 labels:
   - required
@@ -35,7 +35,7 @@ ordinal: 42000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-已交付基础库存、大批药水效果及部分正常渠道，完整效果与自然获取仍需逐件验收。当前PR238同步主线后，库存恢复和钨合金棍自然来源两份回归失败；先修复并通过最终SHA完整CI，再补同候选全池组合与平台证据。
+基础库存、药水操作和大批道具效果已交付；旧库存恢复与钨合金棍回归阻塞已随主线整合解决。当前四职业各33瓶药水来源均有生产定义。继续逐件验收完整遗物药水效果、正常获取、触发顺序和跨域组合，并补同候选自然取得及平台证据。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -118,4 +118,6 @@ ordinal: 42000
 主整合复核补正四职业遗物来源：Run按真实STS职业使用shared+对应色完整队列，5次relicRng randomLong洗牌；商店尾取，宝箱/精英首取。40组Java全队列/随机向量、starter资格及Shop/Treasure/Elite正式API定向通过，旧红池/向量不改。缺定义保持原sourceId并unavailable，未缩池重抽。ToxicEgg购买后刷新未售货架技能预览、不改永久deck或RNG，reward owner追加/删除长度拒绝也已通过。当前PR238@4c24aa0完整Quality在跑，后续必要回归迁移和独立P1修复仍需整合；原全效果与自然平台AC不勾。
 
 2026-10-27 独立源码增量候选新增Snake Skull/DataDisk/Damaru三件真实效果与正式取得渠道。Poison奖励在ApplyPower构造时捕获而非执行时追认；DataDisk按持有顺序入TOP开战Focus；Damaru按原版null来源入BOTTOM回合Mantra，复用真实Divinity/Devotion。相关来源、生命周期/交易回滚、四职业渠道和独立审查通过；集成补齐三件在既有主题的显式占位图标，不冒充专用美术/实机验收。87项组合Node与177组既有Lua回归通过，源池和RNG不改。本批仅补三件，不宣称整个遗物池或所有死亡遗物回调完成；当前新PR完整Quality待证。
+
+2026-10-27运行时重算：以81f3ffd2的实际Run.new入口加载当前JSON与Lua，四职业各75张共300张的基本/升级Capability均通过；战士reward/src/shop各72个唯一ID，其他职业各71个，逐ID双版本无缺定义；四职业各33瓶药水均通过生产available定义检查。第三幕3弱/8强/3精英与三Boss均有生产路由，七普通事件仍缺MindBloom和Mysterious Sphere映射。PR252本次记待合，最终合并由主线程另行核对。证据：docs/evidence/m3-runtime-audit-20261027.json及docs/backlog-details/BACKLOG-UPDATE-20261027.md本轮节。Capability不代表逐牌实际执行或原版完整一致；定义注册和路由不代表自然获取、概率全链或平台通关。本次只更正首页与追加事实，状态、负责人、优先级、依赖和全部验收项保持，不新增勾选；历史数量和旧备注保留原样。
 <!-- SECTION:NOTES:END -->

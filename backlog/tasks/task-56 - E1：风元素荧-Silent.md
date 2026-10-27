@@ -1,11 +1,11 @@
 ---
 id: TASK-56
-title: 补齐猎人剩余14张卡并完成完整卡池验收
+title: 验收猎人完整卡池、来源与自然构筑
 status: In Progress
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:07'
 labels:
   - required
   - sts1
@@ -28,7 +28,7 @@ type: feature
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-已合并职业开局、独立绿色牌池及61/75张实验卡，毒、小刀、弃牌机制已交付，相关子任务已Done。M3剩余工作：复用归档Final成果补齐14张、接完整来源奖励与生成依赖，再完成正式入口和自然构筑验收；不是从职业基础重新开发。
+猎人75张职业牌已接入当前运行时，基本版和升级版均被效果系统接受；奖励、生成和商店来源各71项均有对应定义。继续核对实际效果、来源随机链及合法组合，并补自然构筑、正式平台和四幕通关证据。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -67,4 +67,6 @@ type: feature
 2026-10-26任务首页校正：直接体现已合并成果及下一步，撤销仅登记/未启动等过时开工描述。保留原有全量验收标准，不以合并代替平台验收。
 
 2026-10-26逐项AC拆分：职业基础/现有卡池/留档已完成，剩余卡、完整获取与跨色/全交互/自然各幕验收继续未勾；完整M3范围不变，原标准见AC快照。
+
+2026-10-27运行时重算：以81f3ffd2的实际Run.new入口加载当前JSON与Lua，四职业各75张共300张的基本/升级Capability均通过；战士reward/src/shop各72个唯一ID，其他职业各71个，逐ID双版本无缺定义；四职业各33瓶药水均通过生产available定义检查。第三幕3弱/8强/3精英与三Boss均有生产路由，七普通事件仍缺MindBloom和Mysterious Sphere映射。PR252本次记待合，最终合并由主线程另行核对。证据：docs/evidence/m3-runtime-audit-20261027.json及docs/backlog-details/BACKLOG-UPDATE-20261027.md本轮节。Capability不代表逐牌实际执行或原版完整一致；定义注册和路由不代表自然获取、概率全链或平台通关。本次只更正首页与追加事实，状态、负责人、优先级、依赖和全部验收项保持，不新增勾选；历史数量和旧备注保留原样。
 <!-- SECTION:NOTES:END -->

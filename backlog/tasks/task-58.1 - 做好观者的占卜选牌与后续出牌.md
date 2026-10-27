@@ -3,9 +3,9 @@ id: TASK-58.1
 title: 做好观者的占卜选牌与后续出牌
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 06:11'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

@@ -3,9 +3,9 @@ id: TASK-15.15
 title: 实现大型酸液敌人的半血分裂
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 06:32'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-4
 dependencies:
@@ -48,6 +48,8 @@ ordinal: 83000
 分裂代码和本地回归已实现，原生 Lua 138 项入口及独立探针通过；正式提交 CI 尚待验证，不算已合并或实机通过。来源、测试与既有异常边界见技术报告。
 
 独立评审5637220541；源、失败转通过、随机顺序及未验证边界详见技术报告。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -3,9 +3,9 @@ id: TASK-39
 title: 检查验收截图是不是真图片
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 12:55'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -43,6 +43,8 @@ ordinal: 51000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-26全面复核：PR111实现已合；锁定依赖从本机缓存补齐后ui-acceptance真实PNG正负例通过，最终PR213全绿；不认证游戏画面或修改其他任务。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

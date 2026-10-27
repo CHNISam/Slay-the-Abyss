@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 07:08'
+updated_date: '2026-10-27 16:36'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -29,7 +29,7 @@ ordinal: 75000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-首发范围为四职业完整内容与第一至第四幕。已合并成果按清单保留；当前先收口PR238与主线同步，解决两项库存回归，再以同一候选逐项验证自然获取、构筑、连续通关和两种结局。M3尚未完成。
+四职业完整内容与第一至隐藏第四幕仍为首发范围。优先修复用户遇到的启动阻塞，及时交付可独立试玩的冻结测试包；其余内容继续补齐，并以同一候选验证自然获取、构筑、连续通关和两种结局。M3尚未完成。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -132,4 +132,12 @@ ordinal: 75000
 2026-10-27最新核对：M3仍为四职业及第一至第四幕完整交付，未验收。GitHub实时读回PR238为OPEN/DRAFT，head a4dac7723af8262a314758c87d92f421afea4911，CONFLICTING且当前检查为空；无作业不是CI通过。主集成树m3-next-content正在同步develop fc51f198，18个冲突路径仍为unmerged、合并未提交。下一步先修复合并后inventory_restore和tungsten_rod_channels两项失败，再核完整diff、提交同步、推同一PR并验当前SHA全部必要CI；随后补同候选自然获取/四职业跨幕/平台证据。未生成新GIL、未导入、未实机、未通过verify:ui。依据根HANDOFF-PR238-20261027-115033-STOP.md及build/pr238-resume-20261027-091929/fc51-final-focused.json；本轮仅核对任务，不继续开发或占用键鼠。
 
 本轮只收口PR238既有范围，不继续扩内容。完整原战斗UI53组、原红钥匙核心15/UI14组、地图38组、职业商店88输入均按完整正文/原断言/原种子验证；必要分片保留各原30/60秒且机器核一次覆盖。第二轮Linux单进程完整JS在原20min作业上限被取消，未冒称整套通过；复用既有隔离VM分片机制收口当前SHA全部Quality。没有本轮GIL/官方导入/键鼠窗口/截图/verify:ui，四职业自然四幕与终幕未完成保持。最终PR合并证据以当前HEAD实际GitHub状态为准。
+
+2026-10-27状态更新：PR238已合入develop 965616d5，合并说明记录最终head ed79bc12的Quality 13项作业成功；PR250已合入20c6815e，接入第三幕敌人、图书馆和职业遗物等切片。此前PR238草稿、冲突和库存回归的交接记录属于历史，不代表当前集成状态。四职业跨幕自然流程、剩余源内容、同候选平台导入及实机验收仍未完成；本次未生成新候选、导入或实机验证。
+
+2026-10-27用户明确纠正优先级：先及时交付可导入试玩存档，其余M3缺项继续补，PR或全里程碑收口不得挡住测试包交付。本轮冻结b12beab2测试存档已交付到根.artifacts/m3-test-20261027-b12beab2/abyss-m3-test-b12beab2.gil，5411435字节，SHA256 3b248994e74e24f0371e3298689d35bd7227302801fe9bfff944f541c2b1fab2。199模块、独立源码/模板/结算图读回及静态0错误通过；原UI_MISMATCH保留，45处仅autoSize=false原生省略，审查记录同目录ui-readback-review.json。新原生结构预检已抓住并修复3个图标image带children，后续先预检再写存档，避免整轮最后失败。用户选择自行导入试玩，本轮未操作桌面、未官方导入、无本包ready/实机证据；M3及全部原AC保持未完成。源码和候选分层记录，不以测试交付替代完整四职业四幕验收。
+
+2026-10-28用户实机反馈：b12beab2测试包原神启动失败，截图显示abyss_battle_ui:701 cannot set interactable, no such field。原生CursorArea只支持raycastTarget，PresetButton的interactable合法；已将该包标记启动失败并保留截图/原候选，不再当可启动验收。先修全体CursorArea读写及Controller可用判断，严格原生字段mock复现并拒同类回归，再增量打替换测试包。其他M3模块在独立树继续，用户保留键鼠。
+
+2026-10-28替换测试包已冻结交付：59a70bfd修复原生CursorArea字段导致的启动异常，严格原生字段回归已先红后绿，199模块独立读回及静态0错误通过。旧b12包保留为用户实机启动失败证据；新59a包目前仅待用户重试，尚无本包真实ready或实机启动通过证据。大小、hash、构建标记及分层边界见docs/backlog-details/BACKLOG-UPDATE-20261027.md的10月28日节。继续遵守先及时交付可测冻结切片、优先修用户启动阻塞的安排，不以PR或全M3收口挡住试玩，不改任何AC。
 <!-- SECTION:NOTES:END -->
