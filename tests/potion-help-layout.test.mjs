@@ -10,11 +10,15 @@ test('each battle bottle has a separate discoverable explanation target within t
   assert.equal(buttons.length, 5);
   const relics = help.children.filter(c => /^relicReward[12]$/.test(c.name));
   assert.deepEqual(relics.map(c => c.name), ['relicReward1', 'relicReward2']);
-  const original = help.children.filter(c => !/^relicReward[12]$/.test(c.name));
+  const emerald = help.children.find(c => c.name === 'emeraldKeyReward');
+  assert.ok(emerald, 'independent Emerald key reward must be discoverable');
+  assert.equal(emerald.kind, 'presetButton');
+  assert.equal(emerald.focusable, true);
+  const original = help.children.filter(c => !/^relicReward[12]$|^emeraldKeyReward$/.test(c.name));
   assert.equal(original.length, 8);
-  assert.equal(help.children.length, 10);
+  assert.equal(help.children.length, 11);
   assert.deepEqual(original.map(c => c.name), ['potionHelp1', 'potionHelp2', 'potionHelp3', 'potion4', 'potionHelp4', 'potion5', 'potionHelp5', 'potionReward']);
-  for (const relic of relics) {
+  for (const relic of [...relics, emerald]) {
     assert.equal(relic.visible, false, 'elite rewards start hidden during combat');
     assert.deepEqual(relic.position, theme.layout.battleRewards.rowOrigin);
     assert.deepEqual(relic.size, theme.layout.battleRewards.rowSize);
@@ -22,7 +26,7 @@ test('each battle bottle has a separate discoverable explanation target within t
     assert.deepEqual(relic.children.map(c => c.name), ['normal', 'hover', 'pressed', 'disabled']);
     for (const state of relic.children) {
       const label = state.children.find(c => c.name === 'label');
-      assert.equal(label.text.content, '遗物');
+      assert.equal(label.text.content, relic === emerald ? '领取绿钥匙' : '遗物');
       assert.ok(label.size[1] >= theme.layout.nativeText.lineHeight);
     }
   }
