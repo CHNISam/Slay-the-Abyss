@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-27 18:09'
+updated_date: '2026-10-27 19:16'
 labels:
   - required
   - sts1
@@ -66,4 +66,6 @@ ordinal: 109000
 2026-10-28终幕胜利历史独立切片已保存abf008ed：独立owner与Host读取/记录将标准三幕胜利和Neow上局进度分开，固定种子只读既有资格而不新增WIN，默认旅者规则包映射战士、原创V4及其历史预装身份不冒算三原职业。纯owner与Host先红后绿，来源锁及静态/邻接回归通过；该切片尚待主线整合与最终组合验收。当前只承诺真实会话记录及可注入provider，不代表原生平台已持久化；燃烧精英/绿钥匙正常取得、第四幕盾矛心脏及自然四职业通关仍缺。详见docs/backlog-details/BACKLOG-UPDATE-20261027.md的10月28日节；不改状态或勾选。
 
 2026-10-28终幕共享核心离线进展：三个独立组件与燃烧Map切片已在专用final-act树保存，Heart实际Actor限伤/格挡后预算/反伤失血/自身回合先毒重置/零身份/源-1痛苦5组通过；真实Ending生命周期与动作10组通过。Combat已在所有预战斗之后、首抽之前接options.emeraldBoost；普通怪物不衰减再生、Awakened只治疗一次、再生与后来Shackled同源顺序等5组通过。后者先捕获旧colorless力量恢复快捷路径抢先执行，再局限于有monsterRegen的owner延期，原非再生路径保持。节点/领奖UI、Beat/背刺与第四幕正式入口仍在接，未新增GIL/官方导入或自然终幕证据，不关闭AC。
+
+2026-10-28第四幕组合离线验证：真实54盾矛/55心脏入口、三钥匙及源队列资格、燃烧精英/独立绿钥匙、Invincible/Beat/Surrounded与背刺、源特殊意图、等待继续页及true_victory已在独立树接通。组合207模块/1209边分层、固定Luacheck84历史诊断零新增、界面入口/全部受检helper复杂度门禁通过，四语义变异均被原断言杀死；四职业受控真实52→55、完整source四stream、奖励顺序、Beat双死/Fairy/Mark、Nodes/严格Host/完整意图与绿钥匙12项组合回归全通过零跳过。受控已达51/历史/钥匙及999攻击只用于接线，不算自然通关；原生GIL与完整当前SHA CI尚待，Lizard Tail和Black Star等生产遗物缺口、历史平台持久化、四职业自然连续四幕及实机继续未完成，不勾AC。
 <!-- SECTION:NOTES:END -->

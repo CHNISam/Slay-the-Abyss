@@ -16,6 +16,10 @@
 
 工具固定版本、许可证与小样：[卡牌](CARD_EDITOR_SPIKE.md)、[肖像](../experiments/art-portrait/README.md)、[场景](scene-spike/README.md)。MCP 提交为 `7091060417fe9bd1231e812db4f798c97a5c63d1`，安装路径以 [TOOLCHAIN.md](../TOOLCHAIN.md) 为准，不在项目内重造导出器或游戏框架。
 
+## 当前身份修复与批产状态
+
+2026-10-27 后续人审发现岩旅行者紧凑卡图的共同身份缺失，暂停受影响模板的普通队列，先做2张身份修复样卡。原生精修技术基线与设计批准分开；已有整备参考/共享UI/LFS成果保留，不把较早好评当作最新最终批准。身份双轴检查、反例和自适应批次复用 [卡牌插画标准](CARD_ILLUSTRATION_STANDARD.md)，各角色/类别的实机门槛不被批量参数替代。
+
 ## 卡牌副本准备（已实际复跑）
 
 在本仓库 worktree 根运行：
