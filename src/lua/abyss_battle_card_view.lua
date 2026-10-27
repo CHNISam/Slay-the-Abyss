@@ -105,6 +105,15 @@ function M.new(view, controls)
     local placeCard, placeReward = controls.placeCard, controls.placeReward
     local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
     local handBattle,handPoses,previousPiles=nil,{},{}
+    local handWidth,handHeight
+    local function syncHandViewport(current)
+        if current~=handBattle or view.canvasWidth~=handWidth or view.canvasHeight~=handHeight then
+            -- Resizing invalidates a captured drag. Its old display coordinates
+            -- cannot survive after the capture layer has been removed.
+            handBattle,handPoses,previousPiles=current,{},{}
+            handWidth,handHeight=view.canvasWidth,view.canvasHeight
+        end
+    end
     local function handPose(box,instance,count,index,hot)
         local point=placeCard(box,count,index,hot)
         local target=handTarget(count,index,hot,point)
@@ -216,7 +225,7 @@ function M.new(view, controls)
             active = active, reward = reward, rewards = picking and Run.rewardOptions(view.run) or {} }
         local aimUid, aimTarget = currentAim()
         local current=fighting and view.run and view.run.combat
-        if current~=handBattle then handBattle,handPoses,previousPiles=current,{},{} end
+        syncHandViewport(current)
         for _,entry in pairs(handPoses) do entry.visible=false end
         view.cardPositions = {}
         local playable, selectedBox = false, nil
