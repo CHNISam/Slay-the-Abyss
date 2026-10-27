@@ -5,6 +5,7 @@ local Events = require("abyss_events")
 local EnemyAI = require("abyss_enemy_ai")
 local CardActions = require("abyss_card_actions")
 local PlatedArmor = require('abyss_plated_armor')
+local TimeEater=require('abyss_time_eater')
 local Act2Powers = require('abyss_act2_powers')
 local Curses = require("abyss_curses")
 local EnemyRandom = require("abyss_enemy_random")
@@ -12,9 +13,22 @@ local SourceRandom = require("abyss_sts_random")
 local Formation = require("abyss_encounter_formation")
 local RelicHooks = require('abyss_relic_hooks')
 local Awakened=require('abyss_awakened_one')
+local Darklings=require('abyss_darklings')
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
+
+-- UseCardAction visits each source monster's sorted Power list, not module
+-- batches. Preserve group order and stable acquisition order for equal priority.
+local function afterUsePowers(state,context,instance)
+    for _,enemy in ipairs(state.enemies)do
+        for _,power in ipairs(require('abyss_power_schedule').list(enemy,{slow=true,time_warp=true}))do
+            if power.id=='slow'then
+                require('abyss_giant_head').afterUse(state,context,CardActions.enqueueReaction,instance,enemy)
+            else TimeEater.afterUse(state,instance,CardActions.enqueueReaction,enemy)end
+        end
+    end
+end
 
 local function actionOwned(state)
     return state.resolvingEffects or state.resolvingCard or state.actionQueue or state.drainingCardActions
@@ -175,6 +189,8 @@ local function makeEnemy(state, id, serial, explicitHp)
             assert(supported and enemy.ai[kind .. "Intent"] == intent.id,
                 kind .. " intent requires matching AI")
             assert(type(intent.effects) == "table" and next(intent.effects) == nil, kind .. " intent has effects")
+        elseif Darklings.owns(enemy)and (intent.id=='regrow'or intent.id=='reincarnate')then
+            assert(type(intent.effects)=='table'and next(intent.effects)==nil,'Darkling inactive move has effects')
         elseif intent.kind=='unknown' and Awakened.owns(enemy)and intent.id=='rebirth'then
             assert(type(intent.effects)=='table'and next(intent.effects)==nil,'Rebirth has effects')
         elseif intent.kind == 'unknown' and enemy.ai and enemy.ai.kind=='act3'
@@ -195,6 +211,9 @@ function M.summonEnemies(state,descriptors)
     for i,entry in ipairs(descriptors)do
         local e=makeEnemy(state,entry.id,state.nextEnemyId);state.nextEnemyId=state.nextEnemyId+1
         e.sourcePosition={x=entry.x,y=entry.y};e.minion=true;created[i]=e
+        if entry.reptomancerOwner then
+            require('abyss_reptomancer').bindSummon(state,entry.reptomancerOwner,entry.reptomancerSlot,e.id)
+        end
         for _,id in ipairs(state.relics or {})do if id=="Philosopher's Stone" then Actors.applyPower(state,e,'strength',1,e) end end
     end
     for _,e in ipairs(created)do
@@ -764,11 +783,13 @@ local function normalMatrix(state, rows)
     return dealt
 end
 queuedHandlers.effect = function(state, action, queue)
+    if action.effect.op=='darklingAction'then Darklings.resolve(state,action.effect);return true end
     if action.effect.op=='awakenedAction'then Awakened.resolve(Actors,state,action.effect);return true end
     if action.effect.op=='staticRetaliation'then return M.staticRetaliation(state,action.effect)end
     if PlatedArmor.supports(action.effect.op)then
         return PlatedArmor.apply(M,state,action.effect,CardActions.enqueueReaction)
     end
+    if action.effect.op=='reptomancerSuicide'then return require('abyss_reptomancer').cleanup(Actors,state,action.effect)end
     if Act2Powers.supports(action.effect.op)then return Act2Powers.apply(Actors,state,action.effect)end
     if action.effect.op=='discover'then
         require('abyss_potion_discovery').begin(M,state,action.effect)
@@ -912,6 +933,8 @@ queuedHandlers.effect = function(state, action, queue)
         require('abyss_card_triggers').resolveDamageAll(state,effect,M);return true
     elseif effect.op=='removeCardTriggerPower' then
         require('abyss_card_triggers').removePower(state,effect.status);return true
+    elseif effect.op=='timeEater' then
+        return TimeEater.execute(M,state,effect,state.player,CardActions)
     elseif effect.op=='onUseReactions' then
         EnemyAI.afterCard(state,assert(state.pendingPlay).reactions);return true
     elseif effect.op=='capturedSharpHide' then
@@ -1134,10 +1157,10 @@ queuedHandlers.useCard = function(state, _action, queue)
     -- A lethal on-use retaliation stops before the source UseCard disposal.
     -- Preserve the original cardInUse identity on the death screen.
     if state.player.hp<=0 then return true end
+    afterUsePowers(state,context,instance)
     RelicHooks.afterCard(state)
     if not context.purge then instance.freeToPlayOnce=nil end
     local rebound=require('abyss_defect_final_cards').afterUse(state,{type=context.cardType},context.purge,context.exhaust)
-    require('abyss_giant_head').afterUse(state,context,CardActions.enqueueReaction,instance)
     if context.cardType~="power" and not context.purge then
         if context.exhaust then
             require("abyss_exhaust").move(state,instance,"using",queue,{onExhaustRelics=state.onExhaustRelics or {}})
@@ -1224,6 +1247,7 @@ function M.choosePile(state,uids,token,generation)
     return ok,reason
 end
 local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
+    if instance.dontTriggerOnUseCard then return end
     local final=require('abyss_defect_final_cards');final.onUse(state,card)
     if purge then return end
     for _,id in ipairs(Actors.powerSequence(state.player,{'double_tap','duplication','echo_form','amplify'}))do
@@ -1467,9 +1491,9 @@ function M.disposeCard(state,item)
     -- Sharp Hide's onUseCard queues damage before UseCardAction. A lethal
     -- reaction opens the death screen before the physical card can leave limbo.
     if state.player.hp<=0 then return end
+    afterUsePowers(state,e,instance)
     RelicHooks.afterCard(state)
     local rebound=require('abyss_defect_final_cards').afterUse(state,{type=e.cardType},e.purge,e.exhaust)
-    require('abyss_giant_head').afterUse(state,e,CardActions.enqueueReaction,instance)
     if state.cardInUse==instance then state.cardInUse=nil end
     -- A used Power leaves the combat piles; it is not an exhausted card.
     -- The Power destination takes precedence over exhaust-on-use, while an
@@ -1625,7 +1649,7 @@ function M.play(state, uid, targetIndex, commandId, rollbackOwner)
     if (state.player.statuses.evolve or 0)>0 or (state.player.statuses.fire_breathing or 0)>0 then
         for _,effect in ipairs(card.effects) do if effect.op=='draw' or effect.op=='requestDiscard' then drawHooks=true end end
     end
-    local queued = Effects.requiresQueue(card.effects) or card.experimental==true or require('abyss_hp_loss').requiresQueue(state) or card.type=='skill'and (state.player.statuses.burst or 0)>0
+    local queued = TimeEater.active(state) or Effects.requiresQueue(card.effects) or card.experimental==true or require('abyss_hp_loss').requiresQueue(state) or card.type=='skill'and (state.player.statuses.burst or 0)>0
         or require('abyss_defect_final_cards').needsQueue(state)
         or state.player.stance~=nil
         or drawHooks or autoplayHook or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
@@ -1714,7 +1738,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     end
     -- The source queues ordinary draw and post-draw Powers before executing
     -- DrawCardAction. Draw hooks append behind those already queued actions.
-    CardActions.enqueue(state,{op='draw',value=state.rules.player.drawPerTurn+originalExtra})
+    CardActions.enqueue(state,{op='draw',value=TimeEater.drawCount(state,state.rules.player.drawPerTurn+originalExtra)})
     if state.turn==1 and state.openingInnateExtra then
         CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
     end
@@ -1754,7 +1778,7 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     state.energy=state.energy+state.rules.player.energyPerTurn
     RelicHooks.atTurnStart(state)
     for _,action in ipairs(turns.onEnergyRecharge(state)) do actions[#actions+1]=action end
-    actions[#actions+1]={kind='effect',effect={op='draw',value=require('abyss_defect_final_cards').drawCount(state,state.rules.player.drawPerTurn)}}
+    actions[#actions+1]={kind='effect',effect={op='draw',value=TimeEater.drawCount(state,require('abyss_defect_final_cards').drawCount(state,state.rules.player.drawPerTurn))}}
     for _,action in ipairs(turns.preparePostDraw(state)) do actions[#actions+1]=action end
     if (state.player.statuses.foresight or 0)>0 and #state.draw==0 then M.shuffleDiscardIntoDraw(state)end
     local queue=require('abyss_action_queue');queue.start(state,actions)
@@ -1780,7 +1804,9 @@ function M.enemyActionRetained(effect)
 end
 function M.resolveEnemyAction(state,effect,enemy)
     local stage=effect.stage
-    if stage=='awakenedRebirth'then
+    if stage=='darklingHeal'or stage=='darklingRevive'or stage=='darklingRegrow'then
+        return Darklings.reincarnate(Actors,state,enemy,stage)
+    elseif stage=='awakenedRebirth'then
         return Awakened.rebirth(state,enemy,CardActions.enqueueReaction)
     elseif stage=='payload'then
         return resolveEffects(state,{effect.payload},enemy,state.player,nil,true,true)
@@ -1824,7 +1850,9 @@ local function queueEnemyTurn(state,enemy,intent,advanced)
     local function append(stage,payload)
         CardActions.enqueue(state,{op='enemyAction',stage=stage,payload=payload,intentId=intent.id,advanced=advanced},enemy)
     end
-    if Awakened.owns(enemy)and intent.id=='rebirth'then append('awakenedRebirth')
+    if Darklings.owns(enemy)and intent.id=='reincarnate'then
+        append('darklingHeal');append('darklingRevive');append('darklingRegrow')
+    elseif Awakened.owns(enemy)and intent.id=='rebirth'then append('awakenedRebirth')
     elseif intent.kind=='split'then append('split')
     elseif intent.kind=='escape'then append('escape')
     else
@@ -1832,6 +1860,7 @@ local function queueEnemyTurn(state,enemy,intent,advanced)
             local count=(effect.op=='damage' or effect.op=='damageAll') and (effect.times or 1) or 1
             for _=1,count do
                 local payload=copy(effect)
+                if effect.op=='daggerSacrifice'then payload.value=enemy.hp end
                 if effect.op=='damage' or effect.op=='damageAll'then payload.times=nil end
                 append('payload',payload)
             end
@@ -2188,7 +2217,7 @@ function M.endTurn(state)
         if result=='pause'or finish(state)then return true end
     end
     if state.originalV4 or advancedTurnCleanup(state)or require('abyss_act3_powers').active(state)
-        or Awakened.active(state) or require('abyss_giant_head').active(state)
+        or Darklings.active(state) or Awakened.active(state) or require('abyss_giant_head').active(state)
         or require('abyss_end_turn_powers').needed(state,require('abyss_act3_powers'))then
         local restore=require('abyss_snapshot').capture(state)
         local resolver=(state.originalV4 or not state.experimentalMechanics)and endNativeTurn or endExperimentalTurn
@@ -2252,6 +2281,8 @@ function M.new(data, options)
     if data.originalV4Role then require('abyss_original_v4').init(state,data.originalV4Role,copy(data.originalV4Rules)) end
     require('abyss_act1_bosses').register(state.catalog,copy)
     require('abyss_act3_bosses').register(state.catalog,copy)
+    require('abyss_reptomancer').register(state.catalog,copy)
+    Darklings.register(state.catalog,copy)
     for _,enemy in ipairs(require('abyss_act2_enemies').enemies)do
         assert(not state.catalog.enemies[enemy.id],'duplicate Act2 enemy')
         state.catalog.enemies[enemy.id]=copy(enemy)

@@ -1,6 +1,7 @@
 -- Audited A0 slice only. Keep every other source encounter explicitly unavailable.
 local M={}
 local GiantHead=require('abyss_giant_head')
+local Nemesis=require('abyss_nemesis')
 M.enemies={{id='orb_walker',sourceId='Orb Walker',name='雷核步行机关',tier='normal',hp=96,
  hpRange={min=90,max=96},ai={kind='act3',policy='orb_walker',preHpRoll=7},intents={
   {id='laser',kind='attack',effects={{op='damage',value=10},{op='enemyBurnBoth'}}},
@@ -54,13 +55,20 @@ M.enemies[#M.enemies+1]=require('abyss_writhing_mass').enemy
 M.statuses[#M.statuses+1]=require('abyss_writhing_mass').status
 M.enemies[#M.enemies+1]=GiantHead.enemy
 M.statuses[#M.statuses+1]=GiantHead.status
-local formations={['3 Shapes']='act3_three_shapes',['4 Shapes']='act3_four_shapes',
+M.enemies[#M.enemies+1]=Nemesis.enemy
+M.statuses[#M.statuses+1]=Nemesis.status
+local formations={['3 Darklings']='act3_darklings',['3 Shapes']='act3_three_shapes',['4 Shapes']='act3_four_shapes',
  ['Sphere and 2 Shapes']='act3_sphere_two_shapes',['Jaw Worm Horde']='act3_jaw_worm_horde'}
 function M.resolve(source,tier)
  if source=='Giant Head'then
   if tier~='elite'then return nil,'encounter_tier_mismatch'end
   return {id='act3_giant_head',tier=tier,source=source,enemies={'giant_head'}}
  end
+ if source=='Nemesis'then
+  if tier~='elite'then return nil,'encounter_tier_mismatch'end
+  return {id='act3_nemesis',tier=tier,source=source,enemies={'nemesis'}}
+ end
+ if source=='Reptomancer'then return require('abyss_reptomancer').resolve(source,tier)end
  local single=source=='Orb Walker'and 'orb_walker'or source=='Maw'and 'maw'or source=='Spire Growth'and 'spire_growth'
   or source=='Transient'and 'transient'or source=='Writhing Mass'and 'writhing_mass'
  if not single and not formations[source]then return nil,'act_content_unavailable'end

@@ -173,14 +173,20 @@ test('late end-round failure restores ramp history Slow and RNG object identitie
  assert(not ok and reached);same(s,before);eq(s.enemies[1],e);eq(s.aiRng,rng);eq(rng.primitive,words);eq(s.events,events)
  assert(C.endTurn(s));eq(e.statuses.slow,0);eq(s.aiRng.counter,2)
 end)
-test('real unchanged Act3 elite queue opens Giant Head and leaves unavailable elites atomic',function()
+test('real unchanged Act3 elite queue opens all source elites and late setup stays atomic',function()
  local r=stage();eq(Q.peek(r.encounters,'elite'),'Giant Head');local queue=r.encounters
  assert(Run.startRoomCombat(r,'elite'));eq(r.encounterSource,'Giant Head');eq(r.encounterTier,'elite')
  eq(r.combat.enemies[1].definitionId,'giant_head');eq(#r.combat.enemies,1)
  eq(r.combat.monsterHpRng.counter,1);eq(r.combat.aiRng.counter,1);eq(#r.encounters.elite,#queue.elite-1)
  for _,seed in ipairs({'1','3'})do
-  local unavailable=stage(seed);local before=C.copy(unavailable)
-  local ok,why=Run.startRoomCombat(unavailable,'elite');eq(ok,false);eq(why,'act_content_unavailable');same(unavailable,before)
+  local nextElite=stage(seed);local before=C.copy(nextElite);local source=Q.peek(nextElite.encounters,'elite')
+  local queue,deck=nextElite.encounters,nextElite.deck;local original=C.new
+  C.new=function(...)original(...);error('INJECTED_LATE_NEW_ELITE_SETUP')end
+  local called,ok,why=pcall(Run.startRoomCombat,nextElite,'elite');C.new=original
+  assert(called);eq(ok,false);eq(why,'combat_unavailable');same(nextElite,before)
+  eq(nextElite.encounters,queue);eq(nextElite.deck,deck)
+  assert(Run.startRoomCombat(nextElite,'elite'));eq(nextElite.encounterSource,source)
+  eq(source,seed=='1'and 'Nemesis'or 'Reptomancer')
  end
  eq(require('abyss_act3_enemies').resolve('Giant Head','normal'),nil)
 end)

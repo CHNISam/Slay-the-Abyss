@@ -10,7 +10,7 @@ for op in pairs(require('abyss_build_actions').ops) do extensionOps[op]=true end
 for op in pairs(require('abyss_flow_actions').ops) do extensionOps[op]=true end
 for op in pairs(require('abyss_watcher_final_cards').ops) do extensionOps[op]=true end
 
-local coreOps = { awakenedVoid=true, handChoice=true, whirlwind=true, reaperDamage=true, scry=true, multiplyPoison=true, bouncingPoison=true, gainOrbSlots=true, loseOrbSlots=true, applyBias=true, gainFocus=true, gainStancePower=true, innerPeace=true, requestDiscard=true, channelOrb=true, dualcastOrb=true, darkImpulseOrb=true, changeStance=true, generateShivs = true, damage = true, damageAll = true, block = true, draw = true, energy = true,
+local coreOps = { timeEater=true, awakenedVoid=true, handChoice=true, whirlwind=true, reaperDamage=true, scry=true, multiplyPoison=true, bouncingPoison=true, gainOrbSlots=true, loseOrbSlots=true, applyBias=true, gainFocus=true, gainStancePower=true, innerPeace=true, requestDiscard=true, channelOrb=true, dualcastOrb=true, darkImpulseOrb=true, changeStance=true, generateShivs = true, damage = true, damageAll = true, block = true, draw = true, energy = true,
     applyStatus = true, applyStatusAll = true, gainStatus = true, doubleBlock = true, noDrawThisTurn = true,
     loseHp = true, gainTemporaryStrength = true, damageEqualToBlock = true, addCardToDiscard = true,
     increaseDamageThisCombat = true, makeTempCardInDiscard = true }
@@ -19,7 +19,7 @@ local coreOps = { awakenedVoid=true, handChoice=true, whirlwind=true, reaperDama
 -- exceptions are specific GainBlock/Heal/UseCard actions and DAMAGE actions,
 -- not every action with BLOCK type (DoubleYourBlock is removed).
 -- The conditional ABI contains only Dropkick's queued energy/draw tail.
-local clearedAfterDamage = { draw=true, energy=true, applyStatus=true, applyStatusAll=true,
+local clearedAfterDamage = { timeEater=true, draw=true, energy=true, applyStatus=true, applyStatusAll=true,
     gainStatus=true, doubleBlock=true, noDrawThisTurn=true, gainTemporaryStrength=true,
     addCardToDiscard=true, increaseDamageThisCombat=true, makeTempCardInDiscard=true, conditional=true }
 local clearsOnFinalDamage = { damage=true, damageAll=true, damageEqualToBlock=true, loseHp=true }
@@ -27,6 +27,8 @@ local clearsOnFinalDamage = { damage=true, damageAll=true, damageEqualToBlock=tr
 -- Only the opt-in Weak/Vulnerable pair is target-first. Discover markers in
 -- the entire input before any effect, including holes and unreachable branches.
 -- Unmarked inputs deliberately keep their old validation/error timing.
+coreOps.reptomancerSummon=true
+coreOps.daggerSacrifice=true
 coreOps.enemyHealAll=true
 coreOps.enemyStrengthAll=true
 coreOps.enemyCleanse=true
@@ -111,6 +113,8 @@ function M.requiresQueue(effects)
     return false
 end
 function M.allowedAfterVictory(effect)
+    if require('abyss_time_eater').retained(effect)then return true end
+    if effect.op=='daggerSacrifice'then return true end
     if effect.op=='capturedSharpHide' then return true end
     if effect.op=='orbStart' then return effect.action.kind=='frost' end
     if effect.op=='engineEvokeRounds' or effect.op=='evokeOrb' or effect.op=='evokeWithoutRemovingOrb' then return true end
@@ -412,6 +416,10 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
             -- Actor owns the single HP-loss notification for either queue.
             Actors.hpLostFromCard(state,source,before-source.hp)
             require('abyss_relic_hooks').hpChanged(state,source,before)
+        elseif op=='reptomancerSummon'then
+            require('abyss_reptomancer').summon(combat,state,source)
+        elseif op=='daggerSacrifice'then
+            Actors.sacrificeDagger(state,source,assert(value,'missing captured Dagger HP'))
         elseif op=='enemyBurnBoth' then
             require('abyss_act3_powers').burnBoth(state,source)
         elseif op=='enemyDazedDraw' then
@@ -448,6 +456,8 @@ function M.apply(combat, state, effects, source, target, playedCard, queuedEnemy
                 end
                 Actors.resolveDamageReactions(state,reactions,combat.retaliate)
             end
+        elseif op=='timeEater'then
+            require('abyss_time_eater').execute(combat,state,effect,source,CardActions)
         elseif op=='enemyCleanse' then
             assert(source~=state.player and source.ai and source.ai.kind=='act2','Act2 cleanse only')
             local ids={}

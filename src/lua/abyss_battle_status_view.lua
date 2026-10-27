@@ -4,6 +4,7 @@ local M = {}
 local always = "本场战斗"
 
 function M.statusKind(entry)
+    if entry.id=='regrow'then return entry.kind end -- -1 is a no-number BUFF sentinel.
     -- Negative Strength/Dexterity follow the core's Artifact debuff gate.
     return entry.amount < 0 and "debuff" or entry.kind
 end
@@ -26,6 +27,12 @@ end
 -- Each status owns its explanation. The handler receives already formatted
 -- amounts, plus the original entry/rules/owner for the few conditional details.
 local descriptions = {
+    time_warp = function(v)
+        return '累计使用 '..v.n..'/12 张牌；满12张后结束回合，全体敌人获得2点力量', always, '复制和自动使用的牌也计数；跨回合保留。'
+    end,
+    draw_reduction = function(v)
+        return '回合开始时少抽1张牌', v.n..' 回合', '叠加延长持续时间，不额外减少抽牌数。'
+    end,
     strength = function(v)
         return "普通攻击每段伤害 " .. M.signed(v.entry.amount), temporaryDuration(v.entry),
             temporaryNote(v.entry, "力量", "不影响火焰药水的固定伤害")

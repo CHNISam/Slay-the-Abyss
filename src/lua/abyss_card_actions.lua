@@ -4,8 +4,9 @@ local Actors = require("abyss_actor")
 local Events = require("abyss_events")
 local PlatedArmor = require('abyss_plated_armor')
 local Act2Powers = require('abyss_act2_powers')
+local TimeEater=require('abyss_time_eater')
 local M = {}
-local operations = { writhingRoll=true,writhingParasite=true, classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
+local operations = { timeEater=true, writhingRoll=true,writhingParasite=true, classPotion=true, silentFinal=true, discover=true, colorless=true, heal=true, originalV4=true, exhaustRandom=true, exhaustChoose=true, exhaustNonAttacks=true,
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,
     secondWind=true, fiendFire=true, recoverExhaust=true, upgradeHand=true,
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
@@ -29,7 +30,8 @@ function M.enqueueReaction(state,effect,top)
     else M.enqueue(state,effect,nil,nil,nil,top)end
 end
 function M.reactionRetained(effect)
-    return effect.op=='awakenedAction' and effect.kind=='heal' or PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
+    if effect.op=='reptomancerSuicide'then return true end
+    return TimeEater.retained(effect) or effect.op=='awakenedAction' and effect.kind=='heal' or PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
         or effect.op=='damageRandom' or effect.op=='staticRetaliation'
         or effect.op=='silentFinal' and require('abyss_silent_final_cards').allowedAfterVictory(effect)
 end
@@ -60,6 +62,7 @@ end
 function M.fresh(combat, state, id, prototype)
     assert(state.catalog.cards[id], "unknown generated card")
     local c=prototype and combat.copy(prototype) or {cardId=id,upgraded=false}
+    c.dontTriggerOnUseCard=nil -- Stat-equivalent constructors do not copy this physical use flag.
     c.deckUid=nil -- Stat-equivalent generation has a fresh UUID, not master-deck ownership.
     -- Original BloodForBlood.makeCopy discounts a newly generated card by
     -- every HP-loss event already recorded this combat, before a temporary cost.
@@ -253,7 +256,9 @@ function M.apply(combat,state,item)
     if op=='writhingRoll'then return require('abyss_writhing_mass').roll(state,e.targetId)end
     if op=='writhingParasite'then return require('abyss_writhing_mass').obtainParasite(state,source)end
     if op=='giantHeadSlow'then return require('abyss_giant_head').applySlow(Actors,state,e)end
+    if op=='timeEater'then return TimeEater.execute(combat,state,e,source,M)end
     if PlatedArmor.supports(op)then return PlatedArmor.apply(combat,state,e,M.enqueueReaction)end
+    if op=='reptomancerSuicide'then return require('abyss_reptomancer').cleanup(Actors,state,e)end
     if Act2Powers.supports(op)then return Act2Powers.apply(Actors,state,e)end
     if op=='resolveCurlUp'then
         for _,enemy in ipairs(state.enemies)do
@@ -387,6 +392,8 @@ function M.apply(combat,state,item)
             Events.emit(state,"heal",{target=source.id,amount=amount})
             require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
+    elseif op=='darklingAction'then
+        require('abyss_darklings').resolve(state,e)
     elseif op=='awakenedAction'then
         require('abyss_awakened_one').resolve(Actors,state,e)
     elseif op=='capturedSharpHide'then

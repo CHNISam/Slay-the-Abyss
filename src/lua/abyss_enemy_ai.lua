@@ -1,6 +1,9 @@
 -- Enemy-specific decision state; all values and intent references come from data.
 local M = {}
 local Awakened=require('abyss_awakened_one')
+local Nemesis=require('abyss_nemesis')
+local Reptomancer=require("abyss_reptomancer")
+local Darklings=require('abyss_darklings')
 local Act3Bosses=require("abyss_act3_bosses")
 local Act1Bosses=require("abyss_act1_bosses")
 local Actors = require("abyss_actor")
@@ -38,13 +41,16 @@ end
 
 -- Constructor-only sampling must precede the next actor and all opening rolls.
 function M.prepare(state, enemy, random)
+    if Darklings.owns(enemy)then return Darklings.prepare(state,enemy,random)end
     if Awakened.owns(enemy)then Awakened.prepare(state)end
     if enemy.ai and enemy.ai.kind == "louse" then Louse.prepare(state, enemy, random) end
 end
 
 function M.preBattle(state, enemy, random)
+    if Darklings.owns(enemy)then return Darklings.preBattle(Actors,state,enemy)end
     if Awakened.owns(enemy)then return Awakened.preBattle(Actors,state,enemy)end
     if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.preBattle(Actors,state,enemy) end
+    if Reptomancer.owns(enemy)then return Reptomancer.preBattle(Actors,state,enemy)end
     if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.preBattle(state,enemy) end
     if enemy.ai and enemy.ai.kind=='jaw_worm'then return JawWorm.preBattle(state,enemy,Actors)end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.preBattle(state,enemy) end
@@ -54,8 +60,11 @@ function M.preBattle(state, enemy, random)
 end
 
 function M.initialize(state, enemy, random)
+    if Darklings.owns(enemy)then return Darklings.initialize(state,enemy,random)end
     if Awakened.owns(enemy)then return Awakened.initialize(state,enemy,random)end
     if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.initialize(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.initialize(state,enemy,random)end
+    if Reptomancer.owns(enemy)then return Reptomancer.initialize(state,enemy,random)end
     if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.initialize(state,enemy,random) end
     if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.initialize(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.initialize(state,enemy,random) end
@@ -137,6 +146,8 @@ end
 
 function M.advance(state, enemy, random)
     if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.advance(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.advance(state,enemy,random)end
+    if Reptomancer.owns(enemy)then return Reptomancer.advance(state,enemy,random)end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.advance(state,enemy,random) end
     if enemy.ai and enemy.ai.kind == 'act2' then return Act2.advance(state,enemy,random) end
     if not enemy.ai then
@@ -199,8 +210,11 @@ end
 -- Acid S sets its next move directly instead; do not invent a queued roll.
 local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random, executedIntent)
+    if Darklings.owns(enemy)then return Darklings.afterAction(state,enemy,random)end
     if Awakened.owns(enemy)then return Awakened.afterAction(state,enemy,random)end
     if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.advance(state,enemy,random) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.advance(state,enemy,random)end
+    if Reptomancer.owns(enemy)then return Reptomancer.advance(state,enemy,random)end
     if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.afterAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.afterAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.afterAction(state,enemy,random) end
@@ -248,6 +262,8 @@ end
 
 function M.beforeAction(state, enemy, random, executedIntent)
     if Awakened.owns(enemy)then return Awakened.beforeAction(enemy,executedIntent)end
+    if enemy.ai and enemy.ai.kind=="act3_boss" then return Act3Bosses.beforeAction(state,enemy,executedIntent) end
+    if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.beforeAction(state,enemy)end
     if enemy.ai and enemy.ai.kind=="act1_boss" then return Act1Bosses.beforeAction(state,enemy,executedIntent) end
     if enemy.ai and enemy.ai.kind=='act3' then return Act3.beforeAction(state,enemy,random,executedIntent) end
     if enemy.ai and enemy.ai.kind=='act2' then Act2.beforeAction(state,enemy,random,executedIntent) end
@@ -260,6 +276,7 @@ function M.beforeAction(state, enemy, random, executedIntent)
 end
 
 function M.afterEffects(state, source)
+    if source.ai and source.ai.kind=='nemesis'then return Nemesis.afterEffects(Actors,state,source)end
     if source.ai and source.ai.kind=="act1_boss" then return Act1Bosses.afterEffects(state,source) end
     if source.ai and source.ai.kind == "guardian" then Guardian.afterEffects(state, source) end
 end
