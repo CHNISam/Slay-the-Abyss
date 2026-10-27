@@ -78,6 +78,10 @@ local function control(spec, parent)
     function box:GetChild(name) return self.children[name] end
     function box:SetVisible(value) self.visible = value end
     function box:SetImage(source, id) self.imageId = id end
+    function box:SetSizeDelta(width,height)
+        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)
+        self.size={width,height};self.sizeDeltaX,self.sizeDeltaY=width,height
+    end
     function box:SetLocalScale(...) end
     function box:SetAnchoredPosition(x, y) self.position = {x, y} end
     function box:AddCursorEventListener(event, handler)

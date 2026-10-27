@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@codex'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 03:30'
+updated_date: '2026-10-27 04:15'
 due_date: '2026-10-28'
 labels:
   - art
@@ -74,4 +74,6 @@ PR236 首轮完整CI被既有 phase_four_presentation.lua 的30秒超时阻断�
 PR240首候选f7fc855已发布。完整本地Node终态1594通过/1失败/零跳过，唯一失败已确认spawnSync pwsh ENOENT；后续完整阶段未运行，不以旧切片PASS冒充。发布时develop刚合入PR232至fc51f198，现保留全部上游事件/节点改动并同步；唯一冲突静态baseline依最新106历史警告重新精确核对17条源行/声明行迁移，零新增豁免。新组合的相关回归及精确SHA完整CI继续收口。
 
 同步fc51f198后的51项定向全部通过；新增上游3份NodeUI测试fixture原缺SetSizeDelta导致7项失败，现仅补与平台一致的严格数值记录方法，原断言不变，失败和通过均保留。2538标题、178旧文案、四屏/卡图回归、143模块705边架构与106历史警告静态检查通过；相对最新develop仅本切片18文件。前后布局和八张占位卡面离线图已交Owner，不等于正式插画/实机验收。
+
+51999448完整Quality40444817317的四个Windows Lua分片失败，原因是三份旧独立NodeUI mock缺SetSizeDelta；已复现10入口全红，并仅补严格API记录后10入口75组全绿，新增删除API必失败负控且optional-method变异被原断言捕获。随后同步develop e25a0d6的手柄/地图改动，保留全部上游逻辑；通过纯续行格式保持原警告行位，luacheck-baseline现与最新develop原字节一致。e25组合52项JS/事件和18个Lua定向入口已通过，静态106历史/零新增、架构144模块713边通过。旧499入口全Lua因新base停止，仅33入口完成，明确未作全量通过；最终完整CI仍待新精确SHA。
 <!-- SECTION:NOTES:END -->

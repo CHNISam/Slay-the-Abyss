@@ -14,6 +14,7 @@ end
 -- These methods capture no node state. Keep them as own fields so overrides
 -- and pairs/rawget see the same control shape without per-node closures.
 local Control = {}
+local controlMethods = { __index = Control }
 function Control:GetChild(name) return self.children[name] end
 function Control:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
 function Control:SetSizeDelta(width, height) self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
@@ -37,11 +38,23 @@ function Control:AddKeyEventListener(event, fn)
     assert(not self.keyListeners[event], 'duplicate key listener')
     self.keyListeners[event] = fn
 end
+function Control:AddNavigationEventListener(event,fn)
+    self.navigationListeners=self.navigationListeners or {}
+    assert(not self.navigationListeners[event],'duplicate navigation listener')
+    self.navigationListeners[event]=fn
+end
+function Control:SetControllerNavigation(direction,mode,target)
+    self.navigation=self.navigation or {};self.navigation[direction]={mode=mode,target=target}
+end
+function Control:GetChildren()
+    local children={};for _,child in pairs(self.children)do children[#children+1]=child end;return children
+end
 
 local function control(spec, parent)
     local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, interactable = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
+    setmetatable(self, controlMethods)
     self.GetChild = Control.GetChild
     self.AddKeyEventListener = Control.AddKeyEventListener
     self.SetVisible = Control.SetVisible
@@ -70,13 +83,13 @@ local function control(spec, parent)
     return self
 end
 -- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
-local function fixture(data, settle, music, cursorEvents, prologue, sound, pointer)
+local function fixture(data, settle, music, cursorEvents, prologue, sound, pointer, controllerApi)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
         { seed = 1, imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
           prologue = prologue == true, sound = sound, cursorPosition = pointer and pointer.position,
-          touchScreen = pointer and pointer.touchScreen, keyEvents = pointer and pointer.keyEvents })
+          touchScreen = pointer and pointer.touchScreen, keyEvents = pointer and pointer.keyEvents, controllerApi=controllerApi })
     root.ui = ui
     return ui, root
 end

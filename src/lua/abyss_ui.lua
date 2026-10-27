@@ -54,6 +54,12 @@ function OnStart()
         end
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
             { music = music, experimentalCharacters = hasClasses and enableClasses==true, originalCharacters = not (hasClasses and enableClasses==true),
+              controllerApi = {events=Enum.ControllerNavigationEventType,directions=Enum.ControllerNavigationDir,
+                  modes=Enum.ControllerNavigationMode,getFocus=game.GetControllerFocus,setFocus=game.SetControllerFocus,
+                  isController=function()
+                      local device=game.GetDevice()
+                      return device==Enum.Device.Controller or device==Enum.Device.MobileController
+                  end},
               color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, keyEvents = Enum.KeyEventType,
               cursorPosition = function() return game.GetCursorUIPos() end,
               touchScreen = function() return game.GetDevice() == Enum.Device.Mobile end,

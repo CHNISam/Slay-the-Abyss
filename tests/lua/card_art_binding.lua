@@ -71,6 +71,18 @@ end
 Theme.icon.cardPortraits.strike=nil
 Display.writeArt(art,{id="strike",type="attack"},picture)
 assert(art.imageId==Theme.icon.cardArt.attack and art.sizeDeltaX==40 and art.sizeDeltaY==40,"missing portrait did not reset square fallback")
+-- Missing native resize support is a broken fixture/adapter, never permission
+-- for production to silently leave an icon at stale or stretched dimensions.
+local resize,methods=art.SetSizeDelta,getmetatable(art)
+art.SetSizeDelta=nil
+setmetatable(art,nil) -- Remove the shared mock method inherited through __index too.
+assert(art.SetSizeDelta==nil,"negative control did not remove native resize API")
+local ok,reason=pcall(Display.writeArt,art,{id="strike",type="attack"},picture)
+art.SetSizeDelta=resize
+setmetatable(art,methods)
+assert(not ok and tostring(reason):find('SetSizeDelta',1,true),"missing native resize API was silently bypassed")
+Display.writeArt(art,{id="strike",type="attack"},picture)
+assert(art.sizeDeltaX==40 and art.sizeDeltaY==40,"restored native resize API did not record geometry")
 Theme.icon.cardPortraits.strike={id=102035,status="test-native-asset",size={0,128}}
 assert(not pcall(Display.writeArt,art,{id="strike",type="attack"},picture),"invalid portrait dimensions were accepted")
 Theme.icon.cardPortraits.strike.id = "https://example.invalid/card.png"

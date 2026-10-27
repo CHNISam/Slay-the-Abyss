@@ -8,6 +8,10 @@ local function control(spec, parent)
     local box = {parent=parent, visible=spec.visible~=false, children={}, listeners={}}
     function box:GetChild(key) return self.children[key] end
     function box:SetVisible(value) self.visible=value end
+    function box:SetSizeDelta(width,height)
+        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)
+        self.size={width,height};self.sizeDeltaX,self.sizeDeltaY=width,height
+    end
     function box:SetLocalScale(x,y,z) self.scale={x,y,z} end
     function box:SetAnchoredPosition(x,y) self.x,self.y=x,y end
     function box:AddCursorEventListener(event, fn)

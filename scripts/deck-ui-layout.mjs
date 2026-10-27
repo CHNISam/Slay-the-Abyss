@@ -49,6 +49,9 @@ export function deckControls(theme = nativeTheme) {
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
         size: l.deckView.viewport.slice(2), focusable: true, visible: false },
       button('close', l.deckView.close, '关闭'),
+      { ...button('previous', l.deckView.previous, '上一页'), visible: false },
+      { ...button('next', l.deckView.next, '下一页'), visible: false },
+      { ...text('pageHint', l.deckView.pageHint, '', f.small, c.textDim), visible: false },
     ] },
   ];
 }
