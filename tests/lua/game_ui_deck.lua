@@ -4,6 +4,7 @@ local Presentation, Layout, Viewport, Theme = F.Presentation, F.Layout, F.Viewpo
 local preview, control, fixture = F.preview, F.control, F.fixture
 local statValue, resultText, mapControl, click, win = F.statValue, F.resultText, F.mapControl, F.click, F.win
 local count = 0
+local Map = require('abyss_map')
 local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
 
 local function same(a, b)
@@ -115,9 +116,18 @@ test("node overlay preserves the node presentation while preventing underlying t
     local ui, root = fixture()
     ui:start()
     ui.run.hp = 20 -- Rest is enabled only below full health in the approved camp UI.
-    local available = Nodes.available(ui.run,ui.map)[1]
-    for _, node in ipairs(ui.map.nodes) do if node.id == available.id then node.type = "camp" end end
+    -- Navigation-only controlled boundary: use a real reachable source camp,
+    -- not an edited first combat node that canonical entry must reject.
+    local available
+    while not available do
+        local choices=Map.available(ui.map);assert(#choices>0,'canonical camp route missing')
+        for _,node in ipairs(choices)do if node.type=='camp' then available=node;break end end
+        if not available then assert(Map.choose(ui.map,choices[1].id))end
+    end
+    ui.run.floor=ui.map.floor;ui:refresh()
+    assert(Nodes.restoreMap(ui.run,ui.map),'deck fixture must keep the canonical source map')
     assert(ui.mapUI:choose(available.id) and ui.mode == "node")
+    assert(ui.run.nodeFlow.id==available.id and ui.run.nodeFlow.type=='camp')
     local before = Combat.copy(ui.run)
     openDeck(ui,root)
     assert(root:GetChild("nodePanel").visible and not ui.nodeUI.visible)

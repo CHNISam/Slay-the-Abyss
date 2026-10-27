@@ -2,7 +2,7 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 -- Controlled chapter/event IDs, a late rare queue and explicit zero enemy HP
 -- isolate native host wiring. This is not a natural route or live UI evidence.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
-local Run,Map,Queue,Pool=require('abyss_run'),require('abyss_map'),require('abyss_encounter_queue'),require('abyss_event_pool')
+local Run,Map=require('abyss_run'),require('abyss_map')
 local count=0
 local function test(name,fn)fn();count=count+1;print('PASS event combat UI '..count..' - '..name)end
 local function get(root,path)
@@ -14,14 +14,32 @@ local function fixture(id)
   seed=42,prologue=false,campaign=true,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
  root.ui=host;assert(host:start())
  local run=host.run
- run.act,run.floor=3,34;run.encounters=Queue.new(run.runSeed,3);run.unknown.pools=Pool.new('full',false,3)
+ -- Stage only completed prior chapters; the public transition owns source
+ -- queues and map-birth context. This remains controlled, not natural play.
+ while run.act<3 do
+  local floor=run.act*17
+  run.phase,run.pendingAct,run.floor='act_transition',run.act+1,floor
+  run.nodeFlow={floor=floor,complete=true,roomKind='boss_treasure',result='boss_treasure_complete'}
+  assert(Run.advanceAct(run))
+ end
  run.relicPool.queues.rare={'TungstenRod'} -- controlled source queue; no identity reroll.
- local map=Map.generate(run.data,run.runSeed,3);local first=assert(Map.available(map)[1])
- for _,node in ipairs(map.nodes)do if node.id==first.id then node.type,node.eventId='event',id end end
+ -- Existing explicit event-content input isolates UI behavior. Never change a
+ -- generated node's type/id to manufacture the requested room.
+ run.data.rules.events.encounterId=id
+ local map=Map.generate(run.data,run.runSeed,3,assert(Run.mapContext(run)))
+ local first
+ while not first do
+  local available=Map.available(map);assert(#available>0,'canonical event route missing')
+  for _,node in ipairs(available)do if node.type=='event' then first=node;break end end
+  if not first then assert(Map.choose(map,available[1].id))end
+ end
+ run.floor=map.floor
+ assert(F.Nodes.restoreMap(run,map),'event UI must retain the canonical chapter map')
  host.map,host.mapUI.map,host.nodeUI.map=map,map,map
  host:refresh();assert(host.mode=='map'and get(root,'mapPanel').visible)
  assert(host.mapUI:choose(first.id))
  assert(host.mode=='node'and run.phase=='node'and get(root,'nodePanel/eventView').visible)
+ assert(run.nodeFlow.id==first.id and run.nodeFlow.type=='event' and run.nodeFlow.event.id==id)
  return host,root,run,map
 end
 local function option(root,index)return get(root,'nodePanel/eventView/option'..index)end
