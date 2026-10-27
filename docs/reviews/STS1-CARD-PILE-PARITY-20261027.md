@@ -22,8 +22,10 @@
 - 原 `battle_ui_drag_source.lua` 10、`drag_response.lua` 3、`game_ui_deck.lua` 6、`battle_ui_card_play.lua` 11、`card_preview.lua` 19 组通过。没有删断言、缩池或改变超时。
 - 原模块负对照：新 motion 首组在旧瞬移位置失败，pile 首组因旧模块无 `openPile` 失败；恢复实现后均通过。
 - 新入口命中层布局 2 组、既有 UI/牌库布局 12 组通过；stage 直属控件仍 60，安全区、原视觉和全部名字保留。
+- 临时按交接 patch 接通正式入口后，`game_ui_pile_entry.lua` 4 组通过：实际生成图标 → GameUI 模态 → 三种牌堆、关闭恢复、演出/拖牌/退出/奖励拒绝、真实升级 True Grit 强制选牌不被覆盖、同一 run 换战斗关闭旧快照。
+- 固定 Luacheck 检查 cardView 无诊断且所有函数复杂度≤15；deckUI 保留四项既有 self shadow 诊断，无新增诊断（整合时需按真实新行位重定位原基线）。145 模块/716 边架构、JS 语法和 diff 检查通过。
 
-子 session 测试使用主 session 负责的最小临时接线：`battle_ui:update(dt)` 调用 `cardView.update(dt)`。正式合并必须保留该接线；牌堆入口还需主 session 将三个图标的 `hit` 接到 GameUI 模态管理后执行完整入口回归。
+子 session 测试使用主 session 负责的临时接线：`battle_ui:update(dt)` 调用 `cardView.update(dt)`，以及三个图标的 `hit` 接到 GameUI 模态管理。精确 patch 已交主 session；本子分支不提交共享入口文件，主 session 正式整合后须复验新入口用例。图标下附透明命中层，保持 stage 60 控件；原生派发和层级仍待千星实机验证。
 
 ## 未取得的证据与剩余项
 

@@ -180,7 +180,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         end)
         return true
     end
-    function self:openPile(run, kind)
+    function self.openPile(_, run, kind)
         if not pileNames[kind] or not run or run.phase~="combat" or not run.combat
             or run.combat.phase~="player" or type(run.combat[kind])~="table" then return false end
         return self:open(run,nil,nil,kind)
