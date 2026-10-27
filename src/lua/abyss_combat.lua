@@ -893,7 +893,7 @@ local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
     end
 end
 local function beginQueuedPlay(state, uid, targetIndex, instance, position, card, automatic)
-    if card.target=='ENEMY'or card.target=='SELF_AND_ENEMY'then Actors.faceTarget(state,state.enemies[targetIndex])end
+    if not automatic and (card.target=='ENEMY'or card.target=='SELF_AND_ENEMY')then Actors.faceTarget(state,state.enemies[targetIndex])end
     local previous = state.resolvingCard
     state.resolvingCard = true
     local reactions = EnemyAI.cardReactions(state, card)
@@ -1009,7 +1009,6 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
 end
 
 local function queueNativePlay(state, uid, targetIndex, instance, card, free, forceExhaust, purge, top, energyOnUse)
-    if card.target=='ENEMY'or card.target=='SELF_AND_ENEMY'then Actors.faceTarget(state,state.enemies[targetIndex])end
     state.resolvingCard = true
     state.cardInUse=instance
     state.cardsPlayedThisTurn=state.cardsPlayedThisTurn or {};state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}
@@ -1155,6 +1154,7 @@ function M.disposeCard(state,item)
 end
 
 local function resolveNativePlay(state,uid,targetIndex,instance,position,card)
+    if card.target=='ENEMY'or card.target=='SELF_AND_ENEMY'then Actors.faceTarget(state,state.enemies[targetIndex])end
     table.remove(state.hand,position)
     queueNativePlay(state,uid,targetIndex,instance,card)
     CardActions.drain(M,state)

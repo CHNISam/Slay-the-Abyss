@@ -31,3 +31,6 @@
 定向命令：`node --test tests/spire-pair-component.test.mjs`，Lua仍保持30秒上限。父组合必须补真实战斗、药水转向、Power/队列及失败回滚回归，之后再谈完整终幕和平台验收。
 
 2026-10-28本片先以缺组件断言真实RED（250ms），实现后校准了真实Actor未持有新Power时为nil的夹具表示。最终10组组件GREEN（784.8ms）、Node2/2通过；独立8×6回合向量再生成与JSON/Lua逐字一致，两份Lua按5.3解析通过，新模块固定Luacheck1.2.0零告警，diff检查通过。未跑全量或任何GUI，未修改共享接线与门禁。
+# 组合复审：自动牌的朝向
+
+只有手动指定敌方目标的出牌和定向药水改变朝向。Havoc、Mayhem、复制等自动队列直接调用 useCard，不经过 AbstractPlayer.playCard 的转向入口。真实自动定向队列先复现错误翻转；转向移至手动 native 发牌入口，并在 advanced 入口排除 automatic 后，两个实际解析器与 Havoc 公开出牌路径均保留原朝向。免费手动牌仍按指定目标转向；原药水、取整、死亡及回滚回归保持，总10组。

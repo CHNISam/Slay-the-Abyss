@@ -9,10 +9,14 @@ local function fresh(advanced,id)
 end
 for _,advanced in ipairs({false,true})do
  test((advanced and 'advanced'or 'native')..' legal single-target card turns before its effects',function()
-  local s,shield,spear,card=fresh(advanced)
-  assert(not s.spirePair.facingLeft and shield.statuses.back_attack==1)
-  assert(C.play(s,card.uid,1));assert(s.spirePair.facingLeft)
-  assert(not shield.statuses.back_attack and spear.statuses.back_attack==1)
+  for _,free in ipairs({false,true})do
+   local s,shield,spear,card=fresh(advanced);card.freeToPlayOnce=free
+   local energy=s.energy
+   assert(not s.spirePair.facingLeft and shield.statuses.back_attack==1)
+   assert(C.play(s,card.uid,1));assert(s.spirePair.facingLeft)
+   assert(not shield.statuses.back_attack and spear.statuses.back_attack==1)
+   if free then assert(s.energy==energy,'free manual card must remain a manual targeted play')end
+  end
  end)
 end
 test('self/AoE cards and rejected targets cannot change facing',function()
@@ -23,6 +27,31 @@ test('self/AoE cards and rejected targets cannot change facing',function()
  local s,shield,_,card=fresh(false)
  local ok,why=C.play(s,card.uid,3)
  assert(not ok and why=='invalid_target'and not s.spirePair.facingLeft and shield.statuses.back_attack==1 and s.hand[1]==card)
+end)
+
+test('queued automatic targeted cards preserve player facing in both resolvers',function()
+ for _,advanced in ipairs({false,true})do
+  local s,shield,spear,card=fresh(advanced)
+  if advanced then s.catalog.cards.strike.effects[#s.catalog.cards.strike.effects+1]={op='scry',value=0} end
+  s.hand={}
+  C.queueCard(s,card,{targetIndex=1,exhaustCards=false})
+  Cards.drain(C,s)
+  assert(shield.hp<110,'queued target must actually be attacked')
+  assert(not s.spirePair.facingLeft and shield.statuses.back_attack==1 and not spear.statuses.back_attack,
+   'autoplay must not turn toward its queued target')
+ end
+end)
+
+test('real Havoc target selection and autoplay do not turn the player',function()
+ local s,shield,spear,havoc=fresh(false,'havoc')
+ local R=require('abyss_sts_random');s.cardRandomRng=R.fromSeed('1')
+ local expected=R.randomInt(R.cloneState(s.cardRandomRng),1)+1
+ A.faceTarget(s,s.enemies[3-expected]) -- controlled facing opposite the selected top-card target.
+ local facing=s.spirePair.facingLeft;local left,right=shield.hp,spear.hp
+ s.draw={Cards.fresh(C,s,'strike')}
+ assert(C.play(s,havoc.uid))
+ assert(shield.hp<left or spear.hp<right,'Havoc must execute the real top card')
+ assert(s.spirePair.facingLeft==facing,'Havoc autoplay must preserve the pre-use facing')
 end)
 test('actual output and intent preview preserve the distinct source float boundaries',function()
  local s,shield=fresh(false)
