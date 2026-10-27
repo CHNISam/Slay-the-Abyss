@@ -4,27 +4,23 @@
 
 ## 版本与公告（2026-10-27 起）
 
-- 只使用 `vX.Y.Z`，无预发布后缀。Alpha 为 `0.x.x`；正式参赛首发目标为 `v1.0.0`。当前 `package.json` 的 `0.1.0` 只是代码基线，不证明历史 Alpha 已用此版本发布；无法考证的旧版本不补 Tag 或公告。
-- `package.json` 是代码版本来源；Release Please 同步 lockfile、manifest 和 `CHANGELOG.md`。公告正文仅维护 CHANGELOG 一份，构建时生成现有 `abyss_narrative.lua` 数据。`data/release/publications.json` 只保存真实发布凭证，不重复维护公告正文，初始为空。
-- 保留 `develop` 集成、`master` 正式生产的分工。现有 Alpha 作品继续测试；正式参赛使用新的奇域作品身份，仍使用同一仓库。两种作品的发布记录按作品身份区分，不把测试作品的历史冒充参赛作品历史。
-- 使用 [release-please](https://github.com/CHNISam/agent-skills/tree/553ee762fdf0ae86ee9ad42fd6b6dfa2cf880022/release-please) 与 [git-workflow](https://github.com/CHNISam/agent-skills/tree/553ee762fdf0ae86ee9ad42fd6b6dfa2cf880022/git-workflow) Skill。Release Please 仅手动发起一个批次的版本提案；普通提交、合并和 CI 不触发发布。配置采用上游的 pre-1 策略：兼容功能/修复升 PATCH，破坏性变更升 MINOR；不是逐提交累加版本。
+一眼看版本：[版本总览](versions/README.md)，完整更新说明：[CHANGELOG.md](../CHANGELOG.md)。
 
-### 下一次 Alpha 发布
+- Alpha 使用 `v0.x.y`，正式参赛首发目标 `v1.0.0`。新增功能正常升 MINOR，纯修复升 PATCH；版本按代码批次划分，不绑定 Milestone、每日提交或 PR 数量。
+- 2026-10-22～27 的 14 个版本依据 Git 主线回溯整理。历史 Tag 指向选定旧源码提交，不重写历史代码字段；历史版本日期不冒充千星奇域发布日期。
+- `package.json` 是**当前代码版本**来源，lockfile/manifest 必须同步；`CHANGELOG.md` 是游戏公告唯一正文。Alpha 的历史公告可浏览这些源码版本，即使真实发布凭证还没有补齐。
+- `data/release/publications.json` 只保存真实平台发布回执，不能充当版本目录。原 Alpha 测试作品和未来正式参赛作品共用仓库，但正式参赛作品的历史只读自己确认的发布记录。
+- 复用现有 [release-please](https://github.com/CHNISam/agent-skills/tree/master/release-please) / [git-workflow](https://github.com/CHNISam/agent-skills/tree/master/git-workflow) Skill，手动发起版本提案；日常合并、CI 不自动打 Tag 或上传平台。
 
-1. 准备实际交付时，在 Actions 手动运行 `Release proposal (manual only)`，选择 `develop`。审查 Release Please PR 的版本与「新增 / 优化 / 修复」说明；删改不面向玩家的内容只在 CHANGELOG 完成，不再写第二份公告。首次配置从现有代码基线开始，不回填不可核实的旧发布。
-2. 按原有 PR 与 CI 规范合入提案，冻结精确、干净的源码提交。使用 `npm run build:native -- <base.gil> build/native-audio-game --release-candidate --work-key=alpha-test` 构建同一候选，并按现有工程/实机门禁验收（原生工具链见 `docs/TOOLCHAIN.md`）。合并提案本身不产生 Tag、GitHub Release 或平台发布。
-3. 用户将验收通过的同一构建发布到现有 Alpha 测试作品；保存实际作品 ID、UTC+8 时间、成功凭证及构建 SHA256。上传、可发布、编译通过均不能代替真实发布成功。
-4. 成功后补一条 publication 凭证，将版本、原构建提交 SHA、构建与说明 hash、作品身份和证据绑定；在**原交付提交**上创建不可移动的注释 Tag，不能指向后来补凭证的提交。需要 GitHub Release 时复用该 Tag 与同一说明，不另造版本。确认闭环后才把版本提案 PR 的 `autorelease: pending` 改为 `autorelease: tagged`。
+### 下一次 Alpha 版本
 
-发布凭证从最终音频构建的 `build/native-audio-game/audio/candidate.json` 复制：`version` / `workKey` / `notesSha256` 取 `release` 下对应字段，`sourceCommit` 原样保留，`artifactSha256` 取最终 `sha256`，不要取前置无音乐候选的 hash。仅另填实际 `workId`、带时区的 `publishedAt` 与 `evidence`。`evidence` 指向已有、脱敏、非空的仓库相对文件（例如 `docs/evidence/<version>-publication.md`）；凭证不重复保存公告正文。构建命令生成证据并不证明已发布，不能提前写入成功记录。
+1. 决定更新批次，在 Actions 中手动运行 `Release proposal (manual only)`，审阅版本号、中文 CHANGELOG，并经 CI 与原生设备验证。
+2. 真实对外更新 Alpha 作品后，保存作品 ID、原源码 SHA、产物 SHA256、北京时间及成功凭证；构建成功不等于发布成功。
+3. 在验收后固定不可移动的注释 Tag；已公开发布记录写入 `data/release/publications.json`。后续 Release Please 以最近版本接续，检查不要重复使用版本号。
 
-未来正式首发沿用既有 release 分支晋升流程，使用上游支持的 `Release-As: 1.0.0` Conventional Commit footer 提出明确版本，再按正式作品验收和人工发布流程执行。本次实现不执行晋升、不修改 `master`、不发布或报名。
+### 玩家公告
 
-### 静态公告的时间边界
-
-候选构建的「本次版本说明 / 说明日期」表示随包内容，**不是已发布声明**；只有真实凭证中的条目显示为「已发布记录 / 发布日期」。第一次发布的构建不可能预先包含事后成功凭证，因此它展示本次说明；凭证在后续构建中进入历史。不能为改变这个标签重新构建同一已发布版本或移动 Tag。旧离线构建也不会联网获取未来公告。
-
-版本提案 workflow 使用 `skip-github-release: true`，禁止自动创建 Tag/Release。若 GitHub 要求批准机器人 PR 的工作流，由现有写入者批准；不新增 PAT、不调整分支保护。合并但尚未真实发布的提案会保留 pending，先完成或明确处理该候选，不用假 Release 解锁下一次提案。
+Alpha 构建的历史列表直接读取 `CHANGELOG.md`，只包含不晚于当前包版本的内容；未确认平台发布时仅显示「版本日期」，有真实回执才显示「发布日期」。不做已读状态、红点、自动弹窗或 Lv.4 存档。新正式参赛奇域单独绑定发布凭证。原生真机展示仍须独立验收。
 
 ## 0. 不可错过的门槛（已由官方确认）
 
