@@ -40,7 +40,9 @@ function M.new(controller, ui)
     local selection = ui.selection
     local function purchase(key, category, slot, enabled, handler, name, description, reason, attention)
         local invoke, observe = selection:bind(key, category, slot, handler, name, description)
-        return action(key, enabled, invoke, reason, attention, observe)
+        -- Disabled goods still receive a fresh click to explain the refusal.
+        -- Only enabled purchases arm a quote-owning transaction gesture.
+        return action(key, enabled, invoke, reason, attention, enabled and observe or nil)
     end
 
     local function shortfall(price)
