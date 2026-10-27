@@ -139,6 +139,7 @@ function M.new(stage, platform, present, complete)
         if self.slotOwners[slot]~=id then resetUnit('enemy'..slot) self.slotOwners[slot]=id end
     end
     function self:reset()
+        self.battle = nil
         stage:SetAnchoredPosition(0, 0)
         hideOverlay(false, true)
         for _, name in ipairs({"banner", "bannerPlate"}) do
@@ -303,11 +304,20 @@ function M.new(stage, platform, present, complete)
         end
     end
     function self:start(before, battle, first, presentation, origin)
-        self:reset()
+        -- GameActionManager releases its action gate independently of the
+        -- dungeon's effectList. A subsequent card in this battle must not erase
+        -- a previous target's still-running number, HP ghost or recovery pose.
+        -- Cancellation, failure and battle replacement retain full cleanup.
+        if self.battle ~= battle then self:reset() end
+        self.battle = battle
         self.presentation, self.origin, self.acting = presentation, origin, nil
         self.shadow = {catalog = battle.catalog, rules = battle.rules}
         for k, v in pairs(before) do self.shadow[k] = v end
-        for _, a in ipairs(before.enemies) do if a.hp <= 0 then self.deaths[a.id] = true end end
+        self.deaths = {}
+        for _, a in ipairs(before.enemies) do
+            if a.hp <= 0 then self.deaths[a.id] = true
+            else self.dying[a.id] = nil end
+        end
         self.queue, self.index, self.elapsed = {}, 0, 0
         local previous, area, pending = before, false, {}
         local function flush()
