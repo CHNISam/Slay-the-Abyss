@@ -208,7 +208,7 @@ test('real Host shows shifting intent HP and both source Power details without r
  for _=1,2 do local _,n=Q.consume(r.encounters,'normal');r.encounters=n;r.floor=r.floor+1 end
  assert(Run.startRoomCombat(r,'normal'));host:refresh()
  local panel=root:GetChild('battlePanel');local enemy=panel:GetChild('enemy1');local _,tap=H.controls(panel)
- eq(enemy:GetChild('name').text,'Transient');eq(enemy:GetChild('hp').text,'999/999');eq(enemy:GetChild('intent').text,'30')
+ eq(enemy:GetChild('name').text,'流散之影');eq(enemy:GetChild('hp').text,'999/999');eq(enemy:GetChild('intent').text,'30')
  enemy:GetChild('statusRow'):GetChild('hit').click({touchId=81})
  local info=panel:GetChild('statusInfo');assert(info.visible);local texts={}
  for i=1,F.Theme.layout.statusInfo.rows do
