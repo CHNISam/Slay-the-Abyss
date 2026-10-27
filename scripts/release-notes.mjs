@@ -145,11 +145,30 @@ export function loadReleaseNotes({ root = process.cwd(), workKey = 'alpha-test',
     if (!notes.has(id)) throw new Error(`Release candidate requires matching CHANGELOG notes: ${id}`);
     result.currentNotice = notes.get(id);
   }
-  result.history = confirmed.filter(({ row }) => row.workKey === workKey)
-    .sort((a, b) => Date.parse(b.row.publishedAt) - Date.parse(a.row.publishedAt))
-    .map(({ row, note }) => ({ version: row.version,
-      // Publication dates use the project's UTC+8 publishing timezone, independent of the build host.
-      publishedDate: new Date(Date.parse(row.publishedAt) + 8 * 60 * 60 * 1000).toISOString().slice(0, 10),
-      sourceCommit: row.sourceCommit, added: note.added, improved: note.improved, fixed: note.fixed }));
+  // Source versions and platform publications are separate facts. Alpha can browse
+  // backfilled CHANGELOG notes while actual publication receipts remain validated.
+  const versionParts = value => value.replace(/^v/, '').split('.').map(Number);
+  const compareVersions = (a, b) => {
+    const left = versionParts(a), right = versionParts(b);
+    for (let i = 0; i < 3; i++) if (left[i] !== right[i]) return left[i] - right[i];
+    return 0;
+  };
+  const publishedHere = new Map(confirmed.filter(({ row }) => row.workKey === workKey)
+    .map(({ row }) => [row.version, row]));
+  result.history = [...notes.values()]
+    .filter(note => compareVersions(note.version, id) <= 0 && (!releaseCandidate || note.version !== id))
+    // An independent contest work only displays its own confirmed history.
+    .filter(note => workKey === 'alpha-test' || publishedHere.has(note.version))
+    .sort((a, b) => compareVersions(b.version, a.version))
+    .map(note => {
+      const receipt = publishedHere.get(note.version);
+      return { version: note.version, versionDate: note.notesDate,
+        ...(receipt ? {
+          // Actual publication dates use UTC+8 independent of the build host.
+          publishedDate: new Date(Date.parse(receipt.publishedAt) + 8 * 60 * 60 * 1000).toISOString().slice(0, 10),
+          sourceCommit: receipt.sourceCommit
+        } : {}),
+        added: note.added, improved: note.improved, fixed: note.fixed };
+    });
   return result;
 }
