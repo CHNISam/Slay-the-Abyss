@@ -502,10 +502,33 @@ function M.startEventCombat(run)
     end)
 end
 
+local function endingQualified(run)
+    local keys=run.keys
+    if run.campaign~=true or run.endingUnlocked~=true or type(keys)~='table' or getmetatable(keys)~=nil then return false end
+    for key in pairs(keys)do if key~='ruby'and key~='emerald'and key~='sapphire'then return false end end
+    return keys.ruby==true and keys.emerald==true and keys.sapphire==true
+end
+local function endingRoom(run,tier)
+    if not endingQualified(run)then return false,'ending_keys_required'end
+    if not(tier=='elite'and run.floor==54 or tier=='boss'and run.floor==55)then return false,'ending_room_unavailable'end
+    local ok,queue=pcall(EncounterQueue.snapshot,run.encounters)
+    if not ok or queue.act~=4 or queue.rawSeed~=run.runSeed or #queue.normal~=3
+        or #queue.elite~=(tier=='elite'and 3 or 2)then return false,'encounter_act_mismatch'end
+    local boss=run.bossInitialization
+    if type(boss)~='table'or getmetatable(boss)~=nil or boss.profile~='ending'
+        or type(boss.bossList)~='table'or getmetatable(boss.bossList)~=nil or #boss.bossList~=3 then
+        return false,'unsupported_boss_initialization'
+    end
+    for key,value in pairs(boss.bossList)do
+        if type(key)~='number'or key%1~=0 or key<1 or key>3 or value~='The Heart'then return false,'unsupported_boss_initialization'end
+    end
+    return true
+end
+
 function M.startRoomCombat(run,tier,emeraldBoost)
     if run.phase~='map' then return false,'not_on_map' end
     local act=run.act or 1
-    if act~=1 and act~=2 and act~=3 then return false,'act_content_unavailable' end
+    if act~=1 and act~=2 and act~=3 and act~=4 then return false,'act_content_unavailable' end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end
@@ -513,8 +536,14 @@ function M.startRoomCombat(run,tier,emeraldBoost)
     local first,last=chapter.first,chapter.boss
     if type(run.floor)~='number' or run.floor%1~=0 or run.floor<first or run.floor>last then return false,'wrong_floor' end
     local encounter,nextQueue
+    if act==4 then
+        local ready,why=endingRoom(run,tier);if not ready then return false,why end
+        if emeraldBoost~=nil then return false,'invalid_emerald_combat_owner'end
+    end
     if tier=='boss' then
-        if act==3 then
+        if act==4 then
+            encounter=require('abyss_act4_enemies').resolve(run.bossInitialization.bossList[1],tier)
+        elseif act==3 then
             if run.floor~=50 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
                 return false,'unsupported_boss_initialization'
             end
@@ -541,7 +570,8 @@ function M.startRoomCombat(run,tier,emeraldBoost)
         valid,source,nextQueue,reason=pcall(EncounterQueue.consume,run.encounters,tier)
         if not valid then return false,'invalid_encounter_state' end
         if not source then return false,reason end
-        if act==3 then encounter,reason=require('abyss_act3_enemies').resolve(source,tier)
+        if act==4 then encounter,reason=require('abyss_act4_enemies').resolve(source,tier)
+        elseif act==3 then encounter,reason=require('abyss_act3_enemies').resolve(source,tier)
         elseif act==2 then encounter,reason=require('abyss_act2_enemies').resolve(source,tier)
         else encounter,reason=RoomEncounters.resolve(source,tier) end
         if not encounter then return false,reason end
@@ -600,6 +630,45 @@ local function combatEndHealing(run)
         end
     end
 end
+
+local function heartOwner(run)
+    local battle,flow=run.combat,run.nodeFlow
+    if run.act~=4 or run.floor~=55 or not endingQualified(run)or run.encounterTier~='boss'
+        or run.encounterId~='ending_heart'or run.encounterSource~='The Heart'
+        or type(battle)~='table'or battle.encounterSource~='The Heart'
+        or battle.roomSeed~=RunSeed.forFloor(run.runSeed,55)or battle.combatGeneration~=run.combatGeneration
+        or type(run.combatGeneration)~='number'or run.combatGeneration%1~=0 or run.combatGeneration<1 then return false end
+    if type(flow)~='table'or getmetatable(flow)~=nil or flow.type~='boss'or flow.floor~=55 or flow.complete~=false
+        or flow.encounterId~=run.encounterId or flow.encounterSource~='The Heart'
+        or type(flow.id)~='string'or flow.id==''or flow.mapSeed~=run.runSeed
+        or type(flow.mapSignature)~='string'or flow.mapSignature==''then return false end
+    local enemies=battle.enemies
+    if type(enemies)~='table'or getmetatable(enemies)~=nil or #enemies~=1 then return false end
+    for key in pairs(enemies)do if key~=1 then return false end end
+    local enemy=enemies[1]
+    if type(enemy)~='table'or enemy.definitionId~='corrupt_heart'or enemy.id~='corrupt_heart_1'
+        or enemy.sourceId~='CorruptHeart'or enemy.tier~='boss'or not enemy.ai or enemy.ai.kind~='corrupt_heart'
+        or enemy.escaped or type(enemy.hp)~='number'or enemy.hp>0 then return false end
+    if Combat.outcome(battle)~='victory'or not amount(battle.player.hp)or battle.player.hp<=0
+        or not amount(run.hp)or run.hp<=0 or run.hp>run.maxHp then return false end
+    for _,key in ipairs({'cardActions','queuedCards','actionQueue','pendingPlay','pendingChoice','pendingScry',
+        'pendingHandChoice','pendingDiscard','pendingPileChoice','pendingPotionChoice','cardInUse',
+        'resolvingCard','resolvingEffects','drainingCardActions'})do if battle[key]then return false end end
+    return endingRoom(run,'boss')
+end
+local function finishHeart(run)
+    if not heartOwner(run)then return false,'ending_combat_owner_mismatch'end
+    -- AbstractRoom constructs this inaccessible GOLD item before excluding
+    -- TheEnding Boss from dropReward/Potion/CombatRewardScreen. Spend the draw
+    -- without offering money, cards, potions, relics or a boss chest.
+    local _,stream,nextRng=GoldRewards.prepare('boss',run)
+    run[stream]=nextRng
+    run.endingProceed={version=1,runSeed=run.runSeed,act=4,floor=55,
+        encounterId=run.encounterId,combatGeneration=run.combatGeneration}
+    run.rewards,run.pendingCombatRewards,run.phase=nil,nil,'ending_proceed'
+    run.victories=run.victories+1
+    return true
+end
 local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
@@ -616,10 +685,12 @@ local function finishCombat(run)
     run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId, allEnemiesEscaped = allEscaped, mugged = run.combat.mugged }
     if result == "defeat" then
         run.phase, run.rewards = "defeat", nil
+        run.endingProceed=nil
         return true
     end
     -- Combat-end relics apply once, before the reward transaction is offered.
     combatEndHealing(run)
+    if run.act==4 and run.encounterTier=='boss'then return finishHeart(run)end
     if run.eventCombat then
         local rewards,why=EventCombat.finish(run);if not rewards then return false,why end
         run.rewards,run.phase=rewards,'reward';run.victories=run.victories+1
@@ -641,10 +712,17 @@ local function finishCombat(run)
         local prepared,why=RelicRewards.elite(run);if not prepared then return false,why end
         relicReward=prepared.items;run.relicPool=prepared.relicPool
     end
+    local potion,potionRng,potionModifier
+    if run.combat.roomSeed then
+        potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
+        PotionRewards.commit(run,potionRng,potionModifier)
+    end
     local choices,nextCardRng,offset,cardUpgrades=CardPool.prepareRewards(run)
     run.cardRng,run.cardRarityOffset=nextCardRng,offset
-    local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
-    PotionRewards.commit(run,potionRng,potionModifier)
+    if not run.combat.roomSeed then
+        potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
+        PotionRewards.commit(run,potionRng,potionModifier)
+    end
     run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
     if relicReward then run.rewards.relics=relicReward end
@@ -710,6 +788,30 @@ function M.finishCombat(run)
     if not called then restore();error(ok,0)end
     if not ok then restore()end
     return ok,reason
+end
+
+function M.proceedEnding(run,expectedOwner)
+    -- Identity is checked before transaction cloning, and before metatables can
+    -- be erased by copy. A stale UI callback cannot acquire a replacement owner.
+    local owner=run.endingProceed
+    if expectedOwner==nil or not rawequal(expectedOwner,owner)or type(owner)~='table'or getmetatable(owner)~=nil then
+        return false,'ending_proceed_owner_mismatch'
+    end
+    local fields={version=true,runSeed=true,act=true,floor=true,encounterId=true,combatGeneration=true}
+    for key in pairs(owner)do if not fields[key]then return false,'ending_proceed_owner_mismatch'end end
+    if run.phase~='ending_proceed'or not heartOwner(run)then return false,'ending_proceed_unavailable'end
+    return M.transaction(run,function(staged)
+        local pending=staged.endingProceed
+        if staged.phase~='ending_proceed'or not heartOwner(staged)
+            or pending.version~=1 or pending.runSeed~=staged.runSeed or pending.act~=4 or pending.floor~=55
+            or pending.encounterId~=staged.encounterId or pending.combatGeneration~=staged.combatGeneration
+            or staged.rewards~=nil or staged.pendingCombatRewards~=nil
+            or not staged.lastResult or staged.lastResult.outcome~='victory'
+            or staged.lastResult.encounterId~=staged.encounterId then return false,'ending_proceed_unavailable'end
+        staged.phase,staged.ending,staged.endingProceed='victory','true_victory',nil
+        staged.nodeFlow.complete,staged.nodeFlow.result=true,'true_victory'
+        return true,'true_victory'
+    end)
 end
 
 function M.rewardOptions(run)

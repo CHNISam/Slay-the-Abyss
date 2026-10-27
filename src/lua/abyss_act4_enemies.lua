@@ -8,6 +8,13 @@ function M.owns(enemy)return Heart.owns(enemy)or Pair.owns(enemy)end
 function M.register(catalog)
  Heart.register(catalog,Copy);Pair.register(catalog,Copy)
 end
+function M.resolve(source,tier)
+ if source=='The Heart'then
+  if tier~='boss'then return nil,'encounter_tier_mismatch'end
+  return {id='ending_heart',tier='boss',source=source,enemies={'corrupt_heart'}}
+ end
+ return Pair.resolve(source,tier)
+end
 local function same(a,b)
  if type(a)~=type(b)then return false end
  if type(a)~='table'then return a==b end
