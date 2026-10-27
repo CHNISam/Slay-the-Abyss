@@ -6,7 +6,7 @@ local M={}
 -- ordinary cards and a used Puzzle retain the existing batching fast path.
 function M.requiresQueue(state)
     local combat=state.relicCombat
-    return (state.player.statuses.rupture or 0)>0 or combat~=nil and not combat.centennialUsed
+    return require('abyss_relic_hooks').owns(state,'red_skull') or (state.player.statuses.rupture or 0)>0 or combat~=nil and not combat.centennialUsed
         and require('abyss_relic_hooks').owns(state,'centennial_puzzle')
 end
 function M.notify(state,owner,target,amount)
@@ -21,8 +21,11 @@ function M.notify(state,owner,target,amount)
         require('abyss_card_actions').enqueueReaction(state,action.effect,true)
     end
     require('abyss_relic_hooks').wasHpLost(state,target,amount)
-    -- Fatal interception follows Power/relic HP-loss callbacks. A successful
-    -- Fairy returns to the current action with their TOP reactions still queued.
-    if state.player.hp<=0 then require('abyss_potion_fairy').fatal(state) end
+    -- Source damage updates bloodied before the fatal reserve. Only actual
+    -- positive damage grants this HP0 callback; arbitrary zeroing does not.
+    if state.player.hp<=0 then
+        require('abyss_relic_hooks').hpChanged(state,target,target.hp+amount,true)
+        require('abyss_player_revive').battle(state)
+    end
 end
 return M

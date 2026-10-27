@@ -1,0 +1,11 @@
+# 蜥蜴尾巴共用致命伤接线（离线切片）
+
+固定源身份沿用组件九份Java成员锁；完整只读审计保存在根build/m3-closeout-20261027/lizard-tail-fatal-design-review.md。先onBloodied，再Mark外门/最左Fairy优先，最后一次Tail普通治疗并置-2。新增player_revive负责两种owner的协调，组件继续只负责整数除二及永久counter。战斗沿既有普通治疗modifier（包括受控MagicFlower），不应用Bark或onUsePotion；事件使用Run.heal且不看历史combat。
+
+真实获得在onEquip初始化-1，bind仅补缺失不重置-2，战斗中获得同步当前owner。成功的战斗/选择入口从当前combat发布counter，先于药水库存早返回。事件移除Tail专属“未实现”拒绝，晚治疗异常仍由原Run.transaction原子拒绝。没有新磁盘续档系统。
+
+新增真实Run回归先因缺build数据报环境准备失败（不计产品RED），build:data后实际835ms RED为TAIL_PRODUCTION_OBTAIN_MISSING；接线后8组GREEN2583ms。覆盖真实获得/奇数半血/一次性/两瓶先于Tail/Mark/Flower而非Bark/RedSkull+Artifact/HP_LOSS与非伤害零值/旧combat隔离/跨战spent/late-heal完整引用回滚/战斗中获得。新测试调试时修正了Artifact既有0栈表示和Run.transaction既有false,transaction_failed合同，没有改任何原测试。
+
+邻接：组件及纯数据合同5/5通过，原战斗Fairy6组通过2815ms，原事件Fairy8组通过7450ms。209模块/1221边架构、语法及固定Luacheck84条历史诊断零新增通过；没有新增静态豁免。窄queuedFatal参数只从真实正HP损失归零分支传递，允许该伤害的HP0/onBloodied和复活后onNotBloodied以既有TOP gainStatus排队；不放宽Actor.applyPower的dead拒绝或任意归零。普通非致命hpChanged仍维持原同步合同，RedSkull的HP-loss牌选择真实逐动作队列。
+
+这不是完整遗物验收。独立动作顺序、无Puzzle/Rupture的native/forced批处理、末牌Heart Beat、暂停选择后counter立即发布、真实跨幕及地图恢复、事件旧unsupported夹具迁移、获得渠道和只读UI仍在复核/补充；launch-content未改，尚无新候选、完整CI、官方导入或自然试玩证据，M3继续未完成。BlackStar和本切片留在下一批独立树，不混入已交付c5存档或当前四幕PR262。

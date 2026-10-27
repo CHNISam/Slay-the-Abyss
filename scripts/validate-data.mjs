@@ -622,7 +622,7 @@ export function validateContent(bundle) {
         'happy_flower', 'ancient_tea_set', 'art_of_war', 'boot', 'akabeko', 'pen_nib', 'nunchaku',
         'preserved_insect', 'red_skull', 'centennial_puzzle', 'tiny_chest', 'juzu_bracelet', 'dream_catcher',
         'warped_tongs', 'spirit_poop', 'circlet', 'golden_idol', 'tungsten_rod', 'red_mask', 'toxic_egg',
-        'snake_skull', 'data_disk', 'damaru', 'mark_of_bloom', 'black_star'].includes(entry.id)) fail(`${p}.id`, 'unsupported relic hook');
+        'snake_skull', 'data_disk', 'damaru', 'mark_of_bloom', 'black_star', 'lizard_tail'].includes(entry.id)) fail(`${p}.id`, 'unsupported relic hook');
       if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'source hooks require empty generic effects');
     } else if (kind === 'relics' && entry.trigger === 'shop') {
       targetGroup(entry.effects, `${p}.effects`, false);
