@@ -17,3 +17,11 @@
 验证：`node --test tests/sts1-treasure-runtime.test.mjs` 两项通过，包含 9 组基础 Lua 回归及 23 个种子 × 三种幕环境的 69 次连续普通战后金币→宝箱轨迹，独立 Python RNG/binary32 数值向量和独立 JS/Java 队列预期逐身份、每个 RNG word/counter 比较；包含 int64 边界。覆盖完整 100 掷点箱型/资格/稀有度边界、Boss 三选一源队列、前后钩子顺序、未打开离开、缺定义不重抽、多奖励/蓝钥匙互斥、重复领取和失败不改变 owner。固定 Luacheck 1.2.0 对新模块无诊断；没有跑整套 check 或放宽原门禁。
 
 状态：宝箱独立模块已实现，主 session 正在接正式入口；完整遗物效果/四职业来源队列、商店和战后奖励共同消费需集成层继续核对，不能把模块完成当全池已接。平台没有本轮桌面窗口、官方导入、日志、截图或自然游玩验收；不声明完整游戏体验通过。
+
+## 商店与精英共同队列接线
+
+`abyss_relic_rewards` 补充同一队列的来源适配；`ShopScreen.initRelics` 初始前两槽按 merchantRng 48/34/18 掷稀有度，第三槽固定 Shop，各自取队尾而非再消费一次 merchantRng 随机选定义。`StoreRelic.purchaseRelic` 的 Courier 补货每拒绝 Old Coin/Smiling Mask/MawBank/The Courier 都消费候选并重新掷稀有度；不提前过滤。价格按最终实际返回遗物的层级（含队列耗尽后的 Special Circlet）确定基础价。正常领取/onEquip 应在补货资格核对前执行，外层已有 Run.transaction 保证失败仍整体回滚。
+
+`MonsterRoomElite.dropReward` 在金币之后、药水之前从共同 relicRng 消费 50/33/17 稀有度并取队首；Black Star 再独立掷一次并走 `returnRandomNonCampfireRelic`，排除的 Peace Pipe/Shovel/Girya 真实消费队列，不另消费随机数。普通和 Boss 战不使用该默认精英掉落。新增 `Pool.noncamp` 复用既有队列选择器。
+
+共享三文件接线由主 session 审查；子 session 仅在临时 overlay 应用 patch 并跑 `relic_channel_queues.lua`，六组实际通过：尾部身份/商人掷点、Courier 改层级重试、精英及 Black Star 双掷点、Noncamp 消费、完整来源商店删定义后的身份/价格/状态不漂移、真实 Run.startRoomCombat/finishCombat 产生精英遗物并保持普通战不掉落。最后一组显式终态夹具不称自然战斗取胜；领取 UI 及完整 CI 待主 session 接齐。`abyss_relic_rewards` 和 Pool 新方法固定 Luacheck 无诊断。
