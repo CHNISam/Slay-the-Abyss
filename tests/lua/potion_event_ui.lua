@@ -5,9 +5,22 @@ local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function fixture(id)
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local ui=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=42,prologue=false,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
- assert(ui:start());local first=Map.available(ui.map)[1]
- for _,n in ipairs(ui.map.nodes)do if n.id==first.id then n.type='event';n.eventId=id end end
+ assert(ui:start());local r=ui.run
+ -- Controlled content, real canonical room: navigation alone must not spend
+ -- the persistent seed42 shop-potion stream used by Lab/Woman rewards.
+ assert(r.data~=F.Data and r.data.rules.events~=F.Data.rules.events)
+ local originalEvent=F.Data.rules.events.encounterId
+ r.data.rules.events.encounterId=id
+ assert(F.Data.rules.events.encounterId==originalEvent)
+ local routes=dofile('tests/lua/support/map_routes.lua')
+ local path=routes.to(ui.map,function(node)return node.type=='event'end)
+ for i=1,#path-1 do assert(Map.choose(ui.map,path[i]))end
+ r.floor=ui.map.floor;ui:refresh()
+ local first=routes.at(ui.map,path[#path])
+ assert(first.type=='event' and r.shopRng==nil)
+ assert(F.Nodes.restoreMap(r,ui.map),'potion event fixture must retain the canonical source map')
  assert(ui.mapUI:choose(first.id))
+ assert(r.nodeFlow.id==first.id and r.nodeFlow.type=='event' and r.nodeFlow.event.id==id)
  local function get(path)local n=root:GetChild('nodePanel');for key in path:gmatch('[^/]+')do n=assert(n:GetChild(key),path)end;return n end
  local function click(path)return get(path):GetChild('hit').click()end
  return ui,get,click
