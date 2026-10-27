@@ -1,33 +1,33 @@
 -- Audited A0 slice only. Keep every other source encounter explicitly unavailable.
 local M={}
-M.enemies={{id='orb_walker',sourceId='Orb Walker',name='Orb Walker',tier='normal',hp=96,
+M.enemies={{id='orb_walker',sourceId='Orb Walker',name='雷核步行机关',tier='normal',hp=96,
  hpRange={min=90,max=96},ai={kind='act3',policy='orb_walker',preHpRoll=7},intents={
   {id='laser',kind='attack',effects={{op='damage',value=10},{op='enemyBurnBoth'}}},
   {id='claw',kind='attack',effects={{op='damage',value=15}}},
  }},
- {id='repulsor',sourceId='Repulsor',name='Repulsor',tier='normal',hp=35,hpRange={min=29,max=35},
+ {id='repulsor',sourceId='Repulsor',name='斥力浮械',tier='normal',hp=35,hpRange={min=29,max=35},
   ai={kind='act3',policy='repulsor'},intents={
    {id='attack',kind='attack',effects={{op='damage',value=11}}},
    {id='daze',kind='debuff',effects={{op='enemyDazedDraw'}}}}},
- {id='spiker',sourceId='Spiker',name='Spiker',tier='normal',hp=56,hpRange={min=42,max=56},
+ {id='spiker',sourceId='Spiker',name='尖刺浮械',tier='normal',hp=56,hpRange={min=42,max=56},
   ai={kind='act3',policy='spiker'},intents={
    {id='attack',kind='attack',effects={{op='damage',value=7}}},
    {id='spike',kind='buff',effects={{op='gainStatus',status='thorns',value=2}}}}},
- {id='exploder',sourceId='Exploder',name='Exploder',tier='normal',hp=30,hpRange={min=30,max=30},
+ {id='exploder',sourceId='Exploder',name='自爆浮械',tier='normal',hp=30,hpRange={min=30,max=30},
   ai={kind='act3',policy='exploder'},intents={
    {id='attack',kind='attack',effects={{op='damage',value=9}}},
    {id='wait',kind='unknown',effects={}}}},
- {id='maw',sourceId='Maw',name='Maw',tier='normal',hp=300,ai={kind='act3',policy='maw',noHpRoll=true},intents={
+ {id='maw',sourceId='Maw',name='吞岩巨口',tier='normal',hp=300,ai={kind='act3',policy='maw',noHpRoll=true},intents={
   {id='roar',kind='debuff',effects={{op='applyStatus',status='weak',value=3},{op='applyStatus',status='frail',value=3}}},
   {id='slam',kind='attack',effects={{op='damage',value=25}}},
   {id='drool',kind='buff',effects={{op='gainStatus',status='strength',value=3}}},
   {id='nom',kind='attack',effects={{op='damage',value=5,times=1}}}}},
- {id='spire_growth',sourceId='Serpent',name='Spire Growth',tier='normal',hp=170,hpRange={min=170,max=170},
+ {id='spire_growth',sourceId='Serpent',name='盘岩巨藤',tier='normal',hp=170,hpRange={min=170,max=170},
   ai={kind='act3',policy='spire_growth'},intents={
    {id='tackle',kind='attack',effects={{op='damage',value=16}}},
    {id='constrict',kind='debuff',effects={{op='applyStatus',status='constricted',value=10}}},
    {id='smash',kind='attack',effects={{op='damage',value=22}}}}},
- {id='transient',sourceId='Transient',name='Transient',tier='normal',hp=999,gold=1,
+ {id='transient',sourceId='Transient',name='流散之影',tier='normal',hp=999,gold=1,
   ai={kind='act3',policy='transient',noHpRoll=true},intents={
    {id='attack',kind='attack',effects={{op='damage',value=30}}}}},
  {id='jaw_worm_hard',sourceId='JawWorm',name='石颚兽',tier='normal',hp=44,hpRange={min=40,max=44},

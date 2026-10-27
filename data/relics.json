@@ -428,7 +428,7 @@
     {
       "id": "red_mask",
       "sourceId": "Red Mask",
-      "name": "红面具",
+      "name": "绯红仪面",
       "description": "每场战斗开始时，对所有敌人施加1回合虚弱：普通攻击伤害减少25%。",
       "rarity": "special",
       "trigger": "hooks",
@@ -437,7 +437,7 @@
     {
       "id": "toxic_egg",
       "sourceId": "Toxic Egg 2",
-      "name": "毒素之卵",
+      "name": "淬毒胎石",
       "description": "每当你获得一张技能牌时，将其升级。",
       "rarity": "uncommon",
       "trigger": "hooks",
@@ -446,7 +446,7 @@
     {
       "id": "tungsten_rod",
       "sourceId": "TungstenRod",
-      "name": "钨合金棍",
+      "name": "钨钢短杖",
       "description": "每次将要失去生命时，失去的生命值减少1。",
       "rarity": "rare",
       "trigger": "hooks",
@@ -455,7 +455,7 @@
     {
       "id": "golden_idol",
       "sourceId": "Golden Idol",
-      "name": "Golden Idol",
+      "name": "鎏金神像",
       "description": "非宝箱GOLD奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。",
       "rarity": "special",
       "trigger": "hooks",
