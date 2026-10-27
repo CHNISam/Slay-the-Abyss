@@ -68,16 +68,21 @@ local function sameManualPage(token, view, rewards)
         or token.claimed ~= (item and item.claimed) or token.cardResolved ~= rewards.cardResolved)
 end
 
-function M.ready(view, token)
-    local run = view.run
-    if not run or run.phase ~= "reward" or run.rewards ~= token.rewards or run.combat ~= token.battle then return false end
-    if token.rewardScreen ~= view.rewardScreen or token.rewardEpoch ~= view.rewardEpoch then return false end
-    local rewards = run.rewards
+local function sameRelics(token,rewards)
     if token.relics~=rewards.relics then return false end
     for i,item in ipairs(rewards.relics or {})do
         local old=token.relicState[i]
         if not old or old.id~=item.id or old.sourceId~=item.sourceId or old.claimed~=item.claimed or old.unavailable~=item.unavailable then return false end
     end
+    return true
+end
+
+function M.ready(view, token)
+    local run = view.run
+    if not run or run.phase ~= "reward" or run.rewards ~= token.rewards or run.combat ~= token.battle then return false end
+    if token.rewardScreen ~= view.rewardScreen or token.rewardEpoch ~= view.rewardEpoch then return false end
+    local rewards = run.rewards
+    if not sameRelics(token,rewards)then return false end
     if not sameGoldAndCards(token, rewards) then return false end
     if not samePotion(token, rewards.potion) then return false end
     if rewards.manualContinue and not sameManualPage(token, view, rewards) then return false end

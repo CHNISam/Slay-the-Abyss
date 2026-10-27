@@ -570,14 +570,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         show("potionReward", frame.pendingPotion == true)
         frame.rewardRows = row
     end
-    local function renderRewardButtons(frame)
-        local run = frame.run
+    local function renderRelicRewards(frame)
+        local run=frame.run
         for i=1,2 do
             local item=frame.listing and run.rewards.relics and run.rewards.relics[i]
             local definition=item and require('abyss_relic_rewards').definition(run,item.sourceId)
             local caption=item and ((definition and definition.name or item.sourceId)..(item.unavailable and ' · 尚不可领取' or ''))or '遗物'
             button('relicReward'..i,self.active and item and not item.claimed and not item.unavailable or false,false,caption)
         end
+    end
+    local function renderRewardButtons(frame)
+        local run = frame.run
+        renderRelicRewards(frame)
         button("goldReward", self.active and frame.listing and run.rewards.goldClaimed == false, false,
             frame.listing and number(run.rewards.gold) .. " 金币" or "金币")
         button("cardReward", self.active and frame.listing and not run.rewards.cardResolved, false, "选择一张卡牌加入牌组")
