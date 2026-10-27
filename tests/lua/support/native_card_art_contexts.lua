@@ -29,12 +29,7 @@ local function root()
 end
 local run=Run.new(F.Data,42);run.deck={{uid=91,cardId='cleave',upgraded=true}}
 assert(Run.startCombat(run,'cultist_solo'))
--- Known baseline failure is asserted, not hidden by a permissive mock.
-local baseline=require('abyss_battle_ui')
-local ok,reason=pcall(function()local b=baseline.new(root():GetChild('battlePanel'),run.data,F.Presentation,'click',platform,{embedded=true});b.run=run;b:render()end)
-assert(not ok and tostring(reason):find('CursorArea has no interactable',1,true),'baseline strict failure changed: '..tostring(reason))
-assert(type(ABYSS_NATIVE_ART_BATTLE_SOURCE)=='string','strict integration requires the explicitly reported PR257 dependency overlay')
-local BattleUI=assert(load(ABYSS_NATIVE_ART_BATTLE_SOURCE,'@PR257-single-line-dependency'))()
+local BattleUI=require('abyss_battle_ui')
 local r=root();local battle=BattleUI.new(r:GetChild('battlePanel'),run.data,F.Presentation,'click',platform,{embedded=true})
 battle.run=run;battle:render()
 local face=r:GetChild('battlePanel'):GetChild('card1')
@@ -92,11 +87,10 @@ assert(not offer:GetChild('artSamples').visible,'page switch left unused shop ar
 node.mode,node.picker='main',nil;node:render()
 assert(not r:GetChild('nodePanel'):GetChild('pickerView'):GetChild('card1'):GetChild('artSamples').visible,'picker art survived page switch')
 -- Construct the actual root GameUI, whose NodeUI options are a filtered table.
-package.loaded.abyss_battle_ui=BattleUI;package.loaded.abyss_game_ui=nil
-local GameUI=ABYSS_NATIVE_ART_GAME_SOURCE and assert(load(ABYSS_NATIVE_ART_GAME_SOURCE,'@mutated-GameUI'))() or require('abyss_game_ui')
+local GameUI=require('abyss_game_ui')
 local hostRoot=root()
 local host=GameUI.new(hostRoot,F.Data,F.Presentation,'click',platform)
 host.run,host.map,host.mode=shop,map,'node'
 host.nodeUI.run,host.nodeUI.map=shop,map;host:refresh()
 art(hostRoot:GetChild('nodePanel'):GetChild('shopView'):GetChild('card1'),true,true)
-print('NATIVE_CARD_ART_CONTEXTS_PASS dependency=PR257-single-line; battle/reward/deck/shop; four-live-texts/dynamic-preview/recycle/art_*')
+print('NATIVE_CARD_ART_CONTEXTS_PASS battle/reward/deck/shop; four-live-texts/dynamic-preview/recycle/art_*')

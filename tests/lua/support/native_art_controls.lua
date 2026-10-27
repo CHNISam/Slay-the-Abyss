@@ -1,6 +1,6 @@
 -- Test-only native field/transform contract. Does not alter the shared fixture.
 -- Mirrors the documented image methods used by the pinned standalone exporter;
--- strict CursorArea fields match PR257, including function/table __index forms.
+-- Strict CursorArea fields preserve function/table __index contracts.
 local Contract=dofile('tests/lua/support/native_ui_contract.lua')
 local M={}
 function M.decorate(control)

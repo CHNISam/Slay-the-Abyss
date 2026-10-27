@@ -50,22 +50,28 @@ test('invalid candidate identities and unbounded host selection fail before writ
  }
 }));
 
-test('real shared Lua hosts keep native contracts, with explicit PR257 startup dependency',()=>directory(output=>{
- const source=readFileSync('src/lua/abyss_battle_ui.lua','utf8');
- const old='hit.interactable=options.onPile~=nil and frame.active==true';
- assert.equal(source.split(old).length,2,'PR257 dependency changed: retire/review this explicit overlay');
- const patched=source.replace(old,'hit.raycastTarget=options.onPile~=nil and frame.active==true');
- const bootstrap=join(output,'contexts.lua');
- writeFileSync(bootstrap,`ABYSS_NATIVE_ART_BATTLE_SOURCE=${toLua(patched)}\ndofile('tests/lua/support/native_card_art_contexts.lua')\n`);
- const result=runLua(bootstrap,{timeout:60000});
+test('real shared Lua hosts bind battle, reward, deck and shop art under strict native contracts',()=>{
+ const result=runLua('tests/lua/support/native_card_art_contexts.lua',{timeout:60000});
  assert.equal(result.status,0,result.stdout+'\n'+result.stderr);
- assert.match(result.stdout,/NATIVE_CARD_ART_CONTEXTS_PASS dependency=PR257-single-line/);
- const game=readFileSync('src/lua/abyss_game_ui.lua','utf8'),forward='imageTypes = platform.imageTypes,';
- assert.equal(game.split(forward).length,2);
- writeFileSync(bootstrap,`ABYSS_NATIVE_ART_BATTLE_SOURCE=${toLua(patched)}\nABYSS_NATIVE_ART_GAME_SOURCE=${toLua(game.replace(forward,''))}\ndofile('tests/lua/support/native_card_art_contexts.lua')\n`);
- const negative=runLua(bootstrap,{timeout:60000});
- assert.notEqual(negative.status,0,'missing root GameUI enum forwarding escaped regression');
- assert.match(negative.stderr,/real shared host was not bound/);
+ assert.match(result.stdout,/NATIVE_CARD_ART_CONTEXTS_PASS battle\/reward\/deck\/shop/);
+});
+
+for(const {name,module,before,after,error} of [
+ {name:'unsupported CursorArea field',module:'abyss_battle_ui',
+  before:'hit.raycastTarget=options.onPile~=nil and frame.active==true',
+  after:'hit.interactable=options.onPile~=nil and frame.active==true',error:/CursorArea has no interactable/},
+ {name:'missing root GameUI enum forwarding',module:'abyss_game_ui',
+  before:'imageTypes = platform.imageTypes,',after:'',error:/real shared host was not bound/},
+])test(`strict shared-host regression rejects ${name}`,()=>directory(output=>{
+ const source=readFileSync(`src/lua/${module}.lua`,'utf8');
+ assert.equal(source.split(before).length,2,`${name} mutation must have exactly one target`);
+ const bootstrap=join(output,'mutated-contexts.lua');
+ // Only negative controls substitute a module; the positive run uses unmodified source.
+ writeFileSync(bootstrap,`package.preload[${toLua(module)}]=function()return assert(load(${toLua(source.replace(before,after))},'@mutated-${module}'))()end\ndofile('tests/lua/support/native_card_art_contexts.lua')\n`);
+ const result=runLua(bootstrap,{timeout:60000});
+ assert.notEqual(result.status,0,`${name} escaped regression`);
+ assert.match(result.stderr,error);
+ assert.doesNotMatch(result.stdout,/NATIVE_CARD_ART_CONTEXTS_PASS/);
 }));
 
 test('CLI accepts only explicit 0/1/5/10 or chosen hosts; disabling cleans prior receipt',()=>directory(output=>{

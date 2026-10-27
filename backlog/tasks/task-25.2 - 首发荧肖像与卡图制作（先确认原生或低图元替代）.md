@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 19:24'
+updated_date: '2026-10-27 19:29'
 due_date: '2026-10-28'
 labels:
   - art
@@ -101,4 +101,6 @@ PR240首候选f7fc855已发布。完整本地Node终态1594通过/1失败/零跳
 54e4ac1真实CI发现默认构建依赖回归：新增顶层luaparse导入使无npm依赖的presentation构建及Linux/Windows临时CLI保护fixture在保护断言前失败。已用原3个alias负控复现；仅在实际native消费校验时惰性加载parser，新增默认无依赖CLI成功/零art回归，原保护断言和实际解析保持。root重跑UI保护206+native相关117共323/323零跳过；独立复审确认native缺parser仍fail-closed。未给CI加安装步骤、未改依赖声明或阈值。原生test-affected能够选中该间接消费者，此次是手选测试集合遗漏，不改工程规范掩盖。修复继续在本PR验当前head，旧117或旧head绿灯不外推。
 
 同步PR259负责人规范化：原记录 @codex 为历史执行者，负责人保留最新develop的Furinya。保留本PR全部美术候选记录，状态/AC不变。aaf5134完整15作业已通过，但合并预审发现develop已合入PR259，旧绿灯不代表新组合。下一步移除已过时的CursorArea内存替换，在真实修复源码上验证原生样卡。
+
+PR259同步后共享宿主正例直接执行真实源码，不再注入启动修复；保留不支持CursorArea字段及缺失GameUI图片枚举转发两项独立负控，strict mock未放宽。root重建data/UI并重跑新组合237/237、0跳过，含两张实际原生源逐控件等价及正式入口MCP mock；状态/AC不变，真实GIL/导入/设备仍待验。当前组合需重新取得独立审查与完整CI，不复用aaf旧预审。
 <!-- SECTION:NOTES:END -->
