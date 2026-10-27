@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { auditRoadmap, auditPriorities, auditMilestoneScope, readTaskHeader } from '../scripts/verify-backlog-roadmap.mjs';
+import { auditRoadmap, auditPriorities, auditQueueOwners, auditMilestoneScope, readTaskHeader } from '../scripts/verify-backlog-roadmap.mjs';
 
 const milestone = { 'm-2': 'M1', 'm-5': 'M4' };
 const task = (id, extra = {}) => ({ id, status: 'To Do', milestone: 'm-5', assignees: ['@Codex'], ...extra });
@@ -212,4 +212,13 @@ test('both M3 and M4 retain the full approved scope, independently of their stor
   assert.match(auditMilestoneScope([valid[0], 'M4｜第一幕正式作品品质']).join('\n'), /M4.*范围/);
   assert.match(auditMilestoneScope([valid[0]]).join('\n'), /M4.*范围/);
   assert.match(auditMilestoneScope([...valid, valid[0]]).join('\n'), /M3.*范围/);
+});
+
+test('unfinished optional work needs an owner; historical Done records do not', () => {
+  for (const status of ['To Do', 'In Progress', 'Blocked']) {
+    for (const assignees of [[], [''], ['--append-plan']]) {
+      assert.match(auditQueueOwners([task('TASK-26', { status, milestone: null, assignees })]).join('\n'), /TASK-26.*负责人/);
+    }
+  }
+  assert.deepEqual(auditQueueOwners([task('TASK-26', { milestone: null }), task('TASK-2', { status: 'Done', assignees: [] })]), []);
 });

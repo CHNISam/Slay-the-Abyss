@@ -2,9 +2,10 @@
 id: TASK-48
 title: 持续做开发直播、推广和收集反馈
 status: To Do
-assignee: []
+assignee:
+  - '@Furinya'
 created_date: '2026-10-24 02:20'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 04:24'
 labels:
   - 直播
   - 推广
@@ -33,3 +34,9 @@ ordinal: 79000
 - [ ] #4 定期记下能拿到的观看、关注、试玩和收益数据，以及开发开支；没有收益也照实记。
 - [ ] #5 长期跟踪，不因播完一场就关闭；约定收口或停止时再复盘效果和下一步。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-27队列复核：补齐有效负责人Furinya；Low候选仍不占当前冲刺，不因指定负责人自动启动新功能。
+<!-- SECTION:NOTES:END -->

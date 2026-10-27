@@ -2,9 +2,10 @@
 id: TASK-40
 title: 以后再做手柄支持
 status: To Do
-assignee: []
+assignee:
+  - '@Furinya'
 created_date: '2026-10-23 12:24'
-updated_date: '2026-10-27 02:41'
+updated_date: '2026-10-27 04:24'
 labels: []
 dependencies: []
 references:
@@ -39,4 +40,6 @@ ordinal: 41000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-27：现有PR229手柄实现已在独立副本按当前M3、卡牌输入与章节地图安全源码逐项整合；初轮28个离线阶段通过，原始21项呈现文件保持原断言与30秒预算，替身导航方法改为共享原型后28.004秒通过。来源与本轮边界补入docs/backlog-details/TASK-40.md。没有改任务状态、优先级、负责人或验收项；真实手柄、官方导入和实机UI仍未验证，远端新HEAD完整Quality尚未运行。
+
+2026-10-27队列复核：补齐有效负责人Furinya；Low候选仍不占当前冲刺，不因指定负责人自动启动新功能。
 <!-- SECTION:NOTES:END -->

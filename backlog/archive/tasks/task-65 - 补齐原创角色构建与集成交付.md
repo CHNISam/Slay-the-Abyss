@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 06:03'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 04:23'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -39,4 +39,6 @@ ordinal: 112000
 
 <!-- SECTION:NOTES:BEGIN -->
 统一集成已生成完整原始数据、普通UI角色面板、正式host角色开关、原生模块部署闭包与精确字节LF。600版×两种合法资源状态=1200条真实Lua出牌轨迹均与冻结参考期待一致（Node18项全过，含19组关键边界）。架构与Backlog排期检查通过。UI审查发现永久牌组/商店尚需全文详情入口，新增精确DeckUI/NodeUI文件由继任集成scope接手；当前不声称已完成玩法或实机。
+
+2026-10-27重复任务收口：原创构建、完整全文详情与跨章集成交付已由TASK-72/PR219覆盖并有精确HEAD全CI成功。原PC/实体手机/自然构筑缺口交由TASK-4/47/38/42新增完整范围AC承接，保持未勾；不冒充已实机。该旧集成任务原生归档，保留未勾条款与历史，不重复计交付或继续挂Blocked/In Progress。
 <!-- SECTION:NOTES:END -->

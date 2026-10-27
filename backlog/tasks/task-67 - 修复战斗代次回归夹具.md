@@ -1,13 +1,15 @@
 ---
 id: TASK-67
 title: 修复战斗代次回归夹具
-status: In Progress
+status: Done
 assignee:
   - Furinya
 created_date: '2026-10-26 07:10'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 04:23'
 labels: []
 dependencies: []
+references:
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/219'
 priority: medium
 ordinal: 114000
 ---
@@ -38,3 +40,9 @@ ordinal: 114000
 
 临时副本敏感性复查：删参考代次字段恢复4个原完整比较失败；实际代次改2被固定值断言拒绝。verify:backlog通过。暂保持In Progress及有效claim，等待当前SHA CI与受控合并，不把本地回归当作实机。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+三个已勾验收均属夹具修复：首次真实遭遇代次Run/Combat=1，reference补相同代次且保留全字段比较，删除字段及错误值敏感性已记录。生产主线louse_colors第78/79行保留断言和reference赋值；后续PR219准确HEAD完整Quality40322430626及Licenses全SUCCESS覆盖既有回归，不再以已停用claim或待合并旧备注挂进行中。非生产玩法变更，非平台验收。
+<!-- SECTION:FINAL_SUMMARY:END -->

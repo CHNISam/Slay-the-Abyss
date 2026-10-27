@@ -31,6 +31,12 @@ export function auditPriorities(tasks) {
   return errors;
 }
 
+export function auditQueueOwners(tasks) {
+  return tasks.filter(task => task.status !== 'Done' && (!task.assignees?.length
+    || task.assignees.some(owner => !owner.trim() || owner.startsWith('--'))))
+    .map(task => `${task.id}: 缺少有效负责人`);
+}
+
 export function auditMilestoneScope(titles) {
   const contracts = [
     { stage: 'M3', required: ['四职业', '第一至隐藏第四幕'] },
@@ -109,7 +115,8 @@ export function verifyBacklogRoadmap(root = '.') {
     const stage = title.match(/^(M[1-6])(?:\s|[｜|:：]|$)/)?.[1];
     return [id, stage];
   }).filter(([id, stage]) => id && stage));
-  return [...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed), ...auditPriorities(tasks)];
+  return [...new Set([...auditRoadmap(tasks, readFileSync(join(root, 'docs/MILESTONES.md'), 'utf8'), milestones, completed),
+    ...auditPriorities(tasks), ...auditQueueOwners(tasks)])];
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const errors = [...verifyBacklogRoadmap(), ...verifyMilestoneScope()];
