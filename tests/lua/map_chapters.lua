@@ -327,21 +327,38 @@ test('invalid context arriving during an animation shuts down all stale navigati
     assert(ui:update(1));same(map,before);assert(#calls==0)
 end)
 
-test('unavailable Act 3 and malformed Act 2 encounter context reject without touching any owner',function()
+test('malformed Act 2 and Act 3 encounter context reject without touching any owner',function()
     for _,act in ipairs({2,3}) do
         local run=Run.new(F.Data,'42',{experimental=true,campaign=true})
         local map=Map.generate(F.Data,'42')
         advance(run,map,1)
-        if act==3 then advance(run,map,2) else run.encounters.rawSeed='malformed-encounter-context' end
+        if act==3 then advance(run,map,2)end
+        run.encounters.rawSeed='malformed-encounter-context'
         local before,mapBefore=F.Combat.copy(run),Map.snapshot(map)
         local ui,_,emit,calls=setup(map,function(node)return Nodes.enter(run,map,node.id)end)
         emit(1,'down',11);emit(1,'up',11)
         local ok,reason=emit(1,'click',11)
-        assert(ok==false and reason==(act==3 and 'act_content_unavailable' or 'run_seed_mismatch'))
+        assert(ok==false and reason=='run_seed_mismatch')
         assert(#calls==1 and ui.entryError~=nil)
         same(run,before,'rejected encounter changed Run');same(map,mapBefore,'rejected encounter changed Map')
         assert(not emit(1,'click',11));same(run,before);same(map,mapBefore)
     end
+end)
+
+test('legal Act 3 first encounter commits through the same real map gesture owner',function()
+    local run=Run.new(F.Data,'42',{experimental=true,campaign=true})
+    local map=Map.generate(F.Data,'42')
+    advance(run,map,1);advance(run,map,2)
+    local expected=Q.peek(run.encounters,'normal')
+    local amount,generation=#run.encounters.normal,run.roomGeneration
+    local ui,_,emit,calls=setup(map,function(node)return Nodes.enter(run,map,node.id)end)
+    emit(1,'down',11);emit(1,'up',11)
+    local ok,reason=emit(1,'click',11)
+    assert(ok,reason);assert(#calls==1 and ui.entryError==nil)
+    assert(run.phase=='combat' and run.act==3 and run.floor==35 and map.floor==35)
+    assert(run.encounterSource==expected and #run.encounters.normal==amount-1)
+    assert(run.roomGeneration==generation+1 and #run.combat.enemies>0)
+    assert(not emit(1,'click',11));assert(#calls==1)
 end)
 
 test('non-table map nodes fail closed without rendering or mutating owners',function()
