@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "runId": 40567299031,
+  "attempt": 1,
+  "heads": {
+    "failedPush": "e0fad45c74ed574bc4cfb8a4c9ad71424a13c386",
+    "repairBase": "c5e768807081d1c62750174998367f1565274ee5"
+  },
+  "job": {
+    "id": 122411878339,
+    "name": "rules (8/8)",
+    "durationSeconds": 1052,
+    "luaStepSeconds": 801
+  },
+  "terminalRun": {
+    "conclusion": "failure",
+    "totalJobs": 15,
+    "successfulJobs": 13,
+    "otherFailure": "check aggregate only"
+  },
+  "rawLog": {
+    "path": "build/push-e0-40567299031/job8-raw.log",
+    "bytes": 1019072,
+    "sha256": "4b4985b860aa41435ea6326c24b6e01ba1935f925da5710bee114219276f8444"
+  },
+  "fixtureFailures": [
+    {
+      "file": "card_help_release.lua",
+      "line": 873,
+      "atUtc": "2026-10-27T19:21:00.0305295Z",
+      "error": "ETIMEDOUT",
+      "timeoutMs": 30000,
+      "observedPasses": 8,
+      "originalCases": 31
+    },
+    {
+      "file": "looter_potion_ui.lua",
+      "line": 2936,
+      "atUtc": "2026-10-27T19:25:55.7531882Z",
+      "error": "ETIMEDOUT",
+      "timeoutMs": 30000,
+      "reportedMs": 30049,
+      "observedPassedTopLevelGroups": 3,
+      "originalTopLevelGroups": 8
+    }
+  ],
+  "sourceAssertionFailures": false,
+  "preservation": {
+    "originalSourceHashes": {
+      "card_help_release.lua": "088862441fab127f5f29dee6cc990ab39b59152e57250310386bae6b8f3808f2",
+      "looter_potion_ui.lua": "730f8c33080a66916981f912c8fece20a002eceba8bd3771b9c0619481871a68"
+    },
+    "cardRegisteredCases": 31,
+    "looterWholeTopLevelGroups": 8,
+    "allInternalLoopsUnchanged": true,
+    "rawSlices": 16,
+    "perSliceTimeoutMs": 30000,
+    "productionInputsChanged": false,
+    "mockInputsChanged": false
+  },
+  "greenResults": {
+    "card_help_release.lua": {
+      "first": 1,
+      "last": 4,
+      "ms": 5458.7215
+    },
+    "card_help_release_slice_2.lua": {
+      "first": 5,
+      "last": 8,
+      "ms": 3025.5612
+    },
+    "card_help_release_slice_3.lua": {
+      "first": 9,
+      "last": 12,
+      "ms": 3147.1747
+    },
+    "card_help_release_slice_4.lua": {
+      "first": 13,
+      "last": 16,
+      "ms": 3065.5854
+    },
+    "card_help_release_slice_5.lua": {
+      "first": 17,
+      "last": 20,
+      "ms": 3215.3143
+    },
+    "card_help_release_slice_6.lua": {
+      "first": 21,
+      "last": 24,
+      "ms": 3099.1124
+    },
+    "card_help_release_slice_7.lua": {
+      "first": 25,
+      "last": 28,
+      "ms": 3602.4356
+    },
+    "card_help_release_slice_8.lua": {
+      "first": 29,
+      "last": 31,
+      "ms": 2508.7463
+    },
+    "looter_potion_ui.lua": {
+      "first": 1,
+      "last": 1,
+      "ms": 1755.4369
+    },
+    "looter_potion_ui_slice_2.lua": {
+      "first": 2,
+      "last": 2,
+      "ms": 1683.9349
+    },
+    "looter_potion_ui_slice_3.lua": {
+      "first": 3,
+      "last": 3,
+      "ms": 2400.0906
+    },
+    "looter_potion_ui_slice_4.lua": {
+      "first": 4,
+      "last": 4,
+      "ms": 4234.7072
+    },
+    "looter_potion_ui_slice_5.lua": {
+      "first": 5,
+      "last": 5,
+      "ms": 1613.2807
+    },
+    "looter_potion_ui_slice_6.lua": {
+      "first": 6,
+      "last": 6,
+      "ms": 1656.6318
+    },
+    "looter_potion_ui_slice_7.lua": {
+      "first": 7,
+      "last": 7,
+      "ms": 7946.9846
+    },
+    "looter_potion_ui_slice_8.lua": {
+      "first": 8,
+      "last": 8,
+      "ms": 4344.9441
+    }
+  },
+  "greenLogs": {
+    "card-green.log": {
+      "sha256": "3cce831f341783636659579249e971452a52b64591f45d35746e0e55a1ab1957"
+    },
+    "looter-green.log": {
+      "sha256": "a4df8d710b086326a96eca98396f110ae26ea3eca6f5f83693d6dd3e3e595b25"
+    }
+  },
+  "guardTests": 2,
+  "scope": "Bounded component verification in two serial batches; no complete new-SHA CI, native import or natural playthrough claim."
+}
