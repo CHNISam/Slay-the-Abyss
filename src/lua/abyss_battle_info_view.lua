@@ -229,7 +229,7 @@ function M.new(self, child, enemyPosition, describeInfo, paginate, tint, ink, pi
     return function(battle)
         local panel, info = child("statusInfo"), self.info
         local actor = detailActor(battle, info)
-        local card = actor and actor.id == info.id and Actors.isActive(actor) and describeInfo(battle, info, actor)
+        local card = actor and actor.id == info.id and Actors.isPresent(actor) and describeInfo(battle, info, actor)
         if not card then
             self.info = nil
             panel:SetVisible(false)

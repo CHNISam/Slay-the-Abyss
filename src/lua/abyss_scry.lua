@@ -1,5 +1,5 @@
 -- Fixed ScryAction semantics, without GUI/Golden Eye/Weave. No manual discard.
-local Events=require("abyss_events")
+local Events=require("abyss_events");local Actors=require('abyss_actor')
 local M={}
 local MAX=2147483647
 local function integer(n,lo,hi)
@@ -14,7 +14,7 @@ local function dense(t)
 end
 local function live(state)
     if type(state)~="table" or state.phase~="player" or not state.player or state.player.hp<=0 then return false end
-    for _,enemy in ipairs(state.enemies) do if enemy.hp>0 and not enemy.escaped then return true end end
+    for _,enemy in ipairs(state.enemies) do if Actors.isPresent(enemy) then return true end end
     return false
 end
 local function piles(state)

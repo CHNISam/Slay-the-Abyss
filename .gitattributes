@@ -34,3 +34,13 @@ tools/oracles/sts1_chapter_queues.py text eol=lf
 
 # New independent Neow oracle is byte-hashed on Windows and POSIX.
 tools/oracles/sts1_neow.py text eol=lf
+
+# Library and Writhing source provenance authenticates exact Git blob bytes.
+# Keep these golden inputs LF in Windows core.autocrlf checkouts as well.
+tools/oracles/library-event-oracle.py text eol=lf
+tools/sts1-card-rng-oracle.py text eol=lf
+tests/fixtures/library-event-vectors.json text eol=lf
+tests/fixtures/library-event-vectors.lua text eol=lf
+tools/oracles/sts1_writhing_mass.py text eol=lf
+tools/oracles/sts1_combat_gold.py text eol=lf
+tests/fixtures/act3-writhing-mass-vectors.lua text eol=lf

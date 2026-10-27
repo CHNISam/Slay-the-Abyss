@@ -1,0 +1,207 @@
+{
+  "base": "a0eedf8c8cdfb3bbab292060b3d3e81103cec9de",
+  "timeoutMilliseconds": 30000,
+  "rewardHelper": {
+    "path": "tests/lua/support/warrior75_reward_cases.lua",
+    "sha256LF": "7c6e2c485274bfc7bf06abf876116956986fccf0d70526da2ff331c68b14de07"
+  },
+  "rewardCounts": {
+    "common": 20,
+    "uncommon": 36,
+    "rare": 16
+  },
+  "rewardSlices": [
+    {
+      "path": "tests/lua/card_pool_rewards.lua",
+      "rarity": "common",
+      "first": 1,
+      "last": 5
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_common_11_20.lua",
+      "rarity": "common",
+      "first": 11,
+      "last": 15
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_common_16_20.lua",
+      "rarity": "common",
+      "first": 16,
+      "last": 20
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_common_6_10.lua",
+      "rarity": "common",
+      "first": 6,
+      "last": 10
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_rare_13_16.lua",
+      "rarity": "rare",
+      "first": 13,
+      "last": 16
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_rare_1_4.lua",
+      "rarity": "rare",
+      "first": 1,
+      "last": 4
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_rare_5_8.lua",
+      "rarity": "rare",
+      "first": 5,
+      "last": 8
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_rare_9_12.lua",
+      "rarity": "rare",
+      "first": 9,
+      "last": 12
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_10_18.lua",
+      "rarity": "uncommon",
+      "first": 10,
+      "last": 14
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_15_18.lua",
+      "rarity": "uncommon",
+      "first": 15,
+      "last": 18
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_19_27.lua",
+      "rarity": "uncommon",
+      "first": 19,
+      "last": 23
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_1_9.lua",
+      "rarity": "uncommon",
+      "first": 1,
+      "last": 5
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_24_27.lua",
+      "rarity": "uncommon",
+      "first": 24,
+      "last": 27
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_28_36.lua",
+      "rarity": "uncommon",
+      "first": 28,
+      "last": 32
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_33_36.lua",
+      "rarity": "uncommon",
+      "first": 33,
+      "last": 36
+    },
+    {
+      "path": "tests/lua/card_pool_rewards_uncommon_6_9.lua",
+      "rarity": "uncommon",
+      "first": 6,
+      "last": 9
+    }
+  ],
+  "families": [
+    {
+      "entry": "tests/lua/copied_attack.lua",
+      "originalBytesLF": 11258,
+      "originalSha256LF": "a3488a9491a7b5325ae702ae5825d43ced1e9053a4ad0e04b605cc9f3c652195",
+      "originalGitBlob": "0be1858d4d157c0b86b3efa627da0ea73eb43e73",
+      "total": 34,
+      "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 33\nlocal sliceRegistered,sliceExecuted=0,0\n",
+      "replacements": [
+        {
+          "before": "    count = count + 1\n",
+          "after": "    count = count + 1\n    if count<sliceFirst or count>sliceLast then return end\n    sliceExecuted=sliceExecuted+1\n"
+        },
+        {
+          "before": "print(\"copied attack tests passed: \" .. count)",
+          "after": "print(\"copied attack tests passed: \" .. sliceExecuted .. \" selected of \" .. count)"
+        }
+      ],
+      "footer": "\nassert(count==34,'all original copied-attack cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected copied-attack cases must execute')\nprint('COPIED_ATTACK_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "path": "tests/lua/copied_attack.lua",
+          "first": 1,
+          "last": 33
+        },
+        {
+          "path": "tests/lua/copied_attack_reward.lua",
+          "first": 34,
+          "last": 34
+        }
+      ]
+    },
+    {
+      "entry": "tests/lua/looter_rewards.lua",
+      "originalBytesLF": 3506,
+      "originalSha256LF": "5c4599f1a740c4dfb54d0658071638b6cadc02a8381bdc7cbf4793d3031d8948",
+      "originalGitBlob": "d466cefc3bd4877a3996739011647aa07e92c17f",
+      "total": 5,
+      "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4\nlocal sliceRegistered,sliceExecuted=0,0\n",
+      "replacements": [
+        {
+          "before": "local function test(name,fn) local ok,e=pcall(fn);",
+          "after": "local function test(name,fn) sliceRegistered=sliceRegistered+1;if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end;sliceExecuted=sliceExecuted+1;local ok,e=pcall(fn);"
+        }
+      ],
+      "footer": "\nassert(sliceRegistered==5,'all original looter-reward cases must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'all selected looter-reward cases must execute')\nprint('LOOTER_REWARD_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+      "slices": [
+        {
+          "path": "tests/lua/looter_rewards.lua",
+          "first": 1,
+          "last": 4
+        },
+        {
+          "path": "tests/lua/looter_rewards_invalid.lua",
+          "first": 5,
+          "last": 5
+        }
+      ]
+    }
+  ],
+  "silentFinal": {
+    "entry": "tests/lua/silent_final_sources.lua",
+    "originalBytesLF": 2643,
+    "originalSha256LF": "3a8395181bae1c2618bf727e12aa8576d2287ac9a9323a81120dd3df9364aeb9",
+    "originalGitBlob": "239d1e1b51b478b95200dc48346f951c8a8ec1ac",
+    "total": 3,
+    "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 1\nlocal sliceRegistered,sliceExecuted=0,0\nlocal function sourcePart(fn)\n sliceRegistered=sliceRegistered+1\n if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n sliceExecuted=sliceExecuted+1\n fn()\nend\n",
+    "replacements": [
+      {
+        "before": "local run=Run.new(data,42,{character='silent',experimental=true});local expected={};local total=0\n",
+        "after": "sourcePart(function()\nlocal run=Run.new(data,42,{character='silent',experimental=true});local expected={};local total=0\n"
+      },
+      {
+        "before": "for _,spec in ipairs({{0,1,'cunning_potion'},{10,3,'ghost_in_a_jar'}})do\n",
+        "after": "end)\nfor _,spec in ipairs({{0,1,'cunning_potion'},{10,3,'ghost_in_a_jar'}})do\n sourcePart(function()\n"
+      },
+      {
+        "before": " print('ok normal initial Silent shop purchases '..spec[3])\nend\n",
+        "after": " print('ok normal initial Silent shop purchases '..spec[3])\n end)\nend\n"
+      }
+    ],
+    "footer": "\nassert(sliceRegistered==3,'the coupled source stream and both original potion controls must register')\nassert(sliceExecuted==sliceLast-sliceFirst+1,'every selected Silent source part must execute')\nprint('SILENT_FINAL_SOURCE_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)\n",
+    "slices": [
+      {
+        "path": "tests/lua/silent_final_sources.lua",
+        "first": 1,
+        "last": 1
+      },
+      {
+        "path": "tests/lua/silent_final_sources_potions.lua",
+        "first": 2,
+        "last": 3
+      }
+    ]
+  },
+  "maximumRewardTargetsPerFixture": 5
+}

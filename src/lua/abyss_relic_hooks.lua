@@ -15,7 +15,7 @@ local aliases={NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_per
  PreservedInsect='preserved_insect',['Red Skull']='red_skull',['Centennial Puzzle']='centennial_puzzle',
  ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
  WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod',
- ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg'}
+ ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg',['Snake Skull']='snake_skull',DataDisk='data_disk',Damaru='damaru'}
 function M.localId(id)return aliases[id] or id end
 function M.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
@@ -192,8 +192,12 @@ function M.onObtainCard(run,card,definition,permanentApi)
   if M.localId(id)=='ceramic_fish' then M.gainGold(run,9)
   elseif M.localId(id)=='darkstone_periapt' and (definition.type=='curse' or definition.type=='CURSE') then
    -- The source tests CURSE color, not STATUS type. No onEquip retroactivity.
-   -- Active/retained combat contexts lack source heal modifiers/health sync.
-   if run.phase=='combat' or run.combat or run.pendingCombatRewards then return false,'darkstone_health_context_unavailable' end
+   -- Ordinary active/retained contexts still refuse; only an explicit owner-
+   -- matched adapter supplies source combat healing and permanent health sync.
+   local combatApi=run.combat and permanentApi and permanentApi.combatContext==run.combat
+   if (run.phase=='combat' or run.combat or run.pendingCombatRewards)and not combatApi then
+    return false,'darkstone_health_context_unavailable'
+   end
    assert(permanentApi and type(permanentApi.increaseMaxHp)=='function','missing permanent health API')
    local ok,why=permanentApi.increaseMaxHp(run,6)
    if not ok then return false,why end
@@ -251,7 +255,7 @@ end
 function M.hpChanged(state,actor,before)
  if actor~=state.player or not A.isActive(actor)then return end
  local inCombat=false
- for _,enemy in ipairs(state.enemies or {})do if A.isActive(enemy)then inCombat=true;break end end
+ for _,enemy in ipairs(state.enemies or {})do if A.isPresent(enemy)then inCombat=true;break end end
  if not inCombat then return end
  local c=state.relicCombat
  if not c then return end
@@ -270,7 +274,7 @@ end
 function M.wasHpLost(state,actor,amount)
  if actor~=state.player or amount<=0 then return end
  local inCombat=false
- for _,enemy in ipairs(state.enemies or {})do if A.isActive(enemy)then inCombat=true;break end end
+ for _,enemy in ipairs(state.enemies or {})do if A.isPresent(enemy)then inCombat=true;break end end
  local c=state.relicCombat
  if not inCombat or not c then return end
  if M.owns(state,'centennial_puzzle') and not c.centennialUsed then
@@ -303,6 +307,19 @@ function M.atTurnStart(state)
  end
  if state.relicCombat then state.relicCombat.attackPlayed=false end
 end
+-- Source atTurnStart queues BOTTOM, before turn Powers and normal Draw. The
+-- existing combat continuation owns execution, threshold removal and stance.
+function M.prepareTurnStart(state)
+ local actions={}
+ for _,id in ipairs(state.relics or {})do
+  if M.localId(id)=='damaru' then
+   local effect=require('abyss_mantra').prepareGain(state,1)
+   effect.nullSource=true
+   actions[#actions+1]={kind='effect',effect=effect}
+  end
+ end
+ return actions
+end
 function M.onUseCard(state,definition)
  if definition.type=='attack' and M.owns(state,'art_of_war')then state.relicCombat.attackPlayed=true end
  if definition.type~='attack' then return end
@@ -333,7 +350,8 @@ function M.afterCard(state)
 end
 function M.battleStart(state,id)
  id=M.localId(id)
- if id=='blood_vial' then
+ if id=='data_disk' then A.applyPower(state,state.player,'focus',1,state.player)
+ elseif id=='blood_vial' then
   if state.originalV4 then require('abyss_original_v4_health').heal(state,state.player,2,nil,id);return end
   local before=state.player.hp;state.player.hp=math.min(state.player.maxHp,before+2)
   E.emit(state,'heal',{target=state.player.id,amount=state.player.hp-before,relic=id})

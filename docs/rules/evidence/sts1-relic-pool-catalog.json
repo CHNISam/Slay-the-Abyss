@@ -178,11 +178,12 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 48,
+    "existingLocalEffects": 51,
     "queueMissing": 89,
     "act1Missing": 95,
     "registeredLocalEffects": 47,
-    "fallbackLocalEffects": 1
+    "fallbackLocalEffects": 1,
+    "classLocalEffects": 3
   },
   "queueProtocol": {
     "initialization": {
@@ -4843,6 +4844,66 @@
       "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Circlet.java",
       "implementationLimitation": "Resolved Circlet is obtainable from repeated Bonfire curse offerings; repeats increment the existing counter without a second relic slot. Finite source queue exhaustion resolves it locally; treasure/shop do not yet consume the shared full queue. Red Circlet remains an unresolved source alias, not a separately implemented relic."
+    }
+  ],
+  "classLocalEffectsBoundary": "Supplemental current local-effect bindings for the chosen Silent/Defect/Watcher class only; not additions to this IRONCLAD profile registrationOrder, 149 original records, 130 queue slots or its 89/95 missing sets. Full source catalogs/queues, all remaining unavailable content and natural/platform evidence boundaries are unchanged.",
+  "classLocalEffects": [
+    {
+      "id": "Snake Skull",
+      "class": "SneckoSkull",
+      "library": "green",
+      "tier": "common",
+      "scope": "chosen-class-source-queue",
+      "sourcePoolClass": "silent",
+      "projectId": "snake_skull",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/SneckoSkull.java",
+      "sourceLock": "tests/fixtures/class-common-relics-source-lock.json",
+      "sourceQueueCatalog": "data/catalogs/sts1-class-relic-queues.json",
+      "locallyCoveredChannels": [
+        "elite",
+        "chest",
+        "shop-normal"
+      ],
+      "implementationLimitation": "Poison ApplyPower construction captures player-source bonus before Artifact; no raw-status/decay bonus. Actual common class queue shop/chest/elite hooks are locally covered; complete natural campaign and PC/platform/live acceptance remain pending."
+    },
+    {
+      "id": "DataDisk",
+      "class": "DataDisk",
+      "library": "blue",
+      "tier": "common",
+      "scope": "chosen-class-source-queue",
+      "sourcePoolClass": "defect",
+      "projectId": "data_disk",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/DataDisk.java",
+      "sourceLock": "tests/fixtures/class-common-relics-source-lock.json",
+      "sourceQueueCatalog": "data/catalogs/sts1-class-relic-queues.json",
+      "locallyCoveredChannels": [
+        "elite",
+        "chest",
+        "shop-normal"
+      ],
+      "implementationLimitation": "Battle-start TOP Focus1 uses the shared Focus/orb owner; no onEquip or repeated turn grant. Actual common class queue shop/chest/elite hooks are locally covered; complete natural campaign and PC/platform/live acceptance remain pending."
+    },
+    {
+      "id": "Damaru",
+      "class": "Damaru",
+      "library": "purple",
+      "tier": "common",
+      "scope": "chosen-class-source-queue",
+      "sourcePoolClass": "watcher",
+      "projectId": "damaru",
+      "status": "existing-local-effect-not-full-pool-parity",
+      "source": "relics/Damaru.java",
+      "sourceLock": "tests/fixtures/class-common-relics-source-lock.json",
+      "sourceQueueCatalog": "data/catalogs/sts1-class-relic-queues.json",
+      "locallyCoveredChannels": [
+        "elite",
+        "chest",
+        "shop-normal"
+      ],
+      "implementationLimitation": "Turn-start BOTTOM null-source Mantra1 uses existing Mantra/stance continuation; no invented Power. Actual common class queue shop/chest/elite hooks are locally covered; complete natural campaign and PC/platform/live acceptance remain pending."
     }
   ]
 }

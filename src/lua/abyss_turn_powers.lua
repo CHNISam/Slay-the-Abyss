@@ -25,7 +25,7 @@ end
 local function live(state)
     assert(type(state)=='table' and type(state.player)=='table' and type(state.player.statuses)=='table','missing turn Power state')
     if not Actors.isActive(state.player) or state.phase=='victory' or state.phase=='defeat' then return false end
-    for _,enemy in ipairs(state.enemies)do if Actors.isActive(enemy)then return true end end
+    for _,enemy in ipairs(state.enemies)do if Actors.isPresent(enemy)then return true end end
     return false
 end
 local function action(effect,id)
@@ -163,7 +163,8 @@ function M.preparePostDraw(state)
         elseif id=='noxious_fumes' then
             for _,enemy in ipairs(state.enemies)do
                 if Actors.isActive(enemy) and not enemy.isDead and not enemy.isDying then
-                    local a=action({op='turnPoison',targetId=enemy.id,value=n,newPowerAmount=math.min(9999,n)},id)
+                    local a=action({op='turnPoison',targetId=enemy.id,value=n,newPowerAmount=math.min(9999,n),
+                        poisonBonus=Actors.poisonBonus(state,enemy,state.player)},id)
                     a.triggerPower=id;out[#out+1]=a
                 end
             end

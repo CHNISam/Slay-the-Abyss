@@ -209,7 +209,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events and 24 additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Six additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics, Ghosts, Joust) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4. Ghosts A0 caches entry maxHP loss, decreases current maxHP before five real permanent Apparition obtains, then retains result until Leave. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; no manual reward upgrades or full acquisition-hook completeness claim."
+      "limitation": "Seven default random events and 25 additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Six additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics, Ghosts, Joust) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4. Ghosts A0 caches entry maxHP loss, decreases current maxHP before five real permanent Apparition obtains, then retains result until Leave. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; no manual reward upgrades or full acquisition-hook completeness claim. The Library is tracked separately in the library profile; no native/natural acceptance is granted."
     },
     "relics": {
       "tasks": [
@@ -597,6 +597,72 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Complete single event plus required Red Mask opening Weak; seed14 full-pool room component and explicit held-mask branch fixtures. Masked Bandits, whole natural campaign, dedicated relic art and PC/platform/live qualification remain pending."
+    },
+    "library": {
+      "tasks": [
+        "TASK-61",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_library_event.lua",
+        "src/lua/abyss_act2_events.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua",
+        "src/lua/abyss_run.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/library_event.lua",
+          "tests/lua/library_event_rng.lua",
+          "tests/lua/library_event_ui.lua",
+          "tests/lua/library_event_combat.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "existing-approved-picker-controls-with-native-device-acceptance-pending",
+      "limitation": "Four mapped full Run class catalogues only; historical prepared/original-V4 Read disabled without source mapping. Exact20 unique source offers, duplicate rarity+identity retry, unchanged pity, detached previews/fresh actual obtain and cached binary32 Sleep are locally tested. Toxic Egg shares real hooks; forced unsupported Molten/Frozen Egg Read refuses. Global cosmetic reading text is fixed rather than spending gameplay RNG. Native and natural four-class four-act acceptance NOT_RUN."
+    },
+    "classCommonRelics": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-59",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_actor.lua",
+        "src/lua/abyss_inventory.lua",
+        "src/lua/abyss_relic_hooks.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_turn_powers.lua",
+        "src/lua/abyss_mantra.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/class_common_relic_effects.lua",
+          "tests/lua/class_common_relic_lifecycle.lua",
+          "tests/lua/class_common_relic_constructor.lua",
+          "tests/lua/class_common_relic_channels.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Snake Skull, DataDisk and Damaru are available in their original Silent/Defect/Watcher common queues; complete catalogs, queue order and RNG remain unchanged. Offline hooks and public shop/chest/elite obtain controls are covered, including captured Poison constructor ownership, Focus/orb identity, Mantra/stance thresholds and external acquire rollback. Room and terminal fixtures are not a complete natural campaign. Dedicated art and platform/live acceptance remain pending."
     }
   },
   "cards": [
@@ -3334,7 +3400,7 @@
         "count": 5,
         "through": "Run.obtainCard"
       },
-      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / public Nodes+Run and generated-control tests. Native-client acceptance NOT_RUN; natural campaign/history/persistence and complete source-pool acceptance remain pending. Five fresh permanent Apparition obtains dispatch existing hooks after cached maxHP cost; no picker, seeded event RNG, damage/heal/Fairy dispatch or manual upgrades. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards; complete generic onMasterDeckChange relic support is not claimed. Active/retained combat health owners explicitly refuse; supported normal event context keeps result then separate Leave."
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / public Nodes+Run and generated-control tests. Native-client acceptance NOT_RUN; natural campaign/history/persistence and complete source-pool acceptance remain pending. Five fresh permanent Apparition obtains dispatch existing hooks after cached maxHP cost; no picker, seeded event RNG, damage/heal/Fairy dispatch or manual upgrades. Current actual Toxic Egg onObtain upgrades all five fresh Apparitions once, with shared Ceramic Fish hooks; complete generic onMasterDeckChange relic support is not claimed. Active/retained combat health owners explicitly refuse; supported normal event context keeps result then separate Leave."
     },
     {
       "id": "falling",
@@ -3523,6 +3589,29 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Public Nodes and generated UI wiring; fixed-source five-screen wager semantics. Full source-pool normal campaign eligibility/history and platform acceptance remain pending."
+    },
+    {
+      "id": "the_library",
+      "originalId": "The Library",
+      "act": 2,
+      "choices": [
+        "read",
+        "sleep",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choose_offer",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter route outside default restricted-seven; original full13 Act2 source pool/order/eligibility retained unchanged.",
+      "source": "src/lua/abyss_library_event.lua",
+      "profile": "library",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / real Nodes+Run transactions, four exact source rarity pools,17 independent full RNG continuations,20-card paginated acquisition picker and actual next source-room plays. Picker uses select+immutable offerToken, not a reward skip or permanent deck UID. Controlled full-pool selection/removal and staged next combat do not prove natural campaign or platform acceptance. Read/Sleep -> selection or heal -> result -> separate Leave. Historical prepared/original-V4 Read and unsupported egg hooks fail honestly; Sleep remains supported. Native-client acceptance NOT_RUN."
     }
   ],
   "relics": [
@@ -4049,6 +4138,45 @@
       "naturalAcquisitionLimitation": "Neow opening choice; exact three-battle direct HP/counter hooks. Whole-campaign/native acceptance pending.",
       "profile": "relics",
       "rarity": "special"
+    },
+    {
+      "id": "snake_skull",
+      "sourceId": "Snake Skull",
+      "source": "data/relics.json#snake_skull",
+      "profile": "classCommonRelics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourcePoolClass": "silent",
+      "naturalAcquisitionLimitation": "Normal acquisition uses the complete shared + silent source queues, including elite rewards; explicit Run.obtainRelic also supports external acquisition. Offline source-channel fixtures do not certify a complete natural run or platform/live acquisition."
+    },
+    {
+      "id": "data_disk",
+      "sourceId": "DataDisk",
+      "source": "data/relics.json#data_disk",
+      "profile": "classCommonRelics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourcePoolClass": "defect",
+      "naturalAcquisitionLimitation": "Normal acquisition uses the complete shared + defect source queues, including elite rewards; explicit Run.obtainRelic also supports external acquisition. Offline source-channel fixtures do not certify a complete natural run or platform/live acquisition."
+    },
+    {
+      "id": "damaru",
+      "sourceId": "Damaru",
+      "source": "data/relics.json#damaru",
+      "profile": "classCommonRelics",
+      "rarity": "common",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourcePoolClass": "watcher",
+      "naturalAcquisitionLimitation": "Normal acquisition uses the complete shared + watcher source queues, including elite rewards; explicit Run.obtainRelic also supports external acquisition. Offline source-channel fixtures do not certify a complete natural run or platform/live acquisition."
     }
   ],
   "potions": [
@@ -5500,7 +5628,7 @@
         "explicit:Run.obtainCard",
         "explicit_event:ghosts:accept"
       ],
-      "naturalAcquisitionLimitation": "Shared canonical skill with explicit Run.obtainCard and Ghosts A0 five-card source event acquisition locally covered. Default restricted-seven does not randomly admit Ghosts; controlled full Act2 source draw is tested, not a natural campaign. Toxic Egg upgrades, when available, belong to the existing Run acquisition hooks; Ghosts does not manually upgrade rewards. Natural/platform acceptance NOT_RUN."
+      "naturalAcquisitionLimitation": "Shared canonical skill with explicit Run.obtainCard and Ghosts A0 five-card source event acquisition locally covered. Default restricted-seven does not randomly admit Ghosts; controlled full Act2 source draw is tested, not a natural campaign. Current actual Toxic Egg upgrades all five fresh Apparitions once through existing Run acquisition hooks; Ghosts does not manually upgrade rewards. Natural/platform acceptance NOT_RUN."
     },
     {
       "id": "bite",

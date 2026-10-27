@@ -1,7 +1,10 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4
+local sliceRegistered,sliceExecuted=0,0
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Run,Combat,Data=require('abyss_run'),require('abyss_combat'),require('abyss_data')
 local passed,failed=0,0
-local function test(name,fn) local ok,e=pcall(fn);if ok then passed=passed+1;print('PASS '..name) else failed=failed+1;print('FAIL '..name..': '..tostring(e)) end end
+local function test(name,fn) sliceRegistered=sliceRegistered+1;if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end;sliceExecuted=sliceExecuted+1;local ok,e=pcall(fn);if ok then passed=passed+1;print('PASS '..name) else failed=failed+1;print('FAIL '..name..': '..tostring(e)) end end
 local function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end
 local function win(stolen)
  local r=Run.new(Data,42);assert(Run.startCombat(r,'cultist_solo'))
@@ -48,3 +51,7 @@ test('invalid and overflowing stolen claims reject before writes',function()
  local r=win(30);r.gold=2147483640;eq(Run.claimStolenGoldReward(r),false);eq(r.gold,2147483640);eq(r.rewards.stolenGold.claimed,false)
 end)
 print('LOOTER_REWARDS '..passed..' passed '..failed..' failed');assert(failed==0)
+
+assert(sliceRegistered==5,'all original looter-reward cases must register')
+assert(sliceExecuted==sliceLast-sliceFirst+1,'all selected looter-reward cases must execute')
+print('LOOTER_REWARD_PART '..sliceFirst..' '..sliceLast..' '..sliceExecuted)

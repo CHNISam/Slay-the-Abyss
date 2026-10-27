@@ -1,5 +1,6 @@
 -- Audited A0 slice only. Keep every other source encounter explicitly unavailable.
 local M={}
+local GiantHead=require('abyss_giant_head')
 M.enemies={{id='orb_walker',sourceId='Orb Walker',name='雷核步行机关',tier='normal',hp=96,
  hpRange={min=90,max=96},ai={kind='act3',policy='orb_walker',preHpRoll=7},intents={
   {id='laser',kind='attack',effects={{op='damage',value=10},{op='enemyBurnBoth'}}},
@@ -49,11 +50,19 @@ M.statuses={{id='generic_strength_up',sourceId='Generic Strength Up Power',name=
   description='受正伤害时，按格挡后伤害暂失力量，自身回合末归还；反伤与直接失血也触发。'},
  {id='fading',sourceId='Fading',name='消逝',kind='buff',stack='duration',decay='none',
   description='每次攻击后倒计时减1；为1时攻击后自毁，仍获得正常战斗奖励。'}}
+M.enemies[#M.enemies+1]=require('abyss_writhing_mass').enemy
+M.statuses[#M.statuses+1]=require('abyss_writhing_mass').status
+M.enemies[#M.enemies+1]=GiantHead.enemy
+M.statuses[#M.statuses+1]=GiantHead.status
 local formations={['3 Shapes']='act3_three_shapes',['4 Shapes']='act3_four_shapes',
  ['Sphere and 2 Shapes']='act3_sphere_two_shapes',['Jaw Worm Horde']='act3_jaw_worm_horde'}
 function M.resolve(source,tier)
+ if source=='Giant Head'then
+  if tier~='elite'then return nil,'encounter_tier_mismatch'end
+  return {id='act3_giant_head',tier=tier,source=source,enemies={'giant_head'}}
+ end
  local single=source=='Orb Walker'and 'orb_walker'or source=='Maw'and 'maw'or source=='Spire Growth'and 'spire_growth'
-  or source=='Transient'and 'transient'
+  or source=='Transient'and 'transient'or source=='Writhing Mass'and 'writhing_mass'
  if not single and not formations[source]then return nil,'act_content_unavailable'end
  if tier~='normal'then return nil,'encounter_tier_mismatch'end
  if formations[source]then return {id=formations[source],tier=tier,source=source,sourceEncounter=source}end

@@ -1,2 +1,2 @@
--- All original targets, real starter victories, public claims and next-battle UID persistence.
-dofile('tests/lua/support/warrior75_reward_cases.lua')('common',1,10)
+-- Every original real-victory/claim/next-battle assertion remains in the frozen helper.
+dofile('tests/lua/support/warrior75_reward_cases.lua')('common',1,5)

@@ -1,6 +1,6 @@
 -- Source-ordered exhaust hooks. Combat owns transactions, relics and disposal.
 -- All persisted plans contain action data only; callbacks stay on the call stack.
-local Events=require('abyss_events')
+local Events=require('abyss_events');local Actors=require('abyss_actor')
 local M={}
 local MAX=2147483647
 local hooks={feel_no_pain=true,dark_embrace=true}
@@ -26,7 +26,7 @@ local function alive(s)
     dense(s.enemies)
     for _,enemy in ipairs(s.enemies) do
         assert(type(enemy)=='table' and type(enemy.hp)=='number','invalid exhaust enemy')
-        if enemy.hp>0 and not enemy.escaped then return true end
+        if Actors.isPresent(enemy) then return true end
     end
     return false
 end

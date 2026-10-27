@@ -1,5 +1,8 @@
 {
   "layers": {
+    "abyss_library_event": "core",
+    "abyss_writhing_mass": "core",
+    "abyss_giant_head": "core",
     "abyss_joust_event": "core",
     "abyss_tomb_red_mask_event": "core",
     "abyss_class_potions": "core",
@@ -174,7 +177,8 @@
     "abyss_neow": "core",
     "abyss_act3_bosses": "core",
     "abyss_neow_history": "core",
-    "abyss_treasure_source": "core"
+    "abyss_treasure_source": "core",
+    "abyss_awakened_one": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [
@@ -331,7 +335,7 @@
     {
       "from": "abyss_actor",
       "to": "abyss_relic_hooks",
-      "reason": "Only runtime HP-change callbacks import relic hooks; never during Actor module initialization."
+      "reason": "Only runtime HP-change and Poison-construction callbacks import relic hooks; never during Actor module initialization."
     },
     {
       "from": "abyss_card_actions",
@@ -392,6 +396,16 @@
       "from": "abyss_silent_final_cards",
       "to": "abyss_enemy_ai",
       "reason": "Choke execution notifies the initialized enemy death hooks only while resolving a card action."
+    },
+    {
+      "from": "abyss_writhing_mass",
+      "to": "abyss_relic_hooks",
+      "reason": "Permanent Parasite obtains dispatch loaded relic hooks only during an enemy action, after Actor initialization."
+    },
+    {
+      "from": "abyss_writhing_mass",
+      "to": "abyss_inventory",
+      "reason": "Darkstone uses the existing in-combat max-health/healing adapter only during a permanent obtain action."
     }
   ]
 }

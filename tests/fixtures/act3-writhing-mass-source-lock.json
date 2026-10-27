@@ -1,0 +1,198 @@
+{
+  "sourceRepository": "https://github.com/aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceKind": "third-party community decompilation mirror; not official source or PC-binary execution",
+  "files": [
+    {
+      "path": "monsters/beyond/WrithingMass.java",
+      "sha256": "89e3c4088d80aee0e11267958dad5e8dc1e6b2d9b03a9bc78c99f3fa4e1d9157",
+      "methods": [
+        "constructor",
+        "usePreBattleAction",
+        "getMove",
+        "takeTurn"
+      ],
+      "gitBlobSha": "8479e5442864ec84adc191fbbffa746726bd2436"
+    },
+    {
+      "path": "powers/ReactivePower.java",
+      "sha256": "715b005010cfc88d892532ec39fb2f0bfbfcd401d390fb97d35fd9d95b05e0c8",
+      "methods": [
+        "constructor",
+        "onAttacked"
+      ],
+      "gitBlobSha": "633fdf6f4ffb82ff836fab4ed282c21aeb1ce80e"
+    },
+    {
+      "path": "powers/MalleablePower.java",
+      "sha256": "37c8185c08b97cebac44b9e5bc7cbf6e50221257d3634d07812a69b80d495d46",
+      "methods": [
+        "constructor",
+        "onAttacked",
+        "atEndOfTurn"
+      ],
+      "gitBlobSha": "9813ed4c3aa8efc7c4ea00fd38159cabb8c5027c"
+    },
+    {
+      "path": "actions/unique/AddCardToDeckAction.java",
+      "sha256": "74db24a13cd70103a03ca1d12c4fc044b2c677129d46865f27fac41a48741db8",
+      "methods": [
+        "update"
+      ],
+      "gitBlobSha": "759ab4168dc13499cad09ea6e3fd509bef02240b"
+    },
+    {
+      "path": "actions/common/RollMoveAction.java",
+      "sha256": "c938d4b4a9183b39e91c1c54c79085ddf7b2bea082af14895b9a1a00a100fc50",
+      "methods": [
+        "update"
+      ],
+      "gitBlobSha": "01731f966b9b6f8c3815b246cd02cf75eb5d2153"
+    },
+    {
+      "path": "actions/common/GainBlockAction.java",
+      "sha256": "e48f437c06b42dda312446a4b536aca54570d637e53087ac16f736d84bb5df4f",
+      "methods": [
+        "update"
+      ],
+      "gitBlobSha": "ce4c481797045d55a17b133289e2e070431eacdf"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52",
+      "methods": [
+        "constructor",
+        "update"
+      ],
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff"
+    },
+    {
+      "path": "cards/Soul.java",
+      "sha256": "8e4105a9df83d93ad4f66d35c54b63720e90f71b80c7594a6faa454d19b545c0",
+      "methods": [
+        "obtain"
+      ],
+      "gitBlobSha": "1a8dd9aef1fff6140524b45063b89ea7bb69fcc8"
+    },
+    {
+      "path": "cards/curses/Parasite.java",
+      "sha256": "af0ab39e0d6535c328adc74371b27703b0730b6a1f4bd6476a72b0d03a54ae56",
+      "methods": [
+        "constructor",
+        "onRemoveFromMasterDeck"
+      ],
+      "gitBlobSha": "003b65e5c7fa97ad1888f9000e922ad631a919de"
+    },
+    {
+      "path": "relics/Omamori.java",
+      "sha256": "9a4ec0639162f5031e74587dcf5ad191209dd92f2063d4747495ccb265d5cf6f",
+      "methods": [
+        "constructor",
+        "use"
+      ],
+      "gitBlobSha": "cdd7410338a2e8e9d8a08f51e0c8a4d596a4dcec"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "methods": [
+        "constructor",
+        "setHp",
+        "damage",
+        "setMove",
+        "rollMove"
+      ],
+      "gitBlobSha": "4784e38e7afff5980736e2b5c718e62a0c838c47"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "methods": [
+        "addBlock",
+        "increaseMaxHp",
+        "heal",
+        "applyEndOfTurnTriggers"
+      ],
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "methods": [
+        "getEncounter"
+      ],
+      "gitBlobSha": "a81763abf681642be66cbd935cc99d2126e822f4"
+    },
+    {
+      "path": "relics/DarkstonePeriapt.java",
+      "methods": [
+        "onObtainCard"
+      ],
+      "sha256": "629f1f8d4bd033da581468b7f4a9a7c63051d3cec6cb8f6d6c0b2e3d3736efde",
+      "gitBlobSha": "7cff88ec76f796024b9b8f7bb567215dd14d1933"
+    },
+    {
+      "path": "relics/CeramicFish.java",
+      "methods": [
+        "onObtainCard"
+      ],
+      "sha256": "bf8a18d2488d17304a0c9bd153c42898065aa00cbecb424cd1e59e66b2d6fa1c",
+      "gitBlobSha": "77b06f9a3cfb60ac52b8f4d8a4670c0c2fb139f1"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "methods": [
+        "heal"
+      ],
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7"
+    },
+    {
+      "path": "random/Random.java",
+      "methods": [
+        "random",
+        "randomBoolean"
+      ],
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc"
+    }
+  ],
+  "authoredInputs": [
+    {
+      "path": "tools/oracles/sts1_writhing_mass.py",
+      "sha256": "2e42c8441bb0754d7b164424d4cd966500140a078829d5c2b746838b1708cf10"
+    },
+    {
+      "path": "tools/oracles/sts1_combat_gold.py",
+      "sha256": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8"
+    },
+    {
+      "path": "tests/fixtures/act3-writhing-mass-vectors.lua",
+      "sha256": "284619aa3a561a113e5a0f4d7568a961c5d40500855c6161907e40940fe9b5b5"
+    }
+  ],
+  "contracts": {
+    "hp": 160,
+    "hpDraws": 1,
+    "openingCutoffs": [
+      33,
+      66
+    ],
+    "laterCutoffs": [
+      10,
+      20,
+      40,
+      70
+    ],
+    "reactivePriority": 50,
+    "reactiveAction": "BOTTOM RollMove; no owner-death guard, final-victory queue cleanup applies",
+    "malleablePriority": 5,
+    "malleableAction": "BOTTOM GainBlock before Reactive, next amount increments immediately; monster owner-end resets to3",
+    "reactiveHistory": "last selected move, not last executed; every setMove updates it",
+    "parasitePermanentOnly": true,
+    "implantOnce": "spent at takeTurn, even if Omamori prevents the obtain",
+    "omamoriBeforeUidAndRelicHooks": true,
+    "darkstone": "existing Inventory increaseMaxHp: maxHP then modified immediate heal, event and hpChanged; no damage/Fairy path"
+  },
+  "verificationBoundary": "independent integer/float32 model and explicit Run room fixtures; no official import, live UI, PC binary or natural three-act claim"
+}

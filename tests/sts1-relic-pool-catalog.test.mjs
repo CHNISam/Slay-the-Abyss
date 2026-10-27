@@ -10,6 +10,8 @@ const sha = text => createHash('sha256').update(text.replaceAll('\r\n', '\n')).d
 const catalog = json('docs/rules/evidence/sts1-relic-pool-catalog.json');
 const identity = json('docs/rules/evidence/sts1-relic-source-identity.json');
 const vectors = json('tests/fixtures/sts1-relic-pool-vectors.json');
+const classCatalogs = json('data/catalogs/sts1-class-relic-queues.json');
+const classSourceLock = json('tests/fixtures/class-common-relics-source-lock.json');
 const registration = read('tests/fixtures/sts1-relic-library-registration.tsv').trim().split(/\r?\n/).map(line => {
   const [library, tier, id] = line.split('\t'); return {library, tier, id};
 });
@@ -27,6 +29,32 @@ function validateFacts(value) {
     assert.ok(row.scope === 'later-act-only' ? row.channels.length === 0 : row.channels.length > 0);
     for (const channel of row.channels) assert.ok(identity.files[value.acquisitionChannels[channel]?.source], `${row.id} channel ${channel}`);
     assert.equal(row.status, row.projectId ? 'existing-local-effect-not-full-pool-parity' : 'unimplemented');
+  }
+  // These are current chosen-class bindings, not members of the frozen
+  // Ironclad registration/queues or a reason to shrink its missing set.
+  assert.deepEqual(value.classLocalEffects.map(({id, projectId, sourcePoolClass, source}) =>
+    ({id, projectId, sourcePoolClass, source})), [
+    {id:'Snake Skull', projectId:'snake_skull', sourcePoolClass:'silent', source:'relics/SneckoSkull.java'},
+    {id:'DataDisk', projectId:'data_disk', sourcePoolClass:'defect', source:'relics/DataDisk.java'},
+    {id:'Damaru', projectId:'damaru', sourcePoolClass:'watcher', source:'relics/Damaru.java'},
+  ]);
+  assert.equal(classSourceLock.sourceCommit, value.sourceCommit);
+  for (const row of value.classLocalEffects) {
+    const source = classSourceLock.files.find(file => file.path === row.source);
+    assert.match(source?.sha256 ?? '', /^[0-9a-f]{64}$/);
+    assert.equal(classSourceLock.facts[row.projectId].sourceId, row.id);
+    assert.equal(row.tier, 'common');
+    assert.equal(row.scope, 'chosen-class-source-queue');
+    assert.equal(row.status, 'existing-local-effect-not-full-pool-parity');
+    assert.equal(row.sourceLock, 'tests/fixtures/class-common-relics-source-lock.json');
+    assert.equal(row.sourceQueueCatalog, 'data/catalogs/sts1-class-relic-queues.json');
+    assert.equal(classCatalogs[row.sourcePoolClass].sourceCommit, value.sourceCommit);
+    assert.ok(classCatalogs[row.sourcePoolClass].queues.common.includes(row.id));
+    assert.ok(!value.registrationOrder.includes(row.id), 'class binding must not enter Ironclad registration');
+    for (const other of ['silent', 'defect', 'watcher'].filter(name => name !== row.sourcePoolClass))
+      assert.ok(!classCatalogs[other].queues.common.includes(row.id), `${row.id} class ownership`);
+    assert.deepEqual(row.locallyCoveredChannels, ['elite', 'chest', 'shop-normal']);
+    assert.match(row.implementationLimitation, /natural campaign and PC\/platform\/live acceptance remain pending/);
   }
 }
 
@@ -63,13 +91,26 @@ test('removing an unsupported relic, changing its tier or marking a missing effe
   }
 });
 
+test('chosen-class local bindings cannot disappear, cross classes or alter the Ironclad registration', () => {
+  for (const mutate of [
+    value => value.classLocalEffects.pop(),
+    value => {value.classLocalEffects[0].sourcePoolClass = 'defect';},
+    value => {value.classLocalEffects[1].id = 'invented disk';},
+    value => value.registrationOrder.push('Damaru'),
+  ]) {
+    const changed = structuredClone(catalog); mutate(changed);
+    assert.throws(() => validateFacts(changed));
+  }
+});
+
 test('existing project effects are mapped honestly and the exact missing set is the original set difference', () => {
   const data = json('data/relics.json').relics;
   const mapped = catalog.relics.filter(row => row.projectId);
   const fallbacks = catalog.fallbacks.filter(row => row.projectId);
   const fallbackIds = [...new Set(fallbacks.map(row => row.projectId))];
-  assert.deepEqual([...mapped.map(row => row.projectId), ...fallbackIds].sort(), data.map(row => row.id).sort());
-  for (const row of mapped) {
+  const classMapped = catalog.classLocalEffects;
+  assert.deepEqual([...mapped.map(row => row.projectId), ...classMapped.map(row => row.projectId), ...fallbackIds].sort(), data.map(row => row.id).sort());
+  for (const row of [...mapped, ...classMapped]) {
     const definition = data.find(item => item.id === row.projectId);
     assert.equal(definition.rarity, row.tier);
     if (definition.sourceId) assert.equal(row.id, definition.sourceId, `${row.projectId} exact source ID`);
@@ -95,6 +136,8 @@ test('existing project effects are mapped honestly and the exact missing set is 
   assert.equal(catalog.summary.existingLocalEffects, data.length);
   assert.equal(catalog.summary.registeredLocalEffects, mapped.length);
   assert.equal(catalog.summary.fallbackLocalEffects, fallbackIds.length);
+  assert.equal(catalog.summary.classLocalEffects, classMapped.length);
+  assert.equal(catalog.summary.existingLocalEffects, mapped.length + classMapped.length + fallbackIds.length);
 });
 
 test('host Java HashMap order and shuffle vectors keep provenance, all members and five RNG consumptions', () => {

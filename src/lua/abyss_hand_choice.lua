@@ -1,6 +1,6 @@
 -- Source-defined True Grit / Warcry selection. Caller owns choose+resume rollback.
 local Random=require('abyss_sts_random')
-local Events=require('abyss_events')
+local Events=require('abyss_events');local Actors=require('abyss_actor')
 local M={}
 local MAX=2147483647
 local modes={exhaust_random=true,exhaust_choose=true,put_on_deck=true,recycle=true}
@@ -17,7 +17,7 @@ end
 local function live(s)
     if type(s)~='table' or s.phase~='player' or type(s.player)~='table' or type(s.player.hp)~='number'
         or s.player.hp<=0 or type(s.player.statuses)~='table' or type(s.enemies)~='table' then return false end
-    for _,e in ipairs(s.enemies) do if e.hp>0 and not e.escaped then return true end end
+    for _,e in ipairs(s.enemies) do if Actors.isPresent(e) then return true end end
     return false
 end
 local function index(s)

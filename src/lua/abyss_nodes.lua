@@ -594,6 +594,7 @@ function M.treasureRewardSource(run,slot)
         or type(flow.reward.items)~='table' or getmetatable(flow.reward.items)~=nil or flow.complete~=false
         or type(slot)~='number' or slot%1~=0 or slot<1 then return nil,'treasure_source_mismatch' end
     for _,item in ipairs(flow.reward.items)do if item.slot==slot then
+        if getmetatable(item)~=nil then return nil,'treasure_source_mismatch' end
         return {id=flow.id,floor=flow.floor,roomGeneration=run.roomGeneration,slot=slot,
             kind=item.kind,sourceId=item.sourceId or item.kind}
     end end

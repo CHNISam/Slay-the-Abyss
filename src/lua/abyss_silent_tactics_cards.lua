@@ -162,7 +162,7 @@ function M.planEffect(state,effect,context)
   check(effect.value)
   for _,enemy in ipairs(state.enemies)do
    if Actors.isActive(enemy)then
-    plan.top[#plan.top+1]=e('applyStatus',effect.value,{status='poison',targetId=enemy.id})
+    plan.top[#plan.top+1]=e('applyStatus',effect.value,{status='poison',targetId=enemy.id,poisonBonus=effect.poisonBonus})
     plan.top[#plan.top+1]=e('applyStatus',2,{status='weak',targetId=enemy.id})
    end
   end

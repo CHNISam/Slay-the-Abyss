@@ -56,12 +56,11 @@ test('public Act3 room uses the unchanged source queue and real A0 opening',func
 end)
 
 test('every unimplemented Act3 category rejects without queue RNG or resource changes',function()
- for _,spec in ipairs({{'1','normal'},{'34','normal',2},{'4','elite'},{'4','boss'}})do
+ for _,spec in ipairs({{'1','normal'},{'4','elite'},{'4','boss'}})do
   local r=room(spec[1]);local tier=spec[2]
-  -- Shapes/Transient/Horde are implemented. Fixed TheBeyond/independent queue
-  -- seed34 keeps Writhing Mass unavailable after the same two real prefixes.
+  -- Darklings remains unavailable; Writhing Mass now has its own source contract.
   for _=1,spec[3]or 0 do local _,nextQueue=Q.consume(r.encounters,'normal');r.encounters=nextQueue;r.floor=r.floor+1 end
-  if spec[3]then eq(Q.peek(r.encounters,'normal'),'Writhing Mass')end
+  if tier=='normal'then eq(Q.peek(r.encounters,'normal'),'3 Darklings')end
   if tier=='boss'then r.floor=50;r.bossInitialization={profile='source-history',bossList={'Time Eater','Time Eater'}}end
   assert(tier~='normal' or Q.peek(r.encounters,'normal')~='Orb Walker')
   local before=C.copy(r);local queue,cardRng=r.encounters,r.cardRng
