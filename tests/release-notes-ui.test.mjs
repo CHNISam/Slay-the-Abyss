@@ -89,7 +89,7 @@ test('real native host covers honest history, long Unicode pagination, modal ges
   buildUI();
   const result = runLua('tests/lua/game_ui_release_notes.lua');
   assert.equal(result.status, 0, result.stdout + result.stderr);
-  assert.match(result.stdout, /^LUA_GAME_UI_RELEASE_NOTES_PASS 8$/m);
+  assert.match(result.stdout, /^LUA_GAME_UI_RELEASE_NOTES_PASS 9$/m);
   const snapshots = result.stdout.split(/\r?\n/).filter(line => line.startsWith('UI_READABILITY\t'));
   assert.equal(snapshots.length, 4);
   for (const snapshot of snapshots) {

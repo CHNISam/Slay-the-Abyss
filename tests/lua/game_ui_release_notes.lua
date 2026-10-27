@@ -205,5 +205,32 @@ test('retro source versions use version dates instead of claiming platform publi
     assert(hit(root,'close').click() and ui.mode=='menu')
 end)
 
+test('all fourteen bundled source versions navigate every page and return safely',function()
+    Narrative.releaseNotes=original
+    local total=#original.history;assert(total>=14)
+    local ui,root=F.fixture(nil,nil,nil,pointer)
+    local start=root:GetChild('menuPanel'):GetChild('start'):GetChild('hit')
+    start.listeners.down();start.listeners.up()
+    assert(tap(entry(root)))
+    assert(not start.click() and not ui:start() and ui.run==nil)
+    for i,notice in ipairs(original.history)do
+        assert(text(root,'version')==notice.version and ui.releaseNotesUI.page==1)
+        assert(text(root,'date')=='版本日期 '..notice.versionDate..' · 版本记录 '..i..' / '..total)
+        local pages=ui.releaseNotesUI.pages
+        for p=2,pages do assert(tap(hit(root,'next')) and ui.releaseNotesUI.page==p)end
+        assert(not tap(hit(root,'next')))
+        for p=pages-1,1,-1 do assert(tap(hit(root,'previous')) and ui.releaseNotesUI.page==p)end
+        assert(not tap(hit(root,'previous')))
+        if i<total then assert(tap(hit(root,'older')))end
+    end
+    assert(not tap(hit(root,'older')))
+    for i=total-1,1,-1 do assert(tap(hit(root,'newer')) and text(root,'version')==original.history[i].version)end
+    assert(not tap(hit(root,'newer')))
+    assert(tap(hit(root,'close')) and ui.mode=='menu' and ui.run==nil)
+    assert(not start.click() and ui.run==nil)
+    assert(tap(entry(root)) and text(root,'version')==original.history[1].version)
+    assert(tap(hit(root,'close')) and tap(start) and ui.mode=='map')
+end)
+
 Narrative.releaseNotes=original
 print('LUA_GAME_UI_RELEASE_NOTES_PASS '..count)
