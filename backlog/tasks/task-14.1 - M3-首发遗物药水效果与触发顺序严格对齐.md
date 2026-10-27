@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 23:06'
+updated_date: '2026-10-27 00:42'
 due_date: '2026-10-28'
 labels:
   - required
@@ -111,4 +111,6 @@ ordinal: 42000
 2026-10-27 首批PR234在精确4a66773b完整Quality40387913080与Licenses全部通过后已合入develop c96a7777。第二批Focus/Capacity/Miracle/Ambrosia/Darkness/Stance和Toy治疗已在组合树真实定向复验，24份组合Lua全部绿；类型化姿态独立源码/回滚/旧触点复审无证据P1/P2。仍缺全遗物、完整跨色组合、正式平台和自然通关，不勾全量AC。
 
 2026-10-27 第三批隔离组合2349400c已实际跑20份原30秒回归全绿，包含Rod六份及Orichalcum、Run晚领奖和关联敌人；原9份Rod raw来源hash已父核。卡牌自伤真P2最小修复已组合；Guardian Sharp Hide另有真实3未减为2反例，仍修复中，不能称全HP路径或全遗物通过。详细头/夹具hash/日志和缺项见docs/reviews/M3-THIRD-CONTENT-INTEGRATION-20261027.md。当前无新GIL或平台。
+
+2026-10-27 Rod/ToxicEgg/RedMask已集中到PR238候选，卡自伤及Guardian反伤漏hook、native TOP抽牌次序已修复；Toxic来源漏绑同步修，实际46定义/45注册/1后备，原目录8项通过。药水原2+5+4和获取1组全绿，超时文件23.597秒达原30秒标准；全池/全部组合/平台仍未验，不勾父任务。
 <!-- SECTION:NOTES:END -->

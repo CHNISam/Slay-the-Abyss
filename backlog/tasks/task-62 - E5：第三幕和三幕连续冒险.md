@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-26 23:06'
+updated_date: '2026-10-27 00:42'
 labels:
   - required
   - sts1
@@ -58,4 +58,6 @@ type: feature
 2026-10-27 Maw/Spire Growth已在父完整300+Shapes+共享回合末实际合成树通过原18组8.639秒，来源actor/Artifact/105优先级/双死/完整回滚/Host说明均留证。保留旧Shapes自爆等原功能并独立复验，不将只读overlay当最终组合。三幕剩余事件、遭遇/Boss及自然/平台仍未完成。
 
 2026-10-27 第三批Transient+Sensory Stone已在独立组合2349400c实际通过20份回归（含8份Sensory、原Maw/Shapes/Orb/Act2与Rod/回滚），15项JS含Transient19组通过；父线程对21/67/9 raw来源锁逐字节核对通过。当前第三批未推送合并，Guardian修复与Horde/Tomb等仍独立进行。整幕剩余敌人/Boss/事件、四职业自然通关和同候选平台均保留，具体见第三批组合记录。
+
+2026-10-27 Transient/Horde、Sensory/Tomb与必要RedMask已进入同一PR238组合候选，原单片及组合证据见第三批记录；整幕剩余Boss/敌人/事件、四职业自然接续与平台继续未完成。本轮先集中现有交付、完成当前SHA CI再收口，不再启动新内容。
 <!-- SECTION:NOTES:END -->

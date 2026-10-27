@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-26 22:31'
+updated_date: '2026-10-27 00:42'
 due_date: '2026-10-28'
 labels:
   - required
@@ -104,4 +104,6 @@ ordinal: 43000
 2026-10-27 父真实300+Shapes+Maw组合已接3dc共享阶段：39专用例全部通过；公开Run含WLP→Omega真实暂停续跑的throw/reject六例17.625秒通过，整原图及同token重试与无故障局一致。156模块/897边、105旧告警/无新增、4语义变异通过。UI来源说明超15的真实失败已通过职责提取修复，门槛不改。完整RC门禁/平台仍待后续。
 
 2026-10-27 相邻完整回归补Orichalcum：原common九例8绿1红、双派发新队列六例3绿3红；复用纯资格与现prelude后原九例及新八例全绿（1.514/1.201秒），包含源TOP6/Metal3/Orb/Jugg BOT、RNG和仅该遗物晚失败重试。旧Act2移除零层护甲的nil/0夹具按固定RemovePower更正并加不再格挡，原34例全绿6.237秒；生产敌人规则未改。新源锁/边界见M3-ORICHALCUM-END-TURN-20261027。完整RC CI仍待结果。
+
+2026-10-27 按用户尽快集成要求集中到PR238：RNG所有权、稀疏potions兼容、native SharpHide队列顺序及必要旧回归均已实际修复；组合f46a33ab构建/数据/架构158-919/静态104零新增、两条核心实证用例通过。旧d8 JS1489通过4失败119旧权限skip及CI超时日志保留；最终完整当前SHA CI待验，未勾全量或平台。停止新内容扩项和重复本地整套检查。
 <!-- SECTION:NOTES:END -->
