@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path="src/lua/?.lua;build/lua/?.lua;"..package.path
 local UI=require("abyss_battle_ui")
 local C=require("abyss_combat")
@@ -13,9 +14,9 @@ local function control(d)
     for _,v in ipairs(d.children or {}) do c.children[v.name]=control(v) end
     function c:GetChild(k)return assert(self.children[k],"missing control "..self.name.."/"..k)end
     function c:SetVisible(v)assert(type(v)=="boolean");self.visible=v end
-    function c:AddCursorEventListener(event,fn)self.listeners=self.listeners or {};self.listeners[event]=fn;if event=="click"then self.click=fn end end
+    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn);self.listeners=self.listeners or {};self.listeners[event]=fn;if event=="click"then self.click=fn end end
     function c:SetAnchoredPosition(x,y)self.x,self.y=x,y end
-    function c:SetSizeDelta(x,y)self.sizeDeltaX,self.sizeDeltaY=x,y end
+    function c:SetSizeDelta(x,y) NativeContract.sizeDelta(x,y);self.sizeDeltaX,self.sizeDeltaY=x,y end
     function c:SetLocalScale(x,y)self.localScaleX,self.localScaleY=x,y end
     function c:SetImage(...)assert(select("#",...)==2);local source,id=...;assert(source=="static" and type(id)=="number");self.imageId=id end
     function c:SetAsLastSibling()self.raised=true end

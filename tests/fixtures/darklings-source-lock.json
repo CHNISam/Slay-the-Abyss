@@ -1,0 +1,174 @@
+{
+  "repository": "aeubanks/sts",
+  "revision": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "referenceKind": "community decompilation mirror, not authenticated PC binary",
+  "policy": "Independent Lua behavior; no Java source/assets copied to runtime. Two targeted new files; core source bytes reused from audited caches.",
+  "files": [
+    {
+      "path": "monsters/beyond/Darkling.java",
+      "gitBlobSha": "e674ff083a6fd54f0eaa855b41baee1f36e0caa7",
+      "sha256": "895da238529ddb95b8b9dccf54f9c632436b7b3955ceeef8f16182b91531a07a",
+      "bytes": 10679,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/Darkling.java",
+      "retrieval": "new-targeted"
+    },
+    {
+      "path": "powers/RegrowPower.java",
+      "gitBlobSha": "c0a5e946244b5ab320add0bfd315b416a71e50b0",
+      "sha256": "70fa659eb7303dd54305e9460df38f984def4f4918555217e3fb9375051202c0",
+      "bytes": 1023,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/RegrowPower.java",
+      "retrieval": "new-targeted"
+    },
+    {
+      "path": "helpers/MonsterHelper.java",
+      "gitBlobSha": "a81763abf681642be66cbd935cc99d2126e822f4",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+      "bytes": 42809,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "monsters/AbstractMonster.java",
+      "gitBlobSha": "4784e38e7afff5980736e2b5c718e62a0c838c47",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f",
+      "bytes": 47762,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "monsters/MonsterGroup.java",
+      "gitBlobSha": "7096970a151840489a3fba89806e6391e0d82d76",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+      "bytes": 10226,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/MonsterGroup.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "bytes": 42311,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "gitBlobSha": "1662da8de2aeb42044b385f03d0c801750904b13",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "bytes": 22667,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "actions/common/DamageAction.java",
+      "gitBlobSha": "ea89aeab60af8a7c297495de3cd8eb82d7130232",
+      "sha256": "c5649fc04cbcadffa617e5c52f1a6f879f88cb1a90a543d5a0a05ebf950578ec",
+      "bytes": 4424,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/DamageAction.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "actions/common/HealAction.java",
+      "gitBlobSha": "eef27602db313784daeb95c3c9191aff920950a8",
+      "sha256": "00aae32b5face92bd5078f381527e9671ee1d2d9c55bfe03aa81d5c56b18a91d",
+      "bytes": 1046,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/HealAction.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "actions/common/SetMoveAction.java",
+      "gitBlobSha": "3d06fd9e29345de1c7c9d35c473543a2c7f041e3",
+      "sha256": "2b6c9200a4574d514674214d342a24993d6bd7f9ce1ac81306fd308adb443666",
+      "bytes": 2148,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/SetMoveAction.java",
+      "retrieval": "reused-awakened-cache"
+    },
+    {
+      "path": "powers/AbstractPower.java",
+      "gitBlobSha": "70347e8e642e8c45e6c6aadbe6e34f0472220c18",
+      "sha256": "37a6e97bc1a7a3d0cbfe93fd07e9f809690f7c02f24fd45ec34892466b6e0f9f",
+      "bytes": 12197,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/powers/AbstractPower.java",
+      "retrieval": "reused-nemesis-cache"
+    },
+    {
+      "path": "actions/common/ApplyPowerAction.java",
+      "gitBlobSha": "1a6af352c02e06ecec4db87dd5e2f57d43d35b91",
+      "sha256": "f64ce8511f961a1990f1909e2c55654fa6dbf1dc2f4f1f3d3a7156c2ec2a9d47",
+      "bytes": 10553,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ApplyPowerAction.java",
+      "retrieval": "reused-nemesis-cache"
+    },
+    {
+      "path": "actions/common/RollMoveAction.java",
+      "gitBlobSha": "01731f966b9b6f8c3815b246cd02cf75eb5d2153",
+      "sha256": "c938d4b4a9183b39e91c1c54c79085ddf7b2bea082af14895b9a1a00a100fc50",
+      "bytes": 498,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/RollMoveAction.java",
+      "retrieval": "reused-nemesis-cache"
+    },
+    {
+      "path": "random/Random.java",
+      "gitBlobSha": "c4b71d5645688f6e764c46c593223eb91a5249bc",
+      "sha256": "476be7d8af2080b6b52f6cecc78c35f01904c18dbacc7ea795a361e600f05172",
+      "bytes": 2596,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/random/Random.java",
+      "retrieval": "reused-nemesis-cache"
+    }
+  ],
+  "independentModel": {
+    "generator": "tools/oracles/sts1_darklings.py",
+    "generatorSha256LF": "215fff58af3449e97a825127eaee90c1142f5f034a8373c80567285e956a02b4",
+    "fixture": "tests/fixtures/darklings-vectors.lua",
+    "fixtureSha256LF": "39387a546ef5b6f31d6ed101663cff0e819c7ea321f7b59c3df1112e113ca631",
+    "cases": 6,
+    "rounds": 7,
+    "dependencies": [
+      {
+        "path": "tools/oracles/sts1_combat_gold.py",
+        "sha256LF": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8"
+      },
+      {
+        "path": "tools/oracles/sts1_shapes.py",
+        "sha256LF": "adaf5007c66489b7f540caf028e5a1385657c3fcc35fa3ec1121b31d9d012519"
+      }
+    ]
+  },
+  "contracts": {
+    "sourceEncounter": "3 Darklings",
+    "hpRange": [
+      48,
+      56
+    ],
+    "nipRange": [
+      7,
+      11
+    ],
+    "hpDraws": 6,
+    "openingAiDraws": 3,
+    "miscDraws": 0,
+    "centerChomp": false,
+    "reincarnateDivisor": 2,
+    "regrowPowerAmount": -1,
+    "positions": [
+      [
+        -440,
+        10
+      ],
+      [
+        -140,
+        30
+      ],
+      [
+        180,
+        -5
+      ]
+    ]
+  },
+  "knownSharedBoundary": "No generic relic onMonsterDeath/onSpawnMonster dispatcher exists in this baseline; supported Power visits and existing Combat/Run owners are preserved. Unsupported relic pools are not changed.",
+  "notFound": {
+    "path": "actions/unique/ReincarnateAction.java",
+    "result": "targeted GitHub404; Reincarnate is implemented by Darkling.takeTurn"
+  }
+}

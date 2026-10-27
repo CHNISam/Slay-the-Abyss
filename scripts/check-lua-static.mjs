@@ -71,6 +71,117 @@ export function reviewRenderComplexity(diagnostics, sources) {
   }
   return {schemaVersion:1,modules,functions,errors};
 }
+
+// Budget only this governance slice and every extracted responsibility module.
+// Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
+const responsibilityRoots = {
+  'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
+  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'"],
+  'src/lua/abyss_act2_ai.lua': ["function 'choose'"],
+  'src/lua/abyss_character_presentation.lua': [],
+  'src/lua/abyss_character_presentation_text.lua': ["function 'fragments'"],
+  'src/lua/abyss_feedback.lua': [
+    "function 'step'", "function 'paint'", "function 'cardShape'",
+    "function 'cardFlight'", "function 'contactSound'", "function 'statusDamageLabel'",
+    "function 'damageLabel'", "function 'previousActor'", "function 'playStep'",
+    "function 'bannerStep'", "function 'silentIntent'", "function 'intentStep'",
+    "function 'escapeStep'", "function 'deathStep'", "function 'damageText'",
+    "function 'statusText'", "function 'targetText'", "function 'targetStep'",
+    "function 'enterFrame'", "function 'appendShake'", "function 'paintKnockback'",
+    "function 'paintMotion'", "function 'impactShape'", "function 'impactTint'",
+    "function 'paintImpact'", "function 'paintShield'", "function 'numberScale'",
+    "function 'paintNumber'", "function 'paintDying'",
+  ],
+  'src/lua/abyss_node_ui.lua': [
+    "method 'self.render'", "function 'syncNodeIdentity'", "function 'syncLivingPicker'",
+    "function 'syncAct2Picker'", "function 'syncNeowPicker'", "function 'syncRestPicker'",
+    "function 'syncLibraryPicker'", "function 'syncAct2PurgePicker'",
+    "function 'syncAct1Picker'", "function 'syncNodePicker'", "function 'nodeScreen'",
+    "function 'renderNodePage'", "function 'refreshNodeNotice'", "function 'eventPickerLabel'",
+    "function 'pickerLabels'", "function 'pickerCommand'", "function 'pickerFooter'",
+    "function 'treasureFooter'", "function 'recallFooter'", "function 'shopFooter'",
+    "function 'completedFooter'", "function 'resultFooter'", "function 'chooseFooter'",
+    "function 'bindFooter'", "function 'bindTreasureBack'", "function 'bindStagedEventActions'",
+  ],
+  'src/lua/abyss_game_ui.lua': [
+    "function 'self.refresh'", "function 'finishRunFlow'", "function 'selectMode'",
+    "function 'syncMenuContext'", "function 'syncReleaseNotes'", "function 'syncCardChoice'",
+    "function 'closeStaleDeck'", "function 'openCardChoice'", "function 'syncRewardReturn'",
+    "function 'refreshPotionEntry'", "function 'refreshDeckEntry'", "function 'refreshUtilities'",
+    "function 'refreshMapResources'", "function 'refreshPageVisibility'", "function 'renderBattlePage'",
+    "function 'renderMapPage'", "function 'renderCurrentPage'", "function 'refreshExitDialog'",
+    "function 'refreshForeground'", "function 'overlaysBlocked'",
+  ],
+};
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui_.+|game_ui_.+)\.lua$/.test(file);
+// The display adapter now aliases the extracted formatter. If a local formatter
+// is reintroduced, it must not evade the budget that governs its replacement.
+const optionalResponsibilityRoots = {'src/lua/abyss_character_presentation.lua': ["function 'fragments'"]};
+export function reviewResponsibilityComplexity(diagnostics, sources, roots = responsibilityRoots) {
+  const modules = Object.keys(sources).filter(file => file in roots || responsibilityHelper(file)).sort();
+  const functions = [], errors = [];
+  for (const file of Object.keys(roots)) if (!(file in sources)) errors.push({file,message:'Required responsibility module missing'});
+  for (const file of modules) {
+    const rows = diagnostics.filter(row => row.file === file && row.code === 'W561');
+    if (rows.length !== expectedMeasurements(sources[file])) errors.push({file,message:'Incomplete responsibility complexity report'});
+    const parsedSource = Buffer.from(sources[file]).toString('latin1');
+    const ast = luaparse.parse(parsedSource, {
+      luaVersion:'5.3', encodingMode:'pseudo-latin1', comments:false, locations:true, ranges:true,
+    });
+    const declarations = [];
+    function visit(node) {
+      if (!node || typeof node !== 'object') return;
+      if (node.type === 'FunctionDeclaration') declarations.push(node);
+      for (const value of Object.values(node)) {
+        if (Array.isArray(value)) value.forEach(visit);
+        else if (value && typeof value === 'object') visit(value);
+      }
+    }
+    visit(ast);
+    const lines = sources[file].split('\n'), offsets = [0];
+    for (const line of lines) offsets.push(offsets.at(-1)+Buffer.byteLength(line)+1);
+    // Luacheck counts Unicode codepoints; luaparse's latin1 AST uses bytes.
+    const offset = row => row.line > 0 && row.column > 0 && row.line <= lines.length
+      ? offsets[row.line-1]+Buffer.byteLength(Array.from(lines[row.line-1]).slice(0,row.column-1).join('')) : Infinity;
+    luaparse.parse(parsedSource, {wait:true,luaVersion:'5.3',encodingMode:'pseudo-latin1',comments:false,ranges:true});
+    const keywords = [];
+    for (let token=luaparse.lex(); token.type!==luaparse.tokenTypes.EOF; token=luaparse.lex()) {
+      if (token.type === luaparse.tokenTypes.Keyword && token.value === 'function') keywords.push(token.range[0]);
+    }
+    const functionAt = new Map();
+    for (const declaration of declarations) {
+      const start = keywords.find(at => declaration.range[0] <= at && at < declaration.range[1]);
+      if (start === undefined || functionAt.has(start)) errors.push({file,message:'AST function keyword mapping is incomplete'});
+      else functionAt.set(start,declaration);
+    }
+    const parsed = rows.map(row => ({row, match:/^cyclomatic complexity of (.+) is too high \(([1-9]\d*) > 0\)$/.exec(row.message)}));
+    const rootRanges = [];
+    const subjects=[...(roots[file] ?? []),...(optionalResponsibilityRoots[file] ?? [])];
+    for (const subject of subjects) {
+      const found = parsed.filter(item => item.match?.[1] === subject);
+      if (!found.length && optionalResponsibilityRoots[file]?.includes(subject)) continue;
+      if (found.length !== 1) { errors.push({file,message:`Required responsibility entry missing or duplicated: ${subject}`}); continue; }
+      const at = offset(found[0].row);
+      const declaration = functionAt.get(at);
+      if (!declaration) errors.push({file,message:`Responsibility entry has no AST function: ${subject}`});
+      else rootRanges.push(declaration.range);
+    }
+    const seen = new Set();
+    for (const {row,match} of parsed) {
+      if (!match) { errors.push({...row,message:'Unrecognized responsibility complexity measurement'}); continue; }
+      const at = offset(row), key = match[1] === 'main chunk' ? 'main' : `function:${at}`;
+      if (seen.has(key)) errors.push({...row,message:'Duplicate responsibility complexity measurement'});
+      seen.add(key);
+      if (key === 'main' ? row.line !== 1 || row.column !== 1 : !functionAt.has(at)) errors.push({...row,message:'Complexity measurement has no corresponding AST function/chunk'});
+      if (!responsibilityHelper(file) && (key === 'main' || !rootRanges.some(([start,end]) => start <= at && at < end))) continue;
+      const value = Number(match[2]), limit = 15;
+      functions.push({file,line:row.line,subject:match[1],complexity:value,limit});
+      if (value > limit) errors.push({...row,message:`Responsibility complexity ${value} exceeds ${limit}: ${match[1]}`});
+    }
+    if (!seen.has('main') || [...functionAt.keys()].some(at => !seen.has(`function:${at}`))) errors.push({file,message:'Incomplete AST function/chunk measurements'});
+  }
+  return {schemaVersion:1,modules,functions,errors};
+}
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try{
     const report=runStatic(),baseline=JSON.parse(readFileSync('config/luacheck-baseline.json','utf8'));
@@ -84,8 +195,11 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       .map(file=>[`src/lua/${file}`,readFileSync(`src/lua/${file}`,'utf8')]));
     const render=reviewRenderComplexity(complexity.diagnostics,sources);
     writeFileSync('build/ui-complexity.json',JSON.stringify({...render,tool:complexity.tool},null,2)+'\n');
+    const responsibilities=reviewResponsibilityComplexity(complexity.diagnostics,sources);
+    writeFileSync('build/responsibility-complexity.json',JSON.stringify({...responsibilities,tool:complexity.tool},null,2)+'\n');
     if(unexpected.length||hard.length)throw new Error(`Lua static check failed: ${JSON.stringify([...unexpected,...hard])}`);
     if(render.errors.length)throw new Error(`UI complexity check failed: ${JSON.stringify(render.errors)}`);
-    console.log(`Luacheck ${report.tool.version}: no new diagnostics; ${report.diagnostics.length} explicit historical warnings. Battle render <=10; every scoped function <=15.`);
+    if(responsibilities.errors.length)throw new Error(`Responsibility complexity check failed: ${JSON.stringify(responsibilities.errors)}`);
+    console.log(`Luacheck ${report.tool.version}: no new diagnostics; ${report.diagnostics.length} explicit historical warnings. Battle render <=10; every scoped function <=15; ${responsibilities.functions.length} governed responsibility measurements.`);
   }catch(error){console.error(error.message);process.exitCode=1;}
 }

@@ -7,6 +7,30 @@ import { nodeLayout } from '../scripts/node-ui-layout.mjs';
 const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const partitions=JSON.parse(read('tests/fixtures/ruby-recall-ui-partitions.json'));
 
+function assertFrozenRecall(source) {
+  // Invert only the reviewed mock argument-contract migration. Everything else
+  // must still reconstruct the original byte-hashed fixture and all its asserts.
+  const loader="local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')\n";
+  assert(source.startsWith(loader));assert.equal(source.split(loader).length,2);
+  let original=source.slice(loader.length);
+  for(const [current,before] of [
+    ['    function c:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);\n',
+      "    function c:SetSizeDelta(width,height)\n        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)\n"],
+    ['    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn);assert(not self.listeners[event]);self.listeners[event]=fn end\n',
+      '    function c:AddCursorEventListener(event,fn)assert(not self.listeners[event]);self.listeners[event]=fn end\n'],
+  ]) {
+    assert.equal(original.split(current).length,2,'exact reviewed mock migration must occur once');
+    original=original.replace(current,before);
+  }
+  assert(original.startsWith(partitions.prefix));assert(original.endsWith(partitions.footer));
+  original=original.slice(partitions.prefix.length,-partitions.footer.length);
+  assert.equal(original.split(partitions.after).length,2);
+  original=original.replace(partitions.after,partitions.before);
+  assert.equal(createHash('sha256').update(original).digest('hex'),partitions.originalSha256LF,'frozen Recall body hash');
+  const bytes=Buffer.from(original);
+  assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),partitions.originalGitBlob);
+}
+
 test('actual generated NodeUI uses the existing last footer without adding camp controls',()=>{
   const root=nodeLayout().controls[0], camp=root.children.find(control=>control.name==='campView');
   assert.deepEqual(camp.children.map(control=>control.name),['medallion','rest','forge']);
@@ -34,20 +58,25 @@ test('Recall UI partitions restore the exact Git base body and cover every origi
     {path:'tests/lua/ruby_recall_ui_slice_2.lua',first:8,last:12},
     {path:'tests/lua/ruby_recall_ui_slice_3.lua',first:13,last:14},
   ]);
-  let original=read(partitions.entry);
-  assert(original.startsWith(partitions.prefix));assert(original.endsWith(partitions.footer));
-  original=original.slice(partitions.prefix.length,-partitions.footer.length);
-  assert.equal(original.split(partitions.after).length,2);
-  original=original.replace(partitions.after,partitions.before);
-  assert.equal(createHash('sha256').update(original).digest('hex'),partitions.originalSha256LF);
-  const bytes=Buffer.from(original);
-  assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),partitions.originalGitBlob);
+  assertFrozenRecall(read(partitions.entry));
   const covered=[];
   for(const [index,part]of partitions.slices.entries()){
     if(index)assert.equal(read(part.path),`assert(loadfile('${partitions.entry}'))(${part.first},${part.last})\n`);
     for(let group=part.first;group<=part.last;group++)covered.push(group);
   }
   assert.deepEqual(covered,Array.from({length:14},(_,index)=>index+1));
+});
+
+test('Recall frozen-body protection still rejects a deleted scenario or gameplay assertion',()=>{
+  const source=read(partitions.entry);
+  const first="test('default standalone retains the exact two camp actions and no Recall footer',function()\n";
+  assert.equal(source.split(first).length,2);
+  const start=source.indexOf(first),next=source.indexOf('\ntest(',start+first.length);
+  assert(next>start);
+  assert.throws(()=>assertFrozenRecall(source.slice(0,start)+source.slice(next)),/frozen Recall body hash/);
+  const assertion="    assert(get('notice').text=='篝火旁，旅行者稍作停留 · 休息或锻造，只能选一项')\n";
+  assert.equal(source.split(assertion).length,2);
+  assert.throws(()=>assertFrozenRecall(source.replace(assertion,'')),/frozen Recall body hash/);
 });
 
 test('real NodeUI pointer ownership and public Recall command preserve complete run/map/RNG parity',()=>{

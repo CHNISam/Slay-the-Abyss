@@ -6,6 +6,11 @@ local PlatedArmor = require('abyss_plated_armor')
 local Act3Powers = require('abyss_act3_powers')
 local Awakened=require('abyss_awakened_one')
 local f32 = require('abyss_sts_random').float32
+local Nemesis = require('abyss_nemesis')
+local function intangible(actor)
+    return (actor.statuses.intangible or 0)>0 or rawget(actor.statuses,'nemesis_intangible')~=nil
+end
+local Darklings=require('abyss_darklings')
 
 -- Require lazily: card actions use Actor arithmetic, and hooks only enqueue
 -- data. Combat owns draining, choices, death interruption and transactionality.
@@ -43,11 +48,11 @@ end
 function M.hpLostFromCard(state,actor,amount) notifyHpLost(state,actor,actor,amount) end
 function M.hpLostFromDamage(state,actor,amount) notifyHpLost(state,nil,actor,amount) end
 
-function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.escaped end
+function M.isActive(actor) return actor ~= nil and actor.hp > 0 and not actor.escaped and not actor.halfDead and not actor.isDying end
 
 -- A half-dead monster is not targetable, but it has not ended the combat.
 function M.isPresent(actor)
-    return actor~=nil and not actor.escaped and (actor.hp>0 or actor.halfDead or actor.awakenedRebirthPending) or false
+    return actor~=nil and not actor.escaped and not actor.isDying and (actor.hp>0 or actor.halfDead or actor.awakenedRebirthPending) or false
 end
 
 function M.status(state, actor, id, amount, source, sourceIsMonster)
@@ -56,10 +61,12 @@ function M.status(state, actor, id, amount, source, sourceIsMonster)
     if powerOrderModule.ids[id] then powerOrderModule.before(state,actor) end
     local before = actor.statuses[id] or 0
     M.addStatus(actor, id, amount)
-    if id=='slow' and beforeRaw==nil or id~='slow' and (before==0 or actor.statuses[id]==0) then
+    Nemesis.applied(actor,id,beforeRaw)
+    local zeroMembership=id=='slow' or id=='time_warp'
+    if zeroMembership and beforeRaw==nil or not zeroMembership and (before==0 or actor.statuses[id]==0) then
         local order={}
         for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
-        if actor.statuses[id]~=0 or id=='slow' then order[#order+1]=id end
+        if actor.statuses[id]~=0 or zeroMembership then order[#order+1]=id end
         actor.powerOrder=order
     end
     powerOrderModule.applied(state,actor,id,beforeRaw)
@@ -86,7 +93,7 @@ local function integer(amount)
 end
 
 -- Only source-verified ApplyPower categories; raw status mutation stays separate.
-local debuffs = { corpse_explosion=true,wraith_form=true,no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
+local debuffs = { draw_reduction=true, corpse_explosion=true,wraith_form=true,no_block=true, bias=true, weak=true, vulnerable=true, frail=true, poison=true, entangled=true,
     shackled=true,choked=true,block_return=true,mark=true,energy_down=true,hex=true,confusion=true,constricted=true,slow=true }
 local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
@@ -121,7 +128,7 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster, prepare
     if id == "focus" then return require("abyss_focus").apply(state, actor, amount, source) end
     if not M.isActive(actor) then return false end -- ApplyPower cancels for a dead target.
     assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or id=='wraith_form' or id=='unawakened' and amount==-1 or amount >= 0), "invalid status amount")
+    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow') and amount==-1 or amount >= 0), "invalid status amount")
     -- Explicit queued Poison applications carry their constructor snapshot.
     -- Immediate actions construct/apply together. Both incoming Power and raw
     -- stack amounts get the bonus after the caller's cap, before Artifact.
@@ -183,15 +190,15 @@ end
 
 function M.addStatus(actor, id, amount)
     local definition = assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
-    assert(integer(amount) and (signed[id] or id=='wraith_form' or id=='unawakened' and amount==-1 or amount >= 0), "invalid status amount")
+    assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow') and amount==-1 or amount >= 0), "invalid status amount")
     local before = actor.statuses[id] or 0
     local value = before + 0.0 + amount
     assert(integer(value), "status stack overflow") -- reject before mutating
     -- Strength/Dexterity clamp after stacking, for either actor and either sign.
     if signed[id] then value = math.max(-999, math.min(999, value)) end
     if id == 'plated_armor' and before > 0 then value = math.min(999, value) end
-    if definition.stack == "none" and id~="unawakened" then value = value > 0 and 1 or 0 end
-    actor.statuses[id] = (signed[id] or id=='wraith_form' or id=='unawakened') and value or math.max(0, value)
+    if definition.stack == "none" and id~="unawakened" and id~="regrow" then value = value > 0 and 1 or 0 end
+    actor.statuses[id] = (signed[id] or id=='wraith_form' or id=='unawakened'or id=='regrow') and value or math.max(0, value)
     if (actor.statuses[id] == 0 or before <= 0) and definition.decay == "round_end_minus_1" then
         actor[id .. "JustApplied"] = nil
     end
@@ -261,7 +268,7 @@ function M.statusView(actor)
     local ids, result = {}, {}
     for id, amount in pairs(actor.statuses) do
         -- At exactly zero net stat, the separate timed-loss Power still exists.
-        if amount ~= 0 or id == "focus" or id=='slow' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
+        if amount ~= 0 or id == "time_warp" or id == "focus" or id=='slow' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
             ids[#ids + 1] = id
         end
     end
@@ -317,18 +324,22 @@ local function queueDeathPower(state, target, before, reactions)
         -- in stable acquisition order. Their BOTTOM actions must also enter
         -- the same manager when this damage belongs to an advanced play.
         local transition=Awakened.deathStart(state,target,before)
-        local function visit()
-            for _,id in ipairs(M.powerSequence(target,{'stasis','corpse_explosion'}))do
-                if id=='stasis' then Act2Powers.stasisDied(state,target,deathReaction)
-                else require('abyss_silent_final_cards').death(state,target,before,deathReaction)end
+        local darkling=Darklings.deathStart(state,target,before)
+        local function visit(actor)
+            actor=actor or target
+            for _,id in ipairs(M.powerSequence(actor,{'stasis','corpse_explosion'}))do
+                if id=='stasis' then Act2Powers.stasisDied(state,actor,deathReaction)
+                else require('abyss_silent_final_cards').death(state,actor,before,deathReaction)end
             end
-            Act2Powers.died(state,target,deathReaction)
+            Act2Powers.died(state,actor,deathReaction)
         end
         visit()
+        if darkling then Darklings.deathFinish(state,target,visit,deathReaction)end
         if transition then
             if transition=='final'then Awakened.finalEscapes(state,deathReaction);target.block=0;visit()end
             Awakened.deathFinish(state,target,deathReaction)
         end
+        require('abyss_reptomancer').died(state,target,deathReaction)
     end
     if before > 0 and target.hp <= 0 and not target.escaped and target.ai and target.ai.kind == "looter"
         and not target.stolenGoldRewarded then
@@ -355,6 +366,8 @@ function M.resolveDamageReactions(state, reactions, retaliate)
             if M.isActive(state.player) then M.block(state,state.player,hit.effect.value,true) end
         elseif hit.effect and hit.effect.op=='cardTriggerPoison' then
             require('abyss_card_triggers').resolveEnvenom(state,hit.effect)
+        elseif hit.effect and hit.effect.op=='reptomancerSuicide'then
+            require('abyss_reptomancer').cleanup(M,state,hit.effect)
         elseif hit.effect and Act2Powers.supports(hit.effect.op)then
             Act2Powers.apply(M,state,hit.effect)
         elseif hit.effect and hit.effect.op=='transientShift'then
@@ -374,7 +387,7 @@ function M.resolveDamageReactions(state, reactions, retaliate)
 end
 
 local function directDamage(state, source, target, amount, status, blocked, reactions)
-    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
+    if intangible(target) then amount=math.min(amount,1) end
     amount=require('abyss_defect_final_cards').incoming(state,target,amount)
     Act3Powers.attacked(state,target,amount,reactions)
     if target==state.player then amount=require('abyss_relic_hooks').onLoseHpLast(state,amount)end
@@ -389,13 +402,13 @@ local function directDamage(state, source, target, amount, status, blocked, reac
     require('abyss_relic_hooks').hpChanged(state,target,before)
     if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before) end
     queueDeathPower(state, target, before, reactions)
-    if target.halfDead then damageEvent.frame=Events.frame(state)end
+    if target.halfDead or Darklings.owns(target)and target.isDying then damageEvent.frame=Events.frame(state)end
     return lost
 end
 
 function M.loseHp(state,target,amount)
     if not M.isActive(target)then return 0 end
-    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1)end
+    if intangible(target) then amount=math.min(amount,1)end
     local reactions={};local lost=directDamage(state,nil,target,amount,'hp_loss',0,reactions)
     M.resolveDamageReactions(state,reactions)
     return lost
@@ -409,7 +422,23 @@ function M.instantKill(state,target)
     local damageEvent=Events.emit(state,'damage',{target=target.id,amount=0,blocked=0})
     require('abyss_relic_hooks').hpChanged(state,target,before)
     local reactions={};queueDeathPower(state,target,before,reactions)
-    if target.halfDead then damageEvent.frame=Events.frame(state)end
+    if target.halfDead or Darklings.owns(target)and target.isDying then damageEvent.frame=Events.frame(state)end
+    M.resolveDamageReactions(state,reactions)
+end
+
+function M.suicideReptomancerMinion(state,target)
+    local before=target.hp;target.hp,target.gold=0,0
+    if before<=0 then return end
+    Events.emit(state,'enemy_suicide',{enemy=target.id})
+    if state.originalV4 then require('abyss_original_v4').enemyDied(state,target,before)end
+    local reactions={};queueDeathPower(state,target,before,reactions)
+    M.resolveDamageReactions(state,reactions)
+end
+
+function M.sacrificeDagger(state,target,amount)
+    assert(target.ai and target.ai.kind=='reptomancer'and target.ai.policy=='dagger','Dagger sacrifice only')
+    if not M.isActive(target)then return end
+    local reactions={};directDamage(state,target,target,amount,'hp_loss',0,reactions)
     M.resolveDamageReactions(state,reactions)
 end
 
@@ -444,7 +473,7 @@ function M.attackAmount(state, source, target, base, fixed)
     end
     if not fixed and target.statuses.slow~=nil then amount=require('abyss_giant_head').receive(state,target,amount) end
     if not fixed and (target.statuses.flight or 0)>0 then amount=amount/2 end
-    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
+    if intangible(target) then amount=math.min(amount,1) end
     return math.max(0, math.floor(amount))
 end
 
@@ -453,7 +482,7 @@ end
 function M.retaliate(state, source, target, amount, status)
     assert(status==nil or status=='sharp_hide','invalid retaliation status')
     if not M.isActive(target) then return 0 end
-    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
+    if intangible(target) then amount=math.min(amount,1) end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
     local reactions = {}
@@ -492,7 +521,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
             "invalid normal damage snapshot")
         amount = normalAmount
     else amount = M.attackAmount(state, source, target, base, fixed) end
-    if (target.statuses.intangible or 0)>0 then amount=math.min(amount,1) end
+    if intangible(target) then amount=math.min(amount,1) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
     local unblocked=amount-absorbed
@@ -548,7 +577,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     end
     -- onDeath queues after onAttacked, so its TOP Power resolves before Thorns.
     queueDeathPower(state, target, before, reactions)
-    if target.halfDead then damageEvent.frame=Events.frame(state)end
+    if target.halfDead or Darklings.owns(target)and target.isDying then damageEvent.frame=Events.frame(state)end
     if not retaliation then M.resolveDamageReactions(state, reactions) end
     return lost
 end

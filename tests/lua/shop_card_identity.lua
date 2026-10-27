@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 -- Local transaction/input regressions, not original-game RNG or platform certification.
 package.path = 'src/lua/?.lua;build/lua/?.lua;' .. package.path
 local Nodes, Run, Map, C = require('abyss_nodes'), require('abyss_run'), require('abyss_map'), require('abyss_combat')
@@ -78,13 +79,12 @@ local function control(spec, parent)
     function box:GetChild(name) return self.children[name] end
     function box:SetVisible(value) self.visible = value end
     function box:SetImage(source, id) self.imageId = id end
-    function box:SetSizeDelta(width,height)
-        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)
+    function box:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);
         self.size={width,height};self.sizeDeltaX,self.sizeDeltaY=width,height
     end
     function box:SetLocalScale(...) end
     function box:SetAnchoredPosition(x, y) self.position = {x, y} end
-    function box:AddCursorEventListener(event, handler)
+    function box:AddCursorEventListener(event, handler) NativeContract.listener(event,handler);
         assert(not self.listeners[event], 'duplicate native event listener')
         self.listeners[event] = handler
     end

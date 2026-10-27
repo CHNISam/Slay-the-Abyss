@@ -106,7 +106,7 @@ test('real native Node CLI agrees with asset owner before and after insertion sh
     if(added) names.push(added);
     for(const n of names) writeFileSync(join(dir,'tests',n),`import test, { after } from 'node:test';test(${JSON.stringify(n)},()=>{});\n`);
     const files=readdirSync(join(dir,'tests')).filter(n=>n.endsWith('.test.mjs')).map(n=>'tests/'+n);
-    for(const total of [1,2,8]) for(let shard=1;shard<=total;shard++) {
+    for(const total of [1,2,4,8]) for(let shard=1;shard<=total;shard++) {
       const r=spawnSync(process.execPath,['--test',`--test-shard=${shard}/${total}`,'--test-reporter=tap','tests/*.test.mjs'],{cwd:dir,env,encoding:'utf8',windowsHide:true,timeout:30000});
       assert.ifError(r.error); assert.equal(r.status,0,r.stderr+r.stdout);
       const actual=r.stdout.includes('# Subtest: '+name+'\n');

@@ -194,7 +194,168 @@ function M.new(stage, platform, present, complete)
         local reach = id == "player" and S.l or -S.l
         self.poses[id] = {age = 0, keys = {{0, reach, 1}, {stop, reach, 1}, {stop + T.slow, 0, 1}}}
     end
-    local function step(entry, style)
+    local function cardShape(definition)
+        local targetsEnemy, area, attack = false, false, false
+        for _, effect in ipairs(definition.effects) do
+            targetsEnemy = targetsEnemy or effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus"
+            area = area or effect.op == "damageAll" or effect.op == "applyStatusAll"
+            attack = attack or effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "damageAll"
+        end
+        return targetsEnemy,area,attack
+    end
+    local function cardFlight(d,targetsEnemy,area)
+        local target = (targetsEnemy or area) and self.shadow.enemies[d.target or 1]
+        local _, _, x, y = actor(target and target.id or "player")
+        if area then x = ROW end
+        self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }
+    end
+    local function contactSound(d,style)
+        -- One cue per contact; an area ripple shares the first target's cue.
+        if style.form ~= "area" or style.hit == 1 then
+            if (d.amount or 0) > 0 then
+                sound(d.target == "player" and "hurt" or style.weight == "heavy" and "hit_heavy" or "hit")
+            elseif (d.blocked or 0) > 0 then sound("block_hit") end
+        end
+    end
+    local function statusDamageLabel(d,text,ink)
+        if d.status then
+            local status = self.shadow.catalog.statuses[d.status]
+            text = (status and status.name or d.status)
+                .. ((d.blocked or 0) > 0 and " 格挡 " .. n(d.blocked) or "")
+                .. ((d.amount or 0) > 0 and " −" .. n(d.amount) or "")
+            ink = (d.blocked or 0) > 0 and C.block or C.debuff
+        end
+        return text,ink
+    end
+    local function damageLabel(d)
+        local text,ink
+        text, ink = n(d.amount), C.danger
+        if (d.blocked or 0) > 0 then text = "格挡 " .. n(d.blocked) .. ((d.amount or 0) > 0 and "\n−" .. n(d.amount) or "") ink = C.block end
+        text,ink=statusDamageLabel(d,text,ink)
+
+        return text,ink
+    end
+    local function previousActor(old,d)
+        local previous = old.player
+        if d.target ~= "player" then for _, value in ipairs(old.enemies) do if value.id == d.target then previous = value break end end end
+        return previous
+    end
+    local function playStep(d)
+        local card = overlay:GetChild("playedCard")
+        local definition = self.shadow.catalog.cards[d.cardId]
+        local display = self.presentation[d.cardId]
+        card:GetChild("name").text = display and display.name or definition.name
+        tint(card:GetChild("plate"), C.cardType[definition.type] or C.panelRaised)
+        card:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
+        local targetsEnemy,area,attack=cardShape(definition)
+        cardFlight(d,targetsEnemy,area)
+        card:SetAnchoredPosition(self.flight.x, self.flight.y) card:SetLocalScale(1, 1, 1)
+        card:SetVisible(true) overlay:SetAsLastSibling() sound("player_action")
+        -- The traveler draws back while the card lifts, then leans in as it lands.
+        local lift = T.base * T.anticipation
+        self.poses.player = {age = 0, keys = attack
+            and {{0, 0, 1}, {lift, -S.s, 1}, {T.base, S.l, 1}, {T.base + T.slow, 0, 1}}
+            or {{0, 0, 1}, {T.base, 0, 1 + SWELL}, {T.base + T.slow, 0, 1}}}
+    end
+    local function bannerStep(d, kind)
+        if kind == "enemy_turn" then banner("敌方回合") sound("turn")
+        elseif kind == "player_turn" then banner("我方回合 " .. n(self.shadow.turn)) sound("turn")
+        elseif kind == "victory" then banner(d.allEnemiesEscaped and "敌人已逃跑" or "战斗胜利") sound("victory")
+        else banner("旅途暂歇", true) sound("defeat") end
+    end
+    local function silentIntent(a,d)
+        local silent = not a or a.hp <= 0
+        for _, intent in ipairs(a and a.intents or {}) do
+            if intent.id == d.id then
+                silent = silent or intent.kind == "sleep" or intent.kind == "stunned" or intent.kind == "escape"
+                break
+            end
+        end
+        return silent
+    end
+    local function intentStep(d, _kind, style)
+        local a = actor(d.enemy)
+        -- Actor identity belongs to the action, not each damage/status tick.
+        local silent=silentIntent(a,d)
+        local cue = a and a.definitionId and ("action_" .. a.definitionId)
+        if not silent and Theme.sound[cue] then sound(cue) end
+        stage:GetChild("notice").text = (a and a.name or "敌人") .. " · 正在行动"
+        -- Windup fills the existing action gap; non-attacks rise instead of pulling back.
+        local gather = T.enemyActionGap * (1 - T.anticipation)
+        self.poses[d.enemy] = {age = 0, keys = style.attacks
+            and {{0, 0, 1}, {gather, S.m, 1 + SWELL}, {T.enemyActionGap, S.m, 1 + SWELL}}
+            or {{0, 0, 1}, {gather, 0, 1 + OVERSHOOT}, {T.enemyActionGap + T.slow, 0, 1}}}
+    end
+    local function escapeStep(d)
+        local a = actor(d.enemy)
+        stage:GetChild("notice").text = (a and a.name or "敌人") .. "正在逃离，已窃取的金币不会返还。"
+        -- Dedicated escape hold. No death collapse, death cue or death flag.
+        self.poses[d.enemy] = nil
+    end
+    local function deathStep(d)
+        self.deaths[d.target] = true
+        local _, box = actor(d.target)
+        self.dying[d.target] = {age = 0}
+        if box then
+            box:SetVisible(true)
+            box:GetChild("impact"):SetImage(platform.imageSource, Theme.image.diamond)
+        end
+        if not d.quiet then
+            local victim = actor(d.target)
+            sound(Theme.deathSound[victim and victim.definitionId] or "enemy_die")
+        end
+    end
+    local function damageText(d,kind,style)
+        local text,ink=damageLabel(d)
+        contactSound(d,style)
+        if kind == "damage" and d.source and d.source ~= d.target then strike(d.source, style.stop or 0) end
+        if style.form == "area" and style.hit == 1 then self.sweep = {age = 0} end
+
+        return text,ink
+    end
+    local function statusText(d)
+        local text,ink
+        local status = self.shadow.catalog.statuses[d.status]
+        text = (status and status.name or d.status) .. (d.amount >= 0 and " ＋" or " ") .. n(d.amount)
+        if d.blockedStatus then
+            local blocked = self.shadow.catalog.statuses[d.blockedStatus]
+            text = "人工制品抵挡\n未施加" .. (blocked and blocked.name or timedLossNames[d.blockedStatus] or d.blockedStatus)
+        end
+        ink = status and status.kind == "buff" and C.buff or C.debuff
+        sound("status")
+
+        return text,ink
+    end
+    local function targetText(d,kind,style)
+        local text, ink = "", C.goldBright
+        if hurts(kind) then
+            text, ink = damageText(d,kind,style)
+        elseif kind == "block" then text, ink = "格挡 ＋" .. n(d.amount), C.block sound("block_gain")
+        elseif kind == "status" then
+            text, ink = statusText(d)
+        elseif kind == "heal" then
+            text, ink = "＋" .. n(d.amount), C.positive
+            if (d.amount or 0) > 0 then sound("heal") end
+        elseif kind == "gold_stolen" then text, ink = "失金 −" .. n(d.amount), C.goldBright end
+        return text,ink
+    end
+    local function targetStep(d, kind, style, old)
+        local a, box = actor(d.target)
+        if box then
+            local previous=previousActor(old,d)
+            local text,ink=targetText(d,kind,style)
+            if text ~= "" then
+                local floating = box:GetChild("floating")
+                floating.text, floating.fontColor = text, colour(ink)
+                local icon = (kind == "status" or kind == "status_damage") and Theme.icon.status[d.status]
+                box:GetChild("impact"):SetImage(platform.imageSource, icon or Theme.image.diamond)
+                self.effects[d.target] = {kind = kind, age = 0, detail = d, ink = ink, style = style,
+                    icon = icon and true or false, stop = style.stop or 0, dir = d.target == "player" and -1 or 1,
+                    oldHp = previous.hp / previous.maxHp, hp = a.hp / a.maxHp}
+            end
+        end
+    end
+    local function enterFrame(entry, style)
         local old = self.shadow
         local nextView = {catalog = old.catalog, rules = old.rules}
         for k, v in pairs(entry.frame or old) do nextView[k] = v end
@@ -213,120 +374,24 @@ function M.new(stage, platform, present, complete)
         if entry.kind == "player_turn" then self.acting = nil end
         self.enemyRows=EnemyView.slots(self.shadow,self)
         present(self.shadow, self.acting, self.deaths)
+        return old
+    end
+    local function step(entry, style)
+        local old=enterFrame(entry,style)
         local d, kind = type(entry.detail) == "table" and entry.detail or {}, entry.kind
         print("ABYSS_FEEDBACK " .. kind .. " source=" .. tostring(d.source or d.enemy or "-") .. " target=" .. tostring(d.target or "-") .. " amount=" .. n(d.amount))
         if kind == "play" then
-            local card = overlay:GetChild("playedCard")
-            local definition = self.shadow.catalog.cards[d.cardId]
-            local display = self.presentation[d.cardId]
-            card:GetChild("name").text = display and display.name or definition.name
-            tint(card:GetChild("plate"), C.cardType[definition.type] or C.panelRaised)
-            card:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
-            local targetsEnemy, area, attack = false, false, false
-            for _, effect in ipairs(definition.effects) do
-                targetsEnemy = targetsEnemy or effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus"
-                area = area or effect.op == "damageAll" or effect.op == "applyStatusAll"
-                attack = attack or effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "damageAll"
-            end
-            local target = (targetsEnemy or area) and self.shadow.enemies[d.target or 1]
-            local _, _, x, y = actor(target and target.id or "player")
-            if area then x = ROW end
-            self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }
-            card:SetAnchoredPosition(self.flight.x, self.flight.y) card:SetLocalScale(1, 1, 1)
-            card:SetVisible(true) overlay:SetAsLastSibling() sound("player_action")
-            -- The traveler draws back while the card lifts, then leans in as it lands.
-            local lift = T.base * T.anticipation
-            self.poses.player = {age = 0, keys = attack
-                and {{0, 0, 1}, {lift, -S.s, 1}, {T.base, S.l, 1}, {T.base + T.slow, 0, 1}}
-                or {{0, 0, 1}, {T.base, 0, 1 + SWELL}, {T.base + T.slow, 0, 1}}}
+            playStep(d,kind,style,old)
         elseif banners[kind] then
-            if kind == "enemy_turn" then banner("敌方回合") sound("turn")
-            elseif kind == "player_turn" then banner("我方回合 " .. n(self.shadow.turn)) sound("turn")
-            elseif kind == "victory" then banner(d.allEnemiesEscaped and "敌人已逃跑" or "战斗胜利") sound("victory")
-            else banner("旅途暂歇", true) sound("defeat") end
+            bannerStep(d,kind,style,old)
         elseif kind == "intent" then
-            local a = actor(d.enemy)
-            -- Actor identity belongs to the action, not each damage/status tick.
-            local silent = not a or a.hp <= 0
-            for _, intent in ipairs(a and a.intents or {}) do
-                if intent.id == d.id then
-                    silent = silent or intent.kind == "sleep" or intent.kind == "stunned" or intent.kind == "escape"
-                    break
-                end
-            end
-            local cue = a and a.definitionId and ("action_" .. a.definitionId)
-            if not silent and Theme.sound[cue] then sound(cue) end
-            stage:GetChild("notice").text = (a and a.name or "敌人") .. " · 正在行动"
-            -- Windup fills the existing action gap; non-attacks rise instead of pulling back.
-            local gather = T.enemyActionGap * (1 - T.anticipation)
-            self.poses[d.enemy] = {age = 0, keys = style.attacks
-                and {{0, 0, 1}, {gather, S.m, 1 + SWELL}, {T.enemyActionGap, S.m, 1 + SWELL}}
-                or {{0, 0, 1}, {gather, 0, 1 + OVERSHOOT}, {T.enemyActionGap + T.slow, 0, 1}}}
+            intentStep(d,kind,style,old)
         elseif kind == "enemy_escape" then
-            local a = actor(d.enemy)
-            stage:GetChild("notice").text = (a and a.name or "敌人") .. "正在逃离，已窃取的金币不会返还。"
-            -- Dedicated escape hold. No death collapse, death cue or death flag.
-            self.poses[d.enemy] = nil
+            escapeStep(d,kind,style,old)
         elseif kind == "death" then
-            self.deaths[d.target] = true
-            local _, box = actor(d.target)
-            self.dying[d.target] = {age = 0}
-            if box then
-                box:SetVisible(true)
-                box:GetChild("impact"):SetImage(platform.imageSource, Theme.image.diamond)
-            end
-            if not d.quiet then
-                local victim = actor(d.target)
-                sound(Theme.deathSound[victim and victim.definitionId] or "enemy_die")
-            end
+            deathStep(d,kind,style,old)
         elseif d.target then
-            local a, box = actor(d.target)
-            if box then
-                local previous = old.player
-                if d.target ~= "player" then for _, value in ipairs(old.enemies) do if value.id == d.target then previous = value break end end end
-                local text, ink = "", C.goldBright
-                if hurts(kind) then
-                    text, ink = n(d.amount), C.danger
-                    if (d.blocked or 0) > 0 then text = "格挡 " .. n(d.blocked) .. ((d.amount or 0) > 0 and "\n−" .. n(d.amount) or "") ink = C.block end
-                    if d.status then
-                        local status = self.shadow.catalog.statuses[d.status]
-                        text = (status and status.name or d.status)
-                            .. ((d.blocked or 0) > 0 and " 格挡 " .. n(d.blocked) or "")
-                            .. ((d.amount or 0) > 0 and " −" .. n(d.amount) or "")
-                        ink = (d.blocked or 0) > 0 and C.block or C.debuff
-                    end
-                    -- One cue per contact; an area ripple shares the first target's cue.
-                    if style.form ~= "area" or style.hit == 1 then
-                        if (d.amount or 0) > 0 then
-                            sound(d.target == "player" and "hurt" or style.weight == "heavy" and "hit_heavy" or "hit")
-                        elseif (d.blocked or 0) > 0 then sound("block_hit") end
-                    end
-                    if kind == "damage" and d.source and d.source ~= d.target then strike(d.source, style.stop or 0) end
-                    if style.form == "area" and style.hit == 1 then self.sweep = {age = 0} end
-                elseif kind == "block" then text, ink = "格挡 ＋" .. n(d.amount), C.block sound("block_gain")
-                elseif kind == "status" then
-                    local status = self.shadow.catalog.statuses[d.status]
-                    text = (status and status.name or d.status) .. (d.amount >= 0 and " ＋" or " ") .. n(d.amount)
-                    if d.blockedStatus then
-                        local blocked = self.shadow.catalog.statuses[d.blockedStatus]
-                        text = "人工制品抵挡\n未施加" .. (blocked and blocked.name or timedLossNames[d.blockedStatus] or d.blockedStatus)
-                    end
-                    ink = status and status.kind == "buff" and C.buff or C.debuff
-                    sound("status")
-                elseif kind == "heal" then
-                    text, ink = "＋" .. n(d.amount), C.positive
-                    if (d.amount or 0) > 0 then sound("heal") end
-                elseif kind == "gold_stolen" then text, ink = "失金 −" .. n(d.amount), C.goldBright end
-                if text ~= "" then
-                    local floating = box:GetChild("floating")
-                    floating.text, floating.fontColor = text, colour(ink)
-                    local icon = (kind == "status" or kind == "status_damage") and Theme.icon.status[d.status]
-                    box:GetChild("impact"):SetImage(platform.imageSource, icon or Theme.image.diamond)
-                    self.effects[d.target] = {kind = kind, age = 0, detail = d, ink = ink, style = style,
-                        icon = icon and true or false, stop = style.stop or 0, dir = d.target == "player" and -1 or 1,
-                        oldHp = previous.hp / previous.maxHp, hp = a.hp / a.maxHp}
-                end
-            end
+            targetStep(d,kind,style,old)
         end
     end
     function self:start(before, battle, first, presentation, origin)
@@ -375,7 +440,7 @@ function M.new(stage, platform, present, complete)
                 for _, a in ipairs(previous.enemies) do priorActors[a.id] = a end
                 for _, a in ipairs(entry.frame.enemies) do
                     local prior = priorActors[a.id]
-                    if prior and prior.hp > 0 and a.hp <= 0 and not Actors.isPresent(a)then pending[#pending + 1] = a.id end
+                    if prior and Actors.isPresent(prior)and a.hp <= 0 and not Actors.isPresent(a)then pending[#pending + 1] = a.id end
                 end
                 previous = entry.frame
             end
@@ -399,107 +464,131 @@ function M.new(stage, platform, present, complete)
         self.index = 1 step(self.queue[1], self.styles[1])
     end
     -- Per-actor composition: attacker pose + victim knockback/flash + death collapse, applied once.
-    local function paint(id, dt, shakes)
-        local a, box = actor(id)
-        if not box then self.effects[id], self.poses[id], self.dying[id] = nil, nil, nil return end
-        local base = id == "player" and C.geo or C.text
-        local x, y, sx, sy, ink, flash, alpha = 0, 0, 1, 1, base, 0, 1
-        local posed = self.poses[id]
-        if posed then
-            posed.age = posed.age + dt
-            local px, ps, done = pose(posed.keys, posed.age)
-            x, sx, sy = px, ps, ps
-            if done then self.poses[id] = nil end
+    local function appendShake(id,sample,shakes)
+        local age,d,style,heavy=sample.age,sample.detail,sample.style,sample.heavy
+        if id == "player" or heavy or style.lethal then
+            local scale = math.min(1, ((d.amount or 0) + (d.blocked or 0)) / T.heavyHitDamage)
+            local amplitude = T.shakeAmplitude * (id == "player" and (scale + 1) / 2 or scale / 2)
+            if age < T.shake then shakes[#shakes + 1] = amplitude * (1 - age / T.shake) * math.sin(age / T.shake * math.pi * 4) end
         end
-        local effect = self.effects[id]
-        if effect then
-            effect.age = effect.age + dt
-            local age, d, style, kind = effect.age, effect.detail, effect.style, effect.kind
-            local after = math.max(0, age - effect.stop)
-            local frozen = age < effect.stop
-            local lost = hurts(kind) and (d.amount or 0) > 0
-            local heavy = style.weight == "heavy"
-            local impact, shield = box:GetChild("impact"), box:GetChild("shield")
-            -- Knockback snaps out on contact, holds through the hit-stop, then eases home.
-            if lost and kind == "damage" then
-                local reach = heavy and S.l or style.form == "area" and S.s or S.m
-                local out = frozen and 1 or 1 - easeOut(after / T.base)
-                x = x + effect.dir * reach * out
-                if style.form == "multi" then y = y + (style.hit % 2 == 0 and S.xs or -S.xs) * out end
-            elseif lost and style.form == "dot" and d.status ~= "poison" then
-                x = x + effect.dir * S.xs * (1 - easeOut(age / T.fast))
-            end
-            if lost then
-                flash = frozen and 1 or math.max(0, 1 - after / T.fast)
-                ink = kind == "damage" and (id == "player" and C.danger or C.goldBright) or kind == "hp_loss" and C.danger or C.debuff
-                if id == "player" or heavy or style.lethal then
-                    local scale = math.min(1, ((d.amount or 0) + (d.blocked or 0)) / T.heavyHitDamage)
-                    local amplitude = T.shakeAmplitude * (id == "player" and (scale + 1) / 2 or scale / 2)
-                    if age < T.shake then shakes[#shakes + 1] = amplitude * (1 - age / T.shake) * math.sin(age / T.shake * math.pi * 4) end
-                end
-            elseif kind == "status" or kind == "heal" then
-                flash = math.max(0, 1 - age / T.fast) / 2
-                ink = effect.ink
-            end
-            -- Geo shard: one diamond image, shaped by non-uniform scale per attack form.
-            local window = effect.icon and T.slow or heavy and T.base or T.fast
-            local e = frozen and 0 or easeOut(after / window)
-            local show = (lost or kind == "status") and age < effect.stop + window
-            impact:SetVisible(show)
-            if show then
-                local ix, iy, iy0 = 1, 1, 0
-                if effect.icon then
-                    local stamp = kind == "status" and 1 + (1 - easeOut(age / T.fast)) * OVERSHOOT * 2 or 1 - OVERSHOOT + e * OVERSHOOT
-                    ix, iy = stamp, stamp
-                    if kind == "status" then iy0 = (effect.ink == C.buff and 1 or -1) * S.m * easeOut((age - T.fast) / (T.slow - T.fast)) end
-                elseif heavy then ix, iy = 1 + e, 1 + e
-                elseif style.form == "area" then ix, iy = 1.5 + e / 2, 0.2
-                elseif style.form == "multi" and style.hit % 2 == 0 then ix, iy = 0.3 * (1 - e) + 0.1, 1.2 + e / 2
-                else ix, iy = 1.2 + e / 2, 0.3 * (1 - e) + 0.1 end
-                impact:SetLocalScale(ix, iy, 1)
-                impact:SetAnchoredPosition(0, iy0)
-                local shardInk = effect.icon and effect.ink or id == "player" and C.text or C.geo
-                tint(impact, shardInk, effect.icon and kind == "status" and math.min(1, 2 - 2 * easeIn(age / T.slow)) or 1 - e)
-            end
-            -- Shield: crystallises in on gain, shudders when it holds, shatters when it breaks.
-            local blocked = (d.blocked or 0) > 0
-            local guard = kind == "block" or blocked
-            shield:SetVisible(guard and age < T.slow)
-            if guard and age < T.slow then
-                local scale, wobble, fade = 1, 0, 1
-                if kind == "block" then
-                    scale = 1 + (1 - easeOut(age / T.fast)) * OVERSHOOT
-                    fade = age < T.fast and easeOut(age / T.fast) or 1 - easeIn((age - T.fast) / (T.slow - T.fast))
-                elseif lost then
-                    scale, fade = 1 + easeOut(age / T.fast) / 2, math.max(0, 1 - age / T.fast)
-                else
-                    wobble = S.xs * math.sin(age / T.fast * math.pi * 3) * math.max(0, 1 - age / T.fast)
-                    fade = 1 - easeIn(age / T.slow)
-                end
-                shield:SetLocalScale(scale, scale, 1) shield:SetAnchoredPosition(wobble, 0)
-                tint(shield, C.block, fade)
-                local pop = 1 + (1 - easeOut(age / T.base)) * OVERSHOOT
-                -- Keep the badge inside its reserved horizontal lane beside HP and neighbouring units.
-                for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(1, pop, 1) end
-            end
-            -- Number: pops on contact, holds through the hit-stop, settles, rises and fades.
-            local p = clamp(age / T.damagePop)
-            local floating = box:GetChild("floating")
-            floating:SetVisible(p < 1)
-            local drift = style.form == "multi" and (style.hit % 2 == 1 and -S.m or S.m) or 0
-            floating:SetAnchoredPosition(drift, L.enemyRow.portrait / 2 + S.xl * easeOut(p))
-            floating.fontColor = colour(effect.ink, p < 0.5 and 1 or 2 - 2 * p)
-            local peak = heavy and lost and 2 or lost and 1.5 or 1.25
-            local scale = frozen and peak or 1 + (peak - 1) * (1 - easeOut(after / T.fast))
-            floating:SetLocalScale(scale, scale, 1)
-            local ghost = clamp((age - T.hpGhostDelay) / T.hpGhost)
-            box:GetChild("hpGhost").fillAmount = effect.oldHp + (effect.hp - effect.oldHp) * ghost
-            if age >= math.max(T.damagePop, T.hpGhostDelay + T.hpGhost, effect.stop + window) then
-                self.effects[id] = nil
-                for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(1, 1, 1) end
-                box:GetChild("impact"):SetLocalScale(1, 1, 1)
-            end
+    end
+    local function paintKnockback(effect,sample,x,y)
+        local age,d,style,kind=sample.age,sample.detail,sample.style,sample.kind
+        local after,frozen,lost,heavy=sample.after,sample.frozen,sample.lost,sample.heavy
+        -- Knockback snaps out on contact, holds through the hit-stop, then eases home.
+        if lost and kind == "damage" then
+            local reach = heavy and S.l or style.form == "area" and S.s or S.m
+            local out = frozen and 1 or 1 - easeOut(after / T.base)
+            x = x + effect.dir * reach * out
+            if style.form == "multi" then y = y + (style.hit % 2 == 0 and S.xs or -S.xs) * out end
+        elseif lost and style.form == "dot" and d.status ~= "poison" then
+            x = x + effect.dir * S.xs * (1 - easeOut(age / T.fast))
         end
+        return x,y
+    end
+    local function paintMotion(id,effect,sample,shakes,x,y,ink,flash)
+        local age,kind=sample.age,sample.kind
+        local after,frozen,lost=sample.after,sample.frozen,sample.lost
+        x,y=paintKnockback(effect,sample,x,y)
+        if lost then
+            flash = frozen and 1 or math.max(0, 1 - after / T.fast)
+            ink = kind == "damage" and (id == "player" and C.danger or C.goldBright) or kind == "hp_loss" and C.danger or C.debuff
+            appendShake(id,sample,shakes)
+        elseif kind == "status" or kind == "heal" then
+            flash = math.max(0, 1 - age / T.fast) / 2
+            ink = effect.ink
+        end
+        return x,y,ink,flash
+    end
+    local function impactShape(effect,sample,e)
+        local age,style,kind,heavy=sample.age,sample.style,sample.kind,sample.heavy
+        local ix, iy
+        local iy0 = 0
+        if effect.icon then
+            local stamp = kind == "status" and 1 + (1 - easeOut(age / T.fast)) * OVERSHOOT * 2 or 1 - OVERSHOOT + e * OVERSHOOT
+            ix, iy = stamp, stamp
+            if kind == "status" then iy0 = (effect.ink == C.buff and 1 or -1) * S.m * easeOut((age - T.fast) / (T.slow - T.fast)) end
+        elseif heavy then ix, iy = 1 + e, 1 + e
+        elseif style.form == "area" then ix, iy = 1.5 + e / 2, 0.2
+        elseif style.form == "multi" and style.hit % 2 == 0 then ix, iy = 0.3 * (1 - e) + 0.1, 1.2 + e / 2
+        else ix, iy = 1.2 + e / 2, 0.3 * (1 - e) + 0.1 end
+        return ix,iy,iy0
+    end
+    local function impactTint(id,effect,sample,e)
+        local kind,age=sample.kind,sample.age
+        local shardInk = effect.icon and effect.ink or id == "player" and C.text or C.geo
+        local alpha=(effect.icon and kind == "status" and math.min(1, 2 - 2 * easeIn(age / T.slow)) or 1 - e)
+        return shardInk,alpha
+    end
+    local function paintImpact(id,impact,effect,sample)
+        local age,kind=sample.age,sample.kind
+        local after,frozen,lost,heavy=sample.after,sample.frozen,sample.lost,sample.heavy
+        -- Geo shard: one diamond image, shaped by non-uniform scale per attack form.
+        local window = effect.icon and T.slow or heavy and T.base or T.fast
+        local e = frozen and 0 or easeOut(after / window)
+        local show = (lost or kind == "status") and age < effect.stop + window
+        impact:SetVisible(show)
+        if show then
+            local ix,iy,iy0=impactShape(effect,sample,e)
+            impact:SetLocalScale(ix, iy, 1)
+            impact:SetAnchoredPosition(0, iy0)
+            local shardInk,shardAlpha=impactTint(id,effect,sample,e)
+            tint(impact,shardInk,shardAlpha)
+        end
+        return window
+    end
+    local function paintShield(box,shield,sample)
+        local age,kind,d=sample.age,sample.kind,sample.detail
+        local lost=sample.lost
+        -- Shield: crystallises in on gain, shudders when it holds, shatters when it breaks.
+        local blocked = (d.blocked or 0) > 0
+        local guard = kind == "block" or blocked
+        shield:SetVisible(guard and age < T.slow)
+        if guard and age < T.slow then
+            local scale, wobble = 1, 0
+            local fade
+            if kind == "block" then
+                scale = 1 + (1 - easeOut(age / T.fast)) * OVERSHOOT
+                fade = age < T.fast and easeOut(age / T.fast) or 1 - easeIn((age - T.fast) / (T.slow - T.fast))
+            elseif lost then
+                scale, fade = 1 + easeOut(age / T.fast) / 2, math.max(0, 1 - age / T.fast)
+            else
+                wobble = S.xs * math.sin(age / T.fast * math.pi * 3) * math.max(0, 1 - age / T.fast)
+                fade = 1 - easeIn(age / T.slow)
+            end
+            shield:SetLocalScale(scale, scale, 1) shield:SetAnchoredPosition(wobble, 0)
+            tint(shield, C.block, fade)
+            local pop = 1 + (1 - easeOut(age / T.base)) * OVERSHOOT
+            -- Keep the badge inside its reserved horizontal lane beside HP and neighbouring units.
+            for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(1, pop, 1) end
+        end
+    end
+    local function numberScale(sample)
+        local heavy,lost,frozen,after=sample.heavy,sample.lost,sample.frozen,sample.after
+        local peak = heavy and lost and 2 or lost and 1.5 or 1.25
+        local scale = frozen and peak or 1 + (peak - 1) * (1 - easeOut(after / T.fast))
+        return scale
+    end
+    local function paintNumber(id,box,effect,sample,window)
+        local age,style=sample.age,sample.style
+        -- Number: pops on contact, holds through the hit-stop, settles, rises and fades.
+        local p = clamp(age / T.damagePop)
+        local floating = box:GetChild("floating")
+        floating:SetVisible(p < 1)
+        local drift = style.form == "multi" and (style.hit % 2 == 1 and -S.m or S.m) or 0
+        floating:SetAnchoredPosition(drift, L.enemyRow.portrait / 2 + S.xl * easeOut(p))
+        floating.fontColor = colour(effect.ink, p < 0.5 and 1 or 2 - 2 * p)
+        local scale=numberScale(sample)
+        floating:SetLocalScale(scale, scale, 1)
+        local ghost = clamp((age - T.hpGhostDelay) / T.hpGhost)
+        box:GetChild("hpGhost").fillAmount = effect.oldHp + (effect.hp - effect.oldHp) * ghost
+        if age >= math.max(T.damagePop, T.hpGhostDelay + T.hpGhost, effect.stop + window) then
+            self.effects[id] = nil
+            for _, part in ipairs({"blockEdge", "blockIcon", "block"}) do box:GetChild(part):SetLocalScale(1, 1, 1) end
+            box:GetChild("impact"):SetLocalScale(1, 1, 1)
+        end
+    end
+    local function paintDying(id,box,dt,y,sx,sy,ink,flash,alpha)
         local dying = self.dying[id]
         if dying then
             -- Gleam, then the figure crumbles into the ground as a shard burst disperses.
@@ -515,6 +604,33 @@ function M.new(stage, platform, present, complete)
             box:SetVisible(p < 1)
             if p >= 1 then self.dying[id] = nil end
         end
+        return y,sx,sy,ink,flash,alpha
+    end
+    local function paint(id, dt, shakes)
+        local _, box = actor(id)
+        if not box then self.effects[id], self.poses[id], self.dying[id] = nil, nil, nil return end
+        local base = id == "player" and C.geo or C.text
+        local x, y, sx, sy, ink, flash, alpha = 0, 0, 1, 1, base, 0, 1
+        local posed = self.poses[id]
+        if posed then
+            posed.age = posed.age + dt
+            local px, ps, done = pose(posed.keys, posed.age)
+            x, sx, sy = px, ps, ps
+            if done then self.poses[id] = nil end
+        end
+        local effect = self.effects[id]
+        if effect then
+            effect.age = effect.age + dt
+            local sample={age=effect.age,detail=effect.detail,style=effect.style,kind=effect.kind,
+                after=math.max(0,effect.age-effect.stop),frozen=effect.age<effect.stop,
+                lost=hurts(effect.kind) and (effect.detail.amount or 0)>0,heavy=effect.style.weight=='heavy'}
+            local impact,shield=box:GetChild('impact'),box:GetChild('shield')
+            x,y,ink,flash=paintMotion(id,effect,sample,shakes,x,y,ink,flash)
+            local window=paintImpact(id,impact,effect,sample)
+            paintShield(box,shield,sample)
+            paintNumber(id,box,effect,sample,window)
+        end
+        y,sx,sy,ink,flash,alpha=paintDying(id,box,dt,y,sx,sy,ink,flash,alpha)
         local portrait = box:GetChild("portrait")
         portrait:SetAnchoredPosition(x, y)
         portrait:SetLocalScale(sx, sy, 1)

@@ -34,6 +34,10 @@ end
 
 local specialIntents = {
     unknown = function(_,enemy)
+        if enemy.ai and enemy.ai.kind=='darkling'then
+            local view=special('unknown','unknown','再生：本次行动不攻击，随后准备复生；全部共生暗影同时休眠才会被击败。')
+            view.label,view.rows[1].name='再生','再生';return view
+        end
         if enemy.ai and enemy.ai.kind=='awakened_one'then
             return special('unknown','unknown','重生：本次行动恢复至300点生命，随后进入第二形态。')
         end
@@ -210,6 +214,7 @@ local function summonEffect(v,effect)
     local name,text
     if effect.op=='enemyEncourage' then
         name,text='鼓舞','敌方全体存活单位各获得 '..number(effect.value)..' 层力量，其他队友各获得 6 点格挡'
+    elseif effect.op=='reptomancerSummon'then name,text='召唤','召唤 1 把浮游蛇刃，补充空位（最多 4 把）'
     elseif effect.op=='enemyRally' then name,text='召唤','召唤最多 2 名随从，补充空位'
     elseif effect.op=='enemyTorchSpawn' then name,text='召唤','召唤 2 名燃炬随从'
     elseif effect.op=='enemyBronzeSpawn' then name,text='召唤','召唤 2 名青铜浮核'
@@ -231,7 +236,17 @@ end
 local function awakenedVoidEffect(v)
     act2Row(v,'虚空','将1张虚空放入抽牌堆的随机位置','debuff','抽到时失去1点能量；虚无')
 end
-local effects = { writhingParasite=parasiteEffect,awakenedVoid=awakenedVoidEffect,damage = attackEffect, damageAll = attackEffect, block = blockEffect,
+local function timeEaterEffect(v,effect)
+    local name,text
+    if effect.kind=='cleanse'then name,text='净化','移除自身所有减益（保留正力量）'
+    elseif effect.kind=='removeShackled'then name,text='解除力量恢复','移除暂时失去力量的恢复状态'
+    else name,text='加速治疗','回复至 '..number(math.floor(v.enemy.maxHp/2))..' 点生命（行动时确定治疗量）'end
+    act2Row(v,name,text,'buff')
+end
+local function daggerSacrificeEffect(v)
+    act2Row(v,'自毁','自毁：攻击后失去等于行动开始时生命的生命值（无视格挡）','debuff')
+end
+local effects = { daggerSacrifice=daggerSacrificeEffect,reptomancerSummon=summonEffect,timeEater=timeEaterEffect, writhingParasite=parasiteEffect,awakenedVoid=awakenedVoidEffect,damage = attackEffect, damageAll = attackEffect, block = blockEffect,
     enemyBurnBoth=burnBothEffect,enemyDazedDraw=dazedDrawEffect,
     enemyVampireDamage=vampireEffect,enemyStasis=stasisEffect,
     enemyRally=summonEffect,enemyTorchSpawn=summonEffect,enemyTorchRevive=summonEffect,
@@ -250,7 +265,17 @@ end
 function M.intentView(state, index)
     local intent = Combat.intent(state, index)
     if not intent then return goneView(state, index) end
+    if state.enemies[index].ai and state.enemies[index].ai.kind=='darkling'and intent.id=='reincarnate'then
+        local hp=number(math.floor(state.enemies[index].maxHp/2))
+        return {value='',kind='buff',label='复生',text='本次行动回复 '..hp..' 点生命，恢复共生，随后重新选招。',
+            rows={{icon='buff',colour=C.buff,name='复生',text='回复 '..hp..' 点生命并恢复共生。'}}}
+    end
     local describeSpecial = specialIntents[intent.kind]
+    -- Summon retains the source unknown face, but its bounded definition has
+    -- a useful Chinese detail row. Do not suppress Awakened/Darkling unknowns.
+    if state.enemies[index].ai and state.enemies[index].ai.kind=='reptomancer'and intent.id=='summon'then
+        describeSpecial=nil
+    end
     if describeSpecial then return describeSpecial(state, state.enemies[index]) end
     local view = newPreview(state, index, intent)
     theft(view)

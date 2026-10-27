@@ -18,7 +18,7 @@ const setup = `    name: engineering-posix (\${{ matrix.shard }}/\${{ strategy.j
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
+        shard: [1, 2, 3, 4]
 `;
 
 const lfsShardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs --shard=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
@@ -61,7 +61,7 @@ test('required engineering-posix aggregate runs always and rejects missing, skip
   }
 });
 
-test('native Node two-shard selection executes every current JS file name exactly once', t => {
+test('native Node four-shard selection executes every current JS file name exactly once', t => {
   const files = readdirSync('tests').filter(name => name.endsWith('.test.mjs')).sort();
   assert.ok(files.length > 0);
   const root = mkdtempSync(join(tmpdir(), 'abyss-posix-shards-'));
@@ -74,8 +74,8 @@ test('native Node two-shard selection executes every current JS file name exactl
   // This is a separate CLI, as on each VM, rather than a child test file of
   // the contract's own runner (Node otherwise disables nested CLI discovery).
   delete env.NODE_TEST_CONTEXT;
-  for (let shard = 1; shard <= 2; shard++) {
-    const args = ['--test', '--test-concurrency=1', `--test-shard=${shard}/2`, '--test-reporter=tap', ...files.map(name => join(root, name))];
+  for (let shard = 1; shard <= 4; shard++) {
+    const args = ['--test', '--test-concurrency=1', `--test-shard=${shard}/4`, '--test-reporter=tap', ...files.map(name => join(root, name))];
     const result = spawnSync(process.execPath, args, { env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024 });
     assert.ifError(result.error);
     assert.equal(result.status, 0, result.stderr + result.stdout);

@@ -45,6 +45,18 @@ tools/oracles/sts1_writhing_mass.py text eol=lf
 tools/oracles/sts1_combat_gold.py text eol=lf
 tests/fixtures/act3-writhing-mass-vectors.lua text eol=lf
 
+# Act3 completion: byte-authenticated independent scripts and golden fixtures.
+# Extend the existing LF checkout policy; do not regenerate authenticated bytes.
+tools/oracles/sts1_time_eater.py text eol=lf
+tests/fixtures/time-eater-vectors.lua text eol=lf
+tools/oracles/sts1_nemesis.py text eol=lf
+tests/fixtures/act3-nemesis-vectors.lua text eol=lf
+tools/oracles/sts1_reptomancer.py text eol=lf
+tests/fixtures/reptomancer-vectors.lua text eol=lf
+tools/oracles/sts1_darklings.py text eol=lf
+tests/fixtures/darklings-vectors.lua text eol=lf
+tools/oracles/sts1_shapes.py text eol=lf
+
 # Preserve reviewed PNG bytes in LFS; JSON/Lua remain ordinary reviewable text.
 art/cards/traveler-geo/armaments/source.png filter=lfs diff=lfs merge=lfs -text
 art/cards/traveler-geo/armaments/preview-native.png filter=lfs diff=lfs merge=lfs -text

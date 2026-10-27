@@ -102,3 +102,76 @@ test('Git LF and Windows autocrlf checkouts preserve authenticated Library and W
   for(const row of lock.authoredInputs)assert.notEqual(sha(readFileSync(join(unpinned,row.path))),row.sha256,row.path);
  }finally{rmSync(root,{recursive:true,force:true});}
 });
+
+const act3Cases=[
+ {script:'tools/oracles/sts1_time_eater.py',fixture:'tests/fixtures/time-eater-vectors.lua',
+  scriptSha:'a273a6a847e7698303344cd04f1d3762715e089c3ef0fe8d20506d1dd0dc071f',
+  fixtureSha:'153ca86c7227228359fd64124b6ab25fe43248dc3c39b84a601eaa4c0da68f8d'},
+ {script:'tools/oracles/sts1_nemesis.py',fixture:'tests/fixtures/act3-nemesis-vectors.lua',
+  scriptSha:'107793b52e3486c188e3c089828cba14e44963f45e0d7196c5cd595a8521c048',
+  fixtureSha:'be9f1535039b2c9bce0887b2de264e66b2d82b01f3dc00e7c3b24d23c0613986'},
+ {script:'tools/oracles/sts1_reptomancer.py',fixture:'tests/fixtures/reptomancer-vectors.lua',
+  scriptSha:'7664884cda6969133fed81416432eedf45eb6fa1af3f740bb2a64f3b7f0462a7',
+  fixtureSha:'833bd92ce835915829310fefd468b8ada1fe6c37a1f8a42d1dddbde71065b1cd'},
+ {script:'tools/oracles/sts1_darklings.py',fixture:'tests/fixtures/darklings-vectors.lua',
+  scriptSha:'215fff58af3449e97a825127eaee90c1142f5f034a8373c80567285e956a02b4',
+  fixtureSha:'39387a546ef5b6f31d6ed101663cff0e819c7ea321f7b59c3df1112e113ca631'},
+];
+const act3Identities=new Map(act3Cases.flatMap(row=>[[row.script,row.scriptSha],[row.fixture,row.fixtureSha]]));
+act3Identities.set('tools/oracles/sts1_combat_gold.py','7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8');
+act3Identities.set('tools/oracles/sts1_shapes.py','adaf5007c66489b7f540caf028e5a1385657c3fcc35fa3ec1121b31d9d012519');
+
+test('all four Act3 independent scripts and goldens retain exact locked bytes through Windows autocrlf and reject drift',()=>{
+ const root=mkdtempSync(join(tmpdir(),'abyss-act3-oracle-checkout-'));
+ const attributes=readFileSync('.gitattributes','utf8');
+ for(const path of act3Identities.keys())assert.ok(attributes.split(/\r?\n/).includes(`${path} text eol=lf`),path);
+ const seed=(name,policy)=>{
+  const directory=join(root,name);mkdirSync(directory,{recursive:true});
+  for(const [path,expected]of act3Identities){
+   const bytes=readFileSync(path);assert.equal(sha(bytes),expected,path);assert.ok(!bytes.includes(Buffer.from('\r\n')),path);
+   const target=join(directory,path);mkdirSync(dirname(target),{recursive:true});writeFileSync(target,bytes);
+  }
+  writeFileSync(join(directory,'.gitattributes'),policy,'utf8');
+  writeFileSync(join(directory,'unrelated-control.txt'),'ordinary text\nsecond line\n','utf8');
+  git(directory,'init','--quiet','--initial-branch=fixture');
+  git(directory,'config','user.name','Fixture');git(directory,'config','user.email','fixture@example.invalid');
+  git(directory,'-c','core.autocrlf=false','add','.');git(directory,'commit','--quiet','-m','test: frozen Act3 checkout');
+  return directory;
+ };
+ const checkout=(source,name,autocrlf)=>{
+  const directory=join(root,name);
+  git(root,'clone','--quiet','--no-hardlinks','--config',`core.autocrlf=${autocrlf}`,
+   '--config',`core.eol=${autocrlf?'crlf':'lf'}`,source,directory);return directory;
+ };
+ const verify=directory=>{
+  for(const [path,expected]of act3Identities){
+   const bytes=readFileSync(join(directory,path));assert.equal(sha(bytes),expected,path);
+   assert.deepEqual(bytes,readFileSync(path),`${path}: original authenticated bytes, not regenerated/normalized input`);
+  }
+  for(const row of act3Cases){
+   const script=join(directory,row.script);
+   const result=spawnSync('python',['-X','utf8','-c',
+    'import os,runpy,sys; script=sys.argv[1]; sys.path.insert(0,os.path.dirname(script)); sys.argv=[script,"--lua"]; sys.stdout.reconfigure(newline="\\n"); runpy.run_path(script,run_name="__main__")',
+    script],{encoding:'utf8',timeout:15000});
+   assert.equal(result.status,0,result.stderr||result.error?.message||result.stdout);
+   assert.equal(result.stdout,readFileSync(join(directory,row.fixture),'utf8'),row.fixture);
+  }
+ };
+ try{
+  const source=seed('seed',attributes),lf=checkout(source,'lf',false),windows=checkout(source,'windows',true);
+  assert.ok(!readFileSync(join(lf,'unrelated-control.txt'),'utf8').includes('\r\n'));
+  assert.ok(readFileSync(join(windows,'unrelated-control.txt'),'utf8').includes('\r\n'),'real Windows text conversion must occur');
+  verify(lf);verify(windows);
+  // These controls alter copies only. Original scripts/goldens never change.
+  for(const path of [act3Cases[0].script,act3Cases[0].fixture,'tools/oracles/sts1_shapes.py']){
+   const altered=checkout(source,`drift-${path.split('/').at(-1)}`,true);
+   const target=join(altered,path);writeFileSync(target,Buffer.concat([readFileSync(target),Buffer.from('\n# unexpected identity drift\n')]));
+   assert.throws(()=>verify(altered),{name:'AssertionError'},`${path}: exact-byte guard must reject drift`);
+  }
+  const ownPaths=new Set([...act3Identities.keys()].filter(path=>path!=='tools/oracles/sts1_combat_gold.py'));
+  const without=attributes.split(/\r?\n/).filter(line=>!ownPaths.has(line.split(' ')[0])).join('\n');
+  const unpinned=checkout(seed('unpinned-seed',without),'unpinned-windows',true);
+  for(const path of ownPaths)assert.notEqual(sha(readFileSync(join(unpinned,path))),act3Identities.get(path),path);
+  assert.throws(()=>verify(unpinned),{name:'AssertionError'},'removing the new LF contracts must reproduce byte-identity rejection');
+ }finally{rmSync(root,{recursive:true,force:true});}
+});

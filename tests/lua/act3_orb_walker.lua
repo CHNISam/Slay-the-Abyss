@@ -55,17 +55,22 @@ test('public Act3 room uses the unchanged source queue and real A0 opening',func
  eq(e.statuses.generic_strength_up,3);eq(s.aiRng.counter,2)
 end)
 
-test('every unimplemented Act3 category rejects without queue RNG or resource changes',function()
- for _,spec in ipairs({{'1','normal'},{'4','elite'},{'4','boss'}})do
+test('new source normal rooms retain atomic setup failure and Act4 remains unavailable',function()
+ for _,spec in ipairs({{'1','normal'},{'34','normal',2}})do
   local r=room(spec[1]);local tier=spec[2]
-  -- Darklings remains unavailable; Writhing Mass now has its own source contract.
+  -- Both formerly unavailable leaves now have real source contracts. Keep late setup rollback.
   for _=1,spec[3]or 0 do local _,nextQueue=Q.consume(r.encounters,'normal');r.encounters=nextQueue;r.floor=r.floor+1 end
-  if tier=='normal'then eq(Q.peek(r.encounters,'normal'),'3 Darklings')end
+  local source=spec[1]=='1'and '3 Darklings'or 'Writhing Mass'
+  if tier=='normal'then eq(Q.peek(r.encounters,'normal'),source)end
   if tier=='boss'then r.floor=50;r.bossInitialization={profile='source-history',bossList={'Time Eater','Time Eater'}}end
   assert(tier~='normal' or Q.peek(r.encounters,'normal')~='Orb Walker')
   local before=C.copy(r);local queue,cardRng=r.encounters,r.cardRng
-  local ok,why=Run.startRoomCombat(r,tier);eq(ok,false);eq(why,'act_content_unavailable')
+  local original=C.new
+  C.new=function(...)original(...);error('INJECTED_LATE_DARKLING_SETUP')end
+  local called,ok,why=pcall(Run.startRoomCombat,r,tier);C.new=original
+  assert(called);eq(ok,false);eq(why,'combat_unavailable')
   same(r,before);eq(r.encounters,queue);eq(r.cardRng,cardRng)
+  assert(Run.startRoomCombat(r,tier));eq(r.encounterSource,source);eq(#r.combat.enemies,source=='3 Darklings'and 3 or 1)
  end
  local r=room('4');r.act,r.floor=4,54
  local before=C.copy(r);local ok,why=Run.startRoomCombat(r,'elite')
