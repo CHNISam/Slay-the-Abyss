@@ -550,7 +550,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         local ending=EndingHistory.begin(endingHistory,run,{seedSet=explicitSeed,
             isDailyRun=platform.isDailyRun or false,isTrial=platform.isTrial or false})
         run.endingUnlocked,run.endingHistory=ending.unlocked,ending
-        local map = Map.generate(run.data,rawSeed)
+        local context,contextReason=Run.freezeMapContext(run)
+        if not context then return false,contextReason end
+        local map = Map.generate(run.data,rawSeed,run.act or 1,context)
         local history,historyReason=NeowHistory.read(neowHistory,run.character)
         if history then
             local ok,why=Nodes.beginNeow(run,map,history);if not ok then return false,why end

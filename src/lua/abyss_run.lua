@@ -15,6 +15,7 @@ local CardRandom = require("abyss_card_random")
 local RelicPool = require('abyss_relic_pool')
 local RelicRewards=require('abyss_relic_rewards')
 local EventCombat=require('abyss_event_combat')
+local EmeraldRewards=require('abyss_emerald_rewards')
 local RelicHooks = require('abyss_relic_hooks')
 local Acts = require('abyss_acts')
 local M = {}
@@ -184,10 +185,16 @@ function M.advanceAct(run)
         staged.act,staged.phase,staged.floor=nextAct,'map',Acts.get(nextAct).first-1
         staged.nodeFlow,staged.pendingAct,staged.pendingCombatRewards,staged.rewards=nil,nil,nil,nil
         staged.combat,staged.lastResult=nil,nil
+        staged.emeraldCombat=nil
+        local context,why=EmeraldRewards.freezeMapContext(staged)
+        if not context then return false,why end
         staged.potionChanceModifier=0
         return true
     end)
 end
+
+function M.freezeMapContext(run)return EmeraldRewards.freezeMapContext(run)end
+function M.mapContext(run)return EmeraldRewards.mapContext(run)end
 
 local legacyRelics={['Burning Blood']='burning_blood',Anchor='anchor',Vajra='vajra',
  ['Bag of Preparation']='bag_of_preparation',Lantern='lantern',['Oddly Smooth Stone']='oddly_smooth_stone',
@@ -439,6 +446,7 @@ local function startEncounter(run, encounter, sourceRoom)
     end
     if sourceRoom then
         options.roomSeed,options.roomStreams=sourceRoom.seed,sourceRoom
+        options.emeraldBoost=sourceRoom.emeraldBoost
         if sourceRoom.preparedEncounter then
             options.enemies,options.sourceEncounter=nil,nil
             options.preparedEncounter=sourceRoom.preparedEncounter
@@ -466,6 +474,7 @@ local function startEncounter(run, encounter, sourceRoom)
     if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
     run.eventCombat = nil
+    run.emeraldCombat = nil
     run.pendingCombatRewards = nil
     return true
 end
@@ -493,7 +502,7 @@ function M.startEventCombat(run)
     end)
 end
 
-function M.startRoomCombat(run,tier)
+function M.startRoomCombat(run,tier,emeraldBoost)
     if run.phase~='map' then return false,'not_on_map' end
     local act=run.act or 1
     if act~=1 and act~=2 and act~=3 then return false,'act_content_unavailable' end
@@ -540,11 +549,15 @@ function M.startRoomCombat(run,tier)
     local staged={};for k,v in pairs(run)do staged[k]=v end
     local ready,room=pcall(M.roomStreams,run,run.floor)
     if not ready then return false,'invalid_room_seed' end
+    if emeraldBoost~=nil then
+        if tier~='elite' then return false,'invalid_emerald_combat_owner'end
+        room.emeraldBoost=Combat.copy(emeraldBoost)
+    end
     local called,ok,reason=pcall(startEncounter,staged,encounter,room)
     if not called then return false,'combat_unavailable' end
     if not ok then return false,reason end
     staged.miscRng=room.miscRng
-    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng','relicCounters','eventCombat'})do run[key]=staged[key]end
+    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng','relicCounters','eventCombat','emeraldCombat'})do run[key]=staged[key]end
     if nextQueue then run.encounters=nextQueue end
     run.roomGeneration=run.roomGeneration+1
     run.pendingCombatRewards=nil
@@ -635,6 +648,9 @@ local function finishCombat(run)
     run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
     if relicReward then run.rewards.relics=relicReward end
+    local emerald,emeraldReason=EmeraldRewards.offer(run,relicReward and #relicReward or 0)
+    if emeraldReason then return false,emeraldReason end
+    if emerald then run.rewards.emeraldKey=emerald end
     RelicHooks.previewCardReward(run,run.rewards,true)
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
@@ -748,6 +764,11 @@ function M.claimRelicReward(run,index)
         return true,item.id
     end)
 end
+
+function M.claimEmeraldKey(run)
+    return M.transaction(run,function(staged)return EmeraldRewards.claim(staged)end)
+end
+function M.canClaimEmeraldKey(run)return EmeraldRewards.canClaim(run)end
 
 function M.claimGoldReward(run)
     local rewards = run.phase == "reward" and run.rewards
@@ -1149,6 +1170,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
         candidate.shopRng.potion=EventRandom.cloneState(battle.potionRng);battle.potionRngChanged=nil
     end
     if battle.smoked then
+        candidate.emeraldCombat=nil
         battle.phase='escaped'
         if candidate.eventCombat then
             if battle.miscRng then candidate.miscRng=EventRandom.cloneState(battle.miscRng)end
@@ -1176,6 +1198,7 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     for key, value in pairs(battle) do root[key] = value end
     candidate.combat = root
     run.eventCombat,run.rewards,run.pendingCombatRewards=candidate.eventCombat,candidate.rewards,candidate.pendingCombatRewards
+    run.emeraldCombat=candidate.emeraldCombat
     for key, value in pairs(candidate) do run[key] = value end
     return true
 end

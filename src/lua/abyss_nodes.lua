@@ -24,6 +24,7 @@ local Acts = require('abyss_acts')
 local Treasure=require('abyss_treasure')
 local Neow=require('abyss_neow')
 local TreasureSource=require('abyss_treasure_source')
+local EmeraldRewards=require('abyss_emerald_rewards')
 local M = {}
 local battleKinds = { combat = true, elite = true, boss = true }
 
@@ -252,7 +253,15 @@ local function enter(run, map, nodeId)
     end
     flow.sourceType=sourceType
     if selectionRng then flow.selectionRng=EventRandom.snapshot(selectionRng);flow.event.originalId=node.originalEventId end
-    local stagedRun
+    local stagedRun,emeraldBoost
+    if node.hasEmeraldKey then
+        local preparedBoost,_,reason=Map.prepareEmeraldBoost(map,nodeId)
+        if not preparedBoost then return false,reason end
+        emeraldBoost=preparedBoost
+        local context=Run.mapContext(run)
+        if not context or not context.endingUnlocked or context.emeraldOwned or run.keys.emerald
+            or run.endingUnlocked~=true then return false,'ending_history_required' end
+    end
     if battleKinds[node.type] then
         -- Keep the new floor and room misc state private until real battle setup
         -- succeeds. startCombat may advance this stream when assembling a group;
@@ -261,7 +270,7 @@ local function enter(run, map, nodeId)
         for key, value in pairs(run) do stagedRun[key] = value end
         stagedRun.floor, stagedRun.miscRng = node.floor, nextMiscRng
         local tier=node.type=='combat' and 'normal' or node.type
-        local called, ok, reason = pcall(Run.startRoomCombat, stagedRun, tier)
+        local called, ok, reason = pcall(Run.startRoomCombat, stagedRun, tier,emeraldBoost and emeraldBoost.effect)
         if not called or not ok then
             return false, called and reason or "combat_unavailable"
         end
@@ -271,12 +280,21 @@ local function enter(run, map, nodeId)
         run.floor, run.phase, run.seed = node.floor, "node", seed
     end
     assert(Map.choose(map, nodeId)) -- already validated against the unchanged map above
+    if emeraldBoost then
+        local ok,reason=Map.commitEmeraldBoost(map,nodeId,emeraldBoost)
+        if not ok then return false,reason end
+        local owner;owner,reason=EmeraldRewards.bind(stagedRun,emeraldBoost)
+        if not owner then return false,reason end
+        stagedRun.emeraldCombat=owner
+        flow.emeraldBoost=Combat.copy(emeraldBoost)
+    end
     if stagedRun then
         run.floor, run.phase, run.combat = stagedRun.floor, stagedRun.phase, stagedRun.combat
         run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
         run.encounterSource,run.encounters=stagedRun.encounterSource,stagedRun.encounters
         run.relicCounters=stagedRun.relicCounters
         run.eventCombat=stagedRun.eventCombat
+        run.emeraldCombat=stagedRun.emeraldCombat
         run.combatGeneration=stagedRun.combatGeneration
         run.roomGeneration=stagedRun.roomGeneration
         run.combatGeneration=stagedRun.combatGeneration
@@ -287,6 +305,7 @@ local function enter(run, map, nodeId)
     if nextUnknown then run.unknown,run.eventRng=nextUnknown,nextEventRng end
     run.miscRng=nextMiscRng
     run.nodeFlow = flow
+    if not emeraldBoost then run.emeraldCombat=nil end
     if flow.type == 'shop' then
         run.relicPool=flow.relicPool;flow.relicPool=nil
         run.shopRng=flow.shopRng
@@ -305,6 +324,9 @@ function M.enter(run,map,nodeId)
     local ok,reason=Run.transaction(run,function(staged)return enter(staged,stagedMap,nodeId)end)
     if not ok then return false,reason end
     map.floor,map.currentNodeId=stagedMap.floor,stagedMap.currentNodeId
+    if stagedMap.mapRng then
+        map.mapRng,map.emeraldBoost=Combat.copy(stagedMap.mapRng),Combat.copy(stagedMap.emeraldBoost)
+    end
     for i=#map.path,1,-1 do map.path[i]=nil end
     for i,id in ipairs(stagedMap.path)do map.path[i]=id end
     return true,reason
@@ -331,13 +353,22 @@ function M.advanceAct(run,map)
     local ok,reason=Run.transaction(run,function(staged)
         local advanced,why=Run.advanceAct(staged)
         if not advanced then return false,why end
-        nextMap=Map.generate(staged.data,staged.runSeed,staged.act)
+        nextMap=Map.generate(staged.data,staged.runSeed,staged.act,assert(Run.mapContext(staged)))
         return true
     end)
     if not ok then return false,reason end
     for key in pairs(map)do map[key]=nil end
     for key,value in pairs(nextMap)do map[key]=value end
     return true
+end
+
+function M.restoreMap(run,snapshot)
+    local context,reason=Run.mapContext(run)
+    if not context then return nil,reason end
+    if type(snapshot)~='table' or snapshot.runSeed~=run.runSeed or (snapshot.act or 1)~=(run.act or 1)then
+        return nil,'map_mismatch'
+    end
+    return Map.restore(run.data,snapshot,context)
 end
 
 function M.view(run, map)

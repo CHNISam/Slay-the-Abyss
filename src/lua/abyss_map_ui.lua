@@ -206,6 +206,9 @@ function M.new(root, map, onChoose, clickEvent, options)
             (self.navigationEnabled and (Controller.isController(options.controller)
                 and "摇杆选择路线 · 确认出发 · 返回菜单" or "上下拖动查看路线 · 点选可前往的节点出发") or "请先完成当前节点")
             ))
+        local notice=current.emeraldSelection and Theme.layout.map.emeraldNotice or Theme.layout.map.notice
+        at('notice'):SetAnchoredPosition(notice[1],notice[2]);at('notice'):SetSizeDelta(notice[3],notice[4])
+        if current.emeraldSelection then at('notice').text=at('notice').text..' · 绿字节点为燃烧精英，胜利可另领绿钥匙'end
         buttonHover, buttonPress = nil, nil
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
         local edge = 0
@@ -226,6 +229,7 @@ function M.new(root, map, onChoose, clickEvent, options)
                 -- Native container clipping is not established. Cull whole discs,
                 -- including glow/breath extent, so no offscreen hit area can leak.
                 local radius = (size + Layout.glowPadding) * Layout.breathScale / 2
+                if node.hasEmeraldKey then radius=math.max(radius,math.abs(Theme.layout.map.emeraldLabel[2])+Theme.layout.map.emeraldLabel[4]/2)end
                 visible = y - radius >= Layout.viewport.bottom and y + radius <= Layout.viewport.top
                 box:SetAnchoredPosition(x, y)
                 box:SetSizeDelta(size, size)
@@ -246,6 +250,9 @@ function M.new(root, map, onChoose, clickEvent, options)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
                 tint(icon, Theme.color.node[state == "available" and "reachable" or state])
+                icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
+                if node.hasEmeraldKey then tint(icon,Theme.color.positive)end
+                child(box,'emeraldLabel'):SetVisible(node.hasEmeraldKey==true)
                 local hit = child(box, "hit")
                 hit:SetSizeDelta(size, size)
                 local clickable = visible and state == "available" and self.navigationEnabled
