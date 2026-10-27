@@ -164,7 +164,14 @@ function validateAsset(id, { metadata, bytes }) {
   assert.equal(metadata.generation.tool, 'builtin imagegen');
   assert.equal(metadata.toolchain.editorCommit, editorCommit);
   assert.deepEqual(metadata.validation, state);
-  assert.deepEqual(metadata.approval, { date: '2026-10-27', status: 'owner-reviewed-offline-visual', scope: ['source-design','native-redraw','full-card-offline-preview'], productionRuntimeApproved: false });
+  const priorApproval = { date: '2026-10-27', status: 'owner-reviewed-offline-visual', scope: ['source-design','native-redraw','full-card-offline-preview'], productionRuntimeApproved: false };
+  const expectedApproval = id === 'heavy_blade' ? {
+    date: '2026-10-27', status: 'revision-required-character-identity', scope: [],
+    productionRuntimeApproved: false, reasonCode: 'generic-warrior-not-geo-traveler',
+    history: [priorApproval],
+  } : priorApproval;
+  assert.deepEqual(metadata.approval, expectedApproval, 'current approval must honor the latest owner identity review');
+  assert.equal(metadata.assetRole, id === 'heavy_blade' ? 'design-counterexample-pending-revision' : 'reviewed-formal-source-asset', 'counterexample cannot be promoted as approved art');
   assert.equal(metadata.runtimeFallback, 'placeholder-type-icon');
   assert.deepEqual(metadata.fullCardAssembly, { oneXArtPixels: 'matched-offline', fourXExactPixels: 'failed-quantization-difference', fourXChangedPixels: id === 'armaments' ? 25 : 47, thresholdRelaxed: false, cardTextIncludedInAsset: false });
   assert.deepEqual(metadata.preview, { kind: 'literal-lua-readback', scale: 4, editorSnapshotUsed: false, officialClient: false });
@@ -249,4 +256,20 @@ for (const id of ids) test(`${id}: Lua EOF normalization preserves the recoverab
   assert.equal(digest(Buffer.from(restored), 'raw'), record.originalExport.sha256, 'canonical plus removed LF restores raw export bytes');
   assert.deepEqual(luaparse.parse(canonical, { luaVersion: '5.3' }), luaparse.parse(restored, { luaVersion: '5.3' }), 'all Lua AST nodes unchanged');
   assert.deepEqual(drawing(canonical), drawing(restored), 'all real drawing tables unchanged');
+});
+
+
+test('later identity rejection supersedes earlier visual praise without discarding frozen evidence', () => {
+  const bundle = loadAsset('heavy_blade');
+  validateAsset('heavy_blade', bundle);
+  assert.equal(bundle.metadata.approval.history.length, 1);
+  for (const mutate of [
+    b => { b.metadata.approval = structuredClone(b.metadata.approval.history[0]); },
+    b => { b.metadata.assetRole = 'reviewed-formal-source-asset'; },
+    b => { b.metadata.approval.productionRuntimeApproved = true; },
+    b => { b.metadata.approval.scope = ['source-design']; },
+  ]) {
+    const stale = loadAsset('heavy_blade'); mutate(stale);
+    assert.throws(() => validateAsset('heavy_blade', stale), /latest owner identity review|counterexample cannot/);
+  }
 });

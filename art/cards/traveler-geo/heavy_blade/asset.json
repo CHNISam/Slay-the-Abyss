@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "card_id": "heavy_blade",
-  "assetRole": "reviewed-formal-source-asset",
+  "assetRole": "design-counterexample-pending-revision",
   "files": {
     "source.png": {
       "path": "heavy_blade/source.png",
@@ -103,13 +103,22 @@
   ],
   "approval": {
     "date": "2026-10-27",
-    "status": "owner-reviewed-offline-visual",
-    "scope": [
-      "source-design",
-      "native-redraw",
-      "full-card-offline-preview"
-    ],
-    "productionRuntimeApproved": false
+    "status": "revision-required-character-identity",
+    "scope": [],
+    "productionRuntimeApproved": false,
+    "reasonCode": "generic-warrior-not-geo-traveler",
+    "history": [
+      {
+        "date": "2026-10-27",
+        "status": "owner-reviewed-offline-visual",
+        "scope": [
+          "source-design",
+          "native-redraw",
+          "full-card-offline-preview"
+        ],
+        "productionRuntimeApproved": false
+      }
+    ]
   },
   "validation": {
     "runtimeBinding": "unbound",
