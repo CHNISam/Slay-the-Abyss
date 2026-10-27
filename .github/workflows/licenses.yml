@@ -18,5 +18,10 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24.18.0'
+      - name: Materialize reviewed PNGs for the license audit
+        timeout-minutes: 2
+        env:
+          CI_LFS_TOKEN: ${{ github.token }}
+        run: node scripts/ci-reviewed-lfs.mjs
       - run: node --test scripts/check-license.test.mjs
       - run: node scripts/check-license.mjs

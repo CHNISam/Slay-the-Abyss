@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "card_id": "armaments",
+  "assetRole": "reviewed-formal-source-asset",
+  "files": {
+    "source.png": {
+      "path": "armaments/source.png",
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "bytes": 1750604
+    },
+    "prompt.txt": {
+      "path": "armaments/prompt.txt",
+      "sha256": "2e92f99d714ec5e50d4c02d941086ecaa189f7184e1d3071273e24e3845cf0d6",
+      "bytes": 2077
+    },
+    "native-art.json": {
+      "path": "armaments/native-art.json",
+      "sha256": "277afd4d54a2a6a2688205c81e29663ff3253d19df72759ead8621935f9a3e0a",
+      "bytes": 1214781
+    },
+    "native-art.lua": {
+      "path": "armaments/native-art.lua",
+      "sha256": "b120cb5d4d30372611c539b69c8b04af1c8ea5feafbdb561c1eabb37443c8a04",
+      "bytes": 350789,
+      "originalExport": {
+        "sha256": "1ab3309300aa54f75214aff4aafd41e0af604ab5909508209f71d246ab12e9b6",
+        "bytes": 350790,
+        "removedTrailingLf": 1
+      }
+    },
+    "preview-native.png": {
+      "path": "armaments/preview-native.png",
+      "sha256": "b7b2cd9c4fdfa3f1d893156405a51afc8b8bd1b65a776a9f704086c97685b2ff",
+      "bytes": 30121
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeSize": [
+    144,
+    64
+  ],
+  "previewSize": [
+    576,
+    256
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0,
+      0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "generation": {
+    "tool": "builtin imagegen",
+    "modelAndSeed": "not-exposed-by-tool",
+    "sourceRevision": "style-revision-03/source-02",
+    "nativeRevision": "handless-revision-03/repaired-upper",
+    "sourceIsUserUpload": false,
+    "sourceIsRuntimePNG": false
+  },
+  "toolchain": {
+    "editorRepository": "https://github.com/1475505/Miliastra-image-editor-webui",
+    "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+    "nativeMethod": "manual-source-coordinate-contour-tracing",
+    "exportBytes": "json-preserved-lua-extra-final-lf-removed",
+    "editorSnapshot": "optional-editing-metadata-not-runtime-truth"
+  },
+  "controls": {
+    "images": 1834,
+    "masks": 0,
+    "artworkTotal": 1834,
+    "nativeGalleryImages": 3,
+    "text": 0,
+    "hostIncluded": false
+  },
+  "mask": {
+    "imageIndices": [],
+    "canvasEditorMask": "editor-only-not-an-extra-runtime-control",
+    "deviceValidation": "unverified"
+  },
+  "galleryResources": [
+    {
+      "id": 106056,
+      "url": "https://oss.070077.xyz/images/sprite/106056.png",
+      "sha256": "62492988816157c79d460d97d32238e16e40b8d72b7c3be192b11f764332c9cb",
+      "bytes": 4484
+    },
+    {
+      "id": 106057,
+      "url": "https://oss.070077.xyz/images/sprite/106057.png",
+      "sha256": "dc2484a8c1dc677deb2f7f28ca33932a83abf7c88ed320d69da903d37c11b963",
+      "bytes": 13807
+    }
+  ],
+  "approval": {
+    "date": "2026-10-27",
+    "status": "owner-reviewed-offline-visual",
+    "scope": [
+      "source-design",
+      "native-redraw",
+      "full-card-offline-preview"
+    ],
+    "productionRuntimeApproved": false
+  },
+  "validation": {
+    "runtimeBinding": "unbound",
+    "officialImport": "not-run",
+    "deviceXYZAndMasks": "unverified",
+    "repeatedEntryCleanup": "unverified",
+    "multiCardPerformance": "not-run",
+    "phonePerformance": "not-run",
+    "fullPoolApproval": "not-approved"
+  },
+  "runtimeFallback": "placeholder-type-icon",
+  "preview": {
+    "kind": "literal-lua-readback",
+    "scale": 4,
+    "editorSnapshotUsed": false,
+    "officialClient": false
+  },
+  "fullCardAssembly": {
+    "oneXArtPixels": "matched-offline",
+    "fourXExactPixels": "failed-quantization-difference",
+    "fourXChangedPixels": 25,
+    "thresholdRelaxed": false,
+    "cardTextIncludedInAsset": false
+  },
+  "references": [
+    {
+      "kind": "prior-generated-design",
+      "sha256": "2771b2fd5e1e62c5fcf69e20c351af2574f2bf69669baa281b4a62822030f84d",
+      "role": "prompt-image-1-forearm-guard-design-only",
+      "included": false
+    },
+    {
+      "url": "https://static.spire.moe/image/sts/portraits/red/skill/armaments.png",
+      "sha256": "e19d9f43a256ed7f08ab19295da5e46fcf68270b7a7f9057a8f8a07ed7f461d8",
+      "role": "prompt-image-2-painted-value-grouping-method-only",
+      "included": false
+    }
+  ],
+  "provenance": "PROVENANCE.md"
+}
