@@ -3,7 +3,7 @@
 local M = {}
 local function visible(control)
     while control do
-        if control.alive == false or control.visible == false or control.activeInHierarchy == false then return false end
+        if control.alive == false or control.visible == false then return false end
         control = control.parent
     end
     return true
@@ -19,7 +19,7 @@ function M.new(api,root)
     function manager:eligible(record)
         local scope=type(record.scope)=='function' and record.scope() or record.scope
         return not not (not self.disabled and scope==self.scope
-            and visible(record.control) and record.control.interactable~=false
+            and visible(record.control) and record.control.raycastTarget~=false
             and (not record.enabled or record.enabled()))
     end
     function manager:focus(control)

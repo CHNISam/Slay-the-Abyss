@@ -251,7 +251,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local function button(name, enabled, primary, caption)
         local box = child(name)
-        box.interactable = enabled == true
+        box.interactable,box.raycastTarget = enabled == true,enabled == true
         for _, state in ipairs({"normal", "hover", "pressed", "disabled"}) do
             local part = box:GetChild(state)
             if caption then part:GetChild("label").text = caption end
@@ -698,7 +698,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for _,kind in ipairs({'draw','discard','exhaust'})do
             local hit=child(kind..'Icon'):GetChild('hit')
             hit:SetVisible(frame.fighting==true)
-            hit.interactable=options.onPile~=nil and frame.active==true
+            hit.raycastTarget=options.onPile~=nil and frame.active==true
         end
         label("statuses", frame.fighting and battle.phase ~= "player" and not self.busy and "敌方回合" or "")
         if frame.fighting then unit(child("hero"), frame.player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end

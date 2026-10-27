@@ -6,11 +6,9 @@ local function setup()
     local host, ui, panel = H.setup({"bash","strike","defend"},{"cultist"})
     -- Native cursorArea has no interactable property (observed on CN 7.1).
     local hit=panel:GetChild("statusInfo"):GetChild("hit")
-    hit.interactable=nil
-    setmetatable(hit,{__newindex=function(control,key,value)
-        assert(key~="interactable","cursorArea cannot set interactable")
-        rawset(control,key,value)
-    end})
+    assert(hit.kind=='cursorArea' and hit.raycastTarget~=false)
+    local ok=pcall(function()return hit.interactable end)
+    assert(not ok,'shared native CursorArea fixture must reject unsupported field reads')
     local s=host.run.combat
     s.enemies[1].ai=nil; s.enemies[1].intentIndex=1
     s.enemies[1].intents={{id="frail",kind="debuff",effects={{op="applyStatus",status="frail",value=1}}}}

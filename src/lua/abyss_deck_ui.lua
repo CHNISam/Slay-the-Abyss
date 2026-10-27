@@ -80,7 +80,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         if self.visible or not definition.originalV4 then return false end
         self.visible,self.run,self.detailOnly=true,run,true
         self.generation=self.generation+1;root:SetVisible(true);root:SetAsLastSibling()
-        root:GetChild('close'):SetVisible(true);root:GetChild('close'):GetChild('hit').interactable=true
+        root:GetChild('close'):SetVisible(true);local close=root:GetChild('close'):GetChild('hit');close.interactable,close.raycastTarget=true,true
         return self:showDetails(definition,upgraded)
     end
     local function colour(value) return platform.color(value.r, value.g, value.b, value.a) end
@@ -167,7 +167,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         if self.multiple then root:GetChild('title').text=root:GetChild('title').text..' · 已选'..#choice.selected..(choice.required and '/'..choice.required or '') end
         root:GetChild("close"):SetVisible(not choice or self.multiple == true)
         local close=root:GetChild('close'):GetChild('hit')
-        close.interactable=not choice or self.multiple and (not choice.required or #choice.selected==choice.required) or false
+        close.interactable=not choice or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable
         for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.multiple and '确认选择' or '关闭' end
         grid.scrollProgress = 0
         -- Official API leaves index origin unspecified. A single-item callback
@@ -199,8 +199,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             if box then
                 box:SetVisible(mode and not self.detailPages and pages>1)
                 if name=='pageHint' then box.text='摇杆导航 · 确认选择 · 返回关闭 · '..(self.controllerPage or 1)..'/'..pages
-                else box:GetChild('hit').interactable=name=='previous' and (self.controllerPage or 1)>1
-                    or name=='next' and (self.controllerPage or 1)<pages end
+                else local hit=box:GetChild('hit');hit.interactable=name=='previous' and (self.controllerPage or 1)>1
+                    or name=='next' and (self.controllerPage or 1)<pages;hit.raycastTarget=hit.interactable end
             end
         end
         if not self.pending then return end

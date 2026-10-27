@@ -6,7 +6,7 @@ local api = {events={Confirm='confirm',Cancel='cancel',Focus='focus'},
     getFocus=function()return focus end,setFocus=function(value)assert(value,'official focus setter requires a control');focus=value end,
     isController=function()return enabled end}
 local function control(parent)
-    local c={visible=true,interactable=true,parent=parent,listeners={},links={}}
+    local c={visible=true,raycastTarget=true,parent=parent,listeners={},links={}}
     function c:AddNavigationEventListener(e,fn) NativeContract.listener(e,fn);assert(not self.listeners[e]);self.listeners[e]=fn end
     function c:SetControllerNavigation(d,m,target)self.links[d]={m,target}end
     return c
@@ -31,7 +31,7 @@ focus=b;manager:sync('main');manager:sync('modal')
 assert(focus==close and not a.canControllerFocus,'modal owns all focus')
 manager:tick();a.listeners.confirm();assert(count==1,'old-page callbacks cannot run behind a modal')
 manager:sync('main');assert(focus==b,'closing a modal restores the previous focus')
-b.interactable=false;manager:sync('main');assert(focus~=b and not b.canControllerFocus)
+b.raycastTarget=false;manager:sync('main');assert(focus~=b and not b.canControllerFocus)
 assert(a.links.right[2]==c,'disabled items are omitted from navigation')
 c.visible=false;manager:sync('main');assert(focus==a and a.links.right[2]==a)
 page.visible=false;manager:sync('main');assert(not focus.canControllerFocus,'no hidden ancestor may remain navigable')
