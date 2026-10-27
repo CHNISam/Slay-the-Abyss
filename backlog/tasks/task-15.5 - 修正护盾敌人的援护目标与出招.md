@@ -3,9 +3,9 @@ id: TASK-15.5
 title: 修正护盾敌人的援护目标与出招
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 21:11'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,12 @@ ordinal: 64000
 <!-- SECTION:PLAN:BEGIN -->
 核对源动作队列和所有权；建立真实负例；最小敌人行为及必要敌群前置时序修复；独立审查与正式CI后集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

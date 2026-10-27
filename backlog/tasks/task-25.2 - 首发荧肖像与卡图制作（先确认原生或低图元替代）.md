@@ -3,9 +3,9 @@ id: TASK-25.2
 title: 先做好一张完整样卡和荧的肖像
 status: In Progress
 assignee:
-  - '@codex'
+  - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 18:48'
+updated_date: '2026-10-27 19:24'
 due_date: '2026-10-28'
 labels:
   - art
@@ -99,4 +99,6 @@ PR240首候选f7fc855已发布。完整本地Node终态1594通过/1失败/零跳
 正式native CLI/API入口本地增量完成：显式art参数进入既有prepareBuild，既有receipt绑定实际原生输入、registry及生成布局/动态presentation；UI验收与audio保留并校验来源，默认零新增/playtest关闭/liveWrite=0不变。两项独立复审P2（路径别名误读、Lua等价键覆盖伪消费）已以负控修复，root重跑受影响全集117/117零跳过、工程4/4变异kill及语法/network/license通过。两张真实原生2657/2043图元经正式入口MCP mock单卡装配与逐控件等价验证，不是官方编译。云端未找到可运行MCP及已确认干净base GIL，未安装/未调用真实MCP/未写游戏存档；PC及实体安卓仍待验。当前815d275完整CI继续等终态后才统一推增量，不反复取消重跑。
 
 54e4ac1真实CI发现默认构建依赖回归：新增顶层luaparse导入使无npm依赖的presentation构建及Linux/Windows临时CLI保护fixture在保护断言前失败。已用原3个alias负控复现；仅在实际native消费校验时惰性加载parser，新增默认无依赖CLI成功/零art回归，原保护断言和实际解析保持。root重跑UI保护206+native相关117共323/323零跳过；独立复审确认native缺parser仍fail-closed。未给CI加安装步骤、未改依赖声明或阈值。原生test-affected能够选中该间接消费者，此次是手选测试集合遗漏，不改工程规范掩盖。修复继续在本PR验当前head，旧117或旧head绿灯不外推。
+
+同步PR259负责人规范化：原记录 @codex 为历史执行者，负责人保留最新develop的Furinya。保留本PR全部美术候选记录，状态/AC不变。aaf5134完整15作业已通过，但合并预审发现develop已合入PR259，旧绿灯不代表新组合。下一步移除已过时的CursorArea内存替换，在真实修复源码上验证原生样卡。
 <!-- SECTION:NOTES:END -->

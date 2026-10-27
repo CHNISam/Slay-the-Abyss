@@ -3,9 +3,9 @@ id: TASK-50
 title: 战后选牌改为居中独立界面
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 07:42'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -65,4 +65,6 @@ ordinal: 84000
 最新状态：PR169已squash合入develop e3310bc，前文未开PR/未合入是历史交接。源码集成已完成；本任务仍由@Codex负责新候选官方导入及电脑/手机三项AC，交TASK-4/5。离线预览与源码CI不作为实机通过。
 
 2026-10-26全面复核：本轮53个原战斗UI用例和card_preview通过，已交付布局/领取/跳过/预览条款补勾；当前版实机截图与设备条款仍保留。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

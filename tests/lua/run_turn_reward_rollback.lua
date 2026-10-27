@@ -60,8 +60,10 @@ local function fresh(kind)
  local pending=assert(run.combat.pendingChoice)
  return run,function()return Run.chooseCard(run,pending.token,1)end
 end
+local activeKind=... or 'turn'
+assert(activeKind=='turn'or activeKind=='choice'or activeKind=='retain','invalid rollback budget slice')
 local passed,failed=0,0
-for _,kind in ipairs({'turn','choice','retain'})do for _,failure in ipairs({'throw','reject'})do
+for _,kind in ipairs({activeKind})do for _,failure in ipairs({'throw','reject'})do
  local ok,why=pcall(function()
   local run,command=fresh(kind);local verify=unchanged(run)
   eq(Run.chooseCard(run,2147483647,0),false);verify()

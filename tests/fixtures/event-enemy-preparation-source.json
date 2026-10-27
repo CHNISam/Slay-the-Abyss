@@ -1,0 +1,57 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "scope": "Constructor/init/preBattle source boundary; independent component vectors, not original-PC or natural platform play",
+  "files": {
+    "events/beyond/MysteriousSphere.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/MysteriousSphere.java",
+      "sha256": "3e321b9e9424dac7113a3bcf705ff0f046ee8d8e443a70cafe1ad48b04029461"
+    },
+    "monsters/beyond/OrbWalker.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/beyond/OrbWalker.java",
+      "sha256": "2ca7e87876547c47ca7dfcf92ce059681e8766676479e3496af3a3ada9121db8"
+    },
+    "monsters/AbstractMonster.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/AbstractMonster.java",
+      "sha256": "f95baba14b00bffeb6a93e9fcf04cedad2a42a803c4b4342c1e017535acc601f"
+    },
+    "monsters/MonsterGroup.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/monsters/MonsterGroup.java",
+      "sha256": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221"
+    },
+    "helpers/MonsterHelper.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/helpers/MonsterHelper.java",
+      "sha256": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1"
+    },
+    "events/AbstractEvent.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/AbstractEvent.java",
+      "sha256": "4527717d367f8f7e9a11bb3be30361ffaa92aff1b49e581ce060b179b0797c13"
+    },
+    "events/beyond/MindBloom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/MindBloom.java",
+      "sha256": "8b0bf1c73646d31c3b2229b4a08db0dbcedf2e731d01dda3316afcf6bb4d2769"
+    }
+  },
+  "contracts": {
+    "positions": [
+      [
+        -250,
+        32
+      ],
+      [
+        150,
+        26
+      ]
+    ],
+    "sphereConstructionHpDraws": 4,
+    "initialAiDraws": 2,
+    "preBattleStrength": 3,
+    "preparedStoresMisc": false,
+    "mindBloomTiming": "shuffle first, then HP construction; gold/rare before group.init",
+    "openingOrder": "constructors -> all init -> player shuffle -> monster preBattle -> existing player opening hooks"
+  },
+  "authoredInputs": {
+    "tests/fixtures/event-enemy-preparation-oracle.py": "a0e3e435857fcd52ff6d770637e519f6133dac006017af335bb4be77f1810bba",
+    "tools/oracles/sts1_combat_gold.py": "7c0c70dd7dbed02bc0107e5ec0efcdb7892bf14cdb61a5ddc3a127eaeb50c0a8",
+    "tests/fixtures/event-enemy-preparation-vectors.lua": "d4c4ca4d8bc9b96129498605983f4d5502e9923a896f470a15ee352604b1c7cf"
+  }
+}

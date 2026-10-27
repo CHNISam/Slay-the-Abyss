@@ -40,7 +40,7 @@ function M.capture(name, root, layout, metadata)
         -- Native preset buttons select a state internally; the test fixture
         -- retains all four branches. Compare the actual normal/disabled state,
         -- never four superimposed copies of a single button caption.
-        local state = box.interactable == false and 'disabled' or 'normal'
+        local state = spec.kind=='presetButton' and box.interactable == false and 'disabled' or 'normal'
         for _,child in ipairs(spec.children or {}) do
             local selected = spec.kind ~= 'presetButton' or not spec.states or child.name == state
             walk(child, box:GetChild(child.name), path .. '/' .. child.name, x,y,sx,sy,visible and selected)

@@ -40,7 +40,7 @@ local reasons = {
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
-local function stagedEvent(id)return id=='neow' or Act2Events.ids[id]end
+local function stagedEvent(id)return id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local events = {
     neow={name='高塔恩赐'},
     joust={name='决斗'},
@@ -51,6 +51,8 @@ local events = {
     the_library={name='图书馆'},
     tomb_red_mask={name='红面具领主之墓',body='面具守护着陵墓中的财宝。',leave='你离开了陵墓。'},
     sensory_stone={name='追忆石碑',body='石中封存着记忆。',leave='你离开了石头。'},
+    mind_bloom={name='心灵绽放',body='意识在高塔深处展开。',leave='你离开了这片意识。'},
+    mysterious_sphere={name='神秘球体',body='密闭的球形容器中传来机关运转声。',leave='你离开了容器。'},
     winding_halls={name='迷途回廊',body='曲折通道等待着你的选择。',leave='你离开了通道。'},
     moai_head={name='巨像之首',body='石像等待着你的献祭。',leave='你离开了巨像。'},
     falling={name='坠落',body='落石正在崩塌。你必须在手中的卡牌之间作出取舍。',leave='你重新站稳，继续赶路。'},

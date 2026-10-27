@@ -3,9 +3,9 @@ id: TASK-15.14
 title: 修正大型酸液敌人的血量和招式
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 02:52'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-4
 dependencies: []
@@ -35,6 +35,8 @@ ordinal: 80000
 
 <!-- SECTION:NOTES:BEGIN -->
 实现及测试成本证据见 PR153/PR155；父任务保持原状态，分裂单独承接。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

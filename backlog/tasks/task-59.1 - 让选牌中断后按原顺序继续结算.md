@@ -3,9 +3,9 @@ id: TASK-59.1
 title: 让选牌中断后按原顺序继续结算
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 06:11'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

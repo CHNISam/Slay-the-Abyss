@@ -3,9 +3,9 @@ id: TASK-3.3.1
 title: 阻止取消退出后旧地图手势误入节点
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 01:50'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -37,6 +37,12 @@ ordinal: 74000
 <!-- SECTION:PLAN:BEGIN -->
 保留当前真实宿主红例；在 map_ui 内实现最小手势身份与失效边界；补旧触点/多触点/换局与正常操作回归；独立评审后走原 PR 和 CI。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

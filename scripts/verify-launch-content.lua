@@ -57,6 +57,20 @@ for _, event in ipairs(manifest.events) do
     end
     local choices = {}
     for _, option in ipairs(Nodes.eventOptions(run, flow)) do choices[option.choice] = true end
+    if event.id=='mind_bloom'then
+        -- Its third option changes after floor40. Inspect both real source
+        -- branches; the ordinary first-room fixture can only expose Rich.
+        for _,floor in ipairs({40,41})do
+            local branch=Combat.copy(run,{[run.data]=run.data})
+            branch.floor,branch.nodeFlow.event.stage=floor,'intro'
+            local seen={}
+            for _,option in ipairs(Nodes.eventOptions(branch,branch.nodeFlow))do
+                choices[option.choice],seen[option.choice]=true,true
+            end
+            assert(seen.rich==(floor==40 and true or nil),'MindBloom Rich floor boundary')
+            assert(seen.healthy==(floor==41 and true or nil),'MindBloom Healthy floor boundary')
+        end
+    end
     if event.id == 'golden_wing' then
         flow.event.stage = 'purge'
         for _, option in ipairs(Nodes.eventOptions(run, flow)) do choices[option.choice] = true end

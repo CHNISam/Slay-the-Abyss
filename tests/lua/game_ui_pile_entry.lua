@@ -14,7 +14,7 @@ test('normal generated pile icons open the matching modal and closing restores c
         local host,ui,panel,event,tap,drain,close,root=H.setup()
         local before=Combat.copy(host.run)
         local entry=panel:GetChild(kind..'Icon'):GetChild('hit')
-        assert(entry.visible and entry.interactable)
+        assert(entry.visible and entry.raycastTarget)
         assert(entry.click({touchId=7}))
         host:update(0)
         assert(host.deckUI.visible and host.deckUI.pileKind==kind and not ui.active)

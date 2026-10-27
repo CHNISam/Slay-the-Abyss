@@ -3,9 +3,9 @@ id: TASK-57.2
 title: 做好首球循环和闪电群攻
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 09:05'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

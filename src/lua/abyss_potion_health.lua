@@ -1,9 +1,17 @@
 -- Fixed-source Blood/Fruit health arithmetic shared by battle and room use.
 local f32=require('abyss_sts_random').float32
 local M={}
+-- Shared Mark-only gate. Existing non-potion paths keep their original
+-- arithmetic and other relic modifiers; enemy healing never calls this gate.
+function M.blocked(relics)
+    for _,id in ipairs(relics or {}) do
+        if id=='mark_of_bloom' or id=='Mark of the Bloom' then return true end
+    end
+    return false
+end
 function M.modifyHealing(healing,relics,inCombat)
     for _,id in ipairs(relics or {}) do
-        if id=='mark_of_bloom' then healing=0
+        if id=='mark_of_bloom' or id=='Mark of the Bloom' then healing=0
         elseif id=='magic_flower' and inCombat then healing=math.floor(f32(f32(healing)*1.5)+0.5) end
     end
     return healing

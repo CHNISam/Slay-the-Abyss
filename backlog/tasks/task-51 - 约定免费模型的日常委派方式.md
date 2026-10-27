@@ -3,9 +3,9 @@ id: TASK-51
 title: 约定免费模型的日常委派方式
 status: Done
 assignee:
-  - '@codex'
+  - '@Furinya'
 created_date: '2026-10-24 09:15'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 documentation:
@@ -54,6 +54,8 @@ DeepSeek普通原生CLI + Max成功：1次bash、4次read均completed，完整�
 按用户要求学习现有实现：核对OpenCode v1.18.24官方固定提交57e8055的stats/retry/run源码，采用原生stats、错误分类及Retry-After/有界退避，不新增额度管理或外层重试。确认JSON不透出retry状态，零事件原因继续未知；Flint记录total与分项相差282，保留原值不混算。源码链接和实际原生stats交叉核对已加入附件。
 
 2026-10-24用户明确将Backlog查重、建任务、补备注作为可优先委派的杂活。本轮真实尝试让OpenCode免费DeepSeek Max通过原生CLI登记断网丢进度：当次目录输入/输出/缓存价格均0，进程级锁定主/辅助模型与Provider，经debug config核对；仅授权相关Backlog命令，未加pure。超过90秒无输出或工具事件，停止匹配本次命令行的进程后，Codex通过CLI接管并创建TASK-53，读回核对通过。没有可验收委派产出、没有实际工具调用和step_finish费用事件，不能声称本次模型费用实测为0或已节省Codex额度；节省未知。本地事件、脱敏配置、起止时间及复核结果在.artifacts/opencode-backlog-disconnect/。本次失败属于调用无事件推进，尚不能判断模型执行Backlog的能力；不回退收费模型。
+
+负责人字段规范化：原记录 @codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -3,9 +3,9 @@ id: TASK-15.6
 title: 修正中型尖刺敌人的招式与污染牌
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 21:38'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,12 @@ ordinal: 65000
 <!-- SECTION:PLAN:BEGIN -->
 核对源身份与队列；建立真实负例；最小敌人AI及状态牌执行修复；独立评审与正式CI后集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

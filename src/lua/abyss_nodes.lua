@@ -71,6 +71,11 @@ local function upgradeCards(run)
     return result
 end
 
+local function healingPreview(run,amount)
+    if require('abyss_potion_health').blocked(run.relics)then return 0 end
+    return math.min(run.maxHp-run.hp,amount)
+end
+
 local function matchingMap(flow, map)
     return not flow or (flow.mapSeed == map.seed and flow.mapSignature == map.sourceSignature
         and flow.id == map.currentNodeId and flow.floor == map.floor)
@@ -153,6 +158,10 @@ local function prepare(run, node, miscRng)
         if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
         if Act2Events.ids[id] then Act2Events.prepare(run,flow.event) end
         if Act3Events.ids[id] then Act3Events.prepare(run,flow.event,miscRng) end
+        if flow.event.constructorEncounter then
+            local prepared,why=Run.prepareEventEncounter(run,flow.event.constructorEncounter,node.floor,miscRng)
+            assert(prepared,why);flow.event.preparedCombat=prepared
+        end
         if id=='goop' then
             local r=run.data.rules.events.goop
             flow.event.goldLoss=math.min(run.gold,EventRandom.randomIntBetween(miscRng,r.lossMin,r.lossMax))
@@ -267,6 +276,7 @@ local function enter(run, map, nodeId)
         run.encounterId, run.encounterTier = stagedRun.encounterId, stagedRun.encounterTier
         run.encounterSource,run.encounters=stagedRun.encounterSource,stagedRun.encounters
         run.relicCounters=stagedRun.relicCounters
+        run.eventCombat=stagedRun.eventCombat
         run.combatGeneration=stagedRun.combatGeneration
         run.roomGeneration=stagedRun.roomGeneration
         run.combatGeneration=stagedRun.combatGeneration
@@ -339,7 +349,7 @@ function M.view(run, map)
         node.purgeCards=LivingWall.purgeCards(run)
         if node.type == "camp" then
             node.upgradeCards = upgradeCards(run)
-            node.heal = math.min(run.maxHp - run.hp,RelicHooks.campHealAmount(run,math.floor(run.maxHp * run.data.rules.camp.healPercent / 100)))
+            node.heal = healingPreview(run,RelicHooks.campHealAmount(run,math.floor(run.maxHp * run.data.rules.camp.healPercent / 100)))
             node.dreamCatcher=RelicHooks.owns(run,'dream_catcher')
         elseif node.type == "shop" then
             node.removePrice = Shop.removePrice(run)
@@ -357,7 +367,7 @@ function M.view(run, map)
             if node.event.id=='neow'then Neow.view(run,node.event)end
             if node.event.id == "cleric" then
                 node.event.healCost = rules.healCost
-                node.event.heal = math.min(run.maxHp - run.hp, math.floor(run.maxHp * rules.healPercent / 100))
+                node.event.heal = healingPreview(run,math.floor(run.maxHp * rules.healPercent / 100))
             end
             node.event.options=M.eventOptions(run,node)
         end
@@ -814,7 +824,7 @@ function M.eventOptions(run,flow)
         option('cleanse','净化','移除牌组中所有可清除的诅咒。')
     elseif id=='cleric' then
         local r=run.data.rules.events.cleric
-        local heal=math.min(run.maxHp-run.hp,math.floor(run.maxHp*r.healPercent/100))
+        local heal=healingPreview(run,math.floor(run.maxHp*r.healPercent/100))
         option('heal','治疗','支付 '..r.healCost..' 金币，回复 '..heal..' 点生命',run.gold>=r.healCost)
         option('purify','净化','支付 '..r.removeCost..' 金币，移除一张卡牌',run.gold>=r.removeCost and deckOk,'purify')
     elseif id=='purifier' then option('pray','祈祷','免费移除一张卡牌',deckOk,'purify')
@@ -859,6 +869,7 @@ local function chooseEvent(run, choice, uid)
     end
     if Act3Events.ids[id] then
         local ok,status=Act3Events.choose(run,flow,choice,uid)
+        if ok and status=='event_combat'then return Run.startEventCombat(run)end
         if ok and run.hp==0 then
             flow.eventChoice=choice;complete(run);run.phase='defeat';return true,'defeat'
         end
@@ -892,7 +903,7 @@ local function chooseEvent(run, choice, uid)
     if choice == "heal" and id == "cleric" then
         if run.gold < rules.healCost then return false, "insufficient_gold" end
         run.gold = run.gold - rules.healCost
-        run.hp = math.min(run.maxHp, run.hp + math.floor(run.maxHp * rules.healPercent / 100))
+        Run.heal(run,math.floor(run.maxHp * rules.healPercent / 100))
     elseif (choice == "purify" and id == "cleric") or (choice == "pray" and id == "purifier") then
         local instance = find(run.deck, uid, "uid")
         if not instance then return false, "invalid_card" end
@@ -988,7 +999,7 @@ end
 function M.completeCombat(run, map)
     local flow = run.nodeFlow
     if not flow or flow.complete then return false, "no_pending_node" end
-    if not battleKinds[flow.type] then return false, "wrong_node_type" end
+    if not battleKinds[flow.type] and not (flow.type=='event' and flow.eventCombat) then return false, "wrong_node_type" end
     if not matchingMap(flow, map) then return false, "map_mismatch" end
     if run.phase == "defeat" then return false, "run_defeated" end
     if run.phase == "reward" then return false, "reward_pending" end

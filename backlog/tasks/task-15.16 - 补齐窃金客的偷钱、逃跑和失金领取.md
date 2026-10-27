@@ -3,9 +3,9 @@ id: TASK-15.16
 title: 补齐窃金客的偷钱、逃跑和失金领取
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 07:57'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -47,6 +47,8 @@ ordinal: 84000
 
 <!-- SECTION:NOTES:BEGIN -->
 完整窃金客战斗与独立失金领取已接入药水奖励、Boss宝箱、居中选牌和开场对话。最终2ad5b516的Quality成功，PR168已合入ee9c40d9。此前7f1fe9的旧Windows超时及保留74场景的分片过程留在专项报告，不作为当前阻塞。新组合未做官方导入或PC/手机实机，完整原版随机流与奖励池的剩余缺口继续保留。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

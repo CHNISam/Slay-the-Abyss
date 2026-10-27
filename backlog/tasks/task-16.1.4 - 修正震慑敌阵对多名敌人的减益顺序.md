@@ -3,9 +3,9 @@ id: TASK-16.1.4
 title: 修正震慑敌阵对多名敌人的减益顺序
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 13:04'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -54,6 +54,8 @@ ordinal: 88000
 PR181当前9c5df6c3的Quality40098324844 check与presentation双成功后，已squash合入d18d511c。仍无官方导入/原神或手机实测；完整原版规则和随机流未整体关闭。
 
 补记已核合后CI40099034137的check/presentation双成功；此处只收口已交付PR181的离线切片，不扩大父任务严格规则或平台验收。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -3,9 +3,9 @@ id: TASK-52.2
 title: 领取药水后立即刷新顶部药水栏
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 15:55'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-4
 dependencies: []
@@ -37,6 +37,8 @@ ordinal: 91000
 
 <!-- SECTION:NOTES:BEGIN -->
 已证实根因：processPotionReward调用refresh()仅重绘战斗面板，未触发宿主onChange；改用refresh(ok)。新增真实生成树测试在旧实现失败：0/3不变为1/3，2/3不变为3/3；修复后丢弃UI10组、药水奖励3组、独立领取2组及宿主/布局JS7项全过。覆盖四种按钮状态、满槽拒绝、丢弃后补领、放弃与重复输入。复审确认仅成功事务通知宿主，失败仍局部重绘，保留原输入归属保护。Codex直接处理这一跨控制器关键通知修复，无外部委派或模型费用；额度节省未知。未构建gil、未导入或实机复测，父任务平台验收仍保留。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

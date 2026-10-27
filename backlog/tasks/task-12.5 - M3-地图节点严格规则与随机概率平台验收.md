@@ -3,9 +3,9 @@ id: TASK-12.5
 title: 实测地图、价格和掉落概率是否正确
 status: To Do
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -34,3 +34,9 @@ ordinal: 78000
 - [ ] #2 在同一个版本实际交易和领奖，金币、物品和概率计数都正确；不能重复领或走非法路线。
 - [ ] #3 哪些通过、哪些有差异、哪些还没查清分别写明；能通关不等于这些都通过了。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->

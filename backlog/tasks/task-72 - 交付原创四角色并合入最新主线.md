@@ -3,9 +3,9 @@ id: TASK-72
 title: 交付原创四角色并合入最新主线
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-26 11:28'
-updated_date: '2026-10-27 04:23'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4

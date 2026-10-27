@@ -3,9 +3,9 @@ id: TASK-4.4
 title: 敌人意图一眼看懂，状态详情改成分组卡片
 status: In Progress
 assignee:
-  - '@Claude'
+  - '@Furinya'
 created_date: '2026-10-24 10:34'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-26'
 labels:
   - awaiting-live
@@ -54,4 +54,6 @@ ordinal: 85000
 2026-10-24：虚弱/缠绕103053改为102045；其余共用图形及新实机核对边界见docs/design/BATTLE_IMPLEMENTATION.md。根工作树验证13项主题/布局与53项战斗UI通过；未构建gil/导入/实机，AC5保持待验。
 
 2026-10-24 用户截图反馈修正：虚弱/缠绕由含上箭头剑的103053改为主题既有削弱102045，血条与详情共享映射；其他共用图标和待实机核对限制记入docs/design/BATTLE_IMPLEMENTATION.md。build:theme及13项主题/布局测试通过；未构建gil、未导入或实机，不勾选AC5。
+
+负责人字段规范化：原记录 @Claude 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

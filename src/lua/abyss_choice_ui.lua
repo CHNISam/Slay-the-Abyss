@@ -131,7 +131,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
             local box=child("card"..slot)
             local card=self.cards[(self.page-1)*10+slot]
             box:SetVisible(card~=nil)
-            box:GetChild("hit").interactable=card~=nil and not self.confirming
+            local hit=box:GetChild("hit");hit.interactable=card~=nil and not self.confirming;hit.raycastTarget=hit.interactable
             if card then
                 caption(box,cardText(card))
                 local picked=selected(kind=='potion'and card.id or card.uid)~=nil
@@ -144,12 +144,12 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         end
         local confirm=child("confirm")
         caption(confirm,kind=="scry" and (#self.selected==0 and "全部保留" or "确认弃置") or "确认选择")
-        confirm:GetChild("hit").interactable=countAllowed() and not self.confirming
+        local confirmHit=confirm:GetChild("hit");confirmHit.interactable=countAllowed() and not self.confirming;confirmHit.raycastTarget=confirmHit.interactable
         for _,name in ipairs({"before","after"}) do
             local box=root:GetChild(name)
             if box then
                 box:SetVisible(#self.cards>10)
-                box:GetChild("hit").interactable=not self.confirming and (name=="before" and self.page>1 or name=="after" and self.page*10<#self.cards)
+                local hit=box:GetChild("hit");hit.interactable=not self.confirming and (name=="before" and self.page>1 or name=="after" and self.page*10<#self.cards);hit.raycastTarget=hit.interactable
             end
         end
     end

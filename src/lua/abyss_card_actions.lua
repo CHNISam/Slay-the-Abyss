@@ -354,7 +354,7 @@ function M.apply(combat,state,item)
             source.maxHp=source.maxHp+e.maxHp
             local beforeHp=source.hp
             if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,e.maxHp,nil,'feed')
-            else source.hp=math.min(source.maxHp,source.hp+e.maxHp)end
+            else source.hp=math.min(source.maxHp,source.hp+(source==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or e.maxHp))end
             Events.emit(state,"max_hp",{amount=e.maxHp,target=source.id})
             require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
