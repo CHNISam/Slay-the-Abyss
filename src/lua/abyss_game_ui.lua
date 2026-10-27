@@ -381,14 +381,14 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function refreshPotionEntry(run)
         local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
-        potionHit.interactable=canManagePotions(run)
+        potionHit.interactable=canManagePotions(run);potionHit.raycastTarget=potionHit.interactable
         for _,state in ipairs({"normal","hover","pressed","disabled"})do
             potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..Run.potionCapacity(run) or "药水"
         end
     end
     local function refreshDeckEntry(run)
         local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
-        deckHit.interactable = not self.battleUI.busy
+        deckHit.interactable = not self.battleUI.busy;deckHit.raycastTarget=deckHit.interactable
         -- The shared deck button carries the deck size, so no screen repeats it as loose text.
         for _, state in ipairs({ "normal", "hover", "pressed", "disabled" }) do
             local variant = deckHit:GetChild(state)
@@ -459,7 +459,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 or self.exitError and "退出请求失败，请重试或继续游戏。" or ""
             local enabled = not self.settlementRequested and not self.settlementBusy
             for _, name in ipairs({"cancel", "confirm"}) do
-                exitPanel:GetChild(name):GetChild("hit").interactable = enabled
+                local hit=exitPanel:GetChild(name):GetChild("hit");hit.interactable,hit.raycastTarget=enabled,enabled
             end
         end
     end

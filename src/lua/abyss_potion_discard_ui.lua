@@ -42,13 +42,13 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
             local definition=id and find(self.run.data.potions.potions,id)
             child('slot'..slot):SetVisible(slot<=capacity)
             caption('slot'..slot,'槽 '..slot..'\n'..(definition and definition.name or '空槽'))
-            child('slot'..slot):GetChild('hit').interactable=slot<=capacity and definition~=nil
+            local hit=child('slot'..slot):GetChild('hit');hit.interactable=slot<=capacity and definition~=nil;hit.raycastTarget=hit.interactable
         end
         local selected=self.selected
         child('detail').text=selected and detail(find(self.run.data.potions.potions,selected.id)) or '尚未选择药水。'
         local view=selected and Run.potionView(self.run)[selected.slot]
-        child('discard'):GetChild('hit').interactable=view and view.canDiscard~=false or false
-        child('use'):GetChild('hit').interactable=self.run.phase~='combat' and view and view.canUse or false
+        local discard=child('discard'):GetChild('hit');discard.interactable=view and view.canDiscard~=false or false;discard.raycastTarget=discard.interactable
+        local use=child('use'):GetChild('hit');use.interactable=self.run.phase~='combat' and view and view.canUse or false;use.raycastTarget=use.interactable
         if view and view.reason=='potion_event_restricted' then
             child('detail').text=child('detail').text..'\n此事件中不能使用或丢弃药水。'
         end

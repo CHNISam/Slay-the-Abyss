@@ -28,7 +28,7 @@ end
 local function click(root,path,event)
  local c=hit(root,path);local parent=c
  while parent do assert(parent.visible,'hidden click '..path);parent=parent.parent end
- assert(c.interactable~=false,'disabled click '..path)
+ assert(c.raycastTarget~=false and (c.kind~='presetButton' or c.interactable~=false),'disabled click '..path)
  return assert(c.listeners.click,path)(event)
 end
 local function pointer(root,path,kind,id)return assert(hit(root,path).listeners[kind],path..kind)({touchId=id})end
