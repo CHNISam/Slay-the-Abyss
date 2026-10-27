@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 local Map = require("abyss_map")
 local MapUI = require("abyss_map_ui")
 local Theme = require("abyss_theme")
@@ -10,14 +11,14 @@ local function control()
     function self:GetChild(name) return self.children[name] end
     function self:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
     function self:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function self:SetSizeDelta(w, h) self.w, self.h = w, h end
+    function self:SetSizeDelta(w, h) NativeContract.sizeDelta(w,h); self.w, self.h = w, h end
     function self:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
     function self:SetImage(...)
         assert(select("#", ...) == 2, "SetImage expects exactly source and id")
         local source, id = ...
         assert(source == "static"); self.image = id
     end
-    function self:AddCursorEventListener(event, fn)
+    function self:AddCursorEventListener(event, fn) NativeContract.listener(event,fn);
         if event == "click" then assert(not self.click); self.click = fn return end
         self.listeners = self.listeners or {}
         assert(not self.listeners[event]); self.listeners[event] = fn

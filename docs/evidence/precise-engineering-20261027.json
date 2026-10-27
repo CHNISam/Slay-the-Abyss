@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "base": "20c6815e02d5fd47f6811f924328e7ddc5c7f6df",
+  "metrics": [
+    {
+      "file": "src/lua/abyss_act2_ai.lua",
+      "subject": "function 'choose'",
+      "before": 147,
+      "afterFile": "src/lua/abyss_act2_ai.lua",
+      "after": 2
+    },
+    {
+      "file": "src/lua/abyss_character_presentation.lua",
+      "subject": "function 'fragments'",
+      "before": 289,
+      "afterFile": "src/lua/abyss_character_presentation_text.lua",
+      "after": 15
+    },
+    {
+      "file": "src/lua/abyss_combat.lua",
+      "subject": "function 'queuedHandlers.effect'",
+      "before": 191,
+      "afterFile": "src/lua/abyss_combat.lua",
+      "after": 1
+    },
+    {
+      "file": "src/lua/abyss_effects.lua",
+      "subject": "function 'M.apply'",
+      "before": 246,
+      "afterFile": "src/lua/abyss_effects.lua",
+      "after": 13
+    },
+    {
+      "file": "src/lua/abyss_feedback.lua",
+      "subject": "function 'step'",
+      "before": 139,
+      "afterFile": "src/lua/abyss_feedback.lua",
+      "after": 12
+    },
+    {
+      "file": "src/lua/abyss_feedback.lua",
+      "subject": "function 'paint'",
+      "before": 97,
+      "afterFile": "src/lua/abyss_feedback.lua",
+      "after": 11
+    },
+    {
+      "file": "src/lua/abyss_game_ui.lua",
+      "subject": "function 'self.refresh'",
+      "before": 141,
+      "afterFile": "src/lua/abyss_game_ui.lua",
+      "after": 14
+    },
+    {
+      "file": "src/lua/abyss_node_ui.lua",
+      "subject": "method 'self.render'",
+      "before": 143,
+      "afterFile": "src/lua/abyss_node_ui.lua",
+      "after": 11
+    }
+  ],
+  "architecture": {
+    "modules": 189,
+    "edges": 1080,
+    "deferredBefore": 45,
+    "deferredAfter": 40,
+    "newDeferred": 0,
+    "beforeModules": 178,
+    "beforeEdges": 1051
+  },
+  "static": {
+    "before": 89,
+    "after": 84,
+    "new": 0,
+    "moved": 9,
+    "removed": 5
+  },
+  "responsibilities": {
+    "modules": 18,
+    "measurements": 352,
+    "functions": 341,
+    "max": 15,
+    "limit": 15
+  },
+  "behavior": {
+    "affected": {
+      "beforePass": 35,
+      "beforeFail": 10,
+      "afterPass": 45
+    },
+    "ai": {
+      "traces": 1560,
+      "bytes": 785755,
+      "sha256": "b5e7c473bc71c0b9c4494cc838ac2969b1f8a970130ca2d3999f7a9619a3a35f"
+    },
+    "wording": {
+      "records": 361,
+      "hash": 1837256485
+    },
+    "nativeWrites": {
+      "records": 72915,
+      "hash": 148113441
+    }
+  },
+  "constraints": {
+    "newDependencies": 0,
+    "changedWorkflowFiles": 0,
+    "changedBranchProtection": false,
+    "raisedTimeouts": 0,
+    "broaderExceptions": 0
+  },
+  "scope": "Eight requested entry points and every extracted helper; unrelated historical hotspots remain outside this slice.",
+  "independentReviews": {
+    "affected": "collaboration:/root/architecture/5ebf2b8",
+    "architecture": "collaboration:/root/affected/f4c9d51",
+    "core": "collaboration:/root/architecture/786c5be",
+    "presentation": "collaboration:/root/ui_contract/a3b6e03",
+    "delivery": "collaboration:/root/affected/d725ceb"
+  },
+  "initialBase": "965616d505b1728727575e3d8fd979ed66190003",
+  "frozenMockBodyProtection": {
+    "beforeFail": 2,
+    "afterPass": 7,
+    "deletionNegatives": 4,
+    "changedFrozenHashes": 0
+  }
+}

@@ -1,8 +1,8 @@
 {
   "owner": "TASK-74",
   "reviewedDate": "2026-10-27",
-  "previousEngineeringSource": "a4dac7723af8262a314758c87d92f421afea4911",
-  "reason": "Merge of accepted c91f0d22 and PR238: exact source statements reviewed; normalized file/code/column/message counts bounded by the union of both parent historical baselines. Positions only; no new diagnostic exemption. Current integration hooks relocate the same reviewed historical statements; no new normalized diagnostics. Library acquisition picker wiring relocates14 identical normalized NodeUI diagnostics; reviewed exact code/column/message counts unchanged, positions and owner-line references only. No new warning exemption.",
+  "previousEngineeringSource": "20c6815e02d5fd47f6811f924328e7ddc5c7f6df",
+  "reason": "TASK-74 precise responsibility governance on develop20c6815: 9 existing UI warnings move with the same reviewed statements; 5 obsolete warning entries removed (4 unused feedback locals, 1 eliminated node-card shadow). All upstream warning identities and source-owner references retained; no new diagnostic exemption.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
@@ -272,49 +272,21 @@
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 332,
+      "line": 397,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 121"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 403,
-      "column": 15,
-      "code": "W211",
-      "message": "unused variable 'a'"
-    },
-    {
-      "file": "src/lua/abyss_feedback.lua",
-      "line": 450,
-      "column": 23,
-      "code": "W311",
-      "message": "value assigned to variable 'ix' is unused"
-    },
-    {
-      "file": "src/lua/abyss_feedback.lua",
-      "line": 450,
-      "column": 27,
-      "code": "W311",
-      "message": "value assigned to variable 'iy' is unused"
-    },
-    {
-      "file": "src/lua/abyss_feedback.lua",
-      "line": 469,
-      "column": 38,
-      "code": "W311",
-      "message": "value assigned to variable 'fade' is unused"
-    },
-    {
-      "file": "src/lua/abyss_feedback.lua",
-      "line": 523,
+      "line": 639,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 121"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 591,
+      "line": 707,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 121"
@@ -503,49 +475,42 @@
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 737,
+      "line": 1045,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 100"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 923,
-      "column": 35,
-      "code": "W431",
-      "message": "shadowing upvalue 'card' on line 171"
-    },
-    {
-      "file": "src/lua/abyss_node_ui.lua",
-      "line": 968,
+      "line": 1072,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 100"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 973,
+      "line": 1077,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 100"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 995,
+      "line": 1099,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 100"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 1065,
+      "line": 1169,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 100"
     },
     {
       "file": "src/lua/abyss_node_ui.lua",
-      "line": 1081,
+      "line": 1185,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 100"

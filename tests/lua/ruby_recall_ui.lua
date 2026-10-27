@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 local sliceFirst,sliceLast=...
 sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7
 local sliceRegistered,sliceExecuted=0,0
@@ -35,13 +36,12 @@ local function control(spec,parent)
     function c:GetChild(name)return self.children[name]end
     function c:SetVisible(value)assert(type(value)=='boolean');self.visible=value end
     function c:SetImage(source,id)assert(source=='static' and type(id)=='number');self.imageId=id end
-    function c:SetSizeDelta(width,height)
-        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)
+    function c:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);
         self.size={width,height};self.sizeDeltaX,self.sizeDeltaY=width,height
     end
     function c:SetLocalScale(x,y,z)self.scale={x,y,z}end
     function c:SetAnchoredPosition(x,y)self.x,self.y=x,y end
-    function c:AddCursorEventListener(event,fn)assert(not self.listeners[event]);self.listeners[event]=fn end
+    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn);assert(not self.listeners[event]);self.listeners[event]=fn end
     function c:emit(event,id)return assert(self.listeners[event],event)({touchId=id})end
     for _,child in ipairs(spec.children or {})do c.children[child.name]=control(child,c)end
     return c

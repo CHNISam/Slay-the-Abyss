@@ -1,3 +1,4 @@
+local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 return function(first,last)
 first,last=assert(first),assert(last)
 local registered=0
@@ -15,13 +16,13 @@ local Presentation = require("abyss_presentation")
 local Control = {}
 function Control:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
 function Control:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-function Control:AddCursorEventListener(event, fn)
+function Control:AddCursorEventListener(event, fn) NativeContract.listener(event,fn);
     self.listeners = self.listeners or {}
     self.listeners[event] = fn
     if event == "click" then self.click = fn end
 end
 function Control:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-function Control:SetSizeDelta(x, y) self.sizeDeltaX, self.sizeDeltaY = x, y end
+function Control:SetSizeDelta(x, y) NativeContract.sizeDelta(x,y); self.sizeDeltaX, self.sizeDeltaY = x, y end
 function Control:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
 function Control:SetImage(...)
     assert(select("#", ...) == 2, "SetImage expects exactly source and id")
@@ -1269,4 +1270,5 @@ end)
 assert(registered==53,'all original 53 UI cases must remain registered')
 assert(count==last-first+1,'UI slice must execute its entire range')
 print("LUA_UI_PASS " .. count .. " range=" .. first .. "-" .. last)
+return registered, control
 end
