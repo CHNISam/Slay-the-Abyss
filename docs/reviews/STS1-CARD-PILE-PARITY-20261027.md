@@ -48,3 +48,9 @@
 本轮还通过卡面/布局/原型24项、卡图装配Python6项，以及旧牌库6组、pile4组、正常入口4组、motion5组、draw4组、drag response3组、drag boundary、拖牌source10组、gestures、card play11组和preview19组。固定cardView Luacheck无诊断、复杂度≤15，JS语法与diff检查通过。
 
 **原53组当前完整合同尚未通过，不作全绿声明。** 两次完整合同分别在第46组旧坐标断言和原片2的60秒预算失败；后者已保留原27–38片及全部六个seed、每seed最多20动作和完整状态/RNG比较。独立收集片2也曾在60秒超时，前33组完成，正在第34组实际路径内；未改片2、预算、种子或断言。主 session 要求暂停继续分片，等远端实际结果再判断CPU争用和必要调整。原始本地日志与状态表保留在独立树 `work/card-regression-*.log`、`work/card-regressions-summary.json`，没有删除失败记录。完整CI、同候选构建和实机仍由主 session 验证。
+
+随后原第34组独立运行全部六个seed、每seed最多20动作及完整状态/RNG断言，通过52.912秒；原27–38合片几乎没有剩余预算。主 session 据此明确授权只按组边界进一步拆分：1–26、27–33、34、35–38、39–44、45–47、48–53，共七片，各沿用原60秒。`scripts/test-lua.mjs` 仅给新增6/7片加入同一fixture白名单，保持原layout注入、错误处理、maxBuffer和既有所有超时。
+
+新增纯元测试先核对完整正文原hash与七片文件/范围一次覆盖；原实际执行合同仍在完整CI中执行全部七片并逐个核对53个成功组号。原34正文没有修改，原片2的其余27–33七组实际通过8.594秒，35–38四组通过3.114秒；纯元测试及runner诊断7项通过，额外验证新增片仍注入layout且默认60000/显式321毫秒原样传递。没有重复运行已通过的52秒第34组，也没有重复本地整套53组；当前新SHA的完整结果仍等远端CI。
+
+第34组52.912秒证据对应原样提交到 `6da4016d1e5d54f15f6af5baba815861a97178d6` 的运行时快照（启动时尚未提交，不冒充新提交的干净HEAD重跑）；`battle_ui_cases.lua` Git blob `7e081effa45d88d28b2d277887345329f37eee3c` / SHA256 `b0e2914345609fac6ae48956df6ff0b5591f5cce393ce24999458104954d19f2`，cardView Git blob `39838706f71f012dd5e8bb554c2078e3e9ddaa09`。本次分片前后support正文逐字节相同，仍保持全部六个seed。原日志 `work/battle-ui-case34.log` SHA256 `8d3c5ab13f3e08caab38016f29118438e657d7d25394e00a08996056bd33e4d1` 保留。
