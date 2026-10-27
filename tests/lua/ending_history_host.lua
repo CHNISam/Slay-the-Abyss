@@ -2,6 +2,7 @@
 -- playthrough evidence. No key flags or permanent victory history are injected.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Map=require('abyss_map')
+local Run=require('abyss_run')
 local count=0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function test(name,fn)fn();count=count+1;print('PASS ending host '..count..' '..name)end
@@ -14,7 +15,9 @@ local function fixture(options)
  return ui
 end
 local function terminal(ui)
- local run,map=ui.run,ui.map;local third=Map.generate(run.data,run.runSeed,3)
+ local run,map=ui.run,ui.map
+ run.act=3 -- controlled chapter boundary; freeze its real birth before canonical generation.
+ local third=Map.generate(run.data,run.runSeed,3,assert(Run.freezeMapContext(run)))
  for k in pairs(map)do map[k]=nil end;for k,v in pairs(third)do map[k]=v end
  while Map.available(map)[1].floor<51 do assert(Map.choose(map,Map.available(map)[1].id))end
  run.act,run.floor,run.phase=3,50,'map';run.encounterTier,run.encounterId='boss','controlled_third_boss'

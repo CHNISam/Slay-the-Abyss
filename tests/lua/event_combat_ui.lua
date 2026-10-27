@@ -9,15 +9,22 @@ local function get(root,path)
  local control=root;for part in path:gmatch('[^/]+')do control=assert(control:GetChild(part),path)end;return control
 end
 local function fixture(id)
+ -- Select the test event through the supported rules seam, never by changing
+ -- the canonical map graph. All other rules and actual event behavior remain.
+ local data=F.Combat.copy(F.Data);data.rules.events.encounterId=id
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
- local host=F.GameUI.new(root,F.Data,F.Presentation,'click',{
+ local host=F.GameUI.new(root,data,F.Presentation,'click',{
   seed=42,prologue=false,campaign=true,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
  root.ui=host;assert(host:start())
  local run=host.run
  run.act,run.floor=3,34;run.encounters=Queue.new(run.runSeed,3);run.unknown.pools=Pool.new('full',false,3)
  run.relicPool.queues.rare={'TungstenRod'} -- controlled source queue; no identity reroll.
- local map=Map.generate(run.data,run.runSeed,3);local first=assert(Map.available(map)[1])
- for _,node in ipairs(map.nodes)do if node.id==first.id then node.type,node.eventId='event',id end end
+ local map=Map.generate(run.data,run.runSeed,3,assert(Run.freezeMapContext(run)))
+ local routes=dofile('tests/lua/support/map_routes.lua')
+ local path=routes.to(map,function(node)return node.type=='event'end)
+ for i=1,#path-1 do assert(Map.choose(map,path[i]))end
+ local first=routes.at(map,path[#path]);run.floor=map.floor
+ assert(F.Nodes.restoreMap(run,map),'controlled route must retain the canonical source graph')
  host.map,host.mapUI.map,host.nodeUI.map=map,map,map
  host:refresh();assert(host.mode=='map'and get(root,'mapPanel').visible)
  assert(host.mapUI:choose(first.id))
