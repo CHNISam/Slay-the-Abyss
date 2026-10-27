@@ -4,6 +4,8 @@ local Effects = require("abyss_effects")
 local Events = require("abyss_events")
 local EnemyAI = require("abyss_enemy_ai")
 local CardActions = require("abyss_card_actions")
+local PlatedArmor = require('abyss_plated_armor')
+local Act2Powers = require('abyss_act2_powers')
 local Curses = require("abyss_curses")
 local EnemyRandom = require("abyss_enemy_random")
 local SourceRandom = require("abyss_sts_random")
@@ -13,7 +15,21 @@ local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTempo
     statusView = Actors.statusView, block = Actors.block,
     attackAmount = Actors.attackAmount, blockAmount = Actors.blockAmount }
 
+local function actionOwned(state)
+    return state.resolvingEffects or state.resolvingCard or state.actionQueue or state.drainingCardActions
+        or state.pendingChoice or state.pendingPlay or state.pendingScry or state.pendingHandChoice
+        or state.pendingDiscard or state.pendingPileChoice
+end
+local function standaloneBoundary(state,sharedBatch)
+    return not sharedBatch and not actionOwned(state) and not state.cardActions and not state.queuedCards
+end
+local function settleStandalone(state,settle)
+    -- New tails may now exist; recheck owners, not their newly created queue.
+    if settle and not actionOwned(state) and (state.cardActions or state.queuedCards) then CardActions.drain(M,state)end
+end
+
 function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
+    local settle=standaloneBoundary(state,retaliation)
     local before, sourceBefore = target.hp, source and source.hp or 0
     local poison
     if source==state.player and not fixed and (source.statuses.envenom or 0)>0 then
@@ -36,6 +52,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount)
         EnemyAI.flush(state)
         if not state.resolvingCard then Actors.flushCurlUp(state) end
     end
+    settleStandalone(state,settle)
     return lost
 end
 
@@ -48,7 +65,8 @@ function M.retaliate(state, source, target, amount)
     return lost
 end
 
-local function resolveEffects(state, effects, source, target, playedCard, queuedEnemyAction)
+local function resolveEffects(state, effects, source, target, playedCard, queuedEnemyAction, deferCompletion)
+    local settle=standaloneBoundary(state,queuedEnemyAction)
     if queuedEnemyAction then
         assert(state.phase == "enemy" and source ~= state.player and target == state.player, "invalid queued enemy action")
     end
@@ -57,11 +75,12 @@ local function resolveEffects(state, effects, source, target, playedCard, queued
     local called, dealt = pcall(Effects.apply, M, state, effects, source, target, playedCard, queuedEnemyAction)
     state.resolvingEffects = previous
     if not called then error(dealt, 0) end
-    if not previous then
+    if not previous and not deferCompletion then
         EnemyAI.afterEffects(state, source)
         EnemyAI.flush(state, source)
         if not state.resolvingCard and not queuedEnemyAction then Actors.flushCurlUp(state) end
     end
+    settleStandalone(state,settle)
     return dealt
 end
 
@@ -623,7 +642,7 @@ local function resolvePlay(state, uid, targetIndex, instance, position, card)
         local ok, reason = require("abyss_discard").flushDraws(state, M)
         assert(ok, reason)
     end
-    if not previous then Actors.flushCurlUp(state) end
+    if not previous then Actors.flushCurlUp(state);drainNative(state) end
     finish(state)
     return true
 end
@@ -634,7 +653,7 @@ local queuedHandlers = {}
 queuedHandlers.allow = function(state, action)
     if state.player.hp <= 0 then return false end
     if M.outcome(state) then
-        return action.kind == "useCard" or Effects.allowedAfterVictory(action.effect)
+        return action.kind == "useCard" or CardActions.reactionRetained(action.effect) or Effects.allowedAfterVictory(action.effect)
     end
     return true
 end
@@ -678,6 +697,10 @@ local function normalMatrix(state, rows)
     return dealt
 end
 queuedHandlers.effect = function(state, action, queue)
+    if PlatedArmor.supports(action.effect.op)then
+        return PlatedArmor.apply(M,state,action.effect,CardActions.enqueueReaction)
+    end
+    if Act2Powers.supports(action.effect.op)then return Act2Powers.apply(Actors,state,action.effect)end
     if action.effect.op=='colorless' then
         require('abyss_colorless_cards').apply(M,state,{effect=action.effect,source=state.player})
         return true
@@ -1082,7 +1105,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
     local triggerActive=#triggerPlan.top+#triggerPlan.beforeUse+#triggerPlan.afterUse>0
         or (state.player.statuses.envenom or 0)>0
-    local advanced=Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0 or triggerActive
+    local advanced=Effects.requiresQueue(card.effects) or card.experimental==true or require('abyss_hp_loss').requiresQueue(state) or triggerActive
     if not advanced then
         actions[1]={kind="effect",effect={op="effectBatch",effects=copy(card.effects)}}
     else
@@ -1178,7 +1201,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     end
     local coreOnly=true
     for _,e in ipairs(items) do if CardActions.supports(e.op) then coreOnly=false end end
-    if coreOnly and not (state.player.statuses.rupture and state.player.statuses.rupture>0) then
+    if coreOnly and not require('abyss_hp_loss').requiresQueue(state) then
         local batch={}
         for _,e in ipairs(items) do
             if e.op=="effectBatch" then for _,part in ipairs(e.effects) do batch[#batch+1]=part end
@@ -1334,7 +1357,7 @@ function M.play(state, uid, targetIndex, commandId)
     if (state.player.statuses.evolve or 0)>0 or (state.player.statuses.fire_breathing or 0)>0 then
         for _,effect in ipairs(card.effects) do if effect.op=='draw' or effect.op=='requestDiscard' then drawHooks=true end end
     end
-    local queued = Effects.requiresQueue(card.effects) or card.experimental==true or (state.player.statuses.rupture or 0)>0
+    local queued = Effects.requiresQueue(card.effects) or card.experimental==true or require('abyss_hp_loss').requiresQueue(state)
         or state.player.stance~=nil
         or drawHooks or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
     local restore = queued and require("abyss_snapshot").capture(state) or savePlayState(state,instance)
@@ -1467,6 +1490,87 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     return true
 end
 
+-- AbstractMonster.changeState defaults to no-op. Only this existing enemy
+-- handles ARMOR_BREAK; it is independent of the current actor's life state.
+function M.changeMonsterState(state,enemy,name)
+    if name=='ARMOR_BREAK' and enemy.ai and enemy.ai.policy=='parasite'then
+        for i,intent in ipairs(enemy.intents)do if intent.id=='stunned'then enemy.intentIndex=i;break end end
+        event(state,'enemy_interrupt',{enemy=enemy.id,id='stunned'})
+    end
+end
+function M.enemyActionRetained(effect)
+    return effect.stage=='payload' and Effects.allowedAfterVictory(effect.payload)
+end
+function M.resolveEnemyAction(state,effect,enemy)
+    local stage=effect.stage
+    if stage=='payload'then
+        return resolveEffects(state,{effect.payload},enemy,state.player,nil,true,true)
+    elseif stage=='effectsComplete'then
+        -- Keep existing Guardian/AI completion at the original whole-intent
+        -- boundary, not between the newly separated DamageActions.
+        EnemyAI.afterEffects(state,enemy);EnemyAI.flush(state,enemy)
+    elseif stage=='split'then splitEnemy(state,enemy)
+    elseif stage=='escape'then assert(M.escapeEnemy(state,enemy),'invalid escape')
+    elseif stage=='v4Complete'then require('abyss_original_v4').endEnemyAction(M,state)
+    elseif stage=='ownerEnd'then
+        if Actors.isActive(enemy)then
+            Actors.endTurn(state,enemy)
+            if effect.advanced then
+                local powers=require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy)
+                for i=#powers,1,-1 do
+                    CardActions.enqueue(state,{op='enemyAction',stage='endPower',payload=powers[i]},enemy,nil,nil,true)
+                end
+            end
+        end
+    elseif stage=='endPower'then
+        local power=effect.payload
+        if power.op=='applyStatus'then
+            Actors.applyPower(state,enemy,power.status,power.value,state.player)
+        else
+            assert(power.op=='removeStatus','unknown enemy owner-end Power')
+            require('abyss_power_schedule').remove(state,enemy,power.status)
+            enemy.statuses[power.status]=nil
+        end
+    elseif stage=='roll'then
+        local captured
+        for _,intent in ipairs(enemy.intents)do if intent.id==effect.intentId then captured=intent;break end end
+        EnemyAI.afterAction(state,enemy,aiRandom,assert(captured,'missing queued enemy intent'))
+    else error('unknown queued enemy action')end
+end
+local function queueEnemyTurn(state,enemy,intent,advanced)
+    local function append(stage,payload)
+        CardActions.enqueue(state,{op='enemyAction',stage=stage,payload=payload,intentId=intent.id,advanced=advanced},enemy)
+    end
+    if intent.kind=='split'then append('split')
+    elseif intent.kind=='escape'then append('escape')
+    else
+        for _,effect in ipairs(intent.effects)do
+            local count=(effect.op=='damage' or effect.op=='damageAll') and (effect.times or 1) or 1
+            for _=1,count do
+                local payload=copy(effect)
+                if effect.op=='damage' or effect.op=='damageAll'then payload.times=nil end
+                append('payload',payload)
+            end
+        end
+        append('effectsComplete')
+    end
+    if state.originalV4 then append('v4Complete')end
+    append('ownerEnd');append('roll')
+    -- All original actions exist before any BOTTOM damage callback can append.
+    -- This deliberately does not activate the advanced actionQueue.
+    CardActions.drain(M,state)
+    if state.originalV4 and state.originalV4.enemyAction then
+        assert(M.outcome(state),'unfinished V4 enemy action')
+        require('abyss_original_v4').endEnemyAction(M,state)
+    end
+end
+local function platedGroupEnd(state)
+    for _,enemy in ipairs(state.enemies)do
+        PlatedArmor.preEndCards(state,enemy,CardActions.enqueueReaction)
+    end
+    CardActions.drain(M,state)
+end
+
 local function advancedTurnCleanup(state)
     if state.catalog.cards.evolve or state.catalog.cards.claw or state.catalog.cards.blur or state.catalog.cards.wallop then return true end
     local powers=state.player and state.player.statuses or {}
@@ -1494,8 +1598,8 @@ local function endExperimentalTurn(state)
     end
     if resetCosts then require("abyss_corruption").resetEndTurn(state) end
     local preCards={}
-    for _,entry in ipairs(require('abyss_power_schedule').list(state,{metallicize=true,like_water=true})) do
-        if entry.id=='metallicize' then preCards[#preCards+1]={kind='effect',effect={op='block',value=entry.amount,fixed=true}}
+    for _,entry in ipairs(require('abyss_power_schedule').list(state,{metallicize=true,plated_armor=true,like_water=true})) do
+        if entry.id=='metallicize' or entry.id=='plated_armor' then preCards[#preCards+1]={kind='effect',effect={op='block',value=entry.amount,fixed=true}}
         else
             local plan=require('abyss_watcher_flow_cards').planHook(state,entry.id,'turn_end_pre_cards')
             for _,effect in ipairs(plan.bottom) do preCards[#preCards+1]={kind='effect',effect=effect} end
@@ -1618,6 +1722,7 @@ local function endExperimentalTurn(state)
             Actors.startTurnEffects(state, enemy)
             EnemyAI.hpLost(state, enemy, before) -- poison is direct HP loss
             EnemyAI.flush(state)
+            CardActions.drain(M,state)
             if finish(state) then return true end
         end
     end
@@ -1633,29 +1738,12 @@ local function endExperimentalTurn(state)
                 and (intent.id == enemy.ai.mugIntent or intent.id == enemy.ai.lungeIntent) then
                 M.stealGold(state, enemy, enemy.ai.stealAmount)
             end
-            if intent.kind == "split" then splitEnemy(state, enemy)
-            elseif intent.kind == "escape" then assert(M.escapeEnemy(state, enemy), "invalid escape")
-            else resolveEffects(state, intent.effects, enemy, state.player, nil, true) end
-            if finish(state) then return true end
-            -- Thorns can kill this attacker while other enemies remain alive.
-            if Actors.isActive(enemy) then
-                Actors.endTurn(state, enemy)
-                local restore=require('abyss_silent_tactics_cards').planHook(state,'shackled','owner_turn_end',enemy)
-                if #restore>0 then
-                    local actions={};for _,effect in ipairs(restore) do
-                        effect.sourceId=enemy.id;actions[#actions+1]={kind='effect',effect=effect}
-                    end
-                    local queue=require('abyss_action_queue');queue.start(state,actions)
-                    assert(queue.run(state,queuedHandlers)==true,'unexpected enemy end selection')
-                end
-            end
-            -- A source-queued RollMove survives its owner's death while
-            -- teammates live. finish above clears it on the final death.
-            EnemyAI.afterAction(state, enemy, aiRandom, intent)
-            Actors.flushCurlUp(state)
+            queueEnemyTurn(state,enemy,intent,true)
             if finish(state) then return true end
         end
     end
+    platedGroupEnd(state)
+    if finish(state)then return true end
     -- Duration powers belong to the shared round boundary, after all actions.
     -- A new monster-sourced power can suppress its first reduction.
     state.keepBlockOnNextStart=state.player.statuses.blur~=nil or nil
@@ -1686,11 +1774,9 @@ local function endNativeTurn(state)
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do
         for _,c in ipairs(pile) do c.costForTurn=nil end
     end
-    for _,id in ipairs(Actors.powerSequence(state.player,{'metallicize','plated_armor'})) do
-        CardActions.enqueue(state,{op="block",value=state.player.statuses[id],fixed=true})
-        CardActions.drain(M,state)
-        if finish(state) then return true end
-    end
+    PlatedArmor.preEndCards(state,state.player,CardActions.enqueueReaction)
+    CardActions.drain(M,state)
+    if finish(state)then return true end
     local function cleanupPlayerEnd()
     -- Regret snapshots every copy's amount before the end-turn card queue runs.
     -- Auto-use is not a player play: no energy, play hooks or attack modifiers.
@@ -1759,6 +1845,7 @@ local function endNativeTurn(state)
             Actors.startTurnEffects(state, enemy)
             EnemyAI.hpLost(state, enemy, before) -- poison is direct HP loss
             EnemyAI.flush(state)
+            CardActions.drain(M,state)
             if finish(state) then return true end
         end
     end
@@ -1775,23 +1862,12 @@ local function endNativeTurn(state)
                 M.stealGold(state, enemy, enemy.ai.stealAmount)
             end
             if state.originalV4 then require('abyss_original_v4').beginEnemyAction(state,enemy,intent) end
-            if intent.kind == "split" then splitEnemy(state, enemy)
-            elseif intent.kind == "escape" then assert(M.escapeEnemy(state, enemy), "invalid escape")
-            else resolveEffects(state, intent.effects, enemy, state.player, nil, true) end
-            CardActions.drain(M,state)
-            if state.originalV4 then require('abyss_original_v4').endEnemyAction(M,state) end
-            if finish(state) then return true end
-            -- Thorns can kill this attacker while other enemies remain alive.
-            if Actors.isActive(enemy) then
-                Actors.endTurn(state, enemy)
-            end
-            -- A source-queued RollMove survives its owner's death while
-            -- teammates live. finish above clears it on the final death.
-            EnemyAI.afterAction(state, enemy, aiRandom, intent)
-            Actors.flushCurlUp(state)
+            queueEnemyTurn(state,enemy,intent,false)
             if finish(state) then return true end
         end
     end
+    platedGroupEnd(state)
+    if finish(state)then return true end
     if state.originalV4 then
         if cleanupPlayerEnd() then return true end
         require('abyss_original_v4').cleanup(state)

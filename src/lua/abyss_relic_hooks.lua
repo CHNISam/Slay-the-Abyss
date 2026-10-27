@@ -5,7 +5,7 @@ local A=require('abyss_actor')
 local E=require('abyss_events')
 local S=require('abyss_sts_random')
 local M={}
-local aliases={Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
+local aliases={['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
  MealTicket='meal_ticket',MawBank='maw_bank',['Blood Vial']='blood_vial',
  ['Bag of Marbles']='bag_of_marbles',Orichalcum='orichalcum',Ectoplasm='ectoplasm',
  Strawberry='strawberry',['Regal Pillow']='regal_pillow',['Toy Ornithopter']='toy_ornithopter',
@@ -139,11 +139,20 @@ function M.beforeObtainCard(run,definition)
 end
 -- Called on the private card entity immediately before permanent insertion,
 -- never on combat generation, upgrade or removal. One dispatch per obtain.
-function M.onObtainCard(run,card,definition)
+function M.onObtainCard(run,card,definition,permanentApi)
  assert(type(card)=='table','invalid obtained card')
  for _,id in ipairs(run.relics or {})do
-  if M.localId(id)=='ceramic_fish' then M.gainGold(run,9)end
+  if M.localId(id)=='ceramic_fish' then M.gainGold(run,9)
+  elseif M.localId(id)=='darkstone_periapt' and (definition.type=='curse' or definition.type=='CURSE') then
+   -- The source tests CURSE color, not STATUS type. No onEquip retroactivity.
+   -- Active/retained combat contexts lack source heal modifiers/health sync.
+   if run.phase=='combat' or run.combat or run.pendingCombatRewards then return false,'darkstone_health_context_unavailable' end
+   assert(permanentApi and type(permanentApi.increaseMaxHp)=='function','missing permanent health API')
+   local ok,why=permanentApi.increaseMaxHp(run,6)
+   if not ok then return false,why end
+  end
  end
+ return true
 end
 function M.onEnterRoom(run,kind,phase)
  -- onEnterRoom runs before justEnteredRoom; preserve those distinct phases.
@@ -200,8 +209,7 @@ function M.hpChanged(state,actor,before)
   -- wasHPLost queues a TOP DrawCardAction; it must not draw while the HP
   -- action is still executing. This is the existing CardActions item ABI.
   -- The outer action owner drains it, including draw-triggered actions.
-  state.cardActions=state.cardActions or {}
-  table.insert(state.cardActions,1,{effect={op='draw',value=3},source=state.player})
+  require('abyss_card_actions').enqueueReaction(state,{op='draw',value=3},true)
  end
 end
 local function energy(state,id,amount)

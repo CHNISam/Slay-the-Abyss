@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 42,
-    "queueMissing": 92,
-    "act1Missing": 100,
-    "registeredLocalEffects": 41,
+    "existingLocalEffects": 43,
+    "queueMissing": 91,
+    "act1Missing": 99,
+    "registeredLocalEffects": 42,
     "fallbackLocalEffects": 1
   },
   "queueProtocol": {
@@ -1311,10 +1311,11 @@
         "onObtainCard",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "darkstone_periapt",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/DarkstonePeriapt.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Outside-combat permanent curse obtain +6 maxHP via canonical Run.increaseMaxHp; active or retained combat/pending-reward health contexts reject atomically. Full source acquisition, natural play and platform evidence remain pending. See tests/fixtures/darkstone-periapt-source-contract.json."
     },
     {
       "id": "Dead Branch",

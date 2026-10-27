@@ -40,7 +40,7 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 12);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 16);
   assert.equal(manifest.sharedCards.length,39);
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
@@ -184,4 +184,30 @@ test('runtime deployment requires the real source modules, dependencies and prof
     const manifest = fresh(); change(manifest);
     assert.ok(validateLaunchContent(manifest, { runtime: false }).some(error => /runtime deployment|deployed entry/.test(error)));
   }
+});
+
+test('three additional Act2 routes record only mocked-local UI wiring while native/natural/history/full-pool gates stay pending',()=>{
+  const manifest=fresh();
+  assert.match(manifest.profiles.events.limitation,/locally wired with mocked/);
+  assert.match(manifest.profiles.events.limitation,/Actual native acceptance NOT_RUN/);
+  for(const id of ['beggar','mausoleum','addict']){
+    const row=manifest.events.find(event=>event.id===id);
+    assert.deepEqual(row.channels,['explicit:Nodes.enter']);
+    assert.equal(row.poolMode,'explicit-only');
+    assert.match(row.naturalAcquisitionLimitation,/LOCAL_MOCKED_UI_WIRED/);
+    assert.match(row.naturalAcquisitionLimitation,/Native-client acceptance NOT_RUN/);
+    assert.match(row.naturalAcquisitionLimitation,/natural eligibility\/history/);
+    assert.match(row.naturalAcquisitionLimitation,/history producer\/persistence/);
+    assert.match(row.naturalAcquisitionLimitation,/complete relic pool acceptance/);
+    assert.match(row.naturalAcquisitionLimitation,/empty mandatory purge group remains pending/);
+  }
+});
+
+test('Back to Basics inventory keeps source-correct empty completion and V4 implementation boundary separate from native acceptance',()=>{
+ const row=fresh().events.find(event=>event.id==='back_to_basics');
+ assert.equal(row.originalId,'Back to Basics');assert.equal(row.poolMode,'explicit-only');
+ assert.deepEqual(row.channels,['explicit:Nodes.enter']);assert.deepEqual(row.choices,['elegance','simplicity','purge','leave']);
+ assert.match(row.naturalAcquisitionLimitation,/Empty Elegance and zero-upgrade Simplicity reach result then separate Leave/);
+ assert.match(row.naturalAcquisitionLimitation,/V4 supports Elegance/);assert.match(row.naturalAcquisitionLimitation,/not a source class rule/);
+ assert.match(row.naturalAcquisitionLimitation,/Native-client acceptance NOT_RUN/);
 });

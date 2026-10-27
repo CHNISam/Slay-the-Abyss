@@ -16,7 +16,7 @@ Stasis排序补充：三职业完整来源元数据由`39c40f8`提供，优先�
 | SnakePlant | HP75–79，7×3或脆弱2/虚弱2；65阈值，普通攻击禁三连、孢子禁连。Malleable初值3，非致命NORMAL生命伤害把当前格挡值排到BOTTOM后+1，所有已排队命中完成后结算，敌人行动结束重置3。 |
 | Champ | HP420；斩击16、处决10×2、掌击12/脆弱2/易伤2、嘲讽虚弱2/易伤2、强化力量2、怒吼移除负面及Shackled后力量6。getMove严格低于半血才转阶段，每四次选招嘲讽，防御最多2次（格挡15、Metallicize5），处决间隔两个动作；15/30/55边界均按原始闭区间。 |
 | Chosen | HP95–99；A0先5×2，再施加Hex1；之后交替在10伤害/易伤2与虚弱3/力量3之间按50阈值选择，在18伤害与5×2之间按40阈值选择。Hex受Artifact拦截；使用非攻击牌才生成Dazed，空抽牌堆不抽随机，非空在0..size-1插入，原顶牌保持。 |
-| ShelledParasite | HP68–72；14层PlatedArmor/初始格挡14；开场100范围AI抽样后额外真实Boolean决定6×2或吸血10。20/60阈值、Fell18/脆弱2不连发（重复时另抽20..99），其余动作禁三连；普通攻击造成生命伤害逐层削甲，破甲动作排BOTTOM后晕眩，晕眩行动先SetMove(Fell)再RollMove。吸血仅治疗实际生命伤害，死亡攻击者不治疗。 |
+| ShelledParasite | HP68–72；14层PlatedArmor/初始格挡14；开场100范围AI抽样后额外真实Boolean决定6×2或吸血10。20/60阈值、Fell18/脆弱2不连发（重复时另抽20..99），其余动作禁三连；普通攻击造成生命伤害逐层削甲，破甲动作排BOTTOM后晕眩，晕眩行动先SetMove(Fell)再RollMove。吸血按伤害返回时捕获的生命伤害（Fairy复活前，最多为受击前HP）先排治疗，再结算反击；全格挡不治疗，非Fairy致死打开死亡画面后不再执行治疗/反击。既有死亡攻击者取消边界仍未与无owner死亡守卫的原版Vampire动作对齐，不据此宣称完整寄生兽顺序一致。 |
 | Byrd | HP25–31，Flight3；1×5啄击、12俯冲、力量1鸣叫。首次37.5%鸣叫；50/70主阈值及40%、37.5%、28.57%次级真实Boolean保留binary32参数。Flight减半，削层和落地排BOTTOM，完全格挡/THORNS/HP_LOSS不削层；敌人行动前补满3；落地晕眩→头槌3→升空，头槌直接SetMove不抽AI。 |
 | Snecko | HP114–120；首次施加Confusion，之后40阈值在尾击8/易伤2与咬击15间选择，咬击禁三连。Confusion优先级0，每次抽到费用非负牌真实抽0..3并持久修改费用，同值保留旧临时费用，X费和不能打出的牌不抽。Artifact可拦截Confusion。 |
 | Mugger | HP48–52；Mug10、Lunge16、Smoke格挡11，盗金15。不同于Looter，Mug/Lunge与死亡的音效各真实消费AI整数0..2；第二次Mug才抽0.6谈话Boolean；第二次Mug另抽0.5决定Smoke或Lunge。复用同源窃金、逃跑、单独返还盗金事务，二盗贼严格为Looter+Mugger。 |
@@ -24,6 +24,14 @@ Stasis排序补充：三职业完整来源元数据由`39c40f8`提供，优先�
 | Collector/TorchHead | Boss282HP，首次召2只TorchHead，第四次行动前选择一次虚弱/易伤/脆弱各3。18火球、格挡15/全体力量3；25/70闭区间阈值、火球禁三连、强化/复活禁连。死槽重建新Torch身份不复用尸体；Torch38–40HP、构造双HP抽样、初始化抽100一次，之后7伤害/SetMove无后续roll；首领死后随从自杀。 |
 | BronzeAutomaton/BronzeOrb | Boss300HP/Artifact3，先召2Orb；Flail7×2/Boost格挡9力量3循环，45Hyperbeam后A0眩晕，原numTurns周期保持。Orb52–58HP、构造双HP抽样，25阈值只选择一次Stasis，70阈值选择仅给Automaton的格挡12，Beam8与Support禁三连。 |
 | ApplyStasisAction/StasisPower | 抽牌堆非空就从抽牌堆选，否则弃牌堆；先稀有、罕见、普通，按原sourceId稳定排序，同ID保留原堆次序；各缺失桶不抽，实际选择抽一次cardRandom，所有桶缺失才整堆原序抽。扣押真实牌实例，归还使用相同UID和全部统计值，满手在死亡时即固定走弃牌；非满手构造受MasterReality升级，满手sameUUID弃牌不升级。无牌不抽随机，Boss死后清场不额外归还牌；回滚覆盖持牌表与原牌引用。 |
+
+## 本地有界顺序修正（非完整源队列等价）
+
+PlatedArmor不再在伤害函数内同步削层：非空且非自身来源的NORMAL实际生命伤害，对已有Power（包括amount0）向当前动作所属队列追加Reduce；最后一层排TOP Remove，Remove仅在目标仍活跃时先调用onRemove再删除状态及两份获得顺序记录，随后BOTTOM ChangeState处理真实Parasite的ARMOR_BREAK。原始多击及卡牌处置先于追加BOTTOM反应；怪物原有效果、既有V4整次攻击反击、owner-end及Roll先于后来追加的BOTTOM削甲/伤口。玩家回合结束处理手牌前的钩子、怪物组结束Plated/Metallicize固定格挡按当时顺序及数值先全部捕获，不让首个格挡回调改变后续快照。
+
+现有CurlUp、Juggernaut、Centennial Puzzle、Flight、Malleable、Stasis及死亡产生的动作仅汇入已有CardActions或已激活actionQueue，不新建竞争动作管理器。真实Book受击回调为Reduce后Wound；Collector/Automaton死亡自杀为TOP，Leader逃跑和Stasis归还为BOTTOM，保留各自死亡/清场与牌身份边界。独立公开Combat.damage及整批applyEffects保留原先无外层拥有者时的已结算返回合同；底层Actor.damage仍只排队。玩家混合Malleable/TOP能力排序是无生产获得路线的既有合成限制，不扩大本次调度范围。
+
+Mystic全体治疗/力量只捕获开始时活跃怪物的引用并逐一复核，不纳入后来追加或同ID替换对象；这是有界接收者合同，不证明整个原版ActionManager等价。V4仅将已存在的正值enemyVampireDamage加入两处“下一次敌人攻击”识别，继续使用既有削伤和整次攻击后的反击边界，不改冻结数值。吸血仍保留上表所述死亡攻击者取消差异。回调替换/故障注入与混合怪物压力测试不是自然遭遇或实机证据。
 
 源编队全部读取`helpers/MonsterHelper.getEncounter`，逐一构造核对如下。其中哨卫、信徒、红蓝奴隶是固定源本来就使用的相同敌人，复用已审计策略；不会用它们替代其他未实现怪物。
 

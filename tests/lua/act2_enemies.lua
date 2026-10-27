@@ -159,11 +159,18 @@ test('Shelled Parasite starts with 14 armor/block and opening Boolean consumes a
  for i,v in ipairs(e.intents)do if v.id=='life_suck'then e.intentIndex=i end end
  s.player.block=7;local hp=e.hp;assert(C.endTurn(s));eq(e.hp,hp+3);eq(e.block,14)
 end)
-test('Parasite armor break interrupts to Stunned then uses Fell history for its bounded reroll',function()
+test('Parasite queued armor break gives a real Stunned turn; independent Fell history keeps bounded reroll',function()
  local s=battle({'shelled_parasite'});local e=s.enemies[1];e.block=0
- for _=1,14 do C.damage(s,s.player,e,1) end
- eq(e.statuses.plated_armor,0);eq(intent(e),'stunned')
+ -- Actor is the enqueue-only low-level API; public Combat.damage settles an
+ -- ownerless standalone action. Model fourteen already-queued source hits.
+ for _=1,14 do A.damage(s,s.player,e,1) end
+ eq(e.statuses.plated_armor,14);assert(intent(e)~='stunned')
+ require('abyss_card_actions').drain(C,s)
+ eq(e.statuses.plated_armor,nil);eq(intent(e),'stunned')
  local hp=s.player.hp;assert(C.endTurn(s));eq(s.player.hp,hp)
+ -- This existing AI branch is independent of the unforced stunned turn;
+ -- changing STUN/FELL history itself is outside the queue slice.
+ s=battle({'shelled_parasite'});e=s.enemies[1]
  for i,v in ipairs(e.intents)do if v.id=='fell'then e.intentIndex=i end end
  local seen={};AI.advance(s,e,function(_,max)seen[#seen+1]=max;return 1 end)
  eq(table.concat(seen,','),'100,80');eq(intent(e),'double_strike')

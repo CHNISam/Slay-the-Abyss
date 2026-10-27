@@ -176,7 +176,9 @@
         "src/lua/abyss_node_ui.lua",
         "src/lua/abyss_act1_events.lua",
         "src/lua/abyss_living_wall.lua",
-        "src/lua/abyss_fountain.lua"
+        "src/lua/abyss_fountain.lua",
+        "src/lua/abyss_act2_events.lua",
+        "src/lua/abyss_back_to_basics.lua"
       ],
       "local": {
         "status": "coverage-recorded",
@@ -187,7 +189,12 @@
           "tests/lua/act1_event_content.lua",
           "tests/lua/living_wall.lua",
           "tests/lua/fountain_event.lua",
-          "tests/lua/fountain_event_ui.lua"
+          "tests/lua/fountain_event_ui.lua",
+          "tests/lua/act2_event_content.lua",
+          "tests/lua/mausoleum_event_content.lua",
+          "tests/lua/addict_event_content.lua",
+          "tests/lua/back_to_basics_event.lua",
+          "tests/lua/back_to_basics_ui.lua"
         ]
       },
       "platform": {
@@ -199,7 +206,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "Seven default random events and twelve additional explicit event routes are wired. Complete 25-event source admission and all natural/platform evidence remain pending."
+      "limitation": "Seven default random events and sixteen additional explicit event routes remain wired. Complete 25-event source admission and all natural/platform evidence remain pending. Four additional Act2 mappings (Beggar, Mausoleum, Addict, Back to Basics) have explicit default-launch inventory routes and unchanged experimental full-pool mappings; their existing-controls NodeUI event routes and mandatory Beggar picker are locally wired with mocked generated-control/public Nodes+Run tests. Actual native acceptance NOT_RUN; this does not establish natural/history/full-pool acceptance. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion. Back to Basics uses free non-bottled purge or exact source starter upgrades; both outcomes retain result then Leave. Original V4 starter-tag mapping is unresolved, so only Simplicity is explicitly unavailable; Elegance supports V4."
     },
     "relics": {
       "tasks": [
@@ -2981,6 +2988,91 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Full default pool eligibility, natural encounters and per-item platform acceptance are not yet verified."
+    },
+    {
+      "id": "beggar",
+      "originalId": "Beggar",
+      "choices": [
+        "donate",
+        "leave",
+        "confirm",
+        "purge"
+      ],
+      "stages": [
+        "gave_money",
+        "choose_card",
+        "leave"
+      ],
+      "eligibility": "Explicit Nodes.enter route; absent from restricted-seven default pool. Existing experimental full Act2 pool retains its original source eligibility.",
+      "source": "src/lua/abyss_act2_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / existing-controls event title/body/options/result routes and mandatory Beggar picker have generated-control/public Nodes+Run tests. Native-client acceptance NOT_RUN. Existing experimental campaign full-pool mapping does not prove natural eligibility/history, history producer/persistence or complete relic pool acceptance. Unsupported selected content refuses without reroll. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion."
+    },
+    {
+      "id": "mausoleum",
+      "originalId": "The Mausoleum",
+      "choices": [
+        "open",
+        "leave"
+      ],
+      "stages": [
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter route; absent from restricted-seven default pool. Existing experimental full Act2 pool retains its original source eligibility.",
+      "source": "src/lua/abyss_act2_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / existing-controls event title/body/options/result routes and mandatory Beggar picker have generated-control/public Nodes+Run tests. Native-client acceptance NOT_RUN. Existing experimental campaign full-pool mapping does not prove natural eligibility/history, history producer/persistence or complete relic pool acceptance. Unsupported selected content refuses without reroll. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion."
+    },
+    {
+      "id": "addict",
+      "originalId": "Addict",
+      "choices": [
+        "buy",
+        "steal",
+        "leave"
+      ],
+      "stages": [
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter route; absent from restricted-seven default pool. Existing experimental full Act2 pool retains its original source eligibility.",
+      "source": "src/lua/abyss_act2_events.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / existing-controls event title/body/options/result routes and mandatory Beggar picker have generated-control/public Nodes+Run tests. Native-client acceptance NOT_RUN. Existing experimental campaign full-pool mapping does not prove natural eligibility/history, history producer/persistence or complete relic pool acceptance. Unsupported selected content refuses without reroll. Beggar empty mandatory purge group remains pending without cancel, refund or zero-choice completion."
+    },
+    {
+      "id": "back_to_basics",
+      "originalId": "Back to Basics",
+      "choices": [
+        "elegance",
+        "simplicity",
+        "purge",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choose_card",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter route; absent from restricted-seven default pool. Existing experimental full Act2 pool retains its original source eligibility.",
+      "source": "src/lua/abyss_back_to_basics.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED / existing-controls generated NodeUI plus public Nodes+Run tests. Native-client acceptance NOT_RUN. Controlled full Act2 source draw is tested without reweighting; natural campaign/history producer/persistence and complete pool acceptance remain pending. Empty Elegance and zero-upgrade Simplicity reach result then separate Leave. V4 supports Elegance; its unresolved starter-tag mapping explicitly disables Simplicity, not a source class rule. Missing canonical starter upgrade content refuses atomically rather than silently becoming a zero-target success."
     }
   ],
   "relics": [
@@ -3432,6 +3524,19 @@
       ],
       "sourceId": "Circlet",
       "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue."
+    },
+    {
+      "id": "darkstone_periapt",
+      "source": "data/relics.json#darkstone_periapt",
+      "profile": "relics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "sourceId": "Darkstone Periapt",
+      "naturalExecutionLimitation": "Permanent curse obtains only with no active or retained combat owner. Active combat or pending reward/combat health contexts reject atomically until source heal-modifier dispatch and run/combat health synchronization are integrated. Full source treasure/shop acquisition, natural play and platform evidence remain pending.",
+      "naturalAcquisitionLimitation": "Existing restricted treasure/shop candidate APIs apply only this newly admitted source max-floor gate (destination floor<=48; no supported Endless mode). This is not full original queue/probability acquisition parity."
     }
   ],
   "potions": [
