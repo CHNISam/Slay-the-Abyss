@@ -39,7 +39,9 @@ test('engineering baseline has version and source, no current notice or invented
   assert.deepEqual(result, { schemaVersion: 1, build: { version: 'v0.1.0', workKey: 'alpha-test', ...sourceIdentity }, history: [] });
   assert.equal('currentNotice' in result, false);
   assert.deepEqual(JSON.parse(readFileSync('data/release/publications.json')), { schemaVersion: 1, releases: [] });
-  assert.equal(parseChangelog(readFileSync('CHANGELOG.md', 'utf8')).size, 0);
+  const indexed = parseChangelog(readFileSync('CHANGELOG.md', 'utf8'));
+  assert.equal(indexed.size, 14, 'the checked-in backfilled version ledger is complete');
+  assert.ok(indexed.has('v0.10.1'));
 });
 test('unknown source is honestly omitted in a non-Git snapshot, never claimed clean', t => {
   const f = fixture(t), result = loadReleaseNotes({ root: f.root });
@@ -106,7 +108,8 @@ test('duplicate/ambiguous versions, suffixes, impossible dates and unsupported c
     changelog('0.1.1', '### 新增\n\n* [外链](https://example.com)')]) assert.throws(() => parseChangelog(source));
 });
 test('real platform publication metadata stays receipt-confirmed and work-scoped in UTC+8', t => {
-  const f = fixture(t); writeFileSync(join(f.root, 'CHANGELOG.md'), changelog() + changelog('0.1.2'));
+  const f = fixture(t); f.setVersion('0.1.2');
+  writeFileSync(join(f.root, 'CHANGELOG.md'), changelog() + changelog('0.1.2'));
   const older = receipt(f.root, 'v0.1.1', { publishedAt: '2026-10-25T23:00:00+08:00' });
   const newer = receipt(f.root, 'v0.1.2');
   f.ledger([older, { ...newer, workKey: 'contest-2026', workId: '987654321' }, newer]);
