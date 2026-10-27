@@ -196,9 +196,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if look.inspectOnly then box:GetChild('hit'):SetVisible(definition.originalV4~=nil) end
         local kind = Theme.icon.cardArt[definition.type] and definition.type or "status"
         CardDisplay.writeTitle(box:GetChild("name"),cardName(id,false),instance.upgraded,
-            definition.repeatable and (instance.upgrades or 1) or nil)
+            definition.repeatable and (instance.upgrades or 1) or nil,box:GetChild("type"),
+            typeNames[definition.type] or "")
         ink(box:GetChild("name"), look.dim and C.textMuted or upgraded and C.positive or C.text)
-        box:GetChild("type").text = typeNames[definition.type] or ""
         local text=CardDisplay.permanentText(display,definition,instance)
         CardDisplay.writeBody(box:GetChild("description"),type(text)=='string' and text or '')
         ink(box:GetChild("description"), look.dim and C.textDim or C.text)
@@ -208,7 +208,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or cost ~= nil and number(cost) or ""
         tint(box:GetChild("costDisc"), look.dim and C.energyEmpty or look.changed and C.positive or C.energy)
         for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
-        picture(box:GetChild("art_" .. kind), CardDisplay.art(definition))
+        CardDisplay.writeArt(box:GetChild("art_" .. kind), definition, picture)
         tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
         tint(box:GetChild("border"), look.selected and C.goldBright or look.dim and C.line or C.rarity[definition.rarity] or C.line)
         show(box:GetChild("glow"), look.selected)

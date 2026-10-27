@@ -28,6 +28,10 @@ function H.control(spec,parent)
  function c:GetChild(name)return self.children[name]end
  function c:SetVisible(value)assert(type(value)=='boolean');self.visible=value end
  function c:SetImage(source,id)assert(source=='static' and type(id)=='number');self.imageId=id end
+ function c:SetSizeDelta(width,height)
+     assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)
+     self.size={width,height};self.sizeDeltaX,self.sizeDeltaY=width,height
+ end
  function c:SetLocalScale(x,y,z)self.scale={x,y,z}end
  function c:SetAnchoredPosition(x,y)self.x,self.y=x,y end
  function c:AddCursorEventListener(event,fn)assert(not self.listeners[event]);self.listeners[event]=fn end

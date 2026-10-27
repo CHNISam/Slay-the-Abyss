@@ -37,9 +37,15 @@ export function validateTheme(theme, content) {
     if (!Number.isInteger(size) || size < theme.font.minimum) errors.push(`font.${name} is below the readable minimum`);
   }
   walk({ image: theme.image, icon: theme.icon }, 'theme', (value, path) => {
+    if (/^theme\.icon\.cardPortraits\.[^.]+\.size(?:\.|$)/.test(path)) return;
     if (typeof value === 'number' && !path.endsWith('.id') && !isImage(value)) errors.push(`${path} is not in the picture library`);
     if (value !== null && typeof value === 'object' && 'id' in value && !isImage(value.id)) errors.push(`${path}.id is not in the picture library`);
   });
+  for (const [id, entry] of Object.entries(theme.icon.cardPortraits ?? {})) {
+    if (entry?.size !== undefined && (!Array.isArray(entry.size) || entry.size.length !== 2 ||
+        !entry.size.every(value => Number.isFinite(value) && value > 0)))
+      errors.push(`icon.cardPortraits.${id}.size must contain two positive finite source dimensions`);
+  }
   const [width, height] = theme.canvas.base;
   for (const [device, [w, h]] of Object.entries(theme.canvas.devices)) {
     if (Math.min(w / width, h / height) < 1) errors.push(`canvas.${device} is smaller than the base canvas`);

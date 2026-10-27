@@ -54,6 +54,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         return self:showDetails(definition,upgraded)
     end
     local function colour(value) return platform.color(value.r, value.g, value.b, value.a) end
+    local function picture(control,id) control:SetImage(platform.imageSource,id) end
     local function tint(control, value) control.imageColor = colour(value) end
     local function fill(control, instance, catalog)
         local battle=self.choiceToken and self.battle
@@ -61,17 +62,16 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local display = assert(presentation[instance.cardId], "missing deck presentation " .. instance.cardId)
         local face = control:GetChild("face")
         CardDisplay.writeTitle(face:GetChild("name"),display.name,instance.upgraded,
-            definition.repeatable and (instance.upgrades or 1) or nil)
+            definition.repeatable and (instance.upgrades or 1) or nil,face:GetChild("type"),typeNames[definition.type] or definition.type)
         face:GetChild("name").fontColor = colour(instance.upgraded and Theme.color.positive or Theme.color.text)
         -- Permanent cards carry no combat modifiers: fill live tokens with their own values.
         local text=battle and CardDisplay.combatText(display,definition,instance,Combat.cardPreview(battle,instance))
             or CardDisplay.permanentText(display,definition,instance)
         CardDisplay.writeBody(face:GetChild("label"),text)
-        face:GetChild("type").text = typeNames[definition.type] or definition.type
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
-        face:GetChild("art"):SetImage(platform.imageSource, (CardDisplay.art(definition)))
+        CardDisplay.writeArt(face:GetChild("art"), definition, picture)
         local selected=false
         for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
         control:GetChild("uid").text = "UID " .. instance.uid .. (selected and ' · 已选' or '')

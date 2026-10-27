@@ -76,7 +76,8 @@ function M.new(view, controls)
     local function writeName(box, card)
         local instance, enabled = card.instance, card.enabled
         CardDisplay.writeTitle(box:GetChild("name"), card.display.name, card.upgraded,
-            repeatCount(card.definition, instance))
+            repeatCount(card.definition, instance),box:GetChild("type"),
+            typeNames[card.definition.type] or card.definition.type)
         ink(box:GetChild("name"), card.upgraded and not card.missing and C.positive or enabled and C.text or C.textMuted)
     end
 
@@ -85,7 +86,6 @@ function M.new(view, controls)
         local text = bodyText(card, battle, aimUid, aimTarget)
         CardDisplay.writeBody(box:GetChild("label"), text)
         ink(box:GetChild("label"), enabled and C.text or C.textMuted)
-        box:GetChild("type").text = typeNames[definition.type] or definition.type
         box:GetChild("cost").text = card.missing and '—' or costText(definition)
         ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
         tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
@@ -96,7 +96,7 @@ function M.new(view, controls)
         tint(box:GetChild("border"), (card.selected or hovered) and C.goldBright
             or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
         tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
-        picture(box:GetChild("art"), CardDisplay.art(definition))
+        CardDisplay.writeArt(box:GetChild("art"), definition, picture)
     end
 
     local function place(box, card, context, i)

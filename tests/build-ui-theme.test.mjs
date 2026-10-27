@@ -55,3 +55,13 @@ test('built theme loads in Lua with converted colours and without the design not
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /theme loaded/);
 }));
+
+test('native card portrait source dimensions are validated without treating them as image IDs',()=>{
+  const portrait=theme();
+  portrait.icon.cardPortraits.strike={id:102035,status:'test-native-asset',size:[288,128]};
+  assert.deepEqual(validateTheme(portrait,content),[]);
+  for(const size of [[0,128],[-1,64],[144],[144,64,1],['144',64],[Infinity,64]]) {
+    portrait.icon.cardPortraits.strike.size=size;
+    assert(validateTheme(portrait,content).some(error=>error.includes('cardPortraits.strike.size')),JSON.stringify(size));
+  }
+});
