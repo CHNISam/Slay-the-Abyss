@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 11:33'
-updated_date: '2026-10-28 12:10'
+updated_date: '2026-10-28 12:25'
 labels: []
 dependencies: []
 references:
@@ -38,4 +38,6 @@ ordinal: 122000
 
 <!-- SECTION:NOTES:BEGIN -->
 已固定最新7a87de3a完整失败日志并分类：真实Boss/五敌意图遮挡和Quick浅克隆base缺失已最小修复；模拟Color与合法视觉合同更新保留全部场景/原时限/精确逆转原hash。25项历史/空间/原生契约、原七片53场景/六种子及通用runner18项通过。完整PR头CI与S0审查未完成，保持In Progress；详见附件。
+
+PR302首头036ce0de真实CI仍失败：Quick昏眩主图标预期错误；历史逆层抢占旧层中间witness；Sapphire补参未逆转；selector把条件历史分发传播给无关wrapper。本轮逐项修复，旧黄金/时限保持；另主动扫描补齐三个NodeUI平台Color模拟。Node24当前16项来源/原体/正式入口、四raw批次全部status0、selector/Quick100项全过；首轮失败与取消均交S0审计，未宣称036通过。
 <!-- SECTION:NOTES:END -->

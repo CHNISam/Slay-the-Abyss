@@ -43,7 +43,7 @@ local function setup(pointerEvents)
         end
     end
     local root=control(assert(find(Layout)))
-    local ui=UI.new(root,run,map,Presentation,"click",nil,{cursorEvents=pointerEvents~=false and cursor or nil})
+    local ui=UI.new(root,run,map,Presentation,"click",nil,{cursorEvents=pointerEvents~=false and cursor or nil,color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
     ui:setVisible(true)
     local function get(key)
         local box=root for part in key:gmatch("[^/]+") do box=assert(box:GetChild(part),key) end

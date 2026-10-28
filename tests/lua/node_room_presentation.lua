@@ -52,7 +52,7 @@ local function setup(kind,linked,extraCards,source)
     end
     local root=control(assert(find(Layout)))
     local sounds={}
-    local ui=UI.new(root,run,map,Presentation,"click",nil,{cursorEvents=cursor,enhancedRooms=true,sound=function(cue)sounds[#sounds+1]=cue end})
+    local ui=UI.new(root,run,map,Presentation,"click",nil,{cursorEvents=cursor,enhancedRooms=true,color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,sound=function(cue)sounds[#sounds+1]=cue end})
     ui.testSounds=sounds
     ui:setVisible(true)
     local function get(key)
