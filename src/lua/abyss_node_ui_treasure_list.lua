@@ -59,6 +59,6 @@ function M.render(c,panel,items,opened,linked,bind)
     note:SetAnchoredPosition(L.note[1],L.note[2]);note:SetSizeDelta(L.note[3],L.note[4])
     c.show(heading,opened);c.show(note,opened)
     heading.text=#items>0 and ('宝箱奖励 · '..#items..' 项') or '奖励已领取'
-    note.text=boss and '选择一件遗物，其余遗物将放弃' or '金币可独立领取 · 遗物与蓝钥匙只能选一项'
+    note.text=boss and '选择一件遗物，其余遗物将放弃' or linked and '金币可独立领取 · 遗物与蓝钥匙只能选一项' or '各项奖励可独立领取'
 end
 return M

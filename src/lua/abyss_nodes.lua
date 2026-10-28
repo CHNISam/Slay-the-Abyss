@@ -41,6 +41,7 @@ end
 -- campaign/history input. Neither command creates or persists qualification.
 local function endingKeyEligible(run,key)
     if run.campaign~=true then return false,'campaign_unavailable' end
+    if Acts.isCompetition(run) then return false,'ending_unavailable' end
     if run.act~=1 and run.act~=2 and run.act~=3 and run.act~=4 then return false,'invalid_act' end
     if run.endingUnlocked~=true then return false,'ending_history_required' end
     local keys=run.keys
@@ -180,6 +181,7 @@ function M.available(run, map)
 end
 
 local function enter(run, map, nodeId)
+    if Acts.isCompetition(run) and run.act~=1 and run.act~=2 then return false,'competition_act_limit' end
     if run.nodeFlow and not run.nodeFlow.complete then return false, "node_pending" end
     if run.phase ~= "map" then return false, "not_on_map" end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
@@ -728,14 +730,23 @@ function M.claimTreasureReward(run,token)
         return true,kind
     end)
 end
+local function finishBossTreasure(run)
+    if Acts.isCompetition(run) and (run.act~=1 and run.act~=2
+        or run.floor~=Acts.get(run.act).last or run.nodeFlow.floor~=run.floor) then
+        return false,'boss_treasure_unavailable'
+    end
+    complete(run,'boss_treasure_complete')
+    if Acts.isCompetition(run) and run.act==2 then
+        run.phase,run.pendingAct,run.ending='victory',nil,'two_act_complete'
+    elseif run.campaign then run.phase,run.pendingAct='act_transition',(run.act or 1)+1
+    else run.phase='victory' end
+    return true,'boss_treasure_complete'
+end
 function M.leaveTreasure(run)
     return Run.transaction(run,function(staged)
         local flow,why=pending(staged,'treasure');if not flow then return false,why end
         if flow.roomKind=='boss_treasure' then
-            complete(staged,'boss_treasure_complete')
-            if staged.campaign then staged.phase,staged.pendingAct='act_transition',(staged.act or 1)+1
-            else staged.phase='victory' end
-            return true,'boss_treasure_complete'
+            return finishBossTreasure(staged)
         end
         return complete(staged,'treasure_skipped')
     end)
@@ -877,10 +888,7 @@ local function claimBossTreasure(run, choice)
         local ok,why=Run.obtainRelic(run,id);if not ok then return false,why end
         flow.chosenRelic = id
     end
-    complete(run, "boss_treasure_complete")
-    if run.campaign then run.phase,run.pendingAct='act_transition',(run.act or 1)+1
-    else run.phase = "victory" end
-    return true, "boss_treasure_complete"
+    return finishBossTreasure(run)
 end
 
 function M.claimBossTreasure(run,choice)

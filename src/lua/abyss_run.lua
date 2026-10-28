@@ -33,6 +33,9 @@ function M.new(data, seed, options)
     if options ~= nil then
         assert(type(options)=='table','invalid character options')
         assert(options.campaign==nil or type(options.campaign)=='boolean','invalid campaign option')
+        assert(options.campaignProfile==nil or options.campaign==true
+            and (options.campaignProfile=='competition-two-act' or options.campaignProfile=='full-source'),
+            'invalid campaign profile')
         assert(not options.campaign or options.experimental==true,
             'campaign requires explicit experimental mode')
         if require('abyss_original_v4_profiles').is(options.character) then
@@ -97,6 +100,7 @@ function M.new(data, seed, options)
     if profile and profile.originalV4 then run.originalCommands={}end
     if options and options.campaign then
         run.campaign,run.act,run.keys=true,1,{ruby=false,emerald=false,sapphire=false}
+        run.campaignProfile=options.campaignProfile or 'full-source'
         run.unknown.pools=EventPool.new('full')
     end
     for _, id in ipairs(data.cards.starter_deck.cards) do
@@ -154,6 +158,7 @@ function M.advanceAct(run)
     return M.transaction(run,function(staged)
         if staged.campaign~=true then return false,'campaign_unavailable' end
         local act=staged.act
+        if Acts.isCompetition(staged) and act~=1 then return false,'competition_act_limit' end
         if act~=1 and act~=2 and act~=3 then return false,'invalid_act_transition' end
         if type(staged.encounters)~='table' or (staged.encounters.act or 1)~=act
             or staged.encounters.rawSeed~=staged.runSeed then return false,'encounter_act_mismatch' end
@@ -535,6 +540,7 @@ end
 function M.startRoomCombat(run,tier,emeraldBoost)
     if run.phase~='map' then return false,'not_on_map' end
     local act=run.act or 1
+    if Acts.isCompetition(run) and act~=1 and act~=2 then return false,'competition_act_limit' end
     if act~=1 and act~=2 and act~=3 and act~=4 then return false,'act_content_unavailable' end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end

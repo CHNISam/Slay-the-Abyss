@@ -18,6 +18,7 @@ local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
 local NeowHistory=require('abyss_neow_history')
 local EndingHistory=require('abyss_ending_history')
+local Acts=require('abyss_acts')
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
@@ -242,7 +243,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         vista:GetChild("seal"):GetChild("heart").imageColor = colour(defeat and C.danger or C.goldBright)
         vista:GetChild("seal"):GetChild("ring").imageColor = colour(defeat and C.danger or C.gold)
         local title = menu:GetChild("title")
-        title.text = victory and (run.ending=='true_victory' and '真结局 · 深渊已被封印' or "深渊已被封印") or defeat and "旅途在此中断" or "杀戮原塔2"
+        title.text = victory and (run.ending=='two_act_complete' and '双幕挑战完成' or run.ending=='true_victory' and '真结局 · 深渊已被封印' or "深渊已被封印") or defeat and "旅途在此中断" or "杀戮原塔2"
         title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)
         menu:GetChild("tagline"):SetVisible(not outcome)
         menu:GetChild("summary"):SetVisible(false)
@@ -270,9 +271,10 @@ function M.new(root, data, presentation, clickEvent, platform)
             menu:GetChild("summary").text = ""
         else
             local floor = self.map.floor
-            result:GetChild("subtitle").text = victory and run.ending=='true_victory'
+            result:GetChild("subtitle").text = victory and run.ending=='two_act_complete'
+                and '第一幕与第二幕已完成。本局挑战到此结束。' or victory and run.ending=='true_victory'
                 and '腐化之心已击败。真结局已达成。' or Narrative.flow[mode].full
-            local finalFloor=victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors
+            local finalFloor=Acts.isCompetition(run) and Acts.get(2).last or victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors
             local values = { floor .. " / " .. finalFloor, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
             for i, name in ipairs({ "抵达层数", "战斗胜场", "用时", "卡组张数" }) do
                 cards[i]:GetChild("label").text, cards[i]:GetChild("value").text = name, values[i]
@@ -571,11 +573,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         local seed = explicitSeed and self.seed or newSeed()
         local rawSeed=RunSeed.normalize(seed)
         local selection=CharacterSelect.options(character)
-        -- Explicit development opt-in only. Incomplete later content remains
-        -- guarded by the normal Nodes/Run entry commands, never substituted.
+        -- Native entry selects the competition profile; explicit full-source
+        -- hosts retain future chapters without changing same-run ownership.
         if platform.campaign == true then
             selection = selection or {}
             selection.experimental, selection.campaign = true, true
+            selection.campaignProfile=platform.campaignProfile
         end
         local run = Run.new(data,rawSeed,selection)
         local runPresentation = (selection and selection.character or run.data.colorlessCards) and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
@@ -585,12 +588,14 @@ function M.new(root, data, presentation, clickEvent, platform)
         local context,contextReason=Run.freezeMapContext(run)
         if not context then return false,contextReason end
         local map = Map.generate(run.data,rawSeed,run.act or 1,context)
-        local history,historyReason=NeowHistory.read(neowHistory,run.character)
+        local history,historyReason
+        if not Acts.isCompetition(run) then history,historyReason=NeowHistory.read(neowHistory,run.character) end
         if history then
             local ok,why=Nodes.beginNeow(run,map,history);if not ok then return false,why end
             run.neowHistorySource=history.source
         else
-            run.neowStatus,run.neowUnavailableReason='unavailable',historyReason
+            run.neowStatus=Acts.isCompetition(run) and 'disabled' or 'unavailable'
+            run.neowUnavailableReason=historyReason
         end
         self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.battleUI:setData(run.data,runPresentation)
