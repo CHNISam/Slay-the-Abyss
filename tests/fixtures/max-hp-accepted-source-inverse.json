@@ -1,0 +1,27 @@
+{
+  "acceptedBase": "432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7",
+  "originalSlice": "0391ea7301894f39b05a64e1e9bfa4d436925ed4",
+  "scope": "Only the three reviewed maximum-health relic definitions and glyph insertions; historical fixtures and expected traces unchanged.",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "e0e9a35f5f284f486b01542ef0f124c2a3a4ea2234c23890398266e8f4b54ac4",
+      "afterSha256": "46ed8efa53ec87de8958f34733023c070d1ddbf25b17fbb73a1a8a6546780eeb",
+      "edits": [
+        {
+          "before": "        \"note\": \"Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending.\"\n      }\n    },\n",
+          "after": "        \"note\": \"Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending.\"\n      },\n      \"pear\": 102005,\n      \"mango\": 102005,\n      \"lees_waffle\": 102005\n    },\n"
+        }
+      ]
+    },
+    "data/relics.json": {
+      "beforeSha256": "58b83f2a4152561057c654d80d5f6511604b4bef2faf141a333f3daffdbb6566",
+      "afterSha256": "9926dfc9d0a8e55e7e72c68b35f51a5f355387851d801f11751e95972405c83d",
+      "edits": [
+        {
+          "before": "      \"effects\": []\n    }\n",
+          "after": "      \"effects\": []\n    },\n    {\n      \"id\": \"pear\",\n      \"sourceId\": \"Pear\",\n      \"name\": \"梨\",\n      \"description\": \"取得时增加10点生命上限并回复10生命。\",\n      \"rarity\": \"uncommon\",\n      \"trigger\": \"hooks\",\n      \"effects\": []\n    },\n    {\n      \"id\": \"mango\",\n      \"sourceId\": \"Mango\",\n      \"name\": \"芒果\",\n      \"description\": \"取得时增加14点生命上限并回复14生命。\",\n      \"rarity\": \"rare\",\n      \"trigger\": \"hooks\",\n      \"effects\": []\n    },\n    {\n      \"id\": \"lees_waffle\",\n      \"sourceId\": \"Lee's Waffle\",\n      \"name\": \"李家华夫饼\",\n      \"description\": \"取得时增加7点生命上限，然后回复生命至上限。\",\n      \"rarity\": \"shop\",\n      \"trigger\": \"hooks\",\n      \"effects\": []\n    }\n"
+        }
+      ]
+    }
+  }
+}

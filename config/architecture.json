@@ -231,7 +231,8 @@
     "abyss_node_ui_lifecycle": "ui",
     "abyss_node_ui_input": "ui",
     "abyss_node_ui_shop": "ui",
-    "abyss_battle_potion_popup": "ui"
+    "abyss_battle_potion_popup": "ui",
+    "abyss_max_hp_relics": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [

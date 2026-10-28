@@ -8,7 +8,7 @@ local M={}
 local aliases={NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
  MealTicket='meal_ticket',MawBank='maw_bank',['Blood Vial']='blood_vial',
  ['Bag of Marbles']='bag_of_marbles',Orichalcum='orichalcum',Ectoplasm='ectoplasm',
- Strawberry='strawberry',['Regal Pillow']='regal_pillow',['Toy Ornithopter']='toy_ornithopter',
+ Strawberry='strawberry',Pear='pear',Mango='mango',["Lee's Waffle"]='lees_waffle',['Regal Pillow']='regal_pillow',['Toy Ornithopter']='toy_ornithopter',
  Whetstone='whetstone',['War Paint']='war_paint',['Happy Flower']='happy_flower',
  ['Ancient Tea Set']='ancient_tea_set',['Art of War']='art_of_war',
  Boot='boot',Akabeko='akabeko',['Pen Nib']='pen_nib',Nunchaku='nunchaku',
@@ -83,9 +83,8 @@ function M.onEquip(run,id,upgradeApi)
   local slots=run.potionSlots or (run.data and run.data.rules.player.potionSlots)
   assert(integer(slots) and slots+2<=2147483647,'invalid potion capacity')
   run.potionSlots=slots+2
- elseif id=='strawberry' then
-  assert(integer(run.maxHp) and run.maxHp+7<=2147483647,'invalid max health')
-  run.maxHp=run.maxHp+7;healRun(run,7)
+ elseif id=='strawberry' or id=='pear' or id=='mango' or id=='lees_waffle' then
+  require('abyss_max_hp_relics').equip(run,id,M.hpChanged)
  elseif id=='whetstone' or id=='war_paint' then equipmentUpgrade(run,id,upgradeApi)
  elseif id=='toxic_egg' or id=='molten_egg' then
   -- ToxicEgg2/MoltenEgg2.onEquip visit CombatRewardScreen.rewards only. Dream Catcher

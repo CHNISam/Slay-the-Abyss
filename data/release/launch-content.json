@@ -820,6 +820,38 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Actual single relic/event component and source-pool boundary selection; full default Act1 admission, whole campaign and platform/live remain pending. Existing currency glyph is an explicitly documented temporary art fallback."
+    },
+    "maxHpRelics": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_max_hp_relics.lua",
+        "src/lua/abyss_relic_hooks.lua",
+        "src/lua/abyss_run.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/max_hp_relics_health.lua",
+          "tests/lua/max_hp_relics_ironclad.lua",
+          "tests/lua/max_hp_relics_silent.lua",
+          "tests/lua/max_hp_relics_defect.lua",
+          "tests/lua/max_hp_relics_watcher.lua",
+          "tests/lua/max_hp_current_owners.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "existing-approved-theme-health-placeholder-icons; dedicated-art-and-device-acceptance-pending",
+      "limitation": "Pear, Mango and Lee's Waffle use the complete existing shared + chosen-class queues with unchanged order/RNG. Source equipment heals respect held-order healing modifiers and active battle health; outside obtains do not rewrite retained battle history. Controlled modifier/terminal fixtures are not natural modifier acquisition or a complete campaign. Ordinary PC A0 only; original-V4 active contexts and max-health overflow refuse atomically. Native/platform/live evidence remains pending."
     }
   },
   "cards": [
@@ -4494,6 +4526,41 @@
       ],
       "naturalAcquisitionLimitation": "EventRoom fixed reward after actual Mushrooms combat only; excluded from ordinary treasure/shop/rarity queues. Native and natural full campaign acceptance pending.",
       "naturalExecutionLimitation": "Actual event obtain and next-battle player-only Vulnerable +25% have controlled local coverage. Approved shared treasure icon is an explicit placeholder; dedicated art/device acceptance pending."
+    },
+    {
+      "id": "pear",
+      "sourceId": "Pear",
+      "source": "data/relics.json#pear",
+      "profile": "maxHpRelics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Complete source queue chest/elite/shop acquisition; no filtering or retry based on implementation. Offline public-channel fixtures do not certify a complete natural campaign or platform/live acquisition."
+    },
+    {
+      "id": "mango",
+      "sourceId": "Mango",
+      "source": "data/relics.json#mango",
+      "profile": "maxHpRelics",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Complete source queue chest/elite/shop acquisition; no filtering or retry based on implementation. Offline public-channel fixtures do not certify a complete natural campaign or platform/live acquisition."
+    },
+    {
+      "id": "lees_waffle",
+      "sourceId": "Lee's Waffle",
+      "source": "data/relics.json#lees_waffle",
+      "profile": "maxHpRelics",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Source SHOP-tier queue only; no ordinary chest/elite offer. Offline public-channel fixtures do not certify a complete natural campaign or platform/live acquisition."
     }
   ],
   "potions": [

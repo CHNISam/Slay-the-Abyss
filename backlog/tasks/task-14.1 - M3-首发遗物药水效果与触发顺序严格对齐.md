@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 10:39'
+updated_date: '2026-10-28 18:13'
 due_date: '2026-10-28'
 labels:
   - required
@@ -28,6 +28,7 @@ references:
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
   - docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md
+  - docs/rules/MAX_HP_RELICS.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -76,6 +77,8 @@ ordinal: 42000
 2026-10-28冲刺：按固定319009d5的MoltenEgg2.java补熔火之蛋，复用既有获得牌与Toxic Egg owner；覆盖攻击牌preview/obtain、只追溯当前战斗奖励、回滚、正常来源与48层边界。保持旧牌组/旧商店不追改；先红后绿并复验Toxic；完整道具池、自然和平台AC继续保留未完成。
 
 2026-10-28 PR286收口：修复三处EOF空行与Darklings状态说明惰性依赖；逐项消解develop冲突并保留PR267和campaign入口，等待PR290合入后最终同步；补定向回归与当前HEAD完整Quality，全绿后squash，关闭被吸收PR285并保留可恢复历史再清理。来源锁、RNG顺序、回滚、测试预算及未验收AC保持。
+
+2026-10-28 最大生命切片重迁：从实际已接受 develop432eebb1 独立开树，只移植原0391ea73已审查的Pear+10、Mango+14、SHOP Waffle+7后按新上限治疗和Strawberry活动owner修复。先用真实战斗损血重现旧Strawberry stale Run HP，再保留现有Run/Nodes/UI、Mark/MagicFlower、Fairy/Tail及源队列；仅补本片模块/定义/逐件目录/固定来源与测试。串行专项验证并记录当前base的守恒证据；不并入关闭未合PR300/301内容，不改历史金样或竞赛范围，不勾平台/自然验收，不推送/开PR/合并。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -146,4 +149,6 @@ PR286主线程收口：保留远端5556fef1的Searing Blow复制语义，原固�
 紧急收口：用户本轮明确授权先合并、CI合后继续，替代原CI全绿前置。最终同步保留PR290及主线PR295/296界面，不创建版本。已知合后CI工作：Silent同实例双四房夹具原30秒超时，以及新角色/共享卡框/非战斗界面的严格历史证明组合；不删断言、不放宽预算，不认证实机。
 
 最终UI紧急合流保留#286完整规则交付及最新范围，双方原始任务快照见docs/reviews/ui-merge-task-history-20261028.json.gz。未把源码合并或紧急CI授权冒充道具平台验收。
+
+2026-10-28 最大生命独立重迁：从实际已接受develop432eebb1只迁原0391ea73的Pear/Mango/Waffle和Strawberry活动owner修复，未纳入关闭未合PR300/301源层。真实战斗stale-owner断言先RED后GREEN；当前94项Node、5个相邻Lua入口、9固定源成员/160生命/28完整渠道金样通过；架构231模块/1294边，固定Luacheck无新增诊断/60历史/625度量。851份已接受Lua/冻结夹具/历史审查/源池文件逐字节保留，15原审查新增文件与hook精确保留。只追加3项定义至59项，不表示完整遗物/Boss覆盖；历史完整身份RED后以两文件精确MaxHP测试逆映射恢复432e原始字节，旧金样/hash/trace与#310逆映射保留。四职业夹具只证通用遗物同源兼容，不扩大岩旅行者+既有冻结V4雷电及前两幕比赛范围。独立证据m3-max-hp-accepted-432e-evidence；完整Quality/远端交付/候选/官方导入/自然取得/平台实机未验，AC和In Progress/Furinya保持。
 <!-- SECTION:NOTES:END -->
