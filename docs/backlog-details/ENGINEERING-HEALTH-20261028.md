@@ -21,4 +21,12 @@ Quality run [40679423990](https://github.com/CHNISam/Slay-the-Abyss/actions/runs
 
 ## 证据与收口
 
-原始 PR、Ruleset、job 日志及本地全量盘点保存在根 `.artifacts/engineering-health/`，不提交凭证。原始统计与最终清理、当前 SHA 和耗时在验收后补齐；未取得最终 CI 证据前 TASK-79 保持进行中。
+已安全移除40个已吸收的干净工作树、49条本地分支（含9条无工作树引用）；删除退役 coord/task-claims、已吸收 start-flow-polish/ui-focus-return 三条远端引用，删除操作以精确 SHA lease 防止误删随后推进。远端仅保留 develop、master 和独立未完工的 dedup 草稿。没有开放旧PR。
+
+独立成果没有遗忘：#289去重草稿的435文件WIP尚未验收，不合入也不删除；`fix/pr260-room-fixtures` 的商品手柄Focus只读说明及六组严格回归尚未吸收，保留原树/分支，交由既有商店与手柄任务评估。25个盘点时脏树（包括本轮工作者当时的在途改动）不清理、不解决他人冲突。旧 source-port 扩展和 #284 调度为已退役替代方案，完整历史在恢复bundle，不假称逐字合入。
+
+#292独有的工程、路由、证据13文件与最新develop完全一致；最终59960a17的三份既有bundle均verify通过。全引用84MiB恢复bundle先验证，后移除本地分支；各树的build/.artifacts、独有截图/日志/候选完整移至根 `.artifacts/engineering-health/preserved/<树名>-<sha>/`。详见[精简清单](../evidence/engineering-health-20261028.json)，完整逐提交patch/blob审计仍在本地，不将大审计库提交CI。
+
+实际UI修复只有两处：未知召唤意图保留unknown主图；敌人整体下移20像素，使最高后排意图上沿204与原提示条下沿212保留8像素间隔。原53战斗用例、6回放种子、38地图用例保留；历史79543/79757/81392写入合同不改，当前73316写入独立逐序核对，严格源逆向与缺写/改值/乱序负例仍在。测试平台补Color接口，按批准新卡框/状态背板/意图详情迁移旧外观断言，不改游戏数值、随机或超时。worker仅补失败夹具路径/退出码摘要，原输出及失败传播不变，既有8项回归通过。
+
+原始 PR、Ruleset、job 日志及本地全量盘点保存在根 `.artifacts/engineering-health/`，不提交凭证。当前完整CI和实际合后develop的结果在本PR/最终验收记录补齐；未取得最终CI证据前TASK-79保持进行中。平台导入/实机不在本次工程治理范围，没有占用桌面。
