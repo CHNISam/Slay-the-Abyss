@@ -8,6 +8,7 @@ import { pathToFileURL } from 'node:url';
 import { luaString, toLua } from './build-lua-data.mjs';
 import { battleLayout } from './ui-layout.mjs';
 import { partition, timings as runtimeTimings, jsShard, discoverJs } from './ci-shards.mjs';
+import { runLuaWorkers } from './lua-workers.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -57,7 +58,8 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   return result;
 }
 
-export function shardLuaScripts(scripts, value, timings = runtimeTimings) {
+export function shardLuaScripts(scripts, value, timings = runtimeTimings, workers = 1) {
+  if (![1, 2].includes(workers)) throw new Error('Lua workers must be 1 or 2');
   const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(String(value));
   const index = Number(match?.[1]), count = Number(match?.[2]);
   if (!match || !Number.isSafeInteger(index) || !Number.isSafeInteger(count) || index > count || count > 64) {
@@ -74,16 +76,21 @@ export function shardLuaScripts(scripts, value, timings = runtimeTimings) {
   const initial = timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs
     : count === 8 ? jsShard(discoverJs(), value, 'win32').loads : undefined;
   if (initial?.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');
-  return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial).files;
+  // Two workers halve the Lua work budget relative to the preceding serial JS.
+  return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial?.map(load => load * workers)).files;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     let script, shard;
+    let workers = 1, workersSeen = false;
     const args = process.argv.slice(2);
     for (let i = 0; i < args.length; i++) {
-      if (args[i] === '--shard' && shard === undefined) shard = args[++i] ?? '';
-      else if (args[i].startsWith('-') || script !== undefined) throw new Error('Usage: test-lua.mjs [script.lua] [--shard i/n]');
+      if (args[i] === '--workers') {
+        if (workersSeen || !/^[12]$/.test(args[i + 1] ?? '')) throw new Error('Lua workers must be 1 or 2 and specified once');
+        workers = Number(args[++i]); workersSeen = true;
+      } else if (args[i] === '--shard' && shard === undefined) shard = args[++i] ?? '';
+      else if (args[i].startsWith('-') || script !== undefined) throw new Error('Usage: test-lua.mjs [script.lua] [--shard i/n] [--workers 1|2]');
       else script = args[i];
     }
     if (shard !== undefined && script !== undefined) throw new Error('Lua sharding cannot be combined with a single script');
@@ -91,10 +98,12 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       .filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
     if (!scripts.length) throw new Error('No Lua test files discovered');
     if (shard !== undefined) {
-      scripts = shardLuaScripts(scripts, shard);
+      scripts = shardLuaScripts(scripts, shard, runtimeTimings, workers);
       console.log(`Lua shard ${shard}: ${scripts.length} fixtures`);
     }
-    for (const script of scripts) {
+    if (workers === 2 && scripts.length) {
+      process.exitCode = await runLuaWorkers(scripts, { cli: process.argv[1], weights: runtimeTimings.lua });
+    } else for (const script of scripts) {
       const startedAt = Date.now();
       try {
         const result = runLua(script);

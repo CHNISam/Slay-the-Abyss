@@ -27,6 +27,9 @@ test('longest fixtures fill the least loaded combined JS/Lua shard deterministic
     windowsJsShardMs: [100, 0] };
   assert.deepEqual(shardLuaScripts(scripts, '1/2', timings), ['c.lua', 'd.lua', 'new.lua']);
   assert.deepEqual(shardLuaScripts(scripts, '2/2', timings), ['a.lua', 'b.lua']);
+  assert.deepEqual(shardLuaScripts(scripts, '1/2', timings, 2), ['d.lua']);
+  assert.deepEqual(shardLuaScripts(scripts, '2/2', timings, 2), ['a.lua', 'b.lua', 'c.lua', 'new.lua']);
+  for (const workers of [0, 3, '2', NaN]) assert.throws(() => shardLuaScripts(scripts, '1/2', timings, workers), /workers must be/);
   assert.deepEqual(shardLuaScripts([...scripts].reverse(), '1/2', timings), shardLuaScripts(scripts, '1/2', timings));
   assert.deepEqual(shardLuaScripts(scripts, '1/1', timings), [...scripts].sort());
   for (const bad of [0, -1, NaN, Infinity, '10']) {
@@ -40,6 +43,10 @@ test('longest fixtures fill the least loaded combined JS/Lua shard deterministic
 test('measured scheduling retains every current fixture and reduces estimated critical path', () => {
   const timings = JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8'));
   assert.equal(timings.source.runId, 40630641377);
+  assert.equal(timings.source.headSha, '257d9e0c9a4f2b680b8d1fc07c26025451eb5ac8');
+  assert.equal(Object.keys(timings.js.win32).length, 294);
+  assert.equal(Object.keys(timings.js.linux).length, 294);
+  assert.equal(Object.keys(timings.lua).length, 974);
   const scripts = readdirSync('tests/lua').filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
   const weight = script => timings.lua[script] ?? timings.unknownLuaMs;
   for (const count of [1, 2, 4, 8, 64]) {
@@ -68,7 +75,8 @@ test('real CLI shards retain failure exit and continuation, allow empty slices a
     writeFileSync(join(root, 'tests/lua/a.lua'), "print('failed block');error('CLI failure')");
     writeFileSync(join(root, 'tests/lua/b.lua'), "print('other shard')");
     writeFileSync(join(root, 'tests/lua/c.lua'), "print('later block')");
-    for (const args of [['--shard'], ['--shard', '2/1'], ['--shard', '1/65'], ['--unknown'], ['some.lua', '--shard', '1/2']]) {
+    for (const args of [['--shard'], ['--shard', '2/1'], ['--shard', '1/65'], ['--unknown'], ['some.lua', '--shard', '1/2'],
+      ['--workers'], ['--workers', '0'], ['--workers', '3'], ['--workers', '2', '--workers', '1']]) {
       assert.notEqual(run(args).status, 0);
     }
     const failed = run(['--shard', '1/2']);
@@ -82,6 +90,19 @@ test('real CLI shards retain failure exit and continuation, allow empty slices a
     assert.match(passed.stdout, /other shard/);
     assert.equal(empty.status, 0, empty.stderr);
     assert.match(empty.stdout, /Lua shard 4\/4: 0 fixtures/);
+    const parallel = run(['--shard', '1/2', '--workers', '2']);
+    assert.ifError(parallel.error);
+    assert.notEqual(parallel.status, 0);
+    assert.match(parallel.stderr, /CLI failure/);
+    assert.match(parallel.stdout, /failed block/);
+    assert.match(parallel.stdout, /later block/);
+    assert.doesNotMatch(parallel.stdout, /other shard/);
+    const passedParallel = run(['--shard', '2/2', '--workers', '2']);
+    assert.equal(passedParallel.status, 0, passedParallel.stderr);
+    assert.match(passedParallel.stdout, /other shard/);
+    const emptyParallel = run(['--shard', '4/4', '--workers', '2']);
+    assert.equal(emptyParallel.status, 0, emptyParallel.stderr);
+    assert.match(emptyParallel.stdout, /Lua shard 4\/4: 0 fixtures/);
   } finally {
     assert.ok(resolve(root).startsWith(resolve(tmpdir()) + sep));
     assert.match(root, /abyss-lua-shards-/);
