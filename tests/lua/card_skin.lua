@@ -41,4 +41,3 @@ end
 Skin.apply(face,{type='attack',rarity='common',cost=1},platform,{cost=1,baseCost=1})
 assert(not face:GetChild('costHalo').visible and not face:GetChild('costDirection').visible and not face:GetChild('blockedReason').visible)
 print('LUA_CARD_SKIN_PASS six roles, three shapes, rarity, up/down/absent costs, pulse and recycled state')
-

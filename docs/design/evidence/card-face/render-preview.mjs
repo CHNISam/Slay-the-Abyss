@@ -48,3 +48,5 @@ const refs=states.map((s,i)=>{
 }).join('');
 writeFileSync('docs/design/evidence/card-face/compare.html',`<!doctype html><meta charset="utf-8"><title>共享卡面 1× 对照</title><body style="margin:20px;background:#20222b;color:#eee;font-family:Microsoft YaHei"><p>批准稿 Card.dc.html 原模板（296×416 缩为 1×）</p><div style="display:flex;margin-left:16px">${refs}</div><img src="native-1x.svg"><p>下排使用生产装配器及 Lua 皮肤状态。原生图片按几何轮廓示意；纹理抗锯齿、类型图标与发光须在客户端核对。文字保留原生最低14px与全文预算，因此插画窗沿用64高，原稿79高另见差异记录。</p></body>`);
 console.log('Wrote native-1x.svg and compare.html');
+
+for(const file of ['compare.html','native-1x.svg']){const path='docs/design/evidence/card-face/'+file;writeFileSync(path,readFileSync(path,'utf8').split(/\r?\n/).map(line=>line.trimEnd()).join('\n').trimEnd()+'\n');}

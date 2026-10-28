@@ -88,7 +88,10 @@ test('all native card outlines are assembled from importable shapes within child
     const visit=c=>{
       assert((c.children?.length??0)<=60,'native child limit: '+c.name);
       assert(!('clipPath' in c)&&!('filter' in c)&&!('css' in c));
-      if(c.kind==='image')assert(Number.isInteger(c.image)&&c.image>0);
+      if(c.kind==='image'){
+        assert(Number.isInteger(c.image)&&c.image>0);
+        assert.match(c.colour,/^#[0-9a-f]{6}$/i,'RGB only; native alpha is separate');
+      }
       c.children?.forEach(visit);
     };
     face.forEach(visit);
