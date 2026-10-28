@@ -1890,6 +1890,181 @@
       "sha256": "3f9101b7459cc20e7a635298a483b28f3291fc114fd0b920af392d98994bdecb",
       "category": "project-geometry",
       "evidence": "docs/design/CARD_FACE_PARITY.md; render-preview.mjs; project-authored geometry and approved Card template; offline preview, not a gameplay screenshot"
+    },
+    "docs/evidence/formal-battle-ui/card-keyword.png": {
+      "sha256": "7bd0c4a7bdc386fac25db16f5f39061cc5816f7f17bc3cd627a3c0a8959eea59",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/card-keyword.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/crowded-page1.png": {
+      "sha256": "935a30fedab2a6c460c98b4652f5900931d2def2436c2e55cc61be855afccd2a",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/crowded-page1.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/crowded-page2.png": {
+      "sha256": "2fb4fd6c5758ed851b3c5f72fef845aad836e43c30b57b1328dd086aaa31b535",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/crowded-page2.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/crowded-row.png": {
+      "sha256": "bb88710d8604208058f541b51d3ec3b99bfd56ae1a00d36d54dbb253de3d0eeb",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/crowded-row.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/hero-status.png": {
+      "sha256": "72d94c74339f22654c418845d7ebbb66c7fa56bc767afa5d51fc013e5b9ce73d",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/hero-status.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/intent-attack.png": {
+      "sha256": "585dd3e7b1d7e6efb77de83aa88dd0e8ac63e3c5a50b84ae7f831aeeda853390",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/intent-attack.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/intent-compound.png": {
+      "sha256": "469b333c6bedaa668e5a6351fd6bb3725a5a3dd6ec0e75619f47b3ea9c274204",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/intent-compound.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/intent-steal.png": {
+      "sha256": "e8013184f1989352d5e64dc9f326e0e25165fb441f68dfe23bb03ffe8bb71803",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/intent-steal.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/intents.png": {
+      "sha256": "4bee37dc155f2a4a4fe048db4d03df02af5ad0ace18a6f522c1303f73b1853c7",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/intents.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/long-text.png": {
+      "sha256": "368b71f0e4e20385f5f2b10cba2c5839eae039fc02602fa978fe066ba20b932b",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/long-text.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/potion-aim.png": {
+      "sha256": "27c02aeb044c040b8d82b8e779e8d1ba84e322b3f000a53d4aca2c7264bb36c8",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/potion-aim.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/potion-help.png": {
+      "sha256": "efbec358b844da01aa983b73f075adbd0eaa8d040e6c1ae7e0adfb07315d82f5",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/potion-help.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/potion-idle.png": {
+      "sha256": "7a75a99a265c2f557a4323a5252281b6e2c7c4ac180ba0054ac17d72ce8780f8",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/potion-idle.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-aim.png": {
+      "sha256": "4ea8f3e009edb6c40ac8fa581cf028170e9f22fa17cca767c2dc411f6ca0bda0",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-aim.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-cancel.png": {
+      "sha256": "65718ae77548f23bf6a3fb63f63511fb2744ff4d2a6176ba399aad781078f5c8",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-cancel.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-dexterity.png": {
+      "sha256": "e208766cadcce642bc9b3fd44d5873f3e800099c4b11c262908169c9eb7324a0",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-dexterity.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-frail.png": {
+      "sha256": "52a0d0d2dcf3a9f0cf54609f9ad654d14797588676feeab5917476988f10e5ae",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-frail.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-mixed.png": {
+      "sha256": "ff04eebf4b30bf334bab6681d042380dee4dfa0c3b4ee4e75121b17765350847",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-mixed.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-neutral.png": {
+      "sha256": "abed0c5d473c7224f8fc21b21eb1b5e8a8a51d266004d3a2b11274289601feef",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-neutral.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-ten-selected.png": {
+      "sha256": "9460aaa7a6b2c51427db2ace0f76fb511aba03d2fdabf0de30cccdfe66049c5a",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-ten-selected.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-ten.png": {
+      "sha256": "eae4dd85664cb576d4a0f270cbb29bf18dc44bb42c6ad58b9decb8c21b0f2bbb",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-ten.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/formal-battle-ui/value-weak.png": {
+      "sha256": "4a520759e2e59ad0624f444a81a9d839c39a9180541f8248e813ea7a2c03412a",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/formal-battle-ui/value-weak.html; scripts/battle-ui-preview.mjs; docs/design/FORMAL_BATTLE_UI.md; offline browser rendering of the Lua-driven control tree with approved prototype glyphs and system fonts, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/camp-new.png": {
+      "sha256": "20118e9774f138b02f37d63f3e01271b0572d2779a2bd62202c07519e3ac71f7",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/camp-new.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/chest-rewards.png": {
+      "sha256": "ad63a995badb2bfe9def44e4aaf26b504fb53a280ebca56a6f7963c8a85e367c",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/chest-rewards.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/controls.png": {
+      "sha256": "fb4d1378d18156071ab409851355e4d21e4813518faf70f2940d891190312c51",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/controls.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/deck.png": {
+      "sha256": "a13658f641fcd8d4dc56d67d610dfe41306eb3e527e2802bd6b432b1c63352fb",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/deck.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/event-cleric.png": {
+      "sha256": "db861c3695d8b05bb8538b826fee5728f0d57e697665fc43c50837ce2ad6501e",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/event-cleric.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/exit.png": {
+      "sha256": "78e1e2dcfb537954e6ca1b3cefe99ad0bc1a9737af6ff4b60a4902f013598983",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/exit.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/forge-grid.png": {
+      "sha256": "923563934a2a1ad88a58968d75dd269a0c1f6f1e032abd91b44289f7724e7ac2",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/forge-grid.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/forge-preview.png": {
+      "sha256": "518897789fbcee7b98f8c02f737df1985f04f168380cf8876c7a2332f094a3b5",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/forge-preview.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/map-current.png": {
+      "sha256": "2c9a26e80f818bbf86f4a65304ecb540cc0a7daaf6a3e2dc38744795a7369b6f",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/map-current.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/menu.png": {
+      "sha256": "aa4ad984b55a3f973010204cc13736b5098715f6ba3d4945e25b98f282bd81be",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/menu.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/rewards.png": {
+      "sha256": "7b1f58666a26bfd103dc26ea6c711168f4aaf20231fe438add9a2365569e25b3",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/rewards.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/shop-all.png": {
+      "sha256": "7785a0cedd105b52b0048001f85481cf448c9c8d77059039b68bbb72e1e3e7d2",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/shop-all.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/evidence/native-ui-parity-20261028/shop-touch.png": {
+      "sha256": "de03e8f27bb0a2205c8012d573a3e4c2a4ead189e79f92c8950a5988ca5d2a17",
+      "category": "platform-evidence",
+      "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/shop-touch.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
     }
   }
 }
