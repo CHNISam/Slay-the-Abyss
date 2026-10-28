@@ -3,9 +3,9 @@ id: TASK-74
 title: 缩短完整检查并拆清超大模块职责
 status: In Progress
 assignee:
-  - '@Furinya'
+  - '@Codex'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-28 03:45'
+updated_date: '2026-10-28 09:02'
 labels: []
 dependencies: []
 references:
@@ -49,6 +49,8 @@ ordinal: 118000
 2026-10-27 PR252预算收口：按实际作业日志确认POSIX半池19分53秒导致总作业超20分钟；沿用原生隔离分片扩为四片，保持每片20分钟、片内串行、完整输入与工程检查。同步交付作业枚举、既有矩阵合同和说明，定向红绿验证后在同一PR验证精确新HEAD及实际合入SHA。
 
 2026-10-28 P0：基于最新develop和成功run40622446002实际日志，按耗时均衡Lua分片，非测试门禁每系统执行一次，独立PR增量反馈并行完整回归；保留8 Windows/4 Ubuntu、required checks、所有测试及原超时。核对当前SHA完整CI并正常PR合入，实测排队与执行分别报告。
+
+2026-10-28用户新一轮工程优化：从4a316780隔离审查剩余长函数、语法检查启动成本和目录导航；按职责拆分选定热点并将全部helper纳入15上限。语法检查仅并行独立Node语法解析并验证失败传播；纠正文档入口；清理已合并干净工作树并保留唯一证据。保持游戏断言和原预算，当前HEAD完整Quality通过再合并并复核合入提交。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -85,4 +87,10 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 2026-10-28 P0首批：按成功run40622446002八份完整raw job日志重建963条Lua实测权重，并与该SHA源码963文件核对。当前972文件由确定LPT分配，计入各Windows JS片现有负载，新文件正权重兜底；原串行隔离和fixture超时不变。重复非测试门禁改每系统一次；完整8Windows+4Ubuntu和check/presentation/engineering-posix名保留。独立PR快反馈只跑明确子集并报告延后项，本地未知改动全量回退不变。精确Node24.18.0定向86/86过0skip，104.9秒。官方完整新CI尚待，未宣称15分钟达标。免费DeepSeek只读复核出现read路径权限失败，已停止该路径，由Codex接管；未把自报或退出码当审查通过。
 
 稳定最新develop合并头65648f3的代表性增量样例：Node24.18.0执行--ci-fast --files src/lua/abyss_nodes.lua，2JS+59Lua全过，本机实测108.834秒（不含GitHub排队）。先前与同步develop重叠的样例丢弃，不计通过。当前974Lua/293JS文件。另优化两份原生分片名称合同中的纯合成空测试模块：只对这些无状态名称探针使用--test-isolation=none，完整游戏JS及Lua隔离不变，所有精确并集和失败断言保留，7/7全过0skip；同机Node24.18.0前两文件约51秒，优化后4.304秒。PR269首轮尚全在队列，此次推送只替换本PR过期排队，不取消其他PR。
+
+本轮四个Codex子代理审查架构、集成、目录和清理；TASK51既有限额暂停，无OpenCode新探测或收费回退。根124项在途改动保留。
+
+2026-10-28本轮集成：药水候选入口复杂度53→1，14项入口/主块/helper测量最高10，全部纳入15门禁；214模块1238边，84条历史静态诊断不变，0新增豁免。usePotion原文hash保持，9/9旧新独立Fengari回归输出一致，新增14拒绝优先级、钩子顺序与异常回滚对照通过；主线17项工程/语法测试与真实药水边界回归通过。语法检查固定最多2进程和每文件10秒，本机Node22单样本36.204→21.763秒（有短时并行负载，不作为正式CI基准）。模块导航与数据/工程旧说明已修。工作树清理按本轮授权进行：合并祖先或patch等价逐项证明，唯一build证据压缩并SHA256读回，源历史bundle恢复。最终当前HEAD Quality及实际合入提交CI仍待，不勾AC11。
+
+最终集成在隔离pr287-integration树同步develop d2e0baa3；唯一冲突为architecture两项新模块分类，保留run_potion_candidate与nest_event。13项syntax/responsibility检查、14类药水候选边界、架构215模块1240边、静态84历史诊断零新增/432职责度量通过。继续等待合流新HEAD完整CI，不关闭AC11。
 <!-- SECTION:NOTES:END -->
