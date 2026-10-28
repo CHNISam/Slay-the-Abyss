@@ -1,5 +1,8 @@
 # 工程检查与证据入口
 
+Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1000物理行、每函数（含嵌套/工厂）≤350物理行，全部提取职责复杂度≤15；报告为 build/node-ui-size.json 与 build/responsibility-complexity.json。固定 develop 旧新对照运行 node scripts/compare-node-ui.mjs，范围与证据见 [Node UI专项方案](plans/2026-10-28-node-ui-refactor.md)。
+
+
 源码职责、生成物和测试目录先看[模块导航](ARCHITECTURE.md)；内容源与参考数据边界见[数据入口](../data/README.md)。本页保留历史实施证据，当前模块集合和诊断数量以配置及本轮报告为准。
 
 渲染治理的绝对门槛已接入 `check:lua-static`：战斗主render≤10，完整战斗控制器及battle_*子视图/输入模块、商店UI与卡面展示的每个函数≤15。固定Luacheck测量，AST核对函数测量完整性，报告见build/ui-complexity.json。缺测量或缺入口会失败，不能只报告相对降幅。实际实现、当前验证范围和历史纠正见[TASK-74](backlog-details/TASK-74.md)；完成声明遵循AGENTS.md的“结果验收与完成声明”。

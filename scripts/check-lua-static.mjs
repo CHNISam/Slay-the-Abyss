@@ -95,16 +95,21 @@ const responsibilityRoots = {
     "function 'paintNumber'", "function 'paintDying'",
   ],
   'src/lua/abyss_node_ui.lua': [
-    "method 'self.render'", "function 'syncNodeIdentity'", "function 'syncLivingPicker'",
-    "function 'syncAct2Picker'", "function 'syncNeowPicker'", "function 'syncRestPicker'",
-    "function 'syncLibraryPicker'", "function 'syncAct2PurgePicker'",
-    "function 'syncAct1Picker'", "function 'syncNodePicker'", "function 'nodeScreen'",
-    "function 'renderNodePage'", "function 'refreshNodeNotice'", "function 'eventPickerLabel'",
-    "function 'pickerLabels'", "function 'pickerCommand'", "function 'pickerFooter'",
-    "function 'treasureFooter'", "function 'recallFooter'", "function 'shopFooter'",
-    "function 'completedFooter'", "function 'resultFooter'", "function 'chooseFooter'",
-    "function 'bindFooter'", "function 'bindTreasureBack'", "function 'bindStagedEventActions'",
+    "method 'ctx.self.render'", "function 'ctx.syncNodeIdentity'", "function 'ctx.nodeScreen'",
+    "function 'ctx.renderNodePage'", "function 'ctx.refreshNodeNotice'",
+    "function 'ctx.completedFooter'", "function 'ctx.resultFooter'", "function 'ctx.chooseFooter'",
+    "function 'ctx.bindFooter'",
   ],
+  'src/lua/abyss_node_ui_camp_actions.lua': [],
+  'src/lua/abyss_node_ui_event_ownership.lua': [],
+  'src/lua/abyss_node_ui_events.lua': [],
+  'src/lua/abyss_node_ui_faces.lua': [],
+  'src/lua/abyss_node_ui_feedback.lua': [],
+  'src/lua/abyss_node_ui_input.lua': [],
+  'src/lua/abyss_node_ui_lifecycle.lua': [],
+  'src/lua/abyss_node_ui_rewards.lua': [],
+  'src/lua/abyss_node_ui_shop.lua': [],
+  'src/lua/abyss_node_ui_treasure.lua': [],
   'src/lua/abyss_game_ui.lua': [
     "function 'self.refresh'", "function 'finishRunFlow'", "function 'selectMode'",
     "function 'syncMenuContext'", "function 'syncCardChoice'",
@@ -115,7 +120,7 @@ const responsibilityRoots = {
     "function 'refreshForeground'", "function 'overlaysBlocked'",
   ],
 };
-const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui_.+|game_ui_.+|run_potion_candidate.*)\.lua$/.test(file);
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run_potion_candidate.*)\.lua$/.test(file);
 // The display adapter now aliases the extracted formatter. If a local formatter
 // is reintroduced, it must not evade the budget that governs its replacement.
 const optionalResponsibilityRoots = {'src/lua/abyss_character_presentation.lua': ["function 'fragments'"]};
@@ -184,6 +189,29 @@ export function reviewResponsibilityComplexity(diagnostics, sources, roots = res
   }
   return {schemaVersion:1,modules,functions,errors};
 }
+// Govern the complete Node UI responsibility, including every extracted factory.
+export function reviewNodeUiSize(sources) {
+  const errors=[],measurements=[];
+  const file='src/lua/abyss_node_ui.lua';
+  if (!(file in sources)) return {errors:[{file,message:'Node UI entry missing'}],measurements};
+  for (const [file,source] of Object.entries(sources).filter(([file])=>/^src\/lua\/abyss_node_ui(?:_.+)?\.lua$/.test(file))) {
+    const lines=source.split(/\r?\n/).length-(source.endsWith('\n')?1:0);
+    measurements.push({file,lines});
+    if(lines>1000) errors.push({file,message:'Node UI module exceeds 1000 lines'});
+    const ast=luaparse.parse(Buffer.from(source).toString('latin1'),{luaVersion:'5.3',locations:true});
+    function visit(node) {
+      if(!node||typeof node!=='object')return;
+      if(node.type==='FunctionDeclaration') {
+        const lines=node.loc.end.line-node.loc.start.line+1;
+        measurements.push({file,line:node.loc.start.line,functionLines:lines});
+        if(lines>350)errors.push({file,line:node.loc.start.line,message:'Node UI function exceeds 350 lines'});
+      }
+      for(const value of Object.values(node)) if(Array.isArray(value))value.forEach(visit);else if(value&&typeof value==='object')visit(value);
+    }
+    visit(ast);
+  }
+  return {errors,measurements};
+}
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try{
     const report=runStatic(),baseline=JSON.parse(readFileSync('config/luacheck-baseline.json','utf8'));
@@ -195,6 +223,9 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     writeFileSync('build/lua-complexity.json',JSON.stringify(complexity,null,2)+'\n');
     const sources=Object.fromEntries(readdirSync('src/lua').filter(file=>file.endsWith('.lua'))
       .map(file=>[`src/lua/${file}`,readFileSync(`src/lua/${file}`,'utf8')]));
+    const size=reviewNodeUiSize(sources);
+    writeFileSync('build/node-ui-size.json',JSON.stringify(size,null,2)+'\n');
+    if(size.errors.length)throw new Error(JSON.stringify(size.errors));
     const render=reviewRenderComplexity(complexity.diagnostics,sources);
     writeFileSync('build/ui-complexity.json',JSON.stringify({...render,tool:complexity.tool},null,2)+'\n');
     const responsibilities=reviewResponsibilityComplexity(complexity.diagnostics,sources);
