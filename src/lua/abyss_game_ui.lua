@@ -659,7 +659,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.prologue then self.prologue:update(dt) end
         self.battleUI:update(dt)
         self.nodeUI:update(dt)
-        self.deckUI:update()
+        self.deckUI:update(dt)
         local updated=self.mapUI:update(dt)
         self:syncController()
         return updated

@@ -1,3 +1,4 @@
+local CardSkin=require('abyss_card_skin')
 -- Read-only deck/pile snapshots. No Run commands or RNG consumption.
 local Combat = require("abyss_combat")
 local Theme = require("abyss_theme")
@@ -104,8 +105,11 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         tint(face:GetChild("nameRule"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
         CardDisplay.writeArt(face:GetChild("art"), definition, picture);CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'))
+        local printed=catalog.cards[instance.cardId]
+        local base=instance.upgraded and printed.upgrade and printed.upgrade.cost or printed.cost
         local selected=false
         for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
+        CardSkin.apply(face,definition,platform,{cost=definition.cost,baseCost=base,selected=selected})
         control:GetChild("uid").text = selected and '已选择' or ''
         local hit=control:GetChild('hit')
         hit:SetVisible(self.choiceToken~=nil or definition.originalV4~=nil)
@@ -187,7 +191,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             or run.combat.phase~="player" or type(run.combat[kind])~="table" then return false end
         return self:open(run,nil,nil,kind)
     end
-    function self:update()
+    function self:update(dt)
         if not self.visible then return end
         local mode=platform.controllerApi and platform.controllerApi.isController() or false
         if self.controllerMode~=mode then
@@ -205,6 +209,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                     or name=='next' and (self.controllerPage or 1)<pages;hit.raycastTarget=hit.interactable end
             end
         end
+        for control in pairs(self.bindings)do CardSkin.tick(control:GetChild("face"),dt or 0)end
         if not self.pending then return end
         self.pending, self.calibrating = false, false
         local generation, cards, catalog, base = self.generation, self.cards, self.catalog, self.indexBase

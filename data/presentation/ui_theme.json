@@ -2546,5 +2546,71 @@
         36
       ]
     }
+  },
+  "cardSkin": {
+    "rows": 20,
+    "bandSteps": 8,
+    "roles": {
+      "traveler": {
+        "accent": "#F2A93B",
+        "image": 100005
+      },
+      "HT": {
+        "accent": "#F58258",
+        "image": 104003
+      },
+      "AR": {
+        "accent": "#F06A74",
+        "image": 100004
+      },
+      "FR": {
+        "accent": "#6CCBF6",
+        "image": 106025
+      },
+      "RD": {
+        "accent": "#A87BFF",
+        "image": 100005
+      },
+      "colorless": {
+        "accent": "#D6D0C2",
+        "image": 100006
+      },
+      "curse": {
+        "accent": "#C9877A",
+        "image": 100004
+      }
+    },
+    "rarities": {
+      "basic": [
+        "#34363C",
+        "#24262B",
+        "#1A1B1F",
+        "#4E5159"
+      ],
+      "common": [
+        "#8C929D",
+        "#4E525B",
+        "#34373E",
+        "#C4CAD3"
+      ],
+      "uncommon": [
+        "#3F7FC6",
+        "#2E64A6",
+        "#1C3F6E",
+        "#7FB8F2"
+      ],
+      "rare": [
+        "#D4A54A",
+        "#B8862E",
+        "#7A5516",
+        "#F6D68C"
+      ],
+      "curse": [
+        "#6B4A44",
+        "#4A322E",
+        "#2E1F1C",
+        "#9A7268"
+      ]
+    }
   }
 }
