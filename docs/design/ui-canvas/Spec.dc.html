@@ -51,9 +51,9 @@
           <div style="height: 64px; display: flex; align-items: center">
           <div style="position: relative; flex: none; width: 58px; height: 58px; filter: drop-shadow(0 0 3px {{t.glow}}) drop-shadow(0 0 14px {{t.glow}}) drop-shadow(0 5px 4px #000000D0)">
             <svg style="position: absolute; inset: 0" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f}}" style="fill: {{t.rim}}; stroke: #240A08; stroke-width: 1.6; paint-order: stroke"></path><path d="{{t.s}}" style="fill: none; stroke: {{t.rim}}; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"></path></svg>
-            <svg style="position: absolute; left: -16px; bottom: -10px; {{t.subVis}}; filter: drop-shadow(0 0 2px #240A08) drop-shadow(0 0 8px {{t.g2}})" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f2}}" style="fill: {{t.r2}}; stroke: #240A08; stroke-width: 1.8; paint-order: stroke"></path><path d="{{t.s2}}" style="fill: none; stroke: {{t.r2}}; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+            <svg style="position: absolute; left: -12px; top: -12px; z-index: -1; {{t.subVis}}; filter: drop-shadow(0 0 2px #240A08) drop-shadow(0 0 8px {{t.g2}})" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f2}}" style="fill: {{t.r2}}; stroke: #240A08; stroke-width: 1.8; paint-order: stroke"></path><path d="{{t.s2}}" style="fill: none; stroke: {{t.r2}}; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path></svg>
           </div>
-          <span style="margin-left: -8px; font-size: 38px; line-height: 1; font-weight: 900; font-style: italic; color: #FFF8EE; -webkit-text-stroke: 2.5px #240A08; paint-order: stroke fill; text-shadow: 0 0 14px {{t.glow}}, 0 3px 0 #000; font-variant-numeric: tabular-nums">{{t.value}}</span>
+          <span style="align-self: flex-end; margin: 0 0 2px -16px; font-size: 28px; line-height: 1; font-weight: 900; color: #FFF8EE; -webkit-text-stroke: 2.5px #240A08; paint-order: stroke fill; text-shadow: 0 0 14px {{t.glow}}, 0 3px 0 #000; font-variant-numeric: tabular-nums">{{t.value}}</span>
           </div>
           <b style="font-size: 15px">{{t.name}}</b>
           <span style="font-size: 12px; line-height: 1.5; color: #9E8C72; text-align: center">{{t.note}}</span>
@@ -108,12 +108,12 @@ class Component extends DCLogic {
     const atk = { rim: '#F0B070', hi: '#FF7A4A', bg: '#B02A16', glow: '#FF4A22' };
     const def = { rim: '#B0E0FF', hi: '#5AB0E8', bg: '#1E5A8A', glow: '#3AA0FF' };
     const buf = { rim: '#FFE09A', hi: '#FFC040', bg: '#9A5A10', glow: '#FFB020' };
-    const deb = { rim: '#C8B0FF', hi: '#9A7CF0', bg: '#4A2E96', glow: '#8A5CFF' };
+    const deb = { rim: '#9CE07A', hi: '#5CB84A', bg: '#24561C', glow: '#4CC040' };
     const mid = { rim: '#C8B8A0', hi: '#8A7A66', bg: '#3E3228', glow: '#00000000' };
     const intents = [
       { name: '攻击', value: '12', ...atk, ...sword, note: '数字是最终伤害' },
       { name: '多段攻击', value: '6×3', ...atk, ...sword, note: '同一把剑，数字写 单段×段数' },
-      { name: '攻击+削弱', value: '8', ...atk, ...sword, sub: 'deb', note: '主图标是攻击，左下叠一个完整的削弱图标' },
+      { name: '攻击+削弱', value: '8', ...atk, ...sword, sub: 'deb', note: '主图标是攻击，身后叠一个完整的削弱图标' },
       { name: '攻击+防御', value: '7', ...atk, ...sword, sub: 'def', note: '左下叠盾牌' },
       { name: '攻击+强化', value: '9', ...atk, ...sword, sub: 'buf', note: '左下叠上箭头' },
       { name: '多段+削弱', value: '4×2', ...atk, ...sword, sub: 'deb', note: '多段同理' },
@@ -133,7 +133,7 @@ class Component extends DCLogic {
       const SUB = {
         def: { f2: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s2: '', r2: '#B0E0FF', g2: '#3AA0FF' },
         buf: { f2: 'M12 3l8 8H4Z M12 12l8 8H4Z', s2: '', r2: '#FFE09A', g2: '#FFB020' },
-        deb: { f2: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s2: '', r2: '#C8B0FF', g2: '#8A5CFF' }
+        deb: { f2: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s2: '', r2: '#9CE07A', g2: '#4CC040' }
       };
       const sub = SUB[t.sub] || { f2: '', s2: '', r2: 'none', g2: '#00000000' };
       return { ...t, ...sub, value: t.more ? t.value + '+' : t.value, subVis: t.sub ? '' : 'display: none' };
@@ -143,7 +143,7 @@ class Component extends DCLogic {
       { title: '排序', body: '先增益后减益，同类按获得先后排。新获得或层数变化时图标放大到 1.25 倍再回弹（0.25 秒），不改位置。' },
       { title: '角标数字', body: '层数型写层数，回合型写剩余回合，无数值型（壁垒、缠绕）不写。超过 99 写 99+。力量、敏捷为负时换减益配色，写 −N。' },
       { title: '格挡', body: '大于 0 时盾牌挂在血条左侧，血条变冰蓝并加亮边，数字始终在盾内；三位数时字号从 13 降到 11。格挡为 0 时盾位保留空白，血条不位移。' },
-      { title: '意图数值', body: '攻击写最终伤害（已算力量、虚弱、易伤），多段写「单段×段数」。组合意图按 攻击 > 防御 > 强化 > 削弱 取前两项：主图标在前，第二项缩小叠在左下，各自保留颜色；三项以上数字后加「+」，全部写进详情。意图不可见时显示「未知」。悬停攻击意图始终显示算式（如 基础 9 ＋ 力量 3 ＝ 12；虚弱、易伤写成 ×0.75、×1.5），不做成设置项。' },
+      { title: '意图数值', body: '攻击写最终伤害（已算力量、虚弱、易伤），多段写「单段×段数」。组合意图按 攻击 > 防御 > 强化 > 削弱 取前两项：主图标在前，第二项缩小叠在主图标身后左上，各自保留颜色；三项以上数字后加「+」，全部写进详情。意图不可见时显示「未知」。悬停攻击意图始终显示算式（如 基础 9 ＋ 力量 3 ＝ 12；虚弱、易伤写成 ×0.75、×1.5），不做成设置项。' },
       { title: '敌人数量 1–6', body: '敌人只在右侧固定区域 640–1830px 内均分，左边界不动，永远不靠近主角。4 个及以上时前后两排交替，后排上移 100px、缩小到 86%。立绘尺寸 = min(190, 槽宽×0.86)。' },
       { title: '首领与大体型', body: '首领独占中间槽，尺寸上限 260；同屏小怪按剩余槽位均分。立绘超高时血条跟随脚底，意图跟随头顶，不固定在同一高度。' },
       { title: '查看详情', body: '悬停（电脑）或单击（手机）任一敌人或主角，一次列出意图和全部状态，不需要逐个点图标。再点空白处关闭。' },
