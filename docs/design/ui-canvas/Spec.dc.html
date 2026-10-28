@@ -44,7 +44,7 @@
   </section>
 
   <section style="display: flex; flex-direction: column; gap: 20px">
-    <h2 style="margin: 0; font-size: 24px; font-weight: 900">敌人意图（单项 + 组合）</h2>
+    <h2 style="margin: 0; font-size: 24px; font-weight: 900">敌人意图（攻击只用一把剑，靠数字区分）</h2>
     <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 14px">
       <sc-for list="{{intents}}" as="t" hint-placeholder-count="20">
         <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 10px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
@@ -111,14 +111,12 @@ class Component extends DCLogic {
     const deb = { rim: '#C8B0FF', hi: '#9A7CF0', bg: '#4A2E96', glow: '#8A5CFF' };
     const mid = { rim: '#C8B8A0', hi: '#8A7A66', bg: '#3E3228', glow: '#00000000' };
     const intents = [
-      { name: '攻击 <10', value: '6', ...atk, f: 'M19.5 4.5 19.1 7.2 14.4 11.9 12.1 9.6 16.8 4.9Z', s: 'M10.2 7.8 16.2 13.8M13.2 10.8 8.5 15.5', note: '短刃；数值为最终伤害' },
-      { name: '攻击 10–19', value: '14', ...atk, ...sword, note: '长剑' },
-      { name: '攻击 ≥20', value: '28', ...atk, rim: '#FFD27A', hi: '#FFB040', bg: '#C0240E', glow: '#FF6A10', f: 'M22 2 21.4 8.8 11.6 18.6 5.4 12.4 15.2 2.6Z', s: 'M3.4 10.4 13.6 20.6M7.2 16.8 2.6 21.4M3 3.5l2 2M6.5 2l.4 2.6M2 6.5l2.6.4', note: '巨剑+火星，越痛越亮' },
-      { name: '多段攻击', value: '6×3', ...atk, f: 'M21 3 20.5 6.8 12 15.3 8.7 12 17.2 3.5Z M3 3 3.5 6.8 12 15.3 15.3 12 6.8 3.5Z', s: 'M7 14.5 3.5 20.5M17 14.5l3.5 6', note: '单段×段数' },
+      { name: '攻击', value: '12', ...atk, ...sword, note: '数字是最终伤害' },
+      { name: '多段攻击', value: '6×3', ...atk, ...sword, note: '同一把剑，数字写 单段×段数' },
       { name: '攻击+削弱', value: '8', ...atk, ...sword, sub: 'deb', note: '主图标是攻击，左下叠一个完整的削弱图标' },
       { name: '攻击+防御', value: '7', ...atk, ...sword, sub: 'def', note: '左下叠盾牌' },
       { name: '攻击+强化', value: '9', ...atk, ...sword, sub: 'buf', note: '左下叠上箭头' },
-      { name: '多段+削弱', value: '4×2', ...atk, f: 'M21 3 20.5 6.8 12 15.3 8.7 12 17.2 3.5Z M3 3 3.5 6.8 12 15.3 15.3 12 6.8 3.5Z', s: 'M7 14.5 3.5 20.5M17 14.5l3.5 6', sub: 'deb', note: '多段同理' },
+      { name: '多段+削弱', value: '4×2', ...atk, ...sword, sub: 'deb', note: '多段同理' },
       { name: '防御+强化', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', sub: 'buf', note: '不攻击时，防御做主图标' },
       { name: '防御+削弱', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', sub: 'deb', note: '' },
       { name: '三项以上', value: '7', ...atk, ...sword, sub: 'def', more: true, note: '只显示前两项，数字后加「+」；全部写进详情' },

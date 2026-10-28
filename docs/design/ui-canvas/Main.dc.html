@@ -124,20 +124,9 @@ button{font-family:inherit;cursor:pointer}
   <div style="position: absolute; left: 960px; top: 742px; width: 0; height: 0; z-index: 5">
     <sc-for list="{{cards}}" as="c" hint-placeholder-count="5">
       <div style="{{c.pos}}">
-        <div style="position: relative; width: 207px; height: 291px; box-sizing: border-box; padding: 3px; background: {{c.rim}}; box-shadow: 0 18px 34px #000000A0">
-          <div style="position: relative; width: 201px; height: 285px; background: #1c1e27; overflow: hidden">
-            <div style="height: 42px; background: #272a36; display: grid; place-items: center; padding-left: 26px; font-size: 22px; font-weight: 900; color: #ece6da">{{c.name}}</div>
-            <div style="position: relative; height: 112px"><div style="position: absolute; inset: 0 6px; background: {{c.rim}}; {{c.shape}}"></div><div style="position: absolute; inset: 3px 9px; background: {{c.tint}}; {{c.shape}}; display: grid; place-items: center; overflow: hidden">
-              <sc-if value="{{c.art}}" hint-placeholder-val="{{true}}"><img src="{{c.art}}" alt="" style="width: 100%; height: 100%; object-fit: contain; display: block"></sc-if>
-              <sc-if value="{{c.noArt}}" hint-placeholder-val="{{false}}"><svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><path d="{{c.icon}}" style="fill: {{c.iconInk}}"></path></svg></sc-if>
-            </div>
-            </div><div style="position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); height: 22px; padding: 0 12px; background: #13141b; border: 1px solid {{c.rim}}; font-size: 14px; line-height: 20px; color: #a9a595; white-space: nowrap">{{c.type}}</div></div>
-            <div style="height: 131px; padding: 8px 14px 0; box-sizing: border-box; display: grid; place-items: center; text-align: center; font-size: 18px; line-height: 1.5; color: #ece6da">{{c.text}}</div>
-          </div>
-          <div style="position: absolute; left: -10px; top: -10px; width: 64px; height: 64px; border-radius: 50%; background: #f5d79a; display: grid; place-items: center">
-            <div style="width: 61px; height: 61px; border-radius: 50%; background: #0f1117; display: grid; place-items: center">
-              <div style="width: 56px; height: 56px; border-radius: 50%; background: #e9a93b; display: grid; place-items: center; font-size: 31px; font-weight: 900; color: #2a2620">{{c.cost}}</div>
-            </div>
+        <div style="width: 207px; height: 291px">
+          <div style="width: 296px; height: 416px; transform: scale(0.7); transform-origin: 0 0">
+            <dc-import name="Card" rarity="{{c.rarity}}" role="traveler" shape="{{c.shape}}" title="{{c.name}}" type-label="{{c.type}}" cost="{{c.cost}}" text="{{c.text}}" cost-state="normal" block="none" art="{{c.art}}" hint-size="296px,416px"></dc-import>
           </div>
         </div>
       </div>
@@ -282,7 +271,7 @@ class Component extends DCLogic {
       multi: { f: 'M21 3 20.5 6.8 12 15.3 8.7 12 17.2 3.5Z M3 3 3.5 6.8 12 15.3 15.3 12 6.8 3.5Z', s: 'M7 14.5 3.5 20.5M17 14.5l3.5 6', rim: '#F0B070', hi: '#FF7A4A', bg: '#B02A16', glow: '#FF4A22' },
       debuff: { f: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s: '', rim: '#C8B0FF', hi: '#9A7CF0', bg: '#4A2E96', glow: '#8A5CFF' }
     };
-    const tier = (v) => (String(v).includes('×') ? 'multi' : +v >= 20 ? 'great' : +v >= 10 ? 'sword' : 'dagger');
+    const tier = () => 'sword';
     const enemies = raw.map((e, i) => ({
       ...e,
       col: 'position: absolute; left: ' + X[i] + 'px; top: ' + Y[i] + 'px; width: 260px; display: flex; flex-direction: column; align-items: center; z-index: ' + (Y[i] > 250 ? 3 : 1),
@@ -303,12 +292,12 @@ class Component extends DCLogic {
     const sklC = { shape: 'clip-path: polygon(10% 0, 90% 0, 100% 14%, 100% 86%, 90% 100%, 10% 100%, 0 86%, 0 14%)', type: '技能', tint: '#273D56', icon: shieldI, iconInk: '#B8D4F0' };
     const R = { basic: '#8a8f9c', common: '#5f8fd6', uncommon: '#a974e0', rare: '#e0a243' };
     const hand = [
-      { name: '打击', cost: 1, text: '造成 6 点伤害。', rim: R.basic, ...atkC },
-      { name: '整备武装', cost: 1, text: '获得 5 点格挡。升级 1 张手牌。', art: arm, rim: R.common, ...sklC },
-      { name: '重剑斩', cost: 2, text: '造成 14 点伤害。力量效果 ×3。', art: blade, rim: R.common, ...atkC },
-      { name: '防御', cost: 1, text: '获得 5 点格挡。', rim: R.basic, ...sklC },
-      { name: '打击', cost: 1, text: '造成 6 点伤害。', rim: R.basic, ...atkC }
-    ].map((c) => ({ ...c, art: c.art || '', noArt: !c.art }));
+      { name: '打击', cost: '1', type: '攻击', shape: 'attack', rarity: 'basic', text: '造成 6 点伤害。', art: '' },
+      { name: '整备武装', cost: '1', type: '技能', shape: 'skill', rarity: 'common', text: '获得 5 点格挡。升级 1 张手牌。', art: arm },
+      { name: '重剑斩', cost: '2', type: '攻击', shape: 'attack', rarity: 'common', text: '造成 14 点伤害。力量效果 ×3。', art: blade },
+      { name: '金属化', cost: '1', type: '能力', shape: 'power', rarity: 'uncommon', text: '回合结束时，获得 3 点格挡。', art: '' },
+      { name: '防御', cost: '1', type: '技能', shape: 'skill', rarity: 'basic', text: '获得 5 点格挡。', art: '' }
+    ];
     const n = hand.length;
 
     const cards = hand.map((c, i) => {
