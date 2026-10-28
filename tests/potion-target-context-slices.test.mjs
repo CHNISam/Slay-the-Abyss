@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { originalLuaRunner } from './helpers/ci-lua-runner-inverse.mjs';
 
 const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
 const sha = source => createHash('sha256').update(source).digest('hex');

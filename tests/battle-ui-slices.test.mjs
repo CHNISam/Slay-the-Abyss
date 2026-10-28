@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
+import {originalLuaRunner} from './helpers/ci-lua-runner-inverse.mjs';
 const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const sha=source=>createHash('sha256').update(source).digest('hex');
 const support='tests/lua/support/battle_ui_cases.lua';
