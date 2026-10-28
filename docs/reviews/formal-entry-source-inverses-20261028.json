@@ -476,6 +476,450 @@
           ]
         }
       ]
+    },
+    "scripts/build-ui.mjs": {
+      "beforeSha256": "67e1203591adffa9648504a7ba258f03e4f0f6bfcc80b5039c29fd1cd7484434",
+      "afterSha256": "a511c66f4b83dac8cdc08ef08f299ba0ec8587ade739993fe46a633568516e04",
+      "hunks": [
+        {
+          "at": 66,
+          "before": [
+            "  const battle = battleLayout(), layout = withViewport(gameLayout(undefined, {originalCharacters: options.experimentalCharacters !== true, ...options}), theme);"
+          ],
+          "after": [
+            "  const battle = battleLayout(), layout = withViewport(gameLayout(undefined, options), theme);"
+          ]
+        }
+      ]
+    },
+    "scripts/character-ui-layout.mjs": {
+      "beforeSha256": "d7322b3b8c362ce0a129a397d84b619b7ffb3975cae34630ce611d9bd4cd823c",
+      "afterSha256": "503c49b75639a87b2551cee7cdd9afb0dc129585e0fcb58f02479471c1b2bfc3",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [
+            "export function experimentalCharacterControls(theme = nativeTheme, options = {}) {"
+          ],
+          "after": [
+            "export function experimentalCharacterControls(theme = nativeTheme) {"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [],
+          "after": [
+            "      { ...plate('selected', [0, 0, ...size], c.goldBright), visible: false,",
+            "        size: [size[0], s.border], position: [0, -size[1] / 2 + s.border] },"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "  const original=options.originalCharacters===true;",
+            "  const names = original ? ['胡桃','阿蕾奇诺','芙宁娜','雷电将军'] : ['岩元素荧', '风元素荧', '雷元素荧', '草元素荧'];"
+          ],
+          "after": [
+            "  const names = ['胡桃','阿蕾奇诺','芙宁娜','雷电将军'];",
+            "  const d = l.details;"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "    panel('characterPanel', l, '选择同行者', '每位同行者拥有独立的初始牌组与遗物。', ["
+          ],
+          "after": [
+            "    panel('characterPanel', l, '选择同行者', '请选择一位同行者。', [",
+            "      { name: 'details', kind: 'container', size: [...theme.canvas.base], visible: false, children: [",
+            "        plate('portraitFrame', d.portrait, c.panelSunken),",
+            "        { name: 'portrait', kind: 'image', position: d.portrait.slice(0, 2), size: d.portrait.slice(2),",
+            "          image: theme.icon.characterPortraits.traveler.id },",
+            "        text('portraitNote', d.portraitNote, '', f.label, c.textDim),",
+            "        text('name', d.name, '', f.heading, c.goldBright),",
+            "        text('stats', d.stats, '', f.body, c.text),",
+            "        text('relic', d.relic, '', f.body, c.gold),",
+            "        text('deckTitle', d.deckTitle, '', f.label, c.textDim),",
+            "        ...d.cards.map((frame, i) => text(`card${i + 1}`, frame, '', f.body, c.text)),",
+            "      ] },",
+            "      { name: 'elements', kind: 'container', size: [...theme.canvas.base], visible: false, children:",
+            "        l.elements.map((frame, i) => button(`element${i + 1}`, frame, ['岩', '风', '雷', '草'][i], l, f.body)) },"
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            "      ...(original ? [button('traveler',l.traveler,'旅行者·荧',l)] : []),",
+            "      button('cancel', original ? l.originalBack : l.back, '返回', l),"
+          ],
+          "after": [
+            "      button('traveler',l.traveler,'旅行者·荧',l),",
+            "      button('cancel', l.back, '返回', l),",
+            "      button('confirm', l.confirm, '确认开始冒险', l),"
+          ]
+        }
+      ]
+    },
+    "scripts/game-ui-layout.mjs": {
+      "beforeSha256": "5fbb2d9c856e9f6f99a8dbd40fb51f17103411eab1b23d20ca530212a8d86065",
+      "afterSha256": "f691c6045c972dd42996489f2edbbdbd2cc92eb43ea8b871b546c2d938b34349",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [
+            "import { prologueControl, vistaControl } from './cinematic-ui-layout.mjs';"
+          ],
+          "after": [
+            "import { vistaControl } from './cinematic-ui-layout.mjs';"
+          ]
+        },
+        {
+          "at": 89,
+          "before": [
+            "      // Above every page so its last fade can uncover the map; below the deck and exit overlays.",
+            "      prologueControl(theme),"
+          ],
+          "after": []
+        },
+        {
+          "at": 91,
+          "before": [
+            "      ...(options.experimentalCharacters === true || options.originalCharacters === true ? experimentalCharacterControls(theme,options) : []),"
+          ],
+          "after": [
+            "      ...experimentalCharacterControls(theme),"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "37b8c0b4bf1d39c2fca26867d5d90e523f6c6f0d2669bc543bc0d73f9c94995f",
+      "afterSha256": "2d328733e4c8758665527a489074ad1c60287f3679f47fe2588820437dfcda98",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "local Prologue = require(\"abyss_prologue\")"
+          ],
+          "after": [
+            "local CharacterSelect = require(\"abyss_character_select\")",
+            "local CharacterView = require(\"abyss_character_select_view\")"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "    local experimental = platform.experimentalCharacters == true",
+            "    local characterPanel = root:GetChild(\"characterPanel\")",
+            "    local originalCharacters=platform.originalCharacters==true and characterPanel and characterPanel:GetChild('traveler')~=nil or false",
+            "    local selectable=experimental or originalCharacters",
+            "    if selectable then assert(characterPanel and root:GetChild(\"choicePanel\"), \"experimental class layout required\") end",
+            "    local characterIds = originalCharacters and {\"hutao\",\"arlecchino\",\"furina\",\"raiden\"} or {\"ironclad\", \"silent\", \"defect\", \"watcher\"}"
+          ],
+          "after": [
+            "    local characterPanel = child(\"characterPanel\")",
+            "    self.characterSelection=CharacterSelect.new(data,presentation)"
+          ]
+        },
+        {
+          "at": 84,
+          "before": [
+            "    if selectable then"
+          ],
+          "after": [
+            "    do"
+          ]
+        },
+        {
+          "at": 107,
+          "before": [
+            "    -- The opening cinematic plays once per session, from the title screen only; hosts",
+            "    -- without the panel, or with platform.prologue == false, go straight to the map."
+          ],
+          "after": [
+            "    -- Old authored prologue controls may exist in previously built layouts.",
+            "    -- Keep them inert; every new run enters the existing Neow/map path."
+          ]
+        },
+        {
+          "at": 110,
+          "before": [
+            "    if prologuePanel and platform.prologue ~= false then",
+            "        self.prologue = Prologue.new(prologuePanel, { clickEvent = clickEvent, cursorEvents = platform.cursorEvents,",
+            "            color = platform.color, sound = platform.sound, controller = controller,",
+            "            blocked = function() return self.exitOpen or self.settlementRequested or self.settlementBusy end,",
+            "            onPhase = changed })",
+            "    elseif prologuePanel then prologuePanel:SetVisible(false) end"
+          ],
+          "after": [
+            "    if prologuePanel then prologuePanel:SetVisible(false) end"
+          ]
+        },
+        {
+          "at": 290,
+          "before": [
+            "        elseif self.prologue and self.prologue:covering() then scope='prologue'"
+          ],
+          "after": []
+        },
+        {
+          "at": 300,
+          "before": [
+            "            elseif scope=='prologue' then return self.prologue:skip()"
+          ],
+          "after": []
+        },
+        {
+          "at": 315,
+          "before": [
+            "    local function selectMode(run,prologue)"
+          ],
+          "after": [
+            "    local function selectMode(run)"
+          ]
+        },
+        {
+          "at": 318,
+          "before": [
+            "        elseif prologue and prologue:opaque() then self.mode = \"prologue\""
+          ],
+          "after": []
+        },
+        {
+          "at": 453,
+          "before": [
+            "            if self.characterOpen then characterPanel:SetAsLastSibling() end"
+          ],
+          "after": [
+            "            if self.characterOpen then",
+            "                CharacterView.render(characterPanel,self.characterSelection,platform)",
+            "                characterPanel:SetAsLastSibling()",
+            "            end"
+          ]
+        },
+        {
+          "at": 475,
+          "before": [
+            "        local prologue = self.prologue",
+            "        if prologue and prologue:covering() and (not run or self.settlementRequested) then prologue:cancel() end",
+            "        local covering = prologue and prologue:covering() or false",
+            "        selectMode(run,prologue)"
+          ],
+          "after": [
+            "        local covering = false",
+            "        selectMode(run)"
+          ]
+        },
+        {
+          "at": 495,
+          "before": [],
+          "after": [
+            "    local function selectionChanged()",
+            "        exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1",
+            "        self:refresh()",
+            "    end"
+          ]
+        },
+        {
+          "at": 500,
+          "before": [
+            "        if not self.characterOpen then return false end",
+            "        self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1",
+            "        self:refresh();return true"
+          ],
+          "after": [
+            "        if not self.characterOpen or self.starting then return false end",
+            "        self.characterOpen=false;self.characterSelection:clear()",
+            "        selectionChanged();return true"
+          ]
+        },
+        {
+          "at": 504,
+          "before": [
+            "    self.start = function(_, character)",
+            "        if self.disabled then return false,\"ui_disabled\" end",
+            "        if self.exitOpen or self.deckUI.visible then return false end",
+            "        if self.settlementRequested or self.settlementBusy then return false end",
+            "        if self.mode ~= \"menu\" and self.mode ~= \"defeat\" and self.mode ~= \"victory\" then return false end",
+            "        if selectable and character==nil then",
+            "            if self.characterOpen then return false end",
+            "            self.characterOpen=true;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1",
+            "            self:refresh();return true, \"character_choice\""
+          ],
+          "after": [
+            "    self.selectCharacter = function(_,id)",
+            "        if not self.characterOpen or self.starting or self.disabled then return false end",
+            "        local ok,reason=self.characterSelection:select(id)",
+            "        if ok then selectionChanged()end",
+            "        return ok,reason",
+            "    end",
+            "    self.selectElement = function(_,id)",
+            "        if not self.characterOpen or self.starting or self.disabled then return false end",
+            "        local ok,reason=self.characterSelection:selectElement(id)",
+            "        if ok then selectionChanged()end",
+            "        return ok,reason",
+            "    end",
+            "    self.start = function(_,character)",
+            "        if self.disabled or self.starting then return false,\"ui_disabled\" end",
+            "        if self.exitOpen or self.deckUI.visible or self.settlementRequested or self.settlementBusy then return false end",
+            "        if self.mode~='menu' and self.mode~='defeat' and self.mode~='victory' then return false end",
+            "        if self.characterOpen then return false,'character_choice_open' end",
+            "        self.characterOpen=true;self.characterSelection:clear()",
+            "        selectionChanged()",
+            "        if character then",
+            "            for _,id in ipairs(CharacterSelect.elements)do if id==character then",
+            "                self:selectCharacter('traveler');return self:selectElement(id)",
+            "            end end",
+            "            return self:selectCharacter(character)"
+          ]
+        },
+        {
+          "at": 529,
+          "before": [
+            "        if character~=nil and not selectable then return false, \"experimental_characters_disabled\" end",
+            "        if selectable then",
+            "            local valid=originalCharacters and character=='traveler';for _,id in ipairs(characterIds) do if id==character then valid=true end end",
+            "            if not valid then return false, \"unknown_character\" end",
+            "        end",
+            "        -- Restarting from a result goes straight back to the map: the story is told once.",
+            "        local opening = self.mode == \"menu\" and not self.prologueSeen"
+          ],
+          "after": [
+            "        return true,'character_choice'",
+            "    end",
+            "    local function beginRun(character)"
+          ]
+        },
+        {
+          "at": 535,
+          "before": [
+            "        local selection=character~='traveler' and character~=nil and {experimental=experimental,character=character} or nil"
+          ],
+          "after": [
+            "        local selection=CharacterSelect.options(character)"
+          ]
+        },
+        {
+          "at": 571,
+          "before": [
+            "        if opening and self.prologue then",
+            "            self.prologueSeen = true",
+            "            self.prologue:play()",
+            "        end"
+          ],
+          "after": []
+        },
+        {
+          "at": 573,
+          "before": [],
+          "after": [
+            "    end",
+            "    self.confirmCharacter = function(_)",
+            "        if not self.characterOpen or self.starting or self.disabled or self.exitOpen",
+            "            or self.settlementRequested or self.settlementBusy then return false,'character_choice_unavailable' end",
+            "        local info=self.characterSelection.info",
+            "        if not info then return false,'character_required' end",
+            "        self.starting=true",
+            "        -- Latch before seed generation and Run.new; a native duplicate cannot re-enter.",
+            "        local ok,accepted,reason=pcall(beginRun,info.id)",
+            "        self.starting=false",
+            "        if not ok then error(accepted)end",
+            "        return accepted,reason"
+          ]
+        },
+        {
+          "at": 658,
+          "before": [
+            "            and not (self.prologue and self.prologue:covering()) then"
+          ],
+          "after": [
+            "            then"
+          ]
+        },
+        {
+          "at": 664,
+          "before": [
+            "        if self.prologue then self.prologue:update(dt) end"
+          ],
+          "after": []
+        },
+        {
+          "at": 685,
+          "before": [
+            "        if self.prologue then self.prologue:cancel() end"
+          ],
+          "after": []
+        },
+        {
+          "at": 696,
+          "before": [
+            "    local function bindCommand(box, kind, action)"
+          ],
+          "after": [
+            "    local function bindCommand(box, kind, action, enabled, order, group, onFocus)"
+          ]
+        },
+        {
+          "at": 701,
+          "before": [
+            "        local characterAction = kind == \"character_cancel\" or kind:match(\"^character_%d$\")~=nil"
+          ],
+          "after": [
+            "        local characterAction = kind:match(\"^character_\")~=nil"
+          ]
+        },
+        {
+          "at": 707,
+          "before": [
+            "                return selectable and self.characterOpen==true and not self.exitOpen"
+          ],
+          "after": [
+            "                return self.characterOpen==true and not self.exitOpen and not self.starting",
+            "                    and (not enabled or enabled())"
+          ]
+        },
+        {
+          "at": 755,
+          "before": [
+            "        end,action,available,kind=='cancel' and 1 or kind=='open' and 200 or 100)"
+          ],
+          "after": [
+            "        end,action,available,order or (kind=='cancel' and 1 or kind=='open' and 200 or 100),group,onFocus)"
+          ]
+        },
+        {
+          "at": 783,
+          "before": [
+            "    if characterPanel then",
+            "        characterPanel.disableCursorEventPassthrough=true",
+            "        characterPanel:GetChild(\"blocker\"):AddCursorEventListener(clickEvent,function()return true end)",
+            "        bindCommand(characterPanel:GetChild(\"cancel\"),\"character_cancel\",function() return self:closeCharacters() end)",
+            "        if originalCharacters then bindCommand(characterPanel:GetChild('traveler'),'character_5',function()return self:start('traveler')end) end",
+            "        for i,id in ipairs(characterIds) do",
+            "            bindCommand(characterPanel:GetChild(\"character\"..i),\"character_\"..i,function()",
+            "                if not self.characterOpen then return false end",
+            "                return self:start(id)",
+            "            end)",
+            "        end"
+          ],
+          "after": [
+            "    characterPanel.disableCursorEventPassthrough=true",
+            "    characterPanel:GetChild(\"blocker\"):AddCursorEventListener(clickEvent,function()return true end)",
+            "    bindCommand(characterPanel:GetChild(\"cancel\"),\"character_cancel\",function() return self:closeCharacters() end,nil,90)",
+            "    bindCommand(characterPanel:GetChild('confirm'),'character_confirm',function()return self:confirmCharacter()end,",
+            "        function()return self.characterSelection.info~=nil end,100)",
+            "    for i,id in ipairs(CharacterSelect.characters)do",
+            "        local box=characterPanel:GetChild(i==5 and 'traveler' or 'character'..i)",
+            "        bindCommand(box,'character_'..i,function()return self:selectCharacter(id)end,nil,i,'characters',",
+            "            function()if Controller.isController(controller)then return self:selectCharacter(id)end end)",
+            "    end",
+            "    for i,id in ipairs(CharacterSelect.elements)do",
+            "        bindCommand(characterPanel:GetChild('elements'):GetChild('element'..i),'character_element'..i,",
+            "            function()return self:selectElement(id)end,function()return self.characterSelection.character=='traveler'end,",
+            "            10+i,'elements',function()if Controller.isController(controller)then return self:selectElement(id)end end)"
+          ]
+        }
+      ]
     }
   }
 }

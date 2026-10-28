@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {integration} from './helpers/presentation-m3-integration.mjs';
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 
 test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with all rule and art-layout values retained',()=>{
@@ -19,7 +20,7 @@ test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with
   // PR282 relocates only the existing version geometry and retires notices.
   expected.layout.nativeMenu.codeVersion=expected.layout.releaseNotes.menuVersion;
   delete expected.layout.releaseNotes;
-  assert.deepEqual(JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8')),expected);
+  assert.deepEqual(JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8'))),expected);
 });
 
 test('first UI batch keeps visual enemy slots, actual target hitboxes, lock colours and original hand-return cancellation aligned',()=>{

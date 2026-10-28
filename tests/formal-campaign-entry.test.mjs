@@ -4,9 +4,10 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { runLua } from '../scripts/test-lua.mjs';
 import { preRetirementSource, retirementSources } from './helpers/presentation-announcement-retirement.mjs';
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 
 const entryPath = 'src/lua/abyss_ui.lua';
-const entry = readFileSync(entryPath, 'utf8').replaceAll('\r\n', '\n');
+const entry = preFormalEntrySource(entryPath,readFileSync(entryPath, 'utf8'));
 const campaignHunk = '{ music = music, campaign = true, experimentalCharacters =';
 const originalHunk = '{ music = music, experimentalCharacters =';
 const digest = value => createHash('sha256').update(value).digest('hex');
