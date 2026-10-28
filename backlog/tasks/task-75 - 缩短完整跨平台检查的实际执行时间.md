@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 05:17'
+updated_date: '2026-10-28 05:49'
 labels: []
 dependencies: []
 priority: medium
@@ -43,6 +43,8 @@ PR269合后Windows日志确认两类合同错误：新快反馈工作流CRLF未�
 双worker候选：21项并发/CLI/分片/门禁及6项原冻结断言负例通过；含LFS合同的31项通过。固定4个真实battle UI夹具串行41.826秒、双worker26.829秒，stdout/stderr逐字节一致；仅本机小样本，非完整CI收益。原串行encounter_coverage在本机触及原120秒上限，未计通过、未改预算。复用PR280同一完整成功run40630641377原生配置，不重复写权重；双worker把前置JS/门禁已预留负载按2倍Lua工作单位折算。所有中间记录已提交99310820保留，不丢弃在途备注。
 
 双worker最终组合已复用PR280完整原生配置并纳入PR279可移植Windows Git夹具修复。精确Node24.18.0在实际Windows上121项选择器/快反馈/worker/分片/门禁全过0skip，11.212秒；31项含LFS合同通过。PR279已在用户本轮紧急先合并授权下按精确HEAD 2a1896c2经REST squash合入89b34d76，未修改保护；不把本地通过当作完整托管通过。双worker所有原Lua deadline/maxBuffer保持，原runner黄金SHA仍由精确逆转合同保护。
+
+40635392726无条件双worker产生原30/120秒超时，完整CI失败。新修复仅对历史不足10秒的短夹具使用最多双进程，重/未知夹具独占并按双槽位计算分片成本，不重试失败、不放宽原预算。35项含真实屏障、全部错误传播、原runner黄金SHA及原工作流合同通过；真实失败入口复验及新完整CI仍待。
 
 2026-10-28 统一集成在4f5bf5bb时曾实际复现缺少优先级红灯并用CLI补Medium/Furinya；随后接续257d9e0c时保留主线已经补齐的Medium和全部最新执行备注。仅依AGENTS规范负责人Furinya，原执行者Codex、状态、计划与验收不变，不接管实现。本轮复用主线原生runner逆向证明，移除整合分支重复helper，继续保留63ec1495原黄金与负例。
 <!-- SECTION:NOTES:END -->

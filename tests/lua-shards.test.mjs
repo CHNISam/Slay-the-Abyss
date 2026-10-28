@@ -66,6 +66,14 @@ test('measured scheduling retains every current fixture and reduces estimated cr
   assert.ok(Math.max(...newLoads) - Math.min(...newLoads) <= Math.max(...scripts.map(weight)), 'LPT bins differ by at most one fixture');
 });
 
+test('dual-worker partition includes the full serial cost of deadline-sensitive fixtures', () => {
+  const fixtures = ['a.lua', 'b.lua', 'c.lua', 'd.lua'];
+  const timings = { lua: { 'a.lua': 50000, 'b.lua': 30000, 'c.lua': 8000, 'd.lua': 8000 },
+    unknownLuaMs: 10000, windowsJsShardMs: [20000, 0] };
+  assert.deepEqual(shardLuaScripts(fixtures, '1/2', timings, 2), ['b.lua', 'c.lua']);
+  assert.deepEqual(shardLuaScripts(fixtures, '2/2', timings, 2), ['a.lua', 'd.lua']);
+});
+
 test('real CLI shards retain failure exit and continuation, allow empty slices and reject invalid arguments', () => {
   const root = mkdtempSync(join(tmpdir(), 'abyss-lua-shards-')), cli = resolve('scripts/test-lua.mjs');
   const run = args => spawnSync(process.execPath, [cli, ...args], { cwd: root, encoding: 'utf8', timeout: 10000, windowsHide: true });
