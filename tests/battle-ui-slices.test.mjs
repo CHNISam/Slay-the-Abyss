@@ -26,13 +26,15 @@ const cleanWrapper=source=>{
 };
 
 function restoreSupport(source){
+  const guarded='    return NativeContract.control(c,definition)\n';
+  assert.equal(source.split(guarded).length,2,'one exact cursor capability guard in the fixture factory');
   assert.equal(source.split(slicedFunction).length,2,'one exact seed-aware function header');
   assert.equal(source.split(originalParams+seedSetup).length,2,'one exact validated seed-range setup');
   assert.equal(source.split(slicedLoop).length,2,'one exact playback seed loop');
   assert.equal(source.split(seedMarker).length,2,'one completion marker per playback seed');
   assert.ok(source.includes('            same(ui.run,direct,"idle")\n        end\n'+seedMarker+'    end\n'),
     'seed completion marker follows the unchanged twenty-command loop');
-  const restored=source.replace(slicedFunction,originalFunction).replace(seedSetup,'').replace(slicedLoop,originalLoop).replace(seedMarker,'');
+  const restored=source.replace(guarded,'    return c\n').replace(slicedFunction,originalFunction).replace(seedSetup,'').replace(slicedLoop,originalLoop).replace(seedMarker,'');
   const bytes=Buffer.from(restored);
   assert.equal(bytes.length,original.bytes,'full original support byte count');
   assert.equal(sha(bytes),original.sha256,'all original recursive assertions, commands, fixtures and seed inputs');
