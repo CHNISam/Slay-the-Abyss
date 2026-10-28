@@ -29,7 +29,7 @@
       <sc-for list="{{statuses}}" as="t" hint-placeholder-count="19">
         <div style="display: flex; gap: 16px; padding: 16px 18px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
           <div style="flex: none; position: relative; width: 52px; height: 52px; border-radius: 12px; background: {{t.bg}}; border: 1.5px solid {{t.edge}}; display: grid; place-items: center">
-            <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f}}" fill="{{t.ink}}"></path><path d="{{t.s}}" fill="none" stroke="{{t.ink}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{t.k}}" fill="none" stroke="{{t.bg}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f}}" fill="{{t.ink}}"></path><path d="{{t.s}}" fill="none" stroke="{{t.ink}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{t.k}}" fill="none" stroke="{{t.bg}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <sc-if value="{{t.badge}}" hint-placeholder-val="{{true}}">
               <span style="position: absolute; right: -7px; bottom: -7px; min-width: 20px; height: 20px; padding: 0 4px; box-sizing: border-box; border-radius: 10px; background: #0D0708; border: 1px solid {{t.edge}}; font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; color: #F3ECDD">{{t.badge}}</span>
             </sc-if>
@@ -84,7 +84,7 @@ class Component extends DCLogic {
     const shield = 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z';
     const flame = 'M12 2.5c2.8 3.2 5 5.8 5 9a5 5 0 0 1-10 0c0-1.6.6-3 1.6-4.2.2 1.6 1 2.6 2 3 0-2.6.6-5 1.4-7.8Z';
     const statuses = [
-      { name: '力量', ...B, count: '层数', badge: '3', f: 'M12 2.5 14.2 6v8.6H9.8V6Z', s: 'M7 15.4h10M12 16v5', k: '', desc: '每层攻击伤害 +1；为负时改用减益配色并写 −N' },
+      { name: '力量', ...B, count: '层数', badge: '3', f: 'M6 11.5V8a1.6 1.6 0 0 1 3.2 0v-1.2a1.6 1.6 0 0 1 3.2 0v.4a1.6 1.6 0 0 1 3.2 0v1a1.6 1.6 0 0 1 3.2 0v5.3c0 4.2-2.9 7.5-6.9 7.5H11c-2.8 0-5-2.3-5-5.1Z', s: '', k: 'M9.2 7.8v3.4M12.4 7v4M15.6 8v3.2M6.2 12.6c2.2-.6 4.2-.3 5.8 1', desc: '每层攻击伤害 +1；为负时改用减益配色并写 −N' },
       { name: '敏捷', ...B, count: '层数', badge: '2', f: 'M19 3C11 4 6 9 5 18l2 1c1-3 2.5-5 5-6.5C16 10 18.5 7 19 3Z', s: 'M4.5 21 11 13', k: '', desc: '每层卡牌格挡 +1；不影响药水固定格挡' },
       { name: '人工制品', ...B, count: '层数', badge: '1', f: 'M12 2 20 7v10l-8 5-8-5V7Z', s: '', k: 'M12 2v20M4 7l16 10M20 7 4 17', desc: '每层抵挡一次减益' },
       { name: '荆棘', ...B, count: '层数', badge: '3', f: 'M12 2l2 5 5-2-2 5 5 2-5 2 2 5-5-2-2 5-2-5-5 2 2-5-5-2 5-2-2-5 5 2Z', s: '', k: '', desc: '被攻击时反伤等同层数' },
@@ -98,7 +98,7 @@ class Component extends DCLogic {
       { name: '蜷甲', ...B, count: '层数', badge: '7', f: 'M12 3a9 9 0 1 0 .01 0Z', s: '', k: 'M12 7a5 5 0 1 0 5 5M12 10a2 2 0 1 0 2 2', desc: '首次非致命掉血后获得层数格挡' },
       { name: '窃金', ...B, count: '层数', badge: '15', f: 'M12 3a9 9 0 1 0 .01 0Z', s: '', k: 'M12 6.5v11M14.5 9h-3.8a1.7 1.7 0 0 0 0 3.4h2.6a1.7 1.7 0 0 1 0 3.4H9.5', desc: '攻击时先偷最多层数金币' },
       { name: '菌雾', ...B, count: '层数', badge: '2', f: 'M7 18.5a4 4 0 0 1-.5-8A5.5 5.5 0 0 1 17 9.5a4.5 4.5 0 0 1 .5 9Z', s: '', k: 'M9 14.5h.01M12 12.5h.01M15 14.5h.01', desc: '它倒下时玩家获得层数易伤' },
-      { name: '易伤', ...D, count: '回合', badge: '2', f: heart, s: '', k: 'M12.8 7.5 10.8 11.2 13.4 12.6 11.4 17', desc: '受普攻伤害 +50%；不放大中毒' },
+      { name: '易伤', ...D, count: '回合', badge: '2', f: 'M11.2 20.3S3.5 15.6 3.5 9.8A4.3 4.3 0 0 1 11.2 7.2l1.2 3.2-2 2.6 1.6 2.9Z M12.8 20.3s7.7-4.7 7.7-10.5a4.3 4.3 0 0 0-7.6-2.6l1.1 3.2-2 2.6 1.6 3Z', s: '', k: '', desc: '受普攻伤害 +50%；不放大中毒' },
       { name: '虚弱', ...D, count: '回合', badge: '1', f: 'M18.6 3.4 17.9 7.2 14.4 10.7 11.3 7.6 14.8 4.1Z M10.4 11.6 7.8 14.2 4.7 11.1 7.3 8.5Z', s: 'M3.8 10.2 9.6 16M6.4 14.6 3.4 20', k: '', desc: '造成普攻伤害 −25%' },
       { name: '脆弱', ...D, count: '回合', badge: '2', f: shield, s: '', k: 'M13 5.5 10.6 10.4 13.6 12.2 10.8 18.4', desc: '卡牌格挡 −25%' },
       { name: '中毒', ...D, count: '层数', badge: '6', f: 'M12 2.5c3.2 4.6 6.2 8 6.2 11.4a6.2 6.2 0 0 1-12.4 0c0-3.4 3-6.8 6.2-11.4Z', s: '', k: 'M9.8 14h.01M14.2 14h.01M10.5 17.2h3', desc: '回合开始掉层数生命，无视格挡，然后减 1' },
