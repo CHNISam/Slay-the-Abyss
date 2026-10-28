@@ -28,7 +28,12 @@ export function partition(files, value, weights, fallback, initial) {
 }
 
 export function jsShard(files, value, platform = process.platform) {
-  return partition(files, value, timings.js[platform] ?? {}, timings.unknownJsMs);
+  // Only shard 1 runs the platform's non-test gates. Reserve their measured
+  // cost before distributing JS, and carry it into the subsequent Lua plan.
+  const initial = timings.initialMs?.[platform];
+  const count = Number(String(value).split('/')[1]);
+  return partition(files, value, timings.js[platform] ?? {}, timings.unknownJsMs,
+    initial?.length === count ? initial : undefined);
 }
 
 export function discoverJs(root = '.') {
