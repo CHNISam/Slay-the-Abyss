@@ -102,7 +102,7 @@ function M.render(c)
   take:GetChild('label').text=linked and item.origin=='base' and '领取遗物' or item.kind=='sapphire' and '选择蓝钥匙' or '领取奖励'
   c.state(take,available,false,true)
   panel:GetChild('page').text=(kinds[chest.kind] or '宝箱')..' · '..self.treasureChoice..' / '..#items
-  panel:GetChild('bossDescription').text=boss and '选择一件遗物，其余奖励将放弃。' or '各项奖励可以分别领取；遗物与其关联蓝钥匙只能选择一项。'
+  panel:GetChild('bossDescription').text=boss and '选择一件遗物，其余奖励将放弃。' or linked and '各项奖励可以分别领取；遗物与其关联蓝钥匙只能选择一项。' or '各项奖励可以分别领取。'
  end
  for _,step in ipairs({{name='previous',delta=-1},{name='next',delta=1}})do
   local index=self.treasureChoice+step.delta

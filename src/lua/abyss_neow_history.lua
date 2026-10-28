@@ -20,7 +20,7 @@ function M.read(owner,character)
  return {bossCount=entry.bossCount,source=entry.source}
 end
 function M.finish(owner,run,outcome)
- if not run or owner.finished[run]then return false end
+ if not run or run.campaignProfile=='competition-two-act' or owner.finished[run]then return false end
  if outcome=='victory' or outcome=='defeat'then
   if run.phase~=outcome then return false end
  elseif outcome~='abandon'then return false end

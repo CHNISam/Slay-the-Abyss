@@ -30,7 +30,7 @@ function M.freezeMapContext(run)
  local act=run.act or 1
  if act~=1 and act~=2 and act~=3 and act~=4 then return nil,'invalid_act'end
  if run.campaign==true and not keys(run)then return nil,'invalid_keys'end
- run.mapBirthContext={endingUnlocked=run.campaign==true and run.endingUnlocked==true,
+ run.mapBirthContext={endingUnlocked=run.campaignProfile~='competition-two-act' and run.campaign==true and run.endingUnlocked==true,
   emeraldOwned=run.campaign==true and run.keys.emerald==true or false}
  run.mapBirthAct=act
  return Copy(run.mapBirthContext)

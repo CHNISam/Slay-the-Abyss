@@ -8,6 +8,8 @@ local definitions = {
     {id='TheBeyond',name='第三幕',first=35,last=51,rows=15,boss=50,treasure=43,camp=49,terminal='ending',seedOffset=600,upgradeChance=.5},
     {id='TheEnding',name='隐藏第四幕',first=52,last=55,rows=0,boss=55,camp=52,terminal='true_victory',seedOffset=1200,upgradeChance=.5},
 }
+-- Explicit competition boundary; omitted/full-source retains future chapter fixtures.
+function M.isCompetition(run)return run.campaignProfile=='competition-two-act'end
 function M.get(act)
     assert(type(act)=='number' and act%1==0 and definitions[act],'invalid act')
     local result={act=act}

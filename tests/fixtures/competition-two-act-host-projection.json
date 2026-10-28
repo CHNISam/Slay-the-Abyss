@@ -1,0 +1,40 @@
+{
+  "base": "19f715aa5ada0fa7b04c7b7ba8e46971617b3004",
+  "path": "src/lua/abyss_game_ui.lua",
+  "beforeSha256": "37b8c0b4bf1d39c2fca26867d5d90e523f6c6f0d2669bc543bc0d73f9c94995f",
+  "afterSha256": "7d32b4892560c836fdefec7625a0c8189f6d6303344085092157232c054fc378",
+  "edits": [
+    {
+      "before": "",
+      "after": "local Acts=require('abyss_acts')\n"
+    },
+    {
+      "before": "        title.text = victory and (run.ending=='true_victory' and '真结局 · 深渊已被封印' or \"深渊已被封印\") or defeat and \"旅途在此中断\" or \"杀戮原塔2\"\n",
+      "after": "        title.text = victory and (run.ending=='two_act_complete' and '双幕挑战完成' or run.ending=='true_victory' and '真结局 · 深渊已被封印' or \"深渊已被封印\") or defeat and \"旅途在此中断\" or \"杀戮原塔2\"\n"
+    },
+    {
+      "before": "            result:GetChild(\"subtitle\").text = victory and run.ending=='true_victory'\n",
+      "after": "            result:GetChild(\"subtitle\").text = victory and run.ending=='two_act_complete'\n                and '第一幕与第二幕已完成。本局挑战到此结束。' or victory and run.ending=='true_victory'\n"
+    },
+    {
+      "before": "            local finalFloor=victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors\n",
+      "after": "            local finalFloor=Acts.isCompetition(run) and Acts.get(2).last or victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors\n"
+    },
+    {
+      "before": "        -- Explicit development opt-in only. Incomplete later content remains\n        -- guarded by the normal Nodes/Run entry commands, never substituted.\n",
+      "after": "        -- Native entry selects the competition profile; explicit full-source\n        -- hosts retain future chapters without changing same-run ownership.\n"
+    },
+    {
+      "before": "",
+      "after": "            selection.campaignProfile=platform.campaignProfile\n"
+    },
+    {
+      "before": "        local history,historyReason=NeowHistory.read(neowHistory,run.character)\n",
+      "after": "        local history,historyReason\n        if not Acts.isCompetition(run) then history,historyReason=NeowHistory.read(neowHistory,run.character) end\n"
+    },
+    {
+      "before": "            run.neowStatus,run.neowUnavailableReason='unavailable',historyReason\n",
+      "after": "            run.neowStatus=Acts.isCompetition(run) and 'disabled' or 'unavailable'\n            run.neowUnavailableReason=historyReason\n"
+    }
+  ]
+}

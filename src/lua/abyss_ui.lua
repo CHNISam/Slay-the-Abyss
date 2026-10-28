@@ -55,7 +55,7 @@ function OnStart()
             end
         end
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { music = music, campaign = true, experimentalCharacters = hasClasses and enableClasses==true, originalCharacters = not (hasClasses and enableClasses==true),
+            { music = music, campaign = true, campaignProfile = "competition-two-act", experimentalCharacters = hasClasses and enableClasses==true, originalCharacters = not (hasClasses and enableClasses==true),
               controllerApi = {events=Enum.ControllerNavigationEventType,directions=Enum.ControllerNavigationDir,
                   modes=Enum.ControllerNavigationMode,getFocus=game.GetControllerFocus,setFocus=game.SetControllerFocus,
                   isController=function()

@@ -74,6 +74,13 @@ test('legacy generation changes only reviewed Darkstone destination argument; Bo
     elseif choice > 0 then`;
       assert.equal(original.split(adapter).length-1,1,'one exact source Boss adapter');
       original=original.replace(adapter,'    if choice > 0 then');
+      const endpoint='    return finishBossTreasure(run)\n';
+      assert.equal(original.split(endpoint).length-1,1,'one exact profile-aware completion dispatch');
+      original=original.replace(endpoint,`    complete(run, "boss_treasure_complete")
+    if run.campaign then run.phase,run.pendingAct='act_transition',(run.act or 1)+1
+    else run.phase = "victory" end
+    return true, "boss_treasure_complete"
+`);
     }
     assert.equal(digest(original),block.sha256,block.name);
   }

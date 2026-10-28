@@ -65,6 +65,10 @@ local function flags(context)
 end
 function M.begin(owner,run,context)
  if not plain(run)then return nil,'invalid_ending_run'end
+ if run.campaignProfile=='competition-two-act'then
+  return {known=false,unlocked=false,wins={},source='competition-disabled',
+   readStatus='disabled',persistence='disabled'}
+ end
  if owner.runs[run]then return nil,'ending_run_already_registered'end
  local state=M.read(owner)
  local valid=flags(context)
