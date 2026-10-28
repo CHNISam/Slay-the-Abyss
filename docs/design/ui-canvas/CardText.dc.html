@@ -29,21 +29,9 @@
     </div>
   </div>
 
-  <!-- 悬停的牌：放大 + 关键词释义 -->
-  <div style="position: absolute; left: 594px; top: 400px; width: 300px; height: 420px; box-sizing: border-box; border-radius: 18px; padding: 4px; background: linear-gradient(160deg, #C98A5A, #3C302A 45%, #5A3A2C); box-shadow: 0 0 0 2px #E9C77B, 0 0 40px #E9C77B55, 0 24px 50px #000000C0">
-    <div style="position: relative; width: 100%; height: 100%; border-radius: 14px; background: linear-gradient(180deg, #241B19, #170F0E); overflow: hidden; display: flex; flex-direction: column">
-      <div style="height: 170px; background: radial-gradient(circle at 50% 60%, #7A2A1E, #2A1210)"></div>
-      <div style="margin-top: -22px; text-align: center; font-family: 'Noto Serif SC', serif; font-size: 28px; font-weight: 900; letter-spacing: 4px; text-shadow: 0 2px 6px #000">蝶舞回身</div>
-      <div style="margin: 8px auto 0; display: flex; align-items: center; gap: 10px; font-size: 14px; letter-spacing: 5px; color: #E8836C"><span style="width: 24px; height: 1px; background: #E8836C"></span>攻击<span style="width: 24px; height: 1px; background: #E8836C"></span></div>
-      <div style="flex: 1; padding: 10px 22px 18px; display: flex; flex-direction: column; justify-content: center; gap: 6px; text-align: center; font-size: 21px; line-height: 1.5; color: #E6DCC8">
-        <div>造成 <b style="color: #8CE07A">7</b> 伤害</div>
-        <div style="padding: 4px 8px; border-radius: 8px; background: #E9C77B1C; box-shadow: inset 0 0 0 1px #E9C77B66">若有 <b style="color: #F0C878">血梅香</b>：再造成 <b style="color: #8CE07A">7</b></div>
-      </div>
-      <div style="position: absolute; left: 6px; top: 6px; width: 56px; height: 56px; display: grid; place-items: center">
-        <span style="position: absolute; width: 38px; height: 38px; transform: rotate(45deg); border-radius: 5px; background: linear-gradient(135deg, #FBE3A8, #D49A44 55%, #7E521C); box-shadow: 0 0 0 2px #170F0E, 0 0 0 3px #E9C77B"></span>
-        <span style="position: relative; font-family: 'Noto Serif SC', serif; font-size: 26px; font-weight: 900; color: #2A1708">1</span>
-      </div>
-    </div>
+  <!-- 悬停的牌：项目卡牌组件原尺寸 -->
+  <div style="position: absolute; left: 596px; top: 392px; width: 296px; height: 416px; filter: drop-shadow(0 0 24px #F58258AA)">
+    <dc-import name="Card" role="hutao" cost-state="normal" block="none" art="" rarity="common" shape="attack" title="蝶舞回身" type-label="攻击" cost="1" text="造成 7 点伤害。若有血梅香，再造成 7 点伤害。" hint-size="296px,416px"></dc-import>
   </div>
   <div style="position: absolute; left: 920px; top: 410px; width: 300px; display: flex; flex-direction: column; gap: 12px">
     <sc-for list="{{keys}}" as="k" hint-placeholder-count="2">
@@ -59,15 +47,13 @@
   <div style="position: absolute; left: 960px; top: 720px; width: 0; height: 0">
     <sc-for list="{{cards}}" as="c" hint-placeholder-count="5">
       <div style="{{c.pos}}">
-        <div style="width: 206px; height: 290px; box-sizing: border-box; border-radius: 14px; padding: 3px; background: linear-gradient(160deg, {{c.edgeA}}, #3C302A 45%, {{c.edgeB}}); box-shadow: 0 18px 34px #000000A0; opacity: {{c.op}}">
-          <div style="position: relative; width: 100%; height: 100%; border-radius: 11px; background: linear-gradient(180deg, #241B19, #170F0E); overflow: hidden; display: flex; flex-direction: column">
-            <div style="height: 112px; background: {{c.art}}"></div>
-            <div style="margin-top: -16px; text-align: center; font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 900; letter-spacing: 3px; text-shadow: 0 2px 6px #000">{{c.name}}</div>
-            <div style="margin: 4px auto 0; display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 4px; color: {{c.tag}}"><span style="width: 18px; height: 1px; background: {{c.tag}}"></span>{{c.type}}<span style="width: 18px; height: 1px; background: {{c.tag}}"></span></div>
-            <div style="flex: 1; padding: 4px 12px 12px; display: flex; flex-direction: column; justify-content: center; gap: 3px; text-align: center; font-size: {{c.fs}}; line-height: 1.45; color: #E6DCC8">
-              <sc-for list="{{c.lines}}" as="l" hint-placeholder-count="2">
-                <div style="{{l.box}}"><sc-for list="{{l.segs}}" as="g" hint-placeholder-count="3"><span style="{{g.st}}">{{g.t}}</span></sc-for></div>
-              </sc-for>
+        <div style="width: 207px; height: 291px; opacity: {{c.op}}">
+          <div style="width: 296px; height: 416px; transform: scale(0.7); transform-origin: 0 0">
+            <dc-import name="Card" role="hutao" rarity="{{c.rarity}}" shape="{{c.shape}}" title="{{c.name}}" type-label="{{c.type}}" cost="{{c.cost}}" text="{{c.text}}" cost-state="normal" block="none" art="" hint-size="296px,416px"></dc-import>
+          </div>
+        </div>
+      </div>
+    </sc-for>
             </div>
             <div style="position: absolute; left: 4px; top: 4px; width: 44px; height: 44px; display: grid; place-items: center">
               <span style="position: absolute; width: 30px; height: 30px; transform: rotate(45deg); border-radius: 4px; background: linear-gradient(135deg, #FBE3A8, #D49A44 55%, #7E521C); box-shadow: 0 0 0 2px #170F0E, 0 0 0 3px #E9C77B"></span>
@@ -79,7 +65,7 @@
     </sc-for>
   </div>
   <!-- 悬停牌原位留空槽 -->
-  <div style="position: absolute; left: 669px; top: 1000px; width: 150px; height: 4px; border-radius: 2px; background: #E9C77B; box-shadow: 0 0 12px #E9C77B"></div>
+  <div style="position: absolute; left: 669px; top: 1004px; width: 150px; height: 4px; border-radius: 2px; background: #E9C77B; box-shadow: 0 0 12px #E9C77B"></div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
@@ -90,11 +76,11 @@ class Component extends DCLogic {
     const atk = { type: '攻击', tag: '#E8836C', edgeA: '#C98A5A', edgeB: '#5A3A2C', art: 'radial-gradient(circle at 50% 60%, #7A2A1E, #2A1210)' };
     const skl = { type: '技能', tag: '#8CC4E2', edgeA: '#8CB8D0', edgeB: '#2C4652', art: 'radial-gradient(circle at 50% 60%, #24485A, #101C24)' };
     const hand = [
-      { name: '普通攻击', cost: 1, ...atk, lines: [line([['造成 '], ['8', UP], [' 伤害']])] },
-      { name: '蝶舞回身', cost: 1, ...atk, hover: true, lines: [line([['造成 '], ['7', UP], [' 伤害']]), line([['若有 '], ['血梅香', K], ['：再造成 '], ['7', UP]], 'on')] },
-      { name: '防御', cost: 1, ...skl, lines: [line([['获得 '], ['5'], [' 格挡']])] },
-      { name: '催绽', cost: 1, ...skl, lines: [line([['兑现', K], [' 全部 '], ['血梅香', K]]), line([['每层造成 '], ['5'], [' 伤害']])] },
-      { name: '灯还亮着', cost: 1, ...skl, lines: [line([['获得 '], ['6'], [' 格挡']]), line([['生命低于一半', K], ['：再获得 '], ['6']], 'off')] }
+      { name: '普通攻击', cost: '1', type: '攻击', shape: 'attack', rarity: 'basic', text: '造成 8 点伤害。' },
+      { name: '蝶舞回身', cost: '1', type: '攻击', shape: 'attack', rarity: 'common', text: '造成 7 点伤害。若有血梅香，再造成 7 点伤害。', hover: true },
+      { name: '防御', cost: '1', type: '技能', shape: 'skill', rarity: 'basic', text: '获得 5 点格挡。' },
+      { name: '催绽', cost: '1', type: '技能', shape: 'skill', rarity: 'uncommon', text: '兑现目标全部血梅香。' },
+      { name: '灯还亮着', cost: '1', type: '能力', shape: 'power', rarity: 'rare', text: '生命低于一半时，每回合获得 6 点格挡。' }
     ];
     const n = hand.length;
     const cards = hand.map((c, i) => {
