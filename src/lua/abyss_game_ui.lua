@@ -765,6 +765,17 @@ function M.new(root, data, presentation, clickEvent, platform)
             return action()
         end)
     end
+    local guide = exitPanel:GetChild('guide')
+    if guide then
+        bindCommand(exitPanel:GetChild('help'), 'help', function()
+            exitGeneration = exitGeneration + 1
+            self.controlsOpen = true
+            guide:SetVisible(true)
+            self:refresh()
+            return true
+        end)
+        bindCommand(guide:GetChild('close'), 'helpClose', function() return self:closeExit() end)
+    end
     -- Source menu actions use the same pointer ownership as exit actions, and also
     -- expire whenever their menu/run context is hidden or replaced.
     bindCommand(start, "start", function() return self:start() end)
@@ -778,17 +789,6 @@ function M.new(root, data, presentation, clickEvent, platform)
     bindCommand(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
     bindCommand(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
     bindCommand(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
-    local guide = exitPanel:GetChild('guide')
-    if guide then
-        bindCommand(exitPanel:GetChild('help'), 'help', function()
-            exitGeneration = exitGeneration + 1
-            self.controlsOpen = true
-            guide:SetVisible(true)
-            self:refresh()
-            return true
-        end)
-        bindCommand(guide:GetChild('close'), 'helpClose', function() return self:closeExit() end)
-    end
     if characterPanel then
         characterPanel.disableCursorEventPassthrough=true
         characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)

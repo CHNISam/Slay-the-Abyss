@@ -97,6 +97,15 @@ function M.new(root, map, onChoose, clickEvent, options)
         error("missing map UI control " .. name)
     end
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
+    local function pathColour(ink, opacity)
+        return colour(ink.r, ink.g, ink.b, math.floor(ink.a * opacity))
+    end
+    local visual = Theme.layout.map.presentation
+    local pathColours = {
+        taken = pathColour(Theme.color.node.pathTaken, visual.takenOpacity),
+        next = pathColour(Theme.color.node.path, visual.nextOpacity),
+        future = pathColour(Theme.color.node.path, visual.futureOpacity),
+    }
     local function controllerContextReady()
         return chapterFor(self.map) ~= nil and self.map == self.observedMap
             and sameContext(self.map,self.observedContext)
@@ -174,10 +183,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         control:SetAnchoredPosition((ax + bx) / 2, (ay + by) / 2)
         control:SetSizeDelta(math.sqrt(dx * dx + dy * dy), Layout.lineWidth)
         control.localRotationZ = math.atan(dy, dx) * 180 / math.pi
-        local visual = Theme.layout.map.presentation
-        local ink = taken and Theme.color.node.pathTaken or Theme.color.node.path
-        local opacity = taken and visual.takenOpacity or reachable and visual.nextOpacity or visual.futureOpacity
-        control.imageColor = colour(ink.r, ink.g, ink.b, math.floor(ink.a * opacity))
+        control.imageColor = taken and pathColours.taken or reachable and pathColours.next or pathColours.future
     end
     function self.render(_)
         if not self.map then return false, "map_unbound" end
