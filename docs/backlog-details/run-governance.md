@@ -1,6 +1,18 @@
 # Run 状态与接续职责治理
 
-## 当前组合
+## 当前03接续回滚组合
+
+当前源码整合以 develop `03b11fa5d5576f91cf19a2b2ed671b628762a543` 和 Nodes `18297e533fb27e7e1af29cc6e02d19309f9a11a6` 为基准，七个独立Run提交已线性重放到源码整合提交 `39d5e494`。TASK-74.4独立任务身份记录随原提交保留，没有修改真实TASK-74.2。下方1f、432、48组合为历史，不再代表当前基准或CI通过。
+
+这次rebase没有文本冲突；逐字节（换行归一）核对证实03新增continueCombatChoice及chooseDiscard/choosePile/chooseScry/chooseHand四方法完整保留。它继续使用snapshot.capture(run,run.combat)、pcall、同步药水/金币/永久变化、检查finishCombat拒绝、失败及异常restore、成功/失败/异常各路径release，保留原Run与战斗实体/牌堆引用。私有syncBattlePotions和提取后的settlement.applyPermanentChanges在主文件既有边界接线，没有覆盖上游修复、引入新规则或修改Combat/Nodes/UI/CI。
+
+本轮按原30秒预算执行run-choice-transactions.test.mjs全部五切片、12组原断言，5/5通过、零跳过，总85.986秒；pile/pile_fairy/discard/scry/hand分别29.375/15.047/15.075/15.399/10.888秒。没有增加时限、删断言或只取部分输出。原Run十检查点10/10通过；新的完整状态图/双向别名/RNG/返回值差分以03源码为基线，10/10通过。03原Run1310物理行，LF SHA256 `1308a1df1acfb5ab132e70d9ebff53a9b3082feb45723acc704cfa9ea11d5510`；旧1f基线/哈希仅保留历史，没有替换金值。
+
+独立AST对比当前03与重构六个API注册文件，53个公开方法名与具名参数完全一致。16项预算/API/坐标/架构逆变换政策测试通过；原生Run160项测量（较旧158新增continueCombatChoice及其pcall回调），最大15，主600行/max14；全门禁938测量、60条明确历史警告、零新增。架构240模块/1352边通过，Backlog任务身份/优先级及JS语法通过。当前逐函数表已按本轮原生报告更新，以下旧组合数量仅作历史证据。
+
+日志与完整测量快照在忽略目录build/run-03-choice-transactions.log、build/run-03-differential.log、build/run-03-api-source.log、build/run-03-complexity.json。此前所有失败/重跑日志保留；本轮所列必要产品回归全部通过。仅本地整合与记录，不推送、不合并；当前候选、导入、ready、自然通关、实机UI及最新SHA Full CI均未取得。
+
+## 48cb历史组合
 
 当前离线组合以 develop `48cb48ce` 和 Nodes `548edc3c` 为基准，保留最新批准稿界面、上游原预算分片、正式v3交付合同和全部UI与Nodes门禁。所有Run生产源码与已审远端 `ebb143f9` 相同；该远端独立提交修正的任务身份TASK-74.4也已保留，没有覆盖其他执行者的记录。
 
@@ -26,7 +38,7 @@
 
 固定Luacheck 1.2.0，Windows二进制SHA256 `0f1c69c4d09f1ebb4d8df14c215e4553e2e639bd4cb7bf3c639b0daa6198317b`。主文件≤1000物理行；整个主Run、本轮模块、既有potion_candidate与未来Run helper每函数≤15。既有独立目录/seed/red-card职责未改，没有借本轮宣称它们已治理。
 
-`npm run check:lua-static` 生成build/lua-complexity.json、responsibility-complexity.json、module-size.json；AST逐函数对应原生工具坐标，缺测量失败。最终Run 158项测量（含7主块、installer、匿名函数），最大15，主文件602行/max14。全仓无新增静态诊断，保留73条明确历史告警，所有受门禁职责576个测量；架构225模块/1286边通过。
+`npm run check:lua-static` 生成build/lua-complexity.json、responsibility-complexity.json、module-size.json；AST逐函数对应原生工具坐标，缺测量失败。当前03组合Run 160项测量（含7主块、installer、匿名函数），最大15，主文件600行/max14。全仓无新增静态诊断，保留60条明确历史告警，所有受门禁职责938个测量；架构240模块/1352边通过。
 
 ## 行为证据
 
@@ -65,11 +77,11 @@ PR308在bf897616的完整CI发现发布清单仍要求Run直接require encounter
 
 ## 原生逐函数报告
 
-以下含主块和所有命名/匿名函数，位置为Luacheck原始file:line:column；阈值均为15。先列各文件物理行/测量数/最大复杂度：
+当前03组合；含主块和所有命名/匿名函数。位置为固定Luacheck原始file:line:column，全部阈值15。
 
 | 文件 | 物理行 | 测量数 | 最大复杂度 |
 |---|---:|---:|---:|
-| abyss_run.lua | 602 | 66 | 14 |
+| abyss_run.lua | 600 | 68 | 14 |
 | abyss_run_initialization.lua | 134 | 7 | 12 |
 | abyss_run_transition.lua | 80 | 8 | 13 |
 | abyss_run_rooms.lua | 341 | 31 | 15 |
@@ -133,18 +145,20 @@ PR308在bf897616的完整CI发现发布清单仍要求Run直接require encounter
 | abyss_run.lua:433:7 | function 'replayCommand' | 14 |
 | abyss_run.lua:445:1 | function 'M.play' | 5 |
 | abyss_run.lua:453:34 | function | 7 |
-| abyss_run.lua:476:1 | function 'M.chooseDiscard' | 5 |
-| abyss_run.lua:488:1 | function 'M.choosePile' | 5 |
-| abyss_run.lua:501:1 | function 'M.chooseScry' | 5 |
-| abyss_run.lua:514:1 | function 'M.chooseHand' | 5 |
-| abyss_run.lua:527:1 | function 'M.endTurn' | 4 |
-| abyss_run.lua:530:34 | function | 5 |
-| abyss_run.lua:549:1 | function 'M.choosePotionStance' | 8 |
-| abyss_run.lua:553:31 | function | 4 |
-| abyss_run.lua:574:7 | function 'permanentUpgradeContext' | 6 |
-| abyss_run.lua:587:1 | function 'M.canUpgradeCard' | 3 |
-| abyss_run.lua:593:1 | function 'M.upgradeCard' | 1 |
-| abyss_run.lua:594:30 | function | 3 |
+| abyss_run.lua:478:7 | function 'continueCombatChoice' | 3 |
+| abyss_run.lua:481:34 | function | 4 |
+| abyss_run.lua:502:1 | function 'M.chooseDiscard' | 3 |
+| abyss_run.lua:507:1 | function 'M.choosePile' | 3 |
+| abyss_run.lua:513:1 | function 'M.chooseScry' | 3 |
+| abyss_run.lua:519:1 | function 'M.chooseHand' | 3 |
+| abyss_run.lua:525:1 | function 'M.endTurn' | 4 |
+| abyss_run.lua:528:34 | function | 5 |
+| abyss_run.lua:547:1 | function 'M.choosePotionStance' | 8 |
+| abyss_run.lua:551:31 | function | 4 |
+| abyss_run.lua:572:7 | function 'permanentUpgradeContext' | 6 |
+| abyss_run.lua:585:1 | function 'M.canUpgradeCard' | 3 |
+| abyss_run.lua:591:1 | function 'M.upgradeCard' | 1 |
+| abyss_run.lua:592:30 | function | 3 |
 | abyss_run_initialization.lua:1:1 | main chunk | 1 |
 | abyss_run_initialization.lua:13:1 | function 'M.install' | 1 |
 | abyss_run_initialization.lua:16:11 | function 'prepareProfile' | 9 |
@@ -152,33 +166,14 @@ PR308在bf897616的完整CI发现发布清单仍要求Run直接require encounter
 | abyss_run_initialization.lua:53:11 | function 'finishCatalog' | 7 |
 | abyss_run_initialization.lua:68:11 | function 'initializeRelicPool' | 9 |
 | abyss_run_initialization.lua:82:5 | function 'Run.new' | 12 |
-| abyss_run_potion_candidate.lua:1:1 | main chunk | 1 |
-| abyss_run_potion_candidate.lua:8:1 | function 'M.eventRestricted' | 10 |
-| abyss_run_potion_candidate.lua:15:7 | function 'combatEligibility' | 9 |
-| abyss_run_potion_candidate.lua:23:7 | function 'eligibility' | 5 |
-| abyss_run_potion_candidate.lua:29:7 | function 'definition' | 8 |
-| abyss_run_potion_candidate.lua:39:7 | function 'potionEffects' | 8 |
-| abyss_run_potion_candidate.lua:51:7 | function 'smokeRestriction' | 8 |
-| abyss_run_potion_candidate.lua:59:7 | function 'outsideGeneration' | 4 |
-| abyss_run_potion_candidate.lua:74:7 | function 'outsideHealth' | 3 |
-| abyss_run_potion_candidate.lua:82:7 | function 'outsideCandidate' | 7 |
-| abyss_run_potion_candidate.lua:94:7 | function 'combatCandidate' | 5 |
-| abyss_run_potion_candidate.lua:98:34 | function | 4 |
-| abyss_run_potion_candidate.lua:114:1 | function 'M.prepare' | 6 |
-| abyss_run_potions.lua:1:1 | main chunk | 1 |
-| abyss_run_potions.lua:9:1 | function 'M.install' | 1 |
-| abyss_run_potions.lua:12:5 | function 'Run.potionCapacity' | 2 |
-| abyss_run_potions.lua:15:5 | function 'Run.potionCount' | 3 |
-| abyss_run_potions.lua:23:5 | function 'Run.obtainPotion' | 9 |
-| abyss_run_potions.lua:41:5 | function 'Run.discardPotion' | 13 |
-| abyss_run_potions.lua:58:11 | function 'potionCandidate' | 1 |
-| abyss_run_potions.lua:62:11 | function 'commitOutsidePotion' | 9 |
-| abyss_run_potions.lua:77:11 | function 'stagePotionBattle' | 14 |
-| abyss_run_potions.lua:97:11 | function 'escapePotionBattle' | 8 |
-| abyss_run_potions.lua:105:45 | function | 1 |
-| abyss_run_potions.lua:117:5 | function 'Run.usePotion' | 14 |
-| abyss_run_potions.lua:154:11 | function 'potionAvailability' | 8 |
-| abyss_run_potions.lua:168:5 | function 'Run.potionView' | 10 |
+| abyss_run_transition.lua:1:1 | main chunk | 1 |
+| abyss_run_transition.lua:11:1 | function 'M.install' | 1 |
+| abyss_run_transition.lua:12:11 | function 'hasEndingKeys' | 5 |
+| abyss_run_transition.lua:17:11 | function 'validateTransitionBoundary' | 7 |
+| abyss_run_transition.lua:25:11 | function 'validateTransitionRoom' | 9 |
+| abyss_run_transition.lua:38:11 | function 'validateTransition' | 12 |
+| abyss_run_transition.lua:50:5 | function 'Run.advanceAct' | 1 |
+| abyss_run_transition.lua:51:36 | function | 13 |
 | abyss_run_rooms.lua:1:1 | main chunk | 1 |
 | abyss_run_rooms.lua:13:1 | function 'M.install' | 1 |
 | abyss_run_rooms.lua:15:11 | function 'encounterEnemies' | 12 |
@@ -229,11 +224,30 @@ PR308在bf897616的完整CI发现发布清单仍要求Run直接require encounter
 | abyss_run_settlement.lua:220:5 | function 'Run.finishCombat' | 4 |
 | abyss_run_settlement.lua:229:5 | function 'Run.proceedEnding' | 9 |
 | abyss_run_settlement.lua:239:36 | function | 14 |
-| abyss_run_transition.lua:1:1 | main chunk | 1 |
-| abyss_run_transition.lua:11:1 | function 'M.install' | 1 |
-| abyss_run_transition.lua:12:11 | function 'hasEndingKeys' | 5 |
-| abyss_run_transition.lua:17:11 | function 'validateTransitionBoundary' | 7 |
-| abyss_run_transition.lua:25:11 | function 'validateTransitionRoom' | 9 |
-| abyss_run_transition.lua:38:11 | function 'validateTransition' | 12 |
-| abyss_run_transition.lua:50:5 | function 'Run.advanceAct' | 1 |
-| abyss_run_transition.lua:51:36 | function | 13 |
+| abyss_run_potions.lua:1:1 | main chunk | 1 |
+| abyss_run_potions.lua:9:1 | function 'M.install' | 1 |
+| abyss_run_potions.lua:12:5 | function 'Run.potionCapacity' | 2 |
+| abyss_run_potions.lua:15:5 | function 'Run.potionCount' | 3 |
+| abyss_run_potions.lua:23:5 | function 'Run.obtainPotion' | 9 |
+| abyss_run_potions.lua:41:5 | function 'Run.discardPotion' | 13 |
+| abyss_run_potions.lua:58:11 | function 'potionCandidate' | 1 |
+| abyss_run_potions.lua:62:11 | function 'commitOutsidePotion' | 9 |
+| abyss_run_potions.lua:77:11 | function 'stagePotionBattle' | 14 |
+| abyss_run_potions.lua:97:11 | function 'escapePotionBattle' | 8 |
+| abyss_run_potions.lua:105:45 | function | 1 |
+| abyss_run_potions.lua:117:5 | function 'Run.usePotion' | 14 |
+| abyss_run_potions.lua:154:11 | function 'potionAvailability' | 8 |
+| abyss_run_potions.lua:168:5 | function 'Run.potionView' | 10 |
+| abyss_run_potion_candidate.lua:1:1 | main chunk | 1 |
+| abyss_run_potion_candidate.lua:8:1 | function 'M.eventRestricted' | 10 |
+| abyss_run_potion_candidate.lua:15:7 | function 'combatEligibility' | 9 |
+| abyss_run_potion_candidate.lua:23:7 | function 'eligibility' | 5 |
+| abyss_run_potion_candidate.lua:29:7 | function 'definition' | 8 |
+| abyss_run_potion_candidate.lua:39:7 | function 'potionEffects' | 8 |
+| abyss_run_potion_candidate.lua:51:7 | function 'smokeRestriction' | 8 |
+| abyss_run_potion_candidate.lua:59:7 | function 'outsideGeneration' | 4 |
+| abyss_run_potion_candidate.lua:74:7 | function 'outsideHealth' | 3 |
+| abyss_run_potion_candidate.lua:82:7 | function 'outsideCandidate' | 7 |
+| abyss_run_potion_candidate.lua:94:7 | function 'combatCandidate' | 5 |
+| abyss_run_potion_candidate.lua:98:34 | function | 4 |
+| abyss_run_potion_candidate.lua:114:1 | function 'M.prepare' | 6 |
