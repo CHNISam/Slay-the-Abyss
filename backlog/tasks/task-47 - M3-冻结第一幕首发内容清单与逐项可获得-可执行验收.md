@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-27 19:38'
+updated_date: '2026-10-28 01:36'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -21,6 +21,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
+  - docs/M3-STATUS-20261028.md
 priority: medium
 type: task
 ordinal: 75000
@@ -70,6 +71,8 @@ ordinal: 75000
 2026-10-27优先级治理：逐项读取当前任务，按当前M3依赖与已知PR238阻塞重排；High聚焦14.1/16.1/59/62四项，其余首发Medium，独立可选Low，已完成记录Medium。补现有verify:backlog门禁：当前任务目录不允许空/非法优先级，未完成High最多5项；历史completed目录不追溯。同步根GUI可见任务，验证分布、业务元数据不变及门禁正反例，同PR241交付。
 
 2026-10-27并发复核：bosses独立树补确实缺失Hexaghost/SlimeBoss，按固定AI/阶段/随机消耗实现独立模块；主session接真实遭遇和数据，不把已有地图当完整章节；自然四职业全幕及平台验收继续未完成。
+
+2026-10-28接续收口：以最新origin/develop核对各M3整合PR真实合并与CI；枚举当前m-4全部任务，更新任务首页、交接和排期的当前状态；已合入切片不重复合并，旧脏树保留；未有自然/平台证据的AC不勾选。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -146,4 +149,6 @@ ordinal: 75000
 2026-10-28集成更新：PR259已按当前精确e4d60da7的15项完整Quality与独立复合审查通过实际verify:delivery门禁，正式squash到develop e0fad45c74ed574bc4cfb8a4c9ad71424a13c386。失败的旧运行与两份超时原测试日志保留；拆片未改原断言、种子、顺序或时限。合后push CI独立等待，未以合前成功替代。已将该主线并入第四幕独立树，既有短路径包生产源码与本次合入一致，继续保留未导入/无本包ready边界。
 
 2026-10-28第四幕新版已及时交付，短路径F:\New folder\.artifacts\M3测试.gil（另存M3四幕测试.gil），不可变原件.artifacts/m3-test-20261028-c5e76880/abyss-m3-test-c5e76880.gil。冻结c5e768807081d1c62750174998367f1565274ee5，buildId6740adf2-e08d-4cfe-b805-4899cd30bb43，5591840字节，SHA256 73aa07cb4d203f8f0e916204da03b264e137fd195d0a46838c8b2878fb0b47e4。213模块逐一独立同源读回匹配、3672控件/最大直接子项60、原生静态0错误/71警告；原UI_MISMATCH与46处仅autoSize=false被省略的原比较器复核保留。涵盖绿钥匙、盾矛/心脏/确认真结局及原图校验、自动牌朝向两个先红后绿修复。用户自行导入，尚无本包ready/启动/自然四幕/verify:ui证明。PR262当前准确提交完整CI仍跑；PR259合后e0 push已实际出现card_help_release与looter_potion_ui原30秒超时，未称merged_passed，正独立保全原完整用例拆片而不改时限或规则。M3未完成，用户键鼠始终未占用。
+
+2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
 <!-- SECTION:NOTES:END -->
