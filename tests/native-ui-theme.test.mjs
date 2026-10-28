@@ -7,9 +7,9 @@ import { nodeLayout } from '../scripts/node-ui-layout.mjs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 
 const find = (controls, name) => controls.find(control => control.name === name);
-function walk(controls, action, parents = []) {
+function walk(controls, action, parent = '') {
   for (const control of controls) {
-    const path = [...parents, control.name];
+    const path = `${parent}/${control.name}`;
     action(control, path); walk(control.children ?? [], action, path);
   }
 }
@@ -55,14 +55,30 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
     id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion),
     // The shop merchant's silhouette (hood point, beard) and its next-line marker.
     theme.image.diamond];
-  walk(nodeLayout(theme).controls, (control, path) => {
-    // Only the approved card-skin geometry uses fixed native primitives; all
-    // other pictures retain the existing semantic-token check.
-    const skin = path.some(name => ['roundShadow', 'roundFrame', 'roundBody', 'skin', 'tagEdge', 'tagBody', 'roleMark'].includes(name));
-    if (control.kind === 'image') assert.ok(allowed.includes(control.image)
-      || skin && [100001, 100002, 100003, 100004, 100006].includes(control.image), `unexpected node image ${path.join('/')}: ${control.image}`);
+  // CARD_FACE_PARITY.md: the shared native card frame has fixed library shapes,
+  // not theme.rect aliases. Permit them only at their reviewed card-face paths.
+  const cardShape = (path, image) => {
+    if (!/^\/nodePanel\/(?:shopView\/card\d+|pickerView\/(?:card\d+|before|after|target|forgeGrid\/card\d+))\//.test(path)) return false;
+    const shapes = {
+      100001: /\/roleMark\/curse\/(?:slash|backslash)$/,
+      100002: /\/(?:(?:roundShadow|roundFrame|roundBody|tagEdge|tagBody)\/corner-?1_-?1|skin\/skill\/(?:edge|well)\/corner-?1_-?1|skin\/power\/(?:edge|well)\/arch|roleMark\/(?:HT\/petal[0-4]|AR\/(?:moon|cut)|FR\/water))$/,
+      100003: /\/(?:skin\/attack\/(?:edge|well)\/point|roleMark\/(?:FR\/tip|RD\/(?:bolt|tail)))$/,
+      100004: /\/roleMark\/traveler\/symbol$/,
+      100006: /\/roleMark\/colorless\/symbol$/,
+    };
+    return shapes[image]?.test(path) === true;
+  };
+  const validate = controls => walk(controls, (control, path) => {
+    if (control.kind === 'image') assert.ok(allowed.includes(control.image) || cardShape(path, control.image), `unexpected node image ${control.image} at ${path}`);
     if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);
   });
+  const controls = nodeLayout(theme).controls;
+  validate(controls);
+  const bad = structuredClone(controls);
+  find(bad[0].children, 'backdrop').image = 100002;
+  assert.throws(() => validate(bad), /unexpected node image 100002 at \/nodePanel\/backdrop/);
+  find(bad[0].children, 'backdrop').image = 199999;
+  assert.throws(() => validate(bad), /unexpected node image 199999/);
 });
 
 test('host preserves the approved battle and scrollable map while composing node and menu panels', () => {
@@ -86,9 +102,15 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.deepEqual(title(map).size, theme.layout.nativeNode.topBar.title.slice(2));
   const resources = find(map, 'resources');
   assert.deepEqual(resources.children.map(control => control.name), ['hpIcon', 'hp', 'goldIcon', 'gold']);
+  // Accepted read-only map preview adds one hidden, theme-framed return action.
   const previewBack = find(map, 'previewBack');
+  assert.equal(map.filter(group => group.name === 'previewBack').length, 1);
   assert.deepEqual([...previewBack.position, ...previewBack.size], theme.layout.runMenu.mapBack);
-  assert.equal(previewBack.visible, false, 'the preview return action starts hidden');
+  assert.equal(previewBack.visible, false);
+  assert.equal(find(previewBack.children, 'label').text.content, '返回菜单');
+  assert.equal(find(previewBack.children, 'hit').kind, 'cursorArea');
+  assert.equal(find(previewBack.children, 'hit').focusable, true);
+  assert.deepEqual(find(previewBack.children, 'hit').size, previewBack.size);
   const comparableMap = structuredClone(map.filter(group => !['resources', 'previewBack'].includes(group.name)));
   title(comparableMap).position = [...title(standaloneMap).position];
   title(comparableMap).size = [...title(standaloneMap).size];

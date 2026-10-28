@@ -673,12 +673,12 @@
     },
     "battleNotice": {
       "position": [
-        0,
-        228
+        -330,
+        206
       ],
       "size": [
-        1080,
-        32
+        520,
+        80
       ]
     },
     "topBar": {
@@ -856,7 +856,7 @@
       "portrait": 132
     },
     "enemyRow": {
-      "y": 44,
+      "y": 64,
       "xFrom": 100,
       "xFromFew": 100,
       "fewCount": 3,

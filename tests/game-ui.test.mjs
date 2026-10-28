@@ -10,6 +10,10 @@ test('composed native tree has exactly one menu, battle, map and node panel', ()
   const layout = gameLayout();
   assert.equal(layout.script, 'abyss_ui');
   assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'characterPanel', 'choicePanel', 'combatRewards', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'potionEntry', 'potionPanel', 'runMenu']);
+  const runMenu = layout.controls.find(control => control.name === 'runMenu');
+  assert.equal(runMenu.isolateNavigation, true, 'the accepted in-memory run menu owns navigation only while open');
+  assert.deepEqual(runMenu.children.filter(control => control.children?.some(child => child.name === 'hit'))
+    .map(control => control.name), ['map', 'help', 'resume', 'abandon']);
   for (const control of layout.controls.filter(control => !['menuPanel', 'exitEntry'].includes(control.name))) {
     assert.equal(control.visible, false, `${control.name} must not bleed through during startup`);
   }

@@ -44,6 +44,15 @@ test('every actor has a status chip grid within platform limits and a portrait d
 });
 test('approved critical actor values and card types have native text line room', () => {
   const controls = stage().children;
+  const notice = controls.find(control => control.name === 'notice');
+  assert.equal(notice.text.autoSize, true);
+  assert.equal(notice.text.minFontSize, theme.font.minimum);
+  assert.ok(notice.text.minFontSize >= 14);
+  // The longest surveyed real intent (including potion-target prefix) has
+  // 143 full-width characters. Retain the preview's conservative 1.35 leading.
+  const columns = Math.floor(notice.size[0] / notice.text.minFontSize);
+  const rows = Math.ceil(143 / columns);
+  assert.ok(rows * Math.ceil(notice.text.minFontSize * 1.35) <= notice.size[1], 'longest intent fits at the readable minimum');
   for (const unit of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
     for (const name of ['name', 'hp', 'block']) {
       const label = unit.children.find(c => c.name === name);
