@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-28 15:40'
-updated_date: '2026-10-28 16:11'
+updated_date: '2026-10-28 16:40'
 labels: []
 dependencies: []
 priority: medium
@@ -40,6 +40,8 @@ ordinal: 126000
 独立分支已重放到正式develop1f260a71，产品代码基线一致；rebase后13项严格源身份/体积/真实UI树差分再次通过。自动审批拒绝向origin推送，要求该目的地明确源码发布授权；本地交付完成，未创建PR/未运行远端CI。
 
 PR311首轮CI在任务元数据检查发现缺少优先级；补为medium，未改生产代码或降低门禁。
+
+PR311第二轮CI发现历史源码投影有两个入口未覆盖。已将严格当前身份投影接入P0与分层入口，保留旧层精确中间身份，原始79543/79757写入回放与相关28项测试通过；新增完整当前身份漂移拒绝和旧见证幂等回归。生产代码未改。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

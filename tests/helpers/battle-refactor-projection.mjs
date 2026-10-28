@@ -8,8 +8,15 @@ const digest=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('h
 // Historical replay only. Live UI and input tests load the actual responsibility modules.
 export function preBattleRefactorSource(path,source){
  if(path!=='src/lua/abyss_battle_ui.lua'||source===null||digest(source)===digest(snapshot.before))return source;
- assert.equal(digest(source),snapshot.hashes[path],'unreviewed complete Battle UI composition identity');
+ assert.equal(digest(source),snapshot.hashes[path],'unreviewed integrated retirement source drift: complete Battle UI composition identity');
  for(const [file,expected]of Object.entries(snapshot.hashes))
-  assert.equal(digest(readFileSync(file,'utf8')),expected,'unreviewed Battle UI responsibility: '+file);
+  assert.equal(digest(readFileSync(file,'utf8')),expected,'unreviewed integrated retirement source drift: Battle UI responsibility: '+file);
  return snapshot.before;
+}
+
+// Older replay layers must retain their own exact intermediate witnesses.
+export function preBattleRefactorLayer(path,source){
+ if(path!=='src/lua/abyss_battle_ui.lua'||source===null)return source;
+ const normalized=source.replaceAll('\r\n','\n');
+ return digest(normalized)===snapshot.hashes[path]?preBattleRefactorSource(path,normalized):normalized;
 }
