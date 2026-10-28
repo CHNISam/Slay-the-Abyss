@@ -38,7 +38,7 @@ export function potionDiscardControls(theme = nativeTheme) {
       });
       children.find(control => control.name === 'bottle').visible = false;
       return { name: `slot${i + 1}`, kind: 'container', position: [visual.origin + visual.step * i, 0],
-        size: visual.size, visible: i < 3, children };
+        size: [...visual.size], visible: i < 3, children };
     })];
   }
   return [

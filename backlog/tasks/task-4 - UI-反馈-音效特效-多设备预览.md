@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 17:00'
+updated_date: '2026-10-28 18:25'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -106,4 +106,6 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-28药水新纠偏源：原子接入空/普通/火焰/真实选择态及Main失效owner先退役；保留官方瓶ID。独立评审修正单小亮斑为原稿端点插值的双内切soft-disc；可移植原HTML whole-face离线模型先红后绿，新源短测9/9、精确58源逆向6/6、架构221/1265、73条历史诊断/原复杂度预算通过。Battle3283/Game10411节点仅静态计数，不是手机性能证据。原阶段27 Lua文件（原53case/6seed、5host、11target、38map组）均通过，明确不冒充新梯度源完整门禁。随后串行完整npm run check；不推送，待root最终diff审查。docs/reviews/potion-shell-integration-20261028/README.md；视觉/官方导入/ready/设备/完整Quality仍缺，AC不勾。
 
 2026-10-28 16:59 UTC：rebase后便携CI合同12/12、最终药水/Main/Map及inverse入口11/11、完整inverse6/6；网络/语法/221模块1265边架构/73条旧静态诊断及原复杂度门槛通过，25个冻结源和历史哈希不变。一次CI短测14通过1失败已定位为云缺pwsh（spawnSync ENOENT），不安装、不跳过，交托管真实执行。d6a0881两次完整check分别16:37与16:42启动均无终态，重试最后heartbeat16:54:23且16:59:19锁FREE，不算PASS或代码FAIL。完整原日志、同状态离线壳体对照与产品未测边界见docs/reviews/approved-ui-publication-20261028/。本条只记进度，不勾整体验收，不代表已推送/CI通过。
+
+2026-10-28 PR313续接PR310：保留真实Node根入口与10拆分模块，批准视觉仅移faces；新增精确完整源逆向与写前负例，不改原58/26档案、golden、runner及预算。旧新9个Node夹具输出SHA一致，原3逐写通过；最终原生21项、live action8/target7及新增ownership9/Curl/duplication定向通过，便携架构231/1297、60旧诊断/625测量通过。完整历史组合曾20/21，仅错误文本regex已补回并单项重验，不伪报全绿。仅准备更新同Draft PR并等待新精确HEAD完整Quality/inventory；无第三次本地全量、无官方导入/ready/设备或性能证据，状态/负责人/AC不改。证据docs/reviews/approved-ui-publication-20261028/PR313-NODE-INTEGRATION.md。
 <!-- SECTION:NOTES:END -->

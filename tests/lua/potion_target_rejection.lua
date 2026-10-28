@@ -7,7 +7,7 @@ local function setup()
     assert(Run.discardPotion(h.run,1))
     assert(Run.obtainPotion(h.run,'fire_potion'))
     h:refresh()
-    return h,u,t,d,emit,tap
+    return h,u,t,d,emit,tap,p
 end
 local function snapshot(run)
     -- Include rewards, inventory, event log, deck and every RNG, not just HP/bottle count.
@@ -43,10 +43,10 @@ for _,change in ipairs({'dead','replaced','reordered','refilled','turn','phase'}
     end)
 end
 test('cancel then fresh aim cannot inherit the old released enemy confirmation', function()
-    local h,u,t,d,emit,tap = setup()
+    local h,u,t,d,emit,tap,p = setup()
     tap(1); emit('enemy2','down',2); emit('enemy2','up',2)
-    tap(3); assert(not u.potionAim)
-    tap(4); assert(u.potionAim)
+    tap(3); assert(not u.potionAim and u.potionMenu,'cancel must leave the real menu owner')
+    H.confirm(u,p,4); assert(u.potionAim)
     local before = snapshot(h.run)
     emit('enemy2','click',2)
     assert(equal(before,snapshot(h.run)), 'old target confirmation crossed a cancel/rearm boundary')

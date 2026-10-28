@@ -80,7 +80,8 @@ end)
 test('S05 Artifact gives visible blocked-status feedback rather than implying poison landed',function()
     local h,u,p=H.setup({'defend'},{'cultist','jaw_worm'})
     assert(Run.obtainPotion(h.run,'poison_potion'));Combat.addStatus(h.run.combat.enemies[2],'artifact',1);h:refresh()
-    p:GetChild('potion1').click();p:GetChild('enemy2'):GetChild('hit').click()
+    p:GetChild('potion1').click();dofile('tests/lua/support/confirm_potion_popup.lua')(u,p,99)
+    p:GetChild('enemy2'):GetChild('hit').click()
     local found=false
     for _=1,20 do
         if p:GetChild('enemy2'):GetChild('floating').text:find('人工制品抵挡',1,true) then found=true end

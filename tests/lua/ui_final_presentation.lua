@@ -26,7 +26,7 @@ host.run.combat.enemies[1].statuses.strength=-7;host:refresh()
 local signed=false
 for i=1,10 do
  local count=row:GetChild('count'..i)
- if count and count.visible and count.text=='-7' then signed=true end
+ if count and count.visible and count.text=='−7' then signed=true end
 end
 assert(signed,'negative Strength must retain its sign')
 local actor=panel:GetChild('enemy1')

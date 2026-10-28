@@ -31,11 +31,18 @@ import {toLua,luaString} from '../scripts/build-lua-data.mjs';
 import {buildUiTheme} from '../scripts/build-ui-theme.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 test('node card adapter suppresses the new blocked layer whenever its existing veil or stamp owns the overlay',()=>{
- const source=readFileSync('src/lua/abyss_node_ui.lua','utf8');
- const call=source.match(/CardSkin\.apply\(box,definition,options,\{([\s\S]*?)\}\)/);
+ const root=readFileSync('src/lua/abyss_node_ui.lua','utf8');
+ const dependency=root.match(/require\("(abyss_node_ui_faces)"\)\.install\(ctx\)/);
+ assert(dependency,'real composition root must install card faces');
+ const module=dependency[1];
+ const source=readFileSync('src/lua/'+module+'.lua','utf8');
+ const call=source.match(/CardSkin\.apply\(box,definition,ctx\.options,\{([\s\S]*?)\}\)/);
  assert(call,'real node fillCard must call the shared skin');
- assert.match(call[1],/overlayCovered\s*=\s*\(look\.veil\s+or\s+look\.stamp\s*~=\s*nil\)/,
-  'both pre-existing node overlay owners must reach CardSkin; dim alone is not enough');
+ assert.match(source,/local covered\s*=\s*look\.veil\s+or\s+look\.stamp\s*~=\s*nil/,
+  'both pre-existing node overlay owners must reach the scoped value; dim alone is not enough');
+ assert.match(call[1],/overlayCovered\s*=\s*covered/,'the exact scoped overlay value must reach CardSkin');
+ assert.match(source,/local reason=look\.reason or look\.stamp or '当前不可选择'/);
+ assert.match(call[1],/reason=reason/);
 });
 test('actual core refusal codes survive the card adapter and only energy refusal changes the cost to red',()=>{
  const directory=mkdtempSync(join(tmpdir(),'card-blocked-'));
@@ -43,7 +50,7 @@ test('actual core refusal codes survive the card adapter and only energy refusal
   buildUiTheme(undefined,undefined,join(directory,'abyss_theme.lua'));
   const definitions=JSON.parse(readFileSync('data/cards.json','utf8')).cards.filter(c=>['strike','defend'].includes(c.id));
   const script=join(directory,'case.lua');
-  writeFileSync(script,`package.path=${luaString(directory+'/?.lua;src/lua/?.lua;')}..package.path\nCARD_BLOCKED_FACE=${toLua(cardFaceChildren(nativeTheme,'battle'))}\nCARD_BLOCKED_DEFS=${toLua(definitions)}\ndofile('tests/lua/card_blocked_display.lua')\n`);
+  writeFileSync(script,`package.path=${luaString(directory+'/?.lua;src/lua/?.lua;')}..package.path\nCARD_BLOCKED_FACE=${toLua(cardFaceChildren(nativeTheme,'battle'))}\nCARD_BLOCKED_DEFS=${toLua(definitions)}\ndofile('tests/lua/support/card_blocked_display.lua')\n`);
   const result=runLua(script,{timeout:10000});
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,/CARD_BLOCKED_DISPLAY_PASS/);

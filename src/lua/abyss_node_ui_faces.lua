@@ -109,13 +109,15 @@ function M.install(ctx)
             ctx.tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
         end
         writeCardArt()
+        local covered=look.veil or look.stamp~=nil
+        local reason=look.reason or look.stamp or '当前不可选择'
         local function writeCardFrame()
             ctx.tint(box:GetChild("border"), look.selected and C.goldBright or look.dim and C.line or C.rarity[definition.rarity] or C.line)
             ctx.tint(box:GetChild("nameBand"), C.rarityBand[definition.rarity] or C.rarityBand.basic)
             ctx.tint(box:GetChild("nameRule"), C.rarity[definition.rarity] or C.line)
             ctx.ink(box:GetChild("cost"), look.dim and C.textMuted or look.changed and C.positive or C.energy)
             CardSkin.apply(box,definition,ctx.options,{dim=look.dim,selected=look.selected,cost=cost,baseCost=look.changed and printedCost or definition.cost,
-                reason=look.reason or look.stamp or '当前不可选择',overlayCovered=(look.veil or look.stamp~=nil)})
+                reason=reason,overlayCovered=covered})
         end
         writeCardFrame()
         ctx.show(box:GetChild("glow"), look.selected)

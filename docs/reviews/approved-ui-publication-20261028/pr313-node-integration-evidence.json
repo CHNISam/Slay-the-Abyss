@@ -1,0 +1,135 @@
+{
+  "recordedAt": "2026-10-28T18:24Z",
+  "preCommitHead": "a76c5814f4a854f31950850a0282b07e1c3c6ba7",
+  "developBase": "432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7",
+  "replacesPR313Head": "4211b4eaaac9e16f4f44a32fcbd8c98b50888a17",
+  "nodeOutputParity": [
+    {
+      "fixture": "node_ui.lua",
+      "old": "8949b6b8fbf1240196719246936c86a90f3d3212f47f0a9b148cedf76d6196df",
+      "new": "8949b6b8fbf1240196719246936c86a90f3d3212f47f0a9b148cedf76d6196df",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_2.lua",
+      "old": "f6ef75e605e7f98fa777593fdf691105b061f10bbcb37db49b3d020fab3d65f5",
+      "new": "f6ef75e605e7f98fa777593fdf691105b061f10bbcb37db49b3d020fab3d65f5",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_3.lua",
+      "old": "71e6e95159663f7f18a001a2eadd5ef9e37217685d6e52fb58ceaa418ad1a4db",
+      "new": "71e6e95159663f7f18a001a2eadd5ef9e37217685d6e52fb58ceaa418ad1a4db",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_4.lua",
+      "old": "f1a1007fca77b180fc4eae66d5df81b02316a8b2f5f80ad5d5ebaef5cdc81ccc",
+      "new": "f1a1007fca77b180fc4eae66d5df81b02316a8b2f5f80ad5d5ebaef5cdc81ccc",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_5.lua",
+      "old": "3131ab36879f6a41a39ff9def5a9a178368cd0d81fef69c774b692d11444c52a",
+      "new": "3131ab36879f6a41a39ff9def5a9a178368cd0d81fef69c774b692d11444c52a",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_6.lua",
+      "old": "a49d5f5d091e594a31eeab207aadbeb90bba31665fd947075cb9b4691f3b613c",
+      "new": "a49d5f5d091e594a31eeab207aadbeb90bba31665fd947075cb9b4691f3b613c",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_7.lua",
+      "old": "c8856f3d7ac1c98b31fb734097f6e93770816d0ad2303c8364ed4b967fa86677",
+      "new": "c8856f3d7ac1c98b31fb734097f6e93770816d0ad2303c8364ed4b967fa86677",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_slice_8.lua",
+      "old": "b398565d8041276a1ac8b7a62ad007fd4a6ac0751dc35242428829bb83a36a00",
+      "new": "b398565d8041276a1ac8b7a62ad007fd4a6ac0751dc35242428829bb83a36a00",
+      "equal": true
+    },
+    {
+      "fixture": "node_ui_gestures.lua",
+      "old": "420c1b8931a580fc7a82aeb9cfec52ea0c459f03b01b6380a0d2a7e9ffab264c",
+      "new": "420c1b8931a580fc7a82aeb9cfec52ea0c459f03b01b6380a0d2a7e9ffab264c",
+      "equal": true
+    }
+  ],
+  "sourceSha256": {
+    ".gitattributes": "71e636848cd43446cd38c6d594866548b673ab1a3006e45910b8e6aa0c9bb001",
+    "data/presentation/ui_theme.json": "77dcf24a1f1b128d069413feaa55e97c69e7c83272c49afe4ff72119a92da7bc",
+    "scripts/card-face.mjs": "02fb7ba9e7018bfe20af15a9b9b34ce50cb494216d77c4c5abdf2e50eb2e162e",
+    "scripts/deck-ui-layout.mjs": "0ced25b2c2e48fbbae63b295872a5a1ea14b0e98a6fd46fcf870cf27e9189ae1",
+    "scripts/potion-discard-layout.mjs": "67cd5646327d04591a077788a36975c6922f4a7ebe6d90f032324eb48afd38f5",
+    "src/lua/abyss_node_ui_faces.lua": "3b4021be9a1100e6ef1c6a8562a114a61981f6163bbf4507e5e5c5be4efac7cc",
+    "tests/approved-node-ui-refactor.test.mjs": "3e2480d28897ba259521654be706544054906eb8edd03a1f6ebb3e633a358240",
+    "tests/approved-ui-inverse.test.mjs": "51cb12bca7863c6ee8a77695950cdb747718493ee118203bf3762031f876d829",
+    "tests/card-blocked-source.test.mjs": "13b06330be307ae697e5d51021003fec891dabf86404ebcc53288f5b9c669a7b",
+    "tests/fixtures/approved-node-ui-faces-layer.json": "d1e253724b880a9b1779588eb222153675044806ae83a3dba1d63b1fb0b9331b",
+    "tests/fixtures/approved-ui-post-node-layer.json": "1dcc284d03101f157fe51a086a364c5843c0c906dfdadd9cc4731ba0659024af",
+    "tests/helpers/approved-node-ui-refactor.mjs": "d042c700a06c25aeb3133b735dcf7b0ba7517a435ab6ff57119d471f84a83b9c",
+    "tests/helpers/approved-ui-inverse.mjs": "0fbcb58ce7727ac9513cd5eb19ab6b83852cd5a10a9cbc81053ae14acc7d127c",
+    "tests/helpers/p0-presentation-inverse.mjs": "287a47db5681b00b9d6ce3106bfba4e76f00486243d900a09eaae77f9f3ba34d",
+    "tests/helpers/presentation-announcement-retirement.mjs": "b48238f8471d40ae3d4e77c7817d68e946953f9bf8f4abd5c09c0cbd0d62fe21",
+    "tests/helpers/presentation-m3-integration.mjs": "1c59f7b50437f435ce86f14e1ad3b7c5d76c34239c94543e3fe82f3d57c2a220",
+    "tests/helpers/task77-current-source-layers.mjs": "a36b0866ed75e05ef96b5d89d53625a6de2dd9e0197de713e3d094ae7e745d52",
+    "tests/lua/battle_ui_action_compatibility.lua": "8ec3d9762fa77cf0e7af5125de5ad644e266189f5417f9934f1fb8ad980a014a",
+    "tests/lua/battle_ui_potion_ownership.lua": "3db457e45512ddb7f2695ec5d48427f78500c30ebfa8030854bf70c60f48bfdf",
+    "tests/lua/curl_up_ui.lua": "912b0cfd0a7ed8906a17753198d3d2c3c0a97c3edb589f0e52177bdc8097e18a",
+    "tests/lua/potion_duplication_ui.lua": "adf891616cd3c9267b15f6a83e3252b698582fb36e17c97ea7db1d31262b5733",
+    "tests/lua/potion_status_rules.lua": "e2201bddd083f96af3453b4c6a246940b1c9ee7e3105efb31f3f77388426139c",
+    "tests/lua/potion_target_rejection.lua": "43ed77a9e9ea2c97a2e37cb09ec34f7087a709fbd44372713101a3497dca864f",
+    "tests/lua/support/card_blocked_display.lua": "c58ea8aa8d3f3f454bad2c995223e79eccb818fd35317229642de664040e0e68",
+    "tests/lua/ui_final_presentation.lua": "09c8b47f816e1536c637abb064f23d807cc902e5d13ca798900118dac348e173",
+    "tests/native-ui-theme.test.mjs": "ab5a39fb5dae4d4c2ee4501ca0a275238a0b6a668835b30b49f6a6b5bb1f346e",
+    "tools/card-value-feedback/fixture.lua": "d17264cc67c70ac89a6b7e399d85b814ce144f79b35af6c86cd6f28c3f60bc50"
+  },
+  "localLogs": {
+    "/tmp/sta-ui-final-live-owner-green.log": {
+      "bytes": 5241,
+      "sha256": "cb9273af7a914688c0f93b1a4671ce56392779ba501968bef8f633fb1641a583"
+    },
+    "/tmp/sta-ui-final-portable-gates-20261028.log": {
+      "bytes": 2431,
+      "sha256": "f73a969f3089992429c262f30188829dc12c0b5094ee3a98926d709261bd8da0"
+    },
+    "/tmp/sta-ui-node-frozen-witness-green.log": {
+      "bytes": 919,
+      "sha256": "c378b2b07a0c68b7d9c61a4b41c16bd539ca25106025a0ce220c5613de667649"
+    },
+    "/tmp/sta-ui-node-materializer-guard-green.log": {
+      "bytes": 1051,
+      "sha256": "092e798c1274d9c23fe3ad6804ffa10e65f04b203238005e3d302d6fc5e65a69"
+    },
+    "/tmp/sta-ui-native-output-green.log": {
+      "bytes": 2490,
+      "sha256": "335964a986c5a216bfa22a1e90c3de0cb226bc59c32f06df09c26d438fa9abb8"
+    },
+    "/tmp/sta-ui-node-full-historical-green.log": {
+      "bytes": 5271,
+      "sha256": "0fad836da18943c365644a03006ed03e09f8db337d08a8ca906f31d1472d9d71"
+    },
+    "/tmp/sta-ui-late-ci-fixtures-red-20261028.log": {
+      "bytes": 2923,
+      "sha256": "6322681ab33ac1de1fdbef8a55a6e1a90106f09ab91f3c481904247ab841dba6"
+    },
+    "/tmp/sta-ui-late-ci-fixtures-green-20261028.log": {
+      "bytes": 2503,
+      "sha256": "c138097b13a6388d10911a545adf83435f5dde6b1651030d49ae993bc954e2df"
+    },
+    "/tmp/sta-ui-precommit-targeted-green-20261028.log": {
+      "bytes": 1922,
+      "sha256": "3c4b2139ba7459518d45b075674143f3a3319f4eadbc24d42e1c2415af736ccf"
+    }
+  },
+  "limits": [
+    "Local logs remain in the isolated cloud workspace; they are not hosted CI evidence.",
+    "The historical full test command had 20 passes and one error-message regex mismatch; the corrected guard is separately rechecked before commit. Original three full write proofs passed.",
+    "No third full-local npm check; exact pushed-head hosted Quality and inventory remain mandatory.",
+    "Official import, current candidate ready, device pixels, touch usability and performance NOT_RUN."
+  ]
+}

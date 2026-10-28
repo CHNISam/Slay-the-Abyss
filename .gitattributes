@@ -67,3 +67,5 @@ art/cards/traveler-geo/cleave/preview-native.png filter=lfs diff=lfs merge=lfs -
 
 # Exact approved UI source layer is raw-byte authenticated on every platform.
 tests/fixtures/approved-ui-latest-to-53fa.json text eol=lf
+tests/fixtures/approved-node-ui-faces-layer.json text eol=lf
+tests/fixtures/approved-ui-post-node-layer.json text eol=lf

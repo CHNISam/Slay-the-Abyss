@@ -76,3 +76,7 @@
 ## 发布前状态更新（2026-10-28 16:59 UTC）
 
 已线性接续PR307的CI基线，UI与原历史身份不变。两次本地全量check均中断无结论，不再重复本地全量；以精确发布head托管Full Quality收尾。新基线便携检查与PowerShell缺失的具体边界、修改前后图及开放重构PR顺序见[发布核对](approved-ui-publication-20261028/README.md)。未取得官方导入/ready、同候选PC/实体手机和性能证据。
+
+## PR313 续接 PR310 与托管红灯收尾（2026-10-28 18:24 UTC）
+
+已保留真实拆分根入口和10模块，批准视觉仅移到faces，原历史档案/golden/runner/预算不变。当前同依赖9个原Node比较夹具旧新输出SHA全相同，三条原逐写也通过；新增精确逆向/写前拒绝、真实数组别名修复与晚到CI的原生Use/详情迁移详见[本轮紧凑记录](approved-ui-publication-20261028/PR313-NODE-INTEGRATION.md)。旧head业务红灯不豁免；新精确head完整Quality/inventory仍须真实通过。官方ready/PC实体手机/像素/性能缺项不提升为验收。

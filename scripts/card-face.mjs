@@ -80,8 +80,8 @@ export function cardFaceChildren(theme, context, interactive = true) {
     // One native opacity layer: overlapping rounded parts would darken the centre twice.
     // Rounded alpha clipping remains an explicit platform verification gap.
     hidden(plate('blockedVeil',frame([0,0],[w-blocked.inset*2,h-blocked.inset*2]),blocked.veil)),
-    hidden({name:'blockedPill',kind:'container',position:[0,blocked.pillY],size:blocked.pill,children:
-      [0,blocked.stroke].map((inset,index)=>({name:index?'body':'edge',kind:'container',size:blocked.pill,children:
+    hidden({name:'blockedPill',kind:'container',position:[0,blocked.pillY],size:[...blocked.pill],children:
+      [0,blocked.stroke].map((inset,index)=>({name:index?'body':'edge',kind:'container',size:[...blocked.pill],children:
         roundedParts(blocked.pill[0]-inset*2,blocked.pill[1]-inset*2,blocked.pillRadius-inset,index?blocked.body:blocked.edge,picture,plate,frame)}))}),
     hidden(picture('blockedLock',[-blocked.pill[0]/2+blocked.padding+blocked.lock[0]/2,blocked.pillY,...blocked.lock],icon.lock,blocked.text)),
     hidden(text('blockedReason',frame([(blocked.lock[0]+blocked.gap)/2,blocked.pillY],[blocked.pill[0]-blocked.padding*2-blocked.lock[0]-blocked.gap,l.nativeText.lineHeight]),'',f.minimum,blocked.text)),

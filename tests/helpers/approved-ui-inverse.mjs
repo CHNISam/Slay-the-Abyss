@@ -1,3 +1,4 @@
+import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -8,6 +9,7 @@ export const approvedUi=JSON.parse(bytes);
 // One additional test-only layer, never a replacement for PR302's frozen 26
 // sources or the original 79543/79757/81392 write proofs and runner budgets.
 export function preApprovedUiSource(path,source){
+ source=preIntegratedNodeUiSource(path,source);
  const binding=approvedUi.files[path];
  if(!binding)return source;
  source=source===null?null:source.replaceAll('\r\n','\n');

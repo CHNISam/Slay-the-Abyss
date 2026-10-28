@@ -33,10 +33,11 @@ function M.start(view)
             local slot
             for i,c in ipairs(s.hand) do if c.cardId=='strike' then slot=i break end end
             local pose=ui.cardPositions[s.hand[slot].uid]
+            local target=view.root:GetChild('battlePanel'):GetChild('enemy2')
             -- Controlled aim context for renderer QA, not native pointer evidence.
             ui.gesture={run=view.run,battle=s,turn=s.turn,uid=s.hand[slot].uid,slot=slot,
                 phase='combat',origin=pose,sx=pose[1],sy=pose[2],
-                x=Theme.layout.enemyRow.xTo,y=Theme.layout.enemyRow.y,moving=true}
+                x=target.x,y=target.y,moving=true}
             CardInput.begin(ui.gesture,Theme.canvas.base[2],false,Theme.canvas.base[1])
             ui:render()
         end

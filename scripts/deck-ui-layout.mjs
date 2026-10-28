@@ -44,7 +44,7 @@ export function deckControls(theme = nativeTheme) {
   const visual = l.deckView.entryVisual;
   const capsule = (name, size, colour) => {
     const [w, h] = size, x = (w - h) / 2;
-    return { name, kind: 'container', position: [0, 0], size, children: [
+    return { name, kind: 'container', position: [0, 0], size: [...size], children: [
       { ...plate('left', [-x, 0, h, h], colour), image: theme.image.disc },
       plate('middle', [0, 0, w - h, h], colour),
       { ...plate('right', [x, 0, h, h], colour), image: theme.image.disc },

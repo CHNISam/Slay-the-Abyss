@@ -1,0 +1,44 @@
+{
+  "path": "src/lua/abyss_node_ui_faces.lua",
+  "nodeRoot": "src/lua/abyss_node_ui.lua",
+  "beforeSha256": "a9d9edeec71d73ab33bc8dc76b208d6ab47d4ee89a1a9c247f5b85fa638b0fa8",
+  "afterSha256": "3b4021be9a1100e6ef1c6a8562a114a61981f6163bbf4507e5e5c5be4efac7cc",
+  "approvedMonolithSha256": "0016ae04212f5a68372699775e390f967ae5ab91daa5724f53840826429e7cf1",
+  "hunks": [
+    {
+      "at": 90,
+      "before": [
+        "            ctx.ink(box:GetChild(\"name\"), look.dim and C.textMuted or upgraded and C.positive or C.text)"
+      ],
+      "after": [
+        "            ctx.ink(box:GetChild(\"name\"), Theme.cardSkin.text.title)"
+      ]
+    },
+    {
+      "at": 93,
+      "before": [
+        "            ctx.ink(box:GetChild(\"description\"), look.dim and C.textDim or C.text)"
+      ],
+      "after": [
+        "            ctx.ink(box:GetChild(\"description\"), C.text)"
+      ]
+    },
+    {
+      "at": 111,
+      "before": [],
+      "after": [
+        "        local covered=look.veil or look.stamp~=nil",
+        "        local reason=look.reason or look.stamp or '当前不可选择'"
+      ]
+    },
+    {
+      "at": 119,
+      "before": [
+        "                reason=look.stamp or '当前不可选择'})"
+      ],
+      "after": [
+        "                reason=reason,overlayCovered=covered})"
+      ]
+    }
+  ]
+}

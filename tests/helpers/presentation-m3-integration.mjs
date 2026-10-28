@@ -1,4 +1,4 @@
-import {preNodeUiRefactorSource}from'./node-ui-refactor-inverse.mjs';
+import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
 import {preRetirementSource} from './presentation-announcement-retirement.mjs';
@@ -10,7 +10,7 @@ const bytes=readFileSync('docs/reviews/presentation-m3-integration-20261028.json
 assert.equal(digest(bytes),'283c069f16c0e251ad2f8b563aa0ed92c28bd58cde126f0d077a064afc763359');
 export const integration=JSON.parse(gunzipSync(bytes));
 export function acceptedPresentationSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null,nodeUiOverrides){
-  let projected=preRetirementSource(path,preNodeUiRefactorSource(path,source,nodeUiOverrides));
+  let projected=preRetirementSource(path,preIntegratedNodeUiSource(path,source,nodeUiOverrides));
   if(path==='src/lua/abyss_node_ui.lua' && digest(projected)!==integration.afterSha256[path]){
     assert.equal(digest(projected),'12e780e07556b588444d5eebae3ffc003bdbe44d39cea6fb907649805990ba06',
       'unreviewed integrated presentation source drift: '+path);
