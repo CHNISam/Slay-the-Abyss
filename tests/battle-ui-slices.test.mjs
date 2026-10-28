@@ -34,7 +34,45 @@ const reviewedHandReturn=[
  '        end',
 ].join('\n');
 
+// Inverse-normalize only the reviewed single-row -> two-row geometry assertions.
+// All original case bodies, seed inputs and deadlines remain hash-checked below.
+const reviewedLayoutMigrations=[
+  [
+    "        local box = stage.children[\"enemy\" .. i]\n        local width = box.children.hit.sizeDeltaX\n        assert(width >= 44 and box.x + width / 2 <= 600)\n        if previous then\n            assert(math.abs(previous.y-box.y) > (previous.children.hit.sizeDeltaY+box.children.hit.sizeDeltaY)/2\n                or previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2)\n        end\n        previous = box\n    end\n    local battle = ui.run.combat",
+    "        local box = stage.children[\"enemy\" .. i]\n        local width = box.children.hit.sizeDeltaX\n        assert(width >= 44 and box.x + width / 2 <= 600)\n        if previous then assert(previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2) end\n        previous = box\n    end\n    local battle = ui.run.combat"
+  ],
+  [
+    "        return c.blockEdge.x - c.blockEdge.sizeDeltaX / 2, c.hpBorder.x + c.hpBorder.sizeDeltaX / 2\n    end\n    check(stage.children.hero, 6)\n    local previousRight={}\n    for i = 1, 5 do\n        local box = stage.children[\"enemy\" .. i]\n        local left, right = check(box, 7)\n        if previousRight[box.y] then assert(box.x + left > previousRight[box.y], \"enemy\" .. i .. \" chip collides with its neighbour\") end\n        previousRight[box.y] = box.x + right\n    end\n    battle.player.block = 0\n    ui:render()",
+    "        return c.blockEdge.x - c.blockEdge.sizeDeltaX / 2, c.hpBorder.x + c.hpBorder.sizeDeltaX / 2\n    end\n    check(stage.children.hero, 6)\n    local previousRight\n    for i = 1, 5 do\n        local box = stage.children[\"enemy\" .. i]\n        local left, right = check(box, 7)\n        if previousRight then assert(box.x + left > previousRight, \"enemy\" .. i .. \" chip collides with its neighbour\") end\n        previousRight = box.x + right\n    end\n    battle.player.block = 0\n    ui:render()"
+  ],
+  [
+    "                or c.blockEdge.y - c.blockEdge.sizeDeltaY / 2 >= c.hpBorder.y + c.hpBorder.sizeDeltaY / 2,\n                name .. \" chip overlaps HP\")\n        end\n        local previousRight = {}\n        for i = 1, 5 do\n            local box = stage.children[\"enemy\" .. i]\n            local c = box.children\n            assert(c.hp.x == healthPositions[i][1] and c.hp.sizeDeltaX == healthPositions[i][2], \"Block must not move or resize HP\")\n            local left = box.x + c.blockEdge.x - c.blockEdge.sizeDeltaX / 2\n            local right = box.x + c.hpBorder.x + c.hpBorder.sizeDeltaX / 2\n            assert(left > (previousRight[box.y] or 0), \"guard/HP lanes overlap adjacent actor\")\n            assert(left >= -600 and right <= 600, \"guard/HP outside safe area\")\n            previousRight[box.y] = right\n        end\n    end\nend)",
+    "                or c.blockEdge.y - c.blockEdge.sizeDeltaY / 2 >= c.hpBorder.y + c.hpBorder.sizeDeltaY / 2,\n                name .. \" chip overlaps HP\")\n        end\n        local previousRight = stage.children.hero.x + Theme.layout.hpBar.size[1] / 2\n        for i = 1, 5 do\n            local box = stage.children[\"enemy\" .. i]\n            local c = box.children\n            assert(c.hp.x == healthPositions[i][1] and c.hp.sizeDeltaX == healthPositions[i][2], \"Block must not move or resize HP\")\n            local left = box.x + c.blockEdge.x - c.blockEdge.sizeDeltaX / 2\n            local right = box.x + c.hpBorder.x + c.hpBorder.sizeDeltaX / 2\n            assert(left > previousRight, \"guard/HP lanes overlap adjacent actor\")\n            assert(left >= -600 and right <= 600, \"guard/HP outside safe area\")\n            previousRight = right\n        end\n    end\nend)"
+  ],
+  [
+    "        end\n        local function inspect()\n            bounds(stage.children.hero)\n            local previousRight = {}\n            for i = 1, #battle.enemies do\n                local box=stage.children['enemy'..i]\n                local left, right = bounds(box)\n                assert(left >= -600 and right <= 600, \"animated guard/HP outside safe area\")\n                assert(left > (previousRight[box.y] or 0), \"animated chip crosses neighbouring HP\")\n                previousRight[box.y] = right\n            end\n        end\n        local function playback()",
+    "        end\n        local function inspect()\n            bounds(stage.children.hero)\n            local previousRight = stage.children.hero.x + Theme.layout.hpBar.size[1] / 2\n            for i = 1, #battle.enemies do\n                local left, right = bounds(stage.children[\"enemy\" .. i])\n                assert(left >= -600 and right <= 600, \"animated guard/HP outside safe area\")\n                assert(not previousRight or left > previousRight, \"animated chip crosses neighbouring HP\")\n                previousRight = right\n            end\n        end\n        local function playback()"
+  ],
+  [
+    "    assert(battle.enemies[1].hp == hp1)\n    grab(1) event(\"card1\",\"drag\",stage.children.enemy2.x,stage.children.enemy2.y)\n    assert(stage.children.enemy2.children.border.imageColor.r == Theme.color.goldBright.r)\n    assert(stage.children.enemy2.children.damagePreview.visible,'aimed damage preview must be visible')\n    event(\"dragLayer\",\"up\",stage.children.enemy2.x,stage.children.enemy2.y)\n    assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2-6 and #battle.hand == 0)\nend)",
+    "    assert(battle.enemies[1].hp == hp1)\n    grab(1) event(\"card1\",\"drag\",stage.children.enemy2.x,stage.children.enemy2.y)\n    assert(stage.children.enemy2.children.border.imageColor.r == Theme.color.goldBright.r)\n    event(\"dragLayer\",\"up\",stage.children.enemy2.x,stage.children.enemy2.y)\n    assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2-6 and #battle.hand == 0)\nend)"
+  ]
+];
+function restoreReviewedLayout(source,allowRestored=false){
+  for(const [current,original] of reviewedLayoutMigrations){
+    if(source.includes(current)){
+      assert.equal(source.split(current).length,2,'one exact reviewed two-row layout migration');
+      source=source.replace(current,original);
+    } else {
+      assert.ok(allowRestored,'one exact reviewed two-row layout migration');
+      assert.equal(source.split(original).length,2,'exact restored layout migration');
+    }
+  }
+  return source;
+}
+
 function restoreSupport(source){
+  source=restoreReviewedLayout(source);
   const guarded='    return NativeContract.control(c,definition)\n';
   assert.equal(source.split(guarded).length,2,'one exact cursor capability guard in the fixture factory');
   assert.equal(source.split(reviewedHandReturn).length,2,'one exact user-confirmed hand-return cancellation migration');
@@ -69,6 +107,7 @@ function validateRunner(source){
   assert.match(source,/fixture \|\| composedHost \? 60000 : 30000;/,'battle UI keeps its existing 60-second fixture budget');
 }
 function validateLegacyBody(source){
+  source=restoreReviewedLayout(source,true);
   const body=source.slice(source.indexOf('\ntest('),source.lastIndexOf('\nassert(registered')).trim();
   // Review-specific migrations are inverse-normalized; all other frozen cases stay intact.
   const legacyDeath='    assert(poison == 1 and death == 1 and intent == 1 and not stage.children.enemy1.visible)';

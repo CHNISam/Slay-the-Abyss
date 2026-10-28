@@ -453,8 +453,11 @@ function M.new(root, data, presentation, clickEvent, platform)
             renderMapPage(run,deckOpen,potionOpen,blocked,covering)
         elseif self.mode == "node" then self.nodeUI:render() end
     end
+    local function exitDialogOwnsForeground()
+        return self.exitOpen == true and not self.routeOpen and (not self.menuOpen or self.controlsOpen == true)
+    end
     local function refreshExitDialog()
-        if self.exitOpen and not self.routeOpen and (not self.menuOpen or self.controlsOpen) then
+        if exitDialogOwnsForeground() then
             exitPanel:SetAsLastSibling()
             local message = self.run and "确认退出本局？目前无法保存进度，退出后本局结束。\n将进入平台结算，随后可选择离开。"
                 or "确认结束当前关卡？\n将进入平台结算，随后可选择离开。"
@@ -487,7 +490,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- above every page, including an in-flight battle presentation.
         exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
         exitEntry:SetAsLastSibling()
-        exitPanel:SetVisible(self.exitOpen == true and (not self.menuOpen or self.controlsOpen == true) and not self.routeOpen)
+        exitPanel:SetVisible(exitDialogOwnsForeground())
         runMenu:SetVisible(self.exitOpen == true and self.menuOpen == true and not self.controlsOpen and not self.routeOpen)
         if runMenu.visible then runMenu:SetAsLastSibling() end
         local back = child('mapPanel'):GetChild('previewBack')
