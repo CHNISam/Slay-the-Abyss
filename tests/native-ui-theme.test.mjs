@@ -7,8 +7,11 @@ import { nodeLayout } from '../scripts/node-ui-layout.mjs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 
 const find = (controls, name) => controls.find(control => control.name === name);
-function walk(controls, action) {
-  for (const control of controls) { action(control); walk(control.children ?? [], action); }
+function walk(controls, action, parents = []) {
+  for (const control of controls) {
+    const path = [...parents, control.name];
+    action(control, path); walk(control.children ?? [], action, path);
+  }
 }
 function freeze(value) {
   if (value && typeof value === 'object') { Object.freeze(value); Object.values(value).forEach(freeze); }
@@ -52,8 +55,12 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
     id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion),
     // The shop merchant's silhouette (hood point, beard) and its next-line marker.
     theme.image.diamond];
-  walk(nodeLayout(theme).controls, control => {
-    if (control.kind === 'image') assert.ok(allowed.includes(control.image), `unexpected node image ${control.image}`);
+  walk(nodeLayout(theme).controls, (control, path) => {
+    // Only the approved card-skin geometry uses fixed native primitives; all
+    // other pictures retain the existing semantic-token check.
+    const skin = path.some(name => ['roundShadow', 'roundFrame', 'roundBody', 'skin', 'tagEdge', 'tagBody', 'roleMark'].includes(name));
+    if (control.kind === 'image') assert.ok(allowed.includes(control.image)
+      || skin && [100001, 100002, 100003, 100004, 100006].includes(control.image), `unexpected node image ${path.join('/')}: ${control.image}`);
     if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);
   });
 });
@@ -79,7 +86,10 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.deepEqual(title(map).size, theme.layout.nativeNode.topBar.title.slice(2));
   const resources = find(map, 'resources');
   assert.deepEqual(resources.children.map(control => control.name), ['hpIcon', 'hp', 'goldIcon', 'gold']);
-  const comparableMap = structuredClone(map.filter(group => group.name !== 'resources'));
+  const previewBack = find(map, 'previewBack');
+  assert.deepEqual([...previewBack.position, ...previewBack.size], theme.layout.runMenu.mapBack);
+  assert.equal(previewBack.visible, false, 'the preview return action starts hidden');
+  const comparableMap = structuredClone(map.filter(group => !['resources', 'previewBack'].includes(group.name)));
   title(comparableMap).position = [...title(standaloneMap).position];
   title(comparableMap).size = [...title(standaloneMap).size];
   assert.deepEqual(comparableMap, standaloneMap);

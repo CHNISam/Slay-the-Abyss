@@ -29,7 +29,11 @@ test('every actor has a status chip grid within platform limits and a portrait d
     assert.equal(row.children.filter(c => /^icon\d+$/.test(c.name)).length, si.perRow * si.rows);
     assert.equal(row.children.filter(c => /^count\d+$/.test(c.name)).length, si.perRow * si.rows);
     assert.equal(row.children.at(-1).kind, 'cursorArea', `${unit.name} status hit sits above its chips`);
-    for (const chip of row.children.filter(c => c.kind !== 'cursorArea')) assert.equal(chip.visible, false);
+    // Decorative status plates are grouped to stay below the platform's child
+    // limit; each image/text leaf must still start hidden.
+    walk(row.children, chip => {
+      if (!['cursorArea', 'container'].includes(chip.kind)) assert.equal(chip.visible, false);
+    });
     assert(unit.children.some(c => c.name === 'hit' && c.kind === 'cursorArea'), `${unit.name} portrait hit`);
   }
   const info = stage().children.find(c => c.name === 'statusInfo');

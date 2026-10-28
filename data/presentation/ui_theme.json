@@ -856,7 +856,7 @@
       "portrait": 132
     },
     "enemyRow": {
-      "y": 64,
+      "y": 44,
       "xFrom": 100,
       "xFromFew": 100,
       "fewCount": 3,

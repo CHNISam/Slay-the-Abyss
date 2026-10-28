@@ -14,6 +14,8 @@ function assertFrozenSapphireUI(source){
  assert(source.startsWith(loader));assert.equal(source.split(loader).length,2);
  let original=source.slice(loader.length);
  for(const [current,before]of[
+  ["        {cursorEvents=clickOnly and {} or events,imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})\n",
+   "        {cursorEvents=clickOnly and {} or events,imageSource='static'})\n"],
   ['    return NativeContract.control(c,spec)\n','    return c\n'],
   ['    function c:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);\n',
    "    function c:SetSizeDelta(width,height)\n        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)\n"],

@@ -32,6 +32,9 @@ end
 -- Compact icons share the detail projection; numeric detail glyphs are not intents.
 -- Stable threat priority is independent of effect execution order in the core.
 function M.icons(face)
+    -- A source UNKNOWN face stays unknown even when its help explains a
+    -- supported summon effect. Detail rows must not reveal a replacement face.
+    if face.kind == 'unknown' then return {'unknown'} end
     local found, result = {}, {}
     if face.kind then found[face.kind] = true end
     for _, row in ipairs(face.rows or {}) do

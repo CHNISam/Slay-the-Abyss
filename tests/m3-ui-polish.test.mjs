@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {integration} from './helpers/presentation-m3-integration.mjs';
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
+import {preIntegratedUiSource} from './helpers/presentation-current-ui-inverse.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 
 test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with all rule and art-layout values retained',()=>{
@@ -22,7 +23,7 @@ test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with
   delete expected.layout.releaseNotes;
   expected.icon.relic.molten_egg={id:102031,placeholder:true,note:'暂沿用现有遗物图标；专属美术与设备验收待完成。'};
   expected.icon.relic.odd_mushroom={id:102028,placeholder:true,note:'奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。'};
-  assert.deepEqual(JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8'))),expected);
+  assert.deepEqual(JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',preIntegratedUiSource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8')))),expected);
 });
 
 test('first UI batch keeps visual enemy slots, actual target hitboxes, lock colours and original hand-return cancellation aligned',()=>{

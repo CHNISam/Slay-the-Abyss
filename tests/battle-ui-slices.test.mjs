@@ -38,6 +38,34 @@ const reviewedHandReturn=[
 // All original case bodies, seed inputs and deadlines remain hash-checked below.
 const reviewedLayoutMigrations=[
   [
+    '    box = show("jaw_worm", "jaw_worm_3") -- Bellow: strength + block\n    assert(box.intentIcon.imageId == Theme.icon.intent.defend)\n    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.buff)',
+    '    box = show("jaw_worm", "jaw_worm_3") -- Bellow: strength + block\n    assert(box.intentIcon.imageId == Theme.icon.intent.buff)\n    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.defend)'
+  ],
+  [
+    '    Combat.addStatus(enemy, "frail", 2)\n    ui:render()\n    assert(stage.children.enemy1.children.intent.text == "9×2")\n    assert(stage.children.enemy1.children.intentIcon.imageId == Theme.icon.intent.attack)',
+    '    Combat.addStatus(enemy, "frail", 2)\n    ui:render()\n    assert(stage.children.enemy1.children.intent.text == "")'
+  ],
+  [
+    '    assert(row.icon1.imageColor.r == Theme.color.text.r and row.backplates.children.edge1.imageColor.r == Theme.color.gold.r and not row.icon2.visible and not row.count2.visible)',
+    '    assert(row.icon1.imageColor.r == Theme.color.buff.r and not row.icon2.visible and not row.count2.visible)'
+  ],
+  [
+    '            assert(row.icon1.imageColor.r == Theme.color.text.r and row.backplates.children.edge1.imageColor.r == Theme.color.debuff.r)',
+    '            assert(row.icon1.imageColor.r == Theme.color.debuff.r)'
+  ],
+  [
+    '    assert(box.intentBadge.x - box.intentIcon.x == Theme.layout.intent.size * 1.5 and box.intentBadge.y == box.intentIcon.y,\n        "compound icons must retain separate readable positions in the approved intent row")',
+    '    assert(box.intentBadge.x > box.intentIcon.x and box.intentBadge.y < box.intentIcon.y,\n        "compound badge must sit on the main icon\'s lower-right corner")'
+  ],
+  [
+    '    assert(box.children.intent.text == "" and not box.children.intentLabel.visible and box.children.intentIcon.visible)\n    assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)',
+    '    assert(box.children.intent.text == "" and box.children.intentLabel.text == "沉睡")\n    assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)'
+  ],
+  [
+    '    assert(box.children.intent.text == "" and not box.children.intentLabel.visible and box.children.intentIcon.visible)\n    assert(box.children.intentIcon.imageId == Theme.icon.intent.unknown)',
+    '    assert(box.children.intent.text == "" and box.children.intentLabel.text == "苏醒")\n    assert(box.children.intentIcon.imageId == Theme.icon.intent.unknown)'
+  ],
+  [
     "        local box = stage.children[\"enemy\" .. i]\n        local width = box.children.hit.sizeDeltaX\n        assert(width >= 44 and box.x + width / 2 <= 600)\n        if previous then\n            assert(math.abs(previous.y-box.y) > (previous.children.hit.sizeDeltaY+box.children.hit.sizeDeltaY)/2\n                or previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2)\n        end\n        previous = box\n    end\n    local battle = ui.run.combat",
     "        local box = stage.children[\"enemy\" .. i]\n        local width = box.children.hit.sizeDeltaX\n        assert(width >= 44 and box.x + width / 2 <= 600)\n        if previous then assert(previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2) end\n        previous = box\n    end\n    local battle = ui.run.combat"
   ],
