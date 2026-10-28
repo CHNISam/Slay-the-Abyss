@@ -15,6 +15,7 @@ sources['Jaw Worm Horde']=true
 sources['Awakened One']=true
 sources['3 Darklings']=true
 sources['2 Orb Walkers']=true
+sources['The Mushroom Lair']=true
 function M.assemble(source,boundary)
  assert(M.supports(source),'unsupported source formation: '..tostring(source))
  assert(type(boundary)=='table' and type(boundary.misc)=='table'
@@ -61,7 +62,11 @@ function M.assemble(source,boundary)
   return f32(base+f32(value))
  end
  local result={}
- if source=='2 Orb Walkers'then
+ if source=='The Mushroom Lair'then
+  result[1]=make('fungi_beast',-450,30)
+  result[2]=make('fungi_beast',-145,20)
+  result[3]=make('fungi_beast',180,15)
+ elseif source=='2 Orb Walkers'then
   result[1]=make('orb_walker',-250,32)
   result[2]=make('orb_walker',150,26)
  elseif source=='3 Darklings'then

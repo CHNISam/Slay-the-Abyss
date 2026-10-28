@@ -136,6 +136,8 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
   value=>{value.layout.nativeMenu.codeVersion[0]++;},
   value=>{delete value.layout.nativeMenu.codeVersion;},
   value=>{value.layout.releaseNotes=JSON.parse(frozenSource(path)).layout.releaseNotes;},
+  value=>{value.icon.relic.molten_egg.id++;},
+  value=>{delete value.icon.relic.molten_egg;},
   value=>{value.font.body++;},
   value=>{value.layout.nativeMenu.unreviewed=[0,0,1,1];},
  ];
@@ -146,6 +148,7 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
  const changedBody=source.replace('"body": 18','"body": 19');
  assert.notEqual(changedBody,source,'negative check changes the original font bytes without reformatting');
  assert.throws(()=>preRetirementSource(path,changedBody));
+ assert.throws(()=>preRetirementSource(path,source.replace('\"molten_egg\": {','\"molten_egg_unreviewed\": {')));
  assert.throws(()=>preRetirementSource(path,source+'\n'));
  const fixturePath='tests/lua/presentation_responsibilities_trace.lua';
  const fixture=readFileSync(fixturePath,'utf8').replaceAll('\r\n','\n');
@@ -205,4 +208,27 @@ test('native trace proof rejects deleted changed reordered old writes and unrevi
  assert.throws(()=>verify(baseline.entries,swapped),'reviewed values cannot move to unreviewed positions');
  const source={...review.sourceInputs};source['tests/lua/support/presentation_trace.lua']='unreviewed recorder';
  assert.throws(()=>verifySources(source));
+});
+
+const mushroomThemeBlock="      \"odd_mushroom\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n";
+test('Mushrooms exact theme inverse rejects removal, movement, replacement and unrelated changes',()=>{
+ const source=readFileSync('data/presentation/ui_theme.json','utf8').replaceAll('\r\n','\n');
+ const projected=preRetirementSource('data/presentation/ui_theme.json',source);
+ assert.equal(preRetirementSource('data/presentation/ui_theme.json',source.replaceAll('\n','\r\n')),projected);
+ const mutations=[source.replace(mushroomThemeBlock,''),source.replace(mushroomThemeBlock,mushroomThemeBlock+mushroomThemeBlock),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('102028','102029')),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('true','false')),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('专属美术','未审查')),
+  projected.replace('      "membership_card": 102026,\n','      "membership_card": 102026,\n'+mushroomThemeBlock),
+  source.replace('"body": 18','"body": 19'),source+'\n'];
+ for(const changed of mutations){assert.notEqual(changed,source);assert.throws(()=>preRetirementSource('data/presentation/ui_theme.json',changed));}
+});
+
+test('Molten glyph cannot move intact to another valid relic mapping position',()=>{
+ const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ const block=source.match(/,\n      "molten_egg": \{\n[\s\S]*?      \}/)[0];
+ const without=source.replace(block,'');
+ const moved=without.replace('      "membership_card": 102026,\n','      "membership_card": 102026'+block+',\n');
+ assert.notEqual(moved,source);assert.doesNotThrow(()=>JSON.parse(moved));
+ assert.throws(()=>preRetirementSource(path,moved),'complete accepted theme must retain the new mapping position');
 });

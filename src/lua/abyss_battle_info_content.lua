@@ -40,7 +40,7 @@ local function selectedEntries(entries, info)
 end
 
 local function ownedStatusText(self, describe, entry, battle, actor)
-    local text, tag, note = describe.statusDetail(entry, battle.rules, actor)
+    local text, tag, note = describe.statusDetail(entry, battle.rules, actor, battle)
     if entry.id=='stasis' and actor.stasisCardId then
         local display=self.presentation[actor.stasisCardId]
         local definition=battle.catalog.cards[actor.stasisCardId]

@@ -462,6 +462,15 @@
       "effects": []
     },
     {
+      "id": "molten_egg",
+      "sourceId": "Molten Egg 2",
+      "name": "熔火胎石",
+      "description": "每当你获得一张攻击牌时，将其升级。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
       "id": "tungsten_rod",
       "sourceId": "TungstenRod",
       "name": "钨钢短杖",
@@ -521,6 +530,15 @@
       "name": "蜥蜴尾巴",
       "description": "受到致命伤害时，基础治疗量为生命上限一半（向下取整，至少1点）。每局仅一次；仙灵药水优先，绽放印记阻止复活且不消耗次数。",
       "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "odd_mushroom",
+      "sourceId": "Odd Mushroom",
+      "name": "奇怪蘑菇",
+      "description": "你处于易伤时，普通攻击的额外伤害由50%降低为25%。",
+      "rarity": "special",
       "trigger": "hooks",
       "effects": []
     }

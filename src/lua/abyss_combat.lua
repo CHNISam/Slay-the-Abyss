@@ -368,12 +368,26 @@ function M.combatBaseCost(state, instance)
     return cost
 end
 
+-- SearingBlow(int n) keeps timesUpgraded but resets baseDamage/upgraded.
+-- A source makeCopy constructor records this count-only baseline; ordinary
+-- instances without it retain the original cumulative upgrade formula.
+function M.validSearingBlowCopy(instance)
+    local base=instance.searingBlowCopyUpgrades
+    if base==nil then return true end
+    local n=instance.upgrades
+    return instance.cardId=='searing_blow' and type(base)=='number' and base%1==0 and base>=0 and base<=2147483647
+        and type(n)=='number' and n%1==0 and n>=base and n<=2147483647
+        and type(instance.upgraded)=='boolean' and instance.upgraded==(n>base)
+end
+
 function M.cardDefinition(state, instance)
+    assert(M.validSearingBlowCopy(instance),"invalid Searing Blow constructor copy")
     local card = copy(assert(state.catalog.cards[instance.cardId], "unknown card"))
     if instance.upgraded then for k, v in pairs(card.upgrade or {}) do card[k] = copy(v) end end
     if card.id=='searing_blow' then
         local n=instance.upgrades or (instance.upgraded and 1 or 0)
-        card.effects[1].value=12+3.5*n+0.5*n*n
+        local base=instance.searingBlowCopyUpgrades or 0
+        card.effects[1].value=12+3.5*n+0.5*n*n-(3.5*base+0.5*base*base)
     end
     if instance.costOverride~=nil then card.cost=instance.costOverride end
     if instance.exhaust~=nil then card.exhaust=instance.exhaust end
@@ -432,7 +446,7 @@ function M.cardDefinition(state, instance)
 end
 function M.canUpgrade(state,instance)
     local d=state.catalog.cards[instance.cardId]
-    return d and d.type~='status' and d.type~='curse' and d.upgrade~=nil and (not instance.upgraded or d.repeatable==true)
+    return M.validSearingBlowCopy(instance) and d and d.type~='status' and d.type~='curse' and d.upgrade~=nil and (not instance.upgraded or d.repeatable==true)
 end
 function M.upgrade(state,instance)
     if not M.canUpgrade(state,instance) then return false end
@@ -2008,9 +2022,16 @@ function M.new(data, options)
             uid=value.uid
             for _,existing in ipairs(state.draw)do assert(existing.uid~=uid,'duplicate permanent card UID')end
         end
+        local copyBase
+        if type(value)=='table'then
+            assert(M.validSearingBlowCopy(value),'invalid Searing Blow constructor copy')
+            copyBase=value.searingBlowCopyUpgrades
+        end
         state.draw[#state.draw + 1] = { uid = uid, uuid=uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
             upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
-            misc=type(value)=='table' and value.misc or nil }
+            misc=type(value)=='table' and value.misc or nil,
+            searingBlowCopyUpgrades=copyBase }
+        assert(M.validSearingBlowCopy(state.draw[#state.draw]),'invalid Searing Blow constructor copy')
         state.nextUid = math.max(state.nextUid,uid)+1
     end
     if options.preparedEncounter then EnemySetup.adopt(state,options)

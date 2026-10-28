@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 09:08'
+updated_date: '2026-10-28 09:16'
 labels: []
 dependencies: []
 priority: medium
@@ -35,6 +35,8 @@ ordinal: 120000
 接续 PR267 当前9bab完整Quality三个独占30秒超时：先保留原CI和本地串行基线，采样定位验证开销；elite独立6组可按既有严格原文逆向模式分片，Silent同一实例两次完整四房及canonical比较、Intent连续双回合逐帧全字段检查保持。仅证明等价的测试层最小优化，不改运行时规则、原预算或有效断言；新精确头完整Quality仍待。
 
 本轮集成收口：固定develop d2e0baa3的失败日志，复现unknown_event_routing 110种子独占30秒超时；先测保持同一原文helper的更小独立完整种子分区，必须覆盖原220种子、四路由/七事件及所有每种子断言，不改生产逻辑或预算。独立补反向重建/分区负例，再以精确PR HEAD与合入develop完整CI验收。
+
+为避免四份近同源码的完整CI重复排队，最终在现有PR292组合精确源：PR286 3437e6c1、PR287 4f033241、PR290 6b171428；保留各父系、完整审查最终tree并跑一次组合全量。仅组合PR当前SHA完整Quality全绿后正常squash；实际合入并逐项核对后再关闭源PR及285。PR291范围变更独立保留，不降低本次验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

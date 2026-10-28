@@ -1,6 +1,7 @@
 {
   "layers": {
     "abyss_nest_event": "core",
+    "abyss_mushrooms_event": "core",
     "abyss_player_revive": "core",
     "abyss_lizard_tail": "core",
     "abyss_battle_ending_intent": "ui",

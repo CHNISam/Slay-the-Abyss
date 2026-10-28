@@ -42,3 +42,5 @@ python tools/oracles/sts1_sensory_rewards.py --check
 ```
 
 原每文件30秒预算、断言与旧门禁不变。默认第一幕模式仍为 restricted-seven，完整第三幕七母池原资格/顺序不变；没有缺项过滤、重抽或占位牌。M3、TASK-62、默认全事件准入、完整三幕自然接续及平台/实机证据继续保持未完成。
+
+2026-10-28 Molten Egg独立切片：现已接真实ATTACK预览/获得和onEquip奖励组；只解除Molten门禁，Frozen/Question/Crown/Bowl仍拒绝。上述旧边界是历史快照，当前范围与未验收项见 [Molten Egg](MOLTEN_EGG.md)。
