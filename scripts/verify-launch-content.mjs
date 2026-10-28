@@ -30,11 +30,35 @@ const specialRelicEvents = {
 };
 const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const runtimeModules = Object.entries({
-  abyss_nodes: ['abyss_run'], abyss_run: ['abyss_encounter_queue', 'abyss_room_encounters'],
+  abyss_nodes: ['abyss_run'],
+  abyss_run: ['abyss_run_initialization', 'abyss_run_transition', 'abyss_run_rooms', 'abyss_run_settlement', 'abyss_run_potions'],
+  abyss_run_initialization: ['abyss_encounter_queue'], abyss_run_transition: ['abyss_encounter_queue'],
+  abyss_run_rooms: ['abyss_encounter_queue', 'abyss_room_encounters'],
+  abyss_run_settlement: ['abyss_combat'], abyss_run_potions: ['abyss_combat'],
   abyss_room_encounters: ['abyss_encounter_formation'], abyss_combat: ['abyss_encounter_formation'],
   abyss_encounter_formation: ['abyss_sts_random'], abyss_encounter_queue: ['abyss_sts_random'],
 }).map(([name, requires]) => ({ name, source: `src/lua/${name}.lua`, requires }));
 const runtimeCache = new Map();
+
+// The inventory remains an independent contract. Both the actual Lua requires
+// and the real candidate packager's discovered modules must satisfy every edge.
+export function validateLaunchRuntimeModules(modules, { sources, deployment, entryPoints }) {
+  const errors = [];
+  const check = (condition, message) => { if (!condition) errors.push(message); };
+  check(isDeepStrictEqual(modules, runtimeModules), 'runtime deployment relationships: inventory differs from production');
+  for (const module of runtimeModules) {
+    check(deployment.includes(module.name), `runtime deployment missing module ${module.name}`);
+    const source = sources[module.source];
+    check(typeof source === 'string', `runtime source missing ${module.source}`);
+    const requires = [...(source ?? '').matchAll(/require\s*\(\s*["']([^"']+)["']\s*\)/g)].map(match => match[1]);
+    for (const name of module.requires) {
+      check(requires.includes(name), `runtime dependency missing ${module.name} -> ${name}`);
+      check(deployment.includes(name), `runtime deployment missing dependency ${name}`);
+    }
+    check(entryPoints.includes(module.source), `encounters profile missing deployed entry ${module.source}`);
+  }
+  return errors;
+}
 
 export function inspectLaunchRuntime(root = process.cwd(), data = loadContent(resolve(root, 'data'))) {
   const sourceDirectory = resolve(root, 'src/lua');
@@ -212,19 +236,13 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
         'explicit_event:sensory_stone:card_reward'],`sharedCards/${card.id} channels`);
     check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);
   }
-  same(manifest.runtime?.modules, runtimeModules, 'runtime deployment relationships');
   for (const [field, value] of Object.entries({ nodeEntry: 'abyss_nodes.enter', roomEntry: 'abyss_run.startRoomCombat', sourcePool: 'abyss_encounter_queue.rules' }))
     check(manifest.runtime?.[field] === value, `runtime deployment ${field} drift`);
-  for (const module of runtimeModules) {
-    check(actualRuntime.deployment.includes(module.name), `runtime deployment missing module ${module.name}`);
-    const source = readFileSync(resolve(root, module.source), 'utf8');
-    const requires = [...source.matchAll(/require\s*\(\s*["']([^"']+)["']\s*\)/g)].map(match => match[1]);
-    for (const name of module.requires) {
-      check(requires.includes(name), `runtime dependency missing ${module.name} -> ${name}`);
-      check(actualRuntime.deployment.includes(name), `runtime deployment missing dependency ${name}`);
-    }
-    check(manifest.profiles.encounters.entryPoints.includes(module.source), `encounters profile missing deployed entry ${module.source}`);
-  }
+  const sources = Object.fromEntries(runtimeModules.map(module => [module.source,
+    existsSync(resolve(root, module.source)) ? readFileSync(resolve(root, module.source), 'utf8') : undefined]));
+  errors.push(...validateLaunchRuntimeModules(manifest.runtime?.modules, {
+    sources, deployment: actualRuntime.deployment, entryPoints: manifest.profiles.encounters.entryPoints,
+  }));
   same(ids(manifest.encounters), actualRuntime.bindings.map(row => row.runtimeId).sort(), 'formal encounter source bindings');
   check(new Set(manifest.encounters.map(row => row.sourceName)).size === manifest.encounters.length, 'formal encounters duplicate source binding');
   for (const encounter of manifest.encounters) {

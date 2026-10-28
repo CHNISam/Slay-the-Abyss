@@ -253,6 +253,11 @@
         "src/lua/abyss_map.lua",
         "src/lua/abyss_nodes.lua",
         "src/lua/abyss_run.lua",
+        "src/lua/abyss_run_initialization.lua",
+        "src/lua/abyss_run_transition.lua",
+        "src/lua/abyss_run_rooms.lua",
+        "src/lua/abyss_run_settlement.lua",
+        "src/lua/abyss_run_potions.lua",
         "src/lua/abyss_room_encounters.lua",
         "src/lua/abyss_combat.lua",
         "src/lua/abyss_encounter_formation.lua",
@@ -4969,8 +4974,47 @@
         "name": "abyss_run",
         "source": "src/lua/abyss_run.lua",
         "requires": [
+          "abyss_run_initialization",
+          "abyss_run_transition",
+          "abyss_run_rooms",
+          "abyss_run_settlement",
+          "abyss_run_potions"
+        ]
+      },
+      {
+        "name": "abyss_run_initialization",
+        "source": "src/lua/abyss_run_initialization.lua",
+        "requires": [
+          "abyss_encounter_queue"
+        ]
+      },
+      {
+        "name": "abyss_run_transition",
+        "source": "src/lua/abyss_run_transition.lua",
+        "requires": [
+          "abyss_encounter_queue"
+        ]
+      },
+      {
+        "name": "abyss_run_rooms",
+        "source": "src/lua/abyss_run_rooms.lua",
+        "requires": [
           "abyss_encounter_queue",
           "abyss_room_encounters"
+        ]
+      },
+      {
+        "name": "abyss_run_settlement",
+        "source": "src/lua/abyss_run_settlement.lua",
+        "requires": [
+          "abyss_combat"
+        ]
+      },
+      {
+        "name": "abyss_run_potions",
+        "source": "src/lua/abyss_run_potions.lua",
+        "requires": [
+          "abyss_combat"
         ]
       },
       {

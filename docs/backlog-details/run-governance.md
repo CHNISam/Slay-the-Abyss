@@ -1,5 +1,11 @@
 # Run 状态与接续职责治理
 
+## 最新组合复核
+
+基于 develop `432eebb1` 与 Nodes 待合版本 `2a1a7bd` 的组合已离线复核。Run 全部生产源码与已审 `261ff804` 字节一致；其它生产 Lua 与 Nodes 版本一致。共享配置保留最新 Node UI/Nodes 全部门禁，仅追加 Run 职责。以下早期基线报告的全仓数量由本节更新：架构239模块/1345边；原生静态936个受门禁测量，60条明确历史告警、零新增；Run158和Nodes167项测量均≤15，两个主文件分别602/670行。16项预算/API/AST政策测试通过。
+
+当前组合的接续、结算、事件战斗、出牌事务和快照归属等10项Node测试最终均通过，内含Nodes72个基线差分场景。首次组合命令9/10通过，奖励所有权项因本地缺生成的theme/layout测试夹具失败；补齐已有build:ui夹具后仅重跑该项通过，未改断言或运行限制。Run另10个旧新完整状态图/别名/RNG差分检查点通过。原始失败与重跑日志均保留在忽略目录 `.artifacts/run-nodes-governance/rebased-*`。没有客户端、前台输入或实机验证。最终PR基准/头与远端Full CI以集成交付证据为准，不能复用旧基准的CI成功。
+
 基线 `1f260a71972b03dae5b63e8d6f12d055973a4c83`：abyss_run.lua 1312物理行，Luacheck 96个测量（含主块）最大复杂度57；初始化44、跨幕回调40、房间进入57、Heart owner49、结算34、药水使用40。基线源码LF SHA256为 `a147a8b632813d6d419f2a1742c866088a88704a1e1ea416702619c41efe188a`。
 
 初始化/目录归属、跨幕接续、房间构造/检查点、结算/永久变化、药水提交分别提取。installer只注册同一个公开API表，私有helper不进入Run API；跨职责调用继续读取该表，保持调用替换及错误注入能力。初始化、边界检查、来源选择、结果发布分别命名并测量，不把热点原样挪到另一个文件。
@@ -35,6 +41,17 @@ node node_modules/fengari-node-cli/src/lua-cli.js -e "RUN_GOVERNANCE_REFERENCE='
 competition_two_act有一次并发验证时按原30秒限制超时，前5项通过而整文件未通过，此失败保留。暂停其它重进程后原限制独占重跑7/7通过，22.223秒；没有增加超时、删断言或改原切片。
 
 这是离线源码/受控回归证据。未生成候选、未导入客户端、未取得本轮ready、未做自然玩家通关或实机UI验收；没有使用鼠标键盘。完整当前SHA的Quality仍须独立通过，本切片不合并PR。
+
+## 发布清单调用链适配
+
+PR308在bf897616的完整CI发现发布清单仍要求Run直接require encounter_queue/room_encounters，而实际职责已经提取。原失败日志保留于 `.artifacts/run-nodes-governance/pr308-bf-posix2.log`。没有向生产模块补无用require，也没有删去旧依赖链或放宽门禁。
+
+验证器与launch-content.json同步真实边界：Run facade要求本轮五个helper；initialization/transition要求encounter_queue；rooms要求encounter_queue与room_encounters；settlement/potions要求combat。旧Nodes→Run、room_encounters/combat→encounter_formation、formation/queue→sts_random链保持原样。profiles.encounters.entryPoints仅追加五个真实helper，全部旧入口保留；玩法、数值、渠道和验收状态均未改变。
+
+原依赖校验抽出为validateLaunchRuntimeModules，正式入口继续读取实际Lua源码、实际candidateScriptFiles打包发现集合和真实profile入口，精确核对关系及每条require。五个新增负例组逐helper拒绝清单漏项、打包漏项、源码文件缺失、profile入口缺失，以及facade/helper真实require删除和清单依赖边删除。
+
+完整 `node --test tests/launch-content.test.mjs` 27/27通过（原22项+5组负例），零跳过、20.854秒；包含实际Lua支持池与完整发布检查。verify:backlog、check:syntax、check:architecture（225模块/1286边）、check:lua-static（576测量/73条历史告警、零新增）通过。完整基线diff-check通过。没有运行其它Lua重例、前台或实机；当前SHA远端Quality仍另验。
+
 
 ## 原生逐函数报告
 
