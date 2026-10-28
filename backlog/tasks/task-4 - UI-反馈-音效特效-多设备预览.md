@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 16:37'
+updated_date: '2026-10-28 17:00'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -67,6 +67,8 @@ PR171整合切片：保留develop最新商店原子交易和战后独立选牌�
 dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修复、26源历史隔离、原runner和断言；仅逐块移植仍缺地图去圈/卡面/详情/能量/Main原稿纠偏，旧7a合流树只作历史保全，不整笔cherry-pick。共享主题与新增严格逆向由单执行者维护，重Lua串行协调，当前不推送PR或合并。
 
 2026-10-28药水纠偏：在dot独立云树线性接续1f260a7，原子叠加Map共享empty/filled/fire/selected壳体与Main真实状态刷新，保留官方瓶ID及主线安全保护。逐字段主题合并、真实Lua/render及历史精确逆向重验；不推送，等待独立视觉审查；不把离线代显或旧绿灯当还原/设备通过。
+
+2026-10-28发布续接：按用户已授权提交PR要求，将批准稿UI六提交线性接续PR307（0763d2e），保全原UI/历史哈希；仅提交本功能分支的单个Draft PR，以精确head托管Full Quality/inventory完成全量验证。本地两次完整check均因执行会话中断无结论，不再第三次重跑；不改AC/Done，不代替官方导入/ready及PC/实体手机验收。PR310/311/312重叠由主线程协调顺序。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -102,4 +104,6 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-28 dot 隔离UI合流阶段：53fa基线已逐字段合地图三批、卡面两批、详情/能量/Main，58源精确逆向保留旧26源/全部golden/原预算。最终53case+6seed、Main/详情/能量15项、相邻详情19入口、3逐写trace、38地图组、5完整host均实测通过。当前为离线候选，完整托管Quality/inventory与同候选官方导入/ready/设备UI验收未完成；未推送/PR/合并。fresh远端1f260a7(PR305)仅治理路径、与UI零重叠，待根线程决定基线吸收。Owner/状态/AC不改；证据docs/reviews/APPROVED-UI-CURRENT-INTEGRATION-20261028.md。
 
 2026-10-28药水新纠偏源：原子接入空/普通/火焰/真实选择态及Main失效owner先退役；保留官方瓶ID。独立评审修正单小亮斑为原稿端点插值的双内切soft-disc；可移植原HTML whole-face离线模型先红后绿，新源短测9/9、精确58源逆向6/6、架构221/1265、73条历史诊断/原复杂度预算通过。Battle3283/Game10411节点仅静态计数，不是手机性能证据。原阶段27 Lua文件（原53case/6seed、5host、11target、38map组）均通过，明确不冒充新梯度源完整门禁。随后串行完整npm run check；不推送，待root最终diff审查。docs/reviews/potion-shell-integration-20261028/README.md；视觉/官方导入/ready/设备/完整Quality仍缺，AC不勾。
+
+2026-10-28 16:59 UTC：rebase后便携CI合同12/12、最终药水/Main/Map及inverse入口11/11、完整inverse6/6；网络/语法/221模块1265边架构/73条旧静态诊断及原复杂度门槛通过，25个冻结源和历史哈希不变。一次CI短测14通过1失败已定位为云缺pwsh（spawnSync ENOENT），不安装、不跳过，交托管真实执行。d6a0881两次完整check分别16:37与16:42启动均无终态，重试最后heartbeat16:54:23且16:59:19锁FREE，不算PASS或代码FAIL。完整原日志、同状态离线壳体对照与产品未测边界见docs/reviews/approved-ui-publication-20261028/。本条只记进度，不勾整体验收，不代表已推送/CI通过。
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,156 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check
+> npm run check:rules && npm run test:presentation
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:rules
+> npm run check:network && npm run verify:backlog && npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme && npm run check:engineering
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:network
+> node scripts/check-network-policy.mjs
+
+CI download safeguards verified: incremental Git refs, size summary/limit, bounded npm retries
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 verify:backlog
+> node scripts/verify-backlog-roadmap.mjs
+
+任务编号、首发排期、负责人及M3/M4前两幕参赛范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证平台或实机。
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 check:syntax
+> node scripts/check-syntax.mjs
+
+JavaScript syntax checks passed.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 test
+> npm run build:data && npm run build:ui && node --test --test-concurrency=1 tests/*.test.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 build:data
+> node scripts/build-lua-data.mjs
+
+Validated Lua data module built.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> slay-the-abyss@0.11.0 build:ui
+> node scripts/build-ui.mjs
+
+Native battle UI and Traveler display module built.
+✔ Large Acid carries the source non-split actions, HP range and exact float fallback (13.938083ms)
+✔ strict Large Acid non-split policy is accepted (4.778321ms)
+✔ Large Acid policy rejects kind guessed_acid (9.647952ms)
+✔ Large Acid policy rejects spitIntent undefined (3.179962ms)
+✔ Large Acid policy rejects weakIntent undefined (3.903013ms)
+✔ Large Acid policy rejects tackleIntent undefined (3.490841ms)
+✔ Large Acid policy rejects spitIntent acid_slime_l_2 (3.279573ms)
+✔ Large Acid policy rejects weakIntent acid_slime_l_1 (2.589063ms)
+✔ Large Acid policy rejects tackleIntent acid_slime_l_1 (2.852519ms)
+✔ Large Acid policy rejects tackleIntent missing (3.150087ms)
+✔ Large Acid policy rejects rollRange 0 (3.684733ms)
+✔ Large Acid policy rejects rollRange 65537 (3.837314ms)
+✔ Large Acid policy rejects rollRange 1.5 (4.167431ms)
+✔ Large Acid policy rejects spitCutoff -1 (4.401624ms)
+✔ Large Acid policy rejects spitCutoff 70 (3.10515ms)
+✔ Large Acid policy rejects tackleCutoff 100 (2.413317ms)
+✔ Large Acid policy rejects tackleCutoff 1.5 (4.384188ms)
+✔ Large Acid policy rejects spitChance undefined (3.48348ms)
+✔ Large Acid policy rejects spitChance -0.1 (3.041104ms)
+✔ Large Acid policy rejects spitChance 1.1 (3.177309ms)
+✔ Large Acid policy rejects spitChance 0.4 (2.458556ms)
+✔ Large Acid policy rejects spitChance NaN (3.080322ms)
+✔ Large Acid policy rejects spitChance Infinity (3.567056ms)
+✔ Large Acid policy rejects guess 1 (2.400618ms)
+✔ Large Acid corrosive attack rejects missing contamination (2.729975ms)
+✔ Large Acid corrosive attack rejects reversed order (2.87912ms)
+✔ Large Acid corrosive attack rejects wrong card (2.566358ms)
+✔ Large Acid corrosive attack rejects medium count (2.991659ms)
+✔ Large Acid corrosive attack rejects extra count (3.298973ms)
+✔ Large Acid corrosive attack rejects extra effect (2.734501ms)
+✔ Large Acid schema does not relax the established Medium Acid one-Slimed contract (3.134804ms)
+✔ playable Acid M carries all three A0 actions, sampled HP and exact Java float fallback (14.327855ms)
+✔ bounded three-move Acid M policy is accepted (5.827924ms)
+✔ Acid policy rejects spitIntent undefined (5.49412ms)
+✔ Acid policy rejects weakIntent undefined (3.64958ms)
+✔ Acid policy rejects tackleIntent undefined (5.34829ms)
+✔ Acid policy rejects spitIntent acid_slime_m_2 (3.685674ms)
+✔ Acid policy rejects weakIntent acid_slime_m_1 (3.29788ms)
+✔ Acid policy rejects tackleIntent acid_slime_m_1 (3.103498ms)
+✔ Acid policy rejects rollRange 0 (3.671714ms)
+✔ Acid policy rejects rollRange 65537 (4.079638ms)
+✔ Acid policy rejects rollRange 1.5 (3.605353ms)
+✔ Acid policy rejects spitCutoff -1 (3.806527ms)
+✔ Acid policy rejects spitCutoff 70 (4.170065ms)
+✔ Acid policy rejects tackleCutoff 100 (4.183245ms)
+✔ Acid policy rejects tackleCutoff 1.5 (3.220915ms)
+✔ Acid policy rejects spitChance undefined (3.113493ms)
+✔ Acid policy rejects spitChance -0.1 (3.247724ms)
+✔ Acid policy rejects spitChance 1.1 (3.198511ms)
+✔ Acid policy rejects spitChance 0.4 (3.530201ms)
+✔ Acid policy rejects guess 1 (2.910186ms)
+✔ corrosive attack rejects missing slime (3.312393ms)
+✔ corrosive attack rejects reversed order (3.687447ms)
+✔ corrosive attack rejects wrong card (3.941169ms)
+✔ corrosive attack rejects extra slime (2.996336ms)
+✔ small Acid Slime A0 declares randomized opening and alternating source actions (12.761564ms)
+✔ rejects small Acid Slime unknown field (5.562534ms)
+✔ rejects small Acid Slime unknown Tackle (3.683772ms)
+✔ rejects small Acid Slime missing Weak (3.776121ms)
+✔ rejects small Acid Slime debuff Tackle (4.464734ms)
+✔ rejects small Acid Slime attack Weak (3.245291ms)
+✔ rejects small Acid Slime zero range (2.908814ms)
+✔ rejects small Acid Slime fractional range (3.125571ms)
+✔ existing Large Acid encounter declares source split into two real medium children (16.855104ms)
+✔ source Acid split policy is accepted (5.533961ms)
+✔ reject Acid split splitIntent undefined (3.758565ms)
+✔ reject Acid split splitIntent acid_slime_l_1 (3.642419ms)
+✔ reject Acid split splitIntent missing (3.487326ms)
+✔ reject Acid split splitEnemy missing (3.483631ms)
+✔ reject Acid split splitEnemy acid_slime_l (3.816693ms)
+✔ reject Acid split splitEnemy spike_slime_m (2.861513ms)
+✔ reject Acid split splitCount 1 (5.399497ms)
+✔ reject Acid split splitCount 3 (5.231235ms)
+✔ reject Acid split splitCount 2.5 (3.613896ms)
+✔ reject Acid split splitHpDivisor 1 (2.644416ms)
+✔ reject Acid split splitHpDivisor 3 (3.97449ms)
+✔ Acid split child must retain the supported Medium Acid policy (3.476249ms)
+✔ Acid split has no damage or status payload (4.172589ms)
+✔ acid_slime_m cannot split recursively (2.94545ms)
+✔ acid_slime_s cannot split recursively (3.352703ms)
+✔ two large slimes overflow retained-parent capacity: acid_slime_l (3.313263ms)
+✔ two large slimes overflow retained-parent capacity: spike_slime_l (3.471893ms)
+✔ one Large Acid with two existing allies fits exactly five retained slots (3.255927ms)
+✔ Act1 missing Bosses execute source A0 rules through Combat and Run rooms (5128.272885ms)
+✔ Act2 source-defined enemies run through production battle and room commands (6971.39621ms)
+✔ Beggar contract is pinned to the exact primary source and mandatory seven-argument purge overload (1.511488ms)
+✔ Beggar actual Nodes commands preserve source stages, mandatory choice, paid-state rollback and full-pool gates (2953.553671ms)
+✔ Act2 events reuse the unchanged event rows, picker, confirm and back controls (11.258168ms)
+✔ mock-local generated NodeUI plus real Nodes/Run: act2_event_ui.lua (5368.992453ms)
+✔ mock-local generated NodeUI plus real Nodes/Run: act2_event_ui_hooks.lua (6553.490288ms)
+✔ mock-local generated NodeUI plus real Nodes/Run: act2_event_ui_gestures.lua (4623.833032ms)
+✔ mock-local generated NodeUI plus real Nodes/Run: act2_event_ui_exchanges.lua (3977.22068ms)
+✔ Act2 enemy intentions describe healing, cleanse and life-drain without changing combat (20926.711548ms)
+✔ Stasis sorts real Silent Defect Watcher cards by complete original source metadata (1354.627961ms)
+✔ controlled Act3 combined-owner source group, Power order, physical flag and exhaust queue seams (1552.158516ms)
+✔ Sphere and MindBloom native fight callbacks retain physical event, generation, visibility and attachment owners (11067.691802ms)
+✔ Falling locks the audited raw ZIP members and independent typed-RNG oracle (1.890539ms)
+✔ Falling release mapping records the limited campaign evidence and all three dedicated boundaries (0.348004ms)
+✔ Maw and Spire Growth preserve source runtime actions and permanent room boundaries (13619.051409ms)
+✔ fixed Maw/Growth source and independent vector evidence stay explicit (0.7627ms)
+✔ Moai locks actual fixed ZIP members independently of older source-lock history (2.529231ms)
+✔ independent float32/Java round oracle retains the conversion boundary and unchanged source seed32 (0.167372ms)
+✔ Moai inventory records actual GoldenIdol dependency evidence while preserving original source-lock history (0.264769ms)
+✔ Orb Walker runs through real Act3 room, source streams and atomic battle commands (7199.727699ms)
+✔ source Shapes use actual formation, enemy actions and public battle transactions (9872.512507ms)
+✔ audited Shapes fixture remains the independently generated LF-normalized sequence (0.849289ms)
