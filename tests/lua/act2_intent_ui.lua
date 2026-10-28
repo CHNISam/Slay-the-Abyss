@@ -1,5 +1,18 @@
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local C=H.F.Combat
+local function details(ui,panel)
+ local info,parts=panel:GetChild('statusInfo'),{}
+ assert(info.visible and ui.info)
+ for page=1,ui.info.pages do
+  for i=1,H.F.Theme.layout.statusInfo.rows do
+   for _,field in ipairs({'name','text','note','tag'})do
+    local part=info:GetChild(field..i);if part.visible then parts[#parts+1]=part.text end
+   end
+  end
+  if page<ui.info.pages then info:GetChild('page').click()end
+ end
+ return table.concat(parts,'\n')
+end
 local function same(a,b)
  assert(type(a)==type(b))
  if type(a)~='table'then assert(a==b);return end
@@ -20,7 +33,7 @@ local function detail(id,move,effects,kind)
  local before=C.copy(host.run.combat)
  host:refresh();tap('enemy'..index,1)
  same(host.run.combat,before)
- return panel:GetChild('notice').text,panel:GetChild('enemy'..index),require('abyss_battle_intent_view').intentView(host.run.combat,index)
+ return details(ui,panel),panel:GetChild('enemy'..index),require('abyss_battle_intent_view').intentView(host.run.combat,index)
 end
 local heal=detail('mystic','heal')
 assert(heal:find('全体',1,true) and heal:find('16',1,true) and not heal:find('未知',1,true),'Mystic group heal intent is missing')
@@ -60,7 +73,7 @@ host:refresh()
 local before=C.copy(battle)
 assert(ui:showStatus(2))
 local heldName=ui.presentation[held].name
-local shown=panel:GetChild('statusInfo'):GetChild('text1').text
+local shown=details(ui,panel)
 assert(shown:find(heldName,1,true) and shown:find('击败',1,true),'held card must be visible by name')
 same(battle,before)
 print('ACT2_INTENT_UI_PASS 14')

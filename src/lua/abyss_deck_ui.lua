@@ -94,7 +94,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local face = control:GetChild("face")
         CardDisplay.writeTitle(face:GetChild("name"),display.name,instance.upgraded,
             definition.repeatable and (instance.upgrades or 1) or nil,face:GetChild("type"),typeNames[definition.type] or definition.type)
-        face:GetChild("name").fontColor = colour(instance.upgraded and Theme.color.positive or Theme.color.text)
+        face:GetChild("name").fontColor = colour(Theme.cardSkin.text.title)
         -- Permanent cards carry no combat modifiers: fill live tokens with their own values.
         local text=battle and CardDisplay.combatText(display,definition,instance,Combat.cardPreview(battle,instance))
             or CardDisplay.permanentText(display,definition,instance)

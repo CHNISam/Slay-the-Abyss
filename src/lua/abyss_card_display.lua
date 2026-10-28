@@ -17,7 +17,7 @@ end
 function M.writeArt(control,definition,picture)
     local image,status,source=M.art(definition)
     local card=Theme.layout.card
-    local width,height=math.min(card.costDisc,card.art),math.min(card.costDisc,card.art)
+    local width,height=math.min(card.artIcon,card.art),math.min(card.artIcon,card.art)
     if source then
         assert(type(source)=='table' and #source==2 and type(source[1])=='number' and type(source[2])=='number'
             and source[1]>0 and source[2]>0 and source[1]<math.huge and source[2]<math.huge,
@@ -132,7 +132,7 @@ end
 function M.title(name,upgraded,upgrades)
     local suffix=upgraded and ('＋'..(upgrades and integer(upgrades) or '')) or ''
     local card=Theme.layout.card
-    local width=card.size[1]-card.costDisc-Theme.space.s
+    local width=card.title.width
     local text=name..suffix
     local font,fits=M.fit(text,Theme.font.cardName,width,card.nameBand,1.65)
     -- Prefer a readable two-line full name to shrinking a complete English
@@ -159,6 +159,14 @@ function M.title(name,upgraded,upgrades)
 end
 function M.writeTitle(control,name,upgraded,upgrades,typeControl,typeText)
     local text,font,fits,marker=M.title(name,upgraded,upgrades)
+    -- Fit plain glyphs first; native inline colour belongs only to the upgrade
+    -- marker, even when the readable full name moves that marker to the type.
+    if upgraded then
+        local suffix='＋'..(upgrades and integer(upgrades) or '')
+        local c=Theme.cardSkin.text.upgrade
+        local ink=string.format('<color=#%02X%02X%02X>',c.r,c.g,c.b)..suffix..'</color>'
+        if marker~='' then marker=ink else text=text:sub(1,#text-#suffix)..ink end
+    end
     control.adaptiveFontSize=false
     control.text,control.fontSize=text,font
     if typeControl then typeControl.text=typeText..(marker~='' and ' '..marker or '') end

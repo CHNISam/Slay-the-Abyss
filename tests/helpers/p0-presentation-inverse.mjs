@@ -1,6 +1,7 @@
 import {preNodeUiRefactorSource}from'./node-ui-refactor-inverse.mjs';
+import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
+import {readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
@@ -22,6 +23,9 @@ export function preAcceptedPresentation(path,source){
   return source;
 }
 export function materializeHistoricalPresentation(directory){
-  for(const path of Object.keys(p0Presentation.files))
-    writeFileSync(join(directory,path),preAcceptedPresentation(path,readFileSync(path,'utf8')));
+  for(const path of new Set([...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){
+    const source=preApprovedUiSource(path,readFileSync(path,'utf8'));
+    if(source===null)rmSync(join(directory,path),{force:true});
+    else writeFileSync(join(directory,path),preAcceptedPresentation(path,source));
+  }
 }

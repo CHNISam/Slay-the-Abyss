@@ -1,0 +1,935 @@
+{
+  "baseHead": "53fa164a9914dd8a7a5849ff741925dd3131f5e4",
+  "purpose": "Exact test-only current approved UI to PR302 source layer. Original historical bindings and all goldens remain unchanged.",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "e0e9a35f5f284f486b01542ef0f124c2a3a4ea2234c23890398266e8f4b54ac4",
+      "afterSha256": "6b43a048c8bf396c31b0f64b116bd35c865812529989a5e3b2c0a394b70b7f97",
+      "hunks": [
+        {
+          "at": 130,
+          "before": [
+            "    \"cardName\": 17,"
+          ],
+          "after": [
+            "    \"cardName\": 14,"
+          ]
+        },
+        {
+          "at": 133,
+          "before": [
+            "    \"cost\": 24,"
+          ],
+          "after": [
+            "    \"cost\": 17,"
+          ]
+        },
+        {
+          "at": 738,
+          "before": [
+            "      \"costDisc\": 40,"
+          ],
+          "after": [
+            "      \"costDisc\": 30,"
+          ]
+        },
+        {
+          "at": 741,
+          "before": [
+            "        \"costOverhang\": 4,",
+            "        \"costRing\": 4,"
+          ],
+          "after": [
+            "        \"costOverhang\": 5,",
+            "        \"costRing\": 3,"
+          ]
+        },
+        {
+          "at": 748,
+          "before": [
+            "      }"
+          ],
+          "after": [
+            "      },",
+            "      \"title\": {",
+            "        \"position\": [",
+            "          0,",
+            "          86",
+            "        ],",
+            "        \"width\": 100",
+            "      },",
+            "      \"artIcon\": 40"
+          ]
+        },
+        {
+          "at": 823,
+          "before": [
+            "        -548,",
+            "        -196"
+          ],
+          "after": [
+            "        -534.6666666666666,",
+            "        -216.0"
+          ]
+        },
+        {
+          "at": 826,
+          "before": [
+            "      \"size\": 88"
+          ],
+          "after": [
+            "      \"size\": 88,",
+            "      \"note\": \"Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。\",",
+            "      \"rim\": 2,",
+            "      \"faceInset\": 6,",
+            "      \"elementInset\": 10,",
+            "      \"numberSize\": 29.333333333333332,",
+            "      \"shadowOffset\": [",
+            "        0,",
+            "        -1.3333333333333333",
+            "      ],",
+            "      \"rimColour\": \"#8A6A40\",",
+            "      \"shellColour\": \"#2A1C12\",",
+            "      \"faceColour\": \"#8E5A1E\",",
+            "      \"lightColour\": \"#F6D38E\",",
+            "      \"elementColour\": \"#4A2C0E\",",
+            "      \"numberColour\": \"#FFF8EC\",",
+            "      \"shadowColour\": \"#3A1E06\""
+          ]
+        },
+        {
+          "at": 2700,
+          "before": [
+            "      \"panel\": [490, 210, 220, 244],",
+            "      \"map\": [490, 286, 196, 48],",
+            "      \"help\": [490, 234, 196, 48],",
+            "      \"resume\": [490, 182, 196, 48],",
+            "      \"abandon\": [490, 122, 196, 48],",
+            "      \"mapBack\": [548, 316, 104, 44]"
+          ],
+          "after": [
+            "      \"panel\": [",
+            "        490,",
+            "        210,",
+            "        220,",
+            "        244",
+            "      ],",
+            "      \"map\": [",
+            "        490,",
+            "        286,",
+            "        196,",
+            "        48",
+            "      ],",
+            "      \"help\": [",
+            "        490,",
+            "        234,",
+            "        196,",
+            "        48",
+            "      ],",
+            "      \"resume\": [",
+            "        490,",
+            "        182,",
+            "        196,",
+            "        48",
+            "      ],",
+            "      \"abandon\": [",
+            "        490,",
+            "        122,",
+            "        196,",
+            "        48",
+            "      ],",
+            "      \"mapBack\": [",
+            "        548,",
+            "        316,",
+            "        104,",
+            "        44",
+            "      ]"
+          ]
+        },
+        {
+          "at": 2865,
+          "before": [],
+          "after": [
+            "    },",
+            "    \"text\": {",
+            "      \"title\": \"#FFFFFF\",",
+            "      \"upgrade\": \"#8DE08A\"",
+            "    },",
+            "    \"costTone\": {",
+            "      \"down\": \"#8DE08A\",",
+            "      \"up\": \"#EF7672\"",
+            "    },",
+            "    \"blocked\": {",
+            "      \"veil\": \"#08090C80\",",
+            "      \"body\": \"#0D0E12\",",
+            "      \"edge\": \"#EF7672\",",
+            "      \"text\": \"#FF9A94\",",
+            "      \"inset\": 3,",
+            "      \"radius\": 4.5,",
+            "      \"pill\": [",
+            "        142,",
+            "        16",
+            "      ],",
+            "      \"pillY\": 18,",
+            "      \"pillRadius\": 8,",
+            "      \"stroke\": 0.75,",
+            "      \"lock\": [",
+            "        7,",
+            "        8",
+            "      ],",
+            "      \"gap\": 4,",
+            "      \"padding\": 7"
+          ]
+        }
+      ]
+    },
+    "scripts/card-face.mjs": {
+      "beforeSha256": "a3213a99120d45fe9ddcb27af2f47a7654e98a655b57e562c110a68272d537cf",
+      "afterSha256": "b6a3dc76291410589ff09e6878ed8e43e299c20f045ec38c379b638942d2829d",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import { cardLightning } from './card-lightning.mjs';"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "  if(role==='RD')return [{...p('bolt',[0,2,5,9],100003),rotation:200},{...p('tail',[0,-2,5,9],100003),rotation:20}];"
+          ],
+          "after": [
+            "  if(role==='RD')return cardLightning(picture,colour);"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [
+            "  const iconSize = Math.min(d, card.art);",
+            "  const trim = card.trim;"
+          ],
+          "after": [
+            "  const iconSize = Math.min(card.artIcon, card.art);",
+            "  const trim = card.trim, blocked = theme.cardSkin.blocked;"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            "    text('name', frame([d/2,nameY],[w-d-s.s,Math.max(card.nameBand,l.nativeText.lineHeight)]), '', f.cardName),"
+          ],
+          "after": [
+            "    text('name', frame(card.title.position,[card.title.width,Math.max(card.nameBand,l.nativeText.lineHeight)]), '', f.cardName,theme.cardSkin.text.title),"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "    orb('roleRing',frame([0,-h/2+1],[18,18]),c.cardWell),",
+            "    {name:'roleMark',kind:'container',position:[0,-h/2+1],size:[11,11],children:Object.keys(theme.cardSkin.roles).map(role=>({name:role,kind:'container',size:[11,11],children:emblem(role,picture,c.energy,c.cardWell)}))},"
+          ],
+          "after": [
+            "    orb('roleRing',frame([0,-h/2],[16,16]),c.cardWell),",
+            "    {name:'roleMark',kind:'container',position:[0,-h/2],size:[11,11],children:Object.keys(theme.cardSkin.roles).map(role=>({name:role,kind:'container',size:[11,11],children:emblem(role,picture,c.energy,c.cardWell)}))},",
+            "    // One native opacity layer: overlapping rounded parts would darken the centre twice.",
+            "    // Rounded alpha clipping remains an explicit platform verification gap.",
+            "    hidden(plate('blockedVeil',frame([0,0],[w-blocked.inset*2,h-blocked.inset*2]),blocked.veil)),",
+            "    hidden({name:'blockedPill',kind:'container',position:[0,blocked.pillY],size:blocked.pill,children:",
+            "      [0,blocked.stroke].map((inset,index)=>({name:index?'body':'edge',kind:'container',size:blocked.pill,children:",
+            "        roundedParts(blocked.pill[0]-inset*2,blocked.pill[1]-inset*2,blocked.pillRadius-inset,index?blocked.body:blocked.edge,picture,plate,frame)}))}),",
+            "    hidden(picture('blockedLock',[-blocked.pill[0]/2+blocked.padding+blocked.lock[0]/2,blocked.pillY,...blocked.lock],icon.lock,blocked.text)),",
+            "    hidden(text('blockedReason',frame([(blocked.lock[0]+blocked.gap)/2,blocked.pillY],[blocked.pill[0]-blocked.padding*2-blocked.lock[0]-blocked.gap,l.nativeText.lineHeight]),'',f.minimum,blocked.text)),"
+          ]
+        },
+        {
+          "at": 91,
+          "before": [
+            "    text('cost',frame(disc,[d,node?l.nativeText.lineHeight:d]),'',f.cost,c.energy),"
+          ],
+          "after": [
+            "    text('cost',frame(disc,[d,l.nativeText.lineHeight]),'',f.cost,c.energy),"
+          ]
+        },
+        {
+          "at": 93,
+          "before": [
+            "    hidden(text('blockedReason',frame([0,artY],[w-12,l.nativeText.lineHeight]),'',f.small,c.danger)),"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "scripts/card-lightning.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "574313b3ba5eb7ece683857735a26a53ffd7acb1e44bb944c776e45c097d797f",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "// Card.dc.html: M14 1L4 13.5h6.2L8.5 23L20 9.5h-6.4Z.",
+            "// Its 18px SVG viewport is halved with the 296px source card, hence 9/24.",
+            "const points=[[14,1],[4,13.5],[10.2,13.5],[8.5,23],[20,9.5],[13.6,9.5]]",
+            "  .map(([x,y])=>[(x-12)*9/24,(12-y)*9/24]);",
+            "const triangles=[[5,0,1],[5,1,2],[5,2,3],[3,4,5]];",
+            "",
+            "export function cardLightning(picture,colour) {",
+            "  return triangles.map((indices,i)=>{",
+            "    const [apex,left,right]=indices.map(index=>points[index]);",
+            "    // Affine map of the native triangle (0,.5),(-.5,-.5),(.5,-.5).",
+            "    const a=right[0]-left[0],c=right[1]-left[1];",
+            "    const b=apex[0]-(left[0]+right[0])/2,d=apex[1]-(left[1]+right[1])/2;",
+            "    // A=R(theta) * scale(sx,sy) * R(-phi): native transforms only, no shear API.",
+            "    const phi=Math.atan2(2*(a*b+c*d),a*a+c*c-b*b-d*d)/2;",
+            "    const x=a*Math.cos(phi)+b*Math.sin(phi),y=c*Math.cos(phi)+d*Math.sin(phi);",
+            "    const sx=Math.hypot(x,y),sy=(a*d-b*c)/sx;",
+            "    return {name:'triangle'+(i+1),kind:'container',size:[1,1],",
+            "      position:[apex[0]-b/2,apex[1]-d/2],rotation:Math.atan2(y,x)*180/Math.PI,scale:[sx,sy],",
+            "      children:[{...picture('fill',[0,0,1,1],100003,colour),rotation:-phi*180/Math.PI}]};",
+            "  });",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "scripts/map-ui-layout.mjs": {
+      "beforeSha256": "9d7da4392bdbefbd72b145d32aad58af0bba658e2162ff8b976cd295799d0963",
+      "afterSha256": "abd26c0c8c7a4989c88168c4d7cc02ad634e8f253b55928c97b382fbc0054c48",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            "    const children = [];",
+            "    for (const [state, colour] of Object.entries({ locked: c.node.locked, visited: c.node.visited,",
+            "      current: c.node.current, available: c.node.reachable })) children.push(image(state, 0, 0, s, s, colour, im.disc));",
+            "    children.push(image('body', 0, 0, s - theme.space.border * 2, s - theme.space.border * 2, c.panel, im.disc),",
+            "      image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s));"
+          ],
+          "after": [
+            "    // State is carried by the official icon tint and the existing current token,",
+            "    // never an enclosing disc. Keep the full invisible pointer/focus target.",
+            "    const children = [image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s)];"
+          ]
+        }
+      ]
+    },
+    "scripts/ui-layout.mjs": {
+      "beforeSha256": "005549d044d99c8653415ce3cda78072707ee3db078017200377ccfabb2a5298",
+      "afterSha256": "0d840c503711c885964dd7de82542797b555409651dc79fbef0fd2510d9321d1",
+      "hunks": [
+        {
+          "at": 214,
+          "before": [
+            "    // Outline ring + flat amber face; the Geo mark is a faint watermark so the digits stay clean.",
+            "    picture('energyRing', ...l.energy.position, l.energy.size + s.s, l.energy.size + s.s, im.disc, c.geoDeep),",
+            "    picture('energyDisc', ...l.energy.position, l.energy.size, l.energy.size, im.disc, c.energy),"
+          ],
+          "after": [
+            "    // Main 138–144: warm circular shell, inset amber face and white shadowed value.",
+            "    // Existing soft-disc material approximates, but does not reproduce, the CSS gradient.",
+            "    picture('energyRing', ...l.energy.position, l.energy.size, l.energy.size, im.disc, l.energy.rimColour),",
+            "    picture('energyDisc', ...l.energy.position, l.energy.size-l.energy.rim*2, l.energy.size-l.energy.rim*2, im.disc, l.energy.shellColour),"
+          ]
+        },
+        {
+          "at": 219,
+          "before": [
+            "      picture('core',0,0,l.energy.size-20,l.energy.size-20,im.diamond,c.geoDeep),",
+            "      picture('facet',-8,10,28,38,im.diamond,c.goldBright),",
+            "      picture('spark',18,-12,20,30,im.diamond,c.geo),"
+          ],
+          "after": [
+            "      picture('face',0,0,l.energy.size-l.energy.faceInset*2,l.energy.size-l.energy.faceInset*2,im.disc,l.energy.faceColour),",
+            "      picture('light',0,0,l.energy.size-l.energy.faceInset*2,l.energy.size-l.energy.faceInset*2,im.discSoft,l.energy.lightColour),",
+            "      picture('core',0,0,l.energy.size-l.energy.elementInset*2,l.energy.size-l.energy.elementInset*2,theme.icon.energy.id,l.energy.elementColour),",
+            "      text('valueShadow',...l.energy.shadowOffset,l.energy.size,l.energy.size,'0/0',l.energy.numberSize,l.energy.shadowColour),"
+          ]
+        },
+        {
+          "at": 224,
+          "before": [
+            "    text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', f.numberLarge, c.textOnLight),"
+          ],
+          "after": [
+            "    text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', l.energy.numberSize, l.energy.numberColour),"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_card_view.lua": {
+      "beforeSha256": "ed799eb2e929975fad2105237f42947226f36088b7a440759aed0b4bbd44272e",
+      "afterSha256": "d5073a62997d0a1058ffebf8d4e4fea5cac177b9657f7923250172e219492742",
+      "hunks": [
+        {
+          "at": 157,
+          "before": [
+            "        local instance, enabled = card.instance, card.enabled"
+          ],
+          "after": [
+            "        local instance = card.instance"
+          ]
+        },
+        {
+          "at": 161,
+          "before": [
+            "        ink(box:GetChild(\"name\"), card.upgraded and not card.missing and C.positive or enabled and C.text or C.textMuted)"
+          ],
+          "after": [
+            "        ink(box:GetChild(\"name\"), Theme.cardSkin.text.title)"
+          ]
+        },
+        {
+          "at": 168,
+          "before": [
+            "        ink(box:GetChild(\"label\"), enabled and C.text or C.textMuted)"
+          ],
+          "after": [
+            "        ink(box:GetChild(\"label\"), C.text)"
+          ]
+        },
+        {
+          "at": 204,
+          "before": [],
+          "after": [
+            "        local enabled,reason=not missing and context.reward,nil",
+            "        if not missing and not context.reward then",
+            "            enabled,reason=Combat.canPlay(context.battle,instance.uid,view.target)",
+            "            enabled=context.active and enabled",
+            "        end"
+          ]
+        },
+        {
+          "at": 212,
+          "before": [
+            "            enabled = not missing and (context.reward or context.active and Combat.canPlay(context.battle, instance.uid, view.target)),"
+          ],
+          "after": [
+            "            enabled = enabled,blockReason=reason,"
+          ]
+        },
+        {
+          "at": 221,
+          "before": [
+            "            cost=card.definition.cost,baseCost=printed})"
+          ],
+          "after": [
+            "            cost=card.definition.cost,baseCost=printed,blockReason=card.blockReason})"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_info_content.lua": {
+      "beforeSha256": "80322c35754e3f0d04d271b74304805797ebdf2957c41271deb687cf16da89c9",
+      "afterSha256": "70d71fbc3128ef9e67349043349d288095a5b2a5ae91186952af73b0207763af",
+      "hunks": [
+        {
+          "at": 230,
+          "before": [],
+          "after": [
+            "        if info.index > 0 and not info.statusId and not info.offset then",
+            "            local view = describe.intentView(battle, info.index)",
+            "            card.sections[#card.sections + 1] = {label = \"意图 · 尚未执行\", colour = describe.intentColors[view.kind] or C.textDim,",
+            "                rows = view.rows}",
+            "        end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_ui.lua": {
+      "beforeSha256": "3ad8ad013a4bcd67d29f4dcee30093819725088d78b9d53681df161d46de7e06",
+      "afterSha256": "a16db2fd7a2f0e45e1e4d6025ea08535c42865cffa12eb236a41147b233823f7",
+      "hunks": [
+        {
+          "at": 664,
+          "before": [
+            "        label(\"energy\", number(battle and battle.energy or 0) .. \"/\" .. number(data.rules.player.energyPerTurn))"
+          ],
+          "after": [
+            "        local value = number(battle and battle.energy or 0) .. \"/\" .. number(data.rules.player.energyPerTurn)",
+            "        label(\"energy\", value)"
+          ]
+        },
+        {
+          "at": 667,
+          "before": [
+            "        tint(child(\"energyDisc\"), charged and C.energy or C.energyEmpty)",
+            "        tint(child(\"energyIcon\"):GetChild('core'), charged and C.geoDeep or C.energyEmpty)",
+            "        ink(child(\"energy\"), charged and C.textOnLight or C.text)"
+          ],
+          "after": [
+            "        local icon = child(\"energyIcon\")",
+            "        icon:GetChild(\"valueShadow\").text = value",
+            "        tint(icon:GetChild(\"face\"), charged and L.energy.faceColour or C.energyEmpty)",
+            "        icon:GetChild(\"light\"):SetVisible(charged == true)",
+            "        tint(icon:GetChild(\"core\"), charged and L.energy.elementColour or C.energyEmpty)",
+            "        ink(child(\"energy\"), L.energy.numberColour)"
+          ]
+        },
+        {
+          "at": 1592,
+          "before": [
+            "                    local prefix = self.potionTargetAvailable and \"药水目标：\" .. self.run.combat.enemies[target].name .. \"；\" or \"\"",
+            "                    notice(prefix .. \"意图：\" .. intentView(self.run.combat, target).text) refresh()"
+          ],
+          "after": [
+            "                    self:showStatus(target)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_display.lua": {
+      "beforeSha256": "66f1fd86634726f19dd11ff2b18c8db016efdda527b68dae20cc152e6e41cc95",
+      "afterSha256": "d5c44bf1febe9fb91782f04aca78b328d531613206535036a8f0c1bc1b4d361f",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [
+            "    local width,height=math.min(card.costDisc,card.art),math.min(card.costDisc,card.art)"
+          ],
+          "after": [
+            "    local width,height=math.min(card.artIcon,card.art),math.min(card.artIcon,card.art)"
+          ]
+        },
+        {
+          "at": 134,
+          "before": [
+            "    local width=card.size[1]-card.costDisc-Theme.space.s"
+          ],
+          "after": [
+            "    local width=card.title.width"
+          ]
+        },
+        {
+          "at": 161,
+          "before": [],
+          "after": [
+            "    -- Fit plain glyphs first; native inline colour belongs only to the upgrade",
+            "    -- marker, even when the readable full name moves that marker to the type.",
+            "    if upgraded then",
+            "        local suffix='＋'..(upgrades and integer(upgrades) or '')",
+            "        local c=Theme.cardSkin.text.upgrade",
+            "        local ink=string.format('<color=#%02X%02X%02X>',c.r,c.g,c.b)..suffix..'</color>'",
+            "        if marker~='' then marker=ink else text=text:sub(1,#text-#suffix)..ink end",
+            "    end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_skin.lua": {
+      "beforeSha256": "b179a32b7227aadf8fc7d45fd836827fb7d1fdd81b3d13d932f8c7c3a63349e1",
+      "afterSha256": "abb11aa9ae480a45bcd0e59d62645f2206617498c5a10767d4efc728d1fac728",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "local pillWidths=setmetatable({},{__mode='k'})"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "    return function(control,c)control.imageColor=platform.color(c.r,c.g,c.b,c.a or 255)end"
+          ],
+          "after": [
+            "    -- NodeUI permits hosts without Color; keep generated colours and update visibility/text.",
+            "    return function(control,c)if platform.color then control.imageColor=platform.color(c.r,c.g,c.b,c.a or 255)end end"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [
+            "    if look.selected then edge=Theme.color.goldBright elseif look.dim then edge=Theme.color.line end"
+          ],
+          "after": [
+            "    if look.selected then edge=Theme.color.goldBright end"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "local function window(box,definition,look,accent,tint)"
+          ],
+          "after": [
+            "local function window(box,definition,accent,tint)"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            "            paint(group:GetChild('edge'),names,look.dim and Theme.color.line or accent,tint)"
+          ],
+          "after": [
+            "            paint(group:GetChild('edge'),names,accent,tint)"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [
+            "        paint(symbol,emblemNames[key] or {'symbol'},accent,tint)"
+          ],
+          "after": [
+            "        if key=='RD' then",
+            "            for i=1,4 do tint(symbol:GetChild('triangle'..i):GetChild('fill'),accent)end",
+            "        else paint(symbol,emblemNames[key] or {'symbol'},accent,tint)end"
+          ]
+        },
+        {
+          "at": 65,
+          "before": [
+            "local function costTone(current,base,dim,accent)",
+            "    if dim then return Theme.color.danger end",
+            "    if current<base then return Theme.color.positive end",
+            "    if current>base then return Theme.color.danger end"
+          ],
+          "after": [
+            "local function costTone(current,base,energyBlocked,accent)",
+            "    if energyBlocked then return config.costTone.up end",
+            "    if current<base then return config.costTone.down end",
+            "    if current>base then return config.costTone.up end"
+          ]
+        },
+        {
+          "at": 79,
+          "before": [
+            "    if changed or look.dim then tone=costTone(current,base,look.dim,accent)end"
+          ],
+          "after": [
+            "    if changed or look.dim then tone=costTone(current,base,look.dim==true and look.blockReason=='insufficient_energy',accent)end"
+          ]
+        },
+        {
+          "at": 81,
+          "before": [
+            "    box:GetChild('cost').fontColor=platform.color(tone.r,tone.g,tone.b,255)"
+          ],
+          "after": [
+            "    if platform.color then box:GetChild('cost').fontColor=platform.color(tone.r,tone.g,tone.b,255)end"
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            "    direction.fontColor=platform.color(tone.r,tone.g,tone.b,255)"
+          ],
+          "after": [
+            "    if platform.color then direction.fontColor=platform.color(tone.r,tone.g,tone.b,255)end",
+            "end",
+            "local blockedCopy={insufficient_energy='能量不足',invalid_target='请选择目标',",
+            "    not_player_turn='本回合不能打出',unplayable_card='本回合不能打出',normality_limit='本回合不能打出',entangled='本回合不能打出',",
+            "    requires_only_attacks='条件未满足',requires_empty_draw_pile='条件未满足'}",
+            "local function sizeRounded(group,w,h,r)",
+            "    group:GetChild('vertical'):SetSizeDelta(w-r*2,h)",
+            "    group:GetChild('horizontal'):SetSizeDelta(w,h-r*2)",
+            "    for _,x in ipairs({-1,1})do for _,y in ipairs({-1,1})do",
+            "        group:GetChild('corner'..x..'_'..y):SetAnchoredPosition(x*(w/2-r),y*(h/2-r))",
+            "    end end",
+            "end",
+            "local function blockedState(box,look)",
+            "    local shown=look.dim==true and not look.overlayCovered",
+            "    for _,name in ipairs({'blockedVeil','blockedPill','blockedLock','blockedReason'})do box:GetChild(name):SetVisible(shown)end",
+            "    local reason=box:GetChild('blockedReason')",
+            "    reason.text=look.reason or blockedCopy[look.blockReason] or '当前不可打出'",
+            "    if not shown then return end",
+            "    local style=config.blocked",
+            "    local _,count=reason.text:gsub('[%z\\1-\\127\\194-\\244][\\128-\\191]*','')",
+            "    local width=math.min(style.pill[1],count*Theme.font.minimum+style.padding*2+style.lock[1]+style.gap)",
+            "    if pillWidths[box]==width then return end",
+            "    local pill=box:GetChild('blockedPill');pill:SetSizeDelta(width,style.pill[2])",
+            "    sizeRounded(pill:GetChild('edge'),width,style.pill[2],style.pillRadius)",
+            "    sizeRounded(pill:GetChild('body'),width-style.stroke*2,style.pill[2]-style.stroke*2,style.pillRadius-style.stroke)",
+            "    box:GetChild('blockedLock'):SetAnchoredPosition(-width/2+style.padding+style.lock[1]/2,style.pillY)",
+            "    reason:SetSizeDelta(width-style.padding*2-style.lock[1]-style.gap,Theme.layout.nativeText.lineHeight)",
+            "    pillWidths[box]=width"
+          ]
+        },
+        {
+          "at": 124,
+          "before": [
+            "        frame(box,definition,look,tint);window(box,definition,look,accent,tint)"
+          ],
+          "after": [
+            "        frame(box,definition,look,tint);window(box,definition,accent,tint)"
+          ]
+        },
+        {
+          "at": 129,
+          "before": [
+            "    box:GetChild('type').fontColor=platform.color(accent.r,accent.g,accent.b,255)",
+            "    local reason=box:GetChild('blockedReason');reason:SetVisible(look.dim==true)",
+            "    reason.text=look.reason or '当前不可打出'"
+          ],
+          "after": [
+            "    if platform.color then box:GetChild('type').fontColor=platform.color(accent.r,accent.g,accent.b,255)end",
+            "    blockedState(box,look)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_deck_ui.lua": {
+      "beforeSha256": "343c205153d46c9255ca4e4ce90fc676107a0303436b3e988ed71d78d03defcf",
+      "afterSha256": "977f973793b29fa9f1cb5ece9540c0eb23d5812072f547f4ee329f9cb73e982a",
+      "hunks": [
+        {
+          "at": 96,
+          "before": [
+            "        face:GetChild(\"name\").fontColor = colour(instance.upgraded and Theme.color.positive or Theme.color.text)"
+          ],
+          "after": [
+            "        face:GetChild(\"name\").fontColor = colour(Theme.cardSkin.text.title)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_map_ui.lua": {
+      "beforeSha256": "0c125d7face08308190e2f94b02b654ae692ba5f37ebe155a9ba68cf33afc154",
+      "afterSha256": "4c383e8e2ad4d6e644d2450338d9376085be1d47852da6f96d920edb3b7c5831",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "local states = { \"locked\", \"visited\", \"current\", \"available\" }"
+          ],
+          "after": []
+        },
+        {
+          "at": 240,
+          "before": [
+            "                -- Native container clipping is not established. Cull whole discs,"
+          ],
+          "after": [
+            "                -- Native container clipping is not established. Cull whole targets,"
+          ]
+        },
+        {
+          "at": 253,
+          "before": [
+            "                for _, value in ipairs(states) do",
+            "                    child(box, value):SetVisible(state == value)",
+            "                    child(box, value):SetSizeDelta(size, size)",
+            "                end"
+          ],
+          "after": []
+        },
+        {
+          "at": 255,
+          "before": [
+            "                child(box, \"body\"):SetSizeDelta(size - Theme.space.border * 2, size - Theme.space.border * 2)",
+            "                tint(child(box, \"body\"), (state == \"current\" or state == \"visited\") and Theme.color.panelRaised or Theme.color.panel)",
+            "                child(box, \"locked\"):SetVisible(false)",
+            "                child(box, \"body\"):SetVisible(state ~= \"locked\")"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/lua/abyss_node_ui.lua": {
+      "beforeSha256": "e652685874fa6b42a1e8414d040e946bc4496678e79c6f4cf703e617ca77fca1",
+      "afterSha256": "0016ae04212f5a68372699775e390f967ae5ab91daa5724f53840826429e7cf1",
+      "hunks": [
+        {
+          "at": 245,
+          "before": [
+            "        ink(box:GetChild(\"name\"), look.dim and C.textMuted or upgraded and C.positive or C.text)"
+          ],
+          "after": [
+            "        ink(box:GetChild(\"name\"), Theme.cardSkin.text.title)"
+          ]
+        },
+        {
+          "at": 248,
+          "before": [
+            "        ink(box:GetChild(\"description\"), look.dim and C.textDim or C.text)"
+          ],
+          "after": [
+            "        ink(box:GetChild(\"description\"), C.text)"
+          ]
+        },
+        {
+          "at": 262,
+          "before": [
+            "            reason=look.stamp or '当前不可选择'})"
+          ],
+          "after": [
+            "            reason=look.reason or look.stamp or '当前不可选择',overlayCovered=(look.veil or look.stamp~=nil)})"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_shop_ui.lua": {
+      "beforeSha256": "0074e221d7929e444adf879b4849e2359042cd1bbfb6c8170dd0605afbb7d677",
+      "afterSha256": "373302ed5d715034c5c0b3c14f8d65bca4b4ba1569935c2f6d65d8dfe2fbce71",
+      "hunks": [
+        {
+          "at": 117,
+          "before": [
+            "            veil = offer.sold, stamp = cardStamp(offer), selected = selection:isSelected('shopView/card' .. i) })"
+          ],
+          "after": [
+            "            veil = offer.sold, stamp = cardStamp(offer), reason = cardStamp(offer) or availability.poor and '金币不足' or nil, selected = selection:isSelected('shopView/card' .. i) })"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/battle_ui_cases.lua": {
+      "beforeSha256": "6fcf45d426fc5ac4c1c46b311f9a9979b69aced4e12c27137f9bcce18e3683a8",
+      "afterSha256": "5044e8ac185b72c6fe0aadd872d4db933a0dde0686201f63f5749ff8ac7d77ba",
+      "hunks": [
+        {
+          "at": 86,
+          "before": [],
+          "after": [
+            "-- Read the approved independent card, including every page, then close on blank space.",
+            "local function inspectDetails(ui, stage)",
+            "    local panel, text = stage.children.statusInfo, {}",
+            "    assert(panel.visible and ui.info, \"ordinary unit inspection must use the detail card\")",
+            "    for page = 1, ui.info.pages do",
+            "        for i = 1, Theme.layout.statusInfo.rows do",
+            "            for _, field in ipairs({\"name\", \"text\", \"tag\", \"note\"}) do",
+            "                local part = panel.children[field .. i]",
+            "                if part.visible then text[#text + 1] = part.text end",
+            "            end",
+            "        end",
+            "        if page < ui.info.pages then panel.children.page.click() end",
+            "    end",
+            "    panel.children.hit.click()",
+            "    assert(not panel.visible and not ui.info, \"blank space closes the detail card\")",
+            "    return table.concat(text, \" | \")",
+            "end"
+          ]
+        },
+        {
+          "at": 135,
+          "before": [
+            "    assert(stage.children.notice.text:find(\"自身获得 3 层仪式\",1,true))"
+          ],
+          "after": [
+            "    assert(inspectDetails(ui,stage):find(\"自身获得 3 层仪式\",1,true))"
+          ]
+        },
+        {
+          "at": 158,
+          "before": [
+            "    assert(stage.children.notice.text:find(\"7 点伤害\",1,true) and stage.children.notice.text:find(\"获得 5 点格挡\",1,true))"
+          ],
+          "after": [
+            "    local thrash=inspectDetails(ui,stage)",
+            "    assert(thrash:find(\"7 点伤害\",1,true) and thrash:find(\"获得 5 点格挡\",1,true))"
+          ]
+        },
+        {
+          "at": 162,
+          "before": [
+            "    assert(stage.children.notice.text:find(\"自身获得 3 层力量\",1,true) and stage.children.notice.text:find(\"获得 6 点格挡\",1,true))"
+          ],
+          "after": [
+            "    local bellow=inspectDetails(ui,stage)",
+            "    assert(bellow:find(\"自身获得 3 层力量\",1,true) and bellow:find(\"获得 6 点格挡\",1,true))"
+          ]
+        },
+        {
+          "at": 200,
+          "before": [
+            "    assert(stage.children.notice.text:find(\"6 点伤害\", 1, true))"
+          ],
+          "after": [
+            "    assert(inspectDetails(ui,stage):find(\"6 点伤害\", 1, true))"
+          ]
+        },
+        {
+          "at": 234,
+          "before": [
+            "    assert(stage.children.notice.text:find(\"意图：\", 1, true))"
+          ],
+          "after": [
+            "    assert(inspectDetails(ui,stage):find(\"自身获得 3 层仪式\", 1, true))",
+            "    assert(stage.children.notice.text == \"点击战场出牌区域；再点原牌取消\")"
+          ]
+        },
+        {
+          "at": 383,
+          "before": [
+            "    local info = stage.children.statusInfo.children",
+            "    assert(stage.children.statusInfo.visible and info.name1.text == \"力量 2\" and info.name2.text == \"虚弱 2\")",
+            "    stage.children.statusInfo.children.hit.click()"
+          ],
+          "after": [
+            "    local current = inspectDetails(ui,stage)",
+            "    assert(current:find(\"力量 2\",1,true) and current:find(\"虚弱 2\",1,true))",
+            "    assert(current:find(\"攻击 9\",1,true) and current:find(\"9 点伤害\",1,true))"
+          ]
+        },
+        {
+          "at": 397,
+          "before": [
+            "    local preview = stage.children.notice.text"
+          ],
+          "after": [
+            "    local preview = inspectDetails(ui,stage)",
+            "    assert(preview:find(\"自身获得 3 层敏捷\",1,true))"
+          ]
+        },
+        {
+          "at": 618,
+          "before": [
+            "    assert(stage.children.notice.text:find(\"药水目标：\" .. battle.enemies[2].name, 1, true))"
+          ],
+          "after": [
+            "    assert(stage.children.statusInfo.children.title.text == battle.enemies[2].name)",
+            "    assert(inspectDetails(ui,stage):find(\"11 点伤害\",1,true))"
+          ]
+        },
+        {
+          "at": 647,
+          "before": [],
+          "after": [
+            "    assert(inspectDetails(ui,stage):find(\"11 点伤害\",1,true))"
+          ]
+        },
+        {
+          "at": 1203,
+          "before": [
+            "    assert(stage.children.notice.text:find(\"沉睡\",1,true))"
+          ],
+          "after": [
+            "    assert(inspectDetails(ui,stage):find(\"沉睡\",1,true))"
+          ]
+        },
+        {
+          "at": 1209,
+          "before": [],
+          "after": [
+            "    click('enemy1');assert(inspectDetails(ui,stage):find('惊醒',1,true))"
+          ]
+        },
+        {
+          "at": 1225,
+          "before": [
+            "    click(\"enemy1\"); assert(stage.children.notice.text:find(\"自身获得 3 层尖刺甲壳\",1,true))"
+          ],
+          "after": [
+            "    click(\"enemy1\"); assert(inspectDetails(ui,stage):find(\"自身获得 3 层尖刺甲壳\",1,true))"
+          ]
+        },
+        {
+          "at": 1233,
+          "before": [],
+          "after": [
+            "    assert(inspectDetails(ui,stage)~=\"\")"
+          ]
+        },
+        {
+          "at": 1252,
+          "before": [
+            "    click(\"enemy2\"); click(\"card1\")"
+          ],
+          "after": [
+            "    click(\"enemy2\"); assert(inspectDetails(ui,stage)~=\"\"); click(\"card1\")"
+          ]
+        }
+      ]
+    }
+  }
+}

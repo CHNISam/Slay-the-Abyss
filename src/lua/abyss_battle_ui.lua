@@ -662,11 +662,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local function renderEnergy(frame)
         local battle = frame.battle
         label("exhaust", battle and tostring(#battle.exhaust) or "0")
-        label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))
+        local value = number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn)
+        label("energy", value)
         local charged = battle and battle.energy > 0
-        tint(child("energyDisc"), charged and C.energy or C.energyEmpty)
-        tint(child("energyIcon"):GetChild('core'), charged and C.geoDeep or C.energyEmpty)
-        ink(child("energy"), charged and C.textOnLight or C.text)
+        local icon = child("energyIcon")
+        icon:GetChild("valueShadow").text = value
+        tint(icon:GetChild("face"), charged and L.energy.faceColour or C.energyEmpty)
+        icon:GetChild("light"):SetVisible(charged == true)
+        tint(icon:GetChild("core"), charged and L.energy.elementColour or C.energyEmpty)
+        ink(child("energy"), L.energy.numberColour)
     end
     local function renderPilesAndTurn(frame)
         local battle = frame.battle
@@ -1586,8 +1590,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 end
                 if selected and needsTarget(self.run.combat, selected) then self:playSelected(target)
                 else
-                    local prefix = self.potionTargetAvailable and "药水目标：" .. self.run.combat.enemies[target].name .. "；" or ""
-                    notice(prefix .. "意图：" .. intentView(self.run.combat, target).text) refresh()
+                    self:showStatus(target)
                 end
             end
             end

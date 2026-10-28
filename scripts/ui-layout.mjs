@@ -212,15 +212,17 @@ export function battleLayout() {
     unit('hero', l.player.position, l.player.portrait, true),
     text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '', f.body, c.goldBright),
     text('statuses', -380, 194, 350, 26, '', f.small, c.textDim),
-    // Outline ring + flat amber face; the Geo mark is a faint watermark so the digits stay clean.
-    picture('energyRing', ...l.energy.position, l.energy.size + s.s, l.energy.size + s.s, im.disc, c.geoDeep),
-    picture('energyDisc', ...l.energy.position, l.energy.size, l.energy.size, im.disc, c.energy),
+    // Main 138–144: warm circular shell, inset amber face and white shadowed value.
+    // Existing soft-disc material approximates, but does not reproduce, the CSS gradient.
+    picture('energyRing', ...l.energy.position, l.energy.size, l.energy.size, im.disc, l.energy.rimColour),
+    picture('energyDisc', ...l.energy.position, l.energy.size-l.energy.rim*2, l.energy.size-l.energy.rim*2, im.disc, l.energy.shellColour),
     {name:'energyIcon',kind:'container',position:l.energy.position,size:[l.energy.size,l.energy.size],children:[
-      picture('core',0,0,l.energy.size-20,l.energy.size-20,im.diamond,c.geoDeep),
-      picture('facet',-8,10,28,38,im.diamond,c.goldBright),
-      picture('spark',18,-12,20,30,im.diamond,c.geo),
+      picture('face',0,0,l.energy.size-l.energy.faceInset*2,l.energy.size-l.energy.faceInset*2,im.disc,l.energy.faceColour),
+      picture('light',0,0,l.energy.size-l.energy.faceInset*2,l.energy.size-l.energy.faceInset*2,im.discSoft,l.energy.lightColour),
+      picture('core',0,0,l.energy.size-l.energy.elementInset*2,l.energy.size-l.energy.elementInset*2,theme.icon.energy.id,l.energy.elementColour),
+      text('valueShadow',...l.energy.shadowOffset,l.energy.size,l.energy.size,'0/0',l.energy.numberSize,l.energy.shadowColour),
     ]},
-    text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', f.numberLarge, c.textOnLight),
+    text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', l.energy.numberSize, l.energy.numberColour),
     ...pile('draw', theme.icon.drawPile, l.drawPile.position, '抽牌堆', 1),
     ...pile('discard', theme.icon.discardPile, l.discardPile.position, '弃牌堆', -1),
   ];

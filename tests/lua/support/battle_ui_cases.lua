@@ -84,6 +84,23 @@ local function details(stage, box)
     assert(not info.visible)
     return table.concat(lines, " | ")
 end
+-- Read the approved independent card, including every page, then close on blank space.
+local function inspectDetails(ui, stage)
+    local panel, text = stage.children.statusInfo, {}
+    assert(panel.visible and ui.info, "ordinary unit inspection must use the detail card")
+    for page = 1, ui.info.pages do
+        for i = 1, Theme.layout.statusInfo.rows do
+            for _, field in ipairs({"name", "text", "tag", "note"}) do
+                local part = panel.children[field .. i]
+                if part.visible then text[#text + 1] = part.text end
+            end
+        end
+        if page < ui.info.pages then panel.children.page.click() end
+    end
+    panel.children.hit.click()
+    assert(not panel.visible and not ui.info, "blank space closes the detail card")
+    return table.concat(text, " | ")
+end
 local count = 0
 local function test(name, fn)
     registered=registered+1
@@ -116,7 +133,7 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     assert(stage.children.energy.text == "3/3")
     assert(stage.children.enemy1.children.intent.text == "")
     click("enemy1")
-    assert(stage.children.notice.text:find("自身获得 3 层仪式",1,true))
+    assert(inspectDetails(ui,stage):find("自身获得 3 层仪式",1,true))
     click("endTurn")
     -- Ritual alone: one buff chip with its stack count, and no Strength chip yet.
     local row = stage.children.enemy1.children.statusRow.children
@@ -139,10 +156,12 @@ test("Jaw Worm real encounter presents combined Thrash and Bellow effects withou
     assert(Combat.intent(battle,1).id == "jaw_worm_2")
     assert(stage.children.enemy1.children.intent.text == "7")
     click("enemy1")
-    assert(stage.children.notice.text:find("7 点伤害",1,true) and stage.children.notice.text:find("获得 5 点格挡",1,true))
+    local thrash=inspectDetails(ui,stage)
+    assert(thrash:find("7 点伤害",1,true) and thrash:find("获得 5 点格挡",1,true))
     enemy.intentIndex = 3 -- inspect the declared Bellow face independently of another roll
     ui:render(); click("enemy1")
-    assert(stage.children.notice.text:find("自身获得 3 层力量",1,true) and stage.children.notice.text:find("获得 6 点格挡",1,true))
+    local bellow=inspectDetails(ui,stage)
+    assert(bellow:find("自身获得 3 层力量",1,true) and bellow:find("获得 6 点格挡",1,true))
     assert(enemy.statuses.strength == nil and enemy.block == 0, "preview mutated the actor")
 end)
 
@@ -179,7 +198,7 @@ test("selection never spends energy; target click or explicit battlefield click 
     assert(battle.turn == 2 and #battle.hand == 5)
     assert(stage.children.enemy1.children.intent.text == "6")
     click("enemy1")
-    assert(stage.children.notice.text:find("6 点伤害", 1, true))
+    assert(inspectDetails(ui,stage):find("6 点伤害", 1, true))
 end)
 test("pending attack highlights valid live enemies and changing selection does not play", function()
     local ui, stage, click = setup() click("start")
@@ -213,7 +232,8 @@ test("enemy intent click never confirms a selected non-target card", function()
     assert(ui.selected == selected and stage.children["card" .. slot].children.glow.visible)
     assert(battle.energy == energy and #battle.hand == hand and battle.player.block == block)
     assert(#battle.discard == discard and #battle.events == events and battle.seed == seed)
-    assert(stage.children.notice.text:find("意图：", 1, true))
+    assert(inspectDetails(ui,stage):find("自身获得 3 层仪式", 1, true))
+    assert(stage.children.notice.text == "点击战场出牌区域；再点原牌取消")
     click("playArea")
     assert(ui.selected == nil and battle.energy == energy - 1 and #battle.hand == hand - 1)
     assert(battle.player.block == block + 5 and battle.discard[#battle.discard].uid == selected)
@@ -361,9 +381,9 @@ test("intent previews use core modifiers without changing combat state or consum
     ui:render() ui:render()
     assert(stage.children.enemy1.children.intent.text == "9")
     stage.children.enemy1.children.statusRow.children.hit.click()
-    local info = stage.children.statusInfo.children
-    assert(stage.children.statusInfo.visible and info.name1.text == "力量 2" and info.name2.text == "虚弱 2")
-    stage.children.statusInfo.children.hit.click()
+    local current = inspectDetails(ui,stage)
+    assert(current:find("力量 2",1,true) and current:find("虚弱 2",1,true))
+    assert(current:find("攻击 9",1,true) and current:find("9 点伤害",1,true))
     assert(not stage.children.statusInfo.visible)
     assert(enemy.hp == hp and battle.seed == seed and #battle.events == events)
     local playerHp = battle.player.hp
@@ -375,7 +395,8 @@ test("intent previews use core modifiers without changing combat state or consum
     ui:render()
     assert(stage.children.enemy1.children.intent.text == "9×2")
     click("enemy1")
-    local preview = stage.children.notice.text
+    local preview = inspectDetails(ui,stage)
+    assert(preview:find("自身获得 3 层敏捷",1,true))
     assert(preview:find("获得 9 点格挡", 1, true) and preview:find("攻击 2 次，每次 9 点伤害", 1, true))
     assert(not enemy.statuses.dexterity and enemy.block == 0)
 end)
@@ -595,7 +616,8 @@ test("targeted potion shows its effect and current enemy selection before damagi
     end
     click("enemy2")
     assert(ui.target == 2 and not marked(2) and not marked(1))
-    assert(stage.children.notice.text:find("药水目标：" .. battle.enemies[2].name, 1, true))
+    assert(stage.children.statusInfo.children.title.text == battle.enemies[2].name)
+    assert(inspectDetails(ui,stage):find("11 点伤害",1,true))
     assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2)
     assert(battle.energy == energy and #battle.hand == hand and #battle.events == events)
     -- A selected self card still cannot execute merely by choosing a potion target.
@@ -623,6 +645,7 @@ test("a targeted bottle in slot three remains selectable when both earlier slots
     assert(stage.children.potion3.interactable)
     local hp1, hp2 = ui.run.combat.enemies[1].hp, ui.run.combat.enemies[2].hp
     click("enemy2") assert(ui.target == 2)
+    assert(inspectDetails(ui,stage):find("11 点伤害",1,true))
     click("potion3")
     assert(ui.run.combat.enemies[2].hp == hp2)
     click("enemy2")
@@ -1178,12 +1201,13 @@ test("stateful sleeping enemy shows approved sleep icon and wake intent", functi
     assert(require('abyss_battle_intent_view').intentView(ui.run.combat,1).label == "沉睡")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)
     click("enemy1")
-    assert(stage.children.notice.text:find("沉睡",1,true))
+    assert(inspectDetails(ui,stage):find("沉睡",1,true))
     Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],9,true)
     ui:render()
     assert(box.children.intent.text == "" and not box.children.intentLabel.visible)
     assert(require('abyss_battle_intent_view').intentView(ui.run.combat,1).label == "苏醒")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.unknown)
+    click('enemy1');assert(inspectDetails(ui,stage):find('惊醒',1,true))
     assert(Combat.endTurn(ui.run.combat))
     ui:render()
     assert(box.children.intent.text == "18")
@@ -1199,7 +1223,7 @@ test("Guardian shows real mode budget and switches visible intention before its 
     Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],30,true)
     ui:render(); assert(box.children.intent.text=="")
     assert(box.children.intentIcon.imageId==Theme.icon.intent.buff)
-    click("enemy1"); assert(stage.children.notice.text:find("自身获得 3 层尖刺甲壳",1,true))
+    click("enemy1"); assert(inspectDetails(ui,stage):find("自身获得 3 层尖刺甲壳",1,true))
     assert(Combat.endTurn(ui.run.combat)); ui:render()
     assert(details(stage,box):find("尖刺甲壳 3",1,true))
     assert(box.children.intent.text=="9")
@@ -1207,6 +1231,7 @@ end)
 test("committed encounter identity preserves target across real animation frames", function()
     local ui, stage, click, battle = feedbackBattle({"defend","strike"}, {"cultist","cultist"})
     click("enemy2")
+    assert(inspectDetails(ui,stage)~="")
     local slot
     for i,c in ipairs(battle.hand) do if c.cardId == "defend" then slot=i end end
     click("card" .. slot)
@@ -1225,7 +1250,7 @@ test("committed encounter identity preserves target across real animation frames
 end)
 test("same-run battle replacement clears valid-looking old selection and target", function()
     local ui, stage, click, battle = feedbackBattle({"strike"}, {"cultist","cultist"})
-    click("enemy2"); click("card1")
+    click("enemy2"); assert(inspectDetails(ui,stage)~=""); click("card1")
     assert(ui.target == 2 and ui.selected)
     ui.run.combat = Combat.new(Data, {deck={"strike"}, enemies={"cultist","cultist"}})
     ui:render()

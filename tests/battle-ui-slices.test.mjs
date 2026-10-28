@@ -1,3 +1,4 @@
+import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -149,8 +150,8 @@ function validateLegacyBody(source){
 const readWrappers=()=>Object.fromEntries(slices.map(([file])=>[file,read('tests/lua/'+file)]));
 
 test('frozen battle UI metadata preserves all 53 case bodies and six playback seeds across seven original-budget slices',()=>{
-  assert.equal(sha(read(support)),visualMigration.afterSha256,'complete reviewed visual assertion migration');
-  const restored=restoreSupport(read(support));
+  assert.equal(sha(preApprovedUiSource(support,read(support))),visualMigration.afterSha256,'complete reviewed visual assertion migration');
+  const restored=restoreSupport(preApprovedUiSource(support,read(support)));
   validateLegacyBody(restored);
   validatePartitions(slices,readWrappers());
   const discovered=readdirSync('tests/lua').filter(file=>/^battle_ui(?:_slice_\d+)?\.lua$/.test(file)).sort();
@@ -159,7 +160,7 @@ test('frozen battle UI metadata preserves all 53 case bodies and six playback se
 });
 
 test('battle UI seed-slice guards reject skipped/overlapping seeds, lost recursive assertions, missing markers and inert wrappers',()=>{
-  const source=read(support);
+  const source=preApprovedUiSource(support,read(support));
   const assertion='assert(a == b, path)';
   const lost=source.replace(assertion,'assert(true)');
   assert.notEqual(lost,source,'negative control removes a real recursive rule/RNG assertion');

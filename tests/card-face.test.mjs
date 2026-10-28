@@ -47,13 +47,14 @@ test('approved card aperture stays 144 by 64 while native text boxes remain inde
     assert.deepEqual(part('nameBand').size,[144,30],context+' approved title background');
     assert.deepEqual(part('artPlate').size,[144,64],context+' approved artwork aperture');
     assert.deepEqual(part('artPlate').position,[0,40],context+' art position');
-    assert.equal(part('name').position[1],87,context+' short title centre');
+    assert.equal(part('name').position[1],86,context+' short title centre');
     for(const name of ['name','type','cost']) assert(part(name).size[1]>=40,context+'/'+name+' native compatibility');
     assert.deepEqual(part('type').position,[0,-1],context+' approved type glyph centre');
     for(const art of face.filter(c=>/^art(?:_|$)/.test(c.name)))
       assert.deepEqual(art.size,[40,40],context+'/'+art.name+' explicitly square placeholder');
     const name=part('name'),cost=part('cost');
-    assert(name.position[0]-name.size[0]/2>cost.position[0]+cost.size[0]/2,'title never touches cost disc');
+    assert.equal(name.position[0],0,'source title is centred, not offset for the cost');
+    assert(name.position[0]-name.size[0]/2>=cost.position[0]+cost.size[0]/2-1,'only transparent title frame may overlap one pixel of cost bounds');
     assert.equal(part('type').text.fontSize,14);
     assert.deepEqual(part(context==='node'?'description':'label').size,[132,92]);
   }
@@ -63,9 +64,9 @@ test('card glyph budgets remain separate even when transparent native text boxes
   for(const context of ['battle','deck','node']) {
     const face=cardFaceChildren(nativeTheme,context),part=name=>face.find(c=>c.name===name);
     const title=part('name'),art=part('artPlate'),type=part('type'),body=part(context==='node'?'description':'label');
-    // One readable title line (17, or 14 for the six long names) must stay in
+    // One readable title line (the native 14px floor for the source heading) must stay in
     // the approved 30-high band, never in the picture. Native frame is 40 high.
-    for(const font of [17,14]) {
+    for(const font of [nativeTheme.font.cardName,nativeTheme.font.minimum]) {
       assert(title.position[1]-font*1.65/2>=art.position[1]+art.size[1]/2);
       assert(title.position[1]+font*1.65/2<=102);
     }

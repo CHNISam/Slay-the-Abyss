@@ -88,10 +88,10 @@ function M.install(ctx)
             CardDisplay.writeTitle(box:GetChild("name"),ctx.cardName(id,false),instance.upgraded,
             definition.repeatable and (instance.upgrades or 1) or nil,box:GetChild("type"),
             typeNames[definition.type] or "")
-            ctx.ink(box:GetChild("name"), look.dim and C.textMuted or upgraded and C.positive or C.text)
+            ctx.ink(box:GetChild("name"), Theme.cardSkin.text.title)
             local text=CardDisplay.permanentText(display,definition,instance)
             CardDisplay.writeBody(box:GetChild("description"),type(text)=='string' and text or '')
-            ctx.ink(box:GetChild("description"), look.dim and C.textDim or C.text)
+            ctx.ink(box:GetChild("description"), C.text)
         end
         writeCardCopy()
         -- Presentation costs can be strings; format the numeric rule value.
@@ -115,7 +115,7 @@ function M.install(ctx)
             ctx.tint(box:GetChild("nameRule"), C.rarity[definition.rarity] or C.line)
             ctx.ink(box:GetChild("cost"), look.dim and C.textMuted or look.changed and C.positive or C.energy)
             CardSkin.apply(box,definition,ctx.options,{dim=look.dim,selected=look.selected,cost=cost,baseCost=look.changed and printedCost or definition.cost,
-                reason=look.stamp or '当前不可选择'})
+                reason=look.reason or look.stamp or '当前不可选择',overlayCovered=(look.veil or look.stamp~=nil)})
         end
         writeCardFrame()
         ctx.show(box:GetChild("glow"), look.selected)

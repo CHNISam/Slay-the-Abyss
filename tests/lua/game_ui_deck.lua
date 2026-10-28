@@ -1,3 +1,4 @@
+local function plainCardTitle(text)return (text:gsub('<color=#[%x]+>',''):gsub('</color>',''))end
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local GameUI, Combat, Nodes, Data = F.GameUI, F.Combat, F.Nodes, F.Data
@@ -43,7 +44,7 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     assert(ui.deckUI.bindings[first].uid == ui.run.deck[1].uid and first:GetChild("uid").text == "")
     local face = first:GetChild("face")
     local display = Presentation[ui.run.deck[1].cardId]
-    assert(face:GetChild("name").text:gsub('\n',' ') == display.name .. "＋")
+    assert(plainCardTitle(face:GetChild("name").text):gsub('\n',' ') == display.name .. "＋")
     assert(face:GetChild("label").text == display.upgradeText)
     local last = grid:recycle(0, 39)
     assert(last == first and ui.deckUI.bindings[last].uid == 140 and last:GetChild("uid").text == "")

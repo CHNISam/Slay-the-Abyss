@@ -228,6 +228,11 @@ function M.new(self, describe, lines)
         if info.kind == "card" or info.kind == "potion" then return keywordCard(card, data, presentation, battle, info, actor) end
         entries = selectedEntries(entries, info)
         if not entries then return end
+        if info.index > 0 and not info.statusId and not info.offset then
+            local view = describe.intentView(battle, info.index)
+            card.sections[#card.sections + 1] = {label = "意图 · 尚未执行", colour = describe.intentColors[view.kind] or C.textDim,
+                rows = view.rows}
+        end
         playerResources(card, battle, info, actor)
         statusSections(card, entries, battle, actor)
         if #card.sections == 0 then card.empty = "暂无状态" end

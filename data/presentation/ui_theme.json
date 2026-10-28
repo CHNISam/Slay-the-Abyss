@@ -128,10 +128,10 @@
     "body": 18,
     "label": 16,
     "card": 15,
-    "cardName": 17,
+    "cardName": 14,
     "small": 14,
     "number": 22,
-    "cost": 24,
+    "cost": 17,
     "numberLarge": 34,
     "minimum": 14
   },
@@ -736,17 +736,25 @@
         132,
         92
       ],
-      "costDisc": 40,
+      "costDisc": 30,
       "trim": {
         "shadow": 3,
-        "costOverhang": 4,
-        "costRing": 4,
+        "costOverhang": 5,
+        "costRing": 3,
         "keyline": 1,
         "typeTag": [
           60,
           16
         ]
-      }
+      },
+      "title": {
+        "position": [
+          0,
+          86
+        ],
+        "width": 100
+      },
+      "artIcon": 40
     },
     "hand": {
       "y": -250,
@@ -813,10 +821,26 @@
     },
     "energy": {
       "position": [
-        -548,
-        -196
+        -534.6666666666666,
+        -216.0
       ],
-      "size": 88
+      "size": 88,
+      "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
+      "rim": 2,
+      "faceInset": 6,
+      "elementInset": 10,
+      "numberSize": 29.333333333333332,
+      "shadowOffset": [
+        0,
+        -1.3333333333333333
+      ],
+      "rimColour": "#8A6A40",
+      "shellColour": "#2A1C12",
+      "faceColour": "#8E5A1E",
+      "lightColour": "#F6D38E",
+      "elementColour": "#4A2C0E",
+      "numberColour": "#FFF8EC",
+      "shadowColour": "#3A1E06"
     },
     "drawPile": {
       "position": [
@@ -2674,12 +2698,42 @@
       "pageCharacters": 20
     },
     "runMenu": {
-      "panel": [490, 210, 220, 244],
-      "map": [490, 286, 196, 48],
-      "help": [490, 234, 196, 48],
-      "resume": [490, 182, 196, 48],
-      "abandon": [490, 122, 196, 48],
-      "mapBack": [548, 316, 104, 44]
+      "panel": [
+        490,
+        210,
+        220,
+        244
+      ],
+      "map": [
+        490,
+        286,
+        196,
+        48
+      ],
+      "help": [
+        490,
+        234,
+        196,
+        48
+      ],
+      "resume": [
+        490,
+        182,
+        196,
+        48
+      ],
+      "abandon": [
+        490,
+        122,
+        196,
+        48
+      ],
+      "mapBack": [
+        548,
+        316,
+        104,
+        44
+      ]
     },
     "nativeGuide": {
       "panel": [
@@ -2809,6 +2863,35 @@
         "#2E1F1C",
         "#9A7268"
       ]
+    },
+    "text": {
+      "title": "#FFFFFF",
+      "upgrade": "#8DE08A"
+    },
+    "costTone": {
+      "down": "#8DE08A",
+      "up": "#EF7672"
+    },
+    "blocked": {
+      "veil": "#08090C80",
+      "body": "#0D0E12",
+      "edge": "#EF7672",
+      "text": "#FF9A94",
+      "inset": 3,
+      "radius": 4.5,
+      "pill": [
+        142,
+        16
+      ],
+      "pillY": 18,
+      "pillRadius": 8,
+      "stroke": 0.75,
+      "lock": [
+        7,
+        8
+      ],
+      "gap": 4,
+      "padding": 7
     }
   }
 }

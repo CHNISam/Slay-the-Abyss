@@ -61,7 +61,9 @@ for turn=1,11 do
     if not attack then assert(require('abyss_battle_intent_view').intentView(ui.run.combat,1).label=='蓄能','charge wording turn '..turn)end
     assert(box.children.intentIcon.imageId == (attack and Theme.icon.intent.attack or Theme.icon.intent.unknown), "actual icon turn " .. turn)
     click("enemy1")
-    assert(stage.children.notice.text:find(attack and "25 点伤害" or "蓄能",1,true), "detail turn " .. turn)
+    assert(stage.children.statusInfo.visible and stage.children.statusInfo.children.text1.text:find(attack and "25 点伤害" or "蓄能",1,true), "detail turn " .. turn)
+    stage.children.statusInfo.children.hit.click()
+    assert(not stage.children.statusInfo.visible)
     click("endTurn")
 end
 assert(ui.run.combat.player.hp == 5)

@@ -1887,7 +1887,7 @@
       "evidence": "docs/design/CARD_FACE_PARITY.md; render-preview.mjs; project-authored geometry and approved Card template; offline preview, not a gameplay screenshot"
     },
     "docs/design/evidence/card-face/native-1x.svg": {
-      "sha256": "3f9101b7459cc20e7a635298a483b28f3291fc114fd0b920af392d98994bdecb",
+      "sha256": "16a1b3f22b5e5415ec4c5e9132169cd560a1fc2c2a1ba7af68e7e1b856793652",
       "category": "project-geometry",
       "evidence": "docs/design/CARD_FACE_PARITY.md; render-preview.mjs; project-authored geometry and approved Card template; offline preview, not a gameplay screenshot"
     },
