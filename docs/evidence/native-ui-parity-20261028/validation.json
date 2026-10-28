@@ -1,0 +1,66 @@
+{
+  "codeCommit": "2a587aa187e37764009480ea17a9f18b1a837160",
+  "baseCommit": "d2e0baa3",
+  "formalSelectionPR": 292,
+  "formalSelectionCommit": "e3cd8492b2c05e3acc13c26168fdc476668b2468",
+  "node": "24.18.0",
+  "checks": {
+    "uiRegression": {
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "sourceCommit": "5b908ee2"
+    },
+    "lastDeckHeader": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    "engineering": {
+      "modules": 214,
+      "edges": 1237,
+      "responsibilities": 418,
+      "newLuaDiagnostics": 0,
+      "historicalLuaDiagnostics": 74,
+      "mutationsKilled": 4
+    },
+    "offlineScenes": 34,
+    "offlineTextClips": 0,
+    "formalCombination": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "tree": "169d65bbd320433bb9b13ff26c15a0365b27f74e",
+      "codeCommit": "2a587aa187e37764009480ea17a9f18b1a837160"
+    }
+  },
+  "sourceSha256": {
+    "data/presentation/ui_theme.json": "3810346cf2dce698bc289db7a90c8eaa682af4e8491d40249630a15aaacc281a",
+    "scripts/map-ui-layout.mjs": "ad72c02e83a533b0a0b6278f7bfe753ceaaee9b494de14901e3c06d92c4c192b",
+    "scripts/deck-ui-layout.mjs": "b6b58ff6afec2b28951f928d80eb7bbb2ee6edffb4f1a1ef524da1383c70843a",
+    "scripts/exit-ui-layout.mjs": "cbddc89ea3c585b38496b129b3a339d2ded2d3be1c1090fd42939e5a0960c539",
+    "scripts/controls-guide-layout.mjs": "fc8d94e9d25199a6b4f72529039ad613f04388553a2f2cdd2cba2247c6a9d39a",
+    "src/lua/abyss_map_ui.lua": "e7ed6775dd9e729415ceef4acb00d9303b61167dca19ad4cf869439cba3c54ea",
+    "src/lua/abyss_game_ui.lua": "4b296d6af4fb5b509267710b4250d0e6108707202457822ac44a93259bfe482f",
+    "src/lua/abyss_deck_ui.lua": "20d36105440a791ad2c6a2d79d15c26d59b987062e96b0d4f7c78c95fc230bb2"
+  },
+  "screenshotSha256": {
+    "camp-new.png": "20118e9774f138b02f37d63f3e01271b0572d2779a2bd62202c07519e3ac71f7",
+    "chest-rewards.png": "ad63a995badb2bfe9def44e4aaf26b504fb53a280ebca56a6f7963c8a85e367c",
+    "controls.png": "fb4d1378d18156071ab409851355e4d21e4813518faf70f2940d891190312c51",
+    "deck.png": "a13658f641fcd8d4dc56d67d610dfe41306eb3e527e2802bd6b432b1c63352fb",
+    "event-cleric.png": "db861c3695d8b05bb8538b826fee5728f0d57e697665fc43c50837ce2ad6501e",
+    "exit.png": "78e1e2dcfb537954e6ca1b3cefe99ad0bc1a9737af6ff4b60a4902f013598983",
+    "forge-grid.png": "923563934a2a1ad88a58968d75dd269a0c1f6f1e032abd91b44289f7724e7ac2",
+    "forge-preview.png": "518897789fbcee7b98f8c02f737df1985f04f168380cf8876c7a2332f094a3b5",
+    "map-current.png": "2c9a26e80f818bbf86f4a65304ecb540cc0a7daaf6a3e2dc38744795a7369b6f",
+    "menu.png": "aa4ad984b55a3f973010204cc13736b5098715f6ba3d4945e25b98f282bd81be",
+    "rewards.png": "7b1f58666a26bfd103dc26ea6c711168f4aaf20231fe438add9a2365569e25b3",
+    "shop-all.png": "7785a0cedd105b52b0048001f85481cf448c9c8d77059039b68bbb72e1e3e7d2",
+    "shop-touch.png": "de03e8f27bb0a2205c8012d573a3e4c2a4ead189e79f92c8950a5988ca5d2a17"
+  },
+  "nativeGilBuilt": false,
+  "officialImport": false,
+  "devicePlaytest": false,
+  "verifyUiPassed": false
+}

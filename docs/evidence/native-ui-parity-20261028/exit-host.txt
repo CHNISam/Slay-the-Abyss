@@ -1,0 +1,109 @@
+ABYSS_RUN seed=1 source=explicit
+ok exit UI 1 - visible mouse/touch exit works before start and from the map without a keyboard
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=8
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=2
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=4
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=9
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK damage source=cultist_1 target=player amount=2
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=4
+ABYSS_FEEDBACK death source=- target=cultist_1 amount=0
+ABYSS_FEEDBACK victory source=- target=- amount=0
+ok exit UI 2 - battle and reward commands cannot pass through exit confirmation and cancel preserves the run
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ok exit UI 3 - exit remains available during enemy feedback and does not wait for its banner
+ABYSS_RUN seed=1 source=explicit
+ok exit UI 4 - node and deck overlays retain state when exit is cancelled
+ABYSS_RUN seed=1 source=explicit
+ok exit UI 5 - failed platform requests stay visible and retry submits only once
+ABYSS_RUN seed=1 source=explicit
+ok exit UI 6 - a cancelled pointer gesture cannot confirm a subsequently reopened dialog
+ok exit UI 7 - resize invalidates a pending exit confirmation gesture
+ABYSS_RUN seed=1 source=explicit
+ok exit UI 8 - completed victory keeps its earned outcome when leaving through the shared entry
+ok exit UI 9 - one finger cannot borrow another finger's exit confirmation
+ok exit UI 10 - missing platform integration keeps a cancelable exit dialog
+ok exit UI 11 - another touch leaving the button cannot cancel the owner's release
+ok exit UI 12 - a first touch click without its own down and up cannot confirm exit
+ok exit UI 13 - a click missing its up consumes that incomplete confirmation
+ok exit UI 14 - new touches remain usable after dialog replacement or resize cancels an old hold
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ok exit UI 15 - cancel during feedback resumes its queue and later accepts game commands
+LUA_GAME_UI_EXIT_PASS 15
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=6
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK block source=player target=player amount=5
+ABYSS_FEEDBACK orb_end_turn source=- target=- amount=0
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=cultist_1 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3
+ABYSS_FEEDBACK block_reset source=- target=player amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_1 amount=20
+ABYSS_FEEDBACK potion source=- target=1 amount=0
+controller host: native menu/map, pointer switch, target/cancel/play, untargeted play, overlays, turn and reward passed
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ABYSS_FEEDBACK potion source=- target=- amount=0
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+controller host: prologue skip and mandatory multiple selection cancel/confirm passed

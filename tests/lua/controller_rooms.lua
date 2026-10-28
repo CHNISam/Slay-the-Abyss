@@ -103,17 +103,17 @@ press('slot1','potionPanel','cancel');assert(not ui.potionUI.visible and #ui.run
 press('open','deckEntry');ui:update(.01)
 local grid=root:GetChild('deckPanel'):GetChild('grid')
 assert(grid.itemCount==12 and ui.deckUI.controllerPage==1)
-local uid=grid.items[0]:GetChild('uid').text
-press('next','deckPanel');assert(ui.deckUI.controllerPage==2 and grid.items[0]:GetChild('uid').text~=uid)
+local uid=ui.deckUI.bindings[grid.items[0]].uid
+press('next','deckPanel');assert(ui.deckUI.controllerPage==2 and ui.deckUI.bindings[grid.items[0]].uid~=uid)
 press('next','deckPanel');assert(ui.deckUI.controllerPage==3 and grid.itemCount==6)
 assert(not grid.items[11]:GetChild('hit').canControllerFocus,'unused recycled items cannot retain focus on a short page')
 press('previous','deckPanel')
-press('previous','deckPanel');assert(ui.deckUI.controllerPage==1 and grid.items[0]:GetChild('uid').text==uid)
+press('previous','deckPanel');assert(ui.deckUI.controllerPage==1 and ui.deckUI.bindings[grid.items[0]].uid==uid)
 grid.deferRefresh=true
 press('next','deckPanel');local oldPage=grid.refreshCallback
 press('previous','deckPanel')
 oldPage(grid.items[0],0)
-assert(grid.items[0]:GetChild('uid').text==uid,'an old page callback must not rebind the current grid')
+assert(ui.deckUI.bindings[grid.items[0]].uid==uid,'an old page callback must not rebind the current grid')
 grid:flush();grid.deferRefresh=false
 press('close','deckPanel');assert(not ui.deckUI.visible)
 ui:disable()

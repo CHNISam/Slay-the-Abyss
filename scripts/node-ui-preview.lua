@@ -63,7 +63,7 @@ local function dump(c)
     return { name = spec.name, kind = spec.kind, position = c.position or spec.position or { 0, 0 }, size = c.size or spec.size, scale = c.scale,
         visible = c.visible, image = c.imageId, colour = hex(c.imageColor) or spec.colour,
         text = spec.text and { content = c.text, fontSize = spec.text.fontSize, minFontSize = spec.text.minFontSize,
-            colour = hex(c.fontColor) or spec.text.colour } or nil,
+            colour = hex(c.fontColor) or spec.text.colour, align = spec.text.align, valign = spec.text.valign } or nil,
         children = children }
 end
 local function entered(kind, source, prepare)

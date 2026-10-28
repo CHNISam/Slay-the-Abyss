@@ -1,0 +1,17 @@
+✔ approved deck uses a six-column vertical native scroller and a read-only reusable card template (23.6628ms)
+✔ deck overlay and close remain inside approved canvas safe areas at every device scale (10.7318ms)
+✔ controller overlays isolate nearest-control navigation and deck pages leave the card viewport clear (8.5823ms)
+✔ generated host starts under native capability guards and rejects the escaped startup write (1656.274ms)
+✔ native image colours serialize as RGB with independent opacity (18.25ms)
+✔ node and menu layouts resolve semantic colour, font, minimum font and picture tokens (4.4112ms)
+✔ host preserves the approved battle and scrollable map while composing node and menu panels (24.5183ms)
+✔ building and mutating output trees cannot mutate the source theme (8.4759ms)
+✔ all native text respects the approved readable minimum (5.9887ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2044.0192

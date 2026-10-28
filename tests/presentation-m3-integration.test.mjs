@@ -1,3 +1,4 @@
+import {cardSkinMigration} from './helpers/card-skin-migration.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
@@ -139,7 +140,7 @@ for(const [count,hash,sources]of [
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
     for(const path of Object.keys(formalEntryInverses))
       writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
-    for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
+    for(const [path,source]of Object.entries({...cardSkinMigration.beforeSources,...sources}))writeFileSync(join(directory,path),source);
     writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
       const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});

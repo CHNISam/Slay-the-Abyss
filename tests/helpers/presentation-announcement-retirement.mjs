@@ -1,4 +1,5 @@
 import {preFormalEntrySource} from '../support/formal-entry-source-inverse.mjs';
+import {beforeCardSkin} from './card-skin-migration.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -26,7 +27,7 @@ export function archivedRetirementChangelog(source=retirementSources.beforeSourc
 // Complete identities are checked before projection; this is not a wildcard
 // that can hide future changes in the old source or current interaction guards.
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
- let normalized=source===null?null:preFormalEntrySource(path,source);
+ let normalized=source===null?null:preFormalEntrySource(path,beforeCardSkin(path,source));
  if(path==='data/presentation/ui_theme.json'){
   assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','unreviewed integrated retirement source drift: '+path+' (complete frozen Mushrooms/Molten theme identity and mapping positions)');
   // Exact new glyph inverse; the complete accepted hash below still binds

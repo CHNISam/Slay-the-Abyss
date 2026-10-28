@@ -1880,6 +1880,16 @@
     "art/cards/traveler-geo/cleave/source.png": {
       "sha256": "6e37a7b9264154a2cd7e6560a625cf001b3b00d63e8fdbf4d01369a714397155",
       "category": "game-ip-ai-redraw"
+    },
+    "docs/design/evidence/card-face/compare.png": {
+      "sha256": "3c690a7bd5c00d27b10406e664140f3544e14d492cdd47ffa3071a3e4aa9d7a3",
+      "category": "platform-evidence",
+      "evidence": "docs/design/CARD_FACE_PARITY.md; render-preview.mjs; project-authored geometry and approved Card template; offline preview, not a gameplay screenshot"
+    },
+    "docs/design/evidence/card-face/native-1x.svg": {
+      "sha256": "3f9101b7459cc20e7a635298a483b28f3291fc114fd0b920af392d98994bdecb",
+      "category": "project-geometry",
+      "evidence": "docs/design/CARD_FACE_PARITY.md; render-preview.mjs; project-authored geometry and approved Card template; offline preview, not a gameplay screenshot"
     }
   }
 }
