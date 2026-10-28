@@ -2673,6 +2673,14 @@
       "shakeAmplitude": 5,
       "pageCharacters": 20
     },
+    "runMenu": {
+      "panel": [490, 210, 220, 244],
+      "map": [490, 286, 196, 48],
+      "help": [490, 234, 196, 48],
+      "resume": [490, 182, 196, 48],
+      "abandon": [490, 122, 196, 48],
+      "mapBack": [548, 316, 104, 44]
+    },
     "nativeGuide": {
       "panel": [
         0,

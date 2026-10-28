@@ -26,7 +26,7 @@ export function exitControls(theme = nativeTheme) {
       },
     ] };
   };
-  const panel = l.panel;
+  const panel = l.panel, menu = theme.layout.runMenu;
   return [
     { name: 'exitEntry', kind: 'container', size: [...theme.canvas.base], children: [
       button('open', l.entry, '菜单'),
@@ -46,6 +46,16 @@ export function exitControls(theme = nativeTheme) {
       button('confirm', l.confirm, '退出并结算', true),
       button('help', theme.layout.nativeGuide.entry, '操作说明'),
       controlsGuide(theme),
+    ] },
+    { name: 'runMenu', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+      plate('veil', [0, 0, ...theme.canvas.base], c.backdropVeil),
+      { name: 'blocker', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },
+      plate('border', menu.panel, c.goldDim),
+      plate('face', [...menu.panel.slice(0, 2), ...menu.panel.slice(2).map(value => value - s.border * 2)], c.panel),
+      button('map', menu.map, '查看地图'),
+      button('help', menu.help, '操作说明'),
+      button('resume', menu.resume, '继续游戏'),
+      button('abandon', menu.abandon, '放弃本局'),
     ] },
   ];
 }

@@ -27,6 +27,8 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     }
   }
   // Route choices need the same resources as room decisions, before entering a shop.
+  mapPanel.children.push({ ...button('previewBack', theme.layout.runMenu.mapBack, '返回菜单', {
+    inset: [space.s, space.s], fontSize: font.label, border: color.goldDim }), visible: false });
   const bar = theme.layout.nativeNode.topBar;
   const resourceIcon = (name, values, entry, colour) => ({ name, kind: 'image',
     position: values.slice(0, 2), size: values.slice(2),
@@ -93,7 +95,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       ...exitControls(theme),
     ],
   };
-  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'prologuePanel']);
+  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);
   for (const control of layoutTree.controls) if (overlays.has(control.name)) control.isolateNavigation = true;
   return layoutTree;
 }

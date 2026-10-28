@@ -34,6 +34,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local menu = child("menuPanel")
     local speed=menu:GetChild('battleSpeed')
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
+    local runMenu = child("runMenu")
     local exitGeneration, menuGeneration = 0, 0
     local codeVersion = assert(menu:GetChild('codeVersion'), 'missing game menu codeVersion')
     codeVersion.text = Narrative.codeVersion or '未知'
@@ -119,23 +120,35 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true
     end
+    self.openMenu = function(_)
+        if self.disabled or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+        exitGeneration = exitGeneration + 1
+        self.exitOpen, self.menuOpen, self.exitError = true, true, nil
+        self:refresh()
+        return true
+    end
     self.closeExit = function(_)
         if not self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
+        if self.routeOpen then
+            self.routeOpen = false
+            self:refresh()
+            return true
+        end
         if self.controlsOpen then
             self.controlsOpen = false
             exitPanel:GetChild('guide'):SetVisible(false)
             self:refresh()
             return true
         end
-        self.exitOpen, self.exitError = false, nil
+        self.exitOpen, self.menuOpen, self.exitError = false, false, nil
         self.battleUI.suppressClick = false
         self:refresh()
         return true
     end
     self.confirmExit = function(_)
         if self.disabled then return false,"ui_disabled" end
-        if self.controlsOpen then return false,"controls_open" end
+        if self.controlsOpen or self.menuOpen or self.routeOpen then return false,"menu_open" end
         if not self.exitOpen then return false, "exit_not_open" end
         -- Voluntary departure never changes combat HP, awards a victory, or
         -- fakes a defeated Run. An already-earned victory keeps its outcome.
@@ -309,7 +322,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             elseif scope=='node' and self.nodeUI.mode=='picker' then return self.nodeUI:press('back')
             elseif scope=='battle' and self.run and self.run.phase=='reward' and self.battleUI.rewardScreen=='cards' then
                 return self.battleUI:controllerBack()
-            elseif scope~='blocked' then return self:openExit() end
+            elseif scope~='blocked' then return self:openMenu() end
             return false
         end)
     end
@@ -439,7 +452,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode == "node" then self.nodeUI:render() end
     end
     local function refreshExitDialog()
-        if self.exitOpen then
+        if self.exitOpen and not self.routeOpen and (not self.menuOpen or self.controlsOpen) then
             exitPanel:SetAsLastSibling()
             local message = self.run and "确认退出本局？目前无法保存进度，退出后本局结束。\n将进入平台结算，随后可选择离开。"
                 or "确认结束当前关卡？\n将进入平台结算，随后可选择离开。"
@@ -472,7 +485,17 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- above every page, including an in-flight battle presentation.
         exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
         exitEntry:SetAsLastSibling()
-        exitPanel:SetVisible(self.exitOpen == true)
+        exitPanel:SetVisible(self.exitOpen == true and (not self.menuOpen or self.controlsOpen == true) and not self.routeOpen)
+        runMenu:SetVisible(self.exitOpen == true and self.menuOpen == true and not self.controlsOpen and not self.routeOpen)
+        if runMenu.visible then runMenu:SetAsLastSibling() end
+        local back = child('mapPanel'):GetChild('previewBack')
+        back:SetVisible(self.routeOpen == true)
+        if self.routeOpen then
+            self.mapUI.map = self.map
+            self.mapUI:setVisible(true)
+            self.mapUI:setNavigationEnabled(false)
+            child('mapPanel'):SetAsLastSibling()
+        end
         refreshExitDialog()
     end
     local function overlaysBlocked()
@@ -705,6 +728,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         function()return self:openPotions()end)
     exitPanel.disableCursorEventPassthrough = true
     exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
+    runMenu.disableCursorEventPassthrough = true
+    runMenu:GetChild('blocker'):AddCursorEventListener(clickEvent, function() return true end)
     local function bindCommand(box, kind, action, enabled, order, group, onFocus)
         local hit = box:GetChild("hit")
         local held, released, observed
@@ -712,17 +737,21 @@ function M.new(root, data, presentation, clickEvent, platform)
         local rewardAction = kind == "combatRewards"
         local characterAction = kind:match("^character_")~=nil
         local cursor = platform.cursorEvents or {}
+        local runMenuAction = kind:sub(1, 4) == 'run_'
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if kind == 'routeClose' then return self.exitOpen and self.routeOpen == true end
             if kind == 'helpClose' then return self.exitOpen and self.controlsOpen == true end
             if self.controlsOpen then return false end
+            if runMenuAction then return self.exitOpen and self.menuOpen == true and not self.routeOpen and (not enabled or enabled()) end
+            if self.menuOpen or self.routeOpen then return false end
             if kind=='battleSpeed' then return self.mode=='menu' and not self.characterOpen and not self.exitOpen and not self.deckUI.visible end
             if characterAction then
                 return self.characterOpen==true and not self.exitOpen and not self.starting
                     and (not enabled or enabled())
                     and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
             end
-            if self.characterOpen then return false end
+            if self.characterOpen and kind ~= 'open' then return false end
             if rewardAction then
                 return self.rewardReturnAvailable == true and self.mode == "map" and self.run and self.run.phase == "map" and self.run.pendingCombatRewards ~= nil
                     and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
@@ -764,7 +793,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         Controller.bind(controller,hit,function()
             if characterAction then return 'characters' end
-            if kind=='cancel' or kind=='confirm' or kind=='help' or kind=='helpClose' then return 'exit' end
+            if runMenuAction or kind=='routeClose' or kind=='cancel' or kind=='confirm' or kind=='help' or kind=='helpClose' then return 'exit' end
             return self.mode
         end,action,available,order or (kind=='cancel' and 1 or kind=='open' and 200 or 100),group,onFocus)
         hit:AddCursorEventListener(clickEvent, function(event)
@@ -791,7 +820,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if ok then self:refresh() end
         return ok, reason
     end)
-    bindCommand(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
+    bindCommand(exitEntry:GetChild("open"), "open", function() return self:openMenu() end)
     bindCommand(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
     bindCommand(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
     local guide = exitPanel:GetChild('guide')
@@ -805,6 +834,27 @@ function M.new(root, data, presentation, clickEvent, platform)
         end)
         bindCommand(guide:GetChild('close'), 'helpClose', function() return self:closeExit() end)
     end
+    bindCommand(runMenu:GetChild('help'), 'run_help', function()
+        exitGeneration = exitGeneration + 1
+        self.controlsOpen = true
+        guide:SetVisible(true)
+        self:refresh()
+        return true
+    end)
+    bindCommand(runMenu:GetChild('resume'), 'run_resume', function() return self:closeExit() end)
+    bindCommand(runMenu:GetChild('abandon'), 'run_abandon', function()
+        exitGeneration = exitGeneration + 1
+        self.menuOpen = false
+        self:refresh()
+        return true
+    end)
+    bindCommand(runMenu:GetChild('map'), 'run_map', function()
+        exitGeneration = exitGeneration + 1
+        self.routeOpen = true
+        self:refresh()
+        return true
+    end, function() return self.run ~= nil and self.map ~= nil and not self.characterOpen end)
+    bindCommand(child('mapPanel'):GetChild('previewBack'), 'routeClose', function() return self:closeExit() end)
     characterPanel.disableCursorEventPassthrough=true
     characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)
     bindCommand(characterPanel:GetChild("cancel"),"character_cancel",function() return self:closeCharacters() end,nil,90)
