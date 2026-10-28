@@ -7,8 +7,10 @@ local Wheel=require('abyss_wheel_event')
 local Potions=require('abyss_potion_events')
 local Trade=require('abyss_trade_event')
 local GoldenIdol=require('abyss_golden_idol_event')
-local M={ids={golden_idol=true,sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true,scrap_ooze=true,wheel=true,lab=true,woman_in_blue=true,we_meet_again=true}}
+local Mushrooms=require('abyss_mushrooms_event')
+local M={ids={mushrooms=true,golden_idol=true,sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true,scrap_ooze=true,wheel=true,lab=true,woman_in_blue=true,we_meet_again=true}}
 function M.prepare(run,event,miscRng)
+    if event.id=='mushrooms'then return Mushrooms.prepare(run,event)end
     if event.id=='golden_idol'then return GoldenIdol.prepare(run,event)end
     if event.id=='big_fish' then event.healAmount=math.floor(run.maxHp/3) end
     if event.id=='scrap_ooze' then event.damage,event.chance,event.totalDamage=3,25,0 end
@@ -45,6 +47,7 @@ local function obtainRelic(run,id)
     return ok,localId
 end
 function M.options(run,event,upgradeCards)
+    if event.id=='mushrooms'then return Mushrooms.options(run,event)end
     if event.id=='golden_idol'then return GoldenIdol.options(run,event)end
     if event.id=='we_meet_again' then return Trade.options(run,event) end
     if Potions.ids[event.id] then return Potions.options(run,event) end
@@ -71,6 +74,7 @@ function M.options(run,event,upgradeCards)
     return {}
 end
 function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+    if flow.event.id=='mushrooms'then return Mushrooms.choose(run,flow,choice,uid)end
     if flow.event.id=='golden_idol'then return GoldenIdol.choose(run,flow,choice,uid)end
     local event=flow.event
     if event.id=='we_meet_again' then return Trade.choose(run,flow,choice,uid) end
@@ -93,12 +97,12 @@ function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
             local offer,why=Run.prepareCard(staged,'Doubt');if not offer then return false,why end
             if not Run.gainGold then return false,'event_content_unavailable' end
             local gained=Run.gainGold(staged,175)
-            local obtained,uid=commitCard(staged,offer)
-            if not obtained then return false,uid end
-            staged.nodeFlow.event.obtainedCardUid=type(uid)=='number' and uid or nil
-            staged.nodeFlow.event.curseBlocked=uid=='curse_blocked'
+            local obtained,cardUid=commitCard(staged,offer)
+            if not obtained then return false,cardUid end
+            staged.nodeFlow.event.obtainedCardUid=type(cardUid)=='number' and cardUid or nil
+            staged.nodeFlow.event.curseBlocked=cardUid=='curse_blocked'
             staged.nodeFlow.event.stage='result'
-            staged.nodeFlow.event.body='获得'..gained..'金币。'..(uid=='curse_blocked' and '诅咒已被御守阻止。' or '诅咒「疑虑」已加入牌组。')
+            staged.nodeFlow.event.body='获得'..gained..'金币。'..(cardUid=='curse_blocked' and '诅咒已被御守阻止。' or '诅咒「疑虑」已加入牌组。')
             return true,'pending'
         end)
         return ok,detail

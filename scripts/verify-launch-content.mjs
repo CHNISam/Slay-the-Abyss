@@ -17,14 +17,16 @@ const curseEvents = {
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
   decay: ['explicit_event:wheel:accept'],
     injury: ['explicit_event:golden_idol:injury'],
+    parasite: ['explicit_event:mushrooms:heal'],
 };
 const specialRelicEvents = {
   mark_of_bloom: ['explicit_event:mind_bloom:upgrade'],
   neows_lament: ['explicit:Nodes.beginNeow:THREE_ENEMY_KILL'],
   red_mask: ['explicit_event:tomb_red_mask:pay'],
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
-    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take'],
+    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take', 'explicit_event:mushrooms:repeat_fight'],
     golden_idol: ['explicit_event:golden_idol:take'],
+    odd_mushroom: ['explicit_event:mushrooms:fight'],
 };
 const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const runtimeModules = Object.entries({

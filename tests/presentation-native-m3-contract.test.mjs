@@ -115,10 +115,29 @@ test('accepted native-art compatibility permits only its two complete identities
  }
 });
 
+// Exact Mushrooms placeholder inverse; no historical evidence or native writes change.
+const mushroomThemeBlock=`      "odd_mushroom": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"
+      },
+`;
+function projectMushroomTheme(source){
+ const text=source.replaceAll('\r\n','\n');
+ assert.equal(digest(text),'d9e36d089072f297857b4e1805336d70cebff4560e3d02005c4ab477a015089b','complete reviewed Mushrooms theme identity');
+ const anchor='    "relic": {\n',at=text.indexOf(anchor)+anchor.length;
+ assert.equal(text.split(anchor).length,2,'one relic mapping container');
+ assert.equal(text.slice(at,at+mushroomThemeBlock.length),mushroomThemeBlock,'exact Mushroom insertion position');
+ const projected=text.slice(0,at)+text.slice(at+mushroomThemeBlock.length);
+ assert.equal(digest(projected),'227057a69684500b144cdf3d37e16c9d5ac9435a6a268b14ee9c5120a0f8ffb0','all previous theme bytes retained');
+ return projected;
+}
+
 // This inverse is test-only: no obsolete announcement control or module returns live.
 function preRetirementSource(path,source){
- const normalized=source.replaceAll('\r\n','\n');
+ let normalized=source.replaceAll('\r\n','\n');
  if(path==='data/presentation/ui_theme.json'){
+  normalized=projectMushroomTheme(normalized);
   const theme=JSON.parse(normalized),old=JSON.parse(frozenSource(path));
   assert.equal(Object.hasOwn(theme.layout,'releaseNotes'),false,'announcement theme remains absent');
   assert.deepEqual(theme.layout.nativeMenu.codeVersion,old.layout.releaseNotes.menuVersion,'unchanged version geometry');
@@ -232,4 +251,17 @@ test('native trace proof rejects deleted changed reordered old writes and unrevi
  assert.throws(()=>verify(baseline.entries,swapped),'reviewed values cannot move to unreviewed positions');
  const source={...review.sourceInputs};source['tests/lua/support/presentation_trace.lua']='unreviewed recorder';
  assert.throws(()=>verifySources(source));
+});
+
+test('Mushrooms exact theme inverse rejects removal, movement, replacement and unrelated changes',()=>{
+ const source=readFileSync('data/presentation/ui_theme.json','utf8').replaceAll('\r\n','\n');
+ const projected=projectMushroomTheme(source);
+ assert.equal(projectMushroomTheme(source.replaceAll('\n','\r\n')),projected);
+ const mutations=[source.replace(mushroomThemeBlock,''),source.replace(mushroomThemeBlock,mushroomThemeBlock+mushroomThemeBlock),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('102028','102029')),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('true','false')),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('专属美术','未审查')),
+  projected.replace('      "membership_card": 102026,\n','      "membership_card": 102026,\n'+mushroomThemeBlock),
+  source.replace('"body": 18','"body": 19'),source+'\n'];
+ for(const changed of mutations){assert.notEqual(changed,source);assert.throws(()=>projectMushroomTheme(changed));}
 });
