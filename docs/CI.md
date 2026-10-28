@@ -8,7 +8,7 @@ TASK-74正式退役已停用任务锁的源码和29项专属测试，并移除�
 
 日常使用 `npm run test:fast -- --base origin/develop` 获取快速反馈，`npm run test:related -- --base origin/develop`验证相关集成；`--plan`只列出受影响集合。未知输入及基础设施变更回退全量。最终执行 `npm run check`，不能把快速层的成功当作完整验收。
 
-完整 Windows 回归分成八个独立 VM 的 `rules (i/8)`。JS 使用 Node 原生 `--test-shard=i/8`；Lua 使用 `--shard i/8`，每片内部均串行。POSIX 的完整 JS 回归分成四个独立 VM 的 `engineering-posix (i/4)`，使用同一 Node 原生分片，每个文件在该平台执行一次，每片保留完整工程门禁与原20分钟作业预算。每个脚本保持独立进程、原超时和完整断言，输出按文件聚合，失败仍跑完剩余文件并非零退出。`check` 与 `engineering-posix` 分别汇总各自所有分片，失败、取消或跳过均不放行；三个必需检查名称不变，完整托管Quality共15个作业。可信 local-special 手动诊断仍单片串行、保留原75分钟作业预算。细节与实际耗时见 [TASK-74](backlog-details/TASK-74.md)。
+完整 Windows 回归分成八个独立 VM 的 `rules (i/8)`。JS 使用 `ci-shards.mjs --shard=i/8` 按逐文件实测耗时分配；Lua 使用 `--shard i/8`，计入前置 JS 负载后分配，每片内部均串行。POSIX 的完整 JS 回归分成四个独立 VM 的 `engineering-posix (i/4)`，使用同一加权分配器和 POSIX 独立耗时表，每个文件在该平台执行一次，每片保留完整工程门禁与原20分钟作业预算。每个脚本保持独立进程、原超时和完整断言，输出按文件聚合，失败仍跑完剩余文件并非零退出。`check` 与 `engineering-posix` 分别汇总各自所有分片，失败、取消或跳过均不放行；三个必需检查名称不变，完整托管Quality共15个作业。可信 local-special 手动诊断仍单片串行、保留原75分钟作业预算。细节与实际耗时见 [TASK-74](backlog-details/TASK-74.md)。
 
 PR252的运行40524983643中，POSIX旧第一片975项JS全部通过，耗时1192.218秒；随后工程门禁亦通过，但加上安装与取证使作业越过20分钟总预算。四片继续使用隔离VM和片内串行，减少单VM分配到的测试文件数；不增加作业或单fixture超时，也不删测试。新分片的实际完成时长仍须当前SHA官方CI验证。
 
@@ -61,10 +61,12 @@ GitHub官方语义：[Rulesets API](https://docs.github.com/en/rest/repos/rules)
 
 `ci-reviewed-lfs.mjs` 只允许 `art/cards/traveler-geo/` 中已审阅的六个精确 PNG 路径、OID 与字节数，冻结对象 payload 合计上限为 **5,983,528 字节**。本次Cleave及身份修正版Heavy共新增4对象、4,202,803字节；Armaments既有2对象保留，旧Heavy两对象仅在历史保留、不重复上传。拉取前校验 index 指针，缓存命中也不能绕过；拉取后必须验证真实 PNG 签名、完整 SHA-256 和字节数，原资产与 license 验证继续执行。指针文本不能充当已验证图片。
 
-保留 Node 原生 JS 分片命令。脚本按同一排序/分片规则，只在实际承载 `reviewed-traveler-geo-assets.test.mjs` 的一个 Windows 分片及一个 POSIX 分片准备六图；Licenses 全 inventory 审计另准备一次。新增测试文件会移动分片，选择器不固定分片编号；原生 Node CLI 前后插入探针验证一致。presentation 没有这些图片依赖，不额外拉取。
+Quality 的图片准备与执行共用 `ci-shards.mjs` 计划；独立 LFS 工具仍保留原生 Node 分片诊断接口。只在实际承载 `reviewed-traveler-geo-assets.test.mjs` 的一个 Windows 分片及一个 POSIX 分片准备六图；Licenses 全 inventory 审计另准备一次。新增测试文件会移动分片，选择器不固定分片编号；原生 Node CLI 前后插入探针验证一致。presentation 没有这些图片依赖，不额外拉取。
 
 checkout 默认 skip-smudge，自托管路径也显式禁用自动 smudge。仅显式 `git lfs pull --include=<六精确路径> --exclude=`，不使用 `fetch --all`、目录通配或历史全量拉取；git-lfs 3.6.1 的 pull 只扫描当前引用/index，不读取 fetchRecentAlways 的历史抓取设置。测试同时覆盖被扩大的 recent 配置和缺失的非目标对象。
 
 使用既有 `github.token` 的只读权限，认证只放 Git 子进程环境，清除原 token 环境项且不回显 Git stderr/headers；不持久保存凭据，不增加工作流写权限。干净runner所需LFS filter仅用本次Git命令的`-c`设置，不修改持久Git配置。沿用本地 `.git/lfs/objects` 缓存及 npm/pip 现有缓存，不新增大型远程 cache。对象已在本地则不重新下载；缺失对象、超预算、OID 变化、错误内容均失败，不静默跳过。
 
 上述上限是**允许对象的逻辑 payload**，不是 HTTP/TCP 字节、账号月度用量或费用硬限额。协议开销及额外运行不包含在内；传输关闭额外重试且有界超时。代码/离线测试不能替代远端真实下载和当前 SHA 的完整 hosted Quality/Licenses 验收。
+
+完整执行提速记录、权重来源与实际时长对照见 [TASK-75](backlog-details/TASK-75.md)。权重只改变文件归属，不决定文件是否运行；未测新文件使用正数保守权重，日志输出 `CI_FILE_TIMING` 包含真实文件耗时，后续校准无需选测器。
