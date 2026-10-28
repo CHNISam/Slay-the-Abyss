@@ -35,7 +35,11 @@ test('POSIX shards preserve the original job gates, toolchain and 20-minute budg
   // Exact inverse of only the partitioning changes: the job in Git c78c59b,
   // including setup, all engineering gates, artifact contents and deadlines.
   // Strip only the exact new step immediately before the unchanged shard command.
-  const beforeLfs = shards.replace(lfsShardStep + '      - name: POSIX JavaScript regression shard\n', '      - name: POSIX JavaScript regression shard\n');
+  assert.ok(shards.includes('      - run: npm run check:engineering\n        if: matrix.shard == 1\n'));
+  assert.match(shards, /actions\/upload-artifact@[^\n]+\n        if: matrix.shard == 1\n/);
+  const beforeLfs = shards.replace(lfsShardStep + '      - name: POSIX JavaScript regression shard\n', '      - name: POSIX JavaScript regression shard\n')
+    .replace('      - run: npm run check:engineering\n        if: matrix.shard == 1\n', '      - run: npm run check:engineering\n')
+    .replace(/(      - uses: actions\/upload-artifact@[^\n]+\n)        if: matrix.shard == 1\n/, '$1');
   const restored = '  engineering-posix:\n' + beforeLfs.replace(setup, '')
     .replace('      - name: POSIX JavaScript regression shard\n        run: |\n          npm run build:data\n          npm run build:ui\n          ' + shardCommand + '\n', '      - run: npm test\n')
     .replace('name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}', 'name: engineering-${{ github.run_id }}-${{ github.run_attempt }}');

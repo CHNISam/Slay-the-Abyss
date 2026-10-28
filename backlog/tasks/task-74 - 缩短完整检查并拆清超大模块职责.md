@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-27 19:54'
+updated_date: '2026-10-28 03:40'
 labels: []
 dependencies: []
 references:
@@ -47,6 +47,8 @@ ordinal: 118000
 2026-10-27按最新develop965616d复核剩余工程热点，保留已合格战斗/商店UI与CI。六独立工作树分别治理受影响测试、延迟导入门禁、UI mock原生接口合同、effects/combat/Act2 AI、文案演出页面编排、合入提交复核。主代理独占公共配置/静态基线/最终门禁，逐项先锁行为再拆分，无法确认的影响全量回退；审查提取helper并完成当前HEAD完整Quality，正常PR squash后复核实际合入SHA和tree的CI。
 
 2026-10-27 PR252预算收口：按实际作业日志确认POSIX半池19分53秒导致总作业超20分钟；沿用原生隔离分片扩为四片，保持每片20分钟、片内串行、完整输入与工程检查。同步交付作业枚举、既有矩阵合同和说明，定向红绿验证后在同一PR验证精确新HEAD及实际合入SHA。
+
+2026-10-28 P0：基于最新develop和成功run40622446002实际日志，按耗时均衡Lua分片，非测试门禁每系统执行一次，独立PR增量反馈并行完整回归；保留8 Windows/4 Ubuntu、required checks、所有测试及原超时。核对当前SHA完整CI并正常PR合入，实测排队与执行分别报告。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -77,4 +79,8 @@ ordinal: 118000
 本轮执行：Codex总体集成与验收；独立子代理仅修改既有POSIX矩阵及交付合同。原40524983643的8个Windows规则与POSIX2实际成功，POSIX1全部步骤成功但job122261978724在20分32秒被GitHub取消，annotation明确超过20m，汇总未通过。保存原日志于build/m3-closeout-20261027/pr252-posix1.log；不把步骤成功写为完整CI通过，不提升预算或跳过测试。
 
 PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触及原30秒单入口预算，未发现业务断言失败。本切片仅将原31项卡牌帮助与8组/22次完整奖励界面构造按既有方式分段；原正文、种子、断言、helper、runner及CI预算保持。六个测试文件已由独立复审核验，四入口及32项原门禁本地通过；当前发布头完整Quality及合入提交复核仍待，AC11不勾选。
+
+本轮复用TASK-74，不新建重复任务。独立工作树feat/ci-speed，基线f1ab9a9c。
+
+2026-10-28 P0首批：按成功run40622446002八份完整raw job日志重建963条Lua实测权重，并与该SHA源码963文件核对。当前972文件由确定LPT分配，计入各Windows JS片现有负载，新文件正权重兜底；原串行隔离和fixture超时不变。重复非测试门禁改每系统一次；完整8Windows+4Ubuntu和check/presentation/engineering-posix名保留。独立PR快反馈只跑明确子集并报告延后项，本地未知改动全量回退不变。精确Node24.18.0定向86/86过0skip，104.9秒。官方完整新CI尚待，未宣称15分钟达标。免费DeepSeek只读复核出现read路径权限失败，已停止该路径，由Codex接管；未把自报或退出码当审查通过。
 <!-- SECTION:NOTES:END -->

@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { readdirSync, writeFileSync, unlinkSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { createRequire } from 'node:module';
@@ -9,6 +9,7 @@ import { luaString, toLua } from './build-lua-data.mjs';
 import { battleLayout } from './ui-layout.mjs';
 
 const require = createRequire(import.meta.url);
+const ciTimings = JSON.parse(readFileSync(new URL('./ci-test-timings.json', import.meta.url), 'utf8'));
 
 export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process.cwd(), caseName } = {}) {
   if (caseName !== undefined && (typeof caseName !== 'string' || !caseName.trim())) {
@@ -56,13 +57,33 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   return result;
 }
 
-export function shardLuaScripts(scripts, value) {
+export function shardLuaScripts(scripts, value, timings = ciTimings) {
   const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(String(value));
   const index = Number(match?.[1]), count = Number(match?.[2]);
   if (!match || !Number.isSafeInteger(index) || !Number.isSafeInteger(count) || index > count || count > 64) {
     throw new Error('Lua shard must be i/n with integers 1 <= i <= n <= 64');
   }
-  return [...scripts].sort().filter((script, position) => position % count === index - 1);
+  if (!Array.isArray(scripts) || scripts.some(script => typeof script !== 'string' || !script)
+      || new Set(scripts).size !== scripts.length) throw new Error('Lua fixtures must be unique nonempty paths');
+  const weight = script => timings.lua?.[script] ?? timings.unknownLuaMs;
+  if (scripts.some(script => !Number.isFinite(weight(script)) || weight(script) <= 0)) {
+    throw new Error('Lua scheduling weights must be positive finite milliseconds');
+  }
+  // Windows runs its native JS shard first. Account for that existing load;
+  // changing only Lua file counts leaves the slow JS shards on the critical path.
+  // Other shard counts (including the trusted local single shard) start at zero.
+  const initialLoads = timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs : Array(count).fill(0);
+  if (initialLoads.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');
+  const bins = initialLoads.map(load => ({ load, scripts: [] }));
+  const ordered = [...scripts].sort((a, b) => weight(b) - weight(a) || (a < b ? -1 : a > b ? 1 : 0));
+  for (const script of ordered) {
+    let target = 0;
+    for (let i = 1; i < count; i++) if (bins[i].load < bins[target].load) target = i;
+    bins[target].scripts.push(script);
+    bins[target].load += weight(script);
+  }
+  // Execution stays serial, with fresh processes and unchanged fixture deadlines.
+  return bins[index - 1].scripts.sort();
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

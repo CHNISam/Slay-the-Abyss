@@ -37,14 +37,19 @@ test('eight Windows VMs change only the hosted matrix, preserving every gate and
     return beforeLfs.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'")
       .replace(posix, posix.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2]'));
   };
-  const restored = restore(workflow);
+  const expandGates = source => source.replace('# One shard runs the non-test gates;', '# Every shard runs the same non-test gates;').replace(/(      - run: npm run (?:check:network|verify:backlog|check:syntax|validate:data|build:theme|check:engineering)\n)        if: matrix.shard == 1\n/g, '$1')
+    .replace(/(      - uses: actions\/upload-artifact@[^\n]+\n)        if: matrix.shard == 1\n(        with:\n          name: engineering-)/g, '$1$2');
+  for (const gate of ['check:network', 'verify:backlog', 'check:syntax', 'validate:data', 'build:theme', 'check:engineering']) {
+    assert.ok(rules.includes(`      - run: npm run ${gate}\n        if: matrix.shard == 1\n`), `${gate} must run on Windows shard 1`);
+  }
+  const restored = restore(expandGates(workflow));
   assert.notEqual(restored, workflow);
   assert.equal(createHash('sha256').update(restored).digest('hex'), '3a45b50a847b89870825560a6f3d83906a2a02a062c9dc5b2469e7d0439b15f0');
   assert.throws(() => restore(workflow.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2, 3]')),
     /single reviewed POSIX matrix/);
   assert.throws(() => restore(workflow.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2, 3, 4]\n        shard: [1, 2, 3, 4]')),
     /single reviewed POSIX matrix/);
-  const missingGate = restore(workflow.replace('      - run: npm run check:engineering', '      - run: echo omitted'));
+  const missingGate = restore(expandGates(workflow.replace('      - run: npm run check:engineering', '      - run: echo omitted')));
   assert.notEqual(createHash('sha256').update(missingGate).digest('hex'), createHash('sha256').update(restored).digest('hex'),
     'the precise partition inverse cannot hide unrelated workflow edits');
 });
