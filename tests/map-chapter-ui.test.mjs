@@ -27,10 +27,19 @@ test('chapter-local map geometry, real same-table transitions and stale gestures
     {path:'tests/lua/map_chapters_slice_3.lua',first:17,last:29},
     {path:'tests/lua/map_chapters_slice_4.lua',first:30,last:38},
   ]);
-  // Reverse only the exact registration/selection instrumentation. Every
-  // original loop, input matrix, helper and assertion remains byte-identical.
+  // Reverse only exact registration/selection and reviewed visible-pool
+  // instrumentation. Original loops, matrices and assertions remain byte-identical.
   let original=read(parts.entry);assert(original.startsWith(prefix));assert(original.endsWith(footer));
   original=original.slice(prefix.length,-footer.length);
+  // Invert only the accepted invisible-pool write optimization; retain all
+  // node geometry/reveal assertions and the original complete fixture hash.
+  const visibleGeometry="                if b.visible then\n                    -- Hidden pooled nodes are deliberately not repainted. Every node\n                    -- must still enter the viewport and prove its geometry below.\n                    assert(b.x==(node.lane-(Layout.lanes+1)/2)*Theme.layout.map.columnGap)\n                    assert(b.y==Layout.firstY+(row-1)*Theme.layout.map.floorGap-ui.scroll)\n                    assert(b:GetChild('icon').imageId==Theme.icon.node[node.type])", originalGeometry="                assert(b.x==(node.lane-(Layout.lanes+1)/2)*Theme.layout.map.columnGap)\n                assert(b.y==Layout.firstY+(row-1)*Theme.layout.map.floorGap-ui.scroll)\n                assert(b:GetChild('icon').imageId==Theme.icon.node[node.type])\n                if b.visible then";
+  const restoreGeometry = source => {
+    assert.equal(source.split(visibleGeometry).length, 2, 'exact reviewed visible-node geometry migration');
+    return source.replace(visibleGeometry, originalGeometry);
+  };
+  assert.throws(() => restoreGeometry(original.replace('assert(b.x==', 'assert(b.x~=')), /exact reviewed visible-node geometry migration/);
+  original=restoreGeometry(original);
   assert.equal(original.split(after).length,2);original=original.replace(after,before);
   assert.equal(createHash('sha256').update(original).digest('hex'),parts.originalSha256LF);
   const bytes=Buffer.from(original);assert.equal(bytes.length,parts.originalBytesLF);

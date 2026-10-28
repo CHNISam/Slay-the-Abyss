@@ -121,7 +121,8 @@ test("menu starts a real battle with shared-theme cards, energy and current inte
     -- Ritual alone: one buff chip with its stack count, and no Strength chip yet.
     local row = stage.children.enemy1.children.statusRow.children
     assert(row.icon1.visible and row.icon1.imageId == Theme.icon.status.ritual and row.count1.text == "3")
-    assert(row.icon1.imageColor.r == Theme.color.buff.r and not row.icon2.visible and not row.count2.visible)
+    assert(row.icon1.imageColor.r == Theme.color.text.r and not row.icon2.visible and not row.count2.visible)
+    assert(row.backplates.children.edge1.visible and row.backplates.children.edge1.imageColor.r == Theme.color.gold.r)
     assert(stage.children.enemy1.children.intent.text == "6")
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.cultist)
     assert(stage.children.hero.children.hpFill.fillAmount == 1)
@@ -373,7 +374,8 @@ test("intent previews use core modifiers without changing combat state or consum
         {op="gainStatus", status="dexterity", value=3}, {op="block", value=10}, {op="damage", value=6, times=2}}}
     Combat.addStatus(enemy, "frail", 2)
     ui:render()
-    assert(stage.children.enemy1.children.intent.text == "")
+    assert(stage.children.enemy1.children.intent.visible and stage.children.enemy1.children.intent.text == "9×2")
+    assert(stage.children.enemy1.children.intentIcon.imageId == Theme.icon.intent.attack)
     click("enemy1")
     local preview = stage.children.notice.text
     assert(preview:find("获得 9 点格挡", 1, true) and preview:find("攻击 2 次，每次 9 点伤害", 1, true))
@@ -849,7 +851,8 @@ test("multiple enemies and multi-hit intents show each actor and actual HP in or
             -- Playback frames drive the chips: Weak appears as a debuff chip with 2 stacks.
             local row = stage.children.hero.children.statusRow.children
             assert(row.icon1.visible and row.icon1.imageId == Theme.icon.status.weak and row.count1.text == "2")
-            assert(row.icon1.imageColor.r == Theme.color.debuff.r)
+            assert(row.icon1.imageColor.r == Theme.color.text.r)
+            assert(row.backplates.children.edge1.visible and row.backplates.children.edge1.imageColor.r == Theme.color.debuff.r)
         end
     end)
     assert(table.concat(kinds,",") == "intent,damage,damage,damage,intent,block,status,reshuffle,player_turn")
@@ -1153,16 +1156,16 @@ test("mixed enemy moves show a compound intent badge like STS ATTACK_DEBUFF", fu
     assert(box.intentIcon.imageId == Theme.icon.intent.attack)
     assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.debuff)
     assert(box.intent.text ~= "", "mixed attacks retain their damage number")
-    assert(box.intentBadge.x > box.intentIcon.x and box.intentBadge.y < box.intentIcon.y,
-        "compound badge must sit on the main icon's lower-right corner")
+    assert(box.intentBadge.x - box.intentIcon.x >= Theme.layout.intent.size and box.intentBadge.y == box.intentIcon.y,
+        "compound intent icons must sit side by side without overlap")
     assert(box.intentBadge.imageColor.r == Theme.color.debuff.r)
     box = show("gremlin_nob", "gremlin_nob_2") -- damage + Vulnerable
     assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.debuff)
     box = show("jaw_worm", "jaw_worm_2") -- Thrash: damage + block
     assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.defend)
     box = show("jaw_worm", "jaw_worm_3") -- Bellow: strength + block
-    assert(box.intentIcon.imageId == Theme.icon.intent.buff)
-    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.defend)
+    assert(box.intentIcon.imageId == Theme.icon.intent.defend)
+    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.buff)
     assert(box.intent.text == "", "non-attack intent must not display future status stacks")
     box = show("jaw_worm", "jaw_worm_1") -- Chomp: damage only
     assert(not box.intentBadge.visible)
@@ -1174,13 +1177,15 @@ test("stateful sleeping enemy shows approved sleep icon and wake intent", functi
     assert(Run.startCombat(ui.run,"elite_lagavulin"))
     ui:render()
     local box = stage.children.enemy1
-    assert(box.children.intent.text == "" and box.children.intentLabel.text == "沉睡")
+    assert(box.children.intent.text == "" and not box.children.intent.visible and not box.children.intentLabel.visible)
     assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)
     click("enemy1")
     assert(stage.children.notice.text:find("沉睡",1,true))
     Combat.damage(ui.run.combat,ui.run.combat.player,ui.run.combat.enemies[1],9,true)
     ui:render()
-    assert(box.children.intent.text == "" and box.children.intentLabel.text == "苏醒")
+    assert(box.children.intent.text == "" and not box.children.intent.visible and not box.children.intentLabel.visible)
+    click("enemy1")
+    assert(stage.children.notice.text:find("惊醒",1,true))
     assert(box.children.intentIcon.imageId == Theme.icon.intent.unknown)
     assert(Combat.endTurn(ui.run.combat))
     ui:render()

@@ -54,7 +54,13 @@ test('exit entry does not cover deck controls, map navigation or the narrowed ga
     child(named(controls, 'battlePanel'), 'notice'), child(named(controls, 'nodePanel'), 'notice')]) {
     assert.ok(!overlaps(entry, obstacle), `exit overlaps ${obstacle.name}`);
   }
-  assert.ok(child(named(controls, 'battlePanel'), 'notice').size[0] >= 900);
+  const battleNotice = child(named(controls, 'battlePanel'), 'notice');
+  assert.deepEqual(battleNotice.position, theme.layout.battleNotice.position);
+  assert.deepEqual(battleNotice.size, theme.layout.battleNotice.size);
+  assert.ok(battleNotice.size[1] >= theme.layout.nativeText.lineHeight);
+  assert.equal(battleNotice.text.minFontSize, theme.font.minimum);
+  // The longest real source notices and actor/input clearance are exercised
+  // by battle-notice-layout.test.mjs; width alone is not readability evidence.
   assert.ok(child(named(controls, 'nodePanel'), 'notice').size[0] >= 900);
 });
 

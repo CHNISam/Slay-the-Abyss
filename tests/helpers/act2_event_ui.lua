@@ -69,7 +69,10 @@ function H.setup(run,map)
  local host=H.control({name='host',children={assert(find(Layout,'nodePanel'))}})
  local root=host:GetChild('nodePanel');local changes={}
  local ui=H.UI.new(root,run,map,Presentation,'click',function(ok,why)changes[#changes+1]={ok,why}end,
-  {cursorEvents=events,imageSource='static'})
+  {cursorEvents=events,imageSource='static',color=function(r,g,b,a)
+   for _,v in ipairs({r,g,b,a})do assert(type(v)=='number' and v>=0 and v<=255,'native colour channel')end
+   assert(type(r)=='number' and type(g)=='number' and type(b)=='number' and type(a)=='number','native colour channels');return{r=r,g=g,b=b,a=a}
+  end})
  ui:setVisible(true)
  local function get(path)
   local node=root;for part in path:gmatch('[^/]+')do node=assert(node:GetChild(part),path)end;return node

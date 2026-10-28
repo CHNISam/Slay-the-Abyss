@@ -34,9 +34,38 @@ const reviewedHandReturn=[
  '        end',
 ].join('\n');
 
-// Inverse-normalize only the reviewed single-row -> two-row geometry assertions.
+// Inverse-normalize only reviewed native presentation migrations: two-row
+// geometry, monochrome status/backplates and icon-only/compound intent faces.
 // All original case bodies, seed inputs and deadlines remain hash-checked below.
 const reviewedLayoutMigrations=[
+  [
+    "    ui:render()\n    assert(stage.children.enemy1.children.intent.visible and stage.children.enemy1.children.intent.text == \"9×2\")\n    assert(stage.children.enemy1.children.intentIcon.imageId == Theme.icon.intent.attack)\n    click(\"enemy1\")\n    local preview = stage.children.notice.text",
+    "    ui:render()\n    assert(stage.children.enemy1.children.intent.text == \"\")\n    click(\"enemy1\")\n    local preview = stage.children.notice.text"
+  ],
+  [
+    "    assert(row.icon1.imageColor.r == Theme.color.text.r and not row.icon2.visible and not row.count2.visible)\n    assert(row.backplates.children.edge1.visible and row.backplates.children.edge1.imageColor.r == Theme.color.gold.r)",
+    "    assert(row.icon1.imageColor.r == Theme.color.buff.r and not row.icon2.visible and not row.count2.visible)"
+  ],
+  [
+    "            assert(row.icon1.imageColor.r == Theme.color.text.r)\n            assert(row.backplates.children.edge1.visible and row.backplates.children.edge1.imageColor.r == Theme.color.debuff.r)",
+    "            assert(row.icon1.imageColor.r == Theme.color.debuff.r)"
+  ],
+  [
+    "    assert(box.intentBadge.x - box.intentIcon.x >= Theme.layout.intent.size and box.intentBadge.y == box.intentIcon.y,\n        \"compound intent icons must sit side by side without overlap\")",
+    "    assert(box.intentBadge.x > box.intentIcon.x and box.intentBadge.y < box.intentIcon.y,\n        \"compound badge must sit on the main icon's lower-right corner\")"
+  ],
+  [
+    "    assert(box.intentIcon.imageId == Theme.icon.intent.defend)\n    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.buff)",
+    "    assert(box.intentIcon.imageId == Theme.icon.intent.buff)\n    assert(box.intentBadge.visible and box.intentBadge.imageId == Theme.icon.intent.defend)"
+  ],
+  [
+    "    assert(box.children.intent.text == \"\" and not box.children.intent.visible and not box.children.intentLabel.visible)\n    assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)",
+    "    assert(box.children.intent.text == \"\" and box.children.intentLabel.text == \"沉睡\")\n    assert(box.children.intentIcon.imageId == Theme.icon.intent.sleep)"
+  ],
+  [
+    "    assert(box.children.intent.text == \"\" and not box.children.intent.visible and not box.children.intentLabel.visible)\n    click(\"enemy1\")\n    assert(stage.children.notice.text:find(\"惊醒\",1,true))",
+    "    assert(box.children.intent.text == \"\" and box.children.intentLabel.text == \"苏醒\")"
+  ],
   [
     "        local box = stage.children[\"enemy\" .. i]\n        local width = box.children.hit.sizeDeltaX\n        assert(width >= 44 and box.x + width / 2 <= 600)\n        if previous then\n            assert(math.abs(previous.y-box.y) > (previous.children.hit.sizeDeltaY+box.children.hit.sizeDeltaY)/2\n                or previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2)\n        end\n        previous = box\n    end\n    local battle = ui.run.combat",
     "        local box = stage.children[\"enemy\" .. i]\n        local width = box.children.hit.sizeDeltaX\n        assert(width >= 44 and box.x + width / 2 <= 600)\n        if previous then assert(previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2) end\n        previous = box\n    end\n    local battle = ui.run.combat"
@@ -61,11 +90,11 @@ const reviewedLayoutMigrations=[
 function restoreReviewedLayout(source,allowRestored=false){
   for(const [current,original] of reviewedLayoutMigrations){
     if(source.includes(current)){
-      assert.equal(source.split(current).length,2,'one exact reviewed two-row layout migration');
+      assert.equal(source.split(current).length,2,'one exact reviewed native presentation migration');
       source=source.replace(current,original);
     } else {
-      assert.ok(allowRestored,'one exact reviewed two-row layout migration');
-      assert.equal(source.split(original).length,2,'exact restored layout migration');
+      assert.ok(allowRestored,'one exact reviewed native presentation migration');
+      assert.equal(source.split(original).length,2,'exact restored native presentation migration');
     }
   }
   return source;

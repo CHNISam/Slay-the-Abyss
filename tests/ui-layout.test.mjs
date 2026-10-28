@@ -29,7 +29,16 @@ test('every actor has a status chip grid within platform limits and a portrait d
     assert.equal(row.children.filter(c => /^icon\d+$/.test(c.name)).length, si.perRow * si.rows);
     assert.equal(row.children.filter(c => /^count\d+$/.test(c.name)).length, si.perRow * si.rows);
     assert.equal(row.children.at(-1).kind, 'cursorArea', `${unit.name} status hit sits above its chips`);
-    for (const chip of row.children.filter(c => c.kind !== 'cursorArea')) assert.equal(chip.visible, false);
+    for (const chip of row.children.filter(c => c.kind !== 'cursorArea')) {
+      if (['backplates', 'countBackplates'].includes(chip.name)) {
+        assert.equal(chip.kind, 'container');
+        assert.equal(chip.children.length, si.perRow * si.rows * (chip.name === 'backplates' ? 2 : 1));
+        for (const plate of chip.children) {
+          assert.equal(plate.kind, 'image'); assert.equal(plate.visible, false);
+          assert.notEqual(plate.focusable, true);
+        }
+      } else assert.equal(chip.visible, false);
+    }
     assert(unit.children.some(c => c.name === 'hit' && c.kind === 'cursorArea'), `${unit.name} portrait hit`);
   }
   const info = stage().children.find(c => c.name === 'statusInfo');

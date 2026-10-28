@@ -35,10 +35,14 @@ local function part(box,kind,touch)
 end
 test('Leader and Collector keep every live HP intent and status panel after repeated source summons',function()
  for _,kind in ipairs({'leader','collector'})do
-  local h,u,p,_,_,_,s,boss=fixture(kind)
+  local h,u,p,_,tap,_,s,boss=fixture(kind)
   local slot,box=shown(p,boss);assert(slot,'living '..kind..' disappeared after retained corpses')
   assert(box:GetChild('hp').text==tostring(boss.hp)..'/'..tostring(boss.maxHp))
-  assert(box:GetChild('intent').text~='' or box:GetChild('intentLabel').text~='')
+  assert(box:GetChild('intentIcon').visible and type(box:GetChild('intentIcon').imageId)=='number')
+  assert(not box:GetChild('intentLabel').visible)
+  local face=require('abyss_battle_intent_view').intentView(s,indexOf(s,boss))
+  tap('enemy'..slot,39)
+  assert(face.text~='' and p:GetChild('notice').text:find(face.text,1,true),'complete Chinese source intent is missing')
   local count,live=0,0;for i=1,5 do if p:GetChild('enemy'..i).visible then count=count+1 end end
   for _,e in ipairs(s.enemies)do if A.isActive(e)then live=live+1 end end
   assert(count==live,'a living actor was silently omitted')

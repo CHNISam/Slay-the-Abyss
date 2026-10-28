@@ -14,6 +14,7 @@ function assertFrozenSapphireUI(source){
  assert(source.startsWith(loader));assert.equal(source.split(loader).length,2);
  let original=source.slice(loader.length);
  for(const [current,before]of[
+  ["        {cursorEvents=clickOnly and {} or events,imageSource='static',color=function(r,g,b,a)\n            for _,v in ipairs({r,g,b,a})do assert(type(v)=='number' and v>=0 and v<=255,'native colour channel')end\n            assert(type(r)=='number' and type(g)=='number' and type(b)=='number' and type(a)=='number','native colour channels');return{r=r,g=g,b=b,a=a}\n        end})\n","        {cursorEvents=clickOnly and {} or events,imageSource='static'})\n"],
   ['    return NativeContract.control(c,spec)\n','    return c\n'],
   ['    function c:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);\n',
    "    function c:SetSizeDelta(width,height)\n        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)\n"],
@@ -71,4 +72,7 @@ test('Sapphire frozen-body protection still rejects a deleted scenario or gamepl
  const assertion="    assert(get('notice').text=='小型宝箱就在眼前；可以打开或直接离开。')\n";
  assert.equal(source.split(assertion).length,2);
  assert.throws(()=>assertFrozenSapphireUI(source.replace(assertion,'')),/frozen Sapphire UI body hash/);
+ const weakened=source.replace("v>=0 and v<=255","true");
+ assert.notEqual(weakened,source);
+ assert.throws(()=>assertFrozenSapphireUI(weakened),/exact reviewed mock migration/);
 });

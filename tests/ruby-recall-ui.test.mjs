@@ -14,6 +14,8 @@ function assertFrozenRecall(source) {
   assert(source.startsWith(loader));assert.equal(source.split(loader).length,2);
   let original=source.slice(loader.length);
   for(const [current,before] of [
+    ["    end,{cursorEvents=events,imageSource='static',color=function(r,g,b,a)\n        for _,v in ipairs({r,g,b,a})do assert(type(v)=='number' and v>=0 and v<=255,'native colour channel')end\n        assert(type(r)=='number' and type(g)=='number' and type(b)=='number' and type(a)=='number','native colour channels');return{r=r,g=g,b=b,a=a}\n    end})\n",
+      "    end,{cursorEvents=events,imageSource='static'})\n"],
     ['    function c:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);\n',
       "    function c:SetSizeDelta(width,height)\n        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)\n"],
     ['    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn);assert(not self.listeners[event]);self.listeners[event]=fn end\n',
@@ -77,6 +79,9 @@ test('Recall frozen-body protection still rejects a deleted scenario or gameplay
   const assertion="    assert(get('notice').text=='篝火旁，旅行者稍作停留 · 休息或锻造，只能选一项')\n";
   assert.equal(source.split(assertion).length,2);
   assert.throws(()=>assertFrozenRecall(source.replace(assertion,'')),/frozen Recall body hash/);
+ const weakened=source.replace("v>=0 and v<=255","true");
+ assert.notEqual(weakened,source);
+ assert.throws(()=>assertFrozenRecall(weakened),/exact reviewed mock migration/);
 });
 
 test('real NodeUI pointer ownership and public Recall command preserve complete run/map/RNG parity',()=>{
