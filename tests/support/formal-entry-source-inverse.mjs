@@ -1,4 +1,5 @@
 import {preCurrentSource} from '../helpers/task77-current-source-layers.mjs';
+import {preIntegratedUiSource} from '../helpers/presentation-current-ui-inverse.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -11,7 +12,7 @@ export const formalEntryInverses = JSON.parse(bytes).files;
 // These exact launch-step changes affect historical source-identity proofs. The live
 // trace separately checks every current write and conserves all 79475 old rows.
 export function preFormalEntrySource(path, source) {
-  const text = preCurrentSource(path,source);
+  const text = preIntegratedUiSource(path,preCurrentSource(path,source));
   let binding = formalEntryInverses[path];
   // Compose the same immutable launch hunks with the two reviewed relic glyphs.
   // Their ten inserted lines precede every launch hunk. Both complete identities

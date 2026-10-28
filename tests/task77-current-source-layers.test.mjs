@@ -6,8 +6,9 @@ import {currentSourceLayers as layers,preCurrentSource} from './helpers/task77-c
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 import {controlsGuide} from '../scripts/controls-guide-layout.mjs';
+import {beforeUiHealthRepair} from './helpers/presentation-current-ui-inverse.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
-const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const read=path=>beforeUiHealthRepair(path,readFileSync(path,'utf8'));
 function invert(source,binding){
  assert.equal(hash(source),binding.afterSha256);
  for(const edit of binding.edits){assert.equal(source.split(edit.after).length,2);source=source.replace(edit.after,edit.before);}

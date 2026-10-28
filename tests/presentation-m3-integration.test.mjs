@@ -8,9 +8,11 @@ import {integration as proof,acceptedPresentationSource,digest} from './helpers/
 
 import {retirementSources,preRetirementSource,archivedRetirementChangelog} from './helpers/presentation-announcement-retirement.mjs';
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
+import {integratedUiSources,preIntegratedUiSource} from './helpers/presentation-current-ui-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
-const theme=JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));
+// This proof describes the earlier PR256/268 visual delta, not today's layout.
+const theme=JSON.parse(retirementSources.beforeSources['data/presentation/ui_theme.json']);
 const rgba=hex=>`{a=255,b=${parseInt(hex.slice(5,7),16)},g=${parseInt(hex.slice(3,5),16)},r=${parseInt(hex.slice(1,3),16)}}`;
 const row=source=>{
   const match=/^\{1=string:([^,]+),2=string:([^,]+),3=(.*)\}$/.exec(source);
@@ -137,8 +139,10 @@ for(const [count,hash,sources]of [
     // No downloads, Git history dependency, shared outputs or weakened deadline.
     for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
+    for(const path of Object.keys(integratedUiSources.files))
+      writeFileSync(join(directory,path),preIntegratedUiSource(path,readFileSync(path,'utf8')));
     for(const path of Object.keys(formalEntryInverses))
-      writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
+      writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(join(directory,path),'utf8')));
     for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
     writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
