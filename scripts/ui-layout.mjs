@@ -41,6 +41,10 @@ function unit(name, position, portrait, player = false) {
   return { name, kind: 'container', position, size: [bw, 236], children: [
     panel('border', 0, 0, portrait + s.border * 2, portrait + s.border * 2, player ? c.goldDim : c.line),
     panel('plate', 0, 0, portrait, portrait, c.panelRaised),
+    ...[-1, 1].flatMap(x => [-1, 1].flatMap(y => [
+      { ...panel(`targetH${x}_${y}`, x * portrait / 2, y * portrait / 2, 20, 3, c.goldBright), visible: false },
+      { ...panel(`targetV${x}_${y}`, x * portrait / 2, y * portrait / 2, 3, 20, c.goldBright), visible: false },
+    ])),
     picture('portrait', 0, 0, portrait - s.l, portrait - s.l, theme.icon.player, c.geo),
     text('name', 0, -portrait / 2 - s.m, bw, l.nativeText.lineHeight, player ? '旅行者' : '', f.label, c.gold),
     panel('hpBorder', 0, -portrait / 2 - s.xxl - bh / 2, bw + s.border * 2, bh + s.border * 2, c.line),
@@ -48,6 +52,7 @@ function unit(name, position, portrait, player = false) {
     { ...panel('hpGhost', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hpGhost), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     { ...panel('hpFill', 0, -portrait / 2 - s.xxl - bh / 2, bw, bh, c.hp), mask: true, fill: {shape: 'horizontal', from: 'left', amount: 1} },
     text('hp', 0, -portrait / 2 - s.xxl - bh / 2, bw, l.nativeText.lineHeight, '', f.small),
+    {...text('damagePreview',0,0,bw,l.nativeText.lineHeight,'',f.label,c.danger),visible:false},
     // Solid chip beside the bar: icon 102014 is half hollow, so digits on it were unreadable.
     panel('blockEdge', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size + s.border * 2, bb.size + s.border * 2, c.panelSunken),
     panel('blockIcon', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, bb.size, c.block),
@@ -57,9 +62,9 @@ function unit(name, position, portrait, player = false) {
     { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
     { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
     ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
-      // Secondary effect of a mixed move (STS ATTACK_DEBUFF etc.), on the icon's lower-right corner.
-      { ...picture('intentBadge', -s.xl + (l.intent.size - l.intent.badge) / 2, l.intent.offsetY - (l.intent.size - l.intent.badge) / 2,
-        l.intent.badge, l.intent.badge, theme.icon.intent.debuff, c.debuff), visible: false },
+      // Keep the existing secondary path, with full-sized horizontal peers.
+      { ...picture('intentBadge', 0, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.debuff, c.debuff), visible: false },
+      { ...picture('intentExtra', 0, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.buff, c.buff), visible: false },
       // Attack value (or a two-character kind name) reads left to right from the icon.
       aligned(text('intent', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.number)),
       aligned(text('intentLabel', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.label, c.textDim)),
@@ -73,15 +78,20 @@ function unit(name, position, portrait, player = false) {
 // perRow x rows. Lua lays them out per column width; the hit opens the detail panel.
 function statusRow(top) {
   const si = l.statusIcon, pitch = si.size + si.gap, [bw] = l.hpBar.size, height = si.rows * pitch;
-  const chips = [], targets = [];
+  const icons = [], counts = [], frames = [], badges = [], targets = [];
   for (let i = 0; i < si.perRow * si.rows; i++) {
     const x = (i % si.perRow - (si.perRow - 1) / 2) * pitch, y = (si.rows - 1) * pitch / 2 - Math.floor(i / si.perRow) * pitch;
-    chips.push({ ...picture(`icon${i + 1}`, x, y, si.size, si.size, theme.icon.status.strength, c.buff), visible: false },
-      { ...text(`count${i + 1}`, x + si.size / 2, y - si.size / 2 + si.gap, si.size, l.nativeText.lineHeight, '', f.small, c.text), visible: false });
+    frames.push({ ...panel(`edge${i + 1}`, x, y, si.size + s.hairline * 2, si.size + s.hairline * 2, c.gold), visible: false },
+      { ...panel(`body${i + 1}`, x, y, si.size, si.size, c.panelSunken), visible: false });
+    icons.push({ ...picture(`icon${i + 1}`, x, y, si.size, si.size, theme.icon.status.strength, c.text), visible: false });
+    badges.push({ ...picture(`badge${i + 1}`, x, y, si.size, si.size, im.disc, c.panelSunken), visible: false });
+    counts.push({ ...text(`count${i + 1}`, x + si.size / 2, y - si.size / 2 + si.gap, si.size, l.nativeText.lineHeight, '', f.small, c.text), visible: false });
     targets.push({ ...hit(si.minimumTouch, si.minimumTouch), name: `hit${i + 1}`, position: [0, 0], visible: false });
   }
   return { name: 'statusRow', kind: 'container', position: [0, top - (si.rows - 1) * pitch / 2], size: [bw, height],
-    children: [...chips, hit(bw, height), ...targets] };
+    children: [{ name: 'backplates', kind: 'container', size: [bw, height], children: frames }, ...icons,
+      { name: 'countBackplates', kind: 'container', size: [bw, height], children: badges }, ...counts,
+      hit(bw, height), ...targets] };
 }
 
 // One shared detail card. Its full-stage hit swallows the next tap and closes it; the
@@ -172,7 +182,11 @@ export function battleLayout() {
       text('label', 0, -l.cardDrag.playArea[3] / 2 + s.xl, l.cardDrag.playArea[2], l.nativeText.lineHeight, '出牌区域 · 点击出牌', f.body, c.goldBright),
       hit(...l.cardDrag.playArea.slice(2)),
     ] },
-    panel('topBar', 0, y, width, bar.height, c.panelSunken),
+    {name: 'topBar', kind: 'container', position: [0,y], size: [width,bar.height], children: [
+      panel('steel',0,0,width,bar.height,c.panelSunken),
+      panel('edge',0,-bar.height/2,width-80,1,c.goldDim),
+      panel('leftRule',-156,0,32,1,c.gold), panel('rightRule',156,0,32,1,c.gold),
+    ]},
     // Post-battle card pick: a framed stage that separates reward choosing from playing the hand.
     { name: 'rewardStage', kind: 'container', position: l.rewardPick.stage.slice(0, 2), size: l.rewardPick.stage.slice(2), visible: false, children: [
       panel('border', 0, 0, ...l.rewardPick.stage.slice(2), c.goldDim),
@@ -201,7 +215,11 @@ export function battleLayout() {
     // Outline ring + flat amber face; the Geo mark is a faint watermark so the digits stay clean.
     picture('energyRing', ...l.energy.position, l.energy.size + s.s, l.energy.size + s.s, im.disc, c.geoDeep),
     picture('energyDisc', ...l.energy.position, l.energy.size, l.energy.size, im.disc, c.energy),
-    picture('energyIcon', ...l.energy.position, l.energy.size - s.xxl, l.energy.size - s.xxl, theme.icon.energy.id, c.geo),
+    {name:'energyIcon',kind:'container',position:l.energy.position,size:[l.energy.size,l.energy.size],children:[
+      picture('core',0,0,l.energy.size-20,l.energy.size-20,im.diamond,c.geoDeep),
+      picture('facet',-8,10,28,38,im.diamond,c.goldBright),
+      picture('spark',18,-12,20,30,im.diamond,c.geo),
+    ]},
     text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', f.numberLarge, c.textOnLight),
     ...pile('draw', theme.icon.drawPile, l.drawPile.position, '抽牌堆', 1),
     ...pile('discard', theme.icon.discardPile, l.discardPile.position, '弃牌堆', -1),
@@ -218,6 +236,11 @@ export function battleLayout() {
     else { potion.visible = false; potionHelp.push(potion); }
     const help = button(`potionHelp${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i + l.battlePotions.helpOffset[axis]),
       l.battlePotions.helpSize, '说明', false, f.small);
+    for(const state of help.children) {
+      state.children[0].image=im.disc;
+      state.children[1].image=im.disc;
+      state.children.push(picture('bottle',0,0,28,28,theme.icon.potion.fire_potion,c.goldBright));
+    }
     for (const state of help.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.helpSize[0] - s.s, l.nativeText.lineHeight];
     if (i >= 3) help.visible = false;
     potionHelp.push(help);
@@ -234,13 +257,18 @@ export function battleLayout() {
   potionHelp.push(emerald);
   potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
-  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * 110, l.enemyRow.y], l.enemyRow.portrait));
+  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * (l.enemyRow.xTo-l.enemyRow.xFrom)/4, l.enemyRow.y], l.enemyRow.portrait));
   for (let i = 1; i <= 10; i++) {
     const [w, h] = l.card.size;
     controls.push({ name: `card${i}`, kind: 'container', size: [w, h], ...handPose(10, i - 1),
       children: cardFaceChildren(theme, 'battle') });
   }
-  controls.push(button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合'),
+  const turnButton=button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合');
+  for(const state of turnButton.children) {
+    state.children.push(picture('blade',-l.endTurn.size[0]/2+18,0,14,44,im.diamond,c.goldBright),
+      panel('hilt',-l.endTurn.size[0]/2+18,-10,26,3,c.gold));
+  }
+  controls.push(turnButton,
     button('start', [0, -96], l.button.primary, '启程', true),
     button('continue', l.battleRewards.continue.slice(0, 2), l.battleRewards.continue.slice(2), '前往地图', true),
     panel('resultPlate', 0, 80, 800, 130, c.panelSunken),

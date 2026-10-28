@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_run_potion_candidate": "core",
     "abyss_nest_event": "core",
     "abyss_mushrooms_event": "core",
     "abyss_player_revive": "core",
@@ -218,6 +219,7 @@
     "abyss_node_ui_reward_detail": "ui",
     "abyss_character_select": "ui",
     "abyss_character_select_view": "ui",
+    "abyss_battle_damage_view": "ui",
     "abyss_card_skin": "ui"
   },
   "dynamicExceptions": [],

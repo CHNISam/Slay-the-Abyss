@@ -1,16 +1,41 @@
 import { readdirSync } from 'node:fs';
-import { join } from 'node:path';
-import { spawnSync } from 'node:child_process';
+import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { execFile } from 'node:child_process';
 
-function check(directory) {
-  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+function files(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
     const path = join(directory, entry.name);
-    if (entry.isDirectory()) check(path);
-    else if (/\.[cm]?js$/.test(entry.name)) {
-      const result = spawnSync(process.execPath, ['--check', path], { encoding: 'utf8', timeout: 10000 });
-      if (result.status !== 0) throw new Error(result.stderr || result.error?.message || `Syntax check failed: ${path}`);
+    return entry.isDirectory() ? files(path) : /\.[cm]?js$/.test(entry.name) ? [path] : [];
+  });
+}
+
+export async function checkSyntax(directories = ['scripts', 'tests'], run = execFile) {
+  const paths = directories.flatMap(files), errors = [];
+  let next = 0;
+  async function consume() {
+    while (next < paths.length) {
+      const path = paths[next++];
+      try {
+        await new Promise((resolve, reject) => {
+          run(process.execPath, ['--check', path], { encoding: 'utf8', timeout: 10000, windowsHide: true },
+            (error, stdout, stderr) => error ? reject(new Error(stderr || error.message)) : resolve());
+        });
+      } catch (error) { errors.push(new Error(`${path}: ${error.message}`)); }
     }
   }
+  // Parsing does not execute modules or touch generated files. Keep at most
+  // two independent Node parsers active, each with its original 10s deadline.
+  await Promise.all([consume(), consume()]);
+  if (errors.length) throw new AggregateError(errors, 'JavaScript syntax checks failed');
 }
-for (const directory of ['scripts', 'tests']) check(directory);
-console.log('JavaScript syntax checks passed.');
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  try {
+    await checkSyntax();
+    console.log('JavaScript syntax checks passed.');
+  } catch (error) {
+    console.error((error.errors ?? [error]).map(item => item.message).join('\n'));
+    process.exitCode = 1;
+  }
+}

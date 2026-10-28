@@ -8,9 +8,16 @@ local function selected(box,value)
 end
 function M.render(panel,state,platform)
     local info=state.info
-    panel:GetChild('hint').text=info and '查看初始信息，确认后开始冒险。' or '请选择一位同行者。'
+    panel:GetChild('hint').text=info and '查看初始信息，确认后开始冒险。' or '点击下方角色查看详情，再确认出发。'
     for i,id in ipairs(Select.characters)do selected(panel:GetChild(i==5 and 'traveler' or 'character'..i),state.character==id)end
     local traveler=state.character=='traveler'
+    -- Theme layers are prebuilt per character/element; only visibility changes.
+    local theme=traveler and state.element or state.character
+    for _,layer in ipairs({'themes','accents'})do
+        local group=panel:GetChild(layer)
+        for _,id in ipairs(Select.characters)do if id~='traveler' then group:GetChild(id):SetVisible(id==theme)end end
+        for _,id in ipairs(Select.elements)do group:GetChild(id):SetVisible(id==theme)end
+    end
     panel:GetChild('elements'):SetVisible(traveler)
     for i,id in ipairs(Select.elements)do selected(panel:GetChild('elements'):GetChild('element'..i),state.element==id)end
     local details=panel:GetChild('details');details:SetVisible(info~=nil)

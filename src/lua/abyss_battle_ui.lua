@@ -9,6 +9,7 @@ local Feedback = require("abyss_feedback")
 local CardView = require("abyss_battle_card_view")
 local CardInput = require("abyss_card_input")
 local EnemyView = require('abyss_battle_enemy_view')
+local DamageView = require('abyss_battle_damage_view')
 local StatusView = require("abyss_battle_status_view")
 local PotionView = require("abyss_battle_potion_view")
 local IntentView = require("abyss_battle_intent_view")
@@ -202,17 +203,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
-        local xFrom = count <= (L.enemyRow.fewCount or 0) and L.enemyRow.xFromFew or L.enemyRow.xFrom
-        local step = count > 1 and (L.enemyRow.xTo-xFrom)/(count-1) or 0
-        local badge = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2)
-        local full = L.hpBar.size[1] + badge + L.blockBadge.gap
-        local x = count == 1 and (xFrom+L.enemyRow.xTo)/2 or xFrom+(i-1)*step
-        local right = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x
-        local playerRight = L.player.position[1] + L.hpBar.size[1] / 2
-        local width = math.min(full, count > 1 and step-S.s or full,
-            2 * (right - x) - S.s, 2 * (x - playerRight - S.s) - S.s)
-        local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
-        return x, width, portrait, step
+        return EnemyView.position(count, i, enemy)
     end
     local function enemyPosition(battle,index)
         local entry,slot,count=EnemyView.find(battle,index,self.busy and battle==self.displayBattle and self.feedback or nil)
@@ -242,7 +233,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local x, _, portrait, step = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
             if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
-                and math.abs(g.y-L.enemyRow.y) <= portrait/2+D.reticlePad
+                and math.abs(g.y-EnemyView.rowY(count,i)) <= portrait/2+D.reticlePad
                 and Actors.isActive(enemy) then
                 hovered = entry.index; break
             end
@@ -674,7 +665,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))
         local charged = battle and battle.energy > 0
         tint(child("energyDisc"), charged and C.energy or C.energyEmpty)
-        tint(child("energyIcon"), charged and C.geo or C.geoDeep)
+        tint(child("energyIcon"):GetChild('core'), charged and C.geoDeep or C.energyEmpty)
         ink(child("energy"), charged and C.textOnLight or C.text)
     end
     local function renderPilesAndTurn(frame)
@@ -729,33 +720,40 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         return face
     end
     local function renderEnemyIntent(box, face, portrait)
-        local kind, badge = face.kind, face.badge
-        local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xxl)
-        local valueX = -S.xl + L.intent.size / 2 + S.xs + L.intent.valueWidth / 2
-        box:GetChild("intent").text = face.value
-        box:GetChild("intent"):SetAnchoredPosition(valueX, iconY)
-        local caption = box:GetChild("intentLabel")
-        caption.text = face.label or ""
-        caption:SetAnchoredPosition(valueX, iconY)
-        ink(caption, intentColors[kind] or C.textDim)
-        box:GetChild("intentIcon"):SetAnchoredPosition(-S.xl, iconY)
-        box:GetChild("intentHit"):SetAnchoredPosition(0, iconY)
-        picture(box:GetChild("intentIcon"), Theme.icon.intent[kind] or Theme.icon.intent.unknown)
-        tint(box:GetChild("intentIcon"), intentColors[kind] or C.textDim)
-        local badgeIcon = box:GetChild("intentBadge")
-        local inset = (L.intent.size - L.intent.badge) / 2
-        badgeIcon:SetAnchoredPosition(-S.xl + inset, iconY - inset)
-        badgeIcon:SetVisible(badge ~= nil)
-        if badge then
-            picture(badgeIcon, Theme.icon.intent[badge])
-            tint(badgeIcon, intentColors[badge])
+        local icons = IntentView.icons(face)
+        local size, line = L.intent.size, L.nativeText.lineHeight
+        local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xs + line + size / 2)
+        local pitch = size * 1.5
+        for i, name in ipairs({'intentIcon','intentBadge','intentExtra'}) do
+            local control, kind = box:GetChild(name), icons[i]
+            control:SetVisible(kind ~= nil)
+            control:SetSizeDelta(size, size)
+            control:SetAnchoredPosition((i - (#icons + 1) / 2) * pitch, iconY)
+            if kind then
+                picture(control, Theme.icon.intent[kind] or Theme.icon.intent.unknown)
+                tint(control, intentColors[kind] or C.goldDim)
+            end
         end
+        local attackLabel = box:GetChild('intent')
+        attackLabel.text = face.value or ''
+        attackLabel:SetVisible(icons[1] == 'attack' and attackLabel.text ~= '')
+        attackLabel:SetAnchoredPosition((1 - (#icons + 1) / 2) * pitch + (L.intent.valueWidth - size) / 2,
+            iconY - size / 2 - line / 2)
+        ink(attackLabel, C.text)
+        box:GetChild('intentLabel'):SetVisible(false)
+        box:GetChild('intentHit'):SetAnchoredPosition(0, iconY - line / 2)
+        box:GetChild('intentHit'):SetSizeDelta(#icons * pitch - size / 2, size + line)
     end
     local function renderEnemies(frame)
         local rows=frame.fighting and EnemyView.slots(frame.battle,self.busy and self.feedback or nil) or {}
         self.feedback.enemyRows=rows
         local count = #rows
         local pendingTarget = pendingCardTarget(frame)
+        local aimed=self.gesture or self.carry
+        local valid,target=false,nil
+        if aimed and aimed.moving then valid,target=dragTarget(aimed) end
+        local losses
+        if valid then losses=DamageView.preview(frame.battle,aimed.uid,target) end
         for i = 1, 5 do
             local box = child("enemy" .. i)
             local entry=rows[i]
@@ -764,11 +762,22 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             box:SetVisible(enemy~=nil)
             if enemy then
                 local x, width, portrait = enemySlot(count, i, enemy)
-                box:SetAnchoredPosition(x, L.enemyRow.y)
+                box:SetAnchoredPosition(x, EnemyView.rowY(count,i))
                 local selected = enemyHighlighted(frame, enemy, entry.index, pendingTarget)
+                local loss=losses and losses[entry.index]
+                if valid and not target and loss and loss.loss>0 then selected=true end
                 local icon=Theme.icon.enemy[enemy.definitionId] or Theme.icon.node[enemy.tier=='normal' and 'combat' or enemy.tier]
                 unit(box, enemy, portrait, icon, width, selected)
-                renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
+                local dim=(pendingTarget or self.potionAim~=nil) and not selected
+                local portraitTone=C.text
+                tint(box:GetChild('portrait'),{r=portraitTone.r,g=portraitTone.g,b=portraitTone.b,a=dim and 102 or 255})
+                local preview=box:GetChild('damagePreview')
+                preview:SetVisible(loss~=nil and loss.loss>0)
+                preview:SetAnchoredPosition(0,-portrait/2-S.xxl+L.nativeText.lineHeight)
+                preview:SetSizeDelta(width,L.nativeText.lineHeight)
+                preview.text=loss and loss.loss>0 and (loss.hp<=0 and '击杀' or '−'..number(loss.loss)) or ''
+                if loss and loss.loss>0 then box:GetChild('hpFill').fillAmount=math.max(0,loss.hp/enemy.maxHp) end
+                renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait,count>3)
             end
         end
     end
@@ -813,7 +822,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             button("potion" .. i, visible and frame.active and item and item.canUse, false,
                 item and potionText(item, frame.battle) or "空药水槽")
             show("potionHelp" .. i, visible)
-            button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "说明")
+            button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "")
+            for _,state in ipairs({'normal','hover','pressed','disabled'}) do
+                local bottle=child('potionHelp'..i):GetChild(state):GetChild('bottle')
+                bottle:SetVisible(item~=nil)
+                if item then picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown) end
+            end
         end
     end
     function self:render(presentationOnly)
@@ -1120,7 +1134,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     -- An open detail panel owns the next pointer sequence: its Down closes the panel and
     -- the matching Click is swallowed, so no card, target or button acts underneath it.
+    local function retireInterruptedPress(event)
+        local g = self.gesture
+        if not g or g.touch ~= (event and event.touchId) then return false end
+        -- Another Down from the same pointer starts a new physical sequence.
+        -- Its previous Up may have been lost outside the native hit surface.
+        -- A different touch must never steal a live drag.
+        g.input.held, g.input.released = nil, nil
+        self.gesture, self.carry, self.selected = nil, nil, nil
+        self.hover, self.handHover, self.help = nil, nil, nil
+        self.suppressClick = true
+        if g.moving then cardView.renderDrag() end
+        return true
+    end
     local function down(event)
+        retireInterruptedPress(event)
         pointerObserved = true
         self.help=nil
         if not self.gesture then self.suppressClick = false end
@@ -1499,6 +1527,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if self.dragEnabled then
                 hit:AddCursorEventListener(cursor.CursorDown,function(event)
                     pointerObserved = true
+                    retireInterruptedPress(event)
                     if self.gesture then return end
                     local dismissed = down(event)
                     input.held, input.released = nil, nil
@@ -1519,6 +1548,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local layer = child("dragLayer")
             layer.disableCursorEventPassthrough = true
             local hit = layer:GetChild("hit")
+            -- Do not replay this press onto whatever was under the old drag.
+            -- Retire its capture only; a subsequent deliberate click owns input.
+            hit:AddCursorEventListener(cursor.CursorDown,retireInterruptedPress)
             hit:AddCursorEventListener(cursor.CursorDrag,move)
             hit:AddCursorEventListener(cursor.CursorUp,release)
             hit:AddCursorEventListener(cursor.CursorEndDrag,function(event) release(event,nil,true) end)

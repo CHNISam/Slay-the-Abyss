@@ -1,5 +1,4 @@
 import {preFormalEntrySource} from '../support/formal-entry-source-inverse.mjs';
-import {beforeCardSkin} from './card-skin-migration.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -12,25 +11,24 @@ export const retirementSources=JSON.parse(gunzipSync(bytes));
 assert.equal(retirementSources.base,'b9d071e5dd8a8ebb1c5d71b4f0b5671b30a44527');
 assert.equal(retirementSources.head,'d7fa6f219a1461cf2b461f03724fb00da79e621f');
 
-// The retired announcement replay consumes its immutable historical player copy,
-// not today's official-log draft. Live version/publication checks still read the
-// repository CHANGELOG; preRetirementSource keeps every supplied drift guard.
-export function archivedRetirementChangelog(source=retirementSources.beforeSources['CHANGELOG.md']){
- assert.equal(typeof source,'string','archived retirement CHANGELOG exists');
- const normalized=source.replaceAll('\r\n','\n');
- assert.equal(digest(normalized),'c906c8ea3cad9b9c282d89c332cbedab3cdee4279220547b5abea800456e57a5',
-  'unreviewed archived retirement source drift: CHANGELOG.md');
- return normalized;
-}
-
 // Test-only historical replay. Deleted controls never return to the live build.
 // Complete identities are checked before projection; this is not a wildcard
 // that can hide future changes in the old source or current interaction guards.
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
- let normalized=source===null?null:source.replaceAll('\r\n','\n');
- if(path==='data/presentation/ui_theme.json')assert.equal(digest(normalized),'f88fac509e27f23db8e7f65c50236377fd7c230356695987e51f93881f6ec128',
-  'unreviewed integrated retirement source drift: '+path+' (complete frozen Mushrooms/Molten theme identity and mapping positions)');
- if(normalized!==null)normalized=preFormalEntrySource(path,normalized);
+ let normalized=source===null?null:preFormalEntrySource(path,source);
+ if(path==='data/presentation/ui_theme.json'){
+  assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','unreviewed integrated retirement source drift: '+path+' (complete frozen Mushrooms/Molten theme identity and mapping positions)');
+  // Exact new glyph inverse; the complete accepted hash below still binds
+  // every old byte and prevents unrelated deletions, edits or reordered fields.
+  const molten=",\n      \"molten_egg\": {\n        \"id\": 102031,\n        \"placeholder\": true,\n        \"note\": \"暂沿用现有遗物图标；专属美术与设备验收待完成。\"\n      }";
+  assert.equal(normalized?.split(molten).length,2,'one exact Molten Egg placeholder');
+  normalized=normalized.replace(molten,'');
+  const mushroom="      \"odd_mushroom\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n";
+  const relic='    \"relic\": {\n',at=normalized.indexOf(relic)+relic.length;
+  assert.equal(normalized.split(relic).length,2,'one relic mapping container');
+  assert.equal(normalized.slice(at,at+mushroom.length),mushroom,'exact Mushroom insertion position');
+  normalized=normalized.slice(0,at)+normalized.slice(at+mushroom.length);
+ }
  if(path==='data/relics.json'){
   // The old theme replay must use its complete contemporaneous relic input,
   // not today's expanded catalogue or a runtime filter that could hide drift.
@@ -43,7 +41,6 @@ export function preRetirementSource(path,source=existsSync(path)?readFileSync(pa
   assert.deepEqual({...expanded,relics:expanded.relics.filter(relic=>!added.has(relic.id))},old,'every prior relic and its order retained');
   return before;
  }
- normalized=beforeCardSkin(path,normalized);
  if(!Object.hasOwn(retirementSources.beforeSources,path))return normalized;
  if(path==='src/lua/abyss_ui.lua'){
   // Historical replay only. The separate live OnStart fixture owns campaign

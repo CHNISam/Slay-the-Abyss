@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv';
 import { resolve, dirname, join } from 'node:path';
@@ -18,13 +18,24 @@ export function approvedDesignDigest(root=resolve('docs/design')) {
   const files=['UI_DESIGN.md'];
   function walk(dir){for(const entry of readdirSync(join(root,dir),{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){const path=`${dir}/${entry.name}`;if(entry.isDirectory())walk(path);else files.push(path);}}
   walk('prototype');walk('screens');
+  // The current canvas supersedes PR19 on the screens it specifies. Retired
+  // PatchNotes remains historical source and must never certify the product.
+  if (existsSync(join(root, 'ui-canvas'))) {
+    for (const entry of readdirSync(join(root, 'ui-canvas')).sort()) {
+      if (entry !== 'PatchNotes.dc.html' && /\.(html|json|md)$/.test(entry)) files.push(`ui-canvas/${entry}`);
+    }
+  }
   return sha256(JSON.stringify(files.sort().map(path=>({path,sha256:fileRecord(join(root,path),root).sha256}))));
 }
 
 // Critical information/actions from the approved PR19 specification. Decoration
 // and animations may remain in the parity ledger; missing HP may not.
 export const criticalUiChecks = {
-  menu: ['start', 'instructions'], map: ['route', 'currentFloor', 'reachableNodes', 'gold', 'hpAndMaxHp'],
+  menu: ['start', 'instructions'],
+  character: ['selection', 'initialStats', 'initialDeck', 'confirm', 'back'],
+  potions: ['effect', 'target', 'cancelWithoutConsumption', 'discard'],
+  exit: ['discoverable', 'blocksUnderlyingInput', 'cancelPreservesRun', 'platformSettlement'],
+  map: ['route', 'currentFloor', 'reachableNodes', 'gold', 'hpAndMaxHp'],
   battle: ['actorHpAndMaxHp', 'block', 'energy', 'intent', 'cardText', 'enemyAction'],
   rewards: ['gold', 'cardAddedOrSkipped', 'returnToMap'],
   cardChoice: ['readableChoices', 'clearSelection'],
@@ -34,6 +45,11 @@ export const criticalUiChecks = {
   result: ['outcome', 'statistics', 'restart', 'platformSettlement'],
   deck: ['ownedCards', 'upgrades', 'close'],
 };
+
+// Every screen is reviewed at the native base resolution on both input surfaces.
+// These are human evidence checks, not conclusions from web screenshots.
+for (const checks of Object.values(criticalUiChecks)) checks.push(
+  'native1280x720', 'pcSafeArea', 'mobileSafeArea', 'fontAndLayers', 'input', 'capacityAndPerformance');
 
 export function reviewUiAcceptance(manifest, expected, {evidenceRoot=process.cwd(),baselineRoot=resolve('docs/design')}={}) {
   const errors = [];

@@ -157,7 +157,6 @@ test('strict recorder checks every nested write once and rejects missing changed
   const result=runLua(path);assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/STRICT_TRACE_GUARD_PASS/);
  }finally{rmSync(directory,{recursive:true,force:true});}
 });
-
 test('formal entry retains all integrated front-end writes and rejects unreviewed rows',()=>{
  const rows=formalExpected(),before=verifyCombinedRetirement(integration.after.filter(row=>!retired(row)));
  const inserted=new Set(entryProof.insertions.map(row=>row.at));

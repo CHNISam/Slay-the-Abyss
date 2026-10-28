@@ -17,6 +17,7 @@ local RelicRewards=require('abyss_relic_rewards')
 local EventCombat=require('abyss_event_combat')
 local EmeraldRewards=require('abyss_emerald_rewards')
 local RelicHooks = require('abyss_relic_hooks')
+local PotionCandidate=require('abyss_run_potion_candidate')
 local Acts = require('abyss_acts')
 local M = {}
 local preparedCharacters={ironclad=true,silent=true,defect=true,watcher=true}
@@ -1146,12 +1147,7 @@ function M.obtainPotion(run, id)
     return false, "potion_slots_full"
 end
 
-local function potionEventRestricted(run)
-    local event=run.nodeFlow and run.nodeFlow.event
-    local legacy=not run.nodeFlow and run.node
-    return event and (event.id=='we_meet_again' or event.id=='WeMeetAgain' or event.originalId=='WeMeetAgain')
-        or legacy and (legacy.eventId=='WeMeetAgain' or legacy.sourceEventId=='WeMeetAgain') or false
-end
+local potionEventRestricted=PotionCandidate.eventRestricted
 -- Discard never executes a potion effect and does not require a player turn.
 function M.discardPotion(run, slot)
     if run.phase=='combat'and run.combat and run.combat.pendingPotionChoice then return false,'potion_choice_pending'end
@@ -1171,78 +1167,7 @@ function M.discardPotion(run, slot)
 end
 
 local function potionCandidate(run, slot, targetIndex, afterPotionActions)
-    if potionEventRestricted(run)then return nil,'potion_event_restricted' end
-    if run.phase ~= 'combat' and run.potions[slot]~='blood_potion' and run.potions[slot]~='fruit_juice' and run.potions[slot]~='entropic_brew' then return nil,'not_in_combat' end
-    if run.phase == 'combat' then
-        if not run.combat or run.combat.phase ~= 'player' then return nil,'not_player_turn' end
-        if run.combat.pendingChoice or run.combat.cardActions or run.combat.pendingPotionChoice then return nil,'card_choice_pending' end
-        if run.combat.pendingDiscard then return nil, 'unsupported_potion_during_discard' end
-        if run.combat.pendingScry or run.combat.pendingPlay then return nil, 'unsupported_potion_during_selection' end
-    end
-    if type(slot) ~= "number" or slot % 1 ~= 0 or slot < 1 or slot > M.potionCapacity(run) then
-        return nil, "invalid_potion_slot"
-    end
-    local id = run.potions[slot]
-    if not id then return nil, "empty_potion_slot" end
-    local potion = find(run.data.potions.potions, id)
-    if not potion then return nil, "unknown_potion" end
-    if id=='fairy_in_a_bottle' then return nil,'automatic_potion' end
-    local effects=Combat.copy(potion.effects)
-    if RelicHooks.owns(run,'sacred_bark') or RelicHooks.owns(run,'SacredBark') then
-        for _,effect in ipairs(effects)do
-            if effect.value and effect.op~='escape' and effect.op~='generatePotions' and effect.op~='randomizeHandCost' then
-                effect.value=effect.value*2.0
-            end
-        end
-    end
-    if id=='smoke_bomb' and run.combat then
-        for _,enemy in ipairs(run.combat.enemies) do
-            local def=run.combat.catalog.enemies[enemy.definitionId]
-            if def and def.tier=='boss' or (enemy.statuses.back_attack or 0)>0 then return nil,'smoke_not_allowed' end
-        end
-    end
-    local health = id=='blood_potion' or id=='fruit_juice'
-    local outsideAllowed=health or id=='entropic_brew'
-    if run.phase ~= 'combat' then
-        if not outsideAllowed or (run.phase~='map' and run.phase~='node' and run.phase~='reward') then return nil,'not_in_combat' end
-        local candidate={hp=run.hp,maxHp=run.maxHp,outside=true}
-        if id=='entropic_brew' then
-            local called,ids,rng=pcall(require('abyss_potion_generation').prepare,run,false)
-            if not called then return nil,'potion_effect_failed'end
-            candidate.potionInventory=Combat.copy(run.potions);candidate.potionInventory[slot]=nil
-            candidate.potionRandomRng=rng
-            candidate.generatedPotionOffers={}
-            for _,generated in ipairs(ids)do
-                local available=require('abyss_potion_generation').available(run,generated)
-                candidate.generatedPotionOffers[#candidate.generatedPotionOffers+1]={id=generated,unavailable=not available}
-                if available then require('abyss_potion_generation').obtain(candidate.potionInventory,M.potionCapacity(run),generated,false)end
-            end
-        else for _,e in ipairs(effects) do
-            local ok,reason=require('abyss_potion_health').apply(candidate,e.op,e.value,run.relics,false)
-            if not ok then return nil,reason end
-        end end
-        candidate.relics=run.relics
-        RelicHooks.onUsePotion(candidate)
-        return candidate
-    end
-    local candidate = Combat.copy(run.combat)
-    candidate.potionRng=run.shopRng and EventRandom.cloneState(run.shopRng.potion)or EventRandom.fromSeed(run.runSeed)
-    candidate.potionInventory=Combat.copy(run.potions)
-    local called, ok, reason = pcall(function()
-        if potion.targetPolicy=='enemy_one'then Combat.faceTarget(candidate,candidate.enemies[targetIndex])end
-        local applied,why=Inventory.apply(candidate,effects,targetIndex,run,true)
-        if not applied then return false,why end
-        -- Integration point for COMBAT onUsePotion hooks: append their actions
-        -- on the staged battle, after Potion.use and before a single drain.
-        RelicHooks.onUsePotion(run,candidate)
-        candidate.potionInventory[slot]=nil
-        if afterPotionActions then afterPotionActions(candidate) end
-        require('abyss_card_actions').drain(Combat,candidate)
-        return true
-    end)
-    if not called then return nil, "potion_effect_failed" end
-    if not ok then return nil, reason end
-    return candidate
+    return PotionCandidate.prepare(run,slot,targetIndex,afterPotionActions,M.potionCapacity)
 end
 
 function M.usePotion(run, slot, targetIndex, afterPotionActions)

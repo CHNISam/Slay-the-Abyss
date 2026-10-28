@@ -10,21 +10,16 @@ export const formalEntryInverses = JSON.parse(bytes).files;
 // These exact launch-step changes affect historical source-identity proofs. The live
 // trace separately checks every current write and conserves all 79475 old rows.
 export function preFormalEntrySource(path, source) {
-  let text = source.replaceAll('\r\n', '\n');
-  const binding = formalEntryInverses[path];
- if(path==='data/presentation/ui_theme.json' && hash(text)==='f88fac509e27f23db8e7f65c50236377fd7c230356695987e51f93881f6ec128'){
-  // Exact new glyph inverse; the complete accepted hash below still binds
-  // every old byte and prevents unrelated deletions, edits or reordered fields.
-  const molten=",\n      \"molten_egg\": {\n        \"id\": 102031,\n        \"placeholder\": true,\n        \"note\": \"暂沿用现有遗物图标；专属美术与设备验收待完成。\"\n      }";
-  assert.equal(text?.split(molten).length,2,'one exact Molten Egg placeholder');
-  text=text.replace(molten,'');
-  const mushroom="      \"odd_mushroom\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n";
-  const relic='    \"relic\": {\n',at=text.indexOf(relic)+relic.length;
-  assert.equal(text.split(relic).length,2,'one relic mapping container');
-  assert.equal(text.slice(at,at+mushroom.length),mushroom,'exact Mushroom insertion position');
-  text=text.slice(0,at)+text.slice(at+mushroom.length);
- }
-
+  const text = source.replaceAll('\r\n', '\n');
+  let binding = formalEntryInverses[path];
+  // Compose the same immutable launch hunks with the two reviewed relic glyphs.
+  // Their ten inserted lines precede every launch hunk. Both complete identities
+  // bind every glyph byte and position; no field filtering or wildcard inverse.
+  const contentBefore='992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf';
+  const contentAfter='f88fac509e27f23db8e7f65c50236377fd7c230356695987e51f93881f6ec128';
+  if(path==='data/presentation/ui_theme.json' && [contentBefore,contentAfter].includes(hash(text)))
+    binding={...binding,beforeSha256:contentBefore,afterSha256:contentAfter,
+      hunks:binding.hunks.map(hunk=>({...hunk,at:hunk.at+10}))};
   if (!binding || hash(text) === binding.beforeSha256) return text;
   assert.equal(hash(text), binding.afterSha256, `unreviewed integrated retirement source drift: ${path}; formal entry binding`);
   const lines = text.split('\n');
