@@ -36,7 +36,7 @@ function fixture(t, corrupt) {
   const put = (file, text) => { const path = join(root, file); mkdirSync(dirname(path), { recursive: true }); writeFileSync(path, text); return path; };
   const buildId = 'fe4ad995-c98b-4ed1-981a-04abbc4bfad9';
   const sources = { abyss_bgm: 'return {bgm=true}', abyss_game_ui: 'return {view=true}',
-    abyss_ui: `print("ABYSS_BUILD ${buildId}")\n-- exact full-build instrumentation\nreturn {}`, abyss_narrative: 'return {releaseNotes={}}' };
+    abyss_ui: `print("ABYSS_BUILD ${buildId}")\n-- exact full-build instrumentation\nreturn {}`, abyss_narrative: 'return {codeVersion="v0.1.0"}' };
   const moduleDigests = Object.fromEntries(Object.entries(sources).map(([name, source]) => {
     put(`full/payload/${name}.lua`, source); return [name, sha256(source)];
   }));

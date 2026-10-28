@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { loadReleaseNotes, notesSha256, gitSourceIdentity } from '../scripts/release-notes.mjs';
 import { toLua } from '../scripts/build-lua-data.mjs';
+import { sha256 } from '../scripts/evidence-files.mjs';
 
 const script = new URL('../scripts/build-native-candidate.mjs', import.meta.url);
 
@@ -138,14 +139,15 @@ async function releaseFixture(t, stale = false, mutate = () => {}) {
   let root;
   const f=await fixture(t,{prepareGenerated:dir=>{
     const notes=loadReleaseNotes({root,releaseCandidate:true});
-    writeFileSync(join(dir,'abyss_narrative.lua'),stale?'return {}':`return {["releaseNotes"]=${toLua(notes)}}`);
+    writeFileSync(join(dir,'abyss_narrative.lua'),stale ? (stale === 'wrong-version' ? 'return {["codeVersion"]="v0.0.1"}' : 'return {}')
+      : `return {["codeVersion"]=${toLua(notes.build.version)}}`);
     mutate(root);
   }});
   root=f.root;mkdirSync(join(root,'data/release'));
   writeFileSync(join(root,'package.json'),'{"version":"0.1.1"}');
   writeFileSync(join(root,'package-lock.json'),'{"version":"0.1.1","packages":{"":{"version":"0.1.1"}}}');
   writeFileSync(join(root,'.release-please-manifest.json'),'{".":"0.1.1"}');
-  writeFileSync(join(root,'CHANGELOG.md'),'## 0.1.1 (2026-10-27)\n\n### 新增\n\n* 随候选打包的版本说明。\n');
+  writeFileSync(join(root,'CHANGELOG.md'),'## 0.1.1 (2026-10-27)\n\n### 新增\n\n* 与候选绑定的版本说明。\n');
   writeFileSync(join(root,'data/release/publications.json'),'{"schemaVersion":1,"releases":[]}');
   writeFileSync(join(root,'.gitignore'),'output/\n');
   for(const args of [['init','-q'],['add','.'],['-c','user.name=Release Fixture','-c','user.email=fixture@example.invalid','commit','-qm','fixture']]) {
@@ -154,16 +156,19 @@ async function releaseFixture(t, stale = false, mutate = () => {}) {
   return {...f,run:extra=>f.run({sourceCommit:gitSourceIdentity(root).sourceCommit,
     generatedModules:{abyss_narrative:'scripts/build-ui.mjs'},releaseCandidate:true,...extra})};
 }
-test('explicit frozen native candidate packages exact notes and binds version/source/notes hash without publication',async t=>{
+test('explicit frozen native candidate packages exact menu version and binds source/notes hash without publication',async t=>{
   const f=await releaseFixture(t),receipt=await f.run();
   const notes=loadReleaseNotes({root:f.root,releaseCandidate:true});
   assert.deepEqual(receipt.release,{version:'v0.1.1',workKey:'alpha-test',notesSha256:notesSha256(notes.currentNotice)});
   assert.equal(receipt.sourceDirty,false);assert.equal(receipt.sourceCommit,notes.build.sourceCommit);
   assert(receipt.checkedModules.includes('abyss_narrative'));
+  assert.equal(receipt.inputs.find(input=>input.path==='CHANGELOG.md').sha256,
+    sha256(readFileSync(join(f.root,'CHANGELOG.md'))), 'candidate still binds the exact official-log source text');
   assert.deepEqual(JSON.parse(readFileSync(join(f.root,'data/release/publications.json'))).releases,[]);
 });
-test('stale or omitted native narrative cannot claim frozen release provenance',async t=>{
-  const stale=await releaseFixture(t,true);await assert.rejects(stale.run(),/Bundled release notes differ/);
+test('stale, wrong-version or omitted native narrative cannot claim frozen release provenance',async t=>{
+  const stale=await releaseFixture(t,true);await assert.rejects(stale.run(),/Bundled code version differs/);
+  const wrong=await releaseFixture(t,'wrong-version');await assert.rejects(wrong.run(),/Bundled code version differs/);
   const omitted=await releaseFixture(t);await assert.rejects(omitted.run({generatedModules:{}}),/must package.*narrative/);
 });
 test('frozen native candidate rejects dirty source and misleading source SHA',async t=>{
