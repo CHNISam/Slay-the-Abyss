@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>设置</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;family=Noto+Serif+SC:wght@600;900&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1920px; height: 1080px; position: relative; overflow: hidden; background: #0D0708; font-family: 'Noto Sans SC', sans-serif; color: #F3ECDD">
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 1100px 900px at 50% 40%, #4E1A1A 0%, #2A1013 45%, #0D0708 100%)"></div>
+  <div style="position: absolute; inset: 0; background: #050303B3"></div>
+
+  <div style="position: absolute; left: 510px; top: 100px; width: 900px; height: 880px; border-radius: 18px; background: linear-gradient(180deg, #2A201D, #17110F); border: 1px solid #6E5A42; box-shadow: inset 0 0 0 6px #120C0B, inset 0 0 0 7px #4A3C2C, 0 30px 80px #000000C0"></div>
+
+  <div style="position: absolute; left: 580px; top: 168px; width: 760px; display: flex; justify-content: space-between; align-items: center">
+    <div>
+      <div style="display: flex; align-items: center; gap: 12px; font-size: 15px; letter-spacing: 6px; color: #BBAA8C"><span style="width: 32px; height: 1px; background: #E9C77B"></span>菜单</div>
+      <div style="margin-top: 8px; font-family: 'Noto Serif SC', serif; font-size: 48px; font-weight: 900; color: #F6DFA4">设置</div>
+    </div>
+    <div style="width: 48px; height: 48px; border-radius: 50%; background: #1A1312; border: 1px solid #6E5A42; display: grid; place-items: center">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" style="fill: none; stroke: #E9C77B; stroke-width: 2.6; stroke-linecap: round"></path></svg>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 580px; top: 280px; width: 760px; display: flex; flex-direction: column; gap: 22px">
+    <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+      <section>
+        <div style="font-size: 14px; letter-spacing: 4px; color: #9E8C72; padding-bottom: 10px; border-bottom: 1px solid #3E322A">{{g.title}}</div>
+        <sc-for list="{{g.rows}}" as="r" hint-placeholder-count="3">
+          <div style="height: 50px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #241B19">
+            <div><span style="font-size: 19px">{{r.name}}</span><span style="margin-left: 12px; font-size: 14px; color: #6E5A42">{{r.hint}}</span></div>
+            <sc-if value="{{r.slider}}" hint-placeholder-val="{{true}}">
+              <div style="display: flex; align-items: center; gap: 16px">
+                <div style="position: relative; width: 260px; height: 6px; border-radius: 3px; background: #3E322A">
+                  <div style="width: {{r.pct}}; height: 100%; border-radius: 3px; background: linear-gradient(90deg, #8C6A34, #E9C77B)"></div>
+                  <span style="position: absolute; left: {{r.pct}}; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; transform: rotate(45deg); background: #F6DFA4; box-shadow: 0 0 0 3px #17110F, 0 0 10px #E9C77B"></span>
+                </div>
+                <span style="width: 40px; text-align: right; font-size: 17px; font-weight: 700; color: #E9C77B; font-variant-numeric: tabular-nums">{{r.val}}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{r.seg}}" hint-placeholder-val="{{false}}">
+              <div style="display: flex; padding: 3px; border-radius: 20px; background: #120C0B; border: 1px solid #3E322A">
+                <sc-for list="{{r.opts}}" as="o" hint-placeholder-count="3"><span style="{{o.st}}">{{o.t}}</span></sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </section>
+    </sc-for>
+  </div>
+
+  <div style="position: absolute; left: 580px; top: 916px; width: 760px; display: flex; justify-content: space-between; align-items: center">
+    <span style="font-size: 15px; color: #9E8C72; text-decoration: underline; text-underline-offset: 4px">恢复默认</span>
+    <span style="font-size: 14px; color: #6E5A42">改动立即生效</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const seg = (opts, on) => ({ seg: true, opts: opts.map((t, i) => ({ t, st: 'padding: 6px 18px; border-radius: 16px; font-size: 16px; font-weight: 700; ' + (i === on ? 'background: #E9C77B; color: #2A1708' : 'color: #9E8C72') })) });
+    const sl = (v) => ({ slider: true, pct: v + '%', val: String(v) });
+    const groups = [
+      { title: '声音', rows: [{ name: '总音量', hint: '', ...sl(80) }, { name: '音乐', hint: '', ...sl(60) }, { name: '音效', hint: '', ...sl(90) }] },
+      { title: '战斗', rows: [{ name: '动画速度', hint: '', ...seg(['正常', '快', '极快'], 1) }, { name: '结束回合确认', hint: '还有能量时提醒', ...seg(['开', '关'], 0) }, { name: '屏幕震动', hint: '', ...seg(['开', '关'], 0) }] },
+      { title: '显示', rows: [{ name: '伤害数字', hint: '', ...seg(['开', '关'], 0) }, { name: '意图数值说明', hint: '悬停意图时显示算式', ...seg(['开', '关'], 1) }] }
+    ];
+    return { groups };
+  }
+}
+</script>
+</body>
+</html>

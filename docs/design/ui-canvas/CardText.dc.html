@@ -103,8 +103,8 @@ class Component extends DCLogic {
       return { ...c, fs: '16px', op: c.hover ? 0 : 1, pos: 'position: absolute; left: ' + (k * 176 - 103 + push) + 'px; top: ' + (k * k * 8) + 'px; transform: rotate(' + (k * 3.5) + 'deg); transform-origin: 50% 130%' };
     });
     const keys = [
-      { name: '血梅香', desc: '回合结束时受到层数伤害，然后减 1。（释义以卡牌数据为准）' },
-      { name: '兑现', desc: '立刻结算并清空目标身上的该状态。（释义以卡牌数据为准）' }
+      { name: '血梅香', desc: '带强度和剩余次数的持续伤害，每次造成 2×强度。' },
+      { name: '兑现', desc: '立刻造成血梅香剩余伤害（2×强度×剩余次数）并清空，受格挡影响。' }
     ];
     const rules = [
       { title: '牌面永远写全文', body: '不出现「长按查看全文」。效果写不下就改文案，不截断。' },

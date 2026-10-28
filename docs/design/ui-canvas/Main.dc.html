@@ -283,7 +283,7 @@ class Component extends DCLogic {
       sword: { f: 'M21 3 20.4 7.6 10.9 17.1 6.9 13.1 16.4 3.6Z', s: 'M4.6 11.4 12.6 19.4M7.6 16.4 3.4 20.6', rim: '#F0B070', hi: '#FF7A4A', bg: '#B02A16', glow: '#FF4A22' },
       great: { f: 'M22 2 21.4 8.8 11.6 18.6 5.4 12.4 15.2 2.6Z', s: 'M3.4 10.4 13.6 20.6M7.2 16.8 2.6 21.4M3 3.5l2 2M6.5 2l.4 2.6M2 6.5l2.6.4', rim: '#FFD27A', hi: '#FFB040', bg: '#C0240E', glow: '#FF6A10' },
       multi: { f: 'M21 3 20.5 6.8 12 15.3 8.7 12 17.2 3.5Z M3 3 3.5 6.8 12 15.3 15.3 12 6.8 3.5Z', s: 'M7 14.5 3.5 20.5M17 14.5l3.5 6', rim: '#F0B070', hi: '#FF7A4A', bg: '#B02A16', glow: '#FF4A22' },
-      debuff: { f: 'M12 2c3.4 4.8 6.6 8.3 6.6 12a6.6 6.6 0 0 1-13.2 0C5.4 10.3 8.6 6.8 12 2Z', s: 'M12.8 8.4 10.6 12.4 13.6 13.8 11.4 18.4', rim: '#C8B0FF', hi: '#9A7CF0', bg: '#4A2E96', glow: '#8A5CFF' }
+      debuff: { f: '', s: 'M5.5 4.5 12 11l6.5-6.5M5.5 12.5 12 19l6.5-6.5', rim: '#C8B0FF', hi: '#9A7CF0', bg: '#4A2E96', glow: '#8A5CFF' }
     };
     const tier = (v) => (String(v).includes('×') ? 'multi' : +v >= 20 ? 'great' : +v >= 10 ? 'sword' : 'dagger');
     const enemies = raw.map((e, i) => ({
