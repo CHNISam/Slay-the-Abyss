@@ -11,17 +11,18 @@ for count=1,5 do
  host.run.combat=H.F.Combat.new(H.F.Data,{deck={'strike','strike'},enemies=enemies,seed=11})
  host:refresh()
  local battle=host.run.combat
- local xFrom=count<=3 and 32 or -192
- local step=count>1 and (512-xFrom)/(count-1) or 0
+ local xFrom=Theme.layout.enemyRow.xFromFew
+ local step=count>1 and (Theme.layout.enemyRow.xTo-xFrom)/(count-1) or 0
  local origin=panel:GetChild('card1').x
  event('card1','down',7)
  for i=1,count do
   local box=panel:GetChild('enemy'..i)
-  local x=count==1 and (xFrom+512)/2 or xFrom+(i-1)*step
-  assert(box.visible and box.x==x and box.y==64,'visible enemy row changed')
+  local x=count==1 and (xFrom+Theme.layout.enemyRow.xTo)/2 or xFrom+(i-1)*step
+  local y=Theme.layout.enemyRow.y+(count>3 and (i%2==0 and Theme.layout.enemyRow.frontOffset or Theme.layout.enemyRow.backOffset) or 0)
+  assert(box.visible and box.x==x and box.y==y,'visible enemy row changed')
   local renderedX=Enemy.position(count,i,battle.enemies[i])
   assert(renderedX==x,'feedback position differs from visible enemy')
-  event('card1','drag',7,x,64)
+  event('card1','drag',7,x,y)
   local layer=panel:GetChild('dragLayer')
   assert(layer.visible and layer:GetChild('reticle').x==x,'actual target hitbox differs from visual slot')
   assert(ui.gesture.drawnTarget==i,'target identity was replaced by presentation position')

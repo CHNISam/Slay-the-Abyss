@@ -135,6 +135,7 @@ test('exit cancel restores the same mandatory pile choice and blocks underlying 
  local ui,root,s,p=choice(choiceSpecs[3]);assert(click(root,'choicePanel/card1'))
  local unchanged=freeze(s)
  assert(click(root,'exitEntry/open'));eq(ui.exitOpen,true);eq(ui.choiceUI.visible,false)
+ assert(ui.menuOpen);assert(click(root,'runMenu/abandon'));eq(ui.menuOpen,false)
  ui.battleUI:endTurn();eq(ui:openDeck(),false);unchanged()
  assert(click(root,'exitPanel/cancel'));eq(s.pendingPileChoice,p);eq(ui.choiceUI.visible,true);unchanged()
  eq(#ui.choiceUI.selected,0)
@@ -165,7 +166,10 @@ test('an old physical confirmation expires after page changes and exit cancel',f
   assert(tap(root,'choicePanel/card1',1));assert(tap(root,'choicePanel/card2',8))
   pointer(root,'choicePanel/confirm','down',2);pointer(root,'choicePanel/confirm','up',2)
   if mode=='page'then assert(tap(root,'choicePanel/after',3))
-  else assert(click(root,'exitEntry/open'));assert(click(root,'exitPanel/cancel'))end
+  else
+   assert(click(root,'exitEntry/open'));assert(ui.menuOpen);assert(click(root,'runMenu/abandon'));eq(ui.menuOpen,false)
+   assert(click(root,'exitPanel/cancel'))
+  end
   eq(hit(root,'choicePanel/confirm').listeners.click({touchId=2}),false);eq(s.pendingPileChoice,p)
   if #ui.choiceUI.selected==0 then
    assert(tap(root,'choicePanel/card1',4));assert(tap(root,'choicePanel/after',5));assert(tap(root,'choicePanel/card1',6))

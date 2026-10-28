@@ -19,7 +19,7 @@ tap('card1',101);tap('enemy1',102);drain()
 assert(host.run.phase=='combat'and e.hp==0 and e.halfDead)
 assert(panel:GetChild('enemy1').visible)
 assert(panel:GetChild('enemy1'):GetChild('hp').text=='0/300')
-assert(panel:GetChild('enemy1'):GetChild('intentLabel').text=='未知')
+dofile('tests/lua/support/intent_face_assertion.lua')(panel:GetChild('enemy1'),View.intentView(s,1),'未知')
 assert(not ui.feedback.deaths[e.id],'halfDead must not animate a terminal death')
 for _,event in ipairs(ui.feedback.queue or {})do
  assert(not(event.kind=='death'and event.detail.target==e.id),'no first-form death collapse')

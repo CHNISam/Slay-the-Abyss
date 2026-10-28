@@ -401,6 +401,13 @@ test('real generated node layout changes retain actual host Lua regressions and 
   assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
 });
 
+test('the conditional historical replay helper selects its fixture without tainting ordinary Lua wrappers',()=>{
+  const plan=selectTests(['tests/helpers/historical-presentation-runner.mjs'],repositorySources);
+  assert.equal(plan.full,false);
+  assert.ok(plan.lua.includes('tests/lua/presentation_responsibilities_trace.lua'));
+  assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
 
 test('regex assertions are not executable discovery calls', () => {
   const plan = selectTests(['src/lua/abyss_low.lua'], { ...generatedSources,

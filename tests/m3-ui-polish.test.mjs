@@ -20,8 +20,8 @@ test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with
   // PR282 relocates only the existing version geometry and retires notices.
   expected.layout.nativeMenu.codeVersion=expected.layout.releaseNotes.menuVersion;
   delete expected.layout.releaseNotes;
-  expected.icon.relic.molten_egg={id:102031,placeholder:true,note:'暂沿用现有遗物图标；专属美术与设备验收待完成。'};
-  expected.icon.relic.odd_mushroom={id:102028,placeholder:true,note:'奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。'};
+  // This oracle owns the earlier visual batch. Later exact relic additions are
+  // checked by the current native contract rather than injected into old input.
   assert.deepEqual(JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8'))),expected);
 });
 

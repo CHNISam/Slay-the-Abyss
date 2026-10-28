@@ -8,9 +8,11 @@ import {integration as proof,acceptedPresentationSource,digest} from './helpers/
 
 import {retirementSources,preRetirementSource,archivedRetirementChangelog} from './helpers/presentation-announcement-retirement.mjs';
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
+import {materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
-const theme=JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));
+// The delta oracle describes its immutable reviewed sources, not today's layout.
+const theme=JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8')));
 const rgba=hex=>`{a=255,b=${parseInt(hex.slice(5,7),16)},g=${parseInt(hex.slice(3,5),16)},r=${parseInt(hex.slice(1,3),16)}}`;
 const row=source=>{
   const match=/^\{1=string:([^,]+),2=string:([^,]+),3=(.*)\}$/.exec(source);
@@ -137,6 +139,7 @@ for(const [count,hash,sources]of [
     // No downloads, Git history dependency, shared outputs or weakened deadline.
     for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
+    materializeHistoricalPresentation(directory);
     for(const path of Object.keys(formalEntryInverses))
       writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
     for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);

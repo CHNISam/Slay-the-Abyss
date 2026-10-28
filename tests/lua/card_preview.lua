@@ -278,7 +278,7 @@ local function chips(box)
     for i = 1, L.statusIcon.perRow * L.statusIcon.rows do
         local icon, count = row:GetChild("icon" .. i), row:GetChild("count" .. i)
         if count.visible then result[#result + 1] = {icon = icon.visible and icon.imageId or nil, count = count.text,
-            colour = icon.imageColor, x = icon.x, y = icon.y} end
+            colour = icon.imageColor, edge = row:GetChild('backplates'):GetChild('edge'..i).imageColor, x = icon.x, y = icon.y} end
     end
     return result
 end
@@ -304,13 +304,15 @@ test("player and every enemy show status icons, stacks and full current effects"
     ui:render()
     local hero = chips(panel:GetChild("hero"))
     eq(#hero, 2)
-    eq(hero[1].icon, Theme.icon.status.strength) eq(hero[1].count, "2") eq(hero[1].colour.r, Theme.color.buff.r)
-    eq(hero[2].icon, Theme.icon.status.vulnerable) eq(hero[2].count, "1") eq(hero[2].colour.r, Theme.color.debuff.r)
+    eq(hero[1].icon, Theme.icon.status.strength) eq(hero[1].count, "2") eq(hero[1].colour.r, Theme.color.text.r)
+    eq(hero[2].icon, Theme.icon.status.vulnerable) eq(hero[2].count, "1") eq(hero[2].colour.r, Theme.color.text.r)
+    eq(hero[1].edge.r, Theme.color.gold.r) eq(hero[2].edge.r, Theme.color.debuff.r)
     assert(hero[1].y == hero[2].y and hero[2].x - hero[1].x == L.statusIcon.size + L.statusIcon.gap, "one centred row")
     eq(hero[1].x + hero[2].x, 0, "row centred under the bar")
     local second = chips(panel:GetChild("enemy2"))
     eq(second[1].icon, Theme.icon.status.artifact) eq(second[2].count, "-1")
-    eq(second[2].colour.r, Theme.color.debuff.r, "negative Strength reads as a debuff")
+    eq(second[2].colour.r, Theme.color.text.r)
+    eq(second[2].edge.r, Theme.color.debuff.r, "negative Strength reads as a debuff through its border")
     tap({"hero", "hit"})
     local open, rows, box = info(panel)
     assert(open and box:GetChild("title").text == "旅行者")

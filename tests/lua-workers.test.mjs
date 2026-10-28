@@ -111,6 +111,7 @@ test('all observed hosted timeout fixtures retain exclusive execution under the 
     'silent_natural_build', 'silent_final_sources', 'shockwave_group', 'act2_intent_ui',
     'battle_ui_potion_target_failures', 'card_pool', 'unknown_event_routing',
     'battle_ui_potion_target_pointers', 'unknown_event_routing_upper', 'game_ui_class_choices',
+    'battle_ui_card_play', 'battle_ui_card_play_slice_2', 'battle_ui_card_play_slice_3',
   ].map(name => `tests/lua/${name}.lua`);
   const result = await runLuaWorkers([...timedOut, 'pair-a', 'pair-b'], { cli: f.cli, cwd: f.root,
     weights: { ...timings.lua, 'pair-a': 400, 'pair-b': 300 }, onOutput: () => {} });

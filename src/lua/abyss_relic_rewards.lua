@@ -19,12 +19,18 @@ function M.sourceId(run,id)
  return entry and (entry.sourceId or legacy[entry.id] or entry.id) or legacy[id] or id
 end
 function M.context(run,options)
- options=options or {};local owned,deck={},{}
+ options=options or {};local owned,deck,definitions={},{},nil
  for _,id in ipairs(run.relics)do owned[#owned+1]=M.sourceId(run,id)end
  for _,card in ipairs(run.deck)do
-  for _,entry in ipairs(run.data.cards.cards)do
-   if entry.id==card.cardId then deck[#deck+1]={type=entry.type:upper(),rarity=entry.rarity:upper()};break end
+  if not definitions then
+   definitions={}
+   for _,entry in ipairs(run.data.cards.cards)do
+    local id=entry.id
+    if id~=nil and id==id and not definitions[id]then definitions[id]=entry end
+   end
   end
+  local entry=definitions[card.cardId]
+  if entry then deck[#deck+1]={type=entry.type:upper(),rarity=entry.rarity:upper()}end
  end
  return {act=run.act or 1,floor=options.floor or run.floor,room=options.room or 'monster',
   owned=owned,deck=deck,endless=false}

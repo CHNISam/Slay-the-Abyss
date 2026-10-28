@@ -18,7 +18,9 @@ local originalPrint, recovered = print, false
 print=function(...) local s=tostring(select(1,...));if s:find('ABYSS_FEEDBACK recovered',1,true)then recovered=true end;originalPrint(...)end
 local host,ui,panel,emit,tap,drain=H.setup({'strike'},{'spike_slime_l'})
 local s=host.run.combat;local parent=s.enemies[1];C.damage(s,s.player,parent,parent.hp-30,true);host:refresh()
-assert(panel:GetChild('enemy1'):GetChild('intent').text=='' and panel:GetChild('enemy1'):GetChild('intentLabel').text=='分裂','split intent must be visible before action')
+assert(panel:GetChild('enemy1'):GetChild('intent').text=='' and not panel:GetChild('enemy1'):GetChild('intentLabel').visible)
+assert(panel:GetChild('enemy1'):GetChild('intentIcon').visible and panel:GetChild('enemy1'):GetChild('intentIcon').imageId==H.F.Theme.icon.intent.unknown,'split intent must retain its visible unknown glyph before action')
+assert(require('abyss_battle_intent_view').intentView(s,1).label=='分裂')
 tap('enemy1',10);assert(panel:GetChild('notice').text:find('当前生命',1,true),'split detail must explain remaining HP')
 emit('enemy1','down',11)
 tap('endTurn',12)

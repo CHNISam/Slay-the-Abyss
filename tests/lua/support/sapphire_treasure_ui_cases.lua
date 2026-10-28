@@ -86,7 +86,7 @@ local function setup(run,map,clickOnly)
     local host=control({name='host',children={assert(find(Layout,'nodePanel'))}})
     local root=host:GetChild('nodePanel');local changes={}
     local ui=UI.new(root,run,map,Presentation,'click',function(ok,reason)changes[#changes+1]={ok=ok,reason=reason}end,
-        {cursorEvents=clickOnly and {} or events,imageSource='static'})
+        {cursorEvents=clickOnly and {} or events,imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
     ui:setVisible(true)
     local function get(path)
         local node=root;for part in path:gmatch('[^/]+')do node=assert(node:GetChild(part),path)end;return node

@@ -1,8 +1,8 @@
 {
   "owner": "TASK-74",
-  "reviewedDate": "2026-10-27",
+  "reviewedDate": "2026-10-28",
   "previousEngineeringSource": "20c6815e02d5fd47f6811f924328e7ddc5c7f6df",
-  "reason": "TASK-74 precise responsibility governance on develop20c6815: 9 existing UI warnings move with the same reviewed statements; 5 obsolete warning entries removed (4 unused feedback locals, 1 eliminated node-card shadow). All upstream warning identities and source-owner references retained; no new diagnostic exemption.; PR260 room port plus latest develop integration moves the same normalized warning identities only.; PR256/265/268 integration remaps exactly 38 unchanged statements by source-line alignment; warning identities/count and all limits unchanged.; TASK-25.4 remaps existing deck/node warning locations by identical source-line alignment; no warnings added or exempted.; Final UI: remap 23 identical diagnostic/declaration statements, retire 10 eliminated map self shadows and one renamed act1 cardUid shadow. 84 to 73 actual diagnostics; zero new exemptions or budget increases.; Enemy presentation responsibility split preserves all 73 diagnostic statements; only affected positions remapped.",
+  "reason": "TASK-74 precise responsibility governance on develop20c6815: 9 existing UI warnings move with the same reviewed statements; 5 obsolete warning entries removed (4 unused feedback locals, 1 eliminated node-card shadow). All upstream warning identities and source-owner references retained; no new diagnostic exemption.; PR260 room port plus latest develop integration moves the same normalized warning identities only.; PR256/265/268 integration remaps exactly 38 unchanged statements by source-line alignment; warning identities/count and all limits unchanged.; TASK-25.4 remaps existing deck/node warning locations by identical source-line alignment; no warnings added or exempted.; Final UI: remap 23 identical diagnostic/declaration statements, retire 10 eliminated map self shadows and one renamed act1 cardUid shadow. 84 to 73 actual diagnostics; zero new exemptions or budget increases.; Enemy presentation responsibility split preserves all 73 diagnostic statements; only affected positions remapped.; TASK-79 intent help union remaps 15 unchanged declarations by exactly two lines; all 73 actual warning identities and limits remain, zero new exemptions.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
@@ -69,105 +69,105 @@
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 839,
+      "line": 841,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 921,
+      "line": 923,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 980,
+      "line": 982,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 994,
+      "line": 996,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1001,
+      "line": 1003,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1010,
+      "line": 1012,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1018,
+      "line": 1020,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1051,
+      "line": 1053,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1058,
+      "line": 1060,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1085,
+      "line": 1087,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1101,
+      "line": 1103,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1128,
+      "line": 1130,
       "column": 18,
       "code": "W212",
       "message": "unused argument 'self'"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1128,
+      "line": 1130,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1129,
+      "line": 1131,
       "column": 18,
       "code": "W212",
       "message": "unused argument 'self'"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1129,
+      "line": 1131,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 49"

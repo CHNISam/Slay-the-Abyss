@@ -185,6 +185,9 @@ export function selectTests(changed, sources) {
     if (path === 'scripts/test-lua.mjs') {
       for (const match of source.matchAll(/from\s*['"](\.[^'"]+)['"]/g)) {
         const target = slash(relative(process.cwd(), resolve(dirname(path), match[1])));
+        // This helper is executed only by the one exact historical fixture,
+        // not by ordinary runLua callers. Attach it to that fixture below.
+        if (target === 'tests/helpers/historical-presentation-runner.mjs') continue;
         if (available(target)) references.add(target);
         else { dynamicImports.add(path); dynamicScripts.add(path); }
       }
@@ -198,6 +201,8 @@ export function selectTests(changed, sources) {
       }
       if (imports.dynamic) dynamicImports.add(path);
       if (/^tests\/lua\/battle_ui(?:_slice_[2-7])?\.lua$/.test(path) && available('scripts/ui-layout.mjs')) references.add('scripts/ui-layout.mjs');
+      if (path === 'tests/lua/presentation_responsibilities_trace.lua'
+          && available('tests/helpers/historical-presentation-runner.mjs')) references.add('tests/helpers/historical-presentation-runner.mjs');
     } else {
       const discovery = jsDiscovery(source);
       for (const target of discovery.references) {

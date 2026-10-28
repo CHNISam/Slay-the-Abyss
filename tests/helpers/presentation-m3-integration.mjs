@@ -10,7 +10,7 @@ assert.equal(digest(bytes),'283c069f16c0e251ad2f8b563aa0ed92c28bd58cde126f0d077a
 export const integration=JSON.parse(gunzipSync(bytes));
 export function acceptedPresentationSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
   let projected=preRetirementSource(path,source);
-  if(path==='src/lua/abyss_node_ui.lua'){
+  if(path==='src/lua/abyss_node_ui.lua' && digest(projected)!==integration.afterSha256[path]){
     assert.equal(digest(projected),'12e780e07556b588444d5eebae3ffc003bdbe44d39cea6fb907649805990ba06',
       'unreviewed integrated presentation source drift: '+path);
     const added="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
