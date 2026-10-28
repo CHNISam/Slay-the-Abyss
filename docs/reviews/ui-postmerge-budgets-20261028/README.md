@@ -1,0 +1,100 @@
+# PR313 合后原预算回归收尾
+
+基线为实际 squash `cec690c1701af121e370facde5c1ca2ad9beb99e`。其 tree
+`402909058fb8eaad74fe3e909c25158b195bfbf9` 与 PR313 绿灯 head
+`9b60ff829b8fd3c2c623782870a79bdde4c0a413` 相同。
+
+## 失败证据与定位
+
+| 原 raw Lua 入口 | [PR绿灯 Quality 40755016999](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40755016999) | [实际合后 Quality 40759203898](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40759203898) |
+| --- | ---: | ---: |
+| potion_targeting.lua | 28,790ms | 30,076ms / ETIMEDOUT |
+| game_ui_exit.lua | 29,064ms | 30,063ms / ETIMEDOUT |
+| feedback_continuous_cards.lua | 28,568ms | 30,128ms / ETIMEDOUT |
+
+三项失败均为原 30,000ms 进程时限，没有观察到逻辑断言失败；其余 fixture 继续执行。
+这些同 tree 数据证明单文件预算余量脆弱，不证明某一唯一环境根因。
+三项既有权重分别为 20,546 / 20,187 / 20,074ms，均超过
+`scripts/lua-workers.mjs` 的 10,000ms 独占阈值。原作业日志也符合独占顺序，
+故不把失败归因于误入双 worker 池，不通过改权重或盲重跑掩盖。
+
+## 最小改动
+
+复用仓库 `game_ui_class_choices` 的注册范围分片模式：
+
+- potion_targeting：原第 1–4 组 / 原第 5 组（内含全部 9 个生命周期条件）。
+- game_ui_exit：原第 1–5 组 / 原第 6–15 组。
+- feedback_continuous_cards：原第 1–4 组 / 原第 5–9 组。
+- battle_ui_potion_target_failures：原第 1–3 组 / 原第 4–7 组。
+
+只在各文件注册器外加选择、计数和原始序号 marker；新增第二片为一行 `loadfile` 调用。
+没有修改任何原 case 体、setup、seed、断言、循环上限或语句次序。
+各 case 在自己的函数内创建新 host/combat/反馈状态；片间没有承接前一 case 结果。
+前三项完成后，root 明确限定新增第四项：`battle_ui_potion_target_failures.lua`
+在实际 PR313 合后为 29,233ms，PR314 实际作业 123073106473 为
+30,071ms / 原 30,000ms ETIMEDOUT；既有 23,996ms 权重也已经独占。
+其每组从真实 seed61 胜利领奖再开小软泥，无跨组状态承接；原第5/6组的
+up/endDrag 注册循环、所有原 body/seed/顺序均保持。此次没有继续扩大 fixture 范围。
+
+完整原源码 SHA256 与 Git blob、唯一可逆注册编辑及分片范围保存在
+`tests/fixtures/ui-regression-partitions.json`；Node 合同严格重建并核原字节，
+验证真实 case 体/范围漂移会被拒绝，并固定注册器前后文的独立 SHA256；
+双改注册器与 manifest 使其只计数不执行的负控先红后绿，不能绕过原文逆向。
+raw 与 Windows 8 / POSIX 4 的 Node 合同均唯一发现。
+
+`scripts/test-lua.mjs` SHA256 仍为
+`7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33`，
+原 30 秒时限、CI/worker 策略、调度权重、生产源码、golden 均未改。
+新增片沿用未知 fixture 的 10 秒保守权重，因此同样独占执行。
+
+## 本轮真实短测
+
+[完整数值与序号](local-results.json)。八片串行调用原 `runLua`，没有传入更长 timeout：
+
+| 入口 | 原 case 序号 | 本轮云隔离目录实测 |
+| --- | --- | ---: |
+| potion_targeting.lua | 1–4 | 12,013ms |
+| potion_targeting_slice_2.lua | 5 | 13,702ms |
+| game_ui_exit.lua | 1–5 | 15,315ms |
+| game_ui_exit_slice_2.lua | 6–15 | 11,027ms |
+| feedback_continuous_cards.lua | 1–4 | 10,536ms |
+| feedback_continuous_cards_slice_2.lua | 5–9 | 13,769ms |
+| battle_ui_potion_target_failures.lua | 1–3 | 9,720ms |
+| battle_ui_potion_target_failures_slice_2.lua | 4–7 | 13,009ms |
+
+八片 status 0；每片严格验证实际 CASE marker 与预期范围，合计原 36 组各执行一次，
+无 `FAIL` / `not ok`。运行期间另有短静态检查，不把本机数值冒充托管 Windows 余量证明。
+源码/发现合同先红（缺少分片）后绿；本轮新增 6 项与已有 class choices 2 项合计 8/8。
+`npm run check:syntax` 与 `git diff --check` 通过；无第三次本地全量重跑。
+
+root 另要求前三项的六入口走一次实际 `runLuaWorkers(...workers:2,weights:timings.lua)`：
+未注入权重、未改时限，真实 fallback=10,000ms 使新片也独占。
+六片分别为 potion 10.151/13.484s、exit 12.273/9.407s、continuous 10.182/13.484s，
+总 69.457s、status0、原29 marker各一次；这是独占 pool 路径证明，不是短片并发压测。
+原记录保存在 `/tmp/sta-pr313-postmerge-slices-20261028/pool/`，独立只读复审已核。
+
+## 同一正常 PR 的精确依赖组合
+
+root 一次性审查实际 PR313 合后整份 archive：8 个 raw 步骤的 1,030 条 fixture，
+>=28s 共12项；原30秒风险恰为本次四项，其余8项原预算为60/120秒。
+四项在 PR313/314 均有实际原30秒超时，因而本次范围固定为四项，不继续扩张。
+
+依 root 明确决定，组合分支精确吸收既有 PR314 的三笔线性提交：
+`faf1a3788a31a80d7f3933f9a56cf66fe2e8b01d`、
+`0798d19b888016875dc86c963ef827f3d3612633`、
+`cdb08af255c57624637b576d3ccb8904fc9c7d79`。
+保留原 author；其 TASK81、ENGINEERING、verify-delivery、delivery.test 四路径
+均与 PR314 head 原 blob 完全相等，没有改作者分支、认领或实现。
+PR314 的交付合同贡献仍归原作者；本组合仅解决它与真实回归超时的依赖，
+不以其旧测试或失败矩阵代替本 PR 当前组合完整 CI。
+
+该合同严格要求当前 schema3 Full 路由的17作业（impact成功、fast跳过、原15全绿），
+并在采证前后独立读取实际目标分支 ref；历史 schema2 仅用于历史证据，不能借用为当前收据。
+组合短测 delivery27 + 分片/旧class8 =35/35 通过；原runner/调度器另20/20通过。
+
+## 仍须完成的关口
+
+本次新精确 head 的完整托管 Quality、独立审查和当前 schemaVersion 3
+`npm run verify:delivery` 预审尚待采证；必须在合并前保存有效 preflight。
+不能为已经关闭的 PR313 补造 open-PR 收据，也不声明其原 native `merged_passed`。
+官方导入、ready、PC/实体手机 UI 与性能验收仍未执行，TASK-4 负责人/状态/AC/Done 不改。

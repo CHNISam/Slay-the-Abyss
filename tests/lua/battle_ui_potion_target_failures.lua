@@ -1,6 +1,16 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3
+local sliceRegistered,sliceExecuted=0,0
 local H = dofile("tests/lua/support/potion_targeting_fixture.lua")
 local setup,Run,Combat,F,eq,untouched = H.setup,H.Run,H.Combat,H.F,H.eq,H.untouched
-local test,finish = H.suite("LUA_POTION_TARGET_FAILURES")
+local originalTest,finish = H.suite("LUA_POTION_TARGET_FAILURES")
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then
+        originalTest(name,fn);sliceExecuted=sliceExecuted+1
+        print("BATTLE_UI_POTION_TARGET_FAILURES_CASE "..sliceRegistered)
+    end
+end
 
 test('core absent-target refusal remains atomic and does not default',function()
   local h,u=setup();local b=h.run.combat;local inv,events,energy=h.run.potions,#b.events,b.energy
@@ -46,3 +56,7 @@ test('genuinely click-only enemy remains usable after paired bottle input',funct
   click('enemy2');eq(h.run.potions[1],nil);eq(h.run.combat.enemies[2].hp,z-20)
 end)
 finish()
+
+assert(sliceRegistered==7,"all 7 original cases must register")
+assert(sliceExecuted==sliceLast-sliceFirst+1,"every selected original case must execute")
+print("BATTLE_UI_POTION_TARGET_FAILURES_SLICE "..sliceFirst.." "..sliceLast.." "..sliceExecuted)

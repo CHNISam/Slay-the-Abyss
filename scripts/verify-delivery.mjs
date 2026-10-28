@@ -11,27 +11,36 @@ export const qualityWorkflowPath='.github/workflows/quality.yml';
 export const fullQualityJobs=[...requiredJobs,
   ...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
   ...Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`)];
+export const deliverySchemaVersion=3;
+export const currentFullQualityJobs=[...fullQualityJobs,'impact','fast'];
 const validSha=value=>/^[a-f0-9]{40}$/.test(value??'');
 const positiveId=value=>Number.isSafeInteger(value)&&value>0;
 const parentShas=commit=>Array.isArray(commit?.parents)?commit.parents.map(parent=>parent?.sha):undefined;
-function qualityErrors(jobs,{attempt,runId,head}) {
+function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
   // Collect filter=all, not one attempt: reruns preserve GITHUB_SHA/GITHUB_REF
   // and only reexecute selected jobs. Never search for the last *successful*
   // execution; a newer failure must supersede an older success.
   const errors=[];
+  // Version 2 remains the frozen, pre-routing fifteen-job contract. Never
+  // infer a legacy contract from missing jobs in newly collected evidence.
+  const expectedJobs=schemaVersion===2?fullQualityJobs:schemaVersion===3?currentFullQualityJobs:undefined;
+  if(!expectedJobs)return ['Unknown Quality evidence schema version'];
   if(!Array.isArray(jobs))return ['Quality jobs are missing'];
   const identities=new Set(),ids=new Set();
   for(const job of jobs) {
     const identity=`${job?.name}:${job?.run_attempt}`;
-    if(!fullQualityJobs.includes(job?.name)||!positiveId(job?.id)||ids.has(job.id)||identities.has(identity)||
+    if(!expectedJobs.includes(job?.name)||!positiveId(job?.id)||ids.has(job.id)||identities.has(identity)||
       !positiveId(job?.run_attempt)||job.run_attempt>attempt||job.run_id!==runId||job.head_sha!==head)
       errors.push(`Unexpected, duplicate or mismatched Quality job ${job?.name}`);
     identities.add(identity);ids.add(job?.id);
   }
   if(!jobs.some(job=>job?.run_attempt===attempt))errors.push('Quality latest attempt has no jobs');
-  for(const name of fullQualityJobs) {
+  for(const name of expectedJobs) {
     const job=latestJob(jobs,name);
-    if(job?.status!=='completed'||job.conclusion!=='success')errors.push(`Quality job ${name} is missing, incomplete or unsuccessful on its latest execution`);
+    // A false job-level condition skips `fast` before matrix expansion. Fast
+    // coverage (including expanded matrix jobs) can never certify Full.
+    const conclusion=name==='fast'?'skipped':'success';
+    if(job?.status!=='completed'||job.conclusion!==conclusion)errors.push(`Quality job ${name} is missing, incomplete or does not have required conclusion ${conclusion} on its latest execution`);
   }
   return errors;
 }
@@ -59,8 +68,10 @@ function runErrors(run,{head,event,runId,attempt,branch,repo}) {
 export function verifyDelivery(e) {
   if(!e||typeof e!=='object')return ['Missing preflight evidence'];
   const errors=[];
-  if(e.schemaVersion!==2||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
+  if(![2,3].includes(e.schemaVersion)||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
   for(const field of ['head','base','tested','sourceTree'])if(!validSha(e[field]))errors.push(`Invalid ${field}`);
+  if(e.schemaVersion===3)for(const field of ['targetBeforeSha','targetAfterSha'])
+    if(!validSha(e[field])||e[field]!==e.base)errors.push(`Actual target ${field} is missing, malformed or differs from the verified base`);
   if(e.event!=='pull_request'||!positiveId(e.runId)||!positiveId(e.attempt)||!positiveId(e.prNumber))errors.push('Expected PR run identity');
   for(const field of ['head','base','tested','runId','event','prNumber'])if(e.checkout?.[field]!==e[field])errors.push(`Checkout ${field} is stale or mismatched`);
   errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run));
@@ -68,7 +79,7 @@ export function verifyDelivery(e) {
   if(e.testedCommit?.sha!==e.tested||JSON.stringify(parentShas(e.testedCommit))!==JSON.stringify(e.parents)||e.testedCommit?.commit?.tree?.sha!==e.sourceTree)errors.push('Tested source commit/tree evidence is missing or mismatched');
   if(JSON.stringify(e.checkout?.parents)!==JSON.stringify(e.parents))errors.push('Checkout merge parents differ from tested commit');
   if(!Array.isArray(e.run?.pull_requests)||!e.run.pull_requests.some(pr=>pr?.number===e.prNumber))errors.push('Quality run does not belong to this PR');
-  errors.push(...runErrors(e.run,{head:e.head,event:e.event,runId:e.runId,attempt:e.attempt,repo:e.repo}),...qualityErrors(e.jobs,{attempt:e.attempt,runId:e.runId,head:e.head}));
+  errors.push(...runErrors(e.run,{head:e.head,event:e.event,runId:e.runId,attempt:e.attempt,repo:e.repo}),...qualityErrors(e.jobs,{attempt:e.attempt,runId:e.runId,head:e.head,schemaVersion:e.schemaVersion}));
   errors.push(...runErrors(e.currentRun,{head:e.head,event:e.event,runId:e.runId,attempt:e.attempt,repo:e.repo}));
   if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base||!e.review?.reviewId||e.review?.conclusion!=='pass'||!Array.isArray(e.review?.unresolved)||e.review.unresolved.length)errors.push('Review is missing, stale, or has unresolved findings');
   return errors;
@@ -76,7 +87,7 @@ export function verifyDelivery(e) {
 export function verifyMergedDelivery(e) {
   if(!e||typeof e!=='object')return {state:'merged_pending',errors:['Missing merged evidence']};
   const preflight=e.preflight??{},errors=verifyDelivery(preflight).map(error=>`Preflight: ${error}`);
-  if(e.schemaVersion!==2)errors.push('Missing versioned merged evidence');
+  if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
   if(e.repo!==preflight.repo)errors.push('Merged evidence repository differs from preflight');
   if(e.pr?.number!==preflight.prNumber||!e.pr?.merged||e.pr?.state!=='closed')errors.push('Expected the verified PR to be merged');
   if(e.pr?.head?.sha!==preflight.head||e.pr?.base?.ref!==preflight.baseRef)errors.push('Merged PR head/target differs from preflight');
@@ -86,7 +97,7 @@ export function verifyMergedDelivery(e) {
   if(e.current?.number!==e.pr?.number||e.current?.head?.sha!==e.pr?.head?.sha||e.current?.base?.ref!==e.pr?.base?.ref||!e.current?.merged||e.current?.state!=='closed'||e.current?.merge_commit_sha!==e.pr?.merge_commit_sha)errors.push('Merged PR identity changed during verification');
   errors.push(...runErrors(e.run,{head:e.commit?.sha,event:'push',runId:e.run?.id,attempt:e.run?.run_attempt,branch:preflight.baseRef,repo:e.repo}));
   errors.push(...runErrors(e.currentRun,{head:e.commit?.sha,event:'push',runId:e.run?.id,attempt:e.run?.run_attempt,branch:preflight.baseRef,repo:e.repo}));
-  errors.push(...qualityErrors(e.jobs,{attempt:e.run?.run_attempt,runId:e.run?.id,head:e.commit?.sha}));
+  errors.push(...qualityErrors(e.jobs,{attempt:e.run?.run_attempt,runId:e.run?.id,head:e.commit?.sha,schemaVersion:e.schemaVersion}));
   errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run));
   for(const [field,value] of Object.entries({event:'push',runId:e.run?.id,tested:e.commit?.sha,head:e.commit?.sha,base:preflight.base})) {
     if(value===undefined||e.checkout?.[field]!==value)errors.push(`Merged checkout ${field} is missing, stale or mismatched`);
@@ -103,8 +114,8 @@ function pages(query,endpoint,key) {
   if(!Array.isArray(result)||result.some(page=>!Array.isArray(page[key])))throw new Error(`Malformed paginated ${key} response`);
   return result.flatMap(page=>page[key]);
 }
-export function checkoutReceipt(repo,run,jobs,dir,query=gh) {
-  const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha});
+export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion) {
+  const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion});
   if(errors.length)throw new Error(errors.join('\n'));
   const attempt=latestJob(jobs,'rules (1/8)').run_attempt,name=`quality-${run.id}-${attempt}-check`;
   const artifacts=pages(query,`repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,'artifacts').filter(a=>a?.name===name);
@@ -124,6 +135,38 @@ function latestQualityRun(query,repo,{event,head,branch,number}) {
     (number===undefined||Array.isArray(run.pull_requests)&&run.pull_requests.some(pr=>pr.number===number)))
     .sort((a,b)=>b.id-a.id)[0];
 }
+function targetHead(query,repo,baseRef) {
+  if(!['develop','master'].includes(baseRef))throw new Error('Unexpected target branch');
+  const ref=JSON.parse(query('api',`repos/${repo}/git/ref/heads/${baseRef}`));
+  if(ref?.ref!==`refs/heads/${baseRef}`||ref.object?.type!=='commit'||!validSha(ref.object?.sha))
+    throw new Error('Actual target Git ref is missing or malformed');
+  return ref.object.sha;
+}
+export function collectPrDelivery(repo,number,review,query=gh,loadCheckout=(run,jobs)=>{
+  const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
+  return checkoutReceipt(repo,run,jobs,dir,query);
+}) {
+  const pr=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
+  if(pr.state!=='open'||pr.merged)throw new Error('Preflight requires an open PR; use --merged with its saved preflight evidence after merge');
+  // PR base.sha and refs/pull/*/merge can both retain the old combination after
+  // the actual target advances. Read the independent branch ref, not that pair.
+  const targetBeforeSha=targetHead(query,repo,pr.base.ref);
+  if(targetBeforeSha!==pr.base.sha)throw new Error('PR base is stale: actual target branch differs before collection');
+  const identity={event:'pull_request',head:pr.head.sha,number};
+  const run=latestQualityRun(query,repo,identity);
+  if(!run||run.status!=='completed'||run.conclusion!=='success')throw new Error('Current Quality run is missing or not successful');
+  const jobs=pages(query,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs');
+  const {checkout,checkoutArtifact}=loadCheckout(run,jobs);
+  if(checkout.tested!==pr.merge_commit_sha)throw new Error('CI did not test the current PR merge combination');
+  const commit=JSON.parse(query('api',`repos/${repo}/commits/${checkout.tested}`));
+  const evidence={schemaVersion:deliverySchemaVersion,repo,baseRef:pr.base.ref,sourceTree:commit.commit.tree.sha,testedCommit:commit,
+    head:pr.head.sha,base:pr.base.sha,tested:checkout.tested,parents:commit.parents.map(p=>p.sha),
+    runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:number,run,jobs,checkout,checkoutArtifact,review,targetBeforeSha};
+  const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
+  evidence.currentRun=latestQualityRun(query,repo,identity);
+  evidence.targetAfterSha=targetHead(query,repo,pr.base.ref);
+  return {evidence,current};
+}
 export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckout=(run,jobs)=>{
   const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
   return checkoutReceipt(repo,run,jobs,dir,query);
@@ -137,7 +180,7 @@ export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckou
   const receipt=run?.status==='completed'&&run.conclusion==='success'?loadCheckout(run,jobs):{};
   const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   const currentRun=latestQualityRun(query,repo,identity);
-  return {schemaVersion:2,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun};
+  return {schemaVersion:deliverySchemaVersion,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try {
@@ -155,21 +198,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       if(result.errors.length)throw new Error(result.errors.join('\n'));
       process.exitCode=0;
     } else {
-      const pr=JSON.parse(gh('api',`repos/${repo}/pulls/${number}`));
-      if(pr.state!=='open'||pr.merged)throw new Error('Preflight requires an open PR; use --merged with its saved preflight evidence after merge');
-      const identity={event:'pull_request',head:pr.head.sha,number:Number(number)};
-      const run=latestQualityRun(gh,repo,identity);
-      if(!run||run.status!=='completed'||run.conclusion!=='success')throw new Error('Current Quality run is missing or not successful');
-      const jobs=pages(gh,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs');
-      const {checkout,checkoutArtifact}=checkoutReceipt(repo,run,jobs,dir);
-      if(checkout.tested!==pr.merge_commit_sha)throw new Error('CI did not test the current PR merge combination');
-      const commit=JSON.parse(gh('api',`repos/${repo}/commits/${checkout.tested}`));
-      const evidence={schemaVersion:2,repo,baseRef:pr.base.ref,sourceTree:commit.commit.tree.sha,testedCommit:commit,
-        head:pr.head.sha,base:pr.base.sha,tested:checkout.tested,parents:commit.parents.map(p=>p.sha),
-        runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:Number(number),run,jobs,checkout,checkoutArtifact,
-        review:JSON.parse(readFileSync(evidenceFile,'utf8'))};
-      const current=JSON.parse(gh('api',`repos/${repo}/pulls/${number}`));
-      evidence.currentRun=latestQualityRun(gh,repo,identity);
+      const {evidence,current}=collectPrDelivery(repo,Number(number),JSON.parse(readFileSync(evidenceFile,'utf8')),gh,
+        (run,jobs)=>checkoutReceipt(repo,run,jobs,dir));
       const errors=verifyDelivery(evidence);
       if(current.state!=='open'||current.merged||current.head.sha!==evidence.head||current.base.sha!==evidence.base||current.base.ref!==evidence.baseRef||current.merge_commit_sha!==evidence.tested)errors.push('PR head/base/merge combination changed during verification');
       writeFileSync(join(dir,'evidence.json'),JSON.stringify({...evidence,state:errors.length?'pr_pending':'pr_passed',errors},null,2)+'\n');

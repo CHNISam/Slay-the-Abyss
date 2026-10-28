@@ -1,6 +1,16 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4
+local sliceRegistered,sliceExecuted=0,0
 local H = dofile('tests/lua/support/potion_gesture_fixture.lua')
 local Combat, Run = H.F.Combat, H.Run
-local test, finish = H.suite('LUA_POTION_TARGETING')
+local originalTest, finish = H.suite('LUA_POTION_TARGETING')
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then
+        originalTest(name,fn);sliceExecuted=sliceExecuted+1
+        print("POTION_TARGETING_CASE "..sliceRegistered)
+    end
+end
 local function setup(ids, enemies)
     local h,u,p,e,t,d,deck,r,emit,tap=H.setup({'bash','defend'},enemies or {'cultist','jaw_worm'})
     h.run.potions={}
@@ -81,3 +91,7 @@ test('P06/P07/P08 lifecycle boundaries expire aiming and old enemy tokens',funct
     end
 end)
 finish()
+
+assert(sliceRegistered==5,"all 5 original cases must register")
+assert(sliceExecuted==sliceLast-sliceFirst+1,"every selected original case must execute")
+print("POTION_TARGETING_SLICE "..sliceFirst.." "..sliceLast.." "..sliceExecuted)

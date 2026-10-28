@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 19:23'
+updated_date: '2026-10-28 21:18'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -69,6 +69,12 @@ dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修�
 2026-10-28药水纠偏：在dot独立云树线性接续1f260a7，原子叠加Map共享empty/filled/fire/selected壳体与Main真实状态刷新，保留官方瓶ID及主线安全保护。逐字段主题合并、真实Lua/render及历史精确逆向重验；不推送，等待独立视觉审查；不把离线代显或旧绿灯当还原/设备通过。
 
 2026-10-28发布续接：按用户已授权提交PR要求，将批准稿UI六提交线性接续PR307（0763d2e），保全原UI/历史哈希；仅提交本功能分支的单个Draft PR，以精确head托管Full Quality/inventory完成全量验证。本地两次完整check均因执行会话中断无结论，不再第三次重跑；不改AC/Done，不代替官方导入/ready及PC/实体手机验收。PR310/311/312重叠由主线程协调顺序。
+
+2026-10-28 PR313合后收尾：从实际cec690c独立续接，只处理potion_targeting、game_ui_exit、feedback_continuous_cards三个原30秒夹具的单文件预算脆弱。先用原日志核实独占调度，建立原完整源码SHA/Gitblob及raw/JS/CI唯一发现红测，再复用既有精确注册分片保留全部原case体、seed与顺序，原runner/30秒/断言/权重不改；串行真实短测、独立复审后提交单个Draft PR，最终精确head完整Quality与schema2 delivery preflight后交主线程合并。不改负责人/状态/AC/Done，不操作设备。
+
+2026-10-28 root限定同根因新增第4项battle_ui_potion_target_failures：实际PR313合后29233ms、PR314作业30071ms原30秒超时；仅此项精确分1–3/4–7，保原7组完整body/seed/顺序与runner/权重，先红后绿合同及原30秒两片实测。等待root一次尾部审计决定，不自动继续扩fixture；与既有PR314交付工具修复按root指定三SHA精确原样组合，当前head全量CI独立采证。
+
+2026-10-28 PR319当前f9f9be99本地补漏：仅补target_failures 1–3/4–7注册层的完整前后源码身份逆向，接入原approved-UI历史链。先加原文恢复及缺失/重复/无关漂移负例跑红，再补最小helper、重验原历史presentation源合同；原4项body/manifest/golden/runner/期限及PR314四blob不改。不改负责人/状态/AC/Done，不push或远端操作。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -114,4 +120,12 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-28 19:11 UTC：继续收当前7a4910b真实CI失败。rules8 Drag旧oracle将raw变换分数坐标与实际target中心强行逐位等同；最小探针证明stale前后各自坐标不变。迁为严格比较真实reticle/目标ID前后，保留原gesture/preview/energy/hand并加完整core图快照，原30s整组10/10（16.746s），root独立读diff认可。rules1 class_choices原30s最后第10组超时，同源26.590s无足够托管余量；复用既有机械拆片1–5/6–10，原8973字节整body/seed/assert及Gitblob精确可重建，runner/30s不变，raw/JS/CI唯一发现合同先红后绿2/2，两片原30s各5组实测11.357/13.425s，CASE1..10各一次，root独立逐文件认可。完整矩阵尚未终态，先收齐再更新同PR并重验精确head；不勾整体AC/Done。
 
 2026-10-28 19:23 UTC：当前7a4910b最后补读rules4唯一potion_belt_ui旧help可见假设，迁真实瓶长按/独立4与5槽potionId+标题/详情关闭+菜单Use；保留容量/补位/库存/能量+2/Strength2/商店奖励全部原断言，最终5组13.206s。targeting_help旧隐藏控件假可达先加visibility断言实测红，再真实瓶长按，原文案/完整快照/target/S13/P12保留，最终3组9.867s。系统扫描无其它Use/旧enemyRow实时输入漏项；已授权的remaining/flex_speed/sustained三可见性盲点只保留原隐藏存储和可信core设置，新增真实可见长按信息检查，原6/2/3组9.799/3.899/5.034s通过。扫描到此停止扩范围；不改生产/runner/golden/预算，等待当前矩阵终态后同PR一次push并重验精确head全量Quality。
+
+2026-10-28 PR313合后预算收尾：实际cec690c与原PR绿灯同tree；三原30秒raw夹具在合后ETIMEDOUT，既有权重已独占，不归因双worker。只精确分片potion 1–4/5、exit 1–5/6–15、continuous 1–4/5–9，原29组case体/seed/assert/order完整逆向SHA与Gitblob保留，runner/30秒/权重不改。红测后源码/漂移拒绝/raw/JS/CI发现及旧class合同7/7；六片原runLua实测12.013/13.702、15.315/11.027、10.536/13.769秒，原29组markers各一次。JS语法与diff检查通过；独立复审、当前head完整托管Quality及schema2 delivery预审待采证，不补造PR313旧收据，不改负责人/状态/AC/Done，不含设备实机。证据docs/reviews/ui-postmerge-budgets-20261028/。
+
+2026-10-28第四项预算收尾：battle_ui_potion_target_failures原7组精确逆向SHA47565faa/Gitblob5faa5cf，含原up/endDrag注册循环均保留。新两片原30s实测9.720/13.009秒，原CASE1..7各一次；累计4文件36原组/8入口，源码/范围/固定注册器恶意双改与发现合同8/8过。此前6入口真实workers=2 pool原权重路径也全部过，unknown10秒默认仍独占，不以调权阈值刷绿。仍无托管组合绿灯或设备实机，不改状态/负责人/AC/Done。
+
+2026-10-28组合交付：root一次原档尾部审计1030条fixture确认原30秒风险恰为本4项，其余>=28秒项目原有60/120秒时限，不扩范围。按指定顺序原样吸收既有PR314三笔faf1a378/0798d19b/cdb08af2，保原author和四路径blob，不操作其分支/认领；严格schema3 Full17作业及独立target-ref校验保留。组合delivery27+分片8短测35/35，当前组合托管完整Quality/独立review/schema3预审待采证，原314失败或旧绿不冒充组合结果，整体AC不改。
+
+2026-10-28 PR319冻结guard本地补漏：精确f9f9be99上保全全部4项/8入口、原manifest/golden/runner/30秒及PR314四blob，仅增加target_failures完整49dcd4b8→47565faa注册逆向并接回旧approved-UI历史链。原套件真实红5过3失败，新组合合同红5过4失败；最终26项静态/历史/源保全合同全过0skip，JS语法/网络/Backlog检查及diff检查通过。缺失/重复/范围/footer/无执行/正文漂移与CRLF/错path均覆盖；不重复重Lua，不称Full/native通过。独立review、实际远端head冲突核对、整合授权及新精确HEAD完整Quality/inventory/schema3预审仍待，原状态/负责人/AC/Done不变。新增报告docs/reviews/ui-postmerge-budgets-20261028/FROZEN-INVERSE-REPAIR.md；原两份review记录未改。仅本地，不push或改远端。
 <!-- SECTION:NOTES:END -->

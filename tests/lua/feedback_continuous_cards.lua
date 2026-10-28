@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4
+local sliceRegistered,sliceExecuted=0,0
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
@@ -5,6 +8,9 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local tests, failed = 0, 0
 local function test(name, fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    sliceExecuted=sliceExecuted+1;print("FEEDBACK_CONTINUOUS_CARDS_CASE "..sliceRegistered)
     tests = tests + 1
     local ok, err = pcall(fn)
     if not ok then failed = failed + 1 end
@@ -270,3 +276,7 @@ end)
 
 assert(failed == 0, failed .. " continuous-card feedback tests failed")
 print("LUA_FEEDBACK_CONTINUOUS_CARDS_PASS " .. tests)
+
+assert(sliceRegistered==9,"all 9 original cases must register")
+assert(sliceExecuted==sliceLast-sliceFirst+1,"every selected original case must execute")
+print("FEEDBACK_CONTINUOUS_CARDS_SLICE "..sliceFirst.." "..sliceLast.." "..sliceExecuted)
