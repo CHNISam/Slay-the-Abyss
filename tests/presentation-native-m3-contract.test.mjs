@@ -155,7 +155,7 @@ test('room port keeps all reviewed current source identities and a strict live i
  assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
  });
 test('retirement theme and fixture inverses reject unrelated drift and obsolete controls',()=>{
- const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8');
+ const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
  assert.equal(digest(preRetirementSource(path,source)),roomSnapshot.afterSha256[path]);
  assert.equal(preRetirementSource(path,source.replaceAll('\n','\r\n')),preRetirementSource(path,source));
  const original=JSON.parse(source);
@@ -175,7 +175,7 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
  assert.throws(()=>preRetirementSource(path,changedBody));
  assert.throws(()=>preRetirementSource(path,source+'\n'));
  const fixturePath='tests/lua/presentation_responsibilities_trace.lua';
- const fixture=readFileSync(fixturePath,'utf8');
+ const fixture=readFileSync(fixturePath,'utf8').replaceAll('\r\n','\n');
  assert.equal(digest(preRetirementSource(fixturePath,fixture)),roomSnapshot.afterSha256[fixturePath]);
  assert.equal(preRetirementSource(fixturePath,fixture.replaceAll('\n','\r\n')),preRetirementSource(fixturePath,fixture));
  assert.throws(()=>preRetirementSource(fixturePath,fixture+'\n-- unreviewed scenario drift\n'));
