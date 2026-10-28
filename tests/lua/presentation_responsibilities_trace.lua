@@ -49,6 +49,6 @@ for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
--- Latest develop retains all 77278 historic writes; the explicit room port
--- adds 2265 writes for the forge grid/result flow and updated room controls.
-assert(trace.count==79543 and trace.hash==1215629804,'ordered native writes changed from the room-port contract')
+-- Retirement deletes exactly 68 writes owned by the announcement entry/panel.
+-- The JS contract independently preserves every other write and its global order.
+assert(trace.count==79475 and trace.hash==1007819925,'ordered native writes changed from the reviewed announcement retirement contract')

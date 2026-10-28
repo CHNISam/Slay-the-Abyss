@@ -115,16 +115,73 @@ test('accepted native-art compatibility permits only its two complete identities
  }
 });
 
+// This inverse is test-only: no obsolete announcement control or module returns live.
+function preRetirementSource(path,source){
+ const normalized=source.replaceAll('\r\n','\n');
+ if(path==='data/presentation/ui_theme.json'){
+  const theme=JSON.parse(normalized),old=JSON.parse(frozenSource(path));
+  assert.equal(Object.hasOwn(theme.layout,'releaseNotes'),false,'announcement theme remains absent');
+  assert.deepEqual(theme.layout.nativeMenu.codeVersion,old.layout.releaseNotes.menuVersion,'unchanged version geometry');
+  const version=',\n      "codeVersion": [\n        0,\n        -300,\n        1120,\n        40\n      ]';
+  assert.equal(normalized.split(version).length,2,'one exact relocated version geometry');
+  const withoutVersion=normalized.replace(version,''),end='\n  }\n}\n';
+  assert.ok(withoutVersion.endsWith(end),'complete theme closure and order');
+  const start=frozenSource(path).indexOf(',\n    "releaseNotes": {');
+  assert.ok(start>0,'immutable archive contains the retired theme');
+  const block=frozenSource(path).slice(start,frozenSource(path).lastIndexOf('\n  }'));
+  const projected=withoutVersion.slice(0,-end.length)+block+end;
+  assert.equal(digest(projected),roomSnapshot.afterSha256[path],'all non-announcement theme bytes and order retained');
+  return projected;
+ }
+ if(path==='tests/lua/presentation_responsibilities_trace.lua'){
+  const before="-- Latest develop retains all 77278 historic writes; the explicit room port\n-- adds 2265 writes for the forge grid/result flow and updated room controls.\nassert(trace.count==79543 and trace.hash==1215629804,'ordered native writes changed from the room-port contract')\n";
+  const after="-- Retirement deletes exactly 68 writes owned by the announcement entry/panel.\n-- The JS contract independently preserves every other write and its global order.\nassert(trace.count==79475 and trace.hash==1007819925,'ordered native writes changed from the reviewed announcement retirement contract')\n";
+  assert.equal(normalized.split(after).length,2,'one exact current trace assertion');
+  const projected=normalized.replace(after,before);
+  assert.equal(digest(projected),roomSnapshot.afterSha256[path],'original scenario and strict native guards retained');
+  return projected;
+ }
+ return normalized;
+}
+
 test('room port keeps all reviewed current source identities and a strict live interaction trace',()=>{
  assert.equal(roomSnapshot.base,'f1ab9a9c492071edd723f9285862766ad5ad289b');
  assert.deepEqual(Object.keys(roomSnapshot.afterSha256),Object.keys(review.sourceInputs));
  for(const [path,expected]of Object.entries(roomSnapshot.afterSha256)){
   const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
-  assert.equal(digest(source),expected,'unreviewed integrated room source drift: '+path);
+  assert.equal(digest(preRetirementSource(path,source)),expected,'unreviewed integrated room source drift: '+path);
   assert.notEqual(digest(source+'\n-- unreviewed drift\n'),expected);
  }
  assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
  });
+test('retirement theme and fixture inverses reject unrelated drift and obsolete controls',()=>{
+ const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8');
+ assert.equal(digest(preRetirementSource(path,source)),roomSnapshot.afterSha256[path]);
+ assert.equal(preRetirementSource(path,source.replaceAll('\n','\r\n')),preRetirementSource(path,source));
+ const original=JSON.parse(source);
+ const mutations=[
+  value=>{value.layout.nativeMenu.codeVersion[0]++;},
+  value=>{delete value.layout.nativeMenu.codeVersion;},
+  value=>{value.layout.releaseNotes=JSON.parse(frozenSource(path)).layout.releaseNotes;},
+  value=>{value.font.body++;},
+  value=>{value.layout.nativeMenu.unreviewed=[0,0,1,1];},
+ ];
+ for(const mutate of mutations){
+  const changed=structuredClone(original);mutate(changed);
+  assert.throws(()=>preRetirementSource(path,JSON.stringify(changed,null,2)+'\n'));
+ }
+ const changedBody=source.replace('"body": 18','"body": 19');
+ assert.notEqual(changedBody,source,'negative check changes the original font bytes without reformatting');
+ assert.throws(()=>preRetirementSource(path,changedBody));
+ assert.throws(()=>preRetirementSource(path,source+'\n'));
+ const fixturePath='tests/lua/presentation_responsibilities_trace.lua';
+ const fixture=readFileSync(fixturePath,'utf8');
+ assert.equal(digest(preRetirementSource(fixturePath,fixture)),roomSnapshot.afterSha256[fixturePath]);
+ assert.throws(()=>preRetirementSource(fixturePath,fixture+'\n-- unreviewed scenario drift\n'));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('trace:assertNativeInteraction()','-- removed native guard')));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('79475','79474')));
+});
+
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{
  assert.equal(themeReview.sourceHead,'af25ca0887529ea0549363c394ba54fc55ad91f1');
  assert.equal(themeReview.historicalCaptureHead,'c5e768807081d1c62750174998367f1565274ee5');
