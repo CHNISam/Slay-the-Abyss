@@ -9,6 +9,16 @@ import { createHash, randomBytes } from 'node:crypto';
 import { checkNetworkPolicy } from '../scripts/check-network-policy.mjs';
 
 const workflow = readFileSync('.github/workflows/quality.yml', 'utf8');
+test('every Fast and Full dependency installation retains bounded download retries', () => {
+  const installs = [...workflow.matchAll(/npm ci[^\r\n]*/g)];
+  assert.ok(installs.length >= 4);
+  for (const install of installs) {
+    const changed = workflow.slice(0, install.index) + install[0].replace('--fetch-retries=0', '--fetch-retries=99')
+      + workflow.slice(install.index + install[0].length);
+    assert.ok(checkNetworkPolicy(changed).some(message => message.includes('bounded retries')),
+      `installation at ${install.index} must be checked`);
+  }
+});
 const checkout = workflow.match(/      - name: Check out exact revision[^\n]*\r?\n[\s\S]*?        run: \|\r?\n([\s\S]*?)(?=\r?\n      - )/)[1].split(/\r?\n/).map(line => line.replace(/^          /, '')).join('\n');
 function git(cwd, ...args) {
   const r = spawnSync('git', args, { cwd, encoding: 'utf8', windowsHide: true });

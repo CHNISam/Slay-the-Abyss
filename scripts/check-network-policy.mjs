@@ -9,7 +9,9 @@ export function checkNetworkPolicy(text) {
   if (/git remote remove origin|actions\/cache(?:@|\/)/.test(check)) errors.push('Local CI must preserve Git refs and avoid remote dependency cache downloads');
   for (const required of ['git update-ref refs/ci/previous', '+${env:CI_SHA}:refs/ci/current', '--no-auto-maintenance', 'git checkout --force --detach refs/ci/current', '$receivedPackBytes -gt 128MB', '$env:GITHUB_STEP_SUMMARY', 'npm run check:network']) if (!check.includes(required)) errors.push(`Missing CI download safeguard: ${required}`);
   for (const required of ['CI_REF: ${{ github.ref }}', 'git check-ref-format $env:CI_REF', "'\\A[0-9a-fA-F]{40}\\z'", "'^refs/((heads|tags)/.+|pull/[1-9][0-9]*/merge)$'", "'refs/ci/quality-tips/'", '[Security.Cryptography.SHA256]::Create()', 'git update-ref --no-deref $checkoutRef refs/ci/current', '$maxCheckoutTips = 64', "--format='%(refname)' refs/ci/quality-tips/", "Where-Object { $_ -cmatch '^refs/ci/quality-tips/[0-9a-f]{64}$' -and $_ -cne $checkoutRef }", 'Select-Object -Skip ($maxCheckoutTips - 1)', 'git update-ref --no-deref -d $staleRef']) if (!check.includes(required)) errors.push(`Missing bounded per-branch checkout safeguard: ${required}`);
-  const installs = check.match(/npm ci[^\r\n]*/g) || [];
+  // Fast planning/execution also installs dependencies. Apply the same bounded
+  // download contract to every job, rather than only the original rules job.
+  const installs = text.match(/npm ci[^\r\n]*/g) || [];
   if (!installs.length || installs.some(line => ['--prefer-offline', '--no-audit', '--fetch-retries=0', '--fetch-timeout=30000'].some(flag => !line.includes(flag)))) errors.push('npm CI downloads must prefer cache and use bounded retries/timeouts');
   return errors;
 }

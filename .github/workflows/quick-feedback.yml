@@ -1,11 +1,15 @@
 name: Quick feedback
 on:
-  pull_request:
-    branches: [develop, master]
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: 'Exact comparison commit for manual diagnostics'
+        required: true
+        type: string
 permissions:
   contents: read
 concurrency:
-  group: quick-feedback-${{ github.event.pull_request.number }}
+  group: quick-feedback-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   related:
@@ -33,7 +37,7 @@ jobs:
       - name: Verify exact PR merge and comparison base
         timeout-minutes: 2
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ inputs.base_sha }}
           GIT_TERMINAL_PROMPT: '0'
         run: |
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
@@ -44,7 +48,7 @@ jobs:
           git cat-file -e "${BASE_SHA}^{commit}"
       - name: Quick related subset; complete Quality runs independently
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ inputs.base_sha }}
           CI_LFS_TOKEN: ${{ github.token }}
           ABYSS_PYTHON: python3
         run: node scripts/test-affected.mjs --ci-fast --base "$BASE_SHA"
