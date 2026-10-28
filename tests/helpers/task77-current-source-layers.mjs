@@ -19,6 +19,7 @@ export function preCurrentSource(path,source){
  if(path===historicalCompetition.path)source=inverse(source,historicalCompetition);
  if(path==='src/lua/abyss_ui.lua' && hash(source)==='6a073dda56608f8d4e8f6b9c922a43041f42ded9923c4c3281a3dd8f98deb864')
   source=source.replace('campaignProfile = "competition-two-act", ','');
+ source=inverse(source,currentSourceLayers.noticeFix[path]);
  source=inverse(source,currentSourceLayers.competition[path]);
  return inverse(source,currentSourceLayers.acceptedUi[path]);
 }

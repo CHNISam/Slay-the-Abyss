@@ -13,7 +13,11 @@ function invert(source,binding){
  for(const edit of binding.edits){assert.equal(source.split(edit.after).length,2);source=source.replace(edit.after,edit.before);}
  assert.equal(hash(source),binding.beforeSha256);return source;
 }
-function acceptedSource(path){return layers.competition[path]?invert(read(path),layers.competition[path]):read(path);}
+function acceptedSource(path){
+ let source=read(path);
+ if(layers.noticeFix[path])source=invert(source,layers.noticeFix[path]);
+ return layers.competition[path]?invert(source,layers.competition[path]):source;
+}
 
 test('current Task77 source reverses only its owned edits and preserves the complete accepted confirmation/UI base',()=>{
  assert.equal(layers.acceptedBase,'77c2d5e6850f1758b821e5e2d45be60e8b5ed8a4');
@@ -48,4 +52,28 @@ test('accepted UI source layers recover the original immutable formal bindings a
 
 test('new controls guide offers same-run controls only, not later acts, keys or persistent continuation',()=>{
  assert.doesNotMatch(JSON.stringify(controlsGuide()),/第三幕|第四幕|真结局|钥匙|存档|续玩|保留进度/);
+});
+
+// Current geometry has its own strict identity; the old geometry remains a historical input only.
+test('reviewed battle notice is the only new theme delta and current identity cannot downgrade or hide drift',()=>{
+ const path='data/presentation/ui_theme.json',live=read(path),binding=layers.noticeFix[path];
+ assert.deepEqual(Object.keys(layers.noticeFix),[path]);
+ assert.equal(binding.afterSha256,'68fac59a6200dd5cf43070851bd0ef4323b73134ede1dea97107939b0dc8fdd2');
+ assert.equal(binding.beforeSha256,layers.acceptedUi[path].afterSha256);
+ assert.equal(binding.edits.length,1);
+ const current=JSON.parse(live),old=invert(live,binding);
+ assert.deepEqual(current.layout.battleNotice,{position:[-330,206],size:[520,80]});
+ const restored=structuredClone(current);restored.layout.battleNotice={position:[0,228],size:[1080,32]};
+ assert.deepEqual(restored,JSON.parse(old),'every unrelated live theme field remains byte-bound and value-identical');
+ assert.equal(preFormalEntrySource(path,live),preFormalEntrySource(path,old),'old formal/archive identity is retained');
+ assert.equal(preRetirementSource(path,live),preRetirementSource(path,old));
+ const edit=binding.edits[0];
+ for(const mutant of [old,live.replace(edit.after,edit.after+edit.after),live+'\n',
+  live.replace('        -330,\n        206','        -329,\n        206'),
+  live.replace('        520,\n        80','        520,\n        79'),
+  live.replace('"body": 18','"body": 19')]){
+  assert.notEqual(mutant,live);
+  assert.throws(()=>invert(mutant,binding),'direct current identity rejects old geometry and all unreviewed bytes');
+  if(mutant!==old)assert.throws(()=>preFormalEntrySource(path,mutant),/unreviewed integrated retirement source drift/);
+ }
 });
