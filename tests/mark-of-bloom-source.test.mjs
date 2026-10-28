@@ -24,7 +24,7 @@ test('Mark is one legal SPECIAL binding outside every ordinary relic queue and k
  assert.equal(relics.filter(r=>r.sourceId==='Mark of the Bloom').length,1);
  const pools=json('data/catalogs/sts1-relic-queues.json');for(const ids of Object.values(pools.queues))assert.ok(!ids.includes(mark.sourceId));
  const ledger=json('docs/rules/evidence/sts1-relic-pool-catalog.json');const row=ledger.relics.find(r=>r.id===mark.sourceId);
- assert.equal(ledger.registrationOrder.length,149);assert.equal(ledger.summary.queue,130);assert.equal(ledger.summary.queueMissing,87);assert.equal(ledger.summary.act1Missing,93);
+ assert.equal(ledger.registrationOrder.length,149);assert.equal(ledger.summary.queue,130);assert.equal(ledger.summary.queueMissing,86);assert.equal(ledger.summary.act1Missing,91);
  assert.equal(row.projectId,mark.id);assert.equal(row.scope,'later-act-only');assert.deepEqual(row.channels,[]);
  const manifest=json('data/release/launch-content.json');const entry=manifest.relics.find(r=>r.id===mark.id);
  assert.deepEqual(entry.channels,['explicit_event:mind_bloom:upgrade']);

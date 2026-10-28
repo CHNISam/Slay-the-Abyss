@@ -21,6 +21,11 @@ export function preRetirementSource(path,source=existsSync(path)?readFileSync(pa
   const molten=",\n      \"molten_egg\": {\n        \"id\": 102031,\n        \"placeholder\": true,\n        \"note\": \"暂沿用现有遗物图标；专属美术与设备验收待完成。\"\n      }";
   assert.equal(normalized?.split(molten).length,2,'one exact Molten Egg placeholder');
   normalized=normalized.replace(molten,'');
+  const mushroom="      \"odd_mushroom\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n";
+  const relic='    \"relic\": {\n',at=normalized.indexOf(relic)+relic.length;
+  assert.equal(normalized.split(relic).length,2,'one relic mapping container');
+  assert.equal(normalized.slice(at,at+mushroom.length),mushroom,'exact Mushroom insertion position');
+  normalized=normalized.slice(0,at)+normalized.slice(at+mushroom.length);
  }
  if(!Object.hasOwn(retirementSources.beforeSources,path))return normalized;
  assert.equal(normalized===null?null:digest(normalized),retirementSources.afterSha256[path],

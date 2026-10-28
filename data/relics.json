@@ -532,6 +532,15 @@
       "rarity": "rare",
       "trigger": "hooks",
       "effects": []
+    },
+    {
+      "id": "odd_mushroom",
+      "sourceId": "Odd Mushroom",
+      "name": "奇怪蘑菇",
+      "description": "你处于易伤时，普通攻击的额外伤害由50%降低为25%。",
+      "rarity": "special",
+      "trigger": "hooks",
+      "effects": []
     }
   ]
 }

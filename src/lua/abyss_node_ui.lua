@@ -61,7 +61,7 @@ local events = {
     winding_halls={name='迷途回廊',body='曲折通道等待着你的选择。',leave='你离开了通道。'},
     moai_head={name='巨像之首',body='石像等待着你的献祭。',leave='你离开了巨像。'},
     falling={name='坠落',body='落石正在崩塌。你必须在手中的卡牌之间作出取舍。',leave='你重新站稳，继续赶路。'},
-    golden_idol={name='鎏金神像',body='一件遗物摆在古老的石台上。',leave='你离开了石台。'},
+    mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},golden_idol={name='鎏金神像',body='一件遗物摆在古老的石台上。',leave='你离开了石台。'},
     ghosts={name='幽灵'},
 
     sssserpent={name='长蛇的交易',body='一条长蛇许诺金币，代价是一张诅咒。',leave='你离开了长蛇。'},

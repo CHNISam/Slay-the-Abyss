@@ -965,6 +965,7 @@ local function chooseEvent(run, choice, uid)
     end
     if Act1Events.ids[id] then
         local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+        if ok and status=='event_combat'then return Run.startEventCombat(run)end
         if ok and run.hp==0 then
             run.nodeFlow.eventChoice=choice
             complete(run);run.phase='defeat';return true,'defeat'

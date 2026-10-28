@@ -209,3 +209,17 @@ test('native trace proof rejects deleted changed reordered old writes and unrevi
  const source={...review.sourceInputs};source['tests/lua/support/presentation_trace.lua']='unreviewed recorder';
  assert.throws(()=>verifySources(source));
 });
+
+const mushroomThemeBlock="      \"odd_mushroom\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n";
+test('Mushrooms exact theme inverse rejects removal, movement, replacement and unrelated changes',()=>{
+ const source=readFileSync('data/presentation/ui_theme.json','utf8').replaceAll('\r\n','\n');
+ const projected=preRetirementSource('data/presentation/ui_theme.json',source);
+ assert.equal(preRetirementSource('data/presentation/ui_theme.json',source.replaceAll('\n','\r\n')),projected);
+ const mutations=[source.replace(mushroomThemeBlock,''),source.replace(mushroomThemeBlock,mushroomThemeBlock+mushroomThemeBlock),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('102028','102029')),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('true','false')),
+  source.replace(mushroomThemeBlock,mushroomThemeBlock.replace('专属美术','未审查')),
+  projected.replace('      "membership_card": 102026,\n','      "membership_card": 102026,\n'+mushroomThemeBlock),
+  source.replace('"body": 18','"body": 19'),source+'\n'];
+ for(const changed of mutations){assert.notEqual(changed,source);assert.throws(()=>preRetirementSource('data/presentation/ui_theme.json',changed));}
+});

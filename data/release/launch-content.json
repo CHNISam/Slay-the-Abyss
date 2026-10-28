@@ -783,6 +783,43 @@
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
       "limitation": "Snake Skull, DataDisk and Damaru are available in their original Silent/Defect/Watcher common queues; complete catalogs, queue order and RNG remain unchanged. Offline hooks and public shop/chest/elite obtain controls are covered, including captured Poison constructor ownership, Focus/orb identity, Mantra/stance thresholds and external acquire rollback. Room and terminal fixtures are not a complete natural campaign. Dedicated art and platform/live acceptance remain pending."
+    },
+    "mushrooms": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-62",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_mushrooms_event.lua",
+        "src/lua/abyss_act1_events.lua",
+        "src/lua/abyss_event_combat.lua",
+        "src/lua/abyss_encounter_formation.lua",
+        "src/lua/abyss_actor.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/mushrooms_event.lua",
+          "tests/lua/mushrooms_combat.lua",
+          "tests/lua/mushrooms_rollback.lua",
+          "tests/lua/mushrooms_ui.lua",
+          "tests/lua/mushrooms_natural.lua",
+          "tests/mushrooms-event.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "Actual single relic/event component and source-pool boundary selection; full default Act1 admission, whole campaign and platform/live remain pending. Existing currency glyph is an explicitly documented temporary art fallback."
     }
   },
   "cards": [
@@ -2235,6 +2272,7 @@
       "type": "curse",
       "countsTowardSeventyFive": false,
       "channels": [
+        "explicit_event:mushrooms:heal",
         "explicit_event:transmogrifier:change",
         "explicit_event:living_wall:change",
         "explicit:Run.obtainCard"
@@ -3783,6 +3821,30 @@
       "naturalAcquisitionLimitation": "Local public event/Run bridge, existing-controls UI, constructor preparation and event-room reward transaction. Controlled full-pool and explicit development routes do not prove natural campaign or native acceptance."
     },
     {
+      "id": "mushrooms",
+      "originalId": "Mushrooms",
+      "act": 1,
+      "choices": [
+        "fight",
+        "heal",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "pre_combat",
+        "combat",
+        "result"
+      ],
+      "eligibility": "Act1, floor greater than 6; fixed source event qualification and pool order unchanged.",
+      "source": "src/lua/abyss_mushrooms_event.lua",
+      "profile": "mushrooms",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "Default Act1 pool remains restricted-seven; development campaign keeps the full unfiltered source pool. Native client, full natural campaign and platform/live evidence remain pending."
+    },
+    {
       "id": "nest",
       "originalId": "Nest",
       "choices": [
@@ -3813,7 +3875,10 @@
       "source": "data/relics.json#lizard_tail",
       "profile": "lizardTail",
       "rarity": "rare",
-      "channels": ["treasure", "shop_relic"],
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
       "prerequisite": "none",
       "naturalExecutionLimitation": "Source rare-tier and permanent acquire/fatal APIs are tested with controlled tier, HP and route boundaries. Natural treasure/shop acquisition, device play and cross-session persistence are not granted."
     },
@@ -3823,7 +3888,9 @@
       "source": "data/relics.json#mark_of_bloom",
       "profile": "mark",
       "rarity": "special",
-      "channels": ["explicit_event:mind_bloom:upgrade"],
+      "channels": [
+        "explicit_event:mind_bloom:upgrade"
+      ],
       "naturalAcquisitionLimitation": "MindBloom Awake obtains this named SPECIAL relic through Run after permanent upgrades; the legacy channel label upgrade denotes that action. Public event bridge is locally wired; natural acquisition/platform evidence remain pending. Never part of ordinary relic queues.",
       "naturalExecutionLimitation": "Shared player healing gate and Run/Nodes camp/Cleric/combat-end routes are locally wired with recorded component/bridge coverage; whole natural campaign and native evidence remain pending."
     },
@@ -4284,7 +4351,8 @@
       "rarity": "special",
       "channels": [
         "explicit_event:bonfire:repeat_curse_offer",
-        "explicit_event:golden_idol:repeat_take"
+        "explicit_event:golden_idol:repeat_take",
+        "explicit_event:mushrooms:repeat_fight"
       ],
       "sourceId": "Circlet",
       "naturalAcquisitionLimitation": "Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue. Golden Idol repeat take also yields/increments the actual Circlet before trap choice."
@@ -4414,6 +4482,18 @@
       ],
       "sourcePoolClass": "watcher",
       "naturalAcquisitionLimitation": "Normal acquisition uses the complete shared + watcher source queues, including elite rewards; explicit Run.obtainRelic also supports external acquisition. Offline source-channel fixtures do not certify a complete natural run or platform/live acquisition."
+    },
+    {
+      "id": "odd_mushroom",
+      "sourceId": "Odd Mushroom",
+      "source": "data/relics.json#odd_mushroom",
+      "profile": "mushrooms",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:mushrooms:fight"
+      ],
+      "naturalAcquisitionLimitation": "EventRoom fixed reward after actual Mushrooms combat only; excluded from ordinary treasure/shop/rarity queues. Native and natural full campaign acceptance pending.",
+      "naturalExecutionLimitation": "Actual event obtain and next-battle player-only Vulnerable +25% have controlled local coverage. Approved shared treasure icon is an explicit placeholder; dedicated art/device acceptance pending."
     }
   ],
   "potions": [

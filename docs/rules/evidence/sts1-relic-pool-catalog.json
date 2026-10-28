@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 55,
+    "existingLocalEffects": 56,
     "queueMissing": 86,
-    "act1Missing": 92,
-    "registeredLocalEffects": 51,
+    "act1Missing": 91,
+    "registeredLocalEffects": 52,
     "fallbackLocalEffects": 1,
     "classLocalEffects": 3
   },
@@ -2804,8 +2804,8 @@
         "combat-hooks"
       ],
       "sourceHooks": [],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "odd_mushroom",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/OddMushroom.java",
       "unlockSource": null
     },
