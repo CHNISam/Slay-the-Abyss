@@ -64,11 +64,12 @@ test('Act3 event bridge evidence preserves pending native and natural acceptance
   }
 });
 
-test('campaign ledger distinguishes Act3 local components from persistent, Act4 and native acceptance', () => {
+test('campaign ledger distinguishes Act3/Act4 local components from natural, persistent and native acceptance', () => {
   const campaign = JSON.parse(readFileSync('data/release/m3-campaign.json', 'utf8'));
   assert.equal(campaign.acceptance, 'INCOMPLETE');
   assert.equal(campaign.core.persistentHistoricalUnlock, 'PLATFORM_UNVERIFIED');
-  assert.equal(campaign.core.naturalKeyAcquisition, 'PARTIAL_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_PENDING');
+  assert.equal(campaign.core.naturalKeyAcquisition, 'IMPLEMENTED_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_REWARD_NATURAL_UNVERIFIED');
+  assert.ok(campaign.core.keyAcquisitionEvidence.includes('tests/lua/emerald_key_run.lua'));
   assert.equal(campaign.core.sessionHistoricalUnlock, 'IMPLEMENTED_LOCAL_REAL_STANDARD_ACT3_VICTORIES_INJECTABLE_PROVIDER');
   const act3 = campaign.monsters.filter(row => row.act === 3);
   assert.equal(act3.length, 17);
@@ -79,10 +80,23 @@ test('campaign ledger distinguishes Act3 local components from persistent, Act4 
     assert.equal(row.parityStatus, 'UNVERIFIED', row.className);
     assert.equal(row.platformStatus, 'NOT_RUN', row.className);
   }
-  for (const row of campaign.monsters.filter(row => row.act === 4)) {
-    assert.equal(row.implementation, 'NOT_IMPLEMENTED', row.className);
-    assert.equal(row.localResult, 'NOT_RUN', row.className);
+  const act4Monsters = campaign.monsters.filter(row => row.act === 4);
+  assert.deepEqual(act4Monsters.map(row => row.className).sort(), ['CorruptHeart', 'SpireShield', 'SpireSpear']);
+  for (const row of act4Monsters) {
+    assert.equal(row.implementation, 'IMPLEMENTED_LOCAL', row.className);
+    assert.equal(row.localResult, 'RECORDED_LOCAL_COMPONENT_REGRESSION', row.className);
+    assert.ok(row.evidence.includes('tests/lua/ending_enemy_runtime.lua'), row.className);
+    assert.equal(row.parityStatus, 'UNVERIFIED', row.className);
+    assert.equal(row.platformStatus, 'NOT_RUN', row.className);
   }
+  const act4 = campaign.acts.find(row => row.act === 4);
+  assert.equal(act4.combat, 'IMPLEMENTED_LOCAL_SHIELD_SPEAR_HEART_CONTROLLED_ROUTE');
+  assert.equal(act4.events, 'NOT_APPLICABLE_FIXED_CAMP_SHOP_ELITE_BOSS_ROUTE');
+  assert.ok(act4.evidence.includes('tests/lua/ending_route_characters.lua'));
+  assert.match(act4.evidenceBoundary, /not natural acquisition/);
+  assert.equal(campaign.platformStatus, 'NOT_RUN');
+  assert.equal(campaign.officialImport, 'NOT_RUN');
+  assert.deepEqual(campaign.naturalPlaythroughs, []);
   for (const act of campaign.acts) {
     assert.equal(act.normalPlaythrough, 'NOT_RUN');
     assert.equal(act.platform, 'NOT_RUN');
