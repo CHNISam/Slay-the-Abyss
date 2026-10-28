@@ -9,7 +9,7 @@
 | ③ | TargetState.dc.html | 选择目标：拖线到敌人，非目标降到 40% |
 | ④ | StatusState.dc.html | 悬停/点击敌人一次列出意图与全部状态 |
 | ⑤ | MenuState.dc.html | 右上角菜单 |
-| ⑥ | Map.dc.html | 地图 |
+| ⑥ | Map.dc.html | 地图：四周雾气、点线路径、主角令牌标当前位置；去掉上下查看/当前进度按钮和节点状态图例；节点图标沿用现有官方素材，仅营地换成篝火 |
 | ⑦ | CrowdState.dc.html | 六个敌人：右侧固定区 640–1830px 内收紧 |
 | ⑧ | Spec.dc.html | 19 种状态图标、15 种意图图标、10 条边界规则（开发以此为准） |
 | ⑨ | PatchNotes.dc.html | 更新公告：左侧版本时间线，右侧按新增/调整/修复分组 |
