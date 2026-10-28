@@ -270,7 +270,7 @@ function M.new(view, controls)
         reticle:SetVisible(aiming == true)
         reticle:SetAnchoredPosition(ex, ey)
         reticle:SetSizeDelta(ring, ring)
-        tint(reticle, enemy and C.goldBright or C.textDim)
+        tint(reticle, enemy and C.danger or C.textDim)
     end
 
     local function renderArc(layer, aiming, sx, sy, ex, fy, enemy)
@@ -282,7 +282,8 @@ function M.new(view, controls)
                 -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.
                 dot:SetAnchoredPosition(u*u*sx + 2*u*t*sx + t*t*ex, u*u*sy + 2*u*t*fy + t*t*fy)
                 dot:SetSizeDelta(size, size)
-                tint(dot, enemy and C.goldBright or C.textDim)
+                -- Gold trail; once an enemy is locked the last 40% turns red so the lock reads at a glance.
+                tint(dot, (enemy and t > 0.6) and C.danger or C.goldBright)
             end
         end
     end

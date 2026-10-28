@@ -202,10 +202,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
-        local step = count > 1 and (L.enemyRow.xTo-L.enemyRow.xFrom)/(count-1) or 0
+        local xFrom = count <= (L.enemyRow.fewCount or 0) and L.enemyRow.xFromFew or L.enemyRow.xFrom
+        local step = count > 1 and (L.enemyRow.xTo-xFrom)/(count-1) or 0
         local badge = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2)
         local full = L.hpBar.size[1] + badge + L.blockBadge.gap
-        local x = count == 1 and (L.enemyRow.xFrom+L.enemyRow.xTo)/2 or L.enemyRow.xFrom+(i-1)*step
+        local x = count == 1 and (xFrom+L.enemyRow.xTo)/2 or xFrom+(i-1)*step
         local right = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x
         local playerRight = L.player.position[1] + L.hpBar.size[1] / 2
         local width = math.min(full, count > 1 and step-S.s or full,

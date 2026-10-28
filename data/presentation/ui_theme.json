@@ -777,8 +777,10 @@
     },
     "enemyRow": {
       "y": 64,
-      "xFrom": 32,
-      "xTo": 520,
+      "xFrom": -192,
+      "xFromFew": 32,
+      "fewCount": 3,
+      "xTo": 512,
       "portrait": 120,
       "bossPortrait": 168
     },
