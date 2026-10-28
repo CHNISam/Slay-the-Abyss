@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 07:13'
+updated_date: '2026-10-28 09:08'
 labels: []
 dependencies: []
 priority: medium
@@ -33,6 +33,8 @@ ordinal: 120000
 继续消除raw Lua串行热点：仅托管原始Lua最多2个独立wrapper进程；同步runLua、原deadline/maxBuffer/新进程保持，JS串行和VM数量不变。原始Lua/support无文件写入或共享JS文件系统桥，真实并发、失败传播、全量集合均须验证，超时失败不放宽预算。
 
 接续 PR267 当前9bab完整Quality三个独占30秒超时：先保留原CI和本地串行基线，采样定位验证开销；elite独立6组可按既有严格原文逆向模式分片，Silent同一实例两次完整四房及canonical比较、Intent连续双回合逐帧全字段检查保持。仅证明等价的测试层最小优化，不改运行时规则、原预算或有效断言；新精确头完整Quality仍待。
+
+本轮集成收口：固定develop d2e0baa3的失败日志，复现unknown_event_routing 110种子独占30秒超时；先测保持同一原文helper的更小独立完整种子分区，必须覆盖原220种子、四路由/七事件及所有每种子断言，不改生产逻辑或预算。独立补反向重建/分区负例，再以精确PR HEAD与合入develop完整CI验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -53,4 +55,8 @@ PR269合后Windows日志确认两类合同错误：新快反馈工作流CRLF未�
 PR2679bab 的完整Quality40642815774仍有Silent/Intent/Elite三项独占30s超时，原失败已保留。dot独立云树串行原基线24.67/20.52/19.60s；Intent仅内联相等scalar的测试比较，原双回合/逐帧全字段/原正文不变，14.36s且stdout相同；Elite6独立组按完整原文SHA/blob可逆分成1–3与4–6，12.04/6.71s且六组全覆盖。新证明4项先红后绿，连同worker/runner12项JS、全部Intent15组、Elite6组和Backlog/syntax/network通过。Silent仍保留同一实例两次完整四房和canonical相等；profile定位真实完整snapshot遍历热点，生产候选尚未采用，不宣称三项已修复或完整Quality通过。详见docs/reviews/PR267-FIXTURE-BUDGET-20261028.md。
 
 后续确认并纳入Silent最小生产机械快路径：仅capture显式栈/入栈去重，所有table key/value、data/catalog、alias/cycle仍完整访问，restore/ownedRestore/release原字节不动。原Silent fixture及同实例两次四房/71源池/canonical相等全部未改；旧新完整canonical6488字节相同。最终三故障入口21.47s/13.70s/Elite两片11.64与6.25s；14定向raw全部原预算通过，总137.53s。加强proof7项、原owner9组、96全图与20000深链及3漏图负例通过；独立审查发现false/key-only证明缺口后已补并重验。架构214/1237、静态84历史warnings零新增/418职责、4mutation通过。当前SHA完整托管Quality仍待，TASK75保持In Progress，不冒充真机或合后验收。
+
+继续按用户“处理好”授权完成集成；免费OpenCode路径因TASK51已记录限额且无恢复依据，本轮由Codex直接处理，不发试额度请求。当前develop CI40657289890的rules1失败为unknown_event_routing.lua原30000ms ETIMEDOUT，其余7规则片及POSIX/presentation通过。
+
+unknown路由修复：原110种子独占在Node22复现原30s超时；简单55种子半组缺稀有路由的诊断保留，未采纳删汇总。改4个55种子真实入口，逐种子原文反向重建hash a4d67d6a；真实完成记录1..220精确无重漏，原Lua四路由/七事件断言继续分别验证1..110及111..220。实际缺路由/事件负例均拒绝。Node24.19串行13/13过、0skip，76.653秒，全部子进程保持原30s；精确托管Node24.18完整CI和合后CI仍待。详见docs/reviews/INTEGRATION-CI-20261028.md。
 <!-- SECTION:NOTES:END -->
