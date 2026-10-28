@@ -1031,57 +1031,55 @@ function M.play(run, uid, targetIndex, commandId)
     return ok, reason
 end
 
+-- A paused card continuation owns selection, queued tails, permanent
+-- publication and finish/reward preparation, just like the public play command.
+-- Combat keeps its standalone savepoint; this outer preimage preserves Run and
+-- all original entity/pile references when a later step rejects or throws.
+local function continueCombatChoice(run,choose,uids,token,generation)
+    local snapshot=require('abyss_snapshot')
+    local restore,owner=snapshot.capture(run,run.combat)
+    local called,ok,reason=pcall(function()
+        local accepted,detail=choose(run.combat,uids,token,generation)
+        if accepted then
+            syncBattlePotions(run)
+            run.gold=run.combat.player.gold
+            applyPermanentChanges(run)
+            if Combat.outcome(run.combat) then
+                local completed,why=M.finishCombat(run)
+                if not completed then return false,why end
+            end
+        end
+        return accepted,detail
+    end)
+    if not called then restore();snapshot.release(owner);error(ok,0)end
+    if not ok then restore()end
+    snapshot.release(owner)
+    return ok,reason
+end
+
 -- Selection commands carry a battle generation in addition to the per-battle
 -- selection token. A delayed command from an old battle cannot choose new cards.
 function M.chooseDiscard(run, uids, token, generation)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     if generation ~= run.combatGeneration then return false, "stale_combat_generation" end
-    local ok,reason=Combat.chooseDiscard(run.combat,uids,token)
-    if ok then
-        syncBattlePotions(run)
-        run.gold=run.combat.player.gold
-        applyPermanentChanges(run)
-        if Combat.outcome(run.combat) then M.finishCombat(run) end
-    end
-    return ok,reason
+    return continueCombatChoice(run,Combat.chooseDiscard,uids,token)
 end
 function M.choosePile(run,uids,token,generation)
     if run.phase~='combat' then return false,'not_in_combat' end
     if generation~=run.combatGeneration then return false,'stale_combat_generation' end
-    local ok,reason=Combat.choosePile(run.combat,uids,token,generation)
-    if ok then
-        syncBattlePotions(run)
-        run.gold=run.combat.player.gold
-        applyPermanentChanges(run)
-        if Combat.outcome(run.combat) then M.finishCombat(run) end
-    end
-    return ok,reason
+    return continueCombatChoice(run,Combat.choosePile,uids,token,generation)
 end
 
 function M.chooseScry(run, uids, token, generation)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     if generation ~= run.combatGeneration then return false, "stale_combat_generation" end
-    local ok, reason = Combat.chooseScry(run.combat, uids, token)
-    if ok then
-        syncBattlePotions(run)
-        run.gold = run.combat.player.gold
-        applyPermanentChanges(run)
-        if Combat.outcome(run.combat) then M.finishCombat(run) end
-    end
-    return ok, reason
+    return continueCombatChoice(run,Combat.chooseScry,uids,token)
 end
 
 function M.chooseHand(run,uids,token,generation)
     if run.phase~="combat" then return false,"not_in_combat" end
     if generation~=run.combatGeneration then return false,"stale_combat_generation" end
-    local ok,reason=Combat.chooseHand(run.combat,uids,token)
-    if ok then
-        syncBattlePotions(run)
-        run.gold=run.combat.player.gold
-        applyPermanentChanges(run)
-        if Combat.outcome(run.combat) then M.finishCombat(run) end
-    end
-    return ok,reason
+    return continueCombatChoice(run,Combat.chooseHand,uids,token)
 end
 
 function M.endTurn(run)
