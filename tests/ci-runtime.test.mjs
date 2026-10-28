@@ -20,9 +20,12 @@ test('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unre
   const changedProcess = source.replace('maxBuffer: 1024 * 1024', 'maxBuffer: 1');
   assert.notEqual(changedProcess, source);
   assert.notEqual(sha(originalLuaRunner(changedProcess)), original);
-  const changedSchedule = source.replace('return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial).files;', 'return [];');
+  const changedSchedule = source.replace('return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial?.map(load => load * workers)).files;', 'return [];');
   assert.notEqual(changedSchedule, source);
   assert.throws(() => originalLuaRunner(changedSchedule), /exact reviewed scheduler/);
+  const changedWorkers = source.replace('workers === 2 && scripts.length', 'workers === 3 && scripts.length');
+  assert.notEqual(changedWorkers, source);
+  assert.throws(() => originalLuaRunner(changedWorkers), /exact reviewed worker wiring/);
 });
 
 test('weighted scheduling balances unequal files deterministically and rejects unsafe inputs', () => {
@@ -70,6 +73,7 @@ test('all current JS and Lua files are scheduled exactly once; new unmeasured fi
 
 test('workflow uses the same balanced plan for materialization and execution without changing concurrency', () => {
   const workflow = readFileSync('.github/workflows/quality.yml', 'utf8');
+  assert.ok(workflow.includes("--workers ${{ inputs.runner_pool == 'local-special' && 1 || 2 }}"));
   assert.equal((workflow.match(/node scripts\/ci-shards.mjs --prepare=/g) ?? []).length, 2);
   assert.equal((workflow.match(/node scripts\/ci-shards.mjs --shard=/g) ?? []).length, 2);
   const source = readFileSync('scripts/ci-shards.mjs', 'utf8');
