@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 04:07'
+updated_date: '2026-10-28 04:32'
 labels: []
 dependencies: []
 priority: medium
@@ -29,6 +29,8 @@ ordinal: 120000
 
 <!-- SECTION:PLAN:BEGIN -->
 读取日志，优化分片和重复执行，验证覆盖失败传播，精确HEAD合并后验证完整CI。
+
+实测单纯分片均衡仍超过15分钟，继续消除raw Lua串行热点。仅原始Lua使用每VM最多2个独立wrapper进程；同步runLua导出、每fixture原deadline/maxBuffer/新进程保持，JS仍串行，VM数量不变。974Lua源码无io.open/os文件写入；实测并发、失败继续与完整集合后跑官方全部回归，若原deadline失败不放宽预算。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

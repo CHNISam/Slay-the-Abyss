@@ -5,13 +5,31 @@ import { createHash } from 'node:crypto';
 // still protects every deadline, child process option, output and failure path.
 export function originalLuaRunner(source) {
   source = source.replaceAll('\r\n', '\n');
+  const workerEdits = [
+    ["import { runLuaWorkers } from './lua-workers.mjs';\n", ''],
+    ['    let workers = 1, workersSeen = false;\n', ''],
+    [String.raw`      if (args[i] === '--workers') {
+        if (workersSeen || !/^[12]$/.test(args[i + 1] ?? '')) throw new Error('Lua workers must be 1 or 2 and specified once');
+        workers = Number(args[++i]); workersSeen = true;
+      } else if (args[i] === '--shard' && shard === undefined) shard = args[++i] ?? '';`,
+      "      if (args[i] === '--shard' && shard === undefined) shard = args[++i] ?? '';"],
+    [String.raw`    if (workers === 2 && scripts.length) {
+      process.exitCode = await runLuaWorkers(scripts, { cli: process.argv[1], weights: runtimeTimings.lua });
+    } else for (const script of scripts) {`, '    for (const script of scripts) {'],
+    ['[--shard i/n] [--workers 1|2]', '[--shard i/n]'],
+    ['      scripts = shardLuaScripts(scripts, shard, runtimeTimings, workers);', '      scripts = shardLuaScripts(scripts, shard);'],
+  ];
+  for (const [after, before] of workerEdits) {
+    assert.equal(source.split(after).length, 2, 'exact reviewed worker wiring');
+    source = source.replace(after, before);
+  }
   const dependency = "import { partition, timings as runtimeTimings, jsShard, discoverJs } from './ci-shards.mjs';\n";
   assert.equal(source.split(dependency).length, 2, 'one reviewed scheduler dependency');
   const start = source.indexOf('export function shardLuaScripts(');
   const end = source.indexOf('\n\nif (process.argv[1]', start);
   assert.ok(start >= 0 && end > start, 'complete reviewed scheduling block');
   assert.equal(createHash('sha256').update(source.slice(start, end)).digest('hex'),
-    '64f2b495c06d0111ba307084136c8e034232fa79965cd1f9a6cccd8ee47cb0a6',
+    'a75b8bdbe54f1e7ccfe456610a7db850dbd43e22af6733389cc0e30be637e016',
     'only the exact reviewed scheduler may be inverted');
   const original = String.raw`export function shardLuaScripts(scripts, value) {
   const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(String(value));

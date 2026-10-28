@@ -197,7 +197,7 @@ jobs:
         run: |
           node scripts/map-ui-layout.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          node scripts/test-lua.mjs --shard ${{ matrix.shard }}/${{ strategy.job-total }}
+          node scripts/test-lua.mjs --shard ${{ matrix.shard }}/${{ strategy.job-total }} --workers ${{ inputs.runner_pool == 'local-special' && 1 || 2 }}
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run build:theme
         if: matrix.shard == 1
