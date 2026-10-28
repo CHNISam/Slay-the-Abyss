@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-27 15:03'
+updated_date: '2026-10-28 09:41'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -58,6 +58,8 @@ ordinal: 4000
 PR171整合切片：保留develop最新商店原子交易和战后独立选牌界面，解决开场与商人对话冲突；对话框避让全部商品价格；完整本地检查和当前SHA双Quality通过后squash合入develop，保留平台实机验收。
 
 地图金币缺失修复：复用节点页顶栏的生命/金币图标与位置，在地图常显真实局内资源；补选路前可见、归图更新及布局避让回归，记录本地与实机边界。
+
+2026-10-28 UI最终集成：核对#292及现有UI分支/PR交接，以最新develop和有效ui-canvas/批准原型建立12屏追溯表；逐屏核对1280×720实际原生控件、主题、输入代次、层级、容量和PC/手机安全区；修复已明确批准的实现缺口，不恢复PatchNotes，不新增玩法或插画；设计冲突保留待用户裁决。定向回归及精确HEAD完整Quality通过后合入develop；按最终develop SHA提供完整GIL构建交接，原生/实机无证据不记PASS。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
