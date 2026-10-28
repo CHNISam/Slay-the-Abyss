@@ -1,0 +1,11 @@
+✔ the accepted presentation sources still execute the original strict 79543-write fixture (15153.369325ms)
+✔ the accepted presentation sources still execute the original strict 79757-write fixture (13607.506313ms)
+✔ presentation responsibilities preserve the historical frozen trace contract (16956.165067ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46100.648482
