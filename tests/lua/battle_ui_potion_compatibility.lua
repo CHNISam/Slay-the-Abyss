@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local H = dofile("tests/lua/support/potion_gesture_fixture.lua")
 local F, Run, fixture = H.F, H.Run, H.setup
 local test, finish = H.suite("LUA_POTION_COMPATIBILITY")
@@ -39,7 +40,7 @@ test("metadata-free Down Up Click and same-ID fresh gesture survive resize",func
     tap(nil); d(); assert(h.run.combat.energy==5)
 end)
 test("host with no pointer enums retains click-only potions",function()
-    local h,r=F.fixture(); assert(h:start()); assert(Run.startCombat(h.run,"cultist_solo"))
+    local h,r=F.fixture(); assert(testStart(h)); assert(Run.startCombat(h.run,"cultist_solo"))
     assert(Run.obtainPotion(h.run,"energy_potion")); h:refresh()
     r:GetChild("battlePanel"):GetChild("potion1").click()
     assert(h.run.potions[1]==nil and h.run.combat.energy==5)

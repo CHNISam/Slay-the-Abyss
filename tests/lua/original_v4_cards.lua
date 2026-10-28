@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Generated native controls, actual host commands and feedback timeline.
 package.path='tests/lua/?.lua;'..package.path
 local F=require('support.game_ui_fixture')
@@ -11,7 +12,7 @@ for _,role in ipairs({'hutao','arlecchino','furina','raiden'})do
     local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
     local ui=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=1,imageSource='static',
         color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,originalCharacters=true,prologue=false})
-    root.ui=ui;assert(ui:start(role))
+    root.ui=ui;assert(testStart(ui,role))
     assert(F.Nodes.enter(ui.run,ui.map,F.Nodes.available(ui.run,ui.map)[1].id));ui:refresh()
     local battle=ui.run.combat;local slot
     for i,card in ipairs(battle.hand)do if card.uid==7 then slot=i end end

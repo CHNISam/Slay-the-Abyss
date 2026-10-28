@@ -8,6 +8,7 @@ import {runLua} from '../scripts/test-lua.mjs';
 import {integration as proof,acceptedPresentationSource,digest} from './helpers/presentation-m3-integration.mjs';
 
 import {retirementSources,preRetirementSource,archivedRetirementChangelog} from './helpers/presentation-announcement-retirement.mjs';
+import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
 const theme=JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));
@@ -137,6 +138,8 @@ for(const [count,hash,sources]of [
     // No downloads, Git history dependency, shared outputs or weakened deadline.
     for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
+    for(const path of Object.keys(formalEntryInverses))
+      writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
     for(const [path,source]of Object.entries({...cardSkinMigration.beforeSources,...sources}))writeFileSync(join(directory,path),source);
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
       const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});

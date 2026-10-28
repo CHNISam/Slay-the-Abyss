@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Trace=dofile('tests/lua/support/presentation_trace.lua')
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
@@ -8,7 +9,7 @@ local host,root=F.fixture(nil,function(victory)trace:add({'settle',victory});ret
 trace:attach(root)
 host:refresh()
 assert(host:openExit());assert(host:closeExit())
-assert(host:start());host:refresh()
+assert(testStart(host));host:refresh()
 assert(host:openDeck());assert(host:closeDeck())
 assert(host:openPotions());assert(host:closePotions())
 -- A real camp flow exercises picker labels, card selection and continuation.

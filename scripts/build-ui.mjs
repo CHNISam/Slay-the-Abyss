@@ -64,7 +64,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const releaseNotes = loadReleaseNotes({ releaseCandidate: options.releaseCandidate, workKey: options.workKey,
     sourceIdentity: options.sourceIdentity });
   const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8').replace(/^\uFEFF/, ''));
-  const battle = battleLayout(), layout = withViewport(gameLayout(undefined, {originalCharacters: options.experimentalCharacters !== true, ...options}), theme);
+  const battle = battleLayout(), layout = withViewport(gameLayout(undefined, options), theme);
   const templates = [deckCardTemplate()];
   if (art) { attachNativeCardArt(battle,art,{battleOnly:true}); attachNativeCardArt(layout,art); }
   for (const tree of [battle, layout, ...templates]) assertNativeUiCapacity(tree);

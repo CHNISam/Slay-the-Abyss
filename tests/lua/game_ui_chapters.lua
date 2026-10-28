@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
 local Map=require('abyss_map')
@@ -9,7 +10,7 @@ local function fixture(campaign)
     local ui=F.GameUI.new(root,F.Data,F.Presentation,'click',{
         seed=42,prologue=false,campaign=campaign,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
     root.ui=ui
-    assert(ui:start())
+    assert(testStart(ui))
     return ui,root
 end
 local function chest(ui)

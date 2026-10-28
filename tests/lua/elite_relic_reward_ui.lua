@@ -1,6 +1,7 @@
 local sliceFirst,sliceLast=...
 sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3
 local sliceRegistered=0
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path="src/lua/?.lua;build/lua/?.lua;"..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
@@ -23,7 +24,7 @@ local function test(name,fn)
 end
 local function setup(pointer)
     local host,root=F.fixture(nil,nil,nil,pointer and cursor or nil)
-    assert(host:start());assert(Run.startCombat(host.run,'cultist_solo'))
+    assert(testStart(host));assert(Run.startCombat(host.run,'cultist_solo'))
     -- These are explicitly staged reward offers for API/UI ownership tests.
     -- They are not a natural elite win or an oracle for elite drop probabilities.
     host.run.phase='reward'

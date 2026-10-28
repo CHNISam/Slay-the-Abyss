@@ -1,9 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { compareNativeCandidate, requireSourceSha } from '../scripts/native-candidate-audit.mjs';
+import { compareNativeCandidate, requireSourceSha, candidateEntrySource } from '../scripts/native-candidate-audit.mjs';
 
 const fixture = JSON.parse(readFileSync(new URL('./fixtures/native-candidate-audit/readback-slice.json', import.meta.url)));
+test('only a receipt bound to the exact candidate can add its exact entry marker', () => {
+  const source = 'local view\nreturn view\n', hash = 'a'.repeat(64);
+  const receipt = { buildId: '86e30616-6b6a-408e-b8bd-6491b9e2793c', candidate: { sha256: hash } };
+  const marked = `print("ABYSS_BUILD ${receipt.buildId}")\n${source}`;
+  assert.equal(candidateEntrySource(source, undefined, hash), source);
+  assert.equal(candidateEntrySource(source, receipt, hash), marked);
+  assert.equal(candidateEntrySource('\uFEFF' + source, receipt, hash), marked);
+  for (const value of [undefined, '', 'b'.repeat(64)]) assert.throws(() => candidateEntrySource(source, receipt, value));
+  for (const buildId of ['', 'unbound', '\"); error("injected") --'])
+    assert.throws(() => candidateEntrySource(source, { ...receipt, buildId }, hash));
+  assert.throws(() => candidateEntrySource(source, { ...receipt, candidate: {} }, hash));
+  assert.throws(() => candidateEntrySource(marked, receipt, hash));
+});
+
+test('native text false autoSize is its omitted default; true and text changes remain detectable', () => {
+  const equivalent = audit(input => {
+    const expected = firstText(input.expected.ui.controls), actual = firstText(input.actual.ui.interface.controls);
+    expected.text.autoSize = false; delete actual.text.autoSize;
+  });
+  assert.equal(equivalent.ok, true);
+  for (const change of ['enabled', 'text']) {
+    const changed = audit(input => {
+      const expected = firstText(input.expected.ui.controls), actual = firstText(input.actual.ui.interface.controls);
+      expected.text.autoSize = false;
+      if (change === 'enabled') actual.text.autoSize = true;
+      else { delete actual.text.autoSize; actual.text.content += ' changed'; }
+    });
+    assert.equal(changed.ok, false);
+    assert.ok(changed.issues.some(issue => issue.code === 'UI_MISMATCH'));
+  }
+});
 function audit(change = () => {}) {
   const input = structuredClone({ ...fixture, sourceSha: fixture.provenance.sourceCommit,
     candidateBefore: fixture.provenance.candidateSha256, candidateAfter: fixture.provenance.candidateSha256, bgm: true });

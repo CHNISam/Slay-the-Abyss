@@ -5,7 +5,7 @@ import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
 import { potionDiscardControls } from './potion-discard-layout.mjs';
-import { prologueControl, vistaControl } from './cinematic-ui-layout.mjs';
+import { vistaControl } from './cinematic-ui-layout.mjs';
 import { experimentalCharacterControls } from './character-ui-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
@@ -87,11 +87,9 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
       ] },
-      // Above every page so its last fade can uncover the map; below the deck and exit overlays.
-      prologueControl(theme),
       ...deckControls(theme),
       ...potionDiscardControls(theme),
-      ...(options.experimentalCharacters === true || options.originalCharacters === true ? experimentalCharacterControls(theme,options) : []),
+      ...experimentalCharacterControls(theme),
       ...exitControls(theme),
     ],
   };

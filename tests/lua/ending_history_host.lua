@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Real Host and Nodes entry; controlled terminal boundaries are NOT natural
 -- playthrough evidence. No key flags or permanent victory history are injected.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
@@ -39,9 +40,9 @@ test('Host reads qualification before first map generation and missing provider 
  local calls={};local generate=Map.generate
  local ui=fixture({readEndingHistory=function()calls[#calls+1]='history';return{version=1,wins={ironclad=true,silent=true,defect=true}}end})
  Map.generate=function(...)calls[#calls+1]='map';assert(calls[1]=='history','ENDING_HISTORY_BEFORE_MAP');return generate(...)end
- local ok,why=pcall(function()assert(ui:start())end);Map.generate=generate;assert(ok,why)
+ local ok,why=pcall(function()assert(testStart(ui))end);Map.generate=generate;assert(ok,why)
  eq(calls[1],'history');eq(calls[2],'map');eq(ui.run.endingUnlocked,true)
- local unknown=fixture({});assert(unknown:start());eq(unknown.run.endingUnlocked,false)
+ local unknown=fixture({});assert(testStart(unknown));eq(unknown.run.endingUnlocked,false)
  eq(unknown.run.endingHistory.known,false)
 end)
 test('Host records actual normal-ending command once and only a later run receives new qualification',function()
@@ -50,18 +51,18 @@ test('Host records actual normal-ending command once and only a later run receiv
   writes=writes+1;eq(delta.version,1);eq(delta.wins.ironclad,true)
   eq(delta.wins.silent,nil);eq(delta.wins.defect,nil);return false
  end})
- assert(ui:start());local ended=ui.run;eq(ended.endingUnlocked,false)
+ assert(testStart(ui));local ended=ui.run;eq(ended.endingUnlocked,false)
  terminal(ui);ui:refresh();eq(writes,1);eq(ended.endingUnlocked,false)
  eq(ended.endingHistoryResult.persistence,'write_failed');eq(ended.endingHistoryResult.wins.ironclad,true)
  ui:refresh();ui:refresh();eq(writes,1)
- assert(ui:start());assert(ui.run~=ended);eq(ui.run.endingUnlocked,true);eq(writes,1)
+ assert(testStart(ui));assert(ui.run~=ended);eq(ui.run.endingUnlocked,true);eq(writes,1)
  eq(persisted.wins.ironclad,false,'provider readback must stay detached')
 end)
 test('Host locks explicit replay seed into the origin rather than trusting mutable rule state',function()
  local writes=0;local ui=fixture({seed=42,readEndingHistory=function()
   return{version=1,wins={ironclad=false,silent=true,defect=true}}
  end,writeEndingHistory=function()writes=writes+1;return true end})
- assert(ui:start());terminal(ui);ui.run.seedSet=false;ui:refresh();eq(writes,0)
- assert(ui:start());eq(ui.run.endingUnlocked,false);eq(writes,0)
+ assert(testStart(ui));terminal(ui);ui.run.seedSet=false;ui:refresh();eq(writes,0)
+ assert(testStart(ui));eq(ui.run.endingUnlocked,false);eq(writes,0)
 end)
 print('ENDING_HISTORY_HOST '..count..' passed')

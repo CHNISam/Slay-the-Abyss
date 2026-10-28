@@ -68,7 +68,7 @@ test('deck overlay and close remain inside approved canvas safe areas at every d
 
 test('controller overlays isolate nearest-control navigation and deck pages leave the card viewport clear', () => {
   const layout = gameLayout(undefined, {originalCharacters: true});
-  for (const name of ['deckPanel','potionPanel','choicePanel','characterPanel','exitPanel','prologuePanel']) {
+  for (const name of ['deckPanel','potionPanel','choicePanel','characterPanel','exitPanel']) {
     assert.equal(layout.controls.find(c => c.name === name).isolateNavigation, true, name);
   }
   const deck = layout.controls.find(c => c.name === 'deckPanel');

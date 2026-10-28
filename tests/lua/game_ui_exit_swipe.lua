@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local cursor = {CursorEnter="enter", CursorExit="exit", CursorDown="down", CursorUp="up", CursorEndDrag="endDrag"}
 Enum = {CursorEventType=cursor} -- Native NodeUI uses the global enum fallback.
@@ -6,7 +7,7 @@ local passed, failed = 0, 0
 
 local function setup(relicSeed)
     local host, root = F.fixture(nil, function() return true end, nil, cursor)
-    assert(host:start())
+    assert(testStart(host))
     -- Independent complete source queue for the relic-purchase component only;
     -- the original run/map/card/merchant seed1 and all gestures stay unchanged.
     if relicSeed then host.run.relicPool=require('abyss_relic_pool').new(relicSeed,host.run.data.relicSource) end

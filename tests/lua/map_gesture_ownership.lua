@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Real generated controls and Map/GameUI commands; only native UI objects are doubled.
 local F = dofile('tests/lua/support/game_ui_fixture.lua')
 local Map, MapUI = require('abyss_map'), require('abyss_map_ui')
@@ -45,7 +46,7 @@ end
 
 test('actual exit cancel cannot revive old map input after a newer touch begins', function()
     local ui, root = F.fixture(nil, function() return true end, nil, cursor)
-    assert(ui:start())
+    assert(testStart(ui))
     local function hit(slot) return F.mapControl(root:GetChild('mapPanel'),'node'..slot):GetChild('hit') end
     local beforeRun, beforeMap = F.Combat.copy(ui.run), Map.snapshot(ui.map)
     hit(1).listeners.down(pointer(11))

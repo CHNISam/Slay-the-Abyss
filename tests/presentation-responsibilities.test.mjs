@@ -11,6 +11,9 @@ import {toLua} from '../scripts/build-lua-data.mjs';
 const evidence=readFileSync('docs/reviews/official-update-log-removal-20261028.json.gz');
 assert.equal(createHash('sha256').update(evidence).digest('hex'),'02cc28a2c1d8478b3d790645b7a73e2f120ba9f3d2c4cfdc22ad1f31f5b9c2b9');
 const proof=JSON.parse(gunzipSync(evidence));
+const entryBytes=readFileSync('docs/reviews/formal-entry-integrated-insertions-20261028.json.gz');
+assert.equal(createHash('sha256').update(entryBytes).digest('hex'),'d78dd2e3ada170f59e7b63a63d5927c7fd586e48901fef5c9cacda2874959840');
+const entryProof=JSON.parse(gunzipSync(entryBytes));
 const retired=row=>/^\{1=string:root\/(?:releaseNotesPanel|menuPanel\/releaseNotes),/.test(row);
 function traceHash(entries){
  let value=0;
@@ -41,8 +44,24 @@ function verifyCombinedRetirement(entries){
  assert.deepEqual(entries,expected,'all reviewed M3 and other native writes retain their values and global order');
  return expected;
 }
+function formalExpected(){
+ const before=verifyCombinedRetirement(integration.after.filter(row=>!retired(row)));
+ assert.equal(entryProof.beforeCount,before.length);assert.equal(entryProof.beforeHash,traceHash(before));
+ const rows=[];let old=0;
+ for(const insertion of entryProof.insertions){
+  while(rows.length<insertion.at)rows.push(before[old++]);
+  assert.equal(old,insertion.afterOld);
+  const selection=insertion.row.startsWith('{1=string:root/characterPanel');
+  const choice=/^\{1=string:root\/choicePanel,2=string:(?:SetVisible,3=\{1=boolean:false\}|visible,3=boolean:false)\}$/.test(insertion.row);
+  assert.ok(selection||choice||old>=1564&&old<=1566,'extra redraws occur only before a Run starts');
+  rows.push(insertion.row);
+ }
+ rows.push(...before.slice(old));
+ assert.equal(rows.length,81392);assert.equal(traceHash(rows),1836812524);
+ assert.equal(entryProof.insertions.length,1703);return rows;
+}
 function runConservedTrace(){
- const expected=verifyCombinedRetirement(integration.after.filter(row=>!retired(row)));
+ const expected=formalExpected();
  // Encode repeated rows once; every ordered write is still checked individually.
  const rows=[],order=[],ids=new Map();
  for(const row of expected){
@@ -55,11 +74,12 @@ function runConservedTrace(){
   const source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8').replaceAll('\r\n','\n');
   const binding="local Trace=dofile('tests/lua/support/presentation_trace.lua')\n";
   assert.equal(source.split(binding).length,2,'one unchanged strict recorder binding');
-  const guard=binding+`local rows=${toLua(rows)}\nlocal order=${toLua(order)}\nlocal index=0\nlocal originalNew=Trace.new\n`+
-   `Trace.new=function(...)\n local trace=originalNew(...)\n local originalAdd=trace.add\n`+
-   ` trace.add=function(self,value)\n  index=index+1\n`+
-   `  assert(Trace.serialize(value)==rows[order[index]],'non-announcement write changed at '..index)\n`+
-   `  return originalAdd(self,value)\n end\n return trace\nend\n`;
+  // Check each exact row during its existing serialization, without serializing
+  // the same native write twice. Native field guards and the 30s limit stay intact.
+  const guard=binding+`local rows=${toLua(rows)}\nlocal order=${toLua(order)}\nlocal index=0\nlocal originalSerialize=Trace.serialize\n`+
+   `Trace.serialize=function(value,seen)\n local row=originalSerialize(value,seen)\n`+
+   ` if seen==nil then index=index+1;assert(row==rows[order[index]],'unreviewed native write changed at '..index)end\n`+
+   ` return row\nend\n`;
   const path=join(directory,'trace.lua');
   writeFileSync(path,source.replace(binding,guard)+`\nassert(index==${expected.length},'all conserved writes executed')\n`);
   return runLua(path); // Keep the existing 30s deadline and complete original scenario.
@@ -69,7 +89,7 @@ function runConservedTrace(){
 
 for (const [fixture, marker] of [
   ['text', 'PRESENTATION_WORDING_TRACE 361 1837256485'],
-  ['trace', 'PRESENTATION_NATIVE_TRACE 79689 2034622601'],
+  ['trace', 'PRESENTATION_NATIVE_TRACE 81392 1836812524'],
 ]) {
   test(`presentation responsibilities preserve the frozen ${fixture} contract`, () => {
     const result = fixture==='trace' ? runConservedTrace() : runLua(`tests/lua/presentation_responsibilities_${fixture}.lua`);
@@ -104,4 +124,14 @@ test('combined M3 retirement rejects lost visual changes and restored or changed
  const reordered=[...current];[reordered[0],reordered[1]]=[reordered[1],reordered[0]];
  assert.notEqual(current[0],current[1]);assert.throws(()=>verifyCombinedRetirement(reordered));
  assert.throws(()=>verifyCombinedRetirement([...current,'unreviewed insertion']));
+});
+
+test('formal entry retains all integrated front-end writes and rejects unreviewed rows',()=>{
+ const rows=formalExpected(),before=verifyCombinedRetirement(integration.after.filter(row=>!retired(row)));
+ const inserted=new Set(entryProof.insertions.map(row=>row.at));
+ assert.deepEqual(rows.filter((_,i)=>!inserted.has(i)),before);
+ const verify=actual=>assert.deepEqual(actual,rows);
+ assert.throws(()=>verify(rows.slice(1)));const changed=[...rows];changed[0]+=' changed';assert.throws(()=>verify(changed));
+ const reordered=[...rows];[reordered[0],reordered[1]]=[reordered[1],reordered[0]];assert.throws(()=>verify(reordered));
+ assert.throws(()=>verify([...rows,'unreviewed insertion']));
 });

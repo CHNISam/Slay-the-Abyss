@@ -1,3 +1,5 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
+local testStartButton=dofile('tests/lua/support/game_ui_fixture.lua').startButton
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local GameUI, Combat, Nodes, Data = F.GameUI, F.Combat, F.Nodes, F.Data
 local Presentation, Layout, Viewport, Theme = F.Presentation, F.Layout, F.Viewport, F.Theme
@@ -48,13 +50,13 @@ test("menu shows only current version and keeps start/exit available without ann
     assert(ui.releaseNotesUI == nil and ui.mode == 'menu')
     assert(ui:openExit() and ui.exitOpen)
     assert(ui:closeExit() and not ui.exitOpen and ui.mode == 'menu')
-    assert(ui:start() and not version.visible and ui.mode == 'map')
+    assert(testStart(ui) and not version.visible and ui.mode == 'map')
 end)
 
 test("new encounter resets stale target before the first attack-card tap", function()
     local Run = require("abyss_run")
     local ui, root = fixture()
-    assert(ui:start())
+    assert(testStart(ui))
     local run = ui.run
     assert(Run.startCombat(run, "louse_pair"))
     ui:refresh()
@@ -99,10 +101,10 @@ test("menu starts real map, enters actual encounter, consumes reward and unlocks
     assert(guide == "" and not root:GetChild("menuPanel"):GetChild("summary").visible)
     assert(not (intro .. guide):find("十五", 1, true) and not (intro .. guide):find("十七", 1, true))
     preview("menu", guide)
-    click(root, "menuPanel", "start")
+    testStartButton(root)
     assert(ui.mode == "map" and ui.map.floor == 0 and #Nodes.available(ui.run, ui.map) == 2)
     local original = ui.run
-    assert(ui:start() == false and ui.run == original)
+    assert(testStart(ui) == false and ui.run == original)
     click(root, "mapPanel", "node1")
     assert(ui.mode == "battle" and ui.map.floor == 1 and not ui.mapUI.navigationEnabled)
     assert(not root:GetChild("mapPanel").visible and not root:GetChild("nodePanel").visible)
@@ -127,7 +129,7 @@ end)
 
 test("defeat returns to menu and restart replaces the complete same-run state", function()
     local ui, root = fixture()
-    click(root, "menuPanel", "start") click(root, "mapPanel", "node1")
+    testStartButton(root) click(root, "mapPanel", "node1")
     local previous = ui.run
     previous.combat.player.hp = 1
     -- A legal weak encounter can open with a buff/debuff instead of damage.
@@ -140,7 +142,7 @@ test("defeat returns to menu and restart replaces the complete same-run state", 
     local ending = resultText(root, "subtitle")
     assert(ending == "封印仍在崩解，遗迹深处的回廊再一次归于黑暗。")
     preview("defeat", ending)
-    click(root, "menuPanel", "start")
+    testStartButton(root)
     assert(ui.mode == "node" and ui.run ~= previous and ui.map.floor == 0)
     assert(ui.run.gold == Data.rules.player.startingGold and #ui.run.deck == 10 and #ui.run.potions == 0)
     assert(#ui.run.relics == #Data.rules.player.startingRelics and ui.run.nodeFlow~=previous.nodeFlow)
@@ -157,7 +159,7 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
     local data = Combat.copy(Data)
     for _, enemy in ipairs(data.enemies.enemies) do enemy.hp, enemy.hpRange = 4, nil end -- explicit low-HP flow fixture
     local ui, root = fixture(data)
-    click(root, "menuPanel", "start")
+    testStartButton(root)
     local route=dofile('tests/lua/support/map_routes.lua').best(ui.map,function(node)return node.type=='event' and 1 or 0 end)
     local seen,seenEvents = {},{}
     for floor = 1, data.rules.map.floors do
@@ -257,7 +259,7 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
     assert(resultText(root, "subtitle") == "随着守卫倒下，岩元素的光芒重新沿着石纹蔓延。裂隙逐渐闭合，遗迹恢复了往日的寂静。荧收起剑，继续自己的旅途。")
     preview("victory", resultText(root, "subtitle"))
     local previous=ui.run
-    click(root, "menuPanel", "start")
+    testStartButton(root)
     assert(ui.mode=='node' and ui.map.floor==0 and #ui.run.deck==10)
     completeRestartOpening(ui,root,previous)
     assert(ui.mode == "map" and ui.map.floor == 0 and #ui.run.deck == 10)
@@ -266,7 +268,7 @@ end)
 test("same-run result records active time and victories, freezes on results and resets on restart", function()
     local ui, root = fixture()
     ui:update(100)
-    assert(ui:start())
+    assert(testStart(ui))
     assert(ui.run.elapsedSeconds == 0 and ui.run.victories == 0)
     ui:update(60.5) ui:update(1.75)
     assert(ui.run.elapsedSeconds == 62.25)
@@ -288,7 +290,7 @@ test("same-run result records active time and victories, freezes on results and 
     assert(statValue(root, "time") == "01:03" and statValue(root, "victories") == "1")
     ui:update(100)
     assert(ui.run.elapsedSeconds == 63.25)
-    assert(ui:start() and ui.run.elapsedSeconds == 0 and ui.run.victories == 0)
+    assert(testStart(ui) and ui.run.elapsedSeconds == 0 and ui.run.victories == 0)
     ui:update(3)
     ui.run.phase = "victory"
     ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"}
@@ -302,9 +304,9 @@ test("result settlement sends each outcome once and cannot restart while officia
     local ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory end)
     assert(not ui:settle() and #outcomes == 0)
     assert(not root:GetChild("menuPanel"):GetChild("settle").visible)
-    assert(ui:start()) assert(not ui:settle())
+    assert(testStart(ui)) assert(not ui:settle())
     ui.run.phase = "defeat" ui:refresh()
-    assert(ui:start() and not ui.settlementRequested)
+    assert(testStart(ui) and not ui.settlementRequested)
     ui.run.phase = "defeat" ui:refresh()
     assert(root:GetChild("menuPanel"):GetChild("start").x < 0)
     assert(root:GetChild("menuPanel"):GetChild("settle").visible)
@@ -312,9 +314,9 @@ test("result settlement sends each outcome once and cannot restart while officia
     assert(#outcomes == 1 and outcomes[1] == false and ui.settlementRequested)
     assert(root:GetChild("menuPanel"):GetChild("settle"):GetChild("disabled").visible)
     assert(not ui:settle() and #outcomes == 1)
-    assert(not ui:start() and not root:GetChild("menuPanel"):GetChild("start").visible)
+    assert(not testStart(ui) and not root:GetChild("menuPanel"):GetChild("start").visible)
     ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory end)
-    assert(ui:start())
+    assert(testStart(ui))
     ui.run.phase = "victory"
     ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"}
     ui:refresh() assert(ui.mode == "victory")
@@ -332,7 +334,7 @@ test("settlement callback failure is visible and retryable without claiming offi
         if attempts == 1 then error("injected send failure") end
         if attempts == 2 then return false end
     end)
-    ui:start() ui.run.phase = "defeat" ui:refresh()
+    testStart(ui) ui.run.phase = "defeat" ui:refresh()
     for _ = 1, 2 do
         assert(not click(root, "menuPanel", "settle"))
         assert(not ui.settlementRequested and not ui.settlementBusy)
@@ -343,7 +345,7 @@ test("settlement callback failure is visible and retryable without claiming offi
     assert(root:GetChild("menuPanel"):GetChild("settle"):GetChild("label").text == "已发送结算请求")
     assert(ui.mode == "defeat", "sending a signal is not official settlement confirmation")
     local unavailable = fixture()
-    unavailable:start() unavailable.run.phase = "defeat" unavailable:refresh()
+    testStart(unavailable) unavailable.run.phase = "defeat" unavailable:refresh()
     local ok, reason = unavailable:settle()
     assert(not ok and reason == "settlement_unavailable" and not unavailable.settlementRequested)
     assert(resultText(root, "status") ~= nil)
@@ -365,7 +367,7 @@ end)
 
 test("result page shows only the recorded run stats in the approved four cells", function()
     local ui, root = fixture(nil, function() end)
-    assert(ui:start())
+    assert(testStart(ui))
     ui.run.victories, ui.run.elapsedSeconds, ui.run.gold, ui.run.hp = 7, 3725.9, 211, 33
     ui.run.phase = "defeat" ui:refresh()
     local menu = root:GetChild("menuPanel")
@@ -396,7 +398,7 @@ test("repeated settlement clicks, clicks during reveal and restart attempts subm
     local outcomes = {}
     local ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory return true end)
     local menu = root:GetChild("menuPanel")
-    assert(ui:start()) ui.run.phase = "defeat" ui:refresh()
+    assert(testStart(ui)) ui.run.phase = "defeat" ui:refresh()
     assert(ui.motion.t == 0, "reveal has just begun")
     local hit = menu:GetChild("settle"):GetChild("hit")
     assert(menu:GetChild("settle").visible and menu:GetChild("start").visible, "reveal never hides result actions")
@@ -412,7 +414,7 @@ test("repeated settlement clicks, clicks during reveal and restart attempts subm
     -- A fresh host (platform Retry reloads the stage) may settle its own result once.
     ui, root = fixture(nil, function(victory) outcomes[#outcomes + 1] = victory return true end)
     hit = root:GetChild("menuPanel"):GetChild("settle"):GetChild("hit")
-    assert(ui:start()) ui.run.phase = "victory" ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"} ui:refresh()
+    assert(testStart(ui)) ui.run.phase = "victory" ui.run.nodeFlow = {complete=true, result="boss_treasure_complete"} ui:refresh()
     assert(hit.click() == true and hit.click() == false)
     assert(#outcomes == 2 and outcomes[2] == true)
 end)
@@ -423,7 +425,7 @@ test("result reveal settles exactly on approved frames and feedback motion never
     local ui, root = fixture(nil, function() return not fail end)
     local menu = root:GetChild("menuPanel")
     local result, emblem, settle = menu:GetChild("result"), menu:GetChild("emblem"), menu:GetChild("settle")
-    assert(ui:start()) ui.run.phase = "defeat" ui:refresh()
+    assert(testStart(ui)) ui.run.phase = "defeat" ui:refresh()
     assert(math.abs(emblem.scale[1] - L.reveal.emblemFrom) < 1e-9)
     assert(menu:GetChild("title").y < L.title[2])
     local card = result:GetChild("stat_deck")
@@ -467,7 +469,7 @@ end)
 
 test("host defers defeat routing until the final feedback banner and releases result input once", function()
     local ui, root = fixture()
-    assert(ui:start()) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
+    assert(testStart(ui)) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     ui.run.combat.player.hp = 1 ui.battleUI:render()
     for _ = 1, 8 do
         ui.battleUI:endTurn()
@@ -511,16 +513,13 @@ test("native lifecycle loads every composed control and registers its listeners 
     assert(root.scale[1] == 1.25)
     assert(script.updating)
     click(root, "menuPanel", "start")
-    -- The formal host now offers the four originals and the unchanged Traveler.
-    assert(root:GetChild("characterPanel").visible and not root:GetChild("prologuePanel").visible)
+    assert(root:GetChild("characterPanel").visible and root:GetChild("prologuePanel")==nil)
     click(root, "characterPanel", "traveler")
+    assert(root:GetChild("characterPanel").visible and not root:GetChild("mapPanel").visible)
+    click(root, "characterPanel", "confirm")
     assert(not root:GetChild("characterPanel").visible)
-    -- Choosing Traveler opens the first run with the cinematic; skipping uncovers the map.
-    assert(root:GetChild("prologuePanel").visible and not root:GetChild("mapPanel").visible)
-    assert(not root:GetChild("menuPanel").visible and not root:GetChild("deckEntry").visible)
-    click(root, "prologuePanel", "skip")
     for _ = 1, 8 do OnUpdate(0.25) end
-    assert(root:GetChild("mapPanel").visible and not root:GetChild("prologuePanel").visible)
+    assert(root:GetChild("mapPanel").visible and root:GetChild("prologuePanel")==nil)
     assert(not root:GetChild("menuPanel").visible)
     width, height = 2340, 1080
     OnUpdate(0.25)

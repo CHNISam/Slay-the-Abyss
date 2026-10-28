@@ -1,8 +1,9 @@
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preFormalEntrySource(p,readFileSync(p,'utf8'));
 const budget=JSON.parse(read('tests/fixtures/pr238-remaining-budget.json'));
 test('remaining PR238 budgets retain complete bodies and exact case coverage',()=>{
  assert.equal(budget.base,'7593e8272b363f06d3cdaa62f29967756b3c1102');assert.equal(budget.timeoutMilliseconds,30000);

@@ -6,8 +6,10 @@ local Data, Theme = require('abyss_data'), require('abyss_theme')
 local M = {}
 function M.start(view)
     local time, last = 0, 0
-    view.prologueSeen=true
     assert(view:start())
+    assert(view:selectCharacter('traveler'))
+    assert(view:selectElement('ironclad'))
+    assert(view:confirmCharacter())
     local scenes = {
         {'neutral',{}}, {'frail',{frail=1}}, {'dexterity',{dexterity=3}},
         {'weak',{weak=1}}, {'aim',{}}, {'cancel',{}},
