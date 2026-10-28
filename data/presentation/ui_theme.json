@@ -560,7 +560,7 @@
     "battlePotions": {
       "count": 5,
       "origin": [
-        -228,
+        -480,
         268
       ],
       "step": [
@@ -614,7 +614,7 @@
     "topBar": {
       "height": 48,
       "y": 316,
-      "note": "与节点页共用顶栏高度；右端 408..600 留给共用的卡组/退出按钮行。",
+      "note": "左侧按扫视顺序 生命 → 金币 → 消耗；右端 408..600 留给共用的卡组/退出按钮行。",
       "hpIcon": [
         -570,
         28
@@ -624,19 +624,19 @@
         100
       ],
       "goldIcon": [
-        236,
+        -420,
         28
       ],
       "gold": [
-        280,
+        -376,
         52
       ],
       "exhaustIcon": [
-        330,
+        -330,
         28
       ],
       "exhaust": [
-        368,
+        -292,
         44
       ]
     },
@@ -724,10 +724,10 @@
       "commitOverlap": 0.25,
       "cancelY": -185,
       "targetColumn": 220,
-      "aimDots": 10,
+      "aimDots": 14,
       "aimDot": [
         8,
-        18
+        24
       ],
       "reticlePad": 28
     },
@@ -777,8 +777,8 @@
     },
     "enemyRow": {
       "y": 64,
-      "xFrom": -192,
-      "xTo": 512,
+      "xFrom": 32,
+      "xTo": 520,
       "portrait": 120,
       "bossPortrait": 168
     },
@@ -839,10 +839,25 @@
       "node": 56,
       "bossNode": 96,
       "viewportHeight": 600,
-      "emeraldLabel": [0, -24, 96, 40],
+      "emeraldLabel": [
+        0,
+        -24,
+        96,
+        40
+      ],
       "emeraldIconY": 8,
-      "notice": [0, -324, 1160, 28],
-      "emeraldNotice": [0, -316, 1160, 40]
+      "notice": [
+        0,
+        -324,
+        1160,
+        28
+      ],
+      "emeraldNotice": [
+        0,
+        -316,
+        1160,
+        40
+      ]
     },
     "modal": {
       "size": [
@@ -930,13 +945,39 @@
       "note": "批准奖励列表构图；第四行容纳独立失金条目。列表和选牌台互斥，继续不增加逐项放弃确认。",
       "expanded": {
         "note": "仅五至六行独立奖励时扩展原列表面板至安全区内；保留64高按钮与批准字号，不合并绿钥匙或Black Star遗物。",
-        "stage": [0, 0, 640, 680],
-        "title": [0, 290, 560, 44],
-        "subtitle": [0, 238, 560, 40],
-        "rowOrigin": [0, 168],
+        "stage": [
+          0,
+          0,
+          640,
+          680
+        ],
+        "title": [
+          0,
+          290,
+          560,
+          44
+        ],
+        "subtitle": [
+          0,
+          238,
+          560,
+          40
+        ],
+        "rowOrigin": [
+          0,
+          168
+        ],
         "rowStep": 68,
-        "continue": [0, -308],
-        "potionLabel": [0, -242, 1040, 48]
+        "continue": [
+          0,
+          -308
+        ],
+        "potionLabel": [
+          0,
+          -242,
+          1040,
+          48
+        ]
       },
       "stage": [
         0,
