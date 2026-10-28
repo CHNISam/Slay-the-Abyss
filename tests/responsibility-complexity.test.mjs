@@ -31,6 +31,25 @@ test('every extracted helper and anonymous function receives the same budget', (
   f.diagnostics.at(-1).message='cyclomatic complexity of function is too high (15 > 0)';
   assert.deepEqual(reviewResponsibilityComplexity(f.diagnostics,f.sources,roots).errors,[]);
 });
+test('potion candidate helpers cannot move branching outside the responsibility budget', () => {
+  const helper='src/lua/abyss_run_potion_candidate.lua';
+  const source='local function prepare() return function() end end; return prepare';
+  const diagnostics=[row(helper,1,1,'main chunk',1),
+    row(helper,1,7,"function 'prepare'",15),
+    row(helper,1,source.indexOf('function()')+1,'function',16)];
+  assert.ok(reviewResponsibilityComplexity(diagnostics,{[helper]:source},{}).errors
+    .some(error=>error.file===helper&&error.message.includes('16 exceeds 15')));
+  diagnostics[2].message='cyclomatic complexity of function is too high (15 > 0)';
+  assert.deepEqual(reviewResponsibilityComplexity(diagnostics,{[helper]:source},{}).errors,[]);
+});
+test('restoring the original Run potion candidate hotspot fails the production policy', () => {
+  const run='src/lua/abyss_run.lua',source='local function potionCandidate() end';
+  const diagnostics=[row(run,1,1,'main chunk',1),row(run,1,7,"function 'potionCandidate'",53)];
+  const report=reviewResponsibilityComplexity(diagnostics,{[run]:source});
+  assert.ok(report.errors.some(error=>error.file===run&&error.message.includes('53 exceeds 15')));
+  assert.ok(report.errors.some(error=>error.file==='src/lua/abyss_run_potion_candidate.lua'
+    &&error.message.includes('Required responsibility module missing')));
+});
 test('missing entries, missing measurements, duplicate positions and unknown formats fail closed', () => {
   const f=fixture(), review=(d=f.diagnostics,s=f.sources)=>reviewResponsibilityComplexity(d,s,roots).errors;
   assert.ok(review(f.diagnostics,{}).some(e=>e.message.includes('module missing')));
