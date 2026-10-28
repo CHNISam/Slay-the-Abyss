@@ -185,14 +185,24 @@ test('historical relic input is the complete frozen pre-Molten/Mushrooms source,
  ])assert.throws(()=>preRetirementSource(path,JSON.stringify(change,null,2)+'\n'),/unreviewed integrated retirement source drift/);
 });
 
-test('Mushrooms NodeUI label inverse keeps the complete historical source and rejects altered or moved additions',()=>{
+test('NodeUI refactor inverse preserves historical Mushrooms copy and rejects drift in every responsibility',()=>{
  const path='src/lua/abyss_node_ui.lua',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
- const added="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
  assert.equal(acceptedPresentationSource(path),proof.beforeSources[path]);
- const moved=source.replace(added,'').replace("ghosts={name='幽灵'},",added+"ghosts={name='幽灵'},");
- for(const changed of [source.replace(added,''),source.replace(added,added+added),moved,
-   source.replace(added,added.replace("name='蘑菇'","name='changed'")),source+'\n']){
-  assert.notEqual(changed,source);assert.throws(()=>acceptedPresentationSource(path,changed),/unreviewed integrated presentation source drift/);
+ assert.equal(acceptedPresentationSource(path,source.replaceAll('\n','\r\n')),proof.beforeSources[path]);
+ assert.throws(()=>acceptedPresentationSource(path,source+'\n'),/unreviewed Node UI refactor source drift/);
+ const modules=['camp_actions','event_ownership','events','faces','feedback','input','lifecycle','rewards','shop','treasure'];
+ for(const name of modules){
+  const file='src/lua/abyss_node_ui_'+name+'.lua';
+  const current=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+  assert.throws(()=>acceptedPresentationSource(path,source,{[file]:current+'\n'}),/unreviewed Node UI refactor source drift/);
+ }
+ const file='src/lua/abyss_node_ui_events.lua',events=readFileSync(file,'utf8').replaceAll('\r\n','\n');
+ const added="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
+ assert.equal(events.split(added).length,2);
+ const moved=events.replace(added,'').replace("ghosts={name='幽灵'},",added+"ghosts={name='幽灵'},");
+ for(const changed of [events.replace(added,''),events.replace(added,added+added),moved,events.replace(added,added.replace("name='蘑菇'","name='changed'"))]){
+  assert.notEqual(changed,events);
+  assert.throws(()=>acceptedPresentationSource(path,source,{[file]:changed}),/unreviewed Node UI refactor source drift/);
  }
 });
 

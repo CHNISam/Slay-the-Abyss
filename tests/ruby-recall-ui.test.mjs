@@ -40,7 +40,9 @@ test('generated camp preserves the Recall footer and adds a rest result panel',(
   assert.ok(root.children.indexOf(footer)>root.children.indexOf(camp));
   for(const tile of camp.children.filter(control=>['rest','forge'].includes(control.name)))
     assert.ok(footer.position[1]+footer.size[1]/2<tile.position[1]-tile.size[1]/2);
-  const source=readFileSync('src/lua/abyss_node_ui.lua','utf8');
+  const entry=readFileSync('src/lua/abyss_node_ui.lua','utf8');
+  assert.match(entry,/require\("abyss_node_ui_camp_actions"\)\.install\(ctx\)/);
+  const source=readFileSync('src/lua/abyss_node_ui_camp_actions.lua','utf8');
   assert.match(source,/confirmLabel, confirmOk = "Recall", true/);
   assert.match(source,/commit\("recall", recallSource/);
 });

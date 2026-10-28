@@ -14,9 +14,12 @@ test('generated treasure retains legacy commands and adds four visible reward ro
   assert.ok(root.children.indexOf(footer)>root.children.indexOf(treasure));
   assert.ok(take.position[0]+take.size[0]/2<footer.position[0]-footer.size[0]/2);
   assert.deepEqual(take.position,[0,-244]);assert.deepEqual(footer.position,[490,-290]);
-  const source=readFileSync('src/lua/abyss_node_ui.lua','utf8');
+  const entry=readFileSync('src/lua/abyss_node_ui.lua','utf8');
+  assert.match(entry,/require\("abyss_node_ui_treasure"\)\.install\(ctx\)/);
+  const source=readFileSync('src/lua/abyss_node_ui_treasure.lua','utf8');
+  const dispatch=readFileSync('src/lua/abyss_node_ui_lifecycle.lua','utf8');
   assert.match(source,/commit\("chooseTreasure", source,/);
-  assert.match(source,/pcall\(Nodes\.chooseTreasure, self\.run, self\.map, argument, choice\)/);
+  assert.match(dispatch,/pcall\(Nodes\.chooseTreasure, ctx\.self\.run, ctx\.self\.map, argument, choice\)/);
 });
 
 for (const [file,groups] of [['sapphire_treasure_ui.lua',8],['sapphire_treasure_ui_slice_2.lua',2],

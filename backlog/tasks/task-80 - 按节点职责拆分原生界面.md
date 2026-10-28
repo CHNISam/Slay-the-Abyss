@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-28 15:26'
-updated_date: '2026-10-28 15:57'
+updated_date: '2026-10-28 16:20'
 labels: []
 dependencies: []
 priority: medium
@@ -42,6 +42,10 @@ ordinal: 124000
 最终串行手势22/22通过，17670ms，保留30000ms原期限。
 
 独立PR #310：https://github.com/CHNISam/Slay-the-Abyss/pull/310。仅交付Node UI源码、必要回归、静态门禁授权适配与文档；无Combat/Run/CI工作流改动。最终离线验收全部满足，完整Quality按PR当前SHA单独核对。
+
+合并前当前SHA Quality发现旧源码定位断言未随模块迁移适配。重开原任务，在同一PR补齐Recall/宝箱定位及严格历史源码逆投影校验，运行时代码不变。
+
+已在同一PR适配全部已定位源码位置/历史整文件绑定测试：Recall14组、宝箱17组交互用例通过，完整历史回放9项通过（原79543/79757次写入及全职责漂移负例保留）。运行时代码不变；固定归档先核对全部11个职责文件完整hash后才逆投影。等待新SHA完整Quality后合并。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

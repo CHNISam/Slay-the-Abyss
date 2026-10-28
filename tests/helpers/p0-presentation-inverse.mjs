@@ -1,3 +1,4 @@
+import {preNodeUiRefactorSource}from'./node-ui-refactor-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
@@ -9,7 +10,7 @@ assert.equal(hash(bytes),'6f74bc575b24e5c830119e0309b0311017cbeba5ad5cc6d1fdcc44
 export const p0Presentation=JSON.parse(gunzipSync(bytes));
 export function preAcceptedPresentation(path,source){
   if(source===null)return source;
-  source=source.replaceAll('\r\n','\n');
+  source=preNodeUiRefactorSource(path,source).replaceAll('\r\n','\n');
   const binding=p0Presentation.files[path];
   if(!binding || hash(source)===binding.beforeSha256)return source;
   assert.equal(hash(source),binding.afterSha256,'unreviewed integrated presentation source drift; unreviewed integrated retirement source drift: '+path);
