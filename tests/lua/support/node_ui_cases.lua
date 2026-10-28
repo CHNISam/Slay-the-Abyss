@@ -51,7 +51,7 @@ local function control(spec, parent)
         return assert(self.listeners[event], "missing listener " .. event)({touchId=touchId})
     end
     for _, item in ipairs(spec.children or {}) do c.children[item.name] = control(item, c) end
-    return c
+    return NativeContract.control(c,spec)
 end
 local function entered(kind, source, seed,relicSeed)
     source = source or data
@@ -306,9 +306,18 @@ test("merchant opens with the scene narration once per run, then greets, and sta
     ui:update(0.5)
     local partial = get("merchant/line").text
     assert(#partial > 0 and #partial < #m.encounter, "narration is typed, not dumped")
-    -- Tapping the box first completes the sentence, then moves to the greeting.
-    assert(get("merchant/talk/hit").click())
-    assert(get("merchant/line").text == m.encounter and is(get("merchant/line").fontColor, C.textDim))
+    -- A page may already be complete; tapping then advances instead of skipping text.
+    local pages={}
+    while true do
+        local current=ui.merchant.current
+        local last=math.min(#current.chars,current.page*Theme.layout.merchant.pageCharacters)
+        if current.shown<last then assert(get('merchant/talk/hit').click()) end
+        pages[#pages+1]=get('merchant/line').text
+        assert(utf8.len(pages[#pages])<=Theme.layout.merchant.pageCharacters and is(get('merchant/line').fontColor,C.textDim))
+        if last==#current.chars then break end
+        assert(get('merchant/talk/hit').click())
+    end
+    assert(table.concat(pages)==m.encounter,'compact dialogue must preserve every character across pages')
     assert(shown("merchant/next"))
     assert(get("merchant/talk/hit").click() and ui.merchant.current.kind == "greet")
     ui:update(5)

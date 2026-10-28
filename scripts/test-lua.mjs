@@ -7,6 +7,7 @@ import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { luaString, toLua } from './build-lua-data.mjs';
 import { battleLayout } from './ui-layout.mjs';
+import { partition, timings as runtimeTimings, jsShard, discoverJs } from './ci-shards.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -56,13 +57,24 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   return result;
 }
 
-export function shardLuaScripts(scripts, value) {
+export function shardLuaScripts(scripts, value, timings = runtimeTimings) {
   const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(String(value));
   const index = Number(match?.[1]), count = Number(match?.[2]);
   if (!match || !Number.isSafeInteger(index) || !Number.isSafeInteger(count) || index > count || count > 64) {
     throw new Error('Lua shard must be i/n with integers 1 <= i <= n <= 64');
   }
-  return [...scripts].sort().filter((script, position) => position % count === index - 1);
+  if (!Array.isArray(scripts) || scripts.some(script => typeof script !== 'string' || !script)
+      || new Set(scripts).size !== scripts.length) throw new Error('Lua fixtures must be unique nonempty paths');
+  const weight = script => timings.lua?.[script] ?? timings.unknownLuaMs;
+  if (scripts.some(script => !Number.isFinite(weight(script)) || weight(script) <= 0)) {
+    throw new Error('Lua scheduling weights must be positive finite milliseconds');
+  }
+  // Balance against the exact weighted JS plan preceding the raw Lua suite.
+  // Explicit injected timings keep the diagnostic API's initial-load contract.
+  const initial = timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs
+    : count === 8 ? jsShard(discoverJs(), value, 'win32').loads : undefined;
+  if (initial?.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');
+  return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial).files;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

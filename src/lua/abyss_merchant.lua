@@ -13,6 +13,7 @@ local lines = { encounter = copy.encounter, greet = copy.greet, buy = copy.purch
 local cues = { buy = "merchant_buy", poor = "merchant_deny" }
 
 local function clamp(value) return math.max(0, math.min(1, value)) end
+local function pageEnd(current)return math.min(#current.chars,(current.page or 1)*L.pageCharacters)end
 
 -- options.color, options.sound. box is the merchant container from merchantControl().
 function M.new(box, options)
@@ -28,7 +29,7 @@ function M.new(box, options)
     local function begin(kind)
         local narration = kind == "encounter"
         local text = narration and lines[kind] or "「" .. lines[kind] .. "」"
-        self.current = { kind = kind, narration = narration, chars = Prologue.chars(text), shown = 0, hold = 0 }
+        self.current = { kind = kind, narration = narration, chars = Prologue.chars(text), shown = 0, hold = 0, page=1 }
         self.idle = 0
         if cues[kind] and options.sound then pcall(options.sound, cues[kind]) end
         if kind == "buy" then self.nod = 0 elseif kind == "poor" then self.shake = 0 end
@@ -52,7 +53,8 @@ function M.new(box, options)
     function self:tap()
         local current = self.current
         if not self.visible or not current then return false end
-        if current.shown < #current.chars then current.shown = #current.chars
+        if current.shown < pageEnd(current) then current.shown = pageEnd(current)
+        elseif pageEnd(current)<#current.chars then current.page=current.page+1;current.hold=0
         elseif #self.queue > 0 then begin(table.remove(self.queue, 1))
         else return false end
         self:pose()
@@ -67,12 +69,12 @@ function M.new(box, options)
     function self:pose()
         local current = self.current
         if not self.visible or not current then return end
-        local count = math.min(#current.chars, math.floor(current.shown))
-        line.text = table.concat(current.chars, "", 1, count)
+        local count = math.min(pageEnd(current), math.floor(current.shown))
+        line.text = table.concat(current.chars, "", (current.page-1)*L.pageCharacters+1, count)
         ink(line, current.narration and C.textDim or C.text)
         box:GetChild("name"):SetVisible(not current.narration)
         box:GetChild("namePlate"):SetVisible(not current.narration)
-        local more = count >= #current.chars and #self.queue > 0
+        local more = count >= pageEnd(current) and (pageEnd(current)<#current.chars or #self.queue > 0)
         local marker = box:GetChild("next")
         marker:SetVisible(more)
         if more then
@@ -95,11 +97,12 @@ function M.new(box, options)
         if not self.visible or not self.current then return end
         self.clock = (self.clock or 0) + dt
         local current = self.current
-        if current.shown < #current.chars then
-            current.shown = math.min(#current.chars, current.shown + dt * L.typeRate)
+        if current.shown < pageEnd(current) then
+            current.shown = math.min(pageEnd(current), current.shown + dt * L.typeRate)
         else
             current.hold = current.hold + dt
-            if #self.queue > 0 and current.hold >= L.hold then begin(table.remove(self.queue, 1)) end
+            if current.hold>=L.hold and pageEnd(current)<#current.chars then current.page=current.page+1;current.hold=0
+            elseif #self.queue > 0 and current.hold >= L.hold then begin(table.remove(self.queue, 1)) end
         end
         -- One unprompted remark if the player lingers; never repeated, never a new button.
         self.idle = (self.idle or 0) + dt

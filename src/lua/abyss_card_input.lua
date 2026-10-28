@@ -19,6 +19,11 @@ function M.sample(g, x, y, target, targeted)
     g.dropZone = target ~= nil or above and y < g.dropEnd
     -- Native events can report off-canvas coordinates; never play outside the canvas.
     if g.width and math.abs(x) > g.width / 2 then g.dropZone = false end
+    -- The native hand sits above the source's bottom-edge cancellation floor.
+    -- Once lifted into the field, returning to that visible hand row is an
+    -- explicit cancel, including a quick no-target return before 0.4 seconds.
+    if g.dropZone then g.enteredField = true end
+    if g.enteredField and g.handCancelY and y <= g.handCancelY then g.cancelled = true end
     if targeted and g.dropZone then g.aiming = true end
     if g.aiming and (y < g.cancelFloor or y < g.hoverStartLine - 400 * g.sourceScale) then
         g.cancelled = true

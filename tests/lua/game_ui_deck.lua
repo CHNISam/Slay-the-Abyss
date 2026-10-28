@@ -135,6 +135,8 @@ test("node overlay preserves the node presentation while preventing underlying t
     assert(same(before,ui.run))
     assert(closeDeck(root) and ui.nodeUI:press("campView/rest"))
     assert(ui.mode == "node" and ui.nodeUI:holding())
+    assert(not ui.nodeUI:press("confirm")) -- committed rest result owns input until its feedback ends
+    ui:update(require('abyss_theme').layout.nativeNode.roomMotion.restDuration+0.01)
     assert(ui.nodeUI:press("confirm"))
     assert(ui.mode == "map")
 end)

@@ -43,7 +43,7 @@ local function bind(c,key,box,token,projection,command,argument,describe,choice,
    for field,value in pairs(itemSnapshot)do if type(value)~='table' and live[field]~=value then return false end end
   end
   local action=self.actions[key]
-  return self.root==root and self.visible and not self.busy and self.mode=='main'
+  return self.root==root and self.visible and not self.busy and not self.presentationBusy and self.mode=='main'
    and self.run==run and self.map==map and self.view==view and self.opened==desiredOpen
    and run.nodeFlow==flow and flow.reward==reward and flow.complete==false and flow.chest==chest
    and chest.opened==desiredOpen and reward.items==items
@@ -134,6 +134,10 @@ function M.render(c)
  c.action('treasureView/take',opened and item~=nil and (item.kind~='relic' or item.available==true),takeFn,nil,nil,observe)
  local hint=opened and '领取所需奖励，或离开宝箱。' or ((kinds[chest.kind] or '宝箱')..'就在眼前；可以打开或直接离开。')
  if linked then hint='遗物与蓝钥匙只能选一项 · 选择蓝钥匙将放弃遗物「'..c.relicName(linked.relicId)..'」' end
+ if c.list then
+  require('abyss_node_ui_treasure_list').render(c,panel,items,opened,linked,bind)
+  return hint,nil
+ end
  return hint,linked
 end
 return M

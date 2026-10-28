@@ -3,12 +3,19 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {acceptedPresentationSource} from './helpers/presentation-m3-integration.mjs';
 
 const directory='docs/reviews/presentation-native-m3-20261028';
 const digest=value=>createHash('sha256').update(value).digest('hex');
 const manifestBytes=readFileSync(`${directory}/review.json`);
 assert.equal(digest(manifestBytes),'889ee9c585b2661569e2161cc836c4f431d1c41105e8eccfc821f584dc7ccbde');
 const review=JSON.parse(manifestBytes);
+// Keep the earlier evidence and its reviewed sources immutable. The intentional
+// room port has its own live trace contract and complete source identities.
+const roomSnapshotBytes=readFileSync('docs/reviews/room-source-port-integration-20261028.json.gz');
+assert.equal(digest(roomSnapshotBytes),"d2d71eee4358a7bde49afb1ca19aa9f0c2f2340a56cd736cea5d22e77a800ed1");
+const roomSnapshot=JSON.parse(gunzipSync(roomSnapshotBytes));
+const frozenSource=path=>roomSnapshot.beforeSources[path];
 // Accepted PR261 (develop77262) adds an opt-in platform binding and a strict
 // helper. The ordinary77278-record capture is exactly unchanged. Keep the
 // historical c5 manifest/archives immutable and invert only these two reviewed
@@ -92,15 +99,15 @@ test('paired e0/c5 captures retain all 72915 original native writes and exactly 
  const delta=verify(baseline.entries,current.entries);
  const counts={};for(const item of delta){const entry=review.writes.find(row=>row.row===item.row);counts[entry.category]=(counts[entry.category]||0)+1;}
  assert.deepEqual(counts,review.categories);
- verifySources(Object.fromEntries(Object.keys(review.sourceInputs).map(path=>[path,historicalSourceHash(path,readFileSync(path,'utf8'))])));
- const fixture=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8');
+ verifySources(Object.fromEntries(Object.keys(review.sourceInputs).map(path=>[path,historicalSourceHash(path,frozenSource(path))])));
+ const fixture=frozenSource('tests/lua/presentation_responsibilities_trace.lua');
  assert.match(fixture,/trace:assertNativeInteraction\(\)/);
  assert.match(fixture,/assert\(trace.count==77278 and trace.hash==1948853637/);
 });
 test('accepted native-art compatibility permits only its two complete identities and exact historical inverses',()=>{
  assert.deepEqual(Object.keys(acceptedNativeArt),['src/lua/abyss_battle_ui.lua','tests/lua/support/native_ui_contract.lua']);
  for(const [path,binding]of Object.entries(acceptedNativeArt)){
-  const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const source=frozenSource(path).replaceAll('\r\n','\n');
   assert.equal(historicalSourceHash(path,source),review.sourceInputs[path]);
   assert.equal(historicalSourceHash(path,source.replaceAll('\n','\r\n')),review.sourceInputs[path]);
   assert.throws(()=>historicalSourceHash(path,source+'\n-- unreviewed source drift\n'),/complete accepted PR261 source identity/);
@@ -108,6 +115,17 @@ test('accepted native-art compatibility permits only its two complete identities
   assert.throws(()=>historicalSourceHash(path,source.replace(binding.after,binding.after+binding.after)),/complete accepted PR261 source identity/,'duplicate compatibility edits cannot be hidden');
  }
 });
+
+test('room port retains its accepted source identities alongside the strict reviewed live interaction trace',()=>{
+ assert.equal(roomSnapshot.base,'f1ab9a9c492071edd723f9285862766ad5ad289b');
+ assert.deepEqual(Object.keys(roomSnapshot.afterSha256),Object.keys(review.sourceInputs));
+ for(const [path,expected]of Object.entries(roomSnapshot.afterSha256)){
+  const source=acceptedPresentationSource(path);
+  assert.equal(digest(source),expected,'accepted room source identity: '+path);
+  assert.notEqual(digest(source+'\n-- unreviewed drift\n'),expected);
+ }
+ assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
+ });
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{
  assert.equal(themeReview.sourceHead,'af25ca0887529ea0549363c394ba54fc55ad91f1');
  assert.equal(themeReview.historicalCaptureHead,'c5e768807081d1c62750174998367f1565274ee5');
@@ -119,7 +137,9 @@ test('only exact Black Star and Tail placeholder additions reversibly project to
   black_star:{id:102028,placeholder:true,note:'黑星暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。'},
   lizard_tail:{id:102028,placeholder:true,note:'蜥蜴尾巴暂沿用批准主题现有宝箱图标；实际剩余次数由只读详情展示，专属美术与设备验收待完成。'},
  });
- const source=readFileSync(themeReview.path,'utf8').replaceAll('\r\n','\n');
+  const source=frozenSource(themeReview.path).replaceAll('\r\n','\n');
+  const liveTheme=JSON.parse(readFileSync(themeReview.path,'utf8'));
+  assert.deepEqual({black_star:liveTheme.icon.relic.black_star,lizard_tail:liveTheme.icon.relic.lizard_tail},additions);
  const projected=projectReviewedTheme(source);
  assert.equal(digest(projected),review.sourceInputs[themeReview.path]);
  assert.equal(projectReviewedTheme(source.replaceAll('\n','\r\n')),projected,'Windows normalization is CRLF to LF only');

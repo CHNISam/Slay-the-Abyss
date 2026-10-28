@@ -43,7 +43,7 @@ local function control(spec,parent)
     function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn);assert(not self.listeners[event]);self.listeners[event]=fn end
     function c:emit(event,id)return assert(self.listeners[event],event)({touchId=id})end
     for _,child in ipairs(spec.children or {})do c.children[child.name]=control(child,c)end
-    return c
+    return NativeContract.control(c,spec)
 end
 local maps={}
 local function beforeNode(kind,act)

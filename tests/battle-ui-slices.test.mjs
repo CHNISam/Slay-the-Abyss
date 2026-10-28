@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
+import {originalLuaRunner} from './helpers/ci-lua-runner-inverse.mjs';
 const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const sha=source=>createHash('sha256').update(source).digest('hex');
 const support='tests/lua/support/battle_ui_cases.lua';
@@ -24,15 +25,27 @@ const cleanWrapper=source=>{
   assert.doesNotMatch(source,/--\[=*\[/,'no block-commented executable wrapper');
   return source.split('\n').filter(line=>!line.startsWith('--')).join('\n').trim();
 };
+const originalHandReturn='        assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == battle.hand[1].uid and ui.carry.aiming)';
+const reviewedHandReturn=[
+ "        if point[2] <= require('abyss_theme').layout.hand.y + require('abyss_theme').motion.hoverLift then",
+ '            assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == nil and ui.carry == nil)',
+ '        else',
+ '    '+originalHandReturn,
+ '        end',
+].join('\n');
 
 function restoreSupport(source){
+  const guarded='    return NativeContract.control(c,definition)\n';
+  assert.equal(source.split(guarded).length,2,'one exact cursor capability guard in the fixture factory');
+  assert.equal(source.split(reviewedHandReturn).length,2,'one exact user-confirmed hand-return cancellation migration');
+  source=source.replace(reviewedHandReturn,originalHandReturn);
   assert.equal(source.split(slicedFunction).length,2,'one exact seed-aware function header');
   assert.equal(source.split(originalParams+seedSetup).length,2,'one exact validated seed-range setup');
   assert.equal(source.split(slicedLoop).length,2,'one exact playback seed loop');
   assert.equal(source.split(seedMarker).length,2,'one completion marker per playback seed');
   assert.ok(source.includes('            same(ui.run,direct,"idle")\n        end\n'+seedMarker+'    end\n'),
     'seed completion marker follows the unchanged twenty-command loop');
-  const restored=source.replace(slicedFunction,originalFunction).replace(seedSetup,'').replace(slicedLoop,originalLoop).replace(seedMarker,'');
+  const restored=source.replace(guarded,'    return c\n').replace(slicedFunction,originalFunction).replace(seedSetup,'').replace(slicedLoop,originalLoop).replace(seedMarker,'');
   const bytes=Buffer.from(restored);
   assert.equal(bytes.length,original.bytes,'full original support byte count');
   assert.equal(sha(bytes),original.sha256,'all original recursive assertions, commands, fixtures and seed inputs');
@@ -49,8 +62,9 @@ function validatePartitions(rows,wrappers){
   validateUniverse(rows.flatMap(([,first,last])=>sequence(first,last)),
     rows.filter(([,first,last])=>first<=34&&last>=34).flatMap(([,first,last,seedFirst=1,seedLast=6])=>sequence(seedFirst,seedLast)));
 }
+
 function validateRunner(source){
-  assert.equal(sha(source),runnerHash,'unchanged runner and original deadlines');
+  assert.equal(sha(originalLuaRunner(source)),runnerHash,'unchanged runner and original deadlines');
   for(const [file]of slices)assert.ok(source.includes(`'tests/lua/${file}'`),'all seven entries retain the existing fixture deadline');
   assert.match(source,/fixture \|\| composedHost \? 60000 : 30000;/,'battle UI keeps its existing 60-second fixture budget');
 }

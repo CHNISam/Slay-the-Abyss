@@ -199,6 +199,7 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
                 assert(ui.run.nodeFlow.chest and not ui.run.nodeFlow.chest.opened)
                 click(root, "nodePanel", "treasureView/chest")
                 assert(ui.run.nodeFlow.chest.opened)
+                ui.nodeUI:update(2)
                 -- Source chests expose independent items. Keep this same real
                 -- route and every combat; never reroll an unavailable identity.
                 while ui.run.phase == 'node' and #ui.run.nodeFlow.reward.items > 0 do
@@ -214,19 +215,18 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
                             'leaving an unavailable source identity cannot grant a substitute')
                         break
                     end
-                    while ui.nodeUI.treasureChoice<choice do click(root,'nodePanel','treasureView/next')end
-                    while ui.nodeUI.treasureChoice>choice do click(root,'nodePanel','treasureView/previous')end
-                    assert(ui.nodeUI.actions['treasureView/take'].enabled)
+                    assert(ui.nodeUI.actions['treasureView/rewardItem'..choice].enabled)
                     local pending=#ui.run.nodeFlow.reward.items
-                    click(root,'nodePanel','treasureView/take')
+                    click(root,'nodePanel','treasureView/rewardItem'..choice)
                     assert(#ui.run.nodeFlow.reward.items<pending,'each claim consumes only a real pending item')
                 end
             elseif ui.nodeUI.actions["campView/rest"].enabled then click(root, "nodePanel", "campView/rest")
             else
-                click(root, "nodePanel", "campView/forge"); click(root, "nodePanel", "pickerView/card1")
+                click(root, "nodePanel", "campView/forge"); click(root, "nodePanel", "pickerView/forgeGrid/card1")
                 click(root, "nodePanel", "confirm")
             end
             if node.type == "camp" or node.type == "event" then
+                if node.type=="camp" then ui.nodeUI:update(2) end
                 -- The result stays on the node panel until the player continues.
                 assert(ui.mode == "node" and ui.run.phase == "map" and not ui.mapUI.navigationEnabled)
                 click(root, "nodePanel", "confirm")

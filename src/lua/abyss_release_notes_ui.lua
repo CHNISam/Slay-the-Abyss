@@ -29,10 +29,10 @@ function M.new(panel,entry,version,notes,clickEvent,platform,changed)
     notes=notes or {build={},history={}}
     local history=notes.history or {}
     local build=notes.build or {}
-    local buildLine='代码版本 '..(build.version or '未知')..' · 来源 '..(build.sourceCommit and build.sourceCommit:sub(1,7) or '未知')
-    if build.sourceDirty then buildLine=buildLine..' · 本地修改' end
-    version.text=buildLine
-    panel:GetChild('build').text=buildLine
+    -- Players only need the version number; commit hashes and dirty flags stay in build tooling.
+    local shown=build.version and ('v'..tostring(build.version):gsub('^v','')) or ''
+    version.text=shown
+    panel:GetChild('build').text=''
     panel.disableCursorEventPassthrough=true
     panel:GetChild('blocker'):AddCursorEventListener(clickEvent,function()return true end)
     local function enabled(kind)
@@ -58,11 +58,11 @@ function M.new(panel,entry,version,notes,clickEvent,platform,changed)
             content=lines(notice)
             panel:GetChild('version').text=notice.version
             if self.view=='current' then
-                panel:GetChild('date').text='说明日期 '..notice.notesDate..' · 本次版本说明，不代表已发布'
+                panel:GetChild('date').text=notice.notesDate..' · 未发布'
             elseif notice.publishedDate then
-                panel:GetChild('date').text='发布日期 '..notice.publishedDate..' · 发布记录 '..self.index..' / '..#history
+                panel:GetChild('date').text=notice.publishedDate
             else
-                panel:GetChild('date').text='版本日期 '..(notice.versionDate or '未知')..' · 版本记录 '..self.index..' / '..#history
+                panel:GetChild('date').text=notice.versionDate or ''
             end
         else
             content={'暂无版本记录'}

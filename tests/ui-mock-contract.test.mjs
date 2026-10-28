@@ -5,5 +5,5 @@ import {runLua} from '../scripts/test-lua.mjs';
 test('real UI mock factories share public argument contracts and preserve scene isolation',()=>{
   const result=runLua('tests/lua/ui_mock_contract.lua');
   assert.equal(result.status,0,result.stdout+result.stderr);
-  assert.match(result.stdout,/UI_MOCK_CONTRACT_PASS 5/);
+  assert.match(result.stdout,/UI_MOCK_CONTRACT_PASS 6/);
 });

@@ -46,7 +46,7 @@ local function control(definition)
     c.SetLocalScale = Control.SetLocalScale
     c.SetImage = Control.SetImage
     c.SetAsLastSibling = Control.SetAsLastSibling
-    return c
+    return NativeContract.control(c,definition)
 end
 local function setup(options)
     local root = control({name="root", size={1280,720}, children=assert(ABYSS_TEST_LAYOUT).controls})
@@ -1071,7 +1071,11 @@ test("open ground, hand, top bar and outside canvas never auto-target or commit"
     for _,point in ipairs({{-285,40},{0,-240},{0,280},{512,-206},{700,0},{0,350}}) do
         local ui,stage,click,event,grab,battle = dragBattle({"strike"},{"cultist","jaw_worm"})
         grab(1) event("card1","drag",0,0) event("dragLayer","up",point[1],point[2])
-        assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == battle.hand[1].uid and ui.carry.aiming)
+        if point[2] <= require('abyss_theme').layout.hand.y + require('abyss_theme').motion.hoverLift then
+            assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == nil and ui.carry == nil)
+        else
+            assert(battle.energy == 3 and #battle.hand == 1 and ui.selected == battle.hand[1].uid and ui.carry.aiming)
+        end
     end
 end)
 

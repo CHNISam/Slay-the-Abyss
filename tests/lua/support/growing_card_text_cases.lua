@@ -25,7 +25,7 @@ local function control(definition)
     function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
     function c:SetImage(source, id) assert(source == "static" and type(id) == "number") self.imageId = id end
     function c:SetAsLastSibling() self.raised = true end
-    return c
+    return NativeContract.control(c,definition)
 end
 local function setup(options)
     local function find(entries, name)
