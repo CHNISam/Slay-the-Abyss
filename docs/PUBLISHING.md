@@ -16,7 +16,7 @@
 
 1. 决定更新批次，在 Actions 中手动运行 `Release proposal (manual only)`，审阅版本号、中文 CHANGELOG，并经 CI 与原生设备验证。
 2. 真实对外更新 Alpha 作品后，保存作品 ID、原源码 SHA、产物 SHA256、北京时间及成功凭证；构建成功不等于发布成功。
-3. 内容冻结、必要验证与候选交付后，才创建不可移动的正式版本注释 Tag；本轮不创建 `v0.11.0` Tag，既有 14 个 Tag 保持原样。已公开发布记录写入 `data/release/publications.json`。后续 Release Please 以最近版本接续，检查不要重复使用版本号。
+3. 内容冻结、必要验证与候选交付后，才为任何新版本创建不可移动的注释 Tag；本轮不创建 `v0.11.0` Tag，既有 14 个 Tag 保持原样。已公开发布记录写入 `data/release/publications.json`。后续 Release Please 以最近版本接续，检查不要重复使用版本号。
 
 ### 官方玩家更新日志
 
