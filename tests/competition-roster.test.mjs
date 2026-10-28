@@ -38,3 +38,8 @@ for (const [name, marker] of [
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.ok(result.stdout.includes(marker),result.stdout);
 });
+test('native startup failure lifecycle covers competition Geo and retained full-source Watcher',()=>{
+  const result=runLua('tests/lua/game_ui_classes_failure.lua');
+  assert.equal(result.status,0,result.stdout+result.stderr);
+  assert.match(result.stdout,/GAME_UI_CLASSES_FAILURE_PASS 7/);
+});

@@ -22,7 +22,7 @@ local function canvas(withClasses)
     end
     return c,root
 end
-local function startup(hostFlag,layoutFlag)
+local function startup(hostFlag,layoutFlag,profile)
     local c,root=canvas(layoutFlag)
     local updates,signals,lines=nil,0,{}
     script={object=c,EnableUpdate=function(_,value)updates=value end,
@@ -37,7 +37,15 @@ local function startup(hostFlag,layoutFlag)
         ServerSignal=function()return{SendSignal=function()signals=signals+1 end}end}
     local actualNew,actualPrint,actualSeed=GameUI.new,print,Seed.next
     local ui
-    GameUI.new=function(...)ui=actualNew(...);return ui end
+    GameUI.new=function(...)
+        local args={...}
+        eq(args[5].campaignProfile,'competition-two-act') -- real native entry stays bounded
+        if profile then
+            eq(profile,'full-source') -- explicit legacy-class test host only
+            args[5].campaignProfile=profile
+        end
+        ui=actualNew(table.unpack(args));return ui
+    end
     print=function(...)
         local values={};for i=1,select("#",...) do values[i]=tostring(select(i,...)) end
         lines[#lines+1]=table.concat(values," ");actualPrint(...)
@@ -69,20 +77,23 @@ local function drain(ui)
     for _=1,400 do if not ui.battleUI.busy then return end;ui:update(0.05) end
     error("feedback did not finish")
 end
-local function battle(ui,root,finishFeedback)
-    assert(ui:start());assert(ui:selectCharacter('traveler'));assert(ui:selectElement('watcher'));assert(ui:confirmCharacter())
+local function battle(ui,root,finishFeedback,competition)
+    local character,card=competition and 'ironclad' or 'watcher',competition and 'warcry' or 'third_eye'
+    assert(ui:start());assert(ui:selectCharacter('traveler'));assert(ui:selectElement(character));assert(ui:confirmCharacter())
+    eq(ui.run.campaignProfile,competition and 'competition-two-act' or 'full-source')
     if ui.prologue then ui.prologue:cancel() end
     ui:refresh()
     -- Exact unit entry deck; no natural acquisition, HP, energy or enemy overrides.
     ui.run.deck={}
-    for i=1,12 do ui.run.deck[i]={uid=i,cardId="third_eye",upgraded=true} end
+    for i=1,12 do ui.run.deck[i]={uid=i,cardId=card,upgraded=true} end
     ui.run.nextDeckUid=13
     assert(Run.obtainPotion(ui.run,"block_potion"))
     assert(Run.startCombat(ui.run,"cultist_solo"));ui:refresh()
     local slot
-    for i,c in ipairs(ui.run.combat.hand) do if c.cardId=="third_eye" then slot=i;break end end
+    for i,c in ipairs(ui.run.combat.hand) do if c.cardId==card then slot=i;break end end
     assert(slot);click(root,"battlePanel/card"..slot);click(root,"battlePanel/playArea")
-    eq(ui.battleUI.busy,true);assert(ui.run.combat.pendingScry)
+    eq(ui.battleUI.busy,true)
+    if competition then assert(ui.run.combat.pendingHandChoice)else assert(ui.run.combat.pendingScry)end
     if finishFeedback then drain(ui);eq(ui.choiceUI.visible,true) end
     return ui.run.combat
 end
@@ -107,7 +118,7 @@ test("missing formal layout produces startup diagnostic and never reports ready"
     restore()
 end)
 test("update failure closes class overlay, disables old class and exit callbacks and keeps diagnostic visible",function()
-    local ui,root,state,_,restore=startup(true,true)
+    local ui,root,state,_,restore=startup(true,true,'full-source')
     assert(ui:start());eq(root:GetChild("characterPanel").visible,true)
     local oldChoice=hit(root,"characterPanel/character2").click
     local oldExit=hit(root,"exitEntry/open").click
@@ -117,7 +128,7 @@ test("update failure closes class overlay, disables old class and exit callbacks
     noRevival(ui,root,nil,message);eq(select(2,state()),0);restore()
 end)
 test("update failure closes mandatory choice and all old inputs preserve the pending combat",function()
-    local ui,root,state,_,restore=startup(true,true)
+    local ui,root,state,_,restore=startup(true,true,'full-source')
     local s=battle(ui,root,true);assert(click(root,"choicePanel/card1"))
     local p=s.pendingScry;local run=ui.run
     local oldConfirm=hit(root,"choicePanel/confirm").click
@@ -131,7 +142,7 @@ test("update failure closes mandatory choice and all old inputs preserve the pen
     noRevival(ui,root,run,message);eq(select(2,state()),0);restore()
 end)
 test("update failure during feedback cancels presentation without replaying committed card effects",function()
-    local ui,root,state,_,restore=startup(true,true)
+    local ui,root,state,_,restore=startup(true,true,'full-source')
     local s=battle(ui,root,false);local p=s.pendingScry
     local block,energy,hand,draw=s.player.block,s.energy,#s.hand,#s.draw
     failUpdate();eq(state(),false);eq(ui.disabled,true);eq(ui.battleUI.busy,false);diagnostic(root,"update")
@@ -139,10 +150,25 @@ test("update failure during feedback cancels presentation without replaying comm
     eq(ui:update(1),false);eq(s.player.block,block);eq(s.pendingScry,p);restore()
 end)
 test("update failure while exit confirmation is open hides it and rejects its old settlement callback",function()
-    local ui,root,state,_,restore=startup(true,true)
+    local ui,root,state,_,restore=startup(true,true,'full-source')
     battle(ui,root,true);assert(ui:openExit());eq(root:GetChild("exitPanel").visible,true)
     local oldConfirm=hit(root,"exitPanel/confirm").click
     failUpdate();eq(state(),false);local message=diagnostic(root,"update")
     eq(oldConfirm(),false);eq(select(2,state()),0);noRevival(ui,root,ui.run,message);restore()
+end)
+test("competition Geo update failure preserves mandatory choice, resources and disabled old inputs",function()
+    local ui,root,state,_,restore=startup(true,true)
+    local s=battle(ui,root,true,true);assert(click(root,"choicePanel/card1"))
+    eq(ui.run.characterProfile,nil);eq(ui.run.maxHp,80)
+    local p=s.pendingHandChoice;local run=ui.run
+    local oldConfirm=hit(root,"choicePanel/confirm").click
+    local oldEndTurn=hit(root,"battlePanel/endTurn").listeners.click
+    local hp,energy,turn,hand,draw,discard=s.player.hp,s.energy,s.turn,#s.hand,#s.draw,#s.discard
+    failUpdate();eq(state(),false);eq(ui.disabled,true);local message=diagnostic(root,"update")
+    eq(oldConfirm(),false);eq(ui.choiceUI:confirm(),false);oldEndTurn()
+    eq(ui.battleUI:usePotion(1),false)
+    eq(s.pendingHandChoice,p);eq(s.player.hp,hp);eq(s.energy,energy);eq(s.turn,turn)
+    eq(#s.hand,hand);eq(#s.draw,draw);eq(#s.discard,discard);eq(Run.potionCount(run),1)
+    noRevival(ui,root,run,message);eq(select(2,state()),0);restore()
 end)
 print("GAME_UI_CLASSES_FAILURE_PASS "..n)
