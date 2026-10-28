@@ -1,6 +1,13 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 4
+assert(sliceFirst>=1 and sliceLast<=11 and sliceFirst<=sliceLast,'invalid card-play slice')
+local registered,executed=0,0
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
 local passed,failed=0,0
 local function test(name,fn)
+    registered=registered+1
+    if registered<sliceFirst or registered>sliceLast then return end
+    executed=executed+1
     local ok,why=pcall(fn)
     if ok then passed=passed+1;print("PASS "..name)
     else failed=failed+1;print("FAIL "..name..": "..tostring(why)) end
@@ -114,3 +121,5 @@ test("click-only hosts toggle cards and confirm only on the distinct field",func
 end)
 print("LUA_CARD_PLAY "..passed.." passed; "..failed.." failed")
 if failed>0 then error("Card play regressions: "..failed) end
+assert(registered==11 and executed==sliceLast-sliceFirst+1 and passed==executed,'incomplete card-play slice')
+print('P0_CARD_PLAY_SLICE '..sliceFirst..' '..sliceLast..' '..executed)
