@@ -18,7 +18,13 @@ local function tap(root,panel,button)
     while parent do assert(parent.visible,"hidden exit control"); parent=parent.parent end
     if hit.interactable then return hit.click() end
 end
-local function open(root) return tap(root,"exitEntry","open") end
+local function open(root)
+    if not tap(root,"exitEntry","open") then return false end
+    assert(root:GetChild('runMenu').visible,'native menu must open before abandon confirmation')
+    local ok=tap(root,'runMenu','abandon')
+    assert(not root:GetChild('runMenu').visible and root:GetChild('exitPanel').visible)
+    return ok
+end
 local function cancel(root) return tap(root,"exitPanel","cancel") end
 local function confirm(root) return tap(root,"exitPanel","confirm") end
 local function battle(ui) assert(testStart(ui)); assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id)) end

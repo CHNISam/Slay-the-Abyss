@@ -135,6 +135,7 @@ test('exit cancel restores the same mandatory pile choice and blocks underlying 
  local ui,root,s,p=choice(choiceSpecs[3]);assert(click(root,'choicePanel/card1'))
  local unchanged=freeze(s)
  assert(click(root,'exitEntry/open'));eq(ui.exitOpen,true);eq(ui.choiceUI.visible,false)
+ assert(ui.menuOpen);assert(click(root,'runMenu/abandon'));eq(ui.menuOpen,false)
  ui.battleUI:endTurn();eq(ui:openDeck(),false);unchanged()
  assert(click(root,'exitPanel/cancel'));eq(s.pendingPileChoice,p);eq(ui.choiceUI.visible,true);unchanged()
  eq(#ui.choiceUI.selected,0)
