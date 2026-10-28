@@ -56,3 +56,9 @@ S0用实际生成的Guardian树确认，数字上移后帮助区仍沿用旧80�
 另存未解决的人工压力红例：五只Cultist同时强制注入三效果时，第2槽帮助区世界中心(200,114)、宽160高60，与第1槽肖像中心(100,100)交叠。它反映既有多行拥挤限制，本切片未为这种非自然全三效果组合重做敌人布局；原日志及坐标保留在 `p0-intent-hit-clearance-cross-row-red.jsonl`，不能宣称所有肖像/所有组合无重叠。整体平台UI与多行拥挤仍属未验风险。
 
 最终定向结果：Guardian原探针、扩展空间入口、原case23、8组StatusHelp与原卡牌目标确认片均status0；原体/精确发现/缺片和额外入口负例/历史逆层/调度合同17/17。完整工程门禁与语法成功：220模块/1259边、73项既有诊断无新增、432项职责、四个语义变异均被断言杀死、两项原生合同通过。帮助区增加两行只迁移15条原声明诊断位置，逐字身份核对见 [精确迁移记录](../reviews/p0-intent-luacheck-remap.json)，未新增豁免或放宽上限。第一次逆层顺序失败和第一次历史诊断位置失败日志均保留；修正后按真实退出码验过，不以中间失败当绿灯。精确PR头完整CI仍须新运行。
+
+## 已验收的源码头与收口边界
+
+S0独立核验 `cd9b550a1cb423d36dd78247440b6f4f3e9da9ff` 全部17检查成功：[Quality40701124600](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40701124600) 的8Windows、4Linux、presentation与两个聚合共15作业全成功，[Quick40701124601](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40701124601) 与 [Licenses40701124627](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40701124627) 成功。此前036、d275、bcca的真实失败和取消前失败保持原分类，不追改为成功。
+
+历史包的 `currentHead` 更正为上述已审查源码快照，并注明它只标识26个绑定文件的源快照；26条完整before/after哈希、唯一hunk和historicalHead全部保持不变。TASK-79按修复PR源码头验收收口，TASK-59恢复原High；这些任务/来源元信息形成的新提交仍须完整CI，合后稳定develop完整Push验收由TASK-80/S0负责，不能沿用cd9绿灯冒充新头通过。

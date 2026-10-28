@@ -1,16 +1,16 @@
 ---
 id: TASK-79
 title: 修复紧急合并后的真实检查失败
-status: In Progress
+status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 11:33'
-updated_date: '2026-10-28 13:55'
+updated_date: '2026-10-28 14:21'
 labels: []
 dependencies: []
 references:
   - docs/backlog-details/TASK-79.md
-priority: high
+priority: medium
 type: bug
 ordinal: 122000
 ---
@@ -23,9 +23,9 @@ ordinal: 122000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 当前develop相关失败逐项记录根因和修复映射
-- [ ] #2 完整Windows与Linux检查保持全部有效测试和原超时并通过
-- [ ] #3 修复精确PR头完整检查通过并由S0审查；合入后最终复验由S0负责
+- [x] #1 当前develop相关失败逐项记录根因和修复映射
+- [x] #2 完整Windows与Linux检查保持全部有效测试和原超时并通过
+- [x] #3 修复精确PR头完整检查通过并由S0审查；合入后最终复验由S0负责
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -50,4 +50,14 @@ bcca9de5完整Quality仍失败：Win1为phase-four第169行第二个退出场景
 S0真实生成树发现本次数字上移后help仍80高，Guardian肖像顶84/help底68侵入16px。最小改为图标+数字框union：高60、底88、距自身肖像4px，单图标宽度包住68px数字框；仅用已算几何/主题。新增1/2/3图标与完整数字、own肖像/提示/药水红绿；自然7编组61项原意图计划对实际肖像检查成功。人工Cultist×5全三效果另有既有跨行拥挤红例（source2(200,114)对target1(100,100)），保留日志/坐标，未做整体UI验收。cardplay补原始自动discovery精确3条清单及缺片/额外入口负例；最终完整CI仍待。
 
 帮助区最终复验：原Guardian探针/clearance/case23/StatusHelp与原目标确认片status0；自动发现+负例+历史逆层+调度17/17。完整工程门禁与语法exit0：220模块1259边，73原警告无新增，432职责，四语义变异杀死，两原生合同成功。原15条相同声明因新增2行迁移位置，精确身份记录docs/reviews/p0-intent-luacheck-remap.json，零新豁免。首次逆层顺序和历史诊断位置失败日志保留，修后已全项复验；本轮新完整CI仍待，暂不push等S0审查。
+
+S0已独立验收精确源码头cd9b550a1cb423d36dd78247440b6f4f3e9da9ff全部17检查成功：Quality40701124600的8Windows、4POSIX、presentation与两个聚合共15作业全过，Quick40701124601、Licenses40701124627成功；原所有失败/取消前失败保留。AC3仅覆盖修复PR头与S0审查；本次收口元数据新头仍须完整CI，合后稳定develop由TASK80/S0最终验收。
+
+收口门禁要求已完成任务不得占当前High队列；源码头17检查与S0验收完成后，本任务终态优先级置Medium，原P0 High执行历史与全部AC保留，TASK59恢复原High。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+修复Boss意图/帮助触摸回归、Quick精确base、平台模拟与历史合同，保留完整卡牌测试和原预算，局部索引恢复Silent连续来源预算。cd9源码头全部17检查真实成功并获S0审查；26历史源与黄金保留。后续收口元数据完整CI及合后develop验收仍由S0负责，平台/自然通关与人工跨行拥挤风险如实保留。
+<!-- SECTION:FINAL_SUMMARY:END -->
