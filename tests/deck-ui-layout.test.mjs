@@ -29,6 +29,10 @@ test('approved deck uses a six-column vertical native scroller and a read-only r
     assert.ok((c.children?.length ?? 0) <= 60);
   });
   assert.ok(template.children.find(c => c.name === 'uid'));
+  const selection = template.children.find(c => c.name === 'uid');
+  assert.equal(selection.size[1], theme.layout.nativeText.lineHeight);
+  assert.equal(template.size[1], theme.layout.card.size[1] + selection.size[1]);
+  assert.deepEqual(grid.grid.itemSize, template.size);
   const face = template.children.find(c => c.name === 'face');
   assert.deepEqual(face.size, theme.layout.card.size);
   assert.deepEqual(face.children.find(c => c.name === 'label').size, theme.layout.card.textBox);

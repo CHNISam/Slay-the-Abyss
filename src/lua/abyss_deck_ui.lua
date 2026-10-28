@@ -110,7 +110,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         local selected=false
         for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
         CardSkin.apply(face,definition,platform,{cost=definition.cost,baseCost=base,selected=selected})
-        control:GetChild("uid").text = "UID " .. instance.uid .. (selected and ' · 已选' or '')
+        control:GetChild("uid").text = selected and '已选择' or ''
         local hit=control:GetChild('hit')
         hit:SetVisible(self.choiceToken~=nil or definition.originalV4~=nil)
         if not self.bindings[control] then

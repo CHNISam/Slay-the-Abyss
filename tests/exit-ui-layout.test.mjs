@@ -29,7 +29,7 @@ test('exit remains above every game page and the deck, with a separate blocking 
   assert.equal(child(panel, 'blocker').kind, 'cursorArea');
   assert.deepEqual(child(panel, 'blocker').size, theme.canvas.base);
   for (const name of ['title', 'message', 'status']) assert.equal(child(panel, name).kind, 'text');
-  for (const [button, label] of [[child(entry, 'open'), '退出本局'], [child(panel, 'cancel'), '继续游戏'],
+  for (const [button, label] of [[child(entry, 'open'), '菜单'], [child(panel, 'cancel'), '继续游戏'],
     [child(panel, 'confirm'), '退出并结算']]) {
     const hit = child(button, 'hit');
     assert.equal(hit.kind, 'presetButton');
@@ -46,11 +46,11 @@ test('exit remains above every game page and the deck, with a separate blocking 
   assert.ok(panel.children.indexOf(child(panel, 'blocker')) < panel.children.indexOf(child(panel, 'cancel')));
 });
 
-test('exit entry does not cover deck controls, map legend or the narrowed game notices', () => {
+test('exit entry does not cover deck controls, map navigation or the narrowed game notices', () => {
   const controls = gameLayout().controls;
   const entry = child(named(controls, 'exitEntry'), 'open');
   for (const obstacle of [child(named(controls, 'deckEntry'), 'open'),
-    child(named(controls, 'deckPanel'), 'close'), descendant(named(controls, 'mapPanel'), 'legendTitle'),
+    child(named(controls, 'deckPanel'), 'close'), descendant(named(controls, 'mapPanel'), 'next'),
     child(named(controls, 'battlePanel'), 'notice'), child(named(controls, 'nodePanel'), 'notice')]) {
     assert.ok(!overlaps(entry, obstacle), `exit overlaps ${obstacle.name}`);
   }
