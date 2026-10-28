@@ -223,3 +223,12 @@ test('Mushrooms exact theme inverse rejects removal, movement, replacement and u
   source.replace('"body": 18','"body": 19'),source+'\n'];
  for(const changed of mutations){assert.notEqual(changed,source);assert.throws(()=>preRetirementSource('data/presentation/ui_theme.json',changed));}
 });
+
+test('Molten glyph cannot move intact to another valid relic mapping position',()=>{
+ const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ const block=source.match(/,\n      "molten_egg": \{\n[\s\S]*?      \}/)[0];
+ const without=source.replace(block,'');
+ const moved=without.replace('      "membership_card": 102026,\n','      "membership_card": 102026'+block+',\n');
+ assert.notEqual(moved,source);assert.doesNotThrow(()=>JSON.parse(moved));
+ assert.throws(()=>preRetirementSource(path,moved),'complete accepted theme must retain the new mapping position');
+});
