@@ -29,7 +29,9 @@ function M.data(blackStar)
  local data=Data
  if blackStar then
   data=C.copy(Data)
-  data.relics.relics[#data.relics.relics+1]={id='black_star',sourceId='Black Star',name='黑星',rarity='boss',trigger='none',effects={}}
+  local definition
+  for _,row in ipairs(data.relics.relics)do if row.id=='black_star'then definition=row end end
+  assert(definition and definition.sourceId=='Black Star'and definition.trigger=='hooks')
  end
  return data
 end

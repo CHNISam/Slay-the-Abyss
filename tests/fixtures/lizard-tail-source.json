@@ -1,0 +1,124 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "archive": {
+    "name": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0.zip",
+    "sha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458"
+  },
+  "files": {
+    "relics/LizardTail.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/LizardTail.java",
+      "sha256": "9ee5bd6aad4aa34a4d79cdd69f97160913b71d0f9e727f9ae8d7b26e2f281b90",
+      "lines": [
+        15,
+        24,
+        25,
+        26,
+        27,
+        35,
+        39,
+        40
+      ]
+    },
+    "relics/AbstractRelic.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java",
+      "sha256": "e4b5a8e6dda41cb9b25f75c5777f03e84da245247d1dac5d3070727fc8d24167",
+      "lines": [
+        65,
+        70,
+        132,
+        138,
+        293
+      ]
+    },
+    "characters/AbstractPlayer.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "lines": [
+        1465,
+        1466,
+        1467,
+        1474,
+        1476,
+        1477,
+        1478,
+        1479
+      ]
+    },
+    "core/AbstractCreature.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java",
+      "sha256": "3db6e08c6bd033192aa368e29ad53f4614194898ccf0f525480fe20cb8799f2b",
+      "lines": [
+        375,
+        384,
+        387,
+        389,
+        391
+      ]
+    },
+    "relics/MarkOfTheBloom.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MarkOfTheBloom.java",
+      "sha256": "bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434",
+      "lines": [
+        22,
+        24
+      ]
+    },
+    "relics/MagicFlower.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MagicFlower.java",
+      "sha256": "e3940116e47e36eb3eea9f048a1808ffe2f8b6654db9e30cab9cce8496054eaf",
+      "lines": [
+        26,
+        27,
+        29,
+        31
+      ]
+    },
+    "potions/FairyPotion.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/potions/FairyPotion.java",
+      "sha256": "c292f97254f11ca34e0792b3899be966418d32ea5e8ce3e18cbcbaa5f4500e25",
+      "lines": [
+        32,
+        34,
+        38,
+        39
+      ]
+    },
+    "saveAndContinue/SaveFile.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/saveAndContinue/SaveFile.java",
+      "sha256": "75c54046a9833919f8a0daac03600d97fd72ff977058b2d7cca9cc1d6670e034",
+      "lines": [
+        186,
+        187,
+        189,
+        190
+      ]
+    },
+    "core/CardCrawlGame.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/CardCrawlGame.java",
+      "sha256": "ad06c2d2f13ad66843b5304b6c05fb6019ddc7e92359e95302f35ee540317846",
+      "lines": [
+        919,
+        921,
+        923
+      ]
+    }
+  },
+  "contracts": {
+    "internalId": "lizard_tail",
+    "sourceId": "Lizard Tail",
+    "rarity": "rare",
+    "freshCounter": -1,
+    "spentCounter": -2,
+    "baseHeal": "max(1, maxHealth integer division by 2)",
+    "normalReturningHealConsumes": true,
+    "markBlocksWithoutConsuming": true,
+    "fairySelection": "caller must run Fairy first",
+    "integratedFatal": false,
+    "integratedAcquisition": false,
+    "integratedPersistence": false,
+    "integratedUI": false
+  },
+  "authoredInputs": {
+    "src/lua/abyss_lizard_tail.lua": "c4dbfaeb1049dd90eda158a02713977e5e968ee5e478f6986bb7fc74081ce299"
+  }
+}

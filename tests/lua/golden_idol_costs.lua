@@ -22,9 +22,34 @@ do
 end
 for _,spec in ipairs({{'tungsten_rod','damage'},{'lizard_tail','damage'},{'darkstone_periapt','injury'}})do
  local r,m,n=fixture();assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'take'))
- if spec[1]=='tungsten_rod'then assert(Run.obtainRelic(r,spec[1]))else r.relics[#r.relics+1]=spec[1]end
+ if spec[1]~='darkstone_periapt'then assert(Run.obtainRelic(r,spec[1]))else r.relics[#r.relics+1]=spec[1]end
  local b=C.copy(r)
- if spec[1]=='tungsten_rod'then assert(Nodes.chooseEvent(r,spec[2]));eq(r.hp,61);eq(r.nodeFlow.event.stage,'result')
+ if spec[1]~='darkstone_periapt'then
+  assert(Nodes.chooseEvent(r,spec[2]));eq(r.hp,spec[1]=='tungsten_rod'and 61 or 60);eq(r.nodeFlow.event.stage,'result')
+  if spec[1]=='lizard_tail'then eq(b.relicCounters.lizard_tail,-1);eq(r.relicCounters.lizard_tail,-1)end
  else eq(Nodes.chooseEvent(r,spec[2]),false);same(r,b);assert(Nodes.chooseEvent(r,'max_hp'))end
 end
-print('GOLDEN_IDOL_COSTS_PASS exact truncation/min1, three trap costs/fatal/Fairy/Omamori, real duplicate Circlet, live Fruit and missing-hook refusals')
+do
+ local r,m,n=fixture();assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'take'));assert(Run.obtainRelic(r,'lizard_tail'))
+ local deck=C.copy(r.deck);assert(Nodes.chooseEvent(r,'max_hp'));eq(r.maxHp,74);eq(r.hp,74);same(r.deck,deck);eq(r.relicCounters.lizard_tail,-1)
+end
+-- Controlled next-room event/HP setup; the second obtain is Circlet, never Tail.
+do
+ local r,m,n=fixture(1);assert(Run.obtainRelic(r,'lizard_tail'));eq(r.relicCounters.lizard_tail,-1)
+ for pass=1,2 do
+  assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'take'))
+  eq(r.nodeFlow.event.obtainedRelicId,pass==1 and'golden_idol'or'circlet')
+  local deck,uid,gold=#r.deck,r.nextDeckUid,r.gold
+  local card,misc,event=C.copy(r.cardRng),C.copy(r.miscRng),C.copy(r.eventRng)
+  assert(Nodes.chooseEvent(r,'damage'));eq(r.hp,pass==1 and 40 or 0);eq(r.relicCounters.lizard_tail,-2)
+  eq(r.maxHp,80);eq(#r.deck,deck);eq(r.nextDeckUid,uid);eq(r.gold,gold)
+  same(r.cardRng,card);same(r.miscRng,misc);same(r.eventRng,event)
+  if pass==1 then
+   eq(r.phase,'node');eq(r.nodeFlow.event.stage,'result');assert(Nodes.chooseEvent(r,'leave'));eq(r.phase,'map')
+   n=assert(Map.available(m)[1]).id
+   for _,node in ipairs(m.nodes)do if node.id==n then node.type='event';node.eventId='golden_idol'end end
+   r.hp=1
+  else eq(r.relicCounters.circlet,1);eq(r.phase,'defeat');eq(r.nodeFlow.complete,true);eq(Nodes.chooseEvent(r,'leave'),false)end
+ end
+end
+print('GOLDEN_IDOL_COSTS_PASS exact truncation/min1, three trap costs/fatal/Fairy/Omamori, real Tail once across events, real duplicate Circlet, live Fruit and missing-hook refusals')

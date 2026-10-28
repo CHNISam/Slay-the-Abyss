@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-28 01:36'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -24,6 +24,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
+  - docs/M3-STATUS-20261028.md
 parent_task_id: TASK-13.1
 priority: medium
 ordinal: 54000
@@ -79,4 +80,6 @@ M3末张移除切片：固定CardGroup/Cleric/PurificationShrine/GoldenWing方�
 2026-10-26逐项AC校准：将混合的已实现/已有自动回归与完整池/平台待验拆成独立条款；依据既有合并及验证记录勾选，不新增通过结论。原验收快照保留docs/evidence/backlog-ac-before-20261026.json，全部原范围要求由拆分后条款继续承接。
 
 本轮19条生产事件映射已由实际Lua注册表与清单双向校验；默认随机仍7事件，12条额外显式路由不冒充自然入池。新增独立源概率、交易/领取、重复输入和失败回滚回归，最终组合完整Quality仍在收口。
+
+2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
 <!-- SECTION:NOTES:END -->

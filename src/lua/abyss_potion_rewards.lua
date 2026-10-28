@@ -20,8 +20,8 @@ function P.prepare(run, rewardCount, context)
     -- it still draws once and increments the modifier on failure.
     if context and context.allEscaped and (run.encounterTier=='normal' or run.encounterTier=='boss') then chance=0 end
     if require('abyss_relic_hooks').owns(run,'white_beast_statue') then chance=100 end
-    -- No reward-count suppression is currently reached by the supported normal,
-    -- elite or Act-one Boss bundle; retain the source boundary explicitly.
+    -- Black Star plus a marked elite key can already fill four room items.
+    -- The real pre-potion count overrides even White Beast's guaranteed chance.
     if (rewardCount or 0)>=4 then chance=0 end
     local roll=Random.randomInt(rng,99)
     if roll>=chance then return nil,rng,modifier+10 end

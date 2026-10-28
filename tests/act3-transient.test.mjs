@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 import {runLua} from '../scripts/test-lua.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-test('Transient preserves its public source entry and audited actions',()=>{
- const result=runLua('tests/lua/act3_transient.lua');
+for(const [file,count]of [['act3_transient.lua',10],['act3_transient_slice_2.lua',7],['act3_transient_slice_3.lua',2]])test('Transient preserves original complete groups: '+file,()=>{
+ const result=runLua('tests/lua/'+file);
  assert.equal(result.status,0,result.stdout+result.stderr);
- assert.match(result.stdout,/ACT3_TRANSIENT 19 groups; 0 failed/);
+ assert.match(result.stdout,new RegExp('ACT3_TRANSIENT '+count+' groups; 0 failed'));
 });
+
 test('Transient fixed source and independent arithmetic vectors stay explicit',()=>{
  const lock=JSON.parse(readFileSync('tests/fixtures/act3-transient-source-lock.json','utf8'));
  const hash=path=>createHash('sha256').update(readFileSync(path,'utf8').replace(/\r\n/g,'\n')).digest('hex');

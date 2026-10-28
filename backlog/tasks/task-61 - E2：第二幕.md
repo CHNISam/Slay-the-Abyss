@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-27 15:04'
+updated_date: '2026-10-28 01:36'
 labels:
   - required
   - sts1
@@ -23,6 +23,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
+  - docs/M3-STATUS-20261028.md
 priority: medium
 type: feature
 ---
@@ -81,4 +82,6 @@ type: feature
 整合执行时最新develop dc5b223（PR248 Ghosts源事件和PR246批准插画制作基线）；保留本轮Joust/第三幕/Neow及既有事件来源入口，Ghosts已接真实Act2分发、Pool与NodeUI，不重复开发。组合定向及当前SHA完整Quality仍待，此广域任务不据此勾整体验收。
 
 2026-10-27 独立源码增量候选：Library已按固定319009d5接入20张不同源卡选一、重复重抽稀有度与身份、不改pity、逆序展示、独立预览与公开永久取得、构造期缓存Sleep及独立Leave。四职业真实目录/RNG/下一战和原生控件模拟通过，独立源码审查PASS；与已接受Ghosts/Toxic Egg及当前版本公告组合后，87项Node与177组既有Lua回归、构建/架构/固定静态门禁通过。相关实现见docs/rules/THE_LIBRARY.md；默认来源池顺序概率未改。未认证原生客户端、全事件/自然连续四幕；整项AC保持未完成，当前新PR完整Quality仍待。
+
+2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
 <!-- SECTION:NOTES:END -->

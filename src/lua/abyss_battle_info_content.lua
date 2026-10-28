@@ -4,6 +4,11 @@ local Theme = require("abyss_theme")
 local number = require("abyss_numbers").integer
 local M = {}
 local C, L = Theme.color, Theme.layout
+local tailStates={
+    available={name='可用',text='致命伤害时复活，基础回复生命上限一半（向下取整，至少1点）；每局一次，仙灵药水优先。',colour=C.positive},
+    spent={name='本局已用',text='本局已使用，不能再次复活。',colour=C.textMuted},
+    blocked_by_mark={name='绽放印记阻断',text='绽放印记阻止复活，保留本局的一次使用机会。',colour=C.danger},
+}
 
 -- CJK glyphs take one font size; ASCII takes about half. Count UTF-8 lead bytes.
 function M.lines(text)
@@ -181,12 +186,25 @@ function M.new(self, describe, lines)
         end
     end
 
+    -- The current combat owns the live reserve; persistent Run counters may lag.
+    -- This existing portrait surface is battle-only, not a noncombat relic list.
+    local function relicResources(card,battle)
+        local state=require('abyss_lizard_tail').state(battle)
+        if not state then return end
+        local view=assert(tailStates[state],'unknown Tail presentation state')
+        local icon=Theme.icon.relic.lizard_tail
+        card.sections[#card.sections+1]={label='遗物',colour=C.gold,rows={{
+            name='蜥蜴尾巴 · '..view.name,text=view.text,colour=view.colour,
+            icon=type(icon)=='table'and icon.id or icon}}}
+    end
+
     local function playerResources(card, battle, info, actor)
         if actor == battle.player and not info.statusId and not info.offset then
             originalResources(card, battle)
             discardResources(card, battle)
             stanceResources(card, actor)
             orbResources(card, battle)
+            relicResources(card, battle)
         end
     end
 

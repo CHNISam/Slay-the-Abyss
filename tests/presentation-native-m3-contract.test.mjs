@@ -25,6 +25,7 @@ const acceptedNativeArt={
  },
 };
 function historicalSourceHash(path,source){
+ if(path===themeReview.path)return digest(projectReviewedTheme(source));
  const text=source.replaceAll('\r\n','\n'),binding=acceptedNativeArt[path];
  if(!binding)return digest(text);
  assert.equal(digest(text),binding.sha256,'complete accepted PR261 source identity must match');
@@ -32,6 +33,19 @@ function historicalSourceHash(path,source){
  const original=text.replace(binding.after,binding.before);
  assert.equal(digest(original),review.sourceInputs[path],'exact inverse must recover historical source identity');
  return digest(original);
+}
+const themeReviewBytes=readFileSync('docs/reviews/PRESENTATION-THEME-RESERVES-20261028.json');
+assert.equal(digest(themeReviewBytes),'a1bd533e3f023eae92f66ce502699643e55b2b8df0824392b061a781061f8e64');
+const themeReview=JSON.parse(themeReviewBytes);
+function projectReviewedTheme(source){
+ const normalized=source.replaceAll('\r\n','\n');
+ const {insertionOffset:at,insertedLf,precedingAnchor}=themeReview;
+ assert.equal(normalized.slice(at-precedingAnchor.length,at),precedingAnchor,'exact relic mapping insertion position');
+ assert.equal(normalized.slice(at,at+insertedLf.length),insertedLf,'only the two complete reviewed mappings');
+ const projected=normalized.slice(0,at)+normalized.slice(at+insertedLf.length);
+ assert.equal(digest(projected),themeReview.projectedLfSha256,'all original theme bytes and order retained');
+ assert.equal(digest(normalized),themeReview.currentLfSha256,'exact reviewed complete current theme');
+ return projected;
 }
 function capture(name){
  const bytes=readFileSync(`${directory}/${name}.json.gz`);
@@ -92,6 +106,40 @@ test('accepted native-art compatibility permits only its two complete identities
   assert.throws(()=>historicalSourceHash(path,source+'\n-- unreviewed source drift\n'),/complete accepted PR261 source identity/);
   assert.throws(()=>historicalSourceHash(path,source.replace(binding.after,binding.before)),/complete accepted PR261 source identity/,'accepted binding/helper cannot be silently removed');
   assert.throws(()=>historicalSourceHash(path,source.replace(binding.after,binding.after+binding.after)),/complete accepted PR261 source identity/,'duplicate compatibility edits cannot be hidden');
+ }
+});
+test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{
+ assert.equal(themeReview.sourceHead,'af25ca0887529ea0549363c394ba54fc55ad91f1');
+ assert.equal(themeReview.historicalCaptureHead,'c5e768807081d1c62750174998367f1565274ee5');
+ assert.equal(themeReview.path,'data/presentation/ui_theme.json');
+ assert.equal(themeReview.currentLfSha256,'4648ea4c56bdd6dac75fe363480e9b72e64976b84242fb41efdc10a092b99743');
+ assert.equal(themeReview.projectedLfSha256,review.sourceInputs[themeReview.path]);
+ const additions=JSON.parse('{'+themeReview.insertedLf.trim().slice(0,-1)+'}');
+ assert.deepEqual(additions,{
+  black_star:{id:102028,placeholder:true,note:'黑星暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。'},
+  lizard_tail:{id:102028,placeholder:true,note:'蜥蜴尾巴暂沿用批准主题现有宝箱图标；实际剩余次数由只读详情展示，专属美术与设备验收待完成。'},
+ });
+ const source=readFileSync(themeReview.path,'utf8').replaceAll('\r\n','\n');
+ const projected=projectReviewedTheme(source);
+ assert.equal(digest(projected),review.sourceInputs[themeReview.path]);
+ assert.equal(projectReviewedTheme(source.replaceAll('\n','\r\n')),projected,'Windows normalization is CRLF to LF only');
+ const {insertionOffset:at,insertedLf}=themeReview;
+ const blocks=insertedLf.match(/      "(?:black_star|lizard_tail)": \{\n[\s\S]*?      \},\n/g);
+ assert.equal(blocks.length,2);
+ const mutations={
+  deletedBlackStar:source.replace(blocks[0],''),
+  deletedTail:source.replace(blocks[1],''),
+  changedIcon:source.replace(insertedLf,insertedLf.replace('"id": 102028','"id": 102029')),
+  changedPlaceholder:source.replace(insertedLf,insertedLf.replace('"placeholder": true','"placeholder": false')),
+  changedNote:source.replace(additions.lizard_tail.note,'未审查说明'),
+  changedOriginalField:source.replace('"membership_card": 102026','"membership_card": 102027'),
+  thirdMapping:source.slice(0,at+insertedLf.length)+'      "unreviewed_relic": 102028,\n'+source.slice(at+insertedLf.length),
+  movedMappings:projected.replace('      "membership_card": 102026,\n','      "membership_card": 102026,\n'+insertedLf),
+  reorderedMappings:source.replace(insertedLf,blocks[1]+blocks[0]),
+ };
+ for(const [name,mutation]of Object.entries(mutations)){
+  assert.notEqual(mutation,source,name+' must really mutate the current input');
+  assert.throws(()=>projectReviewedTheme(mutation),undefined,name);
  }
 });
 test('native trace proof rejects deleted changed reordered old writes and unreviewed additions',()=>{
