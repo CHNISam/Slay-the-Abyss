@@ -8,6 +8,9 @@ local Hooks=require('abyss_relic_hooks')
 local M={}
 local bosses={['The Guardian']=true,Hexaghost=true,['Slime Boss']=true}
 local function encounter(source)
+ if source=='The Mushroom Lair'then
+  return {id='event_mushrooms',tier='normal',source=source,sourceEncounter=source}
+ end
  if source=='2 Orb Walkers'then
   return {id='event_orb_walkers',tier='normal',source=source,sourceEncounter=source}
  end
@@ -26,7 +29,11 @@ local function roomOptions(room,definition)
  return options
 end
 function M.prepare(run,source,floor,roomStreams,misc)
- if run.campaign~=true or run.act~=3 or type(floor)~='number'or floor%1~=0 or floor<35 or floor>49 then
+ if type(floor)~='number'or floor%1~=0 then return nil,'event_constructor_unavailable'end
+ local act=run.act or 1
+ local allowed=source=='The Mushroom Lair'and act==1 and floor>=7 and floor<=14
+  or source~='The Mushroom Lair'and act==3 and floor>=35 and floor<=49
+ if run.campaign~=true or not allowed then
   return nil,'event_constructor_unavailable'
  end
  local definition=encounter(source);if not definition then return nil,'event_encounter_unavailable'end
@@ -35,8 +42,13 @@ function M.prepare(run,source,floor,roomStreams,misc)
  return {version=1,source=source,floor=floor,runSeed=run.runSeed,roomSeed=room.seed,prepared=prepared}
 end
 local function validRequest(flow,request)
- if type(request)~='table'or getmetatable(request)~=nil or request.roomClass~='event'or request.relicTier~='rare'then return false end
+ if type(request)~='table'or getmetatable(request)~=nil or request.roomClass~='event'then return false end
  if type(request.gold)~='number'or request.gold%1~=0 then return false end
+ if flow.event.id=='mushrooms'then
+  return request.sourceEncounter=='The Mushroom Lair'and request.gold>=20 and request.gold<=30
+   and(request.fixedRelicId=='odd_mushroom'or request.fixedRelicId=='circlet')and request.relicTier==nil
+ end
+ if request.relicTier~='rare'or request.fixedRelicId~=nil then return false end
  if flow.event.id=='mysterious_sphere'then
   return request.sourceEncounter=='2 Orb Walkers'and request.gold>=45 and request.gold<=55
  end
@@ -44,7 +56,7 @@ local function validRequest(flow,request)
 end
 local function preparedFor(run,flow,request,roomStreams)
  local prepared=flow.event.preparedCombat
- if not prepared and flow.event.id=='mysterious_sphere'then return nil,'event_constructor_missing'end
+ if not prepared and(flow.event.id=='mysterious_sphere'or flow.event.id=='mushrooms')then return nil,'event_constructor_missing'end
  if not prepared then prepared=M.prepare(run,request.sourceEncounter,run.floor,roomStreams)end
  if type(prepared)~='table'or prepared.version~=1 or prepared.source~=request.sourceEncounter
   or prepared.floor~=run.floor or prepared.runSeed~=run.runSeed
@@ -55,10 +67,20 @@ function M.start(run,flow,api,startEncounter)
  if run.phase~='node'or type(flow)~='table'or flow~=run.nodeFlow or flow.type~='event'or flow.complete then return false,'event_combat_unavailable'end
  local request=flow.event and flow.event.combatRequest
  if not validRequest(flow,request)then return false,'invalid_event_combat_request'end
+ if flow.event.id=='mushrooms'and(run.act~=1 or run.floor<7 or run.floor>14)then return false,'event_combat_unavailable'end
  local prepared,why=preparedFor(run,flow,request,api.roomStreams);if not prepared then return false,why end
- -- The source creates actors, then GOLD, then the screenless RARE reward.
+ -- Source creates actors, then GOLD, then a fixed SPECIAL or drawn RARE.
  local gold=Gold.offerAmount(request.gold,run)
- local offer,pool=api.prepareRelic(run,{tier='rare',room='event',screenless=flow.event.id=='mysterious_sphere'})
+ local offer,pool
+ if flow.event.id=='mushrooms'then
+  local expected=Hooks.owns(run,'odd_mushroom')and'circlet'or'odd_mushroom'
+  if request.fixedRelicId~=expected then return false,'event_reward_mismatch'end
+  for _,def in ipairs(run.data.relics.relics)do
+   if def.id==expected and def.rarity=='special'then offer={id=def.id,sourceId=def.sourceId,tier='special'}end
+  end
+  if not offer then return false,'event_relic_unavailable'end
+  pool=run.relicPool -- Fixed SPECIAL never consumes a source rarity/queue draw.
+ else offer,pool=api.prepareRelic(run,{tier='rare',room='event',screenless=flow.event.id=='mysterious_sphere'})end
  if not offer then return false,pool end
  local room=api.roomStreams(run,run.floor)
  room.miscRng=R.cloneState(run.miscRng)

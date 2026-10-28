@@ -36,11 +36,13 @@ local function fixture(experimental,bgm)
     host.root=canvas:GetChild('stage')
     return host,host.root,signals
 end
-local function start(host,root,button)
+local function start(host,root,button,element)
     F.click(root,'menuPanel','start')
     assert(host.characterOpen and not host.run)
     F.click(root,'characterPanel',button)
-    F.click(root,'prologuePanel','skip')
+    if element then F.click(root,'characterPanel','elements/element'..element)end
+    assert(not host.run,'selection must not create a Run')
+    F.click(root,'characterPanel','confirm')
     for _=1,8 do OnUpdate(.25)end
     assert(host.mode=='map' and host.map.floor==0)
     -- The real entry has no history provider. Never synthesize qualification
@@ -139,6 +141,8 @@ assert(F.resultText(root,'subtitle')=='第一幕与第二幕已完成。本局�
 -- Restart means a new, ephemeral run; no _SPIRITS/_WIN or saved continuation.
 local completed=host.run
 F.click(root,'menuPanel','start');F.click(root,'characterPanel','traveler')
+assert(host.run==completed,'selection preview cannot create a new run')
+F.click(root,'characterPanel','confirm')
 assert(host.run~=completed and host.run.act==1 and host.map.floor==0)
 assert(host.run.neowStatus=='disabled' and not host.run.endingUnlocked)
 assert(host.run.endingHistory.persistence=='disabled' and not host.run.endingHistoryResult and host.historyCalls()==0)
@@ -172,8 +176,12 @@ for index,id in ipairs(originals)do
     assert(ui.run.campaign and ui.run.act==1 and #sent==0)
     if index==1 then
         local active=ui.run
+        F.click(panel,'exitEntry','open')
+        assert(ui.menuOpen and ui.exitOpen and ui.run==active)
+        F.click(panel,'runMenu','resume')
+        assert(not ui.exitOpen and ui.run==active,'resume means the same in-memory run, not persistence')
         assert(ui:openExit())
-        assert(panel:GetChild('exitPanel'):GetChild('message').text:find('本局进度不会保留',1,true))
+        assert(panel:GetChild('exitPanel'):GetChild('message').text:find('无法保存进度，退出后本局结束',1,true))
         assert(ui:closeExit() and ui.run==active and ui.run.phase=='map')
         assert(ui:openExit() and ui:confirmExit())
         assert(ui.run==active and ui.run.phase=='map' and sent[#sent]=='ABYSS_LOSE')
@@ -183,8 +191,10 @@ end
 print('PASS formal original character switch')
 for index,id in ipairs({'ironclad','silent','defect','watcher'})do
     local ui,panel,sent=fixture(true,false)
-    start(ui,panel,'character'..index)
-    assert(ui.run.character==id and not ui.run.characterProfile.originalV4)
+    start(ui,panel,'traveler',index)
+    if id=='ironclad' then
+        assert(not ui.run.characterProfile and ui.run.maxHp==80,'Geo retains the production default loadout')
+    else assert(ui.run.character==id and not ui.run.characterProfile.originalV4)end
     assert(ui.run.campaign and ui.run.act==1 and #sent==0)
 end
 print('PASS formal experimental character switch')

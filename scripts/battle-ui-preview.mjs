@@ -44,8 +44,9 @@ function draw(control, parentSize) {
       `<span>${nativeInlinePreview(t.content)}</span></div>`;
   }
   if (control.kind === 'image') {
-    if (control.image === image.rect) return `<div style="${box};background:${css(control.colour)};opacity:${control.opacity ?? 1}"></div>`;
-    if (control.image === image.disc || control.image === image.ring) return `<div style="${box};background:${css(control.colour)};border-radius:50%"></div>`;
+    if (control.image === image.rect) return `<div style="${box};background:${css(control.colour)};opacity:${control.opacity ?? 1};${control.fill ? `clip-path:inset(0 ${(1-control.fill.amount)*100}% 0 0)` : ''}"></div>`;
+    if (control.image === image.ring) return `<div style="${box};border:3px solid ${css(control.colour)};border-radius:50%"></div>`;
+    if (control.image === image.disc) return `<div style="${box};background:${css(control.colour)};border-radius:50%"></div>`;
     if (control.image === image.glow) return `<div style="${box};background:radial-gradient(closest-side,${css(control.colour)},transparent);opacity:.55"></div>`;
     if (control.image === image.diamond) return `<div style="${box};background:${css(control.colour)};clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)"></div>`;
     const glyph = glyphs.get(control.image) ?? 'q';

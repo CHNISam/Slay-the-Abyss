@@ -5,7 +5,7 @@ import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
 import { potionDiscardControls } from './potion-discard-layout.mjs';
-import { prologueControl, vistaControl } from './cinematic-ui-layout.mjs';
+import { vistaControl } from './cinematic-ui-layout.mjs';
 import { experimentalCharacterControls } from './character-ui-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
@@ -27,6 +27,8 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     }
   }
   // Route choices need the same resources as room decisions, before entering a shop.
+  mapPanel.children.push({ ...button('previewBack', theme.layout.runMenu.mapBack, '返回菜单', {
+    inset: [space.s, space.s], fontSize: font.label, border: color.goldDim }), visible: false });
   const bar = theme.layout.nativeNode.topBar;
   const resourceIcon = (name, values, entry, colour) => ({ name, kind: 'image',
     position: values.slice(0, 2), size: values.slice(2),
@@ -87,15 +89,13 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
       ] },
-      // Above every page so its last fade can uncover the map; below the deck and exit overlays.
-      prologueControl(theme),
       ...deckControls(theme),
       ...potionDiscardControls(theme),
-      ...(options.experimentalCharacters === true || options.originalCharacters === true ? experimentalCharacterControls(theme,options) : []),
+      ...experimentalCharacterControls(theme),
       ...exitControls(theme),
     ],
   };
-  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'prologuePanel']);
+  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);
   for (const control of layoutTree.controls) if (overlays.has(control.name)) control.isolateNavigation = true;
   return layoutTree;
 }

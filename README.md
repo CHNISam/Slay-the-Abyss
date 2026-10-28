@@ -2,6 +2,8 @@
 
 原神「千星奇域」平台上的卡牌关卡项目。开发入口见 [交接说明](docs/HANDOFF.md) 与 [工具链](docs/TOOLCHAIN.md)。公众开发基线和 GitHub 默认分支为 **develop**；master 只用于正式发行。版本可在 [版本总览](docs/versions/README.md) 和 [更新说明](CHANGELOG.md) 查看，与 Backlog 里程碑分开管理。
 
+修改代码前可先看 [模块与生成物导航](docs/ARCHITECTURE.md)、[数据入口](data/README.md) 和 [工程检查](docs/ENGINEERING.md)，定位规则、界面、构建与验证职责。
+
 ## 授权与商用
 
 **项目自有原创代码采用 PolyForm Noncommercial 1.0.0；第三方商业使用不在本项目授予的许可内，须另获相应权利人书面授权。** 允许的用途以 [LICENSE](LICENSE) 原文为准，包括其列举的个人及非商业机构用途。这是源码可见的非商用授权，不是 OSI 意义上的开源许可证。

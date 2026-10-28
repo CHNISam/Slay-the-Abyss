@@ -1,3 +1,5 @@
+import {currentSourceLayers} from './task77-current-source-layers.mjs';
+import {preFormalEntrySource} from '../support/formal-entry-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -27,8 +29,40 @@ export function archivedRetirementChangelog(source=retirementSources.beforeSourc
 // that can hide future changes in the old source or current interaction guards.
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
  let normalized=source===null?null:source.replaceAll('\r\n','\n');
+ const current=currentSourceLayers.competition[path];
+ if(current){
+  const historical=path===competitionHost.path?competitionHost.afterSha256:'6a073dda56608f8d4e8f6b9c922a43041f42ded9923c4c3281a3dd8f98deb864';
+  assert(normalized!==null && [current.afterSha256,historical].includes(digest(normalized)),
+   'unreviewed integrated retirement source drift: '+path+'; complete current competition source');
+ }
+ if(normalized!==null)normalized=preFormalEntrySource(path,normalized);
+ if(path==='data/presentation/ui_theme.json' && digest(normalized)!==retirementSources.afterSha256[path]){
+  assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','unreviewed integrated retirement source drift: '+path+' (complete frozen Mushrooms/Molten theme identity and mapping positions)');
+  // Exact new glyph inverse; the complete accepted hash below still binds
+  // every old byte and prevents unrelated deletions, edits or reordered fields.
+  const molten=",\n      \"molten_egg\": {\n        \"id\": 102031,\n        \"placeholder\": true,\n        \"note\": \"暂沿用现有遗物图标；专属美术与设备验收待完成。\"\n      }";
+  assert.equal(normalized?.split(molten).length,2,'one exact Molten Egg placeholder');
+  normalized=normalized.replace(molten,'');
+  const mushroom="      \"odd_mushroom\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n";
+  const relic='    \"relic\": {\n',at=normalized.indexOf(relic)+relic.length;
+  assert.equal(normalized.split(relic).length,2,'one relic mapping container');
+  assert.equal(normalized.slice(at,at+mushroom.length),mushroom,'exact Mushroom insertion position');
+  normalized=normalized.slice(0,at)+normalized.slice(at+mushroom.length);
+ }
+ if(path==='data/relics.json'){
+  // The old theme replay must use its complete contemporaneous relic input,
+  // not today's expanded catalogue or a runtime filter that could hide drift.
+  assert.equal(digest(normalized),'58b83f2a4152561057c654d80d5f6511604b4bef2faf141a333f3daffdbb6566',
+   'unreviewed integrated retirement source drift: '+path);
+  const before=readFileSync('tests/fixtures/presentation-relics-before-m3.json','utf8').replaceAll('\r\n','\n');
+  assert.equal(digest(before),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758','complete pre-Molten/Mushrooms relic source');
+  const expanded=JSON.parse(normalized),old=JSON.parse(before),added=new Set(['molten_egg','odd_mushroom']);
+  assert.equal(expanded.relics.filter(relic=>added.has(relic.id)).length,2,'exact two reviewed relic additions');
+  assert.deepEqual({...expanded,relics:expanded.relics.filter(relic=>!added.has(relic.id))},old,'every prior relic and its order retained');
+  return before;
+ }
  if(!Object.hasOwn(retirementSources.beforeSources,path))return normalized;
- if(path===competitionHost.path){
+ if(path===competitionHost.path && normalized!==null && digest(normalized)===competitionHost.afterSha256){
   assert.equal(normalized===null?null:digest(normalized),competitionHost.afterSha256,
    'unreviewed integrated retirement source drift: '+path);
   // Exact TASK77-only inverse retains every original historical host byte.
@@ -42,13 +76,12 @@ export function preRetirementSource(path,source=existsSync(path)?readFileSync(pa
  if(path==='src/lua/abyss_ui.lua'){
   // Historical replay only. The separate live OnStart fixture owns campaign
   // behavior; this exact inverse does not claim natural or platform coverage.
-  assert.equal(normalized===null?null:digest(normalized),
-   '6a073dda56608f8d4e8f6b9c922a43041f42ded9923c4c3281a3dd8f98deb864',
-   'unreviewed integrated retirement source drift: '+path);
   const competition='{ music = music, campaign = true, campaignProfile = "competition-two-act", experimentalCharacters =';
   const enabled='{ music = music, campaign = true, experimentalCharacters =';
-  assert.equal(normalized.split(competition).length,2,'one exact two-act competition profile');
-  normalized=normalized.replace(competition,enabled);
+  if(normalized!==null && digest(normalized)==='6a073dda56608f8d4e8f6b9c922a43041f42ded9923c4c3281a3dd8f98deb864'){
+   assert.equal(normalized.split(competition).length,2,'one exact historical two-act competition profile');
+   normalized=normalized.replace(competition,enabled);
+  }
   assert.equal(digest(normalized),'4fdb5660a96f00b3d24bfa5388d5eb9c364183996679d0b7aaaf772af1319677',
    'unchanged accepted full-source entry before competition opt-in');
   assert.equal(normalized.split(enabled).length,2,'one exact formal campaign opt-in');

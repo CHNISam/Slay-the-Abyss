@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Run = require("abyss_run")
@@ -22,7 +23,7 @@ local function setup(deck, data, combatOptions, fastMode)
     -- The official host now owns this setting and syncs it before every command.
     -- Configure at the title instead of letting perform overwrite a lower-level flag.
     if fastMode ~= nil then assert(host:setFastMode(fastMode)) end
-    assert(host:start())
+    assert(testStart(host))
     assert(Run.startCombat(host.run, "cultist_solo"))
     -- Controlled deck, ordinary Run.play via the actual host card/target controls.
     local options = {deck = deck or {"strike", "defend", "strike"}, enemies = {"cultist", "cultist"}, seed = 11}

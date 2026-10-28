@@ -128,12 +128,13 @@ test('late card hook failure rolls back damage Fairy slot gold and UID then retr
  same(observed,{hp=24,gold=109});assert(choose(r,'dagger'));eq(r.hp,24);eq(r.gold,109)
  eq(r.potions[1],nil);eq(#r.deck,11);eq(r.nextDeckUid,12);eq(r.miscRng.counter,0)
 end)
-test('forced missing attack-upgrade capability refuses dagger but never blocks gold',function()
- -- Private forced owners exercise an explicit implementation boundary, not a
- -- claim that the source event excludes Molten Egg or that it stays unsupported.
+test('real attack-upgrade owner upgrades the post-cost dagger and never blocks gold',function()
  for _,id in ipairs({'molten_egg','Molten Egg 2'})do
-  local r=fixture();r.relics={id};ready(r);reject(r,'dagger',nil,'event_obtain_content_unavailable')
-  assert(choose(r,'gold'));eq(r.gold,199)
+  local r=fixture();assert(Run.obtainRelic(r,id));ready(r);assert(choose(r,'dagger'))
+  eq(r.hp,74);eq(#r.deck,11);eq(r.deck[11].cardId,'ritual_dagger')
+  eq(r.deck[11].upgraded,true);eq(r.deck[11].upgrades,1);eq(r.deck[11].uid,11)
+  reject(r,'dagger')
+  r=fixture();assert(Run.obtainRelic(r,id));ready(r);assert(choose(r,'gold'));eq(r.gold,199)
  end
 end)
 test('four source classes acquire one distinct permanent UID without spending gameplay RNG',function()

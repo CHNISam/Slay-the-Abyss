@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Current source-card ownership and chapter context remain authoritative when
 -- native controller events are added. These use the real generated host tree.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
@@ -16,7 +17,7 @@ local function setup(combat)
     local host,root=F.fixture(nil,nil,nil,cursor,false,nil,{keyEvents={KeyboardSprintKeyDown='right'}},api)
     assert(host.run==nil and host.mapUI.map==nil and host.nodeUI.run==nil,
         'controller title construction must not create preview owners')
-    assert(host:start())
+    assert(testStart(host))
     if combat then
         assert(Run.startCombat(host.run,'cultist_solo'))
         host.run.combat=F.Combat.new(F.Data,{deck={'strike'},enemies={'cultist','jaw_worm'}})

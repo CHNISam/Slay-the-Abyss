@@ -3,16 +3,17 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { resolve, join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { compareNativeCandidate, requireSourceSha, sha256 } from './native-candidate-audit.mjs';
+import { compareNativeCandidate, requireSourceSha, sha256, candidateEntrySource } from './native-candidate-audit.mjs';
 import { exportedCandidatePath, newEvidenceDirectory } from './native-audit-paths.mjs';
+import { releaseSourceFiles } from './release-notes.mjs';
 
-const usage = 'node scripts/audit-native-candidate.mjs --source <full-commit-SHA> --candidate <full-game.gil> --output <new-directory> [--bgm]';
+const usage = 'node scripts/audit-native-candidate.mjs --source <full-commit-SHA> --candidate <full-game.gil> --output <new-directory> [--receipt <candidate.json>] [--bgm]';
 function argumentsOf(args) {
   const options = {};
   for (let i = 0; i < args.length; i++) {
     const flag = args[i];
     if (flag === '--bgm') options.bgm = true;
-    else if (['--source', '--candidate', '--output'].includes(flag) && args[i + 1] && !args[i + 1].startsWith('--')) options[flag.slice(2)] = args[++i];
+    else if (['--source', '--candidate', '--output', '--receipt'].includes(flag) && args[i + 1] && !args[i + 1].startsWith('--')) options[flag.slice(2)] = args[++i];
     else throw new Error(`Invalid argument ${flag}. Usage: ${usage}`);
   }
   requireSourceSha(options.source);
@@ -26,6 +27,7 @@ export async function auditNativeCandidate(options) {
   const output = newEvidenceDirectory(options.output);
   if (existsSync(output)) throw new Error('Output must be a new directory; existing evidence is preserved');
   const before = sha256(readFileSync(mapPath));
+  const buildReceipt = options.receipt === undefined ? undefined : JSON.parse(readFileSync(options.receipt, 'utf8'));
   mkdirSync(output, { recursive: true });
   const repo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
   const save = (name, value) => { writeFileSync(join(output, name), JSON.stringify(value, null, 2) + '\n'); return value; };
@@ -64,13 +66,17 @@ export async function auditNativeCandidate(options) {
       value: fields(one(one(field.data, 4), 106)).some(value => value.id === 1 && value.value === 1n), encodedHex: field.raw.toString('hex') }));
     const parameters = save('parameters.json', { script: 'abyss_ui', records });
     const snapshot = join(output, 'source'); mkdirSync(snapshot);
-    run('tar', ['-xf', '-', '-C', snapshot], { input: run('git', ['archive', sourceSha, 'src/lua', 'data', 'scripts', 'tools']) });
+    run('tar', ['-xf', '-', '-C', snapshot], { input: run('git', ['archive', sourceSha,
+      'src/lua', 'data', 'scripts', 'tools', ...releaseSourceFiles]) });
     for (const script of ['build-lua-data.mjs', 'build-ui.mjs']) writeFileSync(join(output, `${script}.log`),
       run(process.execPath, [`scripts/${script}`], { cwd: snapshot }));
     const { candidateScriptFiles } = await import(pathToFileURL(join(snapshot, 'scripts/native-candidate-scripts.mjs')));
     const deployment = candidateScriptFiles(join(snapshot, 'src/lua'), join(snapshot, 'build/lua'));
     const uiBgmParameter = deployment.find(script => script.name === 'abyss_ui')?.variables?.find(variable => variable.name === 'nativeBgmEnabled');
-    const modules = deployment.map(({ name, sourceFile }) => ({ name, source: readFileSync(sourceFile, 'utf8') }));
+    const modules = deployment.map(({ name, sourceFile }) => {
+      const source = readFileSync(sourceFile, 'utf8');
+      return { name, source: name === 'abyss_ui' ? candidateEntrySource(source, buildReceipt, before) : source };
+    });
     const expectedUi = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui.json'), 'utf8'));
     const expectedTemplate = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui-templates.json'), 'utf8')).find(template => template.name === 'AbyssDeckCard');
     const graphNames = [['settlement-graph.mjs', 'settlementGraphSource', 'ABYSS_SETTLEMENT']];
@@ -92,6 +98,8 @@ export async function auditNativeCandidate(options) {
   }
   report.candidate.path = mapPath;
   report.evidenceDirectory = output;
+  if (buildReceipt) report.buildMarker = { buildId: buildReceipt.buildId, candidateSha256: before,
+    receiptSha256: sha256(readFileSync(options.receipt)) };
   report.liveWriteEnabled = false;
   report.checkedAt = new Date().toISOString();
   save('audit.json', report);

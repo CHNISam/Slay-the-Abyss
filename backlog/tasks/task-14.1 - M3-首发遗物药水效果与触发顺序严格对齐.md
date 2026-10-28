@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 02:02'
+updated_date: '2026-10-28 10:39'
 due_date: '2026-10-28'
 labels:
   - required
@@ -72,6 +72,10 @@ ordinal: 42000
 2026-10-27宝箱与渠道切片：原AbstractChest/ShopScreen/MonsterRoomElite真实调用链→共同遗物队列front/tail→create/open/take/leave与商店Courier/精英公开领取接线。69独立连续RNG向量与源边界/生成UI定向通过；缺效果保留sourceId并不可领取，不缩池重抽。当前PR238完整Quality收口中，整体AC不勾。
 
 2026-10-28接续实际遗留成果：将16e9dfa7蜥蜴尾巴/黑星组合与原树三文件未提交药水计数修正接到最新b7dffdeb；保留双方原生轨迹测试、专用数据输入负例和全部旧断言。定向回归与完整当前SHA CI通过后合并，完整自然/平台AC仍不勾。
+
+2026-10-28冲刺：按固定319009d5的MoltenEgg2.java补熔火之蛋，复用既有获得牌与Toxic Egg owner；覆盖攻击牌preview/obtain、只追溯当前战斗奖励、回滚、正常来源与48层边界。保持旧牌组/旧商店不追改；先红后绿并复验Toxic；完整道具池、自然和平台AC继续保留未完成。
+
+2026-10-28 PR286收口：修复三处EOF空行与Darklings状态说明惰性依赖；逐项消解develop冲突并保留PR267和campaign入口，等待PR290合入后最终同步；补定向回归与当前HEAD完整Quality，全绿后squash，关闭被吸收PR285并保留可恢复历史再清理。来源锁、RNG顺序、回滚、测试预算及未验收AC保持。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -134,4 +138,12 @@ ordinal: 42000
 2026-10-28接续验证：42项专用/内容/原生合同第一轮41过、清单聚合单进程1项超时。保留失败，改为inventory/black_star/lizard_tail_run/lizard_tail_persistence四个完整独立验证进程，每份原30秒及实际传入data保持；原22项完整清单回归通过。4个原语义变异全部killed_by_assertion。最终集成和状态统一收口PR266，不将受控证明当全池或实机完成。
 
 PR266精确8746d5c2完整CI的rules8检出两处相邻遗漏：来源账本仍把Black Star/Tail标缺失，旧绿钥匙UI夹具要求满四项后仍掉瓶。现账本按实际54定义补两映射（source注册/顺序不变）；生产夹具明确断言无瓶，另通过真实三项采样器构造独立容量offer，完整保留六行布局、点击/手柄、领取、重复与旧owner断言。移除重复占位BlackStar定义，改验真实生产定义。11项相邻回归全过；本轮原失败日志保留build/m3-status/rules-8.log，最新SHA完整CI另验，AC保持未变。
+
+2026-10-28熔火之蛋切片（PR286）：按固定319009d5的MoltenEgg2及7成员独立源锁实现真实攻击牌获得/预览/装备奖励追溯、48/49层正常资格、Library/Sensory和Nest组合。23份新旧Egg/事件Lua原预算通过，19项来源/历史主题契约通过；213模块/1235边架构、固定84历史静态诊断零新增、4项变异和2项原生契约通过。独立复核源码与队列/RNG/UID/回滚无阻断。同步267后Nest真实获得、Fairy/Tail、下战同UID和晚失败回滚通过。最新组合完整CI仍待，不把定义或受控获得当逐件自然/平台验收；AC5至8及状态保持未完成。Node22本地全量测试有原30秒超时且未完成，失败记录保留，不报告全量绿。
+
+PR286主线程收口：保留远端5556fef1的Searing Blow复制语义，原固定zip四个相关Java成员hash均独立核对。23份Molten/Toxic原预算夹具全过；角色入口组合28项、正式入口账本/诊断/旧UI合同31项全过；工程四变异均被原断言检出。一次本地历史回放与工程同时运行触及原30秒，失败保留，单独串行复验7/7绿（两旧回放26.670/22.230秒）。本地已组合PR290至300a96a8，正式入口与其逐字一致；当前等待其当前头Quality合入后最终同步并验证最终SHA，不认证平台/自然通关，不勾AC。
+
+紧急收口：用户本轮明确授权先合并、CI合后继续，替代原CI全绿前置。最终同步保留PR290及主线PR295/296界面，不创建版本。已知合后CI工作：Silent同实例双四房夹具原30秒超时，以及新角色/共享卡框/非战斗界面的严格历史证明组合；不删断言、不放宽预算，不认证实机。
+
+最终UI紧急合流保留#286完整规则交付及最新范围，双方原始任务快照见docs/reviews/ui-merge-task-history-20261028.json.gz。未把源码合并或紧急CI授权冒充道具平台验收。
 <!-- SECTION:NOTES:END -->

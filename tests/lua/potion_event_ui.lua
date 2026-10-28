@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Map,Run=require('abyss_map'),require('abyss_run')
@@ -5,7 +6,7 @@ local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function fixture(id)
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local ui=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=42,prologue=false,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
- assert(ui:start());local r=ui.run
+ assert(testStart(ui));local r=ui.run
  -- Controlled content, real canonical room: navigation alone must not spend
  -- the persistent seed42 shop-potion stream used by Lab/Woman rewards.
  assert(r.data~=F.Data and r.data.rules.events~=F.Data.rules.events)

@@ -83,18 +83,29 @@ function M.new(root, map, onChoose, clickEvent, options)
         drag = nil
         scrollAnimation, buttonHover, buttonPress = nil, nil, nil
     end
+    local controlCache = {}
     local function at(name)
+        if controlCache[name] then return controlCache[name] end
         local i = 1
         while true do
             local group = panel:GetChild("mapGroup" .. i)
             if not group then break end
             local found = group:GetChild(name)
-            if found then return found end
+            if found then controlCache[name] = found return found end
             i = i + 1
         end
         error("missing map UI control " .. name)
     end
     local function tint(control, c) control.imageColor = colour(c.r, c.g, c.b, c.a) end
+    local function pathColour(ink, opacity)
+        return colour(ink.r, ink.g, ink.b, math.floor(ink.a * opacity))
+    end
+    local visual = Theme.layout.map.presentation
+    local pathColours = {
+        taken = pathColour(Theme.color.node.pathTaken, visual.takenOpacity),
+        next = pathColour(Theme.color.node.path, visual.nextOpacity),
+        future = pathColour(Theme.color.node.path, visual.futureOpacity),
+    }
     local function controllerContextReady()
         return chapterFor(self.map) ~= nil and self.map == self.observedMap
             and sameContext(self.map,self.observedContext)
@@ -124,7 +135,9 @@ function M.new(root, map, onChoose, clickEvent, options)
         local box, enabled = at(name), buttonEnabled(name)
         local pressed = enabled and buttonPress and buttonPress.name == name
         local hover = enabled and buttonHover == name and not pressed
-        box:SetVisible(true)
+        -- Pointer users pan the route directly. Compact hints only appear while
+        -- a controller is active, retaining native focus access to the whole map.
+        box:SetVisible(Controller.isController(options.controller))
         child(box,"hit"):SetVisible(enabled)
         child(box,"hit").canControllerFocus = enabled
         tint(child(box,"frame"), not enabled and Theme.color.line
@@ -155,7 +168,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
         return true
     end
-    local function line(control, source, target, taken)
+    local function line(control, source, target, taken, reachable)
         local x1, y1 = position(source)
         local x2, y2 = position(target)
         -- Clip real graph segments to viewport, with half-stroke padding.
@@ -170,9 +183,9 @@ function M.new(root, map, onChoose, clickEvent, options)
         control:SetAnchoredPosition((ax + bx) / 2, (ay + by) / 2)
         control:SetSizeDelta(math.sqrt(dx * dx + dy * dy), Layout.lineWidth)
         control.localRotationZ = math.atan(dy, dx) * 180 / math.pi
-        tint(control, taken and Theme.color.node.pathTaken or Theme.color.node.path)
+        control.imageColor = taken and pathColours.taken or reachable and pathColours.next or pathColours.future
     end
-    function self:render()
+    function self.render(_)
         if not self.map then return false, "map_unbound" end
         local context = chapterFor(self.map)
         if not context then
@@ -207,7 +220,7 @@ function M.new(root, map, onChoose, clickEvent, options)
                 and "摇杆选择路线 · 确认出发 · 返回菜单" or "上下拖动查看路线 · 点选可前往的节点出发") or "请先完成当前节点")
             ))
         local notice=current.emeraldSelection and Theme.layout.map.emeraldNotice or Theme.layout.map.notice
-        at('notice'):SetAnchoredPosition(notice[1],notice[2]);at('notice'):SetSizeDelta(notice[3],notice[4])
+        at('notice'):SetAnchoredPosition(notice[1],notice[2]);at('notice'):SetSizeDelta(notice[3],Theme.layout.map.presentation.noticeHeight)
         if current.emeraldSelection then at('notice').text=at('notice').text..' · 绿字节点为燃烧精英，胜利可另领绿钥匙'end
         buttonHover, buttonPress = nil, nil
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
@@ -216,7 +229,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             edge = edge + 1
             assert(edge <= Layout.maxEdges, "map UI edge capacity exceeded")
             local target = assert(nodes[id], "map UI dangling route")
-            line(at("edge" .. edge), node, target, taken[node.id .. ":" .. id])
+            line(at("edge" .. edge), node, target, taken[node.id .. ":" .. id], node.id == current.currentNodeId and target.available)
         end end
         for i = edge + 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
         assert(#current.nodes <= Layout.maxNodes, "map UI node capacity exceeded")
@@ -231,6 +244,9 @@ function M.new(root, map, onChoose, clickEvent, options)
                 local radius = (size + Layout.glowPadding) * Layout.breathScale / 2
                 if node.hasEmeraldKey then radius=math.max(radius,math.abs(Theme.layout.map.emeraldLabel[2])+Theme.layout.map.emeraldLabel[4]/2)end
                 visible = y - radius >= Layout.viewport.bottom and y + radius <= Layout.viewport.top
+                -- Hidden rows have no slots or focus targets. Avoid rewriting
+                -- every child of all 17 floors during each pan animation frame.
+                if visible then
                 box:SetAnchoredPosition(x, y)
                 box:SetSizeDelta(size, size)
                 box.localScaleX, box.localScaleY = 1, 1
@@ -240,16 +256,18 @@ function M.new(root, map, onChoose, clickEvent, options)
                     child(box, value):SetVisible(state == value)
                     child(box, value):SetSizeDelta(size, size)
                 end
-                local glow = child(box, "glow")
-                glow:SetVisible(state == "current")
-                glow:SetSizeDelta(size + Layout.glowPadding, size + Layout.glowPadding)
+                local token = child(box, "positionToken")
+                token:SetVisible(state == "current")
                 child(box, "body"):SetSizeDelta(size - Theme.space.border * 2, size - Theme.space.border * 2)
                 tint(child(box, "body"), (state == "current" or state == "visited") and Theme.color.panelRaised or Theme.color.panel)
+                child(box, "locked"):SetVisible(false)
+                child(box, "body"):SetVisible(state ~= "locked")
                 local icon = child(box, "icon")
                 icon:SetSizeDelta(size * .6, size * .6)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
-                tint(icon, Theme.color.node[state == "available" and "reachable" or state])
+                local palette = Theme.color.mapCanvas
+                tint(icon, state == 'locked' and palette.far or state == 'visited' and palette.visited or palette.kind[node.type])
                 icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
                 if node.hasEmeraldKey then tint(icon,Theme.color.positive)end
                 child(box,'emeraldLabel'):SetVisible(node.hasEmeraldKey==true)
@@ -261,12 +279,16 @@ function M.new(root, map, onChoose, clickEvent, options)
                 hit.canControllerFocus = clickable
                 if visible then self.slots[i] = node.id end
                 if clickable then self.breathing[#self.breathing + 1] = box end
+                else
+                    child(box, 'hit'):SetVisible(false)
+                    child(box, 'hit').canControllerFocus = false
+                end
             end
             box:SetVisible(visible)
         end
         self:update(0)
     end
-    function self:resize(width, height)
+    function self.resize(_, width, height)
         if not finite(width) or not finite(height) or width <= 0 or height <= 0 then return false, "invalid_canvas" end
         cancelDrag()
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
@@ -278,9 +300,14 @@ function M.new(root, map, onChoose, clickEvent, options)
         self.scale = scale
         return true
     end
-    function self:update(dt)
+    function self.update(_, dt)
         if not finite(dt) or dt < 0 then return false, "invalid_delta" end
         if not self.visible then return true end
+        local usingController = Controller.isController(options.controller)
+        if self.usingController ~= usingController then
+            self.usingController = usingController
+            for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
+        end
         if not chapterFor(self.map) or self.map ~= self.observedMap or not sameContext(self.map,self.observedContext) then
             self:render()
             return true
@@ -307,13 +334,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         for _, box in ipairs(self.breathing) do box.localScaleX, box.localScaleY = scale, scale end
         return true
     end
-    function self:setReducedMotion(value)
+    function self.setReducedMotion(_, value)
         assert(type(value) == "boolean", "reduced motion must be boolean")
         self.reducedMotion = value
         if value and scrollAnimation then return self:setScroll(scrollAnimation.target) end
         self:update(0)
     end
-    function self:setScroll(value)
+    function self.setScroll(_, value)
         if not finite(value) then return false, "invalid_scroll" end
         value = clamp(value, 0, Layout.maxScroll)
         if value ~= self.scroll or scrollAnimation then cancelSelection() end
@@ -330,12 +357,12 @@ function M.new(root, map, onChoose, clickEvent, options)
         self:render()
         return true
     end
-    function self:scrollBy(delta)
+    function self.scrollBy(_, delta)
         if not self.visible then return false, "map_hidden" end
         if not finite(delta) then return false, "invalid_scroll" end
         return self:setScroll(self.scroll + delta)
     end
-    function self:focusCurrent(animated)
+    function self.focusCurrent(_, animated)
         if not self.map then return false, "map_unbound" end
         if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local current = Map.view(self.map)
@@ -344,7 +371,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         if animated then return animateScrollTo(target) end
         return self:setScroll(target)
     end
-    function self:setNavigationEnabled(enabled)
+    function self.setNavigationEnabled(_, enabled)
         if not self.map then return false, "map_unbound" end
         assert(type(enabled) == "boolean", "navigation enabled must be boolean")
         if not enabled then cancelDrag() end
@@ -355,14 +382,14 @@ function M.new(root, map, onChoose, clickEvent, options)
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
         self.navigationEnabled = enabled self:render()
     end
-    function self:setVisible(visible)
+    function self.setVisible(_, visible)
         assert(type(visible) == "boolean", "map visibility must be boolean")
         if visible and not self.map then return false, "map_unbound" end
         if not visible then cancelDrag() end
         self.visible = visible root:SetVisible(visible)
         if visible then self:focusCurrent() end
     end
-    function self:choose(nodeId)
+    function self.choose(_, nodeId)
         if not self.map then return false, "map_unbound" end
         if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local beforeMap = self.map

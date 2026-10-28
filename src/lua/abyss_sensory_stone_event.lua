@@ -7,7 +7,7 @@ local CardRandom=require('abyss_card_random')
 local RelicHooks=require('abyss_relic_hooks')
 local M={}
 local counts={one=1,two=2,three=3}
-local missing={question_card=true,busted_crown=true,molten_egg=true,frozen_egg=true,singing_bowl=true}
+local missing={question_card=true,busted_crown=true,frozen_egg=true,singing_bowl=true}
 local function definition(run,id)for _,d in ipairs(run.data.cards.cards)do if d.id==id then return d end end end
 local function owns(run,id)for _,held in ipairs(run.relics)do if held==id then return true end end;return false end
 local function dependencies(run)

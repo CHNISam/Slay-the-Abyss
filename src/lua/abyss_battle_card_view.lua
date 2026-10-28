@@ -3,6 +3,7 @@
 local Combat = require("abyss_combat")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
+local CardSkin = require('abyss_card_skin')
 local CardDisplay = require("abyss_card_display")
 local number = require("abyss_numbers").integer
 local C, L = Theme.color, Theme.layout
@@ -209,6 +210,13 @@ function M.new(view, controls)
         }
     end
 
+    local function writeSkin(box,card,context,hovered)
+        local base=card.instance and context.battle.catalog.cards[card.instance.cardId] or card.definition
+        local printed=card.upgraded and base.upgrade and base.upgrade.cost or base.cost
+        CardSkin.apply(box,card.definition,controls.platform,{dim=not card.enabled,selected=card.selected or hovered,
+            cost=card.definition.cost,baseCost=printed})
+    end
+
     local function renderSlot(context, i, aimUid, aimTarget)
         local box = child("card" .. i)
         local instance = context.fighting and context.battle.hand[i]
@@ -220,6 +228,7 @@ function M.new(view, controls)
         writeDetails(box, card, context.battle, aimUid, aimTarget)
         local hovered = view.hover == i and (context.reward or context.active)
         writeFrame(box, card, hovered)
+        writeSkin(box,card,context,hovered)
         place(box, card, context, i)
         return card, (card.selected or hovered) and box or nil
     end
@@ -264,8 +273,8 @@ function M.new(view, controls)
 
     local function aimEndpoint(g, target, enemy)
         if enemy then
-            local tx, _, portrait = enemyPosition(g.battle, target)
-            return tx, L.enemyRow.y, portrait + D.reticlePad
+            local tx, _, portrait, _, ty = enemyPosition(g.battle, target)
+            return tx, ty or L.enemyRow.y, portrait + D.reticlePad
         end
         return g.x, g.y, D.aimDot[2] * 2
     end
@@ -320,6 +329,7 @@ function M.new(view, controls)
         end
     end
     local function update(dt)
+        for i=1,10 do CardSkin.tick(child("card"..i),dt)end
         if not handBattle or dt<=0 then return end
         local held=view.gesture or view.carry
         for uid,entry in pairs(handPoses) do

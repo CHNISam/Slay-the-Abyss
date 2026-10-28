@@ -42,3 +42,11 @@
 补正复用`Acts.isCompetition`，在真正OPEN的offer阶段统一以“非比赛配置且campaign/endingUnlocked可用”控制原钥匙校验和追加，不改抽奖、奖励、hook或事务顺序。加强后的同一核心回归在旧代码真实RED（OPEN后`sapphireKey`断言），修复后检查无key item、无linkedSlot；直接sapphire选择和外来key token均拒绝，Run与Map完整前像不变。显式full-source相同普通宝箱仍产生合法关联钥匙，treasure/card RNG与遗物池消费状态逐项相同。正式OnStart的真实floor9宝箱OPEN后还检查整棵可见NodeUI无“钥匙”提示。原Boss终点、跨幕及回滚回归继续保留；历史证明与冻结hash无新增改动。
 
 补正验证：新核心/正式入口/full-source场景、Sapphire21组与独立source向量批次14/14通过；新增RNG/池状态等值断言再跑核心7组通过；独立审查原probe显示OPEN后Sapphire项为0并通过。架构214模块/1239依赖边、固定Luacheck84条既有诊断/418治理测量及diff检查通过。未改变原历史hash，未执行平台或自然通关。
+
+### 已接受UI/确认流程整合
+
+已保留正式角色选择二次确认、Molten Egg/Mushrooms、共享卡框、操作说明与本局菜单/只读地图预览。`CharacterSelect.options`之后继续传递比赛配置，确认前不构造Run；“继续游戏”仅恢复同一内存Run，不表示退出续玩。完整12项目标批次（双幕核心、真实确认后OnStart、full-source未来场景、guide/menu及当前canvas UI）通过。
+
+独立干净101与7784基线均复现已有历史来源/trace漂移，原证据分别保留在本轮本地`/tmp/task77-clean101-*`、`/tmp/task77-clean7784-*`日志。当前来源以明确完整身份分层：先去除Task77自有两份source增量，再把已接受UI的四个来源精确映射到既有formal inverse的完整after身份；原压缩archive、原formal inverse JSON、原competitionHost fixture与所有旧golden hash保持原状。原PR291的当前CHANGELOG/退役副本分离恢复，新的完整来源负例检查保留；原glyph主题按既有f88完整hash恢复为历史副本，不冒充当前UI字节。
+
+仍有独立于Task77的既有原始live trace门禁：干净7784与本组合实际都输出`73316 / 1014606304`，原断言保持`81392 / 1836812524`，因此仍RED。未刷新count/hash或把来源逆转当作当前live trace通过；当前完整Quality仍待代码PR实际执行。

@@ -27,7 +27,7 @@ export function runStatic(args=[]) {
 
 // This budget owns the battle controller, its extracted responsibilities and
 // the shop/card views. Other pre-existing subsystems retain diagnostic reports.
-const renderFile = file => /^src\/lua\/abyss_(?:battle_.+|shop_ui|shop_selection|card_display)\.lua$/.test(file);
+const renderFile = file => /^src\/lua\/abyss_(?:battle_.+|shop_ui|shop_selection|card_display|card_skin)\.lua$/.test(file);
 const requiredRenderFiles = ['abyss_battle_ui', 'abyss_battle_card_view', 'abyss_shop_ui', 'abyss_card_display']
   .map(name => `src/lua/${name}.lua`);
 function expectedMeasurements(source) {
@@ -75,6 +75,8 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_run.lua': ["function 'potionCandidate'"],
+  'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
   'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'"],
   'src/lua/abyss_act2_ai.lua': ["function 'choose'"],
@@ -113,7 +115,7 @@ const responsibilityRoots = {
     "function 'refreshForeground'", "function 'overlaysBlocked'",
   ],
 };
-const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui_.+|game_ui_.+)\.lua$/.test(file);
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui_.+|game_ui_.+|run_potion_candidate.*)\.lua$/.test(file);
 // The display adapter now aliases the extracted formatter. If a local formatter
 // is reintroduced, it must not evade the budget that governs its replacement.
 const optionalResponsibilityRoots = {'src/lua/abyss_character_presentation.lua': ["function 'fragments'"]};

@@ -5,7 +5,7 @@
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "baseline": "45ba918e5719614f36b6a92aeb511e76a1311608",
   "acceptance": "INCOMPLETE",
-  "runtimeStatus": "Explicit development campaign Host/chapter maps, Act2 regular/elite/three-Boss content and Act3 regular/elite/three-Boss content are locally wired. All seven Act3 ordinary event mappings and the MindBloom/Sphere event-combat bridge have recorded local component/integration coverage. Whole natural campaign, Act2 event-only enemies, complete shrine/once catalogs, green-key acquisition and Act4 combat remain incomplete. Native/platform acceptance is not granted.",
+  "runtimeStatus": "Formal OnStart opts into campaign and role selection; Host/chapter maps, Act2 regular/elite/three-Boss and Act3 regular/elite/three-Boss content, seven Act3 ordinary event mappings and the MindBloom/Sphere bridge are locally wired. PR262 also wires canonical burning-elite entry, Emerald reward ownership, the fixed 52 camp / 53 shop / 54 Shield-and-Spear / 55 Heart route and owner-bound true-ending Proceed. These are controlled local component/integration results. Whole natural campaign, Act2 event-only enemies, complete shrine/once catalogs, historical unlock persistence and native/platform acceptance remain incomplete.",
   "tasks": {
     "inventory": "TASK-47",
     "classes": "TASK-59",
@@ -22,11 +22,17 @@
     "encounterQueues": "implemented-independent-vectors-passed",
     "eventPoolLifecycle": "implemented-local-tests-passed",
     "normalEndingAndDoor": "implemented-boundary-tests-passed",
-    "naturalKeyAcquisition": "PARTIAL_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_PENDING",
+    "naturalKeyAcquisition": "IMPLEMENTED_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_REWARD_NATURAL_UNVERIFIED",
     "persistentHistoricalUnlock": "PLATFORM_UNVERIFIED",
     "sessionHistoricalUnlock": "IMPLEMENTED_LOCAL_REAL_STANDARD_ACT3_VICTORIES_INJECTABLE_PROVIDER",
     "sessionHistoricalEvidence": ["docs/rules/ENDING_HISTORY.md", "tests/lua/ending_history.lua", "tests/lua/ending_history_host.lua"],
-    "hostChapterUI": "IMPLEMENTED_EXPLICIT_DEVELOPMENT_ENTRY_LOCAL"
+    "hostChapterUI": "IMPLEMENTED_FORMAL_CAMPAIGN_ENTRY_LOCAL",
+    "keyAcquisitionEvidence": [
+      "tests/lua/ruby_recall.lua",
+      "tests/lua/sapphire_treasure.lua",
+      "tests/lua/emerald_entry_provenance.lua",
+      "tests/lua/emerald_key_run.lua"
+    ]
   },
   "acts": [
     {
@@ -66,10 +72,18 @@
         55
       ],
       "map": "implemented-local-only",
-      "combat": "NOT_IMPLEMENTED",
-      "events": "NOT_IMPLEMENTED",
+      "combat": "IMPLEMENTED_LOCAL_SHIELD_SPEAR_HEART_CONTROLLED_ROUTE",
+      "events": "NOT_APPLICABLE_FIXED_CAMP_SHOP_ELITE_BOSS_ROUTE",
       "normalPlaythrough": "NOT_RUN",
-      "platform": "NOT_RUN"
+      "platform": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ENDING_ROUTE.md",
+        "tests/lua/ending_route_api.lua",
+        "tests/lua/ending_route_contracts.lua",
+        "tests/lua/ending_route_characters.lua"
+      ],
+      "evidenceBaseline": "53581f43",
+      "evidenceBoundary": "PR262 accepted local controlled Run/Nodes entry, combat, reward and Proceed tests. The four-class route fixture supplies historical qualification and keys and uses controlled damage; it is not natural acquisition, a normal build or native playthrough acceptance."
     }
   ],
   "monsters": [
@@ -716,9 +730,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/ending_enemy_runtime.lua",
+        "tests/lua/ending_route_characters.lua",
+        "docs/rules/CORRUPT_HEART.md"
+      ]
     },
     {
       "act": 4,
@@ -729,9 +748,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/ending_enemy_runtime.lua",
+        "tests/lua/ending_route_characters.lua",
+        "docs/rules/SPIRE_PAIR.md"
+      ]
     },
     {
       "act": 4,
@@ -742,9 +766,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/ending_enemy_runtime.lua",
+        "tests/lua/ending_route_characters.lua",
+        "docs/rules/SPIRE_PAIR.md"
+      ]
     }
   ],
   "platformStatus": "NOT_RUN",

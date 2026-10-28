@@ -1,7 +1,8 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
 local ui,root=F.fixture()
-ui:start();assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
+testStart(ui);assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
 local s=ui.run.combat
 -- This controlled fixture owns the historical native DeckUI choice ABI.
 dofile('tests/lua/support/native_choice_catalog.lua')(s)
@@ -15,7 +16,7 @@ assert(not root:GetChild('deckPanel'):GetChild('close').visible)
 assert(not ui:closeDeck());assert(not ui.battleUI.active)
 local grid=root:GetChild('deckPanel'):GetChild('grid');grid:flush();ui:update(0);grid:flush()
 assert(grid.itemCount==2)
-local first=grid.items[0];assert(first:GetChild('uid').text=='UID 102')
+local first=grid.items[0];assert(ui.deckUI.bindings[first].uid==102 and first:GetChild('uid').text=='')
 assert(first:GetChild('face'):GetChild('name').text=='后援守势＋')
 assert(first:GetChild('face'):GetChild('cost').text=='0','choice must show Corruption combat cost')
 assert(first:GetChild('hit').visible and first:GetChild('hit').click,'native cursor-area listener required')

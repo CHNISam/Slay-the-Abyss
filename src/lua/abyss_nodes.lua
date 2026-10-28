@@ -101,7 +101,7 @@ local function unownedRelics(run,roomFloor)
     for _, relic in ipairs(run.data.relics.relics) do
         if (relic.rarity=='common' or relic.rarity=='uncommon' or relic.rarity=='rare')
             and ((relic.id~='darkstone_periapt' and relic.sourceId~='Darkstone Periapt') or roomFloor<=48)
-            and (relic.id~='toxic_egg' or (roomFloor or run.floor or 1)<=48)
+            and (relic.id~='toxic_egg' and relic.id~='molten_egg' or (roomFloor or run.floor or 1)<=48)
             and not owns(run.relics, relic.id) then result[#result + 1] = relic.id end
     end
     table.sort(result)
@@ -973,6 +973,7 @@ local function chooseEvent(run, choice, uid)
     end
     if Act1Events.ids[id] then
         local ok,status=Act1Events.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+        if ok and status=='event_combat'then return Run.startEventCombat(run)end
         if ok and run.hp==0 then
             run.nodeFlow.eventChoice=choice
             complete(run);run.phase='defeat';return true,'defeat'

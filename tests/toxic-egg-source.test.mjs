@@ -28,5 +28,5 @@ test('real Toxic Egg identity, manifest and source max-floor join the unchanged 
  assert.equal(manifest.sourceId,egg.sourceId);assert.deepEqual(manifest.channels,['treasure','shop_relic']);
  assert.match(manifest.naturalExecutionLimitation,/platform\/live acceptance remain pending/);
  assert.equal(read('data/presentation/ui_theme.json').icon.relic.toxic_egg.placeholder,true);
- for(const id of ['molten_egg','frozen_egg','question_card','busted_crown','singing_bowl'])assert.ok(!read('data/relics.json').relics.some(r=>r.id===id));
+ for(const id of ['frozen_egg','question_card','busted_crown','singing_bowl'])assert.ok(!read('data/relics.json').relics.some(r=>r.id===id));
 });

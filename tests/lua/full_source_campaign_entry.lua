@@ -1,4 +1,4 @@
--- Retained pre-two-act controlled scenario; only this test host explicitly selects full-source.
+-- Full-source future/test scenario retained alongside the formal two-act fixture.
 -- Run the actual native entry and real Host/Nodes/Run with capability-guarded
 -- engine doubles. Only combat completion and prior Boss progress are staged;
 -- no keys or historical wins are granted. This is not a natural playthrough.
@@ -12,7 +12,7 @@ local function fixture(experimental,bgm)
     F.GameUI.new=function(...)
         local args={...}
         assert(args[5].campaignProfile=='competition-two-act')
-        args[5].campaignProfile='full-source' -- explicit future/test host, not formal competition
+        args[5].campaignProfile='full-source' -- explicit future/test host
         host=new(table.unpack(args))
         return host
     end
@@ -32,11 +32,13 @@ local function fixture(experimental,bgm)
     host.seed='42'
     return host,canvas:GetChild('stage'),signals
 end
-local function start(host,root,button)
+local function start(host,root,button,element)
     F.click(root,'menuPanel','start')
     assert(host.characterOpen and not host.run)
     F.click(root,'characterPanel',button)
-    F.click(root,'prologuePanel','skip')
+    if element then F.click(root,'characterPanel','elements/element'..element)end
+    assert(not host.run,'selection must not create a Run')
+    F.click(root,'characterPanel','confirm')
     for _=1,8 do OnUpdate(.25)end
     assert(host.mode=='map' and host.map.floor==0)
     -- The real entry has no history provider. Never synthesize qualification
@@ -106,7 +108,7 @@ assert(not host:advanceAct(),'missing real history/keys must keep Act4 locked')
 assert(host:settle())
 assert(signals[#signals-1]=='ABYSS_WIN' and signals[#signals]=='ABYSS_BGM_STOP')
 local submitted=#signals;assert(not host:settle() and #signals==submitted)
-print('PASS full-source future/test campaign three-act route and unqualified ending')
+print('PASS formal campaign three-act route and unqualified ending')
 
 local originals={'hutao','arlecchino','furina','raiden'}
 for index,id in ipairs(originals)do
@@ -118,8 +120,10 @@ end
 print('PASS formal original character switch')
 for index,id in ipairs({'ironclad','silent','defect','watcher'})do
     local ui,panel,sent=fixture(true,false)
-    start(ui,panel,'character'..index)
-    assert(ui.run.character==id and not ui.run.characterProfile.originalV4)
+    start(ui,panel,'traveler',index)
+    if id=='ironclad' then
+        assert(not ui.run.characterProfile and ui.run.maxHp==80,'Geo retains the production default loadout')
+    else assert(ui.run.character==id and not ui.run.characterProfile.originalV4)end
     assert(ui.run.campaign and ui.run.act==1 and #sent==0)
 end
 print('PASS formal experimental character switch')

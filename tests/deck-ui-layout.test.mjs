@@ -12,6 +12,9 @@ test('approved deck uses a six-column vertical native scroller and a read-only r
   const veil = panel.children.find(c => c.name === 'veil');
   assert.equal(veil.colour, theme.color.backdropVeil.slice(0, 7));
   assert.equal(veil.opacity, 0.8);
+  const header = panel.children.find(c => c.name === 'header');
+  assert.equal(header.colour, theme.color.panel, 'opaque header must mask the underlying scene title');
+  assert(header.position[1] - header.size[1] / 2 >= grid.position[1] + grid.size[1] / 2);
   assert.equal(grid.kind, 'grid');
   assert.equal(grid.itemTemplate, deckCardTemplate().name);
   assert.equal(grid.grid.columns, 6);
@@ -29,6 +32,10 @@ test('approved deck uses a six-column vertical native scroller and a read-only r
     assert.ok((c.children?.length ?? 0) <= 60);
   });
   assert.ok(template.children.find(c => c.name === 'uid'));
+  const selection = template.children.find(c => c.name === 'uid');
+  assert.equal(selection.size[1], theme.layout.nativeText.lineHeight);
+  assert.equal(template.size[1], theme.layout.card.size[1] + selection.size[1]);
+  assert.deepEqual(grid.grid.itemSize, template.size);
   const face = template.children.find(c => c.name === 'face');
   assert.deepEqual(face.size, theme.layout.card.size);
   assert.deepEqual(face.children.find(c => c.name === 'label').size, theme.layout.card.textBox);
@@ -61,7 +68,7 @@ test('deck overlay and close remain inside approved canvas safe areas at every d
 
 test('controller overlays isolate nearest-control navigation and deck pages leave the card viewport clear', () => {
   const layout = gameLayout(undefined, {originalCharacters: true});
-  for (const name of ['deckPanel','potionPanel','choicePanel','characterPanel','exitPanel','prologuePanel']) {
+  for (const name of ['deckPanel','potionPanel','choicePanel','characterPanel','exitPanel']) {
     assert.equal(layout.controls.find(c => c.name === name).isolateNavigation, true, name);
   }
   const deck = layout.controls.find(c => c.name === 'deckPanel');

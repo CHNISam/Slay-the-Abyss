@@ -44,6 +44,8 @@ test("old run pointer cannot consume new run bottle after real defeat restart",f
     local restart = r:GetChild("menuPanel"):GetChild("start"):GetChild("hit")
     restart.listeners.down({touchId=8}); restart.listeners.up({touchId=8})
     assert(restart.click({touchId=8}))
+    assert(h.characterOpen and h.run==old)
+    assert(F.confirmStart(h))
     assert(h.run~=old and h.mode=="node" and h.run.neowHistorySource=="session-completed-run")
     -- This host has real defeat history: finish mini Neow via normal buttons.
     assert(F.click(r,"nodePanel","eventView/option1"))

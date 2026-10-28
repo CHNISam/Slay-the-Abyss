@@ -10,7 +10,8 @@ local PotionDiscardUI = require("abyss_potion_discard_ui")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
-local Prologue = require("abyss_prologue")
+local CharacterSelect = require("abyss_character_select")
+local CharacterView = require("abyss_character_select_view")
 local Controller = require("abyss_controller")
 local M = {}
 local number = require("abyss_numbers").integer
@@ -34,15 +35,12 @@ function M.new(root, data, presentation, clickEvent, platform)
     local menu = child("menuPanel")
     local speed=menu:GetChild('battleSpeed')
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
+    local runMenu = child("runMenu")
     local exitGeneration, menuGeneration = 0, 0
     local codeVersion = assert(menu:GetChild('codeVersion'), 'missing game menu codeVersion')
     codeVersion.text = Narrative.codeVersion or '未知'
-    local experimental = platform.experimentalCharacters == true
-    local characterPanel = root:GetChild("characterPanel")
-    local originalCharacters=platform.originalCharacters==true and characterPanel and characterPanel:GetChild('traveler')~=nil or false
-    local selectable=experimental or originalCharacters
-    if selectable then assert(characterPanel and root:GetChild("choicePanel"), "experimental class layout required") end
-    local characterIds = originalCharacters and {"hutao","arlecchino","furina","raiden"} or {"ironclad", "silent", "defect", "watcher"}
+    local characterPanel = child("characterPanel")
+    self.characterSelection=CharacterSelect.new(data,presentation)
     self.fastMode=false
     self.setFastMode=function(_,enabled)
         if type(enabled)~='boolean' or self.disabled or self.battleUI and self.battleUI.busy then return false end
@@ -86,7 +84,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 self:refresh();return true
             end })
     self.deckUI = DeckUI.new(child("deckPanel"), presentation, clickEvent, platform, function() return self:closeDeck() end)
-    if selectable then
+    do
         self.choiceUI = require("abyss_choice_ui").new(child("choicePanel"),presentation,clickEvent,platform,
             function(kind,uids,token,generation,battle)
                 return self.battleUI:chooseCards(kind,uids,token,generation,battle)
@@ -109,15 +107,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         if not self.potionUI:close()then return false end
         self.battleUI.suppressClick=false;self:refresh();return true
     end
-    -- The opening cinematic plays once per session, from the title screen only; hosts
-    -- without the panel, or with platform.prologue == false, go straight to the map.
+    -- Old authored prologue controls may exist in previously built layouts.
+    -- Keep them inert; every new run enters the existing Neow/map path.
     local prologuePanel = root:GetChild("prologuePanel")
-    if prologuePanel and platform.prologue ~= false then
-        self.prologue = Prologue.new(prologuePanel, { clickEvent = clickEvent, cursorEvents = platform.cursorEvents,
-            color = platform.color, sound = platform.sound, controller = controller,
-            blocked = function() return self.exitOpen or self.settlementRequested or self.settlementBusy end,
-            onPhase = changed })
-    elseif prologuePanel then prologuePanel:SetVisible(false) end
+    if prologuePanel then prologuePanel:SetVisible(false) end
 
     self.openExit = function(_)
         if self.disabled or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
@@ -128,16 +121,35 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true
     end
+    self.openMenu = function(_)
+        if self.disabled or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+        exitGeneration = exitGeneration + 1
+        self.exitOpen, self.menuOpen, self.exitError = true, true, nil
+        self:refresh()
+        return true
+    end
     self.closeExit = function(_)
         if not self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
-        self.exitOpen, self.exitError = false, nil
+        if self.routeOpen then
+            self.routeOpen = false
+            self:refresh()
+            return true
+        end
+        if self.controlsOpen then
+            self.controlsOpen = false
+            exitPanel:GetChild('guide'):SetVisible(false)
+            self:refresh()
+            return true
+        end
+        self.exitOpen, self.menuOpen, self.exitError = false, false, nil
         self.battleUI.suppressClick = false
         self:refresh()
         return true
     end
     self.confirmExit = function(_)
         if self.disabled then return false,"ui_disabled" end
+        if self.controlsOpen or self.menuOpen or self.routeOpen then return false,"menu_open" end
         if not self.exitOpen then return false, "exit_not_open" end
         -- Voluntary departure never changes combat HP, awards a victory, or
         -- fakes a defeated Run. An already-earned victory keeps its outcome.
@@ -298,7 +310,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
         elseif self.deckUI.visible then scope='deck'
         elseif self.potionUI.visible then scope='potions'
-        elseif self.prologue and self.prologue:covering() then scope='prologue'
         elseif self.mode=='battle' and self.battleUI.info then scope='battleInfo'
         elseif self.mode=='battle' and (self.battleUI.selected or self.battleUI.potionAim) then scope='aim' end
         controller:sync(scope,function()
@@ -309,12 +320,11 @@ function M.new(root, data, presentation, clickEvent, platform)
                 return self.deckUI:back()
             elseif scope=='choice' then return false -- mandatory core selections cannot be dismissed
             elseif scope=='potions' then return self:closePotions()
-            elseif scope=='prologue' then return self.prologue:skip()
             elseif scope=='battleInfo' or scope=='aim' then return self.battleUI:controllerBack()
             elseif scope=='node' and self.nodeUI.mode=='picker' then return self.nodeUI:press('back')
             elseif scope=='battle' and self.run and self.run.phase=='reward' and self.battleUI.rewardScreen=='cards' then
                 return self.battleUI:controllerBack()
-            elseif scope~='blocked' then return self:openExit() end
+            elseif scope~='blocked' then return self:openMenu() end
             return false
         end)
     end
@@ -325,10 +335,9 @@ function M.new(root, data, presentation, clickEvent, platform)
             Nodes.completeCombat(run, self.map)
         end
     end
-    local function selectMode(run,prologue)
+    local function selectMode(run)
         if self.battleUI.busy then self.mode = "battle"
         elseif not run then self.mode = "menu"
-        elseif prologue and prologue:opaque() then self.mode = "prologue"
         elseif run.phase == "defeat" then self.mode = "defeat"
         elseif run.phase == "victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
@@ -445,12 +454,16 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode == "node" then self.nodeUI:render() end
     end
     local function refreshExitDialog()
-        if self.exitOpen then
+        if self.exitOpen and not self.routeOpen and (not self.menuOpen or self.controlsOpen) then
             exitPanel:SetAsLastSibling()
-            local message = self.run and "确认退出本局？本局进度不会保留。\n将进入平台结算，随后可选择离开。"
+            local message = self.run and "确认退出本局？目前无法保存进度，退出后本局结束。\n将进入平台结算，随后可选择离开。"
                 or "确认结束当前关卡？\n将进入平台结算，随后可选择离开。"
             if self.mode == "victory" then message = "确认结束本局并结算胜利？\n随后可在平台结算页选择离开。" end
             exitPanel:GetChild("message").text = message
+            -- Lv.4 局内存档未开放：仅在进行中的一局里，用一行小字说明原因。
+            local why = self.run ~= nil and self.mode ~= "victory"
+            exitPanel:GetChild("whyText"):SetVisible(why)
+            exitPanel:GetChild("whyText").text = why and "存档功能需作者达到创作者 4 级后开放，喜欢的话欢迎点赞支持。" or ""
             exitPanel:GetChild("status").text = self.settlementRequested and "结算请求已发送，等待平台结算界面。"
                 or self.exitError and "退出请求失败，请重试或继续游戏。" or ""
             local enabled = not self.settlementRequested and not self.settlementBusy
@@ -464,14 +477,27 @@ function M.new(root, data, presentation, clickEvent, platform)
         if speed then speed:SetVisible(self.mode=='menu')end
         if characterPanel then
             characterPanel:SetVisible(self.characterOpen==true)
-            if self.characterOpen then characterPanel:SetAsLastSibling() end
+            if self.characterOpen then
+                CharacterView.render(characterPanel,self.characterSelection,platform)
+                characterPanel:SetAsLastSibling()
+            end
         end
         if self.choiceUI and self.choiceUI.visible then self.choiceUI.root:SetAsLastSibling() end
         -- Shared utilities stay above the deck overlay; the confirmation stays
         -- above every page, including an in-flight battle presentation.
         exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
         exitEntry:SetAsLastSibling()
-        exitPanel:SetVisible(self.exitOpen == true)
+        exitPanel:SetVisible(self.exitOpen == true and (not self.menuOpen or self.controlsOpen == true) and not self.routeOpen)
+        runMenu:SetVisible(self.exitOpen == true and self.menuOpen == true and not self.controlsOpen and not self.routeOpen)
+        if runMenu.visible then runMenu:SetAsLastSibling() end
+        local back = child('mapPanel'):GetChild('previewBack')
+        back:SetVisible(self.routeOpen == true)
+        if self.routeOpen then
+            self.mapUI.map = self.map
+            self.mapUI:setVisible(true)
+            self.mapUI:setNavigationEnabled(false)
+            child('mapPanel'):SetAsLastSibling()
+        end
         refreshExitDialog()
     end
     local function overlaysBlocked()
@@ -483,10 +509,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.disabled then return false,"ui_disabled" end
         local run = self.run
         finishRunFlow(run)
-        local prologue = self.prologue
-        if prologue and prologue:covering() and (not run or self.settlementRequested) then prologue:cancel() end
-        local covering = prologue and prologue:covering() or false
-        selectMode(run,prologue)
+        local covering = false
+        selectMode(run)
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         syncMenuContext(run,inMenu)
         syncCardChoice(run)
@@ -505,32 +529,47 @@ function M.new(root, data, presentation, clickEvent, platform)
         refreshForeground()
         self:syncController()
     end
-    self.closeCharacters = function(_)
-        if not self.characterOpen then return false end
-        self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
-        self:refresh();return true
+    local function selectionChanged()
+        exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
+        self:refresh()
     end
-    self.start = function(_, character)
-        if self.disabled then return false,"ui_disabled" end
-        if self.exitOpen or self.deckUI.visible then return false end
-        if self.settlementRequested or self.settlementBusy then return false end
-        if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
-        if selectable and character==nil then
-            if self.characterOpen then return false end
-            self.characterOpen=true;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
-            self:refresh();return true, "character_choice"
+    self.closeCharacters = function(_)
+        if not self.characterOpen or self.starting then return false end
+        self.characterOpen=false;self.characterSelection:clear()
+        selectionChanged();return true
+    end
+    self.selectCharacter = function(_,id)
+        if not self.characterOpen or self.starting or self.disabled then return false end
+        local ok,reason=self.characterSelection:select(id)
+        if ok then selectionChanged()end
+        return ok,reason
+    end
+    self.selectElement = function(_,id)
+        if not self.characterOpen or self.starting or self.disabled then return false end
+        local ok,reason=self.characterSelection:selectElement(id)
+        if ok then selectionChanged()end
+        return ok,reason
+    end
+    self.start = function(_,character)
+        if self.disabled or self.starting then return false,"ui_disabled" end
+        if self.exitOpen or self.deckUI.visible or self.settlementRequested or self.settlementBusy then return false end
+        if self.mode~='menu' and self.mode~='defeat' and self.mode~='victory' then return false end
+        if self.characterOpen then return false,'character_choice_open' end
+        self.characterOpen=true;self.characterSelection:clear()
+        selectionChanged()
+        if character then
+            for _,id in ipairs(CharacterSelect.elements)do if id==character then
+                self:selectCharacter('traveler');return self:selectElement(id)
+            end end
+            return self:selectCharacter(character)
         end
-        if character~=nil and not selectable then return false, "experimental_characters_disabled" end
-        if selectable then
-            local valid=originalCharacters and character=='traveler';for _,id in ipairs(characterIds) do if id==character then valid=true end end
-            if not valid then return false, "unknown_character" end
-        end
-        -- Restarting from a result goes straight back to the map: the story is told once.
-        local opening = self.mode == "menu" and not self.prologueSeen
+        return true,'character_choice'
+    end
+    local function beginRun(character)
         local explicitSeed = self.seed ~= nil
         local seed = explicitSeed and self.seed or newSeed()
         local rawSeed=RunSeed.normalize(seed)
-        local selection=character~='traveler' and character~=nil and {experimental=experimental,character=character} or nil
+        local selection=CharacterSelect.options(character)
         -- Native entry selects the competition profile; explicit full-source
         -- hosts retain future chapters without changing same-run ownership.
         if platform.campaign == true then
@@ -569,12 +608,20 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
         self.nodeUI:render()
-        if opening and self.prologue then
-            self.prologueSeen = true
-            self.prologue:play()
-        end
         self:refresh()
         return true
+    end
+    self.confirmCharacter = function(_)
+        if not self.characterOpen or self.starting or self.disabled or self.exitOpen
+            or self.settlementRequested or self.settlementBusy then return false,'character_choice_unavailable' end
+        local info=self.characterSelection.info
+        if not info then return false,'character_required' end
+        self.starting=true
+        -- Latch before seed generation and Run.new; a native duplicate cannot re-enter.
+        local ok,accepted,reason=pcall(beginRun,info.id)
+        self.starting=false
+        if not ok then error(accepted)end
+        return accepted,reason
     end
     self.advanceAct = function()
         if self.disabled or not self.run or self.run.phase ~= 'act_transition' then return false,'act_transition_unavailable' end
@@ -648,16 +695,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- The terminal rule state can precede the last feedback animation.
         local run = self.run
         if run and run.phase ~= "defeat" and self.mode ~= "victory" and self.mode ~= "defeat"
-            and not (self.prologue and self.prologue:covering()) then
+            then
             local elapsed = run.elapsedSeconds + dt
             if elapsed == math.huge then return false, "invalid_delta" end
             run.elapsedSeconds = elapsed
         end
         self:animate(dt)
-        if self.prologue then self.prologue:update(dt) end
         self.battleUI:update(dt)
         self.nodeUI:update(dt)
-        self.deckUI:update()
+        self.deckUI:update(dt)
         local updated=self.mapUI:update(dt)
         self:syncController()
         return updated
@@ -676,7 +722,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.nodeUI:setVisible(false)
         if self.choiceUI then self.choiceUI:close() end
         self.potionUI:close();self.deckUI:close()
-        if self.prologue then self.prologue:cancel() end
         self.battleUI.feedback:cancel()
         return true
     end
@@ -688,21 +733,30 @@ function M.new(root, data, presentation, clickEvent, platform)
         function()return self:openPotions()end)
     exitPanel.disableCursorEventPassthrough = true
     exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
-    local function bindCommand(box, kind, action)
+    runMenu.disableCursorEventPassthrough = true
+    runMenu:GetChild('blocker'):AddCursorEventListener(clickEvent, function() return true end)
+    local function bindCommand(box, kind, action, enabled, order, group, onFocus)
         local hit = box:GetChild("hit")
         local held, released, observed
         local menuAction = kind == "start" or kind == "settle" or kind == "battleSpeed"
         local rewardAction = kind == "combatRewards"
-        local characterAction = kind == "character_cancel" or kind:match("^character_%d$")~=nil
+        local characterAction = kind:match("^character_")~=nil
         local cursor = platform.cursorEvents or {}
+        local runMenuAction = kind:sub(1, 4) == 'run_'
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if kind == 'routeClose' then return self.exitOpen and self.routeOpen == true end
+            if kind == 'helpClose' then return self.exitOpen and self.controlsOpen == true end
+            if self.controlsOpen then return false end
+            if runMenuAction then return self.exitOpen and self.menuOpen == true and not self.routeOpen and (not enabled or enabled()) end
+            if self.menuOpen or self.routeOpen then return false end
             if kind=='battleSpeed' then return self.mode=='menu' and not self.characterOpen and not self.exitOpen and not self.deckUI.visible end
             if characterAction then
-                return selectable and self.characterOpen==true and not self.exitOpen
+                return self.characterOpen==true and not self.exitOpen and not self.starting
+                    and (not enabled or enabled())
                     and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
             end
-            if self.characterOpen then return false end
+            if self.characterOpen and kind ~= 'open' then return false end
             if rewardAction then
                 return self.rewardReturnAvailable == true and self.mode == "map" and self.run and self.run.phase == "map" and self.run.pendingCombatRewards ~= nil
                     and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
@@ -744,9 +798,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         Controller.bind(controller,hit,function()
             if characterAction then return 'characters' end
-            if kind=='cancel' or kind=='confirm' then return 'exit' end
+            if runMenuAction or kind=='routeClose' or kind=='cancel' or kind=='confirm' or kind=='help' or kind=='helpClose' then return 'exit' end
             return self.mode
-        end,action,available,kind=='cancel' and 1 or kind=='open' and 200 or 100)
+        end,action,available,order or (kind=='cancel' and 1 or kind=='open' and 200 or 100),group,onFocus)
         hit:AddCursorEventListener(clickEvent, function(event)
             if Controller.pointerBlocked(controller)then return false end
             if observed or cursor.CursorDown and cursor.CursorUp and touch(event) ~= nil then
@@ -771,20 +825,55 @@ function M.new(root, data, presentation, clickEvent, platform)
         if ok then self:refresh() end
         return ok, reason
     end)
-    bindCommand(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
+    bindCommand(exitEntry:GetChild("open"), "open", function() return self:openMenu() end)
     bindCommand(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
     bindCommand(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
-    if characterPanel then
-        characterPanel.disableCursorEventPassthrough=true
-        characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)
-        bindCommand(characterPanel:GetChild("cancel"),"character_cancel",function() return self:closeCharacters() end)
-        if originalCharacters then bindCommand(characterPanel:GetChild('traveler'),'character_5',function()return self:start('traveler')end) end
-        for i,id in ipairs(characterIds) do
-            bindCommand(characterPanel:GetChild("character"..i),"character_"..i,function()
-                if not self.characterOpen then return false end
-                return self:start(id)
-            end)
-        end
+    local guide = exitPanel:GetChild('guide')
+    if guide then
+        bindCommand(exitPanel:GetChild('help'), 'help', function()
+            exitGeneration = exitGeneration + 1
+            self.controlsOpen = true
+            guide:SetVisible(true)
+            self:refresh()
+            return true
+        end)
+        bindCommand(guide:GetChild('close'), 'helpClose', function() return self:closeExit() end)
+    end
+    bindCommand(runMenu:GetChild('help'), 'run_help', function()
+        exitGeneration = exitGeneration + 1
+        self.controlsOpen = true
+        guide:SetVisible(true)
+        self:refresh()
+        return true
+    end)
+    bindCommand(runMenu:GetChild('resume'), 'run_resume', function() return self:closeExit() end)
+    bindCommand(runMenu:GetChild('abandon'), 'run_abandon', function()
+        exitGeneration = exitGeneration + 1
+        self.menuOpen = false
+        self:refresh()
+        return true
+    end)
+    bindCommand(runMenu:GetChild('map'), 'run_map', function()
+        exitGeneration = exitGeneration + 1
+        self.routeOpen = true
+        self:refresh()
+        return true
+    end, function() return self.run ~= nil and self.map ~= nil and not self.characterOpen end)
+    bindCommand(child('mapPanel'):GetChild('previewBack'), 'routeClose', function() return self:closeExit() end)
+    characterPanel.disableCursorEventPassthrough=true
+    characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)
+    bindCommand(characterPanel:GetChild("cancel"),"character_cancel",function() return self:closeCharacters() end,nil,90)
+    bindCommand(characterPanel:GetChild('confirm'),'character_confirm',function()return self:confirmCharacter()end,
+        function()return self.characterSelection.info~=nil end,100)
+    for i,id in ipairs(CharacterSelect.characters)do
+        local box=characterPanel:GetChild(i==5 and 'traveler' or 'character'..i)
+        bindCommand(box,'character_'..i,function()return self:selectCharacter(id)end,nil,i,'characters',
+            function()if Controller.isController(controller)then return self:selectCharacter(id)end end)
+    end
+    for i,id in ipairs(CharacterSelect.elements)do
+        bindCommand(characterPanel:GetChild('elements'):GetChild('element'..i),'character_element'..i,
+            function()return self:selectElement(id)end,function()return self.characterSelection.character=='traveler'end,
+            10+i,'elements',function()if Controller.isController(controller)then return self:selectElement(id)end end)
     end
     ready = true
     if controller then

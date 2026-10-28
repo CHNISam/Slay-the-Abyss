@@ -29,6 +29,21 @@ function M.intentBadge(intent)
     end
 end
 
+-- Compact icons share the detail projection; numeric detail glyphs are not intents.
+-- Stable threat priority is independent of effect execution order in the core.
+function M.icons(face)
+    local found, result = {}, {}
+    if face.kind then found[face.kind] = true end
+    for _, row in ipairs(face.rows or {}) do
+        if type(row.icon) == 'string' and Theme.icon.intent[row.icon] then found[row.icon] = true end
+    end
+    for _, kind in ipairs({'attack','defend','buff','debuff','charge','sleep','stunned','split','escape','unknown'}) do
+        if found[kind] and #result < 3 then result[#result + 1] = kind end
+    end
+    if #result == 0 then result[1] = 'unknown' end
+    return result
+end
+
 local function special(kind, icon, text, note)
     return { value = "", kind = icon, label = intentLabels[kind], text = text,
         rows = {{ icon = icon, colour = C.textDim, name = intentLabels[kind], text = text, note = note }} }
@@ -259,7 +274,7 @@ local effects = { daggerSacrifice=daggerSacrificeEffect,reptomancerSummon=summon
 
 local function joinedView(v)
     local intent = v.intent
-    return { value = intent.kind == "attack" and (v.attack or "?") or "", kind = intent.kind, badge = M.intentBadge(intent),
+    return { value = v.attack or (intent.kind == "attack" and "?" or ""), kind = intent.kind, badge = M.intentBadge(intent),
         label = intent.kind ~= "attack" and intentLabels[intent.kind] or nil,
         text = #v.result > 0 and table.concat(v.result, "；") or "下一步行动未知。", rows = v.rows }
 end

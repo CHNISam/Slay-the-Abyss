@@ -1,6 +1,7 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
-local h,r=F.fixture();assert(h:start());h.run.hp=20
+local h,r=F.fixture();assert(testStart(h));h.run.hp=20
 assert(Run.obtainPotion(h.run,'blood_potion'));h:refresh()
 local function tap(panel,name) return assert(r:GetChild(panel):GetChild(name)):GetChild('hit').click() end
 assert(tap('potionEntry','open'));assert(tap('potionPanel','slot1'))

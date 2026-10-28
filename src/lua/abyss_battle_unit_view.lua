@@ -28,6 +28,13 @@ function M.new(picture, tint, ink, statusKind)
         picture(box:GetChild("portrait"), icon)
         tint(box:GetChild("portrait"), box.name == "hero" and C.geo or C.text)
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
+        for _, x in ipairs({-1,1}) do for _, y in ipairs({-1,1}) do
+            for _, axis in ipairs({'H','V'}) do
+                local corner=box:GetChild('target'..axis..x..'_'..y)
+                corner:SetVisible(selected == true)
+                corner:SetAnchoredPosition(x*portrait/2,y*portrait/2)
+            end
+        end end
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
@@ -68,18 +75,34 @@ function M.new(picture, tint, ink, statusKind)
             count:SetAnchoredPosition(x, y)
             count.text = "+" .. (#layout.entries - layout.slots + 1)
             ink(count, C.textDim)
+            return x, y
         else
             count:SetAnchoredPosition(x + L.statusIcon.size / 2, y - L.statusIcon.size / 2 + L.statusIcon.gap)
-            count.text = entry.stack == "none" and "" or number(entry.amount)
+            count.text = entry.stack == "none" and "" or entry.amount > 99 and "99+" or number(entry.amount)
             ink(count, C.text)
+            return x + L.statusIcon.size / 2, y - L.statusIcon.size / 2 + L.statusIcon.gap
         end
+    end
+
+    local function statusPlates(row, i, entry, overflow, x, y, countX, countY)
+        local frames = row:GetChild('backplates')
+        local edge, body = frames:GetChild('edge' .. i), frames:GetChild('body' .. i)
+        local badge = row:GetChild('countBackplates'):GetChild('badge' .. i)
+        edge:SetVisible(entry and not overflow or false)
+        body:SetVisible(entry and not overflow or false)
+        badge:SetVisible(entry and (overflow or entry.stack ~= 'none') or false)
+        if not entry then return end
+        edge:SetAnchoredPosition(x, y)
+        body:SetAnchoredPosition(x, y)
+        badge:SetAnchoredPosition(countX, countY)
+        tint(edge, statusKind(entry) == 'buff' and C.gold or C.debuff)
     end
 
     local function statusSlot(row, i, entry, layout)
         local statusImage, count = row:GetChild("icon" .. i), row:GetChild("count" .. i)
         local target = row:GetChild("hit" .. i)
         target:SetVisible(entry and true or false)
-        local overflow = entry and i == layout.slots and #layout.entries > layout.slots
+        local overflow = entry and i == layout.slots and #layout.entries >= layout.slots
         statusImage:SetVisible(entry and not overflow or false)
         count:SetVisible(entry and true or false)
         if entry then
@@ -90,8 +113,11 @@ function M.new(picture, tint, ink, statusKind)
             statusImage:SetAnchoredPosition(x, y)
             target:SetAnchoredPosition(x, y)
             picture(statusImage, Theme.icon.status[entry.icon or entry.id] or Theme.icon.intent[entry.kind] or Theme.icon.intent.unknown)
-            tint(statusImage, statusKind(entry) == "buff" and C.buff or C.debuff)
-            statusCount(count, entry, x, y, overflow, layout)
+            tint(statusImage, C.text)
+            local countX, countY = statusCount(count, entry, x, y, overflow, layout)
+            statusPlates(row, i, entry, overflow, x, y, countX, countY)
+        else
+            statusPlates(row, i)
         end
     end
 

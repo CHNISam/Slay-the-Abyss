@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local GameUI, Combat, Nodes, Data = F.GameUI, F.Combat, F.Nodes, F.Data
 local Presentation, Layout, Viewport, Theme = F.Presentation, F.Layout, F.Viewport, F.Theme
@@ -31,7 +32,7 @@ local function closeDeck(root) return root:GetChild("deckPanel"):GetChild("close
 test("deck overlay reads permanent UID and upgraded text and never changes the run or route", function()
     local ui, root = fixture()
     assert(not ui:openDeck() and not root:GetChild("deckEntry").visible)
-    ui:start()
+    testStart(ui)
     ui.run.deck[1].upgraded = true
     for i = 11, 40 do ui.run.deck[i] = {uid=100+i,cardId=ui.run.deck[1].cardId,upgraded=i%2==0} end
     local beforeRun, beforeMap = Combat.copy(ui.run), Combat.copy(ui.map)
@@ -39,13 +40,13 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     assert(grid.itemCount == 40 and grid.scrollProgress == 0)
     local first = grid.items[0]
     assert(not first:GetChild('hit').visible,'read-only deck must leave scroll gestures free')
-    assert(first:GetChild("uid").text == "UID " .. ui.run.deck[1].uid)
+    assert(ui.deckUI.bindings[first].uid == ui.run.deck[1].uid and first:GetChild("uid").text == "")
     local face = first:GetChild("face")
     local display = Presentation[ui.run.deck[1].cardId]
     assert(face:GetChild("name").text:gsub('\n',' ') == display.name .. "＋")
     assert(face:GetChild("label").text == display.upgradeText)
     local last = grid:recycle(0, 39)
-    assert(last == first and last:GetChild("uid").text == "UID 140")
+    assert(last == first and ui.deckUI.bindings[last].uid == 140 and last:GetChild("uid").text == "")
     assert(last:GetChild("face"):GetChild("label").text == display.upgradeText)
     assert(not ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     local scroll = ui.mapUI.scroll
@@ -53,7 +54,7 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     assert(not ui.mapUI:scrollBy(100) and ui.mapUI.scroll == scroll)
     mapControl(root:GetChild("mapPanel"),"focus"):GetChild("hit").click()
     assert(ui.mapUI.scroll == scroll)
-    assert(not ui:start() and not ui:settle())
+    assert(not testStart(ui) and not ui:settle())
     assert(same(beforeRun,ui.run) and same(beforeMap,ui.map), "view changed rules or RNG")
     local delayed = grid.refreshCallback
     assert(closeDeck(root))
@@ -64,7 +65,7 @@ end)
 
 test("grid discovers runtime index origin, including deferred callbacks, and reopens with fresh ownership", function()
     local ui, root = fixture()
-    ui:start()
+    testStart(ui)
     local grid = deckGrid(root)
     grid.indexBase, grid.deferRefresh = 1, true
     assert(ui:openDeck())
@@ -73,25 +74,25 @@ test("grid discovers runtime index origin, including deferred callbacks, and reo
     assert(grid.itemCount == 1)
     grid:flush() ui:update(0) grid:flush()
     assert(grid.itemCount == #ui.run.deck)
-    assert(grid.items[0]:GetChild("uid").text == "UID " .. ui.run.deck[1].uid)
-    local oldUid = grid.items[1]:GetChild("uid").text
+    assert(ui.deckUI.bindings[grid.items[0]].uid == ui.run.deck[1].uid)
+    local oldUid = ui.deckUI.bindings[grid.items[1]].uid
     calibration(grid.items[1],1)
-    assert(not ui.deckUI.pending and grid.items[1]:GetChild("uid").text == oldUid)
+    assert(not ui.deckUI.pending and ui.deckUI.bindings[grid.items[1]].uid == oldUid)
     local stale = grid.refreshCallback
     assert(closeDeck(root))
     table.remove(ui.run.deck,1)
     assert(ui:openDeck()) grid:flush() ui:update(0) grid:flush()
     local card = grid.items[0]
-    local text = card:GetChild("uid").text
+    local uid = ui.deckUI.bindings[card].uid
     stale(card,1)
-    assert(card:GetChild("uid").text == text and text == "UID " .. ui.run.deck[1].uid)
+    assert(ui.deckUI.bindings[card].uid == uid and uid == ui.run.deck[1].uid)
     assert(not ui:openDeck(), "duplicate open must not reset the scroller")
     assert(closeDeck(root))
 end)
 
 test("battle overlay cancels pending drag and blocks cards, potions, turn and reward commands", function()
     local ui, root = fixture()
-    ui:start() assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
+    testStart(ui) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     local battle = ui.run.combat
     local instance = battle.hand[1]
     ui.battleUI.gesture = {run=ui.run,battle=battle,turn=battle.turn,uid=instance.uid}
@@ -114,7 +115,7 @@ end)
 
 test("node overlay preserves the node presentation while preventing underlying transactions", function()
     local ui, root = fixture()
-    ui:start()
+    testStart(ui)
     ui.run.hp = 20 -- Rest is enabled only below full health in the approved camp UI.
     -- Navigation-only controlled boundary: use a real reachable source camp,
     -- not an edited first combat node that canonical entry must reject.
@@ -143,7 +144,7 @@ end)
 
 test("deck costs and descriptions use permanent upgraded instances instead of temporary hand growth", function()
     local ui, root = fixture()
-    ui:start()
+    testStart(ui)
     ui.run.deck = {
         {uid=101,cardId="barricade",upgraded=true}, {uid=102,cardId="whirlwind",upgraded=true},
         {uid=103,cardId="rampage",upgraded=true}, {uid=104,cardId="rampage",upgraded=false},
@@ -167,7 +168,7 @@ end)
 
 test("reward view cannot claim or skip beneath the deck overlay and resumes after closing", function()
     local ui, root = fixture()
-    ui:start() assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
+    testStart(ui) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     win(ui,root)
     click(root,'battlePanel','cardReward')
     local before = Combat.copy(ui.run)

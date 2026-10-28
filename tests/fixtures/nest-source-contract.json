@@ -68,5 +68,5 @@
     "resultRequiresSeparateLeave": true,
     "gameplayRngDraws": 0
   },
-  "implementationBoundary": "Nodes owns the command transaction and fatal transition. Shared normal-damage and permanent-obtain hooks are reused, including the integrated Lizard Tail/Fairy/Mark owner. The currently missing Molten Egg attack-upgrade hook refuses explicitly, not a source rule. Unlock tracking and audiovisual timing are not implemented. Native acceptance NOT_RUN."
+  "implementationBoundary": "Nodes owns the command transaction and fatal transition. Shared normal-damage and permanent-obtain hooks are reused, including the integrated Lizard Tail/Fairy/Mark owner. Molten Egg now upgrades the real Ritual Dagger through the shared post-damage permanent-obtain hook; frozen source values and ordering remain unchanged. Unlock tracking and audiovisual timing are not implemented. Native acceptance NOT_RUN."
 }

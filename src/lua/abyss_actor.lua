@@ -475,6 +475,12 @@ function M.suicideTransient(state,target)
     M.resolveDamageReactions(state,reactions)
 end
 
+function M.vulnerablePercent(state,target)
+    if target==state.player then
+        for _,id in ipairs(state.relics or {})do if id=='odd_mushroom'or id=='Odd Mushroom'then return 125 end end
+    end
+    return state.rules.combat.vulnerablePercent
+end
 local function attackFloat(state, source, target, base, fixed)
     -- Force float arithmetic before modifiers: Fengari integers are 32-bit,
     -- while game Lua uses wider integers. Integer multiplication would wrap.
@@ -490,7 +496,9 @@ local function attackFloat(state, source, target, base, fixed)
         if (source.statuses.pen_nib or 0)>0 then amount=amount*2.0 end
         if (source.statuses.weak or 0) > 0 then amount = amount * state.rules.combat.weakPercent / 100 end
         if slow then amount=f32(amount) end
-        if (target.statuses.vulnerable or 0) > 0 and target.statuses.slow==nil then amount = amount * state.rules.combat.vulnerablePercent / 100 end
+        if (target.statuses.vulnerable or 0) > 0 and target.statuses.slow==nil then
+            amount=amount*M.vulnerablePercent(state,target)/100
+        end
     end
     if state.player.stance and source then
         amount = amount * require("abyss_stances").damageMultiplier(state, source, target, fixed)

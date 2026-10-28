@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- One focused offline integration: real GameUI / Run / Heart / Proceed.
 -- Controlled deck, earned history/keys, skipped preceding rooms, zeroed Heart HP.
 -- NOT a natural route, native engine, real-art provenance or platform acceptance.
@@ -31,7 +32,7 @@ local first,tail=get(pool,'group000/shape0000'),get(pool,'group000/shape0001')
 local host=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=42,prologue=false,campaign=true,
  cursorEvents=cursor,controllerApi=api,imageSource='static',imageTypes={basic=17,stretch=23},
  color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end,settle=function()settled=settled+1;return true end})
-root.ui=host;assert(host:start())
+root.ui=host;assert(testStart(host))
 local run=host.run
 assert(run.character==nil or run.character=='ironclad','ironclad-only fixture')
 run.deck={{uid=91,cardId='cleave',upgraded=true}}

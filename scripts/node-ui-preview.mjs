@@ -22,6 +22,10 @@ const glyphs = new Map([
   [icon.cardArt.attack, 'sword'], [icon.cardArt.skill, 'shield'], [icon.cardArt.power, 'geo'], [icon.cardArt.status, 'crack'],
   [icon.node.treasure, 'chest'], [icon.medallion.treasure, 'chest'], [icon.medallion.chestOpen, 'chest'],
   [icon.medallion.camp, 'flame'], [icon.geo, 'geo'], [icon.back, 'up'], [icon.next, 'up'],
+  ...Object.entries({ combat: 'sword', elite: 'skull', camp: 'flame', shop: 'stall', event: 'q', treasure: 'chest', boss: 'demon' })
+    .map(([kind, glyph]) => [icon.node[kind], glyph]),
+  ...Object.entries(icon.potion).filter(([key]) => key !== 'verify').map(([, value]) => [value, 'potion']),
+  [icon.map, 'map'],
 ]);
 const rotation = new Map([[icon.back, -90], [icon.next, 90]]);
 // The open chest medallion is a distinct library picture; keep the stand-in visibly brighter.
@@ -30,17 +34,25 @@ const brighten = new Set([icon.medallion.chestOpen]);
 function draw(control, parentSize) {
   if (control.visible === false) return '';
   const [w, h] = control.size ?? parentSize, [x, y] = control.position ?? [0, 0];
-  const box = `left:${parentSize[0] / 2 + x - w / 2}px;top:${parentSize[1] / 2 - y - h / 2}px;width:${w}px;height:${h}px`;
+  const box = `left:${parentSize[0] / 2 + x - w / 2}px;top:${parentSize[1] / 2 - y - h / 2}px;width:${w}px;height:${h}px;opacity:${control.opacity ?? 1}` +
+    (control.rotation ? `;transform:rotate(${-control.rotation}deg)` : '');
   if (control.kind === 'cursorArea') return '';
   if (control.kind === 'text') {
     const t = control.text;
-    return `<div class="t" data-min="${t.minFontSize}" style="${box};color:${t.colour};font-size:${t.fontSize}px">` +
+    const align = t.align === 'left' ? 'left' : 'center', vertical = t.valign === 'top' ? 'flex-start' : 'center';
+    return `<div class="t" data-min="${t.minFontSize}" style="${box};color:${t.colour};font-size:${t.fontSize}px;text-align:${align};align-items:${vertical};justify-content:${align === 'left' ? 'flex-start' : 'center'}">` +
       `<span>${t.content.replace(/[<&]/g, c => (c === '<' ? '&lt;' : '&amp;'))}</span></div>`;
   }
   if (control.kind === 'image') {
+    if (control.image === image.diamond) return `<svg style="${box};color:${control.colour}" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0 24 12 12 24 0 12Z"/></svg>`;
     if (control.image === image.rect) return `<div style="${box};background:${control.colour}"></div>`;
     if (control.image === image.disc) return `<div style="${box};background:${control.colour};border-radius:50%"></div>`;
-    if (control.image === image.glow) return `<div style="${box};background:radial-gradient(closest-side,${control.colour},transparent);opacity:.55"></div>`;
+    if (control.image === image.ring) return `<div style="${box};border:${Math.max(1,Math.min(w,h)*.07)}px solid ${control.colour};border-radius:50%"></div>`;
+    if ([image.glow,image.glowWide,image.discSoft].includes(control.image)) return `<div style="${box};background:radial-gradient(closest-side,${control.colour},transparent)"></div>`;
+    if (control.image === image.vignette) return `<div style="${box};background:radial-gradient(ellipse,transparent 45%,${control.colour})"></div>`;
+    if ([image.ruin,image.ruinWall].includes(control.image)) return `<div style="${box};background:${control.colour};clip-path:polygon(0 100%,0 15%,20% 15%,20% 0,60% 0,60% 18%,100% 18%,100% 100%)"></div>`;
+    if (control.image === image.shards) return `<div style="${box};background:${control.colour};clip-path:polygon(50% 0,100% 70%,30% 100%,0 60%)"></div>`;
+    if ([image.beam,image.fadeLine].includes(control.image)) return `<div style="${box};background:linear-gradient(90deg,transparent,${control.colour},transparent)"></div>`;
     const glyph = glyphs.get(control.image) ?? 'q';
     const turn = rotation.has(control.image) ? `transform:rotate(${rotation.get(control.image)}deg);` : '';
     const glow = brighten.has(control.image) ? 'filter:brightness(1.5) drop-shadow(0 0 18px #F0B850);' : '';
@@ -51,7 +63,7 @@ function draw(control, parentSize) {
   return `<div style="${box}${scale}">${inner}</div>`;
 }
 
-function page(tree) {
+export function page(tree) {
   return `<!doctype html><meta charset="utf-8"><style>
 body{margin:0;background:${nativeTheme.color.backdrop};font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif}
 #c{position:relative;width:1280px;height:720px;overflow:hidden}#c div,#c svg{position:absolute;box-sizing:border-box}
@@ -71,6 +83,22 @@ for (const t of document.querySelectorAll('.t')) {
 
 // Native scene -> approved reference: a committed screenshot or a prototype state.
 const pairs = [
+  // These scenes use the same enhancedRooms=true path enabled by GameUI.
+  // The older standalone scenes below remain compatibility evidence only.
+  ['shop-all', 'shop.png', '正式商店 · 完整七卡/遗物/药水货架'],
+  ['shop-hover', 'shop.png', '正式商店 · 悬停与独立价格'],
+  ['shop-touch', 'shop.png', '正式商店 · 触屏商品详情'],
+  ['chest-closed', 'treasure.png', '正式宝箱 · 未开启'],
+  ['chest-shake', 'treasure.png', '正式宝箱 · 开箱震动阶段'],
+  ['chest-burst', 'treasure.png', '正式宝箱 · 爆发反馈'],
+  ['chest-rewards', null, '正式宝箱 · 全部奖励同时展示、逐项领取'],
+  ['camp-new', 'camp.png', '正式营地 · 休息/锻造选择'],
+  ['camp-heal', null, '正式营地 · 回复反馈'],
+  ['camp-rest-result', null, '正式营地 · 真实回复结果'],
+  ['forge-grid', null, '正式锻造 · 完整选牌网格与分页'],
+  ['forge-preview', null, '正式锻造 · 真实升级前后对照'],
+  ['forge-impact', null, '正式锻造 · 确认升级反馈'],
+  ['forge-done', null, '正式锻造 · 升级结果'],
   ['shop', 'shop.png', '商店 · 已购一张、余卡价格变红'],
   ['shop-refused', 'shop.png', '商店 · 点按买不起的卡：说明差额，不扣款'],
   ['shop-remove', null, '删牌服务 · 先选卡再确认（批准稿无此屏，沿用锻造选择构图）'],

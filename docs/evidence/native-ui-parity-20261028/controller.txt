@@ -1,0 +1,16 @@
+ABYSS_RUN seed=1 source=explicit
+controller rooms: camp, upgrade picker cancel and continue passed
+ABYSS_RUN seed=1 source=explicit
+controller rooms: shop buy, sold item, remove and leave passed
+ABYSS_RUN seed=1 source=explicit
+controller rooms: treasure claim returns to the map passed
+ABYSS_RUN seed=1 source=explicit
+controller rooms: event, potion cancel and paged permanent deck passed
+ABYSS_RUN seed=1 source=explicit
+controller current: ownerless title, source carry cancel, stale pointer and right-click passed
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=6
+controller current: dynamic enemy screen-slot/core-index targeting passed
+ABYSS_RUN seed=1 source=explicit
+controller current: stale map focus cannot enter a replacement context
