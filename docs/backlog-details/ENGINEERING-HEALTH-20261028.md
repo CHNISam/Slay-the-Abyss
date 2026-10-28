@@ -36,4 +36,3 @@ Quality run [40679423990](https://github.com/CHNISam/Slay-the-Abyss/actions/runs
 PR302的精确8d42ce3c全部必要检查已成功，实际squash合入53fa164a9914dd8a7a5849ff741925dd3131f5e4。本次纯治理从该最新主线重新隔离，复用TASK-74；原隔离TASK-79只在恢复bundle保留，不向主线引入重复任务。未知意图与长提示显示另以CLI建立交接子任务，pr260独立成果交既有TASK-40，避免以可选显示复核拖住工程收口。
 
 原始 PR、Ruleset、job 日志及本地全量盘点保存在根 `.artifacts/engineering-health/`，不提交凭证。当前完整CI和实际合后develop的结果在本PR/最终验收记录补齐；没有最终CI证据不作通过声明。平台导入/实机不在本次工程治理范围，没有占用桌面。
-
