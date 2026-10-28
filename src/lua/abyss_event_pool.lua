@@ -41,6 +41,7 @@ M.contentId['Tomb of Lord Red Mask']='tomb_red_mask'
 M.contentId.Ghosts='ghosts'
 M.contentId.MindBloom='mind_bloom'
 M.contentId['Mysterious Sphere']='mysterious_sphere'
+M.contentId.Nest='nest'
 
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')

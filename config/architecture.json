@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_nest_event": "core",
     "abyss_battle_ending_intent": "ui",
     "abyss_node_ui_ending": "ui",
     "abyss_emerald_rewards": "core",
