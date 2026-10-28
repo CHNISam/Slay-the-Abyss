@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-28 08:23'
+updated_date: '2026-10-28 10:34'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -83,4 +83,6 @@ M3末张移除切片：固定CardGroup/Cleric/PurificationShrine/GoldenWing方�
 原AC3（仅保留历史要求，不再作为当前比赛必做）：补齐第一幕25个潜在事件的全部选项、代价和结果：11普通、6祭坛、8条件一次性事件，不能删池。
 原AC4（仅保留历史要求，不再作为当前比赛必做）：将完整25事件按原版资格、池顺序和随机消费接正式池，独立回归证明概率不被重分配。
 原AC6（仅保留历史要求，不再作为当前比赛必做）：全部合法事件经正式玩法遇到并完成，覆盖空牌组、资格不足和重复输入，保留对应实机证据。
+
+PR286历史离线切片：Mushrooms两次fight、三Fungi事件战斗、Odd Mushroom、25%先治疗后Parasite已接通；来源锁、随机顺序与回滚保留。范围及AC沿用最新主线；无自然/平台验收。
 <!-- SECTION:NOTES:END -->
