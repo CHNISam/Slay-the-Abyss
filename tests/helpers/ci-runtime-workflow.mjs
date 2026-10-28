@@ -1,6 +1,13 @@
+import { readFileSync } from 'node:fs';
 // Invert only the reviewed executor substitutions; retain the original workflow
 // hash guards for every gate, permission, deadline, matrix and artifact field.
 export function originalWorkflow(text) {
+  // Invert exact reviewed routing edits only. Existing full-suite hashes still
+  // protect all assertions, commands, matrices and deadlines under the route.
+  for (const edit of JSON.parse(readFileSync('tests/helpers/ci-fast-migration.json', 'utf8')).reverse()) {
+    if (!edit.after || text.split(edit.after).length !== 2) throw new Error('CI routing migration mismatch');
+    text = text.replace(edit.after, edit.before);
+  }
   return text.replace(`      - name: Check feature branch history\n        if: github.event_name == 'pull_request' && matrix.shard == 1\n        env:\n          GITHUB_TOKEN: \${{ github.token }}\n        run: node scripts/check-pr-history.mjs\n`, '')
     .replace(" --workers ${{ inputs.runner_pool == 'local-special' && 1 || 2 }}", '')
     .replaceAll('node scripts/ci-shards.mjs --prepare=', 'node scripts/ci-reviewed-lfs.mjs --shard=')

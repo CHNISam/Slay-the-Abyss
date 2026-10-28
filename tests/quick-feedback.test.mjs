@@ -46,7 +46,8 @@ test('CI-only unmapped fallback reports the full gate without launching a duplic
 
 test('quick workflow is independent, read-only, exact-revision and cancels only superseded PR feedback', () => {
   const workflow = readFileSync('.github/workflows/quick-feedback.yml', 'utf8').replaceAll('\r\n', '\n');
-  assert.match(workflow, /pull_request:\n    branches: \[develop, master\]/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.doesNotMatch(workflow, /  pull_request:/);
   assert.match(workflow, /permissions:\n  contents: read/);
   assert.match(workflow, /group: quick-feedback-\$\{\{ github.event.pull_request.number \}\}\n  cancel-in-progress: true/);
   assert.match(workflow, /ref: \$\{\{ github.sha \}\}/);

@@ -1,7 +1,6 @@
 name: Quick feedback
 on:
-  pull_request:
-    branches: [develop, master]
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
