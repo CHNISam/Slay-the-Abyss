@@ -88,14 +88,15 @@ test('native Node eight-shard selection executes every current JS file name exac
   assert.ok(files.length > 0);
   const root = mkdtempSync(join(tmpdir(), 'abyss-windows-shards-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  // Run name-only probes through Node's actual CLI selector; game assertions
-  // stay in the unchanged real test bodies executed by their selected VM.
+  // Run name-only probes through Node's actual CLI selector. These empty
+  // synthetic modules share no state, so avoid hundreds of empty child starts;
+  // production game tests retain the unchanged per-file process isolation.
   for (const name of files) writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
   const env = { ...process.env };
   delete env.NODE_TEST_CONTEXT; // An independent CLI, as in each hosted VM.
   const seen = [];
   for (let shard = 1; shard <= 8; shard++) {
-    const result = spawnSync(process.execPath, ['--test', '--test-concurrency=1', `--test-shard=${shard}/8`, '--test-reporter=tap', ...files.map(name => join(root, name))], {
+    const result = spawnSync(process.execPath, ['--test', '--test-isolation=none', '--test-concurrency=1', `--test-shard=${shard}/8`, '--test-reporter=tap', ...files.map(name => join(root, name))], {
       env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024,
     });
     assert.ifError(result.error);

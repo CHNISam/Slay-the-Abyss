@@ -70,8 +70,9 @@ test('native Node four-shard selection executes every current JS file name exact
   assert.ok(files.length > 0);
   const root = mkdtempSync(join(tmpdir(), 'abyss-posix-shards-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  // Name-only probes exercise Node's real file partitioner without rerunning
-  // the game suite or sharing generated outputs between CI workspaces.
+  // Name-only probes exercise Node's real file partitioner. Only these empty
+  // synthetic modules skip child isolation; production game tests still use
+  // separate processes and VMs for every shared-output regression.
   for (const name of files) writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
   const seen = [];
   const env = { ...process.env };
@@ -79,7 +80,7 @@ test('native Node four-shard selection executes every current JS file name exact
   // the contract's own runner (Node otherwise disables nested CLI discovery).
   delete env.NODE_TEST_CONTEXT;
   for (let shard = 1; shard <= 4; shard++) {
-    const args = ['--test', '--test-concurrency=1', `--test-shard=${shard}/4`, '--test-reporter=tap', ...files.map(name => join(root, name))];
+    const args = ['--test', '--test-isolation=none', '--test-concurrency=1', `--test-shard=${shard}/4`, '--test-reporter=tap', ...files.map(name => join(root, name))];
     const result = spawnSync(process.execPath, args, { env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024 });
     assert.ifError(result.error);
     assert.equal(result.status, 0, result.stderr + result.stdout);

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-28 03:40'
+updated_date: '2026-10-28 03:45'
 labels: []
 dependencies: []
 references:
@@ -83,4 +83,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 本轮复用TASK-74，不新建重复任务。独立工作树feat/ci-speed，基线f1ab9a9c。
 
 2026-10-28 P0首批：按成功run40622446002八份完整raw job日志重建963条Lua实测权重，并与该SHA源码963文件核对。当前972文件由确定LPT分配，计入各Windows JS片现有负载，新文件正权重兜底；原串行隔离和fixture超时不变。重复非测试门禁改每系统一次；完整8Windows+4Ubuntu和check/presentation/engineering-posix名保留。独立PR快反馈只跑明确子集并报告延后项，本地未知改动全量回退不变。精确Node24.18.0定向86/86过0skip，104.9秒。官方完整新CI尚待，未宣称15分钟达标。免费DeepSeek只读复核出现read路径权限失败，已停止该路径，由Codex接管；未把自报或退出码当审查通过。
+
+稳定最新develop合并头65648f3的代表性增量样例：Node24.18.0执行--ci-fast --files src/lua/abyss_nodes.lua，2JS+59Lua全过，本机实测108.834秒（不含GitHub排队）。先前与同步develop重叠的样例丢弃，不计通过。当前974Lua/293JS文件。另优化两份原生分片名称合同中的纯合成空测试模块：只对这些无状态名称探针使用--test-isolation=none，完整游戏JS及Lua隔离不变，所有精确并集和失败断言保留，7/7全过0skip；同机Node24.18.0前两文件约51秒，优化后4.304秒。PR269首轮尚全在队列，此次推送只替换本PR过期排队，不取消其他PR。
 <!-- SECTION:NOTES:END -->
