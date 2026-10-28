@@ -20,4 +20,3 @@ test('generated host starts under native capability guards and rejects the escap
     assert.match(result.stdout,/NATIVE_STARTUP_CONTRACT_PASS/);
   } finally {unlinkSync(entry);}
 });
-
