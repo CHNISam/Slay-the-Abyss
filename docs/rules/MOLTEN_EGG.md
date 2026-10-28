@@ -23,6 +23,6 @@
 
 ## 与在途事件集成
 
-PR267 的 Nest 若仍显式拒绝 `molten_egg` / `Molten Egg 2`，应在本件合入后仅解除Molten拒绝并用其真实获得牌入口补邻接回归；Frozen和其它缺失owner继续原子拒绝。本分支基于远端已合develop，不预先修改尚未合入的Nest文件。
+组合吸收已审PR267精确9bab0cfd后，仅删除Nest临时Molten拒绝。原10项Nest阶段/金币/伤害/回滚用例保留，缺能力负例改为真实Molten获得效果：先RED 9过1失败 `event_obtain_content_unavailable`，解除后实测。新增真实Nodes组合覆盖80→74、1→0死亡仍获得、Fairy24/Tail40后再升级，下一战同UID的匕首保留15伤害/击杀成长5，晚失败复原HP、瓶槽、金币、UID与owner。其它未实现owner的Library/Sensory门禁保留。
 
 本地实际检查：19项来源/历史主题契约通过；架构213模块/1235边；Luacheck1.2.0保留84条显式历史诊断、零新增；4个原工程语义变异均被原断言杀死，2项原生UI契约通过。完整npm test已启动，曾见 `act2-intent-ui.test.mjs` 的原30秒Lua超时，尚未宣称完整通过；最终当前SHA的远端Quality需独立确认，不能用专项结果代替。
