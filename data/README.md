@@ -41,7 +41,7 @@ exhaust=true 出牌后消耗；ethereal=true 仅在回合结束还留手时消�
 
 地图规则区分生成行与独立房间，`generatedRows`与`floors`不可混用。第一幕Boss与Boss宝箱独立计层；[Nodes](../src/lua/abyss_nodes.lua)已将`roomKind=boss_treasure`交给[Treasure](../src/lua/abyss_treasure.lua)处理Boss奖励，不以普通宝箱替代。跨幕楼层与第四幕入口见[跨幕账本](../docs/rules/CROSS_ACT.md)。早期地图边界证据保留在[专项报告](../docs/reviews/TASK-12.4-map-floor-evidence.md)，不表示当前全部规则或平台验收已通过。
 
-遗物 combat_start 在基础能量刷新/抽牌之后各执行一次，避免灯笼被刷新覆盖；combat_end 只在胜利后触发。药水仅玩家战斗回合可用，成功后清空原槽位，不移动旁瓶。run.potions 与 Run.potionView 按物理槽号索引，空槽为 nil；用 Run.potionCount 计数，不用 #/ipairs 遍历稀疏库存。Run.obtainPotion 只将已知药水填入最左空槽，奖励/商店仍各自负责获取资格与支付，不表示已实现自然获取。详见 docs/reviews/TASK-14.1-potion-slots.md。营地回血与升级二选一；交易先验证金币/库存/目标，再原子提交。血量不超过上限。
+遗物开战钩子按当前Inventory/Combat中的来源顺序入队，不能统一视为抽牌后触发；combat_end 只在胜利后触发。药水使用资格、目标限制及支持的局外种类以`abyss_run`中的`potionCandidate`/`usePotion`为准；仙灵药水由`abyss_potion_fairy`的致命伤害路径自动触发，不走普通主动使用。消费药水时清空原槽位，不移动旁瓶。run.potions 与 Run.potionView 按物理槽号索引，空槽为 nil；用 Run.potionCount 计数，不用 #/ipairs 遍历稀疏库存。Run.obtainPotion 校验已知道具及添水等获取限制，再填入最左空槽；奖励/商店仍各自负责渠道资格与支付。旧槽位专项证据见 docs/reviews/TASK-14.1-potion-slots.md。营地回血与升级二选一；交易先验证金币/库存/目标，再原子提交。血量不超过上限。
 深渊守卫 `ai.kind=guardian` 有独立攻守阶段：进攻阶段实际失血耗尽模式转换预算后排定转形，当前卡牌/敌方效果批次完成才加格挡并覆盖意图；双击剩余段先完成，后段致死则取消转形。Twin Slam先开壳，攻击后移除尖刺甲壳并恢复下次预算，反刺的少量失血在该次重置清除，足额失血则能排定再次防守。`sharp_hide` 按成功打出的攻击牌触发，牌本身效果完成后单次结算，不按命中计数，可用格挡且不能递归触发荆棘；已排定反伤即使Boss死亡仍执行。详细来源与边界见 docs/reviews/TASK-17-guardian-ai.md。
 
 
