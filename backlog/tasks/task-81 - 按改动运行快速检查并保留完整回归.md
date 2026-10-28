@@ -5,6 +5,7 @@ status: In Progress
 assignee:
   - Codex
 created_date: '2026-10-28 15:30'
+updated_date: '2026-10-28 15:34'
 labels: []
 dependencies: []
 priority: medium
@@ -29,3 +30,9 @@ ordinal: 125000
 <!-- SECTION:PLAN:BEGIN -->
 采集基准与保护；实现影响计划和稳定汇总；负例与真实Runner验收。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+PR307；固定Node24.18.0专项32项通过，后续手动诊断输入与门禁9项通过。YAML/Bash语法通过；规则集证据已保存，无保护修改。当前远端Quality40716938768仍排队，未完成Full/Fast性能验收。创建时发现未合入审计工作树已占TASK80，改用TASK81；误建草稿6/7未提交。
+<!-- SECTION:NOTES:END -->

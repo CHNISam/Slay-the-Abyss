@@ -49,9 +49,9 @@ test('quick workflow is independent, read-only, exact-revision and cancels only 
   assert.match(workflow, /workflow_dispatch:/);
   assert.doesNotMatch(workflow, /  pull_request:/);
   assert.match(workflow, /permissions:\n  contents: read/);
-  assert.match(workflow, /group: quick-feedback-\$\{\{ github.event.pull_request.number \}\}\n  cancel-in-progress: true/);
+  assert.match(workflow, /group: quick-feedback-\$\{\{ github.ref \}\}\n  cancel-in-progress: true/);
   assert.match(workflow, /ref: \$\{\{ github.sha \}\}/);
-  assert.match(workflow, /BASE_SHA: \$\{\{ github.event.pull_request.base.sha \}\}/);
+  assert.match(workflow, /BASE_SHA: \$\{\{ inputs.base_sha \}\}/);
   assert.match(workflow, /git cat-file -e "\$\{BASE_SHA\}\^\{commit\}"/);
   assert.match(workflow, /timeout-minutes: 2\n        env:\n          BASE_SHA:/);
   assert.match(workflow, /GIT_TERMINAL_PROMPT: '0'/);
