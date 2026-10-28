@@ -73,9 +73,28 @@ root 另要求前三项的六入口走一次实际 `runLuaWorkers(...workers:2,w
 总 69.457s、status0、原29 marker各一次；这是独占 pool 路径证明，不是短片并发压测。
 原记录保存在 `/tmp/sta-pr313-postmerge-slices-20261028/pool/`，独立只读复审已核。
 
+## 同一正常 PR 的精确依赖组合
+
+root 一次性审查实际 PR313 合后整份 archive：8 个 raw 步骤的 1,030 条 fixture，
+>=28s 共12项；原30秒风险恰为本次四项，其余8项原预算为60/120秒。
+四项在 PR313/314 均有实际原30秒超时，因而本次范围固定为四项，不继续扩张。
+
+依 root 明确决定，组合分支精确吸收既有 PR314 的三笔线性提交：
+`faf1a3788a31a80d7f3933f9a56cf66fe2e8b01d`、
+`0798d19b888016875dc86c963ef827f3d3612633`、
+`cdb08af255c57624637b576d3ccb8904fc9c7d79`。
+保留原 author；其 TASK81、ENGINEERING、verify-delivery、delivery.test 四路径
+均与 PR314 head 原 blob 完全相等，没有改作者分支、认领或实现。
+PR314 的交付合同贡献仍归原作者；本组合仅解决它与真实回归超时的依赖，
+不以其旧测试或失败矩阵代替本 PR 当前组合完整 CI。
+
+该合同严格要求当前 schema3 Full 路由的17作业（impact成功、fast跳过、原15全绿），
+并在采证前后独立读取实际目标分支 ref；历史 schema2 仅用于历史证据，不能借用为当前收据。
+组合短测 delivery27 + 分片/旧class8 =35/35 通过；原runner/调度器另20/20通过。
+
 ## 仍须完成的关口
 
-本次新精确 head 的完整托管 Quality、独立审查和 schemaVersion 2
+本次新精确 head 的完整托管 Quality、独立审查和当前 schemaVersion 3
 `npm run verify:delivery` 预审尚待采证；必须在合并前保存有效 preflight。
 不能为已经关闭的 PR313 补造 open-PR 收据，也不声明其原 native `merged_passed`。
 官方导入、ready、PC/实体手机 UI 与性能验收仍未执行，TASK-4 负责人/状态/AC/Done 不改。

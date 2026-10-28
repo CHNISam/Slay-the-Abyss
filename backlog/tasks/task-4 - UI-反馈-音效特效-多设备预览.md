@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 20:43'
+updated_date: '2026-10-28 20:45'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -122,4 +122,6 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-28 PR313合后预算收尾：实际cec690c与原PR绿灯同tree；三原30秒raw夹具在合后ETIMEDOUT，既有权重已独占，不归因双worker。只精确分片potion 1–4/5、exit 1–5/6–15、continuous 1–4/5–9，原29组case体/seed/assert/order完整逆向SHA与Gitblob保留，runner/30秒/权重不改。红测后源码/漂移拒绝/raw/JS/CI发现及旧class合同7/7；六片原runLua实测12.013/13.702、15.315/11.027、10.536/13.769秒，原29组markers各一次。JS语法与diff检查通过；独立复审、当前head完整托管Quality及schema2 delivery预审待采证，不补造PR313旧收据，不改负责人/状态/AC/Done，不含设备实机。证据docs/reviews/ui-postmerge-budgets-20261028/。
 
 2026-10-28第四项预算收尾：battle_ui_potion_target_failures原7组精确逆向SHA47565faa/Gitblob5faa5cf，含原up/endDrag注册循环均保留。新两片原30s实测9.720/13.009秒，原CASE1..7各一次；累计4文件36原组/8入口，源码/范围/固定注册器恶意双改与发现合同8/8过。此前6入口真实workers=2 pool原权重路径也全部过，unknown10秒默认仍独占，不以调权阈值刷绿。仍无托管组合绿灯或设备实机，不改状态/负责人/AC/Done。
+
+2026-10-28组合交付：root一次原档尾部审计1030条fixture确认原30秒风险恰为本4项，其余>=28秒项目原有60/120秒时限，不扩范围。按指定顺序原样吸收既有PR314三笔faf1a378/0798d19b/cdb08af2，保原author和四路径blob，不操作其分支/认领；严格schema3 Full17作业及独立target-ref校验保留。组合delivery27+分片8短测35/35，当前组合托管完整Quality/独立review/schema3预审待采证，原314失败或旧绿不冒充组合结果，整体AC不改。
 <!-- SECTION:NOTES:END -->
