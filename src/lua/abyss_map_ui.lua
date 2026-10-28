@@ -7,7 +7,6 @@ local Layout = require("abyss_map_layout")
 local Acts = require("abyss_acts")
 local Controller = require("abyss_controller")
 local M = {}
-local states = { "locked", "visited", "current", "available" }
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
@@ -239,7 +238,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             if node then
                 local size = node.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node
                 local x, y = position(node)
-                -- Native container clipping is not established. Cull whole discs,
+                -- Native container clipping is not established. Cull whole targets,
                 -- including glow/breath extent, so no offscreen hit area can leak.
                 local radius = (size + Layout.glowPadding) * Layout.breathScale / 2
                 if node.hasEmeraldKey then radius=math.max(radius,math.abs(Theme.layout.map.emeraldLabel[2])+Theme.layout.map.emeraldLabel[4]/2)end
@@ -252,16 +251,8 @@ function M.new(root, map, onChoose, clickEvent, options)
                 box.localScaleX, box.localScaleY = 1, 1
                 local state = node.id == current.currentNodeId and "current" or
                     (node.visited and "visited" or (node.available and "available" or "locked"))
-                for _, value in ipairs(states) do
-                    child(box, value):SetVisible(state == value)
-                    child(box, value):SetSizeDelta(size, size)
-                end
                 local token = child(box, "positionToken")
                 token:SetVisible(state == "current")
-                child(box, "body"):SetSizeDelta(size - Theme.space.border * 2, size - Theme.space.border * 2)
-                tint(child(box, "body"), (state == "current" or state == "visited") and Theme.color.panelRaised or Theme.color.panel)
-                child(box, "locked"):SetVisible(false)
-                child(box, "body"):SetVisible(state ~= "locked")
                 local icon = child(box, "icon")
                 icon:SetSizeDelta(size * .6, size * .6)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")

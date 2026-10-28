@@ -44,6 +44,10 @@ test('chapter-local map geometry, real same-table transitions and stale gestures
   ].join('\n');
   assert.equal(original.split(visibleGeometry).length,2,'one reviewed visible-node geometry migration');
   original=original.replace(visibleGeometry,originalGeometry);
+  const currentMarker="if node.id==map.currentNodeId then assert(box(i).visible and box(i):GetChild('positionToken').visible) end";
+  const originalMarker="if node.id==map.currentNodeId then assert(box(i).visible and box(i):GetChild('current').visible) end";
+  assert.equal(original.split(currentMarker).length,2,'one exact reviewed ring-free current-node marker');
+  original=original.replace(currentMarker,originalMarker);
   original=original.slice(prefix.length,-footer.length);
   assert.equal(original.split(after).length,2);original=original.replace(after,before);
   assert.equal(createHash('sha256').update(original).digest('hex'),parts.originalSha256LF);
