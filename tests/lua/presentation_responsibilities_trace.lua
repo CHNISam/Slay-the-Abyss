@@ -52,4 +52,4 @@ print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace
 -- Original room and pre-retirement M3 fixtures remain frozen and replayable.
 -- Compose the reviewed 214 additions/593 visual replacements with the exact
 -- removal of 68 announcement-owned writes; JS checks every remaining write.
-assert(trace.count==79689 and trace.hash==2034622601,'ordered native writes changed from the reviewed M3 announcement retirement contract')
+assert(trace.count==83407 and trace.hash==1351994034,'ordered native writes changed from the reviewed shared-card skin contract')

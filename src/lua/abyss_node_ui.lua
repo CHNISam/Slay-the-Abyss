@@ -1,3 +1,4 @@
+local CardSkin=require('abyss_card_skin')
 -- Native non-combat node adapter. Nodes owns every gameplay transaction; this module only
 -- reads Nodes.view, draws the approved PR19 node screens and sends commands.
 -- root is nodePanel from nodeLayout(); the host may replace self.run/self.map.
@@ -229,9 +230,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     -- Approved card face. look: dim (greyed but readable), veil (sold/removed), selected (glow),
     -- stamp (overlay word), changed (cost highlight).
-    local artFaces={};local function fillCard(box, id, upgraded, look)
+    local skinFaces={};local artFaces={};local function fillCard(box, id, upgraded, look)
         look = look or {}
         local definition, display = card(id) or {}, self.presentation[id] or {}
+        local printedCost=definition.cost
+        skinFaces[box]=true
         local instance=look.instance or {cardId=id,upgraded=upgraded==true}
         definition=Combat.cardDefinition({catalog={cards={[id]=definition}}},instance)
         inspectCards[box]=definition.originalV4 and {definition=definition,upgraded=instance.upgraded} or nil
@@ -256,6 +259,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         tint(box:GetChild("nameBand"), C.rarityBand[definition.rarity] or C.rarityBand.basic)
         tint(box:GetChild("nameRule"), C.rarity[definition.rarity] or C.line)
         ink(box:GetChild("cost"), look.dim and C.textMuted or look.changed and C.positive or C.energy)
+        CardSkin.apply(box,definition,options,{dim=look.dim,selected=look.selected,cost=cost,baseCost=look.changed and printedCost or definition.cost,
+            reason=look.stamp or '当前不可选择'})
         show(box:GetChild("glow"), look.selected)
         show(box:GetChild("veil"), look.veil)
         show(box:GetChild("stampPlate"), look.stamp ~= nil)
@@ -1129,6 +1134,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then self:render() end
     end
     function self:update(dt)
+        for box in pairs(skinFaces)do CardSkin.tick(box,dt)end
         roomMotion:update(dt)
         rewardDetail:update(dt)
         shopSelection:update(dt)

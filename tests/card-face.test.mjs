@@ -76,3 +76,27 @@ test('card glyph budgets remain separate even when transparent native text boxes
     assert(type.size[1]>18 && title.size[1]>30);
   }
 });
+
+test('all native card outlines are assembled from importable shapes within child limits',()=>{
+  for(const context of ['battle','deck','node']){
+    const face=cardFaceChildren(nativeTheme,context),skin=face.find(c=>c.name==='skin');
+    for(const kind of ['attack','skill','power']){
+      const group=skin.children.find(c=>c.name===kind);
+      assert(group,context+'/'+kind);
+      assert(group.children.every(c=>['edge','well'].includes(c.name)));
+    }
+    const visit=c=>{
+      assert((c.children?.length??0)<=60,'native child limit: '+c.name);
+      assert(!('clipPath' in c)&&!('filter' in c)&&!('css' in c));
+      if(c.kind==='image'){
+        assert(Number.isInteger(c.image)&&c.image>0);
+        assert.match(c.colour,/^#[0-9a-f]{6}$/i,'RGB only; native alpha is separate');
+      }
+      c.children?.forEach(visit);
+    };
+    face.forEach(visit);
+    assert.equal(face.find(c=>c.name==='artPlate').kind,'image');
+    assert(face.find(c=>c.name==='roleMark').children.some(c=>c.name==='HT'));
+    assert(face.find(c=>c.name==='tagEdge').children.some(c=>c.image===100002));
+  }
+});

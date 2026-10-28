@@ -1,3 +1,4 @@
+import {beforeCardSkin} from './card-skin-migration.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -25,7 +26,7 @@ export function archivedRetirementChangelog(source=retirementSources.beforeSourc
 // Complete identities are checked before projection; this is not a wildcard
 // that can hide future changes in the old source or current interaction guards.
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
- let normalized=source===null?null:source.replaceAll('\r\n','\n');
+ let normalized=beforeCardSkin(path,source===null?null:source.replaceAll('\r\n','\n'));
  if(!Object.hasOwn(retirementSources.beforeSources,path))return normalized;
  if(path==='src/lua/abyss_ui.lua'){
   // Historical replay only. The separate live OnStart fixture owns campaign
