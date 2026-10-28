@@ -1,6 +1,10 @@
 import { spawn } from 'node:child_process';
 
 const outputLimit = 4 * 1024 * 1024;
+// Raw fixtures have at least a 30s deadline. Hosted failures under overlap
+// started at measured costs of 13.5s; retain 3x headroom for concurrent work.
+export const serialThresholdMs = 10000;
+export const luaSchedulingWeight = (weight, workers) => workers === 2 && weight >= serialThresholdMs ? weight * 2 : weight;
 
 // Each wrapper retains the synchronous Lua runner's existing fixture deadline
 // and output budget. Only independent wrapper processes overlap here.
@@ -14,7 +18,9 @@ export async function runLuaWorkers(scripts, { cli, workers = 2, weights = {}, c
   if (onOutput !== undefined && typeof onOutput !== 'function') throw new Error('Lua worker output callback must be a function');
   const weight = script => weights[script] ?? 10000;
   if (scripts.some(script => !Number.isFinite(weight(script)) || weight(script) <= 0)) throw new Error('Lua scheduling weights must be positive finite milliseconds');
-  const queue = [...scripts].sort((a, b) => weight(b) - weight(a) || (a < b ? -1 : a > b ? 1 : 0));
+  const ordered = [...scripts].sort((a, b) => weight(b) - weight(a) || (a < b ? -1 : a > b ? 1 : 0));
+  const exclusive = workers === 2 ? ordered.filter(script => weight(script) >= serialThresholdMs) : [];
+  const queue = workers === 2 ? ordered.filter(script => weight(script) < serialThresholdMs) : ordered;
   const emit = onOutput ?? ((stdout, stderr) => { process.stdout.write(stdout); process.stderr.write(stderr); });
   const env = { ...process.env };
   delete env.NODE_TEST_CONTEXT;
@@ -46,16 +52,19 @@ export async function runLuaWorkers(scripts, { cli, workers = 2, weights = {}, c
       });
     });
   }
-  async function consume() {
-    while (next < queue.length) {
-      const script = queue[next++];
-      try { await execute(script); }
-      catch (error) {
-        status = 1;
-        try { emit('', `Lua worker could not run ${script}: ${error.message}\n`); }
-        catch { /* A failed output callback cannot prevent remaining fixtures. */ }
-      }
+  async function executeSafely(script) {
+    try { await execute(script); }
+    catch (error) {
+      status = 1;
+      try { emit('', `Lua worker could not run ${script}: ${error.message}\n`); }
+      catch { /* A failed output callback cannot prevent remaining fixtures. */ }
     }
+  }
+  // Finish each expensive fixture alone before starting the short-fixture pool.
+  // Unknown fixtures use the conservative default and therefore run alone too.
+  for (const script of exclusive) await executeSafely(script);
+  async function consume() {
+    while (next < queue.length) await executeSafely(queue[next++]);
   }
   await Promise.all(Array.from({ length: Math.min(workers, queue.length) }, consume));
   return status;

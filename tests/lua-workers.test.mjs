@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname, basename } from 'node:path';
-import { runLuaWorkers } from '../scripts/lua-workers.mjs';
+import { runLuaWorkers, luaSchedulingWeight, serialThresholdMs } from '../scripts/lua-workers.mjs';
+import { timings } from '../scripts/ci-shards.mjs';
 
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-lua-workers-'));
@@ -24,7 +25,7 @@ else {
   process.stderr.write('stderr-start:' + name + '\\n');
   if (name.startsWith('pair-')) {
     const started = Date.now();
-    while (readFileSync('events.jsonl', 'utf8').trim().split('\\n').map(JSON.parse).filter(e => e.kind === 'start').length < 2) {
+    while (readFileSync('events.jsonl', 'utf8').trim().split('\\n').map(JSON.parse).filter(e => e.kind === 'start' && e.name.startsWith('pair-')).length < 2) {
       if (Date.now() - started > 5000) throw new Error('Second worker never overlapped');
       await new Promise(resolve => setTimeout(resolve, 5));
     }
@@ -72,6 +73,58 @@ test('a single worker uses measured longest-first order and continues after exit
   assert.deepEqual(events.map(e => `${e.kind}:${e.name}`), ['start:fail', 'end:fail', 'start:signal', 'end:signal', 'start:success', 'end:success']);
   assert.equal(outputs.length, 3);
   assert.ok(outputs.some(output => output.stdout.includes('stdout-end:success')));
+});
+
+test('expensive and unknown fixtures run alone before short fixtures overlap, without losing failures', async t => {
+  const f = fixture(t), outputs = [];
+  const scripts = ['pair-b', 'unknown', 'fail', 'pair-a', 'heavy'];
+  const result = await runLuaWorkers(scripts, { cli: f.cli, cwd: f.root,
+    weights: { heavy: 30000, fail: 20000, 'pair-a': 400, 'pair-b': 300 },
+    onOutput: (stdout, stderr) => outputs.push({ stdout, stderr }) });
+  assert.equal(result, 1);
+  const events = f.events();
+  assert.deepEqual(events.slice(0, 6).map(e => `${e.kind}:${e.name}`),
+    ['start:heavy', 'end:heavy', 'start:fail', 'end:fail', 'start:unknown', 'end:unknown']);
+  assert.deepEqual(events.filter(e => e.kind === 'start').map(e => e.name).sort(), [...scripts].sort());
+  let active = 0, maximum = 0;
+  for (const event of events) {
+    active += event.kind === 'start' ? 1 : -1;
+    if (!event.name.startsWith('pair-')) assert.ok(active <= 1, 'exclusive fixtures cannot overlap');
+    maximum = Math.max(maximum, active);
+  }
+  assert.equal(active, 0);
+  assert.equal(maximum, 2, 'short fixtures still overlap');
+  assert.equal(outputs.length, scripts.length);
+  assert.ok(outputs.some(output => output.stdout.includes('stdout-end:pair-a')));
+});
+
+test('partition costs charge exclusive fixtures for both slots and keep a conservative boundary', () => {
+  assert.equal(serialThresholdMs, 10000);
+  assert.equal(luaSchedulingWeight(9999, 2), 9999);
+  assert.equal(luaSchedulingWeight(10000, 2), 20000);
+  assert.equal(luaSchedulingWeight(30000, 1), 30000);
+});
+
+test('all observed hosted timeout fixtures retain exclusive execution under the real profile', async t => {
+  const f = fixture(t), timedOut = [
+    'encounter_coverage', 'potion_reward_effects', 'node_combat_generation',
+    'silent_natural_build', 'silent_final_sources', 'shockwave_group', 'act2_intent_ui',
+    'battle_ui_potion_target_failures', 'card_pool', 'unknown_event_routing',
+    'battle_ui_potion_target_pointers', 'unknown_event_routing_upper', 'game_ui_class_choices',
+  ].map(name => `tests/lua/${name}.lua`);
+  const result = await runLuaWorkers([...timedOut, 'pair-a', 'pair-b'], { cli: f.cli, cwd: f.root,
+    weights: { ...timings.lua, 'pair-a': 400, 'pair-b': 300 }, onOutput: () => {} });
+  assert.equal(result, 0);
+  const events = f.events();
+  assert.deepEqual(events.filter(e => e.kind === 'start' && !e.name.startsWith('pair-')).map(e => e.name).sort(), [...timedOut].sort());
+  let active = 0, maximum = 0;
+  for (const event of events) {
+    active += event.kind === 'start' ? 1 : -1;
+    if (timedOut.includes(event.name)) assert.equal(active, event.kind === 'start' ? 1 : 0);
+    maximum = Math.max(maximum, active);
+  }
+  assert.equal(active, 0);
+  assert.equal(maximum, 2);
 });
 
 test('spawn errors fail the aggregate and still visit every requested fixture', async t => {
