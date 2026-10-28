@@ -72,6 +72,7 @@ test('a single worker uses measured longest-first order and continues after exit
   const events = f.events();
   assert.deepEqual(events.map(e => `${e.kind}:${e.name}`), ['start:fail', 'end:fail', 'start:signal', 'end:signal', 'start:success', 'end:success']);
   assert.equal(outputs.length, 3);
+  assert.match(outputs[0].stderr, /Lua worker failed \(fail, exit 7\)/);
   assert.ok(outputs.some(output => output.stdout.includes('stdout-end:success')));
 });
 

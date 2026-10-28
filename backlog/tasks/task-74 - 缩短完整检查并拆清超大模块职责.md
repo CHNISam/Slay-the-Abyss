@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-28 09:02'
+updated_date: '2026-10-28 14:42'
 labels: []
 dependencies: []
 references:
@@ -93,4 +93,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 2026-10-28本轮集成：药水候选入口复杂度53→1，14项入口/主块/helper测量最高10，全部纳入15门禁；214模块1238边，84条历史静态诊断不变，0新增豁免。usePotion原文hash保持，9/9旧新独立Fengari回归输出一致，新增14拒绝优先级、钩子顺序与异常回滚对照通过；主线17项工程/语法测试与真实药水边界回归通过。语法检查固定最多2进程和每文件10秒，本机Node22单样本36.204→21.763秒（有短时并行负载，不作为正式CI基准）。模块导航与数据/工程旧说明已修。工作树清理按本轮授权进行：合并祖先或patch等价逐项证明，唯一build证据压缩并SHA256读回，源历史bundle恢复。最终当前HEAD Quality及实际合入提交CI仍待，不勾AC11。
 
 最终集成在隔离pr287-integration树同步develop d2e0baa3；唯一冲突为architecture两项新模块分类，保留run_potion_candidate与nest_event。13项syntax/responsibility检查、14类药水候选边界、架构215模块1240边、静态84历史诊断零新增/432职责度量通过。继续等待合流新HEAD完整CI，不关闭AC11。
+
+2026-10-28工程健康确定性切片：安全清理40个旧干净worktree、49条本地分支，全部独有候选与历史bundle已验证保存；292特有13文件保留。规则仅squash/linear/既有inventory，原Quality单片检查完整线性历史，Licenses原生concurrency。24项相关检查通过，未增全量CI/锁/超时。原隔离TASK79与PR302重号，退出本次交付并在恢复bundle保存，复用本任务记录治理；PR302按用户安排独立负责实际CI修复。独立dedup WIP和pr260只读商店成果保留，恢复清单见docs/evidence/engineering-health-20261028.json。合入提交和主线验证仍须实际证据。
 <!-- SECTION:NOTES:END -->
