@@ -110,7 +110,7 @@ local function control(spec, parent)
         end
     end
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
-    return self
+    return NativeContract.control(self,spec)
 end
 -- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
 local function fixture(data, settle, music, cursorEvents, prologue, sound, pointer, controllerApi)

@@ -14,16 +14,22 @@ local function findSpec(list, name)
         if found then return found end
     end
 end
-local function control(spec)
-    local c = { spec = spec, children = {}, order = {}, visible = spec.visible ~= false,
+local function control(spec,parent)
+    local c = { spec = spec, parent=parent, children = {}, order = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", imageId = spec.image }
     function c:GetChild(key) return self.children[key] end
     function c:SetVisible(value) self.visible = value end
-    function c:SetLocalScale() end -- snapshot renderer records resting geometry only
+    function c:SetLocalScale(x,y) self.scale={x,y} end
+    function c:SetAnchoredPosition(x,y) self.position={x,y} end
+    function c:SetSizeDelta(w,h) self.size={w,h} end
     function c:SetImage(_, id) self.imageId = id end
-    function c:AddCursorEventListener(_, callback) self.click = callback end
+    c.listeners={}
+    function c:AddCursorEventListener(event, callback)
+        self.listeners[event]=callback
+        if event=='click' then self.click=callback end
+    end
     for _, item in ipairs(spec.children or {}) do
-        c.children[item.name] = control(item)
+        c.children[item.name] = control(item,c)
         c.order[#c.order + 1] = c.children[item.name]
     end
     return c
@@ -54,7 +60,7 @@ end
 local function dump(c)
     local spec, children = c.spec, {}
     for _, item in ipairs(c.order) do if item.visible then children[#children + 1] = dump(item) end end
-    return { name = spec.name, kind = spec.kind, position = spec.position or { 0, 0 }, size = spec.size,
+    return { name = spec.name, kind = spec.kind, position = c.position or spec.position or { 0, 0 }, size = c.size or spec.size, scale = c.scale,
         visible = c.visible, image = c.imageId, colour = hex(c.imageColor) or spec.colour,
         text = spec.text and { content = c.text, fontSize = spec.text.fontSize, minFontSize = spec.text.minFontSize,
             colour = hex(c.fontColor) or spec.text.colour } or nil,
@@ -74,11 +80,14 @@ local function entered(kind, source, prepare)
         assert(Map.choose(map, choices[1].id))
     end
 end
-local function scene(kind, source, prepare)
+local function scene(kind, source, prepare, mobile, enhanced)
     local run, map = entered(kind, source, prepare)
     local root = control(findSpec(Layout, "nodePanel"))
     local ui = UI.new(root, run, map, Presentation, "click", nil,
-        { color = function(r, g, b, a) return { r = r, g = g, b = b, a = a } end, imageSource = "static" })
+        { color = function(r, g, b, a) return { r = r, g = g, b = b, a = a } end, imageSource = "static",
+          touchScreen=function()return mobile==true end,
+          enhancedRooms=enhanced==true,
+          cursorEvents={CursorEnter='enter',CursorExit='exit',CursorDown='down',CursorUp='up',CursorEndDrag='endDrag'} })
     ui:setVisible(true)
     return ui, root
 end
@@ -86,7 +95,28 @@ local function midRun(run) run.hp, run.gold = 62, 99 end
 local scenes = {}
 local function capture(name, root) scenes[#scenes + 1] = { name = name, tree = dump(root) } end
 
-local ui, root = scene("shop", nil, midRun)
+local ui,root=scene('shop',nil,function(run)run.gold=10000 end)
+capture('shop-all',root)
+root:GetChild('shopView'):GetChild('card1'):GetChild('hit').listeners.enter({})
+ui:update(.2);capture('shop-hover',root)
+ui,root=scene('shop',nil,function(run)run.gold=10000 end,true)
+assert(ui:press('shopView/card6'));ui:update(.2);capture('shop-touch',root)
+ui,root=scene('treasure',nil,midRun,false,true)
+capture('chest-closed',root);assert(ui:press('treasureView/chest'))
+ui:update(.045);capture('chest-shake',root)
+ui:update(.345);capture('chest-burst',root)
+ui:update(1);capture('chest-rewards',root)
+ui,root=scene('camp',nil,function(run)run.hp=20 end,false,true)
+capture('camp-new',root);assert(ui:press('campView/rest'))
+ui:update(.5);capture('camp-heal',root)
+ui:update(2);capture('camp-rest-result',root)
+ui,root=scene('camp',nil,midRun,false,true)
+assert(ui:press('campView/forge'));capture('forge-grid',root)
+assert(ui:press('pickerView/forgeGrid/card1'));capture('forge-preview',root)
+assert(ui:press('confirm'));ui:update(.4);capture('forge-impact',root)
+ui:update(2);capture('forge-done',root)
+
+ui, root = scene("shop", nil, midRun)
 assert(ui:press("shopView/card1"))
 capture("shop", root)
 ui:press("shopView/card4") -- unaffordable: explained, not charged

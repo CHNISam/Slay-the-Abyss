@@ -1,3 +1,4 @@
+import { originalWorkflow } from './helpers/ci-runtime-workflow.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -6,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
+const workflow = originalWorkflow(readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n'));
 const job = name => (workflow + '\n  end-of-workflow:\n')
   .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
 const shards = job('engineering-posix-shards');
@@ -35,7 +36,11 @@ test('POSIX shards preserve the original job gates, toolchain and 20-minute budg
   // Exact inverse of only the partitioning changes: the job in Git c78c59b,
   // including setup, all engineering gates, artifact contents and deadlines.
   // Strip only the exact new step immediately before the unchanged shard command.
-  const beforeLfs = shards.replace(lfsShardStep + '      - name: POSIX JavaScript regression shard\n', '      - name: POSIX JavaScript regression shard\n');
+  assert.ok(shards.includes('      - run: npm run check:engineering\n        if: matrix.shard == 1\n'));
+  assert.match(shards, /actions\/upload-artifact@[^\n]+\n        if: matrix.shard == 1\n/);
+  const beforeLfs = shards.replace(lfsShardStep + '      - name: POSIX JavaScript regression shard\n', '      - name: POSIX JavaScript regression shard\n')
+    .replace('      - run: npm run check:engineering\n        if: matrix.shard == 1\n', '      - run: npm run check:engineering\n')
+    .replace(/(      - uses: actions\/upload-artifact@[^\n]+\n)        if: matrix.shard == 1\n/, '$1');
   const restored = '  engineering-posix:\n' + beforeLfs.replace(setup, '')
     .replace('      - name: POSIX JavaScript regression shard\n        run: |\n          npm run build:data\n          npm run build:ui\n          ' + shardCommand + '\n', '      - run: npm test\n')
     .replace('name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}', 'name: engineering-${{ github.run_id }}-${{ github.run_attempt }}');
@@ -66,8 +71,9 @@ test('native Node four-shard selection executes every current JS file name exact
   assert.ok(files.length > 0);
   const root = mkdtempSync(join(tmpdir(), 'abyss-posix-shards-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  // Name-only probes exercise Node's real file partitioner without rerunning
-  // the game suite or sharing generated outputs between CI workspaces.
+  // Name-only probes exercise Node's real file partitioner. Only these empty
+  // synthetic modules skip child isolation; production game tests still use
+  // separate processes and VMs for every shared-output regression.
   for (const name of files) writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
   const seen = [];
   const env = { ...process.env };
@@ -75,7 +81,7 @@ test('native Node four-shard selection executes every current JS file name exact
   // the contract's own runner (Node otherwise disables nested CLI discovery).
   delete env.NODE_TEST_CONTEXT;
   for (let shard = 1; shard <= 4; shard++) {
-    const args = ['--test', '--test-concurrency=1', `--test-shard=${shard}/4`, '--test-reporter=tap', ...files.map(name => join(root, name))];
+    const args = ['--test', '--test-isolation=none', '--test-concurrency=1', `--test-shard=${shard}/4`, '--test-reporter=tap', ...files.map(name => join(root, name))];
     const result = spawnSync(process.execPath, args, { env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024 });
     assert.ifError(result.error);
     assert.equal(result.status, 0, result.stderr + result.stdout);

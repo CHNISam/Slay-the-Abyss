@@ -209,7 +209,12 @@
     "abyss_effects_damage": "core",
     "abyss_effects_enemy": "core",
     "abyss_effects_powers": "core",
-    "abyss_character_presentation_text": "ui"
+    "abyss_character_presentation_text": "ui",
+    "abyss_shop_selection": "ui",
+    "abyss_node_ui_motion": "ui",
+    "abyss_node_ui_camp": "ui",
+    "abyss_node_ui_treasure_list": "ui",
+    "abyss_node_ui_reward_detail": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [

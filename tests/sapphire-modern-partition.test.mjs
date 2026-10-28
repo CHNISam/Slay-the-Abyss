@@ -14,6 +14,7 @@ function assertFrozenSapphireUI(source){
  assert(source.startsWith(loader));assert.equal(source.split(loader).length,2);
  let original=source.slice(loader.length);
  for(const [current,before]of[
+  ['    return NativeContract.control(c,spec)\n','    return c\n'],
   ['    function c:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);\n',
    "    function c:SetSizeDelta(width,height)\n        assert(type(width)=='number' and type(height)=='number' and width>=0 and height>=0 and width<math.huge and height<math.huge)\n"],
   ['    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn);assert(not self.listeners[event]);self.listeners[event]=fn end\n',

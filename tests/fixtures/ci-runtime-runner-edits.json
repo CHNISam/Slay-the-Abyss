@@ -1,0 +1,10 @@
+[
+  {
+    "before": "",
+    "after": "import { partition, timings as runtimeTimings, jsShard, discoverJs } from './ci-shards.mjs';\n"
+  },
+  {
+    "before": "export function shardLuaScripts(scripts, value) {\n  const match = /^([1-9]\\d*)\\/([1-9]\\d*)$/.exec(String(value));\n  const index = Number(match?.[1]), count = Number(match?.[2]);\n  if (!match || !Number.isSafeInteger(index) || !Number.isSafeInteger(count) || index > count || count > 64) {\n    throw new Error('Lua shard must be i/n with integers 1 <= i <= n <= 64');\n  }\n  return [...scripts].sort().filter((script, position) => position % count === index - 1);\n}\n",
+    "after": "export function shardLuaScripts(scripts, value, timings = runtimeTimings) {\n  const match = /^([1-9]\\d*)\\/([1-9]\\d*)$/.exec(String(value));\n  const index = Number(match?.[1]), count = Number(match?.[2]);\n  if (!match || !Number.isSafeInteger(index) || !Number.isSafeInteger(count) || index > count || count > 64) {\n    throw new Error('Lua shard must be i/n with integers 1 <= i <= n <= 64');\n  }\n  if (!Array.isArray(scripts) || scripts.some(script => typeof script !== 'string' || !script)\n      || new Set(scripts).size !== scripts.length) throw new Error('Lua fixtures must be unique nonempty paths');\n  const weight = script => timings.lua?.[script] ?? timings.unknownLuaMs;\n  if (scripts.some(script => !Number.isFinite(weight(script)) || weight(script) <= 0)) {\n    throw new Error('Lua scheduling weights must be positive finite milliseconds');\n  }\n  // Balance against the exact weighted JS plan preceding the raw Lua suite.\n  // Explicit injected timings keep the diagnostic API's initial-load contract.\n  const initial = timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs\n    : count === 8 ? jsShard(discoverJs(), value, 'win32').loads : undefined;\n  if (initial?.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');\n  return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial).files;\n}\n"
+  }
+]

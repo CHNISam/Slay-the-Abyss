@@ -1,3 +1,4 @@
+import { originalWorkflow } from './helpers/ci-runtime-workflow.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -7,7 +8,7 @@ import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
 
-const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
+const workflow = originalWorkflow(readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n'));
 const job = (name, source = workflow) => (source + '\n  end-of-workflow:\n')
   .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
 
@@ -37,14 +38,19 @@ test('eight Windows VMs change only the hosted matrix, preserving every gate and
     return beforeLfs.replace("'[1,2,3,4,5,6,7,8]'", "'[1,2,3,4]'")
       .replace(posix, posix.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2]'));
   };
-  const restored = restore(workflow);
+  const expandGates = source => source.replace('# One shard runs the non-test gates;', '# Every shard runs the same non-test gates;').replace(/(      - run: npm run (?:check:network|verify:backlog|check:syntax|validate:data|build:theme|check:engineering)\n)        if: matrix.shard == 1\n/g, '$1')
+    .replace(/(      - uses: actions\/upload-artifact@[^\n]+\n)        if: matrix.shard == 1\n(        with:\n          name: engineering-)/g, '$1$2');
+  for (const gate of ['check:network', 'verify:backlog', 'check:syntax', 'validate:data', 'build:theme', 'check:engineering']) {
+    assert.ok(rules.includes(`      - run: npm run ${gate}\n        if: matrix.shard == 1\n`), `${gate} must run on Windows shard 1`);
+  }
+  const restored = restore(expandGates(workflow));
   assert.notEqual(restored, workflow);
   assert.equal(createHash('sha256').update(restored).digest('hex'), '3a45b50a847b89870825560a6f3d83906a2a02a062c9dc5b2469e7d0439b15f0');
   assert.throws(() => restore(workflow.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2, 3]')),
     /single reviewed POSIX matrix/);
   assert.throws(() => restore(workflow.replace('        shard: [1, 2, 3, 4]', '        shard: [1, 2, 3, 4]\n        shard: [1, 2, 3, 4]')),
     /single reviewed POSIX matrix/);
-  const missingGate = restore(workflow.replace('      - run: npm run check:engineering', '      - run: echo omitted'));
+  const missingGate = restore(expandGates(workflow.replace('      - run: npm run check:engineering', '      - run: echo omitted')));
   assert.notEqual(createHash('sha256').update(missingGate).digest('hex'), createHash('sha256').update(restored).digest('hex'),
     'the precise partition inverse cannot hide unrelated workflow edits');
 });
@@ -83,14 +89,15 @@ test('native Node eight-shard selection executes every current JS file name exac
   assert.ok(files.length > 0);
   const root = mkdtempSync(join(tmpdir(), 'abyss-windows-shards-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  // Run name-only probes through Node's actual CLI selector; game assertions
-  // stay in the unchanged real test bodies executed by their selected VM.
+  // Run name-only probes through Node's actual CLI selector. These empty
+  // synthetic modules share no state, so avoid hundreds of empty child starts;
+  // production game tests retain the unchanged per-file process isolation.
   for (const name of files) writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
   const env = { ...process.env };
   delete env.NODE_TEST_CONTEXT; // An independent CLI, as in each hosted VM.
   const seen = [];
   for (let shard = 1; shard <= 8; shard++) {
-    const result = spawnSync(process.execPath, ['--test', '--test-concurrency=1', `--test-shard=${shard}/8`, '--test-reporter=tap', ...files.map(name => join(root, name))], {
+    const result = spawnSync(process.execPath, ['--test', '--test-isolation=none', '--test-concurrency=1', `--test-shard=${shard}/8`, '--test-reporter=tap', ...files.map(name => join(root, name))], {
       env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024,
     });
     assert.ifError(result.error);

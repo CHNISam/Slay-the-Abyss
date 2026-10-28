@@ -5,6 +5,15 @@ local function rejects(fn,needle)
  local ok,why=pcall(fn);assert(not ok and tostring(why):find(needle,1,true),tostring(why))
 end
 local trace=Trace.new()
+-- Cached affine row transforms must preserve the old byte-wise recurrence,
+-- including near-modulus state, Unicode, repeats and changing numeric rows.
+local cached,naive=Trace.new(),2147483646.0;cached.hash=naive
+for i=1,800 do
+ local row=i%3==0 and {'重复·反馈',true,{1,2,3}} or {'row',i%19,i/7,false}
+ local text=Trace.serialize(row)..'\n'
+ for j=1,#text do naive=(naive*131+text:byte(j))%2147483647 end
+ cached:add(row);assert(cached.hash==naive and cached.count==i,'trace cache changed byte-wise hash')
+end
 local cursor=F.control({name='hit',kind='cursorArea'})
 trace:attach(cursor,'root/battlePanel/drawIcon/hit')
 assert(cursor.unsetField==nil,'function __index must retain its real missing-field behavior')

@@ -9,6 +9,12 @@ const digest=value=>createHash('sha256').update(value).digest('hex');
 const manifestBytes=readFileSync(`${directory}/review.json`);
 assert.equal(digest(manifestBytes),'889ee9c585b2661569e2161cc836c4f431d1c41105e8eccfc821f584dc7ccbde');
 const review=JSON.parse(manifestBytes);
+// Keep the earlier evidence and its reviewed sources immutable. The intentional
+// room port has its own live trace contract and complete source identities.
+const roomSnapshotBytes=readFileSync('docs/reviews/room-source-port-integration-20261028.json.gz');
+assert.equal(digest(roomSnapshotBytes),"d2d71eee4358a7bde49afb1ca19aa9f0c2f2340a56cd736cea5d22e77a800ed1");
+const roomSnapshot=JSON.parse(gunzipSync(roomSnapshotBytes));
+const frozenSource=path=>roomSnapshot.beforeSources[path];
 // Accepted PR261 (develop77262) adds an opt-in platform binding and a strict
 // helper. The ordinary77278-record capture is exactly unchanged. Keep the
 // historical c5 manifest/archives immutable and invert only these two reviewed
@@ -29,23 +35,28 @@ function historicalSourceHash(path,source){
  let text=source.replaceAll('\r\n','\n');
  const binding=acceptedNativeArt[path];
  if(!binding)return digest(text);
- if(path==='src/lua/abyss_battle_ui.lua'){
-  assert.equal(digest(text),'10fbc5766c9792e0b34017cfa5351587e037eedb44b4cb7cf4a86b5e12dfd508','complete accepted PR261 source identity plus reviewed drag cancellation must match');
-  const edits=[
-   ['                self.gesture, self.selected = nil, nil','                self.gesture, self.selected, self.hover, self.handHover = nil, nil, nil, nil'],
-   ['            self.carry,self.selected = nil,nil','            self.carry,self.selected,self.hover,self.handHover = nil,nil,nil,nil'],
-   ['', '        g.handCancelY = L.hand.y + Theme.motion.hoverLift\n        self.hover, self.handHover = nil, nil\n'],
-  ];
-  for(const [before,after] of edits){
-   assert.equal(text.split(after).length,2,'exactly one reviewed drag cancellation edit');
-   text=text.replace(after,before);
-  }
- }
  assert.equal(digest(text),binding.sha256,'complete accepted PR261 source identity must match');
  assert.equal(text.split(binding.after).length,2,'exactly one reviewed native-art compatibility hunk');
  const original=text.replace(binding.after,binding.before);
  assert.equal(digest(original),review.sourceInputs[path],'exact inverse must recover historical source identity');
  return digest(original);
+}
+// The room port intentionally freezes f1 sources, not the later PR265 drag fix.
+// Project only this complete reviewed live BattleUI back to its accepted room identity.
+const reviewedDragEdits=[
+ ['                self.gesture, self.selected = nil, nil','                self.gesture, self.selected, self.hover, self.handHover = nil, nil, nil, nil'],
+ ['            self.carry,self.selected = nil,nil','            self.carry,self.selected,self.hover,self.handHover = nil,nil,nil,nil'],
+ ['', '        g.handCancelY = L.hand.y + Theme.motion.hoverLift\n        self.hover, self.handHover = nil, nil\n'],
+];
+function projectReviewedDrag(source){
+ let text=source.replaceAll('\r\n','\n');
+ assert.equal(digest(text),'10fbc5766c9792e0b34017cfa5351587e037eedb44b4cb7cf4a86b5e12dfd508','complete accepted PR261 source identity plus reviewed drag cancellation must match');
+ for(const [before,after]of reviewedDragEdits){
+  assert.equal(text.split(after).length,2,'exactly one reviewed drag cancellation edit');
+  text=text.replace(after,before);
+ }
+ assert.equal(digest(text),acceptedNativeArt['src/lua/abyss_battle_ui.lua'].sha256,'exact drag inverse must recover the accepted room source identity');
+ return text;
 }
 const themeReviewBytes=readFileSync('docs/reviews/PRESENTATION-THEME-RESERVES-20261028.json');
 assert.equal(digest(themeReviewBytes),'a1bd533e3f023eae92f66ce502699643e55b2b8df0824392b061a781061f8e64');
@@ -105,20 +116,43 @@ test('paired e0/c5 captures retain all 72915 original native writes and exactly 
  const delta=verify(baseline.entries,current.entries);
  const counts={};for(const item of delta){const entry=review.writes.find(row=>row.row===item.row);counts[entry.category]=(counts[entry.category]||0)+1;}
  assert.deepEqual(counts,review.categories);
- verifySources(Object.fromEntries(Object.keys(review.sourceInputs).map(path=>[path,historicalSourceHash(path,readFileSync(path,'utf8'))])));
- const fixture=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8');
+ verifySources(Object.fromEntries(Object.keys(review.sourceInputs).map(path=>[path,historicalSourceHash(path,frozenSource(path))])));
+ const fixture=frozenSource('tests/lua/presentation_responsibilities_trace.lua');
  assert.match(fixture,/trace:assertNativeInteraction\(\)/);
  assert.match(fixture,/assert\(trace.count==77278 and trace.hash==1948853637/);
 });
 test('accepted native-art compatibility permits only its two complete identities and exact historical inverses',()=>{
  assert.deepEqual(Object.keys(acceptedNativeArt),['src/lua/abyss_battle_ui.lua','tests/lua/support/native_ui_contract.lua']);
  for(const [path,binding]of Object.entries(acceptedNativeArt)){
-  const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const source=frozenSource(path).replaceAll('\r\n','\n');
   assert.equal(historicalSourceHash(path,source),review.sourceInputs[path]);
   assert.equal(historicalSourceHash(path,source.replaceAll('\n','\r\n')),review.sourceInputs[path]);
   assert.throws(()=>historicalSourceHash(path,source+'\n-- unreviewed source drift\n'),/complete accepted PR261 source identity/);
   assert.throws(()=>historicalSourceHash(path,source.replace(binding.after,binding.before)),/complete accepted PR261 source identity/,'accepted binding/helper cannot be silently removed');
   assert.throws(()=>historicalSourceHash(path,source.replace(binding.after,binding.after+binding.after)),/complete accepted PR261 source identity/,'duplicate compatibility edits cannot be hidden');
+ }
+});
+
+test('room port keeps all reviewed current source identities and a strict live interaction trace',()=>{
+ assert.equal(roomSnapshot.base,'f1ab9a9c492071edd723f9285862766ad5ad289b');
+ assert.deepEqual(Object.keys(roomSnapshot.afterSha256),Object.keys(review.sourceInputs));
+ for(const [path,expected]of Object.entries(roomSnapshot.afterSha256)){
+  const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const projected=path==='src/lua/abyss_battle_ui.lua'?projectReviewedDrag(source):source;
+  assert.equal(digest(projected),expected,'unreviewed integrated room source drift: '+path);
+  assert.notEqual(digest(projected+'\n-- unreviewed drift\n'),expected);
+ }
+ assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
+ });
+test('only the complete reviewed live drag fix projects back to the accepted room BattleUI',()=>{
+ const source=readFileSync('src/lua/abyss_battle_ui.lua','utf8').replaceAll('\r\n','\n');
+ const expected=roomSnapshot.afterSha256['src/lua/abyss_battle_ui.lua'];
+ assert.equal(digest(projectReviewedDrag(source)),expected);
+ assert.equal(projectReviewedDrag(source.replaceAll('\n','\r\n')),projectReviewedDrag(source));
+ const mutations=[source+'\n-- unreviewed drag drift\n',...reviewedDragEdits.flatMap(([before,after])=>[source.replace(after,before),source.replace(after,after+after)])];
+ for(const changed of mutations){
+  assert.notEqual(changed,source,'negative control must change a real reviewed drag hunk');
+  assert.throws(()=>projectReviewedDrag(changed),/complete accepted PR261 source identity|exactly one reviewed drag cancellation edit/);
  }
 });
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{
@@ -132,7 +166,9 @@ test('only exact Black Star and Tail placeholder additions reversibly project to
   black_star:{id:102028,placeholder:true,note:'黑星暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。'},
   lizard_tail:{id:102028,placeholder:true,note:'蜥蜴尾巴暂沿用批准主题现有宝箱图标；实际剩余次数由只读详情展示，专属美术与设备验收待完成。'},
  });
- const source=readFileSync(themeReview.path,'utf8').replaceAll('\r\n','\n');
+  const source=frozenSource(themeReview.path).replaceAll('\r\n','\n');
+  const liveTheme=JSON.parse(readFileSync(themeReview.path,'utf8'));
+  assert.deepEqual({black_star:liveTheme.icon.relic.black_star,lizard_tail:liveTheme.icon.relic.lizard_tail},additions);
  const projected=projectReviewedTheme(source);
  assert.equal(digest(projected),review.sourceInputs[themeReview.path]);
  assert.equal(projectReviewedTheme(source.replaceAll('\n','\r\n')),projected,'Windows normalization is CRLF to LF only');
