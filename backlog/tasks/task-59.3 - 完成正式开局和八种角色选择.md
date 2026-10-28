@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-29 01:25'
+updated_date: '2026-10-29 01:26'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -77,4 +77,6 @@ PR317 Full 40739581097/rules3(job123004776107)实际失败已本地复现：raw 
 2026-10-28 PR319已由Owner合入48cb48ce（父cec）后，PR317仅本地线性同步：零冲突，无新增机制。守恒证明本PR17份非任务blob与已审7d9逐字相同、接受319的20个路径原样保留且双方路径无交集；src/config/data/.github树不变，src/config/tests patch仍为2ed72f1e8821b7c71cbb7f9c8ff7fd51d1d97bed4b2a55a0e51144b3533dc855。三个roster逆变换仍逐字恢复新base源码，manifest的cec仅保留原来源身份，无须改写。纯JS交付/预算/源契约46/46、roster源1/1、正式入口源4/4通过；架构232模块1300边、Luacheck零新增/60历史告警/625职责测量、规划及diff检查通过。没有重新创建build/lua，也没有重复无交互的重Lua套件；7d9 Full及旧独立审查/预审只作历史，不能证明新base组合。新的精确head/base等待独立复审及当前Full；未推送、未批准或合并，PR元数据更新继续DENIED且未重试，实机/导入及AC3/4保持开放。证据在工作树外reconcile-48cb48ce目录。
 
 2026-10-28 accepted303/develop03b11fa5真实组合回归：干净线性重放PR317，准确复现Full40785892649工程POSIX3/4同一RED：原false/throw两组通过，Act1/2 Watcher在Run准入前被正确拒绝。仅修run_choice_transactions.lua九行差异（5增4删）：明确两个来源房间为保留full-source Watcher组件场景，改构造及匹配profile断言并澄清标签；真实Omniscience/Empty Fist获取、药水/房间、奖励RNG、完整图alias、原异常值、回滚/重试/单次提交全部保留。原30秒预算下串行事务五片及准入/启动9/9通过，零skip，总57.9秒，pile片12.55秒；纯源/交付/319拆片预算45/45通过。机器守恒证明接受319全部20路径逐字不变、接受303六个其他路径逐字不变，Run去掉唯一准入assert即逐字恢复303，来源夹具四个声明逆变换即逐字恢复303；此前317其余16份非任务非Run文件不变。架构232模块1301边；固定Luacheck零新增/60历史告警/625职责测量，Backlog与diff通过。本轮已重建测试用Lua数据/UI，不是原生GIL候选；未Full/托管CI、未官方导入/实机/键鼠，未推送/批准/合并/元数据修改，AC3/4保持开放。精确新head/base待独立复审；证据位于工作树外reconcile-03b11fa5。
+
+2026-10-29独立审查RED：当前PR317在prepared Silent来源选择雷电时，直接命令、真实原生点击和手柄确认均先调用Original.prepare一次并抛character data already prepared；种子未消费、Run未创建，但未满足适配前拒绝。原始复现与日志已冻结，正在本地隔离分支修复，不能记准入或实机验收完成。已保留PR306比赛范围、Furinya和未勾AC3/4；旧八形态证据只作历史。
 <!-- SECTION:NOTES:END -->
