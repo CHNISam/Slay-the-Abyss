@@ -262,5 +262,15 @@
     "imported": false,
     "liveTested": false,
     "mouseKeyboardUsed": false
+  },
+  "integration": {
+    "base": "432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7",
+    "task": "TASK-83",
+    "engineeringPassed": true,
+    "historicalWarnings": 37,
+    "combinedTestsPassed": 31,
+    "classChoiceTestsPassed": 10,
+    "classChoiceOriginalDeadlineMs": 30000,
+    "battleProductionSourceUnchanged": true
   }
 }
