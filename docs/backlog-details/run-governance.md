@@ -46,7 +46,7 @@ competition_two_act有一次并发验证时按原30秒限制超时，前5项通�
 | abyss_run_initialization.lua | 134 | 7 | 12 |
 | abyss_run_transition.lua | 80 | 8 | 13 |
 | abyss_run_rooms.lua | 341 | 31 | 15 |
-| abyss_run_settlement.lua | 258 | 19 | 15 |
+| abyss_run_settlement.lua | 257 | 19 | 15 |
 | abyss_run_potions.lua | 187 | 14 | 14 |
 | abyss_run_potion_candidate.lua | 127 | 13 | 10 |
 
@@ -210,5 +210,3 @@ competition_two_act有一次并发验证时按原30秒限制超时，前5项通�
 | abyss_run_transition.lua:38:11 | function 'validateTransition' | 12 |
 | abyss_run_transition.lua:50:5 | function 'Run.advanceAct' | 1 |
 | abyss_run_transition.lua:51:36 | function | 13 |
-
-
