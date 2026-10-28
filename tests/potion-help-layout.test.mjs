@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
 
-test('each battle bottle has a separate discoverable explanation target within the safe area', () => {
+test('five source bottle slots share an explicit effect card and retain hidden compatibility explanation paths', () => {
   const battle = gameLayout().controls.find(c => c.name === 'battlePanel');
   const help = battle.children.find(c => c.name === 'potionHelp');
   const buttons = help.children.filter(c => /^potionHelp\d$/.test(c.name));
@@ -15,9 +15,9 @@ test('each battle bottle has a separate discoverable explanation target within t
   assert.equal(emerald.kind, 'presetButton');
   assert.equal(emerald.focusable, true);
   const original = help.children.filter(c => !/^relicReward[12]$|^emeraldKeyReward$/.test(c.name));
-  assert.equal(original.length, 8);
-  assert.equal(help.children.length, 11);
-  assert.deepEqual(original.map(c => c.name), ['potionHelp1', 'potionHelp2', 'potionHelp3', 'potion4', 'potionHelp4', 'potion5', 'potionHelp5', 'potionReward']);
+  assert.equal(original.length, 9);
+  assert.equal(help.children.length, 12);
+  assert.deepEqual(original.map(c => c.name), ['potionHelp1', 'potionHelp2', 'potionHelp3', 'potion4', 'potionHelp4', 'potion5', 'potionHelp5', 'potionPopup', 'potionReward']);
   for (const relic of [...relics, emerald]) {
     assert.equal(relic.visible, false, 'elite rewards start hidden during combat');
     assert.deepEqual(relic.position, theme.layout.battleRewards.rowOrigin);
@@ -37,18 +37,22 @@ test('each battle bottle has a separate discoverable explanation target within t
   assert.deepEqual(note.position, theme.layout.battleRewards.potionLabel.slice(0, 2));
   assert.deepEqual(note.size, theme.layout.battleRewards.potionLabel.slice(2));
   const overlaps = (a, b) => a.position.every((p, i) => Math.abs(p - b.position[i]) < (a.size[i] + b.size[i]) / 2);
-  const controls = [...buttons, ...[...battle.children, ...help.children].filter(c => /^potion\d$/.test(c.name))];
-  assert.equal(controls.length, 10);
+  const controls = [...battle.children, ...help.children].filter(c => /^potion\d$/.test(c.name));
+  assert.equal(controls.length, 5);
+  for(const c of buttons)assert.equal(c.visible,false,'old second explanation row is no longer an input target');
+  const popup=help.children.find(c=>c.name==='potionPopup');assert.equal(popup.visible,false);
+  for(const name of ['effect','use','discard','dismiss'])assert(popup.children.some(c=>c.name===name));
   const notice = battle.children.find(c => c.name === 'notice');
   for (const [i, c] of controls.entries()) {
-    assert.ok(c.size.every(n => n >= 44), c.name);
-    for (const [axis, n] of c.position.entries()) assert.ok(Math.abs(n) + c.size[axis] / 2 <= theme.canvas.base[axis] / 2 - (axis ? theme.canvas.safe.y : theme.canvas.safe.x), c.name);
+    assert.deepEqual(c.size,[52/1.5,52/1.5],c.name);
+    for (const [axis, n] of c.position.entries()) assert.ok(Math.abs(n) + c.size[axis] / 2 <= theme.canvas.base[axis] / 2, c.name);
     assert.ok(!overlaps(c, notice), `${c.name} overlaps aiming instructions`);
     for (const other of controls.slice(i + 1)) assert.ok(!overlaps(c, other), `${c.name} overlaps ${other.name}`);
   }
   for (const c of controls) for (const state of c.children) {
     const label = state.children.find(c => c.name === 'label');
-    if (c.name.startsWith('potionHelp')) assert.equal(label.text.content, '说明');
-    assert.ok(label.size[1] >= theme.layout.nativeText.lineHeight);
+    assert.equal(label.visible,false,'source bottle has no text row');
+    const bottle=state.children.find(c=>c.name==='bottle');assert.ok(bottle);
+    assert.equal(bottle.image,theme.icon.potion.fire_potion);
   }
 });

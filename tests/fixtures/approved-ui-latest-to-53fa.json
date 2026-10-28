@@ -2,9 +2,550 @@
   "baseHead": "53fa164a9914dd8a7a5849ff741925dd3131f5e4",
   "purpose": "Exact test-only current approved UI to PR302 source layer. Original historical bindings and all goldens remain unchanged.",
   "files": {
+    "config/architecture.json": {
+      "beforeSha256": "d0679eaa8aca631bdde0de2d000943d3f3fab1c7a34a95a201e19df071df89bd",
+      "afterSha256": "17b644b3ceeaca9fd1c67881b2db425386473c2ada22898366c1557efc7763a5",
+      "hunks": [
+        {
+          "at": 222,
+          "before": [
+            "    \"abyss_card_skin\": \"ui\""
+          ],
+          "after": [
+            "    \"abyss_card_skin\": \"ui\",",
+            "    \"abyss_battle_potion_popup\": \"ui\""
+          ]
+        }
+      ]
+    },
+    "config/luacheck-baseline.json": {
+      "beforeSha256": "254529a32c6da885ce186b24c27429bcf91a9eea78d2a9d5545a8d4e81b74fed",
+      "afterSha256": "79fd13c1fcc03931e0ce4c9e349bea66e28d2c9c632fbf4d709d2efccad18df5",
+      "hunks": [
+        {
+          "at": 15,
+          "before": [
+            "      \"line\": 50,"
+          ],
+          "after": [
+            "      \"line\": 51,"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "      \"line\": 259,"
+          ],
+          "after": [
+            "      \"line\": 267,"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 29,
+          "before": [
+            "      \"line\": 295,"
+          ],
+          "after": [
+            "      \"line\": 304,"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            "      \"line\": 306,"
+          ],
+          "after": [
+            "      \"line\": 315,"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "      \"line\": 318,"
+          ],
+          "after": [
+            "      \"line\": 327,"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            "      \"line\": 326,"
+          ],
+          "after": [
+            "      \"line\": 335,"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            "      \"line\": 338,"
+          ],
+          "after": [
+            "      \"line\": 347,"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 64,
+          "before": [
+            "      \"line\": 408,"
+          ],
+          "after": [
+            "      \"line\": 417,"
+          ]
+        },
+        {
+          "at": 67,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "      \"line\": 841,"
+          ],
+          "after": [
+            "      \"line\": 870,"
+          ]
+        },
+        {
+          "at": 74,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 78,
+          "before": [
+            "      \"line\": 923,"
+          ],
+          "after": [
+            "      \"line\": 953,"
+          ]
+        },
+        {
+          "at": 81,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 982,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 996,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 1003,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 92,
+          "before": [
+            "      \"line\": 1020,"
+          ],
+          "after": [
+            "      \"line\": 1026,"
+          ]
+        },
+        {
+          "at": 95,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 99,
+          "before": [
+            "      \"line\": 1053,"
+          ],
+          "after": [
+            "      \"line\": 1033,"
+          ]
+        },
+        {
+          "at": 102,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 106,
+          "before": [
+            "      \"line\": 1060,"
+          ],
+          "after": [
+            "      \"line\": 1042,"
+          ]
+        },
+        {
+          "at": 109,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 113,
+          "before": [
+            "      \"line\": 1087,"
+          ],
+          "after": [
+            "      \"line\": 1050,"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 120,
+          "before": [
+            "      \"line\": 1103,"
+          ],
+          "after": [
+            "      \"line\": 1083,"
+          ]
+        },
+        {
+          "at": 123,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 127,
+          "before": [
+            "      \"line\": 1130,"
+          ],
+          "after": [
+            "      \"line\": 1090,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 50\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 1117,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 50\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 1133,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 50\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 1160,"
+          ]
+        },
+        {
+          "at": 155,
+          "before": [
+            "      \"line\": 1130,"
+          ],
+          "after": [
+            "      \"line\": 1160,"
+          ]
+        },
+        {
+          "at": 158,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 162,
+          "before": [
+            "      \"line\": 1131,"
+          ],
+          "after": [
+            "      \"line\": 1161,"
+          ]
+        },
+        {
+          "at": 169,
+          "before": [
+            "      \"line\": 1131,"
+          ],
+          "after": [
+            "      \"line\": 1161,"
+          ]
+        },
+        {
+          "at": 172,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 253,
+          "before": [
+            "      \"line\": 167,"
+          ],
+          "after": [
+            "      \"line\": 171,"
+          ]
+        },
+        {
+          "at": 256,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 121\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ]
+        },
+        {
+          "at": 260,
+          "before": [
+            "      \"line\": 189,"
+          ],
+          "after": [
+            "      \"line\": 193,"
+          ]
+        },
+        {
+          "at": 263,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 121\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ]
+        },
+        {
+          "at": 267,
+          "before": [
+            "      \"line\": 397,"
+          ],
+          "after": [
+            "      \"line\": 401,"
+          ]
+        },
+        {
+          "at": 270,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 121\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ]
+        },
+        {
+          "at": 274,
+          "before": [
+            "      \"line\": 639,"
+          ],
+          "after": [
+            "      \"line\": 643,"
+          ]
+        },
+        {
+          "at": 277,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 121\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ]
+        },
+        {
+          "at": 281,
+          "before": [
+            "      \"line\": 707,"
+          ],
+          "after": [
+            "      \"line\": 711,"
+          ]
+        },
+        {
+          "at": 284,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 121\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 122\""
+          ]
+        },
+        {
+          "at": 442,
+          "before": [
+            "      \"line\": 35,"
+          ],
+          "after": [
+            "      \"line\": 52,"
+          ]
+        },
+        {
+          "at": 445,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 9\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 26\""
+          ]
+        },
+        {
+          "at": 449,
+          "before": [
+            "      \"line\": 56,"
+          ],
+          "after": [
+            "      \"line\": 73,"
+          ]
+        },
+        {
+          "at": 452,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 9\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 26\""
+          ]
+        },
+        {
+          "at": 456,
+          "before": [
+            "      \"line\": 61,"
+          ],
+          "after": [
+            "      \"line\": 78,"
+          ]
+        },
+        {
+          "at": 459,
+          "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 9\""
+          ],
+          "after": [
+            "      \"message\": \"shadowing upvalue 'self' on line 26\""
+          ]
+        }
+      ]
+    },
     "data/presentation/ui_theme.json": {
       "beforeSha256": "e0e9a35f5f284f486b01542ef0f124c2a3a4ea2234c23890398266e8f4b54ac4",
-      "afterSha256": "a9cc2bcccd9098fb98fd18e8f36bd137b9855ffebdbf21ad283838776e68c28d",
+      "afterSha256": "fe8b338428d499f5e74104a0a33ac1a4aed2f5c05ce4126289ae6e49e60f6f88",
       "hunks": [
         {
           "at": 121,
@@ -52,7 +593,176 @@
           ]
         },
         {
-          "at": 759,
+          "at": 653,
+          "before": [
+            "        -480,",
+            "        268"
+          ],
+          "after": [
+            "        -381.3333333333333,",
+            "        328.0"
+          ]
+        },
+        {
+          "at": 657,
+          "before": [
+            "        180,"
+          ],
+          "after": [
+            "        41.333333333333336,"
+          ]
+        },
+        {
+          "at": 661,
+          "before": [
+            "        116,",
+            "        44"
+          ],
+          "after": [
+            "        34.666666666666664,",
+            "        34.666666666666664"
+          ]
+        },
+        {
+          "at": 665,
+          "before": [
+            "        84,"
+          ],
+          "after": [
+            "        0,"
+          ]
+        },
+        {
+          "at": 671,
+          "before": [
+            "      ]"
+          ],
+          "after": [
+            "      ],",
+            "      \"bottleSize\": 16.0"
+          ]
+        },
+        {
+          "at": 693,
+          "before": [
+            "      ]"
+          ],
+          "after": [
+            "      ],",
+            "      \"entryVisual\": {",
+            "        \"size\": [",
+            "          34.667,",
+            "          34.667",
+            "        ],",
+            "        \"border\": 1,",
+            "        \"origin\": -82.666,",
+            "        \"step\": 41.333,",
+            "        \"bottleSize\": 16",
+            "      }"
+          ]
+        },
+        {
+          "at": 708,
+          "before": [
+            "        228"
+          ],
+          "after": [
+            "        -124"
+          ]
+        },
+        {
+          "at": 711,
+          "before": [
+            "        1080,",
+            "        32",
+            "      ]"
+          ],
+          "after": [
+            "        880,",
+            "        40",
+            "      ],",
+            "      \"bandTop\": -106.66666666666669"
+          ]
+        },
+        {
+          "at": 717,
+          "before": [
+            "      \"height\": 48,",
+            "      \"y\": 316,"
+          ],
+          "after": [
+            "      \"height\": 42.666666666666664,",
+            "      \"y\": 328,"
+          ]
+        },
+        {
+          "at": 721,
+          "before": [
+            "        -570,",
+            "        28"
+          ],
+          "after": [
+            "        -597.3333333333334,",
+            "        16.0"
+          ]
+        },
+        {
+          "at": 725,
+          "before": [
+            "        -505,",
+            "        100"
+          ],
+          "after": [
+            "        -551,",
+            "        68"
+          ]
+        },
+        {
+          "at": 729,
+          "before": [
+            "        -420,",
+            "        28"
+          ],
+          "after": [
+            "        -491,",
+            "        12.0"
+          ]
+        },
+        {
+          "at": 733,
+          "before": [
+            "        -376,",
+            "        52"
+          ],
+          "after": [
+            "        -463,",
+            "        36"
+          ]
+        },
+        {
+          "at": 737,
+          "before": [
+            "        -330,",
+            "        28"
+          ],
+          "after": [
+            "        370,",
+            "        20"
+          ]
+        },
+        {
+          "at": 741,
+          "before": [
+            "        -292,",
+            "        44"
+          ],
+          "after": [
+            "        394,",
+            "        24"
+          ]
+        },
+        {
+          "at": 771,
           "before": [
             "      \"costDisc\": 40,"
           ],
@@ -61,7 +771,7 @@
           ]
         },
         {
-          "at": 762,
+          "at": 774,
           "before": [
             "        \"costOverhang\": 4,",
             "        \"costRing\": 4,"
@@ -72,7 +782,7 @@
           ]
         },
         {
-          "at": 769,
+          "at": 781,
           "before": [
             "      }"
           ],
@@ -89,7 +799,7 @@
           ]
         },
         {
-          "at": 844,
+          "at": 856,
           "before": [
             "        -548,",
             "        -196"
@@ -100,7 +810,7 @@
           ]
         },
         {
-          "at": 847,
+          "at": 859,
           "before": [
             "      \"size\": 88"
           ],
@@ -125,7 +835,147 @@
           ]
         },
         {
-          "at": 1034,
+          "at": 899,
+          "before": [
+            "        512,",
+            "        -206"
+          ],
+          "after": [
+            "        509.33333333333326,",
+            "        -232.0"
+          ]
+        },
+        {
+          "at": 903,
+          "before": [
+            "        176,",
+            "        60",
+            "      ]"
+          ],
+          "after": [
+            "        186.66666666666666,",
+            "        50.666666666666664",
+            "      ],",
+            "      \"wedge\": 14.933333333333335,",
+            "      \"innerInset\": [",
+            "        2.0,",
+            "        1.3333333333333333",
+            "      ],",
+            "      \"faceInset\": [",
+            "        4.666666666666667,",
+            "        3.3333333333333335",
+            "      ],",
+            "      \"numberSize\": 18.0,",
+            "      \"rimColour\": \"#C9964E\",",
+            "      \"innerColour\": \"#1A110C\",",
+            "      \"faceColour\": \"#5E3C22\",",
+            "      \"textColour\": \"#F7EBD6\""
+          ]
+        },
+        {
+          "at": 923,
+          "before": [
+            "        -380,",
+            "        64"
+          ],
+          "after": [
+            "        -353.3333333333333,",
+            "        76.66666666666669"
+          ]
+        },
+        {
+          "at": 926,
+          "before": [
+            "      \"portrait\": 132"
+          ],
+          "after": [
+            "      \"portrait\": 133.33333333333334"
+          ]
+        },
+        {
+          "at": 930,
+          "before": [
+            "      \"xFrom\": 100,",
+            "      \"xFromFew\": 100,"
+          ],
+          "after": [
+            "      \"xFrom\": 89.33333333333337,",
+            "      \"xFromFew\": 89.33333333333337,"
+          ]
+        },
+        {
+          "at": 933,
+          "before": [
+            "      \"xTo\": 500,"
+          ],
+          "after": [
+            "      \"xTo\": 537.3333333333333,"
+          ]
+        },
+        {
+          "at": 936,
+          "before": [
+            "      \"crowdPortrait\": 84,",
+            "      \"portrait\": 120,",
+            "      \"bossPortrait\": 168"
+          ],
+          "after": [
+            "      \"crowdPortrait\": 123.33333333333333,",
+            "      \"portrait\": 126.66666666666667,",
+            "      \"bossPortrait\": 173.33333333333334,",
+            "      \"zoneLeft\": 33.33333333333337,",
+            "      \"zoneRight\": 593.3333333333333,",
+            "      \"frontTop\": 160.0,",
+            "      \"backTop\": 240.0,",
+            "      \"sourceScale\": 1.5,",
+            "      \"frontSourceSize\": 190,",
+            "      \"backScale\": 0.86"
+          ]
+        },
+        {
+          "at": 952,
+          "before": [
+            "        156,",
+            "        16"
+          ],
+          "after": [
+            "        106.66666666666667,",
+            "        12.0"
+          ]
+        },
+        {
+          "at": 962,
+          "before": [
+            "      \"size\": 26,",
+            "      \"gap\": 4,"
+          ],
+          "after": [
+            "      \"size\": 21.333333333333332,",
+            "      \"gap\": 5.333333333333333,"
+          ]
+        },
+        {
+          "at": 990,
+          "before": [
+            "      \"size\": 40,"
+          ],
+          "after": [
+            "      \"size\": 38.666666666666664,"
+          ]
+        },
+        {
+          "at": 994,
+          "before": [
+            "      \"note\": \"攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。\""
+          ],
+          "after": [
+            "      \"note\": \"攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。\",",
+            "      \"portraitGap\": 10.666666666666666,",
+            "      \"numberSize\": 14.666666666666666"
+          ]
+        },
+        {
+          "at": 1069,
           "before": [
             "        \"noticeHeight\": 40"
           ],
@@ -161,7 +1011,53 @@
           ]
         },
         {
-          "at": 1219,
+          "at": 1107,
+          "before": [
+            "        452,"
+          ],
+          "after": [
+            "        512,"
+          ]
+        },
+        {
+          "at": 1109,
+          "before": [
+            "        88,"
+          ],
+          "after": [
+            "        80,"
+          ]
+        },
+        {
+          "at": 1165,
+          "before": [
+            "      ]"
+          ],
+          "after": [
+            "      ],",
+            "      \"entryVisual\": {",
+            "        \"size\": [",
+            "          66.667,",
+            "          34.667",
+            "        ],",
+            "        \"border\": 1,",
+            "        \"icon\": [",
+            "          -12,",
+            "          0,",
+            "          16,",
+            "          16",
+            "        ],",
+            "        \"count\": [",
+            "          12,",
+            "          0,",
+            "          24,",
+            "          32",
+            "        ]",
+            "      }"
+          ]
+        },
+        {
+          "at": 1273,
           "before": [
             "        -60,"
           ],
@@ -170,7 +1066,7 @@
           ]
         },
         {
-          "at": 1221,
+          "at": 1275,
           "before": [
             "        52"
           ],
@@ -179,7 +1075,101 @@
           ]
         },
         {
-          "at": 2021,
+          "at": 1549,
+          "before": [
+            "          -570,"
+          ],
+          "after": [
+            "          -590,"
+          ]
+        },
+        {
+          "at": 1551,
+          "before": [
+            "          28,",
+            "          28"
+          ],
+          "after": [
+            "          20,",
+            "          20"
+          ]
+        },
+        {
+          "at": 1555,
+          "before": [
+            "          -505,"
+          ],
+          "after": [
+            "          -540,"
+          ]
+        },
+        {
+          "at": 1557,
+          "before": [
+            "          100,"
+          ],
+          "after": [
+            "          64,"
+          ]
+        },
+        {
+          "at": 1561,
+          "before": [
+            "          -430,"
+          ],
+          "after": [
+            "          -482,"
+          ]
+        },
+        {
+          "at": 1563,
+          "before": [
+            "          28,",
+            "          28"
+          ],
+          "after": [
+            "          18,",
+            "          18"
+          ]
+        },
+        {
+          "at": 1567,
+          "before": [
+            "          -385,"
+          ],
+          "after": [
+            "          -450,"
+          ]
+        },
+        {
+          "at": 1569,
+          "before": [
+            "          60,"
+          ],
+          "after": [
+            "          44,"
+          ]
+        },
+        {
+          "at": 1573,
+          "before": [
+            "          -260,"
+          ],
+          "after": [
+            "          -298.667,"
+          ]
+        },
+        {
+          "at": 1575,
+          "before": [
+            "          130,"
+          ],
+          "after": [
+            "          200,"
+          ]
+        },
+        {
+          "at": 2075,
           "before": [
             "        552,"
           ],
@@ -188,7 +1178,7 @@
           ]
         },
         {
-          "at": 2023,
+          "at": 2077,
           "before": [
             "        96,"
           ],
@@ -197,7 +1187,7 @@
           ]
         },
         {
-          "at": 2078,
+          "at": 2132,
           "before": [
             "      ]"
           ],
@@ -213,7 +1203,7 @@
           ]
         },
         {
-          "at": 2755,
+          "at": 2809,
           "before": [
             "      \"panel\": [490, 210, 220, 244],",
             "      \"map\": [490, 286, 196, 48],",
@@ -262,7 +1252,43 @@
           ]
         },
         {
-          "at": 2920,
+          "at": 2908,
+          "before": [],
+          "after": [
+            "    },",
+            "    \"battleUnit\": {",
+            "      \"nameGap\": 9.333333333333334,",
+            "      \"nameLine\": 17.0,",
+            "      \"healthGap\": 5.333333333333333,",
+            "      \"healthRow\": 22.666666666666668,",
+            "      \"statusGap\": 6.666666666666667,",
+            "      \"heroFoot\": 16.666666666666668,",
+            "      \"heroNameGap\": 6.666666666666667,",
+            "      \"heroNameLine\": 18.0,",
+            "      \"heroHealthGap\": 6.666666666666667,",
+            "      \"heroHealthWidth\": 146.66666666666666,",
+            "      \"nameWidth\": 173.33333333333334,",
+            "      \"badgeOffset\": [",
+            "        12.0,",
+            "        -12.0",
+            "      ]",
+            "    },",
+            "    \"potionPopup\": {",
+            "      \"width\": 226.66666666666666,",
+            "      \"top\": 298.6666666666667,",
+            "      \"padding\": 12.0,",
+            "      \"header\": 20,",
+            "      \"line\": 18,",
+            "      \"gap\": 9.333333333333334,",
+            "      \"actionHeight\": 26.666666666666668,",
+            "      \"buttonGap\": 10.666666666666666,",
+            "      \"targetWidth\": 92,",
+            "      \"font\": 14,",
+            "      \"minimumHeight\": 98.33333333333333"
+          ]
+        },
+        {
+          "at": 3004,
           "before": [],
           "after": [
             "    },",
@@ -409,6 +1435,50 @@
         }
       ]
     },
+    "scripts/deck-ui-layout.mjs": {
+      "beforeSha256": "2d681257fd46fcc04497c06748e88870af1d2278ce8010c6c110cf35558dd2db",
+      "afterSha256": "1099e95c3369059c8288ce139bc4df904227cf2cbff1df68fc65a7ec48a2b2a8",
+      "hunks": [
+        {
+          "at": 40,
+          "before": [],
+          "after": [
+            "  // Map/Main source: 100 x 52 capsule, existing official deck glyph and count.",
+            "  // The 48px hit is separate from the scaled 66.667 x 34.667 visible surface.",
+            "  const entry = button('open', l.deckView.entry, '卡组');",
+            "  const visual = l.deckView.entryVisual;",
+            "  const capsule = (name, size, colour) => {",
+            "    const [w, h] = size, x = (w - h) / 2;",
+            "    return { name, kind: 'container', position: [0, 0], size, children: [",
+            "      { ...plate('left', [-x, 0, h, h], colour), image: theme.image.disc },",
+            "      plate('middle', [0, 0, w - h, h], colour),",
+            "      { ...plate('right', [x, 0, h, h], colour), image: theme.image.disc },",
+            "    ] };",
+            "  };",
+            "  const palette = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,",
+            "    pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };",
+            "  for (const state of entry.children[0].children) {",
+            "    const colours = palette[state.name], label = state.children.find(control => control.name === 'label');",
+            "    label.visible = false;",
+            "    state.children = [capsule('border', visual.size, colours.border),",
+            "      capsule('plate', visual.size.map(value => value - visual.border * 2), colours.fill),",
+            "      { name: 'deckIcon', kind: 'image', position: visual.icon.slice(0, 2), size: visual.icon.slice(2),",
+            "        image: theme.icon.deck.id, colour: colours.ink },",
+            "      text('count', visual.count, '', f.label, state.name === 'normal' ? c.text : colours.ink), label];",
+            "  }"
+          ]
+        },
+        {
+          "at": 65,
+          "before": [
+            "      button('open', l.deckView.entry, '卡组'),"
+          ],
+          "after": [
+            "      entry,"
+          ]
+        }
+      ]
+    },
     "scripts/exit-ui-layout.mjs": {
       "beforeSha256": "578c82a49879930244784f8b952e52b6a26cece16ebc6aae08bd10e03cb078d7",
       "afterSha256": "608a6a8ce33531795caba19112c2d07674418bf5c7a25e3d909a1e37a9b256dd",
@@ -539,12 +1609,112 @@
         }
       ]
     },
-    "scripts/ui-layout.mjs": {
-      "beforeSha256": "005549d044d99c8653415ce3cda78072707ee3db078017200377ccfabb2a5298",
-      "afterSha256": "0d840c503711c885964dd7de82542797b555409651dc79fbef0fd2510d9321d1",
+    "scripts/potion-discard-layout.mjs": {
+      "beforeSha256": "333925ba6f53651861711fcf5d5016039a9c6bd9d4d034272e1accc1ec2c9411",
+      "afterSha256": "24fec44ca1b03ae5c822342a19d2f3c892acb7a4de521c7c1135cf47fe865133",
       "hunks": [
         {
-          "at": 214,
+          "at": 1,
+          "before": [],
+          "after": [
+            "import { potionSlotVisual } from './potion-slot-visual.mjs';"
+          ]
+        },
+        {
+          "at": 23,
+          "before": [],
+          "after": [
+            "  // One unchanged management action; physical bottle silhouettes are not new",
+            "  // direct-use buttons. Runtime paints sparse inventory and actual 3/5 capacity.",
+            "  const open = button('open', [...entry.slice(0,3), l.topBar.height], '药水 0/3');",
+            "  const visual = l.potionDiscard.entryVisual;",
+            "  const palette = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,",
+            "    pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };",
+            "  for (const state of open.children[0].children) {",
+            "    const colours = palette[state.name], label = state.children.find(control => control.name === 'label');",
+            "    label.visible = false;",
+            "    state.children = [label, ...Array.from({ length: l.battlePotions.count }, (_, i) => {",
+            "      const children = potionSlotVisual(theme, {",
+            "        border: plate('border', [0, 0, ...visual.size], colours.border),",
+            "        plate: plate('plate', [0, 0, ...visual.size.map(value => value - visual.border * 2)], colours.fill),",
+            "        bottleSize: visual.bottleSize, ink: colours.ink,",
+            "      });",
+            "      children.find(control => control.name === 'bottle').visible = false;",
+            "      return { name: `slot${i + 1}`, kind: 'container', position: [visual.origin + visual.step * i, 0],",
+            "        size: visual.size, visible: i < 3, children };",
+            "    })];",
+            "  }"
+          ]
+        },
+        {
+          "at": 45,
+          "before": [
+            "      button('open',[...entry.slice(0,3),l.topBar.height],'药水 0/3')]},"
+          ],
+          "after": [
+            "      open]},"
+          ]
+        }
+      ]
+    },
+    "scripts/potion-slot-visual.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "99609b2354caccf2ae4b51504a9c6b35259a6baf432bb2db6f9e11a519b293a5",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "// Main.dc.html / Map.dc.html share the same circular bottle silhouette.",
+            "// Accept existing border/face controls so extracting Main's visuals changes no",
+            "// geometry, colour, control names or interaction; only known library IDs are used.",
+            "export function potionSlotVisual(theme, { border, plate, bottleSize, ink }) {",
+            "  return [",
+            "    { ...border, image: theme.image.disc },",
+            "    { ...plate, image: theme.image.disc },",
+            "    { name: 'bottle', kind: 'image', position: [0, 0], size: [bottleSize, bottleSize],",
+            "      image: theme.icon.potion.fire_potion, colour: ink },",
+            "  ];",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "scripts/ui-layout.mjs": {
+      "beforeSha256": "005549d044d99c8653415ce3cda78072707ee3db078017200377ccfabb2a5298",
+      "afterSha256": "37d0f5833c669ecc6643bbc9565d24e241b19c2cf82fa472f1f4f9577d0f8068",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import { potionSlotVisual } from './potion-slot-visual.mjs';"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "      aligned(text('intent', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.number)),"
+          ],
+          "after": [
+            "      aligned(text('intent', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', l.intent.numberSize)),"
+          ]
+        },
+        {
+          "at": 209,
+          "before": [
+            "      { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, bar.height),",
+            "        position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2, 0] },"
+          ],
+          "after": [
+            "      { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, Math.max(44,bar.height)),",
+            "        position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2,",
+            "          Math.min(0,height/2-theme.canvas.safe.y-y-Math.max(44,bar.height)/2)] },"
+          ]
+        },
+        {
+          "at": 216,
           "before": [
             "    // Outline ring + flat amber face; the Geo mark is a faint watermark so the digits stay clean.",
             "    picture('energyRing', ...l.energy.position, l.energy.size + s.s, l.energy.size + s.s, im.disc, c.geoDeep),",
@@ -558,7 +1728,7 @@
           ]
         },
         {
-          "at": 219,
+          "at": 221,
           "before": [
             "      picture('core',0,0,l.energy.size-20,l.energy.size-20,im.diamond,c.geoDeep),",
             "      picture('facet',-8,10,28,38,im.diamond,c.goldBright),",
@@ -572,12 +1742,102 @@
           ]
         },
         {
-          "at": 224,
+          "at": 226,
           "before": [
             "    text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', f.numberLarge, c.textOnLight),"
           ],
           "after": [
             "    text('energy', ...l.energy.position, l.energy.size, l.energy.size, '0/0', l.energy.numberSize, l.energy.numberColour),"
+          ]
+        },
+        {
+          "at": 234,
+          "before": [
+            "    // Two lines at the existing readable font must fit without shrinking them.",
+            "    for (const state of potion.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.size[0] - s.s, l.battlePotions.size[1]];"
+          ],
+          "after": [
+            "    // Main top-bar silhouettes: official bottle, not a second row of text buttons.",
+            "    for (const state of potion.children) {",
+            "      const [border,plate,bottle]=potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],",
+            "        bottleSize:l.battlePotions.bottleSize,ink:c.goldBright});",
+            "      state.children[0]=border;",
+            "      state.children[1]=plate;",
+            "      state.children.find(c=>c.name==='label').visible=false;",
+            "      state.children.push(bottle);",
+            "    }"
+          ]
+        },
+        {
+          "at": 255,
+          "before": [
+            "    if (i >= 3) help.visible = false;"
+          ],
+          "after": [
+            "    help.visible = false;"
+          ]
+        },
+        {
+          "at": 258,
+          "before": [],
+          "after": [
+            "  const pop=l.potionPopup, ph=pop.minimumHeight;",
+            "  const potionAction=(name,width,label,primary)=>{",
+            "    const action=button(name,[0,0],[width,pop.actionHeight],label,primary,pop.font);",
+            "    for(const state of action.children)state.children.find(c=>c.name==='label').size[1]=l.nativeText.lineHeight;",
+            "    return action;",
+            "  };",
+            "  potionHelp.push({name:'potionPopup',kind:'container',position:[l.battlePotions.origin[0],pop.top-ph/2],",
+            "    size:[pop.width,ph],visible:false,children:[",
+            "      {...hit(...theme.canvas.base),name:'dismiss',position:[-l.battlePotions.origin[0],-(pop.top-ph/2)]},",
+            "      panel('border',0,0,pop.width,ph,c.goldDim),panel('plate',0,0,pop.width-2,ph-2,c.panelSunken),",
+            "      hit(pop.width,ph),",
+            "      aligned(text('title',0,0,pop.width-pop.padding*2,l.nativeText.lineHeight,'',pop.font,c.goldBright)),",
+            "      aligned(text('target',0,0,pop.targetWidth,l.nativeText.lineHeight,'',pop.font,c.textDim),'right'),",
+            "      aligned(text('effect',0,0,pop.width-pop.padding*2,l.nativeText.lineHeight,'',pop.font,c.text)),",
+            "      potionAction('use',120,'使用',true),",
+            "      potionAction('discard',64,'丢弃',false),",
+            "    ]});"
+          ]
+        },
+        {
+          "at": 287,
+          "before": [
+            "  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * (l.enemyRow.xTo-l.enemyRow.xFrom)/4, l.enemyRow.y], l.enemyRow.portrait));"
+          ],
+          "after": [
+            "  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * (l.enemyRow.xTo-l.enemyRow.xFrom)/4, l.enemyRow.y], l.enemyRow.crowdPortrait));"
+          ]
+        },
+        {
+          "at": 293,
+          "before": [
+            "  const turnButton=button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合');"
+          ],
+          "after": [
+            "  const turn=l.endTurn;",
+            "  const turnButton=button('endTurn',turn.position,turn.size,'结束回合',false,turn.numberSize);",
+            "  const hex=(name,w,h,colour)=>[",
+            "    panel(name,0,0,w-turn.wedge*2,h,colour),",
+            "    ...[-1,1].map(side=>({...picture(name+(side<0?'Left':'Right'),side*(w/2-turn.wedge/2),0,h,turn.wedge,100003,colour),rotation:side<0?90:-90})),",
+            "  ];"
+          ]
+        },
+        {
+          "at": 300,
+          "before": [
+            "    state.children.push(picture('blade',-l.endTurn.size[0]/2+18,0,14,44,im.diamond,c.goldBright),",
+            "      panel('hilt',-l.endTurn.size[0]/2+18,-10,26,3,c.gold));"
+          ],
+          "after": [
+            "    const label=state.children.find(c=>c.name==='label');",
+            "    label.text.colour=turn.textColour;",
+            "    state.children=[",
+            "      ...hex('border',...turn.size,turn.rimColour),",
+            "      ...hex('inner',turn.size[0]-turn.innerInset[0]*2,turn.size[1]-turn.innerInset[1]*2,turn.innerColour),",
+            "      ...hex('plate',turn.size[0]-turn.faceInset[0]*2,turn.size[1]-turn.faceInset[1]*2,turn.faceColour),",
+            "      label,",
+            "    ];"
           ]
         }
       ]
@@ -644,6 +1904,99 @@
         }
       ]
     },
+    "src/lua/abyss_battle_enemy_view.lua": {
+      "beforeSha256": "96d796c3ebc7710a72cd815c0409ad683bdfc910a21f4f8d63eca57c37416624",
+      "afterSha256": "2d21902bb044d31dd6130e08c4c44c6642d03c5ea1afb035394ac5b78d886c80",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "local UnitView=require('abyss_battle_unit_view')"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "local L,S=Theme.layout,Theme.space"
+          ],
+          "after": [
+            "local L=Theme.layout"
+          ]
+        },
+        {
+          "at": 12,
+          "before": [],
+          "after": [
+            "end",
+            "local function centerBoss(rows)",
+            " if #rows%2==0 then return rows end",
+            " local boss",
+            " for slot,entry in ipairs(rows)do if entry.actor.tier=='boss' then",
+            "  if boss then return rows end",
+            "  boss=slot",
+            " end end",
+            " if boss then table.insert(rows,(#rows+1)/2,table.remove(rows,boss)) end",
+            " return rows"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            " return rows"
+          ],
+          "after": [
+            " return centerBoss(rows)"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [],
+          "after": [
+            "local function portraitSize(count,slot,actor)",
+            " local row=L.enemyRow",
+            " if actor and actor.tier=='boss' then return row.bossPortrait end",
+            " local source=math.min(row.frontSourceSize,math.floor((row.zoneRight-row.zoneLeft)*row.sourceScale/count*1.1+.5))",
+            " if slot%2==0 then source=math.floor(source*row.backScale+.5) end",
+            " return source/row.sourceScale",
+            "end",
+            "function M.rowY(count,slot,actor)",
+            " local row=L.enemyRow",
+            " local portrait=portraitSize(count,slot,actor)",
+            " local top=slot%2==1 and row.frontTop or row.backTop",
+            " local y=top-L.intent.size-L.intent.portraitGap-portrait/2",
+            " return y+(actor and UnitView.noticeLift(actor,portrait,y,false) or 0)",
+            "end"
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            " local xFrom=L.enemyRow.xFromFew",
+            " local step=count>1 and (L.enemyRow.xTo-xFrom)/(count-1) or 0",
+            " local badge=math.max(L.blockBadge.size,3*Theme.font.body+L.blockBadge.padding*2)",
+            " local full=L.hpBar.size[1]+badge+L.blockBadge.gap",
+            " local x=count==1 and (xFrom+L.enemyRow.xTo)/2 or xFrom+(slot-1)*step",
+            " local right=Theme.canvas.base[1]/2-Theme.canvas.safe.x",
+            " local playerRight=L.player.position[1]+L.hpBar.size[1]/2",
+            " local lane=count>3 and step*2 or step",
+            " local width=math.min(full,count>1 and lane-S.s or full,2*(right-x)-S.s,2*(x-playerRight-S.s)-S.s)",
+            " local portrait=actor.tier=='boss' and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)",
+            " if count>3 and actor.tier~='boss' then portrait=math.min(portrait,L.enemyRow.crowdPortrait) end",
+            " return x,width,portrait,step,M.rowY(count,slot)",
+            "end",
+            "function M.rowY(count,slot)",
+            " return L.enemyRow.y+(count>3 and (slot%2==0 and L.enemyRow.frontOffset or L.enemyRow.backOffset) or 0)"
+          ],
+          "after": [
+            " local row=L.enemyRow",
+            " local step=(row.zoneRight-row.zoneLeft)/count",
+            " local x=row.zoneLeft+step*(slot-.5)",
+            " return x,L.battleUnit.nameWidth,portraitSize(count,slot,actor),step,M.rowY(count,slot,actor)"
+          ]
+        }
+      ]
+    },
     "src/lua/abyss_battle_info_content.lua": {
       "beforeSha256": "80322c35754e3f0d04d271b74304805797ebdf2957c41271deb687cf16da89c9",
       "afterSha256": "70d71fbc3128ef9e67349043349d288095a5b2a5ae91186952af73b0207763af",
@@ -661,12 +2014,242 @@
         }
       ]
     },
-    "src/lua/abyss_battle_ui.lua": {
-      "beforeSha256": "3ad8ad013a4bcd67d29f4dcee30093819725088d78b9d53681df161d46de7e06",
-      "afterSha256": "a16db2fd7a2f0e45e1e4d6025ea08535c42865cffa12eb236a41147b233823f7",
+    "src/lua/abyss_battle_info_view.lua": {
+      "beforeSha256": "14869146629a23320bf38ab44b2a7293e59ca5b92fe783fa21b804f1ab7a7c9a",
+      "afterSha256": "121297a5930b4ad8f954407caa019caed5b604474e35354539d80242e83d3eae",
       "hunks": [
         {
-          "at": 664,
+          "at": 5,
+          "before": [],
+          "after": [
+            "local UnitView=require(\"abyss_battle_unit_view\")"
+          ]
+        },
+        {
+          "at": 93,
+          "before": [
+            "        local unitY = info.index == 0 and L.player.position[2] or select(5,enemyPosition(battle,info.index)) or L.enemyRow.y"
+          ],
+          "after": [
+            "        local heroY=L.player.position[2]+UnitView.noticeLift(battle.player,L.player.portrait,L.player.position[2],true)",
+            "        local unitY = info.index == 0 and heroY or select(5,enemyPosition(battle,info.index)) or L.enemyRow.y"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_potion_popup.lua": {
+      "beforeSha256": null,
+      "afterSha256": "d50f03654abd678719f610bce920f67c5b7bc45656103231fae04f3c3761ceba",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "-- Main's small effect/use/discard card. Inventory and effects remain in Run.",
+            "local Theme=require('abyss_theme')",
+            "local Controller=require('abyss_controller')",
+            "local M={}",
+            "local P,L=Theme.layout.potionPopup,Theme.layout",
+            "local function wrap(text,width)",
+            "    local out,line,used={},'',0",
+            "    for _,code in utf8.codes(text)do",
+            "        local glyph=utf8.char(code)",
+            "        local weight=code<128 and .55 or 1",
+            "        if code==10 or used+weight>width then",
+            "            out[#out+1]=line;line,used='',0",
+            "        end",
+            "        if code~=10 then line=line..glyph;used=used+weight end",
+            "    end",
+            "    out[#out+1]=line",
+            "    return table.concat(out,'\\n'),#out",
+            "end",
+            "function M.new(root,owner,platform,clickEvent,actions)",
+            "    local popup={generation=0}",
+            "    local function child(name)return assert(root:GetChild(name),'missing potion popup '..name)end",
+            "    local function valid(token)",
+            "        local run=owner.run",
+            "        return token and owner.active and not owner.busy and not owner.gesture",
+            "            and run==token.run and run.phase=='combat' and run.combat==token.battle",
+            "            and run.combat.phase=='player' and run.combat.turn==token.turn",
+            "            and run.potions==token.inventory and run.potions[token.slot]==token.id",
+            "    end",
+            "    function popup.close(_)",
+            "        if not owner.potionMenu then return false end",
+            "        owner.potionMenu=nil;popup.generation=popup.generation+1",
+            "        root:SetVisible(false);return true",
+            "    end",
+            "    local function size(name,x,y,w,h)",
+            "        local part=child(name);part:SetAnchoredPosition(x,y);part:SetSizeDelta(w,h)",
+            "    end",
+            "    local function enabled(name,value)",
+            "        local part=child(name);part.interactable=value==true;part.raycastTarget=value==true",
+            "    end",
+            "    function popup.render(_)",
+            "        local token=owner.potionMenu",
+            "        if not valid(token)then popup:close();root:SetVisible(false);return end",
+            "        local item=actions.item(token.slot)",
+            "        if not item then popup:close();return end",
+            "        local effect,lines=wrap(actions.text(item,token.battle),math.floor((P.width-P.padding*2)/P.font))",
+            "        local effectHeight=lines*P.line",
+            "        local h=math.max(P.minimumHeight,P.padding*2+P.header+effectHeight+P.gap+P.actionHeight)",
+            "        local x=L.battlePotions.origin[1]+(token.slot-1)*L.battlePotions.step[1]",
+            "        local y=P.top-h/2",
+            "        root:SetAnchoredPosition(x,y);root:SetSizeDelta(P.width,h)",
+            "        size('dismiss',-x,-y,Theme.canvas.base[1],Theme.canvas.base[2])",
+            "        for _,name in ipairs({'border','plate','hit'})do",
+            "            local inset=name=='plate' and 2 or 0",
+            "            size(name,0,0,P.width-inset,h-inset)",
+            "        end",
+            "        local top=h/2-P.padding",
+            "        size('title',-P.targetWidth/2,top-P.header/2,P.width-P.padding*2-P.targetWidth,L.nativeText.lineHeight)",
+            "        size('target',(P.width-P.padding*2-P.targetWidth)/2,top-P.header/2,P.targetWidth,L.nativeText.lineHeight)",
+            "        size('effect',0,top-P.header-effectHeight/2,P.width-P.padding*2,math.max(L.nativeText.lineHeight,effectHeight))",
+            "        child('title').text=item.name",
+            "        child('target').text=item.targetPolicy=='enemy_one' and '对一个敌人' or item.targetPolicy=='enemy_all' and '对所有敌人' or '对自己'",
+            "        child('effect').text=effect",
+            "        local actionY=-h/2+P.padding+P.actionHeight/2",
+            "        size('use',-P.width/6,actionY,P.width/2,P.actionHeight)",
+            "        size('discard',P.width/3-P.padding/2,actionY,P.width/3-P.padding,P.actionHeight)",
+            "        enabled('use',item.canUse);enabled('discard',item.canDiscard~=false)",
+            "        root:SetVisible(true);root:SetAsLastSibling()",
+            "    end",
+            "    function popup.open(_,slot)",
+            "        local run=owner.run",
+            "        local token=run and {run=run,battle=run.combat,turn=run.combat and run.combat.turn,",
+            "            inventory=run.potions,slot=slot,id=run.potions[slot]}",
+            "        if not token or not token.id or not valid(token)then return false end",
+            "        if owner.potionMenu and owner.potionMenu.slot==slot then return popup:close() end",
+            "        popup.generation=popup.generation+1;owner.potionMenu=token;popup:render();return true",
+            "    end",
+            "    local function act(name)",
+            "        local token=owner.potionMenu",
+            "        if not valid(token)then popup:close();return false end",
+            "        local item=actions.item(token.slot)",
+            "        if name=='use' and not item.canUse or name=='discard' and item.canDiscard==false then return false end",
+            "        popup:close()",
+            "        if name=='dismiss'then actions.changed();return true end",
+            "        return actions[name](token.slot)",
+            "    end",
+            "    local function bind(name)",
+            "        local control=child(name)",
+            "        local held,released,observed",
+            "        local function ready(token)",
+            "            return valid(owner.potionMenu) and (name=='dismiss' or control.interactable)",
+            "                and (not token or token.selection==owner.potionMenu and token.generation==popup.generation)",
+            "        end",
+            "        Controller.bind(platform.controller,control,'battlePotion',function()return act(name)end,function()return ready()end)",
+            "        local cursor=platform.cursorEvents or {}",
+            "        if cursor.CursorDown and cursor.CursorUp then",
+            "            control:AddCursorEventListener(cursor.CursorDown,function(event)",
+            "                observed=true",
+            "                local touch=event and event.touchId",
+            "                if held and held.touch~=touch and ready(held) or released and released.touch~=touch and ready(released) then return end",
+            "                held,released=nil,nil",
+            "                if ready()then held={selection=owner.potionMenu,generation=popup.generation,touch=event and event.touchId}end",
+            "            end)",
+            "            control:AddCursorEventListener(cursor.CursorUp,function(event)",
+            "                if held and held.touch==(event and event.touchId)then",
+            "                    released=ready(held) and held or nil;held=nil",
+            "                end",
+            "            end)",
+            "            if cursor.CursorEndDrag then control:AddCursorEventListener(cursor.CursorEndDrag,function(event)",
+            "                local touch=event and event.touchId",
+            "                if held and held.touch==touch then held=nil end",
+            "                if released and released.touch==touch then released=nil end",
+            "            end)end",
+            "        end",
+            "        control:AddCursorEventListener(clickEvent,function(event)",
+            "            if Controller.pointerBlocked(platform.controller)then return false end",
+            "            if observed then",
+            "                local token=released",
+            "                if not token or token.touch~=(event and event.touchId)then return false end",
+            "                released=nil",
+            "                if not ready(token)then return false end",
+            "            elseif not ready()then return false end",
+            "            return act(name)",
+            "        end)",
+            "    end",
+            "    for _,name in ipairs({'use','discard','dismiss'})do bind(name)end",
+            "    child('hit'):AddCursorEventListener(clickEvent,function()return true end)",
+            "    root.disableCursorEventPassthrough=true",
+            "    root:SetVisible(false)",
+            "    return popup",
+            "end",
+            "return M",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_ui.lua": {
+      "beforeSha256": "3ad8ad013a4bcd67d29f4dcee30093819725088d78b9d53681df161d46de7e06",
+      "afterSha256": "e71e48dc93983ad923cf7ae338b368272a4924dbf94c262da76428c39b0a6436",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [],
+          "after": [
+            "local PotionPopup = require(\"abyss_battle_potion_popup\")"
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            "    local playbackIntents"
+          ],
+          "after": [
+            "    local playbackIntents,potionPopup"
+          ]
+        },
+        {
+          "at": 233,
+          "before": [
+            "            local x, _, portrait, step = enemySlot(count,i,enemy)"
+          ],
+          "after": [
+            "            local x, _, portrait, step, y = enemySlot(count,i,enemy)"
+          ]
+        },
+        {
+          "at": 236,
+          "before": [
+            "                and math.abs(g.y-EnemyView.rowY(count,i)) <= portrait/2+D.reticlePad"
+          ],
+          "after": [
+            "                and math.abs(g.y-y) <= portrait/2+D.reticlePad"
+          ]
+        },
+        {
+          "at": 246,
+          "before": [],
+          "after": [
+            "    local function endTurnFace(part,state)",
+            "        local fill=state=='disabled' and C.panelSunken or L.endTurn.faceColour",
+            "        for _,name in ipairs({'plate','plateLeft','plateRight'})do tint(part:GetChild(name),fill)end",
+            "        ink(part:GetChild('label'),state=='disabled' and C.textMuted or L.endTurn.textColour)",
+            "    end"
+          ]
+        },
+        {
+          "at": 257,
+          "before": [
+            "            if state == \"normal\" or state == \"hover\" then"
+          ],
+          "after": [
+            "            if name=='endTurn' then",
+            "                endTurnFace(part,state)",
+            "            elseif state == \"normal\" or state == \"hover\" then"
+          ]
+        },
+        {
+          "at": 296,
+          "before": [],
+          "after": [
+            "        if potionPopup and potionPopup:close() then return true end"
+          ]
+        },
+        {
+          "at": 673,
           "before": [
             "        label(\"energy\", number(battle and battle.energy or 0) .. \"/\" .. number(data.rules.player.energyPerTurn))"
           ],
@@ -676,7 +2259,7 @@
           ]
         },
         {
-          "at": 667,
+          "at": 676,
           "before": [
             "        tint(child(\"energyDisc\"), charged and C.energy or C.energyEmpty)",
             "        tint(child(\"energyIcon\"):GetChild('core'), charged and C.geoDeep or C.energyEmpty)",
@@ -692,13 +2275,398 @@
           ]
         },
         {
-          "at": 1592,
+          "at": 693,
+          "before": [
+            "        if frame.fighting then unit(child(\"hero\"), frame.player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end"
+          ],
+          "after": [
+            "        if frame.fighting then",
+            "            local hero=child(\"hero\")",
+            "            local lift=UnitView.noticeLift(frame.player,L.player.portrait,L.player.position[2],true)",
+            "            hero:SetAnchoredPosition(L.player.position[1],L.player.position[2]+lift)",
+            "            unit(hero,frame.player,L.player.portrait,Theme.icon.player,L.battleUnit.nameWidth,false)",
+            "        end"
+          ]
+        },
+        {
+          "at": 739,
+          "before": [
+            "    local function renderEnemyIntent(box, face, portrait, enemyY)"
+          ],
+          "after": [
+            "    local function renderEnemyIntent(box, face, portrait)"
+          ]
+        },
+        {
+          "at": 741,
+          "before": [
+            "        local size, line, ceiling = L.intent.size, L.nativeText.lineHeight, L.battleNotice.position[2] - L.battleNotice.size[2] / 2",
+            "        local iconY = math.min(ceiling - enemyY - size / 2, math.max(L.intent.offsetY, portrait / 2 + S.xs + line / 2 + size / 2))"
+          ],
+          "after": [
+            "        local size = L.intent.size",
+            "        local iconY = portrait / 2 + L.intent.portraitGap + size / 2"
+          ]
+        },
+        {
+          "at": 756,
+          "before": [
+            "        attackLabel:SetVisible(icons[1] == 'attack' and attackLabel.text ~= '')",
+            "        attackLabel:SetAnchoredPosition((1 - (#icons + 1) / 2) * pitch + (L.intent.valueWidth - size) / 2,",
+            "            iconY - size / 2)"
+          ],
+          "after": [
+            "        local attack=icons[1]=='attack' and attackLabel.text~=''",
+            "        attackLabel:SetVisible(attack)",
+            "        local glyphWidth=utf8.len(attackLabel.text)*L.intent.numberSize",
+            "        local textWidth=math.max(L.intent.valueWidth,glyphWidth)",
+            "        local left=(1-(#icons+1)/2)*pitch-size/2-S.xs",
+            "        local valueY=iconY-size/2+L.intent.numberSize/2-L.statusIcon.gap",
+            "        attackLabel:SetAnchoredPosition(left+textWidth/2,valueY)",
+            "        attackLabel:SetSizeDelta(textWidth,L.nativeText.lineHeight)"
+          ]
+        },
+        {
+          "at": 766,
+          "before": [
+            "        local hitSpan = #icons * pitch - size / 2",
+            "        local hitWidth = math.max(hitSpan, L.intent.valueWidth)",
+            "        box:GetChild('intentHit'):SetAnchoredPosition((hitWidth - hitSpan) / 2, iconY - line / 4)",
+            "        box:GetChild('intentHit'):SetSizeDelta(hitWidth, size + line / 2)"
+          ],
+          "after": [
+            "        local span=#icons*pitch-size/2",
+            "        local x0,x1=-span/2,span/2",
+            "        local y0,y1=iconY-size/2,iconY+size/2",
+            "        if attack then",
+            "            x0,x1=math.min(x0,left),math.max(x1,left+glyphWidth)",
+            "            y0=math.min(y0,valueY-L.intent.numberSize/2)",
+            "        end",
+            "        local width,height=math.max(L.statusIcon.minimumTouch,x1-x0),math.max(L.statusIcon.minimumTouch,y1-y0)",
+            "        box:GetChild('intentHit'):SetAnchoredPosition((x0+x1)/2,(y0+y1)/2)",
+            "        box:GetChild('intentHit'):SetSizeDelta(width,height)"
+          ]
+        },
+        {
+          "at": 797,
+          "before": [
+            "        local x, width, portrait = enemySlot(count, slot, enemy)",
+            "        box:SetAnchoredPosition(x, EnemyView.rowY(count, slot))"
+          ],
+          "after": [
+            "        local x, width, portrait, step, y = enemySlot(count, slot, enemy)",
+            "        box:SetAnchoredPosition(x, y)"
+          ]
+        },
+        {
+          "at": 802,
+          "before": [
+            "        unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected)"
+          ],
+          "after": [
+            "        unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected,step)"
+          ]
+        },
+        {
+          "at": 807,
+          "before": [
+            "        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait, EnemyView.rowY(count, slot))"
+          ],
+          "after": [
+            "        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)"
+          ]
+        },
+        {
+          "at": 858,
+          "before": [
+            "            button(\"potion\" .. i, visible and frame.active and item and item.canUse, false,"
+          ],
+          "after": [
+            "            button(\"potion\" .. i, visible and frame.active and item ~= nil, false,"
+          ]
+        },
+        {
+          "at": 860,
+          "before": [
+            "            show(\"potionHelp\" .. i, visible)"
+          ],
+          "after": [
+            "            show(\"potionHelp\" .. i, false)"
+          ]
+        },
+        {
+          "at": 863,
+          "before": [
+            "                local bottle=child('potionHelp'..i):GetChild(state):GetChild('bottle')"
+          ],
+          "after": [
+            "                local bottle=child('potion'..i):GetChild(state):GetChild('bottle')"
+          ]
+        },
+        {
+          "at": 898,
+          "before": [],
+          "after": [
+            "        if potionPopup then potionPopup:render() end"
+          ]
+        },
+        {
+          "at": 1301,
+          "before": [
+            "        return self.active and not self.busy and not self.gesture and self.run"
+          ],
+          "after": [
+            "        return self.active and not self.busy and not self.gesture and not self.potionMenu and self.run"
+          ]
+        },
+        {
+          "at": 1473,
+          "before": [],
+          "after": [
+            "    potionPopup=PotionPopup.new(stage:GetChild('potionHelp'):GetChild('potionPopup'),self,platform,clickEvent,{",
+            "        item=function(slot)return Run.potionView(self.run)[slot]end,",
+            "        text=function(item,battle)return potionText(item,battle,true):match(\"\\n(.*)\") or ''end,",
+            "        use=function(slot)return self:usePotion(slot)end,",
+            "        discard=function(slot)",
+            "            local ok,reason=Run.discardPotion(self.run,slot)",
+            "            if ok then self.potionSlots[slot]=nil end",
+            "            notice(ok and '已丢弃药水。' or reasons[reason] or '当前不能丢弃此药水。')",
+            "            refresh();return ok,reason",
+            "        end,",
+            "        changed=function()refresh()end,",
+            "    })",
+            "    function self.openPotionMenu(_,slot)",
+            "        if not self.active or self.busy or self.gesture or self.suppressClick or not self.run",
+            "            or self.run.phase~=\"combat\" or self.run.combat.phase~=\"player\" then return false end",
+            "        if not potionBinding(slot)then return false end",
+            "        cancelPotionAim();cancelCardInputs();cancelActionInputs()",
+            "        self.selected,self.carry,self.help,self.info=nil,nil,nil,nil",
+            "        local opened=potionPopup:open(slot)",
+            "        if opened then stage:GetChild('potionHelp'):SetAsLastSibling();refresh()end",
+            "        return opened",
+            "    end"
+          ]
+        },
+        {
+          "at": 1500,
+          "before": [
+            "                self.suppressClick=false;return self:usePotion(slot)"
+          ],
+          "after": [
+            "                self.suppressClick=false;return self:openPotionMenu(slot)"
+          ]
+        },
+        {
+          "at": 1512,
+          "before": [
+            "                if not self.suppressClick and not self.gesture then return self:usePotion(slot) end"
+          ],
+          "after": [
+            "                if not self.suppressClick and not self.gesture then return self:openPotionMenu(slot) end"
+          ]
+        },
+        {
+          "at": 1640,
           "before": [
             "                    local prefix = self.potionTargetAvailable and \"药水目标：\" .. self.run.combat.enemies[target].name .. \"；\" or \"\"",
             "                    notice(prefix .. \"意图：\" .. intentView(self.run.combat, target).text) refresh()"
           ],
           "after": [
             "                    self:showStatus(target)"
+          ]
+        },
+        {
+          "at": 1823,
+          "before": [
+            "                    local battle,index,actor=statusActorAt(screenSlot)"
+          ],
+          "after": [
+            "                    local _,index,actor=statusActorAt(screenSlot)"
+          ]
+        },
+        {
+          "at": 1826,
+          "before": [
+            "                    local width=index==0 and L.hpBar.size[1] or select(2,enemyPosition(battle,index))",
+            "                    local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))"
+          ],
+          "after": [
+            "                    local perRow=L.statusIcon.perRow"
+          ]
+        },
+        {
+          "at": 1829,
+          "before": [
+            "                    local overflow=position==slots and #entries>slots"
+          ],
+          "after": [
+            "                    local overflow=position==slots and #entries>=slots"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_unit_view.lua": {
+      "beforeSha256": "cb0932a32dff96c4768a77e0a0182c5f66b549d4d5be31f2cc068b3e57c75fdc",
+      "afterSha256": "f73b4366295996002e3ef671ffa1bb8bbcfe42d024c867c5413eb92119f108e5",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [
+            "local function healthGeometry(box, portrait, width)",
+            "    local barWidth, barX = width, 0",
+            "    if box.name ~= \"hero\" then",
+            "        -- Keep the three-digit guard lane even at zero Block so health never shifts.",
+            "        local reserve = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2) + L.blockBadge.gap",
+            "        barWidth, barX = math.min(L.hpBar.size[1], width - reserve), reserve / 2"
+          ],
+          "after": [
+            "function M.geometry(portrait,player)",
+            "    local g=L.battleUnit",
+            "    local foot=portrait/2+(player and g.heroFoot or 0)",
+            "    local gap=player and g.heroNameGap or g.nameGap",
+            "    local line=player and g.heroNameLine or g.nameLine",
+            "    local healthGap=player and g.heroHealthGap or g.healthGap",
+            "    local healthRow=player and L.hpBar.size[2] or g.healthRow",
+            "    local healthY=-foot-gap-line-healthGap-healthRow/2",
+            "    return {nameY=-foot-gap-line/2,healthY=healthY,",
+            "        healthWidth=player and g.heroHealthWidth or L.hpBar.size[1],",
+            "        firstStatusY=healthY-healthRow/2-g.statusGap-L.statusIcon.size/2}",
+            "end",
+            "",
+            "-- Native text rectangles must stay 40 high but are transparent. Only visible",
+            "-- glyph height and the actual status touch surfaces contribute to clearance.",
+            "function M.noticeLift(actor,portrait,baseY,player)",
+            "    local entries,si=Combat.statusView(actor),L.statusIcon",
+            "    local g=M.geometry(portrait,player)",
+            "    local lower=math.min(-portrait/2,g.nameY-Theme.font.label/2,g.healthY-Theme.font.small/2)",
+            "    if actor.block>0 then lower=math.min(lower,g.healthY-math.max(L.blockBadge.size,Theme.font.body)/2) end",
+            "    if #entries>0 then",
+            "        local lines=math.ceil(math.min(#entries,si.perRow*si.rows)/si.perRow)",
+            "        local finalY=g.firstStatusY-(lines-1)*(si.size+si.gap)",
+            "        lower=math.min(lower,finalY-si.minimumTouch/2,finalY+L.battleUnit.badgeOffset[2]-Theme.font.small/2)"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "    return barWidth, barX, -portrait / 2 - S.xxl - L.hpBar.size[2] / 2"
+          ],
+          "after": [
+            "    local top=L.battleNotice.bandTop",
+            "    return math.max(0,top-baseY-lower),lower,top"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [
+            "    local function portraitParts(box, actor, portrait, icon, width, selected)"
+          ],
+          "after": [
+            "    local function portraitParts(box, actor, portrait, icon, width, selected, targetWidth)"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "            local delta = name == \"border\" and S.border * 2 or name == \"portrait\" and -S.l or 0"
+          ],
+          "after": [
+            "            local delta = name == \"border\" and S.border * 2 or 0"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "        box:GetChild(\"hit\"):SetSizeDelta(portrait, portrait)"
+          ],
+          "after": [
+            "        box:GetChild(\"plate\"):SetVisible(false)",
+            "        box:GetChild(\"border\"):SetVisible(false)",
+            "        box:GetChild(\"hit\"):SetSizeDelta(math.min(portrait,targetWidth or portrait),portrait)"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [
+            "        box:GetChild(\"name\"):SetAnchoredPosition(0, -portrait / 2 - S.m)"
+          ],
+          "after": [
+            "        box:GetChild(\"name\"):SetAnchoredPosition(0,M.geometry(portrait,box.name=='hero').nameY)"
+          ]
+        },
+        {
+          "at": 100,
+          "before": [
+            "            count:SetAnchoredPosition(x + L.statusIcon.size / 2, y - L.statusIcon.size / 2 + L.statusIcon.gap)",
+            "            count.text = entry.stack == \"none\" and \"\" or entry.amount > 99 and \"99+\" or number(entry.amount)"
+          ],
+          "after": [
+            "            count:SetAnchoredPosition(x + L.battleUnit.badgeOffset[1], y + L.battleUnit.badgeOffset[2])",
+            "            count.text = entry.stack == \"none\" and \"\" or entry.amount > 99 and \"99+\" or number(entry.amount):gsub(\"^-\",\"−\")"
+          ]
+        },
+        {
+          "at": 103,
+          "before": [
+            "            return x + L.statusIcon.size / 2, y - L.statusIcon.size / 2 + L.statusIcon.gap"
+          ],
+          "after": [
+            "            return x + L.battleUnit.badgeOffset[1], y + L.battleUnit.badgeOffset[2]"
+          ]
+        },
+        {
+          "at": 138,
+          "before": [],
+          "after": [
+            "            local digits=math.max(L.statusIcon.size,utf8.len(count.text)*Theme.font.small+S.hairline*2)",
+            "            count:SetSizeDelta(digits,L.nativeText.lineHeight)",
+            "            row:GetChild(\"countBackplates\"):GetChild(\"badge\"..i):SetSizeDelta(digits,L.statusIcon.size)"
+          ]
+        },
+        {
+          "at": 150,
+          "before": [
+            "        local perRow = math.max(1, math.min(si.perRow, math.floor((width + si.gap) / pitch)))"
+          ],
+          "after": [
+            "        local perRow = si.perRow"
+          ]
+        },
+        {
+          "at": 153,
+          "before": [
+            "        row:SetAnchoredPosition(0, -portrait / 2 - S.xxl - L.hpBar.size[2] - S.l - (si.rows - 1) * pitch / 2)",
+            "        row:GetChild(\"hit\"):SetSizeDelta(width, si.rows * pitch)"
+          ],
+          "after": [
+            "        local firstY=M.geometry(portrait,box.name=='hero').firstStatusY",
+            "        row:SetAnchoredPosition(0,firstY-(si.rows-1)*pitch/2)",
+            "        local lines=math.ceil(layout.shown/perRow)",
+            "        local target=row:GetChild(\"hit\")",
+            "        target:SetVisible(lines>0)",
+            "        target:SetAnchoredPosition(0,(si.rows-lines)*pitch/2)",
+            "        target:SetSizeDelta(width,math.max(si.minimumTouch,lines*pitch))"
+          ]
+        },
+        {
+          "at": 165,
+          "before": [
+            "    return function(box, actor, portrait, icon, width, selected)",
+            "        portraitParts(box, actor, portrait, icon, width, selected)"
+          ],
+          "after": [
+            "    return function(box, actor, portrait, icon, width, selected, targetWidth)",
+            "        portraitParts(box, actor, portrait, icon, width, selected, targetWidth)"
+          ]
+        },
+        {
+          "at": 170,
+          "before": [
+            "        local barWidth, barX, y = healthGeometry(box, portrait, width)"
+          ],
+          "after": [
+            "        local geometry=M.geometry(portrait,box.name=='hero')",
+            "        local barWidth,barX,y=geometry.healthWidth,0,geometry.healthY"
           ]
         }
       ]
@@ -907,6 +2875,125 @@
         }
       ]
     },
+    "src/lua/abyss_feedback.lua": {
+      "beforeSha256": "834e1ebfbf56c91e2efdca6562b5979cde6f6725464480e233ff6cbc89697abb",
+      "afterSha256": "614526dbb6d3a35f8a8d83a2c2aa083010ff59ad9a95365dcc335e2d22eba172",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "local UnitView=require('abyss_battle_unit_view')"
+          ]
+        },
+        {
+          "at": 126,
+          "before": [
+            "        if id == \"player\" then return self.shadow.player, stage:GetChild(\"hero\"), L.player.position[1], L.player.position[2] end"
+          ],
+          "after": [
+            "        if id == \"player\" then",
+            "            local lift=UnitView.noticeLift(self.shadow.player,L.player.portrait,L.player.position[2],true)",
+            "            return self.shadow.player,stage:GetChild(\"hero\"),L.player.position[1],L.player.position[2]+lift",
+            "        end"
+          ]
+        },
+        {
+          "at": 132,
+          "before": [
+            "            local x=EnemyView.position(#rows,slot,entry.actor)",
+            "            return entry.actor,stage:GetChild('enemy'..slot),x,EnemyView.rowY(#rows,slot)"
+          ],
+          "after": [
+            "            local x,_,_,_,y=EnemyView.position(#rows,slot,entry.actor)",
+            "            return entry.actor,stage:GetChild('enemy'..slot),x,y"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "a7e27edb210e20e75b46bea31d39befb160a59751a7abdf48f150e50567d0082",
+      "afterSha256": "33ed50c97887b2fea4223b9a5b7fcede7bb3302ae12c80297224b7bc69663f63",
+      "hunks": [
+        {
+          "at": 91,
+          "before": [],
+          "after": [
+            "    end",
+            "    local function inCombat()",
+            "        return self.mode==\"battle\" and self.run~=nil and self.run.phase==\"combat\""
+          ]
+        },
+        {
+          "at": 315,
+          "before": [],
+          "after": [
+            "        elseif self.mode=='battle' and self.battleUI.potionMenu then scope='battlePotion'"
+          ]
+        },
+        {
+          "at": 326,
+          "before": [
+            "            elseif scope=='battleInfo' or scope=='aim' then return self.battleUI:controllerBack()"
+          ],
+          "after": [
+            "            elseif scope=='battlePotion' or scope=='battleInfo' or scope=='aim' then return self.battleUI:controllerBack()"
+          ]
+        },
+        {
+          "at": 391,
+          "before": [
+            "        potionHit.interactable=canManagePotions(run);potionHit.raycastTarget=potionHit.interactable",
+            "        for _,state in ipairs({\"normal\",\"hover\",\"pressed\",\"disabled\"})do",
+            "            potionHit:GetChild(state):GetChild(\"label\").text=run and \"药水 \"..Run.potionCount(run)..\"/\"..Run.potionCapacity(run) or \"药水\"",
+            "        end"
+          ],
+          "after": [
+            "        potionHit.interactable=not inCombat() and canManagePotions(run);potionHit.raycastTarget=potionHit.interactable",
+            "        PotionDiscardUI.refreshEntry(potionHit,run,platform)"
+          ]
+        },
+        {
+          "at": 400,
+          "before": [
+            "            if variant then variant:GetChild(\"label\").text = run and \"卡组 \" .. #run.deck or \"卡组\" end"
+          ],
+          "after": [
+            "            if variant then",
+            "                variant:GetChild(\"label\").text = run and \"卡组 \" .. #run.deck or \"卡组\"",
+            "                variant:GetChild('count').text=run and number(#run.deck) or ''",
+            "            end"
+          ]
+        },
+        {
+          "at": 410,
+          "before": [
+            "        child(\"potionEntry\"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)"
+          ],
+          "after": [
+            "        child(\"potionEntry\"):SetVisible(not inCombat() and not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)"
+          ]
+        },
+        {
+          "at": 736,
+          "before": [
+            "    child(\"potionEntry\"):GetChild(\"open\"):GetChild(\"hit\"):AddCursorEventListener(clickEvent,function()return self:openPotions()end)"
+          ],
+          "after": [
+            "    child(\"potionEntry\"):GetChild(\"open\"):GetChild(\"hit\"):AddCursorEventListener(clickEvent,function()if inCombat() then return false end;return self:openPotions()end)"
+          ]
+        },
+        {
+          "at": 740,
+          "before": [
+            "        function()return self:openPotions()end)"
+          ],
+          "after": [
+            "        function()if inCombat() then return false end;return self:openPotions()end)"
+          ]
+        }
+      ]
+    },
     "src/lua/abyss_map_ui.lua": {
       "beforeSha256": "0c125d7face08308190e2f94b02b654ae692ba5f37ebe155a9ba68cf33afc154",
       "afterSha256": "9ede6566678134ebd188930ad9e3702908e5f5a10e21754df042aa8e71856b78",
@@ -1012,6 +3099,35 @@
         }
       ]
     },
+    "src/lua/abyss_potion_discard_ui.lua": {
+      "beforeSha256": "a9ed7848c7fea932c2a2788883f9f6f9e100f2b47cf07b7ee98cdaef09805613",
+      "afterSha256": "1b1f3479cddbc26a10d5d4ad93a79824be8f010055bd386a13fb7c6d48288b3a",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "-- Read-only shared entry paint. Keep the existing management button and its",
+            "-- binding; a slot silhouette never consumes a potion or changes selection.",
+            "function M.refreshEntry(hit,run,platform)",
+            "    local capacity=run and Run.potionCapacity(run) or 0",
+            "    for _,state in ipairs({'normal','hover','pressed','disabled'})do",
+            "        local variant=hit:GetChild(state)",
+            "        variant:GetChild('label').text=run and '药水 '..Run.potionCount(run)..'/'..capacity or '药水'",
+            "        for i=1,Theme.layout.battlePotions.count do",
+            "            local slot=variant:GetChild('slot'..i)",
+            "            local id=i<=capacity and run.potions[i] or nil",
+            "            slot:SetVisible(i<=capacity)",
+            "            local bottle=slot:GetChild('bottle')",
+            "            bottle:SetVisible(id~=nil)",
+            "            if id then bottle:SetImage(platform.imageSource,Theme.icon.potion[id] or Theme.icon.intent.unknown)end",
+            "        end",
+            "    end",
+            "end"
+          ]
+        }
+      ]
+    },
     "src/lua/abyss_shop_ui.lua": {
       "beforeSha256": "0074e221d7929e444adf879b4849e2359042cd1bbfb6c8170dd0605afbb7d677",
       "afterSha256": "373302ed5d715034c5c0b3c14f8d65bca4b4ba1569935c2f6d65d8dfe2fbce71",
@@ -1023,6 +3139,25 @@
           ],
           "after": [
             "            veil = offer.sold, stamp = cardStamp(offer), reason = cardStamp(offer) or availability.poor and '金币不足' or nil, selected = selection:isSelected('shopView/card' .. i) })"
+          ]
+        }
+      ]
+    },
+    "tests/exit-ui-layout.test.mjs": {
+      "beforeSha256": "cbb40ae5c2c3f88106a4749f1297746613a31d28452428ec9b6a739a2b19fcd0",
+      "afterSha256": "a7d546adf82425baf1a0f3bac5db85871578e63395449f87eac8d0b17306b7b5",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            "  assert.ok(child(named(controls, 'battlePanel'), 'notice').size[0] >= 900);"
+          ],
+          "after": [
+            "  // Main's approved short operation strip replaces the former wide upper notice.",
+            "  const battleNotice=child(named(controls,'battlePanel'),'notice');",
+            "  assert.deepEqual(battleNotice.size,[880,40]);",
+            "  assert.deepEqual(battleNotice.position,[0,360-(700+52/2)/1.5]);",
+            "  assert.deepEqual(battleNotice.size,theme.layout.battleNotice.size);"
           ]
         }
       ]
@@ -1150,6 +3285,189 @@
         }
       ]
     },
+    "tests/lua/approved_enemy_details.lua": {
+      "beforeSha256": null,
+      "afterSha256": "8fdddc1a8296956ecec746e469d20de4c037fe7e21d4984d3596466035f07b41",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "local H=dofile('tests/lua/support/battle_gesture_fixture.lua')",
+            "local Combat,Theme=H.F.Combat,H.F.Theme",
+            "local count=0",
+            "local function same(a,b)",
+            " assert(type(a)==type(b),'inspection changed rule-state type')",
+            " if type(a)~='table'then assert(a==b,'inspection changed rule-state value');return end",
+            " for key,value in pairs(a)do same(value,b[key])end",
+            " for key in pairs(b)do assert(a[key]~=nil,'inspection added a rule-state field')end",
+            "end",
+            "local function test(name,fn)fn();count=count+1;print('ok approved details '..count..' - '..name)end",
+            "local function contents(ui,panel)",
+            " local info,parts=panel:GetChild('statusInfo'),{}",
+            " assert(info.visible,'portrait click must open the existing independent detail card')",
+            " local pages=assert(ui.info.pages)",
+            " for page=1,pages do",
+            "  assert(ui.info.page==page)",
+            "  for i=1,Theme.layout.statusInfo.rows do",
+            "   for _,field in ipairs({'name','text','tag','note'})do",
+            "    local part=info:GetChild(field..i)",
+            "    if part.visible then parts[#parts+1]=part.text end",
+            "   end",
+            "  end",
+            "  if page<pages then info:GetChild('page').click()end",
+            " end",
+            " return table.concat(parts,'\\n')",
+            "end",
+            "test('one ordinary portrait click lists all intent effects and all statuses without a notice',function()",
+            " local host,ui,p,event,tap=H.setup({'strike','defend'},{'guardian'})",
+            " local battle=host.run.combat;local enemy=battle.enemies[1]",
+            " enemy.ai=nil;enemy.intentIndex=1;enemy.intents={{kind='defend',effects={",
+            "  {op='gainStatus',status='dexterity',value=3},{op='block',value=10},{op='damage',value=6,times=2}}}}",
+            " for _,id in ipairs({'strength','dexterity','ritual','artifact','thorns','weak','vulnerable','frail','poison','regen','barricade'})do Combat.addStatus(enemy,id,2)end",
+            " ui:render()",
+            " local before=Combat.copy(battle);local notice=p:GetChild('notice').text",
+            " tap('enemy1',91)",
+            " local text=contents(ui,p)",
+            " assert(text:find('自身获得 3 层敏捷',1,true) and text:find('获得 11 点格挡',1,true),'full mixed intent effects')",
+            " assert(text:find('攻击 2 次',1,true),'mixed intent attack remains explained')",
+            " for _,entry in ipairs(Combat.statusView(enemy))do assert(text:find(entry.name,1,true),'missing status '..entry.id)end",
+            " assert(p:GetChild('notice').text==notice,'ordinary inspection must not write a global intent notice')",
+            " same(battle,before)",
+            " p:GetChild('statusInfo'):GetChild('hit').click()",
+            " assert(not ui.info and not p:GetChild('statusInfo').visible,'blank click closes detail card')",
+            " same(battle,before)",
+            "end)",
+            "",
+            "test('target card and potion clicks retain priority over inspection',function()",
+            " local host,ui,p,event,tap,drain=H.setup({'strike','defend'},{'cultist','jaw_worm'})",
+            " local battle=host.run.combat;local hp=battle.enemies[2].hp",
+            " local slot;for i,c in ipairs(battle.hand)do if c.cardId=='strike'then slot=i end end",
+            " tap('card'..slot,92);tap('enemy2',92);drain()",
+            " assert(battle.enemies[2].hp<hp and not ui.info,'target card click must play, not inspect')",
+            " host.run.potions={'fire_potion'};ui:render();hp=battle.enemies[2].hp",
+            " tap('potion1',93);dofile('tests/lua/support/confirm_potion_popup.lua')(ui,p,93);assert(ui.potionAim)",
+            " tap('enemy2',93);drain()",
+            " assert(battle.enemies[2].hp==hp-20 and not ui.info and #host.run.potions==0,'potion must commit once')",
+            "end)",
+            "",
+            "print('APPROVED_ENEMY_DETAILS_PASS '..count)",
+            ""
+          ]
+        }
+      ]
+    },
+    "tests/lua/battle_ui_potion_compatibility.lua": {
+      "beforeSha256": "2cecd1fe7f290ae9091571be45abf7165a23702096dbc3442c3968e375fd9fe4",
+      "afterSha256": "4a3fa54c3e59041f9ef4d1829a9f505116f8165f7ab0b01c5043e2f055ded8bc",
+      "hunks": [
+        {
+          "at": 13,
+          "before": [
+            "    p:GetChild(\"potion1\").click();d()"
+          ],
+          "after": [
+            "    p:GetChild(\"potion1\").click();H.confirm(u,p);d()"
+          ]
+        },
+        {
+          "at": 20,
+          "before": [
+            "    p:GetChild(\"potion1\").click();d()"
+          ],
+          "after": [
+            "    p:GetChild(\"potion1\").click();H.confirm(u,p);d()"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [
+            "    r:GetChild(\"battlePanel\"):GetChild(\"potion1\").click()"
+          ],
+          "after": [
+            "    r:GetChild(\"battlePanel\"):GetChild(\"potion1\").click();H.confirm(h.battleUI,r:GetChild(\"battlePanel\"))"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            "    assert(u.target==2)"
+          ],
+          "after": [
+            "    assert(u.target==2 and u.info);p:GetChild(\"statusInfo\"):GetChild(\"hit\").click()"
+          ]
+        },
+        {
+          "at": 76,
+          "before": [
+            "    emit(\"potion1\",\"click\",7); d(); assert(h.run.combat.energy==5)"
+          ],
+          "after": [
+            "    emit(\"potion1\",\"click\",7); H.confirm(u,p,7); d(); assert(h.run.combat.energy==5)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/battle_ui_potion_target_failures.lua": {
+      "beforeSha256": "2d6fae462a504afdc4510bcd57ca2240f8f18f997c9e8781c0482a8a4f88baf1",
+      "afterSha256": "47565faaad06cbf34edf208a30d922ab4975b19a5025dc751c379ff6ed2d83a9",
+      "hunks": [
+        {
+          "at": 13,
+          "before": [
+            "  click('enemy2');untouched(h,a,z);click('potion1');click('enemy2');eq(b.enemies[2].hp,z-20)"
+          ],
+          "after": [
+            "  click('enemy2');untouched(h,a,z);assert(u.info);p:GetChild('statusInfo'):GetChild('hit').click();click('potion1');click('enemy2');eq(b.enemies[2].hp,z-20)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/battle_ui_potion_target_inventory.lua": {
+      "beforeSha256": "9e32e32ac2e7a4f30b583acff4ddcac2d96e8f2a2b493a75d42441b154609086",
+      "afterSha256": "7a00db80dbf3ee23365429d05196a8ecc61bcb0c220a8453b8c2c27ef2fa6e50",
+      "hunks": [
+        {
+          "at": 45,
+          "before": [
+            "  e('potion1','down',7);e('potion1','up',7);eq(u.potionAim,nil);e('potion1','click',7);assert(u.potionAim);eq(h.run.potions[1],'fire_potion')"
+          ],
+          "after": [
+            "  e('potion1','down',7);e('potion1','up',7);eq(u.potionAim,nil);e('potion1','click',7);assert(u.potionMenu);dofile('tests/lua/support/confirm_potion_popup.lua')(u,p,7);assert(u.potionAim);eq(h.run.potions[1],'fire_potion')"
+          ]
+        }
+      ]
+    },
+    "tests/lua/battle_ui_potion_target_pointers.lua": {
+      "beforeSha256": "c73e046866c48e425ce1c5bedc2d17b89e5c421c26c59faea5871f11e546c21b",
+      "afterSha256": "9b5a6f1445e418fc838d9b3fecbaa79e8a8b780cad5d72bf5e3d346d39b54144",
+      "hunks": [
+        {
+          "at": 27,
+          "before": [
+            "  tap('enemy2',9);eq(h.run.potions[1],'fire_potion')"
+          ],
+          "after": [
+            "  tap('enemy2',9);eq(h.run.potions[1],'fire_potion');assert(u.info);p:GetChild('statusInfo'):GetChild('hit').click()"
+          ]
+        }
+      ]
+    },
+    "tests/lua/battle_ui_potion_targeting.lua": {
+      "beforeSha256": "ba7812fb8ac76b72499631edb8b4d5cc025d0eb950c3019c56b2adb9861e8746",
+      "afterSha256": "f0df8d23c2d794820a5e831ea234aa05ecc46be97b3d709155eb6748a5025e70",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "  click('enemy2');click('potion1');untouched(h,a,z);click('enemy1');eq(b.enemies[1].hp,0);eq(b.enemies[2].hp,z)"
+          ],
+          "after": [
+            "  click('enemy2');assert(u.info);p:GetChild('statusInfo'):GetChild('hit').click();click('potion1');untouched(h,a,z);click('enemy1');eq(b.enemies[1].hp,0);eq(b.enemies[2].hp,z)"
+          ]
+        }
+      ]
+    },
     "tests/lua/bosses_intent_ui.lua": {
       "beforeSha256": "a3bb3533ccc35df2b968d531f0af26ad9dc37bcc82cc0aa012cd85d16800693d",
       "afterSha256": "4415d98756a5cfc46b803d5e8331d97343e623abe87e0a40fed96bd46c418ac9",
@@ -1171,6 +3489,104 @@
             "local detail=inspectDetails(ui,panel)",
             "has(detail,s.catalog.enemies.spike_slime_l.name)",
             "has(detail,s.catalog.enemies.acid_slime_l.name)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/controller_host.lua": {
+      "beforeSha256": "c613b8a803b470b7719d63d253fa0ff0f4778b71113178a80f3c2ee58a2a3056",
+      "afterSha256": "812f1a356acbbdc236be214d1d11592460e5161647df2e425c78800427be1835",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "end",
+            "local function usePotion(name)",
+            "    event(hit('battlePanel',name))",
+            "    assert(ui.battleUI.potionMenu and ui.controller.scope=='battlePotion')",
+            "    event(hit('battlePanel','potionHelp/potionPopup/use'))"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "event(hit('battlePanel','potion1'));assert(ui.battleUI.potionAim and #ui.run.potions==1)"
+          ],
+          "after": [
+            "usePotion('potion1');assert(ui.battleUI.potionAim and #ui.run.potions==1)"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "event(hit('battlePanel','potion1'))"
+          ],
+          "after": [
+            "usePotion('potion1')"
+          ]
+        },
+        {
+          "at": 96,
+          "before": [
+            "event(hit('battlePanel','potion1'));ready();ui:update(.01)"
+          ],
+          "after": [
+            "usePotion('potion1');ready();ui:update(.01)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/intent_face_clearance.lua": {
+      "beforeSha256": "4f35f08fc08759bb35c56f0624f610f843344c7b57728c7c904f08d79872c67e",
+      "afterSha256": "94d6803257a33533089b27086940d2d5e3de43ccf90b0f5754fbd4421a9e9fbb",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "-- Native text keeps its 40-high transparent compatibility box. Safety covers",
+            "-- the entire visible value at the declared native font, not transparent padding.",
+            "local function visible(part)",
+            " if part.name~='intent' then return part end",
+            " return {sizeDeltaX=utf8.len(part.text)*Theme.layout.intent.numberSize,",
+            "  sizeDeltaY=Theme.layout.intent.numberSize}",
+            "end"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [
+            "      local x,y=box.x+part.x,box.y+part.y",
+            "      assert(not overlap(notice,Theme.layout.battleNotice.position[1],Theme.layout.battleNotice.position[2],part,x,y),'intent covers notice')"
+          ],
+          "after": [
+            "      local bound=visible(part)",
+            "      local x=box.x+part.x-(part.sizeDeltaX-bound.sizeDeltaX)/2",
+            "      local y=box.y+part.y",
+            "      assert(not overlap(notice,Theme.layout.battleNotice.position[1],Theme.layout.battleNotice.position[2],bound,x,y),'intent covers notice')"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "       assert(not overlap(potion,layout.origin[1]+(slot-1)*layout.step[1],layout.origin[2]+(slot-1)*layout.step[2],part,x,y),'intent covers potion')"
+          ],
+          "after": [
+            "       assert(not overlap(potion,layout.origin[1]+(slot-1)*layout.step[1],layout.origin[2]+(slot-1)*layout.step[2],bound,x,y),'intent covers potion')"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "      assert(part.y-part.sizeDeltaY/2>=box:GetChild('plate').sizeDeltaY/2-.001,'intent hides portrait '..first..'/'..count..'/'..i..'/'..name)",
+            "      assert(math.abs(part.x-hit.x)+part.sizeDeltaX/2<=hit.sizeDeltaX/2+.001,'intent outside help hit')",
+            "      assert(math.abs(part.y-hit.y)+part.sizeDeltaY/2<=hit.sizeDeltaY/2+.001,'intent outside help hit')"
+          ],
+          "after": [
+            "      assert(part.y-bound.sizeDeltaY/2>=box:GetChild('plate').sizeDeltaY/2-.001,'intent hides portrait '..first..'/'..count..'/'..i..'/'..name)",
+            "      assert(math.abs(x-box.x-hit.x)+bound.sizeDeltaX/2<=hit.sizeDeltaX/2+.001,'intent outside help hit')",
+            "      assert(math.abs(part.y-hit.y)+bound.sizeDeltaY/2<=hit.sizeDeltaY/2+.001,'intent outside help hit')"
           ]
         }
       ]
@@ -1357,12 +3773,29 @@
     },
     "tests/lua/support/battle_ui_cases.lua": {
       "beforeSha256": "6fcf45d426fc5ac4c1c46b311f9a9979b69aced4e12c27137f9bcce18e3683a8",
-      "afterSha256": "5044e8ac185b72c6fe0aadd872d4db933a0dde0686201f63f5749ff8ac7d77ba",
+      "afterSha256": "874ad3cf102493953104fe3d556e6839b5599a249d37679b5a2fad862517375d",
       "hunks": [
         {
-          "at": 86,
+          "at": 74,
           "before": [],
           "after": [
+            "-- Source Main adds an explicit confirmation after opening a physical bottle.",
+            "-- Existing rules/ownership cases still execute real controls, not direct commands.",
+            "local function usePotion(ui,stage,click,slot)",
+            "    click(\"potion\"..slot)",
+            "    if not ui.potionMenu then return end",
+            "    local use=stage.children.potionHelp.children.potionPopup.children.use",
+            "    if use.interactable then use.click() end",
+            "    for _=1,400 do if not ui.busy then break end;ui:update(0.05)end",
+            "    assert(not ui.busy,\"explicit potion confirmation must release playback\")",
+            "end"
+          ]
+        },
+        {
+          "at": 95,
+          "before": [],
+          "after": [
+            "end",
             "-- Read the approved independent card, including every page, then close on blank space.",
             "local function inspectDetails(ui, stage)",
             "    local panel, text = stage.children.statusInfo, {}",
@@ -1378,12 +3811,23 @@
             "    end",
             "    panel.children.hit.click()",
             "    assert(not panel.visible and not ui.info, \"blank space closes the detail card\")",
-            "    return table.concat(text, \" | \")",
-            "end"
+            "    return table.concat(text, \" | \")"
           ]
         },
         {
-          "at": 135,
+          "at": 128,
+          "before": [
+            "    assert(card.artPlate.imageColor.r==Theme.color.panelSunken.r)",
+            "    assert(card.border.imageColor.r==Theme.color.line.r)"
+          ],
+          "after": [
+            "    assert(not card.artPlate.visible and card.blockedVeil.visible and card.blockedPill.visible and card.blockedLock.visible)",
+            "    assert(card.blockedReason.text==\"本回合不能打出\" and not card.cost.visible)",
+            "    assert(card.border.imageColor.r==Theme.cardSkin.rarities.common[1].r)"
+          ]
+        },
+        {
+          "at": 146,
           "before": [
             "    assert(stage.children.notice.text:find(\"自身获得 3 层仪式\",1,true))"
           ],
@@ -1392,7 +3836,7 @@
           ]
         },
         {
-          "at": 158,
+          "at": 169,
           "before": [
             "    assert(stage.children.notice.text:find(\"7 点伤害\",1,true) and stage.children.notice.text:find(\"获得 5 点格挡\",1,true))"
           ],
@@ -1402,7 +3846,7 @@
           ]
         },
         {
-          "at": 162,
+          "at": 173,
           "before": [
             "    assert(stage.children.notice.text:find(\"自身获得 3 层力量\",1,true) and stage.children.notice.text:find(\"获得 6 点格挡\",1,true))"
           ],
@@ -1412,7 +3856,18 @@
           ]
         },
         {
-          "at": 200,
+          "at": 204,
+          "before": [
+            "        assert(stage.children.card1.children.cost.fontColor.r == Theme.color.danger.r)",
+            "        assert(stage.children.endTurn.children.normal.children.plate.imageColor.r == Theme.color.geo.r)"
+          ],
+          "after": [
+            "        assert(stage.children.card1.children.cost.fontColor.r == Theme.cardSkin.costTone.up.r)",
+            "        assert(stage.children.endTurn.children.normal.children.plate.imageColor.r == Theme.layout.endTurn.faceColour.r)"
+          ]
+        },
+        {
+          "at": 211,
           "before": [
             "    assert(stage.children.notice.text:find(\"6 点伤害\", 1, true))"
           ],
@@ -1421,7 +3876,7 @@
           ]
         },
         {
-          "at": 234,
+          "at": 245,
           "before": [
             "    assert(stage.children.notice.text:find(\"意图：\", 1, true))"
           ],
@@ -1431,7 +3886,25 @@
           ]
         },
         {
-          "at": 383,
+          "at": 265,
+          "before": [
+            "    local disc, empty = stage.children.energyDisc.imageColor, Theme.color.energyEmpty"
+          ],
+          "after": [
+            "    local disc, empty = stage.children.energyIcon.children.face.imageColor, Theme.color.energyEmpty"
+          ]
+        },
+        {
+          "at": 342,
+          "before": [
+            "    assert(stage.children.enemy1.children.plate.sizeDeltaX == 168)"
+          ],
+          "after": [
+            "    assert(stage.children.enemy1.children.portrait.sizeDeltaX == Theme.layout.enemyRow.bossPortrait and not stage.children.enemy1.children.plate.visible)"
+          ]
+        },
+        {
+          "at": 394,
           "before": [
             "    local info = stage.children.statusInfo.children",
             "    assert(stage.children.statusInfo.visible and info.name1.text == \"力量 2\" and info.name2.text == \"虚弱 2\")",
@@ -1444,7 +3917,7 @@
           ]
         },
         {
-          "at": 397,
+          "at": 408,
           "before": [
             "    local preview = stage.children.notice.text"
           ],
@@ -1454,7 +3927,133 @@
           ]
         },
         {
-          "at": 618,
+          "at": 470,
+          "before": [
+            "    assert(hero.hpFill.sizeDeltaX == Theme.layout.hpBar.size[1] and hero.hpFill.x == 0)"
+          ],
+          "after": [
+            "    assert(hero.hpFill.sizeDeltaX == Theme.layout.battleUnit.heroHealthWidth and hero.hpFill.x == 0)"
+          ]
+        },
+        {
+          "at": 482,
+          "before": [
+            "    click(\"potion1\") click(\"enemy1\") queued()"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,1) click(\"enemy1\") queued()"
+          ]
+        },
+        {
+          "at": 487,
+          "before": [
+            "    click(\"potion2\")"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,2)"
+          ]
+        },
+        {
+          "at": 489,
+          "before": [
+            "    click(\"potion3\") click(\"enemy1\")"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,3) click(\"enemy1\")"
+          ]
+        },
+        {
+          "at": 498,
+          "before": [
+            "    click(\"potion2\")"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,2)"
+          ]
+        },
+        {
+          "at": 506,
+          "before": [
+            "    click(\"potion2\")"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,2)"
+          ]
+        },
+        {
+          "at": 516,
+          "before": [
+            "    ui:render() click(\"potion1\") click(\"enemy1\")"
+          ],
+          "after": [
+            "    ui:render() usePotion(ui,stage,click,1) click(\"enemy1\")"
+          ]
+        },
+        {
+          "at": 540,
+          "before": [
+            "    click(\"potion1\") assert(changes == 2)"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,1) assert(changes == 2)"
+          ]
+        },
+        {
+          "at": 543,
+          "before": [
+            "    click(\"potion2\") assert(changes == 3) click(\"enemy1\") assert(changes == 4 and ui.run.phase == \"reward\")"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,2) assert(changes == 3) click(\"enemy1\") assert(changes == 4 and ui.run.phase == \"reward\")"
+          ]
+        },
+        {
+          "at": 578,
+          "before": [
+            "    click(\"card1\") click(\"potion1\") ui.target = 5"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,1) click(\"card1\") ui.target = 5"
+          ]
+        },
+        {
+          "at": 585,
+          "before": [
+            "    click(\"potion1\") assert(ui.run.combat.energy == 5 and #ui.run.potions == 0)"
+          ],
+          "after": [
+            "    usePotion(ui,stage,click,1) assert(ui.run.combat.energy == 5 and #ui.run.potions == 0)"
+          ]
+        },
+        {
+          "at": 596,
+          "before": [
+            "        for i = 1, 3 do",
+            "            local potion = stage.children[\"potion\" .. i]"
+          ],
+          "after": [
+            "        for i = 1, 5 do",
+            "            local potion = stage.children[\"potion\" .. i] or stage.children.potionHelp.children[\"potion\" .. i]"
+          ]
+        },
+        {
+          "at": 604,
+          "before": [
+            "                    assert(not overlaps(potion, potion.x, potion.y, part, enemy.x + part.x, enemy.y + part.y))",
+            "                    assert(not overlaps(notice, notice.x, notice.y, part, enemy.x + part.x, enemy.y + part.y))"
+          ],
+          "after": [
+            "                    local bound,x=part,enemy.x+part.x",
+            "                    if name=='intent' then",
+            "                        bound={sizeDeltaX=utf8.len(part.text)*Theme.layout.intent.numberSize,sizeDeltaY=Theme.layout.intent.numberSize}",
+            "                        x=x-(part.sizeDeltaX-bound.sizeDeltaX)/2",
+            "                    end",
+            "                    assert(not overlaps(potion, potion.x, potion.y, bound, x, enemy.y + part.y))",
+            "                    assert(not overlaps(notice, notice.x, notice.y, bound, x, enemy.y + part.y))"
+          ]
+        },
+        {
+          "at": 634,
           "before": [
             "    assert(stage.children.notice.text:find(\"药水目标：\" .. battle.enemies[2].name, 1, true))"
           ],
@@ -1464,14 +4063,35 @@
           ]
         },
         {
-          "at": 647,
-          "before": [],
+          "at": 646,
+          "before": [
+            "    click(\"potion1\")"
+          ],
           "after": [
-            "    assert(inspectDetails(ui,stage):find(\"11 点伤害\",1,true))"
+            "    usePotion(ui,stage,click,1)"
           ]
         },
         {
-          "at": 1203,
+          "at": 663,
+          "before": [
+            "    click(\"potion3\")"
+          ],
+          "after": [
+            "    assert(inspectDetails(ui,stage):find(\"11 点伤害\",1,true))",
+            "    usePotion(ui,stage,click,3)"
+          ]
+        },
+        {
+          "at": 742,
+          "before": [
+            "            assert(left > (previousRight[box.y] or 0), \"guard/HP lanes overlap adjacent actor\")"
+          ],
+          "after": [
+            "            assert(not previousRight[box.y] or left > previousRight[box.y], \"guard/HP lanes overlap adjacent actor\")"
+          ]
+        },
+        {
+          "at": 1219,
           "before": [
             "    assert(stage.children.notice.text:find(\"沉睡\",1,true))"
           ],
@@ -1480,14 +4100,14 @@
           ]
         },
         {
-          "at": 1209,
+          "at": 1225,
           "before": [],
           "after": [
             "    click('enemy1');assert(inspectDetails(ui,stage):find('惊醒',1,true))"
           ]
         },
         {
-          "at": 1225,
+          "at": 1241,
           "before": [
             "    click(\"enemy1\"); assert(stage.children.notice.text:find(\"自身获得 3 层尖刺甲壳\",1,true))"
           ],
@@ -1496,19 +4116,43 @@
           ]
         },
         {
-          "at": 1233,
+          "at": 1249,
           "before": [],
           "after": [
             "    assert(inspectDetails(ui,stage)~=\"\")"
           ]
         },
         {
-          "at": 1252,
+          "at": 1268,
           "before": [
             "    click(\"enemy2\"); click(\"card1\")"
           ],
           "after": [
             "    click(\"enemy2\"); assert(inspectDetails(ui,stage)~=\"\"); click(\"card1\")"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/confirm_potion_popup.lua": {
+      "beforeSha256": null,
+      "afterSha256": "767416e5718c9feded94abf7c41d3d8e7f22ef7d518ba0a12070c1b56dde3555",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "-- Existing action suites still exercise the real native button sequence. Only",
+            "-- the approved explicit Use step is added; raw emit() remains raw for stale input.",
+            "return function(ui,panel,touch,previousAim)",
+            " local token=ui.potionMenu",
+            " if not token or previousAim and previousAim.slot==token.slot then return end",
+            " local use=panel:GetChild('potionHelp'):GetChild('potionPopup'):GetChild('use')",
+            " if not use.interactable then return end",
+            " local event={touchId=touch}",
+            " if use.listeners.down then use.listeners.down(event);use.listeners.up(event)end",
+            " return use.click(event)",
+            "end",
+            ""
           ]
         }
       ]
@@ -1538,6 +4182,76 @@
           ],
           "after": [
             "    return p:GetChild(\"enemy1\"):GetChild(\"intent\").text, detail"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/potion_gesture_fixture.lua": {
+      "beforeSha256": "e5dd6af3505ea4d2f6c8805280d1ec6f59541bb6bac2e255324c6c3f6ea4d87c",
+      "afterSha256": "2b9d320d2c210c110c4b3a25510c7cd69bd32b0d9633e85e9e2a0354b057c671",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "local confirm=dofile(\"tests/lua/support/confirm_potion_popup.lua\")"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [],
+          "after": [
+            "        local previous=ui.potionAim"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [],
+          "after": [
+            "        confirm(ui,panel,touch,previous)"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [
+            "return {F = H.F, Run = H.Run, setup = setup, suite = suite}"
+          ],
+          "after": [
+            "return {F = H.F, Run = H.Run, setup = setup, suite = suite, confirm = confirm}"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/potion_targeting_fixture.lua": {
+      "beforeSha256": "b946de63bf3a5be568d69b04fc89062abbdb146f03058eddca081d6951bda36c",
+      "afterSha256": "ab0e566fc05e0a122759e5b46f17b332f15496760144934753a852cd6ba9ac1b",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "local confirm=dofile('tests/lua/support/confirm_potion_popup.lua')"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            "  local function click(name)local result=emit(name,'click');drain();return result end",
+            "  local function tap(name,id)emit(name,'down',id);emit(name,'up',id);emit(name,'click',id);drain()end"
+          ],
+          "after": [
+            "  local function click(name)",
+            "    local previous=u.potionAim",
+            "    local result=emit(name,'click')",
+            "    if name:match('^potion%d$')then confirm(u,p,nil,previous)end",
+            "    drain();return result",
+            "  end",
+            "  local function tap(name,id)",
+            "    local previous=u.potionAim",
+            "    emit(name,'down',id);emit(name,'up',id);emit(name,'click',id)",
+            "    if name:match('^potion%d$')then confirm(u,p,id,previous)end",
+            "    drain()",
+            "  end"
           ]
         }
       ]
@@ -1574,6 +4288,133 @@
             "    return table.concat(text, \" | \")",
             "end",
             ""
+          ]
+        }
+      ]
+    },
+    "tests/potion-help-layout.test.mjs": {
+      "beforeSha256": "7524eeec44e85ea9f2f8685a85530a491d56957cc274c32a164a2ca5fa3f2866",
+      "afterSha256": "b0a5551730eed1b598dca967100a99b879465866b8c56edd02c95e96e1605be2",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "test('each battle bottle has a separate discoverable explanation target within the safe area', () => {"
+          ],
+          "after": [
+            "test('five source bottle slots share an explicit effect card and retain hidden compatibility explanation paths', () => {"
+          ]
+        },
+        {
+          "at": 17,
+          "before": [
+            "  assert.equal(original.length, 8);",
+            "  assert.equal(help.children.length, 11);",
+            "  assert.deepEqual(original.map(c => c.name), ['potionHelp1', 'potionHelp2', 'potionHelp3', 'potion4', 'potionHelp4', 'potion5', 'potionHelp5', 'potionReward']);"
+          ],
+          "after": [
+            "  assert.equal(original.length, 9);",
+            "  assert.equal(help.children.length, 12);",
+            "  assert.deepEqual(original.map(c => c.name), ['potionHelp1', 'potionHelp2', 'potionHelp3', 'potion4', 'potionHelp4', 'potion5', 'potionHelp5', 'potionPopup', 'potionReward']);"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "  const controls = [...buttons, ...[...battle.children, ...help.children].filter(c => /^potion\\d$/.test(c.name))];",
+            "  assert.equal(controls.length, 10);"
+          ],
+          "after": [
+            "  const controls = [...battle.children, ...help.children].filter(c => /^potion\\d$/.test(c.name));",
+            "  assert.equal(controls.length, 5);",
+            "  for(const c of buttons)assert.equal(c.visible,false,'old second explanation row is no longer an input target');",
+            "  const popup=help.children.find(c=>c.name==='potionPopup');assert.equal(popup.visible,false);",
+            "  for(const name of ['effect','use','discard','dismiss'])assert(popup.children.some(c=>c.name===name));"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "    assert.ok(c.size.every(n => n >= 44), c.name);",
+            "    for (const [axis, n] of c.position.entries()) assert.ok(Math.abs(n) + c.size[axis] / 2 <= theme.canvas.base[axis] / 2 - (axis ? theme.canvas.safe.y : theme.canvas.safe.x), c.name);"
+          ],
+          "after": [
+            "    assert.deepEqual(c.size,[52/1.5,52/1.5],c.name);",
+            "    for (const [axis, n] of c.position.entries()) assert.ok(Math.abs(n) + c.size[axis] / 2 <= theme.canvas.base[axis] / 2, c.name);"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "    if (c.name.startsWith('potionHelp')) assert.equal(label.text.content, '说明');",
+            "    assert.ok(label.size[1] >= theme.layout.nativeText.lineHeight);"
+          ],
+          "after": [
+            "    assert.equal(label.visible,false,'source bottle has no text row');",
+            "    const bottle=state.children.find(c=>c.name==='bottle');assert.ok(bottle);",
+            "    assert.equal(bottle.image,theme.icon.potion.fire_potion);"
+          ]
+        }
+      ]
+    },
+    "tests/ui-layout.test.mjs": {
+      "beforeSha256": "d86ae99ed07b92c40bc9b809f1f114ba2b944d4cbc04037db88c36dbc63e15f2",
+      "afterSha256": "ece15d654918e5a63d1698bd1a47eeba0c09b039d3072ea59b2d699955fa6943",
+      "hunks": [
+        {
+          "at": 149,
+          "before": [
+            "test('native buttons provide all four states and touch hit areas stay inside the safe area', () => {"
+          ],
+          "after": [
+            "test('native buttons retain four states, general safe targets and exact Main source edge controls', () => {"
+          ]
+        },
+        {
+          "at": 163,
+          "before": [],
+          "after": [
+            "  const help=controls.find(c=>c.name==='potionHelp'),popup=help.children.find(c=>c.name==='potionPopup');",
+            "  const retired=new Set(help.children.filter(c=>/^potionHelp\\d$/.test(c.name)));",
+            "  const bottles=new Set([...controls,...help.children].filter(c=>/^potion\\d$/.test(c.name)));",
+            "  const compact=new Set([...bottles,...popup.children.filter(c=>['use','discard'].includes(c.name))]);",
+            "  const popupDismiss=popup.children.find(c=>c.name==='dismiss');"
+          ]
+        },
+        {
+          "at": 176,
+          "before": [
+            "      assert(Math.min(...c.size) >= 44);",
+            "      if (c === capture || c === dismiss) return; // invisible catchers cover the canvas, ordinary touch controls stay safe",
+            "      assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x');"
+          ],
+          "after": [
+            "      if(retired.has(c)){assert.equal(c.visible,false,'legacy explanation target remains inert');return;}",
+            "      if(compact.has(c)){",
+            "        if(bottles.has(c))assert.deepEqual(c.size,[52/1.5,52/1.5]);",
+            "        else assert.equal(c.size[1],40/1.5,'Main compact action keeps source visual height');",
+            "        assert(Math.abs(x)+c.size[0]/2<=640&&Math.abs(y)+c.size[1]/2<=360,'source compact control stays in canvas');",
+            "        return;",
+            "      }",
+            "      assert(Math.min(...c.size) >= 44,`${c.name} ${c.size}`);",
+            "      if(c.name==='endTurn'){",
+            "        assert.deepEqual(c.position,theme.layout.endTurn.position);",
+            "        assert.deepEqual(c.size,[280/1.5,76/1.5]);",
+            "        assert(Math.abs(x)+c.size[0]/2<=640&&Math.abs(y)+c.size[1]/2<=360,'Main source right inset is 56/1.5, not generic 40');",
+            "        return;",
+            "      }",
+            "      if (c === capture || c === dismiss || c === popupDismiss) return; // invisible catchers cover the canvas, ordinary touch controls stay safe",
+            "      assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x '+x+' '+c.size);"
+          ]
+        },
+        {
+          "at": 216,
+          "before": [
+            "      assert(label.size[1] >= theme.font.small * 2, `${potion.name} keeps two readable lines`);"
+          ],
+          "after": [
+            "      assert.equal(label.visible,false,`${potion.name} uses official bottle; full effect is in the popup`);",
+            "      assert(state.children.find(c=>c.name==='bottle'));"
           ]
         }
       ]

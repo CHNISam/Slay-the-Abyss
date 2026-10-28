@@ -2,6 +2,7 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Combat=require('abyss_run'),require('abyss_combat')
 local function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end
+local confirm=dofile('tests/lua/support/confirm_potion_popup.lua')
 local function setup(pointer)
   -- Independent complete-pool first-drop vector: seed61 naturally offers Fire.
   -- Seed4 now correctly offers Flex; keep the actual victory/claim path.
@@ -33,8 +34,18 @@ local function setup(pointer)
     if fn then return fn({touchId=touch}) end
   end
   local function drain()for _=1,400 do if not u.busy then return end h:update(.05) end error('busy') end
-  local function click(name)local result=emit(name,'click');drain();return result end
-  local function tap(name,id)emit(name,'down',id);emit(name,'up',id);emit(name,'click',id);drain()end
+  local function click(name)
+    local previous=u.potionAim
+    local result=emit(name,'click')
+    if name:match('^potion%d$')then confirm(u,p,nil,previous)end
+    drain();return result
+  end
+  local function tap(name,id)
+    local previous=u.potionAim
+    emit(name,'down',id);emit(name,'up',id);emit(name,'click',id)
+    if name:match('^potion%d$')then confirm(u,p,id,previous)end
+    drain()
+  end
   return h,u,p,r,emit,click,tap,drain
 end
 -- Real generated full-game UI and real rules. This harness is not platform input evidence.

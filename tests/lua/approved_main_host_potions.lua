@@ -1,0 +1,40 @@
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Run=require('abyss_run')
+local focus
+local api={events={Confirm='confirm',Cancel='cancel',Focus='focus'},directions={Left='left',Right='right'},
+ modes={Specified='specified',NearestControl='nearest'},getFocus=function()return focus end,
+ setFocus=function(value)focus=value end,isController=function()return true end}
+local host,root=F.fixture(nil,nil,nil,nil,false,nil,nil,api)
+assert(F.start(host));assert(Run.startCombat(host.run,'cultist_solo'))
+host.run.potions={'energy_potion','fire_potion'};host:refresh()
+local panel=root:GetChild('battlePanel')
+local entry=root:GetChild('potionEntry')
+local global=entry:GetChild('open'):GetChild('hit')
+assert(not entry.visible,'battle global potion entry must not cover exhaust')
+assert(not global.interactable and not global.raycastTarget,'hidden global entry must not retain an input target')
+assert(global.click()==false and not host.potionUI.visible,'queued global entry callback cannot open behind battle')
+local function press(control,kind)
+ host:update(.01);host:syncController()
+ assert(control.canControllerFocus,'control outside active scope: '..control.name)
+ api.setFocus(control)
+ return assert(control.navigationListeners[kind or 'confirm'])()
+end
+local bottle=panel:GetChild('potion1')
+local energy=host.run.combat.energy
+press(bottle)
+assert(host.controller.scope=='battlePotion','small potion card needs its own navigation scope')
+local popup=panel:GetChild('potionHelp'):GetChild('potionPopup')
+assert(popup.visible and host.battleUI.potionMenu and host.run.combat.energy==energy)
+assert(not panel:GetChild('card1'):GetChild('hit').canControllerFocus,'small card owns focus without battle commands')
+assert(focus==popup:GetChild('use'),'explicit Use is the initial potion action')
+press(focus,'cancel')
+assert(not host.battleUI.potionMenu and not popup.visible and host.controller.scope=='battle')
+assert(host.run.potions[1]=='energy_potion' and host.run.combat.energy==energy)
+press(bottle);press(popup:GetChild('use'))
+for _=1,400 do if not host.battleUI.busy then break end;host:update(.05)end
+assert(not host.battleUI.busy and host.run.combat.energy==energy+2 and not host.run.potions[1])
+assert(not host.battleUI.potionMenu and host.controller.scope=='battle')
+host.run.phase='map';host:refresh()
+assert(entry.visible and global.interactable and global.raycastTarget,'global inventory remains available outside battle')
+assert(global.click() and host.potionUI.visible,'map keeps the existing inventory manager')
+print('APPROVED_MAIN_HOST_POTIONS_PASS hidden-global/scope/back/use/map')

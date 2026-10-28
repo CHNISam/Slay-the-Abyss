@@ -20,7 +20,7 @@
 
 新增层额外覆盖原26源未列出的 CardDisplay、CardSkin、Shop consumer，避免旧主题与新控件混搭。仅在临时历史树核验并移除新增card-lightning文件；普通Lua runner不提前加载该fixture。`p0-presentation-inverse.mjs`原逆向函数正文不变，materializer遍历两个层的并集。完整53fa中间身份可以进入旧链，任意其他漂移仍拒绝。
 
-## 本阶段实际验证
+## 前期阶段实际验证（下方有最终组合结果）
 
 - data/UI/theme构建通过；JavaScript语法通过。
 - 架构检查220模块、1259边通过。
@@ -29,9 +29,9 @@
 - 独立只读接层审查无Critical/Important；临时目录测试已真实放入新增script后确认删除，2项通过。
 - 测试环境为当前云Node24.22.1，不能冒充托管Node24.18.0结果。
 
-## 仍待
+## 前期边界（历史状态）
 
-Main单位/状态/提示/药水等另一切片尚未冻结交付；本候选不是完整UI验收结果。当前组合的完整受影响Lua、历史逐写实际回放、完整Quality及同候选官方导入/ready/设备UI验收尚未取得本轮证据。
+当时Main尚未冻结；现在已完成下述最终组合离线回归，但仍不是完整UI验收。完整Quality/inventory、同候选官方导入/ready/设备验收仍缺证据。
 
 卡面RD六点仿射仅有源码/数学与离线SVG证明，富文本和透明文本框没有设备验收；`compare.png`保持旧图，不能认证本轮SVG。地图离线glyph代显不等于官方图库设备像素。没有调用用户Codex或客户端、占用键鼠、推送、发PR、发布或合并。
 
@@ -42,3 +42,25 @@ Main单位/状态/提示/药水等另一切片尚未冻结交付；本候选不�
 随后叠加地图第二轮：圆形铜边三线菜单、收细顶栏与标题、左下必要返回入口、普通路线删除常驻鼠标/手柄教学。六个主题字段先逐一核对before再修改，其余主题字段深比较不变；真实错误/房间锁定/奖励目的地信息仍保留，不修改BattleUI生产或选路规则。阶段2新层/原层/主题/菜单轻量12项及地图布局3项通过；同源构建和220模块/1259边架构通过，新的实际Lua/历史回放仍待最终串行验证。
 
 详情邻接审计补迁移14个既有Lua夹具的22处notice读取：使用真实statusInfo可见字段与全部分页，走真实hit.click关闭，再执行原后续动作。新增一个test-only读取helper。源AST核对921个原assert/eq/same/has调用及全部数值保留（仅详情来源表达式/局部变量改名），15文件语法通过；完整before/after均绑定到53fa，已并入当前32路径精确新层。此为源码证明，不是运行时通过，详见`APPROVED-UI-ADJACENT-DETAIL-SOURCE-20261028.json`。
+
+## 最终离线组合（2026-10-28 15:54 UTC）
+
+已合入Main冻结源码、11个所属主题字段、显式药水Use测试迁移、地图第三轮7文件/8字段与GameUI两处精确刷新anchor。主线actual-combat隐藏/拒绝全局药水入口的guard保留，奖励阶段管理仍可用。Main共用药水图元提取前后整棵battleLayout对象strictDeepEqual；地图第三轮不改变战斗树。
+
+独立审查抓出的真实问题均先修再验：结束回合button复杂度17超15（最小提取后达标）；foreign触点误取消popup的有效触点；1–4普通怪单行44高status触点侵入操作带；初始dismiss偏移；原生小按钮文字盒不足40。原预算未提高。Luacheck完整73条历史诊断仅31条位置/引用行重定位，逐行映回53fa同一源行及完整诊断，不增加豁免；render≤10、其他scoped function≤15，432项责任测量。
+
+测试迁移逐项记录而非更换golden：旧battle能量disc→真实face；Dazed重复暗框→原稿rarity框及单层遮罩/锁/理由；费用红→已批准costTone.up；药水一击消费→真实打开/Use；普通敌人notice→详情全页/关闭；原生透明40文字框→完整可见意图字形及实际touch union；Main紧凑34.667槽/26.667操作面及结束回合右距逐值锁源稿。其他按钮仍保持44和40/20安全界限；这些来源尺寸不冒充已通过设备触摸验收。controller_host的53fa退出菜单合同未被旧Main测试覆盖。
+
+当前附加inverse完整绑定58个源，精确恢复53fa，再进入原26源层。原26gzip、四个runner、三逐写测试、53case/6seed、38地图组、旧golden和预算均保持。证据与源哈希见 `approved-ui-integration-20261028/source-manifest.json`。
+
+| 本轮真实运行 | 结果 |
+|---|---|
+| 原53case及6播放seed，七原预算片 | 全部通过，104.68s |
+| Main11 + 详情1 + 能量3 | 15/15，29.54s |
+| 相邻详情13入口 + artifact helper六消费者 | 19/19，最慢20.21s |
+| 原79543 / 79757 / 81392逐写 | 15.15 / 13.61 / 16.96s，原hash/顺序保持 |
+| 原38地图组四片 | 8.72 / 10.45 / 6.28 / 8.04s，旧30s预算 |
+| controller_host / game_ui / game_ui_deck / game_ui_potion_discard / map_resources | 5/5，原runner预算 |
+| 地图第三轮及现有入口布局/repaint | 14/14；资源避让另1/1 |
+
+15:53只读远端已前进到PR305 `1f260a7`；它仅治理/CI等15路径，与本UI候选零重叠。上述实际运行基于53fa候选，不能冒称新远端HEAD的CI通过。没有推送、PR、合并、用户客户端/键鼠操作。仓库完整check、当前托管Quality/inventory以及官方导入/ready/同候选设备UI验收仍待。

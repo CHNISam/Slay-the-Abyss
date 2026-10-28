@@ -21,7 +21,7 @@ test('current Task77 source reverses only its owned edits and preserves the comp
  assert.equal(layers.canonicalBindingSha256,hash(read('docs/reviews/formal-entry-source-inverses-20261028.json')));
  assert.deepEqual(Object.keys(layers.competition),['src/lua/abyss_game_ui.lua','src/lua/abyss_ui.lua']);
  for(const [path,binding]of Object.entries(layers.competition)){
-  const live=read(path),accepted=invert(live,binding);
+  const live=read(path),accepted=invert(preApprovedUiSource(path,live),binding);
   assert.equal(hash(accepted),binding.beforeSha256);
   assert.equal(preFormalEntrySource(path,live),preFormalEntrySource(path,accepted));
   for(const edit of binding.edits){

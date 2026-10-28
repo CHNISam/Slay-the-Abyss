@@ -54,7 +54,11 @@ test('exit entry does not cover deck controls, map navigation or the narrowed ga
     child(named(controls, 'battlePanel'), 'notice'), child(named(controls, 'nodePanel'), 'notice')]) {
     assert.ok(!overlaps(entry, obstacle), `exit overlaps ${obstacle.name}`);
   }
-  assert.ok(child(named(controls, 'battlePanel'), 'notice').size[0] >= 900);
+  // Main's approved short operation strip replaces the former wide upper notice.
+  const battleNotice=child(named(controls,'battlePanel'),'notice');
+  assert.deepEqual(battleNotice.size,[880,40]);
+  assert.deepEqual(battleNotice.position,[0,360-(700+52/2)/1.5]);
+  assert.deepEqual(battleNotice.size,theme.layout.battleNotice.size);
   assert.ok(child(named(controls, 'nodePanel'), 'notice').size[0] >= 900);
 });
 

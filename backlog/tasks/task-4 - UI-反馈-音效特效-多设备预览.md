@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 10:55'
+updated_date: '2026-10-28 15:56'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -63,6 +63,8 @@ PR171整合切片：保留develop最新商店原子交易和战后独立选牌�
 2026-10-28逐屏还原：按Map/Controls画布及批准原型核对地图、商店、营地、锻造、宝箱、事件、奖励、牌库、菜单/退出，复用PR260功能和PR290/292选角；本地与设备验收分层，完整记录见docs/reviews/NATIVE-UI-PARITY-20261028.md。
 
 最终集成保留#292、正式战斗、共享卡框、公共UI、失焦与开局美化全部来源，按现行用户两幕范围验收12屏1280×720原生UI。用户本轮紧急授权先合并后并行CI；不恢复PatchNotes，不新增玩法或插画，实机缺证据不勾PASS。
+
+dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修复、26源历史隔离、原runner和断言；仅逐块移植仍缺地图去圈/卡面/详情/能量/Main原稿纠偏，旧7a合流树只作历史保全，不整笔cherry-pick。共享主题与新增严格逆向由单执行者维护，重Lua串行协调，当前不推送PR或合并。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -92,4 +94,8 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 最终集成68d25c77的完整计划和历史记录已与最新两幕范围合流，双方原始任务快照保存在docs/reviews/ui-merge-task-history-20261028.json.gz；逐屏要求/控件/实现/测试见docs/reviews/UI-FINAL-ACCEPTANCE-20261028.md。保留新菜单、只读地图、三意图、状态角标、输入保护和RGB导出修复。最小原生3项/构建/语法/架构通过；完整CI、原生预览和手机仍未全验。
 
 合后CI收尾：保留战斗线程晚到两笔测试/候选交接；修renderEnemies33、退出前景17/16超过原门禁的问题，各helper仍受10/15原上限。Luacheck73条明确历史诊断/零新增，432项职责度量通过；原生控件、选角、牌库、退出定向13/13过。静态基线11个过时项与23个移行均有逐条源文证据，未放宽预算。全量CI和历史source/trace迁移仍不声称通过，设备未验。
+
+本轮53fa隔离合流已完成地图去圈、卡面两批、详情A/能量的逐块源码合成；卡面26路径冻结hash一致。保留PR302提示/意图安全修复、遗物索引、原runner和26源gzip原字节，新增15路径精确逆向恢复53fa。新层/原53case+6seed元数据7项及纯JS布局35项通过；data/UI/theme构建、220模块/1259边架构和JS语法通过。独立只读接层审查无严重问题，实际临时新增文件删除补强2项通过。Main未交、完整Lua/完整Quality/官方导入/设备验收均未获本轮证据；状态/负责人/AC不改，不推送。
+
+2026-10-28 dot 隔离UI合流阶段：53fa基线已逐字段合地图三批、卡面两批、详情/能量/Main，58源精确逆向保留旧26源/全部golden/原预算。最终53case+6seed、Main/详情/能量15项、相邻详情19入口、3逐写trace、38地图组、5完整host均实测通过。当前为离线候选，完整托管Quality/inventory与同候选官方导入/ready/设备UI验收未完成；未推送/PR/合并。fresh远端1f260a7(PR305)仅治理路径、与UI零重叠，待根线程决定基线吸收。Owner/状态/AC不改；证据docs/reviews/APPROVED-UI-CURRENT-INTEGRATION-20261028.md。
 <!-- SECTION:NOTES:END -->

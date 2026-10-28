@@ -3,6 +3,7 @@ local Actors = require("abyss_actor")
 local Theme = require("abyss_theme")
 local number = require("abyss_numbers").integer
 local M = {}
+local UnitView=require("abyss_battle_unit_view")
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local I = L.statusInfo
 
@@ -90,7 +91,8 @@ function M.new(self, child, enemyPosition, describeInfo, paginate, tint, ink, pi
         local edge = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x - I.width / 2
         x = math.max(-edge, math.min(edge, x))
         local top = Theme.canvas.base[2] / 2 - L.topBar.height - S.s
-        local unitY = info.index == 0 and L.player.position[2] or select(5,enemyPosition(battle,info.index)) or L.enemyRow.y
+        local heroY=L.player.position[2]+UnitView.noticeLift(battle.player,L.player.portrait,L.player.position[2],true)
+        local unitY = info.index == 0 and heroY or select(5,enemyPosition(battle,info.index)) or L.enemyRow.y
         local y = math.min(top - height / 2, unitY + portrait / 2 - height / 2)
         y = math.max(-Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + height / 2, y)
         return {x = x, y = y, height = height, line = L.nativeText.lineHeight, inner = I.width - I.pad * 2,

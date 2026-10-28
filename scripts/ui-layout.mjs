@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { cardFaceChildren } from './card-face.mjs';
+import { potionSlotVisual } from './potion-slot-visual.mjs';
 
 // One source of tokens for both the native tree and its Lua controller.
 export const theme = JSON.parse(readFileSync(new URL('../data/presentation/ui_theme.json', import.meta.url), 'utf8'));
@@ -66,7 +67,7 @@ function unit(name, position, portrait, player = false) {
       { ...picture('intentBadge', 0, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.debuff, c.debuff), visible: false },
       { ...picture('intentExtra', 0, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.buff, c.buff), visible: false },
       // Attack value (or a two-character kind name) reads left to right from the icon.
-      aligned(text('intent', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.number)),
+      aligned(text('intent', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', l.intent.numberSize)),
       aligned(text('intentLabel', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.label, c.textDim)),
       { ...hit(l.intent.size * 3, l.intent.size + s.s), name: 'intentHit', position: [0, l.intent.offsetY] }] : []),
     // Tapping a portrait opens that unit's status details (enemies also take targets).
@@ -206,8 +207,9 @@ export function battleLayout() {
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.goldBright),
     clickableImage(glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim),
-      { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, bar.height),
-        position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2, 0] },
+      { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, Math.max(44,bar.height)),
+        position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2,
+          Math.min(0,height/2-theme.canvas.safe.y-y-Math.max(44,bar.height)/2)] },
     ), chip('exhaust', bar.exhaust, c.textDim),
     unit('hero', l.player.position, l.player.portrait, true),
     text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '', f.body, c.goldBright),
@@ -230,8 +232,15 @@ export function battleLayout() {
   for (let i = 0; i < l.battlePotions.count; i++) {
     const potion = button(`potion${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i),
       l.battlePotions.size, '空药水槽', false, f.small);
-    // Two lines at the existing readable font must fit without shrinking them.
-    for (const state of potion.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.size[0] - s.s, l.battlePotions.size[1]];
+    // Main top-bar silhouettes: official bottle, not a second row of text buttons.
+    for (const state of potion.children) {
+      const [border,plate,bottle]=potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],
+        bottleSize:l.battlePotions.bottleSize,ink:c.goldBright});
+      state.children[0]=border;
+      state.children[1]=plate;
+      state.children.find(c=>c.name==='label').visible=false;
+      state.children.push(bottle);
+    }
     // Keep the original three direct paths. Extra bottles share the existing
     // full-canvas help group so the battle parent stays at 60 direct children.
     if (i < 3) controls.push(potion);
@@ -244,9 +253,26 @@ export function battleLayout() {
       state.children.push(picture('bottle',0,0,28,28,theme.icon.potion.fire_potion,c.goldBright));
     }
     for (const state of help.children) state.children.find(c => c.name === 'label').size = [l.battlePotions.helpSize[0] - s.s, l.nativeText.lineHeight];
-    if (i >= 3) help.visible = false;
+    help.visible = false;
     potionHelp.push(help);
   }
+  const pop=l.potionPopup, ph=pop.minimumHeight;
+  const potionAction=(name,width,label,primary)=>{
+    const action=button(name,[0,0],[width,pop.actionHeight],label,primary,pop.font);
+    for(const state of action.children)state.children.find(c=>c.name==='label').size[1]=l.nativeText.lineHeight;
+    return action;
+  };
+  potionHelp.push({name:'potionPopup',kind:'container',position:[l.battlePotions.origin[0],pop.top-ph/2],
+    size:[pop.width,ph],visible:false,children:[
+      {...hit(...theme.canvas.base),name:'dismiss',position:[-l.battlePotions.origin[0],-(pop.top-ph/2)]},
+      panel('border',0,0,pop.width,ph,c.goldDim),panel('plate',0,0,pop.width-2,ph-2,c.panelSunken),
+      hit(pop.width,ph),
+      aligned(text('title',0,0,pop.width-pop.padding*2,l.nativeText.lineHeight,'',pop.font,c.goldBright)),
+      aligned(text('target',0,0,pop.targetWidth,l.nativeText.lineHeight,'',pop.font,c.textDim),'right'),
+      aligned(text('effect',0,0,pop.width-pop.padding*2,l.nativeText.lineHeight,'',pop.font,c.text)),
+      potionAction('use',120,'使用',true),
+      potionAction('discard',64,'丢弃',false),
+    ]});
   // Keep potion explanations in the existing full-canvas group. This avoids
   // exceeding the platform's 60 direct children when rewards and aiming coexist.
   for (let i = 1; i <= 2; i++) {
@@ -259,16 +285,27 @@ export function battleLayout() {
   potionHelp.push(emerald);
   potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
-  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * (l.enemyRow.xTo-l.enemyRow.xFrom)/4, l.enemyRow.y], l.enemyRow.portrait));
+  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * (l.enemyRow.xTo-l.enemyRow.xFrom)/4, l.enemyRow.y], l.enemyRow.crowdPortrait));
   for (let i = 1; i <= 10; i++) {
     const [w, h] = l.card.size;
     controls.push({ name: `card${i}`, kind: 'container', size: [w, h], ...handPose(10, i - 1),
       children: cardFaceChildren(theme, 'battle') });
   }
-  const turnButton=button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合');
+  const turn=l.endTurn;
+  const turnButton=button('endTurn',turn.position,turn.size,'结束回合',false,turn.numberSize);
+  const hex=(name,w,h,colour)=>[
+    panel(name,0,0,w-turn.wedge*2,h,colour),
+    ...[-1,1].map(side=>({...picture(name+(side<0?'Left':'Right'),side*(w/2-turn.wedge/2),0,h,turn.wedge,100003,colour),rotation:side<0?90:-90})),
+  ];
   for(const state of turnButton.children) {
-    state.children.push(picture('blade',-l.endTurn.size[0]/2+18,0,14,44,im.diamond,c.goldBright),
-      panel('hilt',-l.endTurn.size[0]/2+18,-10,26,3,c.gold));
+    const label=state.children.find(c=>c.name==='label');
+    label.text.colour=turn.textColour;
+    state.children=[
+      ...hex('border',...turn.size,turn.rimColour),
+      ...hex('inner',turn.size[0]-turn.innerInset[0]*2,turn.size[1]-turn.innerInset[1]*2,turn.innerColour),
+      ...hex('plate',turn.size[0]-turn.faceInset[0]*2,turn.size[1]-turn.faceInset[1]*2,turn.faceColour),
+      label,
+    ];
   }
   controls.push(turnButton,
     button('start', [0, -96], l.button.primary, '启程', true),

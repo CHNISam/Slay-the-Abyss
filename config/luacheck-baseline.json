@@ -13,164 +13,164 @@
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 50,
+      "line": 51,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 259,
+      "line": 267,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 295,
+      "line": 304,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 306,
+      "line": 315,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 318,
+      "line": 327,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 326,
+      "line": 335,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 338,
+      "line": 347,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 408,
+      "line": 417,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 841,
+      "line": 870,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 923,
+      "line": 953,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
-    },
-    {
-      "file": "src/lua/abyss_battle_ui.lua",
-      "line": 982,
-      "column": 18,
-      "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
-    },
-    {
-      "file": "src/lua/abyss_battle_ui.lua",
-      "line": 996,
-      "column": 18,
-      "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
-    },
-    {
-      "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1003,
-      "column": 18,
-      "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
       "line": 1012,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1020,
+      "line": 1026,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1053,
+      "line": 1033,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1060,
+      "line": 1042,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1087,
+      "line": 1050,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1103,
+      "line": 1083,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1130,
+      "line": 1090,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 50"
+    },
+    {
+      "file": "src/lua/abyss_battle_ui.lua",
+      "line": 1117,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 50"
+    },
+    {
+      "file": "src/lua/abyss_battle_ui.lua",
+      "line": 1133,
+      "column": 18,
+      "code": "W431",
+      "message": "shadowing upvalue 'self' on line 50"
+    },
+    {
+      "file": "src/lua/abyss_battle_ui.lua",
+      "line": 1160,
       "column": 18,
       "code": "W212",
       "message": "unused argument 'self'"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1130,
+      "line": 1160,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1131,
+      "line": 1161,
       "column": 18,
       "code": "W212",
       "message": "unused argument 'self'"
     },
     {
       "file": "src/lua/abyss_battle_ui.lua",
-      "line": 1131,
+      "line": 1161,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 49"
+      "message": "shadowing upvalue 'self' on line 50"
     },
     {
       "file": "src/lua/abyss_bgm.lua",
@@ -251,38 +251,38 @@
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 167,
+      "line": 171,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 121"
+      "message": "shadowing upvalue 'self' on line 122"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 189,
+      "line": 193,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 121"
+      "message": "shadowing upvalue 'self' on line 122"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 397,
+      "line": 401,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 121"
+      "message": "shadowing upvalue 'self' on line 122"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 639,
+      "line": 643,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 121"
+      "message": "shadowing upvalue 'self' on line 122"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 707,
+      "line": 711,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 121"
+      "message": "shadowing upvalue 'self' on line 122"
     },
     {
       "file": "src/lua/abyss_guardian_ai.lua",
@@ -349,24 +349,24 @@
     },
     {
       "file": "src/lua/abyss_potion_discard_ui.lua",
-      "line": 35,
+      "line": 52,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 9"
+      "message": "shadowing upvalue 'self' on line 26"
     },
     {
       "file": "src/lua/abyss_potion_discard_ui.lua",
-      "line": 56,
+      "line": 73,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 9"
+      "message": "shadowing upvalue 'self' on line 26"
     },
     {
       "file": "src/lua/abyss_potion_discard_ui.lua",
-      "line": 61,
+      "line": 78,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 9"
+      "message": "shadowing upvalue 'self' on line 26"
     },
     {
       "file": "src/lua/abyss_prologue.lua",

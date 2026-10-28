@@ -5,6 +5,23 @@ local integer=require('abyss_numbers').integer
 local M={}
 local Controller=require('abyss_controller')
 local function find(entries,id)for _,entry in ipairs(entries)do if entry.id==id then return entry end end end
+-- Read-only shared entry paint. Keep the existing management button and its
+-- binding; a slot silhouette never consumes a potion or changes selection.
+function M.refreshEntry(hit,run,platform)
+    local capacity=run and Run.potionCapacity(run) or 0
+    for _,state in ipairs({'normal','hover','pressed','disabled'})do
+        local variant=hit:GetChild(state)
+        variant:GetChild('label').text=run and '药水 '..Run.potionCount(run)..'/'..capacity or '药水'
+        for i=1,Theme.layout.battlePotions.count do
+            local slot=variant:GetChild('slot'..i)
+            local id=i<=capacity and run.potions[i] or nil
+            slot:SetVisible(i<=capacity)
+            local bottle=slot:GetChild('bottle')
+            bottle:SetVisible(id~=nil)
+            if id then bottle:SetImage(platform.imageSource,Theme.icon.potion[id] or Theme.icon.intent.unknown)end
+        end
+    end
+end
 function M.new(root,clickEvent,platform,allowed,onChange,onClose)
     local self={root=root,visible=false,generation=0}
     local function child(name)return assert(root:GetChild(name),'missing potion control '..name)end

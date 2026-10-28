@@ -51,7 +51,7 @@ test('target card and potion clicks retain priority over inspection',function()
  tap('card'..slot,92);tap('enemy2',92);drain()
  assert(battle.enemies[2].hp<hp and not ui.info,'target card click must play, not inspect')
  host.run.potions={'fire_potion'};ui:render();hp=battle.enemies[2].hp
- tap('potion1',93);assert(ui.potionAim)
+ tap('potion1',93);dofile('tests/lua/support/confirm_potion_popup.lua')(ui,p,93);assert(ui.potionAim)
  tap('enemy2',93);drain()
  assert(battle.enemies[2].hp==hp-20 and not ui.info and #host.run.potions==0,'potion must commit once')
 end)

@@ -72,6 +72,16 @@ local function setup(options)
     end
     return ui, stage, click, play, root
 end
+-- Source Main adds an explicit confirmation after opening a physical bottle.
+-- Existing rules/ownership cases still execute real controls, not direct commands.
+local function usePotion(ui,stage,click,slot)
+    click("potion"..slot)
+    if not ui.potionMenu then return end
+    local use=stage.children.potionHelp.children.potionPopup.children.use
+    if use.interactable then use.click() end
+    for _=1,400 do if not ui.busy then break end;ui:update(0.05)end
+    assert(not ui.busy,"explicit potion confirmation must release playback")
+end
 -- Read a unit's statuses the way a player does: open its detail panel, then close it.
 local function details(stage, box)
     box.children.statusRow.children.hit.click()
@@ -116,8 +126,9 @@ test("Dazed uses existing status art disabled theme blank cost and cannot comman
     local card=stage.children.card1.children
     assert(card.name.text==Presentation.dazed.name and card.cost.text=="" and card.type.text=="状态")
     assert(card.art.imageId==Theme.icon.cardArt.status)
-    assert(card.artPlate.imageColor.r==Theme.color.panelSunken.r)
-    assert(card.border.imageColor.r==Theme.color.line.r)
+    assert(not card.artPlate.visible and card.blockedVeil.visible and card.blockedPill.visible and card.blockedLock.visible)
+    assert(card.blockedReason.text=="本回合不能打出" and not card.cost.visible)
+    assert(card.border.imageColor.r==Theme.cardSkin.rarities.common[1].r)
     local battle,energy=ui.run.combat,ui.run.combat.energy
     click("card1");click("enemy1");assert(ui.selected==nil)
     assert(battle.energy==energy and #battle.hand==1 and #battle.discard==0)
@@ -191,8 +202,8 @@ test("selection never spends energy; target click or explicit battlefield click 
         click("card1")
         assert(battle.enemies[1].hp == hp and #battle.hand == hand and battle.energy == remaining)
         assert(stage.children.notice.text == "能量不足")
-        assert(stage.children.card1.children.cost.fontColor.r == Theme.color.danger.r)
-        assert(stage.children.endTurn.children.normal.children.plate.imageColor.r == Theme.color.geo.r)
+        assert(stage.children.card1.children.cost.fontColor.r == Theme.cardSkin.costTone.up.r)
+        assert(stage.children.endTurn.children.normal.children.plate.imageColor.r == Theme.layout.endTurn.faceColour.r)
     end
     click("endTurn")
     assert(battle.turn == 2 and #battle.hand == 5)
@@ -252,7 +263,7 @@ test("reward HUD shows committed relic healing and clears battle-only counters",
     assert(ui.run.phase == "reward" and ui.run.hp == 56 and battle.player.hp == 50)
     assert(stage.children.player.text == "56/80")
     assert(stage.children.energy.text == "0/3" and stage.children.draw.text == "0" and stage.children.discard.text == "0")
-    local disc, empty = stage.children.energyDisc.imageColor, Theme.color.energyEmpty
+    local disc, empty = stage.children.energyIcon.children.face.imageColor, Theme.color.energyEmpty
     assert(disc.r == empty.r and disc.g == empty.g and disc.b == empty.b and disc.a == empty.a)
     assert(not stage.children.piles.text:find("消耗", 1, true) and stage.children.statuses.text == "")
     assert(not stage.children.hero.visible and not stage.children.enemy1.visible)
@@ -329,7 +340,7 @@ test("five enemies retain separate touch targets and a boss uses the approved la
     assert(targeted and battle.enemies[1].hp == firstHp and battle.enemies[5].hp < fifthHp)
     ui.run.combat = Combat.new(Data, {enemies={"guardian"}})
     ui:render()
-    assert(stage.children.enemy1.children.plate.sizeDeltaX == 168)
+    assert(stage.children.enemy1.children.portrait.sizeDeltaX == Theme.layout.enemyRow.bossPortrait and not stage.children.enemy1.children.plate.visible)
     assert(stage.children.enemy1.children.portrait.imageId == Theme.icon.enemy.guardian)
 end)
 test("real victory displays feedback and claims a reward into the next battle deck", function()
@@ -457,7 +468,7 @@ test("block chip sits beside the HP bar with dark digits on solid blue, even in 
     local hero = stage.children.hero.children
     assert(not hero.blockIcon.visible and not hero.block.visible and not hero.blockEdge.visible)
     assert(hero.hpFill.imageColor.r == Theme.color.hp.r and hero.hpBorder.imageColor.r == Theme.color.line.r)
-    assert(hero.hpFill.sizeDeltaX == Theme.layout.hpBar.size[1] and hero.hpFill.x == 0)
+    assert(hero.hpFill.sizeDeltaX == Theme.layout.battleUnit.heroHealthWidth and hero.hpFill.x == 0)
 end)
 
 test("potion slots stay fixed after consumption and repeated queued clicks cannot consume the next bottle", function()
@@ -469,14 +480,14 @@ test("potion slots stay fixed after consumption and repeated queued clicks canno
     local hp, energy = battle.enemies[1].hp, battle.energy
     assert(stage.children.potion1.children.normal.children.label.text == "火焰药水\n单敌·固定20")
     local queued = stage.children.potion1.click
-    click("potion1") click("enemy1") queued()
+    usePotion(ui,stage,click,1) click("enemy1") queued()
     assert(ui.run.combat == battle and battle.enemies[1].hp == hp - 20)
     assert(Run.potionCount(ui.run) == 2 and battle.energy == energy)
     assert(stage.children.potion1.children.normal.children.label.text == "空药水槽")
     assert(not stage.children.potion1.interactable)
-    click("potion2")
+    usePotion(ui,stage,click,2)
     assert(battle.energy == energy + 2 and Run.potionCount(ui.run) == 1)
-    click("potion3") click("enemy1")
+    usePotion(ui,stage,click,3) click("enemy1")
     assert(battle.enemies[1].hp == hp - 40 and #ui.run.potions == 0)
 end)
 
@@ -485,7 +496,7 @@ test("refilling a middle potion slot refreshes only its physical button", functi
     ui.run = Run.new(Data, 1)
     ui.run.potions = {"fire_potion", "energy_potion", "regen_potion"}
     assert(Run.startCombat(ui.run, "cultist_solo")) ui:render()
-    click("potion2")
+    usePotion(ui,stage,click,2)
     assert(ui.run.potions[1] == "fire_potion" and ui.run.potions[3] == "regen_potion")
     assert(stage.children.potion2.children.normal.children.label.text == "空药水槽")
     local ok, slot = Run.obtainPotion(ui.run, "block_potion")
@@ -493,7 +504,7 @@ test("refilling a middle potion slot refreshes only its physical button", functi
     assert(stage.children.potion2.children.normal.children.label.text:find("护盾药水", 1, true))
     assert(stage.children.potion1.children.normal.children.label.text:find("火焰药水", 1, true))
     assert(stage.children.potion3.children.normal.children.label.text:find("再生药水", 1, true))
-    click("potion2")
+    usePotion(ui,stage,click,2)
     assert(ui.run.combat.player.block == 12 and not ui.run.potions[2])
     assert(Run.potionCount(ui.run) == 2)
 end)
@@ -503,7 +514,7 @@ test("potion victory commits rewards and relic healing then hides combat potion 
     ui.run = Run.new(Data, 1) ui.run.potions = {"fire_potion"}
     assert(Run.startCombat(ui.run, "cultist_solo"))
     ui.run.combat.enemies[1].hp, ui.run.combat.player.hp = 20, 30
-    ui:render() click("potion1") click("enemy1")
+    ui:render() usePotion(ui,stage,click,1) click("enemy1")
     assert(ui.run.phase == "reward" and ui.run.hp == 36 and #ui.run.potions == 0)
     assert(stage.children.player.text == "36/80" and stage.children.cardReward.visible)
     assert(not stage.children.potion1.visible and not stage.children.endTurn.visible)
@@ -527,10 +538,10 @@ test("embedded battle uses host controls and scaling and reports each successful
     local instance = ui.run.combat.hand[1]
     local _, reason = Combat.canPlay(ui.run.combat, instance.uid, nil)
     click(reason == "invalid_target" and "enemy1" or "playArea") assert(changes == 1)
-    click("potion1") assert(changes == 2)
+    usePotion(ui,stage,click,1) assert(changes == 2)
     click("endTurn") assert(changes == 3)
     ui.run.combat.enemies[1].hp = 1
-    click("potion2") assert(changes == 3) click("enemy1") assert(changes == 4 and ui.run.phase == "reward")
+    usePotion(ui,stage,click,2) assert(changes == 3) click("enemy1") assert(changes == 4 and ui.run.phase == "reward")
     assert(root.children.cardReward.visible and root.children.continue.visible and not root.children.skip.visible)
     click('cardReward');click('skip');assert(changes==4 and ui.run.phase=='reward')
     click("continue") assert(changes == 5 and ui.run.phase == "map")
@@ -565,14 +576,14 @@ test("host run replacement clears selected UID target and consumed potion mappin
     local ui, stage, click = setup({embedded=true})
     ui.run = Run.new(Data, 1) ui.run.potions = {"energy_potion", "fire_potion"}
     assert(Run.startCombat(ui.run, "cultist_solo")) ui:render()
-    click("card1") click("potion1") ui.target = 5
+    usePotion(ui,stage,click,1) click("card1") ui.target = 5
     assert(ui.selected and not ui.potionSlots[1])
     ui.run = Run.new(Data, 1) ui.run.potions = {"energy_potion"}
     assert(Run.startCombat(ui.run, "cultist_solo"))
     ui:render()
     assert(not ui.selected and ui.target == 1 and ui.potionSlots[1].slot == 1)
     assert(stage.children.potion1.interactable and not stage.children.card1.children.glow.visible)
-    click("potion1") assert(ui.run.combat.energy == 5 and #ui.run.potions == 0)
+    usePotion(ui,stage,click,1) assert(ui.run.combat.energy == 5 and #ui.run.potions == 0)
 end)
 
 test("runtime potion touch regions clear boss and five-enemy portraits intents and notice", function()
@@ -583,16 +594,21 @@ test("runtime potion touch regions clear boss and five-enemy portraits intents a
     end
     for _, enemies in ipairs({{"guardian"}, {"cultist", "red_louse", "green_louse", "jaw_worm", "sentry"}}) do
         ui.run.combat = Combat.new(Data, {enemies=enemies}) ui:render()
-        for i = 1, 3 do
-            local potion = stage.children["potion" .. i]
+        for i = 1, 5 do
+            local potion = stage.children["potion" .. i] or stage.children.potionHelp.children["potion" .. i]
             local notice = stage.children.notice
             assert(not overlaps(potion, potion.x, potion.y, notice, notice.x, notice.y))
             for j = 1, #enemies do
                 local enemy = stage.children["enemy" .. j]
                 for _, name in ipairs({"hit", "intent", "intentIcon"}) do
                     local part = enemy.children[name]
-                    assert(not overlaps(potion, potion.x, potion.y, part, enemy.x + part.x, enemy.y + part.y))
-                    assert(not overlaps(notice, notice.x, notice.y, part, enemy.x + part.x, enemy.y + part.y))
+                    local bound,x=part,enemy.x+part.x
+                    if name=='intent' then
+                        bound={sizeDeltaX=utf8.len(part.text)*Theme.layout.intent.numberSize,sizeDeltaY=Theme.layout.intent.numberSize}
+                        x=x-(part.sizeDeltaX-bound.sizeDeltaX)/2
+                    end
+                    assert(not overlaps(potion, potion.x, potion.y, bound, x, enemy.y + part.y))
+                    assert(not overlaps(notice, notice.x, notice.y, bound, x, enemy.y + part.y))
                 end
             end
         end
@@ -628,7 +644,7 @@ test("targeted potion shows its effect and current enemy selection before damagi
     click("enemy1") click("enemy2")
     assert(ui.selected == selected and battle.energy == energy and #battle.hand == hand and battle.player.block == 0)
     assert(not marked(2) and not marked(1))
-    click("potion1")
+    usePotion(ui,stage,click,1)
     assert(ui.potionAim and ui.selected == nil and marked(1) and marked(2))
     assert(battle.enemies[2].hp == hp2)
     click("enemy2")
@@ -646,7 +662,7 @@ test("a targeted bottle in slot three remains selectable when both earlier slots
     local hp1, hp2 = ui.run.combat.enemies[1].hp, ui.run.combat.enemies[2].hp
     click("enemy2") assert(ui.target == 2)
     assert(inspectDetails(ui,stage):find("11 点伤害",1,true))
-    click("potion3")
+    usePotion(ui,stage,click,3)
     assert(ui.run.combat.enemies[2].hp == hp2)
     click("enemy2")
     assert(ui.run.combat.enemies[1].hp == hp1 and ui.run.combat.enemies[2].hp == hp2 - 20)
@@ -724,7 +740,7 @@ test("Block badges reserve native glyph width for every digit from 1 through 999
             assert(c.hp.x == healthPositions[i][1] and c.hp.sizeDeltaX == healthPositions[i][2], "Block must not move or resize HP")
             local left = box.x + c.blockEdge.x - c.blockEdge.sizeDeltaX / 2
             local right = box.x + c.hpBorder.x + c.hpBorder.sizeDeltaX / 2
-            assert(left > (previousRight[box.y] or 0), "guard/HP lanes overlap adjacent actor")
+            assert(not previousRight[box.y] or left > previousRight[box.y], "guard/HP lanes overlap adjacent actor")
             assert(left >= -600 and right <= 600, "guard/HP outside safe area")
             previousRight[box.y] = right
         end

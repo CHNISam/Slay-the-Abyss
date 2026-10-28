@@ -147,7 +147,7 @@ test('one through ten hand cards, including selection, fit the 40/20 safe area o
     }
   }
 });
-test('native buttons provide all four states and touch hit areas stay inside the safe area', () => {
+test('native buttons retain four states, general safe targets and exact Main source edge controls', () => {
   const controls = stage().children;
   const drag = controls.find(c => c.name === 'dragLayer');
   const capture = drag.children.find(c => c.name === 'hit');
@@ -161,6 +161,11 @@ test('native buttons provide all four states and touch hit areas stay inside the
   assert.equal(dismiss.focusable, false);
   assert.deepEqual(dismiss.size, theme.canvas.base);
   assert.equal(controls.filter(c => /^card\d+$/.test(c.name)).length, 10);
+  const help=controls.find(c=>c.name==='potionHelp'),popup=help.children.find(c=>c.name==='potionPopup');
+  const retired=new Set(help.children.filter(c=>/^potionHelp\d$/.test(c.name)));
+  const bottles=new Set([...controls,...help.children].filter(c=>/^potion\d$/.test(c.name)));
+  const compact=new Set([...bottles,...popup.children.filter(c=>['use','discard'].includes(c.name))]);
+  const popupDismiss=popup.children.find(c=>c.name==='dismiss');
   walk(controls, (c, x, y) => {
     if (c.kind === 'presetButton') {
       for (const state of ['normal', 'hover', 'pressed', 'disabled']) {
@@ -169,9 +174,22 @@ test('native buttons provide all four states and touch hit areas stay inside the
       assert.deepEqual(c.children.find(child => child.name === 'pressed').scale, [0.96, 0.96]);
     }
     if (c.kind === 'cursorArea' || c.kind === 'presetButton') {
-      assert(Math.min(...c.size) >= 44);
-      if (c === capture || c === dismiss) return; // invisible catchers cover the canvas, ordinary touch controls stay safe
-      assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x');
+      if(retired.has(c)){assert.equal(c.visible,false,'legacy explanation target remains inert');return;}
+      if(compact.has(c)){
+        if(bottles.has(c))assert.deepEqual(c.size,[52/1.5,52/1.5]);
+        else assert.equal(c.size[1],40/1.5,'Main compact action keeps source visual height');
+        assert(Math.abs(x)+c.size[0]/2<=640&&Math.abs(y)+c.size[1]/2<=360,'source compact control stays in canvas');
+        return;
+      }
+      assert(Math.min(...c.size) >= 44,`${c.name} ${c.size}`);
+      if(c.name==='endTurn'){
+        assert.deepEqual(c.position,theme.layout.endTurn.position);
+        assert.deepEqual(c.size,[280/1.5,76/1.5]);
+        assert(Math.abs(x)+c.size[0]/2<=640&&Math.abs(y)+c.size[1]/2<=360,'Main source right inset is 56/1.5, not generic 40');
+        return;
+      }
+      if (c === capture || c === dismiss || c === popupDismiss) return; // invisible catchers cover the canvas, ordinary touch controls stay safe
+      assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x '+x+' '+c.size);
       assert(Math.abs(y) + c.size[1] / 2 <= 340 + 1e-8, c.name + ' safe y');
     }
     if (c.name === 'hpFill') { assert.equal(c.mask, true); assert.equal(c.fill.shape, 'horizontal'); }
@@ -196,7 +214,8 @@ test('five potion buttons follow shared tokens and clear the HUD, notice, hand a
     for (const state of potion.children) {
       const label = state.children.find(control => control.name === 'label');
       assert.equal(label.text.fontSize, theme.font.small);
-      assert(label.size[1] >= theme.font.small * 2, `${potion.name} keeps two readable lines`);
+      assert.equal(label.visible,false,`${potion.name} uses official bottle; full effect is in the popup`);
+      assert(state.children.find(c=>c.name==='bottle'));
     }
     for (const name of ['title', 'player', 'piles', 'notice', 'energyDisc', 'endTurn']) {
       assert(!overlaps(potion, controls.find(control => control.name === name)), `${potion.name}/${name}`);

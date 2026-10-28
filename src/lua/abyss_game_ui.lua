@@ -90,6 +90,9 @@ function M.new(root, data, presentation, clickEvent, platform)
                 return self.battleUI:chooseCards(kind,uids,token,generation,battle)
             end)
     end
+    local function inCombat()
+        return self.mode=="battle" and self.run~=nil and self.run.phase=="combat"
+    end
     local function canManagePotions(run)
         return not self.disabled and run~=nil and self.run==run and not self.exitOpen and not self.deckUI.visible
             and not (self.choiceUI and self.choiceUI.visible)
@@ -310,6 +313,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
         elseif self.deckUI.visible then scope='deck'
         elseif self.potionUI.visible then scope='potions'
+        elseif self.mode=='battle' and self.battleUI.potionMenu then scope='battlePotion'
         elseif self.mode=='battle' and self.battleUI.info then scope='battleInfo'
         elseif self.mode=='battle' and (self.battleUI.selected or self.battleUI.potionAim) then scope='aim' end
         controller:sync(scope,function()
@@ -320,7 +324,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 return self.deckUI:back()
             elseif scope=='choice' then return false -- mandatory core selections cannot be dismissed
             elseif scope=='potions' then return self:closePotions()
-            elseif scope=='battleInfo' or scope=='aim' then return self.battleUI:controllerBack()
+            elseif scope=='battlePotion' or scope=='battleInfo' or scope=='aim' then return self.battleUI:controllerBack()
             elseif scope=='node' and self.nodeUI.mode=='picker' then return self.nodeUI:press('back')
             elseif scope=='battle' and self.run and self.run.phase=='reward' and self.battleUI.rewardScreen=='cards' then
                 return self.battleUI:controllerBack()
@@ -385,10 +389,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function refreshPotionEntry(run)
         local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
-        potionHit.interactable=canManagePotions(run);potionHit.raycastTarget=potionHit.interactable
-        for _,state in ipairs({"normal","hover","pressed","disabled"})do
-            potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..Run.potionCapacity(run) or "药水"
-        end
+        potionHit.interactable=not inCombat() and canManagePotions(run);potionHit.raycastTarget=potionHit.interactable
+        PotionDiscardUI.refreshEntry(potionHit,run,platform)
     end
     local function refreshDeckEntry(run)
         local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
@@ -396,14 +398,17 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- The shared deck button carries the deck size, so no screen repeats it as loose text.
         for _, state in ipairs({ "normal", "hover", "pressed", "disabled" }) do
             local variant = deckHit:GetChild(state)
-            if variant then variant:GetChild("label").text = run and "卡组 " .. #run.deck or "卡组" end
+            if variant then
+                variant:GetChild("label").text = run and "卡组 " .. #run.deck or "卡组"
+                variant:GetChild('count').text=run and number(#run.deck) or ''
+            end
         end
     end
     local function refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
         local ending=run and run.phase=='ending_proceed'
         child("combatRewards"):SetVisible(returnAvailable)
         child("deckEntry"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
-        child("potionEntry"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("potionEntry"):SetVisible(not inCombat() and not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
         refreshPotionEntry(run)
         child("nodePanel"):GetChild("potions"):SetVisible(false)
         if potionOpen then self.potionUI:render()end
@@ -729,11 +734,11 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
-    child("potionEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent,function()return self:openPotions()end)
+    child("potionEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent,function()if inCombat() then return false end;return self:openPotions()end)
     Controller.bind(controller,child('deckEntry'):GetChild('open'):GetChild('hit'),function()return self.mode end,
         function()return self:openDeck()end)
     Controller.bind(controller,child('potionEntry'):GetChild('open'):GetChild('hit'),function()return self.mode end,
-        function()return self:openPotions()end)
+        function()if inCombat() then return false end;return self:openPotions()end)
     exitPanel.disableCursorEventPassthrough = true
     exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
     runMenu.disableCursorEventPassthrough = true

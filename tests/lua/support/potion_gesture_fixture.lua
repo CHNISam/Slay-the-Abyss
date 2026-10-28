@@ -1,4 +1,5 @@
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
+local confirm=dofile("tests/lua/support/confirm_potion_popup.lua")
 local function setup(deck, enemies)
     local host, ui, panel, event, tap, drain, deckToggle, root = H.setup(deck, enemies)
     assert(H.Run.obtainPotion(host.run, "energy_potion")); host:refresh()
@@ -11,7 +12,9 @@ local function setup(deck, enemies)
     end
     local function potionTap(touch, slot)
         local name = "potion" .. (slot or 1)
+        local previous=ui.potionAim
         emit(name, "down", touch); emit(name, "up", touch); emit(name, "click", touch)
+        confirm(ui,panel,touch,previous)
     end
     return host, ui, panel, event, tap, drain, deckToggle, root, emit, potionTap
 end
@@ -28,4 +31,4 @@ local function suite(label)
     end
     return test, finish
 end
-return {F = H.F, Run = H.Run, setup = setup, suite = suite}
+return {F = H.F, Run = H.Run, setup = setup, suite = suite, confirm = confirm}

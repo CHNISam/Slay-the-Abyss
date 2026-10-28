@@ -12,6 +12,7 @@ local EnemyView = require('abyss_battle_enemy_view')
 local DamageView = require('abyss_battle_damage_view')
 local StatusView = require("abyss_battle_status_view")
 local PotionView = require("abyss_battle_potion_view")
+local PotionPopup = require("abyss_battle_potion_popup")
 local IntentView = require("abyss_battle_intent_view")
 local UnitView = require("abyss_battle_unit_view")
 local InfoContent = require("abyss_battle_info_content")
@@ -54,7 +55,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.data, self.presentation = data, presentation
         self.selected, self.hover, self.help = nil, nil, nil
     end
-    local playbackIntents
+    local playbackIntents,potionPopup
     local stage = options.embedded and root or assert(root:GetChild("stage"), "missing stage")
     local function child(name)
         local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward' or name=='emeraldKeyReward' or name:match('^relicReward%d$')
@@ -230,10 +231,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local count = #rows
         for i, entry in ipairs(rows) do
             local enemy = entry.actor
-            local x, _, portrait, step = enemySlot(count,i,enemy)
+            local x, _, portrait, step, y = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
             if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
-                and math.abs(g.y-EnemyView.rowY(count,i)) <= portrait/2+D.reticlePad
+                and math.abs(g.y-y) <= portrait/2+D.reticlePad
                 and Actors.isActive(enemy) then
                 hovered = entry.index; break
             end
@@ -243,13 +244,20 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if ok then return g.dropZone, nil end
         return g.aiming and hovered ~= nil and Combat.canPlay(battle,g.uid,hovered) or false, hovered, g.aiming
     end
+    local function endTurnFace(part,state)
+        local fill=state=='disabled' and C.panelSunken or L.endTurn.faceColour
+        for _,name in ipairs({'plate','plateLeft','plateRight'})do tint(part:GetChild(name),fill)end
+        ink(part:GetChild('label'),state=='disabled' and C.textMuted or L.endTurn.textColour)
+    end
     local function button(name, enabled, primary, caption)
         local box = child(name)
         box.interactable,box.raycastTarget = enabled == true,enabled == true
         for _, state in ipairs({"normal", "hover", "pressed", "disabled"}) do
             local part = box:GetChild(state)
             if caption then part:GetChild("label").text = caption end
-            if state == "normal" or state == "hover" then
+            if name=='endTurn' then
+                endTurnFace(part,state)
+            elseif state == "normal" or state == "hover" then
                 tint(part:GetChild("plate"), primary and (state == "hover" and C.goldBright or C.geo) or C.panelRaised)
                 ink(part:GetChild("label"), primary and C.textOnLight or C.goldBright)
             end
@@ -286,6 +294,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     local paginate = InfoView.paginator(lines)
     local renderInfo = InfoView.new(self, child, enemyPosition, describeInfo, paginate, tint, ink, picture)
     closeInfo = function()
+        if potionPopup and potionPopup:close() then return true end
         if not self.info then return false end
         self.info = nil
         child("statusInfo"):SetVisible(false)
@@ -682,7 +691,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             hit.raycastTarget=options.onPile~=nil and frame.active==true
         end
         label("statuses", frame.fighting and battle.phase ~= "player" and not self.busy and "敌方回合" or "")
-        if frame.fighting then unit(child("hero"), frame.player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
+        if frame.fighting then
+            local hero=child("hero")
+            local lift=UnitView.noticeLift(frame.player,L.player.portrait,L.player.position[2],true)
+            hero:SetAnchoredPosition(L.player.position[1],L.player.position[2]+lift)
+            unit(hero,frame.player,L.player.portrait,Theme.icon.player,L.battleUnit.nameWidth,false)
+        end
     end
     local function renderResult(frame)
         local run = frame.run
@@ -723,10 +737,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         return face
     end
-    local function renderEnemyIntent(box, face, portrait, enemyY)
+    local function renderEnemyIntent(box, face, portrait)
         local icons = IntentView.icons(face)
-        local size, line, ceiling = L.intent.size, L.nativeText.lineHeight, L.battleNotice.position[2] - L.battleNotice.size[2] / 2
-        local iconY = math.min(ceiling - enemyY - size / 2, math.max(L.intent.offsetY, portrait / 2 + S.xs + line / 2 + size / 2))
+        local size = L.intent.size
+        local iconY = portrait / 2 + L.intent.portraitGap + size / 2
         local pitch = size * 1.5
         for i, name in ipairs({'intentIcon','intentBadge','intentExtra'}) do
             local control, kind = box:GetChild(name), icons[i]
@@ -740,15 +754,26 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         local attackLabel = box:GetChild('intent')
         attackLabel.text = face.value or ''
-        attackLabel:SetVisible(icons[1] == 'attack' and attackLabel.text ~= '')
-        attackLabel:SetAnchoredPosition((1 - (#icons + 1) / 2) * pitch + (L.intent.valueWidth - size) / 2,
-            iconY - size / 2)
+        local attack=icons[1]=='attack' and attackLabel.text~=''
+        attackLabel:SetVisible(attack)
+        local glyphWidth=utf8.len(attackLabel.text)*L.intent.numberSize
+        local textWidth=math.max(L.intent.valueWidth,glyphWidth)
+        local left=(1-(#icons+1)/2)*pitch-size/2-S.xs
+        local valueY=iconY-size/2+L.intent.numberSize/2-L.statusIcon.gap
+        attackLabel:SetAnchoredPosition(left+textWidth/2,valueY)
+        attackLabel:SetSizeDelta(textWidth,L.nativeText.lineHeight)
         ink(attackLabel, C.text)
         box:GetChild('intentLabel'):SetVisible(false)
-        local hitSpan = #icons * pitch - size / 2
-        local hitWidth = math.max(hitSpan, L.intent.valueWidth)
-        box:GetChild('intentHit'):SetAnchoredPosition((hitWidth - hitSpan) / 2, iconY - line / 4)
-        box:GetChild('intentHit'):SetSizeDelta(hitWidth, size + line / 2)
+        local span=#icons*pitch-size/2
+        local x0,x1=-span/2,span/2
+        local y0,y1=iconY-size/2,iconY+size/2
+        if attack then
+            x0,x1=math.min(x0,left),math.max(x1,left+glyphWidth)
+            y0=math.min(y0,valueY-L.intent.numberSize/2)
+        end
+        local width,height=math.max(L.statusIcon.minimumTouch,x1-x0),math.max(L.statusIcon.minimumTouch,y1-y0)
+        box:GetChild('intentHit'):SetAnchoredPosition((x0+x1)/2,(y0+y1)/2)
+        box:GetChild('intentHit'):SetSizeDelta(width,height)
     end
     local function enemyAimProjection(frame)
         local aimed = self.gesture or self.carry
@@ -770,17 +795,17 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local function renderEnemySlot(frame, box, entry, slot, count, aim)
         local enemy = entry.actor
-        local x, width, portrait = enemySlot(count, slot, enemy)
-        box:SetAnchoredPosition(x, EnemyView.rowY(count, slot))
+        local x, width, portrait, step, y = enemySlot(count, slot, enemy)
+        box:SetAnchoredPosition(x, y)
         local selected = enemyHighlighted(frame, enemy, entry.index, aim.pendingTarget)
         local loss = aim.losses and aim.losses[entry.index]
         if aim.valid and not aim.target and loss and loss.loss > 0 then selected = true end
-        unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected)
+        unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected,step)
         local dim = (aim.pendingTarget or self.potionAim ~= nil) and not selected
         local portraitTone = C.text
         tint(box:GetChild('portrait'), { r = portraitTone.r, g = portraitTone.g, b = portraitTone.b, a = dim and 102 or 255 })
         renderDamagePreview(box, enemy, portrait, width, loss)
-        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait, EnemyView.rowY(count, slot))
+        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
     end
     local function renderEnemies(frame)
         local rows = frame.fighting and EnemyView.slots(frame.battle, self.busy and self.feedback or nil) or {}
@@ -831,12 +856,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local visible = frame.fighting and i <= frame.potionCapacity
             show("potion" .. i, visible)
             local item = boundPotion(frame, i)
-            button("potion" .. i, visible and frame.active and item and item.canUse, false,
+            button("potion" .. i, visible and frame.active and item ~= nil, false,
                 item and potionText(item, frame.battle) or "空药水槽")
-            show("potionHelp" .. i, visible)
+            show("potionHelp" .. i, false)
             button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "")
             for _,state in ipairs({'normal','hover','pressed','disabled'}) do
-                local bottle=child('potionHelp'..i):GetChild(state):GetChild('bottle')
+                local bottle=child('potion'..i):GetChild(state):GetChild('bottle')
                 bottle:SetVisible(item~=nil)
                 if item then picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown) end
             end
@@ -871,6 +896,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         renderRewardActions(frame)
         renderContinue(frame)
         renderPotions(frame)
+        if potionPopup then potionPopup:render() end
     end
     local function refresh(changed)
         if self.run and self.run.phase == "combat" then
@@ -1273,7 +1299,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         for _,input in ipairs(enemyInputs)do input.held,input.released=nil,nil end
     end
     local function controllerReady()
-        return self.active and not self.busy and not self.gesture and self.run
+        return self.active and not self.busy and not self.gesture and not self.potionMenu and self.run
             and (self.run.phase=="reward" or self.run.phase=="combat" and self.run.combat.phase=="player")
     end
     function self.controllerBack(_)
@@ -1445,12 +1471,34 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             refresh(ok)
         elseif not options.embedded and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) refresh(true) end
     end)
+    potionPopup=PotionPopup.new(stage:GetChild('potionHelp'):GetChild('potionPopup'),self,platform,clickEvent,{
+        item=function(slot)return Run.potionView(self.run)[slot]end,
+        text=function(item,battle)return potionText(item,battle,true):match("\n(.*)") or ''end,
+        use=function(slot)return self:usePotion(slot)end,
+        discard=function(slot)
+            local ok,reason=Run.discardPotion(self.run,slot)
+            if ok then self.potionSlots[slot]=nil end
+            notice(ok and '已丢弃药水。' or reasons[reason] or '当前不能丢弃此药水。')
+            refresh();return ok,reason
+        end,
+        changed=function()refresh()end,
+    })
+    function self.openPotionMenu(_,slot)
+        if not self.active or self.busy or self.gesture or self.suppressClick or not self.run
+            or self.run.phase~="combat" or self.run.combat.phase~="player" then return false end
+        if not potionBinding(slot)then return false end
+        cancelPotionAim();cancelCardInputs();cancelActionInputs()
+        self.selected,self.carry,self.help,self.info=nil,nil,nil,nil
+        local opened=potionPopup:open(slot)
+        if opened then stage:GetChild('potionHelp'):SetAsLastSibling();refresh()end
+        return opened
+    end
     local function bindPotionControls()
         for i = 1, L.battlePotions.count do
             local slot, control, input = i, child("potion" .. i), {}
             potionInputs[i] = input
             Controller.bind(controller,control,"battle",function()
-                self.suppressClick=false;return self:usePotion(slot)
+                self.suppressClick=false;return self:openPotionMenu(slot)
             end,controllerReady,30+slot,"potions")
             control:AddCursorEventListener(clickEvent, function(event)
                 if Controller.pointerBlocked(controller)then return false end
@@ -1462,7 +1510,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                     input.released = nil
                     if not potionReady(released) then return end
                 end
-                if not self.suppressClick and not self.gesture then return self:usePotion(slot) end
+                if not self.suppressClick and not self.gesture then return self:openPotionMenu(slot) end
             end)
             if self.dragEnabled then
                 control:AddCursorEventListener(cursor.CursorDown, function(event)
@@ -1773,14 +1821,13 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             for slot=1,L.statusIcon.perRow*L.statusIcon.rows do
                 local position=slot
                 bindHelp(child(name):GetChild("statusRow"):GetChild("hit"..slot),function()
-                    local battle,index,actor=statusActorAt(screenSlot)
+                    local _,index,actor=statusActorAt(screenSlot)
                     if not Actors.isPresent(actor)then return end
                     local entries=Combat.statusView(actor)
-                    local width=index==0 and L.hpBar.size[1] or select(2,enemyPosition(battle,index))
-                    local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))
+                    local perRow=L.statusIcon.perRow
                     local slots=perRow*L.statusIcon.rows
                     if not entries[position] then return end
-                    local overflow=position==slots and #entries>slots
+                    local overflow=position==slots and #entries>=slots
                     return {index=index,screenSlot=screenSlot>0 and screenSlot or nil,statusId=not overflow and entries[position].id or nil,
                         offset=overflow and position or nil}
                 end,true)
