@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { appendFileSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve, relative, dirname } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
@@ -116,13 +116,35 @@ export function selectTests(changed, sources) {
     integration: selected.filter(p => js.includes(p) && isIntegration(p)), lua: selected.filter(p => lua.includes(p)) };
 }
 
+// An advisory subset only: the unchanged complete Quality suite owns coverage.
+// Measured weights schedule complete fixtures; they never change fixture deadlines.
+export function selectQuickFeedback(plan, changed, timings, budgetMs = 90000) {
+  if (plan.full) return { fast: [], lua: [], estimatedLuaMs: 0 };
+  const weight = path => Number.isFinite(timings.lua?.[path]) && timings.lua[path] > 0 ? timings.lua[path] : 30000;
+  const direct = new Set(changed), lua = [];
+  let estimatedLuaMs = 0;
+  for (const path of [...plan.lua].sort((a, b) => Number(direct.has(b)) - Number(direct.has(a)) || weight(a) - weight(b) || a.localeCompare(b))) {
+    if (estimatedLuaMs + weight(path) <= budgetMs) { lua.push(path); estimatedLuaMs += weight(path); }
+  }
+  return { fast: plan.fast, lua, estimatedLuaMs };
+}
+
+export function selectQuickPlan(changed, sources, fullPlan = selectTests(changed, sources)) {
+  if (!fullPlan.full) return fullPlan;
+  // Unknown inputs still require the complete gate. Independently mapped inputs
+  // may provide advisory feedback without claiming coverage of those unknowns.
+  const mapped = changed.filter(path => !selectTests([path], sources).full);
+  return selectTests(mapped, sources);
+}
+
 function run(command, args) {
   const result = spawnSync(command, args, { stdio: 'inherit', windowsHide: true });
   if (result.error) throw result.error;
   if (result.status !== 0) throw new Error(`${command} failed (${result.status ?? result.signal})`);
 }
 export function main(args) {
-  const planOnly = args.includes('--plan'), tier = args.includes('--fast') ? 'fast' : 'related';
+  const ciFast = args.includes('--ci-fast');
+  const planOnly = args.includes('--plan'), tier = ciFast ? 'ci-fast' : args.includes('--fast') ? 'fast' : 'related';
   const at = args.indexOf('--files');
   let changed;
   if (at >= 0) changed = args.slice(at + 1).filter(p => !p.startsWith('--')).map(slash);
@@ -141,15 +163,34 @@ export function main(args) {
   const plan = selectTests([...new Set(changed)], sources);
   console.log(JSON.stringify({ tier, changed, ...plan }, null, 2));
   if (planOnly) return;
+  const summary = message => {
+    console.log(message);
+    if (ciFast && process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${message}\n\n`);
+  };
+  const quickPlan = ciFast ? selectQuickPlan(changed, sources, plan) : null;
+  if (ciFast && plan.full) summary(`Complete Quality required: ${plan.reason}. Quick feedback covers only independently mapped inputs.`);
+  if (ciFast && quickPlan.full) {
+    summary('Quick feedback unavailable. No tests run here; parallel complete Quality is required.'); return;
+  }
   const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
   const npmRun = name => process.platform === 'win32'
     ? run('cmd.exe', ['/d', '/s', '/c', `npm run ${name}`]) : run(npm, ['run', name]);
-  if (plan.full) { npmRun('check'); return; }
+  if (plan.full && !ciFast) { npmRun('check'); return; }
+  const quick = ciFast ? selectQuickFeedback(quickPlan, changed,
+    JSON.parse(readFileSync(new URL('./ci-test-timings.json', import.meta.url), 'utf8'))) : null;
+  const tests = ciFast ? quick.fast : tier === 'fast' ? plan.fast : [...plan.fast, ...plan.integration];
+  const fixtures = ciFast ? quick.lua : tier === 'fast' ? [] : plan.lua;
+  if (ciFast) summary(`Advisory subset: ${tests.length} fast JS and ${fixtures.length} related Lua files selected; ${quickPlan.integration.length} integration JS and ${quickPlan.lua.length - fixtures.length} Lua files deferred to complete Quality. Lua scheduling estimate ${quick.estimatedLuaMs} ms, not a deadline.`);
+  if (ciFast && !tests.length && !fixtures.length) {
+    summary('No quick tests selected. Complete Quality remains required; this is not a regression pass.');
+    return;
+  }
+  if (ciFast && tests.includes('tests/reviewed-traveler-geo-assets.test.mjs')) run(process.execPath, ['scripts/ci-reviewed-lfs.mjs']);
+  if (ciFast) delete process.env.CI_LFS_TOKEN;
   npmRun('build:data'); npmRun('build:ui');
-  const tests = tier === 'fast' ? plan.fast : [...plan.fast, ...plan.integration];
   if (tests.length) run(process.execPath, ['--test', '--test-concurrency=1', ...tests]);
-  if (tier !== 'fast') for (const fixture of plan.lua) run(process.execPath, ['scripts/test-lua.mjs', fixture]);
-  console.log(`Completed ${tests.length} JS and ${tier === 'fast' ? 0 : plan.lua.length} Lua files; full Quality remains required.`);
+  for (const fixture of fixtures) run(process.execPath, ['scripts/test-lua.mjs', fixture]);
+  summary(`Completed ${tests.length} JS and ${fixtures.length} Lua files; full Quality remains required.`);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try { main(process.argv.slice(2)); } catch (error) { console.error(error.message); process.exitCode = 1; }
