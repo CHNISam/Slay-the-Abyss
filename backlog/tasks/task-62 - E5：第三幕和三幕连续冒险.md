@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-27 17:39'
+updated_date: '2026-10-28 01:36'
 labels:
   - required
   - sts1
@@ -21,14 +21,15 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
-priority: high
+  - docs/M3-STATUS-20261028.md
+priority: medium
 type: feature
 ---
 
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-第三幕全部常规遭遇、精英和三种首领已接入主线。心灵绽放、神秘球体、事件战斗与领奖、绽放印记治疗封禁已在PR259完成本地组合和严格界面回归，待当前SHA完整CI及集成；四职业自然连续通关与同候选平台证据仍缺，第三幕没有Boss宝箱。
+第三幕全部常规遭遇、精英、三种首领，以及心灵绽放、神秘球体、事件战斗奖励和绽放印记已随PR252/259合入develop；PR262继续接通终幕。旧PR238冲突与待合状态仅属历史。四职业自然连续通关、完整事件资格及同候选平台证据仍缺，保持未完成；第三幕没有Boss宝箱。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -69,4 +70,6 @@ type: feature
 2026-10-28 真实第三幕事件桥已接MindBloom/Sphere、预构造敌人、EventRoom固定金币/RARE与药水→卡牌奖励、烟雾弹结束结算、Mark共享及Run/Nodes治疗。独立审查发现跨房间旧owner残留、永久牌同步晚失败泄露和逃跑nil未发布，均有真实RED→GREEN；扩展桥12.350秒通过，来源桥7/7及相邻印记/历史/第三幕12/12通过，198模块1148边、84历史零新增/358度量。详细证据见docs/reviews/M3-EVENT-COMBAT-INTEGRATION-20261028.md。组件已挑入当前独立集成树；完整当前SHA CI和PR尚待收口，未新导入/实机/自然四职业通过，不关闭AC或M3。
 
 2026-10-27 PR259独立复审修正：真实Profile.prepare→Run.new的silent/defect/watcher旧入口缺run.character时被误记为Ironclad，三类均在原f3faff19复现。新增真实四职业与五种冲突/部分/未知元数据回归，原8组先通过、第9组真实RED；最小canonical metadata pair回退后9组GREEN，Watcher不产生WIN或写入。整合独立已审d18fee14原生层级四文件原样；组合专属历史/Host/事件UI/原生Cursor六项Node全过0skip，架构198/1148、Luacheck1.2.0原84历史0新增及358职责度量通过。仅本地修正与受控边界证据，不认证自然通关、原生导入或持久平台历史；当前新HEAD完整Quality和交付仍由主线程核验。原状态/Furinya/全部AC不变。
+
+2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
 <!-- SECTION:NOTES:END -->

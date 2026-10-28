@@ -8,7 +8,7 @@ local function test(fn)fn();count=count+1;print('PASS emerald UI '..count)end
 local function get(root,path)
  local c=root;for part in path:gmatch('[^/]+')do c=assert(c:GetChild(part),path)end;return c
 end
-local function fixture()
+local function fixture(surfaceCapacity)
  local focus
  local controller={events={Confirm='confirm',Cancel='cancel',Focus='focus'},directions={Left='left',Right='right'},
   modes={Specified='specified',NearestControl='nearest'},isController=function()return true end,
@@ -27,7 +27,15 @@ local function fixture()
  local box=F.mapControl(get(root,'mapPanel'),'node'..assert(index))
  assert(box:GetChild('emeraldLabel').text=='绿钥匙'and box:GetChild('emeraldLabel').visible)
  assert(host.mapUI:choose(id));S.victory(run);host:refresh()
- assert(host.mode=='battle'and #run.rewards.relics==2 and run.rewards.potion and run.rewards.emeraldKey)
+ assert(host.mode=='battle'and #run.rewards.relics==2 and run.rewards.potion==nil and run.rewards.emeraldKey)
+ if surfaceCapacity then
+  -- Preserve the six-row control/claim matrix as explicit UI capacity coverage.
+  -- The real marked-elite bundle above already filled four pre-potion items.
+  -- Obtain an independent three-item offer through the real sampler; this is
+  -- controlled presentation coverage, never a natural six-row room claim.
+  run.rewards.potion=assert(require('abyss_potion_rewards').prepare(run,3))
+  host:refresh()
+ end
  return host,root,run,map
 end
 local function control(root,name)
@@ -39,7 +47,7 @@ local function tap(c,id)
  c.listeners.down({touchId=id});c.listeners.up({touchId=id});c.listeners.click({touchId=id})
 end
 test(function()
- local host,root,run=fixture()
+ local host,root,run=fixture(true)
  local names={'goldReward','relicReward1','relicReward2','emeraldKeyReward','claimPotion','cardReward'}
  local previous
  for _,name in ipairs(names)do

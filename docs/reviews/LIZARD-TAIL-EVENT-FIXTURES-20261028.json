@@ -1,0 +1,59 @@
+{
+  "red": {
+    "sourceHead": "23c50ef6ed1a47b67a8ca326ebd7e441134213d8",
+    "evidence": [
+      {
+        "file": "act3_winding_outcomes.lua",
+        "status": 1,
+        "elapsedMs": 4003,
+        "stdout": "",
+        "stderr": "tests/lua/support/act3_winding_fixture.lua:4: true ~= false\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/support/act3_winding_fixture.lua:4: in local 'eq'\n\t...-tail-event-fixtures\\tests\\lua\\act3_winding_outcomes.lua:32: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n"
+      },
+      {
+        "file": "golden_idol_costs.lua",
+        "status": 1,
+        "elapsedMs": 2561,
+        "stdout": "",
+        "stderr": "tests/lua/support/golden_idol_fixture.lua:4: true ~= false\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/support/golden_idol_fixture.lua:4: in local 'eq'\n\t...s\\m3-tail-event-fixtures\\tests\\lua\\golden_idol_costs.lua:28: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n"
+      },
+      {
+        "file": "sensory_stone_outcomes.lua",
+        "status": 1,
+        "elapsedMs": 4562,
+        "stdout": "",
+        "stderr": "tests/lua/support/sensory_stone_fixture.lua:4: true ~= false\nstack traceback:\n\t[JS]: in function 'assert'\n\ttests/lua/support/sensory_stone_fixture.lua:4: in field 'eq'\n\t...tail-event-fixtures\\tests\\lua\\sensory_stone_outcomes.lua:36: in main chunk\n\t[JS]: in function 'dofile'\n\t(command line):1: in main chunk\n"
+      }
+    ]
+  },
+  "green": {
+    "sourceHead": "23c50ef6ed1a47b67a8ca326ebd7e441134213d8",
+    "evidence": [
+      {
+        "file": "act3_winding_outcomes.lua",
+        "status": 0,
+        "elapsedMs": 3620,
+        "stdout": "ACT3_WINDING_OUTCOMES_PASS heal/Bloom/Flower/Writhe/Omamori, max-health clamp without heal, fatal obtains/Fairy, real Tail once across events, null-owner Torii and refused missing relic hooks\n",
+        "stderr": ""
+      },
+      {
+        "file": "golden_idol_costs.lua",
+        "status": 0,
+        "elapsedMs": 3156,
+        "stdout": "GOLDEN_IDOL_COSTS_PASS exact truncation/min1, three trap costs/fatal/Fairy/Omamori, real Tail once across events, real duplicate Circlet, live Fruit and missing-hook refusals\n",
+        "stderr": ""
+      },
+      {
+        "file": "sensory_stone_outcomes.lua",
+        "status": 0,
+        "elapsedMs": 5248,
+        "stdout": "SENSORY_STONE_OUTCOMES_PASS all1/2/3 frozen before HP_LOSS, fatal consumes source streams/no claims, real Tail once across events, real Fairy/CeramicFish and explicit unsupported-owner boundaries\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "fixtureLfSha256": {
+    "act3_winding_outcomes.lua": "d124fb21ac30ebd10615f637ed7489dc9cf2391c6eb9f6ae631da7376b5347ec",
+    "golden_idol_costs.lua": "ccec0b37efa0cd2585aa9e0001c7b2e997a907bf8ebd8a06fd528c87a0708ee9",
+    "sensory_stone_outcomes.lua": "71381b0512ace57ad63f5d1f2646128e4bc5ae3ea6eba3241ec62b2aea2e0bb5"
+  }
+}

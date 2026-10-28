@@ -6,6 +6,15 @@ local Nodes = require('abyss_nodes')
 local Run = require('abyss_run')
 local Map = require('abyss_map')
 local data, manifest = LAUNCH_DATA, LAUNCH_MANIFEST
+-- The production JS gate runs every complete proof in its own original 30s
+-- process, with the same supplied bundle. Direct callers retain the full gate.
+local proofs={black_star='tests/lua/black_star.lua',lizard_tail_run='tests/lua/lizard_tail_run.lua',
+    lizard_tail_persistence='tests/lua/lizard_tail_persistence.lua'}
+if LAUNCH_RUNTIME_PHASE and LAUNCH_RUNTIME_PHASE~='inventory' then
+    assert(proofs[LAUNCH_RUNTIME_PHASE],'Unknown launch runtime proof')
+    assert(loadfile(proofs[LAUNCH_RUNTIME_PHASE]))(data)
+    return
+end
 local function set(rows) local r = {}; for _, row in ipairs(rows) do r[row.id] = true end; return r end
 local expected, blocked = set(manifest.cards), set(manifest.exclusions.cards)
 for _, card in ipairs(data.cards.cards) do
@@ -119,8 +128,38 @@ for _, event in ipairs(manifest.events) do
     for choice in pairs(wanted) do assert(choices[choice], 'Missing production event option: ' .. event.id .. '/' .. choice) end
 end
 for _, relic in ipairs(data.relics.relics) do
+    if relic.id=='lizard_tail' then
+        assert(relic.sourceId=='Lizard Tail'and relic.rarity=='rare','Lizard Tail fixed source/rarity mismatch')
+        assert(relic.trigger=='hooks'and type(relic.effects)=='table'and next(relic.effects)==nil,
+            'Lizard Tail requires empty hook effects')
+        -- Bind the actual supplied bundle, never a stale generated data module.
+        if not LAUNCH_RUNTIME_PHASE then
+            assert(loadfile('tests/lua/lizard_tail_run.lua'))(data)
+            assert(loadfile('tests/lua/lizard_tail_persistence.lua'))(data)
+        end
+    end
+    if relic.id=='black_star' then assert(relic.rarity=='boss','Black Star requires Boss rarity')end
     if relic.rarity == 'boss' then
-        assert(Inventory.bossEligible(relic, data.rules.player.startingRelics), 'Unobtainable Boss relic: ' .. relic.id)
+        if relic.id=='black_star' then
+            assert(relic.sourceId=='Black Star','Black Star source ID mismatch')
+            assert(relic.trigger=='hooks'and type(relic.effects)=='table'and next(relic.effects)==nil,
+                'Black Star requires empty hook effects')
+            local catalog=assert(data.relicSource,'Missing full source relic catalog')
+            assert(catalog.sourceCommit=='319009d5df0a82d9fb0f23cc22322286c6a87ec0','Black Star source catalog mismatch')
+            for tier,size in pairs({common=33,uncommon=30,rare=28,shop=17,boss=22})do
+                assert(#catalog.queues[tier]==size,'Incomplete Black Star source relic catalog')
+            end
+            local boss={'Fusion Hammer','Velvet Choker','Runic Dome','SlaversCollar','Snecko Eye',"Pandora's Box",'Cursed Key','Busted Crown',
+                'Ectoplasm','Tiny House','Sozu',"Philosopher's Stone",'Astrolabe','Black Star','SacredBark','Empty Cage',
+                'Runic Pyramid','Calling Bell','Coffee Dripper','Black Blood','Mark of Pain','Runic Cube'}
+            assert(#catalog.queues.boss==#boss,'Incomplete Black Star source Boss catalog')
+            for i,id in ipairs(boss)do assert(catalog.queues.boss[i]==id,'Black Star source Boss catalog drift')end
+            -- Actual modern source chest claim and following source elite loot;
+            -- no admission via the legacy three-relic explicit-ID predicate.
+            if not LAUNCH_RUNTIME_PHASE then assert(loadfile('tests/lua/black_star.lua'))(data)end
+        else
+            assert(Inventory.bossEligible(relic, data.rules.player.startingRelics), 'Unobtainable Boss relic: ' .. relic.id)
+        end
     end
 end
 print('Launch production support predicates verified; no platform or live evidence granted.')

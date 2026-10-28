@@ -11,7 +11,7 @@
     "dailyMods": false,
     "endless": false
   },
-  "projectBaseline": "eb4e8af",
+  "projectBaseline": "8746d5c2",
   "implementationEvidence": "pending",
   "pcBinaryAuthentication": "pending",
   "liveEvidence": "pending",
@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 52,
-    "queueMissing": 89,
-    "act1Missing": 95,
-    "registeredLocalEffects": 48,
+    "existingLocalEffects": 54,
+    "queueMissing": 87,
+    "act1Missing": 93,
+    "registeredLocalEffects": 50,
     "fallbackLocalEffects": 1,
     "classLocalEffects": 3
   },
@@ -650,10 +650,11 @@
         "onEnterRoom",
         "onVictory"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "black_star",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/BlackStar.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Production definition and controlled offline acquisition/effect proofs integrated in PR266; complete pool parity, natural acquisition, native import and live acceptance remain pending. See docs/rules/BLACK_STAR.md"
     },
     {
       "id": "Blood Vial",
@@ -2225,10 +2226,11 @@
         "setCounter",
         "onTrigger"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "lizard_tail",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/LizardTail.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Production definition and controlled offline acquisition/effect proofs integrated in PR266; complete pool parity, natural acquisition, native import and live acceptance remain pending. See docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md"
     },
     {
       "id": "Mango",
