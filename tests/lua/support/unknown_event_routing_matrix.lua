@@ -11,7 +11,12 @@ local function runtime()
     Run=Run or require('abyss_run');Map=Map or require('abyss_map');Nodes=Nodes or require('abyss_nodes')
 end
 
-return function(firstSeed,lastSeed)
+local function verify(types,events)
+    assert(types.combat and types.shop and types.treasure and types.event)
+    local count=0;for _ in pairs(events) do count=count+1 end;assert(count==7,'all seven events must be reachable across seeds')
+end
+
+local function run(firstSeed,lastSeed)
     runtime()
     -- Two disjoint110-seed fixtures retain all220 real Run seeds and every
     -- per-seed assertion. Each half also proves all four routes/seven events.
@@ -30,7 +35,9 @@ return function(firstSeed,lastSeed)
         same(R.snapshot(run.eventRng),eventRng);same(R.snapshot(run.miscRng),miscRng)
         assert(not Nodes.enter(run,map,id));same(run.unknown,state)
         same(R.snapshot(run.eventRng),eventRng);same(R.snapshot(run.miscRng),miscRng)
+        print('ROUTING_SEED '..seed..' '..kind..' '..(kind=='event' and run.nodeFlow.event.id or '-'))
     end
-    assert(types.combat and types.shop and types.treasure and types.event)
-    local count=0;for _ in pairs(events) do count=count+1 end;assert(count==7,'all seven events must be reachable across seeds')
+    return types,events
 end
+
+return {run=run,verify=verify}
