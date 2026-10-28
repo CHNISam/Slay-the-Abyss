@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { verifyDelivery, verifyMergedDelivery, collectMergedDelivery, checkoutReceipt, fullQualityJobs, currentFullQualityJobs, deliverySchemaVersion, qualityWorkflowPath } from '../scripts/verify-delivery.mjs';
+import { verifyDelivery, verifyMergedDelivery, collectPrDelivery, collectMergedDelivery, checkoutReceipt, fullQualityJobs, currentFullQualityJobs, deliverySchemaVersion, qualityWorkflowPath } from '../scripts/verify-delivery.mjs';
 
 const sha = letter => letter.repeat(40);
 function mergedEvidence(schemaVersion=2) {
@@ -15,6 +15,7 @@ function mergedEvidence(schemaVersion=2) {
     jobs:fullQualityJobs.map((name,i)=>({id:100+i,name,status:'completed',conclusion:'success',run_attempt:2,run_id:7,head_sha:sha('a')})),
     review:{reviewedHeadSha:sha('a'),reviewedBaseSha:sha('b'),reviewId:'external-session-123',conclusion:'pass',unresolved:[]}};
   const pr={number:8,merged:true,state:'closed',head:{sha:sha('a')},base:{ref:'develop',sha:sha('f')},merge_commit_sha:sha('e')};
+  if(schemaVersion===3)Object.assign(preflight,{targetBeforeSha:preflight.base,targetAfterSha:preflight.base});
   preflight.currentRun=structuredClone(preflight.run);
   const evidence={schemaVersion,repo:'owner/repo',preflight,pr,current:structuredClone(pr),commit:{sha:sha('e'),parents:[{sha:sha('b')}],commit:{tree:{sha:sha('d')}}},
     run:{id:9,run_attempt:3,event:'push',head_sha:sha('e'),head_branch:'develop',path:qualityWorkflowPath,repository:{full_name:'owner/repo'},status:'completed',conclusion:'success'},
@@ -31,6 +32,72 @@ function mergedEvidence(schemaVersion=2) {
   }
   evidence.currentRun=structuredClone(evidence.run);return evidence;
 }
+
+test('current PR proof binds independent target refs even when PR, synthetic merge and CI all agree on the old base',()=>{
+  for(const field of ['targetBeforeSha','targetAfterSha'])for(const value of [sha('f'),undefined,null,'invalid']) {
+    const e=mergedEvidence(3).preflight;e[field]=value;
+    assert(verifyDelivery(e).length,`${field}=${value}: internally consistent old PR evidence must not certify the current target`);
+  }
+  assert.deepEqual(verifyDelivery(mergedEvidence(3).preflight),[],'An unchanged independently observed target passes');
+  assert.deepEqual(verifyDelivery(mergedEvidence(2).preflight),[],'Historical evidence is not retroactively upgraded');
+});
+
+function prCollection(targets) {
+  const e=mergedEvidence(3).preflight,calls=[];
+  const pr={number:e.prNumber,state:'open',merged:false,head:{sha:e.head},base:{ref:e.baseRef,sha:e.base},merge_commit_sha:e.tested};
+  let refs=0;
+  const query=(...args)=>{
+    calls.push(args);const endpoint=args.at(-1);
+    if(endpoint===`repos/${e.repo}/pulls/${e.prNumber}`)return JSON.stringify(pr);
+    if(endpoint===`repos/${e.repo}/git/ref/heads/${e.baseRef}`) {
+      const value=targets[Math.min(refs++,targets.length-1)];
+      if(value instanceof Error)throw value;
+      return typeof value==='string'?value:JSON.stringify(value);
+    }
+    if(endpoint.includes('/actions/workflows/'))return JSON.stringify([{workflow_runs:[e.run]}]);
+    if(endpoint.includes('/jobs?'))return JSON.stringify([{jobs:e.jobs}]);
+    if(endpoint===`repos/${e.repo}/commits/${e.tested}`)return JSON.stringify(e.testedCommit);
+    throw Error(`Unexpected PR query ${args}`);
+  };
+  const collect=()=>collectPrDelivery(e.repo,e.prNumber,e.review,query,()=>{
+    calls.push(['receipt']);return {checkout:e.checkout,checkoutArtifact:e.checkoutArtifact};
+  });
+  return {collect,calls};
+}
+const targetRef=target=>({ref:'refs/heads/develop',object:{type:'commit',sha:target}});
+
+test('PR collection reads independent target before artifacts and again after the final run identity check',()=>{
+  const stable=prCollection([targetRef(sha('b'))]);
+  const {evidence}=stable.collect();
+  assert.deepEqual(verifyDelivery(evidence),[]);
+  assert.equal(evidence.targetBeforeSha,sha('b'));assert.equal(evidence.targetAfterSha,sha('b'));
+  const refCalls=stable.calls.map((args,i)=>args.at(-1).endsWith('/git/ref/heads/develop')?i:-1).filter(i=>i>=0);
+  assert.equal(refCalls.length,2);
+  assert(refCalls[0]<stable.calls.findIndex(args=>args[0]==='receipt'));
+  assert.equal(refCalls[1],stable.calls.length-1,'The actual target is checked after rechecking the PR and latest Quality run');
+  assert(stable.calls.filter(args=>args.at(-1).includes('/actions/workflows/')).every(args=>args.includes('--paginate')));
+  assert(stable.calls.find(args=>args.at(-1).includes('/jobs?')).includes('--paginate'));
+  const stale=prCollection([targetRef(sha('f'))]);
+  assert.throws(stale.collect,/PR base is stale/);
+  assert(!stale.calls.some(args=>args[0]==='receipt'||args.at(-1).includes('/actions/')),'Reject the old PR/merge/CI combination before collecting artifacts');
+  const advancing=prCollection([targetRef(sha('b')),targetRef(sha('f'))]);
+  assert(verifyDelivery(advancing.collect().evidence).some(error=>error.includes('targetAfterSha')));
+});
+
+test('PR collection fails closed on missing, malformed or unavailable independent target refs at either read',()=>{
+  for(const invalid of [null,{},'{',targetRef(undefined),targetRef('invalid'),
+    {ref:'refs/heads/master',object:{type:'commit',sha:sha('b')}},
+    {ref:'refs/heads/develop',object:{type:'tag',sha:sha('b')}},new Error('GitHub target query failed')]) {
+    assert.throws(prCollection([invalid]).collect);
+    assert.throws(prCollection([targetRef(sha('b')),invalid]).collect);
+  }
+});
+
+test('historical merged verification uses the recorded preflight target and actual squash parent, not the current branch tip',()=>{
+  const e=mergedEvidence(3);
+  e.pr.base.sha=sha('f');e.current.base.sha=sha('f');
+  assert.deepEqual(verifyMergedDelivery(e),{state:'merged_passed',errors:[]});
+});
 
 test('versioned Full delivery preserves historical fifteen-job evidence and accepts the observed seventeen-job route',()=>{
   for(const version of [2,3]) {

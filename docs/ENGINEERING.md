@@ -61,6 +61,8 @@ CLI从候选旁收据和启动证据取得预期身份，重验原始日志与�
 
 保存预审收据后，合入结果必须另验。`pr_passed` 只证明PR组合；实际合入提交的完整CI尚缺时为 `merged_pending`，实际SHA、源码tree、唯一父=预审base及对应push Quality均通过才是 `merged_passed`。验证后base前移即使源码tree相同也不能沿用旧组合。历史schemaVersion 2冻结为原15项成功作业（三个必需作业、8个Windows及4个POSIX分片），不改写或升级旧收据。新采证使用schemaVersion 3：原15项仍须全部成功，另要求impact成功、未展开的fast作业completed/skipped，共17项；Fast矩阵通过不能代替Full，缺少路由作业不能回退历史合同。PR预审与实际push各按自己的版本验证。逐作业绑定run_id、head_sha和attempt；采证末尾重新核对运行与attempt，拒绝诊断运行或旧成功记录。POSIX继续按文件使用Node原生分片，片内串行，每片保留完整工程门禁与20分钟作业预算。未来调整已有matrix须同步交付合同与其回归，不能只保留聚合作业名称。
 
+schemaVersion 3预审在采证前后独立读取目标分支的Git ref，保存`targetBeforeSha`和`targetAfterSha`，两者都须等于已测base。PR API的base.sha与合成merge ref可能同时保留旧组合，不能代替实际目标引用；不一致即拒绝，不追认旧CI。该检查仅记录预审时的目标，合入后的历史验收仍按实际squash父与树验证，不要求之后的分支tip停留原位。
+
 ## 尚未取得的证据
 
 本轮不启动原神、不占用键鼠；官方导入、玩家完整路径、截图体验与投稿仍独立验收。StrykerJS、原生LuaCov和JS全文件覆盖的报告试点不作为本轮必需门禁；没有执行结果就不填覆盖数字。LuaCov重试需隔离原生Lua5.3、LuaRocks/datafile及与Fengari的数值/退出行为对照，不能把Fengari VM的JS覆盖率称为Lua覆盖率。

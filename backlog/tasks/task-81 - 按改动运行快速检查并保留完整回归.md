@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Codex
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-28 17:13'
+updated_date: '2026-10-28 17:38'
 labels: []
 dependencies: []
 priority: medium
@@ -31,6 +31,8 @@ ordinal: 125000
 采集基准与保护；实现影响计划和稳定汇总；负例与真实Runner验收。
 
 集成修复：保留历史schemaVersion 2的15作业证据；新采证使用schemaVersion 3，要求原15项成功、impact成功和未展开fast跳过。先补真实17作业形状及缺失/身份/重试负例，再最小修改交付验证器并跑聚焦CI合同；不改工作流、门禁或既有收据。
+
+当前base收口：实际develop已432eebb1，而PR314 API与合成merge父仍0763。新schema3预审在采证前后独立读取目标Git ref，两次实际SHA必须等于已测base；历史schema2和已合入提交验收不追认当前分支tip。新增旧PR/旧merge/旧CI一致但目标前进、采证中前进和畸形ref回归；仅交付聚焦先红后绿，不改工作流。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -43,4 +45,6 @@ PR307头11ff8b98真实Windows8片失败：原ci-downloads负例将第一个npm�
 7058fb85真实Win4暴露原pr-history顺序断言失败：impact安装先于旧rules历史检查。将历史API检查前移到impact首次npm之前，移除rules和metadata重复调用；原顺序断言保留，调用计数加强为全文精确一次。全部CI合同（含Git真实下载/分片/冻结工作流/历史/快反馈）38/38通过0skip，Node24.18.0耗时42.3秒。两份原始失败日志已保存根.artifacts/ci-fast-pr307，不追认旧运行。
 
 集成审计发现PR307的真实Full运行40722229360为原15项成功+impact成功+单个未展开fast跳过，共17项；旧交付验证器会将新增项拒绝。隔离0763d2e7工作树补版本合同：历史schemaVersion 2仍严格15项；新采证schemaVersion 3严格17项，缺两项也不回退历史版本，Fast-only/未知/重复/错身份/原分片非成功均拒绝；分页、原artifact和head/base/tree/重试校验保持。先红19通过2失败，再绿交付23项；最终可执行CI合同48/48和下载策略2/2通过，Node24.22.1。完整聚焦批次另有1项真实PowerShell checkout因本环境缺pwsh(ENOENT)失败，未跳过或改断言，不宣称该项或完整Quality通过。源码语法、网络和Backlog检查通过。未改工作流/保护/原证据，未push/合并/批准；待独立审查与正式当前SHA CI。TASK81性能AC不勾、仍In Progress。
+
+2026-10-28 17:34 UTC只读API证实当前目标陈旧边界：branches/develop、git/ref/heads/develop及GraphQL引用均432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7；PR314仍报告base0763d2e7a4137a1f35d6a214922cb3ca938aa53c，refs/pull/314/merge仍aac67c0b983bfeb99067ef579b1ec1b92d57d2e7，其真实父为0763与abca269f332ce4db41cc4fd572d3adcf76264bdd。仅复查PR对象会错误沿用一致但旧的PR/merge/CI组合。最小修复在PR采证前后独立读目标Git ref，schema3绑定targetBeforeSha/targetAfterSha与已测base；旧schema2不变，历史合入不查询当前tip。新增未变目标通过、起始陈旧拒绝且不取产物、采证中前进拒绝、两处缺失/畸形/查询失败及真实采证调用顺序回归。交付专项先红23通过1失败，后绿27/27，Node24.22.1；不改工作流、保护、依赖、原收据或产品源码，不做fetch/rebase/push/合并。
 <!-- SECTION:NOTES:END -->
