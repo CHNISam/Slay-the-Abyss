@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
-import {acceptedPresentationSource} from './helpers/presentation-m3-integration.mjs';
+import {acceptedPresentationSource,integration} from './helpers/presentation-m3-integration.mjs';
+import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 
 const directory='docs/reviews/presentation-native-m3-20261028';
 const digest=value=>createHash('sha256').update(value).digest('hex');
@@ -126,6 +127,35 @@ test('room port retains its accepted source identities alongside the strict revi
  }
  assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
  });
+test('retirement theme and fixture inverses reject unrelated drift and obsolete controls',()=>{
+ const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ assert.equal(digest(preRetirementSource(path,source)),integration.afterSha256[path]);
+ assert.equal(preRetirementSource(path,source.replaceAll('\n','\r\n')),preRetirementSource(path,source));
+ const original=JSON.parse(source);
+ const mutations=[
+  value=>{value.layout.nativeMenu.codeVersion[0]++;},
+  value=>{delete value.layout.nativeMenu.codeVersion;},
+  value=>{value.layout.releaseNotes=JSON.parse(frozenSource(path)).layout.releaseNotes;},
+  value=>{value.font.body++;},
+  value=>{value.layout.nativeMenu.unreviewed=[0,0,1,1];},
+ ];
+ for(const mutate of mutations){
+  const changed=structuredClone(original);mutate(changed);
+  assert.throws(()=>preRetirementSource(path,JSON.stringify(changed,null,2)+'\n'));
+ }
+ const changedBody=source.replace('"body": 18','"body": 19');
+ assert.notEqual(changedBody,source,'negative check changes the original font bytes without reformatting');
+ assert.throws(()=>preRetirementSource(path,changedBody));
+ assert.throws(()=>preRetirementSource(path,source+'\n'));
+ const fixturePath='tests/lua/presentation_responsibilities_trace.lua';
+ const fixture=readFileSync(fixturePath,'utf8').replaceAll('\r\n','\n');
+ assert.equal(digest(preRetirementSource(fixturePath,fixture)),integration.afterSha256[fixturePath]);
+ assert.equal(preRetirementSource(fixturePath,fixture.replaceAll('\n','\r\n')),preRetirementSource(fixturePath,fixture));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture+'\n-- unreviewed scenario drift\n'));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('trace:assertNativeInteraction()','-- removed native guard')));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('79689','79688')));
+});
+
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{
  assert.equal(themeReview.sourceHead,'af25ca0887529ea0549363c394ba54fc55ad91f1');
  assert.equal(themeReview.historicalCaptureHead,'c5e768807081d1c62750174998367f1565274ee5');

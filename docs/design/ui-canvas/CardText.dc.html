@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>卡面文字</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;family=Noto+Serif+SC:wght@600;900&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1920px; height: 1080px; position: relative; overflow: hidden; background: #0D0708; font-family: 'Noto Sans SC', sans-serif; color: #F3ECDD">
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 1100px 900px at 46% 40%, #4E1A1A 0%, #2A1013 45%, #0D0708 100%)"></div>
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 1150px 680px at 46% 52%, #00000000 55%, #050303D9 100%)"></div>
+
+  <!-- 规则 -->
+  <div style="position: absolute; left: 1240px; top: 70px; width: 600px">
+    <div style="display: flex; align-items: center; gap: 12px; font-size: 15px; letter-spacing: 6px; color: #BBAA8C"><span style="width: 32px; height: 1px; background: #E9C77B"></span>卡面文字</div>
+    <div style="margin-top: 10px; font-family: 'Noto Serif SC', serif; font-size: 44px; font-weight: 900; color: #F6DFA4">全文直接写在牌面上</div>
+    <div style="margin-top: 26px; display: flex; flex-direction: column; gap: 16px">
+      <sc-for list="{{rules}}" as="r" hint-placeholder-count="5">
+        <div style="display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 30px; height: 30px; border-radius: 50%; background: #120C0B; border: 2px solid #C9A25E; color: #F6DFA4; font-size: 15px; font-weight: 900; display: grid; place-items: center">{{r.n}}</span>
+          <div><b style="font-size: 18px">{{r.title}}</b><div style="margin-top: 3px; font-size: 15px; line-height: 1.6; color: #BBAA8C">{{r.body}}</div></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- 悬停的牌：项目卡牌组件原尺寸 -->
+  <div style="position: absolute; left: 596px; top: 392px; width: 296px; height: 416px; filter: drop-shadow(0 0 24px #F58258AA)">
+    <dc-import name="Card" role="hutao" cost-state="normal" block="none" art="" rarity="common" shape="attack" title="蝶舞回身" type-label="攻击" cost="1" text="造成 7 点伤害。若有血梅香，再造成 7 点伤害。" hint-size="296px,416px"></dc-import>
+  </div>
+  <div style="position: absolute; left: 920px; top: 410px; width: 300px; display: flex; flex-direction: column; gap: 12px">
+    <sc-for list="{{keys}}" as="k" hint-placeholder-count="2">
+      <div style="padding: 14px 18px; border-radius: 12px; background: #1A1312F2; border: 1px solid #6E5A42; box-shadow: 0 12px 28px #00000090">
+        <b style="font-size: 18px; color: #F0C878">{{k.name}}</b>
+        <div style="margin-top: 6px; font-size: 15px; line-height: 1.6; color: #C9BCA4">{{k.desc}}</div>
+      </div>
+    </sc-for>
+    <div style="font-size: 13px; color: #6E5A42; padding-left: 4px">悬停 / 单指按住牌即出现，松开消失</div>
+  </div>
+
+  <!-- 手牌 -->
+  <div style="position: absolute; left: 960px; top: 720px; width: 0; height: 0">
+    <sc-for list="{{cards}}" as="c" hint-placeholder-count="5">
+      <div style="{{c.pos}}">
+        <div style="width: 207px; height: 291px; opacity: {{c.op}}">
+          <div style="width: 296px; height: 416px; transform: scale(0.7); transform-origin: 0 0">
+            <dc-import name="Card" role="hutao" rarity="{{c.rarity}}" shape="{{c.shape}}" title="{{c.name}}" type-label="{{c.type}}" cost="{{c.cost}}" text="{{c.text}}" cost-state="normal" block="none" art="" hint-size="296px,416px"></dc-import>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+            </div>
+            <div style="position: absolute; left: 4px; top: 4px; width: 44px; height: 44px; display: grid; place-items: center">
+              <span style="position: absolute; width: 30px; height: 30px; transform: rotate(45deg); border-radius: 4px; background: linear-gradient(135deg, #FBE3A8, #D49A44 55%, #7E521C); box-shadow: 0 0 0 2px #170F0E, 0 0 0 3px #E9C77B"></span>
+              <span style="position: relative; font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 900; color: #2A1708">{{c.cost}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <!-- 悬停牌原位留空槽 -->
+  <div style="position: absolute; left: 669px; top: 1004px; width: 150px; height: 4px; border-radius: 2px; background: #E9C77B; box-shadow: 0 0 12px #E9C77B"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const N = 'color: #E6DCC8', K = 'color: #F0C878; font-weight: 900', UP = 'color: #8CE07A; font-weight: 900', DN = 'color: #F07A6A; font-weight: 900';
+    const line = (segs, cond) => ({ segs: segs.map(([t, st]) => ({ t, st: st || N })), box: cond === 'on' ? 'padding: 2px 6px; border-radius: 6px; background: #E9C77B1C; box-shadow: inset 0 0 0 1px #E9C77B66' : cond === 'off' ? 'opacity: 0.55' : '' });
+    const atk = { type: '攻击', tag: '#E8836C', edgeA: '#C98A5A', edgeB: '#5A3A2C', art: 'radial-gradient(circle at 50% 60%, #7A2A1E, #2A1210)' };
+    const skl = { type: '技能', tag: '#8CC4E2', edgeA: '#8CB8D0', edgeB: '#2C4652', art: 'radial-gradient(circle at 50% 60%, #24485A, #101C24)' };
+    const hand = [
+      { name: '普通攻击', cost: '1', type: '攻击', shape: 'attack', rarity: 'basic', text: '造成 8 点伤害。' },
+      { name: '蝶舞回身', cost: '1', type: '攻击', shape: 'attack', rarity: 'common', text: '造成 7 点伤害。若有血梅香，再造成 7 点伤害。', hover: true },
+      { name: '防御', cost: '1', type: '技能', shape: 'skill', rarity: 'basic', text: '获得 5 点格挡。' },
+      { name: '催绽', cost: '1', type: '技能', shape: 'skill', rarity: 'uncommon', text: '兑现目标全部血梅香。' },
+      { name: '灯还亮着', cost: '1', type: '能力', shape: 'power', rarity: 'rare', text: '生命低于一半时，每回合获得 6 点格挡。' }
+    ];
+    const n = hand.length;
+    const cards = hand.map((c, i) => {
+      const k = i - (n - 1) / 2;
+      const push = i < 1 ? -40 : i > 1 ? 40 : 0;
+      return { ...c, fs: '16px', op: c.hover ? 0 : 1, pos: 'position: absolute; left: ' + (k * 176 - 103 + push) + 'px; top: ' + (k * k * 8) + 'px; transform: rotate(' + (k * 3.5) + 'deg); transform-origin: 50% 130%' };
+    });
+    const keys = [
+      { name: '血梅香', desc: '带强度和剩余次数的持续伤害，每次造成 2×强度。' },
+      { name: '兑现', desc: '立刻造成血梅香剩余伤害（2×强度×剩余次数）并清空，受格挡影响。' }
+    ];
+    const rules = [
+      { title: '牌面永远写全文', body: '不出现「长按查看全文」。效果写不下就改文案，不截断。' },
+      { title: '文字预算', body: '每张最多 3 行、每行 9 字左右；放不下先缩字号 16→14→13，再不行就精简措辞。' },
+      { title: '关键词金色', body: '血梅香、兑现等机制词标金色；悬停或按住牌时，旁边弹出释义卡，一词一张。' },
+      { title: '数值随状态变色', body: '受力量、虚弱等影响后，变大写绿色、变小写红色，原值不再显示。' },
+      { title: '条件句看得出是否满足', body: '「若…：」单独一行；满足时加金框高亮，不满足时变暗。' }
+    ].map((r, i) => ({ ...r, n: i + 1 }));
+    return { rules, cards, keys };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>地图</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;family=Noto+Serif+SC:wght@600;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 1920px; height: 1080px; position: relative; overflow: hidden; background: #0D0708; font-family: 'Noto Sans SC', sans-serif; color: #F3ECDD">
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 1100px 900px at 46% 40%, #4E1A1A 0%, #2A1013 45%, #0D0708 100%)"></div>
+  <div style="position: absolute; left: -300px; top: -200px; width: 1400px; height: 700px; background: linear-gradient(115deg, #E9C77B00 30%, #E9C77B12 48%, #E9C77B00 62%); transform: rotate(-8deg)"></div>
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 1150px 680px at 46% 52%, #00000000 55%, #050303D9 100%)"></div>
+
+  <!-- 顶栏：与战斗共用 -->
+  <div style="position: absolute; left: 0; right: 0; top: 0; height: 110px; background: linear-gradient(180deg, #070303F2 0%, #070303B0 60%, #07030300 100%)"></div>
+  <div style="position: absolute; left: 0; right: 0; top: 94px; height: 1px; background: linear-gradient(90deg, #6E5A4200, #6E5A4288 30%, #6E5A4288 70%, #6E5A4200)"></div>
+  <div style="position: absolute; left: 52px; top: 16px; height: 64px; display: flex; align-items: center; gap: 34px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z" fill="#D9604F"></path></svg>
+      <span style="font-size: 22px; font-weight: 700">72<span style="color: #9E8C72; font-weight: 500">/80</span></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span style="width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #F8DCA0, #C98F3E)"></span>
+      <span style="font-size: 22px; font-weight: 700">151</span>
+    </div>
+  </div>
+  <div style="position: absolute; left: 0; right: 0; top: 16px; height: 64px; display: flex; align-items: center; justify-content: center; gap: 16px; pointer-events: none">
+    <span style="width: 44px; height: 1px; background: linear-gradient(90deg, #E9C77B00, #E9C77B)"></span>
+    <span style="font-family: 'Noto Serif SC', serif; font-size: 15px; letter-spacing: 6px; color: #BBAA8C">第一幕</span>
+    <span style="font-family: 'Noto Serif SC', serif; font-size: 26px; font-weight: 900; letter-spacing: 8px; color: #E9C77B">第 3 层</span>
+    <span style="width: 44px; height: 1px; background: linear-gradient(90deg, #E9C77B, #E9C77B00)"></span>
+  </div>
+  <button aria-label="药水：锻造祝福" style="position: absolute; left: 362px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid #8C7454; background: radial-gradient(circle at 50% 35%, #3A2E28, #221A17); display: grid; place-items: center; padding: 0">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8CC4E2" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8A3 3 0 0 0 8.2 21h7.6a3 3 0 0 0 2.7-5L14 8V3"></path><path d="M7.5 14h9"></path></svg>
+  </button>
+  <button aria-label="药水：火焰药水" style="position: absolute; left: 424px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid #8A4A3A; background: radial-gradient(circle at 50% 35%, #4A2C24, #221A17); display: grid; place-items: center; padding: 0">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EE9670" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8A3 3 0 0 0 8.2 21h7.6a3 3 0 0 0 2.7-5L14 8V3"></path><path d="M12 12c1.5 1.4 2 2.4 2 3.4a2 2 0 0 1-4 0c0-1 .5-2 2-3.4z"></path></svg>
+  </button>
+  <button aria-label="空药水槽" style="position: absolute; left: 486px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px dashed #6E5A42; background: #1A131280"></button>
+  <span style="position: absolute; left: 340px; top: 34px; width: 1px; height: 28px; background: #6E5A42"></span>
+  <button aria-label="查看卡组，13 张" style="position: absolute; left: 1694px; top: 22px; width: 100px; height: 52px; border-radius: 26px; border: 1px solid #6E5A42; background: #241B19; color: #F3ECDD; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 18px; font-weight: 700">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BBAA8C" stroke-width="1.8" aria-hidden="true"><rect x="7" y="3" width="12" height="16" rx="2"></rect><path d="M5 7v12a2 2 0 0 0 2 2h9"></path></svg>13
+  </button>
+  <button aria-label="菜单" style="position: absolute; left: 1808px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1px solid #6E5A42; background: #241B19; display: grid; place-items: center; padding: 0">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BBAA8C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+  </button>
+
+
+  <!-- 地图区：中间清楚，四周雾气吞没 -->
+  <div style="position: absolute; left: 480px; top: 96px; width: 960px; height: 984px; background: radial-gradient(ellipse 480px 520px at 50% 52%, #2A1412CC 0%, #1A0C0B80 60%, #0D070800 100%)"></div>
+  <sc-for list="{{fog}}" as="f" hint-placeholder-count="8"><div style="{{f}}"></div></sc-for>
+  <!-- 路径 -->
+  <sc-for list="{{edges}}" as="l" hint-placeholder-count="12">
+    <div style="{{l.style}}"></div>
+  </sc-for>
+
+  <!-- 节点 -->
+  <sc-for list="{{nodes}}" as="n" hint-placeholder-count="16">
+    <button aria-label="{{n.label}}" style="{{n.style}}">
+      <sc-if value="{{n.isFight}}" hint-placeholder-val="{{true}}"><svg width="{{n.icon}}" height="{{n.icon}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5 19.6 8.4 10.4 17.6 6.4 13.6 15.6 4.4Z" fill="{{n.ink}}"></path><path d="M4.6 12.6 11.4 19.4" stroke="{{n.ink}}" stroke-width="2.2" stroke-linecap="round"></path><path d="M7.4 16.6 3.6 20.4" stroke="{{n.ink}}" stroke-width="2.6" stroke-linecap="round"></path></svg></sc-if>
+      <sc-if value="{{n.isElite}}" hint-placeholder-val="{{false}}"><svg width="{{n.icon}}" height="{{n.icon}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5l4 5 5-7 5 7 4-5-2 13H5Z" fill="{{n.ink}}"></path><path d="M5 20.5h14" stroke="{{n.ink}}" stroke-width="2" stroke-linecap="round"></path></svg></sc-if>
+      <sc-if value="{{n.isRest}}" hint-placeholder-val="{{false}}"><svg width="{{n.icon}}" height="{{n.icon}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21.5 20 17.5M4 17.5l16 4" style="stroke: #8C6A44; stroke-width: 2.2; stroke-linecap: round"></path><path d="M12 2.5c2.4 2.8 4.3 5 4.3 7.8a4.3 4.3 0 0 1-8.6 0c0-1.4.5-2.6 1.4-3.6.2 1.4.9 2.2 1.7 2.6 0-2.2.5-4.3 1.2-6.8Z" fill="{{n.ink}}"></path><path d="M4 19.5l16-3M4 16.5l16 3" stroke="{{n.ink}}" stroke-width="2" stroke-linecap="round"></path></svg></sc-if>
+      <sc-if value="{{n.isShop}}" hint-placeholder-val="{{false}}"><svg width="{{n.icon}}" height="{{n.icon}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8V6.5a4 4 0 0 1 8 0V8" fill="none" stroke="{{n.ink}}" stroke-width="2"></path><path d="M4.5 8h15l-1.3 12.5H5.8Z" fill="{{n.ink}}"></path></svg></sc-if>
+      <sc-if value="{{n.isEvent}}" hint-placeholder-val="{{false}}"><svg width="{{n.icon}}" height="{{n.icon}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.8 8.6a3.3 3.3 0 1 1 4.8 3c-1 .6-1.6 1.3-1.6 2.6" fill="none" stroke="{{n.ink}}" stroke-width="2.6" stroke-linecap="round"></path><circle cx="12" cy="19" r="1.7" fill="{{n.ink}}"></circle></svg></sc-if>
+      <sc-if value="{{n.isChest}}" hint-placeholder-val="{{false}}"><svg width="{{n.icon}}" height="{{n.icon}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5h17v9h-17Z" fill="{{n.ink}}"></path><path d="M3.5 9.5a8.5 5 0 0 1 17 0Z" fill="{{n.ink}}" opacity="0.8"></path><path d="M10.5 12h3v3h-3Z" fill="#1A1312"></path></svg></sc-if>
+      <sc-if value="{{n.isBoss}}" hint-placeholder-val="{{false}}"><svg width="{{n.icon}}" height="{{n.icon}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 15 8l6 1-4.4 4.2 1 6L12 16.4 6.4 19.2l1-6L3 9l6-1Z" fill="{{n.ink}}"></path></svg></sc-if>
+    </button>
+  </sc-for>
+
+  <div style="position: absolute; left: 0; right: 0; top: 90px; height: 70px; background: linear-gradient(180deg, #0D0708 0%, #0D070800 100%); pointer-events: none"></div>
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 140px; background: linear-gradient(0deg, #0D0708 0%, #0D070800 100%); pointer-events: none"></div>
+  <!-- 当前位置：主角令牌 -->
+  <div style="position: absolute; left: 1000px; top: 638px; width: 34px; height: 34px; transform: rotate(45deg); border-radius: 6px; background: linear-gradient(135deg, #FBE3A8, #C98F3E); box-shadow: 0 0 0 3px #170F0E, 0 0 18px #E9C77B"></div>
+
+  <!-- 图例 -->
+  <div style="position: absolute; right: 56px; bottom: 56px; display: flex; flex-direction: column; gap: 10px; opacity: 0.85">
+    
+    <sc-for list="{{legend}}" as="g" hint-placeholder-count="7">
+      <div style="display: flex; align-items: center; gap: 10px; font-size: 15px; color: #9E8C72">
+        <span style="width: 26px; height: 26px; display: grid; place-items: center">
+          <sc-if value="{{g.isFight}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5 19.6 8.4 10.4 17.6 6.4 13.6 15.6 4.4Z" fill="#C9C3B6"></path><path d="M4.6 12.6 11.4 19.4" stroke="#C9C3B6" stroke-width="2.2" stroke-linecap="round"></path></svg></sc-if>
+          <sc-if value="{{g.isElite}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5l4 5 5-7 5 7 4-5-2 13H5Z" fill="#E8836C"></path></svg></sc-if>
+          <sc-if value="{{g.isRest}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21.5 20 17.5M4 17.5l16 4" style="stroke: #8C6A44; stroke-width: 2.2; stroke-linecap: round"></path><path d="M12 2.5c2.4 2.8 4.3 5 4.3 7.8a4.3 4.3 0 0 1-8.6 0c0-1.4.5-2.6 1.4-3.6.2 1.4.9 2.2 1.7 2.6 0-2.2.5-4.3 1.2-6.8Z" fill="#E9C77B"></path></svg></sc-if>
+          <sc-if value="{{g.isShop}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8V6.5a4 4 0 0 1 8 0V8" fill="none" stroke="#8CC4E2" stroke-width="2"></path><path d="M4.5 8h15l-1.3 12.5H5.8Z" fill="#8CC4E2"></path></svg></sc-if>
+          <sc-if value="{{g.isEvent}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.8 8.6a3.3 3.3 0 1 1 4.8 3c-1 .6-1.6 1.3-1.6 2.6" fill="none" stroke="#BCB0E2" stroke-width="2.6" stroke-linecap="round"></path><circle cx="12" cy="19" r="1.7" fill="#BCB0E2"></circle></svg></sc-if>
+          <sc-if value="{{g.isChest}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5h17v9h-17Z" fill="#F0BC72"></path><path d="M3.5 9.5a8.5 5 0 0 1 17 0Z" fill="#F0BC72" opacity="0.8"></path></svg></sc-if>
+          <sc-if value="{{g.isBoss}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 15 8l6 1-4.4 4.2 1 6L12 16.4 6.4 19.2l1-6L3 9l6-1Z" fill="#E8836C"></path></svg></sc-if>
+        </span>{{g.label}}
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const K = {
+      fight: { label: '普通战斗', isFight: true, ink: '#C9C3B6' },
+      elite: { label: '精英', isElite: true, ink: '#E8836C' },
+      rest: { label: '营地', isRest: true, ink: '#E9C77B' },
+      shop: { label: '商店', isShop: true, ink: '#8CC4E2' },
+      event: { label: '事件', isEvent: true, ink: '#BCB0E2' },
+      chest: { label: '宝箱', isChest: true, ink: '#F0BC72' },
+      boss: { label: '首领', isBoss: true, ink: '#E8836C' }
+    };
+    const cols = [640, 800, 960, 1120, 1280];
+    const rowY = (r) => 900 - r * 108;
+    // [row, col, kind, state]  state: done / now / next / far
+    const raw = [
+      [0, 2, 'fight', 'done'], [1, 1, 'event', 'done'], [1, 3, 'fight', 'far'],
+      [2, 2, 'fight', 'now'], [2, 4, 'shop', 'far'],
+      [3, 1, 'elite', 'next'], [3, 3, 'rest', 'next'],
+      [4, 0, 'fight', 'far'], [4, 2, 'event', 'far'], [4, 4, 'chest', 'far'],
+      [5, 1, 'fight', 'far'], [5, 3, 'elite', 'far'],
+      [6, 2, 'rest', 'far'], [7, 2, 'boss', 'far']
+    ];
+    const pt = (n) => [cols[n[1]], rowY(n[0])];
+    const links = [[0, 1, 'done'], [0, 2, 'far'], [1, 3, 'done'], [2, 4, 'far'], [3, 5, 'next'], [3, 6, 'next'], [4, 6, 'far'],
+      [5, 7, 'far'], [5, 8, 'far'], [6, 8, 'far'], [6, 9, 'far'], [7, 10, 'far'], [8, 10, 'far'], [8, 11, 'far'], [9, 11, 'far'],
+      [10, 12, 'far'], [11, 12, 'far'], [12, 13, 'far']];
+    const edges = links.map(([a, b, st]) => {
+      const [x1, y1] = pt(raw[a]), [x2, y2] = pt(raw[b]);
+      const len = Math.hypot(x2 - x1, y2 - y1), ang = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+      const dot = (c, r) => 'height: ' + (r * 2) + 'px; margin-top: -' + r + 'px; background: radial-gradient(circle, ' + c + ' ' + r + 'px, #00000000 ' + (r + 0.5) + 'px) 0 50% / 14px ' + (r * 2) + 'px repeat-x';
+      const line = st === 'done' ? dot('#A8803E', 3) : st === 'next' ? dot('#F6DFA4', 3.5) : dot('#7A6650', 2.5);
+      return { style: 'position: absolute; left: ' + x1 + 'px; top: ' + y1 + 'px; width: ' + len + 'px; transform-origin: 0 50%; transform: rotate(' + ang + 'deg); ' + line };
+    });
+    const nodes = raw.map((n) => {
+      const k = K[n[2]], st = n[3], boss = n[2] === 'boss';
+      const size = boss ? 96 : st === 'now' ? 68 : 58;
+      const [x, y] = pt(n);
+      const ring = st === 'now' ? 'border: 2px solid #F6DFA4; box-shadow: 0 0 0 6px #E9C77B2E, 0 0 30px #E9C77B88' :
+        st === 'next' ? 'border: 2px solid #E9C77B; box-shadow: 0 0 0 7px #E9C77B1A, 0 0 22px #E9C77B66' :
+        st === 'done' ? 'border: 2px solid #8E6A34' : 'border: none';
+      const bg = st === 'far' ? 'transparent' : boss ? 'radial-gradient(circle at 50% 35%, #4A2C24, #1E1614)' : 'radial-gradient(circle at 50% 35%, #3A2C26, #1E1614)';
+      return { ...k, label: k.label, icon: boss ? 52 : st === 'far' ? 30 : 30, ink: st === 'done' ? '#7E6E5C' : st === 'far' ? '#C2B29A' : k.ink,
+        style: 'position: absolute; left: ' + (x - size / 2) + 'px; top: ' + (y - size / 2) + 'px; width: ' + size + 'px; height: ' + size + 'px; border-radius: 50%; background: ' + bg + '; ' + ring + '; display: grid; place-items: center; padding: 0; opacity: ' + (st === 'far' ? 0.9 : 1) };
+    });
+    const floors = [1, 2, 3, 4, 5, 6, 7, 8].map((f, i) => ({ label: f === 8 ? '首领' : f + ' 层', pos: 'position: absolute; left: 470px; top: ' + (rowY(i) - 11) + 'px; width: 80px; text-align: right; font-size: 13px; letter-spacing: 2px; color: ' + (i === 2 ? '#E9C77B' : '#6E5A42') }));
+    const legend = ['fight', 'elite', 'event', 'shop', 'rest', 'chest', 'boss'].map((k) => K[k]);
+    const fog = [[380, 60, 900, 260], [900, 20, 900, 240], [300, 860, 1000, 300], [960, 900, 900, 260], [-120, 380, 700, 520], [1340, 320, 700, 560], [700, 120, 520, 200], [760, 980, 600, 200]].map(([x, y, w, h], i) => 'position: absolute; left: ' + x + 'px; top: ' + y + 'px; width: ' + w + 'px; height: ' + h + 'px; border-radius: 50%; background: radial-gradient(ellipse, #3A2A28' + (i < 4 ? 'E6' : 'B3') + ' 0%, #1A0F0E80 45%, #0D070800 72%); filter: blur(8px)');
+    return { edges, nodes, legend, fog };
+  }
+}
+</script>
+</body>
+</html>

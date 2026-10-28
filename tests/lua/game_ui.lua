@@ -38,6 +38,19 @@ local function completeRestartOpening(ui,root,previous)
     assert(ui.mode=='map' and ui.run.nodeFlow.complete and ui.run.neowStatus=='complete')
 end
 
+test("menu shows only current version and keeps start/exit available without announcements", function()
+    local ui, root = fixture()
+    local menu = root:GetChild('menuPanel')
+    local version = menu:GetChild('codeVersion')
+    assert(version.visible and version.text == require('abyss_narrative').codeVersion)
+    assert(version.text:match('^v%d+%.%d+%.%d+$') and not version.text:match('来源'))
+    assert(not menu:GetChild('releaseNotes') and not root:GetChild('releaseNotesPanel'))
+    assert(ui.releaseNotesUI == nil and ui.mode == 'menu')
+    assert(ui:openExit() and ui.exitOpen)
+    assert(ui:closeExit() and not ui.exitOpen and ui.mode == 'menu')
+    assert(ui:start() and not version.visible and ui.mode == 'map')
+end)
+
 test("new encounter resets stale target before the first attack-card tap", function()
     local Run = require("abyss_run")
     local ui, root = fixture()
@@ -529,24 +542,21 @@ test("startup failure is visible without log subscription and hides the dead sta
     local menu = stage:GetChild("menuPanel")
     assert(menu.visible and menu:GetChild("summary").text:match("INJECTED_STARTUP_FAILURE"))
     assert(not menu:GetChild("start").visible and script.updating == false)
-    assert(not menu:GetChild('releaseNotes').visible and not menu:GetChild('codeVersion').visible)
-    assert(not stage:GetChild('releaseNotesPanel').visible)
+    assert(not menu:GetChild('codeVersion').visible)
     assert(not stage:GetChild("mapPanel").visible and not stage:GetChild("battlePanel").visible)
     OnStart() OnUpdate(0.1)
     GameUI.new = originalNew
     -- A stale/mismatched imported tree must still show the startup diagnostic,
-    -- even though the newly required notice panel and menu controls are absent.
+    -- even though a required shared panel is absent.
     local stale = control({ children = Layout })
     local staleStage = stale:GetChild('stage')
-    staleStage.children.releaseNotesPanel = nil
-    staleStage:GetChild('menuPanel').children.releaseNotes = nil
-    staleStage:GetChild('menuPanel').children.codeVersion = nil
+    staleStage.children.exitPanel = nil
     script = {object=stale, EnableUpdate=function(self,value) self.updating=value end}
     dofile('src/lua/abyss_ui.lua')
     OnStart()
     local staleMenu = staleStage:GetChild('menuPanel')
     assert(staleMenu.visible and staleMenu:GetChild('summary').visible)
-    assert(staleMenu:GetChild('summary').text:match('missing game panel releaseNotesPanel'))
+    assert(staleMenu:GetChild('summary').text:match('missing game panel exitPanel'))
     assert(not staleMenu:GetChild('start').visible and script.updating == false)
     script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)

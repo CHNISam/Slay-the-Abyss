@@ -49,7 +49,7 @@ for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
--- The immutable room-port fixture is replayed separately at 79543/1215629804.
--- PR256/268 add 214 card-frame writes and change exactly 593 reviewed visual
--- writes; the remaining 78950 writes retain their values and global order.
-assert(trace.count==79757 and trace.hash==1467902785,'ordered native writes changed from the reviewed M3 visual contract')
+-- Original room and pre-retirement M3 fixtures remain frozen and replayable.
+-- Compose the reviewed 214 additions/593 visual replacements with the exact
+-- removal of 68 announcement-owned writes; JS checks every remaining write.
+assert(trace.count==79689 and trace.hash==2034622601,'ordered native writes changed from the reviewed M3 announcement retirement contract')

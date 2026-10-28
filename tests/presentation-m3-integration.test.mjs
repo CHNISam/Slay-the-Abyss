@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {cpSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {runLua} from '../scripts/test-lua.mjs';
 import {integration as proof,acceptedPresentationSource,digest} from './helpers/presentation-m3-integration.mjs';
+
+import {retirementSources,preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
 const theme=JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));
@@ -108,7 +110,7 @@ test('M3 frame and first UI batch retain every old native write except the expli
   verify(proof.before,proof.after,proof.delta);
   for(const path of Object.keys(proof.beforeSources)){
     acceptedPresentationSource(path);
-    assert.throws(()=>acceptedPresentationSource(path,readFileSync(path,'utf8')+'\n-- drift\n'),/unreviewed integrated/);
+    assert.throws(()=>acceptedPresentationSource(path,(existsSync(path)?readFileSync(path,'utf8'):'')+'\n-- drift\n'),/unreviewed integrated/);
   }
 });
 
@@ -124,23 +126,37 @@ test('visual proof rejects changed gameplay text, missing writes, reordered writ
   const moved=structuredClone(proof.delta);moved.additions[0].index++;assert.throws(()=>verify(proof.before,proof.after,moved));
 });
 
-test('the accepted presentation sources still execute the original strict 79543-write room-port fixture',()=>{
+for(const [count,hash,sources]of [
+ [79543,1215629804,{...retirementSources.beforeSources,...proof.beforeSources}],
+ [79757,1467902785,retirementSources.beforeSources],
+])test(`the accepted presentation sources still execute the original strict ${count}-write fixture`,()=>{
   mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/accepted-presentation-'));
   try{
     // Repository-local temporary tree inherits installed node_modules resolution.
     // No downloads, Git history dependency, shared outputs or weakened deadline.
     for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
-    for(const [path,source]of Object.entries(proof.beforeSources))writeFileSync(join(directory,path),source);
+    for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
       const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});
       assert.equal(result.status,0,result.stdout+result.stderr);
     }
     const result=runLua('tests/lua/presentation_responsibilities_trace.lua',{cwd:directory});
     assert.equal(result.status,0,result.stdout+result.stderr);
-    assert.match(result.stdout,/PRESENTATION_NATIVE_TRACE 79543 1215629804/);
-    assert.match(proof.beforeSources['tests/lua/presentation_responsibilities_trace.lua'],/trace:assertNativeInteraction\(\)/);
+    assert.match(result.stdout,new RegExp(`PRESENTATION_NATIVE_TRACE ${count} ${hash}`));
+    assert.match(sources['tests/lua/presentation_responsibilities_trace.lua'],/trace:assertNativeInteraction\(\)/);
     assert.equal(digest(readFileSync('tests/lua/support/presentation_trace.lua','utf8').replaceAll('\r\n','\n')),
       digest(proof.beforeSources['tests/lua/support/presentation_trace.lua']),'strict recorder is unchanged');
   }finally{rmSync(directory,{recursive:true,force:true});}
+});
+
+test('historical replay inputs bind every changed build, host and version source, including the deleted module',()=>{
+ assert.deepEqual(retirementSources.trace,{before:[79757,1467902785],removed:68,after:[79689,2034622601]});
+ for(const [path,before]of Object.entries(retirementSources.beforeSources)){
+  assert.equal(preRetirementSource(path),before);
+  const live=existsSync(path)?readFileSync(path,'utf8'):'';
+  assert.throws(()=>preRetirementSource(path,live+'\n-- unreviewed drift\n'),/unreviewed integrated retirement source drift/);
+ }
+ assert.equal(existsSync('src/lua/abyss_release_notes_ui.lua'),false);
+ assert.match(retirementSources.beforeSources['tests/lua/presentation_responsibilities_trace.lua'],/assert\(trace.count==79757 and trace.hash==1467902785/);
 });

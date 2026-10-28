@@ -11,67 +11,6 @@ import { experimentalCharacterControls } from './character-ui-layout.mjs';
 // Approved win.png shows four cells; each is backed by a stat the run already records.
 export const resultStats = ['floor', 'victories', 'time', 'deck'];
 
-// Native four-state buttons and bounded text rows; the runtime never truncates notes.
-function releaseNotesControls(theme) {
-  const { plate, text } = nativeControls(theme);
-  const { color: c, font: f, space: s } = theme, l = theme.layout.releaseNotes;
-  const line = (name, frame, content = '', font = f.body, ink = c.text) => {
-    const item = text(name, frame, content, font, ink);
-    item.text.autoSize = false;
-    return item;
-  };
-  const button = (name, frame, label) => {
-    const size = frame.slice(2);
-    const variants = { normal: [c.panelRaised, c.goldBright, c.goldDim],
-      hover: [c.buttonHover, c.goldBright, c.goldBright],
-      pressed: [c.goldDim, c.buttonPressedText, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line] };
-    return { name, kind: 'container', position: frame.slice(0, 2), size, children: [
-      { name: 'hit', kind: 'presetButton', size: [...size], focusable: true,
-        states: Object.fromEntries(Object.keys(variants).map(state => [state, state])),
-        children: Object.entries(variants).map(([state, [fill, ink, border]]) => ({
-          name: state, kind: 'container', size: [...size],
-          scale: state === 'pressed' ? [l.pressedScale, l.pressedScale] : [1, 1], children: [
-            plate('border', [0, 0, ...size], border),
-            plate('face', [0, 0, ...size.map(value => value - s.border * 2)], fill),
-            line('label', [0, 0, ...size.map((value, i) => value - l.buttonInset[i])], label, f.label, ink),
-          ],
-        })),
-      },
-    ] };
-  };
-  const panel = { name: 'releaseNotesPanel', kind: 'container', size: [...theme.canvas.base], visible: false,
-    children: [
-      plate('veil', [0, 0, ...theme.canvas.base], c.backdropVeil),
-      { name: 'blocker', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },
-      plate('border', l.panel, c.goldDim),
-      plate('face', [...l.panel.slice(0, 2), ...l.panel.slice(2).map(value => value - s.border * 2)], c.panel),
-      line('title', l.title, '更新公告', f.heading, c.goldBright),
-      line('build', l.build, '', f.label, c.textDim),
-      button('history', l.history, '版本记录'), button('current', l.current, '本次版本说明'),
-      line('version', l.version, '', f.heading, c.gold), line('date', l.date, '', f.label, c.textDim),
-      button('newer', l.newer, '较新'), button('older', l.older, '较早'),
-      ...Array.from({ length: l.rows }, (_, i) => {
-        const row = line(`row${i + 1}`, [l.row[0], l.row[1] - i * l.rowStep, ...l.row.slice(2)]);
-        row.text.align = 'left';
-        return row;
-      }),
-      ...[
-        ['developmentTitle', '开发透明 · 源码公开', f.label, c.gold],
-        ['developmentSummary', '代码已公开到开源社区。', f.small, c.textDim],
-        ['developmentLicense', '项目原创代码采用 PolyForm Noncommercial 1.0.0 非商用许可，第三方内容遵循各自授权。', f.small, c.textDim],
-      ].map(([name, content, font, ink]) => {
-        const item = line(name, l[name], content, font, ink);
-        item.text.align = 'left';
-        item.focusable = false;
-        return item;
-      }),
-      button('previous', l.previous, '上一页'), line('page', l.page, '', f.label, c.textDim),
-      button('next', l.next, '下一页'), button('close', l.close, '返回主菜单'),
-    ] };
-  return { entry: button('releaseNotes', l.entry, '更新公告'),
-    version: line('codeVersion', l.menuVersion, '', f.small, c.textDim), panel };
-}
-
 export function gameLayout(theme = nativeTheme, options = {}) {
   const { text, plate, button, frame, centred } = nativeControls(theme);
   const layout = theme.layout.nativeMenu, { color, font, space, image } = theme;
@@ -107,7 +46,8 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     picture('disc', [ew, eh], image.disc, color.panelSunken),
     picture('icon', [ew - layout.emblemInset, eh - layout.emblemInset], theme.icon.geo, color.geo),
   ] };
-  const notice = releaseNotesControls(theme);
+  const codeVersion = text('codeVersion', layout.codeVersion, '', font.small, color.textDim);
+  codeVersion.text.autoSize = false;
   const stats = layout.stats, [cw, ch] = stats.size;
   const statCard = (key, i) => ({ name: `stat_${key}`, kind: 'container',
     position: [stats.origin[0] + i * stats.step, stats.origin[1]], size: [cw, ch], children: [
@@ -143,7 +83,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         button('start', layout.start, '启程', { inset: layout.buttonInset, fontSize: font.heading,
           colour: color.textOnLight, fill: color.gold, border: color.goldBright }),
         button('battleSpeed', theme.layout.nativeMenu.battleSpeed, '战斗速度：普通', { inset: layout.buttonInset, fontSize: font.label, states: true }),
-        notice.entry, notice.version,
+        codeVersion,
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
       ] },
@@ -153,10 +93,9 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       ...potionDiscardControls(theme),
       ...(options.experimentalCharacters === true || options.originalCharacters === true ? experimentalCharacterControls(theme,options) : []),
       ...exitControls(theme),
-      notice.panel,
     ],
   };
-  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'prologuePanel', 'releaseNotesPanel']);
+  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'prologuePanel']);
   for (const control of layoutTree.controls) if (overlays.has(control.name)) control.isolateNavigation = true;
   return layoutTree;
 }

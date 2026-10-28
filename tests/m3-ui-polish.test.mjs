@@ -16,6 +16,9 @@ test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with
     goldIcon:[-420,28],gold:[-376,52],exhaustIcon:[-330,28],exhaust:[-292,44]});
   Object.assign(expected.layout.cardDrag,{aimDots:14,aimDot:[8,24]});
   Object.assign(expected.layout.enemyRow,{xFromFew:32,fewCount:3});
+  // PR282 relocates only the existing version geometry and retires notices.
+  expected.layout.nativeMenu.codeVersion=expected.layout.releaseNotes.menuVersion;
+  delete expected.layout.releaseNotes;
   assert.deepEqual(JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8')),expected);
 });
 

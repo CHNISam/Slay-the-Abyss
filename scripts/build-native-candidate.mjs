@@ -104,7 +104,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       receipt.nativeCardArt=nativeCardArtBuildReceipt(art,{root,directory:generated});
     }
     if(releaseCandidate && !readFileSync(join(generated,'abyss_narrative.lua'),'utf8')
-      .includes(`["releaseNotes"]=${toLua(releaseNotes)}`))throw new Error('Bundled release notes differ from candidate provenance');
+      .includes(`["codeVersion"]=${toLua(releaseNotes.build.version)}`))throw new Error('Bundled code version differs from candidate provenance');
     const layout=JSON.parse(readFileSync(join(generated,'game-ui.json'),'utf8'));
     const templates=JSON.parse(readFileSync(join(generated,'game-ui-templates.json'),'utf8'));
     layout.controls.forEach(checkTree);templates.forEach(checkTree);
