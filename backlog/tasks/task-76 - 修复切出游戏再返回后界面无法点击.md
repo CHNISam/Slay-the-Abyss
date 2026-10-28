@@ -3,10 +3,11 @@ id: TASK-76
 title: 修复切出游戏再返回后界面无法点击
 status: In Progress
 assignee:
-  - codex
+  - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-10-28 09:56'
+updated_date: '2026-10-28 11:05'
 labels: []
+milestone: m-5
 dependencies: []
 references:
   - docs/backlog-details/TASK-76.md
@@ -44,4 +45,6 @@ ordinal: 121000
 用户补充：不切出也会突然无法选牌，点击退出本局等按钮后恢复；不再以窗口失焦为必要触发条件。继续离线排查丢失释放事件后 self.gesture 永久拒绝新 Down 的路径。
 
 已用真实UI处理器红绿复现缺失Up导致卡牌永久锁定；最小修复18行及针对性回归已实现。候选只替换PR290底图的BattleUI模块，实机待用户自行验证。详细边界、测试与失败记录见附件。
+
+2026-10-28队列复核（基线77c2d5e6）：中断按压修复已进入集成源码，但跨界面故障与同候选平台实测尚无完整验收；继续High/In Progress，原0/3验收保留。作为前两幕输入阻塞关联M4并列入排期，负责人统一Furinya，不把本地红绿或实验模块包当作用户故障已彻底解决。
 <!-- SECTION:NOTES:END -->

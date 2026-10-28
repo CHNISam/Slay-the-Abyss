@@ -3,9 +3,9 @@ id: TASK-59.3
 title: 完成正式开局和八种角色选择
 status: In Progress
 assignee:
-  - '@Codex'
+  - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-28 08:41'
+updated_date: '2026-10-28 11:05'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -13,7 +13,7 @@ dependencies: []
 references:
   - docs/backlog-details/TASK-59.3.md
 parent_task_id: TASK-59
-priority: high
+priority: medium
 ordinal: 121000
 ---
 
@@ -48,4 +48,6 @@ ordinal: 121000
 按用户最新明确要求停止扩项并尽快合入。已同步e46bd5dd，保留全部卡框/拖牌/战斗UI与正式campaign入口；解决5处冲突。组合原79689条原生写入全部保留，仅新增1703条，16项组合合同通过。原生启动生命周期单独通过；整组本地冒烟末段60秒超时保留，不放宽预算。此前GIL及221模块读回通过仅属于合流前版本；合流后未重新打包或实机。完整CI与最终合并记录随后以PR290为准。
 
 PR290接续：隔离候选已合入develop d2e0baa3；复核4aba86bc全部有效修复并新增当前正式入口漂移负例，原锁定hash/视觉/三幕及第四幕权限断言保留。Node24.18.0定向21/21零跳过。完整最终SHA Quality及本轮离线副本读回仍执行中；无官方导入、实机或键鼠占用。
+
+2026-10-28队列复核（基线77c2d5e6）：正式开局源码已随PR290合入2ee2f401，当前源码接入阻塞已解除，移出High；组合候选原生构建/读回及必要最终证据仍需补齐，保持In Progress和原2/3验收，不把合并代码当作整体完成。负责人按项目约定统一Furinya。
 <!-- SECTION:NOTES:END -->

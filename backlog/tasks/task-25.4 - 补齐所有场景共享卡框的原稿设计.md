@@ -3,15 +3,16 @@ id: TASK-25.4
 title: 补齐所有场景共享卡框的原稿设计
 status: In Progress
 assignee:
-  - '@codex'
+  - Furinya
 created_date: '2026-10-28 09:39'
-updated_date: '2026-10-28 10:12'
+updated_date: '2026-10-28 11:05'
 labels: []
 milestone: m-5
 dependencies: []
 references:
   - docs/design/CARD_FACE_PARITY.md
 parent_task_id: TASK-25
+priority: medium
 ordinal: 121000
 ---
 
@@ -38,4 +39,6 @@ ordinal: 121000
 
 <!-- SECTION:NOTES:BEGIN -->
 共享原生装配与三个运行时宿主已接入；原生图片几何、材质高光、角色徽记、类型标签、费用环反馈及状态复用均有离线证据。用户本轮选择自行导入，待独立候选和用户本轮实机证据；任务保持In Progress，不宣称平台UI通过。未使用OpenCode，额度节省未知。
+
+2026-10-28排期复核：共享卡框是前两幕M4必做品质项，补齐Medium优先级并列入M4排期；原生能力、同候选及设备实测缺口保留，状态和未勾验收不变。负责人按项目约定统一Furinya。
 <!-- SECTION:NOTES:END -->
