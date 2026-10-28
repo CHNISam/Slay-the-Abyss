@@ -359,7 +359,19 @@ test('NUL git records retain both rename/copy sides and exact whitespace paths',
   for (const invalid of ['M\0file', 'R100\0old\0', 'not-a-status\0file\0']) assert.throws(() => parseGitChanges(invalid));
 });
 
-test('CLI reads real staged renames and untracked whitespace names without quoting or trimming', () => {
+// Win32 rejects control characters in real filenames. Every platform still
+// exercises spaces and Unicode; POSIX additionally exercises tabs/newlines.
+// The synthetic NUL-record assertions above retain both controls on Windows.
+for (const [kind, next, untracked] of [
+  ['portable spaces and Unicode', 'scripts/new layout 雪.mjs', 'tests/new case 雪.test.mjs'],
+  ...(process.platform === 'win32' ? [] : [['POSIX control characters', 'scripts/new\tlayout.mjs', 'tests/new\ncase.test.mjs']]),
+]) {
+test(`CLI reads real staged renames and untracked whitespace names without quoting or trimming: ${kind}`, () => {
+  if (kind === 'portable spaces and Unicode') for (const path of [next, untracked]) {
+    assert.match(path, / /);
+    assert.match(path, /[^\x00-\x7f]/u);
+    assert.doesNotMatch(path, /[<>:"\\|?*\u0000-\u001f]/u, 'portable fixture must use Windows-valid filename characters');
+  }
   const root = mkdtempSync(join(tmpdir(), 'abyss-affected-git-'));
   const git = args => {
     const result = spawnSync('git', args, { cwd: root, encoding: 'utf8' });
@@ -368,7 +380,7 @@ test('CLI reads real staged renames and untracked whitespace names without quoti
   const put = (path, source) => { mkdirSync(dirname(join(root, path)), {recursive:true}); writeFileSync(join(root, path), source); };
   try {
     git(['init', '-q']);
-    const old = 'scripts/old layout.mjs', next = 'scripts/new\tlayout.mjs', untracked = 'tests/new\ncase.test.mjs';
+    const old = 'scripts/old layout.mjs';
     put(old, 'export const value=1'); put('src/lua/abyss_empty.lua', ''); put('tests/direct.test.mjs', '');
     git(['add', '.']); git(['-c','user.name=Selector Test','-c','user.email=selector@example.invalid','commit','-qm','baseline']);
     renameSync(join(root, old), join(root, next)); git(['add', '-A']); put(untracked, '');
@@ -379,6 +391,7 @@ test('CLI reads real staged renames and untracked whitespace names without quoti
     assert.equal(plan.full, true); assert.match(plan.reason, /old layout/);
   } finally { rmSync(root, {recursive:true,force:true}); }
 });
+}
 
 test('real generated node layout changes retain actual host Lua regressions and exclude literal unrelated wrappers', () => {
   const plan = selectTests(['scripts/node-ui-layout.mjs'], repositorySources);
