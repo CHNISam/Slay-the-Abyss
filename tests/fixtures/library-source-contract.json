@@ -116,6 +116,13 @@
       "gitBlobSha": "ee5ebef8ad8dc3316e5fc89b7631bab8d9dd49e7",
       "sha256": "438f8c014c563c51f2f14d8f98839e71a7c4a45db314d9b36be8c76ba0b2d92f",
       "size": 3542
+    },
+    {
+      "gitBlobSha": "e5ae6bf747375d9e251901421ad1fba6ac3e0721",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/SearingBlow.java",
+      "size": 2149,
+      "sha256": "93aed26c36c2bdfdac23b3d38da135332dcaefe8b43f66461bdbb69b85a1765b",
+      "path": "cards/red/SearingBlow.java"
     }
   ],
   "behavior": {
@@ -133,7 +140,7 @@
     "pityMutation": false,
     "upgradeRolls": false,
     "gridOrder": "reverse accepted generation order",
-    "selectedCopy": "fresh base makeCopy, then actual obtain hooks",
+    "selectedCopy": "fresh base makeCopy for ordinary cards; SearingBlow(int n) alone preserves timesUpgraded n while resetting upgraded=false and baseDamage=12 before actual obtain hooks",
     "sleepA0Percent": 0.33,
     "cachedHealFacts": {
       "1": 0,
@@ -162,7 +169,7 @@
       "openMap"
     ]
   },
-  "implementationBoundary": "Full Run four-class source catalogue only; historical prepared/original-V4 Read unavailable, Sleep supported. Toxic Egg uses shared preview and actual obtain hooks. Forced Molten/Frozen Egg Read refuses until their shared hooks exist. Global cosmetic getBook random copy downgraded to fixed local text; no gameplay stream draw. No mutating onMasterDeckChange hook exists in current supported relic owner. Native acceptance NOT_RUN.",
+  "implementationBoundary": "Full Run four-class source catalogue only; historical prepared/original-V4 Read unavailable, Sleep supported. Toxic Egg uses shared preview and actual obtain hooks. Molten Egg uses shared hooks; Searing Blow constructor-copy count/baseDamage is preserved through obtain, combat and later upgrades. Forced Frozen Egg Read refuses until its shared hooks exist. Global cosmetic getBook random copy downgraded to fixed local text; no gameplay stream draw. No mutating onMasterDeckChange hook exists in current supported relic owner. Native acceptance NOT_RUN.",
   "roundingReference": {
     "url": "https://github.com/libgdx/libgdx/blob/1.9.5/gdx/src/com/badlogic/gdx/math/MathUtils.java",
     "boundary": "Primary libGDX round implementation checked for positive signed32 HP times .33f domain; this does not authenticate original game dependency version."

@@ -44,6 +44,17 @@ function verifyCombinedRetirement(entries){
  assert.deepEqual(entries,expected,'all reviewed M3 and other native writes retain their values and global order');
  return expected;
 }
+function conservedTraceGuard(rows,order){
+ // The real recorder serializes each top-level write itself. Check that exact
+ // value once instead of serializing a second copy in a trace.add wrapper.
+ // Recursive serializer calls carry seen and never advance the global index.
+ return `local rows=${toLua(rows)}\nlocal order=${toLua(order)}\nlocal index=0\n`+
+  `local originalSerialize=Trace.serialize\nTrace.serialize=function(value,seen)\n`+
+  ` if seen~=nil then return originalSerialize(value,seen)end\n`+
+  ` local serialized=originalSerialize(value)\n index=index+1\n`+
+  ` assert(serialized==rows[order[index]],'non-announcement write changed at '..index)\n`+
+  ` return serialized\nend\n`;
+}
 function formalExpected(){
  const before=verifyCombinedRetirement(integration.after.filter(row=>!retired(row)));
  assert.equal(entryProof.beforeCount,before.length);assert.equal(entryProof.beforeHash,traceHash(before));
@@ -74,12 +85,7 @@ function runConservedTrace(){
   const source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8').replaceAll('\r\n','\n');
   const binding="local Trace=dofile('tests/lua/support/presentation_trace.lua')\n";
   assert.equal(source.split(binding).length,2,'one unchanged strict recorder binding');
-  // Check each exact row during its existing serialization, without serializing
-  // the same native write twice. Native field guards and the 30s limit stay intact.
-  const guard=binding+`local rows=${toLua(rows)}\nlocal order=${toLua(order)}\nlocal index=0\nlocal originalSerialize=Trace.serialize\n`+
-   `Trace.serialize=function(value,seen)\n local row=originalSerialize(value,seen)\n`+
-   ` if seen==nil then index=index+1;assert(row==rows[order[index]],'unreviewed native write changed at '..index)end\n`+
-   ` return row\nend\n`;
+  const guard=binding+conservedTraceGuard(rows,order);
   const path=join(directory,'trace.lua');
   writeFileSync(path,source.replace(binding,guard)+`\nassert(index==${expected.length},'all conserved writes executed')\n`);
   return runLua(path); // Keep the existing 30s deadline and complete original scenario.
@@ -124,6 +130,32 @@ test('combined M3 retirement rejects lost visual changes and restored or changed
  const reordered=[...current];[reordered[0],reordered[1]]=[reordered[1],reordered[0]];
  assert.notEqual(current[0],current[1]);assert.throws(()=>verifyCombinedRetirement(reordered));
  assert.throws(()=>verifyCombinedRetirement([...current,'unreviewed insertion']));
+});
+
+test('strict recorder checks every nested write once and rejects missing changed reordered or extra writes',()=>{
+ const rows=['{1={1=string:nested}}','{1=string:last}'],order=[1,2];
+ const cases=[
+  ["trace:add({{'nested'}});trace:add({'last'})",true],
+  ["trace:add({{'nested'}})",false],
+  ["trace:add({{'changed'}});trace:add({'last'})",false],
+  ["trace:add({'last'});trace:add({{'nested'}})",false],
+  ["trace:add({{'nested'}});trace:add({'last'});trace:add({'extra'})",false],
+ ];
+ mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/strict-trace-guard-'));
+ try{
+  const source=cases.map(([writes,accepted])=>[
+   'do','local function replay()',"local Trace=dofile('tests/lua/support/presentation_trace.lua')",
+   'local originalSerialize=Trace.serialize','local calls=0','Trace.serialize=function(value,seen)',
+   ' if seen==nil then calls=calls+1 end',' return originalSerialize(value,seen)','end',
+   conservedTraceGuard(rows,order),'local trace=Trace.new()',writes,
+   "assert(index==2,'every write exactly once')",
+   `assert(trace.count==2 and trace.hash==${traceHash(rows)},'original strict hash retained')`,
+   "assert(calls==2,'each real write is serialized only once, nested recursion is not a new event')",'end',
+   'local ok,why=pcall(replay)',`assert(ok==${accepted},tostring(why))`,'end',
+  ].join('\n')).join('\n');
+  const path=join(directory,'guard.lua');writeFileSync(path,source+"\nprint('STRICT_TRACE_GUARD_PASS')\n");
+  const result=runLua(path);assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/STRICT_TRACE_GUARD_PASS/);
+ }finally{rmSync(directory,{recursive:true,force:true});}
 });
 
 test('formal entry retains all integrated front-end writes and rejects unreviewed rows',()=>{

@@ -428,6 +428,11 @@
       "speed_potion": "#FFFFFF"
     },
     "relic": {
+      "odd_mushroom": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"
+      },
       "black_star": {
         "id": 102028,
         "placeholder": true,
@@ -510,6 +515,11 @@
         "note": "暂沿用现有防护图标；专属美术与设备验收待完成。"
       },
       "toxic_egg": {
+        "id": 102031,
+        "placeholder": true,
+        "note": "暂沿用现有遗物图标；专属美术与设备验收待完成。"
+      },
+      "molten_egg": {
         "id": 102031,
         "placeholder": true,
         "note": "暂沿用现有遗物图标；专属美术与设备验收待完成。"

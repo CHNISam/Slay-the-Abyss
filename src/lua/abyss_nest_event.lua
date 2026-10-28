@@ -18,11 +18,6 @@ function M.options(_,event)
  return {}
 end
 local function dagger(run,event)
- -- Like Library, refuse a forced owner whose shared attack-upgrade hook is
- -- not implemented yet. This temporary capability boundary is not a Nest rule.
- for _,id in ipairs(run.relics or {})do
-  if id=='molten_egg' or id=='Molten Egg 2' then return false,'event_obtain_content_unavailable'end
- end
  -- Construct the fresh card before damage, but defer every permanent obtain
  -- callback and UID allocation until after damage and possible Fairy revival.
  local offer,why=Run.prepareCard(run,'ritual_dagger')
