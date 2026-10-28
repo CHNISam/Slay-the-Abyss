@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "sourceHead": "af25ca0887529ea0549363c394ba54fc55ad91f1",
+  "historicalCaptureHead": "c5e768807081d1c62750174998367f1565274ee5",
+  "path": "data/presentation/ui_theme.json",
+  "normalization": "CRLF to LF only; no JSON reserialization",
+  "currentLfSha256": "4648ea4c56bdd6dac75fe363480e9b72e64976b84242fb41efdc10a092b99743",
+  "projectedLfSha256": "7d29e1ee13f15a18a089dca5febc459f73b6ae94a88a142409338f2f0232a055",
+  "insertionOffset": 9968,
+  "precedingAnchor": "    \"relic\": {\n",
+  "insertedLf": "      \"black_star\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"黑星暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n      \"lizard_tail\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"蜥蜴尾巴暂沿用批准主题现有宝箱图标；实际剩余次数由只读详情展示，专属美术与设备验收待完成。\"\n      },\n",
+  "boundary": "Only two explicit existing-gallery placeholder mappings; source addition does not claim a new native write trace or live UI acceptance."
+}

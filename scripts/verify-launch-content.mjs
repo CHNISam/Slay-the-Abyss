@@ -314,9 +314,11 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     const directory = mkdtempSync(join(tmpdir(), 'abyss-launch-inventory-'));
     try {
       const script = join(directory, 'verify.lua');
-      writeFileSync(script, `LAUNCH_DATA=${toLua(data)}\nLAUNCH_MANIFEST=${toLua(manifest)}\ndofile(${luaString(resolve(root, 'scripts/verify-launch-content.lua'))})\n`);
-      const result = runLua(script, { cwd: root });
-      if (result.status !== 0) errors.push(`Production Lua inventory gate failed: ${result.stderr || result.stdout}`);
+      for (const phase of ['inventory', 'black_star', 'lizard_tail_run', 'lizard_tail_persistence']) {
+        writeFileSync(script, `LAUNCH_DATA=${toLua(data)}\nLAUNCH_MANIFEST=${toLua(manifest)}\nLAUNCH_RUNTIME_PHASE=${luaString(phase)}\ndofile(${luaString(resolve(root, 'scripts/verify-launch-content.lua'))})\n`);
+        const result = runLua(script, { cwd: root });
+        if (result.status !== 0) errors.push(`Production Lua inventory gate failed (${phase}): ${result.stderr || result.stdout}`);
+      }
     } finally { rmSync(directory, { recursive: true, force: true }); }
   }
   return errors;

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-28 02:50'
+updated_date: '2026-10-28 03:16'
 labels:
   - required
   - sts1
@@ -23,6 +23,7 @@ references:
   - docs/BACKLOG-RECONCILE-20261026.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
+  - docs/M3-STATUS-20261028.md
 priority: medium
 type: feature
 ---
@@ -84,7 +85,11 @@ type: feature
 
 2026-10-27 独立源码增量候选：Library已按固定319009d5接入20张不同源卡选一、重复重抽稀有度与身份、不改pity、逆序展示、独立预览与公开永久取得、构造期缓存Sleep及独立Leave。四职业真实目录/RNG/下一战和原生控件模拟通过，独立源码审查PASS；与已接受Ghosts/Toxic Egg及当前版本公告组合后，87项Node与177组既有Lua回归、构建/架构/固定静态门禁通过。相关实现见docs/rules/THE_LIBRARY.md；默认来源池顺序概率未改。未认证原生客户端、全事件/自然连续四幕；整项AC保持未完成，当前新PR完整Quality仍待。
 
+2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
+
 2026-10-28 dot巢穴独立切片：固定社区镜像319009d5的Nest/DamageInfo/RitualDagger/获得效果四份来源hash复核，按intro→continue→99金币或NORMAL损血6后获得仪式匕首→结果→独立离开接入真实Act2/Pool/Nodes。默认七事件与完整13项顺序概率未改。新10组永久事务与5组真实生成UI/公共Nodes回归通过；实际先复现致死返回pending，再补Act2失败收尾；19项既有Act2回归通过。真实来源账本登记Nest及匕首事件渠道，单卡实际增长复用已有实现。PR260持有NodeUI，当前复用通用未知事件标题、按钮及旧输入保护，不抢写。源码/离线模拟已验，完整精确SHA CI、自然四职业路线、GIL导入/ready及PC/实体手机仍未验，不勾整体AC、不改状态。
 
 PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_presentation_render.lua在30040ms超时，前三职业通过但Watcher未完成；不当作PASS或盲重跑。同缺陷已由PR266原执行者在ca376218修正，本分支原样复用其tests-only预算拆片（含配套Transient/发现门禁），不重复实现、不改时限或生产代码。原720变体分160/180/180/200逐份实际通过5.25/6.19/6.08/7.07秒，原19Transient组及预算门禁8项通过；独立复审与新精确SHA完整CI继续，旧失败保留。
+
+2026-10-28 已按PR266真实合入f1ab9a9接回最新develop，保留其完整任务对账、54遗物/复活共享实现与测试修复；冲突任务页从该真实基线恢复后仅用CLI追加本切片原计划与证据。原样复用修复不再作为相对develop的新改动。新增持久Nest/Tail真实Nodes组合：首次复活、同局第二次致命、两瓶Fairy优先、Mark禁止治疗/消耗、晚获牌失败回滚重试；原候选隔离4组通过，当前最终组合再验。此处是源码集成，不扩张自然/平台验收。
 <!-- SECTION:NOTES:END -->
