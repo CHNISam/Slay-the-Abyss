@@ -5,7 +5,7 @@
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "baseline": "45ba918e5719614f36b6a92aeb511e76a1311608",
   "acceptance": "INCOMPLETE",
-  "runtimeStatus": "Explicit development campaign Host/chapter maps, Act2 regular/elite/three-Boss and Act3 regular/elite/three-Boss content, seven Act3 ordinary event mappings and the MindBloom/Sphere bridge are locally wired. PR262 also wires canonical burning-elite entry, Emerald reward ownership, the fixed 52 camp / 53 shop / 54 Shield-and-Spear / 55 Heart route and owner-bound true-ending Proceed. These are controlled local component/integration results. Whole natural campaign, Act2 event-only enemies, complete shrine/once catalogs, historical unlock persistence and native/platform acceptance remain incomplete.",
+  "runtimeStatus": "Formal OnStart opts into campaign and role selection; Host/chapter maps, Act2 regular/elite/three-Boss and Act3 regular/elite/three-Boss content, seven Act3 ordinary event mappings and the MindBloom/Sphere bridge are locally wired. PR262 also wires canonical burning-elite entry, Emerald reward ownership, the fixed 52 camp / 53 shop / 54 Shield-and-Spear / 55 Heart route and owner-bound true-ending Proceed. These are controlled local component/integration results. Whole natural campaign, Act2 event-only enemies, complete shrine/once catalogs, historical unlock persistence and native/platform acceptance remain incomplete.",
   "tasks": {
     "inventory": "TASK-47",
     "classes": "TASK-59",
@@ -26,7 +26,7 @@
     "persistentHistoricalUnlock": "PLATFORM_UNVERIFIED",
     "sessionHistoricalUnlock": "IMPLEMENTED_LOCAL_REAL_STANDARD_ACT3_VICTORIES_INJECTABLE_PROVIDER",
     "sessionHistoricalEvidence": ["docs/rules/ENDING_HISTORY.md", "tests/lua/ending_history.lua", "tests/lua/ending_history_host.lua"],
-    "hostChapterUI": "IMPLEMENTED_EXPLICIT_DEVELOPMENT_ENTRY_LOCAL",
+    "hostChapterUI": "IMPLEMENTED_FORMAL_CAMPAIGN_ENTRY_LOCAL",
     "keyAcquisitionEvidence": [
       "tests/lua/ruby_recall.lua",
       "tests/lua/sapphire_treasure.lua",
