@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile('tests/lua/support/game_ui_fixture.lua')
 local cursor = {CursorDown='down',CursorUp='up',CursorExit='exit',CursorEndDrag='endDrag'}
 local total, failed = 0, 0
@@ -18,7 +19,7 @@ local function fixture(kind, callback)
         if callback then return callback(calls,victory) end
         return true
     end, nil, cursor)
-    if kind ~= 'menu' then assert(ui:start()); ui.run.phase='defeat'; ui:refresh() end
+    if kind ~= 'menu' then assert(testStart(ui)); ui.run.phase='defeat'; ui:refresh() end
     local hit = root:GetChild('menuPanel'):GetChild(kind=='settle' and 'settle' or 'start'):GetChild('hit')
     return ui,hit,function() return calls end
 end
@@ -33,7 +34,7 @@ for _,kind in ipairs({'menu','restart','settle'}) do
         local ui,hit,calls=fixture(kind); local run=ui.run
         gesture(hit,1); assert(ui:openExit()); assert(ui:closeExit()); fire(hit,'click',1)
         assert(ui.run==run and calls()==0,'stale touch executed after exit cancellation')
-        gesture(hit,2); assert(fire(hit,'click',2)); assert(kind=='settle' and calls()==1 or kind~='settle' and ui.run~=run)
+        gesture(hit,2); assert(fire(hit,'click',2)); if kind~='settle' then assert(ui.characterOpen and ui.run==run);assert(F.confirmStart(ui))end; assert(kind=='settle' and calls()==1 or kind~='settle' and ui.run~=run)
     end)
     test(kind .. ' expires touch on viewport resize',function()
         local ui,hit,calls=fixture(kind); local run=ui.run
@@ -59,7 +60,7 @@ test('failed settlement requires a new gesture before retry',function()
     gesture(hit,2); assert(fire(hit,'click',2) and calls()==2)
 end)
 test('restart gesture cannot be reused on a different run result',function()
-    local ui,hit=fixture('restart'); gesture(hit,1); assert(ui:start()); ui.run.phase='defeat'; ui:refresh()
+    local ui,hit=fixture('restart'); gesture(hit,1); assert(testStart(ui)); ui.run.phase='defeat'; ui:refresh()
     local run=ui.run; fire(hit,'click',1); assert(ui.run==run,'previous run gesture restarted new result')
 end)
 test('result gesture expires after leaving and returning to the same result',function()
@@ -73,8 +74,8 @@ end)
 test('click-only platform preserves start, restart and settlement',function()
     local calls=0
     local ui,root=F.fixture(nil,function() calls=calls+1; return true end)
-    local panel=root:GetChild('menuPanel'); assert(panel:GetChild('start'):GetChild('hit').click())
-    ui.run.phase='defeat'; ui:refresh(); assert(panel:GetChild('start'):GetChild('hit').click())
+    local panel=root:GetChild('menuPanel'); assert(panel:GetChild('start'):GetChild('hit').click());assert(F.confirmStart(ui))
+    ui.run.phase='defeat'; ui:refresh(); assert(panel:GetChild('start'):GetChild('hit').click());assert(F.confirmStart(ui))
     ui.run.phase='defeat'; ui:refresh(); assert(panel:GetChild('settle'):GetChild('hit').click()); assert(calls==1)
 end)
 print('LUA_GAME_UI_RESULT_GESTURES '..(total-failed)..'/'..total)

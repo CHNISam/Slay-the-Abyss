@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='tests/lua/?.lua;'..package.path
 local F=require('support.game_ui_fixture')
 local D=require('abyss_original_v4_display')
@@ -21,7 +22,7 @@ local total=0
 for i,role in ipairs({'hutao','arlecchino','furina','raiden'})do
     local ui,root=fixture()
     assert(ui:start());assert(ui.characterOpen and not ui.run)
-    assert(path(root,'characterPanel/character'..i..'/hit').click())
+    assert(path(root,'characterPanel/character'..i..'/hit').click());assert(not ui.run);assert(ui:confirmCharacter())
     assert(ui.run.character==role and ui.mode=='map')
     assert(ui:openDeck());ui.deckUI:update()
     local grid=path(root,'deckPanel/grid')
@@ -40,7 +41,7 @@ for i,role in ipairs({'hutao','arlecchino','furina','raiden'})do
     total=total+1
 end
 -- All 600 faces retain their complete full rules in the shared paginated inspector.
-local ui=fixture();assert(ui:start('raiden'))
+local ui=fixture();assert(testStart(ui,'raiden'))
 local frozen=require('abyss_original_v4_data')
 local count=0
 for _,raw in ipairs(frozen.cards)do for _,up in ipairs({false,true})do
@@ -77,10 +78,10 @@ ui.nodeUI:update(1);assert(not ui.deckUI.visible)
 hit.listeners.endDrag({touchId=5});assert(not hit.click({touchId=5}))
 assert(run.gold==gold and #run.deck==n)
 -- The existing Traveler still starts through its own unchanged native data.
-local native=fixture();assert(native:start('traveler'));assert(not native.run.data.originalV4Role)
+local native=fixture();assert(testStart(native,'traveler'));assert(not native.run.data.originalV4Role)
 assert(native.run.data.rules.player.maxHp==F.Data.rules.player.maxHp)
 -- Natural defeat and voluntary exit reuse the host's one-shot settlement path.
-local failed,_,settlements=fixture();assert(failed:start('raiden'))
+local failed,_,settlements=fixture();assert(testStart(failed,'raiden'))
 assert(F.Nodes.enter(failed.run,failed.map,F.Nodes.available(failed.run,failed.map)[1].id))
 local turn=0
 while failed.run.phase=='combat' and turn<30 do
@@ -88,6 +89,6 @@ while failed.run.phase=='combat' and turn<30 do
 end
 assert(failed.run.phase=='defeat');failed:refresh();assert(failed.mode=='defeat')
 assert(failed:settle());assert(not failed:settle());assert(settlements()==1)
-local leaving,_,exits=fixture();assert(leaving:start('hutao'))
+local leaving,_,exits=fixture();assert(testStart(leaving,'hutao'))
 assert(leaving:openExit());assert(leaving:confirmExit());assert(not leaving:confirmExit());assert(exits()==1)
 print('ORIGINAL_V4_UI_PASS '..total..' roles 600 full faces shop hold/drag traveler')

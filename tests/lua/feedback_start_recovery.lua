@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Run = require("abyss_run")
@@ -47,7 +48,7 @@ test("early native reset failure restores host input after a committed command",
     -- This setter fails before start reaches its first visible step. The real host
     -- has already committed the command and locked input, so it must be notified.
     local host, root = F.fixture()
-    assert(host:start())
+    assert(testStart(host))
     assert(Run.startCombat(host.run, "cultist_solo"))
     host.run.combat = F.Combat.new(F.Data, {deck = {"strike"}, enemies = {"cultist"}, seed = 11})
     host:refresh()

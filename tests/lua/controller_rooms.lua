@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Map=require('abyss_run'),require('abyss_map')
 local Random,Pool=require('abyss_sts_random'),require('abyss_relic_pool')
@@ -16,7 +17,7 @@ local function setup(kind)
     local source=F.Combat.copy(F.Data)
     if kind=='event'then source.rules.events.encounterId='cleric'end
     local ui,root=F.fixture(source,nil,nil,nil,false,nil,nil,api)
-    assert(ui:start())
+    assert(testStart(ui))
     local run,map=Run.new(source,42),Map.generate(source,42)
     while true do
         local choices=Map.available(map);assert(#choices>0,'room not found')

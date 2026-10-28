@@ -1,7 +1,8 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;'..package.path
 local X,F,Run=require('support.experimental_ui_fixture'),require('support.game_ui_fixture'),require('abyss_run')
 local function setup(id,up)
- local ui,root=X.new();assert(ui:start());assert(F.click(root,'characterPanel','character4'))
+ local ui,root=X.new();assert(testStart(ui,'watcher'))
  ui.run.deck={{uid=31,cardId=id,upgraded=up},{uid=32,cardId='empty_fist'},{uid=33,cardId='empty_body'}};ui.run.nextDeckUid=34
  assert(Run.startCombat(ui.run,'cultist_solo'));ui.run.combat.energy=10;ui:refresh();return ui,root,ui.run.combat
 end

@@ -1,6 +1,6 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 
-export function experimentalCharacterControls(theme = nativeTheme, options = {}) {
+export function experimentalCharacterControls(theme = nativeTheme) {
   const { plate, text } = nativeControls(theme);
   const { color: c, font: f, space: s } = theme;
   function button(name, frame, label, layout, font = f.label) {
@@ -22,6 +22,8 @@ export function experimentalCharacterControls(theme = nativeTheme, options = {})
             text('label', [0, 0, ...size.map((value, i) => value - layout.buttonInset[i])], label, font, ink)],
         })),
       },
+      { ...plate('selected', [0, 0, ...size], c.goldBright), visible: false,
+        size: [size[0], s.border], position: [0, -size[1] / 2 + s.border] },
     ] };
   }
   function panel(name, layout, title, hint, children) {
@@ -35,13 +37,27 @@ export function experimentalCharacterControls(theme = nativeTheme, options = {})
     ] };
   }
   const l = theme.layout.characterSelect, q = theme.layout.combatChoice;
-  const original=options.originalCharacters===true;
-  const names = original ? ['胡桃','阿蕾奇诺','芙宁娜','雷电将军'] : ['岩元素荧', '风元素荧', '雷元素荧', '草元素荧'];
+  const names = ['胡桃','阿蕾奇诺','芙宁娜','雷电将军'];
+  const d = l.details;
   return [
-    panel('characterPanel', l, '选择同行者', '每位同行者拥有独立的初始牌组与遗物。', [
+    panel('characterPanel', l, '选择同行者', '请选择一位同行者。', [
+      { name: 'details', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+        plate('portraitFrame', d.portrait, c.panelSunken),
+        { name: 'portrait', kind: 'image', position: d.portrait.slice(0, 2), size: d.portrait.slice(2),
+          image: theme.icon.characterPortraits.traveler.id },
+        text('portraitNote', d.portraitNote, '', f.label, c.textDim),
+        text('name', d.name, '', f.heading, c.goldBright),
+        text('stats', d.stats, '', f.body, c.text),
+        text('relic', d.relic, '', f.body, c.gold),
+        text('deckTitle', d.deckTitle, '', f.label, c.textDim),
+        ...d.cards.map((frame, i) => text(`card${i + 1}`, frame, '', f.body, c.text)),
+      ] },
+      { name: 'elements', kind: 'container', size: [...theme.canvas.base], visible: false, children:
+        l.elements.map((frame, i) => button(`element${i + 1}`, frame, ['岩', '风', '雷', '草'][i], l, f.body)) },
       ...l.choices.map((frame, i) => button(`character${i + 1}`, frame, names[i], l, f.body)),
-      ...(original ? [button('traveler',l.traveler,'旅行者·荧',l)] : []),
-      button('cancel', original ? l.originalBack : l.back, '返回', l),
+      button('traveler',l.traveler,'旅行者·荧',l),
+      button('cancel', l.back, '返回', l),
+      button('confirm', l.confirm, '确认开始冒险', l),
     ]),
     panel('choicePanel', q, '选择卡牌', '', [
       ...Array.from({ length: q.columns * q.rows }, (_, i) => button(`card${i + 1}`,

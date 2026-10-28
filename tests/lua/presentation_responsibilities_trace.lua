@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Trace=dofile('tests/lua/support/presentation_trace.lua')
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
@@ -8,7 +9,7 @@ local host,root=F.fixture(nil,function(victory)trace:add({'settle',victory});ret
 trace:attach(root)
 host:refresh()
 assert(host:openExit());assert(host:closeExit())
-assert(host:start());host:refresh()
+assert(testStart(host));host:refresh()
 assert(host:openDeck());assert(host:closeDeck())
 assert(host:openPotions());assert(host:closePotions())
 -- A real camp flow exercises picker labels, card selection and continuation.
@@ -52,4 +53,4 @@ print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace
 -- Original room and pre-retirement M3 fixtures remain frozen and replayable.
 -- Compose the reviewed 214 additions/593 visual replacements with the exact
 -- removal of 68 announcement-owned writes; JS checks every remaining write.
-assert(trace.count==79689 and trace.hash==2034622601,'ordered native writes changed from the reviewed M3 announcement retirement contract')
+assert(trace.count==81392 and trace.hash==1836812524,'ordered native writes changed from the reviewed integrated formal entry contract')

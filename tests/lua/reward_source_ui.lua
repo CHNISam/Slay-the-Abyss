@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,C=require('abyss_run'),require('abyss_combat')
@@ -24,7 +25,7 @@ assert(Run.startRoomCombat(r,'normal'))
 for _,enemy in ipairs(r.combat.enemies)do C.damage(r.combat,r.combat.player,enemy,10000,true)end
 assert(Run.finishCombat(r));eq(r.rewards.cards[3],'masterful_stab')
 local unavailable=C.copy(r)
-local host,root=F.fixture();assert(host:start());host.run,host.battleUI.run=r,r
+local host,root=F.fixture();assert(testStart(host));host.run,host.battleUI.run=r,r
 host.battleUI:setData(r.data,P.prepare(F.Presentation,r.data));host:refresh()
 local panel=root:GetChild('battlePanel');panel:GetChild('cardReward').click()
 eq(host.battleUI.rewardScreen,'cards')
@@ -65,7 +66,7 @@ assert(Run.startRoomCombat(upgraded,'normal'))
 for _,enemy in ipairs(upgraded.combat.enemies)do C.damage(upgraded.combat,upgraded.combat.player,enemy,10000,true)end
 assert(Run.finishCombat(upgraded));eq(upgraded.rewards.cards[3],'dual_wield');eq(upgraded.rewards.cardUpgrades[3],true)
 local cursor={CursorDown='down',CursorDrag='drag',CursorUp='up',CursorEndDrag='endDrag'}
-local h,tree=F.fixture(nil,nil,nil,cursor);assert(h:start());h.run,h.battleUI.run=upgraded,upgraded
+local h,tree=F.fixture(nil,nil,nil,cursor);assert(testStart(h));h.run,h.battleUI.run=upgraded,upgraded
 h.battleUI:setData(upgraded.data,P.prepare(F.Presentation,upgraded.data));h:refresh()
 local p=tree:GetChild('battlePanel');p:GetChild('cardReward').click()
 local card=p:GetChild('card3')

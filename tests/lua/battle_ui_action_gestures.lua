@@ -43,6 +43,8 @@ test("new run rejects an older end turn pointer after real defeat restart", func
     local restart = r:GetChild("menuPanel"):GetChild("start"):GetChild("hit")
     restart.listeners.down({touchId=8}); restart.listeners.up({touchId=8})
     assert(restart.click({touchId=8}))
+    assert(h.characterOpen and h.run==old)
+    assert(H.F.confirmStart(h))
     assert(h.run~=old and h.mode=="node" and h.run.neowHistorySource=="session-completed-run")
     -- Complete the real mini-Neow opening before taking the new map's first room.
     assert(H.F.click(r,"nodePanel","eventView/option1"))

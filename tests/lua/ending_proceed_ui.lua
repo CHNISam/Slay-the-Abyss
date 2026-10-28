@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local S=dofile('tests/lua/support/ending_proceed_fixture.lua')
@@ -16,7 +17,7 @@ local function fixture()
  local host=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=42,prologue=false,campaign=true,
   cursorEvents=cursor,controllerApi=api,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end,
   settle=function()settled=settled+1;return true end})
- root.ui=host;assert(host:start());local map=S.stage(host.run)
+ root.ui=host;assert(testStart(host));local map=S.stage(host.run)
  host.map,host.mapUI.map,host.nodeUI.map=map,map,map
  S.finish(host.run);host:refresh()
  return host,root,host.run,map,function()return settled end

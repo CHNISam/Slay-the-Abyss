@@ -1,9 +1,10 @@
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preFormalEntrySource(p,readFileSync(p,'utf8'));
 const sha=s=>createHash('sha256').update(s).digest('hex');
 const registration='    registered=registered+1\n    if registered<first or registered>last then return end\n';
 const inlineRegistration=' registered=registered+1;if registered<first or registered>last then return end;';

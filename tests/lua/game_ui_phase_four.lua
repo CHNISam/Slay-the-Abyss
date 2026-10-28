@@ -55,8 +55,8 @@ local function freeze(state)
 end
 local function start(character,deck,physical)
  local ui,root=X.new({cursor=physical and cursor})
- assert(ui:start());assert(click(root,'characterPanel/character'..classIndex[character]))
- eq(ui.run.characterProfile.id,character)
+ assert(ui:start());assert(ui:selectCharacter('traveler'));assert(ui:selectElement(character));assert(ui:confirmCharacter())
+ eq(ui.run.character or 'ironclad',character)
  -- Controlled permanent-deck fixture. No natural reward or starter claim.
  ui.run.deck={}
  for i,id in ipairs(deck)do ui.run.deck[i]={uid=i,cardId=type(id)=='table'and id.cardId or id,upgraded=type(id)=='table'and id.upgraded==true or false}end

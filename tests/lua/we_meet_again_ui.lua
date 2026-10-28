@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Map,R=require('abyss_map'),require('abyss_sts_random')
@@ -5,7 +6,7 @@ local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function fixture(empty)
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local ui=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=42,prologue=false,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
- assert(ui:start());local r=ui.run
+ assert(testStart(ui));local r=ui.run
  r.potions=empty and {} or {[1]='blood_potion',[3]='fruit_juice'}
  r.deck=empty and {{uid=1,cardId='strike',upgraded=false}} or {{uid=1,cardId='strike',upgraded=false},{uid=7,cardId='anger',upgraded=true,inBottleFlame=true},{uid=9,cardId='cleave',upgraded=false}}
  if empty then r.gold=49 end

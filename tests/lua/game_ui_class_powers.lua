@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local sliceFirst,sliceLast=...
 sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
 local sliceRegistered=0
@@ -29,7 +30,7 @@ for _,case in ipairs(cases) do
     sliceRegistered=sliceRegistered+1
     if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then
     local id,cardId,status,value=table.unpack(case)
-    local ui,root=X.new();assert(ui:start(id))
+    local ui,root=X.new();assert(testStart(ui,id))
     -- A deterministic branch fixture, not a natural-acquisition assertion.
     ui.run.deck={}
     for i=1,12 do ui.run.deck[i]={uid=i,cardId=cardId,upgraded=false} end

@@ -1,6 +1,7 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local ui, root = F.fixture()
-assert(ui:start())
+assert(testStart(ui))
 local panel = root:GetChild("mapPanel")
 local resources = panel:GetChild("resources")
 assert(panel.visible and resources.visible)

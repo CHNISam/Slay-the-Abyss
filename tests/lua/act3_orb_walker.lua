@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Public room/command boundaries and focused arithmetic fixtures, not a natural
 -- Act3 playthrough. Chapter placement below does not simulate earlier victories.
 local C=require('abyss_combat')
@@ -200,7 +201,7 @@ test('real Host renders laser damage Burn destinations and the Growth status',fu
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local host=F.GameUI.new(root,Data,F.Presentation,'click',{seed=4,campaign=true,prologue=false,
   imageSource='static',color=function(red,green,blue,alpha)return{r=red,g=green,b=blue,a=alpha}end})
- assert(host:start())
+ assert(testStart(host))
  local r=host.run;r.act,r.floor,r.encounters=3,35,Q.new('4',3)
  assert(Run.startRoomCombat(r,'normal'));host:refresh()
  local ui,panel=host.battleUI,root:GetChild('battlePanel')

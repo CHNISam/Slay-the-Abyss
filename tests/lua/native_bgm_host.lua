@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Run = require("abyss_run")
 local count = 0
@@ -6,7 +7,7 @@ test("host emits scene changes once, deck refresh never restarts music and settl
     local sent = {}
     local ui = F.fixture(nil, function() return true end, function(signal) sent[#sent + 1] = signal end)
     assert(sent[1] == "ABYSS_BGM_STOP")
-    assert(ui:start() and sent[2] == "ABYSS_BGM_MAP")
+    assert(testStart(ui) and sent[2] == "ABYSS_BGM_MAP")
     assert(ui:openDeck() and ui:closeDeck() and #sent == 2)
     assert(Run.startCombat(ui.run, "louse_pair"))
     ui.run.nodeFlow = { type = "elite" }
@@ -25,11 +26,11 @@ test("audio failure cannot prevent starting/restarting a run or mutate RNG", fun
     local baseline = F.fixture()
     local attempts = 0
     local ui = F.fixture(nil, nil, function() attempts = attempts + 1; error("audio unavailable") end)
-    assert(ui:start() and baseline:start())
+    assert(testStart(ui) and testStart(baseline))
     local seed = ui.run.seed
     for i = 1, 10 do ui:refresh() end
     assert(ui.run.seed == seed and ui.run.seed == baseline.run.seed and attempts == 2)
     ui.run.phase = "defeat"; ui:refresh()
-    assert(ui:start() and attempts == 4)
+    assert(testStart(ui) and attempts == 4)
 end)
 print("native BGM host: " .. count .. " passed")

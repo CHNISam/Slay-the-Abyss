@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run');local C=require('abyss_combat')
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
@@ -18,7 +19,7 @@ local function start(replace)
   -- Adversarial host-owner replacement, using another real Watcher factory.
   local nextRun=Run.new(F.Data,43,{character='watcher',experimental=true})
   host.run,host.battleUI.run,host.nodeUI.run=nextRun,nextRun,nextRun
- else assert(host:start('watcher'))end
+ else assert(testStart(host,'watcher'))end
  local r=host.run;r.relics[#r.relics+1]='toy_ornithopter'
  assert(Run.obtainPotion(r,'stance_potion'));assert(Run.obtainPotion(r,'stance_potion'))
  assert(Run.startCombat(r,'cultist_solo'));r.hp=r.hp-20;r.combat.player.hp=r.hp

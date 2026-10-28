@@ -2,6 +2,16 @@ import { createHash } from 'node:crypto';
 
 export const sha256 = source => createHash('sha256').update(source).digest('hex');
 export const normalizedSource = source => source.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+export function candidateEntrySource(source, receipt, candidateHash) {
+  if (receipt === undefined) return source;
+  if (!receipt || !/^[0-9a-f]{64}$/i.test(candidateHash ?? '') || receipt.candidate?.sha256 !== candidateHash
+    || !/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(receipt.buildId ?? '')) {
+    throw new Error('Build marker requires an exact candidate hash and UUID receipt');
+  }
+  const body = source.replace(/^\uFEFF/, '');
+  if (body.startsWith('print("ABYSS_BUILD ')) throw new Error('Source already contains a build marker');
+  return `print("ABYSS_BUILD ${receipt.buildId}")\n${body}`;
+}
 export function requireSourceSha(source) {
   if (typeof source !== 'string' || !/^[a-f0-9]{40}$/i.test(source)) throw new TypeError('source must be a complete 40-character Git commit SHA');
   return source.toLowerCase();
@@ -28,7 +38,7 @@ export function normalizeUi(value, context = Array.isArray(value) ? 'controls' :
       || context === 'grid' && (name === 'horizontal' && item === false || name === 'scrollbar' && item === true || name === 'preview')
       // The native reader omits text ink only when its ARGB is 0xffffffff.
       // Keep opacity separate, and never apply this default to opaque metadata.
-      || context === 'text' && (name === 'content' && item === ''
+      || context === 'text' && (name === 'autoSize' && item === false || name === 'content' && item === ''
         || name === 'colour' && typeof item === 'string' && item.toLowerCase() === '#ffffff')) continue;
     const next = context === 'control' && name === 'children' ? 'controls'
       : context === 'control' && ['text', 'grid'].includes(name) ? name

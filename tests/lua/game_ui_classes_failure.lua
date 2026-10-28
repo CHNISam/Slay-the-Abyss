@@ -17,20 +17,8 @@ local function click(root,path) return assert(hit(root,path).click,path)() end
 local function canvas(withClasses)
     local c=F.control({children=F.Layout})
     local root=F.Viewport.apply(c,1280,720)
-    if withClasses then
-        local panel={name="characterPanel",visible=false,children={{name="blocker"}}}
-        for i=1,4 do panel.children[#panel.children+1]=X.button("character"..i) end
-        panel.children[#panel.children+1]=X.button("cancel")
-        root.children.characterPanel=F.control(panel,root)
-        local choice={name="choicePanel",visible=false,children={{name="blocker"},{name="title"},{name="hint"},{name="status"}}}
-        for i=1,10 do choice.children[#choice.children+1]=X.button("card"..i) end
-        for _,name in ipairs({"confirm","before","after"}) do choice.children[#choice.children+1]=X.button(name) end
-        root.children.choicePanel=F.control(choice,root)
-    else
-        -- The formal layout now contains original selection controls. Remove
-        -- both panels to preserve this fixture's genuinely missing-layout case.
-        root.children.characterPanel=nil
-        root.children.choicePanel=nil
+    if not withClasses then
+        root.children.characterPanel=nil;root.children.choicePanel=nil
     end
     return c,root
 end
@@ -82,7 +70,7 @@ local function drain(ui)
     error("feedback did not finish")
 end
 local function battle(ui,root,finishFeedback)
-    assert(ui:start());assert(click(root,"characterPanel/character4"))
+    assert(ui:start());assert(ui:selectCharacter('traveler'));assert(ui:selectElement('watcher'));assert(ui:confirmCharacter())
     if ui.prologue then ui.prologue:cancel() end
     ui:refresh()
     -- Exact unit entry deck; no natural acquisition, HP, energy or enemy overrides.
@@ -105,17 +93,17 @@ local function noRevival(ui,root,expectedRun,message)
     OnStart();OnUpdate(0.05)
     eq(root:GetChild("menuPanel"):GetChild("summary").text,message)
 end
-test("undeclared host flag keeps the ordinary production start with extra development controls hidden",function()
+test("undeclared host flag keeps the unified production selection available",function()
     local ui,root,state,lines,restore=startup(nil,true)
     assert(ui);eq(state(),true);eq(root:GetChild("characterPanel").visible,false);eq(root:GetChild("choicePanel").visible,false)
-    assert(ui:start());eq(ui.run.characterProfile,nil);eq(ui.run.maxHp,80);eq(#ui.run.deck,10)
+    assert(F.start(ui));eq(ui.run.characterProfile,nil);eq(ui.run.maxHp,80);eq(#ui.run.deck,10)
     assert(table.concat(lines,"\n"):find("ABYSS_UI ready",1,true));restore()
 end)
-test("host opt-in without matching layout produces startup diagnostic and never reports ready",function()
+test("missing formal layout produces startup diagnostic and never reports ready",function()
     local ui,root,state,lines,restore=startup(true,false)
     eq(ui,nil);eq(state(),false);diagnostic(root,"startup")
     local output=table.concat(lines,"\n")
-    assert(output:find("experimental class layout required",1,true));assert(not output:find("ABYSS_UI ready",1,true))
+    assert(output:find("missing game panel characterPanel",1,true));assert(not output:find("ABYSS_UI ready",1,true))
     restore()
 end)
 test("update failure closes class overlay, disables old class and exit callbacks and keeps diagnostic visible",function()

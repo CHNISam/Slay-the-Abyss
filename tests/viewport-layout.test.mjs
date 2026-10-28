@@ -45,7 +45,7 @@ test('all major screens and overlays share one background behind the unmodified 
   assert.equal(layout.controls.length, 2);
   assert.equal(layout.controls[1].children, original.controls);
   const names = new Set(original.controls.map(control => control.name));
-  for (const name of ['menuPanel', 'prologuePanel', 'mapPanel', 'battlePanel', 'nodePanel',
+  for (const name of ['menuPanel', 'mapPanel', 'battlePanel', 'nodePanel',
     'deckPanel', 'potionPanel', 'exitPanel']) assert(names.has(name), name);
   // Room, card-pick and result views stay in their original panel hierarchies.
   assert.deepEqual(layout.controls[1].children, original.controls);

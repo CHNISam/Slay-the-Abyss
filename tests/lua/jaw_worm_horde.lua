@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Source room/arithmetic/transaction boundaries, not a natural campaign route.
 local Run,D,Q,C,A,R,AI,Jaw=require('abyss_run'),require('abyss_data'),require('abyss_encounter_queue'),
  require('abyss_combat'),require('abyss_actor'),require('abyss_sts_random'),require('abyss_enemy_ai'),require('abyss_jaw_worm_ai')
@@ -225,7 +226,7 @@ test('real Host keeps three hard actors HP intent strength help and target owner
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local host=F.GameUI.new(root,D,F.Presentation,'click',{seed=15,campaign=true,prologue=false,
   imageSource='static',color=function(red,green,blue,alpha)return{r=red,g=green,b=blue,a=alpha}end})
- assert(host:start());local r=host.run;r.act,r.floor,r.encounters=3,35,Q.new('15',3)
+ assert(testStart(host));local r=host.run;r.act,r.floor,r.encounters=3,35,Q.new('15',3)
  for _=1,2 do local _,n=Q.consume(r.encounters,'normal');r.encounters=n;r.floor=r.floor+1 end
  assert(Run.startRoomCombat(r,'normal'));host:refresh();local s=r.combat;local panel=root:GetChild('battlePanel')
  for i,e in ipairs(s.enemies)do local box=panel:GetChild('enemy'..i)

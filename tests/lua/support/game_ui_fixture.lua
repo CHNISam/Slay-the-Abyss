@@ -181,6 +181,26 @@ local function win(ui, root)
     assert(ui.run.phase == "reward")
 end
 
+-- Rule/room suites explicitly complete the production selection commands.
+-- Entry-flow regressions use raw GameUI.start/select/confirm and native gestures.
+local function confirmStart(ui,id)
+    id=id or 'ironclad'
+    local elements={ironclad=true,silent=true,defect=true,watcher=true}
+    assert(ui:selectCharacter((elements[id] or id=='traveler') and 'traveler' or id))
+    if elements[id] then assert(ui:selectElement(id))end
+    return ui:confirmCharacter()
+end
+local function startRun(ui,id)
+    local ok,reason=ui:start()
+    if not ok then return ok,reason end
+    return confirmStart(ui,id)
+end
+local function startButton(root)
+    local ok=click(root,'menuPanel','start')
+    if not ok then return ok end
+    return confirmStart(root.ui)
+end
+
 return {
     GameUI = GameUI,
     Combat = Combat,
@@ -200,4 +220,7 @@ return {
     mapControl = mapControl,
     click = click,
     win = win,
+    start = startRun,
+    confirmStart = confirmStart,
+    startButton = startButton,
 }

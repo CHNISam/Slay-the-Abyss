@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local S=dofile('tests/lua/support/emerald_run_fixture.lua')
@@ -18,7 +19,7 @@ local function fixture(surfaceCapacity)
   seed=42,prologue=false,campaign=true,imageSource='static',cursorEvents=cursor,controllerApi=controller,
   color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end,
   readEndingHistory=function()return{version=1,wins={ironclad=true,silent=true,defect=true}}end})
- root.ui=host;assert(host:start());local run,map=host.run,host.map
+ root.ui=host;assert(testStart(host));local run,map=host.run,host.map
  assert(run.mapBirthContext.endingUnlocked and map.emeraldSelection)
  run.relics[#run.relics+1]='black_star';S.queues(run);run.potionChanceModifier=60
  local id=S.beforeSelected(map);run.floor=map.floor

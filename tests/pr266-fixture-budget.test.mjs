@@ -1,8 +1,9 @@
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preFormalEntrySource(p,readFileSync(p,'utf8'));
 const sha=s=>createHash('sha256').update(s).digest('hex');
 const suites=[
   {
