@@ -26,7 +26,7 @@
 | 地图 | 四周雾气、点线路径、主角菱形令牌、官方节点；取消旧查看按钮/状态图例，营地官方篝火 | `mapPanel/mapGroup*/node*,edge*`；`map-ui-layout.mjs`、`abyss_map_ui.lua` | 基线仍有三个查看按钮、状态图例与实线；公共UI分支正在处理，最终需确认隐藏控件不可获焦、不能误点 | NOT_TESTED；基线35/36定向通过，地图原27用例在Node22和Node24均原30秒超时，不记通过 |
 | 商店 | 全部真实货架、价格独立、红价/售罄/满槽/删牌确认，商人不遮价 | `nodePanel/shopView/card*,price*,relic*,potion*,removal,detail`；`abyss_shop_ui.lua`、`abyss_node_ui.lua` | 已有七张真实货架、遗物药水与删牌服务；PR19五卡示例不削减真实商品。离线1280对照已检查，卡框仍待共享交付 | NOT_TESTED；离线对照与结构检查不能代替买卖/触控验收 |
 | 营地 | 休息/锻造双选项，真实回复数；选卡、升级前后、确认与结果 | `nodePanel/campView/rest,forge,result`、`pickerView/forgeGrid,before,after` | 双选项与真实升级前后已经存在，离线对照可见；需复验网格/分页及最大长文案 | NOT_TESTED；基础节点布局回归通过 |
-| 宝箱 | 关闭→开箱爆发→全部奖励；各奖励独立领取/互斥提示，离开明确 | `nodePanel/treasureView/closed,open,burst,rewardItem*,take,details` | 全奖励控件已存在，但基线离线预览仍出现单条分页；须核查真实控制器是否走全奖励，不能用隐藏控件存在冒充已接入 | NOT_TESTED；开箱及全部奖励待组合定向测试 |
+| 宝箱 | 关闭→开箱爆发→全部奖励；各奖励独立领取/互斥提示，离开明确 | `nodePanel/treasureView/closed,open,burst,rewardItem*,take,details` | 已逐层核对GameUI固定enhancedRooms=true→NodeUI→TreasureUI全奖励分支；正式配置真实显示两项奖励并逐项绑定事务。旧直接NodeUI预览为兼容分页入口，不能误作正式host | NOT_TESTED；开箱及全部奖励待组合定向测试 |
 | 事件 | 左图右正文、完整选项/灰态原因、结果和继续；复杂选牌与多阶段不串输入 | `nodePanel/eventView/art,name,body,option*`、`pickerView`；`abyss_node_ui.lua` | 基础结构/条件/结果已接；事件图当前为官方元素替代；受限池内部文案出现在基线离线预览，须复核正式配置与清除内部解释 | NOT_TESTED；已检查圣职者离线几何，不能代表全部事件 |
 | 药水 | 可读效果、使用/目标/取消、对自身与对敌区别；空/满槽和丢弃安全 | `potionEntry,potionPanel`、`battlePanel/potion*,potionHelp,dragLayer`；药水视图/输入模块 | 栏位、说明和丢弃流程已存在，战斗新版共用瞄准待整合；须验证按住/中断/多指/失败不耗瓶 | NOT_TESTED；新增同候选药水门禁，不借历史药水证据 |
 | 退出/结算 | 全屏可发现菜单、继续/退出确认阻断底层；取消不改变资源；实际平台结算 | `exitEntry,exitPanel/cancel,confirm`，`menuPanel/result,settle`；host/退出适配 | 基线直接退出入口及确认已有；已保留无法保存的既有说明。公共菜单与失焦修复仍待合流，不用界面字样代表平台已收到结算 | NOT_TESTED；退出基础布局回归通过，平台/手机动作未验 |
@@ -38,7 +38,7 @@
 - 60是单父级直接子控件上限，不是整屏资源或帧率保证。整屏节点数、十张手牌、最大合法敌人、滚动列表、多重弹层及星点每帧更新均需真机性能审查。
 - `withViewport` 在 stage 外使用拉伸底色，stage 内按 min(width/1280,height/720)缩放；物理手机平台按键区、刘海/窄高比、原生字体和触摸分发仍缺本轮证据。
 - 现有 `verify:ui` 已新增 character/potions/exit；每屏增加原生1280×720、PC与手机安全区、字体图层、输入、容量性能审查。设计身份纳入有效ui-canvas，PatchNotes不参与。未实测不勾PASS。
-- 本轮隐藏浏览器离线对照位于根 `.artifacts/ui-final-node-preview/`；13场景是运行真实Lua控制器后的控件树，用系统字体/示意图标绘制，**不是官方原生预览**。
+- 本轮隐藏浏览器离线对照位于根 `.artifacts/ui-final-node-preview/`；已核对旧13场景及正式host启用的强化房间14场景；当前全部27个场景的离线文本拟合未检出裁切。它们是运行真实Lua控制器后的控件树，用系统字体/示意图标绘制，**不是官方原生预览**。
 - 本轮未占用桌面输入，无官方导入、ready、客户端新日志、PC/实体手机逐屏测试。实机窗口需遵守AGENTS单独协调。
 
 ## 验证与交接
@@ -49,3 +49,9 @@
 - 最终构建交接必须固定实际合入后的40位develop SHA，完整游戏GIL，全部Lua模块/原生UI/六列模板/结算图/场景与BGM参数，附输入源身份、hash、静态检查及独立读回；不得只做UI小样或简化占位包。由用户亲自导入验收，构建不冒称平台通过。
 
 接续：#292 已更新为 `e3cd8492b2c05e3acc13c26168fdc476668b2468`，新增最新源父系与账本更正；本轮必须按新头的Quality核验，不复用adf头。已核对差异为六个文档/账本/回归文件，未丢药水职责治理。
+
+已独立保留 #293 `4b0ad423f98854c353f79e8ac38667a80a84b8e2` 父系；输入永久锁定有红绿复现，候选中的单模块实验GIL不作为本轮完整游戏交付。
+
+新增门禁与选角布局专项共4/4通过、零跳过；真实设备与官方预览仍未验。`node-ui-preview.mjs` 现优先导出正式host强化房间的14个场景，并保留旧直接节点兼容场景，避免只截图旧分页入口造成错误验收。
+
+最终审计追加修复：正式战斗模块漏登记已修，219模块/1253边架构通过；真实隔离伤害预演7项通过。复合意图改为三个完整图标横排、攻击优先、数字在攻击图标左下；状态补金/紫底框与深色计数底，第十项起+N，正层数99+且保留负号。5项原生呈现/容量专项通过，保持旧命中路径；最终组合仍须重验。

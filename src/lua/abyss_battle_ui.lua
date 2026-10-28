@@ -719,31 +719,30 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         return face
     end
-    local function renderEnemyIntent(box, face, portrait, crowded)
-        local kind, badge = face.kind, face.badge
-        local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xxl)
-        local valueX = -S.xl + L.intent.size / 2 + S.xs + L.intent.valueWidth / 2
-        box:GetChild("intent").text = face.value
-        if crowded then iconY=portrait/2+S.xl;valueX=0 end
-        local textY=crowded and iconY-S.xl or iconY
-        box:GetChild("intent"):SetAnchoredPosition(valueX, textY)
-        local caption = box:GetChild("intentLabel")
-        caption.text = face.label or ""
-        caption:SetAnchoredPosition(valueX, textY)
-        ink(caption, intentColors[kind] or C.textDim)
-        box:GetChild("intentIcon"):SetAnchoredPosition(crowded and 0 or -S.xl, iconY)
-        box:GetChild("intentHit"):SetAnchoredPosition(0, iconY)
-        box:GetChild('intentHit'):SetSizeDelta(crowded and 84 or L.intent.size*3,L.intent.size+S.s)
-        picture(box:GetChild("intentIcon"), Theme.icon.intent[kind] or Theme.icon.intent.unknown)
-        tint(box:GetChild("intentIcon"), intentColors[kind] or C.textDim)
-        local badgeIcon = box:GetChild("intentBadge")
-        local inset = (L.intent.size - L.intent.badge) / 2
-        badgeIcon:SetAnchoredPosition((crowded and 0 or -S.xl) + inset, iconY - inset)
-        badgeIcon:SetVisible(badge ~= nil)
-        if badge then
-            picture(badgeIcon, Theme.icon.intent[badge])
-            tint(badgeIcon, intentColors[badge])
+    local function renderEnemyIntent(box, face, portrait)
+        local icons = IntentView.icons(face)
+        local size, line = L.intent.size, L.nativeText.lineHeight
+        local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xs + line + size / 2)
+        local pitch = size * 1.5
+        for i, name in ipairs({'intentIcon','intentBadge','intentExtra'}) do
+            local control, kind = box:GetChild(name), icons[i]
+            control:SetVisible(kind ~= nil)
+            control:SetSizeDelta(size, size)
+            control:SetAnchoredPosition((i - (#icons + 1) / 2) * pitch, iconY)
+            if kind then
+                picture(control, Theme.icon.intent[kind] or Theme.icon.intent.unknown)
+                tint(control, intentColors[kind] or C.goldDim)
+            end
         end
+        local attackLabel = box:GetChild('intent')
+        attackLabel.text = face.value or ''
+        attackLabel:SetVisible(icons[1] == 'attack' and attackLabel.text ~= '')
+        attackLabel:SetAnchoredPosition((1 - (#icons + 1) / 2) * pitch + (L.intent.valueWidth - size) / 2,
+            iconY - size / 2 - line / 2)
+        ink(attackLabel, C.text)
+        box:GetChild('intentLabel'):SetVisible(false)
+        box:GetChild('intentHit'):SetAnchoredPosition(0, iconY - line / 2)
+        box:GetChild('intentHit'):SetSizeDelta(#icons * pitch - size / 2, size + line)
     end
     local function renderEnemies(frame)
         local rows=frame.fighting and EnemyView.slots(frame.battle,self.busy and self.feedback or nil) or {}
@@ -770,8 +769,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 local icon=Theme.icon.enemy[enemy.definitionId] or Theme.icon.node[enemy.tier=='normal' and 'combat' or enemy.tier]
                 unit(box, enemy, portrait, icon, width, selected)
                 local dim=(pendingTarget or self.potionAim~=nil) and not selected
-                local colour=C.text
-                tint(box:GetChild('portrait'),{r=colour.r,g=colour.g,b=colour.b,a=dim and 102 or 255})
+                local portraitTone=C.text
+                tint(box:GetChild('portrait'),{r=portraitTone.r,g=portraitTone.g,b=portraitTone.b,a=dim and 102 or 255})
                 local preview=box:GetChild('damagePreview')
                 preview:SetVisible(loss~=nil and loss.loss>0)
                 preview:SetAnchoredPosition(0,-portrait/2-S.xxl+L.nativeText.lineHeight)

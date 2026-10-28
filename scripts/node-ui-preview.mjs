@@ -71,6 +71,22 @@ for (const t of document.querySelectorAll('.t')) {
 
 // Native scene -> approved reference: a committed screenshot or a prototype state.
 const pairs = [
+  // These scenes use the same enhancedRooms=true path enabled by GameUI.
+  // The older standalone scenes below remain compatibility evidence only.
+  ['shop-all', 'shop.png', '正式商店 · 完整七卡/遗物/药水货架'],
+  ['shop-hover', 'shop.png', '正式商店 · 悬停与独立价格'],
+  ['shop-touch', 'shop.png', '正式商店 · 触屏商品详情'],
+  ['chest-closed', 'treasure.png', '正式宝箱 · 未开启'],
+  ['chest-shake', 'treasure.png', '正式宝箱 · 开箱震动阶段'],
+  ['chest-burst', 'treasure.png', '正式宝箱 · 爆发反馈'],
+  ['chest-rewards', null, '正式宝箱 · 全部奖励同时展示、逐项领取'],
+  ['camp-new', 'camp.png', '正式营地 · 休息/锻造选择'],
+  ['camp-heal', null, '正式营地 · 回复反馈'],
+  ['camp-rest-result', null, '正式营地 · 真实回复结果'],
+  ['forge-grid', null, '正式锻造 · 完整选牌网格与分页'],
+  ['forge-preview', null, '正式锻造 · 真实升级前后对照'],
+  ['forge-impact', null, '正式锻造 · 确认升级反馈'],
+  ['forge-done', null, '正式锻造 · 升级结果'],
   ['shop', 'shop.png', '商店 · 已购一张、余卡价格变红'],
   ['shop-refused', 'shop.png', '商店 · 点按买不起的卡：说明差额，不扣款'],
   ['shop-remove', null, '删牌服务 · 先选卡再确认（批准稿无此屏，沿用锻造选择构图）'],

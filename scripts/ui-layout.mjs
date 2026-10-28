@@ -62,9 +62,9 @@ function unit(name, position, portrait, player = false) {
     { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
     { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
     ...(!player ? [picture('intentIcon', -s.xl, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.unknown, c.textDim),
-      // Secondary effect of a mixed move (STS ATTACK_DEBUFF etc.), on the icon's lower-right corner.
-      { ...picture('intentBadge', -s.xl + (l.intent.size - l.intent.badge) / 2, l.intent.offsetY - (l.intent.size - l.intent.badge) / 2,
-        l.intent.badge, l.intent.badge, theme.icon.intent.debuff, c.debuff), visible: false },
+      // Keep the existing secondary path, with full-sized horizontal peers.
+      { ...picture('intentBadge', 0, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.debuff, c.debuff), visible: false },
+      { ...picture('intentExtra', 0, l.intent.offsetY, l.intent.size, l.intent.size, theme.icon.intent.buff, c.buff), visible: false },
       // Attack value (or a two-character kind name) reads left to right from the icon.
       aligned(text('intent', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.number)),
       aligned(text('intentLabel', -s.xl + l.intent.size / 2 + s.xs + l.intent.valueWidth / 2, l.intent.offsetY, l.intent.valueWidth, l.nativeText.lineHeight, '', f.label, c.textDim)),
@@ -78,15 +78,20 @@ function unit(name, position, portrait, player = false) {
 // perRow x rows. Lua lays them out per column width; the hit opens the detail panel.
 function statusRow(top) {
   const si = l.statusIcon, pitch = si.size + si.gap, [bw] = l.hpBar.size, height = si.rows * pitch;
-  const chips = [], targets = [];
+  const icons = [], counts = [], frames = [], badges = [], targets = [];
   for (let i = 0; i < si.perRow * si.rows; i++) {
     const x = (i % si.perRow - (si.perRow - 1) / 2) * pitch, y = (si.rows - 1) * pitch / 2 - Math.floor(i / si.perRow) * pitch;
-    chips.push({ ...picture(`icon${i + 1}`, x, y, si.size, si.size, theme.icon.status.strength, c.buff), visible: false },
-      { ...text(`count${i + 1}`, x + si.size / 2, y - si.size / 2 + si.gap, si.size, l.nativeText.lineHeight, '', f.small, c.text), visible: false });
+    frames.push({ ...panel(`edge${i + 1}`, x, y, si.size + s.hairline * 2, si.size + s.hairline * 2, c.gold), visible: false },
+      { ...panel(`body${i + 1}`, x, y, si.size, si.size, c.panelSunken), visible: false });
+    icons.push({ ...picture(`icon${i + 1}`, x, y, si.size, si.size, theme.icon.status.strength, c.text), visible: false });
+    badges.push({ ...picture(`badge${i + 1}`, x, y, si.size, si.size, im.disc, c.panelSunken), visible: false });
+    counts.push({ ...text(`count${i + 1}`, x + si.size / 2, y - si.size / 2 + si.gap, si.size, l.nativeText.lineHeight, '', f.small, c.text), visible: false });
     targets.push({ ...hit(si.minimumTouch, si.minimumTouch), name: `hit${i + 1}`, position: [0, 0], visible: false });
   }
   return { name: 'statusRow', kind: 'container', position: [0, top - (si.rows - 1) * pitch / 2], size: [bw, height],
-    children: [...chips, hit(bw, height), ...targets] };
+    children: [{ name: 'backplates', kind: 'container', size: [bw, height], children: frames }, ...icons,
+      { name: 'countBackplates', kind: 'container', size: [bw, height], children: badges }, ...counts,
+      hit(bw, height), ...targets] };
 }
 
 // One shared detail card. Its full-stage hit swallows the next tap and closes it; the
