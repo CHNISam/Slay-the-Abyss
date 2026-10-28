@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 11:33'
-updated_date: '2026-10-28 12:59'
+updated_date: '2026-10-28 13:07'
 labels: []
 dependencies: []
 references:
@@ -42,4 +42,6 @@ ordinal: 122000
 PR302首头036ce0de真实CI仍失败：Quick昏眩主图标预期错误；历史逆层抢占旧层中间witness；Sapphire补参未逆转；selector把条件历史分发传播给无关wrapper。本轮逐项修复，旧黄金/时限保持；另主动扫描补齐三个NodeUI平台Color模拟。Node24当前16项来源/原体/正式入口、四raw批次全部status0、selector/Quick100项全过；首轮失败与取消均交S0审计，未宣称036通过。
 
 PR302 d2757fc9 的 Windows 真实失败已逐条取证：phase-four 退出菜单、Wizard 蓄能面、CardPreview 中性状态图标、双史莱姆分裂面、StatusHelp 削弱面、Controller 菜单和 Exit 确认路径。8个原生Lua入口均先按原脚本复现非0，再保留原状态/详情断言修正界面合同后status0。冻结phase-four源加入完整SHA+唯一hunk逆投影，PR238原26场景/黄金不改；专项合同7/7、语法与mock合同3/3成功。silent_final_sources的30秒超时仍未解决，由S0独立诊断；本轮尚不认证完整CI。
+
+S0独立定位Silent原30s超时：RelicRewards.context对每张牌重复扫描卡表，改为每次调用内惰性首定义索引，不改Run/RNG/池/原fixture。成本门禁旧2080读取RED，新64读取GREEN；原71奖励→同一Run71购买13754ms内完成；六份相关Lua各status0、PR250原字节保护3/3、架构/Luacheck门禁通过。新的完整精确头CI仍待。
 <!-- SECTION:NOTES:END -->
