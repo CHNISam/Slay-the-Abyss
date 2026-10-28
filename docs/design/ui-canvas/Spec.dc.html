@@ -49,11 +49,11 @@
       <sc-for list="{{intents}}" as="t" hint-placeholder-count="20">
         <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 10px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
           <div style="height: 64px; display: flex; align-items: center">
-          <div style="position: relative; flex: none; width: 58px; height: 58px; filter: drop-shadow(0 0 3px {{t.glow}}) drop-shadow(0 0 14px {{t.glow}}) drop-shadow(0 5px 4px #000000D0)">
+          <div style="position: relative; flex: none; width: 58px; height: 58px; filter: drop-shadow(0 3px 3px #000000B0)">
             <svg style="position: absolute; inset: 0" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f}}" style="fill: {{t.rim}}; stroke: #240A08; stroke-width: 1.6; paint-order: stroke"></path><path d="{{t.s}}" style="fill: none; stroke: {{t.rim}}; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"></path></svg>
-            <svg style="position: absolute; left: -12px; top: -12px; z-index: -1; {{t.subVis}}; filter: drop-shadow(0 0 2px #240A08) drop-shadow(0 0 8px {{t.g2}})" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f2}}" style="fill: {{t.r2}}; stroke: #240A08; stroke-width: 1.8; paint-order: stroke"></path><path d="{{t.s2}}" style="fill: none; stroke: {{t.r2}}; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+            <svg style="position: absolute; left: -12px; top: -12px; z-index: -1; {{t.subVis}}; filter: drop-shadow(0 2px 2px #000000B0)" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f2}}" style="fill: {{t.r2}}; stroke: #240A08; stroke-width: 1.8; paint-order: stroke"></path><path d="{{t.s2}}" style="fill: none; stroke: {{t.r2}}; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path></svg>
           </div>
-          <span style="align-self: flex-end; margin: 0 0 2px -16px; font-size: 28px; line-height: 1; font-weight: 900; color: #FFF8EE; -webkit-text-stroke: 2.5px #240A08; paint-order: stroke fill; text-shadow: 0 0 14px {{t.glow}}, 0 3px 0 #000; font-variant-numeric: tabular-nums">{{t.value}}</span>
+          <span style="align-self: flex-end; margin: 0 0 2px -16px; font-size: 28px; line-height: 1; font-weight: 900; color: #FFF8EE; text-shadow: 0 2px 3px #000000CC; font-variant-numeric: tabular-nums">{{t.value}}</span>
           </div>
           <b style="font-size: 15px">{{t.name}}</b>
           <span style="font-size: 12px; line-height: 1.5; color: #9E8C72; text-align: center">{{t.note}}</span>
@@ -65,7 +65,7 @@
   <section style="display: flex; flex-direction: column; gap: 20px">
     <h2 style="margin: 0; font-size: 24px; font-weight: 900">边界规则</h2>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
-      <sc-for list="{{rules}}" as="r" hint-placeholder-count="11">
+      <sc-for list="{{rules}}" as="r" hint-placeholder-count="12">
         <div style="display: flex; gap: 16px; padding: 18px 20px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
           <span style="flex: none; width: 34px; height: 34px; border-radius: 50%; background: #120C0B; border: 2px solid #C9A25E; color: #F6DFA4; font-size: 17px; font-weight: 900; display: grid; place-items: center">{{r.n}}</span>
           <div><b style="font-size: 17px">{{r.title}}</b><div style="margin-top: 6px; font-size: 14px; line-height: 1.7; color: #C9BCA4">{{r.body}}</div></div>
@@ -150,6 +150,7 @@ class Component extends DCLogic {
       { title: '主角状态', body: '与敌人相同：血条下方一行，同一容量和排序规则；主角详情面板向右展开，避免挡住手牌。' },
       { title: '瞄准时', body: '选中药水或单体卡牌后，非目标敌人降到 40% 不透明度，目标加四角金框；全体效果则所有敌人一起高亮；自身效果直接生效，不进入瞄准。' },
       { title: '卡牌类型看形状', body: '插画窗形状区分类型：攻击下缘尖角，技能八角切边，能力下缘圆弧。类型名放在插画窗底部正中的小牌上，边框跟稀有度同色。' },
+      { title: '拖牌出手', body: '单体牌：牌抬起放大，牌顶拉出红色粗箭头，指到的敌人加红色准星，血条预演扣血并浮出「−14」，够击杀时写「击杀」。群体牌：不出箭头，牌拖过手牌线后所有敌人同时加准星和扣血预演。自身牌：拖过手牌线牌发光即可。拖回手牌取消。药水用同一套箭头和准星。' },
     ].map((r, i) => ({ ...r, n: i + 1 }));
     return { statuses, intents, rules };
   }
