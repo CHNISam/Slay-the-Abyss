@@ -31,7 +31,9 @@
 各 case 在自己的函数内创建新 host/combat/反馈状态；片间没有承接前一 case 结果。
 完整原源码 SHA256 与 Git blob、唯一可逆注册编辑及分片范围保存在
 `tests/fixtures/ui-regression-partitions.json`；Node 合同严格重建并核原字节，
-验证真实 case 体/范围漂移会被拒绝，raw 与 Windows 8 / POSIX 4 的 Node 合同均唯一发现。
+验证真实 case 体/范围漂移会被拒绝，并固定注册器前后文的独立 SHA256；
+双改注册器与 manifest 使其只计数不执行的负控先红后绿，不能绕过原文逆向。
+raw 与 Windows 8 / POSIX 4 的 Node 合同均唯一发现。
 
 `scripts/test-lua.mjs` SHA256 仍为
 `7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33`，

@@ -12,7 +12,13 @@ const originals=[
  ['game_ui_exit',15,5,'GAME_UI_EXIT','986c6a694f51d13dccf121ccba1a93fbb9e9d84f3f30bf7d0ae11d7360fdbf2d','f986addd094b95e234464e7bb48401d305e1515b'],
  ['feedback_continuous_cards',9,4,'FEEDBACK_CONTINUOUS_CARDS','d71e04f8b4a0736dbd90a32b57d7aeede3b5b418f58d3f96604b02fccf1902ee','01da8333a744bcee14c8e7574b2056f99b5b1b39'],
 ];
+const acceptedRegistrationEdits=new Map([
+ ['tests/lua/potion_targeting.lua',['f80c0e4f9456d37877b0e17c2228e33e4b7898ab9df652157d113e8816bed8b0','0edf396cffb9a7c7f3111c26d18bf09897683c7e479314bbbe61e28f31caa038']],
+ ['tests/lua/game_ui_exit.lua',['dd5f7db76b2630928828b148e61876aedf980928a6e6c914b00bad29d038c3b3','dd99a76ad8d4f825a49ccbf3a825885f0a140bafba6883d27eea2fdc8ccf584b']],
+ ['tests/lua/feedback_continuous_cards.lua',['215f0c976bdc7c2fd4651027991306fbc8e7e62963ef8ee25d436cadffac129a','2b1095082ab321592c89a8b30983412b95ed50f0ee3233b87836ef2a8afedeeb']],
+]);
 function originalSource(part,source){
+ assert.deepEqual([sha(part.before),sha(part.after)],acceptedRegistrationEdits.get(part.entry),'accepted registration edit must keep real execution, gating, counters, and markers unchanged');
  assert.ok(source.startsWith(part.prefix),'the primary raw fixture must select its exact original case range');
  assert.ok(source.endsWith(part.footer),'every selected original case must execute');
  source=source.slice(part.prefix.length,-part.footer.length);
@@ -46,6 +52,9 @@ for(const [index,[name,total,last,label,sourceSha,blob]]of originals.entries()){
   const drift=original.slice(0,caseAt)+original.slice(caseAt).replace('assert(', 'assert( ');
   assert.notEqual(drift,original,'the negative probe must change an actual original case body');
   assert.throws(()=>originalSource(part,part.prefix+drift.replace(part.before,part.after)+part.footer),/all original setup/);
+  const noCall=part.after.includes('originalTest(name,fn);')?part.after.replace('originalTest(name,fn);',''):part.after.includes('fn();')?part.after.replace('fn();',''):part.after.replace('    tests = tests + 1\n','    tests = tests + 1\n    if true then return end\n');
+  assert.notEqual(noCall,part.after,'the negative probe must stop executing the selected case');
+  assert.throws(()=>originalSource({...part,after:noCall},source.replace(part.after,noCall)),/accepted registration edit/,'changing both wrapper and manifest must not allow counting without execution');
  });
 }
 test('raw runner, Node discovery, and every hosted shard plan retain all six UI slices exactly once',()=>{
