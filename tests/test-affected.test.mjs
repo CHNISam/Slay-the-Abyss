@@ -1,7 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
-import { selectTests } from '../scripts/test-affected.mjs';
+import { readFileSync, readdirSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, renameSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { selectTests, parseGitChanges } from '../scripts/test-affected.mjs';
 
 const sources = {
   'src/lua/abyss_low.lua': 'return {}',
@@ -230,5 +234,253 @@ for (const name of ['map', 'nodes']) {
     const plan = selectTests([`src/lua/abyss_${name}.lua`], repositorySources);
     assert.equal(plan.full, false);
     assert.ok(plan.lua.includes(`tests/lua/${name}.lua`));
+  });
+}
+
+const generatedSources = {
+  ...luaSources,
+  'scripts/node-ui-layout.mjs': 'export const nodeLayout = () => ({})',
+  'scripts/game-ui-layout.mjs': 'import {nodeLayout} from "./node-ui-layout.mjs"; export const gameLayout = nodeLayout',
+  'scripts/build-ui.mjs': 'import {gameLayout} from "./game-ui-layout.mjs"; export const buildUI = gameLayout',
+  // The shared runner's CLI must not make every literal wrapper discover every fixture.
+  'scripts/test-lua.mjs': 'export function runLua(path){}; readdirSync("tests/lua").forEach(runLua)',
+  'tests/lua/support/host.lua': 'local Layout=require("abyss_ui_layout"); return Layout',
+  'tests/lua/host.lua': 'return dofile("tests/lua/support/host.lua")',
+  'tests/host.test.mjs': 'import {runLua} from "../scripts/test-lua.mjs"; runLua("tests/lua/host.lua")',
+  'tests/other.test.mjs': 'import {runLua} from "../scripts/test-lua.mjs"; runLua("tests/lua/other.lua")',
+};
+test('generated UI producer chains reach Lua fixtures and their literal JS wrappers without build files', () => {
+  const plan = selectTests(['scripts/node-ui-layout.mjs'], generatedSources);
+  assert.equal(plan.full, false);
+  assert.deepEqual(plan.lua, ['tests/lua/host.lua']);
+  assert.deepEqual(plan.integration, ['tests/host.test.mjs']);
+});
+
+test('generated Lua literal paths and long/protected Lua file loaders preserve the same chain', () => {
+  const plan = selectTests(['scripts/node-ui-layout.mjs'], {
+    ...generatedSources,
+    'tests/lua/long.lua': 'return dofile [[tests/lua/support/host.lua]]',
+    'tests/lua/protected.lua': 'return pcall(loadfile,"tests/lua/support/host.lua")',
+    'tests/generated.test.mjs': 'runLua("build/lua/abyss_ui_layout.lua")',
+  });
+  assert.equal(plan.full, false);
+  assert.deepEqual(plan.lua, ['tests/lua/host.lua', 'tests/lua/long.lua', 'tests/lua/protected.lua']);
+  assert.deepEqual(plan.integration, ['tests/host.test.mjs', 'tests/generated.test.mjs']);
+});
+
+for (const expression of [
+  'runLua(path)', 'runLua("tests/lua/" + name)', 'runLua(`tests/lua/${name}.lua`)',
+  'const execute=runLua; execute(path)', 'runLua()',
+  'import {runLua as execute} from "../scripts/test-lua.mjs"; execute(path)',
+  'const result = `${runLua(path)}`',
+]) {
+  test(`unresolved Lua execution remains conservative for generated and ordinary Lua changes: ${expression}`, () => {
+    const input = { ...generatedSources, 'tests/dynamic.test.mjs': expression };
+    for (const change of ['scripts/node-ui-layout.mjs', 'src/lua/abyss_low.lua', 'tests/lua/other.lua']) {
+      const plan = selectTests([change], input);
+      assert.equal(plan.full, false);
+      assert.ok(plan.integration.includes('tests/dynamic.test.mjs'), change);
+    }
+  });
+}
+
+test('literal runLua, aliased literal calls, comments and prose do not become catch-all discovery', () => {
+  const plan = selectTests(['src/lua/abyss_low.lua'], {
+    ...generatedSources,
+    'tests/alias.test.mjs': 'import {runLua as execute} from "../scripts/test-lua.mjs"; execute("tests/lua/other.lua")',
+    'tests/prose.test.mjs': 'const text="runLua(path) and readdirSync(directory)"; /* runLua(path) */ // readdirSync(dir)',
+    'tests/template.test.mjs': 'runLua(`tests/lua/other.lua`)',
+  });
+  assert.equal(plan.full, false);
+  assert.deepEqual(plan.integration, []);
+  assert.deepEqual(plan.fast, []);
+});
+
+test('known directory discovery is bounded, including generated outputs and imported helper discovery', () => {
+  const input = { ...generatedSources,
+    'tests/lua/audio/fixture.lua': 'return require("abyss_low")',
+    'tests/lua/unrelated/fixture.lua': 'return true',
+    'tests/support/discover.mjs': 'import {readdirSync as list} from "node:fs"; export const files=list("tests/lua/audio")',
+    'tests/audio.test.mjs': 'import {files} from "./support/discover.mjs"',
+    'tests/unrelated-directory.test.mjs': 'readdirSync("tests/lua/unrelated")',
+    'tests/generated-directory.test.mjs': 'readdirSync("build/lua")',
+  };
+  const ordinary = selectTests(['src/lua/abyss_low.lua'], input);
+  assert.equal(ordinary.full, false);
+  assert.deepEqual(ordinary.integration, ['tests/audio.test.mjs']);
+  const layout = selectTests(['scripts/node-ui-layout.mjs'], input);
+  assert.ok([...layout.fast, ...layout.integration].includes('tests/generated-directory.test.mjs'));
+  assert.ok(![...layout.fast, ...layout.integration].includes('tests/unrelated-directory.test.mjs'));
+});
+
+for (const expression of ['readdirSync(directory)', 'readdirSync(join(root,"tests"))', 'const list=readdirSync; list(directory)', 'import(modulePath)']) {
+  test(`unsupported discovery remains conservative: ${expression}`, () => {
+    const input = { ...generatedSources, 'tests/discovery.test.mjs': expression };
+    for (const path of ['scripts/node-ui-layout.mjs', 'src/lua/abyss_low.lua']) {
+      const plan = selectTests([path], input);
+      assert.equal(plan.full, false);
+      assert.ok([...plan.fast, ...plan.integration].includes('tests/discovery.test.mjs'));
+    }
+  });
+}
+
+test('missing literal Lua inputs remain conservative and empty existing inputs are not deleted', () => {
+  const input = { ...generatedSources,
+    'src/lua/abyss_empty.lua': '',
+    'tests/lua/empty.lua': 'return require("abyss_empty")',
+    'tests/missing.test.mjs': 'runLua("tests/lua/missing.lua")',
+    'tests/lua/missing.lua': 'return require("abyss_missing_generated")',
+  };
+  const plan = selectTests(['src/lua/abyss_low.lua'], input);
+  assert.equal(plan.full, false);
+  assert.ok(plan.lua.includes('tests/lua/missing.lua'));
+  assert.ok(plan.integration.includes('tests/missing.test.mjs'));
+  assert.equal(selectTests(['src/lua/abyss_empty.lua'], input).full, false);
+  delete input['tests/lua/missing.lua'];
+  assert.ok(selectTests(['src/lua/abyss_low.lua'], input).integration.includes('tests/missing.test.mjs'));
+  assert.equal(selectTests(['tests/lua/missing.lua'], input).full, true);
+});
+
+test('NUL git records retain both rename/copy sides and exact whitespace paths', () => {
+  const old = 'scripts/old layout\tname.mjs', next = 'scripts/new layout\nname.mjs';
+  assert.deepEqual(parseGitChanges(`R100\0${old}\0${next}\0M\0tests/plain.test.mjs\0C085\0scripts/a.mjs\0scripts/b.mjs\0`),
+    [old, next, 'tests/plain.test.mjs', 'scripts/a.mjs', 'scripts/b.mjs']);
+  // A realistic removed rename source is deliberately a full fallback; dynamic
+  // candidates cannot claim that either old-path or new-path coverage is enough.
+  assert.equal(selectTests(parseGitChanges(`R100\0${old}\0${next}\0`), { [next]: '' }).full, true);
+  const before = 'scripts/old layout.mjs', after = 'scripts/new layout.mjs';
+  const both = selectTests(parseGitChanges(`R100\0${before}\0${after}\0`), {
+    [before]: '', [after]: '',
+    'tests/old.test.mjs': `import '../${before}'`,
+    'tests/new.test.mjs': `import '../${after}'`,
+  });
+  assert.equal(both.full, false);
+  assert.deepEqual(both.fast, ['tests/old.test.mjs', 'tests/new.test.mjs']);
+  for (const invalid of ['M\0file', 'R100\0old\0', 'not-a-status\0file\0']) assert.throws(() => parseGitChanges(invalid));
+});
+
+test('CLI reads real staged renames and untracked whitespace names without quoting or trimming', () => {
+  const root = mkdtempSync(join(tmpdir(), 'abyss-affected-git-'));
+  const git = args => {
+    const result = spawnSync('git', args, { cwd: root, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr); return result.stdout;
+  };
+  const put = (path, source) => { mkdirSync(dirname(join(root, path)), {recursive:true}); writeFileSync(join(root, path), source); };
+  try {
+    git(['init', '-q']);
+    const old = 'scripts/old layout.mjs', next = 'scripts/new\tlayout.mjs', untracked = 'tests/new\ncase.test.mjs';
+    put(old, 'export const value=1'); put('src/lua/abyss_empty.lua', ''); put('tests/direct.test.mjs', '');
+    git(['add', '.']); git(['-c','user.name=Selector Test','-c','user.email=selector@example.invalid','commit','-qm','baseline']);
+    renameSync(join(root, old), join(root, next)); git(['add', '-A']); put(untracked, '');
+    const result = spawnSync(process.execPath, [fileURLToPath(new URL('../scripts/test-affected.mjs', import.meta.url)), '--plan', '--base', 'HEAD'], {cwd:root,encoding:'utf8'});
+    assert.equal(result.status, 0, result.stderr);
+    const plan = JSON.parse(result.stdout);
+    assert.deepEqual(plan.changed, [old, next, untracked]);
+    assert.equal(plan.full, true); assert.match(plan.reason, /old layout/);
+  } finally { rmSync(root, {recursive:true,force:true}); }
+});
+
+test('real generated node layout changes retain actual host Lua regressions and exclude literal unrelated wrappers', () => {
+  const plan = selectTests(['scripts/node-ui-layout.mjs'], repositorySources);
+  assert.equal(plan.full, false);
+  for (const fixture of ['game_ui', 'game_ui_boss_treasure', 'presentation_trace_native']) assert.ok(plan.lua.includes(`tests/lua/${fixture}.lua`), fixture);
+  assert.ok(plan.integration.includes('tests/game-ui.test.mjs'));
+  assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
+
+test('regex assertions are not executable discovery calls', () => {
+  const plan = selectTests(['src/lua/abyss_low.lua'], { ...generatedSources,
+    'tests/assertion.test.mjs': String.raw`assert.match(runner, /readdirSync\('tests\/lua'\)/); assert.match(source,/runLua\(/);`,
+  });
+  assert.equal(plan.full, false);
+  assert.ok(![...plan.fast, ...plan.integration].includes('tests/assertion.test.mjs'));
+});
+
+for (const expression of [
+  `import * as runner from '../scripts/test-lua.mjs'; runner['runLua'](path)`,
+  `import * as runner from '../scripts/test-lua.mjs'; runner[method](path)`,
+  `import * as fs from 'node:fs'; fs['readdirSync'](directory)`,
+  `import * as fs from 'node:fs'; fs[method](directory)`,
+]) {
+  test(`namespace/computed unknown calls remain conservative: ${expression}`, () => {
+    const plan = selectTests(['src/lua/abyss_low.lua'], { ...generatedSources, 'tests/namespace.test.mjs': expression });
+    assert.equal(plan.full, false);
+    assert.ok([...plan.fast, ...plan.integration].includes('tests/namespace.test.mjs'));
+  });
+}
+
+test('computed literal calls retain only their actual fixture while directory literals are normalized', () => {
+  const plan = selectTests(['src/lua/abyss_low.lua'], { ...generatedSources,
+    'tests/literal.test.mjs': `import * as runner from '../scripts/test-lua.mjs'; runner['runLua']('tests/lua/other.lua')`,
+    'tests/normal.test.mjs': `readdirSync('tests/lua/../lua')`,
+    'tests/root.test.mjs': `readdirSync('./')`,
+    'tests/unknown.test.mjs': `readdirSync('unknown-directory')`,
+  });
+  assert.equal(plan.full, false);
+  assert.ok(!plan.integration.includes('tests/literal.test.mjs'));
+  for (const file of ['normal', 'root', 'unknown']) assert.ok([...plan.fast, ...plan.integration].includes(`tests/${file}.test.mjs`));
+});
+
+test('shared runner imports stay transitive without importing its CLI fixture discovery', () => {
+  const plan = selectTests(['scripts/helper.mjs'], { ...generatedSources,
+    'scripts/helper.mjs': 'export const serializer=1',
+    'scripts/test-lua.mjs': 'import {serializer} from "./helper.mjs"; export function runLua(path){}; readdirSync("tests/lua").forEach(runLua)',
+  });
+  assert.equal(plan.full, false);
+  assert.deepEqual(plan.integration, ['tests/host.test.mjs', 'tests/other.test.mjs']);
+});
+
+for (const expression of [
+  'import * as runner from "../scripts/test-lua.mjs"; const text = `${runner[method](path)}`',
+  'import * as fs from "node:fs"; const text = `${fs[method](directory)}`',
+  'import {runLua as execute} from "../scripts/test-lua.mjs"; const text = `${execute(path)}`',
+]) {
+  test(`template expressions preserve unresolved imported calls: ${expression}`, () => {
+    const plan = selectTests(['src/lua/abyss_low.lua'], { ...generatedSources, 'tests/expression.test.mjs': expression });
+    assert.equal(plan.full, false);
+    assert.ok([...plan.fast, ...plan.integration].includes('tests/expression.test.mjs'));
+  });
+}
+
+test('unknown JS discovery covers changed test modules, not only scripts', () => {
+  const plan = selectTests(['tests/changed.test.mjs'], { ...generatedSources,
+    'tests/changed.test.mjs': 'export const value=1',
+    'tests/discovery.test.mjs': 'readdirSync(directory)',
+    'tests/import.test.mjs': 'import(modulePath)',
+  });
+  assert.equal(plan.full, false);
+  for (const file of ['changed', 'discovery', 'import']) assert.ok([...plan.fast, ...plan.integration].includes(`tests/${file}.test.mjs`));
+});
+
+test('plain arrays and static array assertions do not count as computed invocation', () => {
+  const plan = selectTests(['src/lua/abyss_low.lua'], { ...generatedSources,
+    'tests/arrays.test.mjs': 'const names=["runLua"]; assert.deepEqual(names,["readdirSync"]); function namesOnly(){return ["runLua"]}',
+  });
+  assert.equal(plan.full, false);
+  assert.ok(![...plan.fast, ...plan.integration].includes('tests/arrays.test.mjs'));
+});
+
+test('runner scheduling helpers keep static import coverage without executing their CLI discovery', () => {
+  const input = { ...generatedSources,
+    'scripts/scheduler.mjs': 'export function discover(){return readdirSync(directory)}',
+    'scripts/test-lua.mjs': 'import {discover} from "./scheduler.mjs"; export function runLua(path){}; if (import.meta.url === pathToFileURL(resolve(process.argv[1])).href) discover()',
+  };
+  assert.deepEqual(selectTests(['scripts/scheduler.mjs'], input).integration, ['tests/host.test.mjs', 'tests/other.test.mjs']);
+  assert.deepEqual(selectTests(['src/lua/abyss_low.lua'], input).integration, []);
+  assert.deepEqual(selectTests(['scripts/node-ui-layout.mjs'], input).integration, ['tests/host.test.mjs']);
+  input['tests/scheduler.test.mjs'] = 'import {discover} from "../scripts/scheduler.mjs"; discover()';
+  assert.ok([...selectTests(['src/lua/abyss_low.lua'], input).integration, ...selectTests(['src/lua/abyss_low.lua'], input).fast].includes('tests/scheduler.test.mjs'));
+});
+
+for (const expression of [
+  'const runner=await import("../scripts/test-lua.mjs"); runner[method](path)',
+  'const { ["runLua"]: execute }=await import("../scripts/test-lua.mjs"); execute(path)',
+  'const fs=await import("node:fs"); fs[method](directory)',
+]) {
+  test(`unsupported literal import namespace consumption stays conservative: ${expression}`, () => {
+    const plan = selectTests(['src/lua/abyss_low.lua'], { ...generatedSources, 'tests/imported.test.mjs': expression });
+    assert.equal(plan.full, false);
+    assert.ok([...plan.fast, ...plan.integration].includes('tests/imported.test.mjs'));
   });
 }
