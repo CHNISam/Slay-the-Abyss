@@ -7,6 +7,7 @@ import { measureSources, dependencyCycles, discoverSources } from '../scripts/lu
 import { analyzeSources } from '../scripts/check-architecture.mjs';
 import { qualitySnapshot, compareQuality, qualityContract, renderQuality, main } from '../scripts/check-engineering-quality.mjs';
 import { beforeQualityArtifacts, qualityWindowsUpload, qualityPosixPaths } from './helpers/quality-workflow.mjs';
+import { preRetirementSource, retirementSources } from './helpers/presentation-announcement-retirement.mjs';
 
 const row = (file,line,column,subject,value=1) => ({file:`src/lua/${file}.lua`,line,column,code:'W561',
   message:`cyclomatic complexity of ${subject} is too high (${value} > 0)`});
@@ -190,5 +191,22 @@ test('quality reports are collected by the existing gate and uploaded on failed 
   for(const bad of [workflow.replace('build/engineering-quality.md','build/other.md'),
     workflow.replace('if-no-files-found: warn','if-no-files-found: error')]) {
     assert.ok(beforeQualityArtifacts(bad).includes('engineering-quality-windows-'));
+  }
+});
+
+test('historical package replay inverts only the exact quality entry and gate wiring without changing its old hash',()=>{
+  const live=readFileSync('package.json','utf8').replaceAll('\r\n','\n');
+  const entry='    "check:quality": "node scripts/check-engineering-quality.mjs",\n';
+  const before=retirementSources.beforeSources['package.json'];
+  assert.equal(preRetirementSource('package.json',live),before);
+  assert.equal(preRetirementSource('package.json',live.replaceAll('\n','\r\n')),before);
+  const moved=live.replace(entry,'').replace('    "setup:lua-static":',entry+'    "setup:lua-static":');
+  for(const bad of [live.replace(entry,''),live.replace(entry,entry+entry),moved,
+    live.replace('node scripts/check-engineering-quality.mjs','node scripts/other.mjs'),
+    live.replace('npm run check:quality && npm run check:architecture','npm run check:architecture'),
+    live.replace('npm run check:lua-static && ','').replace('npm run check:quality && ',''),
+    live+'\n',live.replace('"private": true','"private": false')]) {
+    assert.notEqual(bad,live);
+    assert.throws(()=>preRetirementSource('package.json',bad),/unreviewed integrated retirement source drift/);
   }
 });

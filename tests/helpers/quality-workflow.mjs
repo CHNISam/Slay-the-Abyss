@@ -21,3 +21,15 @@ export function beforeQualityArtifacts(text) {
     .replace('        if: always() && matrix.shard == 1\n        with:\n          name: engineering-',
       '        if: matrix.shard == 1\n        with:\n          name: engineering-');
 }
+
+// Historical package replays retain their complete old hash. Invert only the
+// two reviewed quality additions, including the exact new entry position.
+// Partial, reordered or altered wiring is left intact for the old hash to reject.
+export function beforeQualityPackage(text) {
+  const oldEntry='    "check:architecture": "node scripts/check-architecture.mjs",\n';
+  const newEntry=oldEntry+'    "check:quality": "node scripts/check-engineering-quality.mjs",\n';
+  const oldGate='    "check:engineering": "npm run check:architecture && npm run check:lua-static && npm run check:test-strength && npm run check:native-ui-contract",\n';
+  const newGate=oldGate.replace('npm run check:architecture','npm run check:quality && npm run check:architecture');
+  if(text.split(newEntry).length!==2||text.split(newGate).length!==2)return text;
+  return text.replace(newEntry,oldEntry).replace(newGate,oldGate);
+}
