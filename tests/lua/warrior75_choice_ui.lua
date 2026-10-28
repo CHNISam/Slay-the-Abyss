@@ -17,7 +17,7 @@ assert(not ui:closeDeck());assert(not ui.battleUI.active)
 local grid=root:GetChild('deckPanel'):GetChild('grid');grid:flush();ui:update(0);grid:flush()
 assert(grid.itemCount==2)
 local first=grid.items[0];assert(ui.deckUI.bindings[first].uid==102 and first:GetChild('uid').text=='')
-assert(first:GetChild('face'):GetChild('name').text=='后援守势＋')
+assert(first:GetChild('face'):GetChild('name').text=='后援守势<color=#8DE08A>＋</color>')
 assert(first:GetChild('face'):GetChild('cost').text=='0','choice must show Corruption combat cost')
 assert(first:GetChild('hit').visible and first:GetChild('hit').click,'native cursor-area listener required')
 local stale=first:GetChild('hit').click

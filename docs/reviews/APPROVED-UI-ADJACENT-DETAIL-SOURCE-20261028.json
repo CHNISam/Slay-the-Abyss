@@ -1,0 +1,203 @@
+{
+  "base": "53fa164a9914dd8a7a5849ff741925dd3131f5e4",
+  "scope": "14 named existing Lua test fixtures and one new test-only helper; no production source changes",
+  "patchSha256": "5a66d1bafa49a394193ea366b90240da31a83c982fd253674df71cbfbda55224",
+  "runtime": "not_run",
+  "verification": {
+    "verification": "luaparse + source AST only; no Lua execution",
+    "filesParsed": 15,
+    "originalNoticeReads": 22,
+    "totalOriginalAssertionCallsPreserved": 921,
+    "checks": [
+      {
+        "file": "tests/lua/slimed_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 11,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 17
+      },
+      {
+        "file": "tests/lua/louse_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 11,
+        "addedAssertionCalls": 1,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 26
+      },
+      {
+        "file": "tests/lua/sentries_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 18,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 2,
+        "originalNumericLiteralsPreserved": 24
+      },
+      {
+        "file": "tests/lua/shield_gremlin_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 14,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 3,
+        "originalNumericLiteralsPreserved": 18
+      },
+      {
+        "file": "tests/lua/spike_slime_l_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 9,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 2,
+        "originalNumericLiteralsPreserved": 23
+      },
+      {
+        "file": "tests/lua/spike_slime_split_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 35,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 89
+      },
+      {
+        "file": "tests/lua/acid_slime_split_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 28,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 3,
+        "originalNumericLiteralsPreserved": 65
+      },
+      {
+        "file": "tests/lua/bosses_intent_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 24,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 2,
+        "originalNumericLiteralsPreserved": 31
+      },
+      {
+        "file": "tests/lua/nemesis_ui.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 11,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 14
+      },
+      {
+        "file": "tests/lua/act3_orb_walker.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 142,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 135
+      },
+      {
+        "file": "tests/lua/act3_shapes.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 181,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 237
+      },
+      {
+        "file": "tests/lua/act3_transient.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 198,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 209
+      },
+      {
+        "file": "tests/lua/act3_maw_growth.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 224,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 2,
+        "originalNumericLiteralsPreserved": 250
+      },
+      {
+        "file": "tests/lua/support/intent_artifact_fixture.lua",
+        "parse": "pass",
+        "originalAssertionCallsPreserved": 15,
+        "addedAssertionCalls": 0,
+        "removedNoticeReads": 1,
+        "originalNumericLiteralsPreserved": 24
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "tests/lua/acid_slime_split_ui.lua",
+      "beforeSha256": "895f0cc68bb2648b252a8940b5f35e33a0a1cdd93f1037feb75999976b9df2f9",
+      "afterSha256": "35f16155c7b08dec541e8f661efde402e323359e10c74bcec6a1a0e5021bf6a8"
+    },
+    {
+      "path": "tests/lua/act3_maw_growth.lua",
+      "beforeSha256": "0d09bf82a6f5eee23d85390b73417c85b57f0c927284c9772174378ed45c2aed",
+      "afterSha256": "24f8650c1015fe3a72eaa4b1eb4db29c8fbdf696171540e992c33760fb231a3f"
+    },
+    {
+      "path": "tests/lua/act3_orb_walker.lua",
+      "beforeSha256": "94170e8672a410452296f2bd721f6bf786e51e788426695c18512759f5f17813",
+      "afterSha256": "f0163a30238155b57c3fd6af06b1909da70eb9698a3a5e85f68247c47c221281"
+    },
+    {
+      "path": "tests/lua/act3_shapes.lua",
+      "beforeSha256": "1bf0166240474459b655958874b6f32c7d41c801195bca3c7d31c2f141163ea9",
+      "afterSha256": "48ca309908b7154fcdc8d5c6714c0bc20069c42cfb60c23e97ffaa2964d71f55"
+    },
+    {
+      "path": "tests/lua/act3_transient.lua",
+      "beforeSha256": "51cf2897832eac0e6f28355ffd131c0463ee06990f5ab3e0cc62c043c157a131",
+      "afterSha256": "505fb25b103e05a1afff1edebedff0a13e6a2704644bbfb8b6ae5d2598a30ff0"
+    },
+    {
+      "path": "tests/lua/bosses_intent_ui.lua",
+      "beforeSha256": "a3bb3533ccc35df2b968d531f0af26ad9dc37bcc82cc0aa012cd85d16800693d",
+      "afterSha256": "4415d98756a5cfc46b803d5e8331d97343e623abe87e0a40fed96bd46c418ac9"
+    },
+    {
+      "path": "tests/lua/louse_ui.lua",
+      "beforeSha256": "ae098f0486c2ab943ec00d346e76c3156a824b718a405fb1def50054b01f57a5",
+      "afterSha256": "80b67fd14a07da06b2360c41d6872e03a3d3adbabbba44e63ecb9c832a93c873"
+    },
+    {
+      "path": "tests/lua/nemesis_ui.lua",
+      "beforeSha256": "ae2535c351e4e6e606edf3680b8eb448a5d6271e08dc645f5ddd47b2520d076d",
+      "afterSha256": "736a67ba3158850ad67d716b7ec62fe8ac6629d0b24ff673b1b7e975ddd340d9"
+    },
+    {
+      "path": "tests/lua/sentries_ui.lua",
+      "beforeSha256": "c4eec76ce4265e4b6351f7bc23ebb1c840fab67395226226b3ea944bc6eedede",
+      "afterSha256": "62435e2bdd16f935072c524c99fa77f88b8bb32b95d122117322e55370be7f7f"
+    },
+    {
+      "path": "tests/lua/shield_gremlin_ui.lua",
+      "beforeSha256": "a9f896ed57074880ecf9ab9faeb909d93f2725cadeb76c6f12ab82e08921afca",
+      "afterSha256": "9dce5f46e86a49146b0d7fee3f990b6fe20884f8126368e432f26e5d203ff9fb"
+    },
+    {
+      "path": "tests/lua/slimed_ui.lua",
+      "beforeSha256": "a1aca46d9a59edadb6c0434aa717f8186c1beec891cf3bf72722f6db2fe1e1b1",
+      "afterSha256": "d991810b91d5ee4ba17e0453b6d9702586670a6f7ad53168ee5667fb103f0952"
+    },
+    {
+      "path": "tests/lua/spike_slime_l_ui.lua",
+      "beforeSha256": "02a657be6da4d5d7d588f15f9e37bd8b0ec6556f9c37478d193cda8721243c7c",
+      "afterSha256": "a4139355b9c68e2ff06001fbd72012e99559f4d41ce1d74e6f80929ccbe8e0b5"
+    },
+    {
+      "path": "tests/lua/spike_slime_split_ui.lua",
+      "beforeSha256": "06236135fc9c92f5e9fa7da417bf23a1b6ecbc0c507971e55e2a77de79ad59d8",
+      "afterSha256": "2cc974bbdf3d8e1bad63fad3acc9d06d245d7c2be792aab7ec812b20f819bc58"
+    },
+    {
+      "path": "tests/lua/support/intent_artifact_fixture.lua",
+      "beforeSha256": "b371cb21c738a4d2dba9a5d21c72d40c3274e796733df9aea1b8599d06dd16c1",
+      "afterSha256": "fdcf6ee7325c32956b504f4dd5526fee2ace6da6835082b8e6445ee7279d7994"
+    },
+    {
+      "path": "tests/lua/support/status_detail_fixture.lua",
+      "beforeSha256": null,
+      "afterSha256": "107a26e61a55ad85ca1e697ba0b39e77b8f3c166e2e063b6368eb346cbd60ee0"
+    }
+  ]
+}

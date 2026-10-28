@@ -26,10 +26,26 @@ export function exitControls(theme = nativeTheme) {
       },
     ] };
   };
+  // Map.dc.html/Main.dc.html: a small dark circular menu with three short
+  // strokes (M4 7h16 / M4 12h16 / M4 17h16). Reuse native disc/rect images;
+  // the 48px native hit remains larger than the 36px artwork for touch/focus.
+  const entry = button('open', l.entry, '菜单'), v = l.entryVisual;
+  const entryPalettes = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,
+    pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };
+  for (const variant of entry.children[0].children) {
+    const palette = entryPalettes[variant.name];
+    const [border, face, label] = variant.children;
+    border.image = face.image = theme.image.disc;
+    border.size = [v.diameter, v.diameter]; border.colour = palette.border;
+    face.size = [v.diameter - v.border * 2, v.diameter - v.border * 2]; face.colour = palette.fill;
+    label.visible = false;
+    for (let i = 0; i < 3; i++) variant.children.push(
+      plate(`menuStroke${i + 1}`, [0, (1 - i) * v.lineStep, v.lineWidth, v.lineHeight], palette.ink));
+  }
   const panel = l.panel, menu = theme.layout.runMenu;
   return [
     { name: 'exitEntry', kind: 'container', size: [...theme.canvas.base], children: [
-      button('open', l.entry, '菜单'),
+      entry,
     ] },
     { name: 'exitPanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
       plate('veil', [0, 0, ...theme.canvas.base], c.backdropVeil),

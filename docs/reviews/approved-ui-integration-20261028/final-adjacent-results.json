@@ -1,0 +1,97 @@
+[
+  {
+    "name": "slimed_ui",
+    "status": 0,
+    "durationMs": 2731
+  },
+  {
+    "name": "louse_ui",
+    "status": 0,
+    "durationMs": 2641
+  },
+  {
+    "name": "sentries_ui",
+    "status": 0,
+    "durationMs": 2655
+  },
+  {
+    "name": "shield_gremlin_ui",
+    "status": 0,
+    "durationMs": 2783
+  },
+  {
+    "name": "spike_slime_l_ui",
+    "status": 0,
+    "durationMs": 2852
+  },
+  {
+    "name": "spike_slime_split_ui",
+    "status": 0,
+    "durationMs": 9627
+  },
+  {
+    "name": "acid_slime_split_ui",
+    "status": 0,
+    "durationMs": 4212
+  },
+  {
+    "name": "bosses_intent_ui",
+    "status": 0,
+    "durationMs": 2558
+  },
+  {
+    "name": "nemesis_ui",
+    "status": 0,
+    "durationMs": 2507
+  },
+  {
+    "name": "act3_orb_walker",
+    "status": 0,
+    "durationMs": 6573
+  },
+  {
+    "name": "act3_shapes",
+    "status": 0,
+    "durationMs": 9865
+  },
+  {
+    "name": "act3_transient",
+    "status": 0,
+    "durationMs": 2358
+  },
+  {
+    "name": "act3_maw_growth",
+    "status": 0,
+    "durationMs": 13674
+  },
+  {
+    "name": "intent_artifact_cancellation",
+    "status": 0,
+    "durationMs": 2546
+  },
+  {
+    "name": "intent_artifact_charges",
+    "status": 0,
+    "durationMs": 10424
+  },
+  {
+    "name": "intent_artifact_debuff_gates",
+    "status": 0,
+    "durationMs": 20205
+  },
+  {
+    "name": "intent_artifact_ordered_interactions",
+    "status": 0,
+    "durationMs": 11142
+  },
+  {
+    "name": "intent_artifact_playback",
+    "status": 0,
+    "durationMs": 14161
+  },
+  {
+    "name": "intent_artifact_preview",
+    "status": 0,
+    "durationMs": 7849
+  }
+]

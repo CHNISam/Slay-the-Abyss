@@ -74,13 +74,15 @@ test('Collector replacement drag reticle and landing use compact live coordinate
  local live={};for _,e in ipairs(s.enemies)do if e~=boss and A.isActive(e)then live[#live+1]=e end end
  C.damage(s,s.player,live[1],999,true);h:refresh()
  local victim=live[2];local slot,box=shown(p,victim);assert(slot,'surviving Torch not displayed')
- local row=Theme.layout.enemyRow;local liveCount=0;for _,e in ipairs(s.enemies)do if A.isActive(e)then liveCount=liveCount+1 end end
- assert(box.x==(liveCount<=row.fewCount and row.xFromFew or row.xFrom),'dead actors still consume live layout columns')
+ local liveCount=0;for _,e in ipairs(s.enemies)do if A.isActive(e)then liveCount=liveCount+1 end end
+ -- Main.dc.html's fixed source zone is divided by live screen slots, never corpses.
+ local expectedX=(1010+(1850-1010)/liveCount*(slot-.5))/1.5-640
+ assert(math.abs(box.x-expectedX)<1e-8,'dead actors still consume live layout columns')
  local target=indexOf(s,victim);local hp=victim.hp
- event('card1','down',5);event('card1','drag',5,box.x,Theme.layout.enemyRow.y)
+ event('card1','down',5);event('card1','drag',5,box.x,box.y)
  local ring=p:GetChild('dragLayer'):GetChild('reticle')
  assert(ring.visible and ring.x==box.x,'reticle follows corpse-count coordinates')
- event('card1','up',5,box.x,Theme.layout.enemyRow.y)
+ event('card1','up',5,box.x,box.y)
  assert(u.target==target and victim.hp==hp-6,'drag committed the display slot')
  assert(u.feedback.flight and u.feedback.flight.tx==box.x,'card landed at raw array coordinates')
  drain();assert(not u.busy)
@@ -99,6 +101,10 @@ test('old portrait and help presses cannot follow a reused display slot in the s
  part(help,'up',62);part(help,'click',62)
  assert(not u.info,'old help touch followed a remapped screen control')
  local bossSlot=shown(p,boss);tap('enemy'..bossSlot,63);assert(u.target==indexOf(s,boss),'fresh remapped touch failed')
+ -- An ordinary fresh portrait now opens that actor's approved details. Close it
+ -- through the real surface before the next independent intent-help gesture.
+ assert(u.info and u.info.index==indexOf(s,boss) and u.info.id==boss.id,'fresh remapped details used a different actor')
+ p:GetChild('statusInfo'):GetChild('hit').click({touchId=63});assert(not u.info)
  local intent=p:GetChild('enemy'..bossSlot):GetChild('intentHit')
  part(intent,'down',64);part(intent,'up',64);part(intent,'click',64)
  assert(u.info and u.info.index==indexOf(s,boss) and u.info.kind=='intent','fresh mapped intent help failed')

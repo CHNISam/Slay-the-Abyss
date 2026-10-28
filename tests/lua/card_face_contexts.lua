@@ -1,3 +1,4 @@
+local function plainCardTitle(text)return (text:gsub('<color=#[%x]+>',''):gsub('</color>',''))end
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
@@ -10,8 +11,9 @@ local presentation=P.prepare(F.Presentation,run.data)
 local function assertLong(face,upgraded,context)
  local name,kind=face:GetChild('name'),face:GetChild('type')
  assert(name.text=='恰到好处的停顿' and name.fontSize==14,context..' lost readable full title')
- assert(kind.text==(upgraded and '技能 ＋' or '技能'),context..' lost or duplicated upgrade marker')
- if upgraded then assert(name.fontColor.g==F.Theme.color.positive.g,context..' lost upgrade colour') end
+ assert(plainCardTitle(kind.text)==(upgraded and '技能 ＋' or '技能'),context..' lost or duplicated upgrade marker')
+ assert(name.fontColor.r==255 and name.fontColor.g==255 and name.fontColor.b==255,context..' title must remain white')
+ if upgraded then assert(kind.text=='技能 <color=#8DE08A>＋</color>',context..' only the relocated marker is green')end
  assert(name.sizeDeltaY==40 and kind.sizeDeltaY==40,context..' lost native transparent text compatibility')
  assert(face:GetChild('artPlate').sizeDeltaX==144 and face:GetChild('artPlate').sizeDeltaY==64,context..' aperture changed')
 end
@@ -52,10 +54,10 @@ assert(Run.startCombat(traveler,'cultist_solo'))
 battle:setData(traveler.data,text);battle.run=traveler;battle:render()
 local face=root:GetChild('battlePanel'):GetChild('card1')
 assert(face:GetChild('cost').text=='X' and face:GetChild('type').text=='攻击')
-assert(face:GetChild('name').text==text.whirlwind.name..'＋')
+assert(plainCardTitle(face:GetChild('name').text)==text.whirlwind.name..'＋')
 traveler.deck={{uid=2,cardId='searing_blow',upgraded=true,upgrades=999}}
 deck:setPresentation(text);assert(deck:open(traveler));deck:update()
 face=root:GetChild('deckPanel'):GetChild('grid').items[0]:GetChild('face')
-assert(face:GetChild('name').text==text.searing_blow.name..'＋999')
+assert(plainCardTitle(face:GetChild('name').text)==text.searing_blow.name..'＋999')
 assert(face:GetChild('type').text=='攻击' and face:GetChild('cost').text=='2')
 print('LUA_CARD_FACE_CONTEXTS_PASS battle/reward/deck/shop; long upgrade, X cost, repeat upgrade, recycled marker')

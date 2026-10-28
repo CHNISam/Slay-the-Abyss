@@ -1,0 +1,97 @@
+
+=== MIGRATED card_feedback ===
+ok card_feedback 1 - bloodletting self payment frame bypasses block and thorns without attack modifiers
+ok card_feedback 2 - hemokinesis self payment frame bypasses block and thorns without attack modifiers
+ok card_feedback 3 - offering self payment frame bypasses block and thorns without attack modifiers
+ok card_feedback 4 - temporary strength has gain and removal frames after complete mutations
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=7
+ok card_feedback 5 - body_slam flies to selected enemy and releases committed frames once
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_2 amount=6
+ok card_feedback 6 - anger flies to selected enemy and releases committed frames once
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=8
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=13
+ok card_feedback 7 - growth scalar in a captured frame stays detached while actual text grows
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK hp_loss source=player target=player amount=2
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=15
+ok card_feedback 8 - HP payment playback shows its own exact frame before later attack
+ABYSS_FEEDBACK command_failed src/lua/abyss_actor.lua:149: unknown status: missing
+ok card_feedback 9 - UI command exception restores state and unlocks without replaying frames
+ok card_feedback 10 - late exception removes new event frames growth and copy without mutating old frames
+LUA_CARD_FEEDBACK_PASS 10
+Lua fixture tests/lua/card_feedback.lua: 5129 ms
+FIXTURE_EXIT=0
+
+=== MIGRATED shockwave_feedback ===
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=3
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=3
+ABYSS_FEEDBACK status source=player target=cultist_2 amount=3
+ABYSS_FEEDBACK status source=player target=cultist_2 amount=3
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+ok 1 - Shockwave text, detail and area flight false
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=5
+ABYSS_FEEDBACK status source=player target=cultist_1 amount=5
+ABYSS_FEEDBACK status source=player target=cultist_2 amount=5
+ABYSS_FEEDBACK status source=player target=cultist_2 amount=5
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+ok 2 - Shockwave text, detail and area flight true
+SHOCKWAVE_FEEDBACK 2 passed; 0 failed
+Lua fixture tests/lua/shockwave_feedback.lua: 4176 ms
+FIXTURE_EXIT=0
+
+=== MIGRATED summon_enemy_ui ===
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS Leader and Collector keep every live HP intent and status panel after repeated source summons
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=7 amount=0
+ABYSS_FEEDBACK damage source=player target=gremlin_leader_3 amount=6
+PASS click targets true Leader index and damage feedback paints its displayed actor
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=4 amount=0
+ABYSS_FEEDBACK damage source=player target=torch_head_6 amount=6
+PASS Collector replacement drag reticle and landing use compact live coordinates and true target index
+ABYSS_RUN seed=1 source=explicit
+PASS old portrait and help presses cannot follow a reused display slot in the same turn
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=fat_gremlin_6 amount=13
+ABYSS_FEEDBACK death source=- target=fat_gremlin_6 amount=0
+PASS completed death feedback cannot hide or tint the living actor that inherits its screen slot
+SUMMON_ENEMY_UI 5 passed; 0 failed
+Lua fixture tests/lua/summon_enemy_ui.lua: 13222 ms
+FIXTURE_EXIT=0
+
+=== MIGRATED card_preview ===
+ok card preview 1 - single-target damage follows Strength and Weak, and each target's own Vulnerable
+ok card preview 2 - multi-hit cards show the per-hit value and the core lands exactly that many times
+ok card preview 3 - area attacks preview every living enemy and match the core's per-enemy damage
+ok card preview 4 - block numbers follow Dexterity and Frail and equal the block the core grants
+ok card preview 5 - Iron Wave previews block and damage separately; Body Slam previews its current block
+ok card preview 6 - negative Strength floors damage at zero and previews never mutate the battle
+ok card preview 7 - source-backed hand and aimed values reset when target powers disappear or aiming is cancelled
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=10
+ok card preview 8 - hand labels update live for every modifier and show the aimed target while dragging
+ok card preview 9 - the reported Weak versus Vulnerable scene shows 4 in hand and 6 only while aimed
+ok card preview 10 - rewards keep printed numbers; only combat hands are live
+...-current-integration-20261028/tests/lua/card_preview.lua:74: : −1 ~= -1
+stack traceback:
+	[JS]: in function 'assert'
+	...-current-integration-20261028/tests/lua/card_preview.lua:74: in upvalue 'eq'
+	...-current-integration-20261028/tests/lua/card_preview.lua:319: in local 'fn'
+	...-current-integration-20261028/tests/lua/card_preview.lua:96: in local 'test'
+	...-current-integration-20261028/tests/lua/card_preview.lua:303: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/card_preview.lua: 4868 ms
+FIXTURE_EXIT=1

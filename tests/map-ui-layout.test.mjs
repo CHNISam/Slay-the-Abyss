@@ -20,16 +20,16 @@ test('map uses the approved stage, external backdrop, viewport and shared theme 
   assert.equal(geometry.viewport.top - geometry.viewport.bottom, theme.layout.map.viewportHeight);
   assert.equal(geometry.viewport.top - geometry.viewport.bottom, 600);
   const altered = structuredClone(theme);
-  altered.color.node.current = '#123456';
-  altered.image.disc = 106026;
+  altered.color.node.locked = '#123456';
+  altered.icon.node.combat = 106026;
   altered.layout.map.node = 60;
   altered.layout.map.scrollStepFloors = 1;
   altered.motion.base = .24;
   assert.equal(mapGeometry(altered).scrollStep, altered.layout.map.floorGap);
   assert.equal(mapGeometry(altered).scrollSeconds, .24);
   const changed = mapLayout(altered).controls[1].children[0].children.flatMap(group => group.children).find(c => c.name === 'node1');
-  assert.equal(changed.children.find(c => c.name === 'current').colour, '#123456');
-  assert.equal(changed.children.find(c => c.name === 'current').image, 106026);
+  assert.equal(changed.children.find(c => c.name === 'icon').colour, '#123456');
+  assert.equal(changed.children.find(c => c.name === 'icon').image, 106026);
   assert.deepEqual(changed.size, [60, 60]);
 });
 
@@ -65,7 +65,12 @@ test('node and edge pools match controller contract, without the retired boxed l
   for (let i = 1; i <= geometry.maxNodes; i++) {
     const node = index.get(`node${i}`);
     assert.equal(node.visible, false);
-    for (const name of ['locked', 'visited', 'current', 'available', 'body', 'icon', 'positionToken', 'hit']) {
+    assert.deepEqual(node.children.filter(child => child.kind === 'image').map(child => child.name),
+      ['icon', 'positionToken'], 'route nodes must not paint state rings or background discs');
+    const hit = node.children.find(child => child.name === 'hit');
+    assert.deepEqual(hit.size, node.size);
+    assert.equal(hit.focusable, true);
+    for (const name of ['icon', 'positionToken', 'hit']) {
       assert(node.children.some(child => child.name === name), name);
     }
   }

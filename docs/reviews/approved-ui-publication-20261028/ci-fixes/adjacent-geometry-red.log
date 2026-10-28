@@ -1,0 +1,64 @@
+
+=== ORIGINAL card_preview ===
+ok card preview 1 - single-target damage follows Strength and Weak, and each target's own Vulnerable
+ok card preview 2 - multi-hit cards show the per-hit value and the core lands exactly that many times
+ok card preview 3 - area attacks preview every living enemy and match the core's per-enemy damage
+ok card preview 4 - block numbers follow Dexterity and Frail and equal the block the core grants
+ok card preview 5 - Iron Wave previews block and damage separately; Body Slam previews its current block
+ok card preview 6 - negative Strength floors damage at zero and previews never mutate the battle
+...-current-integration-20261028/tests/lua/card_preview.lua:68: : 对目标造成 6 点伤害。 ~= 对目标造成 9 点伤害。
+stack traceback:
+	[JS]: in function 'assert'
+	...-current-integration-20261028/tests/lua/card_preview.lua:68: in upvalue 'eq'
+	...-current-integration-20261028/tests/lua/card_preview.lua:195: in local 'fn'
+	...-current-integration-20261028/tests/lua/card_preview.lua:90: in local 'test'
+	...-current-integration-20261028/tests/lua/card_preview.lua:184: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/card_preview.lua: 2587 ms
+FIXTURE_EXIT=1
+
+=== ORIGINAL summon_enemy_ui ===
+ABYSS_RUN seed=1 source=explicit
+ABYSS_RUN seed=1 source=explicit
+PASS Leader and Collector keep every live HP intent and status panel after repeated source summons
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=7 amount=0
+ABYSS_FEEDBACK damage source=player target=gremlin_leader_3 amount=6
+PASS click targets true Leader index and damage feedback paints its displayed actor
+ABYSS_RUN seed=1 source=explicit
+FAIL Collector replacement drag reticle and landing use compact live coordinates and true target index: ...rrent-integration-20261028/tests/lua/summon_enemy_ui.lua:78: dead actors still consume live layout columns
+ABYSS_RUN seed=1 source=explicit
+FAIL old portrait and help presses cannot follow a reused display slot in the same turn: ...rrent-integration-20261028/tests/lua/summon_enemy_ui.lua:104: fresh mapped intent help failed
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK action_wait source=- target=- amount=0
+ABYSS_FEEDBACK damage source=player target=fat_gremlin_6 amount=13
+ABYSS_FEEDBACK death source=- target=fat_gremlin_6 amount=0
+PASS completed death feedback cannot hide or tint the living actor that inherits its screen slot
+SUMMON_ENEMY_UI 3 passed; 2 failed
+...rrent-integration-20261028/tests/lua/summon_enemy_ui.lua:126: summon visibility regressions
+stack traceback:
+	[JS]: in function 'assert'
+	...rrent-integration-20261028/tests/lua/summon_enemy_ui.lua:126: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/summon_enemy_ui.lua: 12256 ms
+FIXTURE_EXIT=1
+
+=== ORIGINAL shockwave_feedback ===
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+not ok 1 - Shockwave text, detail and area flight false: ...nt-integration-20261028/tests/lua/shockwave_feedback.lua:5: enemy row: 47.333333333333 ~= 64
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK play source=- target=- amount=0
+not ok 2 - Shockwave text, detail and area flight true: ...nt-integration-20261028/tests/lua/shockwave_feedback.lua:5: enemy row: 47.333333333333 ~= 64
+SHOCKWAVE_FEEDBACK 0 passed; 2 failed
+...nt-integration-20261028/tests/lua/shockwave_feedback.lua:49: Shockwave feedback regression
+stack traceback:
+	[JS]: in function 'assert'
+	...nt-integration-20261028/tests/lua/shockwave_feedback.lua:49: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/shockwave_feedback.lua: 4067 ms
+FIXTURE_EXIT=1

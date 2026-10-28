@@ -1,0 +1,59 @@
+{
+  "preRebaseHead": "26614cb7872b1a30f09ec2bd6e02524a07e69b92",
+  "upstreamDevelop": "1f260a71972b03dae5b63e8d6f12d055973a4c83",
+  "sourceBase": "8d216ad7b279db1e0069c0c6c4a4da92b3f1b50c",
+  "runtime": "v24.22.1 cloud; not hosted/device",
+  "sourceHashes": {
+    "config/luacheck-baseline.json": "7e3ac21ddd4c607d40ca13fb37fc1a885afd76e057ba77ab9a04aa647284ac2c",
+    "data/presentation/ui_theme.json": "8bd9342c2738c8b2ff3b12282b7f91ea2c909d3c0dd2e037c3431c30106963c8",
+    "scripts/potion-slot-visual.mjs": "1a59bd789aca570f242cc29c66092c04e595a1577b720dd310d90e79fb167cfc",
+    "scripts/ui-layout.mjs": "2a0b5e39893421ddd16eb5e07d7abe88a83cd7c77caa2b87be74a3f97be03a4c",
+    "src/lua/abyss_battle_ui.lua": "a1d68a1fcba74fff54fb22cb4641cd400e4c76e2d3a7e22d69e352efeb8e7d91",
+    "src/lua/abyss_potion_discard_ui.lua": "fc92a6933589a57593d1dbbf77e38e0d77f602dd7e7840c2486c0d0bc0c9e808",
+    "tests/approved-main-potion-shell.test.mjs": "50d581bda3707344404233aab2d9c3e4c4ff3a2f1fcfefbfee656bed8d4f55e5",
+    "tests/fixtures/approved-ui-latest-to-53fa.json": "39f651e8ec7a3037947d1a76123c2d03a521dd4a05168565f80f7222590ec89a",
+    "tests/helpers/approved-ui-inverse.mjs": "99dcb24840be4db4323065720a9090f574a7a348386532aabdf9901b913647bc",
+    "tests/lua/approved_main_potion_shell.lua": "0c77cc452a58cc78774f4a23ee5bfc214aa2a08869c06333dbd9561960bdf9ac",
+    "tests/lua/map_utility_header.lua": "a97057b6c35a36faee0683e3d1e8c64c07ab577d352bf9f463c8ea1e76087511",
+    "tests/map-utility-header.test.mjs": "5fdc27fa18083584764d7d9e08a6c798e5bc724f79dc14cf5e11874e65c74ac8",
+    "tests/potion-shell-fidelity.test.mjs": "89c6936bc736414e449b60afa10ba963e08193e4a0a20f0595a2b25ba94c5db6",
+    "tests/potion-shell-source.test.mjs": "79d8361facd2baaf50c778985907e04115089c8f80a9fca41a9cd8396451f1e0"
+  },
+  "unchangedHistoricalIdentities": {
+    "scripts/test-lua.mjs": "7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33",
+    "tests/helpers/historical-presentation-entry.mjs": "2d1b5234f6fd2e85ba472ac52e70754ba47d23cf04ae1d6a56af56cd54708f17",
+    "tests/helpers/historical-presentation-runner.mjs": "ba8058ecb410853231177b4236a976d9f524decf6c37eeff40fb8dcb91aa10c3",
+    "tests/helpers/ci-lua-runner-inverse.mjs": "799dd38a46620316135683f62db75b7c2c8f2c340370bc19939dfba1591b451f",
+    "tests/fixtures/p0-accepted-presentation-inverses.json.gz": "6f74bc575b24e5c830119e0309b0311017cbeba5ad5cc6d1fdcc44f69a27e164",
+    "tests/fixtures/task77-current-source-layers-20261028.json": "f5d61e2809daadc3a2d559d54e3de2b1846f4ad1001a44a12436a1f0d08bee3a",
+    "src/lua/abyss_relic_rewards.lua": "1a6afee50885e2e56065b05058e5e632745ba88ce202bd4fbea7ff47c54ec405",
+    "src/lua/abyss_snapshot.lua": "ad6ad705a56c0ebaa5ef8c3ad7966cebf9473280f302c0d659f3ecde0f86b3d2",
+    "scripts/verify-delivery.mjs": "589b85ee873e8f57a80e634bc395f9d069c7cd763f32b6ef4ad631612c1b143d",
+    "tests/presentation-m3-integration.test.mjs": "a6d29bb79bd0085792cede18c7a1cc5d7392afaba8ac84f3ab7ebb020794ca38",
+    "tests/presentation-responsibilities.test.mjs": "33abee6fc67d36190bd7f2b7f120f0dafb8cc881ca37228d385b9550c55ea83f"
+  },
+  "approvedInversePaths": 58,
+  "focusedResult": "final-short-green.log: 9/9; final-exact-inverse.log: 6/6",
+  "completeCheck": "pending final-source serial execution; no previous stage substituted",
+  "notAcceptance": [
+    "official texture pixels and tint",
+    "same-candidate official import/ready",
+    "PC and physical-phone UI/performance",
+    "current hosted Quality/inventory"
+  ],
+  "logs": {
+    "exact-inverse.log": "3112ddbeb855b1cbcf5212931550997343e17b5a05208c625cf4adc8531a2d79",
+    "final-architecture.log": "b06ddd4ad08fa96c4d6617b19df0c95b40cb61d68ac1d9b084a7fc3084b6f302",
+    "final-exact-inverse.log": "ded4f284aa0c15b89e112e74caf3657ca6e5383e1519fa06fa1feb931fa17c5b",
+    "final-short-green.log": "ae2fe235c9c00670411a8de78a4c4cd9cc2368cf0e06f12684d7ef1c5ce73e47",
+    "final-static.log": "a0848fb8eb183eff13ffd128da36966bb24dca7412d3e0772025984511f37078",
+    "first-phase-lua-regressions.log": "a7ea1f4065d17757b5035b3457ed2908ddb9bd9d4c224cc963374ad597480105",
+    "main-map-input.log": "c161b655a7c5e4cf1795e98cc76117e10080ee758833264f1715c5e7c1996c62",
+    "new-tests-red.log": "21eace0302d0297f9656e2789f2b3d99c2592d40737db14f3c2580136fff999e",
+    "shell-first-green.log": "efc469911e180fb831448b9546206a50270619471c5cfce7c79656eadda0a967",
+    "static-before-relocation.log": "deaa5bc0a48d8ed75ca00297ef570c645ed1c0b24a6153cf380dc830b09974cd",
+    "static-green.log": "a0848fb8eb183eff13ffd128da36966bb24dca7412d3e0772025984511f37078",
+    "syntax.log": "692ffb58194a0f0846c92dbea79583b29477e12fe8e1e69aed3e35b741b2d6a7",
+    "whole-shell-red.log": "78f6791114949a16faac2f6731294f6fa513d44cf00bc82c87263911ba579e4b"
+  }
+}

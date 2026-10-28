@@ -1,0 +1,146 @@
+{
+  "sourceHashes": {
+    "data/presentation/ui_theme.json": "d5d9b9260e79619ca083e367cb0b535236842419764e5ebc3d99dd0352018dec",
+    "scripts/potion-slot-visual.mjs": "f3de4571e8f1f7726fba46d76e73df5565e6c993058ab774bf593b34e141eb46",
+    "scripts/ui-layout.mjs": "2a0b5e39893421ddd16eb5e07d7abe88a83cd7c77caa2b87be74a3f97be03a4c",
+    "src/lua/abyss_battle_ui.lua": "a1d68a1fcba74fff54fb22cb4641cd400e4c76e2d3a7e22d69e352efeb8e7d91",
+    "src/lua/abyss_potion_discard_ui.lua": "fc92a6933589a57593d1dbbf77e38e0d77f602dd7e7840c2486c0d0bc0c9e808"
+  },
+  "fixtures": [
+    {
+      "path": "tests/lua/battle_ui.lua",
+      "status": 0,
+      "ms": 26747
+    },
+    {
+      "path": "tests/lua/battle_ui_slice_2.lua",
+      "status": 0,
+      "ms": 10315
+    },
+    {
+      "path": "tests/lua/battle_ui_slice_6.lua",
+      "status": 0,
+      "ms": 27254
+    },
+    {
+      "path": "tests/lua/battle_ui_slice_7.lua",
+      "status": 0,
+      "ms": 30447
+    },
+    {
+      "path": "tests/lua/battle_ui_slice_3.lua",
+      "status": 0,
+      "ms": 11957
+    },
+    {
+      "path": "tests/lua/battle_ui_slice_4.lua",
+      "status": 0,
+      "ms": 4657
+    },
+    {
+      "path": "tests/lua/battle_ui_slice_5.lua",
+      "status": 0,
+      "ms": 3730
+    },
+    {
+      "path": "tests/lua/controller_host.lua",
+      "status": 0,
+      "ms": 8442
+    },
+    {
+      "path": "tests/lua/game_ui.lua",
+      "status": 0,
+      "ms": 40081
+    },
+    {
+      "path": "tests/lua/game_ui_deck.lua",
+      "status": 0,
+      "ms": 14565
+    },
+    {
+      "path": "tests/lua/game_ui_potion_discard.lua",
+      "status": 0,
+      "ms": 21574
+    },
+    {
+      "path": "tests/lua/map_resources.lua",
+      "status": 0,
+      "ms": 2384
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_targeting.lua",
+      "status": 0,
+      "ms": 17949
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_stale.lua",
+      "status": 0,
+      "ms": 18176
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_failures.lua",
+      "status": 0,
+      "ms": 26347
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_context.lua",
+      "status": 0,
+      "ms": 13072
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_context_slice_2.lua",
+      "status": 0,
+      "ms": 12191
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_inventory.lua",
+      "status": 0,
+      "ms": 12810
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_inventory_slice_2.lua",
+      "status": 0,
+      "ms": 9822
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_pointers.lua",
+      "status": 0,
+      "ms": 7956
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_pointers_slice_2.lua",
+      "status": 0,
+      "ms": 7481
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_pointers_slice_3.lua",
+      "status": 0,
+      "ms": 8161
+    },
+    {
+      "path": "tests/lua/battle_ui_potion_target_pointers_slice_4.lua",
+      "status": 0,
+      "ms": 4017
+    },
+    {
+      "path": "tests/lua/map_chapters.lua",
+      "status": 0,
+      "ms": 7452
+    },
+    {
+      "path": "tests/lua/map_chapters_slice_2.lua",
+      "status": 0,
+      "ms": 10057
+    },
+    {
+      "path": "tests/lua/map_chapters_slice_3.lua",
+      "status": 0,
+      "ms": 5988
+    },
+    {
+      "path": "tests/lua/map_chapters_slice_4.lua",
+      "status": 0,
+      "ms": 8651
+    }
+  ]
+}

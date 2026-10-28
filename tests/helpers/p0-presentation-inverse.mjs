@@ -1,6 +1,7 @@
-import {preNodeUiRefactorSource}from'./node-ui-refactor-inverse.mjs';
+import {preIntegratedNodeUiSource,nodeUiAddedPaths,nodeUiCurrentRootSha256,approvedNodeFace} from './approved-node-ui-refactor.mjs';
+import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
+import {readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
@@ -10,7 +11,7 @@ assert.equal(hash(bytes),'6f74bc575b24e5c830119e0309b0311017cbeba5ad5cc6d1fdcc44
 export const p0Presentation=JSON.parse(gunzipSync(bytes));
 export function preAcceptedPresentation(path,source){
   if(source===null)return source;
-  source=preNodeUiRefactorSource(path,source).replaceAll('\r\n','\n');
+  source=preIntegratedNodeUiSource(path,source).replaceAll('\r\n','\n');
   const binding=p0Presentation.files[path];
   if(!binding || hash(source)===binding.beforeSha256)return source;
   assert.equal(hash(source),binding.afterSha256,'unreviewed integrated presentation source drift; unreviewed integrated retirement source drift: '+path);
@@ -22,6 +23,17 @@ export function preAcceptedPresentation(path,source){
   return source;
 }
 export function materializeHistoricalPresentation(directory){
-  for(const path of Object.keys(p0Presentation.files))
-    writeFileSync(join(directory,path),preAcceptedPresentation(path,readFileSync(path,'utf8')));
+  // Validate all eleven original current files before any temporary writes/deletes.
+  const root='src/lua/abyss_node_ui.lua';
+  const diskRoot=readFileSync(root,'utf8').replaceAll('\r\n','\n');
+  assert.equal(hash(diskRoot),nodeUiCurrentRootSha256,'current-only Node materialization must validate the live refactored root before any writes');
+  const diskFace=readFileSync(approvedNodeFace.path,'utf8').replaceAll('\r\n','\n');
+  assert.equal(hash(diskFace),approvedNodeFace.afterSha256,'current-only Node materialization must validate the approved live face before any writes');
+  const nodeSource=preIntegratedNodeUiSource(root,diskRoot,{[approvedNodeFace.path]:diskFace});
+  for(const path of new Set([...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){
+    const source=preApprovedUiSource(path,path===root?nodeSource:readFileSync(path,'utf8'));
+    if(source===null)rmSync(join(directory,path),{force:true});
+    else writeFileSync(join(directory,path),preAcceptedPresentation(path,source));
+  }
+  for(const path of nodeUiAddedPaths)rmSync(join(directory,path),{force:true});
 }

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { originalLuaRunner } from './helpers/ci-lua-runner-inverse.mjs';
+import {originalMainPotionFixture,assertMainPotionActionHelper} from './helpers/main-potion-fixture-inverse.mjs';
 
 const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
 const sha = source => createHash('sha256').update(source).digest('hex');
@@ -25,6 +26,7 @@ const footer = "assert(registered==7,'all original potion inventory cases must r
 const ranges = [[entry, 1, 4], [tail, 5, 7]];
 
 function validateSource(source) {
+  source=originalMainPotionFixture(source,entry);
   assert.ok(source.startsWith(prefix), 'only the reviewed original-budget range prefix');
   assert.ok(source.endsWith('finish()\n' + footer), 'original finish and registration/execution counts must remain enforced');
   let restored = source.slice(prefix.length, -footer.length);
@@ -44,6 +46,8 @@ function validatePartitions(rows, wrapper) {
 }
 
 function validateHelper(source) {
+  assertMainPotionActionHelper();
+  source=originalMainPotionFixture(source,helper);
   assert.equal(sha(source), original.helperSha256, 'unchanged fresh seed-61 setup and shared helper');
 }
 

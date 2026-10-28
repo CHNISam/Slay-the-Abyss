@@ -25,6 +25,11 @@ local function event(control,name)
     api.setFocus(control)
     return assert(control.navigationListeners[name or 'confirm'],'missing controller listener')(nil)
 end
+local function usePotion(name)
+    event(hit('battlePanel',name))
+    assert(ui.battleUI.potionMenu and ui.controller.scope=='battlePotion')
+    event(hit('battlePanel','potionHelp/potionPopup/use'))
+end
 assert(focus==hit('menuPanel','start'),'title must have default focus')
 event(focus);assert(ui.characterOpen and not ui.run)
 event(hit('characterPanel','traveler'));event(hit('characterPanel','confirm'));assert(ui.mode=='map')
@@ -62,9 +67,9 @@ local run=ui.run
 event(focus,'cancel');assert(not ui.exitOpen and ui.run==run,'exit state='..tostring(ui.exitOpen)..' scope='..tostring(ui.controller.scope)..' sameRun='..tostring(ui.run==run))
 event(hit('battlePanel','endTurn'));ready();assert(battle.turn==2)
 assert(Run.obtainPotion(ui.run,'fire_potion'));ui:refresh()
-event(hit('battlePanel','potion1'));assert(ui.battleUI.potionAim and #ui.run.potions==1)
+usePotion('potion1');assert(ui.battleUI.potionAim and #ui.run.potions==1)
 event(focus,'cancel');assert(not ui.battleUI.potionAim and #ui.run.potions==1)
-event(hit('battlePanel','potion1'))
+usePotion('potion1')
 assert(focus==hit('battlePanel','enemy1'),'potion defaults to an enemy; got '..focus.name..'/'..focus.parent.name)
 local potionHp=battle.enemies[1].hp
 local potionOk,potionReason=event(focus);ready();assert(#ui.run.potions==0 and battle.enemies[1].hp<potionHp,
@@ -89,7 +94,7 @@ event(focus);assert(ui.mode=='battle')
 local choiceBattle=ui.run.combat
 choiceBattle.hand={{uid=1000,cardId='strike'},{uid=1001,cardId='defend'}}
 assert(Run.obtainPotion(ui.run,'elixir'));ui:refresh()
-event(hit('battlePanel','potion1'));ready();ui:update(.01)
+usePotion('potion1');ready();ui:update(.01)
 assert(ui.deckUI.visible and choiceBattle.pendingChoice.multiple)
 local token=choiceBattle.pendingChoice.token
 event(focus,'cancel');assert(ui.deckUI.visible and choiceBattle.pendingChoice.token==token,

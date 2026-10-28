@@ -1,6 +1,13 @@
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local C,Theme=H.F.Combat,require('abyss_theme')
 local host,ui,panel=H.setup({'defend'},{'cultist'})
+-- Native text keeps its 40-high transparent compatibility box. Safety covers
+-- the entire visible value at the declared native font, not transparent padding.
+local function visible(part)
+ if part.name~='intent' then return part end
+ return {sizeDeltaX=utf8.len(part.text)*Theme.layout.intent.numberSize,
+  sizeDeltaY=Theme.layout.intent.numberSize}
+end
 local function overlap(a,ax,ay,b,bx,by)
  return math.abs(ax-bx)<(a.sizeDeltaX+b.sizeDeltaX)/2-.001
   and math.abs(ay-by)<(a.sizeDeltaY+b.sizeDeltaY)/2-.001
@@ -35,16 +42,18 @@ local function check(members)
      local part=box:GetChild(name)
      assert(part.visible==(index<=meanings or name=='intent'),'all intended meanings and numeric damage must remain visible')
      if part.visible then
-      local x,y=box.x+part.x,box.y+part.y
-      assert(not overlap(notice,Theme.layout.battleNotice.position[1],Theme.layout.battleNotice.position[2],part,x,y),'intent covers notice')
+      local bound=visible(part)
+      local x=box.x+part.x-(part.sizeDeltaX-bound.sizeDeltaX)/2
+      local y=box.y+part.y
+      assert(not overlap(notice,Theme.layout.battleNotice.position[1],Theme.layout.battleNotice.position[2],bound,x,y),'intent covers notice')
       for slot=1,Theme.layout.battlePotions.count do
        local potion=panel:GetChild('potion'..slot) or panel:GetChild('potionHelp'):GetChild('potion'..slot)
        local layout=Theme.layout.battlePotions
-       assert(not overlap(potion,layout.origin[1]+(slot-1)*layout.step[1],layout.origin[2]+(slot-1)*layout.step[2],part,x,y),'intent covers potion')
+       assert(not overlap(potion,layout.origin[1]+(slot-1)*layout.step[1],layout.origin[2]+(slot-1)*layout.step[2],bound,x,y),'intent covers potion')
       end
-      assert(part.y-part.sizeDeltaY/2>=box:GetChild('plate').sizeDeltaY/2-.001,'intent hides portrait '..first..'/'..count..'/'..i..'/'..name)
-      assert(math.abs(part.x-hit.x)+part.sizeDeltaX/2<=hit.sizeDeltaX/2+.001,'intent outside help hit')
-      assert(math.abs(part.y-hit.y)+part.sizeDeltaY/2<=hit.sizeDeltaY/2+.001,'intent outside help hit')
+      assert(part.y-bound.sizeDeltaY/2>=box:GetChild('plate').sizeDeltaY/2-.001,'intent hides portrait '..first..'/'..count..'/'..i..'/'..name)
+      assert(math.abs(x-box.x-hit.x)+bound.sizeDeltaX/2<=hit.sizeDeltaX/2+.001,'intent outside help hit')
+      assert(math.abs(part.y-hit.y)+bound.sizeDeltaY/2<=hit.sizeDeltaY/2+.001,'intent outside help hit')
       if name~='intent' then
        if previous then assert(part.x-previous.x>=(part.sizeDeltaX+previous.sizeDeltaX)/2,'compound icons overlap')end
        previous=part

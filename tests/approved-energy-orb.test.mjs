@@ -1,0 +1,44 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {battleLayout,theme} from '../scripts/ui-layout.mjs';
+import {assertNativeUiCapacity} from '../scripts/build-ui.mjs';
+import {runLua} from '../scripts/test-lua.mjs';
+const stage=()=>battleLayout().controls.find(c=>c.name==='stage');
+const near=(a,b,message)=>assert(Math.abs(a-b)<1e-9,message);
+const part=name=>stage().children.find(c=>c.name===name);
+test('Main energy orb keeps the approved 88 diameter and exact scaled reference center',()=>{
+ const main=readFileSync('docs/design/ui-canvas/Main.dc.html','utf8');
+ assert.match(main,/left: 92px; top: 798px; width: 132px; height: 132px/);
+ const expected=[(92+132/2)/1.5-640,360-(798+132/2)/1.5];
+ for(const name of ['energyRing','energyDisc','energyIcon','energy'])for(let axis=0;axis<2;axis++)near(part(name).position[axis],expected[axis],name+' source center');
+ assert.deepEqual(part('energyRing').size,[88,88]);
+ assert.equal(part('energyRing').colour,'#8A6A40');
+ assert.equal(part('energyDisc').colour,'#2A1C12');
+ const face=part('energyIcon').children.find(c=>c.name==='face');
+ assert.deepEqual(face.size,[(132-18)/1.5,(132-18)/1.5]);
+ assert.equal(face.image,theme.image.disc);
+ assert.equal(face.colour,'#8E5A1E');
+ assertNativeUiCapacity(battleLayout());
+});
+test('energy uses the official element picture and centered white digits with same-size drop shadow',()=>{
+ const icon=part('energyIcon'),number=part('energy');
+ const core=icon.children.find(c=>c.name==='core');
+ assert.equal(core.image,theme.icon.energy.id,'later README requires official element material');
+ assert.equal(icon.children.some(c=>c.image===theme.image.diamond),false,'no replacement invented crystal geometry');
+ assert.equal(number.text.colour,'#FFF8EC');
+ near(number.text.fontSize,44/1.5,'source font scale');
+ assert.equal(number.text.align,'centre');
+ assert.equal(number.text.valign,'middle');
+ const shadow=icon.children.find(c=>c.name==='valueShadow');
+ assert(shadow,'source dark numeric shadow stays within the existing container');
+ assert.deepEqual(shadow.size,number.size);
+ assert.equal(shadow.text.fontSize,number.text.fontSize);
+ assert.equal(shadow.text.colour,'#3A1E06');
+ near(shadow.position[0],0);near(shadow.position[1],-2/1.5);
+});
+test('real battle energy readout keeps zero overcharge spending and reward visibility intact',()=>{
+ const result=runLua('tests/lua/approved_energy_orb.lua');
+ assert.equal(result.status,0,result.stdout+result.stderr);
+ assert.match(result.stdout,/APPROVED_ENERGY_ORB_PASS/);
+});

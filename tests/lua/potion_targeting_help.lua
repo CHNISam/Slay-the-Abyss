@@ -25,8 +25,8 @@ end
 test('S01/S02/S12 explicit help opens before use without changing rules state or target',function()
     for _,id in ipairs({'fire_potion','poison_potion','strength_potion','energy_potion'}) do
         local h,u,p,e,t,d,deck,r,emit,tap=setup({id});local before=snapshot(h);local target=u.target
-        local help=p:GetChild('potionHelp'):GetChild('potionHelp1');assert(help,'visible potion explanation entry missing')
-        for _,event in ipairs({'down','up','click'}) do help.listeners[event]({touchId=3}) end
+        local bottle=p:GetChild('potion1');assert(bottle and bottle.visible,'visible potion explanation entry missing')
+        emit('potion1','down',3);h:update(0.4);emit('potion1','up',3);emit('potion1','click',3)
         local info=p:GetChild('statusInfo');assert(info.visible)
         assert(info:GetChild('summary').text:find('尚未使用',1,true))
         if id=='poison_potion' then

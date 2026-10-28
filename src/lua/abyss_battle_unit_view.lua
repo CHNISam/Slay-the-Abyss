@@ -5,23 +5,44 @@ local number = require("abyss_numbers").integer
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 
-local function healthGeometry(box, portrait, width)
-    local barWidth, barX = width, 0
-    if box.name ~= "hero" then
-        -- Keep the three-digit guard lane even at zero Block so health never shifts.
-        local reserve = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2) + L.blockBadge.gap
-        barWidth, barX = math.min(L.hpBar.size[1], width - reserve), reserve / 2
+function M.geometry(portrait,player)
+    local g=L.battleUnit
+    local foot=portrait/2+(player and g.heroFoot or 0)
+    local gap=player and g.heroNameGap or g.nameGap
+    local line=player and g.heroNameLine or g.nameLine
+    local healthGap=player and g.heroHealthGap or g.healthGap
+    local healthRow=player and L.hpBar.size[2] or g.healthRow
+    local healthY=-foot-gap-line-healthGap-healthRow/2
+    return {nameY=-foot-gap-line/2,healthY=healthY,
+        healthWidth=player and g.heroHealthWidth or L.hpBar.size[1],
+        firstStatusY=healthY-healthRow/2-g.statusGap-L.statusIcon.size/2}
+end
+
+-- Native text rectangles must stay 40 high but are transparent. Only visible
+-- glyph height and the actual status touch surfaces contribute to clearance.
+function M.noticeLift(actor,portrait,baseY,player)
+    local entries,si=Combat.statusView(actor),L.statusIcon
+    local g=M.geometry(portrait,player)
+    local lower=math.min(-portrait/2,g.nameY-Theme.font.label/2,g.healthY-Theme.font.small/2)
+    if actor.block>0 then lower=math.min(lower,g.healthY-math.max(L.blockBadge.size,Theme.font.body)/2) end
+    if #entries>0 then
+        local lines=math.ceil(math.min(#entries,si.perRow*si.rows)/si.perRow)
+        local finalY=g.firstStatusY-(lines-1)*(si.size+si.gap)
+        lower=math.min(lower,finalY-si.minimumTouch/2,finalY+L.battleUnit.badgeOffset[2]-Theme.font.small/2)
     end
-    return barWidth, barX, -portrait / 2 - S.xxl - L.hpBar.size[2] / 2
+    local top=L.battleNotice.bandTop
+    return math.max(0,top-baseY-lower),lower,top
 end
 
 function M.new(picture, tint, ink, statusKind)
-    local function portraitParts(box, actor, portrait, icon, width, selected)
+    local function portraitParts(box, actor, portrait, icon, width, selected, targetWidth)
         for _, name in ipairs({"plate", "border", "portrait"}) do
-            local delta = name == "border" and S.border * 2 or name == "portrait" and -S.l or 0
+            local delta = name == "border" and S.border * 2 or 0
             box:GetChild(name):SetSizeDelta(portrait + delta, portrait + delta)
         end
-        box:GetChild("hit"):SetSizeDelta(portrait, portrait)
+        box:GetChild("plate"):SetVisible(false)
+        box:GetChild("border"):SetVisible(false)
+        box:GetChild("hit"):SetSizeDelta(math.min(portrait,targetWidth or portrait),portrait)
         box:GetChild("impact"):SetSizeDelta(portrait, portrait)
         box:GetChild("shield"):SetSizeDelta(portrait, portrait)
         box:GetChild("floating"):SetSizeDelta(width + S.xl, L.nativeText.lineHeight * 2)
@@ -36,7 +57,7 @@ function M.new(picture, tint, ink, statusKind)
             end
         end end
         box:GetChild("name").text = actor.name or "旅行者"
-        box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
+        box:GetChild("name"):SetAnchoredPosition(0,M.geometry(portrait,box.name=='hero').nameY)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
     end
 
@@ -77,10 +98,10 @@ function M.new(picture, tint, ink, statusKind)
             ink(count, C.textDim)
             return x, y
         else
-            count:SetAnchoredPosition(x + L.statusIcon.size / 2, y - L.statusIcon.size / 2 + L.statusIcon.gap)
-            count.text = entry.stack == "none" and "" or entry.amount > 99 and "99+" or number(entry.amount)
+            count:SetAnchoredPosition(x + L.battleUnit.badgeOffset[1], y + L.battleUnit.badgeOffset[2])
+            count.text = entry.stack == "none" and "" or entry.amount > 99 and "99+" or number(entry.amount):gsub("^-","−")
             ink(count, C.text)
-            return x + L.statusIcon.size / 2, y - L.statusIcon.size / 2 + L.statusIcon.gap
+            return x + L.battleUnit.badgeOffset[1], y + L.battleUnit.badgeOffset[2]
         end
     end
 
@@ -115,6 +136,9 @@ function M.new(picture, tint, ink, statusKind)
             picture(statusImage, Theme.icon.status[entry.icon or entry.id] or Theme.icon.intent[entry.kind] or Theme.icon.intent.unknown)
             tint(statusImage, C.text)
             local countX, countY = statusCount(count, entry, x, y, overflow, layout)
+            local digits=math.max(L.statusIcon.size,utf8.len(count.text)*Theme.font.small+S.hairline*2)
+            count:SetSizeDelta(digits,L.nativeText.lineHeight)
+            row:GetChild("countBackplates"):GetChild("badge"..i):SetSizeDelta(digits,L.statusIcon.size)
             statusPlates(row, i, entry, overflow, x, y, countX, countY)
         else
             statusPlates(row, i)
@@ -124,22 +148,28 @@ function M.new(picture, tint, ink, statusKind)
     local function statuses(box, actor, portrait, width)
         local si, entries, row = L.statusIcon, Combat.statusView(actor), box:GetChild("statusRow")
         local pitch = si.size + si.gap
-        local perRow = math.max(1, math.min(si.perRow, math.floor((width + si.gap) / pitch)))
+        local perRow = si.perRow
         local slots = perRow * si.rows
         local layout = {entries = entries, pitch = pitch, perRow = perRow, slots = slots, shown = math.min(#entries, slots)}
-        row:SetAnchoredPosition(0, -portrait / 2 - S.xxl - L.hpBar.size[2] - S.l - (si.rows - 1) * pitch / 2)
-        row:GetChild("hit"):SetSizeDelta(width, si.rows * pitch)
+        local firstY=M.geometry(portrait,box.name=='hero').firstStatusY
+        row:SetAnchoredPosition(0,firstY-(si.rows-1)*pitch/2)
+        local lines=math.ceil(layout.shown/perRow)
+        local target=row:GetChild("hit")
+        target:SetVisible(lines>0)
+        target:SetAnchoredPosition(0,(si.rows-lines)*pitch/2)
+        target:SetSizeDelta(width,math.max(si.minimumTouch,lines*pitch))
         for i = 1, si.perRow * si.rows do
             statusSlot(row, i, i <= layout.shown and entries[i], layout)
         end
     end
 
-    return function(box, actor, portrait, icon, width, selected)
-        portraitParts(box, actor, portrait, icon, width, selected)
+    return function(box, actor, portrait, icon, width, selected, targetWidth)
+        portraitParts(box, actor, portrait, icon, width, selected, targetWidth)
         -- Widen the Block chip for native digits rather than shrinking its text.
         local blocked = actor.block > 0
         local chip = math.max(L.blockBadge.size, #number(actor.block) * Theme.font.body + L.blockBadge.padding * 2)
-        local barWidth, barX, y = healthGeometry(box, portrait, width)
+        local geometry=M.geometry(portrait,box.name=='hero')
+        local barWidth,barX,y=geometry.healthWidth,0,geometry.healthY
         healthParts(box, actor, barWidth, barX, y, blocked)
         blockParts(box, actor, barWidth, barX, y, blocked, chip)
         statuses(box, actor, portrait, width)

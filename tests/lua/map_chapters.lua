@@ -47,7 +47,7 @@ local function focused(map,ui,box)
     assert(box('title').text==chapter.name..' · 第 '..map.floor..' 层')
     if map.currentNodeId then
         for i,node in ipairs(map.nodes) do
-            if node.id==map.currentNodeId then assert(box(i).visible and box(i):GetChild('current').visible) end
+            if node.id==map.currentNodeId then assert(box(i).visible and box(i):GetChild('positionToken').visible) end
         end
     end
 end

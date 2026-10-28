@@ -8,6 +8,7 @@ local emblemNames={HT={'petal0','petal1','petal2','petal3','petal4'},AR={'moon'}
 local phases=setmetatable({},{__mode='k'})
 local activeHalos=setmetatable({},{__mode='k'})
 local decorations=setmetatable({},{__mode='k'})
+local pillWidths=setmetatable({},{__mode='k'})
 function M.tick(box,dt)
     if not activeHalos[box] then return end
     local phase=(phases[box] or 0)+math.max(0,dt);phases[box]=phase
@@ -19,7 +20,8 @@ local function mix(a,b,k)
     return {r=channel(a.r,b.r),g=channel(a.g,b.g),b=channel(a.b,b.b),a=255}
 end
 local function painter(platform)
-    return function(control,c)control.imageColor=platform.color(c.r,c.g,c.b,c.a or 255)end
+    -- NodeUI permits hosts without Color; keep generated colours and update visibility/text.
+    return function(control,c)if platform.color then control.imageColor=platform.color(c.r,c.g,c.b,c.a or 255)end end
 end
 local function paint(group,names,c,tint)
     for _,name in ipairs(names)do tint(group:GetChild(name),c)end
@@ -33,20 +35,20 @@ end
 local function frame(box,definition,look,tint)
     local rarity=config.rarities[definition.rarity] or config.rarities.basic
     local edge=rarity[1]
-    if look.selected then edge=Theme.color.goldBright elseif look.dim then edge=Theme.color.line end
+    if look.selected then edge=Theme.color.goldBright end
     tint(box:GetChild('border'),edge);paint(box:GetChild('roundFrame'),roundNames,edge,tint)
     tint(box:GetChild('nameRule'),rarity[4])
     local skin=box:GetChild('skin');tint(skin:GetChild('gloss'),rarity[4])
     for i=1,config.bandSteps do tint(skin:GetChild('band'..i),mix(rarity[2],rarity[3],(i-1)/(config.bandSteps-1)))end
 end
-local function window(box,definition,look,accent,tint)
+local function window(box,definition,accent,tint)
     local shape=definition.type
     if not windowNames[shape] then shape='attack' end
     box:GetChild('artPlate'):SetVisible(false);box:GetChild('artWell'):SetVisible(false)
     for kind,names in pairs(windowNames)do
         local group=box:GetChild('skin'):GetChild(kind);group:SetVisible(kind==shape)
         if kind==shape then
-            paint(group:GetChild('edge'),names,look.dim and Theme.color.line or accent,tint)
+            paint(group:GetChild('edge'),names,accent,tint)
             paint(group:GetChild('well'),names,mix(Theme.color.cardWell,accent,.05),tint)
         end
     end
@@ -56,13 +58,15 @@ end
 local function emblem(box,role,accent,tint)
     for key in pairs(config.roles)do
         local symbol=box:GetChild('roleMark'):GetChild(key);symbol:SetVisible(key==role)
-        paint(symbol,emblemNames[key] or {'symbol'},accent,tint)
+        if key=='RD' then
+            for i=1,4 do tint(symbol:GetChild('triangle'..i):GetChild('fill'),accent)end
+        else paint(symbol,emblemNames[key] or {'symbol'},accent,tint)end
     end
 end
-local function costTone(current,base,dim,accent)
-    if dim then return Theme.color.danger end
-    if current<base then return Theme.color.positive end
-    if current>base then return Theme.color.danger end
+local function costTone(current,base,energyBlocked,accent)
+    if energyBlocked then return config.costTone.up end
+    if current<base then return config.costTone.down end
+    if current>base then return config.costTone.up end
     return accent
 end
 local function costState(look)
@@ -73,16 +77,43 @@ end
 local function costs(box,definition,look,accent,platform,tint)
     local changed,current,base=costState(look)
     local tone=accent
-    if changed or look.dim then tone=costTone(current,base,look.dim,accent)end
+    if changed or look.dim then tone=costTone(current,base,look.dim==true and look.blockReason=='insufficient_energy',accent)end
     tint(box:GetChild('costDisc'),tone);tint(box:GetChild('costHalo'),tone)
-    box:GetChild('cost').fontColor=platform.color(tone.r,tone.g,tone.b,255)
+    if platform.color then box:GetChild('cost').fontColor=platform.color(tone.r,tone.g,tone.b,255)end
     local hasCost=definition.cost~=-2
     for _,name in ipairs({'costCore','costDisc','cost'})do box:GetChild(name):SetVisible(hasCost)end
     activeHalos[box]=changed and hasCost
     box:GetChild('costHalo'):SetVisible(changed and hasCost)
     local direction=box:GetChild('costDirection');direction:SetVisible(changed and hasCost)
     direction.text=changed and (current<base and '↓' or '↑') or ''
-    direction.fontColor=platform.color(tone.r,tone.g,tone.b,255)
+    if platform.color then direction.fontColor=platform.color(tone.r,tone.g,tone.b,255)end
+end
+local blockedCopy={insufficient_energy='能量不足',invalid_target='请选择目标',
+    not_player_turn='本回合不能打出',unplayable_card='本回合不能打出',normality_limit='本回合不能打出',entangled='本回合不能打出',
+    requires_only_attacks='条件未满足',requires_empty_draw_pile='条件未满足'}
+local function sizeRounded(group,w,h,r)
+    group:GetChild('vertical'):SetSizeDelta(w-r*2,h)
+    group:GetChild('horizontal'):SetSizeDelta(w,h-r*2)
+    for _,x in ipairs({-1,1})do for _,y in ipairs({-1,1})do
+        group:GetChild('corner'..x..'_'..y):SetAnchoredPosition(x*(w/2-r),y*(h/2-r))
+    end end
+end
+local function blockedState(box,look)
+    local shown=look.dim==true and not look.overlayCovered
+    for _,name in ipairs({'blockedVeil','blockedPill','blockedLock','blockedReason'})do box:GetChild(name):SetVisible(shown)end
+    local reason=box:GetChild('blockedReason')
+    reason.text=look.reason or blockedCopy[look.blockReason] or '当前不可打出'
+    if not shown then return end
+    local style=config.blocked
+    local _,count=reason.text:gsub('[%z\1-\127\194-\244][\128-\191]*','')
+    local width=math.min(style.pill[1],count*Theme.font.minimum+style.padding*2+style.lock[1]+style.gap)
+    if pillWidths[box]==width then return end
+    local pill=box:GetChild('blockedPill');pill:SetSizeDelta(width,style.pill[2])
+    sizeRounded(pill:GetChild('edge'),width,style.pill[2],style.pillRadius)
+    sizeRounded(pill:GetChild('body'),width-style.stroke*2,style.pill[2]-style.stroke*2,style.pillRadius-style.stroke)
+    box:GetChild('blockedLock'):SetAnchoredPosition(-width/2+style.padding+style.lock[1]/2,style.pillY)
+    reason:SetSizeDelta(width-style.padding*2-style.lock[1]-style.gap,Theme.layout.nativeText.lineHeight)
+    pillWidths[box]=width
 end
 function M.apply(box,definition,platform,look)
     look=look or {}
@@ -91,13 +122,12 @@ function M.apply(box,definition,platform,look)
     local tint=painter(platform)
     local key=table.concat({role,definition.rarity or 'basic',definition.type or 'status',tostring(look.dim),tostring(look.selected)},':')
     if decorations[box]~=key then
-        frame(box,definition,look,tint);window(box,definition,look,accent,tint)
+        frame(box,definition,look,tint);window(box,definition,accent,tint)
         emblem(box,role,accent,tint);decorations[box]=key
     end
     tint(box:GetChild('nameRule'),(config.rarities[definition.rarity] or config.rarities.basic)[4])
     costs(box,definition,look,accent,platform,tint)
-    box:GetChild('type').fontColor=platform.color(accent.r,accent.g,accent.b,255)
-    local reason=box:GetChild('blockedReason');reason:SetVisible(look.dim==true)
-    reason.text=look.reason or '当前不可打出'
+    if platform.color then box:GetChild('type').fontColor=platform.color(accent.r,accent.g,accent.b,255)end
+    blockedState(box,look)
 end
 return M

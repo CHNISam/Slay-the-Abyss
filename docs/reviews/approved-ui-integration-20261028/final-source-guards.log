@@ -1,0 +1,20 @@
+✔ approved UI layer binds complete current sources and restores exactly the unchanged PR302 base (50.804411ms)
+✔ historical materialization consumes both all 26 original sources and every new UI consumer (38.979535ms)
+✔ historical replay inverses bind every current source and exactly recover the accepted formal presentation (36.416967ms)
+✔ two original-budget potion context fixtures preserve the full eight-case source and fresh inputs (3.789846ms)
+✔ potion context inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift (3.867654ms)
+✔ two original-budget potion inventory fixtures preserve the full seven-case source and fresh inputs (4.155487ms)
+✔ potion inventory inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift (4.095297ms)
+✔ four original-budget potion pointer fixtures preserve the full seven-case source and fresh inputs (4.885507ms)
+✔ potion pointer inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift (4.811484ms)
+✔ current Task77 source reverses only its owned edits and preserves the complete accepted confirmation/UI base (10.762557ms)
+✔ accepted UI source layers recover the original immutable formal bindings and reject incomplete or duplicated changes (35.882781ms)
+✔ new controls guide offers same-run controls only, not later acts, keys or persistent continuation (1.021899ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 701.089618

@@ -1,3 +1,4 @@
+local function plainCardTitle(text)return (text:gsub('<color=#[%x]+>',''):gsub('</color>',''))end
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- One focused offline integration: real GameUI / Run / Heart / Proceed.
 -- Controlled deck, earned history/keys, skipped preceding rooms, zeroed Heart HP.
@@ -49,7 +50,7 @@ end
 local function textFor(id,cost)
  eq(card.cardId,id,'card_id');local d=assert(F.Combat.cardDefinition(run.combat,card))
  local title=Display.title(F.Presentation[id].name,card.upgraded)
- eq(get(face,'name').text,title,'independent name');eq(get(face,'cost').text,cost,'independent cost')
+ eq(plainCardTitle(get(face,'name').text),title,'independent name');eq(get(face,'cost').text,cost,'independent cost')
  eq(get(face,'type').text,'攻击','independent type')
  local preview=F.Combat.cardPreview(run.combat,card,nil)
  eq(get(face,'label').text,Display.combatText(F.Presentation[id],d,card,preview),'independent description')

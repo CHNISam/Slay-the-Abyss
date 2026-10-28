@@ -1,0 +1,77 @@
+✖ Main physical potion shells follow real inventory and retire selected style with the exact interaction owner (2386.881704ms)
+✖ actual empty shell renders a half-alpha face and separated tangent dashes, never the old solid face (1.181278ms)
+✖ actual filled shells preserve source-specific border, radial light and empty/selected separation (5.306791ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2585.08392
+
+✖ failing tests:
+
+test at tests/approved-main-potion-shell.test.mjs:4:1
+✖ Main physical potion shells follow real inventory and retire selected style with the exact interaction owner (2386.881704ms)
+  AssertionError [ERR_ASSERTION]: ABYSS_RUN seed=1 source=explicit
+  ...ration-20261028/tests/lua/approved_main_potion_shell.lua:17: Main must expose a real empty shell, not the old solid plate
+  stack traceback:
+  	[JS]: in function 'assert'
+  	...ration-20261028/tests/lua/approved_main_potion_shell.lua:17: in local 'shell'
+  	...ration-20261028/tests/lua/approved_main_potion_shell.lua:38: in main chunk
+  	[JS]: in function 'dofile'
+  	(command line):1: in main chunk
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/331215e8236a/sta-ui-current-integration-20261028/tests/approved-main-potion-shell.test.mjs:6:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/potion-shell-source.test.mjs:9:1
+✖ actual empty shell renders a half-alpha face and separated tangent dashes, never the old solid face (1.181278ms)
+  AssertionError [ERR_ASSERTION]: empty needs its own rendered shell
+      at TestContext.<anonymous> (file:///workspace/scratch/331215e8236a/sta-ui-current-integration-20261028/tests/potion-shell-source.test.mjs:10:62)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/potion-shell-source.test.mjs:22:1
+✖ actual filled shells preserve source-specific border, radial light and empty/selected separation (5.306791ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(shell)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/331215e8236a/sta-ui-current-integration-20261028/tests/potion-shell-source.test.mjs:25:39)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

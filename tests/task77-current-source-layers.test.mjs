@@ -1,3 +1,4 @@
+import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -13,14 +14,14 @@ function invert(source,binding){
  for(const edit of binding.edits){assert.equal(source.split(edit.after).length,2);source=source.replace(edit.after,edit.before);}
  assert.equal(hash(source),binding.beforeSha256);return source;
 }
-function acceptedSource(path){return layers.competition[path]?invert(read(path),layers.competition[path]):read(path);}
+function acceptedSource(path){const source=preApprovedUiSource(path,read(path));return layers.competition[path]?invert(source,layers.competition[path]):source;}
 
 test('current Task77 source reverses only its owned edits and preserves the complete accepted confirmation/UI base',()=>{
  assert.equal(layers.acceptedBase,'77c2d5e6850f1758b821e5e2d45be60e8b5ed8a4');
  assert.equal(layers.canonicalBindingSha256,hash(read('docs/reviews/formal-entry-source-inverses-20261028.json')));
  assert.deepEqual(Object.keys(layers.competition),['src/lua/abyss_game_ui.lua','src/lua/abyss_ui.lua']);
  for(const [path,binding]of Object.entries(layers.competition)){
-  const live=read(path),accepted=invert(live,binding);
+  const live=read(path),accepted=invert(preApprovedUiSource(path,live),binding);
   assert.equal(hash(accepted),binding.beforeSha256);
   assert.equal(preFormalEntrySource(path,live),preFormalEntrySource(path,accepted));
   for(const edit of binding.edits){

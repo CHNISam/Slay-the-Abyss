@@ -43,7 +43,7 @@ test('dead enemy is rejected and never retargets to survivor',function()
 end)
 test('paired touch begins only on Click and confirms exactly once',function()
   local h,u,p,r,e,click,tap,drain=setup(true);local z=h.run.combat.enemies[2].hp
-  e('potion1','down',7);e('potion1','up',7);eq(u.potionAim,nil);e('potion1','click',7);assert(u.potionAim);eq(h.run.potions[1],'fire_potion')
+  e('potion1','down',7);e('potion1','up',7);eq(u.potionAim,nil);e('potion1','click',7);assert(u.potionMenu);dofile('tests/lua/support/confirm_potion_popup.lua')(u,p,7);assert(u.potionAim);eq(h.run.potions[1],'fire_potion')
   e('potion1','click',7);assert(u.potionAim);tap('enemy2',8);eq(h.run.combat.enemies[2].hp,z-20)
   e('enemy2','click',8);eq(h.run.combat.enemies[2].hp,z-20)
 end)

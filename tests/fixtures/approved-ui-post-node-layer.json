@@ -1,0 +1,220 @@
+{
+  "priorUiHead": "f428082dcdfcdeb926d8c67b9d5c0ea9f7df9b8f",
+  "upstreamNodeHead": "432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7",
+  "purpose": "Strict outer projection for merged Node configuration and observed native-array/source-precision fixes; original58 unchanged",
+  "files": {
+    "config/architecture.json": {
+      "beforeSha256": "17b644b3ceeaca9fd1c67881b2db425386473c2ada22898366c1557efc7763a5",
+      "afterSha256": "0c15a29fa24a4284eb0760b750356b658eb02e28b71d23b46839520777222cdb",
+      "hunks": [
+        {
+          "at": 223,
+          "before": [],
+          "after": [
+            "    \"abyss_node_ui_feedback\": \"ui\",",
+            "    \"abyss_node_ui_faces\": \"ui\",",
+            "    \"abyss_node_ui_event_ownership\": \"ui\",",
+            "    \"abyss_node_ui_camp_actions\": \"ui\",",
+            "    \"abyss_node_ui_rewards\": \"ui\",",
+            "    \"abyss_node_ui_events\": \"ui\",",
+            "    \"abyss_node_ui_treasure\": \"ui\",",
+            "    \"abyss_node_ui_lifecycle\": \"ui\",",
+            "    \"abyss_node_ui_input\": \"ui\",",
+            "    \"abyss_node_ui_shop\": \"ui\","
+          ]
+        }
+      ],
+      "intermediateSha256": [
+        "d0679eaa8aca631bdde0de2d000943d3f3fab1c7a34a95a201e19df071df89bd"
+      ]
+    },
+    "config/luacheck-baseline.json": {
+      "beforeSha256": "7e3ac21ddd4c607d40ca13fb37fc1a885afd76e057ba77ab9a04aa647284ac2c",
+      "afterSha256": "02aa52d6ee0328b4671844750ee1c16f5ad3053a03fe36ea74429c6996db751d",
+      "hunks": [
+        {
+          "at": 350,
+          "before": [
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 387,",
+            "      \"column\": 31,",
+            "      \"code\": \"W212\",",
+            "      \"message\": \"unused argument 'view'\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 434,",
+            "      \"column\": 33,",
+            "      \"code\": \"W212\",",
+            "      \"message\": \"unused argument 'view'\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 550,",
+            "      \"column\": 35,",
+            "      \"code\": \"W212\",",
+            "      \"message\": \"unused argument 'cost'\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 575,",
+            "      \"column\": 39,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'info' on line 548\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 599,",
+            "      \"column\": 43,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'card' on line 183\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 706,",
+            "      \"column\": 35,",
+            "      \"code\": \"W212\",",
+            "      \"message\": \"unused argument 'view'\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 769,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 108\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 1099,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 108\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 1128,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 108\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 1136,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 108\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 1162,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 108\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 1236,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 108\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_node_ui.lua\",",
+            "      \"line\": 1252,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 108\"",
+            "    },",
+            "    {"
+          ],
+          "after": []
+        }
+      ],
+      "intermediateSha256": [
+        "254529a32c6da885ce186b24c27429bcf91a9eea78d2a9d5545a8d4e81b74fed"
+      ]
+    },
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "8bd9342c2738c8b2ff3b12282b7f91ea2c909d3c0dd2e037c3431c30106963c8",
+      "afterSha256": "77dcf24a1f1b128d069413feaa55e97c69e7c83272c49afe4ff72119a92da7bc",
+      "hunks": [
+        {
+          "at": 2969,
+          "before": [
+            "      \"spread\": 2.666667,",
+            "      \"blur\": 14.666667,"
+          ],
+          "after": [
+            "      \"spread\": 2.6666666666666665,",
+            "      \"blur\": 14.666666666666666,"
+          ]
+        }
+      ],
+      "intermediateSha256": [
+        "2552db13c37548dfb59441cebc7f62b4f96850e890e53491645d1a04ad52aed0",
+        "e0e9a35f5f284f486b01542ef0f124c2a3a4ea2234c23890398266e8f4b54ac4",
+        "f4c20c5a0bd2eb570911c4753c23d40c1faa001867a025c759403c1a30b8f36b",
+        "f88fac509e27f23db8e7f65c50236377fd7c230356695987e51f93881f6ec128",
+        "992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf"
+      ]
+    },
+    "scripts/card-face.mjs": {
+      "beforeSha256": "b6a3dc76291410589ff09e6878ed8e43e299c20f045ec38c379b638942d2829d",
+      "afterSha256": "02fb7ba9e7018bfe20af15a9b9b34ce50cb494216d77c4c5abdf2e50eb2e162e",
+      "hunks": [
+        {
+          "at": 82,
+          "before": [
+            "    hidden({name:'blockedPill',kind:'container',position:[0,blocked.pillY],size:blocked.pill,children:",
+            "      [0,blocked.stroke].map((inset,index)=>({name:index?'body':'edge',kind:'container',size:blocked.pill,children:"
+          ],
+          "after": [
+            "    hidden({name:'blockedPill',kind:'container',position:[0,blocked.pillY],size:[...blocked.pill],children:",
+            "      [0,blocked.stroke].map((inset,index)=>({name:index?'body':'edge',kind:'container',size:[...blocked.pill],children:"
+          ]
+        }
+      ],
+      "intermediateSha256": [
+        "a3213a99120d45fe9ddcb27af2f47a7654e98a655b57e562c110a68272d537cf",
+        "b653436ed9e82df993527bb5574ed0fee2ffdf0c7ba437ab010b92d721f40fbd"
+      ]
+    },
+    "scripts/deck-ui-layout.mjs": {
+      "beforeSha256": "1099e95c3369059c8288ce139bc4df904227cf2cbff1df68fc65a7ec48a2b2a8",
+      "afterSha256": "0ced25b2c2e48fbbae63b295872a5a1ea14b0e98a6fd46fcf870cf27e9189ae1",
+      "hunks": [
+        {
+          "at": 46,
+          "before": [
+            "    return { name, kind: 'container', position: [0, 0], size, children: ["
+          ],
+          "after": [
+            "    return { name, kind: 'container', position: [0, 0], size: [...size], children: ["
+          ]
+        }
+      ],
+      "intermediateSha256": [
+        "2d681257fd46fcc04497c06748e88870af1d2278ce8010c6c110cf35558dd2db",
+        "75554d6523bc50657fcc54057412794e5e97e596e3c4043546401743933ae3d5"
+      ]
+    },
+    "scripts/potion-discard-layout.mjs": {
+      "beforeSha256": "24fec44ca1b03ae5c822342a19d2f3c892acb7a4de521c7c1135cf47fe865133",
+      "afterSha256": "67cd5646327d04591a077788a36975c6922f4a7ebe6d90f032324eb48afd38f5",
+      "hunks": [
+        {
+          "at": 40,
+          "before": [
+            "        size: visual.size, visible: i < 3, children };"
+          ],
+          "after": [
+            "        size: [...visual.size], visible: i < 3, children };"
+          ]
+        }
+      ],
+      "intermediateSha256": [
+        "333925ba6f53651861711fcf5d5016039a9c6bd9d4d034272e1accc1ec2c9411"
+      ]
+    }
+  }
+}

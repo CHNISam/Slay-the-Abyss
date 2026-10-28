@@ -1,4 +1,5 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
+import { potionSlotVisual } from './potion-slot-visual.mjs';
 
 // Existing node counter, modal, shop slots and four-state utility-button tokens.
 export function potionDiscardControls(theme = nativeTheme) {
@@ -20,9 +21,29 @@ export function potionDiscardControls(theme = nativeTheme) {
   const y=-h/2+s.l+l.exitMenu.cancel[3]/2;
   const slots=l.potionDiscard;
   const actionWidth=(w-s.xxl*2-s.m*2)/3, actionStep=actionWidth+s.m;
+  // One unchanged management action; physical bottle silhouettes are not new
+  // direct-use buttons. Runtime paints sparse inventory and actual 3/5 capacity.
+  const open = button('open', [...entry.slice(0,3), l.topBar.height], '药水 0/3');
+  const visual = l.potionDiscard.entryVisual;
+  const palette = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,
+    pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };
+  for (const state of open.children[0].children) {
+    const colours = palette[state.name], label = state.children.find(control => control.name === 'label');
+    label.visible = false;
+    state.children = [label, ...Array.from({ length: l.battlePotions.count }, (_, i) => {
+      const children = potionSlotVisual(theme, {
+        border: plate('border', [0, 0, ...visual.size], colours.border),
+        plate: plate('plate', [0, 0, ...visual.size.map(value => value - visual.border * 2)], colours.fill),
+        bottleSize: visual.bottleSize, ink: colours.ink,
+      });
+      children.find(control => control.name === 'bottle').visible = false;
+      return { name: `slot${i + 1}`, kind: 'container', position: [visual.origin + visual.step * i, 0],
+        size: [...visual.size], visible: i < 3, children };
+    })];
+  }
   return [
     {name:'potionEntry',kind:'container',size:[...theme.canvas.base],visible:false,children:[
-      button('open',[...entry.slice(0,3),l.topBar.height],'药水 0/3')]},
+      open]},
     {name:'potionPanel',kind:'container',size:[...theme.canvas.base],visible:false,children:[
       plate('veil',[0,0,...theme.canvas.base],c.backdropVeil),
       {name:'blocker',kind:'cursorArea',size:[...theme.canvas.base],focusable:false},

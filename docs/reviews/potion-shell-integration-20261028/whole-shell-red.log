@@ -1,0 +1,46 @@
+✖ 锻造祝福: whole-shell reference error, not a bright-centre proxy (26.474532ms)
+✖ 火焰药水: whole-shell reference error, not a bright-centre proxy (16.925072ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.389598
+
+✖ failing tests:
+
+test at tests/potion-shell-fidelity.test.mjs:28:71
+✖ 锻造祝福: whole-shell reference error, not a bright-centre proxy (26.474532ms)
+  AssertionError [ERR_ASSERTION]: whole face RGB MAE 8.80888381966957 exceeds provisional offline regression ceiling 2/255
+      at TestContext.<anonymous> (file:///workspace/scratch/331215e8236a/sta-ui-current-integration-20261028/tests/potion-shell-fidelity.test.mjs:47:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/potion-shell-fidelity.test.mjs:28:71
+✖ 火焰药水: whole-shell reference error, not a bright-centre proxy (16.925072ms)
+  AssertionError [ERR_ASSERTION]: whole face RGB MAE 10.252963134369569 exceeds provisional offline regression ceiling 2/255
+      at TestContext.<anonymous> (file:///workspace/scratch/331215e8236a/sta-ui-current-integration-20261028/tests/potion-shell-fidelity.test.mjs:47:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

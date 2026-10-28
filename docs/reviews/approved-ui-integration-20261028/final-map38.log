@@ -1,0 +1,13 @@
+Map chapters 1-8: 8719 ms
+Map chapters 9-16: 10450 ms
+Map chapters 17-29: 6278 ms
+Map chapters 30-38: 8039 ms
+✔ chapter-local map geometry, real same-table transitions and stale gestures preserve core state (33898.367216ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 34022.601959

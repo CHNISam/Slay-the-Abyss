@@ -238,6 +238,7 @@ test('default-priority temporary Strength restores before lethal priority105 Con
 end)
 test('real Host reads Maw Roar and Growth Constricted source without mutating rules or RNG',function()
  local H=dofile('tests/lua/support/battle_action_fixture.lua');local F=H.F
+ local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
  for _,seed in ipairs({'2','3'})do
   local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
   local host=F.GameUI.new(root,D,F.Presentation,'click',{seed=tonumber(seed),campaign=true,prologue=false,
@@ -251,14 +252,14 @@ test('real Host reads Maw Roar and Growth Constricted source without mutating ru
   eq(panel:GetChild('enemy1'):GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
   assert(not panel:GetChild('enemy2').visible)
   if seed=='2'then
-   tap('enemy1',51);local notice=panel:GetChild('notice').text
-   assert(notice:find(s.catalog.statuses.weak.name,1,true)and notice:find(s.catalog.statuses.frail.name,1,true))
+   tap('enemy1',51);local detail=inspectDetails(ui,panel)
+   assert(detail:find(s.catalog.statuses.weak.name,1,true)and detail:find(s.catalog.statuses.frail.name,1,true))
    assert(Run.endTurn(r));host:refresh();eq(s.player.hp,s.player.maxHp)
    eq(panel:GetChild('enemy1'):GetChild('intent').text,'25')
   else
    assert(Run.endTurn(r));host:refresh();eq(s.player.hp,s.player.maxHp-16)
-   tap('enemy1',52);local notice=panel:GetChild('notice').text
-   assert(notice:find('束缚',1,true)and notice:find('10',1,true)and not notice:find('未知',1,true))
+   tap('enemy1',52);local detail=inspectDetails(ui,panel)
+   assert(detail:find('束缚',1,true)and detail:find('10',1,true)and not detail:find('未知',1,true))
    assert(Run.endTurn(r));host:refresh();eq(s.constrictedSource,e);eq(s.player.statuses.constricted,10)
    panel:GetChild('hero'):GetChild('statusRow'):GetChild('hit').click({touchId=53})
    local info=panel:GetChild('statusInfo');assert(info.visible)

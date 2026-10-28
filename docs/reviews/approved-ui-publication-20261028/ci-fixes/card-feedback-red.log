@@ -1,0 +1,27 @@
+ok card_feedback 1 - bloodletting self payment frame bypasses block and thorns without attack modifiers
+ok card_feedback 2 - hemokinesis self payment frame bypasses block and thorns without attack modifiers
+ok card_feedback 3 - offering self payment frame bypasses block and thorns without attack modifiers
+ok card_feedback 4 - temporary strength has gain and removal frames after complete mutations
+ABYSS_FEEDBACK play source=- target=2 amount=0
+not ok card_feedback 5 - body_slam flies to selected enemy and releases committed frames once: ...current-integration-20261028/tests/lua/card_feedback.lua:54: 453.33333333333 ~= 537.33333333333
+ABYSS_FEEDBACK play source=- target=2 amount=0
+not ok card_feedback 6 - anger flies to selected enemy and releases committed frames once: ...current-integration-20261028/tests/lua/card_feedback.lua:54: 453.33333333333 ~= 537.33333333333
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=8
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=13
+ok card_feedback 7 - growth scalar in a captured frame stays detached while actual text grows
+ABYSS_FEEDBACK play source=- target=1 amount=0
+ABYSS_FEEDBACK hp_loss source=player target=player amount=2
+ABYSS_FEEDBACK damage source=player target=jaw_worm_1 amount=15
+ok card_feedback 8 - HP payment playback shows its own exact frame before later attack
+ABYSS_FEEDBACK command_failed src/lua/abyss_actor.lua:149: unknown status: missing
+ok card_feedback 9 - UI command exception restores state and unlocks without replaying frames
+ok card_feedback 10 - late exception removes new event frames growth and copy without mutating old frames
+...current-integration-20261028/tests/lua/card_feedback.lua:142: 2 card feedback tests failed
+stack traceback:
+	[JS]: in function 'assert'
+	...current-integration-20261028/tests/lua/card_feedback.lua:142: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+Lua fixture tests/lua/card_feedback.lua: 4296 ms

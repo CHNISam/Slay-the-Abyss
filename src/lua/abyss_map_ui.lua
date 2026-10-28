@@ -7,7 +7,6 @@ local Layout = require("abyss_map_layout")
 local Acts = require("abyss_acts")
 local Controller = require("abyss_controller")
 local M = {}
-local states = { "locked", "visited", "current", "available" }
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
@@ -192,6 +191,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             cancelDrag()
             self.navigationEnabled, self.slots, self.breathing = false, {}, {}
             at("title").text, at("notice").text = "", "地图章节信息无效 · 请重新启程"
+            at("notice"):SetVisible(true)
             for i = 1, Layout.maxNodes do at("node" .. i):SetVisible(false) end
             for i = 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
             for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
@@ -216,12 +216,15 @@ function M.new(root, map, onChoose, clickEvent, options)
             (current.floor == chapter.boss and (self.navigationEnabled
                 and (chapter.terminal == 'boss_treasure' and "首领奖励已处理 · 请选择首领宝箱" or "首领奖励已处理 · 请前往终点")
                 or "已抵达首领 · 请完成首领战斗与奖励") or
-            (self.navigationEnabled and (Controller.isController(options.controller)
-                and "摇杆选择路线 · 确认出发 · 返回菜单" or "上下拖动查看路线 · 点选可前往的节点出发") or "请先完成当前节点")
+            (self.navigationEnabled and "" or "请先完成当前节点")
             ))
         local notice=current.emeraldSelection and Theme.layout.map.emeraldNotice or Theme.layout.map.notice
         at('notice'):SetAnchoredPosition(notice[1],notice[2]);at('notice'):SetSizeDelta(notice[3],Theme.layout.map.presentation.noticeHeight)
-        if current.emeraldSelection then at('notice').text=at('notice').text..' · 绿字节点为燃烧精英，胜利可另领绿钥匙'end
+        if current.emeraldSelection then
+            local prefix=at('notice').text~='' and at('notice').text..' · ' or ''
+            at('notice').text=prefix..'绿字节点为燃烧精英，胜利可另领绿钥匙'
+        end
+        at('notice'):SetVisible(at('notice').text~='')
         buttonHover, buttonPress = nil, nil
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
         local edge = 0
@@ -239,7 +242,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             if node then
                 local size = node.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node
                 local x, y = position(node)
-                -- Native container clipping is not established. Cull whole discs,
+                -- Native container clipping is not established. Cull whole targets,
                 -- including glow/breath extent, so no offscreen hit area can leak.
                 local radius = (size + Layout.glowPadding) * Layout.breathScale / 2
                 if node.hasEmeraldKey then radius=math.max(radius,math.abs(Theme.layout.map.emeraldLabel[2])+Theme.layout.map.emeraldLabel[4]/2)end
@@ -252,16 +255,8 @@ function M.new(root, map, onChoose, clickEvent, options)
                 box.localScaleX, box.localScaleY = 1, 1
                 local state = node.id == current.currentNodeId and "current" or
                     (node.visited and "visited" or (node.available and "available" or "locked"))
-                for _, value in ipairs(states) do
-                    child(box, value):SetVisible(state == value)
-                    child(box, value):SetSizeDelta(size, size)
-                end
                 local token = child(box, "positionToken")
                 token:SetVisible(state == "current")
-                child(box, "body"):SetSizeDelta(size - Theme.space.border * 2, size - Theme.space.border * 2)
-                tint(child(box, "body"), (state == "current" or state == "visited") and Theme.color.panelRaised or Theme.color.panel)
-                child(box, "locked"):SetVisible(false)
-                child(box, "body"):SetVisible(state ~= "locked")
                 local icon = child(box, "icon")
                 icon:SetSizeDelta(size * .6, size * .6)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")

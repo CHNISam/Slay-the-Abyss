@@ -115,8 +115,10 @@ test("initial controls show legal starts, shared icons and four states across al
             local box = boxFor(root, map, node.id)
             if box.visible then
                 seen[node.id], types[node.type] = true, true
-                assert(box:GetChild("available").visible == (node.floor == 1))
-                assert(not box:GetChild("locked").visible)
+                local palette = Theme.color.mapCanvas
+                assert(sameColor(box:GetChild("icon").imageColor,
+                    node.floor == 1 and palette.kind[node.type] or palette.far))
+                assert(not box:GetChild("positionToken").visible)
                 assert(box:GetChild("icon").image == Theme.icon.node[node.type])
                 assert(box:GetChild("hit").visible == (node.floor == 1))
             end
@@ -145,12 +147,12 @@ test("actual control clicks advance once, notify copied node and block reentrant
     assert(clickNode(root, map, first.id) and callbackBlocked)
     assert(map.floor == 1 and #map.path == 1 and not ui.navigationEnabled)
     assert(received.id == map.currentNodeId and map.nodes[1].nextIds[1] ~= "tamper")
-    assert(boxFor(root, map, first.id):GetChild("current").visible)
+    assert(boxFor(root, map, first.id):GetChild("positionToken").visible)
     assert(not ui:choose(Map.available(map)[1].id) and map.floor == 1)
     ui:setNavigationEnabled(true)
     local nextNode = Map.available(map)[1]
     assert(clickNode(root, map, nextNode.id) and map.floor == 2)
-    assert(boxFor(root, map, first.id):GetChild("visited").visible)
+    assert(sameColor(boxFor(root, map, first.id):GetChild("icon").imageColor,Theme.color.mapCanvas.visited))
     assert(mapControl(panel(root), "edge1").imageColor.r == Theme.color.node.pathTaken.r)
     assert(boxFor(root,map,nextNode.id):GetChild("positionToken").visible)
     assert(not boxFor(root,map,first.id):GetChild("positionToken").visible)
@@ -188,7 +190,7 @@ test("scroll follows Boss16 and exposes the independent legal treasure17 entry",
         local selected = Map.available(map)[1]
         assert(clickNode(root, map, selected.id))
         assert(map.currentNodeId == selected.id and callbacks == floor)
-        assert(boxFor(root, map, selected.id):GetChild("current").visible)
+        assert(boxFor(root, map, selected.id):GetChild("positionToken").visible)
         visibleBounds(root, map)
     end
     ui:setNavigationEnabled(true)
@@ -310,7 +312,7 @@ test("reachable node breath is bounded, reduced motion stops it and stale view c
     assert(Map.choose(map, node.id))
     assert(not click(root, "node1") and #map.path == 1)
     ui:render()
-    assert(box:GetChild("current").visible and not box:GetChild("hit").visible)
+    assert(box:GetChild("positionToken").visible and not box:GetChild("hit").visible)
     for _, bad in ipairs({-1, 0/0, math.huge}) do assert(not ui:update(bad)) end
 end)
 

@@ -155,18 +155,18 @@ function M.new(view, controls)
     end
 
     local function writeName(box, card)
-        local instance, enabled = card.instance, card.enabled
+        local instance = card.instance
         CardDisplay.writeTitle(box:GetChild("name"), card.display.name, card.upgraded,
             repeatCount(card.definition, instance),box:GetChild("type"),
             typeNames[card.definition.type] or card.definition.type)
-        ink(box:GetChild("name"), card.upgraded and not card.missing and C.positive or enabled and C.text or C.textMuted)
+        ink(box:GetChild("name"), Theme.cardSkin.text.title)
     end
 
     local function writeDetails(box, card, battle, aimUid, aimTarget)
         local definition, enabled = card.definition, card.enabled
         local text = bodyText(card, battle, aimUid, aimTarget)
         CardDisplay.writeBody(box:GetChild("label"), text)
-        ink(box:GetChild("label"), enabled and C.text or C.textMuted)
+        ink(box:GetChild("label"), C.text)
         box:GetChild("cost").text = card.missing and '—' or costText(definition)
         ink(box:GetChild("cost"), enabled and C.energy or C.danger)
         tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
@@ -202,10 +202,15 @@ function M.new(view, controls)
         local missing,upgraded
         if context.reward then definition,display,missing,upgraded=rewardFace(context,definition,display,id,slot)
         else assert(display,'missing card presentation '..id);upgraded=instance and instance.upgraded end
+        local enabled,reason=not missing and context.reward,nil
+        if not missing and not context.reward then
+            enabled,reason=Combat.canPlay(context.battle,instance.uid,view.target)
+            enabled=context.active and enabled
+        end
         return {
             instance = instance,
             definition = definition,display = display,missing=missing,upgraded=upgraded,
-            enabled = not missing and (context.reward or context.active and Combat.canPlay(context.battle, instance.uid, view.target)),
+            enabled = enabled,blockReason=reason,
             selected = instance and instance.uid == view.selected,
         }
     end
@@ -214,7 +219,7 @@ function M.new(view, controls)
         local base=card.instance and context.battle.catalog.cards[card.instance.cardId] or card.definition
         local printed=card.upgraded and base.upgrade and base.upgrade.cost or base.cost
         CardSkin.apply(box,card.definition,controls.platform,{dim=not card.enabled,selected=card.selected or hovered,
-            cost=card.definition.cost,baseCost=printed})
+            cost=card.definition.cost,baseCost=printed,blockReason=card.blockReason})
     end
 
     local function renderSlot(context, i, aimUid, aimTarget)

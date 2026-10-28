@@ -1,4 +1,5 @@
 import { nativeControls } from './native-ui-theme.mjs';
+import { cardLightning } from './card-lightning.mjs';
 
 // Native-library composition, not CSS clipping. The triangle is rotated by the importer.
 function roundedParts(w,h,r,colour,picture,plate,frame) {
@@ -19,7 +20,7 @@ function emblem(role,picture,colour,body) {
   if(role==='HT')return Array.from({length:5},(_,i)=>p('petal'+i,[Math.sin(i*Math.PI*2/5)*3,Math.cos(i*Math.PI*2/5)*3,5,5]));
   if(role==='AR')return [p('moon',[0,0,11,11]),p('cut',[2,2,9,9],100002,body)];
   if(role==='FR')return [p('water',[0,-2,8,8]),p('tip',[0,2,8,8],100003)];
-  if(role==='RD')return [{...p('bolt',[0,2,5,9],100003),rotation:200},{...p('tail',[0,-2,5,9],100003),rotation:20}];
+  if(role==='RD')return cardLightning(picture,colour);
   if(role==='curse')return [{...p('slash',[0,0,3,12],100001),rotation:45},{...p('backslash',[0,0,3,12],100001),rotation:-45}];
   return [p('symbol',[0,0,11,11],role==='traveler'?100004:role==='colorless'?100006:100004)];
 }
@@ -34,8 +35,8 @@ export function cardFaceChildren(theme, context, interactive = true) {
   const node = context === 'node';
   const nameY = top - card.nameBand / 2 - b;
   const artY = top - card.nameBand - card.art / 2 - b;
-  const iconSize = Math.min(d, card.art);
-  const trim = card.trim;
+  const iconSize = Math.min(card.artIcon, card.art);
+  const trim = card.trim, blocked = theme.cardSkin.blocked;
   // The cost straddles the top-left corner; the title banner and frame carry rarity.
   const disc = [-w / 2 + d / 2 - trim.costOverhang, top - d / 2 + trim.costOverhang];
   const typeY = top - card.nameBand - card.art - card.typeLine / 2 - b;
@@ -65,7 +66,7 @@ export function cardFaceChildren(theme, context, interactive = true) {
           windowParts(kind,w-b*2-inset*2,card.art-inset*2,index?c.cardWell:c.energy,picture,plate,frame)
         }))})),
     ]},
-    text('name', frame([d/2,nameY],[w-d-s.s,Math.max(card.nameBand,l.nativeText.lineHeight)]), '', f.cardName),
+    text('name', frame(card.title.position,[card.title.width,Math.max(card.nameBand,l.nativeText.lineHeight)]), '', f.cardName,theme.cardSkin.text.title),
     ...(node ? Object.entries(icon.cardArt).map(([kind,id]) => hidden(picture(`art_${kind}`,[0,artY,iconSize,iconSize],id)))
       : [picture('art',[0,artY,iconSize,iconSize],icon.cardArt.attack)]),
     // Type pill on the picture's lower edge, wide enough for a moved "＋2" marker.
@@ -74,15 +75,22 @@ export function cardFaceChildren(theme, context, interactive = true) {
     ...[['tagEdge',trim.typeTag[0]+trim.keyline*2,trim.typeTag[1]+trim.keyline*2,c.gold],['tagBody',...trim.typeTag,c.cardWell]].map(([name,width,height,colour])=>({name,kind:'container',position:[0,typeY],size:[width,height],children:roundedParts(width,height,height/2,colour,picture,plate,frame)})),
     text('type', frame([0,typeY],[w-s.s,l.nativeText.lineHeight]), '', f.small, c.gold),
     text(node?'description':'label', frame([0,-top+card.textBox[1]/2+s.xs],card.textBox), '', f.card),
-    orb('roleRing',frame([0,-h/2+1],[18,18]),c.cardWell),
-    {name:'roleMark',kind:'container',position:[0,-h/2+1],size:[11,11],children:Object.keys(theme.cardSkin.roles).map(role=>({name:role,kind:'container',size:[11,11],children:emblem(role,picture,c.energy,c.cardWell)}))},
+    orb('roleRing',frame([0,-h/2],[16,16]),c.cardWell),
+    {name:'roleMark',kind:'container',position:[0,-h/2],size:[11,11],children:Object.keys(theme.cardSkin.roles).map(role=>({name:role,kind:'container',size:[11,11],children:emblem(role,picture,c.energy,c.cardWell)}))},
+    // One native opacity layer: overlapping rounded parts would darken the centre twice.
+    // Rounded alpha clipping remains an explicit platform verification gap.
+    hidden(plate('blockedVeil',frame([0,0],[w-blocked.inset*2,h-blocked.inset*2]),blocked.veil)),
+    hidden({name:'blockedPill',kind:'container',position:[0,blocked.pillY],size:[...blocked.pill],children:
+      [0,blocked.stroke].map((inset,index)=>({name:index?'body':'edge',kind:'container',size:[...blocked.pill],children:
+        roundedParts(blocked.pill[0]-inset*2,blocked.pill[1]-inset*2,blocked.pillRadius-inset,index?blocked.body:blocked.edge,picture,plate,frame)}))}),
+    hidden(picture('blockedLock',[-blocked.pill[0]/2+blocked.padding+blocked.lock[0]/2,blocked.pillY,...blocked.lock],icon.lock,blocked.text)),
+    hidden(text('blockedReason',frame([(blocked.lock[0]+blocked.gap)/2,blocked.pillY],[blocked.pill[0]-blocked.padding*2-blocked.lock[0]-blocked.gap,l.nativeText.lineHeight]),'',f.minimum,blocked.text)),
     hidden(orb('costHalo',frame(disc,[d+12,d+12]),c.positive,image.ring)),
     // Dark coin with a coloured ring and coloured numeral.
     orb('costCore', frame(disc,[d+trim.costRing,d+trim.costRing]), c.cardWell),
     orb('costDisc', frame(disc,[d,d]), c.energy, image.ring),
-    text('cost',frame(disc,[d,node?l.nativeText.lineHeight:d]),'',f.cost,c.energy),
+    text('cost',frame(disc,[d,l.nativeText.lineHeight]),'',f.cost,c.energy),
     hidden(text('costDirection',frame([disc[0]+d/2-2,disc[1]-d/2+2],[20,l.nativeText.lineHeight]),'',f.small,c.positive)),
-    hidden(text('blockedReason',frame([0,artY],[w-12,l.nativeText.lineHeight]),'',f.small,c.danger)),
     ...(node ? [
       hidden(plate('veil',frame([0,0],[w,h]),c.backdropVeil)),
       hidden(plate('stampPlate',frame([0,0],[w-b*2,l.nativeText.lineHeight+s.s]),c.panelSunken)),

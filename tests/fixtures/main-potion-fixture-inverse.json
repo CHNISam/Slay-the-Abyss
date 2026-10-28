@@ -1,0 +1,39 @@
+{
+  "files": {
+    "tests/lua/support/potion_targeting_fixture.lua": {
+      "beforeSha256": "b946de63bf3a5be568d69b04fc89062abbdb146f03058eddca081d6951bda36c",
+      "afterSha256": "ab0e566fc05e0a122759e5b46f17b332f15496760144934753a852cd6ba9ac1b",
+      "edits": [
+        {
+          "before": "local F=dofile('tests/lua/support/game_ui_fixture.lua')\nlocal Run,Combat=require('abyss_run'),require('abyss_combat')\nlocal function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end\nlocal function setup(pointer)\n  -- Independent complete-pool first-drop vector: seed61 naturally offers Fire.\n  -- Seed4 now correctly offers Flex; keep the actual victory/claim path.\n",
+          "after": "local F=dofile('tests/lua/support/game_ui_fixture.lua')\nlocal Run,Combat=require('abyss_run'),require('abyss_combat')\nlocal function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end\nlocal confirm=dofile('tests/lua/support/confirm_potion_popup.lua')\nlocal function setup(pointer)\n  -- Independent complete-pool first-drop vector: seed61 naturally offers Fire.\n  -- Seed4 now correctly offers Flex; keep the actual victory/claim path.\n"
+        },
+        {
+          "before": "    if fn then return fn({touchId=touch}) end\n  end\n  local function drain()for _=1,400 do if not u.busy then return end h:update(.05) end error('busy') end\n  local function click(name)local result=emit(name,'click');drain();return result end\n  local function tap(name,id)emit(name,'down',id);emit(name,'up',id);emit(name,'click',id);drain()end\n  return h,u,p,r,emit,click,tap,drain\nend\n-- Real generated full-game UI and real rules. This harness is not platform input evidence.\n",
+          "after": "    if fn then return fn({touchId=touch}) end\n  end\n  local function drain()for _=1,400 do if not u.busy then return end h:update(.05) end error('busy') end\n  local function click(name)\n    local previous=u.potionAim\n    local result=emit(name,'click')\n    if name:match('^potion%d$')then confirm(u,p,nil,previous)end\n    drain();return result\n  end\n  local function tap(name,id)\n    local previous=u.potionAim\n    emit(name,'down',id);emit(name,'up',id);emit(name,'click',id)\n    if name:match('^potion%d$')then confirm(u,p,id,previous)end\n    drain()\n  end\n  return h,u,p,r,emit,click,tap,drain\nend\n-- Real generated full-game UI and real rules. This harness is not platform input evidence.\n"
+        }
+      ]
+    },
+    "tests/lua/battle_ui_potion_target_pointers.lua": {
+      "beforeSha256": "c73e046866c48e425ce1c5bedc2d17b89e5c421c26c59faea5871f11e546c21b",
+      "afterSha256": "9b5a6f1445e418fc838d9b3fecbaa79e8a8b780cad5d72bf5e3d346d39b54144",
+      "edits": [
+        {
+          "before": "test('enemy EndDrag cancels its token without spending pending bottle',function()\n  local h,u,p,r,e,click,tap=setup(true);tap('potion1',7);e('enemy2','down',8);e('enemy2','up',8);e('enemy2','endDrag',8);e('enemy2','click',8)\n  eq(h.run.potions[1],'fire_potion');eq(u.potionAim,nil)\n  tap('enemy2',9);eq(h.run.potions[1],'fire_potion')\n  tap('potion1',10);tap('enemy2',11);eq(h.run.potions[1],nil)\nend)\ntest('metadata-free pointer events preserve separate arming and confirmation',function()\n",
+          "after": "test('enemy EndDrag cancels its token without spending pending bottle',function()\n  local h,u,p,r,e,click,tap=setup(true);tap('potion1',7);e('enemy2','down',8);e('enemy2','up',8);e('enemy2','endDrag',8);e('enemy2','click',8)\n  eq(h.run.potions[1],'fire_potion');eq(u.potionAim,nil)\n  tap('enemy2',9);eq(h.run.potions[1],'fire_potion');assert(u.info);p:GetChild('statusInfo'):GetChild('hit').click()\n  tap('potion1',10);tap('enemy2',11);eq(h.run.potions[1],nil)\nend)\ntest('metadata-free pointer events preserve separate arming and confirmation',function()\n"
+        }
+      ]
+    },
+    "tests/lua/battle_ui_potion_target_inventory.lua": {
+      "beforeSha256": "9e32e32ac2e7a4f30b583acff4ddcac2d96e8f2a2b493a75d42441b154609086",
+      "afterSha256": "7a00db80dbf3ee23365429d05196a8ecc61bcb0c220a8453b8c2c27ef2fa6e50",
+      "edits": [
+        {
+          "before": "end)\ntest('paired touch begins only on Click and confirms exactly once',function()\n  local h,u,p,r,e,click,tap,drain=setup(true);local z=h.run.combat.enemies[2].hp\n  e('potion1','down',7);e('potion1','up',7);eq(u.potionAim,nil);e('potion1','click',7);assert(u.potionAim);eq(h.run.potions[1],'fire_potion')\n  e('potion1','click',7);assert(u.potionAim);tap('enemy2',8);eq(h.run.combat.enemies[2].hp,z-20)\n  e('enemy2','click',8);eq(h.run.combat.enemies[2].hp,z-20)\nend)\n",
+          "after": "end)\ntest('paired touch begins only on Click and confirms exactly once',function()\n  local h,u,p,r,e,click,tap,drain=setup(true);local z=h.run.combat.enemies[2].hp\n  e('potion1','down',7);e('potion1','up',7);eq(u.potionAim,nil);e('potion1','click',7);assert(u.potionMenu);dofile('tests/lua/support/confirm_potion_popup.lua')(u,p,7);assert(u.potionAim);eq(h.run.potions[1],'fire_potion')\n  e('potion1','click',7);assert(u.potionAim);tap('enemy2',8);eq(h.run.combat.enemies[2].hp,z-20)\n  e('enemy2','click',8);eq(h.run.combat.enemies[2].hp,z-20)\nend)\n"
+        }
+      ]
+    }
+  },
+  "actionHelperSha256": "767416e5718c9feded94abf7c41d3d8e7f22ef7d518ba0a12070c1b56dde3555"
+}

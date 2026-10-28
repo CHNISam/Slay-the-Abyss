@@ -16,7 +16,7 @@ test('second explicit enemy alone confirms bottle and never fires selected card'
 end)
 test('prior enemy selection still needs a new explicit target after bottle',function()
   local h,u,p,r,e,click=setup();local b=h.run.combat;local a,z=b.enemies[1].hp,b.enemies[2].hp
-  click('enemy2');click('potion1');untouched(h,a,z);click('enemy1');eq(b.enemies[1].hp,0);eq(b.enemies[2].hp,z)
+  click('enemy2');assert(u.info);p:GetChild('statusInfo'):GetChild('hit').click();click('potion1');untouched(h,a,z);click('enemy1');eq(b.enemies[1].hp,0);eq(b.enemies[2].hp,z)
 end)
 test('fresh second bottle click cancels without consumption',function()
   local h,u,p,r,e,click=setup();local b=h.run.combat;local a,z=b.enemies[1].hp,b.enemies[2].hp

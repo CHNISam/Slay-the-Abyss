@@ -8,6 +8,12 @@ local Theme = require("abyss_theme")
 local Presentation = require("abyss_presentation")
 local Layout = require("abyss_ui_layout")
 local L = Theme.layout
+-- These are input points on the current visible native actors, not expected
+-- damage values. Every numerical preview oracle below remains unchanged.
+local function enemyPoint(panel,index)
+    local box=panel:GetChild('enemy'..index);assert(box.visible,'input actor is hidden')
+    return box.x,box.y
+end
 -- Dynamic card numbers and status details on the full generated native tree.
 -- The oracle for every preview is the core's own resolution of the same play.
 local function control(definition)
@@ -191,7 +197,7 @@ test("source-backed hand and aimed values reset when target powers disappear or 
     ui:render(); eq(label(panel), "对目标造成 6 点伤害。")
     local card = panel:GetChild("card1")
     event("card1", "down", card.x, card.y)
-    event("card1", "drag", L.enemyRow.xTo, L.enemyRow.y)
+    event("card1", "drag", enemyPoint(panel,2))
     eq(label(panel), "对目标造成 9 点伤害。")
     eq(label(panel, 2), "对目标造成 6 点伤害。", "the other card keeps player-only modifiers")
     s.enemies[2].statuses.vulnerable = nil -- The duration owner has removed the power.
@@ -234,14 +240,14 @@ test("hand labels update live for every modifier and show the aimed target while
     local card = panel:GetChild("card" .. slot.strike)
     event("card" .. slot.strike, "down", card.x, card.y)
     local function aim(index)
-        event("card" .. slot.strike, "drag", index == 1 and L.enemyRow.xFrom or L.enemyRow.xTo, L.enemyRow.y)
+        event("card" .. slot.strike, "drag", enemyPoint(panel,index))
     end
     aim(1) eq(label(panel, slot.strike), "对目标造成 6 点伤害。")
     aim(2) eq(label(panel, slot.strike), "对目标造成 10 点伤害。")
     -- Other hand cards retain player-only modifiers while one card is aimed.
     eq(label(panel, slot.twin_strike), "对目标连续攻击 2 次，每次造成 6 点伤害。")
     local hp = s.enemies[2].hp
-    event("card" .. slot.strike, "up", L.enemyRow.xTo, L.enemyRow.y)
+    event("card" .. slot.strike, "up", enemyPoint(panel,2))
     drain(ui)
     eq(hp - s.enemies[2].hp, 10, "released damage equals the aimed label")
 end)
@@ -256,7 +262,7 @@ test("the reported Weak versus Vulnerable scene shows 4 in hand and 6 only while
     ui:render();eq(label(panel,slot),"对目标造成 4 点伤害。")
     local card=panel:GetChild("card"..slot)
     event("card"..slot,"down",card.x,card.y)
-    event("card"..slot,"drag",L.enemyRow.xTo,L.enemyRow.y)
+    event("card"..slot,"drag",enemyPoint(panel,2))
     eq(label(panel,slot),"对目标造成 6 点伤害。")
     event("card"..slot,"endDrag",card.x,L.cardDrag.cancelY-20)
     ui:render();eq(label(panel,slot),"对目标造成 4 点伤害。")
@@ -282,13 +288,35 @@ local function chips(box)
     end
     return result
 end
-local function info(panel)
+local function info(panel, allPages)
     local box, rows = panel:GetChild("statusInfo"), {}
     for i = 1, L.statusInfo.rows do
         if box:GetChild("name" .. i).visible then
-            local note = box:GetChild("note" .. i)
-            rows[#rows + 1] = {name = box:GetChild("name" .. i).text, text = box:GetChild("text" .. i).text,
-                tag = box:GetChild("tag" .. i).text, note = note.visible and note.text or nil}
+            local name = box:GetChild("name" .. i)
+            -- Approved Details A also shows the unexecuted intent section. This
+            -- numerical status oracle reads every buff/debuff row, not intent rows.
+            local header, distance
+            for section = 1, L.statusInfo.sections do
+                local label = box:GetChild("section" .. section)
+                local gap = label.y - name.y
+                if label.visible and gap >= 0 and (not distance or gap < distance) then
+                    header, distance = label.text, gap
+                end
+            end
+            if header ~= "意图 · 尚未执行" then
+                local note = box:GetChild("note" .. i)
+                rows[#rows + 1] = {name = name.text, text = box:GetChild("text" .. i).text,
+                    tag = box:GetChild("tag" .. i).text, note = note.visible and note.text or nil}
+            end
+        end
+    end
+    if allPages and box.visible then
+        local pages = tonumber(box:GetChild("more").text:match("^第 %d+/(%d+) 页")) or 1
+        for page = 2, pages do
+            box:GetChild("page").click()
+            local open, current = info(panel)
+            assert(open and box:GetChild("more").text:find("第 " .. page .. "/" .. pages .. " 页", 1, true))
+            for _, row in ipairs(current) do rows[#rows + 1] = row end
         end
     end
     return box.visible, rows, box
@@ -310,7 +338,7 @@ test("player and every enemy show status icons, stacks and full current effects"
     assert(hero[1].y == hero[2].y and hero[2].x - hero[1].x == L.statusIcon.size + L.statusIcon.gap, "one centred row")
     eq(hero[1].x + hero[2].x, 0, "row centred under the bar")
     local second = chips(panel:GetChild("enemy2"))
-    eq(second[1].icon, Theme.icon.status.artifact) eq(second[2].count, "-1")
+    eq(second[1].icon, Theme.icon.status.artifact) eq(second[2].count, "−1")
     eq(second[2].colour.r, Theme.color.text.r)
     eq(second[2].edge.r, Theme.color.debuff.r, "negative Strength reads as a debuff through its border")
     tap({"hero", "hit"})
@@ -331,7 +359,7 @@ test("player and every enemy show status icons, stacks and full current effects"
     }
     for i, lines in ipairs(expected) do
         tap({"enemy" .. i, "statusRow", "hit"})
-        open, rows, box = info(panel)
+        open, rows, box = info(panel,true)
         assert(open and box:GetChild("title").text == s.enemies[i].name)
         eq(#rows, #lines)
         for r = 1, #rows do eq(rows[r].name, lines[r][1]) eq(rows[r].tag, lines[r][2]) eq(rows[r].text, lines[r][3]) end
@@ -345,7 +373,7 @@ test("player and every enemy show status icons, stacks and full current effects"
         s.enemies[3].statuses = {[id] = 5}
         ui:render()
         tap({"enemy3", "statusRow", "hit"})
-        open, rows = info(panel)
+        open, rows = info(panel,true)
         assert(open and #rows == 1, id)
         local row = rows[1]
         local text = row.text .. "|" .. row.tag .. "|" .. (row.note or "")
@@ -402,7 +430,8 @@ test("crowded and narrow units overflow to +N and the panel pages through every 
     s.enemies[2].statuses = {} ui:render()
     tap({"enemy2", "statusRow", "hit"})
     open, rows, box = info(panel)
-    assert(open and #rows == 0 and box:GetChild("section1").text == "暂无状态")
+    assert(open and #rows == 0 and box:GetChild("section1").text == "意图 · 尚未执行")
+    assert(box:GetChild("name1").visible and box:GetChild("text1").text ~= "", "an enemy without statuses still shows its current intent")
     eq(box:GetChild("more").text, "点按任意处关闭")
     tap({"statusInfo", "page"}) assert(not panel:GetChild("statusInfo").visible, "a single page closes on its own tap")
 end)
@@ -442,9 +471,9 @@ for _, drag in ipairs({false, true}) do
             local card = panel:GetChild("card" .. other)
             event("card" .. other, "down", card.x, card.y)
             assert(not panel:GetChild("statusInfo").visible and ui.gesture == nil)
-            event("card" .. other, "drag", L.enemyRow.xTo, L.enemyRow.y)
-            event("card" .. other, "up", L.enemyRow.xTo, L.enemyRow.y)
-            event("card" .. other, "click", L.enemyRow.xTo, L.enemyRow.y)
+            event("card" .. other, "drag", enemyPoint(panel,2))
+            event("card" .. other, "up", enemyPoint(panel,2))
+            event("card" .. other, "click", enemyPoint(panel,2))
             unchanged("drag")
         else tap({"statusInfo", "hit"}) end
         assert(not panel:GetChild("statusInfo").visible)
@@ -531,15 +560,15 @@ test('value feedback: aim, target switch, cancellation, slot reuse, removal and 
     local card=panel:GetChild('card1')
     eq(spans(panel)[1].text,'4↓')
     event('card1','down',card.x,card.y)
-    event('card1','drag',L.enemyRow.xFrom,L.enemyRow.y)
+    event('card1','drag',enemyPoint(panel,1))
     eq(spans(panel)[1].text,'4↓')
-    event('card1','drag',L.enemyRow.xTo,L.enemyRow.y)
+    event('card1','drag',enemyPoint(panel,2))
     eq(#spans(panel),0) eq(inline(panel),'对目标造成 6 点伤害。')
     eq(spans(panel,2)[1].text,'4↓')
     event('card1','endDrag',card.x,L.cardDrag.cancelY-20) ui:render()
     eq(spans(panel)[1].text,'4↓')
     s.player.statuses.weak=nil s.energy=0 ui:render()
-    eq(#spans(panel),0) rgb(card:GetChild('cost').fontColor,Theme.color.danger)
+    eq(#spans(panel),0) rgb(card:GetChild('cost').fontColor,Theme.cardSkin.costTone.up)
     Combat.addStatus(s.player,'strength',2) ui:render()
     eq(spans(panel)[1].text,'8↑') rgb(spans(panel)[1].colour,Theme.color.cardValueIncrease)
     s.hand[1],s.hand[2]=s.hand[2],s.hand[1] ui:render()

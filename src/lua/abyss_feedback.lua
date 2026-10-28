@@ -2,6 +2,7 @@
 -- Reuses native controls and OnUpdate; no coroutine, timers, assets or Tween callbacks.
 local Theme = require("abyss_theme")
 local EnemyView=require('abyss_battle_enemy_view')
+local UnitView=require('abyss_battle_unit_view')
 local Actors=require('abyss_actor')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
@@ -123,11 +124,14 @@ function M.new(stage, platform, present, complete)
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
     local function actor(id)
-        if id == "player" then return self.shadow.player, stage:GetChild("hero"), L.player.position[1], L.player.position[2] end
+        if id == "player" then
+            local lift=UnitView.noticeLift(self.shadow.player,L.player.portrait,L.player.position[2],true)
+            return self.shadow.player,stage:GetChild("hero"),L.player.position[1],L.player.position[2]+lift
+        end
         local rows=self.busy and self.enemyRows or EnemyView.slots(self.shadow)
         for slot,entry in ipairs(rows)do if entry.id==id then
-            local x=EnemyView.position(#rows,slot,entry.actor)
-            return entry.actor,stage:GetChild('enemy'..slot),x,EnemyView.rowY(#rows,slot)
+            local x,_,_,_,y=EnemyView.position(#rows,slot,entry.actor)
+            return entry.actor,stage:GetChild('enemy'..slot),x,y
         end end
         for _,a in ipairs(self.shadow.enemies)do if a.id==id then return a end end
     end

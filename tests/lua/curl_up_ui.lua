@@ -18,6 +18,8 @@ assert(details(first):find(definition.name..' '..string.format('%.0f',amount),1,
 assert(details(second):find(definition.name..' '..string.format('%.0f',other),1,true),'independent second Curl amount visible')
 local function same(a,b)if type(a)~='table'then assert(a==b);return end;for k,v in pairs(a)do same(v,b[k])end;for k in pairs(b)do assert(a[k]~=nil)end end
 local before=C.copy(s);host:refresh();tap('enemy1',2);same(s,before)
+local info=panel:GetChild('statusInfo');assert(info.visible,'read-only enemy tap opens real details')
+info:GetChild('hit').click();assert(not info.visible,'close details before the next deliberate card input')
 tap('card1',3);tap('enemy1',3);drain()
 assert(s.enemies[1].block==amount and s.enemies[1].statuses.curl_up==0,'real controls grant once and remove')
 assert(not details(first):find(definition.name,1,true),'spent passive hidden')

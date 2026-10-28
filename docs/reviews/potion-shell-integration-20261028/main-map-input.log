@@ -1,0 +1,48 @@
+✔ approved unit details retain complete information and command priority (4251.455025ms)
+✔ Main energy orb keeps the approved 88 diameter and exact scaled reference center (35.354722ms)
+✔ energy uses the official element picture and centered white digits with same-size drop shadow (4.165902ms)
+✔ real battle energy readout keeps zero overcharge spending and reward visibility intact (2694.838495ms)
+✔ Main physical potion shells follow real inventory and retire selected style with the exact interaction owner (4067.468726ms)
+✔ Main top bar preserves all five physical circular potion slots with official bottles and no old text row (14.122083ms)
+✔ Main potion popup is a compact anchored effect card with explicit use and discard actions (2.883421ms)
+✔ Main potion runtime preserves explicit actions, stale ownership, and the real Potion Belt fifth slot (6861.418192ms)
+✔ Main host isolates the small potion card controller scope and keeps global inventory off battle (4411.653649ms)
+✔ Main popup initial dismiss remains centered on the entire canvas before first render (4.659506ms)
+✔ Main popup action labels retain a native text line inside the source small visual buttons (1.777807ms)
+✔ Main short operation strip remains at original top700 with native text height (13.897746ms)
+✔ Main runtime preserves source slots and portrait silhouettes without changing battle state (3005.925703ms)
+✔ Main end-turn is the original long bronze hexagon, not an invented sword button (5.040129ms)
+✔ Main unique Boss center screen slot preserves core actor IDs and real target commands (3516.211224ms)
+✔ ring-free native nodes preserve four states, official icons, full hits and legal controller choices after repaint (1030.873836ms)
+✔ shared menu entry matches the canvas round copper button while keeping four full native hit states (38.00088ms)
+✔ map header and necessary return controls follow the canvas hierarchy rather than large boxed prose (34.637036ms)
+✔ map resources stay above the route and clear all top-bar controls (47.590773ms)
+✔ map shows actual run resources before entry and refreshes after resource changes (2855.752443ms)
+✔ map uses the approved stage, external backdrop, viewport and shared theme geometry (2.744702ms)
+✔ static controls are native, readable, unique and fit phone and console safe areas (1.203061ms)
+✔ node and edge pools match controller contract, without the retired boxed legend (0.779023ms)
+✔ custom output directory receives the standalone controls and both Lua map artifacts (25.182221ms)
+✔ actual Lua controller validates navigation, scroll, locked input, path and multi-device geometry (9967.277024ms)
+✔ complete native interface respects MCP per-container import limits (31.301618ms)
+✔ deck entry matches the source capsule and keeps the existing single native button (37.930074ms)
+✔ nonbattle potion entry uses physical circular silhouettes without creating new actions (20.884184ms)
+✔ real potion header repaint preserves physical capacity and sparse inventory without mutating it (1093.52048ms)
+✔ shared slot helper retains hidden Main compatibility paths without mutating inputs (0.604049ms)
+✔ five-slot discard modal uses approved button states and blocks the underlying page (28.597076ms)
+✔ shared potion counter clears core top-bar data and existing utility controls (16.540384ms)
+✔ five source bottle slots share an explicit effect card and retain hidden compatibility explanation paths (31.637194ms)
+✔ two original-budget potion context fixtures preserve the full eight-case source and fresh inputs (3.512749ms)
+✔ potion context inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift (3.882516ms)
+✔ two original-budget potion inventory fixtures preserve the full seven-case source and fresh inputs (3.604437ms)
+✔ potion inventory inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift (4.254566ms)
+✔ four original-budget potion pointer fixtures preserve the full seven-case source and fresh inputs (3.561872ms)
+✔ potion pointer inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift (4.062767ms)
+✔ reward list has four safe rows above Proceed and separate native-height feedback (12.628689ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 45766.765715

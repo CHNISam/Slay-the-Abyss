@@ -230,7 +230,8 @@
     "abyss_node_ui_treasure": "ui",
     "abyss_node_ui_lifecycle": "ui",
     "abyss_node_ui_input": "ui",
-    "abyss_node_ui_shop": "ui"
+    "abyss_node_ui_shop": "ui",
+    "abyss_battle_potion_popup": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [

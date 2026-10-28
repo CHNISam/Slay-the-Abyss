@@ -34,6 +34,7 @@ export function mapLayout(theme = loadMapTheme()) {
     text('label', 0, 0, nav, nav, label, f.label), hit(nav, nav),
   ] });
   const { left, right, bottom, top } = g.viewport;
+  const header = visual.header;
   const controls = [
     image('mapField', 0, 0, ...theme.canvas.base, c.mapCanvas.backdrop),
     { ...image('mapLight', 0, 0, 1040, 680, c.mapCanvas.field, im.glow), opacity: .8 },
@@ -41,11 +42,16 @@ export function mapLayout(theme = loadMapTheme()) {
     ...visual.fog.map(([x, y, w, h], i) => ({
       ...image(`fog${i + 1}`, x, y, w, h, c.mapCanvas.fog, im.glow), opacity: visual.fogOpacity,
     })),
+    // Map/Main canvas header: subdued dark band, copper hairline and title wings.
+    { ...image('headerShade', ...header.shade, c.mapHeader.shade), opacity: header.shadeOpacity },
+    image('headerDivider', ...header.divider, c.mapHeader.border, im.fadeLine),
+    image('titleLineLeft', ...header.titleLineLeft, c.mapHeader.title, im.fadeLine),
+    image('titleLineRight', ...header.titleLineRight, c.mapHeader.title, im.fadeLine),
     // Lowest layer: dragging anywhere on the route scrolls it; node hits sit above.
     { name: 'dragArea', kind: 'cursorArea', position: [(left + right) / 2, (bottom + top) / 2],
       size: [right - left, top - bottom], focusable: false },
-    text('title', 0, 327, 640, 44, '', f.heading, c.goldBright),
-    text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim),
+    text('title', 0, 316, 380, 40, '', f.body, c.mapHeader.title),
+    { ...text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim), visible: false },
     button('next', visual.navigationY[0], '↑'), button('focus', visual.navigationY[1], '◆'), button('previous', visual.navigationY[2], '↓'),
   ];
   // Runtime clips these line segments geometrically to the 600px viewport.
@@ -54,11 +60,9 @@ export function mapLayout(theme = loadMapTheme()) {
   });
   for (let i = 1; i <= g.maxNodes; i++) {
     const s = theme.layout.map.node;
-    const children = [];
-    for (const [state, colour] of Object.entries({ locked: c.node.locked, visited: c.node.visited,
-      current: c.node.current, available: c.node.reachable })) children.push(image(state, 0, 0, s, s, colour, im.disc));
-    children.push(image('body', 0, 0, s - theme.space.border * 2, s - theme.space.border * 2, c.panel, im.disc),
-      image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s));
+    // State is carried by the official icon tint and the existing current token,
+    // never an enclosing disc. Keep the full invisible pointer/focus target.
+    const children = [image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s)];
     children.push({ ...text('emeraldLabel', ...theme.layout.map.emeraldLabel, '绿钥匙', f.label, c.positive), visible: false });
     children.push({ ...image('positionToken', ...visual.tokenOffset, visual.tokenSize, visual.tokenSize, c.goldBright, im.diamond), visible: false });
     controls.push({ name: `node${i}`, kind: 'container', position: [0, 0], size: [s, s], visible: false, children });

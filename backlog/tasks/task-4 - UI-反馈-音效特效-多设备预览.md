@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 10:55'
+updated_date: '2026-10-28 19:23'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -63,6 +63,12 @@ PR171整合切片：保留develop最新商店原子交易和战后独立选牌�
 2026-10-28逐屏还原：按Map/Controls画布及批准原型核对地图、商店、营地、锻造、宝箱、事件、奖励、牌库、菜单/退出，复用PR260功能和PR290/292选角；本地与设备验收分层，完整记录见docs/reviews/NATIVE-UI-PARITY-20261028.md。
 
 最终集成保留#292、正式战斗、共享卡框、公共UI、失焦与开局美化全部来源，按现行用户两幕范围验收12屏1280×720原生UI。用户本轮紧急授权先合并后并行CI；不恢复PatchNotes，不新增玩法或插画，实机缺证据不勾PASS。
+
+dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修复、26源历史隔离、原runner和断言；仅逐块移植仍缺地图去圈/卡面/详情/能量/Main原稿纠偏，旧7a合流树只作历史保全，不整笔cherry-pick。共享主题与新增严格逆向由单执行者维护，重Lua串行协调，当前不推送PR或合并。
+
+2026-10-28药水纠偏：在dot独立云树线性接续1f260a7，原子叠加Map共享empty/filled/fire/selected壳体与Main真实状态刷新，保留官方瓶ID及主线安全保护。逐字段主题合并、真实Lua/render及历史精确逆向重验；不推送，等待独立视觉审查；不把离线代显或旧绿灯当还原/设备通过。
+
+2026-10-28发布续接：按用户已授权提交PR要求，将批准稿UI六提交线性接续PR307（0763d2e），保全原UI/历史哈希；仅提交本功能分支的单个Draft PR，以精确head托管Full Quality/inventory完成全量验证。本地两次完整check均因执行会话中断无结论，不再第三次重跑；不改AC/Done，不代替官方导入/ready及PC/实体手机验收。PR310/311/312重叠由主线程协调顺序。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -92,4 +98,20 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 最终集成68d25c77的完整计划和历史记录已与最新两幕范围合流，双方原始任务快照保存在docs/reviews/ui-merge-task-history-20261028.json.gz；逐屏要求/控件/实现/测试见docs/reviews/UI-FINAL-ACCEPTANCE-20261028.md。保留新菜单、只读地图、三意图、状态角标、输入保护和RGB导出修复。最小原生3项/构建/语法/架构通过；完整CI、原生预览和手机仍未全验。
 
 合后CI收尾：保留战斗线程晚到两笔测试/候选交接；修renderEnemies33、退出前景17/16超过原门禁的问题，各helper仍受10/15原上限。Luacheck73条明确历史诊断/零新增，432项职责度量通过；原生控件、选角、牌库、退出定向13/13过。静态基线11个过时项与23个移行均有逐条源文证据，未放宽预算。全量CI和历史source/trace迁移仍不声称通过，设备未验。
+
+本轮53fa隔离合流已完成地图去圈、卡面两批、详情A/能量的逐块源码合成；卡面26路径冻结hash一致。保留PR302提示/意图安全修复、遗物索引、原runner和26源gzip原字节，新增15路径精确逆向恢复53fa。新层/原53case+6seed元数据7项及纯JS布局35项通过；data/UI/theme构建、220模块/1259边架构和JS语法通过。独立只读接层审查无严重问题，实际临时新增文件删除补强2项通过。Main未交、完整Lua/完整Quality/官方导入/设备验收均未获本轮证据；状态/负责人/AC不改，不推送。
+
+2026-10-28 dot 隔离UI合流阶段：53fa基线已逐字段合地图三批、卡面两批、详情/能量/Main，58源精确逆向保留旧26源/全部golden/原预算。最终53case+6seed、Main/详情/能量15项、相邻详情19入口、3逐写trace、38地图组、5完整host均实测通过。当前为离线候选，完整托管Quality/inventory与同候选官方导入/ready/设备UI验收未完成；未推送/PR/合并。fresh远端1f260a7(PR305)仅治理路径、与UI零重叠，待根线程决定基线吸收。Owner/状态/AC不改；证据docs/reviews/APPROVED-UI-CURRENT-INTEGRATION-20261028.md。
+
+2026-10-28药水新纠偏源：原子接入空/普通/火焰/真实选择态及Main失效owner先退役；保留官方瓶ID。独立评审修正单小亮斑为原稿端点插值的双内切soft-disc；可移植原HTML whole-face离线模型先红后绿，新源短测9/9、精确58源逆向6/6、架构221/1265、73条历史诊断/原复杂度预算通过。Battle3283/Game10411节点仅静态计数，不是手机性能证据。原阶段27 Lua文件（原53case/6seed、5host、11target、38map组）均通过，明确不冒充新梯度源完整门禁。随后串行完整npm run check；不推送，待root最终diff审查。docs/reviews/potion-shell-integration-20261028/README.md；视觉/官方导入/ready/设备/完整Quality仍缺，AC不勾。
+
+2026-10-28 16:59 UTC：rebase后便携CI合同12/12、最终药水/Main/Map及inverse入口11/11、完整inverse6/6；网络/语法/221模块1265边架构/73条旧静态诊断及原复杂度门槛通过，25个冻结源和历史哈希不变。一次CI短测14通过1失败已定位为云缺pwsh（spawnSync ENOENT），不安装、不跳过，交托管真实执行。d6a0881两次完整check分别16:37与16:42启动均无终态，重试最后heartbeat16:54:23且16:59:19锁FREE，不算PASS或代码FAIL。完整原日志、同状态离线壳体对照与产品未测边界见docs/reviews/approved-ui-publication-20261028/。本条只记进度，不勾整体验收，不代表已推送/CI通过。
+
+2026-10-28 PR313续接PR310：保留真实Node根入口与10拆分模块，批准视觉仅移faces；新增精确完整源逆向与写前负例，不改原58/26档案、golden、runner及预算。旧新9个Node夹具输出SHA一致，原3逐写通过；最终原生21项、live action8/target7及新增ownership9/Curl/duplication定向通过，便携架构231/1297、60旧诊断/625测量通过。完整历史组合曾20/21，仅错误文本regex已补回并单项重验，不伪报全绿。仅准备更新同Draft PR并等待新精确HEAD完整Quality/inventory；无第三次本地全量、无官方导入/ready/设备或性能证据，状态/负责人/AC不改。证据docs/reviews/approved-ui-publication-20261028/PR313-NODE-INTEGRATION.md。
+
+2026-10-28 19:00 UTC：PR313精确7a4910b托管inventory/presentation已绿，POSIX4绿，POSIX1发现唯一frozen glyph theme接层漏识别；先从与旧4211字节相同的不可变fixture/原formal位置hunk独立证明f88fac及992e，再只在theme路径接回这两个旧身份。系统只读审计确认无其他直接frozen旁支；新正链/单字节漂移/错path和原live根/faces写前拒绝通过，相关28项/JS语法绿。其余矩阵仍运行，待收齐后同PR一次推修复并重验当前SHA完整Quality，不豁免业务红灯，不改整体AC/Done。
+
+2026-10-28 19:11 UTC：继续收当前7a4910b真实CI失败。rules8 Drag旧oracle将raw变换分数坐标与实际target中心强行逐位等同；最小探针证明stale前后各自坐标不变。迁为严格比较真实reticle/目标ID前后，保留原gesture/preview/energy/hand并加完整core图快照，原30s整组10/10（16.746s），root独立读diff认可。rules1 class_choices原30s最后第10组超时，同源26.590s无足够托管余量；复用既有机械拆片1–5/6–10，原8973字节整body/seed/assert及Gitblob精确可重建，runner/30s不变，raw/JS/CI唯一发现合同先红后绿2/2，两片原30s各5组实测11.357/13.425s，CASE1..10各一次，root独立逐文件认可。完整矩阵尚未终态，先收齐再更新同PR并重验精确head；不勾整体AC/Done。
+
+2026-10-28 19:23 UTC：当前7a4910b最后补读rules4唯一potion_belt_ui旧help可见假设，迁真实瓶长按/独立4与5槽potionId+标题/详情关闭+菜单Use；保留容量/补位/库存/能量+2/Strength2/商店奖励全部原断言，最终5组13.206s。targeting_help旧隐藏控件假可达先加visibility断言实测红，再真实瓶长按，原文案/完整快照/target/S13/P12保留，最终3组9.867s。系统扫描无其它Use/旧enemyRow实时输入漏项；已授权的remaining/flex_speed/sustained三可见性盲点只保留原隐藏存储和可信core设置，新增真实可见长按信息检查，原6/2/3组9.799/3.899/5.034s通过。扫描到此停止扩范围；不改生产/runner/golden/预算，等待当前矩阵终态后同PR一次push并重验精确head全量Quality。
 <!-- SECTION:NOTES:END -->

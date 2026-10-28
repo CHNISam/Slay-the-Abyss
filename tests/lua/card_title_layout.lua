@@ -1,3 +1,4 @@
+local function plainCardTitle(text)return (text:gsub('<color=#[%x]+>',''):gsub('</color>',''))end
 -- Conservative native glyph budgets; this is not an in-client visual acceptance.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local D,T,P,E,Run,Data=require('abyss_card_display'),require('abyss_theme'),require('abyss_character_presentation'),require('abyss_presentation'),require('abyss_run'),require('abyss_data')
@@ -25,8 +26,9 @@ for _,class in ipairs({'ironclad','silent','defect','watcher','hutao','arlecchin
   if marker~='' then assert(upgraded and expected[card.id] and text==name and marker=='＋',card.id);moved=moved+1 end
   local control,kind={},{}
   assert(D.writeTitle(control,name,upgraded,count,kind,'技能'))
-  assert(control.text==text and control.fontSize==font and control.adaptiveFontSize==false)
-  assert(kind.text=='技能'..(marker~='' and ' '..marker or ''),'upgrade marker did not reach existing type line: '..card.id)
+  assert(plainCardTitle(control.text)==text and control.fontSize==font and control.adaptiveFontSize==false)
+  assert(plainCardTitle(kind.text)=='技能'..(marker~='' and ' '..marker or ''),'upgrade marker did not reach existing type line: '..card.id)
+  if upgraded then assert((control.text..kind.text):find('<color=#8DE08A>'..suffix..'</color>',1,true),'only the upgrade marker is green')end
   total=total+1
  end end
 end

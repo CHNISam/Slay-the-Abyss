@@ -115,7 +115,7 @@ function M.new(controller, ui)
         if not offer then return end
         local availability = offerState(offer)
         fillCard(box, offer.id, offer.upgraded==true, { dim = offer.sold or availability.poor or offer.unavailable,
-            veil = offer.sold, stamp = cardStamp(offer), selected = selection:isSelected('shopView/card' .. i) })
+            veil = offer.sold, stamp = cardStamp(offer), reason = cardStamp(offer) or availability.poor and '金币不足' or nil, selected = selection:isSelected('shopView/card' .. i) })
         if offer.unavailable then writeMissingCard(box, offer) end
         fillPrice(price, offer.price, availability.price)
         if offer.sale and not offer.sold and not offer.unavailable then

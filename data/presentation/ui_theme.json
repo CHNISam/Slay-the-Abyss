@@ -119,6 +119,53 @@
         "treasure": "#F0BC72",
         "boss": "#E8836C"
       }
+    },
+    "mapHeader": {
+      "shade": "#070303",
+      "border": "#6E5A42",
+      "title": "#E9C77B",
+      "ink": "#BBAA8C",
+      "menuNormal": {
+        "fill": "#241B19",
+        "ink": "#BBAA8C",
+        "border": "#6E5A42"
+      },
+      "menuHover": {
+        "fill": "#3A2E28",
+        "ink": "#F6DFA4",
+        "border": "#E9C77B"
+      },
+      "menuPressed": {
+        "fill": "#170F0E",
+        "ink": "#F3ECDD",
+        "border": "#E9C77B"
+      }
+    },
+    "potionShell": {
+      "empty": {
+        "face": "#1A131280",
+        "border": "#6E5A42"
+      },
+      "base": "#221A17",
+      "normal": {
+        "border": "#8C7454",
+        "light": "#3A2E28",
+        "ink": "#8CC4E2",
+        "base": "#2C231E",
+        "mid": "#312722"
+      },
+      "fire": {
+        "border": "#8A4A3A",
+        "light": "#4A2C24",
+        "ink": "#EE9670",
+        "base": "#33221D",
+        "mid": "#3B251F"
+      },
+      "selected": {
+        "border": "#F6DFA4",
+        "spread": "#E9C77B33",
+        "glow": "#E9C77B66"
+      }
     }
   },
   "font": {
@@ -128,10 +175,10 @@
     "body": 18,
     "label": 16,
     "card": 15,
-    "cardName": 17,
+    "cardName": 14,
     "small": 14,
     "number": 22,
-    "cost": 24,
+    "cost": 17,
     "numberLarge": 34,
     "minimum": 14
   },
@@ -630,25 +677,26 @@
     "battlePotions": {
       "count": 5,
       "origin": [
-        -480,
-        268
+        -381.3333333333333,
+        328.0
       ],
       "step": [
-        180,
+        41.333333333333336,
         0
       ],
       "size": [
-        116,
-        44
+        34.666666666666664,
+        34.666666666666664
       ],
       "helpOffset": [
-        84,
+        0,
         0
       ],
       "helpSize": [
         44,
         44
-      ]
+      ],
+      "bottleSize": 16.0
     },
     "potionDiscard": {
       "columns": [
@@ -669,45 +717,56 @@
         -116,
         576,
         48
-      ]
+      ],
+      "entryVisual": {
+        "size": [
+          34.667,
+          34.667
+        ],
+        "border": 1,
+        "origin": -82.666,
+        "step": 41.333,
+        "bottleSize": 16
+      }
     },
     "battleNotice": {
       "position": [
         0,
-        228
+        -124
       ],
       "size": [
-        1080,
-        32
-      ]
+        880,
+        40
+      ],
+      "bandTop": -106.66666666666669
     },
     "topBar": {
-      "height": 48,
-      "y": 316,
+      "height": 42.666666666666664,
+      "y": 328,
       "note": "左侧按扫视顺序 生命 → 金币 → 消耗；右端 408..600 留给共用的卡组/退出按钮行。",
       "hpIcon": [
-        -570,
-        28
+        -597.3333333333334,
+        16.0
       ],
       "hp": [
-        -505,
-        100
+        -551,
+        68
       ],
       "goldIcon": [
-        -420,
-        28
+        -491,
+        12.0
       ],
       "gold": [
-        -376,
-        52
+        -463,
+        36
       ],
       "exhaustIcon": [
-        -330,
-        28
+        370,
+        20
       ],
       "exhaust": [
-        -292,
-        44
+        394,
+        24
       ]
     },
     "pileBadge": {
@@ -736,17 +795,25 @@
         132,
         92
       ],
-      "costDisc": 40,
+      "costDisc": 30,
       "trim": {
         "shadow": 3,
-        "costOverhang": 4,
-        "costRing": 4,
+        "costOverhang": 5,
+        "costRing": 3,
         "keyline": 1,
         "typeTag": [
           60,
           16
         ]
-      }
+      },
+      "title": {
+        "position": [
+          0,
+          86
+        ],
+        "width": 100
+      },
+      "artIcon": 40
     },
     "hand": {
       "y": -250,
@@ -813,10 +880,26 @@
     },
     "energy": {
       "position": [
-        -548,
-        -196
+        -534.6666666666666,
+        -216.0
       ],
-      "size": 88
+      "size": 88,
+      "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
+      "rim": 2,
+      "faceInset": 6,
+      "elementInset": 10,
+      "numberSize": 29.333333333333332,
+      "shadowOffset": [
+        0,
+        -1.3333333333333333
+      ],
+      "rimColour": "#8A6A40",
+      "shellColour": "#2A1C12",
+      "faceColour": "#8E5A1E",
+      "lightColour": "#F6D38E",
+      "elementColour": "#4A2C0E",
+      "numberColour": "#FFF8EC",
+      "shadowColour": "#3A1E06"
     },
     "drawPile": {
       "position": [
@@ -840,40 +923,61 @@
     },
     "endTurn": {
       "position": [
-        512,
-        -206
+        509.33333333333326,
+        -232.0
       ],
       "size": [
-        176,
-        60
-      ]
+        186.66666666666666,
+        50.666666666666664
+      ],
+      "wedge": 14.933333333333335,
+      "innerInset": [
+        2.0,
+        1.3333333333333333
+      ],
+      "faceInset": [
+        4.666666666666667,
+        3.3333333333333335
+      ],
+      "numberSize": 18.0,
+      "rimColour": "#C9964E",
+      "innerColour": "#1A110C",
+      "faceColour": "#5E3C22",
+      "textColour": "#F7EBD6"
     },
     "player": {
       "position": [
-        -380,
-        64
+        -353.3333333333333,
+        76.66666666666669
       ],
-      "portrait": 132
+      "portrait": 133.33333333333334
     },
     "enemyRow": {
       "y": 64,
-      "xFrom": 100,
-      "xFromFew": 100,
+      "xFrom": 89.33333333333337,
+      "xFromFew": 89.33333333333337,
       "fewCount": 3,
-      "xTo": 500,
+      "xTo": 537.3333333333333,
       "frontOffset": -44,
       "backOffset": 36,
-      "crowdPortrait": 84,
-      "portrait": 120,
-      "bossPortrait": 168
+      "crowdPortrait": 123.33333333333333,
+      "portrait": 126.66666666666667,
+      "bossPortrait": 173.33333333333334,
+      "zoneLeft": 33.33333333333337,
+      "zoneRight": 593.3333333333333,
+      "frontTop": 160.0,
+      "backTop": 240.0,
+      "sourceScale": 1.5,
+      "frontSourceSize": 190,
+      "backScale": 0.86
     },
     "nativeText": {
       "lineHeight": 40
     },
     "hpBar": {
       "size": [
-        156,
-        16
+        106.66666666666667,
+        12.0
       ]
     },
     "blockBadge": {
@@ -882,8 +986,8 @@
       "padding": 4
     },
     "statusIcon": {
-      "size": 26,
-      "gap": 4,
+      "size": 21.333333333333332,
+      "gap": 5.333333333333333,
       "minimumTouch": 44,
       "perRow": 5,
       "rows": 2
@@ -910,11 +1014,13 @@
       "delay": 0.35
     },
     "intent": {
-      "size": 40,
+      "size": 38.666666666666664,
       "offsetY": 104,
       "badge": 22,
       "valueWidth": 64,
-      "note": "攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。"
+      "note": "攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。",
+      "portraitGap": 10.666666666666666,
+      "numberSize": 14.666666666666666
     },
     "map": {
       "floorGap": 76,
@@ -987,7 +1093,34 @@
         "takenOpacity": 0.85,
         "nextOpacity": 0.7,
         "fogOpacity": 0.35,
-        "noticeHeight": 40
+        "noticeHeight": 40,
+        "header": {
+          "shade": [
+            0,
+            330,
+            1280,
+            60
+          ],
+          "shadeOpacity": 0.75,
+          "divider": [
+            0,
+            296,
+            1200,
+            1
+          ],
+          "titleLineLeft": [
+            -160,
+            316,
+            30,
+            1
+          ],
+          "titleLineRight": [
+            160,
+            316,
+            30,
+            1
+          ]
+        }
       }
     },
     "modal": {
@@ -998,9 +1131,9 @@
     },
     "deckView": {
       "entry": [
-        452,
+        512,
         316,
-        88,
+        80,
         48
       ],
       "title": [
@@ -1056,7 +1189,26 @@
         -316,
         640,
         40
-      ]
+      ],
+      "entryVisual": {
+        "size": [
+          66.667,
+          34.667
+        ],
+        "border": 1,
+        "icon": [
+          -12,
+          0,
+          16,
+          16
+        ],
+        "count": [
+          12,
+          0,
+          24,
+          32
+        ]
+      }
     },
     "button": {
       "primary": [
@@ -1145,9 +1297,9 @@
       ],
       "return": [
         -522,
-        -60,
+        -296,
         148,
-        52
+        44
       ],
       "potionLabel": [
         0,
@@ -1421,33 +1573,33 @@
           40
         ],
         "hpIcon": [
-          -570,
+          -590,
           316,
-          28,
-          28
+          20,
+          20
         ],
         "hp": [
-          -505,
+          -540,
           316,
-          100,
+          64,
           40
         ],
         "goldIcon": [
-          -430,
+          -482,
           316,
-          28,
-          28
+          18,
+          18
         ],
         "gold": [
-          -385,
+          -450,
           316,
-          60,
+          44,
           40
         ],
         "potions": [
-          -260,
+          -298.667,
           316,
-          130,
+          200,
           40
         ],
         "relics": [
@@ -1947,9 +2099,9 @@
     "exitMenu": {
       "note": "全页面及牌库上方的常驻退出入口；确认后结束本局并走平台结算。局内存档需创作者 4 级，未开放前在确认框用一行小字说明。",
       "entry": [
-        552,
+        576,
         316,
-        96,
+        48,
         48
       ],
       "panel": [
@@ -2004,7 +2156,14 @@
         4,
         544,
         40
-      ]
+      ],
+      "entryVisual": {
+        "diameter": 36,
+        "border": 1,
+        "lineWidth": 14,
+        "lineHeight": 1,
+        "lineStep": 4
+      }
     },
     "nativeMenu": {
       "note": "主菜单与通关/失败结算，按批准稿 win.png 的徽记、大标题、四格统计、双按钮构图落地；坐标以舞台中心为原点。动效只改位置与缩放，不改可见性或输入。",
@@ -2674,12 +2833,42 @@
       "pageCharacters": 20
     },
     "runMenu": {
-      "panel": [490, 210, 220, 244],
-      "map": [490, 286, 196, 48],
-      "help": [490, 234, 196, 48],
-      "resume": [490, 182, 196, 48],
-      "abandon": [490, 122, 196, 48],
-      "mapBack": [548, 316, 104, 44]
+      "panel": [
+        490,
+        210,
+        220,
+        244
+      ],
+      "map": [
+        490,
+        286,
+        196,
+        48
+      ],
+      "help": [
+        490,
+        234,
+        196,
+        48
+      ],
+      "resume": [
+        490,
+        182,
+        196,
+        48
+      ],
+      "abandon": [
+        490,
+        122,
+        196,
+        48
+      ],
+      "mapBack": [
+        -522,
+        -296,
+        148,
+        44
+      ]
     },
     "nativeGuide": {
       "panel": [
@@ -2743,6 +2932,44 @@
         36,
         36
       ]
+    },
+    "battleUnit": {
+      "nameGap": 9.333333333333334,
+      "nameLine": 17.0,
+      "healthGap": 5.333333333333333,
+      "healthRow": 22.666666666666668,
+      "statusGap": 6.666666666666667,
+      "heroFoot": 16.666666666666668,
+      "heroNameGap": 6.666666666666667,
+      "heroNameLine": 18.0,
+      "heroHealthGap": 6.666666666666667,
+      "heroHealthWidth": 146.66666666666666,
+      "nameWidth": 173.33333333333334,
+      "badgeOffset": [
+        12.0,
+        -12.0
+      ]
+    },
+    "potionPopup": {
+      "width": 226.66666666666666,
+      "top": 298.6666666666667,
+      "padding": 12.0,
+      "header": 20,
+      "line": 18,
+      "gap": 9.333333333333334,
+      "actionHeight": 26.666666666666668,
+      "buttonGap": 10.666666666666666,
+      "targetWidth": 92,
+      "font": 14,
+      "minimumHeight": 98.33333333333333
+    },
+    "potionShell": {
+      "border": 1,
+      "focusY": 0.15,
+      "dashBorderRatio": 3,
+      "spread": 2.6666666666666665,
+      "blur": 14.666666666666666,
+      "fittedFocusY": 0.12195244297620399
     }
   },
   "cardSkin": {
@@ -2809,6 +3036,35 @@
         "#2E1F1C",
         "#9A7268"
       ]
+    },
+    "text": {
+      "title": "#FFFFFF",
+      "upgrade": "#8DE08A"
+    },
+    "costTone": {
+      "down": "#8DE08A",
+      "up": "#EF7672"
+    },
+    "blocked": {
+      "veil": "#08090C80",
+      "body": "#0D0E12",
+      "edge": "#EF7672",
+      "text": "#FF9A94",
+      "inset": 3,
+      "radius": 4.5,
+      "pill": [
+        142,
+        16
+      ],
+      "pillY": 18,
+      "pillRadius": 8,
+      "stroke": 0.75,
+      "lock": [
+        7,
+        8
+      ],
+      "gap": 4,
+      "padding": 7
     }
   }
 }

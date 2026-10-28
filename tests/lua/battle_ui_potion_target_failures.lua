@@ -11,7 +11,7 @@ test('presentation preparation failure cannot consume bottle and requires fresh 
   local h,u,p,r,e,click=setup();local b=h.run.combat;local a,z=b.enemies[1].hp,b.enemies[2].hp
   click('potion1');local render=u.render;u.render=function()error('TARGET_PREPARE_FAILURE')end
   local ok=e('enemy2','click');u.render=render;eq(ok,false);untouched(h,a,z);eq(u.potionAim,nil);assert(not u.busy)
-  click('enemy2');untouched(h,a,z);click('potion1');click('enemy2');eq(b.enemies[2].hp,z-20)
+  click('enemy2');untouched(h,a,z);assert(u.info);p:GetChild('statusInfo'):GetChild('hit').click();click('potion1');click('enemy2');eq(b.enemies[2].hp,z-20)
 end)
 test('end-turn release predating bottle cannot execute through newer pending mode',function()
   local h,u,p,r,e,click,tap=setup(true);e('endTurn','down',6);e('endTurn','up',6);tap('potion1',7)

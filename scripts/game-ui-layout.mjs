@@ -26,9 +26,19 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       item.size = theme.layout.nativeNode.topBar.title.slice(2);
     }
   }
+  // Conditional map return actions stay secondary to the route, not large panels.
+  // Reuse the existing official back glyph; no route or reward binding changes.
+  const mapReturn = (name, values, label) => {
+    const action = button(name, values, label, { inset: [space.s, space.s],
+      fontSize: font.label, colour: color.mapHeader.ink, fill: '#00000000' });
+    const textLabel = action.children.find(item => item.name === 'label');
+    textLabel.position = [space.m, 0]; textLabel.size = [values[2] - space.xl, values[3]];
+    action.children.splice(1, 0, { name: 'backIcon', kind: 'image', position: [-values[2] / 2 + space.s, 0],
+      size: [font.label, font.label], image: theme.icon.back, colour: color.mapHeader.ink });
+    return { ...action, visible: false };
+  };
   // Route choices need the same resources as room decisions, before entering a shop.
-  mapPanel.children.push({ ...button('previewBack', theme.layout.runMenu.mapBack, '返回菜单', {
-    inset: [space.s, space.s], fontSize: font.label, border: color.goldDim }), visible: false });
+  mapPanel.children.push(mapReturn('previewBack', theme.layout.runMenu.mapBack, '返回菜单'));
   const bar = theme.layout.nativeNode.topBar;
   const resourceIcon = (name, values, entry, colour) => ({ name, kind: 'image',
     position: values.slice(0, 2), size: values.slice(2),
@@ -63,8 +73,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     controls: [
       { name: 'battlePanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: battleControls },
       mapPanel,
-      { ...button('combatRewards', theme.layout.battleRewards.return, '返回战利品', {
-        inset: [space.s, space.s], fontSize: font.label, border: color.goldDim }), visible: false },
+      mapReturn('combatRewards', theme.layout.battleRewards.return, '返回战利品'),
       ...nodeLayout(theme).controls.map(control => ({ ...control, visible: false, children: control.children.map(child =>
         child.name === 'title' ? { ...child, size: [theme.layout.nativeNode.topBar.title[2], child.size[1]] }
           : child.name === 'notice' ? { ...child, position: theme.layout.exitMenu.nodeNotice.slice(0, 2),
