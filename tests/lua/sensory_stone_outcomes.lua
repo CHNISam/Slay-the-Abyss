@@ -28,11 +28,11 @@ end
 for _,id in ipairs({'question_card','busted_crown','toxic_egg','molten_egg','frozen_egg','singing_bowl','lizard_tail'})do
  local r,m,n=F.fixture();if id=='lizard_tail'then assert(Run.obtainRelic(r,id))else r.relics[#r.relics+1]=id end
  assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'));local before=F.C.copy(r)
- if id=='toxic_egg'then
+ if id=='toxic_egg'or id=='molten_egg'then
   assert(Nodes.chooseEvent(r,'two'));F.eq(r.hp,75)
   for _,g in ipairs(r.nodeFlow.event.rewards)do for _,c in ipairs(g.cards)do
    local d;for _,v in ipairs(r.data.cards.cards)do if v.id==c.cardId then d=v end end
-   F.eq(c.upgraded,d.type=='skill'and next(d.upgrade or{})~=nil)
+   F.eq(c.upgraded,d.type==(id=='toxic_egg'and 'skill'or 'attack')and next(d.upgrade or{})~=nil)
   end end
  elseif id=='lizard_tail'then
   assert(Nodes.chooseEvent(r,'two'));F.eq(r.hp,75);F.eq(before.relicCounters.lizard_tail,-1);F.eq(r.relicCounters.lizard_tail,-1)

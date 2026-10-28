@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 54,
-    "queueMissing": 87,
-    "act1Missing": 93,
-    "registeredLocalEffects": 50,
+    "existingLocalEffects": 55,
+    "queueMissing": 86,
+    "act1Missing": 92,
+    "registeredLocalEffects": 51,
     "fallbackLocalEffects": 1,
     "classLocalEffects": 3
   },
@@ -2543,8 +2543,8 @@
         "onObtainCard",
         "canSpawn"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "molten_egg",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/MoltenEgg2.java",
       "unlockSource": null
     },

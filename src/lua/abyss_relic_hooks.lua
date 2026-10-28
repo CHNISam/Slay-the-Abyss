@@ -15,7 +15,7 @@ local aliases={NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_per
  PreservedInsect='preserved_insect',['Red Skull']='red_skull',['Centennial Puzzle']='centennial_puzzle',
  ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
  WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod',
- ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg',['Snake Skull']='snake_skull',DataDisk='data_disk',Damaru='damaru',['Mark of the Bloom']='mark_of_bloom',['Lizard Tail']='lizard_tail'}
+ ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg',['Molten Egg 2']='molten_egg',['Snake Skull']='snake_skull',DataDisk='data_disk',Damaru='damaru',['Mark of the Bloom']='mark_of_bloom',['Lizard Tail']='lizard_tail'}
 function M.localId(id)return aliases[id] or id end
 function M.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
@@ -87,8 +87,8 @@ function M.onEquip(run,id,upgradeApi)
   assert(integer(run.maxHp) and run.maxHp+7<=2147483647,'invalid max health')
   run.maxHp=run.maxHp+7;healRun(run,7)
  elseif id=='whetstone' or id=='war_paint' then equipmentUpgrade(run,id,upgradeApi)
- elseif id=='toxic_egg' then
-  -- ToxicEgg2.onEquip visits CombatRewardScreen.rewards only. Dream Catcher
+ elseif id=='toxic_egg' or id=='molten_egg' then
+  -- ToxicEgg2/MoltenEgg2.onEquip visit CombatRewardScreen.rewards only. Dream Catcher
   -- opens CardRewardScreen directly; neither it nor old shop shelves belongs here.
   if run.phase=='reward' and run.rewards and not run.rewards.cardResolved then M.previewCardReward(run,run.rewards)end
   local event=run.nodeFlow and run.nodeFlow.event
@@ -158,9 +158,10 @@ function M.beforeObtainCard(run,definition)
  end
  return true
 end
-local function eggUpgrade(card,definition)
+local eggTypes={toxic_egg='skill',molten_egg='attack'}
+local function eggUpgrade(card,definition,kind)
  assert(type(definition)=='table','missing permanent card definition')
- if definition.type=='skill' and not card.upgraded and type(definition.upgrade)=='table' and next(definition.upgrade)then
+ if definition.type==kind and not card.upgraded and type(definition.upgrade)=='table' and next(definition.upgrade)then
   card.upgrades=(card.upgrades or 0)+1;card.upgraded=true
  end
 end
@@ -168,11 +169,12 @@ end
 -- master-deck callback or random consumption. Mutate only the private offer.
 function M.onPreviewObtainCard(run,card,definition)
  for _,id in ipairs(run.relics or {})do
-  if M.localId(id)=='toxic_egg' then eggUpgrade(card,definition)end
+  local kind=eggTypes[M.localId(id)]
+  if kind then eggUpgrade(card,definition,kind)end
  end
 end
 function M.previewCardReward(run,reward,skipUpgraded)
- if not M.owns(run,'toxic_egg')then return end
+ if not M.owns(run,'toxic_egg')and not M.owns(run,'molten_egg')then return end
  for i,value in ipairs(reward.cards or {})do
   local card=type(value)=='table' and value or {cardId=value,upgraded=reward.cardUpgrades and reward.cardUpgrades[i]==true}
   local definition
@@ -202,7 +204,7 @@ function M.onObtainCard(run,card,definition,permanentApi)
    assert(permanentApi and type(permanentApi.increaseMaxHp)=='function','missing permanent health API')
    local ok,why=permanentApi.increaseMaxHp(run,6)
    if not ok then return false,why end
-  elseif M.localId(id)=='toxic_egg' then eggUpgrade(card,definition)
+  elseif eggTypes[M.localId(id)] then eggUpgrade(card,definition,eggTypes[M.localId(id)])
   end
  end
  return true

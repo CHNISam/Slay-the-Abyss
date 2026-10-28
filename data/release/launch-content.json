@@ -3658,7 +3658,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Toxic Egg now previews and obtains real upgraded Skills in every reward group. Held unimplemented Question/Crown/Molten Egg/Frozen Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
+      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Toxic Egg now previews and obtains real upgraded Skills in every reward group. Molten Egg now previews and obtains real upgraded Attacks. Held unimplemented Question/Crown/Frozen Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
     },
     {
       "id": "tomb_red_mask",
@@ -4288,6 +4288,19 @@
       ],
       "naturalAcquisitionLimitation": "Seed8 actual Big Fish box selects Toxic Egg from the untouched complete source event relic queue, then equips it and obtains the real curse. Existing ordinary treasure and shop still use their explicitly restricted supported candidate sets; this slice does not certify their original full-pool distributions. Both enforce this relic's non-Endless floor48 maximum.",
       "naturalExecutionLimitation": "Permanent Skill acquire and source-defined reward/shop preview upgrade once without RNG. Existing deck, shop shelves and direct Dream Catcher offers are not upgraded on equipment. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
+    },
+    {
+      "id": "molten_egg",
+      "sourceId": "Molten Egg 2",
+      "source": "data/relics.json#molten_egg",
+      "profile": "relics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Complete source relic queues preserve Molten Egg identity and non-Endless floor48 maximum. Controlled queue checkpoints verify shop and treasure ownership; complete natural campaign acquisition remains pending.",
+      "naturalExecutionLimitation": "Permanent Attack acquire and source-defined reward/shop preview upgrade once without RNG. Existing deck, shop shelves and direct Dream Catcher offers are not upgraded on equipment. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
     },
     {
       "id": "tungsten_rod",

@@ -144,7 +144,7 @@ test('unsupported original-V4/prepared source mapping and missing egg hooks stay
  assert(Nodes.enter(legacy,map,first.id));eq(legacy.data.runCardCatalog,nil)
  eq(Nodes.view(legacy,map).node.event.options[1].enabled,false);reject(legacy,'read',nil,'library_source_catalog_unavailable')
  assert(Nodes.chooseEvent(legacy,'sleep'))
- for _,egg in ipairs({'molten_egg','frozen_egg','Molten Egg 2','Frozen Egg 2'})do
+ for _,egg in ipairs({'frozen_egg','Frozen Egg 2'})do
   local e=H.fixture();e.relics={egg};reject(e,'read',nil,'event_obtain_content_unavailable');assert(Nodes.chooseEvent(e,'sleep'))
  end
 end)

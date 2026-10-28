@@ -1,0 +1,63 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "zipSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Molten Egg only; locally audited decompiled mirror, not authenticated PC binary or platform acceptance",
+  "files": {
+    "relics/MoltenEgg2.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MoltenEgg2.java",
+      "sha256": "415e68f17fd5fa4fb123344341c12adfa8318bc6a942c9c283f38341b035183f"
+    },
+    "dungeons/AbstractDungeon.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26"
+    },
+    "rewards/RewardItem.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/rewards/RewardItem.java",
+      "sha256": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859"
+    },
+    "vfx/cardManip/ShowCardAndObtainEffect.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java",
+      "sha256": "1daffc2b13c79a1ddb10fcce995cf18980e917a576dba6db3751dccffa892e52"
+    },
+    "shop/ShopScreen.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/shop/ShopScreen.java",
+      "sha256": "5637a90f12386df48a323969ddf0c17b06e0288884a1b124fa62994822853855"
+    },
+    "vfx/campfire/CampfireSleepEffect.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/campfire/CampfireSleepEffect.java",
+      "sha256": "3248d177249e8727ffeea57a16efdd027eacc83e32bc731bd693078045a6bfd9"
+    },
+    "events/beyond/SensoryStone.java": {
+      "member": "sts-319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/beyond/SensoryStone.java",
+      "sha256": "888b2ea6836850e5b04be7e1c24bfe188a161cebd3b868ce9f7a4b906aba0b61"
+    }
+  },
+  "contracts": {
+    "id": "Molten Egg 2",
+    "rarity": "uncommon",
+    "type": "attack",
+    "requiresCanUpgrade": true,
+    "requiresNotUpgraded": true,
+    "upgradeCount": 1,
+    "previewCallsOnlyThisRelicObtain": true,
+    "onEquipOwner": "combatRewardScreen.rewards.cards",
+    "onEquipDoesNotVisit": [
+      "masterDeck",
+      "shop",
+      "directDreamCatcherList",
+      "combatGeneration"
+    ],
+    "randomDraws": 0,
+    "maxSpawnFloor": 48,
+    "endlessBypass": true,
+    "ordinaryUpgradeRollPrecedesPreview": true,
+    "ordinarySuccessfulUpgradeSkipsPreview": true,
+    "colorlessPreviewOwner": "RewardItem(CardColor.COLORLESS)",
+    "shopPreview": [
+      "initial-colored",
+      "initial-colorless",
+      "courier-colored",
+      "courier-colorless"
+    ]
+  }
+}

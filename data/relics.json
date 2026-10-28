@@ -462,6 +462,15 @@
       "effects": []
     },
     {
+      "id": "molten_egg",
+      "sourceId": "Molten Egg 2",
+      "name": "熔火胎石",
+      "description": "每当你获得一张攻击牌时，将其升级。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
       "id": "tungsten_rod",
       "sourceId": "TungstenRod",
       "name": "钨钢短杖",

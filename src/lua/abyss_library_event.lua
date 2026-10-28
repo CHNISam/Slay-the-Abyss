@@ -23,7 +23,7 @@ local function dependencies(run)
  -- These preview/obtain hooks have not been implemented by their shared owner.
  -- Never silently show base cards or insert a manually upgraded preview instead.
  for _,id in ipairs(run.relics or {})do
-  if id=='molten_egg' or id=='Molten Egg 2' or id=='frozen_egg' or id=='Frozen Egg 2' then
+  if id=='frozen_egg' or id=='Frozen Egg 2' then
    return false,'event_obtain_content_unavailable'
   end
  end

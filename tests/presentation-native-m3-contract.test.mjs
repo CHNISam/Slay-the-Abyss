@@ -117,8 +117,13 @@ test('accepted native-art compatibility permits only its two complete identities
 
 // This inverse is test-only: no obsolete announcement control or module returns live.
 function preRetirementSource(path,source){
- const normalized=source.replaceAll('\r\n','\n');
+ let normalized=source.replaceAll('\r\n','\n');
  if(path==='data/presentation/ui_theme.json'){
+  // Only the exact new Molten placeholder is projected away; the immutable
+  // original digest still rejects any other byte, value or ordering change.
+  const molten=",\n      \"molten_egg\": {\n        \"id\": 102031,\n        \"placeholder\": true,\n        \"note\": \"暂沿用现有遗物图标；专属美术与设备验收待完成。\"\n      }";
+  assert.equal(normalized.split(molten).length,2,'one exact Molten Egg placeholder');
+  normalized=normalized.replace(molten,'');
   const theme=JSON.parse(normalized),old=JSON.parse(frozenSource(path));
   assert.equal(Object.hasOwn(theme.layout,'releaseNotes'),false,'announcement theme remains absent');
   assert.deepEqual(theme.layout.nativeMenu.codeVersion,old.layout.releaseNotes.menuVersion,'unchanged version geometry');
@@ -163,6 +168,8 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
   value=>{value.layout.nativeMenu.codeVersion[0]++;},
   value=>{delete value.layout.nativeMenu.codeVersion;},
   value=>{value.layout.releaseNotes=JSON.parse(frozenSource(path)).layout.releaseNotes;},
+  value=>{value.icon.relic.molten_egg.id++;},
+  value=>{delete value.icon.relic.molten_egg;},
   value=>{value.font.body++;},
   value=>{value.layout.nativeMenu.unreviewed=[0,0,1,1];},
  ];
@@ -173,6 +180,7 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
  const changedBody=source.replace('"body": 18','"body": 19');
  assert.notEqual(changedBody,source,'negative check changes the original font bytes without reformatting');
  assert.throws(()=>preRetirementSource(path,changedBody));
+ assert.throws(()=>preRetirementSource(path,source.replace('\"molten_egg\": {','\"molten_egg_unreviewed\": {')));
  assert.throws(()=>preRetirementSource(path,source+'\n'));
  const fixturePath='tests/lua/presentation_responsibilities_trace.lua';
  const fixture=readFileSync(fixturePath,'utf8').replaceAll('\r\n','\n');
