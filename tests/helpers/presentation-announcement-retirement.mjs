@@ -1,4 +1,5 @@
 import {preFormalEntrySource} from '../support/formal-entry-source-inverse.mjs';
+import {beforeCardSkin} from './card-skin-migration.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -10,6 +11,17 @@ assert.equal(digest(bytes),'0d31e4bb052cd578db29062e63708f739ff3e4719f75e50580b7
 export const retirementSources=JSON.parse(gunzipSync(bytes));
 assert.equal(retirementSources.base,'b9d071e5dd8a8ebb1c5d71b4f0b5671b30a44527');
 assert.equal(retirementSources.head,'d7fa6f219a1461cf2b461f03724fb00da79e621f');
+
+// The retired announcement replay consumes its immutable historical player copy,
+// not today's official-log draft. Live version/publication checks still read the
+// repository CHANGELOG; preRetirementSource keeps every supplied drift guard.
+export function archivedRetirementChangelog(source=retirementSources.beforeSources['CHANGELOG.md']){
+ assert.equal(typeof source,'string','archived retirement CHANGELOG exists');
+ const normalized=source.replaceAll('\r\n','\n');
+ assert.equal(digest(normalized),'c906c8ea3cad9b9c282d89c332cbedab3cdee4279220547b5abea800456e57a5',
+  'unreviewed archived retirement source drift: CHANGELOG.md');
+ return normalized;
+}
 
 // Test-only historical replay. Deleted controls never return to the live build.
 // Complete identities are checked before projection; this is not a wildcard
@@ -31,6 +43,7 @@ export function preRetirementSource(path,source=existsSync(path)?readFileSync(pa
   assert.deepEqual({...expanded,relics:expanded.relics.filter(relic=>!added.has(relic.id))},old,'every prior relic and its order retained');
   return before;
  }
+ normalized=beforeCardSkin(path,normalized);
  if(!Object.hasOwn(retirementSources.beforeSources,path))return normalized;
  if(path==='src/lua/abyss_ui.lua'){
   // Historical replay only. The separate live OnStart fixture owns campaign

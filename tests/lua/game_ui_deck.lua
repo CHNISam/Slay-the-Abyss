@@ -40,13 +40,13 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     assert(grid.itemCount == 40 and grid.scrollProgress == 0)
     local first = grid.items[0]
     assert(not first:GetChild('hit').visible,'read-only deck must leave scroll gestures free')
-    assert(first:GetChild("uid").text == "UID " .. ui.run.deck[1].uid)
+    assert(ui.deckUI.bindings[first].uid == ui.run.deck[1].uid and first:GetChild("uid").text == "")
     local face = first:GetChild("face")
     local display = Presentation[ui.run.deck[1].cardId]
     assert(face:GetChild("name").text:gsub('\n',' ') == display.name .. "＋")
     assert(face:GetChild("label").text == display.upgradeText)
     local last = grid:recycle(0, 39)
-    assert(last == first and last:GetChild("uid").text == "UID 140")
+    assert(last == first and ui.deckUI.bindings[last].uid == 140 and last:GetChild("uid").text == "")
     assert(last:GetChild("face"):GetChild("label").text == display.upgradeText)
     assert(not ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     local scroll = ui.mapUI.scroll
@@ -74,18 +74,18 @@ test("grid discovers runtime index origin, including deferred callbacks, and reo
     assert(grid.itemCount == 1)
     grid:flush() ui:update(0) grid:flush()
     assert(grid.itemCount == #ui.run.deck)
-    assert(grid.items[0]:GetChild("uid").text == "UID " .. ui.run.deck[1].uid)
-    local oldUid = grid.items[1]:GetChild("uid").text
+    assert(ui.deckUI.bindings[grid.items[0]].uid == ui.run.deck[1].uid)
+    local oldUid = ui.deckUI.bindings[grid.items[1]].uid
     calibration(grid.items[1],1)
-    assert(not ui.deckUI.pending and grid.items[1]:GetChild("uid").text == oldUid)
+    assert(not ui.deckUI.pending and ui.deckUI.bindings[grid.items[1]].uid == oldUid)
     local stale = grid.refreshCallback
     assert(closeDeck(root))
     table.remove(ui.run.deck,1)
     assert(ui:openDeck()) grid:flush() ui:update(0) grid:flush()
     local card = grid.items[0]
-    local text = card:GetChild("uid").text
+    local uid = ui.deckUI.bindings[card].uid
     stale(card,1)
-    assert(card:GetChild("uid").text == text and text == "UID " .. ui.run.deck[1].uid)
+    assert(ui.deckUI.bindings[card].uid == uid and uid == ui.run.deck[1].uid)
     assert(not ui:openDeck(), "duplicate open must not reset the scroller")
     assert(closeDeck(root))
 end)

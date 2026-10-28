@@ -1,0 +1,138 @@
+[
+  {
+    "screen": "menu",
+    "clipped": []
+  },
+  {
+    "screen": "exit",
+    "clipped": []
+  },
+  {
+    "screen": "controls",
+    "clipped": []
+  },
+  {
+    "screen": "map-start",
+    "clipped": []
+  },
+  {
+    "screen": "deck",
+    "clipped": []
+  },
+  {
+    "screen": "rewards",
+    "clipped": []
+  },
+  {
+    "screen": "map-current",
+    "clipped": []
+  },
+  {
+    "screen": "shop-all",
+    "clipped": []
+  },
+  {
+    "screen": "shop-hover",
+    "clipped": []
+  },
+  {
+    "screen": "shop-touch",
+    "clipped": []
+  },
+  {
+    "screen": "chest-closed",
+    "clipped": []
+  },
+  {
+    "screen": "chest-shake",
+    "clipped": []
+  },
+  {
+    "screen": "chest-burst",
+    "clipped": []
+  },
+  {
+    "screen": "chest-rewards",
+    "clipped": []
+  },
+  {
+    "screen": "camp-new",
+    "clipped": []
+  },
+  {
+    "screen": "camp-heal",
+    "clipped": []
+  },
+  {
+    "screen": "camp-rest-result",
+    "clipped": []
+  },
+  {
+    "screen": "forge-grid",
+    "clipped": []
+  },
+  {
+    "screen": "forge-preview",
+    "clipped": []
+  },
+  {
+    "screen": "forge-impact",
+    "clipped": []
+  },
+  {
+    "screen": "forge-done",
+    "clipped": []
+  },
+  {
+    "screen": "shop",
+    "clipped": []
+  },
+  {
+    "screen": "shop-refused",
+    "clipped": []
+  },
+  {
+    "screen": "shop-remove",
+    "clipped": []
+  },
+  {
+    "screen": "shop-removed",
+    "clipped": []
+  },
+  {
+    "screen": "camp",
+    "clipped": []
+  },
+  {
+    "screen": "forge",
+    "clipped": []
+  },
+  {
+    "screen": "forge-result",
+    "clipped": []
+  },
+  {
+    "screen": "camp-rest",
+    "clipped": []
+  },
+  {
+    "screen": "event-cleric",
+    "clipped": []
+  },
+  {
+    "screen": "event-result",
+    "clipped": []
+  },
+  {
+    "screen": "event-purifier",
+    "clipped": []
+  },
+  {
+    "screen": "treasure",
+    "clipped": []
+  },
+  {
+    "screen": "treasure-open",
+    "clipped": []
+  }
+]

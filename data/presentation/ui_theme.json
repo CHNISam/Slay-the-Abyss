@@ -103,6 +103,22 @@
       "face": "#6A5644",
       "beard": "#CFC5B0",
       "lantern": "#F0B850"
+    },
+    "mapCanvas": {
+      "backdrop": "#0D0708",
+      "field": "#2A1013",
+      "fog": "#3A2A28",
+      "far": "#C2B29A",
+      "visited": "#7E6E5C",
+      "kind": {
+        "combat": "#C9C3B6",
+        "elite": "#E8836C",
+        "camp": "#E9C77B",
+        "shop": "#8CC4E2",
+        "event": "#BCB0E2",
+        "treasure": "#F0BC72",
+        "boss": "#E8836C"
+      }
     }
   },
   "font": {
@@ -923,7 +939,53 @@
         -316,
         1160,
         40
-      ]
+      ],
+      "presentation": {
+        "fog": [
+          [
+            -420,
+            100,
+            420,
+            440
+          ],
+          [
+            420,
+            100,
+            420,
+            440
+          ],
+          [
+            0,
+            260,
+            720,
+            100
+          ],
+          [
+            0,
+            -270,
+            720,
+            80
+          ]
+        ],
+        "tokenSize": 22,
+        "tokenOffset": [
+          -20,
+          -14
+        ],
+        "navigationX": 552,
+        "navigationY": [
+          56,
+          0,
+          -56
+        ],
+        "navigationSize": 48,
+        "pathWidth": 2,
+        "futureOpacity": 0.28,
+        "takenOpacity": 0.85,
+        "nextOpacity": 0.7,
+        "fogOpacity": 0.35,
+        "noticeHeight": 40
+      }
     },
     "modal": {
       "size": [
@@ -2560,6 +2622,135 @@
       "shake": 0.3,
       "shakeAmplitude": 5,
       "pageCharacters": 20
+    },
+    "nativeGuide": {
+      "panel": [
+        0,
+        0,
+        960,
+        584
+      ],
+      "title": [
+        0,
+        240,
+        820,
+        48
+      ],
+      "columns": [
+        -300,
+        0,
+        300
+      ],
+      "rows": [
+        124,
+        -42
+      ],
+      "tileSize": [
+        280,
+        148
+      ],
+      "tileTitle": [
+        22,
+        42,
+        204,
+        40
+      ],
+      "tileBody": [
+        0,
+        -30,
+        252,
+        80
+      ],
+      "close": [
+        0,
+        -242,
+        220,
+        52
+      ],
+      "entry": [
+        184,
+        92,
+        128,
+        48
+      ],
+      "footer": [
+        0,
+        -156,
+        880,
+        48
+      ],
+      "tileIcon": [
+        -104,
+        42,
+        36,
+        36
+      ]
+    }
+  },
+  "cardSkin": {
+    "rows": 20,
+    "bandSteps": 8,
+    "roles": {
+      "traveler": {
+        "accent": "#F2A93B",
+        "image": 100005
+      },
+      "HT": {
+        "accent": "#F58258",
+        "image": 104003
+      },
+      "AR": {
+        "accent": "#F06A74",
+        "image": 100004
+      },
+      "FR": {
+        "accent": "#6CCBF6",
+        "image": 106025
+      },
+      "RD": {
+        "accent": "#A87BFF",
+        "image": 100005
+      },
+      "colorless": {
+        "accent": "#D6D0C2",
+        "image": 100006
+      },
+      "curse": {
+        "accent": "#C9877A",
+        "image": 100004
+      }
+    },
+    "rarities": {
+      "basic": [
+        "#34363C",
+        "#24262B",
+        "#1A1B1F",
+        "#4E5159"
+      ],
+      "common": [
+        "#8C929D",
+        "#4E525B",
+        "#34373E",
+        "#C4CAD3"
+      ],
+      "uncommon": [
+        "#3F7FC6",
+        "#2E64A6",
+        "#1C3F6E",
+        "#7FB8F2"
+      ],
+      "rare": [
+        "#D4A54A",
+        "#B8862E",
+        "#7A5516",
+        "#F6D68C"
+      ],
+      "curse": [
+        "#6B4A44",
+        "#4A322E",
+        "#2E1F1C",
+        "#9A7268"
+      ]
     }
   }
 }

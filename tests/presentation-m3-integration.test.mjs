@@ -1,3 +1,4 @@
+import {cardSkinMigration} from './helpers/card-skin-migration.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
@@ -6,7 +7,7 @@ import {spawnSync} from 'node:child_process';
 import {runLua} from '../scripts/test-lua.mjs';
 import {integration as proof,acceptedPresentationSource,digest} from './helpers/presentation-m3-integration.mjs';
 
-import {retirementSources,preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
+import {retirementSources,preRetirementSource,archivedRetirementChangelog} from './helpers/presentation-announcement-retirement.mjs';
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
@@ -139,7 +140,7 @@ for(const [count,hash,sources]of [
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
     for(const path of Object.keys(formalEntryInverses))
       writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
-    for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
+    for(const [path,source]of Object.entries({...cardSkinMigration.beforeSources,...sources}))writeFileSync(join(directory,path),source);
     writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
       const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});
@@ -157,7 +158,9 @@ for(const [count,hash,sources]of [
 test('historical replay inputs bind every changed build, host and version source, including the deleted module',()=>{
  assert.deepEqual(retirementSources.trace,{before:[79757,1467902785],removed:68,after:[79689,2034622601]});
  for(const [path,before]of Object.entries(retirementSources.beforeSources)){
-  assert.equal(preRetirementSource(path),before);
+  // Only retired player copy comes from the archive; current UI/build/version
+  // inputs still pass the original exact-source drift guards below.
+  assert.equal(path==='CHANGELOG.md'?archivedRetirementChangelog():preRetirementSource(path),before);
   const live=existsSync(path)?readFileSync(path,'utf8'):'';
   assert.throws(()=>preRetirementSource(path,live+'\n-- unreviewed drift\n'),/unreviewed integrated retirement source drift/);
  }
@@ -191,4 +194,19 @@ test('Mushrooms NodeUI label inverse keeps the complete historical source and re
    source.replace(added,added.replace("name='蘑菇'","name='changed'")),source+'\n']){
   assert.notEqual(changed,source);assert.throws(()=>acceptedPresentationSource(path,changed),/unreviewed integrated presentation source drift/);
  }
+});
+
+test('historical announcement copy is independent of current player text but rejects archive tampering',()=>{
+ const historical=retirementSources.beforeSources['CHANGELOG.md'];
+ const current=readFileSync('CHANGELOG.md','utf8').replaceAll('\r\n','\n');
+ assert.notEqual(digest(current),retirementSources.afterSha256['CHANGELOG.md'],
+  'the current two-act player draft legitimately differs from retired announcement copy');
+ assert.equal(archivedRetirementChangelog(),historical);
+ assert.equal(archivedRetirementChangelog(historical.replaceAll('\n','\r\n')),historical);
+ for(const changed of [historical+'\n',historical.replace('v0.10.1','v0.10.2'),current]){
+  assert.notEqual(changed,historical,'negative check changes the archived input');
+  assert.throws(()=>archivedRetirementChangelog(changed),/unreviewed archived retirement source drift/);
+ }
+ assert.throws(()=>preRetirementSource('CHANGELOG.md',current),
+  /unreviewed integrated retirement source drift/,'explicit current-source drift remains rejected');
 });

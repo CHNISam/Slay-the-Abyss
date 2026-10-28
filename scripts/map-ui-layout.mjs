@@ -15,7 +15,7 @@ export function mapGeometry(theme = loadMapTheme()) {
     maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -128,
     scrollStep: floorGap * theme.layout.map.scrollStepFloors, scrollSeconds: theme.motion.base,
     breathSeconds: 1.4, breathScale: 1.1,
-    glowPadding: 12, lineWidth: 4, dragThreshold: theme.layout.cardDrag.threshold };
+    glowPadding: 12, lineWidth: theme.layout.map.presentation.pathWidth, dragThreshold: theme.layout.cardDrag.threshold };
 }
 
 export function mapLayout(theme = loadMapTheme()) {
@@ -28,47 +28,39 @@ export function mapLayout(theme = loadMapTheme()) {
     name, kind: 'image', position: [x, y], size: [w, h], image: picture, colour,
   });
   const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
-  const button = (name, y, label) => ({ name, kind: 'container', position: [-522, y], size: [148, 52], children: [
-    image('frame', 0, 0, 148, 52, c.goldDim), image('body', 0, 0, 144, 48, c.panel),
-    text('label', 0, 0, 140, 44, label, f.label), hit(148, 52),
+  const visual = theme.layout.map.presentation, nav = visual.navigationSize;
+  const button = (name, y, label) => ({ name, kind: 'container', position: [visual.navigationX, y], size: [nav, nav], visible: false, children: [
+    image('frame', 0, 0, nav, nav, c.goldDim, im.disc), image('body', 0, 0, nav - 4, nav - 4, c.panel, im.disc),
+    text('label', 0, 0, nav, nav, label, f.label), hit(nav, nav),
   ] });
   const { left, right, bottom, top } = g.viewport;
   const controls = [
+    image('mapField', 0, 0, ...theme.canvas.base, c.mapCanvas.backdrop),
+    { ...image('mapLight', 0, 0, 1040, 680, c.mapCanvas.field, im.glow), opacity: .8 },
+    // Native glow plates approximate the canvas fog beneath all text and input.
+    ...visual.fog.map(([x, y, w, h], i) => ({
+      ...image(`fog${i + 1}`, x, y, w, h, c.mapCanvas.fog, im.glow), opacity: visual.fogOpacity,
+    })),
     // Lowest layer: dragging anywhere on the route scrolls it; node hits sit above.
     { name: 'dragArea', kind: 'cursorArea', position: [(left + right) / 2, (bottom + top) / 2],
       size: [right - left, top - bottom], focusable: false },
     text('title', 0, 327, 640, 44, '', f.heading, c.goldBright),
-    text('notice', 0, -324, 1160, 28, '', f.small, c.textDim),
-    button('next', 160, '向上查看'), button('focus', 96, '当前进度'), button('previous', 32, '向下查看'),
-    image('legendFrame', 526, 24, 148, 456, c.goldDim), image('legendBody', 526, 24, 144, 452, c.panel),
-    text('legendTitle', 526, 228, 128, 28, '图例', f.label, c.goldBright),
-    text('legendStateTitle', 526, -44, 128, 28, '节点状态', f.label, c.goldBright),
+    text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim),
+    button('next', visual.navigationY[0], '↑'), button('focus', visual.navigationY[1], '◆'), button('previous', visual.navigationY[2], '↓'),
   ];
-  const names = { combat: '战斗', elite: '精英', camp: '营地', shop: '商店', event: '事件', treasure: '宝箱', boss: '首领' };
-  Object.entries(names).forEach(([kind, name], i) => {
-    controls.push(image(`legend_${kind}`, 482, 194 - i * 34, 24, 24, c.textDim, theme.icon.node[kind]),
-      text(`legendLabel_${kind}`, 539, 194 - i * 34, 76, 28, name, f.label));
-  });
-  // Node state is a ring colour on the map, so the legend shows the same ring, not colour words.
-  const states = [['current', c.node.current, '当前位置'], ['visited', c.node.visited, '已走过'],
-    ['available', c.node.reachable, '可前往'], ['locked', c.node.locked, '暂不可达']];
-  states.forEach(([state, colour, name], i) => {
-    controls.push(image(`legendRing_${state}`, 482, -78 - i * 34, 24, 24, colour, im.disc),
-      image(`legendDot_${state}`, 482, -78 - i * 34, 16, 16, c.panel, im.disc),
-      text(`legendStateLabel_${state}`, 539, -78 - i * 34, 76, 28, name, f.label));
-  });
   // Runtime clips these line segments geometrically to the 600px viewport.
   for (let i = 1; i <= g.maxEdges; i++) controls.push({
     ...image(`edge${i}`, 0, 0, 1, g.lineWidth, c.node.path), visible: false,
   });
   for (let i = 1; i <= g.maxNodes; i++) {
     const s = theme.layout.map.node;
-    const children = [image('glow', 0, 0, s + g.glowPadding, s + g.glowPadding, c.goldBright, im.glow)];
+    const children = [];
     for (const [state, colour] of Object.entries({ locked: c.node.locked, visited: c.node.visited,
       current: c.node.current, available: c.node.reachable })) children.push(image(state, 0, 0, s, s, colour, im.disc));
     children.push(image('body', 0, 0, s - theme.space.border * 2, s - theme.space.border * 2, c.panel, im.disc),
       image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s));
     children.push({ ...text('emeraldLabel', ...theme.layout.map.emeraldLabel, '绿钥匙', f.label, c.positive), visible: false });
+    children.push({ ...image('positionToken', ...visual.tokenOffset, visual.tokenSize, visual.tokenSize, c.goldBright, im.diamond), visible: false });
     controls.push({ name: `node${i}`, kind: 'container', position: [0, 0], size: [s, s], visible: false, children });
   }
   // MCP accepts at most 60 children per control. Keep draw order and positions
