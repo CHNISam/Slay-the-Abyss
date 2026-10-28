@@ -4,10 +4,10 @@ import { createHash } from 'node:crypto';
 
 const hash = value => createHash('sha256').update(value).digest('hex');
 const bytes = readFileSync('docs/reviews/formal-entry-source-inverses-20261028.json');
-assert.equal(hash(bytes), '544d85ae86881e3cfa01e44a4f8a859ccca82d9207509b3ef6bab19d1202d6eb');
+assert.equal(hash(bytes), '8a77ef0901b0df311c5e56bc3000e3219f37a3392a1c466a217ed3572b59ddc7');
 export const formalEntryInverses = JSON.parse(bytes).files;
 
-// These three exact changes affect historical source-identity proofs. The live
+// These exact launch-step changes affect historical source-identity proofs. The live
 // trace separately checks every current write and conserves all 79475 old rows.
 export function preFormalEntrySource(path, source) {
   const text = source.replaceAll('\r\n', '\n'), binding = formalEntryInverses[path];

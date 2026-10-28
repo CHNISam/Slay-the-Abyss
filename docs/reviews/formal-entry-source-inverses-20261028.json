@@ -440,6 +440,89 @@
           ]
         }
       ]
+    },
+    "tests/lua/game_ui_phase_four.lua": {
+      "beforeSha256": "9e5ebff9360c2af5a6d6a07990a8e19e46d01335e9f4c9647cf770efbd8bfd15",
+      "afterSha256": "dc85dd419b482de8b584e756203d0d0a0f06787690a60b6607ade88559400ff8",
+      "hunks": [
+        {
+          "at": 57,
+          "before": [
+            " assert(ui:start());assert(click(root,'characterPanel/character'..classIndex[character]))",
+            " eq(ui.run.characterProfile.id,character)"
+          ],
+          "after": [
+            " assert(ui:start());assert(ui:selectCharacter('traveler'));assert(ui:selectElement(character));assert(ui:confirmCharacter())",
+            " eq(ui.run.character or 'ironclad',character)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/game_ui_class_powers.lua": {
+      "beforeSha256": "da74783159abc81888fabce35a711323ecaa56a35e90598368a79aa622204943",
+      "afterSha256": "4b01a5b7fd00e72b095cd4f88fbee40bf4a12498e783e199d8f555d2c8e367ee",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "    local ui,root=X.new();assert(ui:start(id))"
+          ],
+          "after": [
+            "    local ui,root=X.new();assert(testStart(ui,id))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/battle_gesture_fixture.lua": {
+      "beforeSha256": "b92b90973b271f2a5789f9b59942263ecda7b6fb1922b1b6780b4ae8f892140e",
+      "afterSha256": "64407f8ea32f7591ce65cb25a675acee5e499581155942ee448ca4c300691715",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start"
+          ]
+        },
+        {
+          "at": 7,
+          "before": [
+            "    assert(host:start())"
+          ],
+          "after": [
+            "    assert(testStart(host))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/act3_transient.lua": {
+      "beforeSha256": "68695bb8d5e41f9d5a5049917d7caddfcf3c09db210835c2b1d0e8eabc9bbee1",
+      "afterSha256": "51cf2897832eac0e6f28355ffd131c0463ee06990f5ab3e0cc62c043c157a131",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start"
+          ]
+        },
+        {
+          "at": 211,
+          "before": [
+            " assert(host:start());local r=host.run;r.act,r.floor,r.encounters=3,35,Q.new('4',3)"
+          ],
+          "after": [
+            " assert(testStart(host));local r=host.run;r.act,r.floor,r.encounters=3,35,Q.new('4',3)"
+          ]
+        }
+      ]
     }
   }
 }

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-28 07:17'
+updated_date: '2026-10-28 07:47'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -40,4 +40,6 @@ ordinal: 121000
 
 <!-- SECTION:NOTES:BEGIN -->
 已完成正式原生选择/确认分离，八形态真实初始数据、Neow、结果手势和故障恢复专项通过。Node24.18.0下逐行证明旧79475条渲染写入全部保留，新增1703条仅选择页、无Run菜单重绘与隐藏choicePanel；12项历史/负例/当前轨迹门禁通过，30秒原预算保留。Node22部分全量记录含两项不支持test-isolation参数的环境失败，未冒称完整通过。未启动子代理/OpenCode，未占用键鼠。完整CI、GIL读回及最终集成待完成。
+
+完整Quality实际发现旧Start即建局断言和冻结原文绑定不兼容。已保留原哈希/全部断言/原预算，添加仅开局步骤的精确可逆迁移；7项定向门禁与3组28项重开旧输入回归通过。当前原生角色/元素按钮共12项通过。PR290持续收口，未将旧头失败冒称最新通过。
 <!-- SECTION:NOTES:END -->
