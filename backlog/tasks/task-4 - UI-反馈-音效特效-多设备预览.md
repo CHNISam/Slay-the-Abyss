@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 20:45'
+updated_date: '2026-10-28 21:18'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -73,6 +73,8 @@ dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修�
 2026-10-28 PR313合后收尾：从实际cec690c独立续接，只处理potion_targeting、game_ui_exit、feedback_continuous_cards三个原30秒夹具的单文件预算脆弱。先用原日志核实独占调度，建立原完整源码SHA/Gitblob及raw/JS/CI唯一发现红测，再复用既有精确注册分片保留全部原case体、seed与顺序，原runner/30秒/断言/权重不改；串行真实短测、独立复审后提交单个Draft PR，最终精确head完整Quality与schema2 delivery preflight后交主线程合并。不改负责人/状态/AC/Done，不操作设备。
 
 2026-10-28 root限定同根因新增第4项battle_ui_potion_target_failures：实际PR313合后29233ms、PR314作业30071ms原30秒超时；仅此项精确分1–3/4–7，保原7组完整body/seed/顺序与runner/权重，先红后绿合同及原30秒两片实测。等待root一次尾部审计决定，不自动继续扩fixture；与既有PR314交付工具修复按root指定三SHA精确原样组合，当前head全量CI独立采证。
+
+2026-10-28 PR319当前f9f9be99本地补漏：仅补target_failures 1–3/4–7注册层的完整前后源码身份逆向，接入原approved-UI历史链。先加原文恢复及缺失/重复/无关漂移负例跑红，再补最小helper、重验原历史presentation源合同；原4项body/manifest/golden/runner/期限及PR314四blob不改。不改负责人/状态/AC/Done，不push或远端操作。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -124,4 +126,6 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-28第四项预算收尾：battle_ui_potion_target_failures原7组精确逆向SHA47565faa/Gitblob5faa5cf，含原up/endDrag注册循环均保留。新两片原30s实测9.720/13.009秒，原CASE1..7各一次；累计4文件36原组/8入口，源码/范围/固定注册器恶意双改与发现合同8/8过。此前6入口真实workers=2 pool原权重路径也全部过，unknown10秒默认仍独占，不以调权阈值刷绿。仍无托管组合绿灯或设备实机，不改状态/负责人/AC/Done。
 
 2026-10-28组合交付：root一次原档尾部审计1030条fixture确认原30秒风险恰为本4项，其余>=28秒项目原有60/120秒时限，不扩范围。按指定顺序原样吸收既有PR314三笔faf1a378/0798d19b/cdb08af2，保原author和四路径blob，不操作其分支/认领；严格schema3 Full17作业及独立target-ref校验保留。组合delivery27+分片8短测35/35，当前组合托管完整Quality/独立review/schema3预审待采证，原314失败或旧绿不冒充组合结果，整体AC不改。
+
+2026-10-28 PR319冻结guard本地补漏：精确f9f9be99上保全全部4项/8入口、原manifest/golden/runner/30秒及PR314四blob，仅增加target_failures完整49dcd4b8→47565faa注册逆向并接回旧approved-UI历史链。原套件真实红5过3失败，新组合合同红5过4失败；最终26项静态/历史/源保全合同全过0skip，JS语法/网络/Backlog检查及diff检查通过。缺失/重复/范围/footer/无执行/正文漂移与CRLF/错path均覆盖；不重复重Lua，不称Full/native通过。独立review、实际远端head冲突核对、整合授权及新精确HEAD完整Quality/inventory/schema3预审仍待，原状态/负责人/AC/Done不变。新增报告docs/reviews/ui-postmerge-budgets-20261028/FROZEN-INVERSE-REPAIR.md；原两份review记录未改。仅本地，不push或改远端。
 <!-- SECTION:NOTES:END -->
