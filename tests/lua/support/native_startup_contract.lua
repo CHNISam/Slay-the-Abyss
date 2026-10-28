@@ -9,10 +9,13 @@ host:disable()
 -- negative control must fail in the production constructor, not a fake check.
 local mutated=assert(ABYSS_NATIVE_MUTANT,'runner must supply exact production mutation')
 local originalBattle,originalGame=package.loaded.abyss_battle_ui,package.loaded.abyss_game_ui
-package.loaded.abyss_battle_ui=assert(load(mutated,'@escaped_abyss_battle_ui'))()
+local originalHud=package.loaded.abyss_battle_render_hud
+package.loaded.abyss_battle_render_hud=assert(load(mutated,'@escaped_battle_render_hud'))()
+package.loaded.abyss_battle_ui=nil
 package.loaded.abyss_game_ui=nil
 local ok,reason=pcall(function()dofile('tests/lua/support/game_ui_fixture.lua').fixture()end)
 package.loaded.abyss_battle_ui,package.loaded.abyss_game_ui=originalBattle,originalGame
+package.loaded.abyss_battle_render_hud=originalHud
 assert(not ok and tostring(reason):find('CursorArea',1,true),
     'escaped native startup must fail specifically at cursor capability boundary: '..tostring(reason))
 print('NATIVE_STARTUP_CONTRACT_PASS positive host startup + escaped-write negative control')

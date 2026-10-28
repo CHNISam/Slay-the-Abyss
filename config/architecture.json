@@ -231,7 +231,22 @@
     "abyss_node_ui_lifecycle": "ui",
     "abyss_node_ui_input": "ui",
     "abyss_node_ui_shop": "ui",
-    "abyss_battle_potion_popup": "ui"
+    "abyss_battle_potion_popup": "ui",
+    "abyss_battle_actions": "ui",
+    "abyss_battle_action_bindings": "ui",
+    "abyss_battle_card_bindings": "ui",
+    "abyss_battle_card_gestures": "ui",
+    "abyss_battle_card_layout": "ui",
+    "abyss_battle_details": "ui",
+    "abyss_battle_detail_bindings": "ui",
+    "abyss_battle_input_state": "ui",
+    "abyss_battle_potion_bindings": "ui",
+    "abyss_battle_render": "ui",
+    "abyss_battle_render_actors": "ui",
+    "abyss_battle_render_hud": "ui",
+    "abyss_battle_render_state": "ui",
+    "abyss_battle_targeting": "ui",
+    "abyss_battle_target_bindings": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [

@@ -1,0 +1,266 @@
+{
+  "base": "6fe3a6e2",
+  "before": {
+    "fileLines": 1828,
+    "constructorLines": 1781
+  },
+  "after": {
+    "fileLines": 267,
+    "constructorLines": 212,
+    "maximumExtractedFunctionLines": 254,
+    "newModules": 15
+  },
+  "sourceHashes": {
+    "src/lua/abyss_battle_ui.lua": "a032a4bcf92fe57194b70f8f050a9d1bf3d937bb7a2411efdc07cef20ee8c5a7",
+    "src/lua/abyss_battle_actions.lua": "bae70e2b31c360f4f96d5489817face62cf72fa96d6c214c9efd210e2622954f",
+    "src/lua/abyss_battle_action_bindings.lua": "14799993e086288a419d7ab67add539dbd4a31035e2109fcb821a9cd5f48ca76",
+    "src/lua/abyss_battle_card_bindings.lua": "018b6bee3d4bb61444c9e6f8f7752d467aabab67e405c819fa938b909ffd74bf",
+    "src/lua/abyss_battle_card_gestures.lua": "d5a59c4e307057ac626b09127ecb351c7f4f516153c4e7d4e4dd6804cc4d8dba",
+    "src/lua/abyss_battle_card_layout.lua": "2341db41ac79d7ab3570ab3df20e02ee36706cbff4a04ebff95e57d8a616558b",
+    "src/lua/abyss_battle_details.lua": "6c9ed4bfb07ccc1f353b6aae4b3142abee078933aec29a4e85fa09471f036dc7",
+    "src/lua/abyss_battle_detail_bindings.lua": "0fd78e61cf98f6b712510b90c373a315bcab5965efb9708afc0cdda747bc1858",
+    "src/lua/abyss_battle_input_state.lua": "34f5de4f3060e999e9e67acef372d66a856c7d2adf4b9a977e3509ef87868c34",
+    "src/lua/abyss_battle_potion_bindings.lua": "742a857cf3e81a2675008ded367426af70b50651d03af8a376b2c64e32c55413",
+    "src/lua/abyss_battle_render.lua": "e238460e5e406e079f152f4e6e2f5b71c749733bd428fc5497fbc0ede7884365",
+    "src/lua/abyss_battle_render_actors.lua": "3ff1196a5296277b8e8945c7315bdef62848efd497cb049736896bb935902cbc",
+    "src/lua/abyss_battle_render_hud.lua": "0b9dbda09c85bc40fa6cb8225226436fc3b47adcadf85afecf92932f5b182deb",
+    "src/lua/abyss_battle_render_state.lua": "013940a9efe9eed9a904abd79734c943e3b148b06252c5eeb716e5a1f6e91afb",
+    "src/lua/abyss_battle_targeting.lua": "ed69bd0964c3981502437998eb951fd714fd745c3097308d96707e0e8d86a632",
+    "src/lua/abyss_battle_target_bindings.lua": "2995d1ea8e12636a3b8ed1584f93d3b3a99fac93b61dea580e5ef63ef40adcee"
+  },
+  "localLuaRegressions": [
+    {
+      "file": "battle_ui.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_action_compatibility.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_action_gestures.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_action_ownership.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_action_standalone.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_card_play.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_card_play_slice_2.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_card_play_slice_3.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_click_ownership.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_drag_source.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_gestures.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_compatibility.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_gestures.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_independence.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_ownership.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_rewards.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_targeting.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_slice_2.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_slice_3.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_slice_4.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_slice_5.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_slice_6.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_slice_7.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "card_input_port.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "card_input_port_slice_2.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "card_input_port_slice_3.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "controller.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "controller_current.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "controller_host.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "controller_rooms.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_context.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_context_slice_2.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_failures.lua",
+      "status": 0,
+      "signal": null,
+      "durationMs": 28615,
+      "evidence": "isolated same-deadline comparison: 7 passed; baseline exceeded 30000ms"
+    },
+    {
+      "file": "battle_ui_potion_target_inventory.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_inventory_slice_2.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_pointers.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_pointers_slice_2.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_pointers_slice_3.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_pointers_slice_4.lua",
+      "status": 0,
+      "signal": null
+    },
+    {
+      "file": "battle_ui_potion_target_stale.lua",
+      "status": 0,
+      "signal": null
+    }
+  ],
+  "engineering": {
+    "architecture": true,
+    "luaStatic": true,
+    "newWarnings": 0,
+    "historicalWarnings": 50,
+    "mutantsKilled": 4,
+    "nativePositiveAndNegativeContract": true
+  },
+  "focusedTests": {
+    "passed": 45,
+    "failed": 0,
+    "includes": [
+      "unchanged battle preview native-tree differential",
+      "formal UI presentation",
+      "all 12 original card input groups",
+      "playtest focus/input lifecycle",
+      "historical presentation source contracts",
+      "size-budget negative controls"
+    ]
+  },
+  "timingNotes": [
+    "Original deadlines retained. Transient context and target failures were rerun within the same 30-second deadlines.",
+    "Isolated potion target failure transaction group: refactor 28615ms, 7 passed; baseline exceeded 30000ms.",
+    "Early Lua groups ran before final direct-port wiring; final focused tests and engineering gates ran after final wiring."
+  ],
+  "platform": {
+    "newCandidateBuilt": false,
+    "imported": false,
+    "liveTested": false,
+    "mouseKeyboardUsed": false
+  }
+}

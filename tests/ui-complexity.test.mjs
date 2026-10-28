@@ -43,3 +43,13 @@ test('missing modules, incomplete measurements, duplicates and unknown formats f
   const invalid=[...f.diagnostics]; invalid[0]={...invalid[0],message:'not a complexity measurement'};
   assert.ok(reviewRenderComplexity(invalid,f.sources).errors.some(e=>e.message.includes('Unrecognized')));
 });
+
+test('size budgets reject large extracted modules and long functions even without branches', () => {
+  const f=fixture(), helper='src/lua/abyss_battle_extra_view.lua';
+  f.sources[helper]='-- added responsibility\n'.repeat(1001)+'return {}';
+  f.diagnostics.push(row(helper,'main chunk',1));
+  assert.ok(reviewRenderComplexity(f.diagnostics,f.sources).errors.some(e=>e.file===helper&&e.message.includes('1000 lines')));
+  f.sources[helper]='return function()\n'+'local n=1\n'.repeat(350)+'end';
+  f.diagnostics.push(row(helper,'function',1,1,8));
+  assert.ok(reviewRenderComplexity(f.diagnostics,f.sources).errors.some(e=>e.file===helper&&e.message.includes('350 lines')));
+});
