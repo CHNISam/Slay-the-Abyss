@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 19:23'
+updated_date: '2026-10-28 20:29'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -69,6 +69,8 @@ dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修�
 2026-10-28药水纠偏：在dot独立云树线性接续1f260a7，原子叠加Map共享empty/filled/fire/selected壳体与Main真实状态刷新，保留官方瓶ID及主线安全保护。逐字段主题合并、真实Lua/render及历史精确逆向重验；不推送，等待独立视觉审查；不把离线代显或旧绿灯当还原/设备通过。
 
 2026-10-28发布续接：按用户已授权提交PR要求，将批准稿UI六提交线性接续PR307（0763d2e），保全原UI/历史哈希；仅提交本功能分支的单个Draft PR，以精确head托管Full Quality/inventory完成全量验证。本地两次完整check均因执行会话中断无结论，不再第三次重跑；不改AC/Done，不代替官方导入/ready及PC/实体手机验收。PR310/311/312重叠由主线程协调顺序。
+
+2026-10-28 PR313合后收尾：从实际cec690c独立续接，只处理potion_targeting、game_ui_exit、feedback_continuous_cards三个原30秒夹具的单文件预算脆弱。先用原日志核实独占调度，建立原完整源码SHA/Gitblob及raw/JS/CI唯一发现红测，再复用既有精确注册分片保留全部原case体、seed与顺序，原runner/30秒/断言/权重不改；串行真实短测、独立复审后提交单个Draft PR，最终精确head完整Quality与schema2 delivery preflight后交主线程合并。不改负责人/状态/AC/Done，不操作设备。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -114,4 +116,6 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-28 19:11 UTC：继续收当前7a4910b真实CI失败。rules8 Drag旧oracle将raw变换分数坐标与实际target中心强行逐位等同；最小探针证明stale前后各自坐标不变。迁为严格比较真实reticle/目标ID前后，保留原gesture/preview/energy/hand并加完整core图快照，原30s整组10/10（16.746s），root独立读diff认可。rules1 class_choices原30s最后第10组超时，同源26.590s无足够托管余量；复用既有机械拆片1–5/6–10，原8973字节整body/seed/assert及Gitblob精确可重建，runner/30s不变，raw/JS/CI唯一发现合同先红后绿2/2，两片原30s各5组实测11.357/13.425s，CASE1..10各一次，root独立逐文件认可。完整矩阵尚未终态，先收齐再更新同PR并重验精确head；不勾整体AC/Done。
 
 2026-10-28 19:23 UTC：当前7a4910b最后补读rules4唯一potion_belt_ui旧help可见假设，迁真实瓶长按/独立4与5槽potionId+标题/详情关闭+菜单Use；保留容量/补位/库存/能量+2/Strength2/商店奖励全部原断言，最终5组13.206s。targeting_help旧隐藏控件假可达先加visibility断言实测红，再真实瓶长按，原文案/完整快照/target/S13/P12保留，最终3组9.867s。系统扫描无其它Use/旧enemyRow实时输入漏项；已授权的remaining/flex_speed/sustained三可见性盲点只保留原隐藏存储和可信core设置，新增真实可见长按信息检查，原6/2/3组9.799/3.899/5.034s通过。扫描到此停止扩范围；不改生产/runner/golden/预算，等待当前矩阵终态后同PR一次push并重验精确head全量Quality。
+
+2026-10-28 PR313合后预算收尾：实际cec690c与原PR绿灯同tree；三原30秒raw夹具在合后ETIMEDOUT，既有权重已独占，不归因双worker。只精确分片potion 1–4/5、exit 1–5/6–15、continuous 1–4/5–9，原29组case体/seed/assert/order完整逆向SHA与Gitblob保留，runner/30秒/权重不改。红测后源码/漂移拒绝/raw/JS/CI发现及旧class合同7/7；六片原runLua实测12.013/13.702、15.315/11.027、10.536/13.769秒，原29组markers各一次。JS语法与diff检查通过；独立复审、当前head完整托管Quality及schema2 delivery预审待采证，不补造PR313旧收据，不改负责人/状态/AC/Done，不含设备实机。证据docs/reviews/ui-postmerge-budgets-20261028/。
 <!-- SECTION:NOTES:END -->

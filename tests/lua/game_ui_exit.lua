@@ -1,8 +1,17 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
+local sliceRegistered,sliceExecuted=0,0
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Combat, Nodes = F.Combat, F.Nodes
 local count = 0
-local function test(name, fn) fn(); count=count+1; print("ok exit UI "..count.." - "..name) end
+local function test(name, fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then
+        fn(); count=count+1; print("ok exit UI "..count.." - "..name)
+        sliceExecuted=sliceExecuted+1;print("GAME_UI_EXIT_CASE "..sliceRegistered)
+    end
+end
 local function same(a,b)
     if type(a)~=type(b) then return false end
     if type(a)~="table" then return a==b end
@@ -239,3 +248,7 @@ test("cancel during feedback resumes its queue and later accepts game commands",
 end)
 
 print("LUA_GAME_UI_EXIT_PASS "..count)
+
+assert(sliceRegistered==15,"all 15 original cases must register")
+assert(sliceExecuted==sliceLast-sliceFirst+1,"every selected original case must execute")
+print("GAME_UI_EXIT_SLICE "..sliceFirst.." "..sliceLast.." "..sliceExecuted)
