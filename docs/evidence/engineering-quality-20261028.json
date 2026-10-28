@@ -1,0 +1,55 @@
+{
+  "sourceRevision": "1f260a71972b03dae5b63e8d6f12d055973a4c83",
+  "scope": "Local quality tools only; production Lua/data unchanged",
+  "runtime": "v24.18.0",
+  "coverage": {
+    "modules": 220,
+    "functions": 3369,
+    "measurements": 3589,
+    "expectedMeasurements": 3589
+  },
+  "baselineFile": "config/engineering-quality-baseline.json",
+  "baselineSha256": "68da601d4219346bd514288096219ab1e7e51a99fc5b8d6235dbf385c651dc9c",
+  "detectorInputs": {
+    ".luacheckrc": "86228411079a86f3ed6faa8f3aeeeb456d1c2006300f08d3ac2250f290376e12",
+    "config/lua-tools.json": "e8ecec08ce6eac1e0c34ddb629dbb9c88c9eb3289446397eb45a12e67b0f25f5",
+    "config/architecture.json": "d0679eaa8aca631bdde0de2d000943d3f3fab1c7a34a95a201e19df071df89bd",
+    "config/luacheck-baseline.json": "254529a32c6da885ce186b24c27429bcf91a9eea78d2a9d5545a8d4e81b74fed",
+    "scripts/check-architecture.mjs": "ce7fe95900af3ac32fba5543e16cb0f9ab0947ffe621cdfdfe9fbbf25da957cc",
+    "scripts/check-lua-static.mjs": "1ef39e055ffa23c9c748750d36950b5395dd32e00f6656ad794e95c6690ec710",
+    "scripts/lua-quality-metrics.mjs": "f1c25ec629438225be584727916c3e914f8325bdcbc25b0f2b09d7019c185b7a",
+    "scripts/check-engineering-quality.mjs": "fd1195bf177b9a6dace2ff12bd88c433171a834925d4157d68f5f81412cbf558",
+    "package-lock.json": "826f6b0c73955493d60a29436d90cd1cc9d4b6af911f571a996cbd525b5ec32e"
+  },
+  "localChecks": {
+    "toolRegression": {
+      "command": "node --test --test-concurrency=1 tests/engineering-quality.test.mjs tests/architecture.test.mjs tests/lua-static.test.mjs tests/ui-complexity.test.mjs tests/responsibility-complexity.test.mjs tests/ci-windows-shards.test.mjs tests/ci-posix-shards.test.mjs tests/ci-reviewed-lfs.test.mjs tests/ci-downloads.test.mjs tests/ci-runtime.test.mjs tests/delivery.test.mjs tests/pr-history.test.mjs",
+      "pass": 76,
+      "fail": 0,
+      "skip": 0,
+      "logSha256": "fcceb228549920b37e64dda583a4d7632b1554ff906be0ea9591bf0359427ad7"
+    },
+    "engineering": "npm run check:engineering: passed; architecture, unchanged static/complexity gates, 4 mutation kills, 2 native UI contracts",
+    "syntax": "npm run check:syntax: passed",
+    "network": "npm run check:network: passed",
+    "backlog": "npm run verify:backlog: passed",
+    "missingBaseline": "real CLI nonzero; failure report written; next valid run reported successfully"
+  },
+  "metrics": {
+    "warnings": 73,
+    "warningAdded": 0,
+    "warningRemoved": 0,
+    "fullCycleComponents": [
+      {
+        "members": 76,
+        "internalCallSites": 496
+      }
+    ],
+    "newNumericalGates": "report-only"
+  },
+  "notRun": [
+    "Full GitHub-hosted cross-platform Quality",
+    "Official client/import/playtest",
+    "Production gameplay refactor"
+  ]
+}

@@ -1,7 +1,9 @@
 import { readFileSync } from 'node:fs';
 // Invert only the reviewed executor substitutions; retain the original workflow
 // hash guards for every gate, permission, deadline, matrix and artifact field.
+import { beforeQualityArtifacts } from './quality-workflow.mjs';
 export function originalWorkflow(text) {
+  text = beforeQualityArtifacts(text);
   // Invert exact reviewed routing edits only. Existing full-suite hashes still
   // protect all assertions, commands, matrices and deadlines under the route.
   for (const edit of JSON.parse(readFileSync('tests/helpers/ci-fast-migration.json', 'utf8')).reverse()) {
