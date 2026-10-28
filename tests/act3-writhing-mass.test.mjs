@@ -9,7 +9,7 @@ for (const [file,marker,count] of [
   ['act3_writhing_mass','ACT3_WRITHING_MASS',10],
   ['act3_writhing_parasite','ACT3_WRITHING_PARASITE',9],
 ]) test(`source Writhing Mass ${file}`,()=>{
-  const result=runLua(`tests/lua/${file}.lua`);
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}.lua`);
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,new RegExp(`${marker} ${count} passed; 0 failed`));
 });

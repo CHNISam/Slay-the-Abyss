@@ -6,8 +6,8 @@ const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const hash=text=>createHash('sha256').update(text).digest('hex');
 const lock=JSON.parse(read('tests/fixtures/sapphire-modern-partition.json'));
 // Real fixture dependencies stay explicit so the existing related-test selector sees them.
-const coreEntries=['tests/lua/sapphire_treasure.lua','tests/lua/sapphire_treasure_slice_2.lua',
- 'tests/lua/sapphire_treasure_slice_3.lua','tests/lua/sapphire_treasure_slice_4.lua'];
+const coreEntries=['tests/fixtures/js-owned/tests/lua/sapphire_treasure.lua','tests/fixtures/js-owned/tests/lua/sapphire_treasure_slice_2.lua',
+ 'tests/fixtures/js-owned/tests/lua/sapphire_treasure_slice_3.lua','tests/fixtures/js-owned/tests/lua/sapphire_treasure_slice_4.lua'];
 function assertFrozenSapphireUI(source){
  // Restore exactly the reviewed mock-only edits; never normalize scenario bodies.
  const loader="local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')\n";
@@ -55,7 +55,7 @@ test('modern Sapphire UI keeps the complete 17-group body and every original int
  assertFrozenSapphireUI(read(lock.uiHelper));
  const groups=[];
  for(const [index,[first,last]]of lock.uiSlices.entries()){
-  const path=index?`tests/lua/sapphire_treasure_ui_slice_${index+1}.lua`:'tests/lua/sapphire_treasure_ui.lua';
+  const path=index?`tests/fixtures/js-owned/tests/lua/sapphire_treasure_ui_slice_${index+1}.lua`:'tests/fixtures/js-owned/tests/lua/sapphire_treasure_ui.lua';
   assert(read(path).includes(`dofile("${lock.uiHelper}")(${first},${last})\n`));
   for(let n=first;n<=last;n++)groups.push(n);
  }

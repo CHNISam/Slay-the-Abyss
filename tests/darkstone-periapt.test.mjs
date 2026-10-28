@@ -37,9 +37,9 @@ test('data gate admits the implemented hook but rejects no-op unknown hook and g
 });
 
 test('Darkstone actual Run commands preserve curse, status, healing, transaction, context and queue boundaries',()=>{
- const result=runLua('tests/lua/darkstone_periapt.lua');assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/DARKSTONE_PERIAPT 13 passed/);
+ const result=runLua('tests/fixtures/js-owned/tests/lua/darkstone_periapt.lua');assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/DARKSTONE_PERIAPT 13 passed/);
 });
 
 test('newly admitted Darkstone honors source destination-floor gates without retroactive obtain refusal',()=>{
- const result=runLua('tests/lua/darkstone_spawn_gates.lua');assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/DARKSTONE_SPAWN_GATES 4 passed/);
+ const result=runLua('tests/fixtures/js-owned/tests/lua/darkstone_spawn_gates.lua');assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/DARKSTONE_SPAWN_GATES 4 passed/);
 });

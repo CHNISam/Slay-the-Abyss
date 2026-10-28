@@ -12,7 +12,7 @@ test('PR238 bounded fixtures retain every original input and assertion with exac
   assert.equal(budget.timeoutMilliseconds, 30000);
   assert.deepEqual(budget.fixtures.map(f => [f.entry, f.total]), [
     ['tests/lua/node_transactions.lua', 11], ['tests/lua/spike_slime_l.lua', 17],
-    ['tests/lua/small_slimes.lua', 18], ['tests/lua/potion_flex_speed.lua', 11],
+    ['tests/lua/small_slimes.lua', 18], ['tests/fixtures/js-owned/tests/lua/potion_flex_speed.lua', 11],
   ]);
   for (const fixture of budget.fixtures) {
     let original = read(fixture.entry);

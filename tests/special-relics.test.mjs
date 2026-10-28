@@ -22,7 +22,7 @@ test('three event/exhaustion relics retain source identities, SPECIAL rarity and
 });
 test('Circlet obtains one slot with repeat counts and Spirit Poop supplies only its source score adjustment', () => {
   buildLuaData();
-  const result=runLua('tests/lua/special_relics.lua');
+  const result=runLua('tests/fixtures/js-owned/tests/lua/special_relics.lua');
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,/LUA_SPECIAL_RELIC_OBTAIN_PASS/);
 });

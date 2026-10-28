@@ -4,7 +4,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
 const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
-const entry = 'tests/lua/card_help_release.lua';
+const entry = 'tests/fixtures/js-owned/tests/lua/card_help_release.lua';
 // Full original LF source at b420e8b267bbdbf2d5d7c68bc7d893faa130047c,
 // unchanged from develop d16be8db. Includes helpers, every case body and loop.
 const original = {
@@ -20,7 +20,7 @@ const after = before + "    registered=registered+1\n    if registered<first or 
 const footer = "assert(registered==31,'original UI case discovery changed')\nassert(passed+failed==last-first+1,'UI budget slice coverage changed')\n";
 const summary = "print('LUA_CARD_HELP_RELEASE ' .. passed .. ' passed; ' .. failed .. ' failed')\nassert(failed == 0, 'card-help ownership regressions failed')\n";
 const ranges = Array.from({ length: 8 }, (_, i) => [
-  i === 0 ? entry : `tests/lua/card_help_release_slice_${i + 1}.lua`, i * 4 + 1, Math.min((i + 1) * 4, 31),
+  i === 0 ? entry : `tests/fixtures/js-owned/tests/lua/card_help_release_slice_${i + 1}.lua`, i * 4 + 1, Math.min((i + 1) * 4, 31),
 ]);
 const wrappers = () => Object.fromEntries(ranges.slice(1).map(([path]) => [path, read(path)]));
 
@@ -47,7 +47,7 @@ function validatePartitions(rows, actualWrappers) {
 test('eight original-budget card-help fixtures preserve the full source and all 31 case identities', () => {
   validateSource(read(entry));
   validatePartitions(ranges, wrappers());
-  const discovered = readdirSync('tests/lua').filter(name => /^card_help_release.*\.lua$/.test(name)).map(name => 'tests/lua/' + name).sort();
+  const discovered = readdirSync('tests/fixtures/js-owned/tests/lua').filter(name => /^card_help_release.*\.lua$/.test(name)).map(name => 'tests/fixtures/js-owned/tests/lua/' + name).sort();
   assert.deepEqual(discovered, ranges.map(([path]) => path).sort(), 'raw Lua discovery includes all eight fixtures with no duplicate family');
   const runner = read('scripts/test-lua.mjs');
   assert.doesNotMatch(runner, /card_help_release/, 'no family-specific timeout exception');

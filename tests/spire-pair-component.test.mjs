@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
 
 test('fixed-source Spire pair component owns AI, frozen actions and surrounded callbacks',()=>{
- const result=runLua('tests/lua/spire_pair_component.lua',{timeout:30_000});
+ const result=runLua('tests/fixtures/js-owned/tests/lua/spire_pair_component.lua',{timeout:30_000});
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/SPIRE_PAIR_COMPONENT_PASS 10/);
 });

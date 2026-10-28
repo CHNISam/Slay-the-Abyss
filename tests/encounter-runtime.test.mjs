@@ -79,5 +79,5 @@ print('SOURCE_ROOM_VECTORS_PASS 126')`);
  }finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('actual Nodes entries preserve source queue ownership and transaction boundaries',()=>{
- const result=runLua('tests/lua/encounter_runtime.lua');assert.equal(result.status,0,result.stderr||result.stdout);
+ const result=runLua('tests/fixtures/js-owned/tests/lua/encounter_runtime.lua');assert.equal(result.status,0,result.stderr||result.stdout);
 });

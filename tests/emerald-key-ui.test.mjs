@@ -28,7 +28,7 @@ test('generated Emerald controls use named map text, native capacity and six rea
 });
 
 test('strict generated Host UI exposes source burning elite, independent six-row claims, focus and retired gestures', () => {
-  const result = runLua('tests/lua/emerald_key_ui.lua');
+  const result = runLua('tests/fixtures/js-owned/tests/lua/emerald_key_ui.lua');
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.match(result.stdout, /EMERALD_KEY_UI 3 groups; 0 failed; native\/natural NOT_RUN/);
 });

@@ -99,7 +99,7 @@ test('paired e0/c5 captures retain all 72915 original native writes and exactly 
  const counts={};for(const item of delta){const entry=review.writes.find(row=>row.row===item.row);counts[entry.category]=(counts[entry.category]||0)+1;}
  assert.deepEqual(counts,review.categories);
  verifySources(Object.fromEntries(Object.keys(review.sourceInputs).map(path=>[path,historicalSourceHash(path,frozenSource(path))])));
- const fixture=frozenSource('tests/lua/presentation_responsibilities_trace.lua');
+ const fixture=frozenSource('tests/fixtures/js-owned/tests/lua/presentation_responsibilities_trace.lua');
  assert.match(fixture,/trace:assertNativeInteraction\(\)/);
  assert.match(fixture,/assert\(trace.count==77278 and trace.hash==1948853637/);
 });
@@ -123,7 +123,7 @@ test('room port keeps all reviewed current source identities and a strict live i
   assert.equal(digest(source),expected,'unreviewed integrated room source drift: '+path);
   assert.notEqual(digest(source+'\n-- unreviewed drift\n'),expected);
  }
- assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
+ assert.match(readFileSync('tests/fixtures/js-owned/tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
  });
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{
  assert.equal(themeReview.sourceHead,'af25ca0887529ea0549363c394ba54fc55ad91f1');

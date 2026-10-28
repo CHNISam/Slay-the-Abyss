@@ -6,7 +6,7 @@ import { runLua } from '../scripts/test-lua.mjs';
 let opening,nextRoom;
 function audit() {
   if (opening) return opening;
-  const result=runLua('tests/lua/m2_resource_audit_rewards.lua');
+  const result=runLua('tests/fixtures/js-owned/tests/lua/m2_resource_audit_rewards.lua');
   assert.equal(result.status,0,result.stdout+result.stderr);
   const reports=result.stdout.split(/\r?\n/).filter(line=>line.startsWith('M2_EVIDENCE_JSON '))
     .map(line=>JSON.parse(line.slice('M2_EVIDENCE_JSON '.length)));

@@ -16,7 +16,7 @@ test('Neow evidence binds the oracle and previous-run floor history rather than 
 });
 for(const [file,marker,count]of [['neow_offers.lua','NEOW_OFFERS',5],['neow_rewards.lua','NEOW_REWARDS',12]]){
  test(`Neow source offers and execution: ${file}`,()=>{
-  const result=runLua(`tests/lua/${file}`);
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}`);
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,new RegExp(`${marker} ${count} passed`));
  });

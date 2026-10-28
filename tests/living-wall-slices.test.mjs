@@ -26,7 +26,7 @@ test('all original Living Wall base cases and every independent source transform
   assert.equal(expected.length,72);
   const seen=[],baseCases=[];
   for(const [file,first,last] of [['living_wall.lua',1,24],['living_wall_slice_2.lua',25,48],['living_wall_slice_3.lua',49,72]]) {
-    const result=runLua('tests/lua/'+file);
+    const result=runLua('tests/fixtures/js-owned/tests/lua/'+file);
     assert.equal(result.status,0,result.stdout+result.stderr);
     const rows=[...result.stdout.matchAll(/^LIVING_TRANSFORM (\d+) (.+)$/gm)];
     assert.deepEqual(rows.map(row=>Number(row[1])),Array.from({length:last-first+1},(_,i)=>first+i));

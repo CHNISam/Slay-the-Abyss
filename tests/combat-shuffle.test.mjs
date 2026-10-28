@@ -66,5 +66,5 @@ print('SOURCE_SHUFFLE_VECTORS_PASS ${kind} ${vectors[kind].length}')`);
 test('formal initial deck order, tail-first draw and room shuffle states match source vectors',()=>runVectors('initial'));
 test('formal redraw splitting, empty shuffle calls and hand/no-draw guards match source vectors',()=>runVectors('redraw'));
 test('formal shuffle ownership, continuation, initialization order and rollback',()=>{
- const result=runLua('tests/lua/room_shuffle.lua');assert.equal(result.status,0,result.stderr||result.stdout);
+ const result=runLua('tests/fixtures/js-owned/tests/lua/room_shuffle.lua');assert.equal(result.status,0,result.stderr||result.stdout);
 });

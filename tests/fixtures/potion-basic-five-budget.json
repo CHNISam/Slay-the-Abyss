@@ -1,6 +1,6 @@
 {
   "base": "28869011c26bcead7f925e78f00dbda454daa231",
-  "originalFile": "tests/lua/potion_basic_five.lua",
+  "originalFile": "tests/fixtures/js-owned/tests/lua/potion_basic_five.lua",
   "headerSha256LF": "d9039cd70437ac46c9e780b479dd5248fee57223b8f72406a7e7e8d714e31162",
   "originalBodySha256LF": {
     "production": "a87b44bd3b6c89aab2414b3b408cf8ea2603a02c0a89249ed1c5f791e3ea75a4",
@@ -68,9 +68,9 @@
     }
   ],
   "unchangedSha256LF": {
-    "tests/lua/potion_basic_five_draw.lua": "4bcf735c58fd8a493a50e3a05b00293213a1b1042b332df30d6b6b86d3733468",
-    "tests/lua/potion_basic_five_status.lua": "06ef74a6a1d8e75ecdf74fdeaccc54348efbcd0f0b38c83bd832c12ee0f2ea74",
-    "tests/lua/potion_basic_five_acquisition.lua": "da0816c93622ecd23be6451ba78128b0fad23fa3318b1b7e0fce8eb4970ae42c",
+    "tests/fixtures/js-owned/tests/lua/potion_basic_five_draw.lua": "4bcf735c58fd8a493a50e3a05b00293213a1b1042b332df30d6b6b86d3733468",
+    "tests/fixtures/js-owned/tests/lua/potion_basic_five_status.lua": "06ef74a6a1d8e75ecdf74fdeaccc54348efbcd0f0b38c83bd832c12ee0f2ea74",
+    "tests/fixtures/js-owned/tests/lua/potion_basic_five_acquisition.lua": "da0816c93622ecd23be6451ba78128b0fad23fa3318b1b7e0fce8eb4970ae42c",
     "tests/lua/support/potion_basic_five_fixture.lua": "35676b2a2063bc69bc6104487b09ff97f760a924625a0ae6a668feb5fbdc6938"
   },
   "originalLogicalGroups": 11,

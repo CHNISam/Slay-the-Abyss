@@ -30,7 +30,7 @@ for(const [fixture,marker,count]of [
  ['class_common_relic_lifecycle','LIFECYCLE',11],
  ['class_common_relic_constructor','CONSTRUCTOR',4],
 ])test(`class common relic ${marker.toLowerCase()} follows source expectations`,()=>{
- buildLuaData();const result=runLua(`tests/lua/${fixture}.lua`);
+ buildLuaData();const result=runLua(`tests/fixtures/js-owned/tests/lua/${fixture}.lua`);
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,new RegExp(`CLASS_COMMON_RELIC_${marker}_PASS ${count}`));
 });
@@ -45,6 +45,6 @@ test('class-common natural source inputs match the independent RNG and Java shuf
  for(const sample of vectors.cases)for(const [i,tier]of tiers.entries())assert.deepEqual(sample.queues[tier],javaShuffle(catalogs[sample.character].queues[tier],sample.rawLongHex[i]));
 });
 test('formal class-common source channels preserve original full queues, entropy and unavailable guards',()=>{
- buildLuaData();const result=runLua('tests/lua/class_common_relic_channels.lua');
+ buildLuaData();const result=runLua('tests/fixtures/js-owned/tests/lua/class_common_relic_channels.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/CLASS_COMMON_RELIC_CHANNELS_PASS 5/);
 });

@@ -9,7 +9,7 @@ import {toLua,luaString} from '../scripts/build-lua-data.mjs';
 test('Tail source draw and persistent spent owner survive chapter/map boundaries without rearming',()=>{
  const oracle=JSON.parse(readFileSync('tests/fixtures/sts1-relic-pool-vectors.json','utf8'));
  assert.equal(oracle.cases.find(c=>c.seed==='65536'&&c.profile==='all-unlocked').queues.rare[0],'Lizard Tail');
- const r=runLua('tests/lua/lizard_tail_persistence.lua');
+ const r=runLua('tests/fixtures/js-owned/tests/lua/lizard_tail_persistence.lua');
  assert.equal(r.status,0,r.stdout+r.stderr);
  assert.match(r.stdout,/LIZARD_TAIL_PERSISTENCE_PASS 3 groups; controlled\/offline only/);
 });

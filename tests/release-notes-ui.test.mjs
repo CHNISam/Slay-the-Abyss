@@ -110,7 +110,7 @@ test('notice geometry follows its own theme tokens without changing card or batt
 
 test('real native host covers honest history, long Unicode pagination, modal gestures and controller Cancel', () => {
   buildUI();
-  const result = runLua('tests/lua/game_ui_release_notes.lua');
+  const result = runLua('tests/fixtures/js-owned/tests/lua/game_ui_release_notes.lua');
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.match(result.stdout, /^LUA_GAME_UI_RELEASE_NOTES_PASS 9$/m);
   const snapshots = result.stdout.split(/\r?\n/).filter(line => line.startsWith('UI_READABILITY\t'));

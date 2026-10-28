@@ -7,13 +7,13 @@ for (const [fixture, marker] of [
   ['trace', 'PRESENTATION_NATIVE_TRACE 79543 1215629804'],
 ]) {
   test(`presentation responsibilities preserve the frozen ${fixture} contract`, () => {
-    const result = runLua(`tests/lua/presentation_responsibilities_${fixture}.lua`);
+    const result = runLua(`tests/fixtures/js-owned/tests/lua/presentation_responsibilities_${fixture}.lua`);
     assert.equal(result.status, 0, result.stdout + result.stderr);
     assert.ok(result.stdout.includes(marker), result.stdout);
   });
 }
 test('native write recorder retains strict field guards and inverts only the reviewed P0 field changes',()=>{
-  const result=runLua('tests/lua/presentation_trace_native.lua');
+  const result=runLua('tests/fixtures/js-owned/tests/lua/presentation_trace_native.lua');
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,/PRESENTATION_TRACE_NATIVE_PASS/);
 });

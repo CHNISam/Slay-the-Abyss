@@ -7,7 +7,7 @@ for (const [path,marker] of [['reptomancer','REPTOMANCER 18 groups; 0 failed'],
  ['reptomancer_public','REPTOMANCER_PUBLIC'],['reptomancer_ui','REPTOMANCER_UI'],
  ['reptomancer_run_reward_rollback','REPTOMANCER_RUN_REWARD_ROLLBACK']]) {
  test(`source Reptomancer ${path} retains independent behavior and transactions`,()=>{
-  const result=runLua(`tests/lua/${path}.lua`);
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${path}.lua`);
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.ok(result.stdout.includes(marker),result.stdout);
  });

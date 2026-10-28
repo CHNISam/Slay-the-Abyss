@@ -106,16 +106,16 @@ const sapphireSlices=[
 ];
 test('Sapphire budget partition keeps every original body and discovers each of 21 groups exactly once',()=>{
   const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
-  assert.equal(digest(read('tests/lua/sapphire_treasure.lua')),
+  assert.equal(digest(read('tests/fixtures/js-owned/tests/lua/sapphire_treasure.lua')),
     '1032c2146280eb73011f91d7dad76407cd02d19c9ff7feed44f194ec05ac54ee','all original cases, assertions and variants');
   assert.equal(digest(read('tests/lua/support/sapphire_source_fixture.lua')),
     '6359769726601a70e890bd18fd4f3d631f4586f8c54a6359457bf6883cdc7bac','unchanged source stream/checkpoint fixture');
-  assert.deepEqual(readdirSync('tests/lua').filter(file=>/^sapphire_treasure(?:_slice_\d+)?\.lua$/.test(file)).sort(),
+  assert.deepEqual(readdirSync('tests/fixtures/js-owned/tests/lua').filter(file=>/^sapphire_treasure(?:_slice_\d+)?\.lua$/.test(file)).sort(),
     sapphireSlices.map(([file])=>file).sort(),'raw Lua discovery and the JS wrapper execute the same files');
   const covered=[];
   for(const [index,[file,first,last]] of sapphireSlices.entries()){
-    if(index===0)assert.ok(read('tests/lua/'+file).includes(`sliceFirst,sliceLast=sliceFirst or ${first},sliceLast or ${last}\n`));
-    else assert.equal(read('tests/lua/'+file),`assert(loadfile('tests/lua/sapphire_treasure.lua'))(${first},${last})\n`);
+    if(index===0)assert.ok(read('tests/fixtures/js-owned/tests/lua/'+file).includes(`sliceFirst,sliceLast=sliceFirst or ${first},sliceLast or ${last}\n`));
+    else assert.equal(read('tests/fixtures/js-owned/tests/lua/'+file),`assert(loadfile('tests/fixtures/js-owned/tests/lua/sapphire_treasure.lua'))(${first},${last})\n`);
     covered.push(...Array.from({length:last-first+1},(_,i)=>first+i));
   }
   assert.deepEqual(covered.sort((a,b)=>a-b),Array.from({length:21},(_,i)=>i+1),'no omitted or duplicate original group');
@@ -125,7 +125,7 @@ test('real Nodes chest choice is linked, source-bound, once-only and transaction
   let groups=0;
   for(const [file,first,last] of sapphireSlices){
     const started=performance.now();
-    const result=runLua(`tests/lua/${file}`);
+    const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}`);
     t.diagnostic(`${file}: ${Math.round(performance.now()-started)} ms`);
     assert.equal(result.status,0,result.stdout+result.stderr);
     const expected=Array.from({length:last-first+1},(_,i)=>first+i);

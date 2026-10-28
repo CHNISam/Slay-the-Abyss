@@ -18,7 +18,7 @@ test('ending history has distinct fixed-source WIN and standard-run rules',()=>{
 });
 for(const [file,marker]of [['ending_history.lua','ENDING_HISTORY 9 passed'],['ending_history_host.lua','ENDING_HISTORY_HOST 3 passed']]){
  test(`separate ending history: ${file}`,()=>{
-  const result=runLua(`tests/lua/${file}`);
+  const result=runLua(`${file==='ending_history.lua'?'tests/fixtures/js-owned/tests/lua/':'tests/lua/'}${file}`);
   assert.equal(result.status,0,result.stdout+result.stderr);assert.ok(result.stdout.includes(marker),result.stdout);
  });
 }

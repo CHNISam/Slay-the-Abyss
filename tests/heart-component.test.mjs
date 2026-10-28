@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
 const sha=path=>createHash('sha256').update(readFileSync(path,'utf8').replaceAll('\r\n','\n')).digest('hex');
 test('Heart source-only component owns exact AI and action plans without claiming integrated damage',()=>{
- const result=runLua('tests/lua/heart_component.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/heart_component.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/HEART_COMPONENT_PASS 8 groups; 0 failed; callback\/source-plan evidence only/);
 });

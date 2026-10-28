@@ -69,7 +69,7 @@
   },
   "authoredInputs": {
     "src/lua/abyss_spire_pair.lua": "7691a69d45858531dfe0fa2771224a6a59df979235f1c747e2d11d3f11c3329b",
-    "tests/lua/spire_pair_component.lua": "f5877095ccf3a34490b702b5743c97c42f91e9cf2f6f98229895a9ac3f3972f3",
+    "tests/fixtures/js-owned/tests/lua/spire_pair_component.lua": "f5877095ccf3a34490b702b5743c97c42f91e9cf2f6f98229895a9ac3f3972f3",
     "tests/spire-pair-component.test.mjs": "d346c96676f54f31a5d067ba3d2f902509dc2104168fab4c02bfde030b2d33ee",
     "tests/fixtures/spire-pair-oracle.py": "3aaf1e8292997e02767ec94ac42cbcc0a576cdc6fc7816e518af6200df30f1a0",
     "tests/fixtures/spire-pair-vectors.json": "bfc2e9ef07619f8224f06ecd324958358d2911fe6ca82d48f932bee55b6264fb",

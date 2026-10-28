@@ -12,7 +12,7 @@ function rendered() {
   if (snapshots) return snapshots;
   buildLuaData();
   buildUI();
-  const result = runLua('tests/lua/reward_readability.lua');
+  const result = runLua('tests/fixtures/js-owned/tests/lua/reward_readability.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
   assert.match(result.stdout, /UI_READABILITY_CAPTURE_PASS/);
   snapshots = Object.fromEntries(result.stdout.split(/\r?\n/).filter(line => line.startsWith('UI_READABILITY\t'))

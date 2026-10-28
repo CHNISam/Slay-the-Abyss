@@ -28,7 +28,7 @@ test('Mausoleum contract records exact pinned primary-source Git blobs and A0 or
 });
 
 test('Mausoleum public Nodes commands retain RNG, permanent hook, rollback and pool boundaries',()=>{
-  const result=runLua('tests/lua/mausoleum_event_content.lua');
+  const result=runLua('tests/fixtures/js-owned/tests/lua/mausoleum_event_content.lua');
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,/MAUSOLEUM_EVENT_CONTENT 18 passed/);
 });

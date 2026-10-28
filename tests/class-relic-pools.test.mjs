@@ -53,11 +53,11 @@ test('new class catalog remains a protected build input',()=>{
  } finally { rmSync(root,{recursive:true,force:true}); }
 });
 test('default Ironclad vectors and all original V4 historical source contracts stay unchanged',()=>{
- const result=runLua('tests/lua/class_relic_pool_default.lua');assert.equal(result.status,0,result.stdout+result.stderr);
+ const result=runLua('tests/fixtures/js-owned/tests/lua/class_relic_pool_default.lua');assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/CLASS_RELIC_POOL default 10 JVM vectors and four original roles passed/);
 });
 for (const character of ['silent','defect','watcher']) test(`${character} Run and all shared source channels use their own full queues`,()=>{
- const result=runLua(`tests/lua/class_relic_pool_${character}.lua`);
+ const result=runLua(`tests/fixtures/js-owned/tests/lua/class_relic_pool_${character}.lua`);
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,new RegExp(`CLASS_RELIC_POOL ${character} 10 JVM vectors`));
 });

@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {runLua} from '../scripts/test-lua.mjs';
 for (const [fixture,groups] of [['ai',5],['runtime',9],['ui',1]]) test(`Nemesis fixed-source ${fixture} boundaries`,()=>{
- const result=runLua(`tests/lua/nemesis_${fixture}.lua`);
+ const result=runLua(`tests/fixtures/js-owned/tests/lua/nemesis_${fixture}.lua`);
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,new RegExp(`NEMESIS_${fixture.toUpperCase()} ${groups} groups; 0 failed`));
 });

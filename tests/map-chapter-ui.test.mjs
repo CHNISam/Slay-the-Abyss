@@ -18,14 +18,14 @@ test('chapter-local map geometry, real same-table transitions and stale gestures
   assert.equal(parts.base,'54c29a78fcc831f20c15b062c173773158fdf58b');
   assert.equal(parts.originalGitBlob,'895747f9158c6c14e1158bfc8d6372b6da122ffa');
   assert.equal(parts.originalSha256LF,'20cb975546649c960292ef460c50494dbc7cdbd44abda39920d657890ece6d8a');
-  assert.equal(parts.entry,'tests/lua/map_chapters.lua');assert.equal(parts.total,38);
+  assert.equal(parts.entry,'tests/fixtures/js-owned/tests/lua/map_chapters.lua');assert.equal(parts.total,38);
   assert.equal(parts.timeoutMilliseconds,30000);
   assert.equal(parts.prefix,prefix);assert.equal(parts.before,before);assert.equal(parts.after,after);assert.equal(parts.footer,footer);
   assert.deepEqual(parts.slices,[
-    {path:'tests/lua/map_chapters.lua',first:1,last:8},
-    {path:'tests/lua/map_chapters_slice_2.lua',first:9,last:16},
-    {path:'tests/lua/map_chapters_slice_3.lua',first:17,last:29},
-    {path:'tests/lua/map_chapters_slice_4.lua',first:30,last:38},
+    {path:'tests/fixtures/js-owned/tests/lua/map_chapters.lua',first:1,last:8},
+    {path:'tests/fixtures/js-owned/tests/lua/map_chapters_slice_2.lua',first:9,last:16},
+    {path:'tests/fixtures/js-owned/tests/lua/map_chapters_slice_3.lua',first:17,last:29},
+    {path:'tests/fixtures/js-owned/tests/lua/map_chapters_slice_4.lua',first:30,last:38},
   ]);
   // Reverse only the exact registration/selection instrumentation. Every
   // original loop, input matrix, helper and assertion remains byte-identical.

@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import { toLua } from '../scripts/build-lua-data.mjs';
 
 test('real chapter maps, source RNG boundaries, resource migration and ending gates', () => {
-  const result=runLua('tests/lua/cross_act.lua');
+  const result=runLua('tests/fixtures/js-owned/tests/lua/cross_act.lua');
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,/CROSS_ACT_PASS 12/);
 });

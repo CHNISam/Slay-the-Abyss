@@ -16,6 +16,6 @@ test('BackToBasics source fixes eight starter tags, free purge, four-argument gr
 });
 for(const [file,marker,count]of [['back_to_basics_event.lua','BACK_TO_BASICS_EVENT',17],['back_to_basics_ui.lua','BACK_TO_BASICS_UI',9]]){
  test(`BackToBasics source-faithful public commands and generated NodeUI: ${file}`,()=>{
-  const result=runLua(`tests/lua/${file}`);assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,new RegExp(`${marker} ${count} passed`));
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}`);assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,new RegExp(`${marker} ${count} passed`));
  });
 }

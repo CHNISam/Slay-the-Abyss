@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
 test('Maw and Spire Growth preserve source runtime actions and permanent room boundaries',()=>{
- const result=runLua('tests/lua/act3_maw_growth.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/act3_maw_growth.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/ACT3_MAW_GROWTH 18 groups; 0 failed/);
 });

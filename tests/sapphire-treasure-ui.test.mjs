@@ -23,7 +23,7 @@ for (const [file,groups] of [['sapphire_treasure_ui.lua',8],['sapphire_treasure_
   ['sapphire_treasure_ui_slice_3.lua',1],['sapphire_treasure_ui_slice_4.lua',1],
   ['sapphire_treasure_ui_slice_5.lua',1],['sapphire_treasure_ui_slice_6.lua',1],['sapphire_treasure_ui_slice_7.lua',3]]) {
   test(`generated NodeUI full command parity and interrupted-input isolation: ${file}`,()=>{
-    const result=runLua(`tests/lua/${file}`);
+    const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}`);
     assert.equal(result.status,0,result.stderr||result.stdout);
     assert.match(result.stdout,new RegExp(`SAPPHIRE_TREASURE_UI_PASS ${groups}`));
   });

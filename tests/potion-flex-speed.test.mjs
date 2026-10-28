@@ -17,7 +17,7 @@ test('real Run use preserves source delayed-loss and Artifact order',()=>{
   ['potion_flex_speed.lua',1,3],['potion_flex_speed_slice_2.lua',4,7],
   ['potion_flex_speed_slice_3.lua',8,10],['potion_flex_speed_slice_4.lua',11,11],
  ]){
-  const started=Date.now(),r=runLua('tests/lua/'+file);
+  const started=Date.now(),r=runLua('tests/fixtures/js-owned/tests/lua/'+file);
   assert.equal(r.status,0,r.stderr||r.stdout);
   assert.match(r.stdout,new RegExp('^LUA_POTION_FLEX_SPEED_PASS '+(last-first+1)+'$','m'));
   const indices=[...r.stdout.matchAll(/^ok Flex Speed (\d+) - /gm)].map(m=>Number(m[1]));

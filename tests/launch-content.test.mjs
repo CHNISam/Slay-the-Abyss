@@ -56,7 +56,7 @@ test('Act3 event bridge evidence preserves pending native and natural acceptance
     assert.equal(event.poolMode, 'explicit-only');
     assert.deepEqual(event.channels, ['explicit:Nodes.enter']);
     const profile = manifest.profiles[event.profile];
-    assert.ok(profile.local.testFiles.includes('tests/lua/event_combat_bridge.lua'));
+    assert.ok(profile.local.testFiles.includes('tests/fixtures/js-owned/tests/lua/event_combat_bridge.lua'));
     assert.equal(profile.platform.status, 'pending-per-item');
     assert.equal(profile.live.status, 'pending-natural-acquisition-and-execution');
     assert.deepEqual(profile.platform.evidence, []);

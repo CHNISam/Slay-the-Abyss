@@ -4,7 +4,7 @@ import {runLua} from '../scripts/test-lua.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 test('Jaw Worm Horde preserves its hard-mode source entry and actions',()=>{
- const result=runLua('tests/lua/jaw_worm_horde.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/jaw_worm_horde.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/JAW_WORM_HORDE 18 groups; 0 failed/);
 });

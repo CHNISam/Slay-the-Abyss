@@ -27,11 +27,11 @@ test('independent source interpretation retains the full source catalog and fixe
  assert.deepEqual(vector.afterEliteRng,{words:['b45492bcb6dec9cc','ebc969f27c5c6a98'],counter:7});
  assert.deepEqual(vector.bossOffers,['Astrolabe','Tiny House','Black Star']);
  assert.deepEqual(vector.tierRolls,[74,94]);assert.deepEqual(vector.rarePrefix.slice(0,2),['Peace Pipe','TungstenRod']);
- const lua=readFileSync('tests/lua/black_star.lua','utf8');
+ const lua=readFileSync('tests/fixtures/js-owned/tests/lua/black_star.lua','utf8');
  for(const state of [vector.initialRng,vector.afterEliteRng])for(const word of state.words)assert.ok(lua.includes(word));
 });
 test('Black Star production definition supports public Boss obtain and exact elite drops',()=>{
- const result=runLua('tests/lua/black_star.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/black_star.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/BLACK_STAR_PASS/);
 });

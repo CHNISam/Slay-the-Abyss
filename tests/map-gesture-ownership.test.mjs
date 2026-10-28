@@ -7,7 +7,7 @@ import { runLua } from '../scripts/test-lua.mjs';
 test('map gestures preserve exit cancellation and input ownership in generated native UI', () => {
   buildLuaData();
   buildUI();
-  const result = runLua('tests/lua/map_gesture_ownership.lua');
+  const result = runLua('tests/fixtures/js-owned/tests/lua/map_gesture_ownership.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
   assert.match(result.stdout, /LUA_MAP_GESTURE_OWNERSHIP 35 passed; 0 failed/);
 });

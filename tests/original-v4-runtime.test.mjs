@@ -20,14 +20,14 @@ test('all 38 declared V4 direct changes match both production card versions',()=
   }
 });
 test('original role atomicity, shared modifiers and critical enemy boundaries',()=>{
-  const r=runLua('tests/lua/original_v4_contract.lua');assert.equal(r.status,0,r.stdout+r.stderr);assert.match(r.stdout,/ORIGINAL_V4_CONTRACT_PASS 19/);
+  const r=runLua('tests/fixtures/js-owned/tests/lua/original_v4_contract.lua');assert.equal(r.status,0,r.stdout+r.stderr);assert.match(r.stdout,/ORIGINAL_V4_CONTRACT_PASS 19/);
 });
 for(const role of ['ht','ar','fr','rd'])for(const level of ['base','upgrade'])for(const scenario of ['lean','rich']){
   test(`${role} ${level} ${scenario}: all 75 real queue/actor resolutions match frozen expectations`,()=>{
     const value={version:vectors.version,cases:vectors.cases.filter(c=>c.role===role.toUpperCase()&&c.upgraded===(level==='upgrade')&&c.scenario===scenario)};
     const expected="-- Generated from independently frozen V4 expectations. Do not hand-edit values.\ndofile('tests/lua/support/original_v4_card_cases.lua').run('"+role.toUpperCase()+"',"+(level==='upgrade')+",'"+scenario+"',"+toLua(value)+")\n";
-    assert.equal(readFileSync(`tests/lua/original_v4_${role}_${level}_${scenario}.lua`,'utf8'),expected,'Lua expectations must exactly match independent JSON');
-    const r=runLua(`tests/lua/original_v4_${role}_${level}_${scenario}.lua`);assert.equal(r.status,0,r.stdout+r.stderr);
+    assert.equal(readFileSync(`tests/fixtures/js-owned/tests/lua/original_v4_${role}_${level}_${scenario}.lua`,'utf8'),expected,'Lua expectations must exactly match independent JSON');
+    const r=runLua(`tests/fixtures/js-owned/tests/lua/original_v4_${role}_${level}_${scenario}.lua`);assert.equal(r.status,0,r.stdout+r.stderr);
     assert.match(r.stdout,new RegExp(`ORIGINAL_V4_VECTORS_PASS ${role.toUpperCase()} ${level} ${scenario} 75`));
   });
 }

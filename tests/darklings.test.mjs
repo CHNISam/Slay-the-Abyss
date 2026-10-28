@@ -5,12 +5,12 @@ import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
 
 test('Darklings source formation AI linked deaths rebirth and public Run preserve existing queues',()=>{
- const result=runLua('tests/lua/darklings.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/darklings.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/DARKLINGS 31 groups; 0 failed/);
 });
 test('real five-slot controls retain Chinese Regrow and Reincarnate without target leaks or immortal death feedback',()=>{
- const result=runLua('tests/lua/darklings_ui.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/darklings_ui.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/DARKLINGS_UI_PASS/);
 });

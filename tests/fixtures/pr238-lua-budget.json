@@ -157,7 +157,7 @@
       ]
     },
     {
-      "entry": "tests/lua/potion_flex_speed.lua",
+      "entry": "tests/fixtures/js-owned/tests/lua/potion_flex_speed.lua",
       "total": 11,
       "originalSha256LF": "d6e4fe8c9183485b47842232a6eb4014e97b9b6e36fc4417df23e59ed8fd502f",
       "baseSha256LF": "d6e4fe8c9183485b47842232a6eb4014e97b9b6e36fc4417df23e59ed8fd502f",

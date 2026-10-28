@@ -27,6 +27,6 @@ test('Addict uses the already implemented exact Shame definition, without new ca
   assert.equal(shame.endTurnStatusAmount,1);assert.deepEqual(shame.effects,[]);assert.equal(shame.upgrade,undefined);
 });
 test('Addict public Nodes commands preserve original rewards, screens, old/new relic hooks and rollback',()=>{
-  const result=runLua('tests/lua/addict_event_content.lua');
+  const result=runLua('tests/fixtures/js-owned/tests/lua/addict_event_content.lua');
   assert.equal(result.status,0,result.stderr||result.stdout);assert.match(result.stdout,/ADDICT_EVENT_CONTENT 23 passed/);
 });

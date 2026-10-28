@@ -24,7 +24,7 @@ function verify(rows){
 }
 let rows;
 test('ordinary Run definitions match all independent fixed300 registration classes and actual HEALING tags',()=>{
- const result=runLua('tests/lua/run_card_catalog_export.lua');assert.equal(result.status,0,result.stderr);
+ const result=runLua('tests/fixtures/js-owned/tests/lua/run_card_catalog_export.lua');assert.equal(result.status,0,result.stderr);
  rows=result.stdout.split(/\r?\n/).filter(line=>line.startsWith('CATALOG\t')).map(line=>line.split('\t').slice(1));verify(rows);
 });
 test('another valid registered source ID and metadata-only HEALING cannot conceal incorrect actual definitions',()=>{

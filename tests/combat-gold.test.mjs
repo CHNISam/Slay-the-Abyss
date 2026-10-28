@@ -82,7 +82,7 @@ test('combat gold bounds, escape, explicit ownership and atomic failure guards',
  const seen=[];
  for(const [file,first,last]of [['combat_gold.lua',1,7],['combat_gold_transactions.lua',8,9],['combat_gold_potion_rollback.lua',10,10],['combat_gold_claims.lua',11,13]]){
   const started=Date.now();
-  const result=runLua('tests/lua/'+file);assert.equal(result.status,0,result.stderr||result.stdout);
+  const result=runLua('tests/fixtures/js-owned/tests/lua/'+file);assert.equal(result.status,0,result.stderr||result.stdout);
   const indices=[...result.stdout.matchAll(/^ok combat gold (\d+) - /gm)].map(m=>Number(m[1]));
   assert.deepEqual(indices,Array.from({length:last-first+1},(_,i)=>first+i));seen.push(...indices);
   console.log(`Gold original cases ${first}-${last}: ${result.stdout.match(/COMBAT_GOLD_PASS \d+/)?.[0]}, ${Date.now()-started}ms`);

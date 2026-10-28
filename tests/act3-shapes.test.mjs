@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
 test('source Shapes use actual formation, enemy actions and public battle transactions',()=>{
- const result=runLua('tests/lua/act3_shapes.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/act3_shapes.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/ACT3_SHAPES 17 groups; 0 failed/);
 });

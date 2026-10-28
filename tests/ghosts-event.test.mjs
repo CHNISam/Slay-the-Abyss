@@ -15,6 +15,6 @@ test('Ghosts source locks cached A0 cost, mutation order, five fresh Ghostly obt
 });
 for(const [file,marker,count]of [['ghosts_event.lua','GHOSTS_EVENT',12],['ghosts_event_ui.lua','GHOSTS_EVENT_UI',8]]){
  test(`Ghosts public commands and generated NodeUI: ${file}`,()=>{
-  const result=runLua(`tests/lua/${file}`);assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,new RegExp(`${marker} ${count} passed`));
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}`);assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,new RegExp(`${marker} ${count} passed`));
  });
 }

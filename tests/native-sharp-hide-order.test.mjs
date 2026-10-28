@@ -26,12 +26,12 @@ test('native Sharp Hide ordering keeps a separate fixed raw-source lock',()=>{
   nativeCardDisposedAfterHpTriggeredTopDraw:true,emptyDrawAndDiscardCanDrawLimboCard:false});
 });
 test('native Sharp Hide HP-triggered TOP draw precedes physical card disposal',()=>{
- const result=runLua('tests/lua/native_sharp_hide_top_draw.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/native_sharp_hide_top_draw.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/NATIVE_SHARP_HIDE_TOP_DRAW_PASS/);
 });
 test('native Sharp Hide preserves source death, metadata and public rollback boundaries',()=>{
- const result=runLua('tests/lua/native_sharp_hide_queue_boundaries.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/native_sharp_hide_queue_boundaries.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/NATIVE_SHARP_HIDE_QUEUE_BOUNDARIES 6 groups; 0 failed/);
 });

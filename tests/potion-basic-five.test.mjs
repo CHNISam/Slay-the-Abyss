@@ -16,7 +16,7 @@ function assertPartition(){
  assert.equal(budget.defaultLuaTimeoutMilliseconds,30000);assert.equal(budget.slices.length,4);
  const actual={production:[],refusals:[],overflow:[]},sizes=[];
  for(const part of budget.slices){
-  const source=readLF(`tests/lua/${part.file}`);
+  const source=readLF(`tests/fixtures/js-owned/tests/lua/${part.file}`);
   assert.equal(sha(source.slice(0,source.indexOf('test('))),budget.headerSha256LF,`${part.file}: original bindings`);
   const loops=[...source.matchAll(/ for _,(?:id|spec) in ipairs\((.*?)\) do\n([\s\S]*?)\n end/g)];
   assert.equal(loops.length,1,`${part.file}: one bounded original loop`);
@@ -52,7 +52,7 @@ test('normal Run potion entry executes all five effects and atomic failures',()=
   {file:'potion_basic_five_status.lua',marker:'LUA_POTION_BASIC_FIVE_STATUS_PASS',count:4,logicalGroup:'status',logicalCount:4},
  ]){
   const started=Date.now();
-  const result=runLua(`tests/lua/${file}`);
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}`);
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.match(result.stdout,new RegExp(`^${marker} ${count}$`,'m'));
   console.log(`Lua fixture ${file}: ${Date.now()-started} ms`);
@@ -63,12 +63,12 @@ test('normal Run potion entry executes all five effects and atomic failures',()=
  assert.equal(physical,13);assert.equal([...logical.values()].reduce((a,b)=>a+b,0),11);
 });
 test('missing definitions cannot alter or renormalize complete source acquisition trajectories',()=>{
- const result=runLua('tests/lua/potion_basic_five_acquisition.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/potion_basic_five_acquisition.lua');
  assert.equal(result.status,0,result.stderr||result.stdout);assert.match(result.stdout,/LUA_POTION_BASIC_FIVE_ACQUISITION_PASS 1/);
 });
 
 test('snapshot comparison preserves values, all fields, bidirectional aliases and cycles',()=>{
- const result=runLua('tests/lua/potion_basic_five_graph.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/potion_basic_five_graph.lua');
  assert.equal(result.status,0,result.stderr||result.stdout);
  assert.match(result.stdout,/^LUA_POTION_BASIC_FIVE_GRAPH_PASS 6$/m);
 });

@@ -1,5 +1,5 @@
 {
-  "entry": "tests/lua/sapphire_treasure.lua",
+  "entry": "tests/fixtures/js-owned/tests/lua/sapphire_treasure.lua",
   "originalGroups": 21,
   "timeout": 30000,
   "migratedBodySha256": "c2e053c5fc8b1b94e50a0715f2a3af8f12039ebf20c9b8a4d3154657b6df81d0",

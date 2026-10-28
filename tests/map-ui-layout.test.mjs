@@ -89,7 +89,7 @@ test('actual Lua controller validates navigation, scroll, locked input, path and
   buildUiTheme();
   buildLuaData();
   buildMapLayout();
-  const result = runLua('tests/lua/map_ui.lua');
+  const result = runLua('tests/fixtures/js-owned/tests/lua/map_ui.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
   assert.match(result.stdout, /LUA_MAP_UI_PASS 27/);
 });

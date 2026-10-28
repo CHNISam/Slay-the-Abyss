@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {runLua} from '../scripts/test-lua.mjs';
 test('formal ending admission source reward order and late failures preserve all mutable owners',()=>{
- const result=runLua('tests/lua/ending_route_contracts.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/ending_route_contracts.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/ENDING_ROUTE_CONTRACTS_PASS 5 groups/);
 });

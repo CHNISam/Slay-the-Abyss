@@ -4,7 +4,7 @@ import {runLua} from '../scripts/test-lua.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 for(const [file,count]of [['act3_transient.lua',10],['act3_transient_slice_2.lua',7],['act3_transient_slice_3.lua',2]])test('Transient preserves original complete groups: '+file,()=>{
- const result=runLua('tests/lua/'+file);
+ const result=runLua('tests/fixtures/js-owned/tests/lua/'+file);
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,new RegExp('ACT3_TRANSIENT '+count+' groups; 0 failed'));
 });

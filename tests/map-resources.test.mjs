@@ -23,7 +23,7 @@ test('map resources stay above the route and clear all top-bar controls', () => 
 });
 test('map shows actual run resources before entry and refreshes after resource changes', () => {
   buildUI();
-  const result = runLua('tests/lua/map_resources.lua');
+  const result = runLua('tests/fixtures/js-owned/tests/lua/map_resources.lua');
   assert.equal(result.status, 0, result.stderr + result.stdout);
   assert.match(result.stdout, /LUA_MAP_RESOURCES_PASS/);
 });

@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
 test('fixed-source Lizard Tail callback owns a single persistent use without claiming full integration',()=>{
- const result=runLua('tests/lua/lizard_tail_component.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/lizard_tail_component.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/LIZARD_TAIL_COMPONENT_PASS 11 groups; callback-only/);
 });

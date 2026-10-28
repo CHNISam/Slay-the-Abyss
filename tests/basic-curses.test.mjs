@@ -21,5 +21,5 @@ test('basic curse schema rejects fabricated lifecycle flags and damage values',(
  }
 });
 test('real combat commands implement basic curse lifecycle and permanent remove API',()=>{
- buildLuaData();const result=runLua('tests/lua/basic_curses.lua');assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/BASIC_CURSES_PASS 19/);
+ buildLuaData();const result=runLua('tests/fixtures/js-owned/tests/lua/basic_curses.lua');assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/BASIC_CURSES_PASS 19/);
 });

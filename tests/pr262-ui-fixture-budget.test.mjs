@@ -18,7 +18,7 @@ function restore(source,s){return source.replace(header(s),'').replace(registrat
 
 test('UI budget split restores both original complete bodies and retains the original default 30s budget',()=>{
  for(const s of suites){
-  const source=read(`tests/lua/${s.name}.lua`);
+  const source=read(`tests/fixtures/js-owned/tests/lua/${s.name}.lua`);
   assert.ok(source.startsWith(header(s)),`${s.name} must explicitly select its original first slice`);
   assert.equal(sha(restore(source,s)),s.hash,'no assertion, setup, timing or source seed may change');
   assert.ok(restore(source,s).includes('assert('));
@@ -35,16 +35,16 @@ test('UI budget split restores both original complete bodies and retains the ori
 
 test('UI budget split wrappers and raw discovery preserve all 31 card cases and eight whole reward groups exactly once',()=>{
  for(const s of suites){
-  const slices=ranges(s),actual=readdirSync('tests/lua').filter(f=>new RegExp(`^${s.name}(?:_slice_[0-9]+)?\\.lua$`).test(f));
+  const slices=ranges(s),actual=readdirSync('tests/fixtures/js-owned/tests/lua').filter(f=>new RegExp(`^${s.name}(?:_slice_[0-9]+)?\\.lua$`).test(f));
   assert.deepEqual(actual.sort(),slices.map(x=>x.file).sort());
   const covered=slices.flatMap(x=>Array.from({length:x.last-x.first+1},(_,i)=>x.first+i));
   assert.deepEqual(covered,Array.from({length:s.total},(_,i)=>i+1));
-  for(const x of slices.slice(1))assert.equal(read(`tests/lua/${x.file}`),`assert(loadfile('tests/lua/${s.name}.lua'))(${x.first},${x.last})\n`);
+  for(const x of slices.slice(1))assert.equal(read(`tests/fixtures/js-owned/tests/lua/${x.file}`),`assert(loadfile('tests/fixtures/js-owned/tests/lua/${s.name}.lua'))(${x.first},${x.last})\n`);
  }
 });
 
 for(const s of suites)for(const x of ranges(s))test(`PR262 original UI coverage at 30s: ${x.file} [${x.first}..${x.last}]`,()=>{
- const result=runLua(`tests/lua/${x.file}`,{timeout:30_000});
+ const result=runLua(`tests/fixtures/js-owned/tests/lua/${x.file}`,{timeout:30_000});
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,new RegExp(`${s.marker} ${x.last-x.first+1} passed[;]? 0 failed`));
 });

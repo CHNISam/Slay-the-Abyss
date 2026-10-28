@@ -86,13 +86,13 @@ function validateLegacyBody(source){
   assert.equal(createHash('sha256').update(body.replace(migratedDeath,legacyDeath).replace(migratedAim,legacyAim).replace(motionFrames,'')).digest('hex'),
     'd97b7f1b44cb4c4655f9ae06ec429f88f40bfd322ddb1aa8ab30e4c2d08b9678');
 }
-const readWrappers=()=>Object.fromEntries(slices.map(([file])=>[file,read('tests/lua/'+file)]));
+const readWrappers=()=>Object.fromEntries(slices.map(([file])=>[file,read('tests/fixtures/js-owned/tests/lua/'+file)]));
 
 test('frozen battle UI metadata preserves all 53 case bodies and six playback seeds across seven original-budget slices',()=>{
   const restored=restoreSupport(read(support));
   validateLegacyBody(restored);
   validatePartitions(slices,readWrappers());
-  const discovered=readdirSync('tests/lua').filter(file=>/^battle_ui(?:_slice_\d+)?\.lua$/.test(file)).sort();
+  const discovered=readdirSync('tests/fixtures/js-owned/tests/lua').filter(file=>/^battle_ui(?:_slice_\d+)?\.lua$/.test(file)).sort();
   assert.deepEqual(discovered,slices.map(([file])=>file).sort(),'raw discovery includes exactly the seven original-budget entries');
   validateRunner(read('scripts/test-lua.mjs'));
 });
@@ -124,7 +124,7 @@ test('battle UI seed-slice guards reject skipped/overlapping seeds, lost recursi
 test('the frozen battle UI cases execute across seven slices with all six playback seeds exactly once',()=>{
   const seen=[],seeds=[];
   for(const [file,first,last,seedFirst=1,seedLast=6] of slices){
-    const result=runLua('tests/lua/'+file);
+    const result=runLua('tests/fixtures/js-owned/tests/lua/'+file);
     assert.equal(result.status,0,result.stdout+result.stderr);
     const indices=[...result.stdout.matchAll(/^ok UI (\d+) - /gm)].map(row=>Number(row[1]));
     assert.deepEqual(indices,sequence(first,last));

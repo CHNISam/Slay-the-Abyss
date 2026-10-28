@@ -6,7 +6,7 @@ import {spawnSync} from 'node:child_process';
 import {runLua} from '../scripts/test-lua.mjs';
 const hash=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
 test('Time Eater source AI queue threshold Haste rollback public Run and Chinese display',()=>{
- const result=runLua('tests/lua/time_eater.lua');
+ const result=runLua('tests/fixtures/js-owned/tests/lua/time_eater.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/TIME_EATER 36 groups; 0 failed/);
 });

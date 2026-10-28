@@ -20,9 +20,9 @@ test('all 12 original source-input groups retain their complete body and run onc
   const seen = [];
   for (const [file, first, last] of [['card_input_port.lua', 1, 6], ['card_input_port_slice_2.lua', 7, 10],
     ['card_input_port_slice_3.lua', 11, 12]]) {
-    assert.equal(readFileSync(`tests/lua/${file}`, 'utf8').trim(),
+    assert.equal(readFileSync(`tests/fixtures/js-owned/tests/lua/${file}`, 'utf8').trim(),
       `dofile('tests/lua/support/card_input_port_cases.lua')(${first},${last})`);
-    const result = runLua(`tests/lua/${file}`, { timeout: 30000 });
+    const result = runLua(`tests/fixtures/js-owned/tests/lua/${file}`, { timeout: 30000 });
     assert.equal(result.status, 0, result.stdout + result.stderr);
     const actual = [...result.stdout.matchAll(/^PASS source card input (.+)$/gm)].map(match => match[1]);
     assert.deepEqual(actual, names.slice(first - 1, last));

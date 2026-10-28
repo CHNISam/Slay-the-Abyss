@@ -61,16 +61,17 @@ const suites=[
   }
 ];
 for(const s of suites)test('PR266 original body and complete raw discovery: '+s.name,()=>{
- const source=read('tests/lua/'+s.name+'.lua');
+ const lua=s.name==='act3_transient'?'tests/fixtures/js-owned/tests/lua/':'tests/lua/';
+ const source=read(lua+s.name+'.lua');
  assert.ok(source.startsWith(s.header));assert.equal(source.split(s.insert).length,2);
  const original=source.replace(s.header,'').replace(s.insert,'').replace(s.footer,s.originalFooter);
  assert.equal(sha(original),s.hash,'every original assertion, loop, setup and seed must remain');
  assert.notEqual(sha(original.replace('assert(','assert(true or ')),s.hash,'weakened original assertion must be rejected');
  const files=s.ranges.map((r,i)=>s.name+(i?'_slice_'+(i+1):'')+'.lua');
- const found=readdirSync('tests/lua').filter(f=>f===s.name+'.lua'||f.startsWith(s.name+'_slice_'));
+ const found=readdirSync(lua).filter(f=>f===s.name+'.lua'||f.startsWith(s.name+'_slice_'));
  assert.deepEqual(found.sort(),[...files].sort());
  assert.deepEqual(s.ranges.flatMap(([a,b])=>Array.from({length:b-a+1},(_,i)=>a+i)),Array.from({length:s.total},(_,i)=>i+1));
- for(let i=1;i<files.length;i++)assert.equal(read('tests/lua/'+files[i]),`assert(loadfile('tests/lua/${s.name}.lua'))(${s.ranges[i][0]},${s.ranges[i][1]})\n`);
+ for(let i=1;i<files.length;i++)assert.equal(read(lua+files[i]),`assert(loadfile('${lua}${s.name}.lua'))(${s.ranges[i][0]},${s.ranges[i][1]})\n`);
 });
 test('PR266 keeps all four class matrices and the original per-process deadline',()=>{
  assert.deepEqual(suites[1].ranges,[[1,1],[2,2],[3,3],[4,4]]);

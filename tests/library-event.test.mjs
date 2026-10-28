@@ -30,6 +30,6 @@ test('independent source-pool/offer/full-RNG oracle regenerates all17 cases exac
 });
 for(const [file,marker]of [['library_event.lua','LIBRARY_EVENT 13 passed'],['library_event_rng.lua','LIBRARY_RNG 4 passed'],['library_event_ui.lua','LIBRARY_UI 8 passed'],['library_event_combat.lua','LIBRARY_COMBAT 4 mapped-class actual acquisitions']]){
  test(`Library public commands/source vectors/generated UI: ${file}`,()=>{
-  const result=runLua(`tests/lua/${file}`);assert.equal(result.status,0,result.stdout+result.stderr);assert.ok(result.stdout.includes(marker),result.stdout);
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${file}`);assert.equal(result.status,0,result.stdout+result.stderr);assert.ok(result.stdout.includes(marker),result.stdout);
  });
 }

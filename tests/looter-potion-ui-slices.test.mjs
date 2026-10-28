@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 
 const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
 const sha = source => createHash('sha256').update(source).digest('hex');
-const entry = 'tests/lua/looter_potion_ui.lua';
+const entry = 'tests/fixtures/js-owned/tests/lua/looter_potion_ui.lua';
 const helper = 'tests/lua/support/looter_potion_ui_fixture.lua';
 // Full original LF source at develop e0fad45c74ed574bc4cfb8a4c9ad71424a13c386.
 // Eight groups create 1+1+2+4+1+1+8+4 independent seed-42 reward fixtures.
@@ -23,7 +23,7 @@ const after = before + 'registered=registered+1;if registered<first or registere
 const footer = "assert(registered==8,'original UI case discovery changed')\nassert(passed+failed==last-first+1,'UI budget slice coverage changed')\n";
 const summary = "print('LOOTER_POTION_UI '..passed..' passed '..failed..' failed');assert(failed==0)\n";
 const ranges = Array.from({ length: 8 }, (_, i) => [
-  i === 0 ? entry : `tests/lua/looter_potion_ui_slice_${i + 1}.lua`, i + 1, i + 1,
+  i === 0 ? entry : `tests/fixtures/js-owned/tests/lua/looter_potion_ui_slice_${i + 1}.lua`, i + 1, i + 1,
 ]);
 const wrappers = () => Object.fromEntries(ranges.slice(1).map(([path]) => [path, read(path)]));
 

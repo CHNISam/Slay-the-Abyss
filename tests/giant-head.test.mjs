@@ -7,7 +7,7 @@ import {runLua} from '../scripts/test-lua.mjs';
 
 for(const [fixture,marker] of [['giant_head_ai','GIANT_HEAD_AI 7'],['giant_head_slow','GIANT_HEAD_SLOW 24']]) {
  test(`${fixture}: fixed-source actions, power timing and transactions`,()=>{
-  const result=runLua(`tests/lua/${fixture}.lua`);
+  const result=runLua(`tests/fixtures/js-owned/tests/lua/${fixture}.lua`);
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.ok(result.stdout.includes(`${marker} groups; 0 failed`),result.stdout);
  });
