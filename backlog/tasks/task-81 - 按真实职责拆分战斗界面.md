@@ -5,9 +5,10 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-28 15:40'
-updated_date: '2026-10-28 15:57'
+updated_date: '2026-10-28 16:11'
 labels: []
 dependencies: []
+priority: medium
 ordinal: 126000
 ---
 
@@ -37,6 +38,8 @@ ordinal: 126000
 验证：40份现有Lua战斗/输入/控制器回归均有通过记录；最终直接端口装配后check:engineering与45项专项通过，真实Battle预览所有原生树与基线逐项相同。原有30秒期限保留；超时组在同期限下独立复测通过，原基线也有超时。完整证据docs/reviews/BATTLE-UI-REFACTOR.json。
 
 独立分支已重放到正式develop1f260a71，产品代码基线一致；rebase后13项严格源身份/体积/真实UI树差分再次通过。自动审批拒绝向origin推送，要求该目的地明确源码发布授权；本地交付完成，未创建PR/未运行远端CI。
+
+PR311首轮CI在任务元数据检查发现缺少优先级；补为medium，未改生产代码或降低门禁。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
