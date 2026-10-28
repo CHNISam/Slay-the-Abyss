@@ -16,6 +16,11 @@ assert(focus.navigationListeners.cancel())
 assert(not ui.controlsOpen and ui.exitOpen and not exit:GetChild('guide').visible)
 assert(ui:closeExit() and not ui.exitOpen and calls==0)
 assert(ui:start())
+if ui.characterOpen then
+    assert(ui:selectCharacter('traveler') and ui:selectElement('ironclad'))
+    assert(not ui.run and ui:confirmCharacter())
+    ui:update(1)
+end
 local function mapControl(name)
     local panel=root:GetChild('mapPanel')
     for _,group in pairs(panel.children)do if group.children[name]then return group.children[name]end end
