@@ -47,14 +47,14 @@ button{font-family:inherit;cursor:pointer}
   </div>
 
   <!-- 药水槽 -->
-  <button aria-label="药水：锻造祝福" style="position: absolute; left: 1480px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid #8C7454; background: radial-gradient(circle at 50% 35%, #3A2E28, #221A17); display: grid; place-items: center; padding: 0">
+  <button aria-label="药水：锻造祝福" style="position: absolute; left: 362px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid #8C7454; background: radial-gradient(circle at 50% 35%, #3A2E28, #221A17); display: grid; place-items: center; padding: 0">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8CC4E2" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8A3 3 0 0 0 8.2 21h7.6a3 3 0 0 0 2.7-5L14 8V3"></path><path d="M7.5 14h9"></path></svg>
   </button>
-  <button aria-label="药水：火焰药水" style="position: absolute; left: 1542px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid {{fireRing}}; background: radial-gradient(circle at 50% 35%, #4A2C24, #221A17); box-shadow: {{fireGlow}}; display: grid; place-items: center; padding: 0">
+  <button aria-label="药水：火焰药水" style="position: absolute; left: 424px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid {{fireRing}}; background: radial-gradient(circle at 50% 35%, #4A2C24, #221A17); box-shadow: {{fireGlow}}; display: grid; place-items: center; padding: 0">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EE9670" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8A3 3 0 0 0 8.2 21h7.6a3 3 0 0 0 2.7-5L14 8V3"></path><path d="M12 12c1.5 1.4 2 2.4 2 3.4a2 2 0 0 1-4 0c0-1 .5-2 2-3.4z"></path></svg>
   </button>
-  <button aria-label="空药水槽" style="position: absolute; left: 1604px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px dashed #6E5A42; background: #1A131280"></button>
-  <span style="position: absolute; left: 1676px; top: 34px; width: 1px; height: 28px; background: #6E5A42"></span>
+  <button aria-label="空药水槽" style="position: absolute; left: 486px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 1.5px dashed #6E5A42; background: #1A131280"></button>
+  <span style="position: absolute; left: 340px; top: 34px; width: 1px; height: 28px; background: #6E5A42"></span>
   <button aria-label="查看卡组，13 张" style="position: absolute; left: 1694px; top: 22px; width: 100px; height: 52px; border-radius: 26px; border: 1px solid #6E5A42; background: #241B19; color: #F3ECDD; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 18px; font-weight: 700">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BBAA8C" stroke-width="1.8" aria-hidden="true"><rect x="7" y="3" width="12" height="16" rx="2"></rect><path d="M5 7v12a2 2 0 0 0 2 2h9"></path></svg>13
   </button>
@@ -183,7 +183,7 @@ button{font-family:inherit;cursor:pointer}
 
   <!-- 药水弹层：三行讲清 -->
   <sc-if value="{{isPotion}}" hint-placeholder-val="{{false}}">
-    <div style="position: absolute; z-index: 20; left: 1388px; top: 90px; width: 360px; box-sizing: border-box; padding: 18px 20px; border-radius: 14px; background: #1F1716F5; border: 1px solid #8C7454; box-shadow: inset 0 1px 0 #FFFFFF12, 0 24px 56px #000000B8">
+    <div style="position: absolute; z-index: 20; left: 271px; top: 90px; width: 360px; box-sizing: border-box; padding: 18px 20px; border-radius: 14px; background: #1F1716F5; border: 1px solid #8C7454; box-shadow: inset 0 1px 0 #FFFFFF12, 0 24px 56px #000000B8">
       <div style="position: absolute; left: 172px; top: -8px; width: 14px; height: 14px; background: #1F1716; border-left: 1px solid #8C7454; border-top: 1px solid #8C7454; transform: rotate(45deg)"></div>
       <div style="display: flex; align-items: center; justify-content: space-between">
         <span style="font-size: 20px; font-weight: 900">火焰药水</span>
@@ -202,7 +202,7 @@ button{font-family:inherit;cursor:pointer}
     <div style="position: absolute; z-index: 6; inset: 0; background: #05030366"></div>
     <svg width="1920" height="1080" style="position: absolute; z-index: 20; left: 0; top: 0; pointer-events: none" aria-hidden="true">
       <defs><marker id="tip" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10z" fill="#F6DFA4"></path></marker></defs>
-      <path d="M1568 78 C 1520 300, 1100 180, 940 330" fill="none" stroke="#F6DFA4" stroke-width="5" stroke-dasharray="1 14" stroke-linecap="round" marker-end="url(#tip)"></path>
+      <path d="M450 78 C 560 320, 820 160, 940 330" fill="none" stroke="#F6DFA4" stroke-width="5" stroke-dasharray="1 14" stroke-linecap="round" marker-end="url(#tip)"></path>
     </svg>
     <div style="position: absolute; z-index: 20; left: 50%; top: 700px; transform: translateX(-50%); height: 48px; padding: 0 24px; border-radius: 24px; background: #1F1716F5; border: 1px solid #E9C77B88; display: flex; align-items: center; gap: 12px; font-size: 16px; white-space: nowrap; box-shadow: 0 12px 30px #00000090">
       <b style="color: #F2A684">火焰药水</b>选择敌人<span style="color: #6E5A42">·</span><span style="color: #9E8C72">点空白取消</span>
