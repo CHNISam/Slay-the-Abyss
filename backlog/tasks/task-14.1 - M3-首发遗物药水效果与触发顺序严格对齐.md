@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 06:16'
+updated_date: '2026-10-28 06:28'
 due_date: '2026-10-28'
 labels:
   - required
@@ -136,4 +136,6 @@ ordinal: 42000
 2026-10-28接续验证：42项专用/内容/原生合同第一轮41过、清单聚合单进程1项超时。保留失败，改为inventory/black_star/lizard_tail_run/lizard_tail_persistence四个完整独立验证进程，每份原30秒及实际传入data保持；原22项完整清单回归通过。4个原语义变异全部killed_by_assertion。最终集成和状态统一收口PR266，不将受控证明当全池或实机完成。
 
 PR266精确8746d5c2完整CI的rules8检出两处相邻遗漏：来源账本仍把Black Star/Tail标缺失，旧绿钥匙UI夹具要求满四项后仍掉瓶。现账本按实际54定义补两映射（source注册/顺序不变）；生产夹具明确断言无瓶，另通过真实三项采样器构造独立容量offer，完整保留六行布局、点击/手柄、领取、重复与旧owner断言。移除重复占位BlackStar定义，改验真实生产定义。11项相邻回归全过；本轮原失败日志保留build/m3-status/rules-8.log，最新SHA完整CI另验，AC保持未变。
+
+2026-10-28熔火之蛋切片（PR286）：按固定319009d5的MoltenEgg2及7成员独立源锁实现真实攻击牌获得/预览/装备奖励追溯、48/49层正常资格、Library/Sensory和Nest组合。23份新旧Egg/事件Lua原预算通过，19项来源/历史主题契约通过；213模块/1235边架构、固定84历史静态诊断零新增、4项变异和2项原生契约通过。独立复核源码与队列/RNG/UID/回滚无阻断。同步267后Nest真实获得、Fairy/Tail、下战同UID和晚失败回滚通过。最新组合完整CI仍待，不把定义或受控获得当逐件自然/平台验收；AC5至8及状态保持未完成。Node22本地全量测试有原30秒超时且未完成，失败记录保留，不报告全量绿。
 <!-- SECTION:NOTES:END -->
