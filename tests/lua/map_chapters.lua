@@ -67,10 +67,10 @@ for act=1,4 do
             for i,node in ipairs(map.nodes) do
                 local b=box(i)
                 local row=node.localFloor or node.floor-chapter.first+1
-                assert(b.x==(node.lane-(Layout.lanes+1)/2)*Theme.layout.map.columnGap)
-                assert(b.y==Layout.firstY+(row-1)*Theme.layout.map.floorGap-ui.scroll)
-                assert(b:GetChild('icon').imageId==Theme.icon.node[node.type])
                 if b.visible then
+                    assert(b.x==(node.lane-(Layout.lanes+1)/2)*Theme.layout.map.columnGap)
+                    assert(b.y==Layout.firstY+(row-1)*Theme.layout.map.floorGap-ui.scroll)
+                    assert(b:GetChild('icon').imageId==Theme.icon.node[node.type])
                     seen[node.id]=true
                     local radius=(b.sizeDeltaX+Layout.glowPadding)*Layout.breathScale/2
                     assert(b.y-radius>=Layout.viewport.bottom and b.y+radius<=Layout.viewport.top)

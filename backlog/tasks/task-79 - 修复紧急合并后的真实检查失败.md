@@ -5,8 +5,11 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 11:33'
+updated_date: '2026-10-28 12:10'
 labels: []
 dependencies: []
+references:
+  - docs/backlog-details/TASK-79.md
 priority: high
 type: bug
 ordinal: 122000
@@ -30,3 +33,9 @@ ordinal: 122000
 <!-- SECTION:PLAN:BEGIN -->
 先读全部失败日志并复现；分别修共享mock、合法UI合同与历史逆投影；验证定向负例和工程门禁；提交独立PR、等待完整CI并交S0验收。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+已固定最新7a87de3a完整失败日志并分类：真实Boss/五敌意图遮挡和Quick浅克隆base缺失已最小修复；模拟Color与合法视觉合同更新保留全部场景/原时限/精确逆转原hash。25项历史/空间/原生契约、原七片53场景/六种子及通用runner18项通过。完整PR头CI与S0审查未完成，保持In Progress；详见附件。
+<!-- SECTION:NOTES:END -->

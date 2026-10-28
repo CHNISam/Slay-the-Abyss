@@ -51,7 +51,7 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
     theme.icon.hp, theme.icon.upgrade, theme.icon.remove, theme.icon.back, theme.icon.next, theme.icon.geo,
     id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion),
     // The shop merchant's silhouette (hood point, beard) and its next-line marker.
-    theme.image.diamond];
+    theme.image.diamond,100001,100002,100003,100004,100006];
   walk(nodeLayout(theme).controls, control => {
     if (control.kind === 'image') assert.ok(allowed.includes(control.image), `unexpected node image ${control.image}`);
     if (control.kind === 'text') assert.equal(control.text.minFontSize, theme.font.minimum);
@@ -79,7 +79,10 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.deepEqual(title(map).size, theme.layout.nativeNode.topBar.title.slice(2));
   const resources = find(map, 'resources');
   assert.deepEqual(resources.children.map(control => control.name), ['hpIcon', 'hp', 'goldIcon', 'gold']);
-  const comparableMap = structuredClone(map.filter(group => group.name !== 'resources'));
+  const previewBack=find(map,'previewBack');
+  assert.equal(previewBack.visible,false);
+  assert.deepEqual([...previewBack.position,...previewBack.size],theme.layout.runMenu.mapBack);
+  const comparableMap = structuredClone(map.filter(group => !['resources','previewBack'].includes(group.name)));
   title(comparableMap).position = [...title(standaloneMap).position];
   title(comparableMap).size = [...title(standaloneMap).size];
   assert.deepEqual(comparableMap, standaloneMap);

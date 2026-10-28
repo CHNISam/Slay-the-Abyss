@@ -7,6 +7,15 @@ import {originalLuaRunner} from './helpers/ci-lua-runner-inverse.mjs';
 const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const sha=source=>createHash('sha256').update(source).digest('hex');
 const support='tests/lua/support/battle_ui_cases.lua';
+const visualMigration=JSON.parse(read('tests/fixtures/p0-battle-visual-migrations.json'));
+function restoreVisualMigration(source,allowRestored){
+  if(allowRestored && [visualMigration.beforeSha256,original.sha256].includes(sha(source)))return source;
+  for(const edit of visualMigration.edits){
+    assert.equal(source.split(edit.after).length,2,'one exact visual assertion hunk');
+    source=source.replace(edit.after,edit.before);
+  }
+  return source;
+}
 const runnerHash='63ec149511d52b9e362f2c9210d092e4d97bd815c5b8c16e7009ade146d5d55b';
 const original={bytes:72926,sha256:'5e82cabcd77e594c88d97b655237e661e7298ee1d25e9030c0025f9011625b2a',blob:'b5ea264cdc63b7971e27b9189b9cca1c20d94479'};
 const slices=[['battle_ui.lua',1,26],['battle_ui_slice_2.lua',27,33],['battle_ui_slice_6.lua',34,34,1,3],
@@ -59,6 +68,7 @@ const reviewedLayoutMigrations=[
   ]
 ];
 function restoreReviewedLayout(source,allowRestored=false){
+  source=restoreVisualMigration(source,allowRestored);
   for(const [current,original] of reviewedLayoutMigrations){
     if(source.includes(current)){
       assert.equal(source.split(current).length,2,'one exact reviewed two-row layout migration');
@@ -139,6 +149,7 @@ function validateLegacyBody(source){
 const readWrappers=()=>Object.fromEntries(slices.map(([file])=>[file,read('tests/lua/'+file)]));
 
 test('frozen battle UI metadata preserves all 53 case bodies and six playback seeds across seven original-budget slices',()=>{
+  assert.equal(sha(read(support)),visualMigration.afterSha256,'complete reviewed visual assertion migration');
   const restored=restoreSupport(read(support));
   validateLegacyBody(restored);
   validatePartitions(slices,readWrappers());

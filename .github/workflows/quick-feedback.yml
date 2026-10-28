@@ -31,11 +31,16 @@ jobs:
           cache-dependency-path: .github/workflows/quality.yml
       - run: python3 -m pip install --disable-pip-version-check --retries 0 --timeout 30 Pillow==12.3.0
       - name: Verify exact PR merge and comparison base
+        timeout-minutes: 2
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GIT_TERMINAL_PROMPT: '0'
         run: |
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          if ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+            git -c credential.helper= -c http.lowSpeedLimit=1024 -c http.lowSpeedTime=30 fetch --depth=1 --no-auto-maintenance --no-tags origin "$BASE_SHA"
+          fi
           git cat-file -e "${BASE_SHA}^{commit}"
       - name: Quick related subset; complete Quality runs independently
         env:

@@ -28,7 +28,7 @@ local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local host,ui,panel,_,tap,drain=H.setup({'strike'},{'slime_boss'})
 local s=host.run.combat;local parent=s.enemies[1]
 C.damage(s,s.player,parent,80,true);host:refresh()
-assert(panel:GetChild('enemy1'):GetChild('intentLabel').text=='分裂')
+dofile('tests/lua/support/intent_face_assertion.lua')(panel:GetChild('enemy1'),View.intentView(s,1),'分裂')
 tap('enemy1',31)
 has(panel:GetChild('notice').text,s.catalog.enemies.spike_slime_l.name)
 has(panel:GetChild('notice').text,s.catalog.enemies.acid_slime_l.name)

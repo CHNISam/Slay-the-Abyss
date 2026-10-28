@@ -719,10 +719,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         return face
     end
-    local function renderEnemyIntent(box, face, portrait)
+    local function renderEnemyIntent(box, face, portrait, enemyY)
         local icons = IntentView.icons(face)
-        local size, line = L.intent.size, L.nativeText.lineHeight
-        local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xs + line + size / 2)
+        local size, line, ceiling = L.intent.size, L.nativeText.lineHeight, L.battleNotice.position[2] - L.battleNotice.size[2] / 2
+        local iconY = math.min(ceiling - enemyY - size / 2, math.max(L.intent.offsetY, portrait / 2 + S.xs + line / 2 + size / 2))
         local pitch = size * 1.5
         for i, name in ipairs({'intentIcon','intentBadge','intentExtra'}) do
             local control, kind = box:GetChild(name), icons[i]
@@ -738,7 +738,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         attackLabel.text = face.value or ''
         attackLabel:SetVisible(icons[1] == 'attack' and attackLabel.text ~= '')
         attackLabel:SetAnchoredPosition((1 - (#icons + 1) / 2) * pitch + (L.intent.valueWidth - size) / 2,
-            iconY - size / 2 - line / 2)
+            iconY - size / 2)
         ink(attackLabel, C.text)
         box:GetChild('intentLabel'):SetVisible(false)
         box:GetChild('intentHit'):SetAnchoredPosition(0, iconY - line / 2)
@@ -774,7 +774,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local portraitTone = C.text
         tint(box:GetChild('portrait'), { r = portraitTone.r, g = portraitTone.g, b = portraitTone.b, a = dim and 102 or 255 })
         renderDamagePreview(box, enemy, portrait, width, loss)
-        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
+        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait, EnemyView.rowY(count, slot))
     end
     local function renderEnemies(frame)
         local rows = frame.fighting and EnemyView.slots(frame.battle, self.busy and self.feedback or nil) or {}

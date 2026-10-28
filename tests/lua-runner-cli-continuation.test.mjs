@@ -26,6 +26,19 @@ function withWorkspace(first, action) {
 const invoke = (cwd, args = []) => spawnSync(process.execPath, [...args, cli],
   { cwd, encoding: 'utf8', timeout: 5000, maxBuffer: 1024 * 1024 });
 
+test('a same-named fixture in another workspace remains an ordinary real Lua script',()=>{
+  withWorkspace("print('OTHER_WORKSPACE')\n",cwd=>{
+    const name='tests/lua/presentation_responsibilities_trace.lua';
+    writeFileSync(join(cwd,name),"print('INDEPENDENT_TRACE_FIXTURE_PASS')\n");
+    try{
+      const result=spawnSync(process.execPath,[cli,name],{cwd,encoding:'utf8',timeout:5000});
+      assert.ifError(result.error);assert.equal(result.status,0,result.stderr);
+      assert.match(result.stdout,/INDEPENDENT_TRACE_FIXTURE_PASS/);
+      assert.doesNotMatch(result.stdout,/Historical presentation replay/);
+    }finally{rmSync(join(cwd,name));}
+  });
+});
+
 test('actual CLI continues after ordinary Lua failure and retains failure after later success', () => {
   withWorkspace("print('A_BEFORE_FAILURE'); error('A_EXPECTED_FAILURE')\n", cwd => {
     const result = invoke(cwd);

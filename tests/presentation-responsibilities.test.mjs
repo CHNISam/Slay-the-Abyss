@@ -1,10 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {runLua} from '../scripts/test-lua.mjs';
-import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
+import {cpSync,readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {spawnSync} from 'node:child_process';
+import {materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
+import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 import {integration} from './helpers/presentation-m3-integration.mjs';
 import {toLua} from '../scripts/build-lua-data.mjs';
 
@@ -72,6 +75,10 @@ function formalExpected(){
  assert.equal(entryProof.insertions.length,1703);return rows;
 }
 function runConservedTrace(){
+ const started=Date.now(),remaining=()=>{
+  const value=30000-(Date.now()-started);
+  assert(value>0,'historical trace exceeded its original total deadline');return value;
+ };
  const expected=formalExpected();
  // Encode repeated rows once; every ordered write is still checked individually.
  const rows=[],order=[],ids=new Map();
@@ -82,13 +89,21 @@ function runConservedTrace(){
  assert.deepEqual(order.map(index=>rows[index-1]),expected);
  mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/announcement-retirement-'));
  try{
-  const source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8').replaceAll('\r\n','\n');
+  for(const input of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
+   cpSync(input,join(directory,input),{recursive:true});
+  materializeHistoricalPresentation(directory);
+  writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
+  for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
+   const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:remaining()});
+   assert.equal(result.status,0,result.stdout+result.stderr);
+  }
+  const source=readFileSync(join(directory,'tests/lua/presentation_responsibilities_trace.lua'),'utf8').replaceAll('\r\n','\n');
   const binding="local Trace=dofile('tests/lua/support/presentation_trace.lua')\n";
   assert.equal(source.split(binding).length,2,'one unchanged strict recorder binding');
   const guard=binding+conservedTraceGuard(rows,order);
   const path=join(directory,'trace.lua');
   writeFileSync(path,source.replace(binding,guard)+`\nassert(index==${expected.length},'all conserved writes executed')\n`);
-  return runLua(path); // Keep the existing 30s deadline and complete original scenario.
+  return runLua(path,{cwd:directory,timeout:remaining()}); // One original total 30s budget.
  }finally{rmSync(directory,{recursive:true,force:true});}
 }
 
@@ -97,7 +112,7 @@ for (const [fixture, marker] of [
   ['text', 'PRESENTATION_WORDING_TRACE 361 1837256485'],
   ['trace', 'PRESENTATION_NATIVE_TRACE 81392 1836812524'],
 ]) {
-  test(`presentation responsibilities preserve the frozen ${fixture} contract`, () => {
+  test(`presentation responsibilities preserve the historical frozen ${fixture} contract`, () => {
     const result = fixture==='trace' ? runConservedTrace() : runLua(`tests/lua/presentation_responsibilities_${fixture}.lua`);
     assert.equal(result.status, 0, result.stdout + result.stderr);
     assert.ok(result.stdout.includes(marker), result.stdout);

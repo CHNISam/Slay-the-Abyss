@@ -28,7 +28,7 @@ local function visible()
 end
 visible();local before=C.copy(s)
 local view=View.intentView(s,2);eq(view.kind,'unknown');has(view.text,'1');has(view.text,'4');has(view.text,'浮游蛇刃')
-eq(panel:GetChild('enemy2'):GetChild('intentIcon').imageId,F.Theme.icon.intent.unknown)
+dofile('tests/lua/support/intent_face_assertion.lua')(panel:GetChild('enemy2'),view,'未知')
 local stab=View.intentView(s,1);eq(stab.value,'9');eq(stab.badge,'debuff');has(stab.text,s.catalog.cards.wound.name);has(stab.text,'弃牌堆')
 -- Read-only preview may never advance streams, mutate history or fill slots.
 local Snapshot=require('abyss_snapshot');local restore=Snapshot.capture(s)

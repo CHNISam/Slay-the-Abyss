@@ -93,7 +93,7 @@ local function control(spec, parent)
 end
 local function uiFor(run, map)
     local root = control(findSpec(Layout, 'nodePanel'))
-    local ui = UI.new(root, run, map, Presentation, 'click', nil, {imageSource='static', cursorEvents=cursor})
+    local ui = UI.new(root, run, map, Presentation, 'click', nil, {imageSource='static', cursorEvents=cursor,color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
     ui:setVisible(true)
     return ui, root
 end

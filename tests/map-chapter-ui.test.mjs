@@ -30,6 +30,20 @@ test('chapter-local map geometry, real same-table transitions and stale gestures
   // Reverse only the exact registration/selection instrumentation. Every
   // original loop, input matrix, helper and assertion remains byte-identical.
   let original=read(parts.entry);assert(original.startsWith(prefix));assert(original.endsWith(footer));
+  const visibleGeometry=[
+    '                if b.visible then',
+    '                    assert(b.x==(node.lane-(Layout.lanes+1)/2)*Theme.layout.map.columnGap)',
+    '                    assert(b.y==Layout.firstY+(row-1)*Theme.layout.map.floorGap-ui.scroll)',
+    "                    assert(b:GetChild('icon').imageId==Theme.icon.node[node.type])",
+  ].join('\n');
+  const originalGeometry=[
+    '                assert(b.x==(node.lane-(Layout.lanes+1)/2)*Theme.layout.map.columnGap)',
+    '                assert(b.y==Layout.firstY+(row-1)*Theme.layout.map.floorGap-ui.scroll)',
+    "                assert(b:GetChild('icon').imageId==Theme.icon.node[node.type])",
+    '                if b.visible then',
+  ].join('\n');
+  assert.equal(original.split(visibleGeometry).length,2,'one reviewed visible-node geometry migration');
+  original=original.replace(visibleGeometry,originalGeometry);
   original=original.slice(prefix.length,-footer.length);
   assert.equal(original.split(after).length,2);original=original.replace(after,before);
   assert.equal(createHash('sha256').update(original).digest('hex'),parts.originalSha256LF);

@@ -52,6 +52,9 @@ test('quick workflow is independent, read-only, exact-revision and cancels only 
   assert.match(workflow, /ref: \$\{\{ github.sha \}\}/);
   assert.match(workflow, /BASE_SHA: \$\{\{ github.event.pull_request.base.sha \}\}/);
   assert.match(workflow, /git cat-file -e "\$\{BASE_SHA\}\^\{commit\}"/);
+  assert.match(workflow, /timeout-minutes: 2\n        env:\n          BASE_SHA:/);
+  assert.match(workflow, /GIT_TERMINAL_PROMPT: '0'/);
+  assert.match(workflow, /if ! git cat-file -e "\$\{BASE_SHA\}\^\{commit\}" 2>\/dev\/null; then\n            git -c credential.helper= -c http.lowSpeedLimit=1024 -c http.lowSpeedTime=30 fetch --depth=1 --no-auto-maintenance --no-tags origin "\$BASE_SHA"\n          fi\n          git cat-file -e/);
   assert.match(workflow, /node scripts\/test-affected.mjs --ci-fast --base "\$BASE_SHA"/);
   assert.doesNotMatch(workflow, /pull_request_target|self-hosted|needs:|continue-on-error|npm run check/);
 });

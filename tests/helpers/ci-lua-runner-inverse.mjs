@@ -5,6 +5,16 @@ import { createHash } from 'node:crypto';
 // still protects every deadline, child process option, output and failure path.
 export function originalLuaRunner(source) {
   source = source.replaceAll('\r\n', '\n');
+  const currentUrlImport="import { pathToFileURL, fileURLToPath } from 'node:url';\n";
+  assert.equal(source.split(currentUrlImport).length,2,'exact historical root URL import');
+  source=source.replace(currentUrlImport,"import { pathToFileURL } from 'node:url';\n");
+  for(const addition of [
+    "import {runHistoricalPresentation} from '../tests/helpers/historical-presentation-runner.mjs';\n",
+    "  if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && script.replaceAll('\\\\', '/') === 'tests/lua/presentation_responsibilities_trace.lua') return runHistoricalPresentation(runLua, script, { timeout, cwd, caseName });\n",
+  ]){
+    assert.equal(source.split(addition).length,2,'one exact original-deadline historical fixture dispatch');
+    source=source.replace(addition,'');
+  }
   const workerEdits = [
     ["import { runLuaWorkers, luaSchedulingWeight } from './lua-workers.mjs';\n", ''],
     ['    let workers = 1, workersSeen = false;\n', ''],

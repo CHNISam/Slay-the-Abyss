@@ -38,7 +38,7 @@ test('Leader and Collector keep every live HP intent and status panel after repe
   local h,u,p,_,_,_,s,boss=fixture(kind)
   local slot,box=shown(p,boss);assert(slot,'living '..kind..' disappeared after retained corpses')
   assert(box:GetChild('hp').text==tostring(boss.hp)..'/'..tostring(boss.maxHp))
-  assert(box:GetChild('intent').text~='' or box:GetChild('intentLabel').text~='')
+  dofile('tests/lua/support/intent_face_assertion.lua')(box,require('abyss_battle_intent_view').intentView(s,indexOf(s,boss)))
   local count,live=0,0;for i=1,5 do if p:GetChild('enemy'..i).visible then count=count+1 end end
   for _,e in ipairs(s.enemies)do if A.isActive(e)then live=live+1 end end
   assert(count==live,'a living actor was silently omitted')

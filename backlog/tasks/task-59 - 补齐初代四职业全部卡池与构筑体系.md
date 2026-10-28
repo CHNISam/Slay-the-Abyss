@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-25 03:46'
-updated_date: '2026-10-28 08:47'
+updated_date: '2026-10-28 11:55'
 labels:
   - required
   - sts1
@@ -24,7 +24,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/INTEGRATION-CLOSEOUT-20261025.md
   - docs/M3-STATUS-20261028.md
-priority: high
+priority: medium
 type: feature
 ordinal: 95000
 ---
@@ -96,4 +96,6 @@ ordinal: 95000
 
 2026-10-28范围复审：当前Description已改为前两幕比赛范围；旧描述仅作历史记录，不再要求本次比赛四幕或持久Save能力。
 原描述（历史）：当前运行时已装配四职业各75张，共300张，基本版和升级版均被效果系统接受；战士常规来源各72项，其余职业各71项均无缺定义。继续核对实际效果、生成及道具交互、完整随机链和自然构筑；正式平台开放及四职业四幕通关仍未验收。
+
+按用户本轮P0明确优先顺序，先排TASK-79修复真实CI失败；原范围、AC和日期不变，High上限不改。CI收口后恢复本任务原High。
 <!-- SECTION:NOTES:END -->
