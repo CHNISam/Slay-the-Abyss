@@ -618,5 +618,14 @@
     "master",
     "feat/deduplicate-lua-tests"
   ],
-  "recovery": "Root .artifacts/engineering-health/preserved/pre-cleanup-history.bundle (verified); ignored evidence moved under preserved/<name>-<sha>/; full read-only audit in root .artifacts/engineering-health/branch-audit.json"
+  "recovery": "Root .artifacts/engineering-health/preserved/pre-cleanup-history.bundle (verified); ignored evidence moved under preserved/<name>-<sha>/; full read-only audit in root .artifacts/engineering-health/branch-audit.json",
+  "supersededPR300": {
+    "head": "d3be3b47a4db5c27e946517babb94bbd7525971e",
+    "authorization": "User confirmed the other session ended and authorized this session to close out",
+    "status": "closed",
+    "recovery": "Root .artifacts/engineering-health/preserved/pr300-d3be3b47.bundle; git fetch origin refs/pull/300/head also retains the complete source",
+    "accepted": "notice text capacity and avoidance, exact primitive/navigation guards, current raw semantic checks",
+    "notAdopted": "duplicate historical closure and buff substitute for source UNKNOWN",
+    "diagnostic": "7 layouts, 194 source intentions, 143 characters; healing and Artifact floats; 11.212s pass"
+  }
 }
