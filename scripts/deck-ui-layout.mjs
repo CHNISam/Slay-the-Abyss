@@ -1,15 +1,20 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { cardFaceChildren } from './card-face.mjs';
 
+// Reserve a real native line below the unchanged card face for choice feedback.
+const itemSize = theme => [theme.layout.deckView.itemSize[0], Math.max(theme.layout.deckView.itemSize[1],
+  theme.layout.card.size[1] + theme.layout.nativeText.lineHeight)];
+
 export function deckCardTemplate(theme = nativeTheme) {
   const { text } = nativeControls(theme);
   const { color: c, font: f, layout: l } = theme;
   const [w, h] = l.card.size;
-  return { name: 'AbyssDeckCard', kind: 'container', size: [...l.deckView.itemSize], children: [
-    { name: 'face', kind: 'container', position: [0, (l.deckView.itemSize[1] - h) / 2],
+  const size = itemSize(theme), line = l.nativeText.lineHeight;
+  return { name: 'AbyssDeckCard', kind: 'container', size, children: [
+    { name: 'face', kind: 'container', position: [0, (size[1] - h) / 2],
       size: [w, h], children: cardFaceChildren(theme, 'deck', false) },
-    text('uid', [0, -l.deckView.itemSize[1] / 2 + l.deckView.uidHeight / 2, w, l.deckView.uidHeight], '', f.small, c.textDim),
-    {name:'hit',kind:'cursorArea',position:[0,(l.deckView.itemSize[1]-h)/2],size:[w,h],focusable:true,visible:false},
+    text('uid', [0, -size[1] / 2 + line / 2, w, line], '', f.small, c.textDim),
+    {name:'hit',kind:'cursorArea',position:[0,(size[1]-h)/2],size:[w,h],focusable:true,visible:false},
   ] };
 }
 
@@ -43,7 +48,9 @@ export function deckControls(theme = nativeTheme) {
       { name: 'blocker', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },
       { name: 'grid', kind: 'grid', position: l.deckView.viewport.slice(0, 2), size: l.deckView.viewport.slice(2),
         itemTemplate: deckCardTemplate(theme).name, grid: { columns: l.deckView.columns, horizontal: false,
-          itemSize: [...l.deckView.itemSize], spacing: [...l.deckView.spacing], padding: [...l.deckView.padding], scrollbar: true } },
+          itemSize: itemSize(theme), spacing: [...l.deckView.spacing], padding: [...l.deckView.padding], scrollbar: true } },
+      plate('header', [0, l.deckView.title[1], l.deckView.viewport[2],
+        Math.max(l.deckView.title[3], l.deckView.close[3]) + s.s], c.panel),
       text('title', l.deckView.title, '', f.heading, c.goldBright),
       { ...text('details', l.deckView.viewport, '', f.body, c.text), visible: false },
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
