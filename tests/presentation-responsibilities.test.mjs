@@ -96,7 +96,7 @@ function runConservedTrace(){
    const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});
    assert.equal(result.status,0,result.stdout+result.stderr);
   }
-  const source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8').replaceAll('\r\n','\n');
+  const source=readFileSync(join(directory,'tests/lua/presentation_responsibilities_trace.lua'),'utf8').replaceAll('\r\n','\n');
   const binding="local Trace=dofile('tests/lua/support/presentation_trace.lua')\n";
   assert.equal(source.split(binding).length,2,'one unchanged strict recorder binding');
   const guard=binding+conservedTraceGuard(rows,order);
@@ -108,13 +108,13 @@ function runConservedTrace(){
 
 const liveBytes=readFileSync('tests/fixtures/presentation-current-native-trace.json.gz');
 const digest=value=>createHash('sha256').update(value).digest('hex');
-assert.equal(digest(liveBytes),'8db399b9ed0bff582eea590d274f2159279a27ef27888d042ae4210db2c08549');
+assert.equal(digest(liveBytes),'c13ec9b00493041008b2007a7a57c71bb4162da7d87638e026d78709640fc701');
 const liveProof=JSON.parse(gunzipSync(liveBytes));
 function currentExpected(){
  assert.equal(liveProof.sourceInverseSha256,digest(readFileSync('tests/fixtures/presentation-current-ui-inverse.json.gz')));
  assert.equal(liveProof.base,'e3cd8492b2c05e3acc13c26168fdc476668b2468');
  const rows=liveProof.order.map(id=>{assert.ok(Number.isInteger(id)&&id>=1&&id<=liveProof.rows.length);return liveProof.rows[id-1];});
- assert.equal(rows.length,73316);assert.equal(traceHash(rows),159321796);
+ assert.equal(rows.length,73316);assert.equal(traceHash(rows),1014606304);
  const panel=row=>{const path=/^\{1=string:([^,]+)/.exec(row)[1];return path.split('/')[1]||path;};
  // Shared source/interaction writes are conserved exactly. Card skins, battle
  // geometry, the new map canvas, character visuals and the common exit menu
@@ -144,14 +144,16 @@ test('approved current UI executes every ordered native write while all historic
  const rows=[],order=[],ids=new Map();
  for(const row of expected){if(!ids.has(row)){rows.push(row);ids.set(row,rows.length);}order.push(ids.get(row));}
  const binding="local Trace=dofile('tests/lua/support/presentation_trace.lua')\n";
- const old="assert(trace.count==81392 and trace.hash==1836812524,'ordered native writes changed from the reviewed integrated formal entry contract')";
+ const current="assert(trace.count==73316 and trace.hash==1014606304,'current approved UI native writes changed')";
  let source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8').replaceAll('\r\n','\n');
- assert.equal(source.split(binding).length,2);assert.equal(source.split(old).length,2);
- source=source.replace(binding,binding+conservedTraceGuard(rows,order)).replace(old,
-  "assert(trace.count==73316 and trace.hash==159321796,'current approved UI native writes changed')\nassert(index==73316,'all current writes executed')");
+ assert.equal(source.split(binding).length,2);assert.equal(source.split(current).length,2);
+ // The raw Lua runner executes this same current fixture and semantic guards.
+ // JS adds ordered-row checking; it never substitutes an obsolete assertion.
+ source=source.replace(binding,binding+conservedTraceGuard(rows,order))+"\nassert(index==73316,'all current writes executed')\n";
  mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/current-ui-trace-'));
  try{const path=join(directory,'trace.lua');writeFileSync(path,source);const result=runLua(path);
-  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/PRESENTATION_NATIVE_TRACE 73316 159321796/);
+  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/PRESENTATION_NATIVE_TRACE 73316 1014606304/);
+  assert.match(result.stdout,/PRESENTATION_CURRENT_UI_PASS/);
  }finally{rmSync(directory,{recursive:true,force:true});}
 });
 

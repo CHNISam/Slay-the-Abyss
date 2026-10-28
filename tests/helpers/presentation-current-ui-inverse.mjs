@@ -5,7 +5,7 @@ import {gunzipSync} from 'node:zlib';
 
 const hash = value => createHash('sha256').update(value).digest('hex');
 const bytes = readFileSync('tests/fixtures/presentation-current-ui-inverse.json.gz');
-assert.equal(hash(bytes), 'db61265d1133a98c077bc155a4254a7e3565d4c96324eba17a28f9f9f25b382a');
+assert.equal(hash(bytes), '028b316af26371006d853391149a828f0d5b624bad8b2c4c4efc898bf3ef6dc2');
 export const integratedUiSources = JSON.parse(gunzipSync(bytes));
 
 // The two health repairs sit after Task77's immutable source bindings. Its
@@ -14,8 +14,8 @@ export const integratedUiSources = JSON.parse(gunzipSync(bytes));
 export function beforeUiHealthRepair(path, source) {
   const text = source.replaceAll('\r\n', '\n');
   let before, expected;
-  if (path === 'data/presentation/ui_theme.json' && hash(text) === 'b73b66261a053ca31edad7d68f1ac93eb522e73447c727ae9436f8a3c86446e1') {
-    before = text.replace('"enemyRow": {\n      "y": 44,', '"enemyRow": {\n      "y": 64,');
+  if (path === 'data/presentation/ui_theme.json' && hash(text) === '68fac59a6200dd5cf43070851bd0ef4323b73134ede1dea97107939b0dc8fdd2') {
+    before = text.replace('"battleNotice": {\n      "position": [\n        -330,\n        206\n      ],\n      "size": [\n        520,\n        80\n      ]', '"battleNotice": {\n      "position": [\n        0,\n        228\n      ],\n      "size": [\n        1080,\n        32\n      ]');
     expected = 'e0e9a35f5f284f486b01542ef0f124c2a3a4ea2234c23890398266e8f4b54ac4';
   } else if (path === 'src/lua/abyss_battle_intent_view.lua' && hash(text) === '876117c6bada615fe3c07c11142dd533c81ee91d69ac1c0a880d0c38d6bf327c') {
     before = text.replace("    -- A source UNKNOWN face stays unknown even when its help explains a\n    -- supported summon effect. Detail rows must not reveal a replacement face.\n    if face.kind == 'unknown' then return {'unknown'} end\n", '');
