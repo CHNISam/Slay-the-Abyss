@@ -43,6 +43,7 @@ export function nodeLayout(theme = nativeTheme) {
     return { name, kind: 'container', position: [x, y], size: [w, h], children: [
       picture('coin', [-w / 2 + coin / 2 + space.s, 0, coin, coin], icon.gold, color.text),
       text('value', frame([coin / 2, 0], [w - coin - space.s, h]), '', font.label, color.goldBright),
+      hidden(text('sale',layout.price.sale,'特价',font.small,color.positive)),
     ] };
   }
 
@@ -60,20 +61,20 @@ export function nodeLayout(theme = nativeTheme) {
 
   const shop = layout.shop, relic = shop.relics;
   const removal = framed('removal', shop.removal, null, { children: [
-    picture('icon', [-48, 32, 24, 24], icon.remove, color.textDim),
-    text('name', frame([12, 32], [110, lineHeight]), '移除一张牌', font.small, color.text),
-    text('description', frame([0, -16], [shop.removal[2] - space.l, 64]), '', font.small, color.textDim),
+    picture('icon', [0, 44, 24, 24], icon.remove, color.textDim),
+    text('name', frame([0, 14], [shop.removal[2], lineHeight]), '移除一张牌', font.small, color.text),
+    text('description', frame([0, -34], [shop.removal[2] - space.s, 64]), '', font.small, color.textDim),
   ] });
   const shopControls = [hidden(arrow('previous', shop.previous, icon.back)), hidden(arrow('next', shop.next, icon.next)),
-    text('page', shop.page, '', font.small, color.textDim), removal, price('removalPrice', shop.removal[0], shop.removalPriceY)];
-  shop.columns.forEach((x, i) => shopControls.push(card(`card${i + 1}`, [x, shop.cardY]), price(`price${i + 1}`, x, shop.priceY)));
+    hidden(text('page', shop.page, '', font.small, color.textDim)), removal, price('removalPrice', shop.removal[0], shop.removalPriceY)];
+  shop.columns.forEach((x, i) => shopControls.push(card(`card${i + 1}`, [x, shop.cardRows[i]]), price(`price${i + 1}`, x, shop.priceRows[i])));
   relic.columns.forEach((x, i) => {
-    const [w, h] = relic.size, left = -w / 2 + space.l + relic.disc / 2;
+    const [w, h] = relic.size, left = -w / 2 + space.s + relic.disc / 2;
     const tile = framed(`relic${i + 1}`, [x, relic.y, w, h], null, { children: [
-      { ...plate('disc', frame([left, h/4], [relic.disc, relic.disc]), color.panelSunken), image: image.disc },
-      picture('icon', [left, h/4, relic.disc, relic.disc], icon.node.treasure, color.geo),
-      text('name', frame([20, h/4], [94, lineHeight]), '', font.small, color.text),
-      text('description', frame([0, -h/6], [w-space.l, 60]), '', font.small, color.textDim),
+      { ...plate('disc', frame([left, 0], [relic.disc, relic.disc]), color.panelSunken), image: image.disc },
+      picture('icon', [left, 0, relic.disc, relic.disc], icon.node.treasure, color.geo),
+      text('name', frame([18, 0], [104, lineHeight]), '', font.small, color.text),
+      hidden(text('description', frame([0, -h/6], [w-space.l, 60]), '', font.small, color.textDim)),
       hidden(plate('veil', frame([0, 0], [w, h]), color.backdropVeil)),
     ] });
     shopControls.push(tile, price(`relicPrice${i + 1}`, x, relic.priceY));
@@ -81,13 +82,19 @@ export function nodeLayout(theme = nativeTheme) {
   shop.potions.columns.forEach((x,i) => {
     const [w,h]=shop.potions.size;
     shopControls.push(framed(`potion${i+1}`, [x,shop.potions.y,w,h], null, { children: [
-      picture('icon', [-44,h/4,32,32], icon.potion.fire_potion, color.text),
-      text('name', frame([20,h/4],[94,lineHeight]), '', font.small, color.text),
-      text('description', frame([0,-h/6],[w-space.l,60]), '', font.small, color.textDim),
+      picture('icon', [-50,0,32,32], icon.potion.fire_potion, color.text),
+      text('name', frame([18,0],[104,lineHeight]), '', font.small, color.text),
+      hidden(text('description', frame([0,-h/6],[w-space.l,60]), '', font.small, color.textDim)),
       hidden(plate('veil', frame([0,0],[w,h]), color.backdropVeil)),
     ] }), price(`potionPrice${i+1}`,x,shop.potions.priceY));
   });
   shopControls.push(hidden(arrow('relicPrevious', shop.relicPrevious, icon.back)), hidden(arrow('relicNext', shop.relicNext, icon.next)));
+  shopControls.push(hidden({name:'detail',kind:'container',position:shop.detail.slice(0,2),size:shop.detail.slice(2),children:[
+    plate('border',frame([0,0],shop.detail.slice(2)),color.gold),
+    plate('panel',frame([0,0],shop.detail.slice(2).map(v=>v-space.border*2)),color.panelSunken),
+    text('name',frame([0,40],[shop.detail[2]-space.l,40]),'',font.body,color.goldBright),
+    text('description',frame([0,-20],[shop.detail[2]-space.l,80]),'',font.body,color.text),
+  ]}));
 
   const picker = layout.picker, previewY = picker.previewY;
   const pickerControls = [arrow('previous', picker.previous, icon.back), arrow('next', picker.next, icon.next),
@@ -98,6 +105,10 @@ export function nodeLayout(theme = nativeTheme) {
     hidden(picture('arrow', picker.arrow, icon.next, color.positive)),
     text('label', picker.label, '', font.label, color.textDim), text('hint', picker.hint, '', font.small, color.textDim),
     text('empty', picker.empty, '', font.body, color.textMuted)];
+  const forge = layout.forge;
+  pickerControls.push(hidden(arrow('forgePrevious',forge.previous,icon.back)),hidden(arrow('forgeNext',forge.next,icon.next)));
+  pickerControls.push(hidden(group('forgeGrid',forge.rows.flatMap((y,row)=>forge.columns.map((x,col)=>
+    card(`card${row*forge.columns.length+col+1}`,[x,y]))))));
 
   const camp = layout.camp;
   const campTile = (name, [x, y], id, tint) => {
@@ -110,6 +121,11 @@ export function nodeLayout(theme = nativeTheme) {
   };
   const campControls = [picture('medallion', camp.medallion, icon.medallion.camp, color.text),
     campTile('rest', camp.tiles[0], icon.hp, color.hp), campTile('forge', camp.tiles[1], icon.upgrade, color.geo)];
+  campControls.push(hidden(group('result',[
+    plate('border',[0,-20,640,200],color.gold),plate('panel',[0,-20,636,196],color.panelSunken),
+    text('name',[0,28,600,60],'休息完成',font.title,color.goldBright),
+    text('description',[0,-52,600,80],'',font.heading,color.positive),
+  ])));
 
   const event = layout.event, option = event.options;
   const eventControls = [plate('plateBorder', event.plate, color.goldDim),
@@ -147,10 +163,31 @@ export function nodeLayout(theme = nativeTheme) {
     hidden(text('page', chest.page, '', font.label, color.goldBright)),
     hidden(text('bossDescription', chest.bossDescription, '', font.small, color.textDim)),
   ];
+  const list=layout.rewardList;
+  list.rows.forEach((y,i)=>treasureControls.push(hidden(framed(`rewardItem${i+1}`,[list.x,y,...list.size],null,{children:[
+    picture('icon',[-list.size[0]/2+40,0,48,48],icon.node.treasure,color.geo),
+    text('name',frame([28,22],[list.size[0]-100,40]),'',font.body,color.goldBright),
+    text('description',frame([28,-22],[list.size[0]-100,40]),'',font.small,color.textDim),
+  ]}))));
+  treasureControls.push(hidden({...picture('burst',[...chest.chest.slice(0,2),360,360],image.glow,color.goldBright)}));
+  const rd=list.detail;
+  treasureControls.push(hidden({name:'details',kind:'container',position:rd.slice(0,2),size:rd.slice(2),children:[
+    plate('border',[0,0,...rd.slice(2)],color.gold),plate('panel',[0,0,rd[2]-4,rd[3]-4],color.panelSunken),
+    text('name',[0,110,rd[2]-32,40],'',font.heading,color.goldBright),
+    text('description',[0,-20,rd[2]-32,200],'',font.body,color.text),
+  ]}));
 
   controls.push(group('shopView', shopControls), group('campView', campControls), group('pickerView', pickerControls),
     group('eventView', eventControls), group('treasureView', treasureControls), merchantControl(theme),
-    framed('back', layout.back, '返回'), framed('confirm', layout.confirm, '确认', { primary: true, fontSize: font.heading }));
+    framed('back', layout.back, '返回'), framed('confirm', layout.confirm, '确认', { primary: true, fontSize: font.heading }),
+    hidden(group('roomEffect',[
+      plate('shade',[0,0,...theme.canvas.base],color.backdropVeil),
+      {...picture('glow',[0,30,320,320],image.glow,color.goldBright)},
+      picture('icon',[0,40,120,120],icon.medallion.camp,color.text),
+      text('title',[0,-70,800,60],'',font.title,color.goldBright),
+      text('description',[0,-138,800,60],'',font.heading,color.text),
+      ...Array.from({length:layout.roomMotion.sparkCount},(_,i)=>picture(`spark${i+1}`,[0,40,layout.roomMotion.sparkSize,layout.roomMotion.sparkSize],image.diamond,color.goldBright)),
+    ])));
   return { name: 'AbyssNodes', script: 'abyss_ui', showCursor: true, blockKeys: true, blockCursor: true,
     controls: [{ name: 'nodePanel', kind: 'container', size: [...theme.canvas.base], children: controls }] };
 }

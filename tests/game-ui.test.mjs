@@ -103,12 +103,16 @@ test('cinematic and merchant controls stay inside the phone safe area and clear 
   const inside = ([cx, cy, cw, ch]) => Math.abs(cx) + cw / 2 <= w / 2 - x && Math.abs(cy) + ch / 2 <= h / 2 - y;
   for (const frame of [prologue.line, prologue.chapter, prologue.hint, prologue.skip, merchant.frame, merchant.box, merchant.portrait, merchant.name, merchant.line])
     assert.ok(inside(frame), JSON.stringify(frame));
-  // The dialogue box sits under the relic prices and between the two bottom buttons.
+  // The compact dialogue sits below the goods. Check both axes: colorless
+  // prices can share its vertical band while remaining to its left.
   const top = (f) => f[1] + f[3] / 2, bottom = (f) => f[1] - f[3] / 2;
-  for (const priceY of [node.shop.relics.priceY, node.shop.potions.priceY, node.shop.removalPriceY]) {
-    const priceBottom = priceY - node.price.size[1] / 2;
+  const prices=[...node.shop.relics.columns.map(cx=>[cx,node.shop.relics.priceY,...node.price.size]),
+    ...node.shop.potions.columns.map(cx=>[cx,node.shop.potions.priceY,...node.price.size]),
+    [node.shop.removal[0],node.shop.removalPriceY,...node.price.size]];
+  for (const price of prices) {
     for (const frame of [merchant.frame, merchant.box, merchant.portrait, merchant.name, merchant.line])
-      assert.ok(top(frame) <= priceBottom, JSON.stringify(frame));
+      assert.ok(top(frame)<=bottom(price) || frame[0]+frame[2]/2<=price[0]-price[2]/2 ||
+        frame[0]-frame[2]/2>=price[0]+price[2]/2, JSON.stringify(frame));
   }
   assert.ok(merchant.box[0] - merchant.box[2] / 2 > node.back[0] + node.back[2] / 2);
   assert.ok(merchant.box[0] + merchant.box[2] / 2 < node.confirm[0] - node.confirm[2] / 2);

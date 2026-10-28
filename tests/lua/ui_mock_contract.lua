@@ -76,4 +76,16 @@ test('independent controls keep separate geometry and listener state',function()
         callback();assert(calls==1)
     end
 end)
+test('all real factories reject the escaped cursor field but preserve button capability',function()
+    for _,row in ipairs(constructors)do
+        local cursor=fresh(row)
+        rejects(function()cursor.interactable=false end,'CursorArea')
+        rejects(function()cursor.interactable=true end,'CursorArea')
+        assert(rawget(cursor,'interactable')==nil,row.name)
+        cursor:SetVisible(false);assert(cursor.visible==false)
+        local button=row.new({name='button',kind='presetButton',size={1,1}})
+        button.interactable=false;assert(button.interactable==false,row.name)
+        button.interactable=true;assert(button.interactable==true,row.name)
+    end
+end)
 print('UI_MOCK_CONTRACT_PASS '..count)

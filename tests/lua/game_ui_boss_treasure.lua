@@ -35,6 +35,7 @@ local function enterTreasure(settle, prepare, sourceOffer)
     assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
     assert(ui.map.floor==17 and ui.mode=="node" and ui.run.nodeFlow.roomKind=="boss_treasure")
     assert(ui.nodeUI:press("treasureView/chest"))
+    ui.nodeUI:update(2) -- wait for the real opening/reveal timeline
     return ui, root
 end
 
@@ -50,22 +51,21 @@ test("Boss card reward and unopened treasure cannot submit victory",function()
     assert(get(root,"nodePanel/title").text=="第 17 层 · 首领宝箱")
 end)
 
-test("candidate paging shows real descriptions and claims only the selected relic",function()
+test("all Boss relic rows show real descriptions and claim only the clicked relic",function()
     local ui,root=enterTreasure()
     local choices=ui.run.nodeFlow.reward.relics
     assert(#choices==3)
     for i=1,#choices do
         local definition
         for _,entry in ipairs(ui.run.data.relics.relics) do if entry.id==choices[i] then definition=entry end end
-        assert(get(root,"nodePanel/treasureView/reward/name").text=="遗物 · "..definition.name)
-        assert(get(root,"nodePanel/treasureView/reward/description").text==definition.description)
+        assert(get(root,"nodePanel/treasureView/rewardItem"..i.."/name").text=="领取 · 遗物 · "..definition.name)
+        assert(get(root,"nodePanel/treasureView/rewardItem"..i.."/description").text:find(definition.description,1,true))
         assert(get(root,"nodePanel/treasureView/bossDescription").text:find('选择一件遗物',1,true))
-        if i<#choices then assert(ui.nodeUI:press("treasureView/next")) end
+        assert(get(root,"nodePanel/treasureView/rewardItem"..i).visible)
     end
     assert(not ui.nodeUI:press("treasureView/next"))
-    assert(ui.nodeUI:press("treasureView/previous"))
     local chosen=choices[2]
-    assert(ui.nodeUI:press("treasureView/take"))
+    assert(ui.nodeUI:press("treasureView/rewardItem2"))
     assert(ui.run.phase=="victory" and ui.mode=="victory")
     local owned=0; for _,id in ipairs(ui.run.relics) do if id==chosen then owned=owned+1 end end
     assert(owned==1 and not ui.nodeUI:press("treasureView/take"))
@@ -74,14 +74,13 @@ end)
 
 test("exit cancellation preserves the candidate but expires a held claim gesture",function()
     local ui,root=enterTreasure()
-    assert(ui.nodeUI:press("treasureView/next"))
-    local hit=get(root,"nodePanel/treasureView/take/hit")
+    local hit=get(root,"nodePanel/treasureView/rewardItem2/hit")
     fire(hit,"down",11); fire(hit,"up",11)
     local old=F.Combat.copy(ui.run)
     assert(ui:openExit())
     assert(not ui.nodeUI:press("back"))
     assert(ui:closeExit())
-    assert(ui.nodeUI.treasureChoice==2 and ui.run.phase=="node")
+    assert(ui.nodeUI.treasureChoice==1 and ui.run.phase=="node")
     assert(not fire(hit,"click",11) and ui.run.phase=="node")
     assert(#ui.run.relics==#old.relics and ui.run.seed==old.seed)
     assert(tap(hit,12) and ui.mode=="victory")
@@ -125,11 +124,11 @@ test("exhausted source pool shows actual Circlet fallback without fabricated gol
     assert(#ui.run.nodeFlow.reward.relics==3)
     for _,id in ipairs(ui.run.nodeFlow.reward.relics)do assert(id=='circlet')end
     assert(ui.run.nodeFlow.reward.gold==nil)
-    assert(get(root,"nodePanel/treasureView/reward").visible)
-    assert(get(root,"nodePanel/treasureView/take").visible and not get(root,"nodePanel/treasureView/take/disabled").visible)
-    assert(get(root,"nodePanel/treasureView/page").text=='首领宝箱 · 1 / 3')
+    assert(get(root,"nodePanel/treasureView/rewardItem1").visible)
+    assert(get(root,"nodePanel/treasureView/rewardItem1").visible and not get(root,"nodePanel/treasureView/rewardItem1/disabled").visible)
+    assert(get(root,"nodePanel/treasureView/page").text=='宝箱奖励 · 3 项')
     local gold=ui.run.gold
-    assert(ui.nodeUI:press("treasureView/take") and ui.mode=="victory" and ui.run.gold==gold)
+    assert(ui.nodeUI:press("treasureView/rewardItem1") and ui.mode=="victory" and ui.run.gold==gold)
     assert(ui.run.relics[#ui.run.relics]=='circlet' and ui.run.relicCounters.circlet==1)
     assert(not ui.nodeUI:press("treasureView/take"))
 end)
@@ -139,14 +138,14 @@ test('real seed1 source offer keeps unavailable identities visible and rejects e
     local expected={'Snecko Eye','Calling Bell','Cursed Key'} -- existing independent host-JDK vector.
     for i,id in ipairs(expected)do
         assert(ui.run.nodeFlow.reward.items[i].sourceId==id)
-        assert(get(root,'nodePanel/treasureView/reward/name').text=='遗物 · '..id)
-        assert(get(root,'nodePanel/treasureView/reward/description').text:find('尚不可领取',1,true))
-        assert(get(root,'nodePanel/treasureView/take/disabled').visible)
+        assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/name').text=='遗物 · '..id)
+        assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/description').text:find('暂不可领取',1,true))
+        assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/disabled').visible)
         local before=F.Combat.copy(ui.run)
-        assert(not ui.nodeUI:press('treasureView/take'))
+        assert(not ui.nodeUI:press('treasureView/rewardItem'..i))
         assert(ui.run.phase=='node' and ui.run.gold==before.gold and #ui.run.relics==#before.relics)
         assert(ui.run.nodeFlow.reward.items[i].sourceId==id)
-        if i<#expected then assert(ui.nodeUI:press('treasureView/next'))end
+
     end
     assert(ui.nodeUI:press('back') and ui.mode=='victory')
 end)

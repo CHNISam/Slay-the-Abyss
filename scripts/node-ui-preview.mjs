@@ -47,7 +47,8 @@ function draw(control, parentSize) {
     return `<svg style="${box};${turn}${glow}color:${control.colour}" viewBox="0 0 24 24"><use href="#i-${glyph}"/></svg>`;
   }
   const inner = (control.children ?? []).map(child => draw(child, [w, h])).join('');
-  return `<div style="${box}">${inner}</div>`;
+  const scale=control.scale ? `;transform:scale(${control.scale[0]},${control.scale[1]})` : '';
+  return `<div style="${box}${scale}">${inner}</div>`;
 }
 
 function page(tree) {
