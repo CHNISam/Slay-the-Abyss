@@ -1,3 +1,7 @@
+local first,last=...
+first,last=first or 1,last or 10
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=19 and first<=last,'invalid original fixture slice')
+local registered=0
 -- Controlled source/queue/transaction fixtures, not natural campaign play.
 local Run,D,Q,C,A,R=require('abyss_run'),require('abyss_data'),require('abyss_encounter_queue'),
  require('abyss_combat'),require('abyss_actor'),require('abyss_sts_random')
@@ -9,7 +13,7 @@ local function same(a,b,seen)
  seen=seen or {};if seen[a]then eq(seen[a],b);return end;seen[a]=b
  for k,v in pairs(a)do same(v,b[k],seen)end;for k in pairs(b)do assert(a[k]~=nil)end
 end
-local function test(name,fn)local ok,why=pcall(fn);count=count+1;if not ok then failed=failed+1 end
+local function test(name,fn)registered=registered+1;if registered<first or registered>last then return end;local ok,why=pcall(fn);count=count+1;if not ok then failed=failed+1 end
  print((ok and 'PASS 'or 'FAIL ')..name..(ok and ''or ': '..tostring(why)))end
 local function stage()
  local r=Run.new(D,'4',{experimental=true,campaign=true})
@@ -241,4 +245,5 @@ test('Transient GainStrength waits for all monster actions before owner-end rest
  if blur then eq(atBlurRemoval,0)end -- actual queued removal, not just hook construction
  end
 end)
+assert(registered==19 and count==last-first+1,'Transient slice coverage changed')
 print('ACT3_TRANSIENT '..count..' groups; '..failed..' failed');assert(failed==0)

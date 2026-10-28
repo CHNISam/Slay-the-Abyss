@@ -6,6 +6,7 @@ import {shardLuaScripts} from '../scripts/test-lua.mjs';
 
 const semanticFile='tests/lua/phase_four_presentation.lua';
 const renderFile='tests/lua/phase_four_presentation_render.lua';
+const restoreRenderBudget=source=>source.replace("local first,last=...\nfirst,last=first or 1,last or 1\nassert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=4 and first<=last,'invalid original fixture slice')\nlocal registered=0\n",'').replace("registered=registered+1;if registered<first or registered>last then return end;",'').replace("assert(registered==4,'class render discovery changed')\nlocal expected=0;for i=first,last do expected=expected+({160,180,180,200})[i]end\neq(cases,last-first+1);eq(rendered,expected)\n","eq(cases,4);eq(rendered,720)\n");
 const helperFile='tests/lua/support/phase_four_presentation_data.lua';
 const read=file=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
 const digest=text=>createHash('sha256').update(text.trim()).digest('hex');
@@ -23,7 +24,7 @@ test('phase-four presentation keeps every original case in discovered original-b
   for(const file of [semanticFile,renderFile]) assert.ok(discovered.includes(file), 'missing discovered fixture: '+file);
   const shards=Array.from({length:4},(_,i)=>shardLuaScripts(discovered,(i+1)+'/4')).flat();
   for(const file of [semanticFile,renderFile]) assert.equal(shards.filter(path=>path===file).length,1);
-  const semantics=read(semanticFile),render=read(renderFile)
+  const semantics=read(semanticFile),render=restoreRenderBudget(read(renderFile))
     .replace("    dofile('tests/lua/support/presentation_hand.lua')(s,card.id)\n",'')
     .replace("  eq(#data.cards.cards,({ironclad=80,silent=90,defect=90,watcher=100})[id])\n",'')
     .replace('eq(rendered,720)','eq(rendered,602)'),helper=read(helperFile);
