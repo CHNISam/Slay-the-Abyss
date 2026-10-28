@@ -5,14 +5,14 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-28 01:36'
+updated_date: '2026-10-28 08:22'
 labels:
-  - required
   - sts1
   - acts
   - implementation-gap
   - partially-implemented
-milestone: m-4
+  - post-release
+  - competition-deferred
 dependencies:
   - TASK-62
 references:
@@ -21,7 +21,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
-priority: medium
+priority: low
 type: feature
 ordinal: 109000
 ---
@@ -79,4 +79,6 @@ PR262独立P1入口修复候选：原始图在复制及房间hooks前，经既�
 2026-10-27 PR262 合并前来源复核：精确61b19351（79e76774玩法同树）真实Strike证明无敌额度0仍构造淬毒动作并误耗人工制品；固定sts@319009d5的AbstractMonster先执行目标ToChangeDamage，再执行Envenom.onAttack。最小修复复用Heart额度主人，抽出只读incomingAmount供Envenom判断，Actor仍唯一实际扣额度。新增原生/高级用牌队列0→1→1与纯预览/全格挡回归；定向Heart、触发器、毒构筑及架构/Luacheck通过，退回旧Combat时新断言真实变红。详见docs/reviews/PR262-HEART-ENVENOM-CAP-20261027.md。仅本地离线修复，不更改负责人/状态/AC；新SHA完整Quality、合入、同源原生与四职业自然四幕仍待证明。
 
 2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
+
+2026-10-28用户确认范围变更：当前比赛只覆盖第一幕、第二幕，优先前10分钟体验；第三幕/隐藏第四幕/真结局及依赖退出续玩、跨局进度、历史解锁或跨局留卡的内容退出比赛必做，保留为无新截止日的未来候选。四职业及已批准原创角色要求不变。同局跨房间、第一幕到第二幕的资源与随机流、内存快照/回滚和本局结算保留；源码/候选/平台/实机仍分层，未完成状态不因范围调整改变。
 <!-- SECTION:NOTES:END -->
