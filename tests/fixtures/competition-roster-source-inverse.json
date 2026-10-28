@@ -1,0 +1,131 @@
+{
+  "base": "cec690c1701af121e370facde5c1ca2ad9beb99e",
+  "files": {
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "33ed50c97887b2fea4223b9a5b7fcede7bb3302ae12c80297224b7bc69663f63",
+      "afterSha256": "ca44dc556bdc7c2d56aebbbeaec603706eb24d0166289bb37d84849d94cac953",
+      "hunks": [
+        {
+          "at": 42,
+          "before": [
+            "    self.characterSelection=CharacterSelect.new(data,presentation)"
+          ],
+          "after": [
+            "    self.characterSelection=CharacterSelect.new(data,presentation,platform.campaignProfile)"
+          ]
+        },
+        {
+          "at": 576,
+          "before": [
+            "        local explicitSeed = self.seed ~= nil",
+            "        local seed = explicitSeed and self.seed or newSeed()",
+            "        local rawSeed=RunSeed.normalize(seed)"
+          ],
+          "after": []
+        },
+        {
+          "at": 584,
+          "before": [],
+          "after": [
+            "        if not require('abyss_run_admission').accepts(data,selection)then return false,'competition_character_unavailable'end",
+            "        local explicitSeed = self.seed ~= nil",
+            "        local seed = explicitSeed and self.seed or newSeed()",
+            "        local rawSeed=RunSeed.normalize(seed)"
+          ]
+        },
+        {
+          "at": 627,
+          "before": [],
+          "after": [
+            "        if not self.characterSelection:canConfirm()then return false,'competition_character_unavailable'end"
+          ]
+        },
+        {
+          "at": 876,
+          "before": [
+            "        function()return self.characterSelection.info~=nil end,100)"
+          ],
+          "after": [
+            "        function()return self.characterSelection:canConfirm()end,100)"
+          ]
+        },
+        {
+          "at": 879,
+          "before": [
+            "        bindCommand(box,'character_'..i,function()return self:selectCharacter(id)end,nil,i,'characters',"
+          ],
+          "after": [
+            "        bindCommand(box,'character_'..i,function()return self:selectCharacter(id)end,",
+            "            function()return self.characterSelection:allowsCharacter(id)end,i,'characters',"
+          ]
+        },
+        {
+          "at": 885,
+          "before": [
+            "            function()return self:selectElement(id)end,function()return self.characterSelection.character=='traveler'end,"
+          ],
+          "after": [
+            "            function()return self:selectElement(id)end,function()return self.characterSelection.character=='traveler'",
+            "                and self.characterSelection:allowsElement(id)end,"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_character_select_view.lua": {
+      "beforeSha256": "c3fd03f369fb8e435c6ba283a9c02fc3bf8369110eee7e2458fcaf68db8c9358",
+      "afterSha256": "861fdb1e656c944bdb7fab1b8de456b652babe627aca3b0affc7ae12893ed20d",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "    for i,id in ipairs(Select.characters)do selected(panel:GetChild(i==5 and 'traveler' or 'character'..i),state.character==id)end"
+          ],
+          "after": [
+            "    for i,id in ipairs(Select.characters)do",
+            "        local box=panel:GetChild(i==5 and 'traveler' or 'character'..i)",
+            "        local allowed=state:allowsCharacter(id)",
+            "        if box.visible~=allowed then box:SetVisible(allowed)end",
+            "        selected(box,state.character==id)",
+            "    end"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            "    for i,id in ipairs(Select.elements)do selected(panel:GetChild('elements'):GetChild('element'..i),state.element==id)end"
+          ],
+          "after": [
+            "    for i,id in ipairs(Select.elements)do",
+            "        local box=panel:GetChild('elements'):GetChild('element'..i)",
+            "        local allowed=state:allowsElement(id)",
+            "        if box.visible~=allowed then box:SetVisible(allowed)end",
+            "        selected(box,state.element==id)",
+            "    end"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "    confirm.interactable,confirm.raycastTarget=info~=nil,info~=nil"
+          ],
+          "after": [
+            "    confirm.interactable,confirm.raycastTarget=state:canConfirm(),state:canConfirm()"
+          ]
+        }
+      ]
+    },
+    "config/architecture.json": {
+      "beforeSha256": "0c15a29fa24a4284eb0760b750356b658eb02e28b71d23b46839520777222cdb",
+      "afterSha256": "4f7bf40d0552136f6d3d072c8cd3438a21783e6d3f43a88cd9ae59ca89fc439e",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "    \"abyss_run_admission\": \"core\","
+          ]
+        }
+      ]
+    }
+  }
+}

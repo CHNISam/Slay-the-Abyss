@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_run_admission": "core",
     "abyss_run_potion_candidate": "core",
     "abyss_nest_event": "core",
     "abyss_mushrooms_event": "core",
