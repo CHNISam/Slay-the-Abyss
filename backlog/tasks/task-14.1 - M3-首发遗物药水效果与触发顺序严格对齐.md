@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 18:13'
+updated_date: '2026-10-28 18:31'
 due_date: '2026-10-28'
 labels:
   - required
@@ -79,6 +79,8 @@ ordinal: 42000
 2026-10-28 PR286收口：修复三处EOF空行与Darklings状态说明惰性依赖；逐项消解develop冲突并保留PR267和campaign入口，等待PR290合入后最终同步；补定向回归与当前HEAD完整Quality，全绿后squash，关闭被吸收PR285并保留可恢复历史再清理。来源锁、RNG顺序、回滚、测试预算及未验收AC保持。
 
 2026-10-28 最大生命切片重迁：从实际已接受 develop432eebb1 独立开树，只移植原0391ea73已审查的Pear+10、Mango+14、SHOP Waffle+7后按新上限治疗和Strawberry活动owner修复。先用真实战斗损血重现旧Strawberry stale Run HP，再保留现有Run/Nodes/UI、Mark/MagicFlower、Fairy/Tail及源队列；仅补本片模块/定义/逐件目录/固定来源与测试。串行专项验证并记录当前base的守恒证据；不并入关闭未合PR300/301内容，不改历史金样或竞赛范围，不勾平台/自然验收，不推送/开PR/合并。
+
+2026-10-28 发布前追加当前比赛身份定向冒烟：复用现有MaxHP夹具与真实CharacterSelect/Run入口，用当前冻结V4雷电和岩旅行者验证四件定义/钩子保留、战外取得后的实际数值及下一真实战斗继承、岩活动stale-owner成功；既有Original V4活动上下文安全拒绝另验完整owner/熵原子回滚，不伪称雷电活动取得已支持。只增独立小夹具/Node封装，原15份审查新增文件与生产代码不动，不扩框架，不跑宽套。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -151,4 +153,6 @@ PR286主线程收口：保留远端5556fef1的Searing Blow复制语义，原固�
 最终UI紧急合流保留#286完整规则交付及最新范围，双方原始任务快照见docs/reviews/ui-merge-task-history-20261028.json.gz。未把源码合并或紧急CI授权冒充道具平台验收。
 
 2026-10-28 最大生命独立重迁：从实际已接受develop432eebb1只迁原0391ea73的Pear/Mango/Waffle和Strawberry活动owner修复，未纳入关闭未合PR300/301源层。真实战斗stale-owner断言先RED后GREEN；当前94项Node、5个相邻Lua入口、9固定源成员/160生命/28完整渠道金样通过；架构231模块/1294边，固定Luacheck无新增诊断/60历史/625度量。851份已接受Lua/冻结夹具/历史审查/源池文件逐字节保留，15原审查新增文件与hook精确保留。只追加3项定义至59项，不表示完整遗物/Boss覆盖；历史完整身份RED后以两文件精确MaxHP测试逆映射恢复432e原始字节，旧金样/hash/trace与#310逆映射保留。四职业夹具只证通用遗物同源兼容，不扩大岩旅行者+既有冻结V4雷电及前两幕比赛范围。独立证据m3-max-hp-accepted-432e-evidence；完整Quality/远端交付/候选/官方导入/自然取得/平台实机未验，AC和In Progress/Furinya保持。
+
+2026-10-28 追加比赛实际身份小冒烟：真实CharacterSelect/Run的岩旅行者与当前冻结V4雷电分别通过四件战外取得→真实Cultist战斗hp/maxHp继承；实际RD身份/冻结初始牌顺序/新战healUsed=0核对。岩活动stale-owner四件成功，雷电活动四件仍按原模块transaction_failed原子拒绝，完整图/熵/治疗账本保留；不宣称全角色活动支持。两身份原30秒预算分别2.88s/4.82s，2项通过；首轮夹具误期待内部错误文本的失败单独保留。常规商店/宝箱phase=node、胜利遗物领取phase=reward源码路径复核未见活动取得入口；不是自然游玩证据。只增独立小夹具/测试，原15审查新增与生产代码不动。原全量/平台/自然AC继续未勾。
 <!-- SECTION:NOTES:END -->

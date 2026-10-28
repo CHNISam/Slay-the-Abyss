@@ -61,3 +61,9 @@ Old Coin 与 Eternal Feather 不是本片依赖，不迁入相关room/energy共�
 当前重迁专项日志、原始身份恢复/负对照与守恒清单位于独立目录 `m3-max-hp-accepted-432e-evidence`，最终结果和精确源码提交见其交付收据。没有新的候选、官方导入、自然取得、平台或实机记录；完整Quality、独立复审和远端交付仍须另验，不勾TASK-14.1的全量/自然/平台验收。
 
 当前432e组合使用本地Node v24.22.1串行验证：最大生命/源队列/活动owner17项、相邻数据/主题/launch/Black Star/Tail/Molten/Mushrooms与Mark来源61项、历史完整身份/负对照/Node UI组合16项，合计94项Node测试通过，零失败/跳过；另5个相邻Lua入口通过（Molten取得/回滚/预览、Mark36组、事件Fairy8组）。固定9源成员、160生命输入与28完整渠道金样重验通过。架构231模块/1294边；固定Luacheck1.2.0无新增诊断、60条显式历史警告、625项职责度量通过。851份已接受Lua/冻结夹具/历史审查/源池文件逐字节保留，15份原审查新增代码/测试/金样及hook精确保留原0391字节。以上均为专项而非完整Quality或自然/平台验收。
+
+### 比赛实际身份补充冒烟（不扩大活动V4支持）
+
+**Original V4活动战斗取得仍按原审查模块原子拒绝；不宣称雷电活动取得修复或全部角色活动取得均支持。** 当前实际岩旅行者与冻结V4雷电均用CharacterSelect/Run生产入口，在战外依次取得Strawberry/Pear/Mango/Waffle，核对每一步实际hp/maxHp，然后进入真实Cultist战斗并保留最终生命与上限；雷电实际RD角色、冻结初始牌ID顺序与数量与新战斗healUsed=0均核对。岩活动真实受伤后四件均从活动owner结算；雷电活动四件均返回公开事务的transaction_failed且完整owner图、生命、持有权、熵与治疗账本不变。
+
+新增独立 `max_hp_competition_profiles.lua` 与Node封装只补测试，不改原15份审查新增文件或任何生产代码。两实际身份各一次30秒默认预算的定向进程通过（岩2.88秒、雷电4.82秒）；首轮仅因夹具错误期待内部断言文本而失败，真实战外→下战已通过，修为公开规范错误值后全过。商店/宝箱的现有pending入口强制phase=node，胜利遗物领取强制phase=reward，未发现普通自然渠道会在phase=combat调用取得；这是源码路径复核，不替代自然游玩。日志及静态入口证明见独立证据的 `competition-profiles.log` 与 `common-acquisition-phase-audit.json`。
