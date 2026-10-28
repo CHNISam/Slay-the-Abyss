@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 09:52'
+updated_date: '2026-10-28 09:08'
 labels: []
 dependencies: []
 priority: medium
@@ -35,8 +35,6 @@ ordinal: 120000
 接续 PR267 当前9bab完整Quality三个独占30秒超时：先保留原CI和本地串行基线，采样定位验证开销；elite独立6组可按既有严格原文逆向模式分片，Silent同一实例两次完整四房及canonical比较、Intent连续双回合逐帧全字段检查保持。仅证明等价的测试层最小优化，不改运行时规则、原预算或有效断言；新精确头完整Quality仍待。
 
 本轮集成收口：固定develop d2e0baa3的失败日志，复现unknown_event_routing 110种子独占30秒超时；先测保持同一原文helper的更小独立完整种子分区，必须覆盖原220种子、四路由/七事件及所有每种子断言，不改生产逻辑或预算。独立补反向重建/分区负例，再以精确PR HEAD与合入develop完整CI验收。
-
-为避免四份近同源码的完整CI重复排队，最终在现有PR292组合精确源：PR286 3437e6c1、PR287 4f033241、PR290 6b171428；保留各父系、完整审查最终tree并跑一次组合全量。仅组合PR当前SHA完整Quality全绿后正常squash；实际合入并逐项核对后再关闭源PR及285。PR291范围变更独立保留，不降低本次验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -61,8 +59,4 @@ PR2679bab 的完整Quality40642815774仍有Silent/Intent/Elite三项独占30s超
 继续按用户“处理好”授权完成集成；免费OpenCode路径因TASK51已记录限额且无恢复依据，本轮由Codex直接处理，不发试额度请求。当前develop CI40657289890的rules1失败为unknown_event_routing.lua原30000ms ETIMEDOUT，其余7规则片及POSIX/presentation通过。
 
 unknown路由修复：原110种子独占在Node22复现原30s超时；简单55种子半组缺稀有路由的诊断保留，未采纳删汇总。改4个55种子真实入口，逐种子原文反向重建hash a4d67d6a；真实完成记录1..220精确无重漏，原Lua四路由/七事件断言继续分别验证1..110及111..220。实际缺路由/事件负例均拒绝。Node24.19串行13/13过、0skip，76.653秒，全部子进程保持原30s；精确托管Node24.18完整CI和合后CI仍待。详见docs/reviews/INTEGRATION-CI-20261028.md。
-
-PR292最终组合已保留286/285、287、290精确父系；三处呈现证明冲突同时保留原逐写入guard和1703条选角插入/两方负例。组合主题用原hunk精确+10行并绑定前后完整SHA；原证明JSON不变。Node24.19最终呈现/正式入口/历史合同35/35、0skip、93.207s；架构218/1251，静态83原warnings零新增/432职责通过。详见FINAL-INTEGRATION-20261028.md；最终HEAD托管与合后CI待验，不Done。
-
-等待CI期间PR286新head 1bfb188e加入同一正式入口组合及准确账本。本轮保留完整父系和新增记录/两项断言；生产Lua/scripts/config/theme相对adf2575a逐字不变，保留原两层完整SHA/位置证明。自然/持久化/平台AC仍未通过。最终head更新后全量CI重新绑定，不借用adf旧结果作为新head通过。
 <!-- SECTION:NOTES:END -->

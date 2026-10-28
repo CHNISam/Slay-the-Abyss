@@ -2,7 +2,7 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Skin=require('abyss_card_skin')
 local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
 local face=root:GetChild('battlePanel'):GetChild('card1')
-local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
+local platform={imageSource='static',color=function(r,g,b,a)assert(r==math.floor(r) and g==math.floor(g) and b==math.floor(b),'native Color channels must be integers');return {r=r,g=g,b=b,a=a}end}
 local function encode(v)
  if type(v)=='string' then return '"'..v:gsub('\\','\\\\'):gsub('"','\\"'):gsub('\n','\\n'):gsub('\r','')..'"' end
  if type(v)=='number' or type(v)=='boolean' then return tostring(v)end
@@ -41,4 +41,3 @@ end
 Skin.apply(face,{type='attack',rarity='common',cost=1},platform,{cost=1,baseCost=1})
 assert(not face:GetChild('costHalo').visible and not face:GetChild('costDirection').visible and not face:GetChild('blockedReason').visible)
 print('LUA_CARD_SKIN_PASS six roles, three shapes, rarity, up/down/absent costs, pulse and recycled state')
-

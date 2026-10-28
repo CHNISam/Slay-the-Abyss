@@ -12,6 +12,9 @@ test('approved deck uses a six-column vertical native scroller and a read-only r
   const veil = panel.children.find(c => c.name === 'veil');
   assert.equal(veil.colour, theme.color.backdropVeil.slice(0, 7));
   assert.equal(veil.opacity, 0.8);
+  const header = panel.children.find(c => c.name === 'header');
+  assert.equal(header.colour, theme.color.panel, 'opaque header must mask the underlying scene title');
+  assert(header.position[1] - header.size[1] / 2 >= grid.position[1] + grid.size[1] / 2);
   assert.equal(grid.kind, 'grid');
   assert.equal(grid.itemTemplate, deckCardTemplate().name);
   assert.equal(grid.grid.columns, 6);

@@ -19,7 +19,7 @@ export function controlsGuide(theme = nativeTheme) {
     plate('face', [...l.panel.slice(0, 2), ...l.panel.slice(2).map(n => n - theme.space.border * 2)], c.panel),
     text('title', l.title, '操作说明', f.title, c.goldBright),
     ...tips.map(([title, body], i) => ({ name: `tip${i + 1}`, kind: 'container',
-      position: [l.columns[i % 3], l.rows[Math.floor(i / 3)]], size: l.tileSize, children: [
+      position: [l.columns[i % 3], l.rows[Math.floor(i / 3)]], size: [...l.tileSize], children: [
         plate('face', [0, 0, ...l.tileSize], c.panelSunken),
         { name: 'icon', kind: 'image', position: l.tileIcon.slice(0, 2), size: l.tileIcon.slice(2),
           image: icons[i], colour: c.goldBright },

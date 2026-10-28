@@ -1,0 +1,16 @@
+✔ formal character and card choices are present with either legacy flag (30.9372ms)
+✔ choice controls preserve the theme, four button states, and touch safe area (0.7583ms)
+✔ current native entry rejects campaign and startup drift before historical projection (2.6858ms)
+✔ formal campaign source proof reverses only the complete accepted entry opt-in (0.9907ms)
+✔ formal campaign source proof rejects disabled, missing, duplicate and unrelated source drift (0.65ms)
+✔ formal OnStart reaches Act2/3 and switches characters; missing history and keys keep Act4 locked (14415.4087ms)
+✔ six native instruction tiles fit the approved modal and do not promise unbound keyboard shortcuts (16.4503ms)
+✔ real host isolates guide input, returns controller focus, and retains map navigation after input switching (2297.793ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17118.9123

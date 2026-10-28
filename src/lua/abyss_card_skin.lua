@@ -14,7 +14,10 @@ function M.tick(box,dt)
     local scale=.985+.065*math.sin(phase*math.pi*2/1.8)
     box:GetChild('costHalo'):SetLocalScale(scale,scale,1)
 end
-local function mix(a,b,k)return {r=a.r+(b.r-a.r)*k,g=a.g+(b.g-a.g)*k,b=a.b+(b.b-a.b)*k,a=255}end
+local function mix(a,b,k)
+    local function channel(x,y)return math.floor(x+(y-x)*k+.5)end
+    return {r=channel(a.r,b.r),g=channel(a.g,b.g),b=channel(a.b,b.b),a=255}
+end
 local function painter(platform)
     return function(control,c)control.imageColor=platform.color(c.r,c.g,c.b,c.a or 255)end
 end

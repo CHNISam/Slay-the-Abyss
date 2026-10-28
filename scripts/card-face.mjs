@@ -40,7 +40,7 @@ export function cardFaceChildren(theme, context, interactive = true) {
   const disc = [-w / 2 + d / 2 - trim.costOverhang, top - d / 2 + trim.costOverhang];
   const typeY = top - card.nameBand - card.art - card.typeLine / 2 - b;
   const bandBottom = top - b - card.nameBand;
-  const picture = (name, values, id, colour = c.text) => ({ ...plate(name, values, colour), image: id });
+  const picture = (name, values, id, colour = c.text) => ({...plate(name,values,colour),image:id});
   const hidden = control => ({...control, visible:false});
   const orb = (name, values, colour, id = image.disc) => ({...plate(name, values, colour), image:id});
   const padding = node ? s.xl : s.s;

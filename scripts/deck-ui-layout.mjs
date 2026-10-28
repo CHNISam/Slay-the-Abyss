@@ -49,6 +49,8 @@ export function deckControls(theme = nativeTheme) {
       { name: 'grid', kind: 'grid', position: l.deckView.viewport.slice(0, 2), size: l.deckView.viewport.slice(2),
         itemTemplate: deckCardTemplate(theme).name, grid: { columns: l.deckView.columns, horizontal: false,
           itemSize: itemSize(theme), spacing: [...l.deckView.spacing], padding: [...l.deckView.padding], scrollbar: true } },
+      plate('header', [0, l.deckView.title[1], l.deckView.viewport[2],
+        Math.max(l.deckView.title[3], l.deckView.close[3]) + s.s], c.panel),
       text('title', l.deckView.title, '', f.heading, c.goldBright),
       { ...text('details', l.deckView.viewport, '', f.body, c.text), visible: false },
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
