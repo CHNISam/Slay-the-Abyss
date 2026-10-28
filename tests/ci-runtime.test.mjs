@@ -38,6 +38,17 @@ test('weighted scheduling balances unequal files deterministically and rejects u
   assert.throws(() => partition(files, '1/2', weights, 1, [NaN, 0]));
 });
 
+test('platform gates reserve measured time only for the corresponding complete hosted matrix', () => {
+  for (const [platform, count] of [['win32', 8], ['linux', 4]]) {
+    const initial = timings.initialMs[platform];
+    assert.equal(initial.length, count);
+    assert.ok(initial[0] > 0);
+    assert.ok(initial.slice(1).every(value => value === 0));
+    assert.deepEqual(jsShard([], `1/${count}`, platform).loads, initial);
+    assert.deepEqual(jsShard([], '1/1', platform).loads, [0], 'local serial diagnostics do not inherit hosted matrix offsets');
+  }
+});
+
 test('all current JS and Lua files are scheduled exactly once; new unmeasured files cannot disappear', () => {
   const js = discoverJs(), lua = readdirSync('tests/lua').filter(f => f.endsWith('.lua')).map(f => `tests/lua/${f}`);
   for (const [files, count, select] of [
