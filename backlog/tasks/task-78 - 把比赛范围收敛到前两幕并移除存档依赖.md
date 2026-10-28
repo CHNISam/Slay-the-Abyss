@@ -5,7 +5,7 @@ status: Done
 assignee:
   - Furinya
 created_date: '2026-10-28 08:19'
-updated_date: '2026-10-28 08:27'
+updated_date: '2026-10-28 09:11'
 labels: []
 milestone: m-4
 dependencies: []
@@ -41,6 +41,10 @@ ordinal: 0
 CLI范围与非Save分类已完成，原有任务状态、负责人及已勾AC数量前后比较全部保持。62/64转Low且清里程碑，45/53仍未来；61/63及同局状态保留。verify:backlog通过、规划和发布文案54/54专测通过、原生产清单/Lua门禁通过、doctor无重复或环、diff检查通过。正式运行时双幕终点仍未实现，由High TASK-77承接，不生成新候选、不声称M3/平台通过。
 
 编号核对：未合PR289已占TASK-76（Lua测试去重）。本范围任务通过原生task demote→DRAFT-6→draft promote重新分配TASK-78，保留原验收、实施及证据；未直接编辑Backlog ID。正式双幕终点继续TASK-77。
+
+PR291当前CI发现历史公告退役回放把现行CHANGELOG误当冻结退役后输入（rules4：288通过/1失败）。用户授权范围文字更新后，该历史输入已合法变化；本轮只修测试历史回放边界：读取不可变归档CHANGELOG，保留归档hash、其他来源漂移检查及现行版本/发布校验，不改玩法或放宽测试时限。
+
+PR291历史文案兼容修复已验证：原CHANGELOG漂移失败在/tmp/pr291-retirement-red.log真实复现；新增独立归档getter绑定原before SHA256 c906c8ea3cad9b9c282d89c332cbedab3cdee4279220547b5abea800456e57a5，仅历史CHANGELOG显式取归档。原preRetirementSource函数逐字节不变；gzip及所有历史hash未更新。归档篡改、显式现行漂移及其他源码漂移负例保留。相关74项覆盖：规划/发布54、M3整合6（含79543/79757真实完整trace）、原生合同6、正式入口3、职责/退役5均已通过；初跑4项缺本地生成data/theme，按原build:data/ui/theme/layout准备后原组重跑通过，失败日志保留。verify:backlog与diff通过；不改生产、归档、golden、超时或运行时入口。当前SHA远端CI仍需重跑。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
