@@ -167,7 +167,7 @@ function M.new(view, controls)
         CardDisplay.writeBody(box:GetChild("label"), text)
         ink(box:GetChild("label"), enabled and C.text or C.textMuted)
         box:GetChild("cost").text = card.missing and '—' or costText(definition)
-        ink(box:GetChild("cost"), enabled and C.textOnLight or C.danger)
+        ink(box:GetChild("cost"), enabled and C.energy or C.danger)
         tint(box:GetChild("costDisc"), enabled and C.energy or C.energyEmpty)
     end
 
@@ -175,6 +175,9 @@ function M.new(view, controls)
         local definition, enabled = card.definition, card.enabled
         tint(box:GetChild("border"), (card.selected or hovered) and C.goldBright
             or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
+        -- The title banner and its rule carry rarity, as on the original cards.
+        tint(box:GetChild("nameBand"), C.rarityBand[definition.rarity] or C.rarityBand.basic)
+        tint(box:GetChild("nameRule"), C.rarity[definition.rarity] or C.line)
         tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
         CardDisplay.writeArt(box:GetChild("art"), definition, picture)
         CardDisplay.writeNativeArt(box,definition,card.display.nativeArt,controls.platform,box:GetChild('art'))
@@ -247,7 +250,9 @@ function M.new(view, controls)
         -- An aiming card parks under the line so it never hides the enemy row.
         if aiming then
             local floor = -Theme.canvas.base[2]/2 + Theme.canvas.safe.y + h/2
-            x, y = 0, math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
+            -- Preserve the grabbed column; centring here looks like the held
+            -- card has snapped onto an unrelated card in the middle of the hand.
+            x, y = g.origin[1], math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
         end
         box:SetAnchoredPosition(x, y)
         box:SetLocalScale(D.scale, D.scale, 1)
@@ -270,7 +275,7 @@ function M.new(view, controls)
         reticle:SetVisible(aiming == true)
         reticle:SetAnchoredPosition(ex, ey)
         reticle:SetSizeDelta(ring, ring)
-        tint(reticle, enemy and C.goldBright or C.textDim)
+        tint(reticle, enemy and C.danger or C.textDim)
     end
 
     local function renderArc(layer, aiming, sx, sy, ex, fy, enemy)
@@ -282,7 +287,8 @@ function M.new(view, controls)
                 -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.
                 dot:SetAnchoredPosition(u*u*sx + 2*u*t*sx + t*t*ex, u*u*sy + 2*u*t*fy + t*t*fy)
                 dot:SetSizeDelta(size, size)
-                tint(dot, enemy and C.goldBright or C.textDim)
+                -- Gold trail; once an enemy is locked the last 40% turns red so the lock reads at a glance.
+                tint(dot, (enemy and t > 0.6) and C.danger or C.goldBright)
             end
         end
     end

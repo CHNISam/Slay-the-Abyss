@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>卡牌组件</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@keyframes costHalo{0%,100%{opacity:.35;transform:scale(.92)}50%{opacity:.75;transform:scale(1.05)}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+</helmet>
+<div style="position: relative; width: 296px; height: 416px; font-family: 'Noto Sans SC', sans-serif">
+  <!-- one soft shadow, one frame line, one quiet body -->
+  <div style="position: absolute; left: 0; top: 8px; width: 296px; height: 416px; border-radius: 14px; background: rgba(0,0,0,0.35)"></div>
+  <div style="position: absolute; inset: 0; border-radius: 14px; {{frameStyle}}"></div>
+  <div style="position: absolute; inset: 6px; border-radius: 9px; {{bodyStyle}}"></div>
+
+  <!-- role band behind the title -->
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 56px; border-radius: 9px 9px 0 0; {{bandStyle}}"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 6px; height: 2px; border-radius: 9px 9px 0 0; {{bandGloss}}"></div>
+  <div style="position: absolute; left: 6px; right: 6px; top: 60px; height: 2px; {{bandLine}}"></div>
+
+  <!-- role emblem on the bottom edge -->
+  <div style="position: absolute; left: 132px; top: 400px; width: 32px; height: 32px; border-radius: 50%; background: #0D0E12; display: flex; align-items: center; justify-content: center; {{markRing}}">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="{{motif}}" fill="{{accent}}" fill-rule="evenodd"></path></svg>
+  </div>
+
+  <!-- title -->
+  <div style="position: absolute; left: 60px; right: 60px; top: 12px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: {{nameSize}}px; font-weight: 700; letter-spacing: 1px; white-space: nowrap; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.6)">{{nameText}}<sc-if value="{{up}}" hint-placeholder-val="{{ false }}"><span style="color: #8DE08A; margin-left: 2px">＋</span></sc-if></div>
+
+  <!-- art window: the outline itself says the type — attack points down, skill is a rounded tablet, power is an arch -->
+  <div style="position: absolute; left: 14px; right: 14px; top: 64px; height: 158px; background: {{accent}}; {{shapeCss}}"></div>
+  <div style="position: absolute; left: 17px; right: 17px; top: 67px; height: 152px; background: radial-gradient(ellipse at 50% 35%, {{accent}}26 0%, #0B0C10 80%); {{shapeCss}}; overflow: hidden; display: flex; align-items: center; justify-content: center">
+    <sc-if value="{{hasArt}}" hint-placeholder-val="{{ false }}"><img src="{{art}}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block"></sc-if>
+    <sc-if value="{{noArt}}" hint-placeholder-val="{{ true }}"><svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="{{typeIcon}}" fill="{{accent}}" opacity="0.6"></path></svg></sc-if>
+  </div>
+
+  <!-- type: centred on the art's lower edge, like every deckbuilder -->
+  <div style="position: absolute; left: 0; right: 0; top: 204px; display: flex; justify-content: center">
+    <div style="min-width: 76px; height: 28px; padding: 0 14px; box-sizing: border-box; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; {{typeStyle}}">{{typeLabel}}</div>
+  </div>
+
+  <!-- rules text: shrinks to a floor, then clips with a long-press hint -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 242px; bottom: {{textBottom}}px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden">
+    <div style="font-size: {{bodySize}}px; line-height: {{lineHeight}}; font-weight: 500; color: #F3EEE4; text-wrap: pretty"><sc-for list="{{segments}}" as="seg" hint-placeholder-count="3"><span style="{{seg.style}}">{{seg.t}}</span></sc-for></div>
+  </div>
+  <sc-if value="{{clipped}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #C9C3B6">… 长按查看全文</div>
+  </sc-if>
+
+  <!-- not playable now: the face dims, a reason pill states what is missing and by how much -->
+  <sc-if value="{{blocked}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 6px; border-radius: 9px; background: rgba(8, 9, 12, 0.5)"></div>
+    <div style="position: absolute; left: 0; right: 0; top: 168px; display: flex; justify-content: center">
+      <div style="height: 32px; padding: 0 14px; border-radius: 16px; display: flex; align-items: center; gap: 8px; background: #0D0E12; box-shadow: inset 0 0 0 1.5px #EF7672; font-size: 16px; font-weight: 700; color: #FF9A94; white-space: nowrap">
+        <svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M3.5 7V5a3.5 3.5 0 0 1 7 0v2M2 7h10v8H2z" fill="none" stroke="#FF9A94" stroke-width="2" stroke-linejoin="round"></path></svg>
+        <span>{{reason}}</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- cost: straddles the corner; green = cheaper this turn, red = dearer -->
+  <sc-if value="{{hasCost}}" hint-placeholder-val="{{ true }}">
+    <!-- changed cost: a breathing halo in the direction colour -->
+    <sc-if value="{{changed}}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; left: -22px; top: -22px; width: 84px; height: 84px; border-radius: 50%; animation: costHalo 1.8s ease-in-out infinite; {{haloStyle}}"></div>
+    </sc-if>
+    <div style="position: absolute; left: -10px; top: -10px; width: 60px; height: 60px; border-radius: 50%; {{orbStyle}}; display: flex; align-items: center; justify-content: center; font-size: {{costSize}}px; font-weight: 700; line-height: 1">{{cost}}</div>
+    <!-- changed cost: direction chevron on the ring + the printed cost, struck through -->
+    <sc-if value="{{changed}}" hint-placeholder-val="{{ false }}">
+      <!-- direction badge on the orb's lower-right; the printed cost lives in the long-press text -->
+      <div style="position: absolute; left: 30px; top: 30px; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; {{chipStyle}}" role="img" aria-label="{{costWord}}">
+        <svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="{{chevron}}" fill="none" stroke="#0D0E12" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"rarity":{"editor":"enum","options":["basic","common","uncommon","rare","curse"],"default":"common"},"role":{"editor":"enum","options":["traveler","hutao","arlecchino","furina","raiden","colorless","curse"],"default":"traveler"},"shape":{"editor":"enum","options":["attack","skill","power"],"default":"attack"},"title":{"editor":"text","default":"招架还击"},"typeLabel":{"editor":"text","default":"攻击"},"cost":{"editor":"text","default":"1"},"text":{"editor":"text","default":"获得 5 点格挡，造成 5 点伤害。"},"upgraded":{"editor":"boolean","default":false},"costState":{"editor":"enum","options":["normal","down","up"],"default":"up"},"baseCost":{"editor":"text","default":""},"block":{"editor":"enum","options":["none","energy","condition","forbidden"],"default":"none"},"reason":{"editor":"text","default":""},"art":{"editor":"text","default":""},"$preview":{"width":296,"height":416}}'>
+class Component extends DCLogic {
+  renderVals() {
+    // Rarity: frame tone + pip count (1-4), so it never depends on hue alone.
+    const R = {
+      // Like the official game: the title banner and frame carry rarity, at full presence.
+      // Four steps of lightness: dark iron < silver < blue < gold.
+      basic:    { frame: '#34363C', band: ['#24262B', '#1A1B1F'], edge: '#4E5159', n: 1 },
+      common:   { frame: '#8C929D', band: ['#4E525B', '#34373E'], edge: '#C4CAD3', n: 2 },
+      uncommon: { frame: '#3F7FC6', band: ['#2E64A6', '#1C3F6E'], edge: '#7FB8F2', n: 3 },
+      rare:     { frame: '#D4A54A', band: ['#B8862E', '#7A5516'], edge: '#F6D68C', n: 4 },
+      curse:    { frame: '#6B4A44', band: ['#4A322E', '#2E1F1C'], edge: '#9A7268', n: 0 }
+    };
+    // Role lives only in the accents; every body is the same neutral slate so no role feels heavy.
+    // Accent on body and ink on accent are all >= 5.9:1.
+    const C = {
+      traveler:   { accent: '#F2A93B', body: '#161820', ink: '#2A1700' },
+      hutao:      { accent: '#F58258', body: '#161820', ink: '#2A0C04' },
+      arlecchino: { accent: '#F06A74', body: '#161820', ink: '#2A0609' },
+      furina:     { accent: '#6CCBF6', body: '#161820', ink: '#04202F' },
+      raiden:     { accent: '#A87BFF', body: '#161820', ink: '#160733' },
+      colorless:  { accent: '#D6D0C2', body: '#161820', ink: '#1B1B1F' },
+      curse:      { accent: '#C9877A', body: '#161618', ink: '#FFFFFF' }
+    };
+    const rk = this.props.rarity ?? 'common', ck = this.props.role ?? 'traveler', shape = this.props.shape ?? 'attack';
+    const r = R[rk] || R.common, c = C[ck] || C.traveler;
+    const up = this.props.upgraded ?? false;
+    const green = '#8DE08A';
+    // The title stays white on every banner; only the upgrade "＋" is green.
+    const nameText = this.props.title ?? '招架还击';
+    const text = this.props.text ?? '获得 5 点格挡，造成 5 点伤害。';
+    const cost = this.props.cost ?? '1';
+    const costState = this.props.costState ?? 'normal';
+    // Body: 26 → 18 floor (native minimum 14 ×2 = 28 is the in-game floor at 1×; 18 here at 2× preview is
+    // the readable limit). Past ~78 chars the text clips and points to the long-press full text.
+    const len = text.length;
+    const bodySize = len > 62 ? 18 : len > 48 ? 19 : len > 36 ? 21 : len > 24 ? 23 : 26;
+    const clipped = false;
+    // Title: 27 → 20, then two lines are never used; very long names shrink, never truncate.
+    const nameSize = nameText.length > 8 ? 20 : nameText.length > 6 ? 22 : nameText.length > 4 ? 25 : 27;
+    // Restrained type cue: attack = pointed base, skill = square, power = arched top.
+    // Type by corner language, keyline always intact: attack = sharp, skill = rounded, power = arched.
+    const radius = { attack: '0', skill: '14px', power: '120px 120px 6px 6px / 44px 44px 6px 6px' }[shape] || '14px';
+    const clip = '';
+    // Genshin mechanics read as a leading keyword, never as extra card types.
+    const kw = text.match(/^(普攻|重击|战技|爆发)。/);
+    const rest = kw ? text.slice(kw[0].length) : text;
+    const segments = (kw ? [{ t: kw[0], style: `font-weight: 900; color: ${c.accent}` }] : []).concat(
+      rest.split(/(\d+)/).filter(Boolean).map(t => ({
+        t, style: /^\d+$/.test(t) ? `font-weight: 900; color: ${up ? green : '#FFFFFF'}` : ''
+      })));
+    // Each role's signature: Geo star, plum blossom, crescent, water drop, electro bolt.
+    const motifs = {
+      traveler: 'M12 1L14.6 9.4L23 12L14.6 14.6L12 23L9.4 14.6L1 12L9.4 9.4Z',
+      hutao: 'M12 2.5a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM19 7.8a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM16.4 15.7a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM7.6 15.7a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8ZM5 7.8a3.4 3.4 0 1 1 0 6.8a3.4 3.4 0 1 1 0-6.8Z',
+      arlecchino: 'M14.5 2.5A9.5 9.5 0 1 0 21.5 17A7.6 7.6 0 1 1 14.5 2.5Z',
+      furina: 'M12 1.5C9 6 4.5 10.5 4.5 15a7.5 7.5 0 0 0 15 0C19.5 10.5 15 6 12 1.5Z',
+      raiden: 'M14 1L4 13.5h6.2L8.5 23L20 9.5h-6.4Z',
+      colorless: 'M12 2a10 10 0 1 1 0 20a10 10 0 1 1 0-20ZM12 6a6 6 0 1 0 0 12a6 6 0 1 0 0-12Z',
+      curse: 'M4 6.5L6.5 4L12 9.5L17.5 4L20 6.5L14.5 12L20 17.5L17.5 20L12 14.5L6.5 20L4 17.5L9.5 12Z'
+    };
+    // Cost change reads three ways: colour, direction chevron, and the printed cost struck through.
+    const changed = costState !== 'normal';
+    const tone = (this.props.block ?? 'none') === 'energy' ? '#EF7672'
+      : costState === 'down' ? green : costState === 'up' ? '#EF7672' : c.accent;
+    const printed = this.props.baseCost || (/^\d+$/.test(cost) ? String(Number(cost) + (costState === 'down' ? 1 : -1)) : '');
+    // Unplayable now: energy short (cost turns red), a card condition unmet, or a rule forbids it.
+    const block = this.props.block ?? 'none';
+    const blocked = block !== 'none';
+    const art = this.props.art ?? '';
+    const shapeCss = {
+      attack: 'clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%)',
+      skill: 'border-radius: 22px',
+      power: 'border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px'
+    }[shape] || '';
+    const typeIcon = {
+      attack: 'M19 2 22 5 11.5 15.5 13 17l-1.5 1.5-2-2L6 20l-2-2 3.5-3.5-2-2L7 11l1.5 1.5Z',
+      skill: 'M12 2 20 5v6c0 5.2-3.4 9.3-8 11-4.6-1.7-8-5.8-8-11V5Z',
+      power: 'M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6Z'
+    }[shape];
+    return {
+      art, hasArt: !!art, noArt: !art, shapeCss, typeIcon,
+      up,
+      blocked,
+      reason: this.props.reason || { energy: '能量不足', condition: '条件未满足', forbidden: '本回合不能打出' }[block] || '',
+      changed,
+      baseCost: printed,
+      costWord: costState === 'down' ? '本回合减费' : '本回合加费',
+      chevron: costState === 'down' ? 'M2.5 4.5L6 8L9.5 4.5' : 'M2.5 7.5L6 4L9.5 7.5',
+      chipStyle: `background: ${tone}; box-shadow: 0 0 0 2.5px #0D0E12`,
+      haloStyle: `background: radial-gradient(circle, ${tone}66 0%, ${tone}00 70%)`,
+      motif: motifs[ck] || motifs.traveler,
+      accent: c.accent,
+      bandStyle: `background: linear-gradient(180deg, ${r.band[0]} 0%, ${r.band[1]} 100%)`,
+      bandGloss: `background: ${r.edge}; opacity: 0.8`,
+      bandLine: `background: ${r.edge}`,
+      markRing: `box-shadow: inset 0 0 0 1.5px ${r.frame}`,
+      nameText, nameSize, bodySize, segments, cost, clipped,
+      lineHeight: len > 48 ? 1.4 : 1.5,
+      textBottom: clipped ? 52 : 22,
+      costSize: cost.length > 1 ? 28 : 34,
+      typeLabel: this.props.typeLabel ?? '攻击',
+      hasCost: ck !== 'curse' && cost !== '',
+      frameStyle: `background: ${r.frame}; box-shadow: inset 0 0 0 1px ${r.edge}`,
+      bodyStyle: `background: linear-gradient(180deg, ${c.body} 0%, #111217 100%)`,
+      nameStyle: `color: ${up ? green : '#FFFFFF'}`,
+      artStyle: `background: radial-gradient(ellipse at 50% 35%, ${c.accent}26 0%, #0B0C10 80%); border-radius: ${radius}; box-shadow: inset 0 0 0 1.5px ${c.accent}${clip}`,
+      artLabel: `color: ${c.accent}; opacity: 0.55`,
+      typeStyle: `color: ${c.accent}; background: #0B0C10; box-shadow: inset 0 0 0 1.5px ${c.accent}`,
+      ruleStyle: `background: ${r.frame}; opacity: 0.5`,
+      orbStyle: `background: #0D0E12; color: ${tone}; box-shadow: inset 0 0 0 ${changed ? 3 : 2}px ${tone}, 0 0 0 3px #0D0E12`
+    };
+  }
+}
+</script>
+</body>
+</html>

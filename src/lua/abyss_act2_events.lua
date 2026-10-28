@@ -8,10 +8,12 @@ local Basics=require('abyss_back_to_basics')
 local Joust=require('abyss_joust_event')
 local Library=require('abyss_library_event')
 local Ghosts=require('abyss_ghosts_event')
-local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true}}
+local Nest=require('abyss_nest_event')
+local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true,nest=true}}
 local GOLD_COST=75
 
 function M.prepare(run,event)
+    if event.id=='nest' then return Nest.prepare(run,event) end
     if event.id=='joust' then return Joust.prepare(run,event) end
     if event.id=='ghosts' then return Ghosts.prepare(run,event) end
     if event.id=='the_library' then return Library.prepare(run,event) end
@@ -26,6 +28,7 @@ local function row(choice,title,description,enabled,picker)
 end
 
 function M.options(run,event)
+    if event.id=='nest' then return Nest.options(run,event) end
     if event.id=='joust' then return Joust.options(run,event) end
     if event.id=='ghosts' then return Ghosts.options(run,event) end
     if event.id=='the_library' then return Library.options(run,event) end
@@ -145,6 +148,7 @@ function M.view(run,event)
 end
 
 function M.choose(run,flow,choice,uid,upgradeable)
+    if flow.event.id=='nest' then return Nest.choose(run,flow,choice,uid) end
     if flow.event.id=='the_library' then return Library.choose(run,flow,choice,uid) end
     if flow.event.id=='joust' then return Joust.choose(run,flow,choice,uid) end
     local event=flow.event

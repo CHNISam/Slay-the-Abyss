@@ -49,6 +49,7 @@ for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
--- Retirement deletes exactly 68 writes owned by the announcement entry/panel.
--- The JS contract independently preserves every other write and its global order.
-assert(trace.count==79475 and trace.hash==1007819925,'ordered native writes changed from the reviewed announcement retirement contract')
+-- Original room and pre-retirement M3 fixtures remain frozen and replayable.
+-- Compose the reviewed 214 additions/593 visual replacements with the exact
+-- removal of 68 announcement-owned writes; JS checks every remaining write.
+assert(trace.count==79689 and trace.hash==2034622601,'ordered native writes changed from the reviewed M3 announcement retirement contract')

@@ -205,7 +205,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     same(card.versions,['base','upgraded'],`sharedCards/${card.id} versions`);
     check(card.rarity===actual?.rarity&&card.type===actual?.type&&card.rarity===reference?.rarity.toLowerCase(),`sharedCards/${card.id}: classification drift`);
     check(actual?.supported===true,`sharedCards/${card.id}: unsupported runtime effect`);
-    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard',...(card.id==='apparition'?['explicit_event:ghosts:accept']:[])]:
+    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard',...(card.id==='apparition'?['explicit_event:ghosts:accept']:[]),...(card.id==='ritual_dagger'?['explicit_event:nest:dagger']:[])]:
       ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation']),
         'explicit_event:sensory_stone:card_reward'],`sharedCards/${card.id} channels`);
     check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);

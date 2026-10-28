@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>药水一览</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;family=Noto+Serif+SC:wght@600;900&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1920px; height: 1080px; position: relative; overflow: hidden; background: #0D0708; font-family: 'Noto Sans SC', sans-serif; color: #F3ECDD">
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 1200px 800px at 50% 40%, #3A1614 0%, #1E0E0D 55%, #0D0708 100%)"></div>
+
+  <div style="position: absolute; left: 80px; top: 64px">
+    <div style="display: flex; align-items: center; gap: 12px; font-size: 15px; letter-spacing: 6px; color: #BBAA8C"><span style="width: 32px; height: 1px; background: #C9964E"></span>药水</div>
+    <div style="margin-top: 8px; font-family: 'Noto Serif SC', serif; font-size: 42px; font-weight: 900; color: #F3E6D0">七种药水：点开看效果，两种用法</div>
+    <div style="margin-top: 14px; display: flex; gap: 28px; font-size: 17px; color: #C9BCA4">
+      <span><b style="color: #E0907A">对敌人</b>（2 种）：点药水 → 拖到一个敌人身上松手，与拖牌同一套箭头和准星</span>
+      <span><b style="color: #9CC8A0">对自己</b>（5 种）：点药水 → 点「使用」，立即生效</span>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 80px; top: 250px; width: 1760px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px">
+    <sc-for list="{{potions}}" as="p" hint-placeholder-count="7">
+      <div style="display: flex; flex-direction: column; gap: 14px; padding: 22px; border-radius: 14px; background: #1F1716; border: 1px solid #4A3C2C">
+        <div style="display: flex; align-items: center; gap: 16px">
+          <div style="flex: none; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle at 50% 35%, #3A2E28, #1A1312); box-shadow: inset 0 0 0 2px {{p.ring}}; display: grid; place-items: center">
+            <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v5l-4.5 8A3 3 0 0 0 8.2 21h7.6a3 3 0 0 0 2.7-5L14 8V3" style="fill: none; stroke: {{p.ring}}; stroke-width: 1.8; stroke-linecap: round"></path><path d="M6.8 14h10.4l1.3 2.3A3 3 0 0 1 15.8 21H8.2a3 3 0 0 1-2.7-4.7Z" style="fill: {{p.liquid}}"></path></svg>
+          </div>
+          <div>
+            <div style="font-size: 22px; font-weight: 700">{{p.name}}</div>
+            <div style="margin-top: 6px; display: inline-block; height: 24px; padding: 0 10px; border-radius: 12px; border: 1px solid {{p.tagEdge}}; color: {{p.tagInk}}; font-size: 14px; line-height: 22px">{{p.tag}}</div>
+          </div>
+        </div>
+        <div style="font-size: 19px; color: #E6DCC8">{{p.effect}}</div>
+        <div style="padding-top: 12px; border-top: 1px solid #3E322A; display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 1.6; color: #BBAA8C">
+          <div><span style="color: #8C7A64">用法</span>　{{p.how}}</div>
+          <div><span style="color: #8C7A64">生效</span>　{{p.feedback}}</div>
+        </div>
+      </div>
+    </sc-for>
+    <!-- 第 8 格：使用后的反馈示例 -->
+    <div style="display: flex; flex-direction: column; justify-content: center; gap: 16px; padding: 22px; border-radius: 14px; border: 1px dashed #4A3C2C">
+      <div style="font-size: 15px; letter-spacing: 3px; color: #9E8C72">生效反馈（统一规则）</div>
+      <div style="font-size: 15px; line-height: 1.7; color: #BBAA8C">数值从作用对象身上浮出：伤害红、格挡蓝、增益金、能量橙，0.6 秒上浮淡出。用掉的药水槽变成空槽。</div>
+      <div style="display: flex; gap: 14px; align-items: baseline; font-size: 26px; font-weight: 700">
+        <span style="color: #E07A62">−20</span><span style="color: #8EC4E8">+12</span><span style="color: #E8C27A">力量 +2</span><span style="color: #F0A050">+2</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const foe = { tag: '对一个敌人', tagEdge: '#8A4A3A', tagInk: '#E0907A', how: '点药水，拖到一个敌人身上松手；拖回取消' };
+    const self = { tag: '对自己', tagEdge: '#4E7A54', tagInk: '#9CC8A0', how: '点药水，点「使用」' };
+    // data/potions.json: targetPolicy enemy_one ×2, self ×5
+    const potions = [
+      { name: '火焰药水', effect: '造成 20 点伤害', ...foe, ring: '#C8553D', liquid: '#E0704A', feedback: '目标浮出 −20，血条扣减' },
+      { name: '毒雾药水', effect: '施加 6 层中毒', ...foe, ring: '#6AAE5A', liquid: '#7CD650', feedback: '目标状态行出现中毒 6' },
+      { name: '护盾药水', effect: '获得 12 点格挡', ...self, ring: '#5A9AC8', liquid: '#6EB8F0', feedback: '主角血条变蓝，盾牌显示 12' },
+      { name: '力量药水', effect: '获得 2 层力量', ...self, ring: '#C8553D', liquid: '#F0644A', feedback: '主角状态行出现力量 2，攻击牌数字变绿' },
+      { name: '敏捷药水', effect: '获得 2 层敏捷', ...self, ring: '#6AAE5A', liquid: '#7ED67A', feedback: '主角状态行出现敏捷 2，格挡牌数字变绿' },
+      { name: '能量药水', effect: '获得 2 点能量', ...self, ring: '#C9964E', liquid: '#F0A050', feedback: '能量盘 3/3 → 5/3，数字短暂放大' },
+      { name: '再生药水', effect: '获得 5 层再生', ...self, ring: '#4EA878', liquid: '#62D69A', feedback: '主角状态行出现再生 5，回合末回血' }
+    ];
+    return { potions };
+  }
+}
+</script>
+</body>
+</html>
