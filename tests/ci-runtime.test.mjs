@@ -4,8 +4,26 @@ import { readdirSync, readFileSync, mkdtempSync, mkdirSync, writeFileSync, copyF
 import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { originalLuaRunner } from './helpers/ci-lua-runner-inverse.mjs';
 import { partition, jsShard, discoverJs, timings } from '../scripts/ci-shards.mjs';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
+
+test('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes', () => {
+  const source = readFileSync('scripts/test-lua.mjs', 'utf8').replaceAll('\r\n', '\n');
+  const sha = text => createHash('sha256').update(text).digest('hex');
+  const original = '63ec149511d52b9e362f2c9210d092e4d97bd815c5b8c16e7009ade146d5d55b';
+  for (const text of [source, source.replaceAll('\n', '\r\n')]) assert.equal(sha(originalLuaRunner(text)), original);
+  const changedDeadline = source.replace('60000 : 30000', '60000 : 60000');
+  assert.notEqual(changedDeadline, source);
+  assert.notEqual(sha(originalLuaRunner(changedDeadline)), original);
+  const changedProcess = source.replace('maxBuffer: 1024 * 1024', 'maxBuffer: 1');
+  assert.notEqual(changedProcess, source);
+  assert.notEqual(sha(originalLuaRunner(changedProcess)), original);
+  const changedSchedule = source.replace('return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial).files;', 'return [];');
+  assert.notEqual(changedSchedule, source);
+  assert.throws(() => originalLuaRunner(changedSchedule), /exact reviewed scheduler/);
+});
 
 test('weighted scheduling balances unequal files deterministically and rejects unsafe inputs', () => {
   const files = ['a', 'b', 'c', 'd'], weights = { a: 100, b: 80, c: 20, d: 10 };

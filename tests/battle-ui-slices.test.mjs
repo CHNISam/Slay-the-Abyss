@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {runLua} from '../scripts/test-lua.mjs';
+import {originalLuaRunner} from './helpers/ci-lua-runner-inverse.mjs';
 const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const sha=source=>createHash('sha256').update(source).digest('hex');
 const support='tests/lua/support/battle_ui_cases.lua';
@@ -52,7 +53,7 @@ function validatePartitions(rows,wrappers){
     rows.filter(([,first,last])=>first<=34&&last>=34).flatMap(([,first,last,seedFirst=1,seedLast=6])=>sequence(seedFirst,seedLast)));
 }
 function validateRunner(source){
-  assert.equal(sha(source),runnerHash,'unchanged runner and original deadlines');
+  assert.equal(sha(originalLuaRunner(source)),runnerHash,'unchanged runner and original deadlines');
   for(const [file]of slices)assert.ok(source.includes(`'tests/lua/${file}'`),'all seven entries retain the existing fixture deadline');
   assert.match(source,/fixture \|\| composedHost \? 60000 : 30000;/,'battle UI keeps its existing 60-second fixture budget');
 }
