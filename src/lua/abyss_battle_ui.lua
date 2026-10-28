@@ -741,8 +741,10 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             iconY - size / 2)
         ink(attackLabel, C.text)
         box:GetChild('intentLabel'):SetVisible(false)
-        box:GetChild('intentHit'):SetAnchoredPosition(0, iconY - line / 2)
-        box:GetChild('intentHit'):SetSizeDelta(#icons * pitch - size / 2, size + line)
+        local hitSpan = #icons * pitch - size / 2
+        local hitWidth = math.max(hitSpan, L.intent.valueWidth)
+        box:GetChild('intentHit'):SetAnchoredPosition((hitWidth - hitSpan) / 2, iconY - line / 4)
+        box:GetChild('intentHit'):SetSizeDelta(hitWidth, size + line / 2)
     end
     local function enemyAimProjection(frame)
         local aimed = self.gesture or self.carry

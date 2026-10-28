@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const bytes=readFileSync('tests/fixtures/p0-accepted-presentation-inverses.json.gz');
-assert.equal(hash(bytes),'332012d33e9e4baedfdab8db619d3381d8b4d7cbbb56516857144b43e44d1425');
+assert.equal(hash(bytes),'6aa87c17877a6b2ed6a08e097963f94b3e709622c91692619ad8588e406f9be3');
 export const p0Presentation=JSON.parse(gunzipSync(bytes));
 export function preAcceptedPresentation(path,source){
   if(source===null)return source;

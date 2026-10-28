@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 11:33'
-updated_date: '2026-10-28 13:38'
+updated_date: '2026-10-28 13:55'
 labels: []
 dependencies: []
 references:
@@ -46,4 +46,8 @@ PR302 d2757fc9 的 Windows 真实失败已逐条取证：phase-four 退出菜单
 S0独立定位Silent原30s超时：RelicRewards.context对每张牌重复扫描卡表，改为每次调用内惰性首定义索引，不改Run/RNG/池/原fixture。成本门禁旧2080读取RED，新64读取GREEN；原71奖励→同一Run71购买13754ms内完成；六份相关Lua各status0、PR250原字节保护3/3、架构/Luacheck门禁通过。新的完整精确头CI仍待。
 
 bcca9de5完整Quality仍失败：Win1为phase-four第169行第二个退出场景遗漏菜单放弃入口，Win6为原card-play完整入口30秒超时；其余6Win（含Silent）、4POSIX、聚合、presentation、Quick及Licenses成功。补齐phase budget5真实exit1→0，精确源逆层保留旧黄金；卡牌11个独立测试/24个场景按3入口机械分片，原体完整SHA与覆盖负例保持，每入口原30秒且独占调度。三片status0、相关合同15/15与语法通过；新完整CI未跑，S0意图帮助触摸区复核待结论，任务保持In Progress。
+
+S0真实生成树发现本次数字上移后help仍80高，Guardian肖像顶84/help底68侵入16px。最小改为图标+数字框union：高60、底88、距自身肖像4px，单图标宽度包住68px数字框；仅用已算几何/主题。新增1/2/3图标与完整数字、own肖像/提示/药水红绿；自然7编组61项原意图计划对实际肖像检查成功。人工Cultist×5全三效果另有既有跨行拥挤红例（source2(200,114)对target1(100,100)），保留日志/坐标，未做整体UI验收。cardplay补原始自动discovery精确3条清单及缺片/额外入口负例；最终完整CI仍待。
+
+帮助区最终复验：原Guardian探针/clearance/case23/StatusHelp与原目标确认片status0；自动发现+负例+历史逆层+调度17/17。完整工程门禁与语法exit0：220模块1259边，73原警告无新增，432职责，四语义变异杀死，两原生合同成功。原15条相同声明因新增2行迁移位置，精确身份记录docs/reviews/p0-intent-luacheck-remap.json，零新豁免。首次逆层顺序和历史诊断位置失败日志保留，修后已全项复验；本轮新完整CI仍待，暂不push等S0审查。
 <!-- SECTION:NOTES:END -->
