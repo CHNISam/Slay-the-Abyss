@@ -16,7 +16,7 @@ assert.equal(retirementSources.head,'d7fa6f219a1461cf2b461f03724fb00da79e621f');
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
  let normalized=source===null?null:source.replaceAll('\r\n','\n');
  if(path==='data/presentation/ui_theme.json'){
-  assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','complete frozen Mushrooms/Molten theme identity and mapping positions');
+  assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','unreviewed integrated retirement source drift: complete frozen Mushrooms/Molten theme identity and mapping positions');
   // Exact new glyph inverse; the complete accepted hash below still binds
   // every old byte and prevents unrelated deletions, edits or reordered fields.
   const molten=",\n      \"molten_egg\": {\n        \"id\": 102031,\n        \"placeholder\": true,\n        \"note\": \"暂沿用现有遗物图标；专属美术与设备验收待完成。\"\n      }";
@@ -29,6 +29,16 @@ export function preRetirementSource(path,source=existsSync(path)?readFileSync(pa
   normalized=normalized.slice(0,at)+normalized.slice(at+mushroom.length);
  }
  if(!Object.hasOwn(retirementSources.beforeSources,path))return normalized;
+ if(path==='src/lua/abyss_ui.lua'){
+  // Historical replay only. The separate live OnStart fixture owns campaign
+  // behavior; this exact inverse does not claim natural or platform coverage.
+  assert.equal(normalized===null?null:digest(normalized),
+   '4fdb5660a96f00b3d24bfa5388d5eb9c364183996679d0b7aaaf772af1319677',
+   'unreviewed integrated retirement source drift: '+path);
+  const enabled='{ music = music, campaign = true, experimentalCharacters =';
+  assert.equal(normalized.split(enabled).length,2,'one exact formal campaign opt-in');
+  normalized=normalized.replace(enabled,'{ music = music, experimentalCharacters =');
+ }
  assert.equal(normalized===null?null:digest(normalized),retirementSources.afterSha256[path],
   'unreviewed integrated retirement source drift: '+path);
  const before=retirementSources.beforeSources[path];

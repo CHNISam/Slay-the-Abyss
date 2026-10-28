@@ -22,5 +22,3 @@ local r=F.enter();r.hp=10;local before=C.copy(r);local old=Run.obtainCard
 Run.obtainCard=function()error('late obtain fault')end
 local ok=N.chooseEvent(r,'heal');Run.obtainCard=old;assert(not ok);F.same(r,before);assert(N.chooseEvent(r,'heal'))
 print('MUSHROOMS_HEAL_PASS 5 groups; heal before Parasite/Mark/Omamori/remove hook/late rollback')
-
-

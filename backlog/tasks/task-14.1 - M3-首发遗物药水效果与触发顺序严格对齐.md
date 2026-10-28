@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 06:28'
+updated_date: '2026-10-28 08:37'
 due_date: '2026-10-28'
 labels:
   - required
@@ -74,6 +74,8 @@ ordinal: 42000
 2026-10-28接续实际遗留成果：将16e9dfa7蜥蜴尾巴/黑星组合与原树三文件未提交药水计数修正接到最新b7dffdeb；保留双方原生轨迹测试、专用数据输入负例和全部旧断言。定向回归与完整当前SHA CI通过后合并，完整自然/平台AC仍不勾。
 
 2026-10-28冲刺：按固定319009d5的MoltenEgg2.java补熔火之蛋，复用既有获得牌与Toxic Egg owner；覆盖攻击牌preview/obtain、只追溯当前战斗奖励、回滚、正常来源与48层边界。保持旧牌组/旧商店不追改；先红后绿并复验Toxic；完整道具池、自然和平台AC继续保留未完成。
+
+2026-10-28 PR286收口：修复三处EOF空行与Darklings状态说明惰性依赖；逐项消解develop冲突并保留PR267和campaign入口，等待PR290合入后最终同步；补定向回归与当前HEAD完整Quality，全绿后squash，关闭被吸收PR285并保留可恢复历史再清理。来源锁、RNG顺序、回滚、测试预算及未验收AC保持。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

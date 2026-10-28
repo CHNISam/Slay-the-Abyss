@@ -42,7 +42,9 @@ local descriptions = {
             temporaryNote(v.entry, "敏捷", "不影响固定格挡药水")
     end,
     vulnerable = function(v)
-        return "受到的普通攻击伤害 +" .. number(v.vulnerablePercent - 100) .. "%", "剩余 " .. v.n .. " 回合",
+        local percent = v.battle and require('abyss_actor').vulnerablePercent(v.battle, v.actor)
+            or v.combat.vulnerablePercent
+        return "受到的普通攻击伤害 +" .. number(percent - 100) .. "%", "剩余 " .. v.n .. " 回合",
             "数字表示持续回合；不放大中毒，轮末递减"
     end,
     weak = function(v)
@@ -260,7 +262,7 @@ function M.statusDetail(entry, rules, actor, battle)
     local n = number(entry.amount)
     local describe = descriptions[entry.id]
     if describe then return describe({ entry = entry, combat = rules.combat, actor = actor, n = n,
-        vulnerablePercent=battle and require('abyss_actor').vulnerablePercent(battle,actor)or rules.combat.vulnerablePercent }) end
+        battle = battle }) end
     return entry.description, entry.stack == "none" and "" or n
 end
 

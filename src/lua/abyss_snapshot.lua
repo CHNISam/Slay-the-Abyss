@@ -6,15 +6,18 @@ local M={}
 local owners=setmetatable({},{__mode='k'})
 function M.capture(root,target)
     assert(type(root)=='table','snapshot requires a table')
-    local saved,pending={},{root}
-    while #pending>0 do
-        local original=table.remove(pending)
-        if not saved[original] then
-            local values={};saved[original]=values
-            for k,v in next,original do
-                values[k]=v
-                if type(k)=='table' then pending[#pending+1]=k end
-                if type(v)=='table' then pending[#pending+1]=v end
+    local saved,pending={[root]={}},{root}
+    local top,kind=1,type
+    while top>0 do
+        local original=pending[top];pending[top]=nil;top=top-1
+        local values=saved[original]
+        for k,v in next,original do
+            values[k]=v
+            if kind(k)=='table' and not saved[k] then
+                saved[k]={};top=top+1;pending[top]=k
+            end
+            if kind(v)=='table' and not saved[v] then
+                saved[v]={};top=top+1;pending[top]=v
             end
         end
     end

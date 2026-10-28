@@ -17,4 +17,3 @@ end
 local function enter()local r,m,id=fixture();local ok,why=N.enter(r,m,id);assert(ok,why);return r,m end
 local function owned(r,id)for _,v in ipairs(r.relics)do if v==id then return true end end;return false end
 return {fixture=fixture,enter=enter,Run=Run,Map=Map,N=N,C=C,R=R,D=D,eq=eq,same=same,owned=owned}
-
