@@ -34,3 +34,11 @@
 - 相关核心/跨幕/EndingHistory/Neow批次12/12通过；Ruby全部15组、Sapphire全部21组及Emerald map通过。
 - 原79543与79757写strict trace重放通过；当前79689写、hash2034622601的strict live trace保持完全不变；原game_ui16组及startup/mock/exit/budget7项通过。
 - 相关UI/历史批次25/26通过，唯一失败为**规划基线已有**的`CHANGELOG.md`历史source绑定：19f715aa规划说明改动使实际hash为`8f2e50de5a6a87c33fdc3bb771d499794ea651c0ce80a2d4e70c27710d3b8939`，原不可变证明仍期望`f0f2411ed93489ebc87496415675f323736d0b281e643d4dc6a88acf83b5add7`。e46bd5dd原文件与旧hash一致，19f715aa→a43f717c未再修改此文件。本patch未修改CHANGELOG或绕过该失败，主线程已获知需在规划侧精确处理。它不影响上述已实际运行的strict trace，但当前组合不能宣称完整Quality通过。
+
+### 独立审查补正：OPEN时的Sapphire offer门禁
+
+独立审查发现b49a3603的注入`endingUnlocked=true`防御回归只在房间创建后检查尚为空的奖励列表，漏掉`Treasure.open`才追加钥匙的实际时点。直接领取虽被Nodes拒绝，打开普通宝箱后仍会出现不可领的蓝钥匙项；这违反本切片已承诺的比赛UI和资格语义，并非自然历史provider已可接入的声明。
+
+补正复用`Acts.isCompetition`，在真正OPEN的offer阶段统一以“非比赛配置且campaign/endingUnlocked可用”控制原钥匙校验和追加，不改抽奖、奖励、hook或事务顺序。加强后的同一核心回归在旧代码真实RED（OPEN后`sapphireKey`断言），修复后检查无key item、无linkedSlot；直接sapphire选择和外来key token均拒绝，Run与Map完整前像不变。显式full-source相同普通宝箱仍产生合法关联钥匙，treasure/card RNG与遗物池消费状态逐项相同。正式OnStart的真实floor9宝箱OPEN后还检查整棵可见NodeUI无“钥匙”提示。原Boss终点、跨幕及回滚回归继续保留；历史证明与冻结hash无新增改动。
+
+补正验证：新核心/正式入口/full-source场景、Sapphire21组与独立source向量批次14/14通过；新增RNG/池状态等值断言再跑核心7组通过；独立审查原probe显示OPEN后Sapphire项为0并通过。架构214模块/1239依赖边、固定Luacheck84条既有诊断/418治理测量及diff检查通过。未改变原历史hash，未执行平台或自然通关。

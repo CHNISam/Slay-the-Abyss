@@ -126,18 +126,41 @@ test('competition has original non-final-act key policy even with supplied histo
  assert(context.endingUnlocked==false)
  local map=Map.generate(run.data,run.runSeed,1,context)
  assert(not map.emeraldSelection and not map.emeraldBoost)
- local function enterFloor(floor)
-  while Map.available(map)[1].floor<floor do assert(Map.choose(map,Map.available(map)[1].id))end
-  run.floor,run.phase=map.floor,'map'
-  run.nodeFlow={id=map.currentNodeId,floor=map.floor,type='combat',complete=true,result='victory',
-   mapSeed=map.seed,mapSignature=map.sourceSignature}
-  assert(Nodes.enter(run,map,Map.available(map)[1].id))
+ local function enterFloor(owner,current,floor)
+  while Map.available(current)[1].floor<floor do assert(Map.choose(current,Map.available(current)[1].id))end
+  owner.floor,owner.phase=current.floor,'map'
+  owner.nodeFlow={id=current.currentNodeId,floor=current.floor,type='combat',complete=true,result='victory',
+   mapSeed=current.seed,mapSignature=current.sourceSignature}
+  assert(Nodes.enter(owner,current,Map.available(current)[1].id))
  end
- enterFloor(9)
+ enterFloor(run,map,9)
+ assert(Nodes.openTreasure(run)) -- key offers are created at OPEN, not room construction
  assert(not run.nodeFlow.reward.sapphireKey)
- for _,item in ipairs(run.nodeFlow.reward.items)do assert(item.kind~='sapphire')end
+ for _,item in ipairs(run.nodeFlow.reward.items)do
+  assert(item.kind~='sapphire','competition advertised a key after OPEN')
+  assert(not item.linkedSlot,'competition relic advertises a linked key')
+ end
+ local before=C.copy(run);local saved=Map.snapshot(map)
+ local ok,reason=Nodes.chooseTreasure(run,map,{},'sapphire')
+ assert(not ok and reason=='ending_unavailable');same(run,before);same(Map.snapshot(map),saved)
+ -- The same source opening with an explicit future profile must still offer
+ -- its real linked key, not silently remove the original full-source policy.
+ local full=new('full-source');full.endingUnlocked=true
+ local fullMap=Map.generate(full.data,full.runSeed,1,assert(Run.freezeMapContext(full)))
+ enterFloor(full,fullMap,9);assert(Nodes.openTreasure(full))
+ assert(full.nodeFlow.reward.sapphireKey)
+ same(R.snapshot(run.treasureRng),R.snapshot(full.treasureRng))
+ same(R.snapshot(run.cardRng),R.snapshot(full.cardRng))
+ local relicPool=require('abyss_relic_pool')
+ same(relicPool.snapshot(run.relicPool),relicPool.snapshot(full.relicPool))
+ local keyToken
+ for _,item in ipairs(full.nodeFlow.reward.items)do
+  if item.kind=='sapphire'then keyToken=assert(Nodes.treasureRewardSource(full,item.slot))end
+ end
+ assert(keyToken and Nodes.treasureSource(full,fullMap))
+ assert(not Nodes.claimTreasureReward(run,keyToken));same(run,before);same(Map.snapshot(map),saved)
  assert(Nodes.leaveTreasure(run))
- enterFloor(15)
+ enterFloor(run,map,15)
  local source,why=Nodes.recallSource(run,map)
  assert(not source and why=='ending_unavailable')
 end)

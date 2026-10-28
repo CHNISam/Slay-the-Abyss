@@ -98,6 +98,23 @@ start(host,root,'traveler')
 assert(not host.run.characterProfile and host.run.maxHp==80)
 assert(#signals==2 and signals[1]=='ABYSS_BGM_STOP' and signals[2]=='ABYSS_BGM_MAP')
 fight(host,root,1)
+-- Injected historical flags must not resurrect a source key offer at OPEN.
+host.run.endingUnlocked=true
+while Map.available(host.map)[1].floor<9 do assert(Map.choose(host.map,Map.available(host.map)[1].id))end
+host.run.floor,host.run.phase=host.map.floor,'map'
+host.run.nodeFlow={id=host.map.currentNodeId,floor=host.map.floor,type='combat',complete=true,result='victory',
+    mapSeed=host.map.seed,mapSignature=host.map.sourceSignature}
+host:refresh();assert(host.mapUI:choose(Map.available(host.map)[1].id))
+assert(host.nodeUI:press('treasureView/chest'));host.nodeUI:update(2)
+assert(not host.run.nodeFlow.reward.sapphireKey)
+for _,item in ipairs(host.run.nodeFlow.reward.items)do assert(item.kind~='sapphire' and not item.linkedSlot)end
+local function noVisibleKeyPromise(control)
+    if control.visible==false then return end
+    assert(not (control.text and control.text:find('钥匙',1,true)),'competition chest advertised a key')
+    for _,child in pairs(control.children)do noVisibleKeyPromise(child)end
+end
+noVisibleKeyPromise(root:GetChild('nodePanel'))
+assert(host.nodeUI:press('back'))
 chest(host,16,2)
 fight(host,root,18)
 bossComplete(host,33)

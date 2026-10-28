@@ -3,6 +3,7 @@
 -- Preparation never mutates its Run. Publish all owners in one node transaction.
 local R=require('abyss_sts_random')
 local Pool=require('abyss_relic_pool')
+local Acts=require('abyss_acts')
 local M={}
 local chestRules={small={common=75,uncommon=100,goldChance=50,goldAmount=25},
  medium={common=35,uncommon=85,goldChance=35,goldAmount=50},
@@ -171,11 +172,12 @@ function M.open(run,chest,reward)
    addItem(prepared,{kind='gold',amount=math.floor(gold+.5)})
   end
   local base=addRelic(run,prepared,tier,'base')
-  if run.campaign==true and run.endingUnlocked==true then
+  local endingAvailable=not Acts.isCompetition(run) and run.campaign==true and run.endingUnlocked==true
+  if endingAvailable then
    assert(type(run.keys)=='table' and type(run.keys.ruby)=='boolean' and type(run.keys.emerald)=='boolean'
     and type(run.keys.sapphire)=='boolean','invalid ending keys')
   end
-  if run.campaign==true and run.endingUnlocked==true and run.keys.sapphire==false then
+  if endingAvailable and run.keys.sapphire==false then
    local key=addItem(prepared,{kind='sapphire',relicId=base.id,linkedSlot=base.slot})
    base.linkedSlot=key.slot
   end
