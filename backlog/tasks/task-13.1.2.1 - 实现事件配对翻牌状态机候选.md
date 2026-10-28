@@ -3,9 +3,9 @@ id: TASK-13.1.2.1
 title: 实现事件配对翻牌状态机候选
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 17:31'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -40,6 +40,8 @@ ordinal: 55000
 
 <!-- SECTION:NOTES:BEGIN -->
 候选仅新增独立状态机、17组回归及来源/API说明，固定来源blob f86144bdf0e00acad096e8668f17fa96d6aabac1已验证。测试先缺模块失败后17/17；10个开发负控和9个独立评审负控均被拒。独立模型对照通过，无阻塞发现。只返回一次奖励结果，不保证永久卡牌获取事务，未来适配器必须定义失败恢复；未接入生产事件池、随机流、库存或UI。待正式当前头CI，不勾生产或平台验收。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

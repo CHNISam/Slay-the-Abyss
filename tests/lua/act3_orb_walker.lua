@@ -55,7 +55,7 @@ test('public Act3 room uses the unchanged source queue and real A0 opening',func
  eq(e.statuses.generic_strength_up,3);eq(s.aiRng.counter,2)
 end)
 
-test('new source normal rooms retain atomic setup failure and Act4 remains unavailable',function()
+test('new source normal rooms retain atomic setup failure and ending rooms require qualification',function()
  for _,spec in ipairs({{'1','normal'},{'34','normal',2}})do
   local r=room(spec[1]);local tier=spec[2]
   -- Both formerly unavailable leaves now have real source contracts. Keep late setup rollback.
@@ -74,6 +74,9 @@ test('new source normal rooms retain atomic setup failure and Act4 remains unava
  end
  local r=room('4');r.act,r.floor=4,54
  local before=C.copy(r);local ok,why=Run.startRoomCombat(r,'elite')
+ eq(ok,false);eq(why,'ending_keys_required');same(r,before)
+ r.act,r.floor=5,56;before=C.copy(r)
+ ok,why=Run.startRoomCombat(r,'elite')
  eq(ok,false);eq(why,'act_content_unavailable');same(r,before)
 end)
 

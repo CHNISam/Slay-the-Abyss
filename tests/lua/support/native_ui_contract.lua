@@ -12,7 +12,7 @@ function M.control(box,spec)
     local guarded={}
     for key,value in pairs(previous)do guarded[key]=value end
     guarded.__newindex=function(self,key,value)
-        assert(key~='interactable','cursorArea cannot set interactable, no such native field')
+        assert(key~='interactable','Native CursorArea has no interactable field; use raycastTarget')
         if previous.__newindex then return previous.__newindex(self,key,value) end
         rawset(self,key,value)
     end
@@ -29,5 +29,8 @@ end
 function M.listener(event,callback)
     assert(event~=nil,'listener event is required')
     assert(type(callback)=='function','listener callback must be a function')
+end
+function M.transform3(x,y,z)
+    M.sizeDelta(x,y);M.sizeDelta(z,0)
 end
 return M

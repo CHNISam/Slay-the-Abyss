@@ -3,9 +3,9 @@ id: TASK-12.4
 title: 把第一幕地图规则对准原版
 status: Done
 assignee:
-  - '@codex-m3-map'
+  - '@Furinya'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -69,6 +69,8 @@ ordinal: 40000
 2026-10-25 集成完成：PR193冻结头e443dbc的完整Quality run40126575413（check/presentation均SUCCESS）已squash合入develop，提交9ae1aec7aa6f113c7fed5e5fad6241af7fe4a2db。完整原池生产效果、25事件和组合实机/UI门禁仍未完成，不勾选这些AC。e443候选57模块/UI/完整结算图独立读回通过，但合并期间base新增药水输入归属，正从9ae重建；旧候选不能冒充当前。https://github.com/CHNISam/Slay-the-Abyss/pull/193
 
 2026-10-26全面复核：生产Map4项及队列/运行时向量6项通过，12完整golden、raw恢复、126构造与正式入口事务保持；原版目标认证/平台概率分层留12.5。
+
+负责人字段规范化：原记录 @codex-m3-map 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

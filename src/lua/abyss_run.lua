@@ -14,6 +14,8 @@ local RoomEncounters = require("abyss_room_encounters")
 local CardRandom = require("abyss_card_random")
 local RelicPool = require('abyss_relic_pool')
 local RelicRewards=require('abyss_relic_rewards')
+local EventCombat=require('abyss_event_combat')
+local EmeraldRewards=require('abyss_emerald_rewards')
 local RelicHooks = require('abyss_relic_hooks')
 local Acts = require('abyss_acts')
 local M = {}
@@ -183,10 +185,16 @@ function M.advanceAct(run)
         staged.act,staged.phase,staged.floor=nextAct,'map',Acts.get(nextAct).first-1
         staged.nodeFlow,staged.pendingAct,staged.pendingCombatRewards,staged.rewards=nil,nil,nil,nil
         staged.combat,staged.lastResult=nil,nil
+        staged.emeraldCombat=nil
+        local context,why=EmeraldRewards.freezeMapContext(staged)
+        if not context then return false,why end
         staged.potionChanceModifier=0
         return true
     end)
 end
+
+function M.freezeMapContext(run)return EmeraldRewards.freezeMapContext(run)end
+function M.mapContext(run)return EmeraldRewards.mapContext(run)end
 
 local legacyRelics={['Burning Blood']='burning_blood',Anchor='anchor',Vajra='vajra',
  ['Bag of Preparation']='bag_of_preparation',Lantern='lantern',['Oddly Smooth Stone']='oddly_smooth_stone',
@@ -438,7 +446,11 @@ local function startEncounter(run, encounter, sourceRoom)
     end
     if sourceRoom then
         options.roomSeed,options.roomStreams=sourceRoom.seed,sourceRoom
-        if encounter.sourceEncounter then
+        options.emeraldBoost=sourceRoom.emeraldBoost
+        if sourceRoom.preparedEncounter then
+            options.enemies,options.sourceEncounter=nil,nil
+            options.preparedEncounter=sourceRoom.preparedEncounter
+        elseif encounter.sourceEncounter then
             options.enemies=nil;options.sourceEncounter=encounter.sourceEncounter
             options.encounterBoundary={
                 misc={boolean=function()return EventRandom.randomBoolean(sourceRoom.miscRng)end,
@@ -461,6 +473,8 @@ local function startEncounter(run, encounter, sourceRoom)
     run.encounterSource,battle.encounterSource=encounter.source,encounter.source
     if nextMiscRng then run.miscRng = nextMiscRng end
     run.phase = "combat"
+    run.eventCombat = nil
+    run.emeraldCombat = nil
     run.pendingCombatRewards = nil
     return true
 end
@@ -478,10 +492,43 @@ function M.roomStreams(run,floor)
         miscRng=EventRandom.fromSeed(seed),visualRng=EventRandom.fromSeed(seed)}
 end
 
-function M.startRoomCombat(run,tier)
+function M.prepareEventEncounter(run,source,floor,misc)
+    return EventCombat.prepare(run,source,floor,M.roomStreams,misc)
+end
+
+function M.startEventCombat(run)
+    return M.transaction(run,function(staged)
+        return EventCombat.start(staged,staged.nodeFlow,M,startEncounter)
+    end)
+end
+
+local function endingQualified(run)
+    local keys=run.keys
+    if run.campaign~=true or run.endingUnlocked~=true or type(keys)~='table' or getmetatable(keys)~=nil then return false end
+    for key in pairs(keys)do if key~='ruby'and key~='emerald'and key~='sapphire'then return false end end
+    return keys.ruby==true and keys.emerald==true and keys.sapphire==true
+end
+local function endingRoom(run,tier)
+    if not endingQualified(run)then return false,'ending_keys_required'end
+    if not(tier=='elite'and run.floor==54 or tier=='boss'and run.floor==55)then return false,'ending_room_unavailable'end
+    local ok,queue=pcall(EncounterQueue.snapshot,run.encounters)
+    if not ok or queue.act~=4 or queue.rawSeed~=run.runSeed or #queue.normal~=3
+        or #queue.elite~=(tier=='elite'and 3 or 2)then return false,'encounter_act_mismatch'end
+    local boss=run.bossInitialization
+    if type(boss)~='table'or getmetatable(boss)~=nil or boss.profile~='ending'
+        or type(boss.bossList)~='table'or getmetatable(boss.bossList)~=nil or #boss.bossList~=3 then
+        return false,'unsupported_boss_initialization'
+    end
+    for key,value in pairs(boss.bossList)do
+        if type(key)~='number'or key%1~=0 or key<1 or key>3 or value~='The Heart'then return false,'unsupported_boss_initialization'end
+    end
+    return true
+end
+
+function M.startRoomCombat(run,tier,emeraldBoost)
     if run.phase~='map' then return false,'not_on_map' end
     local act=run.act or 1
-    if act~=1 and act~=2 and act~=3 then return false,'act_content_unavailable' end
+    if act~=1 and act~=2 and act~=3 and act~=4 then return false,'act_content_unavailable' end
     if type(run.roomGeneration)~='number' or run.roomGeneration%1~=0
         or run.roomGeneration<0 or run.roomGeneration>=2147483647 then return false,'invalid_room_generation' end
     if type(run.encounters)~='table' or run.encounters.rawSeed~=run.runSeed then return false,'run_seed_mismatch' end
@@ -489,8 +536,14 @@ function M.startRoomCombat(run,tier)
     local first,last=chapter.first,chapter.boss
     if type(run.floor)~='number' or run.floor%1~=0 or run.floor<first or run.floor>last then return false,'wrong_floor' end
     local encounter,nextQueue
+    if act==4 then
+        local ready,why=endingRoom(run,tier);if not ready then return false,why end
+        if emeraldBoost~=nil then return false,'invalid_emerald_combat_owner'end
+    end
     if tier=='boss' then
-        if act==3 then
+        if act==4 then
+            encounter=require('abyss_act4_enemies').resolve(run.bossInitialization.bossList[1],tier)
+        elseif act==3 then
             if run.floor~=50 or not run.bossInitialization or type(run.bossInitialization.bossList)~='table' then
                 return false,'unsupported_boss_initialization'
             end
@@ -517,7 +570,8 @@ function M.startRoomCombat(run,tier)
         valid,source,nextQueue,reason=pcall(EncounterQueue.consume,run.encounters,tier)
         if not valid then return false,'invalid_encounter_state' end
         if not source then return false,reason end
-        if act==3 then encounter,reason=require('abyss_act3_enemies').resolve(source,tier)
+        if act==4 then encounter,reason=require('abyss_act4_enemies').resolve(source,tier)
+        elseif act==3 then encounter,reason=require('abyss_act3_enemies').resolve(source,tier)
         elseif act==2 then encounter,reason=require('abyss_act2_enemies').resolve(source,tier)
         else encounter,reason=RoomEncounters.resolve(source,tier) end
         if not encounter then return false,reason end
@@ -525,11 +579,15 @@ function M.startRoomCombat(run,tier)
     local staged={};for k,v in pairs(run)do staged[k]=v end
     local ready,room=pcall(M.roomStreams,run,run.floor)
     if not ready then return false,'invalid_room_seed' end
+    if emeraldBoost~=nil then
+        if tier~='elite' then return false,'invalid_emerald_combat_owner'end
+        room.emeraldBoost=Combat.copy(emeraldBoost)
+    end
     local called,ok,reason=pcall(startEncounter,staged,encounter,room)
     if not called then return false,'combat_unavailable' end
     if not ok then return false,reason end
     staged.miscRng=room.miscRng
-    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng','relicCounters'})do run[key]=staged[key]end
+    for _,key in ipairs({'combat','combatGeneration','encounterId','encounterTier','encounterSource','phase','miscRng','relicCounters','eventCombat','emeraldCombat'})do run[key]=staged[key]end
     if nextQueue then run.encounters=nextQueue end
     run.roomGeneration=run.roomGeneration+1
     run.pendingCombatRewards=nil
@@ -564,6 +622,53 @@ function M.restoreEncounters(run,snapshot)
     return true
 end
 
+local function combatEndHealing(run)
+    for _,id in ipairs(run.relics)do
+        local relic=find(run.data.relics.relics,id)
+        if relic and relic.trigger=='combat_end'then
+            for _,effect in ipairs(relic.effects)do if effect.op=='heal'then M.heal(run,effect.value)end end
+        end
+    end
+end
+
+local function heartOwner(run)
+    local battle,flow=run.combat,run.nodeFlow
+    if run.act~=4 or run.floor~=55 or not endingQualified(run)or run.encounterTier~='boss'
+        or run.encounterId~='ending_heart'or run.encounterSource~='The Heart'
+        or type(battle)~='table'or battle.encounterSource~='The Heart'
+        or battle.roomSeed~=RunSeed.forFloor(run.runSeed,55)or battle.combatGeneration~=run.combatGeneration
+        or type(run.combatGeneration)~='number'or run.combatGeneration%1~=0 or run.combatGeneration<1 then return false end
+    if type(flow)~='table'or getmetatable(flow)~=nil or flow.type~='boss'or flow.floor~=55 or flow.complete~=false
+        or flow.encounterId~=run.encounterId or flow.encounterSource~='The Heart'
+        or type(flow.id)~='string'or flow.id==''or flow.mapSeed~=run.runSeed
+        or type(flow.mapSignature)~='string'or flow.mapSignature==''then return false end
+    local enemies=battle.enemies
+    if type(enemies)~='table'or getmetatable(enemies)~=nil or #enemies~=1 then return false end
+    for key in pairs(enemies)do if key~=1 then return false end end
+    local enemy=enemies[1]
+    if type(enemy)~='table'or enemy.definitionId~='corrupt_heart'or enemy.id~='corrupt_heart_1'
+        or enemy.sourceId~='CorruptHeart'or enemy.tier~='boss'or not enemy.ai or enemy.ai.kind~='corrupt_heart'
+        or enemy.escaped or type(enemy.hp)~='number'or enemy.hp>0 then return false end
+    if Combat.outcome(battle)~='victory'or not amount(battle.player.hp)or battle.player.hp<=0
+        or not amount(run.hp)or run.hp<=0 or run.hp>run.maxHp then return false end
+    for _,key in ipairs({'cardActions','queuedCards','actionQueue','pendingPlay','pendingChoice','pendingScry',
+        'pendingHandChoice','pendingDiscard','pendingPileChoice','pendingPotionChoice','cardInUse',
+        'resolvingCard','resolvingEffects','drainingCardActions'})do if battle[key]then return false end end
+    return endingRoom(run,'boss')
+end
+local function finishHeart(run)
+    if not heartOwner(run)then return false,'ending_combat_owner_mismatch'end
+    -- AbstractRoom constructs this inaccessible GOLD item before excluding
+    -- TheEnding Boss from dropReward/Potion/CombatRewardScreen. Spend the draw
+    -- without offering money, cards, potions, relics or a boss chest.
+    local _,stream,nextRng=GoldRewards.prepare('boss',run)
+    run[stream]=nextRng
+    run.endingProceed={version=1,runSeed=run.runSeed,act=4,floor=55,
+        encounterId=run.encounterId,combatGeneration=run.combatGeneration}
+    run.rewards,run.pendingCombatRewards,run.phase=nil,nil,'ending_proceed'
+    run.victories=run.victories+1
+    return true
+end
 local function finishCombat(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     local result = Combat.outcome(run.combat)
@@ -580,16 +685,16 @@ local function finishCombat(run)
     run.lastResult = { outcome = result, turn = run.combat.turn, encounterId = run.encounterId, allEnemiesEscaped = allEscaped, mugged = run.combat.mugged }
     if result == "defeat" then
         run.phase, run.rewards = "defeat", nil
+        run.endingProceed=nil
         return true
     end
     -- Combat-end relics apply once, before the reward transaction is offered.
-    for _, id in ipairs(run.relics) do
-        local relic = find(run.data.relics.relics, id)
-        if relic and relic.trigger == "combat_end" then
-            for _, effect in ipairs(relic.effects) do
-                if effect.op == "heal" then run.hp = math.min(run.maxHp, run.hp + effect.value) end
-            end
-        end
+    combatEndHealing(run)
+    if run.act==4 and run.encounterTier=='boss'then return finishHeart(run)end
+    if run.eventCombat then
+        local rewards,why=EventCombat.finish(run);if not rewards then return false,why end
+        run.rewards,run.phase=rewards,'reward';run.victories=run.victories+1
+        return true
     end
     local gold, goldStream, nextGoldRng
     if run.combat.roomSeed then
@@ -607,13 +712,23 @@ local function finishCombat(run)
         local prepared,why=RelicRewards.elite(run);if not prepared then return false,why end
         relicReward=prepared.items;run.relicPool=prepared.relicPool
     end
+    local potion,potionRng,potionModifier
+    if run.combat.roomSeed then
+        potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
+        PotionRewards.commit(run,potionRng,potionModifier)
+    end
     local choices,nextCardRng,offset,cardUpgrades=CardPool.prepareRewards(run)
     run.cardRng,run.cardRarityOffset=nextCardRng,offset
-    local potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
-    PotionRewards.commit(run,potionRng,potionModifier)
+    if not run.combat.roomSeed then
+        potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
+        PotionRewards.commit(run,potionRng,potionModifier)
+    end
     run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
     if relicReward then run.rewards.relics=relicReward end
+    local emerald,emeraldReason=EmeraldRewards.offer(run,relicReward and #relicReward or 0)
+    if emeraldReason then return false,emeraldReason end
+    if emerald then run.rewards.emeraldKey=emerald end
     RelicHooks.previewCardReward(run,run.rewards,true)
     local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
@@ -648,7 +763,7 @@ local function applyPermanentChanges(run)
     if run.phase=='combat' and battle.miscRng then run.miscRng=EventRandom.cloneState(battle.miscRng)end
     if run.phase=='combat' and battle.cardRng then run.cardRng=EventRandom.cloneState(battle.cardRng)end
 end
-function M.finishCombat(run)
+local function finishCombatTransaction(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
     if not run.combat.roomSeed then
         local ok,reason=finishCombat(run);if ok then applyPermanentChanges(run)end;return ok,reason
@@ -664,6 +779,39 @@ function M.finishCombat(run)
     for key in pairs(run) do run[key] = staged[key] end
     for key, value in pairs(staged) do run[key] = value end
     return true
+end
+
+function M.finishCombat(run)
+    if run.phase~='combat'then return false,'not_in_combat'end
+    local restore=require('abyss_snapshot').capture(run)
+    local called,ok,reason=pcall(finishCombatTransaction,run)
+    if not called then restore();error(ok,0)end
+    if not ok then restore()end
+    return ok,reason
+end
+
+function M.proceedEnding(run,expectedOwner)
+    -- Identity is checked before transaction cloning, and before metatables can
+    -- be erased by copy. A stale UI callback cannot acquire a replacement owner.
+    local owner=run.endingProceed
+    if expectedOwner==nil or not rawequal(expectedOwner,owner)or type(owner)~='table'or getmetatable(owner)~=nil then
+        return false,'ending_proceed_owner_mismatch'
+    end
+    local fields={version=true,runSeed=true,act=true,floor=true,encounterId=true,combatGeneration=true}
+    for key in pairs(owner)do if not fields[key]then return false,'ending_proceed_owner_mismatch'end end
+    if run.phase~='ending_proceed'or not heartOwner(run)then return false,'ending_proceed_unavailable'end
+    return M.transaction(run,function(staged)
+        local pending=staged.endingProceed
+        if staged.phase~='ending_proceed'or not heartOwner(staged)
+            or pending.version~=1 or pending.runSeed~=staged.runSeed or pending.act~=4 or pending.floor~=55
+            or pending.encounterId~=staged.encounterId or pending.combatGeneration~=staged.combatGeneration
+            or staged.rewards~=nil or staged.pendingCombatRewards~=nil
+            or not staged.lastResult or staged.lastResult.outcome~='victory'
+            or staged.lastResult.encounterId~=staged.encounterId then return false,'ending_proceed_unavailable'end
+        staged.phase,staged.ending,staged.endingProceed='victory','true_victory',nil
+        staged.nodeFlow.complete,staged.nodeFlow.result=true,'true_victory'
+        return true,'true_victory'
+    end)
 end
 
 function M.rewardOptions(run)
@@ -718,6 +866,11 @@ function M.claimRelicReward(run,index)
         return true,item.id
     end)
 end
+
+function M.claimEmeraldKey(run)
+    return M.transaction(run,function(staged)return EmeraldRewards.claim(staged)end)
+end
+function M.canClaimEmeraldKey(run)return EmeraldRewards.canClaim(run)end
 
 function M.claimGoldReward(run)
     local rewards = run.phase == "reward" and run.rewards
@@ -1063,6 +1216,7 @@ local function potionCandidate(run, slot, targetIndex, afterPotionActions)
     candidate.potionRng=run.shopRng and EventRandom.cloneState(run.shopRng.potion)or EventRandom.fromSeed(run.runSeed)
     candidate.potionInventory=Combat.copy(run.potions)
     local called, ok, reason = pcall(function()
+        if potion.targetPolicy=='enemy_one'then Combat.faceTarget(candidate,candidate.enemies[targetIndex])end
         local applied,why=Inventory.apply(candidate,effects,targetIndex,run,true)
         if not applied then return false,why end
         -- Integration point for COMBAT onUsePotion hooks: append their actions
@@ -1119,7 +1273,18 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
         candidate.shopRng.potion=EventRandom.cloneState(battle.potionRng);battle.potionRngChanged=nil
     end
     if battle.smoked then
+        candidate.emeraldCombat=nil
         battle.phase='escaped'
+        if candidate.eventCombat then
+            if battle.miscRng then candidate.miscRng=EventRandom.cloneState(battle.miscRng)end
+            if battle.cardRng then candidate.cardRng=EventRandom.cloneState(battle.cardRng)end
+            candidate.shopRng=candidate.shopRng and Combat.copy(candidate.shopRng)
+            local called,accepted=pcall(function()
+                combatEndHealing(candidate)
+                return EventCombat.escape(candidate)
+            end)
+            if not called or not accepted then return false,'potion_effect_failed'end
+        end
         candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil
         candidate.lastResult={outcome='escaped',turn=battle.turn,encounterId=run.encounterId}
     end
@@ -1135,6 +1300,8 @@ function M.usePotion(run, slot, targetIndex, afterPotionActions)
     for key in pairs(root) do root[key] = nil end
     for key, value in pairs(battle) do root[key] = value end
     candidate.combat = root
+    run.eventCombat,run.rewards,run.pendingCombatRewards=candidate.eventCombat,candidate.rewards,candidate.pendingCombatRewards
+    run.emeraldCombat=candidate.emeraldCombat
     for key, value in pairs(candidate) do run[key] = value end
     return true
 end
@@ -1166,6 +1333,36 @@ function M.potionView(run)
         end
     end
     return result
+end
+
+-- Permanent upgrades reuse the existing card definition/upgrade owner. They
+-- never obtain a new card, replace its UID, or filter out bottled instances.
+local function permanentUpgradeContext(run,uid)
+    local instance
+    for _,card in ipairs(run.deck)do
+        if card.uid==uid then
+            if instance then return nil,nil,'invalid_card' end
+            instance=card
+        end
+    end
+    if not instance then return nil,nil,'invalid_card' end
+    local definition=cardDefinition(run,instance.cardId)
+    if not definition then return nil,nil,'card_content_unavailable' end
+    return {catalog={cards={[instance.cardId]=definition}}},instance
+end
+function M.canUpgradeCard(run,uid)
+    local context,instance,why=permanentUpgradeContext(run,uid)
+    if not context then return false,why end
+    if not Combat.canUpgrade(context,instance)then return false,'card_not_upgradeable'end
+    return true
+end
+function M.upgradeCard(run,uid)
+    return M.transaction(run,function(staged)
+        local context,instance,why=permanentUpgradeContext(staged,uid)
+        if not context then return false,why end
+        if not Combat.upgrade(context,instance)then return false,'card_not_upgradeable'end
+        return true,instance.uid
+    end)
 end
 
 return M

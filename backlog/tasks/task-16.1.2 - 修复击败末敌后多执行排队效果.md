@@ -3,9 +3,9 @@ id: TASK-16.1.2
 title: 修复击败末敌后多执行排队效果
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 18:34'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,12 @@ ordinal: 58000
 <!-- SECTION:PLAN:BEGIN -->
 核对源动作顺序与白名单；建立负例；最小修复已支持动作清除并纠正旧错误预期；独立评审及正常PR集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

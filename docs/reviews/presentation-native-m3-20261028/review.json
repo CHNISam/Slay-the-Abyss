@@ -1,0 +1,1981 @@
+{
+  "version": 1,
+  "boundary": "Complete old ordered writes retained; only exact captured insertion values/positions accepted. Strict native recorder and its guards unchanged.",
+  "categories": {
+    "reward_geometry": 812,
+    "independent_emerald_button": 308,
+    "potion_caption_geometry": 196,
+    "map_notice_geometry": 77,
+    "map_icon_position": 1782,
+    "map_emerald_label_visibility": 1188
+  },
+  "insertionsSha256": "db348a954062d581bb12f62d5f4f4ea02dfc052a4dbd80f8c5e2b34289b81ec7",
+  "writes": [
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList,2=string:SetAnchoredPosition,3={1=0,2=28}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList,2=string:y,3=28}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList,2=string:x,3=0}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList,2=string:SetSizeDelta,3={1=640,2=516}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList,2=string:size,3={1=640,2=516}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList,2=string:sizeDeltaY,3=516}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList,2=string:sizeDeltaX,3=640}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/border,2=string:SetSizeDelta,3={1=640,2=516}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/border,2=string:size,3={1=640,2=516}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/border,2=string:sizeDeltaY,3=516}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/border,2=string:sizeDeltaX,3=640}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/plate,2=string:SetSizeDelta,3={1=636,2=512}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/plate,2=string:size,3={1=636,2=512}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/plate,2=string:sizeDeltaY,3=512}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/plate,2=string:sizeDeltaX,3=636}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/title,2=string:SetAnchoredPosition,3={1=0,2=214}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/title,2=string:y,3=214}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/title,2=string:x,3=0}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/title,2=string:SetSizeDelta,3={1=560,2=44}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/title,2=string:size,3={1=560,2=44}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/title,2=string:sizeDeltaY,3=44}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/title,2=string:sizeDeltaX,3=560}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/subtitle,2=string:SetAnchoredPosition,3={1=0,2=166}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/subtitle,2=string:y,3=166}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/subtitle,2=string:x,3=0}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/subtitle,2=string:SetSizeDelta,3={1=560,2=40}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/subtitle,2=string:size,3={1=560,2=40}}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/subtitle,2=string:sizeDeltaY,3=40}",
+      "count": 28
+    },
+    {
+      "category": "reward_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:24",
+      "row": "{1=string:root/battlePanel/rewardList/subtitle,2=string:sizeDeltaX,3=560}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward,2=string:visible,3=boolean:false}",
+      "count": 28
+    },
+    {
+      "category": "potion_caption_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:42",
+      "row": "{1=string:root/battlePanel/potionHelp/potionReward,2=string:SetAnchoredPosition,3={1=0,2=-264}}",
+      "count": 28
+    },
+    {
+      "category": "potion_caption_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:42",
+      "row": "{1=string:root/battlePanel/potionHelp/potionReward,2=string:y,3=-264}",
+      "count": 28
+    },
+    {
+      "category": "potion_caption_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:42",
+      "row": "{1=string:root/battlePanel/potionHelp/potionReward,2=string:x,3=0}",
+      "count": 28
+    },
+    {
+      "category": "potion_caption_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:42",
+      "row": "{1=string:root/battlePanel/potionHelp/potionReward,2=string:SetSizeDelta,3={1=1040,2=64}}",
+      "count": 28
+    },
+    {
+      "category": "potion_caption_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:42",
+      "row": "{1=string:root/battlePanel/potionHelp/potionReward,2=string:size,3={1=1040,2=64}}",
+      "count": 28
+    },
+    {
+      "category": "potion_caption_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:42",
+      "row": "{1=string:root/battlePanel/potionHelp/potionReward,2=string:sizeDeltaY,3=64}",
+      "count": 28
+    },
+    {
+      "category": "potion_caption_geometry",
+      "source": "src/lua/abyss_battle_reward_layout.lua:42",
+      "row": "{1=string:root/battlePanel/potionHelp/potionReward,2=string:sizeDeltaX,3=1040}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward,2=string:interactable,3=boolean:false}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/normal/label,2=string:text,3=string:领取绿钥匙}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/normal/plate,2=string:imageColor,3={a=255,b=54,g=42,r=39}}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/normal/label,2=string:fontColor,3={a=255,b=154,g=215,r=245}}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/hover/label,2=string:text,3=string:领取绿钥匙}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/hover/plate,2=string:imageColor,3={a=255,b=54,g=42,r=39}}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/hover/label,2=string:fontColor,3={a=255,b=154,g=215,r=245}}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/pressed/label,2=string:text,3=string:领取绿钥匙}",
+      "count": 28
+    },
+    {
+      "category": "independent_emerald_button",
+      "source": "src/lua/abyss_battle_ui.lua:569",
+      "row": "{1=string:root/battlePanel/potionHelp/emeraldKeyReward/disabled/label,2=string:text,3=string:领取绿钥匙}",
+      "count": 28
+    },
+    {
+      "category": "map_notice_geometry",
+      "source": "src/lua/abyss_map_ui.lua:210",
+      "row": "{1=string:root/mapPanel/mapGroup1/notice,2=string:SetAnchoredPosition,3={1=0,2=-324}}",
+      "count": 11
+    },
+    {
+      "category": "map_notice_geometry",
+      "source": "src/lua/abyss_map_ui.lua:210",
+      "row": "{1=string:root/mapPanel/mapGroup1/notice,2=string:y,3=-324}",
+      "count": 11
+    },
+    {
+      "category": "map_notice_geometry",
+      "source": "src/lua/abyss_map_ui.lua:210",
+      "row": "{1=string:root/mapPanel/mapGroup1/notice,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_notice_geometry",
+      "source": "src/lua/abyss_map_ui.lua:210",
+      "row": "{1=string:root/mapPanel/mapGroup1/notice,2=string:SetSizeDelta,3={1=1160,2=28}}",
+      "count": 11
+    },
+    {
+      "category": "map_notice_geometry",
+      "source": "src/lua/abyss_map_ui.lua:210",
+      "row": "{1=string:root/mapPanel/mapGroup1/notice,2=string:size,3={1=1160,2=28}}",
+      "count": 11
+    },
+    {
+      "category": "map_notice_geometry",
+      "source": "src/lua/abyss_map_ui.lua:210",
+      "row": "{1=string:root/mapPanel/mapGroup1/notice,2=string:sizeDeltaY,3=28}",
+      "count": 11
+    },
+    {
+      "category": "map_notice_geometry",
+      "source": "src/lua/abyss_map_ui.lua:210",
+      "row": "{1=string:root/mapPanel/mapGroup1/notice,2=string:sizeDeltaX,3=1160}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node1/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node1/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node1/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node1/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node1/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node2/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node2/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node2/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node2/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node2/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node3/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node3/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node3/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node3/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node3/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node4/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node4/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node4/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node4/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node4/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node5/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node5/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node5/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node5/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node5/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node6/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node6/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node6/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node6/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node6/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node7/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node7/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node7/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node7/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node7/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node8/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node8/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node8/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node8/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node8/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node9/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node9/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node9/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node9/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node9/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node10/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node10/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node10/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node10/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node10/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node11/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node11/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node11/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node11/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node11/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node12/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node12/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node12/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node12/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node12/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node13/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node13/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node13/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node13/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node13/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node14/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node14/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node14/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node14/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node14/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node15/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node15/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node15/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node15/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node15/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node16/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node16/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node16/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node16/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node16/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node17/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node17/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node17/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node17/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node17/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node18/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node18/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node18/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node18/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node18/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node19/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node19/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node19/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node19/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node19/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node20/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node20/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node20/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node20/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node20/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node21/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node21/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node21/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node21/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node21/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node22/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node22/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node22/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node22/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node22/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node23/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node23/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node23/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node23/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node23/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node24/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node24/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node24/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node24/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node24/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node25/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node25/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node25/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node25/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node25/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node26/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node26/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node26/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node26/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node26/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node27/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node27/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node27/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node27/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node27/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node28/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node28/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node28/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node28/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node28/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node29/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node29/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node29/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node29/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node29/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node30/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node30/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node30/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node30/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node30/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node31/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node31/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node31/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node31/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node31/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node32/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node32/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node32/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node32/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node32/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node33/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node33/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node33/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node33/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node33/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node34/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node34/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node34/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node34/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node34/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node35/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node35/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node35/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node35/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node35/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node36/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node36/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node36/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node36/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node36/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node37/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node37/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node37/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node37/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node37/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node38/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node38/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup4/node38/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node38/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup4/node38/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node39/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node39/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node39/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node39/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node39/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node40/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node40/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node40/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node40/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node40/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node41/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node41/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node41/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node41/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node41/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node42/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node42/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node42/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node42/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node42/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node43/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node43/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node43/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node43/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node43/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node44/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node44/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node44/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node44/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node44/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node45/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node45/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node45/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node45/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node45/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node46/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node46/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node46/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node46/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node46/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node47/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node47/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node47/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node47/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node47/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node48/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node48/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node48/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node48/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node48/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node49/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node49/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node49/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node49/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node49/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node50/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node50/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node50/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node50/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node50/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node51/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node51/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node51/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node51/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node51/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node52/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node52/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node52/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node52/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node52/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node53/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node53/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node53/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node53/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node53/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node54/icon,2=string:SetAnchoredPosition,3={1=0,2=0}}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node54/icon,2=string:y,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_icon_position",
+      "source": "src/lua/abyss_map_ui.lua:253",
+      "row": "{1=string:root/mapPanel/mapGroup5/node54/icon,2=string:x,3=0}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node54/emeraldLabel,2=string:SetVisible,3={1=boolean:false}}",
+      "count": 11
+    },
+    {
+      "category": "map_emerald_label_visibility",
+      "source": "src/lua/abyss_map_ui.lua:255",
+      "row": "{1=string:root/mapPanel/mapGroup5/node54/emeraldLabel,2=string:visible,3=boolean:false}",
+      "count": 11
+    }
+  ],
+  "sourceInputs": {
+    "src/lua/abyss_battle_reward_layout.lua": "4cfb534f8d59aff889f028cd8446a950ff5bf1637138342d4e604de1435c5328",
+    "src/lua/abyss_battle_ui.lua": "aeed128bb5adb79e1bb6495d5444011b7e24af219cbc9564cdf2248abeed2948",
+    "src/lua/abyss_map_ui.lua": "1a696b91b54e5ef64c1b1b629a45655af7ab595484c48408ca03ad156da7944c",
+    "scripts/map-ui-layout.mjs": "8fbd8bd79d0f7a7a2ad9de898821a022e6e93e29700206bf80cde2f3736fbdbe",
+    "scripts/ui-layout.mjs": "bcd7d22ecb5c95de3d68031c66101ba4d3e5c11871390d7efb93ce2b07b753e5",
+    "data/presentation/ui_theme.json": "7d29e1ee13f15a18a089dca5febc459f73b6ae94a88a142409338f2f0232a055",
+    "tests/lua/support/presentation_trace.lua": "3884abd224aaf0684d084e0e97243d33cd78652545db2424cd645927d6caf47e",
+    "tests/lua/support/game_ui_fixture.lua": "a449c5f23426ddfcd302cf3d6928117a1e5e737e065f3a4f7a2b7d943820be8b",
+    "tests/lua/support/native_ui_contract.lua": "40da785f2386b42234f7e24587f0d76fa02ad01df397cb57545c06cb5e678e36",
+    "tests/lua/presentation_responsibilities_trace.lua": "641729a107e5b0cfb99cb2472bb2ddbf918b0fd83cf7ad481cc6054f1b17178b"
+  },
+  "baseline": {
+    "head": "e0fad45c74ed574bc4cfb8a4c9ad71424a13c386",
+    "count": 72915,
+    "archiveSha256": "44d5f0682730e593f58d1c87f81e0599ca263c1ceb4598e66511ba0adfd357f1"
+  },
+  "current": {
+    "head": "c5e768807081d1c62750174998367f1565274ee5",
+    "count": 77278,
+    "archiveSha256": "5becb8c413757d8918cfdf2fece63f058d87efb5de7671c8dc13b4f42b10994c"
+  }
+}

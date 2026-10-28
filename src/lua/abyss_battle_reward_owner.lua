@@ -21,6 +21,14 @@ local function capturePotion(token, rewards)
     token.potionUnavailable = potion and potion.unavailable
 end
 
+local function captureRelics(token,rewards,run)
+    token.relics=rewards and rewards.relics
+    token.relicState=rewards and Combat.copy(rewards.relics or {})
+    token.emerald=rewards and rewards.emeraldKey
+    token.emeraldState=token.emerald and Combat.copy(token.emerald)
+    token.emeraldOwned=run and run.keys and run.keys.emerald
+end
+
 function M.capture(token, view, run)
     local rewards = run and run.rewards
     token.rewards = rewards
@@ -32,8 +40,7 @@ function M.capture(token, view, run)
     token.cardChoices = rewards and Combat.copy(rewards.cards)
     token.upgrades = rewards and rewards.cardUpgrades
     token.cardUpgrades = rewards and Combat.copy(rewards.cardUpgrades or {})
-    token.relics=rewards and rewards.relics
-    token.relicState=rewards and Combat.copy(rewards.relics or {})
+    captureRelics(token,rewards,run)
     captureGold(token, rewards)
     capturePotion(token, rewards)
     return token
@@ -78,12 +85,22 @@ local function sameRelics(token,rewards)
     return true
 end
 
+local function sameEmerald(token,rewards,run)
+    local offer=rewards.emeraldKey
+    if token.emerald~=offer or token.emeraldOwned~=(run.keys and run.keys.emerald)then return false end
+    if not offer then return true end
+    for key,value in pairs(offer)do if token.emeraldState[key]~=value then return false end end
+    for key,value in pairs(token.emeraldState)do if offer[key]~=value then return false end end
+    return true
+end
+
 function M.ready(view, token)
     local run = view.run
     if not run or run.phase ~= "reward" or run.rewards ~= token.rewards or run.combat ~= token.battle then return false end
     if token.rewardScreen ~= view.rewardScreen or token.rewardEpoch ~= view.rewardEpoch then return false end
     local rewards = run.rewards
     if not sameRelics(token,rewards)then return false end
+    if not sameEmerald(token,rewards,run)then return false end
     if not sameGoldAndCards(token, rewards) then return false end
     if not samePotion(token, rewards.potion) then return false end
     if rewards.manualContinue and not sameManualPage(token, view, rewards) then return false end

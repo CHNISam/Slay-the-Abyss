@@ -3,9 +3,9 @@ id: TASK-54
 title: 修复任务重号并补齐检查
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 16:49'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -46,6 +46,8 @@ ordinal: 92000
 真实695d94d的双Done52.1在旧检查exit0、原生doctor exit1。原生doctor修复仅HUD的ID与文件名为52.2，其他正文逐byte不变，诊断52.1引用保留。新校验器21项回归通过；移除身份保护/忽略completed负变异分别7/4项失败。root复跑新门禁及doctor均exit0。独立复审及最终SHA CI尚待，不计已合并交付。
 
 独立复核绑定脚本74c197e/测试9222d29：25组身份对照与原生doctor一致，真实152个源blob复核，4种负变异均失败（7/4/1/1项）。completed祖先推导保留，HUD仅ID/路径改变。此Done表示本任务有限离线实现与审查完成；PR192尚未合入，最终SHA完整CI仍作为合并门禁。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

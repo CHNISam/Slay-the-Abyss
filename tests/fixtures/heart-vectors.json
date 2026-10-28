@@ -1,0 +1,3230 @@
+[
+  {
+    "seed": "0",
+    "initialAi": {
+      "words": [
+        "d1f9a22af8e83383",
+        "56d6714ba8506ef6"
+      ],
+      "counter": 1
+    },
+    "steps": [
+      {
+        "intent": "debilitate",
+        "actions": [
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "frail",
+            "value": 2
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "dazed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "slimed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "wound",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "burn",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "void",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "9253c52fcfbd932b",
+            "6151e5f6a4a2df86"
+          ],
+          "counter": 3
+        },
+        "moveCount": 1,
+        "buffCount": 0
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6151e5f6a4a2df86",
+            "64e5fcd2a7151c1a"
+          ],
+          "counter": 4
+        },
+        "moveCount": 2,
+        "buffCount": 0
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "64e5fcd2a7151c1a",
+            "fee60553238444e4"
+          ],
+          "counter": 5
+        },
+        "moveCount": 3,
+        "buffCount": 0
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "artifact",
+            "value": 2
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "f35075eb0b3e593c",
+            "a427991d6d1fcfd8"
+          ],
+          "counter": 7
+        },
+        "moveCount": 4,
+        "buffCount": 1
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a427991d6d1fcfd8",
+            "a2f2709904a41b20"
+          ],
+          "counter": 8
+        },
+        "moveCount": 5,
+        "buffCount": 1
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a2f2709904a41b20",
+            "88637303b25ab236"
+          ],
+          "counter": 9
+        },
+        "moveCount": 6,
+        "buffCount": 1
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "beat_of_death",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6613268d2f6823a8",
+            "6fa97c132dd66678"
+          ],
+          "counter": 11
+        },
+        "moveCount": 7,
+        "buffCount": 2
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6fa97c132dd66678",
+            "4f2dfed675af3caf"
+          ],
+          "counter": 12
+        },
+        "moveCount": 8,
+        "buffCount": 2
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "4f2dfed675af3caf",
+            "29125afa6496e7a1"
+          ],
+          "counter": 13
+        },
+        "moveCount": 9,
+        "buffCount": 2
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "painful_stabs",
+            "value": -1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "0d0561b3968b7480",
+            "59255a296b0125cf"
+          ],
+          "counter": 15
+        },
+        "moveCount": 10,
+        "buffCount": 3
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "59255a296b0125cf",
+            "8deb1451e6d83050"
+          ],
+          "counter": 16
+        },
+        "moveCount": 11,
+        "buffCount": 3
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "8deb1451e6d83050",
+            "c07be8017dc1c7a6"
+          ],
+          "counter": 17
+        },
+        "moveCount": 12,
+        "buffCount": 3
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 10
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6563c2f491c710c5",
+            "a5a6aa6de3873d27"
+          ],
+          "counter": 19
+        },
+        "moveCount": 13,
+        "buffCount": 4
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a5a6aa6de3873d27",
+            "ba8d84ade9d4cf39"
+          ],
+          "counter": 20
+        },
+        "moveCount": 14,
+        "buffCount": 4
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "ba8d84ade9d4cf39",
+            "29daa4db8e4b6167"
+          ],
+          "counter": 21
+        },
+        "moveCount": 15,
+        "buffCount": 4
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c5a3bc273ad3a217",
+            "81be1f73af42545b"
+          ],
+          "counter": 23
+        },
+        "moveCount": 16,
+        "buffCount": 5
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "81be1f73af42545b",
+            "5780a1ba9b6d320e"
+          ],
+          "counter": 24
+        },
+        "moveCount": 17,
+        "buffCount": 5
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "5780a1ba9b6d320e",
+            "6fe903c226abc992"
+          ],
+          "counter": 25
+        },
+        "moveCount": 18,
+        "buffCount": 5
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e524519ccb17c523",
+            "6bde40fe46bb1c56"
+          ],
+          "counter": 27
+        },
+        "moveCount": 19,
+        "buffCount": 6
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6bde40fe46bb1c56",
+            "409f8f3a0683cbaf"
+          ],
+          "counter": 28
+        },
+        "moveCount": 20,
+        "buffCount": 6
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "409f8f3a0683cbaf",
+            "54629824c2632fa5"
+          ],
+          "counter": 29
+        },
+        "moveCount": 21,
+        "buffCount": 6
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "89fe38206ca905bb",
+            "cffdb2b0d71daa74"
+          ],
+          "counter": 31
+        },
+        "moveCount": 22,
+        "buffCount": 7
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "cffdb2b0d71daa74",
+            "563592c5af095b6e"
+          ],
+          "counter": 32
+        },
+        "moveCount": 23,
+        "buffCount": 7
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "563592c5af095b6e",
+            "c1a3e57ed142b6ff"
+          ],
+          "counter": 33
+        },
+        "moveCount": 24,
+        "buffCount": 7
+      }
+    ],
+    "nextIntent": "buff",
+    "finalAi": {
+      "words": [
+        "563592c5af095b6e",
+        "c1a3e57ed142b6ff"
+      ],
+      "counter": 33
+    }
+  },
+  {
+    "seed": "1",
+    "initialAi": {
+      "words": [
+        "7d6e4ac38b2b1be2",
+        "b722f2631cb7b14d"
+      ],
+      "counter": 1
+    },
+    "steps": [
+      {
+        "intent": "debilitate",
+        "actions": [
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "frail",
+            "value": 2
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "dazed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "slimed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "wound",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "burn",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "void",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "ab89235541870f7d",
+            "2d25c9924d25b67b"
+          ],
+          "counter": 3
+        },
+        "moveCount": 1,
+        "buffCount": 0
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "2d25c9924d25b67b",
+            "2c0c29df0b39a216"
+          ],
+          "counter": 4
+        },
+        "moveCount": 2,
+        "buffCount": 0
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "2c0c29df0b39a216",
+            "c80f009cd532dbfd"
+          ],
+          "counter": 5
+        },
+        "moveCount": 3,
+        "buffCount": 0
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "artifact",
+            "value": 2
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "0b86d4640c4c5ec2",
+            "8de30ea50ab309e5"
+          ],
+          "counter": 7
+        },
+        "moveCount": 4,
+        "buffCount": 1
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "8de30ea50ab309e5",
+            "b463e00d661948c3"
+          ],
+          "counter": 8
+        },
+        "moveCount": 5,
+        "buffCount": 1
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "b463e00d661948c3",
+            "6b05d8b2ad42be66"
+          ],
+          "counter": 9
+        },
+        "moveCount": 6,
+        "buffCount": 1
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "beat_of_death",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "d9d56d691df959c2",
+            "eb860d9b4a1672c2"
+          ],
+          "counter": 11
+        },
+        "moveCount": 7,
+        "buffCount": 2
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "eb860d9b4a1672c2",
+            "86ddaac99f8eb3ae"
+          ],
+          "counter": 12
+        },
+        "moveCount": 8,
+        "buffCount": 2
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "86ddaac99f8eb3ae",
+            "a0febf5b80a36680"
+          ],
+          "counter": 13
+        },
+        "moveCount": 9,
+        "buffCount": 2
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "painful_stabs",
+            "value": -1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "42eca3eac14a2789",
+            "4fd24b8dcdb5dbe8"
+          ],
+          "counter": 15
+        },
+        "moveCount": 10,
+        "buffCount": 3
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "4fd24b8dcdb5dbe8",
+            "f85e16a13f919df7"
+          ],
+          "counter": 16
+        },
+        "moveCount": 11,
+        "buffCount": 3
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "f85e16a13f919df7",
+            "716ac3655911f28a"
+          ],
+          "counter": 17
+        },
+        "moveCount": 12,
+        "buffCount": 3
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 10
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "d9ab497628875423",
+            "1a6d633f7b8af52b"
+          ],
+          "counter": 19
+        },
+        "moveCount": 13,
+        "buffCount": 4
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "1a6d633f7b8af52b",
+            "78d258ba5cbb7255"
+          ],
+          "counter": 20
+        },
+        "moveCount": 14,
+        "buffCount": 4
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "78d258ba5cbb7255",
+            "fd02bc09d5055eec"
+          ],
+          "counter": 21
+        },
+        "moveCount": 15,
+        "buffCount": 4
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "d8feabcbe11095d1",
+            "2116e9af62ec6847"
+          ],
+          "counter": 23
+        },
+        "moveCount": 16,
+        "buffCount": 5
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "2116e9af62ec6847",
+            "1c18d4a13f061286"
+          ],
+          "counter": 24
+        },
+        "moveCount": 17,
+        "buffCount": 5
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "1c18d4a13f061286",
+            "eabf306eb792f238"
+          ],
+          "counter": 25
+        },
+        "moveCount": 18,
+        "buffCount": 5
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a63841bfcf8cc510",
+            "7bdcd67396858d12"
+          ],
+          "counter": 27
+        },
+        "moveCount": 19,
+        "buffCount": 6
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "7bdcd67396858d12",
+            "02036d5fe5d27721"
+          ],
+          "counter": 28
+        },
+        "moveCount": 20,
+        "buffCount": 6
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "02036d5fe5d27721",
+            "4014d8e1b0d62208"
+          ],
+          "counter": 29
+        },
+        "moveCount": 21,
+        "buffCount": 6
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "ede50a6d028057ec",
+            "dd29a1c096ecb4cf"
+          ],
+          "counter": 31
+        },
+        "moveCount": 22,
+        "buffCount": 7
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "dd29a1c096ecb4cf",
+            "064d86030d27e946"
+          ],
+          "counter": 32
+        },
+        "moveCount": 23,
+        "buffCount": 7
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "064d86030d27e946",
+            "3b2f4f2904e7a5fc"
+          ],
+          "counter": 33
+        },
+        "moveCount": 24,
+        "buffCount": 7
+      }
+    ],
+    "nextIntent": "buff",
+    "finalAi": {
+      "words": [
+        "064d86030d27e946",
+        "3b2f4f2904e7a5fc"
+      ],
+      "counter": 33
+    }
+  },
+  {
+    "seed": "42",
+    "initialAi": {
+      "words": [
+        "310dcdae81f2889b",
+        "00428d4906e58ed6"
+      ],
+      "counter": 1
+    },
+    "steps": [
+      {
+        "intent": "debilitate",
+        "actions": [
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "frail",
+            "value": 2
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "dazed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "slimed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "wound",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "burn",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "void",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e60fca8540413235",
+            "42ce675251912b41"
+          ],
+          "counter": 3
+        },
+        "moveCount": 1,
+        "buffCount": 0
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "42ce675251912b41",
+            "e661df094dc7e080"
+          ],
+          "counter": 4
+        },
+        "moveCount": 2,
+        "buffCount": 0
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e661df094dc7e080",
+            "0d8705047342f11a"
+          ],
+          "counter": 5
+        },
+        "moveCount": 3,
+        "buffCount": 0
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "artifact",
+            "value": 2
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6f40089d8138d665",
+            "e0feeb25fd467f3e"
+          ],
+          "counter": 7
+        },
+        "moveCount": 4,
+        "buffCount": 1
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e0feeb25fd467f3e",
+            "c17e6f2b3b3f39f8"
+          ],
+          "counter": 8
+        },
+        "moveCount": 5,
+        "buffCount": 1
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c17e6f2b3b3f39f8",
+            "b37e1e0122efbd2b"
+          ],
+          "counter": 9
+        },
+        "moveCount": 6,
+        "buffCount": 1
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "beat_of_death",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e79dc4ebc20ce704",
+            "5472f4fa26fdbb68"
+          ],
+          "counter": 11
+        },
+        "moveCount": 7,
+        "buffCount": 2
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "5472f4fa26fdbb68",
+            "c60e7f491b0042e3"
+          ],
+          "counter": 12
+        },
+        "moveCount": 8,
+        "buffCount": 2
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c60e7f491b0042e3",
+            "ef6fe1efcf71e2b3"
+          ],
+          "counter": 13
+        },
+        "moveCount": 9,
+        "buffCount": 2
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "painful_stabs",
+            "value": -1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "8dec2ffd81bdeee3",
+            "95647a8440c8b848"
+          ],
+          "counter": 15
+        },
+        "moveCount": 10,
+        "buffCount": 3
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "95647a8440c8b848",
+            "e648b23d916e8fa5"
+          ],
+          "counter": 16
+        },
+        "moveCount": 11,
+        "buffCount": 3
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e648b23d916e8fa5",
+            "310cc77e68e68aed"
+          ],
+          "counter": 17
+        },
+        "moveCount": 12,
+        "buffCount": 3
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 10
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c98cbe486a84fb25",
+            "47b44d5d4dd06ce1"
+          ],
+          "counter": 19
+        },
+        "moveCount": 13,
+        "buffCount": 4
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "47b44d5d4dd06ce1",
+            "aa0dc7a5a6dd3c95"
+          ],
+          "counter": 20
+        },
+        "moveCount": 14,
+        "buffCount": 4
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "aa0dc7a5a6dd3c95",
+            "431f166d4a4927b5"
+          ],
+          "counter": 21
+        },
+        "moveCount": 15,
+        "buffCount": 4
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "3bc18329354c765c",
+            "4e7b8b044c9ad3c0"
+          ],
+          "counter": 23
+        },
+        "moveCount": 16,
+        "buffCount": 5
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "4e7b8b044c9ad3c0",
+            "e120f9a85bbd6929"
+          ],
+          "counter": 24
+        },
+        "moveCount": 17,
+        "buffCount": 5
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e120f9a85bbd6929",
+            "2d7d59d35c2f06b2"
+          ],
+          "counter": 25
+        },
+        "moveCount": 18,
+        "buffCount": 5
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "187064425fca7cd2",
+            "dca3487de1d46860"
+          ],
+          "counter": 27
+        },
+        "moveCount": 19,
+        "buffCount": 6
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "dca3487de1d46860",
+            "e5fcd5993f7210af"
+          ],
+          "counter": 28
+        },
+        "moveCount": 20,
+        "buffCount": 6
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e5fcd5993f7210af",
+            "07af06c040b7f66a"
+          ],
+          "counter": 29
+        },
+        "moveCount": 21,
+        "buffCount": 6
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "2ecc7ee175cce2ac",
+            "494310161df91640"
+          ],
+          "counter": 31
+        },
+        "moveCount": 22,
+        "buffCount": 7
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "494310161df91640",
+            "1735a7af22b9e08d"
+          ],
+          "counter": 32
+        },
+        "moveCount": 23,
+        "buffCount": 7
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "1735a7af22b9e08d",
+            "55786a11246783f9"
+          ],
+          "counter": 33
+        },
+        "moveCount": 24,
+        "buffCount": 7
+      }
+    ],
+    "nextIntent": "buff",
+    "finalAi": {
+      "words": [
+        "1735a7af22b9e08d",
+        "55786a11246783f9"
+      ],
+      "counter": 33
+    }
+  },
+  {
+    "seed": "-1",
+    "initialAi": {
+      "words": [
+        "fa605f44aea3667d",
+        "9b70dcd6b42485f6"
+      ],
+      "counter": 1
+    },
+    "steps": [
+      {
+        "intent": "debilitate",
+        "actions": [
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "frail",
+            "value": 2
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "dazed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "slimed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "wound",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "burn",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "void",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c347fe1c7f4b1e37",
+            "336d48ad86da3b4c"
+          ],
+          "counter": 3
+        },
+        "moveCount": 1,
+        "buffCount": 0
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "336d48ad86da3b4c",
+            "fe15758e148abc7f"
+          ],
+          "counter": 4
+        },
+        "moveCount": 2,
+        "buffCount": 0
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "fe15758e148abc7f",
+            "9bbb62d6a3d5f4db"
+          ],
+          "counter": 5
+        },
+        "moveCount": 3,
+        "buffCount": 0
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "artifact",
+            "value": 2
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a2a44eaffe6fe889",
+            "524ebededd3fd087"
+          ],
+          "counter": 7
+        },
+        "moveCount": 4,
+        "buffCount": 1
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "524ebededd3fd087",
+            "a715bd3c48d252ce"
+          ],
+          "counter": 8
+        },
+        "moveCount": 5,
+        "buffCount": 1
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a715bd3c48d252ce",
+            "9a3582b303998204"
+          ],
+          "counter": 9
+        },
+        "moveCount": 6,
+        "buffCount": 1
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "beat_of_death",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a3044a184b21ebe3",
+            "60b06598ac93ef39"
+          ],
+          "counter": 11
+        },
+        "moveCount": 7,
+        "buffCount": 2
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "60b06598ac93ef39",
+            "cf91e8fdd75dbfa1"
+          ],
+          "counter": 12
+        },
+        "moveCount": 8,
+        "buffCount": 2
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "cf91e8fdd75dbfa1",
+            "637792d21503f7e4"
+          ],
+          "counter": 13
+        },
+        "moveCount": 9,
+        "buffCount": 2
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "painful_stabs",
+            "value": -1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "d20d8c55ec2bff2e",
+            "d8709a7601dfee30"
+          ],
+          "counter": 15
+        },
+        "moveCount": 10,
+        "buffCount": 3
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "d8709a7601dfee30",
+            "208b7f97aa07b10b"
+          ],
+          "counter": 16
+        },
+        "moveCount": 11,
+        "buffCount": 3
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "208b7f97aa07b10b",
+            "c3fb7ba6abc7363e"
+          ],
+          "counter": 17
+        },
+        "moveCount": 12,
+        "buffCount": 3
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 10
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "28a5727644b9f95c",
+            "380be216953c8890"
+          ],
+          "counter": 19
+        },
+        "moveCount": 13,
+        "buffCount": 4
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "380be216953c8890",
+            "2b8cc551ea388135"
+          ],
+          "counter": 20
+        },
+        "moveCount": 14,
+        "buffCount": 4
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "2b8cc551ea388135",
+            "18cda0a96a1c3341"
+          ],
+          "counter": 21
+        },
+        "moveCount": 15,
+        "buffCount": 4
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "9bb43802c5442072",
+            "d7ccb0a8b58e76cc"
+          ],
+          "counter": 23
+        },
+        "moveCount": 16,
+        "buffCount": 5
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "d7ccb0a8b58e76cc",
+            "4d1a67e4f7ef02b1"
+          ],
+          "counter": 24
+        },
+        "moveCount": 17,
+        "buffCount": 5
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "4d1a67e4f7ef02b1",
+            "ce8c51af59316487"
+          ],
+          "counter": 25
+        },
+        "moveCount": 18,
+        "buffCount": 5
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "71ed9e499d78da57",
+            "68cd5bd89820a1ef"
+          ],
+          "counter": 27
+        },
+        "moveCount": 19,
+        "buffCount": 6
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "68cd5bd89820a1ef",
+            "3dee53778c9cd6e2"
+          ],
+          "counter": 28
+        },
+        "moveCount": 20,
+        "buffCount": 6
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "3dee53778c9cd6e2",
+            "b96f5ab03d6c9d3e"
+          ],
+          "counter": 29
+        },
+        "moveCount": 21,
+        "buffCount": 6
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "3f47049695a8991d",
+            "de3698df107a70b0"
+          ],
+          "counter": 31
+        },
+        "moveCount": 22,
+        "buffCount": 7
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "de3698df107a70b0",
+            "aa3b72346e99d3fd"
+          ],
+          "counter": 32
+        },
+        "moveCount": 23,
+        "buffCount": 7
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "aa3b72346e99d3fd",
+            "1b858f26facc8a6b"
+          ],
+          "counter": 33
+        },
+        "moveCount": 24,
+        "buffCount": 7
+      }
+    ],
+    "nextIntent": "buff",
+    "finalAi": {
+      "words": [
+        "aa3b72346e99d3fd",
+        "1b858f26facc8a6b"
+      ],
+      "counter": 33
+    }
+  },
+  {
+    "seed": "9223372036854775807",
+    "initialAi": {
+      "words": [
+        "e72306068b6e596a",
+        "b4ce8a4fcd5c1b3a"
+      ],
+      "counter": 1
+    },
+    "steps": [
+      {
+        "intent": "debilitate",
+        "actions": [
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "frail",
+            "value": 2
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "dazed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "slimed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "wound",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "burn",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "void",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "50a8497b9805ce94",
+            "c38024b9f06aa366"
+          ],
+          "counter": 3
+        },
+        "moveCount": 1,
+        "buffCount": 0
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c38024b9f06aa366",
+            "2ee419a7e7a82a8c"
+          ],
+          "counter": 4
+        },
+        "moveCount": 2,
+        "buffCount": 0
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "2ee419a7e7a82a8c",
+            "b19c47f81530c1a6"
+          ],
+          "counter": 5
+        },
+        "moveCount": 3,
+        "buffCount": 0
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "artifact",
+            "value": 2
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "4c8bf4ed355045fb",
+            "011d0dadbe51dc08"
+          ],
+          "counter": 7
+        },
+        "moveCount": 4,
+        "buffCount": 1
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "011d0dadbe51dc08",
+            "3b0c4c6a9fa516f4"
+          ],
+          "counter": 8
+        },
+        "moveCount": 5,
+        "buffCount": 1
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "3b0c4c6a9fa516f4",
+            "ecce02c6f4460d73"
+          ],
+          "counter": 9
+        },
+        "moveCount": 6,
+        "buffCount": 1
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "beat_of_death",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e28d9b3ded1358e8",
+            "6d39fd1f1353bc03"
+          ],
+          "counter": 11
+        },
+        "moveCount": 7,
+        "buffCount": 2
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6d39fd1f1353bc03",
+            "1142d1a84d776fa6"
+          ],
+          "counter": 12
+        },
+        "moveCount": 8,
+        "buffCount": 2
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "1142d1a84d776fa6",
+            "f3f2f435257030df"
+          ],
+          "counter": 13
+        },
+        "moveCount": 9,
+        "buffCount": 2
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "painful_stabs",
+            "value": -1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "3696fca472b59d0b",
+            "dff6c434bbec21b0"
+          ],
+          "counter": 15
+        },
+        "moveCount": 10,
+        "buffCount": 3
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "dff6c434bbec21b0",
+            "bb59503e625dca0f"
+          ],
+          "counter": 16
+        },
+        "moveCount": 11,
+        "buffCount": 3
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "bb59503e625dca0f",
+            "7ef200e14ef7d5d1"
+          ],
+          "counter": 17
+        },
+        "moveCount": 12,
+        "buffCount": 3
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 10
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "da9a2c11a8c79563",
+            "d4cf500615be97e3"
+          ],
+          "counter": 19
+        },
+        "moveCount": 13,
+        "buffCount": 4
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "d4cf500615be97e3",
+            "068176cf18c08fa6"
+          ],
+          "counter": 20
+        },
+        "moveCount": 14,
+        "buffCount": 4
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "068176cf18c08fa6",
+            "d14492619b05599c"
+          ],
+          "counter": 21
+        },
+        "moveCount": 15,
+        "buffCount": 4
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "b049b45b8aa52bbc",
+            "51c0d47e45abce40"
+          ],
+          "counter": 23
+        },
+        "moveCount": 16,
+        "buffCount": 5
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "51c0d47e45abce40",
+            "cc4c7c62125cd03f"
+          ],
+          "counter": 24
+        },
+        "moveCount": 17,
+        "buffCount": 5
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "cc4c7c62125cd03f",
+            "a2ae4ab96424b42e"
+          ],
+          "counter": 25
+        },
+        "moveCount": 18,
+        "buffCount": 5
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "5feb66396b6fcca6",
+            "a1f741c3cee34f40"
+          ],
+          "counter": 27
+        },
+        "moveCount": 19,
+        "buffCount": 6
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a1f741c3cee34f40",
+            "e2a9b19be3b36f22"
+          ],
+          "counter": 28
+        },
+        "moveCount": 20,
+        "buffCount": 6
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e2a9b19be3b36f22",
+            "a2b9a1cf3f0e71eb"
+          ],
+          "counter": 29
+        },
+        "moveCount": 21,
+        "buffCount": 6
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "8de1de67d7c3545f",
+            "c8c7da2076415906"
+          ],
+          "counter": 31
+        },
+        "moveCount": 22,
+        "buffCount": 7
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c8c7da2076415906",
+            "76cdbadaa0127965"
+          ],
+          "counter": 32
+        },
+        "moveCount": 23,
+        "buffCount": 7
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "76cdbadaa0127965",
+            "ae312c359b7bec6b"
+          ],
+          "counter": 33
+        },
+        "moveCount": 24,
+        "buffCount": 7
+      }
+    ],
+    "nextIntent": "buff",
+    "finalAi": {
+      "words": [
+        "76cdbadaa0127965",
+        "ae312c359b7bec6b"
+      ],
+      "counter": 33
+    }
+  },
+  {
+    "seed": "-9223372036854775808",
+    "initialAi": {
+      "words": [
+        "d1f9a22af8e83383",
+        "56d6714ba8506ef6"
+      ],
+      "counter": 1
+    },
+    "steps": [
+      {
+        "intent": "debilitate",
+        "actions": [
+          {
+            "op": "applyStatus",
+            "status": "vulnerable",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "weak",
+            "value": 2
+          },
+          {
+            "op": "applyStatus",
+            "status": "frail",
+            "value": 2
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "dazed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "slimed",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "wound",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "burn",
+            "value": 1
+          },
+          {
+            "op": "heartStatusDraw",
+            "card": "void",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "9253c52fcfbd932b",
+            "6151e5f6a4a2df86"
+          ],
+          "counter": 3
+        },
+        "moveCount": 1,
+        "buffCount": 0
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6151e5f6a4a2df86",
+            "64e5fcd2a7151c1a"
+          ],
+          "counter": 4
+        },
+        "moveCount": 2,
+        "buffCount": 0
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "64e5fcd2a7151c1a",
+            "fee60553238444e4"
+          ],
+          "counter": 5
+        },
+        "moveCount": 3,
+        "buffCount": 0
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "artifact",
+            "value": 2
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "f35075eb0b3e593c",
+            "a427991d6d1fcfd8"
+          ],
+          "counter": 7
+        },
+        "moveCount": 4,
+        "buffCount": 1
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a427991d6d1fcfd8",
+            "a2f2709904a41b20"
+          ],
+          "counter": 8
+        },
+        "moveCount": 5,
+        "buffCount": 1
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a2f2709904a41b20",
+            "88637303b25ab236"
+          ],
+          "counter": 9
+        },
+        "moveCount": 6,
+        "buffCount": 1
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "beat_of_death",
+            "value": 1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6613268d2f6823a8",
+            "6fa97c132dd66678"
+          ],
+          "counter": 11
+        },
+        "moveCount": 7,
+        "buffCount": 2
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6fa97c132dd66678",
+            "4f2dfed675af3caf"
+          ],
+          "counter": 12
+        },
+        "moveCount": 8,
+        "buffCount": 2
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "4f2dfed675af3caf",
+            "29125afa6496e7a1"
+          ],
+          "counter": 13
+        },
+        "moveCount": 9,
+        "buffCount": 2
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "painful_stabs",
+            "value": -1
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "0d0561b3968b7480",
+            "59255a296b0125cf"
+          ],
+          "counter": 15
+        },
+        "moveCount": 10,
+        "buffCount": 3
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "59255a296b0125cf",
+            "8deb1451e6d83050"
+          ],
+          "counter": 16
+        },
+        "moveCount": 11,
+        "buffCount": 3
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "8deb1451e6d83050",
+            "c07be8017dc1c7a6"
+          ],
+          "counter": 17
+        },
+        "moveCount": 12,
+        "buffCount": 3
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 10
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6563c2f491c710c5",
+            "a5a6aa6de3873d27"
+          ],
+          "counter": 19
+        },
+        "moveCount": 13,
+        "buffCount": 4
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "a5a6aa6de3873d27",
+            "ba8d84ade9d4cf39"
+          ],
+          "counter": 20
+        },
+        "moveCount": 14,
+        "buffCount": 4
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "ba8d84ade9d4cf39",
+            "29daa4db8e4b6167"
+          ],
+          "counter": 21
+        },
+        "moveCount": 15,
+        "buffCount": 4
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "c5a3bc273ad3a217",
+            "81be1f73af42545b"
+          ],
+          "counter": 23
+        },
+        "moveCount": 16,
+        "buffCount": 5
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "81be1f73af42545b",
+            "5780a1ba9b6d320e"
+          ],
+          "counter": 24
+        },
+        "moveCount": 17,
+        "buffCount": 5
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "5780a1ba9b6d320e",
+            "6fe903c226abc992"
+          ],
+          "counter": 25
+        },
+        "moveCount": 18,
+        "buffCount": 5
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "e524519ccb17c523",
+            "6bde40fe46bb1c56"
+          ],
+          "counter": 27
+        },
+        "moveCount": 19,
+        "buffCount": 6
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "6bde40fe46bb1c56",
+            "409f8f3a0683cbaf"
+          ],
+          "counter": 28
+        },
+        "moveCount": 20,
+        "buffCount": 6
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "409f8f3a0683cbaf",
+            "54629824c2632fa5"
+          ],
+          "counter": 29
+        },
+        "moveCount": 21,
+        "buffCount": 6
+      },
+      {
+        "intent": "buff",
+        "actions": [
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 2
+          },
+          {
+            "op": "gainStatus",
+            "status": "strength",
+            "value": 50
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "89fe38206ca905bb",
+            "cffdb2b0d71daa74"
+          ],
+          "counter": 31
+        },
+        "moveCount": 22,
+        "buffCount": 7
+      },
+      {
+        "intent": "blood_shots",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 2,
+            "times": 12
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "cffdb2b0d71daa74",
+            "563592c5af095b6e"
+          ],
+          "counter": 32
+        },
+        "moveCount": 23,
+        "buffCount": 7
+      },
+      {
+        "intent": "echo_attack",
+        "actions": [
+          {
+            "op": "damage",
+            "value": 40
+          }
+        ],
+        "aiAfterRoll": {
+          "words": [
+            "563592c5af095b6e",
+            "c1a3e57ed142b6ff"
+          ],
+          "counter": 33
+        },
+        "moveCount": 24,
+        "buffCount": 7
+      }
+    ],
+    "nextIntent": "buff",
+    "finalAi": {
+      "words": [
+        "563592c5af095b6e",
+        "c1a3e57ed142b6ff"
+      ],
+      "counter": 33
+    }
+  }
+]

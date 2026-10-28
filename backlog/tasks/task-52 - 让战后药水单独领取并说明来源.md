@@ -3,9 +3,9 @@ id: TASK-52
 title: 按初代奖励列表领取并独立进入选牌
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 12:45'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required ui rule-parity
 milestone: m-4
@@ -66,6 +66,8 @@ ordinal: 87000
 2026-10-26状态整理：PR193奖励列表/独立选牌与PR191药水栏即时刷新已合入，52.2保持Done；本任务不再重复实现这些切片。最终列表交互与本轮同候选自然领奖/UI证据仍待验。
 
 2026-10-26全面复核：PR193列表/独立选牌实现已合，reward_flow_parity本轮10/10；保留满槽、Sozu、独立领取及过期事务原检查；原AC4的随机/平台/UI边界明确由12.5/47及M4承接。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

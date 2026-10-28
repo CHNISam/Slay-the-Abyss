@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "runtime": {
+    "status": "unbound",
+    "fallback": "placeholder-type-icon"
+  },
+  "cards": {
+    "armaments": "armaments/asset.json",
+    "cleave": "cleave/asset.json",
+    "heavy_blade": "heavy_blade/asset.json"
+  }
+}

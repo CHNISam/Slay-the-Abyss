@@ -3,9 +3,9 @@ id: TASK-13.1.2.2
 title: 实现事件卡牌转化选择候选
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 17:50'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,12 @@ ordinal: 56000
 <!-- SECTION:PLAN:BEGIN -->
 核对来源与所有权；测试先失败；实现隔离候选；独立评审；当前提交CI后正常PR集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

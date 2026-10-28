@@ -14,6 +14,7 @@ sources['3 Shapes'],sources['4 Shapes'],sources['Sphere and 2 Shapes']=true,true
 sources['Jaw Worm Horde']=true
 sources['Awakened One']=true
 sources['3 Darklings']=true
+sources['2 Orb Walkers']=true
 function M.assemble(source,boundary)
  assert(M.supports(source),'unsupported source formation: '..tostring(source))
  assert(type(boundary)=='table' and type(boundary.misc)=='table'
@@ -60,7 +61,10 @@ function M.assemble(source,boundary)
   return f32(base+f32(value))
  end
  local result={}
- if source=='3 Darklings'then
+ if source=='2 Orb Walkers'then
+  result[1]=make('orb_walker',-250,32)
+  result[2]=make('orb_walker',150,26)
+ elseif source=='3 Darklings'then
   result[1]=make('darkling',-440,10)
   result[2]=make('darkling',-140,30)
   result[3]=make('darkling',180,-5)

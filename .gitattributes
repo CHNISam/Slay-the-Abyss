@@ -56,3 +56,11 @@ tests/fixtures/reptomancer-vectors.lua text eol=lf
 tools/oracles/sts1_darklings.py text eol=lf
 tests/fixtures/darklings-vectors.lua text eol=lf
 tools/oracles/sts1_shapes.py text eol=lf
+
+# Preserve reviewed PNG bytes in LFS; JSON/Lua remain ordinary reviewable text.
+art/cards/traveler-geo/armaments/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/armaments/preview-native.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/heavy_blade/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/heavy_blade/preview-native.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/cleave/source.png filter=lfs diff=lfs merge=lfs -text
+art/cards/traveler-geo/cleave/preview-native.png filter=lfs diff=lfs merge=lfs -text

@@ -23,9 +23,10 @@ local Combat = require('abyss_combat')
 local Act1Events = require('abyss_act1_events')
 local Act2Events = require('abyss_act2_events')
 local Act3Events = require('abyss_act3_events')
+local EndingUI=require('abyss_node_ui_ending')
 local number = require("abyss_numbers").integer
 local C = Theme.color
-local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱" }
+local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱",ending_proceed='真结局' }
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local reasons = {
     card_content_unavailable='这张卡牌的效果尚未接齐，本次未改变资源',
@@ -44,7 +45,7 @@ local reasons = {
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
 -- Presentation copy only; every option and outcome below comes from Nodes and data/rules.json.
-local function stagedEvent(id)return id=='neow' or Act2Events.ids[id]end
+local function stagedEvent(id)return id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local events = {
     neow={name='高塔恩赐'},
     joust={name='决斗'},
@@ -55,6 +56,8 @@ local events = {
     the_library={name='图书馆'},
     tomb_red_mask={name='红面具领主之墓',body='面具守护着陵墓中的财宝。',leave='你离开了陵墓。'},
     sensory_stone={name='追忆石碑',body='石中封存着记忆。',leave='你离开了石头。'},
+    mind_bloom={name='心灵绽放',body='意识在高塔深处展开。',leave='你离开了这片意识。'},
+    mysterious_sphere={name='神秘球体',body='密闭的球形容器中传来机关运转声。',leave='你离开了容器。'},
     winding_halls={name='迷途回廊',body='曲折通道等待着你的选择。',leave='你离开了通道。'},
     moai_head={name='巨像之首',body='石像等待着你的献祭。',leave='你离开了巨像。'},
     falling={name='坠落',body='落石正在崩塌。你必须在手中的卡牌之间作出取舍。',leave='你重新站稳，继续赶路。'},
@@ -226,7 +229,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     -- Approved card face. look: dim (greyed but readable), veil (sold/removed), selected (glow),
     -- stamp (overlay word), changed (cost highlight).
-    local function fillCard(box, id, upgraded, look)
+    local artFaces={};local function fillCard(box, id, upgraded, look)
         look = look or {}
         local definition, display = card(id) or {}, self.presentation[id] or {}
         local instance=look.instance or {cardId=id,upgraded=upgraded==true}
@@ -247,7 +250,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         box:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or cost ~= nil and number(cost) or ""
         tint(box:GetChild("costDisc"), look.dim and C.energyEmpty or look.changed and C.positive or C.energy)
         for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
-        CardDisplay.writeArt(box:GetChild("art_" .. kind), definition, picture)
+        CardDisplay.writeArt(box:GetChild("art_" .. kind), definition, picture);if CardDisplay.writeNativeArt(box,definition,display.nativeArt,options,box:GetChild('art_'..kind))then artFaces[box]=true end
         tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
         tint(box:GetChild("border"), look.selected and C.goldBright or look.dim and C.line or C.rarity[definition.rarity] or C.line)
         show(box:GetChild("glow"), look.selected)
@@ -353,6 +356,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
 
     local function renderTopBar(node)
+        EndingUI.header(self,child,node and node.type=='ending_proceed')
         child("title").text = node and ("第 " .. node.floor .. " 层 · " ..
             (node.roomKind == "boss_treasure" and "首领宝箱" or kinds[node.type] or "节点")) or "路线"
         child("hp").text = number(self.run.hp) .. "/" .. number(self.run.maxHp)
@@ -828,6 +832,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         syncAct1Picker(node,active)
     end
     local function nodeScreen(_view,node,result,active)
+        if node and node.type=='ending_proceed' then return 'eventView','确认继续后进入真结局。' end
         local screen, hint = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
         if node and node.complete then hint = "本节点已完成，可以返回路线。" end
         if active and self.mode == "picker" then screen = "pickerView"
@@ -843,7 +848,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if screen == "shopView" then hint = renderShop(view, node)
         elseif screen == "campView" then hint, recallSource = renderCamp(view, node, result)
         elseif screen == "pickerView" then hint = renderPicker(view, node, result)
-        elseif screen == "eventView" then hint = renderEvent(view, node, result)
+        elseif screen == "eventView" then
+            if node.type=='ending_proceed' then hint=EndingUI.render(child('eventView'),OPTIONS)
+            else hint = renderEvent(view, node, result) end
         elseif screen == "treasureView" then hint, treasureSource = renderTreasure(view, node) end
         return screen,hint,recallSource,treasureSource
     end
@@ -1026,7 +1033,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     end
     local function chooseFooter(result,node,view,screen,recallSource,treasureSource,confirm)
         local backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve
-        if result then
+        if view.phase=='ending_proceed' and node and node.type=='ending_proceed' then
+            return EndingUI.footer(self,confirm,commit)
+        elseif result then
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=resultFooter()
         elseif node and node.complete then
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=completedFooter(view)
@@ -1076,9 +1085,12 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             end
         end
     end
+    local function clearUnusedNativeArt(previous)
+        for box in pairs(previous)do if not artFaces[box]then CardDisplay.clearNativeArt(box)end end
+    end
     function self:render()
         if not self.run then root:SetVisible(false);return false, "node_unbound" end
-        resetButtons()
+        resetButtons();local previousArt=artFaces;artFaces={}
         inspectCards={}
         local view = Nodes.view(self.run, self.map)
         local node = view.node
@@ -1099,7 +1111,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         bindFooter(back,confirm,backLabel,confirmLabel,confirmOk,skipRestReward)
         bindTreasureBack(back,node,active)
         action("confirm", confirmOk, confirmFn, screen == "pickerView" and "请先在上方选择一张卡牌" or nil, nil, recallObserve)
-        bindStagedEventActions(node)
+        bindStagedEventActions(node);clearUnusedNativeArt(previousArt)
         self.failed = false
         roomMotion:paint()
     end
@@ -1141,7 +1153,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function self:setVisible(value)
         assert(type(value) == "boolean", "node visibility must be boolean")
         if value and not self.run then return false, "node_unbound" end
-        if not value then resetButtons();shopSelection:clear();roomMotion:cancel() end
+        if not value then resetButtons();shopSelection:clear();roomMotion:cancel();for box in pairs(artFaces)do CardDisplay.clearNativeArt(box)end;artFaces={} end
         local wasVisible = self.visible
         self.visible = value root:SetVisible(value)
         if not value and self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then
@@ -1171,6 +1183,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.busy = true
         local called, accepted, reason
         if command == "recall" then called, accepted, reason = pcall(Nodes.recall, self.run, self.map, argument)
+        elseif command == 'proceedEnding' then called, accepted, reason = pcall(Nodes.proceedEnding,self.run,self.map,argument)
         elseif command == "chooseTreasure" then called, accepted, reason = pcall(Nodes.chooseTreasure, self.run, self.map, argument, choice)
         elseif command == "chooseEvent" then called, accepted, reason = pcall(Nodes.chooseEvent, self.run, argument, choice)
         else called, accepted, reason = pcall(Nodes[command], self.run, argument) end

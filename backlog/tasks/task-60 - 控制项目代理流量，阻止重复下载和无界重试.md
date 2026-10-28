@@ -3,9 +3,9 @@ id: TASK-60
 title: 修好CI重复拉取，并限制异常下载
 status: In Progress
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-26 02:09'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-26'
 labels:
   - p0 cost engineering

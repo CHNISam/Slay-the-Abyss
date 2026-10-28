@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 51,
+    "existingLocalEffects": 52,
     "queueMissing": 89,
     "act1Missing": 95,
-    "registeredLocalEffects": 47,
+    "registeredLocalEffects": 48,
     "fallbackLocalEffects": 1,
     "classLocalEffects": 3
   },
@@ -2278,11 +2278,12 @@
       "sourceHooks": [
         "onPlayerHeal"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "mark_of_bloom",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/MarkOfTheBloom.java",
       "excludedReason": "Act3 Mind Bloom",
-      "unlockSource": null
+      "unlockSource": null,
+      "implementationLimitation": "Named SPECIAL obtain and shared player healing gate component-covered. Ordinary queues, source registration and later-act scope unchanged; MindBloom/parent Run/Nodes integration, natural campaign and native evidence pending."
     },
     {
       "id": "Matryoshka",

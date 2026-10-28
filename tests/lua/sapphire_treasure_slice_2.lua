@@ -1,1 +1,1 @@
-assert(loadfile('tests/lua/sapphire_treasure.lua'))(8,14)
+assert(loadfile('tests/lua/sapphire_treasure.lua'))(8,13)

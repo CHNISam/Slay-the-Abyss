@@ -3,9 +3,9 @@ id: TASK-4.1
 title: 格挡动画不能挡住血条
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 14:56'
-updated_date: '2026-10-24 07:09'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -48,6 +48,8 @@ ordinal: 49000
 2026-10-24同候选01dd/官方1841/runced168e4新日志837打印，block六布局108样本/6取消已运行；真实63-b384.jpg及相邻帧证明飞牌层在途遮英雄60/80右半，原徽标横向放大缺陷未复现，整体视觉仍FAIL。按该任务继续最小修复：保留playedCard原路径和全部轨迹/时序/字号，将其feedback容器置于角色信息后方；独立feedbackForeground保留横幅/横扫前景。真实生成树加原生SetAsLastSibling顺序模型先红（flying Defend hides hero/hpBorder）后绿，6布局回归过；Node9项、battle_ui52、feedback_polish13、game_ui15、game_ui_exit15全过。新版本未重建/实机，AC保持未勾。
 
 2026-10-24用户最新明确正常飞牌的短暂遮盖不视作bug，要求按优先级完成M1，不让小优化阻塞。原问题是格挡徽标放大压住血条，不能扩大为飞牌的绝对无遮挡标准。01dd/官方1841真实run ced168已完成玩家、1至5普通敌人、Guardian六布局，108格挡时间线样本、6播放中取消；徽标和HP始终分离、格挡数值/恢复正确。真实截图和837条新日志见docs/evidence/m1-live-20261024，block-live-review.json保留当时因飞牌判FAIL的历史，最终用户裁决另记。新飞牌层级尝试为可选优化，已从M1最终生产改动撤出，保留可恢复Git历史，不拿未实测1842冒充通过。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

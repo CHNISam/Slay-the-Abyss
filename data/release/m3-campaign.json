@@ -5,7 +5,7 @@
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "baseline": "45ba918e5719614f36b6a92aeb511e76a1311608",
   "acceptance": "INCOMPLETE",
-  "runtimeStatus": "Explicit development campaign Host and chapter maps are wired. Act2 regular/elite/three-Boss content has local coverage; event-only enemies and Acts3/4 combat remain incomplete. Default public campaign admission and platform acceptance are not granted.",
+  "runtimeStatus": "Explicit development campaign Host/chapter maps, Act2 regular/elite/three-Boss content and Act3 regular/elite/three-Boss content are locally wired. All seven Act3 ordinary event mappings and the MindBloom/Sphere event-combat bridge have recorded local component/integration coverage. Whole natural campaign, Act2 event-only enemies, complete shrine/once catalogs, green-key acquisition and Act4 combat remain incomplete. Native/platform acceptance is not granted.",
   "tasks": {
     "inventory": "TASK-47",
     "classes": "TASK-59",
@@ -22,8 +22,10 @@
     "encounterQueues": "implemented-independent-vectors-passed",
     "eventPoolLifecycle": "implemented-local-tests-passed",
     "normalEndingAndDoor": "implemented-boundary-tests-passed",
-    "naturalKeyAcquisition": "NOT_IMPLEMENTED",
+    "naturalKeyAcquisition": "PARTIAL_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_PENDING",
     "persistentHistoricalUnlock": "PLATFORM_UNVERIFIED",
+    "sessionHistoricalUnlock": "IMPLEMENTED_LOCAL_REAL_STANDARD_ACT3_VICTORIES_INJECTABLE_PROVIDER",
+    "sessionHistoricalEvidence": ["docs/rules/ENDING_HISTORY.md", "tests/lua/ending_history.lua", "tests/lua/ending_history_host.lua"],
     "hostChapterUI": "IMPLEMENTED_EXPLICIT_DEVELOPMENT_ENTRY_LOCAL"
   },
   "acts": [
@@ -46,10 +48,16 @@
         51
       ],
       "map": "implemented-local-only",
-      "combat": "NOT_IMPLEMENTED",
-      "events": "NOT_IMPLEMENTED",
+      "combat": "IMPLEMENTED_LOCAL_3_WEAK_8_STRONG_3_ELITE_3_BOSS_SOURCE_FORMATIONS",
+      "events": "SEVEN_ORDINARY_MAPPINGS_LOCAL_BRIDGE_RECORDED_NATURAL_PENDING",
       "normalPlaythrough": "NOT_RUN",
-      "platform": "NOT_RUN"
+      "platform": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_completion_seams.lua",
+        "tests/lua/event_combat_bridge.lua"
+      ],
+      "evidenceBaseline": "d54816b5ec0a69094d609247800e8e0598017680",
+      "evidenceBoundary": "Committed enemy/EndingHistory component coverage plus event bridge GREEN recorded before this inventory sync (12.35s); final combined-HEAD and native natural playthrough remain pending."
     },
     {
       "act": 4,
@@ -419,9 +427,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/awakened_one.lua",
+        "tests/lua/awakened_one_presence.lua",
+        "tests/lua/awakened_one_ui.lua"
+      ]
     },
     {
       "act": 3,
@@ -432,9 +445,13 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/darklings.lua",
+        "tests/lua/darklings_ui.lua"
+      ]
     },
     {
       "act": 3,
@@ -445,9 +462,12 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/donu_deca.lua"
+      ]
     },
     {
       "act": 3,
@@ -458,9 +478,12 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/donu_deca.lua"
+      ]
     },
     {
       "act": 3,
@@ -471,9 +494,13 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_shapes.lua",
+        "tests/lua/act3_shapes_defect_integration.lua"
+      ]
     },
     {
       "act": 3,
@@ -484,9 +511,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/GIANT_HEAD.md",
+        "tests/lua/giant_head_ai.lua",
+        "tests/lua/giant_head_slow.lua"
+      ]
     },
     {
       "act": 3,
@@ -497,9 +529,12 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_maw_growth.lua"
+      ]
     },
     {
       "act": 3,
@@ -510,9 +545,15 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT3_NEMESIS.md",
+        "tests/lua/nemesis_ai.lua",
+        "tests/lua/nemesis_runtime.lua",
+        "tests/lua/nemesis_ui.lua"
+      ]
     },
     {
       "act": 3,
@@ -523,9 +564,12 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_orb_walker.lua"
+      ]
     },
     {
       "act": 3,
@@ -536,9 +580,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/reptomancer.lua",
+        "tests/lua/reptomancer_public.lua",
+        "tests/lua/reptomancer_run_reward_rollback.lua"
+      ]
     },
     {
       "act": 3,
@@ -549,9 +598,13 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_shapes.lua",
+        "tests/lua/act3_shapes_defect_integration.lua"
+      ]
     },
     {
       "act": 3,
@@ -562,9 +615,13 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/reptomancer.lua",
+        "tests/lua/reptomancer_public.lua"
+      ]
     },
     {
       "act": 3,
@@ -575,9 +632,13 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_shapes.lua",
+        "tests/lua/act3_shapes_defect_integration.lua"
+      ]
     },
     {
       "act": 3,
@@ -588,9 +649,12 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_maw_growth.lua"
+      ]
     },
     {
       "act": 3,
@@ -601,9 +665,13 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/TIME_EATER.md",
+        "tests/lua/time_eater.lua"
+      ]
     },
     {
       "act": 3,
@@ -614,9 +682,12 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "tests/lua/act3_transient.lua"
+      ]
     },
     {
       "act": 3,
@@ -627,9 +698,14 @@
       "sourcePinned": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
       "parityStatus": "UNVERIFIED",
       "notes": "索引分类不是独立怪物数量、Boss数量或行为已通过的证明",
-      "implementation": "NOT_IMPLEMENTED",
-      "localResult": "NOT_RUN",
-      "platformStatus": "NOT_RUN"
+      "implementation": "IMPLEMENTED_LOCAL",
+      "localResult": "RECORDED_LOCAL_COMPONENT_REGRESSION",
+      "platformStatus": "NOT_RUN",
+      "evidence": [
+        "docs/rules/ACT3_WRITHING_MASS.md",
+        "tests/lua/act3_writhing_mass.lua",
+        "tests/lua/act3_writhing_parasite.lua"
+      ]
     },
     {
       "act": 4,

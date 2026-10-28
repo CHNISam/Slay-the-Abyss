@@ -1,0 +1,23 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const read=path=>JSON.parse(readFileSync(path,'utf8'));
+const sha=path=>createHash('sha256').update(readFileSync(path,'utf8').replaceAll('\r\n','\n')).digest('hex');
+test('MindBloom retains fixed-source complete choices and event room reward boundary',()=>{
+ const lock=read('tests/fixtures/mind-bloom-source.json');
+ assert.equal(lock.sourceCommit,'319009d5df0a82d9fb0f23cc22322286c6a87ec0');
+ assert.equal(lock.files['events/beyond/MindBloom.java'].sha256,'8b0bf1c73646d31c3b2229b4a08db0dbcedf2e731d01dda3316afcf6bb4d2769');
+ assert.equal(lock.files['relics/MarkOfTheBloom.java'].sha256,'bf653a5008278992d62d8fa57a4ed1333a274e7b79395ee09c0f9d6979653434');
+ assert.deepEqual(lock.contracts.optionOrder,['fight','awake','rich-or-healthy']);
+ assert.equal(lock.contracts.gold,999);assert.equal(lock.contracts.normalityCopies,2);
+ assert.equal(lock.contracts.fightGold,50);assert.equal(lock.contracts.fightRelicTier,'RARE');
+ assert.equal(lock.contracts.noCardsInRewards,false);assert.equal(lock.contracts.reopen,'inherited empty method; no second event menu');
+ assert.equal(lock.contracts.miscLongDraws,1);assert.equal(lock.contracts.otherChoiceGameplayRngDraws,0);
+ assert.equal(sha(lock.oracle.path),lock.oracle.sha256LF);
+ assert.equal(sha(lock.oracle.dependency),lock.oracle.dependencySha256LF);
+ assert.equal(sha('tests/fixtures/mind-bloom-vectors.lua'),lock.oracle.fixtureSha256LF);
+ const vectors=read('tests/fixtures/mind-bloom-vectors.json');assert.equal(vectors.shuffle.length,24);
+ assert.deepEqual([...new Set(vectors.shuffle.map(row=>row.boss))].sort(),['Hexaghost','Slime Boss','The Guardian']);
+ for(const row of vectors.shuffle)assert.equal(row.after.counter,row.before.counter+1);
+});

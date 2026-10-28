@@ -3,9 +3,9 @@ id: TASK-15.18
 title: 把小魔群改为原版四敌编组
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 10:29'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -49,6 +49,8 @@ ordinal: 86000
 原版四敌抽取代码已提交PR178，e410934a的Quality40087672805两项成功。现接合已合PR177的首发清单：旧门禁直接读取固定enemies会崩溃，已独立复现并完成四文件兼容；保留medium_slimes与所有未验收标记。组合目标仍须自身CI和合并，不算已交付。dot原生Agent执行与独立评审，未新增安装或使用用户Codex/外部模型；额度与费用节省未测。
 
 PR178已合入dc487e63。当前头5613ccef的Quality40091311140及合后40092141001均双成功；独立核对1227文件并集，保留PR177/176/179，功能分支已自动删除。仅关闭本地编组切片，原作完整随机流和平台逐项验收仍未完成。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

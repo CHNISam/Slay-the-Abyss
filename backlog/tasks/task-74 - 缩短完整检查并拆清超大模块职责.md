@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-27 15:15'
+updated_date: '2026-10-27 19:54'
 labels: []
 dependencies: []
 references:
@@ -75,4 +75,6 @@ ordinal: 118000
 发布前最新develop已推进20c6815（含PR249/251/250），原组合不沿用验收。按新源逐项保留Awakened/Giant/Library/Poison快照/Mantra及Run事务与输入所有权；core19份上游→重构双跑、1560AI轨迹与两条文案/原生写入冻结预期均保持一致。新基线入口246/191/147/289/139/97/143/141→13/1/2/15/12/11/11/14；189模块1080边，45→40延迟例外（保留上游2条真实Writhing延迟边），静态仍89→84。新增Library两helper及AwakenedVoid全部纳入，352测量=341函数+11主块且max15。完整检查发现两项旧正文冻结测试不识别mock公共接口改动；现精确逆转换本轮接口差分，原hash与断言保留、4项删除负例仍拒绝，两文件7项全过。首次本地完整JS检查另因缺pwsh失败，未跳过此有效断言；将由标准GitHub Windows/Ubuntu完整Quality执行原PowerShell回归。最后AC仍待当前HEAD远程完整CI与实际合入提交复核。
 
 本轮执行：Codex总体集成与验收；独立子代理仅修改既有POSIX矩阵及交付合同。原40524983643的8个Windows规则与POSIX2实际成功，POSIX1全部步骤成功但job122261978724在20分32秒被GitHub取消，annotation明确超过20m，汇总未通过。保存原日志于build/m3-closeout-20261027/pr252-posix1.log；不把步骤成功写为完整CI通过，不提升预算或跳过测试。
+
+PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触及原30秒单入口预算，未发现业务断言失败。本切片仅将原31项卡牌帮助与8组/22次完整奖励界面构造按既有方式分段；原正文、种子、断言、helper、runner及CI预算保持。六个测试文件已由独立复审核验，四入口及32项原门禁本地通过；当前发布头完整Quality及合入提交复核仍待，AC11不勾选。
 <!-- SECTION:NOTES:END -->

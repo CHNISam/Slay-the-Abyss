@@ -30,6 +30,7 @@ function M.enqueueReaction(state,effect,top)
     else M.enqueue(state,effect,nil,nil,nil,top)end
 end
 function M.reactionRetained(effect)
+    if require('abyss_corrupt_heart').retained(effect)then return true end
     if effect.op=='reptomancerSuicide'then return true end
     return TimeEater.retained(effect) or effect.op=='awakenedAction' and effect.kind=='heal' or PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
         or effect.op=='damageRandom' or effect.op=='staticRetaliation'
@@ -354,7 +355,7 @@ function M.apply(combat,state,item)
             source.maxHp=source.maxHp+e.maxHp
             local beforeHp=source.hp
             if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,e.maxHp,nil,'feed')
-            else source.hp=math.min(source.maxHp,source.hp+e.maxHp)end
+            else source.hp=math.min(source.maxHp,source.hp+(source==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or e.maxHp))end
             Events.emit(state,"max_hp",{amount=e.maxHp,target=source.id})
             require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
         end
@@ -394,6 +395,10 @@ function M.apply(combat,state,item)
         end
     elseif op=='darklingAction'then
         require('abyss_darklings').resolve(state,e)
+    elseif op=='heartBeat'then
+        combat.heartBeat(state,e)
+    elseif op=='spireDeathRemove'then
+        Actors.removeSpireDeathPower(state,e)
     elseif op=='awakenedAction'then
         require('abyss_awakened_one').resolve(Actors,state,e)
     elseif op=='capturedSharpHide'then

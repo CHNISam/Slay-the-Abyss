@@ -3,9 +3,9 @@ id: TASK-10.8
 title: 按原版区分行动意图和状态，并补齐解释
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 04:23'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-2
 dependencies: []
@@ -48,6 +48,8 @@ ordinal: 82000
 2026-10-24统一诊断夹具覆盖中型酸液复合意图、下颚虫强化/防御角标、状态实际承担者与详情、真实生产注册回调的合成长按/悬停/点按与释放不穿透。只是离线回调和原生候选准备，不认证物理手机输入或本轮平台显示；前台切换阻塞保留。
 
 2026-10-24官方1841/01dd真实run ced168e4的14阶段原生画面与新日志已独立审计。中型酸液意图显示攻击7及1黏滞；石颚下一行动力量3/格挡6，与其实际力量2、玩家虚弱2正确分开；长按/释放、关键词悬停、点按详情通过生产注册回调在原生userdata执行，标题名称层数完整。预览只读/RNG/释放不重复出牌断言通过，整个预览段唯一正常Strike匹配伤害6。明确使用合成事件，未认证手机物理触控；该边界留M4。证据docs/evidence/m1-live-20261024/reviews/preview-live-review.json。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -79,7 +79,7 @@ function M.new(panel,entry,version,notes,clickEvent,platform,changed)
         panel:GetChild('newer'):SetVisible(self.view=='history' and #history>0)
         panel:GetChild('older'):SetVisible(self.view=='history' and #history>0)
         for _,kind in ipairs({'history','current','newer','older','previous','next','close'}) do
-            panel:GetChild(kind):GetChild('hit').interactable=enabled(kind)
+            local hit=panel:GetChild(kind):GetChild('hit');hit.interactable=enabled(kind);hit.raycastTarget=hit.interactable
         end
     end
     self.open=function(_)

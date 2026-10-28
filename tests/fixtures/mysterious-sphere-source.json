@@ -1,0 +1,49 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "archiveSha256": "3f42bd7dde08126a9a8a02fc8eed8856c7b8b0dda551f50c62ced838e41ed458",
+  "scope": "Fixed decompiled mirror interpretation; event component only, not authenticated PC binary or native acceptance",
+  "files": {
+    "events/beyond/MysteriousSphere.java": "3e321b9e9424dac7113a3bcf705ff0f046ee8d8e443a70cafe1ad48b04029461",
+    "monsters/beyond/OrbWalker.java": "2ca7e87876547c47ca7dfcf92ce059681e8766676479e3496af3a3ada9121db8",
+    "helpers/MonsterHelper.java": "e6a60cdfa7af881d5f128a9532664ea33f32e71239cda49f3983fceac95a10e1",
+    "events/AbstractEvent.java": "4527717d367f8f7e9a11bb3be30361ffaa92aff1b49e581ce060b179b0797c13",
+    "dungeons/AbstractDungeon.java": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+    "rooms/AbstractRoom.java": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+    "rooms/EventRoom.java": "66ffb50ba3410cbd7fd55ea7b5f8c896f40689c34c584d48a2640dde432f172f",
+    "rewards/RewardItem.java": "4287fb3caf3a6ad04fd7c09d1d272bc7e98ceecf4a4d599131c3a68467f75859",
+    "screens/CombatRewardScreen.java": "7929ca75599e96c076f9abe2c90576a606c87984174328d10533ada8ee37e70b"
+  },
+  "contract": {
+    "sourceId": "Mysterious Sphere",
+    "sourceEncounter": "2 Orb Walkers",
+    "constructorHpRolls": 4,
+    "introChoices": ["open", "leave"],
+    "fightChoice": "fight",
+    "ordinaryGold": {"stream": "miscRng", "min": 45, "max": 55, "inclusive": true},
+    "dailyGold": {"min": 0, "max": 50, "inclusive": true, "implemented": false},
+    "preCombatOrder": ["gold reward", "screenless rare relic", "enter combat"],
+    "relicTier": "rare",
+    "relicQueueDirection": "front; failed canSpawn retries from tail",
+    "relicRarityRngRolls": 0,
+    "screenlessRejected": ["Bottled Flame", "Bottled Lightning", "Bottled Tornado", "Whetstone"],
+    "rareEmptyFallback": "Circlet",
+    "rewardRoomClass": "event",
+    "extraMonsterGold": false,
+    "eliteRelicDrop": false,
+    "prayerWheelExtraCard": false,
+    "genericPotionReward": true,
+    "genericCardReward": true,
+    "eventSpecificPostCombatCallback": false
+  },
+  "componentBoundary": {
+    "prepare": "stage and constructorEncounter only",
+    "fight": "one ordinary gold sample, combatRequest, stage=combat; return true,event_combat",
+    "deferredToSharedBridge": ["constructor HP owner", "screenless rare relic queue", "combat admission", "gold bonus", "postcombat rewards", "node completion"],
+    "nativeAcceptance": "NOT_RUN"
+  },
+  "goldVectors": [
+    {"seed": "6", "gold": 45, "before": {"words": ["e8b4b3b1c77c4573", "14fc879e54fc55f0"], "counter": 0}, "after": {"words": ["14fc879e54fc55f0", "24ab922393e84868"], "counter": 1}},
+    {"seed": "8", "gold": 50, "before": {"words": ["46abcca593a3c687", "68ecf1cacb69f37b"], "counter": 0}, "after": {"words": ["68ecf1cacb69f37b", "7c8ee6a72ed52f5f"], "counter": 1}},
+    {"seed": "26", "gold": 55, "before": {"words": ["8707dc23b1c9b4ee", "590feead896ece2f"], "counter": 0}, "after": {"words": ["590feead896ece2f", "cfd09d2d902032c7"], "counter": 1}}
+  ]
+}

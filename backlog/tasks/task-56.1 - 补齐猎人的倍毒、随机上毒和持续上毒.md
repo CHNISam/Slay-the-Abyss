@@ -3,9 +3,9 @@ id: TASK-56.1
 title: 补齐猎人的倍毒、随机上毒和持续上毒
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 06:11'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

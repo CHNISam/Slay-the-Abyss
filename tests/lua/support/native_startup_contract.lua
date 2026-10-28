@@ -12,6 +12,6 @@ package.loaded.abyss_battle_ui=assert(load(mutated,'@escaped_abyss_battle_ui'))(
 package.loaded.abyss_game_ui=nil
 local ok,reason=pcall(function()dofile('tests/lua/support/game_ui_fixture.lua').fixture()end)
 package.loaded.abyss_battle_ui,package.loaded.abyss_game_ui=originalBattle,originalGame
-assert(not ok and tostring(reason):find('cursorArea cannot set interactable',1,true),
+assert(not ok and tostring(reason):find('CursorArea',1,true),
     'escaped native startup must fail specifically at cursor capability boundary: '..tostring(reason))
 print('NATIVE_STARTUP_CONTRACT_PASS positive host startup + escaped-write negative control')

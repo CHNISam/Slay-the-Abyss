@@ -3,9 +3,9 @@ id: TASK-15.17
 title: 修正小软泥遭遇的大小组合
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 09:42'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -47,6 +47,8 @@ ordinal: 85000
 
 <!-- SECTION:NOTES:BEGIN -->
 两种一小一中组合、槽序和开战随机提交已交付。PR174以最终231dd0ff通过Quality40085439301后合入b757705e；合后Quality40086468750也通过。固定旧策略的真实败局及新seed7离线胜利均见专项报告；旧实机证据不用于认证此组合。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -3,9 +3,9 @@ id: TASK-16.3
 title: 做好腐化与消耗触发的构筑联动
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 08:14'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

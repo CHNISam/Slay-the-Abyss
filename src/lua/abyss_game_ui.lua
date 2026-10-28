@@ -17,12 +17,14 @@ local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
 local NeowHistory=require('abyss_neow_history')
+local EndingHistory=require('abyss_ending_history')
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
     -- never while constructing the title screen or refreshing the UI.
     local self = { root = root, data = data, seed = platform.seed, mode = "menu" }
     local neowHistory=NeowHistory.new(platform.readNeowHistory)
+    local endingHistory=EndingHistory.new({read=platform.readEndingHistory,write=platform.writeEndingHistory})
     local controller = Controller.new(platform.controllerApi,root)
     self.controller = controller
     platform.controller = controller
@@ -80,6 +82,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         cursor = platform.cursorEvents, controller = controller })
     self.nodeUI = NodeUI.new(child("nodePanel"), nil, nil,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
+            imageTypes = platform.imageTypes,
             cursorEvents = platform.cursorEvents, sound = platform.sound, controller = controller, touchScreen = platform.touchScreen,
             enhancedRooms=true,
             onInspectCard=function(definition,upgraded)
@@ -234,7 +237,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         vista:GetChild("seal"):GetChild("heart").imageColor = colour(defeat and C.danger or C.goldBright)
         vista:GetChild("seal"):GetChild("ring").imageColor = colour(defeat and C.danger or C.gold)
         local title = menu:GetChild("title")
-        title.text = victory and "深渊已被封印" or defeat and "旅途在此中断" or "杀戮原塔2"
+        title.text = victory and (run.ending=='true_victory' and '真结局 · 深渊已被封印' or "深渊已被封印") or defeat and "旅途在此中断" or "杀戮原塔2"
         title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)
         menu:GetChild("tagline"):SetVisible(not outcome)
         menu:GetChild("summary"):SetVisible(false)
@@ -262,8 +265,10 @@ function M.new(root, data, presentation, clickEvent, platform)
             menu:GetChild("summary").text = ""
         else
             local floor = self.map.floor
-            result:GetChild("subtitle").text = Narrative.flow[mode].full
-            local values = { floor .. " / " .. rules.floors, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
+            result:GetChild("subtitle").text = victory and run.ending=='true_victory'
+                and '腐化之心已击败。真结局已达成。' or Narrative.flow[mode].full
+            local finalFloor=victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors
+            local values = { floor .. " / " .. finalFloor, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
             for i, name in ipairs({ "抵达层数", "战斗胜场", "用时", "卡组张数" }) do
                 cards[i]:GetChild("label").text, cards[i]:GetChild("value").text = name, values[i]
             end
@@ -322,6 +327,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function finishRunFlow(run)
         if run and (run.phase=='victory' or run.phase=='defeat')then NeowHistory.finish(neowHistory,run,run.phase)end
+        if run and EndingHistory.finish(endingHistory,run,self.map)then run.endingHistoryResult=EndingHistory.read(endingHistory)end
         if not self.exitOpen and not self.settlementRequested and run and run.phase == "map" and run.nodeFlow and not run.nodeFlow.complete then
             Nodes.completeCombat(run, self.map)
         end
@@ -333,7 +339,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif run.phase == "defeat" then self.mode = "defeat"
         elseif run.phase == "victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"
-        elseif run.phase == "node" or run.phase == 'act_transition' then self.mode = "node"
+        elseif run.phase == "node" or run.phase == 'act_transition' or run.phase=='ending_proceed' then self.mode = "node"
         -- Camp/event results stay on screen until the player presses 继续.
         elseif self.nodeUI.run == run and self.nodeUI:holding() then self.mode = "node"
         else self.mode = "map" end
@@ -359,7 +365,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     local function closeStaleDeck(run,inMenu)
-        if self.deckUI.visible and (inMenu or self.battleUI.busy or self.deckUI.run ~= run
+        if self.deckUI.visible and (inMenu or run and run.phase=='ending_proceed' or self.battleUI.busy or self.deckUI.run ~= run
         or self.deckUI.pileKind and (run.phase~='combat' or run.combat~=self.deckUI.battle))then self.deckUI:close()end
     end
     local function openCardChoice(run)
@@ -382,14 +388,14 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function refreshPotionEntry(run)
         local potionHit=child("potionEntry"):GetChild("open"):GetChild("hit")
-        potionHit.interactable=canManagePotions(run)
+        potionHit.interactable=canManagePotions(run);potionHit.raycastTarget=potionHit.interactable
         for _,state in ipairs({"normal","hover","pressed","disabled"})do
             potionHit:GetChild(state):GetChild("label").text=run and "药水 "..Run.potionCount(run).."/"..Run.potionCapacity(run) or "药水"
         end
     end
     local function refreshDeckEntry(run)
         local deckHit = child("deckEntry"):GetChild("open"):GetChild("hit")
-        deckHit.interactable = not self.battleUI.busy
+        deckHit.interactable = not self.battleUI.busy;deckHit.raycastTarget=deckHit.interactable
         -- The shared deck button carries the deck size, so no screen repeats it as loose text.
         for _, state in ipairs({ "normal", "hover", "pressed", "disabled" }) do
             local variant = deckHit:GetChild(state)
@@ -397,9 +403,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     local function refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
+        local ending=run and run.phase=='ending_proceed'
         child("combatRewards"):SetVisible(returnAvailable)
-        child("deckEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
-        child("potionEntry"):SetVisible(not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("deckEntry"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("potionEntry"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
         refreshPotionEntry(run)
         child("nodePanel"):GetChild("potions"):SetVisible(false)
         if potionOpen then self.potionUI:render()end
@@ -460,7 +467,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 or self.exitError and "退出请求失败，请重试或继续游戏。" or ""
             local enabled = not self.settlementRequested and not self.settlementBusy
             for _, name in ipairs({"cancel", "confirm"}) do
-                exitPanel:GetChild(name):GetChild("hit").interactable = enabled
+                local hit=exitPanel:GetChild(name):GetChild("hit");hit.interactable,hit.raycastTarget=enabled,enabled
             end
         end
     end
@@ -545,7 +552,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         local run = Run.new(data,rawSeed,selection)
         local runPresentation = (selection and selection.character or run.data.colorlessCards) and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
-        local map = Map.generate(run.data,rawSeed)
+        local ending=EndingHistory.begin(endingHistory,run,{seedSet=explicitSeed,
+            isDailyRun=platform.isDailyRun or false,isTrial=platform.isTrial or false})
+        run.endingUnlocked,run.endingHistory=ending.unlocked,ending
+        local context,contextReason=Run.freezeMapContext(run)
+        if not context then return false,contextReason end
+        local map = Map.generate(run.data,rawSeed,run.act or 1,context)
         local history,historyReason=NeowHistory.read(neowHistory,run.character)
         if history then
             local ok,why=Nodes.beginNeow(run,map,history);if not ok then return false,why end

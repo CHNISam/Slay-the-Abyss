@@ -3,9 +3,9 @@ id: TASK-68
 title: 缩短工程回归等待并清理已确认债务
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-26 08:10'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:

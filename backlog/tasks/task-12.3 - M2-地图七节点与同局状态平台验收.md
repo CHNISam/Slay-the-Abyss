@@ -3,9 +3,9 @@ id: TASK-12.3
 title: 实测地图、七类房间和跨房间资源
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 22:21'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-26'
 labels: []
 milestone: m-3
@@ -58,6 +58,8 @@ ordinal: 36000
 用户本轮明确重开、重新挑战早已亲测，纳入手工验收；正常17层同源资源账本闭合及本轮Run/库存重置回归通过，补齐AC3。人工反馈未提供新候选编号，不写成bd08自动覆盖。见docs/M2-CLOSEOUT-20261024.md。
 
 计数更正：正常通关为17次合法节点选择（含开局入第一层）、16条跨层地图边；此前17条边的措辞不准确，不影响路线合法性及验收。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

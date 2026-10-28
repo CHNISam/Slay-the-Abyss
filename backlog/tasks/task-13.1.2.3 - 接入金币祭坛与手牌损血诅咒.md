@@ -3,9 +3,9 @@ id: TASK-13.1.2.3
 title: 接入金币祭坛与手牌损血诅咒
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 01:16'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -35,6 +35,12 @@ ordinal: 73000
 <!-- SECTION:PLAN:BEGIN -->
 核对源动作及池规则；真实负例；最小诅咒与事件/界面接线；品牌原型一行数据增量独立合成；完整相关回归及独立审查后正式CI集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

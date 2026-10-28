@@ -444,6 +444,11 @@
         "placeholder": true,
         "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
       },
+      "mark_of_bloom": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "绽放印记暂沿用主题现有遗物图标；专属美术与设备验收待完成。"
+      },
       "spirit_poop": {
         "id": 102028,
         "placeholder": true,
@@ -833,7 +838,11 @@
       "columnGap": 112,
       "node": 56,
       "bossNode": 96,
-      "viewportHeight": 600
+      "viewportHeight": 600,
+      "emeraldLabel": [0, -24, 96, 40],
+      "emeraldIconY": 8,
+      "notice": [0, -324, 1160, 28],
+      "emeraldNotice": [0, -316, 1160, 40]
     },
     "modal": {
       "size": [
@@ -919,6 +928,16 @@
     },
     "battleRewards": {
       "note": "批准奖励列表构图；第四行容纳独立失金条目。列表和选牌台互斥，继续不增加逐项放弃确认。",
+      "expanded": {
+        "note": "仅五至六行独立奖励时扩展原列表面板至安全区内；保留64高按钮与批准字号，不合并绿钥匙或Black Star遗物。",
+        "stage": [0, 0, 640, 680],
+        "title": [0, 290, 560, 44],
+        "subtitle": [0, 238, 560, 40],
+        "rowOrigin": [0, 168],
+        "rowStep": 68,
+        "continue": [0, -308],
+        "potionLabel": [0, -242, 1040, 48]
+      },
       "stage": [
         0,
         28,
@@ -2322,7 +2341,7 @@
       "pageCharacters": 20
     },
     "releaseNotes": {
-      "note": "更新公告沿用岩金与深岩面板；离线只读，已发布记录与本次说明严格分开。长条目按每行48个Unicode码点自动换行，七个40高原生文本行按页完整显示，不裁切。",
+      "note": "更新公告沿用岩金与深岩面板；离线只读，已发布记录与本次说明严格分开。长条目按每行48个Unicode码点自动换行，五个40高原生文本行按页完整显示，不裁切。底部两行静态开发信息与翻页、关闭按钮分离，不增加交互。",
       "entry": [
         0,
         -222,
@@ -2389,7 +2408,7 @@
         80,
         48
       ],
-      "rows": 7,
+      "rows": 5,
       "row": [
         0,
         20,
@@ -2397,6 +2416,24 @@
         40
       ],
       "rowStep": 40,
+      "developmentTitle": [
+        -370,
+        -192,
+        300,
+        40
+      ],
+      "developmentSummary": [
+        160,
+        -192,
+        720,
+        40
+      ],
+      "developmentLicense": [
+        0,
+        -232,
+        1040,
+        40
+      ],
       "previous": [
         -430,
         -286,

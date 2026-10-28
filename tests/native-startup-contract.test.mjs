@@ -9,9 +9,9 @@ import {luaString} from '../scripts/build-lua-data.mjs';
 
 test('generated host starts under native capability guards and rejects the escaped startup write',()=>{
   const source=readFileSync('src/lua/abyss_battle_ui.lua','utf8');
-  const anchor='hit:SetVisible(frame.fighting==true and options.onPile~=nil and frame.active==true)';
+  const anchor='hit.raycastTarget=options.onPile~=nil and frame.active==true';
   assert.equal(source.split(anchor).length,2,'mutation must target exactly one production line');
-  const mutant=source.replace(anchor,'hit:SetVisible(frame.fighting==true); hit.interactable=options.onPile~=nil and frame.active==true');
+  const mutant=source.replace(anchor,'hit.interactable=options.onPile~=nil and frame.active==true');
   const entry=join(tmpdir(),`abyss-native-contract-${randomUUID()}.lua`);
   writeFileSync(entry,`ABYSS_NATIVE_MUTANT=${luaString(mutant)}\ndofile('tests/lua/support/native_startup_contract.lua')\n`);
   try {

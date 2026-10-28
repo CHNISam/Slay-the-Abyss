@@ -3,9 +3,9 @@ id: TASK-29.1
 title: 打磨战斗动画、打击感和死亡音效
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-23 03:53'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - enhancement
@@ -54,4 +54,6 @@ ordinal: 44000
 最终与develop ead3513集成的冻结源277c2a8已重建完整音频副本，17组行动/命中/死亡与39组房间回归通过，全部模块逐byte、BGM双true、原生图及UI读回通过；hash04c0e28c40bab1e67620566a5eb3ad4ac19f7f53206a0effe317f0d0351fe6ac。详见docs/evidence/audio-richness-integrated-20261025.json。未官方导入/听验；用户要求先采用。
 
 2026-10-26全面复核：已有实现及原回归支持的本地条款补勾，具体证据见BACKLOG-AUDIT。尚未通过的完整入口、组合/自然实玩或最终音画门禁保留，不重复要求开发已实现机制。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

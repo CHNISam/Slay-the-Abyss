@@ -3,9 +3,9 @@ id: TASK-2
 title: 确认进场、镜头和复活正常
 status: Done
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 due_date: '2026-10-24'
 labels: []
 milestone: m-2
@@ -43,6 +43,8 @@ ordinal: 2000
 2026-10-24用户本轮原话：“目前至少这个task two 我是认为已经可以了”。据此接受TASK-2当前最小场景并收口；AC措辞同步人工验收与官方配置读回的实际证据层级，不新增代理实测结论。1838导入读回与既有同候选PC试玩截图/本轮日志均已归档；没有把用户整体确认扩写为逐项物理复苏的操作记录，也没有拿1838材料冒充1839。详见docs/evidence/task2-closeout-20261024.json。TASK-2.1首发岩系遗迹场景、M1九状态、全平台/UI正式门禁仍独立验收。
 
 收口独立验证：官方1838读回中的fixedView yaw0/pitch55、出生/复苏同点、1到1玩家、仅1↔3敌对及实体挂载断言通过；20份既有证据Git blob SHA256与归档manifest全部匹配。Windows检出会把部分JSON LF转换为CRLF，验证使用提交原始blob并另存工作树hash，没有改写原manifest。未运行游戏或新建试玩日志。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

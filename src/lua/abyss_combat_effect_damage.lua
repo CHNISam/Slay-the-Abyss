@@ -117,7 +117,7 @@ function Handlers.heal(c)
     -- A source-verified Reaper continuation, not a public card effect ABI.
     local value=effect.value
     assert(type(value)=="number" and value%1==0 and value>=0 and value<=2147483647,"invalid heal amount")
-    local player=state.player
+    local player=state.player;if require('abyss_potion_health').blocked(state.relics)then value=0 end
     local before=player.hp
     player.hp=math.min(player.maxHp,player.hp+0.0+value)
     event(state,"heal",{source=player.id,target=player.id,amount=player.hp-before})

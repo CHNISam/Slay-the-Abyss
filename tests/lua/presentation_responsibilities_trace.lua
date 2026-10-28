@@ -47,9 +47,8 @@ assert(run.combat.player.hp==before.combat.player.hp and run.combat.rng==before.
 assert(host:closeExit());host:refresh()
 for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
+trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
--- Room port intentionally replaces the camp row with a twelve-card grid and
--- adds its result animation. Keep the full ordered-write guard for that flow.
--- Removes 84 invalid cursorArea.interactable writes; the same frames now
--- express availability through SetVisible and retain listener ownership checks.
-assert(trace.count==75096 and trace.hash==240481077,'ordered native writes changed from the room-port contract')
+-- Latest develop retains all 77278 historic writes; the explicit room port
+-- adds 2265 writes for the forge grid/result flow and updated room controls.
+assert(trace.count==79543 and trace.hash==1215629804,'ordered native writes changed from the room-port contract')

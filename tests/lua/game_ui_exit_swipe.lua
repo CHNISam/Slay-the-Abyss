@@ -10,12 +10,14 @@ local function setup(relicSeed)
     -- Independent complete source queue for the relic-purchase component only;
     -- the original run/map/card/merchant seed1 and all gestures stay unchanged.
     if relicSeed then host.run.relicPool=require('abyss_relic_pool').new(relicSeed,host.run.data.relicSource) end
-    local destination = F.Nodes.available(host.run, host.map)[1]
-    -- Explicit setup: force the first available node to shop and fund purchases.
-    -- Node entry, offers, paging, purchases and inventory use real commands/rules.
-    for _, node in ipairs(host.map.nodes) do
-        if node.id == destination.id then node.type = "shop" end
-    end
+    -- Controlled navigation to a real shop on the unchanged source graph;
+    -- prior rooms are not played. Keep the original seed and gesture bodies.
+    local Map=require('abyss_map')
+    local routes=dofile('tests/lua/support/map_routes.lua')
+    local path=routes.to(host.map,function(node)return node.type=='shop'end)
+    for i=1,#path-1 do assert(Map.choose(host.map,path[i]))end
+    host.run.floor=host.map.floor
+    local destination=routes.at(host.map,path[#path])
     assert(host.mapUI:choose(destination.id))
     host.run.gold = 10000
     host:refresh()

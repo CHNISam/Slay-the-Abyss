@@ -3,9 +3,9 @@ id: TASK-38
 title: 在手机上完整玩一遍
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-27 04:20'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - awaiting-live
@@ -55,4 +55,6 @@ P1手机横屏露底修复：基于最新develop，把共享canvasBackdrop改为
 候选79244ee已独立审计通过：65/65模块、2824控件/max60、静态0错35警告、四设备宿主/根/背景拉伸零增量。候选与报告见docs/evidence/mobile-fullbleed-20261025.json。完整npm check的JS1366项中1247通过/119环境跳过/0失败；Lua阶段发现同机M3 CI40174178038已在本地任务启动后开始，已停止自己的全量进程保留日志以恢复串行，不报本地完整通过。最终SHA完整CI仍必须完成；verify:ui实为6屏partial/5屏pending。
 
 2026-10-27同类范围审计：承接已批准四职业与第一至隐藏第四幕完整范围及原创角色责任，纠正仅第一幕总验收口径；原验收证据保留，本轮新增要求均未勾，不声称新增实机通过。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

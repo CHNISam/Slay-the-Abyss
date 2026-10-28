@@ -3,9 +3,9 @@ id: TASK-4.6
 title: 让战斗卡牌数字显示增减颜色和文字提示
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-24 17:08'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:03'
 labels:
   - awaiting-live
 milestone: m-5
@@ -49,4 +49,6 @@ ordinal: 92000
 已同步 develop 7f11cc2，保留药水目标/说明改动。组合源码33eebfc完整本地npm run check退出0：JS1112通过/118跳过、182个Lua文件、Python22项含1跳过；旧版gremlin超时仍保留为历史失败。新普通候选49模块/2391控件/0错误32警告且同源回读通过；1852新夹具50模块/UI官方回读一致，本轮33日志与八状态截图已逐图审查。详见docs/evidence/card-value-feedback/integration.json及REPORT.md。物理手机、完整真实拖动和全UI门禁仍未完成，AC3不勾选，任务保持In Progress。当前运行源码CI40120982021两个作业成功，最终证据提交仍需按当前SHA过CI后合并。
 
 2026-10-26拆分原AC3：已有组合构建/读回/PC受控渲染勾选；正式设备与严格UI验收继续未勾。
+
+负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->

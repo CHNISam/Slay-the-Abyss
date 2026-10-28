@@ -3,9 +3,9 @@ id: TASK-52.1
 title: 修复旧路线诊断的领奖与节点推进
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-24 14:44'
-updated_date: '2026-10-24 15:45'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-28'
 labels:
   - required
@@ -53,6 +53,8 @@ ordinal: 91000
 最终四文件候选只改诊断脚本、诊断专用helper、fixture与报告。两个真实红例（首战reward_pending和f14问号解析商店访问nil）均修复，47专项、原6份54回归、13负变异与独立4边界通过。自然seed42完成诊断到第16层Guardian合法败亡，7胜/188金币/3瓶，LOSS_GATE/FRESH_RUN原断言通过；不是17层通关，不改生产或强制胜利。root亦独立复跑47及完整自然脚本成功。当前SHA CI与合并仍待，不声明Fengari或平台通过。
 
 诊断代码头7510fdfc的Quality40107601669两个作业均成功，47专项/原回归/独立审查和真实seed42终态均已核。本次在原PR186内仅收口任务与里程碑记录，不改变代码；最终元数据提交仍须自己的当前SHA CI成功后才合并，未合候选不算已交付。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -3,9 +3,9 @@ id: TASK-13.1.1
 title: M2 P0 未知房转类与六事件受限池离线闭环
 status: Done
 assignee:
-  - codex
+  - '@Furinya'
 created_date: '2026-10-23 15:54'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 due_date: '2026-10-26'
 labels:
   - p0
@@ -47,6 +47,8 @@ ordinal: 53000
 按AGENTS将本地实现、平台验收与集成流程分层：本任务只关闭用户批准的离线六事件切片；Git当前SHA Quality全绿后squash合并仍为必须执行的PR门禁，不以任务Done代替。平台归TASK-12.3，完整池与PC核验归TASK-13.1.2。此刻远端check仍排队，未声称CI或合并通过。
 
 最终集成更新：同步develop PR121/122/124后保留M1实机记录；4项旧超时断言失败复用PR125提交d8d3d1a修复（cherry-pick 02fa504，未改运行器政策）。验证头02fa504完整check exit0：JS755/637pass118skip、Lua92文件全过、Python17/16pass1skip。新游戏源ba1c2fa与02fa仅差测试文件；新GIL ee71a3a347960e954fae1316cca6cdba8978e3576666de2323c665446b0a12a7，35模块/1695控件max51/22节点完整载荷及static0error16warning通过。旧96仅保留历史；本候选未官方导入/实机，最终CI与merge看PR123。
+
+负责人字段规范化：原记录 codex 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -3,9 +3,9 @@ id: TASK-16.2
 title: 补齐战士七张待启用牌的真实机制
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-25 06:52'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels:
   - required
   - sts1

@@ -3,9 +3,9 @@ id: TASK-15.9
 title: 补齐菌兽死亡后的易伤效果
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 22:47'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 dependencies: []
 references:
@@ -34,6 +34,12 @@ ordinal: 68000
 <!-- SECTION:PLAN:BEGIN -->
 独立核对源死亡与反应顺序；真实负例；最小数据/状态/Actor/Effects修复；独立审查及正式CI后集成。
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
+<!-- SECTION:NOTES:END -->
 
 ## Final Summary
 

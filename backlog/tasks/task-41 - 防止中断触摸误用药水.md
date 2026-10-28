@@ -3,9 +3,9 @@ id: TASK-41
 title: 防止中断触摸误用药水
 status: Done
 assignee:
-  - '@dot'
+  - '@Furinya'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-27 04:15'
+updated_date: '2026-10-27 15:04'
 labels: []
 milestone: m-2
 dependencies: []
@@ -43,6 +43,8 @@ ordinal: 50000
 基线配对触点审计6过7败；药水旧Down经过牌库开关、演出或换回合后仍消耗当前瓶。候选为药水独立保存touch/run/battle/turn/slot/id与库存表身份，取消及单次消费不复活；卡牌tokens不改，保留卡牌有指针而药水只Click的混合宿主。最终新增11+9+9组全过，精确最终测试回退原生产代码10过19败；独立27组基线8过、候选27全过。Native Lua75脚本、Python16过。局部快照遗漏输入用精确基线blob补齐；本地npm check轮询被权限审查拒绝，未重试或安装，不能声称本地全量PASS。实际平台事件派发/导入/试玩未验；待最终SHA Quality。
 
 2026-10-23独立验收：固定15f62a6的62项回归通过，5项独立探针回退原生产blob全失败、恢复全通过；PR110最终head8a217974 Quality39954377275两作业SUCCESS，合入78cedba。根GUI为避免TASK38手机任务冲突将本项重编号为TASK41；本分支暂保留原编号直至GUI同步PR114集成，不新建重复项。平台实际派发和手机未验。
+
+负责人字段规范化：原记录 @dot 作为历史执行者信息保留；任务负责人为 Furinya。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
