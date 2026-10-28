@@ -12,6 +12,7 @@ Lua手写源保存在平铺的 [src/lua](../src/lua/)；模块名用于 `require
 | 游戏界面编排 | [abyss_game_ui.lua](../src/lua/abyss_game_ui.lua) | 串联菜单、地图、节点和战斗界面；将用户动作交给核心命令 |
 | 输入与表现 | [abyss_controller.lua](../src/lua/abyss_controller.lua)、[abyss_battle_ui.lua](../src/lua/abyss_battle_ui.lua)、[abyss_node_ui.lua](../src/lua/abyss_node_ui.lua) | 焦点、回调和视图状态归界面；战斗子视图、节点子页及表现helper按职责拆分 |
 | 一局状态与节点事务 | [abyss_run.lua](../src/lua/abyss_run.lua)、[abyss_map.lua](../src/lua/abyss_map.lua)、[abyss_nodes.lua](../src/lua/abyss_nodes.lua) | 持有局内状态、路线与合法操作；奖励、商店、事件等规则在核心提交 |
+| 药水候选事务 | [abyss_run_potion_candidate.lua](../src/lua/abyss_run_potion_candidate.lua) | 分别准备资格、效果、局外及战斗候选；最终状态仍由Run提交，全部提取函数受复杂度上限约束 |
 | 战斗结算 | [abyss_combat.lua](../src/lua/abyss_combat.lua)、[abyss_action_queue.lua](../src/lua/abyss_action_queue.lua)、[abyss_effects.lua](../src/lua/abyss_effects.lua)、[abyss_actor.lua](../src/lua/abyss_actor.lua) | 出牌、动作队列、效果、伤害和状态；职业、敌人及遗物规则通过对应模块协作 |
 | 内容与表现源 | [data](../data/README.md)、[主题](../data/presentation/ui_theme.json)、[设计依据](design/UI_DESIGN.md) | 数据和核心决定规则，界面读取状态；主题及批准稿决定视觉，不使用原型演示数值替代玩法数据 |
 
