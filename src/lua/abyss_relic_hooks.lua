@@ -15,7 +15,7 @@ local aliases={NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_per
  PreservedInsect='preserved_insect',['Red Skull']='red_skull',['Centennial Puzzle']='centennial_puzzle',
  ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
  WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod',
- ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg',['Snake Skull']='snake_skull',DataDisk='data_disk',Damaru='damaru',['Mark of the Bloom']='mark_of_bloom'}
+ ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg',['Snake Skull']='snake_skull',DataDisk='data_disk',Damaru='damaru',['Mark of the Bloom']='mark_of_bloom',['Lizard Tail']='lizard_tail'}
 function M.localId(id)return aliases[id] or id end
 function M.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
@@ -65,7 +65,8 @@ local function equipmentUpgrade(run,id,api)
 end
 function M.onEquip(run,id,upgradeApi)
  id=M.localId(id)
- if id=='neows_lament' then counters(run).neows_lament=3
+ if id=='lizard_tail' then require('abyss_lizard_tail').onObtain(run)
+ elseif id=='neows_lament' then counters(run).neows_lament=3
  elseif id=='omamori' then counters(run).omamori=2
  elseif id=='maw_bank' then counters(run).maw_bank=0
  elseif id=='happy_flower' then counters(run).happy_flower=0
@@ -227,6 +228,7 @@ end
 function M.bindBattle(state,owned,persistentCounters)
  state.relics={};for i,id in ipairs(owned)do state.relics[i]=M.localId(id)end
  state.relicCounters={};for k,v in pairs(persistentCounters or {})do state.relicCounters[k]=v end
+ require('abyss_lizard_tail').bind(state)
  state.relicCombat={attackPlayed=false}
 end
 function M.preBattle(state,context)
@@ -252,20 +254,24 @@ function M.preBattle(state,context)
   end
  end
 end
-function M.hpChanged(state,actor,before)
- if actor~=state.player or not A.isActive(actor)then return end
+function M.hpChanged(state,actor,before,queuedFatal)
+ if actor~=state.player or not queuedFatal and not A.isActive(actor)then return end
  local inCombat=false
  for _,enemy in ipairs(state.enemies or {})do if A.isPresent(enemy)then inCombat=true;break end end
- if not inCombat then return end
+ if not inCombat and not queuedFatal then return end
  local c=state.relicCombat
  if not c then return end
  if M.owns(state,'red_skull')then
   local bloodied=actor.hp<=actor.maxHp/2.0
   local wasBloodied=before<=actor.maxHp/2.0
   if bloodied and not wasBloodied and not c.redSkullActive then
-   c.redSkullActive=true;A.applyPower(state,actor,'strength',3,actor)
+   c.redSkullActive=true
+   if queuedFatal then require('abyss_card_actions').enqueueReaction(state,{op='gainStatus',status='strength',value=3},true)
+   else A.applyPower(state,actor,'strength',3,actor)end
   elseif not bloodied and wasBloodied and c.redSkullActive then
-   c.redSkullActive=false;A.applyPower(state,actor,'strength',-3,actor)
+   c.redSkullActive=false
+   if queuedFatal then require('abyss_card_actions').enqueueReaction(state,{op='gainStatus',status='strength',value=-3},true)
+   else A.applyPower(state,actor,'strength',-3,actor)end
   end
  end
 end

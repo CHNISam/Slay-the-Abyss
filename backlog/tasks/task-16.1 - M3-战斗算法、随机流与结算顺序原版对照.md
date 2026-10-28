@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-27 07:08'
+updated_date: '2026-10-28 01:36'
 due_date: '2026-10-28'
 labels:
   - required
@@ -21,6 +21,7 @@ references:
   - docs/backlog-details/TASK-16.1.md
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
+  - docs/M3-STATUS-20261028.md
 parent_task_id: TASK-16
 priority: high
 type: enhancement
@@ -111,4 +112,6 @@ ordinal: 43000
 本轮独立审查在4c24aa0通过真实Defect/Puzzle战斗确认StaticDischarge同步充能破坏TOP顺序：末敌被提前击杀、Puzzle draw3被清。复用原manager修复，先复现红例并验证末敌、Buffer、Tungsten、Fairy；不重建队列。当前相关范围保持未完成。四职业遗物完整来源队列已修复，40组全队列/RNG向量及正式渠道通过，最终当前SHA完整CI仍待验。
 
 已集成c78c59b：玩家onAttacked统一在HP-loss回调前向既有owner排TOP，Static/Thorns/FlameBarrier/BlockReturn不再同步抢在Puzzle抽牌前；无Static的末敌荆棘同因一并修复，敌人目标原批次保留。新增13组对原生产9红、修后13绿；Plated49/Rupture36、Defect防御、第三幕形状通过。独立未改该实现的session正在复核；所有原30/60秒回归预算保持，当前完整Quality重跑与平台自然验收仍待。
+
+2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
 <!-- SECTION:NOTES:END -->

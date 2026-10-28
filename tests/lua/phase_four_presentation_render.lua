@@ -1,3 +1,7 @@
+local first,last=...
+first,last=first or 1,last or 1
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=4 and first<=last,'invalid original fixture slice')
+local registered=0
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local P=require('abyss_character_presentation')
 local C=require('abyss_combat')
@@ -9,7 +13,7 @@ local BattleUI=require('abyss_battle_ui')
 local DeckUI=require('abyss_deck_ui')
 local cases,rendered=0,0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
-local function test(name,fn)fn();cases=cases+1;print('ok phase_four_presentation_render '..cases..' - '..name)end
+local function test(name,fn)registered=registered+1;if registered<first or registered>last then return end;fn();cases=cases+1;print('ok phase_four_presentation_render '..cases..' - '..name)end
 local prepared=dofile('tests/lua/support/phase_four_presentation_data.lua')
 local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
 -- Own process: keep all four original class cases within the unchanged 30s limit.
@@ -47,5 +51,7 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
   for i=1,#deck do assert(#grid:recycle(0,i-1):GetChild('face'):GetChild('label').text>0)end
  end)
 end
-eq(cases,4);eq(rendered,720)
+assert(registered==4,'class render discovery changed')
+local expected=0;for i=first,last do expected=expected+({160,180,180,200})[i]end
+eq(cases,last-first+1);eq(rendered,expected)
 print('phase_four_presentation_render: '..cases..' passed; '..rendered..' real card render variants')
