@@ -12,6 +12,25 @@ const campaignHunk = '{ music = music, campaign = true, experimentalCharacters =
 const originalHunk = '{ music = music, experimentalCharacters =';
 const digest = value => createHash('sha256').update(value).digest('hex');
 
+test('current native entry rejects campaign and startup drift before historical projection', () => {
+  const live = readFileSync(entryPath, 'utf8').replaceAll('\r\n', '\n');
+  assert.notEqual(live, entry, 'the live selection entry is distinct from the historical entry');
+  assert.equal(preRetirementSource(entryPath, live), retirementSources.beforeSources[entryPath]);
+  assert.equal(preRetirementSource(entryPath, live.replaceAll('\n', '\r\n')),
+    retirementSources.beforeSources[entryPath]);
+  for (const mutation of [
+    live.replace('campaign = true', 'campaign = false'),
+    live.replace('campaign = true,', ''),
+    live.replace('campaign = true,', 'campaign = true, campaign = true,'),
+    live.replace('script:EnableUpdate(true)', 'script:EnableUpdate(false)'),
+    live + '\n-- unrelated live drift\n',
+  ]) {
+    assert.notEqual(mutation, live, 'negative control must actually change the live source');
+    assert.throws(() => preRetirementSource(entryPath, mutation),
+      /unreviewed integrated retirement source drift: src\/lua\/abyss_ui\.lua/);
+  }
+});
+
 test('formal campaign source proof reverses only the complete accepted entry opt-in', () => {
   assert.equal(digest(entry), '4fdb5660a96f00b3d24bfa5388d5eb9c364183996679d0b7aaaf772af1319677');
   assert.equal(entry.split(campaignHunk).length, 2);
