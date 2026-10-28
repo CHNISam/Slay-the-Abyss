@@ -36,6 +36,7 @@
             <path d="{{t.a}}" style="fill: #3E322A; stroke: #8C7454; stroke-width: 1.5"></path>
             <path d="{{t.b}}" style="fill: none; stroke: #E9C77B; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: {{t.dash}}"></path>
             <path d="{{t.c}}" style="fill: #E9C77B"></path>
+            <text x="38" y="43" text-anchor="middle" style="font-size: 12px; font-weight: 900; fill: #F6DFA4; letter-spacing: 1px">{{t.lbl}}</text>
           </svg>
         </div>
         <div style="min-width: 0">
@@ -66,12 +67,12 @@ class Component extends DCLogic {
     const card = 'M8 34h20v32H8Z';
     const foe = 'M52 8a12 12 0 1 1 0 24 12 12 0 0 1 0-24Z';
     const tips = [
-      { title: '出牌', body: '把牌拖到敌人身上；群体牌和技能牌拖出手牌区即可。', a: card + ' ' + foe, b: 'M18 34C20 18 34 14 44 20', c: 'M44 14l6 8-10 2Z', dash: 'none' },
-      { title: '取消', body: '拖回手牌区，或拖动中点右键。', a: card, b: 'M60 20C50 10 30 14 22 30', c: 'M16 26l6 10 6-8Z', dash: '5 5' },
-      { title: '看详情', body: '悬停（手机上按住）牌、敌人、主角或药水，松开即关。', a: card + ' ' + foe, b: '', c: 'M48 40l4 22 5-7 8 9 4-3-8-9 8-3Z', dash: 'none' },
-      { title: '用药水', body: '点顶栏药水看效果；单体药水再点一个敌人，自用药水点「使用」。', a: 'M30 10h16v8l8 14v30H22V32l8-14Z', b: '', c: 'M30 40h16v18H30Z', dash: 'none' },
-      { title: '读意图', body: '敌人头顶是下回合行动；攻击数字已经算好最终伤害。', a: foe, b: '', c: 'M40 44l14-14 3 3-14 14Z M34 50l6 6M30 58l4-4', dash: 'none' },
-      { title: '结束回合', body: '右下角铭牌；还有能量时会先提醒一次（可在设置关闭）。', a: 'M6 30h64l-6 16H12Z', b: '', c: 'M26 36h24v4H26Z', dash: 'none' }
+      { title: '出牌', body: '把牌拖到敌人身上松手；不需要目标的牌，拖出手牌区即可。', a: card + ' ' + foe, b: 'M18 34C20 18 34 14 44 20', c: 'M44 14l6 8-10 2Z', dash: 'none', lbl: '' },
+      { title: '取消', body: '拖回手牌区松手。', a: card, b: 'M60 20C50 10 30 14 22 30', c: 'M16 26l6 10 6-8Z', dash: '5 5', lbl: '' },
+      { title: '看详情', body: '悬停（手机上按住）牌、敌人或主角，一次看全部状态和说明。', a: card + ' ' + foe, b: '', c: 'M48 40l4 22 5-7 8 9 4-3-8-9 8-3Z', dash: 'none', lbl: '' },
+      { title: '用药水', body: '点顶栏药水看效果。伤害、中毒类拖到一个敌人身上；其余点「使用」，作用于自己。', a: 'M30 10h16v8l8 14v30H22V32l8-14Z', b: '', c: 'M30 40h16v18H30Z', dash: 'none', lbl: '' },
+      { title: '读意图', body: '敌人头顶是它下回合的行动，数字是最终伤害；悬停意图可看算式。', a: foe, b: '', c: 'M40 44l14-14 3 3-14 14Z M34 50l6 6M30 58l4-4', dash: 'none', lbl: '' },
+      { title: '结束回合', body: '出完牌点右下角「结束回合」，敌人随即行动。', a: 'M2 38 12 28h52l10 10-10 10H12Z', b: '', c: '', dash: 'none', lbl: '结束回合' }
     ];
     const keys = [
       { key: 'E', does: '结束回合' }, { key: '1–9', does: '选中第几张牌' }, { key: 'M', does: '查看地图' },
