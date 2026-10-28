@@ -10,6 +10,17 @@ export const retirementSources=JSON.parse(gunzipSync(bytes));
 assert.equal(retirementSources.base,'b9d071e5dd8a8ebb1c5d71b4f0b5671b30a44527');
 assert.equal(retirementSources.head,'d7fa6f219a1461cf2b461f03724fb00da79e621f');
 
+// The retired announcement replay consumes its immutable historical player copy,
+// not today's official-log draft. Live version/publication checks still read the
+// repository CHANGELOG; preRetirementSource keeps every supplied drift guard.
+export function archivedRetirementChangelog(source=retirementSources.beforeSources['CHANGELOG.md']){
+ assert.equal(typeof source,'string','archived retirement CHANGELOG exists');
+ const normalized=source.replaceAll('\r\n','\n');
+ assert.equal(digest(normalized),'c906c8ea3cad9b9c282d89c332cbedab3cdee4279220547b5abea800456e57a5',
+  'unreviewed archived retirement source drift: CHANGELOG.md');
+ return normalized;
+}
+
 // Test-only historical replay. Deleted controls never return to the live build.
 // Complete identities are checked before projection; this is not a wildcard
 // that can hide future changes in the old source or current interaction guards.

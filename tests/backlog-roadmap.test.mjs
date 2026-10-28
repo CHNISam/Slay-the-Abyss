@@ -203,15 +203,26 @@ test('the existing CLI fails on a missing priority and an overcrowded High queue
   assert.match(result.stderr, /6.*超过5项/);
 });
 
-test('both M3 and M4 retain the full approved scope, independently of their stored IDs', () => {
-  const valid = ['M3｜四职业及第一至隐藏第四幕内容齐备与通关验收', 'M4｜全职业与全章节正式作品品质'];
+test('M3 and M4 enforce the confirmed two-act competition scope', () => {
+  const valid = ['M3｜四职业第一幕与第二幕核心闭环验收', 'M4｜前两幕首局UI、输入、音画与性能'];
   assert.deepEqual(auditMilestoneScope(valid), []);
-  for (const stale of ['M3｜第一幕首发内容齐备', 'M3｜四职业第一幕内容齐备', 'M3｜四幕内容齐备']) {
-    assert.match(auditMilestoneScope([stale, valid[1]]).join('\n'), /M3.*范围/);
+  for (const stale of ['M3｜第一幕首发内容齐备', 'M3｜四职业第一幕核心闭环验收',
+    'M3｜第一幕与第二幕核心闭环验收', 'M3｜四职业第一幕与第二幕内容齐备',
+    'M3｜四职业及第一至隐藏第四幕内容齐备与通关验收', `${valid[0]}与第三幕`, `${valid[0]}与隐藏第四幕`]) {
+    assert.match(auditMilestoneScope([stale, valid[1]]).join('\n'), /M3.*范围/, stale);
   }
-  assert.match(auditMilestoneScope([valid[0], 'M4｜第一幕正式作品品质']).join('\n'), /M4.*范围/);
-  assert.match(auditMilestoneScope([valid[0]]).join('\n'), /M4.*范围/);
-  assert.match(auditMilestoneScope([...valid, valid[0]]).join('\n'), /M3.*范围/);
+  for (const stale of ['M4｜第一幕首局UI、输入、音画与性能', 'M4｜全职业与全章节正式作品品质',
+    `${valid[1]}与第三幕`, `${valid[1]}与第四幕`]) {
+    assert.match(auditMilestoneScope([valid[0], stale]).join('\n'), /M4.*范围/, stale);
+  }
+  for (const part of ['前两幕', '首局', 'UI', '输入', '音画', '性能']) {
+    assert.match(auditMilestoneScope([valid[0], valid[1].replace(part, '')]).join('\n'), /M4.*范围/, part);
+  }
+  for (const index of [0, 1]) {
+    const stage = index === 0 ? /M3.*范围/ : /M4.*范围/;
+    assert.match(auditMilestoneScope(valid.filter((_, i) => i !== index)).join('\n'), stage);
+    assert.match(auditMilestoneScope([...valid, valid[index]]).join('\n'), stage);
+  }
 });
 
 test('unfinished optional work needs an owner; historical Done records do not', () => {
