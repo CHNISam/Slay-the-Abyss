@@ -5,7 +5,7 @@ local Theme = require("abyss_theme")
 local Controller = require("abyss_controller")
 local M = {}
 local L = Theme.layout
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, _ownership, host, dependencies)
     local function statusActorAt(slot)
         local battle=owner.run and owner.run.combat
@@ -116,14 +116,13 @@ function M.install(owner, _ownership, host, dependencies)
             for slot=1,L.statusIcon.perRow*L.statusIcon.rows do
                 local position=slot
                 bindHelp(dependencies.child(name):GetChild("statusRow"):GetChild("hit"..slot),function()
-                    local battle,index,actor=statusActorAt(screenSlot)
+                    local _,index,actor=statusActorAt(screenSlot)
                     if not Actors.isPresent(actor)then return end
                     local entries=Combat.statusView(actor)
-                    local width=index==0 and L.hpBar.size[1] or select(2,dependencies.enemyPosition(battle,index))
-                    local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))
+                    local perRow=L.statusIcon.perRow
                     local slots=perRow*L.statusIcon.rows
                     if not entries[position] then return end
-                    local overflow=position==slots and #entries>slots
+                    local overflow=position==slots and #entries>=slots
                     return {index=index,screenSlot=screenSlot>0 and screenSlot or nil,statusId=not overflow and entries[position].id or nil,
                         offset=overflow and position or nil}
                 end,true)
@@ -139,6 +138,8 @@ function M.install(owner, _ownership, host, dependencies)
             bindHelp(dependencies.child("potion"..slot),function() return owner:potionHelpSpec(index) end,false)
         end
     end
-    return {statusActorAt=statusActorAt, bindDetailControls=bindDetailControls}
+    return {
+        statusActorAt=statusActorAt, bindDetailControls=bindDetailControls
+    }
 end
 return M

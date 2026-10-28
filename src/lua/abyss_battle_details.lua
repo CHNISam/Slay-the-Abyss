@@ -4,17 +4,24 @@ local Actors = require("abyss_actor")
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local M = {}
-local C = Theme.color
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+local C, L = Theme.color, Theme.layout
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     local closeInfo
+    local function endTurnFace(part,state)
+        local fill=state=='disabled' and C.panelSunken or L.endTurn.faceColour
+        for _,name in ipairs({'plate','plateLeft','plateRight'})do dependencies.tint(part:GetChild(name),fill)end
+        dependencies.ink(part:GetChild('label'),state=='disabled' and C.textMuted or L.endTurn.textColour)
+    end
     local function button(name, enabled, primary, caption)
         local box = dependencies.child(name)
         box.interactable,box.raycastTarget = enabled == true,enabled == true
         for _, state in ipairs({"normal", "hover", "pressed", "disabled"}) do
             local part = box:GetChild(state)
             if caption then part:GetChild("label").text = caption end
-            if state == "normal" or state == "hover" then
+            if name=='endTurn' then
+                endTurnFace(part,state)
+            elseif state == "normal" or state == "hover" then
                 dependencies.tint(part:GetChild("plate"), primary and (state == "hover" and C.goldBright or C.geo) or C.panelRaised)
                 dependencies.ink(part:GetChild("label"), primary and C.textOnLight or C.goldBright)
             end
@@ -41,6 +48,7 @@ function M.install(owner, ownership, host, dependencies)
         return host.infoContent(owner.data, owner.presentation, battle, info, actor)
     end
     closeInfo = function()
+        if host.potionPopup and host.potionPopup:close() then return true end
         if not owner.info then return false end
         owner.info = nil
         dependencies.child("statusInfo"):SetVisible(false)
@@ -94,6 +102,8 @@ function M.install(owner, ownership, host, dependencies)
         if not run or run.phase ~= "combat" or not run.potions[slot] or slot>Run.potionCapacity(run) then return end
         return {kind="potion",index=0,slot=slot,potionId=run.potions[slot],inventory=run.potions}
     end
-    return {button=button, describeInfo=describeInfo, closeInfo=closeInfo}
+    return {
+        button=button, describeInfo=describeInfo, closeInfo=closeInfo, endTurnFace=endTurnFace
+    }
 end
 return M

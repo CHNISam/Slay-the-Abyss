@@ -7,7 +7,7 @@ local RewardOwner = require("abyss_battle_reward_owner")
 local Controller = require("abyss_controller")
 local M = {}
 local L = Theme.layout
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     local function cardToken(slot, input, event)
         local run, battle = owner.run, owner.run.combat
@@ -77,6 +77,8 @@ function M.install(owner, ownership, host, dependencies)
             hit:AddCursorEventListener(host.cursor.CursorEndDrag,function(event) dependencies.release(event,nil,true) end)
         end
     end
-    return {cardToken=cardToken, beginCardDrag=beginCardDrag, bindCardControls=bindCardControls}
+    return {
+        cardToken=cardToken, beginCardDrag=beginCardDrag, bindCardControls=bindCardControls
+    }
 end
 return M

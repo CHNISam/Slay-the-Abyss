@@ -1,3 +1,4 @@
+import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
 import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -26,6 +27,7 @@ function preBoundedPotionFailuresSource(path,source){
 // One additional test-only layer, never a replacement for PR302's frozen 26
 // sources or the original 79543/79757/81392 write proofs and runner budgets.
 export function preApprovedUiSource(path,source){
+ source=preBattleRefactorLayer(path,source);
  source=preBoundedPotionFailuresSource(path,source);
  source=preIntegratedNodeUiSource(path,source);
  const binding=approvedUi.files[path];

@@ -4,6 +4,7 @@ local RewardLayout=require('abyss_battle_reward_layout')
 local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local PotionView = require("abyss_battle_potion_view")
+local UnitView = require("abyss_battle_unit_view")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local stanceNames={Neutral="无姿态",Calm="平静",Wrath="愤怒",Divinity="神格"}
@@ -14,7 +15,7 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, _ownership, host, dependencies)
     local R = L.rewardPick
     local function renderStartControls(frame)
@@ -155,11 +156,15 @@ function M.install(owner, _ownership, host, dependencies)
     local function renderEnergy(frame)
         local battle = frame.battle
         dependencies.label("exhaust", battle and tostring(#battle.exhaust) or "0")
-        dependencies.label("energy", number(battle and battle.energy or 0) .. "/" .. number(owner.data.rules.player.energyPerTurn))
+        local value = number(battle and battle.energy or 0) .. "/" .. number(owner.data.rules.player.energyPerTurn)
+        dependencies.label("energy", value)
         local charged = battle and battle.energy > 0
-        dependencies.tint(dependencies.child("energyDisc"), charged and C.energy or C.energyEmpty)
-        dependencies.tint(dependencies.child("energyIcon"):GetChild('core'), charged and C.geoDeep or C.energyEmpty)
-        dependencies.ink(dependencies.child("energy"), charged and C.textOnLight or C.text)
+        local icon = dependencies.child("energyIcon")
+        icon:GetChild("valueShadow").text = value
+        dependencies.tint(icon:GetChild("face"), charged and L.energy.faceColour or C.energyEmpty)
+        icon:GetChild("light"):SetVisible(charged == true)
+        dependencies.tint(icon:GetChild("core"), charged and L.energy.elementColour or C.energyEmpty)
+        dependencies.ink(dependencies.child("energy"), L.energy.numberColour)
     end
     local function renderPilesAndTurn(frame)
         local battle = frame.battle
@@ -171,7 +176,12 @@ function M.install(owner, _ownership, host, dependencies)
             hit.raycastTarget=host.options.onPile~=nil and frame.active==true
         end
         dependencies.label("statuses", frame.fighting and battle.phase ~= "player" and not owner.busy and "敌方回合" or "")
-        if frame.fighting then host.unit(dependencies.child("hero"), frame.player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end
+        if frame.fighting then
+            local hero=dependencies.child("hero")
+            local lift=UnitView.noticeLift(frame.player,L.player.portrait,L.player.position[2],true)
+            hero:SetAnchoredPosition(L.player.position[1],L.player.position[2]+lift)
+            host.unit(hero,frame.player,L.player.portrait,Theme.icon.player,L.battleUnit.nameWidth,false)
+        end
     end
     local function renderResult(frame)
         local run = frame.run

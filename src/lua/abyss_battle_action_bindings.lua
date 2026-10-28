@@ -10,7 +10,7 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     local D = L.cardDrag
     local function listen(control, fn, input)
@@ -111,6 +111,8 @@ function M.install(owner, ownership, host, dependencies)
             end
         end
     end
-    return {listen=listen, actionToken=actionToken, fieldReleaseValid=fieldReleaseValid, bind=bind}
+    return {
+        listen=listen, actionToken=actionToken, fieldReleaseValid=fieldReleaseValid, bind=bind
+    }
 end
 return M

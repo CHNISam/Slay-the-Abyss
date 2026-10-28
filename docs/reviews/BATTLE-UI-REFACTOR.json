@@ -272,5 +272,297 @@
     "classChoiceTestsPassed": 10,
     "classChoiceOriginalDeadlineMs": 30000,
     "battleProductionSourceUnchanged": true
+  },
+  "latestApprovedIntegration": {
+    "approvedUiBase": "48cb48ce",
+    "metrics": {
+      "mainLines": 289,
+      "constructorLines": 234,
+      "maxFunctionLines": 254,
+      "maxFunctionFile": "src/lua/abyss_battle_actions.lua"
+    },
+    "sourceHashes": {
+      "src/lua/abyss_battle_ui.lua": "086049659d7bb15de9d70f16c6cdb50a3eb47703c561fda2ca90dfbbf0ffa3fb",
+      "src/lua/abyss_battle_actions.lua": "48e7654f34f97049c4c15f47febdfac3db55743b694106bc926757ac27d644b8",
+      "src/lua/abyss_battle_action_bindings.lua": "e08b4ef9f4cde860e24e388711e5ba318a9a523543511faaa882f26e1e7b0a45",
+      "src/lua/abyss_battle_card_bindings.lua": "0c370951117718e9f2c7247cc6ff4db7836e019d6c59a097e3b9ea9e632cbf8b",
+      "src/lua/abyss_battle_card_gestures.lua": "26143b192d190ee3872b5eea83a04211089af4c096ebadc538aa4db5cd2e08fe",
+      "src/lua/abyss_battle_card_layout.lua": "c0f1fb45db4a653514943b3ea3259e170ba6f7ac0083f990d2f27b4daa9ee198",
+      "src/lua/abyss_battle_details.lua": "35739bcb9422e6682b7fe25cfdb5677d9bf364a0117229b2ef4139b9fb83cca9",
+      "src/lua/abyss_battle_detail_bindings.lua": "7660355953a6ff0fc56cc324d4a5ec37ca1c03ce5acdbccdb6bc7c9497a8eb6e",
+      "src/lua/abyss_battle_input_state.lua": "2789456a014d8ebc03e4144ac29df48582e13f02d65587e8b3c2332176c73765",
+      "src/lua/abyss_battle_potion_bindings.lua": "a723314b817660c5bec32782ac95f1895b4faadb056c40dcafa42bf4e183ddd5",
+      "src/lua/abyss_battle_render.lua": "6ab3653f406287abd50cfd6773410fff2c9a64b238810390ee3fce509881daba",
+      "src/lua/abyss_battle_render_actors.lua": "6362862ecc934a8e784ac39cc407a725a59d98db020769fa1c8c6539d6ec90fc",
+      "src/lua/abyss_battle_render_hud.lua": "cb790ad798220457389d127bab3af3b0e25c464ae96a7b8e77c5f0f1372c3107",
+      "src/lua/abyss_battle_render_state.lua": "be02bc661409f5153a88331b5cdaed80efcb6e9c65e68ba3181727e339b1c98f",
+      "src/lua/abyss_battle_targeting.lua": "1348838483f45c4bf1465773e6a14efaab5c3a2ac552d0e8157d6003621f91a4",
+      "src/lua/abyss_battle_target_bindings.lua": "8103fc82b9ed53585357518aa6728ce628cc8673bd18f4f1770d757d18f53a98"
+    },
+    "nativeComparison": {
+      "base": "48cb48ce",
+      "scenes": [
+        "intents",
+        "intent-compound",
+        "hero-status",
+        "intent-attack",
+        "crowded-row",
+        "crowded-page1",
+        "crowded-page2",
+        "long-text",
+        "intent-steal",
+        "card-keyword",
+        "value-neutral",
+        "value-frail",
+        "value-dexterity",
+        "value-weak",
+        "value-mixed",
+        "value-aim",
+        "value-cancel",
+        "value-ten",
+        "value-ten-selected",
+        "potion-idle",
+        "potion-aim",
+        "potion-help"
+      ],
+      "equal": true
+    },
+    "inputInitial": [
+      {
+        "file": "battle_ui.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui.lua, 60000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nok UI 1 - Dazed uses existing status art disabled theme blank cost and cannot command play\nABYSS_UI combat_started\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nok UI 2 - menu starts a real battle with shared-theme cards, energy and current intents\nok UI 3 - Jaw Worm real encounter presents combined Thrash and Bellow effects without changing rules\nABYSS_UI combat_started\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK block_reset source=- target=player amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nok UI 4 - selection never spends energy; target click or explicit battlefield click issues one real command\nABYSS_UI combat_started\nok UI 5 - pending attack highlights valid live enemies and changing selection does not play\nABYSS_UI combat_started\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nok UI 6 - enemy intent click never confirms a selected non-target card\nABYSS_UI combat_started\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=1\nABYSS_FEEDBACK death source=- target=cultist_1 amount=0\nABYSS_FEEDBACK victory source=- target=- amount=0\nok UI 7 - reward HUD shows committed relic healing and clears battle-only counters\nABYSS_UI combat_started\nok UI 8 - enemy phase and command lock block card and end-turn input\nok UI 9 - resize scales the whole stage uniformly and covers wide-screen side bars\nABYSS_UI combat_started\nok UI 10 - runtime ten-card poses keep complete rotated and selected hit regions inside the phone safe area\nABYSS_UI combat_started\nABYSS_FEEDBACK play source=- target=5 amount=0\nABYSS_FEEDBACK damage source=player target=sentry_5 amount=6\nok UI 11 - five enemies retain separate touch targets and a boss uses the approved larger portrait\nABYSS_UI combat_started\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK block_reset source=- target=player amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=1\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=8\nABYSS_FEEDBACK status source=player target=cultist_1 amount=2\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=4\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=9\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=2\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=5\nABYSS_FEEDBACK death source=- target=cultist_1 amount=0\nABYSS_FEEDBACK victory source=- target=- amount=0\nok UI 12 - real victory displays feedback and claims a reward into the next battle deck\nABYSS_UI combat_started\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=6\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=9\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=12\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=15\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=18\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=20\nABYSS_FEEDBACK defeat source=- target=- amount=0\nABYSS_UI combat_started\nok UI 13 - real defeat shows danger feedback and restart creates a fresh run\nABYSS_UI combat_started\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=9\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=-1\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nok UI 14 - intent previews use core modifiers without changing combat state or consuming effects\nABYSS_UI combat_started\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nok UI 15 - exact actor HP and block remain readable native text after rendering and enemy actions\nok UI 16 - block chip sits beside the HP bar with dark digits on solid blue, even in a five-enemy row\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=20\nABYSS_FEEDBACK potion source=- target=1 amount=0\nABYSS_FEEDBACK potion source=- target=- amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=20\nABYSS_FEEDBACK potion source=- target=1 amount=0\nok UI 17 - potion slots stay fixed after consumption and repeated queued clicks cannot consume the next bottle\nABYSS_FEEDBACK potion source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=12\nABYSS_FEEDBACK potion source=- target=- amount=0\nok UI 18 - refilling a middle potion slot refreshes only its physical button\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=20\nABYSS_FEEDBACK death source=- target=cultist_1 amount=0\nABYSS_FEEDBACK potion source=- target=1 amount=0\nABYSS_FEEDBACK victory source=- target=- amount=0\nok UI 19 - potion victory commits rewards and relic healing then hides combat potion input\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=6\nABYSS_FEEDBACK potion source=- target=- amount=0\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK damage source=player target=cultist_1 amount=1\nABYSS_FEEDBACK death source=- target=cultist_1 amount=0\nABYSS_FEEDBACK potion source=- target=1 amount=0\nABYSS_FEEDBACK victory source=- target=- amount=0\nok UI 20 - embedded battle uses host controls and scaling and reports each successful command once\nABYSS_UI combat_started\nok UI 21 - inactive battle rejects stale card enemy potion end-turn reward and menu callbacks\nABYSS_FEEDBACK potion source=- target=- amount=0\nABYSS_FEEDBACK potion source=- target=- amount=0\nok UI 22 - host run replacement clears selected UID target and consumed potion mapping before restart\nABYSS_UI combat_started\nok UI 23 - runtime potion touch regions clear boss and five-enemy portraits intents and notice"
+      },
+      {
+        "file": "battle_ui_action_compatibility.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui_action_compatibility.lua, 30000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS fresh paired end turn executes once\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK orb_end_turn source=- target=- amount=0\nPASS no-pointer host keeps click-only end turn\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nPASS pointer-capable host keeps click-only actions after real card pointers\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK potion source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nPASS pointer-capable host keeps click-only actions after real potion pointers\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=6\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS metadata-free Down Up Click and same-ID reuse stay valid\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS harmless redraws retain held and released action identity\n"
+      },
+      {
+        "file": "battle_ui_action_gestures.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui_action_gestures.lua, 30000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS end turn cannot survive a real deck modal round trip\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS older end turn pointer cannot skip a newer player turn\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nPASS real card playback cancels an older action pointer\nABYSS_RUN seed=1 source=explicit\nPASS resize cancels the held action even after unrelated target Down\nABYSS_RUN seed=1 source=explicit\nPASS actions remain rejected while the deck is open\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nPASS actions remain rejected during real playback\nABYSS_RUN seed=1 source=explicit\n"
+      },
+      {
+        "file": "battle_ui_action_ownership.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui_action_ownership.lua, 30000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS Down alone cannot authorize an action before its matching Up\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS foreign or missing Click cannot consume the matching released action\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK damage source=cultist_1 target=player amount=6\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS consumed action cannot replay in a later turn\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS old pointer cannot release or cancel a newer action pointer\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS EndDrag cancels both held and released actions\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS modal and resize between Up and Click invalidate permission\nABYSS_RUN seed=1 source=explicit\n"
+      },
+      {
+        "file": "battle_ui_action_standalone.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_card_play.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_card_play_slice_2.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_card_play_slice_3.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_click_ownership.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_drag_source.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui_drag_source.lua, 30000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nABYSS_RUN seed=1 source=explicit\nPASS cancelled card1 Drag cannot change card2 preview or reticle with reused touch\nABYSS_RUN seed=1 source=explicit\nPASS foreign card Drag cannot start a stationary current gesture\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=1 amount=0\nPASS release recomputes legitimate target and consumes only once\nABYSS_RUN seed=1 source=explicit\nPASS coordinate-less release still cancels after stale source traffic\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=2 amount=0\nPASS own card and drag layer keep normal target-sensitive preview isolated by UID\nABYSS_RUN seed=1 source=explicit\nPASS hand reorder rejects stale UID before moving or rendering another card\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS old battle and turn are rejected before gesture coordinates mutate\nABYSS_RUN seed=1 source=explicit\nPASS wrong touch cannot move current drag and cancellation permits a fresh same-card drag\n"
+      },
+      {
+        "file": "battle_ui_gestures.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui_gestures.lua, 30000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nPASS control: resize cancelled touch remains inert with no interleaving input\nABYSS_RUN seed=1 source=explicit\nPASS resize: unrelated target Down cannot revive cancelled card click\nABYSS_RUN seed=1 source=explicit\nPASS resize: cancelled old click cannot confirm a fresh touch selection\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=cultist_1 target=- amount=0\nABYSS_FEEDBACK status source=cultist_1 target=cultist_1 amount=3\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS resize and real turn: old touch cannot confirm different hand-slot UID\nABYSS_RUN seed=1 source=explicit\nPASS deck: closing overlay cannot revive old held card click\nABYSS_RUN seed=1 source=explicit\nPASS deck: cancelled old click cannot confirm fresh touch selection\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=2 amount=0\nPASS target death: held attack never redirects to surviving enemy\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nPASS moving resize cancellation remains inert for Up and EndDrag after other pointer Down\nABYSS_RUN seed=1 source=explicit\nPASS moving deck interruption leaves both release and late Click inert\n"
+      },
+      {
+        "file": "battle_ui_potion_compatibility.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui_potion_compatibility.lua, 30000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK potion source=- target=- amount=0\nPASS fresh paired potion Down Up Click consumes exactly once\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK potion source=- target=- amount=0\nPASS callback-only host remains compatible\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nABYSS_FEEDBACK potion source=- target=- amount=0\nPASS click-only potion remains compatible after real paired card input\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK potion source=- target=- amount=0\nPASS fresh paired potion after deck close remains valid\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nPASS stale callback during card animation remains rejected\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK potion source=- target=- amount=0\nPASS metadata-free Down Up Click and same-ID fresh gesture survive resize\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK potion source=- target=- amount=0\nPASS host with no pointer enums retains click-only potions\nABYSS_RUN seed=1 source=explicit\n"
+      },
+      {
+        "file": "battle_ui_potion_gestures.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_independence.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_ownership.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_rewards.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_targeting.lua",
+        "status": 1,
+        "error": "Lua runner failed (tests/lua/battle_ui_potion_targeting.lua, 30000 ms): spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT\n--- Lua stdout ---\nPASS bottle-first Click does not select the default enemy or consume\nABYSS_FEEDBACK damage source=player target=acid_slime_m_2 amount=20\nABYSS_FEEDBACK potion source=- target=2 amount=0\nPASS second explicit enemy alone confirms bottle and never fires selected card\nABYSS_FEEDBACK damage source=player target=spike_slime_s_1 amount=11\nABYSS_FEEDBACK death source=- target=spike_slime_s_1 amount=0\nABYSS_FEEDBACK potion source=- target=1 amount=0\nPASS prior enemy selection still needs a new explicit target after bottle\nPASS fresh second bottle click cancels without consumption\n"
+      },
+      {
+        "file": "battle_ui_potion_target_context.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_context_slice_2.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_failures.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_failures_slice_2.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_inventory.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_inventory_slice_2.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_pointers.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_pointers_slice_2.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_pointers_slice_3.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_pointers_slice_4.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_potion_target_stale.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_slice_2.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_slice_3.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_slice_4.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_slice_5.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_slice_6.lua",
+        "status": 0
+      },
+      {
+        "file": "battle_ui_slice_7.lua",
+        "status": 0
+      },
+      {
+        "file": "card_input_port.lua",
+        "status": 0
+      },
+      {
+        "file": "card_input_port_slice_2.lua",
+        "status": 0
+      },
+      {
+        "file": "card_input_port_slice_3.lua",
+        "status": 0
+      },
+      {
+        "file": "controller.lua",
+        "status": 0
+      },
+      {
+        "file": "controller_current.lua",
+        "status": 0
+      },
+      {
+        "file": "controller_host.lua",
+        "status": 0
+      },
+      {
+        "file": "controller_rooms.lua",
+        "status": 0
+      },
+      {
+        "file": "game_ui_class_choices.lua",
+        "status": 0
+      },
+      {
+        "file": "game_ui_class_choices_slice_2.lua",
+        "status": 0
+      }
+    ],
+    "inputRetry": [
+      {
+        "file": "battle_ui.lua",
+        "status": 0,
+        "durationMs": 33776
+      },
+      {
+        "file": "battle_ui_action_compatibility.lua",
+        "status": 0,
+        "durationMs": 19351
+      },
+      {
+        "file": "battle_ui_action_gestures.lua",
+        "status": 0,
+        "durationMs": 18976
+      },
+      {
+        "file": "battle_ui_action_ownership.lua",
+        "status": 0,
+        "durationMs": 22997
+      },
+      {
+        "file": "battle_ui_drag_source.lua",
+        "status": 0,
+        "durationMs": 21953
+      },
+      {
+        "file": "battle_ui_gestures.lua",
+        "status": 0,
+        "durationMs": 19755
+      },
+      {
+        "file": "battle_ui_potion_compatibility.lua",
+        "status": 0,
+        "durationMs": 28353
+      },
+      {
+        "file": "battle_ui_potion_targeting.lua",
+        "status": 0,
+        "durationMs": 26249
+      }
+    ],
+    "engineering": {
+      "passed": true,
+      "historicalWarnings": 37,
+      "newWarnings": 0,
+      "mutantsKilled": 4
+    },
+    "combinedContracts": {
+      "passed": 38,
+      "failed": 1,
+      "failure": "Windows EPERM creating symlink in existing native-card-art-binding test; Linux CI required"
+    },
+    "immutableOriginalFixtures": true,
+    "liveClientTested": false
   }
 }

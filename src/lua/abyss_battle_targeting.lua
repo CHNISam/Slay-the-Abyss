@@ -6,7 +6,7 @@ local CardInput = require("abyss_card_input")
 local EnemyView = require('abyss_battle_enemy_view')
 local M = {}
 local L = Theme.layout
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, _ownership, _host, dependencies)
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
@@ -34,10 +34,10 @@ function M.install(owner, _ownership, _host, dependencies)
         local count = #rows
         for i, entry in ipairs(rows) do
             local enemy = entry.actor
-            local x, _, portrait, step = enemySlot(count,i,enemy)
+            local x, _, portrait, step, y = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
             if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
-                and math.abs(g.y-EnemyView.rowY(count,i)) <= portrait/2+D.reticlePad
+                and math.abs(g.y-y) <= portrait/2+D.reticlePad
                 and Actors.isActive(enemy) then
                 hovered = entry.index; break
             end
@@ -47,6 +47,8 @@ function M.install(owner, _ownership, _host, dependencies)
         if ok then return g.dropZone, nil end
         return g.aiming and hovered ~= nil and Combat.canPlay(battle,g.uid,hovered) or false, hovered, g.aiming
     end
-    return {enemySlot=enemySlot, enemyPosition=enemyPosition, dragPose=dragPose, inPlayArea=inPlayArea, dragTarget=dragTarget}
+    return {
+        enemySlot=enemySlot, enemyPosition=enemyPosition, dragPose=dragPose, inPlayArea=inPlayArea, dragTarget=dragTarget
+    }
 end
 return M

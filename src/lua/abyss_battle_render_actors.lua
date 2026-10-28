@@ -17,7 +17,7 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     local function pendingCardTarget(frame)
         if not frame.fighting or not owner.selected then return false end
@@ -48,10 +48,10 @@ function M.install(owner, ownership, host, dependencies)
         end
         return face
     end
-    local function renderEnemyIntent(box, face, portrait, enemyY)
+    local function renderEnemyIntent(box, face, portrait)
         local icons = IntentView.icons(face)
-        local size, line, ceiling = L.intent.size, L.nativeText.lineHeight, L.battleNotice.position[2] - L.battleNotice.size[2] / 2
-        local iconY = math.min(ceiling - enemyY - size / 2, math.max(L.intent.offsetY, portrait / 2 + S.xs + line / 2 + size / 2))
+        local size = L.intent.size
+        local iconY = portrait / 2 + L.intent.portraitGap + size / 2
         local pitch = size * 1.5
         for i, name in ipairs({'intentIcon','intentBadge','intentExtra'}) do
             local control, kind = box:GetChild(name), icons[i]
@@ -65,15 +65,26 @@ function M.install(owner, ownership, host, dependencies)
         end
         local attackLabel = box:GetChild('intent')
         attackLabel.text = face.value or ''
-        attackLabel:SetVisible(icons[1] == 'attack' and attackLabel.text ~= '')
-        attackLabel:SetAnchoredPosition((1 - (#icons + 1) / 2) * pitch + (L.intent.valueWidth - size) / 2,
-            iconY - size / 2)
+        local attack=icons[1]=='attack' and attackLabel.text~=''
+        attackLabel:SetVisible(attack)
+        local glyphWidth=utf8.len(attackLabel.text)*L.intent.numberSize
+        local textWidth=math.max(L.intent.valueWidth,glyphWidth)
+        local left=(1-(#icons+1)/2)*pitch-size/2-S.xs
+        local valueY=iconY-size/2+L.intent.numberSize/2-L.statusIcon.gap
+        attackLabel:SetAnchoredPosition(left+textWidth/2,valueY)
+        attackLabel:SetSizeDelta(textWidth,L.nativeText.lineHeight)
         dependencies.ink(attackLabel, C.text)
         box:GetChild('intentLabel'):SetVisible(false)
-        local hitSpan = #icons * pitch - size / 2
-        local hitWidth = math.max(hitSpan, L.intent.valueWidth)
-        box:GetChild('intentHit'):SetAnchoredPosition((hitWidth - hitSpan) / 2, iconY - line / 4)
-        box:GetChild('intentHit'):SetSizeDelta(hitWidth, size + line / 2)
+        local span=#icons*pitch-size/2
+        local x0,x1=-span/2,span/2
+        local y0,y1=iconY-size/2,iconY+size/2
+        if attack then
+            x0,x1=math.min(x0,left),math.max(x1,left+glyphWidth)
+            y0=math.min(y0,valueY-L.intent.numberSize/2)
+        end
+        local width,height=math.max(L.statusIcon.minimumTouch,x1-x0),math.max(L.statusIcon.minimumTouch,y1-y0)
+        box:GetChild('intentHit'):SetAnchoredPosition((x0+x1)/2,(y0+y1)/2)
+        box:GetChild('intentHit'):SetSizeDelta(width,height)
     end
     local function enemyAimProjection(frame)
         local aimed = owner.gesture or owner.carry
@@ -95,17 +106,17 @@ function M.install(owner, ownership, host, dependencies)
     end
     local function renderEnemySlot(frame, box, entry, slot, count, aim)
         local enemy = entry.actor
-        local x, width, portrait = dependencies.enemySlot(count, slot, enemy)
-        box:SetAnchoredPosition(x, EnemyView.rowY(count, slot))
+        local x, width, portrait, step, y = dependencies.enemySlot(count, slot, enemy)
+        box:SetAnchoredPosition(x, y)
         local selected = enemyHighlighted(frame, enemy, entry.index, aim.pendingTarget)
         local loss = aim.losses and aim.losses[entry.index]
         if aim.valid and not aim.target and loss and loss.loss > 0 then selected = true end
-        host.unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected)
+        host.unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected,step)
         local dim = (aim.pendingTarget or owner.potionAim ~= nil) and not selected
         local portraitTone = C.text
         dependencies.tint(box:GetChild('portrait'), { r = portraitTone.r, g = portraitTone.g, b = portraitTone.b, a = dim and 102 or 255 })
         renderDamagePreview(box, enemy, portrait, width, loss)
-        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait, EnemyView.rowY(count, slot))
+        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
     end
     local function renderEnemies(frame)
         local rows = frame.fighting and EnemyView.slots(frame.battle, owner.busy and owner.feedback or nil) or {}
@@ -149,6 +160,28 @@ function M.install(owner, ownership, host, dependencies)
         if item and item.id ~= binding.id then return nil end
         return item
     end
+    local function potionSelected(slot)
+        return owner.potionMenu and owner.potionMenu.slot==slot
+            or owner.potionAim and owner.potionAim.slot==slot
+    end
+    local function paintPotionShell(slot,item)
+        local selected=item~=nil and potionSelected(slot)==true
+        local tones=C.potionShell
+        for _,state in ipairs({'normal','hover','pressed','disabled'})do
+            local face=dependencies.child('potion'..slot):GetChild(state)
+            face:GetChild('emptyShell'):SetVisible(item==nil)
+            face:GetChild('filledShell'):SetVisible(item~=nil and item.id~='fire_potion')
+            face:GetChild('fireShell'):SetVisible(item~=nil and item.id=='fire_potion')
+            face:GetChild('selectedShell'):SetVisible(selected)
+            dependencies.tint(face:GetChild('filledShell'):GetChild('rim'),selected and tones.selected.border or tones.normal.border)
+            dependencies.tint(face:GetChild('fireShell'):GetChild('rim'),selected and tones.selected.border or tones.fire.border)
+            local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
+            if item then
+                dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
+                dependencies.tint(bottle,item.id=='fire_potion' and tones.fire.ink or tones.normal.ink)
+            end
+        end
+    end
     local function renderPotions(frame)
         -- Fixed physical slots prevent a queued second click moving to another item.
         bindPotionSlots(frame)
@@ -156,21 +189,18 @@ function M.install(owner, ownership, host, dependencies)
             local visible = frame.fighting and i <= frame.potionCapacity
             dependencies.show("potion" .. i, visible)
             local item = boundPotion(frame, i)
-            dependencies.button("potion" .. i, visible and frame.active and item and item.canUse, false,
+            dependencies.button("potion" .. i, visible and frame.active and item ~= nil, false,
                 item and potionText(item, frame.battle) or "空药水槽")
-            dependencies.show("potionHelp" .. i, visible)
+            dependencies.show("potionHelp" .. i, false)
             dependencies.button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "")
-            for _,state in ipairs({'normal','hover','pressed','disabled'}) do
-                local bottle=dependencies.child('potionHelp'..i):GetChild(state):GetChild('bottle')
-                bottle:SetVisible(item~=nil)
-                if item then dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown) end
-            end
+            paintPotionShell(i,item)
         end
     end
     return {
         pendingCardTarget=pendingCardTarget, enemyHighlighted=enemyHighlighted, enemyIntentFace=enemyIntentFace, renderEnemyIntent=renderEnemyIntent, enemyAimProjection=enemyAimProjection,
         renderDamagePreview=renderDamagePreview, enemyPortraitIcon=enemyPortraitIcon, renderEnemySlot=renderEnemySlot, renderEnemies=renderEnemies, renderDetails=renderDetails,
-        renderRewardActions=renderRewardActions, renderContinue=renderContinue, bindPotionSlots=bindPotionSlots, boundPotion=boundPotion, renderPotions=renderPotions
+        renderRewardActions=renderRewardActions, renderContinue=renderContinue, bindPotionSlots=bindPotionSlots, boundPotion=boundPotion, renderPotions=renderPotions,
+        potionSelected=potionSelected, paintPotionShell=paintPotionShell
     }
 end
 return M

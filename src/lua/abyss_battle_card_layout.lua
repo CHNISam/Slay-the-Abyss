@@ -3,7 +3,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local M = {}
 local L = Theme.layout
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, _ownership, _host, _dependencies)
     local R = L.rewardPick
     local function placeHandHit(box, w, h, restAngle, baseY, y, scale)
@@ -72,6 +72,8 @@ function M.install(owner, _ownership, _host, _dependencies)
         self.handHover = hand and {run=run,battle=run.combat,turn=run.combat.turn,slot=slot,uid=hand.uid}
         self:render(true)
     end
-    return {placeHandHit=placeHandHit, placeCard=placeCard, rewardTarget=rewardTarget, placeReward=placeReward, canHover=canHover}
+    return {
+        placeHandHit=placeHandHit, placeCard=placeCard, rewardTarget=rewardTarget, placeReward=placeReward, canHover=canHover
+    }
 end
 return M

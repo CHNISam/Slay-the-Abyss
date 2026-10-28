@@ -3,7 +3,7 @@ local Theme = require("abyss_theme")
 local CardInput = require("abyss_card_input")
 local M = {}
 local L = Theme.layout
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     local updateCarry
     local function point(event)
@@ -143,7 +143,7 @@ function M.install(owner, ownership, host, dependencies)
         for _,input in ipairs(ownership.enemyInputs)do input.held,input.released=nil,nil end
     end
     local function controllerReady()
-        return owner.active and not owner.busy and not owner.gesture and owner.run
+        return owner.active and not owner.busy and not owner.gesture and not owner.potionMenu and owner.run
             and (owner.run.phase=="reward" or owner.run.phase=="combat" and owner.run.combat.phase=="player")
     end
     function owner.controllerBack(_)

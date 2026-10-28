@@ -6,6 +6,7 @@ local Feedback = require("abyss_feedback")
 local CardView = require("abyss_battle_card_view")
 local StatusView = require("abyss_battle_status_view")
 local PotionView = require("abyss_battle_potion_view")
+local PotionPopup = require("abyss_battle_potion_popup")
 local IntentView = require("abyss_battle_intent_view")
 local UnitView = require("abyss_battle_unit_view")
 local InfoContent = require("abyss_battle_info_content")
@@ -35,7 +36,6 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
--- Resolve explicit ports once; callbacks never close over the composition root.
 local function install(services, functions)
     for name, fn in pairs(functions) do services[name] = fn end
 end
@@ -64,48 +64,58 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         "dragReady"
     })))
     install(services, require("abyss_battle_details").install(self, ownership, host, ports(links, {
-        "child", "label", "tint", "ink", "cancelCardInputs", "cancelPotionInputs", "cancelPotionAim", "cancelActionInputs"
+        "tint", "ink", "child", "cancelPotionAim", "cancelCardInputs",
+        "cancelPotionInputs", "cancelActionInputs"
     })))
     install(services, require("abyss_battle_card_layout").install(self, ownership, host, ports(links, {
-        "rewardScreen"
     })))
     install(services, require("abyss_battle_render_state").install(self, ownership, host, ports(links, {
-        "label", "notice", "rewardScreen", "cardReady", "potionReady", "cancelPotionAim", "aimReady", "actionReady", "enemyReady", "canHover"
+        "aimReady", "cancelPotionAim", "cardReady", "potionReady", "actionReady",
+        "enemyReady", "canHover", "rewardScreen", "label"
     })))
     install(services, require("abyss_battle_render_hud").install(self, ownership, host, ports(links, {
-        "child", "show", "label", "tint", "ink", "notice", "button"
+        "show", "button", "child", "label", "tint",
+        "ink"
     })))
     install(services, require("abyss_battle_render_actors").install(self, ownership, host, ports(links, {
-        "child", "show", "tint", "ink", "picture", "enemySlot", "dragTarget", "button"
+        "dragTarget", "picture", "tint", "ink", "enemySlot",
+        "child", "button", "show"
     })))
     install(services, require("abyss_battle_render").install(self, ownership, host, ports(links, {
-        "button", "prepareRenderInputs", "renderFeedbackReady", "syncRenderIdentity", "renderFrame",
-        "syncRewardOwner", "syncRewardEntrance", "prepareRenderPotions", "renderStartControls", "rewardNavigation",
-        "renderRewardRows", "renderRewardButtons", "renderPotionReward", "renderRewardStage", "renderPlayArea",
-        "renderHudVisibility", "renderPlayerTotals", "renderSceneHeading", "renderEnergy", "renderPilesAndTurn",
-        "renderResult", "renderEnemies", "renderDetails", "renderRewardActions", "renderContinue",
+        "prepareRenderInputs", "renderFeedbackReady", "syncRenderIdentity", "renderFrame", "syncRewardOwner",
+        "syncRewardEntrance", "prepareRenderPotions", "renderStartControls", "rewardNavigation", "renderRewardRows",
+        "renderRewardButtons", "renderPotionReward", "renderRewardStage", "renderPlayArea", "renderHudVisibility",
+        "renderPlayerTotals", "renderSceneHeading", "renderEnergy", "renderPilesAndTurn", "renderResult",
+        "renderEnemies", "renderDetails", "button", "renderRewardActions", "renderContinue",
         "renderPotions"
     })))
     install(services, require("abyss_battle_actions").install(self, ownership, host, ports(links, {
-        "notice", "rewardScreen", "cardReady", "cancelCardInputs", "cancelPotionAim", "aimReady", "cancelActionInputs", "sameEnemySlot", "rewardTarget", "updateCarry"
+        "sameEnemySlot", "cardReady", "cancelCardInputs", "rewardTarget", "updateCarry",
+        "aimReady", "cancelPotionAim", "notice", "rewardScreen", "cancelActionInputs"
     })))
     install(services, require("abyss_battle_card_gestures").install(self, ownership, host, ports(links, {
-        "notice", "rewardScreen", "cardReady", "cancelCardInputs", "cancelPotionInputs", "cancelPotionAim", "cancelActionInputs", "dragTarget", "closeInfo", "refresh"
+        "closeInfo", "cardReady", "dragTarget", "notice", "cancelCardInputs",
+        "cancelActionInputs", "cancelPotionInputs", "cancelPotionAim", "refresh", "rewardScreen"
     })))
     install(services, require("abyss_battle_action_bindings").install(self, ownership, host, ports(links, {
-        "child", "cardReady", "actionReady", "inPlayArea", "point", "down", "swallowed", "controllerReady"
+        "swallowed", "cardReady", "down", "point", "inPlayArea",
+        "child", "controllerReady", "actionReady"
     })))
     install(services, require("abyss_battle_potion_bindings").install(self, ownership, host, ports(links, {
-        "child", "potionReady", "down", "swallowed", "controllerReady", "bind"
+        "potionBinding", "cancelPotionAim", "cancelCardInputs", "cancelActionInputs", "refresh",
+        "child", "controllerReady", "swallowed", "potionReady", "down"
     })))
     install(services, require("abyss_battle_card_bindings").install(self, ownership, host, ports(links, {
-        "child", "cancelPotionAim", "point", "retireInterruptedPress", "down", "move", "release", "controllerReady", "listen", "bind"
+        "point", "child", "controllerReady", "listen", "retireInterruptedPress",
+        "down", "cancelPotionAim", "move", "release"
     })))
     install(services, require("abyss_battle_target_bindings").install(self, ownership, host, ports(links, {
-        "child", "notice", "cancelPotionAim", "enemyAt", "sameEnemySlot", "enemyReady", "discardEnemyPointer", "refresh", "down", "swallowed", "controllerReady", "bind"
+        "child", "enemyAt", "controllerReady", "swallowed", "discardEnemyPointer",
+        "enemyReady", "down", "cancelPotionAim", "sameEnemySlot"
     })))
     install(services, require("abyss_battle_detail_bindings").install(self, ownership, host, ports(links, {
-        "child", "enemyAt", "enemyPosition", "closeInfo", "down", "swallowed", "controllerReady", "listen", "bind", "helpActorReady"
+        "enemyAt", "listen", "child", "closeInfo", "controllerReady",
+        "helpActorReady", "swallowed", "down"
     })))
     connect(links, services)
     -- Runtime bindings keep only their own ports, not the construction registry.
@@ -229,6 +239,18 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             services.refresh(ok)
         elseif not host.options.embedded and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) services.refresh(true) end
     end)
+    host.potionPopup=PotionPopup.new(host.stage:GetChild('potionHelp'):GetChild('potionPopup'),self,host.platform,host.clickEvent,{
+        item=function(slot)return Run.potionView(self.run)[slot]end,
+        text=function(item,battle)return potionText(item,battle,true):match("\n(.*)") or ''end,
+        use=function(slot)return self:usePotion(slot)end,
+        discard=function(slot)
+            local ok,reason=Run.discardPotion(self.run,slot)
+            if ok then self.potionSlots[slot]=nil end
+            services.notice(ok and '已丢弃药水。' or reasons[reason] or '当前不能丢弃此药水。')
+            services.refresh();return ok,reason
+        end,
+        changed=function()services.refresh()end,
+    })
     services.bindPotionControls()
     services.bindCardControls()
     services.bindEnemyControls()

@@ -3,14 +3,24 @@ local Theme = require("abyss_theme")
 local Controller = require("abyss_controller")
 local M = {}
 local L = Theme.layout
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
+    function owner.openPotionMenu(_,slot)
+        if not owner.active or owner.busy or owner.gesture or owner.suppressClick or not owner.run
+            or owner.run.phase~="combat" or owner.run.combat.phase~="player" then return false end
+        if not dependencies.potionBinding(slot)then return false end
+        dependencies.cancelPotionAim();dependencies.cancelCardInputs();dependencies.cancelActionInputs()
+        owner.selected,owner.carry,owner.help,owner.info=nil,nil,nil,nil
+        local opened=host.potionPopup:open(slot)
+        if opened then host.stage:GetChild('potionHelp'):SetAsLastSibling();dependencies.refresh()end
+        return opened
+    end
     local function bindPotionControls()
         for i = 1, L.battlePotions.count do
             local slot, control, input = i, dependencies.child("potion" .. i), {}
             ownership.potionInputs[i] = input
             Controller.bind(host.controller,control,"battle",function()
-                owner.suppressClick=false;return owner:usePotion(slot)
+                owner.suppressClick=false;return owner:openPotionMenu(slot)
             end,dependencies.controllerReady,30+slot,"potions")
             control:AddCursorEventListener(host.clickEvent, function(event)
                 if Controller.pointerBlocked(host.controller)then return false end
@@ -22,7 +32,7 @@ function M.install(owner, ownership, host, dependencies)
                     input.released = nil
                     if not dependencies.potionReady(released) then return end
                 end
-                if not owner.suppressClick and not owner.gesture then return owner:usePotion(slot) end
+                if not owner.suppressClick and not owner.gesture then return owner:openPotionMenu(slot) end
             end)
             if owner.dragEnabled then
                 control:AddCursorEventListener(host.cursor.CursorDown, function(event)
@@ -59,6 +69,8 @@ function M.install(owner, ownership, host, dependencies)
             end
         end
     end
-    return {bindPotionControls=bindPotionControls}
+    return {
+        bindPotionControls=bindPotionControls
+    }
 end
 return M

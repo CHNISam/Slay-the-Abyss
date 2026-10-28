@@ -1,16 +1,14 @@
 -- Read state, issue Run commands. No damage/energy/outcome rules live in this view.
 local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
-local IntentView = require("abyss_battle_intent_view")
 local Controller = require("abyss_controller")
 local M = {}
-local intentView = IntentView.intentView
 local function needsTarget(state, instance)
     -- Ask the core to validate the same card with and without a target.
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     local function bindEnemyControls()
         for i = 1, 5 do
@@ -33,8 +31,7 @@ function M.install(owner, ownership, host, dependencies)
                 end
                 if selected and needsTarget(owner.run.combat, selected) then owner:playSelected(target)
                 else
-                    local prefix = owner.potionTargetAvailable and "药水目标：" .. owner.run.combat.enemies[target].name .. "；" or ""
-                    dependencies.notice(prefix .. "意图：" .. intentView(owner.run.combat, target).text) dependencies.refresh()
+                    owner:showStatus(target)
                 end
             end
             end
@@ -107,6 +104,8 @@ function M.install(owner, ownership, host, dependencies)
         return actor==token.actor and Actors.isPresent(token.actor)
             and (not spec.screenSlot or dependencies.sameEnemySlot(spec.screenSlot,token.actor,run.combat))
     end
-    return {bindEnemyControls=bindEnemyControls, helpActorReady=helpActorReady}
+    return {
+        bindEnemyControls=bindEnemyControls, helpActorReady=helpActorReady
+    }
 end
 return M

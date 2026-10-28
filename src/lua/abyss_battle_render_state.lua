@@ -3,7 +3,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local M = {}
 local L = Theme.layout
--- Only this responsibility owns these closures; cross-responsibility calls are explicit ports.
+-- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, _host, dependencies)
     local R = L.rewardPick
     local function pruneInputs(inputs, ready)

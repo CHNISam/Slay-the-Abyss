@@ -1,0 +1,24 @@
+{
+  "approvedBase": "48cb48ce",
+  "approvedSourceSha256": "a1d68a1fcba74fff54fb22cb4641cd400e4c76e2d3a7e22d69e352efeb8e7d91",
+  "sourceReconstruction": "immutable original Battle source plus existing approved UI hunks",
+  "nativeSceneComparison": 22,
+  "modules": {
+    "src/lua/abyss_battle_ui.lua": "086049659d7bb15de9d70f16c6cdb50a3eb47703c561fda2ca90dfbbf0ffa3fb",
+    "src/lua/abyss_battle_actions.lua": "48e7654f34f97049c4c15f47febdfac3db55743b694106bc926757ac27d644b8",
+    "src/lua/abyss_battle_action_bindings.lua": "e08b4ef9f4cde860e24e388711e5ba318a9a523543511faaa882f26e1e7b0a45",
+    "src/lua/abyss_battle_card_bindings.lua": "0c370951117718e9f2c7247cc6ff4db7836e019d6c59a097e3b9ea9e632cbf8b",
+    "src/lua/abyss_battle_card_gestures.lua": "26143b192d190ee3872b5eea83a04211089af4c096ebadc538aa4db5cd2e08fe",
+    "src/lua/abyss_battle_card_layout.lua": "c0f1fb45db4a653514943b3ea3259e170ba6f7ac0083f990d2f27b4daa9ee198",
+    "src/lua/abyss_battle_details.lua": "35739bcb9422e6682b7fe25cfdb5677d9bf364a0117229b2ef4139b9fb83cca9",
+    "src/lua/abyss_battle_detail_bindings.lua": "7660355953a6ff0fc56cc324d4a5ec37ca1c03ce5acdbccdb6bc7c9497a8eb6e",
+    "src/lua/abyss_battle_input_state.lua": "2789456a014d8ebc03e4144ac29df48582e13f02d65587e8b3c2332176c73765",
+    "src/lua/abyss_battle_potion_bindings.lua": "a723314b817660c5bec32782ac95f1895b4faadb056c40dcafa42bf4e183ddd5",
+    "src/lua/abyss_battle_render.lua": "6ab3653f406287abd50cfd6773410fff2c9a64b238810390ee3fce509881daba",
+    "src/lua/abyss_battle_render_actors.lua": "6362862ecc934a8e784ac39cc407a725a59d98db020769fa1c8c6539d6ec90fc",
+    "src/lua/abyss_battle_render_hud.lua": "cb790ad798220457389d127bab3af3b0e25c464ae96a7b8e77c5f0f1372c3107",
+    "src/lua/abyss_battle_render_state.lua": "be02bc661409f5153a88331b5cdaed80efcb6e9c65e68ba3181727e339b1c98f",
+    "src/lua/abyss_battle_targeting.lua": "1348838483f45c4bf1465773e6a14efaab5c3a2ac552d0e8157d6003621f91a4",
+    "src/lua/abyss_battle_target_bindings.lua": "8103fc82b9ed53585357518aa6728ce628cc8673bd18f4f1770d757d18f53a98"
+  }
+}
