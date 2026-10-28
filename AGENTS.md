@@ -83,6 +83,7 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 - 仅确认 Harness/CI 基础设施故障时可申请一次应急合并：先报告 PR、完整 HEAD SHA、故障原因、文件范围和独立验证结果。Owner 在聊天中明确批准该 PR/SHA 后，有相应 GitHub 身份的 Agent 按 `docs/CI.md` 自动完成 SHA 绑定的 PR 合并，无需重复批准；HEAD 变化、范围扩大、批准无效则重新询问。不得因业务测试失败、缺少测试或赶工自行豁免，不改成员角色、不临时关闭保护、不新增审批服务或任务锁。
 
 - 使用独立工作树与短命分支；开始前核对现有PR、任务和脏文件，避免覆盖其他执行者。Backlog Assignee保持Furinya，执行范围和交付记录写入任务备注。
+- 从最新 `origin/develop` 开始一个可独立验收的切片，完成后及时 PR → squash → develop。依赖先合入 develop，再开始后续切片；不要反复跨 feature 合并或另建汇总多个已完成 PR 的大型集成分支。Quality 在一个分片检查 PR 的完整提交历史，拒绝引入合并提交；历史修复和独立成果用明确范围的线性提交交付。
 - 用户2026-10-26明确批准停用额外任务锁：Remote Task Claim Protocol及其旧paused状态不再是开发、提交、CI或合并前置要求。保留历史工具/协调记录，不借用其他session，不清除他人认领。尚装有旧claim hooks的本机，仅对已授权任务命令使用独立空hooks目录，不改全局配置。
 - 采用GitHub原生PR审查与精确head校验，当前SHA完整Quality成功后squash合入develop。简化任务锁不减免任何测试、质量或产品验收门禁。
 

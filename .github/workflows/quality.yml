@@ -152,6 +152,11 @@ jobs:
             git show --format= --check HEAD
           }
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check feature branch history
+        if: github.event_name == 'pull_request' && matrix.shard == 1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/check-pr-history.mjs
       - name: Check Conventional Commit PR title
         if: github.event_name == 'pull_request'
         env:
