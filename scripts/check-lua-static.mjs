@@ -27,7 +27,7 @@ export function runStatic(args=[]) {
 
 // This budget owns the battle controller, its extracted responsibilities and
 // the shop/card views. Other pre-existing subsystems retain diagnostic reports.
-const renderFile = file => /^src\/lua\/abyss_(?:battle_.+|shop_ui|shop_selection|card_display)\.lua$/.test(file);
+const renderFile = file => /^src\/lua\/abyss_(?:battle_.+|shop_ui|shop_selection|card_display|card_skin)\.lua$/.test(file);
 const requiredRenderFiles = ['abyss_battle_ui', 'abyss_battle_card_view', 'abyss_shop_ui', 'abyss_card_display']
   .map(name => `src/lua/${name}.lua`);
 function expectedMeasurements(source) {

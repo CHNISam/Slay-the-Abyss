@@ -214,7 +214,8 @@
     "abyss_node_ui_motion": "ui",
     "abyss_node_ui_camp": "ui",
     "abyss_node_ui_treasure_list": "ui",
-    "abyss_node_ui_reward_detail": "ui"
+    "abyss_node_ui_reward_detail": "ui",
+    "abyss_card_skin": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [
