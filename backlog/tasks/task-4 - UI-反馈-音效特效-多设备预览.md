@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 09:40'
+updated_date: '2026-10-28 10:25'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -27,6 +27,7 @@ references:
   - docs/backlog-details/TASK-4.md
   - docs/backlog-details/TASK-4.2.md
   - docs/DELIVERY-CLOSEOUT.md
+  - docs/reviews/NATIVE-UI-PARITY-20261028.md
 priority: medium
 ordinal: 4000
 ---
@@ -80,4 +81,6 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-27正式精修美术必须在同一个真实游戏候选中验证：选角、手牌最多10张、玩家、合法最多敌人、场景、奖励/卡组覆盖层，测显示、操作、加载和资源清理；安卓真机基线与精修版对照并连续试玩30分钟，不能用PC压测或离线画图冒充。
 
 负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
+
+2026-10-28 PR295逐屏核对地图、商店、营地、锻造、宝箱、事件、奖励、牌库、菜单/退出，复用PR260功能；地图雾气/令牌/路径层次、原生操作说明、牌库40高选择反馈和标题遮挡已补。39项UI回归、牌库最后9项、工程门禁与34状态零文字裁切通过；#292正式选角组合8项通过，不另开发选角。详细对照与13张离线图见docs/reviews/NATIVE-UI-PARITY-20261028.md。没有GIL/官方导入/ready或PC、实体手机、手柄本轮实机，verify:ui未跑，整体UI AC不勾。免费只读审计197.73秒、19完成工具/1权限拒绝，2建议接受1项，事件费用0；输入69293、缓存读745984、输出1972、推理14681，Codex额度节省未知。
 <!-- SECTION:NOTES:END -->

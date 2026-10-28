@@ -4,6 +4,8 @@
 
 生成命令：`npm run build:data`、`npm run build:ui`、`npm run build:theme`、`node scripts/native-ui-parity-preview.mjs`。脚本默认在 `.artifacts/native-parity/preview/` 保存全部34个状态及 `text-fit.json`。此处保存主要屏幕，完整对照、平台差异和设备待验见[逐屏报告](../../reviews/NATIVE-UI-PARITY-20261028.md)。
 
+核对记录：[39项UI回归](ui-regressions.txt)、[牌库最后9项](deck-header-tests.txt)、[工程门禁](engineering.txt)、[正式选角组合](combined-formal.txt)、[退出/手柄宿主](exit-host.txt)、[手柄房间与当前状态](controller.txt)、[选牌](choices.txt)、[文字裁切清单](text-fit.json)、[源码与截图身份](validation.json)。
+
 | 屏幕 | 离线状态 | 批准参考 |
 | --- | --- | --- |
 | 地图 | [当前位置](map-current.png) | [Map画布](../../design/ui-canvas/Map.dc.html) |

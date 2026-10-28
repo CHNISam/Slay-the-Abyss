@@ -1,0 +1,10 @@
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+ABYSS_FEEDBACK card_choice_resolved source=- target=- amount=0
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+Choice UI: real virtualized grid selects the eligible UID, resumes queue, restores battle input, rejects old closed callback.
+ABYSS_RUN seed=1 source=explicit
+ABYSS_FEEDBACK card_choice source=- target=- amount=0
+ABYSS_FEEDBACK potion source=- target=- amount=0
+ABYSS_FEEDBACK exhaust source=- target=- amount=0
+LUA_POTION_CHOICES_UI_PASS 1
