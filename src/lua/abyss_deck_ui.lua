@@ -106,7 +106,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         CardDisplay.writeArt(face:GetChild("art"), definition, picture);CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'))
         local selected=false
         for _,uid in ipairs(self.choiceSelected or {}) do if uid==instance.uid then selected=true end end
-        control:GetChild("uid").text = "UID " .. instance.uid .. (selected and ' · 已选' or '')
+        control:GetChild("uid").text = selected and '已选择' or ''
         local hit=control:GetChild('hit')
         hit:SetVisible(self.choiceToken~=nil or definition.originalV4~=nil)
         if not self.bindings[control] then

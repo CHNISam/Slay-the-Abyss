@@ -130,6 +130,12 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.closeExit = function(_)
         if not self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
+        if self.controlsOpen then
+            self.controlsOpen = false
+            exitPanel:GetChild('guide'):SetVisible(false)
+            self:refresh()
+            return true
+        end
         self.exitOpen, self.exitError = false, nil
         self.battleUI.suppressClick = false
         self:refresh()
@@ -137,6 +143,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.confirmExit = function(_)
         if self.disabled then return false,"ui_disabled" end
+        if self.controlsOpen then return false,"controls_open" end
         if not self.exitOpen then return false, "exit_not_open" end
         -- Voluntary departure never changes combat HP, awards a victory, or
         -- fakes a defeated Run. An already-earned victory keeps its outcome.
@@ -692,6 +699,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         local cursor = platform.cursorEvents or {}
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if kind == 'helpClose' then return self.exitOpen and self.controlsOpen == true end
+            if self.controlsOpen then return false end
             if kind=='battleSpeed' then return self.mode=='menu' and not self.characterOpen and not self.exitOpen and not self.deckUI.visible end
             if characterAction then
                 return selectable and self.characterOpen==true and not self.exitOpen
@@ -739,7 +748,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         Controller.bind(controller,hit,function()
             if characterAction then return 'characters' end
-            if kind=='cancel' or kind=='confirm' then return 'exit' end
+            if kind=='cancel' or kind=='confirm' or kind=='help' or kind=='helpClose' then return 'exit' end
             return self.mode
         end,action,available,kind=='cancel' and 1 or kind=='open' and 200 or 100)
         hit:AddCursorEventListener(clickEvent, function(event)
@@ -769,6 +778,17 @@ function M.new(root, data, presentation, clickEvent, platform)
     bindCommand(exitEntry:GetChild("open"), "open", function() return self:openExit() end)
     bindCommand(exitPanel:GetChild("cancel"), "cancel", function() return self:closeExit() end)
     bindCommand(exitPanel:GetChild("confirm"), "confirm", function() return self:confirmExit() end)
+    local guide = exitPanel:GetChild('guide')
+    if guide then
+        bindCommand(exitPanel:GetChild('help'), 'help', function()
+            exitGeneration = exitGeneration + 1
+            self.controlsOpen = true
+            guide:SetVisible(true)
+            self:refresh()
+            return true
+        end)
+        bindCommand(guide:GetChild('close'), 'helpClose', function() return self:closeExit() end)
+    end
     if characterPanel then
         characterPanel.disableCursorEventPassthrough=true
         characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)

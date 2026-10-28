@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-27 15:03'
+updated_date: '2026-10-28 09:40'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -58,6 +58,8 @@ ordinal: 4000
 PR171整合切片：保留develop最新商店原子交易和战后独立选牌界面，解决开场与商人对话冲突；对话框避让全部商品价格；完整本地检查和当前SHA双Quality通过后squash合入develop，保留平台实机验收。
 
 地图金币缺失修复：复用节点页顶栏的生命/金币图标与位置，在地图常显真实局内资源；补选路前可见、归图更新及布局避让回归，记录本地与实机边界。
+
+2026-10-28逐屏还原：以Map/Controls画布及批准原型核对地图、房间、奖励、牌库、菜单和退出；保留PR260真实交易与房间流程，复用PR290/292选角。移除地图旧盒状图例/三个常显导航，补雾气、路径层次和当前位置令牌，保留滚轮/拖动及手柄导航。逐屏记录源码与离线检查，设备实测和verify:ui单列未验项。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

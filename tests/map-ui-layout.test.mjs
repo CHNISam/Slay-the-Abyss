@@ -61,16 +61,20 @@ test('static controls are native, readable, unique and fit phone and console saf
   }
 });
 
-test('node and edge pools match controller contract, with seven real icon legend entries', () => {
+test('node and edge pools match controller contract, without the retired boxed legend', () => {
   for (let i = 1; i <= geometry.maxNodes; i++) {
     const node = index.get(`node${i}`);
     assert.equal(node.visible, false);
-    for (const name of ['locked', 'visited', 'current', 'available', 'body', 'icon', 'glow', 'hit']) {
+    for (const name of ['locked', 'visited', 'current', 'available', 'body', 'icon', 'positionToken', 'hit']) {
       assert(node.children.some(child => child.name === name), name);
     }
   }
   for (let i = 1; i <= geometry.maxEdges; i++) assert.equal(index.get(`edge${i}`).visible, false);
-  for (const [kind, image] of Object.entries(theme.icon.node)) assert.equal(index.get(`legend_${kind}`).image, image);
+  assert(![...index.keys()].some(name => name.startsWith('legend')));
+  for (const name of ['previous', 'focus', 'next']) assert.equal(index.get(name).visible, false);
+  assert.equal(index.get('notice').size[1], 40);
+  assert.equal(index.get('node1').children.find(c => c.name === 'positionToken').image, theme.image.diamond);
+  assert.equal([...index.keys()].filter(name => /^fog/.test(name)).length, 4);
 });
 
 test('custom output directory receives the standalone controls and both Lua map artifacts', () => {
