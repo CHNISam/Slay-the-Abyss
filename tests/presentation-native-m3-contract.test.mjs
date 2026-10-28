@@ -25,8 +25,21 @@ const acceptedNativeArt={
  },
 };
 function historicalSourceHash(path,source){
- const text=source.replaceAll('\r\n','\n'),binding=acceptedNativeArt[path];
+ let text=source.replaceAll('\r\n','\n');
+ const binding=acceptedNativeArt[path];
  if(!binding)return digest(text);
+ if(path==='src/lua/abyss_battle_ui.lua'){
+  assert.equal(digest(text),'10fbc5766c9792e0b34017cfa5351587e037eedb44b4cb7cf4a86b5e12dfd508','complete accepted PR261 source identity plus reviewed drag cancellation must match');
+  const edits=[
+   ['                self.gesture, self.selected = nil, nil','                self.gesture, self.selected, self.hover, self.handHover = nil, nil, nil, nil'],
+   ['            self.carry,self.selected = nil,nil','            self.carry,self.selected,self.hover,self.handHover = nil,nil,nil,nil'],
+   ['', '        g.handCancelY = L.hand.y + Theme.motion.hoverLift\n        self.hover, self.handHover = nil, nil\n'],
+  ];
+  for(const [before,after] of edits){
+   assert.equal(text.split(after).length,2,'exactly one reviewed drag cancellation edit');
+   text=text.replace(after,before);
+  }
+ }
  assert.equal(digest(text),binding.sha256,'complete accepted PR261 source identity must match');
  assert.equal(text.split(binding.after).length,2,'exactly one reviewed native-art compatibility hunk');
  const original=text.replace(binding.after,binding.before);
