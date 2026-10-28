@@ -15,16 +15,39 @@ const validSha=value=>/^[a-f0-9]{40}$/.test(value??'');
 const positiveId=value=>Number.isSafeInteger(value)&&value>0;
 const parentShas=commit=>Array.isArray(commit?.parents)?commit.parents.map(parent=>parent?.sha):undefined;
 function qualityErrors(jobs,{attempt,runId,head}) {
+  // Collect filter=all, not one attempt: reruns preserve GITHUB_SHA/GITHUB_REF
+  // and only reexecute selected jobs. Never search for the last *successful*
+  // execution; a newer failure must supersede an older success.
   const errors=[];
   if(!Array.isArray(jobs))return ['Quality jobs are missing'];
-  const currentSuccess=job=>job?.status==='completed'&&job.conclusion==='success'&&job.run_attempt===attempt&&
-    positiveId(job.run_id)&&job.run_id===runId&&validSha(job.head_sha)&&job.head_sha===head;
-  for(const name of fullQualityJobs) {
-    const found=jobs.filter(job=>job?.name===name);
-    if(found.length!==1||!currentSuccess(found[0]))errors.push(`Quality job ${name} is missing, incomplete, unsuccessful or belongs to a different run/commit/attempt`);
+  const identities=new Set(),ids=new Set();
+  for(const job of jobs) {
+    const identity=`${job?.name}:${job?.run_attempt}`;
+    if(!fullQualityJobs.includes(job?.name)||!positiveId(job?.id)||ids.has(job.id)||identities.has(identity)||
+      !positiveId(job?.run_attempt)||job.run_attempt>attempt||job.run_id!==runId||job.head_sha!==head)
+      errors.push(`Unexpected, duplicate or mismatched Quality job ${job?.name}`);
+    identities.add(identity);ids.add(job?.id);
   }
-  for(const job of jobs)if(!fullQualityJobs.includes(job?.name)||!currentSuccess(job))errors.push(`Unexpected, unsuccessful or mismatched Quality job ${job?.name}`);
+  if(!jobs.some(job=>job?.run_attempt===attempt))errors.push('Quality latest attempt has no jobs');
+  for(const name of fullQualityJobs) {
+    const job=latestJob(jobs,name);
+    if(job?.status!=='completed'||job.conclusion!=='success')errors.push(`Quality job ${name} is missing, incomplete or unsuccessful on its latest execution`);
+  }
   return errors;
+}
+function latestJob(jobs,name) {
+  return Array.isArray(jobs)?jobs.filter(job=>job?.name===name).sort((a,b)=>b.run_attempt-a.run_attempt)[0]:undefined;
+}
+function receiptErrors(checkout,artifact,jobs,run) {
+  // Only rules (1/8) writes this artifact. Its last successful execution may
+  // predate the run's latest attempt; the receipt still binds the exact base,
+  // head, tested commit and parents, checked separately below.
+  const attempt=latestJob(jobs,'rules (1/8)')?.run_attempt;
+  if(checkout?.schemaVersion!==1||!positiveId(attempt)||checkout?.attempt!==attempt||
+    !positiveId(artifact?.id)||artifact.name!==`quality-${run?.id}-${attempt}-check`||artifact.expired!==false||
+    artifact.workflow_run?.id!==run?.id||artifact.workflow_run?.head_sha!==run?.head_sha)
+    return ['Checkout receipt/artifact is missing, expired or differs from the effective rules (1/8) identity'];
+  return [];
 }
 function runErrors(run,{head,event,runId,attempt,branch,repo}) {
   const errors=[];
@@ -39,7 +62,8 @@ export function verifyDelivery(e) {
   if(e.schemaVersion!==2||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
   for(const field of ['head','base','tested','sourceTree'])if(!validSha(e[field]))errors.push(`Invalid ${field}`);
   if(e.event!=='pull_request'||!positiveId(e.runId)||!positiveId(e.attempt)||!positiveId(e.prNumber))errors.push('Expected PR run identity');
-  for(const field of ['head','base','tested','runId','attempt','event','prNumber'])if(e.checkout?.[field]!==e[field])errors.push(`Checkout ${field} is stale or mismatched`);
+  for(const field of ['head','base','tested','runId','event','prNumber'])if(e.checkout?.[field]!==e[field])errors.push(`Checkout ${field} is stale or mismatched`);
+  errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run));
   if(JSON.stringify(e.parents)!==JSON.stringify([e.base,e.head]))errors.push('Tested merge parents do not match current base/head');
   if(e.testedCommit?.sha!==e.tested||JSON.stringify(parentShas(e.testedCommit))!==JSON.stringify(e.parents)||e.testedCommit?.commit?.tree?.sha!==e.sourceTree)errors.push('Tested source commit/tree evidence is missing or mismatched');
   if(JSON.stringify(e.checkout?.parents)!==JSON.stringify(e.parents))errors.push('Checkout merge parents differ from tested commit');
@@ -63,7 +87,8 @@ export function verifyMergedDelivery(e) {
   errors.push(...runErrors(e.run,{head:e.commit?.sha,event:'push',runId:e.run?.id,attempt:e.run?.run_attempt,branch:preflight.baseRef,repo:e.repo}));
   errors.push(...runErrors(e.currentRun,{head:e.commit?.sha,event:'push',runId:e.run?.id,attempt:e.run?.run_attempt,branch:preflight.baseRef,repo:e.repo}));
   errors.push(...qualityErrors(e.jobs,{attempt:e.run?.run_attempt,runId:e.run?.id,head:e.commit?.sha}));
-  for(const [field,value] of Object.entries({event:'push',runId:e.run?.id,attempt:e.run?.run_attempt,tested:e.commit?.sha,head:e.commit?.sha,base:preflight.base})) {
+  errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run));
+  for(const [field,value] of Object.entries({event:'push',runId:e.run?.id,tested:e.commit?.sha,head:e.commit?.sha,base:preflight.base})) {
     if(value===undefined||e.checkout?.[field]!==value)errors.push(`Merged checkout ${field} is missing, stale or mismatched`);
   }
   if(e.checkout?.prNumber!==undefined||JSON.stringify(e.checkout?.parents)!==JSON.stringify([preflight.base]))errors.push('Merged checkout is not the actual squash commit');
@@ -78,9 +103,19 @@ function pages(query,endpoint,key) {
   if(!Array.isArray(result)||result.some(page=>!Array.isArray(page[key])))throw new Error(`Malformed paginated ${key} response`);
   return result.flatMap(page=>page[key]);
 }
-function checkoutReceipt(repo,run,dir,query=gh) {
-  query('run','download',String(run.id),'--repo',repo,'--name',`quality-${run.id}-${run.run_attempt}-check`,'--dir',dir);
-  return JSON.parse(readFileSync(join(dir,'ci-checkout.json'),'utf8'));
+export function checkoutReceipt(repo,run,jobs,dir,query=gh) {
+  const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha});
+  if(errors.length)throw new Error(errors.join('\n'));
+  const attempt=latestJob(jobs,'rules (1/8)').run_attempt,name=`quality-${run.id}-${attempt}-check`;
+  const artifacts=pages(query,`repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,'artifacts').filter(a=>a?.name===name);
+  const artifact=artifacts[0];
+  if(artifacts.length!==1||receiptErrors({schemaVersion:1,attempt},artifact,jobs,run).length)throw new Error('Missing, duplicate, expired or mismatched checkout artifact');
+  query('run','download',String(run.id),'--repo',repo,'--name',name,'--dir',dir);
+  // Artifacts are immutable. Recheck the ID after name-based gh download so a
+  // concurrent deletion/replacement cannot change the object we just accepted.
+  const current=JSON.parse(query('api',`repos/${repo}/actions/artifacts/${artifact.id}`));
+  if(current.id!==artifact.id||current.name!==name||receiptErrors({schemaVersion:1,attempt},current,jobs,run).length)throw new Error('Checkout artifact changed during download');
+  return {checkout:JSON.parse(readFileSync(join(dir,'ci-checkout.json'),'utf8')),checkoutArtifact:artifact};
 }
 function latestQualityRun(query,repo,{event,head,branch,number}) {
   const runs=pages(query,`repos/${repo}/actions/workflows/quality.yml/runs?event=${event}&head_sha=${head}&per_page=100`,'workflow_runs');
@@ -89,20 +124,20 @@ function latestQualityRun(query,repo,{event,head,branch,number}) {
     (number===undefined||Array.isArray(run.pull_requests)&&run.pull_requests.some(pr=>pr.number===number)))
     .sort((a,b)=>b.id-a.id)[0];
 }
-export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckout=run=>{
+export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckout=(run,jobs)=>{
   const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
-  return checkoutReceipt(repo,run,dir,query);
+  return checkoutReceipt(repo,run,jobs,dir,query);
 }) {
   const pr=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   if(!pr.merged||!validSha(pr.merge_commit_sha))throw new Error('PR is not merged; its passing preflight is only pr_passed');
   const commit=JSON.parse(query('api',`repos/${repo}/commits/${pr.merge_commit_sha}`));
   const identity={event:'push',head:pr.merge_commit_sha,branch:pr.base.ref};
   const run=latestQualityRun(query,repo,identity);
-  const jobs=run?.status==='completed'?pages(query,`repos/${repo}/actions/runs/${run.id}/attempts/${run.run_attempt}/jobs?per_page=100`,'jobs'):[];
-  const checkout=run?.status==='completed'&&run.conclusion==='success'?loadCheckout(run):undefined;
+  const jobs=run?.status==='completed'?pages(query,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs'):[];
+  const receipt=run?.status==='completed'&&run.conclusion==='success'?loadCheckout(run,jobs):{};
   const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   const currentRun=latestQualityRun(query,repo,identity);
-  return {schemaVersion:2,repo,preflight,pr,commit,run,jobs,checkout,current,currentRun};
+  return {schemaVersion:2,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try {
@@ -113,7 +148,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     if(mode==='--merged') {
       const preflight=JSON.parse(readFileSync(evidenceFile,'utf8'));
       if(preflight.repo!==repo||preflight.prNumber!==Number(number)||verifyDelivery(preflight).length)throw new Error('Preflight evidence is invalid, stale or belongs to a different PR/repository');
-      const evidence=collectMergedDelivery(repo,Number(number),preflight,gh,run=>checkoutReceipt(repo,run,dir));
+      const evidence=collectMergedDelivery(repo,Number(number),preflight,gh,(run,jobs)=>checkoutReceipt(repo,run,jobs,dir));
       const result=verifyMergedDelivery(evidence);
       writeFileSync(join(dir,'evidence.json'),JSON.stringify({...evidence,...result},null,2)+'\n');
       console.log(`Delivery state: ${result.state}; actual merged commit ${evidence.pr.merge_commit_sha}; evidence ${dir}`);
@@ -125,13 +160,13 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       const identity={event:'pull_request',head:pr.head.sha,number:Number(number)};
       const run=latestQualityRun(gh,repo,identity);
       if(!run||run.status!=='completed'||run.conclusion!=='success')throw new Error('Current Quality run is missing or not successful');
-      const jobs=pages(gh,`repos/${repo}/actions/runs/${run.id}/attempts/${run.run_attempt}/jobs?per_page=100`,'jobs');
-      const checkout=checkoutReceipt(repo,run,dir);
+      const jobs=pages(gh,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs');
+      const {checkout,checkoutArtifact}=checkoutReceipt(repo,run,jobs,dir);
       if(checkout.tested!==pr.merge_commit_sha)throw new Error('CI did not test the current PR merge combination');
       const commit=JSON.parse(gh('api',`repos/${repo}/commits/${checkout.tested}`));
       const evidence={schemaVersion:2,repo,baseRef:pr.base.ref,sourceTree:commit.commit.tree.sha,testedCommit:commit,
         head:pr.head.sha,base:pr.base.sha,tested:checkout.tested,parents:commit.parents.map(p=>p.sha),
-        runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:Number(number),run,jobs,checkout,
+        runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:Number(number),run,jobs,checkout,checkoutArtifact,
         review:JSON.parse(readFileSync(evidenceFile,'utf8'))};
       const current=JSON.parse(gh('api',`repos/${repo}/pulls/${number}`));
       evidence.currentRun=latestQualityRun(gh,repo,identity);
