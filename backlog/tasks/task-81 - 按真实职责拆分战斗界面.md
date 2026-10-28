@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@codex'
 created_date: '2026-10-28 15:40'
-updated_date: '2026-10-28 16:40'
+updated_date: '2026-10-28 16:41'
 labels: []
 dependencies: []
 priority: medium
@@ -42,6 +42,8 @@ ordinal: 126000
 PR311首轮CI在任务元数据检查发现缺少优先级；补为medium，未改生产代码或降低门禁。
 
 PR311第二轮CI发现历史源码投影有两个入口未覆盖。已将严格当前身份投影接入P0与分层入口，保留旧层精确中间身份，原始79543/79757写入回放与相关28项测试通过；新增完整当前身份漂移拒绝和旧见证幂等回归。生产代码未改。
+
+补齐共享卡面宿主的旧文件变异定位：改在实际render_hud职责注入同一非法CursorArea写入；真实共享宿主正向和两项负向回归3/3通过。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

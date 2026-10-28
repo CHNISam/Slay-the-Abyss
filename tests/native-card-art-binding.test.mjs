@@ -57,9 +57,9 @@ test('real shared Lua hosts bind battle, reward, deck and shop art under strict 
 });
 
 for(const {name,module,before,after,error} of [
- {name:'unsupported CursorArea field',module:'abyss_battle_ui',
-  before:'hit.raycastTarget=options.onPile~=nil and frame.active==true',
-  after:'hit.interactable=options.onPile~=nil and frame.active==true',error:/CursorArea has no interactable/},
+ {name:'unsupported CursorArea field',module:'abyss_battle_render_hud',
+  before:'hit.raycastTarget=host.options.onPile~=nil and frame.active==true',
+  after:'hit.interactable=host.options.onPile~=nil and frame.active==true',error:/CursorArea has no interactable/},
  {name:'missing root GameUI enum forwarding',module:'abyss_game_ui',
   before:'imageTypes = platform.imageTypes,',after:'',error:/real shared host was not bound/},
 ])test(`strict shared-host regression rejects ${name}`,()=>directory(output=>{
