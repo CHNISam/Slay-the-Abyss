@@ -9,6 +9,7 @@ local Feedback = require("abyss_feedback")
 local CardView = require("abyss_battle_card_view")
 local CardInput = require("abyss_card_input")
 local EnemyView = require('abyss_battle_enemy_view')
+local DamageView = require('abyss_battle_damage_view')
 local StatusView = require("abyss_battle_status_view")
 local PotionView = require("abyss_battle_potion_view")
 local IntentView = require("abyss_battle_intent_view")
@@ -202,17 +203,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     local D = L.cardDrag
     local function enemySlot(count, i, enemy)
-        local xFrom = count <= (L.enemyRow.fewCount or 0) and L.enemyRow.xFromFew or L.enemyRow.xFrom
-        local step = count > 1 and (L.enemyRow.xTo-xFrom)/(count-1) or 0
-        local badge = math.max(L.blockBadge.size, 3 * Theme.font.body + L.blockBadge.padding * 2)
-        local full = L.hpBar.size[1] + badge + L.blockBadge.gap
-        local x = count == 1 and (xFrom+L.enemyRow.xTo)/2 or xFrom+(i-1)*step
-        local right = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x
-        local playerRight = L.player.position[1] + L.hpBar.size[1] / 2
-        local width = math.min(full, count > 1 and step-S.s or full,
-            2 * (right - x) - S.s, 2 * (x - playerRight - S.s) - S.s)
-        local portrait = enemy.tier == "boss" and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
-        return x, width, portrait, step
+        return EnemyView.position(count, i, enemy)
     end
     local function enemyPosition(battle,index)
         local entry,slot,count=EnemyView.find(battle,index,self.busy and battle==self.displayBattle and self.feedback or nil)
@@ -242,7 +233,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local x, _, portrait, step = enemySlot(count,i,enemy)
             local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
             if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
-                and math.abs(g.y-L.enemyRow.y) <= portrait/2+D.reticlePad
+                and math.abs(g.y-EnemyView.rowY(count,i)) <= portrait/2+D.reticlePad
                 and Actors.isActive(enemy) then
                 hovered = entry.index; break
             end
@@ -674,7 +665,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         label("energy", number(battle and battle.energy or 0) .. "/" .. number(data.rules.player.energyPerTurn))
         local charged = battle and battle.energy > 0
         tint(child("energyDisc"), charged and C.energy or C.energyEmpty)
-        tint(child("energyIcon"), charged and C.geo or C.geoDeep)
+        tint(child("energyIcon"):GetChild('core'), charged and C.geoDeep or C.energyEmpty)
         ink(child("energy"), charged and C.textOnLight or C.text)
     end
     local function renderPilesAndTurn(frame)
@@ -728,23 +719,26 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         end
         return face
     end
-    local function renderEnemyIntent(box, face, portrait)
+    local function renderEnemyIntent(box, face, portrait, crowded)
         local kind, badge = face.kind, face.badge
         local iconY = math.max(L.intent.offsetY, portrait / 2 + S.xxl)
         local valueX = -S.xl + L.intent.size / 2 + S.xs + L.intent.valueWidth / 2
         box:GetChild("intent").text = face.value
-        box:GetChild("intent"):SetAnchoredPosition(valueX, iconY)
+        if crowded then iconY=portrait/2+S.xl;valueX=0 end
+        local textY=crowded and iconY-S.xl or iconY
+        box:GetChild("intent"):SetAnchoredPosition(valueX, textY)
         local caption = box:GetChild("intentLabel")
         caption.text = face.label or ""
-        caption:SetAnchoredPosition(valueX, iconY)
+        caption:SetAnchoredPosition(valueX, textY)
         ink(caption, intentColors[kind] or C.textDim)
-        box:GetChild("intentIcon"):SetAnchoredPosition(-S.xl, iconY)
+        box:GetChild("intentIcon"):SetAnchoredPosition(crowded and 0 or -S.xl, iconY)
         box:GetChild("intentHit"):SetAnchoredPosition(0, iconY)
+        box:GetChild('intentHit'):SetSizeDelta(crowded and 84 or L.intent.size*3,L.intent.size+S.s)
         picture(box:GetChild("intentIcon"), Theme.icon.intent[kind] or Theme.icon.intent.unknown)
         tint(box:GetChild("intentIcon"), intentColors[kind] or C.textDim)
         local badgeIcon = box:GetChild("intentBadge")
         local inset = (L.intent.size - L.intent.badge) / 2
-        badgeIcon:SetAnchoredPosition(-S.xl + inset, iconY - inset)
+        badgeIcon:SetAnchoredPosition((crowded and 0 or -S.xl) + inset, iconY - inset)
         badgeIcon:SetVisible(badge ~= nil)
         if badge then
             picture(badgeIcon, Theme.icon.intent[badge])
@@ -756,6 +750,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         self.feedback.enemyRows=rows
         local count = #rows
         local pendingTarget = pendingCardTarget(frame)
+        local aimed=self.gesture or self.carry
+        local valid,target=false,nil
+        if aimed and aimed.moving then valid,target=dragTarget(aimed) end
+        local losses
+        if valid then losses=DamageView.preview(frame.battle,aimed.uid,target) end
         for i = 1, 5 do
             local box = child("enemy" .. i)
             local entry=rows[i]
@@ -764,11 +763,22 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             box:SetVisible(enemy~=nil)
             if enemy then
                 local x, width, portrait = enemySlot(count, i, enemy)
-                box:SetAnchoredPosition(x, L.enemyRow.y)
+                box:SetAnchoredPosition(x, EnemyView.rowY(count,i))
                 local selected = enemyHighlighted(frame, enemy, entry.index, pendingTarget)
+                local loss=losses and losses[entry.index]
+                if valid and not target and loss and loss.loss>0 then selected=true end
                 local icon=Theme.icon.enemy[enemy.definitionId] or Theme.icon.node[enemy.tier=='normal' and 'combat' or enemy.tier]
                 unit(box, enemy, portrait, icon, width, selected)
-                renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
+                local dim=(pendingTarget or self.potionAim~=nil) and not selected
+                local colour=C.text
+                tint(box:GetChild('portrait'),{r=colour.r,g=colour.g,b=colour.b,a=dim and 102 or 255})
+                local preview=box:GetChild('damagePreview')
+                preview:SetVisible(loss~=nil and loss.loss>0)
+                preview:SetAnchoredPosition(0,-portrait/2-S.xxl+L.nativeText.lineHeight)
+                preview:SetSizeDelta(width,L.nativeText.lineHeight)
+                preview.text=loss and loss.loss>0 and (loss.hp<=0 and '击杀' or '−'..number(loss.loss)) or ''
+                if loss and loss.loss>0 then box:GetChild('hpFill').fillAmount=math.max(0,loss.hp/enemy.maxHp) end
+                renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait,count>3)
             end
         end
     end
@@ -813,7 +823,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             button("potion" .. i, visible and frame.active and item and item.canUse, false,
                 item and potionText(item, frame.battle) or "空药水槽")
             show("potionHelp" .. i, visible)
-            button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "说明")
+            button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "")
+            for _,state in ipairs({'normal','hover','pressed','disabled'}) do
+                local bottle=child('potionHelp'..i):GetChild(state):GetChild('bottle')
+                bottle:SetVisible(item~=nil)
+                if item then picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown) end
+            end
         end
     end
     function self:render(presentationOnly)

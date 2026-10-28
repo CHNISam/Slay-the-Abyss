@@ -264,8 +264,8 @@ function M.new(view, controls)
 
     local function aimEndpoint(g, target, enemy)
         if enemy then
-            local tx, _, portrait = enemyPosition(g.battle, target)
-            return tx, L.enemyRow.y, portrait + D.reticlePad
+            local tx, _, portrait, _, ty = enemyPosition(g.battle, target)
+            return tx, ty or L.enemyRow.y, portrait + D.reticlePad
         end
         return g.x, g.y, D.aimDot[2] * 2
     end

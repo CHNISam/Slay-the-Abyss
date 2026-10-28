@@ -30,15 +30,20 @@ function M.find(battle,index,feedback)
  for slot,entry in ipairs(rows)do if entry.index==index then return entry,slot,#rows end end
 end
 function M.position(count,slot,actor)
- local xFrom=count<=(L.enemyRow.fewCount or 0) and L.enemyRow.xFromFew or L.enemyRow.xFrom
+ local xFrom=L.enemyRow.xFromFew
  local step=count>1 and (L.enemyRow.xTo-xFrom)/(count-1) or 0
  local badge=math.max(L.blockBadge.size,3*Theme.font.body+L.blockBadge.padding*2)
  local full=L.hpBar.size[1]+badge+L.blockBadge.gap
  local x=count==1 and (xFrom+L.enemyRow.xTo)/2 or xFrom+(slot-1)*step
  local right=Theme.canvas.base[1]/2-Theme.canvas.safe.x
  local playerRight=L.player.position[1]+L.hpBar.size[1]/2
- local width=math.min(full,count>1 and step-S.s or full,2*(right-x)-S.s,2*(x-playerRight-S.s)-S.s)
+ local lane=count>3 and step*2 or step
+ local width=math.min(full,count>1 and lane-S.s or full,2*(right-x)-S.s,2*(x-playerRight-S.s)-S.s)
  local portrait=actor.tier=='boss' and L.enemyRow.bossPortrait or math.min(L.enemyRow.portrait,width)
- return x,width,portrait,step
+ if count>3 and actor.tier~='boss' then portrait=math.min(portrait,L.enemyRow.crowdPortrait) end
+ return x,width,portrait,step,M.rowY(count,slot)
+end
+function M.rowY(count,slot)
+ return L.enemyRow.y+(count>3 and (slot%2==0 and L.enemyRow.frontOffset or L.enemyRow.backOffset) or 0)
 end
 return M

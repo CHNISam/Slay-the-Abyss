@@ -58,6 +58,7 @@ local function dump(c)
     return { name = spec.name, kind = spec.kind, position = { c.x, c.y }, size = { c.w, c.h },
         scale = c.sx and { c.sx, c.sy } or spec.scale, rotation = c.localRotationZ or spec.rotation,
         image = c.imageId, colour = hex(c.imageColor) or spec.colour, opacity = spec.opacity,
+        fill = spec.fill and {amount=c.fillAmount or spec.fill.amount} or nil,
         text = spec.text and { content = c.text, fontSize = spec.text.fontSize, minFontSize = spec.text.minFontSize,
             align = spec.text.align, colour = hex(c.fontColor) or spec.text.colour } or nil,
         children = children }
@@ -158,6 +159,7 @@ local function event(kind,x,y)
     card:GetChild('hit').listeners[kind]({touchId=7,GetUIPos=function()return 640+x,360+y end})
 end
 event('down',card.x,card.y) event('drag',require('abyss_theme').layout.enemyRow.xTo,require('abyss_theme').layout.enemyRow.y)
+assert(stage:GetChild('enemy2'):GetChild('damagePreview').visible,'aim evidence must contain actual HP-loss preview')
 capture('value-aim',stage)
 event('endDrag',card.x,-350) ui:render() capture('value-cancel',stage)
 ui,stage=setup({'cultist'},{'iron_wave','iron_wave','iron_wave','iron_wave','iron_wave'})

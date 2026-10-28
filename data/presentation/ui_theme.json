@@ -841,10 +841,13 @@
     },
     "enemyRow": {
       "y": 64,
-      "xFrom": -192,
-      "xFromFew": 32,
+      "xFrom": 100,
+      "xFromFew": 100,
       "fewCount": 3,
-      "xTo": 512,
+      "xTo": 500,
+      "frontOffset": -44,
+      "backOffset": 36,
+      "crowdPortrait": 84,
       "portrait": 120,
       "bossPortrait": 168
     },
