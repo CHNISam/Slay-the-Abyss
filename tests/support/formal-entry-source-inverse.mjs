@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 
 const hash = value => createHash('sha256').update(value).digest('hex');
 const bytes = readFileSync('docs/reviews/formal-entry-source-inverses-20261028.json');
-assert.equal(hash(bytes), '8a77ef0901b0df311c5e56bc3000e3219f37a3392a1c466a217ed3572b59ddc7');
+assert.equal(hash(bytes), '907287ffd60963d70f518c723cab2fe4455d13da42f01ea0f0711da34d9b7f21');
 export const formalEntryInverses = JSON.parse(bytes).files;
 
 // These exact launch-step changes affect historical source-identity proofs. The live

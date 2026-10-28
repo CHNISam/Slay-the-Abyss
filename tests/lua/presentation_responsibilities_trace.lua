@@ -50,6 +50,7 @@ for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
--- All 79475 post-retirement writes remain ordered and unchanged. Formal entry
--- adds exactly 1703 separately bound writes; the JS contract checks every row.
-assert(trace.count==81178 and trace.hash==580852422,'ordered native writes changed from the reviewed formal entry contract')
+-- Original room and pre-retirement M3 fixtures remain frozen and replayable.
+-- Compose the reviewed 214 additions/593 visual replacements with the exact
+-- removal of 68 announcement-owned writes; JS checks every remaining write.
+assert(trace.count==81392 and trace.hash==1836812524,'ordered native writes changed from the reviewed integrated formal entry contract')

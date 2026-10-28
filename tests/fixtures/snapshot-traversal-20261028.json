@@ -1,0 +1,8 @@
+{
+  "base": "9bab0cfd2c36a43c8f818fe121cdd79d082b683e",
+  "path": "src/lua/abyss_snapshot.lua",
+  "sha256": "a1367e95fd997d70dc3d5f4791c69d3474d3c457dff18a8fc78c57c0e38beb28",
+  "gitBlob": "c0992daa9582633d335f3bd0765e3ee6f31c746d",
+  "before": "    local saved,pending={},{root}\n    while #pending>0 do\n        local original=table.remove(pending)\n        if not saved[original] then\n            local values={};saved[original]=values\n            for k,v in next,original do\n                values[k]=v\n                if type(k)=='table' then pending[#pending+1]=k end\n                if type(v)=='table' then pending[#pending+1]=v end\n            end\n        end\n    end\n",
+  "after": "    local saved,pending={[root]={}},{root}\n    local top,kind=1,type\n    while top>0 do\n        local original=pending[top];pending[top]=nil;top=top-1\n        local values=saved[original]\n        for k,v in next,original do\n            values[k]=v\n            if kind(k)=='table' and not saved[k] then\n                saved[k]={};top=top+1;pending[top]=k\n            end\n            if kind(v)=='table' and not saved[v] then\n                saved[v]={};top=top+1;pending[top]=v\n            end\n        end\n    end\n"
+}

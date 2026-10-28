@@ -3,9 +3,9 @@ id: TASK-75
 title: 缩短完整跨平台检查的实际执行时间
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 05:30'
+updated_date: '2026-10-28 07:13'
 labels: []
 dependencies: []
 priority: medium
@@ -31,6 +31,8 @@ ordinal: 120000
 读取日志，优化分片和重复执行，验证覆盖失败传播，精确HEAD合并后验证完整CI。
 
 继续消除raw Lua串行热点：仅托管原始Lua最多2个独立wrapper进程；同步runLua、原deadline/maxBuffer/新进程保持，JS串行和VM数量不变。原始Lua/support无文件写入或共享JS文件系统桥，真实并发、失败传播、全量集合均须验证，超时失败不放宽预算。
+
+接续 PR267 当前9bab完整Quality三个独占30秒超时：先保留原CI和本地串行基线，采样定位验证开销；elite独立6组可按既有严格原文逆向模式分片，Silent同一实例两次完整四房及canonical比较、Intent连续双回合逐帧全字段检查保持。仅证明等价的测试层最小优化，不改运行时规则、原预算或有效断言；新精确头完整Quality仍待。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -45,4 +47,10 @@ PR269合后Windows日志确认两类合同错误：新快反馈工作流CRLF未�
 双worker最终组合已复用PR280完整原生配置并纳入PR279可移植Windows Git夹具修复。精确Node24.18.0在实际Windows上121项选择器/快反馈/worker/分片/门禁全过0skip，11.212秒；31项含LFS合同通过。PR279已在用户本轮紧急先合并授权下按精确HEAD 2a1896c2经REST squash合入89b34d76，未修改保护；不把本地通过当作完整托管通过。双worker所有原Lua deadline/maxBuffer保持，原runner黄金SHA仍由精确逆转合同保护。
 
 40635392726无条件双worker产生原30/120秒超时，完整CI失败。新修复仅对历史不足10秒的短夹具使用最多双进程，重/未知夹具独占并按双槽位计算分片成本，不重试失败、不放宽原预算。35项含真实屏障、全部错误传播、原runner黄金SHA及原工作流合同通过；真实失败入口复验及新完整CI仍待。
+
+2026-10-28 统一集成在4f5bf5bb时曾实际复现缺少优先级红灯并用CLI补Medium/Furinya；随后接续257d9e0c时保留主线已经补齐的Medium和全部最新执行备注。仅依AGENTS规范负责人Furinya，原执行者Codex、状态、计划与验收不变，不接管实现。本轮复用主线原生runner逆向证明，移除整合分支重复helper，继续保留63ec1495原黄金与负例。
+
+PR2679bab 的完整Quality40642815774仍有Silent/Intent/Elite三项独占30s超时，原失败已保留。dot独立云树串行原基线24.67/20.52/19.60s；Intent仅内联相等scalar的测试比较，原双回合/逐帧全字段/原正文不变，14.36s且stdout相同；Elite6独立组按完整原文SHA/blob可逆分成1–3与4–6，12.04/6.71s且六组全覆盖。新证明4项先红后绿，连同worker/runner12项JS、全部Intent15组、Elite6组和Backlog/syntax/network通过。Silent仍保留同一实例两次完整四房和canonical相等；profile定位真实完整snapshot遍历热点，生产候选尚未采用，不宣称三项已修复或完整Quality通过。详见docs/reviews/PR267-FIXTURE-BUDGET-20261028.md。
+
+后续确认并纳入Silent最小生产机械快路径：仅capture显式栈/入栈去重，所有table key/value、data/catalog、alias/cycle仍完整访问，restore/ownedRestore/release原字节不动。原Silent fixture及同实例两次四房/71源池/canonical相等全部未改；旧新完整canonical6488字节相同。最终三故障入口21.47s/13.70s/Elite两片11.64与6.25s；14定向raw全部原预算通过，总137.53s。加强proof7项、原owner9组、96全图与20000深链及3漏图负例通过；独立审查发现false/key-only证明缺口后已补并重验。架构214/1237、静态84历史warnings零新增/418职责、4mutation通过。当前SHA完整托管Quality仍待，TASK75保持In Progress，不冒充真机或合后验收。
 <!-- SECTION:NOTES:END -->

@@ -74,7 +74,8 @@ test('Collector replacement drag reticle and landing use compact live coordinate
  local live={};for _,e in ipairs(s.enemies)do if e~=boss and A.isActive(e)then live[#live+1]=e end end
  C.damage(s,s.player,live[1],999,true);h:refresh()
  local victim=live[2];local slot,box=shown(p,victim);assert(slot,'surviving Torch not displayed')
- assert(box.x==Theme.layout.enemyRow.xFrom,'dead actors still consume live layout columns')
+ local row=Theme.layout.enemyRow;local liveCount=0;for _,e in ipairs(s.enemies)do if A.isActive(e)then liveCount=liveCount+1 end end
+ assert(box.x==(liveCount<=row.fewCount and row.xFromFew or row.xFrom),'dead actors still consume live layout columns')
  local target=indexOf(s,victim);local hp=victim.hp
  event('card1','down',5);event('card1','drag',5,box.x,Theme.layout.enemyRow.y)
  local ring=p:GetChild('dragLayer'):GetChild('reticle')

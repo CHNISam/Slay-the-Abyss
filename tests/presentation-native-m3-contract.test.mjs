@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
-import {preFormalEntrySource,formalEntryInverses} from './support/formal-entry-source-inverse.mjs';
+import {acceptedPresentationSource,integration} from './helpers/presentation-m3-integration.mjs';
+import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 
 const directory='docs/reviews/presentation-native-m3-20261028';
 const digest=value=>createHash('sha256').update(value).digest('hex');
@@ -116,57 +117,19 @@ test('accepted native-art compatibility permits only its two complete identities
  }
 });
 
-// This inverse is test-only: no obsolete announcement control or module returns live.
-function preRetirementSource(path,source){
- const normalized=preFormalEntrySource(path,source);
- if(path==='data/presentation/ui_theme.json'){
-  const theme=JSON.parse(normalized),old=JSON.parse(frozenSource(path));
-  assert.equal(Object.hasOwn(theme.layout,'releaseNotes'),false,'announcement theme remains absent');
-  assert.deepEqual(theme.layout.nativeMenu.codeVersion,old.layout.releaseNotes.menuVersion,'unchanged version geometry');
-  const version=',\n      "codeVersion": [\n        0,\n        -300,\n        1120,\n        40\n      ]';
-  assert.equal(normalized.split(version).length,2,'one exact relocated version geometry');
-  const withoutVersion=normalized.replace(version,''),end='\n  }\n}\n';
-  assert.ok(withoutVersion.endsWith(end),'complete theme closure and order');
-  const start=frozenSource(path).indexOf(',\n    "releaseNotes": {');
-  assert.ok(start>0,'immutable archive contains the retired theme');
-  const block=frozenSource(path).slice(start,frozenSource(path).lastIndexOf('\n  }'));
-  const projected=withoutVersion.slice(0,-end.length)+block+end;
-  assert.equal(digest(projected),roomSnapshot.afterSha256[path],'all non-announcement theme bytes and order retained');
-  return projected;
- }
- if(path==='tests/lua/presentation_responsibilities_trace.lua'){
-  const before="-- Latest develop retains all 77278 historic writes; the explicit room port\n-- adds 2265 writes for the forge grid/result flow and updated room controls.\nassert(trace.count==79543 and trace.hash==1215629804,'ordered native writes changed from the room-port contract')\n";
-  const after="-- Retirement deletes exactly 68 writes owned by the announcement entry/panel.\n-- The JS contract independently preserves every other write and its global order.\nassert(trace.count==79475 and trace.hash==1007819925,'ordered native writes changed from the reviewed announcement retirement contract')\n";
-  assert.equal(normalized.split(after).length,2,'one exact current trace assertion');
-  const projected=normalized.replace(after,before);
-  assert.equal(digest(projected),roomSnapshot.afterSha256[path],'original scenario and strict native guards retained');
-  return projected;
- }
- return normalized;
-}
-
-test('formal entry historical inverses are exact and reject unrelated source or guard changes',()=>{
- for(const path of Object.keys(formalEntryInverses)){
-  const source=readFileSync(path,'utf8');
-  assert.equal(digest(preFormalEntrySource(path,source)),formalEntryInverses[path].beforeSha256);
-  assert.throws(()=>preFormalEntrySource(path,source+'\n-- unreviewed drift\n'));
-  assert.throws(()=>preFormalEntrySource(path,source.replace(/\S/,'!')));
- }
-});
-
-test('room port keeps all reviewed current source identities and a strict live interaction trace',()=>{
+test('room port retains its accepted source identities alongside the strict reviewed live interaction trace',()=>{
  assert.equal(roomSnapshot.base,'f1ab9a9c492071edd723f9285862766ad5ad289b');
  assert.deepEqual(Object.keys(roomSnapshot.afterSha256),Object.keys(review.sourceInputs));
  for(const [path,expected]of Object.entries(roomSnapshot.afterSha256)){
-  const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
-  assert.equal(digest(preRetirementSource(path,source)),expected,'unreviewed integrated room source drift: '+path);
+  const source=acceptedPresentationSource(path);
+  assert.equal(digest(source),expected,'accepted room source identity: '+path);
   assert.notEqual(digest(source+'\n-- unreviewed drift\n'),expected);
  }
  assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
  });
 test('retirement theme and fixture inverses reject unrelated drift and obsolete controls',()=>{
  const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
- assert.equal(digest(preRetirementSource(path,source)),roomSnapshot.afterSha256[path]);
+ assert.equal(digest(preRetirementSource(path,source)),integration.afterSha256[path]);
  assert.equal(preRetirementSource(path,source.replaceAll('\n','\r\n')),preRetirementSource(path,source));
  const original=JSON.parse(source);
  const mutations=[
@@ -186,11 +149,11 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
  assert.throws(()=>preRetirementSource(path,source+'\n'));
  const fixturePath='tests/lua/presentation_responsibilities_trace.lua';
  const fixture=readFileSync(fixturePath,'utf8').replaceAll('\r\n','\n');
- assert.equal(digest(preRetirementSource(fixturePath,fixture)),roomSnapshot.afterSha256[fixturePath]);
+ assert.equal(digest(preRetirementSource(fixturePath,fixture)),integration.afterSha256[fixturePath]);
  assert.equal(preRetirementSource(fixturePath,fixture.replaceAll('\n','\r\n')),preRetirementSource(fixturePath,fixture));
  assert.throws(()=>preRetirementSource(fixturePath,fixture+'\n-- unreviewed scenario drift\n'));
  assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('trace:assertNativeInteraction()','-- removed native guard')));
- assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('79475','79474')));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('81392','81391')));
 });
 
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{

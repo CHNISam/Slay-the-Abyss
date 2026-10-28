@@ -1,0 +1,34 @@
+{
+  "base": "9bab0cfd2c36a43c8f818fe121cdd79d082b683e",
+  "timeoutMilliseconds": 30000,
+  "elite": {
+    "path": "tests/lua/elite_relic_reward_ui.lua",
+    "sha256": "e622c8b6338eaa7bc0c23e75504b5d65bddead802d2ba789382d45f137b0793d",
+    "gitBlob": "9b5ad319c0002e83dc30a85db1e2a8d4f1660607",
+    "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3\nlocal sliceRegistered=0\n",
+    "before": "local function test(name,fn)fn();count=count+1;print('ok elite relic reward '..count..' - '..name)end",
+    "after": "local function test(name,fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end\n    fn();count=count+1;print('ok elite relic reward '..sliceRegistered..' - '..name)\n    print('ELITE_RELIC_REWARD_UI_CASE '..sliceRegistered)\nend",
+    "footer": "\nassert(sliceRegistered==6,\"all six original elite reward groups must register\")\nassert(count==sliceLast-sliceFirst+1,\"every selected elite reward group must execute\")\nprint(\"ELITE_RELIC_REWARD_UI_SLICE \"..sliceFirst..\" \"..sliceLast..\" \"..count)\n",
+    "slices": [
+      {
+        "path": "tests/lua/elite_relic_reward_ui.lua",
+        "first": 1,
+        "last": 3
+      },
+      {
+        "path": "tests/lua/elite_relic_reward_ui_slice_2.lua",
+        "first": 4,
+        "last": 6
+      }
+    ]
+  },
+  "intent": {
+    "path": "tests/lua/support/intent_artifact_fixture.lua",
+    "sha256": "7d9858f790685df606c013c7df03079a7f6b9a64a4484a278472ee85d933064e",
+    "gitBlob": "9d9490d569e3a30d4aef1b3765c7a056e0b47753",
+    "before": "local function difference(actual, expected)\n    if type(actual) ~= type(expected) then\n        return \": expected type \" .. type(expected) .. \", got \" .. type(actual)\n    end\n    if type(actual) ~= \"table\" then\n        if actual ~= expected then return \": expected \" .. tostring(expected) .. \", got \" .. tostring(actual) end\n        return nil\n    end\n    for key, value in pairs(actual) do\n        local mismatch = difference(value, expected[key])\n        if mismatch then return \".\" .. tostring(key) .. mismatch end\n    end\n    for key in pairs(expected) do\n        if actual[key] == nil then return \".\" .. tostring(key) .. \": missing value\" end\n    end\nend",
+    "after": "local function difference(actual, expected)\n    if type(actual) ~= type(expected) then\n        return \": expected type \" .. type(expected) .. \", got \" .. type(actual)\n    end\n    if type(actual) ~= \"table\" then\n        if actual ~= expected then return \": expected \" .. tostring(expected) .. \", got \" .. tostring(actual) end\n        return nil\n    end\n    for key, value in pairs(actual) do\n        local wanted = expected[key]\n        -- Still visit every field on every frame. Equal scalar leaves need no\n        -- recursive Lua call; tables always recurse, including shared aliases.\n        if type(value) == \"table\" or value ~= wanted then\n            local mismatch = difference(value, wanted)\n            if mismatch then return \".\" .. tostring(key) .. mismatch end\n        end\n    end\n    for key in pairs(expected) do\n        if actual[key] == nil then return \".\" .. tostring(key) .. \": missing value\" end\n    end\nend",
+    "casePath": "tests/lua/intent_artifact_playback.lua",
+    "caseSha256": "eec09d6aeb278997b82f0fbd05f8a0ed0448be4b1220101c13ac25ec5c004330"
+  }
+}

@@ -947,6 +947,9 @@ local function chooseEvent(run, choice, uid)
     local rules = run.data.rules.events[id] or {}
     if Act2Events.ids[id] then
         local ok,status=Act2Events.choose(run,flow,choice,uid,upgradeable)
+        if ok and run.hp==0 then
+            flow.eventChoice=choice;complete(run);run.phase='defeat';return true,'defeat'
+        end
         if not ok or status~='complete' then return ok,status end
         flow.eventChoice=choice
         return complete(run)
