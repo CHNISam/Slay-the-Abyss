@@ -2,6 +2,15 @@ import { spawn } from 'node:child_process';
 
 const outputLimit = 4 * 1024 * 1024;
 
+export function canOverlapLuaFixture(script, measuredMs) {
+  if (typeof script !== 'string' || !script.trim() || !Number.isFinite(measuredMs) || measuredMs <= 0) return false;
+  const path = script.replaceAll('\\', '/');
+  const longFixture = /(?:^|\/)tests\/lua\/(?:encounter_coverage|map_floor_boundaries|map_no_crossings|map_treasure_placement)\.lua$/.test(path);
+  const uiFixture = /(?:^|\/)tests\/lua\/(?:battle_ui(?:_slice_[2-7])?|game_ui)\.lua$/.test(path);
+  const originalBudget = longFixture ? 120000 : uiFixture ? 60000 : 30000;
+  return measuredMs <= originalBudget / 3;
+}
+
 // Each wrapper retains the synchronous Lua runner's existing fixture deadline
 // and output budget. Only independent wrapper processes overlap here.
 export async function runLuaWorkers(scripts, { cli, workers = 2, weights = {}, cwd = process.cwd(), onOutput } = {}) {
@@ -18,7 +27,7 @@ export async function runLuaWorkers(scripts, { cli, workers = 2, weights = {}, c
   const emit = onOutput ?? ((stdout, stderr) => { process.stdout.write(stdout); process.stderr.write(stderr); });
   const env = { ...process.env };
   delete env.NODE_TEST_CONTEXT;
-  let next = 0, status = 0;
+  let status = 0;
 
   function execute(script) {
     return new Promise(resolve => {
@@ -46,17 +55,29 @@ export async function runLuaWorkers(scripts, { cli, workers = 2, weights = {}, c
       });
     });
   }
-  async function consume() {
-    while (next < queue.length) {
-      const script = queue[next++];
-      try { await execute(script); }
-      catch (error) {
-        status = 1;
-        try { emit('', `Lua worker could not run ${script}: ${error.message}\n`); }
-        catch { /* A failed output callback cannot prevent remaining fixtures. */ }
+  async function runQueue(queue, count) {
+    let next = 0;
+    async function consume() {
+      while (next < queue.length) {
+        const script = queue[next++];
+        try { await execute(script); }
+        catch (error) {
+          status = 1;
+          try { emit('', `Lua worker could not run ${script}: ${error.message}\n`); }
+          catch { /* A failed output callback cannot prevent remaining fixtures. */ }
+        }
       }
     }
+    await Promise.all(Array.from({ length: Math.min(count, queue.length) }, consume));
   }
-  await Promise.all(Array.from({ length: Math.min(workers, queue.length) }, consume));
+  if (workers === 1) await runQueue(queue, 1);
+  else {
+    // Keep all uncertain/near-budget work alone. Only measured fixtures with
+    // threefold headroom can share a VM, after the serial phase has completed.
+    const serial = [], parallel = [];
+    for (const script of queue) (canOverlapLuaFixture(script, weights[script]) ? parallel : serial).push(script);
+    await runQueue(serial, 1);
+    await runQueue(parallel, workers);
+  }
   return status;
 }

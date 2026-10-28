@@ -20,7 +20,7 @@ test('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unre
   const changedProcess = source.replace('maxBuffer: 1024 * 1024', 'maxBuffer: 1');
   assert.notEqual(changedProcess, source);
   assert.notEqual(sha(originalLuaRunner(changedProcess)), original);
-  const changedSchedule = source.replace('return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial?.map(load => load * workers)).files;', 'return [];');
+  const changedSchedule = source.replace('return partition(scripts, value, effective, timings.unknownLuaMs, initial?.map(load => load * workers)).files;', 'return [];');
   assert.notEqual(changedSchedule, source);
   assert.throws(() => originalLuaRunner(changedSchedule), /exact reviewed scheduler/);
   const changedWorkers = source.replace('workers === 2 && scripts.length', 'workers === 3 && scripts.length');

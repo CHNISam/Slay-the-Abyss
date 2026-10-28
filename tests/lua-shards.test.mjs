@@ -27,8 +27,8 @@ test('longest fixtures fill the least loaded combined JS/Lua shard deterministic
     windowsJsShardMs: [100, 0] };
   assert.deepEqual(shardLuaScripts(scripts, '1/2', timings), ['c.lua', 'd.lua', 'new.lua']);
   assert.deepEqual(shardLuaScripts(scripts, '2/2', timings), ['a.lua', 'b.lua']);
-  assert.deepEqual(shardLuaScripts(scripts, '1/2', timings, 2), ['d.lua']);
-  assert.deepEqual(shardLuaScripts(scripts, '2/2', timings, 2), ['a.lua', 'b.lua', 'c.lua', 'new.lua']);
+  assert.deepEqual(shardLuaScripts(scripts, '1/2', timings, 2), ['c.lua']);
+  assert.deepEqual(shardLuaScripts(scripts, '2/2', timings, 2), ['a.lua', 'b.lua', 'd.lua', 'new.lua']);
   for (const workers of [0, 3, '2', NaN]) assert.throws(() => shardLuaScripts(scripts, '1/2', timings, workers), /workers must be/);
   assert.deepEqual(shardLuaScripts([...scripts].reverse(), '1/2', timings), shardLuaScripts(scripts, '1/2', timings));
   assert.deepEqual(shardLuaScripts(scripts, '1/1', timings), [...scripts].sort());
@@ -38,6 +38,14 @@ test('longest fixtures fill the least loaded combined JS/Lua shard deterministic
   }
   assert.throws(() => shardLuaScripts(['a.lua'], '1/2', { ...timings, windowsJsShardMs: [0, -1] }), /initial shard/);
   assert.throws(() => shardLuaScripts(['a.lua', 'a.lua'], '1/2', timings), /unique nonempty/);
+});
+
+test('exclusive fixtures are budgeted as serial work alongside the parallel-safe pool', () => {
+  const files = ['tests/lua/heavy.lua', 'tests/lua/safe-a.lua', 'tests/lua/safe-b.lua', 'tests/lua/unknown.lua'];
+  const measured = { lua: { [files[0]]: 20000, [files[1]]: 8000, [files[2]]: 8000 },
+    unknownLuaMs: 10000, windowsJsShardMs: [20000, 0] };
+  assert.deepEqual(shardLuaScripts(files, '1/2', measured, 2), [files[3]]);
+  assert.deepEqual(shardLuaScripts(files, '2/2', measured, 2), files.slice(0, 3));
 });
 
 test('measured scheduling retains every current fixture and reduces estimated critical path', () => {

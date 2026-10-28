@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 04:57'
+updated_date: '2026-10-28 05:35'
 labels: []
 dependencies: []
 priority: medium
@@ -43,4 +43,6 @@ PR269合后Windows日志确认两类合同错误：新快反馈工作流CRLF未�
 双worker候选：21项并发/CLI/分片/门禁及6项原冻结断言负例通过；含LFS合同的31项通过。固定4个真实battle UI夹具串行41.826秒、双worker26.829秒，stdout/stderr逐字节一致；仅本机小样本，非完整CI收益。原串行encounter_coverage在本机触及原120秒上限，未计通过、未改预算。复用PR280同一完整成功run40630641377原生配置，不重复写权重；双worker把前置JS/门禁已预留负载按2倍Lua工作单位折算。所有中间记录已提交99310820保留，不丢弃在途备注。
 
 双worker最终组合已复用PR280完整原生配置并纳入PR279可移植Windows Git夹具修复。精确Node24.18.0在实际Windows上121项选择器/快反馈/worker/分片/门禁全过0skip，11.212秒；31项含LFS合同通过。PR279已在用户本轮紧急先合并授权下按精确HEAD 2a1896c2经REST squash合入89b34d76，未修改保护；不把本地通过当作完整托管通过。双worker所有原Lua deadline/maxBuffer保持，原runner黄金SHA仍由精确逆转合同保护。
+
+完整双worker40635392726失败，13fixture触及原30/120秒；不计有效性能结果。停止6VM/3worker候选，先修复安全调度：未知或实测>原预算1/3独占，结束后其余最多2进程，205独占+769并行候选合计974原fixture不变。13个真实失败全部被排除并发，独占串行成本纳入LPT。44项worker/分片/原runner黄金SHA/预算负例/required门禁/交付证据本地全过0skip；官方修复后完整回归仍待。未改原超时、断言或required checks。
 <!-- SECTION:NOTES:END -->

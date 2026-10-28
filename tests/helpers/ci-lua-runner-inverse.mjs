@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 export function originalLuaRunner(source) {
   source = source.replaceAll('\r\n', '\n');
   const workerEdits = [
-    ["import { runLuaWorkers } from './lua-workers.mjs';\n", ''],
+    ["import { runLuaWorkers, canOverlapLuaFixture } from './lua-workers.mjs';\n", ''],
     ['    let workers = 1, workersSeen = false;\n', ''],
     [String.raw`      if (args[i] === '--workers') {
         if (workersSeen || !/^[12]$/.test(args[i + 1] ?? '')) throw new Error('Lua workers must be 1 or 2 and specified once');
@@ -29,7 +29,7 @@ export function originalLuaRunner(source) {
   const end = source.indexOf('\n\nif (process.argv[1]', start);
   assert.ok(start >= 0 && end > start, 'complete reviewed scheduling block');
   assert.equal(createHash('sha256').update(source.slice(start, end)).digest('hex'),
-    'a75b8bdbe54f1e7ccfe456610a7db850dbd43e22af6733389cc0e30be637e016',
+    'adcf79f785f31fa105d55eb4dde32c554986fb2eb5fa8c1dc7f27c423aedc55b',
     'only the exact reviewed scheduler may be inverted');
   const original = String.raw`export function shardLuaScripts(scripts, value) {
   const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(String(value));

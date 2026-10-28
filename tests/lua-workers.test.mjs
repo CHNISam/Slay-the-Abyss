@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname, basename } from 'node:path';
-import { runLuaWorkers } from '../scripts/lua-workers.mjs';
+import { runLuaWorkers, canOverlapLuaFixture } from '../scripts/lua-workers.mjs';
 
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-lua-workers-'));
@@ -24,7 +24,7 @@ else {
   process.stderr.write('stderr-start:' + name + '\\n');
   if (name.startsWith('pair-')) {
     const started = Date.now();
-    while (readFileSync('events.jsonl', 'utf8').trim().split('\\n').map(JSON.parse).filter(e => e.kind === 'start').length < 2) {
+    while (readFileSync('events.jsonl', 'utf8').trim().split('\\n').map(JSON.parse).filter(e => e.kind === 'start' && e.name.startsWith('pair-')).length < 2) {
       if (Date.now() - started > 5000) throw new Error('Second worker never overlapped');
       await new Promise(resolve => setTimeout(resolve, 5));
     }
@@ -72,6 +72,55 @@ test('a single worker uses measured longest-first order and continues after exit
   assert.deepEqual(events.map(e => `${e.kind}:${e.name}`), ['start:fail', 'end:fail', 'start:signal', 'end:signal', 'start:success', 'end:success']);
   assert.equal(outputs.length, 3);
   assert.ok(outputs.some(output => output.stdout.includes('stdout-end:success')));
+});
+
+test('unsafe and unknown fixtures run alone before the safe pool, preserving coverage and failure continuation', async t => {
+  const f = fixture(t), outputs = [], scripts = ['pair-b', 'unknown', 'heavy', 'fail', 'pair-a'];
+  assert.equal(await runLuaWorkers(scripts, { cli: f.cli, cwd: f.root,
+    weights: { heavy: 30000, fail: 15000, 'pair-a': 500, 'pair-b': 400 },
+    onOutput: (stdout, stderr) => outputs.push({ stdout, stderr }) }), 1);
+  const events = f.events();
+  assert.deepEqual(events.slice(0, 6).map(event => `${event.kind}:${event.name}`),
+    ['start:heavy', 'end:heavy', 'start:fail', 'end:fail', 'start:unknown', 'end:unknown']);
+  let active = 0, maximum = 0;
+  for (const event of events) {
+    active += event.kind === 'start' ? 1 : -1;
+    maximum = Math.max(maximum, active);
+    if (!event.name.startsWith('pair-')) assert.equal(active, event.kind === 'start' ? 1 : 0);
+  }
+  assert.equal(active, 0); assert.equal(maximum, 2);
+  assert.deepEqual(events.filter(event => event.kind === 'start').map(event => event.name).sort(), [...scripts].sort());
+  assert.equal(outputs.length, scripts.length);
+  for (const name of scripts) assert.ok(outputs.some(output => output.stdout === `stdout-start:${name}\nstdout-end:${name}\n`));
+});
+
+test('overlap eligibility uses unchanged fixture budgets with strict threefold headroom and slash normalization', () => {
+  const defaultPaths = ['tests/lua/default.lua', 'tests/other/game_ui.lua', '/tmp/other/game_ui.lua',
+    'tests/lua/nested/game_ui.lua', 'othertests/lua/game_ui.lua', 'tests/lua/battle_ui_slice_8.lua'];
+  const uiPaths = ['tests/lua/battle_ui.lua', 'tests/lua/game_ui.lua',
+    ...Array.from({ length: 6 }, (_, index) => `tests/lua/battle_ui_slice_${index + 2}.lua`)];
+  const longPaths = ['encounter_coverage', 'map_floor_boundaries', 'map_no_crossings', 'map_treasure_placement'].map(name => `tests/lua/${name}.lua`);
+  for (const [paths, limit] of [[defaultPaths, 10000], [uiPaths, 20000], [longPaths, 40000]]) {
+    for (const path of paths) {
+      assert.equal(canOverlapLuaFixture(path, limit), true, path);
+      assert.equal(canOverlapLuaFixture(path, limit + 0.01), false, path);
+    }
+  }
+  assert.equal(canOverlapLuaFixture('C:\\checkout\\tests\\lua\\game_ui.lua', 20000), true);
+  assert.equal(canOverlapLuaFixture('/checkout/tests/lua/map_no_crossings.lua', 40000), true);
+  for (const invalid of [undefined, null, 0, -1, NaN, Infinity, '1000', true])
+    assert.equal(canOverlapLuaFixture('tests/lua/default.lua', invalid), false);
+  assert.equal(canOverlapLuaFixture(undefined, 1000), false);
+  assert.equal(canOverlapLuaFixture('', 1000), false);
+});
+
+test('fixtures that exceeded hosted deadlines are excluded from overlap by their measured serial duration', () => {
+  const observed = { silent_final_sources: 25526, shockwave_group: 16809, act2_intent_ui: 16013,
+    potion_reward_effects: 13757, node_combat_generation: 13542, silent_natural_build: 29318, encounter_coverage: 110369,
+    battle_ui_potion_target_failures: 23996, card_pool: 16443, unknown_event_routing: 28350,
+    battle_ui_potion_target_pointers: 27076, unknown_event_routing_upper: 20748, game_ui_class_choices: 19286 };
+  for (const [name, measured] of Object.entries(observed))
+    assert.equal(canOverlapLuaFixture(`tests/lua/${name}.lua`, measured), false, name);
 });
 
 test('spawn errors fail the aggregate and still visit every requested fixture', async t => {

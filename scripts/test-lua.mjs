@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 import { luaString, toLua } from './build-lua-data.mjs';
 import { battleLayout } from './ui-layout.mjs';
 import { partition, timings as runtimeTimings, jsShard, discoverJs } from './ci-shards.mjs';
-import { runLuaWorkers } from './lua-workers.mjs';
+import { runLuaWorkers, canOverlapLuaFixture } from './lua-workers.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -76,8 +76,10 @@ export function shardLuaScripts(scripts, value, timings = runtimeTimings, worker
   const initial = timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs
     : count === 8 ? jsShard(discoverJs(), value, 'win32').loads : undefined;
   if (initial?.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');
-  // Two workers halve the Lua work budget relative to the preceding serial JS.
-  return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial?.map(load => load * workers)).files;
+  // Exclusive fixtures consume one full VM; only safe fixtures share workers.
+  const effective = Object.fromEntries(scripts.map(script => [script, weight(script)
+    * (workers > 1 && !canOverlapLuaFixture(script, timings.lua?.[script]) ? workers : 1)]));
+  return partition(scripts, value, effective, timings.unknownLuaMs, initial?.map(load => load * workers)).files;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
