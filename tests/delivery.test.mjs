@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { verifyDelivery, verifyMergedDelivery, collectMergedDelivery, checkoutReceipt, fullQualityJobs, qualityWorkflowPath } from '../scripts/verify-delivery.mjs';
+import { verifyDelivery, verifyMergedDelivery, collectMergedDelivery, checkoutReceipt, fullQualityJobs, currentFullQualityJobs, deliverySchemaVersion, qualityWorkflowPath } from '../scripts/verify-delivery.mjs';
 
 const sha = letter => letter.repeat(40);
-function mergedEvidence() {
-  const preflight={schemaVersion:2,repo:'owner/repo',head:sha('a'),base:sha('b'),tested:sha('c'),sourceTree:sha('d'),baseRef:'develop',runId:7,attempt:2,
+function mergedEvidence(schemaVersion=2) {
+  const preflight={schemaVersion,repo:'owner/repo',head:sha('a'),base:sha('b'),tested:sha('c'),sourceTree:sha('d'),baseRef:'develop',runId:7,attempt:2,
     event:'pull_request',prNumber:8,parents:[sha('b'),sha('a')],
     checkout:{head:sha('a'),base:sha('b'),tested:sha('c'),runId:7,attempt:2,event:'pull_request',prNumber:8,parents:[sha('b'),sha('a')]},
     testedCommit:{sha:sha('c'),parents:[{sha:sha('b')},{sha:sha('a')}],commit:{tree:{sha:sha('d')}}},
@@ -16,11 +16,15 @@ function mergedEvidence() {
     review:{reviewedHeadSha:sha('a'),reviewedBaseSha:sha('b'),reviewId:'external-session-123',conclusion:'pass',unresolved:[]}};
   const pr={number:8,merged:true,state:'closed',head:{sha:sha('a')},base:{ref:'develop',sha:sha('f')},merge_commit_sha:sha('e')};
   preflight.currentRun=structuredClone(preflight.run);
-  const evidence={schemaVersion:2,repo:'owner/repo',preflight,pr,current:structuredClone(pr),commit:{sha:sha('e'),parents:[{sha:sha('b')}],commit:{tree:{sha:sha('d')}}},
+  const evidence={schemaVersion,repo:'owner/repo',preflight,pr,current:structuredClone(pr),commit:{sha:sha('e'),parents:[{sha:sha('b')}],commit:{tree:{sha:sha('d')}}},
     run:{id:9,run_attempt:3,event:'push',head_sha:sha('e'),head_branch:'develop',path:qualityWorkflowPath,repository:{full_name:'owner/repo'},status:'completed',conclusion:'success'},
     jobs:preflight.jobs.map(j=>({...j,run_attempt:3,run_id:9,head_sha:sha('e')})),
     checkout:{event:'push',runId:9,attempt:3,tested:sha('e'),head:sha('e'),base:sha('b'),parents:[sha('b')]}};
   for(const e of [preflight,evidence]) {
+    // Real Full run 40722229360 reports one unexpanded skipped `fast` job:
+    // GitHub evaluates its job-level condition before expanding the matrix.
+    if(schemaVersion===3)for(const [i,name,conclusion] of [[0,'impact','success'],[1,'fast','skipped']])
+      e.jobs.push({id:300+i,name,status:'completed',conclusion,run_attempt:e.run.run_attempt,run_id:e.run.id,head_sha:e.run.head_sha});
     e.checkout.schemaVersion=1;
     e.checkoutArtifact={id:200,name:`quality-${e.run.id}-${e.checkout.attempt}-check`,expired:false,
       workflow_run:{id:e.run.id,head_sha:e.run.head_sha}};
@@ -28,18 +32,107 @@ function mergedEvidence() {
   evidence.currentRun=structuredClone(evidence.run);return evidence;
 }
 
-test('partial retries retain successful jobs and the receipt from the effective first shard',()=>{
-  const e=mergedEvidence();
-  for(const proof of [e.preflight,e]) {
-    const attempt=proof.run.run_attempt;
-    proof.jobs.forEach(job=>job.run_attempt=attempt-1);
-    proof.checkout.attempt=attempt-1;
-    proof.checkoutArtifact.name=`quality-${proof.run.id}-${attempt-1}-check`;
-    const old=proof.jobs.find(job=>job.name==='rules (8/8)');old.conclusion='failure';
-    proof.jobs.push({...old,id:500,run_attempt:attempt,conclusion:'success'});
+test('versioned Full delivery preserves historical fifteen-job evidence and accepts the observed seventeen-job route',()=>{
+  for(const version of [2,3]) {
+    const e=mergedEvidence(version);
+    assert.deepEqual(verifyDelivery(e.preflight),[]);
+    assert.deepEqual(verifyMergedDelivery(e),{state:'merged_passed',errors:[]});
   }
-  assert.deepEqual(verifyDelivery(e.preflight),[]);
-  assert.deepEqual(verifyMergedDelivery(e),{state:'merged_passed',errors:[]});
+  const mixed=mergedEvidence(3);mixed.preflight=mergedEvidence(2).preflight;
+  assert.deepEqual(verifyMergedDelivery(mixed),{state:'merged_passed',errors:[]});
+});
+
+test('current Full evidence cannot omit orchestration jobs, borrow Fast coverage or relabel historical evidence',()=>{
+  const mutations=[
+    e=>e.jobs=e.jobs.filter(j=>j.name!=='impact'),
+    e=>e.jobs=e.jobs.filter(j=>j.name!=='fast'),
+    e=>e.jobs=e.jobs.filter(j=>!['impact','fast'].includes(j.name)),
+    e=>e.jobs=e.jobs.filter(j=>!j.name.startsWith('rules (')),
+    e=>e.jobs.find(j=>j.name==='fast').name='fast (ubuntu-24.04)',
+    e=>e.jobs.find(j=>j.name==='fast').name='fast (windows-2025)',
+    e=>e.jobs.find(j=>j.name==='fast').conclusion='success',
+    e=>{
+      e.jobs=e.jobs.filter(j=>!j.name.startsWith('rules (')&&!j.name.startsWith('engineering-posix ('));
+      const fast=e.jobs.find(j=>j.name==='fast');fast.name='fast (ubuntu-24.04)';fast.conclusion='success';
+      e.jobs.push({...fast,id:500,name:'fast (windows-2025)'});
+    },
+    e=>e.schemaVersion=2,e=>e.schemaVersion=4,e=>delete e.schemaVersion,
+  ];
+  for(const mutate of mutations)for(const layer of ['preflight','push']) {
+    const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;mutate(proof);
+    if(layer==='preflight')assert(verifyDelivery(proof).length,String(mutate));
+    else assert.equal(verifyMergedDelivery(e).state,'merged_pending',String(mutate));
+  }
+  const historical=mergedEvidence(2).preflight;historical.schemaVersion=3;
+  assert(verifyDelivery(historical).length,'Old evidence must not be upgraded by changing its version');
+});
+
+test('orchestration jobs retain exact identities, latest-execution semantics and expected Full conclusions',()=>{
+  for(const name of ['impact','fast'])for(const layer of ['preflight','push']) {
+    for(const mutate of [
+      (e,j)=>j.run_id++,(e,j)=>j.head_sha=sha('f'),(e,j)=>j.run_attempt=0,
+      (e,j)=>j.run_attempt=e.run.run_attempt+1,(e,j)=>delete j.id,
+      (e,j)=>e.jobs.push({...j,id:500}),(e,j)=>j.status='queued',
+      (e,j)=>j.name='unknown',(e,j)=>e.jobs.push({...j,id:500,run_attempt:j.run_attempt+1,conclusion:'failure'}),
+    ]) {
+      const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
+      mutate(proof,proof.jobs.find(j=>j.name===name));
+      if(layer==='preflight')assert(verifyDelivery(proof).length,`${name}: ${mutate}`);
+      else assert.equal(verifyMergedDelivery(e).state,'merged_pending',`${name}: ${mutate}`);
+    }
+    for(const conclusion of ['success','failure','cancelled','skipped',null]) {
+      const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
+      const job=proof.jobs.find(j=>j.name===name),expected=name==='fast'?'skipped':'success';
+      proof.jobs.push({...job,id:500,run_attempt:job.run_attempt-1,conclusion:'failure'});
+      job.conclusion=conclusion;proof.jobs.reverse();
+      if(layer==='preflight')assert.equal(verifyDelivery(proof).length===0,conclusion===expected,`${name}/${conclusion}`);
+      else assert.equal(verifyMergedDelivery(e).state==='merged_passed',conclusion===expected,`${name}/${conclusion}`);
+    }
+  }
+});
+
+test('current Full retains every original regression requirement rather than trusting routing or aggregate green',()=>{
+  for(const name of fullQualityJobs)for(const conclusion of ['failure','cancelled','skipped',null])for(const layer of ['preflight','push']) {
+    const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
+    proof.jobs.find(j=>j.name===name).conclusion=conclusion;
+    if(layer==='preflight')assert(verifyDelivery(proof).length,`${name}/${conclusion}`);
+    else assert.equal(verifyMergedDelivery(e).state,'merged_pending',`${name}/${conclusion}`);
+  }
+});
+
+test('new receipt collection requires current Full shape before any artifact lookup or download',()=>{
+  const e=mergedEvidence(3),dir=mkdtempSync(join(tmpdir(),'current-delivery-')),calls=[];
+  const query=(...args)=>{
+    calls.push(args);
+    if(args[0]==='run') {
+      writeFileSync(join(dir,'ci-checkout.json'),JSON.stringify(e.checkout));return '';
+    }
+    if(args.at(-1).includes('/artifacts?'))return JSON.stringify([{artifacts:[e.checkoutArtifact]}]);
+    if(args.at(-1).endsWith('/artifacts/200'))return JSON.stringify(e.checkoutArtifact);
+    throw Error(`Unexpected query ${args}`);
+  };
+  try {
+    assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query),{checkout:e.checkout,checkoutArtifact:e.checkoutArtifact});
+    assert.equal(calls.length,3);
+    const legacy=mergedEvidence(2);
+    assert.throws(()=>checkoutReceipt(legacy.repo,legacy.run,legacy.jobs,dir,()=>{throw Error('Must reject missing orchestration before querying artifacts');}),/impact.*missing[\s\S]*fast.*missing/);
+  } finally {rmSync(dir,{recursive:true,force:true});}
+});
+
+test('partial retries retain successful jobs and the receipt from the effective first shard',()=>{
+  for(const version of [2,3]) {
+    const e=mergedEvidence(version);
+    for(const proof of [e.preflight,e]) {
+      const attempt=proof.run.run_attempt;
+      proof.jobs.forEach(job=>job.run_attempt=attempt-1);
+      proof.checkout.attempt=attempt-1;
+      proof.checkoutArtifact.name=`quality-${proof.run.id}-${attempt-1}-check`;
+      const old=proof.jobs.find(job=>job.name==='rules (8/8)');old.conclusion='failure';
+      proof.jobs.push({...old,id:500,run_attempt:attempt,conclusion:'success'});
+    }
+    assert.deepEqual(verifyDelivery(e.preflight),[]);
+    assert.deepEqual(verifyMergedDelivery(e),{state:'merged_passed',errors:[]});
+  }
 });
 
 test('the last execution wins for every job, regardless of history ordering',()=>{
@@ -96,16 +189,16 @@ test('receipt collection uses only the effective first shard artifact, paginates
     throw Error(`Unexpected query ${args}`);
   };
   try {
-    assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query),{checkout:e.checkout,checkoutArtifact:artifact});
+    assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query,2),{checkout:e.checkout,checkoutArtifact:artifact});
     assert(calls[0].includes('--paginate'));assert.equal(calls.length,3);
     for(const bad of [[],[artifact,artifact],[{...artifact,expired:true}],[{...artifact,workflow_run:{id:8,head_sha:sha('e')}}]]) {
       assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,(...args)=>{
         assert.equal(args[0],'api');assert(args.at(-1).includes('/artifacts?'));
         return JSON.stringify([{artifacts:bad}]);
-      }),/artifact/);
+      },2),/artifact/);
     }
     assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,(...args)=>
-      args.at(-1).endsWith('/artifacts/200')?JSON.stringify({...artifact,id:201}):query(...args)),/changed/);
+      args.at(-1).endsWith('/artifacts/200')?JSON.stringify({...artifact,id:201}):query(...args),2),/changed/);
   } finally {rmSync(dir,{recursive:true,force:true});}
 });
 
@@ -116,6 +209,11 @@ test('normal delivery includes the current complete hosted Quality matrices',()=
   assert.deepEqual(fullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
     Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`));
   assert.equal(fullQualityJobs.length,15);
+  assert.equal(deliverySchemaVersion,3);
+  assert.deepEqual(currentFullQualityJobs,[...fullQualityJobs,'impact','fast']);
+  assert.match(workflow,/^  impact:\n/m);
+  assert.match(workflow,/^  fast:\n[\s\S]*?if: needs\.impact\.outputs\.mode == 'fast'\n/m);
+  assert.match(workflow,/os: \[ubuntu-24\.04, windows-2025\]/);
 });
 
 test('post-merge delivery binds the actual squash commit, source tree and its own full Quality run',()=>{
@@ -198,7 +296,7 @@ test('merged push jobs cannot borrow same-attempt green jobs from another run or
 });
 
 test('post-merge collector selects only the latest exact push run and all job history pages',()=>{
-  const e=mergedEvidence(),calls=[];
+  const e=mergedEvidence(3),calls=[];
   e.jobs.forEach(job=>job.run_attempt=1);
   const retried=e.jobs.find(job=>job.name==='rules (8/8)');retried.conclusion='failure';
   e.jobs.push({...retried,id:500,run_attempt:2},{...retried,id:501,run_attempt:3,conclusion:'success'});
@@ -218,6 +316,7 @@ test('post-merge collector selects only the latest exact push run and all job hi
   const actual=collectMergedDelivery('owner/repo',8,e.preflight,query,run=>{
     assert.equal(run.id,9);assert.equal(run.run_attempt,3);return {checkout:e.checkout,checkoutArtifact:e.checkoutArtifact};
   });
+  assert.equal(actual.schemaVersion,3,'New collection must not infer a legacy contract from returned job names');
   assert.deepEqual(verifyMergedDelivery(actual),{state:'merged_passed',errors:[]});
   assert.equal(calls.filter(args=>args.at(-1).endsWith('/pulls/8')).length,2);
   assert(calls.some(args=>args.includes('--paginate')&&args.at(-1).includes('/jobs?filter=all')));
