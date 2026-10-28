@@ -71,6 +71,8 @@ test('Act3 event bridge evidence preserves pending native and natural acceptance
 test('campaign ledger distinguishes Act3/Act4 local components from natural, persistent and native acceptance', () => {
   const campaign = JSON.parse(readFileSync('data/release/m3-campaign.json', 'utf8'));
   assert.equal(campaign.acceptance, 'INCOMPLETE');
+  assert.equal(campaign.core.hostChapterUI, 'IMPLEMENTED_FORMAL_CAMPAIGN_ENTRY_LOCAL');
+  assert.match(readFileSync('src/lua/abyss_ui.lua','utf8'), /campaign = true/);
   assert.equal(campaign.core.persistentHistoricalUnlock, 'PLATFORM_UNVERIFIED');
   assert.equal(campaign.core.naturalKeyAcquisition, 'IMPLEMENTED_LOCAL_RUBY_RECALL_SAPPHIRE_TREASURE_EMERALD_REWARD_NATURAL_UNVERIFIED');
   assert.ok(campaign.core.keyAcquisitionEvidence.includes('tests/lua/emerald_key_run.lua'));

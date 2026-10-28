@@ -1,3 +1,4 @@
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync,mkdirSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
@@ -5,7 +6,7 @@ import {createHash} from 'node:crypto';
 import {resolve,join} from 'node:path';
 import {runLua} from '../scripts/test-lua.mjs';
 import {luaString} from '../scripts/build-lua-data.mjs';
-const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const read=path=>preFormalEntrySource(path,readFileSync(path,'utf8'));
 const proofBytes=read('tests/fixtures/pr267-fixture-budget.json');
 assert.equal(createHash('sha256').update(proofBytes).digest('hex'),'3883c358a3165e02ef1f7dc0d7cdcb42fdcbaa87c6e09b0c46cc6a56c56c46d7');
 const proof=JSON.parse(proofBytes);

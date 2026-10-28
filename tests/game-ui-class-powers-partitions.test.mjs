@@ -1,9 +1,10 @@
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
-const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
+const read = path => preFormalEntrySource(path,readFileSync(path,'utf8'));
 const partitions = JSON.parse(read('tests/fixtures/game-ui-class-powers-partitions.json'));
 
 test('class power raw partitions restore the exact original Git body and cover every matrix case once', () => {

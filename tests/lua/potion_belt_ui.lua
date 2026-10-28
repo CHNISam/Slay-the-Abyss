@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,C,Map,Nodes=require('abyss_run'),require('abyss_combat'),require('abyss_map'),require('abyss_nodes')
@@ -6,7 +7,7 @@ local function same(a,b)eq(type(a),type(b));if type(a)~='table'then eq(a,b);retu
 local count=0
 local function test(name,fn)fn();count=count+1;print('PASS potion belt UI '..count..' '..name)end
 local function setup(belt)
- local h,r=F.fixture();assert(h:start());if belt then assert(Run.obtainRelic(h.run,'Potion Belt'))end
+ local h,r=F.fixture();assert(testStart(h));if belt then assert(Run.obtainRelic(h.run,'Potion Belt'))end
  h:refresh();return h,r
 end
 local function counter(r,used,capacity)

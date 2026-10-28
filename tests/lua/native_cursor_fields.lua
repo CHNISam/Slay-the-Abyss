@@ -85,6 +85,7 @@ for _,target in ipairs({'control','ancestor'})do
  assert(queued()==false and generated.mode=='menu' and generated.run==nil,'inactive generated Start must not create a Run')
  F.setEngineActive(target=='control' and start or menu,true)
  generated.controller:tick()
- assert(queued()==true and generated.mode=='map' and generated.run~=nil,'reactivated generated Start must still create a Run')
+ assert(queued()==true and generated.characterOpen and generated.run==nil,'reactivated generated Start must open selection')
+ assert(F.confirmStart(generated));assert(generated.mode=='map' and generated.run~=nil,'final confirmation must create a Run')
 end
 print('NATIVE_CURSOR_FIELDS_PASS strict fields, generated startup, shared focus and stale-input gates')

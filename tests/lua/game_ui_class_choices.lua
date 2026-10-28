@@ -32,7 +32,7 @@ local function drain(ui)
 end
 local function setup(character,card,up,physical)
     local ui,root=X.new({cursor=physical and cursor})
-    assert(ui:start());assert(click(root,"characterPanel/character"..classIndex[character]))
+    assert(ui:start());assert(ui:selectCharacter('traveler'));assert(ui:selectElement(character));assert(ui:confirmCharacter())
     local run=ui.run
     -- Exact permanent-deck fixture, not natural acquisition or source drop odds.
     run.deck={}

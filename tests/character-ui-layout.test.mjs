@@ -5,9 +5,12 @@ import { gameLayout } from '../scripts/game-ui-layout.mjs';
 import { nativeTheme } from '../scripts/native-ui-theme.mjs';
 import { assertNativeUiCapacity } from '../scripts/build-ui.mjs';
 
-test('class and card choices are explicit development layout options', () => {
+test('formal character and card choices are present with either legacy flag', () => {
   const normal = gameLayout(), experimental = gameLayout(nativeTheme, { experimentalCharacters: true });
-  assert.equal(normal.controls.some(c => c.name === 'characterPanel' || c.name === 'choicePanel'), false);
+  assert.equal(normal.controls.filter(c => ['characterPanel', 'choicePanel'].includes(c.name)).length, 2);
+  assert.deepEqual(normal, experimental);
+  const panel = normal.controls.find(c => c.name === 'characterPanel');
+  for (const name of ['character1','character2','character3','character4','traveler','confirm','details','elements']) assert.ok(panel.children.find(c => c.name === name), name);
   assert.equal(experimental.controls.filter(c => ['characterPanel', 'choicePanel'].includes(c.name)).length, 2);
   assertNativeUiCapacity(experimental);
 });

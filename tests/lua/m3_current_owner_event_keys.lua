@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Mock-native generated controls with real GameUI/NodeUI/Nodes. Room navigation,
 -- event source, key qualification and owner replacement are staged, not earned
 -- history, natural campaign, native rendering or performance measurements.
@@ -22,8 +23,8 @@ eq(node.visible,false);local ok,why=node:render();eq(ok,false);eq(why,'node_unbo
 ok,why=node:setVisible(true);eq(ok,false);eq(why,'node_unbound');eq(node.visible,false)
 eq(node:press('confirm'),false);eq(mapController:choose('unbound'),false)
 local original=Map.generate;Map.generate=function()error('combined initial Map failure')end
-local called,reason=pcall(ui.start,ui);Map.generate=original;assert(not called and tostring(reason):find('combined initial Map failure',1,true))
-assert(ui.run==nil and ui.map==nil and node.run==nil and mapController.map==nil);eq(ui.seed,1);assert(ui:start())
+local called,reason=pcall(testStart,ui);Map.generate=original;assert(not called and tostring(reason):find('combined initial Map failure',1,true));assert(ui:closeCharacters())
+assert(ui.run==nil and ui.map==nil and node.run==nil and mapController.map==nil);eq(ui.seed,1);assert(testStart(ui))
 eq(ui.nodeUI,node);eq(ui.mapUI,mapController);assert(node.run==ui.run and node.map==ui.map and mapController.map==ui.map)
 -- The same initially-unbound listener/controller now executes canonical Beggar.
 local r,m=H.fixture('beggar',{{uid=7,cardId='strike'},{uid=8,cardId='defend'}},100);bind(r,m)
@@ -46,8 +47,8 @@ assert(click('confirm',32));H.same(kr,expected);H.same(km,em);eq(kr.keys.ruby,tr
 -- fresh Run/Map into the same original controllers, never an old event callback.
 kr.phase='defeat';ui:refresh();local seed=ui.seed
 Map.generate=function()error('combined restart Map failure')end
-called,reason=pcall(ui.start,ui);Map.generate=original;assert(not called and tostring(reason):find('combined restart Map failure',1,true))
+called,reason=pcall(testStart,ui);Map.generate=original;assert(not called and tostring(reason):find('combined restart Map failure',1,true));assert(ui:closeCharacters())
 eq(ui.run,kr);eq(ui.map,km);eq(node.run,kr);eq(mapController.map,km);eq(ui.seed,seed)
-assert(ui:start());assert(ui.run~=kr and ui.map~=km);eq(ui.nodeUI,node);eq(ui.mapUI,mapController)
+assert(testStart(ui));assert(ui.run~=kr and ui.map~=km);eq(ui.nodeUI,node);eq(ui.mapUI,mapController)
 local fresh,freshMap=H.snapshot(ui.run),H.Copy(ui.map);eq(old(),false);H.same(ui.run,fresh);H.same(ui.map,freshMap)
 print('M3_CURRENT_OWNER_EVENT_KEYS_PASS nil-owner/factory-failure/start/Beggar/stale-purge/Recall/restart')

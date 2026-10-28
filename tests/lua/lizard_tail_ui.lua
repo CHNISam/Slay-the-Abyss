@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;'..package.path
 local F=require('support.game_ui_fixture')
 local Run,C,Tail=require('abyss_run'),require('abyss_combat'),require('abyss_lizard_tail')
@@ -9,7 +10,7 @@ local function same(a,b)
  for k in pairs(b)do assert(a[k]~=nil,'field added')end
 end
 local function setup(owned,mark)
- local ui,root=F.fixture();assert(ui:start())
+ local ui,root=F.fixture();assert(testStart(ui))
  if owned then assert(Run.obtainRelic(ui.run,'Lizard Tail'))end
  if mark then assert(Run.obtainRelic(ui.run,'Mark of the Bloom'))end
  assert(Run.startCombat(ui.run,'cultist_solo'));ui:refresh()

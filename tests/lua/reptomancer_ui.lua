@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Generated controls and explicit source room setup, not native/live evidence.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local F,Run,C,Q,R=H.F,require('abyss_run'),require('abyss_combat'),require('abyss_encounter_queue'),require('abyss_reptomancer')
@@ -9,7 +10,7 @@ for i=1,50 do local raw=tostring(i);if Q.peek(Q.new(raw,3),'elite')=='Reptomance
 local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
 local host=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=seed,campaign=true,prologue=false,
  imageSource='static',color=function(red,green,blue,alpha)return{r=red,g=green,b=blue,a=alpha}end})
-assert(host:start());local run=host.run
+assert(testStart(host));local run=host.run
 run.act,run.floor,run.encounters=3,37,Q.new(seed,3)
 assert(Run.startRoomCombat(run,'elite'));host:refresh()
 local panel,ui=root:GetChild('battlePanel'),host.battleUI

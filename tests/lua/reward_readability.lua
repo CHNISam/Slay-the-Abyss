@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local S=dofile('tests/lua/support/ui_readability_snapshot.lua')
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
@@ -58,7 +59,7 @@ capture('stolen-gold-claimed',h,root)
 
 -- Same-cause spot checks: actual page ownership and header/feedback geometry.
 h,root=H.F.fixture();capture('menu',h,root)
-assert(h:start());capture('map',h,root)
+assert(testStart(h));capture('map',h,root)
 h.mapUI.entryError='当前路线不可达，请选择亮起的节点。';h.mapUI:render()
 capture('map-feedback',h,root)
 h.mapUI.entryError=nil;h.mapUI:render();capture('map-feedback-cleared',h,root)

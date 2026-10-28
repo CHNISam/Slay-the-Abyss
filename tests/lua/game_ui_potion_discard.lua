@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Map=require('abyss_run'),require('abyss_map')
@@ -7,7 +8,7 @@ else failures[#failures+1]=name..': '..tostring(why);print('not ok - '..failures
 local function equal(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function hit(root,panel,name)return assert(root:GetChild(panel):GetChild(name)):GetChild('hit')end
 local function setup(cursor)
-    local h,r=F.fixture(nil,nil,nil,cursor);assert(h:start())
+    local h,r=F.fixture(nil,nil,nil,cursor);assert(testStart(h))
     for _,id in ipairs({'fire_potion','block_potion','regen_potion'})do assert(Run.obtainPotion(h.run,id))end
     h.battleUI.run=h.run;h.nodeUI.run=h.run
     h:refresh();return h,r
@@ -23,7 +24,7 @@ end
 
 test('reward claim refreshes every counter state while Proceed preserves the pending bottle and rejects old input',function()
     for _,action in ipairs({'claimPotion','continue'})do
-        local h,r=F.fixture();assert(h:start())
+        local h,r=F.fixture();assert(testStart(h))
         h.run=Run.new(F.Data,42);h.battleUI.run=h.run;h.nodeUI.run=h.run
         assert(Run.startCombat(h.run,'cultist_solo'))
         for _,enemy in ipairs(h.run.combat.enemies)do enemy.hp=0 end

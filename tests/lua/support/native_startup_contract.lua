@@ -1,8 +1,9 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local host,root=F.fixture()
 assert(host and root and host.mode=='menu','real host must construct before a player can start')
-assert(host:start(),'real host must start with generated controls')
+assert(testStart(host),'real host must start with generated controls')
 host:disable()
 -- Reinsert the exact escaped write without touching the working tree. This
 -- negative control must fail in the production constructor, not a fake check.

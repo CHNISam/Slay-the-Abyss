@@ -1,10 +1,11 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local H = dofile("tests/lua/support/battle_action_fixture.lua")
 local test, finish = H.suite("LUA_ACTION_COMPATIBILITY")
 test("fresh paired end turn executes once", function()
     local h,u,p,e,t,d=H.setup();t("endTurn",7);d();assert(h.run.combat.turn==2)
 end)
 test("no-pointer host keeps click-only end turn", function()
-    local h,r=H.F.fixture();assert(h:start());assert(H.Run.startCombat(h.run,"cultist_solo"));h:refresh()
+    local h,r=H.F.fixture();assert(testStart(h));assert(H.Run.startCombat(h.run,"cultist_solo"));h:refresh()
     r:GetChild("battlePanel"):GetChild("endTurn").click();assert(h.run.combat.turn==2)
 end)
 test("pointer-capable host keeps click-only actions after real card pointers", function()

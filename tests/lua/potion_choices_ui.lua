@@ -1,6 +1,7 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
-local ui,root=F.fixture();ui:start();assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
+local ui,root=F.fixture();testStart(ui);assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
 local s=ui.run.combat;s.hand={{uid=1000,cardId='strike'},{uid=1001,cardId='defend'}}
 assert(Run.obtainPotion(ui.run,'elixir'));ui:refresh();assert(ui.battleUI:usePotion(1))
 for _=1,100 do ui:update(.05);if not ui.battleUI.busy then break end end

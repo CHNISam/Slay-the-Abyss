@@ -134,6 +134,8 @@ test("host restart: old run held pointer cannot confirm a new run card",function
     local restart = root:GetChild("menuPanel"):GetChild("start"):GetChild("hit")
     restart.listeners.down({touchId=8}); restart.listeners.up({touchId=8})
     assert(restart.click({touchId=8}))
+    assert(host.characterOpen and host.run==oldRun)
+    assert(F.confirmStart(host))
     assert(host.run~=oldRun and host.mode=="node" and host.run.neowHistorySource=="session-completed-run")
     -- A real defeat supplies mini-Neow history to this host's next run.
     -- Take the HP blessing through generated buttons, preserving the starter deck.

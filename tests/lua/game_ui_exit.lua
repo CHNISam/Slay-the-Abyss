@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Combat, Nodes = F.Combat, F.Nodes
 local count = 0
@@ -20,7 +21,7 @@ end
 local function open(root) return tap(root,"exitEntry","open") end
 local function cancel(root) return tap(root,"exitPanel","cancel") end
 local function confirm(root) return tap(root,"exitPanel","confirm") end
-local function battle(ui) assert(ui:start()); assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id)) end
+local function battle(ui) assert(testStart(ui)); assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id)) end
 
 test("visible mouse/touch exit works before start and from the map without a keyboard",function()
     local calls=0
@@ -28,11 +29,11 @@ test("visible mouse/touch exit works before start and from the map without a key
     assert(assert(root:GetChild("exitEntry"),"no visible exit entry").visible)
     assert(open(root) and root:GetChild("exitPanel").visible)
     assert(cancel(root) and ui.mode=="menu" and calls==0)
-    assert(ui:start())
+    assert(testStart(ui))
     local before=Combat.copy(ui.run)
     assert(open(root))
     assert(not ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
-    assert(not ui:openDeck() and not ui:start())
+    assert(not ui:openDeck() and not testStart(ui))
     assert(cancel(root) and same(before,ui.run) and ui.mapUI.navigationEnabled)
 end)
 
@@ -69,14 +70,14 @@ test("exit remains available during enemy feedback and does not wait for its ban
     ui:update(20)
     assert(same(before,ui.run) and ui.battleUI.feedback.elapsed==elapsed)
     assert(confirm(root) and calls==1 and ui.settlementRequested)
-    assert(not ui:confirmExit() and not ui:closeExit() and not ui:start())
+    assert(not ui:confirmExit() and not ui:closeExit() and not testStart(ui))
     ui:update(20)
     assert(same(before,ui.run) and calls==1)
 end)
 
 test("node and deck overlays retain state when exit is cancelled",function()
     local ui,root=F.fixture(nil,function() return true end)
-    assert(ui:start()); ui.run.hp=20
+    assert(testStart(ui)); ui.run.hp=20
     -- Stage navigation along the unchanged canonical graph; prior rooms are
     -- not played here because this case isolates exit/deck overlay ownership.
     local Map=require('abyss_map')
@@ -116,7 +117,7 @@ test("a cancelled pointer gesture cannot confirm a subsequently reopened dialog"
     local events={CursorDown="down",CursorUp="up",CursorExit="out",CursorDrag="drag",CursorEndDrag="endDrag",CursorMove="move"}
     local calls=0
     local ui,root=F.fixture(nil,function() calls=calls+1; return true end,nil,events)
-    assert(ui:start()); assert(open(root))
+    assert(testStart(ui)); assert(open(root))
     local hit=root:GetChild("exitPanel"):GetChild("confirm"):GetChild("hit")
     hit.listeners.down()
     assert(cancel(root)); assert(open(root))
@@ -141,7 +142,7 @@ end)
 test("completed victory keeps its earned outcome when leaving through the shared entry",function()
     local result
     local ui,root=F.fixture(nil,function(victory) result=victory; return true end)
-    assert(ui:start())
+    assert(testStart(ui))
     ui.run.phase="victory"; ui.run.nodeFlow={complete=true,result="boss_treasure_complete"}
     ui:refresh(); assert(ui.mode=="victory")
     assert(open(root)); assert(confirm(root)); assert(result==true)
