@@ -26,3 +26,7 @@
 4. `config/engineering-quality-baseline.json`：从固定 develop@1f260a71 源码生成一次完整快照（保留完整数据，不作豁免）；加 `check:quality`，接入原 `check:engineering`；CI 上传本轮报告与失败诊断，不改已有必需作业/时限。
 5. `docs/ENGINEERING_QUALITY.md` 与 `docs/ENGINEERING.md`：写真实基线、命令、报告含义、后续硬门槛启用条件和人工职责审查边界。工具只能发现数值/结构变化，不能证明拆分具有业务意义。
 6. 验证：工具专项测试 + 原 architecture/lua-static/ui-complexity/responsibility-complexity 测试；运行实际 `check:architecture`、`check:lua-static`、`check:quality`，核对源 Lua diff 为空与基线一致。CI 全套和平台状态按实际证据报告，不推断通过。
+
+## 合并整合补充
+
+等待CI期间 develop 已前移到48cb48ce。线性重放并保留原始1f260a71观察数据；活动规则身份单独固定当前已审查配置，测试完整证明仅原Enum许可随NodeUI输入职责迁移，没有增加许可/忽略/排除，也不改变测量定义。复用主线已齐备的5/5职业选择测试分组与原始哈希守卫，删除本地重复6/4分组实现；已有NodeUI专项硬门槛、Full/Fast路由及schemaVersion3交付检查全部保留。

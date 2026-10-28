@@ -90,6 +90,20 @@ export function compareQuality(current,baseline) {
 
 const readJson=file=>JSON.parse(readFileSync(file,'utf8'));
 const digest=file=>sha256(readFileSync(file,'utf8').replaceAll('\r\n','\n'));
+// Observational debt and the currently reviewed detector policy have different
+// lifetimes. Never rewrite an old snapshot when a real responsibility moves.
+export function policyErrors(inputs,policy) {
+  const path='config/engineering-quality-policy.json';
+  const invalid=()=>[{file:path,message:'Invalid active detection contract; no exceptions or missing pins allowed'}];
+  const files=['.luacheckrc','config/lua-tools.json'];
+  if(!policy||policy.schemaVersion!==1||policy.measurementContractVersion!==qualityContract.version
+    ||!/^[a-f0-9]{40}$/.test(policy.sourceRevision??'')
+    ||!isDeepStrictEqual(Object.keys(policy).sort(),['schemaVersion','measurementContractVersion','sourceRevision','inputs'].sort())
+    ||!policy.inputs||!isDeepStrictEqual(Object.keys(policy.inputs).sort(),files)
+    ||files.some(file=>!/^[a-f0-9]{64}$/.test(policy.inputs[file])))return invalid();
+  return files.filter(file=>inputs[file]!==policy.inputs[file]).map(file=>({file,
+    message:'Active detection contract changed; review required, do not refresh the historical baseline'}));
+}
 export function collectQuality() {
   const sources=discoverSources(),byModule={};
   for(const [file,source] of Object.entries(sources)) {
@@ -129,7 +143,7 @@ export function renderQuality(report) {
   const topComplexity=snapshot.modules.flatMap(m=>m.functions.map(f=>({file:m.file,...f})))
     .sort((a,b)=>b.complexity-a.complexity||a.file.localeCompare(b.file,'en')).slice(0,15);
   return `# 工程质量报告\n\n${report.status}；新增数值门槛保持 report-only，不代表工程债务已治理。\n\n`
-    +`源码提交：${report.revision??'unknown'}；基线：${report.baselineRevision??'unknown'}。以逐模块源码摘要为实际输入身份。\n\n`
+    +`源码提交：${report.revision??'unknown'}；基线：${report.baselineRevision??'unknown'}；活动规则源：${report.activePolicy?.sourceRevision??'unknown'}。以逐模块源码摘要为实际输入身份。\n\n`
     +`覆盖 ${coverage.modules} 模块、${coverage.functions} 函数；复杂度 ${coverage.measurements}/${coverage.expectedMeasurements} 项。\n\n`
     +table(['指定模块','文件行数','最长函数跨度','最高复杂度'],qualityContract.watchedModules.map(name=>{
       const m=snapshot.modules.find(m=>m.file===`src/lua/${name}.lua`);
@@ -141,6 +155,7 @@ export function renderQuality(report) {
     +`\n\n## 完整依赖环\n\n${snapshot.cycles.length} 个强连通分量（不是简单环数量），包含延迟 require；内部调用点详见 JSON。\n\n`
     +snapshot.cycles.map(c=>`- 成员：${c.members.join('、')}；${c.edges.length} 内部调用点（成员列表不是一条环路径）`).join('\n')
     +`\n\n## 相对固定基线\n\n静态告警 ${snapshot.diagnostics.length} 条：新增 ${diff?.diagnostics.added.length??'?'}、移除 ${diff?.diagnostics.removed.length??'?'}。精确坐标移动按一增一减报告，不自动豁免。\n\n`
+    +`检测输入相对原基线变化：${(report.ruleChanges??[]).join('、')||'无'}。活动身份仅固定当前规则，不改写历史数据。\n\n`
     +(diff?table(['模块','状态','原行数','现行数','变化'],diff.modules.filter(m=>m.status!=='present'||m.lineDelta!==0||m.sourceChanged).map(m=>[m.file,m.status,m.before,m.after,m.lineDelta])):'无可比较基线。')
     +`\n\n函数变化、依赖边增减、环变化、逐条告警和检测输入摘要见 JSON。改名/删除/拆分不等于职责验收通过，新增辅助模块同样全量测量。\n\n`
     +`## 完整性或既有规则错误\n\n${report.errors.length?report.errors.map(e=>`- ${e.file??''}:${e.line??''} ${e.message}`).join('\n'):'无。'}\n`;
@@ -158,8 +173,9 @@ export function main(args=[]) {
     report.baselineRevision=baseline.revision;report.baselineSha256=digest(baselineFile);
     report.diff=compareQuality(report.snapshot,baseline.snapshot);
     report.ruleChanges=Object.keys(report.inputs).filter(file=>baseline.inputs?.[file]!==report.inputs[file]);
-    // Report code changes, but never silently change the lint or tool contract.
-    for(const file of ['.luacheckrc','config/lua-tools.json'])if(report.ruleChanges.includes(file))report.errors.push({file,message:'Frozen detection contract changed; review required, do not refresh baseline'});
+    const policy=readJson('config/engineering-quality-policy.json');
+    report.activePolicy={sourceRevision:policy.sourceRevision,sha256:digest('config/engineering-quality-policy.json'),inputs:policy.inputs};
+    report.errors.push(...policyErrors(report.inputs,policy));
     report.status=report.errors.length?'failed':'reported';
   } catch(error) {report.errors.push({message:error.message});}
   report.durationMs=Date.now()-started;

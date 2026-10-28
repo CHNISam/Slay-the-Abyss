@@ -51,5 +51,44 @@
     "Full GitHub-hosted cross-platform Quality",
     "Official client/import/playtest",
     "Production gameplay refactor"
-  ]
+  ],
+  "rebasedIntegration": {
+    "base": "48cb48cef5480c6b0cfa32b6269c9390acb1d57a",
+    "scope": "No src/lua, data, raw Lua fixtures or lint configuration diff against this integrated base; original observed baseline unchanged",
+    "coverage": {
+      "modules": 231,
+      "functions": 3479,
+      "measurements": 3710,
+      "expectedMeasurements": 3710
+    },
+    "warnings": 60,
+    "warningDiff": {
+      "added": 31,
+      "removed": 44
+    },
+    "activePolicy": {
+      "sourceRevision": "48cb48cef5480c6b0cfa32b6269c9390acb1d57a",
+      "sha256": "96bb10b0d3d38aec317166a3123fb2e3dbb509e1ac2a1ad43375fbdd68c16b70",
+      "inputs": {
+        ".luacheckrc": "aa889903a2ed900aef4d1b48c3fce69382d703510866106d28c03ca8ae7f9b75",
+        "config/lua-tools.json": "e8ecec08ce6eac1e0c34ddb629dbb9c88c9eb3289446397eb45a12e67b0f25f5"
+      }
+    },
+    "ruleChanges": [
+      ".luacheckrc",
+      "config/architecture.json",
+      "config/luacheck-baseline.json",
+      "scripts/check-lua-static.mjs",
+      "scripts/check-engineering-quality.mjs"
+    ],
+    "checks": {
+      "engineering": "passed incl4 mutation kills and2 native contracts",
+      "toolTests": "64 pass0fail0skip",
+      "ciAndUpstreamPartitionContracts": "25 pass0fail0skip",
+      "testsLogSha256": "7dd3809e962c3245a21a1173cdc775404de00f39f2d1450b9fd124198624aecb",
+      "engineeringLogSha256": "b46b60fac143e2bce0daaed8e469f0bd1ee511a3bb2d42b2cf6e50a551ff35ec"
+    },
+    "budgetRepair": "Use upstream PR319 exact full-source5/5 partitions; local6/4 implementation removed, original10 scenarios retained",
+    "fullCI": "pending new head"
+  }
 }
