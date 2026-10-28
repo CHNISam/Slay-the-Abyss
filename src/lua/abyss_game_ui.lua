@@ -12,7 +12,6 @@ local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
 local Prologue = require("abyss_prologue")
 local Controller = require("abyss_controller")
-local ReleaseNotesUI = require("abyss_release_notes_ui")
 local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
@@ -35,14 +34,8 @@ function M.new(root, data, presentation, clickEvent, platform)
     local speed=menu:GetChild('battleSpeed')
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local exitGeneration, menuGeneration = 0, 0
-    local menuPointerSealed = false
-    self.releaseNotesUI=ReleaseNotesUI.new(child('releaseNotesPanel'),menu:GetChild('releaseNotes'),menu:GetChild('codeVersion'),
-        Narrative.releaseNotes,clickEvent,platform,function()
-            -- Modal transitions and page changes retire both the notice gesture and
-            -- any source-menu Down/Up/ownerless Click from before the transition.
-            exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1;menuPointerSealed=true
-            self:refresh()
-        end)
+    local codeVersion = assert(menu:GetChild('codeVersion'), 'missing game menu codeVersion')
+    codeVersion.text = Narrative.codeVersion or '未知'
     local experimental = platform.experimentalCharacters == true
     local characterPanel = root:GetChild("characterPanel")
     local originalCharacters=platform.originalCharacters==true and characterPanel and characterPanel:GetChild('traveler')~=nil or false
@@ -53,7 +46,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.setFastMode=function(_,enabled)
         if type(enabled)~='boolean' or self.disabled or self.battleUI and self.battleUI.busy then return false end
         if self.mode~='menu' or self.characterOpen or self.exitOpen
-            or (self.releaseNotesUI and self.releaseNotesUI.visible) or (self.deckUI and self.deckUI.visible)
+            or (self.deckUI and self.deckUI.visible)
             or (self.potionUI and self.potionUI.visible) or (self.choiceUI and self.choiceUI.visible)
             or self.settlementRequested or self.settlementBusy then return false end
         self.fastMode=enabled
@@ -126,7 +119,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     elseif prologuePanel then prologuePanel:SetVisible(false) end
 
     self.openExit = function(_)
-        if self.disabled or self.releaseNotesUI.visible or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+        if self.disabled or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
         self.potionUI:close()
         self.exitOpen, self.exitError = true, nil
@@ -298,7 +291,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         if not controller then return end
         local scope=self.mode
         if self.disabled or self.settlementRequested or self.settlementBusy then scope='blocked'
-        elseif self.releaseNotesUI.visible then scope='releaseNotes'
         elseif self.exitOpen then scope='exit'
         elseif self.characterOpen then scope='characters'
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
@@ -308,8 +300,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode=='battle' and self.battleUI.info then scope='battleInfo'
         elseif self.mode=='battle' and (self.battleUI.selected or self.battleUI.potionAim) then scope='aim' end
         controller:sync(scope,function()
-            if scope=='releaseNotes' then return self.releaseNotesUI:close()
-            elseif scope=='exit' then return self:closeExit()
+            if scope=='exit' then return self:closeExit()
             elseif scope=='characters' then return self:closeCharacters()
             elseif scope=='deck' then
                 if self.deckUI.choiceToken then return false end
@@ -352,11 +343,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.characterOpen and (not inMenu or self.settlementRequested or self.settlementBusy) then
             self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         end
-    end
-    local function syncReleaseNotes(covering)
-        self.releaseNotesUI:sync(self.mode=='menu' and not self.characterOpen and not self.exitOpen and not covering
-            and not self.disabled and not self.settlementRequested and not self.settlementBusy,
-            exitGeneration..':'..menuGeneration)
     end
     local function syncCardChoice(run)
         if self.choiceUI then
@@ -472,7 +458,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     local function refreshForeground()
-        menu:GetChild('codeVersion'):SetVisible(self.mode=='menu')
+        codeVersion:SetVisible(self.mode=='menu')
         if speed then speed:SetVisible(self.mode=='menu')end
         if characterPanel then
             characterPanel:SetVisible(self.characterOpen==true)
@@ -481,13 +467,13 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.choiceUI and self.choiceUI.visible then self.choiceUI.root:SetAsLastSibling() end
         -- Shared utilities stay above the deck overlay; the confirmation stays
         -- above every page, including an in-flight battle presentation.
-        exitEntry:SetVisible(not self.releaseNotesUI.visible and not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
+        exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
         exitEntry:SetAsLastSibling()
         exitPanel:SetVisible(self.exitOpen == true)
         refreshExitDialog()
     end
     local function overlaysBlocked()
-        local blocked = self.exitOpen or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy or self.characterOpen
+        local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy or self.characterOpen
             or self.choiceUI and self.choiceUI.visible
         return blocked
     end
@@ -501,7 +487,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         selectMode(run,prologue)
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         syncMenuContext(run,inMenu)
-        syncReleaseNotes(covering)
         syncCardChoice(run)
         closeStaleDeck(run,inMenu)
         openCardChoice(run)
@@ -525,7 +510,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.start = function(_, character)
         if self.disabled then return false,"ui_disabled" end
-        if self.releaseNotesUI.visible or self.exitOpen or self.deckUI.visible then return false end
+        if self.exitOpen or self.deckUI.visible then return false end
         if self.settlementRequested or self.settlementBusy then return false end
         if self.mode ~= "menu" and self.mode ~= "defeat" and self.mode ~= "victory" then return false end
         if selectable and character==nil then
@@ -604,7 +589,6 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.settle = function(_)
         if self.disabled then return false,"ui_disabled" end
-        if self.releaseNotesUI.visible then return false, "release_notes_open" end
         if self.characterOpen then return false, "character_choice_open" end
         if self.exitOpen then return false, "exit_open" end
         if self.deckUI.visible then return false, "deck_open" end
@@ -640,7 +624,6 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.resize = function(_, width, height)
         exitGeneration = exitGeneration + 1
         menuGeneration = menuGeneration + 1
-        self.releaseNotesUI:invalidate()
         if self.choiceUI then self.choiceUI:resize() end
         local closed=self.potionUI:close()
         self.battleUI:resize(width, height)
@@ -680,7 +663,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         if controller then controller:disable() end
         exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.characterOpen=false
-        self.releaseNotesUI:disable()
         if characterPanel then characterPanel:SetVisible(false) end
         -- Set every controller inert before cancelling feedback: cancellation
         -- invokes its completion callback synchronously, which now cannot refresh.
@@ -709,7 +691,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local characterAction = kind == "character_cancel" or kind:match("^character_%d$")~=nil
         local cursor = platform.cursorEvents or {}
         local function available()
-            if self.disabled or self.releaseNotesUI.visible or self.settlementRequested or self.settlementBusy then return false end
+            if self.disabled or self.settlementRequested or self.settlementBusy then return false end
             if kind=='battleSpeed' then return self.mode=='menu' and not self.characterOpen and not self.exitOpen and not self.deckUI.visible end
             if characterAction then
                 return selectable and self.characterOpen==true and not self.exitOpen
@@ -721,7 +703,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                     and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
             end
             if menuAction then
-                if self.releaseNotesUI.visible or self.exitOpen or self.deckUI.visible then return false end
+                if self.exitOpen or self.deckUI.visible then return false end
                 return self.mode == "victory" or self.mode == "defeat"
                     or kind == "start" and self.mode == "menu"
             end
@@ -762,7 +744,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end,action,available,kind=='cancel' and 1 or kind=='open' and 200 or 100)
         hit:AddCursorEventListener(clickEvent, function(event)
             if Controller.pointerBlocked(controller)then return false end
-            if observed or cursor.CursorDown and cursor.CursorUp and (touch(event) ~= nil or menuAction and menuPointerSealed) then
+            if observed or cursor.CursorDown and cursor.CursorUp and touch(event) ~= nil then
                 local token = released
                 if not current(token) then
                     if not held or held.touch == touch(event) then held, released = nil, nil end
@@ -801,7 +783,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     ready = true
     if controller then
-        controller.beforeAction=function()self.releaseNotesUI:invalidate();self.battleUI:cancelControllerPointers()end
+        controller.beforeAction=function()self.battleUI:cancelControllerPointers()end
         controller.onChange=function()self:syncController()end
     end
     self:refresh()

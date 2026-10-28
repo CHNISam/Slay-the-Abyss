@@ -105,7 +105,7 @@ const responsibilityRoots = {
   ],
   'src/lua/abyss_game_ui.lua': [
     "function 'self.refresh'", "function 'finishRunFlow'", "function 'selectMode'",
-    "function 'syncMenuContext'", "function 'syncReleaseNotes'", "function 'syncCardChoice'",
+    "function 'syncMenuContext'", "function 'syncCardChoice'",
     "function 'closeStaleDeck'", "function 'openCardChoice'", "function 'syncRewardReturn'",
     "function 'refreshPotionEntry'", "function 'refreshDeckEntry'", "function 'refreshUtilities'",
     "function 'refreshMapResources'", "function 'refreshPageVisibility'", "function 'renderBattlePage'",
