@@ -1,0 +1,35 @@
+ok card preview 1 - single-target damage follows Strength and Weak, and each target's own Vulnerable
+ok card preview 2 - multi-hit cards show the per-hit value and the core lands exactly that many times
+ok card preview 3 - area attacks preview every living enemy and match the core's per-enemy damage
+ok card preview 4 - block numbers follow Dexterity and Frail and equal the block the core grants
+ok card preview 5 - Iron Wave previews block and damage separately; Body Slam previews its current block
+ok card preview 6 - negative Strength floors damage at zero and previews never mutate the battle
+ok card preview 7 - source-backed hand and aimed values reset when target powers disappear or aiming is cancelled
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=10
+ok card preview 8 - hand labels update live for every modifier and show the aimed target while dragging
+ok card preview 9 - the reported Weak versus Vulnerable scene shows 4 in hand and 6 only while aimed
+ok card preview 10 - rewards keep printed numbers; only combat hands are live
+ok card preview 11 - player and every enemy show status icons, stacks and full current effects
+ok card preview 12 - crowded and narrow units overflow to +N and the panel pages through every status
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=6
+ok card preview 13 - click-only: status taps never play, target or end the turn, and an open panel swallows the next tap
+ABYSS_FEEDBACK play source=- target=2 amount=0
+ABYSS_FEEDBACK damage source=player target=cultist_2 amount=6
+ok card preview 14 - pointer: status taps never play, target or end the turn, and an open panel swallows the next tap
+ABYSS_FEEDBACK enemy_turn source=- target=- amount=0
+ABYSS_FEEDBACK intent source=jaw_worm_1 target=- amount=0
+ABYSS_FEEDBACK damage source=jaw_worm_1 target=player amount=11
+ABYSS_FEEDBACK intent source=cultist_2 target=- amount=0
+ABYSS_FEEDBACK status source=cultist_2 target=cultist_2 amount=3
+ABYSS_FEEDBACK status source=jaw_worm_1 target=jaw_worm_1 amount=-1
+ABYSS_FEEDBACK reshuffle source=- target=- amount=0
+ABYSS_FEEDBACK player_turn source=- target=- amount=0
+ok card preview 15 - the panel follows live values and closes for playback, a dead unit or a new battle
+ok card preview 16 - value feedback: unchanged, increased, decreased, net zero, upgraded base and zero floor
+ok card preview 17 - value feedback: mixed effects are indexed, multi-hit is per hit, special damage stays neutral
+ok card preview 18 - value feedback: aim, target switch, cancellation, slot reuse, removal and disabled cost are independent
+ok card preview 19 - value feedback: repeated render reads state only and feedback adds no input listeners
+LUA_CARD_PREVIEW_PASS 19
+Lua fixture tests/lua/card_preview.lua: 17016 ms

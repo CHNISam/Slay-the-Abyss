@@ -23,8 +23,11 @@ for _,upgraded in ipairs({false,true}) do
         assert(info:GetChild('name3').text:find('消耗',1,true))
         event('card1','exit',7)
         tap('card1',8);tap('playArea',8);assert(u.busy)
-        eq(u.feedback.flight.tx,(Theme.layout.enemyRow.xFrom+Theme.layout.enemyRow.xTo)/2,'area flight center')
-        eq(u.feedback.flight.ty,Theme.layout.enemyRow.y,'enemy row')
+        -- Area x remains the source zone center; y follows its first front-row actor.
+        local sourceX=(1010+1850)/2/1.5-640
+        local sourceY=360-(300+58+16+190/2)/1.5
+        eq(math.abs(u.feedback.flight.tx-sourceX)<1e-8,true,'area flight center')
+        eq(math.abs(u.feedback.flight.ty-sourceY)<1e-8,true,'enemy row')
         eq(s.energy,1);eq(#s.exhaust,1);eq(#s.discard,0)
         -- Captured UI playback must see each target's complete pair before the next target.
         local observed={}

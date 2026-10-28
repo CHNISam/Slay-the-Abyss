@@ -1,3 +1,4 @@
+import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import {currentSourceLayers} from './task77-current-source-layers.mjs';
 import {preFormalEntrySource} from '../support/formal-entry-source-inverse.mjs';
 import assert from 'node:assert/strict';
@@ -29,6 +30,10 @@ export function archivedRetirementChangelog(source=retirementSources.beforeSourc
 // that can hide future changes in the old source or current interaction guards.
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
  let normalized=source===null?null:source.replaceAll('\r\n','\n');
+ // Bind and invert only the complete reviewed UI-after identity before the
+ // existing competition guard; malformed/partial/unknown sources still fail it.
+ if(normalized!==null && approvedUi.files[path]?.afterSha256===digest(normalized))
+  normalized=preApprovedUiSource(path,normalized);
  const current=currentSourceLayers.competition[path];
  if(current){
   const historical=path===competitionHost.path?competitionHost.afterSha256:'6a073dda56608f8d4e8f6b9c922a43041f42ded9923c4c3281a3dd8f98deb864';

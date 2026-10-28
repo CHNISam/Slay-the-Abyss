@@ -11,20 +11,23 @@ for count=1,5 do
  host.run.combat=H.F.Combat.new(H.F.Data,{deck={'strike','strike'},enemies=enemies,seed=11})
  host:refresh()
  local battle=host.run.combat
- local xFrom=Theme.layout.enemyRow.xFromFew
- local step=count>1 and (Theme.layout.enemyRow.xTo-xFrom)/(count-1) or 0
+ -- Main.dc.html: zoneL=1010, zoneR=1850; front=min(190,round(slot*1.1)).
+ -- Keep this live gesture test on the approved source geometry, not the retired row.
+ local sourceStep=(1850-1010)/count
+ local front=math.min(190,math.floor(sourceStep*1.1+.5))
  local origin=panel:GetChild('card1').x
  event('card1','down',7)
  for i=1,count do
   local box=panel:GetChild('enemy'..i)
-  local x=count==1 and (xFrom+Theme.layout.enemyRow.xTo)/2 or xFrom+(i-1)*step
-  local y=Theme.layout.enemyRow.y+(count>3 and (i%2==0 and Theme.layout.enemyRow.frontOffset or Theme.layout.enemyRow.backOffset) or 0)
-  assert(box.visible and box.x==x and box.y==y,'visible enemy row changed')
+  local portrait=i%2==1 and front or math.floor(front*.86+.5)
+  local x=(1010+sourceStep*(i-.5))/1.5-640
+  local y=360-((i%2==1 and 300 or 180)+58+16+portrait/2)/1.5
+  assert(box.visible and math.abs(box.x-x)<1e-8 and math.abs(box.y-y)<1e-8,'visible enemy row changed')
   local renderedX=Enemy.position(count,i,battle.enemies[i])
-  assert(renderedX==x,'feedback position differs from visible enemy')
+  assert(math.abs(renderedX-x)<1e-8,'feedback position differs from visible enemy')
   event('card1','drag',7,x,y)
   local layer=panel:GetChild('dragLayer')
-  assert(layer.visible and layer:GetChild('reticle').x==x,'actual target hitbox differs from visual slot')
+  assert(layer.visible and math.abs(layer:GetChild('reticle').x-x)<1e-8,'actual target hitbox differs from visual slot')
   assert(ui.gesture.drawnTarget==i,'target identity was replaced by presentation position')
   assert(panel:GetChild('card1').x==origin,'first UI batch broke original-column carry')
   colour(layer:GetChild('reticle').imageColor,Theme.color.danger)

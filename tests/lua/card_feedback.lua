@@ -97,7 +97,11 @@ test(id.." flies to selected enemy and releases committed frames once",function(
  local ui,stage,click,play=setup();ui.run=Run.new(Data,42);assert(Run.startCombat(ui.run,"cultist_solo"))
  local s=state(id);s.player.block=7;ui.run.combat=s;ui:render()
  local hp=s.enemies[2].hp;local events=s.events;play(1,2);assert(ui.busy)
- eq(ui.feedback.flight.tx,Theme.layout.enemyRow.xTo);eq(ui.feedback.flight.ty,Theme.layout.enemyRow.y)
+ -- Main.dc.html: second of two source slots, back row with round(190*.86) portrait.
+ local expectedX=(1010+(1850-1010)*.75)/1.5-640
+ local expectedY=360-(180+58+16+math.floor(190*.86+.5)/2)/1.5
+ eq(math.abs(ui.feedback.flight.tx-expectedX)<1e-8,true)
+ eq(math.abs(ui.feedback.flight.ty-expectedY)<1e-8,true)
  assert(s.enemies[2].hp<hp);eq(s.enemies[1].hp,s.enemies[1].maxHp)
  if id=="anger" then eq(#s.discard,2);assert(s.discard[1].uid~=s.discard[2].uid) end
  local before=Combat.copy(s);ui:endTurn();same(s,before)

@@ -1,0 +1,8 @@
+ABYSS_RUN seed=1 source=explicit
+/tmp/sta-ui-pr313-m3-original.lua:22: visible enemy row changed
+stack traceback:
+	[JS]: in function 'assert'
+	/tmp/sta-ui-pr313-m3-original.lua:22: in main chunk
+	[JS]: in function 'dofile'
+	(command line):1: in main chunk
+EXPECTED_RED exact 4211b4e fixture bytes against current approved Main geometry; original default runner budget unchanged.

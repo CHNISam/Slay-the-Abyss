@@ -1,0 +1,169 @@
+{
+  "baseHead": "4211b4eaaac9e16f4f44a32fcbd8c98b50888a17",
+  "parser": "luaparse pseudo-latin1 ranges; exact original source text per assert/eq/rgb/colour call; multiset match does not certify behavior",
+  "files": [
+    {
+      "path": "tests/lua/m3_ui_polish.lua",
+      "beforeSha256": "69410cf15750912bee1abe3cc06fbeacb921d0d5c9348f54a5e93dfb13d46fe2",
+      "afterSha256": "f6dacb0aff893f2b9e17c2431ec1c8760e5c0c8f1bb998f887c66f834c8c67e0",
+      "originalCalls": 11,
+      "exactlyRetainedCalls": 8,
+      "changedOriginalCalls": [
+        {
+          "name": "assert",
+          "text": "assert(box.visible and box.x==x and box.y==y,'visible enemy row changed')"
+        },
+        {
+          "name": "assert",
+          "text": "assert(renderedX==x,'feedback position differs from visible enemy')"
+        },
+        {
+          "name": "assert",
+          "text": "assert(layer.visible and layer:GetChild('reticle').x==x,'actual target hitbox differs from visual slot')"
+        }
+      ],
+      "currentChangedOrAddedCalls": [
+        {
+          "name": "assert",
+          "text": "assert(box.visible and math.abs(box.x-x)<1e-8 and math.abs(box.y-y)<1e-8,'visible enemy row changed')"
+        },
+        {
+          "name": "assert",
+          "text": "assert(math.abs(renderedX-x)<1e-8,'feedback position differs from visible enemy')"
+        },
+        {
+          "name": "assert",
+          "text": "assert(layer.visible and math.abs(layer:GetChild('reticle').x-x)<1e-8,'actual target hitbox differs from visual slot')"
+        }
+      ]
+    },
+    {
+      "path": "tests/lua/card_feedback.lua",
+      "beforeSha256": "be43f7a241c771f554ea565c0ccd59e8e636c94650df4c6f7bc13837f08ee5da",
+      "afterSha256": "aa1390d5785797c20259a444fad6d5808d0cfdfb3ebe53e11f24a89ae241fdfb",
+      "originalCalls": 65,
+      "exactlyRetainedCalls": 63,
+      "changedOriginalCalls": [
+        {
+          "name": "eq",
+          "text": "eq(ui.feedback.flight.tx,Theme.layout.enemyRow.xTo)"
+        },
+        {
+          "name": "eq",
+          "text": "eq(ui.feedback.flight.ty,Theme.layout.enemyRow.y)"
+        }
+      ],
+      "currentChangedOrAddedCalls": [
+        {
+          "name": "eq",
+          "text": "eq(math.abs(ui.feedback.flight.tx-expectedX)<1e-8,true)"
+        },
+        {
+          "name": "eq",
+          "text": "eq(math.abs(ui.feedback.flight.ty-expectedY)<1e-8,true)"
+        }
+      ]
+    },
+    {
+      "path": "tests/lua/card_preview.lua",
+      "beforeSha256": "d8feccb174227472b35ead7b56e1722862fa350ec5633e30f09f7cc3e5cebec1",
+      "afterSha256": "64b89cd647d1123c920fa1406e59383f09b4e3fcd44b0c9442c783ea8cdb6781",
+      "originalCalls": 191,
+      "exactlyRetainedCalls": 188,
+      "changedOriginalCalls": [
+        {
+          "name": "eq",
+          "text": "eq(second[2].count, \"-1\")"
+        },
+        {
+          "name": "assert",
+          "text": "assert(open and #rows == 0 and box:GetChild(\"section1\").text == \"暂无状态\")"
+        },
+        {
+          "name": "rgb",
+          "text": "rgb(card:GetChild('cost').fontColor,Theme.color.danger)"
+        }
+      ],
+      "currentChangedOrAddedCalls": [
+        {
+          "name": "assert",
+          "text": "assert(box.visible,'input actor is hidden')"
+        },
+        {
+          "name": "eq",
+          "text": "eq(second[2].count, \"−1\")"
+        },
+        {
+          "name": "assert",
+          "text": "assert(open and box:GetChild(\"more\").text:find(\"第 \" .. page .. \"/\" .. pages .. \" 页\", 1, true))"
+        },
+        {
+          "name": "assert",
+          "text": "assert(open and #rows == 0 and box:GetChild(\"section1\").text == \"意图 · 尚未执行\")"
+        },
+        {
+          "name": "assert",
+          "text": "assert(box:GetChild(\"name1\").visible and box:GetChild(\"text1\").text ~= \"\", \"an enemy without statuses still shows its current intent\")"
+        },
+        {
+          "name": "rgb",
+          "text": "rgb(card:GetChild('cost').fontColor,Theme.cardSkin.costTone.up)"
+        }
+      ]
+    },
+    {
+      "path": "tests/lua/summon_enemy_ui.lua",
+      "beforeSha256": "a3d4ee6b03fbaa2abc943075f70203d65e5fb649e50e78041128556d30a30077",
+      "afterSha256": "a8f3bfc4cb4662a77e533cfe0e996c690799a68f80b7c2b049f6536ded10a1ac",
+      "originalCalls": 32,
+      "exactlyRetainedCalls": 31,
+      "changedOriginalCalls": [
+        {
+          "name": "assert",
+          "text": "assert(box.x==(liveCount<=row.fewCount and row.xFromFew or row.xFrom),'dead actors still consume live layout columns')"
+        }
+      ],
+      "currentChangedOrAddedCalls": [
+        {
+          "name": "assert",
+          "text": "assert(math.abs(box.x-expectedX)<1e-8,'dead actors still consume live layout columns')"
+        },
+        {
+          "name": "assert",
+          "text": "assert(u.info and u.info.index==indexOf(s,boss) and u.info.id==boss.id,'fresh remapped details used a different actor')"
+        },
+        {
+          "name": "assert",
+          "text": "assert(not u.info)"
+        }
+      ]
+    },
+    {
+      "path": "tests/lua/shockwave_feedback.lua",
+      "beforeSha256": "34ba957bc29d12521fcc0ff494fe40108205173b100f8a960e85235aa19980f8",
+      "afterSha256": "8b94e6e4b2c37c41b3bc918c8cbe8aa87b7f2bc5b2b4316b245c629e96e278ac",
+      "originalCalls": 23,
+      "exactlyRetainedCalls": 21,
+      "changedOriginalCalls": [
+        {
+          "name": "eq",
+          "text": "eq(u.feedback.flight.tx,(Theme.layout.enemyRow.xFrom+Theme.layout.enemyRow.xTo)/2,'area flight center')"
+        },
+        {
+          "name": "eq",
+          "text": "eq(u.feedback.flight.ty,Theme.layout.enemyRow.y,'enemy row')"
+        }
+      ],
+      "currentChangedOrAddedCalls": [
+        {
+          "name": "eq",
+          "text": "eq(math.abs(u.feedback.flight.tx-sourceX)<1e-8,true,'area flight center')"
+        },
+        {
+          "name": "eq",
+          "text": "eq(math.abs(u.feedback.flight.ty-sourceY)<1e-8,true,'enemy row')"
+        }
+      ]
+    }
+  ]
+}
