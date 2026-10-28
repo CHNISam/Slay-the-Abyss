@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 01:36'
+updated_date: '2026-10-28 13:20'
 due_date: '2026-10-28'
 labels:
   - required
@@ -54,6 +54,8 @@ ordinal: 43000
 2026-10-27并发独立审查复现Stasis/CorpseExplosion同优先级死亡Power破序；按AbstractMonster.die稳定powerOrder统一同一enqueueReaction，保留Boss/Spore TOP，正反顺序native/advanced及失败原子/UID重试验证。主session已集成24ad402，原11组先5红后全绿。
 
 2026-10-27执行中重新同步develop b164fda：复用已合入PR245致命损血/Fairy前Power和遗物回调修复，保留PR238 Masterful Stab真实损血成本通知；按新31组源预期及独立死亡队列11组组合验证，不重写或忽略在途修复。
+
+2026-10-28 独立回滚切片：在当前 develop 的四类续选入口补齐整局事务边界。先复现后续结算拒绝或异常时的状态残留，再复用已有快照与恢复机制；验证原对象、随机流、道具槽位、重试及旧请求失效。保持原规则、同局状态和测试预算，不修改持久存档或并行 UI 分支。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -114,4 +116,8 @@ ordinal: 43000
 已集成c78c59b：玩家onAttacked统一在HP-loss回调前向既有owner排TOP，Static/Thorns/FlameBarrier/BlockReturn不再同步抢在Puzzle抽牌前；无Static的末敌荆棘同因一并修复，敌人目标原批次保留。新增13组对原生产9红、修后13绿；Plated49/Rupture36、Defect防御、第三幕形状通过。独立未改该实现的session正在复核；所有原30/60秒回归预算保持，当前完整Quality重跑与平台自然验收仍待。
 
 2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
+
+本轮已在 7a87de3a 重现原五份夹具全部失败：拒绝路径错误返回成功，异常路径未恢复已消费的随机状态。最小修复后原五份夹具、十组用例通过；正补第一/第二幕真实奖励准备入口的受控失败回归。尚未完成本轮完整 CI、自然通关或平台验收，原状态、负责人及未勾验收项保持不变。
+
+本轮局部验证已收口：原五份续选夹具加第一/第二幕 competition-two-act 真实房间奖励准备的两个受控异常用例，共12组通过；最初原五份夹具及新增两幕用例均在7a87de3a原生产源码实际重现失败。最终相关JS 16项、额外11份Lua回归、语法、Backlog和完整本地engineering检查均通过，原30秒夹具预算及已有断言不变。Node v24.22.1、Fengari CLI 0.1.0、固定Luacheck 1.2.0；复用既有缓存依赖。这里只证明同局事务与受控组件：没有持久存档、自然通关、新候选、导入、实机或当前完整Quality证据，AC5/6与整体In Progress保持不变。
 <!-- SECTION:NOTES:END -->
