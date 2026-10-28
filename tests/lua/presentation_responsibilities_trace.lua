@@ -26,7 +26,7 @@ host.nodeUI:render();host:refresh()
 assert(host.mode=='node')
 local nodePanel=root:GetChild('nodePanel')
 assert(nodePanel:GetChild('campView'):GetChild('forge'):GetChild('hit').click())
-assert(nodePanel:GetChild('pickerView'):GetChild('card1'):GetChild('hit').click())
+assert(nodePanel:GetChild('pickerView'):GetChild('forgeGrid'):GetChild('card1'):GetChild('hit').click())
 assert(nodePanel:GetChild('confirm'):GetChild('hit').click())
 host:refresh()
 -- Committed combat events, independent VFX clocks and overlay input ownership.
@@ -49,7 +49,6 @@ for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
--- The complete old 72915/148113441 sequence remains an exact ordered
--- subsequence; presentation-native-m3-contract.test.mjs checks the paired
--- captures and every reviewed insertion before accepting this expanded trace.
-assert(trace.count==77278 and trace.hash==1948853637,'ordered native writes changed from the frozen contract')
+-- Latest develop retains all 77278 historic writes; the explicit room port
+-- adds 2265 writes for the forge grid/result flow and updated room controls.
+assert(trace.count==79543 and trace.hash==1215629804,'ordered native writes changed from the room-port contract')

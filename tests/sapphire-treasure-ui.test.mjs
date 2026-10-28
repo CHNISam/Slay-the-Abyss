@@ -4,10 +4,11 @@ import { readFileSync } from 'node:fs';
 import { nodeLayout } from '../scripts/node-ui-layout.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
 
-test('actual generated treasure uses unchanged reward/take and existing distinct root footer',()=>{
+test('generated treasure retains legacy commands and adds four visible reward rows',()=>{
   const root=nodeLayout().controls[0], treasure=root.children.find(control=>control.name==='treasureView');
   assert.deepEqual(treasure.children.map(control=>control.name),
-    ['glow','closed','open','chest','hint','reward','take','previous','next','page','bossDescription']);
+    ['glow','closed','open','chest','hint','reward','take','previous','next','page','bossDescription',
+      'rewardItem1','rewardItem2','rewardItem3','rewardItem4','burst','details']);
   const take=treasure.children.find(control=>control.name==='take');
   const footer=root.children.find(control=>control.name==='confirm');
   assert.ok(root.children.indexOf(footer)>root.children.indexOf(treasure));

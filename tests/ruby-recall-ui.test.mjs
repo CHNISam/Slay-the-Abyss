@@ -31,9 +31,9 @@ function assertFrozenRecall(source) {
   assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),partitions.originalGitBlob);
 }
 
-test('actual generated NodeUI uses the existing last footer without adding camp controls',()=>{
+test('generated camp preserves the Recall footer and adds a rest result panel',()=>{
   const root=nodeLayout().controls[0], camp=root.children.find(control=>control.name==='campView');
-  assert.deepEqual(camp.children.map(control=>control.name),['medallion','rest','forge']);
+  assert.deepEqual(camp.children.map(control=>control.name),['medallion','rest','forge','result']);
   const footer=root.children.find(control=>control.name==='confirm');
   assert.ok(root.children.indexOf(footer)>root.children.indexOf(camp));
   for(const tile of camp.children.filter(control=>['rest','forge'].includes(control.name)))

@@ -14,9 +14,21 @@ function M.serialize(value,seen)
 end
 function M.new()
     local recorder={hash=0.0,count=0,nativeButtons={}}
+    local transforms={}
     function recorder:add(value)
         local text=M.serialize(value)..'\n'
-        for i=1,#text do self.hash=(self.hash*131+text:byte(i))%2147483647 end
+        local transform=transforms[text]
+        if not transform then
+            local factor,offset=1.0,0.0
+            for i=1,#text do
+                factor=(factor*131)%2147483647
+                offset=(offset*131+text:byte(i))%2147483647
+            end
+            transform={factor,(factor*65536)%2147483647,offset};transforms[text]=transform
+        end
+        -- Two 16-bit limbs keep every product/sum below 2^49, preserving the
+        -- original byte-loop hash exactly in Lua doubles while reusing rows.
+        self.hash=((self.hash%65536)*transform[1]+math.floor(self.hash/65536)*transform[2]+transform[3])%2147483647
         self.count=self.count+1
     end
     function recorder:assertNativeInteraction()
