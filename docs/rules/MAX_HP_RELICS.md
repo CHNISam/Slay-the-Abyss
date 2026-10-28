@@ -67,3 +67,18 @@ Old Coin 与 Eternal Feather 不是本片依赖，不迁入相关room/energy共�
 **Original V4活动战斗取得仍按原审查模块原子拒绝；不宣称雷电活动取得修复或全部角色活动取得均支持。** 当前实际岩旅行者与冻结V4雷电均用CharacterSelect/Run生产入口，在战外依次取得Strawberry/Pear/Mango/Waffle，核对每一步实际hp/maxHp，然后进入真实Cultist战斗并保留最终生命与上限；雷电实际RD角色、冻结初始牌ID顺序与数量与新战斗healUsed=0均核对。岩活动真实受伤后四件均从活动owner结算；雷电活动四件均返回公开事务的transaction_failed且完整owner图、生命、持有权、熵与治疗账本不变。
 
 新增独立 `max_hp_competition_profiles.lua` 与Node封装只补测试，不改原15份审查新增文件或任何生产代码。两实际身份各一次30秒默认预算的定向进程通过（岩2.88秒、雷电4.82秒）；首轮仅因夹具错误期待内部断言文本而失败，真实战外→下战已通过，修为公开规范错误值后全过。商店/宝箱的现有pending入口强制phase=node，胜利遗物领取强制phase=reward，未发现普通自然渠道会在phase=combat调用取得；这是源码路径复核，不替代自然游玩。日志及静态入口证明见独立证据的 `competition-profiles.log` 与 `common-acquisition-phase-audit.json`。
+
+
+## 当前接受PR313后的再集成（cec690c1）
+
+当前线性分支已从旧432e基线rebase到真正已接受的 `cec690c1701af121e370facde5c1ca2ad9beb99e`（PR313），没有并入仍待接受的PR315/317。旧432e、a151、8fe、bc与c9证据只认证各自历史身份，不冒充当前集成证明。已接受的Main/Map/Card、药水popup及完整Node历史逆变换保留；所有生产Lua除原MaxHP新模块与hook之外，均保持当前接受底座字节。
+
+真实c9 Full CI的Windows/POSIX守卫发现PR238旧完整体逆变换尚未认识已审seed70夹具修复。新增只认证c9三个精确hunk的外层逆变换，完整恢复修复前inventory原字节后，再执行原PR238全部体hash、12例及30秒预算证明；旧fixture、hash、案例和种子范围不改。部分/重复/移位/无关改动均拒绝。新接受主题和架构另有完整身份绑定，只逆回三份原MaxHP占位图标和一个core分类，再进入已接受PR313原历史链；旧432e/PR302/PR310/PR313证据与旧MaxHP身份均保留。
+
+当前专项：21项纯来源/历史/漂移合同、3项活动owner/实际Geo与冻结Raiden Node封装，以及原inventory_budget_6两例均通过。实际profile与owner均保留原30秒限制；没有重跑旧94项冒充当前完整Quality。固定9源成员/160健康/28渠道金样复验、构建/数据/语法、232模块/1300边架构及固定Luacheck（无新增、60历史、625度量）通过。旧全量失败记录保留，当前精确head仍须独立审查和全量托管Quality；自然/平台/实机及V4活动取得限制不变。
+
+## 接受PR319后的线性同步（48cb48ce）
+
+已将同一五个MaxHP提交线性rebase到实际已接受的 `48cb48cef5480c6b0cfa32b6269c9390acb1d57a`（PR319，父cec690c1）。重放无冲突，不需要新增源层或修改测试helper；其完整药水registrar逆变换、原预算分片、严格交付合同及全部20份变更文件逐字节保留。PR313主题/架构输入未变，原MaxHP两文件精确逆变换继续恢复相同的接受字节；旧金样、hash、PR238/PR302/PR310/PR313见证与seed70修复均不替换或放宽。
+
+当前28项纯来源/历史/漂移/分片合同全部通过，零失败/跳过；固定9源成员、160生命和28完整渠道金样，数据/主题/UI构建、数据/语法/Backlog/网络校验、232模块/1300边架构及固定Luacheck（0新增、60历史、625度量）通过。932份接受Lua/冻结夹具/审查/源目录及静态基线原字节保留，原15份MaxHP新增与hook、seed70 c9运行夹具精确保留；原MaxHP生产和数据没有新增改动。此次仅是纯源码同步检查，没有重复重放重型Lua、94项旧宽套或平台测试；旧精确头全量失败保留，当前精确头仍待独立复审和新完整Quality。59项定义不表示完整遗物/Boss覆盖，Original V4活动取得仍原子拒绝；自然取得/候选/实机证据继续未验收。

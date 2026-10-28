@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {nodeUiRefactor,preNodeUiRefactorSource} from './node-ui-refactor-inverse.mjs';
+import {preMaxHpSource} from './max-hp-accepted-source-inverse.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const normalized=value=>value.replaceAll('\r\n','\n');
 const bytes=readFileSync(new URL('../fixtures/approved-node-ui-faces-layer.json',import.meta.url));
@@ -46,6 +47,7 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ if(source!==null)source=preMaxHpSource(path,source);
  source=prePostNodeSource(path,source);
  if(path!==approvedNodeFace.nodeRoot)return source;
  assert.equal(typeof source,'string','unreviewed integrated Node root must exist');
