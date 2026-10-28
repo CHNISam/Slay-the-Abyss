@@ -3590,7 +3590,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. NORMAL damage still refuses held lizard_tail until its real shared revival hook exists. Tungsten Rod now shares actual battle/event final HP-loss reduction. Toxic Egg now upgrades both actually obtained Madness cards once; Writhe still refuses held darkstone_periapt. Complete relic acquisition, whole-campaign and platform/live acceptance remain pending."
+      "naturalAcquisitionLimitation": "Outside default Act1 inventory; local campaign seed11 validates unfiltered source selection. Held lizard_tail now uses the shared fatal reserve with persistent once-per-run counter; controlled event coverage is offline only. Tungsten Rod now shares actual battle/event final HP-loss reduction. Toxic Egg now upgrades both actually obtained Madness cards once; Writhe still refuses held darkstone_periapt. Complete relic acquisition, whole-campaign and platform/live acceptance remain pending."
     },
     {
       "id": "golden_idol",
@@ -3615,7 +3615,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held lizard_tail NORMAL damage or darkstone_periapt curse obtain refuses until real shared hooks exist; Tungsten Rod final HP-loss reduction is wired. Full campaign/platform/live acceptance pending."
+      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held lizard_tail now uses the shared fatal reserve with persistent once-per-run counter; darkstone_periapt curse obtain still refuses until its real shared hook exists; Tungsten Rod final HP-loss reduction is wired. Full campaign/platform/live acceptance pending."
     },
     {
       "id": "sensory_stone",
