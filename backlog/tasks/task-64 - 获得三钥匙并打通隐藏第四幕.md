@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-28 01:36'
+updated_date: '2026-10-28 06:13'
 labels:
   - required
   - sts1
@@ -49,6 +49,8 @@ PR262已合入绿钥匙、燃烧精英、52营地→53商店→54盾矛→55心�
 2026-10-28在第三幕候选交付/完整CI期间推进依赖已满足的离线切片：按固定319009来源，独立实现盾矛与心脏的敌人/AI/源动作模块及向量；燃烧精英模块单独负责有资格地图选点、持续mapRng四强化和独立绿钥匙owner。三个切片不并发改共享Map/Run/Nodes/Combat/UI，父线程按边界接共享hooks和正式入口。先真实RED→GREEN、再完整失败回滚/既有RNG与呈现回归；任何组件完成不冒充终幕可达、三钥匙自然获得或持久平台验收。
 
 PR262入口修复：在原始地图被复制和房间钩子执行前，复用既有Map.restore与Run幕诞生上下文验证规范地图及连续mapRng。保留无诞生上下文的旧组件入口；带燃烧契约而缺上下文必须拒绝。先记录伪造有效流/选择/标记/元表的RED，再验证无副作用拒绝、正常生成/恢复/已战斗后的延续、晚失败回滚及原队列回归；不改状态或AC，不混入Stage1历史或Eggs。
+
+2026-10-28：以PR262已合入代码和真实Run/Nodes回归校正m3-campaign机器账本的绿钥匙与Act4本地实现状态；重跑对应回归；natural/platform均保留NOT_RUN，不改变AC、负责人或Done状态。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

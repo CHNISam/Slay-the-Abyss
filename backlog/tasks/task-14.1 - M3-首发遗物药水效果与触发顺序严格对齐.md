@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 02:02'
+updated_date: '2026-10-28 06:16'
 due_date: '2026-10-28'
 labels:
   - required
@@ -72,6 +72,8 @@ ordinal: 42000
 2026-10-27宝箱与渠道切片：原AbstractChest/ShopScreen/MonsterRoomElite真实调用链→共同遗物队列front/tail→create/open/take/leave与商店Courier/精英公开领取接线。69独立连续RNG向量与源边界/生成UI定向通过；缺效果保留sourceId并不可领取，不缩池重抽。当前PR238完整Quality收口中，整体AC不勾。
 
 2026-10-28接续实际遗留成果：将16e9dfa7蜥蜴尾巴/黑星组合与原树三文件未提交药水计数修正接到最新b7dffdeb；保留双方原生轨迹测试、专用数据输入负例和全部旧断言。定向回归与完整当前SHA CI通过后合并，完整自然/平台AC仍不勾。
+
+2026-10-28冲刺：按固定319009d5的MoltenEgg2.java补熔火之蛋，复用既有获得牌与Toxic Egg owner；覆盖攻击牌preview/obtain、只追溯当前战斗奖励、回滚、正常来源与48层边界。保持旧牌组/旧商店不追改；先红后绿并复验Toxic；完整道具池、自然和平台AC继续保留未完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
