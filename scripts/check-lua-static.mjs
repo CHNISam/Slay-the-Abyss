@@ -94,7 +94,8 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
   'src/lua/abyss_nodes.lua': [],
-  'src/lua/abyss_run.lua': ["function 'potionCandidate'"],
+  'src/lua/abyss_run.lua': [],
+  'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
   'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'"],
@@ -139,8 +140,10 @@ const responsibilityRoots = {
     "function 'refreshForeground'", "function 'overlaysBlocked'",
   ],
 };
-const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run_potion_candidate.*|nodes(?:_.+)?)\.lua$/.test(file);
-export function reviewModuleSize(sources, budgets = {'src/lua/abyss_nodes.lua': 1000}) {
+// Existing catalog/seed/red-card contracts are separate, unchanged responsibilities.
+// All Run orchestration and newly extracted Run helpers receive the full budget.
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
+export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000}) {
   const modules = [], errors = [];
   for (const [file, limit] of Object.entries(budgets)) {
     if (!(file in sources)) { errors.push({file, message:'Required size-governed module missing'}); continue; }
