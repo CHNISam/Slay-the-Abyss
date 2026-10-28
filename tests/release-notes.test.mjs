@@ -186,3 +186,13 @@ for (const mode of ['hardlink', 'symlink']) for (const input of [...releaseSourc
     assert.deepEqual(readdirSync(join(f.root, 'out')), ['abyss_ui_templates.lua']);
   });
 }
+
+test('player-facing changelog excludes pure development and CI jargon', () => {
+  const notes = parseChangelog(readFileSync('CHANGELOG.md', 'utf8'));
+  const forbidden = /\b(?:CI|PR|Lua|MCP|SHA|Backlog|npm|Git)\b|架构依赖|版本提案流程|开发协作|回归测试/i;
+  for (const [version, note] of notes) {
+    for (const line of [...note.added, ...note.improved, ...note.fixed]) {
+      assert.doesNotMatch(line, forbidden, `${version} should describe player-visible changes: ${line}`);
+    }
+  }
+});
