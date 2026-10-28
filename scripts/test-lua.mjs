@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 import { luaString, toLua } from './build-lua-data.mjs';
 import { battleLayout } from './ui-layout.mjs';
 import { partition, timings as runtimeTimings, jsShard, discoverJs } from './ci-shards.mjs';
-import { runLuaWorkers } from './lua-workers.mjs';
+import { runLuaWorkers, luaSchedulingWeight } from './lua-workers.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -76,8 +76,10 @@ export function shardLuaScripts(scripts, value, timings = runtimeTimings, worker
   const initial = timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs
     : count === 8 ? jsShard(discoverJs(), value, 'win32').loads : undefined;
   if (initial?.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');
-  // Two workers halve the Lua work budget relative to the preceding serial JS.
-  return partition(scripts, value, timings.lua, timings.unknownLuaMs, initial?.map(load => load * workers)).files;
+  // An exclusive fixture occupies both potential worker slots. Balance its
+  // full cost, while short fixtures retain the benefit of the two-worker pool.
+  const weights = Object.fromEntries(scripts.map(script => [script, luaSchedulingWeight(weight(script), workers)]));
+  return partition(scripts, value, weights, luaSchedulingWeight(timings.unknownLuaMs, workers), initial?.map(load => load * workers)).files;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
