@@ -1,6 +1,17 @@
+local first,last=...
+first,last=first or 1,last or 2
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=7 and first<=last,'invalid potion pointer slice')
+local registered,executed=0,0
 local H = dofile("tests/lua/support/potion_targeting_fixture.lua")
 local setup,Run,Combat,F,eq,untouched = H.setup,H.Run,H.Combat,H.F,H.eq,H.untouched
 local test,finish = H.suite("LUA_POTION_TARGET_POINTERS")
+local originalTest=test
+test=function(name,fn)
+ registered=registered+1
+ if registered<first or registered>last then return end
+ executed=executed+1
+ return originalTest(name,fn)
+end
 
 test('enemy Down predating pending cannot authorize potion use',function()
   local h,u,p,r,e,click,tap=setup(true);e('enemy2','down',8);tap('potion1',7);e('enemy2','up',8);e('enemy2','click',8)
@@ -36,3 +47,6 @@ test('repeat enemy and bottle callbacks during playback cannot spend refill',fun
   e('enemy2','click',8);e('potion1','click',7);eq(h.run.potions[1],'fire_potion')
 end)
 finish()
+assert(registered==7,'all original potion pointer cases must register')
+assert(executed==last-first+1,'all selected potion pointer cases must execute')
+print('POTION_TARGET_POINTER_PART '..first..' '..last..' '..executed)
