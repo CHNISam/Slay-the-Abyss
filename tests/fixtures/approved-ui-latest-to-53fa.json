@@ -4,10 +4,37 @@
   "files": {
     "data/presentation/ui_theme.json": {
       "beforeSha256": "e0e9a35f5f284f486b01542ef0f124c2a3a4ea2234c23890398266e8f4b54ac4",
-      "afterSha256": "6b43a048c8bf396c31b0f64b116bd35c865812529989a5e3b2c0a394b70b7f97",
+      "afterSha256": "a9cc2bcccd9098fb98fd18e8f36bd137b9855ffebdbf21ad283838776e68c28d",
       "hunks": [
         {
-          "at": 130,
+          "at": 121,
+          "before": [],
+          "after": [
+            "    },",
+            "    \"mapHeader\": {",
+            "      \"shade\": \"#070303\",",
+            "      \"border\": \"#6E5A42\",",
+            "      \"title\": \"#E9C77B\",",
+            "      \"ink\": \"#BBAA8C\",",
+            "      \"menuNormal\": {",
+            "        \"fill\": \"#241B19\",",
+            "        \"ink\": \"#BBAA8C\",",
+            "        \"border\": \"#6E5A42\"",
+            "      },",
+            "      \"menuHover\": {",
+            "        \"fill\": \"#3A2E28\",",
+            "        \"ink\": \"#F6DFA4\",",
+            "        \"border\": \"#E9C77B\"",
+            "      },",
+            "      \"menuPressed\": {",
+            "        \"fill\": \"#170F0E\",",
+            "        \"ink\": \"#F3ECDD\",",
+            "        \"border\": \"#E9C77B\"",
+            "      }"
+          ]
+        },
+        {
+          "at": 151,
           "before": [
             "    \"cardName\": 17,"
           ],
@@ -16,7 +43,7 @@
           ]
         },
         {
-          "at": 133,
+          "at": 154,
           "before": [
             "    \"cost\": 24,"
           ],
@@ -25,7 +52,7 @@
           ]
         },
         {
-          "at": 738,
+          "at": 759,
           "before": [
             "      \"costDisc\": 40,"
           ],
@@ -34,7 +61,7 @@
           ]
         },
         {
-          "at": 741,
+          "at": 762,
           "before": [
             "        \"costOverhang\": 4,",
             "        \"costRing\": 4,"
@@ -45,7 +72,7 @@
           ]
         },
         {
-          "at": 748,
+          "at": 769,
           "before": [
             "      }"
           ],
@@ -62,7 +89,7 @@
           ]
         },
         {
-          "at": 823,
+          "at": 844,
           "before": [
             "        -548,",
             "        -196"
@@ -73,7 +100,7 @@
           ]
         },
         {
-          "at": 826,
+          "at": 847,
           "before": [
             "      \"size\": 88"
           ],
@@ -98,7 +125,95 @@
           ]
         },
         {
-          "at": 2700,
+          "at": 1034,
+          "before": [
+            "        \"noticeHeight\": 40"
+          ],
+          "after": [
+            "        \"noticeHeight\": 40,",
+            "        \"header\": {",
+            "          \"shade\": [",
+            "            0,",
+            "            330,",
+            "            1280,",
+            "            60",
+            "          ],",
+            "          \"shadeOpacity\": 0.75,",
+            "          \"divider\": [",
+            "            0,",
+            "            296,",
+            "            1200,",
+            "            1",
+            "          ],",
+            "          \"titleLineLeft\": [",
+            "            -160,",
+            "            316,",
+            "            30,",
+            "            1",
+            "          ],",
+            "          \"titleLineRight\": [",
+            "            160,",
+            "            316,",
+            "            30,",
+            "            1",
+            "          ]",
+            "        }"
+          ]
+        },
+        {
+          "at": 1219,
+          "before": [
+            "        -60,"
+          ],
+          "after": [
+            "        -296,"
+          ]
+        },
+        {
+          "at": 1221,
+          "before": [
+            "        52"
+          ],
+          "after": [
+            "        44"
+          ]
+        },
+        {
+          "at": 2021,
+          "before": [
+            "        552,"
+          ],
+          "after": [
+            "        576,"
+          ]
+        },
+        {
+          "at": 2023,
+          "before": [
+            "        96,"
+          ],
+          "after": [
+            "        48,"
+          ]
+        },
+        {
+          "at": 2078,
+          "before": [
+            "      ]"
+          ],
+          "after": [
+            "      ],",
+            "      \"entryVisual\": {",
+            "        \"diameter\": 36,",
+            "        \"border\": 1,",
+            "        \"lineWidth\": 14,",
+            "        \"lineHeight\": 1,",
+            "        \"lineStep\": 4",
+            "      }"
+          ]
+        },
+        {
+          "at": 2755,
           "before": [
             "      \"panel\": [490, 210, 220, 244],",
             "      \"map\": [490, 286, 196, 48],",
@@ -139,15 +254,15 @@
             "        48",
             "      ],",
             "      \"mapBack\": [",
-            "        548,",
-            "        316,",
-            "        104,",
+            "        -522,",
+            "        -296,",
+            "        148,",
             "        44",
             "      ]"
           ]
         },
         {
-          "at": 2865,
+          "at": 2920,
           "before": [],
           "after": [
             "    },",
@@ -294,12 +409,121 @@
         }
       ]
     },
-    "scripts/map-ui-layout.mjs": {
-      "beforeSha256": "9d7da4392bdbefbd72b145d32aad58af0bba658e2162ff8b976cd295799d0963",
-      "afterSha256": "abd26c0c8c7a4989c88168c4d7cc02ad634e8f253b55928c97b382fbc0054c48",
+    "scripts/exit-ui-layout.mjs": {
+      "beforeSha256": "578c82a49879930244784f8b952e52b6a26cece16ebc6aae08bd10e03cb078d7",
+      "afterSha256": "608a6a8ce33531795caba19112c2d07674418bf5c7a25e3d909a1e37a9b256dd",
       "hunks": [
         {
-          "at": 56,
+          "at": 28,
+          "before": [],
+          "after": [
+            "  // Map.dc.html/Main.dc.html: a small dark circular menu with three short",
+            "  // strokes (M4 7h16 / M4 12h16 / M4 17h16). Reuse native disc/rect images;",
+            "  // the 48px native hit remains larger than the 36px artwork for touch/focus.",
+            "  const entry = button('open', l.entry, '菜单'), v = l.entryVisual;",
+            "  const entryPalettes = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,",
+            "    pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };",
+            "  for (const variant of entry.children[0].children) {",
+            "    const palette = entryPalettes[variant.name];",
+            "    const [border, face, label] = variant.children;",
+            "    border.image = face.image = theme.image.disc;",
+            "    border.size = [v.diameter, v.diameter]; border.colour = palette.border;",
+            "    face.size = [v.diameter - v.border * 2, v.diameter - v.border * 2]; face.colour = palette.fill;",
+            "    label.visible = false;",
+            "    for (let i = 0; i < 3; i++) variant.children.push(",
+            "      plate(`menuStroke${i + 1}`, [0, (1 - i) * v.lineStep, v.lineWidth, v.lineHeight], palette.ink));",
+            "  }"
+          ]
+        },
+        {
+          "at": 47,
+          "before": [
+            "      button('open', l.entry, '菜单'),"
+          ],
+          "after": [
+            "      entry,"
+          ]
+        }
+      ]
+    },
+    "scripts/game-ui-layout.mjs": {
+      "beforeSha256": "2f9c7b944b738b27f3e6e720b795ec299b0ee67ebb3d8bc118d5debcb771e518",
+      "afterSha256": "8d795c224089089f63119ad4ff3b6709187cb2e6ad0581ebe003b777693f0bda",
+      "hunks": [
+        {
+          "at": 28,
+          "before": [],
+          "after": [
+            "  // Conditional map return actions stay secondary to the route, not large panels.",
+            "  // Reuse the existing official back glyph; no route or reward binding changes.",
+            "  const mapReturn = (name, values, label) => {",
+            "    const action = button(name, values, label, { inset: [space.s, space.s],",
+            "      fontSize: font.label, colour: color.mapHeader.ink, fill: '#00000000' });",
+            "    const textLabel = action.children.find(item => item.name === 'label');",
+            "    textLabel.position = [space.m, 0]; textLabel.size = [values[2] - space.xl, values[3]];",
+            "    action.children.splice(1, 0, { name: 'backIcon', kind: 'image', position: [-values[2] / 2 + space.s, 0],",
+            "      size: [font.label, font.label], image: theme.icon.back, colour: color.mapHeader.ink });",
+            "    return { ...action, visible: false };",
+            "  };"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "  mapPanel.children.push({ ...button('previewBack', theme.layout.runMenu.mapBack, '返回菜单', {",
+            "    inset: [space.s, space.s], fontSize: font.label, border: color.goldDim }), visible: false });"
+          ],
+          "after": [
+            "  mapPanel.children.push(mapReturn('previewBack', theme.layout.runMenu.mapBack, '返回菜单'));"
+          ]
+        },
+        {
+          "at": 75,
+          "before": [
+            "      { ...button('combatRewards', theme.layout.battleRewards.return, '返回战利品', {",
+            "        inset: [space.s, space.s], fontSize: font.label, border: color.goldDim }), visible: false },"
+          ],
+          "after": [
+            "      mapReturn('combatRewards', theme.layout.battleRewards.return, '返回战利品'),"
+          ]
+        }
+      ]
+    },
+    "scripts/map-ui-layout.mjs": {
+      "beforeSha256": "9d7da4392bdbefbd72b145d32aad58af0bba658e2162ff8b976cd295799d0963",
+      "afterSha256": "fa4ecaad8a734bb4699f3a273c99ef79d92098900b5f5433da2cde6ff477f7f1",
+      "hunks": [
+        {
+          "at": 36,
+          "before": [],
+          "after": [
+            "  const header = visual.header;"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [],
+          "after": [
+            "    // Map/Main canvas header: subdued dark band, copper hairline and title wings.",
+            "    { ...image('headerShade', ...header.shade, c.mapHeader.shade), opacity: header.shadeOpacity },",
+            "    image('headerDivider', ...header.divider, c.mapHeader.border, im.fadeLine),",
+            "    image('titleLineLeft', ...header.titleLineLeft, c.mapHeader.title, im.fadeLine),",
+            "    image('titleLineRight', ...header.titleLineRight, c.mapHeader.title, im.fadeLine),"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "    text('title', 0, 327, 640, 44, '', f.heading, c.goldBright),",
+            "    text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim),"
+          ],
+          "after": [
+            "    text('title', 0, 316, 380, 40, '', f.body, c.mapHeader.title),",
+            "    { ...text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim), visible: false },"
+          ]
+        },
+        {
+          "at": 62,
           "before": [
             "    const children = [];",
             "    for (const [state, colour] of Object.entries({ locked: c.node.locked, visited: c.node.visited,",
@@ -685,7 +909,7 @@
     },
     "src/lua/abyss_map_ui.lua": {
       "beforeSha256": "0c125d7face08308190e2f94b02b654ae692ba5f37ebe155a9ba68cf33afc154",
-      "afterSha256": "4c383e8e2ad4d6e644d2450338d9376085be1d47852da6f96d920edb3b7c5831",
+      "afterSha256": "9ede6566678134ebd188930ad9e3702908e5f5a10e21754df042aa8e71856b78",
       "hunks": [
         {
           "at": 9,
@@ -695,7 +919,37 @@
           "after": []
         },
         {
-          "at": 240,
+          "at": 193,
+          "before": [],
+          "after": [
+            "            at(\"notice\"):SetVisible(true)"
+          ]
+        },
+        {
+          "at": 218,
+          "before": [
+            "            (self.navigationEnabled and (Controller.isController(options.controller)",
+            "                and \"摇杆选择路线 · 确认出发 · 返回菜单\" or \"上下拖动查看路线 · 点选可前往的节点出发\") or \"请先完成当前节点\")"
+          ],
+          "after": [
+            "            (self.navigationEnabled and \"\" or \"请先完成当前节点\")"
+          ]
+        },
+        {
+          "at": 222,
+          "before": [
+            "        if current.emeraldSelection then at('notice').text=at('notice').text..' · 绿字节点为燃烧精英，胜利可另领绿钥匙'end"
+          ],
+          "after": [
+            "        if current.emeraldSelection then",
+            "            local prefix=at('notice').text~='' and at('notice').text..' · ' or ''",
+            "            at('notice').text=prefix..'绿字节点为燃烧精英，胜利可另领绿钥匙'",
+            "        end",
+            "        at('notice'):SetVisible(at('notice').text~='')"
+          ]
+        },
+        {
+          "at": 244,
           "before": [
             "                -- Native container clipping is not established. Cull whole discs,"
           ],
@@ -704,7 +958,7 @@
           ]
         },
         {
-          "at": 253,
+          "at": 257,
           "before": [
             "                for _, value in ipairs(states) do",
             "                    child(box, value):SetVisible(state == value)",
@@ -714,7 +968,7 @@
           "after": []
         },
         {
-          "at": 255,
+          "at": 259,
           "before": [
             "                child(box, \"body\"):SetSizeDelta(size - Theme.space.border * 2, size - Theme.space.border * 2)",
             "                tint(child(box, \"body\"), (state == \"current\" or state == \"visited\") and Theme.color.panelRaised or Theme.color.panel)",
@@ -769,6 +1023,334 @@
           ],
           "after": [
             "            veil = offer.sold, stamp = cardStamp(offer), reason = cardStamp(offer) or availability.poor and '金币不足' or nil, selected = selection:isSelected('shopView/card' .. i) })"
+          ]
+        }
+      ]
+    },
+    "tests/lua/acid_slime_split_ui.lua": {
+      "beforeSha256": "895f0cc68bb2648b252a8940b5f35e33a0a1cdd93f1037feb75999976b9df2f9",
+      "afterSha256": "35f16155c7b08dec541e8f661efde402e323359e10c74bcec6a1a0e5021bf6a8",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "tap('enemy1',10);assert(panel:GetChild('notice').text:find('当前生命',1,true),'split detail must explain remaining HP');assert(panel:GetChild('notice').text:find(s.catalog.enemies.acid_slime_m.name,1,true),'split detail must name the actual Acid child');assert(not panel:GetChild('notice').text:find('棘刺',1,true),'Acid must not claim Spike offspring')"
+          ],
+          "after": [
+            "tap('enemy1',10);local detail=inspectDetails(ui,panel);assert(detail:find('当前生命',1,true),'split detail must explain remaining HP');assert(detail:find(s.catalog.enemies.acid_slime_m.name,1,true),'split detail must name the actual Acid child');assert(not detail:find('棘刺',1,true),'Acid must not claim Spike offspring')"
+          ]
+        }
+      ]
+    },
+    "tests/lua/act3_maw_growth.lua": {
+      "beforeSha256": "0d09bf82a6f5eee23d85390b73417c85b57f0c927284c9772174378ed45c2aed",
+      "afterSha256": "24f8650c1015fe3a72eaa4b1eb4db29c8fbdf696171540e992c33760fb231a3f",
+      "hunks": [
+        {
+          "at": 240,
+          "before": [],
+          "after": [
+            " local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 254,
+          "before": [
+            "   tap('enemy1',51);local notice=panel:GetChild('notice').text",
+            "   assert(notice:find(s.catalog.statuses.weak.name,1,true)and notice:find(s.catalog.statuses.frail.name,1,true))"
+          ],
+          "after": [
+            "   tap('enemy1',51);local detail=inspectDetails(ui,panel)",
+            "   assert(detail:find(s.catalog.statuses.weak.name,1,true)and detail:find(s.catalog.statuses.frail.name,1,true))"
+          ]
+        },
+        {
+          "at": 260,
+          "before": [
+            "   tap('enemy1',52);local notice=panel:GetChild('notice').text",
+            "   assert(notice:find('束缚',1,true)and notice:find('10',1,true)and not notice:find('未知',1,true))"
+          ],
+          "after": [
+            "   tap('enemy1',52);local detail=inspectDetails(ui,panel)",
+            "   assert(detail:find('束缚',1,true)and detail:find('10',1,true)and not detail:find('未知',1,true))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/act3_orb_walker.lua": {
+      "beforeSha256": "94170e8672a410452296f2bd721f6bf786e51e788426695c18512759f5f17813",
+      "afterSha256": "f0163a30238155b57c3fd6af06b1909da70eb9698a3a5e85f68247c47c221281",
+      "hunks": [
+        {
+          "at": 199,
+          "before": [],
+          "after": [
+            " local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 216,
+          "before": [
+            " local detail=panel:GetChild('notice').text"
+          ],
+          "after": [
+            " local detail=inspectDetails(ui,panel)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/act3_shapes.lua": {
+      "beforeSha256": "1bf0166240474459b655958874b6f32c7d41c801195bca3c7d31c2f141163ea9",
+      "afterSha256": "48ca309908b7154fcdc8d5c6714c0bc20069c42cfb60c23e97ffaa2964d71f55",
+      "hunks": [
+        {
+          "at": 212,
+          "before": [],
+          "after": [
+            " local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 225,
+          "before": [
+            " tap('enemy1',71);local text=panel:GetChild('notice').text"
+          ],
+          "after": [
+            " tap('enemy1',71);local text=inspectDetails(ui,panel)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/act3_transient.lua": {
+      "beforeSha256": "51cf2897832eac0e6f28355ffd131c0463ee06990f5ab3e0cc62c043c157a131",
+      "afterSha256": "505fb25b103e05a1afff1edebedff0a13e6a2704644bbfb8b6ae5d2598a30ff0",
+      "hunks": [
+        {
+          "at": 208,
+          "before": [],
+          "after": [
+            " local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 228,
+          "before": [
+            " tap('enemy1',83);assert(not panel:GetChild('notice').text:find('未知',1,true))"
+          ],
+          "after": [
+            " tap('enemy1',83);local intentDetail=inspectDetails(host.battleUI,panel);assert(not intentDetail:find('未知',1,true))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/bosses_intent_ui.lua": {
+      "beforeSha256": "a3bb3533ccc35df2b968d531f0af26ad9dc37bcc82cc0aa012cd85d16800693d",
+      "afterSha256": "4415d98756a5cfc46b803d5e8331d97343e623abe87e0a40fed96bd46c418ac9",
+      "hunks": [
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [
+            "has(panel:GetChild('notice').text,s.catalog.enemies.spike_slime_l.name)",
+            "has(panel:GetChild('notice').text,s.catalog.enemies.acid_slime_l.name)"
+          ],
+          "after": [
+            "local detail=inspectDetails(ui,panel)",
+            "has(detail,s.catalog.enemies.spike_slime_l.name)",
+            "has(detail,s.catalog.enemies.acid_slime_l.name)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/louse_ui.lua": {
+      "beforeSha256": "ae098f0486c2ab943ec00d346e76c3156a824b718a405fb1def50054b01f57a5",
+      "afterSha256": "80b67fd14a07da06b2360c41d6872e03a3d3adbabbba44e63ecb9c832a93c873",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 17,
+          "before": [
+            "assert(panel:GetChild('notice').text:find('8',1,true),'read-only detail shows sampled modified Bite')"
+          ],
+          "after": [
+            "local detail=inspectDetails(ui,panel)",
+            "assert(detail:find('8',1,true),'read-only detail shows sampled modified Bite')",
+            "same(s,before)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/nemesis_ui.lua": {
+      "beforeSha256": "ae2535c351e4e6e606edf3680b8eb448a5d6271e08dc645f5ddd47b2520d076d",
+      "afterSha256": "736a67ba3158850ad67d716b7ec62fe8ac6629d0b24ff673b1b7e975ddd340d9",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [
+            "local text=panel:GetChild('notice').text"
+          ],
+          "after": [
+            "local text=inspectDetails(host.battleUI,panel)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/sentries_ui.lua": {
+      "beforeSha256": "c4eec76ce4265e4b6351f7bc23ebb1c840fab67395226226b3ea944bc6eedede",
+      "afterSha256": "62435e2bdd16f935072c524c99fa77f88b8bb32b95d122117322e55370be7f7f",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            "    click(\"enemy1\");assert(stage:GetChild(\"notice\").text:find(\"放入你的弃牌堆\",1,true))"
+          ],
+          "after": [
+            "    click(\"enemy1\");assert(inspectDetails(ui,stage):find(\"放入你的弃牌堆\",1,true))"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "click(\"enemy2\");assert(stage:GetChild(\"notice\").text:find(\"放入你的弃牌堆\",1,true))"
+          ],
+          "after": [
+            "click(\"enemy2\");assert(inspectDetails(ui,stage):find(\"放入你的弃牌堆\",1,true))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/shield_gremlin_ui.lua": {
+      "beforeSha256": "a9f896ed57074880ecf9ab9faeb909d93f2725cadeb76c6f12ab82e08921afca",
+      "afterSha256": "9dce5f46e86a49146b0d7fee3f990b6fe20884f8126368e432f26e5d203ff9fb",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [
+            "local before=C.copy(host.run.combat);tap('enemy1',1)",
+            "assert(panel:GetChild('notice').text:find('随机队友',1,true),'Protect detail must name random teammate')",
+            "assert(panel:GetChild('notice').text:find('没有队友时给自己',1,true),'Protect detail must name solo fallback')",
+            "assert(panel:GetChild('notice').text:find('获得 7 点格挡',1,true),'Protect detail stays fixed7')"
+          ],
+          "after": [
+            "local before=C.copy(host.run.combat);tap('enemy1',1);local detail=inspectDetails(ui,panel)",
+            "assert(detail:find('随机队友',1,true),'Protect detail must name random teammate')",
+            "assert(detail:find('没有队友时给自己',1,true),'Protect detail must name solo fallback')",
+            "assert(detail:find('获得 7 点格挡',1,true),'Protect detail stays fixed7')"
+          ]
+        }
+      ]
+    },
+    "tests/lua/slimed_ui.lua": {
+      "beforeSha256": "a1aca46d9a59edadb6c0434aa717f8186c1beec891cf3bf72722f6db2fe1e1b1",
+      "afterSha256": "d991810b91d5ee4ba17e0453b6d9702586670a6f7ad53168ee5667fb103f0952",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 8,
+          "before": [
+            "tap('enemy1',1);local detail=panel:GetChild('notice').text"
+          ],
+          "after": [
+            "tap('enemy1',1);local detail=inspectDetails(ui,panel)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/spike_slime_l_ui.lua": {
+      "beforeSha256": "02a657be6da4d5d7d588f15f9e37bd8b0ec6556f9c37478d193cda8721243c7c",
+      "afterSha256": "a4139355b9c68e2ff06001fbd72012e99559f4d41ce1d74e6f80929ccbe8e0b5",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 8,
+          "before": [
+            "local before=C.copy(s);tap('enemy1',1);local detail=panel:GetChild('notice').text"
+          ],
+          "after": [
+            "local before=C.copy(s);tap('enemy1',1);local detail=inspectDetails(ui,panel)"
+          ]
+        },
+        {
+          "at": 17,
+          "before": [
+            "s.enemies[1].intentIndex=2;host:refresh();tap('enemy1',5);local frail=panel:GetChild('notice').text"
+          ],
+          "after": [
+            "s.enemies[1].intentIndex=2;host:refresh();tap('enemy1',5);local frail=inspectDetails(ui,panel)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/spike_slime_split_ui.lua": {
+      "beforeSha256": "06236135fc9c92f5e9fa7da417bf23a1b6ecbc0c507971e55e2a77de79ad59d8",
+      "afterSha256": "2cc974bbdf3d8e1bad63fad3acc9d06d245d7c2be792aab7ec812b20f819bc58",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            "tap('enemy1',10);assert(panel:GetChild('notice').text:find('当前生命',1,true),'split detail must explain remaining HP')"
+          ],
+          "after": [
+            "tap('enemy1',10);local detail=inspectDetails(ui,panel);assert(detail:find('当前生命',1,true),'split detail must explain remaining HP')"
           ]
         }
       ]
@@ -927,6 +1509,71 @@
           ],
           "after": [
             "    click(\"enemy2\"); assert(inspectDetails(ui,stage)~=\"\"); click(\"card1\")"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/intent_artifact_fixture.lua": {
+      "beforeSha256": "b371cb21c738a4d2dba9a5d21c72d40c3274e796733df9aea1b8599d06dd16c1",
+      "afterSha256": "fdcf6ee7325c32956b504f4dd5526fee2ace6da6835082b8e6445ee7279d7994",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')"
+          ]
+        },
+        {
+          "at": 81,
+          "before": [],
+          "after": [
+            "    local detail = inspectDetails(h.battleUI, p)"
+          ]
+        },
+        {
+          "at": 83,
+          "before": [
+            "    return p:GetChild(\"enemy1\"):GetChild(\"intent\").text, p:GetChild(\"notice\").text"
+          ],
+          "after": [
+            "    return p:GetChild(\"enemy1\"):GetChild(\"intent\").text, detail"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/status_detail_fixture.lua": {
+      "beforeSha256": null,
+      "afterSha256": "107a26e61a55ad85ca1e697ba0b39e77b8f3c166e2e063b6368eb346cbd60ee0",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "-- Inspect the actual generated detail card, not cached notice or projected model text.",
+            "local Theme = require(\"abyss_theme\")",
+            "return function(ui, panel)",
+            "    local info, text = panel:GetChild(\"statusInfo\"), {}",
+            "    local opened = ui.info",
+            "    assert(info.visible and opened, \"ordinary unit inspection must use the detail card\")",
+            "    local pages = opened.pages",
+            "    assert(type(pages) == \"number\" and pages >= 1 and pages % 1 == 0, \"detail page count must be valid\")",
+            "    for page = 1, pages do",
+            "        assert(info.visible and ui.info == opened and opened.page == page and opened.pages == pages,",
+            "            \"detail navigation must visit every page of the same actor\")",
+            "        for i = 1, Theme.layout.statusInfo.rows do",
+            "            for _, field in ipairs({\"name\", \"text\", \"note\", \"tag\"}) do",
+            "                local part = info:GetChild(field .. i)",
+            "                if part.visible then text[#text + 1] = part.text end",
+            "            end",
+            "        end",
+            "        if page < pages then info:GetChild(\"page\").click() end",
+            "    end",
+            "    info:GetChild(\"hit\").click()",
+            "    assert(not info.visible and not ui.info, \"blank space closes the detail card\")",
+            "    return table.concat(text, \" | \")",
+            "end",
+            ""
           ]
         }
       ]

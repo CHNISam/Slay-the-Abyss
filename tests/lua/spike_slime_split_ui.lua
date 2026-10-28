@@ -1,6 +1,7 @@
 -- Real generated control regression for dynamic actor insertion and stale input.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
+local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
 local C=H.F.Combat
 local EnemyView=require('abyss_battle_enemy_view')
 local function enemyControl(ui,panel,state,index)
@@ -21,7 +22,7 @@ local s=host.run.combat;local parent=s.enemies[1];C.damage(s,s.player,parent,par
 assert(panel:GetChild('enemy1'):GetChild('intent').text=='' and not panel:GetChild('enemy1'):GetChild('intentLabel').visible)
 assert(panel:GetChild('enemy1'):GetChild('intentIcon').visible and panel:GetChild('enemy1'):GetChild('intentIcon').imageId==H.F.Theme.icon.intent.unknown,'split intent must retain its visible unknown glyph before action')
 assert(require('abyss_battle_intent_view').intentView(s,1).label=='分裂')
-tap('enemy1',10);assert(panel:GetChild('notice').text:find('当前生命',1,true),'split detail must explain remaining HP')
+tap('enemy1',10);local detail=inspectDetails(ui,panel);assert(detail:find('当前生命',1,true),'split detail must explain remaining HP')
 emit('enemy1','down',11)
 tap('endTurn',12)
 local deaths=0;for _,e in ipairs(ui.feedback.queue or {})do if e.kind=='death' then deaths=deaths+1;assert(e.detail.target==parent.id,'shifted child must not be mistaken for dead parent')end end

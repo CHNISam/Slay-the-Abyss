@@ -1,5 +1,6 @@
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local H = dofile("tests/lua/support/battle_action_fixture.lua")
+local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
 local Combat = H.F.Combat
 local passed, failed = 0, 0
 local originalPrint, counters = print, {recoveries=0}
@@ -78,8 +79,9 @@ end
 local function refresh(h, p, tap)
     local before = Combat.copy(h.run.combat)
     h:refresh(); h:refresh(); tap("enemy1", 11)
+    local detail = inspectDetails(h.battleUI, p)
     same(h.run.combat, before)
-    return p:GetChild("enemy1"):GetChild("intent").text, p:GetChild("notice").text
+    return p:GetChild("enemy1"):GetChild("intent").text, detail
 end
 local function rejects(h, reason)
     local before = Combat.copy(h.run.combat)

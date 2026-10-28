@@ -77,5 +77,25 @@ end
 for offset=0,Layout.maxScroll,120 do ui:setScroll(offset);ui:update(.07);verify() end
 ui:setVisible(false);ui:setVisible(true);ui:render();verify()
 for _,state in ipairs({'current','visited','available','locked'}) do assert(seen[state],'missing real visual state '..state) end
+local function notice()
+    for _,group in pairs(panel.children) do if group.children.notice then return group.children.notice end end
+end
+-- Empty normal maps do not become tutorial billboards on pointer or controller.
+ui:setNavigationEnabled(true);ui:render()
+assert(notice().text=='' and not notice().visible,'normal route must have no permanent controller teaching')
+manager.api.isController=function()return false end
+ui:render();assert(notice().text=='' and not notice().visible,'normal route must have no permanent pointer teaching')
+ui.entryError='测试错误';ui:render()
+assert(notice().text=='测试错误' and notice().visible,'real entry errors must remain visible')
+ui.entryError=nil;ui:setNavigationEnabled(false)
+assert(notice().text=='请先完成当前节点' and notice().visible,'blocked room state is necessary information')
+ui:setNavigationEnabled(true);assert(notice().text=='' and not notice().visible,'resolved errors must not leave stale notices')
+local bossMap=Map.generate(require('abyss_data'),42)
+for _=1,16 do assert(Map.choose(bossMap,Map.available(bossMap)[1].id)) end
+ui.map=bossMap;ui:render();ui:setNavigationEnabled(false)
+assert(notice().text=='已抵达首领 · 请完成首领战斗与奖励' and notice().visible)
+ui:setNavigationEnabled(true)
+assert(notice().text=='首领奖励已处理 · 请选择首领宝箱' and notice().visible,'actual target choice must remain visible')
+print('MAP_NOTICE_PASS no teaching; real errors, room locks and reward target retained')
 print('MAP_NODE_VISUALS_PASS 4 states, official icons, hit areas, controller and illegal routes')
 return {root=root,map=map,ui=ui,controller=manager}

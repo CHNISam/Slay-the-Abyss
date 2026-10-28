@@ -25,13 +25,15 @@ local circle=View.intentView(pair,2);has(circle.text,'全体');has(circle.text,'
 -- Real generated battle controls must open the mixed split tooltip and keep
 -- both new actors targetable, with no nil single-child metadata assumption.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
+local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
 local host,ui,panel,_,tap,drain=H.setup({'strike'},{'slime_boss'})
 local s=host.run.combat;local parent=s.enemies[1]
 C.damage(s,s.player,parent,80,true);host:refresh()
 dofile('tests/lua/support/intent_face_assertion.lua')(panel:GetChild('enemy1'),View.intentView(s,1),'分裂')
 tap('enemy1',31)
-has(panel:GetChild('notice').text,s.catalog.enemies.spike_slime_l.name)
-has(panel:GetChild('notice').text,s.catalog.enemies.acid_slime_l.name)
+local detail=inspectDetails(ui,panel)
+has(detail,s.catalog.enemies.spike_slime_l.name)
+has(detail,s.catalog.enemies.acid_slime_l.name)
 tap('endTurn',32);drain()
 assert(#s.enemies==3 and s.enemies[2]==parent and parent.hp==0)
 local left,right=panel:GetChild('enemy1'),panel:GetChild('enemy2')

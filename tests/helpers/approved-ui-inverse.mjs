@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const hash=value=>value===null?null:createHash('sha256').update(value).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/approved-ui-latest-to-53fa.json',import.meta.url));
-assert.equal(hash(bytes),'ab3f40cb19384307ec01930cfe9766b0360283835b34b88cce8efba5d8d8b196','complete reviewed current UI source binding');
+assert.equal(hash(bytes),'e8bc87b9c076abdf9222f8c5a2c64a46b21cd29f1f042516b01cbdc879b60bde','complete reviewed current UI source binding');
 export const approvedUi=JSON.parse(bytes);
 // One additional test-only layer, never a replacement for PR302's frozen 26
 // sources or the original 79543/79757/81392 write proofs and runner budgets.

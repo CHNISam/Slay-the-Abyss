@@ -1,6 +1,7 @@
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Actual read-only Host controls; no native/desktop/UI acceptance claim.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
+local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
 local N=dofile('tests/lua/support/nemesis_fixture.lua')
 local F=H.F
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
@@ -13,7 +14,7 @@ assert(N.Run.startRoomCombat(r,'elite'));N.force(r.combat,'burn');host:refresh()
 local panel=root:GetChild('battlePanel');local box=panel:GetChild('enemy1');local _,tap=H.controls(panel)
 eq(box:GetChild('name').text,'天罚');eq(box:GetChild('hp').text,'185/185')
 tap('enemy1',91)
-local text=panel:GetChild('notice').text
+local text=inspectDetails(host.battleUI,panel)
 assert(text:find('3',1,true)and text:find(r.combat.catalog.cards.burn.name,1,true)and text:find('弃牌堆',1,true),text)
 assert(not text:find('未知',1,true),text)
 assert(N.Run.endTurn(r));N.force(r.combat,'fire');host:refresh()

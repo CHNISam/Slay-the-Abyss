@@ -210,6 +210,7 @@ test('late formation setup failure preserves real Run queue resources and room s
 end)
 test('real Host shows Shape actors Dazed destination and changing Explosive countdown',function()
  local H=dofile('tests/lua/support/battle_action_fixture.lua');local F=H.F
+ local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local host=F.GameUI.new(root,D,F.Presentation,'click',{seed=1,campaign=true,prologue=false,
   imageSource='static',color=function(red,green,blue,alpha)return{r=red,g=green,b=blue,a=alpha}end})
@@ -222,7 +223,7 @@ test('real Host shows Shape actors Dazed destination and changing Explosive coun
   assert(box.visible);eq(box:GetChild('name').text,e.name);eq(box:GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
  end
  assert(not panel:GetChild('enemy5').visible)
- tap('enemy1',71);local text=panel:GetChild('notice').text
+ tap('enemy1',71);local text=inspectDetails(ui,panel)
  assert(text:find(r.combat.catalog.cards.dazed.name,1,true)and text:find('抽牌堆',1,true)and text:find('2',1,true),text)
  assert(not text:find('未知',1,true),text)
  for turn=0,2 do

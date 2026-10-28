@@ -197,6 +197,7 @@ end)
 
 test('real Host renders laser damage Burn destinations and the Growth status',function()
  local H=dofile('tests/lua/support/battle_action_fixture.lua')
+ local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
  local F=H.F
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local host=F.GameUI.new(root,Data,F.Presentation,'click',{seed=4,campaign=true,prologue=false,
@@ -213,7 +214,7 @@ test('real Host renders laser damage Burn destinations and the Growth status',fu
  assert(box:GetChild('intentBadge').visible,'laser must carry its Burn debuff badge')
  eq(box:GetChild('intentBadge').imageId,H.F.Theme.icon.intent.debuff)
  tap('enemy1',91)
- local detail=panel:GetChild('notice').text
+ local detail=inspectDetails(ui,panel)
  assert(detail:find(r.combat.catalog.cards.burn.name,1,true)and detail:find('抽牌堆',1,true)and detail:find('弃牌堆',1,true),detail)
  assert(not detail:find('未知',1,true),'known source Burn must not be shown as unknown')
  box:GetChild('statusRow'):GetChild('hit').click({touchId=92})

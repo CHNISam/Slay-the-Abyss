@@ -191,6 +191,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             cancelDrag()
             self.navigationEnabled, self.slots, self.breathing = false, {}, {}
             at("title").text, at("notice").text = "", "地图章节信息无效 · 请重新启程"
+            at("notice"):SetVisible(true)
             for i = 1, Layout.maxNodes do at("node" .. i):SetVisible(false) end
             for i = 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
             for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
@@ -215,12 +216,15 @@ function M.new(root, map, onChoose, clickEvent, options)
             (current.floor == chapter.boss and (self.navigationEnabled
                 and (chapter.terminal == 'boss_treasure' and "首领奖励已处理 · 请选择首领宝箱" or "首领奖励已处理 · 请前往终点")
                 or "已抵达首领 · 请完成首领战斗与奖励") or
-            (self.navigationEnabled and (Controller.isController(options.controller)
-                and "摇杆选择路线 · 确认出发 · 返回菜单" or "上下拖动查看路线 · 点选可前往的节点出发") or "请先完成当前节点")
+            (self.navigationEnabled and "" or "请先完成当前节点")
             ))
         local notice=current.emeraldSelection and Theme.layout.map.emeraldNotice or Theme.layout.map.notice
         at('notice'):SetAnchoredPosition(notice[1],notice[2]);at('notice'):SetSizeDelta(notice[3],Theme.layout.map.presentation.noticeHeight)
-        if current.emeraldSelection then at('notice').text=at('notice').text..' · 绿字节点为燃烧精英，胜利可另领绿钥匙'end
+        if current.emeraldSelection then
+            local prefix=at('notice').text~='' and at('notice').text..' · ' or ''
+            at('notice').text=prefix..'绿字节点为燃烧精英，胜利可另领绿钥匙'
+        end
+        at('notice'):SetVisible(at('notice').text~='')
         buttonHover, buttonPress = nil, nil
         for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
         local edge = 0

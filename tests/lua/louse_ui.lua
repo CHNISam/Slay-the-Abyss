@@ -1,6 +1,7 @@
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local C=require('abyss_combat')
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
+local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
 local host,ui,panel,emit,tap,drain=H.setup({'defend'},{'cultist'})
 local old,n=C.random,0
 C.random=function(s,max)local value=old(s,max);if max==100 then return 100 elseif max==3 then n=n+1;return n==1 and 1 or 3 end;return value end
@@ -14,7 +15,9 @@ local function same(a,b)if type(a)~='table' then assert(a==b);return end;for k,v
 C.addStatus(s.enemies[1],'strength',3);C.addStatus(s.enemies[2],'weak',1);host:refresh()
 assert(first:GetChild('intent').text=='8' and second:GetChild('intent').text=='5','core modifiers apply to sampled base')
 local before=C.copy(s);host:refresh();tap('enemy1',1);same(s,before)
-assert(panel:GetChild('notice').text:find('8',1,true),'read-only detail shows sampled modified Bite')
+local detail=inspectDetails(ui,panel)
+assert(detail:find('8',1,true),'read-only detail shows sampled modified Bite')
+same(s,before)
 tap('endTurn',2);drain()
 assert(s.player.hp==67,'real controls execute 8 plus 5 damage')
 assert(s.enemies[1].intents[1].effects[1].value==5 and s.enemies[2].intents[1].effects[1].value==7,'Bite bases never resample')

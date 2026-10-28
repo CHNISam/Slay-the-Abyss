@@ -206,6 +206,7 @@ test('late public constructor failure preserves Run queue resources and RNG alia
 end)
 test('real Host shows shifting intent HP and both source Power details without rule writes',function()
  local H=dofile('tests/lua/support/battle_action_fixture.lua');local F=H.F
+ local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local host=F.GameUI.new(root,D,F.Presentation,'click',{seed=4,campaign=true,prologue=false,
   imageSource='static',color=function(red,green,blue,alpha)return{r=red,g=green,b=blue,a=alpha}end})
@@ -225,7 +226,7 @@ test('real Host shows shifting intent HP and both source Power details without r
  info:GetChild('hit').click({touchId=82})
  local uid;for _,c in ipairs(r.combat.hand)do if c.cardId=='strike'then uid=c.uid;break end end
  assert(Run.play(r,uid,1));host:refresh();eq(enemy:GetChild('intent').text,'24');eq(enemy:GetChild('hp').text,'993/999')
- tap('enemy1',83);assert(not panel:GetChild('notice').text:find('未知',1,true))
+ tap('enemy1',83);local intentDetail=inspectDetails(host.battleUI,panel);assert(not intentDetail:find('未知',1,true))
  assert(Run.endTurn(r));host:refresh();eq(enemy:GetChild('intent').text,'40');eq(r.combat.player.hp,56)
  local before=C.copy(r);host:refresh();same(r,before)
 end)

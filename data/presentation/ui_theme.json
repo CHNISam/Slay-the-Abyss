@@ -119,6 +119,27 @@
         "treasure": "#F0BC72",
         "boss": "#E8836C"
       }
+    },
+    "mapHeader": {
+      "shade": "#070303",
+      "border": "#6E5A42",
+      "title": "#E9C77B",
+      "ink": "#BBAA8C",
+      "menuNormal": {
+        "fill": "#241B19",
+        "ink": "#BBAA8C",
+        "border": "#6E5A42"
+      },
+      "menuHover": {
+        "fill": "#3A2E28",
+        "ink": "#F6DFA4",
+        "border": "#E9C77B"
+      },
+      "menuPressed": {
+        "fill": "#170F0E",
+        "ink": "#F3ECDD",
+        "border": "#E9C77B"
+      }
     }
   },
   "font": {
@@ -1011,7 +1032,34 @@
         "takenOpacity": 0.85,
         "nextOpacity": 0.7,
         "fogOpacity": 0.35,
-        "noticeHeight": 40
+        "noticeHeight": 40,
+        "header": {
+          "shade": [
+            0,
+            330,
+            1280,
+            60
+          ],
+          "shadeOpacity": 0.75,
+          "divider": [
+            0,
+            296,
+            1200,
+            1
+          ],
+          "titleLineLeft": [
+            -160,
+            316,
+            30,
+            1
+          ],
+          "titleLineRight": [
+            160,
+            316,
+            30,
+            1
+          ]
+        }
       }
     },
     "modal": {
@@ -1169,9 +1217,9 @@
       ],
       "return": [
         -522,
-        -60,
+        -296,
         148,
-        52
+        44
       ],
       "potionLabel": [
         0,
@@ -1971,9 +2019,9 @@
     "exitMenu": {
       "note": "全页面及牌库上方的常驻退出入口；确认后结束本局并走平台结算。局内存档需创作者 4 级，未开放前在确认框用一行小字说明。",
       "entry": [
-        552,
+        576,
         316,
-        96,
+        48,
         48
       ],
       "panel": [
@@ -2028,7 +2076,14 @@
         4,
         544,
         40
-      ]
+      ],
+      "entryVisual": {
+        "diameter": 36,
+        "border": 1,
+        "lineWidth": 14,
+        "lineHeight": 1,
+        "lineStep": 4
+      }
     },
     "nativeMenu": {
       "note": "主菜单与通关/失败结算，按批准稿 win.png 的徽记、大标题、四格统计、双按钮构图落地；坐标以舞台中心为原点。动效只改位置与缩放，不改可见性或输入。",
@@ -2729,9 +2784,9 @@
         48
       ],
       "mapBack": [
-        548,
-        316,
-        104,
+        -522,
+        -296,
+        148,
         44
       ]
     },
