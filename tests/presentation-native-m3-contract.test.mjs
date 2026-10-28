@@ -153,7 +153,7 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
  assert.equal(preRetirementSource(fixturePath,fixture.replaceAll('\n','\r\n')),preRetirementSource(fixturePath,fixture));
  assert.throws(()=>preRetirementSource(fixturePath,fixture+'\n-- unreviewed scenario drift\n'));
  assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('trace:assertNativeInteraction()','-- removed native guard')));
- assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('81392','81391')));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture.replace(/trace.count==\d+/,'trace.count==1')));
 });
 
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{

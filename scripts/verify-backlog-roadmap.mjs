@@ -39,13 +39,15 @@ export function auditQueueOwners(tasks) {
 
 export function auditMilestoneScope(titles) {
   const contracts = [
-    { stage: 'M3', required: ['四职业', '第一至隐藏第四幕'] },
-    { stage: 'M4', required: ['全职业', '全章节'] },
+    // 2026-10-28 user-confirmed competition scope supersedes the four-act target.
+    { stage: 'M3', required: ['四职业', '第一幕', '第二幕', '核心闭环'] },
+    { stage: 'M4', required: ['前两幕', '首局', 'UI', '输入', '音画', '性能'] },
   ];
   return contracts.flatMap(({ stage, required }) => {
     const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
-    return matches.length === 1 && required.every(part => matches[0].includes(part)) ? []
-      : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不能退回仅第一幕或缺少该关口`];
+    const retiredScope = /第三幕|第四幕|四幕|全章节/;
+    return matches.length === 1 && required.every(part => matches[0].includes(part)) && !retiredScope.test(matches[0]) ? []
+      : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得扩大为第三/四幕、退回仅第一幕或缺少该关口`];
   });
 }
 
@@ -121,5 +123,5 @@ export function verifyBacklogRoadmap(root = '.') {
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const errors = [...verifyBacklogRoadmap(), ...verifyMilestoneScope()];
   if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
-  else console.log('任务编号、首发排期、负责人及M3/M4完整范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证平台或实机。');
+  else console.log('任务编号、首发排期、负责人及M3/M4前两幕参赛范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证平台或实机。');
 }

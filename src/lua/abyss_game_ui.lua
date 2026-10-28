@@ -664,7 +664,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:animate(dt)
         self.battleUI:update(dt)
         self.nodeUI:update(dt)
-        self.deckUI:update()
+        self.deckUI:update(dt)
         local updated=self.mapUI:update(dt)
         self:syncController()
         return updated

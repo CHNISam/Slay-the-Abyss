@@ -196,3 +196,12 @@ test('player-facing changelog excludes pure development and CI jargon', () => {
     }
   }
 });
+
+test('unpublished competition candidate does not advertise future acts or persistent-save features', () => {
+  const notes = parseChangelog(readFileSync('CHANGELOG.md', 'utf8')).get('v0.11.0');
+  assert.ok(notes, 'current unpublished candidate copy is present');
+  for (const line of [...notes.added, ...notes.improved, ...notes.fixed]) {
+    assert.doesNotMatch(line, /第三幕|第四幕|四幕|三钥匙|真结局|退出续玩|跨局(?:解锁|存档|进度|留卡)/,
+      `future/persistent feature must remain in engineering history, not candidate player copy: ${line}`);
+  }
+});
