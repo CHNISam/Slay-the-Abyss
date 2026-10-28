@@ -28,6 +28,13 @@ function M.new(picture, tint, ink, statusKind)
         picture(box:GetChild("portrait"), icon)
         tint(box:GetChild("portrait"), box.name == "hero" and C.geo or C.text)
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
+        for _, x in ipairs({-1,1}) do for _, y in ipairs({-1,1}) do
+            for _, axis in ipairs({'H','V'}) do
+                local corner=box:GetChild('target'..axis..x..'_'..y)
+                corner:SetVisible(selected == true)
+                corner:SetAnchoredPosition(x*portrait/2,y*portrait/2)
+            end
+        end end
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0, -portrait / 2 - S.m)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)

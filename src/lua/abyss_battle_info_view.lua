@@ -90,7 +90,7 @@ function M.new(self, child, enemyPosition, describeInfo, paginate, tint, ink, pi
         local edge = Theme.canvas.base[1] / 2 - Theme.canvas.safe.x - I.width / 2
         x = math.max(-edge, math.min(edge, x))
         local top = Theme.canvas.base[2] / 2 - L.topBar.height - S.s
-        local unitY = info.index == 0 and L.player.position[2] or L.enemyRow.y
+        local unitY = info.index == 0 and L.player.position[2] or select(5,enemyPosition(battle,info.index)) or L.enemyRow.y
         local y = math.min(top - height / 2, unitY + portrait / 2 - height / 2)
         y = math.max(-Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + height / 2, y)
         return {x = x, y = y, height = height, line = L.nativeText.lineHeight, inner = I.width - I.pad * 2,

@@ -291,7 +291,10 @@ test("five enemies retain separate touch targets and a boss uses the approved la
         local box = stage.children["enemy" .. i]
         local width = box.children.hit.sizeDeltaX
         assert(width >= 44 and box.x + width / 2 <= 600)
-        if previous then assert(previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2) end
+        if previous then
+            assert(math.abs(previous.y-box.y) > (previous.children.hit.sizeDeltaY+box.children.hit.sizeDeltaY)/2
+                or previous.x + previous.children.hit.sizeDeltaX / 2 < box.x - width / 2)
+        end
         previous = box
     end
     local battle = ui.run.combat
@@ -421,12 +424,12 @@ test("block chip sits beside the HP bar with dark digits on solid blue, even in 
         return c.blockEdge.x - c.blockEdge.sizeDeltaX / 2, c.hpBorder.x + c.hpBorder.sizeDeltaX / 2
     end
     check(stage.children.hero, 6)
-    local previousRight
+    local previousRight={}
     for i = 1, 5 do
         local box = stage.children["enemy" .. i]
         local left, right = check(box, 7)
-        if previousRight then assert(box.x + left > previousRight, "enemy" .. i .. " chip collides with its neighbour") end
-        previousRight = box.x + right
+        if previousRight[box.y] then assert(box.x + left > previousRight[box.y], "enemy" .. i .. " chip collides with its neighbour") end
+        previousRight[box.y] = box.x + right
     end
     battle.player.block = 0
     ui:render()
@@ -691,16 +694,16 @@ test("Block badges reserve native glyph width for every digit from 1 through 999
                 or c.blockEdge.y - c.blockEdge.sizeDeltaY / 2 >= c.hpBorder.y + c.hpBorder.sizeDeltaY / 2,
                 name .. " chip overlaps HP")
         end
-        local previousRight = stage.children.hero.x + Theme.layout.hpBar.size[1] / 2
+        local previousRight = {}
         for i = 1, 5 do
             local box = stage.children["enemy" .. i]
             local c = box.children
             assert(c.hp.x == healthPositions[i][1] and c.hp.sizeDeltaX == healthPositions[i][2], "Block must not move or resize HP")
             local left = box.x + c.blockEdge.x - c.blockEdge.sizeDeltaX / 2
             local right = box.x + c.hpBorder.x + c.hpBorder.sizeDeltaX / 2
-            assert(left > previousRight, "guard/HP lanes overlap adjacent actor")
+            assert(left > (previousRight[box.y] or 0), "guard/HP lanes overlap adjacent actor")
             assert(left >= -600 and right <= 600, "guard/HP outside safe area")
-            previousRight = right
+            previousRight[box.y] = right
         end
     end
 end)
@@ -743,12 +746,13 @@ test("animated block badges keep HP and neighbouring columns clear for player, o
         end
         local function inspect()
             bounds(stage.children.hero)
-            local previousRight = stage.children.hero.x + Theme.layout.hpBar.size[1] / 2
+            local previousRight = {}
             for i = 1, #battle.enemies do
-                local left, right = bounds(stage.children["enemy" .. i])
+                local box=stage.children['enemy'..i]
+                local left, right = bounds(box)
                 assert(left >= -600 and right <= 600, "animated guard/HP outside safe area")
-                assert(not previousRight or left > previousRight, "animated chip crosses neighbouring HP")
-                previousRight = right
+                assert(left > (previousRight[box.y] or 0), "animated chip crosses neighbouring HP")
+                previousRight[box.y] = right
             end
         end
         local function playback()
@@ -1044,6 +1048,7 @@ test("targeted drags cancel in hand and hit the explicitly aimed enemy",function
     assert(battle.enemies[1].hp == hp1)
     grab(1) event("card1","drag",stage.children.enemy2.x,stage.children.enemy2.y)
     assert(stage.children.enemy2.children.border.imageColor.r == Theme.color.goldBright.r)
+    assert(stage.children.enemy2.children.damagePreview.visible,'aimed damage preview must be visible')
     event("dragLayer","up",stage.children.enemy2.x,stage.children.enemy2.y)
     assert(battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2-6 and #battle.hand == 0)
 end)

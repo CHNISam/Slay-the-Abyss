@@ -127,7 +127,7 @@ function M.new(stage, platform, present, complete)
         local rows=self.busy and self.enemyRows or EnemyView.slots(self.shadow)
         for slot,entry in ipairs(rows)do if entry.id==id then
             local x=EnemyView.position(#rows,slot,entry.actor)
-            return entry.actor,stage:GetChild('enemy'..slot),x,L.enemyRow.y
+            return entry.actor,stage:GetChild('enemy'..slot),x,EnemyView.rowY(#rows,slot)
         end end
         for _,a in ipairs(self.shadow.enemies)do if a.id==id then return a end end
     end
