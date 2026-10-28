@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-28 02:09'
+updated_date: '2026-10-28 02:50'
 labels:
   - required
   - sts1
@@ -85,4 +85,6 @@ type: feature
 2026-10-27 独立源码增量候选：Library已按固定319009d5接入20张不同源卡选一、重复重抽稀有度与身份、不改pity、逆序展示、独立预览与公开永久取得、构造期缓存Sleep及独立Leave。四职业真实目录/RNG/下一战和原生控件模拟通过，独立源码审查PASS；与已接受Ghosts/Toxic Egg及当前版本公告组合后，87项Node与177组既有Lua回归、构建/架构/固定静态门禁通过。相关实现见docs/rules/THE_LIBRARY.md；默认来源池顺序概率未改。未认证原生客户端、全事件/自然连续四幕；整项AC保持未完成，当前新PR完整Quality仍待。
 
 2026-10-28 dot巢穴独立切片：固定社区镜像319009d5的Nest/DamageInfo/RitualDagger/获得效果四份来源hash复核，按intro→continue→99金币或NORMAL损血6后获得仪式匕首→结果→独立离开接入真实Act2/Pool/Nodes。默认七事件与完整13项顺序概率未改。新10组永久事务与5组真实生成UI/公共Nodes回归通过；实际先复现致死返回pending，再补Act2失败收尾；19项既有Act2回归通过。真实来源账本登记Nest及匕首事件渠道，单卡实际增长复用已有实现。PR260持有NodeUI，当前复用通用未知事件标题、按钮及旧输入保护，不抢写。源码/离线模拟已验，完整精确SHA CI、自然四职业路线、GIL导入/ready及PC/实体手机仍未验，不勾整体AC、不改状态。
+
+PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_presentation_render.lua在30040ms超时，前三职业通过但Watcher未完成；不当作PASS或盲重跑。同缺陷已由PR266原执行者在ca376218修正，本分支原样复用其tests-only预算拆片（含配套Transient/发现门禁），不重复实现、不改时限或生产代码。原720变体分160/180/180/200逐份实际通过5.25/6.19/6.08/7.07秒，原19Transient组及预算门禁8项通过；独立复审与新精确SHA完整CI继续，旧失败保留。
 <!-- SECTION:NOTES:END -->
