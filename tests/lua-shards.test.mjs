@@ -39,7 +39,7 @@ test('longest fixtures fill the least loaded combined JS/Lua shard deterministic
 
 test('measured scheduling retains every current fixture and reduces estimated critical path', () => {
   const timings = JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8'));
-  assert.equal(timings.source.runId, 40623057222);
+  assert.equal(timings.source.runId, 40630641377);
   const scripts = readdirSync('tests/lua').filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
   const weight = script => timings.lua[script] ?? timings.unknownLuaMs;
   for (const count of [1, 2, 4, 8, 64]) {
