@@ -205,14 +205,14 @@ test('literal protected imports embedded in JS retain their module edge', () => 
   assert.deepEqual(selectTests(['src/lua/abyss_other.lua'], input).integration, []);
 });
 
-test('prose, comments and unrelated static imports do not create dynamic Lua dependencies', () => {
+test('prose and comments stay unrelated while unresolved literal modules remain conservative', () => {
   const plan = selectTests(['src/lua/abyss_low.lua'], {
     ...luaSources,
     'tests/lua/comments.lua': '-- alias = require\n-- pcall(require, name)\nreturn "tests require coverage"',
     'tests/lua/external.lua': 'return require("external")',
   });
   assert.equal(plan.full, false);
-  assert.deepEqual(plan.lua, ['tests/lua/direct.lua']);
+  assert.deepEqual(plan.lua, ['tests/lua/direct.lua', 'tests/lua/external.lua']);
 });
 
 test('explicit protected fixture changes select that fixture without unrelated tests', () => {
@@ -484,3 +484,42 @@ for (const expression of [
     assert.ok([...plan.fast, ...plan.integration].includes('tests/imported.test.mjs'));
   });
 }
+
+for (const [module, path] of [
+  ['shared', 'src/lua/shared.lua'],
+  ['support.shared', 'src/lua/support/shared.lua'],
+  ['shared-helper', 'src/lua/shared-helper.lua'],
+  ['shared helper', 'src/lua/shared helper.lua'],
+]) {
+  for (const expression of [`require("${module}")`, `require [[${module}]]`, `pcall(require,"${module}")`]) {
+    test(`ordinary literal Lua modules retain consumers and literal JS wrappers: ${expression}`, () => {
+      const input = {
+        [path]: 'return {}',
+        'src/lua/other.lua': 'return {}',
+        'scripts/test-lua.mjs': 'export function runLua(path){}',
+        'tests/lua/mapped.lua': `return dofile("${path}")`,
+        'tests/lua/consumer.lua': `return ${expression}`,
+        'tests/lua/unrelated.lua': 'return require("other")',
+        'tests/consumer.test.mjs': 'import {runLua} from "../scripts/test-lua.mjs"; runLua("tests/lua/consumer.lua")',
+        'tests/unrelated.test.mjs': 'import {runLua} from "../scripts/test-lua.mjs"; runLua("tests/lua/unrelated.lua")',
+      };
+      const plan = selectTests([path], input);
+      assert.equal(plan.full, false);
+      assert.deepEqual(plan.lua, ['tests/lua/mapped.lua', 'tests/lua/consumer.lua']);
+      assert.deepEqual(plan.integration, ['tests/consumer.test.mjs']);
+    });
+  }
+}
+
+test('unresolved ordinary literal modules retain their Lua and JS roots conservatively', () => {
+  const plan = selectTests(['src/lua/shared.lua'], {
+    'src/lua/shared.lua': 'return {}',
+    'scripts/test-lua.mjs': 'export function runLua(path){}',
+    'tests/lua/mapped.lua': 'return dofile("src/lua/shared.lua")',
+    'tests/lua/consumer.lua': 'return require("unmodelled-plugin")',
+    'tests/consumer.test.mjs': 'import {runLua} from "../scripts/test-lua.mjs"; runLua("tests/lua/consumer.lua")',
+  });
+  assert.equal(plan.full, false);
+  assert.deepEqual(plan.lua, ['tests/lua/mapped.lua', 'tests/lua/consumer.lua']);
+  assert.deepEqual(plan.integration, ['tests/consumer.test.mjs']);
+});

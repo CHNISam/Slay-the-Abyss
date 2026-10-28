@@ -50,7 +50,10 @@ function luaImports(source) {
       if (loader && args.length === (direct ? 1 : 2) && target?.type === 'StringLiteral') {
         known.add(loader);
         if (loader.name !== 'require') references.add(slash(target.value).replace(/^\.\//, ''));
-        else if (/^abyss_\w+$/.test(target.value)) references.add(`src/lua/${target.value}.lua`);
+        // runLua searches src/lua/?.lua for every module name, not only abyss_*.
+        // Lua's searchpath translates module dots to directory separators.
+        // Missing/unmodelled targets are marked dynamic by selectTests below.
+        else references.add(`src/lua/${slash(target.value).replaceAll('.', '/')}.lua`);
       }
     }
     // Aliases, shadowed loaders and executable code strings cannot be resolved safely.
