@@ -8,6 +8,7 @@ import {preIntegratedNodeUiSource,postNodeUi} from './helpers/approved-node-ui-r
 import {nodeUiRefactor} from './helpers/node-ui-refactor-inverse.mjs';
 import {approvedUi,preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import {p0Presentation,materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
+import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const root='src/lua/abyss_node_ui.lua',face='src/lua/abyss_node_ui_faces.lua';
@@ -67,6 +68,32 @@ test('post-Node config and minimal native fixes retain complete-source identitie
    else assert.throws(()=>preIntegratedNodeUiSource(path,value),/unreviewed integrated/);
   }
  }
+});
+
+test('the two pre-existing frozen glyph-theme identities traverse only their exact historical path',()=>{
+ const path='data/presentation/ui_theme.json';
+ const fixture=read('tests/fixtures/task77-current-source-layers-20261028.json');
+ assert.equal(hash(fixture),'f5d61e2809daadc3a2d559d54e3de2b1846f4ad1001a44a12436a1f0d08bee3a');
+ const source=JSON.parse(fixture).historicalGlyphTheme;
+ assert.equal(hash(source),'f88fac509e27f23db8e7f65c50236377fd7c230356695987e51f93881f6ec128');
+ const metadata=read('docs/reviews/formal-entry-source-inverses-20261028.json');
+ assert.equal(hash(metadata),'cb1c42674c3a4ca3e399e63ea61a4c919513a452e80d7fc95881dfa4262c9893');
+ const lines=source.split('\n');
+ for(const hunk of [...JSON.parse(metadata).files[path].hunks].reverse()){
+  const at=hunk.at+10;
+  assert.deepEqual(lines.slice(at,at+hunk.after.length),hunk.after);
+  lines.splice(at,hunk.after.length,...hunk.before);
+ }
+ const before=lines.join('\n');
+ assert.equal(hash(before),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf');
+ for(const witness of [source,before]){
+  assert.equal(preIntegratedNodeUiSource(path,witness),witness);
+  assert.equal(preIntegratedNodeUiSource(path,witness.replaceAll('\n','\r\n')),witness);
+  assert.throws(()=>preIntegratedNodeUiSource(path,witness+' '),/unreviewed integrated/);
+  assert.throws(()=>preIntegratedNodeUiSource('scripts/card-face.mjs',witness),/unreviewed integrated/);
+  assert.throws(()=>preFormalEntrySource('src/lua/abyss_game_ui.lua',witness),/unreviewed integrated/);
+ }
+ assert.equal(preFormalEntrySource(path,source),before);
 });
 
 test('live materialization refuses a historical root plus drifted or missing extracted module before touching the destination',()=>{

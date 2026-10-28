@@ -1,10 +1,19 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
+local sliceRegistered=0
 package.path="src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;"..package.path
 local X=require("support.experimental_ui_fixture")
 local Run=require("abyss_run")
 local Combat=require("abyss_combat")
 local n=0
 local function eq(a,b) assert(a==b,tostring(a).." ~= "..tostring(b)) end
-local function test(name,fn) fn();n=n+1;print("ok game_ui_class_choices "..n.." - "..name) end
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then
+        fn();n=n+1;print("ok game_ui_class_choices "..n.." - "..name)
+        print("GAME_UI_CLASS_CHOICES_CASE "..sliceRegistered)
+    end
+end
 local cursor={CursorDown="down",CursorUp="up",CursorExit="exit",CursorEndDrag="enddrag"}
 local classIndex={ironclad=1,silent=2,watcher=4}
 local function control(root,path)
@@ -165,3 +174,7 @@ test("old physical confirmation cannot survive selection changes or exit cancel"
     end
 end)
 print("GAME_UI_CLASS_CHOICES_PASS "..n)
+
+assert(sliceRegistered==10,"all ten original class choice cases must register")
+assert(n==sliceLast-sliceFirst+1,"every selected original class choice case must execute")
+print("GAME_UI_CLASS_CHOICES_SLICE "..sliceFirst.." "..sliceLast.." "..n)

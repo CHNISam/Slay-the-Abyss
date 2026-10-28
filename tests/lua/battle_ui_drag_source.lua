@@ -14,6 +14,25 @@ local function setup(deck)
 end
 local function text(panel,slot) return panel:GetChild("card"..slot):GetChild("label").text end
 local function reticle(panel) return panel:GetChild("dragLayer"):GetChild("reticle") end
+local function freeze(value)
+    local saved,queue={}, {value}
+    while #queue>0 do
+        local current=table.remove(queue)
+        if not saved[current] then
+            local entries={};saved[current]=entries
+            for key,item in pairs(current) do
+                entries[key]=item
+                if type(item)=="table" then queue[#queue+1]=item end
+            end
+        end
+    end
+    return function()
+        for current,entries in pairs(saved) do
+            for key,item in pairs(entries) do assert(current[key]==item,"stale Drag mutated core graph") end
+            for key,item in pairs(current) do assert(entries[key]==item,"stale Drag added core state") end
+        end
+    end
+end
 local function aimedSecond()
     local host,ui,panel,event,tap,drain,openClose=setup()
     event("card1","down",7); openClose()
@@ -27,11 +46,17 @@ test("cancelled card1 Drag cannot change card2 preview or reticle with reused to
     local host,ui,panel,event=aimedSecond()
     local before1,before2=text(panel,1),text(panel,2)
     local x,y=ui.gesture.x,ui.gesture.y
+    local rx,ry=reticle(panel).x,reticle(panel).y
+    local target=ui.gesture.drawnTarget
+    local first=panel:GetChild("enemy1")
+    assert(target==1 and rx==first.x and ry==first.y,"current reticle must belong to the real selected enemy")
+    local unchanged=freeze(host.run.combat)
     local enemy=panel:GetChild("enemy2")
     event("card1","drag",7,enemy.x,enemy.y)
     assert(text(panel,2)==before2,"stale Drag polluted preview: "..before2.." -> "..text(panel,2))
     assert(text(panel,1)==before1 and ui.gesture.x==x and ui.gesture.y==y)
-    assert(reticle(panel).x==x and reticle(panel).y==y,"stale Drag moved reticle")
+    assert(ui.gesture.drawnTarget==target and reticle(panel).x==rx and reticle(panel).y==ry,"stale Drag moved reticle")
+    unchanged()
     assert(host.run.combat.energy==3 and #host.run.combat.hand==2)
 end)
 test("foreign card Drag cannot start a stationary current gesture",function()

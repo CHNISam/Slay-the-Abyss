@@ -8,7 +8,7 @@ const bytes=readFileSync(new URL('../fixtures/approved-node-ui-faces-layer.json'
 assert.equal(hash(bytes),'d1e253724b880a9b1779588eb222153675044806ae83a3dba1d63b1fb0b9331b','complete reviewed Node face layer');
 export const approvedNodeFace=JSON.parse(bytes);
 const outerBytes=readFileSync(new URL('../fixtures/approved-ui-post-node-layer.json',import.meta.url));
-assert.equal(hash(outerBytes),'1dcc284d03101f157fe51a086a364c5843c0c906dfdadd9cc4731ba0659024af','complete reviewed post-Node source layer');
+assert.equal(hash(outerBytes),'7d12b5b51d93795162ed4fa9869f5585db30d77fe99650de86ef3938caa737ee','complete reviewed post-Node source layer');
 export const postNodeUi=JSON.parse(outerBytes);
 function prePostNodeSource(path,source){
  const binding=postNodeUi.files[path];

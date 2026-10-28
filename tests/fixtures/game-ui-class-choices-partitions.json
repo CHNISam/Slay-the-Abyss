@@ -1,0 +1,25 @@
+{
+  "base": "7a4910b56cb35e5221faf4523410a9100085c4ea",
+  "entry": "tests/lua/game_ui_class_choices.lua",
+  "originalGitBlob": "295f6132b4a1167aac584dddda487340358f00f7",
+  "originalSha256LF": "69060f92fe3cc24e7ace32c835621acae9874ee05390019ec78c72c6de69b04b",
+  "total": 10,
+  "timeoutMilliseconds": 30000,
+  "runnerSha256LF": "7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33",
+  "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5\nlocal sliceRegistered=0\n",
+  "before": "local function test(name,fn) fn();n=n+1;print(\"ok game_ui_class_choices \"..n..\" - \"..name) end\n",
+  "after": "local function test(name,fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then\n        fn();n=n+1;print(\"ok game_ui_class_choices \"..n..\" - \"..name)\n        print(\"GAME_UI_CLASS_CHOICES_CASE \"..sliceRegistered)\n    end\nend\n",
+  "footer": "\nassert(sliceRegistered==10,\"all ten original class choice cases must register\")\nassert(n==sliceLast-sliceFirst+1,\"every selected original class choice case must execute\")\nprint(\"GAME_UI_CLASS_CHOICES_SLICE \"..sliceFirst..\" \"..sliceLast..\" \"..n)\n",
+  "slices": [
+    {
+      "path": "tests/lua/game_ui_class_choices.lua",
+      "first": 1,
+      "last": 5
+    },
+    {
+      "path": "tests/lua/game_ui_class_choices_slice_2.lua",
+      "first": 6,
+      "last": 10
+    }
+  ]
+}

@@ -7,7 +7,8 @@ local function same(a,b)eq(type(a),type(b));if type(a)~='table'then eq(a,b);retu
 local count=0
 local function test(name,fn)fn();count=count+1;print('PASS potion belt UI '..count..' '..name)end
 local function setup(belt)
- local h,r=F.fixture();assert(testStart(h));if belt then assert(Run.obtainRelic(h.run,'Potion Belt'))end
+ local h,r=F.fixture(nil,nil,nil,{CursorDown='down',CursorDrag='drag',CursorUp='up',CursorExit='exit',CursorEndDrag='endDrag'})
+ assert(testStart(h));if belt then assert(Run.obtainRelic(h.run,'Potion Belt'))end
  h:refresh();return h,r
 end
 local function counter(r,used,capacity)
@@ -17,6 +18,12 @@ end
 local function hit(r,name)return r:GetChild('potionPanel'):GetChild(name):GetChild('hit')end
 local function modal(r,name)return hit(r,name).click()end
 local function bottle(panel,slot)return assert(panel:GetChild('potion'..slot) or panel:GetChild('potionHelp'):GetChild('potion'..slot),'missing bottle '..slot)end
+local function tapBottle(h,panel,slot,long)
+ local control,event=bottle(panel,slot),{touchId=slot}
+ control.listeners.down(event)
+ if long then h:update(.4)end
+ control.listeners.up(event);control.listeners.click(event)
+end
 local function drain(h)for _=1,400 do if not h.battleUI.busy then return end;h:update(.05)end;assert(not h.battleUI.busy)end
 local function fill(h)
  for _,id in ipairs({'fire_potion','block_potion','regen_potion','energy_potion','strength_potion'})do assert(Run.obtainPotion(h.run,id))end
@@ -30,7 +37,7 @@ test('default three hides nonexistent battle bottles, help and management slots'
  local panel=r:GetChild('battlePanel')
  for slot=1,5 do
   eq(bottle(panel,slot).visible,slot<=3)
-  eq(panel:GetChild('potionHelp'):GetChild('potionHelp'..slot).visible,slot<=3)
+  eq(panel:GetChild('potionHelp'):GetChild('potionHelp'..slot).visible,false)
  end
 end)
 test('real Belt exposes five management slots and discard refills exact fourth vacancy',function()
@@ -45,15 +52,20 @@ end)
 test('fourth and fifth native battle buttons use real bottles and expose independent help',function()
  local h,r=setup(true);fill(h);assert(Run.startCombat(h.run,'cultist_solo'));h:refresh()
  local panel=r:GetChild('battlePanel')
- for slot=4,5 do eq(bottle(panel,slot).visible,true);eq(panel:GetChild('potionHelp'):GetChild('potionHelp'..slot).visible,true)end
+ for slot=4,5 do eq(bottle(panel,slot).visible,true);eq(panel:GetChild('potionHelp'):GetChild('potionHelp'..slot).visible,false)end
  local before=C.copy(h.run.potions);local energy=h.run.combat.energy
  for slot=4,5 do
-  panel:GetChild('potionHelp'):GetChild('potionHelp'..slot).listeners.click()
+  tapBottle(h,panel,slot,true)
   eq(panel:GetChild('statusInfo').visible,true);same(h.run.potions,before);eq(h.run.combat.energy,energy)
+  eq(h.battleUI.info.potionId,h.run.potions[slot])
+  eq(panel:GetChild('statusInfo'):GetChild('title').text,slot==4 and '能量药水' or '力量药水')
   panel:GetChild('statusInfo'):GetChild('hit').listeners.click()
+  eq(panel:GetChild('statusInfo').visible,false)
  end
- bottle(panel,4).listeners.click();drain(h);eq(h.run.combat.energy,energy+2);eq(h.run.potions[4],nil)
- bottle(panel,5).listeners.click();drain(h);eq(h.run.combat.player.statuses.strength,2);eq(h.run.potions[5],nil);counter(r,3,5)
+ tapBottle(h,panel,4);dofile('tests/lua/support/confirm_potion_popup.lua')(h.battleUI,panel,4)
+ drain(h);eq(h.run.combat.energy,energy+2);eq(h.run.potions[4],nil)
+ tapBottle(h,panel,5);dofile('tests/lua/support/confirm_potion_popup.lua')(h.battleUI,panel,5)
+ drain(h);eq(h.run.combat.player.statuses.strength,2);eq(h.run.potions[5],nil);counter(r,3,5)
 end)
 test('shop inventory admission and shared counter use actual five-slot capacity',function()
  local h,r=setup(true)

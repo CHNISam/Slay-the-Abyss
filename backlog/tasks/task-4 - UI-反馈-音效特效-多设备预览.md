@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 18:25'
+updated_date: '2026-10-28 19:23'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -108,4 +108,10 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 2026-10-28 16:59 UTC：rebase后便携CI合同12/12、最终药水/Main/Map及inverse入口11/11、完整inverse6/6；网络/语法/221模块1265边架构/73条旧静态诊断及原复杂度门槛通过，25个冻结源和历史哈希不变。一次CI短测14通过1失败已定位为云缺pwsh（spawnSync ENOENT），不安装、不跳过，交托管真实执行。d6a0881两次完整check分别16:37与16:42启动均无终态，重试最后heartbeat16:54:23且16:59:19锁FREE，不算PASS或代码FAIL。完整原日志、同状态离线壳体对照与产品未测边界见docs/reviews/approved-ui-publication-20261028/。本条只记进度，不勾整体验收，不代表已推送/CI通过。
 
 2026-10-28 PR313续接PR310：保留真实Node根入口与10拆分模块，批准视觉仅移faces；新增精确完整源逆向与写前负例，不改原58/26档案、golden、runner及预算。旧新9个Node夹具输出SHA一致，原3逐写通过；最终原生21项、live action8/target7及新增ownership9/Curl/duplication定向通过，便携架构231/1297、60旧诊断/625测量通过。完整历史组合曾20/21，仅错误文本regex已补回并单项重验，不伪报全绿。仅准备更新同Draft PR并等待新精确HEAD完整Quality/inventory；无第三次本地全量、无官方导入/ready/设备或性能证据，状态/负责人/AC不改。证据docs/reviews/approved-ui-publication-20261028/PR313-NODE-INTEGRATION.md。
+
+2026-10-28 19:00 UTC：PR313精确7a4910b托管inventory/presentation已绿，POSIX4绿，POSIX1发现唯一frozen glyph theme接层漏识别；先从与旧4211字节相同的不可变fixture/原formal位置hunk独立证明f88fac及992e，再只在theme路径接回这两个旧身份。系统只读审计确认无其他直接frozen旁支；新正链/单字节漂移/错path和原live根/faces写前拒绝通过，相关28项/JS语法绿。其余矩阵仍运行，待收齐后同PR一次推修复并重验当前SHA完整Quality，不豁免业务红灯，不改整体AC/Done。
+
+2026-10-28 19:11 UTC：继续收当前7a4910b真实CI失败。rules8 Drag旧oracle将raw变换分数坐标与实际target中心强行逐位等同；最小探针证明stale前后各自坐标不变。迁为严格比较真实reticle/目标ID前后，保留原gesture/preview/energy/hand并加完整core图快照，原30s整组10/10（16.746s），root独立读diff认可。rules1 class_choices原30s最后第10组超时，同源26.590s无足够托管余量；复用既有机械拆片1–5/6–10，原8973字节整body/seed/assert及Gitblob精确可重建，runner/30s不变，raw/JS/CI唯一发现合同先红后绿2/2，两片原30s各5组实测11.357/13.425s，CASE1..10各一次，root独立逐文件认可。完整矩阵尚未终态，先收齐再更新同PR并重验精确head；不勾整体AC/Done。
+
+2026-10-28 19:23 UTC：当前7a4910b最后补读rules4唯一potion_belt_ui旧help可见假设，迁真实瓶长按/独立4与5槽potionId+标题/详情关闭+菜单Use；保留容量/补位/库存/能量+2/Strength2/商店奖励全部原断言，最终5组13.206s。targeting_help旧隐藏控件假可达先加visibility断言实测红，再真实瓶长按，原文案/完整快照/target/S13/P12保留，最终3组9.867s。系统扫描无其它Use/旧enemyRow实时输入漏项；已授权的remaining/flex_speed/sustained三可见性盲点只保留原隐藏存储和可信core设置，新增真实可见长按信息检查，原6/2/3组9.799/3.899/5.034s通过。扫描到此停止扩范围；不改生产/runner/golden/预算，等待当前矩阵终态后同PR一次push并重验精确head全量Quality。
 <!-- SECTION:NOTES:END -->
