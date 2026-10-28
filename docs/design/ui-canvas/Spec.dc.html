@@ -44,14 +44,14 @@
   </section>
 
   <section style="display: flex; flex-direction: column; gap: 20px">
-    <h2 style="margin: 0; font-size: 24px; font-weight: 900">敌人意图（15 种 · 攻击按伤害分三档）</h2>
+    <h2 style="margin: 0; font-size: 24px; font-weight: 900">敌人意图（单项 + 组合）</h2>
     <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 14px">
-      <sc-for list="{{intents}}" as="t" hint-placeholder-count="15">
+      <sc-for list="{{intents}}" as="t" hint-placeholder-count="20">
         <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 10px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
           <div style="height: 64px; display: flex; align-items: center">
           <div style="position: relative; flex: none; width: 58px; height: 58px; filter: drop-shadow(0 0 3px {{t.glow}}) drop-shadow(0 0 14px {{t.glow}}) drop-shadow(0 5px 4px #000000D0)">
             <svg style="position: absolute; inset: 0" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f}}" style="fill: {{t.rim}}; stroke: #240A08; stroke-width: 1.6; paint-order: stroke"></path><path d="{{t.s}}" style="fill: none; stroke: {{t.rim}}; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"></path></svg>
-            <span style="{{t.bst}}"></span>
+            <svg style="position: absolute; left: -16px; bottom: -10px; {{t.subVis}}; filter: drop-shadow(0 0 2px #240A08) drop-shadow(0 0 8px {{t.g2}})" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f2}}" style="fill: {{t.r2}}; stroke: #240A08; stroke-width: 1.8; paint-order: stroke"></path><path d="{{t.s2}}" style="fill: none; stroke: {{t.r2}}; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path></svg>
           </div>
           <span style="margin-left: -8px; font-size: 38px; line-height: 1; font-weight: 900; font-style: italic; color: #FFF8EE; -webkit-text-stroke: 2.5px #240A08; paint-order: stroke fill; text-shadow: 0 0 14px {{t.glow}}, 0 3px 0 #000; font-variant-numeric: tabular-nums">{{t.value}}</span>
           </div>
@@ -65,7 +65,7 @@
   <section style="display: flex; flex-direction: column; gap: 20px">
     <h2 style="margin: 0; font-size: 24px; font-weight: 900">边界规则</h2>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
-      <sc-for list="{{rules}}" as="r" hint-placeholder-count="10">
+      <sc-for list="{{rules}}" as="r" hint-placeholder-count="11">
         <div style="display: flex; gap: 16px; padding: 18px 20px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
           <span style="flex: none; width: 34px; height: 34px; border-radius: 50%; background: #120C0B; border: 2px solid #C9A25E; color: #F6DFA4; font-size: 17px; font-weight: 900; display: grid; place-items: center">{{r.n}}</span>
           <div><b style="font-size: 17px">{{r.title}}</b><div style="margin-top: 6px; font-size: 14px; line-height: 1.7; color: #C9BCA4">{{r.body}}</div></div>
@@ -115,29 +115,43 @@ class Component extends DCLogic {
       { name: '攻击 10–19', value: '14', ...atk, ...sword, note: '长剑' },
       { name: '攻击 ≥20', value: '28', ...atk, rim: '#FFD27A', hi: '#FFB040', bg: '#C0240E', glow: '#FF6A10', f: 'M22 2 21.4 8.8 11.6 18.6 5.4 12.4 15.2 2.6Z', s: 'M3.4 10.4 13.6 20.6M7.2 16.8 2.6 21.4M3 3.5l2 2M6.5 2l.4 2.6M2 6.5l2.6.4', note: '巨剑+火星，越痛越亮' },
       { name: '多段攻击', value: '6×3', ...atk, f: 'M21 3 20.5 6.8 12 15.3 8.7 12 17.2 3.5Z M3 3 3.5 6.8 12 15.3 15.3 12 6.8 3.5Z', s: 'M7 14.5 3.5 20.5M17 14.5l3.5 6', note: '单段×段数' },
-      { name: '攻击+削弱', value: '8', ...atk, f: sword.f, s: sword.s, b: 'M0 3h7l4 7 4-7h7L11 23Z', bc: '#B49CFF', note: '右下角紫色下箭头=附带减益' },
-      { name: '攻击+防御', value: '7', ...atk, f: sword.f, s: sword.s, b: 'M11 0 22 4v7c0 6.5-4.6 11.6-11 14C4.6 22.6 0 17.5 0 11V4Z', bc: '#7CC4F4', note: '右下角蓝色盾牌=同时获得格挡' },
+      { name: '攻击+削弱', value: '8', ...atk, ...sword, sub: 'deb', note: '主图标是攻击，左下叠一个完整的削弱图标' },
+      { name: '攻击+防御', value: '7', ...atk, ...sword, sub: 'def', note: '左下叠盾牌' },
+      { name: '攻击+强化', value: '9', ...atk, ...sword, sub: 'buf', note: '左下叠上箭头' },
+      { name: '多段+削弱', value: '4×2', ...atk, f: 'M21 3 20.5 6.8 12 15.3 8.7 12 17.2 3.5Z M3 3 3.5 6.8 12 15.3 15.3 12 6.8 3.5Z', s: 'M7 14.5 3.5 20.5M17 14.5l3.5 6', sub: 'deb', note: '多段同理' },
+      { name: '防御+强化', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', sub: 'buf', note: '不攻击时，防御做主图标' },
+      { name: '防御+削弱', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', sub: 'deb', note: '' },
+      { name: '三项以上', value: '7', ...atk, ...sword, sub: 'def', more: true, note: '只显示前两项，数字后加「+」；全部写进详情' },
       { name: '防御', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', note: '只放图标' },
-      { name: '强化', value: '', ...buf, f: '', s: 'M6 13l6-6 6 6M6 19l6-6 6 6', note: '自身获得增益' },
-      { name: '削弱', value: '', ...deb, f: '', s: 'M5.5 4.5 12 11l6.5-6.5M5.5 12.5 12 19l6.5-6.5', note: '给玩家施加减益' },
+      { name: '强化', value: '', ...buf, f: 'M12 3l8 8H4Z M12 12l8 8H4Z', s: '', note: '自身获得增益' },
+      { name: '削弱', value: '', ...deb, f: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s: '', note: '给玩家施加减益' },
       { name: '蓄能', value: '', ...buf, f: 'M13.5 2.5 6 13.5h5l-1.5 8 7.5-11h-5Z', s: '', note: '下回合大招前摇' },
       { name: '分裂', value: '', ...deb, f: 'M11 4.5a7.5 7.5 0 0 0 0 15Z M13 4.5a7.5 7.5 0 0 1 0 15Z', s: '', note: '低血量分成两只' },
       { name: '逃跑', value: '', ...mid, f: '', s: 'M4 12h13M13 7l5 5-5 5M20 5v14', note: '下回合离场，金币不返还' },
       { name: '沉睡', value: '', ...mid, f: '', s: 'M5 6h6l-6 7h6M13 12h5l-5 6h5', note: '本回合不行动' },
       { name: '眩晕', value: '', ...mid, f: 'M12 4l1.4 3 3.1.4-2.3 2.1.6 3.1L12 11l-2.8 1.6.6-3.1-2.3-2.1 3.1-.4Z', s: 'M4 17c3 3 13 3 16 0', note: '跳过本回合' },
       { name: '未知', value: '', ...mid, f: 'M12 17.3a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4Z', s: 'M8.8 8.6a3.3 3.3 0 1 1 4.8 3c-1 .6-1.6 1.3-1.6 2.6', note: '意图不可见' }
-    ].map(t => ({ ...t, bst: t.b ? 'position: absolute; right: -6px; bottom: -6px; width: 22px; height: 25px; background: ' + t.bc + '; clip-path: path(\'' + t.b + '\'); filter: drop-shadow(0 0 2px #000)' : 'display: none' }));
+    ].map((t) => {
+      const SUB = {
+        def: { f2: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s2: '', r2: '#B0E0FF', g2: '#3AA0FF' },
+        buf: { f2: 'M12 3l8 8H4Z M12 12l8 8H4Z', s2: '', r2: '#FFE09A', g2: '#FFB020' },
+        deb: { f2: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s2: '', r2: '#C8B0FF', g2: '#8A5CFF' }
+      };
+      const sub = SUB[t.sub] || { f2: '', s2: '', r2: 'none', g2: '#00000000' };
+      return { ...t, ...sub, value: t.more ? t.value + '+' : t.value, subVis: t.sub ? '' : 'display: none' };
+    });
     const rules = [
       { title: '状态行容量', body: '血条正下方，每行最多 5 个、最多 2 行；第 10 个起改为一个「+N」芯片。点开详情能看到全部，详情面板超过 8 条时可滚动。' },
       { title: '排序', body: '先增益后减益，同类按获得先后排。新获得或层数变化时图标放大到 1.25 倍再回弹（0.25 秒），不改位置。' },
       { title: '角标数字', body: '层数型写层数，回合型写剩余回合，无数值型（壁垒、缠绕）不写。超过 99 写 99+。力量、敏捷为负时换减益配色，写 −N。' },
       { title: '格挡', body: '大于 0 时盾牌挂在血条左侧，血条变冰蓝并加亮边，数字始终在盾内；三位数时字号从 13 降到 11。格挡为 0 时盾位保留空白，血条不位移。' },
-      { title: '意图数值', body: '攻击写最终伤害（已算力量、虚弱、易伤），多段写「单段×段数」。混合意图用主图标加右下角标，不写两段文字。意图不可见时显示「未知」。悬停攻击意图始终显示算式（如 基础 9 ＋ 力量 3 ＝ 12；虚弱、易伤写成 ×0.75、×1.5），不做成设置项。' },
+      { title: '意图数值', body: '攻击写最终伤害（已算力量、虚弱、易伤），多段写「单段×段数」。组合意图按 攻击 > 防御 > 强化 > 削弱 取前两项：主图标在前，第二项缩小叠在左下，各自保留颜色；三项以上数字后加「+」，全部写进详情。意图不可见时显示「未知」。悬停攻击意图始终显示算式（如 基础 9 ＋ 力量 3 ＝ 12；虚弱、易伤写成 ×0.75、×1.5），不做成设置项。' },
       { title: '敌人数量 1–6', body: '敌人只在右侧固定区域 640–1830px 内均分，左边界不动，永远不靠近主角。4 个及以上时前后两排交替，后排上移 100px、缩小到 86%。立绘尺寸 = min(190, 槽宽×0.86)。' },
       { title: '首领与大体型', body: '首领独占中间槽，尺寸上限 260；同屏小怪按剩余槽位均分。立绘超高时血条跟随脚底，意图跟随头顶，不固定在同一高度。' },
       { title: '查看详情', body: '悬停（电脑）或单击（手机）任一敌人或主角，一次列出意图和全部状态，不需要逐个点图标。再点空白处关闭。' },
       { title: '主角状态', body: '与敌人相同：血条下方一行，同一容量和排序规则；主角详情面板向右展开，避免挡住手牌。' },
-      { title: '瞄准时', body: '选中药水或单体卡牌后，非目标敌人降到 40% 不透明度，目标加四角金框；全体效果则所有敌人一起高亮；自身效果直接生效，不进入瞄准。' }
+      { title: '瞄准时', body: '选中药水或单体卡牌后，非目标敌人降到 40% 不透明度，目标加四角金框；全体效果则所有敌人一起高亮；自身效果直接生效，不进入瞄准。' },
+      { title: '卡牌类型看形状', body: '插画窗形状区分类型：攻击下缘尖角，技能八角切边，能力下缘圆弧。类型名放在插画窗底部正中的小牌上，边框跟稀有度同色。' },
     ].map((r, i) => ({ ...r, n: i + 1 }));
     return { statuses, intents, rules };
   }

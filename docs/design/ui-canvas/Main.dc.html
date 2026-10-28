@@ -124,20 +124,19 @@ button{font-family:inherit;cursor:pointer}
   <div style="position: absolute; left: 960px; top: 742px; width: 0; height: 0; z-index: 5">
     <sc-for list="{{cards}}" as="c" hint-placeholder-count="5">
       <div style="{{c.pos}}">
-        <div style="width: 206px; height: 290px; box-sizing: border-box; border-radius: 14px; padding: 3px; background: linear-gradient(160deg, {{c.edgeA}}, #3C302A 45%, {{c.edgeB}}); box-shadow: 0 18px 34px #000000A0">
-          <div style="position: relative; width: 100%; height: 100%; border-radius: 11px; background: linear-gradient(180deg, #241B19, #170F0E); overflow: hidden; display: flex; flex-direction: column">
-            <div style="position: relative; height: 128px; background: #170F0E">
-              <img src="{{c.art}}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: {{c.focus}}">
-              <div style="position: absolute; inset: 0; background: linear-gradient(180deg, #170F0E00 55%, #170F0EF0 100%)"></div>
+        <div style="position: relative; width: 207px; height: 291px; box-sizing: border-box; padding: 3px; background: {{c.rim}}; box-shadow: 0 18px 34px #000000A0">
+          <div style="position: relative; width: 201px; height: 285px; background: #1c1e27; overflow: hidden">
+            <div style="height: 42px; background: #272a36; display: grid; place-items: center; padding-left: 26px; font-size: 22px; font-weight: 900; color: #ece6da">{{c.name}}</div>
+            <div style="position: relative; height: 112px"><div style="position: absolute; inset: 0 6px; background: {{c.rim}}; {{c.shape}}"></div><div style="position: absolute; inset: 3px 9px; background: {{c.tint}}; {{c.shape}}; display: grid; place-items: center; overflow: hidden">
+              <sc-if value="{{c.art}}" hint-placeholder-val="{{true}}"><img src="{{c.art}}" alt="" style="width: 100%; height: 100%; object-fit: contain; display: block"></sc-if>
+              <sc-if value="{{c.noArt}}" hint-placeholder-val="{{false}}"><svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><path d="{{c.icon}}" style="fill: {{c.iconInk}}"></path></svg></sc-if>
             </div>
-            <div style="margin-top: -18px; position: relative; text-align: center; font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 900; color: #F2ECDF; letter-spacing: 3px; text-shadow: 0 2px 6px #000">{{c.name}}</div>
-            <div style="margin: 6px auto 0; display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 4px; color: {{c.tag}}">
-              <span style="width: 18px; height: 1px; background: {{c.tag}}"></span>{{c.type}}<span style="width: 18px; height: 1px; background: {{c.tag}}"></span>
-            </div>
-            <div style="flex: 1; padding: 6px 16px 14px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 16px; line-height: 1.55; color: #C9C3B6; white-space: pre-line">{{c.text}}</div>
-            <div style="position: absolute; left: 4px; top: 4px; width: 44px; height: 44px; display: grid; place-items: center">
-              <span style="position: absolute; width: 30px; height: 30px; transform: rotate(45deg); border-radius: 4px; background: linear-gradient(135deg, #FBE3A8, #D49A44 55%, #7E521C); box-shadow: 0 0 0 2px #170F0E, 0 0 0 3px #E9C77B, 0 0 12px #E9C77B88"></span>
-              <span style="position: relative; font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 900; color: #2A1708">{{c.cost}}</span>
+            </div><div style="position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); height: 22px; padding: 0 12px; background: #13141b; border: 1px solid {{c.rim}}; font-size: 14px; line-height: 20px; color: #a9a595; white-space: nowrap">{{c.type}}</div></div>
+            <div style="height: 131px; padding: 8px 14px 0; box-sizing: border-box; display: grid; place-items: center; text-align: center; font-size: 18px; line-height: 1.5; color: #ece6da">{{c.text}}</div>
+          </div>
+          <div style="position: absolute; left: -10px; top: -10px; width: 64px; height: 64px; border-radius: 50%; background: #f5d79a; display: grid; place-items: center">
+            <div style="width: 61px; height: 61px; border-radius: 50%; background: #0f1117; display: grid; place-items: center">
+              <div style="width: 56px; height: 56px; border-radius: 50%; background: #e9a93b; display: grid; place-items: center; font-size: 31px; font-weight: 900; color: #2a2620">{{c.cost}}</div>
             </div>
           </div>
         </div>
@@ -151,26 +150,29 @@ button{font-family:inherit;cursor:pointer}
     <span style="position: relative; font-family: 'Noto Serif SC', serif; font-size: 50px; font-weight: 900; line-height: 1; color: #FFF8EC; -webkit-text-stroke: 2px #3A0E06; paint-order: stroke fill; text-shadow: 0 2px 0 #3A0E06">3<span style="font-size: 24px; color: #FFE2B8">/3</span></span>
   </div>
 
-  <!-- 抽牌堆 / 弃牌堆：叠放牌背 + 盾形计数 -->
-  <button aria-label="抽牌堆 8 张" style="position: absolute; left: 66px; top: 962px; width: 120px; height: 96px; padding: 0; border: none; background: transparent">
-    <span style="position: absolute; left: 22px; top: 14px; width: 52px; height: 72px; box-sizing: border-box; border-radius: 6px; background: linear-gradient(160deg, #4A2A22, #24140F); border: 1.5px solid #8C7454; transform: rotate(-12deg)"></span>
-    <span style="position: absolute; left: 30px; top: 10px; width: 52px; height: 72px; box-sizing: border-box; border-radius: 6px; background: linear-gradient(160deg, #5A3328, #2A1712); border: 1.5px solid #B8975E; transform: rotate(-4deg); display: grid; place-items: center">
-      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 12 12 21 5 12Z" fill="none" stroke="#E9C77B" stroke-width="1.6"></path><path d="M12 8 15.5 12 12 16 8.5 12Z" fill="#E9C77B"></path></svg>
-    </span>
-    <span style="position: absolute; left: 74px; top: 40px; width: 36px; height: 40px; display: grid; place-items: center">
-      <svg width="36" height="40" viewBox="0 0 24 26" style="position: absolute" aria-hidden="true"><path d="M12 1 22 4.5v7.5c0 6-4.3 10.6-10 13-5.7-2.4-10-7-10-13V4.5Z" style="fill: #1A1312; stroke: #E9C77B; stroke-width: 1.4"></path></svg>
-      <b style="position: relative; top: -2px; font-size: 17px; color: #F3ECDD">8</b>
-    </span>
-  </button>
-  <button aria-label="弃牌堆 0 张" style="position: absolute; right: 66px; top: 962px; width: 120px; height: 96px; padding: 0; border: none; background: transparent">
-    <span style="position: absolute; left: 38px; top: 10px; width: 52px; height: 72px; box-sizing: border-box; border-radius: 6px; background: linear-gradient(200deg, #3A2E2A, #1C1513); border: 1.5px dashed #6E5A42; transform: rotate(6deg); display: grid; place-items: center">
-      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" stroke="#6E5A42" stroke-width="2" stroke-linecap="round"></path></svg>
-    </span>
-    <span style="position: absolute; left: 10px; top: 40px; width: 36px; height: 40px; display: grid; place-items: center">
-      <svg width="36" height="40" viewBox="0 0 24 26" style="position: absolute" aria-hidden="true"><path d="M12 1 22 4.5v7.5c0 6-4.3 10.6-10 13-5.7-2.4-10-7-10-13V4.5Z" style="fill: #1A1312; stroke: #8C7454; stroke-width: 1.4"></path></svg>
-      <b style="position: relative; top: -2px; font-size: 17px; color: #BBAA8C">0</b>
-    </span>
-  </button>
+  <!-- 抽牌堆 / 弃牌堆：共用卡背 -->
+  <div aria-label="抽牌堆，7 张" style="position: absolute; left: 56px; top: 958px; width: 64px; height: 90px; opacity: 1">
+    <div style="position: absolute; left: 6px; top: -5px; width: 64px; height: 90px; background: #8e7448; transform: rotate(6deg); opacity: 0.55"></div>
+    <div style="position: absolute; inset: 0; box-sizing: border-box; padding: 2px; background: #8e7448">
+      <div style="width: 100%; height: 100%; box-sizing: border-box; background: #1c1e27; padding: 4px">
+        <div style="width: 100%; height: 100%; box-sizing: border-box; border: 1px solid #8e7448; background: #13141b; display: grid; place-items: center">
+          <span style="width: 18px; height: 18px; transform: rotate(45deg); background: #f0b850; box-shadow: 0 0 0 3px #a8732a"></span>
+        </div>
+      </div>
+    </div>
+    <span style="position: absolute; right: -14px; bottom: -8px; min-width: 32px; height: 32px; padding: 0 6px; box-sizing: border-box; border-radius: 16px; background: #0f1117; border: 2px solid #8e7448; font-size: 16px; font-weight: 900; line-height: 28px; text-align: center; color: #ece6da">7</span>
+  </div>
+  <div aria-label="弃牌堆，0 张" style="position: absolute; right: 56px; top: 958px; width: 64px; height: 90px; opacity: 0.75">
+    <div style="position: absolute; left: 6px; top: -5px; width: 64px; height: 90px; background: #8e7448; transform: rotate(6deg); opacity: 0.55"></div>
+    <div style="position: absolute; inset: 0; box-sizing: border-box; padding: 2px; background: #8e7448">
+      <div style="width: 100%; height: 100%; box-sizing: border-box; background: #1c1e27; padding: 4px">
+        <div style="width: 100%; height: 100%; box-sizing: border-box; border: 1px solid #8e7448; background: #13141b; display: grid; place-items: center">
+          <span style="width: 18px; height: 18px; transform: rotate(45deg); background: #f0b850; box-shadow: 0 0 0 3px #a8732a"></span>
+        </div>
+      </div>
+    </div>
+    <span style="position: absolute; left: -14px; bottom: -8px; min-width: 32px; height: 32px; padding: 0 6px; box-sizing: border-box; border-radius: 16px; background: #0f1117; border: 2px solid #8e7448; font-size: 16px; font-weight: 900; line-height: 28px; text-align: center; color: #ece6da">0</span>
+  </div>
 
   <!-- 结束回合：剑形铭牌 -->
   <button style="position: absolute; right: 56px; top: 846px; width: 270px; height: 84px; padding: 0; border: none; background: transparent; filter: drop-shadow(0 0 18px #E9C77B55) drop-shadow(0 10px 18px #000000A0)">
@@ -278,7 +280,7 @@ class Component extends DCLogic {
       sword: { f: 'M21 3 20.4 7.6 10.9 17.1 6.9 13.1 16.4 3.6Z', s: 'M4.6 11.4 12.6 19.4M7.6 16.4 3.4 20.6', rim: '#F0B070', hi: '#FF7A4A', bg: '#B02A16', glow: '#FF4A22' },
       great: { f: 'M22 2 21.4 8.8 11.6 18.6 5.4 12.4 15.2 2.6Z', s: 'M3.4 10.4 13.6 20.6M7.2 16.8 2.6 21.4M3 3.5l2 2M6.5 2l.4 2.6M2 6.5l2.6.4', rim: '#FFD27A', hi: '#FFB040', bg: '#C0240E', glow: '#FF6A10' },
       multi: { f: 'M21 3 20.5 6.8 12 15.3 8.7 12 17.2 3.5Z M3 3 3.5 6.8 12 15.3 15.3 12 6.8 3.5Z', s: 'M7 14.5 3.5 20.5M17 14.5l3.5 6', rim: '#F0B070', hi: '#FF7A4A', bg: '#B02A16', glow: '#FF4A22' },
-      debuff: { f: '', s: 'M5.5 4.5 12 11l6.5-6.5M5.5 12.5 12 19l6.5-6.5', rim: '#C8B0FF', hi: '#9A7CF0', bg: '#4A2E96', glow: '#8A5CFF' }
+      debuff: { f: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s: '', rim: '#C8B0FF', hi: '#9A7CF0', bg: '#4A2E96', glow: '#8A5CFF' }
     };
     const tier = (v) => (String(v).includes('×') ? 'multi' : +v >= 20 ? 'great' : +v >= 10 ? 'sword' : 'dagger');
     const enemies = raw.map((e, i) => ({
@@ -295,16 +297,20 @@ class Component extends DCLogic {
     }));
     const tips = raw[2].statuses;
     const blade = '/_blob/ac8bdbe16709d000147db5b82525453b', arm = '/_blob/a343d8e71b7ed75bfc102288627a48d3';
-    const atkC = { type: '攻击', tag: '#E8836C', edgeA: '#C98A5A', edgeB: '#5A3A2C' };
-    const sklC = { type: '技能', tag: '#8CC4E2', edgeA: '#8CB8D0', edgeB: '#2C4652' };
+    const sword = 'M19 2 22 5 11.5 15.5 13 17l-1.5 1.5-2-2L6 20l-2-2 3.5-3.5-2-2L7 11l1.5 1.5Z';
+    const shieldI = 'M12 2 20 5v6c0 5.2-3.4 9.3-8 11-4.6-1.7-8-5.8-8-11V5Z';
+    const atkC = { shape: 'clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%)', type: '攻击', tint: '#4E2B2F', icon: sword, iconInk: '#E8B0A8' };
+    const sklC = { shape: 'clip-path: polygon(10% 0, 90% 0, 100% 14%, 100% 86%, 90% 100%, 10% 100%, 0 86%, 0 14%)', type: '技能', tint: '#273D56', icon: shieldI, iconInk: '#B8D4F0' };
+    const R = { basic: '#8a8f9c', common: '#5f8fd6', uncommon: '#a974e0', rare: '#e0a243' };
     const hand = [
-      { name: '打击', cost: 1, text: '造成 6 伤害', art: blade, focus: '20% 40%', ...atkC },
-      { name: '砺刃', cost: 1, text: '获得 5 格挡\n升级 1 张手牌', art: arm, focus: '50% 50%', ...sklC },
-      { name: '重刃', cost: 2, text: '造成 14 伤害\n力量 ×3', art: blade, focus: '60% 50%', ...atkC },
-      { name: '防御', cost: 1, text: '获得 5 格挡', art: arm, focus: '15% 60%', ...sklC },
-      { name: '打击', cost: 1, text: '造成 6 伤害', art: blade, focus: '35% 30%', ...atkC }
-    ];
+      { name: '打击', cost: 1, text: '造成 6 点伤害。', rim: R.basic, ...atkC },
+      { name: '整备武装', cost: 1, text: '获得 5 点格挡。升级 1 张手牌。', art: arm, rim: R.common, ...sklC },
+      { name: '重剑斩', cost: 2, text: '造成 14 点伤害。力量效果 ×3。', art: blade, rim: R.common, ...atkC },
+      { name: '防御', cost: 1, text: '获得 5 点格挡。', rim: R.basic, ...sklC },
+      { name: '打击', cost: 1, text: '造成 6 点伤害。', rim: R.basic, ...atkC }
+    ].map((c) => ({ ...c, art: c.art || '', noArt: !c.art }));
     const n = hand.length;
+
     const cards = hand.map((c, i) => {
       const k = i - (n - 1) / 2;
       return { ...c, pos: 'position: absolute; left: ' + (k * 176 - 103) + 'px; top: ' + (k * k * 8) + 'px; transform: rotate(' + (k * 3.5) + 'deg); transform-origin: 50% 130%' };
