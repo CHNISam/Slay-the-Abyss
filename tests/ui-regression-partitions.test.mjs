@@ -11,8 +11,10 @@ const originals=[
  ['potion_targeting',5,4,'POTION_TARGETING','3dcadb807b990be2621b12ff85677749cf63b5ffcf06fa6a38bd6ff6c14d7fcc','5605f22c901f7636b023ed90fd343053e1c7fc47'],
  ['game_ui_exit',15,5,'GAME_UI_EXIT','986c6a694f51d13dccf121ccba1a93fbb9e9d84f3f30bf7d0ae11d7360fdbf2d','f986addd094b95e234464e7bb48401d305e1515b'],
  ['feedback_continuous_cards',9,4,'FEEDBACK_CONTINUOUS_CARDS','d71e04f8b4a0736dbd90a32b57d7aeede3b5b418f58d3f96604b02fccf1902ee','01da8333a744bcee14c8e7574b2056f99b5b1b39'],
+ ['battle_ui_potion_target_failures',7,3,'BATTLE_UI_POTION_TARGET_FAILURES','47565faaad06cbf34edf208a30d922ab4975b19a5025dc751c379ff6ed2d83a9','5faa5cf608f248ba5c5e8c613470709d1810691b'],
 ];
 const acceptedRegistrationEdits=new Map([
+ ['tests/lua/battle_ui_potion_target_failures.lua',['bd4e739a3105c488a44b4a2b564b0198862c942fc1167e28e6aa912f501fc24d','563d5256883692e4f011eb7cac3a5dd014d99988d029ff4877f3496c62a1410d']],
  ['tests/lua/potion_targeting.lua',['f80c0e4f9456d37877b0e17c2228e33e4b7898ab9df652157d113e8816bed8b0','0edf396cffb9a7c7f3111c26d18bf09897683c7e479314bbbe61e28f31caa038']],
  ['tests/lua/game_ui_exit.lua',['dd5f7db76b2630928828b148e61876aedf980928a6e6c914b00bad29d038c3b3','dd99a76ad8d4f825a49ccbf3a825885f0a140bafba6883d27eea2fdc8ccf584b']],
  ['tests/lua/feedback_continuous_cards.lua',['215f0c976bdc7c2fd4651027991306fbc8e7e62963ef8ee25d436cadffac129a','2b1095082ab321592c89a8b30983412b95ed50f0ee3233b87836ef2a8afedeeb']],
@@ -57,7 +59,7 @@ for(const [index,[name,total,last,label,sourceSha,blob]]of originals.entries()){
   assert.throws(()=>originalSource({...part,after:noCall},source.replace(part.after,noCall)),/accepted registration edit/,'changing both wrapper and manifest must not allow counting without execution');
  });
 }
-test('raw runner, Node discovery, and every hosted shard plan retain all six UI slices exactly once',()=>{
+test('raw runner, Node discovery, and every hosted shard plan retain all eight UI slices exactly once',()=>{
  const raw=readdirSync('tests/lua').filter(name=>name.endsWith('.lua')).map(name=>'tests/lua/'+name);
  const expected=manifest.partitions.flatMap(part=>part.slices.map(slice=>slice.path));
  const names=originals.map(([name])=>name).join('|');

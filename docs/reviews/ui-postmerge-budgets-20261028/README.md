@@ -25,10 +25,17 @@
 - potion_targeting：原第 1–4 组 / 原第 5 组（内含全部 9 个生命周期条件）。
 - game_ui_exit：原第 1–5 组 / 原第 6–15 组。
 - feedback_continuous_cards：原第 1–4 组 / 原第 5–9 组。
+- battle_ui_potion_target_failures：原第 1–3 组 / 原第 4–7 组。
 
 只在各文件注册器外加选择、计数和原始序号 marker；新增第二片为一行 `loadfile` 调用。
 没有修改任何原 case 体、setup、seed、断言、循环上限或语句次序。
 各 case 在自己的函数内创建新 host/combat/反馈状态；片间没有承接前一 case 结果。
+前三项完成后，root 明确限定新增第四项：`battle_ui_potion_target_failures.lua`
+在实际 PR313 合后为 29,233ms，PR314 实际作业 123073106473 为
+30,071ms / 原 30,000ms ETIMEDOUT；既有 23,996ms 权重也已经独占。
+其每组从真实 seed61 胜利领奖再开小软泥，无跨组状态承接；原第5/6组的
+up/endDrag 注册循环、所有原 body/seed/顺序均保持。此次没有继续扩大 fixture 范围。
+
 完整原源码 SHA256 与 Git blob、唯一可逆注册编辑及分片范围保存在
 `tests/fixtures/ui-regression-partitions.json`；Node 合同严格重建并核原字节，
 验证真实 case 体/范围漂移会被拒绝，并固定注册器前后文的独立 SHA256；
@@ -42,7 +49,7 @@ raw 与 Windows 8 / POSIX 4 的 Node 合同均唯一发现。
 
 ## 本轮真实短测
 
-[完整数值与序号](local-results.json)。六片串行调用原 `runLua`，没有传入更长 timeout：
+[完整数值与序号](local-results.json)。八片串行调用原 `runLua`，没有传入更长 timeout：
 
 | 入口 | 原 case 序号 | 本轮云隔离目录实测 |
 | --- | --- | ---: |
@@ -52,11 +59,19 @@ raw 与 Windows 8 / POSIX 4 的 Node 合同均唯一发现。
 | game_ui_exit_slice_2.lua | 6–15 | 11,027ms |
 | feedback_continuous_cards.lua | 1–4 | 10,536ms |
 | feedback_continuous_cards_slice_2.lua | 5–9 | 13,769ms |
+| battle_ui_potion_target_failures.lua | 1–3 | 9,720ms |
+| battle_ui_potion_target_failures_slice_2.lua | 4–7 | 13,009ms |
 
-六片 status 0；每片严格验证实际 CASE marker 与预期范围，合计原 29 组各执行一次，
+八片 status 0；每片严格验证实际 CASE marker 与预期范围，合计原 36 组各执行一次，
 无 `FAIL` / `not ok`。运行期间另有短静态检查，不把本机数值冒充托管 Windows 余量证明。
-源码/发现合同先红（缺少分片）后绿；本轮新增 5 项与已有 class choices 2 项合计 7/7。
+源码/发现合同先红（缺少分片）后绿；本轮新增 6 项与已有 class choices 2 项合计 8/8。
 `npm run check:syntax` 与 `git diff --check` 通过；无第三次本地全量重跑。
+
+root 另要求前三项的六入口走一次实际 `runLuaWorkers(...workers:2,weights:timings.lua)`：
+未注入权重、未改时限，真实 fallback=10,000ms 使新片也独占。
+六片分别为 potion 10.151/13.484s、exit 12.273/9.407s、continuous 10.182/13.484s，
+总 69.457s、status0、原29 marker各一次；这是独占 pool 路径证明，不是短片并发压测。
+原记录保存在 `/tmp/sta-pr313-postmerge-slices-20261028/pool/`，独立只读复审已核。
 
 ## 仍须完成的关口
 

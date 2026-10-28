@@ -71,6 +71,29 @@
           "last": 9
         }
       ]
+    },
+    {
+      "entry": "tests/lua/battle_ui_potion_target_failures.lua",
+      "total": 7,
+      "label": "BATTLE_UI_POTION_TARGET_FAILURES",
+      "originalSha256LF": "47565faaad06cbf34edf208a30d922ab4975b19a5025dc751c379ff6ed2d83a9",
+      "originalGitBlob": "5faa5cf608f248ba5c5e8c613470709d1810691b",
+      "prefix": "local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3\nlocal sliceRegistered,sliceExecuted=0,0\n",
+      "before": "local test,finish = H.suite(\"LUA_POTION_TARGET_FAILURES\")\n",
+      "after": "local originalTest,finish = H.suite(\"LUA_POTION_TARGET_FAILURES\")\nlocal function test(name,fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then\n        originalTest(name,fn);sliceExecuted=sliceExecuted+1\n        print(\"BATTLE_UI_POTION_TARGET_FAILURES_CASE \"..sliceRegistered)\n    end\nend\n",
+      "footer": "\nassert(sliceRegistered==7,\"all 7 original cases must register\")\nassert(sliceExecuted==sliceLast-sliceFirst+1,\"every selected original case must execute\")\nprint(\"BATTLE_UI_POTION_TARGET_FAILURES_SLICE \"..sliceFirst..\" \"..sliceLast..\" \"..sliceExecuted)\n",
+      "slices": [
+        {
+          "path": "tests/lua/battle_ui_potion_target_failures.lua",
+          "first": 1,
+          "last": 3
+        },
+        {
+          "path": "tests/lua/battle_ui_potion_target_failures_slice_2.lua",
+          "first": 4,
+          "last": 7
+        }
+      ]
     }
   ]
 }
