@@ -5,14 +5,12 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-28 08:47'
+updated_date: '2026-10-28 14:30'
 labels:
-  - required
   - sts1
   - builds
   - implementation-gap
   - partially-implemented
-milestone: m-4
 dependencies: []
 references:
   - data/SOURCES.md
@@ -22,7 +20,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/CLASS_CARD_HANDOFF.md
   - docs/M3-STATUS-20261028.md
-priority: medium
+priority: low
 type: feature
 ---
 
@@ -75,4 +73,6 @@ type: feature
 
 2026-10-28范围复审：当前Description已改为前两幕比赛范围；旧描述仅作历史记录，不再要求本次比赛四幕或持久Save能力。
 原描述（历史）：猎人75张职业牌已接入当前运行时，基本版和升级版均被效果系统接受；奖励、生成和商店来源各71项均有对应定义。继续核对实际效果、来源随机链及合法组合，并补自然构筑、正式平台和四幕通关证据。
+
+2026-10-28：非比赛首发职业，转未来候选；现有代码和验收证据保留。
 <!-- SECTION:NOTES:END -->

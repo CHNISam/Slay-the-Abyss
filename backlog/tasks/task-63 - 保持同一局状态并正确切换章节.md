@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:05'
-updated_date: '2026-10-28 08:22'
+updated_date: '2026-10-28 14:41'
 labels:
   - partially-implemented
 milestone: m-4
@@ -27,7 +27,7 @@ ordinal: 108000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-共享跨幕核心及历史四幕本地回归已合入，既有勾选作为本地实现证据保留。当前比赛只验第一幕接续第二幕的同一局资源、随机流、事件生命周期和合法终点；第三幕、隐藏第四幕及真结局由未来TASK-62/64保留，不阻塞比赛。本任务不等于存档恢复；正式双幕终点仍由TASK-77实现。
+共享跨幕核心已有本地证据；验收第一幕到第二幕的同局状态、随机流、事件生命周期和合法终点。TASK-77已有双幕终点本地实现，平台及自然通关仍待验。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

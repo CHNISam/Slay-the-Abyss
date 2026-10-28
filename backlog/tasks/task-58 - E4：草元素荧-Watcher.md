@@ -5,14 +5,12 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-28 08:47'
+updated_date: '2026-10-28 14:30'
 labels:
-  - required
   - sts1
   - builds
   - implementation-gap
   - partially-implemented
-milestone: m-4
 dependencies: []
 references:
   - docs/backlog-details/DRAFT-5.md
@@ -20,7 +18,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/CLASS_CARD_HANDOFF.md
   - docs/M3-STATUS-20261028.md
-priority: medium
+priority: low
 type: feature
 ---
 
@@ -73,4 +71,6 @@ type: feature
 
 2026-10-28范围复审：当前Description已改为前两幕比赛范围；旧描述仅作历史记录，不再要求本次比赛四幕或持久Save能力。
 原描述（历史）：观者75张职业牌及姿态、占卜、真言和保留机制已接入当前运行时，基本版和升级版均被效果系统接受；奖励、生成和商店来源各71项均有对应定义。继续完成合法组合、自然获取及连续战斗、正式平台与四幕验收。
+
+2026-10-28：非比赛首发职业，转未来候选；现有代码和验收证据保留。
 <!-- SECTION:NOTES:END -->

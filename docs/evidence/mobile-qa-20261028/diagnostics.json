@@ -1,0 +1,54 @@
+{
+  "baseline": "7a87de3aec83281221a3680b0d02aeb5b41aa2ba",
+  "meaning": "Baseline diagnosis and negative controls; no production fix or device acceptance",
+  "cases": [
+    {
+      "file": "mobile-map-lock-repro.lua",
+      "exit_code": 0,
+      "expected_marker": "MAP_LOST_RELEASE_CURRENT_SOURCE_CONFIRMED",
+      "observation_confirmed": true,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nMAP_RETRY\t1\tfalse\tstale_gesture\tmap\t0\nMAP_RETRY\t2\tfalse\tstale_gesture\tmap\t0\nMAP_RETRY\t3\tfalse\tstale_gesture\tmap\t0\nMAP_AFTER_EXIT_CONTINUE\ttrue\tnil\tbattle\t1\nMAP_LOST_RELEASE_CURRENT_SOURCE_CONFIRMED\n",
+      "stderr": ""
+    },
+    {
+      "file": "mobile-touch-carry-repro.lua",
+      "exit_code": 0,
+      "expected_marker": "TOUCH_CARRY_CURRENT_SOURCE_CONFIRMED",
+      "observation_confirmed": true,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nTOUCH_DEFEND_BEFORE_RELEASE\tfingerY=-150\tcardCenterY=30.0\tcardBottomY=-84.4\tlineY=-126.66666666667\tdropZone=false\nTOUCH_DEFEND_AFTER_LONG_RELEASE\tcarry=true\tenergy=3\tblock=0\nABYSS_RUN seed=1 source=explicit\nTOUCH_TARGET_AFTER_RELEASE_RETURN\tcarry=true\treticleUnchanged=true\thitVisible=false\nTOUCH_TARGET_SAME_CARD_TAP_CANCELS\nTOUCH_CARRY_CURRENT_SOURCE_CONFIRMED\n",
+      "stderr": ""
+    },
+    {
+      "file": "mobile-overlay-repro.lua",
+      "exit_code": 0,
+      "expected_marker": "OVERLAY_REWARD_SKIP_FRESH_POINTER_RESTORED",
+      "observation_confirmed": true,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nOVERLAY_COMBAT_FRESH_POINTER_RESTORED\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK action_wait source=- target=- amount=0\nABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=10\nABYSS_FEEDBACK death source=- target=acid_slime_s_1 amount=0\nABYSS_FEEDBACK victory source=- target=- amount=0\nOVERLAY_REWARD_SKIP_FRESH_POINTER_RESTORED\n",
+      "stderr": ""
+    },
+    {
+      "file": "mobile-click-only-actions-repro.lua",
+      "exit_code": 0,
+      "expected_marker": "MIXED_HOST_REWARD_RECOVERS_AFTER_EXIT",
+      "observation_confirmed": true,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=- amount=0\nABYSS_FEEDBACK block source=player target=player amount=5\nMIXED_HOST_AFTER_REAL_DRAG\tturn=1\tsuppress=true\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nMIXED_HOST_ENDTURN_RECOVERS_AFTER_EXIT\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK play source=- target=1 amount=0\nABYSS_FEEDBACK action_wait source=- target=- amount=0\nABYSS_FEEDBACK damage source=player target=acid_slime_s_1 amount=10\nABYSS_FEEDBACK death source=- target=acid_slime_s_1 amount=0\nABYSS_FEEDBACK victory source=- target=- amount=0\nMIXED_HOST_REWARD_LOCK\tscreen=list\tsuppress=true\nMIXED_HOST_REWARD_RECOVERS_AFTER_EXIT\n",
+      "stderr": ""
+    },
+    {
+      "file": "mobile_rules_diag.lua",
+      "exit_code": 0,
+      "expected_marker": "MOBILE_RULES_DIAG_PASS",
+      "observation_confirmed": true,
+      "stdout": "DIAG rest relic=none before=defend:false:0,battle_trance:false:0,strike:false:0 afterObtain=defend:false:0,battle_trance:false:0,strike:false:0 afterRest=defend:false:0,battle_trance:false:0,strike:false:0 hp=10->34.0\nDIAG rest relic=war_paint before=defend:false:0,battle_trance:false:0,strike:false:0 afterObtain=defend:true:1,battle_trance:true:1,strike:false:0 afterRest=defend:true:1,battle_trance:true:1,strike:false:0 hp=10->34.0\nDIAG rest relic=whetstone before=defend:false:0,battle_trance:false:0,strike:false:0 afterObtain=defend:false:0,battle_trance:false:0,strike:true:1 afterRest=defend:false:0,battle_trance:false:0,strike:true:1 hp=10->34.0\nDIAG white_beast id=White Beast Statue available=false items=1 take=relic_content_unavailable\nDIAG boss_seed1 id=Snecko Eye available=false take=relic_content_unavailable\nDIAG boss_seed1 id=Calling Bell available=false take=relic_content_unavailable\nDIAG boss_seed1 id=Cursed Key available=false take=relic_content_unavailable\nMOBILE_RULES_DIAG_PASS\n",
+      "stderr": ""
+    },
+    {
+      "file": "mobile_target_diag.lua",
+      "exit_code": 0,
+      "expected_marker": "MOBILE_TARGET_DIAG_PASS",
+      "observation_confirmed": true,
+      "stdout": "DIAG target_preview initial=对目标造成 6 点伤害。\nDIAG target_preview enemy_locked=对目标造成 6 点伤害。 target=2\nDIAG target_preview selected_locked=对目标造成 6 点伤害。 actual_target_preview=9\nDIAG target_preview dragged_aim=对目标造成 9 点伤害。\nABYSS_FEEDBACK play source=- target=2 amount=0\nABYSS_FEEDBACK damage source=player target=cultist_2 amount=9\nDIAG target_preview resolved_damage=9\nMOBILE_TARGET_DIAG_PASS\n",
+      "stderr": ""
+    }
+  ]
+}

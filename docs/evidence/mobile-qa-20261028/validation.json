@@ -1,0 +1,47 @@
+{
+  "sourceCommit": "7a87de3aec83281221a3680b0d02aeb5b41aa2ba",
+  "runtime": {
+    "node": "v24.22.1",
+    "python": "3.12.14"
+  },
+  "diagnostics": {
+    "confirmed": 6,
+    "total": 6,
+    "meaning": "known baseline defects and controls, not fixes"
+  },
+  "backlogReadback": {
+    "new": 3,
+    "updated": 10,
+    "activeHigh": [
+      "TASK-14.1",
+      "TASK-30",
+      "TASK-59",
+      "TASK-76",
+      "TASK-77"
+    ],
+    "allChangedOwners": "Furinya (with optional CLI @ prefix)"
+  },
+  "backlogRoadmapCheck": "PASS",
+  "backlogRoadmapTests": {
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/backlog-roadmap.test.mjs",
+    "environment": "permitted local subprocess execution"
+  },
+  "coverageJsonMatchesRerun": true,
+  "diffWhitespaceCheck": "PASS",
+  "earlierEnvironmentFailures": [
+    "First three direct Lua script attempts omitted LUA_PATH and did not load production modules; corrected and re-executed.",
+    "Node test worker and two subprocess assertions initially blocked by sandbox EPERM; unchanged test file later passed 27/27 with approved subprocess execution."
+  ],
+  "productionFixes": "NOT_PERFORMED",
+  "nativeImport": "NOT_RUN",
+  "physicalMobileAcceptance": "NOT_RUN",
+  "fullQualityCI": "NOT_RUN_FOR_THIS_CHANGE",
+  "independentReview": {
+    "finding": "No Critical or Important issues",
+    "scope": "Tracked and new backlog/report/evidence changes plus key source paths",
+    "limits": "Read-only review; no independent native test or account permission verification; later four plan notes read back by primary agent"
+  }
+}

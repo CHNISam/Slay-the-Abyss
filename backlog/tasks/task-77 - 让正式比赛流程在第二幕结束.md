@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 08:20'
-updated_date: '2026-10-28 11:02'
+updated_date: '2026-10-28 14:41'
 labels: []
 milestone: m-4
 dependencies: []
@@ -21,7 +21,7 @@ ordinal: 1
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-2026-10-28用户把比赛范围改为前两幕，但e46bd5dd正式入口仍campaign=true且Run.advanceAct允许进入第三、第四幕。范围文档已变不等于运行时已收敛；此项阻塞比赛候选冻结。不删除未来章节代码，不以关闭campaign退回第一幕。
+正式双幕终点本地实现已合入；同候选平台导入、真实试玩与自然通关仍待验收。保留未来章节代码及同局状态。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

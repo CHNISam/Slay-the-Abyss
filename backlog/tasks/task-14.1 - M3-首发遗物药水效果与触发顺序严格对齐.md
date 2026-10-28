@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 10:39'
+updated_date: '2026-10-28 14:46'
 due_date: '2026-10-28'
 labels:
   - required
@@ -28,6 +28,7 @@ references:
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
   - docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -50,6 +51,7 @@ ordinal: 42000
 - [ ] #6 接通21瓶待获取药水及完整33项采样器的正常奖励/商店来源，保持原版概率，不靠去掉门禁或重抽放行。
 - [ ] #7 全池逐件验证叠加、跨房间、战后和重复使用；尚未实现的组合不能沿用已有子集测试判通过。
 - [ ] #8 同一候选逐件自然取得、使用和触发，保留对应平台日志与截图。
+- [ ] #9 普通与Boss遗物奖励的候选均可领取并有完整定义，保留自然获取与实机证据。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -146,4 +148,6 @@ PR286主线程收口：保留远端5556fef1的Searing Blow复制语义，原固�
 紧急收口：用户本轮明确授权先合并、CI合后继续，替代原CI全绿前置。最终同步保留PR290及主线PR295/296界面，不创建版本。已知合后CI工作：Silent同实例双四房夹具原30秒超时，以及新角色/共享卡框/非战斗界面的严格历史证明组合；不删断言、不放宽预算，不认证实机。
 
 最终UI紧急合流保留#286完整规则交付及最新范围，双方原始任务快照见docs/reviews/ui-merge-task-history-20261028.json.gz。未把源码合并或紧急CI授权冒充道具平台验收。
+
+PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确认候选缺定义，可能跨端但PC实际情况待验，不能称PC已复现。
 <!-- SECTION:NOTES:END -->

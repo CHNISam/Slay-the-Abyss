@@ -1,16 +1,17 @@
 ---
 id: TASK-76
-title: 修复切出游戏再返回后界面无法点击
+title: 排查手机战斗和奖励页面输入阻塞
 status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-10-28 11:05'
+updated_date: '2026-10-28 14:46'
 labels: []
-milestone: m-5
+milestone: m-4
 dependencies: []
 references:
   - docs/backlog-details/TASK-76.md
+  - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
 priority: high
 type: bug
 ordinal: 121000
@@ -19,7 +20,7 @@ ordinal: 121000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-战后选牌切出窗口再返回偶发无法点击，Esc后继续可恢复。排查共享输入根因。
+问题由手机实玩发现：拖牌后奖励或动作可能不能点击，关卡组后也曾无法操作。离线诊断复现混合Click抑制；卡组关闭后原生输入锁根因未确认。PC是否受影响待分别验证。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -27,6 +28,9 @@ ordinal: 121000
 - [ ] #1 根因定位并最小修复
 - [ ] #2 跨界面切回正常交互且不误触
 - [ ] #3 回归通过并经PR合入develop
+- [ ] #4 真实拖牌后奖励、结束回合及纯点击入口继续可用，无需退出确认恢复。
+- [ ] #5 卡组关闭后战斗、奖励和地图首个合法操作正常，手机留证。
+- [ ] #6 分别记录手机触屏和PC鼠标的复现或未复现条件；不能以离线模拟代替真实设备。
 <!-- AC:END -->
 
 ## Implementation Plan
