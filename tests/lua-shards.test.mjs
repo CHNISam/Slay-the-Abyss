@@ -1,3 +1,4 @@
+import { jsShard, discoverJs } from '../scripts/ci-shards.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
@@ -38,7 +39,7 @@ test('longest fixtures fill the least loaded combined JS/Lua shard deterministic
 
 test('measured scheduling retains every current fixture and reduces estimated critical path', () => {
   const timings = JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8'));
-  assert.equal(timings.source.runId, 40622446002);
+  assert.equal(timings.source.runId, 40623057222);
   const scripts = readdirSync('tests/lua').filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
   const weight = script => timings.lua[script] ?? timings.unknownLuaMs;
   for (const count of [1, 2, 4, 8, 64]) {
@@ -49,7 +50,9 @@ test('measured scheduling retains every current fixture and reduces estimated cr
     const reversed = scripts.toReversed();
     assert.deepEqual(shardLuaScripts(reversed, `1/${count}`), bins[0]);
   }
-  const oldLoads = [...timings.windowsJsShardMs], newLoads = [...timings.windowsJsShardMs];
+  const newLoads = jsShard(discoverJs(), '1/8', 'win32').loads;
+  const oldLoads = Array(8).fill(0);
+  discoverJs().sort().forEach((file, i) => { oldLoads[i % 8] += timings.js.win32[file] ?? timings.unknownJsMs; });
   scripts.forEach((script, i) => { oldLoads[i % 8] += weight(script); });
   for (let i = 0; i < 8; i++) for (const script of shardLuaScripts(scripts, `${i + 1}/8`)) newLoads[i] += weight(script);
   assert.ok(Math.max(...newLoads) < Math.max(...oldLoads), 'measured schedule must improve the estimated critical path');

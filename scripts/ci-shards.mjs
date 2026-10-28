@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { prepareReviewedAssets } from './ci-reviewed-lfs.mjs';
 
-export const timings = JSON.parse(readFileSync(new URL('./ci-runtime-timings.json', import.meta.url), 'utf8'));
+export const timings = JSON.parse(readFileSync(new URL('./ci-test-timings.json', import.meta.url), 'utf8'));
 
 export function partition(files, value, weights, fallback, initial) {
   const match = /^([1-9]\d*)\/([1-9]\d*)$/.exec(String(value));
