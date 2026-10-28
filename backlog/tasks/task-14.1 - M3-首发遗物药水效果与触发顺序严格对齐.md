@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 01:49'
+updated_date: '2026-10-28 02:02'
 due_date: '2026-10-28'
 labels:
   - required
@@ -132,4 +132,6 @@ ordinal: 42000
 2026-10-28最新b7dffdeb组合已接入16e9dfa7的蜥蜴尾巴组件/共享复活/永久counter、战斗详情及黑星正式来源；原树三文件未提交奖励计数修正已复制到独立集成树，原树保留。两处冲突保留PR261原生样卡身份投影和遗物主题精确逆投影全部断言。209模块/1223边架构通过，Luacheck1.2.0固定84历史诊断零新增、370项职责度量通过，构建与数据校验通过。专项与当前SHA完整CI仍在验，不勾完整道具/自然/平台AC。
 
 2026-10-28接续验证：42项专用/内容/原生合同第一轮41过、清单聚合单进程1项超时。保留失败，改为inventory/black_star/lizard_tail_run/lizard_tail_persistence四个完整独立验证进程，每份原30秒及实际传入data保持；原22项完整清单回归通过。4个原语义变异全部killed_by_assertion。最终集成和状态统一收口PR266，不将受控证明当全池或实机完成。
+
+PR266精确8746d5c2完整CI的rules8检出两处相邻遗漏：来源账本仍把Black Star/Tail标缺失，旧绿钥匙UI夹具要求满四项后仍掉瓶。现账本按实际54定义补两映射（source注册/顺序不变）；生产夹具明确断言无瓶，另通过真实三项采样器构造独立容量offer，完整保留六行布局、点击/手柄、领取、重复与旧owner断言。移除重复占位BlackStar定义，改验真实生产定义。11项相邻回归全过；本轮原失败日志保留build/m3-status/rules-8.log，最新SHA完整CI另验，AC保持未变。
 <!-- SECTION:NOTES:END -->
