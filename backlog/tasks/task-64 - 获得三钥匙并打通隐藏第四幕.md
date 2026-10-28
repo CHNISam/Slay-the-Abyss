@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:06'
-updated_date: '2026-10-28 01:36'
+updated_date: '2026-10-28 06:16'
 labels:
   - required
   - sts1
@@ -49,6 +49,8 @@ PR262已合入绿钥匙、燃烧精英、52营地→53商店→54盾矛→55心�
 2026-10-28在第三幕候选交付/完整CI期间推进依赖已满足的离线切片：按固定319009来源，独立实现盾矛与心脏的敌人/AI/源动作模块及向量；燃烧精英模块单独负责有资格地图选点、持续mapRng四强化和独立绿钥匙owner。三个切片不并发改共享Map/Run/Nodes/Combat/UI，父线程按边界接共享hooks和正式入口。先真实RED→GREEN、再完整失败回滚/既有RNG与呈现回归；任何组件完成不冒充终幕可达、三钥匙自然获得或持久平台验收。
 
 PR262入口修复：在原始地图被复制和房间钩子执行前，复用既有Map.restore与Run幕诞生上下文验证规范地图及连续mapRng。保留无诞生上下文的旧组件入口；带燃烧契约而缺上下文必须拒绝。先记录伪造有效流/选择/标记/元表的RED，再验证无副作用拒绝、正常生成/恢复/已战斗后的延续、晚失败回滚及原队列回归；不改状态或AC，不混入Stage1历史或Eggs。
+
+2026-10-28：以PR262已合入代码和真实Run/Nodes回归校正m3-campaign机器账本的绿钥匙与Act4本地实现状态；重跑对应回归；natural/platform均保留NOT_RUN，不改变AC、负责人或Done状态。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -79,4 +81,6 @@ PR262独立P1入口修复候选：原始图在复制及房间hooks前，经既�
 2026-10-27 PR262 合并前来源复核：精确61b19351（79e76774玩法同树）真实Strike证明无敌额度0仍构造淬毒动作并误耗人工制品；固定sts@319009d5的AbstractMonster先执行目标ToChangeDamage，再执行Envenom.onAttack。最小修复复用Heart额度主人，抽出只读incomingAmount供Envenom判断，Actor仍唯一实际扣额度。新增原生/高级用牌队列0→1→1与纯预览/全格挡回归；定向Heart、触发器、毒构筑及架构/Luacheck通过，退回旧Combat时新断言真实变红。详见docs/reviews/PR262-HEART-ENVENOM-CAP-20261027.md。仅本地离线修复，不更改负责人/状态/AC；新SHA完整Quality、合入、同源原生与四职业自然四幕仍待证明。
 
 2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
+
+2026-10-28最新develop账本复核：PR262绿钥匙和第四幕已实现，移除机器清单的过时NOT_IMPLEMENTED；真实Emerald/Heart/盾矛/Run/Nodes及四职业受控路线10项通过，完整launch-content22项通过。受控历史/钥匙/伤害不作自然通关证明，所有natural/platform仍NOT_RUN，AC及状态不变。
 <!-- SECTION:NOTES:END -->
