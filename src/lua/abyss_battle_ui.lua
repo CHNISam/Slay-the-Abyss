@@ -849,6 +849,28 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         if item and item.id ~= binding.id then return nil end
         return item
     end
+    local function potionSelected(slot)
+        return self.potionMenu and self.potionMenu.slot==slot
+            or self.potionAim and self.potionAim.slot==slot
+    end
+    local function paintPotionShell(slot,item)
+        local selected=item~=nil and potionSelected(slot)==true
+        local tones=C.potionShell
+        for _,state in ipairs({'normal','hover','pressed','disabled'})do
+            local face=child('potion'..slot):GetChild(state)
+            face:GetChild('emptyShell'):SetVisible(item==nil)
+            face:GetChild('filledShell'):SetVisible(item~=nil and item.id~='fire_potion')
+            face:GetChild('fireShell'):SetVisible(item~=nil and item.id=='fire_potion')
+            face:GetChild('selectedShell'):SetVisible(selected)
+            tint(face:GetChild('filledShell'):GetChild('rim'),selected and tones.selected.border or tones.normal.border)
+            tint(face:GetChild('fireShell'):GetChild('rim'),selected and tones.selected.border or tones.fire.border)
+            local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
+            if item then
+                picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
+                tint(bottle,item.id=='fire_potion' and tones.fire.ink or tones.normal.ink)
+            end
+        end
+    end
     local function renderPotions(frame)
         -- Fixed physical slots prevent a queued second click moving to another item.
         bindPotionSlots(frame)
@@ -860,11 +882,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
                 item and potionText(item, frame.battle) or "空药水槽")
             show("potionHelp" .. i, false)
             button("potionHelp" .. i, visible and frame.active and item ~= nil, false, "")
-            for _,state in ipairs({'normal','hover','pressed','disabled'}) do
-                local bottle=child('potion'..i):GetChild(state):GetChild('bottle')
-                bottle:SetVisible(item~=nil)
-                if item then picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown) end
-            end
+            paintPotionShell(i,item)
         end
     end
     function self:render(presentationOnly)
@@ -895,8 +913,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         button("endTurn", frame.active == true, not playable)
         renderRewardActions(frame)
         renderContinue(frame)
-        renderPotions(frame)
         if potionPopup then potionPopup:render() end
+        renderPotions(frame)
     end
     local function refresh(changed)
         if self.run and self.run.phase == "combat" then

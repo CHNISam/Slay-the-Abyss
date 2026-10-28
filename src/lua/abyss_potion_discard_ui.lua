@@ -16,9 +16,17 @@ function M.refreshEntry(hit,run,platform)
             local slot=variant:GetChild('slot'..i)
             local id=i<=capacity and run.potions[i] or nil
             slot:SetVisible(i<=capacity)
+            slot:GetChild('emptyShell'):SetVisible(id==nil)
+            slot:GetChild('filledShell'):SetVisible(id~=nil and id~='fire_potion')
+            slot:GetChild('fireShell'):SetVisible(id=='fire_potion')
+            slot:GetChild('selectedShell'):SetVisible(false)
             local bottle=slot:GetChild('bottle')
             bottle:SetVisible(id~=nil)
-            if id then bottle:SetImage(platform.imageSource,Theme.icon.potion[id] or Theme.icon.intent.unknown)end
+            if id then
+                bottle:SetImage(platform.imageSource,Theme.icon.potion[id] or Theme.icon.intent.unknown)
+                local colour=(id=='fire_potion' and Theme.color.potionShell.fire or Theme.color.potionShell.normal).ink
+                bottle.imageColor=platform.color(colour.r,colour.g,colour.b,colour.a)
+            end
         end
     end
 end

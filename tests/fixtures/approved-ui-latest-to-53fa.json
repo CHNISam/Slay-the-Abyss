@@ -20,7 +20,7 @@
     },
     "config/luacheck-baseline.json": {
       "beforeSha256": "254529a32c6da885ce186b24c27429bcf91a9eea78d2a9d5545a8d4e81b74fed",
-      "afterSha256": "79fd13c1fcc03931e0ce4c9e349bea66e28d2c9c632fbf4d709d2efccad18df5",
+      "afterSha256": "7e3ac21ddd4c607d40ca13fb37fc1a885afd76e057ba77ab9a04aa647284ac2c",
       "hunks": [
         {
           "at": 15,
@@ -172,7 +172,7 @@
             "      \"line\": 841,"
           ],
           "after": [
-            "      \"line\": 870,"
+            "      \"line\": 888,"
           ]
         },
         {
@@ -190,37 +190,25 @@
             "      \"line\": 923,"
           ],
           "after": [
-            "      \"line\": 953,"
+            "      \"line\": 971,"
           ]
         },
         {
           "at": 81,
           "before": [
-            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
-            "    },",
-            "    {",
-            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
-            "      \"line\": 982,",
-            "      \"column\": 18,",
-            "      \"code\": \"W431\",",
-            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
-            "    },",
-            "    {",
-            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
-            "      \"line\": 996,",
-            "      \"column\": 18,",
-            "      \"code\": \"W431\",",
-            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
-            "    },",
-            "    {",
-            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
-            "      \"line\": 1003,",
-            "      \"column\": 18,",
-            "      \"code\": \"W431\",",
             "      \"message\": \"shadowing upvalue 'self' on line 49\""
           ],
           "after": [
             "      \"message\": \"shadowing upvalue 'self' on line 50\""
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            "      \"line\": 982,"
+          ],
+          "after": [
+            "      \"line\": 1030,"
           ]
         },
         {
@@ -235,10 +223,10 @@
         {
           "at": 92,
           "before": [
-            "      \"line\": 1020,"
+            "      \"line\": 996,"
           ],
           "after": [
-            "      \"line\": 1026,"
+            "      \"line\": 1044,"
           ]
         },
         {
@@ -253,28 +241,40 @@
         {
           "at": 99,
           "before": [
-            "      \"line\": 1053,"
+            "      \"line\": 1003,"
           ],
           "after": [
-            "      \"line\": 1033,"
+            "      \"line\": 1051,"
           ]
         },
         {
           "at": 102,
           "before": [
+            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 1012,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 1020,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
+            "      \"message\": \"shadowing upvalue 'self' on line 49\"",
+            "    },",
+            "    {",
+            "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
+            "      \"line\": 1053,",
+            "      \"column\": 18,",
+            "      \"code\": \"W431\",",
             "      \"message\": \"shadowing upvalue 'self' on line 49\""
           ],
           "after": [
             "      \"message\": \"shadowing upvalue 'self' on line 50\""
-          ]
-        },
-        {
-          "at": 106,
-          "before": [
-            "      \"line\": 1060,"
-          ],
-          "after": [
-            "      \"line\": 1042,"
           ]
         },
         {
@@ -292,7 +292,7 @@
             "      \"line\": 1087,"
           ],
           "after": [
-            "      \"line\": 1050,"
+            "      \"line\": 1068,"
           ]
         },
         {
@@ -310,7 +310,7 @@
             "      \"line\": 1103,"
           ],
           "after": [
-            "      \"line\": 1083,"
+            "      \"line\": 1101,"
           ]
         },
         {
@@ -328,28 +328,28 @@
             "      \"line\": 1130,"
           ],
           "after": [
-            "      \"line\": 1090,",
+            "      \"line\": 1108,",
             "      \"column\": 18,",
             "      \"code\": \"W431\",",
             "      \"message\": \"shadowing upvalue 'self' on line 50\"",
             "    },",
             "    {",
             "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
-            "      \"line\": 1117,",
+            "      \"line\": 1135,",
             "      \"column\": 18,",
             "      \"code\": \"W431\",",
             "      \"message\": \"shadowing upvalue 'self' on line 50\"",
             "    },",
             "    {",
             "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
-            "      \"line\": 1133,",
+            "      \"line\": 1151,",
             "      \"column\": 18,",
             "      \"code\": \"W431\",",
             "      \"message\": \"shadowing upvalue 'self' on line 50\"",
             "    },",
             "    {",
             "      \"file\": \"src/lua/abyss_battle_ui.lua\",",
-            "      \"line\": 1160,"
+            "      \"line\": 1178,"
           ]
         },
         {
@@ -358,7 +358,7 @@
             "      \"line\": 1130,"
           ],
           "after": [
-            "      \"line\": 1160,"
+            "      \"line\": 1178,"
           ]
         },
         {
@@ -376,7 +376,7 @@
             "      \"line\": 1131,"
           ],
           "after": [
-            "      \"line\": 1161,"
+            "      \"line\": 1179,"
           ]
         },
         {
@@ -385,7 +385,7 @@
             "      \"line\": 1131,"
           ],
           "after": [
-            "      \"line\": 1161,"
+            "      \"line\": 1179,"
           ]
         },
         {
@@ -493,7 +493,7 @@
             "      \"line\": 35,"
           ],
           "after": [
-            "      \"line\": 52,"
+            "      \"line\": 60,"
           ]
         },
         {
@@ -502,7 +502,7 @@
             "      \"message\": \"shadowing upvalue 'self' on line 9\""
           ],
           "after": [
-            "      \"message\": \"shadowing upvalue 'self' on line 26\""
+            "      \"message\": \"shadowing upvalue 'self' on line 34\""
           ]
         },
         {
@@ -511,7 +511,7 @@
             "      \"line\": 56,"
           ],
           "after": [
-            "      \"line\": 73,"
+            "      \"line\": 81,"
           ]
         },
         {
@@ -520,7 +520,7 @@
             "      \"message\": \"shadowing upvalue 'self' on line 9\""
           ],
           "after": [
-            "      \"message\": \"shadowing upvalue 'self' on line 26\""
+            "      \"message\": \"shadowing upvalue 'self' on line 34\""
           ]
         },
         {
@@ -529,7 +529,7 @@
             "      \"line\": 61,"
           ],
           "after": [
-            "      \"line\": 78,"
+            "      \"line\": 86,"
           ]
         },
         {
@@ -538,14 +538,14 @@
             "      \"message\": \"shadowing upvalue 'self' on line 9\""
           ],
           "after": [
-            "      \"message\": \"shadowing upvalue 'self' on line 26\""
+            "      \"message\": \"shadowing upvalue 'self' on line 34\""
           ]
         }
       ]
     },
     "data/presentation/ui_theme.json": {
       "beforeSha256": "e0e9a35f5f284f486b01542ef0f124c2a3a4ea2234c23890398266e8f4b54ac4",
-      "afterSha256": "fe8b338428d499f5e74104a0a33ac1a4aed2f5c05ce4126289ae6e49e60f6f88",
+      "afterSha256": "8bd9342c2738c8b2ff3b12282b7f91ea2c909d3c0dd2e037c3431c30106963c8",
       "hunks": [
         {
           "at": 121,
@@ -571,11 +571,37 @@
             "        \"fill\": \"#170F0E\",",
             "        \"ink\": \"#F3ECDD\",",
             "        \"border\": \"#E9C77B\"",
+            "      }",
+            "    },",
+            "    \"potionShell\": {",
+            "      \"empty\": {",
+            "        \"face\": \"#1A131280\",",
+            "        \"border\": \"#6E5A42\"",
+            "      },",
+            "      \"base\": \"#221A17\",",
+            "      \"normal\": {",
+            "        \"border\": \"#8C7454\",",
+            "        \"light\": \"#3A2E28\",",
+            "        \"ink\": \"#8CC4E2\",",
+            "        \"base\": \"#2C231E\",",
+            "        \"mid\": \"#312722\"",
+            "      },",
+            "      \"fire\": {",
+            "        \"border\": \"#8A4A3A\",",
+            "        \"light\": \"#4A2C24\",",
+            "        \"ink\": \"#EE9670\",",
+            "        \"base\": \"#33221D\",",
+            "        \"mid\": \"#3B251F\"",
+            "      },",
+            "      \"selected\": {",
+            "        \"border\": \"#F6DFA4\",",
+            "        \"spread\": \"#E9C77B33\",",
+            "        \"glow\": \"#E9C77B66\"",
             "      }"
           ]
         },
         {
-          "at": 151,
+          "at": 177,
           "before": [
             "    \"cardName\": 17,"
           ],
@@ -584,7 +610,7 @@
           ]
         },
         {
-          "at": 154,
+          "at": 180,
           "before": [
             "    \"cost\": 24,"
           ],
@@ -593,7 +619,7 @@
           ]
         },
         {
-          "at": 653,
+          "at": 679,
           "before": [
             "        -480,",
             "        268"
@@ -604,7 +630,7 @@
           ]
         },
         {
-          "at": 657,
+          "at": 683,
           "before": [
             "        180,"
           ],
@@ -613,7 +639,7 @@
           ]
         },
         {
-          "at": 661,
+          "at": 687,
           "before": [
             "        116,",
             "        44"
@@ -624,7 +650,7 @@
           ]
         },
         {
-          "at": 665,
+          "at": 691,
           "before": [
             "        84,"
           ],
@@ -633,7 +659,7 @@
           ]
         },
         {
-          "at": 671,
+          "at": 697,
           "before": [
             "      ]"
           ],
@@ -643,7 +669,7 @@
           ]
         },
         {
-          "at": 693,
+          "at": 719,
           "before": [
             "      ]"
           ],
@@ -662,7 +688,7 @@
           ]
         },
         {
-          "at": 708,
+          "at": 734,
           "before": [
             "        228"
           ],
@@ -671,7 +697,7 @@
           ]
         },
         {
-          "at": 711,
+          "at": 737,
           "before": [
             "        1080,",
             "        32",
@@ -685,7 +711,7 @@
           ]
         },
         {
-          "at": 717,
+          "at": 743,
           "before": [
             "      \"height\": 48,",
             "      \"y\": 316,"
@@ -696,7 +722,7 @@
           ]
         },
         {
-          "at": 721,
+          "at": 747,
           "before": [
             "        -570,",
             "        28"
@@ -707,7 +733,7 @@
           ]
         },
         {
-          "at": 725,
+          "at": 751,
           "before": [
             "        -505,",
             "        100"
@@ -718,7 +744,7 @@
           ]
         },
         {
-          "at": 729,
+          "at": 755,
           "before": [
             "        -420,",
             "        28"
@@ -729,7 +755,7 @@
           ]
         },
         {
-          "at": 733,
+          "at": 759,
           "before": [
             "        -376,",
             "        52"
@@ -740,7 +766,7 @@
           ]
         },
         {
-          "at": 737,
+          "at": 763,
           "before": [
             "        -330,",
             "        28"
@@ -751,7 +777,7 @@
           ]
         },
         {
-          "at": 741,
+          "at": 767,
           "before": [
             "        -292,",
             "        44"
@@ -762,7 +788,7 @@
           ]
         },
         {
-          "at": 771,
+          "at": 797,
           "before": [
             "      \"costDisc\": 40,"
           ],
@@ -771,7 +797,7 @@
           ]
         },
         {
-          "at": 774,
+          "at": 800,
           "before": [
             "        \"costOverhang\": 4,",
             "        \"costRing\": 4,"
@@ -782,7 +808,7 @@
           ]
         },
         {
-          "at": 781,
+          "at": 807,
           "before": [
             "      }"
           ],
@@ -799,7 +825,7 @@
           ]
         },
         {
-          "at": 856,
+          "at": 882,
           "before": [
             "        -548,",
             "        -196"
@@ -810,7 +836,7 @@
           ]
         },
         {
-          "at": 859,
+          "at": 885,
           "before": [
             "      \"size\": 88"
           ],
@@ -835,7 +861,7 @@
           ]
         },
         {
-          "at": 899,
+          "at": 925,
           "before": [
             "        512,",
             "        -206"
@@ -846,7 +872,7 @@
           ]
         },
         {
-          "at": 903,
+          "at": 929,
           "before": [
             "        176,",
             "        60",
@@ -873,7 +899,7 @@
           ]
         },
         {
-          "at": 923,
+          "at": 949,
           "before": [
             "        -380,",
             "        64"
@@ -884,7 +910,7 @@
           ]
         },
         {
-          "at": 926,
+          "at": 952,
           "before": [
             "      \"portrait\": 132"
           ],
@@ -893,7 +919,7 @@
           ]
         },
         {
-          "at": 930,
+          "at": 956,
           "before": [
             "      \"xFrom\": 100,",
             "      \"xFromFew\": 100,"
@@ -904,7 +930,7 @@
           ]
         },
         {
-          "at": 933,
+          "at": 959,
           "before": [
             "      \"xTo\": 500,"
           ],
@@ -913,7 +939,7 @@
           ]
         },
         {
-          "at": 936,
+          "at": 962,
           "before": [
             "      \"crowdPortrait\": 84,",
             "      \"portrait\": 120,",
@@ -933,7 +959,7 @@
           ]
         },
         {
-          "at": 952,
+          "at": 978,
           "before": [
             "        156,",
             "        16"
@@ -944,7 +970,7 @@
           ]
         },
         {
-          "at": 962,
+          "at": 988,
           "before": [
             "      \"size\": 26,",
             "      \"gap\": 4,"
@@ -955,7 +981,7 @@
           ]
         },
         {
-          "at": 990,
+          "at": 1016,
           "before": [
             "      \"size\": 40,"
           ],
@@ -964,7 +990,7 @@
           ]
         },
         {
-          "at": 994,
+          "at": 1020,
           "before": [
             "      \"note\": \"攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。\""
           ],
@@ -975,7 +1001,7 @@
           ]
         },
         {
-          "at": 1069,
+          "at": 1095,
           "before": [
             "        \"noticeHeight\": 40"
           ],
@@ -1011,7 +1037,7 @@
           ]
         },
         {
-          "at": 1107,
+          "at": 1133,
           "before": [
             "        452,"
           ],
@@ -1020,7 +1046,7 @@
           ]
         },
         {
-          "at": 1109,
+          "at": 1135,
           "before": [
             "        88,"
           ],
@@ -1029,7 +1055,7 @@
           ]
         },
         {
-          "at": 1165,
+          "at": 1191,
           "before": [
             "      ]"
           ],
@@ -1057,7 +1083,7 @@
           ]
         },
         {
-          "at": 1273,
+          "at": 1299,
           "before": [
             "        -60,"
           ],
@@ -1066,7 +1092,7 @@
           ]
         },
         {
-          "at": 1275,
+          "at": 1301,
           "before": [
             "        52"
           ],
@@ -1075,7 +1101,7 @@
           ]
         },
         {
-          "at": 1549,
+          "at": 1575,
           "before": [
             "          -570,"
           ],
@@ -1084,7 +1110,7 @@
           ]
         },
         {
-          "at": 1551,
+          "at": 1577,
           "before": [
             "          28,",
             "          28"
@@ -1095,7 +1121,7 @@
           ]
         },
         {
-          "at": 1555,
+          "at": 1581,
           "before": [
             "          -505,"
           ],
@@ -1104,7 +1130,7 @@
           ]
         },
         {
-          "at": 1557,
+          "at": 1583,
           "before": [
             "          100,"
           ],
@@ -1113,7 +1139,7 @@
           ]
         },
         {
-          "at": 1561,
+          "at": 1587,
           "before": [
             "          -430,"
           ],
@@ -1122,7 +1148,7 @@
           ]
         },
         {
-          "at": 1563,
+          "at": 1589,
           "before": [
             "          28,",
             "          28"
@@ -1133,7 +1159,7 @@
           ]
         },
         {
-          "at": 1567,
+          "at": 1593,
           "before": [
             "          -385,"
           ],
@@ -1142,7 +1168,7 @@
           ]
         },
         {
-          "at": 1569,
+          "at": 1595,
           "before": [
             "          60,"
           ],
@@ -1151,7 +1177,7 @@
           ]
         },
         {
-          "at": 1573,
+          "at": 1599,
           "before": [
             "          -260,"
           ],
@@ -1160,7 +1186,7 @@
           ]
         },
         {
-          "at": 1575,
+          "at": 1601,
           "before": [
             "          130,"
           ],
@@ -1169,7 +1195,7 @@
           ]
         },
         {
-          "at": 2075,
+          "at": 2101,
           "before": [
             "        552,"
           ],
@@ -1178,7 +1204,7 @@
           ]
         },
         {
-          "at": 2077,
+          "at": 2103,
           "before": [
             "        96,"
           ],
@@ -1187,7 +1213,7 @@
           ]
         },
         {
-          "at": 2132,
+          "at": 2158,
           "before": [
             "      ]"
           ],
@@ -1203,7 +1229,7 @@
           ]
         },
         {
-          "at": 2809,
+          "at": 2835,
           "before": [
             "      \"panel\": [490, 210, 220, 244],",
             "      \"map\": [490, 286, 196, 48],",
@@ -1252,7 +1278,7 @@
           ]
         },
         {
-          "at": 2908,
+          "at": 2934,
           "before": [],
           "after": [
             "    },",
@@ -1284,11 +1310,19 @@
             "      \"buttonGap\": 10.666666666666666,",
             "      \"targetWidth\": 92,",
             "      \"font\": 14,",
-            "      \"minimumHeight\": 98.33333333333333"
+            "      \"minimumHeight\": 98.33333333333333",
+            "    },",
+            "    \"potionShell\": {",
+            "      \"border\": 1,",
+            "      \"focusY\": 0.15,",
+            "      \"dashBorderRatio\": 3,",
+            "      \"spread\": 2.666667,",
+            "      \"blur\": 14.666667,",
+            "      \"fittedFocusY\": 0.12195244297620399"
           ]
         },
         {
-          "at": 3004,
+          "at": 3038,
           "before": [],
           "after": [
             "    },",
@@ -1659,21 +1693,54 @@
     },
     "scripts/potion-slot-visual.mjs": {
       "beforeSha256": null,
-      "afterSha256": "99609b2354caccf2ae4b51504a9c6b35259a6baf432bb2db6f9e11a519b293a5",
+      "afterSha256": "1a59bd789aca570f242cc29c66092c04e595a1577b720dd310d90e79fb167cfc",
       "hunks": [
         {
           "at": 0,
           "before": [],
           "after": [
-            "// Main.dc.html / Map.dc.html share the same circular bottle silhouette.",
-            "// Accept existing border/face controls so extracting Main's visuals changes no",
-            "// geometry, colour, control names or interaction; only known library IDs are used.",
+            "import { nativeControls } from './native-ui-theme.mjs';",
+            "",
+            "// Map 41–47 / Main 48–57: empty, occupied and selected are different shells.",
+            "// No verified dashed-ring asset is available in the cloud copy: known rects",
+            "// form separated tangent dashes. The known soft-disc approximates CSS radial",
+            "// falloff with source-interpolated colors; both discs are bounded inside the face",
+            "// rather than assuming a new clip API.",
             "export function potionSlotVisual(theme, { border, plate, bottleSize, ink }) {",
+            "  const { plate: rectangle } = nativeControls(theme);",
+            "  const c=theme.color.potionShell,l=theme.layout.potionShell,d=border.size[0],b=l.border;",
+            "  const inner=d-2*b,focus=d*l.fittedFocusY,lightSize=inner-2*focus;",
+            "  const picture=(name,size,colour,id=theme.image.disc,position=[0,0])=>({",
+            "    ...rectangle(name,[...position,...size],colour),image:id,",
+            "  });",
+            "  const group=(name,children,visible=false)=>({name,kind:'container',position:[0,0],size:[d,d],visible,children});",
+            "  const radius=(d-b)/2,count=Math.round(Math.PI*(d-b)/(2*l.dashBorderRatio*b));",
+            "  const dashLength=2*radius*Math.sin(Math.PI/(2*count));",
+            "  const filled=(name,colours)=>group(name,[",
+            "    picture('rim',[d,d],colours.border),picture('base',[inner,inner],colours.base),",
+            "    // Bounded two-disc fit of the source farthest-corner field, not CSS/native equivalence.",
+            "    picture('light',[inner,inner],colours.mid,theme.image.discSoft),",
+            "    picture('focusLight',[lightSize,lightSize],colours.light,theme.image.discSoft,[0,focus]),",
+            "  ]);",
             "  return [",
-            "    { ...border, image: theme.image.disc },",
-            "    { ...plate, image: theme.image.disc },",
-            "    { name: 'bottle', kind: 'image', position: [0, 0], size: [bottleSize, bottleSize],",
-            "      image: theme.icon.potion.fire_potion, colour: ink },",
+            "    // Old battle button() can still tint these paths; they must never show.",
+            "    { ...border, image:theme.image.disc, visible:false },",
+            "    { ...plate, image:theme.image.disc, visible:false },",
+            "    group('selectedShell',[",
+            "      picture('glow',[d+2*l.blur,d+2*l.blur],c.selected.glow,theme.image.glow),",
+            "      picture('spread',[d+2*l.spread,d+2*l.spread],c.selected.spread),",
+            "    ]),",
+            "    group('emptyShell',[",
+            "      picture('face',[d,d],c.empty.face),",
+            "      group('dashes',Array.from({length:count},(_,i)=>{",
+            "        const angle=2*Math.PI*i/count;",
+            "        return {...picture(`dash${i+1}`,[dashLength,b],c.empty.border,theme.image.rect,",
+            "          [radius*Math.sin(angle),radius*Math.cos(angle)]),rotation:-i*360/count};",
+            "      }),true),",
+            "    ],true),",
+            "    filled('filledShell',c.normal),filled('fireShell',c.fire),",
+            "    { name:'bottle',kind:'image',position:[0,0],size:[bottleSize,bottleSize],",
+            "      image:theme.icon.potion.fire_potion,colour:ink,visible:false },",
             "  ];",
             "}",
             ""
@@ -1683,7 +1750,7 @@
     },
     "scripts/ui-layout.mjs": {
       "beforeSha256": "005549d044d99c8653415ce3cda78072707ee3db078017200377ccfabb2a5298",
-      "afterSha256": "37d0f5833c669ecc6643bbc9565d24e241b19c2cf82fa472f1f4f9577d0f8068",
+      "afterSha256": "2a0b5e39893421ddd16eb5e07d7abe88a83cd7c77caa2b87be74a3f97be03a4c",
       "hunks": [
         {
           "at": 2,
@@ -1759,17 +1826,14 @@
           "after": [
             "    // Main top-bar silhouettes: official bottle, not a second row of text buttons.",
             "    for (const state of potion.children) {",
-            "      const [border,plate,bottle]=potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],",
-            "        bottleSize:l.battlePotions.bottleSize,ink:c.goldBright});",
-            "      state.children[0]=border;",
-            "      state.children[1]=plate;",
-            "      state.children.find(c=>c.name==='label').visible=false;",
-            "      state.children.push(bottle);",
+            "      const label=state.children.find(c=>c.name==='label');label.visible=false;",
+            "      state.children=[...potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],",
+            "        bottleSize:l.battlePotions.bottleSize,ink:c.goldBright}),label];",
             "    }"
           ]
         },
         {
-          "at": 255,
+          "at": 252,
           "before": [
             "    if (i >= 3) help.visible = false;"
           ],
@@ -1778,7 +1842,7 @@
           ]
         },
         {
-          "at": 258,
+          "at": 255,
           "before": [],
           "after": [
             "  const pop=l.potionPopup, ph=pop.minimumHeight;",
@@ -1801,7 +1865,7 @@
           ]
         },
         {
-          "at": 287,
+          "at": 284,
           "before": [
             "  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * (l.enemyRow.xTo-l.enemyRow.xFrom)/4, l.enemyRow.y], l.enemyRow.portrait));"
           ],
@@ -1810,7 +1874,7 @@
           ]
         },
         {
-          "at": 293,
+          "at": 290,
           "before": [
             "  const turnButton=button('endTurn', l.endTurn.position, l.endTurn.size, '结束回合');"
           ],
@@ -1824,7 +1888,7 @@
           ]
         },
         {
-          "at": 300,
+          "at": 297,
           "before": [
             "    state.children.push(picture('blade',-l.endTurn.size[0]/2+18,0,14,44,im.diamond,c.goldBright),",
             "      panel('hilt',-l.endTurn.size[0]/2+18,-10,26,3,c.gold));"
@@ -2183,7 +2247,7 @@
     },
     "src/lua/abyss_battle_ui.lua": {
       "beforeSha256": "3ad8ad013a4bcd67d29f4dcee30093819725088d78b9d53681df161d46de7e06",
-      "afterSha256": "e71e48dc93983ad923cf7ae338b368272a4924dbf94c262da76428c39b0a6436",
+      "afterSha256": "a1d68a1fcba74fff54fb22cb4641cd400e4c76e2d3a7e22d69e352efeb8e7d91",
       "hunks": [
         {
           "at": 14,
@@ -2377,7 +2441,35 @@
           ]
         },
         {
-          "at": 858,
+          "at": 851,
+          "before": [],
+          "after": [
+            "    local function potionSelected(slot)",
+            "        return self.potionMenu and self.potionMenu.slot==slot",
+            "            or self.potionAim and self.potionAim.slot==slot",
+            "    end",
+            "    local function paintPotionShell(slot,item)",
+            "        local selected=item~=nil and potionSelected(slot)==true",
+            "        local tones=C.potionShell",
+            "        for _,state in ipairs({'normal','hover','pressed','disabled'})do",
+            "            local face=child('potion'..slot):GetChild(state)",
+            "            face:GetChild('emptyShell'):SetVisible(item==nil)",
+            "            face:GetChild('filledShell'):SetVisible(item~=nil and item.id~='fire_potion')",
+            "            face:GetChild('fireShell'):SetVisible(item~=nil and item.id=='fire_potion')",
+            "            face:GetChild('selectedShell'):SetVisible(selected)",
+            "            tint(face:GetChild('filledShell'):GetChild('rim'),selected and tones.selected.border or tones.normal.border)",
+            "            tint(face:GetChild('fireShell'):GetChild('rim'),selected and tones.selected.border or tones.fire.border)",
+            "            local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)",
+            "            if item then",
+            "                picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)",
+            "                tint(bottle,item.id=='fire_potion' and tones.fire.ink or tones.normal.ink)",
+            "            end",
+            "        end",
+            "    end"
+          ]
+        },
+        {
+          "at": 880,
           "before": [
             "            button(\"potion\" .. i, visible and frame.active and item and item.canUse, false,"
           ],
@@ -2386,7 +2478,7 @@
           ]
         },
         {
-          "at": 860,
+          "at": 882,
           "before": [
             "            show(\"potionHelp\" .. i, visible)"
           ],
@@ -2395,23 +2487,27 @@
           ]
         },
         {
-          "at": 863,
+          "at": 884,
           "before": [
-            "                local bottle=child('potionHelp'..i):GetChild(state):GetChild('bottle')"
+            "            for _,state in ipairs({'normal','hover','pressed','disabled'}) do",
+            "                local bottle=child('potionHelp'..i):GetChild(state):GetChild('bottle')",
+            "                bottle:SetVisible(item~=nil)",
+            "                if item then picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown) end",
+            "            end"
           ],
           "after": [
-            "                local bottle=child('potion'..i):GetChild(state):GetChild('bottle')"
+            "            paintPotionShell(i,item)"
           ]
         },
         {
-          "at": 898,
+          "at": 915,
           "before": [],
           "after": [
             "        if potionPopup then potionPopup:render() end"
           ]
         },
         {
-          "at": 1301,
+          "at": 1319,
           "before": [
             "        return self.active and not self.busy and not self.gesture and self.run"
           ],
@@ -2420,7 +2516,7 @@
           ]
         },
         {
-          "at": 1473,
+          "at": 1491,
           "before": [],
           "after": [
             "    potionPopup=PotionPopup.new(stage:GetChild('potionHelp'):GetChild('potionPopup'),self,platform,clickEvent,{",
@@ -2448,7 +2544,7 @@
           ]
         },
         {
-          "at": 1500,
+          "at": 1518,
           "before": [
             "                self.suppressClick=false;return self:usePotion(slot)"
           ],
@@ -2457,7 +2553,7 @@
           ]
         },
         {
-          "at": 1512,
+          "at": 1530,
           "before": [
             "                if not self.suppressClick and not self.gesture then return self:usePotion(slot) end"
           ],
@@ -2466,7 +2562,7 @@
           ]
         },
         {
-          "at": 1640,
+          "at": 1658,
           "before": [
             "                    local prefix = self.potionTargetAvailable and \"药水目标：\" .. self.run.combat.enemies[target].name .. \"；\" or \"\"",
             "                    notice(prefix .. \"意图：\" .. intentView(self.run.combat, target).text) refresh()"
@@ -2476,7 +2572,7 @@
           ]
         },
         {
-          "at": 1823,
+          "at": 1841,
           "before": [
             "                    local battle,index,actor=statusActorAt(screenSlot)"
           ],
@@ -2485,7 +2581,7 @@
           ]
         },
         {
-          "at": 1826,
+          "at": 1844,
           "before": [
             "                    local width=index==0 and L.hpBar.size[1] or select(2,enemyPosition(battle,index))",
             "                    local perRow=math.max(1,math.min(L.statusIcon.perRow,math.floor((width+L.statusIcon.gap)/(L.statusIcon.size+L.statusIcon.gap))))"
@@ -2495,7 +2591,7 @@
           ]
         },
         {
-          "at": 1829,
+          "at": 1847,
           "before": [
             "                    local overflow=position==slots and #entries>slots"
           ],
@@ -3101,7 +3197,7 @@
     },
     "src/lua/abyss_potion_discard_ui.lua": {
       "beforeSha256": "a9ed7848c7fea932c2a2788883f9f6f9e100f2b47cf07b7ee98cdaef09805613",
-      "afterSha256": "1b1f3479cddbc26a10d5d4ad93a79824be8f010055bd386a13fb7c6d48288b3a",
+      "afterSha256": "fc92a6933589a57593d1dbbf77e38e0d77f602dd7e7840c2486c0d0bc0c9e808",
       "hunks": [
         {
           "at": 7,
@@ -3118,9 +3214,17 @@
             "            local slot=variant:GetChild('slot'..i)",
             "            local id=i<=capacity and run.potions[i] or nil",
             "            slot:SetVisible(i<=capacity)",
+            "            slot:GetChild('emptyShell'):SetVisible(id==nil)",
+            "            slot:GetChild('filledShell'):SetVisible(id~=nil and id~='fire_potion')",
+            "            slot:GetChild('fireShell'):SetVisible(id=='fire_potion')",
+            "            slot:GetChild('selectedShell'):SetVisible(false)",
             "            local bottle=slot:GetChild('bottle')",
             "            bottle:SetVisible(id~=nil)",
-            "            if id then bottle:SetImage(platform.imageSource,Theme.icon.potion[id] or Theme.icon.intent.unknown)end",
+            "            if id then",
+            "                bottle:SetImage(platform.imageSource,Theme.icon.potion[id] or Theme.icon.intent.unknown)",
+            "                local colour=(id=='fire_potion' and Theme.color.potionShell.fire or Theme.color.potionShell.normal).ink",
+            "                bottle.imageColor=platform.color(colour.r,colour.g,colour.b,colour.a)",
+            "            end",
             "        end",
             "    end",
             "end"

@@ -60,13 +60,12 @@ test('real potion header repaint preserves physical capacity and sparse inventor
   assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/MAP_UTILITY_HEADER_PASS/);
 });
 
-// This is the precise extraction offered to the frozen Main slice. Its existing
-// state colours/sizes and label order remain unchanged; no battle code is edited.
-test('shared slot helper preserves Main border/face input properties exactly',()=>{
+// Main keeps compatibility paths, but they cannot show the rejected solid empty shell.
+test('shared slot helper retains hidden Main compatibility paths without mutating inputs',()=>{
   const border={name:'border',kind:'image',position:[0,0],size:[34.667,34.667],image:theme.image.rect,colour:theme.color.gold};
   const plate={name:'plate',kind:'image',position:[0,0],size:[30.667,30.667],image:theme.image.rect,colour:theme.color.panelRaised};
   const children=potionSlotVisual(theme,{border,plate,bottleSize:16,ink:theme.color.goldBright});
-  assert.deepEqual(children,[{...border,image:theme.image.disc},{...plate,image:theme.image.disc},
-    {name:'bottle',kind:'image',position:[0,0],size:[16,16],image:theme.icon.potion.fire_potion,colour:theme.color.goldBright}]);
+  assert.deepEqual(children.slice(0,2),[{...border,image:theme.image.disc,visible:false},{...plate,image:theme.image.disc,visible:false}]);
+  assert.deepEqual(children.map(c=>c.name),['border','plate','selectedShell','emptyShell','filledShell','fireShell','bottle']);
   assert.equal(border.image,theme.image.rect);assert.equal(plate.image,theme.image.rect);
 });

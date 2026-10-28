@@ -234,12 +234,9 @@ export function battleLayout() {
       l.battlePotions.size, '空药水槽', false, f.small);
     // Main top-bar silhouettes: official bottle, not a second row of text buttons.
     for (const state of potion.children) {
-      const [border,plate,bottle]=potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],
-        bottleSize:l.battlePotions.bottleSize,ink:c.goldBright});
-      state.children[0]=border;
-      state.children[1]=plate;
-      state.children.find(c=>c.name==='label').visible=false;
-      state.children.push(bottle);
+      const label=state.children.find(c=>c.name==='label');label.visible=false;
+      state.children=[...potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],
+        bottleSize:l.battlePotions.bottleSize,ink:c.goldBright}),label];
     }
     // Keep the original three direct paths. Extra bottles share the existing
     // full-canvas help group so the battle parent stays at 60 direct children.

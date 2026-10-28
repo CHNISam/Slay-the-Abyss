@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 15:56'
+updated_date: '2026-10-28 16:37'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -65,6 +65,8 @@ PR171整合切片：保留develop最新商店原子交易和战后独立选牌�
 最终集成保留#292、正式战斗、共享卡框、公共UI、失焦与开局美化全部来源，按现行用户两幕范围验收12屏1280×720原生UI。用户本轮紧急授权先合并后并行CI；不恢复PatchNotes，不新增玩法或插画，实机缺证据不勾PASS。
 
 dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修复、26源历史隔离、原runner和断言；仅逐块移植仍缺地图去圈/卡面/详情/能量/Main原稿纠偏，旧7a合流树只作历史保全，不整笔cherry-pick。共享主题与新增严格逆向由单执行者维护，重Lua串行协调，当前不推送PR或合并。
+
+2026-10-28药水纠偏：在dot独立云树线性接续1f260a7，原子叠加Map共享empty/filled/fire/selected壳体与Main真实状态刷新，保留官方瓶ID及主线安全保护。逐字段主题合并、真实Lua/render及历史精确逆向重验；不推送，等待独立视觉审查；不把离线代显或旧绿灯当还原/设备通过。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -98,4 +100,6 @@ PR171开场与商人离线整合：已接上最新商店按槽买卡、药水交
 本轮53fa隔离合流已完成地图去圈、卡面两批、详情A/能量的逐块源码合成；卡面26路径冻结hash一致。保留PR302提示/意图安全修复、遗物索引、原runner和26源gzip原字节，新增15路径精确逆向恢复53fa。新层/原53case+6seed元数据7项及纯JS布局35项通过；data/UI/theme构建、220模块/1259边架构和JS语法通过。独立只读接层审查无严重问题，实际临时新增文件删除补强2项通过。Main未交、完整Lua/完整Quality/官方导入/设备验收均未获本轮证据；状态/负责人/AC不改，不推送。
 
 2026-10-28 dot 隔离UI合流阶段：53fa基线已逐字段合地图三批、卡面两批、详情/能量/Main，58源精确逆向保留旧26源/全部golden/原预算。最终53case+6seed、Main/详情/能量15项、相邻详情19入口、3逐写trace、38地图组、5完整host均实测通过。当前为离线候选，完整托管Quality/inventory与同候选官方导入/ready/设备UI验收未完成；未推送/PR/合并。fresh远端1f260a7(PR305)仅治理路径、与UI零重叠，待根线程决定基线吸收。Owner/状态/AC不改；证据docs/reviews/APPROVED-UI-CURRENT-INTEGRATION-20261028.md。
+
+2026-10-28药水新纠偏源：原子接入空/普通/火焰/真实选择态及Main失效owner先退役；保留官方瓶ID。独立评审修正单小亮斑为原稿端点插值的双内切soft-disc；可移植原HTML whole-face离线模型先红后绿，新源短测9/9、精确58源逆向6/6、架构221/1265、73条历史诊断/原复杂度预算通过。Battle3283/Game10411节点仅静态计数，不是手机性能证据。原阶段27 Lua文件（原53case/6seed、5host、11target、38map组）均通过，明确不冒充新梯度源完整门禁。随后串行完整npm run check；不推送，待root最终diff审查。docs/reviews/potion-shell-integration-20261028/README.md；视觉/官方导入/ready/设备/完整Quality仍缺，AC不勾。
 <!-- SECTION:NOTES:END -->

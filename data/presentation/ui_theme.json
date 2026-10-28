@@ -140,6 +140,32 @@
         "ink": "#F3ECDD",
         "border": "#E9C77B"
       }
+    },
+    "potionShell": {
+      "empty": {
+        "face": "#1A131280",
+        "border": "#6E5A42"
+      },
+      "base": "#221A17",
+      "normal": {
+        "border": "#8C7454",
+        "light": "#3A2E28",
+        "ink": "#8CC4E2",
+        "base": "#2C231E",
+        "mid": "#312722"
+      },
+      "fire": {
+        "border": "#8A4A3A",
+        "light": "#4A2C24",
+        "ink": "#EE9670",
+        "base": "#33221D",
+        "mid": "#3B251F"
+      },
+      "selected": {
+        "border": "#F6DFA4",
+        "spread": "#E9C77B33",
+        "glow": "#E9C77B66"
+      }
     }
   },
   "font": {
@@ -2936,6 +2962,14 @@
       "targetWidth": 92,
       "font": 14,
       "minimumHeight": 98.33333333333333
+    },
+    "potionShell": {
+      "border": 1,
+      "focusY": 0.15,
+      "dashBorderRatio": 3,
+      "spread": 2.666667,
+      "blur": 14.666667,
+      "fittedFocusY": 0.12195244297620399
     }
   },
   "cardSkin": {
