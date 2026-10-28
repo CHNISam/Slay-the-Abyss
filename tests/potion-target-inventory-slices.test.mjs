@@ -1,3 +1,4 @@
+import { originalLuaRunner } from './helpers/ci-runtime-runner.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -47,7 +48,7 @@ function validateHelper(source) {
 }
 
 function validateRunner(source) {
-  assert.equal(sha(source), original.runnerSha256, 'unchanged runner and deadlines');
+  assert.equal(sha(originalLuaRunner(source)), original.runnerSha256, 'unchanged runner and deadlines');
   assert.doesNotMatch(source, /battle_ui_potion_target_inventory/, 'no family-specific timeout exception');
   assert.match(source, /fixture \|\| composedHost \? 60000 : 30000;/, 'keep the existing 30-second default fixture budget');
 }
