@@ -1120,7 +1120,21 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end
     -- An open detail panel owns the next pointer sequence: its Down closes the panel and
     -- the matching Click is swallowed, so no card, target or button acts underneath it.
+    local function retireInterruptedPress(event)
+        local g = self.gesture
+        if not g or g.touch ~= (event and event.touchId) then return false end
+        -- Another Down from the same pointer starts a new physical sequence.
+        -- Its previous Up may have been lost outside the native hit surface.
+        -- A different touch must never steal a live drag.
+        g.input.held, g.input.released = nil, nil
+        self.gesture, self.carry, self.selected = nil, nil, nil
+        self.hover, self.handHover, self.help = nil, nil, nil
+        self.suppressClick = true
+        if g.moving then cardView.renderDrag() end
+        return true
+    end
     local function down(event)
+        retireInterruptedPress(event)
         pointerObserved = true
         self.help=nil
         if not self.gesture then self.suppressClick = false end
@@ -1499,6 +1513,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             if self.dragEnabled then
                 hit:AddCursorEventListener(cursor.CursorDown,function(event)
                     pointerObserved = true
+                    retireInterruptedPress(event)
                     if self.gesture then return end
                     local dismissed = down(event)
                     input.held, input.released = nil, nil
@@ -1519,6 +1534,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
             local layer = child("dragLayer")
             layer.disableCursorEventPassthrough = true
             local hit = layer:GetChild("hit")
+            -- Do not replay this press onto whatever was under the old drag.
+            -- Retire its capture only; a subsequent deliberate click owns input.
+            hit:AddCursorEventListener(cursor.CursorDown,retireInterruptedPress)
             hit:AddCursorEventListener(cursor.CursorDrag,move)
             hit:AddCursorEventListener(cursor.CursorUp,release)
             hit:AddCursorEventListener(cursor.CursorEndDrag,function(event) release(event,nil,true) end)
