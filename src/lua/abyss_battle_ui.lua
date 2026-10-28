@@ -744,41 +744,47 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         box:GetChild('intentHit'):SetAnchoredPosition(0, iconY - line / 2)
         box:GetChild('intentHit'):SetSizeDelta(#icons * pitch - size / 2, size + line)
     end
+    local function enemyAimProjection(frame)
+        local aimed = self.gesture or self.carry
+        local projection = { pendingTarget = pendingCardTarget(frame) }
+        if aimed and aimed.moving then projection.valid, projection.target = dragTarget(aimed) end
+        if projection.valid then projection.losses = DamageView.preview(frame.battle, aimed.uid, projection.target) end
+        return projection
+    end
+    local function renderDamagePreview(box, enemy, portrait, width, loss)
+        local preview = box:GetChild('damagePreview')
+        preview:SetVisible(loss ~= nil and loss.loss > 0)
+        preview:SetAnchoredPosition(0, -portrait / 2 - S.xxl + L.nativeText.lineHeight)
+        preview:SetSizeDelta(width, L.nativeText.lineHeight)
+        preview.text = loss and loss.loss > 0 and (loss.hp <= 0 and '击杀' or '−' .. number(loss.loss)) or ''
+        if loss and loss.loss > 0 then box:GetChild('hpFill').fillAmount = math.max(0, loss.hp / enemy.maxHp) end
+    end
+    local function enemyPortraitIcon(enemy)
+        return Theme.icon.enemy[enemy.definitionId] or Theme.icon.node[enemy.tier == 'normal' and 'combat' or enemy.tier]
+    end
+    local function renderEnemySlot(frame, box, entry, slot, count, aim)
+        local enemy = entry.actor
+        local x, width, portrait = enemySlot(count, slot, enemy)
+        box:SetAnchoredPosition(x, EnemyView.rowY(count, slot))
+        local selected = enemyHighlighted(frame, enemy, entry.index, aim.pendingTarget)
+        local loss = aim.losses and aim.losses[entry.index]
+        if aim.valid and not aim.target and loss and loss.loss > 0 then selected = true end
+        unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected)
+        local dim = (aim.pendingTarget or self.potionAim ~= nil) and not selected
+        local portraitTone = C.text
+        tint(box:GetChild('portrait'), { r = portraitTone.r, g = portraitTone.g, b = portraitTone.b, a = dim and 102 or 255 })
+        renderDamagePreview(box, enemy, portrait, width, loss)
+        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
+    end
     local function renderEnemies(frame)
-        local rows=frame.fighting and EnemyView.slots(frame.battle,self.busy and self.feedback or nil) or {}
-        self.feedback.enemyRows=rows
-        local count = #rows
-        local pendingTarget = pendingCardTarget(frame)
-        local aimed=self.gesture or self.carry
-        local valid,target=false,nil
-        if aimed and aimed.moving then valid,target=dragTarget(aimed) end
-        local losses
-        if valid then losses=DamageView.preview(frame.battle,aimed.uid,target) end
+        local rows = frame.fighting and EnemyView.slots(frame.battle, self.busy and self.feedback or nil) or {}
+        self.feedback.enemyRows = rows
+        local aim = enemyAimProjection(frame)
         for i = 1, 5 do
-            local box = child("enemy" .. i)
-            local entry=rows[i]
-            local enemy=entry and entry.actor
-            self.feedback.bindEnemySlot(i,entry and entry.id)
-            box:SetVisible(enemy~=nil)
-            if enemy then
-                local x, width, portrait = enemySlot(count, i, enemy)
-                box:SetAnchoredPosition(x, EnemyView.rowY(count,i))
-                local selected = enemyHighlighted(frame, enemy, entry.index, pendingTarget)
-                local loss=losses and losses[entry.index]
-                if valid and not target and loss and loss.loss>0 then selected=true end
-                local icon=Theme.icon.enemy[enemy.definitionId] or Theme.icon.node[enemy.tier=='normal' and 'combat' or enemy.tier]
-                unit(box, enemy, portrait, icon, width, selected)
-                local dim=(pendingTarget or self.potionAim~=nil) and not selected
-                local portraitTone=C.text
-                tint(box:GetChild('portrait'),{r=portraitTone.r,g=portraitTone.g,b=portraitTone.b,a=dim and 102 or 255})
-                local preview=box:GetChild('damagePreview')
-                preview:SetVisible(loss~=nil and loss.loss>0)
-                preview:SetAnchoredPosition(0,-portrait/2-S.xxl+L.nativeText.lineHeight)
-                preview:SetSizeDelta(width,L.nativeText.lineHeight)
-                preview.text=loss and loss.loss>0 and (loss.hp<=0 and '击杀' or '−'..number(loss.loss)) or ''
-                if loss and loss.loss>0 then box:GetChild('hpFill').fillAmount=math.max(0,loss.hp/enemy.maxHp) end
-                renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait,count>3)
-            end
+            local box, entry = child('enemy' .. i), rows[i]
+            self.feedback.bindEnemySlot(i, entry and entry.id)
+            box:SetVisible(entry ~= nil)
+            if entry then renderEnemySlot(frame, box, entry, i, #rows, aim) end
         end
     end
     local function renderDetails(frame)
