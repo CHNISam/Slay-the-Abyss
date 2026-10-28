@@ -1,0 +1,250 @@
+{
+  "runId": 40642815774,
+  "head": "9bab0cfd2c36a43c8f818fe121cdd79d082b683e",
+  "fullEvidenceSha256": "e88068ae1165f601893f16d7eef54a48ef89e2c99e6f0b04df6c1d4f7ebaee75",
+  "failures": [
+    {
+      "jobId": 122664784215,
+      "originalFailureLines": [
+        "2026-10-28T06:23:56.7928921Z Lua fixture tests/lua/silent_natural_build.lua: 30053 ms",
+        "2026-10-28T06:23:56.7929938Z Lua runner failed (tests/lua/silent_natural_build.lua, 30000 ms): spawnSync C:\\hostedtoolcache\\windows\\node\\24.18.0\\x64\\node.exe ETIMEDOUT"
+      ]
+    },
+    {
+      "jobId": 122664784243,
+      "originalFailureLines": [
+        "2026-10-28T06:24:56.4107974Z Lua runner failed (tests/lua/intent_artifact_playback.lua, 30000 ms): spawnSync C:\\hostedtoolcache\\windows\\node\\24.18.0\\x64\\node.exe ETIMEDOUT",
+        "2026-10-28T06:24:56.4109527Z Lua fixture tests/lua/intent_artifact_playback.lua: 30027 ms"
+      ]
+    },
+    {
+      "jobId": 122664784259,
+      "originalFailureLines": [
+        "2026-10-28T06:27:12.8583126Z Lua runner failed (tests/lua/elite_relic_reward_ui.lua, 30000 ms): spawnSync C:\\hostedtoolcache\\windows\\node\\24.18.0\\x64\\node.exe ETIMEDOUT",
+        "2026-10-28T06:27:12.8599571Z Lua fixture tests/lua/elite_relic_reward_ui.lua: 30040 ms"
+      ]
+    }
+  ],
+  "baseline": [
+    {
+      "name": "silent_natural_build",
+      "ms": 24670.62151,
+      "status": 0,
+      "stdout": "NATURAL_POISONED_STAB\t2\t1\t0\t3.0\t1\nNATURAL_POISONED_STAB\t3\t1\t0\t3.0\t1\nNATURAL_POISONED_STAB\t3\t3\t1.0\t4.0\t1\nNATURAL_POISONED_STAB\t4\t1\t0\t3.0\t1\nNATURAL_POISONED_STAB\t4\t4\t0\t3.0\t1\nNATURAL_BANE_COMBO\t4\t5\t2.0\t2\t11.0\nNATURAL_BUILD_RESULT\t177136\tpoisoned_stab,finisher,bane,storm_of_steel\thp\t61.0\tstab\t5\tstabPoison\t5\tbane\t1\tbaneDamage\t11.0\nROOM\t1\tlouse_pair\t70\t70\t4\tdash,acrobatics,poisoned_stab\tpoisoned_stab\nROOM\t2\tjaw_solo\t70\t68.0\t4\tendless_agony,prepared,finisher\tfinisher\nROOM\t3\tcultist_solo\t68.0\t68.0\t3\tnoxious_fumes,bane,quick_slash\tbane\nROOM\t4\texordium_thugs\t68.0\t61.0\t5\tstorm_of_steel,infinite_blades,sucker_punch\tstorm_of_steel\nSILENT_NATURAL_BUILD_PASS 1\n",
+      "stderr": ""
+    },
+    {
+      "name": "intent_artifact_playback",
+      "ms": 20519.553481000003,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK status source=fat_gremlin_1 target=player amount=1\nABYSS_FEEDBACK intent source=jaw_worm_2 target=- amount=0\nABYSS_FEEDBACK status source=jaw_worm_2 target=jaw_worm_2 amount=2\nABYSS_FEEDBACK damage source=jaw_worm_2 target=player amount=18\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK status source=fat_gremlin_1 target=player amount=1\nABYSS_FEEDBACK intent source=jaw_worm_2 target=- amount=0\nABYSS_FEEDBACK status source=jaw_worm_2 target=jaw_worm_2 amount=2\nABYSS_FEEDBACK damage source=jaw_worm_2 target=player amount=21\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS each enemy keeps its executed face while later enemies still see new statuses\nLUA_INTENT_ARTIFACT_PLAYBACK 1 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "elite_relic_reward_ui",
+      "ms": 19603.378733999998,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nok elite relic reward 1 - public relic claim resolves only that offer; gold cards potion and random owners stay independent\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 2 - unavailable and malformed claims preserve the complete graph and every existing owner\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 3 - late obtain refusal and exception cannot commit any relic hook reward flag or resource mutation\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 4 - generated relic rows claim independently from gold card picker and potion without duplicate grants\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 5 - replaced reward owners and changed source identities retire old relic pointers\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 6 - unavailable busy and modal rows reject old input then allow a fresh owned claim\nLUA_ELITE_RELIC_REWARD_UI_PASS 6\n",
+      "stderr": ""
+    }
+  ],
+  "optimizedTests": [
+    {
+      "name": "intent_artifact_playback",
+      "ms": 14360.957701,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK status source=fat_gremlin_1 target=player amount=1\nABYSS_FEEDBACK intent source=jaw_worm_2 target=- amount=0\nABYSS_FEEDBACK status source=jaw_worm_2 target=jaw_worm_2 amount=2\nABYSS_FEEDBACK damage source=jaw_worm_2 target=player amount=18\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK status source=fat_gremlin_1 target=player amount=1\nABYSS_FEEDBACK intent source=jaw_worm_2 target=- amount=0\nABYSS_FEEDBACK status source=jaw_worm_2 target=jaw_worm_2 amount=2\nABYSS_FEEDBACK damage source=jaw_worm_2 target=player amount=21\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS each enemy keeps its executed face while later enemies still see new statuses\nLUA_INTENT_ARTIFACT_PLAYBACK 1 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "elite_relic_reward_ui",
+      "ms": 12036.778002,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nok elite relic reward 1 - public relic claim resolves only that offer; gold cards potion and random owners stay independent\nELITE_RELIC_REWARD_UI_CASE 1\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 2 - unavailable and malformed claims preserve the complete graph and every existing owner\nELITE_RELIC_REWARD_UI_CASE 2\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 3 - late obtain refusal and exception cannot commit any relic hook reward flag or resource mutation\nELITE_RELIC_REWARD_UI_CASE 3\nLUA_ELITE_RELIC_REWARD_UI_PASS 3\nELITE_RELIC_REWARD_UI_SLICE 1 3 3\n",
+      "stderr": ""
+    },
+    {
+      "name": "elite_relic_reward_ui_slice_2",
+      "ms": 6712.595393999996,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nok elite relic reward 4 - generated relic rows claim independently from gold card picker and potion without duplicate grants\nELITE_RELIC_REWARD_UI_CASE 4\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 5 - replaced reward owners and changed source identities retire old relic pointers\nELITE_RELIC_REWARD_UI_CASE 5\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 6 - unavailable busy and modal rows reject old input then allow a fresh owned claim\nELITE_RELIC_REWARD_UI_CASE 6\nLUA_ELITE_RELIC_REWARD_UI_PASS 3\nELITE_RELIC_REWARD_UI_SLICE 4 6 3\n",
+      "stderr": ""
+    }
+  ],
+  "otherIntentCases": [
+    {
+      "name": "intent_artifact_cancellation",
+      "ms": 2042.392197,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK recovered cancelled\nPASS cancelled playback and replacement battle cannot retain an old actor's intent\nLUA_INTENT_ARTIFACT_CANCELLATION 1 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "intent_artifact_charges",
+      "ms": 9475.194373,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK damage source=fat_gremlin_1 target=player amount=4\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK intent source=fat_gremlin_2 target=- amount=0\nABYSS_FEEDBACK damage source=fat_gremlin_2 target=player amount=4\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS two stock applying enemies exhaust exactly two charges without historical-frame recovery\nLUA_INTENT_ARTIFACT_CHARGES 1 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "intent_artifact_debuff_gates",
+      "ms": 14506.095933,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS Artifact gates each supported ordinary debuff before either recipient's stack arithmetic\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS repeated applications spend separate Artifact charges and expose overflow when exhausted\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS Artifact does not suppress invalid power amounts before core validation\nLUA_INTENT_ARTIFACT_DEBUFF_GATES 3 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "intent_artifact_ordered_interactions",
+      "ms": 7563.335079999997,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nPASS damage between repeated Vulnerable applications observes the consumed copied charge\nABYSS_RUN seed=1 source=explicit\nPASS self buffs and target debuffs consume only their own actor's Artifact\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS signed power type depends on incoming amount including zero, not current total\nABYSS_RUN seed=1 source=explicit\nPASS positive self buff preserves Artifact for the later debuff\nABYSS_RUN seed=1 source=explicit\nPASS without Artifact ordered status modifiers still reach later damage and block\nLUA_INTENT_ARTIFACT_ORDERED_INTERACTIONS 5 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "intent_artifact_preview",
+      "ms": 6227.102280000006,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK damage source=fat_gremlin_1 target=player amount=4\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS stock Fat Gremlin refresh and real end-turn agree at Weak upper bound with Artifact\nABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK damage source=fat_gremlin_1 target=player amount=4\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS ordinary stock values retain status details, card preview and command behavior\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nPASS neighboring boundary and stock non-applying intent remain valid\nABYSS_RUN seed=1 source=explicit\nPASS unblocked true overflow remains visible and leaves the live state untouched\nLUA_INTENT_ARTIFACT_PREVIEW 4 passed; 0 failed\n",
+      "stderr": ""
+    }
+  ],
+  "finalTargeted": [
+    {
+      "name": "silent_natural_build",
+      "ms": 21473.887948,
+      "status": 0,
+      "stdout": "NATURAL_POISONED_STAB\t2\t1\t0\t3.0\t1\nNATURAL_POISONED_STAB\t3\t1\t0\t3.0\t1\nNATURAL_POISONED_STAB\t3\t3\t1.0\t4.0\t1\nNATURAL_POISONED_STAB\t4\t1\t0\t3.0\t1\nNATURAL_POISONED_STAB\t4\t4\t0\t3.0\t1\nNATURAL_BANE_COMBO\t4\t5\t2.0\t2\t11.0\nNATURAL_BUILD_RESULT\t177136\tpoisoned_stab,finisher,bane,storm_of_steel\thp\t61.0\tstab\t5\tstabPoison\t5\tbane\t1\tbaneDamage\t11.0\nROOM\t1\tlouse_pair\t70\t70\t4\tdash,acrobatics,poisoned_stab\tpoisoned_stab\nROOM\t2\tjaw_solo\t70\t68.0\t4\tendless_agony,prepared,finisher\tfinisher\nROOM\t3\tcultist_solo\t68.0\t68.0\t3\tnoxious_fumes,bane,quick_slash\tbane\nROOM\t4\texordium_thugs\t68.0\t61.0\t5\tstorm_of_steel,infinite_blades,sucker_punch\tstorm_of_steel\nSILENT_NATURAL_BUILD_PASS 1\n",
+      "stderr": ""
+    },
+    {
+      "name": "intent_artifact_playback",
+      "ms": 13698.575499000002,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK status source=fat_gremlin_1 target=player amount=1\nABYSS_FEEDBACK intent source=jaw_worm_2 target=- amount=0\nABYSS_FEEDBACK status source=jaw_worm_2 target=jaw_worm_2 amount=2\nABYSS_FEEDBACK damage source=jaw_worm_2 target=player amount=18\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nABYSS_FEEDBACK enemy_turn source=- target=- amount=0\nABYSS_FEEDBACK intent source=fat_gremlin_1 target=- amount=0\nABYSS_FEEDBACK status source=fat_gremlin_1 target=player amount=1\nABYSS_FEEDBACK intent source=jaw_worm_2 target=- amount=0\nABYSS_FEEDBACK status source=jaw_worm_2 target=jaw_worm_2 amount=2\nABYSS_FEEDBACK damage source=jaw_worm_2 target=player amount=21\nABYSS_FEEDBACK status source=player target=player amount=-1\nABYSS_FEEDBACK reshuffle source=- target=- amount=0\nABYSS_FEEDBACK player_turn source=- target=- amount=0\nPASS each enemy keeps its executed face while later enemies still see new statuses\nLUA_INTENT_ARTIFACT_PLAYBACK 1 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "elite_relic_reward_ui",
+      "ms": 11636.734962000002,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nok elite relic reward 1 - public relic claim resolves only that offer; gold cards potion and random owners stay independent\nELITE_RELIC_REWARD_UI_CASE 1\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 2 - unavailable and malformed claims preserve the complete graph and every existing owner\nELITE_RELIC_REWARD_UI_CASE 2\nABYSS_RUN seed=1 source=explicit\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 3 - late obtain refusal and exception cannot commit any relic hook reward flag or resource mutation\nELITE_RELIC_REWARD_UI_CASE 3\nLUA_ELITE_RELIC_REWARD_UI_PASS 3\nELITE_RELIC_REWARD_UI_SLICE 1 3 3\n",
+      "stderr": ""
+    },
+    {
+      "name": "elite_relic_reward_ui_slice_2",
+      "ms": 6246.438246999998,
+      "status": 0,
+      "stdout": "ABYSS_RUN seed=1 source=explicit\nok elite relic reward 4 - generated relic rows claim independently from gold card picker and potion without duplicate grants\nELITE_RELIC_REWARD_UI_CASE 4\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 5 - replaced reward owners and changed source identities retire old relic pointers\nELITE_RELIC_REWARD_UI_CASE 5\nABYSS_RUN seed=1 source=explicit\nok elite relic reward 6 - unavailable busy and modal rows reject old input then allow a fresh owned claim\nELITE_RELIC_REWARD_UI_CASE 6\nLUA_ELITE_RELIC_REWARD_UI_PASS 3\nELITE_RELIC_REWARD_UI_SLICE 4 6 3\n",
+      "stderr": ""
+    },
+    {
+      "name": "atomic_play",
+      "ms": 4050.4904920000045,
+      "status": 0,
+      "stdout": "ok 1 - real inflame overflow preserves every value and reference\nok 2 - real upgraded inflame overflow remains atomic\nok 3 - real bash restores damage, block, thorns and earlier events before status overflow\nok 4 - real shockwave rolls back first enemy and earlier status on later enemy overflow\nok 5 - unknown status after successful block, energy and strength restores inserted keys\nok 6 - negative status amount after damage restores target and player\nok 7 - draw then reshuffle then overflow restores old piles, RNG and all card identities\nok 8 - full-hand draw overflow followed by error restores discard and draw order\nok 9 - controlled failure restores noDraw, HP and temporary player fields, preserving error object\nok 10 - failed card remains playable after correcting only the overflow condition\nok 11 - successful real bash keeps identities, ordering and exactly one effect execution\nok 12 - successful reshuffle retains original pile swap and RNG draw sequence\nok 13 - successful lethal attack retains discard then victory and no replay\nok 14 - canPlay rejection keeps false reason convention and complete state\nATOMIC_PLAY 14/14 passed\n",
+      "stderr": ""
+    },
+    {
+      "name": "run_play_transactions",
+      "ms": 14710.034600000006,
+      "status": 0,
+      "stdout": "PASS normal public lethal play throw restores full original graph and retries once\nPASS normal public lethal play reject restores full original graph and retries once\nPASS elite public lethal play throw restores full original graph and retries once\nPASS elite public lethal play reject restores full original graph and retries once\nPASS rejected ordinary play returns the original reason without any publication\nRUN_PLAY_TRANSACTIONS 5 groups; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "owner_end_rollback",
+      "ms": 2779.2133930000127,
+      "status": 0,
+      "stdout": "PASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs false\nPASS same WLP continuation survives late retained callback failure, original pending/queue, retry once false\nPASS whole endTurn rollback after Burn/Regen/Combust/Study RNG failure with original graphs true\nPASS same WLP continuation survives late retained callback failure, original pending/queue, retry once true\nOWNER_END_ROLLBACK_PASS\n",
+      "stderr": ""
+    },
+    {
+      "name": "run_turn_reward_rollback",
+      "ms": 8652.302616999994,
+      "status": 0,
+      "stdout": "PASS public Run turn throw late reward restores complete graph and retries once\nPASS public Run turn reject late reward restores complete graph and retries once\nRUN_TURN_REWARD_ROLLBACK 2 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "run_turn_reward_rollback_choice",
+      "ms": 10345.993843000004,
+      "status": 0,
+      "stdout": "PASS public Run choice throw late reward restores complete graph and retries once\nPASS public Run choice reject late reward restores complete graph and retries once\nRUN_TURN_REWARD_ROLLBACK 2 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "run_turn_reward_rollback_retain",
+      "ms": 8972.54310499999,
+      "status": 0,
+      "stdout": "PASS public Run retain throw late reward restores complete graph and retries once\nPASS public Run retain reject late reward restores complete graph and retries once\nRUN_TURN_REWARD_ROLLBACK 2 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "name": "permanent_transactions",
+      "ms": 6634.4249379999965,
+      "status": 0,
+      "stdout": "PASS permanent 1 generated source catalog initializes one complete private relic owner\nPASS permanent 2 transaction failure leaves every permanent value and owner unchanged\nPASS permanent 3 Omamori blocks before UID allocation and Ceramic Fish sees only actual obtains\nPASS permanent 4 source relic offer is prepared privately without implementation-driven rerolls\nPASS permanent 5 an offered curse freezes old Omamori before a new relic is equipped\nPASS permanent 6 nested obtain commands keep the enclosing event flow current\nPASS permanent 7 a successful permanent command preserves the reward reopening aliases\nPASS permanent 8 nested rejections abort the outer transaction even if its caller ignores them\nPASS permanent 9 permanent command preflight failures also abort their enclosing transaction\nPASS permanent 10 the copy memo remains compatible with existing assert-expression callers\nPASS permanent 11 obtain hooks receive the private card before it joins the permanent deck\nPASS permanent 12 card rewards retain independent item owners without weakening obtain rollback\nPASS permanent 13 source maximum HP gain heals only its amount and event gold honors Ectoplasm\nPERMANENT_TRANSACTIONS 13 passed\n",
+      "stderr": ""
+    },
+    {
+      "name": "combat_gold_transactions",
+      "ms": 9101.927102999995,
+      "status": 0,
+      "stdout": "ok combat gold 8 - failure after gold prepare and potion commit leaves the full terminal reward transaction private\nok combat gold 9 - existing shared potion stream and continuous treasury survive a later reward failure by identity\nCOMBAT_GOLD_PASS 2\n",
+      "stderr": ""
+    },
+    {
+      "name": "combat_gold_potion_rollback",
+      "ms": 8468.374754999997,
+      "status": 0,
+      "stdout": "ok combat gold 10 - post-reward lethal potion failure or rejection preserves both source gold stream owners\nCOMBAT_GOLD_PASS 1\n",
+      "stderr": ""
+    },
+    {
+      "name": "potion_reward_atomic",
+      "ms": 10761.736765000009,
+      "status": 0,
+      "stdout": "PASS lethal potion commits the new reward stream exactly once on success\nPASS post-reward throw preserves the live potion stream and every existing reference\nPASS post-reward reject preserves the live potion stream and every existing reference\nPASS legacy run without shopRng keeps a failed initialization private and can retry\nLUA_POTION_REWARD_ATOMIC 4 passed; 0 failed\n",
+      "stderr": ""
+    }
+  ],
+  "silentCanonical": {
+    "sameBytes": true,
+    "bytes": 6488,
+    "sha256": "5c14edb0607b023933d94c7d8b007564f7487d234e2a5cb75e21636916159d46",
+    "runs": [
+      {
+        "name": "old",
+        "ms": 26407.221574
+      },
+      {
+        "name": "candidate",
+        "ms": 22682.921592
+      }
+    ],
+    "originalFixtureSha256": "979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5"
+  },
+  "finalVerification": {
+    "proofTests": 7,
+    "ownerGroups": 9,
+    "graphComparisons": 96,
+    "deepChainNodes": 20000,
+    "omissionMutants": 3,
+    "transactionRawEntries": 14,
+    "luaStatic": {
+      "historicalWarnings": 84,
+      "newDiagnostics": 0,
+      "governedMeasurements": 418
+    },
+    "architecture": {
+      "modules": 214,
+      "edges": 1237
+    },
+    "semanticMutants": 4,
+    "backlog": true,
+    "syntax": true,
+    "network": true,
+    "hostedQuality": "pending new exact head",
+    "nativeDevice": "not performed"
+  }
+}

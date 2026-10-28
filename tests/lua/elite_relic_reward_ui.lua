@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3
+local sliceRegistered=0
 package.path="src/lua/?.lua;build/lua/?.lua;"..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
@@ -12,7 +15,12 @@ local function same(a,b,path)
     for k,v in pairs(b)do same(a[k],v,path..'.'..tostring(k))end
     for k in pairs(a)do assert(b[k]~=nil,path..' unexpected '..tostring(k))end
 end
-local function test(name,fn)fn();count=count+1;print('ok elite relic reward '..count..' - '..name)end
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return end
+    fn();count=count+1;print('ok elite relic reward '..sliceRegistered..' - '..name)
+    print('ELITE_RELIC_REWARD_UI_CASE '..sliceRegistered)
+end
 local function setup(pointer)
     local host,root=F.fixture(nil,nil,nil,pointer and cursor or nil)
     assert(host:start());assert(Run.startCombat(host.run,'cultist_solo'))
@@ -145,3 +153,7 @@ test('unavailable busy and modal rows reject old input then allow a fresh owned 
     tap('relicReward1',4);assert(r.rewards.relics[1].claimed)
 end)
 print('LUA_ELITE_RELIC_REWARD_UI_PASS '..count)
+
+assert(sliceRegistered==6,"all six original elite reward groups must register")
+assert(count==sliceLast-sliceFirst+1,"every selected elite reward group must execute")
+print("ELITE_RELIC_REWARD_UI_SLICE "..sliceFirst.." "..sliceLast.." "..count)
