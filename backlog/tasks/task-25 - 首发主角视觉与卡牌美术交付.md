@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 15:58'
-updated_date: '2026-10-27 15:04'
+updated_date: '2026-10-28 04:00'
 due_date: '2026-10-28'
 labels:
   - art
@@ -65,4 +65,6 @@ ordinal: 27000
 2026-10-27确认美术路线v1.0：精修重绘为默认正式品质；卡图、角色选角主视觉、玩家、怪物与Boss分类做成品实机样本。各类别经用户审图、官方导入、真实手机性能验收后才批准扩产；不按假定的200图元安全线拍脑袋放行。
 
 负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
+
+2026-10-28 统一集成接续 PR256（41dda081f46f0cbad68e88e9b8f6924a0d5b93ca）的已完成卡框切片：共享卡面增加稀有度标题带、窗框与深色费用芯/能量色环；保留当前148×208、30/64构图、40高透明文字兼容及动态文案/原生卡图清理。原执行者 Claude、来源 feat/card-frame-polish，设计稿 https://claude.ai/artifact/TivTHnK5W7mHrXqf2Rbnef；原分支未来类型文案/原因条/角色徽记不在本轮实现范围。本轮仅整合源代码，原分支离线结果不代替新组合完整Quality、官方导入或手机验收；负责人Furinya、完整职业范围与未勾验收保留。
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>图标与状态规范</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&amp;family=Noto+Serif+SC:wght@600;900&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1920px; height: 2160px; box-sizing: border-box; padding: 72px 88px; background: #120A0B; font-family: 'Noto Sans SC', sans-serif; color: #F3ECDD; display: flex; flex-direction: column; gap: 48px">
+
+  <div style="display: flex; align-items: baseline; gap: 24px">
+    <h1 style="margin: 0; font-family: 'Noto Serif SC', serif; font-size: 44px; font-weight: 900; color: #E9C77B; letter-spacing: 6px">图标与状态规范</h1>
+    <span style="font-size: 17px; color: #9E8C72">杀戮原塔 · 交付开发 · 24px 网格，填充为主，描边 2px</span>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 20px">
+    <h2 style="margin: 0; font-size: 24px; font-weight: 900">状态（共 19 种，与 data/statuses.json 一一对应）</h2>
+    <div style="display: flex; gap: 28px; font-size: 15px; color: #BBAA8C">
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 18px; height: 18px; border-radius: 5px; background: #3E2C18; border: 1px solid #B8975E"></span>增益：暖金底</span>
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 18px; height: 18px; border-radius: 5px; background: #2A2444; border: 1px solid #7466AE"></span>减益：冷紫底</span>
+      <span>角标：层数型写层数 · 回合型写回合数并加时钟点 · 无数值型不写数字</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+      <sc-for list="{{statuses}}" as="t" hint-placeholder-count="19">
+        <div style="display: flex; gap: 16px; padding: 16px 18px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
+          <div style="flex: none; position: relative; width: 52px; height: 52px; border-radius: 12px; background: {{t.bg}}; border: 1.5px solid {{t.edge}}; display: grid; place-items: center"><span style="position: absolute; right: 4px; top: 4px; width: 6px; height: 6px; transform: rotate(45deg); background: {{t.kc}}"></span>
+            <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f}}" fill="{{t.ink}}"></path><path d="{{t.s}}" fill="none" stroke="{{t.ink}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{t.k}}" fill="none" stroke="{{t.bg}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <sc-if value="{{t.badge}}" hint-placeholder-val="{{true}}">
+              <span style="position: absolute; right: -7px; bottom: -7px; min-width: 20px; height: 20px; padding: 0 4px; box-sizing: border-box; border-radius: 10px; background: #0D0708; border: 1px solid {{t.edge}}; font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; color: #F3ECDD">{{t.badge}}</span>
+            </sc-if>
+          </div>
+          <div style="min-width: 0">
+            <div style="display: flex; align-items: baseline; gap: 8px"><b style="font-size: 17px; color: #F3ECDD">{{t.name}}</b><span style="font-size: 12px; color: #9E8C72">{{t.kind}} · {{t.count}}</span></div>
+            <div style="margin-top: 4px; font-size: 13px; line-height: 1.55; color: #C9BCA4">{{t.desc}}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px">
+    <h2 style="margin: 0; font-size: 24px; font-weight: 900">敌人意图（图标用游戏现有素材，这里只定排布：多个意图并排、不叠放，数字小号白字压在图标左下）</h2>
+    <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 14px">
+      <sc-for list="{{intents}}" as="t" hint-placeholder-count="20">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 10px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
+          <div style="position: relative; height: 64px; width: 120px; display: flex; align-items: center; justify-content: center">
+          <div style="position: relative; flex: none; width: 58px; height: 58px; filter: drop-shadow(0 3px 3px #000000B0)">
+            <svg style="position: absolute; inset: 0" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f}}" style="fill: {{t.rim}}; stroke: #240A08; stroke-width: 1.6; paint-order: stroke"></path><path d="{{t.s}}" style="fill: none; stroke: {{t.rim}}; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+            <svg style="position: absolute; left: 66px; top: 12px; {{t.subVis}}; filter: drop-shadow(0 2px 2px #000000B0)" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="{{t.f2}}" style="fill: {{t.r2}}; stroke: #240A08; stroke-width: 1.8; paint-order: stroke"></path><path d="{{t.s2}}" style="fill: none; stroke: {{t.r2}}; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          </div>
+          <span style="position: absolute; left: -6px; bottom: -8px; font-size: 22px; line-height: 1; font-weight: 700; color: #FFF8EE; text-shadow: 0 2px 3px #000000CC; font-variant-numeric: tabular-nums">{{t.value}}</span>
+          </div>
+          <b style="font-size: 15px">{{t.name}}</b>
+          <span style="font-size: 12px; line-height: 1.5; color: #9E8C72; text-align: center">{{t.note}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px">
+    <h2 style="margin: 0; font-size: 24px; font-weight: 900">边界规则</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+      <sc-for list="{{rules}}" as="r" hint-placeholder-count="12">
+        <div style="display: flex; gap: 16px; padding: 18px 20px; border-radius: 12px; background: #1E1716; border: 1px solid #3E322A">
+          <span style="flex: none; width: 34px; height: 34px; border-radius: 50%; background: #120C0B; border: 2px solid #C9A25E; color: #F6DFA4; font-size: 17px; font-weight: 900; display: grid; place-items: center">{{r.n}}</span>
+          <div><b style="font-size: 17px">{{r.title}}</b><div style="margin-top: 6px; font-size: 14px; line-height: 1.7; color: #C9BCA4">{{r.body}}</div></div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1920,"height":2160}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const B = { kind: '增益', bg: '#1A1312', edge: '#B8975E', kc: '#E9C77B' };
+    const D = { kind: '减益', bg: '#1A1312', edge: '#7466AE', kc: '#A898E8' };
+    const heart = 'M12 20.5s-8-4.9-8-10.6A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 8 2.6c0 5.7-8 10.6-8 10.6Z';
+    const shield = 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z';
+    const flame = 'M12 2.5c2.8 3.2 5 5.8 5 9a5 5 0 0 1-10 0c0-1.6.6-3 1.6-4.2.2 1.6 1 2.6 2 3 0-2.6.6-5 1.4-7.8Z';
+    const statuses = [
+      { name: '力量', ...B, ink: '#F0644A', count: '层数', badge: '3', f: 'M6 11.5V8a1.6 1.6 0 0 1 3.2 0v-1.2a1.6 1.6 0 0 1 3.2 0v.4a1.6 1.6 0 0 1 3.2 0v1a1.6 1.6 0 0 1 3.2 0v5.3c0 4.2-2.9 7.5-6.9 7.5H11c-2.8 0-5-2.3-5-5.1Z', s: '', k: 'M9.2 7.8v3.4M12.4 7v4M15.6 8v3.2M6.2 12.6c2.2-.6 4.2-.3 5.8 1', desc: '每层攻击伤害 +1；为负时改用减益配色并写 −N' },
+      { name: '敏捷', ...B, ink: '#7ED67A', count: '层数', badge: '2', f: 'M19 3C11 4 6 9 5 18l2 1c1-3 2.5-5 5-6.5C16 10 18.5 7 19 3Z', s: 'M4.5 21 11 13', k: '', desc: '每层卡牌格挡 +1；不影响药水固定格挡' },
+      { name: '人工制品', ...B, ink: '#F2D24A', count: '层数', badge: '1', f: 'M12 2 20 7v10l-8 5-8-5V7Z', s: '', k: 'M12 2v20M4 7l16 10M20 7 4 17', desc: '每层抵挡一次减益' },
+      { name: '荆棘', ...B, ink: '#B8C46A', count: '层数', badge: '3', f: 'M12 2l2 5 5-2-2 5 5 2-5 2 2 5-5-2-2 5-2-5-5 2 2-5-5-2 5-2-2-5 5 2Z', s: '', k: '', desc: '被攻击时反伤等同层数' },
+      { name: '再生', ...B, ink: '#62D69A', count: '层数', badge: '4', f: heart, s: '', k: 'M12 9.5v6M9 12.5h6', desc: '回合结束回复层数生命，然后减 1' },
+      { name: '壁垒', ...B, ink: '#6EB8F0', count: '无', badge: '', f: 'M3 6h18v13H3Z', s: '', k: 'M3 10.5h18M3 15h18M9 6v4.5M15 6v4.5M6 10.5V15M12 10.5V15M18 10.5V15M9 15v4M15 15v4', desc: '回合开始格挡不清空；不写数字' },
+      { name: '激怒', ...B, ink: '#FF7A3A', count: '层数', badge: '2', f: flame, s: '', k: 'M10 13.5l1.5 1M14 13.5l-1.5 1', desc: '玩家打出技能牌时，获得层数力量' },
+      { name: '仪式', ...B, ink: '#C08AF0', count: '层数', badge: '3', f: 'M15 3a9 9 0 1 0 6 15A7 7 0 0 1 15 3Z', s: 'M18 5v4M16 7h4', k: '', desc: '敌方回合结束获得层数力量' },
+      { name: '模式转换', ...B, ink: '#8AA8C8', count: '层数', badge: '10', f: 'M19 3.5v5.5h-5.5Z M5 20.5V15h5.5Z', s: 'M5.5 10a7 7 0 0 1 12-3.5M18.5 14a7 7 0 0 1-12 3.5', k: '', desc: '层数=转入防守前还能损失的生命' },
+      { name: '尖刺甲壳', ...B, ink: '#E8A060', count: '层数', badge: '3', f: 'M3.5 19a8.5 8.5 0 0 1 17 0Z', s: 'M6 12.5 4 8.5M12 10.5V5.5M18 12.5l2-4M8.8 11 7.5 6.8M15.2 11l1.3-4.2', k: '', desc: '玩家每打出攻击牌受层数伤害' },
+      { name: '狂怒', ...B, ink: '#FF5A5A', count: '层数', badge: '1', f: '', s: 'M4.5 9.5h4.5V5M15 5v4.5h4.5M19.5 14.5H15V19M9 19v-4.5H4.5', k: '', desc: '被普攻并掉血时获得层数力量' },
+      { name: '蜷甲', ...B, ink: '#C8A070', count: '层数', badge: '7', f: 'M12 2.5a9.5 9.5 0 1 1 0 19 9.5 9.5 0 0 1 0-19Z', s: '', k: 'M13.6 12a1.6 1.6 0 1 1-3.2 0 3.6 3.6 0 1 1 7.2 0 5.6 5.6 0 1 1-11.2 0', desc: '首次非致命掉血后获得层数格挡' },
+      { name: '窃金', ...B, ink: '#F6C94A', count: '层数', badge: '15', f: 'M15.5 10a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z', s: 'M3 9.5 7.5 3.5M5.5 12.5 11 5.5M9 14 13 8.5', k: 'M15.5 13.2v5.6M13.6 16h3.8', desc: '攻击时先偷最多层数金币' },
+      { name: '菌雾', ...B, ink: '#9AD06A', count: '层数', badge: '2', f: 'M7 18.5a4 4 0 0 1-.5-8A5.5 5.5 0 0 1 17 9.5a4.5 4.5 0 0 1 .5 9Z', s: '', k: 'M9 14.5h.01M12 12.5h.01M15 14.5h.01', desc: '它倒下时玩家获得层数易伤' },
+      { name: '易伤', ...D, ink: '#FF8A5A', count: '回合', badge: '2', f: 'M11.2 20.3S3.5 15.6 3.5 9.8A4.3 4.3 0 0 1 11.2 7.2l1.2 3.2-2 2.6 1.6 2.9Z M12.8 20.3s7.7-4.7 7.7-10.5a4.3 4.3 0 0 0-7.6-2.6l1.1 3.2-2 2.6 1.6 3Z', s: '', k: '', desc: '受普攻伤害 +50%；不放大中毒' },
+      { name: '虚弱', ...D, ink: '#A8B48C', count: '回合', badge: '1', f: 'M18.6 3.4 17.9 7.2 14.4 10.7 11.3 7.6 14.8 4.1Z M10.4 11.6 7.8 14.2 4.7 11.1 7.3 8.5Z', s: 'M3.8 10.2 9.6 16M6.4 14.6 3.4 20', k: '', desc: '造成普攻伤害 −25%' },
+      { name: '脆弱', ...D, ink: '#9AB4CC', count: '回合', badge: '2', f: shield, s: '', k: 'M13 5.5 10.6 10.4 13.6 12.2 10.8 18.4', desc: '卡牌格挡 −25%' },
+      { name: '中毒', ...D, ink: '#7CD650', count: '层数', badge: '6', f: 'M12 2.5c3.2 4.6 6.2 8 6.2 11.4a6.2 6.2 0 0 1-12.4 0c0-3.4 3-6.8 6.2-11.4Z', s: '', k: 'M9.8 14h.01M14.2 14h.01M10.5 17.2h3', desc: '回合开始掉层数生命，无视格挡，然后减 1' },
+      { name: '缠绕', ...D, ink: '#6AAE5A', count: '无', badge: '', f: 'M16.5 3.5 20.5 3l-.5 4Z M3.5 20.5l.5-4 3.5 3.5Z', s: 'M4 7c6 0 6 10 16 10M4 17c6 0 6-10 16-10', k: '', desc: '本回合不能打出攻击牌' }
+    ];
+    const sword = { f: 'M21 3 20.4 7.6 10.9 17.1 6.9 13.1 16.4 3.6Z', s: 'M4.6 11.4 12.6 19.4M7.6 16.4 3.4 20.6' };
+    const atk = { rim: '#F0B070', hi: '#FF7A4A', bg: '#B02A16', glow: '#FF4A22' };
+    const def = { rim: '#B0E0FF', hi: '#5AB0E8', bg: '#1E5A8A', glow: '#3AA0FF' };
+    const buf = { rim: '#FFE09A', hi: '#FFC040', bg: '#9A5A10', glow: '#FFB020' };
+    const deb = { rim: '#9CE07A', hi: '#5CB84A', bg: '#24561C', glow: '#4CC040' };
+    const mid = { rim: '#C8B8A0', hi: '#8A7A66', bg: '#3E3228', glow: '#00000000' };
+    const intents = [
+      { name: '攻击', value: '12', ...atk, ...sword, note: '数字是最终伤害' },
+      { name: '多段攻击', value: '6×3', ...atk, ...sword, note: '同一把剑，数字写 单段×段数' },
+      { name: '攻击+削弱', value: '8', ...atk, ...sword, sub: 'deb', note: '主图标是攻击，身后叠一个完整的削弱图标' },
+      { name: '攻击+防御', value: '7', ...atk, ...sword, sub: 'def', note: '并排' },
+      { name: '攻击+强化', value: '9', ...atk, ...sword, sub: 'buf', note: '并排' },
+      { name: '多段+削弱', value: '4×2', ...atk, ...sword, sub: 'deb', note: '多段同理' },
+      { name: '防御+强化', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', sub: 'buf', note: '不攻击时，防御做主图标' },
+      { name: '防御+削弱', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', sub: 'deb', note: '' },
+      { name: '三项以上', value: '7', ...atk, ...sword, sub: 'def', more: true, note: '三个以上也并排，最多 3 个，再多进详情' },
+      { name: '防御', value: '', ...def, f: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s: '', note: '只放图标' },
+      { name: '强化', value: '', ...buf, f: 'M12 3l8 8H4Z M12 12l8 8H4Z', s: '', note: '自身获得增益' },
+      { name: '削弱', value: '', ...deb, f: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s: '', note: '给玩家施加减益' },
+      { name: '蓄能', value: '', ...buf, f: 'M13.5 2.5 6 13.5h5l-1.5 8 7.5-11h-5Z', s: '', note: '下回合大招前摇' },
+      { name: '分裂', value: '', ...deb, f: 'M11 4.5a7.5 7.5 0 0 0 0 15Z M13 4.5a7.5 7.5 0 0 1 0 15Z', s: '', note: '低血量分成两只' },
+      { name: '逃跑', value: '', ...mid, f: '', s: 'M4 12h13M13 7l5 5-5 5M20 5v14', note: '下回合离场，金币不返还' },
+      { name: '沉睡', value: '', ...mid, f: '', s: 'M5 6h6l-6 7h6M13 12h5l-5 6h5', note: '本回合不行动' },
+      { name: '眩晕', value: '', ...mid, f: 'M12 4l1.4 3 3.1.4-2.3 2.1.6 3.1L12 11l-2.8 1.6.6-3.1-2.3-2.1 3.1-.4Z', s: 'M4 17c3 3 13 3 16 0', note: '跳过本回合' },
+      { name: '未知', value: '', ...mid, f: 'M12 17.3a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4Z', s: 'M8.8 8.6a3.3 3.3 0 1 1 4.8 3c-1 .6-1.6 1.3-1.6 2.6', note: '意图不可见' }
+    ].map((t) => {
+      const SUB = {
+        def: { f2: 'M12 2.5 4.5 5.3v5.9c0 4.9 3.2 8.6 7.5 10.3 4.3-1.7 7.5-5.4 7.5-10.3V5.3Z', s2: '', r2: '#B0E0FF', g2: '#3AA0FF' },
+        buf: { f2: 'M12 3l8 8H4Z M12 12l8 8H4Z', s2: '', r2: '#FFE09A', g2: '#FFB020' },
+        deb: { f2: 'M4 3h16l-8 8Z M4 12h16l-8 8Z', s2: '', r2: '#9CE07A', g2: '#4CC040' }
+      };
+      const sub = SUB[t.sub] || { f2: '', s2: '', r2: 'none', g2: '#00000000' };
+      return { ...t, ...sub, value: t.value, subVis: t.sub ? '' : 'display: none' };
+    });
+    const rules = [
+      { title: '状态行容量', body: '血条正下方，每行最多 5 个、最多 2 行；第 10 个起改为一个「+N」芯片。点开详情能看到全部，详情面板超过 8 条时可滚动。' },
+      { title: '排序', body: '先增益后减益，同类按获得先后排。新获得或层数变化时图标放大到 1.25 倍再回弹（0.25 秒），不改位置。' },
+      { title: '角标数字', body: '层数型写层数，回合型写剩余回合，无数值型（壁垒、缠绕）不写。超过 99 写 99+。力量、敏捷为负时换减益配色，写 −N。' },
+      { title: '格挡', body: '大于 0 时盾牌挂在血条左侧，血条变冰蓝并加亮边，数字始终在盾内；三位数时字号从 13 降到 11。格挡为 0 时盾位保留空白，血条不位移。' },
+      { title: '意图数值', body: '攻击写最终伤害（已算力量、虚弱、易伤），多段写「单段×段数」。多个意图从左到右并排（攻击在前），不叠放；数字小号白字压在攻击图标左下。图标沿用游戏现有素材。组合意图按 攻击 > 防御 > 强化 > 削弱 取前两项：主图标在前，第二项缩小叠在主图标身后左上，各自保留颜色；三项以上数字后加「+」，全部写进详情。意图不可见时显示「未知」。悬停攻击意图始终显示算式（如 基础 9 ＋ 力量 3 ＝ 12；虚弱、易伤写成 ×0.75、×1.5），不做成设置项。' },
+      { title: '敌人数量 1–6', body: '主角站左半场，敌人只站右半场（1010–1850px）。人多时前后两排交替、互相略有遮挡，不越过中线，也不铺满全屏。立绘尺寸 = min(190, 槽宽×1.1)。' },
+      { title: '首领与大体型', body: '首领独占中间槽，尺寸上限 260；同屏小怪按剩余槽位均分。立绘超高时血条跟随脚底，意图跟随头顶，不固定在同一高度。' },
+      { title: '查看详情', body: '悬停（电脑）或单击（手机）任一敌人或主角，一次列出意图和全部状态，不需要逐个点图标。再点空白处关闭。' },
+      { title: '主角状态', body: '与敌人相同：血条下方一行，同一容量和排序规则；主角详情面板向右展开，避免挡住手牌。' },
+      { title: '瞄准时', body: '选中药水或单体卡牌后，非目标敌人降到 40% 不透明度，目标加四角金框；全体效果则所有敌人一起高亮；自身效果直接生效，不进入瞄准。' },
+      { title: '卡牌类型看形状', body: '插画窗形状区分类型：攻击下缘尖角，技能八角切边，能力下缘圆弧。类型名放在插画窗底部正中的小牌上，边框跟稀有度同色。' },
+      { title: '拖牌出手', body: '单体牌：牌抬起放大，牌顶拉出红色粗箭头，指到的敌人加红色准星，血条预演扣血并浮出「−14」，够击杀时写「击杀」。群体牌：不出箭头，牌拖过手牌线后所有敌人同时加准星和扣血预演。自身牌：拖过手牌线牌发光即可。拖回手牌取消。药水用同一套箭头和准星。' },
+    ].map((r, i) => ({ ...r, n: i + 1 }));
+    return { statuses, intents, rules };
+  }
+}
+</script>
+</body>
+</html>

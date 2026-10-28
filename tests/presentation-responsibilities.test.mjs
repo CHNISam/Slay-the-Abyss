@@ -5,6 +5,7 @@ import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {integration} from './helpers/presentation-m3-integration.mjs';
 import {toLua} from '../scripts/build-lua-data.mjs';
 
 const evidence=readFileSync('docs/reviews/official-update-log-removal-20261028.json.gz');
@@ -27,8 +28,21 @@ function verifyRetirement(entries){
  assert.deepEqual(entries,expected,'every other native write retains its exact value and global order');
  return expected;
 }
+function verifyCombinedRetirement(entries){
+ // Both independently reviewed changes start at the exact same frozen source
+ // trace. Their owned writes are disjoint, so compose them without new goldens.
+ verifyRetirement(proof.before.filter(row=>!retired(row)));
+ assert.deepEqual(proof.before,integration.before,'both approvals share the original 79543 writes');
+ assert.equal(integration.after.length,79757);assert.equal(traceHash(integration.after),1467902785);
+ const removed=integration.after.filter(retired);
+ assert.deepEqual(removed,proof.removed.map(item=>item.row),'the same 68 retired writes retain their values and order after M3');
+ const expected=integration.after.filter(row=>!retired(row));
+ assert.equal(expected.length,79689);assert.equal(traceHash(expected),2034622601);
+ assert.deepEqual(entries,expected,'all reviewed M3 and other native writes retain their values and global order');
+ return expected;
+}
 function runConservedTrace(){
- const expected=verifyRetirement(proof.before.filter(row=>!retired(row)));
+ const expected=verifyCombinedRetirement(integration.after.filter(row=>!retired(row)));
  // Encode repeated rows once; every ordered write is still checked individually.
  const rows=[],order=[],ids=new Map();
  for(const row of expected){
@@ -55,7 +69,7 @@ function runConservedTrace(){
 
 for (const [fixture, marker] of [
   ['text', 'PRESENTATION_WORDING_TRACE 361 1837256485'],
-  ['trace', 'PRESENTATION_NATIVE_TRACE 79475 1007819925'],
+  ['trace', 'PRESENTATION_NATIVE_TRACE 79689 2034622601'],
 ]) {
   test(`presentation responsibilities preserve the frozen ${fixture} contract`, () => {
     const result = fixture==='trace' ? runConservedTrace() : runLua(`tests/lua/presentation_responsibilities_${fixture}.lua`);
@@ -78,4 +92,16 @@ test('announcement retirement rejects restored notices and deleted changed reord
  const reordered=[...current];[reordered[0],reordered[1]]=[reordered[1],reordered[0]];
  assert.notEqual(current[0],current[1]);assert.throws(()=>verifyRetirement(reordered));
  assert.throws(()=>verifyRetirement([...current,'unreviewed insertion']));
+});
+
+test('combined M3 retirement rejects lost visual changes and restored or changed unrelated writes',()=>{
+ const current=integration.after.filter(row=>!retired(row));
+ verifyCombinedRetirement(current);
+ assert.throws(()=>verifyCombinedRetirement(proof.before.filter(row=>!retired(row))));
+ assert.throws(()=>verifyCombinedRetirement(integration.after));
+ assert.throws(()=>verifyCombinedRetirement(current.slice(1)));
+ const changed=[...current];changed[0]+=' UNREVIEWED';assert.throws(()=>verifyCombinedRetirement(changed));
+ const reordered=[...current];[reordered[0],reordered[1]]=[reordered[1],reordered[0]];
+ assert.notEqual(current[0],current[1]);assert.throws(()=>verifyCombinedRetirement(reordered));
+ assert.throws(()=>verifyCombinedRetirement([...current,'unreviewed insertion']));
 });

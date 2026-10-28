@@ -296,7 +296,8 @@
         "src/lua/abyss_fountain.lua",
         "src/lua/abyss_act2_events.lua",
         "src/lua/abyss_back_to_basics.lua",
-        "src/lua/abyss_ghosts_event.lua"
+        "src/lua/abyss_ghosts_event.lua",
+        "src/lua/abyss_nest_event.lua"
       ],
       "local": {
         "status": "coverage-recorded",
@@ -314,7 +315,9 @@
           "tests/lua/back_to_basics_event.lua",
           "tests/lua/back_to_basics_ui.lua",
           "tests/lua/ghosts_event.lua",
-          "tests/lua/ghosts_event_ui.lua"
+          "tests/lua/ghosts_event_ui.lua",
+          "tests/lua/nest_event.lua",
+          "tests/lua/nest_event_ui.lua"
         ]
       },
       "platform": {
@@ -3778,6 +3781,29 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "Local public event/Run bridge, existing-controls UI, constructor preparation and event-room reward transaction. Controlled full-pool and explicit development routes do not prove natural campaign or native acceptance."
+    },
+    {
+      "id": "nest",
+      "originalId": "Nest",
+      "choices": [
+        "continue",
+        "gold",
+        "dagger",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choice",
+        "result"
+      ],
+      "eligibility": "Unchanged Act2 full source pool; absent from restricted-seven default pool.",
+      "source": "src/lua/abyss_nest_event.lua",
+      "profile": "events",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED: public Nodes/Run transactions and generated controls tested, including controlled full Act2 source draw. This is not natural campaign acceptance. Uses generic event title while NodeUI has another owner. Native-client acceptance NOT_RUN; complete event pool and device acceptance remain pending."
     }
   ],
   "relics": [
@@ -5885,9 +5911,10 @@
         "upgraded"
       ],
       "channels": [
-        "explicit:Run.obtainCard"
+        "explicit:Run.obtainCard",
+        "explicit_event:nest:dagger"
       ],
-      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Nest explicit event acquisition and controlled full Act2 draw tested through permanent card transaction; complete source-pool content, natural campaign and platform acceptance remain pending."
     }
   ]
 }
