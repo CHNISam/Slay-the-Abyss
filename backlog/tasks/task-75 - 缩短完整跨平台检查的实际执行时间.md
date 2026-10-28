@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 09:52'
+updated_date: '2026-10-28 10:31'
 labels: []
 dependencies: []
 priority: medium
@@ -65,4 +65,6 @@ unknown路由修复：原110种子独占在Node22复现原30s超时；简单55�
 PR292最终组合已保留286/285、287、290精确父系；三处呈现证明冲突同时保留原逐写入guard和1703条选角插入/两方负例。组合主题用原hunk精确+10行并绑定前后完整SHA；原证明JSON不变。Node24.19最终呈现/正式入口/历史合同35/35、0skip、93.207s；架构218/1251，静态83原warnings零新增/432职责通过。详见FINAL-INTEGRATION-20261028.md；最终HEAD托管与合后CI待验，不Done。
 
 等待CI期间PR286新head 1bfb188e加入同一正式入口组合及准确账本。本轮保留完整父系和新增记录/两项断言；生产Lua/scripts/config/theme相对adf2575a逐字不变，保留原两层完整SHA/位置证明。自然/持久化/平台AC仍未通过。最终head更新后全量CI重新绑定，不借用adf旧结果作为新head通过。
+
+2026-10-28用户最新紧急授权：先合并当前结果，再由develop并行运行完整CI，不再将完整CI完成作为本轮人工收口的前置；历史失败、中断和未验实机仍保留，不修改任何测试预算或分支规则。同步最新develop比赛范围。
 <!-- SECTION:NOTES:END -->
