@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 01:36'
+updated_date: '2026-10-28 01:49'
 due_date: '2026-10-28'
 labels:
   - required
@@ -27,6 +27,7 @@ references:
   - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
+  - docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -69,6 +70,8 @@ ordinal: 42000
 2026-10-27 库存回归独立小片：保留 merchant seed21、真实购买 Iron Wave/石头和全部恢复/拒绝快照断言，只补测试账本漏记的聚财罐进房间12金币（含失效/Ectoplasm条件）。先在精确 c91 与仅加入 PR238 四项遗物定义的组合复现，再验证移除真实发金币的负例仍被原断言捕获。不改游戏效果、概率或商店池，不覆盖 PR238 本机未提交合并；Tungsten 来源与完整源池问题另留。
 
 2026-10-27宝箱与渠道切片：原AbstractChest/ShopScreen/MonsterRoomElite真实调用链→共同遗物队列front/tail→create/open/take/leave与商店Courier/精英公开领取接线。69独立连续RNG向量与源边界/生成UI定向通过；缺效果保留sourceId并不可领取，不缩池重抽。当前PR238完整Quality收口中，整体AC不勾。
+
+2026-10-28接续实际遗留成果：将16e9dfa7蜥蜴尾巴/黑星组合与原树三文件未提交药水计数修正接到最新b7dffdeb；保留双方原生轨迹测试、专用数据输入负例和全部旧断言。定向回归与完整当前SHA CI通过后合并，完整自然/平台AC仍不勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -123,4 +126,10 @@ ordinal: 42000
 2026-10-27运行时重算：以81f3ffd2的实际Run.new入口加载当前JSON与Lua，四职业各75张共300张的基本/升级Capability均通过；战士reward/src/shop各72个唯一ID，其他职业各71个，逐ID双版本无缺定义；四职业各33瓶药水均通过生产available定义检查。第三幕3弱/8强/3精英与三Boss均有生产路由，七普通事件仍缺MindBloom和Mysterious Sphere映射。PR252本次记待合，最终合并由主线程另行核对。证据：docs/evidence/m3-runtime-audit-20261027.json及docs/backlog-details/BACKLOG-UPDATE-20261027.md本轮节。Capability不代表逐牌实际执行或原版完整一致；定义注册和路由不代表自然获取、概率全链或平台通关。本次只更正首页与追加事实，状态、负责人、优先级、依赖和全部验收项保持，不新增勾选；历史数量和旧备注保留原样。
 
 2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
+
+2026-10-28四幕PR262与用户试玩并行的独立遗物切片：BlackStar已按全22件Boss池固定来源真实抽到、经Boss宝箱领取，再真实精英双遗物/独立绿钥匙及晚失败回滚验证；launch gate读取实际传入数据，28项回归通过，尚未合并或进入当前GIL。LizardTail零依赖回调、生产rare定义与获得/致命协调在独立23c50ef6 checkpoint接通，真实Run8组、组件/数据5项、原Fairy战斗6组与事件8组通过，架构209模块1221边、固定Luacheck84历史诊断零新增。源RedSkull血量回调先于复活并走既有TOP动作，Mark外门、最左Fairy优先、Tail永久-2与晚失败回滚保留。独立动作顺序、暂停选择/跨幕存续、旧事件夹具迁移、获得渠道与只读详情仍在复核，详见docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md；不改AC5-8/状态，不将受控获得与离线测试冒充自然取得、完整CI、候选或实机通过。免费路径受限窗口未知，未探测或回退收费模型，native Codex独立叶并行，费用节省未知。
+
+2026-10-28最新b7dffdeb组合已接入16e9dfa7的蜥蜴尾巴组件/共享复活/永久counter、战斗详情及黑星正式来源；原树三文件未提交奖励计数修正已复制到独立集成树，原树保留。两处冲突保留PR261原生样卡身份投影和遗物主题精确逆投影全部断言。209模块/1223边架构通过，Luacheck1.2.0固定84历史诊断零新增、370项职责度量通过，构建与数据校验通过。专项与当前SHA完整CI仍在验，不勾完整道具/自然/平台AC。
+
+2026-10-28接续验证：42项专用/内容/原生合同第一轮41过、清单聚合单进程1项超时。保留失败，改为inventory/black_star/lizard_tail_run/lizard_tail_persistence四个完整独立验证进程，每份原30秒及实际传入data保持；原22项完整清单回归通过。4个原语义变异全部killed_by_assertion。最终集成和状态统一收口PR266，不将受控证明当全池或实机完成。
 <!-- SECTION:NOTES:END -->

@@ -217,18 +217,17 @@ function M.eventDamage(run,value)
         if staged.hp<=0 then return false,'event_player_dead' end
         local lost=math.min(staged.hp,RelicHooks.onLoseHpLast(staged,value))
         staged.hp=staged.hp-lost
-        if lost>0 and staged.hp==0 then require('abyss_potion_fairy').outside(staged) end
+        if lost>0 and staged.hp==0 then
+            require('abyss_player_revive').outside(staged,function(healing)return M.heal(staged,healing)end)
+        end
         return true,lost
     end)
 end
 -- WindingHalls creates DamageInfo(null, amount), whose default is NORMAL.
 -- Room transition cleared Powers/block; do not consult a historical battle.
--- Unimplemented permanent damage/revival hooks must refuse, not act as HP_LOSS.
 function M.eventNormalDamage(run,value)
-    for _,id in ipairs(run.relics or {})do
-        if id=='lizard_tail' then return false,'event_damage_content_unavailable' end
-    end
-    -- Null owner does not dispatch Torii.onAttacked. Existing outside Fairy is shared.
+    -- Null owner does not dispatch Torii.onAttacked; permanent fatal reserves
+    -- share the event damage boundary without consulting a retained battle.
     return M.eventDamage(run,value)
 end
 function M.heal(run,value)
@@ -320,7 +319,7 @@ function M.obtainRelic(run,id)
         if definition.id=='circlet' then
             RelicHooks.obtainCirclet(staged);return true,definition.id
         end
-        for _,owned in ipairs(staged.relics) do if owned==definition.id then return false,'relic_already_owned' end end
+        for _,owned in ipairs(staged.relics) do if RelicHooks.localId(owned)==definition.id then return false,'relic_already_owned' end end
         local position
         if definition.replaces then
             for i,owned in ipairs(staged.relics) do if owned==definition.replaces then position=i;break end end
@@ -343,9 +342,10 @@ function M.obtainRelic(run,id)
         -- DataDisk still waits for the next atBattleStart. Keep unrelated
         -- legacy relic-snapshot behavior unchanged.
         if staged.phase=='combat' and staged.combat and not RelicHooks.owns(staged.combat,definition.id) and
-            (definition.id=='snake_skull' or definition.id=='data_disk' or definition.id=='damaru') then
+            (definition.id=='snake_skull' or definition.id=='data_disk' or definition.id=='damaru' or definition.id=='lizard_tail') then
             staged.combat.relics=staged.combat.relics or {}
             staged.combat.relics[#staged.combat.relics+1]=definition.id
+            if definition.id=='lizard_tail' then require('abyss_lizard_tail').onObtain(staged.combat)end
         end
         return true,definition.id
     end)
@@ -712,9 +712,16 @@ local function finishCombat(run)
         local prepared,why=RelicRewards.elite(run);if not prepared then return false,why end
         relicReward=prepared.items;run.relicPool=prepared.relicPool
     end
+    local emerald,emeraldReason=EmeraldRewards.offer(run,relicReward and #relicReward or 0)
+    if emeraldReason then return false,emeraldReason end
+    local stolen = run.combat.stolenGoldReward or 0
+    -- Source room rewards already contain GOLD, stolen GOLD, elite RELICs and
+    -- the independent key here. Card rewards are added after the potion roll.
+    local rewardCount=(goldStream and 1 or 0)+(stolen>0 and 1 or 0)
+        +(relicReward and #relicReward or 0)+(emerald and 1 or 0)
     local potion,potionRng,potionModifier
     if run.combat.roomSeed then
-        potion,potionRng,potionModifier=PotionRewards.prepare(run,2,{allEscaped=allEscaped})
+        potion,potionRng,potionModifier=PotionRewards.prepare(run,rewardCount,{allEscaped=allEscaped})
         PotionRewards.commit(run,potionRng,potionModifier)
     end
     local choices,nextCardRng,offset,cardUpgrades=CardPool.prepareRewards(run)
@@ -726,11 +733,8 @@ local function finishCombat(run)
     run.rewards, run.phase = { cards = choices, cardUpgrades = cardUpgrades, gold = gold, goldClaimed = gold == 0, potion = potion,
         cardResolved = false, manualContinue = true }, "reward"
     if relicReward then run.rewards.relics=relicReward end
-    local emerald,emeraldReason=EmeraldRewards.offer(run,relicReward and #relicReward or 0)
-    if emeraldReason then return false,emeraldReason end
     if emerald then run.rewards.emeraldKey=emerald end
     RelicHooks.previewCardReward(run,run.rewards,true)
-    local stolen = run.combat.stolenGoldReward or 0
     if stolen > 0 then
         run.rewards.stolenGold = {type="STOLEN_GOLD", amount=stolen, claimed=false}
         run.rewards.cardResolved, run.rewards.manualContinue = false, true
@@ -939,6 +943,9 @@ function M.skipPotionReward(run)
 end
 
 local function syncBattlePotions(run)
+    -- Paused card/pile/discard/scry continuations can consume a fatal reserve.
+    -- Publish its permanent counter before any inventory early return.
+    run.relicCounters=Combat.copy(run.combat.relicCounters or {})
     if run.combat.potionRngChanged then
         run.shopRng=run.shopRng and Combat.copy(run.shopRng)or {merchant=EventRandom.fromSeed(run.runSeed)}
         run.shopRng.potion=EventRandom.cloneState(run.combat.potionRng)

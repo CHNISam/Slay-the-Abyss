@@ -118,6 +118,15 @@
       ]
     },
     {
+      "id": "black_star",
+      "sourceId": "Black Star",
+      "name": "黑星",
+      "description": "精英敌人额外掉落1件遗物。额外遗物不会是营火遗物。",
+      "rarity": "boss",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
       "id": "black_blood",
       "name": "深燃之心",
       "description": "替换余烬之心。每场战斗胜利后回复12点生命。",
@@ -503,6 +512,15 @@
       "name": "手摇鼓",
       "description": "每个你的回合开始时，获得1层真言。",
       "rarity": "common",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "lizard_tail",
+      "sourceId": "Lizard Tail",
+      "name": "蜥蜴尾巴",
+      "description": "受到致命伤害时，基础治疗量为生命上限一半（向下取整，至少1点）。每局仅一次；仙灵药水优先，绽放印记阻止复活且不消耗次数。",
+      "rarity": "rare",
       "trigger": "hooks",
       "effects": []
     }

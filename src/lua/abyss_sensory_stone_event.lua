@@ -81,7 +81,6 @@ function M.options(_,event)
 end
 local function remember(run,event,num)
  local ok,why=dependencies(run);if not ok then return false,why end
- if num>1 and owns(run,'lizard_tail')then return false,'event_damage_content_unavailable'end
  local memories={1,2,3,4};R.shuffle(run.miscRng,memories)
  local groups,nextRng,offset=rewards(run,num);if not groups then return false,nextRng end
  event.memory,event.rewards,event.choiceCount=memories[1],groups,num

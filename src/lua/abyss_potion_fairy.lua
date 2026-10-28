@@ -21,13 +21,13 @@ local function revive(actor,inventory,capacity,relics,inCombat)
  end
  return nil
 end
-function M.fatal(state)
+function M.fatal(state,queuedFatal)
  local actor=state.player
  local slot=revive(actor,state.potionInventory,state.potionCapacity or state.rules.player.potionSlots,state.relics,true)
  if not slot then return false end
  require('abyss_events').emit(state,'potion_revive',{slot=slot,id='fairy_in_a_bottle',amount=actor.hp})
  -- Fairy is an automatic fatal path: no ordinary onUsePotion dispatch.
- require('abyss_relic_hooks').hpChanged(state,actor,0)
+ require('abyss_relic_hooks').hpChanged(state,actor,0,queuedFatal)
  return true
 end
 function M.outside(run)
