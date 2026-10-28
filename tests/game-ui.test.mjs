@@ -4,14 +4,33 @@ import { buildUI } from '../scripts/build-ui.mjs';
 import { gameLayout, resultStats } from '../scripts/game-ui-layout.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
 import { nativeTheme } from '../scripts/native-ui-theme.mjs';
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 test('composed native tree has exactly one menu, battle, map and node panel', () => {
   const layout = gameLayout();
   assert.equal(layout.script, 'abyss_ui');
-  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'combatRewards', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'potionEntry', 'potionPanel', 'prologuePanel', 'releaseNotesPanel']);
+  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'combatRewards', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'potionEntry', 'potionPanel', 'prologuePanel']);
   for (const control of layout.controls.filter(control => !['menuPanel', 'exitEntry'].includes(control.name))) {
     assert.equal(control.visible, false, `${control.name} must not bleed through during startup`);
+  }
+});
+
+test('title keeps one noninteractive theme-driven version label and no custom announcement', () => {
+  const theme = structuredClone(nativeTheme);
+  theme.layout.nativeMenu.codeVersion[0] = 25;
+  const layout = gameLayout(theme), menu = layout.controls.find(control => control.name === 'menuPanel');
+  const version = menu.children.find(control => control.name === 'codeVersion');
+  assert.equal(version.kind, 'text');
+  assert.equal(version.text.content, '', 'validated version is injected by the existing build');
+  assert.equal(version.text.autoSize, false);
+  assert.deepEqual(version.position, theme.layout.nativeMenu.codeVersion.slice(0, 2));
+  assert.equal(menu.children.some(control => control.name === 'releaseNotes'), false);
+  assert.equal(layout.controls.some(control => control.name === 'releaseNotesPanel'), false);
+  for (const device of [...Object.values(theme.canvas.devices), [2340, 1080]]) {
+    const scale = Math.min(device[0] / theme.canvas.base[0], device[1] / theme.canvas.base[1]);
+    for (const [i, margin] of [theme.canvas.safe.x, theme.canvas.safe.y].entries()) {
+      assert.ok((Math.abs(version.position[i]) + version.size[i] / 2 + margin) * scale <= device[i] / 2);
+    }
   }
 });
 
@@ -52,9 +71,14 @@ test('result settlement button starts hidden and uses the approved two-button pl
 
 test('generated Chinese display and native tree exercise the real game entry and run controllers', () => {
   buildUI();
+  const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
+  const narrative = readFileSync('build/lua/abyss_narrative.lua', 'utf8');
+  assert.ok(narrative.includes(`["codeVersion"]="v${version}"`));
+  assert.doesNotMatch(narrative, /releaseNotes|sourceCommit|sourceDirty/,
+    'runtime presentation carries only the current version, not announcement history or development identity');
   // Each real-tree fixture retains its bounded runner deadline and all cases.
   const scripts = [
-    ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 15$/m],
+    ['tests/lua/game_ui.lua', /^LUA_GAME_UI_PASS 16$/m],
     ['tests/lua/game_ui_deck.lua', /^LUA_GAME_UI_DECK_PASS 6$/m],
     ['tests/lua/game_ui_prologue.lua', /^LUA_GAME_UI_PROLOGUE_PASS 10$/m],
   ];

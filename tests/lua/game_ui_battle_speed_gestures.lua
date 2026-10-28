@@ -56,7 +56,6 @@ test("drag cancellation and viewport resize retire the setting gesture",function
 end)
 local transitions={
     {name="exit",open=function(h)return h:openExit()end,close=function(h)return h:closeExit()end},
-    {name="release notes",open=function(h)return h.releaseNotesUI:open()end,close=function(h)return h.releaseNotesUI:close()end},
     {name="character choice",open=function(h)return h:start()end,close=function(h)return h:closeCharacters()end},
 }
 for _,transition in ipairs(transitions)do
