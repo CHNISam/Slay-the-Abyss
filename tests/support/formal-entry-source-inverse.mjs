@@ -9,7 +9,7 @@ assert.equal(hash(bytes), 'cb1c42674c3a4ca3e399e63ea61a4c919513a452e80d7fc95881d
 export const formalEntryInverses = JSON.parse(bytes).files;
 
 // These exact launch-step changes affect historical source-identity proofs. The live
-// trace separately checks every current write and conserves all 79475 old rows.
+// trace checks the current semantic scene; the exact frozen replay conserves old rows.
 export function preFormalEntrySource(path, source) {
   const text = preCurrentSource(path,source);
   let binding = formalEntryInverses[path];

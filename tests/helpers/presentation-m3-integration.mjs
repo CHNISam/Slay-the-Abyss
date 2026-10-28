@@ -11,11 +11,13 @@ export const integration=JSON.parse(gunzipSync(bytes));
 export function acceptedPresentationSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
   let projected=preRetirementSource(path,source);
   if(path==='src/lua/abyss_node_ui.lua'){
-    assert.equal(digest(projected),'12e780e07556b588444d5eebae3ffc003bdbe44d39cea6fb907649805990ba06',
+    const historicalPlain=digest(projected)===integration.afterSha256[path];
+    if(!historicalPlain)assert.equal(digest(projected),'12e780e07556b588444d5eebae3ffc003bdbe44d39cea6fb907649805990ba06',
       'unreviewed integrated presentation source drift: '+path);
     const added="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
-    assert.equal(projected.split(added).length,2,'one exact reviewed Mushrooms label');
-    projected=projected.replace(added,'');
+    if(historicalPlain){
+      assert.equal(source.split(added).length,2,'current complete input retains the one reviewed Mushrooms label');
+    }else{assert.equal(projected.split(added).length,2,'one exact reviewed Mushrooms label');projected=projected.replace(added,'');}
   }
   assert.equal(digest(projected.replaceAll('\r\n','\n')),integration.afterSha256[path],
     'unreviewed integrated presentation source drift: '+path);

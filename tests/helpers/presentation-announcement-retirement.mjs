@@ -1,3 +1,4 @@
+import {historicalUiIdentity} from './historical-ui-replay.mjs';
 import {currentSourceLayers} from './task77-current-source-layers.mjs';
 import {preFormalEntrySource} from '../support/formal-entry-source-inverse.mjs';
 import assert from 'node:assert/strict';
@@ -35,7 +36,7 @@ export function preRetirementSource(path,source=existsSync(path)?readFileSync(pa
   assert(normalized!==null && [current.afterSha256,historical].includes(digest(normalized)),
    'unreviewed integrated retirement source drift: '+path+'; complete current competition source');
  }
- if(normalized!==null)normalized=preFormalEntrySource(path,normalized);
+ if(normalized!==null)normalized=preFormalEntrySource(path,historicalUiIdentity(path,normalized));
  if(path==='data/presentation/ui_theme.json' && digest(normalized)!==retirementSources.afterSha256[path]){
   assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','unreviewed integrated retirement source drift: '+path+' (complete frozen Mushrooms/Molten theme identity and mapping positions)');
   // Exact new glyph inverse; the complete accepted hash below still binds

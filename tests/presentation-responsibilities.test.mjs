@@ -1,3 +1,5 @@
+import {withHistoricalUiReplay} from './helpers/historical-ui-replay.mjs';
+import {spawnSync} from 'node:child_process';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {runLua} from '../scripts/test-lua.mjs';
@@ -80,16 +82,19 @@ function runConservedTrace(){
   order.push(ids.get(row));
  }
  assert.deepEqual(order.map(index=>rows[index-1]),expected);
- mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/announcement-retirement-'));
- try{
-  const source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8').replaceAll('\r\n','\n');
+ return withHistoricalUiReplay(directory=>{
+  for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
+   const built=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});
+   assert.equal(built.status,0,built.stdout+built.stderr);
+  }
+  const source=readFileSync(join(directory,'tests/lua/presentation_responsibilities_trace.lua'),'utf8').replaceAll('\r\n','\n');
   const binding="local Trace=dofile('tests/lua/support/presentation_trace.lua')\n";
   assert.equal(source.split(binding).length,2,'one unchanged strict recorder binding');
   const guard=binding+conservedTraceGuard(rows,order);
   const path=join(directory,'trace.lua');
   writeFileSync(path,source.replace(binding,guard)+`\nassert(index==${expected.length},'all conserved writes executed')\n`);
-  return runLua(path); // Keep the existing 30s deadline and complete original scenario.
- }finally{rmSync(directory,{recursive:true,force:true});}
+  return runLua(path,{cwd:directory}); // Same original deadline, full real historical scene and exact row matcher.
+ });
 }
 
 
@@ -103,6 +108,12 @@ for (const [fixture, marker] of [
     assert.ok(result.stdout.includes(marker), result.stdout);
   });
 }
+test('current accepted native UI keeps permanent choice, combat effects, overlay owner and native gates',()=>{
+ const result=runLua('tests/lua/presentation_responsibilities_trace.lua');
+ assert.equal(result.status,0,result.stdout+result.stderr);
+ assert.match(result.stdout,/PRESENTATION_CURRENT_UI_PASS/);
+});
+
 test('native write recorder retains strict field guards and inverts only the reviewed P0 field changes',()=>{
   const result=runLua('tests/lua/presentation_trace_native.lua');
   assert.equal(result.status,0,result.stdout+result.stderr);

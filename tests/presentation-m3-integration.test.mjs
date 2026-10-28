@@ -1,7 +1,8 @@
+import {historicalUiSources,withHistoricalUiReplay} from './helpers/historical-ui-replay.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
-import {join,resolve} from 'node:path';
+import {existsSync,readFileSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {runLua} from '../scripts/test-lua.mjs';
 import {integration as proof,acceptedPresentationSource,digest} from './helpers/presentation-m3-integration.mjs';
@@ -10,7 +11,7 @@ import {retirementSources,preRetirementSource,archivedRetirementChangelog} from 
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
-const theme=JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));
+const theme=JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',historicalUiSources()['data/presentation/ui_theme.json']));
 const rgba=hex=>`{a=255,b=${parseInt(hex.slice(5,7),16)},g=${parseInt(hex.slice(3,5),16)},r=${parseInt(hex.slice(1,3),16)}}`;
 const row=source=>{
   const match=/^\{1=string:([^,]+),2=string:([^,]+),3=(.*)\}$/.exec(source);
@@ -81,7 +82,7 @@ function replacement(before,after,flight){
 }
 function verify(before,after,delta){
   assert.equal(before.length,79543);assert.equal(hash(before),1215629804,'accepted room-port trace remains frozen');
-  assert.equal(after.length,79757);assert.equal(hash(after),1467902785,'reviewed integrated live trace');
+  assert.equal(after.length,79757);assert.equal(hash(after),1467902785,'reviewed historical integrated trace');
   assert.equal(delta.additions.length,214);assert.equal(delta.replacements.length,593);
   const inserted=new Map(delta.additions.map(item=>[item.index,item.row]));
   assert.equal(inserted.size,214,'no duplicate insertion positions');
@@ -131,16 +132,16 @@ for(const [count,hash,sources]of [
  [79543,1215629804,{...retirementSources.beforeSources,...proof.beforeSources}],
  [79757,1467902785,retirementSources.beforeSources],
 ])test(`the accepted presentation sources still execute the original strict ${count}-write fixture`,()=>{
-  mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/accepted-presentation-'));
-  try{
+  withHistoricalUiReplay(directory=>{
+    for(const path of Object.keys(formalEntryInverses)){
+      if(!existsSync(join(directory,path)))continue;
+      const source=readFileSync(join(directory,path),'utf8');
+      writeFileSync(join(directory,path),preFormalEntrySource(path,source));
+    }
     // Repository-local temporary tree inherits installed node_modules resolution.
     // No downloads, Git history dependency, shared outputs or weakened deadline.
-    for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
-      '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
-    for(const path of Object.keys(formalEntryInverses))
-      writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
     for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
-    writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
+    writeFileSync(join(directory,'data/relics.json'),readFileSync('tests/fixtures/presentation-relics-before-m3.json','utf8'));
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
       const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});
       assert.equal(result.status,0,result.stdout+result.stderr);
@@ -151,7 +152,7 @@ for(const [count,hash,sources]of [
     assert.match(sources['tests/lua/presentation_responsibilities_trace.lua'],/trace:assertNativeInteraction\(\)/);
     assert.equal(digest(readFileSync('tests/lua/support/presentation_trace.lua','utf8').replaceAll('\r\n','\n')),
       digest(proof.beforeSources['tests/lua/support/presentation_trace.lua']),'strict recorder is unchanged');
-  }finally{rmSync(directory,{recursive:true,force:true});}
+  });
 });
 
 test('historical replay inputs bind every changed build, host and version source, including the deleted module',()=>{

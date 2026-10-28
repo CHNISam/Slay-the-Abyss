@@ -117,7 +117,7 @@ test('accepted native-art compatibility permits only its two complete identities
  }
 });
 
-test('room port retains its accepted source identities alongside the strict reviewed live interaction trace',()=>{
+test('room port retains its historical source identities alongside separately tested current native interaction',()=>{
  assert.equal(roomSnapshot.base,'f1ab9a9c492071edd723f9285862766ad5ad289b');
  assert.deepEqual(Object.keys(roomSnapshot.afterSha256),Object.keys(review.sourceInputs));
  for(const [path,expected]of Object.entries(roomSnapshot.afterSha256)){
@@ -156,7 +156,7 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
  assert.equal(preRetirementSource(fixturePath,fixture.replaceAll('\n','\r\n')),preRetirementSource(fixturePath,fixture));
  assert.throws(()=>preRetirementSource(fixturePath,fixture+'\n-- unreviewed scenario drift\n'));
  assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('trace:assertNativeInteraction()','-- removed native guard')));
- assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('81392','81391')));
+ assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('PRESENTATION_CURRENT_UI_PASS','UNREVIEWED_CURRENT_UI_PASS')));
 });
 
 test('only exact Black Star and Tail placeholder additions reversibly project to the historical theme',()=>{
