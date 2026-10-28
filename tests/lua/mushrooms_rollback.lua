@@ -24,4 +24,3 @@ rejected(late,function()return N.chooseEvent(late,'fight')end);Combat.new=start;
 local dead=ready();assert(N.chooseEvent(dead,'fight'));dead.combat.player.hp=0;dead.combat.phase='defeat'
 assert(Run.finishCombat(dead));F.eq(dead.phase,'defeat');assert(not dead.rewards);assert(not F.owned(dead,'odd_mushroom'));assert(not Run.claimRelicReward(dead,1))
 print('MUSHROOMS_ROLLBACK_PASS 6 groups; SPECIAL no-queue/duplicate Circlet/smoke/owner mismatch/late failures')
-

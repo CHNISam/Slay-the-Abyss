@@ -74,14 +74,16 @@ test('Toxic Egg preview is detached; fresh actual obtain upgrades once and Ceram
  eq(previews,20);eq(obtains,1);eq(r.gold,gold+9);eq(r.nextDeckUid,uid+1)
  eq(r.deck[#r.deck].upgraded,true);eq(r.deck[#r.deck].upgrades,1);eq(chosen.uid,nil)
 end)
-test('controlled repeatable Searing Blow preview never becomes permanent makeStatEquivalentCopy',function()
+test('Searing Blow makeCopy keeps constructor count but resets upgraded and damage, never makeStatEquivalentCopy',function()
  local r=H.fixture();r.relics={};local original=H.Hooks.onPreviewObtainCard
  H.Hooks.onPreviewObtainCard=function(owner,card,d)
   original(owner,card,d);if card.cardId=='searing_blow'then card.upgraded=true;card.upgrades=7 end
  end
  read(r);H.Hooks.onPreviewObtainCard=original
  local chosen=offered(r,'searing_blow');eq(chosen.upgrades,7);assert(select(r,chosen))
- local actual=r.deck[#r.deck];eq(actual.cardId,'searing_blow');eq(actual.upgraded,false);eq(actual.upgrades,nil)
+ local actual=r.deck[#r.deck];eq(actual.cardId,'searing_blow');eq(actual.upgraded,false);eq(actual.upgrades,7);eq(actual.searingBlowCopyUpgrades,7)
+ local context={catalog={cards={}}};for _,d in ipairs(r.data.cards.cards)do context.catalog.cards[d.id]=d end
+ eq(H.C.cardDefinition(context,actual).effects[1].value,12)
 end)
 test('missing or capability-rejected drawn content refuses without reroll, partial previews or RNG publication',function()
  for _,kind in ipairs({'missing','capability'})do

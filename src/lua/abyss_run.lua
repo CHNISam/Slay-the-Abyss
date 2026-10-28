@@ -261,16 +261,20 @@ function M.prepareCard(run,id,options)
     local upgrades=options.upgrades or options.upgradeCount
     if upgrades~=nil and (not amount(upgrades) or upgrades>0 and not definition.upgrade) then return nil,'invalid_card_upgrade' end
     if options.upgraded and not definition.upgrade then return nil,'card_not_upgradeable' end
+    if options.searingBlowCopyUpgrades~=nil and options.upgraded~=nil and type(options.upgraded)~='boolean'then return nil,'invalid_card_copy'end
+    local offer={cardId=definition.id,upgraded=options.upgraded==true,
+        upgrades=upgrades,searingBlowCopyUpgrades=options.searingBlowCopyUpgrades}
+    if not Combat.validSearingBlowCopy(offer)then return nil,'invalid_card_copy'end
     local accepted,why=RelicHooks.beforeObtainCard(run,definition)
     if not accepted and why~='curse_prevented' then return nil,why end
-    return {cardId=definition.id,upgraded=options.upgraded==true,
-        upgrades=upgrades,blocked=not accepted}
+    offer.blocked=not accepted;return offer
 end
 function M.commitCard(run,offer)
     return M.transaction(run,function(staged)
         if type(offer)~='table' then return false,'invalid_card_offer' end
         local definition=cardDefinition(staged,offer.cardId)
         if not Capability.isImplemented(definition) then return false,'card_content_unavailable' end
+        if not Combat.validSearingBlowCopy(offer)then return false,'invalid_card_copy'end
         if offer.blocked then
             require('abyss_writhing_mass').externalObtain(staged)
             return true,'curse_blocked'
@@ -278,11 +282,13 @@ function M.commitCard(run,offer)
         local uid=staged.nextDeckUid
         if type(uid)~='number' or uid%1~=0 or uid<1 or uid>=9007199254740991.0 then return false,'invalid_deck_uid' end
         for _,card in ipairs(staged.deck) do if card.uid==uid then return false,'invalid_deck_uid' end end
-        local card={uid=uid,cardId=definition.id,upgraded=offer.upgraded==true}
+        local card={uid=uid,cardId=definition.id,upgraded=offer.upgraded==true,
+            searingBlowCopyUpgrades=offer.searingBlowCopyUpgrades}
         local upgrades=offer.upgrades
         if upgrades~=nil then
             if not amount(upgrades) or upgrades>0 and not definition.upgrade then return false,'invalid_card_upgrade' end
-            card.upgrades=upgrades;card.upgraded=upgrades>0
+            card.upgrades=upgrades
+            if card.searingBlowCopyUpgrades==nil then card.upgraded=upgrades>0 end
         end
         if card.upgraded and not definition.upgrade then return false,'card_not_upgradeable' end
         -- Relics receive the private entity before master-deck insertion.

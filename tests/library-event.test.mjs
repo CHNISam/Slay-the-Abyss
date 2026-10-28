@@ -6,7 +6,7 @@ import { runLua } from '../scripts/test-lua.mjs';
 const source=JSON.parse(readFileSync('tests/fixtures/library-source-contract.json','utf8'));
 test('Library locked source contract fixes20, duplicate rarity+identity retry, fresh obtain, float32 cached Sleep and separate Leave',()=>{
  assert.equal(source.sourceCommit,'319009d5df0a82d9fb0f23cc22322286c6a87ec0');assert.equal(source.sourceTree,'7b344415731748708a75d75c917f75c883f49fd0');
- assert.equal(source.sources.length,16);
+ assert.equal(source.sources.length,17);
  const event=source.sources.find(s=>s.path==='events/city/TheLibrary.java');
  assert.equal(event.gitBlobSha,'185c2916997d5b68539bc8208e5fc47e0d724484');assert.equal(event.sha256,'8cbe97b4a7a7904d3dbcd5f8940d94e31508cc6e3ca1e2299bd7dea5cf379ff6');
  for(const s of source.sources){assert.match(s.gitBlobSha,/^[a-f0-9]{40}$/);assert.match(s.sha256,/^[a-f0-9]{64}$/);assert.ok(s.size>0);assert.ok(s.url.includes(`/blob/${source.sourceCommit}/`));}
@@ -17,7 +17,7 @@ test('Library locked source contract fixes20, duplicate rarity+identity retry, f
  assert.deepEqual(source.behavior.cachedHealFacts,{'1':0,'2':1,'3':1,'49':16,'50':17,'70':23,'72':24,'75':25,'80':26,'100':33});
  assert.deepEqual(source.behavior.selection,{count:1,forUpgrade:false,forTransform:false,canCancel:true,forPurge:false,anyNumber:false});
  assert.deepEqual(source.behavior.completion,['selection or sleep','result','separate Leave','openMap']);
- assert.match(source.implementationBoundary,/original-V4 Read unavailable/);assert.match(source.implementationBoundary,/Forced Molten\/Frozen Egg Read refuses/);assert.match(source.implementationBoundary,/Native acceptance NOT_RUN/);
+ assert.match(source.implementationBoundary,/original-V4 Read unavailable/);assert.match(source.implementationBoundary,/Forced Frozen Egg Read refuses/);assert.match(source.implementationBoundary,/Native acceptance NOT_RUN/);
 });
 test('independent source-pool/offer/full-RNG oracle regenerates all17 cases exactly',()=>{
  const result=spawnSync('python',['tools/oracles/library-event-oracle.py','--check'],{encoding:'utf8',timeout:15000});

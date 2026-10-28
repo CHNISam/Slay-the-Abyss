@@ -260,7 +260,7 @@ function M.statusDetail(entry, rules, actor, battle)
     local n = number(entry.amount)
     local describe = descriptions[entry.id]
     if describe then return describe({ entry = entry, combat = rules.combat, actor = actor, n = n,
-        vulnerablePercent=battle and require('abyss_actor').vulnerablePercent(battle,actor)or rules.combat.vulnerablePercent }) end
+        vulnerablePercent=entry.id=='vulnerable'and (battle and require('abyss_actor').vulnerablePercent(battle,actor)or rules.combat.vulnerablePercent)or nil }) end
     return entry.description, entry.stack == "none" and "" or n
 end
 

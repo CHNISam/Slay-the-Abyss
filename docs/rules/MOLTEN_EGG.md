@@ -26,3 +26,10 @@
 组合吸收已审PR267精确9bab0cfd后，仅删除Nest临时Molten拒绝。原10项Nest阶段/金币/伤害/回滚用例保留，缺能力负例改为真实Molten获得效果：先RED 9过1失败 `event_obtain_content_unavailable`，解除后实测。新增真实Nodes组合覆盖80→74、1→0死亡仍获得、Fairy24/Tail40后再升级，下一战同UID的匕首保留15伤害/击杀成长5，晚失败复原HP、瓶槽、金币、UID与owner。其它未实现owner的Library/Sensory门禁保留。
 
 本地实际检查：19项来源/历史主题契约通过；架构213模块/1235边；Luacheck1.2.0保留84条显式历史诊断、零新增；4个原工程语义变异均被原断言杀死，2项原生UI契约通过。完整npm test已启动，曾见 `act2-intent-ui.test.mjs` 的原30秒Lua超时，尚未宣称完整通过；最终当前SHA的远端Quality需独立确认，不能用专项结果代替。
+
+
+## PR286 当前主线合流修正
+
+在 `e46bd5dd7205d29a4252d73b8623df921bbdab78` 上接续 PR286 精确 `d26bb05945371b74976daa1cef0a9e40c7db7cd6`，不回退正式 campaign、snapshot/intent 快路径与原预算回归。固定源 `cards/red/SearingBlow.java` 的 `makeCopy()` 特殊地保留构造计数，却重置 upgraded/baseDamage；不能把 Library 泛化为普通牌的全零复制，也不能泛化到走 FastCardObtainEffect 的商店。
+
+新增专属构造基点 `searingBlowCopyUpgrades`，普通无此字段的牌保留原式。真实 Library seed42：预览次数1/伤害16 → 构造复制次数1、未升级/伤害12 → 真正 Molten 获得次数2/伤害17 → 下一源战相同UID伤害17 → 再永久升级次数3/伤害23；普通次数2/伤害21 → 次数3/伤害27不变。非法基点/类型/标志与晚失败完整回滚独立测试；来源身份补入 Library 原来源合同。此为离线规则修正，不代表自然或官方客户端验收。
