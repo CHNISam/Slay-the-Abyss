@@ -56,6 +56,9 @@
     "buff": "#E6A24A",
     "debuff": "#A77BE0",
     "focus": "#F2D9A2",
+    "cardShadow": "#00000059",
+    "cardBody": "#161820",
+    "cardWell": "#0D0E12",
     "cardType": {
       "attack": "#B9483F",
       "skill": "#3F7FB9",
@@ -63,10 +66,18 @@
       "status": "#5C5F6B"
     },
     "rarity": {
-      "basic": "#8A8F9C",
-      "common": "#5F8FD6",
-      "uncommon": "#A974E0",
-      "rare": "#E0A243"
+      "basic": "#34363C",
+      "common": "#8C929D",
+      "uncommon": "#3F7FC6",
+      "rare": "#D4A54A",
+      "curse": "#6B4A44"
+    },
+    "rarityBand": {
+      "basic": "#24262B",
+      "common": "#3A3E46",
+      "uncommon": "#1F4677",
+      "rare": "#5E4111",
+      "curse": "#4A322E"
     },
     "node": {
       "visited": "#8E7448",
@@ -104,6 +115,7 @@
     "cardName": 17,
     "small": 14,
     "number": 22,
+    "cost": 24,
     "numberLarge": 34,
     "minimum": 14
   },
@@ -570,7 +582,7 @@
     "battlePotions": {
       "count": 5,
       "origin": [
-        -228,
+        -480,
         268
       ],
       "step": [
@@ -624,7 +636,7 @@
     "topBar": {
       "height": 48,
       "y": 316,
-      "note": "与节点页共用顶栏高度；右端 408..600 留给共用的卡组/退出按钮行。",
+      "note": "左侧按扫视顺序 生命 → 金币 → 消耗；右端 408..600 留给共用的卡组/退出按钮行。",
       "hpIcon": [
         -570,
         28
@@ -634,19 +646,19 @@
         100
       ],
       "goldIcon": [
-        236,
+        -420,
         28
       ],
       "gold": [
-        280,
+        -376,
         52
       ],
       "exhaustIcon": [
-        330,
+        -330,
         28
       ],
       "exhaust": [
-        368,
+        -292,
         44
       ]
     },
@@ -676,7 +688,17 @@
         132,
         92
       ],
-      "costDisc": 40
+      "costDisc": 40,
+      "trim": {
+        "shadow": 3,
+        "costOverhang": 4,
+        "costRing": 4,
+        "keyline": 1,
+        "typeTag": [
+          60,
+          16
+        ]
+      }
     },
     "hand": {
       "y": -250,
@@ -734,10 +756,10 @@
       "commitOverlap": 0.25,
       "cancelY": -185,
       "targetColumn": 220,
-      "aimDots": 10,
+      "aimDots": 14,
       "aimDot": [
         8,
-        18
+        24
       ],
       "reticlePad": 28
     },
@@ -788,6 +810,8 @@
     "enemyRow": {
       "y": 64,
       "xFrom": -192,
+      "xFromFew": 32,
+      "fewCount": 3,
       "xTo": 512,
       "portrait": 120,
       "bossPortrait": 168
@@ -849,10 +873,25 @@
       "node": 56,
       "bossNode": 96,
       "viewportHeight": 600,
-      "emeraldLabel": [0, -24, 96, 40],
+      "emeraldLabel": [
+        0,
+        -24,
+        96,
+        40
+      ],
       "emeraldIconY": 8,
-      "notice": [0, -324, 1160, 28],
-      "emeraldNotice": [0, -316, 1160, 40]
+      "notice": [
+        0,
+        -324,
+        1160,
+        28
+      ],
+      "emeraldNotice": [
+        0,
+        -316,
+        1160,
+        40
+      ]
     },
     "modal": {
       "size": [
@@ -940,13 +979,39 @@
       "note": "批准奖励列表构图；第四行容纳独立失金条目。列表和选牌台互斥，继续不增加逐项放弃确认。",
       "expanded": {
         "note": "仅五至六行独立奖励时扩展原列表面板至安全区内；保留64高按钮与批准字号，不合并绿钥匙或Black Star遗物。",
-        "stage": [0, 0, 640, 680],
-        "title": [0, 290, 560, 44],
-        "subtitle": [0, 238, 560, 40],
-        "rowOrigin": [0, 168],
+        "stage": [
+          0,
+          0,
+          640,
+          680
+        ],
+        "title": [
+          0,
+          290,
+          560,
+          44
+        ],
+        "subtitle": [
+          0,
+          238,
+          560,
+          40
+        ],
+        "rowOrigin": [
+          0,
+          168
+        ],
         "rowStep": 68,
-        "continue": [0, -308],
-        "potionLabel": [0, -242, 1040, 48]
+        "continue": [
+          0,
+          -308
+        ],
+        "potionLabel": [
+          0,
+          -242,
+          1040,
+          48
+        ]
       },
       "stage": [
         0,

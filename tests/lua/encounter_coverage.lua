@@ -1,3 +1,6 @@
+local slice=... or 1
+assert(type(slice)=='number' and slice%1==0 and slice>=1 and slice<=5,'invalid encounter coverage slice')
+local registered,encounterIndex,sampledSeeds=0,0,0
 -- TASK-15 supporting local evidence only: configured content, not STS1 AI parity,
 -- encounter balance, an original-data winning run, or platform acceptance.
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
@@ -15,9 +18,13 @@ local function same(actual, expected, name)
     for key, value in pairs(expected) do same(actual[key], value, name .. "." .. tostring(key)) end
     for key in pairs(actual) do assert(expected[key] ~= nil, name .. " added field " .. tostring(key)) end
 end
-local function test(name, action)
+local function test(name, action, queueGroup)
+    registered = registered + 1
+    local selected = queueGroup and 1 or encounterIndex <= 10 and 1 or encounterIndex <= 12 and 2 or encounterIndex <= 14 and 3 or encounterIndex <= 16 and 4 or 5
+    if slice ~= selected then return end
     action()
     count = count + 1
+    print("ENCOUNTER_COVERAGE_CASE " .. registered)
     print("ok " .. count .. " - " .. name)
 end
 local function events(state, kind)
@@ -135,6 +142,7 @@ end)
 
 local generated,sourceCounts = {},{}
 local Q,Bindings=require('abyss_encounter_queue'),require('abyss_room_encounters')
+if slice == 1 then -- keep the complete shared queue sample in one process
 for seed = 1, 256 do
     local queues=Q.new(tostring(seed))
     for _,tier in ipairs({'normal','elite'})do
@@ -144,14 +152,18 @@ for seed = 1, 256 do
             sourceCounts[source]=(sourceCounts[source]or 0)+1
         end
     end
+    sampledSeeds = sampledSeeds + 1
+    print('ENCOUNTER_COVERAGE_SEED ' .. seed)
 end
+end -- shared queue sample boundary
 test('all seventeen source queue identities appear without adding historical medium_slimes',function()
     local total=0;for source in pairs(sourceCounts)do total=total+1 end;equal(total,17,'source pool size')
     assert(generated.medium_slimes==nil and generated.large_acid==nil and generated.large_spike==nil)
     assert(generated.large_slime and generated.lots_of_slimes and generated.exordium_thugs)
-end)
+end,true)
 generated.boss_guardian=256 -- fixed launch Guardian-unseen profile, not a monster queue item
 for _, encounter in ipairs(data.enemies.encounters) do
+    encounterIndex = encounterIndex + 1
     test(encounter.id .. " rejects both adjacent out-of-range floors without mutation", function()
         for _, floor in ipairs({ encounter.minFloor - 1, encounter.maxFloor + 1 }) do
             local run = Run.new(data, 42)
@@ -168,7 +180,7 @@ for _, encounter in ipairs(data.enemies.encounters) do
         test(encounter.id .. " has a source binding in deterministic queue samples", function()
             assert(generated[encounter.id], "source binding absent across seeds 1..256: " .. encounter.id)
             print("coverage " .. encounter.id .. " queueItems=" .. generated[encounter.id])
-        end)
+        end,true)
     end
     test(encounter.id .. " starts at both legal floor endpoints and resolves original-data turns", function()
         for _, floor in ipairs({ encounter.minFloor, encounter.maxFloor }) do
@@ -213,3 +225,8 @@ for _, encounter in ipairs(data.enemies.encounters) do
     end)
 end
 print("encounter coverage: " .. #data.enemies.enemies .. " enemies, " .. intentCount .. " intents, " .. #data.enemies.encounters .. " encounters; " .. count .. " groups passed")
+
+assert(registered==53 and encounterIndex==18,'all original encounter coverage groups must register')
+assert(count==({37,4,4,4,4})[slice],'every selected original encounter coverage group must execute')
+assert(sampledSeeds==(slice==1 and 256 or 0),'every original queue seed must complete exactly once')
+print('ENCOUNTER_COVERAGE_SLICE ' .. slice .. ' ' .. count .. ' ' .. registered)

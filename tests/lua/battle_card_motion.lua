@@ -59,12 +59,14 @@ test('cancelled drag returns from its last actual pose and interpolation does no
     near(box.x,100);near(box.y,0)
     host:update(0.5) -- A source short drag intentionally remains selected; exercise long-drag cancellation.
     event('dragLayer','up',7,100,-300)
-    near(box.x,100);near(box.y,-300)
+    -- Returning to the hand cancels immediately, before drawing the release
+    -- coordinates. Animate home from the last visible pose (100,0).
+    near(box.x,100);near(box.y,0)
     local original,calls=Combat.cardPreview,0
     Combat.cardPreview=function(...)calls=calls+1;return original(...) end
     host:update(0.05)
     Combat.cardPreview=original
-    near(box.x,100+(restX-100)*0.3);near(box.y,-300+(restY+300)*0.3)
+    near(box.x,100+(restX-100)*0.3);near(box.y,restY*0.3)
     assert(calls==0,'pose updates recalculated card rules')
     assert(host.run.combat.energy==3 and #host.run.combat.hand==2)
 end)

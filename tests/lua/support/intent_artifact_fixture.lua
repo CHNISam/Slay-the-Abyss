@@ -24,8 +24,13 @@ local function difference(actual, expected)
         return nil
     end
     for key, value in pairs(actual) do
-        local mismatch = difference(value, expected[key])
-        if mismatch then return "." .. tostring(key) .. mismatch end
+        local wanted = expected[key]
+        -- Still visit every field on every frame. Equal scalar leaves need no
+        -- recursive Lua call; tables always recurse, including shared aliases.
+        if type(value) == "table" or value ~= wanted then
+            local mismatch = difference(value, wanted)
+            if mismatch then return "." .. tostring(key) .. mismatch end
+        end
     end
     for key in pairs(expected) do
         if actual[key] == nil then return "." .. tostring(key) .. ": missing value" end

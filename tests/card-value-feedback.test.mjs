@@ -13,16 +13,17 @@ test('value feedback stays inside the original description and never replaces ca
   for(const card of cards){
     assert.deepEqual(card.size,[148,208]);
     assert.deepEqual(card.children.find(c=>c.name==='label').size,[132,92]);
-    assert.deepEqual(card.children.map(c=>c.name),['glow','border','plate','nameBand','name','artPlate','art','type','label','costDisc','cost','hit']);
+    assert.deepEqual(card.children.map(c=>c.name),['glow','shadow','border','plate','nameBand','nameRule','name','artPlate','artWell','art',
+      'typeEdge','typeTag','type','label','costCore','costDisc','cost','hit']);
     assert.notEqual(card.children.find(c=>c.name==='art').visible,false);
     assert(card.children.find(c=>c.name==='label').text.minFontSize>=14);
   }
 });
 const linear=v=>{v/=255;return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4;};
 const luminance=hex=>[0.2126,0.7152,0.0722].reduce((n,w,i)=>n+w*linear(parseInt(hex.slice(1+i*2,3+i*2),16)),0);
-test('local colour contrast exceeds 4.5:1 on the original description background',()=>{
- for(const key of ['cardValueIncrease','cardValueDecrease','text']){
-   const a=luminance(theme.color[key]),b=luminance(theme.color.panel);
+test('local colour contrast exceeds 4.5:1 on the description backgrounds',()=>{
+ for(const background of ['panel','cardBody']) for(const key of ['cardValueIncrease','cardValueDecrease','text']){
+   const a=luminance(theme.color[key]),b=luminance(theme.color[background]);
    const ratio=(Math.max(a,b)+0.05)/(Math.min(a,b)+0.05);
    assert(ratio>=4.5,`${key}: ${ratio}`);
    console.log(`${key}: ${ratio.toFixed(3)}:1`);
