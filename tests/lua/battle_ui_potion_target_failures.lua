@@ -1,6 +1,18 @@
+local first,last=...
+first,last=first or 1,last or 4
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=7 and first<=last,'invalid potion failure slice')
+local registered,executed=0,0
 local H = dofile("tests/lua/support/potion_targeting_fixture.lua")
 local setup,Run,Combat,F,eq,untouched = H.setup,H.Run,H.Combat,H.F,H.eq,H.untouched
 local test,finish = H.suite("LUA_POTION_TARGET_FAILURES")
+local originalTest=test
+test=function(name,fn)
+ registered=registered+1
+ if registered<first or registered>last then return end
+ executed=executed+1
+ originalTest(name,fn)
+ print('POTION_TARGET_FAILURES_CASE '..registered)
+end
 
 test('core absent-target refusal remains atomic and does not default',function()
   local h,u=setup();local b=h.run.combat;local inv,events,energy=h.run.potions,#b.events,b.energy
@@ -46,3 +58,6 @@ test('genuinely click-only enemy remains usable after paired bottle input',funct
   click('enemy2');eq(h.run.potions[1],nil);eq(h.run.combat.enemies[2].hp,z-20)
 end)
 finish()
+assert(registered==7,'all original potion failure cases must register')
+assert(executed==last-first+1,'all selected potion failure cases must execute')
+print('POTION_TARGET_FAILURES_PART '..first..' '..last..' '..executed)

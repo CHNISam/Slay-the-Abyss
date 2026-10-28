@@ -1,3 +1,7 @@
+local first,last=...
+first,last=first or 1,last or 5
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=9 and first<=last,'invalid continuous feedback slice')
+local registered=0
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
@@ -5,10 +9,13 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local tests, failed = 0, 0
 local function test(name, fn)
+    registered = registered + 1
+    if registered < first or registered > last then return end
     tests = tests + 1
     local ok, err = pcall(fn)
     if not ok then failed = failed + 1 end
     print((ok and "ok" or "not ok") .. " feedback_continuous_cards " .. tests .. " - " .. name .. (ok and "" or ": " .. tostring(err)))
+    print("FEEDBACK_CONTINUOUS_CARDS_CASE " .. registered)
 end
 local function same(a, b)
     assert(type(a) == type(b), "state type changed")
@@ -270,3 +277,6 @@ end)
 
 assert(failed == 0, failed .. " continuous-card feedback tests failed")
 print("LUA_FEEDBACK_CONTINUOUS_CARDS_PASS " .. tests)
+assert(registered==9,"all original continuous feedback cases must register")
+assert(tests==last-first+1,"all selected continuous feedback cases must execute")
+print("FEEDBACK_CONTINUOUS_CARDS_PART "..first.." "..last.." "..tests)

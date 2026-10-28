@@ -1,8 +1,17 @@
+local first,last=...
+first,last=first or 1,last or 7
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=15 and first<=last,'invalid exit UI slice')
+local registered=0
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Combat, Nodes = F.Combat, F.Nodes
 local count = 0
-local function test(name, fn) fn(); count=count+1; print("ok exit UI "..count.." - "..name) end
+local function test(name, fn)
+    registered=registered+1
+    if registered<first or registered>last then return end
+    fn(); count=count+1; print("ok exit UI "..count.." - "..name)
+    print("GAME_UI_EXIT_CASE "..registered)
+end
 local function same(a,b)
     if type(a)~=type(b) then return false end
     if type(a)~="table" then return a==b end
@@ -239,3 +248,6 @@ test("cancel during feedback resumes its queue and later accepts game commands",
 end)
 
 print("LUA_GAME_UI_EXIT_PASS "..count)
+assert(registered==15,"all original exit UI cases must register")
+assert(count==last-first+1,"all selected exit UI cases must execute")
+print("GAME_UI_EXIT_PART "..first.." "..last.." "..count)

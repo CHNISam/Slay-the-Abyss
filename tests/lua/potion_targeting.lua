@@ -1,6 +1,18 @@
+local first,last=...
+first,last=first or 1,last or 4
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=5 and first<=last,'invalid potion targeting slice')
+local registered,executed=0,0
 local H = dofile('tests/lua/support/potion_gesture_fixture.lua')
 local Combat, Run = H.F.Combat, H.Run
 local test, finish = H.suite('LUA_POTION_TARGETING')
+local originalTest=test
+test=function(name,fn)
+ registered=registered+1
+ if registered<first or registered>last then return end
+ executed=executed+1
+ originalTest(name,fn)
+ print('POTION_TARGETING_CASE '..registered)
+end
 local function setup(ids, enemies)
     local h,u,p,e,t,d,deck,r,emit,tap=H.setup({'bash','defend'},enemies or {'cultist','jaw_worm'})
     h.run.potions={}
@@ -81,3 +93,6 @@ test('P06/P07/P08 lifecycle boundaries expire aiming and old enemy tokens',funct
     end
 end)
 finish()
+assert(registered==5,'all original potion targeting cases must register')
+assert(executed==last-first+1,'all selected potion targeting cases must execute')
+print('POTION_TARGETING_PART '..first..' '..last..' '..executed)
