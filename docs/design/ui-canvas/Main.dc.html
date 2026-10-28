@@ -79,11 +79,11 @@ button{font-family:inherit;cursor:pointer}
   <!-- 敌人 -->
   <sc-for list="{{enemies}}" as="e" hint-placeholder-count="5">
     <div style="{{e.col}}">
-      <div style="height: 58px; display: flex; align-items: center; animation: intentBob 2.4s ease-in-out infinite">
+      <div style="position: relative; height: 58px; display: flex; align-items: center; animation: intentBob 2.4s ease-in-out infinite">
           <div style="position: relative; flex: none; width: 58px; height: 58px; filter: drop-shadow(0 3px 3px #000000B0)">
             <svg style="position: absolute; inset: 0" width="58" height="58" viewBox="0 0 24 24" aria-hidden="true"><path d="{{e.ic.f}}" style="fill: {{e.ic.rim}}; stroke: #240A08; stroke-width: 1.6; paint-order: stroke"></path><path d="{{e.ic.s}}" style="fill: none; stroke: {{e.ic.rim}}; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"></path></svg>
           </div>
-          <sc-if value="{{e.ic.value}}" hint-placeholder-val="{{true}}"><span style="align-self: flex-end; margin: 0 0 2px -16px; font-size: 28px; line-height: 1; font-weight: 900; color: #FFF8EE; text-shadow: 0 2px 3px #000000CC; font-variant-numeric: tabular-nums">{{e.ic.value}}</span></sc-if>
+          <sc-if value="{{e.ic.value}}" hint-placeholder-val="{{true}}"><span style="position: absolute; left: -6px; bottom: -8px; font-size: 22px; line-height: 1; font-weight: 700; color: #FFF8EE; text-shadow: 0 2px 3px #000000CC; font-variant-numeric: tabular-nums">{{e.ic.value}}</span></sc-if>
       </div>
       <div style="position: relative; margin-top: 16px; width: 220px; height: {{e.box}}; display: grid; place-items: end center; opacity: {{e.fade}}">
         <div style="position: absolute; left: 40px; right: 40px; bottom: -4px; height: 18px; border-radius: 50%; background: #030202; opacity: 0.8"></div>
