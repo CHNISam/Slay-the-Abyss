@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Codex
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-28 15:34'
+updated_date: '2026-10-28 15:45'
 labels: []
 dependencies: []
 priority: medium
@@ -35,4 +35,6 @@ ordinal: 125000
 
 <!-- SECTION:NOTES:BEGIN -->
 PR307；固定Node24.18.0专项32项通过，后续手动诊断输入与门禁9项通过。YAML/Bash语法通过；规则集证据已保存，无保护修改。当前远端Quality40716938768仍排队，未完成Full/Fast性能验收。创建时发现未合入审计工作树已占TASK80，改用TASK81；误建草稿6/7未提交。
+
+PR307头11ff8b98真实Windows8片失败：原ci-downloads负例将第一个npm安装重试改99，但检查器只审旧rules作业，新增impact未纳入。最小修复将npm限制扫描扩展到整个Quality工作流，并逐安装步骤变异拒绝99重试。原失败与新负例本地Node24.18.0均通过，不删除原断言，不提高预算。
 <!-- SECTION:NOTES:END -->
