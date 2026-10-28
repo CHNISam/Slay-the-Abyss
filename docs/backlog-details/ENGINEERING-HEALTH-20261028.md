@@ -1,4 +1,4 @@
-# 仓库健康治理（TASK-79）
+# 仓库健康治理（复用TASK-74）
 
 基线为 2026-10-28 的 develop `7a87de3aec83281221a3680b0d02aeb5b41aa2ba`。根目录有大量其他执行者的未提交改动，本轮使用独立工作树；不执行桌面输入、不改共享历史。
 
@@ -33,4 +33,7 @@ Quality run [40679423990](https://github.com/CHNISam/Slay-the-Abyss/actions/runs
 
 随后出现仍在途PR302；用户明确要求保留该会话负责CI修复。本轮不接管或关闭它，PR301收窄为机制与存量清理，待其实际主线交付再验证治理组合，避免两批UI修复互相覆盖。302的Quick feedback精确base补取、shop Color mock及空间验证有独立价值；通知长文容量、unknown语义和原始/当前入口等审计证据仍保留供其收口。两个新TASK-79重号也须通过Backlog CLI处理，不直接改Markdown或静默覆盖他人任务。
 
-原始 PR、Ruleset、job 日志及本地全量盘点保存在根 `.artifacts/engineering-health/`，不提交凭证。当前完整CI和实际合后develop的结果在本PR/最终验收记录补齐；未取得最终CI证据前TASK-79保持进行中。平台导入/实机不在本次工程治理范围，没有占用桌面。
+PR302的精确8d42ce3c全部必要检查已成功，实际squash合入53fa164a9914dd8a7a5849ff741925dd3131f5e4。本次纯治理从该最新主线重新隔离，复用TASK-74；原隔离TASK-79只在恢复bundle保留，不向主线引入重复任务。未知意图与长提示显示另以CLI建立交接子任务，pr260独立成果交既有TASK-40，避免以可选显示复核拖住工程收口。
+
+原始 PR、Ruleset、job 日志及本地全量盘点保存在根 `.artifacts/engineering-health/`，不提交凭证。当前完整CI和实际合后develop的结果在本PR/最终验收记录补齐；没有最终CI证据不作通过声明。平台导入/实机不在本次工程治理范围，没有占用桌面。
+
