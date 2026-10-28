@@ -43,6 +43,7 @@ export async function runLuaWorkers(scripts, { cli, workers = 2, weights = {}, c
       child.on('error', error => { failure ??= `Lua worker could not run ${script}: ${error.message}`; });
       child.on('close', (code, signal) => {
         if (signal) failure ??= `Lua worker terminated by ${signal}: ${script}`;
+        if (code !== 0) failure ??= `Lua worker failed (${script}, exit ${code ?? 'unknown'})`;
         const stdout = Buffer.concat(chunks.stdout).toString('utf8');
         const stderr = Buffer.concat(chunks.stderr).toString('utf8') + (failure ? `\n${failure}\n` : '');
         if (failure || code !== 0) status = 1;

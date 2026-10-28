@@ -18,6 +18,10 @@ PR252的运行40524983643中，POSIX旧第一片975项JS全部通过，耗时119
 
 合并须核对PR精确head、base和当前attempt的三个必需作业，使用GitHub原生 `gh pr merge --squash --match-head-commit <SHA>`。完整源码检查、平台构建、官方导入、实机与UI体验仍分层记录。日志空白时读取对应job的原始日志，不能判为通过。
 
+2026-10-28轻量治理：develop 的原 Ruleset 仅允许 squash，并要求线性历史；master 保留 release/hotfix 的 merge 流程。既有 Licenses/inventory 加入 develop 必需检查，不新增验证作业。Quality 的 Windows 第一片在安装依赖前运行 `check-pr-history.mjs`，用事件中的精确 base/head SHA 分页读取 GitHub comparison，拒绝 PR 引入的任何合并提交（不检查 GitHub 合成 merge commit）。新依赖先独立合入 develop，再从它开始后续短分支，无需为每次基线前进重跑同步。历史读取失败或不完整会明确失败，不视作通过。它只做一次轻量 API 读取，不增加锁、轮询或另一套完整回归。
+
+Licenses 与 Quality、Quick feedback 一样使用 GitHub 原生同引用 concurrency；新提交取消旧提交，PR 与 develop 的运行独立。已结束的 cancelled 保留历史；只有确认被更新 HEAD 或实际合入提交覆盖的非终态运行才手动取消。queued 先核对 runner/开始时间，pending 步骤表示依赖尚未执行，不能据此判断卡死。最终以最新 develop SHA 的完整必要检查成功为准。
+
 候选构建与证据合同见[ENGINEERING.md](ENGINEERING.md)。不要通过加超时、删种子、删断言或跳过有效测试处理红灯。
 
 ## 核心分支原生保护

@@ -1,0 +1,622 @@
+{
+  "base": "7a87de3aec83281221a3680b0d02aeb5b41aa2ba",
+  "removedWorktrees": [
+    {
+      "path": "C:/Users/Administrator/.codex/worktrees/22e0/New folder",
+      "head": "598dd71d3b21b62f604ee89d57c289c00340a022",
+      "branch": "refs/heads/feat/ui-integration-ci-followup",
+      "reason": "Exact head or ancestor of a merged PR head whose squash merge remains on develop; recheck current status and preserve ignored evidence before removal.",
+      "ignoredBytes": 10208620
+    },
+    {
+      "path": "F:/New folder/.worktrees/engineering-upgrade",
+      "head": "417f5f914db6a04ad16fc957752450920f234426",
+      "branch": "refs/heads/feat/engineering-upgrade",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 272502553
+    },
+    {
+      "path": "F:/New folder/.worktrees/feat/engineering-potions-20261028",
+      "head": "5da746741a9c8aba5f9c562be8f58be39b347c21",
+      "branch": "refs/heads/feat/engineering-potions-20261028",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 6289265
+    },
+    {
+      "path": "F:/New folder/.worktrees/feat/engineering-structure-20261028",
+      "head": "ae82aaa46a01e13cb555f7388fbc20b46e319a7d",
+      "branch": "refs/heads/feat/engineering-structure-20261028",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 0
+    },
+    {
+      "path": "F:/New folder/.worktrees/feat/engineering-syntax-20261028",
+      "head": "dc25a17f7e70dc353652b45acf664385718173e7",
+      "branch": "refs/heads/feat/engineering-syntax-20261028",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 0
+    },
+    {
+      "path": "F:/New folder/.worktrees/formal-battle-ui",
+      "head": "1e79ea5bddf2d410515ec44e718e0ea57a33c21e",
+      "branch": "refs/heads/feat/formal-battle-ui",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 150883440
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-act3-falling",
+      "head": "5eb49c9000eb405e36c75481a5d2698b83cad57a",
+      "branch": "refs/heads/feat/m3-act3-falling",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5084872
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-act3-maw-growth",
+      "head": "56f4119e547b7a8b1374edf8723662bdf72bab64",
+      "branch": "refs/heads/feat/m3-act3-maw-growth",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5601898
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-act3-moai",
+      "head": "3328d1149ddac9eee9fbc4693f2facf22c80f0a1",
+      "branch": "refs/heads/feat/m3-act3-moai",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5062761
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-act3-orb-walker",
+      "head": "566d5344c20a2b382e01ce2211753a9e7d5a842a",
+      "branch": "refs/heads/feat/m3-act3-orb-walker",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4478974
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-act3-shapes",
+      "head": "e5cdd2cdac797ec9e65c347d5cbdd2eb38618a37",
+      "branch": "refs/heads/feat/m3-act3-shapes",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4428466
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-act3-transient",
+      "head": "0c674e0aeaca4df856a1f41eae71f5b266da3e55",
+      "branch": "refs/heads/feat/m3-act3-transient",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5471855
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-act3-winding",
+      "head": "f7b924fec2e59b67d4c0762f7310af14c3e0fbab",
+      "branch": "refs/heads/feat/m3-act3-winding",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5253894
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-audit-20261028",
+      "head": "8b53336ec43ebc669304423dd00765f1909dc474",
+      "branch": "refs/heads/chore/m3-audit-20261028",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4285806
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-class-potions",
+      "head": "91b34ab91b24e74b8c505d6905f91b9b8dedb5b6",
+      "branch": "refs/heads/feat/m3-class-potions",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5527911
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-core-optional-potions",
+      "head": "bcde948835dd65aeda41ad3ca8f194633dcffd6b",
+      "branch": "refs/heads/test/pr238-static-encounter-compat",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5289862
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-curses",
+      "head": "88dd0cce18912b69d9eee025d641298150a74947",
+      "branch": "refs/heads/feat/m3-curses",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 3218734
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-defect-completion",
+      "head": "5e01f302d6ccac3f881bdb46de66d709215f249a",
+      "branch": "refs/heads/feat/m3-defect-completion",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5177330
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-full-card-catalog",
+      "head": "29cc0dad8ea2c0de01da5e4c1d846b1f3c6864cb",
+      "branch": "refs/heads/feat/m3-full-card-catalog",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5201056
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-jaw-worm-horde",
+      "head": "1b74db0e02eee29045a4e54c54639dd575a391b8",
+      "branch": "refs/heads/feat/m3-jaw-worm-horde",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5307190
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-mushrooms-20261028",
+      "head": "c3d8eab2073b5dc365bdbe2bf65cc000c44b3992",
+      "branch": "refs/heads/feat/m3-mushrooms-20261028",
+      "reason": "Exact head or ancestor of a merged PR head whose squash merge remains on develop; recheck current status and preserve ignored evidence before removal.",
+      "ignoredBytes": 6220690
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-reward-source-completion",
+      "head": "eacfcca198c00927fc16c2cf2a171a4e71b1d457",
+      "branch": "refs/heads/fix/pr238-regen-boundary",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4149884
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-room-misc-ownership",
+      "head": "eab34b2c25a29ddc3cf40303c727371da70c7bd5",
+      "branch": "refs/heads/fix/m3-room-misc-ownership",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5316276
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-sensory-stone",
+      "head": "75771c03aae512d43ad8eca5b50749cf688d52c9",
+      "branch": "refs/heads/feat/m3-sensory-stone",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5322932
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-silent-completion",
+      "head": "894ef785c134c984a3482e4f6970b38faf39cc42",
+      "branch": "refs/heads/feat/m3-silent-completion",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 2101837
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-sprint-act2",
+      "head": "74dd3ae89c879ee5cc23d1fdd26a47f4fe408e4c",
+      "branch": "refs/heads/feat/m3-sprint-act2",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5472027
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-sprint-colorless",
+      "head": "94f57deb10bc88c707a403f72e2516ed06c70a85",
+      "branch": "refs/heads/feat/m3-sprint-colorless",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5152982
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-sprint-events",
+      "head": "babdece93e6b568285e1a074748f0257c10f8c3c",
+      "branch": "refs/heads/feat/m3-sprint-events",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5454219
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-sprint-inventory",
+      "head": "9ac88d2c17997d8e798e117f18b16e0ac6cf7584",
+      "branch": "refs/heads/feat/m3-sprint-inventory",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5439735
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-summon-visibility",
+      "head": "f07121290bac717ca04bfe9145010ec495873265",
+      "branch": "refs/heads/feat/m3-summon-visibility",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4247313
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-tomb-red-mask",
+      "head": "1a302cbb6e8bae158efcec447c24645429e251f9",
+      "branch": "refs/heads/feat/m3-tomb-red-mask",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5703225
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-toxic-egg",
+      "head": "d7ad61ede54087cb8d6a3cac3c7352c3c1f0c312",
+      "branch": "refs/heads/feat/m3-toxic-egg",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5298178
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-tungsten-card-hp-loss",
+      "head": "42d17f1c2ab771b63c4f9f5f546fda0face656ac",
+      "branch": "refs/heads/fix/m3-tungsten-card-hp-loss",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 2285948
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-tungsten-rod",
+      "head": "ff01ba077b5c61881b87c8bc3e4436793c728a0f",
+      "branch": "refs/heads/feat/m3-tungsten-rod",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 2393316
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-turn-end-order",
+      "head": "3dc09134170103210675e1baeb9f12ed019cf859",
+      "branch": "refs/heads/feat/m3-turn-end-order",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5669342
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-watcher-completion",
+      "head": "0fb2eccc2c24f4198de4553631d5c4a197d55f5e",
+      "branch": "refs/heads/feat/m3-watcher-completion",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 5495859
+    },
+    {
+      "path": "F:/New folder/.worktrees/potion-flex-speed",
+      "head": "7548c0f4c108dc416bf96c73a7834a0f5a9ce2b5",
+      "branch": "refs/heads/feat/potion-flex-speed",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 739223
+    },
+    {
+      "path": "F:/New folder/.worktrees/pr262-potion-inventory-slices",
+      "head": "1f0eddf4ea358a0ab46e30695f1bf799aa1c093e",
+      "branch": "refs/heads/fix/pr262-potion-inventory-slices",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4174440
+    },
+    {
+      "path": "F:/New folder/.worktrees/we-meet-canonical-host",
+      "head": "3c109d59733008aab15ce0b8c4bb987d35908873",
+      "branch": "refs/heads/feat/we-meet-canonical-host",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4694895
+    },
+    {
+      "path": "F:/sta-start-flow",
+      "head": "ba79edcd5f2391afd0f6bd4ea6189bea9815bb4b",
+      "branch": "refs/heads/feat/start-flow-polish",
+      "reason": "All unique commits are patch-equivalent accepted sources, reviewed later compositions, superseded equivalent fixtures or historical task metadata; source/history and ignored evidence must be preserved before removal.",
+      "ignoredBytes": 4785587
+    }
+  ],
+  "removedOrphanBranches": [
+    {
+      "name": "archive/source-port-expanded-20261026",
+      "head": "9af01bacfe1e0954246f35c03395b14003a10646",
+      "reason": "Explicit unfinished source-expansion alternative, intentionally kept apart from accepted mainline. Its old source-first specs, NeowRewards/OpeningHistory/SourceCardPools and final_build fixtures were replaced by later formal modules. Preserve exact9af01bac full alternative in verified recovery bundle plus human-readable index; remove active archive branch without claiming all bytes were merged."
+    },
+    {
+      "name": "feat/ci-lua-safe-overlap",
+      "head": "b44e1d2052fb4a4c9ab31ccd831cd1f2fb20b85a",
+      "reason": "PR283 exact implementation e6734f8b merged as9875c128. Only b44e1d20 after-merge delta is prior-run success/Done metadata for TASK75; latest task has newer open work. Preserve historical metrics in recovery, never overwrite current task with old Done."
+    },
+    {
+      "name": "feat/ci-safe-lua-scheduling",
+      "head": "13922078213afd7b2517a568d826500509f87888",
+      "reason": "Closed PR284 alternative classifies measured cost <= each original budget/3. Accepted PR283 instead uses conservative universal <10s overlap threshold; unknown/heavy run exclusively and unchanged deadlines. This is replaced alternative, not a missing required fix; preserve source in recovery only."
+    },
+    {
+      "name": "fix/card-drag-cancel",
+      "head": "ca73c8c5ba59b4a1ba1aabe2f3d5d622581047c4",
+      "reason": "Source fix and native-cursor migrations mapped to accepted source commits via PR252/267/297. Current abyss_card_input.lua and card_drag_cancel.lua exactly match source head; shared UI evolved. No independent code after accepted changes."
+    },
+    {
+      "name": "fix/m3-core-optional-potions",
+      "head": "e23c9828f422279267129e8820d0e6f315f68b47",
+      "reason": "Optional potion index compatibility and initial frozen battle partition changes mapped to PR238 accepted source. Current review documents and sparse-data regression retained; later5/7-way partitions supersede old3-way scheduling."
+    },
+    {
+      "name": "fix/m3-native-sharp-hide-order",
+      "head": "046f1afa30cd34186d685af7fa253909c2910eb9",
+      "reason": "Native Sharp Hide action ordering and full source-locked queue/draw boundary fixtures mapped to accepted source4ed3152b. Old task-planning-only commit carries no additional runtime work."
+    },
+    {
+      "name": "fix/pr238-ui-final-budget",
+      "head": "91b516e75a26f6ed4c71503eaf30c58ca73d49ec",
+      "reason": "Five-slice frozen BattleUI partition mapped to accepted sourcea0e967e0 on PR238; later seven slices retain original body/source proof. No independent test obligation omitted."
+    },
+    {
+      "name": "test/m3-potion-graph-assertions",
+      "head": "b5705eafdab292db5eef8bfd374d722192169f46",
+      "reason": "Graph-comparison regression mapped to accepted ec57062a with original review/evidence/support fixtures; task-plan delta is historical only."
+    },
+    {
+      "name": "test/m3-reward-source-completion",
+      "head": "b1e5f979584fb15a35f00feb342013b76261f28d",
+      "reason": "Reward source fixture migration mapped to accepted49f9879f; original source-completion and controlled unavailable-offer assertions retained. Task-plan delta is historical only."
+    }
+  ],
+  "preservedWorktrees": [
+    {
+      "path": "F:/New folder",
+      "head": "b6fb0f4a506d431b05a11d04dd05518cd6ec8b72",
+      "branch": "refs/heads/feat/ui-design-canvas",
+      "dirtyCount": 172,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/abyss-ui-native",
+      "head": "8849c853f8a2e7a43dd52fd9fee821872b077f38",
+      "branch": "refs/heads/feat/ui-redesign-native",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/backlog-gui",
+      "head": "e24a372c9a891881803d68b99fb35e83c44611ab",
+      "branch": "refs/heads/chore/backlog-reconcile-20261026",
+      "dirtyCount": 3,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/card-frame-polish",
+      "head": "41dda081f46f0cbad68e88e9b8f6924a0d5b93ca",
+      "branch": "refs/heads/feat/card-frame-polish",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/ci-lua-workers",
+      "head": "9875c128c3eadb34075efd81e45205f0bbe20736",
+      "branch": null,
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/ci-p0-repair",
+      "head": "7a87de3aec83281221a3680b0d02aeb5b41aa2ba",
+      "branch": "refs/heads/feat/ci-p0-repair",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/ci-speed",
+      "head": "ee92b7e82d3ef17f7c5b1d1745e8d9f946032eb4",
+      "branch": "refs/heads/feat/ci-speed",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/deduplicate-lua-tests",
+      "head": "61f35671da433653133d0a4ff1398251002a48fe",
+      "branch": "refs/heads/feat/deduplicate-lua-tests",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/license-audit",
+      "head": "ddd0c249a950ecb6f4d8a36a688f407cd77d955c",
+      "branch": "refs/heads/feat/license-audit",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m2-exit",
+      "head": "e1018704c9b8443845a0b54db879c4d7682bbe7c",
+      "branch": "refs/heads/feat/m2-exit-validation",
+      "dirtyCount": 11,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-delivery-integration",
+      "head": "787d770fabd23ee1982f605fd8fc764e1744da3a",
+      "branch": "refs/heads/feat/m3-delivery-integration",
+      "dirtyCount": 27,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-event-content",
+      "head": "16441072b396f04499148ebe6476c6ae96a55cec",
+      "branch": "refs/heads/feat/m3-event-content",
+      "dirtyCount": 19,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-events-full",
+      "head": "df982b8432a976ecb497516dd3d00594fb64ced8",
+      "branch": "refs/heads/feat/m3-events-full",
+      "dirtyCount": 89,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-next-content",
+      "head": "a4dac7723af8262a314758c87d92f421afea4911",
+      "branch": "refs/heads/feat/m3-next-content",
+      "dirtyCount": 93,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-pack-slice",
+      "head": "c69c51929ad82ec2d3b15e1b1aa6fd7f6d613b24",
+      "branch": "refs/heads/feat/m3-pack-slice",
+      "dirtyCount": 2,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-potions-full",
+      "head": "8984d1742c72b3bc174915683b5e790290d53317",
+      "branch": "refs/heads/feat/m3-potions-full",
+      "dirtyCount": 18,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-relic-pool",
+      "head": "f8c5c94523a38b857a8c19bf1c30e87577e51c10",
+      "branch": "refs/heads/feat/m3-relic-pool",
+      "dirtyCount": 13,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/m3-relic-revival-integration",
+      "head": "16e9dfa707f383b190478933e3dd85536527a884",
+      "branch": "refs/heads/feat/m3-relic-revival-integration",
+      "dirtyCount": 3,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/network-budget",
+      "head": "bac0ff6b3275019e49a38462ab904885d20120a3",
+      "branch": null,
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/p0-ci-audit",
+      "head": "7a87de3aec83281221a3680b0d02aeb5b41aa2ba",
+      "branch": "refs/heads/feat/p0-ci-audit",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/pr260-room-fixtures",
+      "head": "646d7e13e1541fa1292a931e1df0e1c155cf7e6b",
+      "branch": "refs/heads/fix/pr260-room-fixtures",
+      "dirtyCount": 0,
+      "recommendation": "preserve-independent-unabsorbed",
+      "cleanupReason": "Independent shop readonly controller feature and strict regression are not in develop."
+    },
+    {
+      "path": "F:/New folder/.worktrees/pr290-ci-closeout",
+      "head": "77c2d5e6850f1758b821e5e2d45be60e8b5ed8a4",
+      "branch": null,
+      "dirtyCount": 9,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/pr290-repair",
+      "head": "94544cfc1d0b5fcc38e466456d1e36def0afbc3b",
+      "branch": null,
+      "dirtyCount": 33,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/quality-repair",
+      "head": "f1cbb4b81ba4abcda440446a4cf4b5b3a3de38f6",
+      "branch": "refs/heads/feat/quality-repair",
+      "dirtyCount": 3,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    },
+    {
+      "path": "F:/New folder/.worktrees/ui-focus-return",
+      "head": "4b0ad423f98854c353f79e8ac38667a80a84b8e2",
+      "branch": "refs/heads/feat/ui-focus-return",
+      "dirtyCount": 1,
+      "recommendation": "preserve-dirty",
+      "cleanupReason": null
+    }
+  ],
+  "pr292": {
+    "head": "59960a17021da6e18f4d620858c59be3cedc7c60",
+    "recoveryBundles": [
+      {
+        "path": "F:\\New folder\\.artifacts\\integration-audit-final-history.bundle",
+        "verified": true,
+        "containsExactHeadRef": true,
+        "sha256": "238618f26dc42c08408bf8d4639c4ffc5ccdb03faa8aa7de909950a78a87fb30",
+        "bytes": 75094635
+      },
+      {
+        "path": "F:\\New folder\\.artifacts\\integration-emergency-cleanup-history.bundle",
+        "verified": true,
+        "containsExactHeadRef": true,
+        "sha256": "23d1fe70a64ee07ca3eca53cd17a0d4a36b347b27b2befeeae71cfd492659c0c",
+        "bytes": 75152904
+      },
+      {
+        "path": "F:\\New folder\\.artifacts\\formal-entry-closeout-20261028\\source.bundle",
+        "verified": true,
+        "containsExactHeadRef": true,
+        "sha256": "5a1862b2b3d8cc3dee87439e0b0d04d6e61f2abd48ce934753596783509584e6",
+        "bytes": 69655006
+      }
+    ],
+    "uniqueRoutingEngineeringAndEvidenceFiles": [
+      {
+        "path": "scripts/check-syntax.mjs",
+        "exactInDevelop": true
+      },
+      {
+        "path": "src/lua/abyss_run_potion_candidate.lua",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/lua/potion_candidate_boundaries.lua",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/responsibility-complexity.test.mjs",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/syntax-check.test.mjs",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/lua/support/unknown_event_routing_matrix.lua",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/lua/unknown_event_routing.lua",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/lua/unknown_event_routing_lower_2.lua",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/lua/unknown_event_routing_upper.lua",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/lua/unknown_event_routing_upper_2.lua",
+        "exactInDevelop": true
+      },
+      {
+        "path": "tests/unknown-routing-partitions.test.mjs",
+        "exactInDevelop": true
+      },
+      {
+        "path": "docs/reviews/INTEGRATION-CI-20261028.md",
+        "exactInDevelop": true
+      },
+      {
+        "path": "docs/reviews/FINAL-INTEGRATION-20261028.md",
+        "exactInDevelop": true
+      }
+    ],
+    "deletedFilesRelativeToFinal292Head": [],
+    "conclusion": "Original content and formal-entry source PRs286/290 were merged directly; engineering and unique routing/integration evidence files are retained byte-for-byte. Later UI/competition commits intentionally supersede shared-file states. Full exact292 history is verified in three bundles; no discarded independent292 production module found. This is source-preservation audit, not CI or platform acceptance."
+  },
+  "remainingRemoteBranches": [
+    "develop",
+    "master",
+    "feat/deduplicate-lua-tests"
+  ],
+  "recovery": "Root .artifacts/engineering-health/preserved/pre-cleanup-history.bundle (verified); ignored evidence moved under preserved/<name>-<sha>/; full read-only audit in root .artifacts/engineering-health/branch-audit.json"
+}

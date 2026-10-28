@@ -18,6 +18,8 @@
 - [ ] No secrets/PII in diff
 - [ ] Breaking changes documented + migration notes
 - [ ] Backlog task status updated
+- [ ] One independent slice from develop; dependencies have landed, with no cross-feature merges
+- [ ] After merge, compare the exact PR head before deleting its branch/worktree; retain dirty files, independent commits and unique evidence
 
 ## Screenshots / logs
 
