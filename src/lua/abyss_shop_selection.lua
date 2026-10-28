@@ -30,19 +30,23 @@ function M.new(owner, root, options)
         self.dirty=true
         self.entries = {}
         self.focus = nil
-        if self.selected and (not observe(self.selected) or owner.run.gold < self.selected.price) then self.selected = nil end
+        if self.selected and (not observe(self.selected) or self.selected.purchasable and owner.run.gold < self.selected.price) then self.selected = nil end
     end
-    function state:bind(key, category, slot, handler, name, description)
+    function state.inspectable(_self,category,offer)
+        return mobile() and category~='cards' and not offer.sold and not offer.unavailable
+    end
+    function state:bind(key, category, slot, handler, name, description, enabled, reason)
         local flow = owner.run.nodeFlow
         local offer = flow[category][slot]
         local q = {key=key,category=category,slot=slot,offer=offer,id=offer.id,price=offer.price,
             upgraded=offer.upgraded,run=owner.run,map=owner.map,flow=flow,
-            handler=handler,name=name,description=description}
+            handler=handler,name=name,description=description,purchasable=enabled,reason=reason}
         self.entries[key] = q
         return function()
             if not observe(q) then return false, 'stale_action' end
             if not mobile() then return handler() end
             if self.selected and self.selected.key == key then self.selected = nil else self.selected = q end
+            owner.notice=not enabled and reason or ''
             owner:render()
             return true
         end, function() return observe(q) end
@@ -54,10 +58,11 @@ function M.new(owner, root, options)
         if not q or q.offer ~= selected.offer or q.price ~= selected.price then self.selected = nil; return end
         local function buy()
             if self.selected ~= selected or not observe(selected) then return false,'stale_action' end
+            if not q.purchasable then return false,'unavailable_action' end
             self.selected = nil
             return q.handler()
         end
-        return '取消选择', '购买 · ' .. integer(selected.price), true, buy, nil,
+        return '取消选择', q.purchasable and ('购买 · ' .. integer(selected.price)) or '暂不可购买', q.purchasable, buy, nil,
             function() return self.selected == selected and observe(selected) end
     end
     function state:cancel()
@@ -106,7 +111,7 @@ function M.new(owner, root, options)
         self.dirty=moving
     end
     function state:update(dt)
-        if self.selected and (not observe(self.selected) or owner.run.gold < self.selected.price) then
+        if self.selected and (not observe(self.selected) or self.selected.purchasable and owner.run.gold < self.selected.price) then
             self:clear(); owner:render(); return
         end
         if not owner.visible or owner.mode ~= 'main' or not owner.run.nodeFlow

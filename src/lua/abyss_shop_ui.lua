@@ -39,10 +39,11 @@ function M.new(controller, ui)
     local action, commit, pageArrows = ui.action, ui.commit, ui.pageArrows
     local selection = ui.selection
     local function purchase(key, category, slot, enabled, handler, name, description, reason, attention)
-        local invoke, observe = selection:bind(key, category, slot, handler, name, description)
+        local invoke, observe = selection:bind(key, category, slot, handler, name, description, enabled, reason)
         -- Disabled goods still receive a fresh click to explain the refusal.
         -- Only enabled purchases arm a quote-owning transaction gesture.
-        return action(key, enabled, invoke, reason, attention, enabled and observe or nil)
+        local inspect=selection:inspectable(category,self.run.nodeFlow[category][slot])
+        return action(key, enabled or inspect, invoke, reason, attention, (enabled or inspect) and observe or nil)
     end
 
     local function shortfall(price)
@@ -175,7 +176,7 @@ function M.new(controller, ui)
     end
 
     local function writeRelic(tile, offer, availability)
-        state(tile, availability.enabled)
+        state(tile, availability.enabled or selection:inspectable('relics',offer))
         picture(tile:GetChild("icon"), Theme.icon.relic[offer.id])
         tile:GetChild("name").text = relicTitle(offer)
         tile:GetChild("description").text = offer.unavailable and '此稀有度暂无可售内容' or relicText(offer.id)
@@ -223,7 +224,7 @@ function M.new(controller, ui)
     end
 
     local function writePotion(tile, offer, definition, availability, full)
-        state(tile, availability.enabled)
+        state(tile, availability.enabled or selection:inspectable('potions',offer))
         picture(tile:GetChild('icon'), Theme.icon.potion[offer.id])
         tile:GetChild('name').text = definition and definition.name or (rarityNames[offer.rarity] or '') .. '药水'
         tile:GetChild('description').text = potionDescription(offer, full)
