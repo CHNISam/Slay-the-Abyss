@@ -30,6 +30,11 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '24.18.0'
+      - name: Check feature branch history
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/check-pr-history.mjs
       - run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --fetch-retries=0 --fetch-timeout=30000
       - name: Resolve exact comparison base
         if: github.event_name == 'pull_request'
@@ -49,7 +54,6 @@ jobs:
         run: |
           title_pattern='^(feat|fix|chore|docs|refactor|test|perf|ci)(\([^)]+\))?!?: .+'
           [[ "$PR_TITLE" =~ $title_pattern ]]
-          node scripts/check-pr-history.mjs
       - id: plan
         run: node scripts/ci-impact.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -233,11 +237,6 @@ jobs:
             git show --format= --check HEAD
           }
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Check feature branch history
-        if: github.event_name == 'pull_request' && matrix.shard == 1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/check-pr-history.mjs
       - name: Check Conventional Commit PR title
         if: github.event_name == 'pull_request'
         env:

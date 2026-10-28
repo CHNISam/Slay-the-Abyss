@@ -35,7 +35,7 @@ test('the immutable comparison is paginated and a merge on the last page is reje
 
 test('the existing required Quality checks history once before installing dependencies', () => {
   const workflow = readFileSync('.github/workflows/quality.yml', 'utf8');
-  assert.equal(workflow.split('run: node scripts/check-pr-history.mjs').length - 1, 1);
-  assert.match(workflow, /name: Check feature branch history\r?\n        if: github.event_name == 'pull_request' && matrix.shard == 1/);
+  assert.equal(workflow.split('node scripts/check-pr-history.mjs').length - 1, 1);
+  assert.match(workflow, /name: Check feature branch history\r?\n        if: github.event_name == 'pull_request'/);
   assert.ok(workflow.indexOf('run: node scripts/check-pr-history.mjs') < workflow.indexOf('- run: npm ci'));
 });
