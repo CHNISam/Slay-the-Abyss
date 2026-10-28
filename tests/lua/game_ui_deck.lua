@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local GameUI, Combat, Nodes, Data = F.GameUI, F.Combat, F.Nodes, F.Data
 local Presentation, Layout, Viewport, Theme = F.Presentation, F.Layout, F.Viewport, F.Theme
@@ -31,7 +32,7 @@ local function closeDeck(root) return root:GetChild("deckPanel"):GetChild("close
 test("deck overlay reads permanent UID and upgraded text and never changes the run or route", function()
     local ui, root = fixture()
     assert(not ui:openDeck() and not root:GetChild("deckEntry").visible)
-    ui:start()
+    testStart(ui)
     ui.run.deck[1].upgraded = true
     for i = 11, 40 do ui.run.deck[i] = {uid=100+i,cardId=ui.run.deck[1].cardId,upgraded=i%2==0} end
     local beforeRun, beforeMap = Combat.copy(ui.run), Combat.copy(ui.map)
@@ -53,7 +54,7 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     assert(not ui.mapUI:scrollBy(100) and ui.mapUI.scroll == scroll)
     mapControl(root:GetChild("mapPanel"),"focus"):GetChild("hit").click()
     assert(ui.mapUI.scroll == scroll)
-    assert(not ui:start() and not ui:settle())
+    assert(not testStart(ui) and not ui:settle())
     assert(same(beforeRun,ui.run) and same(beforeMap,ui.map), "view changed rules or RNG")
     local delayed = grid.refreshCallback
     assert(closeDeck(root))
@@ -64,7 +65,7 @@ end)
 
 test("grid discovers runtime index origin, including deferred callbacks, and reopens with fresh ownership", function()
     local ui, root = fixture()
-    ui:start()
+    testStart(ui)
     local grid = deckGrid(root)
     grid.indexBase, grid.deferRefresh = 1, true
     assert(ui:openDeck())
@@ -91,7 +92,7 @@ end)
 
 test("battle overlay cancels pending drag and blocks cards, potions, turn and reward commands", function()
     local ui, root = fixture()
-    ui:start() assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
+    testStart(ui) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     local battle = ui.run.combat
     local instance = battle.hand[1]
     ui.battleUI.gesture = {run=ui.run,battle=battle,turn=battle.turn,uid=instance.uid}
@@ -114,7 +115,7 @@ end)
 
 test("node overlay preserves the node presentation while preventing underlying transactions", function()
     local ui, root = fixture()
-    ui:start()
+    testStart(ui)
     ui.run.hp = 20 -- Rest is enabled only below full health in the approved camp UI.
     -- Navigation-only controlled boundary: use a real reachable source camp,
     -- not an edited first combat node that canonical entry must reject.
@@ -143,7 +144,7 @@ end)
 
 test("deck costs and descriptions use permanent upgraded instances instead of temporary hand growth", function()
     local ui, root = fixture()
-    ui:start()
+    testStart(ui)
     ui.run.deck = {
         {uid=101,cardId="barricade",upgraded=true}, {uid=102,cardId="whirlwind",upgraded=true},
         {uid=103,cardId="rampage",upgraded=true}, {uid=104,cardId="rampage",upgraded=false},
@@ -167,7 +168,7 @@ end)
 
 test("reward view cannot claim or skip beneath the deck overlay and resumes after closing", function()
     local ui, root = fixture()
-    ui:start() assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
+    testStart(ui) assert(ui.mapUI:choose(Nodes.available(ui.run,ui.map)[1].id))
     win(ui,root)
     click(root,'battlePanel','cardReward')
     local before = Combat.copy(ui.run)

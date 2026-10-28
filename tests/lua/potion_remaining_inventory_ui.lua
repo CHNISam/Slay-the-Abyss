@@ -1,6 +1,7 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Shop=require('abyss_run'),require('abyss_shop')
-local h,root=F.fixture();assert(h:start())
+local h,root=F.fixture();assert(testStart(h))
 local specs={{'attack_potion','攻击'},{'skill_potion','技能'},{'power_potion','能力'},
  {'colorless_potion','无色'},{'entropic_brew','果汁'},{'fairy_in_a_bottle','无法主动'}}
 for _,spec in ipairs(specs)do

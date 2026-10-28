@@ -45,7 +45,7 @@ for _, fast in ipairs({false, true}) do
         assert(speed:GetChild("label").text == (fast and "战斗速度：快速" or "战斗速度：普通"))
         assert(host.run == nil and host.map == nil and host.seed == seed, "toggling consumes neither a seed nor run RNG")
         assert(hit(root, "menuPanel/start").click() and host.characterOpen)
-        assert(hit(root, "characterPanel/traveler").click())
+        assert(hit(root, "characterPanel/traveler").click());assert(not host.run);assert(hit(root,"characterPanel/confirm").click())
         assert(host.mode == "map" and host.run.phase == "map")
         host:update(1) -- Finish the ordinary map focus interpolation before its node click.
         local available = F.Nodes.available(host.run, host.map)

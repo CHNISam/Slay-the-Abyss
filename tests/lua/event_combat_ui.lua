@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 -- Controlled chapter/event IDs, a late rare queue and explicit zero enemy HP
 -- isolate native host wiring. This is not a natural route or live UI evidence.
@@ -12,7 +13,7 @@ local function fixture(id)
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
  local host=F.GameUI.new(root,F.Data,F.Presentation,'click',{
   seed=42,prologue=false,campaign=true,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
- root.ui=host;assert(host:start())
+ root.ui=host;assert(testStart(host))
  local run=host.run
  -- Stage only completed prior chapters; the public transition owns source
  -- queues and map-birth context. This remains controlled, not natural play.

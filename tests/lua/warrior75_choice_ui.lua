@@ -1,7 +1,8 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
 local ui,root=F.fixture()
-ui:start();assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
+testStart(ui);assert(ui.mapUI:choose(F.Nodes.available(ui.run,ui.map)[1].id))
 local s=ui.run.combat
 -- This controlled fixture owns the historical native DeckUI choice ABI.
 dofile('tests/lua/support/native_choice_catalog.lua')(s)

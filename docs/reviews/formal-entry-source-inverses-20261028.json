@@ -1,0 +1,445 @@
+{
+  "base": "4a3167808006f67c0c267b453fb188fb6e370a0c",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "227057a69684500b144cdf3d37e16c9d5ac9435a6a268b14ee9c5120a0f8ffb0",
+      "afterSha256": "778b988de71e081f00d8254fd6d03c025da3fbc96abf11491c2eda5df1e1b546",
+      "hunks": [
+        {
+          "at": 566,
+          "before": [
+            "    \"geo\": 102005"
+          ],
+          "after": [
+            "    \"geo\": 102005,",
+            "    \"characterPortraits\": {",
+            "      \"hutao\": {",
+            "        \"id\": 102005,",
+            "        \"placeholder\": true",
+            "      },",
+            "      \"arlecchino\": {",
+            "        \"id\": 102005,",
+            "        \"placeholder\": true",
+            "      },",
+            "      \"furina\": {",
+            "        \"id\": 102005,",
+            "        \"placeholder\": true",
+            "      },",
+            "      \"raiden\": {",
+            "        \"id\": 102005,",
+            "        \"placeholder\": true",
+            "      },",
+            "      \"traveler\": {",
+            "        \"id\": 102005,",
+            "        \"placeholder\": true",
+            "      }",
+            "    }"
+          ]
+        },
+        {
+          "at": 873,
+          "before": [
+            "      \"emeraldLabel\": [0, -24, 96, 40],"
+          ],
+          "after": [
+            "      \"emeraldLabel\": [",
+            "        0,",
+            "        -24,",
+            "        96,",
+            "        40",
+            "      ],"
+          ]
+        },
+        {
+          "at": 880,
+          "before": [
+            "      \"notice\": [0, -324, 1160, 28],",
+            "      \"emeraldNotice\": [0, -316, 1160, 40]"
+          ],
+          "after": [
+            "      \"notice\": [",
+            "        0,",
+            "        -324,",
+            "        1160,",
+            "        28",
+            "      ],",
+            "      \"emeraldNotice\": [",
+            "        0,",
+            "        -316,",
+            "        1160,",
+            "        40",
+            "      ]"
+          ]
+        },
+        {
+          "at": 979,
+          "before": [
+            "        \"stage\": [0, 0, 640, 680],",
+            "        \"title\": [0, 290, 560, 44],",
+            "        \"subtitle\": [0, 238, 560, 40],",
+            "        \"rowOrigin\": [0, 168],"
+          ],
+          "after": [
+            "        \"stage\": [",
+            "          0,",
+            "          0,",
+            "          640,",
+            "          680",
+            "        ],",
+            "        \"title\": [",
+            "          0,",
+            "          290,",
+            "          560,",
+            "          44",
+            "        ],",
+            "        \"subtitle\": [",
+            "          0,",
+            "          238,",
+            "          560,",
+            "          40",
+            "        ],",
+            "        \"rowOrigin\": [",
+            "          0,",
+            "          168",
+            "        ],"
+          ]
+        },
+        {
+          "at": 1002,
+          "before": [
+            "        \"continue\": [0, -308],",
+            "        \"potionLabel\": [0, -242, 1040, 48]"
+          ],
+          "after": [
+            "        \"continue\": [",
+            "          0,",
+            "          -308",
+            "        ],",
+            "        \"potionLabel\": [",
+            "          0,",
+            "          -242,",
+            "          1040,",
+            "          48",
+            "        ]"
+          ]
+        },
+        {
+          "at": 2246,
+          "before": [
+            "        760,",
+            "        460"
+          ],
+          "after": [
+            "        1160,",
+            "        656"
+          ]
+        },
+        {
+          "at": 2251,
+          "before": [
+            "        174,",
+            "        680,"
+          ],
+          "after": [
+            "        294,",
+            "        1040,"
+          ]
+        },
+        {
+          "at": 2257,
+          "before": [
+            "        120,",
+            "        680,",
+            "        44"
+          ],
+          "after": [
+            "        246,",
+            "        1040,",
+            "        40"
+          ]
+        },
+        {
+          "at": 2263,
+          "before": [
+            "          -180,",
+            "          40,",
+            "          300,",
+            "          64"
+          ],
+          "after": [
+            "          -432,",
+            "          -202,",
+            "          196,",
+            "          60"
+          ]
+        },
+        {
+          "at": 2269,
+          "before": [
+            "          180,",
+            "          40,",
+            "          300,",
+            "          64"
+          ],
+          "after": [
+            "          -216,",
+            "          -202,",
+            "          196,",
+            "          60"
+          ]
+        },
+        {
+          "at": 2275,
+          "before": [
+            "          -180,",
+            "          -48,",
+            "          300,",
+            "          64"
+          ],
+          "after": [
+            "          0,",
+            "          -202,",
+            "          196,",
+            "          60"
+          ]
+        },
+        {
+          "at": 2281,
+          "before": [
+            "          180,",
+            "          -48,",
+            "          300,",
+            "          64"
+          ],
+          "after": [
+            "          216,",
+            "          -202,",
+            "          196,",
+            "          60"
+          ]
+        },
+        {
+          "at": 2288,
+          "before": [
+            "        0,",
+            "        -164,",
+            "        200,"
+          ],
+          "after": [
+            "        -430,",
+            "        -280,",
+            "        180,"
+          ]
+        },
+        {
+          "at": 2299,
+          "before": [
+            "        -150,",
+            "        -164,",
+            "        260,",
+            "        52"
+          ],
+          "after": [
+            "        432,",
+            "        -202,",
+            "        196,",
+            "        60"
+          ]
+        },
+        {
+          "at": 2309,
+          "before": [
+            "      ]"
+          ],
+          "after": [
+            "      ],",
+            "      \"confirm\": [",
+            "        360,",
+            "        -280,",
+            "        320,",
+            "        52",
+            "      ],",
+            "      \"elements\": [",
+            "        [",
+            "          -174,",
+            "          -126,",
+            "          104,",
+            "          52",
+            "        ],",
+            "        [",
+            "          -58,",
+            "          -126,",
+            "          104,",
+            "          52",
+            "        ],",
+            "        [",
+            "          58,",
+            "          -126,",
+            "          104,",
+            "          52",
+            "        ],",
+            "        [",
+            "          174,",
+            "          -126,",
+            "          104,",
+            "          52",
+            "        ]",
+            "      ],",
+            "      \"details\": {",
+            "        \"portrait\": [",
+            "          -414,",
+            "          72,",
+            "          240,",
+            "          260",
+            "        ],",
+            "        \"portraitNote\": [",
+            "          -414,",
+            "          -78,",
+            "          300,",
+            "          40",
+            "        ],",
+            "        \"name\": [",
+            "          136,",
+            "          194,",
+            "          720,",
+            "          44",
+            "        ],",
+            "        \"stats\": [",
+            "          136,",
+            "          146,",
+            "          720,",
+            "          40",
+            "        ],",
+            "        \"relic\": [",
+            "          136,",
+            "          100,",
+            "          720,",
+            "          44",
+            "        ],",
+            "        \"deckTitle\": [",
+            "          136,",
+            "          54,",
+            "          720,",
+            "          40",
+            "        ],",
+            "        \"cards\": [",
+            "          [",
+            "            -40,",
+            "            10,",
+            "            352,",
+            "            40",
+            "          ],",
+            "          [",
+            "            312,",
+            "            10,",
+            "            352,",
+            "            40",
+            "          ],",
+            "          [",
+            "            -40,",
+            "            -30,",
+            "            352,",
+            "            40",
+            "          ],",
+            "          [",
+            "            312,",
+            "            -30,",
+            "            352,",
+            "            40",
+            "          ],",
+            "          [",
+            "            -40,",
+            "            -70,",
+            "            352,",
+            "            40",
+            "          ],",
+            "          [",
+            "            312,",
+            "            -70,",
+            "            352,",
+            "            40",
+            "          ]",
+            "        ]",
+            "      }"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/game_ui_fixture.lua": {
+      "beforeSha256": "4346751c7e6f30417c5e4f675635f56ef59874ee5894d6f241ea8ea8d6b7a243",
+      "afterSha256": "e701fab0b109457d1b966cb316bb75848791df72cf5b6df87ccb938fe086b665",
+      "hunks": [
+        {
+          "at": 183,
+          "before": [],
+          "after": [
+            "-- Rule/room suites explicitly complete the production selection commands.",
+            "-- Entry-flow regressions use raw GameUI.start/select/confirm and native gestures.",
+            "local function confirmStart(ui,id)",
+            "    id=id or 'ironclad'",
+            "    local elements={ironclad=true,silent=true,defect=true,watcher=true}",
+            "    assert(ui:selectCharacter((elements[id] or id=='traveler') and 'traveler' or id))",
+            "    if elements[id] then assert(ui:selectElement(id))end",
+            "    return ui:confirmCharacter()",
+            "end",
+            "local function startRun(ui,id)",
+            "    local ok,reason=ui:start()",
+            "    if not ok then return ok,reason end",
+            "    return confirmStart(ui,id)",
+            "end",
+            "local function startButton(root)",
+            "    local ok=click(root,'menuPanel','start')",
+            "    if not ok then return ok end",
+            "    return confirmStart(root.ui)",
+            "end",
+            ""
+          ]
+        },
+        {
+          "at": 222,
+          "before": [],
+          "after": [
+            "    start = startRun,",
+            "    confirmStart = confirmStart,",
+            "    startButton = startButton,"
+          ]
+        }
+      ]
+    },
+    "tests/lua/presentation_responsibilities_trace.lua": {
+      "beforeSha256": "ed18758d1c26bd90b63440627d40ff464633db902079391705e3a251e07aeac8",
+      "afterSha256": "e3a234948c0ad4b2e1bd3ce01ca1fb7078980084b3246df99070c81b3f20eb31",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start"
+          ]
+        },
+        {
+          "at": 11,
+          "before": [
+            "assert(host:start());host:refresh()"
+          ],
+          "after": [
+            "assert(testStart(host));host:refresh()"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "-- Retirement deletes exactly 68 writes owned by the announcement entry/panel.",
+            "-- The JS contract independently preserves every other write and its global order.",
+            "assert(trace.count==79475 and trace.hash==1007819925,'ordered native writes changed from the reviewed announcement retirement contract')"
+          ],
+          "after": [
+            "-- All 79475 post-retirement writes remain ordered and unchanged. Formal entry",
+            "-- adds exactly 1703 separately bound writes; the JS contract checks every row.",
+            "assert(trace.count==81178 and trace.hash==580852422,'ordered native writes changed from the reviewed formal entry contract')"
+          ]
+        }
+      ]
+    }
+  }
+}

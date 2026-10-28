@@ -1,3 +1,5 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
+local testStartButton=dofile('tests/lua/support/game_ui_fixture.lua').startButton
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local cursor = {CursorEnter="enter", CursorExit="exit", CursorDown="down", CursorUp="up", CursorEndDrag="endDrag"}
 Enum = {CursorEventType=cursor}
@@ -37,7 +39,7 @@ local function setup()
     for _,enemy in ipairs(data.enemies.enemies) do enemy.hp,enemy.hpRange=1,nil end
     data.rules.player.startingGold=10000 -- funding only; offers/rules unchanged
     local ui,root=F.fixture(data,nil,nil,cursor)
-    ui.seed=42; assert(ui:start())
+    ui.seed=42; assert(testStart(ui))
     return reachShop(ui,root)
 end
 local function hit(root,key)
@@ -91,7 +93,7 @@ test("old shop card cannot buy in a restarted run",function()
     for i=1,3 do if ui.mode~="defeat" then F.click(root,"battlePanel","endTurn") end end
     assert(ui.mode=="defeat")
     local old=ui.run; ui.seed=42
-    F.click(root,"menuPanel","start"); assert(ui.run~=old)
+    testStartButton(root); assert(ui.run~=old)
     -- The real defeated Run now supplies this host's previous-run history.
     -- Complete the actual generated opening before navigating the new map;
     -- do not erase its pending node or reinterpret the held old shop gesture.

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
+import {preFormalEntrySource,formalEntryInverses} from './support/formal-entry-source-inverse.mjs';
 
 const directory='docs/reviews/presentation-native-m3-20261028';
 const digest=value=>createHash('sha256').update(value).digest('hex');
@@ -117,7 +118,7 @@ test('accepted native-art compatibility permits only its two complete identities
 
 // This inverse is test-only: no obsolete announcement control or module returns live.
 function preRetirementSource(path,source){
- const normalized=source.replaceAll('\r\n','\n');
+ const normalized=preFormalEntrySource(path,source);
  if(path==='data/presentation/ui_theme.json'){
   const theme=JSON.parse(normalized),old=JSON.parse(frozenSource(path));
   assert.equal(Object.hasOwn(theme.layout,'releaseNotes'),false,'announcement theme remains absent');
@@ -143,6 +144,15 @@ function preRetirementSource(path,source){
  }
  return normalized;
 }
+
+test('formal entry historical inverses are exact and reject unrelated source or guard changes',()=>{
+ for(const path of Object.keys(formalEntryInverses)){
+  const source=readFileSync(path,'utf8');
+  assert.equal(digest(preFormalEntrySource(path,source)),formalEntryInverses[path].beforeSha256);
+  assert.throws(()=>preFormalEntrySource(path,source+'\n-- unreviewed drift\n'));
+  assert.throws(()=>preFormalEntrySource(path,source.replace(/\S/,'!')));
+ }
+});
 
 test('room port keeps all reviewed current source identities and a strict live interaction trace',()=>{
  assert.equal(roomSnapshot.base,'f1ab9a9c492071edd723f9285862766ad5ad289b');

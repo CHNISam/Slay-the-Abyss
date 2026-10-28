@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Trace=dofile('tests/lua/support/presentation_trace.lua')
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
@@ -8,7 +9,7 @@ local host,root=F.fixture(nil,function(victory)trace:add({'settle',victory});ret
 trace:attach(root)
 host:refresh()
 assert(host:openExit());assert(host:closeExit())
-assert(host:start());host:refresh()
+assert(testStart(host));host:refresh()
 assert(host:openDeck());assert(host:closeDeck())
 assert(host:openPotions());assert(host:closePotions())
 -- A real camp flow exercises picker labels, card selection and continuation.
@@ -49,6 +50,6 @@ for _=1,70 do host:update(0.01)end
 assert(next(host.battleUI.feedback.effects)==nil)
 trace:assertNativeInteraction()
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
--- Retirement deletes exactly 68 writes owned by the announcement entry/panel.
--- The JS contract independently preserves every other write and its global order.
-assert(trace.count==79475 and trace.hash==1007819925,'ordered native writes changed from the reviewed announcement retirement contract')
+-- All 79475 post-retirement writes remain ordered and unchanged. Formal entry
+-- adds exactly 1703 separately bound writes; the JS contract checks every row.
+assert(trace.count==81178 and trace.hash==580852422,'ordered native writes changed from the reviewed formal entry contract')

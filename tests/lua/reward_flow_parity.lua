@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local Run,Combat,Data,Map,Nodes=require('abyss_run'),require('abyss_combat'),require('abyss_data'),require('abyss_map'),require('abyss_nodes')
@@ -113,7 +114,7 @@ test('map return held and released inputs expire across overlays and replacement
         button.listeners.down({touchId=8});button.listeners.up({touchId=8});button.click({touchId=8})
         assert(h.run.phase=='reward')
         t('continue',2);button.listeners.down({touchId=9});button.listeners.up({touchId=9})
-        local old=h.run;old.phase='defeat';h:refresh();assert(h:start());button.click({touchId=9})
+        local old=h.run;old.phase='defeat';h:refresh();assert(testStart(h));button.click({touchId=9})
         assert(old.floor<16 and h.run~=old and h.run.phase=='node' and h.run.pendingCombatRewards==nil)
         assert(h.run.nodeFlow.event.id=='neow' and h.run.neowHistorySource=='session-completed-run')
         local hp,maxHp,gold,deck,relics=h.run.hp,h.run.maxHp,h.run.gold,#h.run.deck,#h.run.relics

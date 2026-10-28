@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Map, Run = require("abyss_map"), require("abyss_run")
 local Source=dofile('tests/helpers/boss_source_fixture.lua')
@@ -12,7 +13,7 @@ local function fire(hit, kind, id) return assert(hit.listeners[kind], "missing "
 local function tap(hit, id) fire(hit,"down",id); fire(hit,"up",id); return fire(hit,"click",id) end
 local function beforeBoss(settle)
     local ui, root = F.fixture(nil, settle, nil, cursor)
-    assert(ui:start())
+    assert(testStart(ui))
     -- Routing fixture: advance map navigation to the real Boss encounter. This
     -- neither changes enemy definitions nor claims a complete normal playthrough.
     for _ = 1, F.Data.rules.map.bossFloor - 1 do assert(Map.choose(ui.map, Map.available(ui.map)[1].id)) end
@@ -92,7 +93,7 @@ test("explicit skip reaches victory and restart replaces all previous run state"
     local previous,amount=ui.run,#ui.run.relics
     assert(ui.nodeUI:press("back"))
     assert(ui.mode=="victory" and #ui.run.relics==amount)
-    assert(ui:start() and ui.run~=previous and ui.mode=="node")
+    assert(testStart(ui) and ui.run~=previous and ui.mode=="node")
     assert(ui.map.floor==0 and ui.run.nodeFlow~=previous.nodeFlow and ui.run.combat==nil and ui.run.rewards==nil)
     assert(ui.run.nodeFlow.roomKind=='neow' and ui.run.nodeFlow.event.stage=='neow_intro' and not ui.run.nodeFlow.complete)
     assert(ui.run.victories==0 and ui.run.elapsedSeconds==0)
@@ -156,6 +157,6 @@ test("earned Boss victory retries a failed request and submits its result once",
     assert(ui.nodeUI:press("back"))
     assert(not ui:settle() and calls==1 and not ui.settlementRequested)
     assert(ui:settle() and calls==2 and ui.settlementRequested)
-    assert(not ui:settle() and not ui:start() and calls==2)
+    assert(not ui:settle() and not testStart(ui) and calls==2)
 end)
 print("LUA_GAME_UI_BOSS_TREASURE "..count.."/"..count)

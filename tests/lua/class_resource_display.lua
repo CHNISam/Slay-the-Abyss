@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path="src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;"..package.path
 local F=require("support.game_ui_fixture")
 local X=require("support.experimental_ui_fixture")
@@ -8,7 +9,7 @@ local Combat=require("abyss_combat")
 local n=0
 local function test(name,fn)fn();n=n+1;print("ok class resource "..n.." - "..name)end
 local function start(id,card)
-    local ui,root=X.new();assert(ui:start(id))
+    local ui,root=X.new();assert(testStart(ui,id))
     ui.run.deck={};for i=1,12 do ui.run.deck[i]={uid=i,cardId=card,upgraded=false} end
     ui.run.nextDeckUid=13;assert(Run.startCombat(ui.run,"cultist_solo"));ui:refresh()
     return ui,root

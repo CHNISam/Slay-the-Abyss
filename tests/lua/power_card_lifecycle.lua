@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Combat, Run = require("abyss_combat"), require("abyss_run")
 local Events, data = require("abyss_events"), require("abyss_data")
@@ -110,7 +111,7 @@ end)
 test("native battle counter distinguishes used Power from true Exhaust cards", function()
     local F = dofile("tests/lua/support/game_ui_fixture.lua")
     local ui, root = F.fixture()
-    assert(ui:start())
+    assert(testStart(ui))
     ui.run.deck = {{uid=1,cardId="inflame",upgraded=false},{uid=2,cardId="impervious",upgraded=false}}
     ui.run.nextDeckUid = 3
     assert(Run.startCombat(ui.run, "cultist_solo")); ui:refresh()

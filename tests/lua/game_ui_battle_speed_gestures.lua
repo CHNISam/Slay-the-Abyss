@@ -1,3 +1,4 @@
+local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local cursor = {CursorDown="down", CursorUp="up", CursorExit="exit", CursorEndDrag="endDrag"}
@@ -84,7 +85,7 @@ end)
 for _,phase in ipairs({"defeat","victory"})do
     test(phase.." result hides the title-only speed control so it cannot overlap settlement",function()
         local host,root,hit=fixture(false)
-        assert(host:start("traveler"))
+        assert(testStart(host,"traveler"))
         -- Isolate the terminal renderer, rather than claiming an earned ending.
         host.run.phase=phase;host:refresh()
         assert(host.mode==phase and root:GetChild("menuPanel").visible)

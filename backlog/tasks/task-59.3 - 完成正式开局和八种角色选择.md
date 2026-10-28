@@ -1,0 +1,43 @@
+---
+id: TASK-59.3
+title: 完成正式开局和八种角色选择
+status: In Progress
+assignee:
+  - '@Codex'
+created_date: '2026-10-28 06:32'
+updated_date: '2026-10-28 07:17'
+labels:
+  - required implementation-gap
+milestone: m-4
+dependencies: []
+references:
+  - docs/backlog-details/TASK-59.3.md
+parent_task_id: TASK-59
+priority: high
+ordinal: 121000
+---
+
+## Description
+
+<!-- SECTION:DESCRIPTION:BEGIN -->
+玩家从主菜单启程，选择四名原创角色或旅行者元素，查看真实初始信息后确认冒险；不再直接开局或播放旧序章。按固定原版源码独立实现，保留并行卡框、拖牌和战斗成果。
+<!-- SECTION:DESCRIPTION:END -->
+
+## Acceptance Criteria
+<!-- AC:BEGIN -->
+- [ ] #1 正式原生入口统一显示五名角色及旅行者四元素，选择时只更新详情与单选高亮，确认后仅创建一次正确的Run。
+- [ ] #2 返回、取消、重开、鼠标触摸与手柄输入隔离通过离线回归；默认不播放旧序章，Neow、地图及战斗兼容。
+- [ ] #3 原生构建与现有必要门禁通过，最新develop同步后提交并合入PR；实机和设备未验收范围如实记录。
+<!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+核对319009d5七份原版源码及现有数据；复用职业适配构建只读选角信息和正式原生选择页；拆分选择/元素/确认并保留输入代次；补八形态和旧序章退役回归；同步PR267后跑门禁、构建、PR合入及清理。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+已完成正式原生选择/确认分离，八形态真实初始数据、Neow、结果手势和故障恢复专项通过。Node24.18.0下逐行证明旧79475条渲染写入全部保留，新增1703条仅选择页、无Run菜单重绘与隐藏choicePanel；12项历史/负例/当前轨迹门禁通过，30秒原预算保留。Node22部分全量记录含两项不支持test-isolation参数的环境失败，未冒称完整通过。未启动子代理/OpenCode，未占用键鼠。完整CI、GIL读回及最终集成待完成。
+<!-- SECTION:NOTES:END -->

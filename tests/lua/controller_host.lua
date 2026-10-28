@@ -26,7 +26,8 @@ local function event(control,name)
     return assert(control.navigationListeners[name or 'confirm'],'missing controller listener')(nil)
 end
 assert(focus==hit('menuPanel','start'),'title must have default focus')
-event(focus);assert(ui.mode=='map')
+event(focus);assert(ui.characterOpen and not ui.run)
+event(hit('characterPanel','traveler'));event(hit('characterPanel','confirm'));assert(ui.mode=='map')
 assert(focus and focus.parent.name:match('node'),'map defaults to an available route')
 event(focus);assert(ui.mode=='battle' and ui.map.floor==1)
 local battle=ui.run.combat
@@ -80,10 +81,9 @@ event(left);assert(#ui.run.deck==deck+1)
 print('controller host: native menu/map, pointer switch, target/cancel/play, untargeted play, overlays, turn and reward passed')
 ui:disable();assert(not focus or not focus.canControllerFocus)
 ui,root=F.fixture(nil,nil,nil,pointer,true,nil,nil,api)
-event(hit('menuPanel','start'));assert(ui.mode=='prologue' and ui.controller.scope=='prologue')
-event(hit('prologuePanel','skip'))
-for _=1,100 do ui:update(.05)end
-assert(ui.mode=='map' and not ui.prologue.playing)
+event(hit('menuPanel','start'));assert(ui.characterOpen and ui.controller.scope=='characters' and not ui.run)
+event(hit('characterPanel','traveler'));event(hit('characterPanel','confirm'))
+assert(ui.mode=='map' and ui.prologue==nil)
 event(focus);assert(ui.mode=='battle')
 local choiceBattle=ui.run.combat
 choiceBattle.hand={{uid=1000,cardId='strike'},{uid=1001,cardId='defend'}}
