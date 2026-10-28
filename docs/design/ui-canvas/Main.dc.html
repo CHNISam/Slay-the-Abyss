@@ -196,11 +196,7 @@ button{font-family:inherit;cursor:pointer}
   <!-- 药水瞄准：粗描边分段箭头 -->
   <sc-if value="{{isTarget}}" hint-placeholder-val="{{false}}">
     <div style="position: absolute; z-index: 6; inset: 0; background: #05030366"></div>
-    <svg width="1920" height="1080" style="position: absolute; z-index: 20; left: 0; top: 0; pointer-events: none" aria-hidden="true">
-      <path d="M450 84 C 700 360, 1100 120, 1250 296" style="fill: none; stroke: #0A0605; stroke-width: 16; stroke-dasharray: 22 12; stroke-linecap: round"></path>
-      <path d="M450 84 C 700 360, 1100 120, 1250 296" style="fill: none; stroke: #C8553D; stroke-width: 9; stroke-dasharray: 22 12; stroke-linecap: round"></path>
-      <path d="M1232 262 1284 322 1206 314Z" style="fill: #C8553D; stroke: #0A0605; stroke-width: 6; stroke-linejoin: round"></path>
-    </svg>
+    <sc-for list="{{trail}}" as="d" hint-placeholder-count="14"><svg style="{{d.st}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8Z" style="fill: {{d.c}}"></path></svg></sc-for>
     <div style="position: absolute; z-index: 20; left: 50%; top: 700px; transform: translateX(-50%); height: 52px; padding: 0 26px; border-radius: 10px; background: #221917F2; border: 1px solid #6E5A42; box-shadow: 0 12px 28px #00000090; display: flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 500; white-space: nowrap; color: #F3E6D0">
       <span style="color: #FF9A80">火焰药水</span>拖到一个敌人身上<span style="color: #8C6A44">·</span><span style="color: #C9A880">右键取消</span>
     </div>
@@ -208,11 +204,7 @@ button{font-family:inherit;cursor:pointer}
 
   <!-- 拖牌瞄准：与药水共用箭头和准星，箭头从牌顶出发 -->
   <sc-if value="{{isCardAim}}" hint-placeholder-val="{{false}}">
-    <svg width="1920" height="1080" style="position: absolute; z-index: 20; left: 0; top: 0; pointer-events: none" aria-hidden="true">
-      <path d="M724 470 C 780 250, 1080 170, 1250 296" style="fill: none; stroke: #0A0605; stroke-width: 16; stroke-dasharray: 22 12; stroke-linecap: round"></path>
-      <path d="M724 470 C 780 250, 1080 170, 1250 296" style="fill: none; stroke: #C8553D; stroke-width: 9; stroke-dasharray: 22 12; stroke-linecap: round"></path>
-      <path d="M1228 266 1286 318 1208 322Z" style="fill: #C8553D; stroke: #0A0605; stroke-width: 6; stroke-linejoin: round"></path>
-    </svg>
+    <sc-for list="{{trail}}" as="d" hint-placeholder-count="14"><svg style="{{d.st}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 14.2 9.8 23 12 14.2 14.2 12 23 9.8 14.2 1 12 9.8 9.8Z" style="fill: {{d.c}}"></path></svg></sc-for>
     <div style="position: absolute; z-index: 20; left: 50%; top: 700px; transform: translateX(-50%); height: 52px; padding: 0 26px; border-radius: 10px; background: #221917F2; border: 1px solid #6E5A42; box-shadow: 0 12px 28px #00000090; display: flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 500; white-space: nowrap; color: #F3E6D0">
       松手打出<span style="color: #8C6A44">·</span><span style="color: #C9A880">拖回手牌取消</span>
     </div>
@@ -337,8 +329,20 @@ class Component extends DCLogic {
       const x = (i * 617 + 140) % 1880, y = 140 + ((i * 373) % 560), r = 2 + (i % 3);
       return 'position: absolute; left: ' + x + 'px; top: ' + y + 'px; width: ' + r + 'px; height: ' + r + 'px; border-radius: 50%; background: #FFB060; opacity: ' + (0.12 + (i % 3) * 0.06) + '; box-shadow: 0 0 ' + (r * 4) + 'px #FF7A30';
     });
+    // Target line: a quadratic curve sampled into N star sprites that grow toward the target;
+    // once a valid target is under the pointer the tail turns red. Same for potions and cards.
+    const from = mode === 'cardaim' ? [724, 470] : [450, 84], to = [1262, 300];
+    const ctrl = [(from[0] + to[0]) / 2, Math.max(150, Math.min(from[1], to[1]) - 160)];
+    const N = 14;
+    const trail = Array.from({ length: N }, (_, i) => {
+      const t = (i + 1) / (N + 1), u = 1 - t;
+      const x = u * u * from[0] + 2 * u * t * ctrl[0] + t * t * to[0];
+      const y = u * u * from[1] + 2 * u * t * ctrl[1] + t * t * to[1];
+      const s = Math.round(10 + t * 18);
+      return { c: t > 0.6 ? '#E07A62' : '#F2D9A2', st: 'position: absolute; z-index: 20; left: ' + Math.round(x - s / 2) + 'px; top: ' + Math.round(y - s / 2) + 'px; width: ' + s + 'px; height: ' + s + 'px; filter: drop-shadow(0 0 4px ' + (t > 0.6 ? '#C8553D' : '#C9964E') + ')' };
+    });
     return {
-      enemies, tips, cards, menu, embers,
+      enemies, tips, cards, menu, embers, trail,
       isPotion: mode === 'potion', isCardAim: mode === 'cardaim', isTarget: mode === 'target', isStatus: mode === 'status', isMenu: mode === 'menu',
       fireRing: hot ? '#F6DFA4' : '#8A4A3A',
       fireGlow: hot ? '0 0 0 4px #E9C77B33, 0 0 22px #E9C77B66' : 'none',
