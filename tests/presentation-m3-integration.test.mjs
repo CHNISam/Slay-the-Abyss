@@ -4,7 +4,7 @@ import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSyn
 import {join,resolve} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {runLua} from '../scripts/test-lua.mjs';
-import {integration as proof,acceptedPresentationSource,digest,historicalRelics} from './helpers/presentation-m3-integration.mjs';
+import {integration as proof,acceptedPresentationSource,digest} from './helpers/presentation-m3-integration.mjs';
 
 import {retirementSources,preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 
@@ -137,7 +137,7 @@ for(const [count,hash,sources]of [
     for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
     for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
-    writeFileSync(join(directory,'data/relics.json'),historicalRelics());
+    writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
       const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:30000});
       assert.equal(result.status,0,result.stdout+result.stderr);
@@ -162,17 +162,30 @@ test('historical replay inputs bind every changed build, host and version source
  assert.match(retirementSources.beforeSources['tests/lua/presentation_responsibilities_trace.lua'],/assert\(trace.count==79757 and trace.hash==1467902785/);
 });
 
-test('historical relic projection rejects changed, missing, reordered and unrelated definitions',()=>{
- const source=readFileSync('data/relics.json','utf8');
- assert.equal(historicalRelics(source),historicalRelics(source.replaceAll('\r\n','\n').replaceAll('\n','\r\n')));
- const original=JSON.parse(source);
- for(const mutate of [
-  data=>{data.relics.find(row=>row.id==='molten_egg').rarity='common';},
-  data=>{data.relics=data.relics.filter(row=>row.id!=='odd_mushroom');},
-  data=>{data.relics.reverse();},
-  data=>{data.relics[0].name+='drift';},
- ]){
-  const data=structuredClone(original);mutate(data);
-  assert.throws(()=>historicalRelics(JSON.stringify(data,null,2)+'\n'),/unreviewed integrated/);
+test('historical relic input is the complete frozen pre-Molten/Mushrooms source, not a reduced live dataset',()=>{
+ const path='data/relics.json',live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ const before=readFileSync('tests/fixtures/presentation-relics-before-m3.json','utf8').replaceAll('\r\n','\n');
+ assert.equal(digest(before),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758');
+ assert.equal(preRetirementSource(path),before);
+ assert.equal(preRetirementSource(path,live.replaceAll('\n','\r\n')),before);
+ const current=JSON.parse(live),old=JSON.parse(before),ids=new Set(['molten_egg','odd_mushroom']);
+ const added=current.relics.filter(r=>ids.has(r.id));assert.equal(added.length,2);
+ assert.deepEqual({...current,relics:current.relics.filter(r=>!ids.has(r.id))},old,'all earlier relic definitions and their order remain exact');
+ for(const change of [
+  {...current,relics:current.relics.filter(r=>r.id!=='molten_egg')},
+  {...current,relics:[...current.relics].reverse()},
+  {...current,relics:current.relics.map(r=>r.id==='odd_mushroom'?{...r,name:'unreviewed'}:r)},
+  {...current,relics:current.relics.map((r,i)=>i===2?{...r,description:'unreviewed'}:r)},
+ ])assert.throws(()=>preRetirementSource(path,JSON.stringify(change,null,2)+'\n'),/unreviewed integrated retirement source drift/);
+});
+
+test('Mushrooms NodeUI label inverse keeps the complete historical source and rejects altered or moved additions',()=>{
+ const path='src/lua/abyss_node_ui.lua',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ const added="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
+ assert.equal(acceptedPresentationSource(path),proof.beforeSources[path]);
+ const moved=source.replace(added,'').replace("ghosts={name='幽灵'},",added+"ghosts={name='幽灵'},");
+ for(const changed of [source.replace(added,''),source.replace(added,added+added),moved,
+   source.replace(added,added.replace("name='蘑菇'","name='changed'")),source+'\n']){
+  assert.notEqual(changed,source);assert.throws(()=>acceptedPresentationSource(path,changed),/unreviewed integrated presentation source drift/);
  }
 });

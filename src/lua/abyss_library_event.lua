@@ -122,8 +122,14 @@ local function select(run,event,token)
   or d.sourceId~=selected.sourceCardId or d.rarity~=selected.rarity or d.color~=colors[run.data.runCardCharacter] then
   return false,'card_content_unavailable'
  end
- -- makeCopy, NOT makeStatEquivalentCopy: selected preview state is not obtained.
- local accepted,uid=Run.obtainCard(run,selected.cardId)
+ -- makeCopy, NOT makeStatEquivalentCopy. SearingBlow's constructor alone
+ -- carries timesUpgraded, while resetting upgraded and baseDamage to 12.
+ local options
+ if selected.cardId=='searing_blow'then
+  local n=selected.upgrades or (selected.upgraded and 1 or 0)
+  options={upgrades=n,upgraded=false,searingBlowCopyUpgrades=n}
+ end
+ local accepted,uid=Run.obtainCard(run,selected.cardId,options)
  if not accepted then return false,uid end
  event.selectedOffer,event.obtainedCardUid,event.stage=token,uid,'result'
  event.body='你合上书本，获得了一张卡牌。'

@@ -19,10 +19,8 @@ test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with
   // PR282 relocates only the existing version geometry and retires notices.
   expected.layout.nativeMenu.codeVersion=expected.layout.releaseNotes.menuVersion;
   delete expected.layout.releaseNotes;
-  // Only the two explicitly reviewed relic placeholders extend the old art map.
-  expected.icon.relic = {odd_mushroom:{id:102028,placeholder:true,
-    note:'奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。'},...expected.icon.relic,
-    molten_egg:{id:102031,placeholder:true,note:'暂沿用现有遗物图标；专属美术与设备验收待完成。'}};
+  expected.icon.relic.molten_egg={id:102031,placeholder:true,note:'暂沿用现有遗物图标；专属美术与设备验收待完成。'};
+  expected.icon.relic.odd_mushroom={id:102028,placeholder:true,note:'奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。'};
   assert.deepEqual(JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8')),expected);
 });
 

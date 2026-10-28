@@ -13,26 +13,12 @@ export function acceptedPresentationSource(path,source=existsSync(path)?readFile
   if(path==='src/lua/abyss_node_ui.lua'){
     assert.equal(digest(projected),'12e780e07556b588444d5eebae3ffc003bdbe44d39cea6fb907649805990ba06',
       'unreviewed integrated presentation source drift: '+path);
-    const insertion="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
-    assert.equal(projected.split(insertion).length,2,'one exact Mushrooms event copy insertion');
-    projected=projected.replace(insertion,'');
+    const added="mushrooms={name='蘑菇',body='发光的蘑菇覆盖了通道。',leave='你离开了蘑菇群。'},";
+    assert.equal(projected.split(added).length,2,'one exact reviewed Mushrooms label');
+    projected=projected.replace(added,'');
   }
   assert.equal(digest(projected.replaceAll('\r\n','\n')),integration.afterSha256[path],
     'unreviewed integrated presentation source drift: '+path);
   assert.equal(typeof integration.beforeSources[path],'string','accepted presentation source exists');
   return integration.beforeSources[path];
-}
-
-// Historical builds use the old theme and therefore the old relic definitions.
-// Both complete identities are fixed; live data and the rule source locks stay intact.
-export function historicalRelics(source=readFileSync('data/relics.json','utf8')){
-  const normalized=source.replaceAll('\r\n','\n');
-  assert.equal(digest(normalized),'58b83f2a4152561057c654d80d5f6511604b4bef2faf141a333f3daffdbb6566',
-    'unreviewed integrated relic definitions');
-  const data=JSON.parse(normalized);
-  data.relics=data.relics.filter(row=>!['molten_egg','odd_mushroom'].includes(row.id));
-  const projected=JSON.stringify(data,null,2)+'\n';
-  assert.equal(digest(projected),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758',
-    'complete historical relic definitions');
-  return projected;
 }

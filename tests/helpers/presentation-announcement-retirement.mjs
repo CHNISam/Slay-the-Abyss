@@ -16,7 +16,7 @@ assert.equal(retirementSources.head,'d7fa6f219a1461cf2b461f03724fb00da79e621f');
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
  let normalized=source===null?null:source.replaceAll('\r\n','\n');
  if(path==='data/presentation/ui_theme.json'){
-  assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','unreviewed integrated retirement source drift: complete frozen Mushrooms/Molten theme identity and mapping positions');
+  assert.equal(digest(normalized),'992e36ac0923209eb0ae09eac564e2685b0768a5cbbe211762e6b62b723478cf','unreviewed integrated retirement source drift: '+path+' (complete frozen Mushrooms/Molten theme identity and mapping positions)');
   // Exact new glyph inverse; the complete accepted hash below still binds
   // every old byte and prevents unrelated deletions, edits or reordered fields.
   const molten=",\n      \"molten_egg\": {\n        \"id\": 102031,\n        \"placeholder\": true,\n        \"note\": \"暂沿用现有遗物图标；专属美术与设备验收待完成。\"\n      }";
@@ -27,6 +27,18 @@ export function preRetirementSource(path,source=existsSync(path)?readFileSync(pa
   assert.equal(normalized.split(relic).length,2,'one relic mapping container');
   assert.equal(normalized.slice(at,at+mushroom.length),mushroom,'exact Mushroom insertion position');
   normalized=normalized.slice(0,at)+normalized.slice(at+mushroom.length);
+ }
+ if(path==='data/relics.json'){
+  // The old theme replay must use its complete contemporaneous relic input,
+  // not today's expanded catalogue or a runtime filter that could hide drift.
+  assert.equal(digest(normalized),'58b83f2a4152561057c654d80d5f6511604b4bef2faf141a333f3daffdbb6566',
+   'unreviewed integrated retirement source drift: '+path);
+  const before=readFileSync('tests/fixtures/presentation-relics-before-m3.json','utf8').replaceAll('\r\n','\n');
+  assert.equal(digest(before),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758','complete pre-Molten/Mushrooms relic source');
+  const expanded=JSON.parse(normalized),old=JSON.parse(before),added=new Set(['molten_egg','odd_mushroom']);
+  assert.equal(expanded.relics.filter(relic=>added.has(relic.id)).length,2,'exact two reviewed relic additions');
+  assert.deepEqual({...expanded,relics:expanded.relics.filter(relic=>!added.has(relic.id))},old,'every prior relic and its order retained');
+  return before;
  }
  if(!Object.hasOwn(retirementSources.beforeSources,path))return normalized;
  if(path==='src/lua/abyss_ui.lua'){
