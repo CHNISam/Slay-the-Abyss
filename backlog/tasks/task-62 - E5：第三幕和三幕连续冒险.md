@@ -5,14 +5,14 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-28 01:36'
+updated_date: '2026-10-28 08:22'
 labels:
-  - required
   - sts1
   - acts
   - implementation-gap
   - partially-implemented
-milestone: m-4
+  - post-release
+  - competition-deferred
 dependencies:
   - TASK-61
 references:
@@ -22,7 +22,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
-priority: medium
+priority: low
 type: feature
 ---
 
@@ -72,4 +72,6 @@ type: feature
 2026-10-27 PR259独立复审修正：真实Profile.prepare→Run.new的silent/defect/watcher旧入口缺run.character时被误记为Ironclad，三类均在原f3faff19复现。新增真实四职业与五种冲突/部分/未知元数据回归，原8组先通过、第9组真实RED；最小canonical metadata pair回退后9组GREEN，Watcher不产生WIN或写入。整合独立已审d18fee14原生层级四文件原样；组合专属历史/Host/事件UI/原生Cursor六项Node全过0skip，架构198/1148、Luacheck1.2.0原84历史0新增及358职责度量通过。仅本地修正与受控边界证据，不认证自然通关、原生导入或持久平台历史；当前新HEAD完整Quality和交付仍由主线程核验。原状态/Furinya/全部AC不变。
 
 2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
+
+2026-10-28用户确认范围变更：当前比赛只覆盖第一幕、第二幕，优先前10分钟体验；第三幕/隐藏第四幕/真结局及依赖退出续玩、跨局进度、历史解锁或跨局留卡的内容退出比赛必做，保留为无新截止日的未来候选。四职业及已批准原创角色要求不变。同局跨房间、第一幕到第二幕的资源与随机流、内存快照/回滚和本局结算保留；源码/候选/平台/实机仍分层，未完成状态不因范围调整改变。
 <!-- SECTION:NOTES:END -->
