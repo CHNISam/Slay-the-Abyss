@@ -1,5 +1,5 @@
 ---
-id: TASK-80
+id: TASK-82
 title: 让规划检查符合两职业比赛范围
 status: Done
 assignee:
