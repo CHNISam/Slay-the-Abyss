@@ -1,19 +1,21 @@
-# v0.1.0 内容基线
+# 数据入口与来源边界
 
-数据检查、Lua核心本地回归、平台编译、导入副本和真机试玩分别验收；本目录保存内容基线，运行时与当前候选状态见下方更新。
+本目录保存手写内容与表现源；[模块导航](../docs/ARCHITECTURE.md)说明它们如何生成Lua并进入核心与界面。数据检查、Lua核心本地回归、平台编译、导入副本和真机试玩分别验收；定义数量不表示全部可玩或已通过实机。
 
-> 2026-10-23 TASK-16 离线候选更新：运行时已存在，37条契约中的30张基本/升级已逐卡验证，27张非基础牌可从合法奖励/商店取得；7张未支持牌仍被隔离。见 [首发卡池与证据边界](../docs/CARD_POOL.md)。该结果不是平台编译、导入或实机通过。
+旧v0.1.0的首轮卡池、道具数量和隔离状态均为历史快照。当前范围见[SCOPE](../docs/SCOPE.md)，运行池与获取渠道见[卡池说明](../docs/CARD_POOL.md)及当前数据/核心；本轮证据与未完成项见[HANDOFF](../docs/HANDOFF.md)。
 
-| 文件 | 基线 |
+| 文件 / 目录 | 用途 |
 |---|---|
-| cards.json | 首轮37张战士运行卡池；初始 5 打击 + 4 防御 + 1 痛击 |
-| reference/warrior75.json | 另一会话75卡及3状态牌原表，原样存证；含待核对数据，不能直接导入运行时 |
-| enemies.json | 19 普通变体 / 3 精英类型 / 1 Boss；14 普通、3 精英、1 Boss 遭遇 |
-| statuses.json | 9 个基础状态 + Boss模式转换/尖刺甲壳 |
-| relics.json / potions.json | 7 遗物 / 7 药水 |
-| rules.json | 角色、地图、营地、商店及奖励常数 |
+| [cards.json](cards.json) | 战士、状态及依赖牌定义，初始牌组与来源池；其他职业内容还需结合catalogs和核心模块读取 |
+| [catalogs/](catalogs/) | 职业、章节、事件及道具等来源目录；是否加载由内容加载器与核心接线决定 |
+| [reference/](reference/) | 对照原表与历史存证；不能整目录直接作为运行时内容导入 |
+| [enemies.json](enemies.json) / [statuses.json](statuses.json) | 敌人与状态基础定义；AI、章节目录和核心共同决定行为 |
+| [relics.json](relics.json) / [potions.json](potions.json) | 道具定义；完整来源池、资格和使用规则需同时看catalogs及核心 |
+| [rules.json](rules.json) | 角色、地图、营地、商店及奖励常数 |
+| [original_v4/](original_v4/) | 原创角色数据；构建与接入边界见[原创角色说明](../docs/ORIGINAL_V4.md) |
+| [presentation/](presentation/) | 主题、卡面表现与文案源；遵循[批准稿](../docs/design/UI_DESIGN.md)，不作为玩法数值替代源 |
 
-75 张为完整对标规模，本 Sprint 首轮保留 30+。完整参考表原样保留，首轮37张从中规范化op、保留数值，含X费用以costMode表达。参考表有28种尚未纳入运行契约的op及triggers，不能据此声称75张可玩。来源及有意适配见 SOURCES.md。
+来源与适配证据见[SOURCES](SOURCES.md)。加载文件和数据契约以[validate-data.mjs](../scripts/validate-data.mjs)为准；`npm run validate:data`校验内容，`npm run build:data`先校验再生成`build/lua/abyss_data.lua`及原创角色数据模块。生成Lua不要手工编辑。下方规则摘要用于定位概念，实际数值、顺序和兼容边界以当前数据、Lua核心及专项回归为准。
 
 ## 效果契约
 
@@ -31,13 +33,13 @@ exhaust=true 出牌后消耗；ethereal=true 仅在回合结束还留手时消�
 
 ## 回合、遭遇和经济
 
-石颚兽使用`ai.kind=jaw_worm`：普通首动Chomp；Thrash攻击后格挡、Bellow力量后格挡；按上次/前两次动作与受控条件抽样限制连续动作。HP40–44使用hpRange。决策与数据精度有独立回归，生产随机仍是共享项目LCG，不是原版RandomXS128/独立随机流；见[专项账本](../docs/reviews/TASK-15-jaw-worm-ai.md)。
+石颚兽使用`ai.kind=jaw_worm`：普通首动Chomp；Thrash攻击后格挡、Bellow力量后格挡；按上次/前两次动作与受控条件抽样限制连续动作。HP范围见当前敌人定义。正式敌人随机通过[enemy_random](../src/lua/abyss_enemy_random.lua)读取`aiRng`，由[sts_random](../src/lua/abyss_sts_random.lua)使用RandomXS128；旧LCG保留为显式回放夹具兼容路径。早期实现与差异的历史记录见[专项账本](../docs/reviews/TASK-15-jaw-worm-ai.md)，不能用其旧状态替代当前源码。
 
 抽堆空时仅将弃堆种子洗入。角色在自己回合开始清空旧格挡（壁垒例外），结算中毒，若存活再结算回合开始效果。玩家刷新能量、抽牌后行动，弃牌/虚无处理后敌人按已显示意图行动；完成才推进索引，不能执行时重掷。易伤/虚弱/脆弱在拥有者回合结束减 1；再生在拥有者回合结束先回复后减 1。每次伤害后检查胜败，死亡敌人不行动。格挡保留至自己下回合开始才能吸收敌方攻击。
 
 未声明 ai 的敌人按 intents 确定循环；沉眠遗卫使用 ai.sleep_then_cycle：起始睡眠与固定格挡，睡眠计数完成或失去生命后苏醒，受伤唤醒先跳过本次行动，之后只循环 awakeCycle 引用的意图。sleep/stunned 意图 effects 必须为空。hpRange 若存在则覆盖静态 hp 基准值，使用战斗 RNG 在 min/max 闭区间采样，实际 maxHp 等于该次采样；未配置的旧固定HP仍待逐敌核对。时序和来源见 docs/reviews/TASK-15-lagavulin-ai.md。tier 和层数过滤遭遇。
 
-地图规则区分15生成行与计层：第1层普通战斗、第9层宝箱、第15层营地、第16层独立Boss房间、第17层独立Boss宝箱房间；前5层禁止随机营地/精英，第14层禁止随机营地。`generatedRows`与`floors`不可混用。`roomKind=boss_treasure`只是独立入口，当前节点宿主仍在Boss16后结算，未实现原版Boss遗物池/宝箱事务；Nodes拒绝该入口，不能把普通宝箱奖励用于它。三列路径、节点权重、遭遇抽取和随机流仍未原版对齐，详见 `docs/reviews/TASK-12.4-map-floor-evidence.md`。这里只定义内容，不意味严格一致性或平台验收已通过。
+地图规则区分生成行与独立房间，`generatedRows`与`floors`不可混用。第一幕Boss与Boss宝箱独立计层；[Nodes](../src/lua/abyss_nodes.lua)已将`roomKind=boss_treasure`交给[Treasure](../src/lua/abyss_treasure.lua)处理Boss奖励，不以普通宝箱替代。跨幕楼层与第四幕入口见[跨幕账本](../docs/rules/CROSS_ACT.md)。早期地图边界证据保留在[专项报告](../docs/reviews/TASK-12.4-map-floor-evidence.md)，不表示当前全部规则或平台验收已通过。
 
 遗物 combat_start 在基础能量刷新/抽牌之后各执行一次，避免灯笼被刷新覆盖；combat_end 只在胜利后触发。药水仅玩家战斗回合可用，成功后清空原槽位，不移动旁瓶。run.potions 与 Run.potionView 按物理槽号索引，空槽为 nil；用 Run.potionCount 计数，不用 #/ipairs 遍历稀疏库存。Run.obtainPotion 只将已知药水填入最左空槽，奖励/商店仍各自负责获取资格与支付，不表示已实现自然获取。详见 docs/reviews/TASK-14.1-potion-slots.md。营地回血与升级二选一；交易先验证金币/库存/目标，再原子提交。血量不超过上限。
 深渊守卫 `ai.kind=guardian` 有独立攻守阶段：进攻阶段实际失血耗尽模式转换预算后排定转形，当前卡牌/敌方效果批次完成才加格挡并覆盖意图；双击剩余段先完成，后段致死则取消转形。Twin Slam先开壳，攻击后移除尖刺甲壳并恢复下次预算，反刺的少量失血在该次重置清除，足额失血则能排定再次防守。`sharp_hide` 按成功打出的攻击牌触发，牌本身效果完成后单次结算，不按命中计数，可用格挡且不能递归触发荆棘；已排定反伤即使Boss死亡仍执行。详细来源与边界见 docs/reviews/TASK-17-guardian-ai.md。
@@ -47,7 +49,7 @@ exhaust=true 出牌后消耗；ethereal=true 仅在回合结束还留手时消�
 
 addCardPerTurn 生成的牌加入手牌；addCardToDiscard 加入弃牌堆。生成手牌若超过 maxHand=10，该牌进入弃牌堆。抽牌动作每次先检查手牌容量；达到 maxHand=10 立即停止，不移动抽牌堆/弃牌堆，也不因此洗牌。只有尚有手牌空位且抽牌堆为空时才将弃牌堆洗入。依据：[初代杀戮尖塔官方 Weekly Patch 47](https://store.steampowered.com/news/posts/?appids=646570&enddate=1542372031)。战斗结束删除所有战斗生成牌，仅保留局内永久卡组及其升级等级。
 
-攻击牌和敌人意图中的攻击应用上述攻击修正；技能/能力提供的 block 应用敏捷和脆弱。本项目药水的 damage/block 为固定点数，忽略力量、虚弱、易伤、敏捷和脆弱（火焰药水仍被格挡吸收）；此为显式简化。遗物提供的 block 使用固定点数。blockPerTurn 属于卡牌持续效果，其格挡应用敏捷和脆弱。UI 文案按实际效果来源显示。
+攻击牌和敌人意图中的攻击应用上述攻击修正；技能/能力提供的 block 应用敏捷和脆弱。药水、遗物等来源有独立结算与钩子，具体以当前核心实现及对应回归为准；旧简化描述不作为偏离初代PC A0规则的授权。UI 文案按实际效果来源显示。
 
 每场战斗建立独立战斗态：全部状态（含力量、敏捷、壁垒、中毒）、临时力量、格挡、能量、持续能力、禁止抽牌、牌实例伤害增长、消耗堆均不跨战斗保留。局内只持久化当前/最大生命、金币、永久卡组及升级、遗物清单、药水槽位、地图与路线进度及随机种子。胜利后先结算 combat_end 遗物回血，再清理战斗态，发奖励；失败跳过遗物回血并进入失败结算。
 
