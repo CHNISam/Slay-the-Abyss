@@ -33,3 +33,7 @@
 PR311（Battle UI）与本候选的battle控制器、架构/静态基线和历史接层重叠；PR310（Node UI）与node控制器、架构/静态基线和历史materializer重叠；PR312另有质量基线变更。它们尚未合入本候选，未替其他执行者改PR/工作区，后续须由主线程协调顺序并重新验证，不能互相整文件覆盖。
 
 本次只提交单个Draft PR，正常合并仍等精确head完整CI及独立审查；没有正式Approve、合并、发布、用户Codex、客户端或键鼠动作。官方导入/ready、同候选PC和实体手机UI/性能、verify:ui仍未验证，TASK-4保持In Progress且所有整体验收AC不勾。
+
+## 首次托管门禁发现与修复
+
+Licenses run40731764729在17:07:01明确报告本次新添壳体PNG/SVG缺来源登记。已按现有project-geometry分类只补两项精确hash及[来源说明](PROVENANCE.md)，不放宽检查。PNG约138KiB，路径未匹配现有六卡图LFS规则；未改LFS规则/卡图。托管复验须绑定修复后的新head，旧head失败不追认绿灯。本地全部媒体扫描还会拒绝六张未物化的既有LFS指针，因此仅把此次两项新增媒体与检查器测试记为本地通过，完整inventory仍交托管按需物化后重验。

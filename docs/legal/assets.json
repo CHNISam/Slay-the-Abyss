@@ -2065,6 +2065,16 @@
       "sha256": "de03e8f27bb0a2205c8012d573a3e4c2a4ead189e79f92c8950a5988ca5d2a17",
       "category": "platform-evidence",
       "evidence": "docs/evidence/native-ui-parity-20261028/validation.json#/screenshotSha256/shop-touch.png; docs/evidence/native-ui-parity-20261028/README.md; scripts/native-ui-parity-preview.mjs; offline browser rendering of the Lua-driven control tree with prototype glyphs or geometric stand-ins, not official native preview, import or device acceptance"
+    },
+    "docs/reviews/approved-ui-publication-20261028/shell-only-compare.png": {
+      "sha256": "f3adc2c5be6f5be4f71d29a2df7d1b56a2aca59a583ab2bf5a822442ab947ffc",
+      "category": "project-geometry",
+      "evidence": "docs/reviews/approved-ui-publication-20261028/PROVENANCE.md; docs/reviews/approved-ui-publication-20261028/README.md; docs/reviews/potion-shell-integration-20261028/INDEPENDENT-REVIEW.md; project-authored primitive shell geometry from approved Main/Map design parameters, rendered as offline semantic comparison; no bottle, platform texture or third-party raster embedded; not game/device evidence or commercial clearance"
+    },
+    "docs/reviews/approved-ui-publication-20261028/shell-only-compare.svg": {
+      "sha256": "1e410a4596bc8515be52790069e2f5fd6c78e36123c6213368186b00cf1c26d9",
+      "category": "project-geometry",
+      "evidence": "docs/reviews/approved-ui-publication-20261028/PROVENANCE.md; docs/reviews/approved-ui-publication-20261028/README.md; docs/reviews/potion-shell-integration-20261028/INDEPENDENT-REVIEW.md; project-authored primitive shell geometry from approved Main/Map design parameters, rendered as offline semantic comparison; no bottle, platform texture or third-party raster embedded; not game/device evidence or commercial clearance"
     }
   }
 }
