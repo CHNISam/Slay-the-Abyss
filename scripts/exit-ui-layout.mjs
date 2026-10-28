@@ -37,6 +37,8 @@ export function exitControls(theme = nativeTheme) {
       plate('face', [...panel.slice(0, 2), ...panel.slice(2).map(value => value - s.border * 2)], c.panel),
       text('title', l.title, '退出本局？', f.heading, c.goldBright),
       text('message', l.message, '退出将结束本局，并进入平台结算。\n当前进度不会保留。', f.body, c.text),
+      // 局内存档需创作者 4 级；开放前用一行小字如实说明，不打扰玩家。
+      { ...text('whyText', l.whyText, '', f.small, c.textMuted), visible: false },
       text('status', l.status, '', f.small, c.textDim),
       button('cancel', l.cancel, '继续游戏'),
       button('confirm', l.confirm, '退出并结算', true),
