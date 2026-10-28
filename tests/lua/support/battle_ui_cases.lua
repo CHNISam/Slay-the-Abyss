@@ -44,7 +44,7 @@ local function control(definition)
     c.SetLocalScale = Control.SetLocalScale
     c.SetImage = Control.SetImage
     c.SetAsLastSibling = Control.SetAsLastSibling
-    return c
+    return NativeContract.control(c,definition)
 end
 local function setup(options)
     local root = control({name="root", size={1280,720}, children=assert(ABYSS_TEST_LAYOUT).controls})

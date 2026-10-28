@@ -697,8 +697,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         label("discard", battle and tostring(#battle.discard) or "0")
         for _,kind in ipairs({'draw','discard','exhaust'})do
             local hit=child(kind..'Icon'):GetChild('hit')
-            hit:SetVisible(frame.fighting==true)
-            hit.interactable=options.onPile~=nil and frame.active==true
+            -- Cursor areas use visibility; the listener also validates input ownership.
+            hit:SetVisible(frame.fighting==true and options.onPile~=nil and frame.active==true)
         end
         label("statuses", frame.fighting and battle.phase ~= "player" and not self.busy and "敌方回合" or "")
         if frame.fighting then unit(child("hero"), frame.player, L.player.portrait, Theme.icon.player, L.hpBar.size[1], false) end

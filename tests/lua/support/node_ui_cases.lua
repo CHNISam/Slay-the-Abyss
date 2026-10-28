@@ -51,7 +51,7 @@ local function control(spec, parent)
         return assert(self.listeners[event], "missing listener " .. event)({touchId=touchId})
     end
     for _, item in ipairs(spec.children or {}) do c.children[item.name] = control(item, c) end
-    return c
+    return NativeContract.control(c,spec)
 end
 local function entered(kind, source, seed,relicSeed)
     source = source or data

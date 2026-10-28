@@ -43,8 +43,9 @@ end
 local ui,root,press,hit=setup('camp')
 assert(ui.mode=='node')
 press('campView/forge');assert(ui.nodeUI.mode=='picker')
-press('pickerView/card1');press('pickerView/card1',nil,'cancel');assert(ui.nodeUI.mode=='main')
+press('pickerView/forgeGrid/card1');press('back');press('back');assert(ui.nodeUI.mode=='main')
 press('campView/rest');assert(ui.run.hp>30)
+ui:update(require('abyss_theme').layout.nativeNode.roomMotion.restDuration+.01)
 press('confirm');assert(ui.mode=='map');ui:disable()
 print('controller rooms: camp, upgrade picker cancel and continue passed')
 ui,root,press,hit=setup('shop')
@@ -57,6 +58,7 @@ press('confirm');press('confirm');assert(ui.mode=='map');ui:disable()
 print('controller rooms: shop buy, sold item, remove and leave passed')
 ui,root,press,hit=setup('treasure')
 assert(press('treasureView/chest'))
+ui:update(2)
 local treasureRandom,relicPool=Random.snapshot(ui.run.treasureRng),Pool.snapshot(ui.run.relicPool)
 local sourceOffers={}
 for _,item in ipairs(ui.run.nodeFlow.reward.items)do sourceOffers[item.slot]=F.Combat.copy(item)end
@@ -75,10 +77,8 @@ while ui.run.phase=='node' do
         assert(ui.run.gold==gold and same(ui.run.relics,relics),'leaving granted a substitute reward')
         break
     end
-    while ui.nodeUI.treasureChoice<choice do assert(press('treasureView/next'))end
-    while ui.nodeUI.treasureChoice>choice do assert(press('treasureView/previous'))end
     local pending=#items
-    assert(press('treasureView/take'))
+    assert(press('treasureView/rewardItem'..choice))
     assert(#ui.run.nodeFlow.reward.items<pending,'each controller claim must consume a displayed source item')
     assert(same(Random.snapshot(ui.run.treasureRng),treasureRandom),'claim consumed another treasure roll')
     assert(same(Pool.snapshot(ui.run.relicPool),relicPool),'claim consumed the shared relic queue again')

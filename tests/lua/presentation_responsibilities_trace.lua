@@ -50,4 +50,6 @@ assert(next(host.battleUI.feedback.effects)==nil)
 print('PRESENTATION_NATIVE_TRACE '..trace.count..' '..string.format('%.0f',trace.hash))
 -- Room port intentionally replaces the camp row with a twelve-card grid and
 -- adds its result animation. Keep the full ordered-write guard for that flow.
-assert(trace.count==75180 and trace.hash==1258450308,'ordered native writes changed from the room-port contract')
+-- Removes 84 invalid cursorArea.interactable writes; the same frames now
+-- express availability through SetVisible and retain listener ownership checks.
+assert(trace.count==75096 and trace.hash==240481077,'ordered native writes changed from the room-port contract')

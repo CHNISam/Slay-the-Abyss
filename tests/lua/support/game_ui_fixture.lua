@@ -53,9 +53,10 @@ end
 
 local function control(spec, parent)
     local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
-        text = spec.text and spec.text.content or "", parent = parent, interactable = true,
+        text = spec.text and spec.text.content or "", parent = parent,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
     setmetatable(self, controlMethods)
+    if spec.kind~='cursorArea' then self.interactable=true end
     self.GetChild = Control.GetChild
     self.AddKeyEventListener = Control.AddKeyEventListener
     self.SetVisible = Control.SetVisible
@@ -81,7 +82,7 @@ local function control(spec, parent)
         end
     end
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
-    return self
+    return NativeContract.control(self,spec)
 end
 -- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
 local function fixture(data, settle, music, cursorEvents, prologue, sound, pointer, controllerApi)
@@ -110,7 +111,7 @@ local function click(root, panel, button)
     local target = box.click and box or box:GetChild("hit")
     local parent = target
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
-    if target.interactable then
+    if target.visible and (target.kind=='cursorArea' or target.interactable) then
         local result = target.click()
         for _ = 1, 400 do if not root.ui or not root.ui.battleUI.busy then break end root.ui:update(0.05) end
         assert(not root.ui or not root.ui.battleUI.busy)

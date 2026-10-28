@@ -86,7 +86,11 @@ local function native(hp)
  local panel=root:GetChild('nodePanel')
  local function get(path)local b=panel;for key in path:gmatch('[^/]+')do b=assert(b:GetChild(key),path)end;return b end
  local function emit(path,event,touch)local fn=get(path):GetChild('hit').listeners[event];if fn then return fn({touchId=touch})end end
- local function tap(path,touch)emit(path,'down',touch);emit(path,'up',touch);return emit(path,'click',touch)end
+ local function tap(path,touch)
+  emit(path,'down',touch);emit(path,'up',touch);local result=emit(path,'click',touch)
+  if path=='campView/rest' then host:update(require('abyss_theme').layout.nativeNode.roomMotion.restDuration+.01)end
+  return result
+ end
  return host,root,get,emit,tap
 end
 test('full-health Dream Catcher is usable in native camp and all three choices are real cards',function()
@@ -105,6 +109,7 @@ test('native skip and stale or duplicate rest clicks cannot claim twice',functio
  local h,root,get,emit,tap=native();local size=#h.run.deck
  emit('campView/rest','down',10);emit('campView/rest','up',10);emit('campView/rest','click',10)
  local before=C.copy(h.run);emit('campView/rest','click',10);same(h.run,before)
+ h:update(require('abyss_theme').layout.nativeNode.roomMotion.restDuration+.01)
  emit('pickerView/card1','down',20);h.nodeUI:render();emit('pickerView/card1','up',20);emit('pickerView/card1','click',20);eq(h.nodeUI.selected,nil)
  tap('back',30);eq(h.run.phase,'map');eq(#h.run.deck,size);tap('confirm',31);eq(h.mode,'map')
  before=C.copy(h.run);emit('back','click',30);same(h.run,before)
