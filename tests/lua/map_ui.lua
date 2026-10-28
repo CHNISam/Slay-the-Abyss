@@ -106,7 +106,7 @@ end
 test("initial controls show legal starts, shared icons and four states across all 15 floors", function()
     local root, map, ui = fixture()
     assert(ui.scroll == 0 and ui.navigationEnabled)
-    assert(mapControl(panel(root), "previous").visible and mapControl(panel(root), "next").visible)
+    assert(not mapControl(panel(root), "previous").visible and not mapControl(panel(root), "next").visible)
     assert(not mapControl(panel(root), "previous"):GetChild("hit").visible)
     local seen, types = {}, {}
     for offset = 0, Layout.maxScroll + 60, 60 do
@@ -115,7 +115,8 @@ test("initial controls show legal starts, shared icons and four states across al
             local box = boxFor(root, map, node.id)
             if box.visible then
                 seen[node.id], types[node.type] = true, true
-                assert(box:GetChild(node.floor == 1 and "available" or "locked").visible)
+                assert(box:GetChild("available").visible == (node.floor == 1))
+                assert(not box:GetChild("locked").visible)
                 assert(box:GetChild("icon").image == Theme.icon.node[node.type])
                 assert(box:GetChild("hit").visible == (node.floor == 1))
             end
@@ -150,7 +151,9 @@ test("actual control clicks advance once, notify copied node and block reentrant
     local nextNode = Map.available(map)[1]
     assert(clickNode(root, map, nextNode.id) and map.floor == 2)
     assert(boxFor(root, map, first.id):GetChild("visited").visible)
-    assert(sameColor(mapControl(panel(root), "edge1").imageColor, Theme.color.node.pathTaken))
+    assert(mapControl(panel(root), "edge1").imageColor.r == Theme.color.node.pathTaken.r)
+    assert(boxFor(root,map,nextNode.id):GetChild("positionToken").visible)
+    assert(not boxFor(root,map,first.id):GetChild("positionToken").visible)
 end)
 
 test("invalid, locked, backward, disconnected, culled and hidden clicks never mutate map", function()
@@ -284,7 +287,14 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local y2 = Layout.firstY + (index[id].floor - 1) * Theme.layout.map.floorGap - ui.scroll
             local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
             assert(edge.visible == expected)
-            if expected then assert(sameColor(edge.imageColor, taken[node.id .. ":" .. id] and Theme.color.node.pathTaken or Theme.color.node.path)) end
+            if expected then
+                local ink = taken[node.id .. ":" .. id] and Theme.color.node.pathTaken or Theme.color.node.path
+                assert(edge.imageColor.r == ink.r and edge.imageColor.g == ink.g and edge.imageColor.b == ink.b)
+                local visual = Theme.layout.map.presentation
+                local opacity = taken[node.id .. ":" .. id] and visual.takenOpacity or
+                    node.id == map.currentNodeId and index[id].available and visual.nextOpacity or visual.futureOpacity
+                assert(edge.imageColor.a == math.floor(ink.a * opacity))
+            end
         end end
         for i = n + 1, Layout.maxEdges do assert(not mapControl(panel(root), "edge" .. i).visible) end
     end
@@ -487,15 +497,15 @@ local function motionFixture()
     return root, map, ui, pointer, function() return chosen end
 end
 
-test("navigation buttons remain visible and truly disabled at both scroll limits", function()
+test("controller hints stay hidden for pointer input and preserve scroll boundaries", function()
     local root, _, ui = fixture()
     local previous, nextButton = mapControl(panel(root), "previous"), mapControl(panel(root), "next")
-    assert(previous.visible and nextButton.visible)
+    assert(not previous.visible and not nextButton.visible)
     assert(not previous:GetChild("hit").visible and not previous:GetChild("hit").canControllerFocus)
     assert(sameColor(previous:GetChild("label").fontColor, Theme.color.textMuted))
     assert(not click(root,"previous") and ui.scroll == 0)
     ui:setScroll(Layout.maxScroll)
-    assert(previous.visible and nextButton.visible and previous:GetChild("hit").visible)
+    assert(not previous.visible and not nextButton.visible and previous:GetChild("hit").visible)
     assert(not nextButton:GetChild("hit").visible and not nextButton:GetChild("hit").canControllerFocus)
     assert(not click(root,"next") and ui.scroll == Layout.maxScroll)
 end)
@@ -616,7 +626,7 @@ test("button feedback reuses theme tokens and resets on cancellation redraw and 
     hit.listeners.down(pointer(0,7)); ui:render(); assert(box.localScaleX == 1)
     hit.listeners.down(pointer(0,7)); ui:resize(1600,900); assert(box.localScaleX == 1)
     ui:setScroll(0); hit.listeners.down(pointer(0,7))
-    assert(box.visible and box.localScaleX == 1)
+    assert(not box.visible and box.localScaleX == 1)
     assert(sameColor(box:GetChild("label").fontColor,Theme.color.textMuted))
 end)
 

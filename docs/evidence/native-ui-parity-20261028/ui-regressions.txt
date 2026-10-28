@@ -1,0 +1,47 @@
+✔ approved deck uses a six-column vertical native scroller and a read-only reusable card template (27.4006ms)
+✔ deck overlay and close remain inside approved canvas safe areas at every device scale (9.315ms)
+✔ controller overlays isolate nearest-control navigation and deck pages leave the card viewport clear (7.1777ms)
+✔ exit remains above every game page and the deck, with a separate blocking confirmation (17.3716ms)
+✔ exit entry does not cover deck controls, map navigation or the narrowed game notices (6.7478ms)
+✔ exit geometry follows theme and safe device scaling without oversized containers (24.3886ms)
+✔ composed native tree has exactly one menu, battle, map and node panel (18.312ms)
+✔ title keeps one noninteractive theme-driven version label and no custom announcement (9.5538ms)
+✔ menu and result follow the approved win.png composition inside the safe area (9.1093ms)
+✔ result settlement button starts hidden and uses the approved two-button placement (7.461ms)
+✔ generated Chinese display and native tree exercise the real game entry and run controllers (62668.6616ms)
+✔ the game name appears only on the title screen; other pages name their own scene (10.6277ms)
+✔ cinematic and merchant controls stay inside the phone safe area and clear of shop goods (0.6157ms)
+✔ map gestures preserve exit cancellation and input ownership in generated native UI (14603.8349ms)
+✔ map resources stay above the route and clear all top-bar controls (15.3052ms)
+✔ map shows actual run resources before entry and refreshes after resource changes (2392.1759ms)
+✔ map uses the approved stage, external backdrop, viewport and shared theme geometry (5.515ms)
+✔ static controls are native, readable, unique and fit phone and console safe areas (4.5503ms)
+✔ node and edge pools match controller contract, without the retired boxed legend (1.1438ms)
+✔ custom output directory receives the standalone controls and both Lua map artifacts (32.9102ms)
+✔ actual Lua controller validates navigation, scroll, locked input, path and multi-device geometry (18623.7151ms)
+✔ complete native interface respects MCP per-container import limits (53.435ms)
+✔ generated host starts under native capability guards and rejects the escaped startup write (5396.1388ms)
+✔ six native instruction tiles fit the approved modal and do not promise unbound keyboard shortcuts (56.4986ms)
+✔ real host isolates guide input, returns controller focus, and retains map navigation after input switching (6081.3782ms)
+✔ native image colours serialize as RGB with independent opacity (32.6123ms)
+✔ node and menu layouts resolve semantic colour, font, minimum font and picture tokens (8.389ms)
+✔ host preserves the approved battle and scrollable map while composing node and menu panels (46.3536ms)
+✔ building and mutating output trees cannot mutate the source theme (14.3583ms)
+✔ all native text respects the approved readable minimum (8.8942ms)
+✔ node panel composes one container per approved node screen within the MCP child limit (4.4911ms)
+✔ framed node buttons preserve direct paths and have hidden hover and pressed face layers (1.358ms)
+✔ every interactive control is a full-size focusable touch target inside the safe area (1.2737ms)
+✔ each screen keeps its readable elements and buttons free of sibling overlap (3.342ms)
+✔ native text boxes use the verified 40-unit line height and the readable minimum font (1.0427ms)
+✔ shop ports five colored cards above two colorless cards, with prices and service beside them (0.5086ms)
+✔ camp, forge, event and treasure follow the approved composition (0.321ms)
+✔ each enlarged shop card keeps every price, the merchant and mobile cancel readable (7.2272ms)
+✔ source reward rows and the twelve-card smithing grid fit without hiding neighboring content (0.5693ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 111667.2074
