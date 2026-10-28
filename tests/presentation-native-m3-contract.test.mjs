@@ -177,6 +177,7 @@ test('retirement theme and fixture inverses reject unrelated drift and obsolete 
  const fixturePath='tests/lua/presentation_responsibilities_trace.lua';
  const fixture=readFileSync(fixturePath,'utf8');
  assert.equal(digest(preRetirementSource(fixturePath,fixture)),roomSnapshot.afterSha256[fixturePath]);
+ assert.equal(preRetirementSource(fixturePath,fixture.replaceAll('\n','\r\n')),preRetirementSource(fixturePath,fixture));
  assert.throws(()=>preRetirementSource(fixturePath,fixture+'\n-- unreviewed scenario drift\n'));
  assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('trace:assertNativeInteraction()','-- removed native guard')));
  assert.throws(()=>preRetirementSource(fixturePath,fixture.replace('79475','79474')));

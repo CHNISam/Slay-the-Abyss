@@ -38,7 +38,7 @@ function runConservedTrace(){
  assert.deepEqual(order.map(index=>rows[index-1]),expected);
  mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/announcement-retirement-'));
  try{
-  const source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8');
+  const source=readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8').replaceAll('\r\n','\n');
   const binding="local Trace=dofile('tests/lua/support/presentation_trace.lua')\n";
   assert.equal(source.split(binding).length,2,'one unchanged strict recorder binding');
   const guard=binding+`local rows=${toLua(rows)}\nlocal order=${toLua(order)}\nlocal index=0\nlocal originalNew=Trace.new\n`+
