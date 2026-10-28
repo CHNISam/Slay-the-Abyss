@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-27 20:54'
+updated_date: '2026-10-28 00:24'
 due_date: '2026-10-28'
 labels:
   - art
@@ -57,6 +57,8 @@ ordinal: 31000
 2026-10-27 dot按Owner继续制作并用Git管理正式美术资产的要求，在feat/dot-reviewed-card-assets独立树保全已获视觉认可的整备武装、重剑斩：1. 复核当前develop与开放PR共享写入范围，保留既有任务状态、负责人及AC；2. 将真实源图、实际提示词、可编辑原生JSON/Lua、精简来源/阶段元数据纳入稳定card_id资产目录，旧34高候选和失败研究不覆盖；3. 补无快照字面Lua/JSON及散列、尺寸、图层/蒙版/来源回归，登记现有法律资产清单，不改变许可策略；4. 独立审查和当前SHA完整CI后提PR。只做源资产保全和登记，不启用共享运行时、不改战斗规则；官方导入、1/5/10卡与设备验收继续待验。
 
 正式候选入口后续切片：复用现有native builder透传显式art registry/hosts，默认关闭；把实际消费的原生源、派生registry和控件预算绑定既有receipt。MCP创建前检查输入稳定性、输出别名及生成物确实消费；不安全的custom prepare组合明确拒绝。先失败回归，再用MCP mock走真实layout/presentation装配；不改结算/BGM/清理门禁，不调用客户端。PR261本轮CI终态后再合入增量，避免反复取消重跑。
+
+2026-10-28 dot复用PR261与新develop53581f43：PR262已完成默认关闭样卡的完整写序列兼容，不重复该成果。本切片只验证显式单宿主原生样卡在真实第四幕心脏→继续→结局流程中的稳定card_id、独立文字、可见性/清理与陈旧回调隔离；先在隔离树用既有严格mock和真实GameUI/Combat做可运行反例验证，再决定是否纳入必要回归。避开PR256/260共享卡框/商店写入，不扩host、不改战斗规则，不下载PNG或新画图；MCP/GIL/实机与普通量产门槛不变。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -109,4 +111,6 @@ PR259同步后共享宿主正例直接执行真实源码，不再注入启动修
 7ea183e CI另检出遗漏的旧modern Sapphire分片守卫：仍要求8–14，属于本轮测试接线遗漏而非runner故障。只同步原lock的slices与守卫消费路径，原体hash、21组/17组UI完整性及30秒断言全部保留；新增缺组/重复/替换负控。真实使用的4个显式Lua路径让既有test-affected现在选中modern守卫，不改全局selector/CI。root完整三份Sapphire套件及UI静态guard23/23、零跳过；最后仅路径显式化后modern4/4再次通过，实际相关计划包含两个Sapphire消费者。未重跑无变化的昂贵Lua，当前head完整CI仍未通过。
 
 20:53同步已合入PR263（7fe3101）：另一执行者已独立修复card_help_release/looter_potion_ui预算，直接逐字保留其6个测试文件及TASK74记录，撤掉dot重复分片/guard；不把PR263成果算dot交付。保留未被覆盖的Sapphire四段与modern守卫、原生样卡接线。root8项上游/modern静态合同通过，所有原断言/预算不变；产品代码与已审a896一致。此前a896未触发Actions因与新主线冲突，非平台失效。当前新组合仍待独立复审、完整CI及verify:delivery，实机缺口不变。
+
+2026-10-28 新增显式样卡与第四幕结束流程回归：仅一个真实生成battlePanel/card1池、合成两槽，真实GameUI/Combat/Heart/Proceed覆盖card_id切换/缺图回退、四项独立文字与动态预览、清槽和陈旧指针/隐藏/owner替换/手柄回调隔离。root两项测试2/2、零跳过，正例3.28秒、精确删除空卡位clearNativeArt的内存负控2.21秒，保留默认30秒；实际test-affected选中入口。未发现需改生产代码的缺陷；两项真实素材来源测试因无registry仍SKIP，不冒充真资源/GIL/引擎/自然通关/存档或设备通过。只新增必要测试，不重做PR262默认关闭兼容台账，不动PR256/260。
 <!-- SECTION:NOTES:END -->
