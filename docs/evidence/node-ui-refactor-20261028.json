@@ -1,0 +1,193 @@
+{
+  "baseline": "1f260a71972b03dae5b63e8d6f12d055973a4c83",
+  "scope": "offline native mock + real Nodes/Run/Map; not live platform acceptance",
+  "replayCases": 62,
+  "replay": [
+    {
+      "fixture": "node_ui.lua",
+      "old": "22f9e518c832b849b39b9bbc3f3562f31f94337e12284ac8b45b2fb2dd9bd67b",
+      "new": "22f9e518c832b849b39b9bbc3f3562f31f94337e12284ac8b45b2fb2dd9bd67b",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 7,
+      "bytes": 12982708
+    },
+    {
+      "fixture": "node_ui_slice_2.lua",
+      "old": "2191eb61b6c66e5b4d27fff13a9d12502b06c8d094ed6203711b36bebc2e636e",
+      "new": "2191eb61b6c66e5b4d27fff13a9d12502b06c8d094ed6203711b36bebc2e636e",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 6,
+      "bytes": 11421498
+    },
+    {
+      "fixture": "node_ui_slice_3.lua",
+      "old": "e952db5bbb3e18f2a534416059771fd85d7d53f1b324eccb70eddd79ed3ca0c3",
+      "new": "e952db5bbb3e18f2a534416059771fd85d7d53f1b324eccb70eddd79ed3ca0c3",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 6,
+      "bytes": 11090994
+    },
+    {
+      "fixture": "node_ui_slice_4.lua",
+      "old": "f57f0df52a0532776f76bf1de082b2ee2562aadf47b7115628384276f7b826e9",
+      "new": "f57f0df52a0532776f76bf1de082b2ee2562aadf47b7115628384276f7b826e9",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 7,
+      "bytes": 13011962
+    },
+    {
+      "fixture": "node_ui_slice_5.lua",
+      "old": "3431614b725091af5e1050f01025632a65d299a0d7b440b8a9b05937eea365a9",
+      "new": "3431614b725091af5e1050f01025632a65d299a0d7b440b8a9b05937eea365a9",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 6,
+      "bytes": 11152890
+    },
+    {
+      "fixture": "node_ui_slice_6.lua",
+      "old": "9b26cd756c66834548c7b09f58de683cd499a83e770bb6c6aec2f3c5086d5ef0",
+      "new": "9b26cd756c66834548c7b09f58de683cd499a83e770bb6c6aec2f3c5086d5ef0",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 6,
+      "bytes": 11182844
+    },
+    {
+      "fixture": "node_ui_slice_7.lua",
+      "old": "4b26c32c8ad234f221c9379abe853152d823d08bb978512ce32e3a0dadf6205b",
+      "new": "4b26c32c8ad234f221c9379abe853152d823d08bb978512ce32e3a0dadf6205b",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 5,
+      "bytes": 9255437
+    },
+    {
+      "fixture": "node_ui_slice_8.lua",
+      "old": "c4e04a8633cdc78cf04d8d29f021b549f97f359b465dce969582337631c87c6b",
+      "new": "c4e04a8633cdc78cf04d8d29f021b549f97f359b465dce969582337631c87c6b",
+      "equal": true,
+      "cases": 5,
+      "snapshots": 11,
+      "bytes": 20373570
+    },
+    {
+      "fixture": "node_ui_gestures.lua",
+      "old": "24d92fb682d33b155a3e34fb776947d341e795afe90471eae747920c93fecaf6",
+      "new": "24d92fb682d33b155a3e34fb776947d341e795afe90471eae747920c93fecaf6",
+      "equal": true,
+      "cases": 22,
+      "snapshots": 25,
+      "bytes": 29294923
+    }
+  ],
+  "sourceHashes": {
+    "abyss_node_ui.lua": "351b865bb135e54f72733dbebc905ce404a01525b8033841c4a29912e6d737c8",
+    "abyss_node_ui_camp.lua": "6d54e29e66d7c4a77d88da98f0028fbdbf0137b00eb4bb6f22bb4a88699153e8",
+    "abyss_node_ui_camp_actions.lua": "a40c90809179839f494f4d70862c18accabf289c3cd7e3d2e84e039f603d842c",
+    "abyss_node_ui_ending.lua": "b53dacef061da3574578cf1b7f623b5ade64a3fa80ccb464f4085deb72d052f3",
+    "abyss_node_ui_events.lua": "3aea2fddc14c4e7469b4a29e34b896a48e423053948d9000870d23eb7944a03b",
+    "abyss_node_ui_event_ownership.lua": "8eb38b0b6d5f847ffb2664d1afea8e620bb01d303a8a076de8407220a3e46262",
+    "abyss_node_ui_faces.lua": "a9d9edeec71d73ab33bc8dc76b208d6ab47d4ee89a1a9c247f5b85fa638b0fa8",
+    "abyss_node_ui_feedback.lua": "0331eb78e41e312c801c16e6c60730dbce7032e5bfc7e00577ee8d811e77a707",
+    "abyss_node_ui_input.lua": "92f98ffd305bae40bb45ad4c575f3a8241e0fae0ab08af36797f290a007f6133",
+    "abyss_node_ui_lifecycle.lua": "d911cedf6d1c8b8cacbf2bf732028805a5ea918b4df56e0cacc8ab1bec17e185",
+    "abyss_node_ui_motion.lua": "3673190f95c5bf81a68c7a671942fb13549267114d702bfe40e36869057bc18f",
+    "abyss_node_ui_rewards.lua": "30a0a815a10ab0c68811c1ee69dea0d1d618cdb701bf7e53c9efb1ecb762b590",
+    "abyss_node_ui_reward_detail.lua": "166430794f9eb17607b5bed5102260c981caef9fdbf761e73c01d113b052d2f7",
+    "abyss_node_ui_shop.lua": "c949d804c98540f9fea34829a14bb47ea2b42cc32db5c0c1f8b637d8dacb42d3",
+    "abyss_node_ui_treasure.lua": "771421ff18215245dcd4967f210a96019562cd3dfb80deab1829edfbaf681ec2",
+    "abyss_node_ui_treasure_list.lua": "1006dcf264516a0e7869c13e58fab84e74934533dc24ff6ecba3cfd38ac497ab"
+  },
+  "lineMeasurements": [
+    {
+      "file": "src/lua/abyss_node_ui.lua",
+      "lines": 245
+    },
+    {
+      "file": "src/lua/abyss_node_ui_camp.lua",
+      "lines": 90
+    },
+    {
+      "file": "src/lua/abyss_node_ui_camp_actions.lua",
+      "lines": 106
+    },
+    {
+      "file": "src/lua/abyss_node_ui_ending.lua",
+      "lines": 64
+    },
+    {
+      "file": "src/lua/abyss_node_ui_events.lua",
+      "lines": 221
+    },
+    {
+      "file": "src/lua/abyss_node_ui_event_ownership.lua",
+      "lines": 87
+    },
+    {
+      "file": "src/lua/abyss_node_ui_faces.lua",
+      "lines": 128
+    },
+    {
+      "file": "src/lua/abyss_node_ui_feedback.lua",
+      "lines": 83
+    },
+    {
+      "file": "src/lua/abyss_node_ui_input.lua",
+      "lines": 292
+    },
+    {
+      "file": "src/lua/abyss_node_ui_lifecycle.lua",
+      "lines": 189
+    },
+    {
+      "file": "src/lua/abyss_node_ui_motion.lua",
+      "lines": 110
+    },
+    {
+      "file": "src/lua/abyss_node_ui_rewards.lua",
+      "lines": 328
+    },
+    {
+      "file": "src/lua/abyss_node_ui_reward_detail.lua",
+      "lines": 50
+    },
+    {
+      "file": "src/lua/abyss_node_ui_shop.lua",
+      "lines": 33
+    },
+    {
+      "file": "src/lua/abyss_node_ui_treasure.lua",
+      "lines": 170
+    },
+    {
+      "file": "src/lua/abyss_node_ui_treasure_list.lua",
+      "lines": 64
+    }
+  ],
+  "constructorLines": 221,
+  "maxFunctionLines": 309,
+  "complexityMeasurements": 300,
+  "maxComplexity": 15,
+  "staticWarnings": {
+    "nodeUi": 0,
+    "remainingRepositoryHistorical": 60,
+    "removedNodeUiExemptions": 13
+  },
+  "checks": {
+    "architecture": "230 modules, 1291 edges; passed",
+    "focusedJs": "12 passed",
+    "syntax": "passed",
+    "backlog": "passed",
+    "gestures": "22 passed in 17670 ms, original 30000 ms deadline, serial"
+  },
+  "notVerified": [
+    "official import",
+    "native live client",
+    "full local npm test (interrupted for serial verification)"
+  ]
+}

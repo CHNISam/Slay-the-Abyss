@@ -220,7 +220,17 @@
     "abyss_character_select": "ui",
     "abyss_character_select_view": "ui",
     "abyss_battle_damage_view": "ui",
-    "abyss_card_skin": "ui"
+    "abyss_card_skin": "ui",
+    "abyss_node_ui_feedback": "ui",
+    "abyss_node_ui_faces": "ui",
+    "abyss_node_ui_event_ownership": "ui",
+    "abyss_node_ui_camp_actions": "ui",
+    "abyss_node_ui_rewards": "ui",
+    "abyss_node_ui_events": "ui",
+    "abyss_node_ui_treasure": "ui",
+    "abyss_node_ui_lifecycle": "ui",
+    "abyss_node_ui_input": "ui",
+    "abyss_node_ui_shop": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [
