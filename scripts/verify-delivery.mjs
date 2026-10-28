@@ -70,6 +70,8 @@ export function verifyDelivery(e) {
   const errors=[];
   if(![2,3].includes(e.schemaVersion)||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
   for(const field of ['head','base','tested','sourceTree'])if(!validSha(e[field]))errors.push(`Invalid ${field}`);
+  if(e.schemaVersion===3)for(const field of ['targetBeforeSha','targetAfterSha'])
+    if(!validSha(e[field])||e[field]!==e.base)errors.push(`Actual target ${field} is missing, malformed or differs from the verified base`);
   if(e.event!=='pull_request'||!positiveId(e.runId)||!positiveId(e.attempt)||!positiveId(e.prNumber))errors.push('Expected PR run identity');
   for(const field of ['head','base','tested','runId','event','prNumber'])if(e.checkout?.[field]!==e[field])errors.push(`Checkout ${field} is stale or mismatched`);
   errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run));
@@ -133,6 +135,38 @@ function latestQualityRun(query,repo,{event,head,branch,number}) {
     (number===undefined||Array.isArray(run.pull_requests)&&run.pull_requests.some(pr=>pr.number===number)))
     .sort((a,b)=>b.id-a.id)[0];
 }
+function targetHead(query,repo,baseRef) {
+  if(!['develop','master'].includes(baseRef))throw new Error('Unexpected target branch');
+  const ref=JSON.parse(query('api',`repos/${repo}/git/ref/heads/${baseRef}`));
+  if(ref?.ref!==`refs/heads/${baseRef}`||ref.object?.type!=='commit'||!validSha(ref.object?.sha))
+    throw new Error('Actual target Git ref is missing or malformed');
+  return ref.object.sha;
+}
+export function collectPrDelivery(repo,number,review,query=gh,loadCheckout=(run,jobs)=>{
+  const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
+  return checkoutReceipt(repo,run,jobs,dir,query);
+}) {
+  const pr=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
+  if(pr.state!=='open'||pr.merged)throw new Error('Preflight requires an open PR; use --merged with its saved preflight evidence after merge');
+  // PR base.sha and refs/pull/*/merge can both retain the old combination after
+  // the actual target advances. Read the independent branch ref, not that pair.
+  const targetBeforeSha=targetHead(query,repo,pr.base.ref);
+  if(targetBeforeSha!==pr.base.sha)throw new Error('PR base is stale: actual target branch differs before collection');
+  const identity={event:'pull_request',head:pr.head.sha,number};
+  const run=latestQualityRun(query,repo,identity);
+  if(!run||run.status!=='completed'||run.conclusion!=='success')throw new Error('Current Quality run is missing or not successful');
+  const jobs=pages(query,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs');
+  const {checkout,checkoutArtifact}=loadCheckout(run,jobs);
+  if(checkout.tested!==pr.merge_commit_sha)throw new Error('CI did not test the current PR merge combination');
+  const commit=JSON.parse(query('api',`repos/${repo}/commits/${checkout.tested}`));
+  const evidence={schemaVersion:deliverySchemaVersion,repo,baseRef:pr.base.ref,sourceTree:commit.commit.tree.sha,testedCommit:commit,
+    head:pr.head.sha,base:pr.base.sha,tested:checkout.tested,parents:commit.parents.map(p=>p.sha),
+    runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:number,run,jobs,checkout,checkoutArtifact,review,targetBeforeSha};
+  const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
+  evidence.currentRun=latestQualityRun(query,repo,identity);
+  evidence.targetAfterSha=targetHead(query,repo,pr.base.ref);
+  return {evidence,current};
+}
 export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckout=(run,jobs)=>{
   const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
   return checkoutReceipt(repo,run,jobs,dir,query);
@@ -164,21 +198,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       if(result.errors.length)throw new Error(result.errors.join('\n'));
       process.exitCode=0;
     } else {
-      const pr=JSON.parse(gh('api',`repos/${repo}/pulls/${number}`));
-      if(pr.state!=='open'||pr.merged)throw new Error('Preflight requires an open PR; use --merged with its saved preflight evidence after merge');
-      const identity={event:'pull_request',head:pr.head.sha,number:Number(number)};
-      const run=latestQualityRun(gh,repo,identity);
-      if(!run||run.status!=='completed'||run.conclusion!=='success')throw new Error('Current Quality run is missing or not successful');
-      const jobs=pages(gh,`repos/${repo}/actions/runs/${run.id}/jobs?filter=all&per_page=100`,'jobs');
-      const {checkout,checkoutArtifact}=checkoutReceipt(repo,run,jobs,dir);
-      if(checkout.tested!==pr.merge_commit_sha)throw new Error('CI did not test the current PR merge combination');
-      const commit=JSON.parse(gh('api',`repos/${repo}/commits/${checkout.tested}`));
-      const evidence={schemaVersion:deliverySchemaVersion,repo,baseRef:pr.base.ref,sourceTree:commit.commit.tree.sha,testedCommit:commit,
-        head:pr.head.sha,base:pr.base.sha,tested:checkout.tested,parents:commit.parents.map(p=>p.sha),
-        runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:Number(number),run,jobs,checkout,checkoutArtifact,
-        review:JSON.parse(readFileSync(evidenceFile,'utf8'))};
-      const current=JSON.parse(gh('api',`repos/${repo}/pulls/${number}`));
-      evidence.currentRun=latestQualityRun(gh,repo,identity);
+      const {evidence,current}=collectPrDelivery(repo,Number(number),JSON.parse(readFileSync(evidenceFile,'utf8')),gh,
+        (run,jobs)=>checkoutReceipt(repo,run,jobs,dir));
       const errors=verifyDelivery(evidence);
       if(current.state!=='open'||current.merged||current.head.sha!==evidence.head||current.base.sha!==evidence.base||current.base.ref!==evidence.baseRef||current.merge_commit_sha!==evidence.tested)errors.push('PR head/base/merge combination changed during verification');
       writeFileSync(join(dir,'evidence.json'),JSON.stringify({...evidence,state:errors.length?'pr_pending':'pr_passed',errors},null,2)+'\n');
