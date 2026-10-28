@@ -270,17 +270,21 @@ test('receipt collection uses only the effective first shard artifact, paginates
 });
 
 test('normal delivery includes the current complete hosted Quality matrices',()=>{
-  const workflow=readFileSync(qualityWorkflowPath,'utf8');
-  assert.match(workflow,/shard: \$\{\{ fromJSON\(inputs.runner_pool == 'local-special' && '\[1\]' \|\| '\[1,2,3,4,5,6,7,8\]'\) \}\}/);
-  assert.match(workflow,/engineering-posix-shards:[\s\S]*?shard: \[1, 2, 3, 4\]/);
-  assert.deepEqual(fullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
-    Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`));
-  assert.equal(fullQualityJobs.length,15);
-  assert.equal(deliverySchemaVersion,3);
-  assert.deepEqual(currentFullQualityJobs,[...fullQualityJobs,'impact','fast']);
-  assert.match(workflow,/^  impact:\n/m);
-  assert.match(workflow,/^  fast:\n[\s\S]*?if: needs\.impact\.outputs\.mode == 'fast'\n/m);
-  assert.match(workflow,/os: \[ubuntu-24\.04, windows-2025\]/);
+  const source=readFileSync(qualityWorkflowPath,'utf8').replaceAll('\r\n','\n');
+  // Windows checkout can use CRLF; enforce the same complete job contract for both forms.
+  for(const newline of ['\n','\r\n']) {
+    const workflow=source.replaceAll('\n',newline).replaceAll('\r\n','\n');
+    assert.match(workflow,/shard: \$\{\{ fromJSON\(inputs.runner_pool == 'local-special' && '\[1\]' \|\| '\[1,2,3,4,5,6,7,8\]'\) \}\}/);
+    assert.match(workflow,/engineering-posix-shards:[\s\S]*?shard: \[1, 2, 3, 4\]/);
+    assert.deepEqual(fullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
+      Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`));
+    assert.equal(fullQualityJobs.length,15);
+    assert.equal(deliverySchemaVersion,3);
+    assert.deepEqual(currentFullQualityJobs,[...fullQualityJobs,'impact','fast']);
+    assert.match(workflow,/^  impact:\n/m);
+    assert.match(workflow,/^  fast:\n[\s\S]*?if: needs\.impact\.outputs\.mode == 'fast'\n/m);
+    assert.match(workflow,/os: \[ubuntu-24\.04, windows-2025\]/);
+  }
 });
 
 test('post-merge delivery binds the actual squash commit, source tree and its own full Quality run',()=>{
