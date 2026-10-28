@@ -3,9 +3,9 @@ id: TASK-30
 title: 拖牌到场上，松手就出牌
 status: In Progress
 assignee:
-  - '@Codex'
+  - '@Furinya'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-28 00:26'
+updated_date: '2026-10-28 00:43'
 due_date: '2026-10-28'
 labels:
   - ui
