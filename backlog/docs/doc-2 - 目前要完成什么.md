@@ -3,7 +3,7 @@ id: doc-2
 title: 目前要完成什么
 type: specification
 created_date: '2026-10-29 05:08'
-updated_date: '2026-10-29 05:20'
+updated_date: '2026-10-29 06:48'
 ---
 # 目前要完成什么
 
@@ -19,3 +19,9 @@ updated_date: '2026-10-29 05:20'
 M0–M2 已有验收记录；M3–M6 仍未完成。10/30 是内部投稿硬线，实际进度以证据为准。源码、官方导入和实机验证分别记录。
 
 详细依据：[比赛范围](https://github.com/CHNISam/Slay-the-Abyss/blob/develop/docs/SCOPE.md) · [里程碑](https://github.com/CHNISam/Slay-the-Abyss/blob/develop/docs/MILESTONES.md)。
+
+## 当前仍阻塞
+
+TASK-13.1.2 的公开事件存在无法继续的 P0 路径。当前还没有获批的第一、第二幕可完成事件冻结表；现有受控回归与静态调查不能算自然流程或设备通过，也不能先改准入池再补批准。详见任务及 [本轮手机反馈](https://github.com/CHNISam/Slay-the-Abyss/blob/develop/docs/backlog-details/MOBILE-QA-20261029.md)。
+
+手机反馈、上传约10MB/上限20MB均保留为来源报告；本次合流没有独立检查原截图像素或实测上传计量，压缩、单位和剩余容量仍未知。TASK-10.1.2 的上传与性能双门槛、TASK-38 同候选实体手机验收继续未完成。

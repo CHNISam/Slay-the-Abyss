@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-29 05:11'
+updated_date: '2026-10-29 06:49'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -93,4 +93,9 @@ M3末张移除切片：固定CardGroup/Cleric/PurificationShrine/GoldenWing方�
 PR286历史离线切片：Mushrooms两次fight、三Fungi事件战斗、Odd Mushroom、25%先治疗后Parasite已接通；来源锁、随机顺序与回滚保留。范围及AC沿用最新主线；无自然/平台验收。
 
 2026-10-29 P0新增实玩证据：录音31:26–32:49及IMG_1192/1193，唯一可走事件提示尚未实现，玩家被迫放弃。20a74da的nodes_entry.drawEvent映射/validateEvent/prepareFlow失败由Nodes.enter事务回滚，可能同随机状态重复失败；尚无实际seed/eventId，不猜具体缺项或服务器故障。旧七房间Done不抵消新版本阻塞，严禁重抽/乱换战斗金币/静默删池掩盖。详见报告§3C。
+
+P0作者独立工作树证据交接（原备注保留；范围以其后同次纠正为准）：
+2026-10-29独立复现：实际普通玩家OnStart(IsTestPlay=false)与旅行者确认产生competition-two-act，但campaign将restricted-seven覆盖为full。canonical seed105第一战受控胜利后，正常奖励/完成命令到f1_l7，唯一出口f2_l7抽到Match and Keep!，缺contentId并返回event_not_implemented；三次原样重试保留完整run/map/原引用及RNG。新增本地断言先RED，证据在工作区m3-public-event-admission-evidence-20261029/seed105-red.txt（2.77秒、原30秒限额）。现有Act2 15组通过，确认Beggar空组强制移除仍pending、完整源13+6及拒绝回滚仍受保护。第一幕保留既有范围、第二幕显式冻结名单尚待用户确认；源码策略未改，没有候选/导入/设备或自然通关新证据，AC3–6不勾。
+
+2026-10-29 06:21范围问题修正（同次合流附记）：上述「第一幕保留既有范围、第二幕显式冻结名单尚待用户确认」仅为06:09历史措辞，已由Owner待答问题Sentinel_4fca732b09648191b5b3fb8422617dc5覆盖：第一幕和第二幕两份显式、已验证可完成的事件冻结表都尚待批准。没有已批准名单、运行时策略或准入/游戏数据变更；受控seed105、受控念珠耗尽与开发路由测试均不能充当用户该局事件身份、自然持有/通关或设备证明。仅承接作者已有证据备注，不导入其旧计划、不扩大任务。TASK-13.1.2保持In Progress/Furinya，已有历史勾选不改，未验AC不勾。
 <!-- SECTION:NOTES:END -->
