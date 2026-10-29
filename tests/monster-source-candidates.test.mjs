@@ -79,8 +79,10 @@ test('monster files preserve reviewed source identity and strict unbound limits'
         assert.equal(entry.lfsBytes,file.bytes);
         continue; // Identity only; actual pixels independently reviewed before publication.
       }
-      assert.equal(hash(bytes),file.sha256,`${id}/${name}`);
-      assert.equal(bytes.length,file.bytes);
+      // Git may check text out as CRLF on Windows; provenance authenticates original LF text.
+      const identityBytes=/\.(json|txt)$/.test(name)?Buffer.from(bytes.toString().replaceAll('\r\n','\n')):bytes;
+      assert.equal(hash(identityBytes),file.sha256,`${id}/${name}`);
+      assert.equal(identityBytes.length,file.bytes);
       if(name==='source.png') assert.deepEqual(pngSize(bytes),asset.sourceSize);
     }
     for(const size of [106,127]) assert.ok(asset.previews.some(p => p.size[0]===size));
