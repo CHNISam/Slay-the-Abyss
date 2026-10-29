@@ -30,8 +30,11 @@ function preBoundedPotionFailuresSource(path,source){
 }
 // One additional test-only layer, never a replacement for PR302's frozen 26
 // sources or the original 79543/79757/81392 write proofs and runner budgets.
+export function preApprovedUiOuterSource(path,source){
+ return approvedUi.files[path]?preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source))):source;
+}
 export function preApprovedUiSource(path,source){
- if(approvedUi.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
+ source=preApprovedUiOuterSource(path,source);
  source=preAcceptedPr323Source(path,source);
  source=preBattleRefactorLayer(path,source);
  source=preBoundedPotionFailuresSource(path,source);
