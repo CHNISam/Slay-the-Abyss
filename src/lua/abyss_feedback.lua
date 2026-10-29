@@ -147,7 +147,9 @@ function M.new(stage, platform, present, complete)
     local self = { busy = false, fastMode = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
     local overlay = stage:GetChild("feedback")
     function self.bindIdle(_owner,battle)
-        if not self.busy and self.idleBattle and self.idleBattle~=battle then self:reset() end
+        local changing=self.idleBattle and self.idleBattle~=battle
+            or battle and self.battle and self.battle~=battle
+        if not self.busy and changing then self:reset(battle==nil) end
         self.idleBattle = battle
         if battle and not self.busy then self.shadow = battle end
     end
@@ -201,8 +203,11 @@ function M.new(stage, platform, present, complete)
     function self.bindEnemySlot(slot,id)
         if self.slotOwners[slot]~=id then resetUnit('enemy'..slot) self.slotOwners[slot]=id end
     end
-    function self.reset()
-        self.battle = nil
+    function self.reset(_owner,retainHistory)
+        -- Hiding/rewards retire visuals, but terminal death evidence still belongs
+        -- to this battle. Cancellation and the next battle clear that history.
+        local history=retainHistory and self.deaths or {}
+        self.battle = retainHistory and (self.battle or self.idleBattle) or nil
         self.idleBattle, self.idleClock, self.shadow = nil, 0, nil
         self.cardFlow:reset()
         stage:SetAnchoredPosition(0, 0)
@@ -214,7 +219,7 @@ function M.new(stage, platform, present, complete)
             resetUnit(name)
         end
         self.slotOwners={}
-        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, {}, {}, {}, nil, {}
+        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, history, {}, {}, nil, {}
     end
     local function finish(failure)
         local wasBusy = self.busy

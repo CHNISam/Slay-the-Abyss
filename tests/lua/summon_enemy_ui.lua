@@ -1,6 +1,12 @@
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 local C,A=require('abyss_combat'),require('abyss_actor')
 local Theme=require('abyss_theme')
+local function idleBounds(portrait)
+ local idle=Theme.motion.actorIdle
+ return math.abs(portrait.x)<=idle.sway and math.abs(portrait.y)<=idle.lift
+  and math.abs(portrait.localScaleX-1)<=idle.scale+1e-9
+  and math.abs(portrait.localScaleY-1)<=idle.scale+1e-9
+end
 local passed,failed=0,0
 local function test(name,fn)
  local ok,why=pcall(fn);if ok then passed=passed+1 else failed=failed+1 end
@@ -121,12 +127,21 @@ test('completed death feedback cannot hide or tint the living actor that inherit
    visible=visible+1
    assert(not box:GetChild('floating').visible,'old damage number moved onto a replacement actor')
    local portrait=box:GetChild('portrait')
-   assert(portrait.localScaleX==1 and portrait.localScaleY==1 and portrait.x==0 and portrait.y==0,
+   -- Continuous idle may move within theme bounds; a transferred death pose may not.
+   assert(idleBounds(portrait),
     'old death pose moved onto a replacement actor')
+   local colour=portrait.imageColor
+   assert(colour.a==255 and colour.r==Theme.color.text.r and colour.g==Theme.color.text.g and colour.b==Theme.color.text.b,
+    'old death fade or tint moved onto a replacement actor')
   end
  end
  assert(visible==2,'old death animation hid a living actor after compaction')
  assert(shown(p,boss),'Leader lost its slot after feedback completion')
+ -- Negative controls retain the old regression's ability to reject collapse and knockback.
+ local oldDeath={x=0,y=-Theme.space.m/2,localScaleX=1.1,localScaleY=0.7}
+ assert(not idleBounds(oldDeath),'idle allowance accepted a transferred death collapse')
+ local oldHit={x=Theme.space.m,y=0,localScaleX=1,localScaleY=1}
+ assert(not idleBounds(oldHit),'idle allowance accepted old victim knockback')
 end)
 print('SUMMON_ENEMY_UI '..passed..' passed; '..failed..' failed')
 assert(failed==0,'summon visibility regressions')
