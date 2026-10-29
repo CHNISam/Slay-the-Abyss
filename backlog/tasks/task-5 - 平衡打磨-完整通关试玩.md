@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-29 01:55'
+updated_date: '2026-10-29 17:30'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -31,6 +31,7 @@ references:
   - docs/DELIVERY-CLOSEOUT.md
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - docs/evidence/backlog-merge-20261029.json
+  - docs/PLATFORM_LOAD.md
 priority: medium
 ordinal: 2
 ---
@@ -55,6 +56,8 @@ ordinal: 2
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-29角色范围仅旅行者；同一RC、PC和手机、自然流程、失败重开、音画及受影响回归标准保持。雷电将军转后续TASK-85。
+
+2026-10-30：将同候选平台负载报告纳入正式RC放行；20MB关卡、3MB服务器分别核验，16MB预警；静态全局/区域、动态四类异常、峰值/切换/重复进出、上传启动操作和手机验收缺一则BLOCKED/UNVERIFIED，不阻塞日常PR。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -75,4 +78,6 @@ ordinal: 2
 2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-30：平台负载双层门禁及发布文档已实现，离线工程集成不代替RC验收。现有官方截图仅作8.96MB/0.01MB基线，缺同候选身份；正式RC须补容量、全局及区域静态、四类动态原报告、高峰手牌/敌人特效/切换/重复进出、官方上传启动操作和物理手机证据。状态保持In Progress，正式发布UNVERIFIED/不得放行。
 <!-- SECTION:NOTES:END -->

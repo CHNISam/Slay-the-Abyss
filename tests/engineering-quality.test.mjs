@@ -188,8 +188,8 @@ test('quality reports are collected by the existing gate and uploaded on failed 
   assert.ok(!restored.includes('build/engineering-quality.json'));
   for(const old of ['build/architecture.json','build/lua-static.json','build/lua-complexity.json','build/ui-complexity.json','build/test-strength/*/report.json'])assert.ok(restored.includes(old));
   // Inversion must not erase accidental changes in new upload scope or paths.
-  for(const bad of [workflow.replace('build/engineering-quality.md','build/other.md'),
-    workflow.replace('if-no-files-found: warn','if-no-files-found: error')]) {
+  for(const bad of [workflow.replace(qualityWindowsUpload,qualityWindowsUpload.replace('build/engineering-quality.md','build/other.md')),
+    workflow.replace(qualityWindowsUpload,qualityWindowsUpload.replace('if-no-files-found: warn','if-no-files-found: error'))]) {
     assert.ok(beforeQualityArtifacts(bad).includes('engineering-quality-windows-'));
   }
 });

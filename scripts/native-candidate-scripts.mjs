@@ -4,6 +4,9 @@ import { resolve, basename } from 'node:path';
 // Only outputs consumed by the game are deployable. Test bridges also write
 // Lua into build/lua; discovering every .lua there ships test fixtures.
 const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];
+// Legacy LCG is superseded by the StS RNG modules. Keep its source/tests;
+// check:platform-load proves no production import references this exclusion.
+export const excludedProductionModules = ['abyss_random'];
 
 export function nativeUiVariables() {
   return [
@@ -12,11 +15,12 @@ export function nativeUiVariables() {
   ];
 }
 
-export function candidateScriptFiles(sourceDirectory = 'src/lua', generatedDirectory = 'build/lua') {
+export function candidateScriptFiles(sourceDirectory = 'src/lua', generatedDirectory = 'build/lua', generated = generatedModules) {
   const files = readdirSync(sourceDirectory, { withFileTypes: true })
-    .filter(entry => entry.isFile() && entry.name.endsWith('.lua'))
+    .filter(entry => entry.isFile() && entry.name.endsWith('.lua') && !excludedProductionModules.includes(basename(entry.name, '.lua')))
     .map(entry => resolve(sourceDirectory, entry.name));
-  for (const name of generatedModules) {
+  for (const name of generated) {
+    if (files.some(file => basename(file, '.lua') === name)) throw Error(`Duplicate game module: ${name}`);
     const file = resolve(generatedDirectory, `${name}.lua`);
     if (!statSync(file).isFile()) throw Error(`Missing generated game module: ${name}`);
     files.push(file);

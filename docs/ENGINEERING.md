@@ -1,5 +1,7 @@
 # 工程检查与证据入口
 
+平台负载采用[双层工程门禁](PLATFORM_LOAD.md)：`npm run check:platform-load` 检查共用生产打包清单、重复模块/模板/控件名、既有原生UI限制及固定基线增长，输出 `build/platform-load-daily.json`。实际构建收据保存生产 manifest，已有读回/hash/旧脚本清理继续生效。Quality 完整分片和生产相关 fast 路径执行，不启动游戏。正式 RC 另跑 `npm run verify:platform-load -- <最终candidate.json> <official-load.json>`；缺少同候选官方证据必须非零，普通PR不要求这些实测。20MB关卡与3MB服务器独立硬限，16MB内部预警；源码/GIL字节不能换算官方读数。
+
 原生列表生命周期属于可执行门禁：共享`game_ui_fixture`将`alive`建模为只读，并拒绝对已销毁实例调用`GetChild/GetChildren`；Grid可分别模拟复用、刷新销毁及滚动回收。`check:native-ui-contract`实际覆盖卡组/遗物查看、校准项替换、关闭重开、滚动回收，并运行移除生产存活保护的负对照，必须捕获无效对象访问。不得用始终保留实例的替身替代销毁场景；历史渲染轨迹与当前原生生命周期分别验证。该门禁源于2026-10-29实机点卡组/遗物报错，不能将此前静态或读回成功当成实机可用。
 
 Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1000物理行、每函数（含嵌套/工厂）≤350物理行，全部提取职责复杂度≤15；报告为 build/node-ui-size.json 与 build/responsibility-complexity.json。固定 develop 旧新对照运行 node scripts/compare-node-ui.mjs，范围与证据见 [Node UI专项方案](plans/2026-10-28-node-ui-refactor.md)。

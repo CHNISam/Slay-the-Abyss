@@ -1,12 +1,12 @@
 import { readFileSync, readdirSync, mkdirSync, writeFileSync, copyFileSync, constants, existsSync } from 'node:fs';
-import { resolve, join, basename } from 'node:path';
+import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileRecord, inside, sha256, writeExclusive, prepareOutputDirectory } from './evidence-files.mjs';
 import { requireStartupEvidence } from './native-playtest-evidence.mjs';
 import { settlementGraphSource } from './settlement-graph.mjs';
-import { nativeUiVariables } from './native-candidate-scripts.mjs';
+import { nativeUiVariables, candidateScriptFiles } from './native-candidate-scripts.mjs';
 import { loadReleaseNotes, notesSha256, gitSourceIdentity, releaseBuildArgs } from './release-notes.mjs';
 import { toLua } from './build-lua-data.mjs';
 import { nativeCardArtArgs, prepareNativeCardArt, nativeCardArtBuildReceipt, verifyNativeCardArtReceipt } from './card-art-samples.mjs';
@@ -108,12 +108,8 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     const layout=JSON.parse(readFileSync(join(generated,'game-ui.json'),'utf8'));
     const templates=JSON.parse(readFileSync(join(generated,'game-ui-templates.json'),'utf8'));
     layout.controls.forEach(checkTree);templates.forEach(checkTree);
-    const modules=new Map();
-    for(const file of readdirSync(join(root,'src/lua')).filter(file=>file.endsWith('.lua')).sort())modules.set(basename(file,'.lua'),join(root,'src/lua',file));
-    for(const name of Object.keys(generatedModules).sort()) {
-      if(modules.has(name))throw new Error(`Duplicate module: ${name}`);
-      modules.set(name,join(generated,`${name}.lua`));
-    }
+    const modules=new Map(candidateScriptFiles(join(root,'src/lua'),generated,Object.keys(generatedModules))
+      .map(({name,sourceFile})=>[name,sourceFile]));
     if(!modules.has('abyss_ui'))throw new Error('Missing entry module abyss_ui');
     if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during preparation');
     verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});
@@ -177,6 +173,8 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     for(const row of readback.scripts)if(typeof row.source!=='string'||sha256(row.source)!==moduleDigests[row.name])throw new Error(`Candidate content digest mismatch: ${row.name}`);
     for(const record of receipt.outputs)if(fileRecord(record.path,workspace).sha256!==record.sha256)throw new Error('Packaged output changed during build');
     receipt.moduleDigests=moduleDigests;
+    receipt.productionManifest={modules:[...modules.keys()].map(name=>({name,...fileRecord(join(payload,`${name}.lua`),workspace)})),
+      layout:fileRecord(join(generated,'game-ui.json'),workspace),templates:fileRecord(join(generated,'game-ui-templates.json'),workspace)};
     receipt.checkedModules=names;receipt.warnings={count:checked.warnings,problems:checked.problems??[],review:'not_run'};
     if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during packaging');
     verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});

@@ -37,6 +37,7 @@ export async function buildNativeAudioGame({ baseMap, output = 'build/native-aud
       || !full.release?.notesSha256) throw new Error('Release candidate provenance changed during audio packaging');
   }
   Object.assign(audio, { sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,
+    startedAt: full.startedAt, productionManifest: full.productionManifest,
     sourceReceipt: fileRecord(full.receiptPath), ...(full.release ? { release: full.release } : {}),
     ...(full.nativeCardArt ? { nativeCardArt: full.nativeCardArt } : {}) });
   writeFileSync(receiptPath, JSON.stringify(audio, null, 2) + '\n');
