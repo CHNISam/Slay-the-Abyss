@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-29 02:27'
+updated_date: '2026-10-29 03:12'
 labels: []
 dependencies: []
 priority: medium
@@ -35,6 +35,8 @@ ordinal: 125000
 当前base收口：实际develop已432eebb1，而PR314 API与合成merge父仍0763。新schema3预审在采证前后独立读取目标Git ref，两次实际SHA必须等于已测base；历史schema2和已合入提交验收不追认当前分支tip。新增旧PR/旧merge/旧CI一致但目标前进、采证中前进和畸形ref回归；仅交付聚焦先红后绿，不改工作流。
 
 CI故障切片：保留真实Windows ENAMETOOLONG记录；原生分片探针改在临时根目录以原排序文件名启动，新增实际argv便携断言，比较修复前后命令长度与逐片完整覆盖；只本地提交后独立审查，不发布。
+
+PR316核心超时修复已由accepted PR313（cec690c1）交付；本轮仅在既有职业选牌分片合同中补齐广义发现与针对性静态负例；实际进程编号联合仅作为本地验证证据保留，不加入普通Node套件。保留accepted Lua、manifest、runner hash与托管分片检查，原30秒预算验证；这是测试加固，不是M3玩法运行阻塞，不勾选性能验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -51,4 +53,12 @@ PR307头11ff8b98真实Windows8片失败：原ci-downloads负例将第一个npm�
 2026-10-28 17:34 UTC只读API证实当前目标陈旧边界：branches/develop、git/ref/heads/develop及GraphQL引用均432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7；PR314仍报告base0763d2e7a4137a1f35d6a214922cb3ca938aa53c，refs/pull/314/merge仍aac67c0b983bfeb99067ef579b1ec1b92d57d2e7，其真实父为0763与abca269f332ce4db41cc4fd572d3adcf76264bdd。仅复查PR对象会错误沿用一致但旧的PR/merge/CI组合。最小修复在PR采证前后独立读目标Git ref，schema3绑定targetBeforeSha/targetAfterSha与已测base；旧schema2不变，历史合入不查询当前tip。新增未变目标通过、起始陈旧拒绝且不取产物、采证中前进拒绝、两处缺失/畸形/查询失败及真实采证调用顺序回归。交付专项先红23通过1失败，后绿27/27，Node24.22.1；不改工作流、保护、依赖、原收据或产品源码，不做fetch/rebase/push/合并。
 
 2026-10-29 CI探针修复（仅本地待独立审查）：develop 58f72c2c 的Quality 40801744986/rules4 job123213242113原始日志确认原生八片探针spawnSync ENAMETOOLONG。Windows实际加权计划把POSIX四片合同放在rules3，也有同一重复绝对根目录缺陷；两份专用测试仅改cwd=临时根+原排序basename argv并新增便携实参断言，原断言、隔离、TAP及30秒预算不变。348文件逐片修复前后完全一致（八片44/44/44/44/43/43/43/43，四片87/87/87/87）；绝对argv变异在Linux亦被新增断言拒绝。当前Linux完整命令字符含NUL为21676→10192；已知Windows Node路径+67字符示例临时根模型为33840→10176（POSIX旧33144），真实hosted临时路径未采集。Node24.22.1聚焦18/18通过；初跑17/18缺fengari依赖失败原样保留，使用既有同版本NODE_PATH复跑，无安装。源码语法、网络与Backlog检查通过；未push/建PR/批准/合并，未取得新Windows hosted成功，TASK81性能验收仍未完成。证据保留于/tmp/windows-shard-probe-argv-20261029及原始hosted日志。
+
+PR316原head85489ef7及既有独立审查/预检保留为历史证据；accepted PR313已采用1–5/6–10的等价完整拆分并锁住原源Git blob/SHA与runner。当前改为复用已接受实现的最小测试加固，禁止覆盖accepted Lua/manifest或引入PR309的五片。原head已保留本地backup/class-choices-pr316-before-pr313-20261028，后续新head需另取独立审查与完整Quality。
+
+PR316最终收敛为两文件测试加固：只改既有tests/game-ui-class-choices-partitions.test.mjs与本任务CLI备注。accepted Lua两入口、manifest、runner完整hash、worker/timing与原托管分片检查逐字节保留；既有逆向校验复用于断言/12张牌组/两种物理分支/重复选择器负例，另加缺片/额外片（含非标准家族文件名）/重叠/空隙/注释入口负例。普通Node合同仅静态3/3通过0skip，不启动Lua、不增加重复CI进程；Full仍按原始Lua调度执行两入口。
+
+实际CASE编号联合已在本地验证，不作为普通CI新增测试：此前本地285449f3在重建data/UI/theme后Node24.22.1定向4/4通过0skip，两原30000ms进程11.500秒/14.646秒；独立审查4/4、11.458秒/13.004秒，实际编号1至10恰好一次。相关树外日志reconciled-pr313-focused-20261028.log及独立receipt保留为该历史head的证据。最终版本移除普通Node重复启动进程的检查，仅保留静态保护；新head需更新独立审查与当前SHA完整Quality，不复用旧854或285的预检资格。核心修复已随PR313接受，本轮不是M3运行阻塞；性能AC保持未勾选。
+
+PR319已合入48cb48ce（cec唯一父），吸收严格交付schema3/真实目标tip合同和已证实的四项原预算夹具拆分；本分支完整保留其TASK81交付计划/备注。PR316旧94e的Full40762136486仅退出夹具超时，该夹具现已由accepted319修复；本次仅将原静态职业选牌保护逐字节重放到新基线，不复制运行时/分片实现，不新增Node Lua进程，不作为M3运行阻塞。旧854/285/94e审查与运行只作历史记录，新head需新独立审查和当前Quality，性能AC仍不勾选。
 <!-- SECTION:NOTES:END -->

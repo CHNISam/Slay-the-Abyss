@@ -5,7 +5,7 @@ status: Blocked
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 15:48'
-updated_date: '2026-10-28 14:46'
+updated_date: '2026-10-29 00:13'
 labels:
   - post-release
   - platform-capability
@@ -17,6 +17,7 @@ references:
   - src/lua/abyss_ui.lua
   - src/lua/abyss_game_ui.lua
   - 'https://act.mihoyo.com/ys/ugc/tutorial/detail/mhzcw29qjjma'
+  - docs/backlog-details/MOBILE-QA-20261028.md
 priority: medium
 type: feature
 ordinal: 91000
@@ -47,4 +48,6 @@ ordinal: 91000
 PR #304记录退出丢进度风险；跨局持久恢复仍为未来事项，同实例恢复问题不得忽略。
 
 PR #304：手机试玩短暂离开后丢进度，是否同实例、重建或断线未知；源码缺持久恢复，PC具体表现未测。分别记录同实例恢复与跨局恢复。
+
+2026-10-29 生命周期证据承接附件§1与§9：区分同实例切后台、短暂断网重连、退关重进、系统回收，记录实际候选、设备、权限、Run身份、牌UID/升级、遗物次数及随机状态；同实例暂停须保留同一Run及本局进度，重建不能用从零开局伪装继续。当前Blocked/Medium是既有PR306提交的导入差量，不是本次新增重分类；持久恢复仍不在比赛关键路径，不升级Lv.4、不新增服务器/外部存储、不承诺退出续玩，不扩为跨局历史系统。
 <!-- SECTION:NOTES:END -->

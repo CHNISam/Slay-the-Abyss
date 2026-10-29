@@ -178,10 +178,10 @@
     "act1Special": 10,
     "starter": 1,
     "laterActExcluded": 8,
-    "existingLocalEffects": 56,
-    "queueMissing": 86,
-    "act1Missing": 91,
-    "registeredLocalEffects": 52,
+    "existingLocalEffects": 59,
+    "queueMissing": 83,
+    "act1Missing": 88,
+    "registeredLocalEffects": 55,
     "fallbackLocalEffects": 1,
     "classLocalEffects": 3
   },
@@ -2259,10 +2259,17 @@
       "sourceHooks": [
         "onEquip"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "mango",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Mango.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "sourceLock": "tests/fixtures/max-hp-relics-source.json",
+      "locallyCoveredChannels": [
+        "elite",
+        "chest",
+        "shop-normal"
+      ],
+      "implementationLimitation": "Source onEquip only; full source queues/order/RNG retained. Controlled maximum-health/modifier and public-channel cases do not certify natural campaign, PC binary or platform/live acceptance."
     },
     {
       "id": "Mark of the Bloom",
@@ -3115,10 +3122,17 @@
       "sourceHooks": [
         "onEquip"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "pear",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Pear.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "sourceLock": "tests/fixtures/max-hp-relics-source.json",
+      "locallyCoveredChannels": [
+        "elite",
+        "chest",
+        "shop-normal"
+      ],
+      "implementationLimitation": "Source onEquip only; full source queues/order/RNG retained. Controlled maximum-health/modifier and public-channel cases do not certify natural campaign, PC binary or platform/live acceptance."
     },
     {
       "id": "Pen Nib",
@@ -4353,10 +4367,15 @@
       "sourceHooks": [
         "onEquip"
       ],
-      "projectId": null,
-      "status": "unimplemented",
+      "projectId": "lees_waffle",
+      "status": "existing-local-effect-not-full-pool-parity",
       "source": "relics/Waffle.java",
-      "unlockSource": null
+      "unlockSource": null,
+      "sourceLock": "tests/fixtures/max-hp-relics-source.json",
+      "locallyCoveredChannels": [
+        "shop-normal"
+      ],
+      "implementationLimitation": "Source onEquip only; full source queues/order/RNG retained. Controlled maximum-health/modifier and public-channel cases do not certify natural campaign, PC binary or platform/live acceptance."
     },
     {
       "id": "War Paint",

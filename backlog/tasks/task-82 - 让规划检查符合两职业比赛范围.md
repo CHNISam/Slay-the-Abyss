@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 14:40'
-updated_date: '2026-10-28 15:59'
+updated_date: '2026-10-29 00:15'
 labels: []
 dependencies: []
 priority: low
@@ -43,6 +43,8 @@ ordinal: 125000
 2026-10-28 PR306接续（基线6fe3a6e24d3eedeb40aeb6e48aebc129b35b0a29）：修复M3过期四职业硬编码；原生里程碑标题保持不变，另将SCOPE当前决策段绑定为岩系旅行者（Ironclad）与雷电将军现有冻结V4，历史/Alpha/Dev中的职业提及不能替代当前合同。AGENTS、SCOPE与MILESTONES仅澄清这一既定范围，未动玩法、原卡池、概率、白名单或CI。
 实际离线证据：verify:backlog通过；专用Node回归30/30、零跳过（具名角色、V4重设计、历史误救、四/八/全职业、两幕及CLI正负例）；Backlog doctor无重复/自依赖/环；数据与UI构建、既有competition-two-act回归通过（7组受控边界，保留同局状态/回滚与无持久历史）；网络守卫、改动JS语法与diff检查通过。使用现有固定版本依赖，无下载或依赖变更。
 本任务仅完成规划检查修复，不认证运行时准入、原生候选、完整Quality、平台或实体设备；TASK-59/59.3及其未勾验收保持不变。本轮未用OpenCode（既有限额窗口未知），未占用键鼠、未推送、未合并。
+
+2026-10-29 本地选择性承接：在PR322候选e0bddc7之上按原作者与cherry-pick来源线性导入PR306四提交；14.1冲突保留322全部MaxHP/来源/限制记录，经CLI只追加手机引用和验收。选择性迁入304手机释放合同而非旧UI整文件，313地图/菜单/theme与319/303及322源码不改；相关任务直链完整诊断，4.7补UID/真实来源/三类升级/只读安全未勾要求，53维持306原提交的Blocked/Medium（相对旧base的To Do/Low是原306差量，不是本次新重分类），持久化不列比赛关键路径。任务负责人、导入后的状态与已勾验收均不变；30项纯Node规划/治理、verify:backlog、doctor与diff检查通过，不认证运行时白名单、候选、导入、手机、自然通关或持久恢复。当前仅本地交付，待root独立复审并在322实际合入后重定位精确基线，未推送/开PR/合并/发布。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

@@ -9,6 +9,7 @@ import {integration as proof,acceptedPresentationSource,digest} from './helpers/
 import {retirementSources,preRetirementSource,archivedRetirementChangelog} from './helpers/presentation-announcement-retirement.mjs';
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import {materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
+import {preMaxHpSource} from './helpers/max-hp-accepted-source-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
 // The delta oracle describes its immutable reviewed sources, not today's layout.
@@ -174,7 +175,7 @@ test('historical relic input is the complete frozen pre-Molten/Mushrooms source,
  assert.equal(digest(before),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758');
  assert.equal(preRetirementSource(path),before);
  assert.equal(preRetirementSource(path,live.replaceAll('\n','\r\n')),before);
- const current=JSON.parse(live),old=JSON.parse(before),ids=new Set(['molten_egg','odd_mushroom']);
+ const current=JSON.parse(preMaxHpSource(path,live)),old=JSON.parse(before),ids=new Set(['molten_egg','odd_mushroom']);
  const added=current.relics.filter(r=>ids.has(r.id));assert.equal(added.length,2);
  assert.deepEqual({...current,relics:current.relics.filter(r=>!ids.has(r.id))},old,'all earlier relic definitions and their order remain exact');
  for(const change of [

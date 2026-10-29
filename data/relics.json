@@ -541,6 +541,33 @@
       "rarity": "special",
       "trigger": "hooks",
       "effects": []
+    },
+    {
+      "id": "pear",
+      "sourceId": "Pear",
+      "name": "梨",
+      "description": "取得时增加10点生命上限并回复10生命。",
+      "rarity": "uncommon",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "mango",
+      "sourceId": "Mango",
+      "name": "芒果",
+      "description": "取得时增加14点生命上限并回复14生命。",
+      "rarity": "rare",
+      "trigger": "hooks",
+      "effects": []
+    },
+    {
+      "id": "lees_waffle",
+      "sourceId": "Lee's Waffle",
+      "name": "李家华夫饼",
+      "description": "取得时增加7点生命上限，然后回复生命至上限。",
+      "rarity": "shop",
+      "trigger": "hooks",
+      "effects": []
     }
   ]
 }

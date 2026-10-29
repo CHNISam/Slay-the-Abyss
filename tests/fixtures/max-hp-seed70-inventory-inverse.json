@@ -1,0 +1,24 @@
+{
+  "authorizedSourceRepair": "c9d189c6561039c7a62a506c9cefab87733738f4",
+  "priorSource": "bc3047c9f84add43fff1b13616114ef07a82869d",
+  "scope": "Only the authorized seed70 Pear-availability/isolated missing-definition control; preserve immutable PR238 full original body, all12cases and30s budget.",
+  "binding": {
+    "path": "tests/lua/inventory.lua",
+    "beforeSha256": "644943035f72d353672944cbfed2134b6f38eeef6e3d32ba468797e051f8df9e",
+    "afterSha256": "16541385d8c439f13da917d23d31a07e04463f183a80668584c0f7dad9f9b9c5",
+    "edits": [
+      {
+        "before": "            local originalItems=Combat.copy(run.nodeFlow.reward.items)\n            local lastSlot,missing=0,false\n            for _,item in ipairs(originalItems)do\n",
+        "after": "            local originalItems=Combat.copy(run.nodeFlow.reward.items)\n            equal(#originalItems,1);equal(originalItems[1].sourceId,'Pear')\n            equal(originalItems[1].id,'pear');equal(originalItems[1].tier,'uncommon');equal(originalItems[1].available,true)\n            local lastSlot=0\n            for _,item in ipairs(originalItems)do\n"
+      },
+      {
+        "before": "                    if not definition then\n                        missing=true\n                        local before,flow,reward=Combat.copy(run),run.nodeFlow,run.nodeFlow.reward\n",
+        "after": "                    if not definition then\n                        local before,flow,reward=Combat.copy(run),run.nodeFlow,run.nodeFlow.reward\n"
+      },
+      {
+        "before": "            end\n            assert(missing,'seed70 preserves its missing-definition source identity without rerolling')\n            local pool,rng=Pool.snapshot(run.relicPool),{treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)}\n",
+        "after": "            end\n            -- Pear is now implemented. Keep the real seed70 source draw, while\n            -- exercising the same missing-definition refusal in a detached\n            -- pre-open control; never shrink/filter the live source queues.\n            local liveBefore=Combat.copy(run)\n            local unavailable=Combat.copy(beforeOpen);assert(unavailable.data~=run.data)\n            local removed=0\n            for i=#unavailable.data.relics.relics,1,-1 do\n                local entry=unavailable.data.relics.relics[i]\n                if entry.id=='pear'then\n                    equal(entry.sourceId,'Pear');table.remove(unavailable.data.relics.relics,i);removed=removed+1\n                end\n            end\n            equal(removed,1)\n            local unavailableReward=Combat.copy(expected.reward)\n            for _,item in ipairs(unavailableReward.items)do\n                if item.kind=='relic'then equal(item.sourceId,'Pear');item.id,item.available='Pear',false end\n            end\n            unavailableReward.relicId,unavailableReward.relicUnavailable='Pear',true\n            assert(Nodes.openTreasure(unavailable))\n            same(unavailable.nodeFlow.reward,unavailableReward) -- includes original trace, tier, slot and source identity\n            same(Pool.snapshot(unavailable.relicPool),Pool.snapshot(expected.relicPool))\n            same(Random.snapshot(unavailable.treasureRng),Random.snapshot(expected.treasureRng))\n            same(Random.snapshot(unavailable.cardRng),Random.snapshot(expected.cardRng))\n            local before,flow,reward=Combat.copy(unavailable),unavailable.nodeFlow,unavailable.nodeFlow.reward\n            local token=assert(Nodes.treasureRewardSource(unavailable,originalItems[1].slot))\n            local ok,reason=Nodes.claimTreasureReward(unavailable,token)\n            assert(not ok and reason=='relic_content_unavailable')\n            same(unavailable,before);equal(unavailable.nodeFlow,flow);equal(unavailable.nodeFlow.reward,reward)\n            same(run,liveBefore)\n            local pool,rng=Pool.snapshot(run.relicPool),{treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)}\n"
+      }
+    ]
+  }
+}

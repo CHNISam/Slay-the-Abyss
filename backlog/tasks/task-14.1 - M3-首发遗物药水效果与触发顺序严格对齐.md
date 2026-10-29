@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 14:46'
+updated_date: '2026-10-29 00:13'
 due_date: '2026-10-28'
 labels:
   - required
@@ -28,7 +28,9 @@ references:
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
   - docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md
+  - docs/rules/MAX_HP_RELICS.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
+  - docs/backlog-details/MOBILE-QA-20261028.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -52,6 +54,7 @@ ordinal: 42000
 - [ ] #7 全池逐件验证叠加、跨房间、战后和重复使用；尚未实现的组合不能沿用已有子集测试判通过。
 - [ ] #8 同一候选逐件自然取得、使用和触发，保留对应平台日志与截图。
 - [ ] #9 普通与Boss遗物奖励的候选均可领取并有完整定义，保留自然获取与实机证据。
+- [ ] #10 不可领取原因与可选操作准确：不能把未实现写成稍后可领，也不能在只有一项时提示领取其他奖励；合法失败不消耗奖励、资源或随机流。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -78,6 +81,14 @@ ordinal: 42000
 2026-10-28冲刺：按固定319009d5的MoltenEgg2.java补熔火之蛋，复用既有获得牌与Toxic Egg owner；覆盖攻击牌preview/obtain、只追溯当前战斗奖励、回滚、正常来源与48层边界。保持旧牌组/旧商店不追改；先红后绿并复验Toxic；完整道具池、自然和平台AC继续保留未完成。
 
 2026-10-28 PR286收口：修复三处EOF空行与Darklings状态说明惰性依赖；逐项消解develop冲突并保留PR267和campaign入口，等待PR290合入后最终同步；补定向回归与当前HEAD完整Quality，全绿后squash，关闭被吸收PR285并保留可恢复历史再清理。来源锁、RNG顺序、回滚、测试预算及未验收AC保持。
+
+2026-10-28 最大生命切片重迁：从实际已接受 develop432eebb1 独立开树，只移植原0391ea73已审查的Pear+10、Mango+14、SHOP Waffle+7后按新上限治疗和Strawberry活动owner修复。先用真实战斗损血重现旧Strawberry stale Run HP，再保留现有Run/Nodes/UI、Mark/MagicFlower、Fairy/Tail及源队列；仅补本片模块/定义/逐件目录/固定来源与测试。串行专项验证并记录当前base的守恒证据；不并入关闭未合PR300/301内容，不改历史金样或竞赛范围，不勾平台/自然验收，不推送/开PR/合并。
+
+2026-10-28 发布前追加当前比赛身份定向冒烟：复用现有MaxHP夹具与真实CharacterSelect/Run入口，用当前冻结V4雷电和岩旅行者验证四件定义/钩子保留、战外取得后的实际数值及下一真实战斗继承、岩活动stale-owner成功；既有Original V4活动上下文安全拒绝另验完整owner/熵原子回滚，不伪称雷电活动取得已支持。只增独立小夹具/Node封装，原15份审查新增文件与生产代码不动，不扩框架，不跑宽套。
+
+2026-10-28 当前真实底座更新：MaxHP独立线性分支rebase到已接受PR313的cec690c1，保留已批准UI/历史链且不并入待接受315/317。对真实Full CI暴露的PR238完整体守卫，只增认证c9seed70修复的精确外层逆变换，先恢复原字节再走原hash/12例/30秒证明。当前新主题/架构仅逆回MaxHP三图标+一个core分类，旧历史证据不改；当前专项、独立审查及精确SHA全量CI分层记录。
+
+2026-10-28 接受PR319后，只将当前五个已审查MaxHP线性提交rebase到48cb48ce；完整保留其冻结药水registrar逆变换、分片与交付合同，若严格source层相交则仅做精确组合。旧金样/hash与原MaxHP生产/数据不改；纯合同、固定来源、静态及逐字节守恒后冻结本地审查，不推送且不写PR元数据。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -149,5 +160,15 @@ PR286主线程收口：保留远端5556fef1的Searing Blow复制语义，原固�
 
 最终UI紧急合流保留#286完整规则交付及最新范围，双方原始任务快照见docs/reviews/ui-merge-task-history-20261028.json.gz。未把源码合并或紧急CI授权冒充道具平台验收。
 
+2026-10-28 最大生命独立重迁：从实际已接受develop432eebb1只迁原0391ea73的Pear/Mango/Waffle和Strawberry活动owner修复，未纳入关闭未合PR300/301源层。真实战斗stale-owner断言先RED后GREEN；当前94项Node、5个相邻Lua入口、9固定源成员/160生命/28完整渠道金样通过；架构231模块/1294边，固定Luacheck无新增诊断/60历史/625度量。851份已接受Lua/冻结夹具/历史审查/源池文件逐字节保留，15原审查新增文件与hook精确保留。只追加3项定义至59项，不表示完整遗物/Boss覆盖；历史完整身份RED后以两文件精确MaxHP测试逆映射恢复432e原始字节，旧金样/hash/trace与#310逆映射保留。四职业夹具只证通用遗物同源兼容，不扩大岩旅行者+既有冻结V4雷电及前两幕比赛范围。独立证据m3-max-hp-accepted-432e-evidence；完整Quality/远端交付/候选/官方导入/自然取得/平台实机未验，AC和In Progress/Furinya保持。
+
+2026-10-28 追加比赛实际身份小冒烟：真实CharacterSelect/Run的岩旅行者与当前冻结V4雷电分别通过四件战外取得→真实Cultist战斗hp/maxHp继承；实际RD身份/冻结初始牌顺序/新战healUsed=0核对。岩活动stale-owner四件成功，雷电活动四件仍按原模块transaction_failed原子拒绝，完整图/熵/治疗账本保留；不宣称全角色活动支持。两身份原30秒预算分别2.88s/4.82s，2项通过；首轮夹具误期待内部错误文本的失败单独保留。常规商店/宝箱phase=node、胜利遗物领取phase=reward源码路径复核未见活动取得入口；不是自然游玩证据。只增独立小夹具/测试，原15审查新增与生产代码不动。原全量/平台/自然AC继续未勾。
+
+2026-10-28 真实c9 Quality40756971580在Windows rules1与POSIX1同一PR238守卫报1!=2，根因旧完整体inverse缺c9授权seed70差量，非玩法/RNG或超时。精确RED复现，旧PR238来源/hash/全case与预算保留；新精确source inverse及漂移/往返证明后21项纯合同GREEN。接受底座已更新cec690c1；原MaxHP模块/hook/15文件字节不变，当前接受UI/静态基线/历史金样保留。实际Geo/雷电及活动owner3项封装、inventory_budget_6两例在原预算通过；固定源/构建/数据/语法/架构232-1300/固定静态0新增60历史625度量通过。未重跑旧94作完整CI替代；当前独立review/新精确head全量Quality仍待。本任务In Progress/Furinya及完整AC不改，V4活动取得仍原子拒绝，自然/平台/实机不冒称通过。
+
+2026-10-28 接受PR319实际48cb48ce后，本片五个提交线性rebase无冲突，未新增helper组合改动。接受319全部20路径、冻结registrar与原预算分片/交付合同逐字节保留；28项纯来源/漂移/分片合同、9固定源/160生命/28渠道、构建/数据/语法/架构232-1300/固定静态0新增60历史625度量通过。932份接受Lua/冻结夹具/审查/目录/静态基线、原15新增+hook、seed70 c9运行夹具精确保留。MaxHP生产/数据无新增改动，无重型Lua重复回放；当前精确head独立review与新Full待验，不推送且不写被拒绝的PR元数据。原In Progress/Furinya/全部AC及V4活动原子拒绝限制不变。
+
 PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确认候选缺定义，可能跨端但PC实际情况待验，不能称PC已复现。
+
+2026-10-29 承接PR304未被精简文字覆盖的奖励合同：按附件§4逐项核验真实定义、完整效果、正常授予、装备触发、次数、跨房间与中文；不能只注册空定义、删源池或缺项重抽点亮按钮，资格、随机流与失败原子性保留。白兽与seed1三件Boss为7a87de3调查入口，不是用户录音种子或自然通关证据；原覆盖表不冒充后续MaxHP接入后的当前覆盖。PR322的MaxHP修复、来源证明、V4活动取得原子拒绝限制及全部既有验收记录原样保留。
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "path": "config/architecture.json",
+  "combinedSha256LF": "3476d3d6407f1a64c194add9937c48da1eb2ce6ba98cc90617feb3751aeb9c44",
+  "targets": {
+    "combined": {
+      "head": "e2b10defdf8fe752e5d5a3634cd25fe47321672b",
+      "sha256LF": "df2d58668d69864a61e3d177c8ab4183cedd11fb12bdb6f9e14312b008bf6f9b",
+      "edits": [
+        {
+          "at": 253,
+          "before": [
+            "    \"abyss_nodes_sources\": \"core\",",
+            "    \"abyss_run_initialization\": \"core\",",
+            "    \"abyss_run_transition\": \"core\",",
+            "    \"abyss_run_rooms\": \"core\",",
+            "    \"abyss_run_settlement\": \"core\",",
+            "    \"abyss_run_potions\": \"core\""
+          ],
+          "after": [
+            "    \"abyss_nodes_sources\": \"core\""
+          ]
+        }
+      ]
+    },
+    "run": {
+      "head": "58f72c2cc43a2833e9e1cdefe7c332ff0fd49243",
+      "sha256LF": "bc1a6dca0701091f73a8464de978a4b202597c70500c84c73f33a855a510240e",
+      "edits": [
+        {
+          "at": 234,
+          "before": [
+            "    \"abyss_max_hp_relics\": \"core\","
+          ],
+          "after": []
+        }
+      ]
+    }
+  }
+}

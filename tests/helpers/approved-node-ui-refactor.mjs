@@ -1,8 +1,11 @@
+import {preNodesBattleMaxHpConfig} from './nodes-battle-max-hp-config-inverse.mjs';
+import {preCompositeBattleMaxHpConfig} from './battle-max-hp-config-inverse.mjs';
 import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {nodeUiRefactor,preNodeUiRefactorSource} from './node-ui-refactor-inverse.mjs';
+import {preMaxHpSource} from './max-hp-accepted-source-inverse.mjs';
 import {preCoreArchitectureSource} from './core-architecture-inverse.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const normalized=value=>value.replaceAll('\r\n','\n');
@@ -48,6 +51,9 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ source=preNodesBattleMaxHpConfig(path,source);
+ source=preCompositeBattleMaxHpConfig(path,source);
+ if(source!==null)source=preMaxHpSource(path,source);
  source=preCoreArchitectureSource(path,source);
  source=preBattleRefactorLayer(path,source);
  source=prePostNodeSource(path,source);

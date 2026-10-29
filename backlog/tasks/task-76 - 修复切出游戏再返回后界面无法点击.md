@@ -5,13 +5,14 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-10-28 14:46'
+updated_date: '2026-10-29 00:13'
 labels: []
 milestone: m-4
 dependencies: []
 references:
   - docs/backlog-details/TASK-76.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
+  - docs/backlog-details/MOBILE-QA-20261028.md
 priority: high
 type: bug
 ordinal: 121000
@@ -51,4 +52,6 @@ ordinal: 121000
 已用真实UI处理器红绿复现缺失Up导致卡牌永久锁定；最小修复18行及针对性回归已实现。候选只替换PR290底图的BattleUI模块，实机待用户自行验证。详细边界、测试与失败记录见附件。
 
 2026-10-28队列复核（基线77c2d5e6）：中断按压修复已进入集成源码，但跨界面故障与同候选平台实测尚无完整验收；继续High/In Progress，原0/3验收保留。作为前两幕输入阻塞关联M4并列入排期，负责人统一Furinya，不把本地红绿或实验模块包当作用户故障已彻底解决。
+
+2026-10-29 完整输入合同承接附件§2：真实拖牌及拖杀转奖励后，完整指针、混合Click动作和纯Click三种能力都能结束回合、领奖及跳过；迟到Click抑制只绑定原手势/有限消费，不泄漏后续动作，也不允许旧事件再次出牌。卡组关闭后战斗/奖励/地图首个合法操作可用，关闭不穿透、旧触点不复活；原生遮挡锁仍须真实命中控件与事件序列。奖励入口复现不能冒认录音Skip已复现；不每帧清标志或全局重建掩盖未知根因。
 <!-- SECTION:NOTES:END -->

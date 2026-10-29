@@ -232,6 +232,7 @@
     "abyss_node_ui_input": "ui",
     "abyss_node_ui_shop": "ui",
     "abyss_battle_potion_popup": "ui",
+    "abyss_max_hp_relics": "core",
     "abyss_battle_actions": "ui",
     "abyss_battle_action_bindings": "ui",
     "abyss_battle_card_bindings": "ui",

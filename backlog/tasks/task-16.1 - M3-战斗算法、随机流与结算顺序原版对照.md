@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 13:20'
+updated_date: '2026-10-29 00:13'
 due_date: '2026-10-28'
 labels:
   - required
@@ -22,6 +22,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
+  - docs/backlog-details/MOBILE-QA-20261028.md
 parent_task_id: TASK-16
 priority: high
 type: enhancement
@@ -120,4 +121,6 @@ ordinal: 43000
 本轮已在 7a87de3a 重现原五份夹具全部失败：拒绝路径错误返回成功，异常路径未恢复已消费的随机状态。最小修复后原五份夹具、十组用例通过；正补第一/第二幕真实奖励准备入口的受控失败回归。尚未完成本轮完整 CI、自然通关或平台验收，原状态、负责人及未勾验收项保持不变。
 
 本轮局部验证已收口：原五份续选夹具加第一/第二幕 competition-two-act 真实房间奖励准备的两个受控异常用例，共12组通过；最初原五份夹具及新增两幕用例均在7a87de3a原生产源码实际重现失败。最终相关JS 16项、额外11份Lua回归、语法、Backlog和完整本地engineering检查均通过，原30秒夹具预算及已有断言不变。Node v24.22.1、Fengari CLI 0.1.0、固定Luacheck 1.2.0；复用既有缓存依赖。这里只证明同局事务与受控组件：没有持久存档、自然通关、新候选、导入、实机或当前完整Quality证据，AC5/6与整体In Progress保持不变。
+
+2026-10-29 范围与手机诊断承接：附件的High分工属于7a87de3诊断时快照，不覆盖本任务当前High或较新的PR303同局事务/回滚证据。全量规则与随机消费验收不因任务首页精简而降低；比赛仅岩系旅行者及现有冻结V4雷电两幕，其他职业研发证据保留但不恢复旧比赛门禁。
 <!-- SECTION:NOTES:END -->

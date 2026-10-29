@@ -596,7 +596,10 @@
         "id": 100114,
         "placeholder": true,
         "note": "Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending."
-      }
+      },
+      "pear": 102005,
+      "mango": 102005,
+      "lees_waffle": 102005
     },
     "cardPortraits": {
       "cleave": {

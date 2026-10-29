@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "path": "config/architecture.json",
+  "combinedSha256LF": "df2d58668d69864a61e3d177c8ab4183cedd11fb12bdb6f9e14312b008bf6f9b",
+  "targets": {
+    "candidate": {
+      "head": "dd1cd69fc96e7f4ac449c7f0bd84f867063c82ab",
+      "sha256LF": "2cca90fbe128e36911e5a810ac45a63ad7612e99198a4613742c6a47c77d1ddc",
+      "edits": [
+        {
+          "at": 248,
+          "before": [
+            "    \"abyss_battle_targeting\": \"ui\",",
+            "    \"abyss_battle_target_bindings\": \"ui\",",
+            "    \"abyss_nodes_common\": \"core\",",
+            "    \"abyss_nodes_entry\": \"core\",",
+            "    \"abyss_nodes_events\": \"core\",",
+            "    \"abyss_nodes_sources\": \"core\"",
+            "  },"
+          ],
+          "after": [
+            "    \"abyss_battle_targeting\": \"ui\",",
+            "    \"abyss_battle_target_bindings\": \"ui\"",
+            "  },"
+          ]
+        }
+      ]
+    },
+    "nodes": {
+      "head": "18297e533fb27e7e1af29cc6e02d19309f9a11a6",
+      "sha256LF": "4c98aac4741ad87a2465dfec893022801ea42d19f9895cc3969cea4ebb8addbc",
+      "edits": [
+        {
+          "at": 233,
+          "before": [
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_max_hp_relics\": \"core\",",
+            "    \"abyss_battle_actions\": \"ui\",",
+            "    \"abyss_battle_action_bindings\": \"ui\",",
+            "    \"abyss_battle_card_bindings\": \"ui\",",
+            "    \"abyss_battle_card_gestures\": \"ui\",",
+            "    \"abyss_battle_card_layout\": \"ui\",",
+            "    \"abyss_battle_details\": \"ui\",",
+            "    \"abyss_battle_detail_bindings\": \"ui\",",
+            "    \"abyss_battle_input_state\": \"ui\",",
+            "    \"abyss_battle_potion_bindings\": \"ui\",",
+            "    \"abyss_battle_render\": \"ui\",",
+            "    \"abyss_battle_render_actors\": \"ui\",",
+            "    \"abyss_battle_render_hud\": \"ui\",",
+            "    \"abyss_battle_render_state\": \"ui\",",
+            "    \"abyss_battle_targeting\": \"ui\",",
+            "    \"abyss_battle_target_bindings\": \"ui\",",
+            "    \"abyss_nodes_common\": \"core\","
+          ],
+          "after": [
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_nodes_common\": \"core\","
+          ]
+        }
+      ]
+    }
+  }
+}
