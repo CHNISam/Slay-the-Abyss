@@ -31,13 +31,13 @@ local function point(place)
     return L.player.position
 end
 function M.new(stage,platform)
-    local self={active={},waiting={},inPlay={}}
+    local self={active={},waiting={},inPlay={},moving={}}
     local overlay=stage:GetChild('feedback')
     local function colour(c,alpha)return platform.color(c.r,c.g,c.b,math.floor((c.a or 255)*alpha))end
     local function box(slot)return overlay:GetChild('cardTrail'..slot)end
     function self:reset()
         for slot=1,10 do box(slot):SetVisible(false)end
-        self.active,self.waiting,self.inPlay={},{},{}
+        self.active,self.waiting,self.inPlay,self.moving={},{},{},{}
     end
     function self:playing(d,flight)
         self.inPlay[d.uid]={card={uid=d.uid,cardId=d.cardId},pile='play',position={flight.tx,flight.ty}}
@@ -84,12 +84,20 @@ function M.new(stage,platform)
         card:SetLocalScale(0.5,0.5,1)
         card:SetVisible(true)
     end
+    local function takeNext()
+        for index,entry in ipairs(self.waiting)do
+            if not self.moving[entry.uid]then
+                self.moving[entry.uid]=true
+                return table.remove(self.waiting,index)
+            end
+        end
+    end
     function self:update(dt,catalog,presentation,fast)
         for slot=1,10 do
             local entry=self.active[slot]
             if not entry and #self.waiting>0 then
-                entry=table.remove(self.waiting,1);self.active[slot]=entry
-                show(slot,entry,catalog,presentation)
+                entry=takeNext();self.active[slot]=entry
+                if entry then show(slot,entry,catalog,presentation)end
             end
             if entry then
                 entry.age=entry.age+dt*(fast and 2 or 1)
@@ -102,7 +110,8 @@ function M.new(stage,platform)
                 local scale=entry.to=='retain'and 0.5 or 0.5-(0.5-0.12/0.75)*q
                 card:SetLocalScale(scale,scale,1)
                 -- Keep the card visible at its real endpoint for one update before recycling.
-                if entry.arrived and dt>0 then card:SetVisible(false);self.active[slot]=nil
+                if entry.arrived and dt>0 then
+                    card:SetVisible(false);self.active[slot]=nil;self.moving[entry.uid]=nil
                 elseif p>=1 then entry.arrived=true end
             end
         end

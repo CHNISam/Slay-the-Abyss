@@ -48,4 +48,10 @@ local count=0;for _ in pairs(flow.active)do count=count+1 end
 assert(count==10 and #flow.waiting==15)
 flow:reset();assert(not flow:busy()and next(flow.inPlay)==nil)
 for slot=1,10 do assert(not root:GetChild('feedback'):GetChild('cardTrail'..slot).visible)end
+flow:sync(frame({a}),frame(nil,nil,{a}))
+flow:sync(frame(nil,nil,{a}),frame(nil,{a}),'reshuffle')
+flow:update(0,catalog,{})
+local concurrent=0;for _,entry in pairs(flow.active)do if entry.uid==a.uid then concurrent=concurrent+1 end end
+assert(concurrent==1,'the same UID cannot be in two simultaneous native trajectories')
+assert(#flow.waiting==1,'the next route must wait for its UID to arrive')
 print('ok card_flow - UID destinations, endpoints, retain, power, shuffle and bounded pool')
