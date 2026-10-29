@@ -9,6 +9,7 @@ import {integration as proof,acceptedPresentationSource,digest} from './helpers/
 import {retirementSources,preRetirementSource,archivedRetirementChangelog} from './helpers/presentation-announcement-retirement.mjs';
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import {materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
+import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
 // The delta oracle describes its immutable reviewed sources, not today's layout.
@@ -169,7 +170,8 @@ test('historical replay inputs bind every changed build, host and version source
 });
 
 test('historical relic input is the complete frozen pre-Molten/Mushrooms source, not a reduced live dataset',()=>{
- const path='data/relics.json',live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ // Compare the complete 58f72 input before applying the existing older inverse.
+ const path='data/relics.json',live=readBeforeMobileQaSource(path).replaceAll('\r\n','\n');
  const before=readFileSync('tests/fixtures/presentation-relics-before-m3.json','utf8').replaceAll('\r\n','\n');
  assert.equal(digest(before),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758');
  assert.equal(preRetirementSource(path),before);

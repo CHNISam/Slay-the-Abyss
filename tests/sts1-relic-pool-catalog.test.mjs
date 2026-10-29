@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
 import {canSpawn, drawRelic, rollTier, javaShuffle, screenlessReject, nonCampfireReject, tiers} from '../tools/oracles/sts1_relic_queues.mjs';
 
 const read = path => readFileSync(path, 'utf8');
@@ -103,8 +104,10 @@ test('chosen-class local bindings cannot disappear, cross classes or alter the I
   }
 });
 
-test('existing project effects are mapped honestly and the exact missing set is the original set difference', () => {
-  const data = json('data/relics.json').relics;
+test('historical project effects retain the exact original mapped and missing sets', () => {
+  // This fixed catalog records the complete pre-mobile-QA definition boundary.
+  // Current effects/channels remain exercised by the live missing-relic suites.
+  const data = JSON.parse(readBeforeMobileQaSource('data/relics.json')).relics;
   const mapped = catalog.relics.filter(row => row.projectId);
   const fallbacks = catalog.fallbacks.filter(row => row.projectId);
   const fallbackIds = [...new Set(fallbacks.map(row => row.projectId))];
