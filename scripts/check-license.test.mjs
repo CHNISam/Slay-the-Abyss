@@ -153,3 +153,13 @@ test('explicit raster LFS records bind canonical pointers without claiming paylo
     assert.ok(check(pointer).length, 'undeclared LFS pointer is not a reviewed image');
   } finally { rmSync(root,{recursive:true,force:true}); }
 });
+
+test('missing reviewed assets return provenance errors rather than throwing', t => {
+  const root = mkdtempSync(join(tmpdir(), 'abyss-license-missing-'));
+  t.after(() => rmSync(root, {recursive:true, force:true}));
+  for (const extra of [{}, {lfs:true,bytes:1}, {lfsBytes:1}]) {
+    const path = 'art/cards/traveler-geo/strike/source.png';
+    const inventory = {categories:{unknown:{}},files:{[path]:{category:'unknown',sha256:'0'.repeat(64),...extra}}};
+    assert.deepEqual(checkAssets(root,[path],inventory), [`Changed asset/runtime needs provenance review: ${path}`]);
+  }
+});

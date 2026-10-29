@@ -49,6 +49,10 @@ export function checkAssets(root, paths, inventory) {
       errors.push(`Asset/runtime needs provenance review: ${path}`);
       continue;
     }
+    if (!existsSync(resolve(root, path))) {
+      errors.push(`Changed asset/runtime needs provenance review: ${path}`);
+      continue;
+    }
     const bytes = readFileSync(resolve(root, path));
     if (entry.lfs === true) {
       // Opt-in source identity only: this does not inspect pixels or fetch LFS objects.
