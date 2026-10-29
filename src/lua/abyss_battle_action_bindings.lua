@@ -29,7 +29,7 @@ function M.install(owner, ownership, host, dependencies)
                 input.released = nil -- a valid matching click can be consumed only once
                 if not dependencies.cardReady(released) then return end
             end
-            if not owner.suppressClick and not owner.gesture then return fn(event) end
+            if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return fn(event) end
         end)
         if owner.dragEnabled and not input then control:AddCursorEventListener(host.cursor.CursorDown,dependencies.down) end
     end
@@ -76,7 +76,7 @@ function M.install(owner, ownership, host, dependencies)
                 input.released = nil
                 if not dependencies.actionReady(released) then return end
             end
-            if not owner.suppressClick and not owner.gesture then return fn(event) end
+            if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return fn(event) end
         end)
         if owner.dragEnabled then
             control:AddCursorEventListener(host.cursor.CursorDown, function(event)

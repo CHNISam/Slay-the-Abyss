@@ -32,7 +32,7 @@ function M.install(owner, ownership, host, dependencies)
                     input.released = nil
                     if not dependencies.potionReady(released) then return end
                 end
-                if not owner.suppressClick and not owner.gesture then return owner:openPotionMenu(slot) end
+                if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return owner:openPotionMenu(slot) end
             end)
             if owner.dragEnabled then
                 control:AddCursorEventListener(host.cursor.CursorDown, function(event)

@@ -1,3 +1,5 @@
+import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
+import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -5,9 +7,10 @@ import {createHash} from 'node:crypto';
 import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs';
 import {preIntegratedNodeUiSource,postNodeUi} from './helpers/approved-node-ui-refactor.mjs';
 const path='config/architecture.json';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preRosterConfigSource(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const current=()=>read(path);
+// Preserve this original Nodes-only proof; the outer proof checks the actual union.
+const current=()=>preNodesBattleMaxHpConfig(path,read(path),'nodes');
 
 test('only reviewed core registration metadata projects to the unchanged complete UI architecture identity',()=>{
   const source=current(),prior=preCoreArchitectureSource(path,source);

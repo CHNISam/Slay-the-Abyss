@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 10:34'
-updated_date: '2026-10-28 14:46'
+updated_date: '2026-10-29 00:13'
 due_date: '2026-10-26'
 labels:
   - awaiting-live
@@ -13,6 +13,7 @@ milestone: m-5
 dependencies: []
 references:
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/backlog-details/MOBILE-QA-20261028.md
 parent_task_id: TASK-4
 priority: medium
 type: feature
@@ -59,4 +60,6 @@ ordinal: 85000
 负责人字段规范化：原记录 @Claude 作为历史执行者信息保留；任务负责人为 Furinya。
 
 PR #304：手机反馈己方与敌方详情关闭不一致，可能为旧线上版；PC及当前候选分别复验，根因未确定。
+
+2026-10-29 详细验收承接附件§6：手机己方与敌方、单页/多页、短按/长按入口均须有清楚一致的关闭规则；多页仍能查全状态，关闭手势不误选敌、不出牌。共用InfoView代码与旧电脑截图均不能替代真实手机事件验收。
 <!-- SECTION:NOTES:END -->

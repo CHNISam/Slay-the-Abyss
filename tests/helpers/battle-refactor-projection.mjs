@@ -8,8 +8,8 @@ assert.equal(createHash('sha256').update(bytes).digest('hex'),'a774d2c33c106ccff
 const snapshot=JSON.parse(bytes);
 const digest=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 // Historical replay only. Live UI and input tests load the actual responsibility modules.
-export function preBattleRefactorSource(path,source){
- const approved=tryApprovedBattleRefactorSource(path,source);
+export function preBattleRefactorSource(path,source,overrides){
+ const approved=tryApprovedBattleRefactorSource(path,source,overrides);
  if(approved!==undefined)return approved;
  if(path!=='src/lua/abyss_battle_ui.lua'||source===null||digest(source)===digest(snapshot.before))return source;
  assert.equal(digest(source),snapshot.hashes[path],'unreviewed integrated retirement source drift: complete Battle UI composition identity');

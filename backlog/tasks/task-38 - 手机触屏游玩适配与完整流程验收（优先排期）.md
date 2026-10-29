@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-28 14:40'
+updated_date: '2026-10-29 00:13'
 due_date: '2026-10-28'
 labels:
   - awaiting-live
@@ -18,6 +18,7 @@ references:
   - docs/backlog-details/TASK-38.md
   - docs/DELIVERY-CLOSEOUT.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/backlog-details/MOBILE-QA-20261028.md
 priority: medium
 type: feature
 ordinal: 39000
@@ -63,4 +64,6 @@ P1手机横屏露底修复：基于最新develop，把共享canvasBackdrop改为
 原AC6（仅保留历史要求，不再作为当前比赛必做）：同一候选四职业及已批准原创角色的完整操作矩阵覆盖第一至隐藏第四幕、换幕与两种结局，未测角色或章节明确留待验，第一幕或编辑器预览不代替。
 
 2026-10-28范围决定：比赛范围见 docs/SCOPE.md；旧验收文字保留于历史记录，本次未新增通过证据。原受影响验收：同一候选四职业及已批准原创角色的操作矩阵覆盖第一幕、第二幕、同局换幕、本局胜败与重开，优先前10分钟上手与反复操作；逐项保存真实事件和设备证据，未测内容明确留待验，不用预览替代。
+
+2026-10-29 同候选实体手机逐条执行附件§9及完整Q01–Q13问题矩阵，涵盖快慢拖牌与取消、锁敌、开关卡组、选牌跳过、地图、普通/Boss宝箱、遗物详情、伤害预览与后台恢复；真实事件、设备、源码和候选版本可追踪。卡组开关、跳过、地图选择各连续20次，不依赖退出确认恢复且关闭不穿透。当前正式范围为岩系旅行者与现有冻结V4雷电前两幕，其他职业和旧四幕验收保留历史而非当前比赛门禁。
 <!-- SECTION:NOTES:END -->

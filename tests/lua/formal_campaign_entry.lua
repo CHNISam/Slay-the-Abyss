@@ -168,28 +168,32 @@ assert(skipped:settle() and skipSignals[#skipSignals]=='ABYSS_WIN')
 assert(not skipped:settle() and not skipped:advanceAct() and skipped.historyCalls()==0)
 print('PASS formal skip endpoint and one-shot victory settlement')
 
-local originals={'hutao','arlecchino','furina','raiden'}
-for index,id in ipairs(originals)do
-    local ui,panel,sent=fixture(false,false)
-    start(ui,panel,'character'..index)
-    assert(ui.run.character==id and ui.run.characterProfile.originalV4)
-    assert(ui.run.campaign and ui.run.act==1 and #sent==0)
-    if index==1 then
-        local active=ui.run
-        F.click(panel,'exitEntry','open')
-        assert(ui.menuOpen and ui.exitOpen and ui.run==active)
-        F.click(panel,'runMenu','resume')
-        assert(not ui.exitOpen and ui.run==active,'resume means the same in-memory run, not persistence')
-        assert(ui:openExit())
-        assert(panel:GetChild('exitPanel'):GetChild('message').text:find('无法保存进度，退出后本局结束',1,true))
-        assert(ui:closeExit() and ui.run==active and ui.run.phase=='map')
-        assert(ui:openExit() and ui:confirmExit())
-        assert(ui.run==active and ui.run.phase=='map' and sent[#sent]=='ABYSS_LOSE')
-        assert(ui.historyCalls()==0 and not ui.run.endingHistoryResult)
-    end
+-- All eight forms, including Raiden, remain in full_source_campaign_entry.lua.
+-- The public entry refuses every unavailable role and preserves in-memory menu/exit behavior.
+local ui,panel,sent=fixture(false,false)
+F.click(panel,'menuPanel','start')
+for index=1,4 do
+ local box=panel:GetChild('characterPanel'):GetChild('character'..index)
+ assert(not box.visible and not box:GetChild('hit').canControllerFocus)
+ assert(not box:GetChild('hit').click()and not ui.run)
 end
-print('PASS formal original character switch')
-for index,id in ipairs({'ironclad','silent','defect','watcher'})do
+assert(ui:selectCharacter('traveler')and ui:confirmCharacter())
+for _=1,8 do OnUpdate(.25)end
+assert(ui.run.campaignProfile=='competition-two-act'and not ui.run.characterProfile)
+assert(ui.run.campaign and ui.run.act==1 and #sent==0)
+local active=ui.run
+F.click(panel,'exitEntry','open')
+assert(ui.menuOpen and ui.exitOpen and ui.run==active)
+F.click(panel,'runMenu','resume')
+assert(not ui.exitOpen and ui.run==active,'resume means the same in-memory run, not persistence')
+assert(ui:openExit())
+assert(panel:GetChild('exitPanel'):GetChild('message').text:find('无法保存进度，退出后本局结束',1,true))
+assert(ui:closeExit() and ui.run==active and ui.run.phase=='map')
+assert(ui:openExit() and ui:confirmExit())
+assert(ui.run==active and ui.run.phase=='map' and sent[#sent]=='ABYSS_LOSE')
+assert(ui.historyCalls()==0 and not ui.run.endingHistoryResult)
+print('PASS formal Traveler-only entry and in-memory menu/exit')
+for index,id in ipairs({'ironclad'})do
     local ui,panel,sent=fixture(true,false)
     start(ui,panel,'traveler',index)
     if id=='ironclad' then

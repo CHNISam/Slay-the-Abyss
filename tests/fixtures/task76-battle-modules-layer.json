@@ -1,0 +1,195 @@
+{
+  "base": "8a36c0d59781302944feb03c4ce9a2f304c62ac8",
+  "reviewedMonolithSha256": "067b6761d5f02477ec2aeb848b2a00eb2b4191517d30096f7cb8dc84e3f0b382",
+  "files": {
+    "src/lua/abyss_battle_ui.lua": {
+      "beforeSha256": "086049659d7bb15de9d70f16c6cdb50a3eb47703c561fda2ca90dfbbf0ffa3fb",
+      "afterSha256": "2bda413ec5f0e9a16a317f9773c8261b3587b09207be3eb61fe2970e6515a7e6",
+      "hunks": [
+        {
+          "at": 101,
+          "before": [
+            "        \"child\", \"controllerReady\", \"actionReady\""
+          ],
+          "after": [
+            "        \"child\", \"controllerReady\", \"actionReady\", \"consumeReleasedDragClick\""
+          ]
+        },
+        {
+          "at": 105,
+          "before": [
+            "        \"child\", \"controllerReady\", \"swallowed\", \"potionReady\", \"down\""
+          ],
+          "after": [
+            "        \"child\", \"controllerReady\", \"swallowed\", \"potionReady\", \"down\", \"consumeReleasedDragClick\""
+          ]
+        },
+        {
+          "at": 113,
+          "before": [
+            "        \"enemyReady\", \"down\", \"cancelPotionAim\", \"sameEnemySlot\""
+          ],
+          "after": [
+            "        \"enemyReady\", \"down\", \"cancelPotionAim\", \"sameEnemySlot\", \"consumeReleasedDragClick\""
+          ]
+        },
+        {
+          "at": 126,
+          "before": [
+            "        cancelCardInputs=services.cancelCardInputs"
+          ],
+          "after": [
+            "        cancelCardInputs=services.cancelCardInputs, consumeReleasedDragClick=services.consumeReleasedDragClick"
+          ]
+        },
+        {
+          "at": 135,
+          "before": [
+            "    ownership.cardInputs, ownership.pointerObserved = {}, false"
+          ],
+          "after": [
+            "    ownership.cardInputs, ownership.pointerObserved, ownership.releasedDragTouch = {}, false, nil"
+          ]
+        },
+        {
+          "at": 242,
+          "before": [],
+          "after": [
+            "        pointerDown=function(event)",
+            "            if self.active and not self.busy and not self.gesture then",
+            "                if event and event.touchId==ownership.releasedDragTouch then ownership.releasedDragTouch=nil end",
+            "                self.suppressClick=false",
+            "            end",
+            "        end,",
+            "        pointerClick=function(event)",
+            "            return not services.consumeReleasedDragClick(event) and not self.suppressClick and not self.gesture",
+            "        end,"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_input_state.lua": {
+      "beforeSha256": "2789456a014d8ebc03e4144ac29df48582e13f02d65587e8b3c2332176c73765",
+      "afterSha256": "1eb4d5594c284058714fd33b55043309a869c1161279a9af383ce494c9ad29a1",
+      "hunks": [
+        {
+          "at": 149,
+          "before": [],
+          "after": [
+            "    -- Click-only controls must not inherit the latest completed drag's named",
+            "    -- touch, even after an independent action. A fresh Down retires that origin.",
+            "    -- Anonymous origins consume one ambiguous Click without a permanent lock.",
+            "    local function consumeReleasedDragClick(event)",
+            "        if not owner.active or owner.busy or owner.gesture then return false end",
+            "        local touch = event and event.touchId",
+            "        if touch ~= nil and touch == ownership.releasedDragTouch then return true end",
+            "        local g = owner.suppressClick",
+            "        if type(g) ~= 'table' then return false end",
+            "        owner.suppressClick = nil",
+            "        return g.touch == touch",
+            "    end"
+          ]
+        },
+        {
+          "at": 167,
+          "before": [
+            "        enemyReady=enemyReady, discardEnemyPointer=discardEnemyPointer"
+          ],
+          "after": [
+            "        enemyReady=enemyReady, discardEnemyPointer=discardEnemyPointer, consumeReleasedDragClick=consumeReleasedDragClick"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_card_gestures.lua": {
+      "beforeSha256": "26143b192d190ee3872b5eea83a04211089af4c096ebadc538aa4db5cd2e08fe",
+      "afterSha256": "bfbb22f9ae0d4998eebf818440fb2bf921181ab99d602d96f1edc91bd060bbd8",
+      "hunks": [
+        {
+          "at": 36,
+          "before": [],
+          "after": [
+            "        if owner.active and not owner.busy and not owner.gesture and event and event.touchId == ownership.releasedDragTouch then",
+            "            ownership.releasedDragTouch = nil -- a new physical sequence owns this touch again",
+            "        end"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            "                owner.gesture, owner.selected, owner.hover, owner.handHover = nil, nil, nil, nil"
+          ],
+          "after": [
+            "                ownership.releasedDragTouch = g.touch",
+            "                owner.gesture, owner.selected, owner.hover, owner.handHover, owner.suppressClick = nil, nil, nil, nil, g"
+          ]
+        },
+        {
+          "at": 119,
+          "before": [
+            "        owner.suppressClick,owner.selected = true,action ~= 'cancel' and g.uid or nil"
+          ],
+          "after": [
+            "        -- Keep the trailing Click bound to this drag, not a persistent global lock.",
+            "        ownership.releasedDragTouch = g.touch",
+            "        owner.suppressClick,owner.selected = g,action ~= 'cancel' and g.uid or nil"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_action_bindings.lua": {
+      "beforeSha256": "e08b4ef9f4cde860e24e388711e5ba318a9a523543511faaa882f26e1e7b0a45",
+      "afterSha256": "84d11f396803b5bcd202aa6226e9d0b67a56fef6956b3e6bf167e089de933bd7",
+      "hunks": [
+        {
+          "at": 31,
+          "before": [
+            "            if not owner.suppressClick and not owner.gesture then return fn(event) end"
+          ],
+          "after": [
+            "            if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return fn(event) end"
+          ]
+        },
+        {
+          "at": 78,
+          "before": [
+            "            if not owner.suppressClick and not owner.gesture then return fn(event) end"
+          ],
+          "after": [
+            "            if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return fn(event) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_potion_bindings.lua": {
+      "beforeSha256": "a723314b817660c5bec32782ac95f1895b4faadb056c40dcafa42bf4e183ddd5",
+      "afterSha256": "ae5e8b4172740ea039e67342efaad73b47d22c087a7a00963c7055906554f7cf",
+      "hunks": [
+        {
+          "at": 34,
+          "before": [
+            "                if not owner.suppressClick and not owner.gesture then return owner:openPotionMenu(slot) end"
+          ],
+          "after": [
+            "                if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return owner:openPotionMenu(slot) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_target_bindings.lua": {
+      "beforeSha256": "8103fc82b9ed53585357518aa6728ce628cc8673bd18f4f1770d757d18f53a98",
+      "afterSha256": "fe12ed38ff50cb5b7c301b594d8bbddf4a6ca6ed9408e461ab27a03f71d3db23",
+      "hunks": [
+        {
+          "at": 66,
+          "before": [
+            "                if not owner.suppressClick and not owner.gesture then return chooseEnemy() end"
+          ],
+          "after": [
+            "                if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return chooseEnemy() end"
+          ]
+        }
+      ]
+    }
+  }
+}

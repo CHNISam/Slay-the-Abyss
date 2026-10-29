@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 12:17'
-updated_date: '2026-10-28 14:46'
+updated_date: '2026-10-29 00:13'
 due_date: '2026-10-24'
 labels:
   - awaiting-live
@@ -15,6 +15,7 @@ references:
   - docs/reviews/USER-PLAYTEST-20261024.md
   - docs/M3-NUMERIC-LIVE-20261024.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/backlog-details/MOBILE-QA-20261028.md
 parent_task_id: TASK-4
 priority: medium
 type: bug
@@ -60,4 +61,6 @@ ordinal: 86000
 负责人字段规范化：原记录 @Codex 作为历史执行者信息保留；任务负责人为 Furinya。
 
 PR #304：手机反馈瞄准易伤目标时伤害未更新；离线拖动对照预览及结算均为9，用户实玩时实际瞄准状态未确认；PC和手机分别复验，勿先断言公式错误。
+
+2026-10-29 详细验收承接附件§6：触屏点选、明确目标、实际拖动瞄准、目标变化与取消分别核验。普通整手牌仅有玩家修正，当前待出目标牌在明确瞄准时才显示目标修正并与结算一致，取消恢复；不把一个默认target套整手牌、不先改伤害公式。调查中的Strike6→拖瞄9→结算9只证明该受控链路，不等于用户那次状态或新候选实机已通过。
 <!-- SECTION:NOTES:END -->

@@ -1,3 +1,5 @@
+import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
+import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -5,7 +7,7 @@ import {createHash} from 'node:crypto';
 import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs';
 import {preIntegratedNodeUiSource,postNodeUi} from './helpers/approved-node-ui-refactor.mjs';
 const path='config/architecture.json';
-const read=()=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const read=()=>preRunMaxHpConfig(path,preRosterConfigSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n')),'run');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const rows=['abyss_run_initialization','abyss_run_transition','abyss_run_rooms','abyss_run_settlement','abyss_run_potions'];
 const tail=',\n'+rows.map(name=>`    "${name}": "core"`).join(',\n');

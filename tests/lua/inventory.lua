@@ -267,7 +267,9 @@ test("legacy six-opening fixture keeps resources across two original-enemy battl
             same(Random.snapshot(run.treasureRng),Random.snapshot(expected.treasureRng))
             same(Random.snapshot(run.cardRng),Random.snapshot(expected.cardRng))
             local originalItems=Combat.copy(run.nodeFlow.reward.items)
-            local lastSlot,missing=0,false
+            equal(#originalItems,1);equal(originalItems[1].sourceId,'Pear')
+            equal(originalItems[1].id,'pear');equal(originalItems[1].tier,'uncommon');equal(originalItems[1].available,true)
+            local lastSlot=0
             for _,item in ipairs(originalItems)do
                 lastSlot=math.max(lastSlot,item.slot)
                 if item.kind=='relic'then
@@ -275,7 +277,6 @@ test("legacy six-opening fixture keeps resources across two original-enemy battl
                     equal(item.available,definition~=nil)
                     equal(item.id,definition and definition.id or item.sourceId)
                     if not definition then
-                        missing=true
                         local before,flow,reward=Combat.copy(run),run.nodeFlow,run.nodeFlow.reward
                         local token=assert(Nodes.treasureRewardSource(run,item.slot))
                         local ok,reason=Nodes.claimTreasureReward(run,token)
@@ -287,7 +288,35 @@ test("legacy six-opening fixture keeps resources across two original-enemy battl
                     assert(Nodes.claimTreasureReward(run,token));gold=gold+item.amount
                 end
             end
-            assert(missing,'seed70 preserves its missing-definition source identity without rerolling')
+            -- Pear is now implemented. Keep the real seed70 source draw, while
+            -- exercising the same missing-definition refusal in a detached
+            -- pre-open control; never shrink/filter the live source queues.
+            local liveBefore=Combat.copy(run)
+            local unavailable=Combat.copy(beforeOpen);assert(unavailable.data~=run.data)
+            local removed=0
+            for i=#unavailable.data.relics.relics,1,-1 do
+                local entry=unavailable.data.relics.relics[i]
+                if entry.id=='pear'then
+                    equal(entry.sourceId,'Pear');table.remove(unavailable.data.relics.relics,i);removed=removed+1
+                end
+            end
+            equal(removed,1)
+            local unavailableReward=Combat.copy(expected.reward)
+            for _,item in ipairs(unavailableReward.items)do
+                if item.kind=='relic'then equal(item.sourceId,'Pear');item.id,item.available='Pear',false end
+            end
+            unavailableReward.relicId,unavailableReward.relicUnavailable='Pear',true
+            assert(Nodes.openTreasure(unavailable))
+            same(unavailable.nodeFlow.reward,unavailableReward) -- includes original trace, tier, slot and source identity
+            same(Pool.snapshot(unavailable.relicPool),Pool.snapshot(expected.relicPool))
+            same(Random.snapshot(unavailable.treasureRng),Random.snapshot(expected.treasureRng))
+            same(Random.snapshot(unavailable.cardRng),Random.snapshot(expected.cardRng))
+            local before,flow,reward=Combat.copy(unavailable),unavailable.nodeFlow,unavailable.nodeFlow.reward
+            local token=assert(Nodes.treasureRewardSource(unavailable,originalItems[1].slot))
+            local ok,reason=Nodes.claimTreasureReward(unavailable,token)
+            assert(not ok and reason=='relic_content_unavailable')
+            same(unavailable,before);equal(unavailable.nodeFlow,flow);equal(unavailable.nodeFlow.reward,reward)
+            same(run,liveBefore)
             local pool,rng=Pool.snapshot(run.relicPool),{treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)}
             local items=run.nodeFlow.reward.items
             local originalRemaining=Combat.copy(items)

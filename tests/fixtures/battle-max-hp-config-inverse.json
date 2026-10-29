@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "path": "config/architecture.json",
+  "battleHead": "15ef1cca425c714680ba70aa3b14c40f1f98047a",
+  "maxHpHead": "e0bddc7f5513ff89b2381bbbd8cd413ac8a55249",
+  "combinedSha256LF": "2cca90fbe128e36911e5a810ac45a63ad7612e99198a4613742c6a47c77d1ddc",
+  "targets": {
+    "battle": {
+      "sha256LF": "66b0aeb0d8a21a587cf67a14c1d503478674012045a303ece995db3532097244",
+      "edits": [
+        {
+          "at": 233,
+          "before": [
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_max_hp_relics\": \"core\",",
+            "    \"abyss_battle_actions\": \"ui\","
+          ],
+          "after": [
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_battle_actions\": \"ui\","
+          ]
+        }
+      ]
+    },
+    "maxHp": {
+      "sha256LF": "01c0e67dc5c791f9aeaf93afd3cd659ee93357958ac7ce45a474ce1cf720aaca",
+      "edits": [
+        {
+          "at": 233,
+          "before": [
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_max_hp_relics\": \"core\",",
+            "    \"abyss_battle_actions\": \"ui\",",
+            "    \"abyss_battle_action_bindings\": \"ui\",",
+            "    \"abyss_battle_card_bindings\": \"ui\",",
+            "    \"abyss_battle_card_gestures\": \"ui\",",
+            "    \"abyss_battle_card_layout\": \"ui\",",
+            "    \"abyss_battle_details\": \"ui\",",
+            "    \"abyss_battle_detail_bindings\": \"ui\",",
+            "    \"abyss_battle_input_state\": \"ui\",",
+            "    \"abyss_battle_potion_bindings\": \"ui\",",
+            "    \"abyss_battle_render\": \"ui\",",
+            "    \"abyss_battle_render_actors\": \"ui\",",
+            "    \"abyss_battle_render_hud\": \"ui\",",
+            "    \"abyss_battle_render_state\": \"ui\",",
+            "    \"abyss_battle_targeting\": \"ui\",",
+            "    \"abyss_battle_target_bindings\": \"ui\"",
+            "  },"
+          ],
+          "after": [
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_max_hp_relics\": \"core\"",
+            "  },"
+          ]
+        }
+      ]
+    }
+  }
+}

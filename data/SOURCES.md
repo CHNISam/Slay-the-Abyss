@@ -77,3 +77,5 @@
 本任务仅验收内容基线与数据校验。未编译平台逻辑、未导入存档、未运行游戏、未获得 Furinya 体验验收。
 
 药水 damage/block 与遗物 block 采用固定数值，不套用卡牌攻击/格挡修正。2026-10-23 首发逐件核对见 [TASK-14.1 账本](../docs/reviews/TASK-14.1-inventory-parity.md)：Dexterity/Frail 限定来自卡牌的格挡，因此固定 Block Potion 不应被一概当作简化而修改。铜鳞稀有度已由 Uncommon 改正为 Common，0 伤害普通攻击仍触发 Thorns；[六件开战遗物顺序](../docs/reviews/TASK-14.1-opening-relic-order.md) 已依据固定反编译镜像修复并通过 20 组回归。镜像不等于认证 PC 构建；完整开战钩子、原作/平台实测尚未完成，不声明全量严格一致。生成手牌满手进入弃牌堆。战斗状态与生成牌在战后清理，永久卡组、升级、生命和资产跨节点保留，具体时序见 README。
+
+2026-10-28 当前主线最大生命小片：按固定 aeubanks/sts@319009d5 Pear+10、Mango+14、SHOP Waffle+7后按新上限治疗，并复用Strawberry同源取得模块。9份字节来源和完整原源队列/四职业公开渠道金样见[最大生命遗物](../docs/rules/MAX_HP_RELICS.md)。最初基于已接受develop432eebb1仅迁入原0391ea73最大生命差量；当前已线性rebase到接受PR313的developcec690c1，保留其批准UI与历史证明，56项定义仅增3项，保留Molten Egg、Odd Mushroom、Fairy/Tail owner及奖励计数，不缩池或重抽；全池、PC二进制、候选/平台/自然实玩未验收。

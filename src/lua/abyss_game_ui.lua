@@ -40,7 +40,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local codeVersion = assert(menu:GetChild('codeVersion'), 'missing game menu codeVersion')
     codeVersion.text = Narrative.codeVersion or '未知'
     local characterPanel = child("characterPanel")
-    self.characterSelection=CharacterSelect.new(data,presentation)
+    self.characterSelection=CharacterSelect.new(data,presentation,platform.campaignProfile)
     self.fastMode=false
     self.setFastMode=function(_,enabled)
         if type(enabled)~='boolean' or self.disabled or self.battleUI and self.battleUI.busy then return false end
@@ -574,9 +574,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true,'character_choice'
     end
     local function beginRun(character)
-        local explicitSeed = self.seed ~= nil
-        local seed = explicitSeed and self.seed or newSeed()
-        local rawSeed=RunSeed.normalize(seed)
         local selection=CharacterSelect.options(character)
         -- Native entry selects the competition profile; explicit full-source
         -- hosts retain future chapters without changing same-run ownership.
@@ -585,6 +582,10 @@ function M.new(root, data, presentation, clickEvent, platform)
             selection.experimental, selection.campaign = true, true
             selection.campaignProfile=platform.campaignProfile
         end
+        if not require('abyss_run_admission').accepts(data,selection)then return false,'competition_character_unavailable'end
+        local explicitSeed = self.seed ~= nil
+        local seed = explicitSeed and self.seed or newSeed()
+        local rawSeed=RunSeed.normalize(seed)
         local run = Run.new(data,rawSeed,selection)
         local runPresentation = (selection and selection.character or run.data.colorlessCards) and require("abyss_character_presentation").prepare(presentation,run.data) or presentation
         local ending=EndingHistory.begin(endingHistory,run,{seedSet=explicitSeed,
@@ -624,6 +625,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             or self.settlementRequested or self.settlementBusy then return false,'character_choice_unavailable' end
         local info=self.characterSelection.info
         if not info then return false,'character_required' end
+        if not self.characterSelection:canConfirm()then return false,'competition_character_unavailable'end
         self.starting=true
         -- Latch before seed generation and Run.new; a native duplicate cannot re-enter.
         local ok,accepted,reason=pcall(beginRun,info.id)
@@ -872,15 +874,17 @@ function M.new(root, data, presentation, clickEvent, platform)
     characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)
     bindCommand(characterPanel:GetChild("cancel"),"character_cancel",function() return self:closeCharacters() end,nil,90)
     bindCommand(characterPanel:GetChild('confirm'),'character_confirm',function()return self:confirmCharacter()end,
-        function()return self.characterSelection.info~=nil end,100)
+        function()return self.characterSelection:canConfirm()end,100)
     for i,id in ipairs(CharacterSelect.characters)do
         local box=characterPanel:GetChild(i==5 and 'traveler' or 'character'..i)
-        bindCommand(box,'character_'..i,function()return self:selectCharacter(id)end,nil,i,'characters',
+        bindCommand(box,'character_'..i,function()return self:selectCharacter(id)end,
+            function()return self.characterSelection:allowsCharacter(id)end,i,'characters',
             function()if Controller.isController(controller)then return self:selectCharacter(id)end end)
     end
     for i,id in ipairs(CharacterSelect.elements)do
         bindCommand(characterPanel:GetChild('elements'):GetChild('element'..i),'character_element'..i,
-            function()return self:selectElement(id)end,function()return self.characterSelection.character=='traveler'end,
+            function()return self:selectElement(id)end,function()return self.characterSelection.character=='traveler'
+                and self.characterSelection:allowsElement(id)end,
             10+i,'elements',function()if Controller.isController(controller)then return self:selectElement(id)end end)
     end
     ready = true

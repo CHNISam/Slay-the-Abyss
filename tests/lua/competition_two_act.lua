@@ -45,9 +45,11 @@ test('explicit profile is validated and future/test campaign stays available',fu
  assert(not pcall(Run.new,Data,'42',{experimental=true,campaignProfile='competition-two-act'}))
 end)
 
-test('all four source classes keep same-run resources and snapshots through Act1 to Act2',function()
- for _,character in ipairs({'ironclad','silent','defect','watcher'})do
-  local run,map=terminal(1,nil,character)
+test('competition roster and all four full-source classes keep same-run resources and snapshots through Act1 to Act2',function()
+ local scenarios={{profile='competition-two-act',characters={'ironclad'}},
+  {profile='full-source',characters={'ironclad','silent','defect','watcher','raiden'}}}
+ for _,scenario in ipairs(scenarios)do for _,character in ipairs(scenario.characters)do
+  local run,map=terminal(1,scenario.profile,character)
   run.hp=3;run.gold=345;run.deck[1].upgraded=true;run.potions={'block_potion'}
   run.relicCounters={sameRun=4}
   local before=resource(run);local counters=C.copy(run.relicCounters)
@@ -57,11 +59,11 @@ test('all four source classes keep same-run resources and snapshots through Act1
   assert(run.hp==run.maxHp and run.gold==before.gold and run.runSeed==before.seed)
   same(run.deck,before.deck);same(run.relics,before.relics);same(run.potions,before.potions)
   same(run.relicCounters,counters);same(R.snapshot(run.eventRng),before.eventRng)
-  assert(run.nextDeckUid==before.uid and run.campaignProfile=='competition-two-act')
+  assert(run.nextDeckUid==before.uid and run.campaignProfile==scenario.profile)
   assert(not Nodes.advanceAct(run,map))
-  restore();assert(run.act==1 and run.phase=='act_transition'and run.campaignProfile=='competition-two-act')
+  restore();assert(run.act==1 and run.phase=='act_transition'and run.campaignProfile==scenario.profile)
   same(resource(run),before)
- end
+ end end
 end)
 
 test('skip and zero-choice routes end at identical legal floor34 without consuming resource streams',function()

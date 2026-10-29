@@ -69,3 +69,12 @@ art/cards/traveler-geo/cleave/preview-native.png filter=lfs diff=lfs merge=lfs -
 tests/fixtures/approved-ui-latest-to-53fa.json text eol=lf
 tests/fixtures/approved-node-ui-faces-layer.json text eol=lf
 tests/fixtures/approved-ui-post-node-layer.json text eol=lf
+
+# Max-HP acquisition oracle and authored goldens retain exact LF bytes.
+tools/oracles/sts1_max_hp_relics.py text eol=lf
+tests/fixtures/max-hp-relics-source.json text eol=lf
+tests/fixtures/max-hp-relics-vectors.json text eol=lf
+tests/fixtures/max-hp-relics-vectors.lua text eol=lf
+tests/fixtures/max-hp-accepted-source-inverse.json text eol=lf
+tests/fixtures/max-hp-pr313-source-inverse.json text eol=lf
+tests/fixtures/max-hp-seed70-inventory-inverse.json text eol=lf
