@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baseCommit": "d4c4b25594798f9d2f4fc6b66a061532c2b71595",
-  "reviewedHead": "047f900cb83a5f3853510444b381dea6d8e80f5c",
+  "reviewedHead": "45ee2b479ee7576665eaffab81cac8be488906d9",
   "files": {
     "config/architecture.json": {
       "beforeSha256": "810e2ff1aab8dcf29e1a6d260bb87cf692f8c30c7886180f7e048519249a2ee4",
@@ -48,6 +48,55 @@
             "        && typeof item === 'string' && item.toLowerCase() === '#ffffff'",
             "        && (value.opacity === undefined || value.opacity === 1",
             "          || source && validAlpha(value.opacity) && Math.round(value.opacity * 255) === 255)"
+          ]
+        }
+      ]
+    },
+    "scripts/test-affected.mjs": {
+      "beforeSha256": "34225db859e57d5bee4efe07e5a75d3b11a9ff0ecf777b74cf9d7a8d9726bdca",
+      "afterSha256": "f26bfdd1f2282051a5e7684ee90d09af09886d501e5fe11900e7c176964b5add",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "import {frozenBattleHandFixtures} from '../tests/helpers/battle-life-frozen-hand.mjs';"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "// Importing runLua does not execute its conditional fixture setup. Keep these",
+            "// helper edges on their real Lua entries, as with the historical replay port.",
+            "const conditionalRunnerFixtures = new Map([",
+            "  ['tests/helpers/historical-presentation-runner.mjs', new Set(['tests/lua/presentation_responsibilities_trace.lua'])],",
+            "  ['tests/helpers/battle-life-frozen-hand.mjs', new Set(frozenBattleHandFixtures)],",
+            "]);"
+          ]
+        },
+        {
+          "at": 194,
+          "before": [
+            "        // This helper is executed only by the one exact historical fixture,",
+            "        // not by ordinary runLua callers. Attach it to that fixture below.",
+            "        if (target === 'tests/helpers/historical-presentation-runner.mjs') continue;"
+          ],
+          "after": [
+            "        // Conditional setup belongs only to its exact fixtures below.",
+            "        if (conditionalRunnerFixtures.has(target)) continue;"
+          ]
+        },
+        {
+          "at": 209,
+          "before": [
+            "      if (path === 'tests/lua/presentation_responsibilities_trace.lua'",
+            "          && available('tests/helpers/historical-presentation-runner.mjs')) references.add('tests/helpers/historical-presentation-runner.mjs');"
+          ],
+          "after": [
+            "      for (const [helper, fixtures] of conditionalRunnerFixtures) {",
+            "        if (fixtures.has(path) && available(helper)) references.add(helper);",
+            "      }"
           ]
         }
       ]
