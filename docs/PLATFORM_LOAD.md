@@ -36,6 +36,8 @@
 
 接入现有 Quality：完整 Windows/POSIX 第一分片执行；影响生产代码的 fast 路径执行；仅惰性文档变化沿用未变更的生产检查。无需新增 CI 工作流、外部服务或逐 PR 试玩。原生列表生命周期 `check:native-ui-contract` 保留销毁/回收负对照；离线检查不能证明平台帧率或资源清理合格。
 
+CI 与 package 的历史回放使用 `tests/helpers/platform-load-wiring.mjs` 只逆转本轮精确新增的步骤和命令，旧哈希、原分片、时限、权限及工程检查保持原样。`tests/platform-load-wiring.test.mjs` 同时验证当前真实接线，拒绝缺失、重复、错位和篡改；不能仅更新历史哈希来接纳新步骤。修改接线时连同现有 CI/工程质量合同一起运行，避免只测新脚本而漏掉历史回放。
+
 ## 正式 RC 的官方门禁
 
 先冻结含音频和最终资产的同一正式候选，使用最终 `candidate.json`，不能使用音频装配前的 hash。在该构建源码工作树执行：

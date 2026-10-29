@@ -297,11 +297,18 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run build:theme
         if: matrix.shard == 1
-      - run: |
-          npm run check:engineering
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          node scripts/platform-load.mjs daily
+      - run: npm run check:engineering
         if: matrix.shard == 1
+      - name: Check production platform load
+        if: matrix.shard == 1
+        run: node scripts/platform-load.mjs daily
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && matrix.shard == 1
+        with:
+          name: platform-load-windows-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/platform-load-daily.json
+          retention-days: 7
+          if-no-files-found: warn
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always() && matrix.shard == 1
         with:
@@ -309,7 +316,6 @@ jobs:
           path: |
             build/engineering-quality.json
             build/engineering-quality.md
-            build/platform-load-daily.json
           retention-days: 7
           if-no-files-found: warn
       - run: node scripts/write-ci-receipt.mjs
@@ -403,15 +409,24 @@ jobs:
           node scripts/ci-shards.mjs --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           ABYSS_PYTHON: python3
-      - run: npm run check:engineering && node scripts/platform-load.mjs daily
+      - run: npm run check:engineering
         if: matrix.shard == 1
+      - name: Check production platform load
+        if: matrix.shard == 1
+        run: node scripts/platform-load.mjs daily
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && matrix.shard == 1
+        with:
+          name: platform-load-posix-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/platform-load-daily.json
+          retention-days: 7
+          if-no-files-found: warn
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always() && matrix.shard == 1
         with:
           name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
           path: |
             build/architecture.json
-            build/platform-load-daily.json
             build/lua-static.json
             build/lua-complexity.json
             build/ui-complexity.json
