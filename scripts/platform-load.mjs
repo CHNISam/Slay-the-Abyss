@@ -153,9 +153,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       const baseline = JSON.parse(readFileSync('config/platform-load-baseline.json'));
       const observation = baseline.officialObservation;
       if (!Number.isFinite(observation?.levelStorageMB) || observation.levelStorageMB > 20
-        || !Number.isFinite(observation?.serverStorageMB) || observation.serverStorageMB > 3)
+        || observation.levelStorageMB < 0 || !Number.isFinite(observation?.serverStorageMB)
+        || observation.serverStorageMB < 0 || observation.serverStorageMB > 3)
         throw Error('Recorded official storage exceeds a hard limit or is malformed');
       report.warnings = growthWarnings(report, baseline);
+      if (observation.levelStorageMB > 16) report.warnings.push('Recorded official level storage exceeds 16MB internal budget; historical reading does not verify this candidate');
       report.baselineSourceCommit = baseline.sourceCommit;
       report.delta = Object.fromEntries(['luaBytes', 'layoutJsonBytes', 'templateJsonBytes', 'controls', 'hiddenControls']
         .map(key => [key, report[key] - baseline[key]]));
