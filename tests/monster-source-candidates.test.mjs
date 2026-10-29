@@ -7,6 +7,8 @@ const read = path => readFileSync(new URL(`../${path}`, import.meta.url));
 const json = path => JSON.parse(read(path));
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const root = 'art/monsters/';
+const identityBytes = (name,bytes) => /\.(json|txt)$/.test(name)
+  ? Buffer.from(bytes.toString().replaceAll('\r\n','\n')) : bytes;
 const noApprovals = { owner:false, native:false, runtime:false, device:false };
 const pngSize = bytes => {
   assert.deepEqual([...bytes.subarray(0,8)], [137,80,78,71,13,10,26,10]);
@@ -80,9 +82,9 @@ test('monster files preserve reviewed source identity and strict unbound limits'
         continue; // Identity only; actual pixels independently reviewed before publication.
       }
       // Git may check text out as CRLF on Windows; provenance authenticates original LF text.
-      const identityBytes=/\.(json|txt)$/.test(name)?Buffer.from(bytes.toString().replaceAll('\r\n','\n')):bytes;
-      assert.equal(hash(identityBytes),file.sha256,`${id}/${name}`);
-      assert.equal(identityBytes.length,file.bytes);
+      const canonical=identityBytes(name,bytes);
+      assert.equal(hash(canonical),file.sha256,`${id}/${name}`);
+      assert.equal(canonical.length,file.bytes);
       if(name==='source.png') assert.deepEqual(pngSize(bytes),asset.sourceSize);
     }
     for(const size of [106,127]) assert.ok(asset.previews.some(p => p.size[0]===size));
@@ -119,4 +121,19 @@ test('monster files preserve reviewed source identity and strict unbound limits'
     }
     for(const doc of [asset,provenance,review]) assert.doesNotMatch(JSON.stringify(doc),/\/workspace\/|\/home\/|exec-[0-9a-f-]+|"reviewer"|"requestId"/i);
   }
+});
+
+
+test('monster text identity accepts CRLF only, rejects content changes and never rewrites PNG bytes', () => {
+  for (const name of ['prompt.txt','generation-provenance.json']) {
+    const lf=Buffer.from('source identity\nretain spaces \n');
+    const crlf=Buffer.from('source identity\r\nretain spaces \r\n');
+    assert.equal(hash(identityBytes(name,crlf)),hash(lf));
+    assert.equal(identityBytes(name,crlf).length,lf.length);
+    for (const changed of ['source changed\nretain spaces \n','source identity\nretain spaces\n']) {
+      assert.notEqual(hash(identityBytes(name,Buffer.from(changed))),hash(lf));
+    }
+  }
+  const binary=Buffer.from([137,80,78,71,13,10,26,10]);
+  assert.equal(identityBytes('source.png',binary),binary);
 });
