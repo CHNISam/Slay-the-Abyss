@@ -52,6 +52,9 @@ function M.install(owner, ownership, host, dependencies)
         return name ~= "playArea" or not invalidPoint and (not x or dependencies.inPlayArea(x, y)
             and (not held.x or (x-held.x)^2+(y-held.y)^2 < D.threshold^2))
     end
+    local function anonymousActionReady(event)
+        return event == nil and not owner.gesture and not owner.carry and not owner.busy
+    end
     local function bind(name, fn)
         local control, input = dependencies.child(name), {}
         if name == "playArea" then control = control:GetChild("hit") end
@@ -75,6 +78,11 @@ function M.install(owner, ownership, host, dependencies)
                 if not released or released.touch ~= (event and event.touchId) then return end
                 input.released = nil
                 if not dependencies.actionReady(released) then return end
+            elseif anonymousActionReady(event) then
+                -- Mixed native/accessibility hosts may deliver only Click on
+                -- buttons even after card surfaces delivered a full drag.
+                -- This anonymous command cannot be a touch's trailing Click.
+                owner.suppressClick = false
             end
             if not owner.suppressClick and not owner.gesture then return fn(event) end
         end)
