@@ -105,7 +105,7 @@ function M.install(owner, _ownership, host, dependencies)
         end
         dependencies.show("result", not frame.fighting and not frame.reward)
         dependencies.show("resultPlate", not frame.fighting and not frame.reward)
-        dependencies.show("hero", frame.fighting)
+        dependencies.show("hero", frame.fighting and not owner.feedback.deaths.player)
     end
     local function playerHealthText(frame)
         local player, run = frame.player, frame.run

@@ -142,6 +142,7 @@ function M.install(owner, _ownership, host, dependencies)
     end
     function owner:start()
         if not self.active or host.options.embedded or self.busy then return false end
+        self.feedback:cancel()
         self.run = Run.new(self.data, self.seed)
         self.seed = (self.seed + 1) % 65536
         assert(Run.startCombat(self.run, "cultist_solo"))

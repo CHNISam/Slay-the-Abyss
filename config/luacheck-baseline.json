@@ -90,38 +90,38 @@
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 171,
+      "line": 172,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 122"
+      "message": "shadowing upvalue 'self' on line 123"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 193,
+      "line": 194,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 122"
+      "message": "shadowing upvalue 'self' on line 123"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 401,
+      "line": 409,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 122"
+      "message": "shadowing upvalue 'self' on line 123"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 643,
+      "line": 656,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 122"
+      "message": "shadowing upvalue 'self' on line 123"
     },
     {
       "file": "src/lua/abyss_feedback.lua",
-      "line": 711,
+      "line": 729,
       "column": 18,
       "code": "W431",
-      "message": "shadowing upvalue 'self' on line 122"
+      "message": "shadowing upvalue 'self' on line 123"
     },
     {
       "file": "src/lua/abyss_guardian_ai.lua",

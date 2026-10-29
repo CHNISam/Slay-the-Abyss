@@ -88,6 +88,7 @@ local function duration(entry, style, fastMode)
         return fastMode and math.min(entry.detail.seconds, 0.1) or entry.detail.seconds
     end
     if kind == "play" then return T.base end
+    if kind == "player_death" then return T.playerDeath end
     if banners[kind] then return T.banner end
     if kind == "intent" then return T.enemyActionGap end
     if kind == "enemy_escape" then return T.enemyEscape end
@@ -147,7 +148,7 @@ function M.new(stage, platform, present, complete)
         if all then self.sweep = nil end
         local names = {"banner", "bannerPlate"}
         if not landing then names[#names + 1] = "playedCard" end
-        if all then names[#names + 1] = "sweep" end
+        if all then names[#names + 1] = "sweep" names[#names + 1] = "deathShade" end
         for _, name in ipairs(names) do pcall(function() overlay:GetChild(name):SetVisible(false) end) end
     end
     local function sound(cue)
@@ -265,7 +266,13 @@ function M.new(stage, platform, present, complete)
         if kind == "enemy_turn" then banner("敌方回合") sound("turn")
         elseif kind == "player_turn" then banner("我方回合 " .. n(self.shadow.turn)) sound("turn")
         elseif kind == "victory" then banner(d.allEnemiesEscaped and "敌人已逃跑" or "战斗胜利") sound("victory")
-        else banner("旅途暂歇", true) sound("defeat") end
+        else
+            banner("旅途暂歇", true)
+            local shade = overlay:GetChild("deathShade")
+            tint(shade, C.backdrop, 0)
+            shade:SetVisible(true)
+            if not self.deaths.player then sound("defeat") end
+        end
     end
     local function silentIntent(a,d)
         local silent = not a or a.hp <= 0
@@ -306,8 +313,9 @@ function M.new(stage, platform, present, complete)
         end
         if not d.quiet then
             local victim = actor(d.target)
-            sound(Theme.deathSound[victim and victim.definitionId] or "enemy_die")
+            sound(d.target == "player" and "defeat" or Theme.deathSound[victim and victim.definitionId] or "enemy_die")
         end
+        if d.target == "player" then self.poses.player = nil overlay:SetAsLastSibling() end
     end
     local function damageText(d,kind,style)
         local text,ink=damageLabel(d)
@@ -392,7 +400,7 @@ function M.new(stage, platform, present, complete)
             intentStep(d,kind,style,old)
         elseif kind == "enemy_escape" then
             escapeStep(d,kind,style,old)
-        elseif kind == "death" then
+        elseif kind == "death" or kind == "player_death" then
             deathStep(d,kind,style,old)
         elseif d.target then
             targetStep(d,kind,style,old)
@@ -437,6 +445,11 @@ function M.new(stage, platform, present, complete)
             if entry.kind == "damage" and entry.detail.source == "player" and preDamageWait then
                 self.queue[#self.queue + 1] = {kind = "action_wait", detail = {seconds = preDamageWait}, frame = previous}
                 preDamageWait = nil
+            end
+            -- A committed defeat, not a transient zero-HP frame, owns player death.
+            -- Revival can cross zero during damage without ending the battle.
+            if entry.kind == "defeat" then
+                self.queue[#self.queue + 1] = {kind = "player_death", detail = {target = "player"}, frame = previous}
             end
             self.queue[#self.queue + 1] = entry
             if entry.frame then
@@ -598,13 +611,13 @@ function M.new(stage, platform, present, complete)
             -- Gleam, then the figure crumbles into the ground as a shard burst disperses.
             dying.age = dying.age + dt
             local p = clamp(dying.age / T.slow)
-            ink, flash, alpha = C.goldBright, 1 - easeOut(p), 1 - easeIn(p)
+            ink, flash, alpha = id == "player" and C.danger or C.goldBright, 1 - easeOut(p), 1 - easeIn(p)
             sx, sy = sx * (1 + p * OVERSHOOT), sy * (1 - easeIn(p) / 2)
             y = y - S.m * easeIn(p)
             local impact = box:GetChild("impact")
             impact:SetVisible(p < 1) impact:SetAnchoredPosition(0, 0)
             impact:SetLocalScale(1 + easeOut(p), 1 + easeOut(p), 1)
-            tint(impact, C.geo, (1 - p) * 0.8)
+            tint(impact, id == "player" and C.danger or C.geo, (1 - p) * 0.8)
             box:SetVisible(p < 1)
             if p >= 1 then self.dying[id] = nil end
         end
@@ -675,6 +688,9 @@ function M.new(stage, platform, present, complete)
                 label:SetAnchoredPosition(-travel * (1 - enter) + travel * exit, S.xxl)
                 label.fontColor = colour(self.bannerInk, enter * (1 - exit))
                 plate:SetLocalScale(1, enter * (1 - exit), 1)
+                if self.current.kind == "defeat" then
+                    tint(overlay:GetChild("deathShade"), C.backdrop, easeIn(age / T.banner))
+                end
             end
             if self.dissolve then
                 self.dissolve = self.dissolve + dt
@@ -696,7 +712,9 @@ function M.new(stage, platform, present, complete)
             for id in pairs(self.poses) do ids[id] = true end
             for id in pairs(self.effects) do ids[id] = true end
             for id in pairs(self.dying) do ids[id] = true end
-            for id in pairs(ids) do paint(id, dt, shakes) end
+            -- A newly entered player death starts now, not at the beginning of a stalled frame.
+            local effectDt = self.current and self.current.kind == "player_death" and math.min(dt, self.elapsed) or dt
+            for id in pairs(ids) do paint(id, effectDt, shakes) end
             local shake = 0
             for _, value in ipairs(shakes) do if math.abs(value) > math.abs(shake) then shake = value end end
             stage:SetAnchoredPosition(shake, 0)
