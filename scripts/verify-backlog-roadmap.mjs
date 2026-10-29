@@ -39,16 +39,27 @@ export function auditQueueOwners(tasks) {
 
 export function auditMilestoneScope(titles) {
   const contracts = [
-    // 2026-10-28 user-confirmed competition scope supersedes the four-act target.
-    { stage: 'M3', required: ['四职业', '第一幕', '第二幕', '核心闭环'] },
+    // 2026-10-28 user-confirmed two-character/two-act scope supersedes the old targets.
+    { stage: 'M3', required: ['两职业', '第一幕', '第二幕', '核心闭环'] },
     { stage: 'M4', required: ['前两幕', '首局', 'UI', '输入', '音画', '性能'] },
   ];
   return contracts.flatMap(({ stage, required }) => {
     const matches = titles.filter(title => new RegExp(`^${stage}(?:[\\s｜|:：]|$)`).test(title));
-    const retiredScope = /第三幕|第四幕|四幕|全章节/;
+    const retiredScope = /第三幕|第四幕|四幕|全章节|四职业|八职业|全职业/;
     return matches.length === 1 && required.every(part => matches[0].includes(part)) && !retiredScope.test(matches[0]) ? []
-      : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得扩大为第三/四幕、退回仅第一幕或缺少该关口`];
+      : [`${stage}: 里程碑范围必须明确包含${required.join('、')}，不得扩大为四/八/全职业或第三/四幕、退回仅第一幕或缺少该关口`];
   });
+}
+
+export function auditCompetitionRoster(scope) {
+  // Only the current decision is authoritative; historical rosters elsewhere stay intact.
+  // A count-only M3 title must not silently authorize an arbitrary pair or a Raiden redesign.
+  const current = scope.split(/^##[ \t]+/m).slice(1)
+    .filter(section => /^2026-10-28 比赛范围收缩决策[ \t]*\r?\n/.test(section));
+  const decisions = current.length === 1 ? current[0].match(/最终选择[^。\r\n]*。/g) ?? [] : [];
+  const frozenDecision = '最终选择岩系旅行者（Ironclad）与雷电将军（复用现有冻结V4愿力、雷眼、一心完整卡牌机制）各自完整玩通两幕并正常结算。';
+  return decisions.length === 1 && decisions[0] === frozenDecision ? []
+    : ['M3: 比赛职业合同必须为岩系旅行者（Ironclad）与雷电将军现有冻结V4，两职业各自完整通关两幕；不得替换角色或重新设计雷电卡包'];
 }
 
 export function verifyMilestoneScope(root = '.') {
@@ -57,7 +68,7 @@ export function verifyMilestoneScope(root = '.') {
     const source = readFileSync(join(directory, name), 'utf8');
     return source.match(/^title:[ \t]*([^\r\n]*)/m)?.[1].trim().replace(/^['"]|['"]$/g, '') ?? '';
   });
-  return auditMilestoneScope(titles);
+  return [...auditMilestoneScope(titles), ...auditCompetitionRoster(readFileSync(join(root, 'docs/SCOPE.md'), 'utf8'))];
 }
 
 // Match Backlog's identity comparison, not a task-ID format requirement.
@@ -123,5 +134,5 @@ export function verifyBacklogRoadmap(root = '.') {
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const errors = [...verifyBacklogRoadmap(), ...verifyMilestoneScope()];
   if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
-  else console.log('任务编号、首发排期、负责人及M3/M4前两幕参赛范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证平台或实机。');
+  else console.log('任务编号、首发排期、负责人及岩系旅行者/雷电将军冻结V4两职业前两幕规划范围检查通过；当前任务均有优先级、未完成High不超过5项；不认证运行时准入、平台或实机。');
 }

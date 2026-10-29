@@ -1,0 +1,148 @@
+{
+  "date": "2026-10-28",
+  "timezone": "Asia/Shanghai",
+  "sourceCommit": "7a87de3aec83281221a3680b0d02aeb5b41aa2ba",
+  "testedUserBuild": "unknown; no GIL/hash supplied",
+  "productionModified": false,
+  "nativeDeviceAcceptance": "NOT_RUN",
+  "screenshots": [
+    {
+      "filename": "IMG_1152.jpeg",
+      "sha256": "a011e97123a5d2e0275117fe35e1b50c91f57924d6d0b8c7d42a0c026999a3d4",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1153.png",
+      "sha256": "63a35ebd590ee4269a90aa65440661dc986f296ebc6228e6bcc35bae3eafa159",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1154.png",
+      "sha256": "8658992e464b37d03a1d9916a853abffc44cbfe4e0b73d0c18a1e1de098c6007",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1155.png",
+      "sha256": "2d203de996ab0852c51b1df4d86ff6dfbf473e95fc57e4d986295966e9f6ba5a",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1156.png",
+      "sha256": "c477706cb7e428568c1296b1149c2c89247874860f500307fdb594606a482ba3",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1157.png",
+      "sha256": "cde25524efda11f5d8c05dfa01f9d7e8266c6acaa812740a33ea5b0ba8112bfa",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1158.png",
+      "sha256": "bfe7129561bcd1975ad7afc37cc3afbd0128a33e7f0dcb46e4e4d9c3d0de3d0a",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1159.png",
+      "sha256": "f20bd29a05b070464c6f9f57df2fb4c4754163a5123d8078d6739795f297912f",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1160(1).png",
+      "sha256": "3699e4a0e5680a3a275d468217b9b24bf8c8e730b5b47580b5304c6bdf7dabdc",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    },
+    {
+      "filename": "IMG_1161(1).png",
+      "sha256": "ad638001c6be3b2f6f6b73658c1f84e22206d7d3f3b1ee316c3a28224977e920",
+      "evidence": "user attachment; still image only, no pointer timing or candidate hash"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "src/lua/abyss_ui.lua",
+      "sha256": "4e0eed66adb405a2af1957e1cf59686a931db2e7293de0a009490815502edc81"
+    },
+    {
+      "path": "src/lua/abyss_game_ui.lua",
+      "sha256": "a7e27edb210e20e75b46bea31d39befb160a59751a7abdf48f150e50567d0082"
+    },
+    {
+      "path": "src/lua/abyss_battle_ui.lua",
+      "sha256": "f91b9dcd22358b3876f737f82d6b4e7fea91342199286293012c2090b88db459"
+    },
+    {
+      "path": "src/lua/abyss_card_input.lua",
+      "sha256": "02687e106e4b4a171a5a8bf062f0c3c3f702325913941fbb839800f1b47ebe3c"
+    },
+    {
+      "path": "src/lua/abyss_battle_card_view.lua",
+      "sha256": "ed799eb2e929975fad2105237f42947226f36088b7a440759aed0b4bbd44272e"
+    },
+    {
+      "path": "src/lua/abyss_map_ui.lua",
+      "sha256": "0c125d7face08308190e2f94b02b654ae692ba5f37ebe155a9ba68cf33afc154"
+    },
+    {
+      "path": "src/lua/abyss_snapshot.lua",
+      "sha256": "ad6ad705a56c0ebaa5ef8c3ad7966cebf9473280f302c0d659f3ecde0f86b3d2"
+    },
+    {
+      "path": "src/lua/abyss_treasure.lua",
+      "sha256": "ced731d340e84dcc340926ad2b320f9bbcbec464d720d6a7065cad1f297d778e"
+    },
+    {
+      "path": "src/lua/abyss_node_ui.lua",
+      "sha256": "e652685874fa6b42a1e8414d040e946bc4496678e79c6f4cf703e617ca77fca1"
+    },
+    {
+      "path": "src/lua/abyss_relic_hooks.lua",
+      "sha256": "8cbfebd5f88d2274ffd06abbebab20110d812bcfb70c19d995b4609311c9e0b0"
+    },
+    {
+      "path": "src/lua/abyss_nodes.lua",
+      "sha256": "74ffe0af91db89dc800878d1385bddba27eeef6b232099336eccad04c2859a04"
+    },
+    {
+      "path": "data/relics.json",
+      "sha256": "58b83f2a4152561057c654d80d5f6511604b4bef2faf141a333f3daffdbb6566"
+    },
+    {
+      "path": "data/catalogs/sts1-relic-queues.json",
+      "sha256": "bc7fd8c34ff0f85689ff9dee391b69a44d3b6c42860c85cc2ad9668c640126ae"
+    },
+    {
+      "path": "data/presentation/traveler.zh-CN.json",
+      "sha256": "c923cf9385e97a1388f22aa9a1c30648cf53c4164e6da4e5a7f4605ebf58ab61"
+    }
+  ],
+  "scripts": [
+    {
+      "path": "mobile-map-lock-repro.lua",
+      "sha256": "ca5fff23318497818bed544408c2bb78da006b00e7fb417799d6ddc420492c76"
+    },
+    {
+      "path": "mobile-touch-carry-repro.lua",
+      "sha256": "8ab808266cd9c7a38e450cab1408dcf1d659ca9933ffec81784ac2f4ab4691c8"
+    },
+    {
+      "path": "mobile-overlay-repro.lua",
+      "sha256": "2135bda1d56be1e0c6c492df9b22a17b31d07abce323360ca08d36954d8ded9c"
+    },
+    {
+      "path": "mobile-click-only-actions-repro.lua",
+      "sha256": "54adb7508e7ab546e0c4c9f689435bf9e8c9aab2abc6f695f3ec7645f3a49059"
+    },
+    {
+      "path": "mobile_rules_diag.lua",
+      "sha256": "96f8e585212283128371aa3d42f355a75a4d372a09fcfa78d3c72d078540d5d3"
+    },
+    {
+      "path": "mobile_target_diag.lua",
+      "sha256": "e6d9826b1e1f6a4ead01b341a826d53a8359355061563bc8edeed55ba4498c76"
+    },
+    {
+      "path": "mobile_relic_coverage.mjs",
+      "sha256": "f9619dd283e1104056cc654daa93d97b183aecb480fd278f72d3ba37fab58555"
+    }
+  ]
+}

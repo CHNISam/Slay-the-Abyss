@@ -1,0 +1,25 @@
+local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
+local A=dofile('tests/lua/support/battle_action_fixture.lua')
+do
+  local h,u,p,e,tap,drain,toggle,root=H.setup()
+  e('card1','down',7);e('card1','drag',7,0,0)
+  assert(u.gesture and p:GetChild('dragLayer').visible)
+  toggle()
+  local deck=root:GetChild('deckPanel')
+  assert(not deck.visible and not u.gesture and not u.carry and not p:GetChild('dragLayer').visible and u.active)
+  tap('card2',8)
+  assert(u.selected==h.run.combat.hand[2].uid)
+  tap('playArea',8)
+  assert(h.run.combat.energy==2 and h.run.combat.player.block==5)
+  print('OVERLAY_COMBAT_FRESH_POINTER_RESTORED')
+end
+do
+  local h,u,p,e,tap,drain,toggle,root=A.reward()
+  assert(h.run.phase=='reward' and u.rewardScreen=='cards')
+  e('card1','down',7)
+  toggle()
+  assert(not root:GetChild('deckPanel').visible and not u.gesture and u.active)
+  tap('skip',8)
+  assert(u.rewardScreen=='list' and h.run.rewards.cardResolved==false)
+  print('OVERLAY_REWARD_SKIP_FRESH_POINTER_RESTORED')
+end

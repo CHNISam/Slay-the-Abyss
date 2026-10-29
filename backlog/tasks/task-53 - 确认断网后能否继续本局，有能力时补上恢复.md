@@ -1,11 +1,11 @@
 ---
 id: TASK-53
-title: 存档能力具备后再评估恢复与跨局历史
-status: To Do
+title: 查清离开后丢进度并核实恢复能力
+status: Blocked
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 15:48'
-updated_date: '2026-10-28 08:23'
+updated_date: '2026-10-28 14:46'
 labels:
   - post-release
   - platform-capability
@@ -17,7 +17,7 @@ references:
   - src/lua/abyss_ui.lua
   - src/lua/abyss_game_ui.lua
   - 'https://act.mihoyo.com/ys/ugc/tutorial/detail/mhzcw29qjjma'
-priority: low
+priority: medium
 type: feature
 ordinal: 91000
 ---
@@ -43,4 +43,8 @@ ordinal: 91000
 2026-10-27队列复核：补齐有效负责人Furinya；Low候选仍不占当前冲刺，不因指定负责人自动启动新功能。
 
 2026-10-28用户确认范围变更：当前比赛只覆盖第一幕、第二幕，优先前10分钟体验；第三幕/隐藏第四幕/真结局及依赖退出续玩、跨局进度、历史解锁或跨局留卡的内容退出比赛必做，保留为无新截止日的未来候选。四职业及已批准原创角色要求不变。同局跨房间、第一幕到第二幕的资源与随机流、内存快照/回滚和本局结算保留；源码/候选/平台/实机仍分层，未完成状态不因范围调整改变。
+
+PR #304记录退出丢进度风险；跨局持久恢复仍为未来事项，同实例恢复问题不得忽略。
+
+PR #304：手机试玩短暂离开后丢进度，是否同实例、重建或断线未知；源码缺持久恢复，PC具体表现未测。分别记录同实例恢复与跨局恢复。
 <!-- SECTION:NOTES:END -->

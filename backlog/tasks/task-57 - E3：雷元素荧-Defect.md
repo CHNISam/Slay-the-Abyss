@@ -5,14 +5,12 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:02'
-updated_date: '2026-10-28 01:36'
+updated_date: '2026-10-28 14:30'
 labels:
-  - required
   - sts1
   - builds
   - implementation-gap
   - partially-implemented
-milestone: m-4
 dependencies: []
 references:
   - docs/backlog-details/DRAFT-4.md
@@ -20,7 +18,7 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/CLASS_CARD_HANDOFF.md
   - docs/M3-STATUS-20261028.md
-priority: medium
+priority: low
 type: feature
 ---
 
@@ -70,4 +68,6 @@ type: feature
 2026-10-27运行时重算：以81f3ffd2的实际Run.new入口加载当前JSON与Lua，四职业各75张共300张的基本/升级Capability均通过；战士reward/src/shop各72个唯一ID，其他职业各71个，逐ID双版本无缺定义；四职业各33瓶药水均通过生产available定义检查。第三幕3弱/8强/3精英与三Boss均有生产路由，七普通事件仍缺MindBloom和Mysterious Sphere映射。PR252本次记待合，最终合并由主线程另行核对。证据：docs/evidence/m3-runtime-audit-20261027.json及docs/backlog-details/BACKLOG-UPDATE-20261027.md本轮节。Capability不代表逐牌实际执行或原版完整一致；定义注册和路由不代表自然获取、概率全链或平台通关。本次只更正首页与追加事实，状态、负责人、优先级、依赖和全部验收项保持，不新增勾选；历史数量和旧备注保留原样。
 
 2026-10-28接续核对：当前主线b7dffdeb已包含PR238/250/252/259/262，第四幕及真结局接线不再待合并。M3当前32/46 Done，14项未完成。最新整合、遗留工作树与具体证据边界见docs/M3-STATUS-20261028.md；旧PR待合/冲突备注仅属历史。本次不新增自然获取、四职业四幕、平台导入或实机通过，不修改既有AC。
+
+2026-10-28：非比赛首发职业，转未来候选；现有代码和验收证据保留。
 <!-- SECTION:NOTES:END -->
