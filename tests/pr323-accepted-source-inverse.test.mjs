@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {preNestedSnapshotOwnerSource} from './helpers/nested-command-snapshot-owner-inverse.mjs';
 import {prePlayerDeathSource} from './helpers/player-death-transition-inverse.mjs';
 import {preDeathSettlementGuardSource} from './helpers/death-settlement-guard-inverse.mjs';
 import assert from 'node:assert/strict';
@@ -11,7 +12,7 @@ import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-in
 import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
 import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs';
 const normalize=source=>source.replaceAll('\r\n','\n');
-const read=path=>prePlayerDeathSource(path,preDeathSettlementGuardSource(path,normalize(readFileSync(path,'utf8'))));
+const read=path=>preNestedSnapshotOwnerSource(path,prePlayerDeathSource(path,preDeathSettlementGuardSource(path,normalize(readFileSync(path,'utf8')))));
 const hash=source=>createHash('sha256').update(source).digest('hex');
 test('combined PR323 sources recover both complete accepted20a and original323 witnesses',()=>{
  for(const [path,binding]of Object.entries(proof.files)){

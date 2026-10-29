@@ -473,13 +473,13 @@ end
 
 -- A paused card continuation owns selection, queued tails, permanent
 -- publication and finish/reward preparation, just like the public play command.
--- Combat keeps its standalone savepoint; this outer preimage preserves Run and
+-- Combat keeps its standalone savepoint or consumes this exact Run preimage and
 -- all original entity/pile references when a later step rejects or throws.
 local function continueCombatChoice(run,choose,uids,token,generation)
     local snapshot=require('abyss_snapshot')
     local restore,owner=snapshot.capture(run,run.combat)
     local called,ok,reason=pcall(function()
-        local accepted,detail=choose(run.combat,uids,token,generation)
+        local accepted,detail=choose(run.combat,uids,token,generation,owner)
         if accepted then
             syncBattlePotions(run)
             run.gold=run.combat.player.gold
@@ -524,9 +524,9 @@ end
 
 function M.endTurn(run)
     if run.phase ~= "combat" then return false, "not_in_combat" end
-    local restore=require('abyss_snapshot').capture(run)
+    local snapshot=require('abyss_snapshot');local restore,owner=snapshot.capture(run,run.combat)
     local called,ok,reason=pcall(function()
-        local accepted,detail=Combat.endTurn(run.combat)
+        local accepted,detail=Combat.endTurn(run.combat,owner)
         if accepted then
             syncBattlePotions(run)
             run.gold = run.combat.player.gold
@@ -539,8 +539,8 @@ function M.endTurn(run)
         end
         return accepted,detail
     end)
-    if not called then restore();error(ok,0)end
-    if not ok then restore()end
+    if not called then restore();snapshot.release(owner);error(ok,0)end
+    if not ok then restore()end;snapshot.release(owner)
     return ok,reason
 end
 
