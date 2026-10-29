@@ -3,7 +3,7 @@ id: doc-20
 title: 资料目录：规则（一）
 type: guide
 created_date: '2026-10-29 05:13'
-updated_date: '2026-10-29 05:15'
+updated_date: '2026-10-29 05:20'
 ---
 # 资料目录：rules 第1部分
 

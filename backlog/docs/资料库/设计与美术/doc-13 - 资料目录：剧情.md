@@ -3,7 +3,7 @@ id: doc-13
 title: 资料目录：剧情
 type: guide
 created_date: '2026-10-29 05:13'
-updated_date: '2026-10-29 05:15'
+updated_date: '2026-10-29 05:20'
 ---
 # 资料目录：lore
 
