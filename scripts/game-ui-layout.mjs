@@ -96,6 +96,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         codeVersion,
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
+        { ...plate('deathShade', layout.backdrop, color.backdrop), visible: false },
       ] },
       ...deckControls(theme),
       ...potionDiscardControls(theme),

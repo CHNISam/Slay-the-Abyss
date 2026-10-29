@@ -163,8 +163,13 @@ local function click(root, panel, button)
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
     if target.raycastTarget~=false and (target.kind~='presetButton' or target.interactable) then
         local result = target.click()
-        for _ = 1, 400 do if not root.ui or not root.ui.battleUI.busy then break end root.ui:update(0.05) end
-        assert(not root.ui or not root.ui.battleUI.busy)
+        -- High-level clicks wait for presentation, including the defeat-page reveal.
+        -- Frame/gesture suites call listeners directly to assert the locked interval.
+        for _ = 1, 400 do
+            if not root.ui or not root.ui.battleUI.busy and not root.ui.motion.deathReveal then break end
+            root.ui:update(0.05)
+        end
+        assert(not root.ui or not root.ui.battleUI.busy and not root.ui.motion.deathReveal)
         return result
     end
 end

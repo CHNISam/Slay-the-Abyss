@@ -27,8 +27,8 @@ local function setup(deck, enemies, pointer)
         event(name,"click",touch)
     end
     local function drain()
-        for _=1,400 do if not ui.busy then return end; host:update(0.05) end
-        assert(not ui.busy,"feedback remained stuck")
+        for _=1,400 do if not ui.busy and not host.motion.deathReveal then return end; host:update(0.05) end
+        assert(not ui.busy and not host.motion.deathReveal,"feedback remained stuck")
     end
     local function openCloseDeck()
         assert(root:GetChild("deckEntry"):GetChild("open"):GetChild("hit").click({touchId=8}))

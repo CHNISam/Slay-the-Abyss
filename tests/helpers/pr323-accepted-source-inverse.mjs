@@ -1,5 +1,6 @@
 // Exact outer composition only. Both accepted20a and original323 witnesses stay immutable.
 import assert from 'node:assert/strict';
+import {prePlayerDeathSource} from './player-death-transition-inverse.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const normalize=source=>source.replaceAll('\r\n','\n');
@@ -22,6 +23,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
+ source=prePlayerDeathSource(path,source);
  const binding=proof.files[path];
  assert.ok(binding,'registered accepted20a/original323 composition source: '+path);
  assert.equal(typeof source,'string','combined composition source must exist: '+path);
@@ -30,6 +32,7 @@ export function requirePr323Source(path,source){
 }
 function project(path,source,target){
  if(typeof source!=='string')return source;
+ source=prePlayerDeathSource(path,source);
  const normalized=normalize(source),binding=proof.files[path];
  // Unknown/partial sources remain visible to the original strict inner guards.
  if(!binding||hash(normalized)!==binding.afterSha256)return normalized;

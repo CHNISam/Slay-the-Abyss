@@ -15,12 +15,16 @@ test('feedback uses a fixed non-interactive native pool within the per-parent pl
   }
   const overlay = stage().children.find(c => c.name === 'feedback');
   walk([overlay], control => assert.ok(!['cursorArea', 'presetButton'].includes(control.kind)));
-  // Polish adds exactly one shared area sweep; every other effect reuses the per-actor pool.
+  // One shared area sweep and one fixed death veil; other effects reuse the actor pool.
   const sweep = overlay.children.filter(c => c.name === 'sweep');
   assert.equal(sweep.length, 1);
   assert.equal(sweep[0].visible, false);
   assert.equal(sweep[0].image, theme.image.diamond);
-  assert.equal(overlay.children.length, 4);
+  const shade = overlay.children.find(c => c.name === 'deathShade');
+  assert.equal(shade.visible, false);
+  assert.deepEqual(shade.size, theme.canvas.base);
+  assert.deepEqual(shade.colour, theme.color.backdrop);
+  assert.equal(overlay.children.length, 5);
 });
 test('every actor has a status chip grid within platform limits and a portrait detail hit', () => {
   const si = theme.layout.statusIcon;
