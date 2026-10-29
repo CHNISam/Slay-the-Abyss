@@ -32,7 +32,7 @@
   "findings": [
     "Repaired actual pixels show three narrow solid dark-iron bars/two hinges, one continuous handle-to-tip folded Z. No hollow bracer cuff mouths remain; intended short articulated whip now readable106/127.",
     "Tall masked narrow body, shoulder panels, pose and clothing retained; two boots/hood contour intact with tight vertical margin.",
-    "Previous prop design hard fail retained in source-review-v1.json; one authorized bounded weapon repair, not prompt-only pass."
+    "Previous prop design hard fail retained privately as source-review-v1.json (not included in this source-only pool); one authorized bounded weapon repair, not prompt-only pass."
   ],
   "approvals": {
     "owner": false,

@@ -4591,7 +4591,7 @@
     },
     "art/monsters/taskmaster/asset.json": {
       "category": "original-monster-source",
-      "sha256": "ad728057cde03446ddab2fae3cba99adea463ed78b9c7b1e1fdfd54bd598de5f"
+      "sha256": "b7c8f13896973a928a414e39e8784161bc142ec254202bce61d00536730e57bb"
     },
     "art/monsters/taskmaster/generation-provenance.json": {
       "category": "original-monster-source",
@@ -4607,7 +4607,7 @@
     },
     "art/monsters/taskmaster/source-review.json": {
       "category": "original-monster-source",
-      "sha256": "a13b21dd6a969aa16ebd5a03f36fdf2277cb60f59b62c3a4b6cdfac99a225819"
+      "sha256": "d792c5394c8860b934bcc6462efb96b12953f89057752d8583a61bfb48e75c4b"
     },
     "art/monsters/taskmaster/source.png": {
       "category": "original-monster-source",

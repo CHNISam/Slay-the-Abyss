@@ -107,7 +107,12 @@ test('monster files preserve reviewed source identity and strict unbound limits'
         const referenced=json(root+ref.path.split('/')[1]+'/asset.json');
         assert.equal(ref.sha256,referenced.files['source.png'].sha256);
       }
-      if(ref.repositoryPath) assert.match(ref.repositoryPath,/^art\//);
+      if(ref.repositoryPath) {
+        assert.match(ref.repositoryPath,/^art\//);
+        const bytes=read(ref.repositoryPath);
+        const pointer=/^version https:\/\/git-lfs.github.com\/spec\/v1\noid sha256:([a-f0-9]{64})\nsize [1-9]\d*\n$/.exec(bytes.toString());
+        assert.equal(pointer?pointer[1]:hash(bytes),ref.sha256,'repository reference identity');
+      }
       if(!ref.path&&!ref.repositoryPath) assert.ok(ref.availability);
     }
     for(const doc of [asset,provenance,review]) assert.doesNotMatch(JSON.stringify(doc),/\/workspace\/|\/home\/|exec-[0-9a-f-]+|"reviewer"|"requestId"/i);
