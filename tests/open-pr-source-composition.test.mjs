@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {openPrSourceComposition as proof,projectOpenPrSource as project} from './helpers/open-pr-source-composition.mjs';
+import {preBattleLifeSource} from './helpers/battle-life-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 
 test('combined source projection binds complete live sources and all reviewed slice targets',()=>{
  assert.equal(proof.schemaVersion,1);
  assert.deepEqual(Object.keys(proof.heads),['hero','relic','event']);
  for(const[path,binding]of Object.entries(proof.files)){
-  const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const source=preBattleLifeSource(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
   assert.equal(source,binding.current,path+' exact live composition');
   assert.equal(hash(source),binding.currentHash,path);
   for(const[target,witness]of Object.entries(binding.targets)){

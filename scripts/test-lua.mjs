@@ -1,5 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import {runHistoricalPresentation,historicalPresentationFixtures} from '../tests/helpers/historical-presentation-runner.mjs';
+import {frozenBattleHandPrelude} from '../tests/helpers/battle-life-frozen-hand.mjs';
 import { readdirSync, writeFileSync, unlinkSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { tmpdir } from 'node:os';
@@ -22,6 +23,7 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
   const normalizedScript = script.replaceAll('\\', '/');
+  const frozenHand = frozenBattleHandPrelude(normalizedScript, {cwd});
   const fixture = ['tests/lua/battle_ui.lua', 'tests/lua/battle_ui_slice_2.lua', 'tests/lua/battle_ui_slice_3.lua',
     'tests/lua/battle_ui_slice_4.lua', 'tests/lua/battle_ui_slice_5.lua',
     'tests/lua/battle_ui_slice_6.lua', 'tests/lua/battle_ui_slice_7.lua']
@@ -43,7 +45,7 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   // Mutation checks target one registered original regression. Each child is
   // fresh; ordinary invocations receive no selector and still run every case.
   const selection = caseName === undefined ? '' : `ABYSS_MUTATION_CASE=${luaString(caseName)};`;
-  try { result = spawnSync(process.execPath, [cli, '-e', `${selection}dofile(${luaString(temporary || resolve(cwd, script))})`], {
+  try { result = spawnSync(process.execPath, [cli, '-e', `${selection}${frozenHand}dofile(${luaString(temporary || resolve(cwd, script))})`], {
     cwd, encoding: 'utf8', timeout, maxBuffer: 1024 * 1024,
     env: { ...process.env, LUA_PATH: './build/lua/?.lua;./src/lua/?.lua;;', LUA_PATH_5_3: './build/lua/?.lua;./src/lua/?.lua;;', LUA_INIT: '', LUA_INIT_5_3: '' }
   }); } finally { if (temporary) unlinkSync(temporary); }
