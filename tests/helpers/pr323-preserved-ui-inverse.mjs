@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const bytes=readFileSync('tests/fixtures/pr323-preserved-ui-layer.json.gz');
-assert.equal(hash(bytes),'1617caf53cadcd87d2317d03b8f7abb3b96061c0fb39fffdcabda7bdaf5e5881');
+assert.equal(hash(bytes),'ff8fcf8c4bc81912b2046fc71eee573fca57f15fd3499a5621e613dcde90ab2c');
 export const preservedUiLayer=JSON.parse(gunzipSync(bytes));
 export function requirePreservedUiSource(path,source){
  const binding=preservedUiLayer.files[path];assert(binding,'registered preservation layer: '+path);

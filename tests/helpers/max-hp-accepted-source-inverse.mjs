@@ -1,3 +1,4 @@
+import {prePreservedUiSource} from './pr323-preserved-ui-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,6 +12,7 @@ export const maxHpPr313Inverse=JSON.parse(currentBytes);
 // Test-only exact insertion inverse. Unknown identities flow to the existing
 // historical guards unchanged, so drift cannot be hidden by field filtering.
 export function preMaxHpSource(path,source){
+ source=prePreservedUiSource(path,source);
  source=source.replaceAll('\r\n','\n');
  const currentBinding=maxHpPr313Inverse.files[path];
  const binding=currentBinding && hash(source)===currentBinding.afterSha256
