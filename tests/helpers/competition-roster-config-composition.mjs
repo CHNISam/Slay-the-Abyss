@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 const normalize=source=>source.replaceAll('\r\n','\n');
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const bytes=normalize(readFileSync(new URL('../fixtures/competition-roster-config-composition.json',import.meta.url),'utf8'));
-assert.equal(hash(bytes),'81622ae6facb0cb8fd3e3422342873412eb49eb9874f2deb80e108c14e24f512','complete reviewed roster config composition');
+assert.equal(hash(bytes),'a27d66f90b37bf44a9df09add3496bfcbe23dd16c0ba286deaa871867294b11d','complete reviewed roster config composition');
 export const rosterConfigComposition=JSON.parse(bytes);
 export function projectRosterConfigSource(path,source,target){
  const proof=rosterConfigComposition;

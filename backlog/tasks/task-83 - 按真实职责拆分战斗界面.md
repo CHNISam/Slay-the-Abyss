@@ -3,9 +3,9 @@ id: TASK-83
 title: 按真实职责拆分战斗界面
 status: Done
 assignee:
-  - Furinya
+  - '@Furinya'
 created_date: '2026-10-28 15:40'
-updated_date: '2026-10-29 01:33'
+updated_date: '2026-10-29 02:13'
 labels: []
 dependencies: []
 priority: medium
@@ -50,6 +50,8 @@ PR311第二轮CI发现历史源码投影有两个入口未覆盖。已将严格�
 组合最新正式界面48cb48ce：主文件289行、构造器234行、最大函数254行。22个原生UI场景与批准原版逐项一致；43份现有Lua回归均有通过记录，8份初次超时在原期限内串行复测通过，保留全部记录。工程门禁通过，无新增警告；组合契约38通过，1项Windows symlink权限限制待Linux CI。原冻结快照不变，新增精确身份投影层，未放宽预算。证据见专项报告。
 
 2026-10-29 主线继承复核：PR #311 已于 01:28:15 UTC 合入 develop 8a36c0d5，保留主线已完成状态及两项实现验收，负责人按项目约定改为 Furinya。合入前精确 HEAD 15ef1cca 的 Quality 40790043592 全量路径与 Licenses 均成功；原 PR #322 中因尚未集成而暂记 In Progress 的说明已被本次实际合入覆盖。当前 PR #322 组合与 8a36c0d5 合入后完整 Quality 仍各自待验，本记录不新增平台或实机验收声明。
+
+2026-10-29 本地整合复核：PR311 已合入当前 develop（后续58f72c2c包含该已交付战斗界面拆分），沿用正式主线既有 Done 结论，负责人按项目规则统一为 Furinya。此前待合并及本地 In Progress 备注保留为对应时点历史；本次未新增勾选验收项，不代表待合315/317整合已获完整CI、客户端或设备验收。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

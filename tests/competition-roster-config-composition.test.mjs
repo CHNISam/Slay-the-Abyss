@@ -13,12 +13,12 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 const project=(source,target)=>projectRosterConfigSource(path,source,target);
 const source=read(path);
 test('actual complete registration union adds only roster admission and retains every accepted Nodes Battle MaxHP classification',()=>{
- assert.equal(hash(source),'b17b46d338d20441ad8a3f54abf9f0b3d41b664d46783619b739ac0f2fc39592');
+ assert.equal(hash(source),'45bdb013ff452b410816bcd192f5ed5de9ecc0067a75b2a113721a03c98764ba');
  const current=project(source,'current'),roster=project(source,'roster');
- const oldTriple=JSON.parse(read('tests/fixtures/nodes-battle-max-hp-config-inverse.json'));
- assert.equal(hash(current),oldTriple.combinedSha256LF);
+ const acceptedRun=JSON.parse(read('tests/fixtures/run-max-hp-config-inverse.json'));
+ assert.equal(hash(current),acceptedRun.combinedSha256LF);
  assert.equal(hash(roster),rosterSourceBindings.files[path].afterSha256);
- assert.equal(proof.targets.current.head,'ab0e742f5f6ce2a93fed227694377d0014dc1377');
+ assert.equal(proof.targets.current.head,'e27c7a0f1060a61d995ab0b27d43cb23f1fbc07e');
  assert.equal(proof.targets.roster.head,'296bc0a290f7858f54a2d8b0cd1da052cee96a29');
  const live=JSON.parse(source),a=JSON.parse(current),b=JSON.parse(roster),union={...a.layers};
  for(const [name,layer]of Object.entries(b.layers)){

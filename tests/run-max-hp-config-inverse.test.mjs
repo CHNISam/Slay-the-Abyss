@@ -1,3 +1,4 @@
+import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -9,7 +10,7 @@ import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs
 import {preIntegratedNodeUiSource} from './helpers/approved-node-ui-refactor.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 const path='config/architecture.json';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preRosterConfigSource(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const expected={live:'3476d3d6407f1a64c194add9937c48da1eb2ce6ba98cc90617feb3751aeb9c44',combined:'df2d58668d69864a61e3d177c8ab4183cedd11fb12bdb6f9e14312b008bf6f9b',run:'bc1a6dca0701091f73a8464de978a4b202597c70500c84c73f33a855a510240e'};
 const run=['abyss_run_initialization','abyss_run_transition','abyss_run_rooms','abyss_run_settlement','abyss_run_potions'];
@@ -20,7 +21,7 @@ const project=(source,target)=>projectRunMaxHpConfig(path,source,target);
 
 test('a historical projection cannot hide a missing MaxHP registration from the current production architecture gate',()=>{
  const sources=Object.fromEntries(readdirSync('src/lua').filter(file=>file.endsWith('.lua')).sort().map(file=>[file.slice(0,-4),read('src/lua/'+file)]));
- const live=JSON.parse(read(path));
+ const live=JSON.parse(readFileSync(path,'utf8').replaceAll('\r\n','\n'));
  assert.deepEqual(analyzeSources(sources,live).errors,[]);
  const missing=structuredClone(live);delete missing.layers.abyss_max_hp_relics;
  assert.ok(analyzeSources(sources,missing).errors.some(error=>error.file==='src/lua/abyss_max_hp_relics.lua'&&error.message==='Module needs explicit classification'));

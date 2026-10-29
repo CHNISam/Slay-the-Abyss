@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "path": "config/architecture.json",
-  "combinedSha256LF": "b17b46d338d20441ad8a3f54abf9f0b3d41b664d46783619b739ac0f2fc39592",
+  "combinedSha256LF": "45bdb013ff452b410816bcd192f5ed5de9ecc0067a75b2a113721a03c98764ba",
   "targets": {
     "current": {
-      "head": "ab0e742f5f6ce2a93fed227694377d0014dc1377",
-      "sha256LF": "df2d58668d69864a61e3d177c8ab4183cedd11fb12bdb6f9e14312b008bf6f9b",
+      "head": "e27c7a0f1060a61d995ab0b27d43cb23f1fbc07e",
+      "sha256LF": "3476d3d6407f1a64c194add9937c48da1eb2ce6ba98cc90617feb3751aeb9c44",
       "edits": [
         {
           "at": 2,
@@ -43,7 +43,12 @@
             "    \"abyss_nodes_common\": \"core\",",
             "    \"abyss_nodes_entry\": \"core\",",
             "    \"abyss_nodes_events\": \"core\",",
-            "    \"abyss_nodes_sources\": \"core\""
+            "    \"abyss_nodes_sources\": \"core\",",
+            "    \"abyss_run_initialization\": \"core\",",
+            "    \"abyss_run_transition\": \"core\",",
+            "    \"abyss_run_rooms\": \"core\",",
+            "    \"abyss_run_settlement\": \"core\",",
+            "    \"abyss_run_potions\": \"core\""
           ],
           "after": [
             "    \"abyss_battle_potion_popup\": \"ui\""
