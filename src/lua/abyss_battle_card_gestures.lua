@@ -34,6 +34,9 @@ function M.install(owner, ownership, host, dependencies)
         retireInterruptedPress(event)
         ownership.pointerObserved = true
         owner.help=nil
+        if owner.active and not owner.busy and not owner.gesture and event and event.touchId == ownership.releasedDragTouch then
+            ownership.releasedDragTouch = nil -- a new physical sequence owns this touch again
+        end
         if not owner.gesture then owner.suppressClick = false end
         owner.swallow = nil
         if owner.gesture or not dependencies.closeInfo() then return false end
@@ -63,7 +66,8 @@ function M.install(owner, ownership, host, dependencies)
             local valid, target, aiming = dependencies.dragTarget(g)
             if g.cancelled then
                 g.input.held, g.input.released = nil, nil
-                owner.gesture, owner.selected, owner.hover, owner.handHover = nil, nil, nil, nil
+                ownership.releasedDragTouch = g.touch
+                owner.gesture, owner.selected, owner.hover, owner.handHover, owner.suppressClick = nil, nil, nil, nil, g
                 owner:render(); return
             end
             if g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
@@ -113,7 +117,9 @@ function M.install(owner, ownership, host, dependencies)
         g.input.released = nil
         local action = x and CardInput.release(g, valid) or 'cancel'
         owner.carry = (action == 'target' or action == 'carry') and g or nil
-        owner.suppressClick,owner.selected = true,action ~= 'cancel' and g.uid or nil
+        -- Keep the trailing Click bound to this drag, not a persistent global lock.
+        ownership.releasedDragTouch = g.touch
+        owner.suppressClick,owner.selected = g,action ~= 'cancel' and g.uid or nil
         owner:render()
         if action == 'play' then owner:playSelected(target)
         else dependencies.notice("") end

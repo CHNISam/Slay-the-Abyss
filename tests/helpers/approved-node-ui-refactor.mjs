@@ -1,3 +1,4 @@
+import {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 import {preNodesBattleMaxHpConfig} from './nodes-battle-max-hp-config-inverse.mjs';
 import {preCompositeBattleMaxHpConfig} from './battle-max-hp-config-inverse.mjs';
 import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
@@ -51,6 +52,7 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ source=preCardDragClickSource(path,source);
  source=preNodesBattleMaxHpConfig(path,source);
  source=preCompositeBattleMaxHpConfig(path,source);
  if(source!==null)source=preMaxHpSource(path,source);

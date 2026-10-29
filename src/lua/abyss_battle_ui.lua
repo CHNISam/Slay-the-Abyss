@@ -99,11 +99,11 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_action_bindings").install(self, ownership, host, ports(links, {
         "swallowed", "cardReady", "down", "point", "inPlayArea",
-        "child", "controllerReady", "actionReady"
+        "child", "controllerReady", "actionReady", "consumeReleasedDragClick"
     })))
     install(services, require("abyss_battle_potion_bindings").install(self, ownership, host, ports(links, {
         "potionBinding", "cancelPotionAim", "cancelCardInputs", "cancelActionInputs", "refresh",
-        "child", "controllerReady", "swallowed", "potionReady", "down"
+        "child", "controllerReady", "swallowed", "potionReady", "down", "consumeReleasedDragClick"
     })))
     install(services, require("abyss_battle_card_bindings").install(self, ownership, host, ports(links, {
         "point", "child", "controllerReady", "listen", "retireInterruptedPress",
@@ -111,7 +111,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_target_bindings").install(self, ownership, host, ports(links, {
         "child", "enemyAt", "controllerReady", "swallowed", "discardEnemyPointer",
-        "enemyReady", "down", "cancelPotionAim", "sameEnemySlot"
+        "enemyReady", "down", "cancelPotionAim", "sameEnemySlot", "consumeReleasedDragClick"
     })))
     install(services, require("abyss_battle_detail_bindings").install(self, ownership, host, ports(links, {
         "enemyAt", "listen", "child", "closeInfo", "controllerReady",
@@ -124,7 +124,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         describeInfo=services.describeInfo, show=services.show, placeCard=services.placeCard, placeReward=services.placeReward, dragTarget=services.dragTarget,
         dragPose=services.dragPose, notice=services.notice, refresh=services.refresh, bind=services.bind, cancelPotionAim=services.cancelPotionAim,
         rewardScreen=services.rewardScreen, bindPotionControls=services.bindPotionControls, bindCardControls=services.bindCardControls, bindEnemyControls=services.bindEnemyControls, bindDetailControls=services.bindDetailControls,
-        cancelCardInputs=services.cancelCardInputs
+        cancelCardInputs=services.cancelCardInputs, consumeReleasedDragClick=services.consumeReleasedDragClick
     }
     host.stage = host.options.embedded and host.root or assert(host.root:GetChild("stage"), "missing stage")
     host.cursor = host.platform.cursorEvents
@@ -133,7 +133,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         or "点选卡牌，再点敌人或战场出牌区域；再点原牌取消。"
     -- A card click is the final event of one physical pointer sequence. Retain
     -- its original rule identity, not a global permission another Down can reset.
-    ownership.cardInputs, ownership.pointerObserved = {}, false
+    ownership.cardInputs, ownership.pointerObserved, ownership.releasedDragTouch = {}, false, nil
     -- Potion controls may be click-only even when cards receive pointer events.
     -- Once a potion Down is observed, require its own one-shot release token.
     ownership.potionInputs, ownership.potionPointerObserved = {}, false
@@ -240,6 +240,15 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         elseif not host.options.embedded and self.run.phase == "map" then assert(Run.startCombat(self.run, "cultist_solo")) services.refresh(true) end
     end)
     host.potionPopup=PotionPopup.new(host.stage:GetChild('potionHelp'):GetChild('potionPopup'),self,host.platform,host.clickEvent,{
+        pointerDown=function(event)
+            if self.active and not self.busy and not self.gesture then
+                if event and event.touchId==ownership.releasedDragTouch then ownership.releasedDragTouch=nil end
+                self.suppressClick=false
+            end
+        end,
+        pointerClick=function(event)
+            return not services.consumeReleasedDragClick(event) and not self.suppressClick and not self.gesture
+        end,
         item=function(slot)return Run.potionView(self.run)[slot]end,
         text=function(item,battle)return potionText(item,battle,true):match("\n(.*)") or ''end,
         use=function(slot)return self:usePotion(slot)end,

@@ -98,7 +98,10 @@ function M.new(root,owner,platform,clickEvent,actions)
                 local touch=event and event.touchId
                 if held and held.touch~=touch and ready(held) or released and released.touch~=touch and ready(released) then return end
                 held,released=nil,nil
-                if ready()then held={selection=owner.potionMenu,generation=popup.generation,touch=event and event.touchId}end
+                if ready()then
+                    if actions.pointerDown then actions.pointerDown(event)end
+                    held={selection=owner.potionMenu,generation=popup.generation,touch=event and event.touchId}
+                end
             end)
             control:AddCursorEventListener(cursor.CursorUp,function(event)
                 if held and held.touch==(event and event.touchId)then
@@ -119,6 +122,7 @@ function M.new(root,owner,platform,clickEvent,actions)
                 released=nil
                 if not ready(token)then return false end
             elseif not ready()then return false end
+            if actions.pointerClick and not actions.pointerClick(event)then return false end
             return act(name)
         end)
     end

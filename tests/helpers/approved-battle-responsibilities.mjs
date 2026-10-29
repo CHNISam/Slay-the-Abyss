@@ -1,3 +1,4 @@
+import {preTask76OwnerSource} from './task76-owner-composition.mjs';
 // Additive source-compatibility layer. Original frozen fixtures and assertions stay immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -22,8 +23,9 @@ const source=lines.join('\n');
 assert.equal(hash(source),binding.afterSha256,'recover the complete already-approved monolithic source');
 assert.equal(binding.afterSha256,layer.approvedSourceSha256);
 export function tryApprovedBattleRefactorSource(path,value){
+ value=preTask76OwnerSource(path,value);
  if(path!==root||value===null||hash(normalize(value))!==layer.modules[root])return undefined;
  for(const [file,expected]of Object.entries(layer.modules))
-  assert.equal(hash(normalize(readFileSync(file,'utf8'))),expected,'unreviewed integrated retirement source drift: complete Battle responsibility: '+file);
+  assert.equal(hash(normalize(preTask76OwnerSource(file,readFileSync(file,'utf8')))),expected,'unreviewed integrated retirement source drift: complete Battle responsibility: '+file);
  return source;
 }

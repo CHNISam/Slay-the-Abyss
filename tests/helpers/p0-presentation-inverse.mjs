@@ -1,3 +1,4 @@
+export {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 import {preIntegratedNodeUiSource,nodeUiAddedPaths,nodeUiCurrentRootSha256,approvedNodeFace} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import assert from 'node:assert/strict';

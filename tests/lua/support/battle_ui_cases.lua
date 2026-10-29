@@ -1083,7 +1083,11 @@ test("targeted drags cancel in hand and hit the explicitly aimed enemy",function
     local energy,hp1,hp2 = battle.energy,battle.enemies[1].hp,battle.enemies[2].hp
     grab(1) event("card1","drag",-200,0) event("card1","drag",0,-240) event("card1","up",0,-240)
     assert(#battle.hand == 1 and battle.energy == energy and not ui.busy)
-    click("enemy1") -- queued release click must never select or play a target
+    local cancelledTarget=ui.target
+    event("enemy1","click",stage.children.enemy1.x,stage.children.enemy1.y,0) -- queued same-origin release click
+    assert(not ui.info and not ui.gesture and ui.selected==nil and ui.carry==nil
+        and ui.target==cancelledTarget and battle.energy==energy and #battle.hand==1 and battle.enemies[2].hp==hp2,
+        'queued touch0 Click must remain inert rather than open details')
     assert(battle.enemies[1].hp == hp1)
     grab(1) event("card1","drag",stage.children.enemy2.x,stage.children.enemy2.y)
     assert(stage.children.enemy2.children.border.imageColor.r == Theme.color.goldBright.r)
