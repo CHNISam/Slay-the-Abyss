@@ -1,3 +1,4 @@
+import {preEventProductionSource} from './event-production-source-inverse.mjs';
 import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 // Strict test-only historical inverse: every current responsibility must match.
 import assert from 'node:assert/strict';
@@ -15,7 +16,8 @@ export function preNodeUiRefactorSource(path,source,overrides={}){
  source=preAcceptedPr323Source(path,source);
  if(digest(normalize(source))===nodeUiRefactor.beforeSha256)return normalize(source);
  for(const [file,expected]of Object.entries(nodeUiRefactor.afterSha256)){
-  const current=preAcceptedPr323Source(file,file===path?source:Object.hasOwn(overrides,file)?overrides[file]:readFileSync(file,'utf8'));
+  const raw=file===path?source:Object.hasOwn(overrides,file)?overrides[file]:readFileSync(file,'utf8');
+  const current=preAcceptedPr323Source(file,preEventProductionSource(file,raw));
   assert.equal(digest(normalize(current)),expected,'unreviewed integrated presentation source drift; unreviewed integrated retirement source drift; unreviewed Node UI refactor source drift: '+file);
  }
  return nodeUiRefactor.beforeSource;

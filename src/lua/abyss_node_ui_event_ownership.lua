@@ -1,5 +1,26 @@
 
+local Copy=require('abyss_combat').copy
 local M = {}
+local function sameValue(actual,expected,seen)
+    if type(actual)~=type(expected)then return false end
+    if type(actual)~='table'then return actual==expected end
+    seen=seen or {}
+    if seen[expected]then return seen[expected]==actual end
+    seen[expected]=actual
+    for key,value in pairs(expected)do if not sameValue(actual[key],value,seen)then return false end end
+    for key in pairs(actual)do if expected[key]==nil then return false end end
+    return true
+end
+local function deckOwner(run)
+    local deck,owners=run.deck,{}
+    for i,card in ipairs(deck)do owners[i]=card end
+    local snapshot=Copy(deck)
+    return function()
+        if run.deck~=deck or #deck~=#owners then return false end
+        for i,card in ipairs(owners)do if deck[i]~=card then return false end end
+        return sameValue(deck,snapshot)
+    end
+end
 
 -- Installs the event ownership responsibility on one node UI instance.
 function M.install(ctx)
@@ -9,6 +30,7 @@ function M.install(ctx)
         local generation, act, floor, phase = sourceRun.roomGeneration, sourceRun.act, sourceRun.floor, sourceRun.phase
         local stage, choice, complete = sourceEvent.stage, sourceEvent.choice, sourceFlow.complete
         local flowId, flowFloor, eventId = sourceFlow.id, sourceFlow.floor, sourceEvent.id
+        local sameDeck=eventId=='duplicator' and deckOwner(sourceRun) or function()return true end
         local selected, mode, picker, page = ctx.self.selected, ctx.self.mode, ctx.self.picker, ctx.self.pickPage
         local original, handler, retired = entry.handler, nil, false
         local offers, offerEpoch, offerSnapshot = sourceEvent.offers, sourceEvent.offerEpoch, {}
@@ -63,7 +85,7 @@ function M.install(ctx)
                     and sourceFlow.id == flowId and sourceFlow.floor == flowFloor and sourceFlow.type == "event" end
             local function sameSelection() return sourceEvent.id == eventId and sourceEvent.stage == stage and sourceEvent.choice == choice
                     and ctx.self.selected == selected and ctx.self.mode == mode and ctx.self.picker == picker and ctx.self.pickPage == page
-                    and sameOffers() end
+                    and sameOffers() and sameDeck() end
             local function sameHost() return attached and hostAttached and ctx.root.parent == ctx.rootParent and ctx.self.root == ctx.root
                     and ctx.self.visible and not ctx.self.busy and ctx.self.run == sourceRun and ctx.self.map == sourceMap end
             return sameHost()

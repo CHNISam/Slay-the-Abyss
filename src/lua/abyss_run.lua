@@ -135,6 +135,35 @@ function M.prepareCard(run,id,options)
     if not accepted and why~='curse_prevented' then return nil,why end
     offer.blocked=not accepted;return offer
 end
+-- Only persistent stat-equivalent fields belong in this acquisition payload.
+-- UID, bottle bindings and battle/selection owners always belong to the source.
+local function copyCardStats(value)
+    if value==nil then return {} end
+    if type(value)~='table' or getmetatable(value)~=nil then return nil,'invalid_card_copy' end
+    local result={}
+    for key,n in pairs(value)do
+        if key~='misc' and key~='costOverride' then return nil,'invalid_card_copy' end
+        local minimum=key=='costOverride' and -2 or 0
+        if type(n)~='number' or n~=n or n%1~=0 or n<minimum or n>2147483647 then
+            return nil,'invalid_card_copy'
+        end
+        result[key]=n
+    end
+    return result
+end
+function M.prepareCardCopy(run,uid)
+    if type(uid)~='number' or uid%1~=0 or uid<1 then return nil,'invalid_card' end
+    local source,count=nil,0
+    for _,card in ipairs(run.deck)do if card.uid==uid then source,count=card,count+1 end end
+    if count~=1 then return nil,'invalid_card' end
+    local stats,why=copyCardStats({misc=source.misc,costOverride=source.costOverride})
+    if not stats then return nil,why end
+    local offer;offer,why=M.prepareCard(run,source.cardId,{upgraded=source.upgraded,
+        upgrades=source.upgrades,searingBlowCopyUpgrades=source.searingBlowCopyUpgrades})
+    if not offer then return nil,why end
+    offer.statEquivalent=stats
+    return offer
+end
 local function applyOfferedUpgrades(card, offer, definition)
     local upgrades=offer.upgrades
     if upgrades~=nil then
@@ -149,6 +178,8 @@ end
 function M.commitCard(run,offer)
     return M.transaction(run,function(staged)
         if type(offer)~='table' then return false,'invalid_card_offer' end
+        local copied,copyReason=copyCardStats(offer.statEquivalent)
+        if not copied then return false,copyReason end
         local definition=cardDefinition(staged,offer.cardId)
         if not Capability.isImplemented(definition) then return false,'card_content_unavailable' end
         if not Combat.validSearingBlowCopy(offer)then return false,'invalid_card_copy'end
@@ -163,6 +194,7 @@ function M.commitCard(run,offer)
             searingBlowCopyUpgrades=offer.searingBlowCopyUpgrades}
         local valid,why=applyOfferedUpgrades(card,offer,definition)
         if not valid then return false,why end
+        for key,value in pairs(copied)do card[key]=value end
         -- Relics receive the private entity before master-deck insertion.
         -- Acquisition upgrades must never mutate the shared definition.
         local accepted,reason=RelicHooks.onObtainCard(staged,card,definition,{increaseMaxHp=M.increaseMaxHp})
@@ -175,6 +207,13 @@ end
 function M.obtainCard(run,id,options)
     return M.transaction(run,function(staged)
         local offer,reason=M.prepareCard(staged,id,options)
+        if not offer then return false,reason end
+        return M.commitCard(staged,offer)
+    end)
+end
+function M.obtainCardCopy(run,uid)
+    return M.transaction(run,function(staged)
+        local offer,reason=M.prepareCardCopy(staged,uid)
         if not offer then return false,reason end
         return M.commitCard(staged,offer)
     end)

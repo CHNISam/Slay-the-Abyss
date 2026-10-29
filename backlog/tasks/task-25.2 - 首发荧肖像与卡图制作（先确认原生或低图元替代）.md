@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-29 14:36'
+updated_date: '2026-10-29 16:00'
 due_date: '2026-10-28'
 labels:
   - art
@@ -127,4 +127,6 @@ PR259同步后共享宿主正例直接执行真实源码，不再注入启动修
 13:34 已展示V2两张用途对照：真实STS1选角小标识/官方战斗全身截图与荧新头像、全身站姿，同图给96/117整数比例和2倍检查。源RGBA实际有透明通道；本批尚未Owner逐图通过、未原生重绘/导入。旧V1仍未批准，不能继承其漂亮外观或导出通过作为新标准。详见资产目录REFERENCE-STANDARD.md。
 
 14:20 UTC Owner认可当前V2源图效果：头部小头像与透明底全身战斗形象。认可仅绑定该批源设计/展示比例，不扩至旧V1或原生/容量。V2原生数据底稿为4822/4315矩形，真实JSON/Lua/literal/VM核验通过；固定PNG预览透明度严格比对失败，SVG/Inkscape透明范围一致但仍有±1量化差，未改工具/门槛刷绿。正式启用、真GIL/SDK、B0/B1和手机仍未测。准备仅资产与来源记录的候选PR供Grok接线，UI/规则文件不动；评审不再发ZIP。
+
+2026-10-29 荧的菜单/选角大图槽是 dot-a.menu.traveler 与 dot-a.select.large.traveler.ironclad（现同为占位 105301）。战斗胸像是 Dot B 的 dot-b.battle.traveler（占位 105292），不再用 102005。正式出图前验收不勾。
 <!-- SECTION:NOTES:END -->

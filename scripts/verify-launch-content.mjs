@@ -308,6 +308,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   same(ids(manifest.events.filter(row => row.poolMode === 'explicit-only')), Object.keys(explicitEvents).sort(), 'explicit event routes');
   for (const event of manifest.events) {
     const explicit = Object.hasOwn(explicitEvents, event.id);
+    if(event.id==='match_game')same(event.boardCommands,['flip','resolve','finish'],'events/match_game board commands');
     check(event.poolMode === (explicit ? 'explicit-only' : data.rules.events.poolMode), `events/${event.id}: pool mode drift`);
     same(event.channels, explicit ? ['explicit:Nodes.enter'] : ['unknown_room:event'], `events/${event.id} channels`);
     if (explicit) {

@@ -7,7 +7,7 @@ import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,existsSync,rmSync} from
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
-import {approvedUi,preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
+import {approvedUi,preApprovedUiSource,preApprovedUiOuterSource} from './helpers/approved-ui-inverse.mjs';
 import {p0Presentation,preAcceptedPresentation,materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const read=p=>readBeforeMobileQaSource(p).replaceAll('\r\n','\n');
@@ -35,7 +35,7 @@ test('approved UI layer binds complete current sources and restores exactly the 
  assert.equal(hash(readFileSync('tests/fixtures/p0-accepted-presentation-inverses.json.gz')),'6f74bc575b24e5c830119e0309b0311017cbeba5ad5cc6d1fdcc44f69a27e164');
  for(const [path,binding] of Object.entries(approvedUi.files)){
   const live=read(path),registered=path===potionPath?originalPotionFailures(live):live;
-  const source=path==='src/lua/abyss_node_ui.lua'?originalApprovedNodeWitness(binding):preIntegratedNodeUiSource(path,registered),previous=preApprovedUiSource(path,source);
+  const source=path==='src/lua/abyss_node_ui.lua'?originalApprovedNodeWitness(binding):preIntegratedNodeUiSource(path,preApprovedUiOuterSource(path,registered)),previous=preApprovedUiSource(path,source);
   assert.equal(preApprovedUiSource(path,live),previous);
   assert.equal(hash(source),binding.afterSha256,path);
   assert.equal(previous===null?null:hash(previous),binding.beforeSha256,path);

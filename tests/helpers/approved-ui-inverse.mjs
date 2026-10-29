@@ -1,3 +1,6 @@
+import {preEventProductionSource} from './event-production-source-inverse.mjs';
+import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
+import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
 import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
 import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
@@ -27,7 +30,11 @@ function preBoundedPotionFailuresSource(path,source){
 }
 // One additional test-only layer, never a replacement for PR302's frozen 26
 // sources or the original 79543/79757/81392 write proofs and runner budgets.
+export function preApprovedUiOuterSource(path,source){
+ return approvedUi.files[path]?preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source))):source;
+}
 export function preApprovedUiSource(path,source){
+ source=preApprovedUiOuterSource(path,source);
  source=preAcceptedPr323Source(path,source);
  source=preBattleRefactorLayer(path,source);
  source=preBoundedPotionFailuresSource(path,source);

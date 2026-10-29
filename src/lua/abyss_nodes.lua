@@ -16,6 +16,7 @@ local LivingWall = require('abyss_living_wall')
 local RelicHooks = require('abyss_relic_hooks')
 
 local Act2Events = require('abyss_act2_events')
+local Match=require('abyss_match_event')
 
 local Acts = require('abyss_acts')
 local Treasure=require('abyss_treasure')
@@ -195,6 +196,7 @@ local function eventView(run,node)
     if node.event.id=='transmogrifier' then node.event.purgeCards=LivingWall.purgeCards(run) end
     if node.event.id=='wheel' then node.event.purgeCards=LivingWall.purgeCards(run) end
     if Act2Events.ids[node.event.id] then Act2Events.view(run,node.event) end
+    if node.event.id=='match_game' then Match.view(run,node.event) end
     if node.event.id=='neow'then Neow.view(run,node.event)end
     if node.event.id == "cleric" then
         node.event.healCost = rules.healCost

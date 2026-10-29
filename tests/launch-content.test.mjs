@@ -40,7 +40,7 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 29);
+  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 31);
   for (const id of ['nest','mushrooms']) {
     const event=manifest.events.find(row=>row.id===id);
     assert.equal(event.poolMode,'explicit-only');assert.deepEqual(event.channels,['explicit:Nodes.enter']);
@@ -49,6 +49,25 @@ test('expanded content records actual channels without granting natural acquisit
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
     definitions('potions').filter(row => row.acquisitionPending).map(row => row.id).sort());
+});
+
+test('copy and Match production routes preserve separate candidate and pending platform acceptance',()=>{
+  const manifest=fresh();
+  for(const [id,originalId] of [['duplicator','Duplicator'],['match_game','Match and Keep!']]) {
+    const event=manifest.events.find(row=>row.id===id);
+    assert.equal(event.originalId,originalId);assert.equal(event.poolMode,'explicit-only');
+    assert.deepEqual(event.channels,['explicit:Nodes.enter']);
+    const profile=manifest.profiles[event.profile];
+    assert.equal(profile.local.status,'coverage-recorded');
+    assert.equal(profile.platform.status,'pending-per-item');assert.deepEqual(profile.platform.evidence,[]);
+    assert.equal(profile.live.status,'pending-natural-acquisition-and-execution');assert.deepEqual(profile.live.evidence,[]);
+    const missing=fresh();missing.events=missing.events.filter(row=>row.id!==id);
+    assert.ok(validateLaunchContent(missing,{runtime:false}).some(error=>error.includes('production event mappings')));
+  }
+  assert.deepEqual(manifest.events.find(row=>row.id==='match_game').boardCommands,['flip','resolve','finish']);
+  const wrongCommands=fresh();wrongCommands.events.find(row=>row.id==='match_game').boardCommands=['flip','finish'];
+  assert.ok(validateLaunchContent(wrongCommands,{runtime:false}).some(error=>error.includes('board commands')));
+  assert.ok(manifest.exclusions.events.some(row=>row.path==='tools/candidates/match_game.lua'));
 });
 
 test('Act3 event bridge evidence preserves pending native and natural acceptance', () => {

@@ -6,9 +6,11 @@ local Act3Events = require('abyss_act3_events')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱",ending_proceed='真结局' }
-local function stagedEvent(id)return id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
+local function stagedEvent(id)return id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local events = {
     neow={name='高塔恩赐'},
+    duplicator={name='映光石龛'},
+    match_game={name='留影牌局'},
     joust={name='决斗'},
     beggar={name='乞丐'},
     mausoleum={name='古墓'},
@@ -53,6 +55,13 @@ local function find(entries, id, key)
     for _, item in ipairs(entries or {}) do if item[key or "id"] == id then return item end end
 end
 local M = {}
+local function renderEventFigure(event, id)
+    local neow = id == 'neow'
+    local figure, art = event:GetChild('neowFigure'), event:GetChild('art')
+    if figure then figure:SetVisible(neow) end
+    if art then art:SetVisible(not neow) end
+    if neow then event:GetChild('caption').text = '七天神像' end
+end
 
 -- Installs the events responsibility on one node UI instance.
 function M.install(ctx)
@@ -67,6 +76,7 @@ function M.install(ctx)
                 or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         end
         writeEventHeading()
+        renderEventFigure(event, id)
         local body
         local function eventOutcomeBody()
             body=result and result.text or node.event and node.event.body or copy.body

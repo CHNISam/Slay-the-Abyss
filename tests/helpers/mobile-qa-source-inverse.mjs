@@ -1,3 +1,4 @@
+import {eventProductionInverse,materializeBeforeEventProduction} from './event-production-source-inverse.mjs';
 import {preOriginalPr323Source} from './pr323-accepted-source-inverse.mjs';
 // Historical replay only. Current behavior is exercised by the mobile, relic
 // and admission tests against the working source, without this projection.
@@ -32,6 +33,7 @@ export function materializeBeforeMobileQa(directory){
   requireMobileQaSource(path,source);
   return [path,preMobileQaSource(path,source)];
  });
+  materializeBeforeEventProduction(directory,{historicalPaths:[...new Set(Object.keys(mobileQaMigration.files))].filter(path=>eventProductionInverse.files[path]?.beforeSource!=null)});
  for(const [path,before]of sources){
   const target=join(directory,path);
   if(before===null)rmSync(target,{force:true});else{

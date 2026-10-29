@@ -1,3 +1,4 @@
+import {preEventProductionSource} from './event-production-source-inverse.mjs';
 import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {preRosterConfigSource} from './competition-roster-config-composition.mjs';
 import {preRosterSource} from './competition-roster-source-inverse.mjs';
@@ -55,6 +56,7 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ if(Object.hasOwn(nodeUiRefactor.afterSha256,path))source=preEventProductionSource(path,source);
  source=preAcceptedPr323Source(path,source);
  source=preRosterConfigSource(path,source);
  if(source!==null)source=preRosterSource(path,source);

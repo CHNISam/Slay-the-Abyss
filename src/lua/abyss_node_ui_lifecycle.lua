@@ -20,7 +20,7 @@ local reasons = {
     event_reward_content_unavailable = "当前遗物的无色奖励效果尚未接齐，本次未改变资源",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
-local function stagedEvent(id)return id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
+local function stagedEvent(id)return id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local M = {}
 
 -- Installs the lifecycle responsibility on one node UI instance.
@@ -39,6 +39,7 @@ function M.install(ctx)
         ctx.roomMotion:update(dt)
         ctx.rewardDetail:update(dt)
         ctx.shopSelection:update(dt)
+        ctx.updateMatch(dt)
         if self.visible then ctx.merchant:update(dt) end
         local function observeActiveGestures()
             for _, input in pairs(ctx.buttonInputs) do
@@ -74,6 +75,9 @@ function M.install(ctx)
         if not value then ctx.resetButtons();ctx.shopSelection:clear();ctx.roomMotion:cancel();for box in pairs(ctx.artFaces)do CardDisplay.clearNativeArt(box)end;ctx.artFaces={} end
         local wasVisible = self.visible
         self.visible = value ctx.root:SetVisible(value)
+        -- Let Match's own visibility guard retire its clock, retaining a failed
+        -- pair's explicit-retry state across modal hide/show.
+        if not value then ctx.updateMatch(0) end
         local function refreshVisibility()
             local function stagedVisibleEvent() return self.view.node.type=='event' and stagedEvent(self.view.node.event.id) end
             if not value and self.view and self.view.node and stagedVisibleEvent() then

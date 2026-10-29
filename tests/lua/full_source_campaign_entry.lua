@@ -40,10 +40,8 @@ local function start(host,root,button,element)
     if element then F.click(root,'characterPanel','elements/element'..element)end
     assert(not host.run,'selection must not create a Run')
     F.click(root,'characterPanel','confirm')
-    assert(host.prologue:covering() and not host.mapUI.navigationEnabled,
-        'the future/test entry also uses the real approved first-start opening')
-    assert(host.prologue:skip());OnUpdate(1);OnUpdate(1)
-    assert(not host.prologue:covering() and host.mode=='map' and host.map.floor==0)
+    assert(not host.prologue and host.mode=='map' and host.map.floor==0,
+        'full-source still reaches the map without the cancelled cinematic')
     assert(host.mapUI.navigationEnabled)
     -- Unlike the bounded competition's fresh-start mini, the explicit full-
     -- source host still needs a real provider/session record for Neow. This

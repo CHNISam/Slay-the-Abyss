@@ -45,7 +45,8 @@ assert(not candidate:confirmCharacter() and not candidate.run and candidate.seed
 assert(candidate:selectCharacter('traveler') and candidate:confirmCharacter())
 assert(not candidate.run.characterProfile and not candidate.run.data.originalV4Role)
 local closed,closedPanel=host('production')
-assert(not closed:selectCharacter('raiden') and not closed:confirmCharacter() and not closed.run)
+assert(not closed:selectCharacter('raiden') and not closed.run)
+assert(closed.characterSelection.info.id=='ironclad','rejected foreign role retains the preselected legal traveler')
 assert(not closedPanel:GetChild('hint').text:find('待验收',1,true))
 assert(closed:selectCharacter('traveler') and closed:confirmCharacter() and closed.run)
 

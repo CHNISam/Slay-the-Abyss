@@ -45,11 +45,7 @@ end
 local function opening(host,root,bossCount)
     local run=host.run
     assert(run and run.campaignProfile=='competition-two-act' and host.map.floor==0)
-    if host.prologue:covering() then
-        assert(not host.mapUI.navigationEnabled)
-        assert(host.prologue:skip());OnUpdate(1);OnUpdate(1)
-    end
-    assert(not host.prologue:covering() and host.mode=='node' and not host.mapUI.navigationEnabled)
+    assert(not host.prologue and host.mode=='node' and not host.mapUI.navigationEnabled)
     local event=run.nodeFlow.event
     assert(event.id=='neow' and event.stage=='neow_intro' and event.neowBossCount==bossCount)
     assert(run.neowHistorySource==(bossCount==0 and 'fresh-start' or 'session-completed-run'))
@@ -85,7 +81,7 @@ local function start(host,root,button,element)
     if element then F.click(root,'characterPanel','elements/element'..element)end
     assert(not host.run,'selection must not create a Run')
     F.click(root,'characterPanel','confirm')
-    assert(host.prologue:covering(),'first native confirmation must start the approved opening')
+    assert(not host.prologue and host.mode=='node','first confirmation opens the blessing, not the cancelled cinematic')
     local baseMaxHp=opening(host,root,0)
     -- The real entry has no history provider. Never synthesize qualification
     -- or mistake a seeded controlled route for a persisted natural victory.
@@ -187,7 +183,7 @@ F.click(root,'menuPanel','start');F.click(root,'characterPanel','traveler')
 assert(host.run==completed,'selection preview cannot create a new run')
 F.click(root,'characterPanel','confirm')
 assert(host.run~=completed and host.run.act==1 and host.map.floor==0)
-assert(not host.prologue:covering(),'the same host does not replay its already watched opening')
+assert(not host.prologue,'a new run still does not play the cancelled cinematic')
 opening(host,root,1)
 assert(host.run.neowStatus=='complete' and not host.run.endingUnlocked)
 assert(host.run.endingHistory.persistence=='disabled' and not host.run.endingHistoryResult and host.historyCalls()==0)
