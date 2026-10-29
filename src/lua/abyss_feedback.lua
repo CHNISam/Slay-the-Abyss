@@ -146,7 +146,7 @@ end
 function M.new(stage, platform, present, complete)
     local self = { busy = false, fastMode = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
     local overlay = stage:GetChild("feedback")
-    function self:bindIdle(battle)
+    function self.bindIdle(_owner,battle)
         if not self.busy and self.idleBattle and self.idleBattle~=battle then self:reset() end
         self.idleBattle = battle
         if battle and not self.busy then self.shadow = battle end
@@ -201,7 +201,7 @@ function M.new(stage, platform, present, complete)
     function self.bindEnemySlot(slot,id)
         if self.slotOwners[slot]~=id then resetUnit('enemy'..slot) self.slotOwners[slot]=id end
     end
-    function self:reset()
+    function self.reset()
         self.battle = nil
         self.idleBattle, self.idleClock, self.shadow = nil, 0, nil
         self.cardFlow:reset()
@@ -232,7 +232,7 @@ function M.new(stage, platform, present, complete)
         if failure then print("ABYSS_FEEDBACK recovered " .. tostring(failure)) end
         if wasBusy then complete(failure) end
     end
-    function self:cancel()
+    function self.cancel()
         if self.busy then finish("cancelled") else self:reset() end
     end
     -- Attacker body language: pull back, strike, recover. Enemies face the traveler (−x).
@@ -468,7 +468,7 @@ function M.new(stage, platform, present, complete)
             targetStep(d,kind,style,old)
         end
     end
-    function self:start(before, battle, first, presentation, origin)
+    function self.start(_owner,before, battle, first, presentation, origin)
         -- GameActionManager releases its action gate independently of the
         -- dungeon's effectList. A subsequent card in this battle must not erase
         -- a previous target's still-running number, HP ghost or recovery pose.
@@ -695,10 +695,10 @@ function M.new(stage, platform, present, complete)
         local unit, box = actor(id)
         if not box then self.effects[id], self.poses[id], self.dying[id] = nil, nil, nil return end
         local base = id == "player" and C.geo or C.text
-        local x, y, sx, sy, ink, flash, alpha = 0, 0, 1, 1, base, 0, 1
+        local ink, flash, alpha = base, 0, 1
         local posed = self.poses[id]
         local motionState=ActorMotion.state(unit,posed,self.effects[id],self.dying[id],self.escaping[id])
-        x,y,sx,sy=ActorMotion.idle(unit,id,self.idleClock or 0,motionState,T.actorIdle)
+        local x,y,sx,sy=ActorMotion.idle(unit,id,self.idleClock or 0,motionState,T.actorIdle)
         if posed then
             posed.age = posed.age + dt
             local px, ps, done = pose(posed.keys, posed.age)
@@ -723,7 +723,7 @@ function M.new(stage, platform, present, complete)
         portrait:SetLocalScale(sx, sy, 1)
         tint(portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)
     end
-    function self:update(dt)
+    function self.update(_owner,dt)
         if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve and not self.cardFlow:busy() then return end
         local ok, failure = pcall(function()
             assert(type(dt) == "number" and dt == dt and dt >= 0 and dt < math.huge, "invalid frame delta")
@@ -816,7 +816,7 @@ function M.new(stage, platform, present, complete)
         owner.fastMode = enabled
     end
     -- Called only after the rule transaction; even start/control failure must unlock.
-    function self:begin(...)
+    function self.begin(_owner,...)
         -- Own completion before reset/queue preparation can fail or find no events.
         self.busy = true
         local ok, failure = pcall(self.start, self, ...)
