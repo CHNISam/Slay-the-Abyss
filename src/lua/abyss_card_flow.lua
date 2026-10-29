@@ -35,11 +35,11 @@ function M.new(stage,platform)
     local overlay=stage:GetChild('feedback')
     local function colour(c,alpha)return platform.color(c.r,c.g,c.b,math.floor((c.a or 255)*alpha))end
     local function box(slot)return overlay:GetChild('cardTrail'..slot)end
-    function self:reset()
+    function self.reset()
         for slot=1,10 do box(slot):SetVisible(false)end
         self.active,self.waiting,self.inPlay,self.moving={},{},{},{}
     end
-    function self:playing(d,flight)
+    function self.playing(_owner,d,flight)
         self.inPlay[d.uid]={card={uid=d.uid,cardId=d.cardId},pile='play',position={flight.tx,flight.ty}}
     end
     local function enqueue(card,from,to,label)
@@ -48,7 +48,7 @@ function M.new(stage,platform)
         self.waiting[#self.waiting+1]={uid=card.uid,cardId=card.cardId,from=from.pile,to=to.pile,
             start={start[1],start[2]},finish={finish[1],finish[2]},age=0,label=label}
     end
-    function self:sync(before,after,kind,complete)
+    function self.sync(_owner,before,after,kind,complete)
         local old,new=locations(before),locations(after)
         for _,pile in ipairs(piles)do for index,card in ipairs(after[pile]or{})do
             local prior=old[card.uid]or self.inPlay[card.uid]
@@ -92,7 +92,7 @@ function M.new(stage,platform)
             end
         end
     end
-    function self:update(dt,catalog,presentation,fast)
+    function self.update(_owner,dt,catalog,presentation,fast)
         for slot=1,10 do
             local entry=self.active[slot]
             if not entry and #self.waiting>0 then
@@ -116,7 +116,7 @@ function M.new(stage,platform)
             end
         end
     end
-    function self:busy()return next(self.active)~=nil or #self.waiting>0 end
+    function self.busy()return next(self.active)~=nil or #self.waiting>0 end
     return self
 end
 return M
