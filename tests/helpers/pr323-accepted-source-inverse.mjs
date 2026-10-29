@@ -1,3 +1,4 @@
+import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
 import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
 import {preEventProductionSource} from './event-production-source-inverse.mjs';
@@ -18,6 +19,7 @@ const proof=pr323AcceptedSourceInverse;
 // require the original complete identity. Comparing tokens also prevents JSON.parse
 // from hiding duplicate keys, changed string escapes, or numeric spellings.
 export function normalizePr323CompositionSource(path,source){
+ source=preBattleLifeSource(path,source);
  if(path!=='config/architecture.json'||typeof source!=='string')return source;
  try{
   const formatted=JSON.stringify(JSON.parse(source),null,2)+'\n';
@@ -41,6 +43,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
+ source=preBattleLifeSource(path,source);
  if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
  source=normalizePr323CompositionSource(path,source);
  if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
@@ -54,6 +57,7 @@ export function requirePr323Source(path,source){
  return binding;
 }
 function project(path,source,target){
+ source=preBattleLifeSource(path,source);
  if(typeof source!=='string')return source;
  if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
  source=normalizePr323CompositionSource(path,source);

@@ -4,6 +4,9 @@ local Theme = require("abyss_theme")
 local EnemyView=require('abyss_battle_enemy_view')
 local UnitView=require('abyss_battle_unit_view')
 local Actors=require('abyss_actor')
+local ActorMotion=require('abyss_actor_motion')
+local SkillFeedback=require('abyss_skill_feedback')
+local CardFlow=require('abyss_card_flow')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
 local ROW = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2
@@ -21,6 +24,18 @@ local function mix(a, b, w) return {r = a.r + (b.r - a.r) * w, g = a.g + (b.g - 
 local function hurts(kind) return kind == "damage" or kind == "hp_loss" or kind == "status_damage" end
 local banners = {enemy_turn = true, player_turn = true, victory = true, defeat = true}
 local timedLossNames = {lose_strength="回合末失去力量", lose_dexterity="回合末失去敏捷"}
+local function skillContext(entry,catalog)
+    local d=type(entry.detail)=='table' and entry.detail or {}
+    if entry.kind=='play' then return {effects=catalog.cards[d.cardId].effects} end
+    for _,unit in ipairs(entry.frame and entry.frame.enemies or {})do
+        if unit.id==d.enemy then
+            for _,intent in ipairs(unit.intents or {})do
+                if intent.id==d.id then return {enemyId=unit.definitionId,intentId=d.id,intentKind=intent.kind,effects=intent.effects} end
+            end
+        end
+    end
+    return {}
+end
 
 -- Shape of each hit, read from the committed card/intent and the actual event amounts only.
 -- form: single | multi | area | dot | self; weight: light | normal | heavy.
@@ -34,6 +49,8 @@ local function classify(queue, catalog)
                 for _, effect in ipairs(catalog.cards[d.cardId].effects) do area = area or effect.op == "damageAll" end
             end
             context = {kind = entry.kind, area = area, cardId = d.cardId, hits = {}}
+            local skill=skillContext(entry,catalog)
+            context.family=SkillFeedback.resolve(entry.kind,d,skill)
             styles[i] = {context = context}
         else
             local style = {context = context}
@@ -79,6 +96,13 @@ local function classify(queue, catalog)
             end
         end
     end
+    for i,entry in ipairs(queue)do
+        local d=type(entry.detail)=='table' and entry.detail or {}
+        local style=styles[i]
+        local status=catalog.statuses[d.status]
+        style.family=SkillFeedback.resolve(entry.kind,d,{family=style.context and style.context.family,
+            weight=style.weight,statusKind=status and status.kind})
+    end
     return styles
 end
 
@@ -122,6 +146,14 @@ end
 function M.new(stage, platform, present, complete)
     local self = { busy = false, fastMode = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
     local overlay = stage:GetChild("feedback")
+    function self.bindIdle(_owner,battle)
+        local changing=self.idleBattle and self.idleBattle~=battle
+            or battle and self.battle and self.battle~=battle
+        if not self.busy and changing then self:reset(battle==nil) end
+        self.idleBattle = battle
+        if battle and not self.busy then self.shadow = battle end
+    end
+    self.cardFlow=CardFlow.new(stage,platform)
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
     local function actor(id)
@@ -144,6 +176,8 @@ function M.new(stage, platform, present, complete)
     end
     -- Steps keep the sweep and a landing card; reset and finish clear everything.
     local function hideOverlay(landing, all)
+        if self.cast then overlay:GetChild('sweep'):SetVisible(false) end
+        self.cast=nil
         if not landing then self.dissolve = nil end
         if all then self.sweep = nil end
         local names = {"banner", "bannerPlate"}
@@ -169,8 +203,13 @@ function M.new(stage, platform, present, complete)
     function self.bindEnemySlot(slot,id)
         if self.slotOwners[slot]~=id then resetUnit('enemy'..slot) self.slotOwners[slot]=id end
     end
-    function self:reset()
-        self.battle = nil
+    function self.reset(_owner,retainHistory)
+        -- Hiding/rewards retire visuals, but terminal death evidence still belongs
+        -- to this battle. Cancellation and the next battle clear that history.
+        local history=retainHistory and self.deaths or {}
+        self.battle = retainHistory and (self.battle or self.idleBattle) or nil
+        self.idleBattle, self.idleClock, self.shadow = nil, 0, nil
+        self.cardFlow:reset()
         stage:SetAnchoredPosition(0, 0)
         hideOverlay(false, true)
         for _, name in ipairs({"banner", "bannerPlate"}) do
@@ -180,10 +219,17 @@ function M.new(stage, platform, present, complete)
             resetUnit(name)
         end
         self.slotOwners={}
-        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, {}, {}, {}, nil, {}
+        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, history, {}, {}, nil, {}
     end
     local function finish(failure)
         local wasBusy = self.busy
+        if not failure and self.battle and self.shadow then
+            local ok,reason=pcall(function()
+                self.cardFlow:sync(self.shadow,self.battle,nil,true)
+                self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)
+            end)
+            if not ok then failure=reason end
+        end
         self.busy, self.queue, self.current = false, nil, nil
         -- Cleanup errors are isolated so input always releases, even if an effect control failed.
         if failure then pcall(self.reset, self) end
@@ -191,7 +237,7 @@ function M.new(stage, platform, present, complete)
         if failure then print("ABYSS_FEEDBACK recovered " .. tostring(failure)) end
         if wasBusy then complete(failure) end
     end
-    function self:cancel()
+    function self.cancel()
         if self.busy then finish("cancelled") else self:reset() end
     end
     -- Attacker body language: pull back, strike, recover. Enemies face the traveler (−x).
@@ -254,6 +300,7 @@ function M.new(stage, platform, present, complete)
         card:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
         local targetsEnemy,area,attack=cardShape(definition)
         cardFlight(d,targetsEnemy,area)
+        self.cardFlow:playing(d,self.flight)
         card:SetAnchoredPosition(self.flight.x, self.flight.y) card:SetLocalScale(1, 1, 1)
         card:SetVisible(true) overlay:SetAsLastSibling() sound("player_action")
         -- The traveler draws back while the card lifts, then leans in as it lands.
@@ -367,20 +414,38 @@ function M.new(stage, platform, present, complete)
             end
         end
     end
+    local function startCast(d,kind,style)
+        local family=style.family
+        if family~='projectile' and family~='poison' and family~='bind' then return end
+        local source=kind=='intent' and d.enemy or 'player'
+        for i=self.index+1,#self.queue do
+            local entry=self.queue[i]
+            if entry.kind=='play' or entry.kind=='intent' or banners[entry.kind] then break end
+            local detail=type(entry.detail)=='table' and entry.detail or {}
+            if detail.target and detail.target~=source then
+                local _,_,sx,sy=actor(source)
+                local _,_,tx,ty=actor(detail.target)
+                if sx and tx then self.cast={family=family,sx=sx,sy=sy,tx=tx,ty=ty,kind=kind} end
+                return
+            end
+        end
+    end
     local function enterFrame(entry, style)
         local old = self.shadow
         local nextView = {catalog = old.catalog, rules = old.rules}
         for k, v in pairs(entry.frame or old) do nextView[k] = v end
-        -- The played card stays for the contact frame and dissolves into the strike.
+        -- Hold the played UID at contact until a committed frame names its pile.
         local landing = self.current and self.current.kind == "play" and entry.kind ~= "play"
         if self.current and self.current.kind == "enemy_escape" then self.escaping[self.current.detail.enemy] = nil end
         if entry.kind == "enemy_escape" then self.escaping[entry.detail.enemy] = true end
         self.shadow, self.current, self.style, self.elapsed = nextView, entry, style, 0
-        hideOverlay(landing)
+        self.cardFlow:sync(old,nextView,entry.kind)
+        self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)
+        hideOverlay(landing or next(self.cardFlow.inPlay)~=nil)
         if landing then
             local card = overlay:GetChild("playedCard")
             card:SetAnchoredPosition(self.flight.tx, self.flight.ty) card:SetLocalScale(0.5, 0.5, 1)
-            self.dissolve = 0
+            self.dissolve = nil
         end
         self.acting = entry.kind == "intent" and entry.detail.enemy or self.acting
         if entry.kind == "player_turn" then self.acting = nil end
@@ -394,10 +459,12 @@ function M.new(stage, platform, present, complete)
         print("ABYSS_FEEDBACK " .. kind .. " source=" .. tostring(d.source or d.enemy or "-") .. " target=" .. tostring(d.target or "-") .. " amount=" .. n(d.amount))
         if kind == "play" then
             playStep(d,kind,style,old)
+            startCast(d,kind,style)
         elseif banners[kind] then
             bannerStep(d,kind,style,old)
         elseif kind == "intent" then
             intentStep(d,kind,style,old)
+            startCast(d,kind,style)
         elseif kind == "enemy_escape" then
             escapeStep(d,kind,style,old)
         elseif kind == "death" or kind == "player_death" then
@@ -406,7 +473,7 @@ function M.new(stage, platform, present, complete)
             targetStep(d,kind,style,old)
         end
     end
-    function self:start(before, battle, first, presentation, origin)
+    function self.start(_owner,before, battle, first, presentation, origin)
         -- GameActionManager releases its action gate independently of the
         -- dungeon's effectList. A subsequent card in this battle must not erase
         -- a previous target's still-running number, HP ghost or recovery pose.
@@ -537,6 +604,15 @@ function M.new(stage, platform, present, complete)
         local alpha=(effect.icon and kind == "status" and math.min(1, 2 - 2 * easeIn(age / T.slow)) or 1 - e)
         return shardInk,alpha
     end
+    local function skillImpact(effect,sample,e)
+        local family,form=effect.style.family,effect.style.form
+        if not effect.icon and family~='none'
+            and ((form~='multi' and form~='area')or(family~='melee' and family~='heavy'))then
+            return SkillFeedback.sample(family,e,S.m)
+        end
+        local ix,iy,iy0=impactShape(effect,sample,e)
+        return ix,iy,0,iy0
+    end
     local function paintImpact(id,impact,effect,sample)
         local age,kind=sample.age,sample.kind
         local after,frozen,lost,heavy=sample.after,sample.frozen,sample.lost,sample.heavy
@@ -546,11 +622,11 @@ function M.new(stage, platform, present, complete)
         local show = (lost or kind == "status") and age < effect.stop + window
         impact:SetVisible(show)
         if show then
-            local ix,iy,iy0=impactShape(effect,sample,e)
+            local ix,iy,offset,iy0,alpha,key=skillImpact(effect,sample,e)
             impact:SetLocalScale(ix, iy, 1)
-            impact:SetAnchoredPosition(0, iy0)
+            impact:SetAnchoredPosition(offset or 0, iy0)
             local shardInk,shardAlpha=impactTint(id,effect,sample,e)
-            tint(impact,shardInk,shardAlpha)
+            tint(impact,key and C[key] or shardInk,alpha or shardAlpha)
         end
         return window
     end
@@ -624,15 +700,17 @@ function M.new(stage, platform, present, complete)
         return y,sx,sy,ink,flash,alpha
     end
     local function paint(id, dt, shakes)
-        local _, box = actor(id)
+        local unit, box = actor(id)
         if not box then self.effects[id], self.poses[id], self.dying[id] = nil, nil, nil return end
         local base = id == "player" and C.geo or C.text
-        local x, y, sx, sy, ink, flash, alpha = 0, 0, 1, 1, base, 0, 1
+        local ink, flash, alpha = base, 0, 1
         local posed = self.poses[id]
+        local motionState=ActorMotion.state(unit,posed,self.effects[id],self.dying[id],self.escaping[id])
+        local x,y,sx,sy=ActorMotion.idle(unit,id,self.idleClock or 0,motionState,T.actorIdle)
         if posed then
             posed.age = posed.age + dt
             local px, ps, done = pose(posed.keys, posed.age)
-            x, sx, sy = px, ps, ps
+            if motionState=='action' then x, sx, sy = px, ps, ps end
             if done then self.poses[id] = nil end
         end
         local effect = self.effects[id]
@@ -653,11 +731,13 @@ function M.new(stage, platform, present, complete)
         portrait:SetLocalScale(sx, sy, 1)
         tint(portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)
     end
-    function self:update(dt)
-        if not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve then return end
+    function self.update(_owner,dt)
+        if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve and not self.cardFlow:busy() then return end
         local ok, failure = pcall(function()
             assert(type(dt) == "number" and dt == dt and dt >= 0 and dt < math.huge, "invalid frame delta")
-            self.elapsed = self.elapsed + dt
+            self.idleClock=ActorMotion.advance(self.idleClock or 0,dt,T.actorIdle)
+            self.elapsed = (self.elapsed or 0) + dt
+            if self.battle then self.cardFlow:update(dt,self.battle.catalog,self.presentation,self.fastMode)end
             -- At most one visible step per update: a stalled frame cannot skip an enemy turn.
             if self.busy and self.elapsed >= duration(self.current, self.style, self.playbackFastMode) then
                 self.index = self.index + 1
@@ -703,12 +783,30 @@ function M.new(stage, platform, present, complete)
                 self.sweep.age = self.sweep.age + dt
                 local p = clamp(self.sweep.age / T.base)
                 local sweep = overlay:GetChild("sweep")
+                sweep.localRotationZ=0
+                sweep:SetAnchoredPosition(ROW,L.enemyRow.y)
                 sweep:SetVisible(p < 1)
                 sweep:SetLocalScale(easeOut(p), 1 - p / 2, 1)
                 tint(sweep, C.geo, 1 - easeIn(p))
                 if p >= 1 then self.sweep = nil end
             end
+            if self.cast then
+                local cast=self.cast
+                local total=cast.kind=='play' and T.base or T.enemyActionGap
+                local p=clamp(self.elapsed/total)
+                local x,y,alpha=SkillFeedback.travel(cast.family,p,cast.sx,cast.sy,cast.tx,cast.ty)
+                local sweep=overlay:GetChild('sweep')
+                sweep:SetVisible(alpha>0)
+                sweep:SetAnchoredPosition(x,y)
+                sweep:SetLocalScale(S.xl/(L.enemyRow.xTo-L.enemyRow.xFrom+L.enemyRow.bossPortrait),0.5,1)
+                sweep.localRotationZ=cast.family=='bind' and p*180 or 0
+                tint(sweep,cast.family=='poison' and C.positive or cast.family=='bind' and C.debuff or C.block,alpha)
+            end
             local shakes, ids = {}, {}
+            if self.idleBattle and self.shadow then
+                if self.shadow.player.hp>0 then ids.player=true end
+                for _,unit in ipairs(self.shadow.enemies)do if Actors.isPresent(unit) then ids[unit.id]=true end end
+            end
             for id in pairs(self.poses) do ids[id] = true end
             for id in pairs(self.effects) do ids[id] = true end
             for id in pairs(self.dying) do ids[id] = true end
@@ -726,7 +824,7 @@ function M.new(stage, platform, present, complete)
         owner.fastMode = enabled
     end
     -- Called only after the rule transaction; even start/control failure must unlock.
-    function self:begin(...)
+    function self.begin(_owner,...)
         -- Own completion before reset/queue preparation can fail or find no events.
         self.busy = true
         local ok, failure = pcall(self.start, self, ...)

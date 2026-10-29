@@ -56,6 +56,7 @@ function M.install(owner, ownership, _host, dependencies)
     local function renderFrame(run)
         local fighting = owner.displayBattle ~= nil or run and run.phase == "combat"
         local battle = owner.displayBattle or fighting and run.combat
+        if owner.feedback then owner.feedback:bindIdle(owner.active and fighting and run and run.combat or nil) end
         if owner.displayBattle and battle.originalV4 then
             -- Only immutable target/cost rules are borrowed by playback frames.
             battle.originalV4Rules = owner.feedbackBattle.originalV4Rules

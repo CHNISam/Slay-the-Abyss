@@ -1,3 +1,4 @@
+import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {preEventProductionSource} from './event-production-source-inverse.mjs';
 import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
 import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
@@ -17,6 +18,7 @@ const bytes=readFileSync('tests/fixtures/p0-accepted-presentation-inverses.json.
 assert.equal(hash(bytes),'6f74bc575b24e5c830119e0309b0311017cbeba5ad5cc6d1fdcc44f69a27e164');
 export const p0Presentation=JSON.parse(gunzipSync(bytes));
 export function preP0OuterSource(path,source){
+ source=preBattleLifeSource(path,source);
  return p0Presentation.files[path]?preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source))):source;
 }
 export function preAcceptedPresentation(path,source){

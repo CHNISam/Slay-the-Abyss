@@ -47,6 +47,45 @@ function firstText(controls) {
     if (found) return found;
   }
 }
+function firstImage(controls) {
+  for (const control of controls) {
+    if (control.kind === 'image') return control;
+    const found = firstImage(control.children ?? []);
+    if (found) return found;
+  }
+}
+
+test('native omitted image ink equals only opaque white, with byte-rounded source alpha', () => {
+  for (const opacity of [undefined, 1, 0.999]) {
+    assert.deepEqual(audit(input => {
+      const expected = firstImage(input.expected.ui.controls), actual = firstImage(input.actual.ui.interface.controls);
+      expected.colour = '#FFFFFF'; delete actual.colour; delete actual.opacity;
+      if (opacity === undefined) delete expected.opacity;
+      else expected.opacity = opacity;
+    }).issues, []);
+  }
+  for (const [colour, opacity] of [['#fffffe', 1], ['#000000', 1], ['#aabbcc', 1], ['#ffffff', 0], ['#ffffff', 0.5], ['#ffffff', 0.99]]) {
+    const report = audit(input => {
+      const expected = firstImage(input.expected.ui.controls), actual = firstImage(input.actual.ui.interface.controls);
+      expected.colour = colour; expected.opacity = opacity; delete actual.colour;
+      if (opacity === 1) delete actual.opacity;
+      else actual.opacity = Math.round(opacity * 255) / 255;
+    });
+    assert.ok(report.issues.some(issue => issue.code === 'UI_MISMATCH'), `${colour}/${opacity}`);
+  }
+  for (const kind of ['container', 'cursorArea', 'presetButton', 'grid']) {
+    const report = audit(input => {
+      const expected = firstImage(input.expected.ui.controls), actual = firstImage(input.actual.ui.interface.controls);
+      expected.kind = actual.kind = kind;
+      expected.colour = '#ffffff'; delete actual.colour; delete expected.opacity; delete actual.opacity;
+    });
+    assert.ok(report.issues.some(issue => issue.code === 'UI_MISMATCH'), kind);
+  }
+  assert.ok(audit(input => {
+    const expected = firstImage(input.expected.ui.controls), actual = firstImage(input.actual.ui.interface.controls);
+    expected.metadata = {colour: '#ffffff'}; actual.metadata = {};
+  }).issues.some(issue => issue.code === 'UI_MISMATCH'));
+});
 test('interface identity, visibility and every root input flag must match source defaults', () => {
   for (const change of [
     input => { input.actual.ui.interface.hidden = true; },

@@ -24,7 +24,15 @@ test('feedback uses a fixed non-interactive native pool within the per-parent pl
   assert.equal(shade.visible, false);
   assert.deepEqual(shade.size, theme.canvas.base);
   assert.deepEqual(shade.colour, theme.color.backdrop);
-  assert.equal(overlay.children.length, 5);
+  const trails = overlay.children.filter(control => /^cardTrail\d+$/.test(control.name));
+  assert.equal(trails.length, 10);
+  for (const [index, trail] of trails.entries()) {
+    assert.equal(trail.name, `cardTrail${index + 1}`);
+    assert.equal(trail.visible, false);
+    assert.deepEqual(trail.size, theme.layout.card.size);
+    assert.deepEqual(trail.children.map(control => control.name), ['plate', 'art', 'name']);
+  }
+  assert.equal(overlay.children.length, 15);
 });
 test('every actor has a status chip grid within platform limits and a portrait detail hit', () => {
   const si = theme.layout.statusIcon;

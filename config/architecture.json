@@ -262,7 +262,10 @@
     "abyss_run_transition": "core",
     "abyss_run_rooms": "core",
     "abyss_run_settlement": "core",
-    "abyss_run_potions": "core"
+    "abyss_run_potions": "core",
+    "abyss_actor_motion": "ui",
+    "abyss_skill_feedback": "ui",
+    "abyss_card_flow": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [

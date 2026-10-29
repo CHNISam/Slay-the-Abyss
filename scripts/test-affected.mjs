@@ -3,9 +3,16 @@ import { resolve, relative, dirname, posix } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import luaparse from 'luaparse';
+import {frozenBattleHandFixtures} from '../tests/helpers/battle-life-frozen-hand.mjs';
 
 // This is a local feedback selector. Full check/Quality remains the merge gate.
 const slash = value => value.replaceAll('\\', '/');
+// Importing runLua does not execute its conditional fixture setup. Keep these
+// helper edges on their real Lua entries, as with the historical replay port.
+const conditionalRunnerFixtures = new Map([
+  ['tests/helpers/historical-presentation-runner.mjs', new Set(['tests/lua/presentation_responsibilities_trace.lua'])],
+  ['tests/helpers/battle-life-frozen-hand.mjs', new Set(frozenBattleHandFixtures)],
+]);
 // These are virtual graph nodes, not files read from a possibly stale build/.
 // Keep the producer identities aligned with build:data/build:ui's Lua outputs.
 const generated = {
@@ -185,9 +192,8 @@ export function selectTests(changed, sources) {
     if (path === 'scripts/test-lua.mjs') {
       for (const match of source.matchAll(/from\s*['"](\.[^'"]+)['"]/g)) {
         const target = slash(relative(process.cwd(), resolve(dirname(path), match[1])));
-        // This helper is executed only by the one exact historical fixture,
-        // not by ordinary runLua callers. Attach it to that fixture below.
-        if (target === 'tests/helpers/historical-presentation-runner.mjs') continue;
+        // Conditional setup belongs only to its exact fixtures below.
+        if (conditionalRunnerFixtures.has(target)) continue;
         if (available(target)) references.add(target);
         else { dynamicImports.add(path); dynamicScripts.add(path); }
       }
@@ -201,8 +207,9 @@ export function selectTests(changed, sources) {
       }
       if (imports.dynamic) dynamicImports.add(path);
       if (/^tests\/lua\/battle_ui(?:_slice_[2-7])?\.lua$/.test(path) && available('scripts/ui-layout.mjs')) references.add('scripts/ui-layout.mjs');
-      if (path === 'tests/lua/presentation_responsibilities_trace.lua'
-          && available('tests/helpers/historical-presentation-runner.mjs')) references.add('tests/helpers/historical-presentation-runner.mjs');
+      for (const [helper, fixtures] of conditionalRunnerFixtures) {
+        if (fixtures.has(path) && available(helper)) references.add(helper);
+      }
     } else {
       const discovery = jsDiscovery(source);
       for (const target of discovery.references) {

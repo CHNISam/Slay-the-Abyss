@@ -35,6 +35,12 @@ export function normalizeUi(value, context = Array.isArray(value) ? 'controls' :
       // have the same omitted opaque default as an explicit opacity of 1.
       || source && (context === 'control' && value.kind === 'image' || context === 'text')
         && name === 'opacity' && validAlpha(item) && Math.round(item * 255) === 255
+      // scene-save tint packs an image's white + opaque alpha as 0xffffffff;
+      // its reader omits BOTH fields only for that exact packed default.
+      || context === 'control' && value.kind === 'image' && name === 'colour'
+        && typeof item === 'string' && item.toLowerCase() === '#ffffff'
+        && (value.opacity === undefined || value.opacity === 1
+          || source && validAlpha(value.opacity) && Math.round(value.opacity * 255) === 255)
       || context === 'grid' && (name === 'horizontal' && item === false || name === 'scrollbar' && item === true || name === 'preview')
       // The native reader omits text ink only when its ARGB is 0xffffffff.
       // Keep opacity separate, and never apply this default to opaque metadata.
