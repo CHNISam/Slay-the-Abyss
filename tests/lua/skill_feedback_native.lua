@@ -4,6 +4,7 @@ local Feedback=require('abyss_feedback')
 local Combat=require('abyss_combat')
 local Events=require('abyss_events')
 local Data=require('abyss_data')
+local Theme=require('abyss_theme')
 local Presentation=require('abyss_presentation')
 local function control(d)
     local c={children={},visible=d.visible~=false,x=0,y=0,sx=1,sy=1}
@@ -123,5 +124,20 @@ test('Cancel hides the shared cast control and the next action can cast again',f
     h.done,h.failure=0,nil;h.battle.enemies[1].intentIndex=1
     h.run();h.untilKind('intent');h.feedback:update(0.01)
     assert(h.feedback.cast.family=='projectile' and sweep.visible);h.drain()
+end)
+test('An area attack restores the shared sweep after a rotating binding cast',function()
+    local h=harness('red_slaver','red_slaver_2');h.run();h.untilKind('intent');h.feedback:update(0.15)
+    local sweep=h.stage:GetChild('feedback'):GetChild('sweep')
+    assert(sweep.visible and sweep.localRotationZ>0,'binding cast must exercise rotation reuse')
+    h.drain()
+    h.battle=Combat.new(Data,{deck={'cleave'},enemies={'cultist','cultist'},seed=11})
+    local before,first=Events.frame(h.battle),#h.battle.events+1
+    assert(Combat.play(h.battle,h.battle.hand[1].uid,1));h.committed=Combat.copy(h.battle);h.done=0
+    h.feedback:begin(before,h.battle,first,Presentation)
+    h.untilKind('damage');h.feedback:update(0.005)
+    local row=Theme.layout.enemyRow
+    assert(sweep.visible and sweep.x==(row.xFrom+row.xTo)/2 and sweep.y==row.y,'area sweep retained cast position')
+    assert(sweep.localRotationZ==0,'area sweep retained cast rotation')
+    h.drain()
 end)
 print('LUA_SKILL_FEEDBACK_NATIVE_PASS '..tests)
