@@ -204,6 +204,7 @@
     "shakeAmplitude": 6,
     "enemyActionGap": 0.45,
     "enemyEscape": 3,
+    "playerDeath": 0.7,
     "hitStop": 0.05,
     "hitStopHeavy": 0.1,
     "heavyHitDamage": 12,

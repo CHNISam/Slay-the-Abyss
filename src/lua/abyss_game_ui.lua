@@ -202,7 +202,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
 
     -- Menu/result presentation reads stats the run already records. Motion only moves and
-    -- scales controls; it never hides them or gates input.
+    -- scales controls. A defeat veil bridges battle/results before actions unlock.
     local L, C, T = Theme.layout.nativeMenu, Theme.color, Theme.motion
     local R = L.reveal
     local result = menu:GetChild("result")
@@ -223,6 +223,11 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.motion = { t = 0, settleX = L.settle[1] }
     local function pose()
         local m = self.motion
+        local shade = menu:GetChild("deathShade")
+        local alpha = m.deathReveal and 1 - easeOut(clamp(m.t / T.slow)) or 0
+        shade.imageColor = platform.color(C.backdrop.r, C.backdrop.g, C.backdrop.b, math.floor(255 * alpha))
+        shade:SetVisible(alpha > 0)
+        if alpha == 0 then m.deathReveal = nil end
         local p = easeOut(clamp(m.t / T.slow))
         local grow = R.emblemFrom + (1 - R.emblemFrom) * overshoot(clamp(m.t / T.slow))
         local breathe = 1 + R.breatheScale * math.sin(2 * math.pi * math.max(0, m.t - T.slow) / R.breathe)
@@ -259,7 +264,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         if mode ~= "menu" and mode ~= "defeat" and mode ~= "victory" then m.mode = nil return end
         local victory, defeat = mode == "victory", mode == "defeat"
         local outcome = victory or defeat
-        if m.mode ~= mode then m.t, m.mode = 0, mode end
+        if m.mode ~= mode then
+            m.t, m.mode = 0, mode
+            m.deathReveal = defeat and self.battleUI.feedback.deaths.player or nil
+        end
         local rules = data.rules.map
         emblem:GetChild("icon").imageColor = colour(defeat and C.danger or C.geo)
         emblem:GetChild("glow").imageColor = colour(defeat and C.danger or C.goldBright)
@@ -330,6 +338,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local scope=self.mode
         if self.disabled or self.settlementRequested or self.settlementBusy then scope='blocked'
         elseif self.exitOpen then scope='exit'
+        elseif self.motion.deathReveal then scope='blocked'
         elseif self.characterOpen then scope='characters'
         elseif openingCovered() then scope='prologue'
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
@@ -604,6 +613,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.start = function(_,character)
         if self.disabled or self.starting then return false,"ui_disabled" end
+        if self.motion.deathReveal then return false,"result_revealing" end
         if self.exitOpen or self.deckUI.visible or self.settlementRequested or self.settlementBusy then return false end
         if self.mode~='menu' and self.mode~='defeat' and self.mode~='victory' then return false end
         if self.characterOpen then return false,'character_choice_open' end
@@ -649,6 +659,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             run.neowUnavailableReason=historyReason
         end
         self.characterOpen=false;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
+        self.battleUI.feedback:cancel()
         self.battleUI:setData(run.data,runPresentation)
         self.nodeUI.presentation=runPresentation
         self.deckUI:setPresentation(runPresentation)
@@ -699,6 +710,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.settle = function(_)
         if self.disabled then return false,"ui_disabled" end
+        if self.motion.deathReveal then return false,"result_revealing" end
         if self.characterOpen then return false, "character_choice_open" end
         if self.exitOpen then return false, "exit_open" end
         if self.deckUI.visible then return false, "deck_open" end
@@ -707,6 +719,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     requestSettlement = function(victory)
         if self.disabled then return false,"ui_disabled" end
+        if self.motion.deathReveal then return false,"result_revealing" end
         if self.settlementRequested or self.settlementBusy then return false, "settlement_already_requested" end
         if type(platform.settle) ~= "function" then
             self.exitError = self.exitOpen == true
@@ -763,6 +776,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.prologue then self.prologue:update(dt) end
         if openingCovered() then self:syncController();return true end
         self.battleUI:update(dt)
+        if self.battleUI.busy and self.battleUI.feedback.deaths.player then bgm:update("defeat") end
         self.nodeUI:update(dt)
         self.deckUI:update(dt)
         local updated=self.mapUI:update(dt)
@@ -810,6 +824,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local runMenuAction = kind:sub(1, 4) == 'run_'
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if menuAction and self.motion.deathReveal then return false end
             if kind == 'routeClose' then return self.exitOpen and self.routeOpen == true end
             if kind == 'helpClose' then return self.exitOpen and self.controlsOpen == true end
             if self.controlsOpen then return false end
