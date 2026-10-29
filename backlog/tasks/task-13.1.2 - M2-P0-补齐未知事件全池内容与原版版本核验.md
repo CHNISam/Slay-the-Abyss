@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-28 10:34'
+updated_date: '2026-10-29 14:44'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -50,6 +50,8 @@ ordinal: 54000
 
 <!-- SECTION:PLAN:BEGIN -->
 按固定来源补齐冻结比赛清单内不依赖持久Save的第一幕事件及所有合法选项、资格和随机消费。保留25项历史源目录并明确A Note For Yourself跨局留卡移TASK-53，WeMeetAgain同局交易和普通/神龛/一次性事件生命周期保留。自然获取与同候选平台证据未齐不得完成。
+
+PR334收口：补齐事件清单完整来源回放登记，保留原始来源与严格断言，跑当前事件及历史回放后推送当前PR；不勾平台验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

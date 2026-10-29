@@ -9,7 +9,7 @@ const normalize=source=>source.replaceAll('\r\n','\n');
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const gitBlob=source=>createHash('sha1').update(`blob ${Buffer.byteLength(source)}\0`).update(source).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/event-production-source-inverse.json.gz',import.meta.url));
-assert.equal(hash(bytes),'77ce1fd32beb67cd29cd3aa5be54ea5082b7cc46d15b7a16c9546dcb34425dbf','complete production event source archive identity');
+assert.equal(hash(bytes),'14c552023c7e838b54cd6e42bd66dc62ed264ca48ee7deb1c942bdaef1b489cd','complete production event source archive identity');
 export const eventProductionInverse=JSON.parse(gunzipSync(bytes));
 const proof=eventProductionInverse;
 assert.equal(proof.schemaVersion,1);
@@ -19,7 +19,7 @@ assert.ok(proof.files&&Object.keys(proof.files).length>0,'complete production ev
 assert.deepEqual(Object.keys(proof.files),[...Object.keys(proof.files)].sort(),'canonical production event source inventory');
 for(const [path,binding]of Object.entries(proof.files)){
  assert.ok(path&&!path.startsWith('/')&&!path.includes('\\')&&!path.split('/').some(part=>!part||part==='.'||part==='..'),'relative event production source path');
- assert.match(path,/^(?:src\/lua\/[^/]+\.lua|scripts\/[^/]+\.mjs|config\/[^/]+\.json)$/,'production/config/script inputs only');
+ assert.match(path,/^(?:src\/lua\/[^/]+\.lua|scripts\/[^/]+\.mjs|config\/[^/]+\.json|data\/release\/launch-content\.json)$/,'production/config/script inputs only');
  assert.equal(typeof binding.afterSource,'string','complete current event production source: '+path);
  assert.equal(binding.afterSource,normalize(binding.afterSource),'LF current event production archive source: '+path);
  assert.equal(hash(binding.afterSource),binding.afterSha256,'complete current event production source identity: '+path);
