@@ -251,6 +251,39 @@ local function liveEnemies(state)
     return result
 end
 
+local function exhaustRandom(combat,state,item)
+    if #state.hand>0 then
+        local i=#state.hand==1 and not item.effect.alwaysRandom and 1 or combat.cardRandom(state,#state.hand)
+        M.exhaust(combat,state,state.hand[i],state.hand)
+    end
+end
+
+local function fiendFire(_,state,item)
+    -- Snapshot count now. Exhaust actions use random cards; draw hooks go
+    -- behind the original hits, so newly drawn cards aren't exhausted.
+    local count=#state.hand
+    for _=1,count do M.enqueue(state,{op="damage",value=item.effect.value,resolved=item.effect.resolved},item.source,item.target,item.instance,true) end
+    for _=1,count do M.enqueue(state,{op="exhaustRandom",alwaysRandom=true},item.source,nil,nil,true) end
+end
+
+local function exhaustNonAttacks(combat,state,item)
+    local cards={}
+    for _,v in ipairs(state.hand) do
+        if combat.cardDefinition(state,v).type~="attack" then cards[#cards+1]=v end
+    end
+    if item.effect.op=="secondWind" then
+        for _=1,#cards do M.enqueue(state,{op="block",value=item.effect.value},item.source,nil,item.instance,true) end
+    end
+    for _,v in ipairs(cards) do M.enqueue(state,{op="exhaustSpecific",uid=v.uid},item.source,nil,nil,true) end
+end
+
+local function exhaustSpecific(combat,state,item)
+    local v=remove(state.hand,item.effect.uid); if v then M.exhaust(combat,state,v) end
+end
+
+local exhaustActions={exhaustRandom=exhaustRandom,fiendFire=fiendFire,
+    exhaustNonAttacks=exhaustNonAttacks,secondWind=exhaustNonAttacks,exhaustSpecific=exhaustSpecific}
+
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
@@ -287,28 +320,8 @@ function M.apply(combat,state,item)
     if op=='originalV4' then return require('abyss_original_v4').execute(combat,state,item) end
     if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' or op=="exhaustChoose" or op=="recoverExhaust" or op=="discardToDraw" or op=="handToDraw"
         or op=="dualWield" or op=="upgradeHand" and not e.all then return selection(combat,state,item)
-    elseif op=="exhaustRandom" then
-        if #state.hand>0 then
-            local i=#state.hand==1 and not e.alwaysRandom and 1 or combat.cardRandom(state,#state.hand)
-            M.exhaust(combat,state,state.hand[i],state.hand)
-        end
-    elseif op=="fiendFire" then
-        -- Snapshot count now. Exhaust actions use random cards; draw hooks go
-        -- behind the original hits, so newly drawn cards aren't exhausted.
-        local count=#state.hand
-        for _=1,count do M.enqueue(state,{op="damage",value=value,resolved=e.resolved},source,target,c,true) end
-        for _=1,count do M.enqueue(state,{op="exhaustRandom",alwaysRandom=true},source,nil,nil,true) end
-    elseif op=="exhaustNonAttacks" or op=="secondWind" then
-        local cards={}
-        for _,v in ipairs(state.hand) do
-            if combat.cardDefinition(state,v).type~="attack" then cards[#cards+1]=v end
-        end
-        if op=="secondWind" then
-            for _=1,#cards do M.enqueue(state,{op="block",value=value},source,nil,c,true) end
-        end
-        for _,v in ipairs(cards) do M.enqueue(state,{op="exhaustSpecific",uid=v.uid},source,nil,nil,true) end
-    elseif op=="exhaustSpecific" then
-        local v=remove(state.hand,e.uid); if v then M.exhaust(combat,state,v) end
+    elseif exhaustActions[op] then
+        exhaustActions[op](combat,state,item)
     elseif op=="upgradeHand" then
         for _,v in ipairs(state.hand) do if combat.canUpgrade(state,v) then combat.upgrade(state,v) end end
     elseif op=="makeTempCardInHand" or op=="makeTempCardInDraw" then
