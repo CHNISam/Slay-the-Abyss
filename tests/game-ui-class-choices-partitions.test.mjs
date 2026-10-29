@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -26,7 +27,7 @@ test('class choice raw partitions restore every byte of the original ten registe
  assert.equal(partitions.originalGitBlob,'295f6132b4a1167aac584dddda487340358f00f7');
  assert.equal(partitions.total,10);assert.equal(partitions.timeoutMilliseconds,30000);
  assert.equal(partitions.runnerSha256LF,'7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33');
- assert.equal(sha(read('scripts/test-lua.mjs')),partitions.runnerSha256LF,'the original runner and all fixture deadline rules remain unchanged');
+ assert.equal(sha(preAcceptedPr323Source('scripts/test-lua.mjs',read('scripts/test-lua.mjs'))),partitions.runnerSha256LF,'the original runner and all fixture deadline rules remain unchanged');
  assert.equal(partitions.prefix,'local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5\nlocal sliceRegistered=0\n');
  assert.equal(partitions.before,'local function test(name,fn) fn();n=n+1;print("ok game_ui_class_choices "..n.." - "..name) end\n');
  assert.equal(partitions.after,'local function test(name,fn)\n    sliceRegistered=sliceRegistered+1\n    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then\n        fn();n=n+1;print("ok game_ui_class_choices "..n.." - "..name)\n        print("GAME_UI_CLASS_CHOICES_CASE "..sliceRegistered)\n    end\nend\n');

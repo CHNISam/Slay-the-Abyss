@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-10-29 01:12'
+updated_date: '2026-10-29 04:17'
 labels: []
 milestone: m-4
 dependencies: []
@@ -13,6 +13,8 @@ references:
   - docs/backlog-details/TASK-76.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
   - docs/backlog-details/MOBILE-QA-20261028.md
+  - docs/evidence/backlog-merge-20261029.json
+  - docs/backlog-details/TRAVELER-SCOPE-20261029.md
 priority: high
 type: bug
 ordinal: 121000
@@ -86,4 +88,21 @@ PR315接续批准稿PR313/cec690c1，保留瓶Click菜单+可见Use；组合复�
 2026-10-29 dot 只在独立本地树从 eb7d62e（074 + PR312）逐职责移植 e80fe357/a39aa7c9 的有限 latest-origin 逻辑，保留311拆分与原16模块/313冻结见证；原15场景实际基线2通过/13失败→本组合15/15（26.161秒，原30秒），原历史hash合同先红后绿。303单次回滚9组、318当前owner4组、313药水菜单/宿主/瓶体、纯Node逆向34项与原53case/6seed元数据2项通过；312全量质量收集251模块/3840测量、当前架构251/1395、静态37历史诊断零新增/792职责及语法/网络/Backlog通过。后续相关门禁与本地冻结结果见附件；无完整本地check或当前托管Full，无GIL/导入/ready/设备体验。匿名Click→详情→新Down吞序列的旧RED与same-ID/no-Down能力边界继续保留，不称全部手机故障已修。六条AC全部未勾，High/In Progress/Furinya保持。
 
 本组合补充验证：批准UI/Node历史与复杂度负对照13/13、真实地图节点/药水头5/5、原case40与具名/匿名详情关闭重试2/2、原四项语义变异全部被对应断言捕获、原生能力mock2/2通过。旧匿名即时下一拖牌探针仍RED（2.715秒），未改契约或改称通过。严格16模块与popup/support/原15fixture来源守恒，全部其他生产输入/工具策略/预算不改；本地提交仅供父线程独立复审，不批准或发布。
+
+PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范围以docs/SCOPE.md仅岩旅行者两幕为准）：
+本轮隔离工作树 .worktrees/ui-focus-return，基线 origin/develop d2e0baa3。已读入口 abyss_ui、共享 GameUI、Controller、BattleUI、ChoiceUI、NodeUI 及平台官方客户端 API。入口仅启动/逐帧更新；官方生命周期未列窗口焦点回调，不能直接套用 Unity OnApplicationFocus。UI 根 showCursor/blockKeys/blockCursor 恒为 true。战斗 down 在 self.gesture 存在时不清 suppressClick；dragLayer 在 moving gesture 存在时启用 hit 并拦截穿透。因此丢失 Up/EndDrag 后残留手势/遮挡为待验证假设，尚无本轮实机证据，不能定为实际根因。选牌、地图、节点、菜单已有不同的手势所有权防护，不能粗暴清空所有输入或刷新整界面。已请求本轮10分钟键鼠窗口，未获确认，未发送输入。尚未修改生产代码、运行修复回归或创建PR。
+
+用户补充：不切出也会突然无法选牌，点击退出本局等按钮后恢复；不再以窗口失焦为必要触发条件。继续离线排查丢失释放事件后 self.gesture 永久拒绝新 Down 的路径。
+
+已用真实UI处理器红绿复现缺失Up导致卡牌永久锁定；最小修复18行及针对性回归已实现。候选只替换PR290底图的BattleUI模块，实机待用户自行验证。详细边界、测试与失败记录见附件。
+
+2026-10-28队列复核（基线77c2d5e6）：中断按压修复已进入集成源码，但跨界面故障与同候选平台实测尚无完整验收；继续High/In Progress，原0/3验收保留。作为前两幕输入阻塞关联M4并列入排期，负责人统一Furinya，不把本地红绿或实验模块包当作用户故障已彻底解决。
+
+本轮两个输入缺陷已修前RED修后GREEN；子树新增回归与原地图35组、动作8组通过。当前集成独立复验中。地图背景drag漏Up可恢复；node自身漏Up及卡组原生遮挡仍未证明修复，任务保持进行中。
+
+2026-10-29用户实机点卡组/遗物均报update GetChild invalid object，旧066包已标失败保留。销毁式Grid替身真实复现deck_ui225旧缓存问题；生产在GetChild前查官方readonly alive并清无效绑定，update/close共享，旧回调空值/失效拒绝。原生生命周期及移除保护负对照纳入现有check:native-ui-contract；最终相关10/10，旧卡组6组20.466秒/原30秒、牌堆4组、相关17项通过。首次旧卡组超时保留，优化替身私有引擎查表后原预算完整通过。语法/架构/73旧静态警告门禁过；无实机通过，替换包在构建。
+
+生命周期修复替换包已交付：根.artifacts/M3卡组遗物修复-4ad01d49.gil，游戏源4ad01d49082edbcd8c7c2e3b85f5246595479391，SHA256 ff2a667d94404a122e1adfbae656da81e77aff046fcc88e24cb0cdbdbf667423。独立226模块同源、8454控件/max60、BGM及参数核对通过，静态0错误103警告未逐条人审。首轮全量UI重写工具120秒超时保留；改为整份JSON/模板与已审计旧包严格相同才复用原UI，最终完整检查不省略。新包官方导入/ready/设备仍待用户复验，原AC不勾；旧包用户失败记录已同步。
+
+合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 <!-- SECTION:NOTES:END -->

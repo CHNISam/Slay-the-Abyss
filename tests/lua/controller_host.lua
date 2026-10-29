@@ -89,7 +89,9 @@ ui:disable();assert(not focus or not focus.canControllerFocus)
 ui,root=F.fixture(nil,nil,nil,pointer,true,nil,nil,api)
 event(hit('menuPanel','start'));assert(ui.characterOpen and ui.controller.scope=='characters' and not ui.run)
 event(hit('characterPanel','traveler'));event(hit('characterPanel','confirm'))
-assert(ui.mode=='map' and ui.prologue==nil)
+assert(ui.prologue:covering() and ui.controller.scope=='prologue')
+event(focus,'cancel');ui:update(1);ui:update(1)
+assert(ui.mode=='map' and not ui.prologue:covering())
 event(focus);assert(ui.mode=='battle')
 local choiceBattle=ui.run.combat
 choiceBattle.hand={{uid=1000,cardId='strike'},{uid=1001,cardId='defend'}}

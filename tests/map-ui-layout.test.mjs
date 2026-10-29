@@ -61,7 +61,7 @@ test('static controls are native, readable, unique and fit phone and console saf
   }
 });
 
-test('node and edge pools match controller contract, without the retired boxed legend', () => {
+test('node and edge pools match controller contract, with type meanings and without the retired state legend', () => {
   for (let i = 1; i <= geometry.maxNodes; i++) {
     const node = index.get(`node${i}`);
     assert.equal(node.visible, false);
@@ -76,6 +76,7 @@ test('node and edge pools match controller contract, without the retired boxed l
   }
   for (let i = 1; i <= geometry.maxEdges; i++) assert.equal(index.get(`edge${i}`).visible, false);
   assert(![...index.keys()].some(name => name.startsWith('legend')));
+  assert(index.get('typeLegend'), 'node TYPE legend remains distinct from retired STATE legend');
   for (const name of ['previous', 'focus', 'next']) assert.equal(index.get(name).visible, false);
   assert.equal(index.get('notice').size[1], 40);
   assert.equal(index.get('node1').children.find(c => c.name === 'positionToken').image, theme.image.diamond);

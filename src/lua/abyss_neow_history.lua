@@ -8,10 +8,11 @@ end
 function M.new(provider)
  return {entries={},finished=setmetatable({},{__mode='k'}),provider=provider}
 end
-function M.read(owner,character)
+function M.read(owner,character,sessionOnly)
  character=character or 'ironclad'
  local entry=owner.entries[character]
  if entry then return {bossCount=entry.bossCount,source=entry.source}end
+ if sessionOnly then return nil,'neow_history_unavailable' end
  if type(owner.provider)~='function'then return nil,'neow_history_unavailable'end
  local called,value=pcall(owner.provider,character)
  if not called or not valid(value)then return nil,'neow_history_unavailable'end
@@ -20,7 +21,7 @@ function M.read(owner,character)
  return {bossCount=entry.bossCount,source=entry.source}
 end
 function M.finish(owner,run,outcome)
- if not run or run.campaignProfile=='competition-two-act' or owner.finished[run]then return false end
+ if not run or owner.finished[run]then return false end
  if outcome=='victory' or outcome=='defeat'then
   if run.phase~=outcome then return false end
  elseif outcome~='abandon'then return false end

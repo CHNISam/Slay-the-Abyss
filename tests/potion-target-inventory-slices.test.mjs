@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -80,7 +81,8 @@ test('potion inventory inverse and coverage guards reject lost assertions, skipp
   const changedSeed = read(helper).replace('Run.new(F.Data,61)', 'Run.new(F.Data,62)');
   assert.notEqual(changedSeed, read(helper), 'negative control must alter the actual seed-61 fixture');
   assert.throws(() => validateHelper(changedSeed), /fresh seed-61 setup/);
-  const longerDeadline = read('scripts/test-lua.mjs').replace('60000 : 30000', '60000 : 60000');
-  assert.notEqual(longerDeadline, read('scripts/test-lua.mjs'), 'negative control must alter the real deadline');
+  const runner = preAcceptedPr323Source('scripts/test-lua.mjs',read('scripts/test-lua.mjs'));
+  const longerDeadline = runner.replace('60000 : 30000', '60000 : 60000');
+  assert.notEqual(longerDeadline, runner, 'negative control must alter the real deadline');
   assert.throws(() => validateRunner(longerDeadline), /unchanged runner and deadlines/);
 });

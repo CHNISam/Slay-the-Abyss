@@ -6,6 +6,16 @@ M.elements={'ironclad','silent','defect','watcher'}
 local names={hutao='胡桃',arlecchino='阿蕾奇诺',furina='芙宁娜',raiden='雷电将军',traveler='旅行者·荧'}
 local elements={ironclad='岩',silent='风',defect='雷',watcher='草'}
 local function contains(list,id)for _,value in ipairs(list)do if value==id then return true end end return false end
+local profiles={dev='full-source',alpha='competition-two-act',['competition-candidate']='competition-two-act',
+    production='competition-two-act',['competition-two-act']='competition-two-act',['full-source']='full-source'}
+local function admissionProfile(profile)
+    if profile==nil then return 'full-source' end
+    return assert(profiles[profile],'unknown character admission profile')
+end
+function M.allowed(profile,id)
+    if not profiles[profile] then return false end
+    return (elements[id]~=nil or names[id]~=nil and id~='traveler') and Admission.allows(profiles[profile],id)
+end
 function M.options(id)
     if id=='ironclad' then return nil end -- preserve the production Geo loadout
     return {character=id,experimental=elements[id]~=nil}
@@ -41,7 +51,8 @@ function M.preview(source,presentation,id)
         deckSize=#data.cards.starter_deck.cards,profile=profile}
 end
 function M.new(source,presentation,profile)
-    local state={}
+    profile=admissionProfile(profile)
+    local state={profile=profile}
     local function accepts(id)
         -- The visible choice is explicit even when Geo's Run options stay nil.
         return Admission.accepts(source,{campaignProfile=profile,character=id})
@@ -50,6 +61,7 @@ function M.new(source,presentation,profile)
         return contains(M.characters,id) and Admission.allows(profile,id=='traveler' and 'ironclad' or id)
     end
     function state.allowsElement(_,id)return contains(M.elements,id) and Admission.allows(profile,id)end
+    function state.allows(_,id)return id=='traveler' and state:allowsCharacter(id) or state:allowsElement(id) or state:allowsCharacter(id)end
     function state:canConfirm()
         local id=self.character=='traveler' and self.element or self.character
         return self.info~=nil and self.info.id==id and self:allowsCharacter(self.character)

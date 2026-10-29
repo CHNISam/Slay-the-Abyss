@@ -218,6 +218,9 @@ function M.view(run, map)
         node.purgeCards=LivingWall.purgeCards(run)
         if node.type == "camp" then
             node.upgradeCards = upgradeCards(run)
+            node.canRest=not RelicHooks.owns(run,'coffee_dripper')
+            node.canForge=not RelicHooks.owns(run,'fusion_hammer') and #node.upgradeCards>0
+            node.canLeaveCamp=not node.canRest and not node.canForge and not endingKeyEligible(run,'ruby')
             node.heal = healingPreview(run,RelicHooks.campHealAmount(run,math.floor(run.maxHp * run.data.rules.camp.healPercent / 100)))
             node.dreamCatcher=RelicHooks.owns(run,'dream_catcher')
         elseif node.type == "shop" then
@@ -268,6 +271,7 @@ function M.rest(run)
     return Run.transaction(run,function(staged)
         local flow,reason=pending(staged,'camp');if not flow then return false,reason end
         if flow.campChoice then return false,'camp_choice_made' end
+        if RelicHooks.owns(staged,'coffee_dripper') then return false,'rest_blocked_by_relic' end
         local healing=RelicHooks.campHealAmount(staged,math.floor(staged.maxHp*staged.data.rules.camp.healPercent/100))
         flow.restHealed=Run.heal(staged,healing)
         flow.campChoice='rest'
@@ -308,6 +312,7 @@ end
 function M.upgrade(run, uid)
     local flow, reason = pending(run, "camp"); if not flow then return false, reason end
     if flow.campChoice and flow.campChoice ~= "upgrade" then return false, "camp_choice_made" end
+    if RelicHooks.owns(run,'fusion_hammer') then return false,'upgrade_blocked_by_relic' end
     local instance = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if flow.upgradesLeft <= 0 or not upgradeable(run, instance) then return false, "card_not_upgradeable" end
@@ -316,6 +321,20 @@ function M.upgrade(run, uid)
     flow.upgradesLeft = flow.upgradesLeft - 1
     if flow.upgradesLeft == 0 or #upgradeCards(run) == 0 then return complete(run) end
     return true
+end
+
+-- RestRoom permits proceeding when all supported camp actions are unusable.
+-- This does not simulate rest/smith or grant any of their hooks and benefits.
+function M.leaveCamp(run)
+    return Run.transaction(run,function(staged)
+        local flow,reason=pending(staged,'camp');if not flow then return false,reason end
+        if flow.campChoice then return false,'camp_choice_made' end
+        if endingKeyEligible(staged,'ruby') or not RelicHooks.owns(staged,'coffee_dripper') or
+            (not RelicHooks.owns(staged,'fusion_hammer') and #upgradeCards(staged)>0) then
+            return false,'camp_action_available'
+        end
+        flow.campChoice='leave';return complete(staged)
+    end)
 end
 
 local function purchaseCommand(run, category, reference, bySlot)

@@ -481,31 +481,45 @@ function M.vulnerablePercent(state,target)
     end
     return state.rules.combat.vulnerablePercent
 end
-local function attackFloat(state, source, target, base, fixed)
+local function damageStep(trace,kind,value,operand)
+    if kind=='vigor' and operand==0 or kind=='stance' and operand==1 then return value end
+    if trace then trace[#trace+1]={kind=kind,value=value,operand=operand} end
+    return value
+end
+local function attackFloat(state, source, target, base, fixed,trace)
     -- Force float arithmetic before modifiers: Fengari integers are 32-bit,
     -- while game Lua uses wider integers. Integer multiplication would wrap.
     local amount = base + 0.0
+    damageStep(trace,'base',amount)
     local slow=not fixed and target.statuses.slow~=nil
-    if slow then amount=f32(amount) end
+    if slow then amount=damageStep(trace,'binary32',f32(amount)) end
     if not fixed then
         amount = amount + (source.statuses.strength or 0)
-        if slow then amount=f32(amount) end
+        damageStep(trace,'strength',amount,source.statuses.strength or 0)
+        if slow then amount=damageStep(trace,'binary32',f32(amount)) end
         amount = amount + (source.statuses.vigor or 0)
-        if slow then amount=f32(amount) end
-        if (source.statuses.double_damage or 0)>0 then amount=amount*2 end
-        if (source.statuses.pen_nib or 0)>0 then amount=amount*2.0 end
-        if (source.statuses.weak or 0) > 0 then amount = amount * state.rules.combat.weakPercent / 100 end
-        if slow then amount=f32(amount) end
+        damageStep(trace,'vigor',amount,source.statuses.vigor or 0)
+        if slow then amount=damageStep(trace,'binary32',f32(amount)) end
+        if (source.statuses.double_damage or 0)>0 then amount=damageStep(trace,'double_damage',amount*2,2) end
+        if (source.statuses.pen_nib or 0)>0 then amount=damageStep(trace,'pen_nib',amount*2.0,2) end
+        if (source.statuses.weak or 0) > 0 then amount = damageStep(trace,'weak',amount * state.rules.combat.weakPercent / 100,state.rules.combat.weakPercent/100) end
+        if slow then amount=damageStep(trace,'binary32',f32(amount)) end
         if (target.statuses.vulnerable or 0) > 0 and target.statuses.slow==nil then
-            amount=amount*M.vulnerablePercent(state,target)/100
+            local percent=M.vulnerablePercent(state,target)
+            amount=amount*percent/100
+            damageStep(trace,'vulnerable',amount,percent/100)
         end
     end
     if state.player.stance and source then
-        amount = amount * require("abyss_stances").damageMultiplier(state, source, target, fixed)
-        if slow then amount=f32(amount) end
+        local multiplier=require("abyss_stances").damageMultiplier(state, source, target, fixed)
+        amount = amount * multiplier
+        damageStep(trace,'stance',amount,multiplier)
+        if slow then amount=damageStep(trace,'binary32',f32(amount)) end
     end
-    if not fixed and target.statuses.slow~=nil then amount=require('abyss_giant_head').receive(state,target,amount) end
-    if not fixed and (target.statuses.flight or 0)>0 then amount=amount/2 end
+    if not fixed and target.statuses.slow~=nil then
+        amount=require('abyss_giant_head').receive(state,target,amount,trace)
+    end
+    if not fixed and (target.statuses.flight or 0)>0 then amount=damageStep(trace,'flight',amount/2,.5) end
     return amount
 end
 function M.attackAmount(state,source,target,base,fixed)
@@ -513,12 +527,24 @@ function M.attackAmount(state,source,target,base,fixed)
     if intangible(target)then amount=math.min(amount,1)end
     return math.max(0,math.floor(amount))
 end
-function M.intentAttackAmount(state,source,target,base,fixed)
+local function intentAmount(state,source,target,base,fixed,trace)
+    local amount=attackFloat(state,source,target,base,fixed,trace)
     if not fixed and target==state.player and require('abyss_spire_pair').owns(source)then
-        return require('abyss_spire_pair').intentDamage(state,source,attackFloat(state,source,target,base,fixed),
-            function(amount)return intangible(target)and math.min(amount,1)or amount end)
-    end
-    return M.attackAmount(state,source,target,base,fixed)
+        return require('abyss_spire_pair').intentDamage(state,source,amount,
+            function(value)
+                if intangible(target) then return damageStep(trace,'intangible',math.min(value,1),1) end
+                return value
+            end,trace)
+    elseif intangible(target)then amount=damageStep(trace,'intangible',math.min(amount,1),1) end
+    return damageStep(trace,'round',math.max(0,math.floor(amount)))
+end
+function M.intentAttackAmount(state,source,target,base,fixed)
+    return intentAmount(state,source,target,base,fixed)
+end
+function M.intentAttackPreview(state,source,target,base,fixed)
+    local steps={}
+    local amount=intentAmount(state,source,target,base,fixed,steps)
+    return {amount=amount,steps=steps}
 end
 
 -- An area attack collects retaliation until all of its targets are damaged.

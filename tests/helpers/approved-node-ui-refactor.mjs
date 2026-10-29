@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {preRosterConfigSource} from './competition-roster-config-composition.mjs';
 import {preRosterSource} from './competition-roster-source-inverse.mjs';
 import {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
@@ -54,6 +55,7 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ source=preAcceptedPr323Source(path,source);
  source=preRosterConfigSource(path,source);
  if(source!==null)source=preRosterSource(path,source);
  source=preCardDragClickSource(path,source);
@@ -67,13 +69,14 @@ export function preIntegratedNodeUiSource(path,source,overrides={}){
  assert.equal(typeof source,'string','unreviewed integrated Node root must exist');
  source=normalized(source);
  const projected={...overrides};
- for(const [file,value] of Object.entries(overrides)){
+ for(const [file,raw] of Object.entries(overrides)){
+  const value=preAcceptedPr323Source(file,raw);
   if(file===approvedNodeFace.path)projected[file]=beforeApprovedFace(value);
   else if(Object.hasOwn(nodeUiRefactor.afterSha256,file))
    assert.equal(hash(normalized(value)),nodeUiRefactor.afterSha256[file],'unreviewed integrated presentation source drift; unreviewed integrated retirement source drift; unreviewed Node UI refactor source drift: override: '+file);
  }
  if([nodeUiRefactor.beforeSha256,approvedNodeFace.approvedMonolithSha256].includes(hash(source)))return source;
  if(!Object.hasOwn(projected,approvedNodeFace.path))
-  projected[approvedNodeFace.path]=beforeApprovedFace(readFileSync(approvedNodeFace.path,'utf8'));
+  projected[approvedNodeFace.path]=beforeApprovedFace(preAcceptedPr323Source(approvedNodeFace.path,readFileSync(approvedNodeFace.path,'utf8')));
  return preNodeUiRefactorSource(path,source,projected);
 }

@@ -34,15 +34,14 @@ local function nearDuration(actual, expected)
 end
 local traces = {}
 for _, fast in ipairs({false, true}) do
-    test((fast and "fast" or "normal") .. " menu selection reaches the natural first battle and source damage gate", function()
+    test((fast and "fast" or "normal") .. " program setting reaches the natural first battle and source damage gate", function()
         local host, root = fixture()
-        local speed = root:GetChild("menuPanel"):GetChild("battleSpeed")
+        assert(not root:GetChild("menuPanel"):GetChild("battleSpeed"), 'title has no initial speed choice')
         assert(host.run == nil and host.map == nil, "speed settings must not create a discarded run")
         local seed = host.seed
-        assert(host.fastMode == false and speed:GetChild("label").text == "战斗速度：普通")
-        if fast then assert(speed:GetChild("hit").click()) end
+        assert(host.fastMode == false)
+        if fast then assert(host:setFastMode(true)) end
         assert(host.fastMode == fast and (host.battleUI.fastMode == true) == fast)
-        assert(speed:GetChild("label").text == (fast and "战斗速度：快速" or "战斗速度：普通"))
         assert(host.run == nil and host.map == nil and host.seed == seed, "toggling consumes neither a seed nor run RNG")
         assert(hit(root, "menuPanel/start").click() and host.characterOpen)
         assert(hit(root, "characterPanel/traveler").click());assert(not host.run);assert(hit(root,"characterPanel/confirm").click())
@@ -68,7 +67,7 @@ for _, fast in ipairs({false, true}) do
             "perform must synchronize the official setting before beginning feedback")
         local committed = F.Combat.copy(battle)
         assert(not host:setFastMode(not fast), "the public setter must reject an active action")
-        assert(not speed:GetChild("hit").click(), "a hidden title callback must reject an active battle")
+        assert(not root:GetChild("menuPanel"):GetChild("battleSpeed"), "no hidden title callback may remain")
         assert(host.fastMode == fast and (ui.fastMode == true) == fast and ui.feedback.playbackFastMode == fast)
         same(battle, committed)
         for _ = 1, 100 do
@@ -91,7 +90,7 @@ for _, fast in ipairs({false, true}) do
         traces[fast and "fast" or "normal"] = {run = result, map = F.Combat.copy(host.map)}
     end)
 end
-test("normal and fast official menu paths preserve the complete run/map state and all RNG streams", function()
+test("normal and fast program settings preserve the complete run/map state and all RNG streams", function()
     assert(traces.normal and traces.fast, "both actual entry traces must have completed")
     same(traces.normal, traces.fast)
 end)

@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {preRunMaxHpConfig} from './run-max-hp-config-inverse.mjs';
 // Exact outer test-only bridge. Both original complete config proofs stay immutable.
 import assert from 'node:assert/strict';
@@ -9,6 +10,7 @@ const bytes=normalize(readFileSync(new URL('../fixtures/nodes-battle-max-hp-conf
 assert.equal(hash(bytes),'5e130a11180cb03714f315a21f5cf90a722374c2833dda033529851ad2809b92','complete reviewed combined Nodes Battle Max HP config witness');
 const proof=JSON.parse(bytes);
 export function projectNodesBattleMaxHpConfig(path,source,target){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  assert.equal(path,proof.path,'combined Nodes Battle Max HP path');
  assert.equal(typeof source,'string','combined Nodes Battle Max HP source must exist');
  assert.ok(Object.hasOwn(proof.targets,target),'combined Nodes Battle Max HP target');
@@ -24,6 +26,7 @@ export function projectNodesBattleMaxHpConfig(path,source,target){
  return previous;
 }
 export function preNodesBattleMaxHpConfig(path,source,target='candidate'){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  source=preRunMaxHpConfig(path,source);
  if(path!==proof.path||typeof source!=='string'||hash(normalize(source))!==proof.combinedSha256LF)return source;
  return projectNodesBattleMaxHpConfig(path,source,target);

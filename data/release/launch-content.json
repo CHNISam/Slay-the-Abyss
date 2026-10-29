@@ -6,6 +6,35 @@
   "status": "scope-baseline-awaiting-per-item-acceptance",
   "updated": "2026-10-28",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
+  "runtimeAdmission": {
+    "enforcedBy": "src/lua/abyss_run_admission.lua#M.accepts; src/lua/abyss_character_select.lua#canConfirm (before adapters and UI seed generation)",
+    "alphaCharacters": [
+      "ironclad"
+    ],
+    "productionCharacters": [
+      "ironclad"
+    ],
+    "developmentCharacters": [
+      "ironclad",
+      "silent",
+      "defect",
+      "watcher",
+      "hutao",
+      "arlecchino",
+      "furina",
+      "raiden"
+    ],
+    "acts": [
+      1,
+      2
+    ],
+    "authorization": {
+      "kind": "user-confirmation",
+      "recordedOn": "2026-10-29",
+      "statement": "用户确认本版仅岩系旅行者第一幕、第二幕，雷电将军留到下一版本。",
+      "boundary": "Runtime admission approval; this does not fabricate per-item, device, screenshot, or platform-log evidence."
+    }
+  },
   "knownBlockers": [
     {
       "ids": [
@@ -34,14 +63,36 @@
   ],
   "profiles": {
     "lizardTail": {
-      "tasks": ["TASK-14.1", "TASK-47"],
-      "entryPoints": ["src/lua/abyss_lizard_tail.lua", "src/lua/abyss_player_revive.lua", "src/lua/abyss_run.lua", "src/lua/abyss_relic_hooks.lua", "src/lua/abyss_hp_loss.lua"],
+      "tasks": [
+        "TASK-14.1",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_lizard_tail.lua",
+        "src/lua/abyss_player_revive.lua",
+        "src/lua/abyss_run.lua",
+        "src/lua/abyss_relic_hooks.lua",
+        "src/lua/abyss_hp_loss.lua"
+      ],
       "local": {
         "status": "coverage-recorded",
-        "testFiles": ["tests/lizard-tail-run.test.mjs", "tests/lizard-tail-action-order.test.mjs", "tests/lizard-tail-persistence.test.mjs", "tests/lua/lizard_tail_run.lua", "tests/lua/lizard_tail_action_order.lua", "tests/lua/lizard_tail_persistence.lua"]
+        "testFiles": [
+          "tests/lizard-tail-run.test.mjs",
+          "tests/lizard-tail-action-order.test.mjs",
+          "tests/lizard-tail-persistence.test.mjs",
+          "tests/lua/lizard_tail_run.lua",
+          "tests/lua/lizard_tail_action_order.lua",
+          "tests/lua/lizard_tail_persistence.lua"
+        ]
       },
-      "platform": {"status": "pending-per-item", "evidence": []},
-      "live": {"status": "pending-natural-acquisition-and-execution", "evidence": []},
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
       "presentation": "existing-hero-detail-local-coverage-device-acceptance-pending",
       "limitation": "Controlled rare-tier draw uses unmodified full source seed65536 queue, then actual obtain/fatal/rollback and chapter/map ownership. Fairy/Bark/Flower queue vectors and controlled prior chapter completions are not natural acquisition or gameplay. Native per-item/device and noncombat owned-relic detail remain pending."
     },
@@ -142,11 +193,34 @@
       "limitation": "Act3 mapping and existing-controls UI are locally wired. Constructor prepares two Orb Walkers even on Leave; Fight uses inclusive 45..55 miscRng gold and shared rare-relic/event rewards. Integration bridge fixture recorded a 12.35s GREEN before this inventory sync; final combined-HEAD, full natural campaign and platform/live acceptance remain pending."
     },
     "mark": {
-      "tasks": ["TASK-14.1", "TASK-47", "TASK-62"],
-      "entryPoints": ["src/lua/abyss_potion_health.lua", "src/lua/abyss_relic_hooks.lua", "src/lua/abyss_actor.lua", "src/lua/abyss_run.lua"],
-      "local": {"status": "coverage-recorded", "testFiles": ["tests/lua/mark_of_bloom_healing.lua", "tests/lua/mark_of_bloom_obtain.lua", "tests/mark-of-bloom-source.test.mjs", "tests/lua/event_combat_bridge.lua"]},
-      "platform": {"status": "pending-per-item", "evidence": []},
-      "live": {"status": "pending-natural-acquisition-and-execution", "evidence": []},
+      "tasks": [
+        "TASK-14.1",
+        "TASK-47",
+        "TASK-62"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_potion_health.lua",
+        "src/lua/abyss_relic_hooks.lua",
+        "src/lua/abyss_actor.lua",
+        "src/lua/abyss_run.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/mark_of_bloom_healing.lua",
+          "tests/lua/mark_of_bloom_obtain.lua",
+          "tests/mark-of-bloom-source.test.mjs",
+          "tests/lua/event_combat_bridge.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
       "presentation": "placeholder-glyph-device-acceptance-pending",
       "limitation": "Named SPECIAL obtain, MindBloom Awake, Run/Nodes camp/Cleric/combat-end healing and the shared player healing gate are locally wired. Component tests and the integration bridge fixture (12.35s GREEN) are recorded; final combined-HEAD, whole natural campaign and platform/live acceptance remain pending. Existing no-Mark values and enemy healing are retained."
     },
@@ -3907,6 +3981,102 @@
   ],
   "relics": [
     {
+      "id": "sacred_bark",
+      "sourceId": "SacredBark",
+      "source": "data/relics.json#sacred_bark",
+      "profile": "relics",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalAcquisitionLimitation": "Complete Boss queue identity retained. Source seed15 has SacredBark as its second Boss offer; controlled Boss completion and public claim are not a natural full-route or platform certificate.",
+      "naturalExecutionLimitation": "Source potion potency doubles once, including existing inventory and automatic Fairy; fixed mechanisms are not repeated. Boss17-to-Act2 effect coverage is local; natural/platform/live, dedicated art and complete inventory acceptance remain pending."
+    },
+    {
+      "id": "white_beast_statue",
+      "sourceId": "White Beast Statue",
+      "source": "data/relics.json#white_beast_statue",
+      "profile": "relics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Complete source queues retain exact identity. Controlled channel/effect regressions do not certify natural acquisition or platform/live acceptance."
+    },
+    {
+      "id": "pear",
+      "sourceId": "Pear",
+      "source": "data/relics.json#pear",
+      "profile": "maxHpRelics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Complete source queue chest/elite/shop acquisition; no filtering or retry based on implementation. Offline public-channel fixtures do not certify a complete natural campaign or platform/live acquisition."
+    },
+    {
+      "id": "mango",
+      "sourceId": "Mango",
+      "source": "data/relics.json#mango",
+      "profile": "maxHpRelics",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Complete source queue chest/elite/shop acquisition; no filtering or retry based on implementation. Offline public-channel fixtures do not certify a complete natural campaign or platform/live acquisition."
+    },
+    {
+      "id": "old_coin",
+      "sourceId": "Old Coin",
+      "source": "data/relics.json#old_coin",
+      "profile": "relics",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Source canSpawn excludes shops and floor49+, without rerolling unsupported effects. Natural acquisition, art and platform/live acceptance pending."
+    },
+    {
+      "id": "frozen_egg",
+      "sourceId": "Frozen Egg 2",
+      "source": "data/relics.json#frozen_egg",
+      "profile": "relics",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalAcquisitionLimitation": "Exact source queue and floor48 gate. Obtained power cards upgrade once; dedicated art and natural/platform/live acceptance pending."
+    },
+    {
+      "id": "coffee_dripper",
+      "sourceId": "Coffee Dripper",
+      "source": "data/relics.json#coffee_dripper",
+      "profile": "relics",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalAcquisitionLimitation": "Complete boss source queue identity preserved; natural acquisition and platform/live acceptance pending.",
+      "naturalExecutionLimitation": "Prepared energy +1 and camp rest prohibition locally covered. Subsequent-act natural execution, dedicated art and device acceptance pending."
+    },
+    {
+      "id": "fusion_hammer",
+      "sourceId": "Fusion Hammer",
+      "source": "data/relics.json#fusion_hammer",
+      "profile": "relics",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalAcquisitionLimitation": "Complete boss source queue identity preserved; natural acquisition and platform/live acceptance pending.",
+      "naturalExecutionLimitation": "Prepared energy +1 and camp smith prohibition locally covered. Noncamp upgrade remains legal. Subsequent-act natural execution, art and device acceptance pending."
+    },
+    {
       "id": "lizard_tail",
       "sourceId": "Lizard Tail",
       "source": "data/relics.json#lizard_tail",
@@ -4531,30 +4701,6 @@
       ],
       "naturalAcquisitionLimitation": "EventRoom fixed reward after actual Mushrooms combat only; excluded from ordinary treasure/shop/rarity queues. Native and natural full campaign acceptance pending.",
       "naturalExecutionLimitation": "Actual event obtain and next-battle player-only Vulnerable +25% have controlled local coverage. Approved shared treasure icon is an explicit placeholder; dedicated art/device acceptance pending."
-    },
-    {
-      "id": "pear",
-      "sourceId": "Pear",
-      "source": "data/relics.json#pear",
-      "profile": "maxHpRelics",
-      "rarity": "uncommon",
-      "channels": [
-        "treasure",
-        "shop_relic"
-      ],
-      "naturalAcquisitionLimitation": "Complete source queue chest/elite/shop acquisition; no filtering or retry based on implementation. Offline public-channel fixtures do not certify a complete natural campaign or platform/live acquisition."
-    },
-    {
-      "id": "mango",
-      "sourceId": "Mango",
-      "source": "data/relics.json#mango",
-      "profile": "maxHpRelics",
-      "rarity": "rare",
-      "channels": [
-        "treasure",
-        "shop_relic"
-      ],
-      "naturalAcquisitionLimitation": "Complete source queue chest/elite/shop acquisition; no filtering or retry based on implementation. Offline public-channel fixtures do not certify a complete natural campaign or platform/live acquisition."
     },
     {
       "id": "lees_waffle",
@@ -5396,18 +5542,13 @@
   "requiredScope": {
     "milestone": "M3",
     "characters": [
-      "ironclad",
-      "silent",
-      "defect",
-      "watcher"
+      "ironclad"
     ],
     "acts": [
       1,
-      2,
-      3,
-      4
+      2
     ],
-    "scopeDecision": "2026-10-26 user explicitly includes Acts2/3/hidden4 in M3",
+    "scopeDecision": "2026-10-29 user approves Geo Traveler only for this two-act release; Raiden deferred",
     "implementationLedger": "data/release/m3-campaign.json",
     "status": "not-accepted"
   },

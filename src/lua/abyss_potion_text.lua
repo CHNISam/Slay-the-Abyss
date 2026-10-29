@@ -1,15 +1,14 @@
 -- One presentation source for the new potion effects across battle, inventory
 -- and shop. Values are computed from the same held Bark/slot context as use.
-local H=require('abyss_relic_hooks')
+local Inventory=require('abyss_inventory')
 local N=require('abyss_numbers').integer
 local M={}
 local kinds={attack='攻击',skill='技能',power='能力',colorless='无色'}
 function M.special(item,owner,expanded)
  owner=owner or {}
- local bark=H.owns(owner,'sacred_bark') or H.owns(owner,'SacredBark')
  local parts={}
  for _,e in ipairs(item.effects or {})do
-  local value=N((e.value or 0)*(bark and 2 or 1))
+  local value=N(Inventory.potionValue(owner,e)or 0)
   if e.op=='classPotion'and e.kind=='focus'then parts[#parts+1]='集中+'..value..'，本场战斗有效；不影响等离子充能球'
   elseif e.op=='classPotion'and e.kind=='capacity'then parts[#parts+1]='球槽+'..value..'，总数最多10；新增空槽，本场战斗有效'
   elseif e.op=='classPotion'and e.kind=='darkness'then parts[#parts+1]='按总球槽数，每个球槽'..value..'颗生成黑暗球；满槽时依次唤起最左球腾位，0槽无效果；不预先唤起全部球'
@@ -37,9 +36,8 @@ function M.note(item)
  return nil
 end
 function M.shop(item,owner)
- local bark=H.owns(owner,'sacred_bark') or H.owns(owner,'SacredBark')
  for _,e in ipairs(item.effects or {})do
-  local value=N((e.value or 0)*(bark and 2 or 1))
+  local value=N(Inventory.potionValue(owner,e)or 0)
   if e.op=='classPotion'and e.kind=='focus'then return '集中+'..value..'（本场战斗）\n不影响等离子充能球'
   elseif e.op=='classPotion'and e.kind=='capacity'then return '球槽+'..value..'（最多10）\n新增空槽·本场战斗有效'
   elseif e.op=='classPotion'and e.kind=='darkness'then return '按总球槽数：每个球槽'..value..'颗黑暗球\n满槽唤起最左球腾位·0槽无效果'
@@ -64,7 +62,7 @@ function M.describe(owner,id)
         local definition=find(owner.data.potions.potions,id);local special=definition and M.shop(definition,owner);if special then return special end
         local parts={}
         for _,effect in ipairs(definition and definition.effects or {}) do
-            local value=number(effect.value or 0)
+            local value=number(Inventory.potionValue(owner,effect)or 0)
             if effect.op=='damage' then parts[#parts+1]='单敌固定伤害'..value
             elseif effect.op=='damageAll' then parts[#parts+1]='全体敌人伤害'..value..'（不受力量、虚弱、易伤影响）'
             elseif effect.op=='block' then parts[#parts+1]='自己固定格挡'..value

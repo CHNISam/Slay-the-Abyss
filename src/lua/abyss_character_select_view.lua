@@ -8,7 +8,7 @@ local function selected(box,value)
 end
 function M.render(panel,state,platform)
     local info=state.info
-    panel:GetChild('hint').text=info and '查看初始信息，确认后开始冒险。' or '点击下方角色查看详情，再确认出发。'
+    panel:GetChild('hint').text=state.notice or (info and '查看初始信息，确认后开始冒险。' or '点击下方角色查看详情，再确认出发。')
     for i,id in ipairs(Select.characters)do
         local box=panel:GetChild(i==5 and 'traveler' or 'character'..i)
         local allowed=state:allowsCharacter(id)

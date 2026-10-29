@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,7 +10,7 @@ import {preRetirementSource} from './helpers/presentation-announcement-retiremen
 import {controlsGuide} from '../scripts/controls-guide-layout.mjs';
 import {preRosterSource} from './helpers/competition-roster-source-inverse.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
-const read=path=>preRosterSource(path,readFileSync(path,'utf8'));
+const read=path=>preRosterSource(path,preAcceptedPr323Source(path,readFileSync(path,'utf8')));
 function invert(source,binding){
  assert.equal(hash(source),binding.afterSha256);
  for(const edit of binding.edits){assert.equal(source.split(edit.after).length,2);source=source.replace(edit.after,edit.before);}

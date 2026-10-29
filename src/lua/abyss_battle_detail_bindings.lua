@@ -134,7 +134,7 @@ function M.install(owner, _ownership, host, dependencies)
         end
         for slot=1,L.battlePotions.count do
             local index=slot
-            bindHelp(dependencies.child("potionHelp"..slot),function() return owner:potionHelpSpec(index) end,true)
+            bindHelp(dependencies.child("potionHelp"..slot),function() return owner:potionHelpSpec(index) end,false)
             bindHelp(dependencies.child("potion"..slot),function() return owner:potionHelpSpec(index) end,false)
         end
     end

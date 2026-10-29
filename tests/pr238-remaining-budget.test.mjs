@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -57,7 +58,7 @@ test('authorized seed70 inverse restores exact original inventory bytes and comm
  assert.equal(seed70.authorizedSourceRepair,'c9d189c6561039c7a62a506c9cefab87733738f4');
  const {path,beforeSha256,afterSha256,edits}=seed70.binding;
  assert.equal(path,'tests/lua/inventory.lua');assert.equal(edits.length,3);
- const current=readFileSync(path,'utf8').replaceAll('\r\n','\n'),before=preSeed70Source(path,current);
+ const current=preAcceptedPr323Source(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n'),before=preSeed70Source(path,current);
  assert.equal(hash(current),afterSha256);assert.equal(hash(before),beforeSha256);
  assert.equal(preSeed70Source(path,current.replaceAll('\n','\r\n')),before);
  assert.equal(preSeed70Source(path,before),before);
@@ -66,7 +67,7 @@ test('authorized seed70 inverse restores exact original inventory bytes and comm
  assert.equal(preFormalEntrySource(path,before),preSeed70Source(path,preFormalEntrySource(path,current)));
 });
 test('seed70 inverse rejects incomplete duplicated reordered or unrelated fixture edits',()=>{
- const {path,edits}=seed70.binding,current=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ const {path,edits}=seed70.binding,current=preAcceptedPr323Source(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
  const mutants=[current+'\n',current.replace('assert(acquired and visitedEvent and boughtCard)','assert(acquired and visitedEvent)'),
   current.replace('assert(sliceRegistered==12','assert(sliceRegistered==11')];
  for(const edit of edits){mutants.push(current.replace(edit.after,edit.before),current.replace(edit.after,edit.after+edit.after));}

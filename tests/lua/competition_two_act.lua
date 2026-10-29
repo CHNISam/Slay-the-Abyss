@@ -167,7 +167,7 @@ test('competition has original non-final-act key policy even with supplied histo
  assert(not source and why=='ending_unavailable')
 end)
 
-test('competition never reads or records source WIN/SPIRITS or enables next-run history',function()
+test('competition disables platform WIN/SPIRITS persistence while retaining session-only Neow history',function()
  local Ending,Neow=require('abyss_ending_history'),require('abyss_neow_history')
  local calls=0;local owner=Ending.new({read=function()calls=calls+1;error('must not read')end,
   write=function()calls=calls+1;error('must not write')end})
@@ -176,8 +176,14 @@ test('competition never reads or records source WIN/SPIRITS or enables next-run 
  local history=assert(Ending.begin(owner,run,{seedSet=false,isDailyRun=false,isTrial=false}))
  assert(history.unlocked==false and history.readStatus=='disabled'and history.persistence=='disabled')
  assert(Nodes.leaveTreasure(run))
- assert(not Ending.finish(owner,run,map)and not Neow.finish(neow,run,'victory'))
- assert(calls==0 and not owner.loaded and not owner.sessionWon and next(neow.entries)==nil)
+ assert(not Ending.finish(owner,run,map))
+ assert(calls==0 and not owner.loaded and not owner.sessionWon)
+ assert(Neow.finish(neow,run,'victory'))
+ local entry=assert(Neow.read(neow,'ironclad',true))
+ assert(entry.bossCount==1 and entry.source=='session-completed-run')
+ assert(neow.finished[run] and not Neow.finish(neow,run,'victory'))
+ assert(calls==0 and not owner.loaded and not owner.sessionWon)
+ assert(history.unlocked==false and history.readStatus=='disabled' and history.persistence=='disabled')
 end)
 
 print('COMPETITION_TWO_ACT_PASS '..count..'; controlled boundaries; native/natural NOT_RUN')

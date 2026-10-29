@@ -45,6 +45,12 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         presentation=value
     end
     local grid = assert(root:GetChild("grid"), "missing deck grid")
+    local function liveFaces(fn)
+        for control in pairs(self.bindings)do
+            if control.alive==false then self.bindings[control]=nil
+            else fn(control:GetChild('face')) end
+        end
+    end
     local details,detailHit=root:GetChild('details'),root:GetChild('detailHit')
     local function closeLabel(value)
         for _,state in ipairs({'normal','hover','pressed','disabled'}) do
@@ -58,6 +64,12 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     function self.showDetails(_,definition,upgraded)
         if not self.visible or self.choiceToken or not definition.originalV4 then return false end
         local raw=OriginalDisplay.describe(definition,upgraded)
+        local keywords=OriginalDisplay.keywordDefinitions(definition,upgraded)
+        if keywords~=''then raw=raw..'\n'..keywords end
+        return self:showText(definition.name..(upgraded and '+' or ''),raw)
+    end
+    function self.showText(_,title,raw)
+        if not self.visible or self.choiceToken then return false end
         -- Bound each page using the shared viewport/font, counting a CJK codepoint
         -- as a full em. Do not truncate rules; every wrapped line stays reachable.
         local columns=math.max(1,math.floor(Theme.layout.deckView.viewport[3]/Theme.font.body)-2)
@@ -73,9 +85,18 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             local page={};for j=i,math.min(i+rows-1,#lines) do page[#page+1]=lines[j] end
             self.detailPages[#self.detailPages+1]=table.concat(page,'\n')
         end
-        self.detailTitle=definition.name..(upgraded and '+' or '')
+        self.detailTitle=title
         self.detailPage=1;grid:SetVisible(false);details:SetVisible(true);detailHit:SetVisible(true)
         closeLabel('返回');detailPage();return true
+    end
+    function self.inspectText(_,run,title,raw)
+        if self.visible then return false end
+        self.visible,self.run,self.detailOnly=true,run,true
+        self.generation=self.generation+1;root:SetVisible(true);root:SetAsLastSibling()
+        root:GetChild('close'):SetVisible(true)
+        local close=root:GetChild('close'):GetChild('hit');close.interactable,close.raycastTarget=true,true
+        for _,name in ipairs({'previous','next','pageHint'})do root:GetChild(name):SetVisible(false) end
+        return self:showText(title,raw)
     end
     function self.inspect(_,run,definition,upgraded)
         if self.visible or not definition.originalV4 then return false end
@@ -96,9 +117,9 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             definition.repeatable and (instance.upgrades or 1) or nil,face:GetChild("type"),typeNames[definition.type] or definition.type)
         face:GetChild("name").fontColor = colour(Theme.cardSkin.text.title)
         -- Permanent cards carry no combat modifiers: fill live tokens with their own values.
-        local text=battle and CardDisplay.combatText(display,definition,instance,Combat.cardPreview(battle,instance))
+        local text=battle and CardDisplay.combatText(display,definition,instance,Combat.cardPreview(battle,instance),battle)
             or CardDisplay.permanentText(display,definition,instance)
-        CardDisplay.writeBody(face:GetChild("label"),text)
+        CardDisplay.writeBody(face:GetChild("label"),text,face)
         face:GetChild("cost").text = definition.cost == -2 and "" or definition.costMode == "all_energy" and "X" or tostring(definition.cost)
         tint(face:GetChild("border"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("nameBand"), Theme.color.rarityBand[definition.rarity] or Theme.color.rarityBand.basic)
@@ -117,6 +138,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             self.bindings[control]={}
             local function pick()
                 local b=self.bindings[control]
+                if control.alive==false or not b then return false end
                 if self.visible and not self.choiceToken and b.generation==self.generation then
                     return self:showDetails(b.definition,b.upgraded)
                 end
@@ -132,7 +154,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                 return pick()
             end)
             Controller.bind(platform.controller,hit,'deck',pick,function()
-                return self.visible and self.bindings[control].generation==self.generation
+                local b=self.bindings[control]
+                return control.alive~=false and self.visible and b~=nil and b.generation==self.generation
             end,10)
         end
         self.bindings[control].generation,self.bindings[control].uid=self.generation,instance.uid
@@ -209,7 +232,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                     or name=='next' and (self.controllerPage or 1)<pages;hit.raycastTarget=hit.interactable end
             end
         end
-        for control in pairs(self.bindings)do CardSkin.tick(control:GetChild("face"),dt or 0)end
+        liveFaces(function(face)CardSkin.tick(face,dt or 0)end)
         if not self.pending then return end
         self.pending, self.calibrating = false, false
         local generation, cards, catalog, base = self.generation, self.cards, self.catalog, self.indexBase
@@ -240,7 +263,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.multiple,self.choiceSelected=nil,nil
         self.detailPages,self.detailOnly=nil,nil
         details:SetVisible(false);detailHit:SetVisible(false)
-        root:SetVisible(false);for control in pairs(self.bindings)do CardDisplay.clearNativeArt(control:GetChild('face'))end
+        root:SetVisible(false);liveFaces(CardDisplay.clearNativeArt)
         grid:RefreshItems(0, function() end)
         return true
     end

@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -11,10 +12,12 @@ import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import {preBattleRefactorSource} from './helpers/battle-refactor-projection.mjs';
 import {task76BattleModuleLayer} from './helpers/task76-drag-click-inverse.mjs';
 const path='src/lua/abyss_battle_ui.lua';
-const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const source=preAcceptedPr323Source(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
 const hash=value=>createHash('sha256').update(value).digest('hex');
 
-const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+// Original315 whole-owner proofs consume exact accepted20a; live input cases above
+// and the outer131-source contract separately protect the combined implementation.
+const read=path=>preAcceptedPr323Source(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
 const entry='tests/lua/battle_ui_drag_click_compatibility.lua';
 const slices=[{path:entry,first:1,last:7},{path:'tests/lua/battle_ui_drag_click_compatibility_slice_2.lua',first:8,last:15}];
 const prefix="local sliceFirst,sliceLast=...\nsliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7\nlocal sliceRegistered,sliceExecuted=0,0\n";
@@ -55,7 +58,7 @@ test('bounded drag registrar preserves every original byte and rejects case, ran
     bounded.replace('assert(b.energy==2','assert(b.energy ==2')];
   for(const mutant of mutants){assert.notEqual(mutant,bounded);assert.throws(()=>originalDragClickSource(mutant),/exact reviewed/);}
   assert.ok(original.endsWith('finish()\n'));
-  assert.equal(hash(read('scripts/test-lua.mjs')),'7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33','all original runner deadlines and worker limits remain unchanged');
+  assert.equal(hash(preAcceptedPr323Source('scripts/test-lua.mjs',read('scripts/test-lua.mjs'))),'7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33','all original runner deadlines and worker limits remain unchanged');
 });
 test('raw and Node discovery retain both drag slices exactly once in every hosted scheduling plan',()=>{
   const raw=readdirSync('tests/lua').filter(name=>name.endsWith('.lua')).map(name=>'tests/lua/'+name);

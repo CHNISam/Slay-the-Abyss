@@ -68,6 +68,17 @@ test('Act3 event bridge evidence preserves pending native and natural acceptance
   }
 });
 
+test('current release requires only Geo two acts while future campaign evidence stays incomplete', () => {
+  const manifest=fresh();
+  assert.deepEqual(manifest.requiredScope.characters,['ironclad']);
+  assert.deepEqual(manifest.requiredScope.acts,[1,2]);
+  const campaign=JSON.parse(readFileSync('data/release/m3-campaign.json','utf8'));
+  assert.deepEqual(campaign.currentReleaseScope.characters,['ironclad']);
+  assert.deepEqual(campaign.currentReleaseScope.acts,[1,2]);
+  assert.equal(campaign.currentReleaseScope.deferredCharacter,'raiden');
+  assert.equal(campaign.acceptance,'INCOMPLETE');
+});
+
 test('campaign ledger distinguishes Act3/Act4 local components from natural, persistent and native acceptance', () => {
   const campaign = JSON.parse(readFileSync('data/release/m3-campaign.json', 'utf8'));
   assert.equal(campaign.acceptance, 'INCOMPLETE');

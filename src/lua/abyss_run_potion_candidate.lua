@@ -38,13 +38,7 @@ end
 
 local function potionEffects(run,potion)
     local effects=Combat.copy(potion.effects)
-    if RelicHooks.owns(run,'sacred_bark') or RelicHooks.owns(run,'SacredBark')then
-        for _,effect in ipairs(effects)do
-            if effect.value and effect.op~='escape' and effect.op~='generatePotions' and effect.op~='randomizeHandCost' then
-                effect.value=effect.value*2.0
-            end
-        end
-    end
+    for _,effect in ipairs(effects)do effect.value=Inventory.potionValue(run,effect) end
     return effects
 end
 

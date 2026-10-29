@@ -25,10 +25,10 @@ test('normal Start accepts explicit platform mini history and generated buttons 
  assert(nodeClick(root,'eventView/option1'));eq(ui.mode,'map');eq(ui.run.neowStatus,'complete');eq(ui.map.floor,0)
  local first=F.Nodes.available(ui.run,ui.map)[1];assert(ui.mapUI:choose(first.id));eq(ui.run.phase,'combat')
 end)
-test('legacy prologue flag enters full-source Neow directly',function()
+test('approved prologue hands off to the full-source Neow only after its fade',function()
  local ui,root=fixture(4,function()return {bossCount=1}end,true)
  assert(testStart(ui));eq(ui.mode,'node');eq(ui.run.phase,'node');eq(ui.run.nodeFlow.event.id,'neow')
- assert(ui.prologue==nil);for _=1,60 do ui:update(.05)end
+ assert(ui.prologue:covering());assert(ui.prologue:skip());ui:update(1);ui:update(1)
  eq(ui.mode,'node');assert(root:GetChild('nodePanel').visible);assert(not root:GetChild('mapPanel').visible)
  assert(nodeClick(root,'eventView/option1'));eq(#ui.run.nodeFlow.event.rewards,4)
  assert(nodeClick(root,'eventView/option1'));eq(ui.nodeUI.picker,'neow_card')

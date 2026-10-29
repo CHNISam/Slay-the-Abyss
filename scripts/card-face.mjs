@@ -74,7 +74,7 @@ export function cardFaceChildren(theme, context, interactive = true) {
     hidden(plate('typeTag', frame([0,typeY],trim.typeTag), c.cardWell)),
     ...[['tagEdge',trim.typeTag[0]+trim.keyline*2,trim.typeTag[1]+trim.keyline*2,c.gold],['tagBody',...trim.typeTag,c.cardWell]].map(([name,width,height,colour])=>({name,kind:'container',position:[0,typeY],size:[width,height],children:roundedParts(width,height,height/2,colour,picture,plate,frame)})),
     text('type', frame([0,typeY],[w-s.s,l.nativeText.lineHeight]), '', f.small, c.gold),
-    text(node?'description':'label', frame([0,-top+card.textBox[1]/2+s.xs],card.textBox), '', f.card),
+    text(node?'description':'label', frame([0,-top+card.textBox[1]/2+s.border],card.textBox), '', f.card),
     orb('roleRing',frame([0,-h/2],[16,16]),c.cardWell),
     {name:'roleMark',kind:'container',position:[0,-h/2],size:[11,11],children:Object.keys(theme.cardSkin.roles).map(role=>({name:role,kind:'container',size:[11,11],children:emblem(role,picture,c.energy,c.cardWell)}))},
     // One native opacity layer: overlapping rounded parts would darken the centre twice.

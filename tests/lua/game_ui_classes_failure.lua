@@ -83,12 +83,24 @@ local function battle(ui,root,finishFeedback,competition)
     eq(ui.run.campaignProfile,competition and 'competition-two-act' or 'full-source')
     if ui.prologue then ui.prologue:cancel() end
     ui:refresh()
+    if competition then
+        assert(ui.run.nodeFlow.event.id=='neow')
+        assert(click(root,'nodePanel/eventView/option1'))
+        eq(#ui.run.nodeFlow.event.rewards,2)
+        assert(click(root,'nodePanel/eventView/option1')) -- actual mini Lament keeps the base maximum
+        assert(click(root,'nodePanel/eventView/option1'))
+        eq(ui.run.phase,'map')
+    end
     -- Exact unit entry deck; no natural acquisition, HP, energy or enemy overrides.
     ui.run.deck={}
     for i=1,12 do ui.run.deck[i]={uid=i,cardId=card,upgraded=true} end
     ui.run.nextDeckUid=13
     assert(Run.obtainPotion(ui.run,"block_potion"))
-    assert(Run.startCombat(ui.run,"cultist_solo"));ui:refresh()
+    if competition then
+        local first=require('abyss_map').available(ui.map)[1]
+        assert(first and first.floor==1 and ui.mapUI:choose(first.id))
+    else assert(Run.startCombat(ui.run,"cultist_solo"))end
+    ui:refresh()
     local slot
     for i,c in ipairs(ui.run.combat.hand) do if c.cardId==card then slot=i;break end end
     assert(slot);click(root,"battlePanel/card"..slot);click(root,"battlePanel/playArea")

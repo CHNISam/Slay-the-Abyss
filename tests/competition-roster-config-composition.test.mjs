@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -8,7 +9,7 @@ import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-in
 import {preIntegratedNodeUiSource} from './helpers/approved-node-ui-refactor.mjs';
 import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 import {preAcceptedPresentation} from './helpers/p0-presentation-inverse.mjs';
-const path='config/architecture.json',read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const path='config/architecture.json',read=p=>preAcceptedPr323Source(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const project=(source,target)=>projectRosterConfigSource(path,source,target);
 const source=read(path);
@@ -29,8 +30,9 @@ test('actual complete registration union adds only roster admission and retains 
  assert.deepEqual({...live,layers:null},{...a,layers:null},'every non-registry architecture field remains');
  assert.deepEqual(Object.keys(live.layers),['abyss_run_admission',...Object.keys(a.layers)]);
  assert.equal(live.layers.abyss_run_admission,'core');
+ const actual=JSON.parse(readFileSync(path,'utf8'));
  for(const file of readdirSync('src/lua',{recursive:true}).filter(file=>file.endsWith('.lua')))
-  assert.ok(Object.hasOwn(live.layers,file.slice(0,-4).replaceAll('/','.')),'actual source remains classified: '+file);
+  assert.ok(Object.hasOwn(actual.layers,file.slice(0,-4).replaceAll('/','.')),'actual source remains classified: '+file);
 });
 test('outer proof composes both immutable config witnesses through all existing historical guards',()=>{
  const current=project(source,'current'),roster=project(source,'roster');

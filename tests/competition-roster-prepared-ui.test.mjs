@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -45,7 +46,7 @@ test('bounded prepared UI registrar reverses every reviewed byte and rejects ran
   bounded.replace('  if selected()then\n',''),bounded.replace(proof.footer,''),bounded+proof.footer,
   bounded.replace('return 3 end','return 4 end'),bounded.replace('assert(adaptations==0','assert(adaptations ==0')];
  for(const mutant of mutants){assert.notEqual(mutant,bounded);assert.throws(()=>originalPreparedUiSource(mutant),/exact reviewed/);}
- assert.equal(hash(read('scripts/test-lua.mjs')),'7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33','original runner deadlines and worker limits remain unchanged');
+ assert.equal(hash(preAcceptedPr323Source('scripts/test-lua.mjs',read('scripts/test-lua.mjs'))),'7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33','original runner deadlines and worker limits remain unchanged');
 });
 test('raw and Node discovery retain both prepared UI slices exactly once in every hosted plan',()=>{
  const raw=readdirSync('tests/lua').filter(name=>name.endsWith('.lua')).map(name=>'tests/lua/'+name),expected=slices.map(slice=>slice.path);

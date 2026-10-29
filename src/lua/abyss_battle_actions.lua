@@ -5,6 +5,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local Events = require("abyss_events")
 local Controller = require("abyss_controller")
+local RewardOwner = require("abyss_battle_reward_owner")
 local M = {}
 local L = Theme.layout
 local reasons = { insufficient_energy = "能量不足", invalid_target = "请选择存活的敌人", card_content_unavailable = "此卡牌尚未实装，可选择其他卡牌或跳过。",
@@ -74,6 +75,7 @@ function M.install(owner, _ownership, host, dependencies)
         return not owner.active or owner.busy or owner.run ~= help.run or current ~= help.battle
             or current.turn ~= help.turn or actor ~= help.actor or not Actors.isPresent(actor)
             or help.spec.screenSlot and not dependencies.sameEnemySlot(help.spec.screenSlot,actor,current)
+            or help.spec.kind=='rewardCard' and not RewardOwner.ready(owner,help.spec)
     end
     local function helpPointerChanged(help)
         return owner.gesture and owner.gesture.moving
@@ -83,7 +85,7 @@ function M.install(owner, _ownership, host, dependencies)
         help.t = help.t + dt
         if help.t + 0.000001 >= L.statusInfo.delay then
             help.fired = true
-            if help.held and help.spec.kind == "card" then
+            if help.held and (help.spec.kind == "card" or help.spec.kind=='rewardCard') then
                 owner.gesture = nil
                 dependencies.cancelCardInputs()
                 owner.suppressClick = true

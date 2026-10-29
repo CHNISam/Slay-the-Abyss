@@ -13,6 +13,7 @@ local function fixture(experimental,bgm)
         local args={...}
         assert(args[5].campaignProfile=='competition-two-act')
         args[5].campaignProfile='full-source' -- explicit future/test host
+        args[5].characterProfile='dev' -- future/test hosts retain all eight loadouts
         host=new(table.unpack(args))
         return host
     end
@@ -39,8 +40,16 @@ local function start(host,root,button,element)
     if element then F.click(root,'characterPanel','elements/element'..element)end
     assert(not host.run,'selection must not create a Run')
     F.click(root,'characterPanel','confirm')
-    for _=1,8 do OnUpdate(.25)end
-    assert(host.mode=='map' and host.map.floor==0)
+    assert(host.prologue:covering() and not host.mapUI.navigationEnabled,
+        'the future/test entry also uses the real approved first-start opening')
+    assert(host.prologue:skip());OnUpdate(1);OnUpdate(1)
+    assert(not host.prologue:covering() and host.mode=='map' and host.map.floor==0)
+    assert(host.mapUI.navigationEnabled)
+    -- Unlike the bounded competition's fresh-start mini, the explicit full-
+    -- source host still needs a real provider/session record for Neow. This
+    -- fixture supplies neither, so it must not invent or skip a blessing.
+    assert(host.run.neowStatus=='unavailable' and host.run.neowUnavailableReason=='neow_history_unavailable')
+    assert(host.run.neowHistorySource==nil and host.run.nodeFlow==nil)
     -- The real entry has no history provider. Never synthesize qualification
     -- or mistake a seeded controlled route for a persisted natural victory.
     local history=host.run.endingHistory

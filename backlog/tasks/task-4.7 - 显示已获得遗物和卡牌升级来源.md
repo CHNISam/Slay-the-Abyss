@@ -5,13 +5,15 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 14:39'
-updated_date: '2026-10-29 00:13'
+updated_date: '2026-10-29 04:17'
 labels: []
 milestone: m-4
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
   - docs/backlog-details/MOBILE-QA-20261028.md
+  - docs/evidence/backlog-merge-20261029.json
+  - docs/backlog-details/TRAVELER-SCOPE-20261029.md
 parent_task_id: TASK-4
 priority: medium
 ordinal: 123000
@@ -37,4 +39,9 @@ ordinal: 123000
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-29 完整验收承接PR304原四项及附件§5–6；用户该局升级来源仍未知，不能猜测已拿战纹或将受控休息阴性对照当作用户异常已关闭。保留既有电脑和手机同候选验收，新增明确的身份、来源和只读安全要求均未勾，不表示已实现。
+
+PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范围以docs/SCOPE.md仅岩旅行者两幕为准）：
+完整持有列表入口已实现，42件含重复分页/正文/关闭/重开/旧endTurn跨弹窗拒绝两场景通过；父线程独立复验通过并经只读审查。升级来源追踪、缺定义文案和实体PC/手机仍未验，原AC不勾。
+
+合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 <!-- SECTION:NOTES:END -->

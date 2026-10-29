@@ -1,13 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { cardFaceChildren } from './card-face.mjs';
 import { potionSlotVisual } from './potion-slot-visual.mjs';
+import { nativeFontSize } from './native-ui-theme.mjs';
 
 // One source of tokens for both the native tree and its Lua controller.
 export const theme = JSON.parse(readFileSync(new URL('../data/presentation/ui_theme.json', import.meta.url), 'utf8'));
 const { color: c, font: f, image: im, layout: l, space: s } = theme;
 const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text) => ({
   name, kind: 'text', position: [x, y], size: [w, h],
-  text: { content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: f.minimum },
+  text: { content, fontSize: nativeFontSize(fontSize, f.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(f.minimum) },
 });
 const aligned = (control, align = 'left') => ({ ...control, text: { ...control.text, align } });
 const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image, colour });

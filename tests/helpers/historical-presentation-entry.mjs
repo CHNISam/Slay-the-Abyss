@@ -5,14 +5,17 @@ import {spawnSync} from 'node:child_process';
 import {runLua} from '../../scripts/test-lua.mjs';
 import {materializeHistoricalPresentation} from './p0-presentation-inverse.mjs';
 import {preRetirementSource} from './presentation-announcement-retirement.mjs';
+import {historicalPresentationFixtures} from './historical-presentation-runner.mjs';
 const script=process.argv[2],timeout=Number(process.argv[3]),started=Date.now();
-assert.equal(script,'tests/lua/presentation_responsibilities_trace.lua');
+assert.ok(historicalPresentationFixtures.includes(script),'only exact historical presentation fixtures');
 const remaining=()=>{
  const value=timeout-(Date.now()-started);
  assert(value>0,'historical presentation fixture exceeded its original total deadline');return value;
 };
 mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/historical-presentation-'));
-console.log('Historical presentation replay: all 81392 frozen native writes; current UI is verified separately.');
+console.log(script.endsWith('_trace.lua')
+ ? 'Historical presentation replay: all 81392 frozen native writes; current UI is verified separately.'
+ : 'Historical presentation replay: all 361 frozen wording records; current wording is verified separately.');
 try{
  for(const input of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
   cpSync(input,join(directory,input),{recursive:true});

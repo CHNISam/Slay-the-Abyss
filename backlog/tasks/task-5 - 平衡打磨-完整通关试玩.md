@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-28 14:31'
+updated_date: '2026-10-29 01:55'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -29,6 +29,8 @@ dependencies:
 references:
   - docs/backlog-details/TASK-5.md
   - docs/DELIVERY-CLOSEOUT.md
+  - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/evidence/backlog-merge-20261029.json
 priority: medium
 ordinal: 2
 ---
@@ -36,7 +38,7 @@ ordinal: 2
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-10月29日同一候选真实复验两职业两幕，修复必要问题并重测。
+10月29日同一候选真实复验岩系旅行者单角色两幕，修复必要问题并重测。用户自述自然通关与候选hash未知的边界单独保留。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -46,8 +48,14 @@ ordinal: 2
 - [ ] #3 保存这个版本的试玩录像、截图和测试记录，分清做完、导入和实际玩过。
 - [ ] #4 10月29日确定最终版本；修过问题后重测受影响的地方，不能拼用不同版本的结果。
 - [ ] #5 RC候选中首发资产、背景及音频的实际启用状态与最终批准清单一致；逐项引用TASK-4及47证据，未接入、静音或未导入不能作为已验收版本。
-- [ ] #6 同一RC两职业从正常开局分别合法连续通关两幕并结算，记录耗时、胜败、重开和设备证据，不靠调试造资源。
+- [ ] #6 同一RC岩系旅行者从正常开局合法连续通关第一幕、第二幕并结算，记录耗时、胜败、重开和设备证据，不靠调试造资源。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-29角色范围仅旅行者；同一RC、PC和手机、自然流程、失败重开、音画及受影响回归标准保持。雷电将军转后续TASK-85。
+<!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
@@ -63,4 +71,8 @@ ordinal: 2
 原描述（历史）：10月29日按同一候选完整复验四职业、第一至隐藏第四幕及已批准原创角色内容，覆盖普通与真结局。只修必要问题，修后重测受影响范围；未齐不能冻结为已验收版本。
 
 2026-10-28范围决定：比赛范围见 docs/SCOPE.md；旧验收文字保留于历史记录，本次未新增通过证据。原受影响验收：同一RC中四职业分别从正常开局合法连续通关第一幕、第二幕并到达比赛本局结果，优先核验前10分钟完整体验；不降难度、不靠调试造资源，保留胜败、重开和同候选证据。第三幕/隐藏第四幕/真结局及持久存档依赖不在本次比赛范围。
+
+2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
+
+合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 <!-- SECTION:NOTES:END -->

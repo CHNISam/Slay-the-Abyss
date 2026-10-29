@@ -67,12 +67,24 @@ function M.install(owner, ownership, host, _dependencies)
     end
     local function cancelPotionAim(message)
         if not owner.potionAim then return false end
+        local aim=owner.potionAim
+        if aim.moving and aim.input then
+            aim.input.held,aim.input.released=nil,nil
+            aim.input.consumed={touch=aim.touch}
+            -- Explicit command wrappers may clear suppression before rejecting
+            -- this invalidated aim. Retain that release's finite origin, while
+            -- true stale/resize cancellation barriers remain deliberately true.
+            if owner.suppressClick==false then
+                ownership.releasedDragTouch,owner.suppressClick=aim.touch,aim
+            end
+        end
         owner.potionAim = nil
         if message then notice(message) end
         return true
     end
     local function aimReady(aim)
         if not potionReady(aim) then return false end
+        if aim.moving and (not aim.input or not aim.input.held or aim.input.held.aim~=aim) then return false end
         local enemies = aim.battle.enemies
         if #enemies ~= #aim.actors then return false end
         for i, actor in ipairs(aim.actors) do

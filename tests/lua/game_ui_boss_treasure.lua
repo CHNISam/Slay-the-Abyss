@@ -137,9 +137,10 @@ end)
 test('real seed1 source offer keeps unavailable identities visible and rejects every claim atomically',function()
     local ui,root=enterTreasure(nil,nil,true)
     local expected={'Snecko Eye','Calling Bell','Cursed Key'} -- existing independent host-JDK vector.
+    local displayNames={'异蛇之眼','召唤铃铛','诅咒钥匙'}
     for i,id in ipairs(expected)do
         assert(ui.run.nodeFlow.reward.items[i].sourceId==id)
-        assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/name').text=='遗物 · '..id)
+        assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/name').text=='遗物 · '..displayNames[i])
         assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/description').text:find('暂不可领取',1,true))
         assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/disabled').visible)
         local before=F.Combat.copy(ui.run)

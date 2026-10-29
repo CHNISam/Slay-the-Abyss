@@ -172,9 +172,41 @@ function M.writeTitle(control,name,upgraded,upgrades,typeControl,typeText)
     if typeControl then typeControl.text=typeText..(marker~='' and ' '..marker or '') end
     return fits
 end
-function M.writeBody(control,text)
-    local box=Theme.layout.card.textBox
+local bodyFrames=setmetatable({},{__mode='k'})
+local function bodyFrame(box,compact)
+    if bodyFrames[box]==compact or not compact and bodyFrames[box]==nil then return end
+    bodyFrames[box]=compact
+    local card,S=Theme.layout.card,Theme.space
+    local height=compact and card.longTextArt or card.art
+    local y=card.size[2]/2-card.nameBand-height/2-S.border
+    for _,name in ipairs({'artPlate','artWell','art','art_attack','art_skill','art_power','art_status','art_curse'})do
+        local ok,part=pcall(box.GetChild,box,name)
+        if not ok then part=nil end
+        if part and part.alive~=false then
+            part:SetAnchoredPosition(0,y)
+            if name=='artPlate' or name=='artWell' then
+                part:SetSizeDelta(card.size[1]-S.border*2,height)
+            else part:SetLocalScale(height/card.art,height/card.art,1)end
+        end
+    end
+    for _,kind in ipairs({'attack','skill','power'})do
+        local part=box:GetChild('skin'):GetChild(kind)
+        part:SetAnchoredPosition(0,y);part:SetLocalScale(1,height/card.art,1)
+    end
+    local typeY=card.size[2]/2-card.nameBand-height-card.typeLine/2-S.border
+    for _,name in ipairs({'type','typeEdge','typeTag','tagEdge','tagBody'})do box:GetChild(name):SetAnchoredPosition(0,typeY)end
+end
+function M.writeBody(control,text,face)
+    local card=Theme.layout.card
+    local box=card.textBox
     local font,fits=M.fit(text,Theme.font.card,box[1],box[2])
+    local compact=not fits
+    if compact then box=card.longTextBox;font,fits=M.fit(text,Theme.font.card,box[1],box[2])end
+    if control.SetSizeDelta then
+        control:SetSizeDelta(box[1],box[2])
+        control:SetAnchoredPosition(0,-card.size[2]/2+box[2]/2+(compact and Theme.space.xs or Theme.space.border))
+    end
+    if face then bodyFrame(face,compact)end
     control.text,control.fontSize=text,font
     return fits
 end
@@ -242,14 +274,52 @@ function M.format(template, definition, preview, palette)
     end))
 end
 function M.permanentText(display,definition,instance)
-    if definition.originalV4 then return require('abyss_original_v4_display').brief(definition,instance.upgraded)end
+    if definition.originalV4 then return require('abyss_original_v4_display').faceText(definition,instance.upgraded,nil,
+        {gold=Theme.color.goldBright,dim=Theme.color.textMuted})end
     local text=instance.upgraded and display.upgradeText or display.text
     if definition.id=='mind_blast' then return text or '' end
     local live=instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
     return live and M.format(live,definition,{},Theme.color) or text or ''
 end
-function M.combatText(display,definition,instance,preview)
-    if definition.originalV4 then return require('abyss_original_v4_display').brief(definition,instance.upgraded,preview)end
+local function originalReference(definition,upgraded,kind)
+    local raw=definition.originalV4
+    local version=raw[upgraded and 'upgrade' or 'base']
+    local value,count=0,0
+    for _,e in ipairs(version.effects)do
+        if e.op=='when' or e.op=='damage_spent' then return end
+        if e.op==kind then
+            if kind=='damage' and e.target=='all' then return end
+            value=value+e.n*(e.hits or 1);count=count+1
+        end
+    end
+    return count>0 and value or nil
+end
+local function originalLive(value,reference)
+    local direction=reference and valueDirection(reference,value) or 'same'
+    local style=valueStyles[direction]
+    if direction=='same' then return integer(value)end
+    local c=Theme.color[style.colourKey]
+    return '<color='..string.format('#%02X%02X%02X',c.r,c.g,c.b)..'>'..integer(value)..style.arrow..'</color>'
+end
+local function originalCombatText(definition,instance,preview,battle,target)
+        local context
+        if battle and battle.originalV4 and battle.originalV4.role=='RD' then
+            context={snapshot=require('abyss_original_v4').snapshot(battle,battle.enemies[target])}
+        end
+        local text=require('abyss_original_v4_display').faceText(definition,instance.upgraded,context,
+            {gold=Theme.color.goldBright,dim=Theme.color.textMuted})
+        local damage,block=0,0
+        for _,entry in ipairs(preview)do
+            if entry.op=='block' then block=block+entry.low else damage=damage+(entry.actual or 0)end
+        end
+        local parts={}
+        if damage>0 then parts[#parts+1]='扣血'..originalLive(damage,originalReference(definition,instance.upgraded,'damage'))end
+        if block>0 then parts[#parts+1]='格挡'..originalLive(block,originalReference(definition,instance.upgraded,'block'))end
+        if #parts>0 then text=text..table.concat(parts,'/')..'。'end
+        return text
+end
+function M.combatText(display,definition,instance,preview,battle,target)
+    if definition.originalV4 then return originalCombatText(definition,instance,preview,battle,target)end
     local text=instance.upgraded and display.upgradeText or display.text
     local live=instance.upgraded and display.upgradeCombatText or not instance.upgraded and display.combatText
     if live then text=M.format(live,definition,preview,Theme.color)end

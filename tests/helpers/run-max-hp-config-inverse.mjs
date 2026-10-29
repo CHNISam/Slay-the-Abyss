@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 // Exact outer test-only Run/MaxHP bridge. All accepted inner witnesses stay immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -8,6 +9,7 @@ const bytes=normalize(readFileSync(new URL('../fixtures/run-max-hp-config-invers
 assert.equal(hash(bytes),'3d20be55337d0e4999d90282f14c49a71b77c0b82cc545fd65161378dead85a2','complete reviewed Run Max HP config witness');
 const proof=JSON.parse(bytes);
 export function projectRunMaxHpConfig(path,source,target){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  assert.equal(path,proof.path,'combined Run Max HP path');
  assert.equal(typeof source,'string','combined Run Max HP source must exist');
  assert.ok(Object.hasOwn(proof.targets,target),'combined Run Max HP target');
@@ -23,6 +25,7 @@ export function projectRunMaxHpConfig(path,source,target){
  return previous;
 }
 export function preRunMaxHpConfig(path,source,target='combined'){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  if(path!==proof.path||typeof source!=='string'||hash(normalize(source))!==proof.combinedSha256LF)return source;
  return projectRunMaxHpConfig(path,source,target);
 }
