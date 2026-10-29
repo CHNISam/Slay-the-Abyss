@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-29 01:54'
+updated_date: '2026-10-29 03:23'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -20,7 +20,7 @@ ordinal: 121000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-已有八角色选角代码保留供Alpha测试；正式版入口遵守TASK-59职业白名单。
+已有八种角色选角实现保留供显式full-source开发测试；本次比赛正式入口只开放岩系旅行者，雷电将军留到下一版本。历史八形态离线证据不替代本轮单角色候选或设备验收。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -28,7 +28,7 @@ ordinal: 121000
 - [x] #1 正式原生入口统一显示五名角色及旅行者四元素，选择时只更新详情与单选高亮，确认后仅创建一次正确的Run。
 - [x] #2 返回、取消、重开、鼠标触摸与手柄输入隔离通过离线回归；默认不播放旧序章，Neow、地图及战斗兼容。
 - [ ] #3 原生构建与现有必要门禁通过，最新develop同步后提交并合入PR；实机和设备未验收范围如实记录。
-- [ ] #4 正式版只显示通过验收的岩系旅行者及雷电将军，其他六角色及其配置入口不可进入；允许只开放一个完整职业。
+- [ ] #4 正式比赛版只显示岩系旅行者，其余七种角色及其公开配置入口不可进入；显式full-source开发配置保留八种角色，雷电留到下一版本。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -49,6 +49,8 @@ ordinal: 121000
 2026-10-28 accepted303/develop03b11fa5组合真实回归修复：先线性同步两角色准入并复现run_choice_transactions的Act1/2 Watcher准入RED；仅将这两个真实Omniscience/Empty Fist来源房间回滚夹具明确标为full-source，保留实际获取、奖励随机流、全图alias、异常值、重试及单次提交断言。生产比赛白名单、303回滚和319拆片/源码逆变换不改。原30秒预算串行复验事务与准入/源合同，记录守恒及新head/base独立审查；只本地提交，不推送，不勾平台/原生验收。
 
 2026-10-29 dot隔离集成修复：在ab0e742已审查运行模块基础上保留fd5d输入规格/未完成状态及6d7训练营文档，以原作者和-x接续PR317三提交。先保留prepared Silent经真实选角/原生点击/手柄进入预览适配的RED证据，再仅补选择修改与预览前的实际来源准入；增加严格最外层配置组合证明，保留原全部hash、fixture、断言和时限，并串行验证相关317/303/313/318/315及312工程门禁。仅本地分支供主线程复审，不推送、不改PR322、不占键鼠；负责人Furinya及AC3/4未完成状态保持。
+
+2026-10-29用户确认本次比赛只开放岩系旅行者，雷电将军保留全源码开发/未来版本；本轮在accepted develop e22a443e上重放PR322并保留选择前、适配前和取种子前身份拒绝，复原PR315原15项有界拖牌回归及accepted324探针；单角色公开入口和full-source八角色分别验证，只本地提交待根线程审查，不发布或实机。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -81,4 +83,8 @@ PR317 Full 40739581097/rules3(job123004776107)实际失败已本地复现：raw 
 2026-10-29独立审查RED：当前PR317在prepared Silent来源选择雷电时，直接命令、真实原生点击和手柄确认均先调用Original.prepare一次并抛character data already prepared；种子未消费、Run未创建，但未满足适配前拒绝。原始复现与日志已冻结，正在本地隔离分支修复，不能记准入或实机验收完成。已保留PR306比赛范围、Furinya和未勾AC3/4；旧八形态证据只作历史。
 
 2026-10-29 dot本地隔离修复：先保留原317三入口适配前拒绝失败、配置投影失败及RD来源展示Geo错配的RED，再修为显式比赛UI身份检查（select前与canConfirm）；M.options/Run/Admission/beginRun工厂语义未改。当前27情景复验通过（22.60秒，原30秒预算），覆盖三类不准入来源与RD→Geo三入口拒绝、来源在预览后变化、零适配/seed/Run、选择和来源图不变，以及一致marker与直接Run无options/full-source legacy兼容；raw catalogue→Raiden和默认岩主由原专项保留。25项严格历史/配置/16-Battle-owner源码合同通过，253注册字段1012类变异受检；旧fixture/hash/断言与预算不变。原生两幕与full-source八形态/Act3及受限Act4、菜单、启动/mock再验通过；303五类完整回滚、318及315在未改动的对应运行模块上已通过，四个关键语义变异均被原断言杀死。最终源码collector和本地分支交主线程复审，未运行最终整体Quality或设备/自然通关，不改AC3/4及Furinya/In Progress，不推送/合并/发布。实际主线后续308初始化抽取须由主线程保留新facade/helpers并在prepareProfile适配前移植317早期准入，不回写旧Run覆盖已合工作。
+
+2026-10-29单角色范围同步：用户本次确认覆盖旧两职业公开要求。AC1/2勾选仅原有历史离线证据原样保留，不是本次公开入口验收；AC3/4保持未勾。雷电冻结V4与全源码八形态留开发/未来版本，不冒充本次候选、实机或自然通关通过。
+
+2026-10-29本地组合基于accepted develop e22a443e，线性重放PR322截至813c84c2的有用实现，跳过其探针替代方案并逐字保留accepted324两份原排序basename/cwd测试。315七份运行模块、原15用例有界两片及JS/worker登记逐字恢复5ef4a37a；完整16-owner和历史逆变换保留。公开competition-two-act只允许ironclad；适配、选角突变和取seed前拒绝Raiden/RD及所有prepared不符身份，显式full-source保留八角色/冻结V4雷电及原MaxHP安全拒绝。新增公开Raiden/已准备Raiden拒绝先红后绿；聚焦29/29零skip（真实拖牌7+8例，preparedUI33情景28.11秒/原30秒，正式两幕终点及full-source八形态/Act3/锁定Act4，活动MaxHP完整回滚）、严格逆变换23/23、范围30/30通过；架构257模块1425边，Luacheck零新增/37历史/941测量，语法/数据/网络检查通过。尚无本组合Full托管CI、原生GIL、官方导入/实机或自然通关；只本地提交交根线程独立审查，不新增验收勾选，不推送或合并。
 <!-- SECTION:NOTES:END -->

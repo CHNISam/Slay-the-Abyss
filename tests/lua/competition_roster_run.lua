@@ -15,7 +15,7 @@ local function same(a,b)
  if type(a)~='table'or type(b)~='table'then assert(a==b);return end
  for k,v in pairs(a)do same(v,b[k])end;for k in pairs(b)do assert(a[k]~=nil)end
 end
-test('canonical Geo and frozen Raiden remain admitted',function()
+test('canonical Geo is public and frozen Raiden remains explicit development',function()
  local geo=Run.new(Data,'3',options())
  assert(not geo.characterProfile and geo.maxHp==80 and geo.campaignProfile=='competition-two-act')
  local function unchangedPools(run,id,source)
@@ -29,16 +29,18 @@ test('canonical Geo and frozen Raiden remain admitted',function()
  end
  unchangedPools(geo)
  for _,id in ipairs({'raiden','RD'})do
-  local run=Run.new(Data,'3',options(id))
+  local full=options(id);full.campaignProfile='full-source'
+  local run=Run.new(Data,'3',full)
   assert(run.character=='raiden'and run.characterProfile.originalV4 and run.characterProfile.role=='RD')
-  assert(run.data.originalV4Role=='RD'and run.campaignProfile=='competition-two-act')
+  assert(run.data.originalV4Role=='RD'and run.campaignProfile=='full-source')
   assert(run.data.cards.starter_deck.cards[1]:match('^RD'))
   unchangedPools(run,id)
  end
  -- A shared raw catalogue carries default source metadata, not a selected role.
  local raw=Catalog.prepare(Data,Data,nil,false);local before=C.copy(raw)
  assert(raw.runCardCatalog and raw.runCardCharacter=='ironclad'and not raw.experimentalCharacter)
- local raiden=Run.new(raw,'3',options('raiden'))
+ local full=options('raiden');full.campaignProfile='full-source'
+ local raiden=Run.new(raw,'3',full)
  assert(raiden.character=='raiden'and raiden.data.originalV4Role=='RD')
  unchangedPools(raiden,'raiden',raw);same(raw,before)
 end)
@@ -56,16 +58,18 @@ local function denied(data,id)
  same(data,before)
 end
 test('all other direct role factories reject before adaptation or RNG',function()
- for _,id in ipairs({'hutao','arlecchino','furina','silent','defect','watcher','HT','AR','FR','unknown'})do denied(Data,id)end
+ -- A raw shared catalogue cannot smuggle Raiden into the public profile.
+ local raw=Catalog.prepare(Data,Data,nil,false);denied(raw,'raiden');denied(raw,'RD')
+ for _,id in ipairs({'hutao','arlecchino','furina','raiden','silent','defect','watcher','HT','AR','FR','RD','unknown'})do denied(Data,id)end
 end)
 test('prepared source identity cannot bypass omitted character',function()
  for _,id in ipairs({'silent','defect','watcher'})do local prepared=Catalog.prepareSelected(Data,id);denied(prepared)end
- for _,id in ipairs({'hutao','arlecchino','furina'})do local prepared=Original.prepare(Data,id);denied(prepared)end
+ for _,id in ipairs({'hutao','arlecchino','furina','raiden'})do local prepared=Original.prepare(Data,id);denied(prepared)end
 end)
 test('contradictory caller identity markers fail closed',function()
  for _,key in ipairs({'experimentalCharacter','characterId','originalV4Role'})do
   local data=C.copy(Data);data[key]=key=='originalV4Role'and 'HT'or 'silent'
-  denied(data,'raiden')
+  denied(data,'ironclad')
  end
 end)
 assert(#failures==0,table.concat(failures,'\n'))

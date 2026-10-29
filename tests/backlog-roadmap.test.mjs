@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { auditRoadmap, auditPriorities, auditQueueOwners, auditMilestoneScope, auditCompetitionRoster, readTaskHeader } from '../scripts/verify-backlog-roadmap.mjs';
 
-const competitionTitles = ['M3｜两职业第一幕与第二幕核心闭环验收', 'M4｜前两幕首局UI、输入、音画与性能'];
-const competitionDecision = '最终选择岩系旅行者（Ironclad）与雷电将军（复用现有冻结V4愿力、雷眼、一心完整卡牌机制）各自完整玩通两幕并正常结算。';
-const competitionScope = (decision = competitionDecision) => `# 比赛范围\n\n## 2026-10-28 比赛范围收缩决策\n\n${decision}\n`;
+const competitionTitles = ['M3｜岩系旅行者第一幕与第二幕核心闭环验收', 'M4｜前两幕首局UI、输入、音画与性能'];
+const competitionDecision = '最终选择仅岩系旅行者（Ironclad）完整玩通第一幕与第二幕并正常结算。';
+const competitionScope = (decision = competitionDecision) => `# 比赛范围\n\n## 2026-10-29 比赛单角色收敛决策\n\n${decision}\n`;
 
 const milestone = { 'm-2': 'M1', 'm-5': 'M4' };
 const task = (id, extra = {}) => ({ id, status: 'To Do', milestone: 'm-5', assignees: ['@Codex'], ...extra });
@@ -210,11 +210,11 @@ test('the existing CLI fails on a missing priority and an overcrowded High queue
   assert.match(result.stderr, /6.*超过5项/);
 });
 
-test('M3 and M4 enforce the confirmed two-character two-act competition scope', () => {
+test('M3 and M4 enforce the confirmed Traveler-only two-act competition scope', () => {
   const valid = competitionTitles;
   assert.deepEqual(auditMilestoneScope(valid), []);
   for (const stale of ['M3｜第一幕首发内容齐备', 'M3｜四职业第一幕核心闭环验收',
-    'M3｜第一幕与第二幕核心闭环验收', 'M3｜两职业第一幕与第二幕内容齐备',
+    'M3｜第一幕与第二幕核心闭环验收', 'M3｜岩系旅行者第一幕与第二幕内容齐备', 'M3｜两职业第一幕与第二幕核心闭环验收', 'M3｜岩系旅行者与雷电将军第一幕与第二幕核心闭环验收',
     'M3｜四职业第一幕与第二幕核心闭环验收', 'M3｜八职业第一幕与第二幕核心闭环验收',
     'M3｜四职业及第一至隐藏第四幕内容齐备与通关验收', `${valid[0]}与四职业`, `${valid[0]}与八职业`,
     `${valid[0]}与全职业`, `${valid[0]}与第三幕`, `${valid[0]}与隐藏第四幕`]) {
@@ -227,7 +227,7 @@ test('M3 and M4 enforce the confirmed two-character two-act competition scope', 
   for (const part of ['前两幕', '首局', 'UI', '输入', '音画', '性能']) {
     assert.match(auditMilestoneScope([valid[0], valid[1].replace(part, '')]).join('\n'), /M4.*范围/, part);
   }
-  for (const part of ['两职业', '第一幕', '第二幕', '核心闭环']) {
+  for (const part of ['岩系旅行者', '第一幕', '第二幕', '核心闭环']) {
     assert.match(auditMilestoneScope([valid[0].replace(part, ''), valid[1]]).join('\n'), /M3.*范围/, part);
   }
   for (const index of [0, 1]) {
@@ -237,43 +237,42 @@ test('M3 and M4 enforce the confirmed two-character two-act competition scope', 
   }
 });
 
-test('the count-only milestone is bound to Traveler and the existing frozen Raiden V4 package', () => {
+test('the public milestone is bound only to Traveler and preserves superseded history separately', () => {
   assert.deepEqual(auditCompetitionRoster(competitionScope()), []);
   assert.deepEqual(auditCompetitionRoster(competitionScope().replaceAll('\n', '\r\n')), []);
   for (const source of ['', `${competitionDecision}\n${competitionDecision}`,
     competitionDecision.replace('岩系旅行者（Ironclad）', '芙宁娜'),
-    competitionDecision.replace('雷电将军', '胡桃'),
-    competitionDecision.replace('与雷电将军', '、芙宁娜与雷电将军'),
+    competitionDecision.replace('仅岩系旅行者（Ironclad）', '岩系旅行者（Ironclad）与雷电将军'),
+    competitionDecision.replace('仅岩系旅行者（Ironclad）', '仅雷电将军'),
+    competitionDecision.replace('仅', ''),
     competitionDecision.replace('（Ironclad）', ''),
-    competitionDecision.replace('复用现有冻结V4', '全新设计V4'),
-    competitionDecision.replace('冻结V4', '冻结V5'),
-    competitionDecision.replace('愿力、雷眼、一心', '新自创机制'),
-    competitionDecision.replace('两幕', '第一幕'),
-    competitionDecision.replace('两幕', '四幕')]) {
+    competitionDecision.replace('第一幕与第二幕', '第一幕'),
+    competitionDecision.replace('第一幕与第二幕', '四幕')]) {
     assert.match(auditCompetitionRoster(competitionScope(source)).join('\n'), /M3.*职业合同/, source);
   }
   assert.match(auditCompetitionRoster(competitionDecision).join('\n'), /职业合同/, 'An unscoped sentence is not the current decision');
   assert.match(auditCompetitionRoster(`${competitionScope()}\n${competitionScope()}`).join('\n'), /职业合同/, 'Duplicate current sections are ambiguous');
-  const history = `\n## 历史与Alpha/Dev\n四职业、八角色及第三/四幕代码、卡池和证据保留。\n${competitionDecision}\n`;
-  assert.match(auditCompetitionRoster(competitionScope(competitionDecision.replace('雷电将军', '芙宁娜')) + history).join('\n'), /职业合同/,
-    'Historical Raiden mentions must not rescue a wrong current roster');
-  assert.deepEqual(auditCompetitionRoster(competitionScope() + history.replace('雷电将军', '胡桃')), [], 'Historical rosters are not the current contract');
+  const history = `\n## 2026-10-28 比赛范围收缩决策（历史，已被10/29覆盖）\n最终选择岩系旅行者与雷电将军两职业完整玩通两幕。\n## 历史与Alpha/Dev\n四职业、八角色及第三/四幕代码、卡池和证据保留。\n${competitionDecision}\n`;
+  assert.match(auditCompetitionRoster(competitionScope(competitionDecision.replace('岩系旅行者（Ironclad）', '芙宁娜')) + history).join('\n'), /职业合同/,
+    'Historical Traveler mentions must not rescue a wrong current roster');
+  assert.deepEqual(auditCompetitionRoster(competitionScope() + history), [], 'Historical rosters are not the current contract');
+  assert.match(auditCompetitionRoster(history).join('\n'), /职业合同/, 'The superseded pair cannot stand in for a current policy');
 });
 
 test('the actual repository milestone and named frozen-roster decision pass together', () => {
   assert.deepEqual(verifyMilestoneScope(fileURLToPath(new URL('..', import.meta.url))), []);
 });
 
-test('the existing CLI accepts the confirmed pair and rejects count-correct arbitrary rosters', t => {
+test('the existing CLI accepts Traveler-only and rejects restored or substituted public rosters', t => {
   const root = backlogFixture(t, []);
   const script = fileURLToPath(new URL('../scripts/verify-backlog-roadmap.mjs', import.meta.url));
   const run = () => spawnSync(process.execPath, [script], { cwd: root, encoding: 'utf8' });
   const valid = run();
   assert.ifError(valid.error);
   assert.equal(valid.status, 0, valid.stdout + valid.stderr);
-  assert.match(valid.stdout, /两职业前两幕规划范围检查通过/);
+  assert.match(valid.stdout, /仅岩系旅行者前两幕规划范围检查通过/);
   assert.match(valid.stdout, /不认证运行时准入、平台或实机/);
-  for (const source of [competitionDecision.replace('雷电将军', '芙宁娜'), competitionDecision.replace('冻结V4', '新V4')]) {
+  for (const source of [competitionDecision.replace('岩系旅行者（Ironclad）', '芙宁娜'), competitionDecision.replace('仅岩系旅行者（Ironclad）', '岩系旅行者（Ironclad）与雷电将军')]) {
     writeFileSync(join(root, 'docs/SCOPE.md'), competitionScope(source) + `\n## 历史与Alpha/Dev\n${competitionDecision}\n`);
     const invalid = run();
     assert.ifError(invalid.error);

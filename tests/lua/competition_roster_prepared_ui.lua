@@ -18,12 +18,12 @@ local function unchanged(root)
   end
  end
 end
-local function fixture(source)
+local function fixture(source,profile)
  local focus,samples=nil,0
  local api={events={Confirm='confirm',Cancel='cancel',Focus='focus'},directions={Left='left',Right='right'},
   modes={Specified='specified'},getFocus=function()return focus end,setFocus=function(c)focus=c end,isController=function()return true end}
  local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
- local ui=F.GameUI.new(root,source,F.Presentation,'click',{campaign=true,campaignProfile='competition-two-act',
+ local ui=F.GameUI.new(root,source,F.Presentation,'click',{campaign=true,campaignProfile=profile or 'competition-two-act',
   imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end,controllerApi=api,
   newSeed=function()samples=samples+1;return 3 end})
  assert(ui:start())
@@ -33,7 +33,8 @@ local invalid={
  {source=Catalog.prepareSelected(F.Data,'silent'),roles={'raiden','traveler'}},
  {source=Original.prepare(F.Data,'hutao'),roles={'raiden','traveler'}},
  {source=C.copy(F.Data),roles={'raiden','traveler'}},
- {source=Original.prepare(F.Data,'raiden'),roles={'traveler'}},
+ {source=Original.prepare(F.Data,'raiden'),roles={'raiden','traveler'}},
+ {source=F.Data,roles={'raiden'}},
 }
 invalid[3].source.characterId,invalid[3].source.originalV4Role='ironclad','RD'
 for index,scenario in ipairs(invalid)do local source=scenario.source;for _,role in ipairs(scenario.roles)do
@@ -78,7 +79,7 @@ assert(confirmed and not accepted and why=='competition_character_unavailable')
 assert(staleSamples()==0 and not staleUI.run and not staleUI.map)
 verifyStale();verifyStaleSource();count=count+1
 -- Consistent caller identity markers still match the explicit visible choice.
-for _,id in ipairs({'ironclad','raiden'})do
+for _,id in ipairs({'ironclad'})do
  local source=C.copy(F.Data);source.characterId=id
  local host=fixture(source)
  assert(host:selectCharacter(id=='ironclad'and 'traveler'or id))
@@ -86,6 +87,18 @@ for _,id in ipairs({'ironclad','raiden'})do
  assert(id=='ironclad'and not host.run.characterProfile or host.run.character=='raiden')
  count=count+1
 end
+-- The future/development host explicitly restores the complete eight-role roster.
+local development,developmentRoot,developmentSamples=fixture(F.Data,'full-source')
+for _,id in ipairs({'hutao','arlecchino','furina','raiden','traveler'})do
+ assert(development.characterSelection:allowsCharacter(id))
+end
+for _,id in ipairs({'ironclad','silent','defect','watcher'})do
+ assert(development.characterSelection:allowsElement(id))
+end
+assert(development:selectCharacter('raiden'))
+assert(development:confirmCharacter()and developmentSamples()==1 and development.run.character=='raiden')
+assert(development.run.campaignProfile=='full-source'and development.run.characterProfile.role=='RD')
+count=count+1
 -- Direct legacy factories have no explicit UI Geo selection. Keep their
 -- established omitted-options and explicit full-source behavior unchanged.
 local preparedRaiden=Original.prepare(F.Data,'raiden')

@@ -1,5 +1,15 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 7
+local sliceRegistered,sliceExecuted=0,0
 local H = dofile('tests/lua/support/battle_gesture_fixture.lua')
-local test, finish = dofile('tests/lua/support/battle_action_fixture.lua').suite('LUA_DRAG_CLICK_COMPATIBILITY')
+local originalTest, finish = dofile('tests/lua/support/battle_action_fixture.lua').suite('LUA_DRAG_CLICK_COMPATIBILITY')
+local function test(name,fn)
+    sliceRegistered=sliceRegistered+1
+    if sliceRegistered>=sliceFirst and sliceRegistered<=sliceLast then
+        originalTest(name,fn);sliceExecuted=sliceExecuted+1
+        print("DRAG_CLICK_COMPATIBILITY_CASE "..sliceRegistered)
+    end
+end
 
 local function drag(e, touch, release, x, y)
     e('card1','down',touch)
@@ -248,3 +258,7 @@ test('frozen Raiden V4 real E drag retains mechanics and later Click-only end tu
     assert(b.turn==2,'Raiden real drag locked mixed-host end turn')
 end)
 finish()
+
+assert(sliceRegistered==15,"all 15 original cases must register")
+assert(sliceExecuted==sliceLast-sliceFirst+1,"every selected original case must execute")
+print("DRAG_CLICK_COMPATIBILITY_SLICE "..sliceFirst.." "..sliceLast.." "..sliceExecuted)

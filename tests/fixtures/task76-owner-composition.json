@@ -98,11 +98,11 @@
     },
     "src/lua/abyss_battle_input_state.lua": {
       "beforeSha256": "2789456a014d8ebc03e4144ac29df48582e13f02d65587e8b3c2332176c73765",
-      "afterSha256": "1e24cef7493940872479a77f555cf6debbd9ca2a0884d7b63713faa5ea7587bc",
+      "afterSha256": "1eb4d5594c284058714fd33b55043309a869c1161279a9af383ce494c9ad29a1",
       "edits": [
         {
-          "before": "    local function discardEnemyPointer(input,event)\n",
-          "after": "    -- Click-only controls must not inherit the latest completed drag's named\n    -- touch, even after an independent action. A fresh Down retires that origin.\n    -- Anonymous origins consume one ambiguous Click without a permanent lock.\n    local function consumeReleasedDragClick(event)\n        if not owner.active or owner.busy or owner.gesture then return false end\n        local touch = event and event.touchId\n        if touch ~= nil and touch == ownership.releasedDragTouch then return true end\n        local g = owner.suppressClick\n        if type(g) ~= 'table' then return false end\n        owner.suppressClick = nil\n        return g.touch == touch\n    end\n    local function discardEnemyPointer(input,event)\n",
+          "before": "    return {\n",
+          "after": "    -- Click-only controls must not inherit the latest completed drag's named\n    -- touch, even after an independent action. A fresh Down retires that origin.\n    -- Anonymous origins consume one ambiguous Click without a permanent lock.\n    local function consumeReleasedDragClick(event)\n        if not owner.active or owner.busy or owner.gesture then return false end\n        local touch = event and event.touchId\n        if touch ~= nil and touch == ownership.releasedDragTouch then return true end\n        local g = owner.suppressClick\n        if type(g) ~= 'table' then return false end\n        owner.suppressClick = nil\n        return g.touch == touch\n    end\n    return {\n",
           "count": 1
         },
         {

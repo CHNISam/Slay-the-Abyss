@@ -46,8 +46,8 @@ test('explicit profile is validated and future/test campaign stays available',fu
 end)
 
 test('competition roster and all four full-source classes keep same-run resources and snapshots through Act1 to Act2',function()
- local scenarios={{profile='competition-two-act',characters={'ironclad','raiden'}},
-  {profile='full-source',characters={'ironclad','silent','defect','watcher'}}}
+ local scenarios={{profile='competition-two-act',characters={'ironclad'}},
+  {profile='full-source',characters={'ironclad','silent','defect','watcher','raiden'}}}
  for _,scenario in ipairs(scenarios)do for _,character in ipairs(scenario.characters)do
   local run,map=terminal(1,scenario.profile,character)
   run.hp=3;run.gold=345;run.deck[1].upgraded=true;run.potions={'block_potion'}

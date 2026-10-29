@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(normalize(s)).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/task76-owner-composition.json',import.meta.url),'utf8');
-assert.equal(hash(bytes),'4f18b4277863e902ce12bb2659956de2160b7f18ba5a5a468a63ef611cca8ab6','complete additive TASK-76 owner composition record');
+assert.equal(hash(bytes),'4ff211f47bab2f27d24d73366036f77b258a60c1165bd12edfba4f9ea958456b','complete additive TASK-76 owner composition record');
 const layer=JSON.parse(bytes),root='src/lua/abyss_battle_ui.lua';
 export const task76OwnerPaths=Object.freeze(Object.keys(layer.modules));
 assert.equal(task76OwnerPaths.length,16,'all original Battle responsibilities remain covered');

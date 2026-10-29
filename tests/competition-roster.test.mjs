@@ -34,7 +34,7 @@ test('roster source inverse preserves the complete accepted sources and rejects 
 for (const [name, marker] of [
   ['run', 'COMPETITION_ROSTER_RUN_PASS 4'],
   ['ui', 'COMPETITION_ROSTER_UI_PASS'],
-]) test(`competition roster ${name} permits Geo/frozen Raiden and rejects other effective identities`, () => {
+]) test(`competition roster ${name} permits public Geo, keeps development Raiden and rejects unavailable effective identities`, () => {
   const result=runLua(`tests/lua/competition_roster_${name}.lua`);
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.ok(result.stdout.includes(marker),result.stdout);

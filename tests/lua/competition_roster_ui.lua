@@ -13,16 +13,15 @@ local ui=F.GameUI.new(root,F.Data,F.Presentation,'click',{campaign=true,campaign
 local function hit(name)return root:GetChild('characterPanel'):GetChild(name):GetChild('hit')end
 assert(ui:start()and not ui.run and not ui.map)
 local panel=root:GetChild('characterPanel')
-for i=1,3 do
+for i=1,4 do
  local control=hit('character'..i)
  assert(not panel:GetChild('character'..i).visible and not control.canControllerFocus)
  assert(not control.click()and not control.navigationListeners.confirm())
 end
-assert(panel:GetChild('character4').visible and panel:GetChild('traveler').visible)
-assert(hit('character4').canControllerFocus and hit('traveler').canControllerFocus)
-assert(hit('character4').navigation.right.target==hit('traveler'))
-assert(hit('traveler').navigation.right.target==hit('character4'))
-for _,id in ipairs({'hutao','arlecchino','furina'})do assert(not ui:selectCharacter(id))end
+assert(not panel:GetChild('character4').visible and panel:GetChild('traveler').visible)
+assert(not hit('character4').canControllerFocus and hit('traveler').canControllerFocus)
+assert(hit('traveler').navigation.right.target==hit('traveler'))
+for _,id in ipairs({'hutao','arlecchino','furina','raiden'})do assert(not ui:selectCharacter(id))end
 assert(ui:selectCharacter('traveler')and ui.characterSelection.info.id=='ironclad')
 for i,id in ipairs(Select.elements)do
  local box=panel:GetChild('elements'):GetChild('element'..i)
@@ -38,13 +37,13 @@ ui.characterSelection.info={id='silent'}
 assert(not ui:confirmCharacter()and seeds==0 and not ui.run)
 ui.characterSelection.info=valid
 local confirm=hit('confirm')
-confirm.listeners.down({touchId=1});assert(ui:selectCharacter('raiden'))
+confirm.listeners.down({touchId=1});assert(ui:selectElement('ironclad'))
 confirm.listeners.up({touchId=1});assert(not confirm.click({touchId=1})and seeds==0)
 confirm.listeners.down({touchId=2});ui:resize(1600,900)
 confirm.listeners.up({touchId=2});assert(not confirm.click({touchId=2})and seeds==0)
 assert(ui:closeCharacters()and ui.characterSelection.info==nil)
-assert(ui:start()and ui:selectCharacter('raiden'))
-assert(ui:confirmCharacter()and seeds==1 and ui.run.character=='raiden'and ui.run.characterProfile.role=='RD')
+assert(ui:start()and ui:selectCharacter('traveler'))
+assert(ui:confirmCharacter()and seeds==1 and not ui.run.characterProfile and ui.run.maxHp==80)
 assert(not ui:confirmCharacter()and seeds==1)
 -- Host configuration can carry a prepared identity even when the nominal
 -- selection is Geo. Refuse before sampling a seed, not by throwing from Run.

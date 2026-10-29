@@ -1,4 +1,4 @@
--- Actual current loadouts, controlled public obtain/injury; not natural play.
+-- Public Geo and explicit full-source Raiden loadouts, controlled obtain/injury; not natural play.
 local F=dofile('tests/lua/support/max_hp_relics.lua')
 local Select=require('abyss_character_select')
 local Frozen=require('abyss_original_v4_data')
@@ -7,9 +7,10 @@ local ids={'strawberry','pear','mango','lees_waffle'}
 local gains={strawberry=7,pear=10,mango=14,lees_waffle=7}
 local function new(character)
  local options=Select.options(character)or{}
- options.experimental,options.campaign,options.campaignProfile=true,true,'competition-two-act'
+ options.experimental,options.campaign=true,true
+ options.campaignProfile=character=='raiden'and 'full-source'or 'competition-two-act'
  local r=F.R.new(F.D,'2',options)
- F.eq(r.campaignProfile,'competition-two-act')
+ F.eq(r.campaignProfile,character=='raiden'and 'full-source'or 'competition-two-act')
  if character=='raiden'then
   F.eq(r.character,'raiden');F.eq(r.data.originalV4Role,'RD');F.eq(r.characterProfile.role,'RD')
   assert(r.characterProfile.originalV4);F.eq(r.maxHp,Frozen.rules.roles.RD.max_hp)

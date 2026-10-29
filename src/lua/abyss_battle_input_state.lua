@@ -142,6 +142,11 @@ function M.install(owner, ownership, host, _dependencies)
             and owner.selected == g.uid and owner.selectionEpoch == g.selectionEpoch
             and owner.potionAim == g.aim and (not g.aim or aimReady(g.aim))
     end
+    local function discardEnemyPointer(input,event)
+        local touch = event and event.touchId
+        if input.held and input.held.touch == touch then input.held = nil end
+        if input.released and input.released.touch == touch then input.released = nil end
+    end
     -- Click-only controls must not inherit the latest completed drag's named
     -- touch, even after an independent action. A fresh Down retires that origin.
     -- Anonymous origins consume one ambiguous Click without a permanent lock.
@@ -153,11 +158,6 @@ function M.install(owner, ownership, host, _dependencies)
         if type(g) ~= 'table' then return false end
         owner.suppressClick = nil
         return g.touch == touch
-    end
-    local function discardEnemyPointer(input,event)
-        local touch = event and event.touchId
-        if input.held and input.held.touch == touch then input.held = nil end
-        if input.released and input.released.touch == touch then input.released = nil end
     end
     return {
         child=child, show=show, label=label, colour=colour, tint=tint,
