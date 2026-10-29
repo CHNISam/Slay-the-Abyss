@@ -54,7 +54,7 @@
   },
   "previewStatus": {
     "canonicalPng": "alpha comparison FAILED; preserved as evidence",
-    "svgInkscape": "diagnostic only; alpha support equal, ±1 quantization; not native/device rendering",
+    "svgInkscape": "Diagnostic only: alpha support equal;8bit alpha and rounded premultiplied RGB maximum difference1; straight RGB can differ more at low alpha. Not native/device rendering.",
     "sourcePixelEquivalence": false,
     "productionEnabled": false
   },
@@ -83,8 +83,8 @@
       "sha256": "1958b2faabfb4737a85216d09edc816a316f33f446897ca6a06fd349b932c077"
     },
     "export-report.json": {
-      "bytes": 12248,
-      "sha256": "827f82a7fb2d2ed32a92fc5dabf7cd844b104f7bdf5b501036b7a98fc353f901"
+      "bytes": 13104,
+      "sha256": "1682ade588f7c2921602b7d5b13e8126c9a28ed575a0fdabc74a6189bf2f6a3a"
     },
     "literal-drawing.json": {
       "bytes": 1024083,

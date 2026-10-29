@@ -2085,7 +2085,7 @@
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/avatar96/asset.json": {
-      "sha256": "90767532c8d5b49a686f669f64ac0abe9cd20965da8994c3c9c2c1f121839206",
+      "sha256": "48be577c7c7e2b580a9e363a190f1e48f61d0494c47e29c123a46ca46159f58e",
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/avatar96/editable.scene.json": {
@@ -2093,7 +2093,7 @@
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/avatar96/export-report.json": {
-      "sha256": "827f82a7fb2d2ed32a92fc5dabf7cd844b104f7bdf5b501036b7a98fc353f901",
+      "sha256": "1682ade588f7c2921602b7d5b13e8126c9a28ed575a0fdabc74a6189bf2f6a3a",
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/avatar96/literal-drawing.json": {
@@ -2165,7 +2165,7 @@
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/battle133/asset.json": {
-      "sha256": "5a8b51795e2cba2b9576b10b7d63223f1ff11abddc5291c9c63db837c07043d7",
+      "sha256": "6a46078e04d8df4c597792c8e9467863be16762c0fd0975536646990b0d6d9f2",
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/battle133/editable.scene.json": {
@@ -2173,7 +2173,7 @@
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/battle133/export-report.json": {
-      "sha256": "911062d0d90362f23c73686b93ff85727c432bce3a26ebdf47dc92f2ee5bfa50",
+      "sha256": "fe8879808882dcbe08d655dd7c2a7296417943fd169cfe768ae199414b338909",
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/battle133/literal-drawing.json": {
@@ -2245,7 +2245,7 @@
       "category": "portrait-ai-derivative"
     },
     "art/characters/traveler-geo/portraits/catalog.json": {
-      "sha256": "719327634748fded599b1cb50c4f8cedfce2ab4470e8fb209591ba54cb5a1a85",
+      "sha256": "245a47c88cd54d42799b43cdcdf9085089a66839f14dac5f2ce5a0ea6a479f54",
       "category": "portrait-ai-derivative"
     }
   }

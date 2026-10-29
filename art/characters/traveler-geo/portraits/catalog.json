@@ -16,9 +16,7 @@
   "ui": {
     "modified": false,
     "owner": "Grok",
-    "acceptedBaselineDrawable": 117.33333333333334,
     "battleCanvas": 133,
-    "battleScale": 0.8822055137844612,
     "selectionAvatarTarget": 96,
     "baselineSelectionButton": [
       128,
@@ -30,7 +28,18 @@
     "battleKey": "dot-b.battle.traveler",
     "binding": "Dedicated native-Lua host and real per-save templateIndex; NOT a new image-library ID",
     "handoff": "https://github.com/CHNISam/Slay-the-Abyss/pull/338#issuecomment-6498346879",
-    "currentBaseGeometryVerifiedUnchanged": true
+    "currentBaseGeometryVerifiedUnchanged": true,
+    "constructorPortraitSize": 117.33333333333334,
+    "renderTimePortraitSize": 133.33333333333334,
+    "recommendedProductionScale": null,
+    "displayedComparisonSize": 117,
+    "geometryEvidence": [
+      "scripts/ui-layout.mjs:50",
+      "src/lua/abyss_battle_unit_view.lua:38-43",
+      "src/lua/abyss_battle_render_hud.lua:183",
+      "tests/lua/approved_main_unit.lua:21"
+    ],
+    "bindingDecision": "UI owner must account for dynamic portrait resize and final dedicated host; no fixed production scale approved"
   },
   "batch": {
     "rule": "docs/art/CARD_ILLUSTRATION_STANDARD.md#6",

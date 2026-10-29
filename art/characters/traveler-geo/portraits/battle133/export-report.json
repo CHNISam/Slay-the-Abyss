@@ -239,9 +239,9 @@
   "performance": "not_measured",
   "limits": [
     "PNG/Lua/source bytes are not upload/GIL bytes or a 20MB safety guarantee.",
-    "96 has no wired UI slot; existing 133.333 battle plate has only 117.333 drawable area.",
     "No UI integration, new native exporter, random fitting, native input or publishing.",
-    "Canonical PNG alpha differs at 5277 pixels with max delta255; 1002 zero-alpha cells became nonzero. Keep original PNG FAIL evidence. SVG/Inkscape is a separate offline preview with explicitly measured quantization, not official/native acceptance."
+    "Canonical PNG alpha differs at 5277 pixels with max delta255; 1002 zero-alpha cells became nonzero. Keep original PNG FAIL evidence. SVG/Inkscape is a separate offline preview with explicitly measured quantization, not official/native acceptance.",
+    "Constructor portrait is117.333, render-time UnitView resizes it to133.333; final dedicated host/scale remains with UI owner, not a fixed0.8822 prescription."
   ],
   "licenses": {
     "editor": "GPL-3.0; upstream/LICENSE",
@@ -314,5 +314,15 @@
       "bytes": 5840,
       "sha256": "78dc8f938723a847a8b06e2c3d2e8b7de1e6b119b931e934840239e065f5d3ed"
     }
-  ]
+  ],
+  "postExportInterpretationCorrection": {
+    "atUTC": "2026-10-29T14:52:00Z",
+    "reason": "Independent dynamic-render review corrected the earlier constructor-only geometry assumption. No source image, scene, native export, literal or VM result changed.",
+    "previousLimits": [
+      "PNG/Lua/source bytes are not upload/GIL bytes or a 20MB safety guarantee.",
+      "96 has no wired UI slot; existing 133.333 battle plate has only 117.333 drawable area.",
+      "No UI integration, new native exporter, random fitting, native input or publishing.",
+      "Canonical PNG alpha differs at 5277 pixels with max delta255; 1002 zero-alpha cells became nonzero. Keep original PNG FAIL evidence. SVG/Inkscape is a separate offline preview with explicitly measured quantization, not official/native acceptance."
+    ]
+  }
 }
