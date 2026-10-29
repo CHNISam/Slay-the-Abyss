@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "sentry",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": null,
+    "endUtc": null,
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../guardian/source.png",
+      "role": "ancient defense stone/bronze material only; not humanoid proportions or violet corruption",
+      "actuallyPassed": true,
+      "sha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved broad painterly style only; no anatomy/objects",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1149249,
+      "sha256": "b4313791a2360d6f056f47b9c9b5373568dc12019faf3876a4cac48d222463b8"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2744,
+      "sha256": "2453be972954c9d930f54f33b3dbf6acc75fd7737804940477cb99e7f875c5b1"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 14444,
+      "sha256": "b87c1ae2394cd63eec79754a8d192bcc1edd2370748cfdaba483050eb0ba224b"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 19324,
+      "sha256": "0299b8f16b5c5ea3b149addadff8336b5fa6fb7a0de2fe997bf793727b377df4"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original narrow upright stone stele, rectangular top notch, short horizontal attached arms and two separate feet; not STS floating triangle eye",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Broad pale stele, top rectangular notch, short attached horizontal block arms, two separate feet. Full/106/127/4x inspected. Alpha>16bbox(117,54,1154,1199), whole silhouette intact; no source modification."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "spike_slime_l",
+  "sourceSha256": "ba20922386cfc664b3c4362113c2c54fd9ed5eca4acecc754f74307d4c9ef08d",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    21,
+    220,
+    1236,
+    1062
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY_WITH_SMALLVIEW_LIMIT",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "d211d5767a91163fc891b081abd0e09186c6f94ea10d2943c857adabb1e34f26",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "c650fff761273ef79ae6dfd96f48ecfe6e636d08185ac91ff62f0bfb8ca8c54b",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Exactly three broad blunt stones connected into continuous dark-blue-grey gel; no acid core/green contamination.",
+    "Asymmetric two blue rises and saddle visible full but subordinate to stones at106, not a dependable independent tiny-size cue. Three broad basal lobes including prominent front-center lobe and asymmetric stone arrangement distinguish medium single dome/two droops and small flat body beyond scaling.",
+    "Whole gel contour and stones intact; consistent family paint/material."
+  ],
+  "costLimits": [
+    "Preserve three stone count/connections, asymmetric arrangement and three basal lobes; do not spend excessive primitives on facets/rim sparkle.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins use downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

@@ -1,0 +1,12 @@
+Use case: stylized-concept.
+Create one original compact ancient rock-sphere automaton on a true transparent square canvas, requested 1024 × 1024. Keep the core and every arc end complete inside comfortable margins. No floor, shadow pool, scenery, text, UI or effects.
+
+The supplied Guardian is a material and painted-style reference only: pale broad stone planes, dull old-bronze connectors, dark teal recesses and three or four matte values. Do not copy its humanoid head, arms, legs, shoulders or standing body. This is not a Slay the Spire eye sphere or an official Genshin machine.
+
+Spheric Guardian / 磐核守卫 is one compact ROUND ROCK-BALL CORE cradled by EXACTLY TWO THICK OPEN STONE ARC RIBS. The core is nearly spherical, pale grey stone with two or three large shaped planes. Its front is solid plain stone: no eye, pupil, mouth, lens, glowing hole, weapon or emblem.
+
+Each protective rib is one thick, broad C-shaped stone band, partially wrapping the core. The nearer rib tilts diagonally front-left; the farther rib tilts rear-right. Each C band has a clearly visible OPEN GAP between its two blunt ends. Preserve dark or transparent negative space through these gaps. Do not turn either rib into a closed ring, many thin orbit loops or a shield wall. Small dull-bronze mounting blocks connect the two ribs to the core; no detached floating debris or third rib.
+
+The assembly leans slightly forward-left and quietly floats in empty transparent space. No pedestal, hover glow or motion lines. At 106 and 127 pixels, the plain round stone core and two thick open C ribs must read distinctly from the flatter bronze winged orb, tall Sentry and humanoid Guardian.
+
+Use substantial broad matte painted planes, selected clean contours and a few quiet wear patches. Three or four large value groups: pale stone, dull old bronze and dark teal recesses. No fine crack networks, engraved runes, dense bolts, glossy rendering, particles, extra limbs or background objects.

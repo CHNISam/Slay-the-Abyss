@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "red_louse",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:35:40.392Z",
+    "endUtc": "2026-10-29T19:36:25.621Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 2,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt-repair.txt",
+    "history": [
+      {
+        "attempt": 1,
+        "sha256": "bfe324f73ea999076a51681756b7dff0e688ec5538d1f2484a030e6037f58e51",
+        "prompt": "prompt.txt",
+        "reasonSuperseded": "intact but tight framing; repair already started before root preferred downstream inset-contain for intact tight margins",
+        "references": [
+          {
+            "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+            "role": "painted-style-only-not-identity",
+            "actuallyPassed": true,
+            "dimensions": [
+              1254,
+              1254
+            ],
+            "path": "../looter/source.png"
+          },
+          {
+            "sha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a",
+            "role": "painted-style-only-not-identity",
+            "actuallyPassed": true,
+            "dimensions": [
+              1254,
+              1254
+            ],
+            "path": "../guardian/source.png"
+          }
+        ]
+      },
+      {
+        "attempt": 2,
+        "mode": "framing-edit",
+        "references": [
+          {
+            "sha256": "bfe324f73ea999076a51681756b7dff0e688ec5538d1f2484a030e6037f58e51",
+            "role": "actual-edit-target",
+            "actuallyPassed": true,
+            "dimensions": [
+              1254,
+              1254
+            ],
+            "availability": "reference-not-included; identity retained by SHA256 and role"
+          }
+        ]
+      }
+    ]
+  },
+  "references": [
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "role": "painted-style-only-not-identity",
+      "actuallyPassed": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "path": "../looter/source.png"
+    },
+    {
+      "sha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a",
+      "role": "painted-style-only-not-identity",
+      "actuallyPassed": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "path": "../guardian/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 895567,
+      "sha256": "d68a3c0ec240124678891e09395329047a66321173f8a58eb14f2f547d2c7b5e"
+    },
+    "prompt-repair.txt": {
+      "path": "prompt-repair.txt",
+      "bytes": 1052,
+      "sha256": "102d34fc86250bc3adfe50adc165a7b58e4ee25e266f48de6a3712b528be923e"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2543,
+      "sha256": "b7fa4bfb8873cd322416fa3d45c31b3c62635b1a9390bd04f6a8100af17446db"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 12207,
+      "sha256": "52551b688073592f0286e069054f915dd62ccfd0123ab54dfed8dadaa9bde9b3"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 16443,
+      "sha256": "ba33456d07aac1c2c44c737b63f88daafc76308f9ffc0a1586c6e3db70595070"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original flat brick-red beetle; wide three-serration front horn, six short legs, left-facing, no STS/Genshin identity copied",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      82,
+      346,
+      1187,
+      971
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full source and106/127 plus4x inspected: broad flat red shell and serrated horn unmistakable, six separated short legs with far-side partly occluded; smallviews keep mass/appendages. Faceted detail slightly more than minimal economy; native cost unknown. Repaired source meaningful bbox has6.5% left and5.3% right margin, all appendages intact; later inset-contain allowed."
+  }
+}

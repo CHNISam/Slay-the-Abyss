@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "gremlin_leader",
+  "sourceSha256": "6df7d679a7bbdb95128738278f3bece208942bbe22e09135268a4524d428e3d0",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    33,
+    38,
+    1233,
+    1223
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "4c1431b8f02005e568ad709fff4e240c48c9b386c9335f57535cce0afe28ccd7",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "6e4d32707dabb4e78687f559a6d9b9074827faddccdfc9bda073c175af48c9dd",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Shared original grey face/paired short horns, tall slim body, attached shoulder/back plates, low pointing hand and rear short blade distinguish family role. No official Hilichurl identity claim or copied STS appearance.",
+    "Pointing hand/arm plausible, blade grip/guard/blade continuous, back panel harness attached, two legs/feet and horns intact.",
+    "Back panel taller than short-banner brief is minor silhouette deviation, documented. Pointing pose/shoulder-back mass/blade read106/127; fine fingers not reliable tiny."
+  ],
+  "costLimits": [
+    "Preserve pointing silhouette, attached plates, blade continuity and slim-body gaps before facets/fingers/wraps.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserved; intact tight margins may use downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

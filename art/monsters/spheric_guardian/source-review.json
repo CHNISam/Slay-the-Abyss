@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "spheric_guardian",
+  "sourceSha256": "03a158e462c60bf600f249390a11634f348b58e924084cb33e65f535738dd580",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    164,
+    134,
+    1121,
+    1116
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY_RECOVERY_ATTEMPT_2",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "76f2e782f2da03ced03b493a480daab9f0ff813796e5d19ff41e0d4c35625640",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "8130b417bd912c59560c65cb4fdc884a5a8f8a0b8336e25df5a224350672e0dc",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "One plain round rock core and exactly two thick open C-shaped stone ribs with visible blunt ends, attached through coherent bronze mounts. No eye or extra floating parts.",
+    "Core/rib count, open gaps and compact round silhouette readable106/127, distinct from closed bronze winged orb and narrow Sentry. All contour/tips intact with comfortable margins."
+  ],
+  "historyLimit": "Selected source is authorized recovery attempt2 after END check; original environment-aborted call output remains unknown. Not a first-pass result.",
+  "costLimits": [
+    "Preserve two open ribs/blunt ends/gaps, core mass and mount connections before stone cracks/facets/ring glints.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserved; optional downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending. Shelled Parasite not retried or passed.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

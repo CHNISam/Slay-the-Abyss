@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "fungi_beast",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:07:33.156Z",
+    "endUtc": "2026-10-29T20:09:01.946Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "role": "approved painterly style-only; no objects/costume/anatomy",
+      "actuallyPassed": true,
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1370796,
+      "sha256": "627ba7a9314ff099aedb1d02db82f03b77de9696bd6ec353cdd9b9c6c3f7b646"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2771,
+      "sha256": "2e4be8f297c8348226f329f651eb403dc4795a986cd440a72a4c98bb1ccf8afe"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 18875,
+      "sha256": "c0995e9714016ad1362f8903406477f7d16643044dcdf18734d33fcd94e24b72"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 25444,
+      "sha256": "9118961f7150b622e604f23d8add645b831d1e1557767007053a3bf22f7c980e"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original low4paw cavebeast with visible shortanimalface and exactly3asymmetric graypurple/beigerim broadcaps; not STS mushroompig or officialfaction",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Low4paw beast, face visible below exactly3asymmetric broadcaps; biggestoblique backcap. NoSTSpigsnout/cloud. Fourpaws accounted, farrear naturallypartial. Alpha>16bbox(37,174,1229,1111), wholeuncut but25pxrightmargin. Broad brushfur/caps more detailed than minimum economy. Rawsource unchanged; native unverified."
+  }
+}

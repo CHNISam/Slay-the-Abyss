@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "champ",
+  "sourceSha256": "22c1e287cee02aa7537943d983f01d87bfdd6013d8c297a72c8590c137606c07",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    66,
+    40,
+    1233,
+    1230
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "3990db36bcc1f131831263f375ce3fea10473df227e22a65f442453cf98ae423",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "e3adb01db60c39ad91eeca0d12b91a3b7a48370ec2da40ff73553388d6900fa5",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 173,
+      "sha256": "a0d3accaa6c3975fd4449d262909d5608429d634eeea5f83a4eb3622a53fd3a3",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original broad square stone-armoured human, visible jaw under half helmet, wide grounded legs and one broad-blade short axe. No sword/crown/shield/STS blue-skin identity.",
+    "Grip/handle/axehead continuous, other fist plausible, two boots/arms/legs and blade contour intact.",
+    "Armour family very close to actual Centurion, but short broad axe versus spear and heavier squared stance distinguish silhouette106/127/173.",
+    "Axe rear-right rather than brief left is documented minor composition deviation, not anatomy/identity failure."
+  ],
+  "costLimits": [
+    "Preserve axe continuity, broad stance/armour silhouette and limb gaps before overlapping armour facets/trim glints.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserved; intact tight margins need downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

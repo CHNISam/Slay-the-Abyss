@@ -1,0 +1,12 @@
+Use case: stylized-concept.
+Create one original full-body heavily armored human boss on a true transparent square canvas, requested 1024 × 1024. Keep the helmet, hands, boots and entire axe inside comfortable margins. No floor, shadow pool, scenery, text, UI or effects.
+
+The supplied Centurion is a painted material reference only: broad matte stone-grey armor, dull bronze/dark-iron joints and muted cloth. Do not copy its spear, pose or shoulder silhouette. This is an original own-project fighter, not the Slay the Spire blue-skinned greatsword champion or an official Genshin character.
+
+Champ / 磐岩斗魁 is a massive HUMAN warrior with THICK SQUARE SHOULDERS, a broad solid chest and WIDE HEAVY LEGS. A simple HALF HELMET protects brow and sides while exposing the natural tan lower face and square jaw. No crown, trophy, plume, horns or full mask. Large stone-grey armor plates over dark iron, with one short faded ochre-red waistcloth. Only a few wide plate seams and leather fastenings.
+
+Face and body turn LEFT in a grounded short lunge. Front knee bends, rear boot braces; both feet are complete and separated. ONE hand holds ONE SHORT-HANDLED BROAD-BLADE BATTLEAXE low beside the left shin, AWAY FROM THE TORSO with a clear dark gap. The continuous wooden haft is approximately forearm length. Its far end carries ONE large broad blunt-backed steel axe blade with one curved cutting edge, not a double axe, hammer, greatsword or long polearm. Show credible hand–haft–head attachment, with the axe head separated from the boot. The other hand is empty and clenched near the belt.
+
+The strong small-view reading is square stone shoulders, wide legs, visible jaw under a half helmet and ONE low broad axe. Keep the body heavy but anatomy coherent: two arms, two legs, one weapon. No victim, shield, second fighter or attack impact. At 106, 127 and 173 pixels, the whole silhouette and held axe must remain clear.
+
+Use three or four broad matte value groups and substantial mature painted planes: stone grey, dark iron, muted tan face and faded ochre-red cloth. Selected crisp contours, minimal useful wear, no dense engravings, chainmail, fine scratches, glowing runes or particle field. No blue skin, fire aura, official emblem, gore or background.

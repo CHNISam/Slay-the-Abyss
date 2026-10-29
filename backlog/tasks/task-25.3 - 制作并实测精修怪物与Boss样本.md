@@ -1,11 +1,11 @@
 ---
 id: TASK-25.3
 title: 制作并实测精修怪物与Boss样本
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-27 09:48'
-updated_date: '2026-10-27 09:48'
+updated_date: '2026-10-29 21:15'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -28,3 +28,19 @@ ordinal: 119000
 - [ ] #3 样本文件对应敌人ID，出处和授权可追溯，不复制社区反编译源码中的原作美术。
 - [ ] #4 按现有敌人ID和造型规范制作窃金客（looter）和深渊守卫（guardian）的原生精修候选；不以离线PNG冒充可用资源。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 依Owner夜间授权整理当前第一、二幕审计42ID的真实源图与完整提示词来源，仅纳入独立审阅通过项，明确缺口。2. 按源图逐路径Git LFS交付，保留真实contain小图和来源哈希，不绑定运行时、不放行原生批产。3. 完成源码/许可/工程与完整CI及独立审查；原生质量、官方导入、PC/安卓多敌负载和清理门槛保持未验收。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+本轮为离线源图Git交付，不关闭原生与设备验收。审计名册42项；当前40项独立源图通过，磐核守卫中断后的一次恢复结果正在独立复核，壳寄生虫输出审核阻断且无源图、不重试。所有验收项继续未勾选。
+
+最终离线交付：42ID名册中41项真实源图独立审阅通过；磐核守卫为一次中断未知输出后获准的唯一恢复（第2次），不称首轮成功；壳寄生虫输出审核阻断，无源图且不重试。目录与来源见art/monsters/README.md、catalog.json；原生失败草稿未入库。源图不绑定运行时，Owner/原生/设备/负载批准仍为false。
+
+本地交付验证：41源图完整SHA/尺寸/字节与真实contain像素核对；35项怪物/旅行者/已审阅资产/LFS/许可专项通过；完整许可inventory、guidance、Backlog、平台日常负载及engineering通过。全部原生/Owner/运行时/设备批准仍false，完整托管Quality/Licenses与独立审查待PR当前SHA完成。
+<!-- SECTION:NOTES:END -->

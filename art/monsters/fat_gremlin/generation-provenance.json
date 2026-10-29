@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "fat_gremlin",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:13:41.363Z",
+    "endUtc": "2026-10-29T20:14:51.393Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../mad_gremlin/source.png",
+      "role": "actual first-family original grayface/two shorthorns identity/material; not leanmad proportions/pose",
+      "actuallyPassed": true,
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved painterly style-only, no objects/anatomy",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1410367,
+      "sha256": "31133c8ca9fffc135ab26d96904c698ddf3cbfa2372d5877dc7dce305c8cb3b5"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2946,
+      "sha256": "a83bfb95c67a3fe7bbc147312048c12ef199545bc1776147dfa00ae4e8549c3f"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 19295,
+      "sha256": "698f245eb3d75dc16bfb3858a3100f728c902a4f5d114b3f508981a5f8010b40"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 25977,
+      "sha256": "3371a8a668c6a28ca26950128615cd4adaca67399b646c91465f9e58280ceb93"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original gray short2horn imp family; squatwidepearbelly/shortthicklegs, one low shortmace, emptyhand onbelly, broadcloth waist/one roundshoulderpad; not merely scaled/recoloredmad or STSfatshield",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full+106/127/4x inspected: whole headhorns/mace/feet, roundbelly and lowmace distinguish from leanmad/sneaky. Grayface/two shorthorns family continuity. Cloth warmorangeochre notpureyellow. Alpha>16bbox(47,64,1224,1207),30pxrightmargin but no clipping. Broad facets more than minimum economy; rawsource unchanged, native unverified."
+  }
+}

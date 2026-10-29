@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "gremlin_nob",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:17:17.170Z",
+    "endUtc": "2026-10-29T20:18:09.218Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-ownfamily-grayface-shorthorn-identity-and-paintedstyle-not-narrow-bodybuild-or-pose",
+      "actuallyPassed": true,
+      "path": "../mad_gremlin/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1659991,
+      "sha256": "fe35e72f2d2416f5b713157ab3481f8bbca4780086ae80438399227deb0d4032"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2351,
+      "sha256": "912c019cacd724a65ec5fda59d5eb02737139259fb3bdf29be9355247066ac3f"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 21859,
+      "sha256": "8db209679ccfc12bd9e3275e2f2cb3d34ba46f8719def8e726f9e21c95612729"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 29516,
+      "sha256": "7eac7a0b4f26edaf7a1a4361c7428dd369dd2c52ca8630a8dbcf5f97c0065a83"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original graypairedshorthorn heavyelite warrior with invertedtrapezoid torso coarsearms broadfeet, ochrecloth darkiron and1shortstonehammer",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      67,
+      11,
+      1244,
+      1242
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full1061274x inspected: ownfamily grayface/horns, huge broadshouldered build distinctmad narrowtorso,1shortstonehammer coherentgrip and otherfist, completefeet. Hammer rendered onrear-right rather requestedfront-left but leftface and lowhammer relationship clear. Smallwarm paintedmarks nonemissive, nofirecloud. Tightmargins intact needinsetcontain."
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "champ",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T21:05:29.192Z",
+    "endUtc": "2026-10-29T21:06:46.379Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "0bffe96aa39a3b957a6203040fe13b09f723066a26fa783c9990f9a210938d53",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "Actual passed armor material and painted style reference; not spear equipment or pose.",
+      "actuallyPassed": true,
+      "path": "../centurion/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1560141,
+      "sha256": "22c1e287cee02aa7537943d983f01d87bfdd6013d8c297a72c8590c137606c07"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2268,
+      "sha256": "6c22d71d7155de2581894e9cc18765f119cb05dde70f9e6db4da39879fb02e64"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 19587,
+      "sha256": "3990db36bcc1f131831263f375ce3fea10473df227e22a65f442453cf98ae423"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 26544,
+      "sha256": "e3adb01db60c39ad91eeca0d12b91a3b7a48370ec2da40ff73553388d6900fa5"
+    },
+    "preview-contain-173.png": {
+      "path": "preview-contain-173.png",
+      "bytes": 44419,
+      "sha256": "a0d3accaa6c3975fd4449d262909d5608429d634eeea5f83a4eb3622a53fd3a3"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original heavy stone-armored human boss, square shoulders, wide legs, half helmet exposing jaw, one low short-handled broad-blade axe.",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      66,
+      40,
+      1233,
+      1230
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed; insetcontain iftightmargin"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full source, 106/127/173 px and 4x inspected. Coherent exposed human jaw, broad stone armor and wide grounded legs, one continuous short axe haft and single blade held away from torso. Axe appears on rear-right rather than requested left shin, but remains low and clear. Armor shares family design with reference but larger square build and axe distinguish the boss. No crown, shield, blue skin or greatsword; native cost unmeasured.",
+    "contain173": true,
+    "nearest4x173": true
+  }
+}

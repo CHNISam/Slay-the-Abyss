@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "shield_gremlin",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:21:10.120Z",
+    "endUtc": "2026-10-29T20:22:19.888Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../mad_gremlin/source.png",
+      "role": "actual first-family original grayface/two shorthorns identity/material; not leanmad proportions/pose",
+      "actuallyPassed": true,
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved painterly style-only, no objects/anatomy",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1465250,
+      "sha256": "44c0562c1c1db3dfbc6beedacf7878d50641008f0a0d7c63b30320c461d5b1d4"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2915,
+      "sha256": "ce154dfa11d4e0947dc4144dc585b604dbc2eadb9d5db27a03aab17267d182e6"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 19001,
+      "sha256": "8819bdc81dd693b44b688a6e3779fbe49ddb8abf0ba154ec645808d5d8420bab"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 25525,
+      "sha256": "9a2d3ee704a5367af01f9006e44e4edfb0e1c7957afb8af9dd02269b0f3736ba"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original gray2horn imp crouching behind thickwoodstone roundedshield aimedleft, faceexposedright and two wholefeet, mutedtealcloth; not STSfatshield/Hilichurlmask",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full+106/127/4x inspected. Woodstonefrontshieldleft, grayfamilyface+2hornsexposedright, two connectedgrip hands and TWOwholefeet. Caveat leftlegshaft mostlyoccludedbyshield, only ankle+footvisible; rightlegclear. Shieldmoreoval thanDhalfround. Flagged independentreview ratherthan self-pass. Alpha>16bbox(98,86,1228,1190),26pxrightmargin, no clipping. Rawsource unchanged; native unverified."
+  }
+}

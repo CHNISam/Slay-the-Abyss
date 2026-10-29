@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "book_of_stabbing",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:39:14.017Z",
+    "endUtc": "2026-10-29T20:40:47.514Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../hexaghost/source.png",
+      "role": "actual reviewed original source, broad painterly ceramic material/style only; not six-lobe geometry, ring or fire",
+      "actuallyPassed": true,
+      "sha256": "6046dfd77a0c52f3b4489bcafa796903393a946e38ff621776840570c66fb600",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1735885,
+      "sha256": "7976df2fc5983181d841c61ac1e8cbae29dc0327cd7e2be23d7027135da6c102"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2751,
+      "sha256": "d57e82d7fb0482c9424b99bb798d4073f8c070b990de3e1a0a3fd1023c4ab322"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 19032,
+      "sha256": "4694aad57cf36270aaeab6a2676d65762931bdc9322ac3a785ab9afbdab3e83c"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 25905,
+      "sha256": "5e0c6e51a24a5178b66f4a913f790e45803422bae3d9c94ab6c67ccab4e71a55"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original slanted purplebrown rectangular stonepage tome with exactly3 broad short solid blades physically connected to same iron spine",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full1061274x checked. Exactly3 broad short solid blades visibly connected by wide roots to same iron spine; rectangular purplebrown stonepage tome, bonewhite thick pageblock, narrow slightly ajar opening. Alpha>16bbox(79,69,1188,1194), complete tips and cover corners. Surface has visible painted weathering but small silhouette remains simple; no source alteration."
+  }
+}

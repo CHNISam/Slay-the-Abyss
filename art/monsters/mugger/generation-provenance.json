@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "mugger",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:53:03.499Z",
+    "endUtc": "2026-10-29T20:54:11.217Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../looter/source.png",
+      "role": "Actual reviewed original source for human robber setting and painterly cloth, skin and leather only; not slim hooded silhouette, dagger, sash or reaching pose.",
+      "actuallyPassed": true,
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1255531,
+      "sha256": "0bb23fe5d4b8a3885e1d1c6a33a3d24f67e40cce66c583557d528a7b363deb5b"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2470,
+      "sha256": "eb01b17b555b14fe2a14fe06daec06baf84fed0888636330d5665affca232cc4"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 16910,
+      "sha256": "3ca53a657e3b9220befbc866e535a10d77eec9b8099a6518056848a5b85cf1d8"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 22733,
+      "sha256": "ebc67c795d92968776f1198f9be298d110dba976330a66be2cfe1eb5f1439133"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original broad stocky human robber with a short leather shoulder cape and one square-headed short club across chest; distinct silhouette and equipment from Looter.",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full, 106/127 px and 4× inspected. Broad stocky human, short leather cape, gray shirt and one square-headed short club across chest; coherent two boots and an empty hand. Distinct from slim hooded dagger Looter beyond color. Alpha >16 bbox (184,50,1189,1226), intact with 28 px bottom margin. Raw source bytes unchanged."
+  }
+}

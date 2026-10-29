@@ -54,6 +54,10 @@
     "card-illustration-source-candidate": {
       "status": "User-commissioned AI illustration candidates; no game-IP sublicense or commercial clearance; no owner visual/platform acceptance implied",
       "evidence": "art/cards/traveler-geo/README.md; per-card prompt, generation-provenance and asset.json; docs/legal/LICENSE_AUDIT.md"
+    },
+    "original-monster-source": {
+      "status": "project-original AI-assisted monster source candidates; reference roles documented; source-only, no native/runtime acceptance or commercial/IP clearance",
+      "evidence": "art/monsters/README.md; art/monsters/catalog.json; per-enemy generation-provenance.json and source-review.json"
     }
   },
   "files": {
@@ -3606,6 +3610,1059 @@
     "art/cards/traveler-geo/source-design-review.json": {
       "sha256": "2737b299280841265f225e6238449b9a39d3e584376300ac6961273ef5dcc20c",
       "category": "card-illustration-source-candidate"
+    },
+    "art/monsters/acid_slime_l/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "deaa5adabd49f4516af2e2ec6e7e61aa1bd3d3902f1d61a51ce37e06ac15f717"
+    },
+    "art/monsters/acid_slime_l/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "75c75f6acf82a46cbf4980c4518c34bf71b6b507e1ee4f469c94bf76c229730e"
+    },
+    "art/monsters/acid_slime_l/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "e49d77007c7862998701372170080a767f84e9bdd1a5085e89d503475d0a1f66"
+    },
+    "art/monsters/acid_slime_l/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "039cc08294b7c4fece058cd6f44192fe710ebb08c92fcb5333a7db7817230600"
+    },
+    "art/monsters/acid_slime_l/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "4e9bd251f28b3979550abb0b38e94d073927e201f64753b3f1c4437dde2d309b"
+    },
+    "art/monsters/acid_slime_l/source.png": {
+      "category": "original-monster-source",
+      "sha256": "b0340d32eef614c71ef852cb8e4289ba2f8928ec08315c3e3b535da055fc8f82",
+      "lfsBytes": 1071389
+    },
+    "art/monsters/acid_slime_m/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "e94d5af934f666ceaf3e8f0dd2e71f8510e3d4ad45ebee9c11d74d3b0e5e14a9"
+    },
+    "art/monsters/acid_slime_m/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "46808a9aca59f482a9503915c02e7134e91f213da2886d81bd70fca74ef269b4"
+    },
+    "art/monsters/acid_slime_m/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "7bce34920aaa0e0c18ab8dd6f3efda65e276242fcb1534ca1a9af11c02d0ecab"
+    },
+    "art/monsters/acid_slime_m/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "51c4a289036cf7e5b9628c03e0e826d1467691861df0a80b2046e162a9806beb"
+    },
+    "art/monsters/acid_slime_m/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "ce8170f5b5b9ae777556a2d5902e3eeb96705020c738a567283fab6cef6428c8"
+    },
+    "art/monsters/acid_slime_m/source.png": {
+      "category": "original-monster-source",
+      "sha256": "5f766ae6b7806ccdffea52b6015f3cee130299472959ba0f811ea397074baa1e",
+      "lfsBytes": 834950
+    },
+    "art/monsters/acid_slime_s/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "097615d56b53e80507007665ec78ff26f2de05886bc827abd06d1440d8e1d9b0"
+    },
+    "art/monsters/acid_slime_s/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "7e69dbf593988f1dd932095a1bfdb48b49185aeab652e51214378c045b598d93"
+    },
+    "art/monsters/acid_slime_s/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "74193ecb76d122286431914a2f16c210bd6cea3f7817df178a48edc15490dd3c"
+    },
+    "art/monsters/acid_slime_s/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "4a33dd0ad9f0302d8dc6a0471f0001bdb8c82fff0b0f71d942d319f6fb32953f"
+    },
+    "art/monsters/acid_slime_s/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "bdcc7cb3c2f8918d451244d350bdb6cccde1ff0cb0ea9f030f739fc13cea01f1"
+    },
+    "art/monsters/acid_slime_s/source.png": {
+      "category": "original-monster-source",
+      "sha256": "5de3f90d5301baf8fb601e44e2d5c502f2badddbe61eb66cd253b17b1a6a0a37",
+      "lfsBytes": 591437
+    },
+    "art/monsters/automaton/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "75089d64725ee432eae0f0e077ffdb6c65086b8ad5742de51bf5ff5b6bd470cd"
+    },
+    "art/monsters/automaton/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "3bb9a9bedc0a0784810675ead47edc1de42ffbe4819f7b5b8eddbf0d925b2331"
+    },
+    "art/monsters/automaton/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "5c714386b5938a47f68e0ce881cd7b7c283fd62002e121ce23cabcc91666212d"
+    },
+    "art/monsters/automaton/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "2afddd5d06afa41b9b1f6967ecffcf3cc65f7a4e7f6bb7983fc3a70e0ec95421"
+    },
+    "art/monsters/automaton/preview-contain-173.png": {
+      "category": "original-monster-source",
+      "sha256": "b3d4bf799db14f867f77ff538d44c2a51610c9b52b4d919c5d58e17951414094"
+    },
+    "art/monsters/automaton/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "348ba6962030311ac944ad69606a8d18373a07f61c022bbcc62f29ddf89316f2"
+    },
+    "art/monsters/automaton/source.png": {
+      "category": "original-monster-source",
+      "sha256": "6960b6ad6caed1fb234e154e234893d3d211e059d7f81792b254017a433a1109",
+      "lfsBytes": 1445330
+    },
+    "art/monsters/blue_slaver/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "34fcf71e49c286c88555e9d674d13c9524a0dd6cf3474477d90c961cf0f834a5"
+    },
+    "art/monsters/blue_slaver/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "aa97b86ad3540f03a78268a86ae830646f3b250871a19ec5484f90477b52eb0b"
+    },
+    "art/monsters/blue_slaver/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "2d8924c618c6e5f3d6094054bf25f5c825b3c17cef8901f7a7b6346bf6615ba0"
+    },
+    "art/monsters/blue_slaver/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "44ef1893ce9071ae2205182e0b66b430042bf744b4d0e74d986ea1ab179d8d8c"
+    },
+    "art/monsters/blue_slaver/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "9c6cd569d49544c9845f32506d2f079316bfc3b0a3b599a94074348a3e80ae94"
+    },
+    "art/monsters/blue_slaver/source.png": {
+      "category": "original-monster-source",
+      "sha256": "114416652a6902e8a90275b45d6bcc4f20f4de567acc8d4bd705f615d7a43db4",
+      "lfsBytes": 1003417
+    },
+    "art/monsters/book_of_stabbing/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "659a5c5daafaafee0c82a1e8d6b3938aa01c15b0cc4c83323585c112e8e10cd1"
+    },
+    "art/monsters/book_of_stabbing/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "e226af4c0b861baf2927b3ed4cd091edf36c51f2704e940503d227a19e0e9c1e"
+    },
+    "art/monsters/book_of_stabbing/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "4694aad57cf36270aaeab6a2676d65762931bdc9322ac3a785ab9afbdab3e83c"
+    },
+    "art/monsters/book_of_stabbing/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "5e0c6e51a24a5178b66f4a913f790e45803422bae3d9c94ab6c67ccab4e71a55"
+    },
+    "art/monsters/book_of_stabbing/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "82ac4b1a52a24474666350742cd9935855913e295fb2008305118fcbb40433ba"
+    },
+    "art/monsters/book_of_stabbing/source.png": {
+      "category": "original-monster-source",
+      "sha256": "7976df2fc5983181d841c61ac1e8cbae29dc0327cd7e2be23d7027135da6c102",
+      "lfsBytes": 1735885
+    },
+    "art/monsters/bronze_orb/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "4b8d7266a05df13ed5e1ac5315fd451ca1a60fddcb87e6a79b486b9037709e86"
+    },
+    "art/monsters/bronze_orb/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "7873b8472d990762589d459af4bcdf3bf04bdb959b02a7c0551a46b8269f38dd"
+    },
+    "art/monsters/bronze_orb/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "9cb34dab570843b3951c0e8ec031838f499e66c9911222d75aaa8fc352107f3b"
+    },
+    "art/monsters/bronze_orb/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "a4191612ef993ab005a47011b5a3c62c1c6364df8eb2c84b04eb292844f7b7b1"
+    },
+    "art/monsters/bronze_orb/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "a9de2e34e994a3738f54c11e2c6e8978948924b9298da69b1943d1f790c8454d"
+    },
+    "art/monsters/bronze_orb/source.png": {
+      "category": "original-monster-source",
+      "sha256": "08c4ca215c049357f92150e95574f53fc91aef6cd5389a80f3a0943fd0e9608d",
+      "lfsBytes": 980675
+    },
+    "art/monsters/byrd/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "0382b664aace5da470907117b7c5ec0ff55b84c95d21a0e08916a8bb5fa55f6f"
+    },
+    "art/monsters/byrd/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "d85e743861a895176011fe78270ac3814bf9ce4501185951e86ad07188871533"
+    },
+    "art/monsters/byrd/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "fa79ff8f1ba58b98e4bd9e261d164167c7940de1bd75abc2f9b93bb4aee3235f"
+    },
+    "art/monsters/byrd/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "677a54e0f5775b0f110b965d6c89b91e552e0b49abb39a979ef27c0fd936dbc2"
+    },
+    "art/monsters/byrd/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "011dbb5da409e28258104d0102781c8aa27445533c92746a10f0bd871479de9c"
+    },
+    "art/monsters/byrd/source.png": {
+      "category": "original-monster-source",
+      "sha256": "41d3ee80e86f94d4559d9730497fb261747a9ed52c175d32e186f473768d0d3b",
+      "lfsBytes": 1539591
+    },
+    "art/monsters/catalog.json": {
+      "category": "original-monster-source",
+      "sha256": "03658b03279412dcf8658d4c8bbd7f9b87af7cb4b20e2bfebf94435d323cf63d"
+    },
+    "art/monsters/centurion/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "c0f25663566ec8900e896997f72f748db18eb40a64ef6629852212689cb2f533"
+    },
+    "art/monsters/centurion/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "7508329ecfad296dce25ba3a2abffb58d71fea672f31aee1c6fa38f6b31ffddc"
+    },
+    "art/monsters/centurion/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "b45ad9c0ce169bba5e4d4fb1d7eaf1e780566535ffa898d93ffd59fbe1c5badc"
+    },
+    "art/monsters/centurion/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "ad243542234f61743df344be87331c5e71028fe5e4c819a093120641d61c64b2"
+    },
+    "art/monsters/centurion/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "1c12191f1115b4be93259c901e492e2498010d75129759ec8b569a3bedc87e19"
+    },
+    "art/monsters/centurion/source.png": {
+      "category": "original-monster-source",
+      "sha256": "0bffe96aa39a3b957a6203040fe13b09f723066a26fa783c9990f9a210938d53",
+      "lfsBytes": 1270147
+    },
+    "art/monsters/champ/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "b970747eb4fdfe041dee326afa02f8616046b0f122128bc32d673f573963b10d"
+    },
+    "art/monsters/champ/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "14ede92a0fe0450cb8ce2e76550722eca4380a73a04e8838ccbcc08661db71a4"
+    },
+    "art/monsters/champ/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "3990db36bcc1f131831263f375ce3fea10473df227e22a65f442453cf98ae423"
+    },
+    "art/monsters/champ/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "e3adb01db60c39ad91eeca0d12b91a3b7a48370ec2da40ff73553388d6900fa5"
+    },
+    "art/monsters/champ/preview-contain-173.png": {
+      "category": "original-monster-source",
+      "sha256": "a0d3accaa6c3975fd4449d262909d5608429d634eeea5f83a4eb3622a53fd3a3"
+    },
+    "art/monsters/champ/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "3173ad5e9f39764f31b5abe634bcd9369a2593623be5e00dc85b4628b96367dd"
+    },
+    "art/monsters/champ/source.png": {
+      "category": "original-monster-source",
+      "sha256": "22c1e287cee02aa7537943d983f01d87bfdd6013d8c297a72c8590c137606c07",
+      "lfsBytes": 1560141
+    },
+    "art/monsters/chosen/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "5a8099f470496a951f2c0fc172d532b379d68051cea65cf3be892ce593d6136a"
+    },
+    "art/monsters/chosen/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "3681ac7f28f768e8fbf62981a00bec064764561f5fe30a9cd7f1efd1a0a8be92"
+    },
+    "art/monsters/chosen/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "6aa561417bfe4b4213652b2f6568df1ae2d38334b3dab881916fd27236217b14"
+    },
+    "art/monsters/chosen/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "cd4b47affd3b72aa32f5e44caddda77d690bfeb18b3c5ac1bc9aae633c80c761"
+    },
+    "art/monsters/chosen/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "e86b53f28d096b2096f9320adaf3fdd1f47a35bf9de9b653a0136e55b3902fef"
+    },
+    "art/monsters/chosen/source.png": {
+      "category": "original-monster-source",
+      "sha256": "72bd1a5fa9eef60992ab0a341f8db027e9b31e1b2890cd1a43a9b188a9bc0440",
+      "lfsBytes": 677846
+    },
+    "art/monsters/collector/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "1097f045c38ece481979b995e7e546398087fef166356da442a220b6fd9dc0e6"
+    },
+    "art/monsters/collector/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "b64e0e7df0c071c537d79e8f7b0b2c491f9cdb9b93dc47b8277b7a695d7ef41c"
+    },
+    "art/monsters/collector/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "fbf75ef51fe6c3fd4e4df85f5ec5ce3fefbe39241cf39f1b7831db9bb88caad1"
+    },
+    "art/monsters/collector/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "6156fd59d9fe49f1b22763f5c39bfbd12390e71a4a1e05c2e1c2acde69aae850"
+    },
+    "art/monsters/collector/preview-contain-173.png": {
+      "category": "original-monster-source",
+      "sha256": "d8037c138ae265f9ada1cb11192cd80a94ee2aeaa2de60eba0c600d43dcb75ff"
+    },
+    "art/monsters/collector/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "4a3eaa39d833279694c129aba7efcaaa89155535fa74c24630d714e371ce6bda"
+    },
+    "art/monsters/collector/source.png": {
+      "category": "original-monster-source",
+      "sha256": "f0c6a6a43df64f91bde993e50556649e19d5b0cac2565fcb650d83e4cd6c53d0",
+      "lfsBytes": 2046202
+    },
+    "art/monsters/cultist/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "6332a57bd1f63d972cf2c3ff8bd1dcb1c8fe314061b565da60438f8a9172ad53"
+    },
+    "art/monsters/cultist/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "d86a09914532c34a338657e203937c4eac557844390bb109427f8e1cb03c1d79"
+    },
+    "art/monsters/cultist/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "9917ad326a1333a67ee004893260bef84596b8770855ac93dddb81b91023c584"
+    },
+    "art/monsters/cultist/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "31431b0ec18c439742f2a65aad97dc9a4c547e62ecae8b3afb04d000500dd8a1"
+    },
+    "art/monsters/cultist/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "565bd8f3c8a4641574c48f43b916fcf191bd8d345e4dc2f242940f231b0a1bd4"
+    },
+    "art/monsters/cultist/source.png": {
+      "category": "original-monster-source",
+      "sha256": "7d7b5fddd7c3080d028fd3f8aedf928e6d1911630f7c31ab912407efb8422ab2",
+      "lfsBytes": 898462
+    },
+    "art/monsters/fat_gremlin/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "069805bcc1edc39683faccd1fe30ae068273d189d1701d76018f69ef95d164fc"
+    },
+    "art/monsters/fat_gremlin/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "c7e00146998b94eed619f7b034e838378d4702a76ff607b05b43f4c32f4a9ae6"
+    },
+    "art/monsters/fat_gremlin/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "698f245eb3d75dc16bfb3858a3100f728c902a4f5d114b3f508981a5f8010b40"
+    },
+    "art/monsters/fat_gremlin/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "3371a8a668c6a28ca26950128615cd4adaca67399b646c91465f9e58280ceb93"
+    },
+    "art/monsters/fat_gremlin/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "cef3e8d6a4d1b105e7f11df5c5f317b1ae87e4f3397121ae83b706fae5576cdf"
+    },
+    "art/monsters/fat_gremlin/source.png": {
+      "category": "original-monster-source",
+      "sha256": "31133c8ca9fffc135ab26d96904c698ddf3cbfa2372d5877dc7dce305c8cb3b5",
+      "lfsBytes": 1410367
+    },
+    "art/monsters/fungi_beast/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "913cf3fae308fbd20c18fd1925d1ae3a0c6d5536fdb1c4988da7853a9355bd7e"
+    },
+    "art/monsters/fungi_beast/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "60b7ee2757c50e7519152634c4b641f422340c8d46ed6618df07659955830f3f"
+    },
+    "art/monsters/fungi_beast/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "c0995e9714016ad1362f8903406477f7d16643044dcdf18734d33fcd94e24b72"
+    },
+    "art/monsters/fungi_beast/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "9118961f7150b622e604f23d8add645b831d1e1557767007053a3bf22f7c980e"
+    },
+    "art/monsters/fungi_beast/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "336cc95b315f14bfa82fa8c95a750f00b4dde223df0bfafd6039d4446d59ce6c"
+    },
+    "art/monsters/fungi_beast/source.png": {
+      "category": "original-monster-source",
+      "sha256": "627ba7a9314ff099aedb1d02db82f03b77de9696bd6ec353cdd9b9c6c3f7b646",
+      "lfsBytes": 1370796
+    },
+    "art/monsters/green_louse/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "1a9bb0420d4a2afbd3cadedb2c9950c56dacb620a6ef331fc90e6b1e9666af36"
+    },
+    "art/monsters/green_louse/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "29f5d6466c9295b486f25768771e1e84f776bc169b52884ec294ffbf6fa95356"
+    },
+    "art/monsters/green_louse/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "a4ab0bc1a03c806332c37b68b8bc5fa07f7a3f4a13a9d443847dfbcdde6ad396"
+    },
+    "art/monsters/green_louse/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "d6c7983cde3776168fa4955a6812e97c55eb27108a28c41cbc546874ab79c0fa"
+    },
+    "art/monsters/green_louse/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "a7db3b75fdf0ecdefa5ddd6abb001b2a2672b2210d6782a4e3ed32a915173b10"
+    },
+    "art/monsters/green_louse/source.png": {
+      "category": "original-monster-source",
+      "sha256": "062e9d00158ec1c536bdf94f8c52e314108f7c2b4be8c5f7c86691b22bcd83b1",
+      "lfsBytes": 1387862
+    },
+    "art/monsters/gremlin_leader/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "7f518c64f46317b4d3d1a86798e0b78aeb9db68a1c7ab8cce6be99a6623400c2"
+    },
+    "art/monsters/gremlin_leader/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "546079ee9fc209ba7d3535d81a380c4dc85e459781b2574472b7ccdd7a2ded16"
+    },
+    "art/monsters/gremlin_leader/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "4c1431b8f02005e568ad709fff4e240c48c9b386c9335f57535cce0afe28ccd7"
+    },
+    "art/monsters/gremlin_leader/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "6e4d32707dabb4e78687f559a6d9b9074827faddccdfc9bda073c175af48c9dd"
+    },
+    "art/monsters/gremlin_leader/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "4c4867e7e3930612d488b40815e4081e19a6416bb09c9dfb5694e48c7d13db46"
+    },
+    "art/monsters/gremlin_leader/source.png": {
+      "category": "original-monster-source",
+      "sha256": "6df7d679a7bbdb95128738278f3bece208942bbe22e09135268a4524d428e3d0",
+      "lfsBytes": 1174554
+    },
+    "art/monsters/gremlin_nob/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "2f4542c3b39e0a41e1295c94422b04af8ea74e7bfb883c14908734faca28bf8e"
+    },
+    "art/monsters/gremlin_nob/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "10e5533bac31d610a30b012cd021c99c240a90eb4421390fdc420c8819c98f0c"
+    },
+    "art/monsters/gremlin_nob/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "8db209679ccfc12bd9e3275e2f2cb3d34ba46f8719def8e726f9e21c95612729"
+    },
+    "art/monsters/gremlin_nob/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "7eac7a0b4f26edaf7a1a4361c7428dd369dd2c52ca8630a8dbcf5f97c0065a83"
+    },
+    "art/monsters/gremlin_nob/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "0e023d4ed3429f6795e4b7ea24aeeb9e7e52ff28f74f7663d0a7165d664783db"
+    },
+    "art/monsters/gremlin_nob/source.png": {
+      "category": "original-monster-source",
+      "sha256": "fe35e72f2d2416f5b713157ab3481f8bbca4780086ae80438399227deb0d4032",
+      "lfsBytes": 1659991
+    },
+    "art/monsters/guardian/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "37d5c8af478bcbf300383c961487c2b7549af593aecc23a49f754b7e35618795"
+    },
+    "art/monsters/guardian/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "0b0daccd1926e95488b58a5ba78100f978faaaba1848067573d3078a05a4cb11"
+    },
+    "art/monsters/guardian/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "6cec74b3b7abbc7474ef9051e5fa31d62cc0b2d4072c77f083aaaf459021c192"
+    },
+    "art/monsters/guardian/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "8f35de3fa4e1d49df7287f163913d4174edc55f2220f8f4b354268fbc6a5a648"
+    },
+    "art/monsters/guardian/preview-contain-173.png": {
+      "category": "original-monster-source",
+      "sha256": "1aa519608515d47e9cfba02bccccced79704a0c4120a898c200cc8483e6cc416"
+    },
+    "art/monsters/guardian/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "6a8e112c6bb610dc62787370a45b3e85e664f6350c90a9b6d820155dbef1689b"
+    },
+    "art/monsters/guardian/source.png": {
+      "category": "original-monster-source",
+      "sha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a",
+      "lfsBytes": 1422200
+    },
+    "art/monsters/hexaghost/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "7eb795f818b2ec4db0378fe7c0ddde612d8bea1749b8669a4eabb512660bc607"
+    },
+    "art/monsters/hexaghost/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "9cd42d8469d0c698d195eb9253f9828e20d8c16416e7160cb992f2f7d06fa594"
+    },
+    "art/monsters/hexaghost/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "5f517c8b9ecf7139ac130c030abda356218a3fb42fb3292139b847ee52769d46"
+    },
+    "art/monsters/hexaghost/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "1cb191a5f079bbbbc9c6262ae1999a8d467f10f921657a8da9381d60d9c96ef5"
+    },
+    "art/monsters/hexaghost/preview-contain-173.png": {
+      "category": "original-monster-source",
+      "sha256": "8615571d3bed75c6216e4670c864cd32ca211dd2030f9680e404e318f89dfc11"
+    },
+    "art/monsters/hexaghost/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "d94c57f277a9b821239a2decc7ecdab87fab837cb8bdf0e42cf9c9c3e83540a8"
+    },
+    "art/monsters/hexaghost/source.png": {
+      "category": "original-monster-source",
+      "sha256": "6046dfd77a0c52f3b4489bcafa796903393a946e38ff621776840570c66fb600",
+      "lfsBytes": 1353495
+    },
+    "art/monsters/jaw_worm/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "27477ed43209618bd86bc8db4bb9f37c7cb88f36148f3c6cbc4d7fcdd8cbac64"
+    },
+    "art/monsters/jaw_worm/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "e7ac5b3268b54f6357021d53aa362577d3c23acadd616cdf5c2d2eded650e9ff"
+    },
+    "art/monsters/jaw_worm/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "5b5e8334585403ce7cacf15da8948dda179bf8868746224f5973fd6113752a18"
+    },
+    "art/monsters/jaw_worm/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "c4091bc890ed340fb3fc413a0a26b9f38c772cc4dadd8ee5c827ea8fb5e946d2"
+    },
+    "art/monsters/jaw_worm/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "336cdb6152aef13897bcb4bf16ba03b4a4dd5aaba5621d8fdbf01926b218f041"
+    },
+    "art/monsters/jaw_worm/source.png": {
+      "category": "original-monster-source",
+      "sha256": "064a91c5bf075224d5fd10f27febfc2424c7418762fbc64e8234afd9f1841e96",
+      "lfsBytes": 1044157
+    },
+    "art/monsters/lagavulin/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "76c0c81170e6f1d7749ec925a7cc12032d55b32087e4ba56daa16a6fa8bbde5f"
+    },
+    "art/monsters/lagavulin/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "3649b7b5da1567ca718fe2f53a34cd7d086ba89ac95661e62ec912b1ee0f56f4"
+    },
+    "art/monsters/lagavulin/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "fbd65a14de7895b2953b7b2323cc3a849005aa0ea30a68e02b1cd04cb4e6b98f"
+    },
+    "art/monsters/lagavulin/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "bb5d7ddef625cf1d16661f64ab8793814fe51ed2d4c520ad0e1f7facf8d8372f"
+    },
+    "art/monsters/lagavulin/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "47efb3763a8f2568234e4081f76f6bf35dc26268f9b7ad74e9bebcc3e474a6c2"
+    },
+    "art/monsters/lagavulin/source.png": {
+      "category": "original-monster-source",
+      "sha256": "43c03d9aa18ab003e0318d9a14892baa7af5d79de20963c97991c0bd1dde8e69",
+      "lfsBytes": 1373372
+    },
+    "art/monsters/looter/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "d51a33bf10a1798cced8653b54eae32f9037707dd53781333d078b636e56c57a"
+    },
+    "art/monsters/looter/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "4c176a35b2bf3ae25f301cdeb587be34d2577c35f173392eb37e3b9985e7b779"
+    },
+    "art/monsters/looter/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "28a1088dc22d35551c159a4c20e2dfe0a57a1379d5813dfe63de9db6dcf02a91"
+    },
+    "art/monsters/looter/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "17cec51e88a3c5cd8485a71a7c996e4956c73fe9d74051b6c3bbd76ccae647b2"
+    },
+    "art/monsters/looter/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "1108e550bc9ce6171148a6440874bf0f55f310a24e4063e7f123f5d6a640b046"
+    },
+    "art/monsters/looter/source.png": {
+      "category": "original-monster-source",
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "lfsBytes": 1026020
+    },
+    "art/monsters/mad_gremlin/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "20833f9ebcbaa2c823028e14194b91f0ab9c8e2b9c3e34b875ea56d28964a7fd"
+    },
+    "art/monsters/mad_gremlin/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "0b5f187a72a1e7a25524c8bf2dec4dfab2449acc0017a10e45b7c61756e02310"
+    },
+    "art/monsters/mad_gremlin/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "b1f45a862ef4c26edbef4c6be29ca16eb0032f4e035795e26d2ddc5ae8c6e53a"
+    },
+    "art/monsters/mad_gremlin/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "9898fc6131109b5228c7853c8a9ab9c7970ac68182b8f9b3c285e2a6abeaeab3"
+    },
+    "art/monsters/mad_gremlin/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "9aa6b3f7a0f57ffba5372d06ac6057a808ae7d8cf42574b815358c62bd7a2cae"
+    },
+    "art/monsters/mad_gremlin/source.png": {
+      "category": "original-monster-source",
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+      "lfsBytes": 1211757
+    },
+    "art/monsters/mugger/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "5ee2eaea561ca3d859c1c3c7d8cb7bcf0372516c50bc1f91aa7a34b33a2b382f"
+    },
+    "art/monsters/mugger/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "181808b796be304d54789501e346276d47f6a6c21339194b4cde612b4988c1d1"
+    },
+    "art/monsters/mugger/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "3ca53a657e3b9220befbc866e535a10d77eec9b8099a6518056848a5b85cf1d8"
+    },
+    "art/monsters/mugger/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "ebc67c795d92968776f1198f9be298d110dba976330a66be2cfe1eb5f1439133"
+    },
+    "art/monsters/mugger/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "d0a6a33ef1e5f99e0a48f745938adbb940bb14aa8579621e141eb1bf3cbde675"
+    },
+    "art/monsters/mugger/source.png": {
+      "category": "original-monster-source",
+      "sha256": "0bb23fe5d4b8a3885e1d1c6a33a3d24f67e40cce66c583557d528a7b363deb5b",
+      "lfsBytes": 1255531
+    },
+    "art/monsters/mystic/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "de8530cd0961c89d970d796c0815d0d1ab725d9727abb6ae70552039eb83756d"
+    },
+    "art/monsters/mystic/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "487fea783a8cdc76c9fe3351fb5e36bfde59518dd60d0d4b41ec514e3edd3057"
+    },
+    "art/monsters/mystic/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "4652a2bcd2c7b7c361ef868eec822f3d2e080bb6e7819202f575a4ede8287747"
+    },
+    "art/monsters/mystic/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "9426de18315216df511558699d511f9749cffbd886968467b314dc6fa6c90844"
+    },
+    "art/monsters/mystic/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "9727678fa7b0109317d704ce1884fffa79fee3e562cdbcacc9cbbfaefce9b2ad"
+    },
+    "art/monsters/mystic/source.png": {
+      "category": "original-monster-source",
+      "sha256": "b2db09249407d6199ea6cc817f76cd870ee6aa3bf99ed863e453f0f17785ccfa",
+      "lfsBytes": 1161319
+    },
+    "art/monsters/red_louse/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "27f7bd83bb4435f252ac7bf79fee5a60831758781ddf51a0a6dc4397a95277ee"
+    },
+    "art/monsters/red_louse/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "0441de8e3a8ab5f3a3d2e6f921181595f270e410e969e87a7af3f2217f8fba70"
+    },
+    "art/monsters/red_louse/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "52551b688073592f0286e069054f915dd62ccfd0123ab54dfed8dadaa9bde9b3"
+    },
+    "art/monsters/red_louse/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "ba33456d07aac1c2c44c737b63f88daafc76308f9ffc0a1586c6e3db70595070"
+    },
+    "art/monsters/red_louse/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "3410cc05f249d49499afb57e4013f4b78c96f009458ed47a3f8739c4b05d0d8a"
+    },
+    "art/monsters/red_louse/source.png": {
+      "category": "original-monster-source",
+      "sha256": "d68a3c0ec240124678891e09395329047a66321173f8a58eb14f2f547d2c7b5e",
+      "lfsBytes": 895567
+    },
+    "art/monsters/red_slaver/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "99b8e41852b489cb9ef60e9999b0bdf1b5c086126c7337781bf79ae970fc0393"
+    },
+    "art/monsters/red_slaver/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "a477aa85aa54fc331475f6cf077c21bd9859bc387927970d4333066e07bf89af"
+    },
+    "art/monsters/red_slaver/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "052a975ce48223a102557907691776fd344f68af9fac59842419686093238313"
+    },
+    "art/monsters/red_slaver/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "7571b22fcb15b47e8dcaf830104f69ec7e821567a72eb1600c51c639e86705c2"
+    },
+    "art/monsters/red_slaver/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "a0069cc2ce264b317b2a70852fd8108a17c5fe2bf35ca4f56bcacfb39b328628"
+    },
+    "art/monsters/red_slaver/source.png": {
+      "category": "original-monster-source",
+      "sha256": "02481d421830376e77a224a5522ca1c339e9116973c11fb6e314759feef5112c",
+      "lfsBytes": 1112090
+    },
+    "art/monsters/sentry/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "46e5264bb0b758ced35e9bde8128b65919272e9f9c85d4749394a8a1addf32c7"
+    },
+    "art/monsters/sentry/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "bca8da5c6de93f2a3509181b3fc1a335fdaa7266dee138a29377b8c29833c09a"
+    },
+    "art/monsters/sentry/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "b87c1ae2394cd63eec79754a8d192bcc1edd2370748cfdaba483050eb0ba224b"
+    },
+    "art/monsters/sentry/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "0299b8f16b5c5ea3b149addadff8336b5fa6fb7a0de2fe997bf793727b377df4"
+    },
+    "art/monsters/sentry/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "236aef142b9a45d213de3b8da5591950ab6d5cdd91130b1a228d4abb187545ec"
+    },
+    "art/monsters/sentry/source.png": {
+      "category": "original-monster-source",
+      "sha256": "b4313791a2360d6f056f47b9c9b5373568dc12019faf3876a4cac48d222463b8",
+      "lfsBytes": 1149249
+    },
+    "art/monsters/shield_gremlin/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "35da2590c9b42f5f9d7894cb4ceab97db79296ef758cd24d568df6c3379a44fe"
+    },
+    "art/monsters/shield_gremlin/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "eab56fc9f02f7fe496e279f3c9292e54cd374b6f038f3931c020cc23e6fd477d"
+    },
+    "art/monsters/shield_gremlin/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "8819bdc81dd693b44b688a6e3779fbe49ddb8abf0ba154ec645808d5d8420bab"
+    },
+    "art/monsters/shield_gremlin/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "9a2d3ee704a5367af01f9006e44e4edfb0e1c7957afb8af9dd02269b0f3736ba"
+    },
+    "art/monsters/shield_gremlin/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "4931b65e2b054f4acf3d28149e752e84565a40a45ca30b437a087f70a823d46a"
+    },
+    "art/monsters/shield_gremlin/source.png": {
+      "category": "original-monster-source",
+      "sha256": "44c0562c1c1db3dfbc6beedacf7878d50641008f0a0d7c63b30320c461d5b1d4",
+      "lfsBytes": 1465250
+    },
+    "art/monsters/slime_boss/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "9912722c9b6f5c50b513a2eb46c2b8649d1d13d5336ca9630425219a8c25371e"
+    },
+    "art/monsters/slime_boss/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "ba5205146dc2c05ec65562eded456173d99160ae72d84869eac54df0d411e885"
+    },
+    "art/monsters/slime_boss/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "a07bf162e1656167f6b34842c8f9a4f53d8241766d5e975f0b8cad2404c28f51"
+    },
+    "art/monsters/slime_boss/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "1280830318c14f15a55a690636ac873d991716bd560369240f41c23766f73c93"
+    },
+    "art/monsters/slime_boss/preview-contain-173.png": {
+      "category": "original-monster-source",
+      "sha256": "f4d3318e1bd21313f289dec7ec0f7d32a95dc2fd06b75800283734251158eb02"
+    },
+    "art/monsters/slime_boss/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "b35dfacf5c5ec8b0378a89bc6fff06ac6068dada3937ed00ee3ed04069933ff7"
+    },
+    "art/monsters/slime_boss/source.png": {
+      "category": "original-monster-source",
+      "sha256": "2229626140befbf7d9d179a6d87c5d5923c5257c9d5b50dfafa54cd9531fff8b",
+      "lfsBytes": 1203734
+    },
+    "art/monsters/snake_plant/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "edcae539da40c072856599cbc6b295e43ed46b771cef4a2c3263a0ab9b790635"
+    },
+    "art/monsters/snake_plant/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "941bdf7c8b99de6f910aaad435bbaabb903f17f06ea08faeaf202f39e8990090"
+    },
+    "art/monsters/snake_plant/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "c80afaae2a48318def2d992e4765e76edb7226428c9b367e81400f27ea58ea0d"
+    },
+    "art/monsters/snake_plant/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "e3403fab1004ab989d7a45753bbd018b33627196d5010313147c05d1c22de865"
+    },
+    "art/monsters/snake_plant/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "e1871680d6625e6a701fee4ac2771a1d881517bd0d70f1f9c96df890e48a535b"
+    },
+    "art/monsters/snake_plant/source.png": {
+      "category": "original-monster-source",
+      "sha256": "0b42b224c9e00547e1abca6215c34d35f8225ca636abe716d8bafcac81520b2f",
+      "lfsBytes": 1612251
+    },
+    "art/monsters/sneaky_gremlin/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "12d3a5915979b9aa534c1634c09963e4e582460f8d53ca1b2a45093ca2a0e43e"
+    },
+    "art/monsters/sneaky_gremlin/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "b2ac65f5a30f007ece4f1e03746078434d80fa631d4b33e6a9930698f92a9067"
+    },
+    "art/monsters/sneaky_gremlin/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "68c0e2328e36c42362dd1097de4d9762938edb0f780b41680c3079ac43c47efb"
+    },
+    "art/monsters/sneaky_gremlin/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "c1eff4ab0d54db7e18efc37f6dff9b4ccfd203be8f4cb129b788bcb4cb30c285"
+    },
+    "art/monsters/sneaky_gremlin/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "a47dd6116bfa63b7d2b0fa8de45bea7af429a70f1608b4176851c74e24e0fa0f"
+    },
+    "art/monsters/sneaky_gremlin/source.png": {
+      "category": "original-monster-source",
+      "sha256": "2a1949508955a44f923c6a20ee28022481118e3f7ee213b29f20cb5d20577b68",
+      "lfsBytes": 1031730
+    },
+    "art/monsters/snecko/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "504c71c7a5bc8a07e90ecc895421ba7f9b1e358a4be6ae1fef9f75ccce3a4871"
+    },
+    "art/monsters/snecko/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "5d2f2a771547452860f5099908fc1876d5daa1a55457938774bd69d02df39ff3"
+    },
+    "art/monsters/snecko/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "72de37006257330c1323fd8b58649681db1c633aa1d5d6f12cdf51f54573d8b1"
+    },
+    "art/monsters/snecko/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "b3c519a38bff8ddce8f0b231feb44b4b47a130041d75465f457e27b77c12cf77"
+    },
+    "art/monsters/snecko/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "14c25be85edce3624598dcd967d8ee009c78a6a2ec846d3fea138f42cb347f03"
+    },
+    "art/monsters/snecko/source.png": {
+      "category": "original-monster-source",
+      "sha256": "e37eb9744d2c14cc4324749e217f57d2bf37558d7072d3799a00201806618dfb",
+      "lfsBytes": 1243686
+    },
+    "art/monsters/spheric_guardian/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "81a1a9c9a7975efca6f305288c6cbfec385bb1a54340c35d51744ab3ac2d6c5f"
+    },
+    "art/monsters/spheric_guardian/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "1d64bb61d5da71f294f37f5f7f5fbd9f794025f7b1529333eb50f86b5b95e24a"
+    },
+    "art/monsters/spheric_guardian/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "76f2e782f2da03ced03b493a480daab9f0ff813796e5d19ff41e0d4c35625640"
+    },
+    "art/monsters/spheric_guardian/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "8130b417bd912c59560c65cb4fdc884a5a8f8a0b8336e25df5a224350672e0dc"
+    },
+    "art/monsters/spheric_guardian/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "03b9a1c750593a88031a740caa8e4e9f4b9b62651effea1e08e8f41c52dcc2a6"
+    },
+    "art/monsters/spheric_guardian/source.png": {
+      "category": "original-monster-source",
+      "sha256": "03a158e462c60bf600f249390a11634f348b58e924084cb33e65f535738dd580",
+      "lfsBytes": 1260645
+    },
+    "art/monsters/spike_slime_l/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "b6da2e3e1cb88711e076160fce403a8bfde61da566b4e6a3545b72cd32ac606c"
+    },
+    "art/monsters/spike_slime_l/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "e4d4a47f66efa703850d9197cb4356e43bbe938be56f24bb612b55f8f3c55ec9"
+    },
+    "art/monsters/spike_slime_l/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "d211d5767a91163fc891b081abd0e09186c6f94ea10d2943c857adabb1e34f26"
+    },
+    "art/monsters/spike_slime_l/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "c650fff761273ef79ae6dfd96f48ecfe6e636d08185ac91ff62f0bfb8ca8c54b"
+    },
+    "art/monsters/spike_slime_l/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "3a9965b4abae02825fd1ef5617b8d82a7c0ff92c2b65684fa3021838725a6735"
+    },
+    "art/monsters/spike_slime_l/source.png": {
+      "category": "original-monster-source",
+      "sha256": "ba20922386cfc664b3c4362113c2c54fd9ed5eca4acecc754f74307d4c9ef08d",
+      "lfsBytes": 933894
+    },
+    "art/monsters/spike_slime_m/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "ef4a981df199c0a1b0d5640663fd2ad46dea15d113b2e622d97d40beda964659"
+    },
+    "art/monsters/spike_slime_m/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "6bdb96a631d5cc8858507b735c56dda01496752af1bb702c1de82898b9461daf"
+    },
+    "art/monsters/spike_slime_m/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "39aa2c1b02f1f5bd66228db52b6f7e44f7e03a8b66774b74949dea8d3e460e29"
+    },
+    "art/monsters/spike_slime_m/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "7f0f0fdaf35621f83134367dff22076978f613683f6c71f92554c43b914cc4a8"
+    },
+    "art/monsters/spike_slime_m/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "c22e8cf0fa094afab252fa22a278409234de1d9bca6bfd4adcbad2b697252e81"
+    },
+    "art/monsters/spike_slime_m/source.png": {
+      "category": "original-monster-source",
+      "sha256": "1fd7be9ff86afba14a69a2971d4a12d7642ebe7f6ec64fc0f02dac05d9685f94",
+      "lfsBytes": 1039831
+    },
+    "art/monsters/spike_slime_s/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "ddc39577234995e3345ac0c6b9d09009c1c01d296a477c9c1f642d3e8f0c6e32"
+    },
+    "art/monsters/spike_slime_s/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "1a64851a1e21a3abb28a8637dac35bf40a51204f24d2f5cb33f6b8cc4b8d3ccf"
+    },
+    "art/monsters/spike_slime_s/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "b8d14eeddeecd75ea22d014d34524501c595b4b75601d5900e87ea07118e16f3"
+    },
+    "art/monsters/spike_slime_s/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "ed4d8afabd8c6fef2436a438c0e99ab3d8016021d72080a0724c44b92626437e"
+    },
+    "art/monsters/spike_slime_s/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "d730558482488093570ef072318b6227571381bb4a33de19fa9189ff27e623ba"
+    },
+    "art/monsters/spike_slime_s/source.png": {
+      "category": "original-monster-source",
+      "sha256": "a8fdfc4494153a489ea3cad18ff5359b012533d8a0c594604c0eed9098214a52",
+      "lfsBytes": 769697
+    },
+    "art/monsters/taskmaster/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "b7c8f13896973a928a414e39e8784161bc142ec254202bce61d00536730e57bb"
+    },
+    "art/monsters/taskmaster/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "d370666255d4301372640023c66817efc9a968ede766355f928957dec515c2d6"
+    },
+    "art/monsters/taskmaster/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "a6394c1e44f50645112edd196cf95a794175b0b94a7629dcaf54446453bcbdf9"
+    },
+    "art/monsters/taskmaster/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "c8dfe891d93362a0144f81f4285e6e85fbfa77167a49a48a30b8e4447ceffd06"
+    },
+    "art/monsters/taskmaster/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "d792c5394c8860b934bcc6462efb96b12953f89057752d8583a61bfb48e75c4b"
+    },
+    "art/monsters/taskmaster/source.png": {
+      "category": "original-monster-source",
+      "sha256": "40baac763a8214de793e16eb89997346d59bf97b085728d089d93d5a300197e0",
+      "lfsBytes": 959063
+    },
+    "art/monsters/torch_head/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "7ed07465b7962fb210bda54508e7e18b6d6a6ff3c099136df0b1f34852fd2f1e"
+    },
+    "art/monsters/torch_head/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "9582f705117582d1e1573ed247d5c2afafb210c38f347be4cdf92330f8104bf7"
+    },
+    "art/monsters/torch_head/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "42c181bdb2c713656e36b5482fb2efeaee34420e282810b0c0e6e8fdfd2b255d"
+    },
+    "art/monsters/torch_head/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "763d7ce9a528b5a050e09516fc83f12901fc5ff616c46e03bad1a87b6990575c"
+    },
+    "art/monsters/torch_head/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "8833af0a854a8f895b4892050026cf3b184c81593476e9ab8c6b134be0b4b4b4"
+    },
+    "art/monsters/torch_head/source.png": {
+      "category": "original-monster-source",
+      "sha256": "fbb0d5760aa70906b7a9f93ec2735c2333777a8c3ca29e39695d8622cec7e7ad",
+      "lfsBytes": 1171071
+    },
+    "art/monsters/wizard_gremlin/asset.json": {
+      "category": "original-monster-source",
+      "sha256": "644d3d42c0fbb2e5e7f17e894b04d1836e1693cecebf853fc5bec758f0f404e1"
+    },
+    "art/monsters/wizard_gremlin/generation-provenance.json": {
+      "category": "original-monster-source",
+      "sha256": "f2f37acbf48b15971c26e188d2f2103876250ab97f9927569e00f1cb8c5151c8"
+    },
+    "art/monsters/wizard_gremlin/preview-contain-106.png": {
+      "category": "original-monster-source",
+      "sha256": "76e315fbe97663a71a1f3ace58d3e37323a1ba9f9719394513f03f912b340239"
+    },
+    "art/monsters/wizard_gremlin/preview-contain-127.png": {
+      "category": "original-monster-source",
+      "sha256": "098dd2d4cebe1d8b668818046f75302f78a131ae1b5d84a53a0ff558dc3d867e"
+    },
+    "art/monsters/wizard_gremlin/source-review.json": {
+      "category": "original-monster-source",
+      "sha256": "95cd8373c4ccf4a3fa182dc07b8f28e1e277e99b30f35066075103be74a81f6e"
+    },
+    "art/monsters/wizard_gremlin/source.png": {
+      "category": "original-monster-source",
+      "sha256": "a1a0899fe21be84a385deef462b931a4548ca0cd3e30a4633e464b6508b505d2",
+      "lfsBytes": 912804
     }
   }
 }

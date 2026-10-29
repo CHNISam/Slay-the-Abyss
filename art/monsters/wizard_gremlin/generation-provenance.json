@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "wizard_gremlin",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:18:09.253Z",
+    "endUtc": "2026-10-29T20:19:01.632Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../mad_gremlin/source.png",
+      "role": "actual first-family original grayface/two shorthorns identity/material; not leanmad proportions/pose",
+      "actuallyPassed": true,
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved painterly style-only, no objects/anatomy",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 912804,
+      "sha256": "a1a0899fe21be84a385deef462b931a4548ca0cd3e30a4633e464b6508b505d2"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2717,
+      "sha256": "53cc43f74bb222f132c275126c02131ece345f4d495cb7687f32d53602261505"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 13259,
+      "sha256": "76e315fbe97663a71a1f3ace58d3e37323a1ba9f9719394513f03f912b340239"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 17756,
+      "sha256": "098dd2d4cebe1d8b668818046f75302f78a131ae1b5d84a53a0ff558dc3d867e"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original narrowupright gray2horn imp, foreheadwide stripe, darkpurple shorttunic/collar, BOTHhands support ONE thick groovedflatstone chest; no staff/wand/flame/largeorb",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full+106/127/4x inspected: narrowgrayfamily, onechestheldstone twohands, stoneleavesfacevisible, armnotches/gaps present, headhorns/feet whole. Alpha>16bbox(266,36,1075,1215). Rawsource unchanged, no crop/stretch; native unverified."
+  }
+}

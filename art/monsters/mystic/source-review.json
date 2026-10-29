@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "mystic",
+  "sourceSha256": "b2db09249407d6199ea6cc817f76cd870ee6aa3bf99ed863e453f0f17785ccfa",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    164,
+    3,
+    1028,
+    1250
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY_WITH_TIGHT_MARGIN",
+  "hardDefects": [],
+  "fullSource": "actual raw/source pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "4652a2bcd2c7b7c361ef868eec822f3d2e080bb6e7819202f575a4ede8287747",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "9426de18315216df511558699d511f9749cffbd886968467b314dc6fa6c90844",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Plain original human medic, grey-white/dark-teal narrow robe, side medicine box, leaf-shaped stone staff and empty upturned palm. No copied STS pink mage/ally/heal-number identity.",
+    "Leafhead/shaft/grip continuous, open palm fingers plausible, two boots intact. Staff longer than short-staff brief is minor composition deviation.",
+    "Initial suspected top-wrap clipping disproved: independent meaningful top-row counts y0..6 are0,0,0,27,52,70,81; contour narrows inside canvas, no meaningful bordercontact. Not a failed first source or repair.",
+    "Robe/staff/box/openpalm arrangement readable106/127; knot/boots very close to vertical edges but intact."
+  ],
+  "costLimits": [
+    "Preserve staff continuity, face/openpalm/sidebox and large robe masses before folds/leaf facets/finger microdetail.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; very tight top3px/bottom4px meaningful margin requires downstream6% inset contain. No padding-only regeneration, crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

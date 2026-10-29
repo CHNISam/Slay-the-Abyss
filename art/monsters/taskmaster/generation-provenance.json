@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "taskmaster",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:36:57.173Z",
+    "endUtc": "2026-10-29T20:37:48.622Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 2,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved broad painterly style only; no anatomy/objects",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ],
+      "usedForAttempt": 1
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 959063,
+      "sha256": "40baac763a8214de793e16eb89997346d59bf97b085728d089d93d5a300197e0"
+    },
+    "prompt-repair.txt": {
+      "path": "prompt-repair.txt",
+      "bytes": 1559,
+      "sha256": "22a64f8a4bf49bcd8d80533c14c01b50b25ccbd26f47763e0f4463d401d9f733"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2108,
+      "sha256": "d3dfae5dbd8f76ec9d2473f91ffe988d808d2e0ac13a1cdcdd8dea6e446a3bc9"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 14280,
+      "sha256": "a6394c1e44f50645112edd196cf95a794175b0b94a7629dcaf54446453bcbdf9"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 19149,
+      "sha256": "c8dfe891d93362a0144f81f4285e6e85fbfa77167a49a48a30b8e4447ceffd06"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original tall thin masked commander, square shoulder cape panels, charcoal/ochre garment, one short thick folded jointed zigzag whip",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Repaired full/106/127/4x inspected: one continuous three-segment SOLID darkiron folded Z whip with visible hinges, no hollow cuffs; figure identity, pose and costume retained. Alpha>16bbox(187,10,1036,1244), tight10px vertical margin but intact silhouette; downstream inset contain if needed, never crop. No artistic patching; source is actual returned image bytes."
+  }
+}

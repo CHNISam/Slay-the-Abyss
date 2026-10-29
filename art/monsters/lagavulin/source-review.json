@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "lagavulin",
+  "sourceSha256": "43c03d9aa18ab003e0318d9a14892baa7af5d79de20963c97991c0bd1dde8e69",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    18,
+    240,
+    1238,
+    1044
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "fbd65a14de7895b2953b7b2323cc3a849005aa0ea30a68e02b1cd04cb4e6b98f",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "bb5d7ddef625cf1d16661f64ab8793814fe51ed2d4c520ad0e1f7facf8d8372f",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Three large closed shield plates form compact low oval stone envelope, small head visible upper notch, two short feet and one left articulated arm.",
+    "Bronze joint chains connected, hand/digit plates coherent; no floating pieces or extra limbs, no STS shell/tentacle copy.",
+    "Arm extends more than just-emerging brief but pose stays crouched/compact; composition deviation recorded. Distinct from tall open Guardian while sharing stone/bronze/dark-teal materials.",
+    "Low shell/head/arm/feet relation reads106/127; finer fractures and joint rings not reliable tiny. Contours intact."
+  ],
+  "costLimits": [
+    "Preserve three major plate masses, visible head, one arm connection and two feet before fine cracks/facets/ring highlights.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only, no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

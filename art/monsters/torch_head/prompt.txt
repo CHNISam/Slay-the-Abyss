@@ -1,0 +1,10 @@
+Use case: stylized-concept.
+Create one original full-body ceramic attendant monster on a true transparent square canvas, requested 1024 × 1024. Keep every arm, foot, bowl rim and flame tip inside comfortable margins. No floor, shadow pool, scenery, text, UI or decorative particles.
+
+The supplied ancient guard is a MATERIAL AND PAINTED STYLE reference only: broad matte planes, simple connected joints and three or four clear values. Do not copy its stone shield shell, head, proportions or single extended arm. This is an original ceramic servant, not a Slay the Spire burning straw head or official Genshin machine.
+
+Torch Head / 炬火侍从 has a SHORT ROUND BODY covered in three broad burnt-terracotta armor sections, simple dull dark-copper joints, two SHORT STURDY FEET and two short arms spread outward. The head is a WIDE THICK BOWL-SHAPED FIRE CUP attached directly to a short neck joint. Show the bowl's broad oval rim and shallow dark interior clearly. It contains ONE SMALL ORANGE FLAME, a simple compact tapered shape occupying less than one quarter of the bowl width. No giant blaze, smoke, sparks, flame hair, straw or face within the fire. The ceramic bowl itself is the head; no second humanoid head.
+
+Pose faces LEFT with a slight forward lean, feet grounded and separated on an invisible baseline. The near arm bends low-left, the far arm spreads slightly back-right. Each arm connects to the round body through one visible simple joint and ends in a compact blunt three-finger hand. Exactly two arms and two feet; no weapon, extra attendant or floating component.
+
+At 106 and 127 pixels, the short round torso, wide bowl head, two feet and small contained flame should remain clear. Use burnt clay, dark copper and charcoal shadows with the one modest orange accent. Chunky mature matte painted planes, selected clean contours, only a few large material wear shapes. Avoid dense cracks, tiny bolts, glossy rendering, cloth details, glow fields or high-frequency texture. This source shows readiness only; do not invent a fire projectile or explosion.

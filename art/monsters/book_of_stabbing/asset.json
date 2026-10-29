@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "book_of_stabbing",
+  "assetRole": "source-candidate-only",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "transparent": true,
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1735885,
+      "sha256": "7976df2fc5983181d841c61ac1e8cbae29dc0327cd7e2be23d7027135da6c102"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2751,
+      "sha256": "d57e82d7fb0482c9424b99bb798d4073f8c070b990de3e1a0a3fd1023c4ab322"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 19032,
+      "sha256": "4694aad57cf36270aaeab6a2676d65762931bdc9322ac3a785ab9afbdab3e83c"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 25905,
+      "sha256": "5e0c6e51a24a5178b66f4a913f790e45803422bae3d9c94ab6c67ccab4e71a55"
+    },
+    "generation-provenance.json": {
+      "path": "generation-provenance.json",
+      "bytes": 2549,
+      "sha256": "e226af4c0b861baf2927b3ed4cd091edf36c51f2704e940503d227a19e0e9c1e"
+    },
+    "source-review.json": {
+      "path": "source-review.json",
+      "bytes": 1829,
+      "sha256": "82ac4b1a52a24474666350742cd9935855913e295fb2008305118fcbb40433ba"
+    }
+  },
+  "previews": [
+    {
+      "path": "preview-contain-106.png",
+      "size": [
+        106,
+        106
+      ],
+      "mode": "contain",
+      "crop": null,
+      "stretch": false,
+      "scale": 0.08452950558213716,
+      "resizedSize": [
+        106,
+        106
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "explicitPaddingPixels": 0,
+      "recommendedFutureInsetFractionEachSide": 0.06,
+      "recommendedInsetImplemented": false,
+      "sourceAlphaBBox": [
+        0,
+        27,
+        1224,
+        1231
+      ]
+    },
+    {
+      "path": "preview-contain-127.png",
+      "size": [
+        127,
+        127
+      ],
+      "mode": "contain",
+      "crop": null,
+      "stretch": false,
+      "scale": 0.10127591706539076,
+      "resizedSize": [
+        127,
+        127
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "explicitPaddingPixels": 0,
+      "recommendedFutureInsetFractionEachSide": 0.06,
+      "recommendedInsetImplemented": false,
+      "sourceAlphaBBox": [
+        0,
+        27,
+        1224,
+        1231
+      ]
+    }
+  ],
+  "prompt": "prompt.txt",
+  "provenance": "generation-provenance.json",
+  "sourceReview": "source-review.json",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "nativeJsonLua": "not-created",
+  "performance": "unmeasured; PNG bytes are not runtime cost or capacity"
+}

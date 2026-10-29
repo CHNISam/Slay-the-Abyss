@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "jaw_worm",
+  "sourceSha256": "064a91c5bf075224d5fd10f27febfc2424c7418762fbc64e8234afd9f1841e96",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    50,
+    301,
+    1220,
+    990
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "file": "preview-contain-106.png",
+      "sha256": "5b5e8334585403ce7cacf15da8948dda179bf8868746224f5973fd6113752a18",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "file": "preview-contain-127.png",
+      "sha256": "c4091bc890ed340fb3fc413a0a26b9f38c772cc4dadd8ee5c827ea8fb5e946d2",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original low rock-jaw quadruped/mammal with thick pale stone external mandible, three large dorsal limestone plates, dark brown fur and restrained moss. Not STS large-mouth grub or a boar costume copy.",
+    "Four paws accounted: far front under head, dominant near front center, small far rear underbelly, near rear right. Limb connections plausible with natural far-rear occlusion; no extra detached paw/limb.",
+    "Jaw/body connection and bite opening coherent; head, tail, stone plates and toes intact. Broad stone jaw/backplate contrast and four-paw low stance survive106/127.",
+    "Paint vocabulary matches first-pair sources. Fine fur facets/moss/teeth detail not reliable at106; retain value masses and silhouette ahead of expensive microdetail."
+  ],
+  "costLimits": [
+    "Native conversion should preserve jaw solidity, plate count, paw negative spaces and low mammal mass, not every fur facet/tooth highlight.",
+    "Source PNG bytes and offline previews do not prove native control cost or device performance."
+  ],
+  "framing": "Whole canvas contain only; downstream inset contain allowed for intact tight margins. Runtime portrait centered square, not a ground anchor.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "No native production authorized by this review; TASK25.3 runtime/device/performance gates remain pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}
