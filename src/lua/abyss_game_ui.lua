@@ -719,7 +719,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     requestSettlement = function(victory)
         if self.disabled then return false,"ui_disabled" end
-        if self.motion.deathReveal then return false,"result_revealing" end
+        if self.motion.deathReveal or self.run and self.run.phase == "defeat" and self.battleUI.busy then return false,"result_revealing" end
         if self.settlementRequested or self.settlementBusy then return false, "settlement_already_requested" end
         if type(platform.settle) ~= "function" then
             self.exitError = self.exitOpen == true
