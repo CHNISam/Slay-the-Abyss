@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { selectTests, parseGitChanges } from '../scripts/test-affected.mjs';
+import {frozenBattleHandFixtures} from './helpers/battle-life-frozen-hand.mjs';
 
 const sources = {
   'src/lua/abyss_low.lua': 'return {}',
@@ -406,6 +407,21 @@ test('the conditional historical replay helper selects its fixture without taint
   assert.equal(plan.full,false);
   assert.ok(plan.lua.includes('tests/lua/presentation_responsibilities_trace.lua'));
   assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
+test('opening-hand setup selects all eighteen actual fixture entries without tainting ordinary Lua wrappers',()=>{
+  const plan=selectTests(['tests/helpers/battle-life-frozen-hand.mjs'],repositorySources);
+  assert.equal(plan.full,false);
+  assert.equal(frozenBattleHandFixtures.length,18);
+  for(const fixture of frozenBattleHandFixtures)assert.ok(plan.lua.includes(fixture),fixture);
+  assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
+test('current card-view changes still select real opening input and every adapted fixture',()=>{
+  const plan=selectTests(['src/lua/abyss_battle_card_view.lua'],repositorySources);
+  assert.equal(plan.full,false);
+  assert.ok(plan.lua.includes('tests/lua/battle_life_opening_input.lua'),'current unadapted input must remain selected');
+  for(const fixture of frozenBattleHandFixtures)assert.ok(plan.lua.includes(fixture),fixture);
 });
 
 
