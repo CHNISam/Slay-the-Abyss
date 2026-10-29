@@ -50,7 +50,19 @@ test('bounded prepared UI registrar reverses every reviewed byte and rejects ran
 });
 test('raw and Node discovery retain both prepared UI slices exactly once in every hosted plan',()=>{
  const raw=readdirSync('tests/lua').filter(name=>name.endsWith('.lua')).map(name=>'tests/lua/'+name),expected=slices.map(slice=>slice.path);
- assert.deepEqual(raw.filter(path=>/^tests\/lua\/competition_roster_prepared_ui(?:_slice_\d+)?\.lua$/.test(path)).sort(),[...expected].sort());
+ const verifyFamily=files=>assert.deepEqual(files.filter(path=>path.startsWith('tests/lua/competition_roster_prepared_ui')&&path.endsWith('.lua')).sort(),[...expected].sort());
+ verifyFamily(raw);
+ for(const missing of expected)
+   assert.throws(()=>verifyFamily(raw.filter(path=>path!==missing)),'missing raw family entry must fail');
+ for(const extra of [
+   'tests/lua/competition_roster_prepared_ui_slice_3.lua',
+   'tests/lua/competition_roster_prepared_ui_noncanonical_disabled.lua',
+   'tests/lua/competition_roster_prepared_ui_slice_wrong.lua',
+ ])
+   assert.throws(()=>verifyFamily([...raw,extra]),'extra canonical or noncanonical family entry must fail');
+ assert.throws(()=>verifyFamily([...raw,expected[0]]),'duplicate raw family entry must fail');
+ assert.throws(()=>verifyFamily(raw.map(path=>path===expected[1]?'tests/lua/competition_roster_prepared_ui_slice_99.lua':path)),
+   'a wrong replacement slice cannot stand in for the accepted raw entry');
  for(const workers of [1,2]){
   const actual=Array.from({length:8},(_,i)=>shardLuaScripts(raw,`${i+1}/8`,timings,workers)).flat().filter(path=>expected.includes(path));
   assert.deepEqual(actual.sort(),[...expected].sort(),`every raw prepared UI slice executes once with ${workers} worker(s)`);
