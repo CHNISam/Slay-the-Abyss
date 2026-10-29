@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "mystic",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:35:23.384Z",
+    "endUtc": "2026-10-29T20:37:21.646Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "painted-style-humanmaterial-only-not-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1161319,
+      "sha256": "b2db09249407d6199ea6cc817f76cd870ee6aa3bf99ed863e453f0f17785ccfa"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2360,
+      "sha256": "50cd75e437fca2799de3b001cfe8347d3a69008b491530f26f66f096c8654851"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 15536,
+      "sha256": "4652a2bcd2c7b7c361ef868eec822f3d2e080bb6e7819202f575a4ede8287747"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 20975,
+      "sha256": "9426de18315216df511558699d511f9749cffbd886968467b314dc6fa6c90844"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original narrowgraywhite/darkteal humanmedic, smallsidebox, one wideleaf stonestaff andemptyupturnedpalm",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      164,
+      3,
+      1028,
+      1250
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed; insetcontain iftightmargin"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full1061274x: plainmedic face/robe/attachedsidebox/leafstaff andopenpalm read, coherentgrip/2boots. Stafflongerthanrequestedshort butclearleafhead. Initiallythoughtheadwrapcut, alpha disproves: bbox starts3px top/toprow0 meaningfulalpha, knotintact; needinsetcontain no repair. NoSTS pinkmage/healparticles/ally."
+  }
+}

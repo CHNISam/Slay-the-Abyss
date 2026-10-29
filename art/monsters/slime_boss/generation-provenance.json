@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "slime_boss",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:25:07.249Z",
+    "endUtc": "2026-10-29T20:26:10.119Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "b0340d32eef614c71ef852cb8e4289ba2f8928ec08315c3e3b535da055fc8f82",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-gel-material-and-paintedstyle-only-not-twinpeak-core-identity",
+      "actuallyPassed": true,
+      "path": "../acid_slime_l/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1203734,
+      "sha256": "2229626140befbf7d9d179a6d87c5d5923c5257c9d5b50dfafa54cd9531fff8b"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2224,
+      "sha256": "c08828a4c37931bf76a4d1ea665c3cada8facd38f92e4f474f9f56c5eb5d0804"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 15605,
+      "sha256": "a07bf162e1656167f6b34842c8f9a4f53d8241766d5e975f0b8cad2404c28f51"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 20970,
+      "sha256": "1280830318c14f15a55a690636ac873d991716bd560369240f41c23766f73c93"
+    },
+    "preview-contain-173.png": {
+      "path": "preview-contain-173.png",
+      "bytes": 34769,
+      "sha256": "f4d3318e1bd21313f289dec7ec0f7d32a95dc2fd06b75800283734251158eb02"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original asymmetric single cyan-gray/darkgreen geldome with2drooping sidelobes and3broadlowrockbrown slabs crownridge, nothat/royalcrownicon",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      7,
+      171,
+      1248,
+      1094
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full106127173and4x inspected: singleasymmetricdome2sidelobes andlow3rockplate crest read, externalridge distinct acidinternalcore/twinpeaks; cyanpalette notgreencopy. Verytight leftlobe margin/alpha fringe touchesedge; contour appearscomplete but reviewer shouldcheck genuineclip vs noise. No hat, detachedstones or effects.",
+    "contain173": true,
+    "nearest4x173": true
+  }
+}

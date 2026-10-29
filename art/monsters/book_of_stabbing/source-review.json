@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "book_of_stabbing",
+  "sourceSha256": "7976df2fc5983181d841c61ac1e8cbae29dc0327cd7e2be23d7027135da6c102",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    79,
+    69,
+    1188,
+    1194
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "4694aad57cf36270aaeab6a2676d65762931bdc9322ac3a785ab9afbdab3e83c",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "5e0c6e51a24a5178b66f4a913f790e45803422bae3d9c94ab6c67ccab4e71a55",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Exactly three broad solid short blades rooted continuously into spine, purple-brown slanted rectangular tome, bone-white thick stone pages and narrow opening.",
+    "No floating daggers, extra blades or copied STS dagger-cover identity. All tips/book corners intact.",
+    "Three blade count/book/page masses readable106/127. Fine cover texture/cracks not dependable tiny."
+  ],
+  "costLimits": [
+    "Preserve three attached roots, book outline and page/cover separation before cover microtexture/cracks/facet sparkle.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; intact tight margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

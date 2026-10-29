@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "sneaky_gremlin",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:10:24.828Z",
+    "endUtc": "2026-10-29T20:11:14.901Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-ownfamily-grayface-shorthorn-identity-and-paintedstyle-not-bodybuild-or-pose",
+      "actuallyPassed": true,
+      "path": "../mad_gremlin/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1031730,
+      "sha256": "2a1949508955a44f923c6a20ee28022481118e3f7ee213b29f20cb5d20577b68"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2464,
+      "sha256": "5c25e050ab09440dbcdca16419259d38577c5abaeed41489595b6e2a6930a8af"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 15077,
+      "sha256": "68c0e2328e36c42362dd1097de4d9762938edb0f780b41680c3079ac43c47efb"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 19969,
+      "sha256": "c1eff4ab0d54db7e18efc37f6dff9b4ccfd203be8f4cb129b788bcb4cb30c285"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original grayshortpairedhorn slender longlimb imp with short trianglescarf, darktealclothing and one low closebodyshortblade, bentknees",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      42,
+      99,
+      1229,
+      1194
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full1061274x inspected: familygrayface/pairedhorns and slenderarms/finewaist/bentknees distinct mad,1dagger continuous grip/guard/blade no penetration, otheremptyhand behindside. Scarf rendered darktealgray rather than requested neutralgray, but shorttriangle reads. Ears pointy samefamily, no mask/STSredskin. Whole outline intact."
+  }
+}

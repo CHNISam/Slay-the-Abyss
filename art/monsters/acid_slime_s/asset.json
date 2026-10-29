@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "acid_slime_s",
+  "assetRole": "source-candidate-only",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "transparent": true,
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 591437,
+      "sha256": "5de3f90d5301baf8fb601e44e2d5c502f2badddbe61eb66cd253b17b1a6a0a37"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 3159,
+      "sha256": "1fbb049e07b76af88cc327fafc5bf7dd9d4a616dbf4a71e30e27796b9dc56605"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 8132,
+      "sha256": "74193ecb76d122286431914a2f16c210bd6cea3f7817df178a48edc15490dd3c"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 10855,
+      "sha256": "4a33dd0ad9f0302d8dc6a0471f0001bdb8c82fff0b0f71d942d319f6fb32953f"
+    },
+    "generation-provenance.json": {
+      "path": "generation-provenance.json",
+      "bytes": 2294,
+      "sha256": "7e69dbf593988f1dd932095a1bfdb48b49185aeab652e51214378c045b598d93"
+    },
+    "source-review.json": {
+      "path": "source-review.json",
+      "bytes": 2104,
+      "sha256": "bdcc7cb3c2f8918d451244d350bdb6cccde1ff0cb0ea9f030f739fc13cea01f1"
+    }
+  },
+  "previews": [
+    {
+      "path": "preview-contain-106.png",
+      "size": [
+        106,
+        106
+      ],
+      "mode": "contain",
+      "crop": null,
+      "stretch": false,
+      "scale": 0.08452950558213716,
+      "resizedSize": [
+        106,
+        106
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "explicitPaddingPixels": 0,
+      "recommendedFutureInsetFractionEachSide": 0.06,
+      "recommendedInsetImplemented": false,
+      "sourceAlphaBBox": [
+        33,
+        22,
+        1180,
+        1214
+      ]
+    },
+    {
+      "path": "preview-contain-127.png",
+      "size": [
+        127,
+        127
+      ],
+      "mode": "contain",
+      "crop": null,
+      "stretch": false,
+      "scale": 0.10127591706539076,
+      "resizedSize": [
+        127,
+        127
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "explicitPaddingPixels": 0,
+      "recommendedFutureInsetFractionEachSide": 0.06,
+      "recommendedInsetImplemented": false,
+      "sourceAlphaBBox": [
+        33,
+        22,
+        1180,
+        1214
+      ]
+    }
+  ],
+  "prompt": "prompt.txt",
+  "provenance": "generation-provenance.json",
+  "sourceReview": "source-review.json",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "nativeJsonLua": "not-created",
+  "performance": "unmeasured; PNG bytes are not runtime cost or capacity"
+}

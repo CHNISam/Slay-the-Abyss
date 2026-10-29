@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "looter",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:25:07.163Z",
+    "endUtc": "2026-10-29T19:26:12.560Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none; source raw bytes copied",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "url": "https://slayspiredb.com/icons/sts1/monsters/looter.webp",
+      "classification": "STS1 bestiary sprite, NOT gameplay",
+      "role": "composition/crouch/left-facing/wary-expression only; NOT identity/costume/colors/proportions",
+      "actuallyPassed": true,
+      "sha256": "88a905f9558742d8a5f6897b36a77bffa9fde0ff3d69b5b27b4b5811f60cbb9a",
+      "actualDimensions": [
+        490,
+        490
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "role": "approved painterly style-only, NOT anatomy/objects",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ],
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1026020,
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 3359,
+      "sha256": "3083aa8b61ff76dd63bc63c4ab1fdb25ebd1b698c4ce6e241b9361e98984b378"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 15440,
+      "sha256": "28a1088dc22d35551c159a4c20e2dfe0a57a1379d5813dfe63de9db6dcf02a91"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 20653,
+      "sha256": "17cec51e88a3c5cd8485a71a7c996e4956c73fe9d74051b6c3bbd76ccae647b2"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": {
+    "design": "Original human ruin robber, tan skin, lower-face cloth mask, charcoal short hooded coat, ochre sash, one angular short dagger",
+    "composition": "left-facing compact crouch, one grasping hand, wary eye, separated boots/limbs",
+    "notCopied": [
+      "green skin",
+      "orange hair",
+      "blue vest",
+      "red shorts",
+      "crossed weapons",
+      "hip coinpurse"
+    ]
+  },
+  "inspection": {
+    "fullOriginal": "inspected",
+    "containSizes": [
+      106,
+      127,
+      173
+    ],
+    "nearest4xEach": "inspected",
+    "observation": "Clear whole original human silhouette, correct one low dagger and empty grasping hand; separated feet and limb-body gaps. Smallviews retain hood-mask, sash and dagger silhouette; facial expression detail naturally diminishes at106. Cloth folds more faceted than minimum economy, native cost unverified.",
+    "alpha": "RGBA alpha0..255; >16 bbox(130,35,1205,1219), no meaningful edge contact; <=8alpha faint noise reaches canvas edges. No cleanup/crop performed.",
+    "independentReview": "source-candidate-only-pass; owner/native/runtime/device remain false"
+  }
+}

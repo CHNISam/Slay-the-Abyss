@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "repositoryHead": "ebfdfde4a21054c30272cc6a58abb7d9007fde3e",
+  "enemy_id": "looter",
+  "sourceSha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "inspection": {
+    "fullSource": "inspected actual pixels",
+    "previews": [
+      {
+        "size": 106,
+        "sha256": "28a1088dc22d35551c159a4c20e2dfe0a57a1379d5813dfe63de9db6dcf02a91",
+        "actual1xAndNearest4x": "inspected",
+        "verdict": "pass source readability"
+      },
+      {
+        "size": 127,
+        "sha256": "17cec51e88a3c5cd8485a71a7c996e4956c73fe9d74051b6c3bbd76ccae647b2",
+        "actual1xAndNearest4x": "inspected",
+        "verdict": "pass source readability"
+      },
+      {
+        "size": 173,
+        "sha256": "fb3fb8f6793fe75bafda3b28fb71ae506b44ab8c6b3e9adba642119877a33770",
+        "actual1xAndNearest4x": "inspected",
+        "verdict": "pass source readability"
+      }
+    ]
+  },
+  "findings": [
+    "Original tan human robber: charcoal hood, cloth face mask, ochre sash and single short angular dagger; not STS green/orange/blue/red costume identity.",
+    "Left-facing crouch coherent; empty grasping hand plausible, dagger hand/grip/guard/blade continuous. Two bent legs and separate boots read; no detached or duplicated limb/weapon.",
+    "Head/torso mass, ochre sash, light dagger and leg gap remain identifiable at 106/127/173; fine eye expression and fingers are not dependable at 106.",
+    "No ground plane/shadow or fake alignment guarantee: existing runtime is centered square portrait, not a grounded full-body sprite.",
+    "Alpha >16 bounds (130,35,1205,1219) preserve meaningful subject. Faint <=8 alpha noise reaches canvas edges; not a source visual rejection, but native conversion must not waste primitives on it."
+  ],
+  "costLimits": [
+    "Do not faithfully subdivide every cloth facet, finger crease, eye highlight or edge sparkle; retain large silhouette/value masses and continuous blade first.",
+    "Source bytes and offline PNGs do not establish native control count, capacity or performance."
+  ],
+  "referenceReview": {
+    "looter-sprite.webp": "viewed; STS bestiary sprite, not gameplay; composition only",
+    "guardian-steam.jpg": "viewed actual gameplay; composition only",
+    "looter-gameplay-candidate.webp": "excluded as mislabeled slaver"
+  },
+  "identityEvidence": [
+    "data/enemies.json currently defines looter attack/steal/smoke/escape AI; older lore statement of attack/block-only is stale, not current runtime evidence.",
+    "docs/lore/v2/02-characters/RAIDERS.md supports masked ruin robber; source does not assert a new rule."
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "nextGate": "Actual native refined candidate and full runtime layering/PC+Android/multiple-enemy load and repeat cleanup remain untested; this review does not close TASK-25.3.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

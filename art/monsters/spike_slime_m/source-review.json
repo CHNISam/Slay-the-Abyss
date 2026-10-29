@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "spike_slime_m",
+  "sourceSha256": "1fd7be9ff86afba14a69a2971d4a12d7642ebe7f6ec64fc0f02dac05d9685f94",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    31,
+    194,
+    1235,
+    1071
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "39aa2c1b02f1f5bd66228db52b6f7e44f7e03a8b66774b74949dea8d3e460e29",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "7f0f0fdaf35621f83134367dff22076978f613683f6c71f92554c43b914cc4a8",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Exactly three broad blunt stone wedges connected into continuous dark-blue-grey gel.",
+    "Deeper single dome with two side droops and transparent undernotches distinguishes actual flat small; not scale-only. Three stones and lobes remain readable106/127.",
+    "No acid rounded core/green palette contamination, no copied STS hat/cannon or new rule symbol. Whole contour intact."
+  ],
+  "costLimits": [
+    "Prioritize stone count/connection, dome silhouette, side gaps and major values rather than dense facet/rim microdetail.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins use downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

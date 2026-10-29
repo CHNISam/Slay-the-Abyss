@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "snake_plant",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:42:13.776Z",
+    "endUtc": "2026-10-29T20:43:27.541Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../fungi_beast/source.png",
+      "role": "actual reviewed original source painterly material/style only; not animal anatomy, fur, paws or fungus caps",
+      "actuallyPassed": true,
+      "sha256": "627ba7a9314ff099aedb1d02db82f03b77de9696bd6ec353cdd9b9c6c3f7b646",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1612251,
+      "sha256": "0b42b224c9e00547e1abca6215c34d35f8225ca636abe716d8bafcac81520b2f"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2167,
+      "sha256": "80ffc8338437d02d3c08ffdc5c6d41934afd6c3b1c7ceaf92e1721fc195e5c80"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 20845,
+      "sha256": "c80afaae2a48318def2d992e4765e76edb7226428c9b367e81400f27ea58ea0d"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 28175,
+      "sha256": "e3403fab1004ab989d7a45753bbd018b33627196d5010313147c05d1c22de865"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original one calyx biting head on short S vine, gathered low brown rootdisc and exactly3 broad stone leaves; not STS threehead plant",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full1061274x inspected: exactly3 broad stoneleaves, one calyx biting head facing left, short thick S vine neck and gathered low rootdisc. Alpha>16bbox(21,82,1229,1197), whole silhouette intact with narrow21/25px lateral margin; downstream inset contain if needed. Raw bytes unchanged."
+  }
+}

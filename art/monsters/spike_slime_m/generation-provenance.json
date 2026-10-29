@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "spike_slime_m",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:59:32.770Z",
+    "endUtc": "2026-10-29T20:01:13.966Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../spike_slime_s/source.png",
+      "role": "actual smallspike family source material/exact3attachedstone continuity, not flat silhouette",
+      "actuallyPassed": true,
+      "sha256": "a8fdfc4494153a489ea3cad18ff5359b012533d8a0c594604c0eed9098214a52",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "role": "approved painterly style-only, not objects/anatomy",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1039831,
+      "sha256": "1fd7be9ff86afba14a69a2971d4a12d7642ebe7f6ec64fc0f02dac05d9685f94"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2856,
+      "sha256": "b882eca58f14711883fc295f8445342dbbc44bc74132b855a30da85839c563c1"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 14506,
+      "sha256": "39aa2c1b02f1f5bd66228db52b6f7e44f7e03a8b66774b74949dea8d3e460e29"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 19285,
+      "sha256": "7f0f0fdaf35621f83134367dff22076978f613683f6c71f92554c43b914cc4a8"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original medium bluegray thickgel, SINGLE higherdome plus TWO side droops, EXACTLY3attached broadbluntstones; not acidcore/green or scaled small",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Full+106/127/4x inspected: singledeeper bluegel dome/two distinct droops/notches and exactly3attached broadbluntstones. Alpha>16bbox(31,194,1235,1071), intact but right19pxmargin less6percent. Rawsource unchanged, no crop/stretch. Native unverified."
+  }
+}

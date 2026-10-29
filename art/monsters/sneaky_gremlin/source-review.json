@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "sneaky_gremlin",
+  "sourceSha256": "2a1949508955a44f923c6a20ee28022481118e3f7ee213b29f20cb5d20577b68",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    42,
+    99,
+    1229,
+    1194
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "68c0e2328e36c42362dd1097de4d9762938edb0f780b41680c3079ac43c47efb",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "c1eff4ab0d54db7e18efc37f6dff9b4ccfd203be8f4cb129b788bcb4cb30c285",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Shared original grey face/short paired horns and pointed ears match actual Mad; no STS/Hilichurl mask identity.",
+    "Slender long limbs/narrow waist/bent knees, triangular dark teal-grey scarf and low owned dagger distinguish massive-forearm Mad beyond color. Scarf teal-grey rather than neutral grey is minor palette deviation, recorded not concealed.",
+    "Grip/guard/blade continuous; empty rearhand plausible, two complete legs/feet and two arms. No duplicated/detached appendage.",
+    "Dagger and scarf/body relation readable106/127; small expression/finger detail not reliable."
+  ],
+  "costLimits": [
+    "Preserve dagger continuity, scarf shape, slim anatomy and limb negative gaps before fine facets/wraps/fingers.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; tight intact margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only, no native production or whole-roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

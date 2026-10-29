@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "mad_gremlin",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:07:05.317Z",
+    "endUtc": "2026-10-29T20:08:31.944Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "painted-style-only-not-human-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1211757,
+      "sha256": "2644de629bf224464503c7dbe340cfc6b9f6fb40dc2bd5c9543586453be57b75"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2531,
+      "sha256": "4f359c0e243899b37c59bde4e33575fbdbd03d785f204a4aaa906cd549e207f2"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 17721,
+      "sha256": "b1f45a862ef4c26edbef4c6be29ca16eb0032f4e035795e26d2ddc5ae8c6e53a"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 23594,
+      "sha256": "9898fc6131109b5228c7853c8a9ab9c7970ac68182b8f9b3c285e2a6abeaeab3"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original gray shortpairedhorn imp, narrow torso with exaggerated forearms and closed fists, clayred waistcloth, leftforward lean",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      78,
+      45,
+      1216,
+      1211
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full106127and4x inspected:2 horns/2fists/2feet coherent, grayface brow irritation and narrow waist/largeforearms read. Ear more pointed/larger than requested but not STS redbigeared identity, no mask/officialfaction. Whole cutout intact. Skin faceting more than minimum economy; native cost unknown."
+  }
+}

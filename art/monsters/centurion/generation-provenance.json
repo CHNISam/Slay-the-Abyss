@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "centurion",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:32:09.208Z",
+    "endUtc": "2026-10-29T20:33:13.486Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "painted-style-humanmaterial-only-not-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1270147,
+      "sha256": "0bffe96aa39a3b957a6203040fe13b09f723066a26fa783c9990f9a210938d53"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2117,
+      "sha256": "48eb65e1ab3a04f37d24c775d9f015abe9932875f0c6392dacc1e87e6654f6f9"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 16716,
+      "sha256": "b45ad9c0ce169bba5e4d4fb1d7eaf1e780566535ffa898d93ffd59fbe1c5badc"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 22451,
+      "sha256": "ad243542234f61743df344be87331c5e71028fe5e4c819a093120641d61c64b2"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original broadarmoredhuman stonegrayoldbronze/darkred trapezoidchest shortwidespear smallforearmplate leftsideguard",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      73,
+      30,
+      1214,
+      1229
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed; insetcontain iftightmargin"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full1061274x: naturalhumanhelmet/face noRomancrest, broadarmor/spearline/attachedfrontforearmplate coherent. Completeboots/head/speargrip ends intact; detailfacetplate countmorethanideal but silhouetteclear, insetcontain caveat. Nootherperson/newmechanic."
+  }
+}

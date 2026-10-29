@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "guardian",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:29:25.389Z",
+    "endUtc": "2026-10-29T19:30:52.146Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none; source raw bytes copied",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=1288709786",
+      "directUrl": "https://images.steamusercontent.com/ugc/941685170148337403/C99627B0707F2E6E4105AD8D6345F05EA4E35805/",
+      "classification": "STS1 Steam gameplay screenshot, Guardian at right; inspected actual pixels",
+      "role": "composition: left-facing three-quarter planted stance, arms low/outward, uppermass contrast and gaps only; NOT identity/colors/parts/proportions/world/UI",
+      "actuallyPassed": true,
+      "sha256": "5a0962c2e7acefa5a64f47c3c83f2eae48bcced08fa8dac02b617d9d934ce0de",
+      "actualDimensions": [
+        1920,
+        1200
+      ],
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "role": "approved painterly style-only, NOT anatomy/objects",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ],
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1422200,
+      "sha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 3915,
+      "sha256": "3e00ab81218bf3dffbcb60a46d1db23e3ff8d6c4e83fb4ef35b4fcd2c71c4db5"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 18940,
+      "sha256": "6cec74b3b7abbc7474ef9051e5fa31d62cc0b2d4072c77f083aaaf459021c192"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 25346,
+      "sha256": "8f35de3fa4e1d49df7287f163913d4174edc55f2220f8f4b354268fbc6a5a648"
+    },
+    "preview-contain-173.png": {
+      "path": "preview-contain-173.png",
+      "bytes": 42084,
+      "sha256": "1aa519608515d47e9cfba02bccccced79704a0c4120a898c200cc8483e6cc416"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": {
+    "design": "Original ancient seal construct: broad weathered stone shoulder slabs, compact closed stone torso with broken square seal relief, connected dark bronze articulated joints, subtle violet corruption fissures",
+    "composition": "left-facing three-quarter heavy planted stance, arms low/outward, separated feet/armtorso gaps",
+    "notCopied": [
+      "STS blue spiral torso",
+      "green chevron",
+      "floating gold armsegments",
+      "exact tallthin proportions",
+      "Lumine anatomy/costume"
+    ]
+  },
+  "inspection": {
+    "fullOriginal": "inspected",
+    "containSizes": [
+      106,
+      127,
+      173
+    ],
+    "nearest4xEach": "inspected",
+    "observation": "Closed squareseal torso, attached bronze joints, broad shoulder masses and planted separated feet/armtorso gaps readable at smallsizes. Fistplates appear intact/closed contours, no meaningful cut/clipping; independent reviewer requested confirmation. More chipped planes and faint surface detail than ideal economy, but no stippling/debris/glowcloud. Subtle violet detail naturally diminishes at106.",
+    "alpha": {
+      "mode": "RGBA",
+      "range": [
+        0,
+        255
+      ],
+      "bboxGreaterThan16": [
+        10,
+        146,
+        1250,
+        1199
+      ],
+      "bboxGreaterThan128": [
+        10,
+        147,
+        1250,
+        1198
+      ],
+      "meaningfulBoundaryPixelCount": 0,
+      "marginCaveat": "On1254square right meaningful margin only4px, left10px; misses requested generous comfort margin and looks touching at tiny size. Root instructed preserve raw if no meaningful contact/cut. Faint<=8alpha noise reachescanvasbounds. No cleanup/crop/padding/sourceedit performed."
+    },
+    "independentReview": "source-candidate-only-pass; owner/native/runtime/device remain false",
+    "independentConfirmation": "Whole fists/digits/plates intact, no actual clipping. Keep narrow-margin caveat; downstream inset contain only if needed, never crop/zoom."
+  }
+}

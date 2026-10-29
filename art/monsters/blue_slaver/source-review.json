@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "blue_slaver",
+  "sourceSha256": "114416652a6902e8a90275b45d6bcc4f20f4de567acc8d4bd705f615d7a43db4",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    78,
+    32,
+    1208,
+    1224
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "2d8924c618c6e5f3d6094054bf25f5c825b3c17cef8901f7a7b6346bf6615ba0",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "44ef1893ce9071ae2205182e0b66b430042bf744b4d0e74d986ea1ab179d8d8c",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original tan human with narrow indigo longcoat, continuous hookpole and other hand holding cloth loop. No STS blue-skin whip identity copied.",
+    "Grip/shaft/hook connection coherent; two arms, legs and intact boots; rope loop has readable inner gap.",
+    "Hook, narrow blue coat and loop silhouette survive106/127. Pole longer than short-brief intent but no hard defect; fine fingers and wraps not reliable tiny."
+  ],
+  "costLimits": [
+    "Prioritize continuous pole, hook gap, rope gap and large coat/anatomy masses. Fine cloth/rope folds and facets risk excess primitives.",
+    "Native cost and performance unmeasured; PNG bytes not evidence."
+  ],
+  "framing": "Whole canvas preserved. Tight intact margins can use downstream6% inset contain; not crop/zoom, not fake ground anchor.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

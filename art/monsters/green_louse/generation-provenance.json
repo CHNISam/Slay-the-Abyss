@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "green_louse",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:38:12.080Z",
+    "endUtc": "2026-10-29T19:39:07.918Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "role": "painted-style-only-not-identity",
+      "actuallyPassed": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "path": "../looter/source.png"
+    },
+    {
+      "sha256": "2a8eab5ace3937a0256835628c8c614487378659e76de72b776a74902906030a",
+      "role": "painted-style-only-not-identity",
+      "actuallyPassed": true,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "path": "../guardian/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1387862,
+      "sha256": "062e9d00158ec1c536bdf94f8c52e314108f7c2b4be8c5f7c86691b22bcd83b1"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2639,
+      "sha256": "3809ba2d60cb4bb58da12850601d6ddea069342a2c911d8167057b15bf4b7e87"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 17389,
+      "sha256": "a4ab0bc1a03c806332c37b68b8bc5fa07f7a3f4a13a9d443847dfbcdde6ad396"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 23395,
+      "sha256": "d6c7983cde3776168fa4955a6812e97c55eb27108a28c41cbc546874ab79c0fa"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original tall high-arched jade egg beetle, two short blunt antennae, six short legs, left-facing, distinct geometry from flat brick-red serrated-horn beetle",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      43,
+      177,
+      1217,
+      1104
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full source106/127 and4x inspected: high dome/two blunt antennae unmistakably different from red flat horn geometry; feet visible and complete, far legs partly occluded. Three near legs and three offset far feet appear coherent though perspective needs independent count check. Tight right edge intact, downstream6%inset contain acceptable. Native cost unmeasured; painted facets more detailed than minimal but broad silhouette clear."
+  }
+}

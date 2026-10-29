@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "cultist",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:35:26.043Z",
+    "endUtc": "2026-10-29T19:36:52.744Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "role": "approved painterly style-only; no objects/costume/anatomy",
+      "actuallyPassed": true,
+      "actualDimensions": [
+        1881,
+        836
+      ]
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 898462,
+      "sha256": "7d7b5fddd7c3080d028fd3f8aedf928e6d1911630f7c31ab912407efb8422ab2"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 3344,
+      "sha256": "4d3da1d904db91794a6d816c3cc5c8195dc87d842ed8a5f9eb08acdd6c64b0a3"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 13113,
+      "sha256": "9917ad326a1333a67ee004893260bef84596b8770855ac93dddb81b91023c584"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 17455,
+      "sha256": "31431b0ec18c439742f2a65aad97dc9a4c547e62ecae8b3afb04d000500dd8a1"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original human ritualist, gray-brown bell robe, natural visible face, bare cupped forearms/hands holding small contained fire; no STS birdmask or official Genshin faction assertion",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127,
+      173
+    ],
+    "observation": "Whole visible human/fire/robe/feet. Smallviews retain face, smallfire and bellrobe. Hanging sleeves partly fill arm-body gaps; not two largeopen holes. Cloth folds more detailed than minimum economy. Alpha>16bbox(182,32,1093,1222),32pxverticalmargin, no meaningful clipping. Rawsource unchanged."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "snake_plant",
+  "sourceSha256": "0b42b224c9e00547e1abca6215c34d35f8225ca636abe716d8bafcac81520b2f",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    21,
+    82,
+    1229,
+    1197
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "c80afaae2a48318def2d992e4765e76edb7226428c9b367e81400f27ea58ea0d",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "e3403fab1004ab989d7a45753bbd018b33627196d5010313147c05d1c22de865",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Exactly one calyx head and three broad stone leaves attached to short S-shaped vine neck/root disc. No copied STS three-headed plant anatomy.",
+    "Head/jaw/neck/leaf/root connections coherent, all tips and root lobes intact.",
+    "One biting head, S neck, three leaves and low gathered root mass read106/127; no fine-facet dependency."
+  ],
+  "costLimits": [
+    "Preserve one-head/three-leaf count, S-neck gap and root mass before facets/tooth microdetail.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve; intact tight margins downstream6% inset contain allowed; no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

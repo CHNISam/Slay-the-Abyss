@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "green_louse",
+  "sourceSha256": "062e9d00158ec1c536bdf94f8c52e314108f7c2b4be8c5f7c86691b22bcd83b1",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    43,
+    177,
+    1217,
+    1104
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY_WITH_OCCLUSION_AND_MARGIN_CAVEATS",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "file": "preview-106.png",
+      "sha256": "a4ab0bc1a03c806332c37b68b8bc5fa07f7a3f4a13a9d443847dfbcdde6ad396",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "file": "preview-127.png",
+      "sha256": "d6c7983cde3776168fa4955a6812e97c55eb27108a28c41cbc546874ab79c0fa",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "High egg-shaped jade dome and two short club antennae distinguish red low shell/wide serrated horn beyond recoloring, including106/127.",
+    "Six visible foot groups: near chains x305–565,640–865,945–1210; far front chain45–255; far middle tarsus510–565 behind near-front ankle; far rear tarsus800–850 behind near-middle ankle. Far origins are occluded, not six fully exposed chains. No apparent seventh/eighth leg or disconnected extra foot.",
+    "Whole antennae, shell rim and toes intact; narrow margins do not warrant regeneration. Preserve whole canvas and allow downstream inset contain.",
+    "Broad painted facets consistent with first pair. Small previews preserve overall beetle/shell identity; tiny far-leg distinctions less reliable."
+  ],
+  "costLimits": [
+    "Preserve dome mass, twin antennae, connected leg shapes and clear negative gaps, not every surface facet/glint.",
+    "Source bytes/PNG previews do not prove native primitive budget/performance."
+  ],
+  "framing": "Centered square portrait, not fixed ground anchor; use downstream inset contain if necessary, no crop/zoom.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "No native production authorized by this review. TASK25.3 runtime/device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

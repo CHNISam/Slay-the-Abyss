@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "red_slaver",
+  "sourceSha256": "02481d421830376e77a224a5522ca1c339e9116973c11fb6e314759feef5112c",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    37,
+    47,
+    1249,
+    1216
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "052a975ce48223a102557907691776fd344f68af9fac59842419686093238313",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "7571b22fcb15b47e8dcaf830104f69ec7e821567a72eb1600c51c639e86705c2",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Stockier original tan human, broad trapezoid red shortcoat and short two-prong fork clearly distinct from actual narrow blue coat/hookpole beyond palette.",
+    "Fork head/shaft/gripping hand continuous; empty rear hand plausible, two legs and boots intact. No STS red-skin/net slave identity copied.",
+    "Waist binding reads broad cloth wrap rather than thin rope; acceptable original binding cue, no invented mechanics. Fork prong gap, red mass and leg separation survive106/127.",
+    "Right boot near edge but intact; downstream inset contain preferred, no regeneration."
+  ],
+  "costLimits": [
+    "Prioritize fork gap/continuity and large clothing/anatomy shapes; fine wraps, fingers and facet gradients risk excess primitives.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserve with downstream6% inset contain; no crop/zoom or ground anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only, no native production or whole-roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

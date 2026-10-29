@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "acid_slime_m",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:47:06.731Z",
+    "endUtc": "2026-10-29T19:48:16.282Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "assetRelativePath": "../acid_slime_s/source.png",
+      "sha256": "5de3f90d5301baf8fb601e44e2d5c502f2badddbe61eb66cd253b17b1a6a0a37",
+      "actualDimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual small-family source candidate material/palette/enclosed rounded stone continuity ONLY; not its flat silhouette; owner not approved",
+      "actuallyPassed": true,
+      "availability": "reference-not-included; identity retained by SHA256 and role"
+    },
+    {
+      "repositoryPath": "art/cards/traveler-geo/armaments/source.png",
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+      "actualDimensions": [
+        1881,
+        836
+      ],
+      "role": "approved painterly style-only; no objects/costume/anatomy",
+      "actuallyPassed": true
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 834950,
+      "sha256": "5f766ae6b7806ccdffea52b6015f3cee130299472959ba0f811ea397074baa1e"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 3136,
+      "sha256": "4b22bb32d0afa0139b87504b8d57d6feb38fc04c4e1088ba51f4b3009c2f622a"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 11732,
+      "sha256": "7bce34920aaa0e0c18ab8dd6f3efda65e276242fcb1534ca1a9af11c02d0ecab"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 15695,
+      "sha256": "51c4a289036cf7e5b9628c03e0e826d1467691861df0a80b2046e162a9806beb"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "identity": "Original medium graygreen mineralgel with ONE taller rounddome and TWO drooping sidelobes/under-notches, one enclosed rounded pale stone; same family material, genuinely different contour from flat small",
+  "inspection": {
+    "authorFull": "inspected",
+    "containSizes": [
+      106,
+      127
+    ],
+    "observation": "Single higher dome+two soft short side droops with notches and one enclosed roundedstone read at106/127. Same family palette/material from actualSreference, not scaledcopy. Alpha>16bbox(33,318,1234,982), complete but33pxleft20pxright margin less6percent. Rawsource unchanged, no crop/stretch."
+  }
+}

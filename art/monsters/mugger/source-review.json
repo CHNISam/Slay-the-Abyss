@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "mugger",
+  "sourceSha256": "0bb23fe5d4b8a3885e1d1c6a33a3d24f67e40cce66c583557d528a7b363deb5b",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    184,
+    50,
+    1189,
+    1226
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "3ca53a657e3b9220befbc866e535a10d77eec9b8099a6518056848a5b85cf1d8",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "ebc67c795d92968776f1198f9be298d110dba976330a66be2cfe1eb5f1439133",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Original broad stocky masked human, brown short leather cape/grey shirt and one square-headed club across chest distinguish slim charcoal-hooded dagger Looter beyond palette.",
+    "Grip/shaft/head continuous, free hand plausible, two bent legs/boots connected and intact. No duplicated/detached limb.",
+    "Broad body/club/cape silhouette readable106/127; fingers/facets not reliable tiny."
+  ],
+  "costLimits": [
+    "Preserve square club continuity, broad body/cape silhouette and limb gaps before fine fingers/folds/facets.",
+    "Native cost/performance unmeasured."
+  ],
+  "framing": "Whole canvas preserved; intact margins may use downstream6% inset contain, no crop/zoom or ground-anchor claim.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval; TASK25.3 device/performance gates pending.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

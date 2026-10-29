@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "byrd",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T20:44:52.780Z",
+    "endUtc": "2026-10-29T20:45:26.389Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "534976f100a3edf8a424faa5064062025cc8e753d277c52e914cd4d4546069bf",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "actual-passed-monster-paintedstyle-only-not-human-identity",
+      "actuallyPassed": true,
+      "path": "../looter/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 1539591,
+      "sha256": "41d3ee80e86f94d4559d9730497fb261747a9ed52c175d32e186f473768d0d3b"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 2127,
+      "sha256": "c597297e54be28b7c2af4dff4d727b219d3a48e7a11427451ff52a16becab513"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 20106,
+      "sha256": "fa79ff8f1ba58b98e4bd9e261d164167c7940de1bd75abc2f9b93bb4aee3235f"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 26946,
+      "sha256": "677a54e0f5775b0f110b965d6c89b91e552e0b49abb39a979ef27c0fd936dbc2"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original shorttail falcon broadasymmetricVhalfclosedwings/roundwarmwhitechest/hookbeak/twoforwardclaws landingleft, bluegraydarkbrown",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      13,
+      24,
+      1243,
+      1208
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed; insetcontain iftightmargin"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full1061274x: onebird/2connectedwings/2legsandclaws/shorttail coherent, shortnaturalneck/hookbeak/roundchest distinctSTS vulture. Feathergroupsmorethanminimum butbroad, sourcecostnativeunknown. Tightwingtipedges appearcomplete; insetcontainneeded. No tornado/multiplebirds/effects."
+  }
+}

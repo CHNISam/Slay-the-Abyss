@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "acid_slime_s",
+  "sourceSha256": "5de3f90d5301baf8fb601e44e2d5c502f2badddbe61eb66cd253b17b1a6a0a37",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    101,
+    471,
+    1168,
+    922
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "file": "preview-contain-106.png",
+      "sha256": "74193ecb76d122286431914a2f16c210bd6cea3f7817df178a48edc15490dd3c",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "file": "preview-contain-127.png",
+      "sha256": "4a33dd0ad9f0302d8dc6a0471f0001bdb8c82fff0b0f71d942d319f6fb32953f",
+      "actual1xAndNearest4x": "inspected",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Low flattened drop with one left nub, no side lobes; one pale rounded stone visibly enclosed by continuous translucent grey-green gel.",
+    "Clear low profile differs from medium single dome/side droops and large twin peaks/three basal lobes at106/127.",
+    "Meaningful gel/stone contours intact, no visible clipping. Broad faceted painting consistent with first pair."
+  ],
+  "costLimits": [
+    "Preserve outer contour, family lobe/peak count and main stone masses. Fine facet gradients, rim sparkles and transparency layers risk expensive no-contribution detail.",
+    "Native control count/cost/performance unknown; PNG bytes do not establish cost."
+  ],
+  "framing": "Centered square portrait, not ground anchor. Preserve whole canvas; tight intact margins acceptable with downstream6% inset contain, no crop/zoom or padding-only regeneration.",
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source preparation only; no native production approval. TASK25.3 device/performance/layering/cleanup gates pending; no whole-roster approval.",
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "taskmaster",
+  "sourceSha256": "40baac763a8214de793e16eb89997346d59bf97b085728d089d93d5a300197e0",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "meaningfulAlphaGt16BBox": [
+    187,
+    10,
+    1036,
+    1244
+  ],
+  "verdict": "PASS_SOURCE_CANDIDATE_ONLY_AFTER_ONE_PROP_REPAIR",
+  "hardDefects": [],
+  "fullSource": "actual pixels inspected",
+  "previews": [
+    {
+      "size": 106,
+      "sha256": "a6394c1e44f50645112edd196cf95a794175b0b94a7629dcaf54446453bcbdf9",
+      "actual1xAndNearest4x": "inspected repaired actual pixels",
+      "verdict": "pass source readability"
+    },
+    {
+      "size": 127,
+      "sha256": "c8dfe891d93362a0144f81f4285e6e85fbfa77167a49a48a30b8e4447ceffd06",
+      "actual1xAndNearest4x": "inspected repaired actual pixels",
+      "verdict": "pass source readability"
+    }
+  ],
+  "findings": [
+    "Repaired actual pixels show three narrow solid dark-iron bars/two hinges, one continuous handle-to-tip folded Z. No hollow bracer cuff mouths remain; intended short articulated whip now readable106/127.",
+    "Tall masked narrow body, shoulder panels, pose and clothing retained; two boots/hood contour intact with tight vertical margin.",
+    "Previous prop design hard fail retained in source-review-v1.json; one authorized bounded weapon repair, not prompt-only pass."
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "limits": "Source only; no native production or roster approval. All owner/native/runtime/device pending.",
+  "repairHistory": {
+    "previousSha256": "7df21ab44a2216dbe478d9bfec85c5945fd3bf00ded8a1f40a80db3e60fa2f48",
+    "previousVerdict": "HOLD_HARD_PROP_IDENTITY_DEFECT",
+    "repairCount": 1,
+    "outcome": "actual repaired full106127+4x independently reinspected; source candidate pass"
+  },
+  "scope": "independent source-only pixel review; not owner, native, runtime or device acceptance"
+}

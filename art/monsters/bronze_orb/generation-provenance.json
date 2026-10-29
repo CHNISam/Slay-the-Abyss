@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "enemy_id": "bronze_orb",
+  "assetRole": "original-monster-source-candidate-only",
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T21:01:49.553Z",
+    "endUtc": "2026-10-29T21:02:48.093Z",
+    "requestedSize": [
+      1024,
+      1024
+    ],
+    "transparentBackground": true,
+    "attemptCount": 1,
+    "postprocessing": "none-exact-raw-copy",
+    "exactPrompt": "prompt.txt"
+  },
+  "references": [
+    {
+      "sha256": "43c03d9aa18ab003e0318d9a14892baa7af5d79de20963c97991c0bd1dde8e69",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "role": "Actual passed ancient mechanism material and painted style only; not stone shield body identity.",
+      "actuallyPassed": true,
+      "path": "../lagavulin/source.png"
+    }
+  ],
+  "files": {
+    "source.png": {
+      "path": "source.png",
+      "bytes": 980675,
+      "sha256": "08c4ca215c049357f92150e95574f53fc91aef6cd5389a80f3a0943fd0e9608d"
+    },
+    "prompt.txt": {
+      "path": "prompt.txt",
+      "bytes": 1933,
+      "sha256": "e8d09e3eb61fc35f7987e4356e2e841b5f42b5caf3169359d622d11ba2a02dd8"
+    },
+    "preview-contain-106.png": {
+      "path": "preview-contain-106.png",
+      "bytes": 10873,
+      "sha256": "9cb34dab570843b3951c0e8ec031838f499e66c9911222d75aaa8fc352107f3b"
+    },
+    "preview-contain-127.png": {
+      "path": "preview-contain-127.png",
+      "bytes": 14804,
+      "sha256": "a4191612ef993ab005a47011b5a3c62c1c6364df8eb2c84b04eb292844f7b7b1"
+    }
+  },
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "approvals": {
+    "owner": false,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "runtimeBinding": "none",
+  "performance": "unmeasured-source-PNG-bytes-not-runtime-cost",
+  "design": "Original flat bronze floating core with closed central plate and two asymmetric broad short wings, dark teal joints.",
+  "alpha": {
+    "mode": "RGBA",
+    "range": [
+      0,
+      255
+    ],
+    "meaningfulBBoxAlphaGt16": [
+      34,
+      274,
+      1225,
+      950
+    ],
+    "edgeClipping": "no meaningful appendage edge cut observed; insetcontain iftightmargin"
+  },
+  "inspection": {
+    "fullOriginal": true,
+    "contain106": true,
+    "contain127": true,
+    "nearest4x106": true,
+    "nearest4x127": true,
+    "observations": "Full source, 106/127 px and 4x inspected. Closed solid bronze center and two attached unequal wings read clearly, with no eye or open stone arcs. No detached parts, limbs or effects. Surface wear is finer than requested but broad silhouette remains simple. Whole tight margins need inset contain; native cost unmeasured."
+  }
+}
