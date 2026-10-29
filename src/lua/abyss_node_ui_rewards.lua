@@ -2,9 +2,11 @@ local Theme = require("abyss_theme")
 local CampUI = require('abyss_node_ui_camp')
 local Combat = require('abyss_combat')
 local Act2Events = require('abyss_act2_events')
+local MatchUI = require('abyss_match_event_ui')
 local number = require("abyss_numbers").integer
 local layout = Theme.layout.nativeNode
 local PICK_PAGE = #layout.picker.columns
+local mandatoryLabels={neow_card='确认选择',library_offer='确认选择',duplicator_card='确认复制'}
 local function find(entries, id, key)
     for _, item in ipairs(entries or {}) do if item[key or "id"] == id then return item end end
 end
@@ -35,7 +37,7 @@ function M.install(ctx)
             before, after, target = picker:GetChild("before"), picker:GetChild("after"), picker:GetChild("target")
         end
         resetPickerLayout()
-        local upgrade, transform, dream, library, acquiring
+        local upgrade, transform, dream, library, acquiring, copying
         local function pickerModes()
             upgrade = ctx.self.picker == "upgrade" or ctx.self.picker=='living_grow' or ctx.self.picker=='act1_forge'
                 or ctx.self.picker=='neow_card' and node.event.selection.forUpgrade
@@ -43,6 +45,7 @@ function M.install(ctx)
                 or ctx.self.picker=='neow_card' and node.event.selectedType:match('^TRANSFORM')~=nil
             dream=ctx.self.picker=='dream_catcher'
             library=ctx.self.picker=='library_offer'
+            copying=ctx.self.picker=='duplicator_card'
             acquiring=dream or library
         end
         pickerModes()
@@ -69,7 +72,7 @@ function M.install(ctx)
                     local function resolveOwnedCard()
                         owned = not acquiring and find(ctx.self.run.deck, instance.uid, "uid") or nil
                         ambiguous = false
-                        if ctx.self.picker=='beggar_purge' or ctx.self.picker=='basics_purge' then
+                        if ctx.self.picker=='beggar_purge' or ctx.self.picker=='basics_purge' or copying then
                             local matches=0
                             for _, candidate in ipairs(ctx.self.run.deck) do if candidate.uid==instance.uid then matches=matches+1 end end
                             ambiguous=matches~=1
@@ -107,7 +110,7 @@ function M.install(ctx)
         ctx.show(before, upgrade and selected) ctx.show(after, upgrade and selected)
         ctx.show(picker:GetChild("arrow"), upgrade and selected) ctx.show(target, not upgrade and selected)
         local function writePickerPrompt()
-            picker:GetChild("empty").text = selected and "" or (library and '点选一张卡牌加入牌组，不能跳过' or dream and '点选一张卡牌加入牌组，也可以跳过' or upgrade and "点选上方卡牌，查看升级前后对比" or transform and '点选上方要变换的卡牌' or "点选上方要移除的卡牌")
+            picker:GetChild("empty").text = selected and "" or (library and '点选一张卡牌加入牌组，不能跳过' or dream and '点选一张卡牌加入牌组，也可以跳过' or upgrade and "点选上方卡牌，查看升级前后对比" or copying and '点选上方要复制的卡牌' or transform and '点选上方要变换的卡牌' or "点选上方要移除的卡牌")
         end
         writePickerPrompt()
         picker:GetChild("label").text, picker:GetChild("hint").text = "", ""
@@ -128,9 +131,9 @@ function M.install(ctx)
         elseif selected then
             local function renderRemovalPreview()
                 ctx.fillCard(target, selected.cardId, selected.upgraded, { stamp = result and "已移除" or nil, dim = result ~= nil, veil = result ~= nil,instance=selected })
-                picker:GetChild("label").text = acquiring and '将加入牌组' or transform and "将变换为随机的新卡牌" or result and "已移除" or "将从牌组移除"
+                picker:GetChild("label").text = acquiring and '将加入牌组' or copying and '将复制此牌，原牌保留' or transform and "将变换为随机的新卡牌" or result and "已移除" or "将从牌组移除"
                 local function describeDeckChange()
-                    picker:GetChild("hint").text = acquiring and ('牌组 '..#ctx.self.run.deck..' → '..(#ctx.self.run.deck+1)..' 张') or transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#ctx.self.run.deck + (result and 1 or 0)) .. " → " ..
+                    picker:GetChild("hint").text = (acquiring or copying) and ('牌组 '..#ctx.self.run.deck..' → '..(#ctx.self.run.deck+1)..' 张') or transform and "新卡牌不会保留原来的升级" or "牌组 " .. (#ctx.self.run.deck + (result and 1 or 0)) .. " → " ..
                     (#ctx.self.run.deck - (result and 0 or 1)) .. " 张"
                 end
                 describeDeckChange()
@@ -140,6 +143,7 @@ function M.install(ctx)
 
         end
         local function pickerHint()
+            if copying then return '映光石龛 · 选择一张永久牌复制，不能取消；复制品不继承瓶装绑定' end
             if ctx.self.picker=='neow_card'then return '开局恩赐 · 还需选择 '..node.event.selection.count..' 张卡牌，不能取消' end
             if ctx.self.picker=='basics_purge' then return '优雅 · 免费移除一张非瓶装、可清除的永久牌' end
             if ctx.self.picker=='beggar_purge' then
@@ -181,9 +185,20 @@ function M.install(ctx)
         if matches~=1 or not find(ctx.self.removeRows,ctx.self.selected,'uid') then ctx.self.selected=nil end
     end
 
+    function ctx.syncDuplicatorPicker(node)
+        ctx.self.mode,ctx.self.picker='picker','duplicator_card'
+        -- Copy rows, not purge candidates: bottled sources and permanent stats remain visible.
+        ctx.self.removeRows=Combat.copy(node.event.copyCards)
+        local matches=0
+        for _,instance in ipairs(ctx.self.run.deck)do if instance.uid==ctx.self.selected then matches=matches+1 end end
+        if matches~=1 or not find(ctx.self.removeRows,ctx.self.selected,'uid')then ctx.self.selected=nil end
+    end
+
     function ctx.syncAct2Picker(node,active)
         if active and node.type=='event' and Act2Events.ids[node.event.id] then
-            if node.event.id=='the_library' and node.event.stage=='choose_offer' then
+            if node.event.id=='duplicator' and node.event.stage=='choose_card' then
+                ctx.syncDuplicatorPicker(node)
+            elseif node.event.id=='the_library' and node.event.stage=='choose_offer' then
                 ctx.syncLibraryPicker(node)
             elseif (node.event.id=='beggar' or node.event.id=='back_to_basics') and node.event.stage=='choose_card' then
                 ctx.syncAct2PurgePicker(node)
@@ -224,6 +239,9 @@ function M.install(ctx)
         ctx.syncNeowPicker(node,active)
         ctx.syncRestPicker(node,active)
         ctx.syncAct1Picker(node,active)
+        if active and node.type=='event' and MatchUI.isBoard(node.event) then
+            ctx.self.mode,ctx.self.picker,ctx.self.selected,ctx.self.pageCount='picker','match_board',nil,1
+        elseif ctx.self.picker=='match_board' then ctx.self.mode,ctx.self.picker='main',nil end
     end
 
     function ctx.eventPickerLabel(living,act1)
@@ -242,8 +260,8 @@ function M.install(ctx)
         if dream then
             confirmLabel,backLabel='选择此牌','跳过卡牌'
             skipRestReward=function()return restReward(0)end
-        elseif ctx.self.picker=='neow_card' or ctx.self.picker=='library_offer'then
-            confirmLabel='确认选择'
+        elseif mandatoryLabels[ctx.self.picker]then
+            confirmLabel=mandatoryLabels[ctx.self.picker]
         elseif ctx.self.picker=='beggar_purge' or ctx.self.picker=='basics_purge' then
             confirmLabel='确认移除'
         elseif act1 or living then
@@ -266,6 +284,7 @@ function M.install(ctx)
     end
 
     function ctx.pickerFooter(node)
+        if ctx.self.picker=='match_board' then return end
         local backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward
         local selected = ctx.self.selected
         local living=node.type=='event' and node.event.id=='living_wall'
@@ -284,7 +303,7 @@ function M.install(ctx)
         confirmOk = selected ~= nil
         confirmFn = function()
             if dream then return restReward(selected) end
-            if ctx.self.picker=='neow_card' or ctx.self.picker=='library_offer'then
+            if ctx.self.picker=='neow_card' or ctx.self.picker=='library_offer' or ctx.self.picker=='duplicator_card'then
                 return ctx.commit('chooseEvent','select',function()
                     ctx.self.selected=nil;return ctx.self.run.nodeFlow.event.body
                 end,selected)

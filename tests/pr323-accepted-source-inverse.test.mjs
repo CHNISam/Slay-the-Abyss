@@ -1,3 +1,4 @@
+import {preEventProductionSource} from './helpers/event-production-source-inverse.mjs';
 import test from 'node:test';
 import {preNestedSnapshotOwnerSource} from './helpers/nested-command-snapshot-owner-inverse.mjs';
 import {prePlayerDeathSource} from './helpers/player-death-transition-inverse.mjs';
@@ -12,7 +13,7 @@ import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-in
 import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
 import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs';
 const normalize=source=>source.replaceAll('\r\n','\n');
-const read=path=>preNestedSnapshotOwnerSource(path,prePlayerDeathSource(path,preDeathSettlementGuardSource(path,normalizePr323CompositionSource(path,normalize(readFileSync(path,'utf8'))))));
+const read=path=>preNestedSnapshotOwnerSource(path,prePlayerDeathSource(path,preDeathSettlementGuardSource(path,normalizePr323CompositionSource(path,normalize(preEventProductionSource(path,readFileSync(path,'utf8')))))));
 const hash=source=>createHash('sha256').update(source).digest('hex');
 test('combined PR323 sources recover both complete accepted20a and original323 witnesses',()=>{
  for(const [path,binding]of Object.entries(proof.files)){
@@ -45,7 +46,7 @@ test('partial, appended, missing and cross-path sources never acquire compositio
  assert.equal(preAcceptedPr323Source('unregistered-source.lua','return {}\n'),'return {}\n');
 });
 test('config-only historical adapters never project away unrelated current production modules',()=>{
- const path='src/lua/abyss_relic_names.lua',current=normalize(readFileSync(path,'utf8'));
+ const path='src/lua/abyss_relic_names.lua',current=normalize(preEventProductionSource(path,readFileSync(path,'utf8')));
  assert.equal(proof.files[path].acceptedSource,null,'this live module did not exist in accepted20a');
  assert.equal(preAcceptedPr323Source(path,current),null,'only the explicit outer historical projection removes it');
  for(const adapter of [preRosterConfigSource,preCompositeBattleMaxHpConfig,preNodesBattleMaxHpConfig,preRunMaxHpConfig,preCoreArchitectureSource])

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-29 06:49'
+updated_date: '2026-10-29 14:51'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -56,6 +56,8 @@ ordinal: 54000
 按固定来源补齐冻结比赛清单内不依赖持久Save的第一幕事件及所有合法选项、资格和随机消费。保留25项历史源目录并明确A Note For Yourself跨局留卡移TASK-53，WeMeetAgain同局交易和普通/神龛/一次性事件生命周期保留。自然获取与同候选平台证据未齐不得完成。
 
 先锁候选及失败状态，再双向核对冻结池/映射/准备/原生选项/完成事务。沿用授权的持久Save排除，不扩大排除集合；定向和自然流程分别验收。
+
+PR334收口：补齐事件清单完整来源回放登记，保留原始来源与严格断言，跑当前事件及历史回放后推送当前PR；不勾平台验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -98,4 +100,6 @@ P0作者独立工作树证据交接（原备注保留；范围以其后同次纠
 2026-10-29独立复现：实际普通玩家OnStart(IsTestPlay=false)与旅行者确认产生competition-two-act，但campaign将restricted-seven覆盖为full。canonical seed105第一战受控胜利后，正常奖励/完成命令到f1_l7，唯一出口f2_l7抽到Match and Keep!，缺contentId并返回event_not_implemented；三次原样重试保留完整run/map/原引用及RNG。新增本地断言先RED，证据在工作区m3-public-event-admission-evidence-20261029/seed105-red.txt（2.77秒、原30秒限额）。现有Act2 15组通过，确认Beggar空组强制移除仍pending、完整源13+6及拒绝回滚仍受保护。第一幕保留既有范围、第二幕显式冻结名单尚待用户确认；源码策略未改，没有候选/导入/设备或自然通关新证据，AC3–6不勾。
 
 2026-10-29 06:21范围问题修正（同次合流附记）：上述「第一幕保留既有范围、第二幕显式冻结名单尚待用户确认」仅为06:09历史措辞，已由Owner待答问题Sentinel_4fca732b09648191b5b3fb8422617dc5覆盖：第一幕和第二幕两份显式、已验证可完成的事件冻结表都尚待批准。没有已批准名单、运行时策略或准入/游戏数据变更；受控seed105、受控念珠耗尽与开发路由测试均不能充当用户该局事件身份、自然持有/通关或设备证明。仅承接作者已有证据备注，不导入其旧计划、不扩大任务。TASK-13.1.2保持In Progress/Furinya，已有历史勾选不改，未验AC不勾。
+
+PR334离线CI收口：失败源为launch-content未纳入完整来源外层，已补完整Git1dc前后源；合入899f02d4并以独立完整Combat/Run组合证据保留事件与嵌套事务两份历史。来源11项、组合/架构7项及事件原生9项已过；全Quality另核当前SHA。无新平台证据，不勾AC。
 <!-- SECTION:NOTES:END -->

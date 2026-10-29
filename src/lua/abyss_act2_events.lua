@@ -9,10 +9,12 @@ local Joust=require('abyss_joust_event')
 local Library=require('abyss_library_event')
 local Ghosts=require('abyss_ghosts_event')
 local Nest=require('abyss_nest_event')
-local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true,nest=true}}
+local Duplicator=require('abyss_duplicator_event')
+local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true,nest=true,duplicator=true}}
 local GOLD_COST=75
 
 function M.prepare(run,event)
+    if event.id=='duplicator' then return Duplicator.prepare(run,event) end
     if event.id=='nest' then return Nest.prepare(run,event) end
     if event.id=='joust' then return Joust.prepare(run,event) end
     if event.id=='ghosts' then return Ghosts.prepare(run,event) end
@@ -28,6 +30,7 @@ local function row(choice,title,description,enabled,picker)
 end
 
 function M.options(run,event)
+    if event.id=='duplicator' then return Duplicator.options(run,event) end
     if event.id=='nest' then return Nest.options(run,event) end
     if event.id=='joust' then return Joust.options(run,event) end
     if event.id=='ghosts' then return Ghosts.options(run,event) end
@@ -139,6 +142,13 @@ end
 -- opens even an empty mandatory grid; its empty-group resolution is unproven.
 -- Keep this boundary pending instead of inventing zero-choice success/refunds.
 function M.view(run,event)
+    if event.id=='duplicator' then
+        if event.stage=='choose_card' then
+            event.copyCards=Duplicator.cards(run)
+            event.selection={count=1,canCancel=false,forPurge=false,anyNumber=false}
+        end
+        return
+    end
     if event.id=='the_library' then return Library.view(run,event) end
     if event.id=='back_to_basics' then return Basics.view(run,event) end
     if event.stage~='choose_card' then return end
@@ -148,6 +158,7 @@ function M.view(run,event)
 end
 
 function M.choose(run,flow,choice,uid,upgradeable)
+    if flow.event.id=='duplicator' then return Duplicator.choose(run,flow,choice,uid) end
     if flow.event.id=='nest' then return Nest.choose(run,flow,choice,uid) end
     if flow.event.id=='the_library' then return Library.choose(run,flow,choice,uid) end
     if flow.event.id=='joust' then return Joust.choose(run,flow,choice,uid) end

@@ -1,6 +1,7 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { cardFaceChildren } from './card-face.mjs';
 import { merchantControl } from './cinematic-ui-layout.mjs';
+import { augmentMatchEventPicker } from './match-event-layout.mjs';
 
 // Approved PR19 node screens (shop, camp/forge, event, treasure) as one native
 // tree. Every view is its own container so no control exceeds the MCP child limit.
@@ -177,7 +178,7 @@ export function nodeLayout(theme = nativeTheme) {
     text('description',[0,-20,rd[2]-32,200],'',font.body,color.text),
   ]}));
 
-  controls.push(group('shopView', shopControls), group('campView', campControls), group('pickerView', pickerControls),
+  controls.push(group('shopView', shopControls), group('campView', campControls), augmentMatchEventPicker(group('pickerView', pickerControls),theme),
     group('eventView', eventControls), group('treasureView', treasureControls), merchantControl(theme),
     framed('back', layout.back, '返回'), framed('confirm', layout.confirm, '确认', { primary: true, fontSize: font.heading }),
     hidden(group('roomEffect',[
