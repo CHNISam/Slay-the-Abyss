@@ -60,14 +60,32 @@ export function reviewRenderComplexity(diagnostics, sources) {
       const key = `${row.line}:${row.column}`;
       if (seen.has(key)) errors.push({...row,message:'Duplicate complexity measurement'});
       seen.add(key);
-      const limit = file === 'src/lua/abyss_battle_ui.lua' && match[1] === "method 'self.render'" ? 10 : 15;
+      const renderEntry = (file === 'src/lua/abyss_battle_ui.lua' && match[1] === "method 'self.render'") || (file === 'src/lua/abyss_battle_render.lua' && match[1] === "method 'owner.render'");
+      const limit = renderEntry ? 10 : 15;
       const value = Number(match[2]);
       functions.push({file,line:row.line,subject:match[1],complexity:value,limit});
       if (value > limit) errors.push({...row,message:`Render complexity ${value} exceeds ${limit}: ${match[1]}`});
     }
   }
-  if (!functions.some(row => row.file === 'src/lua/abyss_battle_ui.lua' && row.subject === "method 'self.render'")) {
+  if (!functions.some(row => (row.file === 'src/lua/abyss_battle_render.lua' && row.subject === "method 'owner.render'") || (row.file === 'src/lua/abyss_battle_ui.lua' && row.subject === "method 'self.render'"))) {
     errors.push({file:'src/lua/abyss_battle_ui.lua',message:'Battle render entry measurement missing'});
+  }
+  // Cover every battle responsibility, including future extractions, with the same size cap.
+  for (const file of modules.filter(file => /\/abyss_battle_.+\.lua$/.test(file))) {
+    const source = sources[file];
+    const lines = source.trimEnd().split(/\r?\n/).length;
+    if (lines > 1000) errors.push({file, message: 'Battle module exceeds 1000 lines: ' + lines});
+    const ast = luaparse.parse(Buffer.from(source).toString('latin1'), {luaVersion:'5.3', locations:true, encodingMode:'pseudo-latin1'});
+    function inspect(node) {
+      if (!node || typeof node !== 'object') return;
+      if (node.type === 'FunctionDeclaration' && node.loc.end.line - node.loc.start.line + 1 > 350)
+        errors.push({file, line:node.loc.start.line, message:'Battle function exceeds 350 lines'});
+      for (const child of Object.values(node)) {
+        if (Array.isArray(child)) child.forEach(inspect);
+        else if (child && typeof child === 'object') inspect(child);
+      }
+    }
+    inspect(ast);
   }
   return {schemaVersion:1,modules,functions,errors};
 }
