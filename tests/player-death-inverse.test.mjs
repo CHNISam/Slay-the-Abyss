@@ -42,3 +42,18 @@ test('the unchanged upstream frozen guard still rejects partial or unrelated dea
     }
   }
 });
+test('committed-defeat guard is the only host delta from accepted PR330 and wrong guards remain exposed',()=>{
+  const path='src/lua/abyss_game_ui.lua';
+  const live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const guarded='if self.motion.deathReveal or self.run and self.run.phase == "defeat" and self.battleUI.busy then return false,"result_revealing" end';
+  const revealOnly='if self.motion.deathReveal then return false,"result_revealing" end';
+  const allBusy='if self.motion.deathReveal or self.battleUI.busy then return false,"result_revealing" end';
+  assert.equal(live.split(guarded).length,2,'one shared committed-defeat guard');
+  assert.equal(hash(live),'6a4ea31117d9e23c1c7498859b965496d2b6672af837b220e91ad9fb874a1499');
+  const accepted=live.replace(guarded,revealOnly);
+  assert.equal(hash(accepted),'400375891c34b7c52c06227570263f9f83d4cc177e8ca3d60f8e8f7bc5c55520','exact host at accepted PR330 merge 1dc33fe');
+  for(const unknown of [accepted,live.replace(guarded,allBusy),live+'\n-- drift\n']){
+    assert.equal(prePlayerDeathSource(path,unknown),unknown,'wrong or unregistered current sources must not be silently rewritten');
+    assert.throws(()=>preApprovedUiSource(path,unknown),/unreviewed integrated/);
+  }
+});

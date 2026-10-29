@@ -277,7 +277,7 @@
     },
     "src/lua/abyss_game_ui.lua": {
       "beforeSha256": "92ea87eed2f4bbdf74ba35e28a5c980cf8a53023cffba62fe5d580573aa8e9f4",
-      "afterSha256": "400375891c34b7c52c06227570263f9f83d4cc177e8ca3d60f8e8f7bc5c55520",
+      "afterSha256": "6a4ea31117d9e23c1c7498859b965496d2b6672af837b220e91ad9fb874a1499",
       "hunks": [
         {
           "at": 204,
@@ -343,7 +343,7 @@
           "at": 721,
           "before": [],
           "after": [
-            "        if self.motion.deathReveal then return false,\"result_revealing\" end"
+            "        if self.motion.deathReveal or self.run and self.run.phase == \"defeat\" and self.battleUI.busy then return false,\"result_revealing\" end"
           ]
         },
         {
