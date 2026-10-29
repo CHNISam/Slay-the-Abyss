@@ -9,7 +9,7 @@ const normalize=source=>source.replaceAll('\r\n','\n');
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const gitBlob=source=>createHash('sha1').update(`blob ${Buffer.byteLength(source)}\0`).update(source).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/event-production-source-inverse.json.gz',import.meta.url));
-assert.equal(hash(bytes),'e62cf963a00358abe531e54cae5f54f008fe0498d8f7e0d2ca5ca4a959b5b562','complete production event source archive identity');
+assert.equal(hash(bytes),'77ce1fd32beb67cd29cd3aa5be54ea5082b7cc46d15b7a16c9546dcb34425dbf','complete production event source archive identity');
 export const eventProductionInverse=JSON.parse(gunzipSync(bytes));
 const proof=eventProductionInverse;
 assert.equal(proof.schemaVersion,1);

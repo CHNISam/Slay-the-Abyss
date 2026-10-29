@@ -9,6 +9,9 @@ import {toLua,luaString} from '../scripts/build-lua-data.mjs';
 import {matchVectors} from './helpers/match-event-oracle.mjs';
 import {augmentMatchEventPicker} from '../scripts/match-event-layout.mjs';
 import {nodeLayout} from '../scripts/node-ui-layout.mjs';
+const normalizeFixtureEol=text=>text.replaceAll('\r\n','\n');
+const expectedVectors=()=> '-- Independent BigInt oracle; see tests/helpers/match-event-oracle.mjs\nreturn '+toLua(matchVectors())+'\n';
+function assertVectors(actual){assert.equal(normalizeFixtureEol(actual),expectedVectors());}
 function plainPicker(){
   const find=item=>item.name==='pickerView'?item:(item.children||item.controls||[]).map(find).find(Boolean);
   const picker=find(nodeLayout());picker.children=picker.children.filter(c=>c.name!=='matchRetry');
@@ -29,9 +32,17 @@ test('Match reuses all twelve original faces/hits and adds exactly57 non-rendere
   assert.ok(picker.children.length<64);
 });
 
-test('four independent source-pool/Java-shuffle vectors regenerate byte-for-byte',()=>{
-  assert.equal(readFileSync('tests/fixtures/match-event-vectors.lua','utf8'),
-    '-- Independent BigInt oracle; see tests/helpers/match-event-oracle.mjs\nreturn '+toLua(matchVectors())+'\n');
+test('four independent source-pool/Java-shuffle vectors regenerate byte-for-byte modulo platform line endings',()=>{
+  assertVectors(readFileSync('tests/fixtures/match-event-vectors.lua','utf8'));
+});
+
+test('vector identity accepts LF and CRLF but rejects changed content',()=>{
+  const expected=expectedVectors();
+  assertVectors(expected);assertVectors(expected.replaceAll('\n','\r\n'));
+  const mutant=expected.replace('["seed"]="42"','["seed"]="43"');
+  assert.notEqual(mutant,expected);
+  assert.throws(()=>assertVectors(mutant),assert.AssertionError);
+  assert.throws(()=>assertVectors(mutant.replaceAll('\n','\r\n')),assert.AssertionError);
 });
 
 test('Match production leaf exists separately from the supplied-board candidate',()=>{
@@ -48,3 +59,8 @@ for(const file of ['match_event_sampling','match_event_commands','match_event_ui
     assert.match(result.stdout,/MATCH_EVENT_.*_PASS/);
   });
 }
+
+test('real generated Match timer rejects replaced native host and remains retired after repair',()=>{
+  const result=runLua('tests/lua/match_timer_host_ownership.lua');
+  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/MATCH_TIMER_HOST_PASS/);
+});

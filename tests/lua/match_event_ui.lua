@@ -11,6 +11,7 @@ local Layout=assert(ABYSS_MATCH_LAYOUT or find(require('abyss_ui_layout')),'Matc
 local eq,same,test=H.eq,H.same,H.test
 local function setup(r,beforeRender)
  local root=control({name='host',kind='container',children={Layout}});local self={run=r,map={},visible=true,actions={},busy=false}
+ self.root=root
  local ctx={root=root,self=self,options={imageSource='static',color=function(a,b,c,d)return {r=a,g=b,b=c,a=d}end}}
  ctx.self.presentation=require('abyss_presentation')
  function ctx.child(name)return assert(root:GetChild(name),name)end

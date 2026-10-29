@@ -24,17 +24,26 @@ end
 local function ownership(ctx,view,panel,box,grid)
  local self=ctx.self;local run,map,flow=self.run,self.map,self.run.nodeFlow
  local event,revision=flow.event,flow.event.revision
- local root,parent=ctx.root,ctx.root.parent
+ local root,parent=ctx.root,ctx.rootParent
  local epoch,mode,picker=ctx.matchEpoch,self.mode,self.picker
  local hit=box and box:GetChild('hit')
  local retired=false
  return function()
   if retired then return false end
-  local attached=root:GetChild('pickerView')==panel and panel.parent==root and root.parent==parent
-  if grid then attached=attached and panel:GetChild('forgeGrid')==grid and grid.parent==panel end
+  local attached=root:GetChild('pickerView')==panel
+  if grid then attached=panel:GetChild('forgeGrid')==grid and attached end
   local owner=grid or panel
-  if box then attached=attached and owner:GetChild(box.name)==box and box.parent==owner and box:GetChild('hit')==hit and hit.parent==box end
-  local valid=attached and shown(box or panel)and self.visible and not self.busy and self.run==run and self.map==map
+  if box then
+   local actualBox,actualHit=owner:GetChild(box.name),box:GetChild('hit')
+   attached=actualBox==box and actualHit==hit and attached
+  end
+  -- Native reads may reenter. Check the immutable host last, then all captured
+  -- parent links and mutable owners after that final native call.
+  local hostAttached=not parent or parent:GetChild('nodePanel')==root
+  local linked=root.parent==parent and panel.parent==root
+   and (not grid or grid.parent==panel)and(not box or box.parent==owner and hit.parent==box)
+  local valid=attached and hostAttached and linked and self.root==root and shown(box or panel)
+   and self.visible and not self.busy and self.run==run and self.map==map
    and self.view==view and ctx.matchEpoch==epoch and self.mode==mode and self.picker==picker
    and run.nodeFlow==flow and flow.event==event and event.revision==revision and not flow.complete
   if not valid then retired=true end
