@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 03:53'
-updated_date: '2026-10-29 07:52'
+updated_date: '2026-10-29 16:51'
 due_date: '2026-10-28'
 labels:
   - enhancement
@@ -17,6 +17,7 @@ references:
   - docs/DELIVERY-CLOSEOUT.md
   - docs/AUDIO_RICHNESS.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/plans/2026-10-30-battle-life.md
 parent_task_id: TASK-29
 priority: medium
 ordinal: 44000
@@ -44,6 +45,8 @@ ordinal: 44000
 2026-10-24用户纠正：角色/怪物自身的行动发声必须独立于命中和死亡；不能只按伤害轻重选音，更不能将记忆中的原版一概写成每招同声。参考现有Cultist/Looter/JawWorm代码资料，补按definitionId固定的怪物行动音、角色统一出手音；每个intent/play最多一次，睡眠/眩晕/逃跑不叫，多段不逐击重叫。保留资料来源未认证和荧语音目录未证实的限制。
 
 2026-10-29实际接受330后的剩余修复：以actualdevelop1dc33fe7（等同330999d）新建本地线性候选，已接受的死亡演出/5+5/共享drain/11输入见证及helper完全冻结。仅补共享结算入口缺失的已提交defeat且busy保护，带回已审查14项触摸/手柄与生命周期回归。添加只绑定GameUI的一文件精确逆层，顺序guard→accepteddeath→旧层；只在现有中央入口及两个直接证明读点接线，所有原断言/种子/30秒不变。强保全和远端2bc未知输入证明以独立加法测试保留，cd104/2bc/ee39恢复引用不删。先在实际新基线重现独立RED，再本地focused/工程验证；根任务负责新head/base独立审查和既有331发布，无push/force/newPR或实机声明。
+
+2026-10-30 用户授权自主研发并合入：先修卡牌真实去向，再补旅行者与两类怪物待机和差异技能。四个独立工作树，生产路径回归、最终完整Quality和完整GIL；平台/实体手机/听验未测继续保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

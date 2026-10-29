@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 23:29'
-updated_date: '2026-10-27 05:41'
+updated_date: '2026-10-29 16:51'
 due_date: '2026-10-28'
 labels:
   - P1
@@ -21,6 +21,7 @@ references:
   - docs/backlog-details/TASK-29.md
   - docs/DELIVERY-CLOSEOUT.md
   - docs/BACKLOG-AUDIT-20261026.md
+  - docs/plans/2026-10-30-battle-life.md
 priority: medium
 type: enhancement
 ordinal: 38000
@@ -45,4 +46,6 @@ ordinal: 38000
 
 <!-- SECTION:PLAN:BEGIN -->
 2026-10-27并发复核：combat独立树按固定GameActionManager/DamageAction/VFXAction调用链补feedback连续出牌边界，保留现有引擎；定向回归与正式UI入口验证，主session接线集成，实机证据不伪造。
+
+2026-10-30 战斗表现升级：按 docs/plans/2026-10-30-battle-life.md，从最新develop隔离卡牌、待机、技能和独立回归；共享接线由中控统一，规则/RNG不改。复用本任务及29.1，不重复建任务。
 <!-- SECTION:PLAN:END -->

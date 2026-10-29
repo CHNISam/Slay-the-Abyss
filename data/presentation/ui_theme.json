@@ -193,6 +193,7 @@
     "hairline": 1
   },
   "motion": {
+    "actorIdle": {"period": 3.6, "scale": 0.012, "lift": 1.2, "sway": 0.8, "maxDelta": 0.1},
     "fast": 0.12,
     "base": 0.2,
     "slow": 0.35,
