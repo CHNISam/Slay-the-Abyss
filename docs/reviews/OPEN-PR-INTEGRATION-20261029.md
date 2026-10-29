@@ -13,3 +13,5 @@ Final local evidence before push:
 - No official client import, platform UI acceptance, natural two-act playthrough or physical phone evidence is added by this PR. These remain in the existing Backlog tasks.
 
 Current-SHA GitHub Quality remains the final merge gate. Historical strict text/native trace passed on the event slice before combination; final combined full CI must rerun them.
+
+CI follow-up: the first combined rules3 run exposed Task77's separate accepted-UI reader bypassing the new P0 source layer for `scripts/character-ui-layout.mjs`. Task77 now applies the same complete slice inverses only for its own competition/acceptedUi inventory, before its unchanged original identities. The direct current-source readers, unrelated Run ownership, current-source drift and immutable formal identities are covered by 15 passing targeted tests. No runtime or original witness bytes changed.

@@ -4,13 +4,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {currentSourceLayers as layers,preCurrentSource} from './helpers/task77-current-source-layers.mjs';
+import {currentSourceLayers as layers,preCurrentSource,preTask77OuterSource} from './helpers/task77-current-source-layers.mjs';
 import {formalEntryInverses,preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 import {controlsGuide} from '../scripts/controls-guide-layout.mjs';
 import {preRosterSource} from './helpers/competition-roster-source-inverse.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
-const read=path=>preRosterSource(path,preAcceptedPr323Source(path,readFileSync(path,'utf8')));
+const read=path=>preRosterSource(path,preAcceptedPr323Source(path,preTask77OuterSource(path,readFileSync(path,'utf8'))));
 function invert(source,binding){
  assert.equal(hash(source),binding.afterSha256);
  for(const edit of binding.edits){assert.equal(source.split(edit.after).length,2);source=source.replace(edit.after,edit.before);}
@@ -51,4 +51,21 @@ test('accepted UI source layers recover the original immutable formal bindings a
 
 test('new controls guide offers same-run controls only, not later acts, keys or persistent continuation',()=>{
  assert.doesNotMatch(JSON.stringify(controlsGuide()),/第三幕|第四幕|真结局|钥匙|存档|续玩|保留进度/);
+});
+
+test('Task77 owns complete current sources before its unchanged formal guards and rejects current drift',()=>{
+ for(const path of Object.keys(layers.acceptedUi)){
+  const live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const prior=preTask77OuterSource(path,live);
+  assert.equal(preCurrentSource(path,live),preCurrentSource(path,prior),path+' every current formal reader uses the owned outer layer');
+  assert.equal(preFormalEntrySource(path,live),preFormalEntrySource(path,prior),path+' immutable formal witness recovered');
+  for(const mutant of [live.slice(1),live+'\n-- unrelated current drift\n']){
+   assert.equal(preTask77OuterSource(path,mutant),mutant,path+' unknown current bytes stay exposed');
+   assert.throws(()=>preFormalEntrySource(path,mutant),/unreviewed integrated/);
+  }
+ }
+ for(const path of ['src/lua/abyss_run.lua','unregistered.lua']){
+  const source=path==='unregistered.lua'?'return {}':readFileSync(path,'utf8');
+  assert.equal(preTask77OuterSource(path,source),source,'unregistered path stays under its own historical owner');
+ }
 });

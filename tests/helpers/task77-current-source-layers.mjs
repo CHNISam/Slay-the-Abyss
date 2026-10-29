@@ -1,3 +1,6 @@
+import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
+import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
+import {preEventProductionSource} from './event-production-source-inverse.mjs';
 import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
@@ -17,8 +20,13 @@ function inverse(source,binding){
  assert.equal(hash(source),binding.beforeSha256,'complete original source recovered');
  return source;
 }
+export function preTask77OuterSource(path,source){
+ if(!currentSourceLayers.competition[path]&&!currentSourceLayers.acceptedUi[path])return source;
+ return preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
+}
 // Test-only exact complete-identity layers. No runtime values or old goldens change.
 export function preCurrentSource(path,source){
+ source=preTask77OuterSource(path,source);
  source=preAcceptedPr323Source(path,source);
  if(source===null)return null;
  source=preIntegratedNodeUiSource(path,source.replaceAll('\r\n','\n'));
