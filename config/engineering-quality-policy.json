@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "measurementContractVersion": 1,
+  "sourceRevision": "48cb48cef5480c6b0cfa32b6269c9390acb1d57a",
+  "inputs": {
+    ".luacheckrc": "aa889903a2ed900aef4d1b48c3fce69382d703510866106d28c03ca8ae7f9b75",
+    "config/lua-tools.json": "e8ecec08ce6eac1e0c34ddb629dbb9c88c9eb3289446397eb45a12e67b0f25f5"
+  }
+}

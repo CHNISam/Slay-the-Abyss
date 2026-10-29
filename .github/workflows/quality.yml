@@ -288,6 +288,15 @@ jobs:
         if: matrix.shard == 1
       - run: npm run check:engineering
         if: matrix.shard == 1
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && matrix.shard == 1
+        with:
+          name: engineering-quality-windows-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/engineering-quality.json
+            build/engineering-quality.md
+          retention-days: 7
+          if-no-files-found: warn
       - run: node scripts/write-ci-receipt.mjs
         if: matrix.shard == 1
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -382,7 +391,7 @@ jobs:
       - run: npm run check:engineering
         if: matrix.shard == 1
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: matrix.shard == 1
+        if: always() && matrix.shard == 1
         with:
           name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
           path: |
@@ -390,6 +399,9 @@ jobs:
             build/lua-static.json
             build/lua-complexity.json
             build/ui-complexity.json
+            build/responsibility-complexity.json
+            build/engineering-quality.json
+            build/engineering-quality.md
             build/test-strength/*/report.json
           retention-days: 7
           if-no-files-found: error

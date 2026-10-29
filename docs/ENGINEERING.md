@@ -5,6 +5,8 @@ Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1
 
 源码职责、生成物和测试目录先看[模块导航](ARCHITECTURE.md)；内容源与参考数据边界见[数据入口](../data/README.md)。本页保留历史实施证据，当前模块集合和诊断数量以配置及本轮报告为准。
 
+全库质量基线、指定模块行数、完整构造器/函数跨度、Luacheck复杂度、包含延迟导入的完整依赖环与静态告警增减见[质量验收机制](ENGINEERING_QUALITY.md)。`npm run check:quality`每次重新采集并核对全部函数测量；新增数值指标暂为report-only，不能据其退出码0宣称热点已治理。原工程硬门槛仍由以下检查执行。
+
 渲染治理的绝对门槛已接入 `check:lua-static`：战斗主render≤10，完整战斗控制器及battle_*子视图/输入模块、商店UI与卡面展示的每个函数≤15。固定Luacheck测量，AST核对函数测量完整性，报告见build/ui-complexity.json。缺测量或缺入口会失败，不能只报告相对降幅。实际实现、当前验证范围和历史纠正见[TASK-74](backlog-details/TASK-74.md)；完成声明遵循AGENTS.md的“结果验收与完成声明”。
 
 本轮以 develop `20c6815e` 复核剩余指定职责：effects.apply、combat的queuedHandlers.effect、Act2 choose、角色文案fragments、feedback.step/paint、node.render、game.refresh。`check:lua-static` 对这些入口、其嵌套函数及本轮提取helper执行≤15门槛，输出 `build/responsibility-complexity.json`；每个AST函数与固定工具测量逐一对应，拒绝缺测、坐标移位、重复和未知格式。未触及的既有热点继续报告，不把该范围扩为全库统一上限。新增职责模块沿用对应前缀并纳入架构分类。

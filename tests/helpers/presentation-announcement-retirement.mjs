@@ -1,6 +1,7 @@
 import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import {currentSourceLayers} from './task77-current-source-layers.mjs';
+import {beforeQualityPackage} from './quality-workflow.mjs';
 import {preFormalEntrySource} from '../support/formal-entry-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {existsSync,readFileSync} from 'node:fs';
@@ -31,6 +32,7 @@ export function archivedRetirementChangelog(source=retirementSources.beforeSourc
 // that can hide future changes in the old source or current interaction guards.
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
  let normalized=source===null?null:preIntegratedNodeUiSource(path,source.replaceAll('\r\n','\n'));
+ if(path==='package.json'&&normalized!==null)normalized=beforeQualityPackage(normalized);
  // Bind and invert only the complete reviewed UI-after identity before the
  // existing competition guard; malformed/partial/unknown sources still fail it.
  if(normalized!==null && approvedUi.files[path]?.afterSha256===digest(normalized))
