@@ -931,6 +931,40 @@
       },
       "presentation": "existing-approved-theme-health-placeholder-icons; dedicated-art-and-device-acceptance-pending",
       "limitation": "Pear, Mango and Lee's Waffle use the complete existing shared + chosen-class queues with unchanged order/RNG. Source equipment heals respect held-order healing modifiers and active battle health; outside obtains do not rewrite retained battle history. Controlled modifier/terminal fixtures are not natural modifier acquisition or a complete campaign. Ordinary PC A0 only; original-V4 active contexts and max-health overflow refuse atomically. Native/platform/live evidence remains pending."
+    },
+    "copyAndMatchEvents": {
+      "tasks": [
+        "TASK-13.1.2",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_duplicator_event.lua",
+        "src/lua/abyss_match_event.lua",
+        "src/lua/abyss_nodes.lua",
+        "src/lua/abyss_node_ui.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/lua/duplicator_event.lua",
+          "tests/lua/permanent_card_copy.lua",
+          "tests/lua/duplicator_event_integration.lua",
+          "tests/match-event.test.mjs",
+          "tests/lua/match_event_sampling.lua",
+          "tests/lua/match_event_commands.lua",
+          "tests/lua/match_event_ui.lua"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "generated-controls-local-coverage-native-device-acceptance-pending",
+      "limitation": "Independent production leaves and real Nodes/generated native controls tested locally with controlled event admission. Full natural campaign, official import, PC and physical Android acceptance remain pending. Supplied-board candidate stays separate."
     }
   },
   "cards": [
@@ -3977,6 +4011,58 @@
       ],
       "poolMode": "explicit-only",
       "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED: public Nodes/Run transactions and generated controls tested, including controlled full Act2 source draw. This is not natural campaign acceptance. Uses generic event title while NodeUI has another owner. Native-client acceptance NOT_RUN; complete event pool and device acceptance remain pending."
+    },
+    {
+      "id": "duplicator",
+      "originalId": "Duplicator",
+      "choices": [
+        "copy",
+        "select",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "choose_card",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter route; absent from restricted-seven default pool. Existing full campaign source pools, order and eligibility are unchanged.",
+      "source": "src/lua/abyss_duplicator_event.lua",
+      "profile": "copyAndMatchEvents",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED: real Nodes and generated native controls have local regression evidence. Native-client acceptance NOT_RUN. Full-pool mapping is implemented but natural acquisition, complete campaign, official import and physical-device acceptance remain pending. No pool shrink or fallback reroll."
+    },
+    {
+      "id": "match_game",
+      "originalId": "Match and Keep!",
+      "choices": [
+        "continue",
+        "start",
+        "leave"
+      ],
+      "stages": [
+        "intro",
+        "rules",
+        "play",
+        "resolving",
+        "cleanup",
+        "result"
+      ],
+      "eligibility": "Explicit Nodes.enter route; absent from restricted-seven default pool. Existing full campaign source pools, order and eligibility are unchanged.",
+      "source": "src/lua/abyss_match_event.lua",
+      "profile": "copyAndMatchEvents",
+      "channels": [
+        "explicit:Nodes.enter"
+      ],
+      "poolMode": "explicit-only",
+      "naturalAcquisitionLimitation": "LOCAL_MOCKED_UI_WIRED: real Nodes and generated native controls have local regression evidence. Native-client acceptance NOT_RUN. Full-pool mapping is implemented but natural acquisition, complete campaign, official import and physical-device acceptance remain pending. No pool shrink or fallback reroll.",
+      "boardCommands": [
+        "flip",
+        "resolve",
+        "finish"
+      ]
     }
   ],
   "relics": [
@@ -5103,11 +5189,11 @@
       {
         "id": "Match and Keep!",
         "path": "tools/candidates/match_game.lua",
-        "reason": "Independent candidate, no production route."
+        "reason": "This supplied-board candidate file is not the production implementation. The separate match_game production route is now inventoried; candidate artifact admission remains excluded."
       },
       {
         "id": "full-original-event-pool",
-        "reason": "Default random selection remains restricted-seven. The 27 additional explicit event routes and controlled chapter full-pool fixtures do not establish the complete ordinary/shrine/once catalog or natural acquisition."
+        "reason": "Default random selection remains restricted-seven. The 31 additional explicit routes and controlled full-campaign source-pool fixtures do not establish complete event implementation or natural acquisition. Source pools are not reduced."
       }
     ],
     "other": [

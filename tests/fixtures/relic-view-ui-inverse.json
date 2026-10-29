@@ -1,0 +1,340 @@
+{
+  "base": "806ea465bb4cb5a677a314c880dbd46710476e82",
+  "files": {
+    "config/architecture.json": {
+      "beforeSha256": "1b0a5505ecef72c38bca423a51cacf7971bc55ec3c51a36e980bc7453401a12f",
+      "afterSha256": "e6f839c55cd050a7a53fc6069db8700da8308c5a2531bed91516378aa4322ae3",
+      "hunks": [
+        {
+          "at": 130,
+          "before": [],
+          "after": [
+            "    \"abyss_relic_view_ui\": \"ui\","
+          ]
+        }
+      ]
+    },
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "94e6cf1a988b049a0502fd83ae5be0e8ea06f112a8082c85f5fc5542c4a8da92",
+      "afterSha256": "b044275a911709808dca8c398ac8ddbfdc821fd2a1fd3593332cf99f41e15882",
+      "hunks": [
+        {
+          "at": 1197,
+          "before": [],
+          "after": [
+            "    },",
+            "    \"relicView\": {",
+            "      \"note\": \"TASK-4.7 持有遗物站位：顶栏圆形遗物盘沿 prototype topBar() 32px disc / 36 步进；详情每行为图标盘+中文名+状态签+说明，美术位绑定 icon.relic，占位图标待专属美术。\",",
+            "      \"bar\": { \"origin\": [216, 316], \"step\": 36, \"disc\": 32, \"face\": 28, \"icon\": 20, \"count\": 3 },",
+            "      \"panel\": [0, 0, 1160, 620],",
+            "      \"title\": [0, 268, 760, 48],",
+            "      \"close\": [490, 268, 88, 48],",
+            "      \"previous\": [-430, -268, 200, 48],",
+            "      \"next\": [430, -268, 200, 48],",
+            "      \"pageHint\": [0, -268, 400, 40],",
+            "      \"columns\": [-282, 282],",
+            "      \"rows\": [178, 62, -54, -170],",
+            "      \"row\": [548, 104],",
+            "      \"disc\": 72,",
+            "      \"discRing\": 3,",
+            "      \"icon\": 44,",
+            "      \"name\": [-30, 26, 290, 32],",
+            "      \"chip\": [190, 26, 136, 28],",
+            "      \"description\": [46, -16, 440, 60]"
+          ]
+        }
+      ]
+    },
+    "data/relics.json": {
+      "beforeSha256": "06fe64a5af1ab167d754f2c14b542f29a3a2e3e3faa231d1daab2f6055263567",
+      "afterSha256": "1aad2c55e2a08a2214434dc62ac01b74e0b525443934689efca8b8e9b3a489bc",
+      "hunks": [
+        {
+          "at": 567,
+          "before": [
+            "      \"description\": \"非宝箱GOLD奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。\","
+          ],
+          "after": [
+            "      \"description\": \"非宝箱的金币奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。\","
+          ]
+        }
+      ]
+    },
+    "scripts/game-ui-layout.mjs": {
+      "beforeSha256": "37f7b76195790906033f8516b15685732bb56ceea019de012ef9d05fea84fce5",
+      "afterSha256": "ffcade635a0ff672e45f44b1aac4baf75480d7f31fdf1a46c5e1433532c75316",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "import { relicViewControls } from './relic-view-layout.mjs';"
+          ]
+        },
+        {
+          "at": 102,
+          "before": [],
+          "after": [
+            "      ...relicViewControls(theme),"
+          ]
+        },
+        {
+          "at": 109,
+          "before": [
+            "  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);"
+          ],
+          "after": [
+            "  const overlays = new Set(['deckPanel', 'relicPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_deck_ui.lua": {
+      "beforeSha256": "fab0aa1033d1ecc4e54f17d0d8a000c0c72630bb1b8ef8e53aed0b11e1f21b25",
+      "afterSha256": "7ce361b4690a9a425425cfff48eb7d54015f9d9da093df56917f2ad7b5762594",
+      "hunks": [
+        {
+          "at": 42,
+          "before": [
+            "    function self:setPresentation(value)"
+          ],
+          "after": [
+            "    function self.setPresentation(_, value)"
+          ]
+        },
+        {
+          "at": 99,
+          "before": [],
+          "after": [
+            "    end",
+            "    -- TASK-4.7: the owned-relic overlay rides the deck modal lifecycle so every",
+            "    -- existing deck-open gate (battle input, map paths, rewards) stays read-only.",
+            "    function self.inspectRelics(_,run,view,index)",
+            "        if self.visible or not view then return false end",
+            "        self.visible,self.run,self.detailOnly,self.relicView=true,run,'relics',view",
+            "        self.generation=self.generation+1;root:SetVisible(false)",
+            "        if not view:open(run,index)then self.visible,self.run,self.detailOnly,self.relicView=false,nil,nil,nil;return false end",
+            "        return true"
+          ]
+        },
+        {
+          "at": 173,
+          "before": [
+            "    function self:open(run, choice, onPick, pileKind)"
+          ],
+          "after": [
+            "    function self.open(_, run, choice, onPick, pileKind)"
+          ]
+        },
+        {
+          "at": 225,
+          "before": [
+            "    function self:update(dt)"
+          ],
+          "after": [
+            "    function self.update(_, dt)"
+          ]
+        },
+        {
+          "at": 265,
+          "before": [
+            "    function self:close()"
+          ],
+          "after": [
+            "    function self.close(_)"
+          ]
+        },
+        {
+          "at": 273,
+          "before": [],
+          "after": [
+            "        if self.relicView then self.relicView:close();self.relicView=nil end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "6a4ea31117d9e23c1c7498859b965496d2b6672af837b220e91ad9fb874a1499",
+      "afterSha256": "1286da49518332dd9fe659debb4d2d3a1825fc735b9b36204997b4ca6492ec4c",
+      "hunks": [
+        {
+          "at": 105,
+          "before": [],
+          "after": [
+            "    self.relicUI=require('abyss_relic_view_ui').new(child('relicPanel'),child('relicBar'),clickEvent,platform,",
+            "        function(run,id)return self.nodeUI:describeRelic(run,id)end,function()return self:closeDeck()end,",
+            "        function(i)return self:openRelics(i)end,function()return self.mode end)"
+          ]
+        },
+        {
+          "at": 181,
+          "before": [
+            "    self.openRelics = function(_)"
+          ],
+          "after": [
+            "    -- TASK-4.7 owned relics: icon-disc slots, not a text dump. Opening rides",
+            "    -- the deck gate so it stays read-only for battle, map, camp and chest.",
+            "    self.openRelics = function(_,index)"
+          ]
+        },
+        {
+          "at": 186,
+          "before": [
+            "        local parts={}",
+            "        for i,id in ipairs(self.run.relics) do",
+            "            local definition=require('abyss_relic_rewards').definition(self.run,id)",
+            "            local description=definition and self.nodeUI:describeRelic(self.run,definition.id) or ''",
+            "            parts[#parts+1]=i..'. '..(definition and definition.name or '未识别遗物')..'\\n'",
+            "                ..(description~='' and description or '效果说明待补充。')",
+            "        end",
+            "        self.deckUI:inspectText(self.run,'持有遗物 · '..#self.run.relics..' 件',",
+            "            #parts>0 and table.concat(parts,'\\n\\n') or '本局尚未获得遗物。')"
+          ],
+          "after": [
+            "        if not self.deckUI:inspectRelics(self.run,self.relicUI,index) then return false end"
+          ]
+        },
+        {
+          "at": 441,
+          "before": [],
+          "after": [
+            "        self.relicUI:refreshBar(run,utilitiesVisible)",
+            "        for _,state in ipairs({'normal','hover','pressed','disabled'})do",
+            "            child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state):GetChild('label').text=run and '遗物 '..#run.relics or '遗物'",
+            "        end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_node_ui.lua": {
+      "beforeSha256": "1d14e68e882a2ab5f565965c543e7a3cb1a9cfc3dda34ccc5dac7783339a5908",
+      "afterSha256": "e5dc7a00e489809d25f89d76fea723e5da43d62758c1d6de53a98a44e44d2e6a",
+      "hunks": [
+        {
+          "at": 84,
+          "before": [
+            "        ctx.child(\"relics\").text = \"遗物 \" .. #ctx.self.run.relics"
+          ],
+          "after": [
+            "        -- TASK-4.7: the shared top-bar disc row and 遗物 N button carry this now.",
+            "        ctx.child(\"relics\").text = \"\""
+          ]
+        }
+      ]
+    },
+    "tests/lua/owned_relic_view.lua": {
+      "beforeSha256": "326f5a03516bf6955eadeba52d1ca9e6289b5c3e23c4f7d8dddb1998f42803a0",
+      "afterSha256": "ac8c6323a225c32c4fecd009685855feaf75c8374f533417039536c91d178408",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "local Theme=require('abyss_theme')"
+          ]
+        },
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "h:refresh()",
+            "-- Top-bar art slots: owned-only discs bound to Theme.icon.relic.",
+            "local bar=r:GetChild('relicBar')",
+            "assert(bar.visible~=false,'relic disc row hidden on map')",
+            "for i=1,Theme.layout.relicView.bar.count do",
+            "  local slot=bar:GetChild('slot'..i)",
+            "  assert(slot.visible==true,'slot '..i..' should show owned relic')",
+            "  assert(slot:GetChild('rim') and slot:GetChild('face') and slot:GetChild('icon'),'disc art layers missing')",
+            "end",
+            "local function iconOf(id)local v=Theme.icon.relic[id];return type(v)=='table' and v.id or v end",
+            "assert(require('abyss_relic_view_ui').icon('anchor')==iconOf('anchor'))",
+            "local panel=r:GetChild('relicPanel')"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [
+            "assert(h.deckUI.visible and h.deckUI.detailOnly and not h.mapUI.visible)",
+            "local text=table.concat(h.deckUI.detailPages,'\\n')",
+            "assert(text:find('1. 石锚',1,true) and text:find('2. 石锚',1,true) and text:find('42. 余烬之心',1,true))",
+            "assert(text:find('获得 10 点格挡',1,true) and text:find('回复 6 点生命',1,true))",
+            "local panel=r:GetChild('deckPanel')",
+            "assert(#h.deckUI.detailPages>1)",
+            "assert(panel:GetChild('detailHit').click())",
+            "assert(h.deckUI.detailPage==2)"
+          ],
+          "after": [
+            "assert(h.deckUI.visible and h.deckUI.detailOnly=='relics' and h.relicUI.visible and not h.mapUI.visible)",
+            "assert(panel.visible==true and r:GetChild('deckPanel').visible==false,'relic overlay must replace the text dump')",
+            "assert(panel:GetChild('title').text=='持有遗物 · 42 件')",
+            "local row1=panel:GetChild('row1')",
+            "assert(row1.visible==true and row1:GetChild('name').text=='石锚',row1:GetChild('name').text)",
+            "assert(row1:GetChild('description').text:find('获得 10 点格挡',1,true))",
+            "assert(row1:GetChild('slot'):GetChild('icon'))",
+            "assert(h.relicUI.rows[1].icon==iconOf('anchor'))",
+            "assert(h.relicUI:pages()==6)",
+            "assert(panel:GetChild('pageHint').text=='第 1/6 页')",
+            "assert(panel:GetChild('next'):GetChild('hit').click())",
+            "assert(h.relicUI.page==2 and panel:GetChild('row1'):GetChild('name').text=='余烬之心')",
+            "assert(panel:GetChild('row1'):GetChild('description').text:find('回复 6 点生命',1,true))",
+            "-- No English placeholders anywhere in the visible panel.",
+            "for slot=1,8 do",
+            "  local row=panel:GetChild('row'..slot)",
+            "  if row.visible then for _,n in ipairs({'name','description'}) do",
+            "    assert(not row:GetChild(n).text:find('%a%a%a'),'English text in relic panel: '..row:GetChild(n).text)",
+            "  end end",
+            "end"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "assert(not h.deckUI.visible and h.mode=='map' and h.run==run)",
+            "assert(entry.click())",
+            "assert(h.deckUI.detailPage==1)"
+          ],
+          "after": [
+            "assert(not h.deckUI.visible and not h.relicUI.visible and panel.visible==false and h.mode=='map' and h.run==run)",
+            "-- Tapping a disc opens directly on that relic's page.",
+            "assert(bar:GetChild('slot2'):GetChild('hit').click())",
+            "assert(h.relicUI.visible and h.relicUI.page==1)",
+            "assert(entry:GetChild('normal'):GetChild('label').text=='遗物 42')"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            "  assert(host.deckUI.visible)",
+            "  assert(root:GetChild('deckPanel'):GetChild('close'):GetChild('hit').click())"
+          ],
+          "after": [
+            "  assert(host.deckUI.visible and host.relicUI.visible)",
+            "  assert(root:GetChild('relicPanel'):GetChild('close'):GetChild('hit').click())"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [
+            "print('LUA_OWNED_RELIC_VIEW 2 passed')"
+          ],
+          "after": [
+            "do",
+            "  local G=dofile('tests/lua/support/game_ui_fixture.lua')",
+            "  local h2,r2=G.fixture();assert(G.start(h2))",
+            "  h2.run.relics={'neows_lament','maw_bank','anchor','ancient_tea_set'}",
+            "  h2.run.relicCounters={neows_lament=2,maw_bank=-2,ancient_tea_set=-2}",
+            "  assert(r2:GetChild('relicEntry'):GetChild('open'):GetChild('hit').click())",
+            "  local p=r2:GetChild('relicPanel')",
+            "  local function chip(i)local c=p:GetChild('row'..i):GetChild('chip');return c.visible and c:GetChild('label').text or nil end",
+            "  assert(chip(1)=='剩余 2 场',tostring(chip(1)))",
+            "  assert(chip(2)=='已失效')",
+            "  assert(chip(3)==nil,'anchor has no counter chip')",
+            "  assert(chip(4)=='已蓄能','tea set -2 must not read 已耗尽')",
+            "end",
+            "print('LUA_OWNED_RELIC_VIEW 4 passed')"
+          ]
+        }
+      ]
+    }
+  }
+}

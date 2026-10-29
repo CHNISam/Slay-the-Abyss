@@ -2029,7 +2029,7 @@ function M.new(data, options)
         end
         state.draw[#state.draw + 1] = { uid = uid, uuid=uid, cardId = id, upgraded = type(value) == "table" and value.upgraded == true,
             upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
-            misc=type(value)=='table' and value.misc or nil,
+            misc=type(value)=='table' and value.misc or nil,costOverride=type(value)=='table' and value.costOverride or nil,
             searingBlowCopyUpgrades=copyBase }
         assert(M.validSearingBlowCopy(state.draw[#state.draw]),'invalid Searing Blow constructor copy')
         state.nextUid = math.max(state.nextUid,uid)+1

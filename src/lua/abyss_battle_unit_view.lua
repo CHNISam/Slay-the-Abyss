@@ -46,8 +46,9 @@ function M.new(picture, tint, ink, statusKind)
         box:GetChild("impact"):SetSizeDelta(portrait, portrait)
         box:GetChild("shield"):SetSizeDelta(portrait, portrait)
         box:GetChild("floating"):SetSizeDelta(width + S.xl, L.nativeText.lineHeight * 2)
-        picture(box:GetChild("portrait"), icon)
-        tint(box:GetChild("portrait"), box.name == "hero" and C.geo or C.text)
+        picture(box:GetChild("portrait"), type(icon)=='table' and icon.id or icon)
+        -- The traveler bust must stay readable; dyeing it with the Geo swatch made every portrait the element icon.
+        tint(box:GetChild("portrait"), box.name == "hero" and C.buttonPressedText or C.text)
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
         for _, x in ipairs({-1,1}) do for _, y in ipairs({-1,1}) do
             for _, axis in ipairs({'H','V'}) do

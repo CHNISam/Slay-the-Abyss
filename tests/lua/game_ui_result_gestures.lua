@@ -1,8 +1,13 @@
+local first,last=...
+first,last=first or 1,last or 5
+local registered=0
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local F = dofile('tests/lua/support/game_ui_fixture.lua')
 local cursor = {CursorDown='down',CursorUp='up',CursorExit='exit',CursorEndDrag='endDrag'}
 local total, failed = 0, 0
 local function test(name, fn)
+    registered=registered+1
+    if registered<first or registered>last then return end
     total = total + 1
     local ok, reason = pcall(fn)
     if not ok then failed = failed + 1 end
@@ -79,4 +84,5 @@ test('click-only platform preserves start, restart and settlement',function()
     ui.run.phase='defeat'; ui:refresh(); assert(panel:GetChild('settle'):GetChild('hit').click()); assert(calls==1)
 end)
 print('LUA_GAME_UI_RESULT_GESTURES '..(total-failed)..'/'..total)
+assert(registered==20 and total==last-first+1,'complete result gesture range')
 assert(failed==0,tostring(failed)..' result gesture regressions')

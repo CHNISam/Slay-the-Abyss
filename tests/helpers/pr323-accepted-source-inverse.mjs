@@ -1,3 +1,6 @@
+import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
+import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
+import {preEventProductionSource} from './event-production-source-inverse.mjs';
 // Exact outer composition only. Both accepted20a and original323 witnesses stay immutable.
 import assert from 'node:assert/strict';
 import {preNestedSnapshotOwnerSource} from './nested-command-snapshot-owner-inverse.mjs';
@@ -19,7 +22,8 @@ export function normalizePr323CompositionSource(path,source){
  try{
   const formatted=JSON.stringify(JSON.parse(source),null,2)+'\n';
   const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
-  if(tokens(source)===tokens(formatted)&&hash(formatted)===proof.files[path].afterSha256)return formatted;
+  const projected=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,formatted)));
+  if(tokens(source)===tokens(formatted)&&hash(projected)===proof.files[path].afterSha256)return projected;
  }catch{ /* Unknown syntax remains visible to the strict source guard. */ }
  return source;
 }
@@ -37,8 +41,10 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
+ if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
  source=normalizePr323CompositionSource(path,source);
  if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
+
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const binding=proof.files[path];
@@ -49,8 +55,10 @@ export function requirePr323Source(path,source){
 }
 function project(path,source,target){
  if(typeof source!=='string')return source;
+ if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
  source=normalizePr323CompositionSource(path,source);
  if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
+
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const normalized=normalize(source),binding=proof.files[path];

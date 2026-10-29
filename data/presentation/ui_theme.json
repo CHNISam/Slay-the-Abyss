@@ -654,7 +654,13 @@
       "power": 102024,
       "status": 100122
     },
-    "player": 102005,
+    "player": {
+      "id": 105292,
+      "slot": "dot-b.battle.traveler",
+      "status": "placeholder",
+      "owner": "dot-b",
+      "note": "战斗胸像槽，约 133×133。正式资源由 Dot B 替换 id。禁止再用岩元素图标 102005。"
+    },
     "enemy": {
       "cultist": 112022,
       "jaw_worm": 112038,
@@ -694,26 +700,159 @@
       "colour": true
     },
     "geo": 102005,
+    "heroSlots": {
+      "note": "可替换主视觉。Dot A 交菜单与选角立绘/小头像，Dot B 交战斗胸像。status=placeholder 时各槽使用互不相同的图库编号，未完成角色不借用旅行者图，也不把 102005 当作正式形象。正式资源到位后只改对应 id 与 status。",
+      "menu": {
+        "slot": "dot-a.menu.traveler",
+        "shares": "dot-a.select.large.traveler.ironclad",
+        "id": 105301,
+        "status": "placeholder",
+        "owner": "dot-a"
+      },
+      "large": {
+        "traveler": {
+          "ironclad": {
+            "slot": "dot-a.select.large.traveler.ironclad",
+            "id": 105301,
+            "status": "placeholder",
+            "owner": "dot-a"
+          },
+          "silent": {
+            "slot": "dot-a.select.large.traveler.anemo",
+            "id": 105302,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "defect": {
+            "slot": "dot-a.select.large.traveler.electro",
+            "id": 105303,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "watcher": {
+            "slot": "dot-a.select.large.traveler.dendro",
+            "id": 105304,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          }
+        },
+        "hutao": {
+          "slot": "dot-a.select.large.hutao",
+          "id": 105305,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "arlecchino": {
+          "slot": "dot-a.select.large.arlecchino",
+          "id": 105306,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "furina": {
+          "slot": "dot-a.select.large.furina",
+          "id": 105307,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "raiden": {
+          "slot": "dot-a.select.large.raiden",
+          "id": 105308,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        }
+      },
+      "bust": {
+        "traveler": {
+          "ironclad": {
+            "slot": "dot-a.select.bust.traveler.ironclad",
+            "id": 105311,
+            "status": "placeholder",
+            "owner": "dot-a"
+          },
+          "silent": {
+            "slot": "dot-a.select.bust.traveler.anemo",
+            "id": 105316,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "defect": {
+            "slot": "dot-a.select.bust.traveler.electro",
+            "id": 105317,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          },
+          "watcher": {
+            "slot": "dot-a.select.bust.traveler.dendro",
+            "id": 105291,
+            "status": "placeholder",
+            "owner": "dot-a",
+            "playable": false
+          }
+        },
+        "hutao": {
+          "slot": "dot-a.select.bust.hutao",
+          "id": 105312,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "arlecchino": {
+          "slot": "dot-a.select.bust.arlecchino",
+          "id": 105313,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "furina": {
+          "slot": "dot-a.select.bust.furina",
+          "id": 105314,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        },
+        "raiden": {
+          "slot": "dot-a.select.bust.raiden",
+          "id": 105315,
+          "status": "placeholder",
+          "owner": "dot-a",
+          "playable": false
+        }
+      }
+    },
     "characterPortraits": {
       "hutao": {
-        "id": 102005,
-        "placeholder": true
+        "id": 105312,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.hutao"
       },
       "arlecchino": {
-        "id": 102005,
-        "placeholder": true
+        "id": 105313,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.arlecchino"
       },
       "furina": {
-        "id": 102005,
-        "placeholder": true
+        "id": 105314,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.furina"
       },
       "raiden": {
-        "id": 102005,
-        "placeholder": true
+        "id": 105315,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.raiden"
       },
       "traveler": {
-        "id": 102005,
-        "placeholder": true
+        "id": 105311,
+        "placeholder": true,
+        "slot": "dot-a.select.bust.traveler.ironclad"
       }
     }
   },
@@ -1195,6 +1334,25 @@
         640,
         460
       ]
+    },
+    "relicView": {
+      "note": "TASK-4.7 持有遗物站位：顶栏圆形遗物盘沿 prototype topBar() 32px disc / 36 步进；详情每行为图标盘+中文名+状态签+说明，美术位绑定 icon.relic，占位图标待专属美术。",
+      "bar": { "origin": [216, 316], "step": 36, "disc": 32, "face": 28, "icon": 20, "count": 3 },
+      "panel": [0, 0, 1160, 620],
+      "title": [0, 268, 760, 48],
+      "close": [490, 268, 88, 48],
+      "previous": [-430, -268, 200, 48],
+      "next": [430, -268, 200, 48],
+      "pageHint": [0, -268, 400, 40],
+      "columns": [-282, 282],
+      "rows": [178, 62, -54, -170],
+      "row": [548, 104],
+      "disc": 72,
+      "discRing": 3,
+      "icon": 44,
+      "name": [-30, 26, 290, 32],
+      "chip": [190, 26, 136, 28],
+      "description": [46, -16, 440, 60]
     },
     "deckView": {
       "relicEntry": [
@@ -2003,6 +2161,32 @@
             680,
             40
           ]
+        },
+        "neow": {
+          "pedestal": [
+            0,
+            -70,
+            120,
+            18
+          ],
+          "body": [
+            0,
+            -8,
+            64,
+            118
+          ],
+          "hood": [
+            0,
+            46,
+            52,
+            52
+          ],
+          "orb": [
+            46,
+            8,
+            36,
+            36
+          ]
         }
       },
       "treasure": {
@@ -2254,6 +2438,12 @@
       ],
       "emblemGlow": 48,
       "emblemInset": 32,
+      "hero": [
+        340,
+        -30,
+        420,
+        620
+      ],
       "title": [
         0,
         132,
@@ -2599,34 +2789,34 @@
       "choices": [
         [
           -140,
-          -262,
+          -288,
           128,
-          56
+          72
         ],
         [
           0,
-          -262,
+          -288,
           128,
-          56
+          72
         ],
         [
           140,
-          -262,
+          -288,
           128,
-          56
+          72
         ],
         [
           280,
-          -262,
+          -288,
           128,
-          56
+          72
         ]
       ],
       "back": [
         -500,
-        -262,
+        -288,
         160,
-        52
+        72
       ],
       "buttonInset": [
         16,
@@ -2635,9 +2825,9 @@
       "pressedScale": 0.96,
       "traveler": [
         -280,
-        -262,
+        -288,
         128,
-        56
+        72
       ],
       "originalBack": [
         180,
@@ -2647,9 +2837,9 @@
       ],
       "confirm": [
         480,
-        -262,
+        -288,
         220,
-        56
+        72
       ],
       "elements": [
         [

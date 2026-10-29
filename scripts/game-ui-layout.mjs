@@ -3,6 +3,7 @@ import { mapLayout } from './map-ui-layout.mjs';
 import { nodeLayout } from './node-ui-layout.mjs';
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
+import { relicViewControls } from './relic-view-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
 import { potionDiscardControls } from './potion-discard-layout.mjs';
 import { vistaControl, prologueControl } from './cinematic-ui-layout.mjs';
@@ -81,6 +82,9 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
         plate('backdrop', layout.backdrop, color.backdrop),
         vistaControl(theme),
+        ...(layout.hero && theme.icon.heroSlots ? [{ name: 'heroArt', kind: 'image',
+          position: layout.hero.slice(0, 2), size: layout.hero.slice(2),
+          image: theme.icon.heroSlots.menu.id, colour: color.buttonPressedText }] : []),
         emblem,
         text('title', layout.title, '杀戮原塔2', font.display, color.gold),
         text('tagline', layout.tagline, '', font.heading, color.goldDim),
@@ -99,13 +103,14 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         { ...plate('deathShade', layout.backdrop, color.backdrop), visible: false },
       ] },
       ...deckControls(theme),
+      ...relicViewControls(theme),
       ...potionDiscardControls(theme),
       ...experimentalCharacterControls(theme),
       prologueControl(theme),
       ...exitControls(theme),
     ],
   };
-  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);
+  const overlays = new Set(['deckPanel', 'relicPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);
   for (const control of layoutTree.controls) if (overlays.has(control.name)) control.isolateNavigation = true;
   return layoutTree;
 }

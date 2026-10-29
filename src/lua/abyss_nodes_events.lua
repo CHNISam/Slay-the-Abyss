@@ -9,6 +9,7 @@ local Fountain = require('abyss_fountain')
 local Act1Events = require('abyss_act1_events')
 local Act2Events = require('abyss_act2_events')
 local Act3Events = require('abyss_act3_events')
+local Match=require('abyss_match_event')
 
 local Neow=require('abyss_neow')
 
@@ -69,6 +70,7 @@ return function(M)
     function M.eventOptions(run,flow)
         local id,e=flow.event.id,flow.event
         if id=='neow'then return Neow.options(run,e)end
+        if id=='match_game'then return Match.options(run,e)end
         if Act1Events.ids[id] then return Act1Events.options(run,e,upgradeCards) end
         if Act2Events.ids[id] then return Act2Events.options(run,e) end
         if Act3Events.ids[id] then return Act3Events.options(run,e) end
@@ -247,9 +249,26 @@ return function(M)
         return complete(run)
     end
 
+    local function chooseMatch(run,flow,choice,uid)
+        local ok,status=Match.choose(run,flow,choice,uid)
+        if not ok or status~='complete' then return ok,status end
+        flow.eventChoice=choice
+        return complete(run)
+    end
+
+    local function finishLegacy(run,flow,choice,uid,rules)
+        local accepted,status=chooseLegacy(run,flow,choice,uid,rules)
+        if accepted~=nil then return accepted,status end
+        flow.eventChoice = choice
+        local ok,result=complete(run)
+        if run.hp==0 then run.phase='defeat' end
+        return ok,result
+    end
+
     local function chooseEvent(run, choice, uid)
         local flow, reason = pending(run, "event"); if not flow then return false, reason end
         local id = flow.event.id
+        if id=='match_game' then return chooseMatch(run,flow,choice,uid)end
         if id=='neow' then return chooseNeow(run,flow,choice,uid)end
         local rules = run.data.rules.events[id] or {}
         if Act2Events.ids[id] then return chooseAct2(run,flow,choice,uid)end
@@ -258,12 +277,7 @@ return function(M)
         if id=='living_wall' then return chooseLivingWall(run,flow,choice,uid)end
         if id=='fountain' and choice=='cleanse' then return chooseFountain(run,flow,choice)end
         if id=='golden_wing' and flow.event.stage=='purge' and choice~='purge' then return false,'invalid_event_choice' end
-        local accepted,status=chooseLegacy(run,flow,choice,uid,rules)
-        if accepted~=nil then return accepted,status end
-        flow.eventChoice = choice
-        local ok,result=complete(run)
-        if run.hp==0 then run.phase='defeat' end
-        return ok,result
+        return finishLegacy(run,flow,choice,uid,rules)
     end
 
     function M.chooseEvent(run,choice,uid)

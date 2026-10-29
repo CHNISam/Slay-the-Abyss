@@ -1,4 +1,6 @@
+import {preHeroVisualSource} from './helpers/hero-visual-source-inverse.mjs';
 import test from 'node:test';
+import {preRelicViewUiSource} from './helpers/relic-view-ui-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -10,7 +12,8 @@ import {deathSettlementGuardLayer,preDeathSettlementGuardSource} from './helpers
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preRosterSource,rosterSourceBindings} from './helpers/competition-roster-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+// TASK-4.7 relic view UI is the outermost exact layer above this guard.
+const read=path=>preRelicViewUiSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,readFileSync(path,'utf8'))).replaceAll('\r\n','\n'));
 test('one exact settlement guard precedes the frozen accepted330 death and PR323 layers',()=>{
   const path='src/lua/abyss_game_ui.lua',live=read(path),binding=deathSettlementGuardLayer.files[path];
   assert.equal(deathSettlementGuardLayer.acceptedBase,'1dc33fe790a5f82be4f1bf2f0d09e339dcb943dd');
@@ -91,7 +94,7 @@ test('gesture drain projection preserves the complete prior fixture and exposes 
   assert.ok(binding,'the shared gesture fixture must join the exact death layer');
   assert.equal(binding.beforeSha256,'64407f8ea32f7591ce65cb25a675acee5e499581155942ee448ca4c300691715');
   assert.equal(binding.afterSha256,'134616d268298a4d3337ca5e65af2af3568a06c3cb3382e4e0fb8e0fcf3a9868');
-  const live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const live=preRelicViewUiSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,readFileSync(path,'utf8'))).replaceAll('\r\n','\n'));
   const prior=prePlayerDeathSource(path,live);
   assert.equal(hash(live),binding.afterSha256);
   assert.equal(hash(prior),binding.beforeSha256);

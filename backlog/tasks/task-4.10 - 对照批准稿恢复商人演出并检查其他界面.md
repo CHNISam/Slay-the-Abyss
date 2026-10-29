@@ -5,6 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-29 05:10'
+updated_date: '2026-10-29 12:33'
 labels: []
 milestone: m-5
 dependencies: []
@@ -29,3 +30,9 @@ ordinal: 127000
 - [ ] #2 商人和商店演出按批准稿接入，交易与离开正常。
 - [ ] #3 保留自动回归及同候选电脑和手机实机证据，未验证项明确列出。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-29 核对商店接线仍在：abyss_merchant 进店、购买、金币不足和离开都由节点界面调用。旧路商人与七天神像不是同一形象。本切片没有重做交易。实机对照批准稿仍未做，验收未勾。
+<!-- SECTION:NOTES:END -->

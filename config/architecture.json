@@ -1,5 +1,8 @@
 {
   "layers": {
+    "abyss_duplicator_event": "core",
+    "abyss_match_event": "core",
+    "abyss_match_event_ui": "ui",
     "abyss_run_admission": "core",
     "abyss_run_potion_candidate": "core",
     "abyss_nest_event": "core",
@@ -128,6 +131,7 @@
     "abyss_combat": "core",
     "abyss_curses": "core",
     "abyss_deck_ui": "ui",
+    "abyss_relic_view_ui": "ui",
     "abyss_relic_names": "ui",
     "abyss_effects": "core",
     "abyss_encounter_formation": "core",

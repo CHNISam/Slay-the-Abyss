@@ -103,6 +103,9 @@ function M.new(root, data, presentation, clickEvent, platform)
             and (self.mode=="map" or self.mode=="battle" or self.mode=="node")
             and (run.phase=="map" or run.phase=="node" or run.phase=="reward" or run.phase=="combat")
     end
+    self.relicUI=require('abyss_relic_view_ui').new(child('relicPanel'),child('relicBar'),clickEvent,platform,
+        function(run,id)return self.nodeUI:describeRelic(run,id)end,function()return self:closeDeck()end,
+        function(i)return self:openRelics(i)end,function()return self.mode end)
     self.potionUI=PotionDiscardUI.new(child("potionPanel"),clickEvent,platform,canManagePotions,changed,
         function()return self:closePotions()end)
     self.openPotions = function(_)
@@ -114,13 +117,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.battleUI.suppressClick=false;self:refresh();return true
     end
     local prologuePanel = root:GetChild("prologuePanel")
-    if prologuePanel and platform.prologue~=false then
-        self.prologue=require('abyss_prologue').new(prologuePanel,{
-            clickEvent=clickEvent,cursorEvents=platform.cursorEvents,color=platform.color,
-            sound=platform.sound,controller=controller,
-            blocked=function()return self.exitOpen or self.settlementRequested or self.settlementBusy end,
-            onPhase=function()self:refresh()end})
-    elseif prologuePanel then prologuePanel:SetVisible(false) end
+    -- The cinematic camera and its skip control were cancelled. Keep the panel
+    -- hidden so it cannot mask Neow or leave an old click target.
+    self.prologue=nil
+    if prologuePanel then prologuePanel:SetVisible(false) end
 
     self.openExit = function(_)
         if self.disabled or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
@@ -176,18 +176,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true
     end
-    self.openRelics = function(_)
+    -- TASK-4.7 owned relics: icon-disc slots, not a text dump. Opening rides
+    -- the deck gate so it stays read-only for battle, map, camp and chest.
+    self.openRelics = function(_,index)
         if self.deckUI.visible or not self:openDeck() then return false end
         self.deckUI:close()
-        local parts={}
-        for i,id in ipairs(self.run.relics) do
-            local definition=require('abyss_relic_rewards').definition(self.run,id)
-            local description=definition and self.nodeUI:describeRelic(self.run,definition.id) or ''
-            parts[#parts+1]=i..'. '..(definition and definition.name or '未识别遗物')..'\n'
-                ..(description~='' and description or '效果说明待补充。')
-        end
-        self.deckUI:inspectText(self.run,'持有遗物 · '..#self.run.relics..' 件',
-            #parts>0 and table.concat(parts,'\n\n') or '本局尚未获得遗物。')
+        if not self.deckUI:inspectRelics(self.run,self.relicUI,index) then return false end
         self:refresh();return true
     end
     self.closeDeck = function(_)
@@ -340,7 +334,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.exitOpen then scope='exit'
         elseif self.motion.deathReveal then scope='blocked'
         elseif self.characterOpen then scope='characters'
-        elseif openingCovered() then scope='prologue'
+        elseif openingCovered() then scope='blocked'
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
         elseif self.deckUI.visible then scope='deck'
         elseif self.potionUI.visible then scope='potions'
@@ -350,7 +344,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         controller:sync(scope,function()
             if scope=='exit' then return self:closeExit()
             elseif scope=='characters' then return self:closeCharacters()
-            elseif scope=='prologue' then return self.prologue:skip()
+            elseif scope=='blocked' and openingCovered() then return false
             elseif scope=='deck' then
                 if self.deckUI.choiceToken then return false end
                 return self.deckUI:back()
@@ -442,6 +436,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         child("combatRewards"):SetVisible(returnAvailable)
         child("deckEntry"):SetVisible(utilitiesVisible)
         child("relicEntry"):SetVisible(utilitiesVisible)
+        self.relicUI:refreshBar(run,utilitiesVisible)
+        for _,state in ipairs({'normal','hover','pressed','disabled'})do
+            child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state):GetChild('label').text=run and '遗物 '..#run.relics or '遗物'
+        end
         child("potionEntry"):SetVisible(not inCombat() and utilitiesVisible)
         refreshPotionEntry(run)
         child("nodePanel"):GetChild("potions"):SetVisible(false)
@@ -618,6 +616,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.mode~='menu' and self.mode~='defeat' and self.mode~='victory' then return false end
         if self.characterOpen then return false,'character_choice_open' end
         self.characterOpen=true;self.characterSelection:clear()
+        -- Production keeps the select page, but the only open role is already showing.
+        if self.characterSelection.profile~='full-source' then self.characterSelection:select('traveler') end
         selectionChanged()
         if character then
             for _,id in ipairs(CharacterSelect.elements)do if id==character then
@@ -673,9 +673,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
         self.nodeUI:render()
-        if self.prologue and not self.prologuePlayed then
-            self.prologuePlayed=true;self.prologue:play()
-        end
+        if prologuePanel then prologuePanel:SetVisible(false) end
         self:refresh()
         return true
     end

@@ -17,6 +17,8 @@ function M.install(ctx)
 
         for i=1,12 do ctx.targets[#ctx.targets+1]='pickerView/forgeGrid/card'..i end
 
+        for _,path in ipairs(require('abyss_match_event_ui').inputPaths())do ctx.targets[#ctx.targets+1]=path end
+
         ctx.targets[#ctx.targets+1]='pickerView/forgePrevious'
 
         ctx.targets[#ctx.targets+1]='pickerView/forgeNext'
