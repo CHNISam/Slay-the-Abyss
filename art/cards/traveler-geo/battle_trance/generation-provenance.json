@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "battle_trance",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:32:41.718Z",
+    "endUtc": "2026-10-29T17:33:24.046Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Quiet closed-eyed bowed-head concentration bust; no thinking hand, weapon, enemy, damage, magic energy, UI/cards or Block result. Connected flower/blonde/whiteblue/blackgold identity remains readable. Fine portrait details remain despite broad-plane request; concentration versus sleep interpretation requires independent review. Native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/battle_trance/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "b43d82bd984776081fa99464803abb460f14885e8bf889e155edce36a5d32825",
+    "bytes": 1786887,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/battle_trance/prompt.txt",
+    "sha256": "b194ee7396c98f71eecc16183291b293540053e8c849e88c9827ad6bd707c1ca"
+  }
+}

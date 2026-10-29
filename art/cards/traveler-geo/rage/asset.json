@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "rage",
+  "displayName": "攻守相济",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "rage/generation-provenance.json",
+      "sha256": "09b94d212fdbb090036c8e1509f77d39c31c4b184d1de1a57f4dc48635e083c3",
+      "bytes": 3050
+    },
+    "preview-source-144x64.png": {
+      "path": "rage/preview-source-144x64.png",
+      "sha256": "1342d59f72e08e852b5f9aa88543643d6dc998e11a029eeb375a9d3e7d524fad",
+      "bytes": 19299
+    },
+    "prompt.txt": {
+      "path": "rage/prompt.txt",
+      "sha256": "e7cbebf7814c97c836d4b2bbe33df75d71fafe0a16310ac9a5e229b68801edd9",
+      "bytes": 2887
+    },
+    "source.png": {
+      "path": "rage/source.png",
+      "sha256": "586a43fb6cba3f7f4698b631651f24b499e46ce201dae95488ba5a3a14445805",
+      "bytes": 1917972
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "rage",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 3,
+        "status": "rage"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-11",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

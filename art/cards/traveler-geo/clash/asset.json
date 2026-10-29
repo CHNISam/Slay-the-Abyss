@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "clash",
+  "displayName": "全力进攻",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "clash/generation-provenance.json",
+      "sha256": "14a6a494cd1331e495daa34b2841845ea410af4bf6e720c94fa89da601427714",
+      "bytes": 2037
+    },
+    "preview-contain-144x64.png": {
+      "path": "clash/preview-contain-144x64.png",
+      "sha256": "9b530229dd824e5f141a54375d294163939a289baa9d10d3f6a172f31cea58ef",
+      "bytes": 18605
+    },
+    "prompt.txt": {
+      "path": "clash/prompt.txt",
+      "sha256": "5400f47208c6369836a5e6fe4e35fa7481cddb484949fefe354b407fd2d7e83f",
+      "bytes": 3519
+    },
+    "source.png": {
+      "path": "clash/source.png",
+      "sha256": "a58a66442d3df85876e16eafd3b27b73bfe8c687d4b41a806ddc76769da6c6d2",
+      "bytes": 1886344
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "clash",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 14
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-02",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

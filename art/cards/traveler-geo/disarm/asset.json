@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "disarm",
+  "displayName": "压制攻势",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "disarm/generation-provenance.json",
+      "sha256": "15cc757ad9db7b322e64d2144fcd7e420a91aa225063bd8047f4306b10c3ed3e",
+      "bytes": 2879
+    },
+    "preview-source-144x64.png": {
+      "path": "disarm/preview-source-144x64.png",
+      "sha256": "89351f45fb09f87c4896bac284538cdd5ff94de87dcf7a6099ea44b7eddc2446",
+      "bytes": 21281
+    },
+    "prompt.txt": {
+      "path": "disarm/prompt.txt",
+      "sha256": "610a4bf8165b82b536dcb829b99fd7a177a8f2d7fa25db3431b8a9f249d63d83",
+      "bytes": 2972
+    },
+    "source.png": {
+      "path": "disarm/source.png",
+      "sha256": "92d421cd46144544a252594559892f650695b7d3135cd1163cf3397b62e21ce7",
+      "bytes": 2089134
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "disarm",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "applyStatus",
+        "status": "strength",
+        "value": -2
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-07",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

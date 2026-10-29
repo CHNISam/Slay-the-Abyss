@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "bloodletting",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:32:53.600Z",
+    "completedAt": "2026-10-29T17:33:36Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "37ceff78295cfd6b13d3a77430becdfd83f70321ebd4bdba0baa7fc29a7f5304",
+      "bytes": 1911915
+    },
+    "prompt.txt": {
+      "sha256": "2849560e8e84b4e888e96b7bf33c0b05f8116e522a0000fd2af7ed693689cd5b",
+      "bytes": 2743
+    },
+    "preview-source-144x64.png": {
+      "sha256": "20a22458ae9ca8f53a5ec473fdff073c2c33d1883d8124206b2d002dd41897fa",
+      "bytes": 18883
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "透支",
+    "mechanics": "loseHp 3 gain energy 2; upgraded energy 3",
+    "mainAction": "one exhausted exertion gathers small reserve against chest, no cut or gore",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "amber eye",
+      "connected original white-blue collar shoulder and gold dark waist structure"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: bowed tired blonde Lumine with whiteflower and connected whiteblue dress, closed hand at chest with small warm glimmer, one sweat mark. No weapon, wound, healing sign or huge aura. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

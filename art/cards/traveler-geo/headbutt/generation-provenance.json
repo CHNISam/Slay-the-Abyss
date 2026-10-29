@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "headbutt",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:17:09.802Z",
+    "endUtc": "2026-10-29T17:18:23.387Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Connected Lumine twists waist/shoulder and extends one sword back-left into one dark hound shoulder contact. Blonde/flower/whiteblue/blackgold costume remains visible at tiny size. No literal headbutt, stun, UI/cards or extra hits. Caveat: face looks forward/right rather than directly at pursuer, while shoulder/waist/sword counterrotation reads as returning attack. Fine hair/costume details require native economy review; no native pass.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/headbutt/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "8e59ccd99b01ce71535a7db5a219cebb9831a8610e9b5133e7cd7221aa450572",
+    "bytes": 1959404,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/headbutt/prompt.txt",
+    "sha256": "073953a940d5d99c17e7c291853763a92379eaac05176b52d193472d796926fe"
+  }
+}

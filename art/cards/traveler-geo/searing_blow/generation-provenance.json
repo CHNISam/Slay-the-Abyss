@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "searing_blow",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:23:03.223Z",
+    "completedObservedAt": "2026-10-29T18:23:49Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "9b19a1d65a7ccbd130d201c09fa305ff70f17d93841319edfa6f2f303ae6f253",
+      "bytes": 1889763
+    },
+    "prompt.txt": {
+      "sha256": "a09b9c8c94f05ce6d6456c2ddb291e2a0cccc0af7fcdbe6e21b62b30682e5f35",
+      "bytes": 2967
+    },
+    "preview-source-144x64.png": {
+      "sha256": "0c99bc149ce047d53d66c38c72b993cd3691686de5725a438121fc94b5d3c428",
+      "bytes": 18877
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "千锤一剑",
+    "mechanics": "single target damage12 first upgrade16; repeatable unlimited upgrades",
+    "mainAction": "one controlled precise sword contact from low looking-up impact view, no crafting or Pyro",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist",
+      "one-handed straight sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: low up-looking broad armor foreground left, Lumine actual flower face whiteblue-gold costume upperright, one connected hand-hilt-blade and compressed contact. Foreground blade appears broader via perspective, hilt remains clearly one-handed; no greatsword grip, fire or multihit. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

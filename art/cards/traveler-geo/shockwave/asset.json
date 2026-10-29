@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "card_id": "shockwave",
+  "displayName": "震慑敌阵",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "shockwave/generation-provenance.json",
+      "sha256": "76a081cb1fe12f4d55cba1e2e33c11c347305c833d00bb4a1d9afd8f9c883669",
+      "bytes": 2365
+    },
+    "preview-contain-144x64.png": {
+      "path": "shockwave/preview-contain-144x64.png",
+      "sha256": "da85b8a7aa1ba492fafee9cc23080f4355cfbff7897d572528cad387e3ac49a1",
+      "bytes": 19719
+    },
+    "prompt.txt": {
+      "path": "shockwave/prompt.txt",
+      "sha256": "92ca61651b8aae3a89d6e2ac683b505bbec80ce89714144196d54e06cebd976e",
+      "bytes": 3246
+    },
+    "source.png": {
+      "path": "shockwave/source.png",
+      "sha256": "b3f1e14dc83e33d63a805f4d46a10064913e722b0d5f288a6661090589f67fb5",
+      "bytes": 2011871
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "shockwave",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "applyStatusAll",
+        "status": "weak",
+        "targetGroup": "weak_then_vulnerable",
+        "value": 3
+      },
+      {
+        "op": "applyStatusAll",
+        "status": "vulnerable",
+        "targetGroup": "weak_then_vulnerable",
+        "value": 3
+      }
+    ],
+    "target": "ALL_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-14",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

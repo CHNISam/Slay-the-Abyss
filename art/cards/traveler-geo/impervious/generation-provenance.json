@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "impervious",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T19:01:18.994Z",
+    "completedObservedAt": "2026-10-29T19:02:34Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "588d1157c55370dee77080ce930279a4e63e03ae0e91146f1a21ea1dae6c0c02",
+      "bytes": 1922505
+    },
+    "prompt.txt": {
+      "sha256": "63f4593cdd5b1673635d89c5160a0c0bcc5364a1985243b6a0f17eea38232814",
+      "bytes": 2749
+    },
+    "preview-source-144x64.png": {
+      "sha256": "e392072e3167a7d7823c0fa34c8fa61b813df13ed72e36cc46a5b584b6750e34",
+      "bytes": 18469
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "坚守",
+    "mechanics": "self block30 upgraded40 then exhaust",
+    "mainAction": "resolute front kneeling protective stance with compact crossed forearm support and upright single sword",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: actual Lumine flower face connected costume, stable kneeling foot/knee base, single upright sword and two compact crossed forearms. Supporting palm touches upper arm rather than requested below-wrist, but coherent defensive brace. No foe damage heal or permanent fortress. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

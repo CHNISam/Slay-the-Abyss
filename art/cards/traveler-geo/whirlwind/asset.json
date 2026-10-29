@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "whirlwind",
+  "displayName": "岩潮叠嶂",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "whirlwind/generation-provenance.json",
+      "sha256": "6efb4e67222e0f85c3abec03c615a8e7c2d3edd1276f56d9e8b079924a81bb54",
+      "bytes": 2927
+    },
+    "preview-source-144x64.png": {
+      "path": "whirlwind/preview-source-144x64.png",
+      "sha256": "5a3df7db81cc0a0003c0f1e1dbb8a1d585ee7f8f096aee4e4e752ec7cd967d13",
+      "bytes": 19900
+    },
+    "prompt.txt": {
+      "path": "whirlwind/prompt.txt",
+      "sha256": "d627f5e6fde8f4fb285da26a7bec2a127478ae7095da0a2282ede2e0812d1fd6",
+      "bytes": 3455
+    },
+    "source.png": {
+      "path": "whirlwind/source.png",
+      "sha256": "c5f70ec860f33958fdff025e4f729a06705a4cbfeffe72a2ea5c3239c7401af1",
+      "bytes": 2067279
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "whirlwind",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damageAll",
+        "value": 5,
+        "times": "X"
+      }
+    ],
+    "target": "ALL_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-14",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "card_id": "bloodletting",
+  "displayName": "透支",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "bloodletting/generation-provenance.json",
+      "sha256": "a644b5dc719c1c5a977767b30d3d77d1b2944d22b29a600326481e66e5077816",
+      "bytes": 2818
+    },
+    "preview-source-144x64.png": {
+      "path": "bloodletting/preview-source-144x64.png",
+      "sha256": "20a22458ae9ca8f53a5ec473fdff073c2c33d1883d8124206b2d002dd41897fa",
+      "bytes": 18883
+    },
+    "prompt.txt": {
+      "path": "bloodletting/prompt.txt",
+      "sha256": "2849560e8e84b4e888e96b7bf33c0b05f8116e522a0000fd2af7ed693689cd5b",
+      "bytes": 2743
+    },
+    "source.png": {
+      "path": "bloodletting/source.png",
+      "sha256": "37ceff78295cfd6b13d3a77430becdfd83f70321ebd4bdba0baa7fc29a7f5304",
+      "bytes": 1911915
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "bloodletting",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "loseHp",
+        "value": 3
+      },
+      {
+        "op": "energy",
+        "value": 2
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-06",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

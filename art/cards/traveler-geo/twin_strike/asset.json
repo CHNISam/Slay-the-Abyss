@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "twin_strike",
+  "displayName": "重击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "twin_strike/generation-provenance.json",
+      "sha256": "791e8a7f5c042b421d827cc80c43cb6c1e3df81908fc93eabc09bc065afc6b54",
+      "bytes": 2081
+    },
+    "preview-contain-144x64.png": {
+      "path": "twin_strike/preview-contain-144x64.png",
+      "sha256": "13d40ed411907991c3dd93ac95bd01013df1a0e0460111158b107b843abd0ed4",
+      "bytes": 20250
+    },
+    "prompt.txt": {
+      "path": "twin_strike/prompt.txt",
+      "sha256": "69e6afb1aaa904bea91532abb18877398ba4d307c9ebd5a0d1f8aa8bb9e4fe95",
+      "bytes": 3729
+    },
+    "source.png": {
+      "path": "twin_strike/source.png",
+      "sha256": "3bc5a5c926b3eb2cdcb9e760755749af8211d92f71422982a79fc30c9356b97d",
+      "bytes": 2040542
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "twin_strike",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 5,
+        "times": 2
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-05",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

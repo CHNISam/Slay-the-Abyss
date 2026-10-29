@@ -50,6 +50,10 @@
     "project-native-art-adapter": {
       "status": "Project-original lifecycle wrapper; native property sequence references MIT Primitive runtime, upstream rights retained; no game-IP sublicense",
       "evidence": "art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/README.md; art/characters/key-visual/traveler-geo/official-landscape-v1/LICENSE-runtime-MIT.txt"
+    },
+    "card-illustration-source-candidate": {
+      "status": "User-commissioned AI illustration candidates; no game-IP sublicense or commercial clearance; no owner visual/platform acceptance implied",
+      "evidence": "art/cards/traveler-geo/README.md; per-card prompt, generation-provenance and asset.json; docs/legal/LICENSE_AUDIT.md"
     }
   },
   "files": {
@@ -1854,7 +1858,7 @@
       "category": "game-ip-ai-redraw"
     },
     "art/cards/traveler-geo/catalog.json": {
-      "sha256": "67f673fa9d936fffbf07ed857891e5c6fd2911b6c44e6300a36355b6a438adf9",
+      "sha256": "d148515f184b46074e39135276241c1daac95f946900ea296bf481f02c70d558",
       "category": "game-ip-ai-redraw"
     },
     "art/cards/traveler-geo/heavy_blade/asset.json": {
@@ -2302,6 +2306,1306 @@
     "art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_data.lua": {
       "sha256": "c5f4429f6e664ba8f18d79f440a87167cd7ec6c1adad36fd41e2342414e72397",
       "category": "official-art-derived-candidate"
+    },
+    "art/cards/traveler-geo/strike/asset.json": {
+      "sha256": "9e9ddf277a97a13e84e5b52a2a3addda2a51640b47191b01ed5940699d03b8c3",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/strike/generation-provenance.json": {
+      "sha256": "3f6f1a390401d416b35beb15dd4c31498223ff9859211a2c917ccad8ee9bae15",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/strike/preview-contain-144x64.png": {
+      "sha256": "5e3719be1b7063d07266c7dcdd1a5af5e864d6565fbfef88959bb24a7b723118",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/strike/source.png": {
+      "sha256": "a7dc3facc320b1c5b36d3d220e33b4ace98ea441d46d4023c0a7c538a18679aa",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1992890,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/defend/asset.json": {
+      "sha256": "a722786c610a380cb81f6bbab7d799df46d066192a426d0f6db6af3f2638c8f7",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/defend/generation-provenance.json": {
+      "sha256": "e91a756fa5933ee82bef9f0629132171246b23ad2bb3d4f9a38076e621d20632",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/defend/preview-contain-144x64.png": {
+      "sha256": "17fe7fb60350f06ce623dd4e4efb076c42f51ca0a601367e12b299f92d8b8dfe",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/defend/source.png": {
+      "sha256": "5e21b58bb6841348a25411d387cc1128823ad653b7860988aab6cceb75dcfc87",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1902543,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/bash/asset.json": {
+      "sha256": "ac44a0fc7cfa0588efe5aa4c53ee70ed40b42dd5cfd82e92e86c8d7be968f253",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bash/generation-provenance.json": {
+      "sha256": "9f539650061e3aafae88a12866179e76983491d9c806f102a48048640f6ee8b2",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bash/preview-source-144x64.png": {
+      "sha256": "f5fd729de1601a4e5b0a45cbd74385c12479489618e6d93aa0a7f52b5ee1f9cb",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bash/source.png": {
+      "sha256": "022f81c8375e8886956332de56b1c63b0284b83c63217377f71e349de4ddae22",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1994535,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/anger/asset.json": {
+      "sha256": "fda03b43cdc561e6a371af5881df0f3290539e0a9fc1b33ade75cfebaa83e3d1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/anger/generation-provenance.json": {
+      "sha256": "ec339c973e1a56daf8f4c5470a280dbab860e6458e3be163b54dc8f5f4cad179",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/anger/preview-source-144x64.png": {
+      "sha256": "8c5a46c38e931276eb674134e6af63300b0211b00e52717ca7b656d9f49a3afb",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/anger/source.png": {
+      "sha256": "e83ec7a32c82c2e48a23081f6dd861dc4bc6713151fba792eb890078b2e44427",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2039809,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/body_slam/asset.json": {
+      "sha256": "47b5cb42597171715431b6fd0e46b299721852f0daf2b53cf5a212b2dc7e076a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/body_slam/generation-provenance.json": {
+      "sha256": "97ad4871a6a3dcaef3f1dcb0b0870147608545567c3ae5e3088d485301e98fd3",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/body_slam/preview-contain-144x64.png": {
+      "sha256": "ad3dd01d29c8f95df96ab347da35b52643f9bdbe04ce1a5ce9499c099ef23a64",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/body_slam/source.png": {
+      "sha256": "3fcf03ef72dc63be51204fd4e151512ec74e2d235beb77c7f348361c06acc39f",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1963284,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/clash/asset.json": {
+      "sha256": "a532fa6a93f0b84c8d60b436a76b2da21f21061125935534ba7a9af6658f3b47",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/clash/generation-provenance.json": {
+      "sha256": "14a6a494cd1331e495daa34b2841845ea410af4bf6e720c94fa89da601427714",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/clash/preview-contain-144x64.png": {
+      "sha256": "9b530229dd824e5f141a54375d294163939a289baa9d10d3f6a172f31cea58ef",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/clash/source.png": {
+      "sha256": "a58a66442d3df85876e16eafd3b27b73bfe8c687d4b41a806ddc76769da6c6d2",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1886344,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/clothesline/asset.json": {
+      "sha256": "39bedc69456133f01c87b6ee5d8496eef442c01d32b65e7ce4660bdd43315cb7",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/clothesline/generation-provenance.json": {
+      "sha256": "090a576f9b545c65da9fb0cfa00a1d57474f07f829d84381cf6bbd1bfa56cf36",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/clothesline/preview-source-144x64.png": {
+      "sha256": "ad7da5807c3470316d220f7ef4310ee82fca425ee09392c1176bc0eb81d93b2f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/clothesline/source.png": {
+      "sha256": "a434c61705587c8bbaab5110e7c81c6c271ee65a75eea5cccf45c85975fbec5d",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1947951,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/flex/asset.json": {
+      "sha256": "67b7c036c60ac03260161b37c714e871b773138089d9727a6dcc5770cfee6852",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/flex/generation-provenance.json": {
+      "sha256": "f8ea0722a9564ffc3b5982dfb0d311b691cf4c749b8b817f0ee27fb557525ace",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/flex/preview-source-144x64.png": {
+      "sha256": "52a6ddf6feb4ea2225925f217ff5027d199015ecfb75e410390c393db8c2fbf1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/flex/source.png": {
+      "sha256": "e717d5a2a47bd5efc32fc61d55e1bd98de335154ce932351764c679d3dae21c6",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1920831,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/havoc/asset.json": {
+      "sha256": "3263e5181be24ec79da8980a17a53e7abbc3072e9b4f3a95d387f696a4597475",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/havoc/generation-provenance.json": {
+      "sha256": "6c08af11c548c2ff4d729e8cd9ca225759051f0087f009c112f6d7ba179eb8aa",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/havoc/preview-contain-144x64.png": {
+      "sha256": "2ec7018b784bda953898f7e54acc99dc8334ac88358e23bae63d7da079344e71",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/havoc/source.png": {
+      "sha256": "a094433a8272a6517b6f928246cc4bf67800bc5a19fb8d319b94eb192994899d",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1884238,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/headbutt/asset.json": {
+      "sha256": "c860db7ac219a3f7e21f013137640552f04af5e3fb74dba6e5e13204bb4ced35",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/headbutt/generation-provenance.json": {
+      "sha256": "06371c120aea165555a229bcf5e3b58e96e7b7c87aad7745babd15e0f1e36c3d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/headbutt/preview-contain-144x64.png": {
+      "sha256": "26d0c8d272fe9ac116965695dc6aafaf82a7cb05a6e1d4955089df015f9ef2c6",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/headbutt/source.png": {
+      "sha256": "8e59ccd99b01ce71535a7db5a219cebb9831a8610e9b5133e7cd7221aa450572",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1959404,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/iron_wave/asset.json": {
+      "sha256": "3bbd9ea4074c2ae23b10a45ed364f8d24058e8e4cc3c7ea7876fa4871a7d601a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/iron_wave/generation-provenance.json": {
+      "sha256": "57c40b2062830f8b3452caa7f712b193616b49264b2c16be3ccec93e40b7f95f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/iron_wave/preview-source-144x64.png": {
+      "sha256": "f2efeec7c9bfe1490050824c74f352bbee2a1b4410f3869b97a85d0346d642b1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/iron_wave/source.png": {
+      "sha256": "4beedcb5b196d12970fa2d8be59faaf40ab6a4b43c7c750f8489e847c18c8f10",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2072789,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/perfected_strike/asset.json": {
+      "sha256": "885d5636c06dde99a6fb583e4708b865b176cbf955fb4f1ef88a2e4d96c420e9",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/perfected_strike/generation-provenance.json": {
+      "sha256": "506cbf510fd453fc2f04b55c63b6602f74c1623be6297ca0f2b86d6135e48a8a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/perfected_strike/preview-source-144x64.png": {
+      "sha256": "50b856f8c1b726a9c4e3ea9b98b57e2017610ab00dc4ec6ed7fa95cee31139cf",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/perfected_strike/source.png": {
+      "sha256": "652a74943042a7e27765d959c1f198e0178b1c5a21cb067b1c26eec605a7dbf5",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1901326,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/pommel_strike/asset.json": {
+      "sha256": "999cee0106196bb0668c040bc75b6093b8f9fa130118c03f5e46285d93c8196a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/pommel_strike/generation-provenance.json": {
+      "sha256": "15edbc5423368be190fcfbfd74de7250cf9f8a74819ab0e5baddef8c761b880c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/pommel_strike/preview-contain-144x64.png": {
+      "sha256": "b726ccf727015e1f70df5db729853a548ce8ee581e3723cb2530d02a2ab57c79",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/pommel_strike/source.png": {
+      "sha256": "4bebd8693cb4dac9edbf16b8581a3878252c19c03dc47db8b805f96bd7aa80fe",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1937769,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/shrug_it_off/asset.json": {
+      "sha256": "5e29fcf6ab6f62ad987745d440f2a9378d856bfb2e58ec702f900e61157b553f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/shrug_it_off/generation-provenance.json": {
+      "sha256": "84119093bbc0021621a179ec4c810099d3327ab6d858421c1c1beb511a817226",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/shrug_it_off/preview-contain-144x64.png": {
+      "sha256": "78d7f2a33bfcca82c00c674dd5b9221b005f7b87b6878b4e16851c2c3e6c8100",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/shrug_it_off/source.png": {
+      "sha256": "6dce70baa5a5c9402ec313be16df2cdbdd4a7ed33780fd251a3236d2541870f1",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1831450,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/sword_boomerang/asset.json": {
+      "sha256": "97aa26e219004274355fbf56328ee60ca28cc9df4a373c17ffc81ad7ad7f94ff",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sword_boomerang/generation-provenance.json": {
+      "sha256": "ae9d6bb26455a7e1fec584ee051350075c1bf9056091239be2a563d80b4a0753",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sword_boomerang/preview-source-144x64.png": {
+      "sha256": "dcd296a8b9d44439a1a4c1c7063cb0c200c40a269cb3366dc039ba1442ae7cc0",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sword_boomerang/source.png": {
+      "sha256": "36e775bb2a9e74cf5de34b08716899e5b420e98606422a74b4f2e110fdbc3440",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1958353,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/thunderclap/asset.json": {
+      "sha256": "57babbdb19f8d809e0080a3a955d98f76034b3f78724b5cd01fafc7302d51bf1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/thunderclap/generation-provenance.json": {
+      "sha256": "4a7e87c6b27a30124d0edb21cd7c6ddfc3a0779360e2f17ed736ef0850b66f73",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/thunderclap/preview-source-144x64.png": {
+      "sha256": "34e701ee19837993467547e61c645a06e1021e4386cf1624971476fc5c51fa26",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/thunderclap/source.png": {
+      "sha256": "a6bd90525de1ae3fa3c976638e8833751ed30832c6cf3bea2e50ae3f2def9d80",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2042522,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/true_grit/asset.json": {
+      "sha256": "b4e51e39029d7d0e90bb64f3a7038c8b5c529b39bbe906a83b5b25ce29bc33de",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/true_grit/generation-provenance.json": {
+      "sha256": "ec4285699362703dbafbec786b328ee4d53279375b95599e78989f50c3fb38ba",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/true_grit/preview-contain-144x64.png": {
+      "sha256": "a05d0b68ad55b2aee56b3428e6c378cd958d46e3fcaeb55781774000a55b3903",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/true_grit/source.png": {
+      "sha256": "d3256b9e8b5fadf368f7805b26c19c8cb349bb935073510fc7894dddabe51dd2",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1794545,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/twin_strike/asset.json": {
+      "sha256": "422c34f6639e2a6d2af2ce3a4dc4102e1973eaaa14243a05da9c13469856d431",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/twin_strike/generation-provenance.json": {
+      "sha256": "791e8a7f5c042b421d827cc80c43cb6c1e3df81908fc93eabc09bc065afc6b54",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/twin_strike/preview-contain-144x64.png": {
+      "sha256": "13d40ed411907991c3dd93ac95bd01013df1a0e0460111158b107b843abd0ed4",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/twin_strike/source.png": {
+      "sha256": "3bc5a5c926b3eb2cdcb9e760755749af8211d92f71422982a79fc30c9356b97d",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2040542,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/warcry/asset.json": {
+      "sha256": "e02325612598a9e7ffe64fdc8967be248a1fea3b109f43067fc4ead66932e5a8",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/warcry/generation-provenance.json": {
+      "sha256": "9028befe22ab49fa2ce74c367a9e794ed0f7817787a37eafcb748df155f98641",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/warcry/preview-source-144x64.png": {
+      "sha256": "ee9e0275ef97adb133421f3b837df6f56381b347b48d782e191f28edc81659e2",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/warcry/source.png": {
+      "sha256": "a3166687ab2410ac8ede91b31d650f56e669092f52659d46d688579210883da4",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1954235,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/wild_strike/asset.json": {
+      "sha256": "2fb220520d8cdc176dbcbb8e2134e219de308f5904a3c98b200a6841066b836e",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/wild_strike/generation-provenance.json": {
+      "sha256": "f051778cf1f4300cc994ab3170353248a9618d9440e6f5cb70df6e4bc1da52c4",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/wild_strike/preview-source-144x64.png": {
+      "sha256": "753ab9542703de395cdc9ac16eae872fcc48f6c103f5dd13bc91387aba5865a3",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/wild_strike/source.png": {
+      "sha256": "107ba40ca01aac467a1ca18244fc06b40e805f1fa344e9553e760e96629ad937",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1978838,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/battle_trance/asset.json": {
+      "sha256": "22b1fc626ea2214ca9ba67ff1656d2f2c585e7ad33d35ec37c236ef037662073",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/battle_trance/generation-provenance.json": {
+      "sha256": "1fe1471684127a58820f0ae0e88fc34d7403a61f9c865a6e563187ead348f30e",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/battle_trance/preview-contain-144x64.png": {
+      "sha256": "6546fffa10101bada1bac981f54e5899a427cc8c0216387844c23caa79eb034e",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/battle_trance/source.png": {
+      "sha256": "b43d82bd984776081fa99464803abb460f14885e8bf889e155edce36a5d32825",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1786887,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/blood_for_blood/asset.json": {
+      "sha256": "20d665a114723a49191532c53775ad3ea0bd3602076d82f43f1c3ab1f7409b82",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/blood_for_blood/generation-provenance.json": {
+      "sha256": "9bd30b3e74a451afed0e18d322e0e93322e4e8abf492bd01cfd2337f64d361b5",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/blood_for_blood/preview-contain-144x64.png": {
+      "sha256": "095cd05345922de7f6c23f843b7c8f45d82e218de76c67bd6b3150407164a711",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/blood_for_blood/source.png": {
+      "sha256": "14dcbfd918aa072327858dfc3240134c8258fa43e8862739830f6cce1103855a",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1945313,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/bloodletting/asset.json": {
+      "sha256": "30d614232fc513306cbd1c1a412ba974b5a331ee03c4595894ed2e63aec0d3ca",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bloodletting/generation-provenance.json": {
+      "sha256": "a644b5dc719c1c5a977767b30d3d77d1b2944d22b29a600326481e66e5077816",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bloodletting/preview-source-144x64.png": {
+      "sha256": "20a22458ae9ca8f53a5ec473fdff073c2c33d1883d8124206b2d002dd41897fa",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bloodletting/source.png": {
+      "sha256": "37ceff78295cfd6b13d3a77430becdfd83f70321ebd4bdba0baa7fc29a7f5304",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1911915,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/burning_pact/asset.json": {
+      "sha256": "8697b23435ec44d60a6e8b8c73327400e7bb3590f359d112ebbed264bb0378e0",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/burning_pact/generation-provenance.json": {
+      "sha256": "b44f8135ac4183abfc2f1a1df3b508e0a8e55d49e093010802bfb7ec89f0ac88",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/burning_pact/preview-source-144x64.png": {
+      "sha256": "e5ca4995904452ea0c8d61eb135b0153de255a9a17390f4bb00f4b9eaca6456d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/burning_pact/source.png": {
+      "sha256": "e461da57b3e6554ccf6f379ff6988f933af71ef4c57923b3e90e40f7b75b3ed6",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1870474,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/carnage/asset.json": {
+      "sha256": "59cb8bebb6fb7b0c8309a6a7f960343cac4e639de139e8304d8bff0552e85087",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/carnage/generation-provenance.json": {
+      "sha256": "30f9f188882f1223fa5a8459a479ce9e36e0125d4cda225a469f12f0fe69a4a0",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/carnage/preview-contain-144x64.png": {
+      "sha256": "fcae2ce1e8eb55bc429b53d95b3f11e66a3289316379a67dde3d00079787fb93",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/carnage/source.png": {
+      "sha256": "f6a6f67d9775421be463c629c27f55a81c9a7f95f38b13c454fb606ef1b35375",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1957534,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/combust/asset.json": {
+      "sha256": "8792cecbd76932cbfc97f46d411e6ebdb363768bd5ce86758cda06022bcb4e4c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/combust/generation-provenance.json": {
+      "sha256": "7da15d75d4e0bb4489fb0a99cdaf417243e5fd879fb526d9aa5819157632971d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/combust/preview-contain-144x64.png": {
+      "sha256": "bce307cdc957ea73260787800b9bfb240e630181895d3e41ed3fc29666f1bff7",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/combust/source.png": {
+      "sha256": "b68711b7d61d37080598378a86a01592b875efbc25277425554d9af870b73f29",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2034417,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/dark_embrace/asset.json": {
+      "sha256": "d7efaa8131d154400b3172819b761e14833e4292a765391eaffc57a22f7b1d9a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dark_embrace/generation-provenance.json": {
+      "sha256": "cd2e13165af3d5c1105670da3c2166bc9c49fc47c8d7b5106bbe769639fd38fa",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dark_embrace/preview-source-144x64.png": {
+      "sha256": "dbe7e23066ec01537a7da8a48a6b9231c0e520d90ee1843586bf78d5c96ccad5",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dark_embrace/source.png": {
+      "sha256": "34e073bb15b1d0658e20208640485036e0bc072a274957dfe6dcd1f5afdf0ebb",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1963755,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/disarm/asset.json": {
+      "sha256": "ee119c01e593ce55d8c73531a758c7149c97486f829221618e920e661ac164d9",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/disarm/generation-provenance.json": {
+      "sha256": "15cc757ad9db7b322e64d2144fcd7e420a91aa225063bd8047f4306b10c3ed3e",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/disarm/preview-source-144x64.png": {
+      "sha256": "89351f45fb09f87c4896bac284538cdd5ff94de87dcf7a6099ea44b7eddc2446",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/disarm/source.png": {
+      "sha256": "92d421cd46144544a252594559892f650695b7d3135cd1163cf3397b62e21ce7",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2089134,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/dropkick/asset.json": {
+      "sha256": "ee94ab92e002ab936bba0ce06ceb656088d300bf89515aa1af1931240f4fbf86",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dropkick/generation-provenance.json": {
+      "sha256": "f04a63b2b32625a8c0a20abdd3704a1ac7b5987bea21f0f0bf6a4845d0f08990",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dropkick/preview-contain-144x64.png": {
+      "sha256": "eb821a01f02934381eb10fbf9512a195a67fddc42abc75078f252c7db0449bed",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dropkick/source.png": {
+      "sha256": "a656046b6c437a1996cb7c0f78577d88ab767d390309c012738845d1a7ebe311",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1877424,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/dual_wield/asset.json": {
+      "sha256": "bb8746a5bc10f93548a65a0f3021f10058262df44e015e4ab1706cc73eb7297a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dual_wield/generation-provenance.json": {
+      "sha256": "6d37d0a667ef4469d15e3ed6ca9993eb1297cade4c5105132363c4ee45694443",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dual_wield/preview-contain-144x64.png": {
+      "sha256": "fabf09132aa28788bec3c91dd03d1e3b046b4a34b814bcd595790239d50cee0f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/dual_wield/source.png": {
+      "sha256": "974ecc21195dc0edc0b7e71a8249a220214dda737e7a84ba8b44810cfffeb731",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1921082,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/entrench/asset.json": {
+      "sha256": "8c9b1ca1d25e650a1736ad03fd62799cbc63809bdbe0ce4bb2465d526fb28b34",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/entrench/generation-provenance.json": {
+      "sha256": "76140d38bf7c223f143ea5f40a941f61a59eb6ca7276731c8b2b499d93cc646c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/entrench/preview-source-144x64.png": {
+      "sha256": "859117ee3750cf5e83ea8e9b37653adbbbbbf12e7d4272cbdbe63550723f5d26",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/entrench/source.png": {
+      "sha256": "17ebd5f40e86c3b20d2daf58d8cc63418b18423d3bfe2b4be357ec5ae795b584",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1935314,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/evolve/asset.json": {
+      "sha256": "51d549aed7b0c3d9a4ce45bf361578ba775776d1bdf0f30de5b8062846b98c0d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/evolve/generation-provenance.json": {
+      "sha256": "b6891ea8dda0e703f77ce2ab44f401ea1ca651c13d278182f2bd5cc2ba9b4aa1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/evolve/preview-source-144x64.png": {
+      "sha256": "6f4941bfbe578dca7b4ed08722277d084019ae502661ff13660218e581360b47",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/evolve/source.png": {
+      "sha256": "bd072b4eae6d81074e22306405dd2e36afed5b94b184ee4b064c95db1cc400e3",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1855488,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/feel_no_pain/asset.json": {
+      "sha256": "f7ca7b18552221aff05759005923e44f0c6f5711da969d5038e03abacaaeb4ff",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/feel_no_pain/generation-provenance.json": {
+      "sha256": "68b6efc617366e18d9f226b3a2d849bae58ec4fd83a84df8eb435fd956223417",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/feel_no_pain/preview-contain-144x64.png": {
+      "sha256": "28e296d2797232543e325b5e66cefd98d8249f6899ad6914c143e836a2b0454d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/feel_no_pain/source.png": {
+      "sha256": "eda3ea8a27eec5e05dcde90e4249587c67ee4573ab1b467e88ae37a8ca2a325b",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1922729,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/fire_breathing/asset.json": {
+      "sha256": "2116ff6ca74912344442488f6ff0f8a61a13049b24483c5384b526cf10a36f37",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/fire_breathing/generation-provenance.json": {
+      "sha256": "03b17c84d9cf0d0e34e8c270b36ede83ae48da154dd0b35cc6c8cf8a98af5e85",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/fire_breathing/preview-contain-144x64.png": {
+      "sha256": "fe16afa1c89e647f011cb6f9bd3315e6e797cd41b6b200258b58a81760cf2dea",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/fire_breathing/source.png": {
+      "sha256": "051f38fdbd6d2c1aa398f8c00462cf26de11913bbc8c9c179cbccce8beb0d186",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1986559,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/flame_barrier/asset.json": {
+      "sha256": "83f21ce7da5e746d18c8afef7a14a171092367d462e7c27c6431650d21f2a08f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/flame_barrier/generation-provenance.json": {
+      "sha256": "a87259d2e9cbdf4e691fd296fb7ad84cf1ba0276d0ab3af1b858732f7d4f61cb",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/flame_barrier/preview-source-144x64.png": {
+      "sha256": "b80a216af63fa5df9a8608c04555b1f270d969de424267c1e39ffddbf8bb22b5",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/flame_barrier/source.png": {
+      "sha256": "8abdbe55cb86f6dda546ae49a54a9b48996406d44068a015672f9ac9b49f0584",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1986276,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/ghostly_armor/asset.json": {
+      "sha256": "79c9599837c2282f5c45abc4616a4bc9b79296afcd16a780faa743be2c965baa",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/ghostly_armor/generation-provenance.json": {
+      "sha256": "d970aa3482a63b1683ebe4c2f4cf66a6f15d0d622e8f6d75bbfc64338944e4a4",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/ghostly_armor/preview-source-144x64.png": {
+      "sha256": "d4cbfd3a4e3f168c0464cb465cc7fbbe37f79037f6404477290e04e8d19fc885",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/ghostly_armor/source.png": {
+      "sha256": "af03b421e138ff963ace2b89265e9e7de640848750f403ed710e8cb739159230",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1969281,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/hemokinesis/asset.json": {
+      "sha256": "19b3524e923802024e65dbeb2cc50353ccad9431b2ba63e65da37200c7deae05",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/hemokinesis/generation-provenance.json": {
+      "sha256": "d0f4a9a9ef2fbef0d481290449556cedd10ebd49ceb76c36f4ca237fc5072e71",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/hemokinesis/preview-contain-144x64.png": {
+      "sha256": "6ec4e3a0632ad16dd0e6ca711f23f0571ffe83a4c87e6e721db346f3dd4ab217",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/hemokinesis/source.png": {
+      "sha256": "922fa81616629e9a74c42652807033ce5c04a40ebc284298d885ddc7a59a176e",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1987429,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/infernal_blade/asset.json": {
+      "sha256": "c6d2ceb1471c202165222954574f035885ac2efc6105d389c6de940b9c08ae07",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/infernal_blade/generation-provenance.json": {
+      "sha256": "6bb0a525455f03e532cc3864dd1d1e7f99dde1eed60eb24e2764581d41ed4a86",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/infernal_blade/preview-contain-144x64.png": {
+      "sha256": "7faba9e503bffe507d35631e990f606e03d15709b41fd22f5458150fbe0746e5",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/infernal_blade/source.png": {
+      "sha256": "67887ae642dbe6b6198b50de61561b302c7c2fe5bd8481639fe31bf180dac12b",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1916059,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/inflame/asset.json": {
+      "sha256": "f56b32365321858b17de362a2443ea006b6cbe6dab3a8dc65b10d1335f9099af",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/inflame/generation-provenance.json": {
+      "sha256": "81210fb917be1a31b7de6b3caa0f18684b3a8f86553e0d865549433a594c24dc",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/inflame/preview-source-144x64.png": {
+      "sha256": "5c15f862097828f60808c4e56280918ac6c931d4cf36b7498e10deb72f784d94",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/inflame/source.png": {
+      "sha256": "d4f7338823f718ca53d2a2b89157a38153cb42e4158e32df33d0e9a41e03ca21",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1929032,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/intimidate/asset.json": {
+      "sha256": "2e01340a5613ca4b3389ad9e9e3fc38a72f9580ab08a30da33e301e3adbdc321",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/intimidate/generation-provenance.json": {
+      "sha256": "f7ea2f99a2148c3263d0062994622eabf4f97c2dba161a294fb2609f739fcd24",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/intimidate/preview-source-144x64.png": {
+      "sha256": "7c2449cd36e048a8f572cda247f031de9053628a0923736ece3f7c59001670a6",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/intimidate/source.png": {
+      "sha256": "550652eba768202eab04c8eaaf25bc1aa4ac64c901b348612fb04e5979e7447c",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1721471,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/metallicize/asset.json": {
+      "sha256": "54b654df4d09e1abf9bc7bbdc74301a0a4cf5f1e9eb3079c0d2accb8d3e4edd4",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/metallicize/generation-provenance.json": {
+      "sha256": "986748ec7147c20c310a77a6b131c0d6ecf53e4f060af5e5613157bbc4593a9f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/metallicize/preview-contain-144x64.png": {
+      "sha256": "19cace859549aba8b6dc0785f602d85337a66473bd16c9a417e96d4dbd5da5ec",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/metallicize/source.png": {
+      "sha256": "de4af2704de0e6327618b1ee85d4f94c5a08a0d573f6fc96027efe159c9cdc67",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1775623,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/power_through/asset.json": {
+      "sha256": "3504930d3d9d991a4a027ece4ebd1e4cff03c201f5d63686fc0c1ab9db47460a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/power_through/generation-provenance.json": {
+      "sha256": "16d6a66b060e9004b6b6f87d7fb4a5f790c10dd25cc7fc1eedb452421c2cb2ef",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/power_through/preview-contain-144x64.png": {
+      "sha256": "38cab903a32a73612fa92e0036d2a58518bc60f73584ffdc62aa9e937ee43014",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/power_through/source.png": {
+      "sha256": "8de6f2fa52a0ce02e50348222bc5d563c4a7d4729218c00afd3023667698be4e",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1927314,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/pummel/asset.json": {
+      "sha256": "af72f55cfb63bb542bcd36bfb284fb93ab5518fd013b4b0d710b8ad536cd7547",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/pummel/generation-provenance.json": {
+      "sha256": "9dce151475fcd07a729487b630b868d6c13fbd20844328c15f3c90f1566a77ba",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/pummel/preview-source-144x64.png": {
+      "sha256": "d88e6ed0587325ba2f730a0536b2a47001e87e5ae89d7da34fbf76094b8c7ed8",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/pummel/source.png": {
+      "sha256": "91c1baf35b1bd9addb16ec3e9d3549f47419ad04f2f8be2174768bba286e34d1",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2028809,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/rage/asset.json": {
+      "sha256": "194ef77b7f9f2b8449643606b8ba2fc39dc461cf36d59f7cd01ed8e3c48f9ffc",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rage/generation-provenance.json": {
+      "sha256": "09b94d212fdbb090036c8e1509f77d39c31c4b184d1de1a57f4dc48635e083c3",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rage/preview-source-144x64.png": {
+      "sha256": "1342d59f72e08e852b5f9aa88543643d6dc998e11a029eeb375a9d3e7d524fad",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rage/source.png": {
+      "sha256": "586a43fb6cba3f7f4698b631651f24b499e46ce201dae95488ba5a3a14445805",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1917972,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/rampage/asset.json": {
+      "sha256": "bd78d57f1399c74e7db6e59f82b67616f4b59e53b48f310c2fbe283a11bbf1f6",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rampage/generation-provenance.json": {
+      "sha256": "ecec850dac65932e379597675c8afe927cad183374aa0060ba6ce85047ce0bfb",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rampage/preview-contain-144x64.png": {
+      "sha256": "3dfbe4fe550e1282b0b18cea26aa6504229688eb15760f36fb8b07cbd830329a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rampage/source.png": {
+      "sha256": "c200f52a70527dfbf48c55b10864d81a460cf7ccd6e77ed56aa4eb4860540501",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1930613,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/reckless_charge/asset.json": {
+      "sha256": "045c5d3d6c299fbf737775958fbf30f3bb18ebf42da957cff5dae8ab8f748070",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/reckless_charge/generation-provenance.json": {
+      "sha256": "dcce6c6a5704809c29f025d94715db6a0e995379e9a24957704d0fdf4208a5b3",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/reckless_charge/preview-contain-144x64.png": {
+      "sha256": "2ce3e00105791021088c03bfa62b88925f24216b8bb2a25691e34b6af9d6a212",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/reckless_charge/source.png": {
+      "sha256": "db0d87aeec02e3ebb60a4a09c85f0b56c7b97fc598df4ec829c9c5aab44dce73",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1959160,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/rupture/asset.json": {
+      "sha256": "228b023de7c4f14ffe899e53b0b87a48bc59369e833f0bbfe3a55592d183cbff",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rupture/generation-provenance.json": {
+      "sha256": "2ef8ec741eecec34790a1d892dd3880abf57146204196aea0834ee269158b978",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rupture/preview-source-144x64.png": {
+      "sha256": "c5f212f16b0123d6e0da9e5a5ab1ba79757886f8c1076caa9a345ab128aaba35",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/rupture/source.png": {
+      "sha256": "8dcc23295795187e89dce228d01eb9379016ec25189a43e3ae2127c143143de8",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1945738,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/searing_blow/asset.json": {
+      "sha256": "f8524963c2a1da915eed1ac2b74b8cd107a00d77c8b3725287c9936928295d2b",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/searing_blow/generation-provenance.json": {
+      "sha256": "8ee41b1908b1d771d402e6b5723bd95b50d8a8a0c45d5b58e4a241dfb5460462",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/searing_blow/preview-source-144x64.png": {
+      "sha256": "0c99bc149ce047d53d66c38c72b993cd3691686de5725a438121fc94b5d3c428",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/searing_blow/source.png": {
+      "sha256": "9b19a1d65a7ccbd130d201c09fa305ff70f17d93841319edfa6f2f303ae6f253",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1889763,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/second_wind/asset.json": {
+      "sha256": "8ea9774993b6ffc08193eb04285f81ea77df589e276fb9107a37ca229ca03789",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/second_wind/generation-provenance.json": {
+      "sha256": "0e3f43dd2610931bdf3703a49b1a2cf970fa5e537b86c2be7bbd63df066ef1d1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/second_wind/preview-contain-144x64.png": {
+      "sha256": "c427caed0255272f497cc109a557fc91afddf3013a59b501da0f479b8ad81de7",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/second_wind/source.png": {
+      "sha256": "06f76388d0b79ac4ede6009f1c3d41ee70b99ee2f3fbed3e00bdecaf393b2f89",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1900879,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/seeing_red/asset.json": {
+      "sha256": "91aa914cfe7366e3324e03bf7ebc7bcc6f3b4d8694eefb276c582f38b5cf7a42",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/seeing_red/generation-provenance.json": {
+      "sha256": "9e59cfb6c3a6b7aa2e7585ea48860925ab196efb21b7c45301f6c25d3b9f534c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/seeing_red/preview-contain-144x64.png": {
+      "sha256": "952bd040509fa61953645281d0cdf1ca5d99ac26e29cf685b2a4593152e5f0df",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/seeing_red/source.png": {
+      "sha256": "e99b90891dbc72e09f895f2ff36cd5a345ff27f6763e638ac9b7ead2cee7f525",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1885660,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/sentinel/asset.json": {
+      "sha256": "de364f9643b79ed002ededcaa5f462104a32109af2a6b77421ec98b6c8e23618",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sentinel/generation-provenance.json": {
+      "sha256": "e86dbca536abbe8a066e58c8cef3506213fbf56a6d6a22c59b62c3cb61279a61",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sentinel/preview-source-144x64.png": {
+      "sha256": "5cf4ea2dc115a4ea28df47635533b9f4a129d039aae58c19757e3cd3c85b22c6",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sentinel/source.png": {
+      "sha256": "09060a13c723dec77386a508a771875f661c257d0cc8a8eca20ae5e8015444b6",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1908450,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/sever_soul/asset.json": {
+      "sha256": "4cac812fa32c2da8661e31c131eacb95bad4f9c373ee95d1b03cb25957e66691",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sever_soul/generation-provenance.json": {
+      "sha256": "b94d32371c65e2c425d2b1f684e2287bf8bb9c53408ecd14f70a7cc0c8932370",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sever_soul/preview-source-144x64.png": {
+      "sha256": "ee77c79f5aa3799eb2fb6eea3f1aca15a583f084db1661f3e932ea4068c6d832",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/sever_soul/source.png": {
+      "sha256": "6a3326d09bfa0a1458eebb80f0766276e5ecd3ea640ac6f8f163d0642c103b05",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1921373,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/shockwave/asset.json": {
+      "sha256": "4a507b796bdaa74df0e1a2648cc3a765f701d965d85d5f017de6cb46ebe402bd",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/shockwave/generation-provenance.json": {
+      "sha256": "76a081cb1fe12f4d55cba1e2e33c11c347305c833d00bb4a1d9afd8f9c883669",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/shockwave/preview-contain-144x64.png": {
+      "sha256": "da85b8a7aa1ba492fafee9cc23080f4355cfbff7897d572528cad387e3ac49a1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/shockwave/source.png": {
+      "sha256": "b3f1e14dc83e33d63a805f4d46a10064913e722b0d5f288a6661090589f67fb5",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2011871,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/spot_weakness/asset.json": {
+      "sha256": "48a0410d3ad89342d8899b83a373b624446fb87ac2de3c2611e7a6dc73de1282",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/spot_weakness/generation-provenance.json": {
+      "sha256": "32bee8cd47c1edac74da5bd4ad044a249e33d3f1f5d2d96a1381eb161fe8f61d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/spot_weakness/preview-contain-144x64.png": {
+      "sha256": "65f95848140beeddb6255081c0fc67bd976ac6275fac335bc62628c47849f7df",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/spot_weakness/source.png": {
+      "sha256": "bfab01457272f4a9fcd604903146f5c7f58f62d89608755f0a8447497f93b577",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2011501,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/uppercut/asset.json": {
+      "sha256": "e446f3382a5108c2c86e54a2c51e2b2d907ee9a6f26709ac5f9f33fc25cc2bd3",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/uppercut/generation-provenance.json": {
+      "sha256": "df6aafb3e87c2b87c54ead4a47658aad84add1bb629bdcd273f94629be174fe6",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/uppercut/preview-source-144x64.png": {
+      "sha256": "05b8bd69aade1619131b989bdd01c1c78c982b0bf231459bb444ea9e06513c44",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/uppercut/source.png": {
+      "sha256": "7abb088f5abaa5823b4294d58da0ed892153059a6f148eb918fd599c71ee81fa",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1898064,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/whirlwind/asset.json": {
+      "sha256": "87761e6409264d035a6e89cb5026f704557042fd807c6220dacf2fd7a0a88474",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/whirlwind/generation-provenance.json": {
+      "sha256": "6efb4e67222e0f85c3abec03c615a8e7c2d3edd1276f56d9e8b079924a81bb54",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/whirlwind/preview-source-144x64.png": {
+      "sha256": "5a3df7db81cc0a0003c0f1e1dbb8a1d585ee7f8f096aee4e4e752ec7cd967d13",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/whirlwind/source.png": {
+      "sha256": "c5f70ec860f33958fdff025e4f729a06705a4cbfeffe72a2ea5c3239c7401af1",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2067279,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/barricade/asset.json": {
+      "sha256": "9185fbb8db7a9ffe055030a7eb7b38808abff9de1627a3061564744e21ce4e6d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/barricade/generation-provenance.json": {
+      "sha256": "3f654d0997299ae8be5e6bf4373b7412a011bf7d4306c77f8926176b94d5764d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/barricade/preview-contain-144x64.png": {
+      "sha256": "8b94acee5af353bc76af7cac310ed60d7d7a2fa88320ea4001d373a0fa9642e8",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/barricade/source.png": {
+      "sha256": "6572023b045ea2ab1f5344f107d6c115f7bb8d419b8f8d372689e97f62e3e3e2",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1868278,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/berserk/asset.json": {
+      "sha256": "6ccffac3dfeb2f2703b971499f8443fc45c74e7e07cfa24029b8613bf88c2724",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/berserk/generation-provenance.json": {
+      "sha256": "25f82ca1b6161a46fcd6000cd4fb9fba91ad9bd145a763038a0f1ba3fad30f18",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/berserk/preview-contain-144x64.png": {
+      "sha256": "bea12e8dc98b42977a13a9f88a4302eee8aa404cdaf7195d508cee135b9606cf",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/berserk/source.png": {
+      "sha256": "0108c7d2cb65f2939f284dbbed671e206742de9d333df1c2a1f9b7e129094e39",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1954642,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/bludgeon/asset.json": {
+      "sha256": "658f7563e396e9d572feaffb94795c587f853300fc892b37549394eccd6dfb3b",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bludgeon/generation-provenance.json": {
+      "sha256": "a2cb2e3826b62e305f4d1503b19816982c8ff3eed8013284fa666538b7839056",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bludgeon/preview-source-144x64.png": {
+      "sha256": "a3ad1e6f3854ebd83a7e00592a632d467a038cc63413a9f9e1f90a1241306f1b",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/bludgeon/source.png": {
+      "sha256": "822b68984a0bbc800e29d33ff2927efe011cf0cafa485da6033e7412307e5731",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1941184,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/brutality/asset.json": {
+      "sha256": "98ade6274f1dfdad94bd1b3c80ed7e210c78069d532ef919da2878f8bd4e353a",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/brutality/generation-provenance.json": {
+      "sha256": "14bf81d1b3b1c5fba91eff722e117af7caa0a47cf4453ad0fa844f5891619fd6",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/brutality/preview-source-144x64.png": {
+      "sha256": "1a3b3113d589a76c34c26b15bb862eb452fa0d0a65ae90720e1cf7748a99e6c1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/brutality/source.png": {
+      "sha256": "9a30cab4e654a83c5530e9446c58053fa38253ffdb02f70ecad7a62396887fe8",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1973110,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/corruption/asset.json": {
+      "sha256": "3377c08b51607fecaf0dff62bdfb21072fc3db8e051656d32a5b049d6c07105f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/corruption/generation-provenance.json": {
+      "sha256": "bdae118c9104efb614893869b45a34d69f2a30a31a46b04356b427a518125cee",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/corruption/preview-contain-144x64.png": {
+      "sha256": "a9301a49772bc5d7259b17f8c0960d638aeb3251e0c6ef6fd9d30ce08aca702d",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/corruption/source.png": {
+      "sha256": "133c0f264b0709ebb9dc92924e980508df74259e3d8d6bb47d432572462cefb8",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1990832,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/demon_form/asset.json": {
+      "sha256": "cd11f7a03d95547625ab95eb3fdb0faef1a5d7967322d9848a9a25c836939f3c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/demon_form/generation-provenance.json": {
+      "sha256": "c6c81d3d5bbd052839b57afd5425a0985a70eeba3a1a75dfb07e535667e57b1f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/demon_form/preview-contain-144x64.png": {
+      "sha256": "a02edac0a3566a69b710e3477743b5a69ff012253b77c876b4de1ffb89ce0243",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/demon_form/source.png": {
+      "sha256": "3827b49c022630fc5ecf2753437376310092c1079388ade9b4bc8fdfe5c837f0",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1889445,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/double_tap/asset.json": {
+      "sha256": "a71878fed4494ba62d409c20ef10175b8369112f5e0690ff51aefad2a33ead4f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/double_tap/generation-provenance.json": {
+      "sha256": "718a154258af6232efa0ab612c85fd811d6e525be477d0a11f16e2d76a2540fc",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/double_tap/preview-source-144x64.png": {
+      "sha256": "7d9cdcc86575948b39e9dde663ac78b004c4d8ffe32e5960a7ede9f2d75fa3c7",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/double_tap/source.png": {
+      "sha256": "0ce4d7ce74eec1878829ba1121092d7db72cc8d43d2c0415beb4490d093aec1d",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1932621,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/exhume/asset.json": {
+      "sha256": "6ed01700e97057b50acc439cb4552c8cf31bc77ff1d4eba68830e46abf9ec2c3",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/exhume/generation-provenance.json": {
+      "sha256": "3cb5bffe13ec1590089223ec41827ff44fea05aa432818b06975727a650a545c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/exhume/preview-source-144x64.png": {
+      "sha256": "9aff22a5370a41b42f2a457dade830b094bab4113f03689433cc83d380a7e45f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/exhume/source.png": {
+      "sha256": "0bec70814030e4cbbdcfd0da2fc7e68c4956e47f4fb6ad7ffe76fef9ebe3d91e",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1901727,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/feed/asset.json": {
+      "sha256": "a8123a8038b3c06b93e138909128ffbee585eb71708c575a8b49c007b8d38bff",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/feed/generation-provenance.json": {
+      "sha256": "f6a22b9227eebf32d08f8dc4c9382218a79f05aa4a451b925f37df168ff7de1c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/feed/preview-contain-144x64.png": {
+      "sha256": "939bb7d5ce8d05ab148c6676f6a46fdfc7e7a1b5944b9d665996809361c74a47",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/feed/source.png": {
+      "sha256": "b3ea69b6935321142db548b1228eabc66fac5832d6f04b521b9093945aca7a23",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1946624,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/fiend_fire/asset.json": {
+      "sha256": "0f98426f3ceee7718ba589179e2582048035bd650bfd4e9662b5829c818752bc",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/fiend_fire/generation-provenance.json": {
+      "sha256": "a835939b16609f1ef5fcc82f221510d46982f6619d22b748e28c13bb2b2aa849",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/fiend_fire/preview-contain-144x64.png": {
+      "sha256": "cef0967cc255e1a4d7c9641f781335f26926642722b8f7a118427409de0118cb",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/fiend_fire/source.png": {
+      "sha256": "e1d3d35e0d559a55870635d9e66a149b258331c7e821da7ae34f550d38f54afa",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1965697,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/immolate/asset.json": {
+      "sha256": "d0024b122501b679b4964be11b9b56c737294a301d37b7796588149ec80491f2",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/immolate/generation-provenance.json": {
+      "sha256": "39b9143a0cd10dd49a80410e12e3a736eb0366c2f10ee53d4c8cd001f79c1a58",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/immolate/preview-source-144x64.png": {
+      "sha256": "10b308f14b4b4078c9d2f236777f66e3ea8a95a2317734ac03a0a9d5b9836195",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/immolate/source.png": {
+      "sha256": "c24ab9cc4e84b3af3f1b96704576b78725e40eeff464cd6562be1a5737f141ab",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1956947,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/impervious/asset.json": {
+      "sha256": "e311bf98492226da6ae23fd3abbe657e59fb2b2b8ad6ee92e26c94616a721197",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/impervious/generation-provenance.json": {
+      "sha256": "b6fd9632986324e1e156853d9e088a0e86d4ba8d4e3d54664e33e4975a961b72",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/impervious/preview-source-144x64.png": {
+      "sha256": "e392072e3167a7d7823c0fa34c8fa61b813df13ed72e36cc46a5b584b6750e34",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/impervious/source.png": {
+      "sha256": "588d1157c55370dee77080ce930279a4e63e03ae0e91146f1a21ea1dae6c0c02",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1922505,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/juggernaut/asset.json": {
+      "sha256": "3cadafd4f637a444731224b9a1fe72bd33487d09cfcca462f5f030443c623110",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/juggernaut/generation-provenance.json": {
+      "sha256": "cc88d17d79dcf72e6e27e675241c806a6f98e6c9fdec5fb2cdcf6dcbf8f6cdc2",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/juggernaut/preview-contain-144x64.png": {
+      "sha256": "31c8ca8e94b341dc485cce267613211d247fea4f0e123465dbed9fbd1d47d9e1",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/juggernaut/source.png": {
+      "sha256": "a71fcd2a992e8e5750cdf66e335cb269102e0609805710c24dd58e4b8282fb94",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2004300,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/limit_break/asset.json": {
+      "sha256": "7cfbaedb5d377f0b868acb707e4a210e6715214e67c319b5b926d7225b07926c",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/limit_break/generation-provenance.json": {
+      "sha256": "9ce2711027833248cbe12c2819580714d9745e6516b5fbccbdcb3ec0ee1414d4",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/limit_break/preview-contain-144x64.png": {
+      "sha256": "8c31d7b015445cd6752aa0c813a0b2406136df69eed592e7cb2c6be025aab36e",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/limit_break/source.png": {
+      "sha256": "d1b5831bbe8435a3097a8224249170e53925251eee4487cfb408e79ec5d5260c",
+      "category": "card-illustration-source-candidate",
+      "bytes": 1867470,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/offering/asset.json": {
+      "sha256": "e19b93938432cfc68095c88e37d00afecc45bc9d749acc019084a6d92df20f8f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/offering/generation-provenance.json": {
+      "sha256": "2b3c5a988bd2ce5ac5ff24fd2caa975fa1310b6ed2a5cf6d03bf21a546cf4c29",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/offering/preview-source-144x64.png": {
+      "sha256": "65c8285c77dddef7b207b9d542b3fb23fcd8663003e6a17617e84b24ef755de0",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/offering/source.png": {
+      "sha256": "10108e7937964715bb5796f81981a744350622683a350ea5fa7d7c30c6a198bc",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2048669,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/reaper/asset.json": {
+      "sha256": "2cd78b71c2e28f6a436a9bd5d7c0bbececfa3340593ee9f2489c68cfa1e74c50",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/reaper/generation-provenance.json": {
+      "sha256": "07bc8be5835382fcee0f703a67ab89a84e3f5d3a14d9a1aba15df6792528095f",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/reaper/preview-source-144x64.png": {
+      "sha256": "b53be733b10d4ad957b906756eddcaa110d8848af3e72958a93d707ab3e72ae5",
+      "category": "card-illustration-source-candidate"
+    },
+    "art/cards/traveler-geo/reaper/source.png": {
+      "sha256": "e284772dfb50f07ba51babcfb271083c7e3a52eb0828842eb2eb3b1a2968373a",
+      "category": "card-illustration-source-candidate",
+      "bytes": 2116068,
+      "lfs": true
+    },
+    "art/cards/traveler-geo/source-design-review.json": {
+      "sha256": "2737b299280841265f225e6238449b9a39d3e584376300ac6961273ef5dcc20c",
+      "category": "card-illustration-source-candidate"
     }
   }
 }

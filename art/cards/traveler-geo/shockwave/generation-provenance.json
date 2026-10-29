@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "card_id": "shockwave",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:35:38.363Z",
+    "endUtc": "2026-10-29T18:36:42.518Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "researchOnly": [
+    {
+      "path": "art/cards/traveler-geo/intimidate/source.png",
+      "role": "Viewed to avoid centered tableau; NOT passed",
+      "actuallyPassed": false,
+      "sha256": "550652eba768202eab04c8eaaf25bc1aa4ac64c901b348612fb04e5979e7447c"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Lumine left foreground rear-side, three separated intact hooded foes right with slumped shoulders/open sides/lowered woodenstaff guards. No blast, damageimpact, flying bodies, broken armor or sparks. Actual flower/whiteblue/blackgold identity visible at tiny scale. Distinct highangle offcenter layout versus Intimidate centeredtableau. Weak+Vulnerable inferred from faltering offense/open guards, exact debuffs/timing remain text. Native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/shockwave/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "b3f1e14dc83e33d63a805f4d46a10064913e722b0d5f288a6661090589f67fb5",
+    "bytes": 2011871,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/shockwave/prompt.txt",
+    "sha256": "92ca61651b8aae3a89d6e2ac683b505bbec80ce89714144196d54e06cebd976e"
+  }
+}

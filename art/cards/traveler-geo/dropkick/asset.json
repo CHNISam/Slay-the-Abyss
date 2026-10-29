@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "card_id": "dropkick",
+  "displayName": "乘隙追击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "dropkick/generation-provenance.json",
+      "sha256": "f04a63b2b32625a8c0a20abdd3704a1ac7b5987bea21f0f0bf6a4845d0f08990",
+      "bytes": 3570
+    },
+    "preview-contain-144x64.png": {
+      "path": "dropkick/preview-contain-144x64.png",
+      "sha256": "eb821a01f02934381eb10fbf9512a195a67fddc42abc75078f252c7db0449bed",
+      "bytes": 17579
+    },
+    "prompt-safe-alternative.txt": {
+      "path": "dropkick/prompt-safe-alternative.txt",
+      "sha256": "ccaa72328d40825a38f2b0f15145eeb390319da1d5aa8da27fa155afeb2e05a1",
+      "bytes": 2780
+    },
+    "prompt.txt": {
+      "path": "dropkick/prompt.txt",
+      "sha256": "31d3120f8acdce5a8c496d03e8ab773af440388c55274057d3beb31b933a2404",
+      "bytes": 3193
+    },
+    "source.png": {
+      "path": "dropkick/source.png",
+      "sha256": "a656046b6c437a1996cb7c0f78577d88ab767d390309c012738845d1a7ebe311",
+      "bytes": 1877424
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "dropkick",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 5
+      },
+      {
+        "op": "conditional",
+        "if": "target_vulnerable",
+        "then": [
+          {
+            "op": "energy",
+            "value": 1
+          },
+          {
+            "op": "draw",
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-08",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "card_id": "feel_no_pain",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:56:31.084Z",
+    "endUtc": "2026-10-29T17:57:07.414Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "feel_no_pain gainStatus3; upgrade4",
+    "runtimeRead": [
+      "src/lua/abyss_exhaust.lua plan exhaust hooks adds fixed block(fnp) per exhaust",
+      "src/lua/abyss_card_actions.lua exhaust event then ordered feel_no_pain enqueues block fixed"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Standing composed Lumine in compact forearm guard; relaxed other hand releases old tattered cloth remnant. No sitting/sleeve adjustment, healing, invulnerability, shield, attack or UI. Actual flower/blonde/whiteblue/blackgold identity readable. Remnant larger than requested small but subordinate lower-right; metaphor only, exhaust trigger stays text. Native quality/cost unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/feel_no_pain/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "eda3ea8a27eec5e05dcde90e4249587c67ee4573ab1b467e88ae37a8ca2a325b",
+    "bytes": 1922729,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/feel_no_pain/prompt.txt",
+    "sha256": "02e5016da0cde48fd36174464be5755a772ed73745dcf83272f856f009b45d57"
+  }
+}

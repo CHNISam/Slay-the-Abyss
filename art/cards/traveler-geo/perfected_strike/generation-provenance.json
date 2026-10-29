@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "perfected_strike",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:17:15.900Z",
+    "completedAt": "2026-10-29T17:17:44Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "652a74943042a7e27765d959c1f198e0178b1c5a21cb067b1c26eec605a7dbf5",
+      "bytes": 1901326
+    },
+    "prompt.txt": {
+      "sha256": "372ce4a97152e7f29b27fff652a7873d82de93bd5beba84f7e18a84c744021a0",
+      "bytes": 3190
+    },
+    "preview-source-144x64.png": {
+      "sha256": "50b856f8c1b726a9c4e3ea9b98b57e2017610ab00dc4ec6ed7fa95cee31139cf",
+      "bytes": 19051
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "剑势如虹",
+    "mechanics": "one hit base damage 6 plus strikeBonus 2 per strike-tag card; upgraded bonus 3",
+    "mainAction": "one precise one-handed sword line from low balanced full-body stance into one target",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: full stance and both feet visible, recognizable blonde flower white-blue gold-waist identity, one normal sword and contact, no card stacks or extra foes. Requested edge cut became a nearly level point contact, but single-hit precision and distinct wide stance remain clear. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

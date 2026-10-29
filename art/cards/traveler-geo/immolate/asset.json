@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "card_id": "immolate",
+  "displayName": "摧阵一击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "immolate/generation-provenance.json",
+      "sha256": "39b9143a0cd10dd49a80410e12e3a736eb0366c2f10ee53d4c8cd001f79c1a58",
+      "bytes": 2866
+    },
+    "preview-source-144x64.png": {
+      "path": "immolate/preview-source-144x64.png",
+      "sha256": "10b308f14b4b4078c9d2f236777f66e3ea8a95a2317734ac03a0a9d5b9836195",
+      "bytes": 19407
+    },
+    "prompt.txt": {
+      "path": "immolate/prompt.txt",
+      "sha256": "2f36d3d9953adf791a670f0e6192bf73f3404e858155dec62012f5f1e0180edb",
+      "bytes": 2854
+    },
+    "source.png": {
+      "path": "immolate/source.png",
+      "sha256": "c24ab9cc4e84b3af3f1b96704576b78725e40eeff464cd6562be1a5737f141ab",
+      "bytes": 1956947
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "immolate",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damageAll",
+        "value": 21
+      },
+      {
+        "op": "makeTempCardInDiscard",
+        "value": 1,
+        "card": "burn"
+      }
+    ],
+    "target": "ALL_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-17",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

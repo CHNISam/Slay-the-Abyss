@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "rupture",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:21:24.401Z",
+    "completedObservedAt": "2026-10-29T18:22:03Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "8dcc23295795187e89dce228d01eb9379016ec25189a43e3ae2127c143143de8",
+      "bytes": 1945738
+    },
+    "prompt.txt": {
+      "sha256": "a271dd7d3f6b98b0df57c84ff77e61cf85aebb62f593d28553ff1c42d604be36",
+      "bytes": 2616
+    },
+    "preview-source-144x64.png": {
+      "sha256": "c5f212f16b0123d6e0da9e5a5ab1ba79757886f8c1076caa9a345ab128aaba35",
+      "bytes": 19193
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "愈挫愈勇",
+    "mechanics": "rupture1 power: card-caused HP loss grants strength1, upgraded2",
+    "mainAction": "resolute upright Lumine tightens worn familiar bracer strap after strain, no injury depiction",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: intact original costume flower blonde identity, lifted chin and firm upright posture, two connected hands tightening blue worn-bracer strap. No fatigue glow, wound, healing or enemy. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

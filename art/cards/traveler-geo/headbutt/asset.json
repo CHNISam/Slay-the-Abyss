@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "card_id": "headbutt",
+  "displayName": "回身追击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "headbutt/generation-provenance.json",
+      "sha256": "06371c120aea165555a229bcf5e3b58e96e7b7c87aad7745babd15e0f1e36c3d",
+      "bytes": 2062
+    },
+    "preview-contain-144x64.png": {
+      "path": "headbutt/preview-contain-144x64.png",
+      "sha256": "26d0c8d272fe9ac116965695dc6aafaf82a7cb05a6e1d4955089df015f9ef2c6",
+      "bytes": 19363
+    },
+    "prompt.txt": {
+      "path": "headbutt/prompt.txt",
+      "sha256": "073953a940d5d99c17e7c291853763a92379eaac05176b52d193472d796926fe",
+      "bytes": 3482
+    },
+    "source.png": {
+      "path": "headbutt/source.png",
+      "sha256": "8e59ccd99b01ce71535a7db5a219cebb9831a8610e9b5133e7cd7221aa450572",
+      "bytes": 1959404
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "headbutt",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 9
+      },
+      {
+        "op": "discardToDraw"
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-03",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

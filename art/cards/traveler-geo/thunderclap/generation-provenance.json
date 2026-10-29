@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "thunderclap",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:22:04.075Z",
+    "completedAt": "2026-10-29T17:22:43Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "a6bd90525de1ae3fa3c976638e8833751ed30832c6cf3bea2e50ae3f2def9d80",
+      "bytes": 2042522
+    },
+    "prompt.txt": {
+      "sha256": "d3a4c3ea1dc869f6172584907c0842870a5881fe36de2796029cf70368190865",
+      "bytes": 3308
+    },
+    "preview-source-144x64.png": {
+      "sha256": "34e701ee19837993467547e61c645a06e1021e4386cf1624971476fc5c51fa26",
+      "bytes": 18815
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "横扫破防",
+    "mechanics": "damageAll 4 then vulnerableAll 1; upgraded damageAll 7",
+    "mainAction": "one broad low sword-driven warm pressure sweep reaches three separated enemies",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: crouched Lumine whiteflower face and white-blue costume visible left, one normal sword points along one low warm front contacting three distinct dark foes. No Electro lightning or construct; dust and warm light stronger than requested but low flow and target count clear. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

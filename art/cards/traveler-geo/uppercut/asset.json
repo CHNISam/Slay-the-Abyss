@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "card_id": "uppercut",
+  "displayName": "挑剑破势",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "uppercut/generation-provenance.json",
+      "sha256": "df6aafb3e87c2b87c54ead4a47658aad84add1bb629bdcd273f94629be174fe6",
+      "bytes": 2777
+    },
+    "preview-source-144x64.png": {
+      "path": "uppercut/preview-source-144x64.png",
+      "sha256": "05b8bd69aade1619131b989bdd01c1c78c982b0bf231459bb444ea9e06513c44",
+      "bytes": 18877
+    },
+    "prompt.txt": {
+      "path": "uppercut/prompt.txt",
+      "sha256": "7a09db40c4eb9bf600ebd9d44a61a4d30eb70463c1c0d8679304150c39fdeb08",
+      "bytes": 2592
+    },
+    "source.png": {
+      "path": "uppercut/source.png",
+      "sha256": "7abb088f5abaa5823b4294d58da0ed892153059a6f148eb918fd599c71ee81fa",
+      "bytes": 1898064
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "uppercut",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 13
+      },
+      {
+        "op": "applyStatus",
+        "status": "weak",
+        "value": 1
+      },
+      {
+        "op": "applyStatus",
+        "status": "vulnerable",
+        "value": 1
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-14",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

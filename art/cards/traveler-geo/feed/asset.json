@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "feed",
+  "displayName": "乘胜壮行",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "feed/generation-provenance.json",
+      "sha256": "f6a22b9227eebf32d08f8dc4c9382218a79f05aa4a451b925f37df168ff7de1c",
+      "bytes": 2042
+    },
+    "preview-contain-144x64.png": {
+      "path": "feed/preview-contain-144x64.png",
+      "sha256": "939bb7d5ce8d05ab148c6676f6a46fdfc7e7a1b5944b9d665996809361c74a47",
+      "bytes": 19049
+    },
+    "prompt.txt": {
+      "path": "feed/prompt.txt",
+      "sha256": "e65a0e9f857a200ca8dfb2b093e92748a774de170009c83344ccd8ac9b689c92",
+      "bytes": 3047
+    },
+    "source.png": {
+      "path": "feed/source.png",
+      "sha256": "b3ea69b6935321142db548b1228eabc66fac5832d6f04b521b9093945aca7a23",
+      "bytes": 1946624
+    }
+  },
+  "sourceSize": [
+    1882,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.0765143464399575,
+    "offset": [
+      0.0,
+      0.017003188097767463
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "feed",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "feed",
+        "value": 10,
+        "maxHp": 3
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-17",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "demon_form",
+  "displayName": "渐入佳境",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "demon_form/generation-provenance.json",
+      "sha256": "c6c81d3d5bbd052839b57afd5425a0985a70eeba3a1a75dfb07e535667e57b1f",
+      "bytes": 2734
+    },
+    "preview-contain-144x64.png": {
+      "path": "demon_form/preview-contain-144x64.png",
+      "sha256": "a02edac0a3566a69b710e3477743b5a69ff012253b77c876b4de1ffb89ce0243",
+      "bytes": 17453
+    },
+    "prompt.txt": {
+      "path": "demon_form/prompt.txt",
+      "sha256": "b5aec27dfd50ded79e29fa93cb26f4ca2f5cec14912e75a80f7bcb6ac2f40ca3",
+      "bytes": 3419
+    },
+    "source.png": {
+      "path": "demon_form/source.png",
+      "sha256": "3827b49c022630fc5ecf2753437376310092c1079388ade9b4bc8fdfe5c837f0",
+      "bytes": 1889445
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "demon_form",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 2,
+        "status": "demon_form"
+      }
+    ],
+    "target": "NONE"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-16",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

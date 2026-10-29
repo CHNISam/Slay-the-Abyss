@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "barricade",
+  "displayName": "永世的磐岩",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "barricade/generation-provenance.json",
+      "sha256": "3f654d0997299ae8be5e6bf4373b7412a011bf7d4306c77f8926176b94d5764d",
+      "bytes": 2341
+    },
+    "preview-contain-144x64.png": {
+      "path": "barricade/preview-contain-144x64.png",
+      "sha256": "8b94acee5af353bc76af7cac310ed60d7d7a2fa88320ea4001d373a0fa9642e8",
+      "bytes": 16661
+    },
+    "prompt.txt": {
+      "path": "barricade/prompt.txt",
+      "sha256": "b7ef71ffe64506bc29b421a4a0e807ae0f8f017e15732493c7542cc3acb2f7fc",
+      "bytes": 3038
+    },
+    "source.png": {
+      "path": "barricade/source.png",
+      "sha256": "6572023b045ea2ab1f5344f107d6c115f7bb8d419b8f8d372689e97f62e3e3e2",
+      "bytes": 1868278
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "barricade",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "status": "barricade",
+        "value": 1
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-15",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

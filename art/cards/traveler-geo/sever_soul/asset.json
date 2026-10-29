@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "card_id": "sever_soul",
+  "displayName": "弃守强攻",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "sever_soul/generation-provenance.json",
+      "sha256": "b94d32371c65e2c425d2b1f684e2287bf8bb9c53408ecd14f70a7cc0c8932370",
+      "bytes": 2843
+    },
+    "preview-source-144x64.png": {
+      "path": "sever_soul/preview-source-144x64.png",
+      "sha256": "ee77c79f5aa3799eb2fb6eea3f1aca15a583f084db1661f3e932ea4068c6d832",
+      "bytes": 20388
+    },
+    "prompt.txt": {
+      "path": "sever_soul/prompt.txt",
+      "sha256": "49f7c0d7d80547dcf3e15dff81fe6ed78428bc6778e1ce7e95eb23d914736ffa",
+      "bytes": 2821
+    },
+    "source.png": {
+      "path": "sever_soul/source.png",
+      "sha256": "6a3326d09bfa0a1458eebb80f0766276e5ecd3ea640ac6f8f163d0642c103b05",
+      "bytes": 1921373
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "sever_soul",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "exhaustNonAttacks"
+      },
+      {
+        "op": "damage",
+        "value": 16
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-13",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

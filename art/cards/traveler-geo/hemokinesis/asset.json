@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "card_id": "hemokinesis",
+  "displayName": "舍身进攻",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "hemokinesis/generation-provenance.json",
+      "sha256": "d0f4a9a9ef2fbef0d481290449556cedd10ebd49ceb76c36f4ca237fc5072e71",
+      "bytes": 2054
+    },
+    "preview-contain-144x64.png": {
+      "path": "hemokinesis/preview-contain-144x64.png",
+      "sha256": "6ec4e3a0632ad16dd0e6ca711f23f0571ffe83a4c87e6e721db346f3dd4ab217",
+      "bytes": 20023
+    },
+    "prompt.txt": {
+      "path": "hemokinesis/prompt.txt",
+      "sha256": "3d22a19643d6d79d1e6e1c5f07e3835af9c80dad12892d4d39e36bd95bc2f2a0",
+      "bytes": 3254
+    },
+    "source.png": {
+      "path": "hemokinesis/source.png",
+      "sha256": "922fa81616629e9a74c42652807033ce5c04a40ebc284298d885ddc7a59a176e",
+      "bytes": 1987429
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "hemokinesis",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "loseHp",
+        "value": 2
+      },
+      {
+        "op": "damage",
+        "value": 15
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-10",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "card_id": "power_through",
+  "displayName": "强行固守",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "power_through/generation-provenance.json",
+      "sha256": "16d6a66b060e9004b6b6f87d7fb4a5f790c10dd25cc7fc1eedb452421c2cb2ef",
+      "bytes": 2292
+    },
+    "preview-contain-144x64.png": {
+      "path": "power_through/preview-contain-144x64.png",
+      "sha256": "38cab903a32a73612fa92e0036d2a58518bc60f73584ffdc62aa9e937ee43014",
+      "bytes": 19015
+    },
+    "prompt.txt": {
+      "path": "power_through/prompt.txt",
+      "sha256": "1ed064057bc7bc4c97dee65e111b7f26a8719c56a7f0fb12c2b0f9527f5682e3",
+      "bytes": 3363
+    },
+    "source.png": {
+      "path": "power_through/source.png",
+      "sha256": "8de6f2fa52a0ce02e50348222bc5d563c4a7d4729218c00afd3023667698be4e",
+      "bytes": 1927314
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "power_through",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "makeTempCardInHand",
+        "value": 2,
+        "card": "wound"
+      },
+      {
+        "op": "block",
+        "value": 15
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-11",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

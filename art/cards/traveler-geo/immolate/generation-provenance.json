@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "immolate",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:59:41.633Z",
+    "completedObservedAt": "2026-10-29T19:00:23Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "c24ab9cc4e84b3af3f1b96704576b78725e40eeff464cd6562be1a5737f141ab",
+      "bytes": 1956947
+    },
+    "prompt.txt": {
+      "sha256": "2f36d3d9953adf791a670f0e6192bf73f3404e858155dec62012f5f1e0180edb",
+      "bytes": 2854
+    },
+    "preview-source-144x64.png": {
+      "sha256": "10b308f14b4b4078c9d2f236777f66e3ea8a95a2317734ac03a0a9d5b9836195",
+      "bytes": 19407
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "摧阵一击",
+    "mechanics": "damageAll21 upgraded28 then one Burn added to discard; no immediate selfHP loss",
+    "mainAction": "one broad chest-height physical impact sweep through three separated foes, one held sword",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: actual Lumine flower costume left, one continuous owned sword, one broad warm horizontal impact across three readable foe torsos. Much brighter than muted dust request but solid single contact plane, no repeated fronts or fire particles. No selfburn or blood. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

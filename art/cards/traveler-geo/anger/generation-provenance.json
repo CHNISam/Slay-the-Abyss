@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "anger",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:02:01.638Z",
+    "completedAt": "2026-10-29T17:02:56Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/cards/traveler-geo/heavy_blade/source.png",
+        "sha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc",
+        "role": "Lumine-costume-and-normal-one-handed-sword-identity-only-not-composition",
+        "actuallyPassedToTool": true
+      }
+    ]
+  },
+  "files": {
+    "source.png": {
+      "sha256": "e83ec7a32c82c2e48a23081f6dd861dc4bc6713151fba792eb890078b2e44427",
+      "bytes": 2039809
+    },
+    "prompt.txt": {
+      "sha256": "5c3eff5bd63d85fbb9c1f21aa958c82ce25cf311f41daeb95cc7e20013a0d91a",
+      "bytes": 3293
+    },
+    "preview-source-144x64.png": {
+      "sha256": "8c5a46c38e931276eb674134e6af63300b0211b00e52717ca7b656d9f49a3afb",
+      "bytes": 20683
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual source is 1881x836 despite requested size; retained exact output"
+  },
+  "intent": {
+    "name": "连续出剑",
+    "mainAction": "one eager rising sword cut on one enemy",
+    "mechanics": "6 damage then one copy added to discard",
+    "identityCarriers": [
+      "blonde side-profile head with white flowers",
+      "white-blue petal dress",
+      "dark waist cutout with gold arched ornament",
+      "one-handed straight sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate at original and 144x64: blonde side profile/white flower, pale costume and narrow sword read; one contact and one target, forward eager posture not rage; independent cross-card differentiation and native gates pending",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

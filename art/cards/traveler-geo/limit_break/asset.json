@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "card_id": "limit_break",
+  "displayName": "剑意突破",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "limit_break/generation-provenance.json",
+      "sha256": "9ce2711027833248cbe12c2819580714d9745e6516b5fbccbdcb3ec0ee1414d4",
+      "bytes": 2341
+    },
+    "preview-contain-144x64.png": {
+      "path": "limit_break/preview-contain-144x64.png",
+      "sha256": "8c31d7b015445cd6752aa0c813a0b2406136df69eed592e7cb2c6be025aab36e",
+      "bytes": 17708
+    },
+    "prompt.txt": {
+      "path": "limit_break/prompt.txt",
+      "sha256": "daee6223d2c8f5df30b7350d08296bfd74645e2e11d6821c4f43b6b5e43b9b1f",
+      "bytes": 3497
+    },
+    "source.png": {
+      "path": "limit_break/source.png",
+      "sha256": "d1b5831bbe8435a3097a8224249170e53925251eee4487cfb408e79ec5d5260c",
+      "bytes": 1867470
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "limit_break",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "doubleStrength"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-18",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

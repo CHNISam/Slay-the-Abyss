@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "card_id": "offering",
+  "displayName": "奋力一搏",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "offering/generation-provenance.json",
+      "sha256": "2b3c5a988bd2ce5ac5ff24fd2caa975fa1310b6ed2a5cf6d03bf21a546cf4c29",
+      "bytes": 2848
+    },
+    "preview-source-144x64.png": {
+      "path": "offering/preview-source-144x64.png",
+      "sha256": "65c8285c77dddef7b207b9d542b3fb23fcd8663003e6a17617e84b24ef755de0",
+      "bytes": 20827
+    },
+    "prompt.txt": {
+      "path": "offering/prompt.txt",
+      "sha256": "cb07e0823fd52f11e903c269a689d5234904ec9c8354dbb102a9ea7d8aeaa83a",
+      "bytes": 2597
+    },
+    "source.png": {
+      "path": "offering/source.png",
+      "sha256": "10108e7937964715bb5796f81981a744350622683a350ea5fa7d7c30c6a198bc",
+      "bytes": 2048669
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "offering",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "loseHp",
+        "value": 6
+      },
+      {
+        "op": "energy",
+        "value": 2
+      },
+      {
+        "op": "draw",
+        "value": 3
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-18",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

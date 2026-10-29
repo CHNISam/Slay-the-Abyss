@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "card_id": "dropkick",
+  "status": "candidate-safe-alternative-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "totalRequests": 2,
+    "successfulSources": 1,
+    "blockedNoOutput": 1,
+    "selectedAttempt": 2,
+    "selectedPrompt": "prompt-safe-alternative.txt",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "sourcePostprocessing": "none"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-costume-and-boot-construction-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Benign upper-body opportunity-awareness alternative: connected recognizable flower/blonde/whiteblue/blackgold Lumine at right, attention into empty dark left space. Single sword held low away, no target/contact/kick/lower-body emphasis. Illustrates pre-action intent only, NOT explicit single hit or conditional energy/draw; those remain text. Original blocked request preserved, not reported as a source. Native quality/cost unverified."
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/dropkick/prompt.txt",
+    "sha256": "31d3120f8acdce5a8c496d03e8ab773af440388c55274057d3beb31b933a2404"
+  },
+  "attempts": [
+    {
+      "tool": "builtin image_gen",
+      "model": "unknown-not-exposed",
+      "seed": "unknown-not-exposed",
+      "startUtc": "2026-10-29T17:44:02.176Z",
+      "endUtc": "2026-10-29T17:45:23.655Z",
+      "requestedSize": [
+        2304,
+        1024
+      ],
+      "attemptCount": 1,
+      "output": null,
+      "error": {
+        "http": 400,
+        "code": "moderation_blocked",
+        "stage": "output",
+        "categories": [
+          "other"
+        ]
+      },
+      "fallback": "not-attempted",
+      "redraw": "not-attempted",
+      "prompt": {
+        "path": "art/cards/traveler-geo/dropkick/prompt.txt",
+        "sha256": "31d3120f8acdce5a8c496d03e8ab773af440388c55274057d3beb31b933a2404"
+      }
+    },
+    {
+      "tool": "builtin image_gen",
+      "model": "unknown-not-exposed",
+      "seed": "unknown-not-exposed",
+      "startUtc": "2026-10-29T17:52:50.154Z",
+      "endUtc": "2026-10-29T17:53:37.622Z",
+      "requestedSize": [
+        2304,
+        1024
+      ],
+      "attempt": 2,
+      "status": "candidate-returned",
+      "promptPath": "prompt-safe-alternative.txt",
+      "concept": "separately-authorized benign upper-body pre-action opportunity-awareness portrait; no enemy/contact/kick/lower-body emphasis",
+      "cost": "unknown-not-reported",
+      "promptSha256": "ccaa72328d40825a38f2b0f15145eeb390319da1d5aa8da27fa155afeb2e05a1"
+    }
+  ],
+  "source": {
+    "path": "art/cards/traveler-geo/dropkick/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "a656046b6c437a1996cb7c0f78577d88ab767d390309c012738845d1a7ebe311",
+    "bytes": 1877424,
+    "postprocessing": "none"
+  },
+  "selectedPrompt": {
+    "path": "art/cards/traveler-geo/dropkick/prompt-safe-alternative.txt",
+    "sha256": "ccaa72328d40825a38f2b0f15145eeb390319da1d5aa8da27fa155afeb2e05a1"
+  }
+}

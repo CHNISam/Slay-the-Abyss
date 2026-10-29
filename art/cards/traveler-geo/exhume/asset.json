@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "card_id": "exhume",
+  "displayName": "重拾旧策",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "exhume/generation-provenance.json",
+      "sha256": "3cb5bffe13ec1590089223ec41827ff44fea05aa432818b06975727a650a545c",
+      "bytes": 2801
+    },
+    "preview-source-144x64.png": {
+      "path": "exhume/preview-source-144x64.png",
+      "sha256": "9aff22a5370a41b42f2a457dade830b094bab4113f03689433cc83d380a7e45f",
+      "bytes": 19067
+    },
+    "prompt.txt": {
+      "path": "exhume/prompt.txt",
+      "sha256": "c20946bea3764914cf2afd389952ebbf31bc3dd30e1074d03a8de27bb1238e40",
+      "bytes": 2693
+    },
+    "source.png": {
+      "path": "exhume/source.png",
+      "sha256": "0bec70814030e4cbbdcfd0da2fc7e68c4956e47f4fb6ad7ffe76fef9ebe3d91e",
+      "bytes": 1901727
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "exhume",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "recoverExhaust"
+      }
+    ],
+    "target": "NONE"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-16",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

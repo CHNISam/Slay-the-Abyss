@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "ghostly_armor",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:00:09.782Z",
+    "completedObservedAt": "2026-10-29T18:00:50Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "af03b421e138ff963ace2b89265e9e7de640848750f403ed710e8cb739159230",
+      "bytes": 1969281
+    },
+    "prompt.txt": {
+      "sha256": "1b65e16eda40df19bf4e27a66cd3a20d8c5208dec2d651c912bce320b5796db5",
+      "bytes": 3061
+    },
+    "preview-source-144x64.png": {
+      "sha256": "d4cbfd3a4e3f168c0464cb465cc7fbbe37f79037f6404477290e04e8d19fc885",
+      "bytes": 19564
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "及时招架",
+    "mechanics": "block10, upgraded13; ethereal unused card exhausts at turn end",
+    "mainAction": "swift last-moment solid sword interposition stops incoming spear just short, no counterstrike",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "connected original white-blue costume and gold dark waist",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: recognizable flower face and whiteblue-gold costume, one continuous held sword interposed before incoming owned-by-offscreen-shaft spear tip, tiny clear gap and no damage contact. No spectral body or active counterstab. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

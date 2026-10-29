@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "card_id": "bash",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:04:40.209Z",
+    "completedAt": "2026-10-29T17:05:32Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 2,
+    "generationCountForThisSource": 2,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/cards/traveler-geo/heavy_blade/source.png",
+        "sha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc",
+        "role": "Lumine-costume-and-normal-one-handed-sword-identity-only-not-composition",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt-repair.txt",
+    "supersededSteps": [
+      {
+        "tool": "builtin image_gen.imagegen",
+        "model": "unknown-not-exposed",
+        "seed": "unknown-not-exposed",
+        "startedAt": "2026-10-29T17:00:24.730Z",
+        "completedAt": "2026-10-29T17:01:03Z",
+        "sourcePostprocessing": "none-exact-copy",
+        "attempt": 1,
+        "references": [
+          {
+            "path": "art/cards/traveler-geo/armaments/source.png",
+            "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+            "role": "painted-style-only",
+            "actuallyPassedToTool": true
+          },
+          {
+            "path": "art/cards/traveler-geo/heavy_blade/source.png",
+            "sha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc",
+            "role": "Lumine-costume-and-normal-one-handed-sword-identity-only-not-composition",
+            "actuallyPassedToTool": true
+          }
+        ],
+        "outputSha256": "fd7170d8ef3897cefd45b4ec6eb7cd685755c46d4b0fccc710a52f9475a08d28",
+        "rejectionReason": "root cross-card review: composition duplicates strike",
+        "exactPromptPath": "prompt.txt"
+      }
+    ]
+  },
+  "files": {
+    "source.png": {
+      "sha256": "022f81c8375e8886956332de56b1c63b0284b83c63217377f71e349de4ddae22",
+      "bytes": 1994535
+    },
+    "prompt.txt": {
+      "sha256": "fcec7f2b0967512814b2370781897f155fb42911e3886d6450964120ace56ab6",
+      "bytes": 2725
+    },
+    "prompt-repair.txt": {
+      "sha256": "7f15af4b028af0d68ca845ec29274be04d0da145ba13fa7a87ba062ec334e308",
+      "bytes": 3044
+    },
+    "preview-source-144x64.png": {
+      "sha256": "f5fd729de1601a4e5b0a45cbd74385c12479489618e6d93aa0a7f52b5ee1f9cb",
+      "bytes": 20585
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual source is 1881x836 despite request; retained exact output"
+  },
+  "intent": {
+    "name": "破防斩",
+    "mainAction": "one descending diagonal sword edge lifts and splits one armored enemy plate seam",
+    "mechanics": "8 damage then vulnerable 2",
+    "identityCarriers": [
+      "blonde hair with white flowers",
+      "connected white-blue shoulder and back costume",
+      "one-handed straight sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original+144x64: distinct high over-shoulder framing with blonde flower/white-blue back at left, one descending sword edge, tip beyond contact; broad lifted plate opening reads as dark gap. Subject/back mass larger than requested but identity/action both clear. Root review pending; no production claim.",
+    "independentReview": "repair pending root review",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

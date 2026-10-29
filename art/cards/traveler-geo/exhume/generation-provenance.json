@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "exhume",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:52:07.366Z",
+    "completedObservedAt": "2026-10-29T18:52:49Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "0bec70814030e4cbbdcfd0da2fc7e68c4956e47f4fb6ad7ffe76fef9ebe3d91e",
+      "bytes": 1901727
+    },
+    "prompt.txt": {
+      "sha256": "c20946bea3764914cf2afd389952ebbf31bc3dd30e1074d03a8de27bb1238e40",
+      "bytes": 2693
+    },
+    "preview-source-144x64.png": {
+      "sha256": "9aff22a5370a41b42f2a457dade830b094bab4113f03689433cc83d380a7e45f",
+      "bytes": 19067
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "重拾旧策",
+    "mechanics": "recover one non-Exhume exhausted card to hand, exhaust; upgrade cost0",
+    "mainAction": "one pinched worn unmarked strategy scrap lifted inward from plain dark ledge",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: over-shoulder actual Lumine flower blonde bluewhite/gold-dark costume, one connected glove pinches and retrieves irregular unmarked folded paper from ledge; no release ember, chin gesture, grave corpse heal or UI frame. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

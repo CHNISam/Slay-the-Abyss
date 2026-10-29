@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "card_id": "fire_breathing",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:58:22.227Z",
+    "endUtc": "2026-10-29T17:59:03.995Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "fire_breathing gainStatus6; upgrade10",
+    "runtimeRead": [
+      "src/lua/abyss_warrior_status_cards.lua onDraw: (status OR curse) adds statusFireDamage(n)",
+      "src/lua/abyss_combat.lua draw hook: status OR curse enqueues fixed damageAll",
+      "src/lua/abyss_combat_effect_damage.lua statusFireDamage aliases combustDamage all-active-enemy fixed handler"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Offcenter connected Lumine redirects broad ivory pressure toward three separated dark foes. One sword held down, mouth closed; no contact, breathfire/Pyrodragon/heal. Actual flower/blonde/whiteblue/blackgold identity visible at tiny size. Distinct diagonal redirection versus Combust centered still field. Caveat: pressure is brighter/larger and more gust/blast-like than restrained brief; status/curse-draw cause remains text and metaphor, not an explicit trigger diagram. Native quality/cost unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/fire_breathing/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "051f38fdbd6d2c1aa398f8c00462cf26de11913bbc8c9c179cbccce8beb0d186",
+    "bytes": 1986559,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/fire_breathing/prompt.txt",
+    "sha256": "be102abec83b81f1c242e8d3a74f4b72f9d667c3ce5010a1265285694952063e"
+  }
+}

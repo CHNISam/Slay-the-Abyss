@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "card_id": "havoc",
+  "displayName": "临阵变招",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "havoc/generation-provenance.json",
+      "sha256": "6c08af11c548c2ff4d729e8cd9ca225759051f0087f009c112f6d7ba179eb8aa",
+      "bytes": 1931
+    },
+    "preview-contain-144x64.png": {
+      "path": "havoc/preview-contain-144x64.png",
+      "sha256": "2ec7018b784bda953898f7e54acc99dc8334ac88358e23bae63d7da079344e71",
+      "bytes": 17915
+    },
+    "prompt.txt": {
+      "path": "havoc/prompt.txt",
+      "sha256": "46dd4f7c2890775c55309461543f32ffc6700f9e31e9fbb8ba8263a6879ccebe",
+      "bytes": 3087
+    },
+    "source.png": {
+      "path": "havoc/source.png",
+      "sha256": "a094433a8272a6517b6f928246cc4bf67800bc5a19fb8d319b94eb192994899d",
+      "bytes": 1884238
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "havoc",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "playTop"
+      }
+    ],
+    "target": "NONE"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-03",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

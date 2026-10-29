@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "feed",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:59:36.551Z",
+    "endUtc": "2026-10-29T19:00:32.633Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "One normal held sword single restrained finishing contact along yielding hooded foe upper shoulder/neckedge, no gore/eating/vampirism/soul/heal transfer. Actual flower/whiteblue/blackgold identity clear at tiny scale. Foe fades little but reads yielding decisive finish. Validkill/maxHP reward remains text, not automatichealing everyhit. Actual output1882x836 preserved, no forcing requested size. Native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/feed/source.png",
+    "dimensions": [
+      1882,
+      836
+    ],
+    "sha256": "b3ea69b6935321142db548b1228eabc66fac5832d6f04b521b9093945aca7a23",
+    "bytes": 1946624,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/feed/prompt.txt",
+    "sha256": "e65a0e9f857a200ca8dfb2b093e92748a774de170009c83344ccd8ac9b689c92"
+  }
+}

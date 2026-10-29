@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "pummel",
+  "displayName": "疾风连斩",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "pummel/generation-provenance.json",
+      "sha256": "9dce151475fcd07a729487b630b868d6c13fbd20844328c15f3c90f1566a77ba",
+      "bytes": 2890
+    },
+    "preview-source-144x64.png": {
+      "path": "pummel/preview-source-144x64.png",
+      "sha256": "d88e6ed0587325ba2f730a0536b2a47001e87e5ae89d7da34fbf76094b8c7ed8",
+      "bytes": 20427
+    },
+    "prompt.txt": {
+      "path": "pummel/prompt.txt",
+      "sha256": "d8a0aa110bd1aa4da57e2589c5bdb5b3ac00d3c27cdb66940708c7411b46abe6",
+      "bytes": 2623
+    },
+    "source.png": {
+      "path": "pummel/source.png",
+      "sha256": "91c1baf35b1bd9addb16ec3e9d3549f47419ad04f2f8be2174768bba286e34d1",
+      "bytes": 2028809
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "pummel",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 2,
+        "times": 4
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-11",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

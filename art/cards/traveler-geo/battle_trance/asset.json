@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "card_id": "battle_trance",
+  "displayName": "集中精神",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "battle_trance/generation-provenance.json",
+      "sha256": "1fe1471684127a58820f0ae0e88fc34d7403a61f9c865a6e563187ead348f30e",
+      "bytes": 2000
+    },
+    "preview-contain-144x64.png": {
+      "path": "battle_trance/preview-contain-144x64.png",
+      "sha256": "6546fffa10101bada1bac981f54e5899a427cc8c0216387844c23caa79eb034e",
+      "bytes": 16095
+    },
+    "prompt.txt": {
+      "path": "battle_trance/prompt.txt",
+      "sha256": "b194ee7396c98f71eecc16183291b293540053e8c849e88c9827ad6bd707c1ca",
+      "bytes": 2807
+    },
+    "source.png": {
+      "path": "battle_trance/source.png",
+      "sha256": "b43d82bd984776081fa99464803abb460f14885e8bf889e155edce36a5d32825",
+      "bytes": 1786887
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "battle_trance",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "draw",
+        "value": 3
+      },
+      {
+        "op": "noDrawThisTurn"
+      }
+    ],
+    "target": "NONE"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-06",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

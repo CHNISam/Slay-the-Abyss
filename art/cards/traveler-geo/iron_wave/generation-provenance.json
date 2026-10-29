@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "iron_wave",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:15:41.813Z",
+    "completedAt": "2026-10-29T17:16:25Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "4beedcb5b196d12970fa2d8be59faaf40ab6a4b43c7c750f8489e847c18c8f10",
+      "bytes": 2072789
+    },
+    "prompt.txt": {
+      "sha256": "f0415d46f803f8c99e4bbee1666cf8b408bfbd5a49270e4bc41263837da665f7",
+      "bytes": 2953
+    },
+    "preview-source-144x64.png": {
+      "sha256": "f2efeec7c9bfe1490050824c74f352bbee2a1b4410f3869b97a85d0346d642b1",
+      "bytes": 21251
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "招架还击",
+    "mechanics": "block 5 then damage 5, single target",
+    "mainAction": "one continuous Lumine blade turns aside enemy sword near center and countercontacts same enemy torso at point",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: face flower white-blue costume and gold arch clear; two owned swords cross while Lumine point contacts same foe. Both grips connected, no extra limbs or shield. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

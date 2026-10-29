@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "second_wind",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:28:34.747Z",
+    "endUtc": "2026-10-29T18:29:19.616Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Rear-side connected Lumine retains one real sword in clean guard while three plain irregular spent cloth scraps leave empty hand. No heal, weather tornado, cards/UI or enemy/contact. Actual flower/whiteblue/blackgold identity clear at tiny size. Retained weapon versus removed burdens is metaphor only; exact nonattack-exhaust and percard Block stays text. Scraps/scarf larger than quietsmall brief; fine details remain and native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/second_wind/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "06f76388d0b79ac4ede6009f1c3d41ee70b99ee2f3fbed3e00bdecaf393b2f89",
+    "bytes": 1900879,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/second_wind/prompt.txt",
+    "sha256": "255e7ce9fef039baf94bc2c94e860d4943d2a4f8a1de3f4aa990d963b67b3d0c"
+  }
+}

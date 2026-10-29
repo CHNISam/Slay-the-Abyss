@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "rupture",
+  "displayName": "愈挫愈勇",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "rupture/generation-provenance.json",
+      "sha256": "2ef8ec741eecec34790a1d892dd3880abf57146204196aea0834ee269158b978",
+      "bytes": 2776
+    },
+    "preview-source-144x64.png": {
+      "path": "rupture/preview-source-144x64.png",
+      "sha256": "c5f212f16b0123d6e0da9e5a5ab1ba79757886f8c1076caa9a345ab128aaba35",
+      "bytes": 19193
+    },
+    "prompt.txt": {
+      "path": "rupture/prompt.txt",
+      "sha256": "a271dd7d3f6b98b0df57c84ff77e61cf85aebb62f593d28553ff1c42d604be36",
+      "bytes": 2616
+    },
+    "source.png": {
+      "path": "rupture/source.png",
+      "sha256": "8dcc23295795187e89dce228d01eb9379016ec25189a43e3ae2127c143143de8",
+      "bytes": 1945738
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "rupture",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 1,
+        "status": "rupture"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-12",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "card_id": "combust",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:40:18.549Z",
+    "endUtc": "2026-10-29T17:41:00.156Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "data/cards.json: combust gainStatus5; statuses.json combust intensity no decay",
+    "presentation": "强攻压阵: turn-end loseHP then damage all5",
+    "runtimeRead": [
+      "src/lua/abyss_warrior_strength_cards.lua planHook turn_end: loseHp(combustHpLoss), combustDamage(n), only if enemies present",
+      "src/lua/abyss_combat_effect_damage.lua Handlers.combustDamage: fixed damage to every active enemy",
+      "src/lua/abyss_battle_status_view.lua: HP loss first, fatal HP loss stops later damage"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Central braced Lumine, low unswung normal sword, warm ochre pressure atmosphere reaching FOUR actual dark silhouettes versus requested three; all-enemy mechanic does not require exact count. Clear flower/blonde/whiteblue/blackgold identity. No gore/selfcut/heal/fire breath/sword swing. Caveats: warm atmosphere is bright smoke-like, strain conveyed mainly by tense expression/fist; needs independent sustained-pressure-versus-fire/shield review. Native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/combust/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "b68711b7d61d37080598378a86a01592b875efbc25277425554d9af870b73f29",
+    "bytes": 2034417,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/combust/prompt.txt",
+    "sha256": "84972357d9ec626a9bc7c6687cda53d76b28ad56bcb2ca2828714fabe8fe54a0"
+  }
+}

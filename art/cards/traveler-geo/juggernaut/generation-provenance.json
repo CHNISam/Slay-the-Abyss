@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "card_id": "juggernaut",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:08:12.890Z",
+    "endUtc": "2026-10-29T19:09:08.159Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "juggernaut gainStatus5, upgrade7",
+    "runtimeRead": [
+      "src/lua/abyss_actor.lua block(): when actor=player and gained>0, juggernaut>0 enqueue damageRandom fixed(status amount); no enemyattack condition"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Guarded Lumine forearmacrosschest plus one restrained normal sword hit to single nonattacking slime. No enemyattack/parryrequirement, group/AOE or giantform. Actual flower/whiteblue/blackgold identity clear at tiny size. Gaze angles right away from target, flag reviewer; randomtarget trigger exactrule stays text. Native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/juggernaut/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "a71fcd2a992e8e5750cdf66e335cb269102e0609805710c24dd58e4b8282fb94",
+    "bytes": 2004300,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/juggernaut/prompt.txt",
+    "sha256": "b129a07786f037d053dfca517959c3e1b85fd87cd78e24ee3286d9a3ba4d1a8e"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "card_id": "pommel_strike",
+  "displayName": "试探一击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "pommel_strike/generation-provenance.json",
+      "sha256": "15edbc5423368be190fcfbfd74de7250cf9f8a74819ab0e5baddef8c761b880c",
+      "bytes": 1993
+    },
+    "preview-contain-144x64.png": {
+      "path": "pommel_strike/preview-contain-144x64.png",
+      "sha256": "b726ccf727015e1f70df5db729853a548ce8ee581e3723cb2530d02a2ab57c79",
+      "bytes": 19640
+    },
+    "prompt.txt": {
+      "path": "pommel_strike/prompt.txt",
+      "sha256": "b2f01a2c9bc5d47954d970cf7fb8456c75ed39d92b0983c96b58c3fb06690905",
+      "bytes": 3186
+    },
+    "source.png": {
+      "path": "pommel_strike/source.png",
+      "sha256": "4bebd8693cb4dac9edbf16b8581a3878252c19c03dc47db8b805f96bd7aa80fe",
+      "bytes": 1937769
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "pommel_strike",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 9
+      },
+      {
+        "op": "draw",
+        "value": 1
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-04",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}
