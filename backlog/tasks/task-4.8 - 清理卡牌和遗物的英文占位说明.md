@@ -5,13 +5,15 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 14:39'
-updated_date: '2026-10-29 00:13'
+updated_date: '2026-10-29 05:11'
 labels: []
 milestone: m-4
 dependencies: []
 references:
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
   - docs/backlog-details/MOBILE-QA-20261028.md
+  - docs/backlog-details/MOBILE-QA-20261029.md
+  - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
 parent_task_id: TASK-4
 priority: medium
 ordinal: 124000
@@ -27,10 +29,14 @@ ordinal: 124000
 <!-- AC:BEGIN -->
 - [ ] #1 比赛内容的卡牌与遗物说明使用准确中文，无英文占位。
 - [ ] #2 游戏内核对并保留同候选证据。
+- [ ] #3 普通卡正文仅保留必要效果，打击类等身份以可发现关键词解释承接，规则标签及剑势如虹计数不变；移除常驻选敌长提示和菜单/退出弹层操作说明入口。
+- [ ] #4 退出文案清晰说明本局进度无法恢复并保留取消/确认；创作者权限不是玩家等级，点赞文案不承诺未经验证的升级或存档解锁因果。
 <!-- AC:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-29 完整中文与规则合同承接附件§6：剑势如虹基本/升级均解释可识别的打击类标签，不能按中文名字匹配或只统计普通攻击；仅手牌/抽牌/弃牌计数，基本每张加2、升级加3、消耗堆排除。战斗、奖励、卡组、商店及遗物详情逐屏核验可达内容；翻译名称不等于TASK-14.1真实效果交付。
+
+2026-10-29录音06:21/06:48/18:12/32:49要求去冗余提示与游戏内操作说明干扰。保留真正玩法关键词与退出风险；STRIKE原版标签存在，但本轮没有对应中文语言包，不能声称原版逐字文案。创作者Lv4公告可核，当前点赞到等级公式未核，不写点赞必然解锁存档；详见SOURCES核验表。
 <!-- SECTION:NOTES:END -->
