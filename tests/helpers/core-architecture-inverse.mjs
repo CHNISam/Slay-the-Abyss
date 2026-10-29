@@ -1,3 +1,4 @@
+import {preRosterSource} from './competition-roster-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
@@ -6,6 +7,7 @@ import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
 // remains mandatory; the upstream Battle inverse then restores the CEC oracle.
 export function preCoreArchitectureSource(path,source) {
   if(path!=='config/architecture.json')return source;
+  source=preRosterSource(path,source);
   source=source.replaceAll('\r\n','\n');
   const header='  "layers": {\n',start=source.indexOf(header);
   if(start<0)return source;

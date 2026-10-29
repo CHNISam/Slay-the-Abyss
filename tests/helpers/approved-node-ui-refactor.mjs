@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {nodeUiRefactor,preNodeUiRefactorSource} from './node-ui-refactor-inverse.mjs';
 import {preCoreArchitectureSource} from './core-architecture-inverse.mjs';
+import {preRosterSource} from './competition-roster-source-inverse.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const normalized=value=>value.replaceAll('\r\n','\n');
 const bytes=readFileSync(new URL('../fixtures/approved-node-ui-faces-layer.json',import.meta.url));
@@ -48,6 +49,8 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ // Invert only the complete reviewed roster source before retained core/UI layers.
+ if(source!==null)source=preRosterSource(path,source);
  source=preCoreArchitectureSource(path,source);
  source=preBattleRefactorLayer(path,source);
  source=prePostNodeSource(path,source);

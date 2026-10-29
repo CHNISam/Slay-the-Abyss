@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-28 14:39'
+updated_date: '2026-10-29 01:53'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -37,6 +37,8 @@ ordinal: 121000
 核对319009d5七份原版源码及现有数据；复用职业适配构建只读选角信息和正式原生选择页；拆分选择/元素/确认并保留输入代次；补八形态和旧序章退役回归；同步PR267后跑门禁、构建、PR合入及清理。
 
 本轮接手PR290：从80874f8核对后续4aba86bc，复验冻结来源逆变换与真实OnStart；同步最新develop，逐项修复Windows/POSIX失败且保留原断言/视觉；完成定向回归、完整Quality和离线原生构建，核对合并窗口后squash及清理。官方导入/设备实测仍单独未验。
+
+2026-10-29 PR317职责迁移：以实际develop 58f72c2c为基线，仅移植已独立审查296bc0a2的两角色准入、界面路由和Watcher来源事务测试修正。准入放入Run初始化职责且早于适配及随机流；保留Run/Nodes/Battle拆分、PR313输入与药水行为、严格冻结逆变换和原30秒预算。先验证精确源码与历史守卫，再串行复验两角色与完整choice continuation，提交本地精确头后停止推送，等待独立语义审查；原生验收项保持未勾选。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -53,4 +55,6 @@ PR290接续：隔离候选已合入develop d2e0baa3；复核4aba86bc全部有效
 2026-10-28队列复核（基线77c2d5e6）：正式开局源码已随PR290合入2ee2f401，当前源码接入阻塞已解除，移出High；组合候选原生构建/读回及必要最终证据仍需补齐，保持In Progress和原2/3验收，不把合并代码当作整体完成。负责人按项目约定统一Furinya。
 
 2026-10-28新比赛决定覆盖旧正式入口范围；既有已勾选项仅是历史离线实现证据。
+
+2026-10-29 PR317本地迁移：实际develop 58f72c2c保留Run/Nodes/Battle职责拆分，原296bc0a2与此前独立审查仅作为历史证据。23行准入策略及选角/Host生产源码保持原审查字节；唯一Run侧改动移至abyss_run_initialization.prepareProfile，早于角色/目录适配、种子和随机流。真实Watcher第一/二幕来源事务仍显式full-source，原奖励获取、完整回滚、重试和RNG断言不减。原30秒预算与runner未改；串行16/16（含全部303 continuation）和纯源码71/71、roster逆变换1/1通过；架构256模块1422边，静态无新增诊断、37条历史告警与941项职责测量。守恒证明60个最新Run/Nodes/Battle模块、12项策略/冻结见证/runner未变，三个roster逆变换逐字恢复实际58f基线。状态/负责人及验收勾选不变；停止于本地提交，待独立语义审查，不推送或改PR。完整当前SHA托管Quality、原生构建、官方导入/ready、自然通关及触摸/手柄实机仍未验收，不能宣称本任务、TASK59/47或M3完成。
 <!-- SECTION:NOTES:END -->

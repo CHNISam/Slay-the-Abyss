@@ -1,5 +1,6 @@
 -- Read-only loadout preview. Selection never owns a Run, map or RNG stream.
 local M={}
+local Admission=require('abyss_run_admission')
 M.characters={'hutao','arlecchino','furina','raiden','traveler'}
 M.elements={'ironclad','silent','defect','watcher'}
 local names={hutao='胡桃',arlecchino='阿蕾奇诺',furina='芙宁娜',raiden='雷电将军',traveler='旅行者·荧'}
@@ -39,11 +40,21 @@ function M.preview(source,presentation,id)
         maxHp=rules.maxHp,gold=rules.startingGold,relics=relics,deck=deck,
         deckSize=#data.cards.starter_deck.cards,profile=profile}
 end
-function M.new(source,presentation)
+function M.new(source,presentation,profile)
     local state={}
+    function state.allowsCharacter(_,id)
+        return contains(M.characters,id) and Admission.allows(profile,id=='traveler' and 'ironclad' or id)
+    end
+    function state.allowsElement(_,id)return contains(M.elements,id) and Admission.allows(profile,id)end
+    function state:canConfirm()
+        local id=self.character=='traveler' and self.element or self.character
+        return self.info~=nil and self.info.id==id and self:allowsCharacter(self.character)
+            and (self.character~='traveler' or self:allowsElement(self.element))
+    end
     function state:clear()self.character,self.element,self.info=nil,nil,nil end
     function state:select(id)
         if not contains(M.characters,id)then return false,'unknown_character' end
+        if not self:allowsCharacter(id)then return false,'competition_character_unavailable'end
         self.character=id
         if id=='traveler' then self.element=self.element or 'ironclad' end
         self.info=M.preview(source,presentation,id=='traveler' and self.element or id)
@@ -51,6 +62,7 @@ function M.new(source,presentation)
     end
     function state:selectElement(id)
         if self.character~='traveler' or not contains(M.elements,id)then return false,'element_unavailable'end
+        if not self:allowsElement(id)then return false,'competition_character_unavailable'end
         self.element=id;self.info=M.preview(source,presentation,id);return true
     end
     return state

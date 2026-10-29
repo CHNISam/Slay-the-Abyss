@@ -95,14 +95,15 @@ for _,mode in ipairs({'false','throw'})do
  end)
 end
 if slice=='pile'then
- -- Competition-profile source rooms in both shipped acts. Deck acquisition,
+ -- Retained full-source Watcher rooms in Act1/2, not competition admission.
+ -- Watcher's Omniscience is outside the two-role competition roster. Deck acquisition,
  -- constructor, Omniscience selection and reward preparation are real; chapter
  -- placement, physical pile arrangement and near-lethal damage are controlled.
  -- These are component rollback cases, not natural runs or platform evidence.
  local Q,Pool,R=require('abyss_encounter_queue'),require('abyss_card_pool'),require('abyss_sts_random')
  for _,act in ipairs({1,2})do
-  test('controlled Act'..act..' source reward preparation restores pile choice and retries once',function()
-   local run=Run.new(D,'0',{experimental=true,character='watcher',campaign=true,campaignProfile='competition-two-act'})
+  test('controlled full-source Watcher Act'..act..' reward preparation restores pile choice and retries once',function()
+   local run=Run.new(D,'0',{experimental=true,character='watcher',campaign=true,campaignProfile='full-source'})
    local remove={};for _,card in ipairs(run.deck)do remove[#remove+1]=card.uid end
    for _,uid in ipairs(remove)do assert(Run.removeCard(run,uid))end
    assert(Run.obtainCard(run,'omniscience'));assert(Run.obtainCard(run,'empty_fist'))
@@ -137,7 +138,7 @@ if slice=='pile'then
    verify();eq(run.combat,s);eq(s.pendingPileChoice,pending);eq(run.phase,'combat')
    assert(Run.choosePile(run,{selected.uid},pending.token,run.combatGeneration))
    eq(run.phase,'reward');eq(run.victories,1);eq(s.pendingPileChoice,nil);eq(#run.rewards.cards,3)
-   eq(run.act,act);eq(run.campaignProfile,'competition-two-act')
+   eq(run.act,act);eq(run.campaignProfile,'full-source')
    local committed=unchanged(run)
    eq(Run.choosePile(run,{selected.uid},pending.token,run.combatGeneration),false);committed()
   end)

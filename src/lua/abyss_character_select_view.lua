@@ -9,7 +9,12 @@ end
 function M.render(panel,state,platform)
     local info=state.info
     panel:GetChild('hint').text=info and '查看初始信息，确认后开始冒险。' or '点击下方角色查看详情，再确认出发。'
-    for i,id in ipairs(Select.characters)do selected(panel:GetChild(i==5 and 'traveler' or 'character'..i),state.character==id)end
+    for i,id in ipairs(Select.characters)do
+        local box=panel:GetChild(i==5 and 'traveler' or 'character'..i)
+        local allowed=state:allowsCharacter(id)
+        if box.visible~=allowed then box:SetVisible(allowed)end
+        selected(box,state.character==id)
+    end
     local traveler=state.character=='traveler'
     -- Theme layers are prebuilt per character/element; only visibility changes.
     local theme=traveler and state.element or state.character
@@ -19,10 +24,15 @@ function M.render(panel,state,platform)
         for _,id in ipairs(Select.elements)do group:GetChild(id):SetVisible(id==theme)end
     end
     panel:GetChild('elements'):SetVisible(traveler)
-    for i,id in ipairs(Select.elements)do selected(panel:GetChild('elements'):GetChild('element'..i),state.element==id)end
+    for i,id in ipairs(Select.elements)do
+        local box=panel:GetChild('elements'):GetChild('element'..i)
+        local allowed=state:allowsElement(id)
+        if box.visible~=allowed then box:SetVisible(allowed)end
+        selected(box,state.element==id)
+    end
     local details=panel:GetChild('details');details:SetVisible(info~=nil)
     local confirm=panel:GetChild('confirm'):GetChild('hit')
-    confirm.interactable,confirm.raycastTarget=info~=nil,info~=nil
+    confirm.interactable,confirm.raycastTarget=state:canConfirm(),state:canConfirm()
     if not info then return end
     details:GetChild('name').text=info.name
     details:GetChild('stats').text='初始生命 '..number(info.maxHp)..' / '..number(info.maxHp)..'    金币 '..number(info.gold)

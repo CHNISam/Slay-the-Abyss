@@ -23,6 +23,7 @@ function M.install(Run, shared)
                 'invalid campaign profile')
             assert(not options.campaign or options.experimental==true,
                 'campaign requires explicit experimental mode')
+            assert(require('abyss_run_admission').accepts(data,options),'competition_character_unavailable')
             if require('abyss_original_v4_profiles').is(options.character) then
                 data,profile=require('abyss_original_v4_profiles').prepare(data,options.character)
                 ownsData=true
