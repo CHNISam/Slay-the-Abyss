@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {prePlayerDeathSource} from './helpers/player-death-transition-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -6,7 +7,7 @@ import {preTask76OwnerSource,task76OwnerPaths} from './helpers/task76-owner-comp
 import {preBattleRefactorSource} from './helpers/battle-refactor-projection.mjs';
 import {postApprovedCardDragClickSource} from './helpers/task76-drag-click-inverse.mjs';
 const root='src/lua/abyss_battle_ui.lua';
-const read=file=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+const read=file=>prePlayerDeathSource(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const layer=JSON.parse(read('tests/fixtures/task76-owner-composition.json'));
 const frozen=JSON.parse(read('tests/fixtures/battle-ui-approved-responsibility-layer.json'));
