@@ -46,6 +46,8 @@ local function control()
  function c:AddCursorEventListener()end
  function c:SetImage()end
  function c:SetSizeDelta()end
+ function c:SetAnchoredPosition(x,y)self.position={x,y} end
+ function c:SetLocalScale(x,y,z)self.localScale={x,y,z} end
  return c
 end
 local root=control()

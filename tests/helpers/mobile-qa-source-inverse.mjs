@@ -7,7 +7,7 @@ import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const bytes=readFileSync('docs/reviews/mobile-qa-source-migration-20261028.json.gz');
-assert.equal(hash(bytes),'4d4596990459caf8aed9b347c65a9e760e79c7486ce5aeba39b511eeac7a7554');
+assert.equal(hash(bytes),'c9515d336515c9dff287a8d9a754f6c466907c236c3b2584f71b2edc1409fbac');
 export const mobileQaMigration=JSON.parse(gunzipSync(bytes));
 export function requireMobileQaSource(path,source){
  const binding=mobileQaMigration.files[path];
