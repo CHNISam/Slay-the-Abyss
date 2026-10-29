@@ -8,13 +8,13 @@ import {createHash} from 'node:crypto';
 const normalize = source => source.replaceAll('\r\n', '\n');
 const hash = source => createHash('sha256').update(source).digest('hex');
 const bytes = normalize(readFileSync(new URL('../fixtures/battle-life-source-layer.json', import.meta.url), 'utf8'));
-assert.equal(hash(bytes), '3851cc84f569b73c8ea94444f257d3f5b50fa9457146aecbbb4fef10b9861f87', 'complete battle-life outer source identity');
+assert.equal(hash(bytes), 'a008d197b328714b56fda9bd9c187d32517c9eb9d32845061aacc2772779857f', 'complete battle-life outer source identity');
 export const battleLifeSourceLayer = JSON.parse(bytes);
 assert.equal(battleLifeSourceLayer.schemaVersion, 1);
 assert.equal(battleLifeSourceLayer.baseCommit, 'd4c4b25594798f9d2f4fc6b66a061532c2b71595');
-assert.equal(battleLifeSourceLayer.reviewedHead, 'cb57bb21aaad4a3f26aeb40aa0955dfeb69de5f6');
+assert.equal(battleLifeSourceLayer.reviewedHead, '047f900cb83a5f3853510444b381dea6d8e80f5c');
 for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
-  assert.match(path, /^(?:src\/lua\/[^/]+\.lua|scripts\/[^/]+\.mjs|config\/[^/]+\.json|data\/presentation\/ui_theme\.json)$/);
+  assert.match(path, /^(?:src\/lua\/[^/]+\.lua|scripts\/[^/]+\.mjs|config\/[^/]+\.json|data\/presentation\/ui_theme\.json|tests\/ui-layout\.test\.mjs)$/);
   assert.match(binding.afterSha256, /^[a-f0-9]{64}$/);
   assert.ok(binding.beforeSha256 === null || /^[a-f0-9]{64}$/.test(binding.beforeSha256));
   assert.ok(Array.isArray(binding.hunks));

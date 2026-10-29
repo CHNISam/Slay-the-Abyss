@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baseCommit": "d4c4b25594798f9d2f4fc6b66a061532c2b71595",
-  "reviewedHead": "cb57bb21aaad4a3f26aeb40aa0955dfeb69de5f6",
+  "reviewedHead": "047f900cb83a5f3853510444b381dea6d8e80f5c",
   "files": {
     "config/architecture.json": {
       "beforeSha256": "810e2ff1aab8dcf29e1a6d260bb87cf692f8c30c7886180f7e048519249a2ee4",
@@ -30,6 +30,53 @@
           "before": [],
           "after": [
             "    \"actorIdle\": {\"period\": 3.6, \"scale\": 0.012, \"lift\": 1.2, \"sway\": 0.8, \"maxDelta\": 0.1},"
+          ]
+        }
+      ]
+    },
+    "scripts/native-candidate-audit.mjs": {
+      "beforeSha256": "c38cef6318cb794170520906c0fa104ccd7b2202c35909588d443d6b6cb17a89",
+      "afterSha256": "b537c29106727df38cc3aa484ace8a9c048ff8b6e08bbee87462dabed6dba7dc",
+      "hunks": [
+        {
+          "at": 37,
+          "before": [],
+          "after": [
+            "      // scene-save tint packs an image's white + opaque alpha as 0xffffffff;",
+            "      // its reader omits BOTH fields only for that exact packed default.",
+            "      || context === 'control' && value.kind === 'image' && name === 'colour'",
+            "        && typeof item === 'string' && item.toLowerCase() === '#ffffff'",
+            "        && (value.opacity === undefined || value.opacity === 1",
+            "          || source && validAlpha(value.opacity) && Math.round(value.opacity * 255) === 255)"
+          ]
+        }
+      ]
+    },
+    "scripts/test-lua.mjs": {
+      "beforeSha256": "977f7dde00e9c4d2a8b93de7abaf702e5b4595f7cd8c3fdeb8623e47553dc2d6",
+      "afterSha256": "66dc757b28cbe4a0f802d7f660299f1e91f8381bd44a08ac2e69aff2d3398ab2",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {frozenBattleHandPrelude} from '../tests/helpers/battle-life-frozen-hand.mjs';"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [],
+          "after": [
+            "  const frozenHand = frozenBattleHandPrelude(normalizedScript, {cwd});"
+          ]
+        },
+        {
+          "at": 47,
+          "before": [
+            "  try { result = spawnSync(process.execPath, [cli, '-e', `${selection}dofile(${luaString(temporary || resolve(cwd, script))})`], {"
+          ],
+          "after": [
+            "  try { result = spawnSync(process.execPath, [cli, '-e', `${selection}${frozenHand}dofile(${luaString(temporary || resolve(cwd, script))})`], {"
           ]
         }
       ]
@@ -137,7 +184,7 @@
     },
     "src/lua/abyss_feedback.lua": {
       "beforeSha256": "d47e183353e2a98f91084233606157b3e2fcfd24dbf36fd2be36c03a998c6244",
-      "afterSha256": "b4dd1315800e4255f337eaae42da58baa40b765c324a0fa318d08b54a1cb3279",
+      "afterSha256": "33f3566c8449800d4a3467a00d9f46cdf34c9ae4891fed517bc06acdadd23fa5",
       "hunks": [
         {
           "at": 6,
@@ -192,7 +239,9 @@
           "before": [],
           "after": [
             "    function self.bindIdle(_owner,battle)",
-            "        if not self.busy and self.idleBattle and self.idleBattle~=battle then self:reset() end",
+            "        local changing=self.idleBattle and self.idleBattle~=battle",
+            "            or battle and self.battle and self.battle~=battle",
+            "        if not self.busy and changing then self:reset(battle==nil) end",
             "        self.idleBattle = battle",
             "        if battle and not self.busy then self.shadow = battle end",
             "    end",
@@ -200,7 +249,7 @@
           ]
         },
         {
-          "at": 176,
+          "at": 178,
           "before": [],
           "after": [
             "        if self.cast then overlay:GetChild('sweep'):SetVisible(false) end",
@@ -208,24 +257,32 @@
           ]
         },
         {
-          "at": 203,
+          "at": 205,
           "before": [
-            "    function self:reset()"
+            "    function self:reset()",
+            "        self.battle = nil"
           ],
           "after": [
-            "    function self.reset()"
-          ]
-        },
-        {
-          "at": 205,
-          "before": [],
-          "after": [
+            "    function self.reset(_owner,retainHistory)",
+            "        -- Hiding/rewards retire visuals, but terminal death evidence still belongs",
+            "        -- to this battle. Cancellation and the next battle clear that history.",
+            "        local history=retainHistory and self.deaths or {}",
+            "        self.battle = retainHistory and (self.battle or self.idleBattle) or nil",
             "        self.idleBattle, self.idleClock, self.shadow = nil, 0, nil",
             "        self.cardFlow:reset()"
           ]
         },
         {
-          "at": 220,
+          "at": 221,
+          "before": [
+            "        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, {}, {}, {}, nil, {}"
+          ],
+          "after": [
+            "        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, history, {}, {}, nil, {}"
+          ]
+        },
+        {
+          "at": 225,
           "before": [],
           "after": [
             "        if not failure and self.battle and self.shadow then",
@@ -238,7 +295,7 @@
           ]
         },
         {
-          "at": 234,
+          "at": 239,
           "before": [
             "    function self:cancel()"
           ],
@@ -247,14 +304,14 @@
           ]
         },
         {
-          "at": 297,
+          "at": 302,
           "before": [],
           "after": [
             "        self.cardFlow:playing(d,self.flight)"
           ]
         },
         {
-          "at": 411,
+          "at": 416,
           "before": [],
           "after": [
             "    local function startCast(d,kind,style)",
@@ -276,7 +333,7 @@
           ]
         },
         {
-          "at": 431,
+          "at": 436,
           "before": [
             "        -- The played card stays for the contact frame and dissolves into the strike."
           ],
@@ -285,7 +342,7 @@
           ]
         },
         {
-          "at": 436,
+          "at": 441,
           "before": [
             "        hideOverlay(landing)"
           ],
@@ -296,19 +353,12 @@
           ]
         },
         {
-          "at": 442,
+          "at": 447,
           "before": [
             "            self.dissolve = 0"
           ],
           "after": [
             "            self.dissolve = nil"
-          ]
-        },
-        {
-          "at": 456,
-          "before": [],
-          "after": [
-            "            startCast(d,kind,style)"
           ]
         },
         {
@@ -319,7 +369,14 @@
           ]
         },
         {
-          "at": 470,
+          "at": 466,
+          "before": [],
+          "after": [
+            "            startCast(d,kind,style)"
+          ]
+        },
+        {
+          "at": 475,
           "before": [
             "    function self:start(before, battle, first, presentation, origin)"
           ],
@@ -328,7 +385,7 @@
           ]
         },
         {
-          "at": 601,
+          "at": 606,
           "before": [],
           "after": [
             "    local function skillImpact(effect,sample,e)",
@@ -343,7 +400,7 @@
           ]
         },
         {
-          "at": 619,
+          "at": 624,
           "before": [
             "            local ix,iy,iy0=impactShape(effect,sample,e)"
           ],
@@ -352,7 +409,7 @@
           ]
         },
         {
-          "at": 621,
+          "at": 626,
           "before": [
             "            impact:SetAnchoredPosition(0, iy0)"
           ],
@@ -361,7 +418,7 @@
           ]
         },
         {
-          "at": 623,
+          "at": 628,
           "before": [
             "            tint(impact,shardInk,shardAlpha)"
           ],
@@ -370,7 +427,7 @@
           ]
         },
         {
-          "at": 697,
+          "at": 702,
           "before": [
             "        local _, box = actor(id)"
           ],
@@ -379,7 +436,7 @@
           ]
         },
         {
-          "at": 700,
+          "at": 705,
           "before": [
             "        local x, y, sx, sy, ink, flash, alpha = 0, 0, 1, 1, base, 0, 1"
           ],
@@ -388,7 +445,7 @@
           ]
         },
         {
-          "at": 702,
+          "at": 707,
           "before": [],
           "after": [
             "        local motionState=ActorMotion.state(unit,posed,self.effects[id],self.dying[id],self.escaping[id])",
@@ -396,7 +453,7 @@
           ]
         },
         {
-          "at": 707,
+          "at": 712,
           "before": [
             "            x, sx, sy = px, ps, ps"
           ],
@@ -405,7 +462,7 @@
           ]
         },
         {
-          "at": 728,
+          "at": 733,
           "before": [
             "    function self:update(dt)",
             "        if not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve then return end"
@@ -416,7 +473,7 @@
           ]
         },
         {
-          "at": 732,
+          "at": 737,
           "before": [
             "            self.elapsed = self.elapsed + dt"
           ],
@@ -427,7 +484,7 @@
           ]
         },
         {
-          "at": 780,
+          "at": 785,
           "before": [],
           "after": [
             "                sweep.localRotationZ=0",
@@ -435,7 +492,7 @@
           ]
         },
         {
-          "at": 787,
+          "at": 792,
           "before": [],
           "after": [
             "            if self.cast then",
@@ -453,7 +510,7 @@
           ]
         },
         {
-          "at": 800,
+          "at": 805,
           "before": [],
           "after": [
             "            if self.idleBattle and self.shadow then",
@@ -463,7 +520,7 @@
           ]
         },
         {
-          "at": 821,
+          "at": 826,
           "before": [
             "    function self:begin(...)"
           ],
@@ -477,6 +534,29 @@
       "beforeSha256": null,
       "afterSha256": "6bc4bbfc994d1b031f0857a4f690a1c7e9a405ec457d542abf82497e91f3dce6",
       "hunks": []
+    },
+    "tests/ui-layout.test.mjs": {
+      "beforeSha256": "05c66d61bc6a5f5d9628735356605871b5ce2c9b574539f39924ca58472d49a1",
+      "afterSha256": "191ac6026e30bebb079ea934bd4f8fe724ff4426d2e3003f4b3ced5f0e24361b",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [
+            "  assert.equal(overlay.children.length, 5);"
+          ],
+          "after": [
+            "  const trails = overlay.children.filter(control => /^cardTrail\\d+$/.test(control.name));",
+            "  assert.equal(trails.length, 10);",
+            "  for (const [index, trail] of trails.entries()) {",
+            "    assert.equal(trail.name, `cardTrail${index + 1}`);",
+            "    assert.equal(trail.visible, false);",
+            "    assert.deepEqual(trail.size, theme.layout.card.size);",
+            "    assert.deepEqual(trail.children.map(control => control.name), ['plate', 'art', 'name']);",
+            "  }",
+            "  assert.equal(overlay.children.length, 15);"
+          ]
+        }
+      ]
     }
   }
 }
