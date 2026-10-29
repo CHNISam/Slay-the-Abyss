@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 const normalize = source => source.replaceAll('\r\n', '\n');
 const hash = source => createHash('sha256').update(source).digest('hex');
 const bytes = normalize(readFileSync(new URL('../fixtures/hero-visual-source-inverse.json', import.meta.url), 'utf8'));
-assert.equal(hash(bytes), '0c217f39d9c5bab23006cc822529c653ede6d03a8377485083724f8e4f042986', 'complete hero-visual replay layer identity');
+assert.equal(hash(bytes), '3bcd94e59c181c835fe82ae2087c407f25e716e4a5773fda664bed7e00a7151c', 'complete hero-visual replay layer identity');
 export const heroVisualProof = JSON.parse(bytes);
 assert.equal(heroVisualProof.schemaVersion, 1);
 

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-29 12:33'
+updated_date: '2026-10-29 14:45'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -60,6 +60,8 @@ ordinal: 121000
 2026-10-29用户确认本次比赛只开放岩系旅行者，雷电将军保留全源码开发/未来版本；本轮在accepted develop e22a443e上重放PR322并保留选择前、适配前和取种子前身份拒绝，复原PR315原15项有界拖牌回归及accepted324探针；单角色公开入口和full-source八角色分别验证，只本地提交待根线程审查，不发布或实机。
 
 2026-10-29独立审查prepared UI原33情景在原30秒预算下29.05秒通过（本轮此前28.11秒），按根线程授权只将原断言/种子/顺序以有界范围分为两进程；用完整源SHA/Git blob逆变换和用例编号联合证明原33情景逐项仅一次，保留原30秒与原runner。无运行时改动，不增加验收通过声明。
+
+PR338合并前修复：复现CI断言；将神像显示拆为独立职责，接齐精确历史投影与新预选/无电影流程回归；运行定向测试及当前SHA Quality。保持平台验收未勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
