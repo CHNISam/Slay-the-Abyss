@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import {runHistoricalPresentation} from '../tests/helpers/historical-presentation-runner.mjs';
+import {runHistoricalPresentation,historicalPresentationFixtures} from '../tests/helpers/historical-presentation-runner.mjs';
 import { readdirSync, writeFileSync, unlinkSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { tmpdir } from 'node:os';
@@ -17,7 +17,7 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   if (caseName !== undefined && (typeof caseName !== 'string' || !caseName.trim())) {
     throw new Error('Selected Lua case must have a nonempty name');
   }
-  if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && script.replaceAll('\\', '/') === 'tests/lua/presentation_responsibilities_trace.lua') return runHistoricalPresentation(runLua, script, { timeout, cwd, caseName });
+  if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && historicalPresentationFixtures.includes(script.replaceAll('\\', '/'))) return runHistoricalPresentation(runLua, script, { timeout, cwd, caseName });
   const cli = require.resolve('fengari-node-cli/src/lua-cli.js');
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.

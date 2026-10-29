@@ -37,7 +37,14 @@ local function startup(hostFlag,layoutFlag)
         ServerSignal=function()return{SendSignal=function()signals=signals+1 end}end}
     local actualNew,actualPrint,actualSeed=GameUI.new,print,Seed.next
     local ui
-    GameUI.new=function(...)ui=actualNew(...);return ui end
+    GameUI.new=function(...)
+        if hostFlag==true then
+            local platform=select(5,...)
+            platform.characterProfile='dev'
+            platform.campaignProfile='full-source'
+        end
+        ui=actualNew(...);return ui
+    end
     print=function(...)
         local values={};for i=1,select("#",...) do values[i]=tostring(select(i,...)) end
         lines[#lines+1]=table.concat(values," ");actualPrint(...)

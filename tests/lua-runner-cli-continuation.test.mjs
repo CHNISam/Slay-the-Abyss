@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, writeFileSync, rmSync, rmdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import {historicalPresentationFixtures,runHistoricalPresentation} from './helpers/historical-presentation-runner.mjs';
 
 const cli = fileURLToPath(new URL('../scripts/test-lua.mjs', import.meta.url));
 const artifactRoot = resolve('.artifacts/lua-runner-cli-tests');
@@ -28,7 +29,7 @@ const invoke = (cwd, args = []) => spawnSync(process.execPath, [...args, cli],
 
 test('a same-named fixture in another workspace remains an ordinary real Lua script',()=>{
   withWorkspace("print('OTHER_WORKSPACE')\n",cwd=>{
-    const name='tests/lua/presentation_responsibilities_trace.lua';
+    for(const name of historicalPresentationFixtures){
     writeFileSync(join(cwd,name),"print('INDEPENDENT_TRACE_FIXTURE_PASS')\n");
     try{
       const result=spawnSync(process.execPath,[cli,name],{cwd,encoding:'utf8',timeout:5000});
@@ -36,7 +37,20 @@ test('a same-named fixture in another workspace remains an ordinary real Lua scr
       assert.match(result.stdout,/INDEPENDENT_TRACE_FIXTURE_PASS/);
       assert.doesNotMatch(result.stdout,/Historical presentation replay/);
     }finally{rmSync(join(cwd,name));}
+    }
   });
+});
+
+test('historical routing permits only both complete exact fixtures without case selection',()=>{
+  assert.deepEqual(historicalPresentationFixtures,[
+    'tests/lua/presentation_responsibilities_trace.lua',
+    'tests/lua/presentation_responsibilities_text.lua',
+  ]);
+  for(const name of ['presentation_responsibilities_text.lua','tests/lua/presentation_responsibilities_text.lua.extra',
+    'other/presentation_responsibilities_trace.lua'])
+    assert.throws(()=>runHistoricalPresentation(null,name),/only exact historical presentation fixtures/);
+  for(const name of historicalPresentationFixtures)
+    assert.throws(()=>runHistoricalPresentation(null,name,{caseName:'one case'}),/complete historical scenario/);
 });
 
 test('actual CLI continues after ordinary Lua failure and retains failure after later success', () => {

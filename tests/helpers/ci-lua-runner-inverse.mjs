@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import {preMobileQaSource} from './mobile-qa-source-inverse.mjs';
 
 // Invert only the reviewed scheduling edit. The original whole-runner hash
 // still protects every deadline, child process option, output and failure path.
 export function originalLuaRunner(source) {
+  source = preMobileQaSource('scripts/test-lua.mjs', source);
   source = source.replaceAll('\r\n', '\n');
   const currentUrlImport="import { pathToFileURL, fileURLToPath } from 'node:url';\n";
   assert.equal(source.split(currentUrlImport).length,2,'exact historical root URL import');
