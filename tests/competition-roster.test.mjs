@@ -1,3 +1,4 @@
+import {prePlayerDeathSource} from './helpers/player-death-transition-inverse.mjs';
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,7 +13,7 @@ test('roster source inverse preserves the complete accepted sources and rejects 
   assert.deepEqual(Object.keys(proof.files),['src/lua/abyss_game_ui.lua','src/lua/abyss_character_select_view.lua','config/architecture.json']);
   for(const [path,binding]of Object.entries(proof.files)){
   const project=path.endsWith('abyss_game_ui.lua')?preRetirementSource:preAcceptedPresentation;
-  const source=preRosterConfigSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'),'roster');
+  const source=preRosterConfigSource(path,prePlayerDeathSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n')),'roster');
   const before=preRosterSource(path,source);
   assert.notEqual(source,before);
   assert.equal(createHash('sha256').update(before).digest('hex'),binding.beforeSha256);
