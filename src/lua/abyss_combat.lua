@@ -856,15 +856,15 @@ local function finishQueuedPlay(state)
     drainNative(state)
     finish(state)
 end
-function M.chooseDiscard(state,uids,token)
-    local discard=require('abyss_discard')
+function M.chooseDiscard(state,uids,token,_generation,rollbackOwner)
+    local discard,snapshot=require('abyss_discard'),require('abyss_snapshot')
     if not state.actionQueue then
-        local restore=require('abyss_snapshot').capture(state)
+        local restore=rollbackOwner and snapshot.ownedRestore(rollbackOwner,state)or snapshot.capture(state)
         local called,ok,reason=pcall(function()local accepted,why=discard.choose(state,uids,token,M);if accepted then drainNative(state);finish(state)end;return accepted,why end)
         if not called then restore();error(ok,0)end;return ok,reason
     end
     if not (state.pendingPlay or state.startTurnPending) or not state.pendingDiscard then return false,'no_pending_discard' end
-    local restore=require('abyss_snapshot').capture(state)
+    local restore=rollbackOwner and snapshot.ownedRestore(rollbackOwner,state)or snapshot.capture(state)
     local called,ok,reason=pcall(function()
         local accepted,why=discard.choose(state,uids,token,M)
         if not accepted then return false,why end
@@ -1894,7 +1894,7 @@ end
 
 -- Advanced cleanup can invoke several card/power hooks. Keep end-turn errors
 -- atomic just like a paused play, including costs reset before queued actions.
-function M.endTurn(state)
+function M.endTurn(state,rollbackOwner)
     if state.pendingPotionChoice then return false,'potion_choice_pending'end
     if not state.originalV4 and state.silentRetainResume and state.actionQueue and state.actionQueue.paused
         and state.actionQueue.current.effect.op=='ownerEndRetain'then
@@ -1908,7 +1908,7 @@ function M.endTurn(state)
     if state.originalV4 or advancedTurnCleanup(state)or require('abyss_act3_powers').active(state)
         or Darklings.active(state) or Awakened.active(state) or require('abyss_giant_head').active(state)
         or require('abyss_end_turn_powers').needed(state,require('abyss_act3_powers'))then
-        local restore=require('abyss_snapshot').capture(state)
+        local restore=rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
         local resolver=(state.originalV4 or not state.experimentalMechanics)and endNativeTurn or endExperimentalTurn
         local called,ok,reason=pcall(resolver,state)
         if not called then restore();error(ok,0)end
@@ -1916,7 +1916,7 @@ function M.endTurn(state)
     end
     if not state.experimentalMechanics then return endNativeTurn(state) end
     if not advancedTurnCleanup(state) then return endExperimentalTurn(state) end
-    local restore=require("abyss_snapshot").capture(state)
+    local restore=rollbackOwner and require('abyss_snapshot').ownedRestore(rollbackOwner,state)or require('abyss_snapshot').capture(state)
     local called,ok,reason=pcall(endExperimentalTurn,state)
     if not called then restore();error(ok,0) end
     return ok,reason

@@ -1,3 +1,4 @@
+import {projectEventSnapshotSource} from './event-snapshot-composition.mjs';
 // Exact test-only outer layer for the production Duplicator and Match events.
 // Current event tests load the live modules; only historical witnesses use this inverse.
 import assert from 'node:assert/strict';
@@ -29,6 +30,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  assert.notEqual(binding.beforeSource,binding.afterSource,'only changed event production inputs: '+path);
 }
 export function requireEventProductionSource(path,source){
+ source=projectEventSnapshotSource(path,source,'event');
  const binding=proof.files[path];
  assert.ok(binding,'registered event production source: '+path);
  assert.equal(typeof source,'string','event production source must exist: '+path);
@@ -36,6 +38,7 @@ export function requireEventProductionSource(path,source){
  return binding;
 }
 export function preEventProductionSource(path,source){
+ source=projectEventSnapshotSource(path,source,'event');
  const binding=proof.files[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=normalize(source);

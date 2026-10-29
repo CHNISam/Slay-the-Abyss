@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-29 14:44'
+updated_date: '2026-10-29 14:47'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -25,6 +25,8 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
   - docs/M3-STATUS-20261028.md
+  - docs/backlog-details/MOBILE-QA-20261029.md
+  - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
 parent_task_id: TASK-13.1
 priority: medium
 ordinal: 54000
@@ -44,12 +46,16 @@ ordinal: 54000
 - [ ] #4 将比赛可用事件按明确冻结配置、原版资格、原池顺序和随机消费接正式池；独立回归证明授权排除持久Save依赖不是缺项重抽，保留内容概率不得暗改。
 - [ ] #5 配对与转化候选接通正式事件路由、原生界面和永久奖励事务，并完成平台验收。
 - [ ] #6 比赛可用且不依赖持久Save的全部合法事件经正式玩法遇到并完成，覆盖空牌组、资格不足和重复输入，保留对应实机证据；跨局留卡/历史资格未完成保留未来。
+- [ ] #7 对唯一合法事件出口建立缺映射、资格失败和准备失败的定向回归；失败保留资源及随机流，冻结比赛可用内容在正常路径又必须能够完成，不以正确拒绝代替可玩。
+- [ ] #8 记录本次或同类失败的seed、节点、原始事件ID、映射ID、reason和随机计数；补齐获准池的映射到原生完成链，并在实际公开范围两幕复验同类软锁。
 <!-- AC:END -->
 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
 按固定来源补齐冻结比赛清单内不依赖持久Save的第一幕事件及所有合法选项、资格和随机消费。保留25项历史源目录并明确A Note For Yourself跨局留卡移TASK-53，WeMeetAgain同局交易和普通/神龛/一次性事件生命周期保留。自然获取与同候选平台证据未齐不得完成。
+
+先锁候选及失败状态，再双向核对冻结池/映射/准备/原生选项/完成事务。沿用授权的持久Save排除，不扩大排除集合；定向和自然流程分别验收。
 
 PR334收口：补齐事件清单完整来源回放登记，保留原始来源与严格断言，跑当前事件及历史回放后推送当前PR；不勾平台验收。
 <!-- SECTION:PLAN:END -->
@@ -87,4 +93,11 @@ M3末张移除切片：固定CardGroup/Cleric/PurificationShrine/GoldenWing方�
 原AC6（仅保留历史要求，不再作为当前比赛必做）：全部合法事件经正式玩法遇到并完成，覆盖空牌组、资格不足和重复输入，保留对应实机证据。
 
 PR286历史离线切片：Mushrooms两次fight、三Fungi事件战斗、Odd Mushroom、25%先治疗后Parasite已接通；来源锁、随机顺序与回滚保留。范围及AC沿用最新主线；无自然/平台验收。
+
+2026-10-29 P0新增实玩证据：录音31:26–32:49及IMG_1192/1193，唯一可走事件提示尚未实现，玩家被迫放弃。20a74da的nodes_entry.drawEvent映射/validateEvent/prepareFlow失败由Nodes.enter事务回滚，可能同随机状态重复失败；尚无实际seed/eventId，不猜具体缺项或服务器故障。旧七房间Done不抵消新版本阻塞，严禁重抽/乱换战斗金币/静默删池掩盖。详见报告§3C。
+
+P0作者独立工作树证据交接（原备注保留；范围以其后同次纠正为准）：
+2026-10-29独立复现：实际普通玩家OnStart(IsTestPlay=false)与旅行者确认产生competition-two-act，但campaign将restricted-seven覆盖为full。canonical seed105第一战受控胜利后，正常奖励/完成命令到f1_l7，唯一出口f2_l7抽到Match and Keep!，缺contentId并返回event_not_implemented；三次原样重试保留完整run/map/原引用及RNG。新增本地断言先RED，证据在工作区m3-public-event-admission-evidence-20261029/seed105-red.txt（2.77秒、原30秒限额）。现有Act2 15组通过，确认Beggar空组强制移除仍pending、完整源13+6及拒绝回滚仍受保护。第一幕保留既有范围、第二幕显式冻结名单尚待用户确认；源码策略未改，没有候选/导入/设备或自然通关新证据，AC3–6不勾。
+
+2026-10-29 06:21范围问题修正（同次合流附记）：上述「第一幕保留既有范围、第二幕显式冻结名单尚待用户确认」仅为06:09历史措辞，已由Owner待答问题Sentinel_4fca732b09648191b5b3fb8422617dc5覆盖：第一幕和第二幕两份显式、已验证可完成的事件冻结表都尚待批准。没有已批准名单、运行时策略或准入/游戏数据变更；受控seed105、受控念珠耗尽与开发路由测试均不能充当用户该局事件身份、自然持有/通关或设备证明。仅承接作者已有证据备注，不导入其旧计划、不扩大任务。TASK-13.1.2保持In Progress/Furinya，已有历史勾选不改，未验AC不勾。
 <!-- SECTION:NOTES:END -->

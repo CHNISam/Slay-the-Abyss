@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-29 03:25'
+updated_date: '2026-10-29 12:31'
 labels: []
 dependencies: []
 priority: medium
@@ -41,6 +41,12 @@ PR316核心超时修复已由accepted PR313（cec690c1）交付；本轮仅在�
 修复已复现的Windows原生分片探针命令行过长：仅将完整文件名argv改为临时目录内的短模式原生发现，保留8/4分片、恰好一次覆盖及原时限；加大清单回归并等待真实Windows CI。
 
 2026-10-29 PR322接续实际develop e22a443e（accepted PR324）：保留324相对参数便携合同与316/319/813全部执行历史。继续采用813经Windows八片JavaScript门禁通过的原生短模式helper和512长文件名回归；两个逐片循环明确验证实际.test.mjs实参恰为单个相对*.test.mjs，不含绝对根目录或随清单增长的逐文件参数。独立树外比较当前完整清单相对basename参考与短模式的8/4逐片名称完全一致，普通CI不重复增加该比较。仅CI探针与任务81备注差异，生产及来源证明逐byte保持813；新HEAD仍须新完整Quality。
+
+PR332已复现Silent自然构筑夹具在Windows原30000ms超时；仅诊断并消除同一未变决策状态内重复纯查询，先核对canPlay/intent/attackAmount实现与计数耗时。保留同一VM两次seed177136完整四房真实命令、全部断言和完整状态签名；验证原预算计时、逐命令/最终状态等价与负对照。仅本地提交，后续独立审查与新HEAD完整Quality另验；Furinya、In Progress、性能AC不变。
+
+2026-10-29已获独立小切片授权：从accepted develop ea13ede7新工作树出发，冻结原自然构筑夹具；仅把既有单次精确parent-preimage owner能力从Run传给Combat.chooseDiscard第五参数和Combat.endTurn第二参数，在原capture点消费或原样fallback。Run.endTurn按Run.play模式capture(run,combat)并在成功/拒绝/错误释放owner；不改snapshot遍历、不排除图数据、不加绕过flag。先补独立/有效/失效/复用/跨战斗owner及完整图晚失败回滚、续选/回合推进回归，再验capture180→142、174命令/两份完整签名、原30秒自然回放与相关工程。保留本任务全部历史、负责人Furinya/In Progress/AC；只本地提交待独立审查，不push/PR/合并。
+
+2026-10-29 Agent B：分析a5da67aa及真实PR Full回退，最小改善影响选择，补正反例，保留高风险与未知依赖Full及失败传播；精确PR SHA绿灯后才合并。Fast百分位样本不足只报告观测。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -73,4 +79,10 @@ PR319已合入48cb48ce（cec唯一父），吸收严格交付schema3/真实目�
 e22本地重放验证：相对basename参考与短模式原生CLI对当前360个JS文件在八片（每片45）及四片（每片90）的有序名称逐片完全一致，比较脚本和完整清单证据仅在/tmp/sta-pr322-e22-refresh-20261029/native-parity.json，不加入普通CI重复开销。两个实际CLI循环均拒绝绝对模式参数变异；恢复后聚焦8/8及原指定纯合同65/65全部通过、0skip，Linux Node24.22.1。语法、网络、Backlog、diff检查通过；新树相对813仅两份CI探针及本任务备注变化，其他4187个跟踪条目的blob与mode完全相同（包含全部运行时、数据及冻结来源证明）。Furinya/In Progress/性能AC0/3不变；未远端更新、未重跑Lua/全套，新HEAD实际Windows及完整Quality仍待正式Runner。
 
 2026-10-29收敛复核：外部PR322新head265dc684基于accepted324/e22a443e，但再次覆盖其已接受原排序basename/cwd两份探针为glob/helper/512文件库存方案。本次保留该外部提交和全部历史备注，只以最小后续提交恢复e22a443e两份测试逐字节身份并移除替代helper，不重写远端历史、不改原预算；当前组合仍待独立审查及完整托管CI，不追认旧绿灯。
+
+2026-10-29 PR332原30000ms超时诊断，未修复：起始工作树与远端head均7d35b641，实际develop ea13ede7；沿用缓存依赖，无安装。Linux Node24.22.1原runLua两次同VM自然重放23.978秒。只在/tmp/silent-natural-budget-20261029构造纯incoming/弃牌score局部缓存实验；读过canPlay/intent/attackAmount及其只读适配路径，不重排canPlay。174条实际命令及两份完整canonical状态与原版逐字节相同，基准/缓存带轨迹计时22.416/23.021秒，未证实有效加速。原版画像canPlay556次0.210秒、score540次0.053秒；含嵌套incoming208次0.034秒/intent266次0.021秒，全部可消除查询成本也不足0.3秒。另次画像总24.335秒，Snapshot.capture180次17.929秒（约74%），真正瓶颈在运行时完整事务图捕获，不在决策查询。跨命令误复用cache的临时负例被原毒刺/Bane断言拒绝；仅第二次重放改变真实nextDeckUid的临时负例被完整重构状态相等断言拒绝。生产夹具SHA256仍979708a7554d9d6467c34646e089f70dccdaee648f09893366ac5b7eccecf3e5，原seed177136、同VM两次四房、75green定义/71source奖励、全部断言、snapshot原证明、预算和运行时均未修改；不提交无效缓存，不把Linux偶然过预算称为Windows修复。日志/轨迹/画像/可复现临时变体及evidence.json在上述/tmp目录。Backlog与diff检查通过；当前未获新Windows或Full成功，TASK81保持Furinya/In Progress/0项AC，后续需另授权运行时事务捕获等价优化并独立审查/当前HEAD完整Quality，不能豁免或加预算。
+
+2026-10-29独立运行时性能切片（本地待独立审查/Windows Full）：accepted develop ea13ede7新建perf/nested-command-snapshot-owner-20261029，保留docs PR332与证据提交2ca4。仅src/lua/abyss_run.lua、abyss_combat.lua复用既有精确单次owner：continuation第五参数转发，discard原两capture点消费或完整fallback；Run.endTurn按Run.play捕获完整Run+combat目标、第二参数转发并在成功/false/throw释放，Combat.endTurn仅替换原capture点。snapshot实现、图遍历、规则/RNG、独立调用边界和原30秒不变，不新增绕过flag。原Silent夹具字节不变（979708a7…cf3e5），seed177136同VM两轮及75定义/71source池完整保留；全部174命令与两份完整canonical签名逐字节等价。画像capture180→142（恰少12次discard+26次endTurn内层），capture耗时17.929→15.561秒；全部查询计数不变。Linux Node24.22.1串行原预算配对22.260→20.548秒（约7.7%，本地余量9.452秒），优化画像21.835秒/带轨迹20.934秒，不宣称Windows已修复。既有PR323/snapshot witness逐字节保留，新加两文件完整hash逆向证明，仅对PR323原登记路径外层组合，部分/漂移/跨路径负例仍拒绝。最终专项12/12无skip，新Lua切片4+4+3组约6.15/9.51/5.82秒；原基线先红、新实现绿，伪造owner绕过、未释放owner、内层不回滚、外层晚失败不回滚四个临时变异全部被目标断言杀死。33个相关Lua夹具156.17秒全部通过，含各Run choice/turn-reward rollback、owner-end/retention、复活、蜥蜴尾巴、Silent75×2实出牌矩阵及最终边界；check:engineering完整通过（258模块/3955测量、架构1441边、Luacheck无新增、4关键变异kill、4原生合同通过）。数据、Backlog、网络、语法/diff通过；仅沿用缓存依赖和固定hash Luacheck，无安装/桌面输入。首次新late-finish测试的计数假设2!=1失败原日志保留，已明确断言一个父快照+既有独立settlement快照（2次/1owner），未删除回滚断言。证据在/tmp/nested-command-owner-20261029；完整相关选择器实际为280 JS+1066 Lua，未冒称已本地全跑。新HEAD尚无独立审查/托管Windows及完整Quality，不push/PR/合并；Furinya、In Progress、全部AC不变。
+
+2026-10-29 B独立切片：只修正Fast估算为max(Windows完整选集总和,Linux完整选集总和)，保留全部选集、Lua/未知权重和180秒阈值；详见docs/backlog-details/TASK-81-fast-platform-budget.md。真实40866923323/40861929035的Backlog未知/核心回退继续Full；无自然Fast转换样本，不宣称目标达成。聚焦先红3/4证明旧算法回退，后续98/98通过且扩充影响计划失败传播负例；固定CI Node24.18验证待补。保持In Progress/性能AC未勾。
 <!-- SECTION:NOTES:END -->

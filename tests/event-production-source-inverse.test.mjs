@@ -1,3 +1,4 @@
+import {projectEventSnapshotSource} from './helpers/event-snapshot-composition.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -9,7 +10,7 @@ const helper=existsSync(new URL(helperPath,import.meta.url))?await import(helper
 const normalize=source=>source.replaceAll('\r\n','\n');
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const blob=source=>createHash('sha1').update(`blob ${Buffer.byteLength(source)}\0`).update(source).digest('hex');
-const read=path=>normalize(readFileSync(path,'utf8'));
+const read=path=>normalize(projectEventSnapshotSource(path,readFileSync(path,'utf8'),'event'));
 const put=(root,path,source)=>{mkdirSync(dirname(join(root,path)),{recursive:true});writeFileSync(join(root,path),source);};
 const temporary=()=>{mkdirSync('build',{recursive:true});return mkdtempSync(resolve('build/event-source-proof-'));};
 

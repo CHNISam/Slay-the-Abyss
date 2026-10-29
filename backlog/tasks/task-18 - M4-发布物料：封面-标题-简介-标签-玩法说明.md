@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-29 04:17'
+updated_date: '2026-10-29 06:46'
 due_date: '2026-10-29'
 labels: []
 milestone: m-6
@@ -16,6 +16,8 @@ references:
   - docs/backlog-details/MOBILE-QA-20261028.md
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/backlog-details/MOBILE-QA-20261029.md
+  - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
 priority: medium
 ordinal: 18000
 ---
@@ -33,8 +35,9 @@ ordinal: 18000
 - [ ] #3 一页玩法说明讲清操作、规则和通关条件。
 - [ ] #4 实际打开发布和报名页面核对字段、图片要求和作品编号，留截图；这里只检查，不代你发布。
 - [ ] #5 封面与投稿材料在目标设备显示正确，来源和授权清楚。
-- [ ] #6 最终物料准确描述已验收开放的岩系旅行者、雷电将军及两幕；未开放或未实测内容不宣传为交付。
+- [ ] #6 最终物料准确描述当前已验收公开的岩系旅行者及第一、第二幕；雷电和其他未开放内容不宣传为交付。
 - [ ] #7 定位并核对加载封面的原图、导出文件和实际平台绑定；同候选手机加载画面只显示一个标题数字2，宽屏扩展不复制带字区域。
+- [ ] #8 本轮加载封面报告取得实际源文件、上传绑定和目标手机加载截图后才能关闭；重截发布UI图只使用当前已验收的公开玩法，不拿旧包或原型宣传。
 <!-- AC:END -->
 
 ## Implementation Notes
@@ -68,4 +71,7 @@ PR #304：手机截图加载画面出现两个2；源图及装配根因未知，
 2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160组合或新候选）：
+2026-10-29录音再次要求更换加载图，当前26张去重截图没有加载封面，不能把IMG_1165地图当封面根因证据。继续查原图→导出→实际绑定→手机宽屏显示，修好后重截宣传图。按已合SCOPE 10/29仅宣传公开岩系旅行者两幕；旧AC6两职业要求保留历史，不代表雷电已公开。游戏内删操作说明不等于删除投稿所需外部玩法说明。
 <!-- SECTION:NOTES:END -->

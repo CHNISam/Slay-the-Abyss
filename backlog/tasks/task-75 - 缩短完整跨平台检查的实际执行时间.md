@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-28 09:08'
+updated_date: '2026-10-29 12:36'
 labels: []
 dependencies: []
 priority: medium
@@ -35,6 +35,8 @@ ordinal: 120000
 接续 PR267 当前9bab完整Quality三个独占30秒超时：先保留原CI和本地串行基线，采样定位验证开销；elite独立6组可按既有严格原文逆向模式分片，Silent同一实例两次完整四房及canonical比较、Intent连续双回合逐帧全字段检查保持。仅证明等价的测试层最小优化，不改运行时规则、原预算或有效断言；新精确头完整Quality仍待。
 
 本轮集成收口：固定develop d2e0baa3的失败日志，复现unknown_event_routing 110种子独占30秒超时；先测保持同一原文helper的更小独立完整种子分区，必须覆盖原220种子、四路由/七事件及所有每种子断言，不改生产逻辑或预算。独立补反向重建/分区负例，再以精确PR HEAD与合入develop完整CI验收。
+
+2026-10-29 Agent A：基于a5da67aa及最新CI原始时序检查权重与分片调度，仅最小调整ci-shards与专用测试；保持完整覆盖、原超时，不修改quality.yml。本轮必须精确PR SHA门禁全绿才合并。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -59,4 +61,8 @@ PR2679bab 的完整Quality40642815774仍有Silent/Intent/Elite三项独占30s超
 继续按用户“处理好”授权完成集成；免费OpenCode路径因TASK51已记录限额且无恢复依据，本轮由Codex直接处理，不发试额度请求。当前develop CI40657289890的rules1失败为unknown_event_routing.lua原30000ms ETIMEDOUT，其余7规则片及POSIX/presentation通过。
 
 unknown路由修复：原110种子独占在Node22复现原30s超时；简单55种子半组缺稀有路由的诊断保留，未采纳删汇总。改4个55种子真实入口，逐种子原文反向重建hash a4d67d6a；真实完成记录1..220精确无重漏，原Lua四路由/七事件断言继续分别验证1..110及111..220。实际缺路由/事件负例均拒绝。Node24.19串行13/13过、0skip，76.653秒，全部子进程保持原30s；精确托管Node24.18完整CI和合后CI仍待。详见docs/reviews/INTEGRATION-CI-20261028.md。
+
+2026-10-29 Agent A：仅校准完整JS权重（385文件/平台）与首片门禁75s/44s；原974 Lua权重、fallback、worker分类逐值不变，未修改ci-shards算法或workflow。来源40866923323 attempt2，真实checkout3cd0a668与起点a5da67aa同tree50c3882a；PR head1cdee不混作执行SHA。相邻成功40865898601独立回放仍预测Windows JS峰值降13.94%、Linux降15.49%，只是离线回放，完整新CI待。明细docs/reviews/CI-SHARDS-20261029.md。固定官方Node24.18已核验SHA256；本地22的16/18通过，2项因缺24专用CLI选项失败不计通过，24.18重验进行中。
+
+固定官方Node24.18最终定向验证：36/36通过、0失败、0跳过，25.266s；含当前385 JS/1090 raw Lua完整分配、未知文件、原workflow/runner冻结、真实失败继续执行、timing reporter、LFS与worker独占屏障。network与Backlog门禁通过。仅本地切片验证；新精确HEAD完整CI及合后实际耗时仍待，TASK75继续In Progress、不提前勾验收。
 <!-- SECTION:NOTES:END -->
