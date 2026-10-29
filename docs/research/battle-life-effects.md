@@ -45,4 +45,6 @@
 
 验证命令：`node scripts/test-lua.mjs tests/lua/skill_feedback.lua`。本机沙箱内标准 runner 的子进程曾被 EPERM 拒绝；经工具审批在允许子进程的标准环境复验通过，54项断言、120个真实意图，282ms。`npm run build:data`、`npm run build:theme` 与 `npm run check:syntax` 成功。
 
-这是分类/采样模块的离线证据；统一 Feedback 接线及生产队列测试由中控集成后追加。尚无本轮官方导入、原生ready、PC/实体手机性能、画面和实际声音证据，不能把纯采样测试称为实际可玩验收。
+中控接线后，独立新增 `tests/lua/skill_feedback_native.lua`，先在未接线分支以 Sentry family 缺失失败，再在统一集成树实际运行通过6组（约3秒）：Sentry 普通/加速投射严格早于掉血，接触时清飞行且呈细长形；Red Slaver 束缚先飞后加状态；酸液只施加实际 weak、不制造 poison；Cultist buff 与 Guardian 格挡各保留原单次音效；真实 poison tick 不误播放投射声；取消清理及下一动作重播正常。每组都深比较演出后的完整 Combat 状态与已提交快照，音效通过真实生产适配器记录。旧17组演出回归由中控继续执行。
+
+尚无本轮官方导入、原生ready、PC/实体手机性能、画面和实际声音证据，不能把离线原生树记录称为实际可玩验收。
