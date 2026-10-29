@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {prePlayerDeathSource} from './helpers/player-death-transition-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -9,10 +10,11 @@ import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-in
 import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
 import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs';
 const normalize=source=>source.replaceAll('\r\n','\n');
+const read=path=>prePlayerDeathSource(path,normalize(readFileSync(path,'utf8')));
 const hash=source=>createHash('sha256').update(source).digest('hex');
 test('combined PR323 sources recover both complete accepted20a and original323 witnesses',()=>{
  for(const [path,binding]of Object.entries(proof.files)){
-  const current=normalize(readFileSync(path,'utf8'));
+   const current=read(path);
   requirePr323Source(path,current);
   assert.equal(hash(current),binding.afterSha256,path);
   for(const [project,target]of [[preAcceptedPr323Source,'accepted'],[preOriginalPr323Source,'original']]){
@@ -26,7 +28,7 @@ test('combined PR323 sources recover both complete accepted20a and original323 w
 test('partial, appended, missing and cross-path sources never acquire composition permission',()=>{
  const entries=Object.entries(proof.files);
  for(const [path,binding]of entries){
-  const current=normalize(readFileSync(path,'utf8'));
+   const current=read(path);
   for(const changed of [current+'\n-- unrelated drift\n',current.slice(1)]){
    assert.notEqual(changed,current);
    assert.throws(()=>requirePr323Source(path,changed),/unreviewed integrated/);
@@ -35,7 +37,7 @@ test('partial, appended, missing and cross-path sources never acquire compositio
   }
   assert.throws(()=>requirePr323Source(path,null),/must exist/);
   const foreign=entries.find(([other,b])=>other!==path&&b.afterSha256!==binding.afterSha256);
-  if(foreign)assert.throws(()=>requirePr323Source(path,normalize(readFileSync(foreign[0],'utf8'))),/unreviewed integrated/);
+   if(foreign)assert.throws(()=>requirePr323Source(path,read(foreign[0])),/unreviewed integrated/);
  }
  assert.throws(()=>requirePr323Source('unregistered-source.lua','return {}\n'),/registered/);
  assert.equal(preAcceptedPr323Source('unregistered-source.lua','return {}\n'),'return {}\n');
