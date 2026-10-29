@@ -17,6 +17,10 @@
 
 纯图形输出的 `card-back.lua`、三个 `type-*.lua`、`lumine/A/asset.lua` 和 `starfall/A/asset.lua` 使用 MIT 基础运行时；`art/spikes/card-capacity/verify.lua` 是项目验证脚本，出现模板名不等于嵌入上游模板。原“19份全部混合运行时”的分类已纠正。
 
+2026-10-29 新增 `art/characters/key-visual/traveler-geo/official-landscape-v1/native-art.lua` 为纯矩形输出，含固定 Primitive 的 MIT/LiuL 基础运行时，许可随资产保留。图元和源图派生自 HoYoverse/ufotable 官方画面，来源与镜像下载位置单列，不受本项目原创代码许可转授。离线矩形算法仅引用固定 `wwh177/miliastra-image-algorithm` 版本，未复制其无明确LICENSE的实现源码；这不构成对其代码或官方原画的商业许可判断。
+
+背景离线生命周期测试复用固定编辑器原始 `backend/tests/check_textbox_lua.cjs`，保存在 `tests/fixtures/image-editor-103025-checker.cjs`，Git blob `ced76db25cd9e386d9c2dd683ea8f0aeef1b35aa`；GPL-3.0原文在同目录 `image-editor-103025-LICENSE.txt`。仅抽取其原始VM helper用于测试，不装配到游戏，不据此把其他输出或整个项目改授GPL。专用背景生命周期包装的原创逻辑仍按本项目代码许可；所参考的Primitive属性序列保留MIT/LiuL声明。
+
 ## npm 锁定依赖
 
 全部为开发依赖；正式游戏不因此携带 npm 本体。版本及 tarball 完整性以 package-lock.json 为准，[机器清单](docs/legal/dependencies.json)保留所有直接/间接包及声明许可。锁文件元数据是许可线索，不代替实际随包版权原文；重分发这些包时须保留随包 LICENSE/版权。没有给这些包追加非商用条件。

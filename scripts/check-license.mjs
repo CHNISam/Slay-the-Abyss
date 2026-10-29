@@ -13,6 +13,17 @@ export const sensitive = path => media.has(extname(path).toLowerCase()) ||
 export const digest = (bytes, text = false) => createHash('sha256')
   .update(text ? bytes.toString('utf8').replace(/\r\n/g, '\n') : bytes).digest('hex');
 
+function matchesAsset(bytes, path, entry) {
+  if (entry.lfsBytes === undefined) return digest(bytes, /\.(lua|json|svg)$/i.test(path)) === entry.sha256;
+  if (!['.png','.webp'].includes(extname(path).toLowerCase()) ||
+    !Number.isSafeInteger(entry.lfsBytes) || entry.lfsBytes <= 0) return false;
+  // Explicitly reviewed raster candidates may stay as pointers in CI. This
+  // checks inventory identity only, not remote object availability or pixels.
+  const pointer = /^version https:\/\/git-lfs.github.com\/spec\/v1\noid sha256:([0-9a-f]{64})\nsize ([1-9]\d*)\n$/.exec(bytes.toString('utf8'));
+  if (pointer) return pointer[1] === entry.sha256 && Number(pointer[2]) === entry.lfsBytes;
+  return bytes.length === entry.lfsBytes && digest(bytes) === entry.sha256;
+}
+
 export function checkDependencies(bom, expected) {
   const actual = Object.fromEntries((bom.components ?? []).map(c => {
     // npm 10 provides a path property; npm 11 lock-only output may omit it.
@@ -38,8 +49,9 @@ export function checkAssets(root, paths, inventory) {
       errors.push(`Asset/runtime needs provenance review: ${path}`);
       continue;
     }
-    const hash = digest(readFileSync(resolve(root, path)), /\.(lua|json|svg)$/i.test(path));
-    if (hash !== entry.sha256) errors.push(`Changed asset/runtime needs provenance review: ${path}`);
+    if (!existsSync(resolve(root,path)) || !matchesAsset(readFileSync(resolve(root,path)), path, entry)) {
+      errors.push(`Changed asset/runtime needs provenance review: ${path}`);
+    }
   }
   for (const path of Object.keys(inventory.files)) {
     if (!paths.includes(path)) errors.push(`Remove obsolete asset record after review: ${path}`);

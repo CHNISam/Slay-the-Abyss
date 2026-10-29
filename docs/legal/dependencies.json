@@ -86,6 +86,9 @@
     "docs/experiments/art-portrait/LICENSE-primitive.txt": "9bf806ce0d03d1b41dc2fc9805a558ec9b3d3dce75f59156d065b4456e66ccda",
     "docs/legal/licenses/Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "docs/legal/licenses/JetBrainsMono-OFL.txt": "a76abf002c49097d146e86740a3105a5d00450b1592e820a1109a8c5680cd697",
-    "docs/legal/licenses/NotoSansSC-OFL.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    "docs/legal/licenses/NotoSansSC-OFL.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "art/characters/key-visual/traveler-geo/official-landscape-v1/LICENSE-runtime-MIT.txt": "b5f34362abd2e8c31b7a7bc62c2977f158faa4cd78b17ef7c197fb464e56a6ef",
+    "tests/fixtures/image-editor-103025-checker.cjs": "c1ed83c3613929863fe91c51d704f791f5de4a05ea98efbac40c77efb991d40f",
+    "tests/fixtures/image-editor-103025-LICENSE.txt": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
   }
 }

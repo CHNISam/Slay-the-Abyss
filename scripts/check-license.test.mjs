@@ -55,3 +55,30 @@ test('Lua generated runtime is reviewed even without an image; platform binaries
   assert.equal(digest(Buffer.from('a\r\nb'),true),digest(Buffer.from('a\nb'),true));
   assert.notEqual(digest(Buffer.from('a\r\nb')),digest(Buffer.from('a\nb')));
 });
+
+test('explicit raster LFS records bind canonical pointers without claiming payload materialization', () => {
+  const root = mkdtempSync(join(tmpdir(), 'abyss-license-lfs-'));
+  const bytes = Buffer.from('reviewed image bytes'), sha256 = digest(bytes);
+  const pointer = `version https://git-lfs.github.com/spec/v1\noid sha256:${sha256}\nsize ${bytes.length}\n`;
+  const record = {category:'unknown',sha256,lfsBytes:bytes.length};
+  const inventory = {categories:{unknown:{status:'unresolved'}},files:{'picture.png':record}};
+  const check = value => { writeFileSync(join(root,'picture.png'),value); return checkAssets(root,['picture.png'],inventory); };
+  try {
+    assert.deepEqual(check(pointer),[]);
+    assert.deepEqual(check(bytes),[]);
+    const changed=Buffer.from(bytes);changed[changed.length-1]^=1;
+    assert.ok(check(changed).length,'same-size payload still requires the reviewed SHA');
+    for (const bad of [pointer.replace(sha256,'0'.repeat(64)), pointer.replace(`size ${bytes.length}`, 'size 1'),
+      `\ufeff${pointer}`, `${pointer}extra\n`, `${pointer}\n`, pointer.replace('size ', 'size 0'), pointer.trimEnd(),
+      pointer.replace('oid sha256:', 'oid sha256:bad'), pointer.replace(/\n/g,'\r\n'), 'arbitrary text']) {
+      assert.ok(check(bad).length, 'invalid pointer or payload must fail');
+    }
+    for (const size of [0,-1,1.5,Number.MAX_SAFE_INTEGER+1,`${bytes.length}`,bytes.length+1]) {
+      record.lfsBytes = size;
+      assert.ok(check(pointer).length);
+      assert.ok(check(bytes).length);
+    }
+    delete record.lfsBytes;
+    assert.ok(check(pointer).length, 'undeclared LFS pointer is not a reviewed image');
+  } finally { rmSync(root,{recursive:true,force:true}); }
+});
