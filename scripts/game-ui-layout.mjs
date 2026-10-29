@@ -3,6 +3,7 @@ import { mapLayout } from './map-ui-layout.mjs';
 import { nodeLayout } from './node-ui-layout.mjs';
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
+import { relicViewControls } from './relic-view-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
 import { potionDiscardControls } from './potion-discard-layout.mjs';
 import { vistaControl, prologueControl } from './cinematic-ui-layout.mjs';
@@ -99,13 +100,14 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         { ...plate('deathShade', layout.backdrop, color.backdrop), visible: false },
       ] },
       ...deckControls(theme),
+      ...relicViewControls(theme),
       ...potionDiscardControls(theme),
       ...experimentalCharacterControls(theme),
       prologueControl(theme),
       ...exitControls(theme),
     ],
   };
-  const overlays = new Set(['deckPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);
+  const overlays = new Set(['deckPanel', 'relicPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);
   for (const control of layoutTree.controls) if (overlays.has(control.name)) control.isolateNavigation = true;
   return layoutTree;
 }

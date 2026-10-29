@@ -82,7 +82,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         ctx.child("hp").text = number(ctx.self.run.hp) .. "/" .. number(ctx.self.run.maxHp)
         ctx.child("gold").text = number(ctx.self.run.gold)
         ctx.child("deck").text = tostring(#ctx.self.run.deck)
-        ctx.child("relics").text = "遗物 " .. #ctx.self.run.relics
+        -- TASK-4.7: the shared top-bar disc row and 遗物 N button carry this now.
+        ctx.child("relics").text = ""
         ctx.child("potions").text = "药水 " .. Run.potionCount(ctx.self.run) .. "/" .. Run.potionCapacity(ctx.self.run)
     end
 

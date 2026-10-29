@@ -98,6 +98,15 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         for _,name in ipairs({'previous','next','pageHint'})do root:GetChild(name):SetVisible(false) end
         return self:showText(title,raw)
     end
+    -- TASK-4.7: the owned-relic overlay rides the deck modal lifecycle so every
+    -- existing deck-open gate (battle input, map paths, rewards) stays read-only.
+    function self.inspectRelics(_,run,view,index)
+        if self.visible or not view then return false end
+        self.visible,self.run,self.detailOnly,self.relicView=true,run,'relics',view
+        self.generation=self.generation+1;root:SetVisible(false)
+        if not view:open(run,index)then self.visible,self.run,self.detailOnly,self.relicView=false,nil,nil,nil;return false end
+        return true
+    end
     function self.inspect(_,run,definition,upgraded)
         if self.visible or not definition.originalV4 then return false end
         self.visible,self.run,self.detailOnly=true,run,true
@@ -262,6 +271,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.pileKind,self.listTitle=nil,nil
         self.multiple,self.choiceSelected=nil,nil
         self.detailPages,self.detailOnly=nil,nil
+        if self.relicView then self.relicView:close();self.relicView=nil end
         details:SetVisible(false);detailHit:SetVisible(false)
         root:SetVisible(false);liveFaces(CardDisplay.clearNativeArt)
         grid:RefreshItems(0, function() end)

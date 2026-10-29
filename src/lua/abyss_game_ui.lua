@@ -103,6 +103,9 @@ function M.new(root, data, presentation, clickEvent, platform)
             and (self.mode=="map" or self.mode=="battle" or self.mode=="node")
             and (run.phase=="map" or run.phase=="node" or run.phase=="reward" or run.phase=="combat")
     end
+    self.relicUI=require('abyss_relic_view_ui').new(child('relicPanel'),child('relicBar'),clickEvent,platform,
+        function(run,id)return self.nodeUI:describeRelic(run,id)end,function()return self:closeDeck()end,
+        function(i)return self:openRelics(i)end,function()return self.mode end)
     self.potionUI=PotionDiscardUI.new(child("potionPanel"),clickEvent,platform,canManagePotions,changed,
         function()return self:closePotions()end)
     self.openPotions = function(_)
@@ -176,34 +179,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         self:refresh()
         return true
     end
-    -- Read-only status tag for the owned-relic list (TASK-4.7 AC3). Counter
-    -- meanings differ per relic, so only well-understood ones get wording.
-    local function relicStatus(run,id)
-        local local_=require('abyss_relic_hooks').localId(id)
-        local counters=run.relicCounters or {}
-        local v=counters[local_]; if v==nil then v=counters[id] end
-        if type(v)~='number' then return nil end
-        if local_=='neows_lament' then return v==-2 and '已耗尽' or ('剩余 '..v..' 场') end
-        if local_=='maw_bank' then return v==-2 and '已失效' or nil end
-        if local_=='ancient_tea_set' then return v==-2 and '已蓄能' or nil end
-        if v==-2 then return '已耗尽' end
-        if v>=0 then return '计数 '..v end
-        return nil
-    end
-    self.openRelics = function(_)
+    -- TASK-4.7 owned relics: icon-disc slots, not a text dump. Opening rides
+    -- the deck gate so it stays read-only for battle, map, camp and chest.
+    self.openRelics = function(_,index)
         if self.deckUI.visible or not self:openDeck() then return false end
         self.deckUI:close()
-        local parts={}
-        for i,id in ipairs(self.run.relics) do
-            local definition=require('abyss_relic_rewards').definition(self.run,id)
-            local description=definition and self.nodeUI:describeRelic(self.run,definition.id) or ''
-            local status=relicStatus(self.run,id)
-            parts[#parts+1]=i..'. '..(definition and definition.name or '未识别遗物')
-                ..(status and ('　〔'..status..'〕') or '')..'\n'
-                ..(description~='' and description or '效果说明待补充。')
-        end
-        self.deckUI:inspectText(self.run,'持有遗物 · '..#self.run.relics..' 件',
-            #parts>0 and table.concat(parts,'\n\n') or '本局尚未获得遗物。')
+        if not self.deckUI:inspectRelics(self.run,self.relicUI,index) then return false end
         self:refresh();return true
     end
     self.closeDeck = function(_)
@@ -458,6 +439,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         child("combatRewards"):SetVisible(returnAvailable)
         child("deckEntry"):SetVisible(utilitiesVisible)
         child("relicEntry"):SetVisible(utilitiesVisible)
+        self.relicUI:refreshBar(run,utilitiesVisible)
+        for _,state in ipairs({'normal','hover','pressed','disabled'})do
+            child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state):GetChild('label').text=run and '遗物 '..#run.relics or '遗物'
+        end
         child("potionEntry"):SetVisible(not inCombat() and utilitiesVisible)
         refreshPotionEntry(run)
         child("nodePanel"):GetChild("potions"):SetVisible(false)
