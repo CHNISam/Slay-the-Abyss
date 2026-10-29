@@ -4,9 +4,15 @@ local Theme=H.F.Theme
 local count=0
 local function near(a,b) assert(math.abs(a-b)<0.000001,tostring(a)..' ~= '..tostring(b)) end
 local function test(name,fn) fn();count=count+1;print('ok hand motion '..count..' - '..name) end
+local function settledSetup(...)
+    local host,ui,panel,event=H.setup(...)
+    -- These cases measure hover/return from rest; opening draws now enter from the pile.
+    host:update(10)
+    return host,ui,panel,event
+end
 
 test('hover and return follow fixed source position scale and angle rates without changing rules',function()
-    local host,ui,panel=H.setup()
+    local host,ui,panel=settledSetup()
     local box=panel:GetChild('card1')
     local x,y,scale,angle=box.x,box.y,box.scale[1],box.localRotationZ
     local before=Combat.copy(host.run)
@@ -29,7 +35,7 @@ test('hover and return follow fixed source position scale and angle rates withou
 end)
 
 test('fast mode performs the extra position step but retains scale and angle rates',function()
-    local host,ui,panel=H.setup()
+    local host,ui,panel=settledSetup()
     local box=panel:GetChild('card1')
     local y,angle=box.y,box.localRotationZ
     ui.fastMode=true;ui:setHover(1);host:update(0.05)
@@ -39,7 +45,7 @@ test('fast mode performs the extra position step but retains scale and angle rat
 end)
 
 test('reflow keeps each card current position by UID instead of borrowing its new slot',function()
-    local host,ui,panel=H.setup({'defend','defend','defend'})
+    local host,ui,panel=settledSetup({'defend','defend','defend'})
     local uid=host.run.combat.hand[2].uid
     local old=panel:GetChild('card2').x
     table.remove(host.run.combat.hand,1);ui:render()
@@ -52,7 +58,7 @@ test('reflow keeps each card current position by UID instead of borrowing its ne
 end)
 
 test('cancelled drag returns from its last actual pose and interpolation does not redraw card previews',function()
-    local host,ui,panel,event=H.setup()
+    local host,ui,panel,event=settledSetup()
     local box=panel:GetChild('card1')
     local restX,restY=box.x,box.y
     event('card1','down',7);event('card1','drag',7,100,0)
@@ -72,14 +78,15 @@ test('cancelled drag returns from its last actual pose and interpolation does no
 end)
 
 test('new battle with reused UIDs starts at its own pose and zero delta does not advance',function()
-    local host,ui,panel=H.setup()
+    local host,ui,panel=settledSetup()
     ui:setHover(1);host:update(0.05)
     host.run.combat=Combat.new(H.F.Data,{deck={'defend'},enemies={'cultist'}})
     ui:render()
     local box=panel:GetChild('card1')
-    near(box.x,0)
+    near(box.x,Theme.layout.drawPile.position[1])
     ui:setHover(nil);local y=box.y;host:update(0);near(box.y,y)
     host:update(10)
+    near(box.x,0)
     assert(box.y==box.y and math.abs(box.y)<Theme.canvas.base[2],'stalled frame sent cards outside the canvas')
 end)
 print('LUA_HAND_MOTION_PASS '..count)

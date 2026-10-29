@@ -59,7 +59,7 @@ end
 local function pileMembership(battle)
     local result={}
     for _,name in ipairs({"draw","discard","exhaust"}) do
-        for _,card in ipairs(battle and battle[name] or {}) do result[card.uid]=true end
+        for _,card in ipairs(battle and battle[name] or {}) do result[card.uid]=name end
     end
     return result
 end
@@ -106,11 +106,12 @@ function M.new(view, controls)
     local placeCard, placeReward = controls.placeCard, controls.placeReward
     local dragTarget, dragPose, enemyPosition = controls.dragTarget, controls.dragPose, controls.enemyPosition
     local handBattle,handPoses,previousPiles=nil,{},{}
-    local handWidth,handHeight
+    local handWidth,handHeight,openingHand
     local function syncHandViewport(current)
         if current~=handBattle or view.canvasWidth~=handWidth or view.canvasHeight~=handHeight then
             -- Resizing invalidates a captured drag. Its old display coordinates
             -- cannot survive after the capture layer has been removed.
+            openingHand=current~=handBattle and current~=nil
             handBattle,handPoses,previousPiles=current,{},{}
             handWidth,handHeight=view.canvasWidth,view.canvasHeight
         end
@@ -121,10 +122,13 @@ function M.new(view, controls)
         local entry=handPoses[instance.uid]
         if not entry then
             entry={current={x=target.x,y=target.y,scale=target.scale,angle=target.angle}}
-            if previousPiles[instance.uid] then
+            if previousPiles[instance.uid]or openingHand then
                 -- AbstractPlayer.draw/CardGroup.moveToHand start at the draw pile,
                 -- at .12 against the source's ordinary .75 hand scale.
-                entry.current={x=L.drawPile.position[1],y=L.drawPile.position[2],scale=0.12/0.75,angle=0}
+                local pile=previousPiles[instance.uid]
+                local start=pile=='discard'and L.discardPile.position
+                    or pile=='exhaust'and{L.topBar.exhaustIcon[1],L.topBar.y}or L.drawPile.position
+                entry.current={x=start[1],y=start[2],scale=0.12/0.75,angle=0}
             end
             handPoses[instance.uid]=entry
         end
@@ -254,6 +258,7 @@ function M.new(view, controls)
         end
         for uid,entry in pairs(handPoses) do if not entry.visible then handPoses[uid]=nil end end
         previousPiles=pileMembership(fighting and battle)
+        openingHand=false
         if selectedBox then selectedBox:SetAsLastSibling() end
         return playable
     end

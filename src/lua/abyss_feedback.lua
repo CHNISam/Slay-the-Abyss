@@ -6,6 +6,7 @@ local UnitView=require('abyss_battle_unit_view')
 local Actors=require('abyss_actor')
 local ActorMotion=require('abyss_actor_motion')
 local SkillFeedback=require('abyss_skill_feedback')
+local CardFlow=require('abyss_card_flow')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
 local ROW = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2
@@ -150,6 +151,7 @@ function M.new(stage, platform, present, complete)
         self.idleBattle = battle
         if battle and not self.busy then self.shadow = battle end
     end
+    self.cardFlow=CardFlow.new(stage,platform)
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
     local function actor(id)
@@ -202,6 +204,7 @@ function M.new(stage, platform, present, complete)
     function self:reset()
         self.battle = nil
         self.idleBattle, self.idleClock, self.shadow = nil, 0, nil
+        self.cardFlow:reset()
         stage:SetAnchoredPosition(0, 0)
         hideOverlay(false, true)
         for _, name in ipairs({"banner", "bannerPlate"}) do
@@ -215,6 +218,13 @@ function M.new(stage, platform, present, complete)
     end
     local function finish(failure)
         local wasBusy = self.busy
+        if not failure and self.battle and self.shadow then
+            local ok,reason=pcall(function()
+                self.cardFlow:sync(self.shadow,self.battle,nil,true)
+                self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)
+            end)
+            if not ok then failure=reason end
+        end
         self.busy, self.queue, self.current = false, nil, nil
         -- Cleanup errors are isolated so input always releases, even if an effect control failed.
         if failure then pcall(self.reset, self) end
@@ -285,6 +295,7 @@ function M.new(stage, platform, present, complete)
         card:GetChild("art"):SetImage(platform.imageSource, Theme.icon.cardArt[definition.type] or Theme.icon.cardArt.status)
         local targetsEnemy,area,attack=cardShape(definition)
         cardFlight(d,targetsEnemy,area)
+        self.cardFlow:playing(d,self.flight)
         card:SetAnchoredPosition(self.flight.x, self.flight.y) card:SetLocalScale(1, 1, 1)
         card:SetVisible(true) overlay:SetAsLastSibling() sound("player_action")
         -- The traveler draws back while the card lifts, then leans in as it lands.
@@ -418,16 +429,18 @@ function M.new(stage, platform, present, complete)
         local old = self.shadow
         local nextView = {catalog = old.catalog, rules = old.rules}
         for k, v in pairs(entry.frame or old) do nextView[k] = v end
-        -- The played card stays for the contact frame and dissolves into the strike.
+        -- Hold the played UID at contact until a committed frame names its pile.
         local landing = self.current and self.current.kind == "play" and entry.kind ~= "play"
         if self.current and self.current.kind == "enemy_escape" then self.escaping[self.current.detail.enemy] = nil end
         if entry.kind == "enemy_escape" then self.escaping[entry.detail.enemy] = true end
         self.shadow, self.current, self.style, self.elapsed = nextView, entry, style, 0
-        hideOverlay(landing)
+        self.cardFlow:sync(old,nextView,entry.kind)
+        self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)
+        hideOverlay(landing or next(self.cardFlow.inPlay)~=nil)
         if landing then
             local card = overlay:GetChild("playedCard")
             card:SetAnchoredPosition(self.flight.tx, self.flight.ty) card:SetLocalScale(0.5, 0.5, 1)
-            self.dissolve = 0
+            self.dissolve = nil
         end
         self.acting = entry.kind == "intent" and entry.detail.enemy or self.acting
         if entry.kind == "player_turn" then self.acting = nil end
@@ -711,11 +724,12 @@ function M.new(stage, platform, present, complete)
         tint(portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)
     end
     function self:update(dt)
-        if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve then return end
+        if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve and not self.cardFlow:busy() then return end
         local ok, failure = pcall(function()
             assert(type(dt) == "number" and dt == dt and dt >= 0 and dt < math.huge, "invalid frame delta")
             self.idleClock=ActorMotion.advance(self.idleClock or 0,dt,T.actorIdle)
             self.elapsed = (self.elapsed or 0) + dt
+            if self.battle then self.cardFlow:update(dt,self.battle.catalog,self.presentation,self.fastMode)end
             -- At most one visible step per update: a stalled frame cannot skip an enemy turn.
             if self.busy and self.elapsed >= duration(self.current, self.style, self.playbackFastMode) then
                 self.index = self.index + 1
