@@ -43,6 +43,6 @@
 
 先写独立测试，缺模块时实际失败；模块加入后 `tests/lua/skill_feedback.lua` 通过54项断言并遍历本项目第一、第二幕120个真实意图，睡眠/眩晕/逃跑保持无效果，其余意图有表现类型。还覆盖ID不误匹配、真实状态覆盖、多段重击不误变投射、八类不同轨迹、结束透明、负/超范围进度、旅行起终点、100次重复确定性、禁止随机函数以及输入对象不变。
 
-验证命令：`node scripts/test-lua.mjs tests/lua/skill_feedback.lua`。本机沙箱内标准 runner 的子进程曾被 EPERM 拒绝，直接运行同一 Fengari CLI 的 `-e dofile(...)` 通过；应由中控在允许子进程的标准环境再次执行。`npm run build:data` 与 `npm run build:theme` 成功。
+验证命令：`node scripts/test-lua.mjs tests/lua/skill_feedback.lua`。本机沙箱内标准 runner 的子进程曾被 EPERM 拒绝；经工具审批在允许子进程的标准环境复验通过，54项断言、120个真实意图，282ms。`npm run build:data`、`npm run build:theme` 与 `npm run check:syntax` 成功。
 
 这是分类/采样模块的离线证据；统一 Feedback 接线及生产队列测试由中控集成后追加。尚无本轮官方导入、原生ready、PC/实体手机性能、画面和实际声音证据，不能把纯采样测试称为实际可玩验收。
