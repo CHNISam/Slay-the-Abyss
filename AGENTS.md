@@ -19,10 +19,13 @@
 | 任务范围与队列 | `npm run verify:backlog`；检查负责人、优先级、High 上限与当前比赛范围 |
 | UI 候选验收 | `npm run verify:ui -- <候选.gil>`；[批准稿](docs/design/UI_DESIGN.md)、[平台差异](docs/design/PLATFORM_PARITY.md) |
 | 候选交付 | `npm run verify:delivery`；[冒烟与取证](docs/P0-SMOKE.md) |
+| 平台负载 | 日常 `npm run check:platform-load`；RC `npm run verify:platform-load`；[容量与证据合同](docs/PLATFORM_LOAD.md) |
 
 规则参数、阈值和测试合同以可执行配置为准，不在此重复。新增核心 Lua 模块在 [架构配置](config/architecture.json) 分类；不靠放宽门槛、删断言或跳过有效测试解决失败。UI 只读核心状态、发命令；主题来源为 [ui_theme](data/presentation/ui_theme.json)，由 `npm run build:theme` 生成。遵循批准稿，平台降级记录原因与实测状态，保留 C 档点选。
 
 ## 必要边界
+
+- 正式RC负载须有同候选官方容量、静态/动态、上传启动与手机证据；缺项保持 BLOCKED/UNVERIFIED，不阻止普通PR。不得用GIL/Lua/网络量冒充官方读数、提高负载档位掩盖问题或复用旧候选。限值与内部预算见平台负载合同；CI通过不等于发布许可。
 
 - 任何鼠标、键盘、抢焦点或切前台操作，先说明应用、目的、开始时间及预计时长，等待用户明确让出本轮窗口；历史测试授权不延续。只在窗口内由一个执行者操作；用户收回控制、正在操作或到期时立即停止输入和自动重试，告知已归还控制。无窗口则继续离线工作。
 - 关卡与 MCP 操作先读 [TOOLCHAIN](docs/TOOLCHAIN.md) 和 [千星技能](.codebuddy/skills/miliastra-wonderland/SKILL.md)，使用 MCP 前读 miliastra://workflow 与 miliastra://platform-rules。MILIASTRA_ALLOW_LIVE_WRITE 保持 0，只写存档副本，发布由人完成。

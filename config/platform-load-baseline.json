@@ -1,0 +1,25 @@
+{
+  "sourceCommit": "d4c4b25594798f9d2f4fc6b66a061532c2b71595",
+  "schemaVersion": 1,
+  "measurement": "offline-production-inputs-not-official-storage",
+  "luaBytes": 3089998,
+  "layoutJsonBytes": 1309597,
+  "templateJsonBytes": 15761,
+  "controls": 10937,
+  "hiddenControls": 10746,
+  "templates": 1,
+  "artPools": 0,
+  "maxChildren": 60,
+  "repeatedPrimitiveInstances": 7590,
+  "officialObservation": {
+    "source": "user-provided-editor-screenshots",
+    "levelStorageMB": 8.96,
+    "serverStorageMB": 0.01,
+    "levelLimitMB": 20,
+    "serverLimitMB": 3,
+    "staticCompute": "normal",
+    "staticMemory": "normal",
+    "candidateIdentity": null,
+    "releaseStatus": "UNVERIFIED"
+  }
+}

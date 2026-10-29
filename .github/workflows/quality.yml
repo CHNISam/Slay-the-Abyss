@@ -103,6 +103,15 @@ jobs:
           CI_LFS_TOKEN: ${{ github.token }}
           ABYSS_PYTHON: python
         run: node scripts/ci-fast.mjs
+      - run: npm run check:platform-load
+        if: steps.runtime.outputs.tests == 'true'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && steps.runtime.outputs.tests == 'true'
+        with:
+          name: platform-load-fast-${{ matrix.os }}
+          path: build/platform-load-daily.json
+          retention-days: 7
+          if-no-files-found: warn
   rules:
     needs: impact
     name: rules (${{ matrix.shard }}/${{ strategy.job-total }})
@@ -288,7 +297,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run build:theme
         if: matrix.shard == 1
-      - run: npm run check:engineering
+      - run: |
+          npm run check:engineering
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/platform-load.mjs daily
         if: matrix.shard == 1
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always() && matrix.shard == 1
@@ -297,6 +309,7 @@ jobs:
           path: |
             build/engineering-quality.json
             build/engineering-quality.md
+            build/platform-load-daily.json
           retention-days: 7
           if-no-files-found: warn
       - run: node scripts/write-ci-receipt.mjs
@@ -390,7 +403,7 @@ jobs:
           node scripts/ci-shards.mjs --shard=${{ matrix.shard }}/${{ strategy.job-total }}
         env:
           ABYSS_PYTHON: python3
-      - run: npm run check:engineering
+      - run: npm run check:engineering && node scripts/platform-load.mjs daily
         if: matrix.shard == 1
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always() && matrix.shard == 1
@@ -398,6 +411,7 @@ jobs:
           name: engineering-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}
           path: |
             build/architecture.json
+            build/platform-load-daily.json
             build/lua-static.json
             build/lua-complexity.json
             build/ui-complexity.json

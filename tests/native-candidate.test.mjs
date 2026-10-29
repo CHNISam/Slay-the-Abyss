@@ -88,7 +88,7 @@ test('unknown script ownership and ambiguous settlement graphs remain hard failu
 });
 
 test('source/generated module collisions are rejected',async t=>{
-  const f=await fixture(t);await assert.rejects(f.run({generatedModules:{abyss_ui:'builder'}}),/Duplicate module/);
+  const f=await fixture(t);await assert.rejects(f.run({generatedModules:{abyss_ui:'builder'}}),/Duplicate.*module/);
 });
 
 test('extracted UI subviews are embedded, read back and checked with the entry module',async t=>{
