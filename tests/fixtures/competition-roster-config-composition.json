@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "path": "config/architecture.json",
+  "combinedSha256LF": "b17b46d338d20441ad8a3f54abf9f0b3d41b664d46783619b739ac0f2fc39592",
+  "targets": {
+    "current": {
+      "head": "ab0e742f5f6ce2a93fed227694377d0014dc1377",
+      "sha256LF": "df2d58668d69864a61e3d177c8ab4183cedd11fb12bdb6f9e14312b008bf6f9b",
+      "edits": [
+        {
+          "at": 2,
+          "before": [
+            "    \"abyss_run_admission\": \"core\","
+          ],
+          "after": []
+        }
+      ]
+    },
+    "roster": {
+      "head": "296bc0a290f7858f54a2d8b0cd1da052cee96a29",
+      "sha256LF": "4f7bf40d0552136f6d3d072c8cd3438a21783e6d3f43a88cd9ae59ca89fc439e",
+      "edits": [
+        {
+          "at": 234,
+          "before": [
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_max_hp_relics\": \"core\",",
+            "    \"abyss_battle_actions\": \"ui\",",
+            "    \"abyss_battle_action_bindings\": \"ui\",",
+            "    \"abyss_battle_card_bindings\": \"ui\",",
+            "    \"abyss_battle_card_gestures\": \"ui\",",
+            "    \"abyss_battle_card_layout\": \"ui\",",
+            "    \"abyss_battle_details\": \"ui\",",
+            "    \"abyss_battle_detail_bindings\": \"ui\",",
+            "    \"abyss_battle_input_state\": \"ui\",",
+            "    \"abyss_battle_potion_bindings\": \"ui\",",
+            "    \"abyss_battle_render\": \"ui\",",
+            "    \"abyss_battle_render_actors\": \"ui\",",
+            "    \"abyss_battle_render_hud\": \"ui\",",
+            "    \"abyss_battle_render_state\": \"ui\",",
+            "    \"abyss_battle_targeting\": \"ui\",",
+            "    \"abyss_battle_target_bindings\": \"ui\",",
+            "    \"abyss_nodes_common\": \"core\",",
+            "    \"abyss_nodes_entry\": \"core\",",
+            "    \"abyss_nodes_events\": \"core\",",
+            "    \"abyss_nodes_sources\": \"core\""
+          ],
+          "after": [
+            "    \"abyss_battle_potion_popup\": \"ui\""
+          ]
+        }
+      ]
+    }
+  }
+}

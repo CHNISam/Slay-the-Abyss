@@ -1,3 +1,4 @@
+import {preRosterConfigSource} from './competition-roster-config-composition.mjs';
 import {preRosterSource} from './competition-roster-source-inverse.mjs';
 import {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 import {preNodesBattleMaxHpConfig} from './nodes-battle-max-hp-config-inverse.mjs';
@@ -53,6 +54,7 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ source=preRosterConfigSource(path,source);
  if(source!==null)source=preRosterSource(path,source);
  source=preCardDragClickSource(path,source);
  source=preNodesBattleMaxHpConfig(path,source);

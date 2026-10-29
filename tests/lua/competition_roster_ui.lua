@@ -54,8 +54,22 @@ local samples=0
 local blocked=F.GameUI.new(blockedRoot,prepared,F.Presentation,'click',{
  campaign=true,campaignProfile='competition-two-act',imageSource='static',
  color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,newSeed=function()samples=samples+1;return 3 end})
-assert(blocked:start()and blocked:selectCharacter('traveler'))
+assert(blocked:start())
+local selected,selectionReason=blocked:selectCharacter('traveler')
+assert(not selected and selectionReason=='competition_character_unavailable')
+assert(blocked.characterSelection.character==nil and blocked.characterSelection.info==nil and samples==0 and not blocked.run)
+-- Keep the original confirm-time defense covered even if a stale/corrupt
+-- selection model bypasses the earlier source-aware selection rejection.
+blocked.characterSelection.character,blocked.characterSelection.element='traveler','ironclad'
+blocked.characterSelection.info={id='ironclad'}
+assert(not blocked.characterSelection:canConfirm())
+assert(not blocked:confirmCharacter()and samples==0 and not blocked.run)
+-- Fault injection bypasses only the model predicate, not the actual Host/Run
+-- source checks; retain the original beginRun pre-seed defense assertion.
+local canConfirm=blocked.characterSelection.canConfirm
+blocked.characterSelection.canConfirm=function()return true end
 local called,accepted,why=pcall(blocked.confirmCharacter,blocked)
+blocked.characterSelection.canConfirm=canConfirm
 assert(called and not accepted and why=='competition_character_unavailable'and samples==0 and not blocked.run,
  'configured-source denial sampled seed or escaped as a runtime error: '..tostring(samples)..'/'..tostring(accepted))
 print('COMPETITION_ROSTER_UI_PASS native controls/direct config/controller/stale confirm; native/natural NOT_RUN')

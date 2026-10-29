@@ -1,3 +1,4 @@
+import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-inverse.mjs';
 import {projectBattleMaxHpConfig} from './helpers/battle-max-hp-config-inverse.mjs';
 import test from 'node:test';
@@ -10,7 +11,7 @@ import {preAcceptedPresentation}from'./helpers/p0-presentation-inverse.mjs';
 import {preApprovedUiSource}from'./helpers/approved-ui-inverse.mjs';
 const hash=source=>createHash('sha256').update(source).digest('hex');
 // The new exact outer proof supplies this unchanged inner proof's owned config.
-const read=path=>preNodesBattleMaxHpConfig(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'));
+const read=path=>preNodesBattleMaxHpConfig(path,preRosterConfigSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n')));
 test('only the three reviewed Max HP additions reverse to the complete accepted data identities',()=>{
  assert.equal(proof.acceptedBase,'432eebb1d51a7ad37cfbc19f0e846bc00f1f4ba7');
  assert.equal(proof.originalSlice,'0391ea7301894f39b05a64e1e9bfa4d436925ed4');

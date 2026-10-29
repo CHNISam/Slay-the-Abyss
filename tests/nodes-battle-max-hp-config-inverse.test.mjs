@@ -1,4 +1,5 @@
 import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
+import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -9,7 +10,7 @@ import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs
 import {preIntegratedNodeUiSource} from './helpers/approved-node-ui-refactor.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 const path='config/architecture.json';
-const read=p=>preRunMaxHpConfig(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
+const read=p=>preRunMaxHpConfig(p,preRosterConfigSource(p,readFileSync(p,'utf8').replaceAll('\r\n','\n')));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const expected={combined:'df2d58668d69864a61e3d177c8ab4183cedd11fb12bdb6f9e14312b008bf6f9b',candidate:'2cca90fbe128e36911e5a810ac45a63ad7612e99198a4613742c6a47c77d1ddc',nodes:'4c98aac4741ad87a2465dfec893022801ea42d19f9895cc3969cea4ebb8addbc',base:'0c15a29fa24a4284eb0760b750356b658eb02e28b71d23b46839520777222cdb'};
 const nodes=['abyss_nodes_common','abyss_nodes_entry','abyss_nodes_events','abyss_nodes_sources'];

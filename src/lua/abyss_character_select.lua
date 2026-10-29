@@ -42,6 +42,10 @@ function M.preview(source,presentation,id)
 end
 function M.new(source,presentation,profile)
     local state={}
+    local function accepts(id)
+        -- The visible choice is explicit even when Geo's Run options stay nil.
+        return Admission.accepts(source,{campaignProfile=profile,character=id})
+    end
     function state.allowsCharacter(_,id)
         return contains(M.characters,id) and Admission.allows(profile,id=='traveler' and 'ironclad' or id)
     end
@@ -49,12 +53,15 @@ function M.new(source,presentation,profile)
     function state:canConfirm()
         local id=self.character=='traveler' and self.element or self.character
         return self.info~=nil and self.info.id==id and self:allowsCharacter(self.character)
-            and (self.character~='traveler' or self:allowsElement(self.element))
+            and (self.character~='traveler' or self:allowsElement(self.element)) and accepts(id)
     end
     function state:clear()self.character,self.element,self.info=nil,nil,nil end
     function state:select(id)
         if not contains(M.characters,id)then return false,'unknown_character' end
         if not self:allowsCharacter(id)then return false,'competition_character_unavailable'end
+        if not accepts(id=='traveler' and (self.element or 'ironclad') or id)then
+            return false,'competition_character_unavailable'
+        end
         self.character=id
         if id=='traveler' then self.element=self.element or 'ironclad' end
         self.info=M.preview(source,presentation,id=='traveler' and self.element or id)
@@ -63,6 +70,7 @@ function M.new(source,presentation,profile)
     function state:selectElement(id)
         if self.character~='traveler' or not contains(M.elements,id)then return false,'element_unavailable'end
         if not self:allowsElement(id)then return false,'competition_character_unavailable'end
+        if not accepts(id)then return false,'competition_character_unavailable'end
         self.element=id;self.info=M.preview(source,presentation,id);return true
     end
     return state

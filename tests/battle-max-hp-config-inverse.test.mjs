@@ -1,3 +1,4 @@
+import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -8,7 +9,7 @@ import {preIntegratedNodeUiSource} from './helpers/approved-node-ui-refactor.mjs
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 const path='config/architecture.json';
 // The new exact outer proof supplies this unchanged inner proof's owned config.
-const read=p=>preNodesBattleMaxHpConfig(p,readFileSync(p,'utf8').replaceAll('\r\n','\n'));
+const read=p=>preNodesBattleMaxHpConfig(p,preRosterConfigSource(p,readFileSync(p,'utf8').replaceAll('\r\n','\n')));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const battleHash='66b0aeb0d8a21a587cf67a14c1d503478674012045a303ece995db3532097244';
 const maxHpHash='01c0e67dc5c791f9aeaf93afd3cd659ee93357958ac7ce45a474ce1cf720aaca';

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-29 01:26'
+updated_date: '2026-10-29 01:54'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -79,4 +79,6 @@ PR317 Full 40739581097/rules3(job123004776107)实际失败已本地复现：raw 
 2026-10-28 accepted303/develop03b11fa5真实组合回归：干净线性重放PR317，准确复现Full40785892649工程POSIX3/4同一RED：原false/throw两组通过，Act1/2 Watcher在Run准入前被正确拒绝。仅修run_choice_transactions.lua九行差异（5增4删）：明确两个来源房间为保留full-source Watcher组件场景，改构造及匹配profile断言并澄清标签；真实Omniscience/Empty Fist获取、药水/房间、奖励RNG、完整图alias、原异常值、回滚/重试/单次提交全部保留。原30秒预算下串行事务五片及准入/启动9/9通过，零skip，总57.9秒，pile片12.55秒；纯源/交付/319拆片预算45/45通过。机器守恒证明接受319全部20路径逐字不变、接受303六个其他路径逐字不变，Run去掉唯一准入assert即逐字恢复303，来源夹具四个声明逆变换即逐字恢复303；此前317其余16份非任务非Run文件不变。架构232模块1301边；固定Luacheck零新增/60历史告警/625职责测量，Backlog与diff通过。本轮已重建测试用Lua数据/UI，不是原生GIL候选；未Full/托管CI、未官方导入/实机/键鼠，未推送/批准/合并/元数据修改，AC3/4保持开放。精确新head/base待独立复审；证据位于工作树外reconcile-03b11fa5。
 
 2026-10-29独立审查RED：当前PR317在prepared Silent来源选择雷电时，直接命令、真实原生点击和手柄确认均先调用Original.prepare一次并抛character data already prepared；种子未消费、Run未创建，但未满足适配前拒绝。原始复现与日志已冻结，正在本地隔离分支修复，不能记准入或实机验收完成。已保留PR306比赛范围、Furinya和未勾AC3/4；旧八形态证据只作历史。
+
+2026-10-29 dot本地隔离修复：先保留原317三入口适配前拒绝失败、配置投影失败及RD来源展示Geo错配的RED，再修为显式比赛UI身份检查（select前与canConfirm）；M.options/Run/Admission/beginRun工厂语义未改。当前27情景复验通过（22.60秒，原30秒预算），覆盖三类不准入来源与RD→Geo三入口拒绝、来源在预览后变化、零适配/seed/Run、选择和来源图不变，以及一致marker与直接Run无options/full-source legacy兼容；raw catalogue→Raiden和默认岩主由原专项保留。25项严格历史/配置/16-Battle-owner源码合同通过，253注册字段1012类变异受检；旧fixture/hash/断言与预算不变。原生两幕与full-source八形态/Act3及受限Act4、菜单、启动/mock再验通过；303五类完整回滚、318及315在未改动的对应运行模块上已通过，四个关键语义变异均被原断言杀死。最终源码collector和本地分支交主线程复审，未运行最终整体Quality或设备/自然通关，不改AC3/4及Furinya/In Progress，不推送/合并/发布。实际主线后续308初始化抽取须由主线程保留新facade/helpers并在prepareProfile适配前移植317早期准入，不回写旧Run覆盖已合工作。
 <!-- SECTION:NOTES:END -->
