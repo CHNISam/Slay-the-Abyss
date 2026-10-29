@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "assetId": "lumine-geo-battle133-purpose-v2",
+  "characterId": "traveler",
+  "elementProfile": "ironclad",
+  "purpose": "right-facing full-body battle figure",
+  "source": {
+    "path": "source.png",
+    "size": [
+      1024,
+      1536
+    ],
+    "mode": "RGBA",
+    "bytes": 1839573,
+    "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "mode": "identity-preserve edit",
+    "dateUTC": "2026-10-29",
+    "prompt": "prompt.txt",
+    "transparentBackgroundRequested": true,
+    "inputPath": "art/source/lumine_geo_portrait.png",
+    "inputSha256": "5a8287ed5c1d1825b9068534df985cf14067596e37eef530f5d2a6ab1ba26854",
+    "originalHistoricalPrompt": "unknown; prompt.txt records this V2 edit only"
+  },
+  "approval": {
+    "sourceDesign": "Owner endorsed displayed V2 source/purpose-and-size presentation",
+    "sourceApprovedAtUTC": "2026-10-29T14:20:05Z",
+    "nativeVisual": "not approved",
+    "officialCompile": "not_run",
+    "officialImport": "not_run",
+    "capacity": "not_measured",
+    "devices": "not_run",
+    "scope": "Source endorsement does not approve V1, native geometry fidelity, performance, production enablement or expansion"
+  },
+  "native": {
+    "canvas": [
+      133,
+      133
+    ],
+    "editable": "native-art.json",
+    "originalExport": "native-art.lua",
+    "runtime": "runtime-no-snapshot.lua",
+    "imagePrefabPlaceholder": 0,
+    "status": "unbound_offline_candidate",
+    "contentImages": 4315,
+    "contentTexts": 0,
+    "extraMasks": 0,
+    "dynamicContentInstances": 4315,
+    "requiredDedicatedHostInstances": 1,
+    "requiredImageTemplateDefinitions": 1,
+    "templateIndex": "unbound"
+  },
+  "previewStatus": {
+    "canonicalPng": "alpha comparison FAILED; preserved as evidence",
+    "svgInkscape": "diagnostic only; alpha support equal, ±1 quantization; not native/device rendering",
+    "sourcePixelEquivalence": false,
+    "productionEnabled": false
+  },
+  "dotAConsistency": {
+    "status": "final large-illustration hash pending; existing identity source reused, not modified"
+  },
+  "files": {
+    "LICENSE-editor-GPL-3.0.txt": {
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    "LICENSE-runtime-MIT.txt": {
+      "bytes": 1061,
+      "sha256": "b5f34362abd2e8c31b7a7bc62c2977f158faa4cd78b17ef7c197fb464e56a6ef"
+    },
+    "PROVENANCE-runtime.md": {
+      "bytes": 747,
+      "sha256": "b8f19a050d918a9a72c012c0103ceeb7b70ecc00366285feabfab6aaf4103c38"
+    },
+    "alpha-verification.json": {
+      "bytes": 5278,
+      "sha256": "7b4c4de63a94cdb867ef58570fec9de13e8bb57e7dd0174d8170c4af88a29170"
+    },
+    "editable.scene.json": {
+      "bytes": 1231255,
+      "sha256": "40e2507c32d3e9a78e31b2c39b775d9e00815e4631830d118ec96374525ddf0a"
+    },
+    "export-report.json": {
+      "bytes": 12892,
+      "sha256": "911062d0d90362f23c73686b93ff85727c432bce3a26ebdf47dc92f2ee5bfa50"
+    },
+    "literal-drawing.json": {
+      "bytes": 919094,
+      "sha256": "f1a8c8a315812dfaad13b36b212e0ffef26b8c3251b0d473b660ad3571a31de5"
+    },
+    "native-art.json": {
+      "bytes": 2377377,
+      "sha256": "f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248"
+    },
+    "native-art.lua": {
+      "bytes": 2501280,
+      "sha256": "22182f1fa79d9b09f68aebce7a81785d8310df3f1f1cffb9654bd0aaac174da4"
+    },
+    "preview-native-1x.png": {
+      "bytes": 18329,
+      "sha256": "93b4d73290c3a20da7b02f02b05786b57fd5d381da71b02b5839a8c6a344f80b"
+    },
+    "preview-native-4x.png": {
+      "bytes": 27981,
+      "sha256": "9a4fc13fa950c47250546c9afccd2ec1eb31178a5bfe0c2b6bad8988dfa4e48f"
+    },
+    "preview-redraw-draft-1x.png": {
+      "bytes": 17517,
+      "sha256": "17aeaea62261c69a6ff09f29d09782b0c2f6556c75bda772346a4b00cd77974c"
+    },
+    "preview-redraw-draft-4x.png": {
+      "bytes": 27003,
+      "sha256": "90c6ba65bb6406eb59bc4ad7a5c9eb9fbc3660f7670da67b91b34e55874bffdd"
+    },
+    "preview-source-1x.png": {
+      "bytes": 18450,
+      "sha256": "d016b18f2360e07208b96ebdac67fdf58b7f5d17e05c626a3ffc71886e6c07c3"
+    },
+    "preview-source-4x.png": {
+      "bytes": 28857,
+      "sha256": "cebb3c7c05d17c5b6f7fd9d37d2028fe96ab84b53074dd2d46e2f2f2e128b021"
+    },
+    "preview-svg-diagnostic.svg": {
+      "bytes": 544954,
+      "sha256": "d50faaefdb205ae21b331309059325bbb0a4f173e0ff8b75028e0da9dc1d880a"
+    },
+    "preview-svg-inkscape-133.png": {
+      "bytes": 17467,
+      "sha256": "0505407a828bb1cbc9a03b4951330af2a9c15062338e513ce7e6d5d3439f5343"
+    },
+    "prompt.txt": {
+      "bytes": 2294,
+      "sha256": "95096010e75b1c3b7798f9cc6272aaf28d7e3289d0d9ba80d6efa734f190542c"
+    },
+    "redraw-recipe.json": {
+      "bytes": 804,
+      "sha256": "f136610f154e05eb16c9793f17d89fc6a2160374f6d10f469feaa2d246a599ad"
+    },
+    "runtime-no-snapshot.lua": {
+      "bytes": 356825,
+      "sha256": "ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880"
+    },
+    "source.png": {
+      "bytes": 1839573,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    },
+    "svg-preview-diagnostic.json": {
+      "bytes": 11224,
+      "sha256": "1babce107bd2b4928168c6d1763cae60400fa500d6861b569cb7d9e782a39c4d"
+    },
+    "vm-report.json": {
+      "bytes": 1867,
+      "sha256": "b3fb4d88c93da7d1779a29c8dc78184478e4f5421519a4ca55a0052715f38d4e"
+    }
+  }
+}

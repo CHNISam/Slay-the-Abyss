@@ -1,0 +1,16 @@
+# Preserve exact exported text and evidence bytes across platform checkouts.
+*.json text eol=lf
+*.lua text eol=lf
+*.svg text eol=lf
+*.py text eol=lf
+*.cjs text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.png -text
+# Large fixed-tool outputs are generated data; keep handwritten reports visible.
+*/editable.scene.json linguist-generated=true
+*/native-art.json linguist-generated=true
+*/native-art.lua linguist-generated=true
+*/runtime-no-snapshot.lua linguist-generated=true
+*/literal-drawing.json linguist-generated=true
+*/preview-svg-diagnostic.svg linguist-generated=true

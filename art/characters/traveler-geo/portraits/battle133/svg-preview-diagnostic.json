@@ -1,0 +1,281 @@
+{
+  "scope": "SVG/Inkscape offline visual-review preview, not official/native acceptance",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "stage": "offline_visual_review_ready_with_quantization_limits",
+  "inputs": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/editable.scene.json",
+      "bytes": 1231255,
+      "sha256": "40e2507c32d3e9a78e31b2c39b775d9e00815e4631830d118ec96374525ddf0a"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/native-art.json",
+      "bytes": 2377377,
+      "sha256": "f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/native-art.lua",
+      "bytes": 2501280,
+      "sha256": "22182f1fa79d9b09f68aebce7a81785d8310df3f1f1cffb9654bd0aaac174da4"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/runtime-no-snapshot.lua",
+      "bytes": 356825,
+      "sha256": "ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/preview-native-1x.png",
+      "bytes": 18329,
+      "sha256": "93b4d73290c3a20da7b02f02b05786b57fd5d381da71b02b5839a8c6a344f80b"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/alpha-verification.json",
+      "bytes": 5278,
+      "sha256": "7b4c4de63a94cdb867ef58570fec9de13e8bb57e7dd0174d8170c4af88a29170"
+    }
+  ],
+  "upstreamSVG": {
+    "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/preview-svg-diagnostic.svg",
+    "bytes": 544954,
+    "sha256": "d50faaefdb205ae21b331309059325bbb0a4f173e0ff8b75028e0da9dc1d880a"
+  },
+  "svgChecks": {
+    "matchesCurrentCanonicalScene": true,
+    "deterministicTwice": true,
+    "all4315RectanglesExactCanonicalAttributes": true,
+    "externalImages": 0,
+    "externalResourceReferences": 0,
+    "scripts": 0,
+    "foreignObjects": 0,
+    "doctypeOrEntities": false,
+    "canvas": [
+      133,
+      133
+    ],
+    "backgroundAdded": false,
+    "opacityFormat": "unchanged upstream 4 decimal places"
+  },
+  "nativeB0B1": "not_run",
+  "officialNativeAcceptance": "not_run",
+  "productionEnabled": false,
+  "visualOwnerApproval": "pending",
+  "renderer": {
+    "name": "Inkscape",
+    "versionObserved": "Inkscape 1.4 (e7c3feb100, 2024-10-09)",
+    "executable": {
+      "path": "/usr/bin/inkscape",
+      "bytes": 27024,
+      "sha256": "a1db427b1666d73e477a841b925f2bc44185623cd178cd007f6da3ca8ab4c873"
+    },
+    "mainLibrary": {
+      "path": "/usr/lib/x86_64-linux-gnu/inkscape/libinkscape_base.so.1.4.0.0",
+      "bytes": 32977872,
+      "sha256": "6bc0988edff4a7c1cfa3f10853ea5d7c1fb55e9ca04eefb90f4d6f52ab5c56f9"
+    },
+    "cairoLibrary": {
+      "path": "/usr/lib/x86_64-linux-gnu/libcairo.so.2.11804.4",
+      "bytes": 1362632,
+      "sha256": "55e6961d9c35923426aca75b85e10d69977428ffb6569719be13a87eb4fcab66"
+    },
+    "localCopyright": {
+      "path": "/usr/share/doc/inkscape/copyright",
+      "bytes": 1839,
+      "sha256": "d2fdf24ad7acff64c3c8ff90aadf807f56a973c77d682a152bd1544d72b18e16"
+    },
+    "localSourceHint": "copyright metadata Source: http://inkscape.sourceforge.net/",
+    "packageDBObservation": "dpkg-query reports inkscape package not installed/no information; existing binary/libs are present",
+    "releaseBinaryProvenanceVerified": false,
+    "sourceCheckoutOrOfficialArchiveIdentity": "not verified; no install/download performed",
+    "command": "INKSCAPE_PROFILE_DIR=<new /tmp directory> XDG_CACHE_HOME=<same /tmp directory>/cache /usr/bin/inkscape --batch-process --export-area-page --export-type=png --export-width=133 --export-height=133 --export-background-opacity=0 --export-filename=<diagnostic.png> <exact upstream.svg>",
+    "exitCode": 0,
+    "headless": true,
+    "foregroundInput": false,
+    "warningsObserved": [
+      "No GUI available, some actions may fail",
+      "PangoFT2FontMap/GtkRecentManager wrapper warnings"
+    ],
+    "warningScope": "No font objects exist in this SVG; warnings are retained, not treated as device evidence."
+  },
+  "renderedPNG": {
+    "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/battle133/preview-svg-inkscape-133.png",
+    "bytes": 17467,
+    "sha256": "0505407a828bb1cbc9a03b4951330af2a9c15062338e513ce7e6d5d3439f5343"
+  },
+  "literalReferenceRGBA": {
+    "images": 4315,
+    "matchesDraftAlphaExactly": true,
+    "matchesDraftRGBAtNonzeroAlphaExactly": true,
+    "coverageOverlaps": 0
+  },
+  "metrics": [
+    {
+      "kind": "alpha",
+      "selectedPixels": 17689,
+      "differentPixels": 2157,
+      "differentChannels": 2157,
+      "maxAbsoluteChannelDifference": 1,
+      "units": "8bit alpha",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "straightRGB_all",
+      "selectedPixels": 17689,
+      "differentPixels": 13955,
+      "differentChannels": 40887,
+      "maxAbsoluteChannelDifference": 255,
+      "units": "8bit RGB; alpha0 hidden RGB is not a visual claim",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "straightRGB_nonzeroReferenceAlpha",
+      "selectedPixels": 4911,
+      "differentPixels": 1177,
+      "differentChannels": 2553,
+      "maxAbsoluteChannelDifference": 127,
+      "units": "8bit RGB",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "straightRGB_opaqueReferenceAlpha",
+      "selectedPixels": 479,
+      "differentPixels": 0,
+      "differentChannels": 0,
+      "maxAbsoluteChannelDifference": 0,
+      "units": "8bit RGB",
+      "exactZeroDifference": true
+    },
+    {
+      "kind": "premultipliedRGB_exactIntegerProduct",
+      "selectedPixels": 17689,
+      "differentPixels": 3213,
+      "differentChannels": 8725,
+      "maxAbsoluteChannelDifference": 381,
+      "units": "RGB*alpha integer 0..65025; divide255 for 0..255 scale",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "premultipliedRGB_rounded8bit",
+      "selectedPixels": 17689,
+      "differentPixels": 1846,
+      "differentChannels": 4188,
+      "maxAbsoluteChannelDifference": 1,
+      "units": "rounded RGB*alpha/255, 0..255",
+      "exactZeroDifference": false
+    }
+  ],
+  "alphaCoverage": {
+    "draftZero": 12778,
+    "actualZero": 12778,
+    "draftPartial": 4432,
+    "actualPartial": 4363,
+    "draftOpaque": 479,
+    "actualOpaque": 548,
+    "zeroBecameNonzero": 0,
+    "nonzeroBecameZero": 0,
+    "partialBecameOpaque": 69,
+    "svgMinusDraftHistogram": {
+      "0": 15532,
+      "-1": 138,
+      "1": 2019
+    }
+  },
+  "checks": {
+    "sourceGeometryColoursUnchanged": true,
+    "SVGResourceAuditPass": true,
+    "originalJSONLuaAndFailedPNGReportUnchanged": true,
+    "exactAlphaEquality": false,
+    "exactTransparencySupportMaskEquality": true,
+    "exactOpaqueRGBEquality": true,
+    "exactVisibleStraightRGBEquality": false,
+    "exactRoundedPremultipliedRGBEquality": false,
+    "noToleranceGateAdded": true
+  },
+  "disposition": "SVG/Inkscape OFFLINE visual-review comparison only, with reported quantization limits. Exact alpha error is not zero. Original canonical PNG FAIL evidence retained; no formal/native acceptance or production enablement.",
+  "upstreamFiles": [
+    {
+      "path": "backend/app/main.py",
+      "git_blob_sha": "50ac8de6ab4f39ab3eb9345fc71db9cd17c4bdaf",
+      "sha256": "74212a0c819cd28ece0f538225147fa2a035a1dee39ea2e08c1206947ee4681a"
+    },
+    {
+      "path": "LICENSE",
+      "git_blob_sha": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "backend/app/__init__.py",
+      "git_blob_sha": "11b604a7dba0d449274cff35e6caf86c24ce6953",
+      "sha256": "7fd01ff428a4b30a968026e7b10e5803eca0f76dcae7c45043f09b40d5050ebe"
+    },
+    {
+      "path": "backend/app/image_library.py",
+      "git_blob_sha": "7788c1ff844bb45c2d8ce542b9209a9925ac752a",
+      "sha256": "319df35046624e2030567a380b533a1438fc1ba1f49021ea8a050df8c6a30641"
+    },
+    {
+      "path": "backend/app/image_stretch.py",
+      "git_blob_sha": "70df10b7a32cb9a09d27d23793a057373c5a50ed",
+      "sha256": "902074a49f1a08c8a940c7226052cafe938b73d0039fa46468cba9eeea2eae2f"
+    },
+    {
+      "path": "backend/app/lua_mask.py",
+      "git_blob_sha": "5ee05e467c22f61698e7f8d91d1d17816f41a286",
+      "sha256": "316094833bc6a9bd195a80180c0fcd5e890ec8bcfe04c4a8dad8a53e59fa7744"
+    },
+    {
+      "path": "backend/app/lua_scene.py",
+      "git_blob_sha": "287ca0082cad8fbbcf58b3917b37b3eee6022942",
+      "sha256": "769ba3cc306cbbd7e4e2e1728d08df13eaa3b5ec49d429c42ab3b9938563b60c"
+    },
+    {
+      "path": "backend/app/prefab_library.py",
+      "git_blob_sha": "432d4f05a83bf34c092050fcedc02f3d744802bc",
+      "sha256": "8f44c337d4846dede460b834dc3b7a28ee82243e296d5c35fc3f854e1fc5716f"
+    },
+    {
+      "path": "backend/app/rotation.py",
+      "git_blob_sha": "fa29059d257175d0134f076b7654098ffed2fc14",
+      "sha256": "c4180ddadee067056c962148ef71db3e14861269205933f600c6d03c19cdfad2"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "git_blob_sha": "888af14cb5548475ffdb6f7801065ef4a80f4f75",
+      "sha256": "c541d0e8791a3bebd06868818633fb369e9a53deea26ce3405ba153c3aba7f7d"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/LICENSE",
+      "git_blob_sha": "e5aeef55373ae80203962fa57862db5342eb9f35",
+      "sha256": "b5f34362abd2e8c31b7a7bc62c2977f158faa4cd78b17ef7c197fb464e56a6ef"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/PROVENANCE.md",
+      "git_blob_sha": "104d66fa33808953bb9bc9ecbf2f08f3bca5a2a4",
+      "sha256": "b8f19a050d918a9a72c012c0103ceeb7b70ecc00366285feabfab6aaf4103c38"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/__init__.py",
+      "git_blob_sha": "e4bdd373dbc2909712cdc17e60ae25096e6e6e7d",
+      "sha256": "50fb0f9eacc5ff01af973f2006376d5ad7f7237f932726a76a2aa2453f2353a0"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/gia_lua.py",
+      "git_blob_sha": "efb132c66a24af0ffae68e037840c02e1c36fd83",
+      "sha256": "f6ea8a6cbafad620c9365786758f9c4ee976ede16a3b2582a5fd0cd0686922f4"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/lua_export.py",
+      "git_blob_sha": "9c16c6d9aa0333fb64a0f4877e8a8acf2d867550",
+      "sha256": "306c77912accc2b83b38ef3ad594f694816e8f84d6b36a13e56bc536e95b7afc"
+    },
+    {
+      "path": "backend/vendor/gia/json_to_gia.py",
+      "git_blob_sha": "a8f5bbbbc74ec68493827cd06190bbe0599c7920",
+      "sha256": "929fb37a82eb49049dc939cfc916656065a8a7f7391aef0b4d95d3b3d6623f61"
+    },
+    {
+      "path": "backend/vendor/gia/image_template.gia",
+      "git_blob_sha": "e6e71987343e3c668a6f85ad694da1ffd460658e",
+      "sha256": "212633c935566155ede68d5b9b4bb9feec1b5d98152c3646d91b5bad6f9fede3"
+    }
+  ]
+}

@@ -34,6 +34,10 @@
     "game-ip-ai-redraw": {
       "status": "AI-assisted source art manually reconstructed as native geometry; platform-project candidate only; no game-IP sublicense or commercial clearance",
       "evidence": "art/cards/geo-samples/PROVENANCE.md; art/cards/geo-samples/README.md; art/cards/traveler-geo/PROVENANCE.md"
+    },
+    "portrait-ai-derivative": {
+      "status": "User-commissioned AI source design and automated colour-region draft for this Genshin platform project; no IP sublicense or commercial clearance; native production not approved",
+      "evidence": "art/characters/traveler-geo/portraits/README.md; asset.json and prompt.txt; existing license audit"
     }
   },
   "files": {
@@ -2075,6 +2079,174 @@
       "sha256": "1e410a4596bc8515be52790069e2f5fd6c78e36123c6213368186b00cf1c26d9",
       "category": "project-geometry",
       "evidence": "docs/reviews/approved-ui-publication-20261028/PROVENANCE.md; docs/reviews/approved-ui-publication-20261028/README.md; docs/reviews/potion-shell-integration-20261028/INDEPENDENT-REVIEW.md; project-authored primitive shell geometry from approved Main/Map design parameters, rendered as offline semantic comparison; no bottle, platform texture or third-party raster embedded; not game/device evidence or commercial clearance"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/alpha-verification.json": {
+      "sha256": "7ea0103e3540c77bb7a4ffb70028ebc7af4f61fffabdf919010dd8b7e1323039",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/asset.json": {
+      "sha256": "90767532c8d5b49a686f669f64ac0abe9cd20965da8994c3c9c2c1f121839206",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/editable.scene.json": {
+      "sha256": "1958b2faabfb4737a85216d09edc816a316f33f446897ca6a06fd349b932c077",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/export-report.json": {
+      "sha256": "827f82a7fb2d2ed32a92fc5dabf7cd844b104f7bdf5b501036b7a98fc353f901",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/literal-drawing.json": {
+      "sha256": "866ae50e34cab9e0e3a69e7944c874ba0583dc1f27906c7a497e38087726f0ae",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/native-art.json": {
+      "sha256": "93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/native-art.lua": {
+      "sha256": "ca442b6467c79a6a8d8662f31aeca52060a24f817c47763a180953feef98f0ef",
+      "category": "primitive-runtime"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-native-1x.png": {
+      "sha256": "d96f7f81c436971a5d7aa78740b580a7bb237d5ac2962e51f5532dbb51f9eb80",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-native-4x.png": {
+      "sha256": "439ead18c007b91cf872dac2fae0f0b625b831d82d7f2dda5552cbcb244be836",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-redraw-draft-1x.png": {
+      "sha256": "3d5f556d42231612c9d3b5c3d48aff9ce16ea406a2be94ab333a591f1ae61fee",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-redraw-draft-4x.png": {
+      "sha256": "117a69d91b796ffc1731be00b771e1e8a3fb4f90da36dd1f8bffcca84ef2489e",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-source-1x.png": {
+      "sha256": "8d2741b022a8bdc6e62984fbd7e908e29c490fb7b2fbce9b5bb56283cfe3ad10",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-source-4x.png": {
+      "sha256": "00433a0e75cffa433c001658ba3d9f218c6584235779b8a96ed36a8f2dc1202f",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-svg-diagnostic.svg": {
+      "sha256": "611a5075a95dd569e53c1ed6b1c732b11bbe6f6ed4c652ab92f11e128d91a336",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/preview-svg-inkscape-96.png": {
+      "sha256": "cae70999350f6330a9acf24ada6bab7e5f708d7853006a70c26fd60915a3a7ef",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/redraw-recipe.json": {
+      "sha256": "3fff7c9ba92d1db5f6399b909fb184090916fdfa80c3846935dfcb6934efcff9",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/runtime-no-snapshot.lua": {
+      "sha256": "c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb",
+      "category": "primitive-runtime"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/source.png": {
+      "sha256": "6b32c5e192d699c20808c3c697640275ac4b42953d6904eb51b005d8ce66a788",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/svg-preview-diagnostic.json": {
+      "sha256": "7561813404d78ff795849dd27368edf85d4eea32b4c1b495dc9a9d824c1c13ca",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/avatar96/vm-report.json": {
+      "sha256": "0b1878e90c9c3cbdddafa00c4ffc536ff37aca4d9d9c6c420162652ae07dd313",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/alpha-verification.json": {
+      "sha256": "7b4c4de63a94cdb867ef58570fec9de13e8bb57e7dd0174d8170c4af88a29170",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/asset.json": {
+      "sha256": "5a8b51795e2cba2b9576b10b7d63223f1ff11abddc5291c9c63db837c07043d7",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/editable.scene.json": {
+      "sha256": "40e2507c32d3e9a78e31b2c39b775d9e00815e4631830d118ec96374525ddf0a",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/export-report.json": {
+      "sha256": "911062d0d90362f23c73686b93ff85727c432bce3a26ebdf47dc92f2ee5bfa50",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/literal-drawing.json": {
+      "sha256": "f1a8c8a315812dfaad13b36b212e0ffef26b8c3251b0d473b660ad3571a31de5",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/native-art.json": {
+      "sha256": "f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/native-art.lua": {
+      "sha256": "22182f1fa79d9b09f68aebce7a81785d8310df3f1f1cffb9654bd0aaac174da4",
+      "category": "primitive-runtime"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-native-1x.png": {
+      "sha256": "93b4d73290c3a20da7b02f02b05786b57fd5d381da71b02b5839a8c6a344f80b",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-native-4x.png": {
+      "sha256": "9a4fc13fa950c47250546c9afccd2ec1eb31178a5bfe0c2b6bad8988dfa4e48f",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-redraw-draft-1x.png": {
+      "sha256": "17aeaea62261c69a6ff09f29d09782b0c2f6556c75bda772346a4b00cd77974c",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-redraw-draft-4x.png": {
+      "sha256": "90c6ba65bb6406eb59bc4ad7a5c9eb9fbc3660f7670da67b91b34e55874bffdd",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-source-1x.png": {
+      "sha256": "d016b18f2360e07208b96ebdac67fdf58b7f5d17e05c626a3ffc71886e6c07c3",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-source-4x.png": {
+      "sha256": "cebb3c7c05d17c5b6f7fd9d37d2028fe96ab84b53074dd2d46e2f2f2e128b021",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-svg-diagnostic.svg": {
+      "sha256": "d50faaefdb205ae21b331309059325bbb0a4f173e0ff8b75028e0da9dc1d880a",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/preview-svg-inkscape-133.png": {
+      "sha256": "0505407a828bb1cbc9a03b4951330af2a9c15062338e513ce7e6d5d3439f5343",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/redraw-recipe.json": {
+      "sha256": "f136610f154e05eb16c9793f17d89fc6a2160374f6d10f469feaa2d246a599ad",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/runtime-no-snapshot.lua": {
+      "sha256": "ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880",
+      "category": "primitive-runtime"
+    },
+    "art/characters/traveler-geo/portraits/battle133/source.png": {
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/svg-preview-diagnostic.json": {
+      "sha256": "1babce107bd2b4928168c6d1763cae60400fa500d6861b569cb7d9e782a39c4d",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/battle133/vm-report.json": {
+      "sha256": "b3fb4d88c93da7d1779a29c8dc78184478e4f5421519a4ca55a0052715f38d4e",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/capacity-experiment.json": {
+      "sha256": "1bd93809fbf2dcf54261589b867109d4a2a28b0dd7fd54b1139889cc5697a3c5",
+      "category": "portrait-ai-derivative"
+    },
+    "art/characters/traveler-geo/portraits/catalog.json": {
+      "sha256": "719327634748fded599b1cb50c4f8cedfce2ab4470e8fb209591ba54cb5a1a85",
+      "category": "portrait-ai-derivative"
     }
   }
 }

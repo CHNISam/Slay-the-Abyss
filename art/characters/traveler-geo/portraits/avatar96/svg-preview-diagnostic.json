@@ -1,0 +1,290 @@
+{
+  "scope": "existing pinned export_svg API plus installed headless SVG renderer diagnostic; not a new exporter or native result",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "stage": "measured_strict_alpha_fail_retained",
+  "inputs": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/editable.scene.json",
+      "bytes": 1377800,
+      "sha256": "1958b2faabfb4737a85216d09edc816a316f33f446897ca6a06fd349b932c077"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.json",
+      "bytes": 2658277,
+      "sha256": "93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.lua",
+      "bytes": 2794055,
+      "sha256": "ca442b6467c79a6a8d8662f31aeca52060a24f817c47763a180953feef98f0ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/runtime-no-snapshot.lua",
+      "bytes": 395396,
+      "sha256": "c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-native-1x.png",
+      "bytes": 17710,
+      "sha256": "d96f7f81c436971a5d7aa78740b580a7bb237d5ac2962e51f5532dbb51f9eb80"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/alpha-verification.json",
+      "bytes": 5248,
+      "sha256": "7ea0103e3540c77bb7a4ffb70028ebc7af4f61fffabdf919010dd8b7e1323039"
+    }
+  ],
+  "upstreamSVG": {
+    "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-svg-diagnostic.svg",
+    "bytes": 606937,
+    "sha256": "611a5075a95dd569e53c1ed6b1c732b11bbe6f6ed4c652ab92f11e128d91a336"
+  },
+  "inkscapeExecutable": {
+    "path": "/usr/bin/inkscape",
+    "bytes": 27024,
+    "sha256": "a1db427b1666d73e477a841b925f2bc44185623cd178cd007f6da3ca8ab4c873"
+  },
+  "svgChecks": {
+    "matchesCurrentCanonicalScene": true,
+    "deterministicTwice": true,
+    "all4822RectanglesExactCanonicalAttributes": true,
+    "externalImages": 0,
+    "externalResourceReferences": 0,
+    "scripts": 0,
+    "foreignObjects": 0,
+    "doctypeOrEntities": false,
+    "canvas": [
+      96,
+      96
+    ],
+    "backgroundAdded": false,
+    "opacityFormat": "unchanged upstream 4 decimal places"
+  },
+  "nativeB0B1": "not_run",
+  "officialNativeAcceptance": "not_run",
+  "productionEnabled": false,
+  "visualOwnerApproval": "pending",
+  "renderer": {
+    "name": "Inkscape",
+    "versionObserved": "Inkscape 1.4 (e7c3feb100, 2024-10-09)",
+    "executable": {
+      "path": "/usr/bin/inkscape",
+      "bytes": 27024,
+      "sha256": "a1db427b1666d73e477a841b925f2bc44185623cd178cd007f6da3ca8ab4c873"
+    },
+    "mainLibrary": {
+      "path": "/usr/lib/x86_64-linux-gnu/inkscape/libinkscape_base.so.1.4.0.0",
+      "bytes": 32977872,
+      "sha256": "6bc0988edff4a7c1cfa3f10853ea5d7c1fb55e9ca04eefb90f4d6f52ab5c56f9"
+    },
+    "cairoLibrary": {
+      "path": "/usr/lib/x86_64-linux-gnu/libcairo.so.2.11804.4",
+      "bytes": 1362632,
+      "sha256": "55e6961d9c35923426aca75b85e10d69977428ffb6569719be13a87eb4fcab66"
+    },
+    "localCopyright": {
+      "path": "/usr/share/doc/inkscape/copyright",
+      "bytes": 1839,
+      "sha256": "d2fdf24ad7acff64c3c8ff90aadf807f56a973c77d682a152bd1544d72b18e16"
+    },
+    "localSourceHint": "copyright metadata Source: http://inkscape.sourceforge.net/",
+    "packageDBObservation": "dpkg-query reports inkscape package not installed/no information; existing binary/libs are present",
+    "releaseBinaryProvenanceVerified": false,
+    "sourceCheckoutOrOfficialArchiveIdentity": "not verified; no install/download performed",
+    "command": "INKSCAPE_PROFILE_DIR=<new /tmp directory> /usr/bin/inkscape --batch-process --export-area-page --export-type=png --export-width=96 --export-height=96 --export-background-opacity=0 --export-filename=<diagnostic.png> <exact upstream.svg>",
+    "exitCode": 0,
+    "headless": true,
+    "foregroundInput": false,
+    "warningsObserved": [
+      "No GUI available, some actions may fail",
+      "PangoFT2FontMap/GtkRecentManager wrapper warnings",
+      "Fontconfig: no writable cache directories"
+    ],
+    "warningScope": "No font objects exist in this SVG; warnings are retained, not treated as device evidence."
+  },
+  "renderedPNG": {
+    "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-svg-inkscape-96.png",
+    "bytes": 16878,
+    "sha256": "cae70999350f6330a9acf24ada6bab7e5f708d7853006a70c26fd60915a3a7ef"
+  },
+  "literalReferenceRGBA": {
+    "images": 4822,
+    "zeroAlphaCells": 3045,
+    "nonzeroAlphaCells": 6171,
+    "matchesDraftAlphaExactly": true,
+    "matchesDraftRGBAtNonzeroAlphaExactly": true,
+    "coverageOverlaps": 0
+  },
+  "metrics": [
+    {
+      "kind": "alpha",
+      "selectedPixels": 9216,
+      "differentPixels": 4492,
+      "differentChannels": 4492,
+      "maxAbsoluteChannelDifference": 1,
+      "units": "8bit alpha",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "straightRGB_all",
+      "selectedPixels": 9216,
+      "differentPixels": 3459,
+      "differentChannels": 9794,
+      "maxAbsoluteChannelDifference": 255,
+      "units": "8bit RGB; hidden RGB at alpha=0 is not a visual claim",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "straightRGB_nonzeroReferenceAlpha",
+      "selectedPixels": 6171,
+      "differentPixels": 414,
+      "differentChannels": 659,
+      "maxAbsoluteChannelDifference": 126,
+      "units": "8bit RGB",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "straightRGB_opaqueReferenceAlpha",
+      "selectedPixels": 268,
+      "differentPixels": 0,
+      "differentChannels": 0,
+      "maxAbsoluteChannelDifference": 0,
+      "units": "8bit RGB",
+      "exactZeroDifference": true
+    },
+    {
+      "kind": "premultipliedRGB_exactIntegerProduct",
+      "selectedPixels": 9216,
+      "differentPixels": 4832,
+      "differentChannels": 13898,
+      "maxAbsoluteChannelDifference": 255,
+      "units": "RGB*alpha integer 0..65025; divide by255 for 0..255 scale",
+      "exactZeroDifference": false
+    },
+    {
+      "kind": "premultipliedRGB_rounded8bit",
+      "selectedPixels": 9216,
+      "differentPixels": 4341,
+      "differentChannels": 9409,
+      "maxAbsoluteChannelDifference": 1,
+      "units": "rounded RGB*alpha/255, 0..255",
+      "exactZeroDifference": false
+    }
+  ],
+  "alphaCoverage": {
+    "draftZero": 3045,
+    "actualZero": 3045,
+    "draftPartial": 5903,
+    "actualPartial": 5424,
+    "draftOpaque": 268,
+    "actualOpaque": 747,
+    "zeroBecameNonzero": 0,
+    "nonzeroBecameZero": 0,
+    "partialBecameOpaque": 479,
+    "svgMinusDraftHistogram": {
+      "0": 4724,
+      "-1": 74,
+      "1": 4418
+    }
+  },
+  "checks": {
+    "sourceGeometryColoursUnchanged": true,
+    "SVGResourceAuditPass": true,
+    "originalJSONLuaAndFailedPNGReportUnchanged": true,
+    "exactAlphaEquality": false,
+    "exactTransparencySupportMaskEquality": true,
+    "exactOpaqueRGBEquality": true,
+    "exactVisibleStraightRGBEquality": false,
+    "exactRoundedPremultipliedRGBEquality": false,
+    "noToleranceGateAdded": true
+  },
+  "inference": "SVG path avoids the observed closed-polygon coverage expansion, but remaining +/-1 alpha and premultiplied-channel quantization is consistent with four-decimal SVG opacity plus the renderer pipeline; individual causes are not isolated.",
+  "disposition": "Diagnostic comparison retained only. Strict alpha equality did not pass; do not enable or call the optional SVG preview route approved. No adapter/exporter code was changed.",
+  "upstreamFiles": [
+    {
+      "path": "backend/app/main.py",
+      "git_blob_sha": "50ac8de6ab4f39ab3eb9345fc71db9cd17c4bdaf",
+      "sha256": "74212a0c819cd28ece0f538225147fa2a035a1dee39ea2e08c1206947ee4681a"
+    },
+    {
+      "path": "LICENSE",
+      "git_blob_sha": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "backend/app/__init__.py",
+      "git_blob_sha": "11b604a7dba0d449274cff35e6caf86c24ce6953",
+      "sha256": "7fd01ff428a4b30a968026e7b10e5803eca0f76dcae7c45043f09b40d5050ebe"
+    },
+    {
+      "path": "backend/app/image_library.py",
+      "git_blob_sha": "7788c1ff844bb45c2d8ce542b9209a9925ac752a",
+      "sha256": "319df35046624e2030567a380b533a1438fc1ba1f49021ea8a050df8c6a30641"
+    },
+    {
+      "path": "backend/app/image_stretch.py",
+      "git_blob_sha": "70df10b7a32cb9a09d27d23793a057373c5a50ed",
+      "sha256": "902074a49f1a08c8a940c7226052cafe938b73d0039fa46468cba9eeea2eae2f"
+    },
+    {
+      "path": "backend/app/lua_mask.py",
+      "git_blob_sha": "5ee05e467c22f61698e7f8d91d1d17816f41a286",
+      "sha256": "316094833bc6a9bd195a80180c0fcd5e890ec8bcfe04c4a8dad8a53e59fa7744"
+    },
+    {
+      "path": "backend/app/lua_scene.py",
+      "git_blob_sha": "287ca0082cad8fbbcf58b3917b37b3eee6022942",
+      "sha256": "769ba3cc306cbbd7e4e2e1728d08df13eaa3b5ec49d429c42ab3b9938563b60c"
+    },
+    {
+      "path": "backend/app/prefab_library.py",
+      "git_blob_sha": "432d4f05a83bf34c092050fcedc02f3d744802bc",
+      "sha256": "8f44c337d4846dede460b834dc3b7a28ee82243e296d5c35fc3f854e1fc5716f"
+    },
+    {
+      "path": "backend/app/rotation.py",
+      "git_blob_sha": "fa29059d257175d0134f076b7654098ffed2fc14",
+      "sha256": "c4180ddadee067056c962148ef71db3e14861269205933f600c6d03c19cdfad2"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "git_blob_sha": "888af14cb5548475ffdb6f7801065ef4a80f4f75",
+      "sha256": "c541d0e8791a3bebd06868818633fb369e9a53deea26ce3405ba153c3aba7f7d"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/LICENSE",
+      "git_blob_sha": "e5aeef55373ae80203962fa57862db5342eb9f35",
+      "sha256": "b5f34362abd2e8c31b7a7bc62c2977f158faa4cd78b17ef7c197fb464e56a6ef"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/PROVENANCE.md",
+      "git_blob_sha": "104d66fa33808953bb9bc9ecbf2f08f3bca5a2a4",
+      "sha256": "b8f19a050d918a9a72c012c0103ceeb7b70ecc00366285feabfab6aaf4103c38"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/__init__.py",
+      "git_blob_sha": "e4bdd373dbc2909712cdc17e60ae25096e6e6e7d",
+      "sha256": "50fb0f9eacc5ff01af973f2006376d5ad7f7237f932726a76a2aa2453f2353a0"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/gia_lua.py",
+      "git_blob_sha": "efb132c66a24af0ffae68e037840c02e1c36fd83",
+      "sha256": "f6ea8a6cbafad620c9365786758f9c4ee976ede16a3b2582a5fd0cd0686922f4"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/lua_export.py",
+      "git_blob_sha": "9c16c6d9aa0333fb64a0f4877e8a8acf2d867550",
+      "sha256": "306c77912accc2b83b38ef3ad594f694816e8f84d6b36a13e56bc536e95b7afc"
+    },
+    {
+      "path": "backend/vendor/gia/json_to_gia.py",
+      "git_blob_sha": "a8f5bbbbc74ec68493827cd06190bbe0599c7920",
+      "sha256": "929fb37a82eb49049dc939cfc916656065a8a7f7391aef0b4d95d3b3d6623f61"
+    },
+    {
+      "path": "backend/vendor/gia/image_template.gia",
+      "git_blob_sha": "e6e71987343e3c668a6f85ad694da1ffd460658e",
+      "sha256": "212633c935566155ede68d5b9b4bb9feec1b5d98152c3646d91b5bad6f9fede3"
+    }
+  ]
+}
