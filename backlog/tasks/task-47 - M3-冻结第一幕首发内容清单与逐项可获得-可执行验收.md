@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-29 04:17'
+updated_date: '2026-10-29 06:45'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -33,7 +33,7 @@ ordinal: 75000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-冻结两职业两幕比赛清单，逐项核对合法获取、执行与平台证据。
+冻结岩系旅行者前两幕比赛清单，逐项核对合法获取、执行与平台证据；雷电将军留待下一版本。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
