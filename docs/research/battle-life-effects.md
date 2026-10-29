@@ -50,3 +50,15 @@
 尚无本轮官方导入、原生ready、PC/实体手机性能、画面和实际声音证据，不能把离线原生树记录称为实际可玩验收。
 
 独立接线审查另发现固定 sweep 复用的污染风险：投射改变位置、束缚改变角度，后续群攻若只改缩放会沿用旧变换。中控补归位后新增第7组真实回归：先播放旋转束缚，再换战斗用正常 Cleave，检查 sweep 回到 enemyRow 中点、原y及0度；完整状态不变。7组标准 runner 通过，4201ms。测试没有通过把两种效果改用新控件来掩盖复用问题。
+
+## 本轮候选图片默认值审计修正
+
+完整候选第一次严格读回出现 `UI_MISMATCH`，核查已安装 `D:/MiliastraTools/genshin-miliastra-mcp/src/scene-save.mjs`（SHA256 `9ca00d37983485b940a3b2a36bf4458c0ac09d0177c0a321f5aa922459bd4bd2`），不是改动原UI或放宽画面比较：
+
+- 2528–2530行 `tint` 使用默认 `#ffffff`、opacity=1，并以 `Math.round(opacity*255)` 打包 ARGB。
+- 2568行 image 配置只在 colour/opacity 显式存在时调用 tint。
+- 2786–2790行 image 读回默认 ARGB=`0xffffffff`；仅当值不等于该默认值时，才同时输出 colour 与 opacity。因此显式不透明白图片读回时会省略两字段。
+
+`native-candidate-audit.mjs` 现在只在 control上下文且kind=image且颜色为白且alpha为不透明默认时省略色字段；源码alpha精确round到255也等价，沿用已有精确字节规则。半透明/透明白不省略；其他色、非image控件及嵌套不透明metadata都保持逐项比较。
+
+新增验收先因显式白/省略白不等价失败，修复后 `native-candidate-audit.test.mjs` 14组全部通过，其中新增负控覆盖有色、黑色、接近白、透明与半透明白、非image四类及嵌套metadata。把本轮同源生成UI与实际候选读回的完整control树送入同一生产比较器，10833/10833控件、maxChildren60/60，issues为空；此项仅证明完整控件树比较通过，不冒充整个候选脚本/参数/节点图/静态检查或实机通过。最终完整候选审计由中控继续执行。
