@@ -565,7 +565,7 @@
       "id": "golden_idol",
       "sourceId": "Golden Idol",
       "name": "鎏金神像",
-      "description": "非宝箱GOLD奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。",
+      "description": "非宝箱的金币奖励额外增加25%（额外金额四舍五入）；直接金币和被盗金币不加成。",
       "rarity": "special",
       "trigger": "hooks",
       "effects": []
