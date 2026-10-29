@@ -5,7 +5,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/player-death-transition-inverse.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
-assert.equal(hash(bytes),'9942f1db932f09852b193f1813ab26446e6e529474bf051828db050662435d46','complete player-death replay layer identity');
+assert.equal(hash(bytes),'864bef1d366836036fc8d7cefd6c9fb18d0c90877628f1030a310ac780148dd7','complete player-death replay layer identity');
 export const playerDeathLayer=JSON.parse(bytes);
 export function prePlayerDeathSource(path,source){
   const binding=playerDeathLayer.files[path];

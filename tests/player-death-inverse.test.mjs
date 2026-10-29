@@ -15,7 +15,7 @@ test('both original-budget death slices cover all ten registered cases exactly o
 });
 test('death replay layer binds only this exact change and restores every complete prior source',()=>{
   assert.equal(playerDeathLayer.baseHead,'6795160ef93625f35ac61841f2a92d83524e8414');
-  assert.equal(Object.keys(playerDeathLayer.files).length,10);
+  assert.equal(Object.keys(playerDeathLayer.files).length,11);
   for(const[path,binding]of Object.entries(playerDeathLayer.files)){
     const live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
     assert.equal(hash(live),binding.afterSha256,path);

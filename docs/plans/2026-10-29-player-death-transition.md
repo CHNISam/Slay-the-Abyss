@@ -32,7 +32,7 @@ Acceptance: fatal contact precedes collapse; exactly one player death/defeat cue
 
 ## Latest Develop Integration
 
-The old PR328 was based on `20a74da7`. PR329 advanced develop to `6795160e` while checks ran, conflicting in historical adapters. The production fix was cherry-picked linearly onto that new base without replacing its mobile/native changes. The exact 10-file inverse now reconstructs `6795160e` and composes at the existing PR323 replay entry instead of changing eight older adapters. No frozen archive or original assertion was relaxed.
+The old PR328 was based on `20a74da7`. PR329 advanced develop to `6795160e` while checks ran, conflicting in historical adapters. The production fix was cherry-picked linearly onto that new base without replacing its mobile/native changes. The exact 11-file inverse now reconstructs `6795160e` and composes at the existing PR323 replay entry instead of changing eight older adapters. It includes the shared gesture fixture's result-reveal wait, preserving that fixture's original formal-source witness too. No frozen archive or original assertion was relaxed.
 
 Fresh checks on the new base: all 40 selected source/inverse/roster/owner cases pass; all ten original death cases pass in two five-case processes (original 30-second limits retained). Engineering passes with 258 modules, 1440 edges, 3955/3955 measurements, 948 governed responsibility measurements, zero new diagnostics/37 historical warnings, four critical mutations killed, and four native-contract tests. Layout/capacity tests pass 16 cases. Independent review compared every inverse against the new Git base and independently ran both death slices and five inverse guards.
 

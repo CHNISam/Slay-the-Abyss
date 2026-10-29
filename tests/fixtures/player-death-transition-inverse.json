@@ -411,6 +411,23 @@
           ]
         }
       ]
+    },
+    "tests/lua/support/battle_gesture_fixture.lua": {
+      "beforeSha256": "64407f8ea32f7591ce65cb25a675acee5e499581155942ee448ca4c300691715",
+      "afterSha256": "134616d268298a4d3337ca5e65af2af3568a06c3cb3382e4e0fb8e0fcf3a9868",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            "        for _=1,400 do if not ui.busy then return end; host:update(0.05) end",
+            "        assert(not ui.busy,\"feedback remained stuck\")"
+          ],
+          "after": [
+            "        for _=1,400 do if not ui.busy and not host.motion.deathReveal then return end; host:update(0.05) end",
+            "        assert(not ui.busy and not host.motion.deathReveal,\"feedback remained stuck\")"
+          ]
+        }
+      ]
     }
   }
 }
