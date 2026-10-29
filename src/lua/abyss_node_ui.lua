@@ -9,6 +9,7 @@ local Theme = require("abyss_theme")
 local M = {}
 local CardDisplay = require('abyss_card_display')
 local EndingUI=require('abyss_node_ui_ending')
+local MatchUI=require('abyss_match_event_ui')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱",ending_proceed='真结局' }
@@ -94,6 +95,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
 
     require("abyss_node_ui_events").install(ctx)
 
+    MatchUI.install(ctx)
+
     require("abyss_node_ui_treasure").install(ctx)
 
     function ctx.self:holding()
@@ -126,7 +129,10 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local screen,hint=ctx.nodeScreen(view,node,result,active)
         local recallSource,treasureSource
         for _, name in ipairs({ "shopView", "campView", "pickerView", "eventView", "treasureView" }) do ctx.show(ctx.child(name), name == screen) end
-        if screen == "shopView" then hint = ctx.renderShop(view, node)
+        -- Reset shared card faces before the ordinary picker/camp renderer writes them.
+        if not (active and MatchUI.isBoard(node.event)) then ctx.resetMatch() end
+        if active and MatchUI.isBoard(node.event) then hint=ctx.renderMatch(view,node)
+        elseif screen == "shopView" then hint = ctx.renderShop(view, node)
         elseif screen == "campView" then hint, recallSource = ctx.renderCamp(view, node, result)
         elseif screen == "pickerView" then hint = ctx.renderPicker(view, node, result)
         elseif screen == "eventView" then

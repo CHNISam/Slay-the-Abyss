@@ -1,3 +1,4 @@
+import {eventProductionInverse,materializeBeforeEventProduction} from './event-production-source-inverse.mjs';
 import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {pr323AcceptedSourceInverse,requirePr323Source} from './pr323-accepted-source-inverse.mjs';
 export {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
@@ -39,6 +40,7 @@ export function materializeHistoricalPresentation(directory){
     const source=readFileSync(path,'utf8');requirePr323Source(path,source);
     return [path,preAcceptedPr323Source(path,source)];
   });
+  materializeBeforeEventProduction(directory,{historicalPaths:[...new Set([...Object.keys(pr323AcceptedSourceInverse.files),...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files),...nodeUiAddedPaths])].filter(path=>eventProductionInverse.files[path]?.beforeSource!=null)});
   for(const [path,source]of acceptedSources){
     if(source===null)rmSync(join(directory,path),{force:true});
     else {mkdirSync(dirname(join(directory,path)),{recursive:true});writeFileSync(join(directory,path),source);}

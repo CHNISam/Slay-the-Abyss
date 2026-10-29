@@ -16,6 +16,7 @@ local RelicHooks = require('abyss_relic_hooks')
 local Act1Events = require('abyss_act1_events')
 local Act2Events = require('abyss_act2_events')
 local Act3Events = require('abyss_act3_events')
+local Match=require('abyss_match_event')
 local Acts = require('abyss_acts')
 local Treasure=require('abyss_treasure')
 
@@ -58,6 +59,10 @@ return function(M)
     local function prepareEvent(run,node,flow,miscRng)
         local id=node.eventId or run.data.rules.events.encounterId
         flow.event = { id = id }
+        if id=='match_game' then
+            local prepared,why=Match.prepare(run,flow.event,miscRng,node.floor)
+            assert(prepared,why)
+        end
         if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
         if Act2Events.ids[id] then Act2Events.prepare(run,flow.event) end
         if Act3Events.ids[id] then Act3Events.prepare(run,flow.event,miscRng) end
@@ -195,7 +200,7 @@ return function(M)
         if node.type~='event' then return true end
         local id=node.eventId or run.data.rules.events.encounterId
         if not legacyEvents[id] and not Act1Events.ids[id] and not Act2Events.ids[id]
-            and not Act3Events.ids[id] then return false,'event_unavailable' end
+            and not Act3Events.ids[id] and id~='match_game' then return false,'event_unavailable' end
         if Act3Events.ids[id] and run.act~=3 then return false,'event_unavailable' end
         if id=='cleric' and run.gold<run.data.rules.events.cleric.minGold then return false,'event_unavailable' end
         return true

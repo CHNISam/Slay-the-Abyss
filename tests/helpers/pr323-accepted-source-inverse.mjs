@@ -1,3 +1,4 @@
+import {preEventProductionSource} from './event-production-source-inverse.mjs';
 // Exact outer composition only. Both accepted20a and original323 witnesses stay immutable.
 import assert from 'node:assert/strict';
 import {prePlayerDeathSource} from './player-death-transition-inverse.mjs';
@@ -24,6 +25,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
+ source=preEventProductionSource(path,source);
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const binding=proof.files[path];
@@ -34,6 +36,7 @@ export function requirePr323Source(path,source){
 }
 function project(path,source,target){
  if(typeof source!=='string')return source;
+ source=preEventProductionSource(path,source);
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const normalized=normalize(source),binding=proof.files[path];

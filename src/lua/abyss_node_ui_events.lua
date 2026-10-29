@@ -6,9 +6,11 @@ local Act3Events = require('abyss_act3_events')
 local number = require("abyss_numbers").integer
 local C = Theme.color
 local kinds = { camp = "营地", shop = "商店", event = "未知事件", treasure = "宝箱",ending_proceed='真结局' }
-local function stagedEvent(id)return id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
+local function stagedEvent(id)return id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local events = {
     neow={name='高塔恩赐'},
+    duplicator={name='映光石龛'},
+    match_game={name='留影牌局'},
     joust={name='决斗'},
     beggar={name='乞丐'},
     mausoleum={name='古墓'},
