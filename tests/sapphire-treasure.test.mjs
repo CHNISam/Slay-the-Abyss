@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { runLua } from '../scripts/test-lua.mjs';
+import {nodesGovernanceWitness, nodesGovernanceSources} from './helpers/nodes-governance-source.mjs';
 
 const lock=JSON.parse(readFileSync('tests/fixtures/sapphire-treasure-source-contract.json','utf8'));
 test('Sapphire source contract pins exact chest/reward/room/effect and hook blobs',()=>{
@@ -52,7 +53,7 @@ function verifyIntegratedLegacyTreasure(code){
 }
 
 test('legacy generation changes only reviewed Darkstone destination argument; Boss blocks stay byte-identical',()=>{
-  const code=readFileSync('src/lua/abyss_nodes.lua','utf8').replaceAll('\r\n','\n');
+  const code=nodesGovernanceWitness();
   verifyIntegratedLegacyTreasure(code);
   assert.ok(code.includes("local function unownedRelics(run,roomFloor)"));
   assert.ok(code.includes("and ((relic.id~='darkstone_periapt' and relic.sourceId~='Darkstone Periapt') or roomFloor<=48)"));
@@ -87,7 +88,7 @@ test('legacy generation changes only reviewed Darkstone destination argument; Bo
 });
 
 test('original frozen treasure witness rejects stale-floor, RNG and gold drift after exact normalization',()=>{
-  const code=readFileSync('src/lua/abyss_nodes.lua','utf8').replaceAll('\r\n','\n');
+  const code=nodesGovernanceWitness();
   for(const [before,after] of [
     ['local relics = unownedRelics(run,node.floor)','local relics = unownedRelics(run,run.floor)'],
     ['relics[Combat.random(random, #relics)]','relics[Combat.random(random, #relics-1)]'],
@@ -99,10 +100,31 @@ test('original frozen treasure witness rejects stale-floor, RNG and gold drift a
 });
 
 test('same existing eligibility function governs Ruby and Sapphire without adding history',()=>{
-  const code=readFileSync('src/lua/abyss_nodes.lua','utf8');
+  const code=nodesGovernanceWitness();
   assert.match(code,/return endingKeyEligible\(run,'ruby'\)/);
   assert.match(code,/flow\.reward\.relicId and endingKeyEligible\(run,'sapphire'\)/);
   assert.doesNotMatch(code,/run\.endingUnlocked\s*=(?!=)/);
+});
+
+test('live extracted treasure RNG and Boss preparation bodies cannot evade the original frozen hashes',()=>{
+  const sources=nodesGovernanceSources();
+  const assertBoss=code=>{
+    const block=lock.legacyBlocks.find(row=>row.name==='legacyBossPreparation');
+    const start=code.indexOf(block.start),end=code.indexOf(block.endExclusive,start);
+    assert.ok(start>0&&end>start);
+    assert.equal(digest(code.slice(start,end)),block.sha256);
+  };
+  assertBoss(nodesGovernanceWitness(sources));
+  for(const [before,after] of [
+    ['relics[Combat.random(random, #relics)]','relics[Combat.random(random, #relics-1)]'],
+    ['table.remove(pool, Combat.random(random, #pool))','table.remove(pool, Combat.random(random, #pool-1))'],
+  ]){
+    const entry=sources.entry.replace(before,after);assert.notEqual(entry,sources.entry);
+    assert.throws(()=>{
+      const code=nodesGovernanceWitness({...sources,entry});
+      verifyIntegratedLegacyTreasure(code);assertBoss(code);
+    });
+  }
 });
 
 // The 8–14 process exceeded its unchanged 30s budget. Only registration

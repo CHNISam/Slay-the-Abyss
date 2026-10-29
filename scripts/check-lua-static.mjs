@@ -93,6 +93,7 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
+  'src/lua/abyss_nodes.lua': [],
   'src/lua/abyss_run.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
@@ -138,7 +139,18 @@ const responsibilityRoots = {
     "function 'refreshForeground'", "function 'overlaysBlocked'",
   ],
 };
-const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run_potion_candidate.*)\.lua$/.test(file);
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run_potion_candidate.*|nodes(?:_.+)?)\.lua$/.test(file);
+export function reviewModuleSize(sources, budgets = {'src/lua/abyss_nodes.lua': 1000}) {
+  const modules = [], errors = [];
+  for (const [file, limit] of Object.entries(budgets)) {
+    if (!(file in sources)) { errors.push({file, message:'Required size-governed module missing'}); continue; }
+    const source = sources[file];
+    const lines = source === '' ? 0 : source.split('\n').length - Number(source.endsWith('\n'));
+    modules.push({file, lines, limit});
+    if (lines > limit) errors.push({file, message:`Module length ${lines} exceeds ${limit}`});
+  }
+  return {schemaVersion:1, modules, errors};
+}
 // The display adapter now aliases the extracted formatter. If a local formatter
 // is reintroduced, it must not evade the budget that governs its replacement.
 const optionalResponsibilityRoots = {'src/lua/abyss_character_presentation.lua': ["function 'fragments'"]};
@@ -248,9 +260,12 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     writeFileSync('build/ui-complexity.json',JSON.stringify({...render,tool:complexity.tool},null,2)+'\n');
     const responsibilities=reviewResponsibilityComplexity(complexity.diagnostics,sources);
     writeFileSync('build/responsibility-complexity.json',JSON.stringify({...responsibilities,tool:complexity.tool},null,2)+'\n');
+    const sizes=reviewModuleSize(sources);
+    writeFileSync('build/module-size.json',JSON.stringify(sizes,null,2)+'\n');
     if(unexpected.length||hard.length)throw new Error(`Lua static check failed: ${JSON.stringify([...unexpected,...hard])}`);
     if(render.errors.length)throw new Error(`UI complexity check failed: ${JSON.stringify(render.errors)}`);
     if(responsibilities.errors.length)throw new Error(`Responsibility complexity check failed: ${JSON.stringify(responsibilities.errors)}`);
+    if(sizes.errors.length)throw new Error(`Module size check failed: ${JSON.stringify(sizes.errors)}`);
     console.log(`Luacheck ${report.tool.version}: no new diagnostics; ${report.diagnostics.length} explicit historical warnings. Battle render <=10; every scoped function <=15; ${responsibilities.functions.length} governed responsibility measurements.`);
   }catch(error){console.error(error.message);process.exitCode=1;}
 }

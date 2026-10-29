@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {nodeUiRefactor,preNodeUiRefactorSource} from './node-ui-refactor-inverse.mjs';
+import {preCoreArchitectureSource} from './core-architecture-inverse.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const normalized=value=>value.replaceAll('\r\n','\n');
 const bytes=readFileSync(new URL('../fixtures/approved-node-ui-faces-layer.json',import.meta.url));
@@ -14,7 +15,7 @@ export const postNodeUi=JSON.parse(outerBytes);
 function prePostNodeSource(path,source){
  const binding=postNodeUi.files[path];
  if(!binding)return source;
- source=normalized(source);
+ source=preCoreArchitectureSource(path,normalized(source));
  if([binding.beforeSha256,...binding.intermediateSha256].includes(hash(source)))return source;
  assert.equal(hash(source),binding.afterSha256,'unreviewed integrated presentation source drift; unreviewed integrated retirement source drift; post-Node source: '+path);
  const lines=source.split('\n');
@@ -47,6 +48,7 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ source=preCoreArchitectureSource(path,source);
  source=preBattleRefactorLayer(path,source);
  source=prePostNodeSource(path,source);
  if(path!==approvedNodeFace.nodeRoot)return source;

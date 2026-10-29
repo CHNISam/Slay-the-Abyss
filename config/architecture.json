@@ -246,7 +246,11 @@
     "abyss_battle_render_hud": "ui",
     "abyss_battle_render_state": "ui",
     "abyss_battle_targeting": "ui",
-    "abyss_battle_target_bindings": "ui"
+    "abyss_battle_target_bindings": "ui",
+    "abyss_nodes_common": "core",
+    "abyss_nodes_entry": "core",
+    "abyss_nodes_events": "core",
+    "abyss_nodes_sources": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [
