@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "bludgeon",
+  "displayName": "全力一击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "bludgeon/generation-provenance.json",
+      "sha256": "a2cb2e3826b62e305f4d1503b19816982c8ff3eed8013284fa666538b7839056",
+      "bytes": 2739
+    },
+    "preview-source-144x64.png": {
+      "path": "bludgeon/preview-source-144x64.png",
+      "sha256": "a3ad1e6f3854ebd83a7e00592a632d467a038cc63413a9f9e1f90a1241306f1b",
+      "bytes": 19754
+    },
+    "prompt.txt": {
+      "path": "bludgeon/prompt.txt",
+      "sha256": "aaf88f162250b52b2aeeeae0df8f778ad26d74d98b63d6bbba4d6c31fd4d4614",
+      "bytes": 2681
+    },
+    "source.png": {
+      "path": "bludgeon/source.png",
+      "sha256": "822b68984a0bbc800e29d33ff2927efe011cf0cafa485da6033e7412307e5731",
+      "bytes": 1941184
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "bludgeon",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 32
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-15",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

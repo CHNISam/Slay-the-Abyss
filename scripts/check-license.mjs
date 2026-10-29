@@ -49,6 +49,19 @@ export function checkAssets(root, paths, inventory) {
       errors.push(`Asset/runtime needs provenance review: ${path}`);
       continue;
     }
+    const bytes = readFileSync(resolve(root, path));
+    if (entry.lfs === true) {
+      // Opt-in source identity only: this does not inspect pixels or fetch LFS objects.
+      if (!/^art\/cards\/traveler-geo\/[a-z0-9_]+\/source\.png$/.test(path) ||
+          /^art\/cards\/traveler-geo\/(armaments|cleave|heavy_blade)\/source\.png$/.test(path) ||
+          !/^[0-9a-f]{64}$/.test(entry.sha256) || !Number.isSafeInteger(entry.bytes) || entry.bytes <= 0) {
+        errors.push(`Invalid LFS source provenance record: ${path}`);
+        continue;
+      }
+      const pointer = Buffer.from(`version https://git-lfs.github.com/spec/v1\noid sha256:${entry.sha256}\nsize ${entry.bytes}\n`);
+      if (bytes.equals(pointer)) continue;
+      if (bytes.length !== entry.bytes) errors.push(`Changed asset size needs provenance review: ${path}`);
+    }
     if (!existsSync(resolve(root,path)) || !matchesAsset(readFileSync(resolve(root,path)), path, entry)) {
       errors.push(`Changed asset/runtime needs provenance review: ${path}`);
     }

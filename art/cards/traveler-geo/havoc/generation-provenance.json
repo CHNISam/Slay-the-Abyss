@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "havoc",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:15:10.416Z",
+    "endUtc": "2026-10-29T17:16:10.328Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Overhead connected Lumine pivot with low carried sword left and scarf hooking right. No victim/contact, fixed spell, energy, block/damage result or physical cards/UI. Blonde/flower and whiteblue/blackgold costume remain readable at tiny scale. Fine hair/scarf folds may need native simplification; no native-cost pass.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/havoc/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "a094433a8272a6517b6f928246cc4bf67800bc5a19fb8d319b94eb192994899d",
+    "bytes": 1884238,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/havoc/prompt.txt",
+    "sha256": "46dd4f7c2890775c55309461543f32ffc6700f9e31e9fbb8ba8263a6879ccebe"
+  }
+}

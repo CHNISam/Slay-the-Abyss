@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "combust",
+  "displayName": "强攻压阵",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "combust/generation-provenance.json",
+      "sha256": "7da15d75d4e0bb4489fb0a99cdaf417243e5fd879fb526d9aa5819157632971d",
+      "bytes": 2654
+    },
+    "preview-contain-144x64.png": {
+      "path": "combust/preview-contain-144x64.png",
+      "sha256": "bce307cdc957ea73260787800b9bfb240e630181895d3e41ed3fc29666f1bff7",
+      "bytes": 19305
+    },
+    "prompt.txt": {
+      "path": "combust/prompt.txt",
+      "sha256": "84972357d9ec626a9bc7c6687cda53d76b28ad56bcb2ca2828714fabe8fe54a0",
+      "bytes": 3689
+    },
+    "source.png": {
+      "path": "combust/source.png",
+      "sha256": "b68711b7d61d37080598378a86a01592b875efbc25277425554d9af870b73f29",
+      "bytes": 2034417
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "combust",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 5,
+        "status": "combust"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-07",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

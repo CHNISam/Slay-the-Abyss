@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "intimidate",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:05:54.965Z",
+    "completedObservedAt": "2026-10-29T18:06:34Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "550652eba768202eab04c8eaaf25bc1aa4ac64c901b348612fb04e5979e7447c",
+      "bytes": 1721471
+    },
+    "prompt.txt": {
+      "sha256": "3ea22d45a877cfcd8d43f544d5a6e9e63f624e4ca8b8693efe86ae86439b587d",
+      "bytes": 2804
+    },
+    "preview-source-144x64.png": {
+      "sha256": "7c2449cd36e048a8f572cda247f031de9053628a0923736ece3f7c59001670a6",
+      "bytes": 17486
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "威慑",
+    "mechanics": "applyWeakAll1 upgraded2; exhaust; no damage",
+    "mainAction": "composed Lumine stands before three separated hesitant lowered-weapon foes, no contact",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "connected original white-blue costume and gold dark waist",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: clear centered Lumine whiteflower blonde/costume identity, downward passive sword and closed mouth, three separate foreground enemy silhouettes hunched with lowered weapons. No contact injury scream or magic. Hesitancy more hunched than retreating but all-target intimidation clear. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "card_id": "clothesline",
+  "displayName": "压制斩",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "clothesline/generation-provenance.json",
+      "sha256": "090a576f9b545c65da9fb0cfa00a1d57474f07f829d84381cf6bbd1bfa56cf36",
+      "bytes": 2770
+    },
+    "preview-source-144x64.png": {
+      "path": "clothesline/preview-source-144x64.png",
+      "sha256": "ad7da5807c3470316d220f7ef4310ee82fca425ee09392c1176bc0eb81d93b2f",
+      "bytes": 19852
+    },
+    "prompt.txt": {
+      "path": "clothesline/prompt.txt",
+      "sha256": "a3d567dd8d4970a62666adb8d9e8f64b4e84febe31ecdb89a3283c93cfc04bb6",
+      "bytes": 2818
+    },
+    "source.png": {
+      "path": "clothesline/source.png",
+      "sha256": "a434c61705587c8bbaab5110e7c81c6c271ee65a75eea5cccf45c85975fbec5d",
+      "bytes": 1947951
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "clothesline",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 12
+      },
+      {
+        "op": "applyStatus",
+        "status": "weak",
+        "value": 2
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-02",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

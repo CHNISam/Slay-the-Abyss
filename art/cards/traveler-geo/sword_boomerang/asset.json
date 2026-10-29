@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "sword_boomerang",
+  "displayName": "回旋连斩",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "sword_boomerang/generation-provenance.json",
+      "sha256": "ae9d6bb26455a7e1fec584ee051350075c1bf9056091239be2a563d80b4a0753",
+      "bytes": 2899
+    },
+    "preview-source-144x64.png": {
+      "path": "sword_boomerang/preview-source-144x64.png",
+      "sha256": "dcd296a8b9d44439a1a4c1c7063cb0c200c40a269cb3366dc039ba1442ae7cc0",
+      "bytes": 19828
+    },
+    "prompt.txt": {
+      "path": "sword_boomerang/prompt.txt",
+      "sha256": "09f3476014764c8bb7ed6f2f6b4d1d9a2873923152ab3ab4ee11eabdf5ebb82b",
+      "bytes": 3046
+    },
+    "source.png": {
+      "path": "sword_boomerang/source.png",
+      "sha256": "36e775bb2a9e74cf5de34b08716899e5b420e98606422a74b4f2e110fdbc3440",
+      "bytes": 1958353
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "sword_boomerang",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damageRandom",
+        "value": 3,
+        "times": 3
+      }
+    ],
+    "target": "ALL_ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-04",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

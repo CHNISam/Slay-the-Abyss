@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "fiend_fire",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:01:58.558Z",
+    "endUtc": "2026-10-29T19:02:48.247Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "One connected Lumine/normal held sword/single foe: crisp current lowercut plus two fading uppernicks and soft nonmetal blue motion path suggest successive hits; secondary spent scraps behind, only two clearly visible vs requested three (not mechanical count). No Pyro/fiend/duplicatebody/AOE. Actual flower/whiteblue/blackgold identity clear at tiny scale. Few temporal contacts stand for variable repeats, not exact three-hit claim; remaining-hand exhaust exact rule stays text. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/fiend_fire/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "e1d3d35e0d559a55870635d9e66a149b258331c7e821da7ae34f550d38f54afa",
+    "bytes": 1965697,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/fiend_fire/prompt.txt",
+    "sha256": "d5d6e59c76f83df6514a85af169a02a3dd3c361386197fcf0a1bbe5edf5ce06b"
+  }
+}

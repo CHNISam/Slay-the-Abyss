@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "second_wind",
+  "displayName": "弃繁守拙",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "second_wind/generation-provenance.json",
+      "sha256": "0e3f43dd2610931bdf3703a49b1a2cf970fa5e537b86c2be7bbd63df066ef1d1",
+      "bytes": 2088
+    },
+    "preview-contain-144x64.png": {
+      "path": "second_wind/preview-contain-144x64.png",
+      "sha256": "c427caed0255272f497cc109a557fc91afddf3013a59b501da0f479b8ad81de7",
+      "bytes": 17735
+    },
+    "prompt.txt": {
+      "path": "second_wind/prompt.txt",
+      "sha256": "255e7ce9fef039baf94bc2c94e860d4943d2a4f8a1de3f4aa990d963b67b3d0c",
+      "bytes": 3073
+    },
+    "source.png": {
+      "path": "second_wind/source.png",
+      "sha256": "06f76388d0b79ac4ede6009f1c3d41ee70b99ee2f3fbed3e00bdecaf393b2f89",
+      "bytes": 1900879
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "second_wind",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "secondWind",
+        "value": 5
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-13",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

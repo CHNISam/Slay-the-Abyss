@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "card_id": "rage",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "unknown-precise-start-not-retained-after-interruption",
+    "completedObservedAt": "2026-10-29T18:13:09Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt",
+    "note": "Prompt recovered verbatim from tool-call transcript; existing generated output checked before copy after interruption; no regeneration"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "586a43fb6cba3f7f4698b631651f24b499e46ce201dae95488ba5a3a14445805",
+      "bytes": 1917972
+    },
+    "prompt.txt": {
+      "sha256": "e7cbebf7814c97c836d4b2bbe33df75d71fafe0a16310ac9a5e229b68801edd9",
+      "bytes": 2887
+    },
+    "preview-source-144x64.png": {
+      "sha256": "1342d59f72e08e852b5f9aa88543643d6dc998e11a029eeb375a9d3e7d524fad",
+      "bytes": 19299
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite request"
+  },
+  "intent": {
+    "name": "攻守相济",
+    "mechanics": "rage status3, upgraded5: fixed block each attack card this turn, removed end-turn",
+    "mainAction": "poised low sword attack-ready line balanced by raised protective forearm, no target contact",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "connected original white-blue costume and gold-dark side waist",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate: composed Lumine side-rear stance, one sword low and forward, raised forearm/relaxed hand before shoulder, recognizable identity; no angry frenzy, wound, permanent shield or target contact. Protective forearm modest rather than large; independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

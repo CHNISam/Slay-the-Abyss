@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "body_slam",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:08:39.363Z",
+    "endUtc": "2026-10-29T17:09:21.624Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Lumine bent guarding forearm drives into one foe chest, one clear contact. No sword, shieldburst, AOE or selfdamage. Connected blonde/white-flower head and white-blue/black-gold costume remain recognizable at tiny size. Native economy/quality still unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/body_slam/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "3fcf03ef72dc63be51204fd4e151512ec74e2d235beb77c7f348361c06acc39f",
+    "bytes": 1963284,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/body_slam/prompt.txt",
+    "sha256": "cb633370323ea9f8f91a61766e7e5a80c7bbd90a1d5c8df0aedf0fbbaca08b5c"
+  }
+}

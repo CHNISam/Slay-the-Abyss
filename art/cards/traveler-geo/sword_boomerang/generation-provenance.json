@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "sword_boomerang",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:20:37.440Z",
+    "completedAt": "2026-10-29T17:21:12Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "36e775bb2a9e74cf5de34b08716899e5b420e98606422a74b4f2e110fdbc3440",
+      "bytes": 1958353
+    },
+    "prompt.txt": {
+      "sha256": "09f3476014764c8bb7ed6f2f6b4d1d9a2873923152ab3ab4ee11eabdf5ebb82b",
+      "bytes": 3046
+    },
+    "preview-source-144x64.png": {
+      "sha256": "dcd296a8b9d44439a1a4c1c7063cb0c200c40a269cb3366dc039ba1442ae7cc0",
+      "bytes": 19828
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "回旋连斩",
+    "mechanics": "damageRandom 3 times 3, upgraded times 4",
+    "mainAction": "one current moment in held-sword circular returning pivot, one contact, second unstruck foe at depth",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: clear Lumine flower face white-blue costume, one owned sword contacts one foreground foe, second dark foe unstruck. Broad circular cloth/dust motion arc became stronger than requested; review should ensure it reads motion not all-target magic ring. No duplicate blade or limbs.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

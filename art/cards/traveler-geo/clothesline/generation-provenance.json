@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "clothesline",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:09:37.989Z",
+    "completedAt": "2026-10-29T17:10:24Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "a434c61705587c8bbaab5110e7c81c6c271ee65a75eea5cccf45c85975fbec5d",
+      "bytes": 1947951
+    },
+    "prompt.txt": {
+      "sha256": "a3d567dd8d4970a62666adb8d9e8f64b4e84febe31ecdb89a3283c93cfc04bb6",
+      "bytes": 2818
+    },
+    "preview-source-144x64.png": {
+      "sha256": "ad7da5807c3470316d220f7ef4310ee82fca425ee09392c1176bc0eb81d93b2f",
+      "bytes": 19852
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "压制斩",
+    "mechanics": "12 damage then weak 2",
+    "mainAction": "one suppressing cut to weapon arm lowers one foe attack",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate: foreground enemy shoulder and lowered still-held sword, one blade contact on arm; front-facing Lumine right with white flower and continuous costume. No neck attack or plate crack. Original and 144x64 inspected; independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

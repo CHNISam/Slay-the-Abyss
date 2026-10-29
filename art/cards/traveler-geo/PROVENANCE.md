@@ -37,3 +37,11 @@
 沿用 [THIRD_PARTY_NOTICES.md](../../../THIRD_PARTY_NOTICES.md)、[LICENSE-SCOPE.md](../../../LICENSE-SCOPE.md)、[编辑器GPL v3](../shared/licenses/EDITOR-GPL-3.0.txt)与[Primitive子运行时MIT](../shared/licenses/PRIMITIVE-SHAPE-MIT.txt)。导出Lua按既有 `editor-runtime` 登记；源图、几何、预览、元数据为 `game-ip-ai-redraw`。类别表示来源，不是清关或新授权。
 
 项目原有非商业政策与项目方商业化权利声明不变，第三方运行时仍适用各自许可；本记录不授予游戏IP再许可、不提供商业清关结论。官方导入、PC、实体Android、真实字体/XYZ/清理、加载/多卡性能仍未验；普通B=4、稳定批次0，不恢复队列或扩大卡池。
+
+## 新源候选（2026-10-29）
+
+catalog.candidates 中的新卡图由 Owner 委托内置 image_gen 生成，保留实际输出字节；逐卡 `prompt.txt`、可选 `prompt-repair.txt` 与 `generation-provenance.json` 记录真实输入、输出哈希和职责。原有整备武装仅供绘画风格，已认可重剑/岩荧原图仅供角色身份，不把复制参考姿势当作新构图。每个候选按当前 cards.json 与 traveler.zh-CN.json 核对主要动作；不照搬原作插画，不复制卡框、文字或游戏逻辑。生成源不构成官方原神素材授权或商业许可，仍沿用已有项目 IP 边界。
+
+新候选与旧三张离线认可记录独立；AI 自检或另一执行者复核不冒充 Owner 逐图批准。源 PNG 的 LFS OID 是原始内容哈希；小预览为等比 contain 检查，不是原生重绘或实机截图。原生未完成时不会生成假 JSON/Lua 交付或提高已有素材的批准状态。
+
+本轮完整职业覆盖为旧 3 张认可源图 + 新 72 张未获 Owner 逐图认可候选。独立源设计复核的每项结论均绑定 `source-design-review.json` 中的源与 144×64 预览哈希；该记录不代替原生、整卡、官方导入或设备验收。修正及被阻止请求的历史以各卡 `generation-provenance.json` 为准，不把无输出的请求算成成功生成，不以独立自检替换 Owner 认可。

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "bludgeon",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:42:49.163Z",
+    "completedObservedAt": "2026-10-29T18:43:32Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "822b68984a0bbc800e29d33ff2927efe011cf0cafa485da6033e7412307e5731",
+      "bytes": 1941184
+    },
+    "prompt.txt": {
+      "sha256": "aaf88f162250b52b2aeeeae0df8f778ad26d74d98b63d6bbba4d6c31fd4d4614",
+      "bytes": 2681
+    },
+    "preview-source-144x64.png": {
+      "sha256": "a3ad1e6f3854ebd83a7e00592a632d467a038cc63413a9f9e1f90a1241306f1b",
+      "bytes": 19754
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "全力一击",
+    "mechanics": "single target damage32 upgraded42",
+    "mainAction": "one forceful descending sword edge compresses one armored shoulder, top-down camera",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: compact overhead Lumine flower face actual costume, one narrow owned sword cuts diagonal into one foe shoulder plate; compressed contact and few chips no giant weapon fire or multihit. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

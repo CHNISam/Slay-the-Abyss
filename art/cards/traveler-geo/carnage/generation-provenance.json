@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "carnage",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:38:09.670Z",
+    "endUtc": "2026-10-29T17:39:01.900Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Over-Lumine-shoulder compact anchored single normal sword hit into opening under one hooded foe raised arm. Actual flower/blonde/whiteblue/blackgold identity readable. No giant lunge/claymore/two hits/gore/UI. Closing opportunity implied by exposed arm/torso gap rather than time symbols. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/carnage/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "f6a6f67d9775421be463c629c27f55a81c9a7f95f38b13c454fb606ef1b35375",
+    "bytes": 1957534,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/carnage/prompt.txt",
+    "sha256": "9e34c18815e91364e288d5fb74b36e30ab31e190d915526515e35a0e454840a0"
+  }
+}

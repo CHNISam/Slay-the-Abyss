@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "card_id": "berserk",
+  "displayName": "背水之战",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "berserk/generation-provenance.json",
+      "sha256": "25f82ca1b6161a46fcd6000cd4fb9fba91ad9bd145a763038a0f1ba3fad30f18",
+      "bytes": 2369
+    },
+    "preview-contain-144x64.png": {
+      "path": "berserk/preview-contain-144x64.png",
+      "sha256": "bea12e8dc98b42977a13a9f88a4302eee8aa404cdaf7195d508cee135b9606cf",
+      "bytes": 19307
+    },
+    "prompt.txt": {
+      "path": "berserk/prompt.txt",
+      "sha256": "606921cc307544c22c4385e8135d193ab184732eefbd40a6481dceffc1434ac3",
+      "bytes": 3171
+    },
+    "source.png": {
+      "path": "berserk/source.png",
+      "sha256": "0108c7d2cb65f2939f284dbbed671e206742de9d333df1c2a1f9b7e129094e39",
+      "bytes": 1954642
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "berserk",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 2,
+        "status": "vulnerable"
+      },
+      {
+        "op": "gainStatus",
+        "value": 1,
+        "status": "berserk"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-15",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

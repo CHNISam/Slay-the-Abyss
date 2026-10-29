@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "card_id": "entrench",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:44:24.392Z",
+    "completedAt": "2026-10-29T17:45:07Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "17ebd5f40e86c3b20d2daf58d8cc63418b18423d3bfe2b4be357ec5ae795b584",
+      "bytes": 1935314
+    },
+    "prompt.txt": {
+      "sha256": "11533e215e439147e660dd4a02c1364f4923d81ed08efe62755ee5ecbe487d37",
+      "bytes": 2865
+    },
+    "preview-source-144x64.png": {
+      "sha256": "859117ee3750cf5e83ea8e9b37653adbbbbbf12e7d4272cbdbe63550723f5d26",
+      "bytes": 19761
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "加固防线",
+    "mechanics": "doubleBlock on self; upgrade cost only",
+    "mainAction": "reinforce already-held sword guard through supported wrist and braced forearms",
+    "identityCarriers": [
+      "natural blonde-whiteflower crop",
+      "connected original white-blue collar and shoulder",
+      "gold arch over dark waist",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: connected whiteblue gold-dark costume and natural blonde flower crop, one normal blade held across chest, supporting hand at gripping wrist; no foe or damage, no fortress or new shield. Hand support reads quietly at thumbnail; independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

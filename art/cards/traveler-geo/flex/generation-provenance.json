@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "flex",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:11:17.460Z",
+    "completedAt": "2026-10-29T17:12:04Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "e717d5a2a47bd5efc32fc61d55e1bd98de335154ce932351764c679d3dae21c6",
+      "bytes": 1920831
+    },
+    "prompt.txt": {
+      "sha256": "e91a31d4ab199278a1d2450a1f3dd1395dee8c679709b1366f0807e4050136b4",
+      "bytes": 3222
+    },
+    "preview-source-144x64.png": {
+      "sha256": "52a6ddf6feb4ea2225925f217ff5027d199015ecfb75e410390c393db8c2fbf1",
+      "bytes": 18375
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "蓄力",
+    "mechanics": "gainTemporaryStrength 2, removed at end of turn",
+    "mainAction": "one self-directed body coil and drawn-back sword preparation, no enemy or contact",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: solitary Lumine blonde face flower and white-blue gold-waist costume clear; small fist near chest, sword drawn low behind hip, normal body, no magic energy or hit. Blade continuity behind torso is partly occluded but hand-hilt alignment plausible. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

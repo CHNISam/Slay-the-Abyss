@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "sever_soul",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:30:16.050Z",
+    "completedObservedAt": "2026-10-29T18:30:55Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "6a3326d09bfa0a1458eebb80f0766276e5ecd3ea640ac6f8f163d0642c103b05",
+      "bytes": 1921373
+    },
+    "prompt.txt": {
+      "sha256": "49f7c0d7d80547dcf3e15dff81fe6ed78428bc6778e1ce7e95eb23d914736ffa",
+      "bytes": 2821
+    },
+    "preview-source-144x64.png": {
+      "sha256": "ee77c79f5aa3799eb2fb6eea3f1aca15a583f084db1661f3e932ea4068c6d832",
+      "bytes": 20388
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "弃守强攻",
+    "mechanics": "exhaust all hand non-attacks then single damage16 upgraded22",
+    "mainAction": "controlled upright one-sword hit while free arm deliberately drops guard, one target",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: clear Lumine face flower original costume, one connected sword through one arm-side contact, lowered open free hand and open center gap; no soul extraction gore multihit or destroyed guard equipment. Sword continuation beyond foe partly occluded but aligned. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

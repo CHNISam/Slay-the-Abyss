@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "card_id": "dual_wield",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "unknown-exact-transient-store-lost-on-resume; transcript tool request around 2026-10-29T17:45:25Z",
+    "outputFileMtimeUtc": "2026-10-29T17:46:08.070082+00:00",
+    "toolWallSeconds": 35.9,
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "One connected Lumine, one gloved grip and one held physical one-handed sword; faint blue curved rehearsal trace has no hilt/metal silhouette. No duplicate limbs/hero, enemy/contact/UI/cards. Flower/blonde/whiteblue/blackgold identity readable at tiny size. Copy mechanic remains text, no immediate attack shown. Fine detail remains; native quality/cost unverified."
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/dual_wield/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "974ecc21195dc0edc0b7e71a8249a220214dda737e7a84ba8b44810cfffeb731",
+    "bytes": 1921082,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/dual_wield/prompt.txt",
+    "sha256": "8c474d2e84ce6bc0aad123bfaf1d9724298e3766c7725d6f02fb0f95e957b9cd"
+  }
+}

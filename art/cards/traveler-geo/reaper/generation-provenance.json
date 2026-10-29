@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "reaper",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T19:10:13.154Z",
+    "completedObservedAt": "2026-10-29T19:10:43Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "e284772dfb50f07ba51babcfb271083c7e3a52eb0828842eb2eb3b1a2968373a",
+      "bytes": 2116068
+    },
+    "prompt.txt": {
+      "sha256": "e105d7c81e71c5322e28594bca364f00c0b0a6d4db931253db8cf3752a376b12",
+      "bytes": 2989
+    },
+    "preview-source-144x64.png": {
+      "sha256": "b53be733b10d4ad957b906756eddcaa110d8848af3e72958a93d707ab3e72ae5",
+      "bytes": 21263
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "以战养战",
+    "mechanics": "damageAll4 upgraded5, heal actual unblocked HP damage only; exhaust",
+    "mainAction": "one shared low sword-driven pressure arc reaches three separate foes, tiny returning wrist warmth",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: actual Lumine flower face costume right and one owned normal sword, three distinct foes left meet same low arc, subtle warmth reaches sleeve/wrist with no soul tethers or blood. Wave and earth fragments more intense than request; flagged for economy and restraint review. No corpse heal-to-full icon. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

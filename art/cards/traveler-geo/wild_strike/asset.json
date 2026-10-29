@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "card_id": "wild_strike",
+  "displayName": "猛进斩",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "wild_strike/generation-provenance.json",
+      "sha256": "f051778cf1f4300cc994ab3170353248a9618d9440e6f5cb70df6e4bc1da52c4",
+      "bytes": 2952
+    },
+    "preview-source-144x64.png": {
+      "path": "wild_strike/preview-source-144x64.png",
+      "sha256": "753ab9542703de395cdc9ac16eae872fcc48f6c103f5dd13bc91387aba5865a3",
+      "bytes": 20205
+    },
+    "prompt.txt": {
+      "path": "wild_strike/prompt.txt",
+      "sha256": "450cb2923781178dcb9ea7b3df8980b34c6a11230e818a8055144371e8f2779d",
+      "bytes": 3110
+    },
+    "source.png": {
+      "path": "wild_strike/source.png",
+      "sha256": "107ba40ca01aac467a1ca18244fc06b40e805f1fa344e9553e760e96629ad937",
+      "bytes": 1978838
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "wild_strike",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 12
+      },
+      {
+        "op": "makeTempCardInDraw",
+        "value": 1,
+        "card": "wound"
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-05",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

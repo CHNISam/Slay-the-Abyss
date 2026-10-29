@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "card_id": "barricade",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:42:57.901Z",
+    "endUtc": "2026-10-29T18:43:50.792Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "gainStatus barricade1 only; no Block op; ownturnstart retains existingblock",
+    "runtimeRead": [
+      "src/lua/abyss_actor.lua clearBlock only clears when barricade<=0",
+      "src/lua/abyss_character_presentation_text.lua barricade: retain existing Block at turn start"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Lumine steady behind weathered ordinary lowstone ledge, hand resting atop and sword low. No erupting/newfortress/newBlock/damage/Arastar. Actual flower/whiteblue/blackgold identity visible at tiny scale. Oldledge is existingdefense retention metaphor, NOT namedGeo construct; exact timing text. Stone/background texture more elaborate than ideal nativeeconomy; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/barricade/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "6572023b045ea2ab1f5344f107d6c115f7bb8d419b8f8d372689e97f62e3e3e2",
+    "bytes": 1868278,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/barricade/prompt.txt",
+    "sha256": "b7ef71ffe64506bc29b421a4a0e807ae0f8f017e15732493c7542cc3acb2f7fc"
+  }
+}

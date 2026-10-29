@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "impervious",
+  "displayName": "坚守",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "impervious/generation-provenance.json",
+      "sha256": "b6fd9632986324e1e156853d9e088a0e86d4ba8d4e3d54664e33e4975a961b72",
+      "bytes": 2846
+    },
+    "preview-source-144x64.png": {
+      "path": "impervious/preview-source-144x64.png",
+      "sha256": "e392072e3167a7d7823c0fa34c8fa61b813df13ed72e36cc46a5b584b6750e34",
+      "bytes": 18469
+    },
+    "prompt.txt": {
+      "path": "impervious/prompt.txt",
+      "sha256": "63f4593cdd5b1673635d89c5160a0c0bcc5364a1985243b6a0f17eea38232814",
+      "bytes": 2749
+    },
+    "source.png": {
+      "path": "impervious/source.png",
+      "sha256": "588d1157c55370dee77080ce930279a4e63e03ae0e91146f1a21ea1dae6c0c02",
+      "bytes": 1922505
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "impervious",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "block",
+        "value": 30
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-17",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

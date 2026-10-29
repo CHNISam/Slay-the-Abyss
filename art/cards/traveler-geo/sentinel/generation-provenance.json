@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "sentinel",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:28:32.637Z",
+    "completedObservedAt": "2026-10-29T18:29:20Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "09060a13c723dec77386a508a771875f661c257d0cc8a8eca20ae5e8015444b6",
+      "bytes": 1908450
+    },
+    "prompt.txt": {
+      "sha256": "5ab42db0fec3a4f30a67e8785fcca00eee7237a88f7785dfdf81cc3b76a71c76",
+      "bytes": 2513
+    },
+    "preview-source-144x64.png": {
+      "sha256": "5cf4ea2dc115a4ea28df47635533b9f4a129d039aae58c19757e3cd3c85b22c6",
+      "bytes": 19257
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "后援守势",
+    "mechanics": "block5 upgraded8; energy2 upgraded3 ONLY on exhaust",
+    "mainAction": "compact low supported sword guard, alert reserve posture, no visible energy release",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: Lumine face flower and original costume clear, raised knee supports compact elbow/grip, one narrow blade into empty teal, no ally target contact or guaranteed energy orb. Support partly obscured by guard and knee but coherent. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

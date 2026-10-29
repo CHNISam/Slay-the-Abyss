@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "card_id": "anger",
+  "displayName": "连续出剑",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "anger/generation-provenance.json",
+      "sha256": "ec339c973e1a56daf8f4c5470a280dbab860e6458e3be163b54dc8f5f4cad179",
+      "bytes": 2716
+    },
+    "preview-source-144x64.png": {
+      "path": "anger/preview-source-144x64.png",
+      "sha256": "8c5a46c38e931276eb674134e6af63300b0211b00e52717ca7b656d9f49a3afb",
+      "bytes": 20683
+    },
+    "prompt.txt": {
+      "path": "anger/prompt.txt",
+      "sha256": "5c3eff5bd63d85fbb9c1f21aa958c82ce25cf311f41daeb95cc7e20013a0d91a",
+      "bytes": 3293
+    },
+    "source.png": {
+      "path": "anger/source.png",
+      "sha256": "e83ec7a32c82c2e48a23081f6dd861dc4bc6713151fba792eb890078b2e44427",
+      "bytes": 2039809
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "anger",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 6
+      },
+      {
+        "op": "addCardToDiscard",
+        "card": "anger"
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-01",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

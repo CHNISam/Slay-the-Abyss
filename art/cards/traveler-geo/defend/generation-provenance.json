@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "card_id": "defend",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T17:01:43.434Z",
+    "endUtc": "2026-10-29T17:02:31.899Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/cards/traveler-geo/heavy_blade/source.png",
+      "role": "Lumine-costume-and-one-handed-sword-identity-only",
+      "actuallyPassed": true,
+      "sha256": "1cf7dec3ef1f9ae369837204c24b0ce727142909f200c225d252dd85760bdbfc"
+    }
+  ],
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Connected recognizable Lumine white/pale-blue/gold petal costume, bent forearm and closed gripping glove holding a one-handed sword as a protective screen. No victim, collision, outgoing hit, reflect or shield bash. Tiny view retains connected costume and guarded blade; self-block is conveyed by ready-guard posture rather than a literal shield, requires independent visual review.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/defend/source.png",
+    "sha256": "5e21b58bb6841348a25411d387cc1128823ad653b7860988aab6cceb75dcfc87",
+    "bytes": 1902543,
+    "dimensions": [
+      1881,
+      836
+    ],
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/defend/prompt.txt",
+    "sha256": "319cf905fc427ee942cf4a70b2bf48c9ff9bf72f6a0239e565dee9a02fd4bc25"
+  }
+}

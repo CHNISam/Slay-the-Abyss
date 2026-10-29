@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "dark_embrace",
+  "displayName": "临机应变",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "dark_embrace/generation-provenance.json",
+      "sha256": "cd2e13165af3d5c1105670da3c2166bc9c49fc47c8d7b5106bbe769639fd38fa",
+      "bytes": 2926
+    },
+    "preview-source-144x64.png": {
+      "path": "dark_embrace/preview-source-144x64.png",
+      "sha256": "dbe7e23066ec01537a7da8a48a6b9231c0e520d90ee1843586bf78d5c96ccad5",
+      "bytes": 19505
+    },
+    "prompt.txt": {
+      "path": "dark_embrace/prompt.txt",
+      "sha256": "171acba97afbeeb84328c273bddcba49dcace6edde548d9954c5a5835eeb0a79",
+      "bytes": 2710
+    },
+    "source.png": {
+      "path": "dark_embrace/source.png",
+      "sha256": "34e073bb15b1d0658e20208640485036e0bc072a274957dfe6dcd1f5afdf0ebb",
+      "bytes": 1963755
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "dark_embrace",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 1,
+        "status": "dark_embrace"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-07",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

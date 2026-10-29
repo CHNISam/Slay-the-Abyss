@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "card_id": "entrench",
+  "displayName": "加固防线",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "entrench/generation-provenance.json",
+      "sha256": "76140d38bf7c223f143ea5f40a941f61a59eb6ca7276731c8b2b499d93cc646c",
+      "bytes": 2884
+    },
+    "preview-source-144x64.png": {
+      "path": "entrench/preview-source-144x64.png",
+      "sha256": "859117ee3750cf5e83ea8e9b37653adbbbbbf12e7d4272cbdbe63550723f5d26",
+      "bytes": 19761
+    },
+    "prompt.txt": {
+      "path": "entrench/prompt.txt",
+      "sha256": "11533e215e439147e660dd4a02c1364f4923d81ed08efe62755ee5ecbe487d37",
+      "bytes": 2865
+    },
+    "source.png": {
+      "path": "entrench/source.png",
+      "sha256": "17ebd5f40e86c3b20d2daf58d8cc63418b18423d3bfe2b4be357ec5ae795b584",
+      "bytes": 1935314
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "entrench",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "doubleBlock"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-08",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "card_id": "brutality",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:44:36.959Z",
+    "completedObservedAt": "2026-10-29T18:45:17Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "9a30cab4e654a83c5530e9446c58053fa38253ffdb02f70ecad7a62396887fe8",
+      "bytes": 1973110
+    },
+    "prompt.txt": {
+      "sha256": "886e1ddecde3214e93309087b13f181d0b9487bb3252321cf6df26809522fee9",
+      "bytes": 2775
+    },
+    "preview-source-144x64.png": {
+      "sha256": "1a3b3113d589a76c34c26b15bb862eb452fa0d0a65ae90720e1cf7748a99e6c1",
+      "bytes": 18847
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "破釜沉舟",
+    "mechanics": "brutality1 power: each turn extra draw1 and small own HP loss1; upgrade innate",
+    "mainAction": "upright sustained resolve under exertion, one hand draws real costume cloth taut, open eyes",
+    "identityCarriers": [
+      "blonde bob and white flower",
+      "connected white-blue original costume and gold-dark waist"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: upright alert Lumine flower face whiteblue-gold costume, small sweat and measured breath, one coherent hand grips taut cloth; no chest orb, closed eyes, wound heal or foe. Distinct sustained exertion rather than bowed fatigue portrait. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "card_id": "bash",
+  "displayName": "破防斩",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "bash/generation-provenance.json",
+      "sha256": "9f539650061e3aafae88a12866179e76983491d9c806f102a48048640f6ee8b2",
+      "bytes": 4195
+    },
+    "preview-source-144x64.png": {
+      "path": "bash/preview-source-144x64.png",
+      "sha256": "f5fd729de1601a4e5b0a45cbd74385c12479489618e6d93aa0a7f52b5ee1f9cb",
+      "bytes": 20585
+    },
+    "prompt-repair.txt": {
+      "path": "bash/prompt-repair.txt",
+      "sha256": "7f15af4b028af0d68ca845ec29274be04d0da145ba13fa7a87ba062ec334e308",
+      "bytes": 3044
+    },
+    "prompt.txt": {
+      "path": "bash/prompt.txt",
+      "sha256": "fcec7f2b0967512814b2370781897f155fb42911e3886d6450964120ace56ab6",
+      "bytes": 2725
+    },
+    "source.png": {
+      "path": "bash/source.png",
+      "sha256": "022f81c8375e8886956332de56b1c63b0284b83c63217377f71e349de4ddae22",
+      "bytes": 1994535
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "bash",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 8
+      },
+      {
+        "op": "applyStatus",
+        "status": "vulnerable",
+        "value": 2
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-01",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": false,
+    "automaticRegenerations": 1
+  },
+  "productionRuntimeApproved": false
+}

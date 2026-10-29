@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "disarm",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T17:39:36.152Z",
+    "completedAt": "2026-10-29T17:40:16Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-costume-head-flower-and-normal-one-handed-sword-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "92d421cd46144544a252594559892f650695b7d3135cd1163cf3397b62e21ce7",
+      "bytes": 2089134
+    },
+    "prompt.txt": {
+      "sha256": "610a4bf8165b82b536dcb829b99fd7a177a8f2d7fa25db3431b8a9f249d63d83",
+      "bytes": 2972
+    },
+    "preview-source-144x64.png": {
+      "sha256": "89351f45fb09f87c4896bac284538cdd5ff94de87dcf7a6099ea44b7eddc2446",
+      "bytes": 21281
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions retained unchanged despite requested size"
+  },
+  "intent": {
+    "name": "压制攻势",
+    "mechanics": "apply strength -2 to one enemy, -3 upgraded; exhaust; NO damage",
+    "mainAction": "quiet palm control lowers enemy weapon wrist, grip retained, own sword held passively aside",
+    "identityCarriers": [
+      "blonde hair and white flower",
+      "connected white-blue costume and gold waist arch",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and 144x64: recognizable Lumine face flower white-blue gold-waist identity, connected hand controls enemy wrist and weapon stays in foe grip; own sword vertical/passive at far right. No damage contact spark, injury, amputation or break. Independent review pending.",
+    "independentReview": "pending",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

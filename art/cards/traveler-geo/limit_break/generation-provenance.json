@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "card_id": "limit_break",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T19:10:38.844Z",
+    "endUtc": "2026-10-29T19:11:25.736Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "doubleStrength; base exhausttrue; upgraded exhaustfalse; no damage/energy/heal",
+    "runtimeRead": [
+      "src/lua/abyss_card_actions.lua doubleStrength reads source.statuses.strength and applies same amount again when nonzero"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Highoblique composed aligned upperbody form, one actual ordinary slim silver blade diagonally lowerright. No target/hit/duplicates/newform/energyHP. Actual flower/whiteblue/blackgold identity clear at tiny scale. Distinct from Flex sideready, Inflame horizontalclose and Demon vertical stance. Current Strength doubling is exact textual rule, masterybreakthrough metaphor only. Fine detail remains; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/limit_break/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "d1b5831bbe8435a3097a8224249170e53925251eee4487cfb408e79ec5d5260c",
+    "bytes": 1867470,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/limit_break/prompt.txt",
+    "sha256": "daee6223d2c8f5df30b7350d08296bfd74645e2e11d6821c4f43b6b5e43b9b1f"
+  }
+}

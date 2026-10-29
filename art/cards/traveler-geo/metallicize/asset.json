@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "metallicize",
+  "displayName": "持续防守",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "metallicize/generation-provenance.json",
+      "sha256": "986748ec7147c20c310a77a6b131c0d6ecf53e4f060af5e5613157bbc4593a9f",
+      "bytes": 2247
+    },
+    "preview-contain-144x64.png": {
+      "path": "metallicize/preview-contain-144x64.png",
+      "sha256": "19cace859549aba8b6dc0785f602d85337a66473bd16c9a417e96d4dbd5da5ec",
+      "bytes": 15952
+    },
+    "prompt.txt": {
+      "path": "metallicize/prompt.txt",
+      "sha256": "5389cf2632807188e1f627c8d9c17dceb8bb07a456a89ce92eeddd468dc8a373",
+      "bytes": 3055
+    },
+    "source.png": {
+      "path": "metallicize/source.png",
+      "sha256": "de4af2704de0e6327618b1ee85d4f94c5a08a0d573f6fc96027efe159c9cdc67",
+      "bytes": 1775623
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "metallicize",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 3,
+        "status": "metallicize"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-11",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

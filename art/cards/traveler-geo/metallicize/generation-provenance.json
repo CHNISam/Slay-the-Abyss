@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "card_id": "metallicize",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "requestUtc": "exact transient store lost on resume; transcript request around2026-10-29T18:11:19Z",
+    "outputFileMtimeUtc": "2026-10-29T18:11:58.426722+00:00",
+    "toolWallSeconds": 32.4,
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "gainStatus metallicize3, upgrade4",
+    "runtimeRead": [
+      "src/lua/abyss_end_turn_powers.lua preCards includes metallicize; preparePreCards schedules ownerPreCardBlock at turn end"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Wide vigilant standing sentry right, open approach left, one lowered sword. No closegripguard contact, metalbody transformation, heal or extraarmor. Actual flower/whiteblue/blackgold identity retained at tiny scale. Turnend cadence stays text, image conveys sustained readiness, not explicit block gain. Left half deliberately quiet; native quality/cost unverified."
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/metallicize/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "de4af2704de0e6327618b1ee85d4f94c5a08a0d573f6fc96027efe159c9cdc67",
+    "bytes": 1775623,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/metallicize/prompt.txt",
+    "sha256": "5389cf2632807188e1f627c8d9c17dceb8bb07a456a89ce92eeddd468dc8a373"
+  }
+}

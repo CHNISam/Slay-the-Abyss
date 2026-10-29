@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "fiend_fire",
+  "displayName": "舍尽一击",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "fiend_fire/generation-provenance.json",
+      "sha256": "a835939b16609f1ef5fcc82f221510d46982f6619d22b748e28c13bb2b2aa849",
+      "bytes": 2162
+    },
+    "preview-contain-144x64.png": {
+      "path": "fiend_fire/preview-contain-144x64.png",
+      "sha256": "cef0967cc255e1a4d7c9641f781335f26926642722b8f7a118427409de0118cb",
+      "bytes": 19863
+    },
+    "prompt.txt": {
+      "path": "fiend_fire/prompt.txt",
+      "sha256": "d5d6e59c76f83df6514a85af169a02a3dd3c361386197fcf0a1bbe5edf5ce06b",
+      "bytes": 3778
+    },
+    "source.png": {
+      "path": "fiend_fire/source.png",
+      "sha256": "e1d3d35e0d559a55870635d9e66a149b258331c7e821da7ae34f550d38f54afa",
+      "bytes": 1965697
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "fiend_fire",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "fiendFire",
+        "value": 7
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-17",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

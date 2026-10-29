@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "card_id": "true_grit",
+  "displayName": "稳住阵脚",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "true_grit/generation-provenance.json",
+      "sha256": "ec4285699362703dbafbec786b328ee4d53279375b95599e78989f50c3fb38ba",
+      "bytes": 2017
+    },
+    "preview-contain-144x64.png": {
+      "path": "true_grit/preview-contain-144x64.png",
+      "sha256": "a05d0b68ad55b2aee56b3428e6c378cd958d46e3fcaeb55781774000a55b3903",
+      "bytes": 18054
+    },
+    "prompt.txt": {
+      "path": "true_grit/prompt.txt",
+      "sha256": "8158aa4ae3fce100486649f465f700bb52a629e69bcd72799d31c3f39f348c57",
+      "bytes": 3213
+    },
+    "source.png": {
+      "path": "true_grit/source.png",
+      "sha256": "d3256b9e8b5fadf368f7805b26c19c8cb349bb935073510fc7894dddabe51dd2",
+      "bytes": 1794545
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "true_grit",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "block",
+        "value": 7
+      },
+      {
+        "op": "exhaustRandom",
+        "value": 1
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-05",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

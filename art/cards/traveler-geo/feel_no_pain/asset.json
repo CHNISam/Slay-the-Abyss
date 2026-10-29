@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "feel_no_pain",
+  "displayName": "百折不挠",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "feel_no_pain/generation-provenance.json",
+      "sha256": "68b6efc617366e18d9f226b3a2d849bae58ec4fd83a84df8eb435fd956223417",
+      "bytes": 2312
+    },
+    "preview-contain-144x64.png": {
+      "path": "feel_no_pain/preview-contain-144x64.png",
+      "sha256": "28e296d2797232543e325b5e66cefd98d8249f6899ad6914c143e836a2b0454d",
+      "bytes": 18985
+    },
+    "prompt.txt": {
+      "path": "feel_no_pain/prompt.txt",
+      "sha256": "02e5016da0cde48fd36174464be5755a772ed73745dcf83272f856f009b45d57",
+      "bytes": 2864
+    },
+    "source.png": {
+      "path": "feel_no_pain/source.png",
+      "sha256": "eda3ea8a27eec5e05dcde90e4249587c67ee4573ab1b467e88ae37a8ca2a325b",
+      "bytes": 1922729
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "feel_no_pain",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 3,
+        "status": "feel_no_pain"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-09",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

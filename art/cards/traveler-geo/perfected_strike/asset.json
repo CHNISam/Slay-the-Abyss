@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "perfected_strike",
+  "displayName": "剑势如虹",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "perfected_strike/generation-provenance.json",
+      "sha256": "506cbf510fd453fc2f04b55c63b6602f74c1623be6297ca0f2b86d6135e48a8a",
+      "bytes": 2946
+    },
+    "preview-source-144x64.png": {
+      "path": "perfected_strike/preview-source-144x64.png",
+      "sha256": "50b856f8c1b726a9c4e3ea9b98b57e2017610ab00dc4ec6ed7fa95cee31139cf",
+      "bytes": 19051
+    },
+    "prompt.txt": {
+      "path": "perfected_strike/prompt.txt",
+      "sha256": "372ce4a97152e7f29b27fff652a7873d82de93bd5beba84f7e18a84c744021a0",
+      "bytes": 3190
+    },
+    "source.png": {
+      "path": "perfected_strike/source.png",
+      "sha256": "652a74943042a7e27765d959c1f198e0178b1c5a21cb067b1c26eec605a7dbf5",
+      "bytes": 1901326
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "perfected_strike",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 6
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-03",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "brutality",
+  "displayName": "破釜沉舟",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "brutality/generation-provenance.json",
+      "sha256": "14bf81d1b3b1c5fba91eff722e117af7caa0a47cf4453ad0fa844f5891619fd6",
+      "bytes": 2844
+    },
+    "preview-source-144x64.png": {
+      "path": "brutality/preview-source-144x64.png",
+      "sha256": "1a3b3113d589a76c34c26b15bb862eb452fa0d0a65ae90720e1cf7748a99e6c1",
+      "bytes": 18847
+    },
+    "prompt.txt": {
+      "path": "brutality/prompt.txt",
+      "sha256": "886e1ddecde3214e93309087b13f181d0b9487bb3252321cf6df26809522fee9",
+      "bytes": 2775
+    },
+    "source.png": {
+      "path": "brutality/source.png",
+      "sha256": "9a30cab4e654a83c5530e9446c58053fa38253ffdb02f70ecad7a62396887fe8",
+      "bytes": 1973110
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "brutality",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 1,
+        "status": "brutality"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-15",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

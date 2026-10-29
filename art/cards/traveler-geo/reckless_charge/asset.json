@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "card_id": "reckless_charge",
+  "displayName": "疾步突进",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "reckless_charge/generation-provenance.json",
+      "sha256": "dcce6c6a5704809c29f025d94715db6a0e995379e9a24957704d0fdf4208a5b3",
+      "bytes": 2355
+    },
+    "preview-contain-144x64.png": {
+      "path": "reckless_charge/preview-contain-144x64.png",
+      "sha256": "2ce3e00105791021088c03bfa62b88925f24216b8bb2a25691e34b6af9d6a212",
+      "bytes": 19508
+    },
+    "prompt.txt": {
+      "path": "reckless_charge/prompt.txt",
+      "sha256": "0cb517c2dc42ac10ecf330c2278e21d81622f3d679ea96733a9510e02931fce8",
+      "bytes": 3340
+    },
+    "source.png": {
+      "path": "reckless_charge/source.png",
+      "sha256": "db0d87aeec02e3ebb60a4a09c85f0b56c7b97fc598df4ec829c9c5aab44dce73",
+      "bytes": 1959160
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "reckless_charge",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "damage",
+        "value": 7
+      },
+      {
+        "op": "makeTempCardInDraw",
+        "value": 1,
+        "card": "dazed"
+      }
+    ],
+    "target": "ENEMY"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-12",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "card_id": "demon_form",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:53:00.889Z",
+    "endUtc": "2026-10-29T18:53:43.537Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "researchOnly": [
+    {
+      "path": "art/cards/traveler-geo/inflame/source.png",
+      "role": "Viewed to distinguish camera/pose; NOT passed",
+      "actuallyPassed": false,
+      "sha256": "d4f7338823f718ca53d2a2b89157a38153cb42e4158e32df33d0e9a41e03ca21"
+    },
+    {
+      "path": "art/cards/traveler-geo/flex/source.png",
+      "role": "Viewed to distinguish camera/pose; NOT passed",
+      "actuallyPassed": false,
+      "sha256": "e717d5a2a47bd5efc32fc61d55e1bd98de335154ce932351764c679d3dae21c6"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "gainStatus demon_form2, upgrade3",
+    "runtimeRead": [
+      "src/lua/abyss_combat.lua turn_start demon_form enqueues gainStatus strength(status amount), no transformation"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Composed practiced upright form, one normal vertical sword. No demon/horns/newarmor/fire/immediatehit/duplicates. Actual flower/whiteblue/blackgold identity clear. Frontal vertical line differs Inflame horizontal closegrip and Flex side-ready pose. Quiet progression metaphor only, recurring Strength stays text. Fine detail remains; native quality/cost unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/demon_form/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "3827b49c022630fc5ecf2753437376310092c1079388ade9b4bc8fdfe5c837f0",
+    "bytes": 1889445,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/demon_form/prompt.txt",
+    "sha256": "b5aec27dfd50ded79e29fa93cb26f4ca2f5cec14912e75a80f7bcb6ac2f40ca3"
+  }
+}

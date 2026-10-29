@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "card_id": "seeing_red",
+  "displayName": "重整旗鼓",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "seeing_red/generation-provenance.json",
+      "sha256": "9e59cfb6c3a6b7aa2e7585ea48860925ab196efb21b7c45301f6c25d3b9f534c",
+      "bytes": 2021
+    },
+    "preview-contain-144x64.png": {
+      "path": "seeing_red/preview-contain-144x64.png",
+      "sha256": "952bd040509fa61953645281d0cdf1ca5d99ac26e29cf685b2a4593152e5f0df",
+      "bytes": 17684
+    },
+    "prompt.txt": {
+      "path": "seeing_red/prompt.txt",
+      "sha256": "41fca408cd8324dde90338efd1eb0ac323818c37ff522eff5df467b5e316472c",
+      "bytes": 3022
+    },
+    "source.png": {
+      "path": "seeing_red/source.png",
+      "sha256": "e99b90891dbc72e09f895f2ff36cd5a345ff27f6763e638ac9b7ead2cee7f525",
+      "bytes": 1885660
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "seeing_red",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "energy",
+        "value": 2
+      }
+    ],
+    "target": "NONE"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-13",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}

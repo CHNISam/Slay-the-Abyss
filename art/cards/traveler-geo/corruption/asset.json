@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "card_id": "corruption",
+  "displayName": "孤注一掷",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "corruption/generation-provenance.json",
+      "sha256": "bdae118c9104efb614893869b45a34d69f2a30a31a46b04356b427a518125cee",
+      "bytes": 4243
+    },
+    "preview-contain-144x64.png": {
+      "path": "corruption/preview-contain-144x64.png",
+      "sha256": "a9301a49772bc5d7259b17f8c0960d638aeb3251e0c6ef6fd9d30ce08aca702d",
+      "bytes": 18193
+    },
+    "prompt-repair.txt": {
+      "path": "corruption/prompt-repair.txt",
+      "sha256": "09a686c70c0bde37d98d17b60999ab07ac7386ad7cae1fe765769299dc0390e1",
+      "bytes": 3384
+    },
+    "prompt.txt": {
+      "path": "corruption/prompt.txt",
+      "sha256": "cfd0937759b0482f476723f7604cb0121e347d4ae7345120f6c25ac95cc9bb9d",
+      "bytes": 3227
+    },
+    "source.png": {
+      "path": "corruption/source.png",
+      "sha256": "133c0f264b0709ebb9dc92924e980508df74259e3d8d6bb47d432572462cefb8",
+      "bytes": 1990832
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "corruption",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 1,
+        "status": "corruption"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-16",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": false,
+    "automaticRegenerations": 1
+  },
+  "productionRuntimeApproved": false
+}

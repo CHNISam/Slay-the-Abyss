@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "card_id": "pummel",
+  "assetRole": "generated-source-candidate",
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "requestedSize": [
+    2304,
+    1024
+  ],
+  "nativeTarget": [
+    144,
+    64
+  ],
+  "generation": {
+    "tool": "builtin image_gen.imagegen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startedAt": "2026-10-29T18:11:06.585Z",
+    "completedObservedAt": "2026-10-29T18:11:34Z",
+    "sourcePostprocessing": "none-exact-copy",
+    "attempt": 1,
+    "references": [
+      {
+        "path": "art/cards/traveler-geo/armaments/source.png",
+        "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332",
+        "role": "painted-style-only",
+        "actuallyPassedToTool": true
+      },
+      {
+        "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+        "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e",
+        "role": "Lumine-original-identity-only",
+        "actuallyPassedToTool": true
+      }
+    ],
+    "exactPromptPath": "prompt.txt"
+  },
+  "files": {
+    "source.png": {
+      "sha256": "91c1baf35b1bd9addb16ec3e9d3549f47419ad04f2f8be2174768bba286e34d1",
+      "bytes": 2028809
+    },
+    "prompt.txt": {
+      "sha256": "d8a0aa110bd1aa4da57e2589c5bdb5b3ac00d3c27cdb66940708c7411b46abe6",
+      "bytes": 2623
+    },
+    "preview-source-144x64.png": {
+      "sha256": "d88e6ed0587325ba2f730a0536b2a47001e87e5ae89d7da34fbf76094b8c7ed8",
+      "bytes": 20427
+    }
+  },
+  "adaptation": {
+    "mode": "contain",
+    "crop": null,
+    "stretch": false,
+    "preview": "preview-source-144x64.png",
+    "note": "actual output dimensions preserved despite requested size"
+  },
+  "intent": {
+    "name": "疾风连斩",
+    "mechanics": "damage2 repeated4 on one target, upgraded5, exhaust",
+    "mainAction": "compact rapid short sword sequence against one foe, one current physical sword with two faint nonphysical traces and nicks",
+    "identityCarriers": [
+      "blonde bob and prominent white flower",
+      "connected original white-blue costume and gold dark waist",
+      "normal one-handed sword"
+    ]
+  },
+  "review": {
+    "originalInspected": true,
+    "contain144x64Inspected": true,
+    "sourceVisualSelfCheck": "candidate original and144x64: recognizable Lumine flower face whiteblue-gold costume, one continuous held silver blade contacts same left foe, two short pale-blue traces and small armor nicks suggest repeated controlled short hits; no extra sword/arm or Anemo vortex. Independent review pending.",
+    "independentReview": "pending-root-owned",
+    "ownerApproved": false,
+    "nativeRedraw": "not-started",
+    "productionRuntimeApproved": false,
+    "deviceAndPerformance": "unverified"
+  },
+  "batch": {
+    "B": 4,
+    "stableCount": 0,
+    "expansion": false,
+    "template": "geo-traveler-original-source-v1"
+  }
+}

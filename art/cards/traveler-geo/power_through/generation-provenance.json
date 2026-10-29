@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "card_id": "power_through",
+  "status": "candidate-source-only",
+  "generation": {
+    "tool": "builtin image_gen",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "startUtc": "2026-10-29T18:16:53.035Z",
+    "endUtc": "2026-10-29T18:17:36.224Z",
+    "requestedSize": [
+      2304,
+      1024
+    ],
+    "attemptCount": 1,
+    "cost": "unknown-not-reported"
+  },
+  "references": [
+    {
+      "path": "art/cards/traveler-geo/armaments/source.png",
+      "role": "painterly-style-only",
+      "actuallyPassed": true,
+      "sha256": "e63cd8703ce983eb1556efa31a017b803e31c7b887e9c3e14c77bd3ba9928332"
+    },
+    {
+      "path": "art/characters/traveler-geo/portraits/battle133/source.png",
+      "role": "Lumine-character-and-costume-identity-only",
+      "actuallyPassed": true,
+      "sha256": "4851e4aae6c43799ec31e2b2ebd06f9b00cf07161f26e71d72a6ec89191ad98e"
+    }
+  ],
+  "mechanicEvidence": {
+    "data": "power_through effects makeTempCardInHand wound2 THEN block15; upgrade block20; no loseHp op",
+    "runtimeRead": [
+      "src/lua/abyss_warrior_strength_cards.lua power_through same Wound-to-hand then Block effects"
+    ]
+  },
+  "approval": {
+    "owner": false,
+    "native": false,
+    "platform": false
+  },
+  "inspection": {
+    "original": "inspected",
+    "contain144x64": "inspected",
+    "observation": "Stubborn protective triangular forearm brace, second hand supports elbow under broad dark left pressure; no sword, attack, bleeding/selfinjury/heal. Intact actual flower/whiteblue/blackgold Lumine identity clear at tiny size. Two Wound status cards burden remains text, not physical HP injury. Dark pressure streak texture more elaborate than ideal economy; native budget/quality unverified.",
+    "sourcePostprocessing": "none",
+    "previewOnly": "contain resize, no crop or stretch"
+  },
+  "source": {
+    "path": "art/cards/traveler-geo/power_through/source.png",
+    "dimensions": [
+      1881,
+      836
+    ],
+    "sha256": "8de6f2fa52a0ce02e50348222bc5d563c4a7d4729218c00afd3023667698be4e",
+    "bytes": 1927314,
+    "postprocessing": "none"
+  },
+  "prompt": {
+    "path": "art/cards/traveler-geo/power_through/prompt.txt",
+    "sha256": "1ed064057bc7bc4c97dee65e111b7f26a8719c56a7f0fb12c2b0f9527f5682e3"
+  }
+}

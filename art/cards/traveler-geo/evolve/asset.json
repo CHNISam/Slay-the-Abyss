@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "card_id": "evolve",
+  "displayName": "逆境求变",
+  "assetRole": "candidate-source-asset",
+  "files": {
+    "generation-provenance.json": {
+      "path": "evolve/generation-provenance.json",
+      "sha256": "b6891ea8dda0e703f77ce2ab44f401ea1ca651c13d278182f2bd5cc2ba9b4aa1",
+      "bytes": 3022
+    },
+    "preview-source-144x64.png": {
+      "path": "evolve/preview-source-144x64.png",
+      "sha256": "6f4941bfbe578dca7b4ed08722277d084019ae502661ff13660218e581360b47",
+      "bytes": 16888
+    },
+    "prompt.txt": {
+      "path": "evolve/prompt.txt",
+      "sha256": "aa613f7bc22dfe4d3ec4dc03101a5a778051f17f4ef2dad703ca5ffd160f9ff5",
+      "bytes": 2941
+    },
+    "source.png": {
+      "path": "evolve/source.png",
+      "sha256": "bd072b4eae6d81074e22306405dd2e36afed5b94b184ee4b064c95db1cc400e3",
+      "bytes": 1855488
+    }
+  },
+  "sourceSize": [
+    1881,
+    836
+  ],
+  "nativeTargetSize": [
+    144,
+    64
+  ],
+  "adaptation": {
+    "mode": "contain",
+    "scale": 0.07655502392344497,
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "crop": null,
+    "stretch": false
+  },
+  "ruleSource": {
+    "path": "data/cards.json",
+    "cardId": "evolve",
+    "sha256": "5f66a25e6a629861c8c6e005dd47b8d9372246cb4a667dee3b33d52e800514d3",
+    "effects": [
+      {
+        "op": "gainStatus",
+        "value": 1,
+        "status": "evolve"
+      }
+    ],
+    "target": "SELF"
+  },
+  "review": {
+    "source": "root-source-view-and-independent-source-plus-144x64-review-pass",
+    "ownerVisualApproval": false,
+    "nativeRedraw": "not-complete",
+    "runtime": "unbound",
+    "officialImport": "not-run",
+    "PC": "not-run",
+    "Android": "not-run",
+    "performance": "not-measured"
+  },
+  "batch": {
+    "id": "traveler-card-source-20261029-08",
+    "plannedB": 4,
+    "stableBatches": 0,
+    "firstPass": true,
+    "automaticRegenerations": 0
+  },
+  "productionRuntimeApproved": false
+}
