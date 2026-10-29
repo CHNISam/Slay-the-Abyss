@@ -1,3 +1,4 @@
+import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {projectOpenPrSource} from './open-pr-source-composition.mjs';
 // Exact outer projection for the TASK-4.7 relic view UI delta only. All
 // historical composition witnesses stay frozen; partial bytes reach strict guards.
@@ -11,6 +12,7 @@ assert.equal(hash(bytes),'749098fab752f80110fa7b277e8f83adb6e4e03a84bbcf680fee65
 export const relicViewUiProof=JSON.parse(bytes);
 assert.equal(relicViewUiProof.base,'806ea465bb4cb5a677a314c880dbd46710476e82');
 export function preRelicViewUiSource(path,source){
+ source=preBattleLifeSource(path,source);
  if(relicViewUiProof.files[path])source=projectOpenPrSource(path,source,'relic');
  if(typeof source!=='string')return source;
  source=normalize(source);

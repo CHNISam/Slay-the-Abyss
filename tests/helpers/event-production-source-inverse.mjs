@@ -1,3 +1,4 @@
+import {preBattleLifeSource,prepareBattleLifeModuleRetirement} from './battle-life-source-inverse.mjs';
 import {projectOpenPrSource} from './open-pr-source-composition.mjs';
 import {projectEventSnapshotSource} from './event-snapshot-composition.mjs';
 // Exact test-only outer layer for the production Duplicator and Match events.
@@ -31,6 +32,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  assert.notEqual(binding.beforeSource,binding.afterSource,'only changed event production inputs: '+path);
 }
 export function requireEventProductionSource(path,source){
+ source=preBattleLifeSource(path,source);
  if(proof.files[path])source=projectOpenPrSource(path,source,'event');
  source=projectEventSnapshotSource(path,source,'event');
  const binding=proof.files[path];
@@ -40,6 +42,7 @@ export function requireEventProductionSource(path,source){
  return binding;
 }
 export function preEventProductionSource(path,source){
+ source=preBattleLifeSource(path,source);
  if(proof.files[path])source=projectOpenPrSource(path,source,'event');
  source=projectEventSnapshotSource(path,source,'event');
  const binding=proof.files[path];
@@ -63,11 +66,12 @@ export function materializeBeforeEventProduction(directory,{sourceRoot=process.c
   requireEventProductionSource(path,readFileSync(live,'utf8'));
   return [path,binding];
  });
+ const retireBattleLife=prepareBattleLifeModuleRetirement(directory,{sourceRoot});
  for(const [path,binding]of sources){
   if(retained.has(path))continue;
   const target=join(directory,path);
   if(!existsSync(target))continue;
-  const source=normalize(projectEventSnapshotSource(path,projectOpenPrSource(path,readFileSync(target,'utf8'),'event'),'event'));
+  const source=normalize(projectEventSnapshotSource(path,projectOpenPrSource(path,preBattleLifeSource(path,readFileSync(target,'utf8')),'event'),'event'));
   assert.ok(source===binding.afterSource||source===binding.beforeSource,'unreviewed event production destination: '+path);
  }
  for(const [path,binding]of sources){
@@ -76,4 +80,5 @@ export function materializeBeforeEventProduction(directory,{sourceRoot=process.c
   if(binding.beforeSource===null)rmSync(target,{force:true});
   else {mkdirSync(dirname(target),{recursive:true});writeFileSync(target,binding.beforeSource);}
  }
+ retireBattleLife();
 }

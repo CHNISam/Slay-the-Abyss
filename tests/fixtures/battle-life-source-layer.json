@@ -1,0 +1,482 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "d4c4b25594798f9d2f4fc6b66a061532c2b71595",
+  "reviewedHead": "cb57bb21aaad4a3f26aeb40aa0955dfeb69de5f6",
+  "files": {
+    "config/architecture.json": {
+      "beforeSha256": "810e2ff1aab8dcf29e1a6d260bb87cf692f8c30c7886180f7e048519249a2ee4",
+      "afterSha256": "4eb51e51be7eebf76030adbcc376f14305acfceeaac1f61323300038fd9447fe",
+      "hunks": [
+        {
+          "at": 264,
+          "before": [
+            "    \"abyss_run_potions\": \"core\""
+          ],
+          "after": [
+            "    \"abyss_run_potions\": \"core\",",
+            "    \"abyss_actor_motion\": \"ui\",",
+            "    \"abyss_skill_feedback\": \"ui\",",
+            "    \"abyss_card_flow\": \"ui\""
+          ]
+        }
+      ]
+    },
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "c7cd271d3e4f019dba8f85046ce1e1278d0e9f2a94c5b8b9ae9d3b84191c6ede",
+      "afterSha256": "ab06b7748903894fa447c290db6ee98fe8a4bf445f7a83c0be4a86603ff9bf5a",
+      "hunks": [
+        {
+          "at": 195,
+          "before": [],
+          "after": [
+            "    \"actorIdle\": {\"period\": 3.6, \"scale\": 0.012, \"lift\": 1.2, \"sway\": 0.8, \"maxDelta\": 0.1},"
+          ]
+        }
+      ]
+    },
+    "scripts/ui-layout.mjs": {
+      "beforeSha256": "2de361579433fc0a03961d7854412a6dcc9587b8310e7e80809fbe4077705981",
+      "afterSha256": "45ba72f82b02ec3c6d41cf312849426ec10a85330aebcbd27f97c38d105775cd",
+      "hunks": [
+        {
+          "at": 339,
+          "before": [],
+          "after": [
+            "    // Ten fixed lightweight trails cover a full hand without allocating controls during play.",
+            "    ...Array.from({length: 10}, (_, i) => ({name: `cardTrail${i + 1}`, kind: 'container',",
+            "      size: l.card.size, visible: false, children: [",
+            "        panel('plate', 0, 0, ...l.card.size, c.cardType.attack),",
+            "        picture('art', 0, s.xl, l.card.art, l.card.art, theme.icon.cardArt.attack, c.goldBright),",
+            "        text('name', 0, -s.xxl, l.card.size[0] - s.s, l.nativeText.lineHeight * 2, '', f.cardName, c.text),",
+            "      ]})),"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_actor_motion.lua": {
+      "beforeSha256": null,
+      "afterSha256": "c5bd7f59379629cd6c8a0523e1449f4a59267617a81c0fb0e9ebd426f2558687",
+      "hunks": []
+    },
+    "src/lua/abyss_battle_card_view.lua": {
+      "beforeSha256": "f9ad3a4965f9d54afbd7f8efc92c148edfaddaf9e630de1461e8a3db2a19a0b0",
+      "afterSha256": "150dd2f53cd735229c3ddf84b2ddc4435ca713192b9db609d18df71e52fe067f",
+      "hunks": [
+        {
+          "at": 61,
+          "before": [
+            "        for _,card in ipairs(battle and battle[name] or {}) do result[card.uid]=true end"
+          ],
+          "after": [
+            "        for _,card in ipairs(battle and battle[name] or {}) do result[card.uid]=name end"
+          ]
+        },
+        {
+          "at": 108,
+          "before": [
+            "    local handWidth,handHeight"
+          ],
+          "after": [
+            "    local handWidth,handHeight,openingHand"
+          ]
+        },
+        {
+          "at": 113,
+          "before": [],
+          "after": [
+            "            openingHand=current~=handBattle and current~=nil"
+          ]
+        },
+        {
+          "at": 124,
+          "before": [
+            "            if previousPiles[instance.uid] then"
+          ],
+          "after": [
+            "            if previousPiles[instance.uid]or openingHand then"
+          ]
+        },
+        {
+          "at": 127,
+          "before": [
+            "                entry.current={x=L.drawPile.position[1],y=L.drawPile.position[2],scale=0.12/0.75,angle=0}"
+          ],
+          "after": [
+            "                local pile=previousPiles[instance.uid]",
+            "                local start=pile=='discard'and L.discardPile.position",
+            "                    or pile=='exhaust'and{L.topBar.exhaustIcon[1],L.topBar.y}or L.drawPile.position",
+            "                entry.current={x=start[1],y=start[2],scale=0.12/0.75,angle=0}"
+          ]
+        },
+        {
+          "at": 260,
+          "before": [],
+          "after": [
+            "        openingHand=false"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_render_state.lua": {
+      "beforeSha256": "be02bc661409f5153a88331b5cdaed80efcb6e9c65e68ba3181727e339b1c98f",
+      "afterSha256": "fda20d7b031c3e06c6f668d65ecb21350416fc051424b3a3f476e0747566f2be",
+      "hunks": [
+        {
+          "at": 58,
+          "before": [],
+          "after": [
+            "        if owner.feedback then owner.feedback:bindIdle(owner.active and fighting and run and run.combat or nil) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_flow.lua": {
+      "beforeSha256": null,
+      "afterSha256": "2423279169fe99ab0f5b7d45de7e0e8402fb7b54f6c3cb72021eff200ba241fb",
+      "hunks": []
+    },
+    "src/lua/abyss_feedback.lua": {
+      "beforeSha256": "d47e183353e2a98f91084233606157b3e2fcfd24dbf36fd2be36c03a998c6244",
+      "afterSha256": "b4dd1315800e4255f337eaae42da58baa40b765c324a0fa318d08b54a1cb3279",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "local ActorMotion=require('abyss_actor_motion')",
+            "local SkillFeedback=require('abyss_skill_feedback')",
+            "local CardFlow=require('abyss_card_flow')"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "local function skillContext(entry,catalog)",
+            "    local d=type(entry.detail)=='table' and entry.detail or {}",
+            "    if entry.kind=='play' then return {effects=catalog.cards[d.cardId].effects} end",
+            "    for _,unit in ipairs(entry.frame and entry.frame.enemies or {})do",
+            "        if unit.id==d.enemy then",
+            "            for _,intent in ipairs(unit.intents or {})do",
+            "                if intent.id==d.id then return {enemyId=unit.definitionId,intentId=d.id,intentKind=intent.kind,effects=intent.effects} end",
+            "            end",
+            "        end",
+            "    end",
+            "    return {}",
+            "end"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [],
+          "after": [
+            "            local skill=skillContext(entry,catalog)",
+            "            context.family=SkillFeedback.resolve(entry.kind,d,skill)"
+          ]
+        },
+        {
+          "at": 98,
+          "before": [],
+          "after": [
+            "    for i,entry in ipairs(queue)do",
+            "        local d=type(entry.detail)=='table' and entry.detail or {}",
+            "        local style=styles[i]",
+            "        local status=catalog.statuses[d.status]",
+            "        style.family=SkillFeedback.resolve(entry.kind,d,{family=style.context and style.context.family,",
+            "            weight=style.weight,statusKind=status and status.kind})",
+            "    end"
+          ]
+        },
+        {
+          "at": 148,
+          "before": [],
+          "after": [
+            "    function self.bindIdle(_owner,battle)",
+            "        if not self.busy and self.idleBattle and self.idleBattle~=battle then self:reset() end",
+            "        self.idleBattle = battle",
+            "        if battle and not self.busy then self.shadow = battle end",
+            "    end",
+            "    self.cardFlow=CardFlow.new(stage,platform)"
+          ]
+        },
+        {
+          "at": 176,
+          "before": [],
+          "after": [
+            "        if self.cast then overlay:GetChild('sweep'):SetVisible(false) end",
+            "        self.cast=nil"
+          ]
+        },
+        {
+          "at": 203,
+          "before": [
+            "    function self:reset()"
+          ],
+          "after": [
+            "    function self.reset()"
+          ]
+        },
+        {
+          "at": 205,
+          "before": [],
+          "after": [
+            "        self.idleBattle, self.idleClock, self.shadow = nil, 0, nil",
+            "        self.cardFlow:reset()"
+          ]
+        },
+        {
+          "at": 220,
+          "before": [],
+          "after": [
+            "        if not failure and self.battle and self.shadow then",
+            "            local ok,reason=pcall(function()",
+            "                self.cardFlow:sync(self.shadow,self.battle,nil,true)",
+            "                self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)",
+            "            end)",
+            "            if not ok then failure=reason end",
+            "        end"
+          ]
+        },
+        {
+          "at": 234,
+          "before": [
+            "    function self:cancel()"
+          ],
+          "after": [
+            "    function self.cancel()"
+          ]
+        },
+        {
+          "at": 297,
+          "before": [],
+          "after": [
+            "        self.cardFlow:playing(d,self.flight)"
+          ]
+        },
+        {
+          "at": 411,
+          "before": [],
+          "after": [
+            "    local function startCast(d,kind,style)",
+            "        local family=style.family",
+            "        if family~='projectile' and family~='poison' and family~='bind' then return end",
+            "        local source=kind=='intent' and d.enemy or 'player'",
+            "        for i=self.index+1,#self.queue do",
+            "            local entry=self.queue[i]",
+            "            if entry.kind=='play' or entry.kind=='intent' or banners[entry.kind] then break end",
+            "            local detail=type(entry.detail)=='table' and entry.detail or {}",
+            "            if detail.target and detail.target~=source then",
+            "                local _,_,sx,sy=actor(source)",
+            "                local _,_,tx,ty=actor(detail.target)",
+            "                if sx and tx then self.cast={family=family,sx=sx,sy=sy,tx=tx,ty=ty,kind=kind} end",
+            "                return",
+            "            end",
+            "        end",
+            "    end"
+          ]
+        },
+        {
+          "at": 431,
+          "before": [
+            "        -- The played card stays for the contact frame and dissolves into the strike."
+          ],
+          "after": [
+            "        -- Hold the played UID at contact until a committed frame names its pile."
+          ]
+        },
+        {
+          "at": 436,
+          "before": [
+            "        hideOverlay(landing)"
+          ],
+          "after": [
+            "        self.cardFlow:sync(old,nextView,entry.kind)",
+            "        self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)",
+            "        hideOverlay(landing or next(self.cardFlow.inPlay)~=nil)"
+          ]
+        },
+        {
+          "at": 442,
+          "before": [
+            "            self.dissolve = 0"
+          ],
+          "after": [
+            "            self.dissolve = nil"
+          ]
+        },
+        {
+          "at": 456,
+          "before": [],
+          "after": [
+            "            startCast(d,kind,style)"
+          ]
+        },
+        {
+          "at": 461,
+          "before": [],
+          "after": [
+            "            startCast(d,kind,style)"
+          ]
+        },
+        {
+          "at": 470,
+          "before": [
+            "    function self:start(before, battle, first, presentation, origin)"
+          ],
+          "after": [
+            "    function self.start(_owner,before, battle, first, presentation, origin)"
+          ]
+        },
+        {
+          "at": 601,
+          "before": [],
+          "after": [
+            "    local function skillImpact(effect,sample,e)",
+            "        local family,form=effect.style.family,effect.style.form",
+            "        if not effect.icon and family~='none'",
+            "            and ((form~='multi' and form~='area')or(family~='melee' and family~='heavy'))then",
+            "            return SkillFeedback.sample(family,e,S.m)",
+            "        end",
+            "        local ix,iy,iy0=impactShape(effect,sample,e)",
+            "        return ix,iy,0,iy0",
+            "    end"
+          ]
+        },
+        {
+          "at": 619,
+          "before": [
+            "            local ix,iy,iy0=impactShape(effect,sample,e)"
+          ],
+          "after": [
+            "            local ix,iy,offset,iy0,alpha,key=skillImpact(effect,sample,e)"
+          ]
+        },
+        {
+          "at": 621,
+          "before": [
+            "            impact:SetAnchoredPosition(0, iy0)"
+          ],
+          "after": [
+            "            impact:SetAnchoredPosition(offset or 0, iy0)"
+          ]
+        },
+        {
+          "at": 623,
+          "before": [
+            "            tint(impact,shardInk,shardAlpha)"
+          ],
+          "after": [
+            "            tint(impact,key and C[key] or shardInk,alpha or shardAlpha)"
+          ]
+        },
+        {
+          "at": 697,
+          "before": [
+            "        local _, box = actor(id)"
+          ],
+          "after": [
+            "        local unit, box = actor(id)"
+          ]
+        },
+        {
+          "at": 700,
+          "before": [
+            "        local x, y, sx, sy, ink, flash, alpha = 0, 0, 1, 1, base, 0, 1"
+          ],
+          "after": [
+            "        local ink, flash, alpha = base, 0, 1"
+          ]
+        },
+        {
+          "at": 702,
+          "before": [],
+          "after": [
+            "        local motionState=ActorMotion.state(unit,posed,self.effects[id],self.dying[id],self.escaping[id])",
+            "        local x,y,sx,sy=ActorMotion.idle(unit,id,self.idleClock or 0,motionState,T.actorIdle)"
+          ]
+        },
+        {
+          "at": 707,
+          "before": [
+            "            x, sx, sy = px, ps, ps"
+          ],
+          "after": [
+            "            if motionState=='action' then x, sx, sy = px, ps, ps end"
+          ]
+        },
+        {
+          "at": 728,
+          "before": [
+            "    function self:update(dt)",
+            "        if not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve then return end"
+          ],
+          "after": [
+            "    function self.update(_owner,dt)",
+            "        if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve and not self.cardFlow:busy() then return end"
+          ]
+        },
+        {
+          "at": 732,
+          "before": [
+            "            self.elapsed = self.elapsed + dt"
+          ],
+          "after": [
+            "            self.idleClock=ActorMotion.advance(self.idleClock or 0,dt,T.actorIdle)",
+            "            self.elapsed = (self.elapsed or 0) + dt",
+            "            if self.battle then self.cardFlow:update(dt,self.battle.catalog,self.presentation,self.fastMode)end"
+          ]
+        },
+        {
+          "at": 780,
+          "before": [],
+          "after": [
+            "                sweep.localRotationZ=0",
+            "                sweep:SetAnchoredPosition(ROW,L.enemyRow.y)"
+          ]
+        },
+        {
+          "at": 787,
+          "before": [],
+          "after": [
+            "            if self.cast then",
+            "                local cast=self.cast",
+            "                local total=cast.kind=='play' and T.base or T.enemyActionGap",
+            "                local p=clamp(self.elapsed/total)",
+            "                local x,y,alpha=SkillFeedback.travel(cast.family,p,cast.sx,cast.sy,cast.tx,cast.ty)",
+            "                local sweep=overlay:GetChild('sweep')",
+            "                sweep:SetVisible(alpha>0)",
+            "                sweep:SetAnchoredPosition(x,y)",
+            "                sweep:SetLocalScale(S.xl/(L.enemyRow.xTo-L.enemyRow.xFrom+L.enemyRow.bossPortrait),0.5,1)",
+            "                sweep.localRotationZ=cast.family=='bind' and p*180 or 0",
+            "                tint(sweep,cast.family=='poison' and C.positive or cast.family=='bind' and C.debuff or C.block,alpha)",
+            "            end"
+          ]
+        },
+        {
+          "at": 800,
+          "before": [],
+          "after": [
+            "            if self.idleBattle and self.shadow then",
+            "                if self.shadow.player.hp>0 then ids.player=true end",
+            "                for _,unit in ipairs(self.shadow.enemies)do if Actors.isPresent(unit) then ids[unit.id]=true end end",
+            "            end"
+          ]
+        },
+        {
+          "at": 821,
+          "before": [
+            "    function self:begin(...)"
+          ],
+          "after": [
+            "    function self.begin(_owner,...)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_skill_feedback.lua": {
+      "beforeSha256": null,
+      "afterSha256": "6bc4bbfc994d1b031f0857a4f690a1c7e9a405ec457d542abf82497e91f3dce6",
+      "hunks": []
+    }
+  }
+}

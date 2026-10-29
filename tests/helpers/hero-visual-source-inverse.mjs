@@ -1,3 +1,4 @@
+import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {projectOpenPrSource} from './open-pr-source-composition.mjs';
 // Exact outer replay for the hero-visual slice. Older witnesses keep their bytes.
 import assert from 'node:assert/strict';
@@ -12,6 +13,7 @@ export const heroVisualProof = JSON.parse(bytes);
 assert.equal(heroVisualProof.schemaVersion, 1);
 
 export function preHeroVisualSource(path, source) {
+ source=preBattleLifeSource(path,source);
  if(heroVisualProof.files[path])source=projectOpenPrSource(path,source,'hero');
   if (typeof source !== 'string') return source;
   const normalized = normalize(source);
