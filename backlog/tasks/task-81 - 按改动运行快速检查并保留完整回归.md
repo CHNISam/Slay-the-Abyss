@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-29 03:12'
+updated_date: '2026-10-29 03:14'
 labels: []
 dependencies: []
 priority: medium
@@ -37,6 +37,10 @@ ordinal: 125000
 CI故障切片：保留真实Windows ENAMETOOLONG记录；原生分片探针改在临时根目录以原排序文件名启动，新增实际argv便携断言，比较修复前后命令长度与逐片完整覆盖；只本地提交后独立审查，不发布。
 
 PR316核心超时修复已由accepted PR313（cec690c1）交付；本轮仅在既有职业选牌分片合同中补齐广义发现与针对性静态负例；实际进程编号联合仅作为本地验证证据保留，不加入普通Node套件。保留accepted Lua、manifest、runner hash与托管分片检查，原30秒预算验证；这是测试加固，不是M3玩法运行阻塞，不勾选性能验收。
+
+修复已复现的Windows原生分片探针命令行过长：仅将完整文件名argv改为临时目录内的短模式原生发现，保留8/4分片、恰好一次覆盖及原时限；加大清单回归并等待真实Windows CI。
+
+2026-10-29 PR322接续实际develop e22a443e（accepted PR324）：保留324相对参数便携合同与316/319/813全部执行历史。继续采用813经Windows八片JavaScript门禁通过的原生短模式helper和512长文件名回归；两个逐片循环明确验证实际.test.mjs实参恰为单个相对*.test.mjs，不含绝对根目录或随清单增长的逐文件参数。独立树外比较当前完整清单相对basename参考与短模式的8/4逐片名称完全一致，普通CI不重复增加该比较。仅CI探针与任务81备注差异，生产及来源证明逐byte保持813；新HEAD仍须新完整Quality。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -61,4 +65,10 @@ PR316最终收敛为两文件测试加固：只改既有tests/game-ui-class-choi
 实际CASE编号联合已在本地验证，不作为普通CI新增测试：此前本地285449f3在重建data/UI/theme后Node24.22.1定向4/4通过0skip，两原30000ms进程11.500秒/14.646秒；独立审查4/4、11.458秒/13.004秒，实际编号1至10恰好一次。相关树外日志reconciled-pr313-focused-20261028.log及独立receipt保留为该历史head的证据。最终版本移除普通Node重复启动进程的检查，仅保留静态保护；新head需更新独立审查与当前SHA完整Quality，不复用旧854或285的预检资格。核心修复已随PR313接受，本轮不是M3运行阻塞；性能AC保持未勾选。
 
 PR319已合入48cb48ce（cec唯一父），吸收严格交付schema3/真实目标tip合同和已证实的四项原预算夹具拆分；本分支完整保留其TASK81交付计划/备注。PR316旧94e的Full40762136486仅退出夹具超时，该夹具现已由accepted319修复；本次仅将原静态职业选牌保护逐字节重放到新基线，不复制运行时/分片实现，不新增Node Lua进程，不作为M3运行阻塞。旧854/285/94e审查与运行只作历史记录，新head需新独立审查和当前Quality，性能AC仍不勾选。
+
+2026-10-29 develop58f72c2 Quality40801744986/rules4 job123213242113在ci-windows-shards原生文件名探针触发spawnSync ENAMETOOLONG。Windows与POSIX探针共用短参数helper，由Node在独立临时cwd展开字面量*.test.mjs；不改生产隔离、工作流、矩阵、时限或原断言。512个含空格/方括号/中文长名称跨8个真实Node分片恰好执行一次，命令与16文件清单完全一致且小于1024字符。Linux Node24.22.1定向8/8，广域29通过1项因未装pwsh而未完成；没有跳过或删断言，真实Windows/当前Full待验。保留原316/319全部计划备注及未勾性能验收，负责人按仓库约定为Furinya。
+
+本轮冲突保留双方来源：accepted324已解决重复绝对根目录并加入实际argv便携断言；813短相对basename模式进一步消除文件数量增长，512长名称清单精确并集与命令恒定均保留。因此将324的原排序basename清单断言明确细化为两个循环中的单个相对*.test.mjs模式断言，不是移除便携guard或给未知wildcard开例外。813 Full40807235155的八个Windows JavaScript步骤已实际SUCCESS；该运行base58已陈旧，不能冒充e22新HEAD的Full通过。316/319/324及本修复计划/备注均通过CLI并集合并，Furinya、In Progress、性能AC0/3保持。
+
+e22本地重放验证：相对basename参考与短模式原生CLI对当前360个JS文件在八片（每片45）及四片（每片90）的有序名称逐片完全一致，比较脚本和完整清单证据仅在/tmp/sta-pr322-e22-refresh-20261029/native-parity.json，不加入普通CI重复开销。两个实际CLI循环均拒绝绝对模式参数变异；恢复后聚焦8/8及原指定纯合同65/65全部通过、0skip，Linux Node24.22.1。语法、网络、Backlog、diff检查通过；新树相对813仅两份CI探针及本任务备注变化，其他4187个跟踪条目的blob与mode完全相同（包含全部运行时、数据及冻结来源证明）。Furinya/In Progress/性能AC0/3不变；未远端更新、未重跑Lua/全套，新HEAD实际Windows及完整Quality仍待正式Runner。
 <!-- SECTION:NOTES:END -->
