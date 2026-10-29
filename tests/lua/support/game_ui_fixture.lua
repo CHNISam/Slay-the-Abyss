@@ -18,6 +18,12 @@ local Control = {}
 -- The engine owns activation. Expose only the documented read-only hierarchy
 -- result on controls; tests change private engine state, not native properties.
 local engineActive = setmetatable({}, { __mode = 'k' })
+local engineAlive = setmetatable({}, { __mode = 'k' })
+local function destroyControl(control)
+    engineAlive[control]=false
+    for _,child in pairs(control.children or {}) do destroyControl(child) end
+    for _,item in pairs(control.items or {}) do destroyControl(item) end
+end
 local function activeInHierarchy(control)
     while control do
         if engineActive[control] == false then return false end
@@ -35,16 +41,21 @@ end
 local controlMethods = {
     __index = function(control,key)
         nativeField(control,key)
+        if key=='alive' then return engineAlive[control]~=false end
         if key=='activeInHierarchy' then return activeInHierarchy(control) end
         return Control[key]
     end,
     __newindex = function(control,key,value)
         nativeField(control,key)
+        assert(key~='alive','Native alive is read-only')
         assert(key~='activeInHierarchy','Native activeInHierarchy is read-only')
         rawset(control,key,value)
     end,
 }
-function Control:GetChild(name) return self.children[name] end
+function Control:GetChild(name)
+    if engineAlive[self]==false then error('GetChild on invalid object')end
+    return self.children[name]
+end
 function Control:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
 function Control:SetSizeDelta(width, height) NativeContract.sizeDelta(width,height); self.size = {width, height}; self.sizeDeltaX, self.sizeDeltaY = width, height end
 function Control:SetLocalScale(x, y, z) self.scale = {x, y, z}; self.localScaleX, self.localScaleY = x, y end
@@ -76,6 +87,7 @@ function Control:SetControllerNavigation(direction,mode,target)
     self.navigation=self.navigation or {};self.navigation[direction]={mode=mode,target=target}
 end
 function Control:GetChildren()
+    if engineAlive[self]==false then error('GetChildren on invalid object')end
     local children={};for _,child in pairs(self.children)do children[#children+1]=child end;return children
 end
 
@@ -97,6 +109,11 @@ local function control(spec, parent)
     if spec.kind == "grid" then
         self.items, self.indexBase = {}, 0
         function self:recycle(slot, index)
+            -- Optional destruction models native viewport churn; the default
+            -- retains real reuse for existing identity-specific scenarios.
+            if self.destroyOnRecycle and self.items[slot] then
+                destroyControl(self.items[slot]);self.items[slot]=nil
+            end
             if not self.items[slot] then self.items[slot] = control(assert(Templates[spec.itemTemplate]), self) end
             self.refreshCallback(self.items[slot], index)
             return self.items[slot]
@@ -105,6 +122,11 @@ local function control(spec, parent)
             for i = 0, math.min(self.itemCount, 12) - 1 do self:recycle(i, i + self.indexBase) end
         end
         function self:RefreshItems(amount, fn)
+            if engineAlive[self]==false then error('RefreshItems on invalid object')end
+            if self.destroyOnRefresh then
+                for _,item in pairs(self.items) do destroyControl(item) end
+                self.items={}
+            end
             self.itemCount, self.refreshCallback = amount, fn
             if not self.deferRefresh then self:flush() end
         end

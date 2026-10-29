@@ -45,6 +45,12 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         presentation=value
     end
     local grid = assert(root:GetChild("grid"), "missing deck grid")
+    local function liveFaces(fn)
+        for control in pairs(self.bindings)do
+            if control.alive==false then self.bindings[control]=nil
+            else fn(control:GetChild('face')) end
+        end
+    end
     local details,detailHit=root:GetChild('details'),root:GetChild('detailHit')
     local function closeLabel(value)
         for _,state in ipairs({'normal','hover','pressed','disabled'}) do
@@ -117,6 +123,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             self.bindings[control]={}
             local function pick()
                 local b=self.bindings[control]
+                if control.alive==false or not b then return false end
                 if self.visible and not self.choiceToken and b.generation==self.generation then
                     return self:showDetails(b.definition,b.upgraded)
                 end
@@ -132,7 +139,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                 return pick()
             end)
             Controller.bind(platform.controller,hit,'deck',pick,function()
-                return self.visible and self.bindings[control].generation==self.generation
+                local b=self.bindings[control]
+                return control.alive~=false and self.visible and b~=nil and b.generation==self.generation
             end,10)
         end
         self.bindings[control].generation,self.bindings[control].uid=self.generation,instance.uid
@@ -209,7 +217,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                     or name=='next' and (self.controllerPage or 1)<pages;hit.raycastTarget=hit.interactable end
             end
         end
-        for control in pairs(self.bindings)do CardSkin.tick(control:GetChild("face"),dt or 0)end
+        liveFaces(function(face)CardSkin.tick(face,dt or 0)end)
         if not self.pending then return end
         self.pending, self.calibrating = false, false
         local generation, cards, catalog, base = self.generation, self.cards, self.catalog, self.indexBase
@@ -240,7 +248,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.multiple,self.choiceSelected=nil,nil
         self.detailPages,self.detailOnly=nil,nil
         details:SetVisible(false);detailHit:SetVisible(false)
-        root:SetVisible(false);for control in pairs(self.bindings)do CardDisplay.clearNativeArt(control:GetChild('face'))end
+        root:SetVisible(false);liveFaces(CardDisplay.clearNativeArt)
         grid:RefreshItems(0, function() end)
         return true
     end

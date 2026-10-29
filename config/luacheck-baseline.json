@@ -69,21 +69,21 @@
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 142,
+      "line": 150,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 42"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 194,
+      "line": 202,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 42"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 234,
+      "line": 242,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 42"

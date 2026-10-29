@@ -891,7 +891,7 @@
       "rim": 2,
       "faceInset": 6,
       "elementInset": 10,
-      "numberSize": 29.333333333333332,
+      "numberSize": 29,
       "shadowOffset": [
         0,
         -1.3333333333333333
@@ -1023,7 +1023,7 @@
       "valueWidth": 64,
       "note": "攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。",
       "portraitGap": 10.666666666666666,
-      "numberSize": 14.666666666666666
+      "numberSize": 15
     },
     "map": {
       "floorGap": 76,

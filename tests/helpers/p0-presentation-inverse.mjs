@@ -1,3 +1,4 @@
+import {materializeBeforePreservedUi} from './pr323-preserved-ui-inverse.mjs';
 export {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 import {preIntegratedNodeUiSource,nodeUiAddedPaths,nodeUiCurrentRootSha256,approvedNodeFace} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
@@ -31,6 +32,7 @@ export function materializeHistoricalPresentation(directory){
   const diskFace=readFileSync(approvedNodeFace.path,'utf8').replaceAll('\r\n','\n');
   assert.equal(hash(diskFace),approvedNodeFace.afterSha256,'current-only Node materialization must validate the approved live face before any writes');
   const nodeSource=preIntegratedNodeUiSource(root,diskRoot,{[approvedNodeFace.path]:diskFace});
+  materializeBeforePreservedUi(directory);
   for(const path of new Set([...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){
     const source=preApprovedUiSource(path,path===root?nodeSource:readFileSync(path,'utf8'));
     if(source===null)rmSync(join(directory,path),{force:true});

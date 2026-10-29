@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { toLua } from './build-lua-data.mjs';
+import { nativeFontSize } from './native-ui-theme.mjs';
 
 export const loadMapTheme = () => JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8'));
 
@@ -22,7 +23,7 @@ export function mapLayout(theme = loadMapTheme()) {
   const g = mapGeometry(theme), c = theme.color, f = theme.font, im = theme.image;
   const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text) => ({
     name, kind: 'text', position: [x, y], size: [w, h],
-    text: { content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: f.minimum },
+    text: { content, fontSize: nativeFontSize(fontSize, f.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(f.minimum) },
   });
   const image = (name, x, y, w, h, colour, picture = im.rect) => ({
     name, kind: 'image', position: [x, y], size: [w, h], image: picture, colour,

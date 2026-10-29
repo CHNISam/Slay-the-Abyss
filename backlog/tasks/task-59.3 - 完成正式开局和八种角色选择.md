@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-29 03:30'
+updated_date: '2026-10-29 04:19'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -53,6 +53,10 @@ ordinal: 121000
 2026-10-29用户确认本次比赛只开放岩系旅行者，雷电将军保留全源码开发/未来版本；本轮在accepted develop e22a443e上重放PR322并保留选择前、适配前和取种子前身份拒绝，复原PR315原15项有界拖牌回归及accepted324探针；单角色公开入口和full-source八角色分别验证，只本地提交待根线程审查，不发布或实机。
 
 2026-10-29独立审查prepared UI原33情景在原30秒预算下29.05秒通过（本轮此前28.11秒），按根线程授权只将原断言/种子/顺序以有界范围分为两进程；用完整源SHA/Git blob逆变换和用例编号联合证明原33情景逐项仅一次，保留原30秒与原runner。无运行时改动，不增加验收通过声明。
+
+历史方案归档（原 PR317@8a1a2f03098256dbe4e595c20f424845d15c9311；保留来源分支时点，不是807当前执行指令、公开范围决定或新验收）：
+
+2026-10-29 PR317职责迁移：以实际develop 58f72c2c为基线，仅移植已独立审查296bc0a2的两角色准入、界面路由和Watcher来源事务测试修正。准入放入Run初始化职责且早于适配及随机流；保留Run/Nodes/Battle拆分、PR313输入与药水行为、严格冻结逆变换和原30秒预算。先验证精确源码与历史守卫，再串行复验两角色与完整choice continuation，提交本地精确头后停止推送，等待独立语义审查；原生验收项保持未勾选。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -91,4 +95,8 @@ PR317 Full 40739581097/rules3(job123004776107)实际失败已本地复现：raw 
 2026-10-29本地组合基于accepted develop e22a443e，线性重放PR322截至813c84c2的有用实现，跳过其探针替代方案并逐字保留accepted324两份原排序basename/cwd测试。315七份运行模块、原15用例有界两片及JS/worker登记逐字恢复5ef4a37a；完整16-owner和历史逆变换保留。公开competition-two-act只允许ironclad；适配、选角突变和取seed前拒绝Raiden/RD及所有prepared不符身份，显式full-source保留八角色/冻结V4雷电及原MaxHP安全拒绝。新增公开Raiden/已准备Raiden拒绝先红后绿；聚焦29/29零skip（真实拖牌7+8例，preparedUI33情景28.11秒/原30秒，正式两幕终点及full-source八形态/Act3/锁定Act4，活动MaxHP完整回滚）、严格逆变换23/23、范围30/30通过；架构257模块1425边，Luacheck零新增/37历史/941测量，语法/数据/网络检查通过。尚无本组合Full托管CI、原生GIL、官方导入/实机或自然通关；只本地提交交根线程独立审查，不新增验收勾选，不推送或合并。
 
 2026-10-29按两次实测28.11秒/29.05秒接近原30秒预算的证据完成最小可靠性分片：仅将原33个prepared UI情景分为1–18与19–33两个原预算进程，未改运行模块、种子或任何原断言。静态精确逆变换恢复ea91原Lua完整SHA256 ff9d0aa399934e599c93ef086aac9a518c9de859ee44e5a0db03ea769bf31c55与Git blob208b8c3e8944f8822211d59269a418c911172ba5；编号联合恰为1至33，各只一次。真实两片与严格源/发现/worker合同12/12零skip通过，总29.85秒；原runner/hash/30秒预算不变，Windows八片/POSIX四片JS发现及原生Lua八片单/双worker登记覆盖保留。仅本地child commit交审查，不推送或勾实机验收。
+
+历史验证归档（原 PR317@8a1a2f03098256dbe4e595c20f424845d15c9311；保留来源分支时点，不是807当前执行指令、公开范围决定或新验收）：
+
+2026-10-29 PR317本地迁移：实际develop 58f72c2c保留Run/Nodes/Battle职责拆分，原296bc0a2与此前独立审查仅作为历史证据。23行准入策略及选角/Host生产源码保持原审查字节；唯一Run侧改动移至abyss_run_initialization.prepareProfile，早于角色/目录适配、种子和随机流。真实Watcher第一/二幕来源事务仍显式full-source，原奖励获取、完整回滚、重试和RNG断言不减。原30秒预算与runner未改；串行16/16（含全部303 continuation）和纯源码71/71、roster逆变换1/1通过；架构256模块1422边，静态无新增诊断、37条历史告警与941项职责测量。守恒证明60个最新Run/Nodes/Battle模块、12项策略/冻结见证/runner未变，三个roster逆变换逐字恢复实际58f基线。状态/负责人及验收勾选不变；停止于本地提交，待独立语义审查，不推送或改PR。完整当前SHA托管Quality、原生构建、官方导入/ready、自然通关及触摸/手柄实机仍未验收，不能宣称本任务、TASK59/47或M3完成。
 <!-- SECTION:NOTES:END -->

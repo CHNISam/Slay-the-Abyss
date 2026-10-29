@@ -14,16 +14,26 @@ import { loadReleaseNotes, releaseInputPaths, releaseBuildArgs } from './release
 import { nativeCardArtArgs, prepareNativeCardArt, attachNativeCardArt, bindNativeArtPresentation, nativeArtReceipt } from './card-art-samples.mjs';
 
 export function assertNativeUiCapacity(layout) {
+  const checkFonts = (control, path) => {
+    for (const key of ['fontSize', 'minFontSize']) {
+      const value = control.text?.[key];
+      if (value !== undefined && (!Number.isInteger(value) || value < 14)) {
+        throw new Error(`${path}: text.${key} must be an integer at least 14, got ${value}`);
+      }
+    }
+  };
   const visit = (controls, path) => {
     if (controls.length > 60) throw new Error(`${path}: ${controls.length} direct children exceeds the platform limit of 60`);
     for (const control of controls) {
       const childPath = `${path}/${control.name}`;
+      checkFonts(control, childPath);
       if (control.children?.length && control.kind !== 'container' && control.kind !== 'presetButton') {
         throw new Error(`${childPath}: only a container or presetButton may hold child controls`);
       }
       visit(control.children ?? [], childPath);
     }
   };
+  checkFonts(layout, layout.name ?? 'native UI');
   visit(layout.controls ?? layout.children ?? [], layout.name ?? 'native UI');
 }
 

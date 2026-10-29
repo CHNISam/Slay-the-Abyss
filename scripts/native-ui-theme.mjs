@@ -4,6 +4,12 @@ import { readFileSync } from 'node:fs';
 // the existing functional fallback until its visual reconstruction is complete.
 export const nativeTheme = JSON.parse(readFileSync(new URL('../data/presentation/ui_theme.json', import.meta.url), 'utf8'));
 
+// Native text sizes are varints; positions and dimensions remain floating point.
+export function nativeFontSize(value, minimum = 14) {
+  if (!Number.isFinite(value) || !Number.isFinite(minimum)) throw new Error('Native font size must be finite');
+  return Math.max(14, Math.round(minimum), Math.round(value));
+}
+
 export function nativeControls(theme = nativeTheme) {
   const origin = theme.layout.nativeControl.origin;
   const frame = (position, size) => [...position, ...size];
@@ -11,7 +17,7 @@ export function nativeControls(theme = nativeTheme) {
   const centred = size => frame(origin, size);
   const text = (name, values, content = '', fontSize = theme.font.body, colour = theme.color.text) => ({
     name, kind: 'text', ...box(values), text: {
-      content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: theme.font.minimum,
+      content, fontSize: nativeFontSize(fontSize, theme.font.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(theme.font.minimum),
     },
   });
   const plate = (name, values, colour = theme.color.panelRaised) => ({

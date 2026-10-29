@@ -60,7 +60,19 @@ test('bounded drag registrar preserves every original byte and rejects case, ran
 test('raw and Node discovery retain both drag slices exactly once in every hosted scheduling plan',()=>{
   const raw=readdirSync('tests/lua').filter(name=>name.endsWith('.lua')).map(name=>'tests/lua/'+name);
   const expected=slices.map(slice=>slice.path);
-  assert.deepEqual(raw.filter(path=>/^tests\/lua\/battle_ui_drag_click_compatibility(?:_slice_\d+)?\.lua$/.test(path)).sort(),[...expected].sort());
+  const verifyFamily=files=>assert.deepEqual(files.filter(path=>path.startsWith('tests/lua/battle_ui_drag_click_compatibility')&&path.endsWith('.lua')).sort(),[...expected].sort());
+  verifyFamily(raw);
+  for(const missing of expected)
+    assert.throws(()=>verifyFamily(raw.filter(path=>path!==missing)),'missing raw family entry must fail');
+  for(const extra of [
+    'tests/lua/battle_ui_drag_click_compatibility_slice_3.lua',
+    'tests/lua/battle_ui_drag_click_compatibility_noncanonical_disabled.lua',
+    'tests/lua/battle_ui_drag_click_compatibility_slice_wrong.lua',
+  ])
+    assert.throws(()=>verifyFamily([...raw,extra]),'extra canonical or noncanonical family entry must fail');
+  assert.throws(()=>verifyFamily([...raw,expected[0]]),'duplicate raw family entry must fail');
+  assert.throws(()=>verifyFamily(raw.map(path=>path===expected[1]?'tests/lua/battle_ui_drag_click_compatibility_slice_99.lua':path)),
+    'a wrong replacement slice cannot stand in for the accepted raw entry');
   for(const workers of [1,2]){
     const actual=Array.from({length:8},(_,i)=>shardLuaScripts(raw,`${i+1}/8`,timings,workers)).flat().filter(path=>expected.includes(path));
     assert.deepEqual(actual.sort(),[...expected].sort(),`all raw shards retain each drag slice exactly once with ${workers} worker(s)`);

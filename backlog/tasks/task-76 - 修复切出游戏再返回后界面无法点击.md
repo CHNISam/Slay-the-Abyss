@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-10-29 01:12'
+updated_date: '2026-10-29 04:50'
 labels: []
 milestone: m-4
 dependencies: []
@@ -59,6 +59,12 @@ PR315历史切片承接（原记录如下，不冒充本组合验证）：
 2026-10-28 PR315接续已合入PR313（cec690c1）：保留批准稿UI和药水瓶Click打开菜单/可见Use使用；只合成latest-origin屏障。精确TASK76逆向置于批准UI/PostNode完整身份检查之前，旧档案与golden不改；迁移药水两组断言并执行新基线相关回归/静态，旧302 Full绿灯仅作历史，不推送待独立复核。
 
 PR315当前07e4b026托管rules4实证定位：case40拖牌touch0却用无元数据Click模拟尾随事件，实际合法打开详情，后续Down只关闭详情。先保留原RED与acceptedcec对照，再只修该fixture尾随事件身份为touch0，保留全部原断言并补独立匿名敌人Click检查；以完整精确fixture逆向保全53case旧整体hash，不改生产源码/预算，待新SHA独立复核。
+
+历史方案归档（原 PR315@5ef4a37a9e1f301cab06743bdba5dada896cbc04；保留来源分支时点，不是807当前执行指令、公开范围决定或新验收）：
+
+PR315 hosted rules2 的新增15场景夹具于原30000ms超时（非断言失败）。仅按PR319已有registrar模式拆成连续1–7与8–15两组；逐字逆向校验原场景/断言/顺序，保留每子进程30000ms、raw及Node发现与独占调度；生产和历史inverse不改。完成本地精确校验后交根线程审查，暂不推送。
+
+2026-10-29接续已合入PR311/develop 8a36c0d5：保留15职责模块与PR312质量配置，将已审latest完成拖牌origin逻辑最小重放到真实输入/手势/绑定owner和弹窗适配；保留原15输入用例两片、touch0夹具修正、原全部冻结来源和时限，先保留基线失败，再串行验证实际模块、22场景差分和精确逆向。仅本地干净提交交根线程独立审查，不推送；High/In Progress/Furinya、m-4与六项未勾选验收保持。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -86,4 +92,14 @@ PR315接续批准稿PR313/cec690c1，保留瓶Click菜单+可见Use；组合复�
 2026-10-29 dot 只在独立本地树从 eb7d62e（074 + PR312）逐职责移植 e80fe357/a39aa7c9 的有限 latest-origin 逻辑，保留311拆分与原16模块/313冻结见证；原15场景实际基线2通过/13失败→本组合15/15（26.161秒，原30秒），原历史hash合同先红后绿。303单次回滚9组、318当前owner4组、313药水菜单/宿主/瓶体、纯Node逆向34项与原53case/6seed元数据2项通过；312全量质量收集251模块/3840测量、当前架构251/1395、静态37历史诊断零新增/792职责及语法/网络/Backlog通过。后续相关门禁与本地冻结结果见附件；无完整本地check或当前托管Full，无GIL/导入/ready/设备体验。匿名Click→详情→新Down吞序列的旧RED与same-ID/no-Down能力边界继续保留，不称全部手机故障已修。六条AC全部未勾，High/In Progress/Furinya保持。
 
 本组合补充验证：批准UI/Node历史与复杂度负对照13/13、真实地图节点/药水头5/5、原case40与具名/匿名详情关闭重试2/2、原四项语义变异全部被对应断言捕获、原生能力mock2/2通过。旧匿名即时下一拖牌探针仍RED（2.715秒），未改契约或改称通过。严格16模块与popup/support/原15fixture来源守恒，全部其他生产输入/工具策略/预算不改；本地提交仅供父线程独立复审，不批准或发布。
+
+历史验证归档（原 PR315@5ef4a37a9e1f301cab06743bdba5dada896cbc04；保留来源分支时点，不是807当前执行指令、公开范围决定或新验收）：
+
+PR315/e80fe357 托管run40796443606 rules2 于30000ms超时，14场景已过、Raiden E末场未完成；原日志与旧源码/预算证据保留在task76-click-origin-evidence/ci-rules2-bounded-20261029。仅registrar拆成1–7与8–15，原始夹具完整逆向SHA256仍5068b6d6/git blob b3af0786；当前串行真实输入7/7=12.001s、8/8=14.367s，每子进程仍30000ms。13项原源码/执行/发现/调度/冻结inverse门禁、syntax与backlog通过；生产067b6761/c530888e及历史源/runner不变。一次干净rebase至6d7a2121，原PR315聚合patch逐字保留。尚无本轮完整Quality/原生手机或PC验收，不推送待根线程审查；High/In Progress/Furinya、m-4及六项未勾选验收保持。
+
+PR315接续已合入PR311/8a36c0d5的离线模块化重放：仅七份既有Battle运行时文件改动，latest origin由真实input/gesture owner持有，保持已审popup c530888e、控制器、渲染/布局/数据与旧assertion。原15输入两片通过11.826s/11.761s<各原30s；聚焦源/22场景差分21/21、accepted popup/controller/owner Lua17/17、原七片53case/6seed和历史写入合同19/19、质量/调度合同35/35通过。新增六文件精确逆向和全部16模块缺失/漂移/跨路径负例通过，旧067/c530/touch0三份逆向逐字恢复；quality 246模块3754/3754测量、architecture、static零新增诊断（37项既有）、syntax/backlog/network通过。证据port-accepted311-8a36c0d5；保留全部失败调用。当前目标又推进至已接受Nodes/Run 58f72c2c，先提交本切片检查点再仅一次rebase，逐字保留运行时与夹具并复验最新源合同；未推送、无完整当前托管Quality或原生手机/PC验证，High/In Progress/Furinya、m-4及六项未勾选验收保持。
+
+一次rebase已完成至58f72c2cc43a2833e9e1cdefe7c332ff0fd49243（接受Nodes/Run）；仅approved-node-ui-refactor的两项inverse同位置冲突，保留原core调用再接TASK76。七份Battle runtime、两片原15case、touch0夹具、worker/registrar来源与2460b2ab检查点逐字一致，runtime patch亦逐字一致；不重复重型Lua。最新基线源/缺失/未知/跨路径/部分hunk/调度合同54/54、quality255模块3884/3884测量（新增数值仍report-only）、architecture/static938职责测量及37既有诊断零新增、syntax/backlog/network通过；全部新Run/Nodes runtime及config/data/launch/core inverse不改。证据port-accepted308-58f72c2c；本轮只是本地干净重放，不是完整托管Quality、独立审查或原生手机/PC验收。未推送、未改PR元数据；High/In Progress/Furinya、m-4与六项未勾选验收保持，交根线程对最终HEAD另行独立审查。
+
+2026-10-29 dot 接续已合 PR322 / develop 20a74da7，仅独立移植 PR323 的失效牌库控件 alive 防护、触屏无效释放取消和原生字号整数兼容；保留当前主线输入 origin、resize、核心准入与 MaxHP owner。原323六项独立安全用例全红→当前主线及候选全绿；15拖牌、33 prepared UI 全保留，相关19项、平台9项、历史12项通过，root另复核4运行及9源码/字体检查。已有37条 Luacheck 诊断仅三处同语句行号迁移，无新增豁免。公开范围与任务状态/AC不变，不代表对单角色决定的新增批准；完整本提交CI及官方导入/PC/手机待验。原323其他玩法/面板仍未吸收。
 <!-- SECTION:NOTES:END -->

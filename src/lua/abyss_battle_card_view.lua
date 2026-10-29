@@ -319,6 +319,8 @@ function M.new(view, controls)
             layer:GetChild('hit'):SetVisible(view.gesture ~= nil)
             layer.disableCursorEventPassthrough = view.gesture ~= nil
             local lineY = g.touchScreen and g.dropStart or math.min(g.hoverStartLine,g.dropStart)
+            -- Match the displayed card's existing touch offset to its rule threshold.
+            if g.touchScreen then lineY = lineY + 270*g.sourceScale end
             layer:GetChild('line'):SetAnchoredPosition(0,lineY)
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
             local enemy = target and g.battle.enemies[target]
