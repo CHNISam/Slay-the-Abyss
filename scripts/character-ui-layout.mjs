@@ -3,14 +3,18 @@ import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 export function experimentalCharacterControls(theme = nativeTheme) {
   const { plate, text } = nativeControls(theme);
   const { color: c, font: f, space: s } = theme;
-  function button(name, frame, label, layout, font = f.label, primary = false) {
+  function button(name, frame, label, layout, font = f.label, primary = false, bustId = null) {
     const size = frame.slice(2);
+    const bust = bustId ? 32 : 0;
     const variants = {
       normal: primary ? [c.gold, c.textOnLight, c.goldBright] : [c.panelRaised, c.goldBright, c.goldDim],
       hover: primary ? [c.goldBright, c.textOnLight, c.goldBright] : [c.buttonHover, c.goldBright, c.goldBright],
       pressed: [c.goldDim, c.buttonPressedText, c.goldBright],
       disabled: [c.panelSunken, c.textMuted, c.line],
     };
+    const labelFrame = bust
+      ? [0, -size[1] / 2 + bust + font / 2 + s.s, size[0] - layout.buttonInset[0], font + s.s]
+      : [0, 0, ...size.map((value, i) => value - layout.buttonInset[i])];
     return { name, kind: 'container', position: frame.slice(0, 2), size, children: [
       { name: 'hit', kind: 'presetButton', size: [...size], focusable: true,
         states: Object.fromEntries(Object.keys(variants).map(state => [state, state])),
@@ -19,11 +23,13 @@ export function experimentalCharacterControls(theme = nativeTheme) {
           scale: state === 'pressed' ? [layout.pressedScale, layout.pressedScale] : [1, 1],
           children: [plate('border', [0, 0, ...size], border),
             plate('plate', [0, 0, ...size.map(value => value - s.border * 2)], fill),
-            text('label', [0, 0, ...size.map((value, i) => value - layout.buttonInset[i])], label, font, ink)],
+            ...(bust ? [{ name: 'bust', kind: 'image', position: [0, size[1] / 2 - s.s - bust / 2],
+              size: [bust, bust], image: bustId, colour: c.buttonPressedText }] : []),
+            text('label', labelFrame, label, font, ink)],
         })),
       },
       { ...plate('selected', [0, 0, ...size], c.goldBright), visible: false,
-        size: [size[0], s.border], position: [0, -size[1] / 2 + s.border] },
+        size: [size[0], s.m], position: [0, -size[1] / 2 + s.s] },
     ] };
   }
   function panel(name, layout, title, hint, children, face = c.panel) {
@@ -38,7 +44,12 @@ export function experimentalCharacterControls(theme = nativeTheme) {
   }
   const l = theme.layout.characterSelect, q = theme.layout.combatChoice;
   const names = ['胡桃','阿蕾奇诺','芙宁娜','雷电将军'];
+  const roles = ['hutao','arlecchino','furina','raiden'];
+  const elementIds = ['ironclad','silent','defect','watcher'];
   const d = l.details;
+  const slots = theme.icon.heroSlots;
+  const largePortrait = (name, entry, visible = false) => ({ name, kind: 'image', position: [0, 0],
+    size: d.portrait.slice(2), image: entry.id, colour: c.buttonPressedText, visible });
   const tinted = (name, frame, colour, image, opacity) => ({ name, kind: 'image', position: frame.slice(0, 2),
     size: frame.slice(2), image, colour, opacity });
   // 元素主题：每位角色/旅行者元素预置一层（右侧光晕 + 信息面板色条），视图只切显隐。
@@ -58,8 +69,10 @@ export function experimentalCharacterControls(theme = nativeTheme) {
         plate('header', l.header, c.panelRaised),
         plate('headerRule', [l.header[0], l.header[1] - l.header[3] / 2, l.header[2], s.border], c.goldDim),
         plate('portraitFrame', d.portrait, c.panelSunken),
-        { name: 'portrait', kind: 'image', position: d.portrait.slice(0, 2), size: d.portrait.slice(2),
-          image: theme.icon.characterPortraits.traveler.id },
+        { name: 'portraits', kind: 'container', position: d.portrait.slice(0, 2), size: d.portrait.slice(2), children: [
+          ...elementIds.map(id => largePortrait(`traveler_${id}`, slots.large.traveler[id], id === 'ironclad')),
+          ...roles.map(id => largePortrait(id, slots.large[id])),
+        ] },
         text('portraitNote', d.portraitNote, '', f.label, c.textDim),
         text('name', d.name, '', f.title, c.goldBright),
         text('stats', d.stats, '', f.body, c.text),
@@ -69,9 +82,10 @@ export function experimentalCharacterControls(theme = nativeTheme) {
       ] },
       accents,
       { name: 'elements', kind: 'container', size: [...theme.canvas.base], visible: false, children:
-        l.elements.map((frame, i) => button(`element${i + 1}`, frame, ['岩', '风', '雷', '草'][i], l, f.body)) },
-      ...l.choices.map((frame, i) => button(`character${i + 1}`, frame, names[i], l, f.body)),
-      button('traveler',l.traveler,'旅行者·荧',l),
+        l.elements.map((frame, i) => button(`element${i + 1}`, frame, ['岩', '风', '雷', '草'][i], l, f.small, false,
+          slots.bust.traveler[elementIds[i]].id)) },
+      ...l.choices.map((frame, i) => button(`character${i + 1}`, frame, names[i], l, f.small, false, slots.bust[roles[i]].id)),
+      button('traveler', l.traveler, '旅行者·荧', l, f.small, false, slots.bust.traveler.ironclad.id),
       button('cancel', l.back, '返回', l),
       button('confirm', l.confirm, '开始冒险', l, f.heading, true),
     ], c.backdrop),

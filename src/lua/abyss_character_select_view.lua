@@ -6,6 +6,20 @@ local M={}
 local function selected(box,value)
     box:GetChild('selected'):SetVisible(value)
 end
+local function paintBust(box,entry,platform)
+    if not entry or not platform.imageSource then return end
+    local hit=box:GetChild('hit')
+    for _,state in ipairs({'normal','hover','pressed','disabled'}) do
+        local face=hit:GetChild(state)
+        local bust=face and face:GetChild('bust')
+        if bust then bust:SetImage(platform.imageSource,entry.id) end
+    end
+end
+local function largeSlot(character,element)
+    local slots=Theme.icon.heroSlots
+    if character=='traveler' then return slots.large.traveler[element or 'ironclad'], slots.bust.traveler[element or 'ironclad'] end
+    return slots.large[character], slots.bust[character]
+end
 function M.render(panel,state,platform)
     local info=state.info
     panel:GetChild('hint').text=state.notice or (info and '查看初始信息，确认后开始冒险。' or '点击下方角色查看详情，再确认出发。')
@@ -14,6 +28,8 @@ function M.render(panel,state,platform)
         local allowed=state:allowsCharacter(id)
         if box.visible~=allowed then box:SetVisible(allowed)end
         selected(box,state.character==id)
+        local _,bust=largeSlot(id,id=='traveler' and (state.element or 'ironclad') or nil)
+        paintBust(box,bust,platform)
     end
     local traveler=state.character=='traveler'
     -- Theme layers are prebuilt per character/element; only visibility changes.
@@ -29,6 +45,7 @@ function M.render(panel,state,platform)
         local allowed=state:allowsElement(id)
         if box.visible~=allowed then box:SetVisible(allowed)end
         selected(box,state.element==id)
+        paintBust(box,Theme.icon.heroSlots.bust.traveler[id],platform)
     end
     local details=panel:GetChild('details');details:SetVisible(info~=nil)
     local confirm=panel:GetChild('confirm'):GetChild('hit')
@@ -43,8 +60,20 @@ function M.render(panel,state,platform)
         local card=info.deck[i]
         details:GetChild('card'..i).text=card and card.name..' × '..number(card.count) or ''
     end
-    local portrait=Theme.icon.characterPortraits[state.character]
-    if platform.imageSource then details:GetChild('portrait'):SetImage(platform.imageSource,portrait.id)end
-    details:GetChild('portraitNote').text=portrait.placeholder and info.name..' · 肖像待补' or info.name
+    local large=largeSlot(state.character,state.element)
+    local portraits=details:GetChild('portraits')
+    local key=state.character=='traveler' and ('traveler_'..(state.element or 'ironclad')) or state.character
+    for _,id in ipairs(Select.characters)do
+        if id=='traveler' then
+            for _,element in ipairs(Select.elements)do
+                portraits:GetChild('traveler_'..element):SetVisible(key=='traveler_'..element)
+            end
+        else portraits:GetChild(id):SetVisible(id==key) end
+    end
+    if platform.imageSource and large then portraits:GetChild(key):SetImage(platform.imageSource,large.id) end
+    local note=info.name
+    if not large or large.status=='placeholder' then note=note..' · 肖像待补' end
+    if large and large.playable==false then note=note..' · 非本次正式角色' end
+    details:GetChild('portraitNote').text=note
 end
 return M

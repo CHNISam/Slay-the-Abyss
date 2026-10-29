@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 15:58'
-updated_date: '2026-10-29 01:55'
+updated_date: '2026-10-29 12:33'
 due_date: '2026-10-28'
 labels:
   - art
@@ -23,6 +23,7 @@ references:
   - docs/evidence/card-live-20261027.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - docs/evidence/backlog-merge-20261029.json
+  - docs/backlog-details/HERO-VISUAL-M3.md
 priority: medium
 type: task
 ordinal: 27000
@@ -77,4 +78,6 @@ ordinal: 27000
 2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-29 旅行者启动页、选角大小图和战斗胸像的槽位已接到界面，正式图仍待 Dot A/B。不要把占位编号当成美术完成。清单见 docs/backlog-details/HERO-VISUAL-M3.md。
 <!-- SECTION:NOTES:END -->

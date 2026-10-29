@@ -5,6 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-29 05:10'
+updated_date: '2026-10-29 12:33'
 labels: []
 milestone: m-5
 dependencies: []
@@ -29,3 +30,9 @@ ordinal: 126000
 - [ ] #2 批准稿开场对话与演出接入并能正常继续游戏。
 - [ ] #3 保留代码回归及同候选电脑和手机实机证据，平台差异单独记录。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-29 正式开局不再创建或播放 abyss_prologue 镜头，跳过按钮没有点击处理，序章面板保持隐藏。确认角色后进入原有高塔恩赐。商人仍用其中的逐字拆分。电脑和手机实机证据仍缺，验收未勾。
+<!-- SECTION:NOTES:END -->

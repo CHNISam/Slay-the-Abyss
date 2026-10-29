@@ -67,6 +67,12 @@ function M.install(ctx)
                 or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         end
         writeEventHeading()
+        local neow = id == 'neow'
+        local figure = event:GetChild('neowFigure')
+        local art = event:GetChild('art')
+        if figure then figure:SetVisible(neow) end
+        if art then art:SetVisible(not neow) end
+        if neow then event:GetChild('caption').text = '七天神像' end
         local body
         local function eventOutcomeBody()
             body=result and result.text or node.event and node.event.body or copy.body

@@ -41,7 +41,7 @@ try{
  const {color:c,font:f,image:im}=theme;
  const text=(name,x,y,w,h,content,size=f.body)=>({name,kind:'text',position:[x,y],size:[w,h],text:{content,fontSize:size,colour:c.text,align:'centre',valign:'middle',autoSize:true,minFontSize:f.minimum}});
  const button=(name,x,y,w,label)=>({name,kind:'container',position:[x,y],size:[w,42],children:[{name:'bg',kind:'image',size:[w,42],image:im.rect,colour:c.panelRaised},text('label',0,0,w-8,40,label,f.label),{name:'hit',kind:'cursorArea',size:[w,42]}]});
- const children=[text('title',0,302,1160,44,'杀戮原塔2 · 音效试听副本',f.title),text('status',0,253,1160,42,'加载中；没有 ready 请勿开始'),text('detail',230,145,680,70,'选择候选，然后播放；旧版按同组对照'),text('gain',230,85,680,35,'音量 65 / 100 · 尚未匹配'),text('review',230,-275,680,30,'待定 · 评语标签写入本轮日志'),text('hint',0,-320,1160,30,'原生音频；死亡演出仅触发一次。退出试玩后保留本轮日志。',f.small),{name:'target',kind:'image',position:[230,215],size:[54,54],image:theme.icon.enemy?.jaw_worm??theme.icon.player,colour:c.geo}];
+ const children=[text('title',0,302,1160,44,'杀戮原塔2 · 音效试听副本',f.title),text('status',0,253,1160,42,'加载中；没有 ready 请勿开始'),text('detail',230,145,680,70,'选择候选，然后播放；旧版按同组对照'),text('gain',230,85,680,35,'音量 65 / 100 · 尚未匹配'),text('review',230,-275,680,30,'待定 · 评语标签写入本轮日志'),text('hint',0,-320,1160,30,'原生音频；死亡演出仅触发一次。退出试玩后保留本轮日志。',f.small),{name:'target',kind:'image',position:[230,215],size:[54,54],image:theme.icon.enemy?.jaw_worm??theme.icon.player.id??theme.icon.player,colour:c.geo}];
  candidates.forEach((r,i)=>children.push(button(`pick${i+1}`,-420,i<8?205-i*49:205-(i-8)*49,180,`${r.code} · ${r.id}`)));
  // Death choices are a second column.
  for(const child of children)if(/^pick(9|10|11|12)$/.test(child.name))child.position[0]=-220;

@@ -14,7 +14,7 @@ do
  assert(h:closeExit() and h.menuOpen and not h.routeOpen);assert(h:closeExit())
 end
 do
- local h,r=F.fixture(nil,nil,nil,nil,true);assert(F.start(h));assert(h.prologue:covering())
- assert(h:openMenu());state(r,false);assert(not route(r).click() and not h.routeOpen)
+ local h,r=F.fixture(nil,nil,nil,nil,true);assert(F.start(h));assert(not h.prologue and h.mode=='map')
+ assert(h:openMenu());state(r,true);assert(route(r).click() and h.routeOpen)
 end
 print('TITLE_MENU_ADMISSION_PASS 4')

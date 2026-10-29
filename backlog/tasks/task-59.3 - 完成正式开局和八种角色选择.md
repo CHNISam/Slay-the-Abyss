@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-29 04:17'
+updated_date: '2026-10-29 12:33'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -14,6 +14,7 @@ references:
   - docs/backlog-details/TASK-59.3.md
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/backlog-details/HERO-VISUAL-M3.md
 parent_task_id: TASK-59
 priority: medium
 ordinal: 121000
@@ -31,6 +32,10 @@ ordinal: 121000
 - [x] #2 返回、取消、重开、鼠标触摸与手柄输入隔离通过离线回归；默认不播放旧序章，Neow、地图及战斗兼容。
 - [ ] #3 原生构建与现有必要门禁通过，最新develop同步后提交并合入PR；实机和设备未验收范围如实记录。
 - [ ] #4 正式比赛版只显示岩系旅行者，其余七种角色及其公开配置入口不可进入；显式full-source开发配置保留八种角色，雷电留到下一版本。
+- [ ] #5 启动页有可替换的旅行者主视觉，并与选角页岩系大图共用同一槽位。
+- [ ] #6 选角页保留。每个可选角色有自己的小头像；点选后切换该角色的大图、主题色、生命、金币、遗物和牌组。未完成角色不借用旅行者的图。
+- [ ] #7 战斗主角肖像不再使用岩元素图标 102005，胸像槽保持约 133×133。
+- [ ] #8 以上三项在官方导入和真机证据齐之前不得记为通过。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -123,4 +128,6 @@ PR290接续：隔离候选已合入develop d2e0baa3；复核4aba86bc全部有效
 本轮接手PR290：从80874f8核对后续4aba86bc，复验冻结来源逆变换与真实OnStart；同步最新develop，逐项修复Windows/POSIX失败且保留原断言/视觉；完成定向回归、完整Quality和离线原生构建，核对合并窗口后squash及清理。官方导入/设备实测仍单独未验。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-29 接上启动页主视觉、选角小头像/大图切换和战斗胸像槽位。生产环境打开选角即显示岩系旅行者。电影镜头不再播放，确认后进入七天神像恩赐。占位编号见 docs/backlog-details/HERO-VISUAL-M3.md。没有官方导入和真机证据，新增验收保持未勾。
 <!-- SECTION:NOTES:END -->

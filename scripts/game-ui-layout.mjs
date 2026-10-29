@@ -81,6 +81,9 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       { name: 'menuPanel', kind: 'container', size: [...theme.canvas.base], children: [
         plate('backdrop', layout.backdrop, color.backdrop),
         vistaControl(theme),
+        ...(layout.hero && theme.icon.heroSlots ? [{ name: 'heroArt', kind: 'image',
+          position: layout.hero.slice(0, 2), size: layout.hero.slice(2),
+          image: theme.icon.heroSlots.menu.id, colour: color.buttonPressedText }] : []),
         emblem,
         text('title', layout.title, '杀戮原塔2', font.display, color.gold),
         text('tagline', layout.tagline, '', font.heading, color.goldDim),
