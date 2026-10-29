@@ -599,6 +599,15 @@ function M.new(stage, platform, present, complete)
         local alpha=(effect.icon and kind == "status" and math.min(1, 2 - 2 * easeIn(age / T.slow)) or 1 - e)
         return shardInk,alpha
     end
+    local function skillImpact(effect,sample,e)
+        local family,form=effect.style.family,effect.style.form
+        if not effect.icon and family~='none'
+            and ((form~='multi' and form~='area')or(family~='melee' and family~='heavy'))then
+            return SkillFeedback.sample(family,e,S.m)
+        end
+        local ix,iy,iy0=impactShape(effect,sample,e)
+        return ix,iy,0,iy0
+    end
     local function paintImpact(id,impact,effect,sample)
         local age,kind=sample.age,sample.kind
         local after,frozen,lost,heavy=sample.after,sample.frozen,sample.lost,sample.heavy
@@ -608,13 +617,7 @@ function M.new(stage, platform, present, complete)
         local show = (lost or kind == "status") and age < effect.stop + window
         impact:SetVisible(show)
         if show then
-            local ix,iy,iy0=impactShape(effect,sample,e)
-            local offset,alpha,key
-            if not effect.icon and effect.style.family~='none'
-                and ((effect.style.form~='multi' and effect.style.form~='area')
-                    or (effect.style.family~='melee' and effect.style.family~='heavy')) then
-                ix,iy,offset,iy0,alpha,key=SkillFeedback.sample(effect.style.family,e,S.m)
-            end
+            local ix,iy,offset,iy0,alpha,key=skillImpact(effect,sample,e)
             impact:SetLocalScale(ix, iy, 1)
             impact:SetAnchoredPosition(offset or 0, iy0)
             local shardInk,shardAlpha=impactTint(id,effect,sample,e)
