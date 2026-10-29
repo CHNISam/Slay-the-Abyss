@@ -4,6 +4,7 @@ local Theme = require("abyss_theme")
 local EnemyView=require('abyss_battle_enemy_view')
 local UnitView=require('abyss_battle_unit_view')
 local Actors=require('abyss_actor')
+local ActorMotion=require('abyss_actor_motion')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
 local ROW = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2
@@ -122,6 +123,11 @@ end
 function M.new(stage, platform, present, complete)
     local self = { busy = false, fastMode = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
     local overlay = stage:GetChild("feedback")
+    function self:bindIdle(battle)
+        if not self.busy and self.idleBattle and self.idleBattle~=battle then self:reset() end
+        self.idleBattle = battle
+        if battle and not self.busy then self.shadow = battle end
+    end
     local function colour(c, alpha) return platform.color(c.r, c.g, c.b, math.floor((c.a or 255) * (alpha or 1))) end
     local function tint(box, c, alpha) box.imageColor = colour(c, alpha) end
     local function actor(id)
@@ -171,6 +177,7 @@ function M.new(stage, platform, present, complete)
     end
     function self:reset()
         self.battle = nil
+        self.idleBattle, self.idleClock, self.shadow = nil, 0, nil
         stage:SetAnchoredPosition(0, 0)
         hideOverlay(false, true)
         for _, name in ipairs({"banner", "bannerPlate"}) do
@@ -624,15 +631,17 @@ function M.new(stage, platform, present, complete)
         return y,sx,sy,ink,flash,alpha
     end
     local function paint(id, dt, shakes)
-        local _, box = actor(id)
+        local unit, box = actor(id)
         if not box then self.effects[id], self.poses[id], self.dying[id] = nil, nil, nil return end
         local base = id == "player" and C.geo or C.text
         local x, y, sx, sy, ink, flash, alpha = 0, 0, 1, 1, base, 0, 1
         local posed = self.poses[id]
+        local motionState=ActorMotion.state(unit,posed,self.effects[id],self.dying[id],self.escaping[id])
+        x,y,sx,sy=ActorMotion.idle(unit,id,self.idleClock or 0,motionState,T.actorIdle)
         if posed then
             posed.age = posed.age + dt
             local px, ps, done = pose(posed.keys, posed.age)
-            x, sx, sy = px, ps, ps
+            if motionState=='action' then x, sx, sy = px, ps, ps end
             if done then self.poses[id] = nil end
         end
         local effect = self.effects[id]
@@ -654,10 +663,11 @@ function M.new(stage, platform, present, complete)
         tint(portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)
     end
     function self:update(dt)
-        if not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve then return end
+        if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve then return end
         local ok, failure = pcall(function()
             assert(type(dt) == "number" and dt == dt and dt >= 0 and dt < math.huge, "invalid frame delta")
-            self.elapsed = self.elapsed + dt
+            self.idleClock=ActorMotion.advance(self.idleClock or 0,dt,T.actorIdle)
+            self.elapsed = (self.elapsed or 0) + dt
             -- At most one visible step per update: a stalled frame cannot skip an enemy turn.
             if self.busy and self.elapsed >= duration(self.current, self.style, self.playbackFastMode) then
                 self.index = self.index + 1
@@ -709,6 +719,10 @@ function M.new(stage, platform, present, complete)
                 if p >= 1 then self.sweep = nil end
             end
             local shakes, ids = {}, {}
+            if self.idleBattle and self.shadow then
+                if self.shadow.player.hp>0 then ids.player=true end
+                for _,unit in ipairs(self.shadow.enemies)do if Actors.isPresent(unit) then ids[unit.id]=true end end
+            end
             for id in pairs(self.poses) do ids[id] = true end
             for id in pairs(self.effects) do ids[id] = true end
             for id in pairs(self.dying) do ids[id] = true end
