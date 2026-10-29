@@ -1,3 +1,4 @@
+import {prePlayerDeathSource} from './player-death-transition-inverse.mjs';
 import {tryBattleGovernanceSource} from './battle-ui-governance-inverse.mjs';
 import {tryApprovedBattleRefactorSource} from './approved-battle-responsibilities.mjs';
 import assert from 'node:assert/strict';
@@ -20,6 +21,7 @@ export function preBattleRefactorSource(path,source,overrides){
 
 // Older replay layers must retain their own exact intermediate witnesses.
 export function preBattleRefactorLayer(path,source){
+  source=prePlayerDeathSource(path,source);
  const governance=tryBattleGovernanceSource(path,source);
  if(governance!==undefined)return governance;
  const approved=tryApprovedBattleRefactorSource(path,source);
