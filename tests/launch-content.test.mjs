@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { validateLaunchContent, inspectLaunchRuntime } from '../scripts/verify-launch-content.mjs';
+import { validateLaunchContent, inspectLaunchRuntime, validateLaunchRuntimeModules } from '../scripts/verify-launch-content.mjs';
 
 const fresh = () => JSON.parse(readFileSync('data/release/launch-content.json', 'utf8'));
 
@@ -289,3 +289,41 @@ test('Ghosts launch ledger binds actual cached health cost and real five-card so
   const bad=fresh();mutate(bad);assert.ok(validateLaunchContent(bad,{runtime:false}).some(error=>/ghosts|apparition/.test(error)));
  }
 });
+
+// Exercise each extracted owner against real source text and the packager's
+// actual discovered module set, then remove exactly one required fact at a time.
+for (const helper of ['abyss_run_initialization', 'abyss_run_transition', 'abyss_run_rooms',
+  'abyss_run_settlement', 'abyss_run_potions']) {
+  test(`Run launch dependency gate rejects missing or disconnected ${helper}`, () => {
+    const manifest = fresh(), modules = manifest.runtime.modules;
+    const sources = Object.fromEntries(modules.map(row => [row.source, readFileSync(row.source, 'utf8')]));
+    const context = { sources, deployment: inspectLaunchRuntime().deployment,
+      entryPoints: manifest.profiles.encounters.entryPoints };
+    const verify = (rows = modules, changes = {}) => validateLaunchRuntimeModules(rows, { ...context, ...changes });
+    assert.deepEqual(verify(), []);
+    const row = modules.find(row => row.name === helper);
+    assert.ok(row, `helper is declared: ${helper}`);
+    assert.ok(verify(modules.filter(row => row.name !== helper)).some(error => error.includes('runtime deployment relationships')));
+    assert.ok(verify(modules, { deployment: context.deployment.filter(name => name !== helper) })
+      .includes(`runtime deployment missing module ${helper}`));
+    const missingSource = { ...sources }; delete missingSource[row.source];
+    assert.ok(verify(modules, { sources: missingSource }).includes(`runtime source missing ${row.source}`));
+    assert.ok(verify(modules, { entryPoints: context.entryPoints.filter(file => file !== row.source) })
+      .includes(`encounters profile missing deployed entry ${row.source}`));
+    const disconnected = structuredClone(modules);
+    disconnected.find(module => module.name === 'abyss_run').requires =
+      disconnected.find(module => module.name === 'abyss_run').requires.filter(name => name !== helper);
+    assert.ok(verify(disconnected).some(error => error.includes('runtime deployment relationships')));
+    for (const [owner, dependency] of [['abyss_run', helper], ...row.requires.map(name => [helper, name])]) {
+      const file = `src/lua/${owner}.lua`;
+      const removed = sources[file].replace(new RegExp(`require\\s*\\(\\s*["']${dependency}["']\\s*\\)`, 'g'), '{}');
+      assert.notEqual(removed, sources[file], `mutated real dependency ${owner} -> ${dependency}`);
+      assert.ok(verify(modules, { sources: { ...sources, [file]: removed } })
+        .includes(`runtime dependency missing ${owner} -> ${dependency}`));
+      const omitted = structuredClone(modules);
+      omitted.find(module => module.name === owner).requires =
+        omitted.find(module => module.name === owner).requires.filter(name => name !== dependency);
+      assert.ok(verify(omitted).some(error => error.includes('runtime deployment relationships')));
+    }
+  });
+}

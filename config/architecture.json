@@ -250,7 +250,12 @@
     "abyss_nodes_common": "core",
     "abyss_nodes_entry": "core",
     "abyss_nodes_events": "core",
-    "abyss_nodes_sources": "core"
+    "abyss_nodes_sources": "core",
+    "abyss_run_initialization": "core",
+    "abyss_run_transition": "core",
+    "abyss_run_rooms": "core",
+    "abyss_run_settlement": "core",
+    "abyss_run_potions": "core"
   },
   "dynamicExceptions": [],
   "deferredImports": [

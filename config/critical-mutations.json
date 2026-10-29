@@ -29,9 +29,9 @@
   },
   {
     "id": "M4",
-    "source": "src/lua/abyss_run.lua",
-    "before": "        if not called or not ok then return false, \"potion_effect_failed\" end",
-    "after": "        -- mutation: finalization failure ignored",
+    "source": "src/lua/abyss_run_potions.lua",
+    "before": "            if not called or not ok then return false, \"potion_effect_failed\" end",
+    "after": "            -- mutation: finalization failure ignored",
     "test": "tests/lua/inventory.lua",
     "caseName": "potion finalization failure preserves complete state and original references",
     "marker": "[ABYSS_ASSERT M4:finalization atomic]",
