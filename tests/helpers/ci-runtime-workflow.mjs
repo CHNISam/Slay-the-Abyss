@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import { beforeQualityArtifacts } from './quality-workflow.mjs';
 export function originalWorkflow(text) {
   text = beforeQualityArtifacts(text);
+  // Invert only the added guidance gate; its placement is tested separately.
+  text = text.replace('      - name: Validate concise agent entry points\n        run: npm run check:guidance\n', '');
   // Invert exact reviewed routing edits only. Existing full-suite hashes still
   // protect all assertions, commands, matrices and deadlines under the route.
   for (const edit of JSON.parse(readFileSync('tests/helpers/ci-fast-migration.json', 'utf8')).reverse()) {

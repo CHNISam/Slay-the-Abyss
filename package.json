@@ -8,6 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "check:guidance": "node scripts/check-agent-guidance.mjs",
     "setup:lua-static": "node scripts/setup-lua-static.mjs",
     "check:architecture": "node scripts/check-architecture.mjs",
     "check:quality": "node scripts/check-engineering-quality.mjs",
@@ -29,7 +30,7 @@
     "test:lua": "npm run build:data && npm run build:ui && node scripts/map-ui-layout.mjs && node scripts/test-lua.mjs",
     "test:presentation": "python -m unittest discover -s tests -p test_*.py -v",
     "verify:backlog": "node scripts/verify-backlog-roadmap.mjs",
-    "check:rules": "npm run check:network && npm run verify:backlog && npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme && npm run check:engineering",
+    "check:rules": "npm run check:guidance && npm run check:network && npm run verify:backlog && npm run check:syntax && npm test && npm run validate:data && npm run test:lua && npm run build:theme && npm run check:engineering",
     "check": "npm run check:rules && npm run test:presentation",
     "check:network": "node scripts/check-network-policy.mjs",
     "test:fast": "node scripts/test-affected.mjs --fast",

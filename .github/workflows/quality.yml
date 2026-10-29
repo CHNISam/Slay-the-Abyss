@@ -36,6 +36,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/check-pr-history.mjs
       - run: npm ci --ignore-scripts --prefer-offline --no-audit --no-fund --fetch-retries=0 --fetch-timeout=30000
+      - name: Validate concise agent entry points
+        run: npm run check:guidance
       - name: Resolve exact comparison base
         if: github.event_name == 'pull_request'
         env:
