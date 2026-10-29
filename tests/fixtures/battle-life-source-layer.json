@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "baseCommit": "d4c4b25594798f9d2f4fc6b66a061532c2b71595",
-  "reviewedHead": "45ee2b479ee7576665eaffab81cac8be488906d9",
+  "reviewedHead": "d2c1148c4f20d16474edf688449e1daf269dc979",
   "files": {
     "config/architecture.json": {
       "beforeSha256": "810e2ff1aab8dcf29e1a6d260bb87cf692f8c30c7886180f7e048519249a2ee4",
@@ -156,7 +156,7 @@
     },
     "src/lua/abyss_battle_card_view.lua": {
       "beforeSha256": "f9ad3a4965f9d54afbd7f8efc92c148edfaddaf9e630de1461e8a3db2a19a0b0",
-      "afterSha256": "150dd2f53cd735229c3ddf84b2ddc4435ca713192b9db609d18df71e52fe067f",
+      "afterSha256": "94c8412291f0343764f3207e90b9864868170ac7e326f1f5af20cce8957420ec",
       "hunks": [
         {
           "at": 61,
@@ -168,23 +168,52 @@
           ]
         },
         {
-          "at": 108,
+          "at": 64,
+          "before": [],
+          "after": [
+            "end",
+            "",
+            "-- A render can follow a complete draw command, hiding its intermediate shuffle.",
+            "-- Inspect only newly committed events; an old shuffle cannot redirect a later recovery.",
+            "local function reshuffledOrigins(battle,tail)",
+            "    if not battle or not battle.events then return {},tail end",
+            "    local events,first,origins=battle.events,1,{}",
+            "    for index=#events,1,-1 do if events[index]==tail then first=index+1;break end end",
+            "    for index=first,#events do",
+            "        local event=events[index]",
+            "        if event.kind=='reshuffle'and event.frame then",
+            "            for _,card in ipairs(event.frame.draw)do origins[card.uid]=true end",
+            "        end",
+            "    end",
+            "    return origins,events[#events]"
+          ]
+        },
+        {
+          "at": 123,
           "before": [
             "    local handWidth,handHeight"
           ],
           "after": [
-            "    local handWidth,handHeight,openingHand"
+            "    local handWidth,handHeight,openingHand,eventTail",
+            "    local recentDrawOrigins={}"
           ]
         },
         {
-          "at": 113,
+          "at": 129,
           "before": [],
           "after": [
             "            openingHand=current~=handBattle and current~=nil"
           ]
         },
         {
-          "at": 124,
+          "at": 131,
+          "before": [],
+          "after": [
+            "            eventTail=nil"
+          ]
+        },
+        {
+          "at": 141,
           "before": [
             "            if previousPiles[instance.uid] then"
           ],
@@ -193,19 +222,27 @@
           ]
         },
         {
-          "at": 127,
+          "at": 144,
           "before": [
             "                entry.current={x=L.drawPile.position[1],y=L.drawPile.position[2],scale=0.12/0.75,angle=0}"
           ],
           "after": [
             "                local pile=previousPiles[instance.uid]",
+            "                if pile=='discard'and recentDrawOrigins[instance.uid]then pile='draw'end",
             "                local start=pile=='discard'and L.discardPile.position",
             "                    or pile=='exhaust'and{L.topBar.exhaustIcon[1],L.topBar.y}or L.drawPile.position",
             "                entry.current={x=start[1],y=start[2],scale=0.12/0.75,angle=0}"
           ]
         },
         {
-          "at": 260,
+          "at": 268,
+          "before": [],
+          "after": [
+            "        recentDrawOrigins,eventTail=reshuffledOrigins(fighting and battle,eventTail)"
+          ]
+        },
+        {
+          "at": 279,
           "before": [],
           "after": [
             "        openingHand=false"
