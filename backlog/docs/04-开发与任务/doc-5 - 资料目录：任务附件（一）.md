@@ -3,7 +3,7 @@ id: doc-5
 title: 资料目录：任务附件（一）
 type: guide
 created_date: '2026-10-29 05:13'
-updated_date: '2026-10-29 05:13'
+updated_date: '2026-10-29 05:15'
 ---
 # 资料目录：backlog-details 第1部分
 
