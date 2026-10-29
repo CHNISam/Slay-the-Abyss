@@ -44,8 +44,11 @@ test('measured scheduling retains every current fixture and reduces estimated cr
   const timings = JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8'));
   assert.equal(timings.source.runId, 40630641377);
   assert.equal(timings.source.headSha, '257d9e0c9a4f2b680b8d1fc07c26025451eb5ac8');
-  assert.equal(Object.keys(timings.js.win32).length, 294);
-  assert.equal(Object.keys(timings.js.linux).length, 294);
+  assert.equal(timings.jsSource.runId, 40866923323);
+  assert.equal(timings.jsSource.runAttempt, 2);
+  assert.equal(timings.jsSource.checkoutSha, '3cd0a6682727ba8243b542118e7615809836c05a');
+  assert.equal(Object.keys(timings.js.win32).length, 385);
+  assert.equal(Object.keys(timings.js.linux).length, 385);
   assert.equal(Object.keys(timings.lua).length, 974);
   const scripts = readdirSync('tests/lua').filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
   const weight = script => timings.lua[script] ?? timings.unknownLuaMs;
