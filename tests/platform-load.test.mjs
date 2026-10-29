@@ -13,6 +13,11 @@ const raw = Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]), Buffer.from(
 const artifact = {path: 'report.txt', sha256: createHash('sha256').update(raw).digest('hex')};
 const measuredAt = '2026-10-30T01:00:00Z';
 const now = Date.parse('2026-10-30T02:00:00Z');
+// Independent acceptance oracle: removing a required check from production
+// must fail these tests rather than silently shrinking the fixture with it.
+const requiredChecks = ['staticGlobal', 'staticRegions', 'clientCompute', 'clientMemory', 'serverProcessor',
+  'serverMemory', 'combatPeak', 'complexHand', 'enemyEffectsConcurrency', 'sceneTransitions', 'repeatedEntryExit',
+  'officialUpload', 'launchAndOperate', 'mobilePerformance', 'mobileInteraction'];
 const receipt = {sourceCommit: 'a'.repeat(40), sourceDirty: false, buildId: '12345678-1234-1234-1234-123456789abc',
   payloadDigest: 'b'.repeat(64), candidate: {sha256: 'c'.repeat(64)}, startedAt: '2026-10-30T00:00:00Z',
   release: {notesSha256: 'd'.repeat(64)}};
@@ -25,7 +30,7 @@ function fixture() {
     levelStorage: {...reading(20), valueMB: 8.96}, serverStorage: reading(3),
     rawDynamicReport: {source: 'official-sandbox', artifacts: [artifact]},
     screenshots: {artifacts: [artifact]},
-    checks: Object.fromEntries(loadChecks.map(name => [name, {status: 'PASS', measuredAt, notes: 'fixture reviewed', unresolved: [], artifacts: [artifact]}]))};
+    checks: Object.fromEntries(requiredChecks.map(name => [name, {status: 'PASS', measuredAt, notes: 'fixture reviewed', unresolved: [], artifacts: [artifact]}]))};
 }
 const verify = (evidence, candidate = receipt, read = () => raw) => verifyPlatformRelease(candidate, evidence, read, now);
 
@@ -46,7 +51,8 @@ test('20MB and 3MB are independent hard limits; 16MB is only a warning', () => {
   e.levelStorage.source = 'gil-file-size'; assert.equal(verify(e).status, 'BLOCKED');
 });
 test('each official load and mobile check is required, unresolved anomalies cannot pass', () => {
-  for (const key of loadChecks) {
+  assert.deepEqual(loadChecks, requiredChecks);
+  for (const key of requiredChecks) {
     const e = fixture(); delete e.checks[key]; assert.equal(verify(e).status, 'BLOCKED', key);
     e.checks[key] = {status: 'PASS', measuredAt, notes: 'reviewed', unresolved: ['overload'], artifacts: [artifact]};
     assert.equal(verify(e).status, 'BLOCKED', key);
