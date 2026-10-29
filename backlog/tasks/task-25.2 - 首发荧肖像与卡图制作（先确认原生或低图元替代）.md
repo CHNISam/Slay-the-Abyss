@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-29 16:00'
+updated_date: '2026-10-29 17:20'
 due_date: '2026-10-28'
 labels:
   - art
@@ -63,6 +63,8 @@ ordinal: 31000
 2026-10-29 Owner指定头像/战斗形象独立切片：只做岩荧96小头像、133战斗胸像及资产适配目录；复用既有源图与固定编辑器JSON/Lua导出，不动Dot A大立绘/Grok UI。按实际117.333绘图区和当前无96头像槽记录映射；先一份原生小样，复用B0/B1记录源图/转换体积/图元/控件/GIL真实增量，平台上传/手机未测不保证20MB、不扩角色。资产来源、实际提示词、1倍及放大/原生对照与asset.json绑定SHA；缺真实BaseGIL/完整SDK或固定编辑器时继续离线素材并明确未测。
 
 13:15 Owner确认用途路线：选角小头像突出头部/白花/轮廓，战斗改为朝右迎敌、透明底完整全身；先两张源设计与STS1真实参照、96/当前117比例对照，等本批核对后沿既有精修/固定导出流程继续。大立绘Dot A负责，UI槽位Grok负责，不因全身比例不足擅自扩大或改血条。评审直接发图片，不再给Owner打包下载。
+
+2026-10-29 dot A 主菜单/选角主视觉资产切片：只入库Owner已认可的官方横版480x270 STD3离线原生候选、来源与哈希、必要复验和单独LFS规则；不接线Grok UI，不制作Dot B头像，不改状态/负责人/AC。将13201控件、未绑定模板与未测PC/实体Android明确交接，保留拒绝旧AI路线的原因，不扩批。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -129,4 +131,6 @@ PR259同步后共享宿主正例直接执行真实源码，不再注入启动修
 14:20 UTC Owner认可当前V2源图效果：头部小头像与透明底全身战斗形象。认可仅绑定该批源设计/展示比例，不扩至旧V1或原生/容量。V2原生数据底稿为4822/4315矩形，真实JSON/Lua/literal/VM核验通过；固定PNG预览透明度严格比对失败，SVG/Inkscape透明范围一致但仍有±1量化差，未改工具/门槛刷绿。正式启用、真GIL/SDK、B0/B1和手机仍未测。准备仅资产与来源记录的候选PR供Grok接线，UI/规则文件不动；评审不再发ZIP。
 
 2026-10-29 荧的菜单/选角大图槽是 dot-a.menu.traveler 与 dot-a.select.large.traveler.ironclad（现同为占位 105301）。战斗胸像是 Dot B 的 dot-b.battle.traveler（占位 105292），不再用 102005。正式出图前验收不勾。
+
+2026-10-29 dot A 已按Owner认可保留官方横版480x270/STD3/13201矩形背景，仅用于启动/选角；原图、可编辑JSON、完整导出、LFS预览、SHA与固定算法流程放入art/characters/key-visual/traveler-geo/official-landscape-v1及docs/art/KEY_VISUAL_PRODUCTION.md。无损整边合并0收益；bits7只省80控件且改变画面，不采用。独立资产分批加载/取消/显式重试/销毁失败隔离/8比3缩放已19项离线VM验证，组件未注册到Grok正式UI构建，现有heroSlots单图库ID不能直接装图元组。未构建GIL、未官方导入、未PC或实体安卓实测，原状态/负责人/复合AC不改。赛后原创背景另记DRAFT-6 Low（避开并行PR348的TASK-87编号），无比赛里程碑；当前先用官方图，不扩批。
 <!-- SECTION:NOTES:END -->

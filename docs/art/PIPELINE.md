@@ -69,3 +69,7 @@ TASK-10.1.1 单卡门槛与TASK-25.1首轮共享资产制作已完成。TASK-10.
 验证后的两位干净 Agent 已交付 [共享资产 PR #42](https://github.com/CHNISam/Slay-the-Abyss/pull/42) 和 [容量验收 PR #43](https://github.com/CHNISam/Slay-the-Abyss/pull/43)，主 Agent 复审后纳入本集成分支。共享套为4框/1背/3类型徽记，见 [CARD_SHARED_ASSETS.md](CARD_SHARED_ASSETS.md)；容量样本为0/1/5/10卡与42字长文，见 [CARD_CAPACITY.md](CARD_CAPACITY.md)。容量准备脚本失败清单问题已修正；主 Agent 实际生成五份副本，MCP静态检查均0错误/0警告，原始底图SHA保持一致。官方导入、运行时与目标设备表仍待测，不因文件生成而放行容量。
 
 本轮交付统一由[集成PR #30](https://github.com/CHNISam/Slay-the-Abyss/pull/30)进入develop；内容已包含的子PR关闭，原分支通过本地Git bundle保留后清理工作树。用户已要求结束本轮，不再追加人工测试。已完成交付的合并与清理不以待办的实机验收作为阻塞，亦不把待办标为通过。
+
+## 启动与选角主视觉补充
+
+2026-10-29 官方横版控制变量、矩形算法固定参数、真实Lua读回、降级取舍与未验性能，见 [KEY_VISUAL_PRODUCTION.md](KEY_VISUAL_PRODUCTION.md)。Owner认可的候选仅用于启动/选角；不替换战斗资产，不以离线认可代替GIL和实体设备验收。
