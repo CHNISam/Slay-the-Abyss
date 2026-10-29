@@ -3,7 +3,7 @@ id: doc-25
 title: 资料目录：项目根文档
 type: guide
 created_date: '2026-10-29 05:13'
-updated_date: '2026-10-29 05:13'
+updated_date: '2026-10-29 05:15'
 ---
 # 资料目录：根目录
 
