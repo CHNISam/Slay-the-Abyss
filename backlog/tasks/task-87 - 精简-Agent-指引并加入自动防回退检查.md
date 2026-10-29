@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-29 16:59'
-updated_date: '2026-10-29 17:02'
+updated_date: '2026-10-29 17:07'
 labels: []
 dependencies: []
 documentation:
@@ -22,8 +22,8 @@ ordinal: 129000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 默认指引简洁，当前范围及必要安全边界仍可查到
-- [ ] #2 自动检查拦截指引膨胀、失效入口和适配器重复
+- [x] #1 默认指引简洁，当前范围及必要安全边界仍可查到
+- [x] #2 自动检查拦截指引膨胀、失效入口和适配器重复
 - [ ] #3 当前提交 CI 通过并合入 develop
 <!-- AC:END -->
 
@@ -37,4 +37,6 @@ ordinal: 129000
 
 <!-- SECTION:NOTES:BEGIN -->
 已核对现有门禁，默认指引只保留入口及必要人工边界。AGENTS 34行/2308字符，CLAUDE 5行/150字符，Cursor 6行/82字符。新增门禁正反向5项通过，verify:backlog通过；技能校验通过（英文关键词启发式未识别已有中文工作树保护，2条warning已人工核对）。免费模型沿用TASK-51明确限额暂停，不探测额度，本轮由Codex直接执行。
+
+本地全量npm check出现act2-intent-ui既有夹具30秒超时，已停止该次全量运行；在不改时限的单夹具复核中29.158秒通过，不能宣称本地全量通过。完整验收以PR348当前SHA的Quality/Licenses为准。审查补充Windows盘符及file URI越界负对照，专项仍5/5通过。
 <!-- SECTION:NOTES:END -->

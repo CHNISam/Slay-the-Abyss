@@ -24,7 +24,7 @@ export function auditGuidance(root = '.') {
     // Entry files use inline Markdown links. Remote links and in-page anchors
     // do not require network access; local file targets must resolve in-tree.
     for (const [, raw] of source.matchAll(/\[[^\]\n]+\]\(([^)\n]+)\)/g)) {
-      if (/^(?:[a-z][a-z\d+.-]*:|#)/i.test(raw)) continue;
+      if (/^(?:https?:|mailto:|miliastra:|plugin:|#)/i.test(raw)) continue;
       const target = resolve(root, dirname(file), raw.split('#')[0]);
       try {
         if (outside(relative(root, target)) || outside(relative(root, realpathSync(target))) || !statSync(target).isFile()) throw new Error('invalid');

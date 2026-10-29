@@ -38,11 +38,11 @@ test('both line and Unicode character budgets fail closed', t => {
 test('missing files, broken links and paths outside the repo are rejected', t => {
   const result = fixture(t, {
     'CLAUDE.md': null,
-    'AGENTS.md': '[missing](docs/missing.md)\n[outside](../package.json)\n[directory](docs)\n',
+    'AGENTS.md': '[missing](docs/missing.md)\n[outside](../package.json)\n[directory](docs)\n[drive](C:/outside.md)\n[file](file:///outside)\n',
   });
-  assert.equal(result.errors.length, 4);
+  assert.equal(result.errors.length, 6);
   assert.match(result.errors.join('\n'), /missing guidance/);
-  assert.equal(result.errors.filter(e => e.includes('invalid local link')).length, 3);
+  assert.equal(result.errors.filter(e => e.includes('invalid local link')).length, 5);
 });
 test('unknown commands and policy copies in adapters are rejected', t => {
   const result = fixture(t, {
