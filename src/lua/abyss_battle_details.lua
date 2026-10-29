@@ -2,6 +2,7 @@
 local Combat = require("abyss_combat")
 local Actors = require("abyss_actor")
 local Run = require("abyss_run")
+local RewardOwner = require("abyss_battle_reward_owner")
 local Theme = require("abyss_theme")
 local M = {}
 local C, L = Theme.color, Theme.layout
@@ -65,28 +66,37 @@ function M.install(owner, ownership, host, dependencies)
         self:render()
         return true
     end
-    function owner:openHelp(spec, source, transient)
-        local run=self.run
-        if not self.active or self.busy or not run or run.phase~="combat" then return false end
+    function owner.openHelp(_, spec, source, transient)
+        local run=owner.run
+        local reward=spec and spec.kind=='rewardCard' and RewardOwner.ready(owner,spec)
+        if not owner.active or owner.busy or not run or run.phase~="combat" and not reward then return false end
         local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
         if not Actors.isPresent(actor)then return false end
         dependencies.cancelPotionAim("已取消药水瞄准。")
-        self.info={index=spec.index,id=actor.id,battle=run.combat,kind=spec.kind,statusId=spec.statusId,
+        owner.info={index=spec.index,id=actor.id,battle=run.combat,kind=spec.kind,statusId=spec.statusId,
             offset=spec.offset,uid=spec.uid,source=source,transient=transient==true,
-            slot=spec.slot,potionId=spec.potionId,inventory=spec.inventory}
-        self:render()
-        return self.info~=nil
+            slot=spec.slot,potionId=spec.potionId,inventory=spec.inventory,reward=reward and spec or nil}
+        owner:render()
+        return owner.info~=nil
     end
-    function owner:queueHelp(spec,source,held,touch,card)
-        local run=self.run
-        if not spec or not self.active or self.busy or not run or run.phase~="combat" then return end
+    function owner.queueHelp(_,spec,source,held,touch,card)
+        local run=owner.run
+        if not spec or not owner.active or owner.busy or not run
+            or run.phase~="combat" and not (spec.kind=='rewardCard' and RewardOwner.ready(owner,spec)) then return end
         local actor=spec.index==0 and run.combat.player or run.combat.enemies[spec.index]
         if not Actors.isPresent(actor)then return end
-        self.help={spec=spec,source=source,held=held,touch=touch,t=0,run=run,battle=run.combat,
+        owner.help={spec=spec,source=source,held=held,touch=touch,t=0,run=run,battle=run.combat,
             turn=run.combat.turn,actor=actor,card=card}
     end
-    function owner:cardHelpSpec(slot)
-        local battle=self.run and self.run.phase=="combat" and self.run.combat
+    function owner.cardHelpSpec(_,slot)
+        local run=owner.run
+        if run and run.phase=='reward' and owner.rewardScreen=='cards' then
+            local id=Run.rewardOptions(run)[slot]
+            if not id then return end
+            return RewardOwner.capture({kind='rewardCard',index=0,battle=run.combat,slot=slot,cardId=id,
+                upgraded=run.rewards.cardUpgrades and run.rewards.cardUpgrades[slot]==true},owner,run)
+        end
+        local battle=owner.run and owner.run.phase=="combat" and owner.run.combat
         local instance=battle and battle.hand[slot]
         if not instance then return end
         local card=Combat.cardDefinition(battle,instance)
@@ -95,7 +105,7 @@ function M.install(owner, ownership, host, dependencies)
                 if effect.status or effect.op=="gainTemporaryStrength" or effect["then"] and hasKeyword(effect["then"]) then return true end
             end
         end
-        if card.exhaust or card.ethereal or hasKeyword(card.effects) then return {kind="card",index=0,uid=instance.uid} end
+        if card.originalV4 or card.exhaust or card.ethereal or hasKeyword(card.effects) then return {kind="card",index=0,uid=instance.uid} end
     end
     function owner:potionHelpSpec(slot)
         local run = self.run

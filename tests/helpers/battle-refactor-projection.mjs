@@ -1,4 +1,5 @@
 import {tryBattleGovernanceSource} from './battle-ui-governance-inverse.mjs';
+import {preMobileQaSource,readBeforeMobileQaSource} from './mobile-qa-source-inverse.mjs';
 import {tryApprovedBattleRefactorSource} from './approved-battle-responsibilities.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -9,12 +10,13 @@ const snapshot=JSON.parse(bytes);
 const digest=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 // Historical replay only. Live UI and input tests load the actual responsibility modules.
 export function preBattleRefactorSource(path,source){
+ source=preMobileQaSource(path,source);
  const approved=tryApprovedBattleRefactorSource(path,source);
  if(approved!==undefined)return approved;
  if(path!=='src/lua/abyss_battle_ui.lua'||source===null||digest(source)===digest(snapshot.before))return source;
  assert.equal(digest(source),snapshot.hashes[path],'unreviewed integrated retirement source drift: complete Battle UI composition identity');
  for(const [file,expected]of Object.entries(snapshot.hashes))
-  assert.equal(digest(readFileSync(file,'utf8')),expected,'unreviewed integrated retirement source drift: Battle UI responsibility: '+file);
+  assert.equal(digest(readBeforeMobileQaSource(file)),expected,'unreviewed integrated retirement source drift: Battle UI responsibility: '+file);
  return snapshot.before;
 }
 

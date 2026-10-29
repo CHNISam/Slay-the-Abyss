@@ -16,7 +16,7 @@ local Awakened=require('abyss_awakened_one')
 local Darklings=require('abyss_darklings')
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
     statusView = Actors.statusView, block = Actors.block,
-    attackAmount = Actors.attackAmount,intentAttackAmount=Actors.intentAttackAmount,
+    attackAmount = Actors.attackAmount,intentAttackAmount=Actors.intentAttackAmount,intentAttackPreview=Actors.intentAttackPreview,
     faceTarget=Actors.faceTarget,blockAmount = Actors.blockAmount }
 
 -- UseCardAction visits each source monster's sorted Power list, not module

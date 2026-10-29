@@ -43,6 +43,9 @@ function M.new(root,clickEvent,platform,allowed,onChange,onClose)
             and self.run.phase==s.phase and self.run.combat==s.battle
     end
     local function detail(definition) local special=require('abyss_potion_text').special(definition,self.run,true);if special then return definition.name..'；'..special end
+        if require('abyss_relic_hooks').owns(self.run,'sacred_bark') then
+            return definition.name..'；'..require('abyss_potion_text').describe(self.run,definition.id)
+        end
         if definition.description then return definition.name..'；'..definition.description end
         local result={definition.name}
         for _,effect in ipairs(definition.effects)do

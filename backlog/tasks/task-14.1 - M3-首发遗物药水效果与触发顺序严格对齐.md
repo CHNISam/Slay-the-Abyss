@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-28 14:46'
+updated_date: '2026-10-29 01:55'
 due_date: '2026-10-28'
 labels:
   - required
@@ -29,6 +29,8 @@ references:
   - docs/M3-STATUS-20261028.md
   - docs/rules/LIZARD_TAIL_FATAL_INTEGRATION.md
   - 'https://github.com/CHNISam/Slay-the-Abyss/pull/304'
+  - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/evidence/backlog-merge-20261029.json
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -38,7 +40,7 @@ ordinal: 42000
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-基础库存、药水操作和大批道具效果已交付；旧库存恢复与钨合金棍回归阻塞已随主线整合解决。当前四职业各33瓶药水来源均有生产定义。继续逐件验收完整遗物药水效果、正常获取、触发顺序和跨域组合，并补同候选自然取得及平台证据。
+本版验收岩系旅行者两幕涉及的完整原版遗物药水池、正常获取、触发顺序与跨域组合，不改池或概率。基础库存、药水操作和大批道具效果已交付，旧库存恢复与钨合金棍阻塞已解决。既有四职业各33瓶来源生产定义是历史代码证据；其他角色不因此纳入本版。逐件自然取得与同候选平台证据仍须补齐。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -78,6 +80,10 @@ ordinal: 42000
 2026-10-28冲刺：按固定319009d5的MoltenEgg2.java补熔火之蛋，复用既有获得牌与Toxic Egg owner；覆盖攻击牌preview/obtain、只追溯当前战斗奖励、回滚、正常来源与48层边界。保持旧牌组/旧商店不追改；先红后绿并复验Toxic；完整道具池、自然和平台AC继续保留未完成。
 
 2026-10-28 PR286收口：修复三处EOF空行与Darklings状态说明惰性依赖；逐项消解develop冲突并保留PR267和campaign入口，等待PR290合入后最终同步；补定向回归与当前HEAD完整Quality，全绿后squash，关闭被吸收PR285并保留可恢复历史再清理。来源锁、RNG顺序、回滚、测试预算及未验收AC保持。
+
+本轮按源池缺定义清单优先完整落地白兽雕像及可由既有hook准确承接的遗物，验证正常领取、真实效果、跨战与失败回滚；不删池/重抽/空壳放行。未实现及自然实机缺项保留。
+
+2026-10-29当前发布角色仅旅行者；完整原池、逐项效果/合法获取、随机流和平台验收不因缩角色而放宽，保留其他角色代码与历史证据。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -150,4 +156,14 @@ PR286主线程收口：保留远端5556fef1的Searing Blow复制语义，原固�
 最终UI紧急合流保留#286完整规则交付及最新范围，双方原始任务快照见docs/reviews/ui-merge-task-history-20261028.json.gz。未把源码合并或紧急CI授权冒充道具平台验收。
 
 PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确认候选缺定义，可能跨端但PC实际情况待验，不能称PC已复现。
+
+本轮补7件完整遗物定义/效果及营地限制，7组红绿、Ironclad/真实V4雷电将军/保留Defect共21次公开领取和重复拒绝、3组原生营地UI通过；父线程独立复验。Ironclad剩余79缺定义、完整池/自然/平台仍缺，广义AC不勾。
+
+2026-10-29用户首领宝箱截图出现SacredBark英文及不可领取。已补神圣树皮真实来源定义，保留原队列/概率，覆盖17层领取→第二幕倍药→34层终点，药水说明与实际倍率统一；规则及14组语义证据见docs/rules/SACRED_BARK.md。另补156个源标识的项目中文显示名及黑石护符名称，纯显示不改变领取资格。原79项缺定义因此减少为78项；全池、自然取得和同候选实机仍未通过，AC5/7/8/9不勾。
+
+神圣树皮与中文显示修复已进入5453b43e候选，独立存档读回通过，候选和验证边界见docs/reviews/UI-APPROVED-FIX-INTEGRATION-20261029.md。下一批优先核实齿轮纪念品/针线的现存规则接线及投石索/系缆桩/船舵的新hook；另优先诅咒钥匙/灵质等剩余Boss来源。只读拆分不算新增实现，仍缺78项完整定义，广义AC保持未勾。
+
+2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
+
+合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 <!-- SECTION:NOTES:END -->

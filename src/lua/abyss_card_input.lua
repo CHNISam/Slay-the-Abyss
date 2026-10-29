@@ -31,9 +31,12 @@ function M.sample(g, x, y, target, targeted)
 end
 function M.release(g, playable)
     if g.cancelled then return 'cancel' end
+    -- A lifted finger has no cursor to continue carrying or aiming with.
+    -- Only an explicit valid release submits; a drag never turns into C-mode.
+    if g.touchScreen then return playable and (g.aiming or g.dropZone) and 'play' or 'cancel' end
     if g.aiming then return playable and 'play' or 'target' end
     if g.dropZone then return playable and 'play' or 'cancel' end
-    if g.touchScreen or g.elapsed < 0.4 then return 'carry' end
+    if g.elapsed < 0.4 then return 'carry' end
     return 'cancel'
 end
 return M

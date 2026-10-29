@@ -5,7 +5,9 @@ local A=require('abyss_actor')
 local E=require('abyss_events')
 local S=require('abyss_sts_random')
 local M={}
-local aliases={NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
+local aliases={SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',Pear='pear',Mango='mango',['Old Coin']='old_coin',
+ ['Frozen Egg 2']='frozen_egg',['Coffee Dripper']='coffee_dripper',['Fusion Hammer']='fusion_hammer',
+ NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
  MealTicket='meal_ticket',MawBank='maw_bank',['Blood Vial']='blood_vial',
  ['Bag of Marbles']='bag_of_marbles',Orichalcum='orichalcum',Ectoplasm='ectoplasm',
  Strawberry='strawberry',['Regal Pillow']='regal_pillow',['Toy Ornithopter']='toy_ornithopter',
@@ -83,11 +85,13 @@ function M.onEquip(run,id,upgradeApi)
   local slots=run.potionSlots or (run.data and run.data.rules.player.potionSlots)
   assert(integer(slots) and slots+2<=2147483647,'invalid potion capacity')
   run.potionSlots=slots+2
- elseif id=='strawberry' then
-  assert(integer(run.maxHp) and run.maxHp+7<=2147483647,'invalid max health')
-  run.maxHp=run.maxHp+7;healRun(run,7)
+ elseif id=='strawberry' or id=='pear' or id=='mango' then
+  local value=id=='strawberry' and 7 or id=='pear' and 10 or 14
+  assert(integer(run.maxHp) and run.maxHp+value<=2147483647,'invalid max health')
+  run.maxHp=run.maxHp+value;healRun(run,value)
+ elseif id=='old_coin' then M.gainGold(run,300)
  elseif id=='whetstone' or id=='war_paint' then equipmentUpgrade(run,id,upgradeApi)
- elseif id=='toxic_egg' or id=='molten_egg' then
+ elseif id=='toxic_egg' or id=='molten_egg' or id=='frozen_egg' then
   -- ToxicEgg2/MoltenEgg2.onEquip visit CombatRewardScreen.rewards only. Dream Catcher
   -- opens CardRewardScreen directly; neither it nor old shop shelves belongs here.
   if run.phase=='reward' and run.rewards and not run.rewards.cardResolved then M.previewCardReward(run,run.rewards)end
@@ -158,7 +162,7 @@ function M.beforeObtainCard(run,definition)
  end
  return true
 end
-local eggTypes={toxic_egg='skill',molten_egg='attack'}
+local eggTypes={toxic_egg='skill',molten_egg='attack',frozen_egg='power'}
 local function eggUpgrade(card,definition,kind)
  assert(type(definition)=='table','missing permanent card definition')
  if definition.type==kind and not card.upgraded and type(definition.upgrade)=='table' and next(definition.upgrade)then
@@ -174,7 +178,7 @@ function M.onPreviewObtainCard(run,card,definition)
  end
 end
 function M.previewCardReward(run,reward,skipUpgraded)
- if not M.owns(run,'toxic_egg')and not M.owns(run,'molten_egg')then return end
+ if not M.owns(run,'toxic_egg')and not M.owns(run,'molten_egg')and not M.owns(run,'frozen_egg')then return end
  for i,value in ipairs(reward.cards or {})do
   local card=type(value)=='table' and value or {cardId=value,upgraded=reward.cardUpgrades and reward.cardUpgrades[i]==true}
   local definition

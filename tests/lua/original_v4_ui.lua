@@ -48,7 +48,7 @@ for _,raw in ipairs(frozen.cards)do for _,up in ipairs({false,true})do
     local definition={name=raw.name,originalV4=raw}
     assert(ui.deckUI:inspect(ui.run,definition,up))
     local full=table.concat(ui.deckUI.detailPages,''):gsub('\n','')
-    assert(full==D.describe(definition,up):gsub('\n',''),'full rules were truncated: '..raw.id)
+    assert(full==(D.describe(definition,up)..D.keywordDefinitions(definition,up)):gsub('\n',''),'full rules or keyword definitions were truncated: '..raw.id)
     for _,page in ipairs(ui.deckUI.detailPages)do
         local _,breaks=page:gsub('\n','')
         assert((breaks+4)*F.Theme.layout.nativeText.lineHeight<=F.Theme.layout.deckView.viewport[4],raw.id..' page overflows')

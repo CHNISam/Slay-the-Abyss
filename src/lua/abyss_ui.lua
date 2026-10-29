@@ -53,8 +53,12 @@ function OnStart()
                 print("ABYSS_BGM_REQUEST " .. signal)
             end
         end
+        local isTest, testPlay = pcall(function()return game.IsTestPlay()end)
+        local build = require('abyss_narrative').build
+        local alpha = type(build)=='table' and build.workKey=='alpha-test'
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
             { music = music, campaign = true, campaignProfile = "competition-two-act",
+              characterProfile = (alpha or isTest and testPlay == true) and "competition-candidate" or "production",
               controllerApi = {events=Enum.ControllerNavigationEventType,directions=Enum.ControllerNavigationDir,
                   modes=Enum.ControllerNavigationMode,getFocus=game.GetControllerFocus,setFocus=game.SetControllerFocus,
                   isController=function()

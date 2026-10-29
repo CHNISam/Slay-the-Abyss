@@ -5,6 +5,12 @@ M.elements={'ironclad','silent','defect','watcher'}
 local names={hutao='胡桃',arlecchino='阿蕾奇诺',furina='芙宁娜',raiden='雷电将军',traveler='旅行者·荧'}
 local elements={ironclad='岩',silent='风',defect='雷',watcher='草'}
 local function contains(list,id)for _,value in ipairs(list)do if value==id then return true end end return false end
+local profiles={dev=true,alpha=true,['competition-candidate']=true,production=true}
+function M.allowed(profile,id)
+    -- User-approved Geo two-act release; other loadouts remain development-only.
+    if profile=='production' or profile=='alpha' or profile=='competition-candidate' then return id=='ironclad' end
+    return profile=='dev' and (elements[id]~=nil or names[id]~=nil and id~='traveler') or false
+end
 function M.options(id)
     if id=='ironclad' then return nil end -- preserve the production Geo loadout
     return {character=id,experimental=elements[id]~=nil}
@@ -39,18 +45,24 @@ function M.preview(source,presentation,id)
         maxHp=rules.maxHp,gold=rules.startingGold,relics=relics,deck=deck,
         deckSize=#data.cards.starter_deck.cards,profile=profile}
 end
-function M.new(source,presentation)
-    local state={}
+function M.new(source,presentation,profile)
+    profile=profile or 'dev'
+    assert(profiles[profile],'unknown character admission profile')
+    local state={profile=profile}
+    function state.allows(_,id)
+        return id=='traveler' and M.allowed(profile,'ironclad') or M.allowed(profile,id)
+    end
     function state:clear()self.character,self.element,self.info=nil,nil,nil end
     function state:select(id)
         if not contains(M.characters,id)then return false,'unknown_character' end
+        if not self:allows(id)then return false,'character_unavailable' end
         self.character=id
         if id=='traveler' then self.element=self.element or 'ironclad' end
         self.info=M.preview(source,presentation,id=='traveler' and self.element or id)
         return true
     end
     function state:selectElement(id)
-        if self.character~='traveler' or not contains(M.elements,id)then return false,'element_unavailable'end
+        if self.character~='traveler' or not contains(M.elements,id) or not self:allows(id)then return false,'element_unavailable'end
         self.element=id;self.info=M.preview(source,presentation,id);return true
     end
     return state

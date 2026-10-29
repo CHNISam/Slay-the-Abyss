@@ -1,7 +1,9 @@
 {
   "schemaVersion": 1,
   "milestone": "M3",
-  "scopeDecision": "2026-10-26 user explicitly requires all four classes and Acts1/2/3/hidden4",
+  "scopeDecision": "2026-10-29 user approves Geo Traveler only for Acts1/2; future content below retains its original evidence",
+  "historicalScopeDecision": "2026-10-26 user explicitly requires all four classes and Acts1/2/3/hidden4",
+  "currentReleaseScope": {"characters":["ironclad"],"acts":[1,2],"deferredCharacter":"raiden","userReportedTwoActCompletion":true,"candidateBoundEvidence":"unknown; do not infer screenshots or logs"},
   "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
   "baseline": "45ba918e5719614f36b6a92aeb511e76a1311608",
   "acceptance": "INCOMPLETE",

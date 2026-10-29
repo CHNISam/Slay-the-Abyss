@@ -3,7 +3,7 @@
 -- no keys or historical wins are granted. This is not a natural playthrough.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Map,Run=require('abyss_map'),require('abyss_run')
-local function fixture(experimental,bgm)
+local function fixture(experimental,bgm,characterProfile)
     local canvas=F.control({children=F.Layout})
     local host,signals
     local historyCalls=0
@@ -11,6 +11,8 @@ local function fixture(experimental,bgm)
     local new=F.GameUI.new
     F.GameUI.new=function(...)
         local args={...}
+        assert(args[5].characterProfile=='competition-candidate')
+        if characterProfile then args[5].characterProfile=characterProfile end -- explicit development-only coverage below
         local function unavailableHistory()historyCalls=historyCalls+1;error('competition must not consult saved history')end
         args[5].readNeowHistory,args[5].readEndingHistory,args[5].writeEndingHistory=unavailableHistory,unavailableHistory,unavailableHistory
         host=new(table.unpack(args))
@@ -25,16 +27,56 @@ local function fixture(experimental,bgm)
         end}
     Enum={CursorEventType={CursorClick='click'},ImageSource={StaticReference='static'}}
     Color=setmetatable({FromRGB=function()end},{__call=function(_,r,g,b,a)return{r=r,g=g,b=b,a=a}end})
-    game={GetUICanvasSize=function()return 1280,720 end,
+    game={GetUICanvasSize=function()return 1280,720 end,IsTestPlay=function()return true end,
         ServerSignal=function(name)return{SendSignal=function()signals[#signals+1]=name end}end}
     local ok,why=pcall(function()dofile('src/lua/abyss_ui.lua');OnStart();OnStart()end)
     F.GameUI.new=new
     assert(ok,why);assert(host and script.updating,'formal startup failed')
+    if not characterProfile then
+        assert(host.characterSelection:allows('ironclad') and not host.characterSelection:allows('raiden'),
+            'actual Alpha candidate exposes only this release\'s Geo traveler')
+    end
     -- Seed2 exposes an implemented Sozu in the second Boss chest. Other source
     -- rolls still include unimplemented relics (TASK-14.1); no pool/probability change.
     host.seed='2'
     host.root=canvas:GetChild('stage')
     return host,host.root,signals
+end
+local function opening(host,root,bossCount)
+    local run=host.run
+    assert(run and run.campaignProfile=='competition-two-act' and host.map.floor==0)
+    if host.prologue:covering() then
+        assert(not host.mapUI.navigationEnabled)
+        assert(host.prologue:skip());OnUpdate(1);OnUpdate(1)
+    end
+    assert(not host.prologue:covering() and host.mode=='node' and not host.mapUI.navigationEnabled)
+    local event=run.nodeFlow.event
+    assert(event.id=='neow' and event.stage=='neow_intro' and event.neowBossCount==bossCount)
+    assert(run.neowHistorySource==(bossCount==0 and 'fresh-start' or 'session-completed-run'))
+    local baseMaxHp=run.maxHp
+    assert(F.click(root,'nodePanel','eventView/option1'))
+    event=run.nodeFlow.event
+    assert(event.stage=='neow_blessing' and #event.rewards==(bossCount==0 and 2 or 4))
+    -- Both source variants give category1 as the second offer. The fresh
+    -- opening must choose its real +HP mini reward; a later session-qualified
+    -- four-offer opening uses the real second offer, never fabricated history.
+    if bossCount==0 then
+        assert(event.rewards[2].type=='TEN_PERCENT_HP_BONUS' and event.rewards[2].drawback=='NONE')
+    else assert(event.rewards[2].drawback=='NONE')end
+    local rewardType,hpBonus=event.rewards[2].type,event.hpBonus
+    assert(F.click(root,'nodePanel','eventView/option2'))
+    event=run.nodeFlow.event
+    if rewardType=='THREE_SMALL_POTIONS'then
+        assert(event.stage=='neow_potions' and #event.potionOffers==3)
+        assert(F.click(root,'nodePanel','eventView/option4')) -- source skip/continue, no bottle injection
+        event=run.nodeFlow.event
+    end
+    assert(event.stage=='neow_result')
+    if rewardType=='TEN_PERCENT_HP_BONUS'then assert(run.maxHp==baseMaxHp+hpBonus)end
+    assert(F.click(root,'nodePanel','eventView/option1'))
+    assert(host.run==run and host.mode=='map' and host.map.floor==0 and run.neowStatus=='complete')
+    assert(host.mapUI.navigationEnabled and host.historyCalls()==0)
+    return baseMaxHp
 end
 local function start(host,root,button,element)
     F.click(root,'menuPanel','start')
@@ -43,17 +85,18 @@ local function start(host,root,button,element)
     if element then F.click(root,'characterPanel','elements/element'..element)end
     assert(not host.run,'selection must not create a Run')
     F.click(root,'characterPanel','confirm')
-    for _=1,8 do OnUpdate(.25)end
-    assert(host.mode=='map' and host.map.floor==0)
+    assert(host.prologue:covering(),'first native confirmation must start the approved opening')
+    local baseMaxHp=opening(host,root,0)
     -- The real entry has no history provider. Never synthesize qualification
     -- or mistake a seeded controlled route for a persisted natural victory.
     local history=host.run.endingHistory
     assert(history.known==false and history.unlocked==false and history.source=='competition-disabled')
     assert(history.readStatus=='disabled' and history.persistence=='disabled')
-    assert(host.run.campaignProfile=='competition-two-act' and host.run.neowStatus=='disabled')
+    assert(host.run.campaignProfile=='competition-two-act' and host.run.neowStatus=='complete')
     assert(not host.map.emeraldSelection and host.historyCalls()==0)
     assert(next(history.wins)==nil and host.run.endingUnlocked==false)
     for _,key in ipairs({'ruby','emerald','sapphire'})do assert(host.run.keys[key]==false)end
+    return baseMaxHp
 end
 local function fight(host,root,floor)
     local nextNode=Map.available(host.map)[1]
@@ -96,8 +139,8 @@ local function chest(host,bossFloor,nextAct)
 end
 
 local host,root,signals=fixture(false,true)
-start(host,root,'traveler')
-assert(not host.run.characterProfile and host.run.maxHp==80)
+assert(start(host,root,'traveler')==80)
+assert(not host.run.characterProfile and host.run.maxHp==88,'fresh HP mini reward changes the actual maximum')
 assert(#signals==2 and signals[1]=='ABYSS_BGM_STOP' and signals[2]=='ABYSS_BGM_MAP')
 fight(host,root,1)
 -- Injected historical flags must not resurrect a source key offer at OPEN.
@@ -144,7 +187,9 @@ F.click(root,'menuPanel','start');F.click(root,'characterPanel','traveler')
 assert(host.run==completed,'selection preview cannot create a new run')
 F.click(root,'characterPanel','confirm')
 assert(host.run~=completed and host.run.act==1 and host.map.floor==0)
-assert(host.run.neowStatus=='disabled' and not host.run.endingUnlocked)
+assert(not host.prologue:covering(),'the same host does not replay its already watched opening')
+opening(host,root,1)
+assert(host.run.neowStatus=='complete' and not host.run.endingUnlocked)
 assert(host.run.endingHistory.persistence=='disabled' and not host.run.endingHistoryResult and host.historyCalls()==0)
 -- Defeat preserves an honest outcome and a /34 denominator.
 assert(host.mapUI:choose(Map.available(host.map)[1].id))
@@ -170,7 +215,7 @@ print('PASS formal skip endpoint and one-shot victory settlement')
 
 local originals={'hutao','arlecchino','furina','raiden'}
 for index,id in ipairs(originals)do
-    local ui,panel,sent=fixture(false,false)
+    local ui,panel,sent=fixture(false,false,'dev')
     start(ui,panel,'character'..index)
     assert(ui.run.character==id and ui.run.characterProfile.originalV4)
     assert(ui.run.campaign and ui.run.act==1 and #sent==0)
@@ -188,14 +233,14 @@ for index,id in ipairs(originals)do
         assert(ui.historyCalls()==0 and not ui.run.endingHistoryResult)
     end
 end
-print('PASS formal original character switch')
+print('PASS explicit development original character switch')
 for index,id in ipairs({'ironclad','silent','defect','watcher'})do
-    local ui,panel,sent=fixture(true,false)
-    start(ui,panel,'traveler',index)
+    local ui,panel,sent=fixture(true,false,'dev')
+    local baseMaxHp=start(ui,panel,'traveler',index)
     if id=='ironclad' then
-        assert(not ui.run.characterProfile and ui.run.maxHp==80,'Geo retains the production default loadout')
+        assert(not ui.run.characterProfile and baseMaxHp==80 and ui.run.maxHp==88,'Geo retains its default loadout plus the actual HP mini reward')
     else assert(ui.run.character==id and not ui.run.characterProfile.originalV4)end
     assert(ui.run.campaign and ui.run.act==1 and #sent==0)
 end
-print('PASS formal experimental character switch')
+print('PASS explicit development experimental character switch')
 print('FORMAL_CAMPAIGN_ENTRY_PASS 4; controlled room completions; native/natural NOT_RUN')

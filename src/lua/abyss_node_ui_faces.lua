@@ -22,8 +22,7 @@ function M.install(ctx)
     end
 
     function ctx.relicName(id)
-        local definition = find(ctx.self.run.data.relics.relics, id)
-        return definition and definition.name or id
+        return require('abyss_relic_names').get(ctx.self.run.data,id)
     end
 
     function ctx.potionText(id) return require('abyss_potion_text').describe(ctx.self.run,id) end
@@ -43,11 +42,12 @@ function M.install(ctx)
         ..(not option.enabled and '（当前条件不足）'or'')
     end
 
-    function ctx.relicText(id)
+    function ctx.relicText(id,heldRun)
+        local data=(heldRun or ctx.self.run).data
         if id=='membership_card' then return '所有商店商品半价。' end
         if id=='courier' then return '商店商品八折，购买后补货。' end
         if id=='smiling_mask' then return '商店删牌服务固定为50金币。' end
-        local definition = find(ctx.self.run.data.relics.relics, id)
+        local definition = find(data.relics.relics, id)
         if not definition then return "" end
         if definition.description then return definition.description end
         local parts
@@ -60,7 +60,7 @@ function M.install(ctx)
                 elseif effect.op == "draw" then parts[#parts + 1] = "抽 " .. value .. " 张牌"
                 elseif effect.op == "energy" then parts[#parts + 1] = "获得 " .. value .. " 点能量"
                 elseif effect.op == "gainStatus" then
-                    local status = find(ctx.self.run.data.statuses.statuses, effect.status)
+                    local status = find(data.statuses.statuses, effect.status)
                     parts[#parts + 1] = "获得 " .. value .. " 层" .. (status and status.name or effect.status)
                 end
             end
@@ -69,6 +69,8 @@ function M.install(ctx)
         if #parts == 0 then return "" end
         return (triggers[definition.trigger] or "") .. table.concat(parts, "，") .. "。"
     end
+
+    function ctx.self.describeRelic(_,heldRun,id) return ctx.relicText(id,heldRun) end
 
     ctx.skinFaces={}
 
@@ -90,7 +92,7 @@ function M.install(ctx)
             typeNames[definition.type] or "")
             ctx.ink(box:GetChild("name"), Theme.cardSkin.text.title)
             local text=CardDisplay.permanentText(display,definition,instance)
-            CardDisplay.writeBody(box:GetChild("description"),type(text)=='string' and text or '')
+            CardDisplay.writeBody(box:GetChild("description"),type(text)=='string' and text or '',box)
             ctx.ink(box:GetChild("description"), C.text)
         end
         writeCardCopy()

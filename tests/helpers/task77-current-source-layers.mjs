@@ -1,3 +1,4 @@
+import {preMobileQaSource} from './mobile-qa-source-inverse.mjs';
 import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import assert from 'node:assert/strict';
@@ -18,7 +19,7 @@ function inverse(source,binding){
 }
 // Test-only exact complete-identity layers. No runtime values or old goldens change.
 export function preCurrentSource(path,source){
- source=preIntegratedNodeUiSource(path,source.replaceAll('\r\n','\n'));
+ source=preIntegratedNodeUiSource(path,preMobileQaSource(path,source).replaceAll('\r\n','\n'));
  if(approvedUi.files[path]?.afterSha256===hash(source))source=preApprovedUiSource(path,source);
  // Older layers also accept their own complete intermediate witnesses. Apply
  // the newest inverse only to its exact after identity, then let each older

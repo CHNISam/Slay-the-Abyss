@@ -5,6 +5,7 @@ local Run = require("abyss_run")
 local Theme = require("abyss_theme")
 local PotionView = require("abyss_battle_potion_view")
 local UnitView = require("abyss_battle_unit_view")
+local RelicNames = require("abyss_relic_names")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local stanceNames={Neutral="无姿态",Calm="平静",Wrath="愤怒",Divinity="神格"}
@@ -44,8 +45,7 @@ function M.install(owner, _ownership, host, dependencies)
         local run=frame.run
         for i=1,2 do
             local item=frame.listing and run.rewards.relics and run.rewards.relics[i]
-            local definition=item and require('abyss_relic_rewards').definition(run,item.sourceId)
-            local caption=item and ((definition and definition.name or item.sourceId)..(item.unavailable and ' · 尚不可领取' or ''))or '遗物'
+            local caption=item and (RelicNames.get(run.data,item.sourceId)..(item.unavailable and ' · 尚不可领取' or ''))or '遗物'
             dependencies.button('relicReward'..i,owner.active and item and not item.claimed and not item.unavailable or false,false,caption)
         end
     end

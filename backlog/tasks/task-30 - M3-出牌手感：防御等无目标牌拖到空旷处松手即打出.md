@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-28 14:46'
+updated_date: '2026-10-29 01:55'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -27,6 +27,7 @@ references:
   - docs/reviews/TASK-30-source-input-port.md
   - docs/reviews/TASK-30-hand-return-cancel.md
   - docs/backlog-details/MOBILE-QA-20261028.md
+  - docs/evidence/backlog-merge-20261029.json
 priority: medium
 type: enhancement
 ordinal: 36000
@@ -67,6 +68,8 @@ ordinal: 36000
 2026-10-27并发复核：cards独立树按AbstractCard/CardGroup核对位置插值、悬停回位和只读战斗牌堆；保留已修144×64与拖牌状态机。主session接共享入口，定向验证，实机AC保持未完成。
 
 本轮修正原生停靠与手牌取消边界；补先红后绿的按住、松手跟随、快速回拖、跨牌和触摸回归；构建独立候选后等待新键鼠窗口实测。
+
+2026-10-28本轮离线冲刺：先以真实触屏事件复现无效释放进入carry/target；触屏无效释放清理选牌与准星，统一270偏移的金线与判定；保留PC持续选敌及C档点选，补一次提交及跨层旧触点回归。候选由用户自行导入，设备验收不预勾。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -91,4 +94,8 @@ ordinal: 36000
 用户在收到3363576c候选Windows路径后明确反馈本次实测已修复，并要求合并收口。按用户人工验收确认卡牌跳位及回手取消问题；旧触点保护另有同源离线回归。手机实测仍未确认，设备综合条款保持未勾；本轮未由代理占用键鼠。
 
 PR #304 手机实测暴露拖动取消问题，历史验收不代表新问题已修复。
+
+本轮6组触屏释放回归真实RED→GREEN；父线程Node24独立复验新6组及原12组source-input通过，子树旧11组gesture通过。无效手机释放取消、金线与270偏移一致，PC持续选敌保留。新设备AC保持未勾，正在统一打包。
+
+合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 <!-- SECTION:NOTES:END -->

@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { runLua } from '../scripts/test-lua.mjs';
 import { preRetirementSource, retirementSources } from './helpers/presentation-announcement-retirement.mjs';
+import {preMobileQaSource,requireMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 
 const entryPath = 'src/lua/abyss_ui.lua';
@@ -81,9 +82,13 @@ test('competition host projection preserves the original history/interaction wit
   assert.equal(projection.beforeSha256, '37b8c0b4bf1d39c2fca26867d5d90e523f6c6f0d2669bc543bc0d73f9c94995f');
   assert.equal(preRetirementSource(path, source), retirementSources.beforeSources[path]);
   assert.equal(preRetirementSource(path, source.replaceAll('\n', '\r\n')), retirementSources.beforeSources[path]);
+  // The current opening is exercised below; preserve this historical complete
+  // witness through the exact whole-source migration, never field filtering.
+  requireMobileQaSource(path, source);
+  const witness = preMobileQaSource(path, source);
   for (const edit of projection.edits) {
-    assert.equal(source.split(edit.after).length, 2);
-    assert.throws(() => preRetirementSource(path, source.replace(edit.after, edit.before)),
+    assert.equal(witness.split(edit.after).length, 2);
+    assert.throws(() => preRetirementSource(path, witness.replace(edit.after, edit.before)),
       /unreviewed integrated retirement source drift/);
   }
   assert.throws(() => preRetirementSource(path, source + '\n-- unrelated drift\n'));

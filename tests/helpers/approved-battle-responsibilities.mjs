@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {readBeforeMobileQaSource} from './mobile-qa-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const normalize=s=>s.replaceAll('\r\n','\n');
 const bytes=normalize(readFileSync(new URL('../fixtures/battle-ui-approved-responsibility-layer.json',import.meta.url),'utf8'));
@@ -24,6 +25,6 @@ assert.equal(binding.afterSha256,layer.approvedSourceSha256);
 export function tryApprovedBattleRefactorSource(path,value){
  if(path!==root||value===null||hash(normalize(value))!==layer.modules[root])return undefined;
  for(const [file,expected]of Object.entries(layer.modules))
-  assert.equal(hash(normalize(readFileSync(file,'utf8'))),expected,'unreviewed integrated retirement source drift: complete Battle responsibility: '+file);
+  assert.equal(hash(normalize(readBeforeMobileQaSource(file))),expected,'unreviewed integrated retirement source drift: complete Battle responsibility: '+file);
  return source;
 }

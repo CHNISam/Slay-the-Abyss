@@ -475,6 +475,41 @@
       "speed_potion": "#FFFFFF"
     },
     "relic": {
+      "white_beast_statue": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "白兽雕像沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "pear": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "梨沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "mango": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "芒果沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "old_coin": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "古旧钱币沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "frozen_egg": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "冰冻胎石沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "coffee_dripper": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "咖啡滤杯沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
+      "fusion_hammer": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "聚变之锤沿用批准主题宝箱图标；专属美术与设备验收待完成。"
+      },
       "odd_mushroom": {
         "id": 102028,
         "placeholder": true,
@@ -596,6 +631,11 @@
         "id": 100114,
         "placeholder": true,
         "note": "Reuse the approved event glyph for the opening boon; dedicated relic artwork and native acceptance remain pending."
+      },
+      "sacred_bark": {
+        "id": 102028,
+        "placeholder": true,
+        "note": "神圣树皮沿用批准主题宝箱图标；专属美术及设备验收待完成。"
       }
     },
     "cardPortraits": {
@@ -806,6 +846,11 @@
           16
         ]
       },
+      "longTextBox": [
+        132,
+        116
+      ],
+      "longTextArt": 32,
       "title": {
         "position": [
           0,
@@ -888,7 +933,7 @@
       "rim": 2,
       "faceInset": 6,
       "elementInset": 10,
-      "numberSize": 29.333333333333332,
+      "numberSize": 29,
       "shadowOffset": [
         0,
         -1.3333333333333333
@@ -1020,7 +1065,7 @@
       "valueWidth": 64,
       "note": "攻击只写数字（含力量/虚弱/易伤修正，多段写 9×2）；其余意图在同一位置写两字类型名（防御/强化/削弱/蓄能…），颜色同图标，不写层数，避免与身上状态混淆。",
       "portraitGap": 10.666666666666666,
-      "numberSize": 14.666666666666666
+      "numberSize": 15
     },
     "map": {
       "floorGap": 76,
@@ -1094,6 +1139,24 @@
         "nextOpacity": 0.7,
         "fogOpacity": 0.35,
         "noticeHeight": 40,
+        "typeLegend": {
+          "position": [
+            528,
+            -140
+          ],
+          "size": [
+            144,
+            360
+          ],
+          "titleY": 156,
+          "firstY": 112,
+          "rowGap": 44,
+          "iconX": -56,
+          "iconSize": 24,
+          "labelX": 16,
+          "labelWidth": 104,
+          "textHeight": 40
+        },
         "header": {
           "shade": [
             0,
@@ -1130,6 +1193,12 @@
       ]
     },
     "deckView": {
+      "relicEntry": [
+        352,
+        316,
+        88,
+        48
+      ],
       "entry": [
         512,
         316,

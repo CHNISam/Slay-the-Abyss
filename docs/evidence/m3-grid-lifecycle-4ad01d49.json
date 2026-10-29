@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "4ad01d49082edbcd8c7c2e3b85f5246595479391",
+  "sourceDirty": false,
+  "buildId": "f6106f02-fcca-43fc-b61c-aebcf077a921",
+  "path": "F:/New folder/.artifacts/M3卡组遗物修复-4ad01d49.gil",
+  "bytes": 9429786,
+  "sha256": "ff2a667d94404a122e1adfbae656da81e77aff046fcc88e24cb0cdbdbf667423",
+  "moduleCount": 226,
+  "byteIdentical": 226,
+  "nativeStatic": {
+    "errors": 0,
+    "warnings": 103,
+    "warningReview": "not_run"
+  },
+  "uiControls": 8454,
+  "maxChildren": 60,
+  "regressionTests": {
+    "relatedNodeTests": 10,
+    "failed": 0,
+    "skipped": 0,
+    "oldDeckGroups": 6,
+    "oldPileGroups": 4
+  },
+  "negativeControl": "removed alive guard reproduces invalid GetChild and is required by native contract gate",
+  "officialImport": "NOT_TESTED",
+  "ready": "NOT_TESTED",
+  "devicePlaytest": "NOT_TESTED",
+  "old066Candidate": "FAILED_USER_REPORTED",
+  "milestone3": "INCOMPLETE",
+  "liveWriteEnabled": false
+}

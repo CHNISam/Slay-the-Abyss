@@ -176,8 +176,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.completedFooter(view)
         elseif screen == "shopView" then
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.shopFooter()
-        elseif screen == "campView" and recallSource then
-            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.recallFooter(recallSource, confirm)
+        elseif screen == "campView" then
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.campFooter(node,recallSource,confirm)
         elseif screen == "treasureView" and treasureSource then
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.treasureFooter(treasureSource, confirm)
         elseif screen == "pickerView" then

@@ -1,3 +1,4 @@
+import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync} from 'node:fs';
@@ -9,7 +10,7 @@ import {nodeUiRefactor} from './helpers/node-ui-refactor-inverse.mjs';
 import {approvedUi,preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import {p0Presentation,materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>readBeforeMobileQaSource(p).replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const root='src/lua/abyss_node_ui.lua',face='src/lua/abyss_node_ui_faces.lua';
 const paths=Object.keys(nodeUiRefactor.afterSha256);

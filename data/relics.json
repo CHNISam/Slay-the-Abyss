@@ -1,5 +1,13 @@
 {
   "relics": [
+    {"id":"sacred_bark","sourceId":"SacredBark","name":"神圣树皮","description":"药水的有效数值翻倍，包括已持有的药水。不会增加熵之酿的生成次数、烟雾弹的逃离次数，也不会重复全手升级、弃抽、消耗或姿态转换；选牌药水仍为三选一，选中牌获得2份。","rarity":"boss","trigger":"hooks","effects":[]},
+    {"id":"white_beast_statue","sourceId":"White Beast Statue","name":"白兽雕像","description":"战斗后的药水掉落几率变为100%；房间已有4项奖励时仍不会生成药水。","rarity":"uncommon","trigger":"hooks","effects":[]},
+    {"id":"pear","sourceId":"Pear","name":"梨","description":"取得时增加10点生命上限，并按治疗规则回复10点生命。","rarity":"uncommon","trigger":"hooks","effects":[]},
+    {"id":"mango","sourceId":"Mango","name":"芒果","description":"取得时增加14点生命上限，并按治疗规则回复14点生命。","rarity":"rare","trigger":"hooks","effects":[]},
+    {"id":"old_coin","sourceId":"Old Coin","name":"古旧钱币","description":"取得时获得300金币。禁止获得金币的效果仍会生效。","rarity":"rare","trigger":"hooks","effects":[]},
+    {"id":"frozen_egg","sourceId":"Frozen Egg 2","name":"冰冻胎石","description":"每当你获得一张能力牌时，将其升级。","rarity":"uncommon","trigger":"hooks","effects":[]},
+    {"id":"coffee_dripper","sourceId":"Coffee Dripper","name":"咖啡滤杯","description":"每回合开始时额外获得1点能量。无法在营地休息。","rarity":"boss","trigger":"turn_start","effects":[{"op":"energy","value":1}]},
+    {"id":"fusion_hammer","sourceId":"Fusion Hammer","name":"聚变之锤","description":"每回合开始时额外获得1点能量。无法在营地升级卡牌；其他来源的升级仍有效。","rarity":"boss","trigger":"turn_start","effects":[{"op":"energy","value":1}]},
     {
       "id": "mark_of_bloom",
       "sourceId": "Mark of the Bloom",
@@ -437,7 +445,7 @@
     {
       "id": "darkstone_periapt",
       "sourceId": "Darkstone Periapt",
-      "name": "Darkstone Periapt",
+      "name": "黑石护符",
       "description": "每当一张诅咒牌实际加入永久牌组，最大生命增加6，并按治疗规则回复6生命。",
       "rarity": "uncommon",
       "trigger": "hooks",

@@ -6,6 +6,19 @@
   "status": "scope-baseline-awaiting-per-item-acceptance",
   "updated": "2026-10-28",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
+  "runtimeAdmission": {
+    "enforcedBy": "src/lua/abyss_character_select.lua#M.allowed",
+    "alphaCharacters": ["ironclad"],
+    "productionCharacters": ["ironclad"],
+    "developmentCharacters": ["ironclad", "silent", "defect", "watcher", "hutao", "arlecchino", "furina", "raiden"],
+    "acts": [1, 2],
+    "authorization": {
+      "kind": "user-confirmation",
+      "recordedOn": "2026-10-29",
+      "statement": "用户确认岩系旅行者两幕自然通关，明确授权普通玩家进入游玩；雷电将军延至下版本。",
+      "boundary": "Runtime admission approval; this does not fabricate per-item, device, screenshot, or platform-log evidence."
+    }
+  },
   "knownBlockers": [
     {
       "ids": [
@@ -3874,6 +3887,14 @@
     }
   ],
   "relics": [
+    {"id":"sacred_bark","sourceId":"SacredBark","source":"data/relics.json#sacred_bark","profile":"relics","rarity":"boss","channels":["boss_treasure:floor17"],"naturalAcquisitionLimitation":"Complete Boss queue identity retained. Source seed15 has SacredBark as its second Boss offer; controlled Boss completion and public claim are not a natural full-route or platform certificate.","naturalExecutionLimitation":"Source potion potency doubles once, including existing inventory and automatic Fairy; fixed mechanisms are not repeated. Boss17-to-Act2 effect coverage is local; natural/platform/live, dedicated art and complete inventory acceptance remain pending."},
+    {"id":"white_beast_statue","sourceId":"White Beast Statue","source":"data/relics.json#white_beast_statue","profile":"relics","rarity":"uncommon","channels":["treasure","shop_relic"],"naturalAcquisitionLimitation":"Complete source queues retain exact identity. Controlled channel/effect regressions do not certify natural acquisition or platform/live acceptance."},
+    {"id":"pear","sourceId":"Pear","source":"data/relics.json#pear","profile":"relics","rarity":"uncommon","channels":["treasure","shop_relic"],"naturalAcquisitionLimitation":"Exact source queue identity; natural acquisition, dedicated art and platform/live acceptance pending."},
+    {"id":"mango","sourceId":"Mango","source":"data/relics.json#mango","profile":"relics","rarity":"rare","channels":["treasure","shop_relic"],"naturalAcquisitionLimitation":"Exact source queue identity; natural acquisition, dedicated art and platform/live acceptance pending."},
+    {"id":"old_coin","sourceId":"Old Coin","source":"data/relics.json#old_coin","profile":"relics","rarity":"rare","channels":["treasure","shop_relic"],"naturalAcquisitionLimitation":"Source canSpawn excludes shops and floor49+, without rerolling unsupported effects. Natural acquisition, art and platform/live acceptance pending."},
+    {"id":"frozen_egg","sourceId":"Frozen Egg 2","source":"data/relics.json#frozen_egg","profile":"relics","rarity":"uncommon","channels":["treasure","shop_relic"],"naturalAcquisitionLimitation":"Exact source queue and floor48 gate. Obtained power cards upgrade once; dedicated art and natural/platform/live acceptance pending."},
+    {"id":"coffee_dripper","sourceId":"Coffee Dripper","source":"data/relics.json#coffee_dripper","profile":"relics","rarity":"boss","channels":["boss_treasure:floor17"],"naturalAcquisitionLimitation":"Complete boss source queue identity preserved; natural acquisition and platform/live acceptance pending.","naturalExecutionLimitation":"Prepared energy +1 and camp rest prohibition locally covered. Subsequent-act natural execution, dedicated art and device acceptance pending."},
+    {"id":"fusion_hammer","sourceId":"Fusion Hammer","source":"data/relics.json#fusion_hammer","profile":"relics","rarity":"boss","channels":["boss_treasure:floor17"],"naturalAcquisitionLimitation":"Complete boss source queue identity preserved; natural acquisition and platform/live acceptance pending.","naturalExecutionLimitation":"Prepared energy +1 and camp smith prohibition locally covered. Noncamp upgrade remains legal. Subsequent-act natural execution, art and device acceptance pending."},
     {
       "id": "lizard_tail",
       "sourceId": "Lizard Tail",
@@ -5329,18 +5350,13 @@
   "requiredScope": {
     "milestone": "M3",
     "characters": [
-      "ironclad",
-      "silent",
-      "defect",
-      "watcher"
+      "ironclad"
     ],
     "acts": [
       1,
-      2,
-      3,
-      4
+      2
     ],
-    "scopeDecision": "2026-10-26 user explicitly includes Acts2/3/hidden4 in M3",
+    "scopeDecision": "2026-10-29 user approves Geo Traveler only for this two-act release; Raiden deferred",
     "implementationLedger": "data/release/m3-campaign.json",
     "status": "not-accepted"
   },

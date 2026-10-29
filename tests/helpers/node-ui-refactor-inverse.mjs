@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync}from'node:fs';
 import {createHash}from'node:crypto';
 import {gunzipSync}from'node:zlib';
+import {readBeforeMobileQaSource} from './mobile-qa-source-inverse.mjs';
 const digest=value=>createHash('sha256').update(value).digest('hex');
 const normalize=value=>value.replaceAll('\r\n','\n');
 const bytes=readFileSync('docs/reviews/node-ui-refactor-sources-20261029.json.gz');
@@ -13,7 +14,7 @@ export function preNodeUiRefactorSource(path,source,overrides={}){
  if(path!=='src/lua/abyss_node_ui.lua')return source;
  if(digest(normalize(source))===nodeUiRefactor.beforeSha256)return normalize(source);
  for(const [file,expected]of Object.entries(nodeUiRefactor.afterSha256)){
-  const current=file===path?source:Object.hasOwn(overrides,file)?overrides[file]:readFileSync(file,'utf8');
+  const current=file===path?source:Object.hasOwn(overrides,file)?overrides[file]:readBeforeMobileQaSource(file);
   assert.equal(digest(normalize(current)),expected,'unreviewed integrated presentation source drift; unreviewed integrated retirement source drift; unreviewed Node UI refactor source drift: '+file);
  }
  return nodeUiRefactor.beforeSource;

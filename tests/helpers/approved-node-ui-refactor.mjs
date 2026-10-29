@@ -1,4 +1,5 @@
 import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
+import {preMobileQaSource,readBeforeMobileQaSource} from './mobile-qa-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -48,6 +49,7 @@ function beforeApprovedFace(source){
 // The old 58-source and PR310 archives remain immutable. Only the three known
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
+ source=preMobileQaSource(path,source);
  source=preCoreArchitectureSource(path,source);
  source=preBattleRefactorLayer(path,source);
  source=prePostNodeSource(path,source);
@@ -62,6 +64,6 @@ export function preIntegratedNodeUiSource(path,source,overrides={}){
  }
  if([nodeUiRefactor.beforeSha256,approvedNodeFace.approvedMonolithSha256].includes(hash(source)))return source;
  if(!Object.hasOwn(projected,approvedNodeFace.path))
-  projected[approvedNodeFace.path]=beforeApprovedFace(readFileSync(approvedNodeFace.path,'utf8'));
+  projected[approvedNodeFace.path]=beforeApprovedFace(readBeforeMobileQaSource(approvedNodeFace.path));
  return preNodeUiRefactorSource(path,source,projected);
 }

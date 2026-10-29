@@ -69,16 +69,20 @@ function M.applySlow(api,state,effect)
 end
 -- Slow and Vulnerable are equal-priority atDamageReceive Powers. Stable
 -- acquisition order matters at binary32 boundaries; floor only after finals.
-function M.receive(state,target,amount)
+function M.receive(state,target,amount,trace)
  local seen={}
  amount=f32(amount)
  for _,id in ipairs(target.powerOrder or {})do
   if id=='slow'and rawget(target.statuses,id)~=nil then
    local n=target.statuses[id]
    assert(type(n)=='number'and n%1==0 and n>=0 and n<=2147483647,'invalid Slow amount')
-   amount=f32(amount*f32(1+f32(f32(n)*f32(.1))));seen.slow=true
+   local multiplier=f32(1+f32(f32(n)*f32(.1)))
+   amount=f32(amount*multiplier);seen.slow=true
+   if trace then trace[#trace+1]={kind='slow',value=amount,operand=multiplier} end
   elseif id=='vulnerable'and (target.statuses[id]or 0)>0 then
-   amount=f32(amount*f32(state.rules.combat.vulnerablePercent/100));seen.vulnerable=true
+   local multiplier=f32(state.rules.combat.vulnerablePercent/100)
+   amount=f32(amount*multiplier);seen.vulnerable=true
+   if trace then trace[#trace+1]={kind='vulnerable',value=amount,operand=multiplier} end
   end
  end
  assert(seen.slow,'missing Slow acquisition history')

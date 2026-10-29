@@ -8,7 +8,16 @@ local supported = { classPotion=true, silentGhost=true, silentShivs=true, genera
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
     gainStatus = true, applyStatus = true, gainTemporaryStrength = true, gainTemporaryDexterity = true }
 local maximum = 2147483647
-local bossRelics = { black_blood = true, slavers_collar = true, sozu = true }
+local bossRelics = { black_blood = true, slavers_collar = true, sozu = true, coffee_dripper=true, fusion_hammer=true, sacred_bark=true }
+
+-- AbstractPotion.getPotency doubles values, not the number of use() calls.
+-- Entropic uses total slots directly; escape and cost randomisation are fixed.
+local fixedPotionEffects={escape=true,generatePotions=true,randomizeHandCost=true}
+function M.potionValue(owner,effect)
+    local value=effect.value
+    if value and not fixedPotionEffects[effect.op] and RelicHooks.owns(owner or {},'sacred_bark') then return value*2.0 end
+    return value
+end
 
 function M.bossEligible(relic, owned)
     if relic.rarity ~= "boss" or not bossRelics[relic.id] then return false end
@@ -29,7 +38,7 @@ function M.energyBonus(definitions, owned, tier)
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
         if not relic then return nil, "unknown_relic" end
         if relic.trigger == "turn_start" then
-            if id ~= "sozu" and id ~= "slavers_collar" then return nil, "unsupported_turn_relic:" .. id end
+            if id ~= "sozu" and id ~= "slavers_collar" and id~='coffee_dripper' and id~='fusion_hammer' then return nil, "unsupported_turn_relic:" .. id end
             local eligible = not relic.encounterTiers
             for _, allowed in ipairs(relic.encounterTiers or {}) do if tier == allowed then eligible = true end end
             if eligible then

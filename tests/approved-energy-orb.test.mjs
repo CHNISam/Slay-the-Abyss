@@ -27,7 +27,7 @@ test('energy uses the official element picture and centered white digits with sa
  assert.equal(core.image,theme.icon.energy.id,'later README requires official element material');
  assert.equal(icon.children.some(c=>c.image===theme.image.diamond),false,'no replacement invented crystal geometry');
  assert.equal(number.text.colour,'#FFF8EC');
- near(number.text.fontSize,44/1.5,'source font scale');
+ near(number.text.fontSize,Math.round(44/1.5),'nearest importable integer to source font scale');
  assert.equal(number.text.align,'centre');
  assert.equal(number.text.valign,'middle');
  const shadow=icon.children.find(c=>c.name==='valueShadow');

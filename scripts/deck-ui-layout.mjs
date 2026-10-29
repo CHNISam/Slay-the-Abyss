@@ -62,6 +62,9 @@ export function deckControls(theme = nativeTheme) {
       text('count', visual.count, '', f.label, state.name === 'normal' ? c.text : colours.ink), label];
   }
   return [
+    { name: 'relicEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+      button('open', l.deckView.relicEntry, '遗物'),
+    ] },
     { name: 'deckEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
       entry,
     ] },
