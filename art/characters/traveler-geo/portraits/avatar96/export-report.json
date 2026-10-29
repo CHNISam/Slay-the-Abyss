@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "kind": "avatar96",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "route": "verified cached upstream import_scene(JSON) -> export_json/export_lua/export_png -> literal read_drawing",
+  "cacheRoot": "/workspace/scratch/c1a4970a76e0/starfall-offline-export",
+  "cachePins": {
+    "export_candidate.py": "7744aca5c0b096d54d2927df6c2fbb9d86d4bc06d36cb80887c6574ac050879a",
+    "upstream-source-manifest.json": "2cc653f17437dd28090d99b44bcfe7c700d330696082d709880a14991d0de795"
+  },
+  "upstreamFiles": [
+    {
+      "path": "backend/app/main.py",
+      "git_blob_sha": "50ac8de6ab4f39ab3eb9345fc71db9cd17c4bdaf",
+      "sha256": "74212a0c819cd28ece0f538225147fa2a035a1dee39ea2e08c1206947ee4681a"
+    },
+    {
+      "path": "LICENSE",
+      "git_blob_sha": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "backend/app/__init__.py",
+      "git_blob_sha": "11b604a7dba0d449274cff35e6caf86c24ce6953",
+      "sha256": "7fd01ff428a4b30a968026e7b10e5803eca0f76dcae7c45043f09b40d5050ebe"
+    },
+    {
+      "path": "backend/app/image_library.py",
+      "git_blob_sha": "7788c1ff844bb45c2d8ce542b9209a9925ac752a",
+      "sha256": "319df35046624e2030567a380b533a1438fc1ba1f49021ea8a050df8c6a30641"
+    },
+    {
+      "path": "backend/app/image_stretch.py",
+      "git_blob_sha": "70df10b7a32cb9a09d27d23793a057373c5a50ed",
+      "sha256": "902074a49f1a08c8a940c7226052cafe938b73d0039fa46468cba9eeea2eae2f"
+    },
+    {
+      "path": "backend/app/lua_mask.py",
+      "git_blob_sha": "5ee05e467c22f61698e7f8d91d1d17816f41a286",
+      "sha256": "316094833bc6a9bd195a80180c0fcd5e890ec8bcfe04c4a8dad8a53e59fa7744"
+    },
+    {
+      "path": "backend/app/lua_scene.py",
+      "git_blob_sha": "287ca0082cad8fbbcf58b3917b37b3eee6022942",
+      "sha256": "769ba3cc306cbbd7e4e2e1728d08df13eaa3b5ec49d429c42ab3b9938563b60c"
+    },
+    {
+      "path": "backend/app/prefab_library.py",
+      "git_blob_sha": "432d4f05a83bf34c092050fcedc02f3d744802bc",
+      "sha256": "8f44c337d4846dede460b834dc3b7a28ee82243e296d5c35fc3f854e1fc5716f"
+    },
+    {
+      "path": "backend/app/rotation.py",
+      "git_blob_sha": "fa29059d257175d0134f076b7654098ffed2fc14",
+      "sha256": "c4180ddadee067056c962148ef71db3e14861269205933f600c6d03c19cdfad2"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "git_blob_sha": "888af14cb5548475ffdb6f7801065ef4a80f4f75",
+      "sha256": "c541d0e8791a3bebd06868818633fb369e9a53deea26ce3405ba153c3aba7f7d"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/LICENSE",
+      "git_blob_sha": "e5aeef55373ae80203962fa57862db5342eb9f35",
+      "sha256": "b5f34362abd2e8c31b7a7bc62c2977f158faa4cd78b17ef7c197fb464e56a6ef"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/PROVENANCE.md",
+      "git_blob_sha": "104d66fa33808953bb9bc9ecbf2f08f3bca5a2a4",
+      "sha256": "b8f19a050d918a9a72c012c0103ceeb7b70ecc00366285feabfab6aaf4103c38"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/__init__.py",
+      "git_blob_sha": "e4bdd373dbc2909712cdc17e60ae25096e6e6e7d",
+      "sha256": "50fb0f9eacc5ff01af973f2006376d5ad7f7237f932726a76a2aa2453f2353a0"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/gia_lua.py",
+      "git_blob_sha": "efb132c66a24af0ffae68e037840c02e1c36fd83",
+      "sha256": "f6ea8a6cbafad620c9365786758f9c4ee976ede16a3b2582a5fd0cd0686922f4"
+    },
+    {
+      "path": "backend/vendor/primitive_shape/lua_export.py",
+      "git_blob_sha": "9c16c6d9aa0333fb64a0f4877e8a8acf2d867550",
+      "sha256": "306c77912accc2b83b38ef3ad594f694816e8f84d6b36a13e56bc536e95b7afc"
+    },
+    {
+      "path": "backend/vendor/gia/json_to_gia.py",
+      "git_blob_sha": "a8f5bbbbc74ec68493827cd06190bbe0599c7920",
+      "sha256": "929fb37a82eb49049dc939cfc916656065a8a7f7391aef0b4d95d3b3d6623f61"
+    },
+    {
+      "path": "backend/vendor/gia/image_template.gia",
+      "git_blob_sha": "e6e71987343e3c668a6f85ad694da1ffd460658e",
+      "sha256": "212633c935566155ede68d5b9b4bb9feec1b5d98152c3646d91b5bad6f9fede3"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/editable.scene.json",
+      "bytes": 1377800,
+      "sha256": "1958b2faabfb4737a85216d09edc816a316f33f446897ca6a06fd349b932c077"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/source.png",
+      "bytes": 1517359,
+      "sha256": "6b32c5e192d699c20808c3c697640275ac4b42953d6904eb51b005d8ce66a788"
+    }
+  ],
+  "sourceDimensions": [
+    1254,
+    1254
+  ],
+  "sourceCropLTRB": [
+    0.0,
+    0.0,
+    1254.0,
+    1254.0
+  ],
+  "sourcePixelToGeometryEquivalence": "not asserted; visual benchmark requires review",
+  "canvas": [
+    96.0,
+    96.0
+  ],
+  "sourceSceneBoundsLTRB": [
+    2.0,
+    2.0,
+    94.0,
+    95.0
+  ],
+  "drawingBoundsLTRB": [
+    2.0,
+    2.0,
+    94.0,
+    95.0
+  ],
+  "localCanvasBounds": [
+    -48.0,
+    -48.0,
+    48.0,
+    48.0
+  ],
+  "counts": {
+    "contentImages": 4822,
+    "contentTexts": 0,
+    "extraMasks": 0,
+    "dynamicContentInstances": 4822,
+    "requiredDedicatedHostInstances": 1,
+    "requiredImageTemplateDefinitions": 1,
+    "templateIndex": "unbound"
+  },
+  "outputs": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.json",
+      "bytes": 2658277,
+      "sha256": "93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/native-art.lua",
+      "bytes": 2794055,
+      "sha256": "ca442b6467c79a6a8d8662f31aeca52060a24f817c47763a180953feef98f0ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-native-1x.png",
+      "bytes": 17710,
+      "sha256": "d96f7f81c436971a5d7aa78740b580a7bb237d5ac2962e51f5532dbb51f9eb80"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/runtime-no-snapshot.lua",
+      "bytes": 395396,
+      "sha256": "c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/preview-native-4x.png",
+      "bytes": 25235,
+      "sha256": "439ead18c007b91cf872dac2fae0f0b625b831d82d7f2dda5552cbcb244be836"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/literal-drawing.json",
+      "bytes": 1024083,
+      "sha256": "866ae50e34cab9e0e3a69e7944c874ba0583dc1f27906c7a497e38087726f0ae"
+    }
+  ],
+  "licenseFiles": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/LICENSE-editor-GPL-3.0.txt",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/LICENSE-runtime-MIT.txt",
+      "bytes": 1061,
+      "sha256": "b5f34362abd2e8c31b7a7bc62c2977f158faa4cd78b17ef7c197fb464e56a6ef"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/PROVENANCE-runtime.md",
+      "bytes": 747,
+      "sha256": "b8f19a050d918a9a72c012c0103ceeb7b70ecc00366285feabfab6aaf4103c38"
+    }
+  ],
+  "checks": {
+    "deterministicTwice": true,
+    "canonicalJsonRoundtrip": true,
+    "literalGeometryRGBAOrder": true,
+    "metadataIndependent": true,
+    "sourceBounds": true,
+    "externalAttempts": [],
+    "runtimeNoSnapshotDrawingEquivalent": true,
+    "runtimeNoSnapshotExactCodeDataPrefix": true,
+    "literalAlphaMatchesAuthoredDraft": true,
+    "allAndOnlyNonzeroAlphaCellsIncluded": true,
+    "canonicalPNGAlphaEqualsAuthoredDraft": false,
+    "runtimeEndsWithExactlyOneLF": true
+  },
+  "editorSnapshotBytes": {
+    "canonicalLua": 2794055,
+    "runtimeNoSnapshotLua": 395396,
+    "commentBytesRemoved": 2398658,
+    "trailingBlankLFBytesRemoved": 1,
+    "totalRawBytesRemoved": 2398659,
+    "scope": "raw Lua comment bytes only; not measured GIL/upload savings"
+  },
+  "preview4x": "nearest-neighbour enlargement of canonical 1x PNG, not native/device rendering",
+  "python": "3.12.14",
+  "dependencies": {
+    "fastapi": "0.141.1",
+    "starlette": "1.6.0",
+    "pydantic": "2.13.4",
+    "pillow": "11.3.0"
+  },
+  "visualAcceptance": "not_approved",
+  "lifecycleVM": "pass; vm-report.json is mock/API evidence only",
+  "nativeB0B1": "not_run",
+  "officialCompile": "not_run",
+  "officialImport": "not_run",
+  "nativeRuntime": "not_run",
+  "uploadIncrementBytes": null,
+  "platformArchiveSize": null,
+  "performance": "not_measured",
+  "limits": [
+    "PNG/Lua/source bytes are not upload/GIL bytes or a 20MB safety guarantee.",
+    "No UI integration, new native exporter, random fitting, native input or publishing.",
+    "Canonical PNG alpha differs from the authored half-open region draft: 6284 pixels, 500 zero-alpha cells became nonzero. Upstream closed-edge preview blending is not fixed or treated as native rendering evidence.",
+    "Constructor portrait is117.333, render-time UnitView resizes it to133.333; final dedicated host/scale remains with UI owner, not a fixed0.8822 prescription."
+  ],
+  "licenses": {
+    "editor": "GPL-3.0; upstream/LICENSE",
+    "emittedPrimitiveRuntime": "MIT; upstream/backend/vendor/primitive_shape/LICENSE",
+    "projectLicenseReferences": [
+      "art/processed/ai-samples/licenses/",
+      "art/spikes/card-editor/licenses/"
+    ]
+  },
+  "lifecycleReceipt": {
+    "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/vm-report.json",
+    "bytes": 1865,
+    "sha256": "0b1878e90c9c3cbdddafa00c4ffc536ff37aca4d9d9c6c420162652ae07dd313"
+  },
+  "alphaVerification": {
+    "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/avatar96/alpha-verification.json",
+    "bytes": 5248,
+    "sha256": "7ea0103e3540c77bb7a4ffb70028ebc7af4f61fffabdf919010dd8b7e1323039"
+  },
+  "alphaStatus": "literal_RGBA_preserved; canonical_PNG_alpha_mismatch (failed check retained)",
+  "purposeVersion": 2,
+  "visualOwnerApproval": "pending for these exact new source images; purpose confirmed separately",
+  "productionEnabled": false,
+  "costAssessment": "4822 content image instances plus dedicated host; native cost not measured, not approved for production",
+  "firstPlatformB0B1Selection": "avatar96 only; not_run",
+  "finalAdapterFiles": [
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/adapter/export_portrait.py",
+      "bytes": 16334,
+      "sha256": "e74dd5c1c9c1d0470ed951c67c13baefbfffbb0f093f672142ee9b6e47b7ab66"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/adapter/check_lifecycle.cjs",
+      "bytes": 8449,
+      "sha256": "0f3b75283d4f85d6aebe5d100a52ead157cd7765ff45ccc25d87d279f34a9a90"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/adapter/verify_alpha.py",
+      "bytes": 6648,
+      "sha256": "d29c72da90d5f792e9c8c660ea22b85a654120150d7fafdee6743c85be8de24c"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/adapter/test_adapter.py",
+      "bytes": 7412,
+      "sha256": "826e235c280b71a7034c403f0f9075aa5f292177c318803f19eea4fdaa246131"
+    },
+    {
+      "path": "/workspace/scratch/c1a4970a76e0/lumine-portrait-native-20261029/art/characters/traveler-geo/portraits/adapter/README.md",
+      "bytes": 5840,
+      "sha256": "78dc8f938723a847a8b06e2c3d2e8b7de1e6b119b931e934840239e065f5d3ed"
+    }
+  ],
+  "postExportInterpretationCorrection": {
+    "atUTC": "2026-10-29T14:52:00Z",
+    "reason": "Independent dynamic-render review corrected the earlier constructor-only geometry assumption. No source image, scene, native export, literal or VM result changed.",
+    "previousLimits": [
+      "PNG/Lua/source bytes are not upload/GIL bytes or a 20MB safety guarantee.",
+      "96 has no wired UI slot; existing 133.333 battle plate has only 117.333 drawable area.",
+      "No UI integration, new native exporter, random fitting, native input or publishing.",
+      "Canonical PNG alpha differs from the authored half-open region draft: 6284 pixels, 500 zero-alpha cells became nonzero. Upstream closed-edge preview blending is not fixed or treated as native rendering evidence."
+    ]
+  }
+}

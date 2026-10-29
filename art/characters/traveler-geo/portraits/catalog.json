@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "implementationBaseline": "a5da67aaaf018bfd6d92e32af5c7bcd9a0866a59",
+  "runtimeStatus": "unbound",
+  "mapping": [
+    {
+      "characterId": "traveler",
+      "elementProfile": "ironclad",
+      "avatar": "avatar96/asset.json",
+      "battle": "battle133/asset.json",
+      "battlePurpose": "transparent full-body figure",
+      "largeIllustrationOwner": "Dot A",
+      "largeIllustrationFinalHash": null
+    }
+  ],
+  "ui": {
+    "modified": false,
+    "owner": "Grok",
+    "battleCanvas": 133,
+    "selectionAvatarTarget": 96,
+    "baselineSelectionButton": [
+      128,
+      56
+    ],
+    "baselineHasAvatarChild": false,
+    "candidate338SelectorKey": "dot-a.select.bust.traveler.ironclad",
+    "legacyKeyDoesNotDefineOwnership": true,
+    "battleKey": "dot-b.battle.traveler",
+    "binding": "Dedicated native-Lua host and real per-save templateIndex; NOT a new image-library ID",
+    "handoff": "https://github.com/CHNISam/Slay-the-Abyss/pull/338#issuecomment-6498346879",
+    "currentBaseGeometryVerifiedUnchanged": true,
+    "constructorPortraitSize": 117.33333333333334,
+    "renderTimePortraitSize": 133.33333333333334,
+    "recommendedProductionScale": null,
+    "displayedComparisonSize": 117,
+    "geometryEvidence": [
+      "scripts/ui-layout.mjs:50",
+      "src/lua/abyss_battle_unit_view.lua:38-43",
+      "src/lua/abyss_battle_render_hud.lua:183",
+      "tests/lua/approved_main_unit.lua:21"
+    ],
+    "bindingDecision": "UI owner must account for dynamic portrait resize and final dedicated host; no fixed production scale approved"
+  },
+  "batch": {
+    "rule": "docs/art/CARD_ILLUSTRATION_STANDARD.md#6",
+    "mode": "two correction benchmarks after purpose-standard confirmation",
+    "count": 2,
+    "sourceDesignEndorsement": "2026-10-29 14:20 UTC",
+    "nativeApproved": 0,
+    "ordinaryB": 4,
+    "stableBatches": 0,
+    "firstPassRate": null,
+    "firstPlatformB0B1": "avatar96 only, one host, not_run",
+    "expand": false
+  },
+  "superseded": {
+    "version": "V1 square busts",
+    "status": "not approved for purpose; preserved separately, not reused or retroactively approved"
+  },
+  "verifiedDevelopBase": "899f02d4f24790bf1ee813e30b27363113f72d95"
+}
