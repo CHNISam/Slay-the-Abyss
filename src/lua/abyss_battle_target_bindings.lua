@@ -64,7 +64,7 @@ function M.install(owner, ownership, host, dependencies)
                     input.held, input.released = nil, nil
                     if not dependencies.enemyReady(released) then return end
                 end
-                if not owner.suppressClick and not owner.gesture then return chooseEnemy() end
+                if not dependencies.consumeReleasedDragClick(event) and not owner.suppressClick and not owner.gesture then return chooseEnemy() end
             end)
             if owner.dragEnabled then
                 control:AddCursorEventListener(host.cursor.CursorDown, function(event)

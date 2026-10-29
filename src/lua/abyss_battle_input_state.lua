@@ -147,13 +147,25 @@ function M.install(owner, ownership, host, _dependencies)
         if input.held and input.held.touch == touch then input.held = nil end
         if input.released and input.released.touch == touch then input.released = nil end
     end
+    -- Click-only controls must not inherit the latest completed drag's named
+    -- touch, even after an independent action. A fresh Down retires that origin.
+    -- Anonymous origins consume one ambiguous Click without a permanent lock.
+    local function consumeReleasedDragClick(event)
+        if not owner.active or owner.busy or owner.gesture then return false end
+        local touch = event and event.touchId
+        if touch ~= nil and touch == ownership.releasedDragTouch then return true end
+        local g = owner.suppressClick
+        if type(g) ~= 'table' then return false end
+        owner.suppressClick = nil
+        return g.touch == touch
+    end
     return {
         child=child, show=show, label=label, colour=colour, tint=tint,
         ink=ink, picture=picture, notice=notice, rewardScreen=rewardScreen, dragReady=dragReady,
         rewardReady=rewardReady, cardReady=cardReady, cancelCardInputs=cancelCardInputs, potionReady=potionReady, cancelPotionInputs=cancelPotionInputs,
         cancelPotionAim=cancelPotionAim, aimReady=aimReady, actionContextReady=actionContextReady, playAreaReady=playAreaReady, rewardListActionReady=rewardListActionReady,
         rewardActionReady=rewardActionReady, actionReady=actionReady, cancelActionInputs=cancelActionInputs, enemyAt=enemyAt, sameEnemySlot=sameEnemySlot,
-        enemyReady=enemyReady, discardEnemyPointer=discardEnemyPointer
+        enemyReady=enemyReady, discardEnemyPointer=discardEnemyPointer, consumeReleasedDragClick=consumeReleasedDragClick
     }
 end
 return M

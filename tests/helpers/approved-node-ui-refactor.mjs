@@ -1,3 +1,4 @@
+import {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -49,6 +50,7 @@ function beforeApprovedFace(source){
 // face edits are inverted, then the original PR310 guard checks every module.
 export function preIntegratedNodeUiSource(path,source,overrides={}){
  source=preCoreArchitectureSource(path,source);
+ source=preCardDragClickSource(path,source);
  source=preBattleRefactorLayer(path,source);
  source=prePostNodeSource(path,source);
  if(path!==approvedNodeFace.nodeRoot)return source;

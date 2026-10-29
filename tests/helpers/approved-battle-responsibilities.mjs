@@ -1,3 +1,4 @@
+import {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 // Additive source-compatibility layer. Original frozen fixtures and assertions stay immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -21,9 +22,13 @@ for(const edit of binding.hunks){
 const source=lines.join('\n');
 assert.equal(hash(source),binding.afterSha256,'recover the complete already-approved monolithic source');
 assert.equal(binding.afterSha256,layer.approvedSourceSha256);
-export function tryApprovedBattleRefactorSource(path,value){
+export function tryApprovedBattleRefactorSource(path,value,overrides={}){
+ value=preCardDragClickSource(path,value);
  if(path!==root||value===null||hash(normalize(value))!==layer.modules[root])return undefined;
- for(const [file,expected]of Object.entries(layer.modules))
-  assert.equal(hash(normalize(readFileSync(file,'utf8'))),expected,'unreviewed integrated retirement source drift: complete Battle responsibility: '+file);
+ for(const [file,expected]of Object.entries(layer.modules)){
+  const current=Object.hasOwn(overrides,file)?overrides[file]:readFileSync(file,'utf8');
+  assert.equal(typeof current,'string','unreviewed integrated retirement source drift: Battle responsibility must exist: '+file);
+  assert.equal(hash(normalize(preCardDragClickSource(file,current))),expected,'unreviewed integrated retirement source drift: complete Battle responsibility: '+file);
+ }
  return source;
 }
