@@ -13,8 +13,12 @@ local function fixture(hp)
 end
 local r,m,ui,get,click=fixture()
 F.eq(get('eventView/name').text,'鎏金神像');F.eq(get('eventView/option3').visible,false)
+F.eq(get('eventView/option1/title').text,'［拿取鎏金神像］')
+assert(not get('eventView/option1/description').text:find('[A-Za-z]'))
 local old=ui.actions['eventView/option1'].handler;local hit=get('eventView/option1/hit');hit.listeners.down({touchId=7});click(1)
 F.eq(r.nodeFlow.event.stage,'trap');assert(r.relics[#r.relics]=='golden_idol');F.eq(get('back').visible,false)
+F.eq(get('eventView/option1/title').text,'［承受旧伤］')
+assert(not get('eventView/option1/description').text:find('[A-Za-z]'))
 for i,id in ipairs({'injury','damage','max_hp'})do F.eq(ui.view.node.event.options[i].choice,id);assert(ui.actions['eventView/option'..i].enabled)end
 assert(get('eventView/option1/description').text:find(ui.presentation.injury.name,1,true));assert(get('eventView/option2/description').text:find('20',1,true));F.eq(get('eventView/option4').visible,false)
 local before=C.copy(r);F.eq(old(),false);hit.listeners.up({touchId=7});F.eq(hit.listeners.click({touchId=7}),false);F.same(r,before)

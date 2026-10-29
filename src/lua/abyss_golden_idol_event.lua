@@ -9,15 +9,15 @@ function M.prepare(run,event)
  assert(type(run.maxHp)=='number' and run.maxHp%1==0 and run.maxHp>=1 and run.maxHp<=2147483647,'invalid Golden Idol health')
  event.damage=math.floor(R.float32(R.float32(run.maxHp)*R.float32(.25)))
  event.maxHpLoss=math.max(1,math.floor(R.float32(R.float32(run.maxHp)*R.float32(.08))))
- event.stage,event.body='intro','石台上的Golden Idol似乎可以拿走。'
+ event.stage,event.body='intro','石台上的鎏金神像似乎可以拿走。'
 end
 function M.options(run,event)
  if event.stage=='result'then return {row('leave','离开','返回路线。')}end
  if event.stage=='intro'then return {
-  row('take','拿取 Golden Idol',owned(run,'golden_idol')and'已持有时获得Circlet；随后必须选择陷阱代价。'or'获得Golden Idol；随后必须选择陷阱代价。'),
+  row('take','拿取鎏金神像',owned(run,'golden_idol')and'已持有时获得圆环；随后必须选择陷阱代价。'or'获得鎏金神像；随后必须选择陷阱代价。'),
   row('leave','离开','不拿取遗物。')}end
  if event.stage~='trap'then return {}end
- return {row('injury','承受 Injury','获得Injury。','injury'),
+ return {row('injury','承受旧伤','获得诅咒牌「旧伤」。','injury'),
   row('damage','承受伤害','受到'..event.damage..'点普通伤害。'),
   row('max_hp','牺牲最大生命','失去'..event.maxHpLoss..'点最大生命（'..string.format('%.0f',run.maxHp)..' → '..string.format('%.0f',math.max(1,run.maxHp-event.maxHpLoss))..'），不治疗。')}
 end
@@ -43,7 +43,7 @@ function M.choose(run,flow,choice,uid)
   if owned(run,'darkstone_periapt')then return false,'event_obtain_content_unavailable'end
   local ok,obtained=Run.obtainCard(run,'injury');if not ok then return false,obtained end
   event.obtainedCardUid=type(obtained)=='number' and obtained or nil;event.curseBlocked=obtained=='curse_blocked'
-  event.body=event.curseBlocked and'Omamori阻止了Injury。'or'你获得了Injury。'
+  event.body=event.curseBlocked and'护符阻止了诅咒牌「旧伤」。'or'你获得了诅咒牌「旧伤」。'
  elseif choice=='damage'then
   local ok,why=Run.eventNormalDamage(run,event.damage);if not ok then return false,why end
   event.body='你承受了陷阱的伤害。'
