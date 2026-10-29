@@ -1,4 +1,3 @@
-import { nativeShardProbe } from './helpers/native-shard-probe.mjs';
 import { originalWorkflow } from './helpers/ci-runtime-workflow.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -94,11 +93,16 @@ test('native Node eight-shard selection executes every current JS file name exac
   // synthetic modules share no state, so avoid hundreds of empty child starts;
   // production game tests retain the unchanged per-file process isolation.
   for (const name of files) writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
+  const env = { ...process.env };
+  delete env.NODE_TEST_CONTEXT; // An independent CLI, as in each hosted VM.
   const seen = [];
   for (let shard = 1; shard <= 8; shard++) {
-    const result = nativeShardProbe(root, shard, 8);
-    assert.deepEqual(result.command.filter(arg => arg.endsWith('.test.mjs')), ['*.test.mjs'],
-      'native probe argv must retain one relative basename pattern, never an absolute root or filename inventory');
+    // Repeating the temporary root for every file exceeds Windows' argv limit.
+    const args = ['--test', '--test-isolation=none', '--test-concurrency=1', `--test-shard=${shard}/8`, '--test-reporter=tap', ...files];
+    assert.deepEqual(args.filter(arg => arg.endsWith('.test.mjs')), files, 'native probe argv must retain sorted basenames');
+    const result = spawnSync(process.execPath, args, {
+      cwd: root, env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024,
+    });
     assert.ifError(result.error);
     assert.equal(result.status, 0, result.stderr + result.stdout);
     const selected = [...result.stdout.matchAll(/^# Subtest: ([^\r\n]+)$/gm)].map(match => match[1]);
@@ -107,33 +111,4 @@ test('native Node eight-shard selection executes every current JS file name exac
   }
   assert.equal(new Set(seen).size, seen.length, 'no JS file is duplicated');
   assert.deepEqual(seen.sort(), files, 'all current tests/*.test.mjs names execute once');
-});
-
-test('native shard probe command stays bounded while a large filename inventory executes exactly once', t => {
-  const root = mkdtempSync(join(tmpdir(), 'abyss-shard-probe-bound-'));
-  t.after(() => rmSync(root, { recursive: true, force: true }));
-  const files = Array.from({ length: 512 }, (_, index) =>
-    `probe-${String(index).padStart(4, '0')}-spaces [literal]-中文-${'x'.repeat(80)}.test.mjs`);
-  const writeProbe = name => writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
-  files.slice(0, 16).forEach(writeProbe);
-  const small = nativeShardProbe(root, 1, 8);
-  assert.ifError(small.error);
-  assert.equal(small.status, 0, small.stderr + small.stdout);
-  files.slice(16).forEach(writeProbe);
-  // This inventory alone exceeds Windows' command-line limit even before
-  // absolute directory prefixes or quoting are added to individual paths.
-  assert.ok(files.join(' ').length > 32767);
-  const seen = [];
-  for (let shard = 1; shard <= 8; shard++) {
-    const result = nativeShardProbe(root, shard, 8);
-    assert.ifError(result.error);
-    assert.equal(result.status, 0, result.stderr + result.stdout);
-    assert.ok(result.command.join(' ').length < 1024, 'the emitted native command must not carry the filename inventory');
-    if (shard === 1) assert.deepEqual(result.command, small.command, 'growing the inventory cannot grow or change argv');
-    const selected = [...result.stdout.matchAll(/^# Subtest: ([^\r\n]+)$/gm)].map(match => match[1]);
-    assert.ok(selected.length > 0 && selected.length < files.length, `shard ${shard} must contain a proper subset`);
-    seen.push(...selected);
-  }
-  assert.equal(new Set(seen).size, seen.length, 'no large-inventory filename executes twice');
-  assert.deepEqual(seen.sort(), files, 'all long filenames, including spaces and literal brackets, execute once');
 });

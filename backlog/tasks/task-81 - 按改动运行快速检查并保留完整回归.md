@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-29 03:14'
+updated_date: '2026-10-29 03:25'
 labels: []
 dependencies: []
 priority: medium
@@ -71,4 +71,6 @@ PR319已合入48cb48ce（cec唯一父），吸收严格交付schema3/真实目�
 本轮冲突保留双方来源：accepted324已解决重复绝对根目录并加入实际argv便携断言；813短相对basename模式进一步消除文件数量增长，512长名称清单精确并集与命令恒定均保留。因此将324的原排序basename清单断言明确细化为两个循环中的单个相对*.test.mjs模式断言，不是移除便携guard或给未知wildcard开例外。813 Full40807235155的八个Windows JavaScript步骤已实际SUCCESS；该运行base58已陈旧，不能冒充e22新HEAD的Full通过。316/319/324及本修复计划/备注均通过CLI并集合并，Furinya、In Progress、性能AC0/3保持。
 
 e22本地重放验证：相对basename参考与短模式原生CLI对当前360个JS文件在八片（每片45）及四片（每片90）的有序名称逐片完全一致，比较脚本和完整清单证据仅在/tmp/sta-pr322-e22-refresh-20261029/native-parity.json，不加入普通CI重复开销。两个实际CLI循环均拒绝绝对模式参数变异；恢复后聚焦8/8及原指定纯合同65/65全部通过、0skip，Linux Node24.22.1。语法、网络、Backlog、diff检查通过；新树相对813仅两份CI探针及本任务备注变化，其他4187个跟踪条目的blob与mode完全相同（包含全部运行时、数据及冻结来源证明）。Furinya/In Progress/性能AC0/3不变；未远端更新、未重跑Lua/全套，新HEAD实际Windows及完整Quality仍待正式Runner。
+
+2026-10-29收敛复核：外部PR322新head265dc684基于accepted324/e22a443e，但再次覆盖其已接受原排序basename/cwd两份探针为glob/helper/512文件库存方案。本次保留该外部提交和全部历史备注，只以最小后续提交恢复e22a443e两份测试逐字节身份并移除替代helper，不重写远端历史、不改原预算；当前组合仍待独立审查及完整托管CI，不追认旧绿灯。
 <!-- SECTION:NOTES:END -->

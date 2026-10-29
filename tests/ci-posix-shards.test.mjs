@@ -1,4 +1,3 @@
-import { nativeShardProbe } from './helpers/native-shard-probe.mjs';
 import { originalWorkflow } from './helpers/ci-runtime-workflow.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -77,10 +76,15 @@ test('native Node four-shard selection executes every current JS file name exact
   // separate processes and VMs for every shared-output regression.
   for (const name of files) writeFileSync(join(root, name), `import test from 'node:test'; test(${JSON.stringify(name)}, () => {});\n`);
   const seen = [];
+  const env = { ...process.env };
+  // This is a separate CLI, as on each VM, rather than a child test file of
+  // the contract's own runner (Node otherwise disables nested CLI discovery).
+  delete env.NODE_TEST_CONTEXT;
   for (let shard = 1; shard <= 4; shard++) {
-    const result = nativeShardProbe(root, shard, 4);
-    assert.deepEqual(result.command.filter(arg => arg.endsWith('.test.mjs')), ['*.test.mjs'],
-      'native probe argv must retain one relative basename pattern, never an absolute root or filename inventory');
+    // This contract also runs on Windows, where repeated roots exceed argv limits.
+    const args = ['--test', '--test-isolation=none', '--test-concurrency=1', `--test-shard=${shard}/4`, '--test-reporter=tap', ...files];
+    assert.deepEqual(args.filter(arg => arg.endsWith('.test.mjs')), files, 'native probe argv must retain sorted basenames');
+    const result = spawnSync(process.execPath, args, { cwd: root, env, encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 2 * 1024 * 1024 });
     assert.ifError(result.error);
     assert.equal(result.status, 0, result.stderr + result.stdout);
     const selected = [...result.stdout.matchAll(/^# Subtest: ([^\r\n]+)$/gm)].map(match => match[1]);
