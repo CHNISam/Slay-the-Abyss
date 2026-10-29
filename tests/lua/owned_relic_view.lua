@@ -31,4 +31,15 @@ do
   emit('endTurn','up',7);emit('endTurn','click',7)
   assert(host.run.combat.turn==1,'old action must not survive relic modal')
 end
-print('LUA_OWNED_RELIC_VIEW 2 passed')
+do
+  local G=dofile('tests/lua/support/game_ui_fixture.lua')
+  local h2,r2=G.fixture();assert(G.start(h2))
+  h2.run.relics={'neows_lament','maw_bank','anchor'}
+  h2.run.relicCounters={neows_lament=2,maw_bank=-2}
+  assert(r2:GetChild('relicEntry'):GetChild('open'):GetChild('hit').click())
+  local t=table.concat(h2.deckUI.detailPages,'\n')
+  assert(t:find('〔剩余 2 场〕',1,true),t)
+  assert(t:find('〔已失效〕',1,true),t)
+  assert(not t:find('石锚　〔',1,true),t)
+end
+print('LUA_OWNED_RELIC_VIEW 3 passed')

@@ -7,5 +7,5 @@ test('owned relics remain readable with duplicates, pagination and modal boundar
   buildLuaData(); buildUI();
   const result=runLua('tests/lua/owned_relic_view.lua');
   assert.equal(result.status,0,result.stderr+result.stdout);
-  assert.match(result.stdout,/LUA_OWNED_RELIC_VIEW 2 passed/);
+  assert.match(result.stdout,/LUA_OWNED_RELIC_VIEW 3 passed/);
 });
