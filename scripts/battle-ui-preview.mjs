@@ -26,7 +26,7 @@ const glyphs = new Map([
   ...Object.entries(icon.status).filter(([key]) => key !== 'verify').map(([key, value]) => [value, statusGlyph[key] ?? 'q']),
   [icon.intent.attack, 'swords'], [icon.intent.defend, 'shield'], [icon.intent.buff, 'up'], [icon.intent.debuff, 'down'],
   [icon.intent.unknown, 'q'], [icon.intent.sleep, 'zz'],
-  [icon.hp, 'heart'], [icon.block, 'shield'], [id(icon.gold), 'coin'], [icon.exhaust, 'flame'], [icon.player, 'geo'],
+  [icon.hp, 'heart'], [icon.block, 'shield'], [id(icon.gold), 'coin'], [icon.exhaust, 'flame'], [id(icon.player), 'q'],
   [icon.drawPile, 'deck'], [icon.discardPile, 'deck'], [id(icon.energy), 'geo'],
   [icon.cardArt.attack, 'sword'], [icon.cardArt.skill, 'shield'], [icon.cardArt.power, 'geo'], [icon.cardArt.status, 'crack'],
 ]);

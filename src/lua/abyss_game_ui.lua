@@ -114,13 +114,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.battleUI.suppressClick=false;self:refresh();return true
     end
     local prologuePanel = root:GetChild("prologuePanel")
-    if prologuePanel and platform.prologue~=false then
-        self.prologue=require('abyss_prologue').new(prologuePanel,{
-            clickEvent=clickEvent,cursorEvents=platform.cursorEvents,color=platform.color,
-            sound=platform.sound,controller=controller,
-            blocked=function()return self.exitOpen or self.settlementRequested or self.settlementBusy end,
-            onPhase=function()self:refresh()end})
-    elseif prologuePanel then prologuePanel:SetVisible(false) end
+    -- The cinematic camera and its skip control were cancelled. Keep the panel
+    -- hidden so it cannot mask Neow or leave an old click target.
+    self.prologue=nil
+    if prologuePanel then prologuePanel:SetVisible(false) end
 
     self.openExit = function(_)
         if self.disabled or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
@@ -340,7 +337,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.exitOpen then scope='exit'
         elseif self.motion.deathReveal then scope='blocked'
         elseif self.characterOpen then scope='characters'
-        elseif openingCovered() then scope='prologue'
+        elseif openingCovered() then scope='blocked'
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
         elseif self.deckUI.visible then scope='deck'
         elseif self.potionUI.visible then scope='potions'
@@ -350,7 +347,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         controller:sync(scope,function()
             if scope=='exit' then return self:closeExit()
             elseif scope=='characters' then return self:closeCharacters()
-            elseif scope=='prologue' then return self.prologue:skip()
+            elseif scope=='blocked' and openingCovered() then return false
             elseif scope=='deck' then
                 if self.deckUI.choiceToken then return false end
                 return self.deckUI:back()
@@ -618,6 +615,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.mode~='menu' and self.mode~='defeat' and self.mode~='victory' then return false end
         if self.characterOpen then return false,'character_choice_open' end
         self.characterOpen=true;self.characterSelection:clear()
+        -- Production keeps the select page, but the only open role is already showing.
+        if self.characterSelection.profile~='full-source' then self.characterSelection:select('traveler') end
         selectionChanged()
         if character then
             for _,id in ipairs(CharacterSelect.elements)do if id==character then
@@ -673,9 +672,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
         self.nodeUI:render()
-        if self.prologue and not self.prologuePlayed then
-            self.prologuePlayed=true;self.prologue:play()
-        end
+        if prologuePanel then prologuePanel:SetVisible(false) end
         self:refresh()
         return true
     end

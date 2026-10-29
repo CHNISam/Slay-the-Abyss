@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 16:37'
-updated_date: '2026-10-28 00:24'
+updated_date: '2026-10-29 12:33'
 due_date: '2026-10-28'
 labels:
   - art
@@ -113,4 +113,6 @@ PR259同步后共享宿主正例直接执行真实源码，不再注入启动修
 20:53同步已合入PR263（7fe3101）：另一执行者已独立修复card_help_release/looter_potion_ui预算，直接逐字保留其6个测试文件及TASK74记录，撤掉dot重复分片/guard；不把PR263成果算dot交付。保留未被覆盖的Sapphire四段与modern守卫、原生样卡接线。root8项上游/modern静态合同通过，所有原断言/预算不变；产品代码与已审a896一致。此前a896未触发Actions因与新主线冲突，非平台失效。当前新组合仍待独立复审、完整CI及verify:delivery，实机缺口不变。
 
 2026-10-28 新增显式样卡与第四幕结束流程回归：仅一个真实生成battlePanel/card1池、合成两槽，真实GameUI/Combat/Heart/Proceed覆盖card_id切换/缺图回退、四项独立文字与动态预览、清槽和陈旧指针/隐藏/owner替换/手柄回调隔离。root两项测试2/2、零跳过，正例3.28秒、精确删除空卡位clearNativeArt的内存负控2.21秒，保留默认30秒；实际test-affected选中入口。未发现需改生产代码的缺陷；两项真实素材来源测试因无registry仍SKIP，不冒充真资源/GIL/引擎/自然通关/存档或设备通过。只新增必要测试，不重做PR262默认关闭兼容台账，不动PR256/260。
+
+2026-10-29 荧的菜单/选角大图槽是 dot-a.menu.traveler 与 dot-a.select.large.traveler.ironclad（现同为占位 105301）。战斗胸像是 Dot B 的 dot-b.battle.traveler（占位 105292），不再用 102005。正式出图前验收不勾。
 <!-- SECTION:NOTES:END -->

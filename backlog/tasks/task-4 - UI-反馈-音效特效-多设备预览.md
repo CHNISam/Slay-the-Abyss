@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-29 01:55'
+updated_date: '2026-10-29 12:33'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -148,4 +148,6 @@ dot本轮已切换53fa164主线新隔离树：保留PR302全部生产安全修�
 2026-10-28 PR319冻结guard本地补漏：精确f9f9be99上保全全部4项/8入口、原manifest/golden/runner/30秒及PR314四blob，仅增加target_failures完整49dcd4b8→47565faa注册逆向并接回旧approved-UI历史链。原套件真实红5过3失败，新组合合同红5过4失败；最终26项静态/历史/源保全合同全过0skip，JS语法/网络/Backlog检查及diff检查通过。缺失/重复/范围/footer/无执行/正文漂移与CRLF/错path均覆盖；不重复重Lua，不称Full/native通过。独立review、实际远端head冲突核对、整合授权及新精确HEAD完整Quality/inventory/schema3预审仍待，原状态/负责人/AC/Done不变。新增报告docs/reviews/ui-postmerge-budgets-20261028/FROZEN-INVERSE-REPAIR.md；原两份review记录未改。仅本地，不push或改远端。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-29 首屏三项目视觉是 M3 必做，记在 TASK-59.3，不把全部角色美术量产提前到本任务。实机品质验收仍在本任务，未勾。
 <!-- SECTION:NOTES:END -->

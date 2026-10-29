@@ -53,6 +53,13 @@ local function find(entries, id, key)
     for _, item in ipairs(entries or {}) do if item[key or "id"] == id then return item end end
 end
 local M = {}
+local function renderEventFigure(event, id)
+    local neow = id == 'neow'
+    local figure, art = event:GetChild('neowFigure'), event:GetChild('art')
+    if figure then figure:SetVisible(neow) end
+    if art then art:SetVisible(not neow) end
+    if neow then event:GetChild('caption').text = '七天神像' end
+end
 
 -- Installs the events responsibility on one node UI instance.
 function M.install(ctx)
@@ -67,6 +74,7 @@ function M.install(ctx)
                 or mode=='restricted-six' and "未知事件 · 受限事件池（6种）" or kinds.event
         end
         writeEventHeading()
+        renderEventFigure(event, id)
         local body
         local function eventOutcomeBody()
             body=result and result.text or node.event and node.event.body or copy.body

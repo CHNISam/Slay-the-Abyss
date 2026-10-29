@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {preHeroVisualSource} from './helpers/hero-visual-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -10,7 +11,7 @@ import {deathSettlementGuardLayer,preDeathSettlementGuardSource} from './helpers
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preRosterSource,rosterSourceBindings} from './helpers/competition-roster-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const read=path=>preHeroVisualSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'));
 test('one exact settlement guard precedes the frozen accepted330 death and PR323 layers',()=>{
   const path='src/lua/abyss_game_ui.lua',live=read(path),binding=deathSettlementGuardLayer.files[path];
   assert.equal(deathSettlementGuardLayer.acceptedBase,'1dc33fe790a5f82be4f1bf2f0d09e339dcb943dd');
