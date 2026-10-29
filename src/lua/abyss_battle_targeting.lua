@@ -47,8 +47,23 @@ function M.install(owner, _ownership, _host, dependencies)
         if ok then return g.dropZone, nil end
         return g.aiming and hovered ~= nil and Combat.canPlay(battle,g.uid,hovered) or false, hovered, g.aiming
     end
+    local function potionDragTarget(aim)
+        if not dependencies.aimReady(aim) or not aim.x or not aim.y then return false,nil,true end
+        if math.abs(aim.x)>Theme.canvas.base[1]/2 or math.abs(aim.y)>Theme.canvas.base[2]/2 then return false,nil,true end
+        local rows=EnemyView.slots(aim.battle)
+        for i,entry in ipairs(rows)do
+            local x,_,portrait,step,y=enemySlot(#rows,i,entry.actor)
+            local reach=math.min(D.targetColumn,#rows>1 and step or D.targetColumn)/2
+            if Actors.isActive(entry.actor) and math.abs(aim.x-x)<=math.min(reach,portrait/2+D.reticlePad)
+                and math.abs(aim.y-y)<=portrait/2+D.reticlePad then
+                return true,entry.index,true
+            end
+        end
+        return false,nil,true
+    end
     return {
-        enemySlot=enemySlot, enemyPosition=enemyPosition, dragPose=dragPose, inPlayArea=inPlayArea, dragTarget=dragTarget
+        enemySlot=enemySlot, enemyPosition=enemyPosition, dragPose=dragPose, inPlayArea=inPlayArea, dragTarget=dragTarget,
+        potionDragTarget=potionDragTarget
     }
 end
 return M

@@ -6,14 +6,21 @@ import { resolve, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { originalLuaRunner } from './helpers/ci-lua-runner-inverse.mjs';
+import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
 import { partition, jsShard, discoverJs, timings } from '../scripts/ci-shards.mjs';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
 
 test('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes', () => {
-  const source = readFileSync('scripts/test-lua.mjs', 'utf8').replaceAll('\r\n', '\n');
+  const source = readBeforeMobileQaSource('scripts/test-lua.mjs').replaceAll('\r\n', '\n');
   const sha = text => createHash('sha256').update(text).digest('hex');
   const original = '63ec149511d52b9e362f2c9210d092e4d97bd815c5b8c16e7009ade146d5d55b';
   for (const text of [source, source.replaceAll('\n', '\r\n')]) assert.equal(sha(originalLuaRunner(text)), original);
+  const live=readFileSync('scripts/test-lua.mjs','utf8').replaceAll('\r\n','\n');
+  assert.equal(sha(originalLuaRunner(live)),original,'the complete current runner traverses the exact historical layer');
+  for(const drift of [live+'\n-- unrelated drift\n',live.replace('60000 : 30000','60000 : 60000')]){
+    assert.notEqual(drift,live);
+    assert.throws(()=>originalLuaRunner(drift),/exact original-deadline historical fixture dispatch/);
+  }
   const changedDeadline = source.replace('60000 : 30000', '60000 : 60000');
   assert.notEqual(changedDeadline, source);
   assert.notEqual(sha(originalLuaRunner(changedDeadline)), original);

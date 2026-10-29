@@ -20,13 +20,7 @@ local function available(run)
 end
 local function dependencies(run)
  if not available(run)then return false,'library_source_catalog_unavailable'end
- -- These preview/obtain hooks have not been implemented by their shared owner.
- -- Never silently show base cards or insert a manually upgraded preview instead.
- for _,id in ipairs(run.relics or {})do
-  if id=='frozen_egg' or id=='Frozen Egg 2' then
-   return false,'event_obtain_content_unavailable'
-  end
- end
+ -- All three Egg preview/obtain hooks are provided by the shared owner.
  return true
 end
 local function row(choice,title,description,enabled)

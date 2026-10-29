@@ -5,7 +5,7 @@ import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { deckControls } from './deck-ui-layout.mjs';
 import { exitControls } from './exit-ui-layout.mjs';
 import { potionDiscardControls } from './potion-discard-layout.mjs';
-import { vistaControl } from './cinematic-ui-layout.mjs';
+import { vistaControl, prologueControl } from './cinematic-ui-layout.mjs';
 import { experimentalCharacterControls } from './character-ui-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
@@ -93,7 +93,6 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         ] },
         button('start', layout.start, '启程', { inset: layout.buttonInset, fontSize: font.heading,
           colour: color.textOnLight, fill: color.gold, border: color.goldBright }),
-        button('battleSpeed', theme.layout.nativeMenu.battleSpeed, '战斗速度：普通', { inset: layout.buttonInset, fontSize: font.label, states: true }),
         codeVersion,
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
@@ -101,6 +100,7 @@ export function gameLayout(theme = nativeTheme, options = {}) {
       ...deckControls(theme),
       ...potionDiscardControls(theme),
       ...experimentalCharacterControls(theme),
+      prologueControl(theme),
       ...exitControls(theme),
     ],
   };

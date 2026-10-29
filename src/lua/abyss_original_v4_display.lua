@@ -315,4 +315,84 @@ function M.brief(card,upgraded,preview)
     critical[#critical+1]='长按查看全文'
     return table.concat(critical,'\n')
 end
+-- Card actions stay on the face; repeated, fixed keyword rules remain in the
+-- existing reachable keyword inspector. Full describe() is never shortened.
+local faceConditions={eye='雷眼有效',musou='梦想一心有效',
+    not_musou='梦想一心失效',resolve0='愿力为0',resolve2='愿力≥2',resolve3='愿力≥3',resolve4='愿力≥4'}
+local function faceEffect(e,ctx)
+    local n=e.n and e.n~='all' and number(e.n)
+    if e.op=='damage' then return (e.target=='all' and '全体受' or '目标受')..n..((e.hits or 1)>1 and '×'..e.hits or '')..'伤害'
+    elseif e.op=='damage_spent' then return (e.target=='all' and '全体受' or '目标受')..n..(e.coefficient~=0 and '+'..number(e.coefficient)..'×所耗愿力' or '')..'伤害'
+    elseif e.op=='block' then return '获得'..n..'格挡'
+    elseif e.op=='draw' then return '抽'..n..'张牌'
+    elseif e.op=='spend' then return '耗'..(e.n=='all' and '全部' or n)..'愿力'
+    elseif e.op=='eye' or e.op=='musou' then
+        local name=e.op=='eye' and '雷眼' or '梦想一心'
+        return name..(e.n==3 and '3次' or '至少'..n..'次（≤3）')..'，2结束阶段'
+    elseif e.op=='eye_pulse' then return '使用雷眼1次，对目标造成2衍生伤害'
+    elseif e.op=='next_energy' then return '下回合能量+'..n
+    elseif e.op=='next_draw' then return '下回合多抽'..n..'张'
+    elseif e.op=='next_block' then return '下回合格挡+'..n
+    elseif e.op=='resolve' then return '愿力+'..n
+    elseif e.op=='cleanse' then return '清除自身虚弱与脆弱'
+    elseif e.op=='bonus' then return '本回合下张'..lookup(tags,e.tag,'准备标签')..'伤害牌首击+'..n
+    elseif e.op=='soften' then return '本回合削势+'..n..'（上限6），减下次敌方攻击总伤害'
+    elseif e.op=='counter' then return '本回合反击取大至'..n..'（上限8），下次敌方攻击后存活则反击一次'
+    elseif e.op=='when' then
+        local nested={};for _,part in ipairs(e.effects)do nested[#nested+1]=faceEffect(part,ctx)end
+        return '若'..lookup(faceConditions,e.condition,'卡面条件')..'：'..table.concat(nested,'；')
+    end
+    error('unknown Raiden card operation '..tostring(e.op))
+end
+local function faceColour(text,palette)
+    if not palette then return text end
+    for _,key in ipairs({'梦想一心','雷眼','愿力','削势','反击','消耗','虚弱','脆弱'})do
+        text=text:gsub(key,'<color='..palette.gold..'>'..key..'</color>')
+    end
+    return text
+end
+function M.faceText(card,upgraded,context,palette)
+    local raw,definition=variant(card,upgraded)
+    if raw.role~='RD' then return M.brief(card,upgraded) end -- retained development roles; full describe remains unchanged
+    if palette then
+        local function hex(c)return type(c)=='string' and c or string.format('#%02X%02X%02X',c.r,c.g,c.b)end
+        palette={gold=hex(palette.gold),dim=hex(palette.dim)}
+    end
+    local rows={}
+    if #(raw.requirements or {})>0 then
+        local requirements={};for _,id in ipairs(raw.requirements)do requirements[#requirements+1]=lookup(faceConditions,id,'卡面前提')end
+        rows[#rows+1]='需'..table.concat(requirements,'且')
+    end
+    for _,e in ipairs(definition.effects)do
+        if e.op=='spend' and e.n=='all' and #rows==1 and #(raw.requirements or {})>0 then
+            rows[1]=rows[1]..'，耗尽'
+        else
+        local text=faceEffect(e,{})
+        if e.op=='when' and context and context.snapshot and palette then
+            text='<color='..(context.snapshot[e.condition] and palette.gold or palette.dim)..'>'..text..'</color>'
+        else text=faceColour(text,palette)end
+        rows[#rows+1]=text
+        end
+    end
+    if definition.exhaust then rows[#rows+1]=faceColour('消耗',palette)end
+    return table.concat(rows,'。')..'。'
+end
+function M.keywordDefinitions(card,upgraded)
+    local raw,definition=variant(card,upgraded)
+    if raw.role~='RD' then return '' end
+    local text=M.faceText(card,upgraded)
+    local definitions={
+        {'愿力','所有来源每回合最多增长2，持有上限6；实际支付至少1能量的军令在效果后获得1愿力。'},
+        {'雷眼','有效指有剩余次数且未到期；次数刷新取大，上限3。有效时，主动牌实际直接扣血后追击2点衍生伤害并消耗1次，每牌最多一次，不递归。只有本牌效果开始前已有有效雷眼，才会追击本牌。'},
+        {'梦想一心','有效指有剩余次数且未到期，反之为失效；次数刷新取大，上限3，不重置本回合返能计数。有效时普攻消耗1次，首命中+3；实际直接扣血后，下回合能量+1，每回合最多返能1次。'},
+        {'削势','本回合有效，累加上限6。抵扣下次真实敌方攻击行动的总伤害，多段依序抵扣；非攻击不消耗，回合结束清除。'},
+        {'反击','同类取大，上限8。下次真实敌方攻击行动结束且自己存活时，对攻击者反击一次后清除；非攻击不触发，回合结束清除。'},
+        {'消耗','打出后移出本场战斗；下场战斗恢复，不从永久牌组删除。'},
+    }
+    local rows={}
+    for _,entry in ipairs(definitions)do
+        if text:find(entry[1],1,true) and (entry[1]~='消耗' or definition.exhaust)then rows[#rows+1]=entry[1]..'：'..entry[2]end
+    end
+    return table.concat(rows,'\n')
+end
 return M

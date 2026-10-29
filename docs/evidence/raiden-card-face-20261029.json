@@ -1,0 +1,4253 @@
+{
+  "schemaVersion": 1,
+  "base": "2f75e075",
+  "layer": "offline-source-and-native-double; officialImport/mobile/nativeFont NOT_RUN",
+  "dataSha256": "89229cdd7f6c1640d47bca95338f5e7887fbfd8720af181f7561d6eb45a45fca",
+  "rulesSha256": "a100f8b0fd61e3724f0eda5e077055f82bcacb7a4536d337096d9a6389419c8e",
+  "summary": {
+    "variants": 150,
+    "normal": 150,
+    "compact": 0,
+    "minimumFont": 14,
+    "maxCharacters": 46,
+    "allFit": true,
+    "livePreviewStress": {
+      "variants": 150,
+      "actualHpLoss": 99,
+      "blockGained": 99,
+      "allFit": true
+    }
+  },
+  "rows": [
+    {
+      "id": "RD2-001",
+      "upgraded": false,
+      "characters": 7,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受6伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 6,
+          "hits": 1,
+          "target": "one"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-001",
+      "upgraded": true,
+      "characters": 7,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受9伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 9,
+          "hits": 1,
+          "target": "one"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-002",
+      "upgraded": false,
+      "characters": 6,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-002",
+      "upgraded": true,
+      "characters": 6,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得8格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 8
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-003",
+      "upgraded": false,
+      "characters": 18,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受3伤害。雷眼3次，2结束阶段。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 3,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "eye",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-003",
+      "upgraded": true,
+      "characters": 18,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受6伤害。雷眼3次，2结束阶段。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 6,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "eye",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-004",
+      "upgraded": false,
+      "characters": 37,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3，耗尽。目标受10+2×所耗愿力伤害。梦想一心3次，2结束阶段。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": "all",
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 10,
+          "coefficient": 2,
+          "target": "one"
+        },
+        {
+          "op": "musou",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-004",
+      "upgraded": true,
+      "characters": 37,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3，耗尽。目标受14+2×所耗愿力伤害。梦想一心3次，2结束阶段。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": "all",
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 14,
+          "coefficient": 2,
+          "target": "one"
+        },
+        {
+          "op": "musou",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-005",
+      "upgraded": false,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受8伤害。若梦想一心有效：获得2格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 8,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-005",
+      "upgraded": true,
+      "characters": 22,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受11伤害。若梦想一心有效：获得4格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 11,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 4
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-006",
+      "upgraded": false,
+      "characters": 14,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-006",
+      "upgraded": true,
+      "characters": 14,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得8格挡。下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 8
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-007",
+      "upgraded": false,
+      "characters": 28,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受5伤害。若雷眼有效：本回合下张普攻伤害牌首击+3。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 5,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 3,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-007",
+      "upgraded": true,
+      "characters": 28,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受8伤害。若雷眼有效：本回合下张普攻伤害牌首击+4。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 8,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 4,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-008",
+      "upgraded": false,
+      "characters": 6,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得6格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 6
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-008",
+      "upgraded": true,
+      "characters": 6,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得9格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 9
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-009",
+      "upgraded": false,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受7伤害。若愿力≥3：获得3格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 7,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "block",
+              "n": 3
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-009",
+      "upgraded": true,
+      "characters": 20,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受10伤害。若愿力≥3：获得4格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 10,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "block",
+              "n": 4
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-010",
+      "upgraded": false,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受6伤害。下回合格挡+2。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 6,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "next_block",
+          "n": 2
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-010",
+      "upgraded": true,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受9伤害。下回合格挡+4。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 9,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "next_block",
+          "n": 4
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-011",
+      "upgraded": false,
+      "characters": 14,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。下回合格挡+4。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        },
+        {
+          "op": "next_block",
+          "n": 4
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-011",
+      "upgraded": true,
+      "characters": 14,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得7格挡。下回合格挡+6。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 7
+        },
+        {
+          "op": "next_block",
+          "n": 6
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-012",
+      "upgraded": false,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受6伤害。若梦想一心有效：下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 6,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-012",
+      "upgraded": true,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受9伤害。若梦想一心有效：下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 9,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-013",
+      "upgraded": false,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "雷眼至少2次（≤3），2结束阶段。获得2格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye",
+          "n": 2
+        },
+        {
+          "op": "block",
+          "n": 2
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-013",
+      "upgraded": true,
+      "characters": 17,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "雷眼3次，2结束阶段。获得4格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "block",
+          "n": 4
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-014",
+      "upgraded": false,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得3格挡。若愿力≥3：本回合下张普攻伤害牌首击+2。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 3
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 2,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-014",
+      "upgraded": true,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。若愿力≥3：本回合下张普攻伤害牌首击+3。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 3,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-015",
+      "upgraded": false,
+      "characters": 18,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得6格挡。若雷眼有效：获得3格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 6
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "block",
+              "n": 3
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-015",
+      "upgraded": true,
+      "characters": 18,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得9格挡。若雷眼有效：获得3格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 9
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "block",
+              "n": 3
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-016",
+      "upgraded": false,
+      "characters": 8,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "抽2张牌。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "draw",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-016",
+      "upgraded": true,
+      "characters": 8,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "抽3张牌。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "draw",
+          "n": 3
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-017",
+      "upgraded": false,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "本回合削势+4（上限6），减下次敌方攻击总伤害。获得0格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "soften",
+          "n": 4
+        },
+        {
+          "op": "block",
+          "n": 0
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-017",
+      "upgraded": true,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "本回合削势+5（上限6），减下次敌方攻击总伤害。获得2格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "soften",
+          "n": 5
+        },
+        {
+          "op": "block",
+          "n": 2
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-018",
+      "upgraded": false,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受3×2伤害。若雷眼有效：获得2格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 3,
+          "hits": 2,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "block",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-018",
+      "upgraded": true,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受5×2伤害。若雷眼有效：获得3格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 5,
+          "hits": 2,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "block",
+              "n": 3
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-019",
+      "upgraded": false,
+      "characters": 22,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得7格挡。若梦想一心有效：下回合格挡+4。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 7
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_block",
+              "n": 4
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-019",
+      "upgraded": true,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得10格挡。若梦想一心有效：下回合格挡+5。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 10
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_block",
+              "n": 5
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-020",
+      "upgraded": false,
+      "characters": 14,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得2格挡。下回合能量+1。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 2
+        },
+        {
+          "op": "next_energy",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-020",
+      "upgraded": true,
+      "characters": 14,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。下回合能量+1。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        },
+        {
+          "op": "next_energy",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-021",
+      "upgraded": false,
+      "characters": 11,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。愿力+1。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        },
+        {
+          "op": "resolve",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-021",
+      "upgraded": true,
+      "characters": 11,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得8格挡。愿力+1。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 8
+        },
+        {
+          "op": "resolve",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-022",
+      "upgraded": false,
+      "characters": 7,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受5伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 5,
+          "hits": 1,
+          "target": "all"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-022",
+      "upgraded": true,
+      "characters": 7,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受7伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 7,
+          "hits": 1,
+          "target": "all"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-023",
+      "upgraded": false,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "本回合下张普攻伤害牌首击+4。获得3格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "bonus",
+          "n": 4,
+          "tag": "normal"
+        },
+        {
+          "op": "block",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-023",
+      "upgraded": true,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "本回合下张普攻伤害牌首击+6。获得4格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "bonus",
+          "n": 6,
+          "tag": "normal"
+        },
+        {
+          "op": "block",
+          "n": 4
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-024",
+      "upgraded": false,
+      "characters": 11,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得2格挡。抽1张牌。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 2
+        },
+        {
+          "op": "draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-024",
+      "upgraded": true,
+      "characters": 11,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。抽1张牌。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        },
+        {
+          "op": "draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-025",
+      "upgraded": false,
+      "characters": 16,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "下回合多抽1张。下回合格挡+5。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "next_draw",
+          "n": 1
+        },
+        {
+          "op": "next_block",
+          "n": 5
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-025",
+      "upgraded": true,
+      "characters": 16,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "下回合多抽1张。下回合格挡+8。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "next_draw",
+          "n": 1
+        },
+        {
+          "op": "next_block",
+          "n": 8
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-026",
+      "upgraded": false,
+      "characters": 37,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受7伤害。若雷眼有效：本回合削势+2（上限6），减下次敌方攻击总伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 7,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "soften",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-026",
+      "upgraded": true,
+      "characters": 38,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受10伤害。若雷眼有效：本回合削势+3（上限6），减下次敌方攻击总伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 10,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "soften",
+              "n": 3
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-027",
+      "upgraded": false,
+      "characters": 20,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得8格挡。若愿力为0：下回合格挡+2。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 8
+        },
+        {
+          "op": "when",
+          "condition": "resolve0",
+          "effects": [
+            {
+              "op": "next_block",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-027",
+      "upgraded": true,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得11格挡。若愿力为0：下回合格挡+4。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 11
+        },
+        {
+          "op": "when",
+          "condition": "resolve0",
+          "effects": [
+            {
+              "op": "next_block",
+              "n": 4
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-028",
+      "upgraded": false,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受8伤害。若梦想一心有效：本回合下张普攻伤害牌首击+2。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 8,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 2,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-028",
+      "upgraded": true,
+      "characters": 31,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受11伤害。若梦想一心有效：本回合下张普攻伤害牌首击+3。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 11,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 3,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-029",
+      "upgraded": false,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受5伤害。下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 5,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-029",
+      "upgraded": true,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受8伤害。下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 8,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-030",
+      "upgraded": false,
+      "characters": 13,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受4伤害。获得5格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 4,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "block",
+          "n": 5
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-030",
+      "upgraded": true,
+      "characters": 13,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受6伤害。获得7格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 6,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "block",
+          "n": 7
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-031",
+      "upgraded": false,
+      "characters": 20,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "下回合能量+1。若雷眼有效：获得5格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "next_energy",
+          "n": 1
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "block",
+              "n": 5
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-031",
+      "upgraded": true,
+      "characters": 20,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "下回合能量+1。若雷眼有效：获得8格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "next_energy",
+          "n": 1
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "block",
+              "n": 8
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-032",
+      "upgraded": false,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得3格挡。本回合削势+3（上限6），减下次敌方攻击总伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 3
+        },
+        {
+          "op": "soften",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-032",
+      "upgraded": true,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得6格挡。本回合削势+4（上限6），减下次敌方攻击总伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 6
+        },
+        {
+          "op": "soften",
+          "n": 4
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-033",
+      "upgraded": false,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受11伤害。若愿力≥3：目标受4伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 11,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "damage",
+              "n": 4,
+              "hits": 1,
+              "target": "one"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-033",
+      "upgraded": true,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受15伤害。若愿力≥3：目标受6伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 15,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "damage",
+              "n": 6,
+              "hits": 1,
+              "target": "one"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-034",
+      "upgraded": false,
+      "characters": 18,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受7伤害。雷眼3次，2结束阶段。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 7,
+          "hits": 1,
+          "target": "all"
+        },
+        {
+          "op": "eye",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-034",
+      "upgraded": true,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受10伤害。雷眼3次，2结束阶段。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 10,
+          "hits": 1,
+          "target": "all"
+        },
+        {
+          "op": "eye",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-035",
+      "upgraded": false,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受4×3伤害。若梦想一心有效：获得5格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 4,
+          "hits": 3,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 5
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-035",
+      "upgraded": true,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受6×3伤害。若梦想一心有效：获得7格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 6,
+          "hits": 3,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 7
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-036",
+      "upgraded": false,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得11格挡。下回合格挡+5。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 11
+        },
+        {
+          "op": "next_block",
+          "n": 5
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-036",
+      "upgraded": true,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得15格挡。下回合格挡+7。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 15
+        },
+        {
+          "op": "next_block",
+          "n": 7
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-037",
+      "upgraded": false,
+      "characters": 18,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥2。耗2愿力。获得12格挡。",
+      "requirements": [
+        "resolve2"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 2,
+          "resource": "resolve"
+        },
+        {
+          "op": "block",
+          "n": 12
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-037",
+      "upgraded": true,
+      "characters": 18,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥2。耗2愿力。获得16格挡。",
+      "requirements": [
+        "resolve2"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 2,
+          "resource": "resolve"
+        },
+        {
+          "op": "block",
+          "n": 16
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-038",
+      "upgraded": false,
+      "characters": 8,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受10伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 10,
+          "hits": 1,
+          "target": "all"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-038",
+      "upgraded": true,
+      "characters": 8,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受14伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 14,
+          "hits": 1,
+          "target": "all"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-039",
+      "upgraded": false,
+      "characters": 38,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得6格挡。本回合下张普攻伤害牌首击+4。若愿力≥3：下回合多抽1张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 6
+        },
+        {
+          "op": "bonus",
+          "n": 4,
+          "tag": "normal"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-039",
+      "upgraded": true,
+      "characters": 38,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得9格挡。本回合下张普攻伤害牌首击+6。若愿力≥3：下回合多抽1张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 9
+        },
+        {
+          "op": "bonus",
+          "n": 6,
+          "tag": "normal"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-040",
+      "upgraded": false,
+      "characters": 24,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "使用雷眼1次，对目标造成2衍生伤害。获得6格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye_pulse"
+        },
+        {
+          "op": "block",
+          "n": 6
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-040",
+      "upgraded": true,
+      "characters": 24,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "使用雷眼1次，对目标造成2衍生伤害。获得9格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye_pulse"
+        },
+        {
+          "op": "block",
+          "n": 9
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-041",
+      "upgraded": false,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+1。下回合多抽1张。获得3格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 1
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        },
+        {
+          "op": "block",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-041",
+      "upgraded": true,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+1。下回合多抽1张。获得6格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 1
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        },
+        {
+          "op": "block",
+          "n": 6
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-042",
+      "upgraded": false,
+      "characters": 22,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得5格挡。若梦想一心有效：下回合能量+1。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 5
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_energy",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-042",
+      "upgraded": true,
+      "characters": 22,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得8格挡。若梦想一心有效：下回合能量+1。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 8
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_energy",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-043",
+      "upgraded": false,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受13伤害。若雷眼有效：抽1张牌。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 13,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-043",
+      "upgraded": true,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受18伤害。若雷眼有效：抽1张牌。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 18,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-044",
+      "upgraded": false,
+      "characters": 31,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得13格挡。本回合削势+3（上限6），减下次敌方攻击总伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 13
+        },
+        {
+          "op": "soften",
+          "n": 3
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-044",
+      "upgraded": true,
+      "characters": 31,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得17格挡。本回合削势+4（上限6），减下次敌方攻击总伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 17
+        },
+        {
+          "op": "soften",
+          "n": 4
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-045",
+      "upgraded": false,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受12伤害。若梦想一心有效：目标受5伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 12,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "damage",
+              "n": 5,
+              "hits": 1,
+              "target": "one"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-045",
+      "upgraded": true,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受17伤害。若梦想一心有效：目标受6伤害。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 17,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "damage",
+              "n": 6,
+              "hits": 1,
+              "target": "one"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-046",
+      "upgraded": false,
+      "characters": 20,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得8格挡。若愿力≥4：下回合格挡+6。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 8
+        },
+        {
+          "op": "when",
+          "condition": "resolve4",
+          "effects": [
+            {
+              "op": "next_block",
+              "n": 6
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-046",
+      "upgraded": true,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得11格挡。若愿力≥4：下回合格挡+8。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 11
+        },
+        {
+          "op": "when",
+          "condition": "resolve4",
+          "effects": [
+            {
+              "op": "next_block",
+              "n": 8
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-047",
+      "upgraded": false,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "雷眼3次，2结束阶段。下回合格挡+5。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "next_block",
+          "n": 5
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-047",
+      "upgraded": true,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "雷眼3次，2结束阶段。下回合格挡+8。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "next_block",
+          "n": 8
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-048",
+      "upgraded": false,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "抽2张牌。本回合下张普攻伤害牌首击+2。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "draw",
+          "n": 2
+        },
+        {
+          "op": "bonus",
+          "n": 2,
+          "tag": "normal"
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-048",
+      "upgraded": true,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "抽3张牌。本回合下张普攻伤害牌首击+3。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "draw",
+          "n": 3
+        },
+        {
+          "op": "bonus",
+          "n": 3,
+          "tag": "normal"
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-049",
+      "upgraded": false,
+      "characters": 20,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受7伤害。若梦想一心有效：抽1张牌。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 7,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-049",
+      "upgraded": true,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受10伤害。若梦想一心有效：抽1张牌。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 10,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-050",
+      "upgraded": false,
+      "characters": 25,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥2。耗2愿力。下回合能量+2。获得4格挡。",
+      "requirements": [
+        "resolve2"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 2,
+          "resource": "resolve"
+        },
+        {
+          "op": "next_energy",
+          "n": 2
+        },
+        {
+          "op": "block",
+          "n": 4
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-050",
+      "upgraded": true,
+      "characters": 25,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥2。耗2愿力。下回合能量+2。获得8格挡。",
+      "requirements": [
+        "resolve2"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 2,
+          "resource": "resolve"
+        },
+        {
+          "op": "next_energy",
+          "n": 2
+        },
+        {
+          "op": "block",
+          "n": 8
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-051",
+      "upgraded": false,
+      "characters": 42,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得6格挡。若雷眼有效：本回合反击取大至4（上限8），下次敌方攻击后存活则反击一次。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 6
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "counter",
+              "n": 4
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-051",
+      "upgraded": true,
+      "characters": 42,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得9格挡。若雷眼有效：本回合反击取大至6（上限8），下次敌方攻击后存活则反击一次。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 9
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "counter",
+              "n": 6
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-052",
+      "upgraded": false,
+      "characters": 13,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受9伤害。获得8格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 9,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "block",
+          "n": 8
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-052",
+      "upgraded": true,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受13伤害。获得11格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 13,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "block",
+          "n": 11
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-053",
+      "upgraded": false,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "清除自身虚弱与脆弱。获得3格挡。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "cleanse"
+        },
+        {
+          "op": "block",
+          "n": 3
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-053",
+      "upgraded": true,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "清除自身虚弱与脆弱。获得6格挡。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "cleanse"
+        },
+        {
+          "op": "block",
+          "n": 6
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-054",
+      "upgraded": false,
+      "characters": 16,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+2。下回合格挡+4。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 2
+        },
+        {
+          "op": "next_block",
+          "n": 4
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-054",
+      "upgraded": true,
+      "characters": 16,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+2。下回合格挡+7。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 2
+        },
+        {
+          "op": "next_block",
+          "n": 7
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-055",
+      "upgraded": false,
+      "characters": 16,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "下回合格挡+8。下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "next_block",
+          "n": 8
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-055",
+      "upgraded": true,
+      "characters": 17,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "下回合格挡+11。下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "next_block",
+          "n": 11
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-056",
+      "upgraded": false,
+      "characters": 29,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受15伤害。若愿力≥4：本回合下张普攻伤害牌首击+4。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 15,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "resolve4",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 4,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-056",
+      "upgraded": true,
+      "characters": 29,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受20伤害。若愿力≥4：本回合下张普攻伤害牌首击+6。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 20,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "resolve4",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 6,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-057",
+      "upgraded": false,
+      "characters": 20,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得7格挡。若雷眼有效：下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 7
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-057",
+      "upgraded": true,
+      "characters": 21,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得10格挡。若雷眼有效：下回合多抽1张。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 10
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-058",
+      "upgraded": false,
+      "characters": 30,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3。耗3愿力。梦想一心3次，2结束阶段。获得9格挡。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 3,
+          "resource": "resolve"
+        },
+        {
+          "op": "musou",
+          "n": 3
+        },
+        {
+          "op": "block",
+          "n": 9
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-058",
+      "upgraded": true,
+      "characters": 31,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3。耗3愿力。梦想一心3次，2结束阶段。获得14格挡。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 3,
+          "resource": "resolve"
+        },
+        {
+          "op": "musou",
+          "n": 3
+        },
+        {
+          "op": "block",
+          "n": 14
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-059",
+      "upgraded": false,
+      "characters": 24,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3，耗尽。目标受16+3×所耗愿力伤害。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": "all",
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 16,
+          "coefficient": 3,
+          "target": "one"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-059",
+      "upgraded": true,
+      "characters": 24,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3，耗尽。目标受22+3×所耗愿力伤害。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": "all",
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 22,
+          "coefficient": 3,
+          "target": "one"
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-060",
+      "upgraded": false,
+      "characters": 46,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3，耗尽。全体受10+2×所耗愿力伤害。梦想一心至少2次（≤3），2结束阶段。消耗。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": "all",
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 10,
+          "coefficient": 2,
+          "target": "all"
+        },
+        {
+          "op": "musou",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-060",
+      "upgraded": true,
+      "characters": 46,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3，耗尽。全体受14+2×所耗愿力伤害。梦想一心至少2次（≤3），2结束阶段。消耗。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": "all",
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 14,
+          "coefficient": 2,
+          "target": "all"
+        },
+        {
+          "op": "musou",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-061",
+      "upgraded": false,
+      "characters": 45,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得16格挡。雷眼3次，2结束阶段。本回合削势+3（上限6），减下次敌方攻击总伤害。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 16
+        },
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "soften",
+          "n": 3
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-061",
+      "upgraded": true,
+      "characters": 45,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得21格挡。雷眼3次，2结束阶段。本回合削势+4（上限6），减下次敌方攻击总伤害。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 21
+        },
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "soften",
+          "n": 4
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-062",
+      "upgraded": false,
+      "characters": 24,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受16伤害。若梦想一心有效：下回合能量+2。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 16,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_energy",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-062",
+      "upgraded": true,
+      "characters": 24,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受22伤害。若梦想一心有效：下回合能量+2。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 22,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_energy",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-063",
+      "upgraded": false,
+      "characters": 39,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "雷眼3次，2结束阶段。使用雷眼1次，对目标造成2衍生伤害。全体受7伤害。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "eye_pulse"
+        },
+        {
+          "op": "damage",
+          "n": 7,
+          "hits": 1,
+          "target": "all"
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-063",
+      "upgraded": true,
+      "characters": 40,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "雷眼3次，2结束阶段。使用雷眼1次，对目标造成2衍生伤害。全体受11伤害。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "eye_pulse"
+        },
+        {
+          "op": "damage",
+          "n": 11,
+          "hits": 1,
+          "target": "all"
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-064",
+      "upgraded": false,
+      "characters": 29,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3。耗3愿力。获得17格挡。下回合多抽2张。消耗。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 3,
+          "resource": "resolve"
+        },
+        {
+          "op": "block",
+          "n": 17
+        },
+        {
+          "op": "next_draw",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-064",
+      "upgraded": true,
+      "characters": 29,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3。耗3愿力。获得22格挡。下回合多抽2张。消耗。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 3,
+          "resource": "resolve"
+        },
+        {
+          "op": "block",
+          "n": 22
+        },
+        {
+          "op": "next_draw",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-065",
+      "upgraded": false,
+      "characters": 22,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "抽3张牌。若梦想一心有效：获得8格挡。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "draw",
+          "n": 3
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 8
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-065",
+      "upgraded": true,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "抽4张牌。若梦想一心有效：获得11格挡。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "draw",
+          "n": 4
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 11
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-066",
+      "upgraded": false,
+      "characters": 26,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受17伤害。本回合下张普攻伤害牌首击+4。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 17,
+          "hits": 1,
+          "target": "all"
+        },
+        {
+          "op": "bonus",
+          "n": 4,
+          "tag": "normal"
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-066",
+      "upgraded": true,
+      "characters": 26,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "全体受22伤害。本回合下张普攻伤害牌首击+6。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 22,
+          "hits": 1,
+          "target": "all"
+        },
+        {
+          "op": "bonus",
+          "n": 6,
+          "tag": "normal"
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-067",
+      "upgraded": false,
+      "characters": 38,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得9格挡。若梦想一心有效：下回合能量+2。若梦想一心失效：愿力+1。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 9
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_energy",
+              "n": 2
+            }
+          ]
+        },
+        {
+          "op": "when",
+          "condition": "not_musou",
+          "effects": [
+            {
+              "op": "resolve",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-067",
+      "upgraded": true,
+      "characters": 39,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得13格挡。若梦想一心有效：下回合能量+2。若梦想一心失效：愿力+1。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 13
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "next_energy",
+              "n": 2
+            }
+          ]
+        },
+        {
+          "op": "when",
+          "condition": "not_musou",
+          "effects": [
+            {
+              "op": "resolve",
+              "n": 1
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-068",
+      "upgraded": false,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得16格挡。下回合格挡+10。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 16
+        },
+        {
+          "op": "next_block",
+          "n": 10
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-068",
+      "upgraded": true,
+      "characters": 19,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得21格挡。下回合格挡+12。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 21
+        },
+        {
+          "op": "next_block",
+          "n": 12
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-069",
+      "upgraded": false,
+      "characters": 27,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+2。雷眼3次，2结束阶段。下回合多抽1张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 2
+        },
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "next_draw",
+          "n": 1
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-069",
+      "upgraded": true,
+      "characters": 27,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+2。雷眼3次，2结束阶段。下回合多抽2张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 2
+        },
+        {
+          "op": "eye",
+          "n": 3
+        },
+        {
+          "op": "next_draw",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-070",
+      "upgraded": false,
+      "characters": 22,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受26伤害。若梦想一心有效：获得8格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 26,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 8
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-070",
+      "upgraded": true,
+      "characters": 23,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受33伤害。若梦想一心有效：获得11格挡。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 33,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "when",
+          "condition": "musou",
+          "effects": [
+            {
+              "op": "block",
+              "n": 11
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-071",
+      "upgraded": false,
+      "characters": 37,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受12伤害。下回合格挡+8。若雷眼有效：本回合下张普攻伤害牌首击+4。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 12,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "next_block",
+          "n": 8
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 4,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-071",
+      "upgraded": true,
+      "characters": 38,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "目标受17伤害。下回合格挡+10。若雷眼有效：本回合下张普攻伤害牌首击+6。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "damage",
+          "n": 17,
+          "hits": 1,
+          "target": "one"
+        },
+        {
+          "op": "next_block",
+          "n": 10
+        },
+        {
+          "op": "when",
+          "condition": "eye",
+          "effects": [
+            {
+              "op": "bonus",
+              "n": 6,
+              "tag": "normal"
+            }
+          ]
+        }
+      ],
+      "exhaust": false
+    },
+    {
+      "id": "RD2-072",
+      "upgraded": false,
+      "characters": 25,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得8格挡。下回合能量+2。下回合多抽2张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 8
+        },
+        {
+          "op": "next_energy",
+          "n": 2
+        },
+        {
+          "op": "next_draw",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-072",
+      "upgraded": true,
+      "characters": 26,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得13格挡。下回合能量+2。下回合多抽2张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 13
+        },
+        {
+          "op": "next_energy",
+          "n": 2
+        },
+        {
+          "op": "next_draw",
+          "n": 2
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-073",
+      "upgraded": false,
+      "characters": 14,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+2。获得7格挡。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 2
+        },
+        {
+          "op": "block",
+          "n": 7
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-073",
+      "upgraded": true,
+      "characters": 15,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "愿力+2。获得11格挡。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "resolve",
+          "n": 2
+        },
+        {
+          "op": "block",
+          "n": 11
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-074",
+      "upgraded": false,
+      "characters": 34,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得13格挡。清除自身虚弱与脆弱。若愿力≥3：下回合多抽2张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 13
+        },
+        {
+          "op": "cleanse"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-074",
+      "upgraded": true,
+      "characters": 34,
+      "font": 15,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "获得18格挡。清除自身虚弱与脆弱。若愿力≥3：下回合多抽2张。消耗。",
+      "requirements": [],
+      "effects": [
+        {
+          "op": "block",
+          "n": 18
+        },
+        {
+          "op": "cleanse"
+        },
+        {
+          "op": "when",
+          "condition": "resolve3",
+          "effects": [
+            {
+              "op": "next_draw",
+              "n": 2
+            }
+          ]
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-075",
+      "upgraded": false,
+      "characters": 45,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3。耗3愿力。目标受10+2×所耗愿力伤害。下回合能量+2。下回合格挡+5。消耗。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 3,
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 10,
+          "coefficient": 2,
+          "target": "one"
+        },
+        {
+          "op": "next_energy",
+          "n": 2
+        },
+        {
+          "op": "next_block",
+          "n": 5
+        }
+      ],
+      "exhaust": true
+    },
+    {
+      "id": "RD2-075",
+      "upgraded": true,
+      "characters": 45,
+      "font": 14,
+      "bodySize": [
+        132,
+        92
+      ],
+      "fits": true,
+      "text": "需愿力≥3。耗3愿力。目标受14+2×所耗愿力伤害。下回合能量+2。下回合格挡+8。消耗。",
+      "requirements": [
+        "resolve3"
+      ],
+      "effects": [
+        {
+          "op": "spend",
+          "n": 3,
+          "resource": "resolve"
+        },
+        {
+          "op": "damage_spent",
+          "n": 14,
+          "coefficient": 2,
+          "target": "one"
+        },
+        {
+          "op": "next_energy",
+          "n": 2
+        },
+        {
+          "op": "next_block",
+          "n": 8
+        }
+      ],
+      "exhaust": true
+    }
+  ]
+}

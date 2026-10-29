@@ -2,7 +2,7 @@
   "owner": "TASK-74",
   "reviewedDate": "2026-10-28",
   "previousEngineeringSource": "20c6815e02d5fd47f6811f924328e7ddc5c7f6df",
-  "reason": "TASK-74 precise responsibility governance on develop20c6815: 9 existing UI warnings move with the same reviewed statements; 5 obsolete warning entries removed (4 unused feedback locals, 1 eliminated node-card shadow). All upstream warning identities and source-owner references retained; no new diagnostic exemption.; PR260 room port plus latest develop integration moves the same normalized warning identities only.; PR256/265/268 integration remaps exactly 38 unchanged statements by source-line alignment; warning identities/count and all limits unchanged.; TASK-25.4 remaps existing deck/node warning locations by identical source-line alignment; no warnings added or exempted.; Final UI: remap 23 identical diagnostic/declaration statements, retire 10 eliminated map self shadows and one renamed act1 cardUid shadow. 84 to 73 actual diagnostics; zero new exemptions or budget increases.; Enemy presentation responsibility split preserves all 73 diagnostic statements; only affected positions remapped.; TASK-79 intent help union remaps 15 unchanged declarations by exactly two lines; all 73 actual warning identities and limits remain, zero new exemptions.; TASK-83 removes 23 obsolete battle constructor shadow/unused warnings; no new exemptions or budget increases.",
+  "reason": "TASK-74 precise responsibility governance on develop20c6815: 9 existing UI warnings move with the same reviewed statements; 5 obsolete warning entries removed (4 unused feedback locals, 1 eliminated node-card shadow). All upstream warning identities and source-owner references retained; no new diagnostic exemption.; PR260 room port plus latest develop integration moves the same normalized warning identities only.; PR256/265/268 integration remaps exactly 38 unchanged statements by source-line alignment; warning identities/count and all limits unchanged.; TASK-25.4 remaps existing deck/node warning locations by identical source-line alignment; no warnings added or exempted.; Final UI: remap 23 identical diagnostic/declaration statements, retire 10 eliminated map self shadows and one renamed act1 cardUid shadow. 84 to 73 actual diagnostics; zero new exemptions or budget increases.; Enemy presentation responsibility split preserves all 73 diagnostic statements; only affected positions remapped.; TASK-79 intent help union remaps 15 unchanged declarations by exactly two lines; all 73 actual warning identities and limits remain, zero new exemptions.; TASK-83 removes 23 obsolete battle constructor shadow/unused warnings; no new exemptions or budget increases.; PR323 integration remaps only byte-identical historical diagnostic and declaration statements after preserving upstream constructor refactors; all 37 identities retained, no new exemption.",
   "diagnostics": [
     {
       "file": "src/lua/abyss_acid_slime_s_ai.lua",
@@ -69,21 +69,21 @@
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 142,
+      "line": 165,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 42"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 194,
+      "line": 217,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 42"
     },
     {
       "file": "src/lua/abyss_deck_ui.lua",
-      "line": 234,
+      "line": 257,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 42"
@@ -188,21 +188,21 @@
     },
     {
       "file": "src/lua/abyss_potion_discard_ui.lua",
-      "line": 60,
+      "line": 63,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 34"
     },
     {
       "file": "src/lua/abyss_potion_discard_ui.lua",
-      "line": 81,
+      "line": 84,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 34"
     },
     {
       "file": "src/lua/abyss_potion_discard_ui.lua",
-      "line": 86,
+      "line": 89,
       "column": 18,
       "code": "W431",
       "message": "shadowing upvalue 'self' on line 34"

@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -178,8 +179,9 @@ test('battle UI seed-slice guards reject skipped/overlapping seeds, lost recursi
   assert.throws(()=>validatePartitions(slices,inert),/executable original-budget wrapper/);
   const blocked=readWrappers();blocked['battle_ui_slice_6.lua']='--[[\n'+blocked['battle_ui_slice_6.lua']+']]\n';
   assert.throws(()=>validatePartitions(slices,blocked),/block-commented executable wrapper/);
-  const longer=read('scripts/test-lua.mjs').replace('60000 : 30000','120000 : 30000');
-  assert.notEqual(longer,read('scripts/test-lua.mjs'),'negative control raises the actual battle fixture deadline');
+  const runner=preAcceptedPr323Source('scripts/test-lua.mjs',read('scripts/test-lua.mjs'));
+  const longer=runner.replace('60000 : 30000','120000 : 30000');
+  assert.notEqual(longer,runner,'negative control raises the actual battle fixture deadline');
   assert.throws(()=>validateRunner(longer),/unchanged runner and original deadlines/);
 });
 

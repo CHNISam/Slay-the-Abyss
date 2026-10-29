@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { toLua } from './build-lua-data.mjs';
+import { nativeFontSize } from './native-ui-theme.mjs';
 
 export const loadMapTheme = () => JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8'));
 
@@ -20,15 +21,25 @@ export function mapGeometry(theme = loadMapTheme()) {
 
 export function mapLayout(theme = loadMapTheme()) {
   const g = mapGeometry(theme), c = theme.color, f = theme.font, im = theme.image;
-  const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text) => ({
+  const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text, align = 'centre') => ({
     name, kind: 'text', position: [x, y], size: [w, h],
-    text: { content, fontSize, colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: f.minimum },
+    text: { content, fontSize: nativeFontSize(fontSize, f.minimum), colour, align, valign: 'middle', autoSize: true, minFontSize: nativeFontSize(f.minimum) },
   });
   const image = (name, x, y, w, h, colour, picture = im.rect) => ({
     name, kind: 'image', position: [x, y], size: [w, h], image: picture, colour,
   });
   const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
   const visual = theme.layout.map.presentation, nav = visual.navigationSize;
+  // Map.dc.html retains TYPE explanations. Only the old STATE key was retired.
+  const legend = visual.typeLegend;
+  const typeLegend = { name: 'typeLegend', kind: 'container', position: legend.position, size: legend.size,
+    children: [text('title', 0, legend.titleY, legend.size[0], legend.textHeight, '节点类型', f.label, c.gold),
+      ...[['combat', '普通战斗'], ['elite', '精英'], ['event', '事件'], ['shop', '商店'],
+        ['camp', '营地'], ['treasure', '宝箱'], ['boss', '首领']].flatMap(([kind, label], i) => {
+        const y = legend.firstY - i * legend.rowGap;
+        return [image(`${kind}Icon`, legend.iconX, y, legend.iconSize, legend.iconSize, c.textDim, theme.icon.node[kind]),
+          text(`${kind}Label`, legend.labelX, y, legend.labelWidth, legend.textHeight, label, f.label, c.textDim, 'left')];
+      })] };
   const button = (name, y, label) => ({ name, kind: 'container', position: [visual.navigationX, y], size: [nav, nav], visible: false, children: [
     image('frame', 0, 0, nav, nav, c.goldDim, im.disc), image('body', 0, 0, nav - 4, nav - 4, c.panel, im.disc),
     text('label', 0, 0, nav, nav, label, f.label), hit(nav, nav),
@@ -53,6 +64,7 @@ export function mapLayout(theme = loadMapTheme()) {
     text('title', 0, 316, 380, 40, '', f.body, c.mapHeader.title),
     { ...text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim), visible: false },
     button('next', visual.navigationY[0], '↑'), button('focus', visual.navigationY[1], '◆'), button('previous', visual.navigationY[2], '↓'),
+    typeLegend,
   ];
   // Runtime clips these line segments geometrically to the 600px viewport.
   for (let i = 1; i <= g.maxEdges; i++) controls.push({

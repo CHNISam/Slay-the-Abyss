@@ -44,7 +44,7 @@ function draw(control, parentSize) {
       `<span>${t.content.replace(/[<&]/g, c => (c === '<' ? '&lt;' : '&amp;'))}</span></div>`;
   }
   if (control.kind === 'image') {
-    if (control.image === image.diamond) return `<svg style="${box};color:${control.colour}" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0 24 12 12 24 0 12Z"/></svg>`;
+    if (control.image === image.diamond) return `<svg style="${box};color:${control.colour}" viewBox="0 0 24 24" preserveAspectRatio="none"><path fill="currentColor" d="M12 0 24 12 12 24 0 12Z"/></svg>`;
     if (control.image === image.rect) return `<div style="${box};background:${control.colour}"></div>`;
     if (control.image === image.disc) return `<div style="${box};background:${control.colour};border-radius:50%"></div>`;
     if (control.image === image.ring) return `<div style="${box};border:${Math.max(1,Math.min(w,h)*.07)}px solid ${control.colour};border-radius:50%"></div>`;

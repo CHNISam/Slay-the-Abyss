@@ -456,7 +456,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         if not self.visible or not self.map then return end
         if not chapterFor(self.map) then self:render() return end
         if observeMap(Map.view(self.map)) then self:render() end
-        if drag then return end
+        if drag then
+            -- A same-owner node Down can retire an abandoned background drag.
+            -- Background has no node selection to steal; its delayed Up cannot
+            -- release this node slot. Node-to-node ownership stays exclusive.
+            if drag.touch == nil or drag.touch ~= touch(event) or drag.slot ~= nil or slot == nil then return end
+            cancelDrag()
+        end
         cancelSelection()
         self.dragged = false
         local y = pointY(event)

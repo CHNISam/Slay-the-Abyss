@@ -75,7 +75,9 @@ function M.new(self, describe, lines)
         if self.run.potions ~= info.inventory or self.run.potions[info.slot] ~= info.potionId then return end
         local definition = find(data.potions.potions, "id", info.potionId)
         if not definition then return end
-        return definition, {{name = definition.name, text = describe.potionText(definition, battle, true):match("\n(.*)"),
+        local keywordDefinition=Combat.copy(definition)
+        for _,effect in ipairs(keywordDefinition.effects)do effect.value=require('abyss_inventory').potionValue(battle,effect)end
+        return keywordDefinition, {{name = definition.name, text = describe.potionText(definition, battle, true):match("\n(.*)"),
             note = require('abyss_potion_text').note(definition) or (definition.targetPolicy == "enemy_one" and "对选中的一名敌人；先选药水，再点击敌人" or "对自己使用；短按药水生效"), colour = C.goldBright}}
     end
 
@@ -95,10 +97,13 @@ function M.new(self, describe, lines)
         end
     end
 
-    local function fullEffectRows(definition, instance, battle, rows)
+    local function fullEffectRows(definition, instance, battle, rows,reward)
         if not definition.originalV4 then return end
-        local full = require("abyss_original_v4_display").describe(definition, instance.upgraded)
-        local preview = Combat.cardPreview(battle, instance, self.target)
+        local original=require('abyss_original_v4_display')
+        local full = original.describe(definition, instance.upgraded)
+        local keywords=original.keywordDefinitions(definition,instance.upgraded)
+        if keywords~='' then full=full..'\n'..keywords end
+        local preview = not reward and Combat.cardPreview(battle, instance, self.target) or {}
         if preview.text and preview.text ~= "" then full = full .. "\n" .. preview.text end
         local chunk, index = "", 0
         local function flush()
@@ -123,7 +128,9 @@ function M.new(self, describe, lines)
     end
 
     local function keywordCard(card, data, presentation, battle, info, actor)
-        local instance = find(battle.hand, "uid", info.uid)
+        local reward=info.reward
+        if reward and not require('abyss_battle_reward_owner').ready(self,reward) then return end
+        local instance = reward and {cardId=reward.cardId,upgraded=reward.upgraded} or find(battle.hand, "uid", info.uid)
         local definition, rows
         if info.kind == "potion" then
             definition, rows = potionRows(data, battle, info)
@@ -132,7 +139,7 @@ function M.new(self, describe, lines)
             if not instance then return end
             definition, rows = Combat.cardDefinition(battle, instance), {}
         end
-        fullEffectRows(definition, instance, battle, rows)
+        fullEffectRows(definition, instance, battle, rows,reward)
         keywordRows(definition.effects, battle, actor, rows)
         cardTraits(definition, rows)
         if #rows == 0 then return end
@@ -225,7 +232,7 @@ function M.new(self, describe, lines)
         local card = {title = actor.name or "旅行者", tag = "当前状态", accent = C.gold,
             hp = actor.hp, maxHp = actor.maxHp, block = actor.block, sections = {}}
         if info.kind == "intent" then return intentCard(card, battle, info) end
-        if info.kind == "card" or info.kind == "potion" then return keywordCard(card, data, presentation, battle, info, actor) end
+        if info.kind == "card" or info.kind == "potion" or info.kind=='rewardCard' then return keywordCard(card, data, presentation, battle, info, actor) end
         entries = selectedEntries(entries, info)
         if not entries then return end
         if info.index > 0 and not info.statusId and not info.offset then

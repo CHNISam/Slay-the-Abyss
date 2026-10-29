@@ -18,6 +18,10 @@ function M.install(owner, ownership, host, dependencies)
         return (x-width/2)/k,(y-height/2)/k
     end
     local function retireInterruptedPress(event)
+        local potion=owner.potionAim
+        if potion and potion.moving and potion.touch==(event and event.touchId) then
+            dependencies.cancelPotionAim();dependencies.cancelPotionInputs();owner.suppressClick=true;owner:render();return true
+        end
         local g = owner.gesture
         if not g or g.touch ~= (event and event.touchId) then return false end
         -- Another Down from the same pointer starts a new physical sequence.
@@ -31,6 +35,7 @@ function M.install(owner, ownership, host, dependencies)
         return true
     end
     local function down(event)
+        if owner.potionAim and owner.potionAim.moving and owner.potionAim.touch~=(event and event.touchId) then return true end
         retireInterruptedPress(event)
         ownership.pointerObserved = true
         owner.help=nil
@@ -51,7 +56,21 @@ function M.install(owner, ownership, host, dependencies)
         owner:render()
         return true
     end
+    local function renderCardMotion(g)
+        owner.suppressClick,owner.selected = true,g.uid
+        local valid, target, aiming = dependencies.dragTarget(g)
+        if g.cancelled then
+            g.input.held, g.input.released = nil, nil
+            ownership.releasedDragTouch = g.touch
+            owner.gesture, owner.selected, owner.hover, owner.handHover, owner.suppressClick = nil, nil, nil, nil, g
+            owner:render(); return
+        end
+        if g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
+            owner:render()
+        else host.cardView.renderDrag(valid, target, aiming, true) end
+    end
     local function move(event, input)
+        if owner.potionAim and owner.potionAim.moving and dependencies.movePotion then return dependencies.movePotion(event,input) end
         local g = owner.gesture
         if not g or not event or event.touchId ~= g.touch then return end
         -- A reused touch ID does not transfer ownership between card controls.
@@ -61,21 +80,7 @@ function M.install(owner, ownership, host, dependencies)
         if not x then return end
         g.x,g.y = x,y
         if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
-        if g.moving then
-            owner.suppressClick,owner.selected = true,g.uid
-            local valid, target, aiming = dependencies.dragTarget(g)
-            if g.cancelled then
-                g.input.held, g.input.released = nil, nil
-                ownership.releasedDragTouch = g.touch
-                owner.gesture, owner.selected, owner.hover, owner.handHover, owner.suppressClick = nil, nil, nil, nil, g
-                owner:render(); return
-            end
-            if g.drawnValid ~= valid or g.drawnTarget ~= target or g.drawnAiming ~= aiming then
-                owner:render()
-            else
-                host.cardView.renderDrag(valid, target, aiming, true)
-            end
-        end
+        if g.moving then renderCardMotion(g) end
     end
     updateCarry = function()
         local g = owner.carry
@@ -125,6 +130,7 @@ function M.install(owner, ownership, host, dependencies)
         else dependencies.notice("") end
     end
     local function release(event, input, ended)
+        if owner.potionAim and owner.potionAim.moving and dependencies.releasePotionDrag then return dependencies.releasePotionDrag(event,input) end
         local g = owner.gesture
         local touch = event and event.touchId
         if not g then releaseCardTap(event, input, ended) return end
@@ -145,6 +151,8 @@ function M.install(owner, ownership, host, dependencies)
         finishCardRelease(g, event, ended)
     end
     function owner.cancelControllerPointers(_)
+        local aim=owner.potionAim
+        if aim and aim.moving then ownership.releasedDragTouch=aim.touch end
         dependencies.cancelCardInputs();dependencies.cancelActionInputs();dependencies.cancelPotionInputs()
         for _,input in ipairs(ownership.enemyInputs)do input.held,input.released=nil,nil end
     end
@@ -155,7 +163,9 @@ function M.install(owner, ownership, host, dependencies)
     function owner.controllerBack(_)
         if dependencies.closeInfo() then owner:render();return true end
         if owner.selected or owner.potionAim then
-            dependencies.cancelPotionAim();owner.selected,owner.carry,owner.hover=nil,nil,nil;owner.suppressClick=false
+            local movingAim=owner.potionAim and owner.potionAim.moving and owner.potionAim
+            dependencies.cancelPotionAim();owner.selected,owner.carry,owner.hover=nil,nil,nil;owner.suppressClick=movingAim or false
+            if movingAim then ownership.releasedDragTouch=movingAim.touch end
             owner.selectionEpoch=(owner.selectionEpoch or 0)+1
             dependencies.cancelCardInputs();dependencies.cancelActionInputs();dependencies.refresh()
             return true
@@ -165,6 +175,7 @@ function M.install(owner, ownership, host, dependencies)
         end
         return false
     end
+
     return {
         point=point, retireInterruptedPress=retireInterruptedPress, down=down, swallowed=swallowed, move=move,
         updateCarry=updateCarry, releaseCardTap=releaseCardTap, finishCardRelease=finishCardRelease, release=release, controllerReady=controllerReady

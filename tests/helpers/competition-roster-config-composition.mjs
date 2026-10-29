@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 // Exact outer roster registration bridge; every older complete config proof stays immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -8,6 +9,7 @@ const bytes=normalize(readFileSync(new URL('../fixtures/competition-roster-confi
 assert.equal(hash(bytes),'a27d66f90b37bf44a9df09add3496bfcbe23dd16c0ba286deaa871867294b11d','complete reviewed roster config composition');
 export const rosterConfigComposition=JSON.parse(bytes);
 export function projectRosterConfigSource(path,source,target){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  const proof=rosterConfigComposition;
  assert.equal(path,proof.path,'roster config composition path');
  assert.equal(typeof source,'string','roster config composition source must exist');
@@ -24,6 +26,7 @@ export function projectRosterConfigSource(path,source,target){
  return previous;
 }
 export function preRosterConfigSource(path,source,target='current'){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  if(path!==rosterConfigComposition.path||typeof source!=='string'||hash(normalize(source))!==rosterConfigComposition.combinedSha256LF)return source;
  return projectRosterConfigSource(path,source,target);
 }

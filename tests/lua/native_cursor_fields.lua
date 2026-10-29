@@ -49,7 +49,7 @@ for _,kind in ipairs({'cursorArea','presetButton'})do
   for _,target in ipairs({'control','ancestor'})do
    local ancestor=F.control({name='active-page',kind='container'})
    local item=F.control({name='active-item',kind=kind},ancestor)
-   ancestor.alive,item.alive=true,true
+   assert(ancestor.alive and item.alive,'native controls begin alive')
    local accepted=0
    local current=Controller.new(api)
    local function action()accepted=accepted+1;return true end

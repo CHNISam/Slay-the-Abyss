@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import {preNodeUiRefactorSource}from'./helpers/node-ui-refactor-inverse.mjs';
 import {maxHpAcceptedInverse,preMaxHpSource}from'./helpers/max-hp-accepted-source-inverse.mjs';
@@ -24,7 +25,7 @@ test('historical replay inverses bind every current source and exactly recover t
  }
 });
 test('direct P0 theme identity rejects partial duplicated moved and unrelated Max HP source drift in either inverse order',()=>{
- const path='data/presentation/ui_theme.json',current=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+ const path='data/presentation/ui_theme.json',current=preAcceptedPr323Source(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
  const binding=p0Presentation.files[path],edit=maxHpAcceptedInverse.files[path].edits[0];
  const moved=JSON.parse(current),glyph=moved.icon.relic.pear;
  delete moved.icon.relic.pear;moved.icon.relic={pear:glyph,...moved.icon.relic};

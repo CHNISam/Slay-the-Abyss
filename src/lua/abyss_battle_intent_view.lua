@@ -108,17 +108,47 @@ local function theft(v)
 end
 
 local function attackHits(v, effect)
-    local amount = Combat.intentAttackAmount(v.preview, v.copy, v.player, effect.value)
+    local calculation = Combat.intentAttackPreview(v.preview, v.copy, v.player, effect.value)
+    local amount = calculation.amount
     local times = effect.times or 1
-    local hits, total, unequal = {}, 0, false
+    local hits, cuts, total, unequal = {}, {}, 0, false
     for hit = 1, times do
         local cut = math.min(amount, v.soften)
+        cuts[hit]=cut
         v.soften = v.soften - cut
         hits[hit] = amount - cut
         total = total + hits[hit]
         if hit > 1 and hits[hit] ~= hits[1] then unequal = true end
     end
-    return hits, total, unequal, times
+    return hits, total, unequal, times, calculation, cuts
+end
+
+local formulaNames={vigor='活力',double_damage='双倍伤害',pen_nib='钢笔尖',weak='虚弱',
+    vulnerable='易伤',stance='姿态',flight='飞行',slow='迟缓',back_attack='背击',truncate='向零取整',binary32='单精度'}
+local function decimal(value)return string.format('%.9g',value) end
+local function formulaStep(step)
+    local value=decimal(step.value)
+    if step.kind=='base' then return '基础 '..value end
+    if step.kind=='strength' or step.kind=='vigor' then
+        return (step.kind=='strength' and '力量' or '活力')..' '..(step.operand>=0 and '+' or '')..decimal(step.operand)..' = '..value
+    end
+    if step.kind=='round' then return '向下取整且不低于0 = '..value end
+    if step.kind=='intangible' then return '无实体 min(当前值, 1) = '..value end
+    local operator=step.operand and (' ×'..decimal(step.operand)..' = ') or ' = '
+    return (formulaNames[step.kind] or step.kind)..operator..value
+end
+local function attackFormula(calculation,hits,cuts,times)
+    local parts,chunks={},{}
+    for _,step in ipairs(calculation.steps)do
+        parts[#parts+1]=formulaStep(step)
+        if #parts==5 then chunks[#chunks+1]=table.concat(parts,' → ');parts={} end
+    end
+    if #parts>0 then chunks[#chunks+1]=table.concat(parts,' → ') end
+    if times>1 then chunks[1]='每段：'..chunks[1] end
+    for i,cut in ipairs(cuts)do if cut>0 then
+        chunks[#chunks+1]='第'..i..'段削减：'..number(calculation.amount)..' − '..number(cut)..' = '..number(hits[i])
+    end end
+    return chunks
 end
 
 local function attackFace(hits, times, unequal)
@@ -137,15 +167,17 @@ local function attackSentence(face, times, each, unequal, singlePrefix)
 end
 
 local function attackEffect(v, effect)
-    local hits, total, unequal, times = attackHits(v, effect)
-    local amount, each = hits[1], number(hits[1])
+    local hits, total, unequal, times, calculation, cuts = attackHits(v, effect)
+    local each = number(hits[1])
     local face = attackFace(hits, times, unequal)
+    local formula=attackFormula(calculation,hits,cuts,times)
     v.attack = v.attack or face
     v.result[#v.result + 1] = attackSentence(face, times, each, unequal, "攻击造成 ")
     v.rows[#v.rows + 1] = { icon = "attack", colour = C.danger, name = "攻击 " .. face,
         tag = times > 1 and "共 " .. number(total) or nil,
         text = attackSentence(face, times, each, unequal, "造成 "),
-        note = amount ~= effect.value and "基础 " .. number(effect.value) .. "，已计入双方力量、虚弱与易伤" or nil }
+        note = formula[1] }
+    for i=2,#formula do v.rows[#v.rows+1]={icon='attack',colour=C.danger,name='伤害算式（续）',text=formula[i]} end
 end
 
 local function blockEffect(v, effect)

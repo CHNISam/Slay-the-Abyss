@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {preIntegratedNodeUiSource} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import {currentSourceLayers} from './task77-current-source-layers.mjs';
@@ -31,6 +32,7 @@ export function archivedRetirementChangelog(source=retirementSources.beforeSourc
 // Complete identities are checked before projection; this is not a wildcard
 // that can hide future changes in the old source or current interaction guards.
 export function preRetirementSource(path,source=existsSync(path)?readFileSync(path,'utf8'):null){
+ source=preAcceptedPr323Source(path,source);
  let normalized=source===null?null:preIntegratedNodeUiSource(path,source.replaceAll('\r\n','\n'));
  if(path==='package.json'&&normalized!==null)normalized=beforeQualityPackage(normalized);
  // Bind and invert only the complete reviewed UI-after identity before the

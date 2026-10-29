@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
@@ -5,6 +6,7 @@ import {preBattleRefactorLayer} from './battle-refactor-projection.mjs';
 // Strip only exact reviewed core tails. Each complete prior source identity
 // remains mandatory; the upstream Battle inverse then restores the CEC oracle.
 export function preCoreArchitectureSource(path,source) {
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
   if(path!=='config/architecture.json')return source;
   source=source.replaceAll('\r\n','\n');
   const header='  "layers": {\n',start=source.indexOf(header);

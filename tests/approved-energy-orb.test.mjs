@@ -27,7 +27,12 @@ test('energy uses the official element picture and centered white digits with sa
  assert.equal(core.image,theme.icon.energy.id,'later README requires official element material');
  assert.equal(icon.children.some(c=>c.image===theme.image.diamond),false,'no replacement invented crystal geometry');
  assert.equal(number.text.colour,'#FFF8EC');
- near(number.text.fontSize,44/1.5,'source font scale');
+ near(number.text.fontSize,Math.round(44/1.5),'nearest importable integer to source font scale');
+ const main=readFileSync('docs/design/ui-canvas/Main.dc.html','utf8');
+ assert.match(main,/place-items: center; font-size: 44px; font-weight: 700; color: #FFF8EC/,'approved44px source typography is retained');
+ // Native font fields are integer varints: round only44px/1.5, not geometry.
+ assert.equal(number.text.fontSize,Math.round(44/1.5),'native integer conversion of the exact approved source font');
+ assert.equal(theme.layout.energy.numberSize,Math.round(44/1.5));
  assert.equal(number.text.align,'centre');
  assert.equal(number.text.valign,'middle');
  const shadow=icon.children.find(c=>c.name==='valueShadow');

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { runLua } from '../scripts/test-lua.mjs';
+import { readBeforeMobileQaSource } from './helpers/mobile-qa-source-inverse.mjs';
 
 const source=JSON.parse(readFileSync('tests/fixtures/ruby-recall-source-contract.json','utf8'));
 test('Recall source contract pins actual tree paths, exact blobs and the existing history gate',()=>{
@@ -90,7 +91,7 @@ test('real Nodes map/camp Recall command is once-only, source-bound and resource
 });
 
 test('three original camp commands retain frozen bodies around the reviewed Toxic Egg adapter',()=>{
-  const code=readFileSync('src/lua/abyss_nodes.lua','utf8').replaceAll('\r\n','\n');
+  const code=readBeforeMobileQaSource('src/lua/abyss_nodes.lua').replaceAll('\r\n','\n');
   const start=code.indexOf(source.legacyCampCommands.start);
   const end=code.indexOf(source.legacyCampCommands.endExclusive,start);
   assert.ok(start>0&&end>start);

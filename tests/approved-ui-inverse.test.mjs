@@ -1,3 +1,4 @@
+import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
 import {nodeUiRefactor} from './helpers/node-ui-refactor-inverse.mjs';
 import {preIntegratedNodeUiSource} from './helpers/approved-node-ui-refactor.mjs';
 import test from 'node:test';
@@ -9,7 +10,7 @@ import {createHash} from 'node:crypto';
 import {approvedUi,preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import {p0Presentation,preAcceptedPresentation,materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>readBeforeMobileQaSource(p).replaceAll('\r\n','\n');
 const potionPath='tests/lua/battle_ui_potion_target_failures.lua';
 const potionPart=JSON.parse(read('tests/fixtures/ui-regression-partitions.json')).partitions.find(part=>part.entry===potionPath);
 function originalPotionFailures(source){

@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,6 +12,8 @@ export const maxHpPr313Inverse=JSON.parse(currentBytes);
 // Test-only exact insertion inverse. Unknown identities flow to the existing
 // historical guards unchanged, so drift cannot be hidden by field filtering.
 export function preMaxHpSource(path,source){
+ if(Object.hasOwn(maxHpPr313Inverse.files,path)||Object.hasOwn(maxHpAcceptedInverse.files,path))source=preAcceptedPr323Source(path,source);
+ if(source===null)return null;
  source=source.replaceAll('\r\n','\n');
  const currentBinding=maxHpPr313Inverse.files[path];
  const binding=currentBinding && hash(source)===currentBinding.afterSha256

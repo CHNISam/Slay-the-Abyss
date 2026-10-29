@@ -506,20 +506,23 @@ test("native lifecycle loads every composed control and registers its listeners 
         __call = function(_,r,g,b,a) return {r=r,g=g,b=b,a=a} end,
     })
     local width, height = 1600, 900
-    game = { GetUICanvasSize = function() return width, height end }
+    game = { GetUICanvasSize = function() return width, height end, IsTestPlay=function()return true end }
     dofile("src/lua/abyss_ui.lua")
     OnStart()
     OnStart()
     assert(root.scale[1] == 1.25)
     assert(script.updating)
     click(root, "menuPanel", "start")
-    assert(root:GetChild("characterPanel").visible and root:GetChild("prologuePanel")==nil)
+    assert(root:GetChild("characterPanel").visible and not root:GetChild("prologuePanel").visible)
     click(root, "characterPanel", "traveler")
     assert(root:GetChild("characterPanel").visible and not root:GetChild("mapPanel").visible)
     click(root, "characterPanel", "confirm")
     assert(not root:GetChild("characterPanel").visible)
     for _ = 1, 8 do OnUpdate(0.25) end
-    assert(root:GetChild("mapPanel").visible and root:GetChild("prologuePanel")==nil)
+    assert(not root:GetChild("mapPanel").visible and root:GetChild("prologuePanel").visible)
+    root:GetChild('prologuePanel'):GetChild('skip'):GetChild('hit').click()
+    for _ = 1, 8 do OnUpdate(0.25) end
+    assert(not root:GetChild('prologuePanel').visible and root:GetChild('nodePanel').visible)
     assert(not root:GetChild("menuPanel").visible)
     width, height = 2340, 1080
     OnUpdate(0.25)

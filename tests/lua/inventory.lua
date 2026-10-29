@@ -325,6 +325,19 @@ test("legacy six-opening fixture keeps resources across two original-enemy battl
             for i,item in ipairs(originalRemaining)do same(items[i],item)end
             same(Pool.snapshot(run.relicPool),pool)
             same({treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)},rng)
+            local realToken=assert(Nodes.treasureRewardSource(run,originalItems[1].slot))
+            equal(realToken.sourceId,'Pear')
+            local maximum,beforeHp,beforeGold=run.maxHp,run.hp,run.gold
+            assert(Nodes.claimTreasureReward(run,realToken))
+            equal(run.maxHp,maximum+10);equal(run.hp,math.min(maximum+10,beforeHp+10));equal(run.gold,beforeGold)
+            hp=math.min(maximum+10,beforeHp+10)
+            local pears=0;for _,id in ipairs(run.relics)do if id=='pear'then pears=pears+1 end end;equal(pears,1)
+            same(Pool.snapshot(run.relicPool),pool)
+            same({treasure=Random.snapshot(run.treasureRng),card=Random.snapshot(run.cardRng)},rng)
+            local beforeRepeat,flow,reward=Combat.copy(run),run.nodeFlow,run.nodeFlow.reward
+            local repeated,repeatReason=Nodes.claimTreasureReward(run,realToken)
+            equal(repeated,false);equal(repeatReason,'treasure_reward_unavailable')
+            same(run,beforeRepeat);equal(run.nodeFlow,flow);equal(run.nodeFlow.reward,reward)
             local token=assert(Nodes.treasureRewardSource(run,component.slot))
             assert(Nodes.claimTreasureReward(run,token));acquiredId=component.id;acquired=true
             same(Pool.snapshot(run.relicPool),pool)

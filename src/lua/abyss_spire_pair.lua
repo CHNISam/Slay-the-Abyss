@@ -95,12 +95,17 @@ function M.actualDamage(state,enemy,normalOutput)
  if not M.backAttack(state,enemy)then return normalOutput end
  return math.floor(f32(f32(normalOutput)*1.5))
 end
-function M.intentDamage(state,enemy,preFinal,finalReceive)
+function M.intentDamage(state,enemy,preFinal,finalReceive,trace)
  local value=preFinal
  if M.backAttack(state,enemy)then
-  value=f32(f32(value)*1.5);value=value<0 and math.ceil(value)or math.floor(value)
+  value=f32(f32(value)*1.5)
+  if trace then trace[#trace+1]={kind='back_attack',value=value,operand=1.5} end
+  value=value<0 and math.ceil(value)or math.floor(value)
+  if trace then trace[#trace+1]={kind='truncate',value=value} end
  end
- return math.max(0,math.floor(finalReceive(value)))
+ local result=math.max(0,math.floor(finalReceive(value)))
+ if trace then trace[#trace+1]={kind='round',value=result} end
+ return result
 end
 local function append(actions,kind,enemy,target,fields)
  local action={kind=kind,sourceId=enemy.id,targetId=target and target.id or nil}

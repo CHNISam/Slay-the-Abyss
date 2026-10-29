@@ -107,13 +107,32 @@ function runConservedTrace(){
  }finally{rmSync(directory,{recursive:true,force:true});}
 }
 
+function runHistoricalText(){
+ const started=Date.now(),remaining=()=>{
+  const value=30000-(Date.now()-started);
+  assert(value>0,'historical text exceeded its original total deadline');return value;
+ };
+ mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/presentation-wording-'));
+ try{
+  for(const input of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
+   cpSync(input,join(directory,input),{recursive:true});
+  materializeHistoricalPresentation(directory);
+  writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
+  for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
+   const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:remaining()});
+   assert.equal(result.status,0,result.stdout+result.stderr);
+  }
+  return runLua(join(directory,'tests/lua/presentation_responsibilities_text.lua'),{cwd:directory,timeout:remaining()});
+ }finally{rmSync(directory,{recursive:true,force:true});}
+}
+
 
 for (const [fixture, marker] of [
   ['text', 'PRESENTATION_WORDING_TRACE 361 1837256485'],
   ['trace', 'PRESENTATION_NATIVE_TRACE 81392 1836812524'],
 ]) {
   test(`presentation responsibilities preserve the historical frozen ${fixture} contract`, () => {
-    const result = fixture==='trace' ? runConservedTrace() : runLua(`tests/lua/presentation_responsibilities_${fixture}.lua`);
+    const result = fixture==='trace' ? runConservedTrace() : runHistoricalText();
     assert.equal(result.status, 0, result.stdout + result.stderr);
     assert.ok(result.stdout.includes(marker), result.stdout);
   });

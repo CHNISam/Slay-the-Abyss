@@ -61,7 +61,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     install(services, require("abyss_battle_input_state").install(self, ownership, host, ports(links, {
     })))
     install(services, require("abyss_battle_targeting").install(self, ownership, host, ports(links, {
-        "dragReady"
+        "dragReady", "aimReady"
     })))
     install(services, require("abyss_battle_details").install(self, ownership, host, ports(links, {
         "tint", "ink", "child", "cancelPotionAim", "cancelCardInputs",
@@ -79,7 +79,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_render_actors").install(self, ownership, host, ports(links, {
         "dragTarget", "picture", "tint", "ink", "enemySlot",
-        "child", "button", "show"
+        "child", "button", "show", "potionDragTarget"
     })))
     install(services, require("abyss_battle_render").install(self, ownership, host, ports(links, {
         "prepareRenderInputs", "renderFeedbackReady", "syncRenderIdentity", "renderFrame", "syncRewardOwner",
@@ -95,7 +95,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_card_gestures").install(self, ownership, host, ports(links, {
         "closeInfo", "cardReady", "dragTarget", "notice", "cancelCardInputs",
-        "cancelActionInputs", "cancelPotionInputs", "cancelPotionAim", "refresh", "rewardScreen"
+        "cancelActionInputs", "cancelPotionInputs", "cancelPotionAim", "refresh", "rewardScreen",
+        "movePotion", "releasePotionDrag"
     })))
     install(services, require("abyss_battle_action_bindings").install(self, ownership, host, ports(links, {
         "swallowed", "cardReady", "down", "point", "inPlayArea",
@@ -103,7 +104,8 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_potion_bindings").install(self, ownership, host, ports(links, {
         "potionBinding", "cancelPotionAim", "cancelCardInputs", "cancelActionInputs", "refresh",
-        "child", "controllerReady", "swallowed", "potionReady", "down", "consumeReleasedDragClick"
+        "child", "controllerReady", "swallowed", "potionReady", "down", "consumeReleasedDragClick",
+        "point", "beginPotionAim", "potionDragTarget"
     })))
     install(services, require("abyss_battle_card_bindings").install(self, ownership, host, ports(links, {
         "point", "child", "controllerReady", "listen", "retireInterruptedPress",
@@ -124,6 +126,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         describeInfo=services.describeInfo, show=services.show, placeCard=services.placeCard, placeReward=services.placeReward, dragTarget=services.dragTarget,
         dragPose=services.dragPose, notice=services.notice, refresh=services.refresh, bind=services.bind, cancelPotionAim=services.cancelPotionAim,
         rewardScreen=services.rewardScreen, bindPotionControls=services.bindPotionControls, bindCardControls=services.bindCardControls, bindEnemyControls=services.bindEnemyControls, bindDetailControls=services.bindDetailControls,
+        potionDragTarget=services.potionDragTarget,
         cancelCardInputs=services.cancelCardInputs, consumeReleasedDragClick=services.consumeReleasedDragClick
     }
     host.stage = host.options.embedded and host.root or assert(host.root:GetChild("stage"), "missing stage")
@@ -163,6 +166,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         child = services.child, show = services.show, ink = services.ink, tint = services.tint, picture = services.picture, platform = host.platform,
         placeCard = services.placeCard, placeReward = services.placeReward,
         dragTarget = services.dragTarget, dragPose = services.dragPose, enemyPosition = services.enemyPosition,
+        potionTarget = services.potionDragTarget,
     })
     self.feedback = Feedback.new(host.stage, host.platform, function(battle, acting)
         self.displayBattle, self.acting = battle, acting

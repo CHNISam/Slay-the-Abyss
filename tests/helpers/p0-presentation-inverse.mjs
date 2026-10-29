@@ -1,9 +1,11 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
+import {pr323AcceptedSourceInverse,requirePr323Source} from './pr323-accepted-source-inverse.mjs';
 export {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 import {preIntegratedNodeUiSource,nodeUiAddedPaths,nodeUiCurrentRootSha256,approvedNodeFace} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync,rmSync} from 'node:fs';
-import {join} from 'node:path';
+import {readFileSync,writeFileSync,rmSync,mkdirSync} from 'node:fs';
+import {join,dirname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 const hash=value=>createHash('sha256').update(value).digest('hex');
@@ -11,6 +13,7 @@ const bytes=readFileSync('tests/fixtures/p0-accepted-presentation-inverses.json.
 assert.equal(hash(bytes),'6f74bc575b24e5c830119e0309b0311017cbeba5ad5cc6d1fdcc44f69a27e164');
 export const p0Presentation=JSON.parse(gunzipSync(bytes));
 export function preAcceptedPresentation(path,source){
+  source=preAcceptedPr323Source(path,source);
   if(source===null)return source;
   source=preIntegratedNodeUiSource(path,source).replaceAll('\r\n','\n');
   const binding=p0Presentation.files[path];
@@ -26,13 +29,22 @@ export function preAcceptedPresentation(path,source){
 export function materializeHistoricalPresentation(directory){
   // Validate all eleven original current files before any temporary writes/deletes.
   const root='src/lua/abyss_node_ui.lua';
-  const diskRoot=readFileSync(root,'utf8').replaceAll('\r\n','\n');
+  const diskRoot=preAcceptedPr323Source(root,readFileSync(root,'utf8')).replaceAll('\r\n','\n');
   assert.equal(hash(diskRoot),nodeUiCurrentRootSha256,'current-only Node materialization must validate the live refactored root before any writes');
-  const diskFace=readFileSync(approvedNodeFace.path,'utf8').replaceAll('\r\n','\n');
+  const diskFace=preAcceptedPr323Source(approvedNodeFace.path,readFileSync(approvedNodeFace.path,'utf8')).replaceAll('\r\n','\n');
   assert.equal(hash(diskFace),approvedNodeFace.afterSha256,'current-only Node materialization must validate the approved live face before any writes');
   const nodeSource=preIntegratedNodeUiSource(root,diskRoot,{[approvedNodeFace.path]:diskFace});
+  // Validate the whole combined inventory before any temporary historical writes.
+  const acceptedSources=Object.keys(pr323AcceptedSourceInverse.files).map(path=>{
+    const source=readFileSync(path,'utf8');requirePr323Source(path,source);
+    return [path,preAcceptedPr323Source(path,source)];
+  });
+  for(const [path,source]of acceptedSources){
+    if(source===null)rmSync(join(directory,path),{force:true});
+    else {mkdirSync(dirname(join(directory,path)),{recursive:true});writeFileSync(join(directory,path),source);}
+  }
   for(const path of new Set([...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){
-    const source=preApprovedUiSource(path,path===root?nodeSource:readFileSync(path,'utf8'));
+    const source=preApprovedUiSource(path,path===root?nodeSource:preAcceptedPr323Source(path,readFileSync(path,'utf8')));
     if(source===null)rmSync(join(directory,path),{force:true});
     else writeFileSync(join(directory,path),preAcceptedPresentation(path,source));
   }

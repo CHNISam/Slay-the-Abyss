@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 // Exact TASK-76-only inverse, before approved UI/PostNode source bindings.
 // Historical and approved-UI complete witnesses stay explicit; unknown/partial sources are untouched
 // for the existing strict guards to reject. No runtime or frozen archive changes.
@@ -36,6 +37,7 @@ const fixtureEdits=[["    click(\"enemy1\") -- queued release click must never s
 const popupEdits=[["                if ready()then held={selection=owner.potionMenu,generation=popup.generation,touch=event and event.touchId}end\n", "                if ready()then\n                    if actions.pointerDown then actions.pointerDown(event)end\n                    held={selection=owner.potionMenu,generation=popup.generation,touch=event and event.touchId}\n                end\n"], ["            return act(name)\n", "            if actions.pointerClick and not actions.pointerClick(event)then return false end\n            return act(name)\n"]];
 const adapter="        pointerDown=function(event)\n            if self.active and not self.busy and not self.gesture then\n                if event and event.touchId==releasedDragTouch then releasedDragTouch=nil end\n                self.suppressClick=false\n            end\n        end,\n        pointerClick=function(event)\n            return not consumeReleasedDragClick(event) and not self.suppressClick and not self.gesture\n        end,\n";
 export function preCardDragClickSource(path,source){
+  if(Object.hasOwn(task76BattleModuleLayer.files,path)||['src/lua/abyss_battle_ui.lua','src/lua/abyss_battle_potion_popup.lua','tests/lua/support/battle_ui_cases.lua'].includes(path))source=preAcceptedPr323Source(path,source);
   if(source===null)return source;
   source=beforeBattleModule(path,source.replaceAll('\r\n','\n'));
   const binding=sources[hash(source)];

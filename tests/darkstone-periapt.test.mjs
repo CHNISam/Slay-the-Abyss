@@ -20,7 +20,7 @@ test('Darkstone contract binds exact pinned mirror blobs, original order and hon
 
 test('Darkstone definition, existing icon alias and launch record remain explicit and source-identified',()=>{
  const relic=read('data/relics.json').relics.find(r=>r.id==='darkstone_periapt');
- assert.deepEqual(relic,{id:'darkstone_periapt',sourceId:'Darkstone Periapt',name:'Darkstone Periapt',description:'每当一张诅咒牌实际加入永久牌组，最大生命增加6，并按治疗规则回复6生命。',rarity:'uncommon',trigger:'hooks',effects:[]});
+ assert.deepEqual(relic,{id:'darkstone_periapt',sourceId:'Darkstone Periapt',name:'黑石护符',description:'每当一张诅咒牌实际加入永久牌组，最大生命增加6，并按治疗规则回复6生命。',rarity:'uncommon',trigger:'hooks',effects:[]});
  const theme=read('data/presentation/ui_theme.json');assert.equal(theme.icon.relic.darkstone_periapt,theme.icon.relic.oddly_smooth_stone);assert.match(theme.note,/Darkstone Periapt.*暂复用/);
  const row=read('data/release/launch-content.json').relics.find(r=>r.id===relic.id);
  const mapped=read('docs/rules/evidence/sts1-relic-pool-catalog.json').relics.find(r=>r.id===relic.sourceId);assert.equal(mapped.projectId,relic.id);assert.equal(mapped.status,'existing-local-effect-not-full-pool-parity');assert.match(mapped.implementationLimitation,/reject atomically/);

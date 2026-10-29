@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -35,7 +36,7 @@ test('UI regression partitions keep the actual merged base and every runner dead
  assert.equal(manifest.base,'cec690c1701af121e370facde5c1ca2ad9beb99e');
  assert.equal(manifest.timeoutMilliseconds,30000);
  assert.equal(manifest.runnerSha256LF,'7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33');
- assert.equal(sha(read('scripts/test-lua.mjs')),manifest.runnerSha256LF);
+ assert.equal(sha(preAcceptedPr323Source('scripts/test-lua.mjs',read('scripts/test-lua.mjs'))),manifest.runnerSha256LF);
  assert.equal(manifest.partitions.length,originals.length);
 });
 for(const [index,[name,total,last,label,sourceSha,blob]]of originals.entries()){

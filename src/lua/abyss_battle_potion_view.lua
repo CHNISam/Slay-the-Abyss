@@ -72,7 +72,7 @@ function M.potionText(item, battle, expanded)
     if special then return item.name..'\n'..special end
     local descriptions = {}
     for _, effect in ipairs(item.effects) do
-        local value = number(effect.value or 0)
+        local value = number(require('abyss_inventory').potionValue(battle,effect)or 0)
         local describe = effects[effect.op]
         if describe then
             descriptions[#descriptions + 1] = describe({ effect = effect, battle = battle, expanded = expanded, value = value })

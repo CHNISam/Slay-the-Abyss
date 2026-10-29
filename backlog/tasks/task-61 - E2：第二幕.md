@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-28 14:30'
+updated_date: '2026-10-29 01:55'
 labels:
   - required
   - sts1
@@ -24,6 +24,8 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
+  - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/evidence/backlog-merge-20261029.json
 priority: medium
 type: feature
 ---
@@ -31,7 +33,7 @@ type: feature
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-完成第二幕比赛内容及两职业连续流程；现有本地成果保留。
+完成第二幕比赛内容及岩系旅行者单角色连续两幕流程；现有本地成果保留，雷电将军验收转TASK-85。
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -39,13 +41,15 @@ type: feature
 - [ ] #1 第二幕18至34层按原版地图、遭遇权重和全部三种Boss合法生成，并按比赛双幕配置完成本局，不接第35层。
 - [ ] #2 第二幕不依赖持久存档的普通事件、神龛和一次性事件按冻结比赛清单执行，资格、内部交易及事件战斗正确；跨局历史依赖单独列为未来。
 - [x] #3 第二幕18至34层地图、来源队列与跨幕资源迁移基础已合入PR213并有独立向量和事务回归。
-- [ ] #4 岩系旅行者和雷电将军分别正常连续通关两幕且资源继承正确，保留同候选平台证据。
+- [ ] #4 岩系旅行者从正常开局合法连续通关第一幕和第二幕且资源继承正确，保留同候选平台证据。
 <!-- AC:END -->
 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
 按已合入第二幕代码补真实缺口，保留原版遭遇、AI、同局奖励/事件及随机流；正式比赛在第二幕合法结束，不再把第三幕入口或跨局历史能力列为本任务依赖。源码、同候选自然流程和平台通关分别验收。
+
+2026-10-29当前角色范围仅岩系旅行者；第二幕完整内容、权重、全部三Boss、跨幕状态与同候选实机标准保持。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -92,4 +96,8 @@ PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_
 比赛Boss内容与合法同局流程保留，但跨局Boss已见/解锁历史不列必做。正式平台无历史provider，不能把默认Guardian/Champ优先策略冒称全Boss自然历史已验证；冻结比赛Boss资格策略与待验缺口须在TASK-47/77明示。
 
 2026-10-28范围决定：比赛范围见 docs/SCOPE.md；旧验收文字保留于历史记录，本次未新增通过证据。原受影响验收：四职业分别正常连续通关且资源继承正确，保留同源本地、集成和平台证据
+
+2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
+
+合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 <!-- SECTION:NOTES:END -->

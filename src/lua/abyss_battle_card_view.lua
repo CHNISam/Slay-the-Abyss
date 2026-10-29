@@ -151,7 +151,7 @@ function M.new(view, controls)
         -- a card being aimed shows the value for that target.
         local target = instance.uid == aimUid and aimTarget or nil
         local preview = Combat.cardPreview(battle, instance, target)
-        return CardDisplay.combatText(display, definition, instance, preview)
+        return CardDisplay.combatText(display, definition, instance, preview,battle,target)
     end
 
     local function writeName(box, card)
@@ -165,7 +165,7 @@ function M.new(view, controls)
     local function writeDetails(box, card, battle, aimUid, aimTarget)
         local definition, enabled = card.definition, card.enabled
         local text = bodyText(card, battle, aimUid, aimTarget)
-        CardDisplay.writeBody(box:GetChild("label"), text)
+        CardDisplay.writeBody(box:GetChild("label"), text,box)
         ink(box:GetChild("label"), C.text)
         box:GetChild("cost").text = card.missing and '—' or costText(definition)
         ink(box:GetChild("cost"), enabled and C.energy or C.danger)
@@ -307,8 +307,25 @@ function M.new(view, controls)
         end
     end
 
+    local function renderPotionDrag(potion)
+        local layer=child('dragLayer')
+        local _,target,aiming=controls.potionTarget(potion)
+        show('dragLayer',true);layer:GetChild('hit'):SetVisible(true);layer.disableCursorEventPassthrough=true
+        layer:GetChild('line'):SetVisible(false);layer:GetChild('hint').text=''
+        local enemy=target and potion.battle.enemies[target]
+        local ex,ey,ring=aimEndpoint(potion,target,enemy)
+        renderReticle(layer,aiming,ex,ey,ring,enemy)
+        renderArc(layer,aiming,potion.origin[1],potion.origin[2],ex,ey-(enemy and ring/2 or 0),enemy)
+        layer:SetAsLastSibling()
+    end
+    local function renderActivePotion(g)
+        local potion=not g and view.potionAim
+        if potion and potion.moving then renderPotionDrag(potion);return true end
+        return false
+    end
     local function renderDrag(valid, target, aiming, resolved)
         local g = view.gesture or view.carry
+        if renderActivePotion(g) then return end
         show("dragLayer", g ~= nil and g.moving == true)
         if g and g.moving then
             local box = child("card" .. g.slot)
@@ -316,9 +333,14 @@ function M.new(view, controls)
             local x, y, h = placeDraggedCard(box, g, aiming)
             box:GetChild("glow"):SetVisible(valid == true)
             local layer = child("dragLayer")
+            layer:GetChild('line'):SetVisible(true)
             layer:GetChild('hit'):SetVisible(view.gesture ~= nil)
             layer.disableCursorEventPassthrough = view.gesture ~= nil
             local lineY = g.touchScreen and g.dropStart or math.min(g.hoverStartLine,g.dropStart)
+            -- Touch cards are rendered above the finger. Translate the line
+            -- by the same amount so the visible card center crosses it exactly
+            -- when the finger crosses the authoritative input threshold.
+            if g.touchScreen then lineY = lineY + 270*g.sourceScale end
             layer:GetChild('line'):SetAnchoredPosition(0,lineY)
             tint(layer:GetChild("line"),valid and C.goldBright or C.line)
             local enemy = target and g.battle.enemies[target]

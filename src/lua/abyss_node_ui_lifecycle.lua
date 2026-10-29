@@ -4,6 +4,7 @@ local Theme = require("abyss_theme")
 local CardDisplay = require('abyss_card_display')
 local Act2Events = require('abyss_act2_events')
 local reasons = {
+    rest_blocked_by_relic='咖啡滤杯禁止在营地休息',upgrade_blocked_by_relic='聚变之锤禁止在营地升级卡牌',
     card_content_unavailable='这张卡牌的效果尚未接齐，本次未改变资源',
     relic_content_unavailable='这件遗物的效果尚未接齐，本次未改变资源',
     neow_insufficient_selectable_cards='没有足够的可选卡牌，本次未改变资源',

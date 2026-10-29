@@ -6,6 +6,7 @@ local EnemyView = require('abyss_battle_enemy_view')
 local DamageView = require('abyss_battle_damage_view')
 local PotionView = require("abyss_battle_potion_view")
 local IntentView = require("abyss_battle_intent_view")
+local RewardOwner = require("abyss_battle_reward_owner")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
@@ -26,14 +27,24 @@ function M.install(owner, ownership, host, dependencies)
         end
         return false
     end
+    local function potionHighlighted(enemy, index, pendingTarget)
+        local aim = owner.potionAim
+        if not aim or pendingTarget or not Actors.isActive(enemy) then return false end
+        if aim.moving then
+            local valid, hovered = dependencies.potionDragTarget(aim)
+            return valid and hovered == index
+        end
+        -- Point selection advertises every legal enemy; a moving bottle locks
+        -- only the hovered target through potionDragTarget above.
+        return true
+    end
     local function enemyHighlighted(frame, enemy, index, pendingTarget)
         local targetable = frame.active and pendingTarget and Combat.canPlay(frame.battle, owner.selected, index)
         if owner.gesture and owner.gesture.moving then
             local valid, hovered = dependencies.dragTarget(owner.gesture)
             targetable = valid and hovered == index
         end
-        local potionTarget = owner.potionAim ~= nil and not pendingTarget and Actors.isActive(enemy)
-        return targetable == true or potionTarget or owner.acting == enemy.id
+        return targetable == true or potionHighlighted(enemy,index,pendingTarget) or owner.acting == enemy.id
     end
     local function enemyIntentFace(frame, enemy, index)
         local shown = ownership.playbackIntents and ownership.playbackIntents[enemy.id]
@@ -91,6 +102,11 @@ function M.install(owner, ownership, host, dependencies)
         local projection = { pendingTarget = pendingCardTarget(frame) }
         if aimed and aimed.moving then projection.valid, projection.target = dependencies.dragTarget(aimed) end
         if projection.valid then projection.losses = DamageView.preview(frame.battle, aimed.uid, projection.target) end
+        local potion=owner.potionAim
+        if potion and potion.moving then
+            projection.valid,projection.target=dependencies.potionDragTarget(potion)
+            if projection.valid then projection.losses=DamageView.potionPreview(owner.run,potion.slot,projection.target) end
+        end
         return projection
     end
     local function renderDamagePreview(box, enemy, portrait, width, loss)
@@ -130,9 +146,10 @@ function M.install(owner, ownership, host, dependencies)
         end
     end
     local function renderDetails(frame)
-        if owner.info and (not owner.active or owner.busy or owner.gesture or not frame.fighting
+        local reward=owner.info and owner.info.reward and RewardOwner.ready(owner,owner.info.reward)
+        if owner.info and (not owner.active or owner.busy or owner.gesture or not frame.fighting and not reward
             or owner.info.battle ~= frame.run.combat) then owner.info = nil end
-        host.renderInfo(frame.battle)
+        host.renderInfo(frame.battle or reward and frame.run.combat)
     end
     local function renderRewardActions(frame)
         local run, stolen = frame.run, frame.stolen
@@ -196,6 +213,7 @@ function M.install(owner, ownership, host, dependencies)
             paintPotionShell(i,item)
         end
     end
+
     return {
         pendingCardTarget=pendingCardTarget, enemyHighlighted=enemyHighlighted, enemyIntentFace=enemyIntentFace, renderEnemyIntent=renderEnemyIntent, enemyAimProjection=enemyAimProjection,
         renderDamagePreview=renderDamagePreview, enemyPortraitIcon=enemyPortraitIcon, renderEnemySlot=renderEnemySlot, renderEnemies=renderEnemies, renderDetails=renderDetails,

@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -6,6 +7,8 @@ const hash=value=>createHash('sha256').update(value).digest('hex');
 // Exact test-only layer. Unknown identities pass to the original strict drift
 // guards; no old source hash, rendering witness or timeout is replaced.
 export function preRosterSource(path,source){
+ if(Object.hasOwn(rosterSourceBindings.files,path))source=preAcceptedPr323Source(path,source);
+ if(source===null)return null;
   source=source.replaceAll('\r\n','\n');
   const binding=rosterSourceBindings.files[path];
   if(!binding || hash(source)!==binding.afterSha256)return source;

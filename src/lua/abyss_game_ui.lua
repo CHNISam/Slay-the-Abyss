@@ -33,14 +33,13 @@ function M.new(root, data, presentation, clickEvent, platform)
     local bgm = Bgm.new(platform.music)
     local function child(name) return assert(root:GetChild(name), "missing game panel " .. name) end
     local menu = child("menuPanel")
-    local speed=menu:GetChild('battleSpeed')
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local runMenu = child("runMenu")
     local exitGeneration, menuGeneration = 0, 0
     local codeVersion = assert(menu:GetChild('codeVersion'), 'missing game menu codeVersion')
     codeVersion.text = Narrative.codeVersion or '未知'
     local characterPanel = child("characterPanel")
-    self.characterSelection=CharacterSelect.new(data,presentation,platform.campaignProfile)
+    self.characterSelection=CharacterSelect.new(data,presentation,platform.campaignProfile or platform.characterProfile)
     self.fastMode=false
     self.setFastMode=function(_,enabled)
         if type(enabled)~='boolean' or self.disabled or self.battleUI and self.battleUI.busy then return false end
@@ -50,12 +49,16 @@ function M.new(root, data, presentation, clickEvent, platform)
             or self.settlementRequested or self.settlementBusy then return false end
         self.fastMode=enabled
         if self.battleUI then self.battleUI.fastMode=enabled;self.battleUI.feedback:setFastMode(enabled)end
-        if speed then speed:GetChild('label').text=enabled and '战斗速度：快速' or '战斗速度：普通'end
         return true
     end
     local menuRun, menuMode
     local requestSettlement
     local ready = false
+    local function openingCovered()return self.prologue and self.prologue:covering() or false end
+    local function canViewRoute()
+        return self.run~=nil and self.map~=nil and not self.characterOpen and not openingCovered()
+            and not self.disabled and not self.settlementRequested and not self.settlementBusy
+    end
     local function changed(_, reason)
         if not ready then return end
         if self.run and self.run.phase == 'act_transition' and (reason == 'continue' or reason == 'complete') then
@@ -94,7 +97,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return self.mode=="battle" and self.run~=nil and self.run.phase=="combat"
     end
     local function canManagePotions(run)
-        return not self.disabled and run~=nil and self.run==run and not self.exitOpen and not self.deckUI.visible
+        return not openingCovered() and not self.disabled and run~=nil and self.run==run and not self.exitOpen and not self.deckUI.visible
             and not (self.choiceUI and self.choiceUI.visible)
             and not self.battleUI.busy and not self.settlementBusy and not self.settlementRequested
             and (self.mode=="map" or self.mode=="battle" or self.mode=="node")
@@ -110,10 +113,14 @@ function M.new(root, data, presentation, clickEvent, platform)
         if not self.potionUI:close()then return false end
         self.battleUI.suppressClick=false;self:refresh();return true
     end
-    -- Old authored prologue controls may exist in previously built layouts.
-    -- Keep them inert; every new run enters the existing Neow/map path.
     local prologuePanel = root:GetChild("prologuePanel")
-    if prologuePanel then prologuePanel:SetVisible(false) end
+    if prologuePanel and platform.prologue~=false then
+        self.prologue=require('abyss_prologue').new(prologuePanel,{
+            clickEvent=clickEvent,cursorEvents=platform.cursorEvents,color=platform.color,
+            sound=platform.sound,controller=controller,
+            blocked=function()return self.exitOpen or self.settlementRequested or self.settlementBusy end,
+            onPhase=function()self:refresh()end})
+    elseif prologuePanel then prologuePanel:SetVisible(false) end
 
     self.openExit = function(_)
         if self.disabled or self.characterOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
@@ -160,7 +167,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
 
     self.openDeck = function(_,pileKind)
-        if self.disabled or self.characterOpen or self.choiceUI and self.choiceUI.visible or self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
+        if openingCovered() or self.disabled or self.characterOpen or self.choiceUI and self.choiceUI.visible or self.exitOpen or self.potionUI.visible or not self.run or self.battleUI.busy or self.settlementBusy or self.settlementRequested
             or (self.mode ~= "map" and self.mode ~= "battle" and self.mode ~= "node") then return false end
         if pileKind then
             if self.mode~='battle' or not self.deckUI:openPile(self.run,pileKind)then return false end
@@ -168,6 +175,20 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.battleUI.selected = nil
         self:refresh()
         return true
+    end
+    self.openRelics = function(_)
+        if self.deckUI.visible or not self:openDeck() then return false end
+        self.deckUI:close()
+        local parts={}
+        for i,id in ipairs(self.run.relics) do
+            local definition=require('abyss_relic_rewards').definition(self.run,id)
+            local description=definition and self.nodeUI:describeRelic(self.run,definition.id) or ''
+            parts[#parts+1]=i..'. '..(definition and definition.name or '未识别遗物')..'\n'
+                ..(description~='' and description or '效果说明待补充。')
+        end
+        self.deckUI:inspectText(self.run,'持有遗物 · '..#self.run.relics..' 件',
+            #parts>0 and table.concat(parts,'\n\n') or '本局尚未获得遗物。')
+        self:refresh();return true
     end
     self.closeDeck = function(_)
         if self.exitOpen or self.settlementRequested then return false end
@@ -310,6 +331,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.disabled or self.settlementRequested or self.settlementBusy then scope='blocked'
         elseif self.exitOpen then scope='exit'
         elseif self.characterOpen then scope='characters'
+        elseif openingCovered() then scope='prologue'
         elseif self.choiceUI and self.choiceUI.visible then scope='choice'
         elseif self.deckUI.visible then scope='deck'
         elseif self.potionUI.visible then scope='potions'
@@ -319,6 +341,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         controller:sync(scope,function()
             if scope=='exit' then return self:closeExit()
             elseif scope=='characters' then return self:closeCharacters()
+            elseif scope=='prologue' then return self.prologue:skip()
             elseif scope=='deck' then
                 if self.deckUI.choiceToken then return false end
                 return self.deckUI:back()
@@ -406,9 +429,11 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
         local ending=run and run.phase=='ending_proceed'
+        local utilitiesVisible=not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering
         child("combatRewards"):SetVisible(returnAvailable)
-        child("deckEntry"):SetVisible(not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
-        child("potionEntry"):SetVisible(not inCombat() and not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering)
+        child("deckEntry"):SetVisible(utilitiesVisible)
+        child("relicEntry"):SetVisible(utilitiesVisible)
+        child("potionEntry"):SetVisible(not inCombat() and utilitiesVisible)
         refreshPotionEntry(run)
         child("nodePanel"):GetChild("potions"):SetVisible(false)
         if potionOpen then self.potionUI:render()end
@@ -482,7 +507,6 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     local function refreshForeground()
         codeVersion:SetVisible(self.mode=='menu')
-        if speed then speed:SetVisible(self.mode=='menu')end
         if characterPanel then
             characterPanel:SetVisible(self.characterOpen==true)
             if self.characterOpen then
@@ -497,6 +521,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         exitEntry:SetAsLastSibling()
         exitPanel:SetVisible(exitDialogOwnsForeground())
         runMenu:SetVisible(self.exitOpen == true and self.menuOpen == true and not self.controlsOpen and not self.routeOpen)
+        local routeHit=runMenu:GetChild('map'):GetChild('hit')
+        local routeEnabled=canViewRoute()
+        routeHit.interactable,routeHit.raycastTarget=routeEnabled,routeEnabled
+        for _,state in ipairs({'normal','hover','pressed','disabled'})do
+            routeHit:GetChild(state):GetChild('label').text=routeEnabled and '查看地图' or '查看地图（启程后可用）'
+        end
         if runMenu.visible then runMenu:SetAsLastSibling() end
         local back = child('mapPanel'):GetChild('previewBack')
         back:SetVisible(self.routeOpen == true)
@@ -513,11 +543,24 @@ function M.new(root, data, presentation, clickEvent, platform)
             or self.choiceUI and self.choiceUI.visible
         return blocked
     end
+    local function syncOpening(run)
+        if self.prologue and (self.settlementRequested or run and (run.phase=='defeat' or run.phase=='victory')) then self.prologue:cancel() end
+        return openingCovered()
+    end
+    local function openingForeground(covering)
+        if self.prologue and self.prologue:opaque() then
+            child('mapPanel'):SetVisible(false);child('nodePanel'):SetVisible(false)
+        end
+        if not covering then return end
+        prologuePanel:SetAsLastSibling();child('exitEntry'):SetAsLastSibling()
+        if self.menuOpen then runMenu:SetAsLastSibling()
+        elseif self.exitOpen then exitPanel:SetAsLastSibling() end
+    end
     self.refresh = function(_)
         if self.disabled then return false,"ui_disabled" end
         local run = self.run
         finishRunFlow(run)
-        local covering = false
+        local covering = syncOpening(run)
         selectMode(run)
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         syncMenuContext(run,inMenu)
@@ -527,7 +570,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local deckOpen = self.deckUI.visible
         if self.potionUI.visible and not canManagePotions(self.potionUI.run)then self.potionUI:close()end
         local potionOpen=self.potionUI.visible
-        local blocked=overlaysBlocked()
+        local blocked=overlaysBlocked() or covering
         local returnAvailable=syncRewardReturn(run,deckOpen,potionOpen,blocked,covering)
         refreshUtilities(run,inMenu,deckOpen,potionOpen,blocked,covering,returnAvailable)
         refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
@@ -535,6 +578,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
         refreshForeground()
+        openingForeground(covering)
         self:syncController()
     end
     local function selectionChanged()
@@ -595,7 +639,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if not context then return false,contextReason end
         local map = Map.generate(run.data,rawSeed,run.act or 1,context)
         local history,historyReason
-        if not Acts.isCompetition(run) then history,historyReason=NeowHistory.read(neowHistory,run.character) end
+        history,historyReason=NeowHistory.read(neowHistory,run.character,Acts.isCompetition(run))
+        if not history and Acts.isCompetition(run) then history={bossCount=0,source='fresh-start'} end
         if history then
             local ok,why=Nodes.beginNeow(run,map,history);if not ok then return false,why end
             run.neowHistorySource=history.source
@@ -617,6 +662,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.mapUI.map = self.map
         self.nodeUI.run, self.nodeUI.map = self.run, self.map
         self.nodeUI:render()
+        if self.prologue and not self.prologuePlayed then
+            self.prologuePlayed=true;self.prologue:play()
+        end
         self:refresh()
         return true
     end
@@ -675,6 +723,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             return false, "settlement_request_failed"
         end
         self.settlementRequested, self.settlementError, self.exitError = true, nil, nil
+        if self.prologue then self.prologue:cancel() end
         if self.run then
             local phase=self.run.phase
             NeowHistory.finish(neowHistory,self.run,(phase=='victory' or phase=='defeat')and phase or 'abandon')
@@ -704,13 +753,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- Count client update time within this run; menus/results never extend it.
         -- The terminal rule state can precede the last feedback animation.
         local run = self.run
-        if run and run.phase ~= "defeat" and self.mode ~= "victory" and self.mode ~= "defeat"
+        if run and not openingCovered() and run.phase ~= "defeat" and self.mode ~= "victory" and self.mode ~= "defeat"
             then
             local elapsed = run.elapsedSeconds + dt
             if elapsed == math.huge then return false, "invalid_delta" end
             run.elapsedSeconds = elapsed
         end
         self:animate(dt)
+        if self.prologue then self.prologue:update(dt) end
+        if openingCovered() then self:syncController();return true end
         self.battleUI:update(dt)
         self.nodeUI:update(dt)
         self.deckUI:update(dt)
@@ -721,6 +772,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.disable = function(_)
         if self.disabled then return false end
         self.disabled=true
+        if self.prologue then self.prologue:cancel() end
         if controller then controller:disable() end
         exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1
         self.characterOpen=false
@@ -736,6 +788,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
+    child("relicEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openRelics() end)
+    Controller.bind(controller,child('relicEntry'):GetChild('open'):GetChild('hit'),function()return self.mode end,
+        function()return self:openRelics()end)
     child("potionEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent,function()if inCombat() then return false end;return self:openPotions()end)
     Controller.bind(controller,child('deckEntry'):GetChild('open'):GetChild('hit'),function()return self.mode end,
         function()return self:openDeck()end)
@@ -748,7 +803,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function bindCommand(box, kind, action, enabled, order, group, onFocus)
         local hit = box:GetChild("hit")
         local held, released, observed
-        local menuAction = kind == "start" or kind == "settle" or kind == "battleSpeed"
+        local menuAction = kind == "start" or kind == "settle"
         local rewardAction = kind == "combatRewards"
         local characterAction = kind:match("^character_")~=nil
         local cursor = platform.cursorEvents or {}
@@ -760,7 +815,6 @@ function M.new(root, data, presentation, clickEvent, platform)
             if self.controlsOpen then return false end
             if runMenuAction then return self.exitOpen and self.menuOpen == true and not self.routeOpen and (not enabled or enabled()) end
             if self.menuOpen or self.routeOpen then return false end
-            if kind=='battleSpeed' then return self.mode=='menu' and not self.characterOpen and not self.exitOpen and not self.deckUI.visible end
             if characterAction then
                 return self.characterOpen==true and not self.exitOpen and not self.starting
                     and (not enabled or enabled())
@@ -828,7 +882,6 @@ function M.new(root, data, presentation, clickEvent, platform)
     -- Source menu actions use the same pointer ownership as exit actions, and also
     -- expire whenever their menu/run context is hidden or replaced.
     bindCommand(start, "start", function() return self:start() end)
-    if speed then bindCommand(speed,'battleSpeed',function()return self:setFastMode(not self.fastMode)end)end
     bindCommand(settlement, "settle", function() return self:settle() end)
     bindCommand(child("combatRewards"), "combatRewards", function()
         local ok, reason = Run.reopenCombatRewards(self.run)
@@ -868,7 +921,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         self.routeOpen = true
         self:refresh()
         return true
-    end, function() return self.run ~= nil and self.map ~= nil and not self.characterOpen end)
+    end, canViewRoute)
     bindCommand(child('mapPanel'):GetChild('previewBack'), 'routeClose', function() return self:closeExit() end)
     characterPanel.disableCursorEventPassthrough=true
     characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)

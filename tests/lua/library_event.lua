@@ -133,7 +133,7 @@ test('source identity changed after offer refuses selection without taking a for
  for _,d in ipairs(r.data.cards.cards)do if d.id==choice.cardId then d.sourceId='wrong source'end end
  reject(r,'select',choice.offerToken,'card_content_unavailable')
 end)
-test('unsupported original-V4/prepared source mapping and missing egg hooks stay honest; Sleep remains supported',function()
+test('unsupported original-V4/prepared mapping stays honest; Frozen Egg previews and obtains only upgraded Powers',function()
  for _,character in ipairs({'HT','AR','FR','RD'})do
   local r,m=H.fixture(character);eq(Nodes.view(r,m).node.event.options[1].enabled,false)
   reject(r,'read',nil,'library_source_catalog_unavailable');assert(Nodes.chooseEvent(r,'sleep'))
@@ -147,7 +147,28 @@ test('unsupported original-V4/prepared source mapping and missing egg hooks stay
  eq(Nodes.view(legacy,map).node.event.options[1].enabled,false);reject(legacy,'read',nil,'library_source_catalog_unavailable')
  assert(Nodes.chooseEvent(legacy,'sleep'))
  for _,egg in ipairs({'frozen_egg','Frozen Egg 2'})do
-  local e=H.fixture();e.relics={egg};reject(e,'read',nil,'event_obtain_content_unavailable');assert(Nodes.chooseEvent(e,'sleep'))
+  local e,m=H.fixture();e.relics={egg}
+  eq(Nodes.view(e,m).node.event.options[1].enabled,true)
+  local deck,uid,gold=H.C.copy(e.deck),e.nextDeckUid,e.gold
+  local offers=read(e);eq(#offers,20);same(e.deck,deck);eq(e.nextDeckUid,uid);eq(e.gold,gold)
+  local kinds={}
+  for _,card in ipairs(offers)do
+   local definition
+   for _,d in ipairs(e.data.cards.cards)do if d.id==card.cardId then definition=d;break end end
+   assert(definition)
+   local power=definition.type=='power'
+   eq(card.upgraded,power);eq(card.upgrades,power and 1 or nil);eq(card.uid,nil)
+   kinds[definition.type]=card
+  end
+  for _,kind in ipairs({'power','attack','skill'})do
+   local chosen=assert(kinds[kind],'source offers must cover '..kind)
+   local branch=H.snap(e);assert(select(branch,chosen))
+   local actual=branch.deck[#branch.deck]
+   eq(#branch.deck,#deck+1);eq(actual.uid,uid);eq(actual.cardId,chosen.cardId)
+   eq(actual.upgraded,kind=='power');eq(actual.upgrades,kind=='power' and 1 or nil)
+   eq(branch.nextDeckUid,uid+1);eq(branch.gold,gold);eq(chosen.uid,nil)
+   eq(branch.nodeFlow.event.stage,'result')
+  end
  end
 end)
 test('full13 source pool selects The Library and removes it only once at successful room entry',function()

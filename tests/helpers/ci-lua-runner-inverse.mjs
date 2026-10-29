@@ -1,9 +1,11 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 
 // Invert only the reviewed scheduling edit. The original whole-runner hash
 // still protects every deadline, child process option, output and failure path.
 export function originalLuaRunner(source) {
+  source=preAcceptedPr323Source('scripts/test-lua.mjs',source);
   source = source.replaceAll('\r\n', '\n');
   const currentUrlImport="import { pathToFileURL, fileURLToPath } from 'node:url';\n";
   assert.equal(source.split(currentUrlImport).length,2,'exact historical root URL import');

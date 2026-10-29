@@ -9,6 +9,25 @@ function M.install(ctx)
 
     function ctx.enhancedForge(node)return ctx.options.enhancedRooms and node.type=='camp' and ctx.self.picker=='upgrade'end
 
+    function ctx.bindCampChoices(node,rest,forge,restOpen,forgeable)
+        if node.canRest==false then rest:GetChild('description').text='咖啡滤杯：无法休息' end
+        if node.canForge==false and #node.upgradeCards>0 then forge:GetChild('description').text='聚变之锤：无法锻造' end
+        ctx.action("campView/rest", restOpen, function()
+            return ctx.commit("rest", nil, function(before)
+                local healed = ctx.self.run.hp - before.hp
+                if ctx.self.run.nodeFlow.restReward and not ctx.self.run.nodeFlow.restReward.resolved then
+                    ctx.self.mode,ctx.self.picker,ctx.self.pickPage,ctx.self.selected='picker','dream_catcher',1,nil
+                    return '休息完成 · 回复 '..number(healed)..' 点生命；请选择卡牌或跳过'
+                end
+                return "休息完成 · 回复 " .. number(healed) .. " 点生命", { choice = "rest", healed = healed }
+            end)
+        end, node.canRest==false and '咖啡滤杯禁止休息' or "生命已满，休息不会回复；可以选择锻造")
+        ctx.action("campView/forge", forgeable, function()
+            ctx.self.mode, ctx.self.picker, ctx.self.pickPage, ctx.self.selected, ctx.self.notice = "picker", "upgrade", 1, nil, ""
+            ctx.self:render() return true
+        end, node.canForge==false and #node.upgradeCards>0 and '聚变之锤禁止锻造' or "牌组中没有可升级的卡牌")
+    end
+
     function ctx.renderCamp(_view, node, result)
         local camp = ctx.child("campView")
         local rest, forge = camp:GetChild("rest"), camp:GetChild("forge")
@@ -27,10 +46,10 @@ function M.install(ctx)
         end
         showCampResult()
         if result then return end
-        local forgeable = #node.upgradeCards > 0
+        local forgeable = node.canForge~=false and #node.upgradeCards > 0
         -- Full-health rest remains available for Dream Catcher's real reward,
         -- or when the camp has no forgeable card and needs an exit.
-        local restOpen = node.heal > 0 or node.dreamCatcher or not forgeable
+        local restOpen = node.canRest~=false and (node.heal > 0 or node.dreamCatcher or not forgeable)
         ctx.state(rest, restOpen) ctx.state(forge, forgeable)
         local function describeCampChoices()
             rest:GetChild("description").text = node.heal > 0 and
@@ -41,26 +60,22 @@ function M.install(ctx)
             ("升级一张卡牌\n可升级 " .. #node.upgradeCards .. " 张") or "没有可升级的卡牌"
         end
         describeCampChoices()
-        ctx.action("campView/rest", restOpen, function()
-            return ctx.commit("rest", nil, function(before)
-                local healed = ctx.self.run.hp - before.hp
-                if ctx.self.run.nodeFlow.restReward and not ctx.self.run.nodeFlow.restReward.resolved then
-                    ctx.self.mode,ctx.self.picker,ctx.self.pickPage,ctx.self.selected='picker','dream_catcher',1,nil
-                    return '休息完成 · 回复 '..number(healed)..' 点生命；请选择卡牌或跳过'
-                end
-                return "休息完成 · 回复 " .. number(healed) .. " 点生命", { choice = "rest", healed = healed }
-            end)
-        end, "生命已满，休息不会回复；可以选择锻造")
-        ctx.action("campView/forge", forgeable, function()
-            ctx.self.mode, ctx.self.picker, ctx.self.pickPage, ctx.self.selected, ctx.self.notice = "picker", "upgrade", 1, nil, ""
-            ctx.self:render() return true
-        end, "牌组中没有可升级的卡牌")
+        ctx.bindCampChoices(node,rest,forge,restOpen,forgeable)
         -- Recall is the last action: reuse the existing footer, never derive eligibility here.
         local source = type(Nodes.recallSource) == "function" and type(Nodes.recall) == "function"
             and Nodes.recallSource(ctx.self.run, ctx.self.map) or nil
         if type(source) ~= "table" then source = nil end
         return source and "篝火旁 · 休息、锻造或 Recall，只能选一项"
             or "篝火旁，旅行者稍作停留 · 休息或锻造，只能选一项", source
+    end
+
+    function ctx.campFooter(node,source,confirm)
+        if source then return ctx.recallFooter(source,confirm) end
+        if node.canLeaveCamp then
+            return nil,'继续前进',true,function()
+                return ctx.commit('leaveCamp',nil,function()return '营地没有可用操作，继续前进'end)
+            end
+        end
     end
 
     function ctx.recallFooter(recallSource, confirm)

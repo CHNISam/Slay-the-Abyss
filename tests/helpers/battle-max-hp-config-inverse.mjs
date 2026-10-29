@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 // Exact additive test-only bridge; original Battle and Max HP witnesses stay immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -8,6 +9,7 @@ const bytes=normalize(readFileSync(new URL('../fixtures/battle-max-hp-config-inv
 assert.equal(hash(bytes),'79bca8cc4391e1906049dd815dd143267894f37425253ca6ac9a836d7aa21456','complete reviewed combined Battle Max HP config witness');
 const proof=JSON.parse(bytes);
 export function projectBattleMaxHpConfig(path,source,target){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  assert.equal(path,proof.path,'combined Battle Max HP path');
  assert.equal(typeof source,'string','combined Battle Max HP source must exist');
  assert.ok(Object.hasOwn(proof.targets,target),'combined Battle Max HP target');
@@ -23,6 +25,7 @@ export function projectBattleMaxHpConfig(path,source,target){
  return previous;
 }
 export function preCompositeBattleMaxHpConfig(path,source){
+ if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  if(path!==proof.path||typeof source!=='string'||hash(normalize(source))!==proof.combinedSha256LF)return source;
  return projectBattleMaxHpConfig(path,source,'maxHp');
 }

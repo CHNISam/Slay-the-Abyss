@@ -1,3 +1,4 @@
+import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
 // Additive exact inverse for PR315 on the existing sixteen Battle responsibilities.
 // All current modules are validated before projection; frozen311/313 records stay unchanged.
 import assert from 'node:assert/strict';
@@ -11,8 +12,8 @@ const layer=JSON.parse(bytes),root='src/lua/abyss_battle_ui.lua';
 export const task76OwnerPaths=Object.freeze(Object.keys(layer.modules));
 assert.equal(task76OwnerPaths.length,16,'all original Battle responsibilities remain covered');
 function currentSource(file,overrides){
- if(Object.hasOwn(overrides,file))return overrides[file];
- try{return readFileSync(file,'utf8');}catch{assert.fail('unreviewed integrated retirement source drift: missing Battle responsibility: '+file);}
+ if(Object.hasOwn(overrides,file))return preAcceptedPr323Source(file,overrides[file]);
+ try{return preAcceptedPr323Source(file,readFileSync(file,'utf8'));}catch{assert.fail('unreviewed integrated retirement source drift: missing Battle responsibility: '+file);}
 }
 function validate(source,overrides){
  for(const file of Object.keys(overrides))assert.ok(Object.hasOwn(layer.modules,file),'unknown TASK-76 owner override: '+file);
@@ -23,6 +24,7 @@ function validate(source,overrides){
  }
 }
 export function preTask76OwnerSource(path,source,overrides={}){
+ if(Object.hasOwn(layer.modules,path))source=preAcceptedPr323Source(path,source);
  if(source===null)return source;
  source=normalize(source);
  const binding=layer.modules[path];

@@ -1,5 +1,7 @@
 # 工程检查与证据入口
 
+原生列表生命周期属于可执行门禁：共享`game_ui_fixture`将`alive`建模为只读，并拒绝对已销毁实例调用`GetChild/GetChildren`；Grid可分别模拟复用、刷新销毁及滚动回收。`check:native-ui-contract`实际覆盖卡组/遗物查看、校准项替换、关闭重开、滚动回收，并运行移除生产存活保护的负对照，必须捕获无效对象访问。不得用始终保留实例的替身替代销毁场景；历史渲染轨迹与当前原生生命周期分别验证。该门禁源于2026-10-29实机点卡组/遗物报错，不能将此前静态或读回成功当成实机可用。
+
 Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1000物理行、每函数（含嵌套/工厂）≤350物理行，全部提取职责复杂度≤15；报告为 build/node-ui-size.json 与 build/responsibility-complexity.json。固定 develop 旧新对照运行 node scripts/compare-node-ui.mjs，范围与证据见 [Node UI专项方案](plans/2026-10-28-node-ui-refactor.md)。
 
 
