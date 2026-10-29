@@ -1,9 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { auditGuidance } from '../scripts/check-agent-guidance.mjs';
+import { preRetirementSource } from './helpers/presentation-announcement-retirement.mjs';
 
 function fixture(t, overrides = {}) {
   const root = mkdtempSync(join(tmpdir(), 'agent-guidance-'));
@@ -26,6 +27,28 @@ function fixture(t, overrides = {}) {
 
 test('repository entry points fit their budgets and reference existing commands and files', () => {
   assert.deepEqual(auditGuidance().errors, []);
+});
+test('local full check and the common CI impact job enforce guidance before routing', () => {
+  const scripts = JSON.parse(readFileSync('package.json', 'utf8')).scripts;
+  assert.match(scripts['check:rules'], /(?:^| && )npm run check:guidance(?: && |$)/);
+  assert.match(scripts.check, /(?:^| && )npm run check:rules(?: && |$)/);
+  const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
+  const impact = workflow.match(/^  impact:\n([\s\S]*?)(?=^  fast:)/m)?.[1];
+  assert.ok(impact);
+  assert.equal(impact.split('run: npm run check:guidance\n').length, 2);
+  assert.ok(impact.indexOf('run: npm run check:guidance\n') < impact.indexOf('      - id: plan\n'));
+});
+test('historical package replay accepts only the exact guidance additions', () => {
+  const current = readFileSync('package.json', 'utf8');
+  assert.doesNotThrow(() => preRetirementSource('package.json', current));
+  for (const changed of [
+    current.replace('node scripts/check-agent-guidance.mjs', 'node scripts/other.mjs'),
+    current.replace('npm run check:guidance && ', 'npm run unknown && '),
+    current.replace('npm run check:syntax', 'npm run unknown'),
+  ]) {
+    assert.notEqual(changed, current);
+    assert.throws(() => preRetirementSource('package.json', changed), /drift/);
+  }
 });
 test('small adapters resolve links relative to their own directory', t => {
   assert.deepEqual(fixture(t).errors, []);

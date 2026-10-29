@@ -26,6 +26,10 @@ export function beforeQualityArtifacts(text) {
 // two reviewed quality additions, including the exact new entry position.
 // Partial, reordered or altered wiring is left intact for the old hash to reject.
 export function beforeQualityPackage(text) {
+  // Remove only the two reviewed guidance additions before replaying the old
+  // package identity. Unknown commands or unrelated edits remain hash failures.
+  text=text.replace('    "check:guidance": "node scripts/check-agent-guidance.mjs",\n','')
+    .replace('    "check:rules": "npm run check:guidance && ', '    "check:rules": "');
   const oldEntry='    "check:architecture": "node scripts/check-architecture.mjs",\n';
   const newEntry=oldEntry+'    "check:quality": "node scripts/check-engineering-quality.mjs",\n';
   const oldGate='    "check:engineering": "npm run check:architecture && npm run check:lua-static && npm run check:test-strength && npm run check:native-ui-contract",\n';
