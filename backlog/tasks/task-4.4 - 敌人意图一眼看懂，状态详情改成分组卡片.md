@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 10:34'
-updated_date: '2026-10-29 00:13'
+updated_date: '2026-10-29 05:11'
 due_date: '2026-10-26'
 labels:
   - awaiting-live
@@ -14,6 +14,8 @@ dependencies: []
 references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/backlog-details/MOBILE-QA-20261028.md
+  - docs/backlog-details/MOBILE-QA-20261029.md
+  - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
 parent_task_id: TASK-4
 priority: medium
 type: feature
@@ -34,6 +36,8 @@ ordinal: 85000
 - [x] #4 状态多于一页时点按面板翻页，所有状态都能看到；点空白处关闭且不会误出牌
 - [ ] #5 原神千星奇域实机截图确认意图与详情面板显示完整、布局正确
 - [ ] #6 按手机实测核对状态详情与意图可读性，记录缺口。
+- [ ] #7 单位详情从头像入口即可发现全部当前增益/减益及剩余回合，超过高度可连续滚动；易伤不藏在缺乏提示的第二页，关闭不穿透。
+- [ ] #8 默认显示最终伤害和必要效果，删除力量+0及取整等无效计算链；非零修正按需查询，保留多段/窃金/逃跑等真实机制信息。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -62,4 +66,6 @@ ordinal: 85000
 PR #304：手机反馈己方与敌方详情关闭不一致，可能为旧线上版；PC及当前候选分别复验，根因未确定。
 
 2026-10-29 详细验收承接附件§6：手机己方与敌方、单页/多页、短按/长按入口均须有清楚一致的关闭规则；多页仍能查全状态，关闭手势不误选敌、不出牌。共用InfoView代码与旧电脑截图均不能替代真实手机事件验收。
+
+2026-10-29 IMG_1179实际攻击/伤害均10，录音的4无截图支持，不建数值结算错误；IMG_1181第1/2页与1182易伤页证明状态存在但发现成本高。按新手机需求统一头像查看全部状态，连续滚动/明显分组，不强制点微小图标。旧AC4点按翻页为历史实现，新验收覆盖新的交互要求，既有已勾项不冒称新手机通过。
 <!-- SECTION:NOTES:END -->

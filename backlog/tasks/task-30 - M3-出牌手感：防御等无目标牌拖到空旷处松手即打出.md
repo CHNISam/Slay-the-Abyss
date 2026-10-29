@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-29 04:17'
+updated_date: '2026-10-29 06:46'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -29,6 +29,8 @@ references:
   - docs/backlog-details/MOBILE-QA-20261028.md
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/backlog-details/MOBILE-QA-20261029.md
+  - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
 priority: medium
 type: enhancement
 ordinal: 36000
@@ -53,6 +55,8 @@ ordinal: 36000
 - [ ] #9 手机有效与无效释放各快速和慢速连续20次，记录实体设备同候选结果。
 - [ ] #10 手机实际拖动后在无效区、手牌区或屏幕外释放须取消并回手，清除选中、引导线和准星；点选备用保留。
 - [ ] #11 PC鼠标按既有交互规则验证有效释放、取消和目标选择；记录新候选结果，不把手机反馈当作PC复现。
+- [ ] #12 IMG_1168/1169/1175对应的手机拖动从按下到瞄准无突跳；视觉交互锚点、预览和松手命中一致，多敌人不得空地猜最近目标，记录同候选轨迹与事件。
+- [ ] #13 保留点选后备、双击取消和长按关键词；去除贯穿战场的常驻阈值横线与冗余操作提示后，合法目标/取消仍清楚，旧触点不重复出牌。
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -69,6 +73,8 @@ ordinal: 36000
 2026-10-27并发复核：cards独立树按AbstractCard/CardGroup核对位置插值、悬停回位和只读战斗牌堆；保留已修144×64与拖牌状态机。主session接共享入口，定向验证，实机AC保持未完成。
 
 本轮修正原生停靠与手牌取消边界；补先红后绿的按住、松手跟随、快速回拖、跨牌和触摸回归；构建独立候选后等待新键鼠窗口实测。
+
+先按报告§3A构造手机/PC分离的目标与无目标释放回归，再修坐标/状态转换；用libGDX手势职责划分作算法参考，不直接复制原作反编译代码。实机授权和快慢各20次合同继续保留。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -120,4 +126,7 @@ PR #304 手机实测暴露拖动取消问题，历史验收不代表新问题已
 本轮6组触屏释放回归真实RED→GREEN；父线程Node24独立复验新6组及原12组source-input通过，子树旧11组gesture通过。无效手机释放取消、金线与270偏移一致，PC持续选敌保留。新设备AC保持未勾，正在统一打包。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160组合或新候选）：
+2026-10-29新一轮26张去重手机图与34:42录音，逐图见MOBILE-QA-20261029。源码20a74da已定位：targeting.dragPose手机上移270*scale但命中用原触点；card_view.placeDraggedCard在aiming切固定停靠；card_input.release无效触屏仍可能carry/target且updateCarry跳过触屏。先协调PR323索敌改动，保留TASK76旧触点保护；这些是当前源码事实，不冒认用户候选或手机精确复现。旧已勾验收保留历史，不能覆盖本轮新缺口。
 <!-- SECTION:NOTES:END -->
