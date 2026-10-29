@@ -6,14 +6,14 @@ import {preDeathSettlementGuardSource} from './helpers/death-settlement-guard-in
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {pr323AcceptedSourceInverse as proof,preAcceptedPr323Source,preOriginalPr323Source,requirePr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
+import {pr323AcceptedSourceInverse as proof,preAcceptedPr323Source,preOriginalPr323Source,requirePr323Source,normalizePr323CompositionSource} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preCompositeBattleMaxHpConfig} from './helpers/battle-max-hp-config-inverse.mjs';
 import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-inverse.mjs';
 import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
 import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs';
 const normalize=source=>source.replaceAll('\r\n','\n');
-const read=path=>preNestedSnapshotOwnerSource(path,prePlayerDeathSource(path,preDeathSettlementGuardSource(path,preRelicViewUiSource(path,normalize(readFileSync(path,'utf8'))))));
+const read=path=>preNestedSnapshotOwnerSource(path,prePlayerDeathSource(path,preDeathSettlementGuardSource(path,normalizePr323CompositionSource(path,preRelicViewUiSource(path,normalize(readFileSync(path,'utf8')))))));
 const hash=source=>createHash('sha256').update(source).digest('hex');
 test('combined PR323 sources recover both complete accepted20a and original323 witnesses',()=>{
  for(const [path,binding]of Object.entries(proof.files)){

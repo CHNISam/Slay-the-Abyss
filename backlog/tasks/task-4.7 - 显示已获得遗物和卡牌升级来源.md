@@ -1,11 +1,11 @@
 ---
 id: TASK-4.7
 title: 显示已获得遗物和卡牌升级来源
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 14:39'
-updated_date: '2026-10-29 06:46'
+updated_date: '2026-10-29 14:48'
 labels: []
 milestone: m-4
 dependencies: []
@@ -38,6 +38,12 @@ ordinal: 123000
 - [ ] #7 已持有遗物列表有对应图标、中文名、效果及真实次数，不只居中纯文本翻页；战斗和地图共用只读库存入口，与顶栏不互相覆盖。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+PR336收口：合入最新develop；保留完整历史见证守卫；将已复现30秒超时的20条结果手势回归分为四个独立5例脚本，保持原断言、输入与单脚本时限，验证遗物面板和历史逆向组合。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
@@ -50,4 +56,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 
 PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160组合或新候选）：
 2026-10-29 IMG_1166是已持有遗物纯文本而非完全无入口；IMG_1183有HUD被遮挡残边，1192地图缺库存入口。新增验收复用原生图标+名称+短效果/实际次数的可滚动持有列表，顶栏避让由TASK38协同。旧升级来源调查仍未获用户该局证据，不关闭。
+
+PR336收口复审：原CI40871514608仅game_ui_result_gestures.lua在30秒超时，303项JS通过；合入899f02d4后本地仍超时。原20例完整源LF SHA256 b5bf2969f4bf854251f15c2402cad8a1dac207d9479f945e310ebee5fd4b4adf冻结，四片各5例全部通过（7134/7642/6391/8436ms），时限不变。遗物面板与外层见证专项12/12通过；架构259模块1445边通过，质量3987测量通过，Lua静态无新增诊断，四项变异均被断言杀死。未做新候选实机/UI验收，AC保持未勾。
 <!-- SECTION:NOTES:END -->

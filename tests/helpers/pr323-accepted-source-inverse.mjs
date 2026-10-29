@@ -12,6 +12,19 @@ const bytes=readFileSync(new URL('../fixtures/pr323-accepted-source-inverse.json
 assert.equal(hash(normalize(bytes)),'dea381bb8e2167ab13e01115f91f4b90dc42757b27627968d0549008a3ab8a03','complete accepted20a/original323 composition witness');
 export const pr323AcceptedSourceInverse=JSON.parse(bytes);
 const proof=pr323AcceptedSourceInverse;
+// Architecture consumes JSON values. Permit layout whitespace only, then still
+// require the original complete identity. Comparing tokens also prevents JSON.parse
+// from hiding duplicate keys, changed string escapes, or numeric spellings.
+export function normalizePr323CompositionSource(path,source){
+ if(path!=='config/architecture.json'||typeof source!=='string')return source;
+ try{
+  const formatted=JSON.stringify(JSON.parse(source),null,2)+'\n';
+  const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
+  const projected=preRelicViewUiSource(path,formatted);
+  if(tokens(source)===tokens(formatted)&&hash(projected)===proof.files[path].afterSha256)return projected;
+ }catch{ /* Unknown syntax remains visible to the strict source guard. */ }
+ return source;
+}
 assert.equal(proof.schemaVersion,1);
 assert.equal(proof.acceptedBase,'20a74da73ff5379a748e6b9687b258e2c9a22bf8');
 assert.equal(proof.originalPrHead,'39dab5e901616e7432df83d8c9dfc07305f01de6');
@@ -26,7 +39,9 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
- if(proof.files[path])source=preNestedSnapshotOwnerSource(path,preRelicViewUiSource(path,source));
+ source=preRelicViewUiSource(path,source);
+ source=normalizePr323CompositionSource(path,source);
+ if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const binding=proof.files[path];
@@ -37,7 +52,9 @@ export function requirePr323Source(path,source){
 }
 function project(path,source,target){
  if(typeof source!=='string')return source;
- if(proof.files[path])source=preNestedSnapshotOwnerSource(path,preRelicViewUiSource(path,source));
+ source=preRelicViewUiSource(path,source);
+ source=normalizePr323CompositionSource(path,source);
+ if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const normalized=normalize(source),binding=proof.files[path];

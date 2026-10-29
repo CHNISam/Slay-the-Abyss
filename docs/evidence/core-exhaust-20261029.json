@@ -1,0 +1,71 @@
+{
+  "baselineRevision": "a5da67aaaf018bfd6d92e32af5c7bcd9a0866a59",
+  "scope": "Five exhaust actions only; entire apply remains ungoverned at 102",
+  "runtime": "v24.18.0",
+  "sourceSha256": {
+    "before": "0a7c0287358013a14b67d2df0a53ae8c36c6d48dbfd9b09f94993735b7c0ebb6",
+    "after": "72b194b96f814a241440515c93a3b3822172fbd442b3a7de0fde7d014928e6d9",
+    "contract": "UTF8 LF normalized"
+  },
+  "metrics": {
+    "moduleLines": [433, 446],
+    "applySpan": [157, 137],
+    "applyComplexity": [118, 102],
+    "helpers": {
+      "exhaustRandom": 5,
+      "fiendFire": 3,
+      "exhaustNonAttacks": 6,
+      "exhaustSpecific": 2
+    },
+    "applyPlusHelpers": [118, 118],
+    "completeMeasurements": [3955, 3959]
+  },
+  "unchanged": {
+    "modules": 258,
+    "dependencyCallSites": 1441,
+    "dependencyPairsSha256": "493369fe66dc8d83689532123d02b6eb761c920d2c130d869ea62745b2a567e7",
+    "sccMembers": 76,
+    "sccInternalCallSites": 496,
+    "diagnosticCount": 37,
+    "diagnosticsSha256": "4f2c09cdaeed48ce77920bd22f97508feb1edfba7254a276e04750047cd2d541"
+  },
+  "parity": {
+    "boundaries": 169,
+    "beforeAfterEqual": true,
+    "traceSha256": "0c224d441be16c2bbe343ac04977711fdef897a185dfab7ba218a21b6da5a754",
+    "omittedImmutableFields": [
+      "catalog",
+      "rules",
+      "sourcePools",
+      "statusDefinitions"
+    ],
+    "rollback": "All original table references and values checked, including omitted directories"
+  },
+  "checks": {
+    "jsPass": 31,
+    "jsFail": 0,
+    "jsSkip": 0,
+    "luaEntrypointsPassed": 9,
+    "newSemanticMutantsKilled": 5,
+    "newSemanticMutantsSurvived": 0,
+    "existingSemanticMutantsKilled": 4,
+    "existingMutationReportSha256": "10851bb1aaf923937d2f2a22281e533a8ad392f6f9511b71aa372e729e2b2727",
+    "nativeUiContractsPassed": 4,
+    "quality": "reported, not a whole-core acceptance",
+    "architecture": "passed",
+    "luaStatic": "passed",
+    "syntax": "passed"
+  },
+  "rawReports": {
+    "directory": "build/exhaust-parity/",
+    "qualityBefore": "quality-before.json",
+    "qualityAfter": "../engineering-quality.json",
+    "parity": "report.json",
+    "regressions": "regressions.json",
+    "priorEvidence": "evidence-before-summary.json"
+  },
+  "notRun": [
+    "Current-head remote Full Quality and independent PR review",
+    "Official import, ready, PC/mobile playtest"
+  ]
+}

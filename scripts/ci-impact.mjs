@@ -20,10 +20,15 @@ export function impact(changed, sources, event, timings) {
   if (plan.full) return full(plan.reason);
   const js = [...new Set([...plan.fast, ...plan.integration])].sort(), lua = [...new Set(plan.lua)].sort();
   if (!js.length && !lua.length) return full('No proven test coverage');
-  const estimate = js.reduce((n, p) => n + Math.max(timings.js.win32[p] ?? timings.unknownJsMs, timings.js.linux[p] ?? timings.unknownJsMs), 0)
-    + lua.reduce((n, p) => n + (timings.lua[p] ?? timings.unknownLuaMs), 0);
-  if (estimate > 180000) return full('Complete affected set exceeds fast execution budget');
-  return { mode: 'fast', reason: plan.reason, changed, js, lua, estimateMs: estimate };
+  const luaMs = lua.reduce((n, p) => n + (timings.lua[p] ?? timings.unknownLuaMs), 0);
+  // Each matrix VM runs the complete set serially, while the two platforms run
+  // in parallel. Summing per-file platform maxima invents a third, slower VM.
+  const estimateByPlatformMs = Object.fromEntries(['win32', 'linux'].map(platform => [platform,
+    js.reduce((n, p) => n + (timings.js[platform][p] ?? timings.unknownJsMs), 0) + luaMs]));
+  const estimateMs = Math.max(...Object.values(estimateByPlatformMs));
+  const estimates = { estimateMs, estimateByPlatformMs };
+  if (estimateMs > 180000) return { ...full('Complete affected set exceeds fast execution budget'), ...estimates };
+  return { mode: 'fast', reason: plan.reason, changed, js, lua, ...estimates };
 }
 
 function scan(dir) {
