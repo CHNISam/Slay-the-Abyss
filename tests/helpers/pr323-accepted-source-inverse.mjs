@@ -1,5 +1,6 @@
 // Exact outer composition only. Both accepted20a and original323 witnesses stay immutable.
 import assert from 'node:assert/strict';
+import {preNestedSnapshotOwnerSource} from './nested-command-snapshot-owner-inverse.mjs';
 import {prePlayerDeathSource} from './player-death-transition-inverse.mjs';
 import {preDeathSettlementGuardSource} from './death-settlement-guard-inverse.mjs';
 import {readFileSync} from 'node:fs';
@@ -24,6 +25,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
+ if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const binding=proof.files[path];
@@ -34,6 +36,7 @@ export function requirePr323Source(path,source){
 }
 function project(path,source,target){
  if(typeof source!=='string')return source;
+ if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
  const normalized=normalize(source),binding=proof.files[path];
