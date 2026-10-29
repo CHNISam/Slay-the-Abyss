@@ -1,3 +1,14 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 18
+assert(type(sliceFirst)=='number'and type(sliceLast)=='number'and sliceFirst%1==0 and sliceLast%1==0
+ and sliceFirst>=1 and sliceLast<=33 and sliceFirst<=sliceLast,'invalid prepared UI case range')
+local sliceRegistered=0
+local function selected()
+ sliceRegistered=sliceRegistered+1
+ if sliceRegistered<sliceFirst or sliceRegistered>sliceLast then return false end
+ print('COMPETITION_PREPARED_UI_CASE '..sliceRegistered)
+ return true
+end
 -- Actual configured-source selection; controlled engine doubles, not device evidence.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Catalog,Original,C=require('abyss_run_card_catalog'),require('abyss_original_v4_profiles'),require('abyss_combat')
@@ -39,6 +50,7 @@ local invalid={
 invalid[3].source.characterId,invalid[3].source.originalV4Role='ironclad','RD'
 for index,scenario in ipairs(invalid)do local source=scenario.source;for _,role in ipairs(scenario.roles)do
  for _,route in ipairs({'direct','click','controller'})do
+  if selected()then
   local ui,root,samples=fixture(source)
   local verifySource,verifySelection=unchanged(source),unchanged(ui.characterSelection)
   local prepare,selected=Original.prepare,Catalog.prepareSelected
@@ -56,9 +68,11 @@ for index,scenario in ipairs(invalid)do local source=scenario.source;for _,role 
   if route=='direct'then assert(reason=='competition_character_unavailable')end
   assert(adaptations==0 and samples()==0 and not ui.run and not ui.map,'rejected source reached adaptation/seed/Run')
   verifySource();verifySelection();count=count+1
+  end -- selected original route case
  end
 end end
 -- A caller can replace source identity while the same selection page is open.
+if selected()then
 local changed=C.copy(F.Data)
 local ui,_,samples=fixture(changed)
 assert(ui:selectCharacter('traveler'))
@@ -67,7 +81,9 @@ local verify=unchanged(ui.characterSelection)
 local called,accepted,reason=pcall(ui.selectElement,ui,'ironclad')
 assert(called and not accepted and reason=='competition_character_unavailable')
 verify();assert(samples()==0 and not ui.run);count=count+1
+end -- selected original changed-source case
 -- The source can change after a valid preview without another selection command.
+if selected()then
 local stale=C.copy(F.Data)
 local staleUI,_,staleSamples=fixture(stale)
 assert(staleUI:selectCharacter('traveler'))
@@ -78,16 +94,20 @@ local confirmed,accepted,why=pcall(staleUI.confirmCharacter,staleUI)
 assert(confirmed and not accepted and why=='competition_character_unavailable')
 assert(staleSamples()==0 and not staleUI.run and not staleUI.map)
 verifyStale();verifyStaleSource();count=count+1
+end -- selected original stale-source case
 -- Consistent caller identity markers still match the explicit visible choice.
 for _,id in ipairs({'ironclad'})do
+ if selected()then
  local source=C.copy(F.Data);source.characterId=id
  local host=fixture(source)
  assert(host:selectCharacter(id=='ironclad'and 'traveler'or id))
  assert(host:confirmCharacter()and host.run)
  assert(id=='ironclad'and not host.run.characterProfile or host.run.character=='raiden')
  count=count+1
+ end -- selected original consistent-marker case
 end
 -- The future/development host explicitly restores the complete eight-role roster.
+if selected()then
 local development,developmentRoot,developmentSamples=fixture(F.Data,'full-source')
 for _,id in ipairs({'hutao','arlecchino','furina','raiden','traveler'})do
  assert(development.characterSelection:allowsCharacter(id))
@@ -99,14 +119,20 @@ assert(development:selectCharacter('raiden'))
 assert(development:confirmCharacter()and developmentSamples()==1 and development.run.character=='raiden')
 assert(development.run.campaignProfile=='full-source'and development.run.characterProfile.role=='RD')
 count=count+1
+end -- selected original development case
 -- Direct legacy factories have no explicit UI Geo selection. Keep their
 -- established omitted-options and explicit full-source behavior unchanged.
 local preparedRaiden=Original.prepare(F.Data,'raiden')
 for _,full in ipairs({false,true})do
+ if selected()then
  local options=full and {experimental=true,campaign=true,campaignProfile='full-source'}or nil
  local legacy=Run.new(preparedRaiden,'3',options)
  assert(legacy.data.originalV4Role=='RD'and not legacy.characterProfile)
  assert(legacy.deck[1].cardId=='RD2-001'and legacy.maxHp==72)
  count=count+1
+ end -- selected original legacy case
 end
 print('COMPETITION_PREPARED_UI_PASS '..count..'; native/natural NOT_RUN')
+assert(sliceRegistered==33,'all 33 original prepared UI cases must register')
+assert(count==sliceLast-sliceFirst+1,'every selected original prepared UI case must execute')
+print('COMPETITION_PREPARED_UI_SLICE '..sliceFirst..' '..sliceLast..' '..count)
