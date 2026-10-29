@@ -7,6 +7,24 @@ import { battleLayout } from '../scripts/ui-layout.mjs';
 import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
 import { validateTheme } from '../scripts/build-ui-theme.mjs';
 import { loadContent } from '../scripts/validate-data.mjs';
+import { createHash } from 'node:crypto';
+import { heroVisualProof, preHeroVisualSource } from './helpers/hero-visual-source-inverse.mjs';
+
+test('the complete hero layer restores prior inputs and rejects partial or cross-path drift', () => {
+  const hash = source => createHash('sha256').update(source).digest('hex');
+  for (const [path, binding] of Object.entries(heroVisualProof.files)) {
+    const source = readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
+    assert.equal(hash(source), binding.afterSha256, path);
+    assert.equal(hash(binding.before), binding.beforeSha256, path);
+    assert.equal(preHeroVisualSource(path, source), binding.before, path);
+    assert.equal(preHeroVisualSource(path, source.replaceAll('\n', '\r\n')), binding.before, path);
+    assert.equal(preHeroVisualSource(path, binding.before), binding.before, path);
+    for (const changed of [source.slice(1), source + '\n-- drift\n'])
+      assert.equal(preHeroVisualSource(path, changed), changed, path);
+    assert.equal(preHeroVisualSource('unregistered.lua', source), source, path);
+    assert.equal(preHeroVisualSource(path, null), null, path);
+  }
+});
 
 const idOf = entry => (typeof entry === 'object' ? entry.id : entry);
 

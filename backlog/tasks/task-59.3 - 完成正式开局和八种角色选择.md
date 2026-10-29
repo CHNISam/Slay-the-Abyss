@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 06:32'
-updated_date: '2026-10-29 14:45'
+updated_date: '2026-10-29 14:50'
 labels:
   - required implementation-gap
 milestone: m-4
@@ -132,4 +132,6 @@ PR290接续：隔离候选已合入develop d2e0baa3；复核4aba86bc全部有效
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 
 2026-10-29 接上启动页主视觉、选角小头像/大图切换和战斗胸像槽位。生产环境打开选角即显示岩系旅行者。电影镜头不再播放，确认后进入七天神像恩赐。占位编号见 docs/backlog-details/HERO-VISUAL-M3.md。没有官方导入和真机证据，新增验收保持未勾。
+
+PR338合并前修复：神像显示拆分为独立职责，renderEvent回到15以内；精确hero外层接入3份历史源测试并覆盖两份新流程输入，旧PR323/330/settlement证据保持原字节；保留非法角色拒绝与新预选旅行者语义。定向18/18、hero严格逆变换3/3通过；工程258模块1440边、953职责、37历史告警且mutation4项/原生合同4项通过。Node22 raw game_ui原60秒超时（15项已跑至原生开场通过），未冒充整体通过；Node24与最终CI仍待。本轮未导入或实机，不新增平台勾选。
 <!-- SECTION:NOTES:END -->
