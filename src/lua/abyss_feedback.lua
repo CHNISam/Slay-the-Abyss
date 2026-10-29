@@ -5,6 +5,7 @@ local EnemyView=require('abyss_battle_enemy_view')
 local UnitView=require('abyss_battle_unit_view')
 local Actors=require('abyss_actor')
 local ActorMotion=require('abyss_actor_motion')
+local SkillFeedback=require('abyss_skill_feedback')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
 local ROW = (L.enemyRow.xFrom + L.enemyRow.xTo) / 2
@@ -22,6 +23,18 @@ local function mix(a, b, w) return {r = a.r + (b.r - a.r) * w, g = a.g + (b.g - 
 local function hurts(kind) return kind == "damage" or kind == "hp_loss" or kind == "status_damage" end
 local banners = {enemy_turn = true, player_turn = true, victory = true, defeat = true}
 local timedLossNames = {lose_strength="回合末失去力量", lose_dexterity="回合末失去敏捷"}
+local function skillContext(entry,catalog)
+    local d=type(entry.detail)=='table' and entry.detail or {}
+    if entry.kind=='play' then return {effects=catalog.cards[d.cardId].effects} end
+    for _,unit in ipairs(entry.frame and entry.frame.enemies or {})do
+        if unit.id==d.enemy then
+            for _,intent in ipairs(unit.intents or {})do
+                if intent.id==d.id then return {enemyId=unit.definitionId,intentId=d.id,intentKind=intent.kind,effects=intent.effects} end
+            end
+        end
+    end
+    return {}
+end
 
 -- Shape of each hit, read from the committed card/intent and the actual event amounts only.
 -- form: single | multi | area | dot | self; weight: light | normal | heavy.
@@ -35,6 +48,8 @@ local function classify(queue, catalog)
                 for _, effect in ipairs(catalog.cards[d.cardId].effects) do area = area or effect.op == "damageAll" end
             end
             context = {kind = entry.kind, area = area, cardId = d.cardId, hits = {}}
+            local skill=skillContext(entry,catalog)
+            context.family=SkillFeedback.resolve(entry.kind,d,skill)
             styles[i] = {context = context}
         else
             local style = {context = context}
@@ -79,6 +94,13 @@ local function classify(queue, catalog)
             end
             end
         end
+    end
+    for i,entry in ipairs(queue)do
+        local d=type(entry.detail)=='table' and entry.detail or {}
+        local style=styles[i]
+        local status=catalog.statuses[d.status]
+        style.family=SkillFeedback.resolve(entry.kind,d,{family=style.context and style.context.family,
+            weight=style.weight,statusKind=status and status.kind})
     end
     return styles
 end
@@ -150,6 +172,8 @@ function M.new(stage, platform, present, complete)
     end
     -- Steps keep the sweep and a landing card; reset and finish clear everything.
     local function hideOverlay(landing, all)
+        if self.cast then overlay:GetChild('sweep'):SetVisible(false) end
+        self.cast=nil
         if not landing then self.dissolve = nil end
         if all then self.sweep = nil end
         local names = {"banner", "bannerPlate"}
@@ -374,6 +398,22 @@ function M.new(stage, platform, present, complete)
             end
         end
     end
+    local function startCast(d,kind,style)
+        local family=style.family
+        if family~='projectile' and family~='poison' and family~='bind' then return end
+        local source=kind=='intent' and d.enemy or 'player'
+        for i=self.index+1,#self.queue do
+            local entry=self.queue[i]
+            if entry.kind=='play' or entry.kind=='intent' or banners[entry.kind] then break end
+            local detail=type(entry.detail)=='table' and entry.detail or {}
+            if detail.target and detail.target~=source then
+                local _,_,sx,sy=actor(source)
+                local _,_,tx,ty=actor(detail.target)
+                if sx and tx then self.cast={family=family,sx=sx,sy=sy,tx=tx,ty=ty,kind=kind} end
+                return
+            end
+        end
+    end
     local function enterFrame(entry, style)
         local old = self.shadow
         local nextView = {catalog = old.catalog, rules = old.rules}
@@ -401,10 +441,12 @@ function M.new(stage, platform, present, complete)
         print("ABYSS_FEEDBACK " .. kind .. " source=" .. tostring(d.source or d.enemy or "-") .. " target=" .. tostring(d.target or "-") .. " amount=" .. n(d.amount))
         if kind == "play" then
             playStep(d,kind,style,old)
+            startCast(d,kind,style)
         elseif banners[kind] then
             bannerStep(d,kind,style,old)
         elseif kind == "intent" then
             intentStep(d,kind,style,old)
+            startCast(d,kind,style)
         elseif kind == "enemy_escape" then
             escapeStep(d,kind,style,old)
         elseif kind == "death" or kind == "player_death" then
@@ -554,10 +596,16 @@ function M.new(stage, platform, present, complete)
         impact:SetVisible(show)
         if show then
             local ix,iy,iy0=impactShape(effect,sample,e)
+            local offset,alpha,key
+            if not effect.icon and effect.style.family~='none'
+                and ((effect.style.form~='multi' and effect.style.form~='area')
+                    or (effect.style.family~='melee' and effect.style.family~='heavy')) then
+                ix,iy,offset,iy0,alpha,key=SkillFeedback.sample(effect.style.family,e,S.m)
+            end
             impact:SetLocalScale(ix, iy, 1)
-            impact:SetAnchoredPosition(0, iy0)
+            impact:SetAnchoredPosition(offset or 0, iy0)
             local shardInk,shardAlpha=impactTint(id,effect,sample,e)
-            tint(impact,shardInk,shardAlpha)
+            tint(impact,key and C[key] or shardInk,alpha or shardAlpha)
         end
         return window
     end
@@ -713,10 +761,24 @@ function M.new(stage, platform, present, complete)
                 self.sweep.age = self.sweep.age + dt
                 local p = clamp(self.sweep.age / T.base)
                 local sweep = overlay:GetChild("sweep")
+                sweep.localRotationZ=0
+                sweep:SetAnchoredPosition(ROW,L.enemyRow.y)
                 sweep:SetVisible(p < 1)
                 sweep:SetLocalScale(easeOut(p), 1 - p / 2, 1)
                 tint(sweep, C.geo, 1 - easeIn(p))
                 if p >= 1 then self.sweep = nil end
+            end
+            if self.cast then
+                local cast=self.cast
+                local total=cast.kind=='play' and T.base or T.enemyActionGap
+                local p=clamp(self.elapsed/total)
+                local x,y,alpha=SkillFeedback.travel(cast.family,p,cast.sx,cast.sy,cast.tx,cast.ty)
+                local sweep=overlay:GetChild('sweep')
+                sweep:SetVisible(alpha>0)
+                sweep:SetAnchoredPosition(x,y)
+                sweep:SetLocalScale(S.xl/(L.enemyRow.xTo-L.enemyRow.xFrom+L.enemyRow.bossPortrait),0.5,1)
+                sweep.localRotationZ=cast.family=='bind' and p*180 or 0
+                tint(sweep,cast.family=='poison' and C.positive or cast.family=='bind' and C.debuff or C.block,alpha)
             end
             local shakes, ids = {}, {}
             if self.idleBattle and self.shadow then
