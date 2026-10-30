@@ -99,7 +99,7 @@ const responsibilityRoots = {
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
-  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'"],
+  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'"],
   'src/lua/abyss_act2_ai.lua': ["function 'choose'"],
   'src/lua/abyss_character_presentation.lua': [],
   'src/lua/abyss_character_presentation_text.lua': ["function 'fragments'"],

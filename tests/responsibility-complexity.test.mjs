@@ -81,6 +81,30 @@ test('every extracted card action helper is required and bounded with its nested
       .some(e=>e.file===path&&e.message.includes('entry missing')));
   }
 });
+test('canPlay and all preflight stages are required, bounded and fully measured',()=>{
+  const path='src/lua/abyss_combat.lua';
+  const names=['queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
+    'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements'];
+  const source=names.map(name=>`function ${name}() return function() end end`).join('\n');
+  const diagnostics=[row(path,1,1,'main chunk',1)];
+  for(const [i,name] of names.entries()){
+    diagnostics.push(row(path,i+1,1,`function '${name}'`,15));
+    diagnostics.push(row(path,i+1,source.split('\n')[i].indexOf('function()')+1,'function',1));
+  }
+  assert.equal(reviewResponsibilityComplexity(diagnostics,{[path]:source}).errors.filter(e=>e.file===path).length,0);
+  for(const diagnostic of diagnostics.slice(1)){
+    const original=diagnostic.message;
+    diagnostic.message=original.replace(/\(\d+ > 0\)/,'(16 > 0)');
+    assert.ok(reviewResponsibilityComplexity(diagnostics,{[path]:source}).errors
+      .some(e=>e.file===path&&e.message.includes('16 exceeds 15')));
+    diagnostic.message=original;
+  }
+  for(const name of names){
+    const removed=diagnostics.filter(d=>!d.message.includes(`'${name}'`));
+    assert.ok(reviewResponsibilityComplexity(removed,{[path]:source}).errors
+      .some(e=>e.file===path&&e.message.includes('entry missing')));
+  }
+});
 test('restoring the original Run potion candidate hotspot fails the production policy', () => {
   const run='src/lua/abyss_run.lua',source='local function potionCandidate() end';
   const diagnostics=[row(run,1,1,'main chunk',1),row(run,1,7,"function 'potionCandidate'",53)];

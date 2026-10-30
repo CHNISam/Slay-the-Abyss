@@ -546,17 +546,23 @@ local function paidCost(state,card)
     return card.cost
 end
 
-function M.canPlay(state, uid, targetIndex)
+-- Preflight stages preserve refusal priority and short-circuit side effects.
+local function playWindow(state)
     if state.pendingChoice or state.cardActions then return false,'card_choice_pending' end
     if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.pendingPileChoice or state.actionQueue then return false, "selection_pending" end
     if state.pendingDiscard then return false, "discard_choice_pending" end
     if state.phase ~= "player" then return false, "not_player_turn" end
-    local instance = findInstance(state, uid)
-    if not instance then return false, "card_not_in_hand" end
-    local card = M.cardDefinition(state, instance)
+    return true
+end
+
+local function playEligibility(state,card)
     if card.cost == -2 then return false, "unplayable_card" end
     if Curses.limitsPlay(state) then return false,"normality_limit" end
     if card.type == "attack" and (state.player.statuses.entangled or 0) > 0 then return false, "entangled" end
+    return true
+end
+
+local function playSupportedEffects(card)
     local ok, op
     if card.id == "slimed" then
         -- Slimed's use is genuinely empty, not a fake zero-value effect.
@@ -567,44 +573,95 @@ function M.canPlay(state, uid, targetIndex)
         op = "invalid_empty_status"
     else ok, op = Effects.supported(card.effects) end
     if not ok then return false, "unsupported_effect:" .. op end
+    return true
+end
+
+local function playCardContent(state,card,targetIndex)
     if card.watcherFinal and not require('abyss_watcher_final_cards').supported(card) then return false,'card_content_unavailable' end
     local colorlessOk,colorlessReason=require('abyss_colorless_cards').canUse(state,card)
     if not colorlessOk then return false,colorlessReason end
     if card.color=='colorless' and card.target=='ENEMY' and not Actors.isActive(state.enemies[targetIndex]) then return false,'invalid_target' end
+    return true
+end
+
+local function playAdvancedMode(state,card)
     if card.costMode or card.condition then
         if card.experimental ~= true and not nativeDefinition(state,card) then return false, "advanced_card_not_enabled" end
         if card.condition and card.condition ~= "only_attacks_in_hand" and card.condition~='draw_pile_empty' then return false,"advanced_card_not_enabled" end
         if card.costMode and (card.costMode ~= "all_energy"
             or card.cost ~= -1 and not nativeDefinition(state,card)) then return false,"advanced_card_not_enabled" end
     end
+    return true
+end
+
+local function playEnergy(state,card)
     if card.costMode and (type(state.energy)~="number" or state.energy%1~=0 or state.energy<0
         or state.energy>2147483647) then return false,"invalid_energy" end
     if not card.costMode and state.energy < card.cost then return false, "insufficient_energy" end
+    return true
+end
+
+local cardTargetOps={
+    damage=true,damageEqualToBlock=true,applyStatus=true,multiplyPoison=true,
+    barrageDamage=true,ftlDamage=true,bowlingBash=true,spotWeakness=true,
+    heelHook=true,fiendFire=true,sunderDamage=true,removeBlock=true,
+    applyLockOn=true,fearNoEvil=true,wallop=true,flowDamage=true,
+    applyWatcherFlowPower=true,finisherDamage=true,flechettesDamage=true,skewer=true,
+    glassKnife=true,malaise=true,feed=true,watcherFinalJudgment=true,
+    watcherFinalExpungerHits=true,watcherFinalLessonLearned=true
+}
+local function playEffectTarget(state,card,targetIndex)
     for _, effect in ipairs(card.effects) do
-        if effect.op == "damage" or effect.op == "damageEqualToBlock" or effect.op == "applyStatus" or effect.op == "multiplyPoison"
-            or effect.op=='barrageDamage' or effect.op=='ftlDamage' or effect.op=='bowlingBash'
-            or effect.op=='spotWeakness' or effect.op=='heelHook' or effect.op=='fiendFire'
-            or effect.op=='sunderDamage' or effect.op=='removeBlock' or effect.op=='applyLockOn'
-            or effect.op=='fearNoEvil' or effect.op=='wallop' or effect.op=='flowDamage' or effect.op=='applyWatcherFlowPower'
-            or effect.op=='finisherDamage' or effect.op=='flechettesDamage' or effect.op=='skewer'
-            or effect.op=='glassKnife' or effect.op=='malaise' or effect.op=='feed'
-            or effect.op=='watcherFinalJudgment' or effect.op=='watcherFinalExpungerHits' or effect.op=='watcherFinalLessonLearned' then
+        if cardTargetOps[effect.op] then
             local enemy = state.enemies[targetIndex]
             if not Actors.isActive(enemy) then return false, "invalid_target" end
         end
     end
+    return true
+end
+
+local function playCardRequirements(state,instance,card,targetIndex)
     if card.originalV4 then
         local usable,refusal=require('abyss_original_v4').preflight(state,card,targetIndex)
         if not usable then return false,refusal end
     end
     local usable,refusal=require('abyss_watcher_attack_cards').canUse(state,instance,card)
     if not usable then return false,refusal end
+    return true
+end
+
+local function playHandRequirements(state,card)
     if card.condition=='draw_pile_empty' and #state.draw>0 then return false,'requires_empty_draw_pile' end
     if card.condition == "only_attacks_in_hand" then
         for _, held in ipairs(state.hand) do
             if M.cardDefinition(state,held).type ~= "attack" then return false,"requires_only_attacks" end
         end
     end
+    return true
+end
+
+function M.canPlay(state, uid, targetIndex)
+    local ok,reason=playWindow(state)
+    if not ok then return false,reason end
+    local instance = findInstance(state, uid)
+    if not instance then return false, "card_not_in_hand" end
+    local card = M.cardDefinition(state, instance)
+    ok,reason=playEligibility(state,card)
+    if not ok then return false,reason end
+    ok,reason=playSupportedEffects(card)
+    if not ok then return false,reason end
+    ok,reason=playCardContent(state,card,targetIndex)
+    if not ok then return false,reason end
+    ok,reason=playAdvancedMode(state,card)
+    if not ok then return false,reason end
+    ok,reason=playEnergy(state,card)
+    if not ok then return false,reason end
+    ok,reason=playEffectTarget(state,card,targetIndex)
+    if not ok then return false,reason end
+    ok,reason=playCardRequirements(state,instance,card,targetIndex)
+    if not ok then return false,reason end
+    ok,reason=playHandRequirements(state,card)
+    if not ok then return false,reason end
     return true
 end
 
