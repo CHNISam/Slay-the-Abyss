@@ -16,11 +16,6 @@ local reasons = { insufficient_energy = "能量不足", invalid_target = "请选
     smoke_not_allowed = '此战斗不能使用烟雾弹',
     effect_overflow = "当前状态已达上限", potion_slots_full = "药水槽已满，请先丢弃旧药水。",
     potion_content_unavailable = "该稀有度药水尚未实装。", potion_blocked_by_sozu = "遗物阻止获得药水。" }
-local function needsTarget(state, instance)
-    -- Ask the core to validate the same card with and without a target.
-    local _, reason = Combat.canPlay(state, instance.uid, nil)
-    return reason == "invalid_target"
-end
 -- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, _ownership, host, dependencies)
     local R = L.rewardPick
@@ -188,9 +183,7 @@ function M.install(owner, _ownership, host, dependencies)
         local ok, reason = Combat.canPlay(run.combat, instance.uid, owner.target)
         if not ok then dependencies.notice(reasons[reason] or "当前无法使用这张牌。") refresh() return end
         owner.selected = instance.uid
-        dependencies.notice(Controller.isController(host.platform.controller)
-            and (needsTarget(run.combat,instance) and "摇杆选择敌人 · 确认出牌 · 返回取消" or "确认出牌 · 返回取消")
-            or (needsTarget(run.combat,instance) and "点选一个敌人；再点原牌取消" or "点击战场出牌区域；再点原牌取消"))
+        dependencies.notice("")  -- STS 式：选牌只靠抬起/发光反馈，不显示任何教学字幕
         refresh()
     end
     function owner:playSlot(index)

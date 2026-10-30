@@ -31,9 +31,15 @@ local function appendShake(id,sample,shakes)
     local age,d,style,heavy=sample.age,sample.detail,sample.style,sample.heavy
     if id == "player" or heavy or style.lethal then
         local scale = math.min(1, ((d.amount or 0) + (d.blocked or 0)) / T.heavyHitDamage)
-        local amplitude = T.shakeAmplitude * (id == "player" and (scale + 1) / 2 or scale / 2)
+        local amplitude = T.shakeAmplitude * ((id == "player" or heavy) and (scale + 1) / 2 or scale / 2)
         if age < T.shake then shakes[#shakes + 1] = amplitude * (1 - age / T.shake) * math.sin(age / T.shake * math.pi * 4) end
     end
+end
+local function recoil(x) x=clamp(x) return (1-x)*(1-x)*math.cos(x*math.pi*2.5) end
+local function knockOut(frozen,heavy,after)
+ if frozen then return 1 end
+ if heavy then return recoil(after/(T.base*1.5)) end
+ return 1-easeOut(after/T.base)
 end
 local function paintKnockback(effect,sample,x,y)
     local age,d,style,kind=sample.age,sample.detail,sample.style,sample.kind
@@ -41,7 +47,7 @@ local function paintKnockback(effect,sample,x,y)
     -- Knockback snaps out on contact, holds through the hit-stop, then eases home.
     if lost and kind == "damage" then
         local reach = heavy and S.l or style.form == "area" and S.s or S.m
-        local out = frozen and 1 or 1 - easeOut(after / T.base)
+        local out = knockOut(frozen,heavy,after)
         x = x + effect.dir * reach * out
         if style.form == "multi" then y = y + (style.hit % 2 == 0 and S.xs or -S.xs) * out end
     elseif lost and style.form == "dot" and d.status ~= "poison" then
@@ -92,6 +98,40 @@ local function skillImpact(effect,sample,e)
     local ix,iy,iy0=impactShape(effect,sample,e)
     return ix,iy,0,iy0
 end
+    local function heavyBurst(ctx,impact,effect,sample,window)
+        local frozen,after=sample.frozen,sample.after
+        local flashEnd=window*0.3
+        local phase=frozen and 'flash' or after<flashEnd and 'flash' or 'shards'
+        if effect.burst~=phase then
+            effect.burst=phase
+            impact:SetImage(ctx.platform.imageSource, phase=='flash' and Theme.image.glow or Theme.image.shards)
+        end
+        if phase=='flash' then
+            local p=frozen and 0 or easeOut(after/flashEnd)
+            local s=2-p
+            impact:SetLocalScale(s,s,1) impact:SetAnchoredPosition(0,0)
+            tint(ctx,impact,C.text,1-p*0.4)
+        else
+            local p=clamp((after-flashEnd)/(window-flashEnd))
+            local s=1+easeOut(p)*1.4
+            impact:SetLocalScale(s,s,1) impact:SetAnchoredPosition(0,0)
+            tint(ctx,impact,mix(C.goldBright,C.geo,p),(1-easeIn(p))*0.9)
+        end
+    end
+    local burstFamily={none=true,melee=true,heavy=true}
+    local function bursts(effect,sample)
+        local style=effect.style
+        return sample.heavy and sample.lost and not effect.icon and style.form=='single' and sample.kind=='damage'
+            and (style.family==nil or burstFamily[style.family])
+    end
+    local function shardImpact(id,impact,effect,sample,e)
+        local ix,iy,offset,iy0,alpha,key=skillImpact(effect,sample,e)
+        impact:SetLocalScale(ix, iy, 1)
+        impact:SetAnchoredPosition(offset or 0, iy0)
+        local shardInk,shardAlpha=impactTint(id,effect,sample,e)
+        tint(ctx,impact,key and C[key] or shardInk,alpha or shardAlpha)
+    end
+
 local function paintImpact(ctx,id,impact,effect,sample)
     local age,kind=sample.age,sample.kind
     local after,frozen,lost,heavy=sample.after,sample.frozen,sample.lost,sample.heavy
@@ -100,7 +140,9 @@ local function paintImpact(ctx,id,impact,effect,sample)
     local e = frozen and 0 or easeOut(after / window)
     local show = (lost or kind == "status") and age < effect.stop + window
     impact:SetVisible(show)
-    if show then
+    if show and bursts(effect,sample) then
+        heavyBurst(ctx,impact,effect,sample,window)
+    elseif show then
         local ix,iy,offset,iy0,alpha,key=skillImpact(effect,sample,e)
         impact:SetLocalScale(ix, iy, 1)
         impact:SetAnchoredPosition(offset or 0, iy0)

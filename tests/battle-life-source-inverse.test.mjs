@@ -9,6 +9,7 @@ import {tmpdir} from 'node:os';
 import {battleLifeSourceLayer as proof, battleLifeAddedPaths, preBattleLifeSource, preBattleLifeOuterSource,
   prepareBattleLifeModuleRetirement} from './helpers/battle-life-source-inverse.mjs';
 import {pr323AcceptedSourceInverse, requirePr323Source, preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
+import {preCombatVfxUpgradeSource} from './helpers/combat-vfx-upgrade-inverse.mjs';
 import {eventProductionInverse, requireEventProductionSource} from './helpers/event-production-source-inverse.mjs';
 
 const hash = value => value === null ? null : createHash('sha256').update(value).digest('hex');

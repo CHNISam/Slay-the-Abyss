@@ -1,3 +1,4 @@
+import {preCombatVfxUpgradeSource} from './combat-vfx-upgrade-inverse.mjs';
 import {projectArtPerfSource} from './art-perf-source-composition.mjs';
 // Test-only exact outer layer for the reviewed round-two presentation extraction.
 // Old witnesses keep their full bytes; unknown edits remain visible to their guards.
@@ -26,7 +27,7 @@ for(const [path,binding]of Object.entries(round2UiSourceLayer.files)){
   assert.ok(Array.isArray(binding.hunks));
   if(binding.beforeSha256===null)assert.deepEqual(binding.hunks,[]);
 }
-export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSource(path,readFileSync(path,'utf8'),'perf')}={}){
+export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSource(path,preCombatVfxUpgradeSource(path,readFileSync(path,'utf8')),'perf')}={}){
   source=projectArtPerfSource(path,source,'perf');
   const binding=round2UiSourceLayer.files[path];
   if(binding)source=preRelicRound2CompositionSource(path,source,'round2');
@@ -61,7 +62,7 @@ export function prepareRound2UiModuleRetirement(directory,{sourceRoot=process.cw
   for(const path of round2UiAddedPaths){
     const target=join(directory,path);
     if(!existsSync(target))continue;
-    assert.equal(hash(normalize(projectArtPerfSource(path,readFileSync(target,'utf8'),'perf'))),round2UiSourceLayer.files[path].afterSha256,
+    assert.equal(hash(normalize(projectArtPerfSource(path,preCombatVfxUpgradeSource(path,readFileSync(target,'utf8')),'perf'))),round2UiSourceLayer.files[path].afterSha256,
       'unreviewed round-two UI added module destination: '+path);
     targets.push(target);
   }

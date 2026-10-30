@@ -248,7 +248,9 @@ function M.new(stage, platform, present, complete)
         local target = (targetsEnemy or area) and self.shadow.enemies[d.target or 1]
         local _, _, x, y = actor(target and target.id or "player")
         if area then x = ROW end
-        self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }
+        -- STS 式落点：攻击牌撞到敌人身前下沿即爆开，不贴在立绘脸上。
+        self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y,
+            stop = (target or area) and S.xxl * 1.5 or 0 }
     end
     local function contactSound(d,style)
         -- One cue per contact; an area ripple shares the first target's cue.
@@ -434,8 +436,9 @@ function M.new(stage, platform, present, complete)
         hideOverlay(landing or next(self.cardFlow.inPlay)~=nil)
         if landing then
             local card = overlay:GetChild("playedCard")
-            card:SetAnchoredPosition(self.flight.tx, self.flight.ty) card:SetLocalScale(0.5, 0.5, 1)
-            self.dissolve = nil
+            card:SetAnchoredPosition(self.flight.tx, self.flight.ty - (self.flight.stop or 0)) card:SetLocalScale(0.5, 0.5, 1)
+            -- 接触帧后立即收缩消散，命中闪光接管视觉焦点。
+            self.dissolve = 0
         end
         self.acting = entry.kind == "intent" and entry.detail.enemy or self.acting
         if entry.kind == "player_turn" then self.acting = nil end
@@ -562,7 +565,7 @@ function M.new(stage, platform, present, complete)
                 else
                     local q = easeIn((p - lift) / (1 - lift))
                     local s = (1 + OVERSHOOT) * (1 - q) + q / 2
-                    card:SetAnchoredPosition(f.x + (f.tx - f.x) * q, f.y + S.l + (f.ty - f.y - S.l) * q)
+                    card:SetAnchoredPosition(f.x + (f.tx - f.x) * q, f.y + S.l + (f.ty - (f.stop or 0) - f.y - S.l) * q)
                     card:SetLocalScale(s, s, 1)
                 end
             end

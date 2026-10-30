@@ -1163,7 +1163,18 @@
         8,
         24
       ],
-      "reticlePad": 28
+      "reticlePad": 28,
+      "aimFlow": 1.6,
+      "aimBend": [
+        0.25,
+        0.2
+      ],
+      "aimRetarget": 0.12,
+      "aimLockPulse": [
+        1.25,
+        0.18,
+        0.03
+      ]
     },
     "energy": {
       "position": [
@@ -3426,7 +3437,8 @@
         8
       ],
       "gap": 4,
-      "padding": 7
+      "padding": 7,
+      "glyphScale": 1.35
     }
   }
 }

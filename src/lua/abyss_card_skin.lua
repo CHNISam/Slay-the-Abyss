@@ -105,8 +105,9 @@ local function blockedState(box,look)
     reason.text=look.reason or blockedCopy[look.blockReason] or '当前不可打出'
     if not shown then return end
     local style=config.blocked
+    -- 原生 CJK 字形含字距/内边距，按字号直接相乘会截成「能量不」；用 glyphScale 留足宽度。
     local _,count=reason.text:gsub('[%z\1-\127\194-\244][\128-\191]*','')
-    local width=math.min(style.pill[1],count*Theme.font.minimum+style.padding*2+style.lock[1]+style.gap)
+    local width=math.min(style.pill[1],math.ceil(count*Theme.font.minimum*(style.glyphScale or 1))+style.padding*2+style.lock[1]+style.gap)
     if pillWidths[box]==width then return end
     local pill=box:GetChild('blockedPill');pill:SetSizeDelta(width,style.pill[2])
     sizeRounded(pill:GetChild('edge'),width,style.pill[2],style.pillRadius)

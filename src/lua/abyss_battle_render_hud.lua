@@ -104,7 +104,7 @@ function M.install(owner, _ownership, host, dependencies)
     end
     local function renderPlayArea(frame)
         dependencies.show("playArea", fieldCardSelected(frame) or frame.active and owner.potionAim ~= nil)
-        dependencies.child("playArea"):GetChild("label").text = owner.potionAim and "点击空白处取消药水瞄准" or "出牌区域 · 点击出牌"
+        dependencies.child("playArea"):GetChild("label").text = owner.potionAim and "点击空白处取消药水瞄准" or ""
     end
     local function renderHudVisibility(frame)
         for _, name in ipairs({"energyRing", "energyDisc", "energyIcon", "energy", "drawIcon", "drawBadgeRing", "drawBadge",

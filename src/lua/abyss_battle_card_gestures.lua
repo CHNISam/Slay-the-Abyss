@@ -69,6 +69,16 @@ function M.install(owner, ownership, host, dependencies)
             owner:render()
         else host.cardView.renderDrag(valid, target, aiming, true) end
     end
+    -- Short EMA of finger velocity, kept on the gesture for a later fling port.
+    local function sampleVelocity(g, x, y)
+        local now = os.clock()
+        local dt = now-(g.t or now)
+        if dt > 0 then
+            g.vx = (g.vx or 0)*0.6 + (x-g.x)/dt*0.4
+            g.vy = (g.vy or 0)*0.6 + (y-g.y)/dt*0.4
+        end
+        g.t = now
+    end
     local function move(event, input)
         if owner.potionAim and owner.potionAim.moving and dependencies.movePotion then return dependencies.movePotion(event,input) end
         local g = owner.gesture
@@ -78,6 +88,7 @@ function M.install(owner, ownership, host, dependencies)
         if input and input ~= g.input or g.input.held ~= g or not dependencies.cardReady(g) then return end
         local x,y = point(event)
         if not x then return end
+        sampleVelocity(g,x,y)
         g.x,g.y = x,y
         if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
         if g.moving then renderCardMotion(g) end

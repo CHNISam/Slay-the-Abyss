@@ -295,18 +295,37 @@ function M.new(view, controls)
             x, y = g.origin[1], math.max(floor,(g.touchScreen and 260 or 126)*g.sourceScale-Theme.canvas.base[2]/2)
         end
         box:SetAnchoredPosition(x, y)
-        box:SetLocalScale(D.scale, D.scale, 1)
-        box.localRotationZ = 0
         local entry=handPoses[g.uid]
-        if entry then entry.current={x=x,y=y,scale=D.scale,angle=0} end
+        local prev=entry and entry.current
+        local scale=prev and prev.scale and lerpSnap(prev.scale,D.scale,1/60,7.5,0.003) or D.scale
+        box:SetLocalScale(scale, scale, 1)
+        box.localRotationZ = 0
+        if entry then entry.current={x=x,y=y,scale=scale,angle=0} end
         return x, y, h
     end
 
+    -- STS TargetArrow 行为参考：箭头终点在换目标时平滑插值而非瞬移，
+    -- 点链沿曲线持续流向目标，锁定时准星轻微收缩脉冲。只读 dragTarget 结果，不改输入规则。
+    local aim = {phase = 1, lock = nil, target = nil}
     local function aimEndpoint(g, target, enemy)
         if enemy then
             local tx, _, portrait, _, ty = enemyPosition(g.battle, target)
-            return tx, ty or L.enemyRow.y, portrait + D.reticlePad
+            ty = ty or L.enemyRow.y
+            if aim.target ~= target then
+                -- 首次锁定直接落点；敌人之间切换从上次画出的终点出发插值。
+                aim.from = (aim.target and aim.ex) and {aim.ex, aim.ey} or nil
+                aim.target, aim.lock, aim.blend = target, 0, aim.from and 0 or 1
+            end
+            local k = aim.blend or 1
+            if aim.from and k < 1 then
+                local e = 1-(1-k)*(1-k)*(1-k)
+                tx, ty = aim.from[1]+(tx-aim.from[1])*e, aim.from[2]+(ty-aim.from[2])*e
+            end
+            aim.ex, aim.ey = tx, ty
+            return tx, ty, portrait + D.reticlePad
         end
+        -- 未锁定时终点紧贴手指，避免自由瞄准产生拖尾延迟。
+        aim.target, aim.lock, aim.from, aim.ex, aim.ey = nil, nil, nil, nil, nil
         return g.x, g.y, D.aimDot[2] * 2
     end
 
@@ -316,16 +335,28 @@ function M.new(view, controls)
         reticle:SetAnchoredPosition(ex, ey)
         reticle:SetSizeDelta(ring, ring)
         tint(reticle, enemy and C.danger or C.textDim)
+        -- 锁定脉冲：从 aimLockPulse 倍缩回 1（ease-out），之后极轻呼吸。
+        local pulse = 1
+        if enemy and aim.lock then
+            local p = D.aimLockPulse or {1, 0.18, 0}
+            local k = math.min(1, aim.lock/p[2])
+            pulse = 1 + (p[1]-1)*(1-k)*(1-k) + (k >= 1 and p[3]*math.sin(aim.lock*6.283) or 0)
+        end
+        reticle:SetLocalScale(pulse, pulse, 1)
     end
 
     local function renderArc(layer, aiming, sx, sy, ex, fy, enemy)
         for i = 1, D.aimDots do
-            local dot, t = layer:GetChild("aim" .. i), i/D.aimDots
+            -- 末点固定为箭头端；其余点按 phase 沿曲线向目标流动（phase=1 时即原等距点位）。
+            local dot = layer:GetChild("aim" .. i)
+            local t = i == D.aimDots and 1 or (i-1+aim.phase)/D.aimDots
             dot:SetVisible(aiming == true)
             if aiming then
                 local u, size = 1-t, D.aimDot[1] + (D.aimDot[2] - D.aimDot[1])*t
-                -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.
-                dot:SetAnchoredPosition(u*u*sx + 2*u*t*sx + t*t*ex, u*u*sy + 2*u*t*fy + t*t*fy)
+                -- 二次贝塞尔：控制点取 STS TargetArrow 式偏置（起点外侧、终点上方），弧线更柔和。
+                local bend = D.aimBend or {0, 0}
+                local cx, cy = sx - (ex-sx)*bend[1], fy + (fy-sy)*bend[2]
+                dot:SetAnchoredPosition(u*u*sx + 2*u*t*cx + t*t*ex, u*u*sy + 2*u*t*cy + t*t*fy)
                 dot:SetSizeDelta(size, size)
                 -- Gold trail; once an enemy is locked the last 40% turns red so the lock reads at a glance.
                 tint(dot, (enemy and t > 0.6) and C.danger or C.goldBright)
@@ -359,18 +390,16 @@ function M.new(view, controls)
             local x, y, h = placeDraggedCard(box, g, aiming)
             box:GetChild("glow"):SetVisible(valid == true)
             local layer = child("dragLayer")
-            layer:GetChild('line'):SetVisible(true)
+            -- STS 不画出牌阈线：越线反馈只靠卡牌自身的 glow（AbstractCard.isGlowing 式），不再显示细长金线。
+            layer:GetChild('line'):SetVisible(false)
             layer:GetChild('hit'):SetVisible(view.gesture ~= nil)
             layer.disableCursorEventPassthrough = view.gesture ~= nil
+            -- 隐藏线仍跟随权威阈值定位（触屏卡面上移 270*scale），只作几何锚点。
             local lineY = g.touchScreen and g.dropStart or math.min(g.hoverStartLine,g.dropStart)
-            -- Touch cards are rendered above the finger. Translate the line
-            -- by the same amount so the visible card center crosses it exactly
-            -- when the finger crosses the authoritative input threshold.
             if g.touchScreen then lineY = lineY + 270*g.sourceScale end
             layer:GetChild('line'):SetAnchoredPosition(0,lineY)
-            tint(layer:GetChild("line"),valid and C.goldBright or C.line)
             local enemy = target and g.battle.enemies[target]
-            -- The lit line, card glow and reticle already say "release to play"; no caption over the card.
+            -- Card glow and reticle already say "release to play"; no caption over the card.
             layer:GetChild("hint").text = ""
             -- Dotted arc from the card's top edge to the reticle (or the bare pointer).
             local ex, ey, ring = aimEndpoint(g, target, enemy)
@@ -381,10 +410,19 @@ function M.new(view, controls)
             g.drawn, g.drawnValid, g.drawnTarget, g.drawnAiming = true, valid, target, aiming
         end
     end
+    local function advanceAim(held,dt)
+        if not held then aim.phase, aim.target, aim.lock, aim.from = 1, nil, nil, nil;return end
+        if not (held.moving and held.drawnAiming) or view.fastMode then return end
+        aim.phase = (aim.phase + dt*(D.aimFlow or 0)) % 1
+        if aim.lock then aim.lock = aim.lock + dt end
+        if aim.blend and aim.blend < 1 then aim.blend = math.min(1, aim.blend + dt/(D.aimRetarget or 0.12)) end
+        renderDrag(held.drawnValid, held.drawnTarget, held.drawnAiming, true)
+    end
     local function update(dt)
         for i=1,10 do CardSkin.tick(child("card"..i),dt)end
         if not handBattle or dt<=0 then return end
         local held=view.gesture or view.carry
+        advanceAim(held,dt)
         for uid,entry in pairs(handPoses) do
             if not (held and held.moving and held.uid==uid) then
                 advancePose(entry,dt,view.fastMode==true)
