@@ -1,9 +1,11 @@
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local function route(root)return root:GetChild('runMenu'):GetChild('map'):GetChild('hit')end
 local function state(root,enabled)
- local hit=route(root);assert(hit.interactable==enabled and hit.raycastTarget==enabled,'native map enabled state must match real route admission')
+ local hit=route(root)
+ assert(root:GetChild('runMenu'):GetChild('map').visible==enabled,'whole map entry must be hidden until route admission')
+ assert(hit.interactable==enabled and hit.raycastTarget==enabled,'native map enabled state must match real route admission')
  for _,name in ipairs({'normal','hover','pressed','disabled'})do
-  assert(hit:GetChild(name):GetChild('label').text==(enabled and '查看地图' or '查看地图（启程后可用）'))
+  assert(hit:GetChild(name):GetChild('label').text=='查看地图')
  end
 end
 do
