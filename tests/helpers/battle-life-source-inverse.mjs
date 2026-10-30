@@ -1,6 +1,7 @@
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
 import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
 import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
+import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preRound2UiSource,prepareRound2UiModuleRetirement} from './round2-ui-source-inverse.mjs';
 // Exact outer replay adapter for this presentation-only slice. Live tests load
 // current production modules; original historical witnesses stay immutable.
@@ -63,6 +64,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
   const retireBackground=prepareBackgroundRetirement(directory,{sourceRoot});
   const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
+  const retireRound3=prepareRound3CatalogModuleRetirement(directory,{sourceRoot});
   const targets = [];
   for (const path of battleLifeAddedPaths) {
     const target = join(directory, path);
@@ -71,5 +73,5 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
       'unreviewed battle-life added module destination: ' + path);
     targets.push(target);
   }
-  return () => { for (const target of targets) rmSync(target); retireRound2(); retireBackground(); };
+  return () => { for (const target of targets) rmSync(target); retireRound2(); retireBackground(); retireRound3(); };
 }

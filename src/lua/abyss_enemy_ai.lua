@@ -57,8 +57,8 @@ function M.preBattle(state, enemy, random)
     if enemy.ai and enemy.ai.kind=='jaw_worm'then return JawWorm.preBattle(state,enemy,Actors)end
     if enemy.ai and enemy.ai.kind == 'act3' then return Act3.preBattle(state,enemy) end
     if enemy.ai and enemy.ai.kind == 'act2' then return Act2.preBattle(state,enemy) end
-    if enemy.ai and enemy.ai.kind == "looter" then Looter.preBattle(state, enemy) end
-    if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random) end
+    if enemy.ai and enemy.ai.kind == "looter" then Looter.preBattle(state, enemy, Actors.applyPower) end
+    if enemy.ai and enemy.ai.kind == "louse" then Louse.preBattle(state, enemy, random, Actors.applyPower) end
 end
 
 function M.initialize(state, enemy, random)
@@ -98,10 +98,10 @@ function M.initialize(state, enemy, random)
     if enemy.ai.kind == "blue_slaver" then return BlueSlaver.initialize(state, enemy, random) end
     if enemy.ai.kind == "red_slaver" then return RedSlaver.initialize(state, enemy, random) end
     if enemy.ai.kind == "acid_slime_s" then return AcidSlimeS.initialize(state, enemy, random) end
-    if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random) end
+    if enemy.ai.kind == "sentry" then return Sentry.initialize(state, enemy, random, Actors.applyPower) end
     if enemy.ai.kind == "spike_slime_m" or enemy.ai.kind == "spike_slime_l" then return SpikeSlimeM.initialize(state, enemy, random) end
     if enemy.ai.kind == "acid_slime_m" or enemy.ai.kind == "acid_slime_l" then return AcidSlimeM.initialize(state, enemy, random) end
-    if enemy.ai.kind == "fungi_beast" then return FungiBeast.initialize(state, enemy, random) end
+    if enemy.ai.kind == "fungi_beast" then return FungiBeast.initialize(state, enemy, random, Actors.applyPower) end
     if enemy.ai.kind == "louse" then return Louse.initialize(state, enemy, random) end
     if enemy.ai.kind == "ritual_then_attack" then
         -- Inherited init calls rollMove even though the first move is Ritual.

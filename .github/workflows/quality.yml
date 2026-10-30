@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   impact:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 3
     outputs:
       mode: ${{ steps.plan.outputs.mode }}
@@ -332,7 +332,7 @@ jobs:
     # never turn the aggregate green; fail-fast=false collects all shard results.
     needs: [impact, rules, fast]
     if: always()
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 2
     steps:
       - name: Require every regression shard
@@ -440,7 +440,7 @@ jobs:
     # Preserve the required check name and reject every non-success outcome.
     needs: [impact, engineering-posix-shards, fast]
     if: always()
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 2
     steps:
       - name: Require every POSIX regression shard

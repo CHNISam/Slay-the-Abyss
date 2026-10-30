@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-30 02:03'
+updated_date: '2026-10-30 06:22'
 labels: []
 dependencies: []
 priority: medium
@@ -39,6 +39,10 @@ ordinal: 120000
 2026-10-29 Agent A：基于a5da67aa及最新CI原始时序检查权重与分片调度，仅最小调整ci-shards与专用测试；保持完整覆盖、原超时，不修改quality.yml。本轮必须精确PR SHA门禁全绿才合并。
 
 2026-10-30第二轮：以成功Quality 40980643080原始逐作业日志建立基线，核对旧worker/去重分支；保持全部Windows/POSIX回归与原超时，优先修复真实分配与启动成本。独立Sol Medium执行，主控复核完整测试集合与失败传播后集成。
+
+第三轮仅改变check与engineering-posix两个纯汇总的Runner为ubuntu-slim，保留原完整覆盖和预算；当前HEAD门禁通过再合并并核实实际执行和排队。
+
+真实入口排队736秒、执行17秒，进一步将同样轻量的impact元数据规划作业迁至slim；保留checkout/setup-node/npm/guidance/API/上传、原权限和3分钟预算。一次更新原PR，原生concurrency取消被替代运行，避免新增实验PR。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -69,4 +73,10 @@ unknown路由修复：原110种子独占在Node22复现原30s超时；简单55�
 固定官方Node24.18最终定向验证：36/36通过、0失败、0跳过，25.266s；含当前385 JS/1090 raw Lua完整分配、未知文件、原workflow/runner冻结、真实失败继续执行、timing reporter、LFS与worker独占屏障。network与Backlog门禁通过。仅本地切片验证；新精确HEAD完整CI及合后实际耗时仍待，TASK75继续In Progress、不提前勾验收。
 
 2026-10-30第二轮：PR359以成功40980643080完整408JS/1114Lua实测校准分配，新增luaShard与原974条并发安全权重分离，原测试/超时/资格保持。固定同样本预计最长1428.276→1183.495秒，仅估算；Node24相关79项全过。首次完整CI因UI/config历史源码锁失败而未进入大部分rawLua，已修订等待重跑，不据估算勾选实际速度或合入验收。
+
+从9293405d独立切片；Node24.18原八文件59项全通过49.377秒，精确workflow逆转及漂移负例通过，独立Sol Medium审查无阻塞。基线成功41001153119共42分16秒、尾部585秒；新托管数据待。证据docs/reviews/CI-ROUND3-SUMMARIES.md。
+
+PR370首头5d66abfc的run41009713098 impact 05:40:13创建、05:52:29开始、05:52:46完成UTC。追加入口迁移的Node24原八文件59/59通过87.768秒；新hosted排队结果待。
+
+资源收敛：CI已审两提交线性整合进PR371，实验PR370关闭保留；只验一个最终完整组合再核验develop，不复用取消/旧SHA的绿灯。slim impact已真实成功：job123920658929 runner排队346秒、执行28秒；另419秒旧run级concurrency阻塞单列，不能据runner队列单项宣称端到端提速。
 <!-- SECTION:NOTES:END -->

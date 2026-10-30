@@ -1,6 +1,7 @@
 // Integration-only outer projection. Both source branches and frozen witnesses
 // keep their exact identities; unknown or partial edits remain unprojected.
 import assert from 'node:assert/strict';
+import {preRound3CatalogSource} from './round3-catalog-source-inverse.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const normalize=source=>source.replaceAll('\r\n','\n');
@@ -11,6 +12,7 @@ export const artPerfSourceComposition=JSON.parse(bytes);
 assert.equal(artPerfSourceComposition.schemaVersion,1);
 export function projectArtPerfSource(path,source,target){
   assert.ok(target==='art'||target==='perf','known art/performance target');
+  source=preRound3CatalogSource(path,source);
   const binding=artPerfSourceComposition.files[path];
   if(!binding||typeof source!=='string')return source;
   const normalized=normalize(source);

@@ -100,9 +100,9 @@ function M.group(state,options,construct)
  end
 end
 local function constructorCatalog(data)
- local prepared=require('abyss_colorless_cards').withCards(data)
- local catalog={cards=index(Copy(prepared.cards.cards)),enemies=index(Copy(prepared.enemies.enemies)),
-  statuses=index(Copy(prepared.statuses.statuses)),potions=index(Copy(prepared.potions and prepared.potions.potions or {}))}
+ local prepared,catalog=require('abyss_combat_catalog').prepare(data)
+ catalog.enemies=require('abyss_combat_catalog').enemies(prepared)
+ catalog.potions=index(Copy(prepared.potions and prepared.potions.potions or {}))
  M.register(catalog);return catalog
 end
 local function keys(catalog)

@@ -281,9 +281,6 @@ local function exhaustSpecific(combat,state,item)
     local v=remove(state.hand,item.effect.uid); if v then M.exhaust(combat,state,v) end
 end
 
-local exhaustActions={exhaustRandom=exhaustRandom,fiendFire=fiendFire,
-    exhaustNonAttacks=exhaustNonAttacks,secondWind=exhaustNonAttacks,exhaustSpecific=exhaustSpecific}
-
 -- Hand mutation actions share constructors and hooks, but retain their own
 -- RNG boundaries: generated cards consume UID before their insertion roll.
 local function upgradeAllHand(combat,state)
@@ -330,113 +327,152 @@ local function randomizeHandCost(combat,state)
     end
 end
 
-local handMutationActions={upgradeHand=upgradeAllHand,makeTempCardInHand=makeTemporaryCards,
-    makeTempCardInDraw=makeTemporaryCards,generateAttack=generateAttack,randomizeHandCost=randomizeHandCost}
+local function upgradeHand(combat,state,item)
+    if item.effect.all then upgradeAllHand(combat,state)
+    else return selection(combat,state,item)end
+end
 
-function M.apply(combat,state,item)
-    local e,source,target,c=item.effect,item.source,item.target,item.instance
-    local op,value=e.op,e.value
-    if op=='writhingRoll'then return require('abyss_writhing_mass').roll(state,e.targetId)end
-    if op=='writhingParasite'then return require('abyss_writhing_mass').obtainParasite(state,source)end
-    if op=='giantHeadSlow'then return require('abyss_giant_head').applySlow(Actors,state,e)end
-    if op=='timeEater'then return TimeEater.execute(combat,state,e,source,M)end
-    if PlatedArmor.supports(op)then return PlatedArmor.apply(combat,state,e,M.enqueueReaction)end
-    if op=='reptomancerSuicide'then return require('abyss_reptomancer').cleanup(Actors,state,e)end
-    if Act2Powers.supports(op)then return Act2Powers.apply(Actors,state,e)end
-    if op=='resolveCurlUp'then
-        for _,enemy in ipairs(state.enemies)do
-            if enemy.id==e.targetId then Actors.resolveCurlUp(state,enemy,e.value);break end
-        end
+local function resolveCurlUp(_,state,item)
+    local e=item.effect
+    for _,enemy in ipairs(state.enemies)do
+        if enemy.id==e.targetId then Actors.resolveCurlUp(state,enemy,e.value);break end
+    end
+end
+
+local function obtainPotion(_,state,item)
+    local e=item.effect
+    state.generatedPotionOffers=state.generatedPotionOffers or {}
+    state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}
+    if e.unavailable then
+        Events.emit(state,'potion_content_unavailable',{id=e.id})
         return
     end
-    if op=='enemyAction'then return combat.resolveEnemyAction(state,e,source)end
-    if op=='staticRetaliation'then return combat.staticRetaliation(state,e)end
-    if op=='classPotion'then return require('abyss_class_potions').apply(combat,state,e)end
-    if op=='silentFinal'then return require('abyss_silent_final_cards').apply(combat,state,item)end
-    if require('abyss_watcher_final_cards').ops[op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end
-    if op=='obtainPotion' then
-        state.generatedPotionOffers=state.generatedPotionOffers or {}
-        state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}
-        if e.unavailable then
-            Events.emit(state,'potion_content_unavailable',{id=e.id})
-            return
-        end
-        return require('abyss_potion_generation').obtain(state.potionInventory,state.potionCapacity,e.id,
-            require('abyss_relic_hooks').owns(state,'sozu'))
+    return require('abyss_potion_generation').obtain(state.potionInventory,state.potionCapacity,e.id,
+        require('abyss_relic_hooks').owns(state,'sozu'))
+end
+
+local function doubleStrength(_,state,item)
+    local source=item.source
+    local amount=source.statuses.strength or 0
+    if amount~=0 then Actors.applyPower(state,source,"strength",amount,source)end
+end
+
+local function spotWeakness(_,state,item)
+    local target=item.target
+    local intent=target and target.intents[target.intentIndex]
+    local attacking=false
+    for _,f in ipairs(intent and intent.effects or {})do if f.op=="damage" or f.op=="damageAll"then attacking=true end end
+    if attacking then Actors.applyPower(state,item.source,"strength",item.effect.value,item.source)end
+end
+
+local function damageRandom(combat,state,item)
+    local e,source=item.effect,item.source
+    for _=1,e.times or 1 do
+        local enemies=liveEnemies(state)
+        if #enemies==0 or source.hp<=0 then break end
+        local victim=enemies[combat.cardRandom(state,#enemies)]
+        combat.damage(state,source,victim,e.value,e.fixed,nil,e.resolved and e.resolved[victim.id])
     end
-    if op=='discover' then return require('abyss_potion_discovery').begin(combat,state,e)end
-    if op=='colorless' then return require('abyss_colorless_cards').apply(combat,state,item) end
-    if op=='originalV4' then return require('abyss_original_v4').execute(combat,state,item) end
-    if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' or op=="exhaustChoose" or op=="recoverExhaust" or op=="discardToDraw" or op=="handToDraw"
-        or op=="dualWield" or op=="upgradeHand" and not e.all then return selection(combat,state,item)
-    elseif exhaustActions[op] then
-        exhaustActions[op](combat,state,item)
-    elseif handMutationActions[op] then
-        handMutationActions[op](combat,state,item)
-    elseif op=="doubleStrength" then
-        local amount=source.statuses.strength or 0
-        if amount~=0 then Actors.applyPower(state,source,"strength",amount,source) end
-    elseif op=="spotWeakness" then
-        local intent=target and target.intents[target.intentIndex]
-        local attacking=false
-        for _,f in ipairs(intent and intent.effects or {}) do if f.op=="damage" or f.op=="damageAll" then attacking=true end end
-        if attacking then Actors.applyPower(state,source,"strength",value,source) end
-    elseif op=="damageRandom" then
-        for _=1,e.times or 1 do
-            local enemies=liveEnemies(state)
-            if #enemies==0 or source.hp<=0 then break end
-            local victim=enemies[combat.cardRandom(state,#enemies)]
-            combat.damage(state,source,victim,value,e.fixed,nil,e.resolved and e.resolved[victim.id])
-        end
-    elseif op=="feed" then
-        local before=target.hp
-        combat.damage(state,source,target,value,nil,nil,e.resolved and e.resolved[target.id])
-        if before>0 and target.hp<=0 and not target.escaped and not target.minion and not target.halfDead
-            and (target.statuses.minion or 0)<=0 and source.hp>0 then
-            source.maxHp=source.maxHp+e.maxHp
-            local beforeHp=source.hp
-            if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,e.maxHp,nil,'feed')
-            else source.hp=math.min(source.maxHp,source.hp+(source==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or e.maxHp))end
-            Events.emit(state,"max_hp",{amount=e.maxHp,target=source.id})
-            require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
-        end
-    elseif op=="reaper" then
-        local healed,reactions=0,{}
-        for _,v in ipairs(state.enemies) do healed=healed+combat.damage(state,source,v,value,nil,reactions,e.resolved and e.resolved[v.id]) end
-        Actors.resolveDamageReactions(state,reactions,combat.retaliate)
-        M.enqueue(state,{op="heal",value=healed},source)
-    elseif op=='relicUpgradeRandomHand' then
-        require('abyss_relic_hooks').upgradeRandomHand(combat,state)
-    elseif op=="playTop" then
-        combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)
-    elseif op=="block" and e.fixed then combat.block(state,source,value,true)
-    elseif op=="heal" then
-        if source==state.player then
-            value=require('abyss_potion_health').modifyHealing(value,state.relics,true)
-        end
-        if state.originalV4 and source==state.player then
-            require('abyss_original_v4_health').heal(state,source,value,nil,e.relic)
-        elseif source.hp>0 then
-            local amount=math.min(value,source.maxHp-source.hp)
-            local beforeHp=source.hp
-            source.hp=source.hp+amount
-            Events.emit(state,"heal",{target=source.id,amount=amount})
-            require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
-        end
-    elseif op=='darklingAction'then
-        require('abyss_darklings').resolve(state,e)
-    elseif op=='heartBeat'then
-        combat.heartBeat(state,e)
-    elseif op=='spireDeathRemove'then
-        Actors.removeSpireDeathPower(state,e)
-    elseif op=='awakenedAction'then
-        require('abyss_awakened_one').resolve(Actors,state,e)
-    elseif op=='capturedSharpHide'then
-        combat.capturedSharpHide(state,e)
-    elseif op=="dispose" then
-        combat.disposeCard(state,item)
-    elseif op=="effectBatch" then combat.applyEffects(state,e.effects,source,target,c)
-    else combat.applyEffects(state,{e},source,target,c) end
+end
+
+local function feedReward(state,source,amount)
+    source.maxHp=source.maxHp+amount
+    local beforeHp=source.hp
+    if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,amount,nil,'feed')
+    else source.hp=math.min(source.maxHp,source.hp+(source==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or amount))end
+    Events.emit(state,"max_hp",{amount=amount,target=source.id})
+    require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
+end
+
+local function feed(combat,state,item)
+    local e,source,target=item.effect,item.source,item.target
+    local before=target.hp
+    combat.damage(state,source,target,e.value,nil,nil,e.resolved and e.resolved[target.id])
+    if before>0 and target.hp<=0 and not target.escaped and not target.minion and not target.halfDead
+        and (target.statuses.minion or 0)<=0 and source.hp>0 then feedReward(state,source,e.maxHp)end
+end
+
+local function reaper(combat,state,item)
+    local e,source=item.effect,item.source
+    local healed,reactions=0,{}
+    for _,v in ipairs(state.enemies)do healed=healed+combat.damage(state,source,v,e.value,nil,reactions,e.resolved and e.resolved[v.id])end
+    Actors.resolveDamageReactions(state,reactions,combat.retaliate)
+    M.enqueue(state,{op="heal",value=healed},source)
+end
+
+local function heal(_,state,item)
+    local e,source=item.effect,item.source
+    local value=e.value
+    if source==state.player then value=require('abyss_potion_health').modifyHealing(value,state.relics,true)end
+    if state.originalV4 and source==state.player then
+        require('abyss_original_v4_health').heal(state,source,value,nil,e.relic)
+    elseif source.hp>0 then
+        local amount=math.min(value,source.maxHp-source.hp)
+        local beforeHp=source.hp
+        source.hp=source.hp+amount
+        Events.emit(state,"heal",{target=source.id,amount=amount})
+        require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
+    end
+end
+
+local function applyFallback(combat,state,item)
+    combat.applyEffects(state,{item.effect},item.source,item.target,item.instance)
+end
+
+local function block(combat,state,item)
+    if item.effect.fixed then combat.block(state,item.source,item.effect.value,true)
+    else applyFallback(combat,state,item)end
+end
+
+-- Execution is deliberately broader than supports(), which controls admission
+-- to native card routing. Every known local operation has one finite lookup.
+local actionHandlers={
+    exhaustRandom=exhaustRandom,fiendFire=fiendFire,exhaustNonAttacks=exhaustNonAttacks,
+    secondWind=exhaustNonAttacks,exhaustSpecific=exhaustSpecific,
+    upgradeHand=upgradeHand,makeTempCardInHand=makeTemporaryCards,makeTempCardInDraw=makeTemporaryCards,
+    generateAttack=generateAttack,randomizeHandCost=randomizeHandCost,
+    exhaustMany=selection,discardRedraw=selection,discardToHand=selection,exhaustChoose=selection,
+    recoverExhaust=selection,discardToDraw=selection,handToDraw=selection,dualWield=selection,
+    resolveCurlUp=resolveCurlUp,obtainPotion=obtainPotion,doubleStrength=doubleStrength,
+    spotWeakness=spotWeakness,damageRandom=damageRandom,feed=feed,reaper=reaper,heal=heal,block=block,
+}
+function actionHandlers.writhingRoll(_,state,item)return require('abyss_writhing_mass').roll(state,item.effect.targetId)end
+function actionHandlers.writhingParasite(_,state,item)return require('abyss_writhing_mass').obtainParasite(state,item.source)end
+function actionHandlers.giantHeadSlow(_,state,item)return require('abyss_giant_head').applySlow(Actors,state,item.effect)end
+function actionHandlers.timeEater(combat,state,item)return TimeEater.execute(combat,state,item.effect,item.source,M)end
+function actionHandlers.reptomancerSuicide(_,state,item)return require('abyss_reptomancer').cleanup(Actors,state,item.effect)end
+function actionHandlers.enemyAction(combat,state,item)return combat.resolveEnemyAction(state,item.effect,item.source)end
+function actionHandlers.staticRetaliation(combat,state,item)return combat.staticRetaliation(state,item.effect)end
+function actionHandlers.classPotion(combat,state,item)return require('abyss_class_potions').apply(combat,state,item.effect)end
+function actionHandlers.silentFinal(combat,state,item)return require('abyss_silent_final_cards').apply(combat,state,item)end
+function actionHandlers.discover(combat,state,item)return require('abyss_potion_discovery').begin(combat,state,item.effect)end
+function actionHandlers.colorless(combat,state,item)return require('abyss_colorless_cards').apply(combat,state,item)end
+function actionHandlers.originalV4(combat,state,item)return require('abyss_original_v4').execute(combat,state,item)end
+function actionHandlers.relicUpgradeRandomHand(combat,state)require('abyss_relic_hooks').upgradeRandomHand(combat,state)end
+function actionHandlers.playTop(combat,state,item)
+    local e=item.effect
+    combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)
+end
+function actionHandlers.darklingAction(_,state,item)require('abyss_darklings').resolve(state,item.effect)end
+function actionHandlers.heartBeat(combat,state,item)combat.heartBeat(state,item.effect)end
+function actionHandlers.spireDeathRemove(_,state,item)Actors.removeSpireDeathPower(state,item.effect)end
+function actionHandlers.awakenedAction(_,state,item)require('abyss_awakened_one').resolve(Actors,state,item.effect)end
+function actionHandlers.capturedSharpHide(combat,state,item)combat.capturedSharpHide(state,item.effect)end
+function actionHandlers.dispose(combat,state,item)combat.disposeCard(state,item)end
+function actionHandlers.effectBatch(combat,state,item)
+    combat.applyEffects(state,item.effect.effects,item.source,item.target,item.instance)
+end
+
+function M.apply(combat,state,item)
+    local handler=actionHandlers[item.effect.op]
+    if handler then return handler(combat,state,item)end
+    -- These domains own their operation sets; keep their dynamic admission
+    -- checks instead of duplicating their private lists in this registry.
+    local e=item.effect
+    if PlatedArmor.supports(e.op)then return PlatedArmor.apply(combat,state,e,M.enqueueReaction)end
+    if Act2Powers.supports(e.op)then return Act2Powers.apply(Actors,state,e)end
+    if require('abyss_watcher_final_cards').ops[e.op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end
+    applyFallback(combat,state,item)
 end
 
 -- Only source-supported retained actions may survive victory. Selection and

@@ -2,7 +2,7 @@
 -- Source rooms use independent STS aiRng; explicit fixtures retain the LCG adapter.
 local M = {}
 local R=require('abyss_enemy_random')
-local Actors = require("abyss_actor")
+
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do if intent.id == id then enemy.intentIndex = i; return end end
     error("unknown Looter intent: " .. tostring(id))
@@ -13,8 +13,8 @@ function M.initialize(state, enemy, random)
     random(state, enemy.ai.rollRange) -- inherited opening roll, despite fixed Mug
     select(enemy, enemy.ai.mugIntent)
 end
-function M.preBattle(state, enemy)
-    Actors.applyPower(state, enemy, "thievery", enemy.ai.stealAmount, enemy)
+function M.preBattle(state, enemy, applyPower)
+    applyPower(state, enemy, "thievery", enemy.ai.stealAmount, enemy)
 end
 function M.beforeAction(state, enemy, random, executedIntent)
     local ai, id = enemy.ai, executedIntent.id

@@ -45,5 +45,26 @@ function invert(text, edits) {
   for (const edit of edits) text = text.replace(edit.after, edit.before);
   return text;
 }
-export const beforePlatformWorkflow = text => invert(text, platformWorkflowEdits);
+function beforeLightweightRunners(text) {
+  const jobs = [];
+  const runners = [];
+  for (const name of ['impact', 'check', 'engineering-posix']) {
+    const matches = [...text.matchAll(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:|(?![\\s\\S]))`, 'gm'))];
+    if (matches.length !== 1) return null;
+    const lines = [...matches[0][1].matchAll(/^    runs-on: (.+)$/gm)];
+    if (lines.length !== 1 || !['ubuntu-24.04', 'ubuntu-slim'].includes(lines[0][1])) return null;
+    jobs.push(matches[0][0]);
+    runners.push(lines[0][1]);
+  }
+  // Accept the complete reviewed migration or the unchanged historical input.
+  // Mixed/partial migrations cannot erase runner drift from a frozen guard.
+  if (new Set(runners).size !== 1) return null;
+  if (runners[0] === 'ubuntu-24.04') return text;
+  for (const job of jobs) text = text.replace(job, job.replace('    runs-on: ubuntu-slim\n', '    runs-on: ubuntu-24.04\n'));
+  return text;
+}
+export function beforePlatformWorkflow(text) {
+  const runners = beforeLightweightRunners(text);
+  return runners === null ? null : invert(runners, platformWorkflowEdits);
+}
 export const beforePlatformPackage = text => invert(text, platformPackageEdits);

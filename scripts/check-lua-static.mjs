@@ -93,7 +93,16 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
-  'src/lua/abyss_card_actions.lua': ["function 'exhaustRandom'", "function 'fiendFire'", "function 'exhaustNonAttacks'", "function 'exhaustSpecific'", "function 'upgradeAllHand'", "function 'makeTemporaryCards'", "function 'generateAttack'", "function 'randomizeHandCost'"],
+  'src/lua/abyss_card_actions.lua': [
+    ...['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific','upgradeAllHand',
+      'makeTemporaryCards','generateAttack','randomizeHandCost','upgradeHand','resolveCurlUp',
+      'obtainPotion','doubleStrength','spotWeakness','damageRandom','feedReward','feed','reaper',
+      'heal','applyFallback','block','M.apply'].map(name=>`function '${name}'`),
+    ...['writhingRoll','writhingParasite','giantHeadSlow','timeEater','reptomancerSuicide',
+      'enemyAction','staticRetaliation','classPotion','silentFinal','discover','colorless','originalV4',
+      'relicUpgradeRandomHand','playTop','darklingAction','heartBeat','spireDeathRemove',
+      'awakenedAction','capturedSharpHide','dispose','effectBatch'].map(name=>`function 'actionHandlers.${name}'`),
+  ],
   'src/lua/abyss_nodes.lua': [],
   'src/lua/abyss_run.lua': [],
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
@@ -142,7 +151,7 @@ const responsibilityRoots = {
 };
 // Existing catalog/seed/red-card contracts are separate, unchanged responsibilities.
 // All Run orchestration and newly extracted Run helpers receive the full budget.
-const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
+const responsibilityHelper = file => /^src\/lua\/abyss_(?:effects_.+|combat_effect.*|combat_catalog|act2_ai_.+|character_presentation_.+|feedback_.+|node_ui(?:_.+)?|game_ui_.+|run(?:_(?!(?:card_catalog|red_card_contract|seed)\.lua$).+)?|nodes(?:_.+)?)\.lua$/.test(file);
 export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 1000, 'src/lua/abyss_nodes.lua': 1000}) {
   const modules = [], errors = [];
   for (const [file, limit] of Object.entries(budgets)) {
