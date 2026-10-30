@@ -6,7 +6,9 @@ local Run, Map, Combat = require("abyss_run"), require("abyss_map"), require("ab
 local Data, Layout, Presentation = require("abyss_data"), require("abyss_ui_layout"), require("abyss_presentation")
 local cursor = {CursorEnter="enter", CursorExit="exit", CursorDown="down", CursorUp="up", CursorEndDrag="endDrag"}
 local function control(spec, parent)
-    local box = {parent=parent, visible=spec.visible~=false, children={}, listeners={}}
+    local box = {parent=parent, visible=spec.visible~=false, children={}, listeners={},
+        x=(spec.position or {})[1] or 0,y=(spec.position or {})[2] or 0,
+        size=spec.size,scale={1,1,1}}
     function box:GetChild(key) return self.children[key] end
     function box:SetVisible(value) self.visible=value end
     function box:SetSizeDelta(width,height) NativeContract.sizeDelta(width,height);
@@ -71,6 +73,78 @@ local function setup(touchScreen)
 end
 
 local function test(name,fn) fn();print('ok source shop - '..name) end
+
+-- Evaluate the generated cursor area's inherited transform each frame, then
+-- deliver native-style enter/exit events. A stationary pointer must not churn
+-- focus when the presentation moves underneath it.
+local function pointerDriver(ui,get,emit)
+ local previous,transitions=nil,0
+ local function bounds(i)
+  local hit=get('shopView/card'..i..'/hit')
+  local x,y,w,h=0,0,hit.size[1],hit.size[2]
+  local node=hit
+  while node~=get('shopView') do
+   x=x*node.scale[1]+node.x;y=y*node.scale[2]+node.y
+   w=w*node.scale[1];h=h*node.scale[2];node=node.parent
+  end
+  return x-w/2,y-h/2,x+w/2,y+h/2
+ end
+ local function tick(x,y)
+  local target
+  for i=1,7 do
+   local left,bottom,right,top=bounds(i)
+   if x>=left and x<=right and y>=bottom and y<=top then target='shopView/card'..i end
+  end
+  if target~=previous then
+   transitions=transitions+1
+   if previous then emit(previous,'exit') end
+   if target then emit(target,'enter') end
+   previous=target
+  end
+  ui:update(1/60)
+  return previous,transitions
+ end
+ return tick,bounds
+end
+
+test('stationary pointer on either lower card top edge never cycles focus or its neighbour',function()
+ for i=6,7 do
+  local ui,get,emit=setup(false);local gold=ui.run.gold
+  local tick,bounds=pointerDriver(ui,get,emit)
+  local left,_,right,top=bounds(i)
+  for frame=1,60 do
+   local focus,changes=tick((left+right)/2,top-.1)
+   assert(focus=='shopView/card'..i and changes==1,'stationary top edge repeatedly enters/exits')
+  end
+  assert(get('shopView/card'..i..'/glow').visible)
+  assert(not get('shopView/card'..(13-i)..'/glow').visible)
+  assert(ui.run.gold==gold)
+ end
+end)
+
+test('all card edges keep stable targets and moving to a neighbour or empty space releases focus',function()
+ local ui,get,emit=setup(false)
+ for i=1,7 do
+  for _,edge in ipairs({'top','bottom','left','right'}) do
+   local tick,bounds=pointerDriver(ui,get,emit)
+   local left,bottom,right,top=bounds(i)
+   local x=edge=='left' and left+.1 or edge=='right' and right-.1 or (left+right)/2
+   local y=edge=='top' and top-.1 or edge=='bottom' and bottom+.1 or (bottom+top)/2
+   for frame=1,60 do
+    local focus,changes=tick(x,y)
+    assert(focus=='shopView/card'..i and changes==1,'animated face changed its edge target: '..i..' '..edge)
+   end
+   local neighbour=i%7+1
+   local nl,nb,nr,nt=bounds(neighbour)
+   local focus,changes=tick((nl+nr)/2,(nb+nt)/2)
+   assert(focus=='shopView/card'..neighbour and changes==2)
+   focus,changes=tick(-1000,-1000)
+   assert(focus==nil and changes==3)
+   for frame=1,60 do tick(-1000,-1000) end
+   assert(get('shopView/card'..i).scale[1]==1 and not get('shopView/card'..i..'/glow').visible)
+  end
+ end
+end)
 test('desktop hover enlarges the whole face and moves its price without purchasing',function()
  local ui,get=setup(false);local gold=ui.run.gold
  get('shopView/card1/hit').listeners.enter({})

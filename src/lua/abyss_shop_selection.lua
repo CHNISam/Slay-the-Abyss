@@ -87,6 +87,12 @@ function M.new(owner, root, options)
         local shift=i>5 and cardFocus and L.focusRowShift or 0
         local box=root:GetChild('card'..i)
         box:SetLocalScale(scale,scale,1);box:SetAnchoredPosition(x,L.cardRows[i]-shift)
+        -- Hover animation must not move its own cursor boundary. In particular,
+        -- lowering the bottom row otherwise fires exit at its original top edge,
+        -- restores the row, then fires enter again (moving both bottom cards).
+        local hit=box:GetChild('hit')
+        hit:SetLocalScale(1/scale,1/scale,1)
+        hit:SetAnchoredPosition(0,shift/scale)
         box:GetChild('glow'):SetVisible(focused==key)
         root:GetChild('price'..i):SetAnchoredPosition(x,L.priceRows[i]-shift-(scale-1)*Theme.layout.card.size[2]/2)
         return moving
