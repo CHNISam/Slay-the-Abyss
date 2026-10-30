@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "currentCommit": "e20a9915de80a1af62271e881a42499129939e31",
+  "targets": {
+    "relic": {
+      "commit": "7cafb51a03200c5b173f569a5a409cf29e30f773",
+      "files": {
+        "scripts/verify-launch-content.mjs": {
+          "beforeSha256": "2ab6b4c9ce3455f12589fad2f010dca5855f0bc96411d47a5e81cbdb46ed8417",
+          "afterSha256": "ddaf817d782261060ddb627d8e42b7522bf8b82b7d1aab80894dfbe635d8c8f4",
+          "beforeLines": 363,
+          "afterLines": 363,
+          "hunks": [
+            {
+              "at": 75,
+              "beforeAt": 75,
+              "before": [
+                "    for (const name of ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+              ],
+              "after": [
+                "    for (const name of ['abyss_art_features', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "126ec92c84abc3b36803c12f97d6dece68d210ca"
+        }
+      }
+    },
+    "artFeature": {
+      "commit": "86fb0b137496bb5ef3cdeb4d37ab69eec3f38a4b",
+      "files": {
+        "scripts/verify-launch-content.mjs": {
+          "beforeSha256": "59264716780aab6fa3686ee40e55ef4965df38dd288f1301d902b8088c141513",
+          "afterSha256": "ddaf817d782261060ddb627d8e42b7522bf8b82b7d1aab80894dfbe635d8c8f4",
+          "beforeLines": 356,
+          "afterLines": 363,
+          "hunks": [
+            {
+              "at": 199,
+              "beforeAt": 199,
+              "before": [
+                "    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []),"
+              ],
+              "after": [
+                "    const bellCurse = card.id === 'curse_of_the_bell';",
+                "    const channels = bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']",
+                "      : card.type === 'curse' ? [...(curseEvents[card.id] ?? []),"
+              ]
+            },
+            {
+              "at": 208,
+              "beforeAt": 206,
+              "before": [],
+              "after": [
+                "    if (bellCurse) {",
+                "      check(card.sourceId === 'CurseOfTheBell' && definition?.sourceId === card.sourceId,",
+                "        'generatedCards/curse_of_the_bell: source ID drift');",
+                "      check(card.unremovable === true, 'generatedCards/curse_of_the_bell: unremovable boundary omitted');",
+                "    }"
+              ]
+            },
+            {
+              "at": 215,
+              "beforeAt": 208,
+              "before": [
+                "      check(Boolean(card.naturalAcquisitionLimitation?.includes('explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);"
+              ],
+              "after": [
+                "      check(Boolean(card.naturalAcquisitionLimitation?.includes(bellCurse ? 'Calling Bell' : 'explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);"
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "baf2a37b3bc3072b8a7d0bd57b414ae6c881408f"
+        }
+      }
+    }
+  }
+}
