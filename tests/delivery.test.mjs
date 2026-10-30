@@ -507,3 +507,9 @@ test('merged delivery rejects missing or changed documentation waiver evidence',
   delete e.changedFiles;
   assert.equal(verifyMergedDelivery(e).state,'merged_pending');
 });
+
+test('documentation waiver rejects agent instruction entrypoints in every allowed directory and case',()=>{
+ for(const filename of ['docs/research/AGENTS.md','docs/research/SKILL.md','docs/history/CLAUDE.md','docs/lore/agents.md','docs/drafts/Skill.md']){
+  assert.equal(isLowRiskDocumentationChange([{filename,status:'added',sha:'a'.repeat(40)}],1),false,filename);
+ }
+});

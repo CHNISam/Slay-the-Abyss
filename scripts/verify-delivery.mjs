@@ -22,6 +22,7 @@ export function isLowRiskDocumentationChange(files,count) {
   return Number.isSafeInteger(count)&&count>0&&count<=20&&Array.isArray(files)&&files.length===count&&
     new Set(files.map(file=>file?.filename)).size===count&&files.every(file=>
       file&&typeof file.filename==='string'&&lowRiskDocPath.test(file.filename)&&
+      !/^(?:AGENTS|CLAUDE|SKILL)\.md$/i.test(file.filename.split('/').at(-1))&&
       !file.filename.includes('\\')&&!file.filename.split('/').some(segment=>segment==='.'||segment==='..')&&
       ['added','modified'].includes(file.status)&&validSha(file.sha));
 }
