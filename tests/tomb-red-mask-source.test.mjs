@@ -28,7 +28,12 @@ test('actual named SPECIAL binding remains outside every ordinary source queue w
  const source=read('data/catalogs/sts1-relic-queues.json');for(const ids of Object.values(source.queues))assert.ok(!ids.includes('Red Mask'));
  const catalog=read('docs/rules/evidence/sts1-relic-pool-catalog.json');assert.equal(catalog.registrationOrder.length,149);const bound=catalog.relics.find(row=>row.id==='Red Mask');assert.equal(bound.projectId,'red_mask');assert.equal(bound.scope,'later-act-only');
  const manifest=read('data/release/launch-content.json');const event=manifest.events.find(row=>row.originalId==='Tomb of Lord Red Mask');assert.equal(event.id,'tomb_red_mask');assert.equal(event.act,3);assert.equal(event.poolMode,'explicit-only');assert.deepEqual(event.choices,['wear','pay','leave']);
- assert.deepEqual(manifest.relics.find(row=>row.id==='red_mask').channels,['explicit_event:tomb_red_mask:pay']);
+ assert.deepEqual(manifest.relics.find(row=>row.id==='red_mask').channels,['explicit_event:tomb_red_mask:pay','explicit_event:masked_bandits:fight']);
+ const bandits=manifest.events.find(row=>row.id==='masked_bandits');
+ assert.equal(bandits.originalId,'Masked Bandits');assert.equal(bandits.act,2);
+ assert.ok(bandits.choices.includes('fight'));
+ assert.deepEqual(bandits.publicSourceMembership,[{act:2,pool:'ordinary'}]);
+ assert.equal(bandits.source,'src/lua/abyss_masked_bandits_event.lua');
  const p=manifest.profiles[event.profile];assert.equal(p.local.testFiles.length,8);assert.deepEqual(p.platform.evidence,[]);assert.deepEqual(p.live.evidence,[]);assert.match(p.limitation,/Masked Bandits/);
  assert.equal(read('data/presentation/ui_theme.json').icon.relic.red_mask.placeholder,true);assert.equal(read('data/rules.json').events.poolMode,'restricted-seven');
 });

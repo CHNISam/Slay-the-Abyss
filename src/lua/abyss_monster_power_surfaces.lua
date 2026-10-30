@@ -19,6 +19,7 @@ function M.new(statusRow,platform,onCreate,onRetire)
   if handle.destroying or handle.destroyed then return end
   handle.destroying=true
   local hidden,why=pcall(call,handle.control,'SetVisible',false)
+  if self.engineDestroyed then return end
   local ok,result=pcall(api.destroy,handle.control)
   handle.destroying=false;handle.destroyed=ok and result~=false
   assert(hidden and handle.destroyed,'monster power cleanup rejected: '..tostring(why or result))

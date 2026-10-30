@@ -15,7 +15,7 @@ const inputs = ['cards.json', 'statuses.json', 'enemies.json', 'relics.json', 'p
 const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
   'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
   'game-ui-templates.json', 'abyss_ui_templates.lua', 'abyss_menu_background_asset.lua',
-  'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_monster_art_data.lua','abyss_art_features.lua','abyss_monster_actor_binding.lua','art-performance.json','art-render-v2.json'];
+  'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_monster_art_data.lua','abyss_art_features.lua','abyss_monster_actor_binding.lua','art-render-v2.json'];
 function fixture(action, cli = false) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-ui-input-'));
   try {
@@ -38,7 +38,7 @@ function build(root) {
   const cwd = process.cwd();
   try { process.chdir(root); buildUI('out'); } finally { process.chdir(cwd); }
 }
-for (const mode of ['hardlink', 'symlink']) for (const input of inputs) for (const output of outputs) {
+for (const mode of ['hardlink', 'symlink']) for (const input of inputs) for (const output of [...outputs,'art-performance.json']) {
   test(`UI build rejects ${output} ${mode} to ${input} before writing`, t => fixture(root => {
     const source = join(root, 'data', input), target = join(root, 'out', output);
     try { if (mode === 'hardlink') linkSync(source, target); else symlinkSync(source, target, 'file'); }
@@ -134,4 +134,12 @@ for(const input of [...backgroundInputs,...readyArtInputs,...portraitInputs])tes
  const source=join(root,input),before=readFileSync(source);linkSync(source,join(root,'out/abyss_menu_background_asset.lua'));
  assert.throws(()=>build(root),/Output must not overwrite an input file/);assert.deepEqual(readFileSync(source),before);
  assert.deepEqual(readdirSync(join(root,'out')),['abyss_menu_background_asset.lua']);
+}));
+
+test('optional compact metadata output cannot overwrite an input even when compact mode is off',()=>fixture(root=>{
+ const input=join(root,'data/presentation/narrative.zh-CN.json'),before=readFileSync(input);
+ linkSync(input,join(root,'out/art-performance.json'));
+ assert.throws(()=>build(root),/Output must not overwrite an input file/);
+ assert.deepEqual(readFileSync(input),before);
+ assert.deepEqual(readdirSync(join(root,'out')),['art-performance.json']);
 }));

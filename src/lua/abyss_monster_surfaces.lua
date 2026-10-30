@@ -18,6 +18,7 @@ function M.new(stage,platform,onCreate,onRetire)
   if self.engineDestroyed then return end
   if control.alive==false then return end
   local hidden,why=pcall(call,control,'SetVisible',false)
+  if self.engineDestroyed then return end
   local ok,result=pcall(api.destroy,control)
   if not ok or result==false then self.retained[#self.retained+1]=control end
   assert(hidden and ok and result~=false,'monster surface cleanup rejected: '..tostring(why or result))

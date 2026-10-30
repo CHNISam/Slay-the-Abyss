@@ -1060,12 +1060,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "armaments",
@@ -1077,12 +1072,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "body_slam",
@@ -1094,12 +1084,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "clash",
@@ -1111,12 +1096,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "cleave",
@@ -1128,12 +1108,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "clothesline",
@@ -1145,12 +1120,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "flex",
@@ -1162,12 +1132,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "havoc",
@@ -1179,12 +1144,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "headbutt",
@@ -1196,12 +1156,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "heavy_blade",
@@ -1213,12 +1168,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "iron_wave",
@@ -1230,12 +1180,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "perfected_strike",
@@ -1247,12 +1192,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "pommel_strike",
@@ -1264,12 +1204,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "shrug_it_off",
@@ -1281,12 +1216,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "sword_boomerang",
@@ -1298,12 +1228,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "thunderclap",
@@ -1315,12 +1240,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "true_grit",
@@ -1332,12 +1252,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "twin_strike",
@@ -1349,12 +1264,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "warcry",
@@ -1366,12 +1276,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "wild_strike",
@@ -1383,12 +1288,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "battle_trance",
@@ -1400,12 +1300,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "blood_for_blood",
@@ -1417,12 +1312,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "bloodletting",
@@ -1434,12 +1324,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "burning_pact",
@@ -1451,12 +1336,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "carnage",
@@ -1468,12 +1348,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "combust",
@@ -1485,12 +1360,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "dark_embrace",
@@ -1502,12 +1372,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "disarm",
@@ -1519,12 +1384,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "dropkick",
@@ -1536,12 +1396,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "dual_wield",
@@ -1553,12 +1408,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "entrench",
@@ -1570,12 +1420,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "evolve",
@@ -1587,12 +1432,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "feel_no_pain",
@@ -1604,12 +1444,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "fire_breathing",
@@ -1621,12 +1456,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "flame_barrier",
@@ -1638,12 +1468,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "ghostly_armor",
@@ -1655,12 +1480,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "hemokinesis",
@@ -1672,12 +1492,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "infernal_blade",
@@ -1689,12 +1504,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "inflame",
@@ -1706,12 +1516,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "intimidate",
@@ -1723,12 +1528,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "metallicize",
@@ -1740,12 +1540,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "power_through",
@@ -1757,12 +1552,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "pummel",
@@ -1774,12 +1564,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "rage",
@@ -1791,12 +1576,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "rampage",
@@ -1808,12 +1588,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "reckless_charge",
@@ -1825,12 +1600,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "rupture",
@@ -1842,12 +1612,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "searing_blow",
@@ -1859,12 +1624,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "second_wind",
@@ -1876,12 +1636,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "seeing_red",
@@ -1893,12 +1648,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "sentinel",
@@ -1910,12 +1660,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "sever_soul",
@@ -1927,12 +1672,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "shockwave",
@@ -1944,12 +1684,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "spot_weakness",
@@ -1961,12 +1696,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "uppercut",
@@ -1978,12 +1708,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "whirlwind",
@@ -1995,12 +1720,7 @@
         "upgraded"
       ],
       "bossReward": false,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "barricade",
@@ -2012,12 +1732,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "berserk",
@@ -2029,12 +1744,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "bludgeon",
@@ -2046,12 +1756,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "brutality",
@@ -2063,12 +1768,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "corruption",
@@ -2080,12 +1780,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "demon_form",
@@ -2097,12 +1792,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "double_tap",
@@ -2114,12 +1804,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "exhume",
@@ -2131,12 +1816,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "feed",
@@ -2148,12 +1828,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "fiend_fire",
@@ -2165,12 +1840,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "immolate",
@@ -2182,12 +1852,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "impervious",
@@ -2199,12 +1864,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "juggernaut",
@@ -2216,12 +1876,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "limit_break",
@@ -2233,12 +1888,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "offering",
@@ -2250,12 +1900,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     },
     {
       "id": "reaper",
@@ -2267,12 +1912,7 @@
         "upgraded"
       ],
       "bossReward": true,
-      "channels": [
-        "combat_card_reward",
-        "shop_colored_card",
-        "camp_upgrade",
-        "event_upgrade"
-      ]
+      "channels": ["combat_card_reward", "shop_colored_card", "camp_upgrade", "event_upgrade", "explicit_event:drug_dealer:transform"]
     }
   ],
   "generatedCards": [
@@ -2306,13 +1946,7 @@
       "source": "docs/evidence/warrior75/matrix.json",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "event:golden_shrine:desecrate",
-        "explicit_event:big_fish:box",
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["event:golden_shrine:desecrate", "explicit_event:big_fish:box", "explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2342,12 +1976,7 @@
       "source": "data/cards.json#injury",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:golden_idol:injury",
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:golden_idol:injury", "explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2356,12 +1985,7 @@
       "source": "data/cards.json#doubt",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:sssserpent:confirm",
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:sssserpent:confirm", "explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2370,12 +1994,7 @@
       "source": "data/cards.json#pain",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:accursed_blacksmith:rummage",
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:accursed_blacksmith:rummage", "explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2384,12 +2003,7 @@
       "source": "data/cards.json#decay",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:wheel:accept",
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:wheel:accept", "explicit_event:forgotten_altar:smash", "explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2398,11 +2012,7 @@
       "source": "data/cards.json#shame",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2411,11 +2021,7 @@
       "source": "data/cards.json#writhe",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2424,11 +2030,7 @@
       "source": "data/cards.json#clumsy",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2437,11 +2039,7 @@
       "source": "data/cards.json#normality",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -2450,12 +2048,7 @@
       "source": "data/cards.json#parasite",
       "type": "curse",
       "countsTowardSeventyFive": false,
-      "channels": [
-        "explicit_event:mushrooms:heal",
-        "explicit_event:transmogrifier:change",
-        "explicit_event:living_wall:change",
-        "explicit:Run.obtainCard"
-      ],
+      "channels": ["explicit_event:mushrooms:heal", "explicit_event:transmogrifier:change", "explicit_event:living_wall:change", "explicit:Run.obtainCard", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
     },
     {
@@ -5749,10 +5342,7 @@
       "source": "data/potions.json#entropic_brew",
       "profile": "potions",
       "rarity": "rare",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5760,10 +5350,7 @@
       "source": "data/potions.json#attack_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5771,10 +5358,7 @@
       "source": "data/potions.json#skill_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5782,10 +5366,7 @@
       "source": "data/potions.json#power_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5793,10 +5374,7 @@
       "source": "data/potions.json#colorless_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5804,10 +5382,7 @@
       "source": "data/potions.json#fairy_in_a_bottle",
       "profile": "potions",
       "rarity": "rare",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": "Automatic fatal interception; manual use is forbidden."
     },
     {
@@ -5815,10 +5390,7 @@
       "source": "data/potions.json#duplication_potion",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5826,10 +5398,7 @@
       "source": "data/potions.json#distilled_chaos",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5837,10 +5406,7 @@
       "source": "data/potions.json#smoke_bomb",
       "profile": "potions",
       "rarity": "rare",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5848,10 +5414,7 @@
       "source": "data/potions.json#snecko_oil",
       "profile": "potions",
       "rarity": "rare",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5859,10 +5422,7 @@
       "source": "data/potions.json#elixir",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5870,10 +5430,7 @@
       "source": "data/potions.json#gamblers_brew",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5881,10 +5438,7 @@
       "source": "data/potions.json#liquid_memories",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5892,10 +5446,7 @@
       "source": "data/potions.json#blood_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5903,10 +5454,7 @@
       "source": "data/potions.json#fruit_juice",
       "profile": "potions",
       "rarity": "rare",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5914,10 +5462,7 @@
       "source": "data/potions.json#blessing_of_the_forge",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5925,10 +5470,7 @@
       "source": "data/potions.json#explosive_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5936,10 +5478,7 @@
       "source": "data/potions.json#heart_of_iron",
       "profile": "potions",
       "rarity": "rare",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5947,10 +5486,7 @@
       "source": "data/potions.json#essence_of_steel",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5958,10 +5494,7 @@
       "source": "data/potions.json#cultist_potion",
       "profile": "potions",
       "rarity": "rare",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5969,10 +5502,7 @@
       "source": "data/potions.json#fire_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5980,10 +5510,7 @@
       "source": "data/potions.json#block_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -5991,10 +5518,7 @@
       "source": "data/potions.json#strength_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6002,10 +5526,7 @@
       "source": "data/potions.json#dexterity_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6013,10 +5534,7 @@
       "source": "data/potions.json#energy_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6024,10 +5542,7 @@
       "source": "data/potions.json#regen_potion",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6035,10 +5550,7 @@
       "source": "data/potions.json#swift_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6046,10 +5558,7 @@
       "source": "data/potions.json#weak_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6057,10 +5566,7 @@
       "source": "data/potions.json#fear_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6068,10 +5574,7 @@
       "source": "data/potions.json#ancient_potion",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6079,10 +5582,7 @@
       "source": "data/potions.json#liquid_bronze",
       "profile": "potions",
       "rarity": "uncommon",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6090,10 +5590,7 @@
       "source": "data/potions.json#flex_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     },
     {
@@ -6101,10 +5598,7 @@
       "source": "data/potions.json#speed_potion",
       "profile": "potions",
       "rarity": "common",
-      "channels": [
-        "combat_potion_reward",
-        "shop_potion"
-      ],
+      "channels": ["combat_potion_reward", "shop_potion", "explicit_event:knowing_skull:potion"],
       "naturalExecutionLimitation": ""
     }
   ],
@@ -6593,11 +6087,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6611,10 +6101,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6628,11 +6115,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6646,11 +6129,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6664,11 +6143,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6682,11 +6157,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6700,11 +6171,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6718,11 +6185,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6736,11 +6199,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6754,11 +6213,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6772,11 +6227,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6790,11 +6241,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6808,11 +6255,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6826,11 +6269,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6844,11 +6283,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6862,11 +6297,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6880,11 +6311,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6898,11 +6325,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6916,11 +6339,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6934,11 +6353,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6952,11 +6367,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6970,11 +6381,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -6988,11 +6395,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7006,11 +6409,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7024,11 +6423,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7042,11 +6437,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7060,11 +6451,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7078,11 +6465,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7096,11 +6479,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7114,11 +6493,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7132,11 +6507,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7150,11 +6521,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7168,11 +6535,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7186,11 +6549,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform", "explicit_event:knowing_skull:card"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7204,11 +6563,7 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "shop_colorless_card",
-        "shared_card_generation",
-        "explicit_event:sensory_stone:card_reward"
-      ],
+      "channels": ["shop_colorless_card", "shared_card_generation", "explicit_event:sensory_stone:card_reward", "explicit_event:drug_dealer:transform"],
       "naturalAcquisitionLimitation": "Source shop and generated-card entries are wired; natural builds, complex combinations and per-item platform evidence remain pending. Sensory Stone supplies a separate explicit source reward channel, including HEALING cards; default full-event admission, whole campaign and platform/live evidence remain pending."
     },
     {
@@ -7239,10 +6594,8 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "explicit:Run.obtainCard"
-      ],
-      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+      "channels": ["explicit:Run.obtainCard", "explicit_event:vampires:accept", "explicit_event:vampires:give_vial"],
+      "naturalAcquisitionLimitation": "Source event acquisition is implemented with controlled Run/Nodes coverage; natural campaign and platform/device acceptance remain unverified."
     },
     {
       "id": "jax",
@@ -7255,10 +6608,8 @@
         "base",
         "upgraded"
       ],
-      "channels": [
-        "explicit:Run.obtainCard"
-      ],
-      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+      "channels": ["explicit:Run.obtainCard", "explicit_event:drug_dealer:jax"],
+      "naturalAcquisitionLimitation": "Source event acquisition is implemented with controlled Run/Nodes coverage; natural campaign and platform/device acceptance remain unverified."
     },
     {
       "id": "ritual_dagger",

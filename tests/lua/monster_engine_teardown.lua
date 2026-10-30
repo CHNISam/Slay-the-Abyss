@@ -20,12 +20,15 @@ local function run(kind,trigger)
  local module=kind=='actor'and Actors or Powers
  manager=module.new(owner,{monsterActors=api},nil,function(_,_,engineDestroyed)
   if trigger=='retire' and not dead then dead=true;manager:onEngineDestroy();return end
-  assert(engineDestroyed==true,'teardown retirement mode missing');retired=retired+1
+  assert(engineDestroyed==true or trigger=='clear','teardown retirement mode missing');retired=retired+1
  end)
- if trigger and trigger~='retire' then hook=function(name)if name==trigger then hook=nil;dead=true;manager:onEngineDestroy()end end end
+ if trigger and trigger~='retire' and trigger~='clear' then hook=function(name)if name==trigger then hook=nil;dead=true;manager:onEngineDestroy()end end end
  local rows={{id='one',actor={id='one',definitionId='cultist'}}}
  local ok=pcall(manager.select,manager,rows,{})
- if trigger=='retire' then assert(ok);manager:clear()
+ if trigger=='clear' then
+  assert(ok);hook=function(name)if name=='SetVisible' then hook=nil;dead=true;manager:onEngineDestroy()end end
+  manager:clear()
+ elseif trigger=='retire' then assert(ok);manager:clear()
  elseif trigger then assert(not ok,'in-flight operation must abort')else assert(ok);dead=true;manager:onEngineDestroy();assert(retired==1)end
  local count=operations
  manager:onEngineDestroy();manager:clear()
@@ -35,7 +38,7 @@ local function run(kind,trigger)
  assert(next(manager.owned or manager.retained)==nil)
 end
 for _,kind in ipairs({'actor','power'})do
- run(kind);run(kind,'instantiate');run(kind,'SetVisible');run(kind,'SetAsLastSibling');run(kind,'retire')
+ run(kind);run(kind,'instantiate');run(kind,'SetVisible');run(kind,'SetAsLastSibling');run(kind,'retire');run(kind,'clear')
 end
 -- Controller retirement must not even inspect an engine-invalid handle.
 local invalid=setmetatable({},{__index=function()error('invalid native read')end,__newindex=function()error('invalid native write')end})

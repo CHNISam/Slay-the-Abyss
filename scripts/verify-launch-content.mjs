@@ -15,7 +15,7 @@ const ids = rows => rows.map(row => row.id).sort();
 const curseEvents = {
   regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
-  decay: ['explicit_event:wheel:accept'],
+  decay: ['explicit_event:wheel:accept', 'explicit_event:forgotten_altar:smash'],
     injury: ['explicit_event:golden_idol:injury'],
     parasite: ['explicit_event:mushrooms:heal'],
 };
@@ -200,7 +200,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     check(card.rarity === definition?.rarity, `cards/${card.id}: rarity drift`);
     const channels = definition?.rarity === 'basic'
       ? ['starter_deck', 'camp_upgrade', 'event_upgrade']
-      : ['combat_card_reward', 'shop_colored_card', 'camp_upgrade', 'event_upgrade'];
+      : ['combat_card_reward', 'shop_colored_card', 'camp_upgrade', 'event_upgrade', 'explicit_event:drug_dealer:transform'];
     same(card.channels, channels, `cards/${card.id} channels`);
     check(card.bossReward === (definition?.rarity === 'rare'), `cards/${card.id}: Boss reward rarity drift`);
   }
@@ -212,7 +212,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     const channels = card.id === 'necronomicurse' ? ["explicit_event:cursed_tome:claim", "explicit_event:duplicator:select", "explicit:Run.obtainCard", "permanent_remove:necronomicurse:rebirth", "combat_exhaust:necronomicurse:rebirth"]
       : bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']
       : card.type === 'curse' ? [...(curseEvents[card.id] ?? []),
-      'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard']
+      'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard', 'explicit_event:drug_dealer:transform']
       : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
         .map(enemy => `enemy:${enemy.id}:intent`),
         ...data.cards.cards.filter(c => [c.effects,c.upgrade?.effects ?? []].some(list=>list.some(e=>e.card===card.id)))
@@ -250,9 +250,9 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     same(card.versions,['base','upgraded'],`sharedCards/${card.id} versions`);
     check(card.rarity===actual?.rarity&&card.type===actual?.type&&card.rarity===reference?.rarity.toLowerCase(),`sharedCards/${card.id}: classification drift`);
     check(actual?.supported===true,`sharedCards/${card.id}: unsupported runtime effect`);
-    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard',...(card.id==='apparition'?['explicit_event:ghosts:accept']:[]),...(card.id==='ritual_dagger'?['explicit_event:nest:dagger']:[])]:
+    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard',...(card.id==='apparition'?['explicit_event:ghosts:accept']:[]),...(card.id==='ritual_dagger'?['explicit_event:nest:dagger']:[]),...(card.id==='bite'?['explicit_event:vampires:accept','explicit_event:vampires:give_vial']:[]),...(card.id==='jax'?['explicit_event:drug_dealer:jax']:[])]:
       ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation']),
-        'explicit_event:sensory_stone:card_reward'],`sharedCards/${card.id} channels`);
+        'explicit_event:sensory_stone:card_reward','explicit_event:drug_dealer:transform',...(card.rarity==='uncommon'?['explicit_event:knowing_skull:card']:[])],`sharedCards/${card.id} channels`);
     check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);
   }
   for (const [field, value] of Object.entries({ nodeEntry: 'abyss_nodes.enter', roomEntry: 'abyss_run.startRoomCombat', sourcePool: 'abyss_encounter_queue.rules' }))
@@ -296,7 +296,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   for (const potion of manifest.potions) {
     const definition = data.potions.potions.find(row => row.id === potion.id);
     check(potion.rarity === definition?.rarity, `potions/${potion.id}: rarity drift`);
-    same(potion.channels, ['combat_potion_reward', 'shop_potion'], `potions/${potion.id} channels`);
+    same(potion.channels, ['combat_potion_reward', 'shop_potion', 'explicit_event:knowing_skull:potion'], `potions/${potion.id} channels`);
   }
   for (const relic of manifest.relics) {
     const definition = data.relics.relics.find(row => row.id === relic.id);
