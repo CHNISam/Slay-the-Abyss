@@ -1,3 +1,4 @@
+import {readArtFeatures} from '../scripts/art-features.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync, mkdirSync, symlinkSync, linkSync } from 'node:fs';
@@ -29,12 +30,15 @@ test('explicit art candidate uses exactly the selected real card hosts, never al
  assert.equal(receipt.deckTemplateEnabled,false);
 }));
 
-test('ordinary build remains byte-identical after a candidate build',()=>directory(output=>{
+for(const enabled of [false,true])test(`${enabled?'explicit cards-on':'ordinary default-off'} build remains byte-identical after a static candidate build`,()=>directory(output=>{
  const first=join(output,'first'),candidate=join(output,'candidate'),last=join(output,'last');
- buildUI(first);buildUI(candidate,undefined,{nativeCardArt:{registry:registry(),hosts:['nodePanel/shopView/card1']}});buildUI(last);
+ const options=enabled?{artFeatures:{cards:true}}:{};
+ buildUI(first,undefined,options);buildUI(candidate,undefined,{nativeCardArt:{registry:registry(),hosts:['nodePanel/shopView/card1']}});buildUI(last,undefined,options);
+ assert.deepEqual(readdirSync(last).sort(),readdirSync(first).sort(),'static candidate must not leak generated outputs into either profile');
  for(const name of readdirSync(first))assert.equal(readFileSync(join(first,name),'utf8'),readFileSync(join(last,name),'utf8'),name);
  const readyPools=pools(JSON.parse(readFileSync(join(first,'game-ui.json'))));
- assert.equal(readyPools.length,38);for(const [,pool] of readyPools)assert.deepEqual(pool.children,[]);
+ assert.deepEqual(readArtFeatures(first),{cards:enabled,menuBackground:false,selectionAvatar:false,battlePortrait:false},'each profile must retain its canonical effective flags');
+ assert.equal(readyPools.length,enabled?38:0);for(const [,pool] of readyPools)assert.deepEqual(pool.children,[]);
  const game=JSON.parse(readFileSync(join(candidate,'game-ui.json')));
  assert.equal(pools(game).length,1,'node art_* must not be missed');
  const sample=pools(game)[0];assert(sample[0].endsWith('/shopView/card1'));
