@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 20:26'
+updated_date: '2026-10-30 21:33'
 labels: []
 dependencies: []
 references:
@@ -117,4 +117,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 2026-10-31完整CI揭示roster原source单file超过16分未完成；分离完整原变异kernel与fresh-owner桥接后5/5为74.880s。官方POSIX20m超时确认；仅成功CI记录raise-only校准425Win/333Linux，本地完整/部分lower-bound单列。统一proxy规划六片max1438014ms仍超预算，最终8Win/8POSIX为1078517ms（含首44s gate），schema3完整21身份、旧schema2 15保留、旧4/6绿色拒绝；原180s/20m/每file一次与保护不动。默认Lua从当前JS计划算preceding load，旧同长数组不再冒充当前输入。最终新HEAD完整CI仍待。
 
 2026-10-31 本轮继续收口PR391：节点逆变换在当前hosted Windows完整成功33.699秒（旧372.02秒），PR323为27.560秒（旧76.82秒）；M3历史严格79543/79757写回放完整8组本地通过402.598秒，旧174秒仅6组不可当整文件成本。f2 Full实际Windows 30分钟超时annotation已保留；成功记录按各真实平台校准，失败耗时不作通过。最终计划Windows11/POSIX9（保原30/20分钟预算、三必需汇总与inventory），等待当前最终SHA完整CI、正常合并和实际合入提交push Full；官方导入、ready与设备未测，任务整体仍未完成。技术细节与证据见CI附件及本轮产物。
+
+2026-10-31 收口补充：f7完整回归暴露raw跨VM依赖JS顺带生成向量及少量旧UI/事件夹具；改为call-local JSON preload并保独立向量、原RNG/队列断言，10个失败及50个超时缺口均已针对实测承接，最新160项相关合同通过。成功原始计时补齐后最终Windows13/POSIX9、当前27作业身份，仍保原30/20分钟与安全worker规则；独立审查通过，当前最终提交Full及实际合入push Full待验，不提前勾最终AC。
 <!-- SECTION:NOTES:END -->

@@ -7,6 +7,7 @@ import {frozenBattleHandFixtures} from '../tests/helpers/battle-life-frozen-hand
 import {historicalMonsterUiFixtures} from '../tests/helpers/historical-monster-ui-runner.mjs';
 import {historicalCardInputFixtures} from '../tests/helpers/historical-card-input.mjs';
 import {historicalPresentationFixtures} from '../tests/helpers/historical-presentation-runner.mjs';
+import {eventCombatRouteFixtures,eventCombatRouteInput} from '../tests/helpers/event-combat-route-input.mjs';
 import {prepareRuntimePreviews, needsRuntimePreviews} from './ci-reviewed-lfs.mjs';
 
 // Local and PR advisory feedback share one selector. Full Quality owns coverage.
@@ -18,6 +19,8 @@ const conditionalRunnerFixtures = new Map([
   ['tests/helpers/battle-life-frozen-hand.mjs', new Set(frozenBattleHandFixtures)],
   ['tests/helpers/historical-monster-ui-runner.mjs', new Set(historicalMonsterUiFixtures)],
   ['tests/helpers/historical-card-input.mjs', new Set(historicalCardInputFixtures)],
+  ['tests/helpers/event-combat-route-input.mjs', new Set(eventCombatRouteFixtures)],
+  [eventCombatRouteInput, new Set(eventCombatRouteFixtures)],
 ]);
 // These are virtual graph nodes, not files read from a possibly stale build/.
 // Keep the producer identities aligned with build:data/build:ui's Lua outputs.
@@ -187,7 +190,7 @@ export function selectTests(changed, sources, {advisory = false} = {}) {
   const eligible=[];
   for (const path of changed) {
     let reason;
-    if (!(path in sources) || !/^(src\/lua\/.*\.lua|scripts\/.*\.mjs|tests\/.*\.(mjs|lua))$/.test(path))
+    if (!(path in sources) || !/^(src\/lua\/.*\.lua|scripts\/.*\.mjs|tests\/.*\.(mjs|lua))$/.test(path) && path !== eventCombatRouteInput)
       reason=`Unmodelled or deleted input: ${path}`;
     else if (/scripts\/(test-affected|test-lua|build-.*)\.mjs$/.test(path))
       reason=`Shared build/test infrastructure: ${path}`;
@@ -369,7 +372,7 @@ export function main(args) {
     changed.push(...untracked.stdout.split('\0').filter(Boolean));
   }
   const sources = Object.fromEntries(['src/lua', 'scripts', 'tests'].flatMap(files)
-    .filter(p => /\.(lua|mjs)$/.test(p)).map(p => [p, readFileSync(p, 'utf8')]));
+    .filter(p => /\.(lua|mjs)$/.test(p) || p === eventCombatRouteInput).map(p => [p, readFileSync(p, 'utf8')]));
   const plan = selectTests([...new Set(changed)], sources);
   const quickPlan = advisory ? selectQuickPlan(changed, sources, plan) : null;
   const quick = advisory ? selectQuickFeedback(quickPlan, changed,

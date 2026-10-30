@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { selectTests, parseGitChanges } from '../scripts/test-affected.mjs';
 import {frozenBattleHandFixtures} from './helpers/battle-life-frozen-hand.mjs';
+import {eventCombatRouteFixtures,eventCombatRouteInput} from './helpers/event-combat-route-input.mjs';
 
 const sources = {
   'src/lua/abyss_low.lua': 'return {}',
@@ -229,7 +230,7 @@ test('explicit protected fixture changes select that fixture without unrelated t
 const files = dir => readdirSync(dir, { withFileTypes: true }).flatMap(entry =>
   entry.isDirectory() ? files(`${dir}/${entry.name}`) : [`${dir}/${entry.name}`]);
 const repositorySources = Object.fromEntries(['src/lua', 'scripts', 'tests'].flatMap(files)
-  .filter(path => /\.(lua|mjs)$/.test(path)).map(path => [path, readFileSync(path, 'utf8')]));
+  .filter(path => /\.(lua|mjs)$/.test(path) || path === eventCombatRouteInput).map(path => [path, readFileSync(path, 'utf8')]));
 for (const name of ['map', 'nodes']) {
   test(`real abyss_${name} changes retain the protected ${name} regression`, () => {
     const plan = selectTests([`src/lua/abyss_${name}.lua`], repositorySources);
@@ -407,6 +408,40 @@ test('the conditional historical replay helper selects its fixture without taint
   assert.equal(plan.full,false);
   assert.ok(plan.lua.includes('tests/lua/presentation_responsibilities_trace.lua'));
   assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
+const eventRouteSources={
+  [eventCombatRouteInput]:'{"dead":[]}',
+  'tests/helpers/event-combat-route-input.mjs':'export function eventCombatRoutePrelude(){}',
+  'scripts/test-lua.mjs':`import {eventCombatRoutePrelude} from '../tests/helpers/event-combat-route-input.mjs'; export function runLua(){}`,
+  ...Object.fromEntries(eventCombatRouteFixtures.map(path=>[path,'return true'])),
+  'tests/lua/unrelated.lua':'return true',
+  'tests/routes.test.mjs':eventCombatRouteFixtures.map(path=>`runLua('${path}')`).join(';'),
+  'tests/unrelated.test.mjs':`import {runLua} from '../scripts/test-lua.mjs';runLua('tests/lua/unrelated.lua')`,
+};
+
+test('event route conditional input selects exactly its two fixtures without tainting ordinary runner imports',()=>{
+  assert.deepEqual(eventCombatRouteFixtures,['tests/lua/event_combat_route_reducers.lua','tests/lua/event_combat_route_enemies.lua']);
+  assert.equal(eventCombatRouteInput,'tests/fixtures/event-combat-routes-vectors.json');
+  for(const input of [eventCombatRouteInput,'tests/helpers/event-combat-route-input.mjs']){
+    const plan=selectTests([input],eventRouteSources);
+    assert.equal(plan.full,false);
+    assert.deepEqual([...plan.lua].sort(),[...eventCombatRouteFixtures].sort());
+    assert.deepEqual(plan.integration,['tests/routes.test.mjs']);
+    assert.deepEqual(plan.fast,[]);
+  }
+});
+
+test('event route conditional input keeps unknown deleted and shared-runner changes on Full',()=>{
+  const unknown='tests/fixtures/event-combat-routes-vectors-other.json';
+  assert.equal(selectTests([unknown],{...eventRouteSources,[unknown]:'{}'}).full,true);
+  const missing={...eventRouteSources};delete missing[eventCombatRouteInput];
+  assert.equal(selectTests([eventCombatRouteInput],missing).full,true);
+  assert.equal(selectTests(['scripts/test-lua.mjs'],eventRouteSources).full,true);
+  assert.equal(selectTests([eventCombatRouteInput,unknown],{...eventRouteSources,[unknown]:'{}'}).full,true);
+  const partial=selectTests([eventCombatRouteInput,unknown],{...eventRouteSources,[unknown]:'{}'},{advisory:true});
+  assert.equal(partial.full,false);
+  assert.deepEqual([...partial.lua].sort(),[...eventCombatRouteFixtures].sort());
 });
 
 test('opening-hand setup selects all eighteen actual fixture entries without tainting ordinary Lua wrappers',()=>{

@@ -1,6 +1,8 @@
 -- Real controller + generated native tree; no game-client/visual acceptance claim.
 local H = dofile('tests/lua/support/battle_gesture_fixture.lua')
 local Theme, C = require('abyss_theme'), H.F.Combat
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
+local sourceGeometry=dofile('tests/lua/support/source_intent_geometry.lua')
 local count, failed = 0, 0
 local function eq(a,b,label) assert(a==b,(label or '')..': '..tostring(a)..' ~= '..tostring(b)) end
 local function test(name, fn)
@@ -22,10 +24,15 @@ for _,upgraded in ipairs({false,true}) do
         assert(info:GetChild('name2').text:find('易伤',1,true))
         assert(info:GetChild('name3').text:find('消耗',1,true))
         event('card1','exit',7)
+        local first=s.enemies[1]
+        eq(first.definitionId,'cultist','controlled front actor')
+        sourceGeometry(assert(monsterControl(p,'enemy1')),first)
         tap('card1',8);tap('playArea',8);assert(u.busy)
         -- Area x remains the source zone center; y follows its first front-row actor.
         local sourceX=(1010+1850)/2/1.5-640
-        local sourceY=360-(300+58+16+190/2)/1.5
+        -- Independent sts@319009d5 Cultist constructor facts, also checked on
+        -- the real native box above: drawY=-10, hitbox230x240, source anchor340.
+        local sourceY=(340-10+math.max(230,240)/2)*(720/1080)-720/2
         eq(math.abs(u.feedback.flight.tx-sourceX)<1e-8,true,'area flight center')
         eq(math.abs(u.feedback.flight.ty-sourceY)<1e-8,true,'enemy row')
         eq(s.energy,1);eq(#s.exhaust,1);eq(#s.discard,0)

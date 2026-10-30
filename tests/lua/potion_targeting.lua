@@ -82,7 +82,10 @@ end)
 
 test('P06/P07/P08 lifecycle boundaries expire aiming and old enemy tokens',function()
     for _,change in ipairs({'turn','battle','deck','status','resize','inactive','inventory','phase','potionPanel'}) do
-        local h,u,p,e,t,d,deck,r,emit,tap=setup();tap(1);emit('enemy2','down',2)
+        local h,u,p,e,t,d,deck,r,emit,tap=setup();tap(1)
+        local oldHit=assert(H.F.actorControl(p,'enemy2'):GetChild('hit'))
+        local oldUp,oldClick=oldHit.listeners.up,assert(oldHit.listeners.click)
+        emit('enemy2','down',2)
         if change=='turn' then h.run.combat.turn=h.run.combat.turn+1
         elseif change=='battle' then h.run.combat=Combat.copy(h.run.combat)
         elseif change=='deck' then deck()
@@ -92,7 +95,10 @@ test('P06/P07/P08 lifecycle boundaries expire aiming and old enemy tokens',funct
         elseif change=='phase' then h.run.phase='defeat'
         elseif change=='potionPanel' then assert(h:openPotions());assert(h:closePotions())
         else u:setActive(false);u:setActive(true) end
-        u:render();emit('enemy2','up',2);emit('enemy2','click',2)
+        u:render();local before=snapshot(h)
+        if oldUp then oldUp({touchId=2})end
+        oldClick({touchId=2})
+        assert(equal(before,snapshot(h)),'late lifecycle events changed actors, resources or RNG: '..change)
         assert(h.run.potions[1]=='fire_potion' and not u.potionAim,change)
     end
 end)

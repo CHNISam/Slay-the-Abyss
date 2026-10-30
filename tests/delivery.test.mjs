@@ -286,14 +286,14 @@ test('normal delivery includes the current complete hosted Quality matrices',()=
     const impactSource=readFileSync('scripts/ci-impact.mjs','utf8');
     assert.ok(impactSource.includes('windows_shards=${JSON.stringify(qualityShardMatrices.windows)}'));
     assert.ok(impactSource.includes('posix_shards=${JSON.stringify(qualityShardMatrices.posix)}'));
-    assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8,9,10,11]);
+    assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8,9,10,11,12,13]);
     assert.deepEqual(qualityShardMatrices.posix,[1,2,3,4,5,6,7,8,9]);
     assert.deepEqual(fullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
       Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`));
     assert.equal(fullQualityJobs.length,15);
     assert.equal(deliverySchemaVersion,3);
     assert.deepEqual(currentFullQualityJobs,['check','presentation','engineering-posix',...qualityShardJobs,'impact','fast']);
-    assert.equal(currentFullQualityJobs.length,25);
+    assert.equal(currentFullQualityJobs.length,27);
     assert.deepEqual(currentFullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
       Array.from({length:9},(_,i)=>`engineering-posix (${i+1}/9)`));
     assert.match(workflow,/^  impact:\n/m);
@@ -313,17 +313,17 @@ test('fully green former four-, six- or eight-POSIX schema-three runs cannot cer
   }
 });
 
-test('the old fully green twenty-one-job shape cannot certify current delivery or supply its first-shard receipt',()=>{
-  for(const layer of ['preflight','push']){
+test('old fully green twenty-one- and twenty-five-job shapes cannot certify current delivery or supply its first-shard receipt',()=>{
+  for(const [windows,posix] of [[8,8],[11,9]])for(const layer of ['preflight','push']){
     const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
     const example=proof.jobs[0];
-    proof.jobs=['check','presentation','engineering-posix',...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
-      ...Array.from({length:8},(_,i)=>`engineering-posix (${i+1}/8)`),'impact','fast']
+    proof.jobs=['check','presentation','engineering-posix',...Array.from({length:windows},(_,i)=>`rules (${i+1}/${windows})`),
+      ...Array.from({length:posix},(_,i)=>`engineering-posix (${i+1}/${posix})`),'impact','fast']
       .map((name,i)=>({...example,id:700+i,name,conclusion:name==='fast'?'skipped':'success'}));
     if(layer==='preflight')assert(verifyDelivery(proof).length);
     else assert.equal(verifyMergedDelivery(e).state,'merged_pending');
     const current=mergedEvidence(3),bound=layer==='preflight'?current.preflight:current;
-    const first=bound.jobs.find(job=>job.name==='rules (1/11)');first.run_attempt=1;
+    const first=bound.jobs.find(job=>job.name===qualityShardJobs[0]);first.run_attempt=1;
     bound.jobs.push({...first,id:800,name:'rules (1/8)',run_attempt:bound.run.run_attempt});
     if(layer==='preflight')assert(verifyDelivery(bound).some(error=>/receipt|Unexpected/.test(error)));
     else assert.equal(verifyMergedDelivery(current).state,'merged_pending');

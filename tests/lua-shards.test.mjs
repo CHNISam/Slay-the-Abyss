@@ -109,17 +109,41 @@ test('current placement retains the original inventory, safety classification an
   assert.equal(timings.luaShardSource.runId, 40980643080);
   assert.equal(timings.luaShardSource.headSha, 'ce62e753065666fd26c9d85587a8f3ae2a580689');
   const files = Object.keys(timings.luaShard);
-  const added = ['tests/lua/current_game_ui_trace_parity_5.lua', 'tests/lua/natural_event_relics_4.lua'];
-  const originalFiles = files.filter(file => !added.includes(file)).sort();
+  const original=JSON.parse(readHistoricalBaselineSource('scripts/ci-test-timings.json'));
+  const originalFiles=Object.keys(original.luaShard).sort();
   assert.equal(originalFiles.length, 1114);
   assert.equal(createHash('sha256').update(JSON.stringify(originalFiles)).digest('hex'),
     '6715884814c25b9813572d03237750fbf920f2cdbd0e7956e298e8c63d841157', 'the complete original measured inventory is unchanged');
-  assert.deepEqual(files.filter(file => !originalFiles.includes(file)).sort(), added);
-  const update = timings.luaShardCalibrationUpdates.find(row => row.runId === 41116682315);
-  assert.equal(update.headSha, 'f2e3ef50b930661ee59aa443561b761ccb96a475');
-  assert.equal(update.previousMapSha256, '0da156a0e66c32fcfcf79bfb1ec07706f1531d029c317fe895e6c35a6e970db7');
-  assert.ok(update.sourceRecords.some(row => row.jobId === 124273030880 && row.sha256 === 'd53e9d1ecb80f3a40d6c726e9bf9280595b0a4c8b441559b010c206580ba3b7e'));
-  for(const [file,observed] of [[added[0],19471],[added[1],10313]])assert.ok(timings.luaShard[file] >= observed, 'new keys retain their completed worker observations');
+  const mapHash=map=>createHash('sha256').update(JSON.stringify(map)).digest('hex');
+  let previous=mapHash(original.luaShard);
+  assert.equal(previous,'0da156a0e66c32fcfcf79bfb1ec07706f1531d029c317fe895e6c35a6e970db7');
+  const measured=new Set(originalFiles);
+  for(const update of timings.luaShardCalibrationUpdates){
+    assert.equal(update.previousMapSha256,previous,'each calibration starts at the preceding complete map');
+    assert.match(update.resultingMapSha256,/^[a-f0-9]{64}$/);
+    assert.ok(Number.isSafeInteger(update.runId)&&update.runId>0);
+    assert.ok(Number.isSafeInteger(update.runAttempt)&&update.runAttempt>0);
+    assert.match(update.headSha,/^[a-f0-9]{40}$/);
+    assert.ok(Array.isArray(update.sourceRecords)&&update.sourceRecords.length>0);
+    for(const record of update.sourceRecords){
+      assert.ok(Number.isSafeInteger(record.jobId)&&record.jobId>0);
+      assert.match(record.path,/^build\/[a-zA-Z0-9-]+\.log$/);
+      assert.match(record.sha256,/^[a-f0-9]{64}$/);
+    }
+    assert.ok(Array.isArray(update.newlyMeasuredPaths));
+    assert.deepEqual(update.newlyMeasuredPaths,[...new Set(update.newlyMeasuredPaths)].sort(),'new measurements have one explicit sorted inventory');
+    for(const file of update.newlyMeasuredPaths){
+      assert.equal(measured.has(file),false,'a newly measured path cannot already belong to an earlier map');
+      measured.add(file);
+    }
+    previous=update.resultingMapSha256;
+  }
+  assert.equal(mapHash(timings.luaShard),previous,'the last calibration hash binds the actual current placement map');
+  assert.deepEqual([...files].sort(),[...measured].sort(),'only original or explicitly newly measured paths belong to the map');
+  for(const file of files){
+    assert.ok(Number.isFinite(timings.luaShard[file])&&timings.luaShard[file]>0);
+    if(Object.hasOwn(original.luaShard,file))assert.ok(timings.luaShard[file]>=original.luaShard[file],'original observations cannot decrease');
+  }
   const current = readdirSync('tests/lua').filter(file => file.endsWith('.lua')).map(file => `tests/lua/${file}`);
   assert.ok(files.every(file => current.includes(file)), 'complete measured inventory remains discovered');
   const count=qualityShardMatrices.windows.length;
