@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 22:21'
+updated_date: '2026-10-30 22:51'
 labels:
   - playtest-20261030
   - p1
@@ -45,4 +45,6 @@ Owner截图：选角页圆形大底叠黑色矩形包裹立绘，底部小头像
 接续PR389原选角改动，补充完整身份外层inverse，旧历史fixture与hash不变；完整文件/漂移负例通过，选角/头像/比赛入口组合定向验证进行中。尚无官方导入或实机验收。
 
 进一步按391实际历史隔离设计复核：competition-roster旧合同在98fef固定历史输入回放，未改develop直接调用旧public inverse也拒绝当前源码；无需额外迁移旧inverse。已移除新投影层以避免无效耦合，保留391完整历史层与保护。当前真实Lua deck_browse_filters四组、hero_visual_slots、competition_roster_ui通过，prepared UI两片33用例通过。
+
+2026-10-31：原389选角有效成果由394接续并进入396；最终去掉多余inverse层，保留391历史隔离。已修真实GIL颜色编码并补来源登记；本轮仅源码及候选读回证据，尚未合入develop或完成同候选设备验收，所有AC保持未勾。
 <!-- SECTION:NOTES:END -->

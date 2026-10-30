@@ -1,11 +1,11 @@
 ---
 id: TASK-4.16
 title: 改善右上角菜单与操作说明的交互和信息层级
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:50'
 labels:
   - playtest-20261030
   - p1
@@ -32,3 +32,9 @@ Owner反馈：菜单只能点「继续游戏」关闭；未启程时仍显示不
 - [ ] #2 未启程地图入口不误导玩家；已可用时正常进入。
 - [ ] #3 操作说明层次清楚、能快速找到出牌/取消/详情/药水/地图等信息；基础资源含义易获知。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-31：PR396@f5af0664已编码菜单外点吞输入关闭、启程前隐藏地图与三栏操作说明；含手柄回声和结算忙态保护。生命金币仅说明页有解释，未新增点击HUD提示；同候选设备未验，不勾验收。
+<!-- SECTION:NOTES:END -->

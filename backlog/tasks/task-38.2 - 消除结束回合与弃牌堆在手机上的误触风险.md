@@ -1,11 +1,11 @@
 ---
 id: TASK-38.2
 title: 消除结束回合与弃牌堆在手机上的误触风险
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:49'
 labels:
   - playtest-20261030
   - p0
@@ -31,3 +31,9 @@ Owner截图右下方结束回合按钮与弃牌堆图标过近，触屏查看弃
 - [ ] #1 查看弃牌堆和结束回合两个触控目标可可靠区分，不易误触不可逆结束操作。
 - [ ] #2 保留按钮既定外观及战斗规则，提供手机场景的实际点击/触控验收证据。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-31：PR396@f5af0664已编码弃牌堆触控区上沿截断，与结束回合保留16单位间隔且不改按钮外观；离线断言通过，手机实际误触验收未完成，不勾验收。
+<!-- SECTION:NOTES:END -->

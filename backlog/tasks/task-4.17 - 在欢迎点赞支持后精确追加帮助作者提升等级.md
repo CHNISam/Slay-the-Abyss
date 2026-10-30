@@ -1,11 +1,11 @@
 ---
 id: TASK-4.17
 title: 在欢迎点赞支持后精确追加帮助作者提升等级
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:50'
 labels:
   - playtest-20261030
   - p1
@@ -31,3 +31,9 @@ Owner逐字确认：**所有前面的已有句子保持不变**，只在原文�
 - [ ] #1 在正确展示位置，「欢迎点赞支持」之后紧接新增「帮助作者提升等级」。
 - [ ] #2 这一段除此新增之外，其余句子、标点、先后顺序均与现有内容一致。
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-31：PR396@f5af0664保留原完整前文并追加帮助作者提升等级，当前宿主精确串断言通过；官方客户端显示未验，不勾验收。
+<!-- SECTION:NOTES:END -->
