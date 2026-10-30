@@ -36,10 +36,17 @@ print('UI_STABLE_MENU_WRITES frames=60 calls='..total..' glow='..glow.total..' m
 expect(total==0,'settled menu must stop writing fixed native transforms and hidden veil')
 expect(glow.total==60 and mote.total==60,'approved breathing and vista motion must continue')
 -- A fresh result must replay its entrance rather than inherit the title cache.
-assert(F.start(ui));ui.run.phase='defeat';ui:refresh()
+assert(F.start(ui));ui.battleUI.feedback.deaths.player=true;ui.run.phase='defeat';ui:refresh()
+expect(ui.motion.deathReveal==true,'committed death must start result veil')
+local restart,reason=ui:start()
+expect(not restart and reason=='result_revealing','death veil must retain the result input lock')
 expect(not ui.motion.entranceDone,'result entrance must start fresh')
 for _=1,120 do ui:update(1/60)end
 expect(result:GetChild('stat_floor').x==Theme.layout.nativeMenu.stats.origin[1],'entrance must reach exact final card position')
+expect(not ui.motion.deathReveal and not menu:GetChild('deathShade').visible,'veil must hide and release result input at its endpoint')
+assert(F.start(ui));ui.run.phase='defeat';ui:refresh()
+expect(not ui.motion.entranceDone,'leaving and returning to defeat must replay entrance')
+for _=1,120 do ui:update(1/60)end
 assert(ui:settle())
 for _=1,60 do ui:update(1/60)end
 expect(menu:GetChild('settle').x==0,'settlement slide must paint its final centre position')
