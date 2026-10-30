@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "path": "tests/lua/support/battle_ui_cases.lua",
+  "baseCommit": "03266f668eb5ab6d7ed72d840fa55eafa90a819c",
+  "currentCommit": "6142360fe71c7ba4a17a1c68b97a6b1feab823e8",
+  "beforeSha256": "6adf9566320c60e8b68fb8854ccbf9dffb0eb34f7510d5a32309d4a3461d7590",
+  "afterSha256": "96bebbbb73d739910c15a2ed87b5d85bc877ea0de6d378408479771d9002b25b",
+  "beforeGitBlob": "56de2e4658a02d07ee587ed288188593e4b8a528",
+  "afterGitBlob": "8d69da337a93de26de63ca3ffb018aaacd0f52e2",
+  "hunks": [
+    {
+      "at": 220,
+      "current": [
+        "            assert(stage.children.notice.text == \"\")"
+      ],
+      "beforeAt": 220,
+      "prior": [
+        "            assert(stage.children.notice.text:find(\"点选一个敌人\", 1, true))"
+      ]
+    },
+    {
+      "at": 238,
+      "current": [
+        "    assert(stage.children.notice.text == \"\")"
+      ],
+      "beforeAt": 238,
+      "prior": [
+        "    assert(stage.children.notice.text == \"点击战场出牌区域；再点原牌取消\")"
+      ]
+    },
+    {
+      "at": 246,
+      "current": [
+        "    assert(stage.children.notice.text == \"\")"
+      ],
+      "beforeAt": 246,
+      "prior": [
+        "    assert(stage.children.notice.text == \"点击战场出牌区域；再点原牌取消\")"
+      ]
+    },
+    {
+      "at": 1069,
+      "current": [
+        "        assert(stage.children.dragLayer.visible and not stage.children.dragLayer.children.line.visible)"
+      ],
+      "beforeAt": 1069,
+      "prior": [
+        "        assert(stage.children.dragLayer.visible and stage.children.dragLayer.children.line.visible)"
+      ]
+    },
+    {
+      "at": 1106,
+      "current": [
+        "    -- STS scaleLerpSnap 式缩放过渡：停住后若干帧收敛到拖牌缩放，位置首帧即停泊于阈线下。",
+        "    assert(ui.gesture.moving and box.y + h/2 <= D.lineY, \"aiming card must park below the line\")",
+        "    for _ = 1, 60 do ui:update(1 / 60) event(\"card1\",\"drag\",third.x+40,third.y-70) end",
+        "    assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, \"parked aiming card settles at drag scale\")"
+      ],
+      "beforeAt": 1106,
+      "prior": [
+        "    assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, \"aiming card must park below the line\")"
+      ]
+    }
+  ]
+}

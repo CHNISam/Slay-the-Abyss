@@ -1,3 +1,4 @@
+import {historicalBattleUiCasesProof,historicalBattleUiCases} from './historical-battle-ui-cases.mjs';
 import {prePostBetaRuntimeSource} from './post-beta-runtime-source.mjs';
 import {verifiedHistoricalMonsterNodeClosure} from './historical-monster-node-closure.mjs';
 import {preDeckDeliverySource,deckDeliveryPaths} from './deck-delivery-source-composition.mjs';
@@ -37,6 +38,8 @@ export function materializeHistoricalMonsterUi(directory,sourceRoot=process.cwd(
  assert.notEqual(resolve(directory),resolve(sourceRoot),'historical projection must be isolated');
  // Verify the entire live layer and both helper closures before any writes.
  const projected=verifiedHistoricalMonsterSources(sourceRoot);
+ const cases=historicalBattleUiCasesProof.path;
+ projected.push([cases,historicalBattleUiCases(readFileSync(join(sourceRoot,cases),'utf8'))]);
  if(nodeClosure)projected.push(...verifiedHistoricalMonsterNodeClosure(path=>readFileSync(join(sourceRoot,path),'utf8')));
  for(const input of ['src','data','scripts','tools','config','tests/lua','tests/helpers','tests/fixtures','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
   cpSync(join(sourceRoot,input),join(directory,input),{recursive:true});

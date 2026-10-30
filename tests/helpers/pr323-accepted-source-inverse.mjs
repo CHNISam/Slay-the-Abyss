@@ -33,9 +33,11 @@ export function normalizePr323CompositionSource(path,source){
  // exact outer inverse. The live spelling must itself match the whole hash.
  if(path==='config/architecture.json'&&typeof source==='string'&&relicCompletionInverse.files[path]){
   try{
-   const live=readFileSync(path,'utf8');requireRelicCompletionSource(path,live);
+   const live=readFileSync(path,'utf8');
    const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
-   if(tokens(source)===tokens(live))source=live;
+   // Only token-equivalent inputs can consume this live witness. Validate its
+   // linked owners freshly before accepting it, not for unrelated mutations.
+   if(tokens(source)===tokens(live)){requireRelicCompletionSource(path,live);source=live;}
   }catch{ /* Foreign source bytes stay exposed to the strict inner guard. */ }
  }
  source=preBattleLifeSource(path,source);
