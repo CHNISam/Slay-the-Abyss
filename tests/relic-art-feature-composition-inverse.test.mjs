@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import {createHash} from 'node:crypto';
 import {relicArtFeatureComposition as proof,preRelicArtFeatureCompositionSource as project} from './helpers/relic-art-feature-composition.mjs';
 import {artFeatureSourceLayer,preArtFeatureSource} from './helpers/art-feature-source-inverse.mjs';
 import {requireRelicCompletionSource,preRelicCompletionSource,relicCompletionInverse} from './helpers/relic-completion-inverse.mjs';
 const path='scripts/verify-launch-content.mjs';
-const current=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const current=preIntegrationSource(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 test('single-path art-feature/relic composition restores both complete Git-locked identities and frozen witnesses',()=>{
  for(const [target,{files}]of Object.entries(proof.targets)){
