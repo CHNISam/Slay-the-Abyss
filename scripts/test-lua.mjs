@@ -71,8 +71,9 @@ export function shardLuaScripts(scripts, value, timings = runtimeTimings, worker
   }
   if (!Array.isArray(scripts) || scripts.some(script => typeof script !== 'string' || !script)
       || new Set(scripts).size !== scripts.length) throw new Error('Lua fixtures must be unique nonempty paths');
-  const weight = script => timings.lua?.[script] ?? timings.unknownLuaMs;
-  if (scripts.some(script => !Number.isFinite(weight(script)) || weight(script) <= 0)) {
+  const safetyWeight = script => timings.lua?.[script] ?? timings.unknownLuaMs;
+  const weight = script => timings.luaShard?.[script] ?? safetyWeight(script);
+  if (scripts.some(script => [weight(script), safetyWeight(script)].some(value => !Number.isFinite(value) || value <= 0))) {
     throw new Error('Lua scheduling weights must be positive finite milliseconds');
   }
   // Balance against the exact weighted JS plan preceding the raw Lua suite.
@@ -82,7 +83,10 @@ export function shardLuaScripts(scripts, value, timings = runtimeTimings, worker
   if (initial?.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');
   // An exclusive fixture occupies both potential worker slots. Balance its
   // full cost, while short fixtures retain the benefit of the two-worker pool.
-  const weights = Object.fromEntries(scripts.map(script => [script, luaSchedulingWeight(weight(script), workers)]));
+  // Calibration changes placement, never the worker pool's deadline safety
+  // classification. A measured short fixture must not unlock old exclusives.
+  const weights = Object.fromEntries(scripts.map(script => [script,
+    weight(script) * luaSchedulingWeight(safetyWeight(script), workers) / safetyWeight(script)]));
   return partition(scripts, value, weights, luaSchedulingWeight(timings.unknownLuaMs, workers), initial?.map(load => load * workers)).files;
 }
 

@@ -2,6 +2,7 @@ import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
 // Exact outer replay adapter for this presentation-only slice. Live tests load
 // current production modules; original historical witnesses stay immutable.
 import assert from 'node:assert/strict';
+import {preCiLuaCalibrationSource} from './ci-lua-calibration-inverse.mjs';
 import {existsSync, readFileSync, rmSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -24,6 +25,7 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
 
 export function preBattleLifeSource(path, source) {
   source = preNativeEnemyThemeSource(path, source);
+  source = preCiLuaCalibrationSource(path, source);
   const binding = battleLifeSourceLayer.files[path];
   if (!binding || typeof source !== 'string') return source;
   const normalized = normalize(source);
