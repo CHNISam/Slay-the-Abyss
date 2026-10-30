@@ -1,6 +1,6 @@
 # 已有两张卡图接入本地正常打包
 
-2026-10-30：按 Owner“已有成果先用起来，自己本地打包”指令，正常入口已默认启用已离线审阅的 `cleave`（压制斩）和 `heavy_blade`（蓄力）原生精修图：
+2026-10-30：按 Owner“已有成果先用起来，自己本地打包”指令，正常入口已默认启用已离线审阅的 `cleave`（星陨剑）和 `heavy_blade`（重剑斩）原生精修图：
 
 ```powershell
 npm run build:native -- <base.gil> <new-output-directory>
