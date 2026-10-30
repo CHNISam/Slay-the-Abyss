@@ -1,4 +1,4 @@
-import {materializeBeforeM3EventDelivery} from './m3-event-delivery-source-inverse.mjs';
+import {materializeBeforeDelivery} from './delivery-source-composition.mjs';
 import {pathToFileURL} from 'node:url';
 import { after } from 'node:test';
 import { readFileSync, cpSync, mkdtempSync, rmSync, symlinkSync, existsSync, writeFileSync } from 'node:fs';
@@ -15,7 +15,7 @@ export function launchBaselineFixture() {
     cpSync(directory, join(root, directory), { recursive: true });
   for (const directory of ['tests', 'docs', 'node_modules'])
     symlinkSync(resolve(directory), join(root, directory), 'junction');
-  materializeBeforeM3EventDelivery(root);
+  materializeBeforeDelivery(root);
   const validatorPath=join(root,'scripts/verify-launch-content.mjs');
   const validatorSource=readFileSync(validatorPath,'utf8');
   for (const path of Object.keys(relicCompletionInverse.files)

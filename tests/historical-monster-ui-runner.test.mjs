@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import childProcess from 'node:child_process';
 import {syncBuiltinESMExports} from 'node:module';
 import {historicalMonsterUiFixtures,runHistoricalMonsterUi,historicalMonsterLuaArgs} from './helpers/historical-monster-ui-runner.mjs';
-import {verifiedHistoricalMonsterSources} from './helpers/historical-monster-ui-materialize.mjs';
+import {verifiedHistoricalMonsterSources,historicalMonsterSourcePaths} from './helpers/historical-monster-ui-materialize.mjs';
 import {multiMonsterSourceLayer} from './helpers/multi-monster-art-source-inverse.mjs';
 const helperPaths=['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua'];
 test('only twelve exact frozen fixtures and the two-capture differential are historical',()=>{
@@ -18,7 +18,7 @@ test('only twelve exact frozen fixtures and the two-capture differential are his
  assert.throws(()=>runHistoricalMonsterUi(historicalMonsterUiFixtures[0],{caseName:'skip others'}),/complete frozen/);
 });
 test('full current inverse and both historical helper closures reject every foreign edit',()=>{
- const paths=[...Object.keys(multiMonsterSourceLayer.files),...helperPaths];
+ const paths=[...historicalMonsterSourcePaths,...helperPaths];
  const current=new Map(paths.map(p=>[p,readFileSync(p,'utf8')]));
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p)).length,paths.length);
  for(const dirty of paths)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>current.get(p)+(p===dirty?'\n-- foreign source drift\n':'')),/unreviewed current/);

@@ -1,3 +1,4 @@
+import {preLegacyM3Source} from './helpers/delivery-source-composition.mjs';
 import {preRelicRound2CompositionSource} from './helpers/relic-round2-composition.mjs';
 import {preRelicArtCompositionSource} from './helpers/relic-art-composition.mjs';
 import {preRelicArtFeatureCompositionSource} from './helpers/relic-art-feature-composition.mjs';
@@ -9,7 +10,7 @@ import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {m3EventDeliveryProof as proof,m3EventAddedPaths,preM3EventDeliverySource as prior,requireM3EventDeliverySource as requireSource,materializeBeforeM3EventDelivery as materialize} from './helpers/m3-event-delivery-source-inverse.mjs';
 import {preRelicRound3CompositionSource} from './helpers/relic-round3-composition.mjs';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preLegacyM3Source(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
 const put=(root,p,s)=>{mkdirSync(dirname(join(root,p)),{recursive:true});writeFileSync(join(root,p),s);};
 const hash=s=>s===null?null:createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('all 62 current inputs reconstruct exact accepted Git base with forward and blob checks',()=>{

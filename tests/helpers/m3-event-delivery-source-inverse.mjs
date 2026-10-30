@@ -1,3 +1,4 @@
+import {preLegacyM3Source} from './delivery-source-composition.mjs';
 // Exact test-only c3cb94c8 -> 1fcd replay. Current feature tests load live code.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -32,6 +33,7 @@ for(const [path,b]of Object.entries(proof.files)){
 export const m3EventAddedPaths=Object.freeze(Object.keys(proof.files).filter(p=>proof.files[p].beforeSha256===null));
 const defaultRead=p=>readFileSync(p,'utf8');
 function requireBytes(path,source){
+ source=preLegacyM3Source(path,source);
  const b=proof.files[path];assert.ok(b,'registered M3 event source: '+path);
  assert.equal(typeof source,'string','missing M3 event source: '+path);
  const s=normalize(source);assert.equal(hash(s),b.afterSha256,'unreviewed M3 event source: '+path);
@@ -41,6 +43,7 @@ function requireLinked(readSource){
  for(const p of m3EventAddedPaths){let s;try{s=readSource(p);}catch{assert.fail('missing M3 event linked source: '+p);}requireBytes(p,s);}
 }
 export function preM3EventDeliverySource(path,source,{readSource=defaultRead}={}){
+ source=preLegacyM3Source(path,source,{readSource});
  const b=proof.files[path];if(!b||typeof source!=='string')return source;
  const normalized=normalize(source);if(hash(normalized)!==b.afterSha256)return source;
  // Never memoize this live read, including when an outer pure projection caches.
@@ -64,7 +67,8 @@ export function requireM3EventDeliverySource(path,source,options){requireBytes(p
 export function materializeBeforeM3EventDelivery(directory,{sourceRoot=process.cwd()}={}){
  const destination=realpathSync(directory),live=realpathSync(sourceRoot);
  assert.notEqual(destination,live,'M3 replay requires separate historical destination');
- const readSource=p=>readFileSync(join(sourceRoot,p),'utf8');
+ const rawRead=p=>readFileSync(join(sourceRoot,p),'utf8');
+ const readSource=p=>preLegacyM3Source(p,rawRead(p),{readSource:rawRead});
  // Validate all live inputs and all targets before any mutation.
  for(const p of Object.keys(proof.files))requireBytes(p,readSource(p));
  const outputs=[];
@@ -73,7 +77,7 @@ export function materializeBeforeM3EventDelivery(directory,{sourceRoot=process.c
   const actual=realpathSync(target),within=relative(destination,actual);
   assert.ok(within&&!within.startsWith('..')&&!isAbsolute(within),'M3 destination stays inside copy');
   assert.notEqual(actual,realpathSync(join(sourceRoot,p)),'M3 destination cannot alias live source');
-  const source=readFileSync(target,'utf8'),digest=hash(normalize(source));
+  const source=preLegacyM3Source(p,readFileSync(target,'utf8'),{readSource:rawRead}),digest=hash(normalize(source));
   assert.ok(digest===b.afterSha256||digest===b.beforeSha256,'unreviewed M3 destination: '+p);
   if(digest===b.afterSha256)outputs.push([target,preM3EventDeliverySource(p,source,{readSource})]);
  }

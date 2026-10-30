@@ -1,3 +1,4 @@
+import {preLegacyMultiSource} from './delivery-source-composition.mjs';
 import {architectureSourceFormat} from './architecture-source-format.mjs';
 // Exact test-only outer projection. Foreign/partial input never acquires permission.
 import assert from 'node:assert/strict';
@@ -15,7 +16,8 @@ for(const entry of Object.values(multiMonsterSourceLayer.files)){
  if(entry.beforeSha256===null)assert.equal(entry.beforeSource,null);
  else assert.equal(hash(entry.beforeSource),entry.beforeSha256);
 }
-export function preMultiMonsterArtSource(path,source){
+export function preMultiMonsterArtSource(path,source,options){
+ source=preLegacyMultiSource(path,source,options);
  const entry=multiMonsterSourceLayer.files[path];
  if(!entry||typeof source!=='string')return source;
  let current=normalize(source);
@@ -35,7 +37,7 @@ export function prepareMultiMonsterRetirement(directory,{sourceRoot=process.cwd(
  const targets=[];
  for(const path of multiMonsterAddedPaths){
   const target=join(directory,path);if(!existsSync(target))continue;
-  assert.equal(hash(normalize(readFileSync(target,'utf8'))),multiMonsterSourceLayer.files[path].afterSha256,'unreviewed multi-monster module: '+path);
+  assert.equal(hash(normalize(preLegacyMultiSource(path,readFileSync(target,'utf8'),{readSource:p=>readFileSync(join(sourceRoot,p),'utf8')}))),multiMonsterSourceLayer.files[path].afterSha256,'unreviewed multi-monster module: '+path);
   targets.push(target);
  }
  return ()=>{for(const target of targets)rmSync(target);};

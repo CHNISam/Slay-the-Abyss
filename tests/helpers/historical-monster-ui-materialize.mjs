@@ -1,3 +1,4 @@
+import {deliverySourceProof,preLegacyMultiSource,preLegacyUiSupportSource} from './delivery-source-composition.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,rmSync,mkdirSync,cpSync,symlinkSync,existsSync,constants} from 'node:fs';
 import {join,dirname,resolve} from 'node:path';
@@ -10,20 +11,23 @@ assert.equal(hash(bytes),'f536f06de7bea3052a7303db34ec37cc68b631704f337ae3efba2d
 const support=JSON.parse(bytes);
 assert.equal(support.baseCommit,multiMonsterSourceLayer.baseCommit);
 assert.deepEqual(Object.keys(support.files),['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua']);
+export const historicalMonsterSourcePaths=Object.freeze([...new Set([...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)])].sort());
 export function verifiedHistoricalMonsterSources(sourceRoot=process.cwd(),read=path=>readFileSync(join(sourceRoot,path),'utf8')){
  const projected=[];
- for(const [path,entry]of Object.entries(multiMonsterSourceLayer.files)){
-  const live=normalized(read(path));
-  assert.equal(hash(live),entry.afterSha256,'unreviewed current monster UI source: '+path);
-  const before=preMultiMonsterArtSource(path,live);
-  assert.equal(before,entry.beforeSource,'exact multi-monster inverse: '+path);
-  projected.push([path,before]);
- }
- for(const [path,entry]of Object.entries(support.files)){
-  assert.equal(hash(normalized(read(path))),entry.afterSha256,'unreviewed current historical helper: '+path);
-  assert.equal(hash(entry.beforeSource),entry.beforeSha256,'exact historical helper source: '+path);
-  projected.push([path,entry.beforeSource]);
- }
+ try{
+  for(const path of historicalMonsterSourcePaths){
+   const live=normalized(read(path)),outer=deliverySourceProof.targets.legacyMulti.files[path];
+   if(outer)assert.equal(hash(live),outer.afterSha256,'unreviewed current monster source: '+path);
+   const prior=preLegacyMultiSource(path,live,{readSource:read}),entry=multiMonsterSourceLayer.files[path];
+   if(entry){assert.equal(hash(prior),entry.afterSha256,'unreviewed current monster UI source: '+path);const before=preMultiMonsterArtSource(path,prior,{readSource:read});assert.equal(before,entry.beforeSource);projected.push([path,before]);}
+   else projected.push([path,prior]);
+  }
+  for(const [path,entry]of Object.entries(support.files)){
+   const source=preLegacyUiSupportSource(path,read(path),{readSource:read});
+   assert.equal(hash(normalized(source)),entry.afterSha256,'unreviewed current historical helper: '+path);
+   assert.equal(hash(entry.beforeSource),entry.beforeSha256,'exact historical helper source: '+path);projected.push([path,entry.beforeSource]);
+  }
+ }catch(error){assert.fail('unreviewed current historical monster closure: '+error.message);}
  return projected;
 }
 export function materializeHistoricalMonsterUi(directory,sourceRoot=process.cwd()){

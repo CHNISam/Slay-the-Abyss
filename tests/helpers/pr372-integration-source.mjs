@@ -1,4 +1,5 @@
 import {preDeckBrowseSource} from './deck-browse-source-inverse.mjs';
+import {preAcceptedDevelopSource} from './delivery-source-composition.mjs';
 // Exact test-only projection of the reviewed combined slice. Runtime never imports this.
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync,rmSync} from 'node:fs';
@@ -9,14 +10,16 @@ const bytes=readFileSync(new URL('../fixtures/pr372-integration-sources.json',im
 assert.equal(hash(bytes),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112b4c9e00995','complete combined source identity');
 export const integrationSources=JSON.parse(bytes).sources;
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
+ source=preAcceptedDevelopSource(path,source,{readSource});
  source=preDeckBrowseSource(path,source);
+ source=preAcceptedDevelopSource(path,source,{readSource});
  const binding=integrationSources[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=source.replaceAll('\r\n','\n');
  if(hash(normalized)!==binding.sha256||!Object.hasOwn(binding.targets,target))return source;
  for(const [linked,b] of Object.entries(integrationSources)){
   if(linked.startsWith('src/lua/')&&b.targets.base?.absent===true){
-   const current=readSource(linked).replaceAll('\r\n','\n');
+   const current=preAcceptedDevelopSource(linked,readSource(linked),{readSource}).replaceAll('\r\n','\n');
    assert.equal(hash(current),b.sha256,'unreviewed combined linked module: '+linked);
   }
  }
@@ -37,7 +40,7 @@ export function prepareIntegrationRetirement(directory,{sourceRoot=process.cwd()
  for(const [path,b] of Object.entries(integrationSources)){
   if(!path.startsWith('src/lua/')||b.targets.base?.absent!==true)continue;
   const target=join(directory,path);if(!existsSync(target))continue;
-  assert.equal(hash(readFileSync(target,'utf8').replaceAll('\r\n','\n')),b.sha256,'unreviewed integration module: '+path);targets.push(target);
+  assert.equal(hash(preAcceptedDevelopSource(path,readFileSync(target,'utf8'),{readSource:p=>readFileSync(join(sourceRoot,p),'utf8')}).replaceAll('\r\n','\n')),b.sha256,'unreviewed integration module: '+path);targets.push(target);
  }
  return ()=>{for(const target of targets)if(existsSync(target))rmSync(target);};
 }
