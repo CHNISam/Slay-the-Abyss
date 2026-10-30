@@ -2,6 +2,7 @@
 -- Source rooms use independent STS aiRng; explicit fixtures retain the LCG adapter.
 local M = {}
 local R=require('abyss_enemy_random')
+
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do if intent.id == id then enemy.intentIndex = i; return end end
     error("unknown Looter intent: " .. tostring(id))

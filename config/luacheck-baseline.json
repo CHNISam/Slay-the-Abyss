@@ -139,7 +139,7 @@
     },
     {
       "file": "src/lua/abyss_looter_ai.lua",
-      "line": 39,
+      "line": 40,
       "column": 24,
       "code": "W212",
       "message": "unused argument 'state'"
