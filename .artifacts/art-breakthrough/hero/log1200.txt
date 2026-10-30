@@ -1,0 +1,13 @@
+2026-10-30 23:28:39,120 INFO shaper_core fill_process start image=341x512 mode=fill png_mode=True transparent_src=True num_primitives=1200 detail_scale=1.0 allowed_shapes=['triangle']
+2026-10-30 23:28:39,137 INFO primitive_backend primitive_fit start image=341x512 work=341x512 output_size=512 detail_scale=1.000 num_primitives=1200 shapes=['triangle'] workers=8 cpu_count=8 transparent=True exe=/workspace/tools/primitive-shape/build/bin/primitive
+2026-10-30 23:33:09,603 INFO primitive_backend primitive_fit subprocess_done elapsed=270.461s
+2026-10-30 23:33:10,241 INFO primitive_backend primitive_fit done elapsed=271.120s results=1200 bbox=330x436 fit_size=512
+2026-10-30 23:33:10,260 INFO shaper_core fill_process done elapsed=271.144s elements=1200 fit_variant=png mask_bbox=341x478 preview=341x512
+Generated Lua: /workspace/sta-art/.artifacts/art-breakthrough/hero/tri1200.lua
+Mode: fill
+Elements: 1200
+Elapsed: 271.14s
+
+real	4m31.483s
+user	2m10.758s
+sys	0m0.764s
