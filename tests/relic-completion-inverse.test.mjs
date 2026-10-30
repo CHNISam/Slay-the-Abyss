@@ -1,3 +1,4 @@
+import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {preRelicRound2CompositionSource} from './helpers/relic-round2-composition.mjs';
@@ -12,7 +13,11 @@ import {relicCompletionInverse as proof,relicCompletionAddedPaths,requireRelicCo
  tryRelicCompletionSource,preRelicCompletionSource,prepareRelicCompletionModuleRetirement,
  materializeBeforeRelicCompletionSources} from './helpers/relic-completion-inverse.mjs';
 const hash=s=>s===null?null:createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
-const read=path=>preNativeEnemyThemeSource(path,preRelicRound2CompositionSource(path,readFileSync(path,'utf8'),'relic')).replaceAll('\r\n','\n');
+const read=path=>{
+ const source=readFileSync(path,'utf8');
+ // New outer-only modules remain actual production inputs for unregistered-source negatives.
+ return preNativeEnemyThemeSource(path,preRelicRound2CompositionSource(path,preNativeMonsterArtSource(path,source)??source,'relic')).replaceAll('\r\n','\n');
+};
 test('complete relic source identities recover exact ce62 sources solely from positioned hunks',()=>{
  assert.ok(Object.keys(proof.files).length>40);
  for(const [path,binding]of Object.entries(proof.files)){
@@ -49,7 +54,7 @@ test('every unregistered production Lua source and arbitrary paths reject rather
  let count=0;
  for(const name of readdirSync('src/lua')){
   const path='src/lua/'+name;if(!name.endsWith('.lua')||proof.files[path])continue;
-  const mutant=read(path)+'\n-- unexpected future source\n';count++;
+  const mutant=readFileSync(path,'utf8')+'\n-- unexpected future source\n';count++;
   assert.throws(()=>requireRelicCompletionSource(path,mutant),/unregistered relic completion source/);
   assert.equal(tryRelicCompletionSource(path,mutant),undefined);
   assert.equal(preRelicCompletionSource(path,mutant),mutant);
@@ -88,7 +93,7 @@ test('historical materialization restores every existing source before old build
 
 test('current relic feature fixtures and production modules never use historical source projection',()=>{
  for(const name of readdirSync('src/lua').filter(name=>name.endsWith('.lua')))
-  assert.doesNotMatch(read('src/lua/'+name),/relic-completion-inverse|preRelicCompletionSource/);
+  assert.doesNotMatch(readFileSync('src/lua/'+name,'utf8'),/relic-completion-inverse|preRelicCompletionSource/);
  for(const path of ['tests/lua/shop_relics_effects.lua','tests/lua/shop_relics_acquisition.lua',
   'tests/lua/shop_relics_pending_ui.lua','tests/lua/boss_relics_missing.lua',
   'tests/lua/uncommon_relics_effects.lua','tests/lua/rare_relics_hooks.lua']){

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "identity": "hydro-abyss-mage",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "ffa2b76a7b6e2770d741c65ca5792efe91d77ed3b6e9d98c516fe06b44af7806",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "aea940d7ef03c915235ffd9b925d61bb75e981f37390f61731a85087d8e57af7",
+      "bytes": 1939,
+      "textUnmodified": true
+    },
+    "prompt-repair.txt": {
+      "sha256": "363934a2e4014fcbb592c157a201e69c4dcff8c29de39cca870b5dbc846dd7d2",
+      "bytes": 963,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "schemaVersion": 1,
+    "identity": "Hydro Abyss Mage",
+    "status": "private source-preparation candidate; parent independent review pending",
+    "tool": "built-in image_gen.imagegen",
+    "dateUtc": "2026-10-30",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "sourceDimensions": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "alphaBBox": [
+      0,
+      0,
+      1226,
+      1232
+    ],
+    "alphaGreater16BBox": [
+      140,
+      186,
+      1118,
+      1142
+    ],
+    "alphaGreater128BBox": [
+      141,
+      187,
+      1117,
+      1141
+    ],
+    "rawSourceUnaltered": true,
+    "selectedRaw": "source-repair-raw.png",
+    "calls": 2,
+    "prompts": {
+      "initial": "prompt.txt",
+      "targetedRepair": "prompt-repair.txt"
+    },
+    "references": [
+      {
+        "file": "official-candidate-reference.jpg",
+        "pageUrl": "https://www.hoyolab.com/article/8733528",
+        "imageUrl": "https://upload-os-bbs.hoyolab.com/upload/2022/09/10/248396054/69311742de47427829869a993ed5862e_8948885400798504655.jpg",
+        "sha256": "6b8e9f97cb9f4c4a7355d7431d550199dea08d77874bc5e6f1fadbb91f310f9d",
+        "role": "identity / actual game fullbody, visually inspected; exclude shield/background"
+      },
+      {
+        "file": "identity-reference.png",
+        "pageUrl": "https://genshinfans.com/blogs/news/genshi-abyss-mage",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0747/5317/9944/files/Genshin_Impact_Hydro_Abyss_Mage.png?v=1745307812",
+        "sha256": "dbe1d44a108481e6896d1ec45ae900c24f0aa931358a81eec9f61e07d175c582",
+        "role": "identity / actual game fullbody, visually inspected; exclude shield/background"
+      },
+      {
+        "file": "genshin-monster-mapping-20261030/pyro-abyss-mage-sample.png",
+        "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+        "role": "our approved Pyro source painterly style only; not identity, colors, costume, face or staff"
+      }
+    ],
+    "approvals": {
+      "owner": false,
+      "native": false,
+      "runtime": false,
+      "device": false
+    },
+    "runtimeBinding": "none",
+    "previewRecipe": "Full original canvas contain, no trim/crop/stretch, LANCZOS at 106/127; 4x previews NEAREST magnification. No native-AA or performance claim.",
+    "reviewNotes": [
+      "Full meaningful figure and complete staff visible; no shield/floor/particles/text.",
+      "Distinct correct Hydro white mask versus Cryo dark face; not a Pyro color flip.",
+      "Free hand extends screen-right although face/pose angled left; parent decide if directional revision needed.",
+      "Collar has more small planes than ideal 600-shape target; native conversion readability remains untested.",
+      "Low-alpha edge specks/padding not cleaned in raw sources; future native adapter applies inset.",
+      "One targeted padding repair before parent instruction to stop padding-only repairs. Initial raw preserved. No further generator calls."
+    ],
+    "rights": "Genshin character identities and references retain original rights. AI-assisted derivative study; no clearance or source-reference redistribution authority claimed.",
+    "files": {
+      "preview-contain-106.png": {
+        "bytes": 12470,
+        "sha256": "3f13de72c70d327ad64b86aaf3b7855f18b0d0a0594538c0a3ac61f028abccdb"
+      },
+      "preview-contain-127.png": {
+        "bytes": 16624,
+        "sha256": "bcfcaf5fd6fde925d3ea90254a5bb0aa6d52c0142d2f8f9b72a24f2072c23777"
+      },
+      "prompt-repair.txt": {
+        "bytes": 963,
+        "sha256": "363934a2e4014fcbb592c157a201e69c4dcff8c29de39cca870b5dbc846dd7d2"
+      },
+      "prompt.txt": {
+        "bytes": 1939,
+        "sha256": "aea940d7ef03c915235ffd9b925d61bb75e981f37390f61731a85087d8e57af7"
+      },
+      "preview-contain-106-4x.png": {
+        "bytes": 19430,
+        "sha256": "55676a04f7a73a74cff093323af562612c2090f9b677d9e090a2a3e5041c8db1"
+      },
+      "preview-contain-127-4x.png": {
+        "bytes": 25895,
+        "sha256": "ddb451f483996cd7c883e9b1be924d51f0acf6d9fe8388469223c341e32349ef"
+      },
+      "source.png": {
+        "bytes": 829429,
+        "sha256": "c292f0e6d201029fbd1ae33f147c7096864af155ada5201ec4808fa7eb4f3ffe"
+      },
+      "source-repair-raw.png": {
+        "bytes": 829429,
+        "sha256": "c292f0e6d201029fbd1ae33f147c7096864af155ada5201ec4808fa7eb4f3ffe"
+      },
+      "identity-reference.png": {
+        "bytes": 254411,
+        "sha256": "dbe1d44a108481e6896d1ec45ae900c24f0aa931358a81eec9f61e07d175c582"
+      },
+      "source-first-raw.png": {
+        "bytes": 1062341,
+        "sha256": "abf254e7587f280921096b68129062867c7ffd80e122460261214aa698edee30"
+      },
+      "REJECTED-mislabeled-iniquitous-baptist.png": {
+        "bytes": 2509306,
+        "sha256": "41c61b6ea0e5d0237143f3529d2090a92ecb915aa25d356caa40aa4ea30c99ca"
+      },
+      "official-candidate-reference.jpg": {
+        "bytes": 45816,
+        "sha256": "6b8e9f97cb9f4c4a7355d7431d550199dea08d77874bc5e6f1fadbb91f310f9d"
+      }
+    },
+    "exactPromptContent": "Use case: stylized-concept. Asset type: one full-body game enemy source drawing for a later native-shape adapter, not runtime delivery.\nCreate Genshin Impact's HYDRO ABYSS MAGE, faithfully recognizable from identity references 1 and 2. Image 1 (HoYoLAB in-game full body) and image 2 (clear game-render cutout) supply identity ONLY: small floating nonhuman body, long dark navy rabbit-ear hood projections, distinctive WHITE ivory bird-skull mask with TWO DARK oval eye sockets and tapered beak point, thick layered dark cobalt/navy fluffy collar, navy robe with broad pale blue/ivory scrollwork panels and geometric trims, small dark gloves/legs/boots, and slim twisted blue staff with characteristic open curled cage/water-droplet head. The Hydro face is NOT a black face with glowing eyes. Image 3 (our red Pyro Mage drawing) supplies painterly finish and broad material-plane style ONLY, NOT face, colors, staff, costume or pose.\nMake a NEW compact left-facing three-quarter hovering battle pose: staff clearly held on left, free gloved hand opens toward left, two short dangling legs readable, not copying reference pose. Keep Hydro's real hood/mask/collar/robe/staff identity, not a Pyro recolor or generic wizard. Mature hand-painted game illustration, broad smooth readable 3-4 value masses per material, modest collar facets and large robe patterns, not tiny ornamental filigree, not low-poly triangulation. Designed to read at 106px and 127px full contain and later approximately600 native shapes. Identity above invention. Full figure AND entire staff inside a square canvas with 7-8 percent clear transparent padding on EVERY side. Center balanced silhouette. Genuine transparent alpha background. No shield bubble, magic effects, particles, splash, aura, floor, cast shadow, scenery, text, UI, watermark, frame, extra characters or props. Do not retain any reference background. Source art only; no runtime or approval claim.\n",
+    "exactRepairPromptContent": "Use case: precise-object-edit. This image is our game enemy drawing. Make ONLY a framing/padding correction: keep the exact same character identity, costume, mask/eyes, elemental staff design, palette, painterly material planes and overall pose. Uniformly reduce the COMPLETE character plus COMPLETE staff so the whole subject occupies at most 82% of canvas width and at most 82% of canvas height, centered within the same square output. Keep at least 8% completely empty alpha=0 padding at all four edges. Nothing may touch or cross this padding, including antialiasing, glow, loose specks, dust, or stray pixels. Remove all isolated blue/cyan floating specks around silhouette; keep clean antialiased character edges. Preserve genuine transparent background and all connected body parts; no new elements, no floor, no shield, no FX, no text. Do not redesign or add detail. Return only the complete centered transparent character cutout with clear safe padding.\n",
+    "rejectedSearchResult": {
+      "file": "REJECTED-mislabeled-iniquitous-baptist.png",
+      "sha256": "41c61b6ea0e5d0237143f3529d2090a92ecb915aa25d356caa40aa4ea30c99ca",
+      "pageUrl": "https://wiki.hoyolab.com/pc/genshin/entry/4571?lang=ja-jp",
+      "imageUrl": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2024/04/06/94675339/bc682cfd27e64841950f385775d4038e_6264640664627497011.png",
+      "reason": "Actual viewed pixels are Iniquitous Baptist, not Hydro Abyss Mage. Misleading image search caption excluded; never supplied to generation."
+    }
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

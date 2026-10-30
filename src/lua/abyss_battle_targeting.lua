@@ -13,7 +13,7 @@ function M.install(owner, _ownership, _host, dependencies)
         return EnemyView.position(count, i, enemy)
     end
     local function enemyPosition(battle,index)
-        local entry,slot,count=EnemyView.find(battle,index,owner.busy and battle==owner.displayBattle and owner.feedback or nil)
+        local entry,slot,count=EnemyView.find(battle,index,battle==owner.displayBattle and owner.feedback or nil)
         assert(entry,'enemy has no visible presentation slot')
         return enemySlot(count,slot,entry.actor)
     end
@@ -37,14 +37,12 @@ function M.install(owner, _ownership, _host, dependencies)
         local ok, reason = Combat.canPlay(battle,g.uid,nil)
         if not ok and reason ~= "invalid_target" then return false end
         local hovered
-        local rows = EnemyView.slots(battle)
-        local count = #rows
-        for i, entry in ipairs(rows) do
+        local rows = EnemyView.slots(battle,owner.feedback)
+        for _, entry in ipairs(rows) do
             local enemy = entry.actor
-            local x, _, portrait, step, y = enemySlot(count,i,enemy)
-            local reach = math.min(D.targetColumn,count > 1 and step or D.targetColumn)/2
-            if math.abs(g.x-x) <= math.min(reach,portrait/2+D.reticlePad)
-                and math.abs(g.y-y) <= portrait/2+D.reticlePad
+            local geometry=EnemyView.geometry(enemy)
+            if math.abs(g.x-geometry.hitX)<=geometry.hitWidth/2
+                and math.abs(g.y-geometry.hitY)<=geometry.hitHeight/2
                 and Actors.isActive(enemy) then
                 hovered = entry.index; break
             end
@@ -57,12 +55,11 @@ function M.install(owner, _ownership, _host, dependencies)
     local function potionDragTarget(aim)
         if not dependencies.aimReady(aim) or not aim.x or not aim.y then return false,nil,true end
         if math.abs(aim.x)>Theme.canvas.base[1]/2 or math.abs(aim.y)>Theme.canvas.base[2]/2 then return false,nil,true end
-        local rows=EnemyView.slots(aim.battle)
-        for i,entry in ipairs(rows)do
-            local x,_,portrait,step,y=enemySlot(#rows,i,entry.actor)
-            local reach=math.min(D.targetColumn,#rows>1 and step or D.targetColumn)/2
-            if Actors.isActive(entry.actor) and math.abs(aim.x-x)<=math.min(reach,portrait/2+D.reticlePad)
-                and math.abs(aim.y-y)<=portrait/2+D.reticlePad then
+        local rows=EnemyView.slots(aim.battle,owner.feedback)
+        for _,entry in ipairs(rows)do
+            local geometry=EnemyView.geometry(entry.actor)
+            if Actors.isActive(entry.actor) and math.abs(aim.x-geometry.hitX)<=geometry.hitWidth/2
+                and math.abs(aim.y-geometry.hitY)<=geometry.hitHeight/2 then
                 return true,entry.index,true
             end
         end

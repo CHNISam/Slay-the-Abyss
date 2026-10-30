@@ -1,4 +1,22 @@
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
+local Surfaces=require('abyss_monster_surfaces')
+local function actorBox(panel,battle,index)
+    local box,slot,entry=Surfaces.get(panel):find(assert(battle.enemies[index]).id)
+    assert(box,'actor surface missing')
+    return box,slot,entry
+end
+local function sourceSetup(...)
+    local host,ui,panel,event,tap,drain,openClose,root=H.setup(...)
+    -- Deliberately synthetic encounter constructor offsets, not MonsterHelper
+    -- formation or count-dependent production spacing. Distinguish two targets.
+    local actors=host.run.combat.enemies
+    if #actors==2 then
+        actors[1].sourcePosition={x=-240,y=0}
+        actors[2].sourcePosition={x=80,y=0}
+        host:refresh()
+    end
+    return host,ui,panel,event,tap,drain,openClose,root
+end
 local first,last=...;first,last=first or 1,last or 2
 local Run,Combat=H.Run,H.F.Combat
 local passed,failed,registered=0,0,0
@@ -10,15 +28,16 @@ local function same(a,b,seen)
  for k,v in pairs(a)do same(v,b[k],seen)end;for k in pairs(b)do assert(a[k]~=nil,'preview added rule state')end
 end
 local function setup(id)
- local h,u,p,event,tap,drain=H.setup({'defend','defend'},{'cultist','jaw_worm'})
+ local h,u,p,event,tap,drain=sourceSetup({'defend','defend'},{'cultist','jaw_worm'})
  assert(Run.obtainPotion(h.run,id or 'fire_potion'));h:refresh()
  local function emit(name,kind,touch,x,y)
-  local c=p:GetChild(name)or p:GetChild('potionHelp'):GetChild(name)
+  local index=name:match('^enemy(%d+)$')
+  local c=index and actorBox(p,h.run.combat,tonumber(index))or p:GetChild(name)or p:GetChild('potionHelp'):GetChild(name)
   local hit=c.listeners and c or c:GetChild('hit');local fn=hit.listeners and hit.listeners[kind]
   assert(fn,name..'/'..kind..' listener missing')
   return fn({touchId=touch,GetUIPos=function()return 640+(x or c.x or 0),360+(y or c.y or 0)end})
  end
- local function target(slot)local enemy=p:GetChild('enemy'..slot);return enemy.x,enemy.y end
+ local function target(slot)local enemy=actorBox(p,h.run.combat,slot);return enemy.x,enemy.y end
  local function start(control,touch,slot)
   local c=p:GetChild(control)or p:GetChild('potionHelp'):GetChild(control)
   emit(control,'down',touch,c.x,c.y);local x,y=target(slot or 2);emit(control,'drag',touch,x,y)
@@ -33,9 +52,9 @@ test('target potion drag uses shared aim and pure target-only HP preview then co
  local x,y=start('potion1',7,2)
  assert(u.potionAim and u.potionAim.moving and p:GetChild('dragLayer').visible)
  assert(p:GetChild('dragLayer'):GetChild('aim1').visible)
- assert(p:GetChild('enemy2'):GetChild('damagePreview').text=='−20')
- assert(not p:GetChild('enemy1'):GetChild('damagePreview').visible)
- assert(not p:GetChild('enemy1'):GetChild('targetH-1_-1').visible)
+ assert(actorBox(p,h.run.combat,2):GetChild('damagePreview').text=='−20')
+ assert(not actorBox(p,h.run.combat,1):GetChild('damagePreview').visible)
+ assert(not actorBox(p,h.run.combat,1):GetChild('targetH-1_-1').visible)
  same(before,h.run)
  assert(u.potionAim.x==(640+x)-640 and u.potionAim.y==(360+y)-360,'shared aim endpoint must retain the actual native pointer')
  assert(b.enemies[1].hp==hp1 and b.enemies[2].hp==hp2 and b.energy==energy and #b.events==events and h.run.potions==inventory)
@@ -85,7 +104,7 @@ test('turn battle and inventory replacement retire old drag releases',function()
 end)
 test('poison aim previews no immediate HP loss and does not apply poison before release',function()
  local h,u,p,e,pos,start,drain=setup('poison_potion');local b=h.run.combat;local hp=b.enemies[2].hp
- local x,y=start('potion1',7,2);assert(not p:GetChild('enemy2'):GetChild('damagePreview').visible)
+ local x,y=start('potion1',7,2);assert(not actorBox(p,h.run.combat,2):GetChild('damagePreview').visible)
  assert((b.enemies[2].statuses.poison or 0)==0 and b.enemies[2].hp==hp)
  e('dragLayer','up',7,x,y);drain();assert(b.enemies[2].statuses.poison==6 and b.enemies[2].hp==hp and h.run.potions[1]==nil)
 end)

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "identity": "treasure-hoarder-pugilist",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "11cbf0279dba6545374afee578316d5d45c8b7893a0ffb60c505c83a29172057",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "c9c43452326ef25813accbf7f8811b2716ac37647d0105daf77cee3a4c8110c5",
+      "bytes": 2016,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "asset": "treasure-hoarder-pugilist",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repairs": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_any": [
+      73,
+      17,
+      1218,
+      1214
+    ],
+    "alpha_bbox_128": [
+      193,
+      73,
+      1092,
+      1207
+    ],
+    "alpha_zero_pixels": 1144397,
+    "reference_urls": {
+      "page": "https://wiki.hoyolab.com/pc/genshin/entry/2200?lang=en-us",
+      "api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2200",
+      "image": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/09/35428890/b2058431fca479e880a97d3189d70c92_8049027867927658636.png",
+      "sha256": "1c51cb4b33f77d36084aabae52e2cf0beda2bca71761d4e8784705114a0f3400"
+    },
+    "style_references": {
+      "pyro-abyss-mage-sample.png": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40"
+    },
+    "previews": "Unmodified full source canvas aspect-preserving contain inside 86% of 106/127 square with 7% transparent margin; nearest 4x. Source never cropped/edited.",
+    "status": "source candidate only; native conversion pending; no Owner/runtime/device acceptance",
+    "source_sha256": "d4bc1146f0efe5583e61c9290aed1fd41126ef3c08676729b546a430bb020733"
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

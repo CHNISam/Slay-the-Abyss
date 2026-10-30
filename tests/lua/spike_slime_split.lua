@@ -48,7 +48,15 @@ test('split destruction does not trigger death powers or premature victory',func
  local s=battle();local p=ready(s);C.addStatus(p,'spore_cloud',2);s.events={};assert(C.endTurn(s));eq(s.player.statuses.vulnerable or 0,0);eq(C.outcome(s),nil);eq(s.phase,'player');for _,e in ipairs(s.events)do assert(e.kind~='victory')end
 end)
 test('new actors do not rewrite old detached event frames',function()
- local s=battle();local p=ready(s);local prior=s.events[#s.events].frame;local oldid=prior.enemies[1].id;assert(C.endTurn(s));eq(#prior.enemies,1);eq(prior.enemies[1].id,oldid);eq(prior.enemies[1].hp,30);C.addStatus(s.enemies[1],'strength',2);eq(next(prior.enemies[1].statuses),nil)
+ local s=battle();local p=ready(s);local prior=s.events[#s.events].frame
+ local oldid=prior.enemies[1].id;local statuses=C.copy(prior.enemies[1].statuses)
+ -- Original large-slime constructor already owns Split (-1), not an empty list.
+ eq(statuses.split,-1);eq(statuses.strength,nil)
+ assert(C.endTurn(s));eq(#prior.enemies,1);eq(prior.enemies[1].id,oldid);eq(prior.enemies[1].hp,30)
+ C.addStatus(s.enemies[1],'strength',2)
+ eq(prior.enemies[1].statuses.split,-1);eq(prior.enemies[1].statuses.strength,nil)
+ for id,n in pairs(statuses)do eq(prior.enemies[1].statuses[id],n)end
+ for id,n in pairs(prior.enemies[1].statuses)do eq(statuses[id],n)end
 end)
 test('real Run holds rewards until both children die and awards only once',function()
  local r=Run.new(D,42);r.floor=4;assert(Run.startCombat(r,'large_spike'));local s=r.combat;ready(s);local gold,victories=r.gold,r.victories;assert(Run.endTurn(r));eq(r.phase,'combat');eq(r.gold,gold);eq(r.victories,victories)

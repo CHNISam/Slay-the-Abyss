@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "identity": "large-hydro-slime",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "daf1302ee8e30930dc0441a16500ae4d2e08f9707f072d2b4417c7877535afe6",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "4795f1ce3fe8e8598394a56ff86cc11cccf0b54c6a01537b7b3e7c123d4e7b13",
+      "bytes": 1616,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "asset": "large-hydro-slime",
+    "chinese_name": "大型水史莱姆",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repairs": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "aspect_ratio": "1254:1254",
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_any": [
+      0,
+      25,
+      1236,
+      1254
+    ],
+    "alpha_bbox_128": [
+      42,
+      217,
+      1223,
+      1099
+    ],
+    "alpha_zero_pixels": 744860,
+    "alpha_nonzero_pixels": 827656,
+    "reference_urls": {
+      "page": "https://wiki.hoyolab.com/pc/genshin/entry/2128?lang=en-us",
+      "api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2128",
+      "image": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/5ae48c83de4fcd7b724c5306102045de_9096271965912117538.png",
+      "sha256": "8e81e79a0dd5ea9023e8f43f6257a4a9203d829bb35a18c73ea553134f125bd7"
+    },
+    "style_references": [
+      "../../stonehide-lawachurl-sample.png",
+      "../../dendro-slime-sample.png"
+    ],
+    "previews": "Alpha-bbox crop, aspect-preserving contain in 88% of square (6% transparent margin each side), no edit to source. 106,127,173 actual pixels and nearest 4x.",
+    "status": "source candidate only, native conversion pending; no Owner/runtime/device acceptance claim",
+    "style_reference_sha256": {
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "dendro-slime-sample.png": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba"
+    },
+    "raw_source_sha256": "1e188a6409b629dbe20ee19e1508240778e750c2d9d19ac5ff99f62b59d28f2c"
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

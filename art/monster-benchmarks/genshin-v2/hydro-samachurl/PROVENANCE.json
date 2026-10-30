@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "identity": "hydro-samachurl",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/hydro-samachurl/source.png",
+    "sha256": "a1f5f34650582df5eab720967364393e2dba4719c17ae2b7d636c84cbc58c5e7",
+    "bytes": 1441902,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "nativeReview": "Root viewed actual127px4x comparison and accepted recognizable simplified test candidate for staging only",
+  "nativeOwnerAcceptance": false,
+  "method": "manual semantic polygons and native ellipses; no source sampling or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "1fac9bb708ff0b14ee08854d0b5cfc6fe0ce9438a8fe0af92017baa386a6abb2",
+      "bytes": 362440
+    },
+    "native-art.lua": {
+      "sha256": "a784e904d91c0dac573285aba2bf91fbf982ec1729020401ac9779c97d07d7b8",
+      "bytes": 114666
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "d1c5f695fae02efa63e1a4d0bbfee2990d941649370cd1531775f7e41e9f1d68",
+    "generationProvenanceSha256": "ac309588a56d39e4c6dac44c7dd5528d0a0bfcf32f2228e3613fb6467ae4c98c"
+  },
+  "generation": {
+    "asset": "hydro-samachurl",
+    "generation_mode": "built-in image_gen only",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "source_is_unchanged_raw": true,
+    "raw_source_sha256": "a1f5f34650582df5eab720967364393e2dba4719c17ae2b7d636c84cbc58c5e7",
+    "prompt_file": "prompt.txt",
+    "prompt_sha256": "fa7d02e8dfede6cba6d379db49b449bfeab977bfc2b4a23fc8304262522ea821",
+    "reference_files_sha256": {
+      "identity-reference.png": "7e024d157a115ff73669a3850edc0aa5082200c1b576697791368fc4d4b71563"
+    },
+    "style_reference": "../../stonehide-lawachurl-sample.png",
+    "style_reference_sha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+    "model": "unknown; not exposed",
+    "seed": "unknown; not exposed",
+    "status": "Source candidate only; no native conversion/runtime/device/owner acceptance",
+    "references": {
+      "page": "https://wiki.hoyolab.com/pc/genshin/entry/2166?lang=en-us",
+      "images": [
+        "https://wiki.hoyolab.com/img/hoyolab.png"
+      ],
+      "identity_image": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/11/03/36893887/b925a2d2bb76989c0765d4983edac5f0_3789732098596455184.png",
+      "identity_source": "HoYoWiki official-hosted reference, third-party rights; reference only"
+    }
+  },
+  "identityReferenceMetadata": {
+    "page": "https://wiki.hoyolab.com/pc/genshin/entry/2166?lang=en-us",
+    "images": [
+      "https://wiki.hoyolab.com/img/hoyolab.png"
+    ],
+    "identity_image": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/11/03/36893887/b925a2d2bb76989c0765d4983edac5f0_3789732098596455184.png",
+    "identity_source": "HoYoWiki official-hosted reference, third-party rights; reference only"
+  },
+  "rights": "AI-assisted game-IP derivative; no game-IP sublicense, commercial clearance or reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain notices and assess code separately from art."
+}

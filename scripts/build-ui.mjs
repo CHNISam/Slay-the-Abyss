@@ -1,14 +1,14 @@
 import {resolveArtFeatures,artFeatureArgs,writeArtFeatures,artFeatureModule} from './art-features.mjs';
 import {portraitSourceInputs,portraitSources,attachOfficialPortraits,writePortraitModule} from './official-portraits.mjs';
-import {attachReadyCardHosts,readyArtTemplates,writeReadyCardAssets,prepareReadyCardAssets,writeReadyArtBinding,readyArtSourceInputs} from './art/ready-card-runtime.mjs';
+import {attachReadyCardHosts,readyArtTemplates,writeReadyCardAssets,prepareReadyCardAssets,readyArtGroupTemplate,writeReadyArtBinding,readyArtSourceInputs} from './art/ready-card-runtime.mjs';
 import { backgroundInputs, backgroundSources, backgroundModule, attachOfficialBackground, writeBackgroundModule } from './official-background.mjs';
-import {prepareMonsterArt,attachMonsterArt} from './monster-art.mjs';
+import {prepareMonsterArt,attachMonsterArt,monsterActorTemplate,writeMonsterActorBinding} from './monster-art.mjs';
 import { spawnSync } from 'node:child_process';
 import { mkdirSync, existsSync, lstatSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { toLua } from './build-lua-data.mjs';
-import { battleLayout } from './ui-layout.mjs';
+import { battleLayout, enemyPowerTemplate } from './ui-layout.mjs';
 import { gameLayout } from './game-ui-layout.mjs';
 import { withViewport } from './viewport-layout.mjs';
 import { buildUiTheme } from './build-ui-theme.mjs';
@@ -60,7 +60,7 @@ function rejectInputOutputAliases(outputDirectory, extraInputs = []) {
   }
   optionalSources('art');
   const inputs = [...extraInputs,...optionalInputs, ...contentFiles.map(file => resolve('data', `${file}.json`)),
-    resolve('data/presentation/native-monster-art.json'), resolve('data/presentation/ui_theme.json'), resolve('data/presentation/traveler.zh-CN.json'),
+    resolve('data/presentation/ui_theme.json'), ...(existsSync('data/presentation/native-monster-art.json')?[resolve('data/presentation/native-monster-art.json')]:[]), resolve('data/presentation/traveler.zh-CN.json'),
     resolve('data/presentation/narrative.zh-CN.json'),
     // Imported battle/native layout modules read this theme relative to their source.
     fileURLToPath(new URL('../data/presentation/ui_theme.json', import.meta.url)), ...releaseInputPaths()];
@@ -69,7 +69,7 @@ function rejectInputOutputAliases(outputDirectory, extraInputs = []) {
   const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
     'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
     'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json', `${backgroundModule}.lua`,
-    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_monster_art_data.lua',`${artFeatureModule}.lua`,'art-performance.json','art-render-v2.json'];
+    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua',`${artFeatureModule}.lua`,'abyss_monster_art_data.lua','abyss_monster_actor_binding.lua','art-performance.json','art-render-v2.json'];
   for (const file of outputs) {
     const output = join(outputDirectory, file);
     let outputStat, outputRealPath;
@@ -93,14 +93,16 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   // Preflight the entire batch before any generated file can be changed.
   const flags = resolveArtFeatures(options);
   const art = prepareNativeCardArt(options.nativeCardArt?.count===0?undefined:options.nativeCardArt);
-  const monsterArt=prepareMonsterArt(options.monsterArt);
   const readyArt = flags.cards && !art;
   const compact=options.performanceArt===true&&Object.values(flags).some(Boolean);
   const readyAssets = readyArt ? prepareReadyCardAssets({compact}) : {};
   const performance=compact?loadPerformancePack():null;
   if(flags.menuBackground)backgroundSources();
   portraitSources(process.cwd(),flags);
-  rejectInputOutputAliases(outputDirectory, [...(flags.menuBackground?backgroundInputs:[]),...portraitSourceInputs(flags), ...(readyArt?readyArtSourceInputs():[]), ...(monsterArt?.inputPaths??[]), ...(art?.inputPaths??[])].map(path=>resolve(path)));
+  rejectInputOutputAliases(outputDirectory, [...(flags.menuBackground?backgroundInputs:[]),...portraitSourceInputs(flags), ...(readyArt?readyArtSourceInputs():[]), ...(art?.inputPaths??[])].map(path=>resolve(path)));
+  // The optional-art identity scan above also protects grass sources before decoding.
+  const monsterArt=flags.monsters?prepareMonsterArt(options.monsterArt):null;
+  if(flags.monsters&&!monsterArt)throw Error('Enabled monster artwork requires its registry');
   const releaseNotes = loadReleaseNotes({ releaseCandidate: options.releaseCandidate, workKey: options.workKey,
     sourceIdentity: options.sourceIdentity });
   const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8').replace(/^\uFEFF/, ''));
@@ -108,7 +110,9 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const templates = [deckCardTemplate()];
   if(flags.menuBackground)attachOfficialBackground(layout, templates);
   attachOfficialPortraits(layout,flags);
-  if(readyArt||flags.menuBackground||flags.selectionAvatar||flags.battlePortrait)templates.push(...readyArtTemplates());
+  const genericTemplates=readyArtTemplates();
+  templates.push(...(readyArt||flags.menuBackground||flags.selectionAvatar||flags.battlePortrait?genericTemplates:genericTemplates.filter(t=>t.name===readyArtGroupTemplate)),
+    monsterActorTemplate(monsterArt),enemyPowerTemplate());
   if(readyArt){attachReadyCardHosts(battle);attachReadyCardHosts(layout);attachReadyCardHosts(templates[0]);}
   if (art) { attachNativeCardArt(battle,art,{battleOnly:true}); attachNativeCardArt(layout,art); }
   attachMonsterArt(battle,monsterArt);attachMonsterArt(layout,monsterArt);
@@ -124,7 +128,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   if(performance)writeFileSync(join(outputDirectory,'art-performance.json'),JSON.stringify(performance));
   else rmSync(join(outputDirectory,'art-performance.json'),{force:true});
   writeFileSync(join(outputDirectory,'art-render-v2.json'),JSON.stringify({profile:'native-v2',hiddenBuild:true,cache:true,revealGroupsPerFrame:4}));
-  writeArtFeatures(outputDirectory,flags);
+  writeArtFeatures(outputDirectory,flags);writeMonsterActorBinding(outputDirectory);
   writeBackgroundModule(outputDirectory,{enabled:flags.menuBackground});writePortraitModule(outputDirectory,{...flags});
   writeReadyArtBinding(outputDirectory);writeReadyCardAssets(outputDirectory,{prepared:readyAssets});
   buildUiTheme(undefined, undefined, join(outputDirectory, 'abyss_theme.lua'));

@@ -1,5 +1,11 @@
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
+local Surfaces=require('abyss_monster_surfaces')
+local function actorBox(panel,battle,index)
+    local box,slot,entry=Surfaces.get(panel):find(assert(battle.enemies[index]).id)
+    assert(box,'actor surface missing')
+    return box,slot,entry
+end
 local count, failed = 0, 0
 local function test(name, fn)
     count = count + 1
@@ -62,7 +68,7 @@ for _, fast in ipairs({false, true}) do
         local card = battle.hand[cardSlot]
         root:GetChild("battlePanel"):GetChild("card" .. cardSlot):GetChild("hit").click()
         assert(ui.selected == card.uid)
-        root:GetChild("battlePanel"):GetChild("enemy1"):GetChild("hit").click()
+        actorBox(root:GetChild("battlePanel"),battle,1):GetChild("hit").click()
         assert(ui.busy and ui.feedback.busy and ui.feedback.playbackFastMode == fast,
             "perform must synchronize the official setting before beginning feedback")
         local committed = F.Combat.copy(battle)

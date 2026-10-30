@@ -1,0 +1,123 @@
+{
+  "controls": 579,
+  "primitiveCounts": {
+    "ellipse": 8,
+    "triangle": 571
+  },
+  "semanticPlanes": 145,
+  "contain": {
+    "sourceAlphaCropped": false,
+    "aspectRatioPreserved": true,
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "offset": [
+      6.36,
+      6.36
+    ],
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "scale": 0.07438596491228071,
+    "outsideTransparency": true
+  },
+  "serializationClosure": [
+    {
+      "x": 4.943713807392669e-05,
+      "y": 5.088672303088515e-05,
+      "width": 5.0104554224716935e-05,
+      "height": 5.0104554224716935e-05,
+      "rotation": 5.595505470523676e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "thresholdRelaxed": false,
+      "renderer": "pinned actual exporter at stated dimensions"
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "thresholdRelaxed": false,
+      "renderer": "pinned actual exporter at stated dimensions"
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "thresholdRelaxed": false,
+      "renderer": "pinned actual exporter at stated dimensions"
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "thresholdRelaxed": false,
+      "renderer": "pinned actual exporter at stated dimensions"
+    }
+  },
+  "visualReview": {
+    "inspected": [
+      "actual source.png",
+      "actual identity-reference.png",
+      "comparison106px1x",
+      "comparison106px4x",
+      "comparison127px1x",
+      "comparison127px4x"
+    ],
+    "identity": "Recognizable blond-haired bandana-masked Scout in OUR left-facing unarmed extended-hand stance. White short sleeves, connected bare forearms and gloved reaching hand, raised right fist/scarf, diagonal leather harness, waist buckle/pouch, cropped khaki wide-stance trousers and black laced boots retained.",
+    "remainingDifferences": [
+      "Flat angular planes replace painted gradients/material shading",
+      "Facial expression and fingers simplified at small native sizes",
+      "Leather seams, cuff motifs and small folds coarsened",
+      "Hair lock silhouette and source outline shading simplified"
+    ],
+    "rootReview": "pending",
+    "ownerNativeAcceptance": false,
+    "decision": "Simplified source-recognizable private candidate only; technical parity is not visual or platform approval"
+  },
+  "qualityStatus": "SOURCE-RECOGNIZABLE-SIMPLIFIED-CANDIDATE-PENDING-ROOT-REVIEW; strict actual Lua replay PASS; no owner-native/device/performance claim",
+  "independentVerification": {
+    "identity": "treasure-hoarder-scout",
+    "controls": 579,
+    "exactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "allFieldsEqual": true,
+    "actualPinnedRendererParity": {
+      "106": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      },
+      "127": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      }
+    },
+    "sourceHashMatches": true,
+    "galleryImages": 0,
+    "masks": 0
+  },
+  "runtimeWired": false
+}

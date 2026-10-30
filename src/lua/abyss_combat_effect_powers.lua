@@ -45,14 +45,20 @@ function Handlers.removeStatus(c)
         for _,enemy in ipairs(state.enemies) do if enemy.id==effect.targetId then target=enemy;break end end
     end
     if target and target.statuses[effect.status]~=nil then
+        local callbackBefore=#state.events
         if effect.op=='reduceStatus' or effect.op=='reduceFlowPower' then
             local value=target.statuses[effect.status]-effect.value
-            if value>0 then target.statuses[effect.status]=value;return true end
+            if value>0 then
+                target.statuses[effect.status]=value
+                Events.onModifyPower(state,'ReducePowerAction',callbackBefore)
+                return true
+            end
         end
         local removed=target.statuses[effect.status]
         require('abyss_power_schedule').remove(state,target,effect.status)
         target.statuses[effect.status]=nil
         event(state,'status_removed',{source=target.id,target=target.id,status=effect.status,amount=-removed})
+        if Actors.isActive(target)then Events.onModifyPower(state,'RemoveSpecificPowerAction',callbackBefore)end
     end
     return true
 end

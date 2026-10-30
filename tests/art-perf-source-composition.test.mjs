@@ -1,6 +1,7 @@
 import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import {preArtFeatureSource} from './helpers/art-feature-source-inverse.mjs';
 import {preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
+import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {preRelicArtCompositionSource} from './helpers/relic-art-composition.mjs';

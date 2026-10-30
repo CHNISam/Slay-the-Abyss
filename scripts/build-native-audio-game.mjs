@@ -1,4 +1,4 @@
-import {resolveArtFeatures,artFeatureArgs,verifyArtFeatureReceipt} from './art-features.mjs';
+import {resolveArtFeatures,artFeatureArgs,verifyArtFeatureReceipt,artBuildOptionsFromReceipt} from './art-features.mjs';
 // Production audio entrypoint: build every module before enabling native BGM.
 import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -43,6 +43,7 @@ export async function buildNativeAudioGame({ baseMap, output = 'build/native-aud
   // never assume a shared full/candidate.json that could be missing or stale.
   const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey, artFeatures:flags, ...(readyCardArt===false?{readyCardArt:false}:{}), ...(nativeCardArt ? {nativeCardArt} : {}) });
   const fullFlags=verifyArtFeatureReceipt(full.artFeatures);
+  artBuildOptionsFromReceipt(full);
   if(JSON.stringify(fullFlags)!==JSON.stringify(flags))throw Error('Full candidate art feature configuration differs from request');
   if (fileRecord(full.mapPath).sha256 !== full.candidate.sha256) throw new Error('Full candidate changed before audio packaging');
   verifyNativeCardArtReceipt(full.nativeCardArt,{root});
@@ -63,6 +64,7 @@ export async function buildNativeAudioGame({ baseMap, output = 'build/native-aud
   Object.assign(audio, { artFeatures:full.artFeatures, sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,
     startedAt: full.startedAt, productionManifest: full.productionManifest,
     sourceReceipt: fileRecord(full.receiptPath), ...(full.release ? { release: full.release } : {}),
+    ...(full.nativeMonsterArt ? {nativeMonsterArt:full.nativeMonsterArt} : {}),
     ...(full.nativeCardArt ? { nativeCardArt: full.nativeCardArt } : {}),
     ...(full.officialPortraits ? {officialPortraits:full.officialPortraits} : {}),
     ...(full.readyCardArt ? {readyCardArt:full.readyCardArt} : {}),

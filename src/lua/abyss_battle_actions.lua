@@ -126,7 +126,9 @@ function M.install(owner, _ownership, host, dependencies)
             self.feedbackRun, self.feedbackBattle = nil, nil
             self:render() return
         end
+        dependencies.updateEnemyIntents(dt)
         self.feedback:update(dt)
+        dependencies.updateEnemyNames(dt)
         updateRewardCards(dt)
         host.cardView.update(dt)
     end

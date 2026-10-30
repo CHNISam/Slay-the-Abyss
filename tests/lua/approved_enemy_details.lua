@@ -27,7 +27,9 @@ end
 test('one ordinary portrait click lists all intent effects and all statuses without a notice',function()
  local host,ui,p,event,tap=H.setup({'strike','defend'},{'guardian'})
  local battle=host.run.combat;local enemy=battle.enemies[1]
- enemy.ai=nil;enemy.intentIndex=1;enemy.intents={{kind='defend',effects={
+ -- Synthetic tooltip effects retain a real source mixed-attack identity;
+ -- world texture selection must not infer an intent from effect order.
+ enemy.ai=nil;enemy.intentIndex=1;enemy.intents={{id='guardian_7',kind='defend',effects={
   {op='gainStatus',status='dexterity',value=3},{op='block',value=10},{op='damage',value=6,times=2}}}}
  for _,id in ipairs({'strength','dexterity','ritual','artifact','thorns','weak','vulnerable','frail','poison','regen','barricade'})do Combat.addStatus(enemy,id,2)end
  ui:render()

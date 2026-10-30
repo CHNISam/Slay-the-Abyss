@@ -8,7 +8,7 @@ local Layout = require("abyss_ui_layout")
 local Templates = require("abyss_ui_templates")
 local Viewport = require("abyss_viewport")
 local Theme = require("abyss_theme")
-local EnemyView = require("abyss_battle_enemy_view")
+local Surfaces = require("abyss_monster_surfaces")
 local function preview(name, text)
     print("LORE_PREVIEW\t" .. name .. "\t" .. text:gsub("\n", "\\n"))
 end
@@ -65,6 +65,10 @@ function Control:SetImage(...)
     local source, id = ...
     assert(source == "static" and type(id) == "number"); self.imageId = id
 end
+function Control:SetAnchorMin(x,y)self.anchorMin={x,y}end
+function Control:SetAnchorMax(x,y)self.anchorMax={x,y}end
+function Control:SetPivot(x,y)self.pivot={x,y}end
+function Control:SetLocalRotation(x,y,z)NativeContract.transform3(x,y,z);self.rotation={x,y,z}end
 function Control:SetAsLastSibling() self.raised = true end
 function Control:AddCursorEventListener(event, fn) NativeContract.listener(event,fn);
     assert(self.kind~='container','Native containers do not support AddCursorEventListener; use a cursorArea')
@@ -134,12 +138,37 @@ local function control(spec, parent)
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return NativeContract.control(self,spec)
 end
+-- Test engine implements the actual full actor template clone API, not a static five-slot fallback.
+local function monsterActors()
+    local serial=0
+    return {enabled=true,templateIndex=1,containerTemplateIndex=2,powerTemplateIndex=3,
+      instantiate=function(index,parent)
+        local spec=index==1 and assert(Templates.AbyssMonsterActor) or index==3 and assert(Templates.AbyssMonsterPower) or {name='actorPage',kind='container',size={1280,720}}
+        assert(index==1 or index==2 or index==3,'unknown monster template index')
+        local box=control(spec,parent);serial=serial+1
+        parent.children['nativeActor'..serial]=box
+        return box
+      end,destroy=function(box)
+        if box.parent then for key,child in pairs(box.parent.children)do if child==box then box.parent.children[key]=nil end end end
+        destroyControl(box)
+      end}
+end
+-- Explicit native platform fixture: production GameUI remains unmodified.
+local function withMonsterActors(platform)
+    if platform.nativeMonsterArtEnabled==nil then platform.nativeMonsterArtEnabled=require('abyss_art_features').flags.monsters end
+    platform.monsterActors=platform.monsterActors or monsterActors()
+    platform.imageTypes=platform.imageTypes or {basic=1,stretch=2}
+    return platform
+end
+local function newGameUI(root,data,presentation,event,platform)
+    return GameUI.new(root,data,presentation,event,withMonsterActors(platform))
+end
 -- Rule and gesture suites start on the map directly; prologue suites pass prologue = true.
 local function fixture(data, settle, music, cursorEvents, prologue, sound, pointer, controllerApi)
     local canvas = control({ children = Layout })
     local root = Viewport.apply(canvas, 1280, 720)
     local ui = GameUI.new(root, data or Data, Presentation, "click",
-        { seed = 1, imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
+        { seed = 1, nativeMonsterArtEnabled=require('abyss_art_features').flags.monsters, monsterActors=monsterActors(), imageTypes={basic=1,stretch=2}, imageSource = "static", color = function(r,g,b,a) return { r=r,g=g,b=b,a=a } end, settle = settle, music = music, cursorEvents = cursorEvents,
           prologue = prologue == true, sound = sound, cursorPosition = pointer and pointer.position,
           touchScreen = pointer and pointer.touchScreen, keyEvents = pointer and pointer.keyEvents, controllerApi=controllerApi })
     root.ui = ui
@@ -155,9 +184,14 @@ local function mapControl(panel, name)
     end
     error("missing grouped map control " .. name)
 end
+local function actorControl(panel,name)
+    local slot=name:match("^enemy(%d+)$")
+    if slot then return assert(Surfaces.get(panel):control(tonumber(slot)),"missing dynamic actor "..slot)end
+    return panel:GetChild(name)
+end
 local function click(root, panel, button)
     local box = panel == "mapPanel" and mapControl(root:GetChild(panel), button) or root:GetChild(panel)
-    if panel ~= "mapPanel" then for part in button:gmatch("[^/]+") do box = assert(box:GetChild(part), button) end end
+    if panel ~= "mapPanel" then for part in button:gmatch("[^/]+") do box = assert(actorControl(box,part), button) end end
     local target = box.click and box or box:GetChild("hit")
     local parent = target
     while parent do assert(parent.visible, "click on hidden control " .. button); parent = parent.parent end
@@ -190,13 +224,8 @@ local function win(ui, root)
                 local _, reason = Combat.canPlay(battle, instance.uid, nil)
                 local button = "playArea"
                 if reason == "invalid_target" then
-                    local screenSlot
-                    for i, entry in ipairs(EnemyView.slots(battle)) do
-                        if entry.index == ui.battleUI.target then
-                            assert(entry.actor == battle.enemies[entry.index] and entry.id == entry.actor.id)
-                            screenSlot = i break
-                        end
-                    end
+                    local target=battle.enemies[ui.battleUI.target]
+                    local _,screenSlot=Surfaces.get(root:GetChild('battlePanel')):find(target.id)
                     assert(screenSlot, "live target has no displayed enemy slot")
                     button = "enemy" .. screenSlot
                 end
@@ -229,7 +258,8 @@ local function startButton(root)
 end
 
 return {
-    GameUI = GameUI,
+    GameUI = {new=newGameUI},
+    withMonsterActors = withMonsterActors,
     Combat = Combat,
     Nodes = Nodes,
     Data = Data,
@@ -240,12 +270,14 @@ return {
     Theme = Theme,
     preview = preview,
     control = control,
+    monsterActors = monsterActors,
     setEngineActive = setEngineActive,
     fixture = fixture,
     statValue = statValue,
     resultText = resultText,
     mapControl = mapControl,
     click = click,
+    actorControl = actorControl,
     win = win,
     start = startRun,
     confirmStart = confirmStart,

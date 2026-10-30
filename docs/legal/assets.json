@@ -56,7 +56,7 @@
       "evidence": "art/cards/traveler-geo/README.md; per-card prompt, generation-provenance and asset.json; docs/legal/LICENSE_AUDIT.md"
     },
     "original-monster-source": {
-      "status": "project-original AI-assisted monster source candidates; reference roles documented; source-only, no native/runtime acceptance or commercial/IP clearance",
+      "status": "historical project-original AI-assisted monster source candidates; identity direction superseded on 2026-10-30 and requires redesign; source-only, no production/native/runtime acceptance or commercial/IP clearance",
       "evidence": "art/monsters/README.md; art/monsters/catalog.json; per-enemy generation-provenance.json and source-review.json"
     },
     "compact-card-runtime-candidate": {
@@ -74,6 +74,10 @@
     "performance-art-derivative": {
       "status": "Budgeted derivatives of existing reviewed platform-project background, portrait and card previews; no upstream algorithm code copied; source content rights and existing restrictions remain unchanged",
       "evidence": "docs/plans/2026-10-30-art-loading-performance.md; scripts/art/build-performance-pack.py; source paths and SHA256 fields in art/performance/*.json; existing original input records in this inventory"
+    },
+    "genshin-monster-native-candidate": {
+      "status": "AI-assisted Genshin identity derivative sources and manual native simplifications; project test use only; no game-IP sublicense, commercial clearance, reference redistribution, final-art or device acceptance",
+      "evidence": "Per-asset PROVENANCE.json, source-generation.json, prompt.txt and README.md; docs/art/MULTI_MONSTER_DRAWINGS.md; existing LICENSE-SCOPE.md and THIRD_PARTY_NOTICES.md"
     }
   },
   "files": {
@@ -3833,7 +3837,7 @@
     },
     "art/monsters/catalog.json": {
       "category": "original-monster-source",
-      "sha256": "03658b03279412dcf8658d4c8bbd7f9b87af7cb4b20e2bfebf94435d323cf63d"
+      "sha256": "cadc75ba582e3f6f9066ddaa0f089d4a197bd01826f4e12de2f474e4dd377c65"
     },
     "art/monsters/centurion/asset.json": {
       "category": "original-monster-source",
@@ -4710,7 +4714,7 @@
     },
     "art/monsters/acid_slime_m/native-art-r02/README.md": {
       "category": "genshin-native-monster-prototype",
-      "sha256": "f609352d8784b845b4b6d65e35af197ec20593ca50f94a0464ea6fdc6580386a"
+      "sha256": "17f544ce105d6ce9ef0f3dbb02c21acf3d69ad996c97768083ec856f8c738dc6"
     },
     "art/monsters/acid_slime_m/native-art-r02/native-art.lua": {
       "category": "genshin-native-monster-prototype",
@@ -4847,6 +4851,532 @@
     "art/performance/compact-v1.json": {
       "sha256": "417cfb4f3d65c7f95f1ffcf54a091de49bf2c9d2e8b1fc90c27da2e841f7fba1",
       "category": "performance-art-derivative"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/PROVENANCE.json": {
+      "sha256": "98bf5cd228257d589790605deb368104a2632932cc624e0ef7b90086ac91d32d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/README.md": {
+      "sha256": "f8241ad910c2279295abccd59da230e4bfcb5489e5508dc69641babfaad07f58",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/native-art.json": {
+      "sha256": "69e184ebbfbc8f0273a3f3bdd76a1901bcf589c259476bd503eefe2b04de709f",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/native-art.lua": {
+      "sha256": "3c637fcf1750d0a6dcd7173cf94240e677008dbeb59f9e009b21289ae0730572",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/native-verification.json": {
+      "sha256": "64fdfd7911bc5fea319f7d471bbff646847de07466d8263e1ebe0debec7acdb8",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/PROVENANCE.json": {
+      "sha256": "7f1570a1e508c33fd6624c662a49c8823ee9ab1058e2ebf3b4d691b610ca500a",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/README.md": {
+      "sha256": "479030540c0fd193c0dac2599658474dd2b0a971d54a426e3034f2ff825b03c0",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/native-art.json": {
+      "sha256": "f8611f996a048db8f7ebabffa749f5e5918ffac39f8fb8bc054d02e1fe444575",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/native-art.lua": {
+      "sha256": "3baeb774f291de1061e38512c527bd0419dbcec160cdc8972edac816826c7bee",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/native-verification.json": {
+      "sha256": "ffa087c6aeb5c16c0be5b5364620e7c9700044ec57cea5c9b5c577b6b7b29327",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/PROVENANCE.json": {
+      "sha256": "66c3e4b546a7108b81daa7e617366d5184b46cb8a16f9cfb31f4538b788d392d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/README.md": {
+      "sha256": "d92cdd30db3fb886bd7c348c0e7024fe6ed254e703f971cd614abdd225bd4686",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/native-art.json": {
+      "sha256": "813a86d887020e3987eadda32081ec8ea6fa91e4594cd4028646162b603acdef",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/native-art.lua": {
+      "sha256": "e7146753d3290245947c86e35dff4bf3829cc67ebcc86a1c8d368df8bcedacb8",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/native-verification.json": {
+      "sha256": "697b1779a35e1cbcb367683337d36e1cbeede2c7b6d77217377ad255892ec9cb",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/PROVENANCE.json": {
+      "sha256": "05dc4e690b8361467d02097d2a7bf8123a817bc147444e5ee1f193ffac5159ae",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/README.md": {
+      "sha256": "f7d045d25ed9fb8dcdd38f087ad987bf8552f4cac8d7e3cd3455f755119edef5",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/native-art.json": {
+      "sha256": "6b2bd1ed5c70ea18192de8e6e6bb0c715a25f256a0105524cf331fe042fd8855",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/native-art.lua": {
+      "sha256": "b93dad77124b912461ab4ba1919e67f936cbae16c2b0e3bfb026a4ef1393bd57",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/native-verification.json": {
+      "sha256": "4cfddcd98babf171f1faf947ada38a5454a7b7090e67a487cfb49c0170104d15",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/prompt.txt": {
+      "sha256": "147c2ad5ddfa1667f68ec8a0e0d7d719be218428958d67e5ede5abdeea0623c3",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/source-generation.json": {
+      "sha256": "e9806732cb99c0a7dbeeb1a3e91d4de821abfb4c9a9a2e306513f8e8ca274903",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/source.png": {
+      "sha256": "54bf748f89703d8ae125ea6a8ecff873e2819d9de2ee34358a468a91b9d583dd",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1273729
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/PROVENANCE.json": {
+      "sha256": "662fea5ff6d9b8a327553866c115fb51785f5610a2639d47a9aeafd9dc26fdbd",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/README.md": {
+      "sha256": "85c67041156f9ba5660829140ec19f1d530b24314bee845365f7461442a7e764",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/native-art.json": {
+      "sha256": "1095c12c9278441d8a3356f517c62842fd0665005ce8010535c7e8e30ecd76fe",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/native-art.lua": {
+      "sha256": "c0f08f33f2164bedbaf859d387d0bf2c5293593ad626aeb298207e3cb24ca6aa",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/native-verification.json": {
+      "sha256": "c3d877fc897fcc67e70c79a7699d7dcebdbf308199c37351798a735de3e2363b",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/prompt.txt": {
+      "sha256": "16430e832307dc121c0312f93f4d5c9b166279f7eb642d74e404e7356ea780ea",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/source-generation.json": {
+      "sha256": "37dc758f43669c25d85bb957d1e572b2a71f88fb06fcfb1cd0d3acb4a7590468",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/cryo-abyss-mage/source.png": {
+      "sha256": "e1d86f8eb89d6ba5a678b06266599c698344a9c966c99451926d40b7d0da4c74",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 998372
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/PROVENANCE.json": {
+      "sha256": "7aa2cf2faf3c95362352b8d27eb2c4175bf04748ac72cef40f542d69243f85ce",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/README.md": {
+      "sha256": "579dcf29489bbfc8a546e211f40da41d61a7bb7e1d18b9afd3c2ad032f554ed2",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/native-art.json": {
+      "sha256": "b3fbc9866213a3d0c7aa2228b3912b80107caf7a67c834e4eae5b9cdb45c9569",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/native-art.lua": {
+      "sha256": "76049184211775acee743a20fdcdfe6dffa42605c1d545a7c3f87846d212b5a6",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/native-verification.json": {
+      "sha256": "9ed8e38f32e681a11edcea0da830de77ac54c4c738649c2ef3a7f0add99c10e5",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/prompt.txt": {
+      "sha256": "0eb5162c726dfaaf7f828262bb76650d2883647d6cdd27e880626c7b58fb4ce4",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/source-generation.json": {
+      "sha256": "d16ebe98e7d1e6ed7ddaa034837094272c4e831d6b74f6bd245360a915d3e693",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/electro-abyss-mage/source.png": {
+      "sha256": "b1d4ac53f2d5c92222eb4a2b1e3b5536f9acbb331058f493ea4fbbb356647ee7",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1104259
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/PROVENANCE.json": {
+      "sha256": "b31ca85aebb1587bf0cfb5bc00634fbed5aa07fbc09ce8846b366622119d01f4",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/README.md": {
+      "sha256": "21c9c459e74b42c7122610a4fa0f7e2771a5efed8cc4974d3dc9a7ab3ccd9eb6",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/native-art.json": {
+      "sha256": "745b535578a71acf93c321fbbad18daf1b0cbdc2cb6023a7eee9be933d14cea9",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/native-art.lua": {
+      "sha256": "09f5ca8ad95a7623134fb610263c7bec1d88684a440cb4ab6310d5bddc7fd41e",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/native-verification.json": {
+      "sha256": "88f3ec66db0fdf1ae4385d9cabce1304532e6109ccc082d1852d22ff1ff218ea",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/prompt-repair.txt": {
+      "sha256": "363934a2e4014fcbb592c157a201e69c4dcff8c29de39cca870b5dbc846dd7d2",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/prompt.txt": {
+      "sha256": "aea940d7ef03c915235ffd9b925d61bb75e981f37390f61731a85087d8e57af7",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/source-generation.json": {
+      "sha256": "6e5cad4fb6ff8cf04512711874fb1ee58d3693e0802c62853b549d2b57468452",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-abyss-mage/source.png": {
+      "sha256": "c292f0e6d201029fbd1ae33f147c7096864af155ada5201ec4808fa7eb4f3ffe",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 829429
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/PROVENANCE.json": {
+      "sha256": "58653854a65a5bc13b2823416397a75be197bc8273d5a22de99f8af4e6482fd8",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/README.md": {
+      "sha256": "9405e6108e526916767cb4b2cc611aa7a6363913f7d9e380b26392d76860160d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/native-art.json": {
+      "sha256": "1fac9bb708ff0b14ee08854d0b5cfc6fe0ce9438a8fe0af92017baa386a6abb2",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/native-art.lua": {
+      "sha256": "a784e904d91c0dac573285aba2bf91fbf982ec1729020401ac9779c97d07d7b8",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/native-verification.json": {
+      "sha256": "ed6a0d65e5cb305b967cab645e99f841cf36a9803cb244f76424b9b0a371467d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/prompt.txt": {
+      "sha256": "fa7d02e8dfede6cba6d379db49b449bfeab977bfc2b4a23fc8304262522ea821",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/source-generation.json": {
+      "sha256": "74ac84e3f0910d29d0d64c7209971064899e4b009e8e9ee625417e4b4790c8cc",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/hydro-samachurl/source.png": {
+      "sha256": "a1f5f34650582df5eab720967364393e2dba4719c17ae2b7d636c84cbc58c5e7",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1441902
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/PROVENANCE.json": {
+      "sha256": "83beec9b3d9eb6f106f6531bc558344c9e97d0bc3ef728634289a8b6f4d3d05d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/README.md": {
+      "sha256": "942b7deaa1edc1f97d15e01100f412d07ed773cfc35850f80b6bc96808b4e731",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/native-art.json": {
+      "sha256": "2f794913f2ceb0aea75ea87f1fb54c58cd428bb88ce5acf63026053712c409ff",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/native-art.lua": {
+      "sha256": "cfaabb1a3a93d4133239c51a58b8f7e93a69a15558763464ce295ee414fd93e5",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/native-verification.json": {
+      "sha256": "d37822e8a2a709041ad217fa9969eebbbff83a11a329833085f6384c6cfa8713",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/prompt.txt": {
+      "sha256": "f14a773086fed97c495d8ebf583fc3bb5321470d08cdb0a3530f0a8e7f30c1ab",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/source-generation.json": {
+      "sha256": "603d981d48e953e4e4125d7003bf2d330999aaaaac445105e2ac65c52eecc2f9",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-geo-slime/source.png": {
+      "sha256": "172487009bafda99a942dc10dfa28b85aa927a54d1a8c0fe943a3985d7fa0f07",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1304599
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/PROVENANCE.json": {
+      "sha256": "36ef86743a246e90c81e0e9a8893fcf700638b32bffc86abe0d9aa254d06e612",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/README.md": {
+      "sha256": "b4176302f63661fdf29932ed37fdfc053e99cc5dcd49810f5d24055377c68ceb",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/native-art.json": {
+      "sha256": "8903f9c727197a2025b493d1773d51ecc9606b18faab1f64dc7330fb5fc35439",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/native-art.lua": {
+      "sha256": "5df13e509257707cc08b67c71f3667b3e1077df0233d3749b83e578ad295a058",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/native-verification.json": {
+      "sha256": "ae322c50cc81b6c6c38ed871b0d98ac1ec9d5aaeaa64b5571c617cba9b05e798",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/prompt.txt": {
+      "sha256": "4795f1ce3fe8e8598394a56ff86cc11cccf0b54c6a01537b7b3e7c123d4e7b13",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/source-generation.json": {
+      "sha256": "5313fd7de8e0e3d9b6e95b0c301b412af27ac99345b9c8109e052bdcbe75957e",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/large-hydro-slime/source.png": {
+      "sha256": "1e188a6409b629dbe20ee19e1508240778e750c2d9d19ac5ff99f62b59d28f2c",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1152549
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/PROVENANCE.json": {
+      "sha256": "a09f3de017d7664e6768fd545ca93478b65a6cd7b6578e7bc1e00aafe062cbc0",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/README.md": {
+      "sha256": "0e4df4d4ecaebf6c322742efabb4648fdef3825eafe73d69629ab946fed6ce68",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/native-art.json": {
+      "sha256": "49386c62cd738fc15a3f040b4ce90005b28ff18f9cc3f5005ee2b618cb2437f1",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/native-art.lua": {
+      "sha256": "0280723f122ae2216a56d08f1c841314fa28e49179621e2171a698bd7fb69022",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/native-verification.json": {
+      "sha256": "84715d7354d21f498a696cf1bff9f9fca0d73ce0dd7ed44ccc085371750f2fff",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/prompt.txt": {
+      "sha256": "6ac3fb7f7ec5c10a6d5b253eb4714ec5d5faa61c0439fd41f4e03759e9beb3f1",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/source-generation.json": {
+      "sha256": "449ce74351f1322c79ab2bfea63c997fbfd045645c7316ff2574e023267707d9",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/pyro-hypostasis/source.png": {
+      "sha256": "fe8be2360fe2c35f78883214f00463bed1acfbb43f62eb68caa8c9c6c79b963a",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1526531
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/PROVENANCE.json": {
+      "sha256": "605482ca5353b6a8c4c5b4f53ede518ea06d851ed369dec0c894ea7e5be281e5",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/README.md": {
+      "sha256": "9121e45a5c32637c2ffa0c161d33a2b13acb1bee0fa0abbeeaa125e3cf2a01d4",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/native-art.json": {
+      "sha256": "72fc1eb963d6121182044a92eee3cf1a98d6a8dbcc91d713a89fbfaa09e8be0e",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/native-art.lua": {
+      "sha256": "671e763032ad13da740fe0cc2a9ff4dfdf72af00bda9e46bce349551d748a026",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/native-verification.json": {
+      "sha256": "66223bdbfeaf9f75998708ab6a525b24f68e96efec16c091013bc430b89d8ecd",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/prompt.txt": {
+      "sha256": "ffe784acc7764bb0d84af14def88e726f8eafaee48205393f72614091364de8d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/source-generation.json": {
+      "sha256": "4fa2097d8d5e8d880d7a509bad7175843756ad1cfc0cef0372b21316ca9f7fa5",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/source.png": {
+      "sha256": "83f06ae2e7340e4554f57c94951acc5d5c2b5f957f387c5db365c0eb01905b7b",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1712874
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/PROVENANCE.json": {
+      "sha256": "062ae47d1575d87b45120c1ce6038d1bf629da2106ad1c7db91b7755d52327a3",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/README.md": {
+      "sha256": "7fc6faa0532ed418b273a68097bba3021129198ca61fcb3dbb0b808d7f0aca9a",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/native-art.json": {
+      "sha256": "64f071bf988ebfbaac0460be69e29a49b07c1e6a37d9a4d57ee86c0439412e5d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/native-art.lua": {
+      "sha256": "b6ff5fa42f706260985f241eb634c3914d4039ab9d775177d05fc2cf60bf966d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/native-verification.json": {
+      "sha256": "5d252b3b3b6827021d59381066e110738eee6d25783777d731fbb2da0be5a66d",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/prompt.txt": {
+      "sha256": "85ff413af54aa6a7d3d7ab6f59ca1a8a8281df200bb14c9b9277ad86d0028328",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/source-generation.json": {
+      "sha256": "32d6e338573978140fc194bcc78dbb6f820733573efd1d962373adf518005f48",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/ruin-guard/source.png": {
+      "sha256": "a2bc9ddee6d572d8855c6c81139868edd3982fb9ba89a5c12875fcfdd1781775",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 1675848
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/PROVENANCE.json": {
+      "sha256": "7ffeb46dfa4fdf4e9ce3b813512194b0f2a884fe9b9360fb3298e35f236d90b3",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/README.md": {
+      "sha256": "095f22271f0776ca0abaecf74f30855e3f2cf436ee80f15a2edf3c58a808e056",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/native-art.json": {
+      "sha256": "70f27bf94a3d0defe1969467e1dfa9cb1c5af097446b922a64c6e91ed9007fff",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/native-art.lua": {
+      "sha256": "9a6adddfe286c7de0cee1c3b04d80b1af29e321030c5d93c059685a5c46665eb",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/native-verification.json": {
+      "sha256": "e5b7257125e2eca26139c0f7c7abeb27051cbcf03f4e9a42c7e829bba1c33843",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/prompt.txt": {
+      "sha256": "654c1027313c40fa47d1ed49f50529a12fb08471e9b21c841ceaac3fa4259107",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/source-generation.json": {
+      "sha256": "233bd0e7437eb8bab6273bb88d9fd114630f52168818f3f299a64e45e8018ac5",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/source.png": {
+      "sha256": "87b232b4e24af0744883c01c1f0f97f3e8db119db9a4004f5d1ab6e1237c33fc",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 853011
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/PROVENANCE.json": {
+      "sha256": "863c5da19380b0d8aecda6f5414557d9777fc32929dc6d5379207de321e4e6ff",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/README.md": {
+      "sha256": "acc91222ebcda59bfdf6e9b368ddf7a039f16e004e2b9080b2dc02e47aafa160",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/native-art.json": {
+      "sha256": "15422395c35ca07560d1168e7fc378146ad224e113454b2b8cbfd07e85f2a1f4",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/native-art.lua": {
+      "sha256": "d6478d6f5714e93a1b3b613bd4299e79dcb10acfa916cafd5393b171a5b3cf28",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/native-verification.json": {
+      "sha256": "840b0eccb964ee9b33a5bb1795b9bb82eaefe8a5e220b3afbff1a9b519592503",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/prompt.txt": {
+      "sha256": "b9e69dd6894048153bc61d807511ef1b36a3434761bb29e73862320c86e388c9",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/source-generation.json": {
+      "sha256": "63926544ae34e574b330c698c3d43df70bbda3a9011d27fa918cff30083db367",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/source.png": {
+      "sha256": "9b5db3442b7b425ba78851e436af447f929bcaf7aaa9b7acea1673a1d7bc6c60",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 666174
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/PROVENANCE.json": {
+      "sha256": "a67ffe4dc373a3c00857da044c0aaddc5c672c319c52595bc17080e52c095b6b",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/README.md": {
+      "sha256": "cbae5f8b78f7a5d484c95a2732ec4e82b9c9b5f13b2fa2706955439a4015a71e",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/native-art.json": {
+      "sha256": "b56421f82a5489b94f33c0b86516f7c96b3ae96ac54a745f726bf0b43787d90e",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/native-art.lua": {
+      "sha256": "e7913fe8a8b20300a3b019488f29e0bbce0b5cbaa4b03e034b9eaf54d98ef40f",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/native-verification.json": {
+      "sha256": "fb282d8975e19eac765077d3634c57d861ef0d271a068cb9c22ebb738b34165b",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/prompt.txt": {
+      "sha256": "c9c43452326ef25813accbf7f8811b2716ac37647d0105daf77cee3a4c8110c5",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/source-generation.json": {
+      "sha256": "83a99d148e02abb204688cf41d2ef5638f309f3c78704db40ea063cc7e76a302",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/source.png": {
+      "sha256": "d4bc1146f0efe5583e61c9290aed1fd41126ef3c08676729b546a430bb020733",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 865312
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/PROVENANCE.json": {
+      "sha256": "dae7fedc86a11dd92b11985a94f62f3003bd3623d7f459311f699dd61770d02a",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/README.md": {
+      "sha256": "7990378c703c04b84488feeb2ea13c6ab2e263dc52ebb549d9bf97d147c4831c",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/native-art.json": {
+      "sha256": "26afaf6f9c28ed6794ef9cc733bc1300ea7c46f33d89c7112e02ce00eb97f166",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/native-art.lua": {
+      "sha256": "3ecb802b59cd821616d76b81b3d17c99d97f990dcc9496ee3aaf279693e77da1",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/native-verification.json": {
+      "sha256": "8a2d5e4ca6cd862919063cb01d45ccbf611ca9284f5a13edafc8cd79cca80e42",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/prompt.txt": {
+      "sha256": "6ea2debd2848a3e0c221a546a95c61d4e2da33512c3b235dd032721f5449e228",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/source-generation.json": {
+      "sha256": "3aac9b7913e0782c338a3f44da89bd77090f725f8685041490dcf6b00fee94be",
+      "category": "genshin-monster-native-candidate"
+    },
+    "art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/source.png": {
+      "sha256": "3e3d5d56f931e211e9b5d1c8e979344898fc18261f651efc4abe813181daa560",
+      "category": "genshin-monster-native-candidate",
+      "lfsBytes": 864403
     }
   }
 }

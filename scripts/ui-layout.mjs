@@ -61,7 +61,7 @@ function unit(name, position, portrait, player = false) {
     panel('blockEdge', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size + s.border * 2, bb.size + s.border * 2, c.panelSunken),
     panel('blockIcon', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, bb.size, c.block),
     text('block', -bw / 2 - bb.gap - bb.size / 2, -portrait / 2 - s.xxl - bh / 2, bb.size, l.nativeText.lineHeight, '', f.body, c.textOnLight),
-    statusRow(-portrait / 2 - s.xxl - bh - s.l),
+    player ? statusRow(-portrait / 2 - s.xxl - bh - s.l) : {name:'statusRow',kind:'container',position:[0,0],size:[bw,l.statusIcon.size],children:[]},
     { ...picture('impact', 0, 0, portrait, portrait, im.diamond, c.geo), visible: false },
     { ...picture('shield', 0, 0, portrait, portrait, theme.icon.block, c.block), visible: false },
     { ...text('floating', 0, portrait / 2, bw + s.xxl, l.nativeText.lineHeight * 2, '', f.number, c.goldBright), visible: false },
@@ -76,6 +76,33 @@ function unit(name, position, portrait, player = false) {
     // Tapping a portrait opens that unit's status details (enemies also take targets).
     hit(portrait, portrait),
   ] };
+}
+
+export function enemyUnitTemplate(name = 'AbyssMonsterActor') {
+  const actor = unit(name, [0, 0], l.enemyRow.crowdPortrait);
+  // Original intent effects draw behind the icon, then above it but below damage text.
+  for (const [name, before] of [['intentVfxBehind', 'intentIcon'], ['intentVfxAfter', 'intent']]) {
+    actor.children.splice(actor.children.findIndex(child => child.name === before), 0,
+      {name,kind:'container',position:[0,0],size:[...actor.size],visible:true,children:[]});
+  }
+  actor.children.find(child => child.name === 'intent').text.valign = 'top';
+  return actor;
+}
+
+// One native power surface; runtime ports the original ordered, single-row placement.
+// No preallocated power count and no wrapping policy belongs in this template.
+export function enemyPowerTemplate(name = 'AbyssMonsterPower') {
+  const si = l.statusIcon;
+  const chip = {name,kind:'container',position:[0,0],size:[si.size,si.size],visible:false,children:[
+    {...panel('edge',0,0,si.size+s.hairline*2,si.size+s.hairline*2,c.gold),visible:false},
+    {...panel('body',0,0,si.size,si.size,c.panelSunken),visible:false},
+    {...picture('icon',0,0,si.size,si.size,theme.icon.status.strength,c.text),visible:false},
+    {...picture('badge',0,0,si.size,si.size,im.disc,c.panelSunken),visible:false},
+    {...aligned(text('count',si.size/2,-si.size/2+si.gap,si.size,l.nativeText.lineHeight,'',f.small,c.text),'right'),visible:false},
+    {...hit(si.minimumTouch,si.minimumTouch),position:[0,0],visible:false},
+  ]};
+  chip.children.find(child => child.name === 'count').text.valign = 'top';
+  return chip;
 }
 
 // Status chips under the HP bar: icon with its stack count at the lower right, up to
@@ -285,7 +312,8 @@ export function battleLayout() {
   potionHelp.push(emerald);
   potionHelp.push(text('potionReward', ...l.battleRewards.potionLabel, '', f.body, c.goldBright));
   controls.push({name: 'potionHelp', kind: 'container', size: [width, height], children: potionHelp});
-  for (let i = 1; i <= 5; i++) controls.push(unit(`enemy${i}`, [l.enemyRow.xFrom + (i - 1) * (l.enemyRow.xTo-l.enemyRow.xFrom)/4, l.enemyRow.y], l.enemyRow.crowdPortrait));
+  // Actors are instantiated per creature identity; no fixed five-instance ceiling.
+  controls.push({name:'actorLayer',kind:'container',position:[0,0],size:[width,height],children:[]});
   for (let i = 1; i <= 10; i++) {
     const [w, h] = l.card.size;
     controls.push({ name: `card${i}`, kind: 'container', size: [w, h], ...handPose(10, i - 1),

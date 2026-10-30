@@ -5,6 +5,7 @@ local Gold=require('abyss_gold_rewards')
 local Potion=require('abyss_potion_rewards')
 local Cards=require('abyss_card_pool')
 local Hooks=require('abyss_relic_hooks')
+local Routes=require('abyss_event_combat_routes')
 local M={}
 local bosses={['The Guardian']=true,Hexaghost=true,['Slime Boss']=true}
 local function encounter(source)
@@ -20,7 +21,8 @@ local function encounter(source)
  return result
 end
 local function roomOptions(room,definition)
- local options={roomSeed=room.seed,roomStreams=room,enemies=definition.enemies,sourceEncounter=definition.sourceEncounter}
+ local options={roomSeed=room.seed,roomStreams=room,enemies=definition.enemies,sourceEncounter=definition.sourceEncounter,
+  encounterSource=definition.source,encounterVisualFloat=function(lo,hi)return R.randomFloatBetween(room.visualRng,lo,hi)end}
  if definition.sourceEncounter then
   options.encounterBoundary={misc={boolean=function()return R.randomBoolean(room.miscRng)end,
    integer=function(lo,hi)return R.randomIntBetween(room.miscRng,lo,hi)end},
@@ -29,6 +31,7 @@ local function roomOptions(room,definition)
  return options
 end
 function M.prepare(run,source,floor,roomStreams,misc)
+ if Routes.supportsSource(source)then return Routes.prepare(run,source,floor,roomStreams,misc)end
  if type(floor)~='number'or floor%1~=0 then return nil,'event_constructor_unavailable'end
  local act=run.act or 1
  local allowed=source=='The Mushroom Lair'and act==1 and floor>=7 and floor<=14
@@ -64,6 +67,7 @@ local function preparedFor(run,flow,request,roomStreams)
  return prepared
 end
 function M.start(run,flow,api,startEncounter)
+ if flow and flow.event and Routes.supportsEvent(flow.event.id)then return Routes.start(run,flow,api,startEncounter)end
  if run.phase~='node'or type(flow)~='table'or flow~=run.nodeFlow or flow.type~='event'or flow.complete then return false,'event_combat_unavailable'end
  local request=flow.event and flow.event.combatRequest
  if not validRequest(flow,request)then return false,'invalid_event_combat_request'end
@@ -108,6 +112,7 @@ local function ownerMatches(run)
  return true
 end
 function M.finish(run)
+ if run.eventCombat and Routes.supportsEvent(run.eventCombat.eventId)then return Routes.finish(run)end
  if not ownerMatches(run)then return nil,'event_combat_owner_mismatch'end
  local context=run.eventCombat
  -- Preserve pre-created GOLD/RARE, then source EventRoom potion and card order.
@@ -121,6 +126,7 @@ function M.finish(run)
  return rewards
 end
 function M.escape(run)
+ if run.eventCombat and Routes.supportsEvent(run.eventCombat.eventId)then return Routes.escape(run)end
  if not ownerMatches(run)then return false,'event_combat_owner_mismatch'end
  -- A smoke screen discards all offers. EventRoom still attempts a potion,
  -- without a card reward or an all-monsters-escaped zero-chance override.

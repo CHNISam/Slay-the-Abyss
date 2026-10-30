@@ -63,7 +63,7 @@ end
 -- own ordering evidence before entering this supported opening set.
 local openingPosition = { ring_of_the_snake="battle_bottom", cracked_core="pre_battle", pure_water="pre_draw", lantern = "turn_top", vajra = "battle_top",
     oddly_smooth_stone = "battle_top", bronze_scales = "battle_top",
-    anchor = "battle_bottom", bag_of_preparation = "battle_bottom" }
+    anchor = "battle_bottom", bag_of_preparation = "battle_bottom",gremlin_mask="battle_bottom" }
 
 function M.opening(definitions, owned, persistentCounters, context)
     local turnTop, battleTop, bottom, preBattle, preDraw = {}, {}, {}, {}, {}
@@ -71,10 +71,10 @@ function M.opening(definitions, owned, persistentCounters, context)
         local relic
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
         if not relic then return nil, "unknown_relic" end
-        if id=='blood_vial' or id=='akabeko' or id=='data_disk' or id=='thread_and_needle' or id=='girya' or id=='du_vu_doll' or id=='pantograph' and context and context.tier=='boss' then
+        if id=='mutagenic_strength' or id=='blood_vial' or id=='akabeko' or id=='data_disk' or id=='thread_and_needle' or id=='girya' or id=='du_vu_doll' or id=='pantograph' and context and context.tier=='boss' then
             table.insert(battleTop,1,{{op='relic_hook',id=id}})
         elseif id=='bag_of_marbles' or id=='pen_nib' or id=='red_skull' or id=='red_mask' or id=='fossilized_helix'
-            or id=='mark_of_pain' then
+            or id=='mark_of_pain' or id=='cultist_mask' then
             bottom[#bottom+1]={{op='relic_hook',id=id}}
         elseif relic.trigger == "combat_start" then
             local position = openingPosition[id]
@@ -105,6 +105,9 @@ function M.applyOpening(state, groups)
     if groups.relics then
         RelicHooks.bindBattle(state,groups.relics,groups.relicCounters)
         RelicHooks.preBattle(state,groups.relicContext)
+        if RelicHooks.owns(state,'enchiridion')then
+            require('abyss_act2_event_relics').preBattle(Combat,state,require('abyss_card_actions'),require('abyss_card_capability').isImplemented)
+        end
     end
     for _, effects in ipairs(groups) do
         if effects[1] and effects[1].op=='relic_hook' then RelicHooks.battleStart(state,effects[1].id)

@@ -6,6 +6,7 @@ local Theme = require("abyss_theme")
 local StatusView = require("abyss_battle_status_view")
 local EndingIntent = require('abyss_battle_ending_intent')
 local number = require("abyss_numbers").integer
+local SourceIntents=require("abyss_monster_source_intents")
 local M = {}
 local C = Theme.color
 local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
@@ -176,6 +177,7 @@ local function attackEffect(v, effect)
     local each = number(hits[1])
     local face = attackFace(hits, times, unequal)
     local formula=attackFormula(calculation,hits,cuts,times)
+    if not v.attack then v.worldDamage,v.worldTimes,v.worldBaseDamage=hits[1],times,effect.value end
     v.attack = v.attack or face
     v.result[#v.result + 1] = attackSentence(face, times, each, unequal, "攻击造成 ")
     v.rows[#v.rows + 1] = { icon = "attack", colour = C.danger, name = "攻击 " .. face,
@@ -311,13 +313,13 @@ local effects = { daggerSacrifice=daggerSacrificeEffect,reptomancerSummon=summon
 
 local function joinedView(v)
     local intent = v.intent
-    return { value = v.attack or (intent.kind == "attack" and "?" or ""), kind = intent.kind, badge = M.intentBadge(intent),
+    return { worldDamage=v.worldDamage,worldTimes=v.worldTimes,worldBaseDamage=v.worldBaseDamage, value = v.attack or (intent.kind == "attack" and "?" or ""), kind = intent.kind, badge = M.intentBadge(intent),
         label = intent.kind ~= "attack" and intentLabels[intent.kind] or nil,
         text = #v.result > 0 and table.concat(v.result, "；") or "下一步行动未知。", rows = v.rows }
 end
 
 -- One ordered preview supplies the compact face, joined text and detail rows.
-local function visibleIntent(state, index)
+local function projectedIntent(state, index)
     local intent = Combat.intent(state, index)
     if not intent then return goneView(state, index) end
     intent=EndingIntent.project(state,state.enemies[index],intent)
@@ -346,9 +348,26 @@ local function visibleIntent(state, index)
     return joinedView(view)
 end
 
-function M.intentView(state,index)
-    if require('abyss_boss_relics').hidesIntents(state)then return M.hidden()end
-    return visibleIntent(state,index)
+local function sourceIntentView(state,index)
+ local face=projectedIntent(state,index)
+ local actor=state.enemies[index]
+ local intent=Combat.intent(state,index)
+ face.sourceEnum=actor and SourceIntents.enum(actor,intent)
+ if face.sourceEnum then
+  face.sourceTexture,face.worldKind,face.worldVisible=SourceIntents.visual(face.sourceEnum,face.worldDamage,face.worldTimes)
+ end
+ return face
 end
-
+function M.intentView(state,index)
+ if require('abyss_boss_relics').hidesIntents(state)then return M.hidden()end
+ return sourceIntentView(state,index)
+end
+function M.hasSourceIntent(actor)return SourceIntents.hasDefinition(actor)end
+function M.selectedDescriptor(state,index)
+ local intent=Combat.intent(state,index)
+ if not intent then return nil end
+ local face=sourceIntentView(state,index)
+ return {id=intent.id,intent=face.sourceEnum or 'NONE',baseDamage=face.worldBaseDamage or -1,
+  multiplier=face.worldTimes or 1,isMultiDamage=SourceIntents.isMulti(state.enemies[index],intent),face=face}
+end
 return M

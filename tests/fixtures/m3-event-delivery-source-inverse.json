@@ -1,0 +1,1984 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "1fcd321ca9d6f79b4e5bbdfede48069119f5ed52",
+  "sourceCommit": "c3cb94c83715c38446a82c1386f41fdd02a5d353",
+  "baseTree": "b746aaf4d6394a9f9a03109f97c32ea29a169e9d",
+  "sourceTree": "db479d00f0dcb25c6fb43be28f1815bd9b056319",
+  "files": {
+    "config/architecture.json": {
+      "beforeSha256": "8eaf5e76ca026fe4ad5d5b53475b3433c9d3581d27f60afb2a73d4d1df535895",
+      "afterSha256": "c723f75c7c21eb3fb0db0ddd56e54e6853431a19197bd9b2bf18d9c9f2c8326e",
+      "beforeGitBlob": "4d0208161ebe55c2b9ea229e43cbb77ac3acaec0",
+      "afterGitBlob": "c81be8b15039d79efeaf63758040e7c75106aba5",
+      "beforeLines": 531,
+      "afterLines": 555,
+      "hunks": [
+        {
+          "beforeAt": 2,
+          "at": 2,
+          "before": [],
+          "after": [
+            "    \"abyss_relic_end_turn\": \"core\",",
+            "    \"abyss_relic_rarity\": \"core\",",
+            "    \"abyss_relic_loss\": \"core\",",
+            "    \"abyss_nloth_event\": \"core\",",
+            "    \"abyss_knowing_skull_event\": \"core\",",
+            "    \"abyss_designer_event\": \"core\",",
+            "",
+            "    \"abyss_necronomicurse\": \"core\",",
+            "    \"abyss_codex_relic\": \"core\",",
+            "    \"abyss_act2_event_relics\": \"core\",",
+            "    \"abyss_event_card_sampling\": \"core\",",
+            "    \"abyss_vampires_event\": \"core\",",
+            "    \"abyss_forgotten_altar_event\": \"core\",",
+            "    \"abyss_drug_dealer_event\": \"core\",",
+            "    \"abyss_cursed_tome_event\": \"core\",",
+            "    \"abyss_event_combat_enemies\": \"core\",",
+            "    \"abyss_event_combat_routes\": \"core\",",
+            "    \"abyss_masked_bandits_event\": \"core\",",
+            "    \"abyss_colosseum_event\": \"core\",",
+            "",
+            "    \"abyss_dead_adventurer_event\": \"core\",",
+            "    \"abyss_face_trader_event\": \"core\",",
+            "    \"abyss_node_ui_event_cards\": \"ui\",",
+            ""
+          ]
+        }
+      ]
+    },
+    "data/cards.json": {
+      "beforeSha256": "9fb7b662bde5a5b3f7a17045a9391e12f9ea1e7aa6da0e6de0efd0624aac628b",
+      "afterSha256": "9f71d4f84795dbbd364b6ea4f82e8e0265ace3020b0b07815b33c5e316d6a47b",
+      "beforeGitBlob": "24e142f7a01c1a5ba173f8078cf9abc1eb178cb3",
+      "afterGitBlob": "3c4abaf408ca51eef83a6e6c3cd759da47b86133",
+      "beforeLines": 2726,
+      "afterLines": 2727,
+      "hunks": [
+        {
+          "beforeAt": 2421,
+          "at": 2421,
+          "before": [
+            "    }"
+          ],
+          "after": [
+            "    },",
+            "    {\"id\": \"necronomicurse\", \"sourceId\": \"Necronomicurse\", \"sts_name\": \"Necronomicurse\", \"name\": \"死灵诅咒\", \"type\": \"curse\", \"rarity\": \"special\", \"cost\": -2, \"effects\": [], \"text\": \"无法打出。不能永久移除。被消耗时，将一张新的死灵诅咒加入手牌。\"}"
+          ]
+        }
+      ]
+    },
+    "data/presentation/traveler.zh-CN.json": {
+      "beforeSha256": "1f90d89c38ffd309f5e5c7d4e8efed59810f9c5366aadbdb1891dd5d91c77ee8",
+      "afterSha256": "d8d334bd883f149912ea2a5e0f6b39d15cd3d8d23882eb5aea9ae6b87eada195",
+      "beforeGitBlob": "6f8739643dc38fcc1a7e391c34f1437756ac024d",
+      "afterGitBlob": "0c627af4465bf3595fce60653888f72ecc4521e2",
+      "beforeLines": 440,
+      "afterLines": 444,
+      "hunks": [
+        {
+          "beforeAt": 436,
+          "at": 436,
+          "before": [],
+          "after": [
+            "    },",
+            "    \"necronomicurse\": {",
+            "      \"name\": \"死灵诅咒\",",
+            "      \"textTemplate\": \"无法打出。不能永久移除。被消耗时，将一张新的死灵诅咒加入手牌。\""
+          ]
+        }
+      ]
+    },
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "ad7a52c5b5df717a9aa59c07bc70580d437017b95ff90a22455105b382807fd7",
+      "afterSha256": "f5d932ec5b8a28af4886d8aaa86d2c062d010ff937291ddbfece8e7e96f7aa26",
+      "beforeGitBlob": "3fb57ea092c07efa4c59633e297857de7ab6a1bd",
+      "afterGitBlob": "1de33f2ddf3d6ea57c84853f02551e8e73c647e7",
+      "beforeLines": 3433,
+      "afterLines": 3446,
+      "hunks": [
+        {
+          "beforeAt": 481,
+          "at": 481,
+          "before": [],
+          "after": [
+            "      \"bloody_idol\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+            "      \"mutagenic_strength\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+            "      \"necronomicon\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+            "      \"enchiridion\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+            "      \"nilrys_codex\": {\"id\": 102028, \"placeholder\": true, \"note\": \"第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"},",
+            "",
+            "      \"nloths_gift\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+            "      \"cultist_mask\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+            "      \"face_of_cleric\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+            "      \"gremlin_mask\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+            "      \"nloths_mask\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+            "      \"ssserpent_head\": {\"id\": 102028, \"placeholder\": true, \"note\": \"事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。\"},",
+            ""
+          ]
+        }
+      ]
+    },
+    "data/release/launch-content.json": {
+      "beforeSha256": "321a885eee78db283b65dd424730e1809fd95950e0b2723b299888e6c4ae2264",
+      "afterSha256": "138ce0f165ec98370cccfb3a6992811add58ab6767e07f413725982d96e231fe",
+      "beforeGitBlob": "c00216a8b7589e67bcb142dcbf11d1714fe9de2e",
+      "afterGitBlob": "9af70e384a17dd94d8f9b1feb083a122dabbf7d2",
+      "beforeLines": 7280,
+      "afterLines": 7282,
+      "hunks": [
+        {
+          "beforeAt": 64,
+          "at": 64,
+          "before": [],
+          "after": [
+            "    \"originalEventGaps\": {\"tasks\": [\"TASK-13.1.2\", \"TASK-47\"], \"entryPoints\": [\"src/lua/abyss_event_pool.lua\", \"src/lua/abyss_nodes_entry.lua\", \"src/lua/abyss_nodes_events.lua\", \"src/lua/abyss_node_ui.lua\", \"src/lua/abyss_node_ui_event_cards.lua\", \"src/lua/abyss_match_event.lua\", \"src/lua/abyss_dead_adventurer_event.lua\", \"src/lua/abyss_colosseum_event.lua\", \"src/lua/abyss_masked_bandits_event.lua\", \"src/lua/abyss_cursed_tome_event.lua\", \"src/lua/abyss_forgotten_altar_event.lua\", \"src/lua/abyss_drug_dealer_event.lua\", \"src/lua/abyss_vampires_event.lua\", \"src/lua/abyss_designer_event.lua\", \"src/lua/abyss_duplicator_event.lua\", \"src/lua/abyss_face_trader_event.lua\", \"src/lua/abyss_knowing_skull_event.lua\", \"src/lua/abyss_nloth_event.lua\", \"src/lua/abyss_match_event_ui.lua\"], \"local\": {\"status\": \"coverage-recorded\", \"testFiles\": [\"tests/original-event-dispatch.test.mjs\", \"tests/event-combat-route-reducers.test.mjs\", \"tests/event-combat-route-colosseum.test.mjs\", \"tests/event-combat-route-enemies.test.mjs\", \"tests/event-combat-route-terminal.test.mjs\", \"tests/act2-choice-events.test.mjs\", \"tests/m3-relic-choice-events.test.mjs\", \"tests/special-event-relics.test.mjs\", \"tests/event-card-picker-ui.test.mjs\"]}, \"platform\": {\"status\": \"pending-per-item\", \"evidence\": []}, \"live\": {\"status\": \"pending-natural-acquisition-and-execution\", \"evidence\": []}, \"presentation\": \"existing-approved-controls-with-explicit-placeholder-and-device-acceptance-pending\", \"limitation\": \"Eleven previously missing source event routes reuse reviewed original ports, with current Match/Duplicator preserved. Full source pools, order, eligibility, RNG and once lifecycle are unchanged. Tests use controlled real Nodes/Run and native mocks, not a natural campaign or device acceptance. Full current-head CI and same-candidate build/import/ready/PC/mobile acceptance remain required.\"},",
+            "    \"originalEventRelicDependencies\": {\"tasks\": [\"TASK-13.1.2\", \"TASK-14.1\", \"TASK-47\"], \"entryPoints\": [\"src/lua/abyss_act2_event_relics.lua\", \"src/lua/abyss_necronomicurse.lua\", \"src/lua/abyss_codex_relic.lua\", \"src/lua/abyss_relic_end_turn.lua\", \"src/lua/abyss_relic_loss.lua\", \"src/lua/abyss_relic_rarity.lua\", \"src/lua/abyss_relic_hooks.lua\", \"src/lua/abyss_run.lua\", \"src/lua/abyss_combat.lua\"], \"local\": {\"status\": \"coverage-recorded\", \"testFiles\": [\"tests/act2-event-relics.test.mjs\", \"tests/act2-calendar-codex-joint.test.mjs\", \"tests/special-event-relics.test.mjs\", \"tests/m3-relic-choice-events.test.mjs\", \"tests/relic-catalog-completeness.test.mjs\"]}, \"platform\": {\"status\": \"pending-per-item\", \"evidence\": []}, \"live\": {\"status\": \"pending-natural-acquisition-and-execution\", \"evidence\": []}, \"presentation\": \"explicit-placeholder-dedicated-art-and-device-acceptance-pending\", \"limitation\": \"Eleven original SPECIAL event relics and Necronomicurse are added alongside the existing 130 ordinary pool bindings, preserving current owners and hook order. Controlled combat/acquisition/rollback and held-order tests do not prove natural acquisition, platform import or devices. No pool filtering, reroll or substitute reward.\"},"
+          ]
+        },
+        {
+          "beforeAt": 2472,
+          "at": 2474,
+          "before": [
+            "    }"
+          ],
+          "after": [
+            "    },",
+            "    {\"id\": \"necronomicurse\", \"profile\": \"originalEventRelicDependencies\", \"source\": \"data/cards.json#necronomicurse\", \"type\": \"curse\", \"countsTowardSeventyFive\": false, \"channels\": [\"explicit_event:cursed_tome:claim\", \"explicit_event:duplicator:select\", \"explicit:Run.obtainCard\", \"permanent_remove:necronomicurse:rebirth\", \"combat_exhaust:necronomicurse:rebirth\"], \"naturalAcquisitionLimitation\": \"Source Necronomicon special curse and protected Duplicator copy are explicit event branches; real permanent-remove/exhaust rebirth bypasses obtain as specified. This protected SPECIAL curse is not in the ordinary curse transformation pool; natural/device acceptance remains pending.\"}"
+          ]
+        },
+        {
+          "beforeAt": 4112,
+          "at": 4115,
+          "before": [
+            "    }"
+          ],
+          "after": [
+            "    },",
+            "    {\"id\": \"dead_adventurer\", \"originalId\": \"Dead Adventurer\", \"choices\": [\"search\", \"fight\", \"leave\"], \"stages\": [\"intro\", \"fail\", \"success\", \"escape\", \"combat\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_dead_adventurer_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 1, \"pool\": \"ordinary\"}], \"publicChannels\": [\"unknown_room:event\"], \"entryFixture\": {\"minimumFloor\": 7}},",
+            "    {\"id\": \"colosseum\", \"originalId\": \"Colosseum\", \"choices\": [\"continue\", \"fight\", \"leave\"], \"stages\": [\"intro\", \"fight\", \"combat_first\", \"post_combat\", \"combat_second\", \"leave\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_colosseum_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 2, \"pool\": \"ordinary\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2},",
+            "    {\"id\": \"masked_bandits\", \"originalId\": \"Masked Bandits\", \"choices\": [\"pay\", \"fight\", \"continue\", \"leave\"], \"stages\": [\"intro\", \"paid_1\", \"paid_2\", \"paid_3\", \"combat\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_masked_bandits_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 2, \"pool\": \"ordinary\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2},",
+            "    {\"id\": \"cursed_tome\", \"originalId\": \"Cursed Tome\", \"choices\": [\"read\", \"continue\", \"obtain\", \"stop\", \"claim\", \"skip\", \"leave\"], \"stages\": [\"intro\", \"page_1\", \"page_2\", \"page_3\", \"last_page\", \"reward\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_cursed_tome_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 2, \"pool\": \"ordinary\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2},",
+            "    {\"id\": \"forgotten_altar\", \"originalId\": \"Forgotten Altar\", \"choices\": [\"offer_idol\", \"shed_blood\", \"smash\", \"leave\"], \"stages\": [\"intro\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_forgotten_altar_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 2, \"pool\": \"ordinary\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2},",
+            "    {\"id\": \"drug_dealer\", \"originalId\": \"Drug Dealer\", \"choices\": [\"jax\", \"test_subject\", \"mutagens\", \"transform\", \"leave\"], \"stages\": [\"intro\", \"choose_card\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_drug_dealer_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 2, \"pool\": \"ordinary\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2},",
+            "    {\"id\": \"vampires\", \"originalId\": \"Vampires\", \"choices\": [\"accept\", \"give_vial\", \"leave\"], \"stages\": [\"intro\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_vampires_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 2, \"pool\": \"ordinary\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2, \"entryFixture\": {\"obtainRelics\": [\"blood_vial\"]}},",
+            "    {\"id\": \"designer\", \"originalId\": \"Designer\", \"choices\": [\"continue\", \"adjust\", \"cleanup\", \"full\", \"punch\", \"upgrade\", \"remove\", \"full_remove\", \"transform\", \"leave\"], \"stages\": [\"intro\", \"choice\", \"choose_card\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_designer_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 1, \"pool\": \"once\"}, {\"act\": 2, \"pool\": \"once\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2},",
+            "    {\"id\": \"face_trader\", \"originalId\": \"FaceTrader\", \"choices\": [\"continue\", \"touch\", \"trade\", \"leave\"], \"stages\": [\"intro\", \"choice\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_face_trader_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 1, \"pool\": \"once\"}, {\"act\": 2, \"pool\": \"once\"}], \"publicChannels\": [\"unknown_room:event\"]},",
+            "    {\"id\": \"knowing_skull\", \"originalId\": \"Knowing Skull\", \"choices\": [\"continue\", \"potion\", \"gold\", \"card\", \"leave\"], \"stages\": [\"intro\", \"choice\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_knowing_skull_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 1, \"pool\": \"once\"}, {\"act\": 2, \"pool\": \"once\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2},",
+            "    {\"id\": \"nloth\", \"originalId\": \"N'loth\", \"choices\": [\"trade_1\", \"trade_2\", \"leave\"], \"stages\": [\"intro\", \"result\"], \"eligibility\": \"Original full-source availability predicates are unchanged; source membership below does not bypass them.\", \"source\": \"src/lua/abyss_nloth_event.lua\", \"profile\": \"originalEventGaps\", \"channels\": [\"explicit:Nodes.enter\"], \"poolMode\": \"explicit-only\", \"naturalAcquisitionLimitation\": \"Legacy noncampaign explicit-only classification. Public campaign uses the unchanged full source pool; controlled Nodes/source RNG fixtures are not natural gameplay or native/device acceptance. Real relic dependencies and mandatory undersized-grid source limitations remain tracked; no reroll or substitute reward.\", \"publicSourceMembership\": [{\"act\": 1, \"pool\": \"once\"}, {\"act\": 2, \"pool\": \"once\"}], \"publicChannels\": [\"unknown_room:event\"], \"act\": 2, \"entryFixture\": {\"obtainRelics\": [\"anchor\"]}}"
+          ]
+        },
+        {
+          "beforeAt": 5567,
+          "at": 5581,
+          "before": [
+            "    {",
+            "      \"id\": \"circlet\",",
+            "      \"source\": \"data/relics.json#circlet\",",
+            "      \"profile\": \"relics\",",
+            "      \"rarity\": \"special\",",
+            "      \"channels\": [",
+            "        \"explicit_event:bonfire:repeat_curse_offer\",",
+            "        \"explicit_event:golden_idol:repeat_take\",",
+            "        \"explicit_event:mushrooms:repeat_fight\"",
+            "      ],",
+            "      \"sourceId\": \"Circlet\",",
+            "      \"naturalAcquisitionLimitation\": \"Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue. Golden Idol repeat take also yields/increments the actual Circlet before trap choice.\"",
+            "    },"
+          ],
+          "after": [
+            "    {\"id\": \"circlet\", \"source\": \"data/relics.json#circlet\", \"profile\": \"relics\", \"rarity\": \"special\", \"channels\": [\"explicit_event:bonfire:repeat_curse_offer\", \"explicit_event:golden_idol:repeat_take\", \"explicit_event:mushrooms:repeat_fight\", \"explicit_event:cursed_tome:claim\", \"explicit_event:forgotten_altar:offer_idol\", \"explicit_event:drug_dealer:mutagens\", \"explicit_event:face_trader:trade\", \"explicit_event:nloth:trade_1\", \"explicit_event:nloth:trade_2\", \"explicit_event:masked_bandits:fight\"], \"sourceId\": \"Circlet\", \"naturalAcquisitionLimitation\": \"Only the listed explicit event is a legal acquisition channel; absent from ordinary treasure/shop pools. Treasure candidates exclude SPECIAL; no legal relic retains the existing gold fallback. Repeated Bonfire curse offerings increment its counter without a second slot. The finite source relic queue can also return Circlet on exhaustion; treasure/shop are not yet wired to this queue. Golden Idol repeat take also yields/increments the actual Circlet before trap choice.\"},"
+          ]
+        },
+        {
+          "beforeAt": 5593,
+          "at": 5595,
+          "before": [
+            "    {",
+            "      \"id\": \"red_mask\",",
+            "      \"sourceId\": \"Red Mask\",",
+            "      \"source\": \"data/relics.json#red_mask\",",
+            "      \"profile\": \"tomb\",",
+            "      \"rarity\": \"special\",",
+            "      \"channels\": [",
+            "        \"explicit_event:tomb_red_mask:pay\"",
+            "      ],",
+            "      \"naturalAcquisitionLimitation\": \"Actual named SPECIAL obtain from Tomb only; excluded from ordinary treasure/shop source queues. The source Masked Bandits path is unimplemented and not claimed.\",",
+            "      \"naturalExecutionLimitation\": \"Opening BOT Weak1/Artifact/first-round expiry and repeated battles locally covered; dedicated relic art, whole campaign and platform/live acceptance pending.\"",
+            "    },"
+          ],
+          "after": [
+            "    {\"id\": \"red_mask\", \"sourceId\": \"Red Mask\", \"source\": \"data/relics.json#red_mask\", \"profile\": \"tomb\", \"rarity\": \"special\", \"channels\": [\"explicit_event:tomb_red_mask:pay\", \"explicit_event:masked_bandits:fight\"], \"naturalAcquisitionLimitation\": \"Actual named SPECIAL obtain from Tomb only; excluded from ordinary treasure/shop source queues. The source Masked Bandits path is unimplemented and not claimed.\", \"naturalExecutionLimitation\": \"Opening BOT Weak1/Artifact/first-round expiry and repeated battles locally covered; dedicated relic art, whole campaign and platform/live acceptance pending.\"},"
+          ]
+        },
+        {
+          "beforeAt": 5741,
+          "at": 5732,
+          "before": [
+            "    }"
+          ],
+          "after": [
+            "    },",
+            "    {\"id\": \"cultist_mask\", \"sourceId\": \"CultistMask\", \"rarity\": \"special\", \"source\": \"data/relics.json#cultist_mask\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:face_trader:trade\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"face_of_cleric\", \"sourceId\": \"FaceOfCleric\", \"rarity\": \"special\", \"source\": \"data/relics.json#face_of_cleric\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:face_trader:trade\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"gremlin_mask\", \"sourceId\": \"GremlinMask\", \"rarity\": \"special\", \"source\": \"data/relics.json#gremlin_mask\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:face_trader:trade\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"nloths_mask\", \"sourceId\": \"NlothsMask\", \"rarity\": \"special\", \"source\": \"data/relics.json#nloths_mask\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:face_trader:trade\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"ssserpent_head\", \"sourceId\": \"SsserpentHead\", \"rarity\": \"special\", \"source\": \"data/relics.json#ssserpent_head\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:face_trader:trade\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"nloths_gift\", \"sourceId\": \"Nloth's Gift\", \"rarity\": \"special\", \"source\": \"data/relics.json#nloths_gift\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:nloth:trade_1\", \"explicit_event:nloth:trade_2\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"bloody_idol\", \"sourceId\": \"Bloody Idol\", \"rarity\": \"special\", \"source\": \"data/relics.json#bloody_idol\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:forgotten_altar:offer_idol\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"mutagenic_strength\", \"sourceId\": \"MutagenicStrength\", \"rarity\": \"special\", \"source\": \"data/relics.json#mutagenic_strength\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:drug_dealer:mutagens\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"necronomicon\", \"sourceId\": \"Necronomicon\", \"rarity\": \"special\", \"source\": \"data/relics.json#necronomicon\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:cursed_tome:claim\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"enchiridion\", \"sourceId\": \"Enchiridion\", \"rarity\": \"special\", \"source\": \"data/relics.json#enchiridion\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:cursed_tome:claim\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"},",
+            "    {\"id\": \"nilrys_codex\", \"sourceId\": \"Nilry's Codex\", \"rarity\": \"special\", \"source\": \"data/relics.json#nilrys_codex\", \"profile\": \"originalEventRelicDependencies\", \"channels\": [\"explicit_event:cursed_tome:claim\"], \"naturalAcquisitionLimitation\": \"Only the listed source-exact event branch is implemented; SPECIAL remains outside ordinary treasure/shop pools. Controlled command coverage is not natural acquisition or native-device acceptance.\"}"
+          ]
+        }
+      ]
+    },
+    "data/relics.json": {
+      "beforeSha256": "d5a0eab4b2e0fb4defaf71ba738847b08bddace89e017a27a056a8f9f77f7930",
+      "afterSha256": "5f222e337bd64adc148b0274c7d6bcefc051431fe56da87d1493a0dbb9980708",
+      "beforeGitBlob": "3051f3229938904d398b9208f21a0d33f19d148f",
+      "afterGitBlob": "79688491786e63068bfe3a172fbe4c090917682b",
+      "beforeLines": 723,
+      "afterLines": 734,
+      "hunks": [
+        {
+          "beforeAt": 719,
+          "at": 719,
+          "before": [
+            "    }"
+          ],
+          "after": [
+            "    },",
+            "    {\"id\": \"cultist_mask\", \"sourceId\": \"CultistMask\", \"name\": \"邪教徒头饰\", \"description\": \"战斗开始时发出邪教徒的叫声；没有额外属性。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"face_of_cleric\", \"sourceId\": \"FaceOfCleric\", \"name\": \"圣职者之脸\", \"description\": \"每场战斗结束后，生命上限增加1，并按治疗规则回复1点生命。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"gremlin_mask\", \"sourceId\": \"GremlinMask\", \"name\": \"地精容貌\", \"description\": \"每场战斗开始时，获得1层虚弱。\", \"rarity\": \"special\", \"trigger\": \"combat_start\", \"effects\": [{\"op\": \"gainStatus\", \"status\": \"weak\", \"value\": 1}]},",
+            "    {\"id\": \"nloths_mask\", \"sourceId\": \"NlothsMask\", \"name\": \"N'loth的饥饿之脸\", \"description\": \"下次打开非Boss宝箱时，移除其中第一件遗物奖励；只触发一次。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"ssserpent_head\", \"sourceId\": \"SsserpentHead\", \"name\": \"长蛇之首\", \"description\": \"进入问号房时，在房间转类与事件抽取前获得50金币；问号房变为战斗等房间仍会获得。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"nloths_gift\", \"sourceId\": \"Nloth's Gift\", \"name\": \"N'loth的礼物\", \"description\": \"房间卡牌稀有权重中的稀有权重乘以3；不改变稀有度偏移或额外消耗随机数。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"bloody_idol\", \"sourceId\": \"Bloody Idol\", \"name\": \"血色神像\", \"description\": \"每当你获得金币时，回复5点生命。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": [], \"replaces\": \"golden_idol\"},",
+            "    {\"id\": \"mutagenic_strength\", \"sourceId\": \"MutagenicStrength\", \"name\": \"突变力量\", \"description\": \"每场战斗开始时获得3点力量，在第一回合结束时失去3点力量。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"necronomicon\", \"sourceId\": \"Necronomicon\", \"name\": \"死灵之书\", \"description\": \"每回合第一次打出本回合费用至少2的攻击牌时，将其再打出一次。取得时获得死灵诅咒。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"enchiridion\", \"sourceId\": \"Enchiridion\", \"name\": \"圣书\", \"description\": \"每场战斗开始时，生成一张随机能力牌加入手牌，本回合费用为0。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []},",
+            "    {\"id\": \"nilrys_codex\", \"sourceId\": \"Nilry's Codex\", \"name\": \"尼利宝典\", \"description\": \"每回合结束时，从三张随机牌中选择至多一张洗入抽牌堆。\", \"rarity\": \"special\", \"trigger\": \"hooks\", \"effects\": []}"
+          ]
+        }
+      ]
+    },
+    "scripts/validate-data.mjs": {
+      "beforeSha256": "6b80a0cae983e11b7a177c4f2243387f78909799f49bb2068a916c30f5c6bb01",
+      "afterSha256": "4a1043d4fee942f51a7ae7d7fc12e7a17b6fdaed01f3d75bf09cc868613eb925",
+      "beforeGitBlob": "527303b545b42a128a9bd8e206dc30a7e0673d38",
+      "afterGitBlob": "a63461c11bd0028ec1b89aca25bc3fabea4e7292",
+      "beforeLines": 750,
+      "afterLines": 758,
+      "hunks": [
+        {
+          "beforeAt": 153,
+          "at": 153,
+          "before": [],
+          "after": [
+            "    if (!partial && card.id === 'necronomicurse') {",
+            "      enumeration(card.type,['curse'],`${path}.type`); enumeration(card.rarity,['special'],`${path}.rarity`);",
+            "      enumeration(card.cost,[-2],`${path}.cost`); enumeration(card.sourceId,['Necronomicurse'],`${path}.sourceId`);",
+            "      if (card.color !== undefined) fail(`${path}.color`,'raw curse color is derived from type');",
+            "      if (!Array.isArray(card.effects) || card.effects.length !== 0) fail(`${path}.effects`,'Necronomicurse has empty use');",
+            "      for (const field of ['upgrade','exhaust','ethereal','innate','costMode','condition']) if (card[field] !== undefined) fail(`${path}.${field}`,'unsupported Necronomicurse field');",
+            "      return;",
+            "    }"
+          ]
+        },
+        {
+          "beforeAt": 624,
+          "at": 632,
+          "before": [
+            "        'snake_skull', 'data_disk', 'damaru', 'mark_of_bloom', 'black_star', 'lizard_tail', 'odd_mushroom', 'pear', 'mango', 'lees_waffle', 'white_beast_statue', 'old_coin', 'frozen_egg', 'sacred_bark', 'fossilized_helix', 'pantograph', 'bottled_tornado', 'sundial', 'kunai', 'blue_candle', 'eternal_feather', 'strike_dummy', 'singing_bowl', 'matryoshka', 'ink_bottle', 'ornamental_fan', 'bottled_lightning', 'gremlin_horn', 'horn_cleat', 'letter_opener', 'question_card', 'bottled_flame', 'shuriken', 'meat_on_the_bone', 'mummified_hand', 'mercury_hourglass', 'self_forming_clay', 'paper_frog', 'ginger', 'bird_faced_urn', 'unceasing_top', 'torii', 'stone_calendar', 'shovel', 'winged_greaves', 'thread_and_needle', 'turnip', 'ice_cream', 'calipers', 'prayer_wheel', 'girya', 'dead_branch', 'du_vu_doll', 'pocketwatch', 'incense_burner', 'gambling_chip', 'peace_pipe', 'captains_wheel', 'magic_flower', 'charons_ashes', 'champion_belt', 'velvet_choker', 'runic_dome', 'snecko_eye', 'pandoras_box', 'cursed_key', 'busted_crown', 'ectoplasm', 'tiny_house', 'philosophers_stone', 'astrolabe', 'empty_cage', 'runic_pyramid', 'calling_bell', 'mark_of_pain', 'runic_cube', 'sling', 'hand_drill', 'toolbox', 'chemical_x', 'orrery', 'dollys_mirror', 'orange_pellets', 'prismatic_shard', 'clockwork_souvenir', 'frozen_eye', 'the_abacus', 'medical_kit', 'cauldron', 'strange_spoon', 'brimstone'].includes(entry.id)) fail(`${p}.id`, 'unsupported relic hook');"
+          ],
+          "after": [
+            "        'snake_skull', 'data_disk', 'damaru', 'mark_of_bloom', 'black_star', 'lizard_tail', 'odd_mushroom', 'pear', 'mango', 'lees_waffle', 'white_beast_statue', 'old_coin', 'frozen_egg', 'sacred_bark', 'fossilized_helix', 'pantograph', 'bottled_tornado', 'sundial', 'kunai', 'blue_candle', 'eternal_feather', 'strike_dummy', 'singing_bowl', 'matryoshka', 'ink_bottle', 'ornamental_fan', 'bottled_lightning', 'gremlin_horn', 'horn_cleat', 'letter_opener', 'question_card', 'bottled_flame', 'shuriken', 'meat_on_the_bone', 'mummified_hand', 'mercury_hourglass', 'self_forming_clay', 'paper_frog', 'ginger', 'bird_faced_urn', 'unceasing_top', 'torii', 'stone_calendar', 'shovel', 'winged_greaves', 'thread_and_needle', 'turnip', 'ice_cream', 'calipers', 'prayer_wheel', 'girya', 'dead_branch', 'du_vu_doll', 'pocketwatch', 'incense_burner', 'gambling_chip', 'peace_pipe', 'captains_wheel', 'magic_flower', 'charons_ashes', 'champion_belt', 'velvet_choker', 'runic_dome', 'snecko_eye', 'pandoras_box', 'cursed_key', 'busted_crown', 'ectoplasm', 'tiny_house', 'philosophers_stone', 'astrolabe', 'empty_cage', 'runic_pyramid', 'calling_bell', 'mark_of_pain', 'runic_cube', 'sling', 'hand_drill', 'toolbox', 'chemical_x', 'orrery', 'dollys_mirror', 'orange_pellets', 'prismatic_shard', 'clockwork_souvenir', 'frozen_eye', 'the_abacus', 'medical_kit', 'cauldron', 'strange_spoon', 'brimstone', 'cultist_mask', 'face_of_cleric', 'nloths_mask', 'ssserpent_head', 'nloths_gift', 'bloody_idol', 'mutagenic_strength', 'necronomicon', 'enchiridion', 'nilrys_codex'].includes(entry.id)) fail(`${p}.id`, 'unsupported relic hook');"
+          ]
+        }
+      ]
+    },
+    "scripts/verify-launch-content.lua": {
+      "beforeSha256": "99feb8d2bd17931bde125dc1ac700230a995a28acb0d3013539461f34895bafb",
+      "afterSha256": "6f8286dd698b59f6ecf6b4167e53ad207bd9aa29471ccaa83e09dec753837bf4",
+      "beforeGitBlob": "9ab5d96ae1e3a01b6612c454b2dcb4bc7c37ef71",
+      "afterGitBlob": "1e7c84dcace8a36dac51f0c25edaa273ad00fa21",
+      "beforeLines": 166,
+      "afterLines": 191,
+      "hunks": [
+        {
+          "beforeAt": 54,
+          "at": 54,
+          "before": [],
+          "after": [
+            "    for _,id in ipairs(event.entryFixture and event.entryFixture.obtainRelics or {})do assert(Run.obtainRelic(run,id))end"
+          ]
+        },
+        {
+          "beforeAt": 58,
+          "at": 59,
+          "before": [],
+          "after": [
+            "        while event.entryFixture and event.entryFixture.minimumFloor and first.floor<event.entryFixture.minimumFloor do",
+            "            assert(Map.choose(map,first.id));first=assert(Map.available(map)[1])",
+            "        end"
+          ]
+        },
+        {
+          "beforeAt": 114,
+          "at": 118,
+          "before": [
+            "    for _,stage in ipairs(event.id=='sensory_stone'and{}or event.stages or {}) do"
+          ],
+          "after": [
+            "    -- Tome reward options require the actual source descriptor. Traverse real",
+            "    -- paid pages/draw/skip; do not fabricate a book to satisfy a stage probe.",
+            "    if event.id=='cursed_tome'then",
+            "        local function collect()",
+            "            flow=run.nodeFlow",
+            "            for _,option in ipairs(Nodes.eventOptions(run,flow))do choices[option.choice]=true end",
+            "        end",
+            "        assert(Nodes.chooseEvent(run,'read'));collect()",
+            "        for _=1,3 do assert(Nodes.chooseEvent(run,'continue'));collect()end",
+            "        assert(Nodes.chooseEvent(run,'obtain'));collect()",
+            "        assert(Nodes.chooseEvent(run,'skip'));collect()",
+            "    end",
+            "    if event.id=='designer'then",
+            "        -- Options-only source branch inspection; actual paid transitions and",
+            "        -- atomic ordered grid commands are checked by dedicated runtime tests.",
+            "        flow.event.stage='choose_card'",
+            "        for _,choice in ipairs({'upgrade','remove','full_remove','transform'})do",
+            "            flow.event.choice=choice",
+            "            for _,option in ipairs(Nodes.eventOptions(run,flow))do choices[option.choice]=true end",
+            "        end",
+            "    end",
+            "    for _,stage in ipairs((event.id=='sensory_stone'or event.id=='cursed_tome')and{}or event.stages or {}) do"
+          ]
+        }
+      ]
+    },
+    "scripts/verify-launch-content.mjs": {
+      "beforeSha256": "ddaf817d782261060ddb627d8e42b7522bf8b82b7d1aab80894dfbe635d8c8f4",
+      "afterSha256": "c0b94c5d4a8a54c8e6817ff7a44195c67233ba69a4bebd2af2ce83ffa5224fa6",
+      "beforeGitBlob": "655e5223b069ad1ba94eaf71193efe6a01233052",
+      "afterGitBlob": "eb076ca31bd65072932b2e6db1620671a7ce8b73",
+      "beforeLines": 363,
+      "afterLines": 375,
+      "hunks": [
+        {
+          "beforeAt": 24,
+          "at": 24,
+          "before": [
+            "  red_mask: ['explicit_event:tomb_red_mask:pay'],"
+          ],
+          "after": [
+            "  red_mask: ['explicit_event:tomb_red_mask:pay', 'explicit_event:masked_bandits:fight'],",
+            "  bloody_idol: ['explicit_event:forgotten_altar:offer_idol'],",
+            "  mutagenic_strength: ['explicit_event:drug_dealer:mutagens'],",
+            "  necronomicon: ['explicit_event:cursed_tome:claim'],",
+            "  enchiridion: ['explicit_event:cursed_tome:claim'],",
+            "  nilrys_codex: ['explicit_event:cursed_tome:claim'],",
+            "  cultist_mask: ['explicit_event:face_trader:trade'],",
+            "  face_of_cleric: ['explicit_event:face_trader:trade'],",
+            "  gremlin_mask: ['explicit_event:face_trader:trade'],",
+            "  nloths_mask: ['explicit_event:face_trader:trade'],",
+            "  ssserpent_head: ['explicit_event:face_trader:trade'],",
+            "  nloths_gift: ['explicit_event:nloth:trade_1', 'explicit_event:nloth:trade_2'],"
+          ]
+        },
+        {
+          "beforeAt": 26,
+          "at": 37,
+          "before": [
+            "    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take', 'explicit_event:mushrooms:repeat_fight'],"
+          ],
+          "after": [
+            "    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take', 'explicit_event:mushrooms:repeat_fight', 'explicit_event:cursed_tome:claim', 'explicit_event:forgotten_altar:offer_idol', 'explicit_event:drug_dealer:mutagens', 'explicit_event:face_trader:trade', 'explicit_event:nloth:trade_1', 'explicit_event:nloth:trade_2', 'explicit_event:masked_bandits:fight'],"
+          ]
+        },
+        {
+          "beforeAt": 200,
+          "at": 211,
+          "before": [
+            "    const channels = bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']"
+          ],
+          "after": [
+            "    const channels = card.id === 'necronomicurse' ? [\"explicit_event:cursed_tome:claim\", \"explicit_event:duplicator:select\", \"explicit:Run.obtainCard\", \"permanent_remove:necronomicurse:rebirth\", \"combat_exhaust:necronomicurse:rebirth\"]",
+            "      : bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_act1_events.lua": {
+      "beforeSha256": "48c7f3d929e53be7fabeb8406a0aa0c707b6ed5a3ce56bbd7fe78f6f0734d91e",
+      "afterSha256": "14004baabf05ea886ab41c2b619c88bac2b8ffdc463aec1852c21d6d2897843d",
+      "beforeGitBlob": "f8a0ec94ecca234c7ca0c899b75a482d1bd70a96",
+      "afterGitBlob": "a5b2880d5ea44db07c4a295b801194eea85d1d47",
+      "beforeLines": 229,
+      "afterLines": 243,
+      "hunks": [
+        {
+          "beforeAt": 11,
+          "at": 11,
+          "before": [
+            "function M.prepare(run,event,miscRng)"
+          ],
+          "after": [
+            "for _,id in ipairs({'dead_adventurer','designer','face_trader','knowing_skull','nloth'})do M.ids[id]=true end",
+            "local function extension(id)",
+            "    if id=='dead_adventurer'then return require('abyss_dead_adventurer_event')end",
+            "    if id=='designer'then return require('abyss_designer_event')end",
+            "    if id=='face_trader'then return require('abyss_face_trader_event')end",
+            "    if id=='knowing_skull'then return require('abyss_knowing_skull_event')end",
+            "    if id=='nloth'then return require('abyss_nloth_event')end",
+            "end",
+            "function M.prepare(run,event,miscRng,floor)",
+            "    local extra=extension(event.id);if extra then return extra.prepare(run,event,miscRng,floor)end"
+          ]
+        },
+        {
+          "beforeAt": 49,
+          "at": 58,
+          "before": [],
+          "after": [
+            "    local extra=extension(event.id);if extra then return extra.options(run,event)end"
+          ]
+        },
+        {
+          "beforeAt": 76,
+          "at": 86,
+          "before": [],
+          "after": [
+            "    local extra=extension(flow.event.id);if extra then return extra.choose(run,flow,choice,uid)end"
+          ]
+        },
+        {
+          "beforeAt": 227,
+          "at": 238,
+          "before": [],
+          "after": [
+            "function M.view(run,event)",
+            "    local extra=extension(event.id);if extra and extra.view then extra.view(run,event)end",
+            "end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_act2_event_relics.lua": {
+      "beforeSha256": null,
+      "afterSha256": "fbad6fda867e0dbc2b9347e9698bba6b66d1acdc208a3c966f222ec286f3af92",
+      "beforeGitBlob": null,
+      "afterGitBlob": "783b5c7aa8cb73ab7eed8be18e56cf9734399b67",
+      "beforeLines": null,
+      "afterLines": 95,
+      "hunks": []
+    },
+    "src/lua/abyss_act2_events.lua": {
+      "beforeSha256": "76a94420164d262054a25b29eb60b6fbc36f70d53ffbb145e4ee987307096aca",
+      "afterSha256": "493d67faadcd8d5b0d271d2568ddaee02c9956651b4ca6e32a665c57ed443fac",
+      "beforeGitBlob": "83d64e15deb207400b533073dc3dac61bb396ac8",
+      "afterGitBlob": "550986f1e15709cda9d6efacabde6a42088ab460",
+      "beforeLines": 206,
+      "afterLines": 219,
+      "hunks": [
+        {
+          "beforeAt": 15,
+          "at": 15,
+          "before": [
+            "function M.prepare(run,event)"
+          ],
+          "after": [
+            "for _,id in ipairs({'colosseum','masked_bandits','cursed_tome','forgotten_altar','drug_dealer','vampires'})do M.ids[id]=true end",
+            "local function extension(id)",
+            "    if id=='colosseum'then return require('abyss_colosseum_event')end",
+            "    if id=='masked_bandits'then return require('abyss_masked_bandits_event')end",
+            "    if id=='cursed_tome'then return require('abyss_cursed_tome_event')end",
+            "    if id=='forgotten_altar'then return require('abyss_forgotten_altar_event')end",
+            "    if id=='drug_dealer'then return require('abyss_drug_dealer_event')end",
+            "    if id=='vampires'then return require('abyss_vampires_event')end",
+            "end",
+            "function M.prepare(run,event,miscRng,floor)",
+            "    local extra=extension(event.id);if extra then return extra.prepare(run,event,miscRng,floor)end"
+          ]
+        },
+        {
+          "beforeAt": 32,
+          "at": 42,
+          "before": [],
+          "after": [
+            "    local extra=extension(event.id);if extra then return extra.options(run,event)end"
+          ]
+        },
+        {
+          "beforeAt": 144,
+          "at": 155,
+          "before": [],
+          "after": [
+            "    local extra=extension(event.id);if extra then if extra.view then extra.view(run,event)end;return end"
+          ]
+        },
+        {
+          "beforeAt": 160,
+          "at": 172,
+          "before": [],
+          "after": [
+            "    local extra=extension(flow.event.id);if extra then return extra.choose(run,flow,choice,uid)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_actions.lua": {
+      "beforeSha256": "0b3c390127fbe7bbdcd95d5a075e7ed0849656d854f979e7417c625588ae88ca",
+      "afterSha256": "599fadabd5b702006eebee279cb17215d8335e764eb8e108e420827a1af52ba3",
+      "beforeGitBlob": "8b86d923d374a2275b09c3b51224e3f626e1b7e0",
+      "afterGitBlob": "eac08307753cb0740b62e0c4ed902f7305d22de1",
+      "beforeLines": 519,
+      "afterLines": 521,
+      "hunks": [
+        {
+          "beforeAt": 47,
+          "at": 47,
+          "before": [
+            "    -- Exhaust triggers Power hooks first, the card's own trigger second; both",
+            "    -- run after movement. Dark Embrace/FNP append; Sentinel inserts at the top."
+          ],
+          "after": [
+            "    -- CardGroup.moveToExhaustPile dispatches relics, then Powers, then the",
+            "    -- card hook. Dark Embrace/FNP append; Sentinel inserts at the top."
+          ]
+        },
+        {
+          "beforeAt": 51,
+          "at": 51,
+          "before": [],
+          "after": [
+            "    require('abyss_rare_relics').onExhaust(state)"
+          ]
+        },
+        {
+          "beforeAt": 57,
+          "at": 58,
+          "before": [
+            "    require('abyss_rare_relics').onExhaust(state)"
+          ],
+          "after": [
+            "    local rebirth=require('abyss_necronomicurse').exhaustPlan(instance)",
+            "    if rebirth then M.enqueue(state,rebirth.effect)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_pool.lua": {
+      "beforeSha256": "94b6e8ec89ce6cf4e89879b3cb3e21a318329a62e6ded0407358bc8d8f473c18",
+      "afterSha256": "14c58909053321f2e96717798f4c18f88565af9eabbfe683d4e635d39376079c",
+      "beforeGitBlob": "9b56680756171324fe0c933bb8fc6397e38d2810",
+      "afterGitBlob": "7e5a2c238fd3368325027333f67cf71d4213e809",
+      "beforeLines": 74,
+      "afterLines": 73,
+      "hunks": [
+        {
+          "beforeAt": 36,
+          "at": 36,
+          "before": [
+            "function M.rarity(roll,offset,tier)"
+          ],
+          "after": [
+            "function M.rarity(roll,offset,tier,relics)"
+          ]
+        },
+        {
+          "beforeAt": 39,
+          "at": 39,
+          "before": [
+            "    local rare=tier=='elite' and 10 or tier=='shop' and 9 or 3",
+            "    local uncommon=tier=='elite' and 50 or tier=='shop' and 46 or 40"
+          ],
+          "after": [
+            "    local rare,uncommon=require('abyss_relic_rarity').thresholds(tier,relics)"
+          ]
+        },
+        {
+          "beforeAt": 49,
+          "at": 48,
+          "before": [
+            "        local rarity=M.rarity(R.randomInt(rng,99),offset,run.encounterTier)"
+          ],
+          "after": [
+            "        local rarity=M.rarity(R.randomInt(rng,99),offset,run.encounterTier,run.relics)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_random.lua": {
+      "beforeSha256": "e429204a73f282de96d27d8f2ee3669e7fbb0c101a3d346c4400e96110ac1408",
+      "afterSha256": "fe5890f5ea37f9cd32905321fe8a8245c25b90c527196f67bb6ff111ca962cb9",
+      "beforeGitBlob": "e8914266b09fe413c60ee9d022c20d6a03fe882d",
+      "afterGitBlob": "445c581eeeed0670035a404a3994e41f2558dc2f",
+      "beforeLines": 66,
+      "afterLines": 64,
+      "hunks": [
+        {
+          "beforeAt": 38,
+          "at": 38,
+          "before": [
+            "function M.rollRarity(owner,context)"
+          ],
+          "after": [
+            "function M.rollRarity(owner,context,relics)"
+          ]
+        },
+        {
+          "beforeAt": 44,
+          "at": 44,
+          "before": [
+            "    local rare,uncommon=3,40",
+            "    if context=='elite' then rare,uncommon=10,50",
+            "    elseif context=='shop' then rare,uncommon=9,46 end"
+          ],
+          "after": [
+            "    local rare,uncommon=require('abyss_relic_rarity').thresholds(context,relics or owner.relics)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_character_presentation_text.lua": {
+      "beforeSha256": "837e1be17834461db1aabee8514a10d87064d4723172af22e15b94f8f0c3dc16",
+      "afterSha256": "c57e30f30c35ee7b7d8cc654a848e8ff9fea2be2fe1fa958cf48df23c21e8311",
+      "beforeGitBlob": "b9f6fb778f7b6a4d1a6811fc3113babdef4cbdc7",
+      "afterGitBlob": "c809837529ab983e879601c6de431495e1481eb3",
+      "beforeLines": 637,
+      "afterLines": 638,
+      "hunks": [
+        {
+          "beforeAt": 48,
+          "at": 48,
+          "before": [],
+          "after": [
+            "            necronomicurse='不能打出。不能永久移除。被消耗时，将一张新的死灵诅咒加入手牌。',"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_codex_relic.lua": {
+      "beforeSha256": null,
+      "afterSha256": "84b81de8a7213ce4f6abbbd51c76d7cdf87b0907febf06e6f3ff32d5b9975547",
+      "beforeGitBlob": null,
+      "afterGitBlob": "f7b5d30113485caf9dbbe7ae43234453f306c7bd",
+      "beforeLines": null,
+      "afterLines": 59,
+      "hunks": []
+    },
+    "src/lua/abyss_colorless_cards.lua": {
+      "beforeSha256": "2f4694cfccd1779f660ce109fad8fbfb32d5415d6ace925bbec89b580292ff4c",
+      "afterSha256": "74a54bf907b85be4c7315dceca4a20a8b9e7371f6dff482d8bc33104199a4d89",
+      "beforeGitBlob": "24303a9083e422235990f667c712e621ebb29d2a",
+      "afterGitBlob": "d75559e43e4dc73c14924ab633ba896272a6cb08",
+      "beforeLines": 416,
+      "afterLines": 421,
+      "hunks": [
+        {
+          "beforeAt": 403,
+          "at": 403,
+          "before": [
+            "                state.player.gold=state.player.gold+a.value",
+            "                require('abyss_events').emit(state,'gold',{amount=a.value,source='hand_of_greed'})"
+          ],
+          "after": [
+            "                if not require('abyss_relic_hooks').owns(state,'ectoplasm')then",
+            "                    state.player.gold=state.player.gold+a.value",
+            "                    require('abyss_act2_event_relics').gainGold(state,a.value,function(n)",
+            "                        return actions().apply(combat,state,{effect={op='heal',value=n},source=state.player})",
+            "                    end)",
+            "                    require('abyss_events').emit(state,'gold',{amount=a.value,source='hand_of_greed'})",
+            "                end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_colosseum_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "a4d3d339d10b0f56ed97a95237d630fda8cb46f9d125dfa21c70fc5218627058",
+      "beforeGitBlob": null,
+      "afterGitBlob": "63379eefee28100c1ec490abd4fb206b21d34731",
+      "beforeLines": null,
+      "afterLines": 31,
+      "hunks": []
+    },
+    "src/lua/abyss_combat.lua": {
+      "beforeSha256": "c331fffba45cd8abcc82337a6393d4bc1b091489b96015e456f68f8b3a309f78",
+      "afterSha256": "33f6471fc0c356891eddfb68068c8bf983c8128114c2729a84d4fa7fbaba7263",
+      "beforeGitBlob": "91d19fb58cefcfa043f50038f4619ae304c51d04",
+      "afterGitBlob": "feba773ed63ffacd1b554f975733eae3375b8575",
+      "beforeLines": 2210,
+      "afterLines": 2258,
+      "hunks": [
+        {
+          "beforeAt": 464,
+          "at": 464,
+          "before": [],
+          "after": [
+            "    if RelicHooks.owns(state,'necronomicon')then card.necronomiconCostForTurn=card.cost end"
+          ]
+        },
+        {
+          "beforeAt": 864,
+          "at": 865,
+          "before": [],
+          "after": [
+            "    if action.effect.op=='act2RelicCodex'then",
+            "        if require('abyss_codex_relic').begin(M,state)then return 'pause'end",
+            "        return true",
+            "    end"
+          ]
+        },
+        {
+          "beforeAt": 1000,
+          "at": 1005,
+          "before": [
+            "local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)"
+          ],
+          "after": [
+            "local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge,freeToPlayOnce)"
+          ]
+        },
+        {
+          "beforeAt": 1003,
+          "at": 1008,
+          "before": [
+            "    if purge then return end"
+          ],
+          "after": [
+            "    if purge then",
+            "        require('abyss_act2_event_relics').copyAttack(M,state,instance,card,targetIndex,energyOnUse,freeToPlayOnce,card.necronomiconCostForTurn,CardActions)",
+            "        return",
+            "    end"
+          ]
+        },
+        {
+          "beforeAt": 1015,
+          "at": 1023,
+          "before": [],
+          "after": [
+            "    require('abyss_act2_event_relics').copyAttack(M,state,instance,card,targetIndex,energyOnUse,freeToPlayOnce,card.necronomiconCostForTurn,CardActions)"
+          ]
+        },
+        {
+          "beforeAt": 1128,
+          "at": 1137,
+          "before": [
+            "    queueUseCopies(state,instance,card,targetIndex,energyOnUse,automatic and automatic.purge)"
+          ],
+          "after": [
+            "    queueUseCopies(state,instance,card,targetIndex,energyOnUse,automatic and automatic.purge,freeToPlayOnce)"
+          ]
+        },
+        {
+          "beforeAt": 1146,
+          "at": 1155,
+          "before": [],
+          "after": [
+            "    local necronomiconFree=free or instance.freeToPlayOnce==true"
+          ]
+        },
+        {
+          "beforeAt": 1223,
+          "at": 1233,
+          "before": [
+            "    queueUseCopies(state,instance,card,targetIndex,x,purge)"
+          ],
+          "after": [
+            "    queueUseCopies(state,instance,card,targetIndex,x,purge,necronomiconFree)"
+          ]
+        },
+        {
+          "beforeAt": 1298,
+          "at": 1308,
+          "before": [],
+          "after": [
+            "local function preCardActionHandlers()",
+            "    local handlers={allow=queuedHandlers.allow,useCard=queuedHandlers.useCard}",
+            "    handlers.effect=function(s,action,q)",
+            "        local result=queuedHandlers.effect(s,action,q)",
+            "        require('abyss_end_turn_powers').transferNative(s,q)",
+            "        return result",
+            "    end",
+            "    return handlers",
+            "end",
+            ""
+          ]
+        },
+        {
+          "beforeAt": 1301,
+          "at": 1321,
+          "before": [],
+          "after": [
+            "        if state.pendingChoice and state.pendingChoice.op=='codex'then",
+            "            local accepted,why=require('abyss_codex_relic').choose(M,state,token,uid,require('abyss_card_capability').isImplemented)",
+            "            if not accepted then return false,why end",
+            "            local result=require('abyss_action_queue').resume(state,preCardActionHandlers())",
+            "            if result=='pause'or finish(state)then return true end",
+            "            return M.endTurn(state)",
+            "        end"
+          ]
+        },
+        {
+          "beforeAt": 1741,
+          "at": 1768,
+          "before": [
+            "    local powers=require('abyss_end_turn_powers')",
+            "    local actions=powers.preparePreCards(state)"
+          ],
+          "after": [
+            "    if state.relicPreCardsResolved==state.turn then return end",
+            "    local actions=require('abyss_end_turn_powers').preparePreCards(state)"
+          ]
+        },
+        {
+          "beforeAt": 1745,
+          "at": 1772,
+          "before": [
+            "        local handlers={allow=queuedHandlers.allow,useCard=queuedHandlers.useCard}",
+            "        handlers.effect=function(s,action,q)",
+            "            local result=queuedHandlers.effect(s,action,q)",
+            "            powers.transferNative(s,q)",
+            "            return result",
+            "        end",
+            "        assert(queue.run(state,handlers)==true,'unexpected pre-card selection')"
+          ],
+          "after": [
+            "        assert(queue.run(state,preCardActionHandlers())==true,'unexpected pre-card selection')"
+          ]
+        },
+        {
+          "beforeAt": 2040,
+          "at": 2061,
+          "before": [],
+          "after": [
+            "local function beginRelicEndTurn(state)",
+            "    local dispatch=require('abyss_relic_end_turn')",
+            "    if not dispatch.needed(state)then return end",
+            "    if state.phase~='player'then return false,'not_player_turn'end",
+            "    if state.pendingChoice or state.cardActions then return false,'card_choice_pending'end",
+            "    if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.pendingPileChoice or state.actionQueue then return false,'selection_pending'end",
+            "    if state.pendingDiscard then return false,'discard_choice_pending'end",
+            "    local restore=require('abyss_snapshot').capture(state)",
+            "    local called,result=pcall(function()",
+            "        for _,pile in ipairs({state.hand,state.draw,state.discard})do for _,c in ipairs(pile)do c.costForTurn=nil end end",
+            "        local actions=dispatch.prepare(state)",
+            "        -- Source constructs pre-card Powers/orbs synchronously after relics,",
+            "        -- before executing either. Their retained Block survives Calendar kill.",
+            "        for _,action in ipairs(require('abyss_end_turn_powers').preparePreCards(state))do actions[#actions+1]=action end",
+            "        state.relicPreCardsResolved=state.turn",
+            "        if #actions==0 then return end",
+            "        local queue=require('abyss_action_queue');queue.start(state,actions)",
+            "        if queue.run(state,preCardActionHandlers())=='pause'then return 'pause'end",
+            "        if finish(state)then return 'terminal'end",
+            "    end)",
+            "    if not called then restore();error(result,0)end",
+            "    return result",
+            "end",
+            ""
+          ]
+        },
+        {
+          "beforeAt": 2042,
+          "at": 2087,
+          "before": [],
+          "after": [
+            "    local relicResult,relicReason=beginRelicEndTurn(state)",
+            "    if relicResult=='pause'or relicResult=='terminal'then return true end",
+            "    if relicResult==false then return false,relicReason end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_combat_enemy_setup.lua": {
+      "beforeSha256": "da6129584c41ed7eb21f15f9187b6f77c99c0ba309b15e732dc1ce8490983ff9",
+      "afterSha256": "91e6681dee3df07869403c6863ab7c0061a46682dcf2e0ee38b8c6cc50202087",
+      "beforeGitBlob": "50a269f1d50973af518e3861fbea92d032358598",
+      "afterGitBlob": "b514280705eeac6db66f0ae7abc085b3fad2dfcc",
+      "beforeLines": 175,
+      "afterLines": 177,
+      "hunks": [
+        {
+          "beforeAt": 18,
+          "at": 18,
+          "before": [],
+          "after": [
+            " require('abyss_event_combat_enemies').register(catalog,Copy)"
+          ]
+        },
+        {
+          "beforeAt": 44,
+          "at": 45,
+          "before": [],
+          "after": [
+            " if policy(enemy,'event_combat','romeo')and intent.id=='mock'then return 'Romeo Mock has effects'end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_cursed_tome_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "6055e253d9af199bb0e263b9460238c835107cde7cf704c5923e98220af2a411",
+      "beforeGitBlob": null,
+      "afterGitBlob": "17a70c3ab6d579f268edceb64522318d9e1ea76c",
+      "beforeLines": null,
+      "afterLines": 85,
+      "hunks": []
+    },
+    "src/lua/abyss_curses.lua": {
+      "beforeSha256": "309d93313e2c089992e6fa115eb81be6c1003c0cb1b9de7679ebda865d9bb408",
+      "afterSha256": "942e7c65da29875fefbff132182ce7a7aab16afb4405e28d2a71e31d589a44b7",
+      "beforeGitBlob": "dafbe8b8c460b393c5e8921b1db08efff9d49db3",
+      "afterGitBlob": "0f019456f530e3897c992b6579acd739f319429a",
+      "beforeLines": 40,
+      "afterLines": 42,
+      "hunks": [
+        {
+          "beforeAt": 6,
+          "at": 6,
+          "before": [],
+          "after": [
+            "    if card and card.id=='necronomicurse'then return require('abyss_necronomicurse').supported(card)end"
+          ]
+        },
+        {
+          "beforeAt": 29,
+          "at": 30,
+          "before": [],
+          "after": [
+            "    if id=='necronomicurse'then require('abyss_necronomicurse').onRemove(owner,card);return 0 end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_dead_adventurer_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "2d225ea8e6852a4ccee55f8e1d794c111bf09f61b553d294c26c95753c76bc5c",
+      "beforeGitBlob": null,
+      "afterGitBlob": "51e73a0f2b1fa590c83e20d0185b59932844984b",
+      "beforeLines": null,
+      "afterLines": 61,
+      "hunks": []
+    },
+    "src/lua/abyss_deck_ui.lua": {
+      "beforeSha256": "03771e658215670de14ee523e05e5c5a9a4be23f31f14e0ad52b599bc3027b54",
+      "afterSha256": "ef11dda08bb63093434ea212b27b8accd24e07053566a1fc8ad57feb3db4facd",
+      "beforeGitBlob": "267f4b71640aaabcb83562d3d190cb29e11ecf74",
+      "afterGitBlob": "34c702578aa7ac07eb1cb7a3296be62e90b746d5",
+      "beforeLines": 332,
+      "afterLines": 333,
+      "hunks": [
+        {
+          "beforeAt": 186,
+          "at": 186,
+          "before": [],
+          "after": [
+            "        self.optional=choice and choice.optional"
+          ]
+        },
+        {
+          "beforeAt": 201,
+          "at": 202,
+          "before": [
+            "        local prompts={silentFinal=choice and (choice.kind=='retain'and '选择本回合保留的手牌（可不选）'or choice.kind=='setup'and '选择放回牌堆顶并准备的牌'or '选择下回合复制的手牌'),watcher_final=choice and choice.kind=='wish' and '许愿：选择一种效果' or '异界之援：选择一张攻击',discover=\"选择加入手牌的牌，本回合费用为0\",colorless='选择卡牌',exhaustChoose=\"选择要消耗的牌\",recoverExhaust=\"选择要回收的牌\",discardToDraw=\"选择放回抽牌堆顶的牌\","
+          ],
+          "after": [
+            "        local prompts={codex='尼利宝典：选择一张牌洗入抽牌堆（可跳过）',silentFinal=choice and (choice.kind=='retain'and '选择本回合保留的手牌（可不选）'or choice.kind=='setup'and '选择放回牌堆顶并准备的牌'or '选择下回合复制的手牌'),watcher_final=choice and choice.kind=='wish' and '许愿：选择一种效果' or '异界之援：选择一张攻击',discover=\"选择加入手牌的牌，本回合费用为0\",colorless='选择卡牌',exhaustChoose=\"选择要消耗的牌\",recoverExhaust=\"选择要回收的牌\",discardToDraw=\"选择放回抽牌堆顶的牌\","
+          ]
+        },
+        {
+          "beforeAt": 207,
+          "at": 208,
+          "before": [
+            "        root:GetChild(\"close\"):SetVisible(not choice or self.multiple == true)"
+          ],
+          "after": [
+            "        root:GetChild(\"close\"):SetVisible(not choice or self.multiple == true or self.optional==true)"
+          ]
+        },
+        {
+          "beforeAt": 209,
+          "at": 210,
+          "before": [
+            "        close.interactable=not choice or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable",
+            "        for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.multiple and '确认选择' or '关闭' end"
+          ],
+          "after": [
+            "        close.interactable=not choice or self.optional==true or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable",
+            "        for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.optional and '跳过' or self.multiple and '确认选择' or '关闭' end"
+          ]
+        },
+        {
+          "beforeAt": 275,
+          "at": 276,
+          "before": [
+            "        self.multiple,self.choiceSelected=nil,nil"
+          ],
+          "after": [
+            "        self.multiple,self.choiceSelected,self.optional=nil,nil,nil"
+          ]
+        },
+        {
+          "beforeAt": 300,
+          "at": 301,
+          "before": [
+            "        if self.multiple then"
+          ],
+          "after": [
+            "        if self.multiple or self.optional then"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_designer_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "8597b051e23c7ad62276c3fa868f652ddb82f33dc6a9aa6bc0e5009935b852cc",
+      "beforeGitBlob": null,
+      "afterGitBlob": "539680ec4b4bffdc3cf5e53ccc5f151a72421621",
+      "beforeLines": null,
+      "afterLines": 163,
+      "hunks": []
+    },
+    "src/lua/abyss_drug_dealer_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "90ee34ec68db21a4c4b2d368323cead7b65cc78fed103035b19f3199e52b0133",
+      "beforeGitBlob": null,
+      "afterGitBlob": "67805a987f11146ce949901fc9ad395106e91484",
+      "beforeLines": null,
+      "afterLines": 121,
+      "hunks": []
+    },
+    "src/lua/abyss_end_turn_powers.lua": {
+      "beforeSha256": "1003fb1eb3802873f59f414bb66407a5a04b890a92070ee0f7b74ad5579f8c91",
+      "afterSha256": "f4a6f2bb22d0b26c0011278105c85d61d22edca86202f21d9668157f024939bf",
+      "beforeGitBlob": "24b7283ff0f28dec7de43340f8ac92b097833011",
+      "afterGitBlob": "31d6c34b04f9e24e91883c2badca97e9f646b671",
+      "beforeLines": 158,
+      "afterLines": 158,
+      "hunks": [
+        {
+          "beforeAt": 113,
+          "at": 113,
+          "before": [
+            " return effect.op=='ownerEndDamageAll'or effect.op=='ownerEndThorns'or effect.op=='ownerEndRegen'"
+          ],
+          "after": [
+            " return effect.op=='ownerPreCardBlock'or effect.op=='ownerEndDamageAll'or effect.op=='ownerEndThorns'or effect.op=='ownerEndRegen'"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_enemy_ai.lua": {
+      "beforeSha256": "fb9cf986c97fa440ed16f0e2b15b862408ffab449de2dacead49a42cadf05b75",
+      "afterSha256": "3bfec14ef91be048c5fce7d807955c0c24beda4b98da27b91b1aff12a1ff5bf2",
+      "beforeGitBlob": "3dfe935e76fc1e313872cfe5442c3d86494fbb4a",
+      "afterGitBlob": "6f89c2507d0c3f7afd6ac3edf21c3e364b25c1da",
+      "beforeLines": 290,
+      "afterLines": 294,
+      "hunks": [
+        {
+          "beforeAt": 27,
+          "at": 27,
+          "before": [],
+          "after": [
+            "local EventEnemies=require('abyss_event_combat_enemies')"
+          ]
+        },
+        {
+          "beforeAt": 64,
+          "at": 65,
+          "before": [],
+          "after": [
+            "    if EventEnemies.owns(enemy)then return EventEnemies.initialize(state,enemy,random)end"
+          ]
+        },
+        {
+          "beforeAt": 150,
+          "at": 152,
+          "before": [],
+          "after": [
+            "    if EventEnemies.owns(enemy)then return EventEnemies.advance(state,enemy,random)end"
+          ]
+        },
+        {
+          "beforeAt": 216,
+          "at": 219,
+          "before": [],
+          "after": [
+            "    if EventEnemies.owns(enemy)then return EventEnemies.afterAction(state,enemy,random)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_event_card_sampling.lua": {
+      "beforeSha256": null,
+      "afterSha256": "5bb64f332e133f829be520fe65754f1277b655244cfe11cdec63db1139af5833",
+      "beforeGitBlob": null,
+      "afterGitBlob": "f962add277ce346ff5ddb02eab2eff1ce455d057",
+      "beforeLines": null,
+      "afterLines": 69,
+      "hunks": []
+    },
+    "src/lua/abyss_event_combat.lua": {
+      "beforeSha256": "9b45375d5cbef0c9811c7daa896ca76073b82a63954e7f43c8949957cf017aad",
+      "afterSha256": "3612c2b16576d555c48d5463c80086b735cc06377a7c6e80d9ef200a93eff4f0",
+      "beforeGitBlob": "4f73624d5ee730eb021d65e79ce85d9dab29d5d0",
+      "afterGitBlob": "739ea1b640a43953408b722c206545adcc3dacf7",
+      "beforeLines": 133,
+      "afterLines": 138,
+      "hunks": [
+        {
+          "beforeAt": 7,
+          "at": 7,
+          "before": [],
+          "after": [
+            "local Routes=require('abyss_event_combat_routes')"
+          ]
+        },
+        {
+          "beforeAt": 31,
+          "at": 32,
+          "before": [],
+          "after": [
+            " if Routes.supportsSource(source)then return Routes.prepare(run,source,floor,roomStreams,misc)end"
+          ]
+        },
+        {
+          "beforeAt": 66,
+          "at": 68,
+          "before": [],
+          "after": [
+            " if flow and flow.event and Routes.supportsEvent(flow.event.id)then return Routes.start(run,flow,api,startEncounter)end"
+          ]
+        },
+        {
+          "beforeAt": 110,
+          "at": 113,
+          "before": [],
+          "after": [
+            " if run.eventCombat and Routes.supportsEvent(run.eventCombat.eventId)then return Routes.finish(run)end"
+          ]
+        },
+        {
+          "beforeAt": 123,
+          "at": 127,
+          "before": [],
+          "after": [
+            " if run.eventCombat and Routes.supportsEvent(run.eventCombat.eventId)then return Routes.escape(run)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_event_combat_enemies.lua": {
+      "beforeSha256": null,
+      "afterSha256": "730ec209b7b4808789ab90cd255697850c36cd0c3de6d63caec18bc7b2e105da",
+      "beforeGitBlob": null,
+      "afterGitBlob": "01093732160b6aa4d361d4da85d809566205cf13",
+      "beforeLines": null,
+      "afterLines": 45,
+      "hunks": []
+    },
+    "src/lua/abyss_event_combat_routes.lua": {
+      "beforeSha256": null,
+      "afterSha256": "0bde4ab1ed47a606e42894d9d7cfbb549ad5a29fee8f51f2a4ff6ba1fa0bbfae",
+      "beforeGitBlob": null,
+      "afterGitBlob": "82a1252f00c9737e4105057870ba7775353079f9",
+      "beforeLines": null,
+      "afterLines": 178,
+      "hunks": []
+    },
+    "src/lua/abyss_event_pool.lua": {
+      "beforeSha256": "690e287892447f98098230fc77df395d4e0e33b164d06d1b0e0bf0b128259dbc",
+      "afterSha256": "2b3511baabf92f3007515de4d6707fe9b60c281d3c46ee04547109543f1219ca",
+      "beforeGitBlob": "2424e13e6c4ad9c1dbfcea79535cd1953de0adf7",
+      "afterGitBlob": "3a4da236a366bb7b5e50df540c219cb304b90424",
+      "beforeLines": 110,
+      "afterLines": 122,
+      "hunks": [
+        {
+          "beforeAt": 47,
+          "at": 47,
+          "before": [],
+          "after": [
+            "",
+            "M.contentId.Designer='designer'",
+            "M.contentId.FaceTrader='face_trader'",
+            "M.contentId['Knowing Skull']='knowing_skull'",
+            "M.contentId[\"N'loth\"]='nloth'",
+            "M.contentId['Cursed Tome']='cursed_tome'",
+            "M.contentId['Forgotten Altar']='forgotten_altar'",
+            "M.contentId['Drug Dealer']='drug_dealer'",
+            "M.contentId.Vampires='vampires'",
+            "M.contentId['Dead Adventurer']='dead_adventurer'",
+            "M.contentId.Colosseum='colosseum'",
+            "M.contentId['Masked Bandits']='masked_bandits'"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_exhaust.lua": {
+      "beforeSha256": "5435912072226a751a1965a0ed825c518ccef3c504152772d6c9e44e4ae22e7d",
+      "afterSha256": "c7d16bce2a216383f45d024af7d874d4bb10101a5a433f223de2dc76926f305e",
+      "beforeGitBlob": "8174ae841ec2a94387c13e11dd6e69f285ebdb56",
+      "afterGitBlob": "2c67b325b997c913e5205f41aea7224a63c89f38",
+      "beforeLines": 138,
+      "afterLines": 140,
+      "hunks": [
+        {
+          "beforeAt": 71,
+          "at": 71,
+          "before": [
+            "    assert(instance.cardId~='necronomicurse' and not def.onExhaust and not def.exhaustEffects"
+          ],
+          "after": [
+            "    assert(not def.onExhaust and not def.exhaustEffects"
+          ]
+        },
+        {
+          "beforeAt": 82,
+          "at": 82,
+          "before": [],
+          "after": [
+            "    require('abyss_rare_relics').onExhaust(s,function(_,e,top)",
+            "        local list=top and plan.top or plan.bottom",
+            "        list[#list+1]={kind='effect',effect=e}",
+            "    end)"
+          ]
+        },
+        {
+          "beforeAt": 90,
+          "at": 94,
+          "before": [
+            "    require('abyss_rare_relics').onExhaust(s,function(_,e,top)",
+            "        local list=top and plan.top or plan.bottom",
+            "        list[#list+1]={kind='effect',effect=e}",
+            "    end)"
+          ],
+          "after": [
+            "    local rebirth=require('abyss_necronomicurse').exhaustPlan(instance)",
+            "    if rebirth then plan.bottom[#plan.bottom+1]=rebirth end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_face_trader_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "cb82eb38e4d69656dc23f170ee197618123f887f83539074199030289f0dd66a",
+      "beforeGitBlob": null,
+      "afterGitBlob": "1cf8455483a906f89887da1048e07790275dcc51",
+      "beforeLines": null,
+      "afterLines": 54,
+      "hunks": []
+    },
+    "src/lua/abyss_forgotten_altar_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "e353015785d8cbe3eefe1c181c160f17ad1bd58b124fc80202c1782a777db003",
+      "beforeGitBlob": null,
+      "afterGitBlob": "8e667470fe0adfaea65c157f7ab9dca82e950fdb",
+      "beforeLines": null,
+      "afterLines": 59,
+      "hunks": []
+    },
+    "src/lua/abyss_inventory.lua": {
+      "beforeSha256": "813f4ae23995db8537c35db9ecfbb8007f01258da1a4ca8a8feb60257402ec26",
+      "afterSha256": "bcaf9ea42072c83a8e9650dda9687cd3eacaf8fcd5c14aeb9cf77043976733bd",
+      "beforeGitBlob": "e4e7fff2ea1b6b4a1eb2e20140ff2a5702f5a6dc",
+      "afterGitBlob": "5cf0386fc9bae6cd31fa27412b3c44bc9ffccafb",
+      "beforeLines": 265,
+      "afterLines": 268,
+      "hunks": [
+        {
+          "beforeAt": 65,
+          "at": 65,
+          "before": [
+            "    anchor = \"battle_bottom\", bag_of_preparation = \"battle_bottom\" }"
+          ],
+          "after": [
+            "    anchor = \"battle_bottom\", bag_of_preparation = \"battle_bottom\",gremlin_mask=\"battle_bottom\" }"
+          ]
+        },
+        {
+          "beforeAt": 73,
+          "at": 73,
+          "before": [
+            "        if id=='blood_vial' or id=='akabeko' or id=='data_disk' or id=='thread_and_needle' or id=='girya' or id=='du_vu_doll' or id=='pantograph' and context and context.tier=='boss' then"
+          ],
+          "after": [
+            "        if id=='mutagenic_strength' or id=='blood_vial' or id=='akabeko' or id=='data_disk' or id=='thread_and_needle' or id=='girya' or id=='du_vu_doll' or id=='pantograph' and context and context.tier=='boss' then"
+          ]
+        },
+        {
+          "beforeAt": 76,
+          "at": 76,
+          "before": [
+            "            or id=='mark_of_pain' then"
+          ],
+          "after": [
+            "            or id=='mark_of_pain' or id=='cultist_mask' then"
+          ]
+        },
+        {
+          "beforeAt": 107,
+          "at": 107,
+          "before": [],
+          "after": [
+            "        if RelicHooks.owns(state,'enchiridion')then",
+            "            require('abyss_act2_event_relics').preBattle(Combat,state,require('abyss_card_actions'),require('abyss_card_capability').isImplemented)",
+            "        end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_knowing_skull_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "fefcadeecba9b0f47fc1a7d7467585cfad81fe5645b885a73bae148b9ae293ec",
+      "beforeGitBlob": null,
+      "afterGitBlob": "3cb9888a6b541490d7046f3ef4c6bdc757b42ab8",
+      "beforeLines": null,
+      "afterLines": 79,
+      "hunks": []
+    },
+    "src/lua/abyss_masked_bandits_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "e094fb78b5836742f1c55b00aaeb71face17f8c4af66c63f9ef5860c9ba45a80",
+      "beforeGitBlob": null,
+      "afterGitBlob": "f25787977777f0a3766cb2c145f4ee405cbdcc18",
+      "beforeLines": null,
+      "afterLines": 36,
+      "hunks": []
+    },
+    "src/lua/abyss_necronomicurse.lua": {
+      "beforeSha256": null,
+      "afterSha256": "173812f59fb1ae31decb2904785291b12c53a7b64f9eaca12d229ace07c5bbc8",
+      "beforeGitBlob": null,
+      "afterGitBlob": "e0093ba41e741b6004d81eb68e36f168b59a5e72",
+      "beforeLines": null,
+      "afterLines": 29,
+      "hunks": []
+    },
+    "src/lua/abyss_nloth_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "4ae8ff4b3d44829ab85457f2f879f64cd7fd8704cfc92e64612b2c1715ae9e2c",
+      "beforeGitBlob": null,
+      "afterGitBlob": "035e0f56c2f8622cb3d46fe423504c49247f54c2",
+      "beforeLines": null,
+      "afterLines": 65,
+      "hunks": []
+    },
+    "src/lua/abyss_node_ui.lua": {
+      "beforeSha256": "2e1188fa97ccaaa34fd68abe070e8ee40fbad385d292e7679d7e98ee53536761",
+      "afterSha256": "ca4ff71fb6cc24bd6ddbaec62568dd5eaa4f87ad3d65822ea8daf5e20e30b155",
+      "beforeGitBlob": "b5343577505b5f41f3c9a6aa43a325dd4cb5c641",
+      "afterGitBlob": "e41912f0fee91bbf0913feccc97473555ad94405",
+      "beforeLines": 256,
+      "afterLines": 263,
+      "hunks": [
+        {
+          "beforeAt": 117,
+          "at": 117,
+          "before": [],
+          "after": [
+            "    require('abyss_node_ui_event_cards').install(ctx)",
+            ""
+          ]
+        },
+        {
+          "beforeAt": 118,
+          "at": 120,
+          "before": [],
+          "after": [
+            "        local grid,gridHint=ctx.eventGridScreen(node,active)",
+            "        if grid then return grid,gridHint end"
+          ]
+        },
+        {
+          "beforeAt": 137,
+          "at": 141,
+          "before": [
+            "        elseif screen == \"pickerView\" then hint = ctx.renderPicker(view, node, result)"
+          ],
+          "after": [
+            "        elseif screen == \"pickerView\" then",
+            "            if ctx.eventCardsActive(node)then hint=ctx.renderEventCards(view,node)",
+            "            else hint = ctx.renderPicker(view, node, result)end"
+          ]
+        },
+        {
+          "beforeAt": 190,
+          "at": 196,
+          "before": [
+            "            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.pickerFooter(node)"
+          ],
+          "after": [
+            "            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.eventGridFooter(node)"
+          ]
+        },
+        {
+          "beforeAt": 229,
+          "at": 235,
+          "before": [],
+          "after": [
+            "        ctx.syncEventCards(node,active)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_node_ui_event_cards.lua": {
+      "beforeSha256": null,
+      "afterSha256": "d87d2401a475451aa11505c46a04f90147f7772e128099bde934dc4a5ba63242",
+      "beforeGitBlob": null,
+      "afterGitBlob": "71fc8e491e2df4d2a786da57f2ce343ef5bae482",
+      "beforeLines": null,
+      "afterLines": 117,
+      "hunks": []
+    },
+    "src/lua/abyss_node_ui_event_ownership.lua": {
+      "beforeSha256": "8600873228b581fba9ff9efeb0fedce40922abbbdf66adebe62a72ddae7340cc",
+      "afterSha256": "a9d0ebe3d0f9973274bfe0734c14881c90a5947ece6955770e27c15fb507af58",
+      "beforeGitBlob": "befc61b65f91f2a73da9ecd02848796f97b8b9cc",
+      "afterGitBlob": "5b55d05dd73dd7967e149fd8a8ed435a734326a5",
+      "beforeLines": 110,
+      "afterLines": 111,
+      "hunks": [
+        {
+          "beforeAt": 29,
+          "at": 29,
+          "before": [],
+          "after": [
+            "        local gridGuard=ctx.eventCardsGuard and ctx.eventCardsGuard(sourceRun,sourceEvent.id)"
+          ]
+        },
+        {
+          "beforeAt": 87,
+          "at": 88,
+          "before": [
+            "                    and sameOffers() and sameDeck() end"
+          ],
+          "after": [
+            "                    and sameOffers() and (not gridGuard or gridGuard()) and sameDeck() end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_node_ui_events.lua": {
+      "beforeSha256": "d124f8b04c5ece1e24c7ce3825c00eed0ae1484b40f436ab5a6f65ca4a02dc98",
+      "afterSha256": "b3699dc5605ff6063d642eab6d99fabb6f1cdbd1d314c4d9325d89dce51daa0e",
+      "beforeGitBlob": "549f3790a812e62605bd694e85cdaa7b850b1001",
+      "afterGitBlob": "d66840c171edfa05d4bfed77b807098c4642e1e7",
+      "beforeLines": 232,
+      "afterLines": 235,
+      "hunks": [
+        {
+          "beforeAt": 8,
+          "at": 8,
+          "before": [
+            "local function stagedEvent(id)return id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end"
+          ],
+          "after": [
+            "local function stagedEvent(id)return Act1Events.ids[id] or id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end"
+          ]
+        },
+        {
+          "beforeAt": 10,
+          "at": 10,
+          "before": [],
+          "after": [
+            "    designer={name='设计师'},face_trader={name='换脸商'},knowing_skull={name='智者头骨'},nloth={name=\"N'loth\"},",
+            "    dead_adventurer={name='冒险者遗骸'},colosseum={name='竞技场'},masked_bandits={name='蒙面强盗'},",
+            "    cursed_tome={name='诅咒书本'},forgotten_altar={name='遗忘祭坛'},drug_dealer={name='增幅师'},vampires={name='吸血鬼'},"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_node_ui_lifecycle.lua": {
+      "beforeSha256": "fa6bbdefa9a29f618c3193a8b5d3760c944e88608715c133410b86b213bac48a",
+      "afterSha256": "d6e707e55644f45d627f4324d2680cdffccae685c677c81efeea1cb46caedeb0",
+      "beforeGitBlob": "1ef755878af6094cbb071b92c140546f1f37e5d1",
+      "afterGitBlob": "75bba8b21b6ee6c60ebb3d00f0ad8525573d4b75",
+      "beforeLines": 204,
+      "afterLines": 205,
+      "hunks": [
+        {
+          "beforeAt": 5,
+          "at": 5,
+          "before": [],
+          "after": [
+            "local Act1Events = require('abyss_act1_events')"
+          ]
+        },
+        {
+          "beforeAt": 22,
+          "at": 23,
+          "before": [
+            "local function stagedEvent(id)return id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end"
+          ],
+          "after": [
+            "local function stagedEvent(id)return Act1Events.ids[id] or id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_nodes.lua": {
+      "beforeSha256": "60cc4210001186ef7530be0b69f9b2c284a848cf6fca950c422796a2fdd7a67d",
+      "afterSha256": "7d9732ed7b574db7dc874c378cad49f11cd47839f8b8c6763a29dfa186b20637",
+      "beforeGitBlob": "1cc42a500b02ad3818324af1ccb5f6975d4df9bd",
+      "afterGitBlob": "82218385a2c373c68b63c4240bc87aef588a24d3",
+      "beforeLines": 706,
+      "afterLines": 708,
+      "hunks": [
+        {
+          "beforeAt": 14,
+          "at": 14,
+          "before": [],
+          "after": [
+            "local Act1Events = require('abyss_act1_events')"
+          ]
+        },
+        {
+          "beforeAt": 201,
+          "at": 202,
+          "before": [],
+          "after": [
+            "    if Act1Events.ids[node.event.id] then Act1Events.view(run,node.event) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_nodes_entry.lua": {
+      "beforeSha256": "e7f4fe8730a5c460557eb16cb35d72c71618dd5130e45974355e882102368a81",
+      "afterSha256": "f114529b7e03bb37d17b70768d9fca546bd7e8648d014bc07e75411682ba8853",
+      "beforeGitBlob": "144cdbe12298b2bd7bc7b18db335d8ec88248efd",
+      "afterGitBlob": "8a32971fba5d8a8f9b96cac8b0904b5377e75b18",
+      "beforeLines": 318,
+      "afterLines": 318,
+      "hunks": [
+        {
+          "beforeAt": 65,
+          "at": 65,
+          "before": [
+            "        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end",
+            "        if Act2Events.ids[id] then Act2Events.prepare(run,flow.event) end"
+          ],
+          "after": [
+            "        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng,node.floor) end",
+            "        if Act2Events.ids[id] then Act2Events.prepare(run,flow.event,miscRng,node.floor) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_nodes_events.lua": {
+      "beforeSha256": "72255121b5c1bb9ce9c235a29d728b7f5918f224dc3a836b07b10ef485aedac5",
+      "afterSha256": "596ec0802d0df72c3e3a431051a16e225a434ffc43b0464d267891c9eafdc4a4",
+      "beforeGitBlob": "ca7bdd6bda8f2e4c471d0ddeedb7e6a69b0f19bb",
+      "afterGitBlob": "140a17610e06f5bb803e56e19636d1813b82d57c",
+      "beforeLines": 311,
+      "afterLines": 312,
+      "hunks": [
+        {
+          "beforeAt": 229,
+          "at": 229,
+          "before": [],
+          "after": [
+            "        if ok and status=='event_combat'then return Run.startEventCombat(run)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_rare_relics.lua": {
+      "beforeSha256": "6bc695a34397e87faea2fa0114664db6366ba921d784e92629f0da948306cdbf",
+      "afterSha256": "26315e4a2a4ad8e7b3cc01feba30c389c88b88f2dce9665774debff1b322409c",
+      "beforeGitBlob": "29e739e6c68123f467b81e9aae5adef95d03dd63",
+      "afterGitBlob": "ff0db5bba61aa5294a49bddb8fec6a1f5be34466",
+      "beforeLines": 220,
+      "afterLines": 220,
+      "hunks": [
+        {
+          "beforeAt": 86,
+          "at": 86,
+          "before": [
+            " if owns(s,'stone_calendar')and counters(s).stone_calendar==7 then"
+          ],
+          "after": [
+            " if s.relicEndTurnResolved~=s.turn and owns(s,'stone_calendar')and counters(s).stone_calendar==7 then"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_relic_end_turn.lua": {
+      "beforeSha256": null,
+      "afterSha256": "0b28bacfb03f92e399c12b19e02ec880f70774d9ec56bf4993c9de7bc1a93ecd",
+      "beforeGitBlob": null,
+      "afterGitBlob": "1da9a61302686711cabd4ee56b11383f5a6dd508",
+      "beforeLines": null,
+      "afterLines": 31,
+      "hunks": []
+    },
+    "src/lua/abyss_relic_hooks.lua": {
+      "beforeSha256": "7e911841b67d050b126e22ec28f42886485907ae292be4e67484dcc4c4c65911",
+      "afterSha256": "2f97ccf33dca381e4b3f299793710b6f7cc2e79a66d8ec24731ff1ad25971479",
+      "beforeGitBlob": "692b03f844b040cbf2353afe393846a869057124",
+      "afterGitBlob": "9099dcea453009ecdc18228290df86904ef0ef74",
+      "beforeLines": 446,
+      "afterLines": 465,
+      "hunks": [
+        {
+          "beforeAt": 7,
+          "at": 7,
+          "before": [
+            "local aliases={FossilizedHelix='fossilized_helix',Pantograph='pantograph',SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',['Old Coin']='old_coin',"
+          ],
+          "after": [
+            "local aliases={['Bloody Idol']='bloody_idol',MutagenicStrength='mutagenic_strength',Necronomicon='necronomicon',Enchiridion='enchiridion',[\"Nilry's Codex\"]='nilrys_codex',[\"Nloth's Gift\"]=\"nloths_gift\",NlothsGift=\"nloths_gift\",CultistMask='cultist_mask',FaceOfCleric='face_of_cleric',GremlinMask='gremlin_mask',NlothsMask='nloths_mask',SsserpentHead='ssserpent_head',FossilizedHelix='fossilized_helix',Pantograph='pantograph',SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',['Old Coin']='old_coin',"
+          ]
+        },
+        {
+          "beforeAt": 41,
+          "at": 41,
+          "before": [],
+          "after": [
+            "local function healEventGold(run,amount)",
+            " if require('abyss_potion_health').blocked(run.relics)then return end",
+            " if run.phase=='combat'and M.owns(run,'magic_flower')then amount=math.floor(amount*1.5)end",
+            " run.hp=math.min(run.maxHp,run.hp+amount)",
+            "end"
+          ]
+        },
+        {
+          "beforeAt": 45,
+          "at": 50,
+          "before": [
+            " run.gold=run.gold+0.0+amount;return amount"
+          ],
+          "after": [
+            " run.gold=run.gold+0.0+amount",
+            " require('abyss_act2_event_relics').gainGold(run,amount,function(n)return healEventGold(run,n)end)",
+            " return amount"
+          ]
+        },
+        {
+          "beforeAt": 82,
+          "at": 89,
+          "before": [
+            " if id=='lizard_tail' then require('abyss_lizard_tail').onObtain(run)"
+          ],
+          "after": [
+            " if id=='nloths_mask' then counters(run).nloths_mask=1",
+            " elseif id=='necronomicon'then return require('abyss_act2_event_relics').onEquip(run,id,upgradeApi)",
+            " elseif id=='lizard_tail' then require('abyss_lizard_tail').onObtain(run)"
+          ]
+        },
+        {
+          "beforeAt": 114,
+          "at": 123,
+          "before": [],
+          "after": [
+            "end",
+            "function M.onUnequip(run,id)",
+            " id=M.localId(id)",
+            " if id=='necronomicon'then return require('abyss_act2_event_relics').onUnequip(run,id)end",
+            " return require('abyss_relic_loss').onUnequip(run,id)"
+          ]
+        },
+        {
+          "beforeAt": 236,
+          "at": 250,
+          "before": [],
+          "after": [
+            "   if M.localId(id)=='ssserpent_head'and kind=='event'then M.gainGold(run,50)end"
+          ]
+        },
+        {
+          "beforeAt": 327,
+          "at": 342,
+          "before": [],
+          "after": [
+            " require('abyss_act2_event_relics').turnStart(state)"
+          ]
+        },
+        {
+          "beforeAt": 396,
+          "at": 412,
+          "before": [],
+          "after": [
+            " if id=='mutagenic_strength'then return require('abyss_act2_event_relics').battleStart(state,id)end"
+          ]
+        },
+        {
+          "beforeAt": 397,
+          "at": 414,
+          "before": [
+            " if id=='fossilized_helix' then A.applyPower(state,state.player,'buffer',1,state.player)"
+          ],
+          "after": [
+            " if id=='cultist_mask'then E.emit(state,'relic_flavor',{relic=id,text='CAW! CAAAW!'})",
+            " elseif id=='fossilized_helix' then A.applyPower(state,state.player,'buffer',1,state.player)"
+          ]
+        },
+        {
+          "beforeAt": 434,
+          "at": 452,
+          "before": [],
+          "after": [
+            " if state.relicEndTurnResolved==state.turn then return end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_relic_loss.lua": {
+      "beforeSha256": null,
+      "afterSha256": "8a3196cd5838a838b47856703d9cc69c17b5bb61052b314ac68001508b2c964e",
+      "beforeGitBlob": null,
+      "afterGitBlob": "ec6baec9fce5b27044f8821eb6c520901233f1bd",
+      "beforeLines": null,
+      "afterLines": 86,
+      "hunks": []
+    },
+    "src/lua/abyss_relic_rarity.lua": {
+      "beforeSha256": null,
+      "afterSha256": "6c92a5ede225452073ed8b283a0ce2bbe24bfc37d4651ebabc47dbef8fd8c8d4",
+      "beforeGitBlob": null,
+      "afterGitBlob": "56747a24d5be254e95c34c1e0c75d45c93048a30",
+      "beforeLines": null,
+      "afterLines": 14,
+      "hunks": []
+    },
+    "src/lua/abyss_run.lua": {
+      "beforeSha256": "f4e04b46fb88d2a8eb2f6951f724b6c52b84bcf3535a56763ac52c7a3f5a10e5",
+      "afterSha256": "21015964f824801493272de07578af1c8100520138c16c00cad78ba0ec5382e0",
+      "beforeGitBlob": "5dbd13c9a6534b09a060accd431648c0d0245e6f",
+      "afterGitBlob": "badf7f506fefa1b46c932cd5c4f4b5210fa29353",
+      "beforeLines": 649,
+      "afterLines": 667,
+      "hunks": [
+        {
+          "beforeAt": 231,
+          "at": 231,
+          "before": [],
+          "after": [
+            "local function publishRelicIdentity(battle,definition)",
+            "    local position",
+            "    if definition.id=='bloody_idol'then",
+            "        for i,id in ipairs(battle.relics)do if RelicHooks.localId(id)=='golden_idol'then position=i;break end end",
+            "    end",
+            "    if position then battle.relics[position]=definition.id",
+            "    else battle.relics[#battle.relics+1]=definition.id end",
+            "end"
+          ]
+        },
+        {
+          "beforeAt": 237,
+          "at": 245,
+          "before": [
+            "        (definition.id=='snake_skull' or definition.id=='data_disk' or definition.id=='damaru' or definition.id=='lizard_tail') then"
+          ],
+          "after": [
+            "        (definition.id=='snake_skull' or definition.id=='data_disk' or definition.id=='damaru' or definition.id=='lizard_tail' or require('abyss_act2_event_relics').is(definition.id)) then"
+          ]
+        },
+        {
+          "beforeAt": 239,
+          "at": 247,
+          "before": [
+            "        staged.combat.relics[#staged.combat.relics+1]=definition.id"
+          ],
+          "after": [
+            "        publishRelicIdentity(staged.combat,definition)",
+            "        if definition.id=='necronomicon'then staged.combat.relicCombat.necronomiconActivated=true end"
+          ]
+        },
+        {
+          "beforeAt": 260,
+          "at": 269,
+          "before": [],
+          "after": [
+            "            obtainCard=function(cardId)return M.obtainCard(staged,cardId)end,"
+          ]
+        },
+        {
+          "beforeAt": 272,
+          "at": 282,
+          "before": [],
+          "after": [
+            "    end)",
+            "end",
+            "function M.loseRelic(run,id)",
+            "    return M.transaction(run,function(staged)",
+            "        return require('abyss_relic_loss').lose(staged,id,{definition=function(owner,key)",
+            "            return relicDefinition(owner,key) or relicDefinition(owner,RelicHooks.localId(key))",
+            "        end,",
+            "            localId=RelicHooks.localId,onUnequip=RelicHooks.onUnequip})"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_run_potions.lua": {
+      "beforeSha256": "251563220a775ea6ba557f824993000375d90dde4a603abe3884430a0c1ebb29",
+      "afterSha256": "bbea015246c13115e19d400e058ca3706e1134322403fee52ef27e4caac66e21",
+      "beforeGitBlob": "3bceac5cee45302436290a7833a22d7f6a1644a1",
+      "afterGitBlob": "552347991b0303facf94979c51f270edc68806b9",
+      "beforeLines": 188,
+      "afterLines": 191,
+      "hunks": [
+        {
+          "beforeAt": 100,
+          "at": 100,
+          "before": [],
+          "after": [
+            "            local reopened=false"
+          ]
+        },
+        {
+          "beforeAt": 104,
+          "at": 105,
+          "before": [
+            "                local called,accepted=pcall(function()"
+          ],
+          "after": [
+            "                local called,accepted,status=pcall(function()"
+          ]
+        },
+        {
+          "beforeAt": 109,
+          "at": 110,
+          "before": [],
+          "after": [
+            "                reopened=status=='event_reopened'"
+          ]
+        },
+        {
+          "beforeAt": 110,
+          "at": 112,
+          "before": [
+            "            candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil"
+          ],
+          "after": [
+            "            if reopened then candidate.rewards,candidate.pendingCombatRewards=nil,nil",
+            "            else candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_run_rooms.lua": {
+      "beforeSha256": "5da5fa7ad7a496ba9843820a9491147983d9c6bf2ac4bed4cfcac8c16b2de2a9",
+      "afterSha256": "598b66cbe150665815552a9ff68c4a293316b1367c9b74c28c06ed8d8492a924",
+      "beforeGitBlob": "f247582d4688195ac360c2cedb49816f6c79a42e",
+      "afterGitBlob": "f6258ff1061f6364fa18b3dd0cdd8ce7e1d23094",
+      "beforeLines": 348,
+      "afterLines": 348,
+      "hunks": [
+        {
+          "beforeAt": 89,
+          "at": 89,
+          "before": [
+            "            run.relicCounters,{tier=encounter.tier})"
+          ],
+          "after": [
+            "            run.relicCounters,{tier=encounter.tier,eliteTrigger=encounter.eliteTrigger})"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_run_settlement.lua": {
+      "beforeSha256": "f20cdfc1417deb2b0cb1c1b6a6060378d37b6adf8fa5aa00207b8997c7418e9b",
+      "afterSha256": "b8e08d531abc36677b7386b03815d23bdc26baa91e15a029422f0177bbedfa42",
+      "beforeGitBlob": "3d0a98ceafb2c1dea93f650f623ebb1c48419127",
+      "afterGitBlob": "d9cb3d193fcd11f716f2f05ad91085ceff0141c4",
+      "beforeLines": 260,
+      "afterLines": 265,
+      "hunks": [
+        {
+          "beforeAt": 21,
+          "at": 21,
+          "before": [
+            "            if relic and relic.trigger=='combat_end'then"
+          ],
+          "after": [
+            "            if RelicHooks.localId(id)=='face_of_cleric'then",
+            "                local ok,why=Run.increaseMaxHp(run,1);assert(ok,why)",
+            "            elseif relic and relic.trigger=='combat_end'then"
+          ]
+        },
+        {
+          "beforeAt": 144,
+          "at": 146,
+          "before": [],
+          "after": [
+            "    local function finishEventCombat(run)",
+            "        local rewards,why=EventCombat.finish(run);if not rewards then return false,why end",
+            "        if why~='event_reopened'then run.rewards,run.phase=rewards,'reward'end",
+            "        run.victories=run.victories+1",
+            "        return true",
+            "    end",
+            ""
+          ]
+        },
+        {
+          "beforeAt": 157,
+          "at": 166,
+          "before": [
+            "        if run.eventCombat then",
+            "            local rewards,why=EventCombat.finish(run);if not rewards then return false,why end",
+            "            run.rewards,run.phase=rewards,'reward';run.victories=run.victories+1",
+            "            return true",
+            "        end"
+          ],
+          "after": [
+            "        if run.eventCombat then return finishEventCombat(run)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_shop.lua": {
+      "beforeSha256": "aae5d8f6805073060cf3842f65730da80f5b25c4cd390092117233a89209cfc6",
+      "afterSha256": "c13adbaa4fd921a4b69a341f43eff5d60179b59fd3ca848a336f76b9d5a6b3f7",
+      "beforeGitBlob": "659e5bb86014091e829bac90295f2783ef4958a6",
+      "afterGitBlob": "1759473744fdcb59316605d94b04769e9d205883",
+      "beforeLines": 152,
+      "afterLines": 152,
+      "hunks": [
+        {
+          "beforeAt": 53,
+          "at": 53,
+          "before": [
+            "            rarity=CardRandom.rollRarity(cardOwner,'shop')"
+          ],
+          "after": [
+            "            rarity=CardRandom.rollRarity(cardOwner,'shop',run.relics)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_vampires_event.lua": {
+      "beforeSha256": null,
+      "afterSha256": "53270489c6ac1ca6e9b97fc7cc43efaa2cad992a79872d9f37c574032bea4c53",
+      "beforeGitBlob": null,
+      "afterGitBlob": "73063057fb0a00f026a6b28013e1d9c86ddbd30c",
+      "beforeLines": null,
+      "afterLines": 82,
+      "hunks": []
+    },
+    "tools/render_traveler_cards.py": {
+      "beforeSha256": "84a4d25a84f5ce7fad6a886cf48ab8f2934754499e845324d3492e1f14b78522",
+      "afterSha256": "ba26eb03eaef4641159dee66b0c2c6192aa4d5147ec55ffd848c9eb2a0b56916",
+      "beforeGitBlob": "ad6cde0cf9b8823c8818c10a34f1b6a0dcc40f56",
+      "afterGitBlob": "943389168aef080fcf4dbba6bf01a0c741e92e3c",
+      "beforeLines": 255,
+      "afterLines": 255,
+      "hunks": [
+        {
+          "beforeAt": 43,
+          "at": 43,
+          "before": [
+            "    if (card.get('type') == 'status' or (card.get('id') in BASIC_CURSES and card.get('type') == 'curse')) and type(card.get('cost')) is int and card['cost'] == -2:"
+          ],
+          "after": [
+            "    if (card.get('type') == 'status' or ((card.get('id') in BASIC_CURSES or (card.get('id') == 'necronomicurse' and card.get('rarity') == 'special' and card.get('sourceId') == 'Necronomicurse')) and card.get('type') == 'curse')) and type(card.get('cost')) is int and card['cost'] == -2:"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -220,3 +220,59 @@ art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png filter=lfs diff=lfs
 art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png filter=lfs diff=lfs merge=lfs -text
 art/monster-benchmarks/genshin-v1/geovishap-hatchling/source.png filter=lfs diff=lfs merge=lfs -text
 art/monster-benchmarks/genshin-v1/dendro-slime/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/pyro-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v1/pyro-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v1/geovishap-hatchling/native-art.json -text
+art/monster-benchmarks/genshin-v1/geovishap-hatchling/native-art.lua -text
+art/monster-benchmarks/genshin-v1/stonehide-lawachurl/native-art.json -text
+art/monster-benchmarks/genshin-v1/stonehide-lawachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/hydro-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v2/hydro-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v2/hydro-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/cryo-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v2/cryo-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v2/cryo-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/electro-abyss-mage/native-art.json -text
+art/monster-benchmarks/genshin-v2/electro-abyss-mage/native-art.lua -text
+art/monster-benchmarks/genshin-v2/electro-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/large-geo-slime/native-art.json -text
+art/monster-benchmarks/genshin-v2/large-geo-slime/native-art.lua -text
+art/monster-benchmarks/genshin-v2/large-geo-slime/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/large-hydro-slime/native-art.json -text
+art/monster-benchmarks/genshin-v2/large-hydro-slime/native-art.lua -text
+art/monster-benchmarks/genshin-v2/large-hydro-slime/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/pyro-hypostasis/native-art.json -text
+art/monster-benchmarks/genshin-v2/pyro-hypostasis/native-art.lua -text
+art/monster-benchmarks/genshin-v2/pyro-hypostasis/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/native-art.json -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/native-art.lua -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-scout/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/native-art.json -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/native-art.lua -text
+art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/native-art.json -text
+art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/ruin-guard/native-art.json -text
+art/monster-benchmarks/genshin-v2/ruin-guard/native-art.lua -text
+art/monster-benchmarks/genshin-v2/ruin-guard/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/native-art.json -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/native-art.lua -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/native-art.json -text
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/native-art.lua -text
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/native-art.json -text
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/hydro-samachurl/native-art.json -text
+art/monster-benchmarks/genshin-v2/hydro-samachurl/native-art.lua -text
+art/monster-benchmarks/genshin-v2/hydro-samachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/source-generation.json text eol=lf
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/stretchy-geo-fungus/source-generation.json text eol=lf
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/source-generation.json text eol=lf
+art/monster-benchmarks/genshin-v2/hydro-samachurl/prompt.txt text eol=lf
+art/monster-benchmarks/genshin-v2/hydro-samachurl/source-generation.json text eol=lf

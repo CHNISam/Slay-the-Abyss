@@ -46,6 +46,7 @@ local function emptyText(card)
     elseif Curses.isImplemented(card) then
         local descriptions={
             injury='不能打出。',
+            necronomicurse='不能打出。不能永久移除。被消耗时，将一张新的死灵诅咒加入手牌。',
             curse_of_the_bell='不能打出。无法从永久牌组中移除。',
             doubt='不能打出。回合结束时，获得 1 回合虚弱。',
             pain='不能打出。在手牌中时，每打出一张牌便失去 1 点生命。',

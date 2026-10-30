@@ -63,8 +63,8 @@ return function(M)
             local prepared,why=Match.prepare(run,flow.event,miscRng,node.floor)
             assert(prepared,why)
         end
-        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng) end
-        if Act2Events.ids[id] then Act2Events.prepare(run,flow.event) end
+        if Act1Events.ids[id] then Act1Events.prepare(run,flow.event,miscRng,node.floor) end
+        if Act2Events.ids[id] then Act2Events.prepare(run,flow.event,miscRng,node.floor) end
         if Act3Events.ids[id] then Act3Events.prepare(run,flow.event,miscRng) end
         if flow.event.constructorEncounter then
             local prepared,why=Run.prepareEventEncounter(run,flow.event.constructorEncounter,node.floor,miscRng)

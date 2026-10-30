@@ -1,3 +1,4 @@
+import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {preRelicArtFeatureCompositionSource} from './helpers/relic-art-feature-composition.mjs';
@@ -13,7 +14,7 @@ import {round2UiAddedPaths} from './helpers/round2-ui-source-inverse.mjs';
 import {preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
 import {prepareBattleLifeModuleRetirement} from './helpers/battle-life-source-inverse.mjs';
 
-const read=path=>preRelicArtCompositionSource(path,preRelicArtFeatureCompositionSource(path,readFileSync(path,'utf8'),'artFeature'),'art').replaceAll('\r\n','\n');
+const read=path=>preRelicArtCompositionSource(path,preRelicArtFeatureCompositionSource(path,preNativeMonsterArtSource(path,readFileSync(path,'utf8')),'artFeature'),'art').replaceAll('\r\n','\n');
 const hash=source=>source===null?null:createHash('sha256').update(source).digest('hex');
 const put=(directory,path,source)=>{const target=join(directory,path);mkdirSync(dirname(target),{recursive:true});writeFileSync(target,source);};
 const temporary=()=>mkdtempSync(join(tmpdir(),'abyss-art-feature-inverse-'));

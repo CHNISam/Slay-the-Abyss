@@ -1,3 +1,4 @@
+import {prepareMonsterArt} from '../scripts/monster-art.mjs';
 import {portraitInputs} from '../scripts/official-portraits.mjs';
 import {readyArtInputs,readyArtSourceInputs} from '../scripts/art/ready-card-runtime.mjs';
 import {backgroundInputs} from '../scripts/official-background.mjs';
@@ -14,7 +15,7 @@ const inputs = ['cards.json', 'statuses.json', 'enemies.json', 'relics.json', 'p
 const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
   'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
   'game-ui-templates.json', 'abyss_ui_templates.lua', 'abyss_menu_background_asset.lua',
-  'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_monster_art_data.lua','abyss_art_features.lua'];
+  'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_monster_art_data.lua','abyss_art_features.lua','abyss_monster_actor_binding.lua','art-performance.json','art-render-v2.json'];
 function fixture(action, cli = false) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-ui-input-'));
   try {
@@ -22,7 +23,7 @@ function fixture(action, cli = false) {
     // tree; the in-process cases use the real already-imported production code.
     cpSync(resolve('data'), join(root, 'data'), { recursive: true });
     for(const file of [...backgroundInputs,...readyArtSourceInputs(),...portraitInputs]){mkdirSync(dirname(join(root,file)),{recursive:true});copyFileSync(resolve(file),join(root,file));}
-    cpSync(resolve('art/monsters/acid_slime_m/native-art-r02'),join(root,'art/monsters/acid_slime_m/native-art-r02'),{recursive:true});
+    for(const file of prepareMonsterArt().inputPaths){mkdirSync(dirname(join(root,file)),{recursive:true});cpSync(resolve(file),join(root,file));}
     for (const file of ['package.json', 'package-lock.json', '.release-please-manifest.json', 'CHANGELOG.md'])
       copyFileSync(resolve(file), join(root, file));
     if (cli) cpSync(resolve('scripts'), join(root, 'scripts'), { recursive: true });

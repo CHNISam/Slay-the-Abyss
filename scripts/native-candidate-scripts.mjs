@@ -3,7 +3,7 @@ import { resolve, basename } from 'node:path';
 
 // Only outputs consumed by the game are deployable. Test bridges also write
 // Lua into build/lua; discovering every .lua there ships test fixtures.
-const generatedModules = ['abyss_art_features','abyss_monster_art_data','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];
+const generatedModules = ['abyss_art_features','abyss_monster_actor_binding','abyss_monster_art_data', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];
 // Legacy LCG is superseded by the StS RNG modules. Keep its source/tests;
 // check:platform-load proves no production import references this exclusion.
 export const excludedProductionModules = ['abyss_random'];

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "identity": "large-geo-slime",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/large-geo-slime/source.png",
+    "sha256": "172487009bafda99a942dc10dfa28b85aa927a54d1a8c0fe943a3985d7fa0f07",
+    "bytes": 1304599,
+    "size": [
+      1377,
+      1142
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged raw generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "sourceApprovalScope": "No user source approval established here; do not infer it from root review",
+  "nativeReview": "root-reviewed simplified test candidate (parent attestation)",
+  "nativeOwnerAcceptance": false,
+  "method": "Manual broad stone-shell planes, long side-horn plates, forehead diamond, gray-white jelly and two orange-yellow ellipse eyes; no sampling, fitting, raster import or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "2f794913f2ceb0aea75ea87f1fb54c58cd428bb88ce5acf63026053712c409ff",
+      "bytes": 241884
+    },
+    "native-art.lua": {
+      "sha256": "cfaabb1a3a93d4133239c51a58b8f7e93a69a15558763464ce295ee414fd93e5",
+      "bytes": 77187
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "680001dc47544d14743907f64e5f46dd4b39a0aec51b573e78c697e4882f4baf",
+    "generationProvenanceSha256": "1d0953c50ce68e95362aeb5976a0ef16f48325949e8bdf8d1e3addfd615431e4"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": null,
+    "seed": null,
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/23c3f763d43dccaad87bb8b378ca129d_6599626726642137260.png",
+      "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/aaa839810a6c4a87f01b0840233e9cf0_7114428673283215855.png",
+      "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/dd9ebcdb6a11774f289344dc8a03fc0d_6754547059077822052.png",
+      "https://wiki.hoyolab.com/pc/genshin/entry/2127?lang=en-us"
+    ],
+    "recordedHashes": [
+      "172487009bafda99a942dc10dfa28b85aa927a54d1a8c0fe943a3985d7fa0f07",
+      "1a692872f69a66f65afb20a41799f4f36debdf90c182a760551814e9a510e3f8",
+      "83bbb9a7e7079e8f717bb43894d34dc58722a29d1ad2d03fdf1a312a2989bed7",
+      "c27312fbf80814f26db4b788b835e1afcec57614422065acb0b84a655e29dc8d",
+      "f14a773086fed97c495d8ebf583fc3bb5321470d08cdb0a3530f0a8e7f30c1ab",
+      "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

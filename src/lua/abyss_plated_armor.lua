@@ -36,7 +36,9 @@ function M.apply(combat,state,effect,enqueue)
         if amount~=nil then
             if effect.value<amount then
                 target.statuses.plated_armor=amount-effect.value
+                local callbackBefore=#state.events
                 Events.emit(state,'status',{source=target.id,target=target.id,status='plated_armor',amount=-effect.value})
+                Events.onModifyPower(state,'ReducePowerAction.PlatedArmor',callbackBefore)
             else enqueue(state,{op='platedRemove',targetId=target.id},true)end
         end
     elseif op=='platedRemove' then
@@ -51,7 +53,9 @@ function M.apply(combat,state,effect,enqueue)
         local order={}
         for _,id in ipairs(target.powerOrder or {})do if id~='plated_armor'then order[#order+1]=id end end
         target.powerOrder=order
+        local callbackBefore=#state.events
         Events.emit(state,'status',{source=target.id,target=target.id,status='plated_armor',amount=-amount})
+        Events.onModifyPower(state,'RemoveSpecificPowerAction.PlatedArmor',callbackBefore)
     else error('unknown Plated action')end
     return true
 end

@@ -27,6 +27,7 @@ function M.install(ctx)
     function ctx.bindAct2Action(key, entry)
         local sourceRun, sourceMap, sourceFlow, sourceView = ctx.self.run, ctx.self.map, ctx.self.run.nodeFlow, ctx.self.view
         local sourceEvent = sourceFlow.event
+        local gridGuard=ctx.eventCardsGuard and ctx.eventCardsGuard(sourceRun,sourceEvent.id)
         local generation, act, floor, phase = sourceRun.roomGeneration, sourceRun.act, sourceRun.floor, sourceRun.phase
         local stage, choice, complete = sourceEvent.stage, sourceEvent.choice, sourceFlow.complete
         local flowId, flowFloor, eventId = sourceFlow.id, sourceFlow.floor, sourceEvent.id
@@ -85,7 +86,7 @@ function M.install(ctx)
                     and sourceFlow.id == flowId and sourceFlow.floor == flowFloor and sourceFlow.type == "event" end
             local function sameSelection() return sourceEvent.id == eventId and sourceEvent.stage == stage and sourceEvent.choice == choice
                     and ctx.self.selected == selected and ctx.self.mode == mode and ctx.self.picker == picker and ctx.self.pickPage == page
-                    and sameOffers() and sameDeck() end
+                    and sameOffers() and (not gridGuard or gridGuard()) and sameDeck() end
             local function sameHost() return attached and hostAttached and ctx.root.parent == ctx.rootParent and ctx.self.root == ctx.root
                     and ctx.self.visible and not ctx.self.busy and ctx.self.run == sourceRun and ctx.self.map == sourceMap end
             return sameHost()

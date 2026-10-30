@@ -1,3 +1,4 @@
+import {preM3EventDeliverySource} from './m3-event-delivery-source-inverse.mjs';
 import {preIntegrationSource} from './pr372-integration-source.mjs';
 // Historical source evidence only. Current feature tests use actual production.
 import assert from 'node:assert/strict';
@@ -25,7 +26,7 @@ for(const target of Object.values(relicArtComposition.targets))for(const [path,b
  }
 }
 const cachedProjection=cachePureSourceProjection(relicArtComposition.targets,projectSource);
-export function preRelicArtCompositionSource(path,source,target){return cachedProjection(path,preIntegrationSource(path,source),target);}
+export function preRelicArtCompositionSource(path,source,target){return cachedProjection(path,preM3EventDeliverySource(path,preIntegrationSource(path,source)),target);}
 function projectSource(path,source,target){
  source=preRelicArtFeatureCompositionSource(path,source,'relic');
  assert.ok(target==='relic'||target==='art');

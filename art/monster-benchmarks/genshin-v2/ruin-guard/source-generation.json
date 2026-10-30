@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "identity": "ruin-guard",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "e80d6e2f59d5e709102d7bf094313a88c7f028b9cc990b8b41df8233815c6b61",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "85ff413af54aa6a7d3d7ab6f59ca1a8a8281df200bb14c9b9277ad86d0028328",
+      "bytes": 1884,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "asset": "ruin-guard",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "raw_source_sha256": "a2bc9ddee6d572d8855c6c81139868edd3982fb9ba89a5c12875fcfdd1781775",
+    "prompt_file": "prompt.txt",
+    "prompt_sha256": "85ff413af54aa6a7d3d7ab6f59ca1a8a8281df200bb14c9b9277ad86d0028328",
+    "reference_urls": {
+      "page": "https://www.zerochan.net/3369086",
+      "fullbody_image": "https://static.zerochan.net/Ruin.Guard.full.3369086.png",
+      "archive_page": "https://gi.yatta.moe/en/archive/monster/24010101/ruin-guard",
+      "archive_api": "https://gi.yatta.moe/api/v2/en/monster/24010101",
+      "archive_icon": "https://gi.yatta.moe/assets/UI/monster/UI_MonsterIcon_Defender_Noner_01.png",
+      "gameplay_page": "https://game8.jp/genshin/356853",
+      "gameplay_image": "https://img.game8.jp/5175444/1392cd57377d3012b7006725b377624b.jpeg/original"
+    },
+    "reference_files_sha256": {
+      "reference-urls.json": "c6be0f3a7ab8b79ea9d633e6a9d13c6b81733d54caff46215c60b510a0f6011b",
+      "reference-entry.json": "79e82bf15c3cf21f2815c67e8839802cdbc10133e4c779ed381e236d6876a226",
+      "identity-reference.png": "2ba589688a111b55e741c1402672e620ebec98703614b84e97a53d43cdf12c1a",
+      "gameplay-reference.jpg": "0f55bc828bf577c8689e39d359ec70378a46d1de471572b5523e1c286ecb9d37"
+    },
+    "style_reference_sha256": {
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "pyro-abyss-mage-sample.png": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64"
+    },
+    "pixel_qa": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox_any": [
+        0,
+        0,
+        1243,
+        1254
+      ],
+      "alpha_bbox_128": [
+        25,
+        42,
+        1239,
+        1221
+      ],
+      "alpha_zero_pixels": 701681,
+      "edge_alpha_max": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "previews": "Alpha bbox crop, contain preserving aspect inside 88% square; 106/127/173 1x and nearest 4x; unchanged source."
+    },
+    "status": "Source candidate ONLY; native conversion, integration, Owner acceptance, runtime/device QA are pending."
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

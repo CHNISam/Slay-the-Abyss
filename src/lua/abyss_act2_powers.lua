@@ -33,6 +33,7 @@ function M.apply(api,s,entry)
    for _,e in ipairs(s.enemies)do if api.isActive(e)then e.escaped=true;Events.emit(s,'enemy_escape',{enemy=e.id})end end
   elseif entry.op=='flight_hit' and api.isActive(target) and (target.statuses.flight or 0)>0 then
    local e=target;e.statuses.flight=e.statuses.flight-1
+   if e.statuses.flight==0 then require('abyss_power_order').remove(e,'flight')end
    Events.emit(s,'status',{source=e.id,target=e.id,status='flight',amount=-1})
    if e.statuses.flight==0 then
     for i,intent in ipairs(e.intents)do if intent.id=='stunned'then e.intentIndex=i end end

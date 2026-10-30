@@ -1,35 +1,40 @@
-import test from 'node:test';
+import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {prepareMonsterArt,attachMonsterArt} from '../scripts/monster-art.mjs';
+import {prepareMonsterArt,attachMonsterArt,monsterActorTemplate} from '../scripts/monster-art.mjs';
 import {nativeArtPool} from '../scripts/card-art-samples.mjs';
 import {battleLayout} from '../scripts/ui-layout.mjs';
 import {gameLayout} from '../scripts/game-ui-layout.mjs';
 import {buildUI,assertNativeUiCapacity} from '../scripts/build-ui.mjs';
 import {toLua} from '../scripts/build-lua-data.mjs';
-import {runLua} from '../scripts/test-lua.mjs';
+import {runLua as rawRunLua} from '../scripts/test-lua.mjs';
+const monsterBuild=mkdtempSync(join(tmpdir(),'abyss-monster-only-'));
+buildUI(monsterBuild,undefined,{artFeatures:{monsters:true}});
+after(()=>rmSync(monsterBuild,{recursive:true,force:true}));
+let wrapperIndex=0;
+function runLua(script){
+ const wrapper=join(monsterBuild,`case-${wrapperIndex++}.lua`);
+ writeFileSync(wrapper,`package.path=${toLua(monsterBuild+'/?.lua;')}..package.path\ndofile(${toLua(script)})\n`);
+ return rawRunLua(wrapper);
+}
 const slot={image:100002,imageType:'basic',position:[1,2],size:[8,7],pivot:[.5,.5],anchorMin:[.5,.5],anchorMax:[.5,.5],scale:[1,1],rotation:[12,-30,40],colour:[120,180,90,128]};
-const prototype=()=>({...JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8')),enabled:true});
 const fixture=()=>({schemaVersion:1,enabled:true,canvas:[106,106],asset:{enemyId:'acid_slime_m',luaSha256:'a'.repeat(64),jsonSha256:'b'.repeat(64),slots:Array.from({length:597},()=>structuredClone(slot))}});
 function all(tree){return [tree,...(tree.controls??tree.children??[]).flatMap(all)];}
-test('one bounded portrait pool in real battle/game; existing enemy geometry and controls unchanged',()=>{
+test('native primitive template leaves real battle/game scene geometry unchanged',()=>{
  for(const factory of [battleLayout,gameLayout]) {
   const tree=factory(),before=structuredClone(tree),art=prepareMonsterArt(fixture());
-  attachMonsterArt(tree,art);assertNativeUiCapacity(tree);
-  const pools=all(tree).filter(n=>n.name==='monsterArt');assert.equal(pools.length,1);
-  assert.equal(all(pools[0]).length,609);assert.equal(pools[0].visible,false);
-  const stage=all(tree).find(n=>(n.children??[]).some(c=>c.name==='enemy1'));
-  assert(stage.children.indexOf(stage.children.find(n=>n.name==='topBar'))<stage.children.indexOf(stage.children.find(n=>n.name==='enemy1')),'art ancestor must remain below all unit layers');
-  const unit=stage.children.find(n=>n.name==='enemy1');
-  for(const name of ['impact','shield','floating','hp','intentIcon','hit'])assert(unit.children.indexOf(unit.children.find(n=>n.name===name))>unit.children.indexOf(unit.children.find(n=>n.name==='portrait')),'original '+name+' must remain above native portrait');
-  const remove=n=>{if(n.children)n.children=n.children.filter(c=>c.name!=='monsterArt');for(const c of n.children??n.controls??[])remove(c);};remove(tree);
-  assert.deepEqual(tree,before,'must not alter hitboxes, health, status, intents, or gallery controls');
+  attachMonsterArt(tree,art);assertNativeUiCapacity(tree);assert.deepEqual(tree,before);
+  const actor=monsterActorTemplate(art);assertNativeUiCapacity(actor);
+  const host=actor.children[0];assert.equal(host.name,'monsterArt');assert.equal(all(host).length,609);
+  assert.equal(host.visible,false);assert.equal(actor.visible,false);
+  for(const name of ['impact','shield','floating','hp','intentIcon','hit'])
+   assert(actor.children.findIndex(c=>c.name===name)>0,'original '+name+' must remain above native portrait');
  }
 });
-test('production stays disabled and explicit configuration is only a labelled test prototype; malformed/count/unbounded primitive data rejected',()=>{
- assert.equal(prepareMonsterArt(),null,'ordinary build keeps optional prototype disabled'); const production=prepareMonsterArt(prototype());assert.equal(production.status,'test-prototype');assert.equal(production.approval.nativeFinalApproved,false);assert.equal(production.asset.capacity,597);
+test('production enables only labelled test prototype; malformed/count/unbounded primitive data rejected',()=>{
+ const production=prepareMonsterArt();assert.equal(production.status,'test-prototype');assert.equal(production.approval.nativeFinalApproved,false);assert.equal(production.asset.capacity,600);assert.equal(production.asset.slots.length,597);assert.equal(production.surfaceAllocation,'per-drawable-actor-instance');
  assert.equal(prepareMonsterArt({schemaVersion:1,enabled:false}),null);
  for(const change of [r=>r.asset.enemyId='cultist',r=>r.asset.slots.push(...Array(4).fill(slot)),r=>r.canvas=[0,106],r=>r.asset.slots[0].image='source.png',r=>r.asset.slots[0].image=106056,r=>r.asset.slots[0].image=100004,r=>r.asset.slots[0].image=999999,r=>r.asset.slots[0].rotation=[0,NaN,0]]) {
   const registry=fixture();change(registry);assert.throws(()=>prepareMonsterArt(registry));
@@ -92,28 +97,48 @@ print('native monster lifecycle passed')
 test('actual r02 exported literal equals every primitive API write; tiny XYZ mutation is rejected',()=>{
  const folder=mkdtempSync(join(tmpdir(),'abyss-monster-source-'));
  try {
-  const metadata=prepareMonsterArt(prototype()).asset;
+  const metadata=prepareMonsterArt().asset;
   const source=readFileSync('art/monsters/acid_slime_m/native-art-r02/native-art.lua','utf8');
   const path=join(folder,'source.lua');
-  const body=()=>`ABYSS_EXPECTED_GALLERY_COUNT=0\nABYSS_EXPORTED_ART=${toLua(source)}\nABYSS_NATIVE_POOL=${toLua(nativeArtPool(597))}\nABYSS_METADATA=${toLua(metadata)}\ndofile('tests/lua/support/native_card_art_source_equivalence.lua')\n`;
+  const body=()=>`ABYSS_EXPECTED_GALLERY_COUNT=0\nABYSS_EXPORTED_ART=${toLua(source)}\nABYSS_NATIVE_POOL=${toLua(nativeArtPool(metadata.capacity))}\nABYSS_METADATA=${toLua(metadata)}\ndofile('tests/lua/support/native_card_art_source_equivalence.lua')\n`;
   writeFileSync(path,body());let result=runLua(path);assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/shapes=597/);
   metadata.slots[21].rotation[0]+=.125;writeFileSync(path,body());result=runLua(path);assert.notEqual(result.status,0);assert.match(result.stderr,/native source mismatch rotation/);
  }finally{rmSync(folder,{recursive:true,force:true});}
 });
-function configuredHost(before='') {
- const dir=mkdtempSync(join(tmpdir(),'abyss-configured-monster-'));
- try {
-  buildUI(dir,undefined,{monsterArt:prototype()});
-  const path=join(dir,'host.lua');
-  writeFileSync(path,`package.path=${toLua(dir.replaceAll('\\','/')+'/?.lua;')}..package.path\n${before}\ndofile('tests/lua/native_monster_art_host.lua')\n`);
-  return runLua(path);
- }finally{rmSync(dir,{recursive:true,force:true});}
-}
-test('explicitly configured generated GameUI binds new r02 into real combat and feedback lifecycle',()=>{
- const result=configuredHost();
+test('explicit monster-only generated GameUI binds actual new r02 into real combat and feedback lifecycle',()=>{
+ const result=runLua('tests/lua/support/native_monster_art_host.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);assert.match(result.stdout,/NATIVE_MONSTER_HOST_PASS/);
 });
 test('real host regression rejects missing reset cleanup instead of accepting visible ghosts',()=>{
- const result=configuredHost("require('abyss_monster_art').clearBox=function()end");
- assert.notEqual(result.status,0);assert.match(result.stderr,/explicit reset must clear the pool/);
+ const directory=mkdtempSync(join(tmpdir(),'abyss-monster-mutation-'));
+ try {
+  const path=join(directory,'mutant.lua');
+  writeFileSync(path,"require('abyss_monster_art').clearBox=function()end\ndofile('tests/lua/support/native_monster_art_host.lua')\n");
+  const result=runLua(path);assert.notEqual(result.status,0);assert.match(result.stderr,/explicit reset must clear the pool/);
+ }finally{rmSync(directory,{recursive:true,force:true});}
+});
+
+test('real native entry draws grass with monsters ON and other four categories OFF without activating their assets',()=>{
+ const result=runLua('tests/lua/support/native_monster_only_entry.lua');
+ assert.equal(result.status,0,result.stdout+result.stderr);
+ assert.match(result.stdout,/NATIVE_MONSTER_ONLY_ENTRY_PASS/);
+});
+
+test('explicit four-category ON build retains the same actual grass drawing lifecycle',()=>{
+ const directory=mkdtempSync(join(tmpdir(),'abyss-monster-all-on-'));
+ try {
+  buildUI(directory,undefined,{artFeatures:{cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true,monsters:true}});
+  const path=join(directory,'host.lua');
+  writeFileSync(path,`package.path=${toLua(directory+'/?.lua;')}..package.path
+dofile('tests/lua/support/native_monster_art_host.lua')
+`);
+  const result=runLua(path);assert.equal(result.status,0,result.stdout+result.stderr);
+  assert.match(result.stdout,/NATIVE_MONSTER_HOST_PASS/);
+ }finally{rmSync(directory,{recursive:true,force:true});}
+});
+
+test('new grass drawing preserves merged Runic Dome intent suppression in the actual host',()=>{
+ const result=runLua('tests/lua/support/native_monster_relic_dome.lua');
+ assert.equal(result.status,0,result.stdout+result.stderr);
+ assert.match(result.stdout,/NATIVE_MONSTER_RELIC_DOME_PASS/);
 });

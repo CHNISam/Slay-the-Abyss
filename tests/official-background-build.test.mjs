@@ -11,7 +11,7 @@ import {createOptInArtFixture} from './helpers/opt-in-art-fixture.mjs';
 
 test('real UI build registers one shared hidden background host and one native image template without moving controls',t=>{
  const dir=mkdtempSync(join(tmpdir(),'abyss-background-build-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
- buildUI(dir,undefined,{artFeatures:{menuBackground:true},monsterArt:{...JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8')),enabled:true}});
+ buildUI(dir,undefined,{artFeatures:{menuBackground:true,monsters:true}});
  const layout=JSON.parse(readFileSync(join(dir,'game-ui.json'))), stage=layout.controls.find(c=>c.name==='stage');
  const hosts=stage.children.filter(c=>c.name==='officialBackground');
  assert.equal(hosts.length,1,'one actual background host must be registered');
@@ -21,10 +21,11 @@ test('real UI build registers one shared hidden background host and one native i
  assert.equal(images[0].kind,'image');assert.equal(images[0].image,100001);
  assert.equal(images[0].mask,undefined,'native reader omits disabled masks; retain canonical default-off template');
  const descendants=node=>[node,...(node.children??node.controls??[]).flatMap(descendants)];
- const monsterHosts=descendants(stage).filter(n=>n.name==='monsterArt');
- assert.equal(monsterHosts.length,1,'exact combined monster drawing host');
- assert.equal(descendants(monsterHosts[0]).length,609,'bounded prototype controls');
- assert.equal(monsterHosts[0].visible,false);assert.deepEqual(monsterHosts[0].size,[106,106]);
+ const monsterHosts=descendants(stage).filter(n=>/^monsterArt(?:[2-5])?$/.test(n.name));
+ assert.equal(monsterHosts.length,0,'dynamic actor art must not leave fixed scene pools');
+ const actor=templates.find(n=>n.name==='AbyssMonsterActor');assert(actor);
+ assert.equal(descendants(actor).length,647);assert.equal(actor.children[0].name,'monsterArt');
+ assert.equal(actor.visible,false);assert.equal(actor.children[0].visible,false);
  const original=structuredClone(stage.children.slice(1));
  const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure','officialSelectionFigure','monsterArt'].includes(c.name));strip(node.children);}}};
  strip(original);

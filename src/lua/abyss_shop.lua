@@ -51,7 +51,7 @@ local function cardOffer(run,rng,cardOwner,slot,kind,color,rarity,previous,resto
     -- Bounded only to prevent an incomplete supported pool hanging the game.
     repeat
         if color=='colored' then
-            rarity=CardRandom.rollRarity(cardOwner,'shop')
+            rarity=CardRandom.rollRarity(cardOwner,'shop',run.relics)
             if kind=='power' and rarity=='common' then rarity='uncommon' end
         end
         local pools=assert(run.data.cards.sourcePools,'missing source card pools')

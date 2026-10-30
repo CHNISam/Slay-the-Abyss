@@ -242,6 +242,7 @@ function M.endRound(state)
   local value=target.statuses.lock_on
   if value~=nil and active(target)then
    integer(value);target.statuses.lock_on=value>1 and value-1 or nil
+   if target.statuses.lock_on==nil then require('abyss_power_order').remove(target,'lock_on')end
    Events.emit(state,'status',{source=target.id,target=target.id,status='lock_on',amount=value>0 and -1 or 0})
   end
  end

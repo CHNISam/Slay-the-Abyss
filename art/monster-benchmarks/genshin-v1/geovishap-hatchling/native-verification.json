@@ -1,0 +1,114 @@
+{
+  "controls": 586,
+  "primitiveCounts": {
+    "triangle": 586
+  },
+  "semanticPlanes": 189,
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true
+  },
+  "serializationClosure": [
+    {
+      "x": 4.9971195693387926e-05,
+      "y": 4.951343201753389e-05,
+      "width": 4.9797385408112405e-05,
+      "height": 4.9797385408112405e-05,
+      "rotation": 5.570301951252077e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "strictStructuralReimport": {
+    "elementCount": 586,
+    "fields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "mismatches": 0,
+    "nativeTriangleTemplateId": 100003,
+    "orderPreserved": true
+  },
+  "luaOptionalSnapshot": {
+    "rawExportSha256": "60389794e586010ae83e242d971c9e2a5c423480c43abec89e95012fe54ad0db",
+    "rawExportBytes": 457414,
+    "removedBytes": 342035,
+    "runtimeLiteralUnchanged": true
+  },
+  "runtimeIntegrationContract": {
+    "canvas": [
+      106,
+      106
+    ],
+    "requiresXYZRotation": true,
+    "preserveRGBA": true,
+    "requiresSourceOverZIndexOrder": true,
+    "preserveAllElementGeometry": true,
+    "actualBinding": "not implemented in this task",
+    "privateOnly": true
+  },
+  "preservedEvidenceNote": "Selected fields from the original hash-identified report; original parity evidence is not new source-pixel equivalence. No claim that the simplified native scene is pixel-identical to source.",
+  "independentVerification": {
+    "pinnedReaderParse": true,
+    "jsonLuaExactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "canvas": [
+      106,
+      106
+    ],
+    "galleryImages": 0,
+    "textboxes": 0
+  },
+  "originalNativeReportSha256": "5b1bc7a876ae0301a10695f2523915d0e1bb6120d802238b322f8565f7335ef7"
+}

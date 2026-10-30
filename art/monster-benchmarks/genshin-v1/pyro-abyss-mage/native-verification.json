@@ -1,0 +1,96 @@
+{
+  "controls": 599,
+  "primitiveCounts": {
+    "ellipse": 6,
+    "triangle": 593
+  },
+  "semanticPlanes": 110,
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true
+  },
+  "serializationClosure": [
+    {
+      "x": 4.9971195693387926e-05,
+      "y": 4.98949017426753e-05,
+      "width": 7.727003934077104e-05,
+      "height": 7.727003934077104e-05,
+      "rotation": 5.215724269191924e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "luaOptionalSnapshot": {
+    "rawExportSha256": "a1ac68f5459e6149e585833c430e69067cee7a7fd72ecc2fee772383749dcbd4",
+    "rawExportBytes": 467449,
+    "removedBytes": 349575,
+    "runtimeLiteralUnchanged": true
+  },
+  "runtimeIntegrationContract": {
+    "canvas": [
+      106,
+      106
+    ],
+    "requiresXYZRotation": true,
+    "preserveOpacity": true,
+    "requiresSourceOverZIndexOrder": true,
+    "actualBinding": "not implemented; no gameplay monster ID assigned by art task",
+    "nativePrimitivesOnly": true,
+    "noGalleryMonsterImage": true
+  },
+  "preservedEvidenceNote": "Selected fields from the original hash-identified report; original parity evidence is not new source-pixel equivalence. No claim that the simplified native scene is pixel-identical to source.",
+  "independentVerification": {
+    "pinnedReaderParse": true,
+    "jsonLuaExactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "canvas": [
+      106,
+      106
+    ],
+    "galleryImages": 0,
+    "textboxes": 0
+  },
+  "originalNativeReportSha256": "8221a48b34db351ced3c11329b37833d47f51328e1ea407cb8d2cd382dce21d7"
+}

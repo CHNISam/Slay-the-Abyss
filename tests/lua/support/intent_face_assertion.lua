@@ -1,13 +1,20 @@
--- The approved native face uses up to three ordered icons. Wording remains
--- available in the shared read-only projection and the real tooltip fixtures.
-local View,Theme=require('abyss_battle_intent_view'),require('abyss_theme')
+-- Original world intent is one image, separate from tooltip effect rows.
+local Theme=require('abyss_theme')
 return function(box,face,label)
     if label then assert(face.label==label,'intent wording changed') end
     assert(not box:GetChild('intentLabel').visible,'obsolete face label must stay hidden')
-    local kinds=View.icons(face)
-    for i,name in ipairs({'intentIcon','intentBadge','intentExtra'})do
-        local image=box:GetChild(name)
-        assert(image.visible==(kinds[i]~=nil),'intent icon visibility changed')
-        if kinds[i] then assert(image.imageId==Theme.icon.intent[kinds[i]],'intent icon changed') end
+    assert(not box:GetChild('intentBadge').visible and not box:GetChild('intentExtra').visible,
+        'tooltip effect icons must not become extra world intent images')
+    local visible=face.sourceEnum and face.worldVisible==true or not face.sourceEnum
+    local icon=box:GetChild('intentIcon')
+    assert(icon.visible==visible,'original world intent visibility changed')
+    if visible then
+        assert(icon.imageId==Theme.icon.intent[face.worldKind or face.kind],'original world intent image changed')
+    end
+    if face.sourceEnum and face.sourceEnum:sub(1,6)=='ATTACK' then
+        assert(face.worldKind=='attack' and face.sourceTexture:match('^INTENT_ATK_[1-7]$'),
+            'mixed attacks use the same source damage-tier world image as ATTACK')
+    elseif face.sourceEnum=='UNKNOWN' or face.sourceEnum=='STUN' then
+        assert(not icon.visible,'UNKNOWN/STUN use source VFX, not a base world image')
     end
 end

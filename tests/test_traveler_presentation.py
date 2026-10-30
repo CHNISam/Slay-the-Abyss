@@ -108,7 +108,7 @@ class PresentationTests(unittest.TestCase):
         cards = {card['id']: card for card in data['cards']}
         expected_statuses = {'dazed', 'slimed', 'wound', 'burn'}
         ordinary_curses = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe', 'clumsy', 'normality', 'parasite'}
-        expected_curses = ordinary_curses | {'curse_of_the_bell'}
+        expected_curses = ordinary_curses | {'curse_of_the_bell', 'necronomicurse'}
         self.assertEqual(len(ordinary_curses), 10)
         self.assertEqual({c['id'] for c in source_data['cards'] if c['type'] == 'status'}, expected_statuses)
         self.assertEqual({c['id'] for c in source_data['cards'] if c['type'] == 'curse'}, expected_curses)

@@ -20,6 +20,8 @@ local function status(state, enemy, id, amount)
         if before<=0 then require('abyss_power_schedule').remove(state,enemy,id) end
         require('abyss_power_order').applied(state,enemy,id,beforeRaw)
     end
+    if amount>0 then require('abyss_power_order').applyNew(enemy,id)
+    elseif id=='sharp_hide' then require('abyss_power_order').remove(enemy,id)end
     Events.emit(state, "status", {source = enemy.id, target = enemy.id, status = id, amount = amount - before})
 end
 
@@ -39,7 +41,7 @@ function M.hpLost(state, enemy, before)
         if enemy.aiReturnDamage >= enemy.aiThreshold then enemy.aiShiftPending = true end
         return
     end
-    local remaining = math.max(0, enemy.statuses.mode_shift - (before - enemy.hp))
+    local remaining = enemy.statuses.mode_shift - (before - enemy.hp)
     status(state, enemy, "mode_shift", remaining)
     if remaining > 0 then return end
     enemy.aiShiftPending = true
@@ -56,6 +58,7 @@ function M.flush(state, enemy, actingSource)
     enemy.aiThreshold = enemy.aiThreshold + enemy.ai.thresholdIncrement
     select(enemy, enemy.ai.defenseCycle[enemy.aiCycle])
     if (enemy.statuses.mode_shift or 0) ~= 0 then status(state, enemy, "mode_shift", 0) end
+    require('abyss_power_order').remove(enemy,'mode_shift')
     Actors.block(state, enemy, enemy.ai.shiftBlock, true)
     Events.emit(state, "enemy_mode", {enemy = enemy.id, mode = enemy.aiPhase})
 end
@@ -86,7 +89,7 @@ function M.afterEffects(state, enemy)
     end
 end
 
-function M.advance(state, enemy)
+function M.advance(_, enemy)
     local ai = enemy.ai
     if enemy.aiSkipAdvance then enemy.aiSkipAdvance = nil; return end
     if enemy.aiPhase == "offense" then

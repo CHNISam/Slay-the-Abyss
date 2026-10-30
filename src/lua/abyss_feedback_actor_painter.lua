@@ -1,4 +1,5 @@
 local MonsterArt=require('abyss_monster_art')
+local Escape=require('abyss_monster_escape')
 -- Composes committed actor feedback into native portrait/effect controls only.
 -- Queue timing, completion and battle ownership remain with abyss_feedback.
 local Theme = require("abyss_theme")
@@ -27,7 +28,7 @@ local function pose(keys, age)
     end
 end
 
--- Per-actor composition: attacker pose + victim knockback/flash + death collapse, applied once.
+-- Per-actor composition: attacker pose, victim feedback and independent monster tint fade.
 local function appendShake(id,sample,shakes)
     local age,d,style,heavy=sample.age,sample.detail,sample.style,sample.heavy
     if id == "player" or heavy or style.lethal then
@@ -201,8 +202,12 @@ local function paintNumber(ctx,id,box,effect,sample,window)
 end
 local function paintDying(ctx,id,box,dt,y,sx,sy,ink,flash,alpha)
     local dying = ctx.state.dying[id]
-    if dying then
-        -- Gleam, then the figure crumbles into the ground as a shard burst disperses.
+    if dying and id ~= "player" then
+        -- AbstractMonster + TintEffect: keep geometry and tint RGB, fade alpha only.
+        alpha=dying.alpha
+        box:SetVisible(true)
+    elseif dying then
+        -- Player presentation is a separate path, not AbstractMonster.die.
         dying.age = dying.age + dt
         local p = clamp(dying.age / T.slow)
         ink, flash, alpha = id == "player" and C.danger or C.goldBright, 1 - easeOut(p), 1 - easeIn(p)
@@ -217,9 +222,48 @@ local function paintDying(ctx,id,box,dt,y,sx,sy,ink,flash,alpha)
     end
     return y,sx,sy,ink,flash,alpha
 end
+-- AbstractMonster.updateDeathAnimation precedes TintEffect.update each frame.
+-- Advance even without a bound control; missing display capacity must not change death time.
+function M.advanceDeaths(ctx,dt)
+    for id,dying in pairs(ctx.state.dying) do
+        if id ~= "player" then
+            dying.age=dying.age+dt
+            dying.alpha=clamp((dying.alpha or 1)*(1-3*dt))
+            if dying.age>dying.lifetime then
+                local _,box=ctx.actor(id)
+                if box then box:SetVisible(false) MonsterArt.clearBox(box) end
+                ctx.state.dying[id]=nil
+                if ctx.surfaces then ctx.surfaces:release(id)end
+            end
+        end
+    end
+end
+function M.advanceEscapes(ctx,dt)
+    for id,escaping in pairs(ctx.state.escaping)do
+        if Escape.advance(escaping,dt,Theme.canvas.base[1]/1920)then
+            local _,box=ctx.actor(id)
+            if box then box:SetVisible(false);MonsterArt.clearBox(box)end
+            ctx.state.escaped[id]=true
+            ctx.state.escaping[id],ctx.state.effects[id],ctx.state.poses[id],ctx.state.tints[id]=nil,nil,nil,nil
+            if ctx.surfaces then ctx.surfaces:release(id)end
+        end
+    end
+end
+local function portraitTone(ctx,id,base,ink,flash)
+    local tone=flash > 0 and mix(base,ink,flash*FLASH) or base
+    local dying=ctx.state.dying[id]
+    if dying and id~="player" then tone=dying.tone or base end
+    ctx.state.tints=ctx.state.tints or {}
+    ctx.state.tints[id]={r=tone.r,g=tone.g,b=tone.b,a=tone.a}
+    return tone
+end
+local function retireUnboundFeedback(ctx,id)
+    ctx.state.effects[id],ctx.state.poses[id]=nil,nil
+    if id=="player" then ctx.state.dying[id]=nil end
+end
 function M.paint(ctx,id, dt, shakes)
     local unit, box = ctx.actor(id)
-    if not box then ctx.state.effects[id], ctx.state.poses[id], ctx.state.dying[id] = nil, nil, nil return end
+    if not box then retireUnboundFeedback(ctx,id);return end
     local base = id == "player" and C.geo or C.text
     local ink, flash, alpha = base, 0, 1
     local posed = ctx.state.poses[id]
@@ -244,11 +288,13 @@ function M.paint(ctx,id, dt, shakes)
         paintNumber(ctx,id,box,effect,sample,window)
     end
     y,sx,sy,ink,flash,alpha=paintDying(ctx,id,box,dt,y,sx,sy,ink,flash,alpha)
+    local escaping=ctx.state.escaping[id]
+    if escaping then x,sx=Escape.pose(escaping,x,sx)end
     local portrait = box:GetChild("portrait")
     portrait:SetAnchoredPosition(x, y)
     portrait:SetLocalScale(sx, sy, 1)
     if id == "player" and ctx.platform.portraits then ctx.platform.portraits:battlePose(x,y,sx,sy) end
-    local tone=flash > 0 and mix(base,ink,flash*FLASH) or base
+    local tone=portraitTone(ctx,id,base,ink,flash)
     tint(ctx,portrait,tone,alpha)
     MonsterArt.pose(box,x,y,sx,sy,tone,alpha)
 end

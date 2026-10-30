@@ -227,6 +227,7 @@ return function(M)
 
     local function chooseAct2(run,flow,choice,uid)
         local ok,status=Act2Events.choose(run,flow,choice,uid,upgradeable)
+        if ok and status=='event_combat'then return Run.startEventCombat(run)end
         if ok and run.hp==0 then
             flow.eventChoice=choice;complete(run);run.phase='defeat';return true,'defeat'
         end

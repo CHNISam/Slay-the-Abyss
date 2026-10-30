@@ -1,3 +1,4 @@
+import {prepareMonsterArt} from '../scripts/monster-art.mjs';
 import {backgroundInputs} from '../scripts/official-background.mjs';
 import {portraitInputs} from '../scripts/official-portraits.mjs';
 import {readyArtSourceInputs} from '../scripts/art/ready-card-runtime.mjs';
@@ -179,6 +180,7 @@ for (const mode of ['hardlink', 'symlink']) for (const input of [...releaseSourc
     const f = fixture(t); cpSync(resolve('data'), join(f.root, 'data'), { recursive: true });
     for(const file of [...readyArtSourceInputs(),...backgroundInputs,...portraitInputs]){mkdirSync(dirname(join(f.root,file)),{recursive:true});cpSync(resolve(file),join(f.root,file));}
     cpSync(resolve('art/monsters/acid_slime_m/native-art-r02'),join(f.root,'art/monsters/acid_slime_m/native-art-r02'),{recursive:true});
+    for(const file of prepareMonsterArt().inputPaths){mkdirSync(dirname(join(f.root,file)),{recursive:true});cpSync(resolve(file),join(f.root,file));}
     writeFileSync(join(f.root, 'CHANGELOG.md'), changelog()); f.ledger([receipt(f.root)]);
     mkdirSync(join(f.root, 'out'));
     const target = join(f.root, 'out/abyss_ui_templates.lua');

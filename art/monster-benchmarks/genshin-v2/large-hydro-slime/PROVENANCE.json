@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "identity": "large-hydro-slime",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/large-hydro-slime/source.png",
+    "sha256": "1e188a6409b629dbe20ee19e1508240778e750c2d9d19ac5ff99f62b59d28f2c",
+    "bytes": 1152549,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged raw generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "sourceApprovalScope": "No user source approval established here; do not infer it from root review",
+  "nativeReview": "PENDING independent root visual review",
+  "nativeOwnerAcceptance": false,
+  "method": "Manual broad semantic gel planes, pale paired horns, blue-rim cream ellipse eyes and sparse highlights. No source sampling, fitting, pixel mosaic, masks, bitmap import, new renderer or image generation.",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "8903f9c727197a2025b493d1773d51ecc9606b18faab1f64dc7330fb5fc35439",
+      "bytes": 274980
+    },
+    "native-art.lua": {
+      "sha256": "5df13e509257707cc08b67c71f3667b3e1077df0233d3749b83e578ad295a058",
+      "bytes": 87662
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "54ab9dafa778411e32d170a03a8bd6212912cb0ea9222634bb0840cf9bc93baf",
+    "generationProvenanceSha256": "daf1302ee8e30930dc0441a16500ae4d2e08f9707f072d2b4417c7877535afe6"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/5ae48c83de4fcd7b724c5306102045de_9096271965912117538.png",
+      "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2128",
+      "https://wiki.hoyolab.com/pc/genshin/entry/2128?lang=en-us"
+    ],
+    "recordedHashes": [
+      "1e188a6409b629dbe20ee19e1508240778e750c2d9d19ac5ff99f62b59d28f2c",
+      "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "8e81e79a0dd5ea9023e8f43f6257a4a9203d829bb35a18c73ea553134f125bd7",
+      "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

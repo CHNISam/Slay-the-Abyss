@@ -2419,7 +2419,8 @@
       "effects": [],
       "text": "无法打出。从牌组中永久移除时，最大生命值降低3点。",
       "onRemoveMaxHpLoss": 3
-    }
+    },
+    {"id": "necronomicurse", "sourceId": "Necronomicurse", "sts_name": "Necronomicurse", "name": "死灵诅咒", "type": "curse", "rarity": "special", "cost": -2, "effects": [], "text": "无法打出。不能永久移除。被消耗时，将一张新的死灵诅咒加入手牌。"}
   ],
   "sourceCatalog": "reference/warrior75.json",
   "sourcePools": {

@@ -65,7 +65,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_details").install(self, ownership, host, ports(links, {
         "tint", "ink", "child", "cancelPotionAim", "cancelCardInputs",
-        "cancelPotionInputs", "cancelActionInputs"
+        "cancelPotionInputs", "cancelActionInputs", "consumeReleasedDragClick"
     })))
     install(services, require("abyss_battle_card_layout").install(self, ownership, host, ports(links, {
     })))
@@ -79,7 +79,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_render_actors").install(self, ownership, host, ports(links, {
         "dragTarget", "picture", "tint", "ink", "enemySlot",
-        "child", "button", "show", "potionDragTarget"
+        "child", "button", "show", "potionDragTarget", "point"
     })))
     install(services, require("abyss_battle_render").install(self, ownership, host, ports(links, {
         "prepareRenderInputs", "renderFeedbackReady", "syncRenderIdentity", "renderFrame", "syncRewardOwner",
@@ -91,7 +91,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_actions").install(self, ownership, host, ports(links, {
         "sameEnemySlot", "cardReady", "cancelCardInputs", "rewardTarget", "updateCarry",
-        "aimReady", "cancelPotionAim", "notice", "rewardScreen", "cancelActionInputs"
+        "aimReady", "cancelPotionAim", "notice", "rewardScreen", "cancelActionInputs", "updateEnemyNames", "updateEnemyIntents"
     })))
     install(services, require("abyss_battle_card_gestures").install(self, ownership, host, ports(links, {
         "closeInfo", "cardReady", "dragTarget", "notice", "cancelCardInputs",
@@ -117,7 +117,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })))
     install(services, require("abyss_battle_detail_bindings").install(self, ownership, host, ports(links, {
         "enemyAt", "listen", "child", "closeInfo", "controllerReady",
-        "helpActorReady", "swallowed", "down"
+        "helpActorReady", "swallowed", "down", "consumeReleasedDragClick"
     })))
     connect(links, services)
     -- Runtime bindings keep only their own ports, not the construction registry.
@@ -125,7 +125,9 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         picture=services.picture, tint=services.tint, ink=services.ink, child=services.child, enemyPosition=services.enemyPosition,
         describeInfo=services.describeInfo, show=services.show, placeCard=services.placeCard, placeReward=services.placeReward, dragTarget=services.dragTarget,
         dragPose=services.dragPose, notice=services.notice, refresh=services.refresh, bind=services.bind, cancelPotionAim=services.cancelPotionAim,
-        rewardScreen=services.rewardScreen, bindPotionControls=services.bindPotionControls, bindCardControls=services.bindCardControls, bindEnemyControls=services.bindEnemyControls, bindDetailControls=services.bindDetailControls,
+        rewardScreen=services.rewardScreen, bindPotionControls=services.bindPotionControls, bindCardControls=services.bindCardControls, bindEnemyControl=services.bindEnemyControl, unbindEnemyControl=services.unbindEnemyControl,
+        bindEnemyPowerControl=services.bindEnemyPowerControl, unbindEnemyPowerControl=services.unbindEnemyPowerControl,
+        bindEnemyDetailControls=services.bindEnemyDetailControls, unbindEnemyDetailControls=services.unbindEnemyDetailControls, bindDetailControls=services.bindDetailControls,
         potionDragTarget=services.potionDragTarget,
         cancelCardInputs=services.cancelCardInputs, consumeReleasedDragClick=services.consumeReleasedDragClick
     }
@@ -149,7 +151,37 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     -- Source PC behavior: the card center follows the pointer, not the grab offset.
     -- Target cards require an explicit enemy hit, including a little touch padding.
     -- Open ground never substitutes the nearest enemy, even when only one remains.
-    host.monsterArt=require('abyss_monster_art').new(host.stage,host.platform)
+    host.monsterSurfaces=require('abyss_monster_surfaces').new(host.stage,host.platform,function(slot,box)
+        services.bindEnemyControl(slot,box);services.bindEnemyDetailControls(slot,box)
+    end,function(slot,box,engineDestroyed)
+        local failure
+        local function cleanup(fn)local ok,why=pcall(fn);if not ok then failure=why end end
+        cleanup(function()if host.monsterPowers then host.monsterPowers:release(box,engineDestroyed)end end)
+        cleanup(function()if host.monsterIntentParticles then host.monsterIntentParticles:release(box,engineDestroyed)end end)
+        cleanup(function()services.unbindEnemyControl(slot,box,engineDestroyed)end)
+        cleanup(function()services.unbindEnemyDetailControls(slot,box,engineDestroyed)end)
+        cleanup(function()if host.monsterArt and not engineDestroyed then host.monsterArt:release(box)end end)
+        if failure then error(failure)end
+    end)
+    host.monsterArt=require('abyss_monster_art').new(host.stage,host.platform,nil,host.monsterSurfaces)
+    host.monsterPowers=require('abyss_monster_power_view').new(host.platform,services.picture,services.tint,services.ink,
+        function(actorSlot,powerSlot,box,pool)services.bindEnemyPowerControl(actorSlot,powerSlot,box,pool)end,
+        function(_,box,engineDestroyed)services.unbindEnemyPowerControl(box,engineDestroyed)end)
+    host.monsterIntentParticles=require('abyss_monster_intent_particle_view').new(host.platform,services.picture,services.tint)
+    function self.releaseMonsterSurfaces(_)
+        local ok,why=pcall(host.monsterSurfaces.clear,host.monsterSurfaces)
+        local cleared,reason=pcall(host.monsterIntentParticles.clear,host.monsterIntentParticles)
+        assert(ok and cleared,why or reason)
+    end
+    function self.onEngineDestroy(_)
+        self.active=false
+        local failure
+        for _,manager in ipairs({host.monsterSurfaces,host.monsterPowers,host.monsterIntentParticles,host.monsterArt})do
+            local ok,why=pcall(manager.onEngineDestroy,manager)
+            if not ok then failure=why end
+        end
+        assert(not failure,failure)
+    end
     host.unit = UnitView.new(services.picture, services.tint, services.ink, statusKind)
     host.lines = InfoContent.lines
     host.infoContent = InfoContent.new(self, {
@@ -273,7 +305,6 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     })
     services.bindPotionControls()
     services.bindCardControls()
-    services.bindEnemyControls()
     services.bindDetailControls()
     for _,kind in ipairs({'draw','discard','exhaust'})do
         local hit=services.child(kind..'Icon'):GetChild('hit')

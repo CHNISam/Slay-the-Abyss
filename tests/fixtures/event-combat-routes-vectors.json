@@ -1,0 +1,640 @@
+{
+  "dead": [
+    {
+      "seed": "0",
+      "rewards": [
+        "RELIC",
+        "NOTHING",
+        "GOLD"
+      ],
+      "enemy": 2,
+      "afterConstructor": {
+        "words": [
+          "56d6714ba8506ef6",
+          "9253c52fcfbd932b"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 52,
+          "encounter": false,
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 92,
+          "encounter": false,
+          "after": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "chance": 75,
+          "roll": 31,
+          "encounter": true,
+          "gold": 31,
+          "after": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        }
+      ]
+    },
+    {
+      "seed": "1",
+      "rewards": [
+        "NOTHING",
+        "RELIC",
+        "GOLD"
+      ],
+      "enemy": 2,
+      "afterConstructor": {
+        "words": [
+          "b722f2631cb7b14d",
+          "ab89235541870f7d"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 88,
+          "encounter": false,
+          "after": {
+            "words": [
+              "ab89235541870f7d",
+              "2d25c9924d25b67b"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 32,
+          "encounter": true,
+          "gold": 29,
+          "after": {
+            "words": [
+              "2c0c29df0b39a216",
+              "c80f009cd532dbfd"
+            ],
+            "counter": 5
+          }
+        }
+      ]
+    },
+    {
+      "seed": "2",
+      "rewards": [
+        "NOTHING",
+        "GOLD",
+        "RELIC"
+      ],
+      "enemy": 3,
+      "afterConstructor": {
+        "words": [
+          "058da0761ec731ab",
+          "07c3c63d06efe7ff"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 62,
+          "encounter": false,
+          "after": {
+            "words": [
+              "07c3c63d06efe7ff",
+              "39411a935cae3cb6"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 59,
+          "encounter": false,
+          "after": {
+            "words": [
+              "39411a935cae3cb6",
+              "2001a7f3ad600329"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "chance": 75,
+          "roll": 78,
+          "encounter": false,
+          "after": {
+            "words": [
+              "2001a7f3ad600329",
+              "50eed2010c6140a3"
+            ],
+            "counter": 5
+          }
+        }
+      ]
+    },
+    {
+      "seed": "3",
+      "rewards": [
+        "RELIC",
+        "NOTHING",
+        "GOLD"
+      ],
+      "enemy": 3,
+      "afterConstructor": {
+        "words": [
+          "45a9bf4f052eac4c",
+          "fa30411073af5396"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 43,
+          "encounter": false,
+          "after": {
+            "words": [
+              "fa30411073af5396",
+              "181b1822489d2a51"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 17,
+          "encounter": true,
+          "gold": 25,
+          "after": {
+            "words": [
+              "6a12b7993da8ad02",
+              "632de5ab7243d112"
+            ],
+            "counter": 5
+          }
+        }
+      ]
+    },
+    {
+      "seed": "7",
+      "rewards": [
+        "NOTHING",
+        "GOLD",
+        "RELIC"
+      ],
+      "enemy": 3,
+      "afterConstructor": {
+        "words": [
+          "c3d3964c7aa8fa81",
+          "114eac846a37213a"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 95,
+          "encounter": false,
+          "after": {
+            "words": [
+              "114eac846a37213a",
+              "f4a01c4662ac67b5"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 64,
+          "encounter": false,
+          "after": {
+            "words": [
+              "f4a01c4662ac67b5",
+              "a7db82d266162c8c"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "chance": 75,
+          "roll": 37,
+          "encounter": true,
+          "gold": 26,
+          "after": {
+            "words": [
+              "704aa3468de023b6",
+              "bea24deafbbcce92"
+            ],
+            "counter": 6
+          }
+        }
+      ]
+    },
+    {
+      "seed": "9",
+      "rewards": [
+        "GOLD",
+        "RELIC",
+        "NOTHING"
+      ],
+      "enemy": 2,
+      "afterConstructor": {
+        "words": [
+          "68b8c12ff6c34e2b",
+          "92baedf7896d0e1d"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 97,
+          "encounter": false,
+          "after": {
+            "words": [
+              "92baedf7896d0e1d",
+              "6df932fa14d14c75"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 84,
+          "encounter": false,
+          "after": {
+            "words": [
+              "6df932fa14d14c75",
+              "04875d2ec0c8bf1b"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "chance": 75,
+          "roll": 84,
+          "encounter": false,
+          "after": {
+            "words": [
+              "04875d2ec0c8bf1b",
+              "14740f0a6260aff6"
+            ],
+            "counter": 5
+          }
+        }
+      ]
+    },
+    {
+      "seed": "11",
+      "rewards": [
+        "NOTHING",
+        "GOLD",
+        "RELIC"
+      ],
+      "enemy": 1,
+      "afterConstructor": {
+        "words": [
+          "f997a3117bf204c2",
+          "f48f2c8978dceb95"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 98,
+          "encounter": false,
+          "after": {
+            "words": [
+              "f48f2c8978dceb95",
+              "85a54e326cec4070"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 12,
+          "encounter": true,
+          "gold": 28,
+          "after": {
+            "words": [
+              "359654f6169d7e50",
+              "a90522a0bbed29d3"
+            ],
+            "counter": 5
+          }
+        }
+      ]
+    },
+    {
+      "seed": "13",
+      "rewards": [
+        "NOTHING",
+        "RELIC",
+        "GOLD"
+      ],
+      "enemy": 3,
+      "afterConstructor": {
+        "words": [
+          "55ad26967ae57d0e",
+          "e0695874f1725af2"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 10,
+          "encounter": true,
+          "gold": 30,
+          "after": {
+            "words": [
+              "fef9032c3cd54432",
+              "24e88f42fa4b11f6"
+            ],
+            "counter": 4
+          }
+        }
+      ]
+    },
+    {
+      "seed": "15",
+      "rewards": [
+        "NOTHING",
+        "GOLD",
+        "RELIC"
+      ],
+      "enemy": 1,
+      "afterConstructor": {
+        "words": [
+          "8be5ccc90f5c9f69",
+          "03c314abc5b0aa7c"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 23,
+          "encounter": true,
+          "gold": 31,
+          "after": {
+            "words": [
+              "eca1019cbfea420a",
+              "ba80e6498a65f281"
+            ],
+            "counter": 4
+          }
+        }
+      ]
+    },
+    {
+      "seed": "17",
+      "rewards": [
+        "NOTHING",
+        "GOLD",
+        "RELIC"
+      ],
+      "enemy": 2,
+      "afterConstructor": {
+        "words": [
+          "6ceb7b900f6258d9",
+          "31dc48e70711345d"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 16,
+          "encounter": true,
+          "gold": 29,
+          "after": {
+            "words": [
+              "9530d02176bf64b4",
+              "d76f3156f324cc7c"
+            ],
+            "counter": 4
+          }
+        }
+      ]
+    },
+    {
+      "seed": "19",
+      "rewards": [
+        "GOLD",
+        "NOTHING",
+        "RELIC"
+      ],
+      "enemy": 1,
+      "afterConstructor": {
+        "words": [
+          "f2b0458f8c1bb1d7",
+          "7d0469a43d2ac48f"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 68,
+          "encounter": false,
+          "after": {
+            "words": [
+              "7d0469a43d2ac48f",
+              "48723b573f80af9a"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 80,
+          "encounter": false,
+          "after": {
+            "words": [
+              "48723b573f80af9a",
+              "e768900e27c7838f"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "chance": 75,
+          "roll": 85,
+          "encounter": false,
+          "after": {
+            "words": [
+              "e768900e27c7838f",
+              "04851ac1f2e356dc"
+            ],
+            "counter": 5
+          }
+        }
+      ]
+    },
+    {
+      "seed": "21",
+      "rewards": [
+        "GOLD",
+        "RELIC",
+        "NOTHING"
+      ],
+      "enemy": 1,
+      "afterConstructor": {
+        "words": [
+          "dfc9a21cb04d77bc",
+          "a99a909c87589a5d"
+        ],
+        "counter": 2
+      },
+      "searches": [
+        {
+          "chance": 25,
+          "roll": 73,
+          "encounter": false,
+          "after": {
+            "words": [
+              "a99a909c87589a5d",
+              "780b7cd94de27de6"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "chance": 50,
+          "roll": 57,
+          "encounter": false,
+          "after": {
+            "words": [
+              "780b7cd94de27de6",
+              "9fd233fa788d0504"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "chance": 75,
+          "roll": 32,
+          "encounter": true,
+          "gold": 33,
+          "after": {
+            "words": [
+              "8b7fb46cf410590d",
+              "e991f041ebcc3a72"
+            ],
+            "counter": 6
+          }
+        }
+      ]
+    }
+  ],
+  "bandits": [
+    {
+      "runSeed": "-18",
+      "floor": 18,
+      "roomSeed": "0",
+      "hp": [
+        30,
+        35,
+        40
+      ],
+      "after": {
+        "words": [
+          "9253c52fcfbd932b",
+          "6151e5f6a4a2df86"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "runSeed": "24",
+      "floor": 18,
+      "roomSeed": "42",
+      "hp": [
+        30,
+        36,
+        39
+      ],
+      "after": {
+        "words": [
+          "e60fca8540413235",
+          "42ce675251912b41"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "runSeed": "65519",
+      "floor": 18,
+      "roomSeed": "65537",
+      "hp": [
+        30,
+        37,
+        38
+      ],
+      "after": {
+        "words": [
+          "775731e69629caf9",
+          "efdcfc04af740144"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "runSeed": "-19",
+      "floor": 18,
+      "roomSeed": "-1",
+      "hp": [
+        30,
+        37,
+        41
+      ],
+      "after": {
+        "words": [
+          "c347fe1c7f4b1e37",
+          "336d48ad86da3b4c"
+        ],
+        "counter": 3
+      }
+    },
+    {
+      "runSeed": "9223372036854775789",
+      "floor": 18,
+      "roomSeed": "9223372036854775807",
+      "hp": [
+        30,
+        37,
+        40
+      ],
+      "after": {
+        "words": [
+          "50a8497b9805ce94",
+          "c38024b9f06aa366"
+        ],
+        "counter": 3
+      }
+    }
+  ]
+}

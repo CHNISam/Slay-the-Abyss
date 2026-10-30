@@ -8,6 +8,7 @@ local ActorMotion=require('abyss_actor_motion')
 local SkillFeedback=require('abyss_skill_feedback')
 local ActorPainter=require("abyss_feedback_actor_painter")
 local MonsterArt=require('abyss_monster_art')
+local Escape=require('abyss_monster_escape')
 local CardFlow=require('abyss_card_flow')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
@@ -116,9 +117,10 @@ local function duration(entry, style, fastMode)
     if kind == "player_death" then return T.playerDeath end
     if banners[kind] then return T.banner end
     if kind == "intent" then return T.enemyActionGap end
-    if kind == "enemy_escape" then return T.enemyEscape end
+    if kind == "enemy_escape" then return Escape.actionDuration end
     if kind == "gold_stolen" then return T.base end
-    if kind == "death" then return entry.detail.chained and 0 or T.slow end
+    -- AbstractMonster.die starts an independent creature timer, not an action wait.
+    if kind == "death" then return 0 end
     -- Area hits land on consecutive rendered frames: one shockwave rippling across the row.
     if kind == "damage" and style.form == "area" and style.hit < style.hits then return 0 end
     if kind == "damage" then
@@ -132,8 +134,9 @@ local function duration(entry, style, fastMode)
 end
 
 function M.new(stage, platform, present, complete)
-    local self = { busy = false, fastMode = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, slotOwners = {} }
+    local self = { busy = false, fastMode = false, effects = {}, deaths = {}, dying = {}, poses = {}, escaping = {}, escaped = {}, slotOwners = {}, tints = {} }
     local overlay = stage:GetChild("feedback")
+    local surfaces=require('abyss_monster_surfaces').get(stage)
     function self.bindIdle(_owner,battle)
         local changing=self.idleBattle and self.idleBattle~=battle
             or battle and self.battle and self.battle~=battle
@@ -149,14 +152,21 @@ function M.new(stage, platform, present, complete)
             local lift=UnitView.noticeLift(self.shadow.player,L.player.portrait,L.player.position[2],true)
             return self.shadow.player,stage:GetChild("hero"),L.player.position[1],L.player.position[2]+lift
         end
-        local rows=self.busy and self.enemyRows or EnemyView.slots(self.shadow)
+        if surfaces then
+            local box=surfaces:find(id)
+            for _,entry in ipairs(self.shadow.enemies)do if entry.id==id then
+                local x,_,_,_,y=EnemyView.position(0,0,entry)
+                return entry,box,x,y
+            end end
+        end
+        local rows=self.busy and self.enemyRows or EnemyView.slots(self.shadow,self)
         for slot,entry in ipairs(rows)do if entry.id==id then
             local x,_,_,_,y=EnemyView.position(#rows,slot,entry.actor)
             return entry.actor,stage:GetChild('enemy'..slot),x,y
         end end
         for _,a in ipairs(self.shadow.enemies)do if a.id==id then return a end end
     end
-    local painter = {state=self, actor=actor, platform=platform}
+    local painter = {state=self, actor=actor, platform=platform, surfaces=surfaces}
     local function banner(text, danger)
         local label = overlay:GetChild("banner")
         self.bannerInk = danger and C.danger or C.goldBright
@@ -181,8 +191,9 @@ function M.new(stage, platform, present, complete)
             if not ok then print("ABYSS_AUDIO unavailable " .. cue .. " " .. tostring(reason)) end
         end
     end
-    local function resetUnit(name)
-        local box = stage:GetChild(name)
+    local function resetUnit(name,box)
+        box=box or (surfaces and name~="hero" and surfaces:control(tonumber(name:match("%d+"))) or stage:GetChild(name))
+        if not box then return end
         MonsterArt.clearBox(box)
         for _, part in ipairs({"impact", "shield", "floating"}) do pcall(function() box:GetChild(part):SetVisible(false) end) end
         for _, part in ipairs({"portrait", "impact", "shield", "blockEdge", "blockIcon", "block"}) do
@@ -207,11 +218,12 @@ function M.new(stage, platform, present, complete)
         for _, name in ipairs({"banner", "bannerPlate"}) do
             pcall(function() local part = overlay:GetChild(name) part:SetAnchoredPosition(0, S.xxl) part:SetLocalScale(1, 1, 1) end)
         end
-        for _, name in ipairs({"hero", "enemy1", "enemy2", "enemy3", "enemy4", "enemy5"}) do
-            resetUnit(name)
-        end
+        resetUnit('hero')
+        if surfaces then surfaces:each(function(box)resetUnit('monster',box)end)
+        else for i=1,5 do resetUnit('enemy'..i)end end
         self.slotOwners={}
-        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping = {}, history, {}, {}, nil, {}
+        self.tints={}
+        self.effects, self.deaths, self.dying, self.poses, self.sweep, self.escaping, self.escaped = {}, history, {}, {}, nil, {}, {}
     end
     local function finish(failure)
         local wasBusy = self.busy
@@ -341,13 +353,29 @@ function M.new(stage, platform, present, complete)
     local function escapeStep(d)
         local a = actor(d.enemy)
         stage:GetChild("notice").text = (a and a.name or "敌人") .. "正在逃离，已窃取的金币不会返还。"
-        -- Dedicated escape hold. No death collapse, death cue or death flag.
+        -- EscapeAction holds only its source .5s; the actor moves independently for3s.
         self.poses[d.enemy] = nil
     end
+    local function startMonsterDeath(id)
+        if self.dying[id] then return self.dying[id] end
+        if self.deaths[id] then return nil end
+        local current=self.tints[id] or C.text
+        local dying={age=0,alpha=1,lifetime=self.playbackFastMode and 1.0 or 1.8,
+            tone={r=current.r,g=current.g,b=current.b,a=current.a}}
+        self.deaths[id],self.dying[id]=true,dying
+        return dying
+    end
     local function deathStep(d)
-        self.deaths[d.target] = true
+        if d.target == "player" then
+            self.deaths.player=true
+            self.dying.player={age=0,alpha=1}
+        else
+            -- The lethal frame already started die(); a deferred cue cannot restart it.
+            local dying=startMonsterDeath(d.target)
+            if not dying or dying.cued then return end
+            dying.cued=true
+        end
         local _, box = actor(d.target)
-        self.dying[d.target] = {age = 0}
         if box then
             box:SetVisible(true)
             box:GetChild("impact"):SetImage(platform.imageSource, Theme.image.diamond)
@@ -424,15 +452,27 @@ function M.new(stage, platform, present, complete)
             end
         end
     end
+    local function startContactDeaths(old,nextView)
+        -- AbstractMonster.damage calls die at lethal contact, before the action wait.
+        -- Compare only frames already presented, never the future committed battle.
+        local priorActors={}
+        for _,unit in ipairs(old.enemies) do priorActors[unit.id]=unit end
+        for _,unit in ipairs(nextView.enemies) do
+            local prior=priorActors[unit.id]
+            if prior and Actors.isPresent(prior) and unit.hp<=0 and not Actors.isPresent(unit) then
+                startMonsterDeath(unit.id)
+            end
+        end
+    end
     local function enterFrame(entry, style)
         local old = self.shadow
         local nextView = {catalog = old.catalog, rules = old.rules}
         for k, v in pairs(entry.frame or old) do nextView[k] = v end
         -- Hold the played UID at contact until a committed frame names its pile.
         local landing = self.current and self.current.kind == "play" and entry.kind ~= "play"
-        if self.current and self.current.kind == "enemy_escape" then self.escaping[self.current.detail.enemy] = nil end
-        if entry.kind == "enemy_escape" then self.escaping[entry.detail.enemy] = true end
+        if entry.kind == "enemy_escape" and not self.escaping[entry.detail.enemy] and not self.escaped[entry.detail.enemy] then self.escaping[entry.detail.enemy] = Escape.start()end
         self.shadow, self.current, self.style, self.elapsed = nextView, entry, style, 0
+        startContactDeaths(old,nextView)
         self.cardFlow:sync(old,nextView,entry.kind)
         self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)
         hideOverlay(landing or next(self.cardFlow.inPlay)~=nil)
@@ -467,6 +507,20 @@ function M.new(stage, platform, present, complete)
         elseif d.target then
             targetStep(d,kind,style,old)
         end
+    end
+    local function pendingMonsterExit()
+        for id in pairs(self.dying)do if id~='player'then return true end end
+        return next(self.escaping)~=nil
+    end
+    local function advanceQueue()
+        repeat
+            local entry=self.queue[self.index+1]
+            if entry and entry.kind=='victory' and pendingMonsterExit()then return end
+            self.index=self.index+1
+            if not entry then finish();return end
+            step(entry,self.styles[self.index])
+            -- Source onModifyPower is a synchronous callback, never another action wait/frame.
+        until entry.kind~='source_intent_powers'
     end
     function self.start(_owner,before, battle, first, presentation, origin)
         -- GameActionManager releases its action gate independently of the
@@ -540,21 +594,21 @@ function M.new(stage, platform, present, complete)
             end
         end
         if #self.queue == 0 then finish() return end
-        self.index = 1 step(self.queue[1], self.styles[1])
+        self.index=0;advanceQueue()
     end
     function self.update(_owner,dt)
-        if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and not self.sweep and not self.dissolve and not self.cardFlow:busy() then return end
+        if not self.idleBattle and not self.busy and next(self.effects) == nil and next(self.poses) == nil and next(self.dying) == nil and next(self.escaping)==nil and not self.sweep and not self.dissolve and not self.cardFlow:busy() then return end
         local ok, failure = pcall(function()
             assert(type(dt) == "number" and dt == dt and dt >= 0 and dt < math.huge, "invalid frame delta")
             self.idleClock=ActorMotion.advance(self.idleClock or 0,dt,T.actorIdle)
             self.elapsed = (self.elapsed or 0) + dt
+            ActorPainter.advanceDeaths(painter,dt)
+            ActorPainter.advanceEscapes(painter,dt)
             if self.battle then self.cardFlow:update(dt,self.battle.catalog,self.presentation,self.fastMode)end
             -- At most one visible step per update: a stalled frame cannot skip an enemy turn.
-            if self.busy and self.elapsed >= duration(self.current, self.style, self.playbackFastMode) then
-                self.index = self.index + 1
-                local entry = self.queue[self.index]
-                if not entry then finish() return end
-                step(entry, self.styles[self.index])
+            if self.busy and (self.current.kind=="enemy_escape" and Escape.actionDone(self.elapsed)
+                or self.current.kind~="enemy_escape" and self.elapsed >= duration(self.current, self.style, self.playbackFastMode)) then
+                advanceQueue()
             end
             if self.busy and self.current.kind == "play" then
                 -- Lift and gather, then accelerate into the target: arrival is the contact frame.
@@ -621,6 +675,7 @@ function M.new(stage, platform, present, complete)
             for id in pairs(self.poses) do ids[id] = true end
             for id in pairs(self.effects) do ids[id] = true end
             for id in pairs(self.dying) do ids[id] = true end
+            for id in pairs(self.escaping) do ids[id] = true end
             -- A newly entered player death starts now, not at the beginning of a stalled frame.
             local effectDt = self.current and self.current.kind == "player_death" and math.min(dt, self.elapsed) or dt
             for id in pairs(ids) do ActorPainter.paint(painter,id,effectDt,shakes) end

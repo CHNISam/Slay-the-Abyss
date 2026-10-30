@@ -31,3 +31,15 @@ test('historical retirement validates all exact new files before deleting only o
   assert.throws(()=>prepareNativeMonsterRetirement(process.cwd()),/separate historical/);
  }finally{rmSync(directory,{recursive:true,force:true});}
 });
+
+test('recognized grass hosts re-read every linked owner and reject live drift, missing or non-string owners',()=>{
+ const path='config/architecture.json',source=readFileSync(path,'utf8');
+ for(const added of nativeMonsterAddedPaths){
+  for(const changed of [undefined,null,'-- drift']){
+   const readSource=key=>key===added?changed:readFileSync(key,'utf8');
+   assert.throws(()=>pre(path,source,{readSource}),/native monster linked source/);
+  }
+  assert.throws(()=>pre(path,source,{readSource:key=>{if(key===added)throw Error('missing');return readFileSync(key,'utf8');}}),/linked source missing/);
+ }
+ assert.notEqual(pre(path,source),source,'valid original source recovers after failed reads');
+});

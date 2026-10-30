@@ -9,7 +9,6 @@ local IntentView = require("abyss_battle_intent_view")
 local RewardOwner = require("abyss_battle_reward_owner")
 local M = {}
 local C, L, S = Theme.color, Theme.layout, Theme.space
-local intentColors = { attack = C.danger, defend = C.block, buff = C.buff, debuff = C.debuff }
 local number = require("abyss_numbers").integer
 local potionText = PotionView.potionText
 local intentView = IntentView.intentView
@@ -46,64 +45,62 @@ function M.install(owner, ownership, host, dependencies)
         end
         return targetable == true or potionHighlighted(enemy,index,pendingTarget) or owner.acting == enemy.id
     end
-    local function enemyIntentFace(frame, enemy, index)
-        if require('abyss_boss_relics').hidesIntents(owner.run)then return IntentView.hidden()end
-        local shown = ownership.playbackIntents and ownership.playbackIntents[enemy.id]
-        local face = shown and Actors.isActive(enemy) and shown or intentView(frame.battle, index)
-        local event = frame.enemyPlayback and owner.feedback.current
-        -- Cache the historical starting face, not an already-applied later frame.
-        if event and event.kind == "intent" and event.detail.enemy == enemy.id then
-            ownership.playbackIntents = ownership.playbackIntents or {}
-            ownership.playbackIntents[enemy.id] = face
-        elseif not Actors.isActive(enemy) and ownership.playbackIntents then
-            ownership.playbackIntents[enemy.id] = nil
-        end
+    local function enemyIntentFace(frame,enemy,index)
+        local face
+        if IntentView.hasSourceIntent(enemy)then
+            local view=host.monsterIntentParticles
+            local selected=view:needsSelected(enemy.id) and IntentView.selectedDescriptor(frame.battle,index) or nil
+            face=view:face(enemy.id,selected,function(base)
+                return Combat.intentAttackAmount(frame.battle,enemy,frame.battle.player,base)
+            end)
+        else face=intentView(frame.battle,index)end
+        -- Dome changes visibility, never the source selected/displayed state.
+        if require('abyss_boss_relics').hidesIntents(owner.run)then face.hidden=true;face.value=''end
         return face
     end
-    local function renderEnemyIntent(box, face, portrait)
-        if face.hidden then
-            for _,name in ipairs({'intentIcon','intentBadge','intentExtra','intent','intentLabel','intentHit'})do
-                box:GetChild(name):SetVisible(false)
-            end
-            box:GetChild('intent').text=''
-            return
+    local function intentGeometry(portrait,geometry)
+        if geometry then return geometry.intentX,geometry.intentY,geometry.intentWidth end
+        return 0,portrait/2,128*Theme.canvas.base[1]/1920
+    end
+    local function intentTone(alpha)
+        return {r=C.text.r,g=C.text.g,b=C.text.b,a=255*(alpha or 1)}
+    end
+    local function renderIntentIcon(box,face,x,y,size,allowed,alpha)
+        local kind=face.worldKind or face.kind
+        local visible=allowed~=false and (face.sourceEnum and face.worldVisible or not face.sourceEnum)
+        local icon=box:GetChild('intentIcon');icon:SetVisible(visible==true)
+        local mobile=host.platform.touchScreen and host.platform.touchScreen()
+        local scale=mobile and 1.2 or 1
+        icon:SetSizeDelta(size*scale,size*scale);icon:SetAnchoredPosition(x,y)
+        if visible then
+            dependencies.picture(icon,Theme.icon.intent[kind] or Theme.icon.intent.unknown)
+            dependencies.tint(icon,intentTone(alpha))
         end
-        local icons = IntentView.icons(face)
-        local size = L.intent.size
-        local iconY = portrait / 2 + L.intent.portraitGap + size / 2
-        local pitch = size * 1.5
-        for i, name in ipairs({'intentIcon','intentBadge','intentExtra'}) do
-            local control, kind = box:GetChild(name), icons[i]
-            control:SetVisible(kind ~= nil)
-            control:SetSizeDelta(size, size)
-            control:SetAnchoredPosition((i - (#icons + 1) / 2) * pitch, iconY)
-            if kind then
-                dependencies.picture(control, Theme.icon.intent[kind] or Theme.icon.intent.unknown)
-                dependencies.tint(control, intentColors[kind] or C.goldDim)
-            end
-        end
-        local attackLabel = box:GetChild('intent')
-        attackLabel.text = face.value or ''
-        local attack=icons[1]=='attack' and attackLabel.text~=''
-        attackLabel:SetVisible(attack)
-        local glyphWidth=utf8.len(attackLabel.text)*L.intent.numberSize
-        local textWidth=math.max(L.intent.valueWidth,glyphWidth)
-        local left=(1-(#icons+1)/2)*pitch-size/2-S.xs
-        local valueY=iconY-size/2+L.intent.numberSize/2-L.statusIcon.gap
-        attackLabel:SetAnchoredPosition(left+textWidth/2,valueY)
-        attackLabel:SetSizeDelta(textWidth,L.nativeText.lineHeight)
-        dependencies.ink(attackLabel, C.text)
-        box:GetChild('intentLabel'):SetVisible(false)
-        local span=#icons*pitch-size/2
-        local x0,x1=-span/2,span/2
-        local y0,y1=iconY-size/2,iconY+size/2
-        if attack then
-            x0,x1=math.min(x0,left),math.max(x1,left+glyphWidth)
-            y0=math.min(y0,valueY-L.intent.numberSize/2)
-        end
-        local width,height=math.max(L.statusIcon.minimumTouch,x1-x0),math.max(L.statusIcon.minimumTouch,y1-y0)
-        box:GetChild('intentHit'):SetAnchoredPosition((x0+x1)/2,(y0+y1)/2)
-        box:GetChild('intentHit'):SetSizeDelta(width,height)
+    end
+    local function renderIntentValue(box,face,x,y,allowed,alpha)
+        local kind=face.worldKind or face.kind
+        local value=box:GetChild('intent')
+        local attack=face.sourceEnum and face.sourceEnum:sub(1,6)=='ATTACK' or not face.sourceEnum and kind=='attack'
+        value:SetVisible(allowed~=false and attack and face.value~='')
+        value.text=face.value and face.value:gsub('×','x') or ''
+        local width=math.max(L.intent.valueWidth,utf8.len(value.text)*L.intent.numberSize)
+        local sx,sy=Theme.canvas.base[1]/1920,Theme.canvas.base[2]/1080
+        value:SetSizeDelta(width,L.nativeText.lineHeight)
+        value:SetAnchoredPosition(x-30*sx+width/2,y-12*sy-L.nativeText.lineHeight/2)
+        dependencies.ink(value,intentTone(alpha))
+    end
+    local function renderEnemyIntent(box,face,portrait,geometry,allowed,alpha)
+        local x,y,size=intentGeometry(portrait,geometry)
+        renderIntentIcon(box,face,x,y,size,allowed,alpha)
+        for _,name in ipairs({'intentBadge','intentExtra','intentLabel'})do box:GetChild(name):SetVisible(false)end
+        renderIntentValue(box,face,x,y,allowed,alpha)
+        local sx,sy=Theme.canvas.base[1]/1920,Theme.canvas.base[2]/1080
+        local hit=box:GetChild('intentHit');hit:SetVisible(allowed~=false)
+        hit:SetAnchoredPosition(x,y);hit:SetSizeDelta(64*sx,64*sy)
+    end
+    local function enemyIntentAllowed(actor,battle)
+        return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isActive(actor) and not owner.feedback.dying[actor.id]
+            and not owner.feedback.escaping[actor.id] and battle.player.hp>0
     end
     local function enemyAimProjection(frame)
         local aimed = owner.gesture or owner.carry
@@ -135,27 +132,89 @@ function M.install(owner, ownership, host, dependencies)
         local selected = enemyHighlighted(frame, enemy, entry.index, aim.pendingTarget)
         local loss = aim.losses and aim.losses[entry.index]
         if aim.valid and not aim.target and loss and loss.loss > 0 then selected = true end
-        host.unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected,step)
+        local geometry=EnemyView.geometry(enemy)
+        host.unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected,step,geometry)
+        host.monsterPowers:render(box,entry.controlSlot,enemy,geometry)
+        box:GetChild('hit'):SetSizeDelta(geometry.hitWidth,geometry.hitHeight)
+        box:GetChild('hit'):SetAnchoredPosition(geometry.hitX-x,geometry.hitY-y)
         local dim = (aim.pendingTarget or owner.potionAim ~= nil) and not selected
         local portraitTone = C.text
         local tone={r=portraitTone.r,g=portraitTone.g,b=portraitTone.b,a=dim and 102 or 255}
         dependencies.tint(box:GetChild('portrait'),tone)
         host.monsterArt:write(box,x,y,portrait,tone)
         renderDamagePreview(box, enemy, portrait, width, loss)
-        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
+        renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait,geometry,
+            enemyIntentAllowed(enemy,frame.battle),host.monsterIntentParticles:alpha(enemy.id))
+        host.monsterIntentParticles:paint(box,enemy.id,geometry,enemyIntentAllowed(enemy,frame.battle))
+    end
+    local function updateEnemyIntents(dt)
+        local battle=owner.displayBattle or owner.run and owner.run.combat
+        if not battle or not owner.active then return end
+        for _,entry in ipairs(owner.feedback.enemyRows or {})do
+            local box=assert(host.monsterSurfaces:find(entry.id))
+            local actor=entry.actor
+            local face=enemyIntentFace({battle=battle,enemyPlayback=owner.feedback.busy},actor,entry.index)
+            local g=EnemyView.geometry(actor)
+            local dying,escaping=owner.feedback.dying[entry.id],owner.feedback.escaping[entry.id]
+            host.monsterIntentParticles:update(entry.id,dt,face,g,dying,escaping)
+            renderEnemyIntent(box,face,g.portrait,g,enemyIntentAllowed(actor,battle),
+                host.monsterIntentParticles:alpha(entry.id))
+            host.monsterIntentParticles:paint(box,entry.id,g,enemyIntentAllowed(actor,battle) and face.sourceEnum~='NONE')
+        end
+    end
+    local function nameBlocked(actor)
+        if owner.feedback.dying[actor.id] or owner.feedback.escaping[actor.id] then return true end
+        if not owner.gesture then return false end
+        local battle=owner.run and owner.run.combat
+        for _,card in ipairs(battle and battle.hand or {})do
+            if card.uid==owner.selected then return not needsTarget(battle,card)end
+        end
+        return false
+    end
+    local function updateEnemyNames(dt)
+        local battle=owner.run and owner.run.combat
+        if ownership.nameBattle~=battle or not ownership.nameStates then ownership.nameBattle=battle;ownership.nameStates={}end
+        local x,y
+        if host.platform.cursorPosition then x,y=dependencies.point({GetUIPos=host.platform.cursorPosition})end
+        local wanted={}
+        host.monsterSurfaces:each(function(box,_,entry)
+            local id,actor=entry.id,entry.actor;wanted[id]=true
+            local state=ownership.nameStates[id] or {timer=0,alpha=0}
+            ownership.nameStates[id]=state
+            local g=EnemyView.geometry(actor)
+            local hovered=x and y and math.abs(x-g.hitX)<g.hitWidth/2 and math.abs(y-g.hitY)<g.hitHeight/2
+            local offset
+            state.timer,state.alpha,offset=EnemyView.nameStep(state.timer,state.alpha,dt,hovered,nameBlocked(actor),1)
+            local name=box:GetChild('name');name:SetVisible(owner.active and offset~=nil and state.alpha>0)
+            if offset then
+                name:SetAnchoredPosition(g.nameX-(box:GetChild('portrait').x or 0),g.nameY+offset*g.sourceScale)
+                dependencies.ink(name,{r=C.gold.r,g=C.gold.g,b=C.gold.b,a=math.floor(255*state.alpha)})
+            end
+        end)
+        for id in pairs(ownership.nameStates)do if not wanted[id]then ownership.nameStates[id]=nil end end
+    end
+    local function hideEscapingHud(box,id)
+        if not owner.feedback.escaping[id] then return end
+        for _,name in ipairs({'hpBorder','hpTrack','hpGhost','hpFill','hp','blockEdge','blockIcon','block','name','statusRow','intentIcon','intentBadge','intentExtra','intent','intentHit'})do
+            box:GetChild(name):SetVisible(false)
+        end
     end
     local function renderEnemies(frame)
-        local rows = frame.fighting and EnemyView.slots(frame.battle, owner.busy and owner.feedback or nil) or {}
+        local rows = frame.fighting and EnemyView.slots(frame.battle, owner.feedback) or {}
+        if not owner.active then rows={}end
+        host.monsterIntentParticles:sync(rows,owner.run and owner.run.combat,owner.feedback.current,owner.active and frame.fighting)
+        host.monsterSurfaces:select(rows,owner.run and owner.run.combat)
         owner.feedback.enemyRows = rows
         local aim = enemyAimProjection(frame)
-        -- Reset old slot owners before registering the new shared portrait owner.
-        for i = 1, 5 do owner.feedback.bindEnemySlot(i, rows[i] and rows[i].id) end
-        host.monsterArt:select(owner.active and rows or {})
-        for i = 1, 5 do
-            local box, entry = dependencies.child('enemy' .. i), rows[i]
-            box:SetVisible(entry ~= nil)
-            if entry then renderEnemySlot(frame, box, entry, i, #rows, aim) end
+        for _,entry in ipairs(rows)do owner.feedback.bindEnemySlot(entry.controlSlot,entry.id)end
+        host.monsterArt:select(rows)
+        for index,entry in ipairs(rows)do
+            local box=assert(host.monsterSurfaces:find(entry.id))
+            renderEnemySlot(frame,box,entry,index,#rows,aim)
+            hideEscapingHud(box,entry.id)
+            box:SetVisible(true)
         end
+        updateEnemyNames(0)
     end
     local function renderDetails(frame)
         local reward=owner.info and owner.info.reward and RewardOwner.ready(owner,owner.info.reward)
@@ -227,7 +286,7 @@ function M.install(owner, ownership, host, dependencies)
     end
 
     return {
-        pendingCardTarget=pendingCardTarget, enemyHighlighted=enemyHighlighted, enemyIntentFace=enemyIntentFace, renderEnemyIntent=renderEnemyIntent, enemyAimProjection=enemyAimProjection,
+        updateEnemyNames=updateEnemyNames, updateEnemyIntents=updateEnemyIntents, pendingCardTarget=pendingCardTarget, enemyHighlighted=enemyHighlighted, enemyIntentFace=enemyIntentFace, renderEnemyIntent=renderEnemyIntent, enemyAimProjection=enemyAimProjection,
         renderDamagePreview=renderDamagePreview, enemyPortraitIcon=enemyPortraitIcon, renderEnemySlot=renderEnemySlot, renderEnemies=renderEnemies, renderDetails=renderDetails,
         renderRewardActions=renderRewardActions, renderContinue=renderContinue, bindPotionSlots=bindPotionSlots, boundPotion=boundPotion, renderPotions=renderPotions,
         potionSelected=potionSelected, paintPotionShell=paintPotionShell

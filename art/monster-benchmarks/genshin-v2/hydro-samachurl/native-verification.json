@@ -1,0 +1,102 @@
+{
+  "controls": 589,
+  "primitiveCounts": {
+    "ellipse": 26,
+    "triangle": 563
+  },
+  "semanticPlanes": 164,
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true
+  },
+  "serializationClosure": [
+    {
+      "x": 4.9971195693387926e-05,
+      "y": 5.0886723016674296e-05,
+      "width": 8.070385246927714e-05,
+      "height": 9.81304101772551e-05,
+      "rotation": 5.667279782528567e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "visualReview": {
+    "inspected": [
+      "actual source pixels",
+      "native127px4x",
+      "comparison106px1x",
+      "comparison127px4x"
+    ],
+    "identity": "White/blue smiling mask, long blue feathers, dark spiked mantle, blue robes, spiral chest motif and continuous large carved blue staff",
+    "remainingDifferences": [
+      "Simplified flat planes and reduced material detail",
+      "Not pixel identical or final refined-art approval"
+    ],
+    "ownerNativeAcceptance": false,
+    "rootReview": "pending final comparison inspection"
+  },
+  "qualityStatus": "SOURCE-RECOGNIZABLE-SIMPLIFIED-CANDIDATE-PENDING-ROOT-REVIEW; technical parity PASS; not owner native/platform/device approved",
+  "independentVerification": {
+    "identity": "hydro-samachurl",
+    "controls": 589,
+    "exactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "allFieldsEqual": true,
+    "actualPinnedRendererParity": {
+      "106": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      },
+      "127": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      }
+    },
+    "sourceHashMatches": true,
+    "galleryImages": 0,
+    "masks": 0
+  },
+  "runtimeWired": false
+}

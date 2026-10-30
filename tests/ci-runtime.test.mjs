@@ -1,3 +1,4 @@
+import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, mkdtempSync, mkdirSync, writeFileSync, copyFileSync, rmSync } from 'node:fs';
@@ -121,4 +122,9 @@ test('current timing records preserve all measured corrections without duplicate
   assert.match(entry.headSha,/^[a-f0-9]{40}$/);
  }
  assert.equal(createHash('sha256').update(JSON.stringify(timings.js.linux)).digest('hex'),'3fdcb1aa1e50352a164eb3ebde77f0a01ac4b0ad76b1302939021ae7d76d8755','current accepted Linux weights remain exact');
+});
+
+test('fresh relic base retains its complete accepted scheduling measurements', () => {
+  assert.equal(createHash('sha256').update(preIntegrationSource('scripts/ci-test-timings.json',readFileSync('scripts/ci-test-timings.json','utf8')).replaceAll('\r\n','\n')).digest('hex'),
+    '4039efc1bc954f541bcacac619550daa1231a4b3894ebe6568697d2f10af7ad8', 'exact acb09e46 scheduling contract; no obsolete PR366 correction reapplied');
 });

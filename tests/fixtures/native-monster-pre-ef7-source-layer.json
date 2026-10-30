@@ -1,0 +1,493 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "1fcd321ca9d6f79b4e5bbdfede48069119f5ed52",
+  "scope": "Exact outer inverse for one native monster drawing; historical tests only. Current GameUI source tests do not project.",
+  "files": {
+    "config/architecture.json": {
+      "beforeSha256": "8eaf5e76ca026fe4ad5d5b53475b3433c9d3581d27f60afb2a73d4d1df535895",
+      "afterSha256": "ddb9df0f66a5676efc3c60d366ce944a761b6792da6d95a04f4fb773f8971a41",
+      "hunks": [
+        {
+          "at": 285,
+          "before": [
+            "    \"abyss_ready_card_binding\": \"ui\""
+          ],
+          "after": [
+            "    \"abyss_ready_card_binding\": \"ui\",",
+            "    \"abyss_monster_art\": \"ui\""
+          ]
+        }
+      ]
+    },
+    "data/presentation/native-monster-art.json": {
+      "beforeSha256": null,
+      "afterSha256": "58a47bd5b6da47bb75047623ca64afcfab9e57bf6469711ca344fe585fd884b0",
+      "hunks": []
+    },
+    "scripts/build-native-candidate.mjs": {
+      "beforeSha256": "8aee3e4f12fe546a14a2a046282be664f50303d631b060a5e0bd8648c0748a79",
+      "afterSha256": "7696bb5f7001ebcea79d31fdb69db802b559c7c690b25d2e99233549325a855f",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {monsterSourceInputs,prepareMonsterArt} from './monster-art.mjs';"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [
+            "  abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',"
+          ],
+          "after": [
+            "  abyss_monster_art_data:'scripts/build-ui.mjs', abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [],
+          "after": [
+            "      if(name==='data/presentation/native-monster-art.json'&&!flags.monsters)continue;"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [],
+          "after": [
+            "  if(flags.monsters)files.push(...monsterSourceInputs);"
+          ]
+        },
+        {
+          "at": 132,
+          "before": [
+            "    const blockedHosts=[...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];"
+          ],
+          "after": [
+            "    const blockedHosts=[...(!flags.monsters?['monsterArt']:[]),...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];"
+          ]
+        },
+        {
+          "at": 139,
+          "before": [
+            "      ...(dynamicCards?['abyss_ready_card_binding','abyss_ready_card_assets']:[]),...(portraits?[portraitModule]:[])];"
+          ],
+          "after": [
+            "      ...(flags.monsters?['abyss_monster_art_data']:[]),...(dynamicCards?['abyss_ready_card_binding','abyss_ready_card_assets']:[]),...(portraits?[portraitModule]:[])];"
+          ]
+        },
+        {
+          "at": 141,
+          "before": [],
+          "after": [
+            "",
+            "    if(Object.hasOwn(generatedModules,'abyss_monster_art_data')) {",
+            "      const monsterNodes=[];",
+            "      function findMonster(node,parent){if(node.name==='monsterArt')monsterNodes.push({node,parent});for(const child of node.controls??node.children??[])findMonster(child,node);}",
+            "      findMonster(layout,null);",
+            "      let monster=null;",
+            "      if(flags.monsters){",
+            "        if(monsterNodes.length!==1)throw Error('Enabled monster artwork requires exactly one host');",
+            "        monster=prepareMonsterArt(JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8')));",
+            "        if(!monster)throw Error('Enabled monster artwork requires its registry');",
+            "        monster.inputPaths=[...monsterSourceInputs];monster.hostOrigin=monsterNodes[0].parent.position??[0,0];",
+            "        const count=node=>1+(node.children??[]).reduce((sum,child)=>sum+count(child),0);",
+            "        if(count(monsterNodes[0].node)!==609)throw Error('Monster artwork host capacity differs');",
+            "        receipt.nativeMonsterArt={enabled:true,enemyId:monster.asset.enemyId,capacity:monster.asset.capacity,staticControls:609,",
+            "          inputs:monsterSourceInputs.map(path=>({...fileRecord(join(root,path),root),path}))};",
+            "      }",
+            "      const expected=`-- Generated from the bounded native monster registry.\\nreturn ${toLua(monster??{})}\\n`;",
+            "      if(readFileSync(join(generated,'abyss_monster_art_data.lua'),'utf8')!==expected)throw Error('Monster artwork payload differs from candidate features or source');",
+            "    }"
+          ]
+        }
+      ]
+    },
+    "scripts/build-ui.mjs": {
+      "beforeSha256": "8b807b568a95f62d19718b1e51b84ec1de326681bde7b996797ca16fede2e32e",
+      "afterSha256": "fc7478a4e890a991539855c0b862d014ccc3ff0f7c5f101e72926af27f4a80cc",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "import {prepareMonsterArt,attachMonsterArt} from './monster-art.mjs';"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            "    resolve('data/presentation/ui_theme.json'), resolve('data/presentation/traveler.zh-CN.json'),"
+          ],
+          "after": [
+            "    resolve('data/presentation/ui_theme.json'), ...(existsSync('data/presentation/native-monster-art.json')?[resolve('data/presentation/native-monster-art.json')]:[]), resolve('data/presentation/traveler.zh-CN.json'),"
+          ]
+        },
+        {
+          "at": 70,
+          "before": [
+            "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua',`${artFeatureModule}.lua`];"
+          ],
+          "after": [
+            "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua',`${artFeatureModule}.lua`,'abyss_monster_art_data.lua'];"
+          ]
+        },
+        {
+          "at": 99,
+          "before": [],
+          "after": [
+            "  // The optional-art identity scan above also protects grass sources before decoding.",
+            "  const monsterArt=flags.monsters?prepareMonsterArt(options.monsterArt):null;",
+            "  if(flags.monsters&&!monsterArt)throw Error('Enabled monster artwork requires its registry');"
+          ]
+        },
+        {
+          "at": 112,
+          "before": [],
+          "after": [
+            "  attachMonsterArt(battle,monsterArt);attachMonsterArt(layout,monsterArt);"
+          ]
+        },
+        {
+          "at": 127,
+          "before": [],
+          "after": [
+            "  writeFileSync(join(outputDirectory,'abyss_monster_art_data.lua'),`-- Generated from the bounded native monster registry.\\nreturn ${toLua(monsterArt??{})}\\n`);"
+          ]
+        }
+      ]
+    },
+    "scripts/card-art-samples.mjs": {
+      "beforeSha256": "e90d6d2bddef5429e344b37181da3aba09385bfc55765677797f7597b5bfed87",
+      "afterSha256": "e90d6d2bddef5429e344b37181da3aba09385bfc55765677797f7597b5bfed87",
+      "hunks": []
+    },
+    "scripts/monster-art.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "9fd1e636236fe2dd0b21835cd08590dfc64d6d8e05fa65baa93be33708b1c48f",
+      "hunks": []
+    },
+    "scripts/native-candidate-scripts.mjs": {
+      "beforeSha256": "92d898473dcdadc3e5cb59512f40ba06bfbbc6590f347fa82a0152682cc0d4b3",
+      "afterSha256": "5f9e0e8d9670b5b1e8fed13d1c986d6c8789432eb80951fef5cd13961b8055d9",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "const generatedModules = ['abyss_art_features','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];"
+          ],
+          "after": [
+            "const generatedModules = ['abyss_art_features','abyss_monster_art_data', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];"
+          ]
+        }
+      ]
+    },
+    "scripts/verify-launch-content.mjs": {
+      "beforeSha256": "ddaf817d782261060ddb627d8e42b7522bf8b82b7d1aab80894dfbe635d8c8f4",
+      "afterSha256": "2d9731ed86d8ce61b1c6935362555593b536734f540c6ca8dd36ef92d9f7cd48",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "    for (const name of ['abyss_art_features', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+          ],
+          "after": [
+            "    for (const name of ['abyss_art_features', 'abyss_monster_art_data', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_render_actors.lua": {
+      "beforeSha256": "d8695d69bce956a63097dec8cf39d32a40642f229cef3f22fe9524152e48b00d",
+      "afterSha256": "5af76b4df2ec53153148be3826a989b6c0db6ceca6d35a452d5f90c8e5bc1e7e",
+      "hunks": [
+        {
+          "at": 140,
+          "before": [
+            "        dependencies.tint(box:GetChild('portrait'), { r = portraitTone.r, g = portraitTone.g, b = portraitTone.b, a = dim and 102 or 255 })"
+          ],
+          "after": [
+            "        local tone={r=portraitTone.r,g=portraitTone.g,b=portraitTone.b,a=dim and 102 or 255}",
+            "        dependencies.tint(box:GetChild('portrait'),tone)",
+            "        host.monsterArt:write(box,x,y,portrait,tone)"
+          ]
+        },
+        {
+          "at": 150,
+          "before": [],
+          "after": [
+            "        -- Reset old slot owners before registering the new shared portrait owner.",
+            "        for i = 1, 5 do owner.feedback.bindEnemySlot(i, rows[i] and rows[i].id) end",
+            "        host.monsterArt:select(owner.active and rows or {})"
+          ]
+        },
+        {
+          "at": 155,
+          "before": [
+            "            owner.feedback.bindEnemySlot(i, entry and entry.id)"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/lua/abyss_battle_ui.lua": {
+      "beforeSha256": "e578d9bf87139a6d1bc144d14af84e482eb77ea122c8bd39e21fbbbae6b53605",
+      "afterSha256": "e65e1a9224b246c5491744ec1f9fe9ea54856e823ecb6e6df5f9399ce724442c",
+      "hunks": [
+        {
+          "at": 151,
+          "before": [],
+          "after": [
+            "    host.monsterArt=require('abyss_monster_art').new(host.stage,host.platform)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_feedback.lua": {
+      "beforeSha256": "2f095d338c253ef2af606c858de3da6b789f5f98407510e6053c743f6d0adb61",
+      "afterSha256": "424b9ec5c62ff13379812f3232b9bd9eada6856133285b67d54d8f1d2c1c6140",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "local MonsterArt=require('abyss_monster_art')"
+          ]
+        },
+        {
+          "at": 185,
+          "before": [],
+          "after": [
+            "        MonsterArt.clearBox(box)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_feedback_actor_painter.lua": {
+      "beforeSha256": "a2472913976a2670f4ea5cc5ca81492b666d8531e3a287bc2c77e3f508920c86",
+      "afterSha256": "5164577f01c2244fa40907f66594903603bbdb097026b73554dface8779f5a49",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "local MonsterArt=require('abyss_monster_art')"
+          ]
+        },
+        {
+          "at": 212,
+          "before": [
+            "    tint(ctx,portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)"
+          ],
+          "after": [
+            "    local tone=flash > 0 and mix(base,ink,flash*FLASH) or base",
+            "    tint(ctx,portrait,tone,alpha)",
+            "    MonsterArt.pose(box,x,y,sx,sy,tone,alpha)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_monster_art.lua": {
+      "beforeSha256": null,
+      "afterSha256": "a57c66e3f2ca367fb53abaa76870e317b21ca574c987ab969c7033e4a0263445",
+      "hunks": []
+    },
+    "src/lua/abyss_ui.lua": {
+      "beforeSha256": "a950a0326cae669d448abaaf4afd859c081bd7e7f3799531b2344c5be4b7f755",
+      "afterSha256": "58a12f325d68fd2a7ddab0e638780e2b6fb5b83bb860ec72b9bb124c4eec3e0b",
+      "hunks": [
+        {
+          "at": 38,
+          "before": [
+            "    local flags = {cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}"
+          ],
+          "after": [
+            "    local flags = {cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters=false}"
+          ]
+        },
+        {
+          "at": 41,
+          "before": [
+            "        assert(type(config)=='table' and config.schemaVersion==1 and type(config.flags)=='table', 'invalid art feature schema')"
+          ],
+          "after": [
+            "        assert(type(config)=='table' and config.schemaVersion==2 and type(config.flags)=='table', 'invalid art feature schema')"
+          ]
+        },
+        {
+          "at": 137,
+          "before": [],
+          "after": [
+            "              nativeMonsterArtEnabled=flags.monsters,"
+          ]
+        }
+      ]
+    },
+    "scripts/art/assemble-native-card-samples.py": {
+      "beforeSha256": "e99fc9bd1d40295e6d65b56b1f952fe31d6e8f639b31a4c3bd1eb3d48c71f5c3",
+      "afterSha256": "014b015f1b0aa8d9a67ee638c5f2e61bfc14b32b7445181f3a07f36df45176ff",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            "def outside_canvas(row, angles):"
+          ],
+          "after": [
+            "def outside_canvas(row, angles, canvas=(144, 34)):"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "    return max(max(abs(px) - 72, abs(py) - 17, 0) for px, py in points)"
+          ],
+          "after": [
+            "    return max(max(abs(px) - canvas[0] / 2, abs(py) - canvas[1] / 2, 0) for px, py in points)"
+          ]
+        },
+        {
+          "at": 97,
+          "before": [
+            "def assemble_candidate(drawing, name):",
+            "    \"\"\"Read-only 144x64, unmasked literal adapter; not an image exporter.\"\"\"",
+            "    if drawing.get('format') != 'gia' or drawing.get('root') != [0, 0, 144, 64, .5, .5, .5, .5, .5, .5, 1, 1, 0]:",
+            "        raise ValueError(f'{name}: native candidate requires an identity 144x64 canvas')"
+          ],
+          "after": [
+            "def assemble_candidate(drawing, name, canvas=(144, 64)):",
+            "    \"\"\"Read-only unmasked literal adapter; card canvas is the default.\"\"\"",
+            "    if drawing.get('format') != 'gia' or drawing.get('root') != [0, 0, *canvas, .5, .5, .5, .5, .5, .5, 1, 1, 0]:",
+            "        raise ValueError(f'{name}: native candidate requires an identity {canvas[0]}x{canvas[1]} canvas')"
+          ]
+        }
+      ]
+    },
+    "scripts/art-features.mjs": {
+      "beforeSha256": "b58585a9f431f48a3f19e72155e7a0426eb8a11b561e1769bdf96cfdea486c18",
+      "afterSha256": "61d2df947c140ea4abd2a45a3c60ad7223f507985538f188984600dca83f9c05",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {monsterSourceInputs} from './monster-art.mjs';"
+          ]
+        },
+        {
+          "at": 6,
+          "before": [
+            "export const artFeatureKeys=Object.freeze(['cards','menuBackground','selectionAvatar','battlePortrait']);",
+            "const cliKeys=['cards','menu-background','selection-avatar','battle-portrait'];"
+          ],
+          "after": [
+            "export const artFeatureKeys=Object.freeze(['cards','menuBackground','selectionAvatar','battlePortrait','monsters']);",
+            "const cliKeys=['cards','menu-background','selection-avatar','battle-portrait','monsters'];"
+          ]
+        },
+        {
+          "at": 45,
+          "before": [
+            " return `-- Generated developer-controlled candidate configuration; rebuild to change.\\nreturn {schemaVersion=1,flags={${artFeatureKeys.map(key=>`${key}=${values[key]}`).join(',')}}}\\n`;"
+          ],
+          "after": [
+            " return `-- Generated developer-controlled candidate configuration; rebuild to change.\\nreturn {schemaVersion=2,flags={${artFeatureKeys.map(key=>`${key}=${values[key]}`).join(',')}}}\\n`;"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            " const config={schemaVersion:1,flags:normalizeArtFeatures(flags)};"
+          ],
+          "after": [
+            " const config={schemaVersion:2,flags:normalizeArtFeatures(flags)};"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            " if(!receipt||receipt.schemaVersion!==1||Reflect.ownKeys(receipt).some(k=>!['schemaVersion','flags','configSha256'].includes(k))",
+            "  ||!receipt.flags||Reflect.ownKeys(receipt.flags).length!==4)throw Error('Invalid art feature receipt');"
+          ],
+          "after": [
+            " if(!receipt||receipt.schemaVersion!==2||Reflect.ownKeys(receipt).some(k=>!['schemaVersion','flags','configSha256'].includes(k))",
+            "  ||!receipt.flags||Reflect.ownKeys(receipt.flags).length!==artFeatureKeys.length)throw Error('Invalid art feature receipt');"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [],
+          "after": [
+            " if(flags.monsters!==Boolean(receipt.nativeMonsterArt))throw Error('Monster artwork receipt conflicts with art features');",
+            " if(receipt.nativeMonsterArt){",
+            "  const actual=receipt.nativeMonsterArt;",
+            "  if(actual.enabled!==true||actual.enemyId!=='acid_slime_m'||actual.capacity!==597||actual.staticControls!==609",
+            "   ||!Array.isArray(actual.inputs)||actual.inputs.length!==monsterSourceInputs.length",
+            "   ||monsterSourceInputs.some(path=>actual.inputs.filter(row=>row?.path===path&&/^[a-f0-9]{64}$/.test(row.sha256)&&Number.isInteger(row.bytes)&&row.bytes>0).length!==1))",
+            "   throw Error('Monster artwork inventory differs from art features');",
+            " }"
+          ]
+        },
+        {
+          "at": 87,
+          "before": [
+            " const match=/return \\{schemaVersion=1,flags=\\{cards=(true|false),menuBackground=(true|false),selectionAvatar=(true|false),battlePortrait=(true|false)\\}\\}\\n$/.exec(source);"
+          ],
+          "after": [
+            " const match=/return \\{schemaVersion=2,flags=\\{cards=(true|false),menuBackground=(true|false),selectionAvatar=(true|false),battlePortrait=(true|false),monsters=(true|false)\\}\\}\\n$/.exec(source);"
+          ]
+        }
+      ]
+    },
+    "scripts/audit-native-candidate.mjs": {
+      "beforeSha256": "42445d51282d69f3b7c1337109101e6f89ce55ee297e0d7b45e0720208f66af7",
+      "afterSha256": "6dfbfa5b56f14f587bfaf78d1367b55ae5b4c23c2cab5b50cb4d5cfc05ebd152",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {monsterSourceInputs} from './monster-art.mjs';"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "  return {paths:[...(flags.menuBackground?backgroundInputs:[]),...(flags.cards&&!options.nativeCardArt?['art/cards/traveler-geo']:[]),"
+          ],
+          "after": [
+            "  return {paths:[...(flags.monsters?monsterSourceInputs:[]),...(flags.menuBackground?backgroundInputs:[]),...(flags.cards&&!options.nativeCardArt?['art/cards/traveler-geo']:[]),"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-audio-game.mjs": {
+      "beforeSha256": "bb295b0fa0bae44ccfe7b5133b3b216e6776fbf7b7aa77481ace4abf8c5dd55d",
+      "afterSha256": "c2d43f0d0d4cc20be3377fc6a1870104b5481e99198785877bf2f0fd4e95641f",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [
+            "import {resolveArtFeatures,artFeatureArgs,verifyArtFeatureReceipt} from './art-features.mjs';"
+          ],
+          "after": [
+            "import {resolveArtFeatures,artFeatureArgs,verifyArtFeatureReceipt,artBuildOptionsFromReceipt} from './art-features.mjs';"
+          ]
+        },
+        {
+          "at": 45,
+          "before": [],
+          "after": [
+            "  artBuildOptionsFromReceipt(full);"
+          ]
+        },
+        {
+          "at": 66,
+          "before": [],
+          "after": [
+            "    ...(full.nativeMonsterArt ? {nativeMonsterArt:full.nativeMonsterArt} : {}),"
+          ]
+        }
+      ]
+    }
+  }
+}

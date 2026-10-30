@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "identity": "cryo-abyss-mage",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "742481ad7bc4dd7273fbaf586cbb861ef514c02c786e8f57f590995f41b0f061",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "16430e832307dc121c0312f93f4d5c9b166279f7eb642d74e404e7356ea780ea",
+      "bytes": 2079,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "schemaVersion": 1,
+    "identity": "Cryo Abyss Mage",
+    "status": "private source-preparation candidate; parent independent review pending",
+    "tool": "built-in image_gen.imagegen",
+    "dateUtc": "2026-10-30",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "sourceDimensions": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "alphaBBox": [
+      0,
+      8,
+      1234,
+      1254
+    ],
+    "alphaGreater16BBox": [
+      101,
+      46,
+      1173,
+      1222
+    ],
+    "alphaGreater128BBox": [
+      102,
+      47,
+      1172,
+      1221
+    ],
+    "rawSourceUnaltered": true,
+    "selectedRaw": "source-first-raw.png",
+    "calls": 1,
+    "prompts": {
+      "initial": "prompt.txt",
+      "targetedRepair": null
+    },
+    "references": [
+      {
+        "file": "official-context-reference.png",
+        "pageUrl": "https://www.hoyolab.com/article/8729953",
+        "imageUrl": "https://upload-os-bbs.hoyolab.com/upload/2022/09/10/248396070/8072e133f6b910b2810e975470524e47_8767253408768969478.jpg",
+        "sha256": "14ab00d521a1ac921a2bb4af29c39f2e99cf2df3a00ce062830c63183556a89c",
+        "role": "identity / actual game fullbody, visually inspected; exclude shield/background"
+      },
+      {
+        "file": "identity-reference.png",
+        "pageUrl": "https://genshinfans.com/blogs/news/genshi-abyss-mage",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0747/5317/9944/files/Genshin_Impact_Cryo_Abyss_Mage.png?v=1745307765",
+        "sha256": "be7532a7130c7bf9ebfc6769080093da6a4f3f104752e56dbd94c701442e17ae",
+        "role": "identity / actual game fullbody, visually inspected; exclude shield/background"
+      },
+      {
+        "file": "genshin-monster-mapping-20261030/pyro-abyss-mage-sample.png",
+        "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+        "role": "our approved Pyro source painterly style only; not identity, colors, costume, face or staff"
+      }
+    ],
+    "approvals": {
+      "owner": false,
+      "native": false,
+      "runtime": false,
+      "device": false
+    },
+    "runtimeBinding": "none",
+    "previewRecipe": "Full original canvas contain, no trim/crop/stretch, LANCZOS at 106/127; 4x previews NEAREST magnification. No native-AA or performance claim.",
+    "reviewNotes": [
+      "Full meaningful figure and complete staff visible; no shield/floor/particles/text.",
+      "Distinct correct Hydro white mask versus Cryo dark face; not a Pyro color flip.",
+      "Free hand extends screen-right although face/pose angled left; parent decide if directional revision needed.",
+      "Collar has more small planes than ideal 600-shape target; native conversion readability remains untested.",
+      "Low-alpha edge specks/padding not cleaned in raw sources; future native adapter applies inset.",
+      "No repair performed per parent instruction; thin margins preserved, not hidden by cropping."
+    ],
+    "rights": "Genshin character identities and references retain original rights. AI-assisted derivative study; no clearance or source-reference redistribution authority claimed.",
+    "files": {
+      "preview-contain-106.png": {
+        "bytes": 15472,
+        "sha256": "fe982b347696cb8e1bc8d4ec60415c607445a6a0b792a0cc45ea630731ec0dbb"
+      },
+      "preview-contain-127.png": {
+        "bytes": 20957,
+        "sha256": "cbebbc6845c63ad906c14a33de5e20777a3cf0d709ac8667b69b9a2308eda384"
+      },
+      "prompt-repair.txt": {
+        "bytes": 963,
+        "sha256": "363934a2e4014fcbb592c157a201e69c4dcff8c29de39cca870b5dbc846dd7d2"
+      },
+      "prompt.txt": {
+        "bytes": 2079,
+        "sha256": "16430e832307dc121c0312f93f4d5c9b166279f7eb642d74e404e7356ea780ea"
+      },
+      "preview-contain-106-4x.png": {
+        "bytes": 23800,
+        "sha256": "72ebc502d52eb271efcdfee06989a53296fe9ce515d5da94fb1e3828d5d19336"
+      },
+      "preview-contain-127-4x.png": {
+        "bytes": 31937,
+        "sha256": "eed7957c2b511f445357883a9f75a34cee242e7c50b4decddb16565a13241285"
+      },
+      "source.png": {
+        "bytes": 998372,
+        "sha256": "e1d86f8eb89d6ba5a678b06266599c698344a9c966c99451926d40b7d0da4c74"
+      },
+      "identity-reference.png": {
+        "bytes": 266156,
+        "sha256": "be7532a7130c7bf9ebfc6769080093da6a4f3f104752e56dbd94c701442e17ae"
+      },
+      "source-first-raw.png": {
+        "bytes": 998372,
+        "sha256": "e1d86f8eb89d6ba5a678b06266599c698344a9c966c99451926d40b7d0da4c74"
+      },
+      "official-context-reference.png": {
+        "bytes": 43700,
+        "sha256": "14ab00d521a1ac921a2bb4af29c39f2e99cf2df3a00ce062830c63183556a89c"
+      }
+    },
+    "exactPromptContent": "Use case: stylized-concept. Asset type: one full-body game enemy source drawing for a later native-shape adapter, not runtime delivery.\nCreate Genshin Impact's CRYO ABYSS MAGE, faithfully recognizable from identity references 1 and 2. Image 1 (HoYoLAB in-game full body) and image 2 (clear game-render cutout) supply identity ONLY: small floating nonhuman body, two pale ice-blue rabbit-ear hood projections, rounded BLACK navy face with TWO bright mint-cyan glowing eyes framed by white hood rim, thick pale ice-blue/white layered fluffy collar, dark midnight blue robe and sleeves with broad white/silver icy angular hems and real snowflake-like panel motifs, tiny dark gloved hands and boots with light ankle bands, and blue crooked staff crowned by open dark blue icy prongs supporting a bright pale blue SIX-ARM SNOWFLAKE. Image 3 (our red Pyro Mage drawing) supplies painterly finish and broad material-plane style ONLY, NOT colors, staff, costume or pose.\nMake a NEW compact left-facing three-quarter hovering battle pose: staff held upright leaning gently toward left, free hand extended toward left, two short dangling legs readable; use a different pose than both game reference and Pyro sample. Preserve actual Cryo hood, dark face, eyes, icy fur collar, snowy robe patterns and snowflake staff rather than a Pyro recolor or a Hydro white mask. Mature hand-painted game illustration, broad smooth readable 3-4 value masses per material, modest collar facets and large robe patterns, not tiny ornamental filigree, not low-poly triangulation. Designed to read at 106px and 127px full contain and later approximately600 native shapes. Identity above invention. Full figure AND entire staff inside a square canvas with 7-8 percent clear transparent padding on EVERY side. Center balanced silhouette. Genuine transparent alpha background. No shield bubble, magic effects, particles, frost cloud, aura, floor, cast shadow, scenery, text, UI, watermark, frame, extra characters or props. Do not retain any reference background. Source art only; no runtime or approval claim.\n",
+    "exactRepairPromptContent": null
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

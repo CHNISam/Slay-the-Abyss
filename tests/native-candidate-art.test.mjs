@@ -273,3 +273,45 @@ test('MCP mock: all three reviewed drawings reach the formal candidate with inde
   assert.equal((presentation.match(/\["path"\]=/g)??[]).length,6534);
   assert.equal(receipt.statuses.officialImport,'not_run');
 });
+
+test('MCP mock: explicit monster-only CLI packages grass while four categories remain OFF',t=>{
+ const f=fixture(t),run=f.cli(['--art-monsters=true']);success(run);
+ const receipt=run.receipt();
+ assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:true});
+ assert.equal(receipt.nativeMonsterArt.enabled,true);assert.equal(receipt.nativeMonsterArt.capacity,597);assert.equal(receipt.nativeMonsterArt.staticControls,609);
+ assert.deepEqual(receipt.nativeMonsterArt.inputs.map(row=>row.path),['art/monsters/acid_slime_m/native-art-r02/native-art.lua','art/monsters/acid_slime_m/native-art-r02/native-art.json']);
+ assert(!receipt.nativeCardArt&&!receipt.readyCardArt&&!receipt.officialBackground&&!receipt.officialPortraits);
+ const ui=run.calls.find(c=>c.name==='scene_add_client_ui').args;
+ function all(node){return [node,...(node.children??node.controls??[]).flatMap(all)];}
+ const nodes=all(ui),hosts=nodes.filter(n=>n.name==='monsterArt');
+ assert.equal(hosts.length,1);assert.equal(all(hosts[0]).length,609);
+ assert(!nodes.some(n=>['artSamples','officialBackground','officialAvatar','officialFigure'].includes(n.name)));
+ const source=readFileSync(run.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_monster_art_data').args.sourceFile,'utf8');
+ assert.match(source,/\["capacity"\]=597/);
+ const {flags}=receipt.artFeatures;
+ assert.equal(receipt.payloadDigest,payloadDigest(sourceInputs(f.root,{artFeatures:flags})));
+ assert.equal(receipt.statuses.playtest,'not_run');assert.equal(receipt.liveWriteEnabled,false);
+});
+
+for(const [label,edit,pattern]of [
+ ['payload',"writeFileSync(join(process.argv[2],'abyss_monster_art_data.lua'),'return {}');",/Monster artwork payload differs/],
+ ['host',"const p=join(process.argv[2],'game-ui.json'),tree=JSON.parse(readFileSync(p,'utf8'));function visit(n){if(n.name==='monsterSamples')n.children[0].children.pop();for(const c of n.children??n.controls??[])visit(c);}visit(tree);writeFileSync(p,JSON.stringify(tree));",/Monster artwork host capacity differs/],
+ ['config',"const p=join(process.argv[2],'abyss_art_features.lua');writeFileSync(p,readFileSync(p,'utf8').replace('monsters=true','monsters=false'));",/Generated art feature configuration differs/],
+])test(`MCP mock: changed monster ${label} rejects before connection`,t=>{
+ const f=fixture(t),path=join(f.root,'scripts/build-ui.mjs');writeFileSync(path,readFileSync(path,'utf8')+'\n'+edit);
+ const run=f.cli(['--art-monsters=true']);assert.notEqual(run.result.status,0);assert.match(run.result.stderr,pattern);assert.deepEqual(run.calls,[]);
+});
+
+test('MCP mock: monster-only audio preserves source receipt and rejects changed drawing inputs',async t=>{
+ const f=fixture(t),one=f.cli(['--art-monsters=true']);success(one);const full=one.receipt();
+ const {buildNativeAudioGame}=await import('../scripts/build-native-audio-game.mjs');
+ const run=()=>buildNativeAudioGame({root:f.root,baseMap:f.baseMap,output:'audio',artFeatures:{monsters:true},buildFull:async()=>full,
+  run:(script,[base,directory])=>{
+   mkdirSync(directory,{recursive:true});const mapPath=join(directory,'audio.gil');writeFileSync(mapPath,'MCP mock audio');
+   writeFileSync(join(directory,'candidate.json'),JSON.stringify({mapPath,sha256:fileRecord(mapPath).sha256,candidate:fileRecord(mapPath),
+    baseSha256:full.candidate.sha256,baseAfter:full.candidate.sha256,buildId:full.buildId,artFeatures:full.artFeatures}));
+  }});
+ const audio=await run();assert.deepEqual(audio.nativeMonsterArt,full.nativeMonsterArt);
+ const path=join(f.root,full.nativeMonsterArt.inputs[0].path);writeFileSync(path,readFileSync(path,'utf8')+'\n-- changed');
+ await assert.rejects(run(),/Source changed during audio/);
+});
