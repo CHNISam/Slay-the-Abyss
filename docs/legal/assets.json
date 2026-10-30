@@ -3833,7 +3833,7 @@
     },
     "art/monsters/catalog.json": {
       "category": "original-monster-source",
-      "sha256": "03658b03279412dcf8658d4c8bbd7f9b87af7cb4b20e2bfebf94435d323cf63d"
+      "sha256": "cadc75ba582e3f6f9066ddaa0f089d4a197bd01826f4e12de2f474e4dd377c65"
     },
     "art/monsters/centurion/asset.json": {
       "category": "original-monster-source",
