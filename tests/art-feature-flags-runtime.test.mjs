@@ -17,7 +17,7 @@ local function start(config,broken,previous)
  requested={};updates=false;configured=0;cleared=0;views=0;dead=0;released=0;params={};options=nil
  backgrounds={};viewDeaths=0;cardDeaths=0
  local function owner()return {release=function()released=released+1 end,onEngineDestroy=function()dead=dead+1 end}end
- modules={abyss_art_features=config,abyss_data={},abyss_presentation={},abyss_theme={sound={}},
+ modules={abyss_monster_actor_binding={templateIndex=31,containerTemplateIndex=32,powerTemplateIndex=33,enabled=true},abyss_art_features=config,abyss_data={},abyss_presentation={},abyss_theme={sound={}},
   abyss_viewport={apply=function()return {GetChild=function()error('all-off has no custom hosts')end}end},
   abyss_narrative={build={}},abyss_game_ui={new=function(_,_,p,_,o)presentation=p;options=o;views=views+1;return {
    resize=function()end,update=function()end,disable=function()end,
