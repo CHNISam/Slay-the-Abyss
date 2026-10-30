@@ -1,0 +1,133 @@
+{
+  "canvasId": "pc-16-9",
+  "platform": "KEYBOARD",
+  "device": "KeyboardAndMouse",
+  "canvasWidth": 1600,
+  "canvasHeight": 900,
+  "canvasPresets": [
+    {
+      "id": "pc-16-9",
+      "label": "PC 1600×900",
+      "platform": "KEYBOARD",
+      "width": 1600,
+      "height": 900
+    },
+    {
+      "id": "pc-21-9",
+      "label": "PC 2100×900",
+      "platform": "KEYBOARD",
+      "width": 2100,
+      "height": 900
+    },
+    {
+      "id": "mobile-16-9",
+      "label": "手机 1280×720",
+      "platform": "TOUCHSCREEN",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "mobile-19.5-9",
+      "label": "手机 1560×720",
+      "platform": "TOUCHSCREEN",
+      "width": 1560,
+      "height": 720
+    },
+    {
+      "id": "mobile-4-3",
+      "label": "手机 1280×960",
+      "platform": "TOUCHSCREEN",
+      "width": 1280,
+      "height": 960
+    }
+  ],
+  "playerCount": 1,
+  "viewPlayerIndex": 1,
+  "players": [
+    {
+      "index": 1,
+      "label": "玩家1",
+      "entityType": "Player1"
+    }
+  ],
+  "time": 0,
+  "frame": 0,
+  "paused": false,
+  "levelTimePaused": false,
+  "audio": {
+    "sessionId": "e26195da-fa7f-4594-8f75-db99c47d79e0",
+    "playerIndex": 1,
+    "sequence": 0,
+    "revision": 0,
+    "active": [],
+    "recent": []
+  },
+  "effects": [],
+  "mountError": null,
+  "logs": [
+    {
+      "source": "client",
+      "level": "info",
+      "text": "art-probe-ready",
+      "time": 0
+    },
+    {
+      "source": "client",
+      "level": "info",
+      "text": "art-probe-select:3",
+      "time": 0
+    },
+    {
+      "source": "client",
+      "level": "info",
+      "text": "art-probe-play:3",
+      "time": 0
+    }
+  ],
+  "tree": [],
+  "paint": [],
+  "scene": null,
+  "server": {
+    "clock": 0,
+    "onlineLatencyMs": 0,
+    "playerCount": 1,
+    "viewPlayerIndex": 1,
+    "logic": {
+      "version": 1,
+      "rules": []
+    },
+    "vars": {
+      "Level": {},
+      "PlayerSelf": {},
+      "AvatarSelf": {},
+      "Player1": {},
+      "Avatar1": {}
+    },
+    "inbound": [],
+    "outbound": [],
+    "logs": []
+  },
+  "history": [
+    {
+      "t": 0,
+      "source": "user",
+      "kind": "click",
+      "payload": {
+        "name": "hit"
+      }
+    },
+    {
+      "t": 0,
+      "source": "user",
+      "kind": "click",
+      "payload": {
+        "name": "hit"
+      }
+    }
+  ],
+  "running": true,
+  "serverLogs": [],
+  "serverVars": [],
+  "clockMode": "manual",
+  "audioMuted": true
+}

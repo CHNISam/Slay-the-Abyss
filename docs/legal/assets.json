@@ -3,6 +3,10 @@
   "baseCommit": "4c75a31fafcd27c204b957cd7dbc75ac6d9f5ab0",
   "hashRule": "SHA256 raw binary bytes; Lua/JSON/SVG CRLF normalized to LF. Categories record provenance, not clearance. Update manually after rights review.",
   "categories": {
+    "native-art-probe": {
+      "status": "Project-authored geometry and Lua exported with beyond-simulator-mcp 0.5.2 (GPL-3.0), referencing official platform picture IDs; screenshots contain official game IP. Platform-project experiment only; no IP sublicense, commercial clearance or official import acceptance",
+      "evidence": "experiments/art-tech-lab/README.md; sample.save.json; interaction.lua; export-receipt.json; verification.json; simulator https://github.com/1475505/miliastra-beyond-simulator at 3dff619528b1ad3689e2f96b6bcbb0c0c0e735f2"
+    },
     "editor-runtime": {
       "status": "export contains editor textbox/mask template code plus MIT runtime; assess these portions only",
       "evidence": "THIRD_PARTY_NOTICES.md; fixed editor backend/app/lua_scene.py and lua_mask.py; art/cards/traveler-geo/PROVENANCE.md"
@@ -81,6 +85,30 @@
     }
   },
   "files": {
+    "experiments/art-tech-lab/mobile.png": {
+      "sha256": "78941d0f3bacc48731a04e2cfdea7ccbdaf405b1cae5b7415d60c6217b8bc085",
+      "category": "native-art-probe"
+    },
+    "experiments/art-tech-lab/played.png": {
+      "sha256": "b584e47096cbc18876e932f7b3c6a70c705b4ecae885c0e2af93b89e2b2cada5",
+      "category": "native-art-probe"
+    },
+    "experiments/art-tech-lab/sample.png": {
+      "sha256": "e4e7cfdfcdd7d11c695f5b9728b7997a64996a8841ad22619aba6371578218bf",
+      "category": "native-art-probe"
+    },
+    "experiments/art-tech-lab/selected.png": {
+      "sha256": "fdfb25dae9f87001dd7e8e245fa190ff1bad534eda7243de00f0569deddcc690",
+      "category": "native-art-probe"
+    },
+    "experiments/art-tech-lab/import/0-杀戮原塔2 · 原生低成本美术实验 · 服务器控件模板.gia": {
+      "sha256": "ba0072c79aadd678c98ec0cbb26b95bad26cc0dfd3c6aaaf121cf64ddf5c99b9",
+      "category": "native-art-probe"
+    },
+    "experiments/art-tech-lab/import/1-杀戮原塔2 · 原生低成本美术实验 · 脚本.gia": {
+      "sha256": "0e10be2e99b27a2f12fca0e68e26dd356321ca91347c992e625a283695ff378c",
+      "category": "native-art-probe"
+    },
     "art/cards/geo-samples/bloodletting/native-art.json": {
       "sha256": "86d4abc473c8455dcddd910a9b30591a42514499179a54b997d774f9228f9bf8",
       "category": "game-ip-ai-redraw"
