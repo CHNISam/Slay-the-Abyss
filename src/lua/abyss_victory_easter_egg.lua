@@ -48,6 +48,18 @@ function M.new(root,options)
         if options.onVisibility then options.onVisibility(false)end
         button:SetVisible(eligible());return true
     end
+    function self.release(_)
+        if not ended then
+            self:close()
+            ended=true;button:SetVisible(false)
+        end
+        if art then
+            local released,why=art:release()
+            assert(released,why or 'victory artwork release failed')
+            art=nil
+        end
+        return true
+    end
     function self.refresh(_)
         if ended then return false end
         local allowed=eligible()

@@ -6,8 +6,10 @@ local function failed(phase, reason)
     if portraits then pcall(function()portraits:release()end) end
     if cardArt then pcall(cardArt.clear) end
     if background then pcall(function()background:release()end) end
-    if view then pcall(function()view:disable()end) end
-    view = nil
+    if view then
+        local cleaned,why=pcall(function()view:disable()end)
+        if cleaned then view=nil else print('ABYSS_UI cleanup_failed '..tostring(why))end
+    end
     script:EnableUpdate(false)
     pcall(function()
         local stage = script.object:GetChild("stage")
@@ -167,7 +169,7 @@ function OnStart()
     if not ok then failed("startup", reason) end
 end
 function OnUpdate(dt)
-    if not view then return end
+    if not view or view.disabled then return end
     local ok, reason = pcall(function()
         local width, height = game.GetUICanvasSize()
         if width ~= canvasWidth or height ~= canvasHeight then

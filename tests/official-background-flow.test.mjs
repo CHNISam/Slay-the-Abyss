@@ -17,7 +17,7 @@ function runBackgroundFixture(path) {
   return runLua(entry);
  } finally {rmSync(dir,{recursive:true,force:true});}
 }
-test('real GameUI menu/character handoff retains one full background and releases before gameplay/disable',()=>{
+test('real native entry lazily opens victory artwork, pauses its cache and retires it with the engine world',()=>{
  const r=runBackgroundFixture('tests/lua/support/official_background_flow.lua');assert.equal(r.status,0,r.stdout+r.stderr);
  assert.match(r.stdout,/OFFICIAL_BACKGROUND_FLOW_PASS/);
 });

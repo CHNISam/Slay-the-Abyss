@@ -29,8 +29,14 @@ local function startup(hostFlag,layoutFlag,profile)
             error("undeclared script parameter "..name)
         end}
     Color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end
-    Enum={CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"}}
+    Enum={CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"},
+        Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}}
+    local actors=F.monsterActors()
+    package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actors.templateIndex,
+        containerTemplateIndex=actors.containerTemplateIndex,powerTemplateIndex=actors.powerTemplateIndex}
     game={GetUICanvasSize=function()return 1280,720 end,IsTestPlay=function()return true end,
+        GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'pc'end,
+        InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy,
         ServerSignal=function()return{SendSignal=function()signals=signals+1 end}end}
     local actualNew,actualPrint,actualSeed=GameUI.new,print,Seed.next
     local ui

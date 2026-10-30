@@ -19,7 +19,9 @@ end
 local function state()
  local s=C.new(F.Data,{deck={'defend'},enemies={'cultist'}})
  local e=s.enemies[1]
- e.intents={{id='test',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1
+ -- Keep a real mapped ATTACK identity while supplying arithmetic edge vectors.
+ -- The vectors intentionally vary damage/effects; the production source registry stays strict.
+ e.intents={{id='cultist_1',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1
  return s,e
 end
 local function test(name,fn)fn();passed=passed+1;print('PASS '..name)end
