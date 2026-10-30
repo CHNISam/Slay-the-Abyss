@@ -8,8 +8,9 @@ local function fixture(experimental,bgm)
     local canvas=F.control({children=F.Layout})
     local host,signals
     signals={}
-    local new=F.GameUI.new
-    F.GameUI.new=function(...)
+    local GameUI=require('abyss_game_ui')
+    local new=GameUI.new
+    GameUI.new=function(...)
         local args={...}
         assert(args[5].campaignProfile=='competition-two-act')
         args[5].campaignProfile='full-source' -- explicit future/test host
@@ -23,12 +24,18 @@ local function fixture(experimental,bgm)
             assert(name=='experimentalCharacters','unexpected native parameter '..name)
             return experimental
         end}
-    Enum={CursorEventType={CursorClick='click'},ImageSource={StaticReference='static'}}
+    Enum={CursorEventType={CursorClick='click'},ImageSource={StaticReference='static'},
+        Device={Controller='controller',MobileController='mobileController',Mobile='mobile'}}
     Color=setmetatable({FromRGB=function()end},{__call=function(_,r,g,b,a)return{r=r,g=g,b=b,a=a}end})
+    local actors=F.monsterActors()
+    package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actors.templateIndex,
+        containerTemplateIndex=actors.containerTemplateIndex,powerTemplateIndex=actors.powerTemplateIndex}
     game={GetUICanvasSize=function()return 1280,720 end,
+        GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'desktop'end,
+        InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy,
         ServerSignal=function(name)return{SendSignal=function()signals[#signals+1]=name end}end}
     local ok,why=pcall(function()dofile('src/lua/abyss_ui.lua');OnStart();OnStart()end)
-    F.GameUI.new=new
+    GameUI.new=new
     assert(ok,why);assert(host and script.updating,'formal startup failed')
     host.seed='42'
     return host,canvas:GetChild('stage'),signals

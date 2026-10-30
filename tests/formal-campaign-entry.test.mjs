@@ -1,4 +1,6 @@
 import test from 'node:test';
+import {historicalTest,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
+import luaparse from 'luaparse';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -8,7 +10,7 @@ import {preMobileQaSource,requireMobileQaSource} from './helpers/mobile-qa-sourc
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 
 const entryPath = 'src/lua/abyss_ui.lua';
-const historicalEntry = preFormalEntrySource(entryPath,readFileSync(entryPath, 'utf8'));
+const historicalEntry = withHistoricalBaseline(()=>preFormalEntrySource(entryPath,readFileSync(entryPath, 'utf8')));
 const entry = historicalEntry.replace('{ music = music, campaign = true, experimentalCharacters =',
   '{ music = music, campaign = true, campaignProfile = "competition-two-act", experimentalCharacters =');
 const campaignHunk = '{ music = music, campaign = true, experimentalCharacters =';
@@ -16,7 +18,40 @@ const competitionHunk = '{ music = music, campaign = true, campaignProfile = "co
 const originalHunk = '{ music = music, experimentalCharacters =';
 const digest = value => createHash('sha256').update(value).digest('hex');
 
-test('current native entry rejects campaign and startup drift before historical projection', () => {
+function assertCurrentCampaignEntry(source){
+ const ast=luaparse.parse(source,{luaVersion:'5.3'});
+ const starts=ast.body.filter(node=>node.type==='FunctionDeclaration'&&node.identifier?.name==='OnStart');
+ assert.equal(starts.length,1,'one real current OnStart');
+ const constructors=[],updates=[];
+ const visit=node=>{
+  if(!node||typeof node!=='object')return;
+  if(node.type==='CallExpression'&&node.base?.type==='MemberExpression'){
+   if(node.base.base?.name==='GameUI'&&node.base.identifier.name==='new')constructors.push(node);
+   if(node.base.base?.name==='script'&&node.base.identifier.name==='EnableUpdate')updates.push(node);
+  }
+  for(const value of Object.values(node))if(Array.isArray(value))value.forEach(visit);else if(value&&typeof value==='object')visit(value);
+ };
+ visit(starts[0]);assert.equal(constructors.length,1,'one actual GameUI constructor');
+ const options=constructors[0].arguments[4];assert.equal(options?.type,'TableConstructorExpression');
+ const field=name=>{const rows=options.fields.filter(row=>row.type==='TableKeyString'&&row.key.name===name);assert.equal(rows.length,1,'one current '+name+' field');return rows[0].value;};
+ assert.equal(field('campaign').type,'BooleanLiteral');assert.equal(field('campaign').value,true);
+ assert.equal(field('campaignProfile').type,'StringLiteral');
+ assert.ok(['"competition-two-act"',"'competition-two-act'"].includes(field('campaignProfile').raw),'current two-act profile');
+ assert.equal(updates.length,1,'startup enables the real update loop exactly once');
+ assert.equal(updates[0].arguments[0]?.type,'BooleanLiteral');assert.equal(updates[0].arguments[0].value,true);
+}
+test('current native entry keeps one enabled two-act campaign constructor and real update loop',()=>{
+ const source=readFileSync(entryPath,'utf8');assertCurrentCampaignEntry(source);
+ assertCurrentCampaignEntry(source.replaceAll('\r\n','\n').replaceAll('\n','\r\n'));
+ for(const [before,after]of [['campaign = true','campaign = false'],['campaign = true,',''],['campaign = true,','campaign = true, campaign = true,'],
+  ['campaignProfile = "competition-two-act",',''],['competition-two-act','full-source'],
+  ['campaignProfile = "competition-two-act",','campaignProfile = "competition-two-act", campaignProfile = "competition-two-act",'],
+  ['script:EnableUpdate(true)','script:EnableUpdate(false)']]){
+  const mutant=source.replace(before,after);assert.notEqual(mutant,source,'current negative control changes real source');assert.throws(()=>assertCurrentCampaignEntry(mutant));
+ }
+});
+
+historicalTest('original native entry rejects campaign and startup drift before historical projection', () => {
   const live = readFileSync(entryPath, 'utf8').replaceAll('\r\n', '\n');
   assert.notEqual(live, entry, 'the live selection entry is distinct from the historical entry');
   assert.equal(preRetirementSource(entryPath, live), retirementSources.beforeSources[entryPath]);
@@ -38,7 +73,7 @@ test('current native entry rejects campaign and startup drift before historical 
   }
 });
 
-test('formal campaign source proof reverses only the complete accepted entry opt-in', () => {
+historicalTest('formal campaign source proof reverses only the complete accepted entry opt-in', () => {
   assert.equal(digest(entry), '6a073dda56608f8d4e8f6b9c922a43041f42ded9923c4c3281a3dd8f98deb864');
   assert.equal(entry.split(competitionHunk).length, 2);
   const acceptedEntry = entry.replace(competitionHunk, campaignHunk);
@@ -54,7 +89,7 @@ test('formal campaign source proof reverses only the complete accepted entry opt
     retirementSources.beforeSources[entryPath]);
 });
 
-test('formal campaign source proof rejects disabled, missing, duplicate and unrelated source drift', () => {
+historicalTest('formal campaign source proof rejects disabled, missing, duplicate and unrelated source drift', () => {
   const mutations = [
     entry.replace('campaign = true', 'campaign = false'),
     entry.replace('competition-two-act', 'full-source'),
@@ -74,7 +109,7 @@ test('formal campaign source proof rejects disabled, missing, duplicate and unre
   }
 });
 
-test('competition host projection preserves the original history/interaction witness and rejects drift', () => {
+historicalTest('competition host projection preserves the original history/interaction witness and rejects drift', () => {
   const path = 'src/lua/abyss_game_ui.lua';
   const source = readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
   const projection = JSON.parse(readFileSync('tests/fixtures/competition-two-act-host-projection.json', 'utf8'));

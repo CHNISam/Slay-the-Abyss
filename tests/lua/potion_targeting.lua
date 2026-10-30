@@ -65,10 +65,16 @@ end)
 test('P05 actor replacement or death during confirmation never inherits a gesture',function()
     for _,replace in ipairs({true,false}) do
         local h,u,p,e,t,d,deck,r,emit,tap=setup();tap(1)
+        local oldHit=assert(H.F.actorControl(p,'enemy2'):GetChild('hit'))
+        local oldUp,oldClick=oldHit.listeners.up,assert(oldHit.listeners.click)
         emit('enemy2','down',2)
         if replace then h.run.combat.enemies[2]=Combat.copy(h.run.combat.enemies[2])
         else h.run.combat.enemies[2].hp=0 end
-        u:render();emit('enemy2','up',2);emit('enemy2','click',2)
+        u:render();local before=snapshot(h)
+        -- Deliver the physical gesture to the original native handle, even if retired.
+        if oldUp then oldUp({touchId=2})end
+        oldClick({touchId=2})
+        assert(equal(before,snapshot(h)),'late events on the old handle changed actors, resources or RNG')
         assert(h.run.potions[1]=='fire_potion' and not u.potionAim)
         assert(p:GetChild('notice').text:find('取消',1,true))
     end

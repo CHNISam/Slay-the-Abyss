@@ -175,7 +175,12 @@ test('Slime Boss split does not transfer powers, trigger spore death, or act new
  local s=battle('slime_boss');local e=s.enemies[1]
  C.damage(s,s.player,e,80,true);e.statuses.spore_cloud=2;e.statuses.strength=6;e.statuses.poison=2
  assert(C.endTurn(s));eq(s.player.hp,500);eq(s.player.statuses.vulnerable or 0,0)
- for _,i in ipairs({1,3})do eq(s.enemies[i].hp,58);eq(next(s.enemies[i].statuses),nil)end
+ for _,i in ipairs({1,3})do
+  local child=s.enemies[i]
+  eq(child.hp,58)
+  -- Fresh large-slime constructors own Split; no parent power transfers.
+  same(child.statuses,{split=-1});same(child.powerOrder,{'split'})
+ end
 end)
 test('Slime Boss children split through the existing large-slime policies next',function()
  local s=battle('slime_boss');C.damage(s,s.player,s.enemies[1],80,true);assert(C.endTurn(s))

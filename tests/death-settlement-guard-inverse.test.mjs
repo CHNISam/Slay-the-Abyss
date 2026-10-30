@@ -1,8 +1,8 @@
 import {preHeroVisualSource} from './helpers/hero-visual-source-inverse.mjs';
-import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
+import {historicalTest as test,readHistoricalSourceData,readHistoricalPlayerDeathInput} from './helpers/historical-baseline-inputs.mjs';
 import {preRelicViewUiSource} from './helpers/relic-view-ui-inverse.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync} from 'node:fs';
+import {readFileSync,readdirSync,existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {playerDeathLayer,prePlayerDeathSource} from './helpers/player-death-transition-inverse.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
@@ -13,13 +13,18 @@ import {preRosterConfigSource} from './helpers/competition-roster-config-composi
 import {preRosterSource,rosterSourceBindings} from './helpers/competition-roster-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 // TASK-4.7 relic view UI is the outermost exact layer above this guard.
-const read=path=>preRelicViewUiSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,readFileSync(path,'utf8'))).replaceAll('\r\n','\n'));
+const read=path=>{
+ if(path==='tests/helpers/player-death-transition-inverse.mjs')return readHistoricalSourceData(path);
+ const source=path==='tests/lua/support/battle_gesture_fixture.lua'?readHistoricalPlayerDeathInput(path):readFileSync(path,'utf8');
+ return preRelicViewUiSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,source)).replaceAll('\r\n','\n'));
+};
 test('one exact settlement guard precedes the frozen accepted330 death and PR323 layers',()=>{
   const path='src/lua/abyss_game_ui.lua',live=read(path),binding=deathSettlementGuardLayer.files[path];
   assert.equal(deathSettlementGuardLayer.acceptedBase,'1dc33fe790a5f82be4f1bf2f0d09e339dcb943dd');
   assert.deepEqual(Object.keys(deathSettlementGuardLayer.files),[path]);
   assert.equal(hash(read('tests/fixtures/player-death-transition-inverse.json')),'864bef1d366836036fc8d7cefd6c9fb18d0c90877628f1030a310ac780148dd7','accepted330 eleven-input witness remains byte-exact');
   assert.equal(hash(read('tests/helpers/player-death-transition-inverse.mjs')),'8739d0142bc2a2ad8a451e3c1c66696639ffbc983f3f52c69e23419ba4477a15','accepted330 death helper remains byte-exact');
+  assert.equal(existsSync('tests/helpers/player-death-transition-inverse.mjs'),false,'original helper source evidence is not an executable historical input');
   assert.equal(hash(live),binding.afterSha256);
   assert.equal(binding.hunks.length,1);assert.equal(binding.hunks[0].before.length,1);assert.equal(binding.hunks[0].after.length,1);
   const accepted=preDeathSettlementGuardSource(path,live);
@@ -94,7 +99,7 @@ test('gesture drain projection preserves the complete prior fixture and exposes 
   assert.ok(binding,'the shared gesture fixture must join the exact death layer');
   assert.equal(binding.beforeSha256,'64407f8ea32f7591ce65cb25a675acee5e499581155942ee448ca4c300691715');
   assert.equal(binding.afterSha256,'134616d268298a4d3337ca5e65af2af3568a06c3cb3382e4e0fb8e0fcf3a9868');
-  const live=preRelicViewUiSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,readFileSync(path,'utf8'))).replaceAll('\r\n','\n'));
+  const live=read(path);
   const prior=prePlayerDeathSource(path,live);
   assert.equal(hash(live),binding.afterSha256);
   assert.equal(hash(prior),binding.beforeSha256);

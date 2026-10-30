@@ -6,6 +6,7 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {shardLuaScripts} from '../scripts/test-lua.mjs';
 import {discoverJs,jsShard,timings} from '../scripts/ci-shards.mjs';
+import {qualityShardMatrices} from '../scripts/ci-quality-shape.mjs';
 const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const sha=source=>createHash('sha256').update(source).digest('hex');
 const manifest=JSON.parse(read('tests/fixtures/ui-regression-partitions.json'));
@@ -69,13 +70,14 @@ test('raw runner, Node discovery, and every hosted shard plan retain all eight U
  assert.match(read('scripts/test-lua.mjs'),/readdirSync\('tests\/lua'\)/);
  assert.match(read('scripts/test-lua.mjs'),/filter\(file => file\.endsWith\('\.lua'\)\)/);
  for(const workers of [1,2]){
-  const actual=Array.from({length:8},(_,i)=>shardLuaScripts(raw,`${i+1}/8`,timings,workers)).flat().filter(path=>expected.includes(path));
+  const count=qualityShardMatrices.windows.length;
+  const actual=Array.from({length:count},(_,i)=>shardLuaScripts(raw,`${i+1}/${count}`,timings,workers)).flat().filter(path=>expected.includes(path));
   assert.deepEqual(actual.sort(),[...expected].sort(),`all raw CI shards retain each slice exactly once with ${workers} worker(s)`);
  }
  const contract='tests/ui-regression-partitions.test.mjs',js=discoverJs();
  assert.equal(js.filter(path=>path===contract).length,1);
  assert.match(JSON.parse(read('package.json')).scripts.test,/node --test --test-concurrency=1 tests\/\*\.test\.mjs/);
- for(const [platform,count]of [['win32',8],['linux',4]]){
+ for(const [platform,count]of [['win32',qualityShardMatrices.windows.length],['linux',qualityShardMatrices.posix.length]]){
   const actual=Array.from({length:count},(_,i)=>jsShard(js,`${i+1}/${count}`,platform).files).flat();
   assert.equal(actual.filter(path=>path===contract).length,1,`${platform} hosted JS plans execute this source-preservation contract exactly once`);
  }

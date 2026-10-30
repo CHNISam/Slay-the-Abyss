@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {historicalTest,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
+import {historicalTest,withHistoricalBaseline,readHistoricalPlayerDeathInput} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
@@ -142,8 +142,10 @@ for(const [count,hash,sources]of [
     for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
     materializeHistoricalPresentation(directory);
-    for(const path of Object.keys(formalEntryInverses))
-      writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
+    for(const path of Object.keys(formalEntryInverses)){
+      const source=path==='tests/lua/support/battle_gesture_fixture.lua'?readHistoricalPlayerDeathInput(path):readFileSync(path,'utf8');
+      writeFileSync(join(directory,path),preFormalEntrySource(path,source));
+    }
     for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
     writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){

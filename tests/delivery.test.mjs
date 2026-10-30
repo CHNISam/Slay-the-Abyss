@@ -197,7 +197,8 @@ test('partial retries retain successful jobs and the receipt from the effective 
       proof.jobs.forEach(job=>job.run_attempt=attempt-1);
       proof.checkout.attempt=attempt-1;
       proof.checkoutArtifact.name=`quality-${proof.run.id}-${attempt-1}-check`;
-      const old=proof.jobs.find(job=>job.name==='rules (8/8)');old.conclusion='failure';
+      const last=version===2?'rules (8/8)':`rules (${qualityShardMatrices.windows.length}/${qualityShardMatrices.windows.length})`;
+      const old=proof.jobs.find(job=>job.name===last);old.conclusion='failure';
       proof.jobs.push({...old,id:500,run_attempt:attempt,conclusion:'success'});
     }
     assert.deepEqual(verifyDelivery(e.preflight),[]);
@@ -242,8 +243,9 @@ test('retry job identity and artifact/receipt evidence fail closed in PR and pus
 });
 
 test('receipt collection uses only the effective first shard artifact, paginates and rechecks its ID',()=>{
-  const e=mergedEvidence();
-  e.jobs.find(j=>j.name==='rules (1/8)').run_attempt=2;
+ for(const version of [2,3]) {
+  const e=mergedEvidence(version);
+  e.jobs.find(j=>j.name===(version===2?'rules (1/8)':qualityShardJobs[0])).run_attempt=2;
   e.checkout.attempt=2;e.checkoutArtifact.name='quality-9-2-check';
   const dir=mkdtempSync(join(tmpdir(),'delivery-receipt-'));
   const artifact=e.checkoutArtifact,calls=[];
@@ -259,17 +261,18 @@ test('receipt collection uses only the effective first shard artifact, paginates
     throw Error(`Unexpected query ${args}`);
   };
   try {
-    assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query,2),{checkout:e.checkout,checkoutArtifact:artifact});
+    assert.deepEqual(checkoutReceipt(e.repo,e.run,e.jobs,dir,query,version),{checkout:e.checkout,checkoutArtifact:artifact});
     assert(calls[0].includes('--paginate'));assert.equal(calls.length,3);
     for(const bad of [[],[artifact,artifact],[{...artifact,expired:true}],[{...artifact,workflow_run:{id:8,head_sha:sha('e')}}]]) {
       assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,(...args)=>{
         assert.equal(args[0],'api');assert(args.at(-1).includes('/artifacts?'));
         return JSON.stringify([{artifacts:bad}]);
-      },2),/artifact/);
+      },version),/artifact/);
     }
     assert.throws(()=>checkoutReceipt(e.repo,e.run,e.jobs,dir,(...args)=>
-      args.at(-1).endsWith('/artifacts/200')?JSON.stringify({...artifact,id:201}):query(...args),2),/changed/);
+      args.at(-1).endsWith('/artifacts/200')?JSON.stringify({...artifact,id:201}):query(...args),version),/changed/);
   } finally {rmSync(dir,{recursive:true,force:true});}
+ }
 });
 
 test('normal delivery includes the current complete hosted Quality matrices',()=>{
@@ -283,30 +286,47 @@ test('normal delivery includes the current complete hosted Quality matrices',()=
     const impactSource=readFileSync('scripts/ci-impact.mjs','utf8');
     assert.ok(impactSource.includes('windows_shards=${JSON.stringify(qualityShardMatrices.windows)}'));
     assert.ok(impactSource.includes('posix_shards=${JSON.stringify(qualityShardMatrices.posix)}'));
-    assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8]);
-    assert.deepEqual(qualityShardMatrices.posix,[1,2,3,4,5,6,7,8]);
+    assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8,9,10,11]);
+    assert.deepEqual(qualityShardMatrices.posix,[1,2,3,4,5,6,7,8,9]);
     assert.deepEqual(fullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
       Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`));
     assert.equal(fullQualityJobs.length,15);
     assert.equal(deliverySchemaVersion,3);
     assert.deepEqual(currentFullQualityJobs,['check','presentation','engineering-posix',...qualityShardJobs,'impact','fast']);
-    assert.equal(currentFullQualityJobs.length,21);
+    assert.equal(currentFullQualityJobs.length,25);
     assert.deepEqual(currentFullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
-      Array.from({length:8},(_,i)=>`engineering-posix (${i+1}/8)`));
+      Array.from({length:9},(_,i)=>`engineering-posix (${i+1}/9)`));
     assert.match(workflow,/^  impact:\n/m);
     assert.match(workflow,/^  fast:\n[\s\S]*?if: needs\.impact\.outputs\.mode == 'fast'\n/m);
     assert.match(workflow,/os: \[ubuntu-24\.04, windows-2025\]/);
   }
 });
 
-test('fully green former four- or six-POSIX schema-three runs cannot certify the current eight-shard shape',()=>{
-  for(const oldCount of [4,6])for(const layer of ['preflight','push']){
+test('fully green former four-, six- or eight-POSIX schema-three runs cannot certify the current shape',()=>{
+  for(const oldCount of [4,6,8])for(const layer of ['preflight','push']){
     const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
-    const example=proof.jobs.find(job=>job.name==='engineering-posix (1/8)');
+    const example=proof.jobs.find(job=>job.name==='engineering-posix (1/9)');
     proof.jobs=proof.jobs.filter(job=>!job.name.startsWith('engineering-posix ('));
     proof.jobs.push(...Array.from({length:oldCount},(_,i)=>({...example,id:600+i,name:`engineering-posix (${i+1}/${oldCount})`})));
     if(layer==='preflight')assert(verifyDelivery(proof).length);
     else assert.equal(verifyMergedDelivery(e).state,'merged_pending');
+  }
+});
+
+test('the old fully green twenty-one-job shape cannot certify current delivery or supply its first-shard receipt',()=>{
+  for(const layer of ['preflight','push']){
+    const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
+    const example=proof.jobs[0];
+    proof.jobs=['check','presentation','engineering-posix',...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
+      ...Array.from({length:8},(_,i)=>`engineering-posix (${i+1}/8)`),'impact','fast']
+      .map((name,i)=>({...example,id:700+i,name,conclusion:name==='fast'?'skipped':'success'}));
+    if(layer==='preflight')assert(verifyDelivery(proof).length);
+    else assert.equal(verifyMergedDelivery(e).state,'merged_pending');
+    const current=mergedEvidence(3),bound=layer==='preflight'?current.preflight:current;
+    const first=bound.jobs.find(job=>job.name==='rules (1/11)');first.run_attempt=1;
+    bound.jobs.push({...first,id:800,name:'rules (1/8)',run_attempt:bound.run.run_attempt});
+    if(layer==='preflight')assert(verifyDelivery(bound).some(error=>/receipt|Unexpected/.test(error)));
+    else assert.equal(verifyMergedDelivery(current).state,'merged_pending');
   }
 });
 
@@ -396,7 +416,7 @@ test('post-merge collector selects only the latest exact push run and all job hi
   e.preflight.review={disposition:'low-risk-docs',reviewedHeadSha:e.preflight.head,reviewedBaseSha:e.preflight.base};
   e.preflight.changedFileCount=1;e.preflight.changedFiles=[docFile];
   e.jobs.forEach(job=>job.run_attempt=1);
-  const retried=e.jobs.find(job=>job.name==='rules (8/8)');retried.conclusion='failure';
+  const retried=e.jobs.find(job=>job.name===`rules (${qualityShardMatrices.windows.length}/${qualityShardMatrices.windows.length})`);retried.conclusion='failure';
   e.jobs.push({...retried,id:500,run_attempt:2},{...retried,id:501,run_attempt:3,conclusion:'success'});
   e.checkout.attempt=1;e.checkoutArtifact.name='quality-9-1-check';
   const query=(...args)=>{

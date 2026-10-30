@@ -1,6 +1,6 @@
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
-import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
+import {historicalTest,readHistoricalPlayerDeathInput} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -31,7 +31,10 @@ historicalTest('UI budget split restores both original complete bodies and retai
  for(const [file,hash]of Object.entries({
   'battle_gesture_fixture.lua':'b92b90973b271f2a5789f9b59942263ecda7b6fb1922b1b6780b4ae8f892140e',
   'looter_potion_ui_fixture.lua':'c68bcd6d44ebbd5193875c9003e95e8643b97a083c1cbbe4eb5390f629c4c43e',
- }))assert.equal(sha(read('tests/lua/support/'+file)),hash,'original shared fixture inputs must remain unchanged');
+ })){const path='tests/lua/support/'+file;
+  const source=file==='battle_gesture_fixture.lua'?preFormalEntrySource(path,readHistoricalPlayerDeathInput(path)):read(path);
+  assert.equal(sha(source),hash,'original shared fixture inputs must remain unchanged');
+ }
  assert.match(read('scripts/test-lua.mjs'),/timeout \?\?= normalizedScript\.endsWith\('tests\/lua\/encounter_coverage\.lua'\) \? 120000 : mapProperties \? 120000 : fixture \|\| composedHost \? 60000 : 30000;/);
 });
 

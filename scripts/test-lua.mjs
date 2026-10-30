@@ -81,8 +81,8 @@ export function shardLuaScripts(scripts, value, timings = runtimeTimings, worker
   }
   // Balance against the exact weighted JS plan preceding the raw Lua suite.
   // Explicit injected timings keep the diagnostic API's initial-load contract.
-  const initial = timings !== runtimeTimings && timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs
-    : count === 8 ? jsShard(discoverJs(), value, 'win32').loads : undefined;
+  const initial = timings === runtimeTimings ? jsShard(discoverJs(), value, 'win32').loads
+    : timings.windowsJsShardMs?.length === count ? timings.windowsJsShardMs : undefined;
   if (initial?.some(load => !Number.isFinite(load) || load < 0)) throw new Error('Invalid initial shard loads');
   // An exclusive fixture occupies both potential worker slots. Balance its
   // full cost, while short fixtures retain the benefit of the two-worker pool.

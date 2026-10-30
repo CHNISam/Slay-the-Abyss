@@ -27,11 +27,12 @@ export function partition(files, value, weights, fallback, initial) {
   return { files: bins[index - 1].files.sort(), loads: bins.map(bin => bin.load) };
 }
 
-export function jsPlanningWeights(files) {
-  // Placement uses the conservative cross-platform maximum. Local estimates
-  // stay separate from observed platform maps and cannot certify execution.
+export function jsPlanningWeights(files,platform=process.platform) {
+  // Known platforms use their actual observations; an unknown platform falls
+  // back to the conservative maximum. Local estimates never certify execution.
+  const maps=Object.hasOwn(timings.js,platform)?[timings.js[platform]]:Object.values(timings.js);
   return Object.fromEntries(files.map(file=>[file,Math.max(
-    ...Object.values(timings.js).map(weights=>weights[file]??timings.unknownJsMs),
+    ...maps.map(weights=>weights[file]??timings.unknownJsMs),
     timings.jsPlanning?.localLowerBounds?.[file]?.durationMs??0)]));
 }
 
@@ -42,7 +43,7 @@ export function jsShard(files, value, platform = process.platform) {
   const count = Number(String(value).split('/')[1]);
   const loads = initial && Number.isSafeInteger(count) && count > 0 && count <= 64
     ? Array.from({length:count},(_,index)=>index===0?initial[0]:0) : undefined;
-  return partition(files, value, jsPlanningWeights(files), timings.unknownJsMs,
+  return partition(files, value, jsPlanningWeights(files,platform), timings.unknownJsMs,
     loads);
 }
 

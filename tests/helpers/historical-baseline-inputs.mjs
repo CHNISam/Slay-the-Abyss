@@ -105,6 +105,30 @@ export function readHistoricalBaselineSource(path){
  const inputs=loadHistoricalBaselineInputs();assert.ok(Object.hasOwn(inputs,path),'registered original input: '+path);
  return inputs[path].toString('utf8');
 }
+// Read-only source evidence has a separate role from executable snapshot
+// inputs. In particular, archived helper text is never mounted or imported.
+export function readHistoricalSourceData(path){
+ const archive=sourceArchive(),binding=archive.historicalSourceData?.[path];
+ historicalInputPath(sourceRoot,path);assert.ok(binding,'registered original source identity data: '+path);
+ assert.equal(binding.sourceCommit,archive.sourceCommit);
+ const bytes=Buffer.from(binding.source);
+ assert.equal(hash('sha256',bytes),binding.sourceSha256,'complete original source identity data: '+path);
+ assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),binding.gitBlob,'original source data Git blob: '+path);
+ return binding.source;
+}
+export function readHistoricalPlayerDeathInput(path){
+ const context=sourceArchive().historicalInputs.playerDeath;
+ const bytes=readFileSync(new URL('../fixtures/player-death-transition-inverse.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
+ assert.equal(hash('sha256',bytes),'864bef1d366836036fc8d7cefd6c9fb18d0c90877628f1030a310ac780148dd7');
+ const proof=JSON.parse(bytes);assert.equal(context.beforeCommit,proof.baseHead);
+ assert.deepEqual(Object.keys(context.files),Object.keys(proof.files));
+ for(const [file,binding]of Object.entries(context.files)){
+  assert.equal(binding.beforeSha256,proof.files[file].beforeSha256,'original death input provenance: '+file);
+  assert.equal(hash('sha256',binding.source),proof.files[file].afterSha256,'complete original death after input: '+file);
+ }
+ assert.ok(Object.hasOwn(context.files,path),'registered original player-death input: '+path);
+ return context.files[path].source;
+}
 export function withHistoricalBaseline(callback){
  assert.equal(typeof callback,'function','historical cwd callback');
  assert.notEqual(callback.constructor.name,'AsyncFunction','historical cwd callbacks must be synchronous');

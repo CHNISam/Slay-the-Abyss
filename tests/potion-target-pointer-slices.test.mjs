@@ -1,5 +1,6 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -58,7 +59,7 @@ function validateRunner(source) {
   assert.match(source, /fixture \|\| composedHost \? 60000 : 30000;/, 'keep the existing 30-second default fixture budget');
 }
 
-test('four original-budget potion pointer fixtures preserve the full seven-case source and fresh inputs', () => {
+historicalTest('four original-budget potion pointer fixtures preserve the full seven-case source and fresh inputs', () => {
   validateSource(read(entry));
   validateHelper(read(helper));
   validateRunner(read('scripts/test-lua.mjs'));
@@ -68,7 +69,7 @@ test('four original-budget potion pointer fixtures preserve the full seven-case 
   assert.deepEqual(discovered, [entry, ...tails], 'raw Lua discovery contains all four complete ranges without duplicates');
 });
 
-test('potion pointer inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift', () => {
+historicalTest('potion pointer inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift', () => {
   const source = read(entry);
   const lostAssertion = source.replace("eq(h.run.potions[1],'fire_potion')", 'assert(true)');
   assert.notEqual(lostAssertion, source, 'negative control must alter a real original assertion');
@@ -85,4 +86,22 @@ test('potion pointer inverse and coverage guards reject lost assertions, skipped
   const longerDeadline = runner.replace('60000 : 30000', '60000 : 60000');
   assert.notEqual(longerDeadline, runner, 'negative control must alter the real deadline');
   assert.throws(() => validateRunner(longerDeadline), /unchanged runner and deadlines/);
+});
+
+test('current potion pointer coverage retains four executable ranges, raw discovery and the ordinary fixture budget',()=>{
+  const wrappers=tails.map(read),source=read(entry);
+  // Current coverage remains a live contract; only the complete old body,
+  // seed-61 helper and whole-runner inverse above use their original epoch.
+  assert.ok(source.startsWith(prefix),'current entry retains its reviewed range gate');
+  assert.ok(source.endsWith('finish()\n'+footer),'current entry enforces registration and execution counts');
+  assert.equal(source.split(before+middle).length,2,'current entry registers each selected range exactly once');
+  validatePartitions(ranges,wrappers);
+  const discovered=readdirSync('tests/lua').filter(name=>/^battle_ui_potion_target_pointers(?:_slice_\d+)?\.lua$/.test(name)).map(name=>'tests/lua/'+name).sort();
+  assert.deepEqual(discovered,[entry,...tails],'current raw runner discovers every complete pointer range');
+  assert.throws(()=>validatePartitions([[entry,1,2],[tails[0],4,4],...ranges.slice(2)],wrappers),/complete ranges/);
+  assert.throws(()=>validatePartitions([[entry,1,3],...ranges.slice(1)],wrappers),/complete ranges/);
+  assert.throws(()=>validatePartitions(ranges,wrappers.map(wrapper=>'-- '+wrapper)),/executable tail wrapper/);
+  const runner=read('scripts/test-lua.mjs');
+  assert.doesNotMatch(runner,/battle_ui_potion_target_pointers/,'no current family-specific timeout exception');
+  assert.match(runner,/fixture \|\| composedHost \? 60000 : 30000;/,'current ordinary fixture budget remains 30 seconds');
 });

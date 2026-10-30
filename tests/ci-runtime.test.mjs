@@ -11,6 +11,7 @@ import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
 import { partition, jsShard, jsPlanningWeights, discoverJs, timings } from '../scripts/ci-shards.mjs';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
 import {historicalTest,readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
+import {qualityShardMatrices} from '../scripts/ci-quality-shape.mjs';
 
 historicalTest('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes', () => {
   const source = readBeforeMobileQaSource('scripts/test-lua.mjs').replaceAll('\r\n', '\n');
@@ -62,9 +63,9 @@ test('platform gates reserve their measured first-shard cost for every valid sha
 test('all current JS and Lua files are scheduled exactly once; new unmeasured files cannot disappear', () => {
   const js = discoverJs(), lua = readdirSync('tests/lua').filter(f => f.endsWith('.lua')).map(f => `tests/lua/${f}`);
   for (const [files, count, select] of [
-    [js, 8, (files, value) => jsShard(files, value, 'win32').files],
-    [js, 8, (files, value) => jsShard(files, value, 'linux').files],
-    [lua, 8, shardLuaScripts], [lua, 1, shardLuaScripts],
+    [js, qualityShardMatrices.windows.length, (files, value) => jsShard(files, value, 'win32').files],
+    [js, qualityShardMatrices.posix.length, (files, value) => jsShard(files, value, 'linux').files],
+    [lua, qualityShardMatrices.windows.length, shardLuaScripts], [lua, 1, shardLuaScripts],
   ]) {
     const input = [...files, 'tests/unmeasured-new-file'];
     const slices = Array.from({ length: count }, (_, i) => select(input, `${i + 1}/${count}`));
@@ -72,13 +73,36 @@ test('all current JS and Lua files are scheduled exactly once; new unmeasured fi
     assert.equal(new Set(union).size, union.length);
     assert.deepEqual(union.sort(), input.sort());
   }
-  for (const [platform, count] of [['win32', 8], ['linux', 8]]) {
+  for (const [platform, count] of [['win32', qualityShardMatrices.windows.length], ['linux', qualityShardMatrices.posix.length]]) {
     const loads = jsShard(js, `1/${count}`, platform).loads;
-    const weights = jsPlanningWeights(js);
+    const weights = jsPlanningWeights(js,platform);
     const old = Array(count).fill(0);
     [...js].sort().forEach((file, i) => old[i % count] += weights[file] ?? timings.unknownJsMs);
     assert.ok(Math.max(...loads) < Math.max(...old), `${platform}: weighted schedule must improve measured critical path`);
   }
+});
+
+test('platform-native placement covers every current file once and unknown platforms retain the conservative fallback',()=>{
+ const files=discoverJs();
+ const asymmetric=files.find(file=>{
+  const floor=timings.jsPlanning?.localLowerBounds?.[file]?.durationMs??0;
+  return Math.max(timings.js.win32[file]??timings.unknownJsMs,floor)!==Math.max(timings.js.linux[file]??timings.unknownJsMs,floor);
+ });
+ assert.ok(asymmetric,'the observed platform maps contain distinct costs');
+ for(const platform of ['win32','linux']){
+  const native=jsPlanningWeights(files,platform);
+  for(const file of files)assert.equal(native[file],Math.max(timings.js[platform][file]??timings.unknownJsMs,timings.jsPlanning?.localLowerBounds?.[file]?.durationMs??0));
+  const count=platform==='win32'?qualityShardMatrices.windows.length:qualityShardMatrices.posix.length;
+  const bins=Array.from({length:count},(_,i)=>jsShard(files,`${i+1}/${count}`,platform).files),all=bins.flat();
+  assert.equal(new Set(all).size,all.length,platform+' must not duplicate files');
+  assert.deepEqual(all.sort(),[...files].sort(),platform+' must retain the complete current inventory');
+ }
+ assert.notEqual(jsPlanningWeights([asymmetric],'win32')[asymmetric],jsPlanningWeights([asymmetric],'linux')[asymmetric],'known platforms must not inherit the other platform cost');
+ for(const platform of ['unknown-platform','toString']){
+  const fallback=jsPlanningWeights(files,platform);
+  for(const file of files)assert.equal(fallback[file],Math.max(...Object.values(timings.js).map(map=>map[file]??timings.unknownJsMs),timings.jsPlanning?.localLowerBounds?.[file]?.durationMs??0));
+ }
+ assert.deepEqual(jsPlanningWeights(files),jsPlanningWeights(files,process.platform));
 });
 
 test('workflow uses the same balanced plan for materialization and execution without changing concurrency', () => {
@@ -131,17 +155,16 @@ test('current timing records preserve all measured corrections without duplicate
   for(const [file,row]of Object.entries(timings.jsCalibration.raised[platform])){
    assert.equal(row.beforeMs,previous.js[platform][file]??previous.unknownJsMs);
    assert.ok(row.observedMs>row.beforeMs);
-   assert.equal(timings.js[platform][file],row.observedMs);
+   assert.ok(timings.js[platform][file]>=row.observedMs,'later complete successful observations may only raise this floor');
   }
  }
  assert.equal(timings.jsCalibration.runId,41097231681);assert.equal(timings.jsCalibration.runAttempt,1);
  assert.equal(timings.jsCalibration.headSha,'568d47a8f51164ed9e3cfb0656f57f2d832ed546');
  for(const [file,entry]of Object.entries(timings.jsPlanning.localLowerBounds)){
   assert.match(entry.environment,/local/);assert.match(entry.kind,/not .*hosted/);
-  const expected=Math.max(...Object.values(timings.js).map(weights=>weights[file]??timings.unknownJsMs),entry.durationMs);
-  assert.equal(jsPlanningWeights([file])[file],expected);
+  for(const platform of ['win32','linux'])assert.equal(jsPlanningWeights([file],platform)[file],Math.max(timings.js[platform][file]??timings.unknownJsMs,entry.durationMs));
  }
- assert.equal(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'])['tests/task77-current-source-layers.test.mjs'],394262);
+ assert.ok(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'],'win32')['tests/task77-current-source-layers.test.mjs']>=394262,'retain the first complete successful hosted floor');
 });
 
 historicalTest('fresh relic base retains its complete accepted scheduling measurements', () => {

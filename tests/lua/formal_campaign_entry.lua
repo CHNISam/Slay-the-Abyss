@@ -8,8 +8,9 @@ local function fixture(experimental,bgm,characterProfile)
     local host,signals
     local historyCalls=0
     signals={}
-    local new=F.GameUI.new
-    F.GameUI.new=function(...)
+    local GameUI=require('abyss_game_ui')
+    local new=GameUI.new
+    GameUI.new=function(...)
         local args={...}
         assert(args[5].characterProfile=='competition-candidate')
         if characterProfile then args[5].characterProfile=characterProfile end -- explicit development-only coverage below
@@ -25,12 +26,18 @@ local function fixture(experimental,bgm,characterProfile)
             assert(name=='experimentalCharacters','unexpected native parameter '..name)
             return experimental
         end}
-    Enum={CursorEventType={CursorClick='click'},ImageSource={StaticReference='static'}}
+    Enum={CursorEventType={CursorClick='click'},ImageSource={StaticReference='static'},
+        Device={Controller='controller',MobileController='mobileController',Mobile='mobile'}}
     Color=setmetatable({FromRGB=function()end},{__call=function(_,r,g,b,a)return{r=r,g=g,b=b,a=a}end})
+    local actors=F.monsterActors()
+    package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actors.templateIndex,
+        containerTemplateIndex=actors.containerTemplateIndex,powerTemplateIndex=actors.powerTemplateIndex}
     game={GetUICanvasSize=function()return 1280,720 end,IsTestPlay=function()return true end,
+        GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'desktop'end,
+        InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy,
         ServerSignal=function(name)return{SendSignal=function()signals[#signals+1]=name end}end}
     local ok,why=pcall(function()dofile('src/lua/abyss_ui.lua');OnStart();OnStart()end)
-    F.GameUI.new=new
+    GameUI.new=new
     assert(ok,why);assert(host and script.updating,'formal startup failed')
     if not characterProfile then
         assert(host.characterSelection:allows('ironclad') and not host.characterSelection:allows('raiden'),
