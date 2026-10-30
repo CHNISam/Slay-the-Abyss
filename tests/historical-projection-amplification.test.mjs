@@ -45,7 +45,7 @@ test('warm architecture dispatch retains caller-owned linked validation for each
  const {readFileSync}=await import('node:fs');
  const {preIntegrationSource}=await import('./helpers/pr372-integration-source.mjs');
  const {deliverySourceProof}=await import('./helpers/delivery-source-composition.mjs');
- const path='config/architecture.json',source=readFileSync(path,'utf8');
+ const path='config/architecture.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
  const linked=Object.keys(deliverySourceProof.targets.developEvents.files)
   .find(p=>deliverySourceProof.targets.developEvents.files[p].beforeSha256===null);
  assert.ok(linked);
@@ -53,7 +53,7 @@ test('warm architecture dispatch retains caller-owned linked validation for each
   let mode='good',reads=0;
   const readSource=p=>{
    if(p===linked){reads++;if(mode==='missing')throw Error('missing');}
-   const text=readFileSync(p,'utf8');
+   const text=readFileSync(p,'utf8').replaceAll('\r\n','\n');
    return p===linked&&mode==='drift'?text+'\n-- drift':text;
   };
   const prior=preIntegrationSource(path,source,target,{readSource});

@@ -15,7 +15,7 @@ test('retired controller callback regression rejects a replaced record without i
   const {join}=await import('node:path');
   const {tmpdir}=await import('node:os');
   const {luaString}=await import('../scripts/build-lua-data.mjs');
-  const source=readFileSync('src/lua/abyss_controller.lua','utf8');
+  const source=readFileSync('src/lua/abyss_controller.lua','utf8').replaceAll('\r\n','\n');
   const fence='if expected and expected~=record then return false end';
   assert.equal(source.split(fence).length,2);
   const directory=mkdtempSync(join(tmpdir(),'abyss-dynamic-input-mutation-'));
@@ -33,7 +33,7 @@ test('partial-bind injection rejects late ownership of the intent controller rec
   const {join}=await import('node:path');
   const {tmpdir}=await import('node:os');
   const {luaString}=await import('../scripts/build-lua-data.mjs');
-  const source=readFileSync('src/lua/abyss_battle_detail_bindings.lua','utf8');
+  const source=readFileSync('src/lua/abyss_battle_detail_bindings.lua','utf8').replaceAll('\r\n','\n');
   const registration='if cleanups then cleanups[#cleanups+1]={control=control,cancel=cancel} end';
   const bindEnd='end,80)';
   assert.equal(source.split(registration).length,2);
@@ -55,7 +55,7 @@ test('reentrant retirement regression rejects continuation after intent cursor r
   const {join}=await import('node:path');
   const {tmpdir}=await import('node:os');
   const {luaString}=await import('../scripts/build-lua-data.mjs');
-  const source=readFileSync('src/lua/abyss_battle_detail_bindings.lua','utf8');
+  const source=readFileSync('src/lua/abyss_battle_detail_bindings.lua','utf8').replaceAll('\r\n','\n');
   const fence='if not current() then return end\n            control:AddCursorEventListener(host.cursor.CursorExit,cancel)';
   assert.equal(source.split(fence).length,2);
   const mutation=source.replace(fence,'control:AddCursorEventListener(host.cursor.CursorExit,cancel)');
