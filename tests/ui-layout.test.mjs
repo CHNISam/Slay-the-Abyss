@@ -1,12 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { battleLayout, handPose, theme } from '../scripts/ui-layout.mjs';
+import { battleLayout, handPose, theme, enemyUnitTemplate, enemyPowerTemplate } from '../scripts/ui-layout.mjs';
 
 const stage = () => battleLayout().controls.find(c => c.name === 'stage');
+const actorTemplates=()=>[stage().children.find(c=>c.name==='hero'),enemyUnitTemplate()];
 test('feedback uses a fixed non-interactive native pool within the per-parent platform limit', () => {
   walk(battleLayout().controls, control => assert.ok((control.children?.length ?? 0) <= 60, control.name));
-  const actors = stage().children.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name));
-  assert.equal(actors.length, 6);
+  const actors = actorTemplates();
+  assert.equal(actors.length, 2);
+  assert(stage().children.some(c=>c.name==='actorLayer'));
+  assert(!stage().children.some(c=>/^enemy\d+$/.test(c.name)));
+  for(const actor of actors)walk([actor],control=>assert.ok((control.children?.length??0)<=60));
   for (const actor of actors) for (const name of ['hpGhost', 'impact', 'shield', 'floating']) {
     const pool = actor.children.filter(c => c.name === name);
     assert.equal(pool.length, 1);
@@ -34,9 +38,9 @@ test('feedback uses a fixed non-interactive native pool within the per-parent pl
   }
   assert.equal(overlay.children.length, 15);
 });
-test('every actor has a status chip grid within platform limits and a portrait detail hit', () => {
+test('hero grid and dynamic enemy power template retain native detail hits within platform limits', () => {
   const si = theme.layout.statusIcon;
-  for (const unit of stage().children.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
+  for (const unit of [stage().children.find(c=>c.name==='hero')]) {
     const row = unit.children.find(c => c.name === 'statusRow');
     assert.equal(row.children.filter(c => /^icon\d+$/.test(c.name)).length, si.perRow * si.rows);
     assert.equal(row.children.filter(c => /^count\d+$/.test(c.name)).length, si.perRow * si.rows);
@@ -47,6 +51,13 @@ test('every actor has a status chip grid within platform limits and a portrait d
       for (const plate of group.children) assert.equal(plate.visible, false);
     assert(unit.children.some(c => c.name === 'hit' && c.kind === 'cursorArea'), `${unit.name} portrait hit`);
   }
+  const enemy=enemyUnitTemplate(),row=enemy.children.find(c=>c.name==='statusRow');
+  assert.deepEqual(row.children,[],'enemy powers allocate in source order without a fixed chip cap');
+  assert(enemy.children.some(c=>c.name==='hit'&&c.kind==='cursorArea'));
+  const power=enemyPowerTemplate();
+  assert.deepEqual(power.children.map(c=>c.name),['edge','body','icon','badge','count','hit']);
+  assert(power.children.every(c=>c.visible===false));
+  assert.equal(power.children.find(c=>c.name==='hit').kind,'cursorArea');
   const info = stage().children.find(c => c.name === 'statusInfo');
   for (let i = 1; i <= theme.layout.statusInfo.rows; i++) {
     for (const name of [`icon${i}`, `name${i}`, `tag${i}`, `text${i}`, `note${i}`]) assert(info.children.some(c => c.name === name), name);
@@ -55,7 +66,7 @@ test('every actor has a status chip grid within platform limits and a portrait d
 });
 test('approved critical actor values and card types have native text line room', () => {
   const controls = stage().children;
-  for (const unit of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
+  for (const unit of actorTemplates()) {
     for (const name of ['name', 'hp', 'block']) {
       const label = unit.children.find(c => c.name === name);
       assert(label && label.size[1] >= theme.layout.nativeText.lineHeight, `${unit.name}/${name}`);
@@ -71,7 +82,7 @@ test('all dynamic battle numbers retain a native text line without intercepting 
   const controls = stage().children;
   const numbers = controls.filter(c => ['player', 'piles', 'exhaust', 'energy', 'draw', 'discard'].includes(c.name))
     .map(control => ({ path: control.name, control }));
-  for (const actor of controls.filter(c => c.name === 'hero' || /^enemy\d+$/.test(c.name))) {
+  for (const actor of actorTemplates()) {
     for (const control of actor.children.filter(c => ['hp', 'block', 'intent'].includes(c.name))) {
       numbers.push({ path: `${actor.name}/${control.name}`, control });
     }
@@ -87,7 +98,10 @@ test('all dynamic battle numbers retain a native text line without intercepting 
   // by live state. autoSize cannot rescue a native box shorter than one line.
   assert(numbers.some(({ path }) => path === 'draw'));
   assert(numbers.some(({ path }) => path === 'discard'));
-  assert(numbers.some(({ path }) => path === 'enemy5/statusRow/count10'));
+  const count=enemyPowerTemplate().children.find(c=>c.name==='count');
+  numbers.push({path:'AbyssMonsterPower/count',control:count});
+  assert(numbers.some(({ path }) => path === 'AbyssMonsterActor/intent'));
+  assert(numbers.some(({ path }) => path === 'hero/statusRow/count10'));
   const tooShort = [];
   for (const { path, control } of numbers) {
     assert.equal(control?.kind, 'text', path);

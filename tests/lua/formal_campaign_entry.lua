@@ -8,8 +8,8 @@ local function fixture(experimental,bgm,characterProfile)
     local host,signals
     local historyCalls=0
     signals={}
-    local new=F.GameUI.new
-    F.GameUI.new=function(...)
+    local new=require('abyss_game_ui').new
+    require('abyss_game_ui').new=function(...)
         local args={...}
         assert(args[5].characterProfile=='competition-candidate')
         if characterProfile then args[5].characterProfile=characterProfile end -- explicit development-only coverage below
@@ -29,8 +29,12 @@ local function fixture(experimental,bgm,characterProfile)
     Color=setmetatable({FromRGB=function()end},{__call=function(_,r,g,b,a)return{r=r,g=g,b=b,a=a}end})
     game={GetUICanvasSize=function()return 1280,720 end,IsTestPlay=function()return true end,
         ServerSignal=function(name)return{SendSignal=function()signals[#signals+1]=name end}end}
+    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}
+    game.GetDevice=function()return 'desktop'end
+    game.GetCursorUIPos=function()return 0,0 end
+    dofile('tests/lua/support/native_monster_engine.lua')(game)
     local ok,why=pcall(function()dofile('src/lua/abyss_ui.lua');OnStart();OnStart()end)
-    F.GameUI.new=new
+    require('abyss_game_ui').new=new
     assert(ok,why);assert(host and script.updating,'formal startup failed')
     if not characterProfile then
         assert(host.characterSelection:allows('ironclad') and not host.characterSelection:allows('raiden'),

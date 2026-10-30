@@ -1,3 +1,4 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 do
   local h,u,p,e,_,drain=H.setup({'defend','defend'})
@@ -12,7 +13,7 @@ do
 end
 do
   local h,u,p,e,_,drain=H.setup({'bludgeon'},{'acid_slime_s'})
-  local enemy=p:GetChild('enemy1')
+  local enemy=actorControl(p,"enemy1")
   e('card1','down',7);e('card1','drag',7,enemy.x,enemy.y);e('dragLayer','up',7,enemy.x,enemy.y)
   drain()
   assert(h.run.phase=='reward' and u.rewardScreen=='list' and u.suppressClick)

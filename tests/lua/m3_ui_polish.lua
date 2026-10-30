@@ -11,25 +11,24 @@ for count=1,5 do
  host.run.combat=H.F.Combat.new(H.F.Data,{deck={'strike','strike'},enemies=enemies,seed=11})
  host:refresh()
  local battle=host.run.combat
- -- Main.dc.html: zoneL=1010, zoneR=1850; front=min(190,round(slot*1.1)).
- -- Keep this live gesture test on the approved source geometry, not the retired row.
- local sourceStep=(1850-1010)/count
- local front=math.min(190,math.floor(sourceStep*1.1+.5))
+ -- Explicit constructor inputs for a synthetic 1..5-member group. Production
+ -- positions remain source-authored and never depend on live actor count.
+ for i,actor in ipairs(battle.enemies)do actor.sourcePosition={x=-840+(i-1)*240,y=-10}end
+ host:refresh()
  local origin=panel:GetChild('card1').x
  event('card1','down',7)
  for i=1,count do
-  local box=panel:GetChild('enemy'..i)
-  local portrait=i%2==1 and front or math.floor(front*.86+.5)
-  local x=(1010+sourceStep*(i-.5))/1.5-640
-  local y=360-((i%2==1 and 300 or 180)+58+16+portrait/2)/1.5
-  assert(box.visible and math.abs(box.x-x)<1e-8 and math.abs(box.y-y)<1e-8,'visible enemy row changed')
+  local box=H.F.actorControl(panel,'enemy'..i)
+  local g=Enemy.geometry(battle.enemies[i])
+  local x,y=g.hitX,g.hitY
+  assert(box.visible and math.abs(box.x-g.x)<1e-8 and math.abs(box.y-g.y)<1e-8,'source constructor position changed')
   local renderedX=Enemy.position(count,i,battle.enemies[i])
-  assert(math.abs(renderedX-x)<1e-8,'feedback position differs from visible enemy')
+  assert(math.abs(renderedX-g.x)<1e-8,'feedback position differs from source actor')
   event('card1','drag',7,x,y)
   assert(ui.gesture.drawnTarget==i,'target identity must switch before decorative interpolation')
   for _=1,20 do host:update(1/60) end -- settle approved endpoint transition before geometric comparison
   local layer=panel:GetChild('dragLayer')
-  assert(layer.visible and math.abs(layer:GetChild('reticle').x-x)<1e-8,'actual target hitbox differs from visual slot count='..count..' slot='..i..' expected='..x..' actual='..tostring(layer:GetChild('reticle').x)..' moving='..tostring(ui.gesture and ui.gesture.moving))
+  assert(layer.visible and math.abs(layer:GetChild('reticle').x-g.x)<1e-8,'source aim endpoint differs from actor drawX count='..count..' slot='..i..' expected='..g.x..' actual='..tostring(layer:GetChild('reticle').x)..' moving='..tostring(ui.gesture and ui.gesture.moving))
   assert(ui.gesture.drawnTarget==i,'target identity was replaced by presentation position')
   assert(panel:GetChild('card1').x==origin,'first UI batch broke original-column carry')
   colour(layer:GetChild('reticle').imageColor,Theme.color.danger)

@@ -1,3 +1,4 @@
+local Native=dofile('tests/lua/support/current_monster_controls.lua')
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Source room/arithmetic/transaction boundaries, not a natural campaign route.
 local Run,D,Q,C,A,R,AI,Jaw=require('abyss_run'),require('abyss_data'),require('abyss_encounter_queue'),
@@ -229,19 +230,19 @@ test('real Host keeps three hard actors HP intent strength help and target owner
  assert(testStart(host));local r=host.run;r.act,r.floor,r.encounters=3,35,Q.new('15',3)
  for _=1,2 do local _,n=Q.consume(r.encounters,'normal');r.encounters=n;r.floor=r.floor+1 end
  assert(Run.startRoomCombat(r,'normal'));host:refresh();local s=r.combat;local panel=root:GetChild('battlePanel')
- for i,e in ipairs(s.enemies)do local box=panel:GetChild('enemy'..i)
+ for i,e in ipairs(s.enemies)do local box=Native.actor(panel,s.enemies[i])
   assert(box.visible);eq(box:GetChild('name').text,'石颚兽');eq(box:GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
   eq(box:GetChild('block').text,'6');assert(not box:GetChild('intent').text:find('未知',1,true))
  end
- assert(not panel:GetChild('enemy4').visible)
- panel:GetChild('enemy1'):GetChild('statusRow'):GetChild('hit').click({touchId=71})
+ Native.count(panel,3)
+ Native.actor(panel,s.enemies[1]):GetChild('hit').click({touchId=71})
  local info=panel:GetChild('statusInfo');assert(info.visible);local text={}
  for i=1,F.Theme.layout.statusInfo.rows do local name=info:GetChild('name'..i);if name.visible then text[#text+1]=name.text end end
  assert(table.concat(text,' '):find('力量 3',1,true));info:GetChild('hit').click({touchId=72})
  local hp={};for i,e in ipairs(s.enemies)do hp[i]=e.hp end
  local uid;for _,c in ipairs(s.hand)do if c.cardId=='strike'or c.cardId=='bash'then uid=c.uid;break end end;assert(uid)
  assert(Run.play(r,uid,2));host:refresh();eq(s.enemies[1].hp,hp[1]);eq(s.enemies[3].hp,hp[3]);eq(s.enemies[2].block,0)
- eq(panel:GetChild('enemy2'):GetChild('hp').text,string.format('%d/%d',s.enemies[2].hp,s.enemies[2].maxHp))
+ eq(Native.actor(panel,s.enemies[2]):GetChild('hp').text,string.format('%d/%d',s.enemies[2].hp,s.enemies[2].maxHp))
  local before=C.copy(r);host:refresh();same(r,before)
 end)
 print('JAW_WORM_HORDE '..count..' groups; '..failed..' failed');assert(failed==0)

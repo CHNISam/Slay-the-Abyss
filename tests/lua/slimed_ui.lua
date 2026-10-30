@@ -1,14 +1,16 @@
+local Native=dofile('tests/lua/support/current_monster_controls.lua')
 -- Real generated controls, not a model of the new status card UI.
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
 local C=H.F.Combat
 local host,ui,panel,emit,tap,drain=H.setup({'defend'},{'spike_slime_m'})
+host.run.combat=C.copy(host.run.combat) -- Select the fixture move before its initial source display.
 local s=host.run.combat;s.enemies[1].intentIndex=1;host:refresh()
-assert(panel:GetChild('enemy1'):GetChild('intent').text=='8')
+assert(Native.actor(panel,s.enemies[1]):GetChild('intent').text=='8')
 tap('enemy1',1);local detail=inspectDetails(ui,panel)
 assert(detail:find('8',1,true) and detail:find('将 1 张「黏滞」放入你的弃牌堆',1,true))
-assert(panel:GetChild('enemy1'):GetChild('intentBadge').visible,'mixed attack must also show its debuff badge')
+dofile('tests/lua/support/intent_face_assertion.lua')(Native.actor(panel,s.enemies[1]),require('abyss_battle_intent_view').intentView(s,1))
 tap('endTurn',2);drain();assert(s.player.hp==72)
 local slot,uid;for i,c in ipairs(s.hand)do if c.cardId=='slimed' then slot=i;uid=c.uid end end;assert(slot,'real enemy must generate drawn Slimed')
 local box=panel:GetChild('card'..slot)

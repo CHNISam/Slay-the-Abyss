@@ -51,6 +51,10 @@ local function startup(hostFlag,layoutFlag,profile)
         lines[#lines+1]=table.concat(values," ");actualPrint(...)
     end
     Seed.next=function()return 1 end
+    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}
+    game.GetDevice=function()return 'desktop'end
+    game.GetCursorUIPos=function()return 0,0 end
+    dofile('tests/lua/support/native_monster_engine.lua')(game)
     local ok,why=pcall(function()dofile("src/lua/abyss_ui.lua");OnStart()end)
     GameUI.new,print=actualNew,actualPrint
     assert(ok,why)

@@ -1,3 +1,4 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
 local F,Run,setup = H.F,H.Run,H.setup
 local passed, failed = 0, 0
@@ -71,7 +72,9 @@ end)
 test("target death: held attack never redirects to surviving enemy",function()
     local host,ui,panel,event,tap=setup({"strike"},{"cultist","jaw_worm"})
     local battle=host.run.combat
-    local target=panel:GetChild("enemy1")
+    local positions=require("abyss_monster_source_positions").positions("Cultist and Chosen")
+    for i,a in ipairs(battle.enemies)do a.sourcePosition=positions[i]end;ui:render()
+    local target=actorControl(panel,"enemy1")
     local oldX,oldY=target.x,target.y
     local hp=battle.enemies[2].hp
     event("card1","down",7); event("card1","drag",7,target.x,target.y)
@@ -79,7 +82,7 @@ test("target death: held attack never redirects to surviving enemy",function()
     ui:render()
     event("dragLayer","up",7,oldX,oldY); event("card1","endDrag",7,oldX,oldY)
     assert(battle.energy==3 and #battle.hand==1 and battle.enemies[2].hp==hp)
-    local survivor=panel:GetChild("enemy1")
+    local survivor=actorControl(panel,"enemy2")
     assert(survivor.visible and survivor:GetChild("name").text==battle.enemies[2].name)
     event("card1","down",8); event("card1","drag",8,survivor.x,survivor.y)
     event("dragLayer","up",8,survivor.x,survivor.y)

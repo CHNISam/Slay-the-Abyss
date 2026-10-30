@@ -47,12 +47,22 @@ local function test(name, fn)
     print((ok and "PASS " or "FAIL ") .. name .. (ok and "" or ": " .. tostring(why)))
 end
 local function setup(effects, kind)
-    local h, u, p, emit, tap, drain = H.setup({"strike", "defend"}, {"fat_gremlin"})
+    local enemyId,moveId='fat_gremlin','fat_gremlin_1'
     if effects then
-        -- Synthetic supported sequences isolate ordering, not new stock enemy moves.
-        local enemy = h.run.combat.enemies[1]
-        enemy.ai, enemy.intentIndex = nil, 1
-        enemy.intents = {{id="preview_order", kind=kind or "attack", effects=effects}}
+        enemyId,moveId='jaw_worm','jaw_worm_1'
+        if kind=='debuff' then enemyId,moveId='green_louse','green_louse_2'
+        elseif kind=='defend' then enemyId,moveId='jaw_worm','jaw_worm_3'
+        else for _,effect in ipairs(effects)do if effect.op=='damage' and (effect.times or 1)>1 then enemyId,moveId='book_of_stabbing','multi_stab' end end end
+    end
+    local h, u, p, emit, tap, drain = H.setup({"strike", "defend"}, {enemyId})
+    if effects then
+        -- Explicit effect-arithmetic fixture: retain a real source move identity.
+        -- A fresh battle owner creates the source intent after controlled setup.
+        local battle=Combat.copy(h.run.combat)
+        local enemy=battle.enemies[1]
+        enemy.ai,enemy.intentIndex=nil,1
+        enemy.intents={{id=moveId,kind=kind or 'attack',effects=effects}}
+        h.run.combat=battle
     end
     return h, u, p, tap, drain
 end
@@ -65,11 +75,11 @@ for _, card in ipairs(H.F.Data.cards.cards) do
     if card.id == "defend" then playbackData.cards.cards[#playbackData.cards.cards+1] = card end
 end
 for _, enemy in ipairs(H.F.Data.enemies.enemies) do
-    if enemy.id == "fat_gremlin" or enemy.id == "jaw_worm" then
+    if enemy.id == "fat_gremlin" or enemy.id == "jaw_worm" or enemy.id == "green_louse" then
         playbackData.enemies.enemies[#playbackData.enemies.enemies+1] = enemy
     end
 end
-assert(#playbackData.cards.cards == 1 and #playbackData.enemies.enemies == 2, "playback dependencies missing")
+assert(#playbackData.cards.cards == 1 and #playbackData.enemies.enemies == 3, "playback dependencies missing")
 local function playbackSetup(deck, enemies)
     local h, u, p, emit, tap, drain, deckToggle, root = H.setup(deck, enemies)
     h.run.combat = Combat.new(playbackData, {deck=deck, enemies=enemies})
@@ -81,11 +91,22 @@ local function refresh(h, p, tap)
     h:refresh(); h:refresh(); tap("enemy1", 11)
     local detail = inspectDetails(h.battleUI, p)
     same(h.run.combat, before)
-    return p:GetChild("enemy1"):GetChild("intent").text, detail
+    -- Ordered preview arithmetic belongs to the complete detail projection;
+    -- source world damage deliberately does not pre-execute self buffs.
+    local face=require('abyss_battle_intent_view').intentView(h.run.combat,1)
+    for _,row in ipairs(face.rows or {})do
+        assert(detail:find(row.text,1,true),'actual tooltip lost ordered preview row: '..row.text)
+    end
+    return face.value, detail
 end
 local function rejects(h, reason)
     local before = Combat.copy(h.run.combat)
-    local ok, why = pcall(function() h:refresh() end)
+    local ok, why = pcall(function()
+        h:refresh()
+        -- Overflow belongs to ordered tooltip projection, not source world
+        -- damage which must never pre-apply the future status effect.
+        h.battleUI:showStatus(1)
+    end)
     eq(ok, false, "refresh must reject")
     assert(tostring(why):find(reason, 1, true), tostring(why))
     same(h.run.combat, before)

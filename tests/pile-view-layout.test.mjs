@@ -38,7 +38,9 @@ test('pile entry additions preserve every existing stage path and the native 60-
   }
   visit(root.controls);
   const stage = root.controls.find(c => c.name === 'stage');
-  assert.equal(stage.children.length, 60);
+  assert.equal(stage.children.length, 56);
+  assert(stage.children.some(c=>c.name==='actorLayer'));
+  assert(!stage.children.some(c=>/^enemy\d+$/.test(c.name)),'actors are per-instance, not five static scene children');
   for (const name of ['drawIcon', 'draw', 'drawLabel', 'discardIcon', 'discard', 'discardLabel', 'exhaustIcon', 'exhaust']) {
     assert.ok(stage.children.find(c => c.name === name), name);
   }

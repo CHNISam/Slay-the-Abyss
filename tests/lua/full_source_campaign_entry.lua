@@ -8,8 +8,8 @@ local function fixture(experimental,bgm)
     local canvas=F.control({children=F.Layout})
     local host,signals
     signals={}
-    local new=F.GameUI.new
-    F.GameUI.new=function(...)
+    local new=require('abyss_game_ui').new
+    require('abyss_game_ui').new=function(...)
         local args={...}
         assert(args[5].campaignProfile=='competition-two-act')
         args[5].campaignProfile='full-source' -- explicit future/test host
@@ -27,8 +27,12 @@ local function fixture(experimental,bgm)
     Color=setmetatable({FromRGB=function()end},{__call=function(_,r,g,b,a)return{r=r,g=g,b=b,a=a}end})
     game={GetUICanvasSize=function()return 1280,720 end,
         ServerSignal=function(name)return{SendSignal=function()signals[#signals+1]=name end}end}
+    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}
+    game.GetDevice=function()return 'desktop'end
+    game.GetCursorUIPos=function()return 0,0 end
+    dofile('tests/lua/support/native_monster_engine.lua')(game)
     local ok,why=pcall(function()dofile('src/lua/abyss_ui.lua');OnStart();OnStart()end)
-    F.GameUI.new=new
+    require('abyss_game_ui').new=new
     assert(ok,why);assert(host and script.updating,'formal startup failed')
     host.seed='42'
     return host,canvas:GetChild('stage'),signals

@@ -1,3 +1,4 @@
+local Native=dofile('tests/lua/support/current_monster_controls.lua')
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Actual read-only Host controls; no native/desktop/UI acceptance claim.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
@@ -11,15 +12,15 @@ local host=F.GameUI.new(root,N.D,F.Presentation,'click',{seed=1,campaign=true,pr
 assert(testStart(host))
 local r=host.run;r.act,r.floor,r.encounters=3,35,N.Q.new('1',3)
 assert(N.Run.startRoomCombat(r,'elite'));N.force(r.combat,'burn');host:refresh()
-local panel=root:GetChild('battlePanel');local box=panel:GetChild('enemy1');local _,tap=H.controls(panel)
+local panel=root:GetChild('battlePanel');local box=Native.actor(panel,r.combat.enemies[1]);local _,tap=H.controls(panel)
 eq(box:GetChild('name').text,'天罚');eq(box:GetChild('hp').text,'185/185')
 tap('enemy1',91)
 local text=inspectDetails(host.battleUI,panel)
 assert(text:find('3',1,true)and text:find(r.combat.catalog.cards.burn.name,1,true)and text:find('弃牌堆',1,true),text)
 assert(not text:find('未知',1,true),text)
 assert(N.Run.endTurn(r));N.force(r.combat,'fire');host:refresh()
-eq(box:GetChild('intent').text,'6×3')
-box:GetChild('statusRow'):GetChild('hit').click({touchId=92})
+eq(box:GetChild('intent').text,'6x3')
+Native.power(box,'nemesis_intangible'):GetChild('hit').click({touchId=92})
 local info=panel:GetChild('statusInfo');assert(info.visible)
 local shown=false
 for i=1,F.Theme.layout.statusInfo.rows do

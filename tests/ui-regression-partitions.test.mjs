@@ -1,3 +1,4 @@
+import {preFeedbackActorTestSource} from './helpers/feedback-actor-test-source.mjs';
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -5,7 +6,7 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {shardLuaScripts} from '../scripts/test-lua.mjs';
 import {discoverJs,jsShard,timings} from '../scripts/ci-shards.mjs';
-const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const read=path=>preFeedbackActorTestSource(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
 const sha=source=>createHash('sha256').update(source).digest('hex');
 const manifest=JSON.parse(read('tests/fixtures/ui-regression-partitions.json'));
 const originals=[

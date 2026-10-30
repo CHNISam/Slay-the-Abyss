@@ -45,7 +45,7 @@ local function play(host, panel, id, target)
     assert(slot, "missing controlled card " .. id)
     panel:GetChild("card" .. slot):GetChild("hit").click()
     assert(ui.selected == battle.hand[slot].uid, "ordinary card selection failed")
-    if target then panel:GetChild("enemy" .. target):GetChild("hit").click()
+    if target then F.actorControl(panel, "enemy" .. target):GetChild("hit").click()
     else ui:playSelected() end
     assert(ui.busy and ui.feedback.busy, "the successful command owns the action gate")
 end
@@ -78,7 +78,7 @@ test("the next card keeps a previous target's nonblocking VFX without replaying 
     assert(effect.age == age, "starting the next batch must not rewind a VFX clock")
     host:update(0.01)
     assert(effect.age > age, "the existing VFX continues while the next card is playing")
-    assert(panel:GetChild("enemy1"):GetChild("floating").visible)
+    assert(F.actorControl(panel, "enemy1"):GetChild("floating").visible)
     assert(count(sounds, "hit") == 1, "retaining an effect must not replay its audio")
     release(host)
     local committed = F.Combat.copy(battle)
@@ -108,8 +108,8 @@ test("successive targets retain independent VFX clocks and drain normally", func
     release(host)
     for _ = 1, 100 do host:update(0.01) end
     assert(next(ui.feedback.effects) == nil)
-    assert(not panel:GetChild("enemy1"):GetChild("floating").visible)
-    assert(not panel:GetChild("enemy2"):GetChild("floating").visible)
+    assert(not F.actorControl(panel, "enemy1"):GetChild("floating").visible)
+    assert(not F.actorControl(panel, "enemy2"):GetChild("floating").visible)
 end)
 
 test("cancelling or replacing the battle clears retained VFX and does not leak sounds", function()
@@ -120,7 +120,7 @@ test("cancelling or replacing the battle clears retained VFX and does not leak s
     assert(next(ui.feedback.effects) ~= nil)
     ui.feedback:cancel()
     assert(next(ui.feedback.effects) == nil and next(ui.feedback.poses) == nil)
-    assert(not panel:GetChild("enemy1"):GetChild("floating").visible)
+    assert(not F.actorControl(panel, "enemy1"):GetChild("floating").visible)
     play(host, panel, "strike", 2)
     release(host)
     assert(next(ui.feedback.effects) ~= nil)

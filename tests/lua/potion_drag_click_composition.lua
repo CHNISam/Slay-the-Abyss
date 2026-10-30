@@ -1,11 +1,12 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 local Run=H.Run
 local count=0
 for _,valid in ipairs({false,true})do for _,anonymous in ipairs({false,true})do
  local h,u,p,event,tap,drain=H.setup({'defend','defend'},{'cultist','jaw_worm'})
- assert(Run.obtainPotion(h.run,'fire_potion'));h:refresh()
+ assert(Run.obtainPotion(h.run,'fire_potion'));local positions=require('abyss_monster_source_positions').positions('Cultist and Chosen');for i,a in ipairs(h.run.combat.enemies)do a.sourcePosition=positions[i]end;h:refresh()
  local touch=not anonymous and 7 or nil
- local enemy=p:GetChild('enemy2');local hp=h.run.combat.enemies[2].hp
+ local enemy=actorControl(p,"enemy2");local hp=h.run.combat.enemies[2].hp
  event('potion1','down',touch);event('potion1','drag',touch,enemy.x,enemy.y)
  assert(u.potionAim and u.potionAim.moving)
  event('dragLayer','up',touch,valid and enemy.x or 0,valid and enemy.y or 0);drain()
@@ -30,8 +31,8 @@ end end
 assert(count==4)
 do
  local h,u,p,event,tap,drain=H.setup({'defend','defend'},{'cultist','jaw_worm'})
- assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));h:refresh()
- local first,second=p:GetChild('enemy1'),p:GetChild('enemy2')
+ assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));local positions=require('abyss_monster_source_positions').positions('Cultist and Chosen');for i,a in ipairs(h.run.combat.enemies)do a.sourcePosition=positions[i]end;h:refresh()
+ local first,second=actorControl(p,"enemy1"),actorControl(p,"enemy2")
  local hp1,hp2=h.run.combat.enemies[1].hp,h.run.combat.enemies[2].hp
  local bottles=h.run.potions
  -- A foreign press already held before the active drag must not borrow its aim.
@@ -57,8 +58,8 @@ end
 assert(count==5)
 for _,surface in ipairs({'potion2','dragLayer'})do for _,release in ipairs({'up','endDrag'})do
  local h,u,p,event,tap,drain=H.setup({'defend','defend'},{'cultist','jaw_worm'})
- assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));h:refresh()
- local first,second=p:GetChild('enemy1'),p:GetChild('enemy2')
+ assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));local positions=require('abyss_monster_source_positions').positions('Cultist and Chosen');for i,a in ipairs(h.run.combat.enemies)do a.sourcePosition=positions[i]end;h:refresh()
+ local first,second=actorControl(p,"enemy1"),actorControl(p,"enemy2")
  local hp1,hp2=h.run.combat.enemies[1].hp,h.run.combat.enemies[2].hp
  local bottles=h.run.potions
  event('potion2','down',8)

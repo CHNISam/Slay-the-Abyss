@@ -1,10 +1,11 @@
+local Native=dofile('tests/lua/support/current_monster_controls.lua')
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local host,ui,panel,emit,tap,drain=H.setup({'strike'},{'red_louse','green_louse'})
-local C=H.F.Combat;local s=host.run.combat;local first,second=panel:GetChild('enemy1'),panel:GetChild('enemy2')
+local C=H.F.Combat;local s=host.run.combat;local first,second=Native.actor(panel,s.enemies[1]),Native.actor(panel,s.enemies[2])
 local definition=assert(s.catalog.statuses.curl_up,'Curl power must be described');local amount,other=s.enemies[1].statuses.curl_up,s.enemies[2].statuses.curl_up
 local function details(box)
-    box:GetChild('statusRow'):GetChild('hit').click()
+    local hit=box:GetChild('hit');for _,kind in ipairs({'down','up','click'}) do if hit.listeners[kind] then hit.listeners[kind]({touchId=701}) end end
     local info,lines=panel:GetChild('statusInfo'),{}
     assert(info.visible,'status details open')
     for i=1,H.F.Theme.layout.statusInfo.rows do

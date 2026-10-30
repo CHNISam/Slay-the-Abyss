@@ -1,3 +1,4 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
 local Combat = require("abyss_combat")
 local passed = 0
@@ -40,9 +41,11 @@ end)
 test("aiming updates damage only when the pointed enemy changes and restores it off target", function()
     local host, ui, panel, event = H.setup({"strike", "defend"}, {"cultist", "jaw_worm"})
     local battle, card = host.run.combat, panel:GetChild("card1")
-    battle.enemies[2].statuses.vulnerable = 2
+    H.F.Combat.addStatus(battle.enemies[2],"vulnerable",2)
+    local positions=require("abyss_monster_source_positions").positions("Cultist and Chosen")
+    for i,actor in ipairs(battle.enemies)do actor.sourcePosition=positions[i]end
     ui:render()
-    local e1, e2 = panel:GetChild("enemy1"), panel:GetChild("enemy2")
+    local e1, e2 = actorControl(panel,"enemy1"), actorControl(panel,"enemy2")
     local function body() return card:GetChild("label").text end
     event("card1", "down", 7)
     event("card1", "drag", 7, e1.x, e1.y)
@@ -53,7 +56,12 @@ test("aiming updates damage only when the pointed enemy changes and restores it 
     assert(calls == 0, "unchanged aim recalculated the hand")
     event("dragLayer", "drag", 7, e2.x, e2.y)
     assert(body() ~= base, "changing target did not update Vulnerable damage")
-    assert(panel:GetChild("dragLayer"):GetChild("reticle").x == e2.x)
+    local reticle=panel:GetChild("dragLayer"):GetChild("reticle")
+    assert(reticle.x==e1.x,'source retarget starts at the previously drawn endpoint')
+    -- Card-view source uses cubic ease-out over aimRetarget; numerical previews
+    -- switch immediately while the visual advances to exactly 7/8 at half-time.
+    host:update((H.F.Theme.layout.cardDrag.aimRetarget or 0.12)/2)
+    assert(math.abs(reticle.x-(e1.x+(e2.x-e1.x)*7/8))<1e-6,'source retarget half-time cubic position')
     event("dragLayer", "drag", 7, -285, 0)
     assert(body() == base and not card:GetChild("glow").visible, "leaving target retained stale damage")
     event("dragLayer", "up", 7, -285, 0)

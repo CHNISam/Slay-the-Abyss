@@ -1,5 +1,8 @@
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local Feedback = require("abyss_feedback")
+local F = dofile("tests/lua/support/game_ui_fixture.lua")
+local Surfaces = require("abyss_monster_surfaces")
+local EnemyView = require("abyss_battle_enemy_view")
 local Combat = require("abyss_combat")
 local Events = require("abyss_events")
 local Data = require("abyss_data")
@@ -9,18 +12,13 @@ local T, S = Theme.motion, Theme.space
 
 -- Drives the production adapter against the generated native tree with a recording audio spy.
 local images = 0
-local function control(definition)
-    local c = { name = definition.name, visible = definition.visible ~= false, children = {}, text = "", x = 0, y = 0,
-        localScaleX = 1, localScaleY = 1 }
-    for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
-    function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
-    function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(source, id) assert(source == "static" and type(id) == "number") images = images + 1 self.imageId = id end
-    function c:SetAsLastSibling() end
-    return c
+local function trackImages(box)
+    local original=box.SetImage
+    box.SetImage=function(self,...) images=images+1;return original(self,...)end
+    for _,child in pairs(box.children)do trackImages(child)end
+    return box
 end
+local function control(definition)return trackImages(F.control(definition))end
 local function find(entries, name)
     for _, entry in ipairs(entries) do
         if entry.name == name then return entry end
@@ -31,9 +29,6 @@ end
 local function harness(deck, enemies, prepare)
     local stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")))
     local h = {stage = stage, sounds = {}, completed = {}}
-    h.feedback = Feedback.new(stage, {imageSource = "static", color = function(r, g, b, a) return {r = r, g = g, b = b, a = a} end,
-        sound = function(cue) h.sounds[#h.sounds + 1] = cue end}, function() end,
-        function(failure) h.completed[#h.completed + 1] = failure or "ok" end)
     h.battle = Combat.new(Data, {deck = deck, enemies = enemies, seed = 11})
     if prepare then
         local original = {}
@@ -43,6 +38,29 @@ local function harness(deck, enemies, prepare)
         for i, enemy in ipairs(h.battle.enemies) do
             if enemy.intents ~= original[i] then enemy.ai, enemy.intentIndex = nil, 1 end
         end
+    end
+    local platform=F.withMonsterActors({imageSource="static", color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,
+        sound=function(cue)h.sounds[#h.sounds+1]=cue end})
+    local instantiate=platform.monsterActors.instantiate
+    platform.monsterActors.instantiate=function(...)return trackImages(instantiate(...))end
+    h.surfaces=Surfaces.new(stage,platform)
+    h.boxes={}
+    local function present(frame)
+        local rows=EnemyView.slots(frame,h.feedback)
+        h.surfaces:select(rows,h.battle)
+        h.surfaces:each(function(box,slot,entry)
+            h.boxes[entry.id]=box
+            box:SetVisible(true)
+            local x,_,_,_,y=EnemyView.position(#rows,slot,entry.actor)
+            box:SetAnchoredPosition(x,y)
+        end)
+    end
+    present(h.battle)
+    h.feedback=Feedback.new(stage,platform,present,function(failure)h.completed[#h.completed+1]=failure or "ok"end)
+    function h.box(name)
+        local index=name:match('^enemy(%d+)$')
+        if not index then return assert(stage:GetChild(name))end
+        return assert(h.boxes[assert(h.battle.enemies[tonumber(index)]).id])
     end
     function h.run(command)
         local before, first = Events.frame(h.battle), #h.battle.events + 1
@@ -72,8 +90,8 @@ local function harness(deck, enemies, prepare)
         end
         error("feedback never settled")
     end
-    function h.portrait(name) return stage:GetChild(name):GetChild("portrait") end
-    function h.part(name, part) return stage:GetChild(name):GetChild(part) end
+    function h.portrait(name) return assert(h.box(name).children.portrait) end
+    function h.part(name, part) return assert(h.box(name).children[part]) end
     return h
 end
 local function kind(k) return function(entry) return entry.kind == k end end
@@ -166,7 +184,7 @@ test("area attack: one ripple across the row, one sweep, one cue; deaths wait fo
     assert(h.feedback.current.kind == "death" and h.feedback.current.detail.target == h.battle.enemies[2].id, "simultaneous kills collapse together")
     assert(count(h.sounds, "hit") == 1 and count(h.sounds, "enemy_die") == 1)
     h.drain()
-    assert(not h.stage:GetChild("enemy1").visible and not h.stage:GetChild("enemy2").visible)
+    assert(not h.box("enemy1").visible and not h.box("enemy2").visible)
 end)
 
 test("block gain crystallises in with a block icon pop and cue", function()
@@ -243,17 +261,20 @@ test("status application stamps its icon and drifts by polarity", function()
     assert(impact.visible and impact.y < 0, "debuffs press downward")
 end)
 
-test("killing blow: heavy hold, then the enemy gleams, collapses and is hidden", function()
+test("killing blow: fixed action hold and independent source alpha death without shrink or sink", function()
     local h = harness({"strike"}, {"jaw_worm"}, function(s) s.enemies[1].hp = 3 end)
     h.play() h.until_(kind("damage"))
+    local dying=assert(h.feedback.dying[h.battle.enemies[1].id], "lethal frame starts source die")
+    assert(dying.lifetime==1.8, "normal source death retains its independent 1.8-second lifetime")
     local _, held = h.until_(kind("death"))
     assert(held >= 0.2 - 0.011 and held <= 0.2 + 0.011,
         "a lethal visual hold does not extend the fixed DamageAction/post-wait gate")
     h.feedback:update(T.slow / 2)
     local portrait = h.portrait("enemy1")
-    assert(portrait.localScaleY < 1 and portrait.y < 0 and h.part("enemy1", "impact").visible)
+    assert(portrait.localScaleY == 1 and portrait.y == 0, "source monster death never shrinks or sinks")
+    assert(portrait.imageColor.a < 255 and portrait.imageColor.a >= 0, "source TintEffect alpha advances independently")
     h.drain()
-    assert(not h.stage:GetChild("enemy1").visible and count(h.sounds, "enemy_die") == 1)
+    assert(not h.box("enemy1").visible and count(h.sounds, "enemy_die") == 1)
     assert(table.concat(h.sounds, ","):find("hit,enemy_die,victory", 1, true), "death lands before the victory cue")
 end)
 

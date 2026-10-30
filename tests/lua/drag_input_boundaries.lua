@@ -1,3 +1,4 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI = require("abyss_battle_ui")
@@ -35,7 +36,7 @@ local function setup()
     local root = control({name="root",size={1280,720},children=Layout})
     local panel = root:GetChild("stage"):GetChild("battlePanel")
     local ui = UI.new(panel,Data,Presentation,"click",{
-        imageSource="static",color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+        monsterActors=dofile('tests/lua/support/game_ui_fixture.lua').monsterActors(), imageTypes={basic=1,stretch=2},imageSource="static",color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
         cursorEvents={CursorDown="down",CursorDrag="drag",CursorUp="up",CursorEndDrag="endDrag"}
     },{embedded=true})
     ui.run = Run.new(Data,1)
@@ -43,13 +44,13 @@ local function setup()
     ui.run.combat = Combat.new(Data,{deck={"defend","defend"},enemies={"cultist"}})
     ui:resize(1280,720) ui:render()
     local function event(name,kind,x,y,touch)
-        local box = panel:GetChild(name)
+        local box = actorControl(panel,name)
         local hit = box.listeners and box or box:GetChild("hit")
         local callback = assert(hit.listeners[kind],"missing native listener: "..name.."/"..kind)
         callback({touchId=touch or 7,GetUIPos=function() return 640+x,360+y end})
     end
     local function tap(name,touch)
-        local box = panel:GetChild(name)
+        local box = actorControl(panel,name)
         event(name,"down",box.x,box.y,touch)
         event(name,"up",box.x,box.y,touch)
         event(name,"click",box.x,box.y,touch)
@@ -139,13 +140,15 @@ end)
 test("targeted drag pulled back to the hand cancels and commits only the aimed living enemy",function()
     local ui,panel,event = setup()
     local battle = Combat.new(Data,{deck={"strike"},enemies={"cultist","jaw_worm"}})
+    local positions=require("abyss_monster_source_positions").positions("Cultist and Chosen")
+    for i,a in ipairs(battle.enemies)do a.sourcePosition=positions[i]end
     ui.run.combat = battle ui:render()
     local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
     local hp1,hp2 = battle.enemies[1].hp,battle.enemies[2].hp
     event("card1","down",x,y) event("card1","drag",-200,0) event("card1","drag",x,-340) event("card1","up",x,-340)
     event("enemy1","click",0,0)
     assert(#battle.hand == 1 and battle.energy == 3 and battle.enemies[1].hp == hp1)
-    local enemy = panel:GetChild("enemy2")
+    local enemy = actorControl(panel,"enemy2")
     event("card1","down",x,y) event("card1","drag",enemy.x,enemy.y)
     event("dragLayer","up",enemy.x,enemy.y) event("card1","endDrag",enemy.x,enemy.y)
     assert(#battle.hand == 0 and battle.energy == 2 and battle.enemies[1].hp == hp1 and battle.enemies[2].hp == hp2-6)
@@ -171,7 +174,7 @@ test("stationary release cannot select a shifted or missing hand slot",function(
         local battle = ui.run.combat
         local slot = kind == "missing" and 2 or 1
         local name = "card"..slot
-        local x,y = panel:GetChild(name).x,panel:GetChild(name).y
+        local x,y = actorControl(panel,name).x,actorControl(panel,name).y
         event(name,"down",x,y)
         table.remove(battle.hand,slot)
         event(name,"up",x,y) event(name,"click",x,y)

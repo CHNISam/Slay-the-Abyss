@@ -1,3 +1,4 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local first,last=...
 first,last=first or 1,last or 4
 assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=7 and first<=last,'invalid potion inventory slice')
@@ -29,17 +30,24 @@ test('switch same-ID bottle only arms new physical slot',function()
 end)
 test('dead enemy is rejected and never retargets to survivor',function()
   local h,u,p,r,e,click=setup();click('potion1');local b=h.run.combat
+  local deadBox=F.actorControl(p,'enemy1');local staleClick=deadBox:GetChild('hit').listeners.click
+  local survivor=F.actorControl(p,'enemy2');local sx,sy=survivor.x,survivor.y
   for _=1,5 do
     if b.enemies[1].hp<=0 then break end
     local uid;for _,c in ipairs(b.hand) do if Combat.cardDefinition(b,c).type=='attack' and Combat.canPlay(b,c.uid,1) then uid=c.uid;break end end
     assert(uid);assert(Run.play(h.run,uid,1))
   end
-  eq(b.enemies[1].hp,0);local z=b.enemies[2].hp;click('enemy1');eq(h.run.potions[1],'fire_potion');eq(b.enemies[2].hp,z)
+  eq(b.enemies[1].hp,0);local z=b.enemies[2].hp;staleClick({});h:refresh();eq(h.run.potions[1],'fire_potion');eq(b.enemies[2].hp,z)
   -- The integrated controller cancels when the live roster changes.
   click('enemy2');eq(b.enemies[2].hp,z);eq(h.run.potions[1],'fire_potion')
-  assert(p:GetChild('enemy1').visible and p:GetChild('enemy1'):GetChild('name').text==b.enemies[2].name)
-  assert(not p:GetChild('enemy2').visible)
-  click('potion1');click('enemy1');eq(b.enemies[2].hp,z-20);eq(h.run.potions[1],nil)
+  assert(survivor.visible and survivor:GetChild('name').text==b.enemies[2].name)
+  assert(survivor.x==sx and survivor.y==sy,'living actor must not reflow after another dies')
+  assert(deadBox.alive==false,'dead actor control is retired')
+  -- Unlike the old empty physical slot, the surviving native portrait is live:
+  -- with pending aim cancelled its ordinary click opens read-only details.
+  assert(p:GetChild('statusInfo').visible,'living portrait opens details after cancellation')
+  p:GetChild('statusInfo'):GetChild('hit').click();assert(not p:GetChild('statusInfo').visible)
+  click('potion1');click('enemy2');eq(b.enemies[2].hp,z-20);eq(h.run.potions[1],nil)
 end)
 test('paired touch begins only on Click and confirms exactly once',function()
   local h,u,p,r,e,click,tap,drain=setup(true);local z=h.run.combat.enemies[2].hp

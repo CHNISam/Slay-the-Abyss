@@ -2,8 +2,8 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local function native(workKey)
  local canvas=F.control({children=F.Layout})
  local host
- local originalNew=F.GameUI.new
- F.GameUI.new=function(...)
+ local originalNew=require('abyss_game_ui').new
+ require('abyss_game_ui').new=function(...)
   host=originalNew(...);return host
  end
  local originalNarrative=package.loaded.abyss_narrative
@@ -16,8 +16,9 @@ local function native(workKey)
  game={IsTestPlay=function()return false end,GetUICanvasSize=function()return 1280,720 end,
   GetDevice=function()return 'pc' end,GetCursorUIPos=function()return 0,0 end,
   ServerSignal=function()return {SendSignal=function()end}end}
+ dofile('tests/lua/support/native_monster_engine.lua')(game)
  dofile('src/lua/abyss_ui.lua');OnStart();OnStart()
- F.GameUI.new=originalNew;package.loaded.abyss_narrative=originalNarrative
+ require('abyss_game_ui').new=originalNew;package.loaded.abyss_narrative=originalNarrative
  assert(host and script.updating,'actual ordinary-player native startup failed')
  local root=canvas:GetChild('stage');root.ui=host
  host.seed='2' -- deterministic offline route only; not natural/device evidence

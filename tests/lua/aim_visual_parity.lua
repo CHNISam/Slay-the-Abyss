@@ -1,3 +1,4 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 local T=require('abyss_theme')
 local function near(a,b,eps)assert(math.abs(a-b)<(eps or 0.0001),tostring(a)..' ~= '..tostring(b))end
@@ -8,7 +9,7 @@ local function curve(sx,sy,ex,fy,t)
 end
 for _,touch in ipairs({false,true})do
  local h,u,p,e=H.setup({'strike'},nil,{touchScreen=function()return touch end})
- local enemy=p:GetChild('enemy1');local ex,ey=enemy.x+10,enemy.y+8
+ local enemy=actorControl(p,"enemy1");local ex,ey=enemy.x+10,enemy.y+8
  e('card1','down',7);e('card1','drag',7,ex,ey)
  local layer=p:GetChild('dragLayer');local card=p:GetChild('card1');local r=layer:GetChild('reticle')
  local sx,sy=card.x,card.y+T.layout.card.size[2]*T.layout.cardDrag.scale/2
@@ -38,7 +39,7 @@ for _,touch in ipairs({false,true})do
   local rad=math.rad(barb.localRotationZ)
   near(barb.x-math.cos(rad)*barb.sizeDeltaX/2,r.x,1e-6);near(barb.y-math.sin(rad)*barb.sizeDeltaX/2,fy,1e-6)
  end
- assert(fy<cy,'arrow lands on the target from above')
+ near(cy,fy+(fy-sy)/2) -- Source curve direction follows start/target height; it is not always downward.
  assert(r.visible and r.kind=='image');near(r.x,enemy.x);near(r.y,enemy.y)
  e('dragLayer','drag',7,-285,0)
  assert(r.visible,'previous visual keeps a dim ring at an untargeted pointer')

@@ -40,39 +40,37 @@ local function snapshot(battle)
     result.catalog, result.rules, result.sourcePools = battle.catalog, battle.rules, battle.sourcePools
     return result
 end
-local function find(list, name)
-    for _, entry in ipairs(list) do
-        if entry.name == name then return entry end
-        local found = find(entry.children or {}, name)
-        if found then return found end
-    end
-end
-local function control(definition, inventory)
-    local c = {name = definition.name, children = {}, visible = definition.visible ~= false,
-        text = "", x = 0, y = 0, localScaleX = 1, localScaleY = 1}
-    inventory[#inventory + 1] = c
-    for _, child in ipairs(definition.children or {}) do c.children[child.name] = control(child, inventory) end
-    function c:GetChild(name) return assert(self.children[name], self.name .. "/" .. name .. " missing") end
-    function c:SetVisible(value) assert(type(value) == "boolean"); self.visible = value end
-    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetLocalScale(x, y, z) assert(z == 1); self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(source, id) assert(source == "static" and type(id) == "number"); self.imageId = id end
-    function c:SetAsLastSibling() end
-    return c
+local F = dofile('tests/lua/support/game_ui_fixture.lua')
+local Surfaces = require('abyss_monster_surfaces')
+local EnemyView = require('abyss_battle_enemy_view')
+local function inventory(control, list)
+    list[#list + 1] = control
+    for _, child in pairs(control.children) do inventory(child, list) end
 end
 local function harness(deck, enemies, fast)
     local h = {controls = {}, sounds = {}, seen = {}, sequence = {}, completions = {}}
-    h.stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")), h.controls)
-    h.feedback = Feedback.new(h.stage, {
+    h.stage = F.Viewport.apply(F.control({children=F.Layout}),1280,720):GetChild('battlePanel')
+    inventory(h.stage, h.controls)
+    local platform = F.withMonsterActors({
         imageSource = "static", color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
         sound = function(cue) h.sounds[#h.sounds + 1] = cue end,
-    }, function()
+    })
+    local instantiate = platform.monsterActors.instantiate
+    platform.monsterActors.instantiate = function(index, parent)
+        local box = instantiate(index, parent)
+        inventory(box, h.controls)
+        return box
+    end
+    h.surfaces = Surfaces.new(h.stage, platform)
+    h.battle = Combat.new(Data, {deck = deck, enemies = enemies or {"cultist", "cultist"}, seed = 119})
+    h.surfaces:select(EnemyView.slots(h.battle), h.battle)
+    h.feedback = Feedback.new(h.stage, platform, function(frame)
+        h.surfaces:select(EnemyView.slots(frame, h.feedback), h.battle)
         local entry = h.feedback.current
         h.seen[entry] = (h.seen[entry] or 0) + 1
         h.sequence[#h.sequence + 1] = entry
     end, function(reason) h.completions[#h.completions + 1] = reason or "ok" end)
     h.feedback:setFastMode(fast == true)
-    h.battle = Combat.new(Data, {deck = deck, enemies = enemies or {"cultist", "cultist"}, seed = 119})
     function h:begin(command)
         local before, first = Events.frame(self.battle), #self.battle.events + 1
         assert(command(self.battle))

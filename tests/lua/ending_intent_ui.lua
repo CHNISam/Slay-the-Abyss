@@ -1,9 +1,10 @@
+local Native=dofile('tests/lua/support/current_monster_controls.lua')
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local UI,Run=require('abyss_battle_ui'),require('abyss_run')
 local function fixture(ids)
  local canvas=F.control({children=F.Layout});local root=F.Viewport.apply(canvas,1280,720):GetChild('battlePanel')
- local ui=UI.new(root,F.Data,F.Presentation,'click',{imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end},{embedded=true})
+ local ui=UI.new(root,F.Data,F.Presentation,'click',F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end}),{embedded=true})
  local run=Run.new(F.Data,42);run.phase='combat'
  run.combat=assert(F.Combat.new(F.Data,{seed=42,enemies=ids,deck={}}));ui.run=run
  return ui,root,run.combat
@@ -22,7 +23,7 @@ local function allPages(ui,root)
 end
 do
  local ui,root,s=fixture({'corrupt_heart'});ui:render()
- root:GetChild('enemy1'):GetChild('intentHit').click()
+ Native.actor(root,s.enemies[1]):GetChild('intentHit').click()
  assert(ui.info and ui.info.kind=='intent'and ui.info.pages>1)
  local text=allPages(ui,root)
  for _,id in ipairs({'dazed','slimed','wound','burn','void'})do assert(text:find(s.catalog.cards[id].name,1,true))end
@@ -31,10 +32,10 @@ end
 do
  local ui,root,s=fixture({'spire_shield','spire_spear'})
  for i,intent in ipairs(s.enemies[1].intents)do if intent.id=='smash'then s.enemies[1].intentIndex=i end end
- s.enemies[1].statuses.weak=1;s.enemies[1].statuses.strength=1;s.player.statuses.vulnerable=1
- ui:render();assert(root:GetChild('enemy1'):GetChild('intentBadge').visible)
- assert(root:GetChild('enemy1'):GetChild('intent').text=='59','detached UI preview must preserve source back-attack identity')
- root:GetChild('enemy1'):GetChild('intentHit').click()
+ F.Combat.addStatus(s.enemies[1],'weak',1);F.Combat.addStatus(s.enemies[1],'strength',1);F.Combat.addStatus(s.player,'vulnerable',1)
+ ui:render();dofile('tests/lua/support/intent_face_assertion.lua')(Native.actor(root,s.enemies[1]),require('abyss_battle_intent_view').intentView(s,1))
+ assert(Native.actor(root,s.enemies[1]):GetChild('intent').text=='59','detached UI preview must preserve source back-attack identity')
+ Native.actor(root,s.enemies[1]):GetChild('intentHit').click()
  local text=allPages(ui,root);assert(text:find('格挡',1,true)and text:find('58',1,true))
 end
 do

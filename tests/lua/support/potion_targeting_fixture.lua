@@ -29,7 +29,7 @@ local function setup(pointer)
   h:resize(1280,720);h:refresh()
   local u,p=h.battleUI,r:GetChild('battlePanel')
   local function emit(name,kind,touch)
-    local box=p:GetChild(name);local hit=box.listeners and box or box:GetChild('hit')
+    local box=F.actorControl(p,name);local hit=box.listeners and box or box:GetChild('hit')
     local fn=hit.listeners and hit.listeners[kind]
     if fn then return fn({touchId=touch}) end
   end

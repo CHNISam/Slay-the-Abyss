@@ -26,8 +26,14 @@ local function find(entries, name)
 end
 local function adapter(present, complete)
     local h = {completed = {}, stage = F.control(assert(find(F.Layout, "battlePanel")))}
-    h.feedback = Feedback.new(h.stage, {imageSource = "static", color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end},
-        present or function() end, function(failure)
+    local platform=F.withMonsterActors({imageSource = "static", color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end})
+    local surfaces=require("abyss_monster_surfaces").new(h.stage,platform)
+    local render=present or function()end
+    h.feedback = Feedback.new(h.stage, platform,
+        function(frame)
+            surfaces:select(require("abyss_battle_enemy_view").slots(frame,h.feedback),h.feedback.battle)
+            render(frame)
+        end, function(failure)
             h.completed[#h.completed + 1] = failure or "ok"
             if complete then complete(h, failure) end
         end)
@@ -62,14 +68,14 @@ test("early native reset failure restores host input after a committed command",
         if failures == 0 then failures = failures + 1 error("INJECTED_FEEDBACK_START_FAILURE") end
         return original(self, x, y)
     end
-    panel:GetChild("enemy1"):GetChild("hit").click()
+    F.actorControl(panel, "enemy1"):GetChild("hit").click()
     assert(failures == 1, "the failure must occur during feedback startup")
     assert(battle.enemies[1].hp == hp - 6 and battle.energy == energy - 1 and #battle.hand == 0,
         "the successful command remains committed once")
     assert(not ui.busy and not ui.feedback.busy, "feedback startup failure must release host input")
     assert(ui.displayBattle == nil and panel:GetChild("endTurn").interactable,
         "the host must restore final state and controls after startup failure")
-    assert(panel:GetChild("enemy1"):GetChild("hp").text == battle.enemies[1].hp .. "/" .. battle.enemies[1].maxHp,
+    assert(F.actorControl(panel, "enemy1"):GetChild("hp").text == battle.enemies[1].hp .. "/" .. battle.enemies[1].maxHp,
         "the recovered view must show the committed HP")
     assert(battle.events == events and #events == 0, "committed frames are consumed exactly once")
     local after = F.Combat.copy(battle)

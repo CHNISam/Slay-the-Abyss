@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "98fef95d047652aa6a8880241ddff28ef320a484",
+  "afterCommit": "b03530cef57b02d5cfe28e0a1e0ae6dcf6635d2e",
+  "files": {
+    "src/lua/abyss_battle_render_actors.lua": {
+      "afterSha256": "3c9df189c57d9e3b1a68de0e687c6ce2f56d4e41e889adb45952f4beed7bfae9",
+      "beforeSha256": "7dfcbf435fb6027431417cdcdafb1be0062f6d771b1c36ac1b9782c19d8b351d",
+      "afterGitBlob": "d7d61c101f59a29d379fbd21368a6ead2c774dff",
+      "beforeGitBlob": "f4d2b3ffc133ba7b97544be4b2a2ccf20e7ce5d5",
+      "hunks": [
+        {
+          "at": 101,
+          "after": [
+            "        return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isPresent(actor) and not owner.feedback.dying[actor.id]"
+          ],
+          "before": [
+            "        return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isActive(actor) and not owner.feedback.dying[actor.id]"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_feedback_actor_painter.lua": {
+      "afterSha256": "178d2e984cf09c9bab640aee01998ab1751dbdf48a564d739909ae95111d4bf8",
+      "beforeSha256": "d3ce8b472eedebfcb67e6837813fd0178a9b37ebe4b646d12ae79847e2cfa421",
+      "afterGitBlob": "93631c3bfbc9bd775a7e180bfa2b6af371316465",
+      "beforeGitBlob": "659281a788ce65a57fd038381eefc868e08339e1",
+      "hunks": [
+        {
+          "at": 224,
+          "after": [
+            "-- A completed visual lifecycle retires its presentation row as well as its",
+            "-- native handle. Queued minion events may keep the same historical frame active",
+            "-- after their leader's independent death clock has finished.",
+            "local function retireActorRow(ctx,id)",
+            "    for index=#(ctx.state.enemyRows or {}),1,-1 do",
+            "        if ctx.state.enemyRows[index].id==id then table.remove(ctx.state.enemyRows,index)end",
+            "    end",
+            "    if ctx.surfaces then ctx.surfaces:release(id)end",
+            "end"
+          ],
+          "before": []
+        },
+        {
+          "at": 244,
+          "after": [
+            "                retireActorRow(ctx,id)"
+          ],
+          "before": [
+            "                if ctx.surfaces then ctx.surfaces:release(id)end"
+          ]
+        },
+        {
+          "at": 256,
+          "after": [
+            "            retireActorRow(ctx,id)"
+          ],
+          "before": [
+            "            if ctx.surfaces then ctx.surfaces:release(id)end"
+          ]
+        }
+      ]
+    }
+  }
+}

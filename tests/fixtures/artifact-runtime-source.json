@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "b03530cef57b02d5cfe28e0a1e0ae6dcf6635d2e",
+  "afterCommit": "5902631159ea7ba1235c1f2b8a0241250adf8cfb",
+  "files": {
+    "src/lua/abyss_battle_intent_view.lua": {
+      "afterSha256": "be8f211b176523aaef08bc34c0fe0459146318c146a439f3c8d6f59a45172fba",
+      "beforeSha256": "685aa852000b4a1b9fbd7751738236c8be2f8dc153d8eb4016275218930a1ae6",
+      "afterGitBlob": "aa4f67ce818597daf75b2a3304dce4bffb355843",
+      "beforeGitBlob": "1e25d2cd190b61d1e431389a65bb0c9fdd380f14",
+      "hunks": [
+        {
+          "at": 365,
+          "after": [
+            "function M.selectedDescriptor(state,index,includeFace)"
+          ],
+          "before": [
+            "function M.selectedDescriptor(state,index)"
+          ]
+        },
+        {
+          "at": 368,
+          "after": [
+            " -- applyPowers reads the selected move's base damage; it does not execute a",
+            " -- future debuff preview against an in-flight action's already-consumed Artifact.",
+            " if includeFace==false then",
+            "  local base,times=-1,1",
+            "  for _,effect in ipairs(intent.effects or {})do",
+            "   if effect.op=='damage' or effect.op=='damageAll' or effect.op=='enemyVampireDamage'then base,times=effect.value,effect.times or 1;break end",
+            "  end",
+            "  return {id=intent.id,intent=SourceIntents.enum(state.enemies[index],intent),baseDamage=base,",
+            "   multiplier=times,isMultiDamage=SourceIntents.isMulti(state.enemies[index],intent)}",
+            " end"
+          ],
+          "before": []
+        }
+      ]
+    },
+    "src/lua/abyss_battle_render_actors.lua": {
+      "afterSha256": "5de9bb702bfc5c7b91c4bea14715eba8052ad83936c47f1274a5959d980859d3",
+      "beforeSha256": "3c9df189c57d9e3b1a68de0e687c6ce2f56d4e41e889adb45952f4beed7bfae9",
+      "afterGitBlob": "60fa3a64a793f1c5ee91404ef17cbed8ffd3448e",
+      "beforeGitBlob": "d7d61c101f59a29d379fbd21368a6ead2c774dff",
+      "hunks": [
+        {
+          "at": 51,
+          "after": [
+            "            local needed,create=view:needsSelected(enemy.id)",
+            "            local selected=needed and IntentView.selectedDescriptor(frame.battle,index,create) or nil"
+          ],
+          "before": [
+            "            local selected=view:needsSelected(enemy.id) and IntentView.selectedDescriptor(frame.battle,index) or nil"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_ui.lua": {
+      "afterSha256": "8ca98c75a33c062297c678b3b58d166b36741f12cee9959f37a7aa82b91269bc",
+      "beforeSha256": "67f6d2eeee662aa8b3ab07197765bb06473228cc7dc8aa3efbd1eac244823fb3",
+      "afterGitBlob": "ad5848033f4236859c8bfdcf85bc98bb2839e2ee",
+      "beforeGitBlob": "972ca4e97d0b6aedab0b6cfeeced84972c49bd57",
+      "hunks": [
+        {
+          "at": 209,
+          "after": [
+            "        if failure then host.monsterIntentParticles:reconcileDisplayed()end"
+          ],
+          "before": []
+        }
+      ]
+    },
+    "src/lua/abyss_monster_intent_particle_view.lua": {
+      "afterSha256": "f249e715d62356cf7ccb09a9f54c5ddebb51aa88112a358f2a50f6677a4ab57a",
+      "beforeSha256": "2d3079a761d86d91804ccea9c51fc3462aeb35aa46217edbbffb756b5dcdae78",
+      "afterGitBlob": "cc6b75cc845a57cc416384b693068964def94d06",
+      "beforeGitBlob": "aea15d2278eac7ebd6e2964922ba65cd42fb6f08",
+      "hunks": [
+        {
+          "at": 66,
+          "after": [
+            " function self.reconcileDisplayed(_)",
+            "  for _,state in pairs(self.states)do state.createPending=true end",
+            " end"
+          ],
+          "before": []
+        },
+        {
+          "at": 71,
+          "after": [
+            "  return state.createPending or state.powersPending,state.createPending==true"
+          ],
+          "before": [
+            "  return state.createPending or state.powersPending"
+          ]
+        }
+      ]
+    }
+  }
+}

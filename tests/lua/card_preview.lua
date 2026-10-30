@@ -1,3 +1,4 @@
+local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl
 local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI = require("abyss_battle_ui")
@@ -11,7 +12,7 @@ local L = Theme.layout
 -- These are input points on the current visible native actors, not expected
 -- damage values. Every numerical preview oracle below remains unchanged.
 local function enemyPoint(panel,index)
-    local box=panel:GetChild('enemy'..index);assert(box.visible,'input actor is hidden')
+    local box=actorControl(panel,'enemy'..index);assert(box.visible,'input actor is hidden')
     return box.x,box.y
 end
 -- Dynamic card numbers and status details on the full generated native tree.
@@ -39,21 +40,32 @@ local function control(definition)
     function c:SetAsLastSibling() self.raised = true end
     return c
 end
+-- Synthetic arithmetic fixtures opt into original MonsterHelper constructor
+-- offsets explicitly; production must never synthesize a reflowing formation.
+local function sourcePositions(battle)
+    local n=#battle.enemies
+    if n==2 or n==3 then
+        local positions=assert(require('abyss_monster_source_positions').positions(n==2 and 'Cultist and Chosen' or '3 Cultists'))
+        for i,enemy in ipairs(battle.enemies)do enemy.sourcePosition=positions[i]end
+    end
+    return battle
+end
 local function setup(deck, enemies, drag)
     local root = control({name="root", size={1280,720}, children=Layout})
     local panel = root:GetChild("stage"):GetChild("battlePanel")
     local ui = UI.new(panel, Data, Presentation, "click", {
-        imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+        monsterActors=dofile('tests/lua/support/game_ui_fixture.lua').monsterActors(), imageTypes={basic=1,stretch=2},imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
         cursorEvents=drag and {CursorDown="down",CursorDrag="drag",CursorUp="up",CursorEndDrag="endDrag"} or nil
     }, {embedded=true})
     ui.run = Run.new(Data, 1)
     assert(Run.startCombat(ui.run, "cultist_solo"))
-    ui.run.combat = Combat.new(Data, {deck=deck, enemies=enemies})
+    ui.run.combat = sourcePositions(Combat.new(Data, {deck=deck, enemies=enemies}))
     ui:resize(1280, 720) ui:render()
-    -- Native listener on a control path such as {"enemy1","statusRow","hit"}.
+    -- Native listener on a real actor path, or an instantiated Power hit control.
     local function event(path, kind, x, y, touch, optional)
         local box = panel
-        for _, name in ipairs(type(path) == "table" and path or {path}) do box = box:GetChild(name) end
+        if type(path)=="table" and path.GetChild then box=path
+        else for _, name in ipairs(type(path) == "table" and path or {path}) do box = actorControl(box,name) end end
         local hit = box.listeners and box or box:GetChild("hit")
         local callback = hit.listeners and hit.listeners[kind]
         if optional and not callback then return end
@@ -77,7 +89,7 @@ local function inline(panel, slot) return panel:GetChild("card" .. (slot or 1)):
 -- native colour syntax. New presentation assertions below inspect the raw text.
 local function label(panel, slot) return (inline(panel,slot):gsub('<color=#[%x]+>',''):gsub('</color>',''):gsub('↑',''):gsub('↓','')) end
 local function battle(deck, enemies)
-    local s = Combat.new(Data, {deck=deck, enemies=enemies})
+    local s = sourcePositions(Combat.new(Data, {deck=deck, enemies=enemies}))
     for _, enemy in ipairs(s.enemies) do enemy.hp, enemy.maxHp = 200, 200 end
     return s
 end
@@ -281,6 +293,16 @@ end)
 
 local function chips(box)
     local row, result = box:GetChild("statusRow"), {}
+    local pool=require('abyss_monster_power_surfaces').get(row)
+    if pool then
+        pool:each(function(chip,_,entry)
+            local icon,count=chip:GetChild('icon'),chip:GetChild('count')
+            assert(chip.alive~=false and icon.visible,'native Power instance must be alive and visible')
+            result[#result+1]={id=entry.id,icon=icon.imageId,count=count.text,colour=icon.imageColor,
+                countColour=count.fontColor,edgeVisible=chip:GetChild('edge').visible,x=chip.x,y=chip.y,native=true}
+        end)
+        return result
+    end
     for i = 1, L.statusIcon.perRow * L.statusIcon.rows do
         local icon, count = row:GetChild("icon" .. i), row:GetChild("count" .. i)
         if count.visible then result[#result + 1] = {icon = icon.visible and icon.imageId or nil, count = count.text,
@@ -337,10 +359,11 @@ test("player and every enemy show status icons, stacks and full current effects"
     eq(hero[1].edge.r, Theme.color.gold.r) eq(hero[2].edge.r, Theme.color.debuff.r)
     assert(hero[1].y == hero[2].y and hero[2].x - hero[1].x == L.statusIcon.size + L.statusIcon.gap, "one centred row")
     eq(hero[1].x + hero[2].x, 0, "row centred under the bar")
-    local second = chips(panel:GetChild("enemy2"))
-    eq(second[1].icon, Theme.icon.status.artifact) eq(second[2].count, "−1")
-    eq(second[2].colour.r, Theme.color.text.r)
-    eq(second[2].edge.r, Theme.color.debuff.r, "negative Strength reads as a debuff through its border")
+    local second = chips(actorControl(panel,"enemy2"))
+    eq(second[1].icon, Theme.icon.status.artifact) eq(second[2].count, "-1")
+    eq(second[2].colour.r,255)
+    eq(second[2].countColour.r,255);eq(second[2].countColour.g,0)
+    assert(not second[2].edgeVisible,'source Power negatives use red amount, not invented border')
     tap({"hero", "hit"})
     local open, rows, box = info(panel)
     assert(open and box:GetChild("title").text == "旅行者")
@@ -353,12 +376,12 @@ test("player and every enemy show status icons, stacks and full current effects"
     eq(rows[2].name, "易伤 1") eq(rows[2].tag, "剩余 1 回合") eq(rows[2].text, "受到的普通攻击伤害 +50%")
     tap({"statusInfo", "hit"}) assert(not panel:GetChild("statusInfo").visible)
     local expected = {
-        {{"中毒 4", "每回合 -1", "自己的回合开始时失去 4 点生命"}, {"虚弱 2", "剩余 2 回合", "造成的普通攻击伤害 -25%"}},
+        {{"虚弱 2", "剩余 2 回合", "造成的普通攻击伤害 -25%"}, {"中毒 4", "每回合 -1", "自己的回合开始时失去 4 点生命"}},
         {{"人工制品 1", "剩余 1 次", "抵挡接下来 1 次减益效果"}, {"力量 -1", "本场战斗", "普通攻击每段伤害 -1"}},
         {{"荆棘 3", "本场战斗", "受到攻击时，对攻击者造成 3 点伤害"}},
     }
     for i, lines in ipairs(expected) do
-        tap({"enemy" .. i, "statusRow", "hit"})
+        tap({"enemy" .. i, "hit"})
         open, rows, box = info(panel,true)
         assert(open and box:GetChild("title").text == s.enemies[i].name)
         eq(#rows, #lines)
@@ -370,9 +393,9 @@ test("player and every enemy show status icons, stacks and full current effects"
     local I = L.statusInfo
     local perLine = math.floor((I.width - I.pad * 2 - I.icon - I.gap) / Theme.font.small)
     for id, definition in pairs(s.catalog.statuses) do
-        s.enemies[3].statuses = {[id] = 5}
+        s.enemies[3].statuses = {};s.enemies[3].powerOrder={};Combat.addStatus(s.enemies[3],id,5)
         ui:render()
-        tap({"enemy3", "statusRow", "hit"})
+        tap({"enemy3", "hit"})
         open, rows = info(panel,true)
         assert(open and #rows == 1, id)
         local row = rows[1]
@@ -388,7 +411,7 @@ test("player and every enemy show status icons, stacks and full current effects"
     end
 end)
 
-test("crowded and narrow units overflow to +N and the panel pages through every status", function()
+test("player overflow and full source monster row retain every status in paged details", function()
     local ui, panel, _, tap = setup({"strike"}, {"jaw_worm", "cultist", "cultist", "cultist", "jaw_worm"})
     local s = ui.run.combat
     local ids = {"strength", "dexterity", "vulnerable", "weak", "frail", "poison", "thorns", "regen",
@@ -398,13 +421,15 @@ test("crowded and narrow units overflow to +N and the panel pages through every 
     local hero = chips(panel:GetChild("hero"))
     eq(#hero, L.statusIcon.perRow * L.statusIcon.rows)
     eq(hero[#hero].icon, nil) eq(hero[#hero].count, "+" .. (#ids - #hero + 1))
-    local narrow = chips(panel:GetChild("enemy1"))
-    assert(#narrow <= #hero and #narrow % L.statusIcon.rows == 0, "enemy columns respect the shared status row limit")
-    eq(narrow[#narrow].count, "+" .. (#ids - #narrow + 1))
-    for _, chip in ipairs(narrow) do
-        assert(math.abs(chip.x) + L.statusIcon.size / 2 <= panel:GetChild("enemy1"):GetChild("statusRow"):GetChild("hit").sizeDeltaX / 2,
-            "chips stay inside a narrow column")
+    local narrow = chips(actorControl(panel,"enemy1"))
+    eq(#narrow,#ids,'every source monster Power owns a native chip; no ten-slot cap or overflow')
+    local wanted={};for _,id in ipairs(ids)do wanted[id]=true end
+    for i,chip in ipairs(narrow)do
+        assert(wanted[chip.id],'unexpected or duplicate source Power');wanted[chip.id]=nil
+        assert(chip.count:sub(1,1)~='+','monster row must not replace live Powers with +N')
+        if i>1 then eq(chip.y,narrow[1].y);assert(math.abs(chip.x-narrow[i-1].x-48*720/1080)<1e-6,'original Power pitch at fractional source scale')end
     end
+    assert(next(wanted)==nil,'missing live source Power')
     tap({"hero", "statusRow", "hit"})
     local open, rows, box = info(panel)
     assert(open and #rows > 0 and #rows <= L.statusInfo.rows)
@@ -428,7 +453,7 @@ test("crowded and narrow units overflow to +N and the panel pages through every 
     assert(open and box:GetChild("more").text:find("第 1/", 1, true), "the last page turns back to the first")
     tap({"statusInfo", "hit"}) assert(not panel:GetChild("statusInfo").visible)
     s.enemies[2].statuses = {} ui:render()
-    tap({"enemy2", "statusRow", "hit"})
+    tap({"enemy2", "hit"})
     open, rows, box = info(panel)
     assert(open and #rows == 0 and box:GetChild("section1").text == "意图 · 尚未执行")
     assert(box:GetChild("name1").visible and box:GetChild("text1").text ~= "", "an enemy without statuses still shows its current intent")
@@ -452,9 +477,12 @@ for _, drag in ipairs({false, true}) do
             local now = snapshot()
             for k, v in pairs(before) do eq(now[k], v, mode .. " " .. where .. " " .. k) end
         end
-        -- Select the targeted Strike, then tap an enemy's status row: details only.
+        -- Original source monsters expose an actual Power hit, not a synthetic
+        -- aggregate row hit. Artifact is inert for these ordinary Strike plays.
+        Combat.addStatus(s.enemies[2],"artifact",1);ui:render()
+        local powerHit=dofile('tests/lua/support/current_monster_controls.lua').power(actorControl(panel,'enemy2'),'artifact'):GetChild('hit')
         tap("card" .. strike) eq(ui.selected, s.hand[strike].uid)
-        tap({"enemy2", "statusRow", "hit"})
+        tap(powerHit)
         assert(panel:GetChild("statusInfo").visible and ui.selected == s.hand[strike].uid)
         eq(ui.target, 1, "status rows never move the potion/card target")
         unchanged("status row")
@@ -487,14 +515,14 @@ test("the panel follows live values and closes for playback, a dead unit or a ne
     local ui, panel, _, tap = setup({"strike", "strike", "strike"}, {"jaw_worm", "cultist"})
     local s = ui.run.combat
     for _, enemy in ipairs(s.enemies) do enemy.ai = nil end
-    tap({"enemy1", "statusRow", "hit"})
+    tap({"enemy1", "hit"})
     Combat.addStatus(s.enemies[1], "vulnerable", 2) ui:render()
     local open, rows = info(panel)
     assert(open) eq(rows[1].name, "易伤 2")
     ui:endTurn() -- a command starts playback: details never cover the animation
     assert(ui.busy and not panel:GetChild("statusInfo").visible)
     drain(ui)
-    tap({"enemy2", "statusRow", "hit"}) assert(panel:GetChild("statusInfo").visible)
+    tap({"enemy2", "hit"}) assert(panel:GetChild("statusInfo").visible)
     s.enemies[2].hp = 0 ui:render()
     assert(not panel:GetChild("statusInfo").visible, "a dead unit's panel closes")
     tap({"hero", "hit"}) assert(panel:GetChild("statusInfo").visible)

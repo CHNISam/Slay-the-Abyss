@@ -1,0 +1,46 @@
+{
+  "path": "tests/lua/feedback_continuous_cards.lua",
+  "beforeCommit": "98fef95d047652aa6a8880241ddff28ef320a484",
+  "afterSha256": "f56312d6ea2bd4180880037ab78f932b3490bb625fe204ec5662929cbe5c17b2",
+  "beforeSha256": "7b93939fbf9e1e0c1c3d05903822e2fc49e50e2d6a2125c6da2303a5d51859ea",
+  "hunks": [
+    {
+      "at": 47,
+      "after": [
+        "    if target then F.actorControl(panel, \"enemy\" .. target):GetChild(\"hit\").click()"
+      ],
+      "before": [
+        "    if target then panel:GetChild(\"enemy\" .. target):GetChild(\"hit\").click()"
+      ]
+    },
+    {
+      "at": 80,
+      "after": [
+        "    assert(F.actorControl(panel, \"enemy1\"):GetChild(\"floating\").visible)"
+      ],
+      "before": [
+        "    assert(panel:GetChild(\"enemy1\"):GetChild(\"floating\").visible)"
+      ]
+    },
+    {
+      "at": 110,
+      "after": [
+        "    assert(not F.actorControl(panel, \"enemy1\"):GetChild(\"floating\").visible)",
+        "    assert(not F.actorControl(panel, \"enemy2\"):GetChild(\"floating\").visible)"
+      ],
+      "before": [
+        "    assert(not panel:GetChild(\"enemy1\"):GetChild(\"floating\").visible)",
+        "    assert(not panel:GetChild(\"enemy2\"):GetChild(\"floating\").visible)"
+      ]
+    },
+    {
+      "at": 122,
+      "after": [
+        "    assert(not F.actorControl(panel, \"enemy1\"):GetChild(\"floating\").visible)"
+      ],
+      "before": [
+        "    assert(not panel:GetChild(\"enemy1\"):GetChild(\"floating\").visible)"
+      ]
+    }
+  ]
+}

@@ -15,11 +15,17 @@ local function point(control)return table.concat({control.x or 0,control.y or 0,
 local function geometry()
     local result={}
     for _,name in ipairs({'hero','enemy1','enemy2'})do
-        local box=panel:GetChild(name)
+        local box=F.actorControl(panel,name)
         result[#result+1]=point(box)
         for _,part in ipairs({'hp','intent','intentIcon','hit','name'})do
             local control=box:GetChild(part)
-            if control then result[#result+1]=point(control)end
+            if control then
+                -- Source renderName compensates portrait motion in its local x;
+                -- compare the resulting anchored name position, not that compensation.
+                if part=='name' and name~='hero' then
+                    result[#result+1]=point({x=control.x+box:GetChild('portrait').x,y=control.y,localScaleX=control.localScaleX,localScaleY=control.localScaleY})
+                else result[#result+1]=point(control)end
+            end
         end
     end
     return table.concat(result,';')
@@ -48,9 +54,9 @@ test('first idle frame animates portraits without events or moving information a
     local start=point(hero)
     for _=1,30 do host:update(1/60)end
     assert(point(hero)~=start,'initial battle must breathe without playing a card first')
-    assert(point(panel:GetChild('enemy1'):GetChild('portrait'))~=point(panel:GetChild('enemy2'):GetChild('portrait')))
+    assert(point(F.actorControl(panel, "enemy1"):GetChild('portrait'))~=point(F.actorControl(panel, "enemy2"):GetChild('portrait')))
     assert(ruleState()==before,'idle must not mutate cards, HP, energy, turn, events or RNG')
-    assert(geometry()==positions,'only portrait transforms may move')
+    assert(geometry()==positions,'only portrait transforms may move; source name compensation must hold its anchored position: '..positions..' => '..geometry())
 end)
 test('background recovery bounds only the visual clock and consumes no events',function()
     local before,clock=ruleState(),feedback.idleClock
@@ -64,7 +70,7 @@ test('real card command releases input and resumes idle instead of freezing at f
     for i,card in ipairs(battle.hand)do if card.cardId=='strike'then slot=i end end
     assert(slot)
     panel:GetChild('card'..slot):GetChild('hit').click()
-    panel:GetChild('enemy1'):GetChild('hit').click()
+    F.actorControl(panel, "enemy1"):GetChild('hit').click()
     assert(feedback.busy)
     for _=1,300 do host:update(0.01);if not feedback.busy and next(feedback.effects)==nil and next(feedback.poses)==nil then break end end
     assert(not feedback.busy and not ui.busy)

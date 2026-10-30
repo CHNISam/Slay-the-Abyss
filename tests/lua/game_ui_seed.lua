@@ -86,9 +86,9 @@ end)
 
 test("native OnStart rereads wall and CPU time after script and module recreation",function()
     local saved={script=script,Enum=Enum,OnStart=OnStart,OnUpdate=OnUpdate,game=game,Color=Color,
-        wall=os.time,cpu=os.clock,new=F.GameUI.new}
+        wall=os.time,cpu=os.clock,new=require('abyss_game_ui').new}
     local seen={}
-    F.GameUI.new=function(...)local ui=saved.new(...);seen[#seen+1]=ui;return ui end
+    require('abyss_game_ui').new=function(...)local ui=saved.new(...);seen[#seen+1]=ui;return ui end
     os.time=function()return 1792843200 end -- Same wall-clock second, like a fast retry.
     Enum={CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"}}
     Color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end
@@ -98,6 +98,10 @@ test("native OnStart rereads wall and CPU time after script and module recreatio
         package.loaded.abyss_new_run_seed=nil -- Rechallenge may recreate the Lua module world.
         local canvas=F.control({children=F.Layout})
         script={object=canvas,EnableUpdate=function(self,v)self.updating=v end}
+        Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}
+        game.GetDevice=function()return 'desktop'end
+        game.GetCursorUIPos=function()return 0,0 end
+        dofile('tests/lua/support/native_monster_engine.lua')(game)
         dofile("src/lua/abyss_ui.lua");OnStart();OnStart()
         assert(#seen==i and script.updating)
         assert(seen[i]:start())
@@ -107,7 +111,7 @@ test("native OnStart rereads wall and CPU time after script and module recreatio
     assert(seen[1].run.seed~=seen[2].run.seed,
         "same-second platform reconstruction systematically replayed the fixed seed")
     script,Enum,OnStart,OnUpdate,game,Color=saved.script,saved.Enum,saved.OnStart,saved.OnUpdate,saved.game,saved.Color
-    os.time,os.clock,F.GameUI.new=saved.wall,saved.cpu,saved.new
+    os.time,os.clock,require('abyss_game_ui').new=saved.wall,saved.cpu,saved.new
 end)
 
 test("clock seed stays in the production range and preserves private rule RNG states",function()

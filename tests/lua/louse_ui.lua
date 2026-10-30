@@ -1,3 +1,4 @@
+local Native=dofile('tests/lua/support/current_monster_controls.lua')
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local C=require('abyss_combat')
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
@@ -8,11 +9,18 @@ C.random=function(s,max)local value=old(s,max);if max==100 then return 100 elsei
 local ok,s=pcall(C.new,H.F.Data,{deck={'defend'},enemies={'red_louse','green_louse'}})
 C.random=old;assert(ok,s)
 host.run.combat=s;host:refresh()
-local first,second=panel:GetChild('enemy1'),panel:GetChild('enemy2')
+local first,second=Native.actor(panel,s.enemies[1]),Native.actor(panel,s.enemies[2])
 assert(first:GetChild('intent').text=='5' and second:GetChild('intent').text=='7','sampled actor values displayed')
 assert(first:GetChild('hp').text==s.enemies[1].hp..'/'..s.enemies[1].maxHp,'sampled HP displayed')
 local function same(a,b)if type(a)~='table' then assert(a==b);return end;for k,v in pairs(a)do same(v,b[k])end;for k in pairs(b)do assert(a[k]~=nil)end end
-C.addStatus(s.enemies[1],'strength',3);C.addStatus(s.enemies[2],'weak',1);host:refresh()
+local E,A=require('abyss_events'),require('abyss_actor')
+local frame,firstEvent=E.frame(s),#s.events+1
+A.applyPower(s,s.enemies[1],'strength',3,s.enemies[1])
+A.applyPower(s,s.enemies[2],'weak',1,s.player)
+ui.busy,ui.feedbackRun,ui.feedbackBattle=true,host.run,s
+ui.feedbackLast=#s.events
+ui.feedback:begin(frame,s,firstEvent,host.presentation,nil)
+drain()
 assert(first:GetChild('intent').text=='8' and second:GetChild('intent').text=='5','core modifiers apply to sampled base')
 local before=C.copy(s);host:refresh();tap('enemy1',1);same(s,before)
 local detail=inspectDetails(ui,panel)

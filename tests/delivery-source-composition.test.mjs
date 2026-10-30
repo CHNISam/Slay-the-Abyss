@@ -1,3 +1,4 @@
+import {prePostBetaRuntimeSource} from './helpers/post-beta-runtime-source.mjs';
 import {preDeckDeliverySource} from './helpers/deck-delivery-source-composition.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -7,7 +8,7 @@ import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {deliverySourceProof as proof,preDeliveryTargetSource as project,preDeliverySource,preLegacyMultiSource,verifiedDeliverySources,materializeBeforeDelivery} from './helpers/delivery-source-composition.mjs';
 import {preMultiMonsterArtSource} from './helpers/multi-monster-art-source-inverse.mjs';
-const read=p=>preDeckDeliverySource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
+const read=p=>preDeckDeliverySource(p,prePostBetaRuntimeSource(p,readFileSync(p,'utf8'))).replaceAll('\r\n','\n');
 const hash=s=>s===null?null:createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 const source=(p,target)=>target==='develop'?project(p,read(p),'developEvents'):target==='pre379'?preDeliverySource(p,read(p)):read(p);
 const put=(root,p,s)=>{mkdirSync(dirname(join(root,p)),{recursive:true});writeFileSync(join(root,p),s);};
