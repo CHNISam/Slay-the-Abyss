@@ -8,8 +8,16 @@ const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAl
 const job = name => workflow.match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:|(?![\\s\\S]))`, 'm'))[1];
 const digest = text => createHash('sha256').update(text).digest('hex');
 
-test('only the two short required summaries use the slim hosted container', () => {
-  assert.equal((workflow.match(/^    runs-on: ubuntu-slim$/gm) ?? []).length, 2);
+test('only the lightweight impact planner and two required summaries use slim', () => {
+  assert.equal((workflow.match(/^    runs-on: ubuntu-slim$/gm) ?? []).length, 3);
+  const impact = job('impact');
+  assert.match(impact, /^    runs-on: ubuntu-slim$/m);
+  assert.match(impact, /^    timeout-minutes: 3$/m);
+  assert.match(impact, /node-version: '24\.18\.0'/);
+  assert.match(impact, /npm ci --ignore-scripts/);
+  assert.match(impact, /run: npm run check:guidance/);
+  assert.match(impact, /run: node scripts\/ci-impact\.mjs/);
+  assert.doesNotMatch(impact, /^    needs:|^    if:|continue-on-error:|permissions:/m);
   for (const name of ['check', 'engineering-posix']) {
     const body = job(name);
     assert.match(body, /^    runs-on: ubuntu-slim$/m);
@@ -28,12 +36,14 @@ test('reviewed summary runner inverse retains the original complete workflow con
   const expected = 'd44ae4e29ef74a972f329ecdc8f8131c464d30196300a600387479945660d35d';
   assert.equal(digest(originalWorkflow(workflow)), expected);
   assert.equal(digest(originalWorkflow(workflow.replaceAll('\n', '\r\n').replaceAll('\r\n', '\n'))), expected);
-  for (const name of ['check', 'engineering-posix']) {
+  for (const name of ['impact', 'check', 'engineering-posix']) {
     const body = job(name);
+    const timeout = name === 'impact' ? 3 : 2;
     for (const changed of [
-      body.replace('    timeout-minutes: 2', '    timeout-minutes: 3'),
+      body.replace(`    timeout-minutes: ${timeout}`, `    timeout-minutes: ${timeout + 1}`),
       body.replace('    steps:\n', '    steps:\n      - run: echo unreviewed\n'),
-      body.replace('    if: always()', '    if: success()'),
+      name === 'impact' ? body.replace('    outputs:', '    if: success()\n    outputs:')
+        : body.replace('    if: always()', '    if: success()'),
       body.replace('    runs-on: ubuntu-slim', '    runs-on: ubuntu-24.04'),
       body.replace('    runs-on: ubuntu-slim', '    runs-on: ubuntu-slim\n    runs-on: ubuntu-slim'),
     ]) {

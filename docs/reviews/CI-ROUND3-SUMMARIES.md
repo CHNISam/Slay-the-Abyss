@@ -1,4 +1,4 @@
-# 两个 CI 汇总作业的 Runner 调整
+# CI 入口规划与汇总作业的 Runner 调整
 
 ## 真实基线
 
@@ -29,3 +29,13 @@ Windows八片排队分别为2/293/467/408/504/509/298/2秒，执行为1430/1416/
 定向验证包含 summary-runners、impact、windows-shards、posix-shards、runtime、delivery、downloads、reviewed-lfs。最终仍需当前提交完整 Quality，并读回两汇总的实际 runner 标签、队列与执行时间；本地测试不证明 hosted 排队改善，也不替代官方完整验收。
 
 2026-10-30本地使用与CI相同的 Node 24.18.0，以上八个文件共59项测试全部通过，失败/取消/跳过均为0，耗时49.377秒；两项新增测试已在实施前观察到预期失败。JS语法及 `git diff --check` 通过。初次默认Node22运行不支持既有探针所需的 `--test-isolation=none`，不计为通过；改用固定24.18.0后保留原测试重新验证。此次未执行官方托管运行、未改分支保护或提交合并。
+
+## 入口规划作业的追加调整
+
+本轮[PR370运行41009713098](https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41009713098)，attempt 1，head `5d66abfc`，主控通过GitHub API实取impact job `123912591874`：created `2026-10-30T05:40:13Z`，started `05:52:29Z`，completed `05:52:46Z`，即排队12分16秒、执行17秒。提出追加调整时完整12片尚在排队；之后其中两片开始，不能把不同采样时点状态混用。此前只迁移两个尾部汇总，尚未处理这段串行入口等待。追加范围仅将impact的一个runner标签迁至ubuntu-slim，保留全部checkout、setup-node、安装、历史/元数据/指引检查、选集规划、上传及权限；3分钟预算不改。完整矩阵、presentation及其他workflow不迁移。
+
+[官方ubuntu-slim软件清单](https://github.com/actions/runner-images/blob/main/images/ubuntu-slim/ubuntu-slim-Readme.md)明确包含Bash、Git、Node.js及Npm；setup-node仍指定24.18.0，不依赖镜像自带Node的版本。impact无特权、嵌套容器或系统服务需求，锁文件仅11个依赖包，其17秒历史工作量适合1CPU/5GB的轻量环境。工具支持不代表排队保证；同标准hosted并发模型及15分钟平台上限继续适用，当前3分钟作业预算更严格。
+
+冻结合同仅增加第三个精确job的runner行逆转，仍恢复原完整workflow摘要；入口的timeout、steps、条件及runner缺失/重复负例和重作业原池断言一起执行。锁文件不改，本地仅离线安装11包用于相关回归。迁移后入口真实可执行性及队列收益仍须当前SHA托管运行采证，不将本地合同成功当作新runner实测。
+
+追加切片验证：Node24.18.0运行上述八文件59项，全部通过，失败/取消/跳过0，耗时87.768秒；新增入口范围断言已先观察到预期失败（旧runner仅两个slim作业），再实施迁移。原真实Shell拒绝矩阵、完整工作流冻结摘要、逐文件全覆盖、LFS负例及版本化交付合同均通过。JS语法与diff空白检查通过；本轮未提交、推送、手动取消其他运行或改动锁文件。
