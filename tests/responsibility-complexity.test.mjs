@@ -6,6 +6,20 @@ const file = 'src/lua/abyss_effects.lua';
 const roots = {[file]: ["function 'M.apply'"]};
 const row = (path, line, column, subject, value) => ({file:path,line,column,code:'W561',
   message:`cyclomatic complexity of ${subject} is too high (${value} > 0)`});
+test('presentation extractions are required and their nested callbacks remain budgeted',()=>{
+  for(const path of ['src/lua/abyss_feedback_actor_painter.lua','src/lua/abyss_game_ui_menu_view.lua']){
+    const source='local function paint() return function() end end';
+    const diagnostics=[row(path,1,1,'main chunk',1),row(path,1,7,"function 'paint'",15),
+      row(path,1,source.indexOf('function()')+1,'function',16)];
+    const report=reviewResponsibilityComplexity(diagnostics,{[path]:source});
+    assert.ok(report.errors.some(e=>e.file===path&&e.message.includes('16 exceeds 15')));
+    assert.ok(reviewResponsibilityComplexity([],{}).errors.some(e=>e.file===path&&e.message.includes('missing')));
+  }
+  const path='src/lua/abyss_feedback.lua',source='local function paint() end';
+  const report=reviewResponsibilityComplexity([row(path,1,1,'main chunk',1),
+    row(path,1,7,"function 'paint'",97)],{[path]:source});
+  assert.ok(report.errors.some(e=>e.file===path&&e.message.includes('97 exceeds 15')));
+});
 function fixture() {
   const lines = ['local message="汉字"', 'function M.apply()', ' local hidden=function() end', 'end',
     'local function legacy() end', 'return M'];

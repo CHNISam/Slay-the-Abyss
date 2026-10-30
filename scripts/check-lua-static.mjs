@@ -104,17 +104,16 @@ const responsibilityRoots = {
   'src/lua/abyss_character_presentation.lua': [],
   'src/lua/abyss_character_presentation_text.lua': ["function 'fragments'"],
   'src/lua/abyss_feedback.lua': [
-    "function 'step'", "function 'paint'", "function 'cardShape'",
+    "function 'step'", "function 'cardShape'",
     "function 'cardFlight'", "function 'contactSound'", "function 'statusDamageLabel'",
     "function 'damageLabel'", "function 'previousActor'", "function 'playStep'",
     "function 'bannerStep'", "function 'silentIntent'", "function 'intentStep'",
     "function 'escapeStep'", "function 'deathStep'", "function 'damageText'",
     "function 'statusText'", "function 'targetText'", "function 'targetStep'",
-    "function 'enterFrame'", "function 'appendShake'", "function 'paintKnockback'",
-    "function 'paintMotion'", "function 'impactShape'", "function 'impactTint'",
-    "function 'paintImpact'", "function 'paintShield'", "function 'numberScale'",
-    "function 'paintNumber'", "function 'paintDying'",
+    "function 'enterFrame'",
   ],
+  'src/lua/abyss_feedback_actor_painter.lua': [],
+  'src/lua/abyss_game_ui_menu_view.lua': [],
   'src/lua/abyss_node_ui.lua': [
     "method 'ctx.self.render'", "function 'ctx.syncNodeIdentity'", "function 'ctx.nodeScreen'",
     "function 'ctx.renderNodePage'", "function 'ctx.refreshNodeNotice'",
@@ -157,7 +156,14 @@ export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 10
 }
 // The display adapter now aliases the extracted formatter. If a local formatter
 // is reintroduced, it must not evade the budget that governs its replacement.
-const optionalResponsibilityRoots = {'src/lua/abyss_character_presentation.lua': ["function 'fragments'"]};
+const optionalResponsibilityRoots = {
+  'src/lua/abyss_character_presentation.lua': ["function 'fragments'"],
+  // Restoring the former local painter must not escape its extracted budget.
+  'src/lua/abyss_feedback.lua': ["function 'paint'", "function 'appendShake'", "function 'paintKnockback'",
+    "function 'paintMotion'", "function 'impactShape'", "function 'impactTint'",
+    "function 'paintImpact'", "function 'paintShield'", "function 'numberScale'",
+    "function 'paintNumber'", "function 'paintDying'"],
+};
 export function reviewResponsibilityComplexity(diagnostics, sources, roots = responsibilityRoots) {
   const modules = Object.keys(sources).filter(file => file in roots || responsibilityHelper(file)).sort();
   const functions = [], errors = [];
