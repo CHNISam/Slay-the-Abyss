@@ -1,3 +1,4 @@
+import {artBuildOptionsFromReceipt} from './art-features.mjs';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import Ajv from 'ajv';
@@ -83,7 +84,9 @@ export function reviewUiAcceptance(manifest, expected, {evidenceRoot=process.cwd
 }
 
 export function verifyUiCandidateInputs(receipt,candidateFile,{root=process.cwd()}={}) {
-  if(receipt.candidate.sha256!==fileRecord(candidateFile).sha256 || receipt.payloadDigest!==payloadDigest(sourceInputs(root)))throw new Error('Candidate receipt/payload is stale');
+  verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});
+  const artOptions=artBuildOptionsFromReceipt(receipt);
+  if(receipt.candidate.sha256!==fileRecord(candidateFile).sha256 || receipt.payloadDigest!==payloadDigest(sourceInputs(root,artOptions)))throw new Error('Candidate receipt/payload is stale');
   verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});
 }
 

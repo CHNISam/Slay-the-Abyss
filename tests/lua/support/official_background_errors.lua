@@ -1,3 +1,5 @@
+-- This legacy artwork regression explicitly opts the candidate into background art.
+package.loaded.abyss_art_features={schemaVersion=1,flags={cards=false,menuBackground=true,selectionAvatar=false,battlePortrait=false}}
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Background=require('abyss_menu_background')
 local Asset=require('abyss_menu_background_asset')

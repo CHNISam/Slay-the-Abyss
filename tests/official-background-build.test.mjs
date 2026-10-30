@@ -9,7 +9,7 @@ import {sourceInputs} from '../scripts/build-native-candidate.mjs';
 
 test('real UI build registers one shared hidden background host and one native image template without moving controls',t=>{
  const dir=mkdtempSync(join(tmpdir(),'abyss-background-build-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
- buildUI(dir);
+ buildUI(dir,undefined,{artFeatures:{menuBackground:true}});
  const layout=JSON.parse(readFileSync(join(dir,'game-ui.json'))), stage=layout.controls.find(c=>c.name==='stage');
  const hosts=stage.children.filter(c=>c.name==='officialBackground');
  assert.equal(hosts.length,1,'one actual background host must be registered');
@@ -28,16 +28,20 @@ test('real UI build registers one shared hidden background host and one native i
 });
 
 test('candidate payload provenance includes the actual frozen runtime inputs, not just source directories',()=>{
- const inputs=sourceInputs(process.cwd());
+ const inputs=sourceInputs(process.cwd(),{artFeatures:{menuBackground:true}});
  for(const file of ['background_adapter.lua','background_data.lua']){
   const row=inputs.find(r=>r.path===`art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/${file}`);
   assert(row,`missing runtime provenance ${file}`);assert(row.bytes>0);assert.match(row.sha256,/^[a-f0-9]{64}$/);
  }
 });
 
-test('daily production inventory includes actual dynamic background peak, never official-storage estimates',async()=>{
+test('daily production inventory includes actual dynamic background peak, never official-storage estimates',async t=>{
  const {packageInventory}=await import('../scripts/platform-load.mjs');
- const report=packageInventory();
+ const dir=mkdtempSync(join(tmpdir(),'abyss-background-inventory-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
+ const {buildLuaData}=await import('../scripts/build-lua-data.mjs');
+ buildLuaData('data',join(dir,'abyss_data.lua'));
+ buildUI(dir,undefined,{artFeatures:{menuBackground:true}});
+ const report=packageInventory(dir);
  assert.equal(report.runtimeBackgrounds.length,1);
  assert.equal(report.runtimeBackgrounds[0].peakDynamicControls,13201);
  assert.equal(report.runtimeBackgrounds[0].instances,1);

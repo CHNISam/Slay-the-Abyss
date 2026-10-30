@@ -7,6 +7,9 @@ local api,records,order=nil,{},{}
 local createdLastUpdate,generation,operationDepth=0,0,0
 local updating,clearing=false,false
 local CANCELLED={}
+-- A face can change type while a cancelled allocation is still unwinding.
+-- Cleanup owns its shapes, but only the latest intent owns shared visibility.
+local intents=setmetatable({},{__mode='k'})
 local function alive(control)return control and control.alive~=false end
 local function current(record)
     return not record.cancelled and not record.removed and record.generation==generation
@@ -28,7 +31,65 @@ local function failure(record,reason)
 end
 local function cancel(record)
     record.cancelled,record.ready,record.cleanupRequested=true,false,true
+    if intents[record.box]==record.intent then record.intent.ready=false end
     if records[record.box]==record then records[record.box]=nil end
+end
+local function claim(box,pool,fallback)
+    local intent={box=box,pool=pool,fallback=fallback,ready=false}
+    intents[box]=intent;return intent
+end
+local function presented(intent)
+    if not intent.ready then return false end
+    for _,record in ipairs(order)do
+        if record.box==intent.box and record.cancelled and (record.working or record.allocated)then return false end
+    end
+    return true
+end
+local function reconcile(box,pool,fallback)
+    local controls,failed={},{}
+    if pool then controls[pool]=true end;if fallback then controls[fallback]=true end
+    operationDepth=operationDepth+1
+    local reason
+    repeat
+        local intent=intents[box]
+        if not intent then break end
+        local ready=presented(intent)
+        if intent.pool then controls[intent.pool]=true end
+        if intent.fallback then controls[intent.fallback]=true end
+        for control in pairs(controls)do
+            if alive(control) and not failed[control]then
+                local visible=control==intent.pool and ready or control==intent.fallback and not ready
+                local ok,result=pcall(control.SetVisible,control,visible)
+                if not ok or result==false then
+                    reason=result or 'native visibility rejected';failed[control]=true;intent.ready=false
+                end
+            end
+            if intents[box]~=intent or presented(intent)~=ready then break end
+        end
+        -- Only a new owner/value can cause another pass, never a failed setter.
+        if intents[box]==intent and presented(intent)==ready then break end
+    until false
+    operationDepth=operationDepth-1
+    return not reason,reason
+end
+function M.owns(intent)return intent and intents[intent.box]==intent end
+function M.publish(intent,ready)
+    if not M.owns(intent) then return false end
+    intent.ready=ready
+    if operationDepth>0 then return false end
+    local ok,reason=reconcile(intent.box)
+    return ok and intents[intent.box]==intent and presented(intent)==ready,reason
+end
+function M.guardPublication(intent,control)
+    local function verify()assert(M.owns(intent),'native static publication superseded')end
+    return setmetatable({}, {__index=function(_,key)
+        verify();local value=control[key];verify()
+        if type(value)=='function'then return function(_, ...)
+            verify();local result=value(control,...);verify()
+            assert(result~=false,'native '..key..' rejected');return result
+        end end
+        return value
+    end,__newindex=function(_,key,value)verify();control[key]=value;verify()end})
 end
 local function cleanup(record)
     if record.working or record.cleaning or not record.cleanupRequested then return end
@@ -40,7 +101,7 @@ local function cleanup(record)
         if not ok or result==false then reason=result or 'native visibility rejected' end
     end
     -- Failed visibility must never abort destruction of already-owned controls.
-    hide(record.pool,false);hide(record.fallback,true)
+    hide(record.pool,false)
     local retained={}
     for _,group in ipairs(record.groups)do
         if alive(group.control)then
@@ -50,12 +111,24 @@ local function cleanup(record)
     end
     record.groups,record.controls=retained,{}
     record.allocated,record.ready=#retained>0,false
+    local ok,why=reconcile(record.box,record.pool,record.fallback)
+    if not ok then reason=why end
     record.cleaning=false;operationDepth=operationDepth-1
     -- Nested release/clear requests are satisfied by this same cleanup attempt,
     -- not retried recursively or automatically after a destruction failure.
     record.cleanupRequested=false
     if reason then failure(record,reason)end
     if record.cancelled and not record.allocated then record.removed=true end
+end
+-- Do not replay damaged static geometry in cleanup or allow pending native
+-- work to republish its shared pool. Only a fresh binding may try again.
+function M.invalidatePublication(box,pool)
+    local intent=intents[box]
+    if not intent or intent.pool~=pool then return end
+    intent.ready=false
+    local record=records[box]
+    if record and record.pool==pool then cancel(record);cleanup(record)
+    else M.publish(intent,false)end
 end
 local function work(record,fn)
     if record.working or record.cleaning then return false end
@@ -64,7 +137,7 @@ local function work(record,fn)
     record.working=false;operationDepth=operationDepth-1
     if not ok then
         if reason==CANCELLED then cancel(record)
-        else failure(record,reason);record.ready=false;record.cleanupRequested=true end
+        else failure(record,reason);record.ready=false;record.intent.ready=false;record.cleanupRequested=true end
     end
     if record.cancelled then record.cleanupRequested=true end
     cleanup(record)
@@ -78,6 +151,7 @@ local function call(record,control,name,...)
     return result
 end
 local function visibility(record,ready)
+    record.intent.ready=ready
     call(record,record.pool,'SetVisible',ready)
     call(record,record.fallback,'SetVisible',not ready)
 end
@@ -97,19 +171,29 @@ local function guardedPlatform(record)
         check(record);local value=record.platform.color(...);check(record);return value
     end},{__index=record.platform})
 end
-function M.release(box)
+function M.release(box,fallback,pool)
+    local prior=intents[box]
+    -- An ordinary release inside a visibility callback is the same pending
+    -- intent, not a fresh replacement. Explicit binds always get a new owner.
+    local repeated=not fallback and prior and not prior.ready and not records[box] and (not pool or pool==prior.pool)
+    local intent=repeated and prior or (fallback or prior) and claim(box,pool or prior and prior.pool,fallback or prior.fallback)
     local pending={}
     for _,record in ipairs(order)do
         if not record.removed and record.box==box then cancel(record);pending[#pending+1]=record end
     end
     for _,record in ipairs(pending)do cleanup(record)end
+    if #pending==0 and operationDepth==0 and intent and intents[box]==intent then reconcile(box)end
+    return intent
 end
 function M.clear()
     if clearing then return end
     clearing=true;generation=generation+1;records={}
     local pending={}
     for _,record in ipairs(order)do
-        if not record.removed then cancel(record);pending[#pending+1]=record end
+        if not record.removed then
+            if intents[record.box]==record.intent then claim(record.box,record.pool,record.fallback)end
+            cancel(record);pending[#pending+1]=record
+        end
     end
     for _,record in ipairs(pending)do cleanup(record)end
     clearing=false
@@ -177,10 +261,11 @@ function M.request(box,pool,metadata,platform,fallback,identity,writeSlot)
         return current(previous) and previous.ready==true,previous.reason
     end
     local data=drawing(metadata)
-    if not data then M.release(box);return false,'native art drawing rejected' end
+    if not data then M.release(box,fallback,pool);return false,'native art drawing rejected' end
     if previous then cancel(previous)end
     local record={box=box,pool=pool,metadata=metadata,platform=platform,fallback=fallback,identity=identity,
         generation=generation,groups={},controls={},drawing=data,writeSlot=writeSlot,destroy=api.destroy,
+        intent=claim(box,pool,fallback),
         instantiate=api.instantiate,imageTemplateIndex=api.imageTemplateIndex,containerTemplateIndex=api.containerTemplateIndex}
     records[box]=record;order[#order+1]=record
     -- Register the replacement before cleanup callbacks can issue a newer request.

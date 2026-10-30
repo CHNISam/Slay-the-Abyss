@@ -30,11 +30,11 @@ test('explicit legacy art option consumes frozen two-card inputs in exactly one 
 });
 
 
-test('normal UI build keeps all75 assets lazy and all card contexts dynamically eligible', t => {
+test('explicit cards opt-in UI build keeps all75 assets lazy and all card contexts dynamically eligible', t => {
   const root=process.cwd();mkdirSync(join(root,'build'),{recursive:true});
   const directory=mkdtempSync(join(root,'build/default-ready-art-'));
   t.after(()=>rmSync(directory,{recursive:true,force:true}));
-  const result=spawnSync(process.execPath,['scripts/build-ui.mjs',directory],{cwd:root,encoding:'utf8',timeout:60000});
+  const result=spawnSync(process.execPath,['scripts/build-ui.mjs',directory,'--art-cards=true'],{cwd:root,encoding:'utf8',timeout:60000});
   assert.equal(result.status,0,result.stderr);
   const assets=readFileSync(join(directory,'abyss_ready_card_assets.lua'),'utf8');
   assert.equal((assets.match(/\["runtime"\]=true/g)??[]).length,75);

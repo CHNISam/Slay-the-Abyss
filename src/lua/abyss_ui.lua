@@ -34,6 +34,35 @@ local function failed(phase, reason)
         menu:GetChild("summary").text = message
     end)
 end
+-- One immutable candidate snapshot; never sourced from player parameters or polled.
+local function artFeatures()
+    local flags = {cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}
+    local ok, value = pcall(function()
+        local config = require("abyss_art_features")
+        assert(type(config)=='table' and config.schemaVersion==1 and type(config.flags)=='table', 'invalid art feature schema')
+        for key in pairs(config) do
+            assert(key=='schemaVersion' or key=='flags', 'unknown art config field '..tostring(key))
+        end
+        local snapshot = {}
+        for key in pairs(flags) do
+            assert(type(config.flags[key])=='boolean', 'invalid art feature '..key)
+            snapshot[key] = config.flags[key]
+        end
+        for key in pairs(config.flags) do assert(flags[key]~=nil, 'unknown art feature '..tostring(key)) end
+        return snapshot
+    end)
+    if ok then return value end
+    print('ABYSS_ART config=default_off reason='..tostring(value))
+    return flags
+end
+local function optionalArt(name, create)
+    local ok, value = pcall(create)
+    if ok then return value end
+    print('ABYSS_ART '..name..' phase=unavailable reason='..tostring(value))
+end
+local function boundIndex(value)
+    return type(value)=='number' and value>0 and value<math.huge and value%1==0
+end
 function OnStart()
     if attempted then return end
     attempted = true
@@ -47,15 +76,44 @@ function OnStart()
         local width, height = game.GetUICanvasSize()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
-        background = require("abyss_menu_background").new(stage, print)
-        portraits = require("abyss_traveler_portraits").new(stage, print)
-        cardArt = require("abyss_card_art_runtime")
-        local artBinding = require("abyss_ready_card_binding")
-        if artBinding.enabled and artBinding.imageTemplateIndex > 0 and artBinding.containerTemplateIndex > 0 then
-            cardArt.configure({instantiate=game.InstantiateClientUIControl,destroy=game.DestroyClientUIControl,
-                imageTemplateIndex=artBinding.imageTemplateIndex,containerTemplateIndex=artBinding.containerTemplateIndex})
-            require("abyss_card_display").bindNativeAssets(Presentation,require("abyss_ready_card_assets"))
-        else cardArt.configure(nil) end
+        local flags = artFeatures()
+        if not flags.cards then
+            -- Legacy static candidates embed nativeArt in presentation. Suppress
+            -- that route too, without mutating the cached source for another world.
+            local official = {}
+            for id, entry in pairs(Presentation) do
+                if type(entry)=='table' and entry.nativeArt~=nil then
+                    local copy = {}
+                    for key, value in pairs(entry) do if key~='nativeArt' then copy[key]=value end end
+                    official[id]=copy
+                else official[id]=entry end
+            end
+            Presentation = official
+        end
+        -- CardDisplay already loads this small shared lifecycle module. Reset
+        -- prior ownership even when off; nil cannot create or load asset data.
+        -- Use native require, not the desktop-only package.loaded assumption.
+        require("abyss_card_art_runtime").configure(nil)
+        if flags.menuBackground then
+            background = optionalArt('menuBackground', function()return require("abyss_menu_background").new(stage, print)end)
+        end
+        if flags.selectionAvatar or flags.battlePortrait then
+            portraits = optionalArt('portraits', function()return require("abyss_traveler_portraits").new(stage, print, flags)end)
+        end
+        if flags.cards then
+            cardArt = optionalArt('cards', function()
+                local binding = require("abyss_ready_card_binding")
+                if type(binding)~='table' or binding.enabled~=true
+                    or not boundIndex(binding.imageTemplateIndex) or not boundIndex(binding.containerTemplateIndex) then return nil end
+                local assets = require("abyss_ready_card_assets")
+                local runtime = require("abyss_card_art_runtime")
+                -- Validate/bind first, so missing payload cannot enable creation.
+                require("abyss_card_display").bindNativeAssets(Presentation, assets)
+                runtime.configure({instantiate=game.InstantiateClientUIControl,destroy=game.DestroyClientUIControl,
+                    imageTemplateIndex=binding.imageTemplateIndex,containerTemplateIndex=binding.containerTemplateIndex})
+                return runtime
+            end)
+        end
         -- Opt in only on a candidate containing the ABYSS_BGM graph/signals.
         local hasBgm, enableBgm = pcall(function() return script:GetParam("nativeBgmEnabled") end)
         local music

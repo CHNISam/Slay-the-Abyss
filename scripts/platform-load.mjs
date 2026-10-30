@@ -1,3 +1,4 @@
+import {artBuildOptionsFromReceipt,readArtFeatures} from './art-features.mjs';
 import {portraitRuntimeInventory} from './official-portraits.mjs';
 import {readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';
 import {backgroundRuntimeInventory} from './official-background.mjs';
@@ -15,6 +16,7 @@ import { gitSourceIdentity } from './release-notes.mjs';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 export function packageInventory(directory = 'build/lua') {
+  const artFeatures=readArtFeatures(directory);
   const architecture = checkArchitecture();
   if (architecture.errors.length) throw Error('Production dependency analysis failed; run check:architecture');
   for (const edge of architecture.edges) if (excludedProductionModules.includes(edge.to))
@@ -73,7 +75,8 @@ export function packageInventory(directory = 'build/lua') {
     layoutJsonBytes: Buffer.byteLength(JSON.stringify(layout)), templateJsonBytes: Buffer.byteLength(JSON.stringify(templates)),
     controls, hiddenControls, templates: templates.length, artPools, maxChildren,
     repeatedPrimitiveInstances: [...primitives.values()].reduce((n, count) => n + Math.max(0, count - 1), 0),
-    runtimeCardArt: modules.some(row=>row.name==='abyss_ready_card_binding') ? readyArtRuntimeInventory() : undefined,
+    artFeatures,
+    runtimeCardArt: artFeatures.cards ? readyArtRuntimeInventory(directory) : undefined,
     runtimePortraits: portraitRuntimeInventory(directory),
     runtimeBackgrounds: [backgroundRuntimeInventory(directory)].filter(Boolean),
     excludedModules: excludedProductionModules};
@@ -170,7 +173,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     } else if (mode === 'release') {
       const receipt = JSON.parse(readFileSync(directory));
       if (hash(readFileSync(receipt.candidate.path)) !== receipt.candidate.sha256) throw Error('Candidate file changed');
-      if (payloadDigest(sourceInputs(process.cwd())) !== receipt.payloadDigest) throw Error('Candidate payload differs from current production inputs');
+      verifyNativeCardArtReceipt(receipt.nativeCardArt, {root: process.cwd()});
+      const artOptions=artBuildOptionsFromReceipt(receipt);
+      if (payloadDigest(sourceInputs(process.cwd(),artOptions)) !== receipt.payloadDigest) throw Error('Candidate payload differs from current production inputs');
       verifyNativeCardArtReceipt(receipt.nativeCardArt, {root: process.cwd()});
       const evidence = evidencePath ? JSON.parse(readFileSync(evidencePath)) : undefined;
       // Artifact paths are relative to the evidence file, never fetched from a URL.

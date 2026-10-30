@@ -1,3 +1,4 @@
+import {preArtFeatureSource} from './art-feature-source-inverse.mjs';
 // Integration-only outer projection. Both source branches and frozen witnesses
 // keep their exact identities; unknown or partial edits remain unprojected.
 import assert from 'node:assert/strict';
@@ -12,6 +13,7 @@ export const artPerfSourceComposition=JSON.parse(bytes);
 assert.equal(artPerfSourceComposition.schemaVersion,1);
 export function projectArtPerfSource(path,source,target){
   assert.ok(target==='art'||target==='perf','known art/performance target');
+  source=preArtFeatureSource(path,source);
   source=preRound3CatalogSource(path,source);
   const binding=artPerfSourceComposition.files[path];
   if(!binding||typeof source!=='string')return source;

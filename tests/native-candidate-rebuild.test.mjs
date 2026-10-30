@@ -1,6 +1,4 @@
-import {portraitInputs} from '../scripts/official-portraits.mjs';
-import {readyArtSourceInputs,readyArtTemplates} from '../scripts/art/ready-card-runtime.mjs';
-import {backgroundInputs,attachOfficialBackground} from '../scripts/official-background.mjs';
+import {artFeatureModule,artFeaturesSource} from '../scripts/art-features.mjs';
 import {generatedRuntimeModules} from '../scripts/build-native-candidate.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,8 +10,10 @@ import { spawnSync } from 'node:child_process';
 const builder = fileURLToPath(new URL('../scripts/build-native-candidate.mjs', import.meta.url));
 const existing = { id: 1073741899, name: '_GSTS_ABYSS_SETTLEMENT', type: 20000, writable: true };
 const uiModules = Object.keys(generatedRuntimeModules).filter(name=>generatedRuntimeModules[name]==='scripts/build-ui.mjs');
-const templates = readyArtTemplates();
-attachOfficialBackground({controls:[{name:'stage',children:[]}]},templates);
+// Rebuild/ownership fixtures exercise the ordinary default-off candidate.
+// Artwork binding and template contracts have separate opt-in integration tests.
+const templates = [];
+const generatedSource = name => name === artFeatureModule ? artFeaturesSource({}) : 'return {}';
 // Fake only the MCP boundary: execute the actual CLI and inspect its calls.
 const sdk = `
 import {appendFileSync,readFileSync} from 'node:fs';
@@ -60,11 +60,10 @@ function run(scenario, check) {
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js',sdk);
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js','export class StdioClientTransport {constructor(options) {if(options.env.MILIASTRA_ALLOW_LIVE_WRITE!=="0")throw Error("live writes enabled");}}');
     put('src/lua/abyss_ui.lua','return {}');
-    // Source inventory validates converted artwork against the real card IDs.
-    for(const file of ['data/cards.json',...backgroundInputs,...readyArtSourceInputs(),...portraitInputs])put(file,readFileSync(file));
+    put('data/cards.json',readFileSync('data/cards.json'));
     put('scripts/build-lua-data.mjs',`import {writeFileSync} from 'node:fs';import {dirname,join} from 'node:path';writeFileSync(process.argv[3],'return {}');writeFileSync(join(dirname(process.argv[3]),'abyss_original_v4_data.lua'),'return {}');`);
-    put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const name of ${JSON.stringify(uiModules)})writeFileSync(join(out,name+'.lua'),'return {}');writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),${JSON.stringify(JSON.stringify(templates))});`);
-    for(const name of Object.keys(generatedRuntimeModules))put('build/lua/'+name+'.lua','return {}');
+    put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const [name,source] of ${JSON.stringify(uiModules.map(name=>[name,generatedSource(name)]))})writeFileSync(join(out,name+'.lua'),source);writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),${JSON.stringify(JSON.stringify(templates))});`);
+    for(const name of Object.keys(generatedRuntimeModules))put('build/lua/'+name+'.lua',generatedSource(name));
     put('build/lua/game-ui.json',JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));
     put('build/lua/game-ui-templates.json',JSON.stringify(templates));
     put('scenario.json',JSON.stringify(scenario));
@@ -80,6 +79,10 @@ const success = result => assert.equal(result.status,0,result.stderr);
 test('rebuilding existing scene replaces UI, reuses actual graph id and preserves existing signals',()=>run({hasUi:true,graphs:[existing],signals:['ABYSS_WIN','ABYSS_LOSE']},(result,calls)=>{
   success(result);
   assert.equal(calls.find(c=>c.name==='scene_add_client_ui').args.replace,true);
+  assert.equal(calls.some(c=>c.name==='scene_add_client_template'),false,'default-off rebuild must not register optional artwork templates');
+  const flags=calls.find(c=>c.name==='scene_set_client_script'&&c.args.name===artFeatureModule);
+  assert(flags,'canonical default-off configuration must reach the real candidate payload');
+  assert.equal(readFileSync(flags.args.sourceFile,'utf8'),artFeaturesSource({}));
   assert.equal(calls.filter(c=>c.name==='scene_add_signal'||c.name==='scene_add_graph').length,0);
   const written=calls.find(c=>c.name==='write_graphs').args.graphs[0];
   assert.equal(written.graphId,existing.id);
@@ -144,6 +147,8 @@ for(const foreign of [{name:'OtherProject',file:'OtherProject.lua',on:[]},{name:
 
 for(const scenario of [{failTool:'scene_remove_client'},{payloadErrorTool:'scene_remove_client'},{ignoreRemoval:true}])test('stale script removal refusal or no-op cannot produce an accepted candidate',()=>run({scripts:staleScripts,...scenario},(result,calls)=>{
   assert.notEqual(result.status,0);
+  assert.ok(calls.some(c=>c.name==='scene_remove_client'),'must reach the intended stale-removal failure, not fail an unrelated preflight');
+  assert.match(result.stderr,scenario.failTool?/FIXTURE_FAILURE/:scenario.payloadErrorTool?/PAYLOAD_FAILURE/:/Final client script inventory differs/);
   assert.ok(!calls.some(c=>c.name==='write_graphs'||c.name==='scene_check_client'));
 }));
 

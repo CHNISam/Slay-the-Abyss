@@ -14,7 +14,7 @@ const inputs = ['cards.json', 'statuses.json', 'enemies.json', 'relics.json', 'p
 const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
   'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
   'game-ui-templates.json', 'abyss_ui_templates.lua', 'abyss_menu_background_asset.lua',
-  'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua'];
+  'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_art_features.lua'];
 function fixture(action, cli = false) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-ui-input-'));
   try {

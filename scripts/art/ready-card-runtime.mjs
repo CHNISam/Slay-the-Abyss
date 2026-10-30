@@ -2,7 +2,7 @@ import {loadConvertedCardPack,convertedArtInputs} from './converted-card-data.mj
 import {toLua} from '../build-lua-data.mjs';
 import {createHash} from 'node:crypto';
 // Register empty holders, not thousands of static children per card/template.
-import {writeFileSync} from 'node:fs';
+import {readFileSync,existsSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {buildReadyCardRegistry} from './ready-card-registry.mjs';
 import {bindNativeArtPresentation} from '../card-art-samples.mjs';
@@ -46,7 +46,9 @@ export function bindReadyArtTemplates(directory,{image,group},{enabled=true}={})
  if(image.templateIndex===group.templateIndex)throw Error('Card image and group template indices must differ');
  writeReadyArtBinding(directory,{imageTemplateIndex:image.templateIndex,containerTemplateIndex:group.templateIndex,enabled});
 }
-export function readyArtRuntimeInventory(){return {
+export function readyArtRuntimeInventory(directory){
+ if(directory&&(!existsSync(join(directory,readyArtAssetModule+'.lua'))||!readFileSync(join(directory,readyArtAssetModule+'.lua'),'utf8').includes('["runtime"]=true')))return undefined;
+ return {
  assetCount:75,preciseAssets:3,compactAssets:72,maxLivePools:10,maxShapesPerPool:2657,maxGroupsPerPool:45,
  peakDynamicControls:27020,maxCreatesPerUpdate:64,measurement:'offline-allocation-bound-not-official-load',
  officialImport:'not_run',devices:'not_run',

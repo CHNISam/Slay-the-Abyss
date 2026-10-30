@@ -1,0 +1,48 @@
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+-- Seed a prior world's real dynamic pool. The next default-off startup must
+-- release it through the existing runtime, not merely stop scheduling updates.
+local Old=dofile('tests/lua/support/bounded_native_art_fixture.lua')
+local Runtime=require('abyss_card_art_runtime')
+local Display=require('abyss_card_display')
+Old.configure(Runtime)
+local oldFace,oldMeta=Old.face(),Old.metadata('strike',1)
+Display.writeNativeArt(oldFace,{id='strike'},oldMeta,Old.platform,oldFace:GetChild('art'),1)
+Runtime.update();assert(Runtime.status().livePools==1 and #Old.created>0)
+local canvas=F.control({children=F.Layout})
+local root=F.Viewport.apply(canvas,1280,720)
+root.children.officialBackground=nil
+root:GetChild('characterPanel'):GetChild('traveler').children.officialAvatar=nil
+root:GetChild('battlePanel'):GetChild('hero').children.officialFigure=nil
+local forbidden={abyss_menu_background=true,abyss_menu_background_asset=true,
+ abyss_traveler_portraits=true,abyss_traveler_portrait_assets=true,
+ abyss_ready_card_binding=true,abyss_ready_card_assets=true}
+for name in pairs(forbidden)do assert(package.loaded[name]==nil,'fixture eagerly loaded '..name)end
+local originalRequire=require
+require=function(name)assert(not forbidden[name],'disabled art loaded '..name);return originalRequire(name)end
+package.loaded.abyss_art_features={schemaVersion=1,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}}
+Enum={ImageSource={StaticReference='static'},ImageType={Stretch='stretch'},CursorEventType={CursorClick='click'},
+ Device={Controller='controller',MobileController='mobileController',Mobile='mobile'}}
+Color=setmetatable({FromRGBA=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end},
+ {__call=function(_,r,g,b,a)return {r=r,g=g,b=b,a=a}end})
+local creates,updates=0,false
+game={InstantiateClientUIControl=function()creates=creates+1;error('disabled custom art created')end,
+ DestroyClientUIControl=function()error('nothing custom should be owned')end,
+ GetUICanvasSize=function()return 1280,720 end,IsTestPlay=function()return true end,
+ GetDevice=function()return 'desktop'end,GetCursorUIPos=function()return 0,0 end}
+script={object=canvas,GetParam=function(_,name)assert(name=='nativeBgmEnabled');return false end,
+ EnableUpdate=function(_,v)updates=v end}
+dofile('src/lua/abyss_ui.lua');OnStart();assert(updates,'all-off native entry did not start')
+assert(Runtime.status().livePools==0,'default-off startup stranded a prior world pool')
+for _,control in ipairs(Old.created)do assert(not control.alive,'old custom control remained live')end
+assert(oldFace:GetChild('art').visible,'prior world official fallback not restored')
+local menu=root:GetChild('menuPanel')
+assert(menu.visible and menu:GetChild('heroArt').visible and menu:GetChild('start').visible)
+OnUpdate(.01);assert(F.click(root,'menuPanel','start'))
+assert(root:GetChild('characterPanel').visible,'official selection remains interactive')
+OnUpdate(.01)
+local hero=root:GetChild('battlePanel'):GetChild('hero'):GetChild('portrait')
+assert(hero.visible,'official hero fallback remains visible')
+assert(creates==0)
+for name in pairs(forbidden)do assert(package.loaded[name]==nil,'disabled data loaded '..name)end
+OnDestroy();assert(not updates);OnUpdate(.01);assert(creates==0)
+print('ART_FEATURE_FLAGS_ENTRY_PASS')

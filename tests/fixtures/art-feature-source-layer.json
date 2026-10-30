@@ -1,0 +1,1469 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "1bfca6261044b92f8065bb83668c358b0a2627da",
+  "files": {
+    "scripts/art-features.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "b58585a9f431f48a3f19e72155e7a0426eb8a11b561e1769bdf96cfdea486c18",
+      "hunks": []
+    },
+    "scripts/art/ready-card-runtime.mjs": {
+      "beforeSha256": "c1f3cbe2cca7195b0836f7575ff9d71ec40f697311c4c7379f6467f63432d3dc",
+      "afterSha256": "60e5580098bb10682ac7012c40e5368d4739162b163e1a21241c02ebe11b3d38",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [
+            "import {writeFileSync} from 'node:fs';"
+          ],
+          "after": [
+            "import {readFileSync,existsSync,writeFileSync} from 'node:fs';"
+          ]
+        },
+        {
+          "at": 48,
+          "before": [
+            "export function readyArtRuntimeInventory(){return {"
+          ],
+          "after": [
+            "export function readyArtRuntimeInventory(directory){",
+            " if(directory&&(!existsSync(join(directory,readyArtAssetModule+'.lua'))||!readFileSync(join(directory,readyArtAssetModule+'.lua'),'utf8').includes('[\"runtime\"]=true')))return undefined;",
+            " return {"
+          ]
+        }
+      ]
+    },
+    "scripts/audit-native-candidate.mjs": {
+      "beforeSha256": "68f531af08a661ffff2a6c93db8f63a202712d1027803427e6eed10c544efe38",
+      "afterSha256": "42445d51282d69f3b7c1337109101e6f89ce55ee297e0d7b45e0720208f66af7",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [
+            "import {portraitInputs,portraitModule} from './official-portraits.mjs';",
+            "import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate} from './art/ready-card-runtime.mjs';"
+          ],
+          "after": [
+            "import {normalizeArtFeatures,artFeatureBuildArgs,artBuildOptionsFromReceipt} from './art-features.mjs';",
+            "import {portraitSourceInputs,portraitModule} from './official-portraits.mjs';",
+            "import {readyArtImageTemplate,readyArtGroupTemplate} from './art/ready-card-runtime.mjs';"
+          ]
+        },
+        {
+          "at": 7,
+          "before": [
+            "import { resolve, join, dirname } from 'node:path';"
+          ],
+          "after": [
+            "import { resolve, join, dirname, isAbsolute } from 'node:path';"
+          ]
+        },
+        {
+          "at": 13,
+          "before": [
+            "export function auditUiBuildArgs(receipt) {",
+            "  return ['scripts/build-ui.mjs',...(receipt?.readyCardArt?.enabled===false?['--no-ready-card-art']:[])];"
+          ],
+          "after": [
+            "export function auditUiBuildArgs(receipt,{registryPath}={}) {",
+            "  const options=receipt===undefined?{artFeatures:normalizeArtFeatures()}:artBuildOptionsFromReceipt(receipt);",
+            "  return ['scripts/build-ui.mjs',...artFeatureBuildArgs(options.artFeatures),...(options.nativeCardArt?",
+            "    [`--native-card-art-registry=${registryPath??options.nativeCardArt.registry}`,...options.nativeCardArt.hosts.map(host=>`--native-card-art-host=${host}`)]:[])];",
+            "}",
+            "",
+            "// Choose only from pinned Git paths, never read the current checkout's artwork.",
+            "export function auditAssetInputs(receipt) {",
+            "  const options=receipt===undefined?{artFeatures:normalizeArtFeatures()}:artBuildOptionsFromReceipt(receipt);",
+            "  const flags=options.artFeatures,portable=new Map();",
+            "  const safePath=value=>typeof value==='string'&&value&&!value.startsWith('-')&&!value.startsWith(':')&&!value.includes('\\0')&&!isAbsolute(value)&&!value.split(/[\\\\/]/).includes('..')&&!/^[A-Za-z]:/.test(value);",
+            "  for(const record of receipt?.nativeCardArt?.inputs??[]){",
+            "    const original=record.path?.replaceAll('\\\\','/');",
+            "    const matches=(receipt.inputs??[]).filter(row=>safePath(row.path)&&row.sha256===record.sha256&&row.bytes===record.bytes",
+            "      &&(original===row.path||original?.endsWith('/'+row.path)));",
+            "    if(matches.length!==1)throw Error('Static artwork lacks unambiguous portable source provenance');",
+            "    portable.set(record.path,matches[0].path);",
+            "  }",
+            "  const registryPath=options.nativeCardArt?portable.get(receipt.nativeCardArt.registry.path):undefined;",
+            "  if(options.nativeCardArt&&!registryPath)throw Error('Static registry lacks portable source provenance');",
+            "  return {paths:[...(flags.menuBackground?backgroundInputs:[]),...(flags.cards&&!options.nativeCardArt?['art/cards/traveler-geo']:[]),",
+            "    ...portraitSourceInputs(flags),...portable.values()],registryPath,portable};",
+            "}",
+            "export function prepareAuditStaticRegistry(snapshot,receipt,selection) {",
+            "  if(!selection.registryPath)return;",
+            "  for(const record of receipt.nativeCardArt.inputs){",
+            "    const bytes=readFileSync(join(snapshot,selection.portable.get(record.path)));",
+            "    if(bytes.length!==record.bytes||sha256(bytes)!==record.sha256)throw Error('Pinned static artwork differs from receipt source provenance');",
+            "  }",
+            "  const path=join(snapshot,selection.registryPath),registry=JSON.parse(readFileSync(path,'utf8'));",
+            "  if(!Array.isArray(registry.sourceInputs))throw Error('Static registry lacks source inputs');",
+            "  for(const input of registry.sourceInputs){",
+            "    const fingerprints=receipt.nativeCardArt.inputs.filter(record=>record.sha256===input.sha256);",
+            "    const locators=fingerprints.filter(record=>record.path.replaceAll('\\\\','/')===input.path?.replaceAll('\\\\','/')||selection.portable.get(record.path)===input.path);",
+            "    const matches=locators.length?locators:fingerprints;",
+            "    if(matches.length!==1)throw Error('Static registry source cannot be rebased to pinned snapshot');",
+            "    input.path=selection.portable.get(matches[0].path);",
+            "  }",
+            "  // Only filesystem locators change; all original registry/source bytes were checked above.",
+            "  writeFileSync(path,JSON.stringify(registry));"
+          ]
+        },
+        {
+          "at": 86,
+          "before": [],
+          "after": [
+            "    const artOptions=buildReceipt===undefined?{artFeatures:normalizeArtFeatures()}:artBuildOptionsFromReceipt(buildReceipt);",
+            "    const flags=artOptions.artFeatures,dynamicCards=flags.cards&&!artOptions.nativeCardArt,portraits=flags.selectionAvatar||flags.battlePortrait;",
+            "    if(buildReceipt&&(buildReceipt.sourceCommit!==sourceSha||buildReceipt.candidate?.sha256!==before))throw Error('Art features require matching same-candidate receipt');"
+          ]
+        },
+        {
+          "at": 107,
+          "before": [
+            "    const background = scripts.scripts.some(module=>module.name===backgroundModule)"
+          ],
+          "after": [
+            "    const background = flags.menuBackground"
+          ]
+        },
+        {
+          "at": 109,
+          "before": [
+            "    const runtimeTemplates=scripts.scripts.some(module=>module.name==='abyss_ready_card_binding')"
+          ],
+          "after": [
+            "    const runtimeTemplates=dynamicCards||portraits"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [
+            "    const assetInputs=run('git',['ls-tree','--name-only',sourceSha,'--',...backgroundInputs,...readyArtSourceInputs(repo),...portraitInputs],{encoding:'utf8'}).trim().split('\\n').filter(Boolean);",
+            "    run('tar', ['-xf', '-', '-C', snapshot], { input: run('git', ['archive', sourceSha,"
+          ],
+          "after": [
+            "    const selection=auditAssetInputs(buildReceipt),assetInputs=selection.paths,registryPath=selection.registryPath;",
+            "    run('tar', ['-xf', '-', '-C', snapshot], { input: run('git', ['archive', sourceSha, '--',"
+          ]
+        },
+        {
+          "at": 124,
+          "before": [],
+          "after": [
+            "    prepareAuditStaticRegistry(snapshot,buildReceipt,selection);"
+          ]
+        },
+        {
+          "at": 126,
+          "before": [
+            "      run(process.execPath, script==='build-ui.mjs'?auditUiBuildArgs(buildReceipt):[`scripts/${script}`], { cwd: snapshot }));"
+          ],
+          "after": [
+            "      run(process.execPath, script==='build-ui.mjs'?auditUiBuildArgs(buildReceipt,{registryPath}):[`scripts/${script}`], { cwd: snapshot }));"
+          ]
+        },
+        {
+          "at": 130,
+          "before": [
+            "    if(deployment.some(module=>module.name===backgroundModule)) {"
+          ],
+          "after": [
+            "    if(flags.menuBackground) {"
+          ]
+        },
+        {
+          "at": 137,
+          "before": [
+            "    if(deployment.some(module=>module.name==='abyss_ready_card_binding')) {"
+          ],
+          "after": [
+            "    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:buildReceipt?.officialPortraits;",
+            "    if(runtimeTemplates&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');",
+            "    if(dynamicCards) {"
+          ]
+        },
+        {
+          "at": 147,
+          "before": [
+            "    if(deployment.some(module=>module.name===portraitModule)) {"
+          ],
+          "after": [
+            "    if(portraits) {"
+          ]
+        },
+        {
+          "at": 152,
+          "before": [
+            "      bindPortraitTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],container:runtimeTemplates[1]},{root:snapshot});"
+          ],
+          "after": [
+            "      bindPortraitTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],container:runtimeTemplates[1]},{root:snapshot,...flags});"
+          ]
+        },
+        {
+          "at": 162,
+          "before": [
+            "      template:expectedTemplates.find(row=>row.name===name),templateIndex:i===0?buildReceipt?.readyCardArt?.imageTemplateIndex:buildReceipt?.readyCardArt?.containerTemplateIndex})) : undefined;"
+          ],
+          "after": [
+            "      template:expectedTemplates.find(row=>row.name===name),templateIndex:i===0?sharedReceipt?.imageTemplateIndex:sharedReceipt?.containerTemplateIndex})) : undefined;"
+          ]
+        },
+        {
+          "at": 177,
+          "before": [],
+          "after": [
+            "    report.artFeatures=buildReceipt?.artFeatures;",
+            "    if(registryPath)report.staticArtPathRebase='Pinned source hashes checked; source locator paths rebased to isolated snapshot only';"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-audio-game.mjs": {
+      "beforeSha256": "eba072bc3b278fcaad23b47a6878129ad7cd7234bc82594f311b8577b3a0eb9a",
+      "afterSha256": "bb295b0fa0bae44ccfe7b5133b3b216e6776fbf7b7aa77481ace4abf8c5dd55d",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {resolveArtFeatures,artFeatureArgs,verifyArtFeatureReceipt} from './art-features.mjs';"
+          ]
+        },
+        {
+          "at": 12,
+          "before": [
+            "// builds leave static art unset so the full builder uses all75 dynamic assets."
+          ],
+          "after": [
+            "// builds leave every drawing category disabled unless explicitly opted in."
+          ]
+        },
+        {
+          "at": 21,
+          "before": [
+            "  const art = nativeCardArtArgs(argv);"
+          ],
+          "after": [
+            "  const features=artFeatureArgs(argv);",
+            "  const art = nativeCardArtArgs(features.args);"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [],
+          "after": [
+            "    artFeatures:resolveArtFeatures({artFeatures:features.artFeatures,nativeCardArt:art.nativeCardArt,readyCardArt:art.readyCardArt}),"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [
+            "  releaseCandidate = false, workKey = 'alpha-test', nativeCardArt, readyCardArt, buildFull = buildNativeCandidateFromToolchain, run = runScript } = {}) {"
+          ],
+          "after": [
+            "  releaseCandidate = false, workKey = 'alpha-test', nativeCardArt, readyCardArt, artFeatures, buildFull = buildNativeCandidateFromToolchain, run = runScript } = {}) {"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [],
+          "after": [
+            "  const flags=resolveArtFeatures({artFeatures,readyCardArt,nativeCardArt});"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "  const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey, ...(readyCardArt===false?{readyCardArt:false}:{}), ...(nativeCardArt ? {nativeCardArt} : {}) });"
+          ],
+          "after": [
+            "  const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey, artFeatures:flags, ...(readyCardArt===false?{readyCardArt:false}:{}), ...(nativeCardArt ? {nativeCardArt} : {}) });",
+            "  const fullFlags=verifyArtFeatureReceipt(full.artFeatures);",
+            "  if(JSON.stringify(fullFlags)!==JSON.stringify(flags))throw Error('Full candidate art feature configuration differs from request');"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            "  if (payloadDigest(sourceInputs(root)) !== full.payloadDigest) throw new Error('Source changed during audio packaging');"
+          ],
+          "after": []
+        },
+        {
+          "at": 55,
+          "before": [],
+          "after": [
+            "  if (payloadDigest(sourceInputs(root,{artFeatures:flags,nativeCardArt,readyCardArt})) !== full.payloadDigest) throw new Error('Source changed during audio packaging');"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            "  Object.assign(audio, { sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,"
+          ],
+          "after": [
+            "  if(JSON.stringify(audio.artFeatures)!==JSON.stringify(full.artFeatures))throw Error('Audio art feature configuration differs from full candidate');",
+            "  Object.assign(audio, { artFeatures:full.artFeatures, sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-bgm-candidate.mjs": {
+      "beforeSha256": "3ee1dfa17f5babe54fa5b5c55f2749c92a511068ea92f4a66e6f8dca7b9215d1",
+      "afterSha256": "95499053c2b6afc01c56c42bcc2e40eb2fbe369d70fa57c4fb656ba12f6b2a86",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {verifyArtFeatureReceipt,artFeaturesSource,artFeatureModule} from './art-features.mjs';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [],
+          "after": [
+            "if(full){",
+            " const flags=verifyArtFeatureReceipt(full.artFeatures),source=readFileSync(join(dirname(resolve(sourceReceiptFile)),'payload',artFeatureModule+'.lua'),'utf8');",
+            " if(source!==artFeaturesSource(flags)||createHash('sha256').update(source).digest('hex')!==full.moduleDigests?.[artFeatureModule])throw Error('Full candidate art feature configuration mismatch');",
+            "}"
+          ]
+        },
+        {
+          "at": 76,
+          "before": [
+            "    candidate: fileRecord(mapPath), ...(full ? { buildId: full.buildId, moduleDigests: full.moduleDigests,"
+          ],
+          "after": [
+            "    candidate: fileRecord(mapPath), ...(full ? { buildId: full.buildId, artFeatures:full.artFeatures, moduleDigests: full.moduleDigests,"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-candidate.mjs": {
+      "beforeSha256": "9d81f5b4e232153813e5d5b31692df9313ff0c98c09d14ebfc98e635912c3893",
+      "afterSha256": "8aee3e4f12fe546a14a2a046282be664f50303d631b060a5e0bd8648c0748a79",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [
+            "import {portraitInputs,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';"
+          ],
+          "after": [
+            "import {resolveArtFeatures,artFeatureArgs,artFeatureBuildArgs,artFeatureReceipt,artFeaturesSource,artFeatureModule} from './art-features.mjs';",
+            "import {portraitSourceInputs,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "import { resolve, join } from 'node:path';"
+          ],
+          "after": [
+            "import { resolve, join, relative } from 'node:path';"
+          ]
+        },
+        {
+          "at": 19,
+          "before": [
+            "  [backgroundModule]:'scripts/build-ui.mjs', [portraitModule]:'scripts/build-ui.mjs', abyss_ready_card_binding:'scripts/build-ui.mjs', abyss_ready_card_assets:'scripts/build-ui.mjs',"
+          ],
+          "after": [
+            "  [artFeatureModule]:'scripts/build-ui.mjs', [backgroundModule]:'scripts/build-ui.mjs', [portraitModule]:'scripts/build-ui.mjs', abyss_ready_card_binding:'scripts/build-ui.mjs', abyss_ready_card_assets:'scripts/build-ui.mjs',"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "export function sourceInputs(root) {"
+          ],
+          "after": [
+            "export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {",
+            "  const flags=resolveArtFeatures({artFeatures,nativeCardArt,readyCardArt});",
+            "  const staticOptions=nativeCardArt?.count>0?{registry:nativeCardArt.registry,hosts:Array.from({length:nativeCardArt.count},(_,i)=>`battlePanel/card${i+1}`)}:nativeCardArt;",
+            "  const staticInputs=flags.cards&&staticOptions?prepareNativeCardArt(staticOptions,{root}).inputPaths.map(path=>relative(root,path).replaceAll('\\\\','/')):[];"
+          ]
+        },
+        {
+          "at": 38,
+          "before": [
+            "    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...backgroundInputs, ...readyArtSourceInputs(root),...portraitInputs]) {"
+          ],
+          "after": [
+            "    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...(flags.menuBackground?backgroundInputs:[]), ...(flags.cards&&!nativeCardArt?readyArtSourceInputs(root):[]),...portraitSourceInputs(flags),...staticInputs]) {"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [
+            "function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt,readyCardArt}) {"
+          ],
+          "after": [
+            "function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt,readyCardArt,artFeatures}) {"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(readyCardArt===false?['--no-ready-card-art']:[]),...(releaseCandidate?['--release-candidate']:[]),"
+          ],
+          "after": [
+            "    ['scripts/build-ui.mjs',directory,...artFeatureBuildArgs(artFeatures),`--work-key=${workKey}`,...(readyCardArt===false?['--no-ready-card-art']:[]),...(releaseCandidate?['--release-candidate']:[]),"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [
+            "  releaseCandidate=false,workKey='alpha-test',nativeCardArt,readyCardArt=true}={}) {"
+          ],
+          "after": [
+            "  releaseCandidate=false,workKey='alpha-test',nativeCardArt,readyCardArt,artFeatures}={}) {"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [],
+          "after": [
+            "  const flags=resolveArtFeatures({artFeatures,readyCardArt,nativeCardArt});"
+          ]
+        },
+        {
+          "at": 83,
+          "before": [
+            "  const inputs=sourceInputs(root),digest=payloadDigest(inputs);"
+          ],
+          "after": [
+            "  const inputOptions={artFeatures:flags,nativeCardArt,readyCardArt};",
+            "  const inputs=sourceInputs(root,inputOptions),digest=payloadDigest(inputs);"
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            "  const receipt={schemaVersion:1,buildId,sourceCommit,sourceDirty:dirtyResult.status===0?Boolean(dirtyResult.stdout.trim()):null,"
+          ],
+          "after": [
+            "  const receipt={schemaVersion:1,buildId,artFeatures:artFeatureReceipt(flags),sourceCommit,sourceDirty:dirtyResult.status===0?Boolean(dirtyResult.stdout.trim()):null,"
+          ]
+        },
+        {
+          "at": 111,
+          "before": [
+            "    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt,readyCardArt});"
+          ],
+          "after": [
+            "    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt,readyCardArt,artFeatures:flags});",
+            "    if(Object.hasOwn(generatedModules,artFeatureModule)&&readFileSync(join(generated,artFeatureModule+'.lua'),'utf8')!==artFeaturesSource(flags))throw Error('Generated art feature configuration differs from candidate');"
+          ]
+        },
+        {
+          "at": 125,
+          "before": [
+            "    if(modules.has('abyss_ready_card_binding'))for(const name of [readyArtImageTemplate,readyArtGroupTemplate])"
+          ],
+          "after": [
+            "    const dynamicCards=flags.cards&&!art,portraits=flags.selectionAvatar||flags.battlePortrait;",
+            "    const sharedTemplates=dynamicCards||portraits;",
+            "    const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate,readyArtGroupTemplate]:[])];",
+            "    if(templates.some(template=>blockedTemplates.includes(template.name)))throw Error('Disabled artwork must not register templates');",
+            "    const blockedHosts=[...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];",
+            "    function rejectDisabledHosts(node){",
+            "      if(blockedHosts.includes(node.name))throw Error('Disabled artwork must not register hosts');",
+            "      for(const child of node.controls??node.children??[])rejectDisabledHosts(child);",
+            "    }",
+            "    for(const tree of [layout,...templates])rejectDisabledHosts(tree);",
+            "    const requiredArtModules=[...(Object.values(flags).some(Boolean)?[artFeatureModule]:[]),...(flags.menuBackground?[backgroundModule]:[]),",
+            "      ...(dynamicCards?['abyss_ready_card_binding','abyss_ready_card_assets']:[]),...(portraits?[portraitModule]:[])];",
+            "    for(const name of requiredArtModules)if(!modules.has(name))throw Error('Enabled artwork missing runtime module: '+name);",
+            "",
+            "    if(dynamicCards||portraits)for(const name of [readyArtImageTemplate,readyArtGroupTemplate])"
+          ]
+        },
+        {
+          "at": 141,
+          "before": [
+            "    if(modules.has(backgroundModule)&&templates.filter(template=>template.name===backgroundTemplate).length!==1)"
+          ],
+          "after": [
+            "    if(flags.menuBackground&&templates.filter(template=>template.name===backgroundTemplate).length!==1)"
+          ]
+        },
+        {
+          "at": 143,
+          "before": [
+            "    if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during preparation');"
+          ],
+          "after": [
+            "    if(payloadDigest(sourceInputs(root,inputOptions))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during preparation');"
+          ]
+        },
+        {
+          "at": 161,
+          "before": [
+            "    if(modules.has(backgroundModule)&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');"
+          ],
+          "after": [
+            "    if(flags.menuBackground&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');"
+          ]
+        },
+        {
+          "at": 163,
+          "before": [
+            "      if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');",
+            "      bindReadyArtTemplates(generated,readyTemplates,{enabled:!art&&readyCardArt!==false});",
+            "      if(modules.has(portraitModule)){",
+            "        bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root});",
+            "        receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,inputs:portraitInputs.map(path=>fileRecord(join(root,path),root))};"
+          ],
+          "after": [
+            "      if(dynamicCards){",
+            "        if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');",
+            "        bindReadyArtTemplates(generated,readyTemplates,{enabled:true});",
+            "        receipt.readyCardArt={...readyArtRuntimeInventory(),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
+            "          enabled:true,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};"
+          ]
+        },
+        {
+          "at": 169,
+          "before": [
+            "      receipt.readyCardArt={...readyArtRuntimeInventory(),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
+            "        enabled:!art&&readyCardArt!==false,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};"
+          ],
+          "after": [
+            "      if(portraits){",
+            "        if(!modules.has(portraitModule))throw Error('Portrait templates lack runtime module');",
+            "        bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root,...flags});",
+            "        receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
+            "          inputs:portraitSourceInputs(flags).map(path=>fileRecord(join(root,path),root))};",
+            "      }"
+          ]
+        },
+        {
+          "at": 176,
+          "before": [
+            "    if(modules.has(portraitModule)&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');"
+          ],
+          "after": [
+            "    if(portraits&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');"
+          ]
+        },
+        {
+          "at": 235,
+          "before": [
+            "    if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during packaging');"
+          ],
+          "after": [
+            "    if(payloadDigest(sourceInputs(root,inputOptions))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during packaging');"
+          ]
+        },
+        {
+          "at": 273,
+          "before": [
+            "    const native=nativeCardArtArgs(args.filter(arg=>arg!=='--playtest'));"
+          ],
+          "after": [
+            "    const features=artFeatureArgs(args.filter(arg=>arg!=='--playtest'));",
+            "    const native=nativeCardArtArgs(features.args);"
+          ]
+        },
+        {
+          "at": 278,
+          "before": [
+            "    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,nativeCardArt:native.nativeCardArt,readyCardArt:native.readyCardArt});"
+          ],
+          "after": [
+            "    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,artFeatures:features.artFeatures,nativeCardArt:native.nativeCardArt,readyCardArt:native.readyCardArt});"
+          ]
+        }
+      ]
+    },
+    "scripts/build-ui.mjs": {
+      "beforeSha256": "7873f160679d04996fbf6d91dd7a4a22326ee848e326c80c7b95236840a7a599",
+      "afterSha256": "8b807b568a95f62d19718b1e51b84ec1de326681bde7b996797ca16fede2e32e",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [
+            "import {portraitInputs,portraitSources,attachOfficialPortraits,writePortraitModule} from './official-portraits.mjs';"
+          ],
+          "after": [
+            "import {resolveArtFeatures,artFeatureArgs,writeArtFeatures,artFeatureModule} from './art-features.mjs';",
+            "import {portraitSourceInputs,portraitSources,attachOfficialPortraits,writePortraitModule} from './official-portraits.mjs';"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "import { mkdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs';"
+          ],
+          "after": [
+            "import { mkdirSync, existsSync, lstatSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs';"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [
+            "  const inputs = [...extraInputs, ...contentFiles.map(file => resolve('data', `${file}.json`)),"
+          ],
+          "after": [
+            "  // Discover optional source identities without reading/decoding disabled drawings.",
+            "  const optionalInputs=[],visited=new Set();",
+            "  function optionalSources(directory){",
+            "    if(!existsSync(directory)||lstatSync(directory).isSymbolicLink())return;",
+            "    const identity=realpathSync.native(directory);if(visited.has(identity))return;visited.add(identity);",
+            "    for(const entry of readdirSync(directory,{withFileTypes:true})){",
+            "      const path=join(directory,entry.name);",
+            "      if(entry.isDirectory())optionalSources(path);",
+            "      else if(entry.isFile()||entry.isSymbolicLink()){",
+            "        if(!existsSync(path))continue;",
+            "        if(!statSync(path).isDirectory())optionalInputs.push(path);",
+            "      }",
+            "    }",
+            "  }",
+            "  optionalSources('art');",
+            "  const inputs = [...extraInputs,...optionalInputs, ...contentFiles.map(file => resolve('data', `${file}.json`)),"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua'];"
+          ],
+          "after": [
+            "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua',`${artFeatureModule}.lua`];"
+          ]
+        },
+        {
+          "at": 91,
+          "before": [
+            "  const art = prepareNativeCardArt(options.nativeCardArt);",
+            "  const readyArt = !art && options.readyCardArt !== false;",
+            "  const readyAssets = prepareReadyCardAssets();",
+            "  backgroundSources();portraitSources();",
+            "  rejectInputOutputAliases(outputDirectory, [...backgroundInputs,...portraitInputs, ...readyArtSourceInputs(), ...(art?.inputPaths??[])].map(path=>resolve(path)));"
+          ],
+          "after": [
+            "  const flags = resolveArtFeatures(options);",
+            "  const art = prepareNativeCardArt(options.nativeCardArt?.count===0?undefined:options.nativeCardArt);",
+            "  const readyArt = flags.cards && !art;",
+            "  const readyAssets = readyArt ? prepareReadyCardAssets() : {};",
+            "  if(flags.menuBackground)backgroundSources();",
+            "  portraitSources(process.cwd(),flags);",
+            "  rejectInputOutputAliases(outputDirectory, [...(flags.menuBackground?backgroundInputs:[]),...portraitSourceInputs(flags), ...(readyArt?readyArtSourceInputs():[]), ...(art?.inputPaths??[])].map(path=>resolve(path)));"
+          ]
+        },
+        {
+          "at": 103,
+          "before": [
+            "  attachOfficialBackground(layout, templates);attachOfficialPortraits(layout);",
+            "  templates.push(...readyArtTemplates());"
+          ],
+          "after": [
+            "  if(flags.menuBackground)attachOfficialBackground(layout, templates);",
+            "  attachOfficialPortraits(layout,flags);",
+            "  if(readyArt||flags.selectionAvatar||flags.battlePortrait)templates.push(...readyArtTemplates());"
+          ]
+        },
+        {
+          "at": 117,
+          "before": [
+            "  writeBackgroundModule(outputDirectory);writePortraitModule(outputDirectory);"
+          ],
+          "after": [
+            "  writeArtFeatures(outputDirectory,flags);",
+            "  writeBackgroundModule(outputDirectory,{enabled:flags.menuBackground});writePortraitModule(outputDirectory,{...flags});"
+          ]
+        },
+        {
+          "at": 137,
+          "before": [
+            "    const native = nativeCardArtArgs(args.filter(arg => arg !== '--experimental-characters'));"
+          ],
+          "after": [
+            "    const features=artFeatureArgs(args.filter(arg => arg !== '--experimental-characters'));",
+            "    const native = nativeCardArtArgs(features.args);"
+          ]
+        },
+        {
+          "at": 141,
+          "before": [
+            "    buildUI(paths[0], undefined, { experimentalCharacters, ...options, nativeCardArt:native.nativeCardArt, readyCardArt:native.readyCardArt });"
+          ],
+          "after": [
+            "    buildUI(paths[0], undefined, { experimentalCharacters, ...options, artFeatures:features.artFeatures, nativeCardArt:native.nativeCardArt, readyCardArt:native.readyCardArt });"
+          ]
+        }
+      ]
+    },
+    "scripts/native-candidate-scripts.mjs": {
+      "beforeSha256": "83bc9a50cdce7a9434c0dffef56ccad58771315b611d032b2931c37b4c6ee788",
+      "afterSha256": "92d898473dcdadc3e5cb59512f40ba06bfbbc6590f347fa82a0152682cc0d4b3",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];"
+          ],
+          "after": [
+            "const generatedModules = ['abyss_art_features','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];"
+          ]
+        }
+      ]
+    },
+    "scripts/official-background.mjs": {
+      "beforeSha256": "e41c99bc11f92827e6fad1f649d8377852bf56fad6fc59ed06ffd1d9591b5ffc",
+      "afterSha256": "8604dd067c6ca3d23a4298154e20e2056c6c5c46a6bc1738e2b850f3d1bfc847",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            "export function writeBackgroundModule(directory, {root=process.cwd(), templateIndex=0} = {}) {"
+          ],
+          "after": [
+            "export function writeBackgroundModule(directory, {root=process.cwd(), templateIndex=0,enabled=true} = {}) {"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "  if(!enabled){const source='-- Disabled optional drawing.\\nreturn {enabled=false,imagePrefabId=0}\\n';writeFileSync(join(directory,`${backgroundModule}.lua`),source);return source;}"
+          ]
+        },
+        {
+          "at": 38,
+          "before": [
+            "  if(!existsSync(join(directory,`${backgroundModule}.lua`)))return undefined;"
+          ],
+          "after": [
+            "  if(!existsSync(join(directory,`${backgroundModule}.lua`))||readFileSync(join(directory,`${backgroundModule}.lua`),'utf8').includes('enabled=false'))return undefined;"
+          ]
+        }
+      ]
+    },
+    "scripts/official-portraits.mjs": {
+      "beforeSha256": "072b46c20b7a389aebb0f5c56afed5f66159c9154ccfb5e1d5d9e58ea6277f8c",
+      "afterSha256": "b97e4eee18861ba17d195485be938744b017c0a7abdc9da746d125b9301e12e6",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "export function portraitSources(root=process.cwd()) {",
+            " license(root);",
+            " return assets.map(a=>{"
+          ],
+          "after": [
+            "const selectedAssets=({selectionAvatar=true,battlePortrait=true}={})=>assets.filter(a=>a.kind==='avatar96'?selectionAvatar:battlePortrait);",
+            "export function portraitSourceInputs(options) {",
+            " const selected=selectedAssets(options);return selected.length?[...selected.flatMap(a=>['runtime-no-snapshot.lua','native-art.json'].map(f=>`${base}/${a.kind}/${f}`)),licensePath]:[];",
+            "}",
+            "export function portraitSources(root=process.cwd(),options) {",
+            " const selected=selectedAssets(options);if(selected.length)license(root);",
+            " return selected.map(a=>{"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "export function attachOfficialPortraits(layout) {"
+          ],
+          "after": [
+            "export function attachOfficialPortraits(layout,{selectionAvatar=true,battlePortrait=true}={}) {",
+            " if(!selectionAvatar&&!battlePortrait)return;"
+          ]
+        },
+        {
+          "at": 38,
+          "before": [
+            " const traveler=child(child(stage,'characterPanel'),'traveler'),hero=child(child(stage,'battlePanel'),'hero');",
+            " if(traveler.children.some(c=>c.name==='officialAvatar')||hero.children.some(c=>c.name==='officialFigure'))throw Error('Portrait hosts already attached');",
+            " const bust=child(child(child(traveler,'hit'),'normal'),'bust');",
+            " traveler.children.push({name:'officialAvatar',kind:'container',position:[...bust.position],size:[96,96],scale:[1/3,1/3],visible:false,children:[]});",
+            " const index=hero.children.findIndex(c=>c.name==='portrait');",
+            " hero.children.splice(index+1,0,{name:'officialFigure',kind:'container',position:[0,0],size:[133,133],scale:[(400/3)/133,(400/3)/133],visible:false,children:[]});"
+          ],
+          "after": [
+            " if(selectionAvatar){",
+            "  const traveler=child(child(stage,'characterPanel'),'traveler');",
+            "  if(traveler.children.some(c=>c.name==='officialAvatar'))throw Error('Portrait hosts already attached');",
+            "  const bust=child(child(child(traveler,'hit'),'normal'),'bust');",
+            "  traveler.children.push({name:'officialAvatar',kind:'container',position:[...bust.position],size:[96,96],scale:[1/3,1/3],visible:false,children:[]});",
+            " }",
+            " if(battlePortrait){",
+            "  const hero=child(child(stage,'battlePanel'),'hero');",
+            "  if(hero.children.some(c=>c.name==='officialFigure'))throw Error('Portrait hosts already attached');",
+            "  const index=hero.children.findIndex(c=>c.name==='portrait');",
+            "  hero.children.splice(index+1,0,{name:'officialFigure',kind:'container',position:[0,0],size:[133,133],scale:[(400/3)/133,(400/3)/133],visible:false,children:[]});",
+            " }"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            "export function writePortraitModule(directory,{root=process.cwd(),imageTemplateIndex=0,containerTemplateIndex=0}={}) {"
+          ],
+          "after": [
+            "export function writePortraitModule(directory,{root=process.cwd(),imageTemplateIndex=0,containerTemplateIndex=0,selectionAvatar=true,battlePortrait=true}={}) {"
+          ]
+        },
+        {
+          "at": 56,
+          "before": [
+            " const data=portraitSources(root).map(a=>`${a.kind}=(function()\\n${a.literals}\\nreturn {root=ROOT,rows=ELEMENTS,width=${a.width},count=${a.count},display=${a.display},sourceSha256='${a.runtime}',jsonSha256='${a.json}'}\\nend)()`);"
+          ],
+          "after": [
+            " if(!selectionAvatar&&!battlePortrait){const source='-- Disabled optional drawings.\\nreturn {imagePrefabId=0,containerPrefabId=0}\\n';writeFileSync(join(directory,`${portraitModule}.lua`),source);return source;}",
+            " const data=portraitSources(root,{selectionAvatar,battlePortrait}).map(a=>`${a.kind}=(function()\\n${a.literals}\\nreturn {root=ROOT,rows=ELEMENTS,width=${a.width},count=${a.count},display=${a.display},sourceSha256='${a.runtime}',jsonSha256='${a.json}'}\\nend)()`);"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            "export function portraitRuntimeInventory(directory) {",
+            " if(!existsSync(join(directory,`${portraitModule}.lua`)))return undefined;",
+            " return {assets:assets.map(a=>({asset:`traveler-geo/portraits/${a.kind}`,images:a.count,groups:Math.ceil(a.count/60),pages:Math.ceil(a.count/3600),sourceSha256:a.runtime})),",
+            "  instances:2,batchSize:64,peakDynamicControls:9294,maxDirectDynamicChildren:60,officialCapacity:'not_measured',"
+          ],
+          "after": [
+            "export function portraitInventory(options) {",
+            " const selected=selectedAssets(options);if(!selected.length)return undefined;",
+            " return {assets:selected.map(a=>({asset:`traveler-geo/portraits/${a.kind}`,images:a.count,groups:Math.ceil(a.count/60),pages:Math.ceil(a.count/3600),sourceSha256:a.runtime})),",
+            "  instances:selected.length,batchSize:64,peakDynamicControls:selected.reduce((n,a)=>n+a.count+Math.ceil(a.count/60)+Math.ceil(a.count/3600),0),maxDirectDynamicChildren:60,officialCapacity:'not_measured',"
+          ]
+        },
+        {
+          "at": 74,
+          "before": [],
+          "after": [
+            "export function portraitRuntimeInventory(directory) {",
+            " if(!existsSync(join(directory,`${portraitModule}.lua`)))return undefined;",
+            " const source=readFileSync(join(directory,`${portraitModule}.lua`),'utf8');",
+            " return portraitInventory({selectionAvatar:source.includes('avatar96=(function()'),battlePortrait:source.includes('battle133=(function()')});",
+            "}"
+          ]
+        }
+      ]
+    },
+    "scripts/platform-load.mjs": {
+      "beforeSha256": "76617ff0b8d05f13ce8882e673603800a9015d6b03f8aa26743b7cd3f62934e2",
+      "afterSha256": "c280902d6203534b686aefe70707deda87d6c3733cc916f42db6d52472419135",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {artBuildOptionsFromReceipt,readArtFeatures} from './art-features.mjs';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [],
+          "after": [
+            "  const artFeatures=readArtFeatures(directory);"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "    runtimeCardArt: modules.some(row=>row.name==='abyss_ready_card_binding') ? readyArtRuntimeInventory() : undefined,"
+          ],
+          "after": [
+            "    artFeatures,",
+            "    runtimeCardArt: artFeatures.cards ? readyArtRuntimeInventory(directory) : undefined,"
+          ]
+        },
+        {
+          "at": 175,
+          "before": [
+            "      if (payloadDigest(sourceInputs(process.cwd())) !== receipt.payloadDigest) throw Error('Candidate payload differs from current production inputs');"
+          ],
+          "after": [
+            "      verifyNativeCardArtReceipt(receipt.nativeCardArt, {root: process.cwd()});",
+            "      const artOptions=artBuildOptionsFromReceipt(receipt);",
+            "      if (payloadDigest(sourceInputs(process.cwd(),artOptions)) !== receipt.payloadDigest) throw Error('Candidate payload differs from current production inputs');"
+          ]
+        }
+      ]
+    },
+    "scripts/verify-launch-content.mjs": {
+      "beforeSha256": "f219845a506b1384f7aaa72f0cfa25202c086d4fb4326dc5c123d3347c7a5e72",
+      "afterSha256": "59264716780aab6fa3686ee40e55ef4965df38dd288f1301d902b8088c141513",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "    for (const name of ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+          ],
+          "after": [
+            "    for (const name of ['abyss_art_features', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+          ]
+        }
+      ]
+    },
+    "scripts/verify-ui-acceptance.mjs": {
+      "beforeSha256": "6c24de2721c0f816d611a7a5de056d4bf249703cddbc5ef2e60afad65069cf99",
+      "afterSha256": "cb24cb50bc69e3e9a8610d41ea0568343f71e0348a23c27a401e77315fabac7c",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {artBuildOptionsFromReceipt} from './art-features.mjs';"
+          ]
+        },
+        {
+          "at": 86,
+          "before": [
+            "  if(receipt.candidate.sha256!==fileRecord(candidateFile).sha256 || receipt.payloadDigest!==payloadDigest(sourceInputs(root)))throw new Error('Candidate receipt/payload is stale');"
+          ],
+          "after": [
+            "  verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});",
+            "  const artOptions=artBuildOptionsFromReceipt(receipt);",
+            "  if(receipt.candidate.sha256!==fileRecord(candidateFile).sha256 || receipt.payloadDigest!==payloadDigest(sourceInputs(root,artOptions)))throw new Error('Candidate receipt/payload is stale');"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_art_runtime.lua": {
+      "beforeSha256": "bd9bf4ea15ea3def721b70b249ada2924f42e49a0f852799d0c1eb18c9d156ff",
+      "afterSha256": "b19c36c3a0625351e66d1337a4660482db9658f19e9e29226c438aca08aa3611",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "-- A face can change type while a cancelled allocation is still unwinding.",
+            "-- Cleanup owns its shapes, but only the latest intent owns shared visibility.",
+            "local intents=setmetatable({},{__mode='k'})"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [],
+          "after": [
+            "    if intents[record.box]==record.intent then record.intent.ready=false end"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [],
+          "after": [
+            "end",
+            "local function claim(box,pool,fallback)",
+            "    local intent={box=box,pool=pool,fallback=fallback,ready=false}",
+            "    intents[box]=intent;return intent",
+            "end",
+            "local function presented(intent)",
+            "    if not intent.ready then return false end",
+            "    for _,record in ipairs(order)do",
+            "        if record.box==intent.box and record.cancelled and (record.working or record.allocated)then return false end",
+            "    end",
+            "    return true",
+            "end",
+            "local function reconcile(box,pool,fallback)",
+            "    local controls,failed={},{}",
+            "    if pool then controls[pool]=true end;if fallback then controls[fallback]=true end",
+            "    operationDepth=operationDepth+1",
+            "    local reason",
+            "    repeat",
+            "        local intent=intents[box]",
+            "        if not intent then break end",
+            "        local ready=presented(intent)",
+            "        if intent.pool then controls[intent.pool]=true end",
+            "        if intent.fallback then controls[intent.fallback]=true end",
+            "        for control in pairs(controls)do",
+            "            if alive(control) and not failed[control]then",
+            "                local visible=control==intent.pool and ready or control==intent.fallback and not ready",
+            "                local ok,result=pcall(control.SetVisible,control,visible)",
+            "                if not ok or result==false then",
+            "                    reason=result or 'native visibility rejected';failed[control]=true;intent.ready=false",
+            "                end",
+            "            end",
+            "            if intents[box]~=intent or presented(intent)~=ready then break end",
+            "        end",
+            "        -- Only a new owner/value can cause another pass, never a failed setter.",
+            "        if intents[box]==intent and presented(intent)==ready then break end",
+            "    until false",
+            "    operationDepth=operationDepth-1",
+            "    return not reason,reason",
+            "end",
+            "function M.owns(intent)return intent and intents[intent.box]==intent end",
+            "function M.publish(intent,ready)",
+            "    if not M.owns(intent) then return false end",
+            "    intent.ready=ready",
+            "    if operationDepth>0 then return false end",
+            "    local ok,reason=reconcile(intent.box)",
+            "    return ok and intents[intent.box]==intent and presented(intent)==ready,reason",
+            "end",
+            "function M.guardPublication(intent,control)",
+            "    local function verify()assert(M.owns(intent),'native static publication superseded')end",
+            "    return setmetatable({}, {__index=function(_,key)",
+            "        verify();local value=control[key];verify()",
+            "        if type(value)=='function'then return function(_, ...)",
+            "            verify();local result=value(control,...);verify()",
+            "            assert(result~=false,'native '..key..' rejected');return result",
+            "        end end",
+            "        return value",
+            "    end,__newindex=function(_,key,value)verify();control[key]=value;verify()end})"
+          ]
+        },
+        {
+          "at": 103,
+          "before": [
+            "    hide(record.pool,false);hide(record.fallback,true)"
+          ],
+          "after": [
+            "    hide(record.pool,false)"
+          ]
+        },
+        {
+          "at": 113,
+          "before": [],
+          "after": [
+            "    local ok,why=reconcile(record.box,record.pool,record.fallback)",
+            "    if not ok then reason=why end"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [],
+          "after": [
+            "end",
+            "-- Do not replay damaged static geometry in cleanup or allow pending native",
+            "-- work to republish its shared pool. Only a fresh binding may try again.",
+            "function M.invalidatePublication(box,pool)",
+            "    local intent=intents[box]",
+            "    if not intent or intent.pool~=pool then return end",
+            "    intent.ready=false",
+            "    local record=records[box]",
+            "    if record and record.pool==pool then cancel(record);cleanup(record)",
+            "    else M.publish(intent,false)end"
+          ]
+        },
+        {
+          "at": 139,
+          "before": [
+            "        else failure(record,reason);record.ready=false;record.cleanupRequested=true end"
+          ],
+          "after": [
+            "        else failure(record,reason);record.ready=false;record.intent.ready=false;record.cleanupRequested=true end"
+          ]
+        },
+        {
+          "at": 153,
+          "before": [],
+          "after": [
+            "    record.intent.ready=ready"
+          ]
+        },
+        {
+          "at": 173,
+          "before": [
+            "function M.release(box)"
+          ],
+          "after": [
+            "function M.release(box,fallback,pool)",
+            "    local prior=intents[box]",
+            "    -- An ordinary release inside a visibility callback is the same pending",
+            "    -- intent, not a fresh replacement. Explicit binds always get a new owner.",
+            "    local repeated=not fallback and prior and not prior.ready and not records[box] and (not pool or pool==prior.pool)",
+            "    local intent=repeated and prior or (fallback or prior) and claim(box,pool or prior and prior.pool,fallback or prior.fallback)"
+          ]
+        },
+        {
+          "at": 184,
+          "before": [],
+          "after": [
+            "    if #pending==0 and operationDepth==0 and intent and intents[box]==intent then reconcile(box)end",
+            "    return intent"
+          ]
+        },
+        {
+          "at": 192,
+          "before": [
+            "        if not record.removed then cancel(record);pending[#pending+1]=record end"
+          ],
+          "after": [
+            "        if not record.removed then",
+            "            if intents[record.box]==record.intent then claim(record.box,record.pool,record.fallback)end",
+            "            cancel(record);pending[#pending+1]=record",
+            "        end"
+          ]
+        },
+        {
+          "at": 263,
+          "before": [
+            "    if not data then M.release(box);return false,'native art drawing rejected' end"
+          ],
+          "after": [
+            "    if not data then M.release(box,fallback,pool);return false,'native art drawing rejected' end"
+          ]
+        },
+        {
+          "at": 267,
+          "before": [],
+          "after": [
+            "        intent=claim(box,pool,fallback),"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_display.lua": {
+      "beforeSha256": "e7180abf0214c269c14f175fe60baeda1adb0fc3eb33dc824342d9f106c2f09f",
+      "afterSha256": "49b55b73cc790cb708273f5959263fd3d2a3e9c3bb019970e55830b587dc90da",
+      "hunks": [
+        {
+          "at": 51,
+          "before": [
+            "    if control and control.alive~=false then pcall(control.SetVisible,control,false)end"
+          ],
+          "after": [
+            "    if not control or control.alive==false then return true end",
+            "    local ok,result=pcall(control.SetVisible,control,false)",
+            "    return ok and result~=false"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            "function M.clearNativeArt(box)",
+            "    NativeArtRuntime.release(box)",
+            "    if box.alive==false then return end",
+            "    local pool=nativePool(box)"
+          ],
+          "after": [
+            "local function invalidateStatic(box,pool,controls)",
+            "    local retained,seen={},{}",
+            "    local previous=appliedArt[pool]",
+            "    for _,list in ipairs({previous and previous.controls or {},controls})do",
+            "        for _,control in ipairs(list)do",
+            "            if not seen[control]then retained[#retained+1]=control;seen[control]=true end",
+            "        end",
+            "    end",
+            "    -- Keep cleanup ownership, but no successful geometry cache. A nested newer",
+            "    -- render during reconciliation can replace this tombstone without clobbering.",
+            "    appliedArt[pool]={controls=retained}",
+            "    NativeArtRuntime.invalidatePublication(box,pool)",
+            "end",
+            "function M.clearNativeArt(box,fallback)",
+            "    local pool=box.alive~=false and nativePool(box) or nil",
+            "    local intent=NativeArtRuntime.release(box,fallback,pool)",
+            "    if box.alive==false or intent and not NativeArtRuntime.owns(intent) then return intent,false end"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [
+            "        hideNative(pool)"
+          ],
+          "after": [
+            "        if not intent then hideNative(pool)end"
+          ]
+        },
+        {
+          "at": 76,
+          "before": [
+            "            for _,control in ipairs(previous.controls)do hideNative(control)end"
+          ],
+          "after": [
+            "            local clean=true",
+            "            for _,control in ipairs(previous.controls)do",
+            "                if not hideNative(control)then clean=false end",
+            "                if intent and not NativeArtRuntime.owns(intent)then",
+            "                    invalidateStatic(box,pool,previous.controls);return intent,false",
+            "                end",
+            "            end",
+            "            if not clean then invalidateStatic(box,pool,previous.controls);return intent,false end"
+          ]
+        },
+        {
+          "at": 87,
+          "before": [],
+          "after": [
+            "    return intent,true"
+          ]
+        },
+        {
+          "at": 108,
+          "before": [
+            "function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)",
+            "    if box.alive==false or fallback.alive==false then NativeArtRuntime.release(box);return false end",
+            "    local pool=nativePool(box)",
+            "    if not pool or pool.alive==false then NativeArtRuntime.release(box);pcall(fallback.SetVisible,fallback,true);return false end",
+            "    if not metadata or metadata.cardId~=definition.id then",
+            "        M.clearNativeArt(box);if fallback.alive~=false then pcall(fallback.SetVisible,fallback,true)end;return false",
+            "    end",
+            "    if metadata.runtime==true then",
+            "        return NativeArtRuntime.request(box,pool,metadata,platform,fallback,identity,writeNativeSlot)",
+            "    end",
+            "    pool:SetVisible(false);fallback:SetVisible(true)",
+            "    NativeArtRuntime.release(box)"
+          ],
+          "after": [
+            "local function writeStaticNativeArt(box,pool,definition,metadata,platform,fallback)",
+            "    local intent=NativeArtRuntime.release(box,fallback,pool)",
+            "    if not NativeArtRuntime.owns(intent)then return false end"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [
+            "                controls[index]=nativeSlot(pool,index);controls[index]:SetVisible(false)"
+          ],
+          "after": [
+            "                controls[index]=nativeSlot(pool,index);NativeArtRuntime.guardPublication(intent,controls[index]):SetVisible(false)"
+          ]
+        },
+        {
+          "at": 119,
+          "before": [
+            "                writeNativeSlot(controls[index],slot,platform)"
+          ],
+          "after": [
+            "                writeNativeSlot(NativeArtRuntime.guardPublication(intent,controls[index]),slot,platform)"
+          ]
+        },
+        {
+          "at": 122,
+          "before": [
+            "        if not ok then for _,control in ipairs(controls)do control:SetVisible(false)end end"
+          ],
+          "after": [
+            "        if not ok then",
+            "            for _,control in ipairs(controls)do",
+            "                if not NativeArtRuntime.owns(intent)then break end",
+            "                hideNative(control)",
+            "            end",
+            "        end",
+            "        if not NativeArtRuntime.owns(intent)then",
+            "            invalidateStatic(box,pool,controls)",
+            "            return false,'native static publication superseded'",
+            "        end"
+          ]
+        },
+        {
+          "at": 139,
+          "before": [
+            "    pool:SetVisible(true);fallback:SetVisible(false)",
+            "    return true"
+          ],
+          "after": [
+            "    return NativeArtRuntime.publish(intent,true)",
+            "end",
+            "function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)",
+            "    if box.alive==false or fallback.alive==false then NativeArtRuntime.release(box,fallback);return false end",
+            "    local pool=nativePool(box)",
+            "    if not pool or pool.alive==false then NativeArtRuntime.release(box,fallback,pool);return false end",
+            "    if not metadata or metadata.cardId~=definition.id then",
+            "        M.clearNativeArt(box,fallback);return false",
+            "    end",
+            "    if metadata.runtime==true then",
+            "        if appliedArt[pool]then",
+            "            local intent,clean=M.clearNativeArt(box,fallback)",
+            "            if not clean or not NativeArtRuntime.owns(intent)then return false end",
+            "        end",
+            "        return NativeArtRuntime.request(box,pool,metadata,platform,fallback,identity,writeNativeSlot)",
+            "    end",
+            "    return writeStaticNativeArt(box,pool,definition,metadata,platform,fallback)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_traveler_portraits.lua": {
+      "beforeSha256": "54988379bc5baf06747bcff3c7ff1cfc99feeb6d9f820b807c38375d55ac145c",
+      "afterSha256": "fa410190945402d4f32ec134d8792904a08eeb1e439e85d1d5e7473a04d11351",
+      "hunks": [
+        {
+          "at": 25,
+          "before": [
+            "local Asset = require('abyss_traveler_portrait_assets')"
+          ],
+          "after": []
+        },
+        {
+          "at": 36,
+          "before": [
+            "local function controller(host, data, display)"
+          ],
+          "after": [
+            "local function controller(host, data, display, Asset)"
+          ]
+        },
+        {
+          "at": 167,
+          "before": [
+            "function M.new(stage,report)"
+          ],
+          "after": [
+            "function M.new(stage,report,flags)",
+            "    local selection = type(flags)=='table' and flags.selectionAvatar==true",
+            "    local fighting = type(flags)=='table' and flags.battlePortrait==true",
+            "    if not selection and not fighting then return nil end"
+          ]
+        },
+        {
+          "at": 172,
+          "before": [
+            "    validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')",
+            "    validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')",
+            "    local traveler=assert(stage:GetChild('characterPanel'):GetChild('traveler'))",
+            "    local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))",
+            "    local avatar=controller(traveler:GetChild('officialAvatar'),Asset.avatar96,32)",
+            "    local battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3)",
+            "    local rows={{name='avatar',adapter=avatar,fallback={},active=false},{name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}}",
+            "    for _,name in ipairs({'normal','hover','pressed','disabled'})do",
+            "        rows[1].fallback[#rows[1].fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')"
+          ],
+          "after": [
+            "    local Asset = require('abyss_traveler_portrait_assets')",
+            "    local avatar,battle,rows=nil,nil,{}",
+            "    if selection then",
+            "        validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')",
+            "        local traveler=assert(stage:GetChild('characterPanel'):GetChild('traveler'))",
+            "        avatar=controller(traveler:GetChild('officialAvatar'),Asset.avatar96,32,Asset)",
+            "        local row={name='avatar',adapter=avatar,fallback={},active=false}",
+            "        for _,name in ipairs({'normal','hover','pressed','disabled'})do",
+            "            row.fallback[#row.fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')",
+            "        end",
+            "        rows[#rows+1]=row",
+            "    end",
+            "    if fighting then",
+            "        validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')",
+            "        local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))",
+            "        battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset)",
+            "        rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}"
+          ]
+        },
+        {
+          "at": 209,
+          "before": [
+            "    function self.status(_)return {avatar=avatar:status(),battle=battle:status(),batchSize=64}end"
+          ],
+          "after": [
+            "    function self.status(_)return {avatar=avatar and avatar:status() or {phase='disabled',owned=0},",
+            "        battle=battle and battle:status() or {phase='disabled',owned=0},batchSize=64}end"
+          ]
+        },
+        {
+          "at": 214,
+          "before": [
+            "        local wanted={not stopped and characterOpen==true,not stopped and mode=='battle' and character=='ironclad'}",
+            "        for i,row in ipairs(rows)do",
+            "            if wanted[i] and not row.active then row.active=true;row.adapter:begin()",
+            "            elseif not wanted[i] and row.active then row.active=false;row.adapter:release()end"
+          ],
+          "after": [
+            "        local wanted={avatar=not stopped and characterOpen==true,battle=not stopped and mode=='battle' and character=='ironclad'}",
+            "        for _,row in ipairs(rows)do",
+            "            if wanted[row.name] and not row.active then row.active=true;row.adapter:begin()",
+            "            elseif not wanted[row.name] and row.active then row.active=false;row.adapter:release()end"
+          ]
+        },
+        {
+          "at": 233,
+          "before": [
+            "        if busy or destroyed then return end"
+          ],
+          "after": [
+            "        if busy or destroyed or not battle then return end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_ui.lua": {
+      "beforeSha256": "c44e8839190b794c29859181a99af01f15a65e0a95ad3978a4dd2d2ba09f8e4e",
+      "afterSha256": "a950a0326cae669d448abaaf4afd859c081bd7e7f3799531b2344c5be4b7f755",
+      "hunks": [
+        {
+          "at": 36,
+          "before": [],
+          "after": [
+            "-- One immutable candidate snapshot; never sourced from player parameters or polled.",
+            "local function artFeatures()",
+            "    local flags = {cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}",
+            "    local ok, value = pcall(function()",
+            "        local config = require(\"abyss_art_features\")",
+            "        assert(type(config)=='table' and config.schemaVersion==1 and type(config.flags)=='table', 'invalid art feature schema')",
+            "        for key in pairs(config) do",
+            "            assert(key=='schemaVersion' or key=='flags', 'unknown art config field '..tostring(key))",
+            "        end",
+            "        local snapshot = {}",
+            "        for key in pairs(flags) do",
+            "            assert(type(config.flags[key])=='boolean', 'invalid art feature '..key)",
+            "            snapshot[key] = config.flags[key]",
+            "        end",
+            "        for key in pairs(config.flags) do assert(flags[key]~=nil, 'unknown art feature '..tostring(key)) end",
+            "        return snapshot",
+            "    end)",
+            "    if ok then return value end",
+            "    print('ABYSS_ART config=default_off reason='..tostring(value))",
+            "    return flags",
+            "end",
+            "local function optionalArt(name, create)",
+            "    local ok, value = pcall(create)",
+            "    if ok then return value end",
+            "    print('ABYSS_ART '..name..' phase=unavailable reason='..tostring(value))",
+            "end",
+            "local function boundIndex(value)",
+            "    return type(value)=='number' and value>0 and value<math.huge and value%1==0",
+            "end"
+          ]
+        },
+        {
+          "at": 78,
+          "before": [
+            "        background = require(\"abyss_menu_background\").new(stage, print)",
+            "        portraits = require(\"abyss_traveler_portraits\").new(stage, print)",
+            "        cardArt = require(\"abyss_card_art_runtime\")",
+            "        local artBinding = require(\"abyss_ready_card_binding\")",
+            "        if artBinding.enabled and artBinding.imageTemplateIndex > 0 and artBinding.containerTemplateIndex > 0 then",
+            "            cardArt.configure({instantiate=game.InstantiateClientUIControl,destroy=game.DestroyClientUIControl,",
+            "                imageTemplateIndex=artBinding.imageTemplateIndex,containerTemplateIndex=artBinding.containerTemplateIndex})",
+            "            require(\"abyss_card_display\").bindNativeAssets(Presentation,require(\"abyss_ready_card_assets\"))",
+            "        else cardArt.configure(nil) end"
+          ],
+          "after": [
+            "        local flags = artFeatures()",
+            "        if not flags.cards then",
+            "            -- Legacy static candidates embed nativeArt in presentation. Suppress",
+            "            -- that route too, without mutating the cached source for another world.",
+            "            local official = {}",
+            "            for id, entry in pairs(Presentation) do",
+            "                if type(entry)=='table' and entry.nativeArt~=nil then",
+            "                    local copy = {}",
+            "                    for key, value in pairs(entry) do if key~='nativeArt' then copy[key]=value end end",
+            "                    official[id]=copy",
+            "                else official[id]=entry end",
+            "            end",
+            "            Presentation = official",
+            "        end",
+            "        -- CardDisplay already loads this small shared lifecycle module. Reset",
+            "        -- prior ownership even when off; nil cannot create or load asset data.",
+            "        -- Use native require, not the desktop-only package.loaded assumption.",
+            "        require(\"abyss_card_art_runtime\").configure(nil)",
+            "        if flags.menuBackground then",
+            "            background = optionalArt('menuBackground', function()return require(\"abyss_menu_background\").new(stage, print)end)",
+            "        end",
+            "        if flags.selectionAvatar or flags.battlePortrait then",
+            "            portraits = optionalArt('portraits', function()return require(\"abyss_traveler_portraits\").new(stage, print, flags)end)",
+            "        end",
+            "        if flags.cards then",
+            "            cardArt = optionalArt('cards', function()",
+            "                local binding = require(\"abyss_ready_card_binding\")",
+            "                if type(binding)~='table' or binding.enabled~=true",
+            "                    or not boundIndex(binding.imageTemplateIndex) or not boundIndex(binding.containerTemplateIndex) then return nil end",
+            "                local assets = require(\"abyss_ready_card_assets\")",
+            "                local runtime = require(\"abyss_card_art_runtime\")",
+            "                -- Validate/bind first, so missing payload cannot enable creation.",
+            "                require(\"abyss_card_display\").bindNativeAssets(Presentation, assets)",
+            "                runtime.configure({instantiate=game.InstantiateClientUIControl,destroy=game.DestroyClientUIControl,",
+            "                    imageTemplateIndex=binding.imageTemplateIndex,containerTemplateIndex=binding.containerTemplateIndex})",
+            "                return runtime",
+            "            end)",
+            "        end"
+          ]
+        }
+      ]
+    }
+  }
+}

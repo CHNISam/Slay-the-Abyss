@@ -1,3 +1,4 @@
+import {verifyArtFeatureReceipt,artFeaturesSource,artFeatureModule} from './art-features.mjs';
 // Explicit audio audition candidate. Never imported or played automatically.
 import { readFileSync, mkdirSync, writeFileSync, copyFileSync, constants } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
@@ -15,6 +16,10 @@ const baseSha256 = hash(baseMap);
 const full = sourceReceiptFile ? JSON.parse(readFileSync(sourceReceiptFile, 'utf8')) : undefined;
 if (full && (full.candidate?.sha256 !== baseSha256 || typeof full.buildId !== 'string' || !full.buildId))
   throw new Error('Full candidate receipt does not match the audio base/build');
+if(full){
+ const flags=verifyArtFeatureReceipt(full.artFeatures),source=readFileSync(join(dirname(resolve(sourceReceiptFile)),'payload',artFeatureModule+'.lua'),'utf8');
+ if(source!==artFeaturesSource(flags)||createHash('sha256').update(source).digest('hex')!==full.moduleDigests?.[artFeatureModule])throw Error('Full candidate art feature configuration mismatch');
+}
 const scripts = ['abyss_bgm', 'abyss_game_ui', 'abyss_ui'].map(name => ({ name,
   source: readFileSync(full ? join(dirname(resolve(sourceReceiptFile)), 'payload', `${name}.lua`)
     : new URL(`../src/lua/${name}.lua`, import.meta.url), 'utf8'),
@@ -69,7 +74,7 @@ try {
   if (resolve(mapPath) !== finalMap) copyFileSync(mapPath, finalMap, constants.COPYFILE_EXCL);
   mapPath = finalMap;
   writeFileSync(join(workspace, 'candidate.json'), JSON.stringify({ mapPath, sha256: hash(mapPath),
-    candidate: fileRecord(mapPath), ...(full ? { buildId: full.buildId, moduleDigests: full.moduleDigests,
+    candidate: fileRecord(mapPath), ...(full ? { buildId: full.buildId, artFeatures:full.artFeatures, moduleDigests: full.moduleDigests,
       ...(full.officialPortraits ? {officialPortraits:full.officialPortraits} : {}),
     ...(full.readyCardArt ? {readyCardArt:full.readyCardArt} : {}),
     ...(full.officialBackground ? {officialBackground:full.officialBackground} : {}) } : {}),

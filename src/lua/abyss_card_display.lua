@@ -49,20 +49,43 @@ local function nativePool(box)
     return ok and pool or nil
 end
 local function hideNative(control)
-    if control and control.alive~=false then pcall(control.SetVisible,control,false)end
+    if not control or control.alive==false then return true end
+    local ok,result=pcall(control.SetVisible,control,false)
+    return ok and result~=false
 end
-function M.clearNativeArt(box)
-    NativeArtRuntime.release(box)
-    if box.alive==false then return end
-    local pool=nativePool(box)
+local function invalidateStatic(box,pool,controls)
+    local retained,seen={},{}
+    local previous=appliedArt[pool]
+    for _,list in ipairs({previous and previous.controls or {},controls})do
+        for _,control in ipairs(list)do
+            if not seen[control]then retained[#retained+1]=control;seen[control]=true end
+        end
+    end
+    -- Keep cleanup ownership, but no successful geometry cache. A nested newer
+    -- render during reconciliation can replace this tombstone without clobbering.
+    appliedArt[pool]={controls=retained}
+    NativeArtRuntime.invalidatePublication(box,pool)
+end
+function M.clearNativeArt(box,fallback)
+    local pool=box.alive~=false and nativePool(box) or nil
+    local intent=NativeArtRuntime.release(box,fallback,pool)
+    if box.alive==false or intent and not NativeArtRuntime.owns(intent) then return intent,false end
     if pool then
-        hideNative(pool)
+        if not intent then hideNative(pool)end
         local previous=appliedArt[pool]
         if previous then
-            for _,control in ipairs(previous.controls)do hideNative(control)end
+            local clean=true
+            for _,control in ipairs(previous.controls)do
+                if not hideNative(control)then clean=false end
+                if intent and not NativeArtRuntime.owns(intent)then
+                    invalidateStatic(box,pool,previous.controls);return intent,false
+                end
+            end
+            if not clean then invalidateStatic(box,pool,previous.controls);return intent,false end
         end
         appliedArt[pool]=nil
     end
+    return intent,true
 end
 local function nativeSlot(pool,index)
     local group=assert(pool:GetChild(string.format('group%03d',math.floor((index-1)/60))),'missing native art group')
@@ -83,30 +106,30 @@ local function writeNativeSlot(control,slot,platform)
     control.imageColor=platform.color(slot.colour[1],slot.colour[2],slot.colour[3],slot.colour[4])
     control:SetVisible(true)
 end
-function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)
-    if box.alive==false or fallback.alive==false then NativeArtRuntime.release(box);return false end
-    local pool=nativePool(box)
-    if not pool or pool.alive==false then NativeArtRuntime.release(box);pcall(fallback.SetVisible,fallback,true);return false end
-    if not metadata or metadata.cardId~=definition.id then
-        M.clearNativeArt(box);if fallback.alive~=false then pcall(fallback.SetVisible,fallback,true)end;return false
-    end
-    if metadata.runtime==true then
-        return NativeArtRuntime.request(box,pool,metadata,platform,fallback,identity,writeNativeSlot)
-    end
-    pool:SetVisible(false);fallback:SetVisible(true)
-    NativeArtRuntime.release(box)
+local function writeStaticNativeArt(box,pool,definition,metadata,platform,fallback)
+    local intent=NativeArtRuntime.release(box,fallback,pool)
+    if not NativeArtRuntime.owns(intent)then return false end
     local previous=appliedArt[pool]
     if not previous or previous.metadata~=metadata then
         local controls={}
         local ok,reason=pcall(function()
             for index=1,metadata.capacity do
-                controls[index]=nativeSlot(pool,index);controls[index]:SetVisible(false)
+                controls[index]=nativeSlot(pool,index);NativeArtRuntime.guardPublication(intent,controls[index]):SetVisible(false)
             end
             for index,slot in ipairs(metadata.slots)do
-                writeNativeSlot(controls[index],slot,platform)
+                writeNativeSlot(NativeArtRuntime.guardPublication(intent,controls[index]),slot,platform)
             end
         end)
-        if not ok then for _,control in ipairs(controls)do control:SetVisible(false)end end
+        if not ok then
+            for _,control in ipairs(controls)do
+                if not NativeArtRuntime.owns(intent)then break end
+                hideNative(control)
+            end
+        end
+        if not NativeArtRuntime.owns(intent)then
+            invalidateStatic(box,pool,controls)
+            return false,'native static publication superseded'
+        end
         previous={metadata=metadata,ok=ok,reason=reason,controls=controls}
         appliedArt[pool]=previous
         if not ok then
@@ -114,8 +137,23 @@ function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)
         end
     end
     if not previous.ok then return false,previous.reason end
-    pool:SetVisible(true);fallback:SetVisible(false)
-    return true
+    return NativeArtRuntime.publish(intent,true)
+end
+function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)
+    if box.alive==false or fallback.alive==false then NativeArtRuntime.release(box,fallback);return false end
+    local pool=nativePool(box)
+    if not pool or pool.alive==false then NativeArtRuntime.release(box,fallback,pool);return false end
+    if not metadata or metadata.cardId~=definition.id then
+        M.clearNativeArt(box,fallback);return false
+    end
+    if metadata.runtime==true then
+        if appliedArt[pool]then
+            local intent,clean=M.clearNativeArt(box,fallback)
+            if not clean or not NativeArtRuntime.owns(intent)then return false end
+        end
+        return NativeArtRuntime.request(box,pool,metadata,platform,fallback,identity,writeNativeSlot)
+    end
+    return writeStaticNativeArt(box,pool,definition,metadata,platform,fallback)
 end
 local eligible = {damage=true, damageAll=true, block=true,fiendFire=true,feed=true,reaper=true,damageRandom=true,secondWind=true,
     whirlwind=true,reaperDamage=true}

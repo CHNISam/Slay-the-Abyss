@@ -1,3 +1,4 @@
+import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
 import {projectArtPerfSource} from './art-perf-source-composition.mjs';
 // Outer test-only layer: no historical witness, assertion or budget is changed.
 import assert from 'node:assert/strict';
@@ -26,12 +27,13 @@ export function preReadyArtSource(path,source){
 }
 export function prepareReadyArtRetirement(directory,{sourceRoot=process.cwd()}={}){
  assert.notEqual(resolve(directory),resolve(sourceRoot),'ready-art retirement requires a separate historical destination');
+ const retireFeature=prepareArtFeatureRetirement(directory,{sourceRoot});
  const targets=[];
  for(const [path,binding] of Object.entries(readyArtSourceLayer.files)){
   if(binding.beforeSha256!==null)continue;
   const target=join(directory,path);if(!existsSync(target))continue;
-  assert.equal(hash(normalize(readFileSync(target,'utf8'))),binding.afterSha256,'unreviewed ready-art added module destination '+path);
+  assert.equal(hash(normalize(projectArtPerfSource(path,readFileSync(target,'utf8'),'art'))),binding.afterSha256,'unreviewed ready-art added module destination '+path);
   targets.push(target);
  }
- return ()=>{for(const target of targets)rmSync(target);};
+ return ()=>{retireFeature();for(const target of targets)rmSync(target);};
 }

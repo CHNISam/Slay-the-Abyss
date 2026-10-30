@@ -92,7 +92,7 @@ test('MCP mock: formal CLI consumes opt-in art in the actual UI and dynamic pres
   assert.equal(receipt.nativeCardArt.staticPools,1);assert.equal(receipt.nativeCardArt.staticAddedControls,3);
   assert.deepEqual(receipt.nativeCardArt.inputs.map(r=>r.sha256).sort(),[fileRecord(f.literal),...f.registry.sourceInputs.map(r=>fileRecord(r.path))].map(r=>r.sha256).sort());
   assert.equal(receipt.nativeCardArt.inputDigest,payloadDigest(receipt.nativeCardArt.inputs));
-  assert.equal(receipt.payloadDigest,payloadDigest(sourceInputs(f.root)),'ordinary payload contract stays compatible');
+  assert.equal(receipt.payloadDigest,payloadDigest(sourceInputs(f.root,{nativeCardArt:{registry:f.literal,hosts:['battlePanel/card1']}})),'payload contract includes explicitly selected art inputs');
   assert.equal(receipt.moduleDigests.abyss_presentation,sha256(presentation));
   assert(receipt.nativeCardArt.outputs.some(r=>r.sha256===sha256(presentation)));
   assert.equal(one.calls.find(c=>c.name==='connect').liveWrite,'0');
@@ -142,11 +142,11 @@ test('MCP mock: audio wrapper preserves full art receipt and rejects input chang
   const full=one.receipt();
   const {buildNativeAudioGame}=await import('../scripts/build-native-audio-game.mjs');
   let runs=0;
-  const packageAudio=mutate=>buildNativeAudioGame({root:f.root,baseMap:f.baseMap,output:'audio',buildFull:async()=>full,
+  const packageAudio=mutate=>buildNativeAudioGame({root:f.root,baseMap:f.baseMap,output:'audio',nativeCardArt:{registry:f.literal,hosts:['battlePanel/card1']},buildFull:async()=>full,
     run:(script,[base,directory])=>{
       runs++;mkdirSync(directory,{recursive:true});const mapPath=join(directory,'audio.gil');writeFileSync(mapPath,'MCP mock audio');
       writeFileSync(join(directory,'candidate.json'),JSON.stringify({mapPath,sha256:fileRecord(mapPath).sha256,candidate:fileRecord(mapPath),
-        baseSha256:full.candidate.sha256,baseAfter:full.candidate.sha256,buildId:full.buildId}));
+        baseSha256:full.candidate.sha256,baseAfter:full.candidate.sha256,buildId:full.buildId,artFeatures:full.artFeatures}));
       mutate?.();
     }});
   const audio=await packageAudio();assert.deepEqual(audio.nativeCardArt,full.nativeCardArt);

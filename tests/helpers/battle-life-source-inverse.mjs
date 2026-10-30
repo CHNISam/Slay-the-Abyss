@@ -1,3 +1,4 @@
+import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
 import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
 import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
@@ -73,5 +74,10 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
       'unreviewed battle-life added module destination: ' + path);
     targets.push(target);
   }
-  return () => { for (const target of targets) rmSync(target); retireRound2(); retireBackground(); retireRound3(); };
+  return () => {
+    // Revalidate both newest owners before any composed historical deletion.
+    prepareArtFeatureRetirement(directory,{sourceRoot});
+    retireRound3();
+    for (const target of targets) rmSync(target); retireRound2(); retireBackground();
+  };
 }
