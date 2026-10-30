@@ -1,5 +1,23 @@
 -- Real generated controls + Run/Combat. Reject stale source, not valid same-touch reuse.
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
+local Surfaces=require('abyss_monster_surfaces')
+local function actorBox(panel,battle,index)
+    local box,slot,entry=Surfaces.get(panel):find(assert(battle.enemies[index]).id)
+    assert(box,'actor surface missing')
+    return box,slot,entry
+end
+local function sourceSetup(...)
+    local host,ui,panel,event,tap,drain,openClose,root=H.setup(...)
+    -- Deliberately synthetic encounter constructor offsets, not MonsterHelper
+    -- formation or count-dependent production spacing. Distinguish two targets.
+    local actors=host.run.combat.enemies
+    if #actors==2 then
+        actors[1].sourcePosition={x=-240,y=0}
+        actors[2].sourcePosition={x=80,y=0}
+        host:refresh()
+    end
+    return host,ui,panel,event,tap,drain,openClose,root
+end
 local passed, failed = 0, 0
 local function test(name, fn)
     local ok, why = pcall(fn)
@@ -7,8 +25,8 @@ local function test(name, fn)
     else failed=failed+1; print("FAIL "..name..": "..tostring(why)) end
 end
 local function setup(deck)
-    local host,ui,panel,event,tap,drain,openClose = H.setup(deck or {"strike","strike"},{"cultist","jaw_worm"})
-    host.run.combat.enemies[2].statuses.vulnerable=2
+    local host,ui,panel,event,tap,drain,openClose = sourceSetup(deck or {"strike","strike"},{"cultist","jaw_worm"})
+    require('abyss_actor').applyPower(host.run.combat,host.run.combat.enemies[2],'vulnerable',2,host.run.combat.enemies[2])
     host:refresh()
     return host,ui,panel,event,tap,drain,openClose
 end
@@ -36,7 +54,7 @@ end
 local function aimedSecond()
     local host,ui,panel,event,tap,drain,openClose=setup()
     event("card1","down",7); openClose()
-    local enemy=panel:GetChild("enemy1")
+    local enemy=actorBox(panel,host.run.combat,1)
     event("card2","down",7); event("card2","drag",7,enemy.x,enemy.y)
     assert(ui.gesture and ui.gesture.slot==2 and reticle(panel).x==enemy.x)
     assert(not text(panel,2):find("↑",1,true))
@@ -48,10 +66,10 @@ test("cancelled card1 Drag cannot change card2 preview or reticle with reused to
     local x,y=ui.gesture.x,ui.gesture.y
     local rx,ry=reticle(panel).x,reticle(panel).y
     local target=ui.gesture.drawnTarget
-    local first=panel:GetChild("enemy1")
+    local first=actorBox(panel,host.run.combat,1)
     assert(target==1 and rx==first.x and ry==first.y,"current reticle must belong to the real selected enemy")
     local unchanged=freeze(host.run.combat)
-    local enemy=panel:GetChild("enemy2")
+    local enemy=actorBox(panel,host.run.combat,2)
     event("card1","drag",7,enemy.x,enemy.y)
     assert(text(panel,2)==before2,"stale Drag polluted preview: "..before2.." -> "..text(panel,2))
     assert(text(panel,1)==before1 and ui.gesture.x==x and ui.gesture.y==y)
@@ -62,7 +80,7 @@ end)
 test("foreign card Drag cannot start a stationary current gesture",function()
     local host,ui,panel,event=setup()
     event("card2","down",7)
-    local enemy=panel:GetChild("enemy2")
+    local enemy=actorBox(panel,host.run.combat,2)
     event("card1","drag",7,enemy.x,enemy.y)
     assert(not ui.gesture.moving and ui.selected==nil,"foreign source armed a stationary card")
     assert(not panel:GetChild("dragLayer").visible and host.run.combat.energy==3)
@@ -71,7 +89,7 @@ test("release recomputes legitimate target and consumes only once",function()
     local host,ui,panel,event=aimedSecond()
     local b=host.run.combat
     local hp1,hp2=b.enemies[1].hp,b.enemies[2].hp
-    local first,second=panel:GetChild("enemy1"),panel:GetChild("enemy2")
+    local first,second=actorBox(panel,host.run.combat,1),actorBox(panel,host.run.combat,2)
     event("card1","drag",7,second.x,second.y)
     event("card1","up",7,second.x,second.y)
     assert(ui.gesture and b.energy==3,"foreign Up consumed current drag")
@@ -83,7 +101,7 @@ test("coordinate-less release still cancels after stale source traffic",function
     local host,ui,panel,event=aimedSecond()
     local b=host.run.combat
     local hp1,hp2=b.enemies[1].hp,b.enemies[2].hp
-    local enemy=panel:GetChild("enemy2")
+    local enemy=actorBox(panel,host.run.combat,2)
     event("card1","drag",7,enemy.x,enemy.y)
     panel:GetChild("card2"):GetChild("hit").listeners.up({touchId=7})
     assert(ui.gesture==nil and b.energy==3 and #b.hand==2)
@@ -98,11 +116,11 @@ test("own card and drag layer keep normal target-sensitive preview isolated by U
     local unchanged={}
     for i=1,#b.hand do unchanged[i]=text(panel,i) end
     event("card"..slot,"down",7)
-    local enemy=panel:GetChild("enemy2")
+    local enemy=actorBox(panel,host.run.combat,2)
     event("card"..slot,"drag",7,enemy.x,enemy.y)
     assert(text(panel,slot):find("9↑",1,true),"own card preview did not apply Vulnerable")
     for i=1,#b.hand do if i~=slot then assert(text(panel,i)==unchanged[i],"target leaked into other card") end end
-    local first=panel:GetChild("enemy1")
+    local first=actorBox(panel,host.run.combat,1)
     event("dragLayer","drag",7,first.x,first.y)
     assert(text(panel,slot)==unchanged[slot] and reticle(panel).x==first.x)
     local hp=b.enemies[2].hp
@@ -116,7 +134,7 @@ test("hand reorder rejects stale UID before moving or rendering another card",fu
     event("card1","down",7)
     local old=ui.gesture; local x,y=old.x,old.y
     b.hand[1],b.hand[2]=b.hand[2],b.hand[1]
-    local enemy=panel:GetChild("enemy2")
+    local enemy=actorBox(panel,host.run.combat,2)
     event("card1","drag",7,enemy.x,enemy.y)
     assert(old.x==x and old.y==y and not old.moving,"stale slot UID mutated before render cancellation")
     event("card1","up",7,enemy.x,enemy.y)
@@ -130,9 +148,9 @@ test("old battle and turn are rejected before gesture coordinates mutate",functi
         local host,ui,panel,event=setup()
         event("card1","down",7)
         local g=ui.gesture; local x,y=g.x,g.y
+        local enemy=actorBox(panel,host.run.combat,2) -- captured original actor surface
         if kind=="turn" then g.battle.turn=g.battle.turn+1
         else host.run.combat=H.F.Combat.new(H.F.Data,{deck={"strike","strike"},enemies={"cultist","jaw_worm"}}) end
-        local enemy=panel:GetChild("enemy2")
         event("card1","drag",7,enemy.x,enemy.y)
         assert(g.x==x and g.y==y and not g.moving,kind.." stale generation mutated")
         event("card1","up",7,enemy.x,enemy.y)
@@ -142,7 +160,7 @@ end)
 test("wrong touch cannot move current drag and cancellation permits a fresh same-card drag",function()
     local host,ui,panel,event,tap,drain,openClose=setup()
     event("card1","down",7)
-    local g=ui.gesture; local x,y=g.x,g.y; local enemy=panel:GetChild("enemy2")
+    local g=ui.gesture; local x,y=g.x,g.y; local enemy=actorBox(panel,host.run.combat,2)
     event("card1","drag",8,enemy.x,enemy.y)
     assert(g.x==x and g.y==y and not g.moving)
     openClose(); event("card1","down",7); event("card1","drag",7,enemy.x,enemy.y)
@@ -157,7 +175,7 @@ test("current gesture requires its exact still-held token, not an equal-field co
         local replacement
         if kind=="replaced" then replacement={}; for key,value in pairs(g) do replacement[key]=value end end
         g.input.held=replacement
-        local enemy=panel:GetChild("enemy2")
+        local enemy=actorBox(panel,host.run.combat,2)
         event("card1","drag",7,enemy.x,enemy.y)
         assert(g.x==x and g.y==y and not g.moving,kind.." token was trusted")
     end

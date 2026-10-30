@@ -436,7 +436,11 @@
       "duplication": 103047,
       "verify": true,
       "double_tap": 103047,
-      "juggernaut": 103066
+      "juggernaut": 103066,
+      "split": 100114
+    },
+    "statusReplacementNotes": {
+      "split": "原版 Split atlas 尚不可用，明确使用现有问号占位；不是原图复现。"
     },
     "potion": {
       "attack_potion": 111046,
@@ -493,6 +497,19 @@
       "speed_potion": "#FFFFFF"
     },
     "relic": {
+      "bloody_idol": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "mutagenic_strength": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "necronomicon": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "enchiridion": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "nilrys_codex": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+
+      "nloths_gift": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "cultist_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "face_of_cleric": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "gremlin_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "nloths_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "ssserpent_head": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+
 "bottled_tornado": {"id":102028,"placeholder":true,"note":"瓶装旋风复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
 "sundial": {"id":102028,"placeholder":true,"note":"日晷复用批准主题遗物图标；专属美术与本轮设备显示待验。"},
 "kunai": {"id":102028,"placeholder":true,"note":"苦无复用批准主题遗物图标；专属美术与本轮设备显示待验。"},

@@ -15,7 +15,7 @@ class NativeMonsterArtTest(unittest.TestCase):
     def test_exact_r02_source_identity_and_primitive_bounds(self):
         registry = json.loads((ROOT / 'data/presentation/native-monster-art.json').read_text())
         self.assertEqual(registry['canvas'], [106, 106])
-        self.assertFalse(registry['enabled'], 'prototype must be explicitly enabled before candidate assembly')
+        self.assertTrue(registry['enabled'])
         self.assertFalse(registry['approval']['nativeFinalApproved'])
         self.assertFalse(registry['approval']['deviceVerified'])
         self.assertEqual(registry['approval']['ownerEvidence']['at'], '2026-10-30T03:22:27Z')

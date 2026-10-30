@@ -19,7 +19,9 @@ function M.install(Run, shared)
         require('abyss_uncommon_relics').battleEnd(run)
         for _,id in ipairs(run.relics)do
             local relic=find(run.data.relics.relics,id)
-            if relic and relic.trigger=='combat_end'then
+            if RelicHooks.localId(id)=='face_of_cleric'then
+                local ok,why=Run.increaseMaxHp(run,1);assert(ok,why)
+            elseif relic and relic.trigger=='combat_end'then
                 for _,effect in ipairs(relic.effects)do if effect.op=='heal'then Run.heal(run,effect.value)end end
             end
         end
@@ -142,6 +144,13 @@ function M.install(Run, shared)
         return allEscaped
     end
 
+    local function finishEventCombat(run)
+        local rewards,why=EventCombat.finish(run);if not rewards then return false,why end
+        if why~='event_reopened'then run.rewards,run.phase=rewards,'reward'end
+        run.victories=run.victories+1
+        return true
+    end
+
     local function finishCombat(run)
         if run.phase ~= "combat" then return false, "not_in_combat" end
         local result = Combat.outcome(run.combat)
@@ -155,11 +164,7 @@ function M.install(Run, shared)
         -- Combat-end relics apply once, before the reward transaction is offered.
         combatEndHealing(run)
         if run.act==4 and run.encounterTier=='boss'then return finishHeart(run)end
-        if run.eventCombat then
-            local rewards,why=EventCombat.finish(run);if not rewards then return false,why end
-            run.rewards,run.phase=rewards,'reward';run.victories=run.victories+1
-            return true
-        end
+        if run.eventCombat then return finishEventCombat(run)end
         local gold, goldStream, nextGoldRng = prepareGold(run, allEscaped)
         local relicReward
         if run.combat.roomSeed and run.encounterTier=='elite' then

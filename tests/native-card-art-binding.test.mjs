@@ -37,7 +37,7 @@ for(const enabled of [false,true])test(`${enabled?'explicit cards-on':'ordinary 
  assert.deepEqual(readdirSync(last).sort(),readdirSync(first).sort(),'static candidate must not leak generated outputs into either profile');
  for(const name of readdirSync(first))assert.equal(readFileSync(join(first,name),'utf8'),readFileSync(join(last,name),'utf8'),name);
  const readyPools=pools(JSON.parse(readFileSync(join(first,'game-ui.json'))));
- assert.deepEqual(readArtFeatures(first),{cards:enabled,menuBackground:false,selectionAvatar:false,battlePortrait:false},'each profile must retain its canonical effective flags');
+ assert.deepEqual(readArtFeatures(first),{cards:enabled,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:false},'each profile must retain its canonical effective flags');
  assert.equal(readyPools.length,enabled?38:0);for(const [,pool] of readyPools)assert.deepEqual(pool.children,[]);
  const game=JSON.parse(readFileSync(join(candidate,'game-ui.json')));
  assert.equal(pools(game).length,1,'node art_* must not be missed');

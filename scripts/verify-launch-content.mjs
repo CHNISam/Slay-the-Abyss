@@ -15,16 +15,27 @@ const ids = rows => rows.map(row => row.id).sort();
 const curseEvents = {
   regret: ['event:golden_shrine:desecrate', 'explicit_event:big_fish:box'],
   doubt: ['explicit_event:sssserpent:confirm'], pain: ['explicit_event:accursed_blacksmith:rummage'],
-  decay: ['explicit_event:wheel:accept'],
+  decay: ['explicit_event:wheel:accept', 'explicit_event:forgotten_altar:smash'],
     injury: ['explicit_event:golden_idol:injury'],
     parasite: ['explicit_event:mushrooms:heal'],
 };
 const specialRelicEvents = {
   mark_of_bloom: ['explicit_event:mind_bloom:upgrade'],
   neows_lament: ['explicit:Nodes.beginNeow:THREE_ENEMY_KILL'],
-  red_mask: ['explicit_event:tomb_red_mask:pay'],
+  red_mask: ['explicit_event:tomb_red_mask:pay', 'explicit_event:masked_bandits:fight'],
+  bloody_idol: ['explicit_event:forgotten_altar:offer_idol'],
+  mutagenic_strength: ['explicit_event:drug_dealer:mutagens'],
+  necronomicon: ['explicit_event:cursed_tome:claim'],
+  enchiridion: ['explicit_event:cursed_tome:claim'],
+  nilrys_codex: ['explicit_event:cursed_tome:claim'],
+  cultist_mask: ['explicit_event:face_trader:trade'],
+  face_of_cleric: ['explicit_event:face_trader:trade'],
+  gremlin_mask: ['explicit_event:face_trader:trade'],
+  nloths_mask: ['explicit_event:face_trader:trade'],
+  ssserpent_head: ['explicit_event:face_trader:trade'],
+  nloths_gift: ['explicit_event:nloth:trade_1', 'explicit_event:nloth:trade_2'],
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
-    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take', 'explicit_event:mushrooms:repeat_fight'],
+    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take', 'explicit_event:mushrooms:repeat_fight', 'explicit_event:cursed_tome:claim', 'explicit_event:forgotten_altar:offer_idol', 'explicit_event:drug_dealer:mutagens', 'explicit_event:face_trader:trade', 'explicit_event:nloth:trade_1', 'explicit_event:nloth:trade_2', 'explicit_event:masked_bandits:fight'],
     golden_idol: ['explicit_event:golden_idol:take'],
     odd_mushroom: ['explicit_event:mushrooms:fight'],
 };
@@ -73,7 +84,7 @@ export function inspectLaunchRuntime(root = process.cwd(), data = loadContent(re
     // Inspect the actual packager's source-module discovery without building a
     // candidate. Its generated-file preflight only needs isolated metadata
     // placeholders; none of these values are executed or deployed.
-    for (const name of ['abyss_art_features', 'abyss_monster_art_data','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
+    for (const name of ['abyss_art_features', 'abyss_monster_actor_binding', 'abyss_monster_art_data', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
       writeFileSync(join(directory, `${name}.lua`), '-- deployment metadata inspection only\n');
     const deployment = candidateScriptFiles(sourceDirectory, directory).map(row => row.name);
     const script = join(directory, 'inspect.lua');
@@ -189,7 +200,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     check(card.rarity === definition?.rarity, `cards/${card.id}: rarity drift`);
     const channels = definition?.rarity === 'basic'
       ? ['starter_deck', 'camp_upgrade', 'event_upgrade']
-      : ['combat_card_reward', 'shop_colored_card', 'camp_upgrade', 'event_upgrade'];
+      : ['combat_card_reward', 'shop_colored_card', 'camp_upgrade', 'event_upgrade', 'explicit_event:drug_dealer:transform'];
     same(card.channels, channels, `cards/${card.id} channels`);
     check(card.bossReward === (definition?.rarity === 'rare'), `cards/${card.id}: Boss reward rarity drift`);
   }
@@ -198,9 +209,10 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     const definition = data.cards.cards.find(row => row.id === card.id);
     check(card.type === definition?.type && card.countsTowardSeventyFive === false, `generatedCards/${card.id}: classification drift`);
     const bellCurse = card.id === 'curse_of_the_bell';
-    const channels = bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']
+    const channels = card.id === 'necronomicurse' ? ["explicit_event:cursed_tome:claim", "explicit_event:duplicator:select", "explicit:Run.obtainCard", "permanent_remove:necronomicurse:rebirth", "combat_exhaust:necronomicurse:rebirth"]
+      : bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']
       : card.type === 'curse' ? [...(curseEvents[card.id] ?? []),
-      'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard']
+      'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard', 'explicit_event:drug_dealer:transform']
       : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
         .map(enemy => `enemy:${enemy.id}:intent`),
         ...data.cards.cards.filter(c => [c.effects,c.upgrade?.effects ?? []].some(list=>list.some(e=>e.card===card.id)))
@@ -238,9 +250,9 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     same(card.versions,['base','upgraded'],`sharedCards/${card.id} versions`);
     check(card.rarity===actual?.rarity&&card.type===actual?.type&&card.rarity===reference?.rarity.toLowerCase(),`sharedCards/${card.id}: classification drift`);
     check(actual?.supported===true,`sharedCards/${card.id}: unsupported runtime effect`);
-    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard',...(card.id==='apparition'?['explicit_event:ghosts:accept']:[]),...(card.id==='ritual_dagger'?['explicit_event:nest:dagger']:[])]:
+    same(card.channels,card.rarity==='special'?['explicit:Run.obtainCard',...(card.id==='apparition'?['explicit_event:ghosts:accept']:[]),...(card.id==='ritual_dagger'?['explicit_event:nest:dagger']:[]),...(card.id==='bite'?['explicit_event:vampires:accept','explicit_event:vampires:give_vial']:[]),...(card.id==='jax'?['explicit_event:drug_dealer:jax']:[])]:
       ['shop_colorless_card',...(reference?.tags.includes('HEALING')?[]:['shared_card_generation']),
-        'explicit_event:sensory_stone:card_reward'],`sharedCards/${card.id} channels`);
+        'explicit_event:sensory_stone:card_reward','explicit_event:drug_dealer:transform',...(card.rarity==='uncommon'?['explicit_event:knowing_skull:card']:[])],`sharedCards/${card.id} channels`);
     check(Boolean(card.naturalAcquisitionLimitation),`sharedCards/${card.id}: missing natural acceptance boundary`);
   }
   for (const [field, value] of Object.entries({ nodeEntry: 'abyss_nodes.enter', roomEntry: 'abyss_run.startRoomCombat', sourcePool: 'abyss_encounter_queue.rules' }))
@@ -284,7 +296,7 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   for (const potion of manifest.potions) {
     const definition = data.potions.potions.find(row => row.id === potion.id);
     check(potion.rarity === definition?.rarity, `potions/${potion.id}: rarity drift`);
-    same(potion.channels, ['combat_potion_reward', 'shop_potion'], `potions/${potion.id} channels`);
+    same(potion.channels, ['combat_potion_reward', 'shop_potion', 'explicit_event:knowing_skull:potion'], `potions/${potion.id} channels`);
   }
   for (const relic of manifest.relics) {
     const definition = data.relics.relics.find(row => row.id === relic.id);

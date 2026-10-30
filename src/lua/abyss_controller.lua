@@ -17,6 +17,7 @@ function M.new(api,root)
     end
     if root then clear(root) end
     function manager:eligible(record)
+        if not record or self.byControl[record.control]~=record then return false end
         local scope=type(record.scope)=='function' and record.scope() or record.scope
         return not not (not self.disabled and scope==self.scope
             and visible(record.control) and record.control.raycastTarget~=false
@@ -75,8 +76,9 @@ function M.new(api,root)
         self.disabled=true
         for _,record in ipairs(self.records)do if record.control.alive~=false then record.control.canControllerFocus=false end end
     end
-    function manager:activate(control,fn)
+    function manager:activate(control,fn,expected)
         local record=self.byControl[control]
+        if expected and expected~=record then return false end
         if self.disabled or self.consumed or not self.api.isController()
             or self.api.getFocus()~=control or not self:eligible(record) then return false end
         self.consumed=true
@@ -86,6 +88,24 @@ function M.new(api,root)
         return result,reason
     end
     return manager
+end
+-- Remove only one retired native handle; all card/hero records remain intact.
+function M.unbind(manager,control,engineDestroyed)
+    if not manager then return false end
+    local record=manager.byControl[control]
+    if not record then return false end
+    manager.byControl[control]=nil
+    for i=#manager.records,1,-1 do
+        if manager.records[i]==record then table.remove(manager.records,i) end
+    end
+    for scope,saved in pairs(manager.memory)do if saved==control then manager.memory[scope]=nil end end
+    for _,other in ipairs(manager.records)do
+        if other.links then
+            for direction,target in pairs(other.links)do if target==control then other.links[direction]=nil end end
+        end
+    end
+    if not engineDestroyed and control.alive~=false then control.canControllerFocus=false end
+    return true
 end
 function M.pointerBlocked(manager)
     return manager and manager.consumed and manager.api.isController() or false
@@ -97,10 +117,13 @@ function M.bind(manager,control,scope,action,enabled,order,group,onFocus)
     local record={control=control,scope=scope,enabled=enabled,order=order or 100,group=group}
     manager.byControl[control]=record;manager.records[#manager.records+1]=record
     control.canControllerFocus=false
-    control:AddNavigationEventListener(manager.api.events.Confirm,function()return manager:activate(control,action)end)
+    if manager.byControl[control]~=record then return action end
+    control:AddNavigationEventListener(manager.api.events.Confirm,function()return manager:activate(control,action,record)end)
+    if manager.byControl[control]~=record then return action end
     control:AddNavigationEventListener(manager.api.events.Cancel,function()
-        return manager:activate(control,function()if manager.cancel then return manager.cancel()end return false end)
+        return manager:activate(control,function()if manager.cancel then return manager.cancel()end return false end,record)
     end)
+    if manager.byControl[control]~=record then return action end
     if onFocus and manager.api.events.Focus then
         control:AddNavigationEventListener(manager.api.events.Focus,function()
             if manager:eligible(record)then return onFocus()end

@@ -36,10 +36,10 @@ local function failed(phase, reason)
 end
 -- One immutable candidate snapshot; never sourced from player parameters or polled.
 local function artFeatures()
-    local flags = {cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}
+    local flags = {cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters=false}
     local ok, value = pcall(function()
         local config = require("abyss_art_features")
-        assert(type(config)=='table' and config.schemaVersion==1 and type(config.flags)=='table', 'invalid art feature schema')
+        assert(type(config)=='table' and config.schemaVersion==2 and type(config.flags)=='table', 'invalid art feature schema')
         for key in pairs(config) do
             assert(key=='schemaVersion' or key=='flags', 'unknown art config field '..tostring(key))
         end
@@ -140,7 +140,9 @@ function OnStart()
                       local device=game.GetDevice()
                       return device==Enum.Device.Controller or device==Enum.Device.MobileController
                   end},
-              nativeMonsterArtEnabled=script.nativeMonsterArtEnabled~=false,
+              monsterActors=setmetatable({instantiate=game.InstantiateClientUIControl,destroy=game.DestroyClientUIControl},
+                  {__index=require('abyss_monster_actor_binding')}),
+              nativeMonsterArtEnabled=flags.monsters,
               color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, keyEvents = Enum.KeyEventType,
               imageTypes = Enum.ImageType and {basic=Enum.ImageType.Basic,stretch=Enum.ImageType.Stretch},
               cursorPosition = function() return game.GetCursorUIPos() end,
@@ -180,7 +182,7 @@ function OnUpdate(dt)
 end
 
 function OnDestroy()
-    if view then view:onEngineDestroy() end
+    if view then pcall(function()view:onEngineDestroy()end) end
     if cardArt then cardArt.onEngineDestroy() end
     if portraits then portraits:onEngineDestroy() end
     if background then background:onEngineDestroy() end

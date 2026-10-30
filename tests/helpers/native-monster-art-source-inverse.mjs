@@ -18,8 +18,8 @@ for(const [path,binding]of Object.entries(nativeMonsterSourceLayer.files)) {
  assert.ok(binding.beforeSha256===null||/^[a-f0-9]{64}$/.test(binding.beforeSha256));
  if(binding.beforeSha256===null)assert.deepEqual(binding.hunks,[]);
 }
-export function preNativeMonsterArtSource(path,source) {
- source=preIntegrationSource(path,source,'monster');
+export function preNativeMonsterArtSource(path,source,{readSource=path=>readFileSync(path,'utf8')}={}) {
+ try{source=preIntegrationSource(path,source,'monster',{readSource});}catch(error){assert.fail('native monster linked source missing or invalid: '+error.message);}
  const binding=nativeMonsterSourceLayer.files[path];
  if(!binding||typeof source!=='string')return source;
  let text=normalize(source);
@@ -30,6 +30,13 @@ export function preNativeMonsterArtSource(path,source) {
   if(tokensEqual&&hash(formatted)===binding.afterSha256)text=formatted;
  }catch{ /* Unrecognized source must remain exposed to strict older guards. */ }
  if(hash(text)!==binding.afterSha256)return source;
+ // Recognized outer hosts must bind live added owners on every call. Never memoize these reads.
+ for(const added of nativeMonsterAddedPaths) {
+  let actual;try{actual=preIntegrationSource(added,readSource(added),'monster',{readSource});}catch{assert.fail('native monster linked source missing: '+added);}
+  assert.equal(typeof actual,'string','native monster linked source must exist: '+added);
+  assert.equal(hash(normalize(actual)),nativeMonsterSourceLayer.files[added].afterSha256,'native monster linked source identity: '+added);
+ }
+
  if(binding.beforeSha256===null)return null;
  const lines=text.split('\n');
  for(const hunk of [...binding.hunks].reverse()) {

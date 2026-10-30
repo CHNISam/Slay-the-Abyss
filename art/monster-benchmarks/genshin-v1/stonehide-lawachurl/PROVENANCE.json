@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "identity": "stonehide-lawachurl",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png",
+    "sha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+    "bytes": 1837343,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "reuse existing PR366 source; included only as portable prerequisite"
+  },
+  "sourceDirectionApprovedByUser": true,
+  "sourceApprovalScope": "source visual direction only; not native/runtime acceptance",
+  "nativeReview": "root-reviewed simplified test candidate (parent attestation)",
+  "nativeOwnerAcceptance": false,
+  "method": "manual broad golden rock mane/white horned mask/dark biped body/orange cloth/giant fist planes from approved source; no source sampling, raster import, fitting or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "813a86d887020e3987eadda32081ec8ea6fa91e4594cd4028646162b603acdef",
+      "bytes": 369968
+    },
+    "native-art.lua": {
+      "sha256": "e7146753d3290245947c86e35dff4bf3829cc67ebcc86a1c8d368df8bcedacb8",
+      "bytes": 117771
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "a5c02a613203b8e514f87d3c52e81662c641ad8349b35e71f584acf2add25d57",
+    "generationProvenanceSha256": "a03862b14fec86cf116527d28393b1df039294836e7f45771e84aa2ba08b52fa"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://wiki.hoyolab.com/pc/genshin/entry/2103",
+      "https://www.hoyolab.com/article/14436669"
+    ],
+    "recordedHashes": [
+      "0beb3f862600a8167230e3f03f10a5e623e9e994ac0e748709dcf200bcb520d3",
+      "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

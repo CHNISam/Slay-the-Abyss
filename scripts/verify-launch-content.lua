@@ -52,10 +52,14 @@ for _, event in ipairs(manifest.events) do
         run.encounters=require('abyss_encounter_queue').new(run.runSeed,chapter)
         run.unknown.pools=Pool.new('full',false,chapter)
     end
+    for _,id in ipairs(event.entryFixture and event.entryFixture.obtainRelics or {})do assert(Run.obtainRelic(run,id))end
     local flow = {event = {id = event.id, goldLoss = 20, damage = 16, canAttack = false, healAmount=math.floor(run.maxHp/3)}}
     if event.poolMode=='explicit-only' then
         local map=Map.generate(data,1,chapter)
         local first=Map.available(map)[1]
+        while event.entryFixture and event.entryFixture.minimumFloor and first.floor<event.entryFixture.minimumFloor do
+            assert(Map.choose(map,first.id));first=assert(Map.available(map)[1])
+        end
         for _,node in ipairs(map.nodes) do
             if node.id==first.id then node.type='event';node.eventId=event.id end
         end
@@ -112,7 +116,28 @@ for _, event in ipairs(manifest.events) do
         flow=run.nodeFlow
         for _,option in ipairs(Nodes.eventOptions(run,flow))do choices[option.choice]=true end
     end
-    for _,stage in ipairs(event.id=='sensory_stone'and{}or event.stages or {}) do
+    -- Tome reward options require the actual source descriptor. Traverse real
+    -- paid pages/draw/skip; do not fabricate a book to satisfy a stage probe.
+    if event.id=='cursed_tome'then
+        local function collect()
+            flow=run.nodeFlow
+            for _,option in ipairs(Nodes.eventOptions(run,flow))do choices[option.choice]=true end
+        end
+        assert(Nodes.chooseEvent(run,'read'));collect()
+        for _=1,3 do assert(Nodes.chooseEvent(run,'continue'));collect()end
+        assert(Nodes.chooseEvent(run,'obtain'));collect()
+        assert(Nodes.chooseEvent(run,'skip'));collect()
+    end
+    if event.id=='designer'then
+        -- Options-only source branch inspection; actual paid transitions and
+        -- atomic ordered grid commands are checked by dedicated runtime tests.
+        flow.event.stage='choose_card'
+        for _,choice in ipairs({'upgrade','remove','full_remove','transform'})do
+            flow.event.choice=choice
+            for _,option in ipairs(Nodes.eventOptions(run,flow))do choices[option.choice]=true end
+        end
+    end
+    for _,stage in ipairs((event.id=='sensory_stone'or event.id=='cursed_tome')and{}or event.stages or {}) do
         flow.event.stage=stage
         if stage=='potion_rewards' then
             flow.event.potionOffers={{id='fire_potion',claimed=false},{id='block_potion',claimed=false},{id='strength_potion',claimed=false}}

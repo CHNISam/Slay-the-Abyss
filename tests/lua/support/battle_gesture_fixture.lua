@@ -11,7 +11,7 @@ local function setup(deck, enemies, pointer)
     host:resize(1280,720); host:refresh()
     local ui, panel = host.battleUI, root:GetChild("battlePanel")
     local function event(name, kind, touch, x, y)
-        local box=panel:GetChild(name)
+        local box=F.actorControl(panel,name)
         local hit=box.listeners and box or box:GetChild("hit")
         local callback=assert(hit.listeners and hit.listeners[kind], name.."/"..kind)
         local k=math.min(ui.canvasWidth/1280,ui.canvasHeight/720)
@@ -20,7 +20,7 @@ local function setup(deck, enemies, pointer)
     end
     local function tap(name,touch)
         event(name,"down",touch)
-        local box=panel:GetChild(name)
+        local box=F.actorControl(panel,name)
         local hit=box.listeners and box or box:GetChild("hit")
         -- Physical Up is a no-op on controls without an Up listener.
         if hit.listeners and hit.listeners.up then event(name,"up",touch) end

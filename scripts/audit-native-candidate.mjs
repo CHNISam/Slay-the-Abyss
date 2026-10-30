@@ -1,3 +1,4 @@
+import {monsterPowerTemplateName,monsterActorBindingModule,monsterActorTemplateName} from './monster-art.mjs';
 import {normalizeArtFeatures,artFeatureBuildArgs,artBuildOptionsFromReceipt} from './art-features.mjs';
 import {portraitSourceInputs,portraitModule} from './official-portraits.mjs';
 import {readyArtImageTemplate,readyArtGroupTemplate} from './art/ready-card-runtime.mjs';
@@ -31,7 +32,7 @@ export function auditAssetInputs(receipt) {
   }
   const registryPath=options.nativeCardArt?portable.get(receipt.nativeCardArt.registry.path):undefined;
   if(options.nativeCardArt&&!registryPath)throw Error('Static registry lacks portable source provenance');
-  return {paths:[...(flags.menuBackground?backgroundInputs:[]),...(flags.cards&&!options.nativeCardArt?['art/cards/traveler-geo']:[]),
+  return {paths:[...(flags.monsters?receipt.nativeMonsterArt.inputs.map(row=>row.path):[]),...(flags.menuBackground?backgroundInputs:[]),...(flags.cards&&!options.nativeCardArt?['art/cards/traveler-geo']:[]),
     ...portraitSourceInputs(flags),...portable.values()],registryPath,portable};
 }
 export function prepareAuditStaticRegistry(snapshot,receipt,selection) {
@@ -107,8 +108,8 @@ export async function auditNativeCandidate(options) {
     const template = save('template.json', getClientUi({ mapPath, template: 'AbyssDeckCard' }));
     const background = flags.menuBackground
       ? save('background-template.json', getClientUi({mapPath,template:backgroundTemplate})) : undefined;
-    const runtimeTemplates=dynamicCards||portraits||flags.menuBackground
-      ? [readyArtImageTemplate,readyArtGroupTemplate].map(name=>save(name+'.json',getClientUi({mapPath,template:name}))) : undefined;
+    const runtimeNames=[...(dynamicCards||portraits||flags.menuBackground?[readyArtImageTemplate]:[]),readyArtGroupTemplate,monsterActorTemplateName,monsterPowerTemplateName];
+    const runtimeTemplates=runtimeNames.map(name=>save(name+'.json',getClientUi({mapPath,template:name})));
     const inspected = save('inspect.json', inspectFile(mapPath));
     const checked = save('static-check.json', checkClientScripts({ mapPath }));
     const uiRecord = fields(one(container(readFileSync(mapPath)), 50)).find(field => field.id === 1
@@ -136,7 +137,7 @@ export async function auditNativeCandidate(options) {
       bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot,containerTemplateIndex:runtimeTemplates?.[1]?.templateIndex});
     }
     const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:portraits?buildReceipt?.officialPortraits:buildReceipt?.officialBackground;
-    if(runtimeTemplates&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');
+    if((dynamicCards||portraits||flags.menuBackground)&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');
     if(dynamicCards) {
       if(buildReceipt?.sourceCommit!==sourceSha||buildReceipt?.candidate?.sha256!==before
         ||runtimeTemplates?.[0]?.templateIndex!==buildReceipt?.readyCardArt?.imageTemplateIndex
@@ -152,6 +153,19 @@ export async function auditNativeCandidate(options) {
       const {bindPortraitTemplates}=await import(pathToFileURL(join(snapshot,'scripts/official-portraits.mjs')));
       bindPortraitTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],container:runtimeTemplates[1]},{root:snapshot,...flags});
     }
+    if(!deployment.some(module=>module.name===monsterActorBindingModule))throw Error('Missing monster actor runtime binding');
+    {
+      const power=runtimeTemplates?.find(row=>row.template?.name===monsterPowerTemplateName);
+      const actor=runtimeTemplates?.find(row=>row.template?.name===monsterActorTemplateName);
+      const group=runtimeTemplates?.find(row=>row.template?.name===readyArtGroupTemplate);
+      if(buildReceipt?.sourceCommit!==sourceSha||buildReceipt?.candidate?.sha256!==before
+        ||power?.templateIndex!==buildReceipt?.monsterActors?.powerTemplateIndex
+        ||actor?.templateIndex!==buildReceipt?.monsterActors?.templateIndex
+        ||group?.templateIndex!==buildReceipt?.monsterActors?.containerTemplateIndex)
+        throw Error('Monster actors require matching same-candidate binding and template readback');
+      const {bindMonsterActorTemplates}=await import(pathToFileURL(join(snapshot,'scripts/monster-art.mjs')));
+      bindMonsterActorTemplates(join(snapshot,'build/lua'),{actor,group,power});
+    }
     const modules = deployment.map(({ name, sourceFile }) => {
       const source = readFileSync(sourceFile, 'utf8');
       return { name, source: name === 'abyss_ui' ? candidateEntrySource(source, buildReceipt, before) : source };
@@ -159,8 +173,10 @@ export async function auditNativeCandidate(options) {
     const expectedUi = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui.json'), 'utf8'));
     const expectedTemplates = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui-templates.json'), 'utf8'));
     const expectedTemplate = expectedTemplates.find(template => template.name === 'AbyssDeckCard');
-    const expectedRuntimeTemplates=runtimeTemplates? [readyArtImageTemplate,readyArtGroupTemplate].map((name,i)=>({
-      template:expectedTemplates.find(row=>row.name===name),templateIndex:i===0?sharedReceipt?.imageTemplateIndex:sharedReceipt?.containerTemplateIndex})) : undefined;
+    const expectedRuntimeTemplates=runtimeNames.map(name=>({
+      template:expectedTemplates.find(row=>row.name===name),templateIndex:name===monsterPowerTemplateName?buildReceipt?.monsterActors?.powerTemplateIndex:
+        name===monsterActorTemplateName?buildReceipt?.monsterActors?.templateIndex:name===readyArtImageTemplate?sharedReceipt?.imageTemplateIndex:
+        sharedReceipt?.containerTemplateIndex??buildReceipt?.monsterActors?.containerTemplateIndex}));
     const expectedBackgroundTemplate = expectedTemplates.find(template => template.name === backgroundTemplate);
     const expectedBackground = expectedBackgroundTemplate ? {template:expectedBackgroundTemplate,
       templateIndex:buildReceipt?.officialBackground?.templateIndex} : undefined;

@@ -27,6 +27,7 @@ async function fixture(t, overrides = {}) {
     calls.push({name,args});
     let data={};
     const mapPath=join(workspace,'mock.gil');
+    if(name==='scene_add_client_template')data={templateIndex:{AbyssReadyCardGroup:31,AbyssMonsterActor:32,AbyssMonsterPower:33}[args.template.name]};
     if(name==='scene_set_client_script'){ names.push(args.name);sources.set(args.name,readFileSync(args.sourceFile,'utf8')); writeFileSync(mapPath,'candidate'); data={mapPath}; }
     if(name==='scene_add_graph')data={graphId:7,name:'ABYSS_SETTLEMENT'};
     if(name==='write_graphs')data={written:[7]};
@@ -38,14 +39,14 @@ async function fixture(t, overrides = {}) {
     return {structuredContent:data};
   }};
   // The fake SDK has no native process; filesystem and manifest checks stay real.
-  const prepare=dir=>{workspace=dirname(dir);names.length=0;writeFileSync(join(dir,'game-ui.json'),'{"controls":[]}');writeFileSync(join(dir,'game-ui-templates.json'),'[]');prepareGenerated?.(dir);};
+  const prepare=dir=>{workspace=dirname(dir);names.length=0;writeFileSync(join(dir,'game-ui.json'),'{"controls":[]}');writeFileSync(join(dir,'game-ui-templates.json'),JSON.stringify(['AbyssReadyCardGroup','AbyssMonsterActor','AbyssMonsterPower'].map(name=>({name,kind:'container',children:[]}))));writeFileSync(join(dir,'abyss_monster_actor_binding.lua'),'return {}');prepareGenerated?.(dir);};
   const writeScripts=async(mapPath,updates,workspace)=>{
     calls.push({name:'batch_write',args:{updates}});
     for(const update of updates)sources.set(update.name,readFileSync(update.sourceFile,'utf8'));
     const destination=join(workspace,'batch.gil');writeFileSync(destination,'candidate');return destination;
   };
   return {root,output,calls,writeScripts,run:extra=>mod.buildNativeCandidate({root,baseMap:join(root,'base.gil'),output,client,prepare,
-    generatedModules:{},sourceCommit:'f'.repeat(40),...extra})};
+    sourceCommit:'f'.repeat(40),...extra,generatedModules:{abyss_monster_actor_binding:'builder',...extra?.generatedModules}})};
 }
 
 test('identical embedded modules avoid writes while changed modules and entry are rebuilt and all are verified',async t=>{
@@ -54,8 +55,8 @@ test('identical embedded modules avoid writes while changed modules and entry ar
   writeFileSync(join(f.root,'src/lua/abyss_changed.lua'),'return 2');
   const receipt=await f.run();
   assert.deepEqual(receipt.reusedModules,['abyss_same']);
-  assert.deepEqual(f.calls.filter(c=>c.name==='scene_set_client_script').map(c=>c.args.name),['abyss_changed','abyss_ui']);
-  assert.deepEqual(receipt.checkedModules,['abyss_changed','abyss_same','abyss_ui']);
+  assert.deepEqual(f.calls.filter(c=>c.name==='scene_set_client_script').map(c=>c.args.name),['abyss_monster_actor_binding','abyss_changed','abyss_ui']);
+  assert.deepEqual(receipt.checkedModules,['abyss_changed','abyss_monster_actor_binding','abyss_same','abyss_ui']);
   assert.equal(f.calls.filter(c=>c.name==='scene_list_client_scripts'&&c.args.includeSource).length,2);
 });
 
@@ -65,7 +66,7 @@ test('batch transport writes all changes once and retains full final verificatio
   const receipt=await f.run({writeScripts:f.writeScripts});
   assert.equal(f.calls.filter(c=>c.name==='batch_write').length,1);
   assert.equal(f.calls.filter(c=>c.name==='scene_set_client_script').length,0);
-  assert.equal(receipt.checkedModules.length,281);
+  assert.equal(receipt.checkedModules.length,282);
   assert.equal(f.calls.filter(c=>c.name==='scene_check_client').length,1);
   assert.equal(receipt.statuses.staticCheck,'pass');
 });
@@ -89,12 +90,12 @@ test('every production entry parameter is registered by both native package rout
   await f.run();
   const {candidateScriptFiles}=await import('../scripts/native-candidate-scripts.mjs');
   const generated=join(f.root,'generated');mkdirSync(generated);
-  for(const name of ['abyss_art_features','abyss_monster_art_data','abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme','abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
+  for(const name of ['abyss_art_features','abyss_monster_actor_binding','abyss_monster_art_data', 'abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme','abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
     writeFileSync(join(generated,name+'.lua'),'return {}');
   const packaged=candidateScriptFiles(join(f.root,'src/lua'),generated).find(row=>row.name==='abyss_ui');
   const parameters=[...source.matchAll(/:GetParam\(["']([^"']+)["']\)/g)].map(match=>match[1]);
   assert(parameters.length>0);
-  for(const variables of [packaged.variables,f.calls.find(c=>c.name==='scene_set_client_script').args.variables])
+  for(const variables of [packaged.variables,f.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_ui').args.variables])
     for(const name of parameters)assert.deepEqual(variables.find(row=>row.name===name),
       {name,type:'boolean',value:false},'Missing production entry parameter: '+name);
 });
@@ -106,7 +107,7 @@ test('reused base removes only owned stale modules and reuses its writable settl
   assert.equal(f.calls.filter(c=>c.name==='scene_remove_client').length,1);
   assert.equal(f.calls.filter(c=>c.name==='scene_add_graph'||c.name==='scene_add_signal').length,0);
   assert.equal(f.calls.find(c=>c.name==='write_graphs').args.graphs[0].graphId,23);
-  assert.deepEqual(f.calls.find(c=>c.name==='scene_set_client_script').args.variables,
+  assert.deepEqual(f.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_ui').args.variables,
     [{name:'nativeMonsterArtEnabled',type:'boolean',value:true},{name:'nativeBgmEnabled',type:'boolean',value:false},
       {name:'experimentalCharacters',type:'boolean',value:false}]);
   assert.equal(f.calls.find(c=>c.name==='scene_add_client_ui').args.replace,true);
@@ -134,7 +135,7 @@ test('extracted UI subviews are embedded, read back and checked with the entry m
   ]));
   for(const [name,source] of sources)writeFileSync(join(f.root,`src/lua/${name}.lua`),source);
   const receipt=await f.run();
-  assert.deepEqual(receipt.checkedModules,[...sources.keys(),'abyss_ui'].sort());
+  assert.deepEqual(receipt.checkedModules,[...sources.keys(),'abyss_monster_actor_binding','abyss_ui'].sort());
   for(const [name,source] of sources) {
     const write=f.calls.find(call=>call.name==='scene_set_client_script'&&call.args.name===name);
     assert.equal(readFileSync(write.args.sourceFile,'utf8'),source);
@@ -160,7 +161,7 @@ test('complete fake SDK builds unique receipts without replacing historical inpu
   assert.notEqual(a.buildId,b.buildId); assert.equal(readFileSync(join(f.root,'base.gil'),'utf8'),'ORIGINAL');
   assert.equal(a.statuses.staticCheck,'pass'); assert.equal(a.statuses.playtest,'not_run');
   assert.match(a.candidate.sha256,/^[a-f0-9]{64}$/); assert.match(a.payloadDigest,/^[a-f0-9]{64}$/);
-  assert.deepEqual(a.checkedModules,['abyss_ui']); assert(existsSync(a.receiptPath));
+  assert.deepEqual(a.checkedModules,['abyss_monster_actor_binding','abyss_ui']); assert(existsSync(a.receiptPath));
 });
 for(const [label,override] of [['empty',{checked:[]}],['missing',{checked:['other']}],['duplicate',{checked:['abyss_ui','abyss_ui']}],['errors',{ok:true,errors:1}]]) {
   test(`rejects ${label} module-check results without success receipt`,async t=>{

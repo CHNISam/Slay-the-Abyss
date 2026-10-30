@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "identity": "geovishap-hatchling",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v1/geovishap-hatchling/source.png",
+    "sha256": "2dcf77d1f530847c964c98c5b591c91ca76b72af6c7e730e86aa5b7c482db1d6",
+    "bytes": 1123947,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "reuse existing PR366 source; included only as portable prerequisite"
+  },
+  "sourceDirectionApprovedByUser": true,
+  "sourceApprovalScope": "source visual direction only; not native/runtime acceptance",
+  "nativeReview": "root-reviewed simplified test candidate (parent attestation)",
+  "nativeOwnerAcceptance": false,
+  "method": "manual broad crown/rock/amber/ivory planes from approved biped source; no source sampling, raster import, fitting or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "69e184ebbfbc8f0273a3f3bdd76a1901bcf589c259476bd503eefe2b04de709f",
+      "bytes": 361812
+    },
+    "native-art.lua": {
+      "sha256": "3c637fcf1750d0a6dcd7173cf94240e677008dbeb59f9e009b21289ae0730572",
+      "bytes": 115379
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "5b1bc7a876ae0301a10695f2523915d0e1bb6120d802238b322f8565f7335ef7",
+    "generationProvenanceSha256": "f78ece47ed4faaccbf5f11ac32a37a54fddc4b5ae76a8ff80379ae7a37e5568d"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": "unknown-not-exposed",
+    "seed": "unknown-not-exposed",
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://upload-os-bbs.hoyolab.com/upload/2022/04/15/23941667/f5794d47706935f3d709bf38bae618f9_3979446155845522350.png",
+      "https://upload-os-bbs.hoyolab.com/upload/2024/06/21/148783598/1313362f4daf62b09bc5d3048854a3b2_8112788819157921381.png",
+      "https://www.hoyolab.com/article/30131478",
+      "https://www.hoyolab.com/article/4274377"
+    ],
+    "recordedHashes": [
+      "2dcf77d1f530847c964c98c5b591c91ca76b72af6c7e730e86aa5b7c482db1d6",
+      "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "bfbb36099aae6bbe4e9a27e81f7cb6e1c813ff32cc29893bfbb40f65c1444d52",
+      "c310316652996ffcfdefa111e82b1841803ce2804dfcfbe2be5ab0d5e6caada8",
+      "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

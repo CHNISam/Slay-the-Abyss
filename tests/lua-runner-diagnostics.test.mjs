@@ -104,9 +104,13 @@ test('original default and explicit timeout plus maxBuffer reach spawnSync uncha
       assert.equal(calls.length, 1);
       const [command, args, settings] = calls[0];
       assert.equal(command, process.execPath);
-      assert.equal(args[0], '/diagnostic-fixture/lua-cli.js');
-      assert.equal(args[1], '-e');
-      if (script.startsWith('tests/lua/battle_ui')) assert.match(args[2], /abyss-ui-test-/);
+      if (script.startsWith('tests/lua/battle_ui')) {
+        assert.match(args[0], /historical-monster-ui-entry\.mjs$/);
+        assert.equal(args[1], script);assert.equal(args[2], String(timeout));
+      } else {
+        assert.equal(args[0], '/diagnostic-fixture/lua-cli.js');
+        assert.equal(args[1], '-e');
+      }
       assert.equal(settings.timeout, timeout);
       assert.equal(settings.maxBuffer, 1024 * 1024);
       assert.equal(settings.encoding, 'utf8');

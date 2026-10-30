@@ -196,8 +196,13 @@ function M.summonEnemies(state,descriptors)
     end
     for _,e in ipairs(created)do
         EnemyAI.initialize(state,e,aiRandom)
-        local position=1
-        while state.enemies[position] and (state.enemies[position].sourcePosition or {x=0}).x<e.sourcePosition.x do position=position+1 end
+        -- SpawnMonsterAction.update counts EVERY prior drawX, including dead actors.
+        -- Constructor displacement (e.g. GremlinWizard -35) belongs in drawX.
+        local geometry=require('abyss_monster_source_geometry')
+        local position,drawX=1,assert(geometry.resolve(e)).x
+        for _,old in ipairs(state.enemies)do
+            if assert(geometry.resolve(old)).x<drawX then position=position+1 end
+        end
         table.insert(state.enemies,position,e)
         Actors.applyPower(state,e,'minion',1,e)
         EnemyAI.preBattle(state,e,hpRandom)
@@ -462,6 +467,7 @@ function M.cardDefinition(state, instance)
     card=require('abyss_colorless_cards').adapt(state,instance,card)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
     if card.id=='expunger' then card.expungerHits=instance.expungerHits or 0 end
+    if RelicHooks.owns(state,'necronomicon')then card.necronomiconCostForTurn=card.cost end
     if state.player and not card.costMode and require('abyss_watcher_final_cards').freeAttack(state,card) then card.cost=0 end
     card=ShopRelics.medicalCard(state,card)
     if Uncommon.canPlayCurse(state,card)then card.exhaust=true;card.cost=math.max(0,card.cost)end
@@ -862,6 +868,10 @@ local queuedEffectContext={combat=M,copy=copy,event=event,queueCurlUp=queueCurlU
     queueStanceGains=queueStanceGains,normalMatrix=normalMatrix,findInstance=findInstance}
 local QueuedEffects=require('abyss_combat_effect_dispatch')
 queuedHandlers.effect = function(state,action,queue)
+    if action.effect.op=='act2RelicCodex'then
+        if require('abyss_codex_relic').begin(M,state)then return 'pause'end
+        return true
+    end
     return QueuedEffects.apply(queuedEffectContext,state,action,queue)
 end
 -- Potion actions have no played card. Transfer the remaining player BOT
@@ -998,10 +1008,13 @@ function M.choosePile(state,uids,token,generation)
     if not called then restore();error(ok,0) end
     return ok,reason
 end
-local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
+local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge,freeToPlayOnce)
     if instance.dontTriggerOnUseCard then return end
     local final=require('abyss_defect_final_cards');final.onUse(state,card)
-    if purge then return end
+    if purge then
+        require('abyss_act2_event_relics').copyAttack(M,state,instance,card,targetIndex,energyOnUse,freeToPlayOnce,card.necronomiconCostForTurn,CardActions)
+        return
+    end
     for _,id in ipairs(Actors.powerSequence(state.player,{'double_tap','duplication','echo_form','amplify'}))do
         local trigger
         if id=='double_tap'or id=='duplication'then
@@ -1013,6 +1026,7 @@ local function queueUseCopies(state,instance,card,targetIndex,energyOnUse,purge)
                 energyOnUse=energyOnUse,purge=true,exhaustCards=false})
         end
     end
+    require('abyss_act2_event_relics').copyAttack(M,state,instance,card,targetIndex,energyOnUse,freeToPlayOnce,card.necronomiconCostForTurn,CardActions)
 end
 local function beginQueuedPlay(state, uid, targetIndex, instance, position, card, automatic)
     if not automatic and (card.target=='ENEMY'or card.target=='SELF_AND_ENEMY')then Actors.faceTarget(state,state.enemies[targetIndex])end
@@ -1126,7 +1140,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     actions[#actions + 1] = {kind="useCard"}
     if colorlessTail then actions[#actions+1]={kind='effect',effect=colorlessTail} end
     for _,action in ipairs(triggerPlan.afterUse) do actions[#actions+1]=action end
-    queueUseCopies(state,instance,card,targetIndex,energyOnUse,automatic and automatic.purge)
+    queueUseCopies(state,instance,card,targetIndex,energyOnUse,automatic and automatic.purge,freeToPlayOnce)
     local queue = require("abyss_action_queue")
     queue.start(state, actions)
     if not card.dontTriggerOnUseCard then Rare.onUseCard(state,card);ShopRelics.onUseCard(state,card)end
@@ -1144,6 +1158,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
     local reactions = EnemyAI.cardReactions(state, card)
     local x=energyOnUse or state.energy
+    local necronomiconFree=free or instance.freeToPlayOnce==true
     require('abyss_silent_final_cards').onUse(M,state,card,instance,targetIndex,x,purge)
     require('abyss_watcher_final_cards').used(state,card,purge)
     local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
@@ -1221,7 +1236,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
         dontTriggerOnUseCard=card.dontTriggerOnUseCard}
     if colorlessTail then items[#items+1]=colorlessTail end
     for _,a in ipairs(triggerPlan.afterUse)do items[#items+1]={op='silentFinal',kind='trigger',action=a.effect}end
-    queueUseCopies(state,instance,card,targetIndex,x,purge)
+    queueUseCopies(state,instance,card,targetIndex,x,purge,necronomiconFree)
     if top then
         for i=#items,1,-1 do CardActions.enqueue(state,items[i],state.player,state.enemies[targetIndex],instance,true) end
     else for _,e in ipairs(items) do CardActions.enqueue(state,e,state.player,state.enemies[targetIndex],instance) end end
@@ -1296,9 +1311,26 @@ local function resolveNativePlay(state,uid,targetIndex,instance,position,card)
     return true
 end
 
+local function preCardActionHandlers()
+    local handlers={allow=queuedHandlers.allow,useCard=queuedHandlers.useCard}
+    handlers.effect=function(s,action,q)
+        local result=queuedHandlers.effect(s,action,q)
+        require('abyss_end_turn_powers').transferNative(s,q)
+        return result
+    end
+    return handlers
+end
+
 function M.chooseCard(state,token,uid)
     local restore=require("abyss_snapshot").capture(state)
     local called,ok,reason=pcall(function()
+        if state.pendingChoice and state.pendingChoice.op=='codex'then
+            local accepted,why=require('abyss_codex_relic').choose(M,state,token,uid,require('abyss_card_capability').isImplemented)
+            if not accepted then return false,why end
+            local result=require('abyss_action_queue').resume(state,preCardActionHandlers())
+            if result=='pause'or finish(state)then return true end
+            return M.endTurn(state)
+        end
         if state.pendingChoice and state.pendingChoice.op=='toolbox'then
             local accepted,why=ShopRelics.chooseToolbox(M,state,token,uid,CardActions)
             if not accepted then return false,why end
@@ -1739,17 +1771,11 @@ local function ordinaryOwnerEnd(state)
     return result
 end
 local function preCardPowers(state)
-    local powers=require('abyss_end_turn_powers')
-    local actions=powers.preparePreCards(state)
+    if state.relicPreCardsResolved==state.turn then return end
+    local actions=require('abyss_end_turn_powers').preparePreCards(state)
     if #actions>0 then
         local queue=require('abyss_action_queue');queue.start(state,actions)
-        local handlers={allow=queuedHandlers.allow,useCard=queuedHandlers.useCard}
-        handlers.effect=function(s,action,q)
-            local result=queuedHandlers.effect(s,action,q)
-            powers.transferNative(s,q)
-            return result
-        end
-        assert(queue.run(state,handlers)==true,'unexpected pre-card selection')
+        assert(queue.run(state,preCardActionHandlers())==true,'unexpected pre-card selection')
     end
 end
 local function discardOwnerEnd(state)
@@ -2038,8 +2064,35 @@ end
 
 -- Advanced cleanup can invoke several card/power hooks. Keep end-turn errors
 -- atomic just like a paused play, including costs reset before queued actions.
+local function beginRelicEndTurn(state)
+    local dispatch=require('abyss_relic_end_turn')
+    if not dispatch.needed(state)then return end
+    if state.phase~='player'then return false,'not_player_turn'end
+    if state.pendingChoice or state.cardActions then return false,'card_choice_pending'end
+    if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.pendingPileChoice or state.actionQueue then return false,'selection_pending'end
+    if state.pendingDiscard then return false,'discard_choice_pending'end
+    local restore=require('abyss_snapshot').capture(state)
+    local called,result=pcall(function()
+        for _,pile in ipairs({state.hand,state.draw,state.discard})do for _,c in ipairs(pile)do c.costForTurn=nil end end
+        local actions=dispatch.prepare(state)
+        -- Source constructs pre-card Powers/orbs synchronously after relics,
+        -- before executing either. Their retained Block survives Calendar kill.
+        for _,action in ipairs(require('abyss_end_turn_powers').preparePreCards(state))do actions[#actions+1]=action end
+        state.relicPreCardsResolved=state.turn
+        if #actions==0 then return end
+        local queue=require('abyss_action_queue');queue.start(state,actions)
+        if queue.run(state,preCardActionHandlers())=='pause'then return 'pause'end
+        if finish(state)then return 'terminal'end
+    end)
+    if not called then restore();error(result,0)end
+    return result
+end
+
 function M.endTurn(state,rollbackOwner)
     if state.pendingPotionChoice then return false,'potion_choice_pending'end
+    local relicResult,relicReason=beginRelicEndTurn(state)
+    if relicResult=='pause'or relicResult=='terminal'then return true end
+    if relicResult==false then return false,relicReason end
     if not state.originalV4 and state.silentRetainResume and state.actionQueue and state.actionQueue.paused
         and state.actionQueue.current.effect.op=='ownerEndRetain'then
         if state.pendingChoice then return false,'card_choice_pending'end

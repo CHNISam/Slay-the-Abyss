@@ -5,6 +5,7 @@ local Effects=require('abyss_effects')
 local EnemyAI=require('abyss_enemy_ai')
 local Random=require('abyss_sts_random')
 local Formation=require('abyss_encounter_formation')
+local SourcePositions=require('abyss_monster_source_positions')
 local M={}
 local function index(entries)
  local result={};for _,entry in ipairs(entries)do result[entry.id]=entry end;return result
@@ -16,6 +17,7 @@ local function registerList(catalog,kind,list,label)
  end
 end
 function M.register(catalog)
+ require('abyss_event_combat_enemies').register(catalog,Copy)
  require('abyss_act4_enemies').register(catalog)
  require('abyss_act1_bosses').register(catalog,Copy)
  require('abyss_act3_bosses').register(catalog,Copy)
@@ -42,6 +44,7 @@ local function specialMove(enemy,intent)
  assert(type(intent.effects)=='table'and next(intent.effects)==nil,kind..' intent has effects')
 end
 local function unknownInactive(enemy,intent)
+ if policy(enemy,'event_combat','romeo')and intent.id=='mock'then return 'Romeo Mock has effects'end
  if policy(enemy,'awakened_one')and intent.id=='rebirth'then return 'Rebirth has effects'end
  if policy(enemy,'act3','exploder')and intent.id=='wait'then return 'Exploder wait has effects'end
  if policy(enemy,'act1_boss')then return 'inactive enemy intent has effects'end
@@ -72,7 +75,12 @@ function M.make(state,id,serial,explicitHp,hpRandom)
  for _,intent in ipairs(enemy.intents)do validateIntent(enemy,intent)end
  enemy.definitionId,enemy.id,enemy.maxHp=id,id..'_'..serial,enemy.hp
  enemy.block,enemy.statuses,enemy.intentIndex=0,{},1
+ enemy.powerOrder={}
  Actors.bindStatuses(enemy,state.catalog.statuses)
+ -- Source constructors append Split directly before any pre-battle actions.
+ if id=='acid_slime_l' or id=='spike_slime_l' or id=='slime_boss' then
+  enemy.statuses.split=-1;require('abyss_power_order').directAdd(enemy,'split')
+ end
  return enemy
 end
 local function sourceSpec(options)
@@ -96,7 +104,13 @@ function M.group(state,options,construct)
   state.nextEnemyId=#state.enemies+1
  else
   local ids=options.enemies or {'cultist'};assert(#ids>0,'empty encounter')
-  for i,id in ipairs(ids)do state.enemies[#state.enemies+1]=construct(state,id,i);state.nextEnemyId=i+1 end
+  local positions=SourcePositions.positions(options.encounterSource,options.encounterVisualFloat)
+  if positions then assert(#positions==#ids,'source formation size mismatch')end
+  for i,id in ipairs(ids)do
+   local enemy=construct(state,id,i)
+   if positions then enemy.sourcePosition=positions[i]end
+   state.enemies[#state.enemies+1]=enemy;state.nextEnemyId=i+1
+  end
  end
 end
 local function constructorCatalog(data)
@@ -158,7 +172,14 @@ local function validateActor(state,actor,actorIndex,prepared)
  assert(state.catalog.enemies[actor.definitionId],'prepared enemy definition missing')
  assert(actor.definitionId==prepared.actorIds[actorIndex],'prepared actor identity mismatch')
  assert(actor.id==actor.definitionId..'_'..actorIndex and actor.hp==actor.maxHp and actor.hp>0,'invalid prepared enemy identity or HP')
- assert(actor.block==0 and actor.intentIndex==1 and type(actor.statuses)=='table'and next(actor.statuses)==nil,'prepared actor already initialized')
+ assert(actor.block==0 and actor.intentIndex==1 and type(actor.statuses)=='table','prepared actor already initialized')
+ local split=actor.definitionId=='acid_slime_l' or actor.definitionId=='spike_slime_l' or actor.definitionId=='slime_boss'
+ for id,amount in pairs(actor.statuses)do
+  assert(split and id=='split' and amount==-1,'prepared actor already initialized')
+ end
+ if split then
+  assert(actor.statuses.split==-1 and #actor.powerOrder==1 and actor.powerOrder[1]=='split','prepared Split constructor missing')
+ else assert(next(actor.statuses)==nil,'prepared actor already initialized')end
  if prepared.enemyIds then assert(actor.definitionId==prepared.enemyIds[actorIndex],'prepared actor source mismatch')end
  Actors.bindStatuses(actor,state.catalog.statuses)
 end

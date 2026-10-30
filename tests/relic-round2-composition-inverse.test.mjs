@@ -1,3 +1,4 @@
+import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {preRelicRound3CompositionSource} from './helpers/relic-round3-composition.mjs';
@@ -9,7 +10,7 @@ import {requireRelicCompletionSource,preRelicCompletionSource,relicCompletionInv
 import {preRound2CanPlaySource,round2CanPlayProof} from './helpers/round2-can-play-source-inverse.mjs';
 import {preRound2UiSource,round2UiSourceLayer} from './helpers/round2-ui-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const read=p=>preRelicArtCompositionSource(p,preRelicRound3CompositionSource(p,readFileSync(p,'utf8'),'relic'),'relic').replaceAll('\r\n','\n');
+const read=p=>preRelicArtCompositionSource(p,preRelicRound3CompositionSource(p,preNativeMonsterArtSource(p,readFileSync(p,'utf8')),'relic'),'relic').replaceAll('\r\n','\n');
 test('both exact composition arrows retain independent whole-file identities and positioned forward reconstruction',()=>{
  for(const [target,{files}]of Object.entries(proof.targets))for(const [path,binding]of Object.entries(files)){
   const current=read(path),previous=project(path,current,target);

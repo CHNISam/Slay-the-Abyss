@@ -46,6 +46,18 @@ M.contentId.Nest='nest'
 M.contentId.Duplicator='duplicator'
 M.contentId['Match and Keep!']='match_game'
 
+M.contentId.Designer='designer'
+M.contentId.FaceTrader='face_trader'
+M.contentId['Knowing Skull']='knowing_skull'
+M.contentId["N'loth"]='nloth'
+M.contentId['Cursed Tome']='cursed_tome'
+M.contentId['Forgotten Altar']='forgotten_altar'
+M.contentId['Drug Dealer']='drug_dealer'
+M.contentId.Vampires='vampires'
+M.contentId['Dead Adventurer']='dead_adventurer'
+M.contentId.Colosseum='colosseum'
+M.contentId['Masked Bandits']='masked_bandits'
+
 function M.new(mode, noteAvailable, chapter)
     assert(mode=='full' or mode=='restricted-six' or mode=='restricted-seven','unknown event pool mode')
     if chapter==nil then chapter=1 end

@@ -1,0 +1,121 @@
+{
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": [
+    {
+      "path": "relics/BloodyIdol.java",
+      "gitBlobSha": "f791837ce50880e0286b398f68a2d84a5ceebad1",
+      "sha256": "a0e2df9fb4df47adbdecfa6f85450f20a16673cb2f1d8ff6c54857267fd44743",
+      "size": 969,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BloodyIdol.java"
+    },
+    {
+      "path": "relics/MutagenicStrength.java",
+      "gitBlobSha": "089bfe976e1d4a3dbae9e4a714d595fde9c9a9b3",
+      "sha256": "6406fb486c27d2b43ae919f84189825a0b675e7ad8bbeb0703c42e447e3ed536",
+      "size": 1429,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MutagenicStrength.java"
+    },
+    {
+      "path": "relics/Necronomicon.java",
+      "gitBlobSha": "089d80d9f8c60a54b50e223a361f3bd16f638c03",
+      "sha256": "56411b7d95078cebc070ec5270ad1d03346cf6ca872bdbd8fbfe423a9a9343dc",
+      "size": 3335,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Necronomicon.java"
+    },
+    {
+      "path": "relics/Enchiridion.java",
+      "gitBlobSha": "db604eb5f4f62d96f149a6d8b6bde8815e2a2139",
+      "sha256": "1d3ced35ff60c63d6b532e21acdbcf396a96577c2b57c80a6059c73c2784e6f2",
+      "size": 1157,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Enchiridion.java"
+    },
+    {
+      "path": "relics/NilrysCodex.java",
+      "gitBlobSha": "8bf21e551d26a5e9436183dbd573360c1d6d4a66",
+      "sha256": "892d88cf117a5b525984c1f32bc4c5e4225ec7ac0225187470f0d6b024b0cf60",
+      "size": 932,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/NilrysCodex.java"
+    },
+    {
+      "path": "actions/unique/CodexAction.java",
+      "gitBlobSha": "3e3ebfacda52945026fa0001c214ec4dd70e0a84",
+      "sha256": "5503c73b54bb15ea7df717d6778ab8e8a0677cba6fe9927fc77732741defa2e8",
+      "size": 2338,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/CodexAction.java"
+    },
+    {
+      "path": "cards/curses/Necronomicurse.java",
+      "gitBlobSha": "ea91de262189342f34c174ba7bedae7cddcdeef8",
+      "sha256": "139c427e7ad4e98113024a9909a1479025e3625c71f9236e6ae0a0f02c239f2f",
+      "size": 1931,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/curses/Necronomicurse.java"
+    },
+    {
+      "path": "vfx/NecronomicurseEffect.java",
+      "gitBlobSha": "44c71a07f27b368a9bb2fae0e8b2799608c3e849",
+      "sha256": "e7c2df46c8e09de97ae87238dfc0f451ffe86cadf1103ecf4b078d177422e0f3",
+      "size": 3421,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/NecronomicurseEffect.java"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndAddToDrawPileEffect.java",
+      "gitBlobSha": "ba2015d83dafa8e4131062ab8327805a3eca50c9",
+      "sha256": "d2b573fb3488c551a4039e68a5c487b76a60fdbcfecaf5bf7254ed9bc8417433",
+      "size": 5372,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndAddToDrawPileEffect.java"
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "size": 115023,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "gitBlobSha": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "size": 45485,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "sha256": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95",
+      "size": 98339,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java"
+    },
+    {
+      "path": "rooms/AbstractRoom.java",
+      "gitBlobSha": "c2a1a029a9f59b1b94026dff46d4155824b85f86",
+      "sha256": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+      "size": 33565,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/rooms/AbstractRoom.java"
+    },
+    {
+      "path": "actions/GameActionManager.java",
+      "gitBlobSha": "1662da8de2aeb42044b385f03d0c801750904b13",
+      "sha256": "a47d1ee9c6b2e194b7d3ef311328f2a15e38f5630330689e438e46685b94d6c3",
+      "size": 22667,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/GameActionManager.java"
+    },
+    {
+      "path": "actions/utility/UseCardAction.java",
+      "gitBlobSha": "6efc08986e3a6b71648ee7f6f95d77ee1a2e52d6",
+      "sha256": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f",
+      "size": 5830,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/UseCardAction.java"
+    }
+  ],
+  "contracts": {
+    "BloodyIdol": "Actual positive gainGold only, after Ectoplasm gate; heal5 via owner healing, no gain for0. Mark/MagicFlower follow existing context.",
+    "MutagenicStrength": "At battle start TOP Strength3,TOP LoseStrength3,TOP visual => loss debt/Artifact resolves BEFORE strength; end first turn loses3 using existing timed-power owner.",
+    "Necronomicon": "Each turn activated resets; ATTACK and (costForTurn>=2&&!freeToPlayOnce || baseCost==-1&&energyOnUse>=2). Power onUse before relic onUse; fresh same-UUID purge copy queues before power copies without extra energy, source target preserved.",
+    "Necronomicurse": "SPECIAL curse cost-2. onEquip uses real permanent obtain; regular permanent removal directly appends new fresh unupgraded UID WITHOUT obtain hooks; onUnequip removes first raw list match WITHOUT rebound. Exhaust BOTTOM fresh copy to hand after Power exhaust hooks.",
+    "Enchiridion": "AtPreBattle full srcCommon/srcUncommon/srcRare POWER+!HEALING list, one cardRandomRng bounded draw; fresh hand card costForTurn0 before first normal draw, once MasterReality upgrade.",
+    "NilrysCodex": "Source end-turn held-order action queue before preCard powers/end-turn cards. Three DISTINCT full src!HEALING draws via cardRandomRng rejection; optional0 skip; no retrieval redraw. Chosen normal-cost stat copy inserted random draw slot(size-1), no draw if empty; once MasterReality upgrade.",
+    "sharedEndTurn": "One existing ActionQueue list in held order (Orichalcum,Codex,StoneCalendar), current rare-relic owner retains Calendar counters; pause/resume remainder, marker prevents redispatch. Lethal Calendar before Codex suppresses choice; Calendar after waits for selection. Activation is limited to NEW Codex ownership; legacy Orichalcum/Calendar-only paths retain their original state shape."
+  },
+  "boundaries": "Controlled battle/room/deck fixtures, not natural acquisition or native/device evidence. No immutable historical witness edited. Fixed decompiled source mirror is not authenticated PC binary. Source pools/order and unsupported outcomes remain unfiltered."
+}

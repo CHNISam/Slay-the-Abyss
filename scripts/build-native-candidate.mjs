@@ -1,3 +1,4 @@
+import {monsterSourceInputs,prepareMonsterArt,monsterActorTemplate,monsterPowerTemplateName,monsterActorTemplateName,monsterActorBindingModule,bindMonsterActorTemplates,monsterActorInventory} from './monster-art.mjs';
 import {resolveArtFeatures,artFeatureArgs,artFeatureBuildArgs,artFeatureReceipt,artFeaturesSource,artFeatureModule} from './art-features.mjs';
 import {portraitSourceInputs,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';
 import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate,bindReadyArtTemplates,readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';
@@ -21,7 +22,7 @@ import {writeScriptBatch} from './native-script-batch.mjs';
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
   [artFeatureModule]:'scripts/build-ui.mjs', [backgroundModule]:'scripts/build-ui.mjs', [portraitModule]:'scripts/build-ui.mjs', abyss_ready_card_binding:'scripts/build-ui.mjs', abyss_ready_card_assets:'scripts/build-ui.mjs',
-  abyss_monster_art_data:'scripts/build-ui.mjs', abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',
+  abyss_monster_actor_binding:'scripts/build-ui.mjs', abyss_monster_art_data:'scripts/build-ui.mjs', abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',
 };
 export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
   const flags=resolveArtFeatures({artFeatures,nativeCardArt,readyCardArt});
@@ -31,6 +32,7 @@ export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
   function walk(dir) {
     for(const entry of readdirSync(join(root,dir),{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))) {
       const name=`${dir}/${entry.name}`;
+      if(name==='data/presentation/native-monster-art.json'&&!flags.monsters)continue;
       if(entry.isDirectory())walk(name);
       else if(/\.(lua|json|mjs|py)$/.test(name))files.push(name);
     }
@@ -42,10 +44,10 @@ export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
     'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...(flags.menuBackground?backgroundInputs:[]), ...(flags.cards&&!nativeCardArt?readyArtSourceInputs(root):[]),...portraitSourceInputs(flags),...staticInputs]) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
-  try {
-    const monster=JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8'));
-    if(monster.enabled)for(const record of monster.sourceInputs.slice(0,2))files.push(record.path);
-  }catch(error){if(error.code!=='ENOENT')throw error;}
+  if(flags.monsters){
+    const registry=JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8'));
+    files.push(...monsterSourceInputs,...Object.values(registry.additionalAssets??{}).flatMap(asset=>asset.sourceInputs.map(record=>record.path)));
+  }
   return files.sort().map(path=>{const {sha256,bytes}=fileRecord(join(root,path),root);return {path,sha256,bytes};});
 }
 export const payloadDigest = inputs => sha256(JSON.stringify(inputs));
@@ -132,20 +134,43 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     if(!modules.has('abyss_ui'))throw new Error('Missing entry module abyss_ui');
     const dynamicCards=flags.cards&&!art,portraits=flags.selectionAvatar||flags.battlePortrait;
     const sharedTemplates=dynamicCards||portraits||flags.menuBackground;
-    const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate,readyArtGroupTemplate]:[])];
+    const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate]:[])];
     if(templates.some(template=>blockedTemplates.includes(template.name)))throw Error('Disabled artwork must not register templates');
-    const blockedHosts=[...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];
+    const blockedHosts=[...(!flags.monsters?['monsterArt','monsterSamples']:[]),...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];
     function rejectDisabledHosts(node){
       if(blockedHosts.includes(node.name))throw Error('Disabled artwork must not register hosts');
       for(const child of node.controls??node.children??[])rejectDisabledHosts(child);
     }
     for(const tree of [layout,...templates])rejectDisabledHosts(tree);
-    const requiredArtModules=[...(Object.values(flags).some(Boolean)?[artFeatureModule]:[]),...(flags.menuBackground?[backgroundModule]:[]),
-      ...(dynamicCards?['abyss_ready_card_binding','abyss_ready_card_assets']:[]),...(portraits?[portraitModule]:[])];
+    const requiredArtModules=[monsterActorBindingModule,...(Object.values(flags).some(Boolean)?[artFeatureModule]:[]),...(flags.menuBackground?[backgroundModule]:[]),
+      ...(flags.monsters?['abyss_monster_art_data']:[]),...(dynamicCards?['abyss_ready_card_binding','abyss_ready_card_assets']:[]),...(portraits?[portraitModule]:[])];
     for(const name of requiredArtModules)if(!modules.has(name))throw Error('Enabled artwork missing runtime module: '+name);
+
+    if(Object.hasOwn(generatedModules,'abyss_monster_art_data')) {
+      let monster=null;
+      if(flags.monsters){
+        const registry=JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8'));
+        monster=prepareMonsterArt(registry);
+        if(!monster)throw Error('Enabled monster artwork requires its registry');
+        for(const [index,path] of monsterSourceInputs.entries())if(registry.sourceInputs?.[index]?.path!==path
+          ||registry.sourceInputs[index].sha256!==registry.asset[index===0?'luaSha256':'jsonSha256'])throw Error('Monster base source provenance differs');
+        const records=[...registry.sourceInputs.slice(0,2),...Object.values(registry.additionalAssets??{}).flatMap(asset=>asset.sourceInputs)];
+        for(const record of records)if(fileRecord(join(root,record.path),root).sha256!==record.sha256)throw Error('Monster native source hash mismatch');
+        monster.inputPaths=records.map(record=>record.path);monster.hostOrigin=[0,0];
+        receipt.nativeMonsterArt={enabled:true,assetCount:Object.keys(monster.assets).length,bindingCount:Object.keys(monster.bindings).length,
+          capacity:monster.poolCapacity,allocation:'per-drawable-actor-instance',
+          inputs:records.map(({path})=>({...fileRecord(join(root,path),root),path}))};
+      }
+      const actorTemplates=templates.filter(template=>template.name===monsterActorTemplateName);
+      if(actorTemplates.length!==1||JSON.stringify(actorTemplates[0])!==JSON.stringify(monsterActorTemplate(monster)))throw Error('Monster actor template differs from candidate features or source');
+      const expected=`-- Generated from the bounded native monster registry.\nreturn ${toLua(monster??{})}\n`;
+      if(readFileSync(join(generated,'abyss_monster_art_data.lua'),'utf8')!==expected)throw Error('Monster artwork payload differs from candidate features or source');
+    }
 
     if(sharedTemplates)for(const name of [readyArtImageTemplate,readyArtGroupTemplate])
       if(templates.filter(t=>t.name===name).length!==1)throw Error('Ready artwork requires exactly one '+name+' template');
+    for(const name of [monsterActorTemplateName,monsterPowerTemplateName,readyArtGroupTemplate])
+      if(templates.filter(t=>t.name===name).length!==1)throw Error('Monster actors require exactly one '+name+' template');
     if(flags.menuBackground&&templates.filter(template=>template.name===backgroundTemplate).length!==1)
       throw Error('Official background requires exactly one native image template');
     if(payloadDigest(sourceInputs(root,inputOptions))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during preparation');
@@ -154,10 +179,19 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     for(const source of modules.values())fileRecord(source);
     client??=await createClient(workspace);
     for(const uri of ['miliastra://workflow','miliastra://platform-rules'])writeExclusive(join(workspace,`${uri.split('//')[1]}.json`),await client.readResource({uri}));
-    const readyTemplates={},cachedUi=reusableUi(base,generated);
+    const readyTemplates={};let monsterTemplate,monsterPowerTemplate,cachedUi=reusableUi(base,generated);
+    if(cachedUi){
+      const cached=JSON.parse(readFileSync(cachedUi.receipt.path,'utf8')), actors=cached.monsterActors;
+      if(!actors||![actors.templateIndex,actors.powerTemplateIndex,actors.containerTemplateIndex].every(n=>Number.isSafeInteger(n)&&n>0)
+        ||new Set([actors.templateIndex,actors.powerTemplateIndex,actors.containerTemplateIndex]).size!==3
+        ||actors.containerTemplateIndex!==cachedUi.templateResults[readyArtGroupTemplate]?.templateIndex)cachedUi=null;
+      else {cachedUi.templateResults[monsterActorTemplateName]={templateIndex:actors.templateIndex};cachedUi.templateResults[monsterPowerTemplateName]={templateIndex:actors.powerTemplateIndex};}
+    }
     if(cachedUi)receipt.reusedUi=cachedUi.receipt;
     for(const template of templates) {
       const result=cachedUi?(cachedUi.templateResults[template.name]??{reused:true}):await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});
+      if(template.name===monsterActorTemplateName)monsterTemplate=result;
+      if(template.name===monsterPowerTemplateName)monsterPowerTemplate=result;
       if(template.name===readyArtImageTemplate)readyTemplates.image=result;
       if(template.name===readyArtGroupTemplate)readyTemplates.group=result;
       if(template.name===backgroundTemplate) {
@@ -186,6 +220,9 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       }
     }
     if(portraits&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');
+    bindMonsterActorTemplates(generated,{actor:monsterTemplate,group:readyTemplates.group,power:monsterPowerTemplate});
+    receipt.monsterActors={...monsterActorInventory(templates.find(t=>t.name===monsterActorTemplateName)),
+      powerTemplateIndex:monsterPowerTemplate.templateIndex,templateIndex:monsterTemplate.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex};
     const reusable=await call('scene_list_client_scripts',{mapPath,includeSource:true});
     const existingSources=new Map((reusable.scripts??[]).filter(row=>typeof row.source==='string').map(row=>[row.name,row.source]));
     receipt.reusedModules=[];

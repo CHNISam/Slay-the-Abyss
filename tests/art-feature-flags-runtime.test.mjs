@@ -11,13 +11,13 @@ function vm(code){const L=lauxlib.luaL_newstate();try {lualib.luaL_openlibs(L);
  } finally {lua.lua_close(L);}}
 const setup=`
 local modules,requested,options,updates,configured,cleared,views,dead,released,params,presentation,backgrounds,viewDeaths,cardDeaths
-local flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}
-local function snapshot()local f={};for k,v in pairs(flags)do f[k]=v end;return {schemaVersion=1,flags=f}end
+local flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters=false}
+local function snapshot()local f={};for k,v in pairs(flags)do f[k]=v end;return {schemaVersion=2,flags=f}end
 local function start(config,broken,previous)
  requested={};updates=false;configured=0;cleared=0;views=0;dead=0;released=0;params={};options=nil
  backgrounds={};viewDeaths=0;cardDeaths=0
  local function owner()return {release=function()released=released+1 end,onEngineDestroy=function()dead=dead+1 end}end
- modules={abyss_art_features=config,abyss_data={},abyss_presentation={},abyss_theme={sound={}},
+ modules={abyss_monster_actor_binding={templateIndex=31,containerTemplateIndex=32,powerTemplateIndex=33,enabled=true},abyss_art_features=config,abyss_data={},abyss_presentation={},abyss_theme={sound={}},
   abyss_viewport={apply=function()return {GetChild=function()error('all-off has no custom hosts')end}end},
   abyss_narrative={build={}},abyss_game_ui={new=function(_,_,p,_,o)presentation=p;options=o;views=views+1;return {
    resize=function()end,update=function()end,disable=function()end,
@@ -43,20 +43,21 @@ local function start(config,broken,previous)
  return options
 end
 local function off()
- assert(not options.background and not options.portraits and not options.cardArt and not options.createEasterEggArt)
+ assert(not options.background and not options.portraits and not options.cardArt and not options.createEasterEggArt and not options.nativeMonsterArtEnabled)
  for _,n in ipairs({'abyss_menu_background','abyss_traveler_portraits','abyss_ready_card_assets','abyss_ready_card_binding'})do
   assert(not requested[n],'disabled art eagerly loaded '..n)
  end
  assert(configured==0)
 end
 `;
-test('entry snapshots all sixteen release combinations without requiring disabled controllers or card data',()=>vm(setup+`
-for mask=0,15 do
+test('entry snapshots all thirty-two release combinations without requiring disabled controllers or card data',()=>vm(setup+`
+for mask=0,31 do
  flags.cards=mask%2==1;flags.menuBackground=math.floor(mask/2)%2==1
- flags.selectionAvatar=math.floor(mask/4)%2==1;flags.battlePortrait=math.floor(mask/8)%2==1
+ flags.selectionAvatar=math.floor(mask/4)%2==1;flags.battlePortrait=math.floor(mask/8)%2==1;flags.monsters=math.floor(mask/16)%2==1
  start(snapshot())
  assert(options.background==nil,'custom art must never bind as an eager page background')
  assert((type(options.createEasterEggArt)=='function')==flags.menuBackground)
+ assert(options.nativeMonsterArtEnabled==flags.monsters)
  assert((options.portraits~=nil)==(flags.selectionAvatar or flags.battlePortrait))
  assert((options.cardArt~=nil)==flags.cards and configured==(flags.cards and 1 or 0))
  assert((requested.abyss_ready_card_assets~=nil)==flags.cards)
@@ -77,10 +78,13 @@ end
 `));
 test('missing and malformed configuration fail closed and default world retires old card runtime',()=>vm(setup+`
 start(nil,nil,true);off();assert(cleared==1,'default world must release old custom card ownership')
-for _,bad in ipairs({true,'true',{}, {schemaVersion=2,flags=flags},{schemaVersion=1,flags={cards=true}},
- {schemaVersion=1,flags={cards='true',menuBackground=false,selectionAvatar=false,battlePortrait=false}},
- {schemaVersion=1,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false,unknown=true}},
- {schemaVersion=1,flags={cards=true,menuBackground=false,selectionAvatar=false,battlePortrait=false},extra=true}})do
+for _,bad in ipairs({true,'true',{}, {schemaVersion=1,flags=flags}, {schemaVersion=3,flags=flags},{schemaVersion=2,flags={cards=true}},
+ {schemaVersion=1,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}},
+ {schemaVersion=2,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}},
+ {schemaVersion=2,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters='true'}},
+ {schemaVersion=2,flags={cards='true',menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters=false}},
+ {schemaVersion=2,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters=false,unknown=true}},
+ {schemaVersion=2,flags={cards=true,menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters=false},extra=true}})do
  start(bad);off();OnDestroy()
 end
 `));

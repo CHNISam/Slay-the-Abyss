@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "identity": "large-geo-slime",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "1d0953c50ce68e95362aeb5976a0ef16f48325949e8bdf8d1e3addfd615431e4",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "f14a773086fed97c495d8ebf583fc3bb5321470d08cdb0a3530f0a8e7f30c1ab",
+      "bytes": 2386,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "date_utc": "2026-10-30",
+    "tool": "built-in image_gen.imagegen",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "seed": null,
+    "model": null,
+    "unknown_metadata_note": "Tool does not expose model identifier or seed; neither invented.",
+    "raw_sha256": "172487009bafda99a942dc10dfa28b85aa927a54d1a8c0fe943a3985d7fa0f07",
+    "raw_preserved": true,
+    "prompt": "prompt.txt",
+    "prompt_sha256": "f14a773086fed97c495d8ebf583fc3bb5321470d08cdb0a3530f0a8e7f30c1ab",
+    "references": [
+      {
+        "path": "reference-0.png",
+        "page_url": "https://wiki.hoyolab.com/pc/genshin/entry/2127?lang=en-us",
+        "image_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/23c3f763d43dccaad87bb8b378ca129d_6599626726642137260.png",
+        "sha256": "1a692872f69a66f65afb20a41799f4f36debdf90c182a760551814e9a510e3f8",
+        "pixels_visually_inspected": true
+      },
+      {
+        "path": "reference-1.png",
+        "page_url": "https://wiki.hoyolab.com/pc/genshin/entry/2127?lang=en-us",
+        "image_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/dd9ebcdb6a11774f289344dc8a03fc0d_6754547059077822052.png",
+        "sha256": "83bbb9a7e7079e8f717bb43894d34dc58722a29d1ad2d03fdf1a312a2989bed7",
+        "pixels_visually_inspected": true
+      },
+      {
+        "path": "reference-2.png",
+        "page_url": "https://wiki.hoyolab.com/pc/genshin/entry/2127?lang=en-us",
+        "image_url": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/04/35428890/aaa839810a6c4a87f01b0840233e9cf0_7114428673283215855.png",
+        "sha256": "c27312fbf80814f26db4b788b835e1afcec57614422065acb0b84a655e29dc8d",
+        "pixels_visually_inspected": true
+      }
+    ],
+    "style_references": [
+      {
+        "path": "genshin-monster-mapping-20261030/dendro-slime-sample.png",
+        "sha256": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba",
+        "role": "style only, never identity/anatomy",
+        "pixels_visually_inspected": true
+      }
+    ],
+    "actual_png": {
+      "mode": "RGBA",
+      "width": 1377,
+      "height": 1142,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 658032,
+      "opaque_pixels": 933,
+      "partial_alpha_pixels": 913569,
+      "subject_alpha_bbox": [
+        23,
+        21,
+        1353,
+        1142
+      ],
+      "padding_fraction_ltrb": [
+        0.01670297748729121,
+        0.01838879159369527,
+        0.017429193899782137,
+        0.0
+      ],
+      "alpha_gt_128_bbox": [
+        63,
+        99,
+        1337,
+        1064
+      ],
+      "alpha_mode_nonzero": 253
+    },
+    "preview_recipe": "Whole original PNG canvas contained, never cropped/stretched/trimmed, into 106x106 / 127x127 transparent square using Pillow LANCZOS, centered; 4x previews NEAREST enlarge actual small pixels. Preview only, not rendering engine.",
+    "rights": "Third-party Genshin identities/references retain original rights. Private source study, no clearance/ownership claim. No external uploads or runtime changes.",
+    "status": "source candidate; parent independent review, native conversion, runtime and device verification pending; no Owner approval claim"
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

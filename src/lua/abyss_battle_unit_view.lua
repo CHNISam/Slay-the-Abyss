@@ -62,13 +62,17 @@ function M.new(picture, tint, ink, statusKind)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
     end
 
-    local function healthParts(box, actor, barWidth, barX, y, blocked)
-        local bh = L.hpBar.size[2]
-        for _, name in ipairs({"hpBorder", "hpTrack", "hpGhost", "hpFill", "hp"}) do
-            local part = box:GetChild(name)
-            part:SetAnchoredPosition(barX, y)
-            local height = name == "hp" and L.nativeText.lineHeight or bh + (name == "hpBorder" and S.border * 2 or 0)
-            part:SetSizeDelta(barWidth + (name == "hpBorder" and S.border * 2 or 0), height)
+    local function healthPartGeometry(name,barWidth,barX,y,source)
+        local bh=source and source.healthHeight or L.hpBar.size[2]
+        local padding=name=='hpBorder' and S.border*2 or 0
+        local height=name=='hp' and L.nativeText.lineHeight or bh+padding
+        local position=source and name=='hp' and source.healthTextY or y
+        return barX,position,barWidth+padding,height
+    end
+    local function healthParts(box, actor, barWidth, barX, y, blocked, source)
+        for _,name in ipairs({'hpBorder','hpTrack','hpGhost','hpFill','hp'})do
+            local x,position,width,height=healthPartGeometry(name,barWidth,barX,y,source)
+            local part=box:GetChild(name);part:SetAnchoredPosition(x,position);part:SetSizeDelta(width,height)
         end
         tint(box:GetChild("hpBorder"), blocked and C.block or C.line)
         tint(box:GetChild("hpFill"), blocked and C.hpShielded or C.hp)
@@ -77,14 +81,21 @@ function M.new(picture, tint, ink, statusKind)
         box:GetChild("hp").text = number(actor.hp) .. "/" .. number(actor.maxHp)
     end
 
-    local function blockParts(box, actor, barWidth, barX, y, blocked, chip)
-        for _, name in ipairs({"blockEdge", "blockIcon", "block"}) do
-            local part = box:GetChild(name)
-            part:SetVisible(blocked)
-            local side = name == "blockEdge" and chip + S.border * 2 or chip
-            local height = L.blockBadge.size + (name == "blockEdge" and S.border * 2 or 0)
-            part:SetSizeDelta(side, name == "block" and L.nativeText.lineHeight or height)
-            part:SetAnchoredPosition(barX - barWidth / 2 - L.blockBadge.gap - chip / 2, y)
+    local function blockPartGeometry(name,barWidth,barX,y,chip,source)
+        if source then
+            local height=name=='block' and L.nativeText.lineHeight or source.blockHeight
+            local position=name=='block' and source.blockTextY or source.blockY
+            return source.blockX,position,source.blockWidth,height
+        end
+        local padding=name=='blockEdge' and S.border*2 or 0
+        local height=name=='block' and L.nativeText.lineHeight or L.blockBadge.size+padding
+        return barX-barWidth/2-L.blockBadge.gap-chip/2,y,chip+padding,height
+    end
+    local function blockParts(box, actor, barWidth, barX, y, blocked, chip, source)
+        for _,name in ipairs({'blockEdge','blockIcon','block'})do
+            local x,position,width,height=blockPartGeometry(name,barWidth,barX,y,chip,source)
+            local part=box:GetChild(name);part:SetVisible(blocked)
+            part:SetSizeDelta(width,height);part:SetAnchoredPosition(x,position)
         end
         tint(box:GetChild("blockEdge"), C.panelSunken)
         tint(box:GetChild("blockIcon"), C.block)
@@ -164,16 +175,17 @@ function M.new(picture, tint, ink, statusKind)
         end
     end
 
-    return function(box, actor, portrait, icon, width, selected, targetWidth)
+    return function(box, actor, portrait, icon, width, selected, targetWidth, source)
         portraitParts(box, actor, portrait, icon, width, selected, targetWidth)
         -- Widen the Block chip for native digits rather than shrinking its text.
         local blocked = actor.block > 0
         local chip = math.max(L.blockBadge.size, #number(actor.block) * Theme.font.body + L.blockBadge.padding * 2)
         local geometry=M.geometry(portrait,box.name=='hero')
-        local barWidth,barX,y=geometry.healthWidth,0,geometry.healthY
-        healthParts(box, actor, barWidth, barX, y, blocked)
-        blockParts(box, actor, barWidth, barX, y, blocked, chip)
-        statuses(box, actor, portrait, width)
+        local barWidth,barX,y=source and source.hitWidth or geometry.healthWidth,source and source.healthX or 0,source and source.healthY or geometry.healthY
+        healthParts(box, actor, barWidth, barX, y, blocked, source)
+        blockParts(box, actor, barWidth, barX, y, blocked, chip, source)
+        if not source then statuses(box, actor, portrait, width)end
+        if source then box:GetChild("name"):SetVisible(false)end
     end
 end
 

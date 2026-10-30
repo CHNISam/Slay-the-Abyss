@@ -1,0 +1,179 @@
+{
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": [
+    {
+      "path": "events/city/CursedTome.java",
+      "gitBlobSha": "86073de0f401a04100988a648dffa87ad98da14b",
+      "sha256": "f6737abcd4f6c299bc697905074100efd156e129c42281f95d578575422884ff",
+      "size": 7602,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/CursedTome.java"
+    },
+    {
+      "path": "events/city/ForgottenAltar.java",
+      "gitBlobSha": "71a64d99de1ffd3a598c12bd90594d41c3134749",
+      "sha256": "874ad3903bc3b0239d50c6c365b394122f0036b2875e8db42cca14cf14b2877d",
+      "size": 5445,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/ForgottenAltar.java"
+    },
+    {
+      "path": "events/city/DrugDealer.java",
+      "gitBlobSha": "db226367fbdd0c9f522b0ccab07cf810e9423daa",
+      "sha256": "d6d6a3d3de0a1fdd2e987febc61db2197e20a5d882c3fe3360aa7ff1698836d8",
+      "size": 6346,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/DrugDealer.java"
+    },
+    {
+      "path": "events/city/Vampires.java",
+      "gitBlobSha": "93701f68f89eb014c0331c25f5c966c847dc37ff",
+      "sha256": "8d277e7459da9123aa87b1d749191c9926e7f4fd1431d6ef7fce10909c000b89",
+      "size": 5022,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/Vampires.java"
+    },
+    {
+      "path": "relics/GoldenIdol.java",
+      "gitBlobSha": "aba9ee2f79708cd8f7a14cd8007775102eb1db67",
+      "sha256": "063065e1da41f27eb786b89935bd0ec32be4c7e93b59fa693eb2c92a3bb16dd4",
+      "size": 618,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/GoldenIdol.java"
+    },
+    {
+      "path": "relics/BloodyIdol.java",
+      "gitBlobSha": "f791837ce50880e0286b398f68a2d84a5ceebad1",
+      "sha256": "a0e2df9fb4df47adbdecfa6f85450f20a16673cb2f1d8ff6c54857267fd44743",
+      "size": 969,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BloodyIdol.java"
+    },
+    {
+      "path": "relics/BloodVial.java",
+      "gitBlobSha": "48dfb0b6941453061f940a93bd97040a27788c9c",
+      "sha256": "f442eb8c42dbfbc22c8fcf77bdcccf7c638500a91d8a4e043db187bb51ed95b4",
+      "size": 1071,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BloodVial.java"
+    },
+    {
+      "path": "relics/MutagenicStrength.java",
+      "gitBlobSha": "089bfe976e1d4a3dbae9e4a714d595fde9c9a9b3",
+      "sha256": "6406fb486c27d2b43ae919f84189825a0b675e7ad8bbeb0703c42e447e3ed536",
+      "size": 1429,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/MutagenicStrength.java"
+    },
+    {
+      "path": "relics/Necronomicon.java",
+      "gitBlobSha": "089d80d9f8c60a54b50e223a361f3bd16f638c03",
+      "sha256": "56411b7d95078cebc070ec5270ad1d03346cf6ca872bdbd8fbfe423a9a9343dc",
+      "size": 3335,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Necronomicon.java"
+    },
+    {
+      "path": "relics/Enchiridion.java",
+      "gitBlobSha": "db604eb5f4f62d96f149a6d8b6bde8815e2a2139",
+      "sha256": "1d3ced35ff60c63d6b532e21acdbcf396a96577c2b57c80a6059c73c2784e6f2",
+      "size": 1157,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/Enchiridion.java"
+    },
+    {
+      "path": "relics/NilrysCodex.java",
+      "gitBlobSha": "8bf21e551d26a5e9436183dbd573360c1d6d4a66",
+      "sha256": "892d88cf117a5b525984c1f32bc4c5e4225ec7ac0225187470f0d6b024b0cf60",
+      "size": 932,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/NilrysCodex.java"
+    },
+    {
+      "path": "cards/colorless/Bite.java",
+      "gitBlobSha": "52a7590f87c421ac5109507f644d0f1623542a50",
+      "sha256": "053ece9e44fc6510548d46f09cd27cc4f4de0f74342be623494d256abbe844b2",
+      "size": 2334,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/Bite.java"
+    },
+    {
+      "path": "cards/colorless/JAX.java",
+      "gitBlobSha": "950c527d52abe173f61bebfc63e97f21e8463c58",
+      "sha256": "e630e336eb2650edf34e362320f13184f952a490e19780fa82e6b7d6c46063d2",
+      "size": 1508,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/JAX.java"
+    },
+    {
+      "path": "screens/select/GridCardSelectScreen.java",
+      "gitBlobSha": "3221a5d9f31b2c98b06848be5d261b5030841752",
+      "sha256": "1793bb4449bc7046d3e5477d1fdd4ad39f0a4d3d9582309ceb59595be8b130bc",
+      "size": 36552,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/screens/select/GridCardSelectScreen.java"
+    },
+    {
+      "path": "dungeons/AbstractDungeon.java",
+      "gitBlobSha": "9059f4da5c8002e9645bf38f200e5527d1212ac0",
+      "sha256": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+      "size": 115023,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/dungeons/AbstractDungeon.java"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "gitBlobSha": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+      "size": 45485,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java"
+    }
+  ],
+  "behavior": {
+    "cursed_tome": {
+      "stages": [
+        "intro",
+        "page_1",
+        "page_2",
+        "page_3",
+        "last_page",
+        "reward",
+        "result"
+      ],
+      "hpLossCommands": [
+        0,
+        1,
+        2,
+        3,
+        10
+      ],
+      "stopFinalCost": 3,
+      "bookOrder": [
+        "Necronomicon",
+        "Enchiridion",
+        "Nilry's Codex"
+      ],
+      "rng": "one miscRng bounded draw, including singleton/Circlet fallback; no relic queue draw",
+      "rewardBoundary": "final cost/draw/offer commits before optional independent claim; missing obtain does not refund prior commands"
+    },
+    "forgotten_altar": {
+      "cost": "cache MathUtils.round(float32(entryMaxHp*0.25f))",
+      "shedBloodOrder": [
+        "increaseMaxHp5AndHeal",
+        "NORMAL cached damage"
+      ],
+      "idolSwap": "same relic slot; if already Bloody Idol obtain Circlet and retain Golden Idol",
+      "smash": "one Decay permanent obtain; no free Leave"
+    },
+    "drug_dealer": {
+      "choices": [
+        "one J.A.X.",
+        "exactly two transforms",
+        "MutagenicStrength or Circlet if owned"
+      ],
+      "purgeable": "exclude only Necronomicurse,CurseOfTheBell,AscendersBane; bottles included; seven-arg Grid flags all false",
+      "transformOrder": [
+        "first remove",
+        "first misc transform",
+        "second remove",
+        "second misc transform",
+        "first delayed obtain",
+        "second delayed obtain"
+      ],
+      "transformPools": "existing exact colored/colorless/curse source pools, never filter capability or reroll"
+    },
+    "vampires": {
+      "cost": "cache ceil(float32(entryMaxHp*0.3f)), cap entryMaxHp-1",
+      "vial": "cache entry presence; lose Blood Vial instead of maxHP",
+      "removeOrder": "all exact STARTER_STRIKE-tagged cards in reverse master-deck order, including bottles/upgraded",
+      "obtain": "five fresh Bite cards after all removals, even zero strikes"
+    }
+  },
+  "boundaries": "Controlled staged-room tests are not natural pool/native acceptance. Fixed decompiled mirror is not authenticated PC binary. Missing dependency definitions must refuse, never substitutes. Public pool/dispatch/UI integration owned separately; no pool shrink or RNG-owner substitution."
+}

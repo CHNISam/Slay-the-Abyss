@@ -16,16 +16,20 @@ root:GetChild('characterPanel'):GetChild('details').children.officialSelectionFi
 root:GetChild('battlePanel'):GetChild('hero').children.officialFigure=nil
 local forbidden={abyss_menu_background=true,abyss_menu_background_asset=true,
  abyss_traveler_portraits=true,abyss_traveler_portrait_assets=true,
- abyss_ready_card_binding=true,abyss_ready_card_assets=true}
+ abyss_ready_card_binding=true,abyss_ready_card_assets=true,abyss_monster_art_data=true}
 for name in pairs(forbidden)do assert(package.loaded[name]==nil,'fixture eagerly loaded '..name)end
 local originalRequire=require
 require=function(name)assert(not forbidden[name],'disabled art loaded '..name);return originalRequire(name)end
-package.loaded.abyss_art_features={schemaVersion=1,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}}
+package.loaded.abyss_art_features={schemaVersion=2,flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false,monsters=false}}
 Enum={ImageSource={StaticReference='static'},ImageType={Stretch='stretch'},CursorEventType={CursorClick='click'},
  Device={Controller='controller',MobileController='mobileController',Mobile='mobile'}}
 Color=setmetatable({FromRGBA=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end},
  {__call=function(_,r,g,b,a)return {r=r,g=g,b=b,a=a}end})
 local creates,updates=0,false
+-- Ordinary monster controls still have candidate bindings when artwork is OFF.
+local actorApi=F.monsterActors()
+package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actorApi.templateIndex,
+ containerTemplateIndex=actorApi.containerTemplateIndex,powerTemplateIndex=actorApi.powerTemplateIndex}
 game={InstantiateClientUIControl=function()creates=creates+1;error('disabled custom art created')end,
  DestroyClientUIControl=function()error('nothing custom should be owned')end,
  GetUICanvasSize=function()return 1280,720 end,IsTestPlay=function()return true end,

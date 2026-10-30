@@ -2,10 +2,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync as readCurrentFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { launchBaselineFixture } from './helpers/launch-baseline-fixture.mjs';
-import { validateLaunchContent as validateCurrentLaunchContent, inspectLaunchRuntime as inspectCurrentLaunchRuntime, validateLaunchRuntimeModules } from '../scripts/verify-launch-content.mjs';
+import { launchBaselineFixture, loadLaunchBaselineValidator } from './helpers/launch-baseline-fixture.mjs';
+
 
 const historicalRoot = launchBaselineFixture();
+const {validateLaunchContent:validateCurrentLaunchContent,inspectLaunchRuntime:inspectCurrentLaunchRuntime,validateLaunchRuntimeModules}=await loadLaunchBaselineValidator(historicalRoot);
 const readFileSync = (path, encoding) => readCurrentFileSync(resolve(historicalRoot, path), encoding);
 const validateLaunchContent = (manifest, options = {}) =>
   validateCurrentLaunchContent(manifest, { ...options, root: historicalRoot });

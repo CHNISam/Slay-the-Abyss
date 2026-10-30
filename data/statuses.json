@@ -5,6 +5,8 @@
       "description":"下一回合开始时获得对应层数的固定格挡，随后移除。" },
     { "id":"buffer", "name":"缓冲", "kind":"buff", "stack":"intensity", "decay":"none",
       "description":"抵消接下来的对应次数正数生命损失；完全格挡的伤害不消耗次数。" },
+    { "id":"split","sourceId":"Split","name":"分裂","kind":"buff","stack":"none","decay":"none","priority":5,
+      "description":"生命值降至一半或以下时，打断当前意图并分裂。" },
     { "id":"duplication","name":"复制","kind":"buff","stack":"intensity","decay":"round_end_minus_1",
       "description":"接下来的牌额外使用一次，每次消耗1层；轮末另减少1层。" },
     { "id": "plated_armor", "name": "多层护甲", "kind": "buff", "stack": "intensity", "decay": "none",

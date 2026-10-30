@@ -4,6 +4,7 @@ local M={}
 local ids={regret=true,injury=true,doubt=true,pain=true,decay=true,shame=true,
     writhe=true,clumsy=true,normality=true,parasite=true,curse_of_the_bell=true}
 function M.isImplemented(card)
+    if card and card.id=='necronomicurse'then return require('abyss_necronomicurse').supported(card)end
     return type(card)=='table' and ids[card.id]==true and card.type=='curse'
         and card.rarity=='curse' and card.cost==-2 and type(card.effects)=='table'
         and next(card.effects)==nil and card.upgrade==nil and not card.exhaust
@@ -27,6 +28,7 @@ function M.endTurnCard(id)
 end
 function M.onRemove(owner,card)
     local id=type(card)=='table' and card.cardId or card
+    if id=='necronomicurse'then require('abyss_necronomicurse').onRemove(owner,card);return 0 end
     if id~='parasite' then return 0 end
     assert(type(owner)=='table' and type(owner.maxHp)=='number' and owner.maxHp>=1
         and owner.maxHp%1==0 and owner.maxHp<=2147483647 and type(owner.hp)=='number'

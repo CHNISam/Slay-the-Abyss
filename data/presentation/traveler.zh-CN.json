@@ -434,6 +434,10 @@
     "parasite": {
       "name": "寄生",
       "textTemplate": "无法打出。从牌组中永久移除时，最大生命值降低{onRemoveMaxHpLoss}点。"
+    },
+    "necronomicurse": {
+      "name": "死灵诅咒",
+      "textTemplate": "无法打出。不能永久移除。被消耗时，将一张新的死灵诅咒加入手牌。"
     }
   }
 }

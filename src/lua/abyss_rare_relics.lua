@@ -84,7 +84,7 @@ function M.onUseCard(s,d)
 end
 function M.onPlayerEndTurn(s)
  flags(s).topCanDraw=false
- if owns(s,'stone_calendar')and counters(s).stone_calendar==7 then
+ if s.relicEndTurnResolved~=s.turn and owns(s,'stone_calendar')and counters(s).stone_calendar==7 then
   enqueue(s,{op='rareRelicDamageAll',value=52,relic='stone_calendar'})
  end
 end

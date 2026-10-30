@@ -1,3 +1,4 @@
+import {preM3EventDeliverySource} from './m3-event-delivery-source-inverse.mjs';
 import {preIntegrationSource} from './pr372-integration-source.mjs';
 // Exact historical evidence only; current feature execution uses production.
 import assert from 'node:assert/strict';
@@ -29,7 +30,7 @@ for(const target of Object.values(relicRound3Composition.targets)){
  }
 }
 const cachedProjection=cachePureSourceProjection(relicRound3Composition.targets,projectSource);
-export function preRelicRound3CompositionSource(path,source,target){return cachedProjection(path,preIntegrationSource(path,source),target);}
+export function preRelicRound3CompositionSource(path,source,target){return cachedProjection(path,preM3EventDeliverySource(path,preIntegrationSource(path,source)),target);}
 function projectSource(path,source,target){
  assert.ok(target==='relic'||target==='round3');
  const binding=relicRound3Composition.targets[target].files[path];

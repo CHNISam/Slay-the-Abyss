@@ -1,6 +1,30 @@
 {
   "layers": {
     "abyss_victory_easter_egg": "ui",
+    "abyss_relic_end_turn": "core",
+    "abyss_relic_rarity": "core",
+    "abyss_relic_loss": "core",
+    "abyss_nloth_event": "core",
+    "abyss_knowing_skull_event": "core",
+    "abyss_designer_event": "core",
+
+    "abyss_necronomicurse": "core",
+    "abyss_codex_relic": "core",
+    "abyss_act2_event_relics": "core",
+    "abyss_event_card_sampling": "core",
+    "abyss_vampires_event": "core",
+    "abyss_forgotten_altar_event": "core",
+    "abyss_drug_dealer_event": "core",
+    "abyss_cursed_tome_event": "core",
+    "abyss_event_combat_enemies": "core",
+    "abyss_event_combat_routes": "core",
+    "abyss_masked_bandits_event": "core",
+    "abyss_colosseum_event": "core",
+
+    "abyss_dead_adventurer_event": "core",
+    "abyss_face_trader_event": "core",
+    "abyss_node_ui_event_cards": "ui",
+
     "abyss_combat_catalog": "core",
     "abyss_relic_card_rewards": "core",
     "abyss_boss_relics": "core",
@@ -286,7 +310,18 @@
     "abyss_traveler_portraits": "platform",
     "abyss_traveler_portrait_assets": "ui",
     "abyss_ready_card_binding": "ui",
-    "abyss_monster_art": "ui"
+    "abyss_monster_art": "ui",
+    "abyss_monster_source_geometry": "core",
+    "abyss_monster_source_positions": "core",
+    "abyss_monster_surfaces": "ui",
+    "abyss_monster_actor_binding": "ui",
+    "abyss_monster_source_intents": "ui",
+    "abyss_monster_power_surfaces": "ui",
+    "abyss_monster_power_view": "ui",
+    "abyss_monster_intent_particle_view": "ui",
+    "abyss_monster_displayed_intent": "ui",
+    "abyss_monster_escape": "ui",
+    "abyss_monster_intent_particles": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [
@@ -329,6 +364,11 @@
 {"from":"abyss_shop_relics","to":"abyss_potion_discovery","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
 {"from":"abyss_uncommon_relics","to":"abyss_potion_health","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
 {"from":"abyss_uncommon_relics","to":"abyss_actor","reason":"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import."},
+    {"from": "abyss_act2_powers", "to": "abyss_power_order", "reason": "Original monster Power list bookkeeping runs only inside initialized constructor/action/removal calls; no module-load execution."},
+    {"from": "abyss_power_schedule", "to": "abyss_power_order", "reason": "Original monster Power list bookkeeping runs only inside initialized constructor/action/removal calls; no module-load execution."},
+    {"from": "abyss_focus", "to": "abyss_power_order", "reason": "Original monster Power list bookkeeping runs only inside initialized constructor/action/removal calls; no module-load execution."},
+    {"from": "abyss_defect_engine_cards", "to": "abyss_power_order", "reason": "Original monster Power list bookkeeping runs only inside initialized constructor/action/removal calls; no module-load execution."},
+    {"from": "abyss_combat_enemy_setup", "to": "abyss_power_order", "reason": "Original monster Power list bookkeeping runs only inside initialized constructor/action/removal calls; no module-load execution."},
     {
       "from": "abyss_class_potions",
       "to": "abyss_orbs",

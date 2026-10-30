@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "identity": "treasure-hoarder-scout",
+  "provenanceType": "Sanitized original retained generation record; no new generation or altered source",
+  "originalRecordSha256": "b04b4bf98954294616c31247a194583dce174c690d9e102f9e0a72f7f4a0dfea",
+  "exactPromptFiles": {
+    "prompt.txt": {
+      "sha256": "6ea2debd2848a3e0c221a546a95c61d4e2da33512c3b235dd032721f5449e228",
+      "bytes": 1874,
+      "textUnmodified": true
+    }
+  },
+  "originalGenerationRecord": {
+    "asset": "treasure-hoarder-scout",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repairs": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_any": [
+      19,
+      1,
+      1200,
+      1254
+    ],
+    "alpha_bbox_128": [
+      185,
+      11,
+      1147,
+      1234
+    ],
+    "alpha_zero_pixels": 1158567,
+    "reference_urls": {
+      "page": "https://wiki.hoyolab.com/pc/genshin/entry/2202?lang=en-us",
+      "api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2202",
+      "image": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/09/35428890/676bfb45cac59d0b2409e1dedadf85d6_7932671173996478165.png",
+      "sha256": "45ab2151bdd74e57663949f177d7395694b97c2e02fa2d51ba40f2b47599d4e6"
+    },
+    "style_references": {
+      "pyro-abyss-mage-sample.png": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40"
+    },
+    "previews": "Unmodified full source canvas aspect-preserving contain inside 86% of 106/127 square with 7% transparent margin; nearest 4x. Source never cropped/edited.",
+    "status": "source candidate only; native conversion pending; no Owner/runtime/device acceptance",
+    "source_sha256": "3e3d5d56f931e211e9b5d1c8e979344898fc18261f651efc4abe813181daa560"
+  },
+  "sanitization": "Private working paths and generated output locations removed or replaced by leaf filename; prompts preserved byte-for-byte. No reference pixels included; metadata does not imply redistribution rights.",
+  "approvalBoundary": "Historical source/native approval values retain their original meaning; not current device or final-art acceptance"
+}

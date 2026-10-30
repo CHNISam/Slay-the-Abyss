@@ -1,3 +1,4 @@
+import {preNativeMonsterArtSource} from './native-monster-art-source-inverse.mjs';
 // Historical source replay only. Runtime feature tests read production directly.
 import assert from 'node:assert/strict';
 import {preRelicRound2CompositionSource} from './relic-round2-composition.mjs';
@@ -29,6 +30,7 @@ for(const [path,binding]of Object.entries(files)){
  }
 }
 export function requireRelicCompletionSource(path,source){
+ source=preNativeMonsterArtSource(path,source);
  source=preRelicRound2CompositionSource(path,source,'relic');
  source=preNativeEnemyThemeSource(path,source);
  const binding=files[path];
@@ -38,6 +40,7 @@ export function requireRelicCompletionSource(path,source){
  return binding;
 }
 export function tryRelicCompletionSource(path,source){
+ source=preNativeMonsterArtSource(path,source);
  source=preRelicRound2CompositionSource(path,source,'relic');
  source=preNativeEnemyThemeSource(path,source);
  const binding=files[path];

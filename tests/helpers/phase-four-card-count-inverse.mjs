@@ -1,3 +1,4 @@
+import {prePhaseFourNecronomicurseCountSource} from './phase-four-necronomicurse-count-inverse.mjs';
 // Test-only additive Bell coverage. The old complete render witness stays
 // immutable; current execution keeps all old cards plus Bell in every class.
 import {restoreExactFixtureHunks} from './exact-fixture-hunks.mjs';
@@ -11,5 +12,5 @@ export const phaseFourCardCounts=Object.freeze({
  ],
 });
 export function prePhaseFourCardCountSource(path,source){
- return restoreExactFixtureHunks(phaseFourCardCounts,path,source);
+ return restoreExactFixtureHunks(phaseFourCardCounts,path,prePhaseFourNecronomicurseCountSource(path,source));
 }

@@ -105,6 +105,7 @@ function M.remove(state,actor,id)
     plain(actor,'missing Power schedule actor');plain(actor.statuses,'missing Power membership')
     assert(type(id)=='string' and #id>0,'invalid removed Power id')
     local entries,seen=read(actor)
+    if actor.definitionId then require('abyss_power_order').remove(actor,id)end
     if not seen[id] then
         -- Removing an unrecorded old fixture Power needs no guessed position.
         return false

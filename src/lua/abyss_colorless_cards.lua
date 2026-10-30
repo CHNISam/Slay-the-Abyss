@@ -401,8 +401,13 @@ function M.apply(combat,state,item)
         combat.damage(state,state.player,target,a.damage or a.value,nil,nil,a.resolved and a.resolved[target.id])
         if before>0 and target.hp<=0 and not target.escaped and not target.halfDead and not target.minion and (target.statuses.minion or 0)<=0 then
             if kind=='greed'then
-                state.player.gold=state.player.gold+a.value
-                require('abyss_events').emit(state,'gold',{amount=a.value,source='hand_of_greed'})
+                if not require('abyss_relic_hooks').owns(state,'ectoplasm')then
+                    state.player.gold=state.player.gold+a.value
+                    require('abyss_act2_event_relics').gainGold(state,a.value,function(n)
+                        return actions().apply(combat,state,{effect={op='heal',value=n},source=state.player})
+                    end)
+                    require('abyss_events').emit(state,'gold',{amount=a.value,source='hand_of_greed'})
+                end
             else
                 local c=item.instance;growBattleInstances(state,c,a.value)
                 state.ritualDaggerGrowth=state.ritualDaggerGrowth or {}

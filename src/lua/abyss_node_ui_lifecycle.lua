@@ -20,7 +20,9 @@ local reasons = {
     event_reward_content_unavailable = "当前遗物的无色奖励效果尚未接齐，本次未改变资源",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
-local function stagedEvent(id)return id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
+-- Keep legacy Act1 pointer ownership unchanged; only the new state machines join.
+local addedStaged={dead_adventurer=true,designer=true,face_trader=true,knowing_skull=true,nloth=true}
+local function stagedEvent(id)return addedStaged[id] or id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local M = {}
 
 -- Installs the lifecycle responsibility on one node UI instance.

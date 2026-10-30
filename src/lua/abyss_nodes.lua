@@ -12,6 +12,7 @@ local External=require('abyss_external_random')
 
 local CardPool = require('abyss_card_pool')
 local LivingWall = require('abyss_living_wall')
+local Act1Events = require('abyss_act1_events')
 
 local RelicHooks = require('abyss_relic_hooks')
 
@@ -199,6 +200,7 @@ local function eventView(run,node)
     if node.event.id=='bonfire' then node.event.purgeCards=LivingWall.purgeCards(run) end
     if node.event.id=='transmogrifier' then node.event.purgeCards=LivingWall.purgeCards(run) end
     if node.event.id=='wheel' then node.event.purgeCards=LivingWall.purgeCards(run) end
+    if Act1Events.ids[node.event.id] then Act1Events.view(run,node.event) end
     if Act2Events.ids[node.event.id] then Act2Events.view(run,node.event) end
     if node.event.id=='match_game' then Match.view(run,node.event) end
     if node.event.id=='neow'then Neow.view(run,node.event)end

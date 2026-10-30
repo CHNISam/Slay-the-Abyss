@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "identity": "treasure-hoarder-pugilist",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/treasure-hoarder-pugilist/source.png",
+    "sha256": "d4bc1146f0efe5583e61c9290aed1fd41126ef3c08676729b546a430bb020733",
+    "bytes": 865312,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "nativeReview": "Root viewed actual127px4x comparison and accepted recognizable simplified test candidate for staging only",
+  "nativeOwnerAcceptance": false,
+  "method": "manual semantic source-faithful close-cropped masked boxer, two raised fists, black vest, waist guard and olive baggy trousers; no source sampling, raster import, fitting or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "b56421f82a5489b94f33c0b86516f7c96b3ae96ac54a745f726bf0b43787d90e",
+      "bytes": 353666
+    },
+    "native-art.lua": {
+      "sha256": "e7913fe8a8b20300a3b019488f29e0bbce0b5cbaa4b03e034b9eaf54d98ef40f",
+      "bytes": 110784
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "efdc0dc36c5ad3a362d7ebe08ff1faeee11d327dfd097da80cef2ad36a1222aa",
+    "generationProvenanceSha256": "11cbf0279dba6545374afee578316d5d45c8b7893a0ffb60c505c83a29172057"
+  },
+  "generation": {
+    "asset": "treasure-hoarder-pugilist",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repairs": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_bbox_any": [
+      73,
+      17,
+      1218,
+      1214
+    ],
+    "alpha_bbox_128": [
+      193,
+      73,
+      1092,
+      1207
+    ],
+    "alpha_zero_pixels": 1144397,
+    "reference_urls": {
+      "page": "https://wiki.hoyolab.com/pc/genshin/entry/2200?lang=en-us",
+      "api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2200",
+      "image": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/09/35428890/b2058431fca479e880a97d3189d70c92_8049027867927658636.png",
+      "sha256": "1c51cb4b33f77d36084aabae52e2cf0beda2bca71761d4e8784705114a0f3400"
+    },
+    "style_references": {
+      "pyro-abyss-mage-sample.png": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40"
+    },
+    "previews": "Unmodified full source canvas aspect-preserving contain inside 86% of 106/127 square with 7% transparent margin; nearest 4x. Source never cropped/edited.",
+    "status": "source candidate only; native conversion pending; no Owner/runtime/device acceptance",
+    "source_sha256": "d4bc1146f0efe5583e61c9290aed1fd41126ef3c08676729b546a430bb020733"
+  },
+  "identityReferenceMetadata": {
+    "page": "https://wiki.hoyolab.com/pc/genshin/entry/2200?lang=en-us",
+    "api": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2200",
+    "image": "https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2026/03/09/35428890/b2058431fca479e880a97d3189d70c92_8049027867927658636.png",
+    "sha256": "1c51cb4b33f77d36084aabae52e2cf0beda2bca71761d4e8784705114a0f3400"
+  },
+  "rights": "AI-assisted game-IP derivative; no game-IP sublicense, commercial clearance or reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain notices and assess code separately from art."
+}

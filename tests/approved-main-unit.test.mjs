@@ -26,7 +26,7 @@ test('Main end-turn is the original long bronze hexagon, not an invented sword b
   assert.equal(state.children.find(c=>c.name==='label').text.fontSize,27/1.5);
  }
 });
-test('Main unique Boss center screen slot preserves core actor IDs and real target commands',()=>{
+test('original Boss constructor position preserves core order, IDs and real target commands',()=>{
  const r=runLua('tests/lua/approved_main_boss_slots.lua');
  assert.equal(r.status,0,r.stdout+r.stderr);assert.match(r.stdout,/APPROVED_MAIN_BOSS_SLOTS_PASS/);
 });

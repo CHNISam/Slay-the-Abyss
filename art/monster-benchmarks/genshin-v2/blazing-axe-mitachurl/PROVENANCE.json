@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "identity": "blazing-axe-mitachurl",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/blazing-axe-mitachurl/source.png",
+    "sha256": "54bf748f89703d8ae125ea6a8ecff873e2819d9de2ee34358a468a91b9d583dd",
+    "bytes": 1273729,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "nativeReview": "Root viewed actual127px4x comparison and accepted recognizable simplified test candidate for staging only",
+  "nativeOwnerAcceptance": false,
+  "method": "manual semantic dark fur, white horned skull, muscular biped, orange cloth, two connected grips on continuous long axe with attached restrained flame; no sampling or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "6b2bd1ed5c70ea18192de8e6e6bb0c715a25f256a0105524cf331fe042fd8855",
+      "bytes": 369640
+    },
+    "native-art.lua": {
+      "sha256": "b93dad77124b912461ab4ba1919e67f936cbae16c2b0e3bfb026a4ef1393bd57",
+      "bytes": 117382
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "8f1b734f3a8052cf778b07b16855c287543aecd977b90bf5d8af15216573ac2e",
+    "generationProvenanceSha256": "ddf949433c9096a80826812581bbf23e17f55b88e6d9b44b32f3c3a985cc1856"
+  },
+  "generation": {
+    "asset": "blazing-axe-mitachurl",
+    "generation_mode": "built-in image_gen imagegen only",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "raw_source_sha256": "54bf748f89703d8ae125ea6a8ecff873e2819d9de2ee34358a468a91b9d583dd",
+    "prompt_file": "prompt.txt",
+    "prompt_sha256": "147c2ad5ddfa1667f68ec8a0e0d7d719be218428958d67e5ede5abdeea0623c3",
+    "reference_urls": {
+      "page": "https://exploregenshin.gg/blazing-axe-mitachurl/",
+      "fullbody_image": "https://exploregenshin.gg/wp-content/uploads/2025/04/Blazing-Axe-Mitachurl.webp"
+    },
+    "reference_files_sha256": {
+      "reference-urls.json": "638656ecd27ac7493f73d81990d467bd31a88aa36cc7dd0037bc0aefb0d5b13c",
+      "identity-reference.webp": "ca4bdfe3ecc4d4f601da7ab6ba19bbef3ae77efa25804507b3504514902a7c66"
+    },
+    "style_reference_sha256": {
+      "stonehide-lawachurl-sample.png": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "pyro-abyss-mage-sample.png": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64"
+    },
+    "pixel_qa": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox_any": [
+        0,
+        19,
+        1228,
+        1254
+      ],
+      "alpha_bbox_128": [
+        33,
+        32,
+        1223,
+        1218
+      ],
+      "alpha_zero_pixels": 897020,
+      "edge_alpha_max": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "previews": "Alpha bbox crop, contain preserving aspect inside 88% square; 106/127/173 1x and nearest 4x; unchanged source."
+    },
+    "status": "Source candidate ONLY; native conversion, integration, Owner acceptance, runtime/device QA are pending."
+  },
+  "identityReferenceMetadata": {
+    "page": "https://exploregenshin.gg/blazing-axe-mitachurl/",
+    "fullbody_image": "https://exploregenshin.gg/wp-content/uploads/2025/04/Blazing-Axe-Mitachurl.webp"
+  },
+  "rights": "AI-assisted game-IP derivative; no game-IP sublicense, commercial clearance or reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain notices and assess code separately from art."
+}

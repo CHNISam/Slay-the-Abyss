@@ -103,7 +103,7 @@ test('readback verifies both the bound template identity and its actual image bo
 
 for(const [name,artFeatures]of [['default',{}],['cards',{cards:true}],['avatar',{selectionAvatar:true}],['battle',{battlePortrait:true}],['both portraits',{selectionAvatar:true,battlePortrait:true}]])test(`candidate ${name} binds only enabled artwork and carries effective config`,async t=>{
  const f=fixture(t),receipt=await f.run({artFeatures});
- assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,...artFeatures});
+ assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:false,...artFeatures});
  const templates=f.calls.filter(c=>c.name==='scene_add_client_template').map(c=>c.args.template.name);
  assert.equal(templates.includes('AbyssOfficialBackgroundImage'),false);
  assert.equal(templates.includes('AbyssReadyCardImage'),name!=='default');

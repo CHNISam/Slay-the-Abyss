@@ -1,7 +1,7 @@
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
 local function controls(panel)
     local function emit(name, kind, touch)
-        local box = panel:GetChild(name)
+        local box = H.F.actorControl(panel,name)
         local hit = box.listeners and box or box:GetChild("hit")
         local callback = hit.listeners and hit.listeners[kind]
         -- Real hosts may omit an event listener. Do not invent that callback.

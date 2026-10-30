@@ -1,0 +1,109 @@
+{
+  "controls": 598,
+  "primitiveCounts": {
+    "ellipse": 7,
+    "triangle": 591
+  },
+  "semanticPlanes": 64,
+  "contain": {
+    "sourceAlphaCropped": false,
+    "aspectRatioPreserved": true,
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "offset": [
+      6.36,
+      6.36
+    ],
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "scale": 0.07438596491228071,
+    "outsideTransparency": true
+  },
+  "serializationClosure": [
+    {
+      "x": 4.939899110212309e-05,
+      "y": 5.088672303088515e-05,
+      "width": 9.834975527089895e-05,
+      "height": 7.704115750417628e-05,
+      "rotation": 5.45112028191852e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106": {
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "thresholdRelaxed": false
+    },
+    "127": {
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "thresholdRelaxed": false
+    },
+    "173": {
+      "changedPixels": 0,
+      "maxChannelDelta": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "visualReview": {
+    "inspected": [
+      "unchanged source.png1254x1254",
+      "comparison-127-4x.png",
+      "comparison-106-1x.png"
+    ],
+    "identity": "Orange bell cap, paired yellow flame motifs, angular side spikes, cream rimmed eyes and long curved peach stalk with flared foot",
+    "remainingDifferences": [
+      "Faceted shading replaces painted gradient",
+      "Cap scallops and eyes are coarser at actual106px",
+      "Some sparse geometry edges are sharper than source"
+    ],
+    "status": "Recognizable simplified source-derived test candidate; root review pending",
+    "ownerNativeAcceptance": false
+  },
+  "qualityStatus": "Awaiting independent root visual review; technical parity is not visual approval",
+  "independentVerification": {
+    "identity": "stretchy-pyro-fungus",
+    "controls": 598,
+    "exactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "allFieldsEqual": true,
+    "actualPinnedRendererParity": {
+      "106": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      },
+      "127": {
+        "changedPixels": 0,
+        "maxChannelDelta": 0
+      }
+    },
+    "sourceHashMatches": true,
+    "galleryImages": 0,
+    "masks": 0
+  },
+  "runtimeWired": false
+}

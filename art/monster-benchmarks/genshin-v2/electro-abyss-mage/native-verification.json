@@ -1,0 +1,129 @@
+{
+  "controls": 594,
+  "primitiveCounts": {
+    "ellipse": 19,
+    "rectangle": 90,
+    "triangle": 485
+  },
+  "semanticPlanes": 77,
+  "contain": {
+    "canvasInsetFractionPerSide": 0.06,
+    "extentFraction": 0.88,
+    "sourceAlphaCropped": false,
+    "groundAnchor": null,
+    "sourceComparisonResample": "Pillow affine BICUBIC at8x then LANCZOS reduce; exact6% source-space no crop",
+    "existingWholeCanvasPaddingZeroPreviewsNotReplaced": true,
+    "sourceCanvasAspectPreserved": true,
+    "sourceScaleIn106": 0.07253499222395024,
+    "sourceCanvasBoundsIn106": [
+      8.644852255054431,
+      6.36,
+      97.35514774494557,
+      99.64
+    ]
+  },
+  "serializationClosure": [
+    {
+      "x": 5.001097778745134e-05,
+      "y": 5.062168530400868e-05,
+      "width": 8.983906468573721e-05,
+      "height": 8.605129425820479e-05,
+      "rotation": 5.491795499779073e-05,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    },
+    {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0,
+      "rotation": 0.0,
+      "rotationX": 0.0,
+      "rotationY": 0.0
+    }
+  ],
+  "strictJsonVsLiteralReplay": {
+    "106px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "106px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-1x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    },
+    "127px-4x": {
+      "changedPixels": 0,
+      "thresholdRelaxed": false
+    }
+  },
+  "exactGeometryColorOpacityOrderAudit": {
+    "pass": true,
+    "fields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex",
+      "isBackground",
+      "luaMask"
+    ],
+    "elements": 594,
+    "optionalEditorSnapshotAbsent": true,
+    "unknownPrimitiveTypes": [],
+    "allowedAssets": [
+      100001,
+      100002,
+      100003
+    ]
+  },
+  "luaOptionalSnapshot": {
+    "rawExportSha256": "b4e2b7518d98b8a5691c6febb6acb8c91a8dac5f95d0249fa0caecf0f10d1e8a",
+    "rawExportBytes": 452669,
+    "removedBytes": 340419,
+    "runtimeLiteralUnchanged": true
+  },
+  "runtimeIntegrationContract": {
+    "canvas": [
+      106,
+      106
+    ],
+    "requiresXYZRotation": true,
+    "preserveRGBAOpacity": true,
+    "requiresSourceOverZIndexOrder": true,
+    "actualBinding": "not implemented here; independent integrator owns shared code"
+  },
+  "preservedEvidenceNote": "Selected fields from the original hash-identified report; original parity evidence is not new source-pixel equivalence. No claim that the simplified native scene is pixel-identical to source.",
+  "independentVerification": {
+    "pinnedReaderParse": true,
+    "jsonLuaExactFields": [
+      "type",
+      "x",
+      "y",
+      "width",
+      "height",
+      "rotation",
+      "rotationX",
+      "rotationY",
+      "color",
+      "opacity",
+      "zIndex"
+    ],
+    "canvas": [
+      106,
+      106
+    ],
+    "galleryImages": 0,
+    "textboxes": 0
+  },
+  "originalNativeReportSha256": "12c53a7a56a283b3444076e2f2148bec7e793cd1214c798be3bf68ee96864adf"
+}

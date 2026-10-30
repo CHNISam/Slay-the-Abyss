@@ -7,7 +7,7 @@ import { candidateScriptFiles } from '../scripts/native-candidate-scripts.mjs';
 
 const roots = ['abyss_curses', 'abyss_relic_pool', 'abyss_relic_hooks', 'abyss_act1_events',
   'abyss_potion_health', 'abyss_potion_random', 'abyss_fountain'];
-const generated = ['abyss_art_features','abyss_monster_art_data','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];
+const generated = ['abyss_art_features','abyss_monster_actor_binding','abyss_monster_art_data', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];
 
 function dependencyClosure(scripts) {
   const byName = new Map(scripts.map(script => [script.name, script]));

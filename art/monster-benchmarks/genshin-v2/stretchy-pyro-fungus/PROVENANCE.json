@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "identity": "stretchy-pyro-fungus",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/stretchy-pyro-fungus/source.png",
+    "sha256": "9b5db3442b7b425ba78851e436af447f929bcaf7aaa9b7acea1673a1d7bc6c60",
+    "bytes": 666174,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "nativeReview": "Root viewed actual127px4x comparison and accepted recognizable simplified test candidate for staging only",
+  "nativeOwnerAcceptance": false,
+  "method": "Manual bell cap, paired flame motifs, angular cap spikes, peach stalk, cream ellipse eyes and broad source-colored facets. No source sampling, fitting, pixel mosaic, masks, bitmap import, new renderer or image generation.",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "15422395c35ca07560d1168e7fc378146ad224e113454b2b8cbfd07e85f2a1f4",
+      "bytes": 368993
+    },
+    "native-art.lua": {
+      "sha256": "d6478d6f5714e93a1b3b613bd4299e79dcb10acfa916cafd5393b171a5b3cf28",
+      "bytes": 117617
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "bb8bd0dba087d0a1fb8498502c1c20b4d4ee826e6532dbb3e724a225d31cc187",
+    "generationProvenanceSha256": "31cc9bb389f7f0fad0b23ea5558723ac23f242f4b35510b609bbb5a02fe6611b"
+  },
+  "generation": {
+    "asset": "stretchy-pyro-fungus",
+    "enemy_id": "red_louse",
+    "identity": "伸缩火蕈兽",
+    "generation_mode": "built-in image_gen imagegen",
+    "generation_calls": 1,
+    "repair_calls": 0,
+    "source_is_unchanged_raw": true,
+    "model": "unknown, not exposed",
+    "seed": "unknown, not exposed",
+    "raw_source_sha256": "9b5db3442b7b425ba78851e436af447f929bcaf7aaa9b7acea1673a1d7bc6c60",
+    "prompt_file": "prompt.txt",
+    "prompt_sha256": "b9e69dd6894048153bc61d807511ef1b36a3434761bb29e73862320c86e388c9",
+    "reference_urls": {
+      "image": "https://staticg.sportskeeda.com/editor/2022/11/f4b3c-16682147605551-1920.jpg",
+      "page": "https://www.sportskeeda.com/esports/awaken-stretchy-pyro-fungus-potential-7-moves-genshin-impact-puzzle-guide",
+      "role": "Reference-only screenshot of original game; retains third-party rights. Not generated project source.",
+      "archive_api": "HTTP403; not retried"
+    },
+    "reference_file_sha256": "2af2648d4914ecdc207e14e58ac7f3311590b8b87cef719bacd068987e95d038",
+    "style_reference": "../../pyro-abyss-mage-sample.png",
+    "style_reference_sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+    "pixel_qa": {
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox_128": [
+        193,
+        71,
+        1061,
+        1183
+      ],
+      "alpha_zero_pixels": 1190552,
+      "edge_alpha_max": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "previews": "QA derivatives only: crop visible alpha bbox >=128 and contain inside88%; raw source unchanged."
+    },
+    "status": "SOURCE_CANDIDATE_ONLY; not converted/wired/device tested; no owner acceptance."
+  },
+  "identityReferenceMetadata": {
+    "image": "https://staticg.sportskeeda.com/editor/2022/11/f4b3c-16682147605551-1920.jpg",
+    "page": "https://www.sportskeeda.com/esports/awaken-stretchy-pyro-fungus-potential-7-moves-genshin-impact-puzzle-guide",
+    "role": "Reference-only screenshot of original game; retains third-party rights. Not generated project source.",
+    "archive_api": "HTTP403; not retried"
+  },
+  "rights": "AI-assisted game-IP derivative; no game-IP sublicense, commercial clearance or reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain notices and assess code separately from art."
+}

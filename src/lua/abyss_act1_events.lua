@@ -9,7 +9,16 @@ local Trade=require('abyss_trade_event')
 local GoldenIdol=require('abyss_golden_idol_event')
 local Mushrooms=require('abyss_mushrooms_event')
 local M={ids={mushrooms=true,golden_idol=true,sssserpent=true,big_fish=true,accursed_blacksmith=true,bonfire=true,transmogrifier=true,scrap_ooze=true,wheel=true,lab=true,woman_in_blue=true,we_meet_again=true}}
-function M.prepare(run,event,miscRng)
+for _,id in ipairs({'dead_adventurer','designer','face_trader','knowing_skull','nloth'})do M.ids[id]=true end
+local function extension(id)
+    if id=='dead_adventurer'then return require('abyss_dead_adventurer_event')end
+    if id=='designer'then return require('abyss_designer_event')end
+    if id=='face_trader'then return require('abyss_face_trader_event')end
+    if id=='knowing_skull'then return require('abyss_knowing_skull_event')end
+    if id=='nloth'then return require('abyss_nloth_event')end
+end
+function M.prepare(run,event,miscRng,floor)
+    local extra=extension(event.id);if extra then return extra.prepare(run,event,miscRng,floor)end
     if event.id=='mushrooms'then return Mushrooms.prepare(run,event)end
     if event.id=='golden_idol'then return GoldenIdol.prepare(run,event)end
     if event.id=='big_fish' then event.healAmount=math.floor(run.maxHp/3) end
@@ -47,6 +56,7 @@ local function obtainRelic(run,id)
     return ok,localId
 end
 function M.options(run,event,upgradeCards)
+    local extra=extension(event.id);if extra then return extra.options(run,event)end
     if event.id=='mushrooms'then return Mushrooms.options(run,event)end
     if event.id=='golden_idol'then return GoldenIdol.options(run,event)end
     if event.id=='we_meet_again' then return Trade.options(run,event) end
@@ -74,6 +84,7 @@ function M.options(run,event,upgradeCards)
     return {}
 end
 function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
+    local extra=extension(flow.event.id);if extra then return extra.choose(run,flow,choice,uid)end
     if flow.event.id=='mushrooms'then return Mushrooms.choose(run,flow,choice,uid)end
     if flow.event.id=='golden_idol'then return GoldenIdol.choose(run,flow,choice,uid)end
     local event=flow.event
@@ -224,5 +235,8 @@ function M.choose(run,flow,choice,uid,upgradeable,upgradeCards)
         end
     end
     return false,'invalid_event_choice'
+end
+function M.view(run,event)
+    local extra=extension(event.id);if extra and extra.view then extra.view(run,event)end
 end
 return M

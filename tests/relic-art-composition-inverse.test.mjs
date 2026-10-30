@@ -1,3 +1,4 @@
+import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {preRelicArtFeatureCompositionSource} from './helpers/relic-art-feature-composition.mjs';
@@ -8,7 +9,7 @@ import {relicArtComposition as proof,preRelicArtCompositionSource as project} fr
 import {requireRelicCompletionSource,preRelicCompletionSource,relicCompletionInverse} from './helpers/relic-completion-inverse.mjs';
 import {projectArtPerfSource,artPerfSourceComposition} from './helpers/art-perf-source-composition.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const read=p=>preRelicRound3CompositionSource(p,preRelicArtFeatureCompositionSource(p,readFileSync(p,'utf8'),'relic'),'relic').replaceAll('\r\n','\n');
+const read=p=>preRelicRound3CompositionSource(p,preRelicArtFeatureCompositionSource(p,preNativeMonsterArtSource(p,readFileSync(p,'utf8')),'relic'),'relic').replaceAll('\r\n','\n');
 test('both exact art/relic arrows recover independent complete identities without changing prior witnesses',()=>{
  for(const [target,{files}]of Object.entries(proof.targets))for(const [path,binding]of Object.entries(files)){
   const current=read(path),previous=project(path,current,target);

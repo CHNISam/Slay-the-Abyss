@@ -98,17 +98,20 @@ function M.install(Run, shared)
         if battle.smoked then
             candidate.emeraldCombat=nil
             battle.phase='escaped'
+            local reopened=false
             if candidate.eventCombat then
                 if battle.miscRng then candidate.miscRng=EventRandom.cloneState(battle.miscRng)end
                 if battle.cardRng then candidate.cardRng=EventRandom.cloneState(battle.cardRng)end
                 candidate.shopRng=candidate.shopRng and Combat.copy(candidate.shopRng)
-                local called,accepted=pcall(function()
+                local called,accepted,status=pcall(function()
                     combatEndHealing(candidate)
                     return EventCombat.escape(candidate)
                 end)
                 if not called or not accepted then return false,'potion_effect_failed'end
+                reopened=status=='event_reopened'
             end
-            candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil
+            if reopened then candidate.rewards,candidate.pendingCombatRewards=nil,nil
+            else candidate.phase,candidate.rewards,candidate.pendingCombatRewards='map',nil,nil end
             candidate.lastResult={outcome='escaped',turn=battle.turn,encounterId=run.encounterId}
         end
         return true

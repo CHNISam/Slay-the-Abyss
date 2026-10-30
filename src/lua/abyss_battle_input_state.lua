@@ -19,6 +19,8 @@ function M.install(owner, ownership, host, _dependencies)
         self.selected, self.hover, self.help = nil, nil, nil
     end
     local function child(name)
+        local slot=name:match("^enemy(%d+)$")
+        if slot and host.monsterSurfaces then return assert(host.monsterSurfaces:control(tonumber(slot)),"missing monster surface "..name)end
         local nested=name:match('^potion[45]$') or name:match('^potionHelp%d$') or name=='potionReward' or name=='emeraldKeyReward' or name:match('^relicReward%d$')
         local found=(nested and host.stage:GetChild('potionHelp') or host.stage):GetChild(name)
         return assert(found, "missing UI control " .. name)
@@ -144,7 +146,7 @@ function M.install(owner, ownership, host, _dependencies)
     end
     local function enemyAt(slot,battle)
         battle=battle or owner.run and owner.run.combat
-        return battle and EnemyView.slots(battle)[slot]
+        return battle and (host.monsterSurfaces and host.monsterSurfaces:entry(slot) or EnemyView.slots(battle,owner.feedback)[slot])
     end
     local function sameEnemySlot(slot,actor,battle)
         local entry=enemyAt(slot,battle)

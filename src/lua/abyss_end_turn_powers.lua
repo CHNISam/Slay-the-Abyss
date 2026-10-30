@@ -111,7 +111,7 @@ function M.prepare(state,combat,extension)
  return top
 end
 function M.retained(effect)
- return effect.op=='ownerEndDamageAll'or effect.op=='ownerEndThorns'or effect.op=='ownerEndRegen'
+ return effect.op=='ownerPreCardBlock'or effect.op=='ownerEndDamageAll'or effect.op=='ownerEndThorns'or effect.op=='ownerEndRegen'
   or effect.op=='ownerEndNative'or effect.op=='ownerEndOrbEffect'and effect.action.kind=='frost'
 end
 function M.apply(combat,state,effect,queue)

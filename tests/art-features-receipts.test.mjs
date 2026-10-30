@@ -8,17 +8,23 @@ import assert from 'node:assert/strict';
 import {artFeatureReceipt} from '../scripts/art-features.mjs';
 import {auditUiBuildArgs} from '../scripts/audit-native-candidate.mjs';
 const portraitReceipt=flags=>({...portraitInventory(flags),inputs:portraitSourceInputs(flags).map(path=>({path,sha256:'d'.repeat(64),bytes:1}))});
-const off={cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false};
+const off={cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:false};
+const monsterRegistry=JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8'));
+const monsterRecords=[...monsterRegistry.sourceInputs.slice(0,2),...Object.values(monsterRegistry.additionalAssets).flatMap(asset=>asset.sourceInputs)];
+const monsterPaths=monsterRecords.map(row=>row.path);
+const monsterReceipt=()=>({enabled:true,assetCount:1+Object.keys(monsterRegistry.additionalAssets).length,bindingCount:Object.keys(monsterRegistry.bindings).length,
+ capacity:600,allocation:'per-drawable-actor-instance',inputs:monsterRecords.map(({path,sha256})=>({path,sha256,bytes:readFileSync(path).length}))});
 
-test('audit reconstructs all sixteen exact flag snapshots, not alpha-test defaults',()=>{
- for(let mask=0;mask<16;mask++){
-  const flags={cards:!!(mask&1),menuBackground:!!(mask&2),selectionAvatar:!!(mask&4),battlePortrait:!!(mask&8)};
-  const receipt={artFeatures:artFeatureReceipt(flags),...(flags.cards?{readyCardArt:{enabled:true}}:{}),...(flags.menuBackground?{officialBackground:{}}:{}),...(flags.selectionAvatar||flags.battlePortrait?{officialPortraits:portraitReceipt(flags)}:{})};
-  assert.deepEqual(auditUiBuildArgs(receipt),['scripts/build-ui.mjs',`--art-cards=${flags.cards}`,`--art-menu-background=${flags.menuBackground}`,`--art-selection-avatar=${flags.selectionAvatar}`,`--art-battle-portrait=${flags.battlePortrait}`]);
+test('audit reconstructs all thirty-two exact flag snapshots, not alpha-test defaults',()=>{
+ for(let mask=0;mask<32;mask++){
+  const flags={cards:!!(mask&1),menuBackground:!!(mask&2),selectionAvatar:!!(mask&4),battlePortrait:!!(mask&8),monsters:!!(mask&16)};
+  const receipt={artFeatures:artFeatureReceipt(flags),...(flags.monsters?{nativeMonsterArt:monsterReceipt()}:{}),...(flags.cards?{readyCardArt:{enabled:true}}:{}),...(flags.menuBackground?{officialBackground:{}}:{}),...(flags.selectionAvatar||flags.battlePortrait?{officialPortraits:portraitReceipt(flags)}:{})};
+  assert.equal(receipt.artFeatures.schemaVersion,2);
+  assert.deepEqual(auditUiBuildArgs(receipt),['scripts/build-ui.mjs',`--art-cards=${flags.cards}`,`--art-menu-background=${flags.menuBackground}`,`--art-selection-avatar=${flags.selectionAvatar}`,`--art-battle-portrait=${flags.battlePortrait}`,`--art-monsters=${flags.monsters}`]);
  }
 });
 test('audit rejects tampered, absent, malformed and category-inconsistent feature provenance',()=>{
- for(const artFeatures of [undefined,{flags:off},artFeatureReceipt({...off,cards:true}),{...artFeatureReceipt(off),flags:{...off,battlePortrait:true}},{...artFeatureReceipt(off),schemaVersion:2},{...artFeatureReceipt(off),flags:{...off,bogus:true}}])
+ for(const artFeatures of [undefined,{flags:off},artFeatureReceipt({...off,cards:true}),{...artFeatureReceipt(off),flags:{...off,battlePortrait:true}},{...artFeatureReceipt(off),schemaVersion:1},{...artFeatureReceipt(off),schemaVersion:3},{...artFeatureReceipt(off),flags:{...off,bogus:true}}])
   assert.throws(()=>auditUiBuildArgs({artFeatures}),/art feature|artwork|portrait|card/i);
  assert.throws(()=>auditUiBuildArgs({artFeatures:artFeatureReceipt(off),readyCardArt:{enabled:true}}),/card|artwork/i);
  assert.throws(()=>auditUiBuildArgs({artFeatures:artFeatureReceipt(off),officialBackground:{}}),/background|artwork/i);
@@ -85,5 +91,38 @@ test('receipt paths cannot become git archive options or pathspec magic',async()
   const registry={path:'/former/checkout/'+path,sha256:'a'.repeat(64),bytes:10};
   const receipt={artFeatures:artFeatureReceipt({cards:true}),nativeCardArt:{registry,hosts:['battlePanel/card1'],inputs:[registry]},inputs:[{...registry,path}]};
   assert.throws(()=>auditAssetInputs(receipt),/portable|provenance/i);
+ }
+});
+
+
+test('monster receipt binds the independent bounded inventory and every exact source path',async()=>{
+ const {auditAssetInputs}=await import('../scripts/audit-native-candidate.mjs');
+ const flags={...off,monsters:true},nativeMonsterArt=monsterReceipt();
+ const receipt={artFeatures:artFeatureReceipt(flags),nativeMonsterArt};
+ assert.doesNotThrow(()=>auditUiBuildArgs(receipt));
+ assert.deepEqual(auditAssetInputs(receipt).paths,monsterPaths);
+ const malformed=[undefined,{...nativeMonsterArt,enabled:false},{...nativeMonsterArt,enemyId:'cultist'},
+  {...nativeMonsterArt,capacity:599},{...nativeMonsterArt,staticControls:610},
+  {...nativeMonsterArt,assetCount:nativeMonsterArt.assetCount+1},{...nativeMonsterArt,bindingCount:nativeMonsterArt.bindingCount-1},
+  {...nativeMonsterArt,allocation:'shared-pool'},
+  {...nativeMonsterArt,inputs:nativeMonsterArt.inputs.map((row,index)=>index?{...row,sha256:'a'.repeat(64)}:row)},{...nativeMonsterArt,inputs:[]},
+  {...nativeMonsterArt,inputs:nativeMonsterArt.inputs.slice(0,1)},
+  {...nativeMonsterArt,inputs:[nativeMonsterArt.inputs[0],nativeMonsterArt.inputs[0]]},
+  {...nativeMonsterArt,inputs:nativeMonsterArt.inputs.map((row,index)=>index?{...row,path:'../unreviewed.json'}:row)},
+  {...nativeMonsterArt,inputs:nativeMonsterArt.inputs.map((row,index)=>index?{...row,sha256:'bad'}:row)},
+  {...nativeMonsterArt,inputs:nativeMonsterArt.inputs.map((row,index)=>index?{...row,bytes:0}:row)}];
+ for(const changed of malformed){
+  assert.throws(()=>auditUiBuildArgs({...receipt,nativeMonsterArt:changed}),/monster|artwork|source/i);
+  assert.throws(()=>auditAssetInputs({...receipt,nativeMonsterArt:changed}),/monster|artwork|source/i);
+ }
+ assert.throws(()=>auditUiBuildArgs({artFeatures:artFeatureReceipt(off),nativeMonsterArt}),/monster|artwork/i);
+});
+
+test('historical four-key receipts cannot authorize a fifth-category candidate implicitly',()=>{
+ const flags={cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false};
+ for(const schemaVersion of [1,2]){
+  const config={schemaVersion,flags};
+  const artFeatures={...config,configSha256:createHash('sha256').update(JSON.stringify(config)).digest('hex')};
+  assert.throws(()=>auditUiBuildArgs({artFeatures}),/art feature/i,'old four-key snapshot must not acquire current permission');
  }
 });

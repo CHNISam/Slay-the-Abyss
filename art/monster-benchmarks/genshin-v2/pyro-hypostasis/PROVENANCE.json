@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "identity": "pyro-hypostasis",
+  "source": {
+    "repoPath": "art/monster-benchmarks/genshin-v2/pyro-hypostasis/source.png",
+    "sha256": "fe8be2360fe2c35f78883214f00463bed1acfbb43f62eb68caa8c9c6c79b963a",
+    "bytes": 1526531,
+    "size": [
+      1254,
+      1254
+    ],
+    "bytesUnmodified": true,
+    "action": "add unchanged raw generated source"
+  },
+  "sourceDirectionApprovedByUser": false,
+  "sourceApprovalScope": "No user source approval established here; do not infer it from root review",
+  "nativeReview": "PENDING independent root visual review",
+  "nativeOwnerAcceptance": false,
+  "method": "manual semantic cube planes and sparse broad motifs from OUR source; no gallery, source sampling, raster import, fitting or new renderer",
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "native": {
+    "native-art.json": {
+      "sha256": "49386c62cd738fc15a3f040b4ce90005b28ff18f9cc3f5005ee2b618cb2437f1",
+      "bytes": 295845
+    },
+    "native-art.lua": {
+      "sha256": "0280723f122ae2216a56d08f1c841314fa28e49179621e2171a698bd7fb69022",
+      "bytes": 94830
+    }
+  },
+  "originalEvidence": {
+    "nativeReportSha256": "5c479cd9c8674e794f8626d8909c4eb0c8dffb6b5f0110b873477613553db736",
+    "generationProvenanceSha256": "0f8e4dc1719420b70f84ad6c3bc22da81efa98394956e0ca7dd8fa85fe222f58"
+  },
+  "generation": {
+    "tool": "built-in image_gen according to retained provenance",
+    "model": "unknown (not exposed by built-in tool)",
+    "seed": "unknown (not exposed by built-in tool)",
+    "note": "No generation or conversion performed in staging; existing raw PNG preserved."
+  },
+  "identityReferenceMetadata": {
+    "urls": [
+      "https://gamerbraves.sgp1.cdn.digitaloceanspaces.com/2022/06/3.-genshin-core-cube.jpg",
+      "https://gi.yatta.moe/api/v2/en/monster",
+      "https://gi.yatta.moe/assets/UI/monster/UI_MonsterIcon_Effigy_Fire.png",
+      "https://gi.yatta.moe/en/archive/monster/20040601/pyro-hypostasis",
+      "https://www.gamerbraves.com/guide-genshin-impact-core-of-the-apparatus/"
+    ],
+    "recordedHashes": [
+      "0e28d5b11d77e1af707192cf8dea7778b134ebfbb79f37aefb6ee5e6a7a2cb68",
+      "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "d2becdc3171ebf8f1e0dc849e085b7d8606fa1ecfbe6f4b229d5f881f8bdf1e7",
+      "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba",
+      "fe8be2360fe2c35f78883214f00463bed1acfbb43f62eb68caa8c9c6c79b963a"
+    ],
+    "note": "Reference metadata only. No third-party reference pixels included or redistributed; hashes do not imply rights clearance."
+  },
+  "rights": "AI-assisted game-IP derivative. No game-IP sublicense, commercial clearance, or third-party-reference redistribution permission. Native Lua embeds pinned exporter/runtime material; retain existing notices and assess code license separately from art."
+}

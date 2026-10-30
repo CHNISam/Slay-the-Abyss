@@ -69,7 +69,7 @@ function M.plan(s,instance,options)
         assert(id=='charons_ashes'or id=='dead_branch','unsupported exhaust relic hook')
         assert(require('abyss_rare_relics').owns(s,id),'unowned exhaust relic hook')
     end
-    assert(instance.cardId~='necronomicurse' and not def.onExhaust and not def.exhaustEffects
+    assert(not def.onExhaust and not def.exhaustEffects
         and not def.exhaustTrigger,'unsupported card exhaust hook')
     local order=s.exhaustPowerOrder or {}
     dense(order)
@@ -80,6 +80,10 @@ function M.plan(s,instance,options)
     local fnp,de=amount(powers.feel_no_pain),amount(powers.dark_embrace)
     assert((fnp==0 or seen.feel_no_pain) and (de==0 or seen.dark_embrace),'missing exhaust power order')
     local plan={top={},bottom={}}
+    require('abyss_rare_relics').onExhaust(s,function(_,e,top)
+        local list=top and plan.top or plan.bottom
+        list[#list+1]={kind='effect',effect=e}
+    end)
     local living=alive(s)
     for _,id in ipairs(order) do
         if id=='feel_no_pain' and fnp>0 then
@@ -88,10 +92,8 @@ function M.plan(s,instance,options)
             plan.bottom[#plan.bottom+1]=effect('draw',de,id)
         end
     end
-    require('abyss_rare_relics').onExhaust(s,function(_,e,top)
-        local list=top and plan.top or plan.bottom
-        list[#list+1]={kind='effect',effect=e}
-    end)
+    local rebirth=require('abyss_necronomicurse').exhaustPlan(instance)
+    if rebirth then plan.bottom[#plan.bottom+1]=rebirth end
     if instance.cardId=='sentinel' then
         plan.top[#plan.top+1]=effect('energy',instance.upgraded==true and 3 or 2,'sentinel')
     end

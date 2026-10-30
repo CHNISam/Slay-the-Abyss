@@ -44,6 +44,7 @@ function M.install(Run, shared)
     local function configureSourceRoom(encounter, sourceRoom, options)
         if sourceRoom then
             options.roomSeed,options.roomStreams=sourceRoom.seed,sourceRoom
+            options.encounterVisualFloat=function(lo,hi)return EventRandom.randomFloatBetween(sourceRoom.visualRng,lo,hi)end
             options.emeraldBoost=sourceRoom.emeraldBoost
             if sourceRoom.preparedEncounter then
                 options.enemies,options.sourceEncounter=nil,nil
@@ -87,7 +88,7 @@ function M.install(Run, shared)
         local valid,generation=validateEncounter(run,encounter,sourceRoom)
         if not valid then return false,generation end
         local opening, reason = Inventory.opening(run.data.relics.relics, run.relics,
-            run.relicCounters,{tier=encounter.tier})
+            run.relicCounters,{tier=encounter.tier,eliteTrigger=encounter.eliteTrigger})
         if not opening then return false, reason end
         local bonus
         bonus, reason = Inventory.energyBonus(run.data.relics.relics, run.relics, encounter.tier)
@@ -121,6 +122,7 @@ function M.install(Run, shared)
             require('abyss_boss_relics').preBattle(state,run)
             return true
         end
+        options.encounterSource=encounter.source
         configureEncounterOptions(run, encounter, sourceRoom, options)
         battle, reason = Combat.new(combatData, options)
         if not battle then return false, reason end

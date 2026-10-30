@@ -36,15 +36,13 @@ function M.commit(owner,prepared)
     validate(prepared)
     owner.cardRng,owner.cardRarityOffset=prepared.cardRng,prepared.cardRarityOffset
 end
-function M.rollRarity(owner,context)
+function M.rollRarity(owner,context,relics)
     assert(contexts[context],'Invalid card rarity context')
     validate(owner)
     -- BossRoom ignores the adjusted value but AbstractDungeon still rolled it.
     local roll=R.randomInt(owner.cardRng,99)+owner.cardRarityOffset
     if context=='boss' then return 'rare' end
-    local rare,uncommon=3,40
-    if context=='elite' then rare,uncommon=10,50
-    elseif context=='shop' then rare,uncommon=9,46 end
+    local rare,uncommon=require('abyss_relic_rarity').thresholds(context,relics or owner.relics)
     return roll<rare and 'rare' or roll<uncommon and 'uncommon' or 'common'
 end
 function M.rewardRarity(owner,context)

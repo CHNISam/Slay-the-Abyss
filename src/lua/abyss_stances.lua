@@ -67,7 +67,11 @@ function M.change(state, id, options)
     assert(integer(p.hp) and integer(state.energy), "invalid stance combat state")
     local pending=queueTotal(state)
     local powerOrder=orderedPowers(state)
-    if not active(state) or opts.cannotChange or id==(p.stance or "Neutral") then return false end
+    if not active(state) or opts.cannotChange then return false end
+    if id==(p.stance or "Neutral") then
+        Events.onModifyPower(state,'ChangeStanceAction',#state.events)
+        return false -- Preserve the existing "stance actually changed" result.
+    end
     assert(type(state.events)=="table", "missing combat events")
     local old=p.stance or "Neutral"
     local gains={}
@@ -87,7 +91,9 @@ function M.change(state, id, options)
     p.stanceKnown=true
     state.stanceQueue=state.stanceQueue or {}
     for _,e in ipairs(gains) do state.stanceQueue[#state.stanceQueue+1]=e end
+    local callbackBefore=#state.events
     Events.emit(state,"stance",{from=old,to=id})
+    Events.onModifyPower(state,'ChangeStanceAction',callbackBefore)
     local plan=require('abyss_watcher_flow_cards').planStanceChange(state,old,id)
     if #plan.bottom>0 then
         state.stanceCardQueue=state.stanceCardQueue or {}

@@ -43,10 +43,12 @@ function M.remove(state)
     local player=state.player
     if not require('abyss_actor').isActive(player) then return false end
     if player.statuses.focus==nil then M.sync(state);return false end
+    local callbackBefore=#state.events
     local before=player.statuses.focus
     player.statuses.focus=nil
     M.sync(state)
     Events.emit(state,'status_removed',{source=player.id,target=player.id,status='focus',amount=-before})
+    Events.onModifyPower(state,'RemoveSpecificPowerAction.Focus',callbackBefore)
     return true
 end
 function M.apply(state,actor,amount,source)
@@ -62,16 +64,22 @@ function M.apply(state,actor,amount,source)
         -- Arithmetic is binary64 before source clamp, not Fengari signed32 wrap.
         value=math.max(-999,math.min(999,before+0.0+amount))
     end
+    local callbackBefore=#state.events
     actor.statuses.focus=value
+    if actor.definitionId then require('abyss_power_order').applyNew(actor,'focus')end
     if actor==state.player then M.sync(state) end
     Events.emit(state,'status',{source=(source or actor).id,target=actor.id,status='focus',amount=value-(before or 0)})
+    Events.onModifyPower(state,'ApplyPowerAction.Focus',callbackBefore)
     -- Source queues TOP removal at exact-zero stack. Current action boundary
     -- has no intervening callbacks, so remove before the next mapped action.
     if before~=nil and value==0 then
         if actor==state.player then M.remove(state)
         else
+            local removeBefore=#state.events
             actor.statuses.focus=nil
+            if actor.definitionId then require('abyss_power_order').remove(actor,'focus')end
             Events.emit(state,'status_removed',{source=actor.id,target=actor.id,status='focus',amount=0})
+            Events.onModifyPower(state,'RemoveSpecificPowerAction.Focus',removeBefore)
         end
     end
     return true

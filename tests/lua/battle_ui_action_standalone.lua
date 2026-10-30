@@ -1,5 +1,11 @@
 local H = dofile("tests/lua/support/battle_action_fixture.lua")
 local F, Run, UI = H.F, H.Run, require("abyss_battle_ui")
+local Surfaces=require('abyss_monster_surfaces')
+local function actorBox(panel,battle,index)
+    local box,slot,entry=Surfaces.get(panel):find(assert(battle.enemies[index]).id)
+    assert(box,'actor surface missing')
+    return box,slot,entry
+end
 local test, finish = H.suite("LUA_ACTION_STANDALONE")
 local function find(specs, name)
     for _,spec in ipairs(specs) do
@@ -12,10 +18,18 @@ local function setup(pointer)
     local stage=F.Combat.copy(assert(find(F.Layout,"battlePanel")))
     stage.name,stage.visible="stage",true
     local root=F.control({children={{name="backdrop"},stage}})
-    local u=UI.new(root,F.Data,F.Presentation,"click",{imageSource="static",color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+    local u=UI.new(root,F.Data,F.Presentation,"click",{nativeMonsterArtEnabled=require('abyss_art_features').flags.monsters,monsterActors=F.monsterActors(),imageTypes={basic=1,stretch=2},imageSource="static",color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
         cursorEvents=pointer~=false and {CursorDown="down",CursorUp="up",CursorDrag="drag",CursorEndDrag="endDrag"} or nil})
     local p=root:GetChild("stage");u:resize(1280,720)
-    local emit,tap=H.controls(p)
+    local nativeEmit,nativeTap=H.controls(p)
+    local function address(name)
+        local index=name:match('^enemy(%d+)$')
+        if not index then return name end
+        local _,slot=actorBox(p,assert(u.run.combat),tonumber(index))
+        return 'enemy'..slot
+    end
+    local function emit(name,...)return nativeEmit(address(name),...)end
+    local function tap(name,...)return nativeTap(address(name),...)end
     local function drain() for _=1,400 do if not u.busy then return end;u:update(0.05) end;assert(not u.busy) end
     return u,p,emit,tap,drain
 end
@@ -52,7 +66,7 @@ test("standalone no-pointer host preserves start restart and continue",function(
     q:GetChild("endTurn").click();d();local old=v.run;assert(v.run.phase=="defeat")
     q:GetChild("start").click();assert(v.run~=old and v.run.phase=="combat")
     local w,r,ee,tt,dd=boundary(80,{"bludgeon"},{"acid_slime_s"},false)
-    r:GetChild("card1"):GetChild("hit").click();r:GetChild("enemy1"):GetChild("hit").click();dd()
+    r:GetChild("card1"):GetChild("hit").click();actorBox(r,w.run.combat,1):GetChild("hit").click();dd()
     assert(w.run.phase=="reward");r:GetChild("continue").click();assert(w.run.phase=="map")
     r:GetChild("continue").click();assert(w.run.phase=="combat")
 end)

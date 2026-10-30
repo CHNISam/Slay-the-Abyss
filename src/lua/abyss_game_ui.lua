@@ -206,7 +206,12 @@ function M.new(root, data, presentation, clickEvent, platform)
             self.easterEggOpen=value;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1;self:refresh()
         end})
     end
-    self.onEngineDestroy=function(_)if self.easterEgg then self.easterEgg:onEngineDestroy()end end
+    self.onEngineDestroy=function(_)
+        self.disabled=true
+        local ok,why=pcall(self.battleUI.onEngineDestroy,self.battleUI)
+        if self.easterEgg then self.easterEgg:onEngineDestroy()end
+        assert(ok,why)
+    end
     local start,settlement=menuView.start,menuView.settlement
     local function present() MenuView.present(menuView) end
     self.animate=function(_,dt) MenuView.animate(menuView,dt) end
@@ -732,7 +737,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         return updated
     end
     self.disable = function(_)
-        if self.disabled then return false end
+        if self.disabled then
+            if self.monsterCleanupPending then self.battleUI:releaseMonsterSurfaces();self.monsterCleanupPending=nil end
+            return false
+        end
         if self.easterEgg then self.easterEgg:close()end
         self.disabled=true
         if platform.background then platform.background:release() end
@@ -751,6 +759,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.choiceUI then self.choiceUI:close() end
         self.potionUI:close();self.deckUI:close()
         self.battleUI.feedback:cancel()
+        local released,reason=pcall(self.battleUI.releaseMonsterSurfaces,self.battleUI)
+        self.monsterCleanupPending=not released or nil
+        assert(released,reason)
         return true
     end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)

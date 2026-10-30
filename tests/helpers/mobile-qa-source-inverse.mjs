@@ -1,3 +1,4 @@
+import {materializeBeforeDelivery} from './delivery-source-composition.mjs';
 import {eventProductionInverse,materializeBeforeEventProduction} from './event-production-source-inverse.mjs';
 import {preOriginalPr323Source} from './pr323-accepted-source-inverse.mjs';
 import {materializeBeforeRelicCompletionSources} from './relic-completion-inverse.mjs';
@@ -29,6 +30,7 @@ export function preMobileQaSource(path,source){
  return binding.beforeSource;
 }
 export function materializeBeforeMobileQa(directory){
+ materializeBeforeDelivery(directory);
  materializeBeforeRelicCompletionSources(directory);
  const sources=Object.keys(mobileQaMigration.files).map(path=>{
   const source=preOriginalPr323Source(path,readFileSync(path,'utf8'));

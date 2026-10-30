@@ -77,18 +77,29 @@ end
 function M.status(state, actor, id, amount, source, sourceIsMonster)
     local beforeRaw=rawget(actor.statuses,id)
     local powerOrderModule=require('abyss_power_order')
+    local beforeMember=actor.definitionId and powerOrderModule.contains(actor,id)
     if powerOrderModule.ids[id] then powerOrderModule.before(state,actor) end
     local before = actor.statuses[id] or 0
-    M.addStatus(actor, id, amount)
+    M.addStatus(actor, id, amount, true)
     Nemesis.applied(actor,id,beforeRaw)
-    local zeroMembership=id=='slow' or id=='time_warp' or id=='invincible'
-    if zeroMembership and beforeRaw==nil or not zeroMembership and (before==0 or actor.statuses[id]==0) then
-        local order={}
-        for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
-        if actor.statuses[id]~=0 or zeroMembership then order[#order+1]=id end
-        actor.powerOrder=order
+    if not actor.definitionId then
+        local zeroMembership=id=='slow' or id=='time_warp' or id=='invincible'
+        if zeroMembership and beforeRaw==nil or not zeroMembership and (before==0 or actor.statuses[id]==0) then
+            local order={}
+            for _,old in ipairs(actor.powerOrder or {}) do if old~=id then order[#order+1]=old end end
+            if actor.statuses[id]~=0 or zeroMembership then order[#order+1]=id end
+            actor.powerOrder=order
+        end
     end
     powerOrderModule.applied(state,actor,id,beforeRaw)
+    if actor.definitionId then
+        -- Existing source objects retain their position when stacked, even at zero.
+        powerOrderModule.applyNew(actor,id)
+        -- Strength/Dexterity stackPower queues removal at exactly zero.
+        if (id=='strength' or id=='dexterity') and beforeMember and actor.statuses[id]==0 then
+            powerOrderModule.remove(actor,id)
+        end
+    end
     if before <= 0 and actor.statuses[id] > 0
         and actor.statusDefinitions[id].decay == "round_end_minus_1" then
         local monster = sourceIsMonster
@@ -118,8 +129,13 @@ local function blockDebuff(state, actor, id)
     local before = actor.statuses.artifact or 0
     if before <= 0 then return false end
     actor.statuses.artifact = before - 1
+    if before==1 and actor.definitionId then require('abyss_power_order').remove(actor,'artifact') end
+    local callbackBefore=#state.events
     Events.emit(state, "status", {source=actor.id, target=actor.id, status="artifact",
         amount=-1, blockedStatus=id})
+    -- Current core already compresses Artifact's queued Reduce/Remove into this
+    -- consumption. Attribute its callback to that reduction, not failed Apply.
+    Events.onModifyPower(state,'ArtifactPower.queuedReduction',callbackBefore,'compressed-existing-reduction')
     return true
 end
 
@@ -175,7 +191,9 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster, prepare
         state.constrictedSource=source
         actor.constrictedSourceId,actor.constrictedSourceName=source.id,source.name
     end
+    local callbackBefore=#state.events
     M.status(state, actor, id, amount, source, sourceIsMonster)
+    Events.onModifyPower(state,'ApplyPowerAction',callbackBefore)
     require('abyss_colorless_cards').debuffApplied(state,actor,id,amount,source)
     if actor==state.player and (id=='demon_form' or id=='brutality' or id=='devotion' or id=='noxious_fumes') then
         state.postDrawPowerOrder=state.postDrawPowerOrder or {}
@@ -190,11 +208,13 @@ function M.applyNoDraw(state, actor)
     -- ApplyPowerAction's duplicate NoDraw gate precedes Artifact's generic gate.
     if not M.isActive(actor) or actor.noDraw then return false end
     if blockDebuff(state, actor, "no_draw") then return false end
+    local callbackBefore=#state.events
     actor.noDraw = true
     if not state.originalV4 then
         local order={};for _,id in ipairs(actor.powerOrder or {})do if id~='no_draw'then order[#order+1]=id end end
         order[#order+1]='no_draw';actor.powerOrder=order
     end
+    Events.onModifyPower(state,'ApplyPowerAction.NoDraw',callbackBefore)
     return true
 end
 
@@ -209,7 +229,7 @@ function M.bindStatuses(actor, definitions)
     actor.statusDefinitions = definitions
 end
 
-function M.addStatus(actor, id, amount)
+function M.addStatus(actor, id, amount, actionApplication)
     local definition = assert(actor.statusDefinitions and actor.statusDefinitions[id], "unknown status: " .. tostring(id))
     assert(integer(amount) and (signed[id] or id=='wraith_form' or (id=='unawakened'or id=='regrow'or id=='painful_stabs') and amount==-1 or amount >= 0), "invalid status amount")
     local before = actor.statuses[id] or 0
@@ -224,6 +244,9 @@ function M.addStatus(actor, id, amount)
     actor.statuses[id] = (signed[id] or id=='wraith_form' or id=='unawakened'or id=='regrow'or id=='painful_stabs') and value or math.max(0, value)
     if (actor.statuses[id] == 0 or before <= 0) and definition.decay == "round_end_minus_1" then
         actor[id .. "JustApplied"] = nil
+    end
+    if actor.definitionId and not actionApplication then
+        require('abyss_power_order').directAdd(actor,id)
     end
     return actor.statuses[id]
 end
@@ -289,18 +312,36 @@ end
 -- UI receives values, never references to the combat state or definitions.
 function M.statusView(actor)
     local ids, result = {}, {}
-    for id, amount in pairs(actor.statuses) do
-        -- At exactly zero net stat, the separate timed-loss Power still exists.
-        if amount ~= 0 or id == "time_warp" or id == "focus" or id=='slow' or id=='invincible' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
-            ids[#ids + 1] = id
+    if actor.definitionId then
+        -- Actual monster list, never an alphabetical reconstruction of history.
+        local seen={}
+        for _,id in ipairs(actor.powerOrder or {})do
+            if actor.statuses[id]~=nil then ids[#ids+1]=id;seen[id]=true end
         end
+        for id,amount in pairs(actor.statuses)do
+            local zeroPower=id=='slow' or id=='time_warp' or id=='invincible' or id=='nemesis_intangible'
+            assert(amount==0 and not zeroPower or seen[id],'monster Power missing source order: '..id)
+        end
+    else
+        -- Player primitive/synthetic Power migration is outside the bounded
+        -- monster renderer port; retain its existing presentation contract.
+        for id, amount in pairs(actor.statuses) do
+            if amount ~= 0 or id == "time_warp" or id == "focus" or id=='slow' or id=='invincible' or temporaryFields[id] and (actor[temporaryFields[id]] or 0) > 0 then
+                ids[#ids + 1] = id
+            end
+        end
+        table.sort(ids)
     end
-    table.sort(ids)
     for _, id in ipairs(ids) do
         local definition = assert(actor.statusDefinitions[id], "unknown active status")
+        local facts=actor.definitionId and require('abyss_power_order').sourceFacts[id]
         result[#result + 1] = { id = id, amount = actor.statuses[id], name = definition.name,
+            canGoNegative=facts and facts.canGoNegative, isTurnBased=facts and facts.isTurnBased,
+            sourceAmount=facts and facts.sourceAmount,
+            sourceVerified=actor.definitionId and facts~=nil,
             icon=require('abyss_colorless_cards').powerIcon(id),
-            kind = id == "focus" and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
+            kind = (id == "focus" or actor.definitionId and (id=="strength" or id=="dexterity"))
+                and (actor.statuses[id] > 0 and "buff" or "debuff") or definition.kind, stack = definition.stack, decay = definition.decay,
             description = require('abyss_silent_final_cards').powerDescription(actor,id)or require('abyss_colorless_cards').powerDescription(actor,id) or definition.description,
             temporary = temporaryFields[id] and (actor[temporaryFields[id]] or 0) or 0 }
     end
@@ -700,7 +741,10 @@ function M.resolveCurlUp(state, target, block)
     M.block(state,target,block,true)
     local amount=target.statuses.curl_up or 0
     target.statuses.curl_up=0
+    if target.definitionId then require('abyss_power_order').remove(target,'curl_up')end
+    local callbackBefore=#state.events
     Events.emit(state,"status",{source=target.id,target=target.id,status="curl_up",amount=-amount})
+    Events.onModifyPower(state,'RemoveSpecificPowerAction.CurlUp',callbackBefore)
 end
 
 -- Only the bounded Curl Up bottom tail. Combat owns the outer action boundary.
@@ -746,7 +790,10 @@ local function tick(state, actor, phase)
                 end
             end
             -- The damage override can remove Poison on first-form death.
-            if rawget(actor.statuses,id)~=nil then actor.statuses[id] = amount - 1 end
+            if rawget(actor.statuses,id)~=nil then
+                actor.statuses[id] = amount - 1
+                if amount==1 and actor.definitionId then require('abyss_power_order').remove(actor,id)end
+            end
             if decay:find("trigger", 1, true) then
                 -- Trigger and decay are one presentation step, including lethal poison.
                 if state.originalV4 and #state.events==eventCount then
@@ -754,6 +801,12 @@ local function tick(state, actor, phase)
                 else state.events[#state.events].frame = Events.frame(state)end
             else
                 Events.emit(state, "status", {source = actor.id, target = actor.id, status = id, amount = -1})
+            end
+            -- These three verified round-debuff classes enqueue Reduce/Remove.
+            -- Poison decrements directly in PoisonLoseHpAction and MUST NOT enter here.
+            if id=='weak' or id=='frail' or id=='vulnerable' then
+                local origin=amount>1 and 'ReducePowerAction.RoundDebuff' or 'RemoveSpecificPowerAction.RoundDebuff'
+                Events.onModifyPower(state,origin,eventCount,'compressed-existing-decay')
             end
             M.resolveDamageReactions(state, reactions)
             if not M.isActive(actor) then return end

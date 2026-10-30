@@ -1,3 +1,4 @@
+import {preDeckDeliverySource} from './deck-delivery-source-composition.mjs';
 // Test-only outer normalization of the reviewed M4 deck controls. Old full-source
 // witnesses and all runtime fixtures remain unchanged; unknown bytes pass through.
 import assert from 'node:assert/strict';
@@ -12,6 +13,7 @@ assert.equal(deckBrowseSourceLayer.baseCommit,'ef7b3e80093dd737be549662725026953
 assert.equal(deckBrowseSourceLayer.reviewedHead,'c961ad442b9677741acf04452e84f0e8bcc2d760');
 assert.deepEqual(Object.keys(deckBrowseSourceLayer.files),["data/presentation/ui_theme.json", "scripts/character-ui-layout.mjs", "scripts/deck-ui-layout.mjs", "src/lua/abyss_character_select.lua", "src/lua/abyss_character_select_view.lua", "src/lua/abyss_deck_ui.lua", "src/lua/abyss_game_ui.lua"]);
 export function preDeckBrowseSource(path,source){
+ source=preDeckDeliverySource(path,source,'deck');
  const proof=deckBrowseSourceLayer.files[path];
  return proof?restoreExactFixtureHunks(proof,path,source):source;
 }

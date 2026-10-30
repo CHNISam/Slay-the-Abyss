@@ -1,3 +1,4 @@
+import {materializeBeforeDelivery} from './delivery-source-composition.mjs';
 import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {materializeBeforeRelicCompletionSources} from './relic-completion-inverse.mjs';
 import {preEventProductionSource} from './event-production-source-inverse.mjs';
@@ -38,13 +39,15 @@ export function preAcceptedPresentation(path,source){
   return source;
 }
 export function materializeHistoricalPresentation(directory){
-  materializeBeforeRelicCompletionSources(directory);
+
   // Validate all eleven original current files before any temporary writes/deletes.
   const root='src/lua/abyss_node_ui.lua';
   const diskRoot=preAcceptedPr323Source(root,readFileSync(root,'utf8')).replaceAll('\r\n','\n');
   assert.equal(hash(diskRoot),nodeUiCurrentRootSha256,'current-only Node materialization must validate the live refactored root before any writes');
   const diskFace=preAcceptedPr323Source(approvedNodeFace.path,readFileSync(approvedNodeFace.path,'utf8')).replaceAll('\r\n','\n');
   assert.equal(hash(diskFace),approvedNodeFace.afterSha256,'current-only Node materialization must validate the approved live face before any writes');
+  materializeBeforeDelivery(directory);
+  materializeBeforeRelicCompletionSources(directory);
   const nodeSource=preIntegratedNodeUiSource(root,diskRoot,{[approvedNodeFace.path]:diskFace});
   // Validate the whole combined inventory before any temporary historical writes.
   const acceptedSources=Object.keys(pr323AcceptedSourceInverse.files).map(path=>{

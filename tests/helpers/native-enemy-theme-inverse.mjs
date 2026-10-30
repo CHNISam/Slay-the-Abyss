@@ -1,3 +1,4 @@
+import {preM3EventDeliverySource} from './m3-event-delivery-source-inverse.mjs';
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
 import {preMapPathA11ySource} from './map-path-a11y-inverse.mjs';
 import {prePotionManageSource} from './potion-manage-source-inverse.mjs';
@@ -20,7 +21,7 @@ export const nativeEnemyThemeComposedLayer = Object.freeze({
   afterSha256: 'ad7a52c5b5df717a9aa59c07bc70580d437017b95ff90a22455105b382807fd7',
 });
 export function preNativeEnemyThemeSource(path, source) {
- source=preIntegrationSource(path,source);
+ source=preM3EventDeliverySource(path,preIntegrationSource(path,source));
   source = preMapPathA11ySource(path, source);
   source=prePotionManageSource(path,source);
   const layer = nativeEnemyThemeLayer;

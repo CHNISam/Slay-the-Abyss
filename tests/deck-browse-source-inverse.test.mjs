@@ -1,3 +1,4 @@
+import {preDeckDeliverySource} from './helpers/deck-delivery-source-composition.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -6,7 +7,7 @@ import {deckBrowseSourceLayer as proof,preDeckBrowseSource} from './helpers/deck
 const hash=s=>createHash('sha256').update(s).digest('hex');
 test('M4 deck controls recover only the seven complete pre-feature source identities',()=>{
  for(const [path,binding]of Object.entries(proof.files)){
-  const live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const live=preDeckDeliverySource(path,readFileSync(path,'utf8'),'deck').replaceAll('\r\n','\n');
   assert.equal(hash(live),binding.afterSha256,path);
   const before=preDeckBrowseSource(path,live);
   assert.equal(hash(before),binding.beforeSha256,path);
