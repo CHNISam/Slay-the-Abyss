@@ -1,3 +1,4 @@
+import {bindRecognitionLengths} from './source-recognition-lengths.mjs';
 import {preBetaHostSource} from './beta-delivery-host-source.mjs';
 // Test-only composition of PR379 with PR372. Both frozen source branches remain intact.
 import assert from 'node:assert/strict';
@@ -11,12 +12,13 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 const bytes=normalize(readFileSync(new URL('../fixtures/beta-integration-sources.json',import.meta.url),'utf8'));
 assert.equal(hash(bytes),'ce3402eb178847948c88f90d785fc89cd72bb3a87f136e8be56b8c1dc36223a3','complete beta composition witness');
 export const betaSources=JSON.parse(bytes).sources;
+const recognitionLengths=bindRecognitionLengths('beta',bytes,betaSources,'sha256');
 const added=Object.entries(betaSources).filter(([,b])=>b.targets.history.absent).map(([p])=>p);
 export function preBetaSource(path,source,target='history',{readSource=p=>readFileSync(p,'utf8')}={}){
  assert.ok(['history','feature379'].includes(target),'known beta source target');
  source=preBetaHostSource(path,source,{readSource});
  const b=betaSources[path];
- if(!b||typeof source!=='string'||hash(normalize(source))!==b.sha256||!b.targets[target])return source;
+ if(!b||typeof source!=='string'||normalize(source).length!==recognitionLengths[path]||hash(normalize(source))!==b.sha256||!b.targets[target])return source;
  for(const p of added){
   let input;try{input=readSource(p);}catch{assert.fail('unreviewed beta linked source missing: '+p);}
   assert.equal(typeof input,'string','complete beta linked source: '+p);

@@ -1,3 +1,4 @@
+import {bindRecognitionLengths} from './source-recognition-lengths.mjs';
 import {preIntegrationSource} from './pr372-integration-source.mjs';
 import {architectureSourceFormat} from './architecture-source-format.mjs';
 // Test-only exact outer inverse. Production GameUI tests use the actual drawing.
@@ -10,6 +11,7 @@ const hash=source=>createHash('sha256').update(source).digest('hex');
 const bytes=normalize(readFileSync(new URL('../fixtures/native-monster-art-source-layer.json',import.meta.url),'utf8'));
 assert.equal(hash(bytes),'055c8877bcc2632e7fb992acd7043049e4c218f1695f42361db6977e79ffdcaf','complete native monster outer source identity');
 export const nativeMonsterSourceLayer=JSON.parse(bytes);
+const recognitionLengths=bindRecognitionLengths('native',bytes,nativeMonsterSourceLayer.files,'afterSha256');
 assert.equal(nativeMonsterSourceLayer.schemaVersion,1);
 assert.equal(nativeMonsterSourceLayer.baseCommit,'1fcd321ca9d6f79b4e5bbdfede48069119f5ed52');
 for(const [path,binding]of Object.entries(nativeMonsterSourceLayer.files)) {
@@ -27,9 +29,9 @@ export function preNativeMonsterArtSource(path,source,{readSource=path=>readFile
  // still rejects duplicate keys, string escapes, unknown values and extra bytes.
  if(path==='config/architecture.json')try {
   const {formatted,tokensEqual}=architectureSourceFormat(path,text);
-  if(tokensEqual&&hash(formatted)===binding.afterSha256)text=formatted;
+  if(tokensEqual&&formatted.length===recognitionLengths[path]&&hash(formatted)===binding.afterSha256)text=formatted;
  }catch{ /* Unrecognized source must remain exposed to strict older guards. */ }
- if(hash(text)!==binding.afterSha256)return source;
+ if(text.length!==recognitionLengths[path]||hash(text)!==binding.afterSha256)return source;
  // Recognized outer hosts must bind live added owners on every call. Never memoize these reads.
  for(const added of nativeMonsterAddedPaths) {
   let actual;try{actual=preIntegrationSource(added,readSource(added),'monster',{readSource});}catch{assert.fail('native monster linked source missing: '+added);}

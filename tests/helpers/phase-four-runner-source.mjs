@@ -1,3 +1,4 @@
+import {preCurrentEntrySource} from './current-entry-source.mjs';
 import {preDeathAudioSource} from './death-audio-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -10,6 +11,7 @@ const bytes=normalize(readFileSync(new URL('../fixtures/phase-four-runner-source
 assert.equal(hash(bytes),'323f4f49a531c61f70691fc9cfd09f619e651bc785bec9aae8efea8d9b991360');
 export const phaseFourRunnerProof=deepFreezeSourceProof(JSON.parse(bytes));
 export function prePhaseFourRunnerSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preCurrentEntrySource(path,source,{readSource});
  source=preDeathAudioSource(path,source,{readSource});
  const b=phaseFourRunnerProof;if(path!==b.path||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;

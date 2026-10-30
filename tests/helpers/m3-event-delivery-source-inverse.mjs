@@ -1,3 +1,4 @@
+import {bindRecognitionLengths} from './source-recognition-lengths.mjs';
 import {preLegacyM3Source} from './delivery-source-composition.mjs';
 // Exact test-only c3cb94c8 -> 1fcd replay. Current feature tests load live code.
 import assert from 'node:assert/strict';
@@ -11,6 +12,7 @@ const blob=s=>createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update
 const bytes=normalize(readFileSync(new URL('../fixtures/m3-event-delivery-source-inverse.json',import.meta.url),'utf8'));
 assert.equal(hash(bytes),'69cd0dbe5e40f1a9d4a342e89823f7411b77b9bdca6ce15f291bb0c49db0778e','complete M3 event delivery inverse');
 export const m3EventDeliveryProof=deepFreezeSourceProof(JSON.parse(bytes));
+const recognitionLengths=bindRecognitionLengths('m3',bytes,m3EventDeliveryProof.files,'afterSha256');
 const proof=m3EventDeliveryProof;
 assert.equal(proof.schemaVersion,1);
 assert.equal(proof.baseCommit,'1fcd321ca9d6f79b4e5bbdfede48069119f5ed52');
@@ -45,7 +47,7 @@ function requireLinked(readSource){
 export function preM3EventDeliverySource(path,source,{readSource=defaultRead}={}){
  source=preLegacyM3Source(path,source,{readSource});
  const b=proof.files[path];if(!b||typeof source!=='string')return source;
- const normalized=normalize(source);if(hash(normalized)!==b.afterSha256)return source;
+ const normalized=normalize(source);if(normalized.length!==recognitionLengths[path]||hash(normalized)!==b.afterSha256)return source;
  // Never memoize this live read, including when an outer pure projection caches.
  requireLinked(readSource);requireBytes(path,source);
  if(b.beforeSha256===null)return null;

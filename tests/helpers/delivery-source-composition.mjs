@@ -31,11 +31,30 @@ for(const [name,target]of Object.entries(proof.targets)){
   }
  }
 }
+const lengthBytes=normalize(readFileSync(new URL('../fixtures/delivery-source-lengths.json',import.meta.url),'utf8'));
+assert.equal(hash(lengthBytes),'e569608426e527aaba4416f0f294744c626fd3e43650dfebfb1370caa7d7d67f','complete Git-derived source length witness');
+export const deliverySourceLengths=deepFreezeSourceProof(JSON.parse(lengthBytes));
+assert.equal(deliverySourceLengths.schemaVersion,1);
+assert.equal(deliverySourceLengths.proofSha256,hash(bytes));
+assert.equal(deliverySourceLengths.normalization,'CRLF-to-LF');
+assert.equal(deliverySourceLengths.measure,'UTF-16-code-units');
+assert.deepEqual(Object.keys(deliverySourceLengths.targets),Object.keys(proof.targets));
+for(const [target,{files}]of Object.entries(proof.targets)){
+ assert.deepEqual(Object.keys(deliverySourceLengths.targets[target]),Object.keys(files));
+ for(const [path,b]of Object.entries(files)){
+  const length=deliverySourceLengths.targets[target][path];
+  assert.equal(length.afterSha256,b.afterSha256);assert.equal(length.afterGitBlob,b.afterGitBlob);
+  assert.ok(Number.isSafeInteger(length.utf16Length)&&length.utf16Length>=0);
+ }
+}
 const readLive=p=>readFileSync(p,'utf8');
 function inverse(path,source,target){
  assert.ok(proof.targets[target],'registered integrated monster target');
  const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return undefined;
- const s=normalize(source);if(hash(s)!==b.afterSha256)return undefined;
+ const s=normalize(source);
+ // Length is only an impossible-match rejection, never permission to project.
+ // Equal lengths still execute every existing SHA/Git-blob/owner validation.
+ if(s.length!==deliverySourceLengths.targets[target][path].utf16Length||hash(s)!==b.afterSha256)return undefined;
  assert.equal(blob(s),b.afterGitBlob,'complete integrated source Git blob: '+path);
  if(b.beforeSha256===null)return null;
  const lines=s.split('\n');assert.equal(lines.length,b.afterLines);

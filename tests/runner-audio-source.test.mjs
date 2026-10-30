@@ -1,8 +1,9 @@
+import {preCurrentEntrySource} from './helpers/current-entry-source.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';
 import{phaseFourRunnerProof as runner,prePhaseFourRunnerSource}from'./helpers/phase-four-runner-source.mjs';
 import{deathAudioSourceProof as audio,preDeathAudioSource}from'./helpers/death-audio-source.mjs';
 import{preDeliveryTargetSource}from'./helpers/delivery-source-composition.mjs';
-const read=p=>readFileSync(p,'utf8'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+const read=p=>preCurrentEntrySource(p,readFileSync(p,'utf8')),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 for(const [name,entries,project,owners]of [
  ['runner',[[runner.path,runner]],prePhaseFourRunnerSource,Object.keys(runner.linkedSources)],
  ['audio',Object.entries(audio.files),preDeathAudioSource,Object.keys(audio.files)]

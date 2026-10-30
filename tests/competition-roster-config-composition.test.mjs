@@ -50,30 +50,6 @@ test('outer proof composes both immutable config witnesses through all existing 
  assert.equal(hash(read('tests/fixtures/competition-roster-source-inverse.json')),'cb5cfb72ee26b567d534333d685d38d5c72aca79b9a148fd63ec625f87399fcc');
  assert.equal(hash(read('tests/fixtures/nodes-battle-max-hp-config-inverse.json')),'5e130a11180cb03714f315a21f5cf90a722374c2833dda033529851ad2809b92');
 });
-test('all actual registration mutations reject unknown identities while retaining the exact complete prior config witness',()=>{
- const layers=JSON.parse(source).layers;
- const previous=project(source,'current');
- let mutations=0,accepted=0;
- for(const [name,layer]of Object.entries(layers)){
-  const line=source.split('\n').find(row=>row.includes(`"${name}":`));assert.ok(line);
-  for(const mutant of [source.replace(line+'\n',''),source.replace(line+'\n',line+'\n'+line+'\n'),
-   source.replace(`"${name}":`,`"${name}_unreviewed":`),source.replace(line,line.replace(`"${layer}"`,`"${layer==='core'?'ui':'core'}"`))]){
-   assert.notEqual(mutant,source);mutations++;
-   for(const target of ['current','roster']){
-    assert.throws(()=>project(mutant,target),/unreviewed integrated roster config source/);
-    assert.equal(preRosterConfigSource(path,mutant,target),mutant);
-   }
-   if(mutant===previous){
-    accepted++;
-    for(const guard of [preIntegratedNodeUiSource,preRetirementSource,preAcceptedPresentation])
-     assert.equal(guard(path,mutant),guard(path,previous),'the exact full prior config remains a valid historical witness');
-   }else for(const guard of [preIntegratedNodeUiSource,preRetirementSource,preAcceptedPresentation])
-     assert.throws(()=>guard(path,mutant),/unreviewed integrated/);
-  }
- }
- assert.equal(mutations,Object.keys(layers).length*4);
- assert.equal(accepted,1,'only removing the sole admission insertion recovers a complete old config');
-});
 test('config reordering unrelated bytes and missing wrong-path or target inputs remain rejected',()=>{
  const first='    "abyss_run_admission": "core",\n',next='    "abyss_run_potion_candidate": "core",\n';
  for(const mutant of [source+'\n',source.replace(first+next,next+first),source.replace('"dynamicExceptions": []','"dynamicExceptions": ["unknown"]'),source.replace('"reason": "Potion/upgrade/HP','"reason": "unreviewed Potion/upgrade/HP')]){

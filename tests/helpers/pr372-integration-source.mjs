@@ -1,3 +1,4 @@
+import {bindRecognitionLengths} from './source-recognition-lengths.mjs';
 import {preBetaSource,prepareBetaRetirement} from './beta-integration-source.mjs';
 import {preDeckBrowseSource} from './deck-browse-source-inverse.mjs';
 import {preAcceptedDevelopSource} from './delivery-source-composition.mjs';
@@ -10,6 +11,7 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/pr372-integration-sources.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
 assert.equal(hash(bytes),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112b4c9e00995','complete combined source identity');
 export const integrationSources=JSON.parse(bytes).sources;
+const recognitionLengths=bindRecognitionLengths('pr372',bytes,integrationSources,'sha256');
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
  if(target==='feature379')return preBetaSource(path,source,target,{readSource});
  source=preBetaSource(path,source,'history',{readSource});
@@ -19,7 +21,7 @@ export function preIntegrationSource(path,source,target='base',{readSource=path=
  const binding=integrationSources[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=source.replaceAll('\r\n','\n');
- if(hash(normalized)!==binding.sha256||!Object.hasOwn(binding.targets,target))return source;
+ if(normalized.length!==recognitionLengths[path]||hash(normalized)!==binding.sha256||!Object.hasOwn(binding.targets,target))return source;
  for(const [linked,b] of Object.entries(integrationSources)){
   if(linked.startsWith('src/lua/')&&b.targets.base?.absent===true){
    const current=preAcceptedDevelopSource(linked,readSource(linked),{readSource}).replaceAll('\r\n','\n');

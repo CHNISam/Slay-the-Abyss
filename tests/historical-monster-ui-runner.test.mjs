@@ -1,3 +1,4 @@
+import {currentEntrySourceProof} from './helpers/current-entry-source.mjs';
 import {phaseFourRunnerProof} from './helpers/phase-four-runner-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -8,12 +9,14 @@ import {historicalMonsterUiFixtures,runHistoricalMonsterUi,historicalMonsterLuaA
 import {verifiedHistoricalMonsterSources,historicalMonsterSourcePaths} from './helpers/historical-monster-ui-materialize.mjs';
 import {multiMonsterSourceLayer} from './helpers/multi-monster-art-source-inverse.mjs';
 const helperPaths=['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua'];
-test('only fifteen exact frozen fixtures and the two-capture differential are historical',()=>{
+test('only twenty-five exact frozen fixtures and the two-capture differential are historical',()=>{
  assert.deepEqual(historicalMonsterUiFixtures,[
   'tests/lua/battle_ui.lua',...Array.from({length:6},(_,i)=>`tests/lua/battle_ui_slice_${i+2}.lua`),
   'tests/lua/battle_ui_card_play.lua','tests/lua/battle_ui_card_play_slice_2.lua','tests/lua/battle_ui_card_play_slice_3.lua',
  'tests/lua/battle_ui_drag_click_compatibility.lua','tests/lua/battle_ui_drag_click_compatibility_slice_2.lua',
  'tests/lua/card_input_port.lua','tests/lua/card_input_port_slice_2.lua','tests/lua/card_input_port_slice_3.lua',
+ ...Array.from({length:8},(_,i)=>`tests/lua/card_help_release${i?'_slice_'+(i+1):''}.lua`),
+ 'tests/lua/player_death_transition.lua','tests/lua/player_death_transition_slice_2.lua',
  ]);
  for(const path of ['tests/lua/game_ui.lua','tests/lua/support/battle_ui_cases.lua','tests/lua/battle_ui_slice_8.lua','../tests/lua/battle_ui.lua','/tests/lua/battle_ui.lua'])
   assert.throws(()=>runHistoricalMonsterUi(path),/only exact/);
@@ -21,7 +24,7 @@ test('only fifteen exact frozen fixtures and the two-capture differential are hi
 });
 test('full current inverse and both historical helper closures reject every foreign edit',()=>{
  const paths=[...historicalMonsterSourcePaths,...helperPaths];
- const inputs=[...new Set([...paths,...Object.keys(phaseFourRunnerProof.linkedSources)])];
+ const inputs=[...new Set([...paths,...Object.keys(phaseFourRunnerProof.linkedSources),...Object.keys(currentEntrySourceProof.files),...Object.keys(currentEntrySourceProof.linkedSources)])];
  const current=new Map(inputs.map(p=>[p,readFileSync(p,'utf8')]));
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p)).length,paths.length);
  for(const dirty of inputs)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>current.get(p)+(p===dirty?'\n-- foreign source drift\n':'')),/unreviewed current/);
@@ -36,7 +39,7 @@ test('historical child keeps original total deadlines, buffer, signals and full 
   for(const script of historicalMonsterUiFixtures){
    calls.length=0;assert.equal(runHistoricalMonsterUi(script),result);
    assert.equal(calls.length,1);assert.match(calls[0][1][0],/historical-monster-ui-entry\.mjs$/);
-   assert.equal(calls[0][1][1],script);assert.equal(calls[0][2].timeout,(script.includes('card_play')||script.includes('drag_click_compatibility')||script.includes('card_input_port'))?30000:60000);
+   assert.equal(calls[0][1][1],script);assert.equal(calls[0][2].timeout,(script.includes('card_play')||script.includes('drag_click_compatibility')||script.includes('card_input_port')||script.includes('card_help_release')||script.includes('player_death_transition'))?30000:60000);
    assert.equal(calls[0][2].maxBuffer,1024*1024);
   }
   calls.length=0;runHistoricalMonsterUi('battle-refactor-render');assert.equal(calls[0][2].timeout,120000);assert.equal(calls[0][2].maxBuffer,64*1024*1024);

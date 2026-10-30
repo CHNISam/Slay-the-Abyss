@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "6142360fe71c7ba4a17a1c68b97a6b1feab823e8",
+  "afterCommit": "d366b7062b7192a7fe7656239108280a1159ca3b",
+  "files": {
+    "scripts/test-lua.mjs": {
+      "afterSha256": "e76f0d611fa19326f77547dcf0a65a18069ef3539a945ca0d6b2fad3c338df6f",
+      "beforeSha256": "a67830399f3279fa223486ec7990e0d5cd60ad0c9ae4af7c1e196c5508f65ab4",
+      "afterGitBlob": "8aaed7c6fdf6ebdda3ea44c61e02349d242531e9",
+      "beforeGitBlob": "7f6b57a046521aab7b3dd9dbb24b16438bb33fc8",
+      "hunks": [
+        {
+          "at": 0,
+          "after": [
+            "import {runCurrentGameUi,currentGameUiFixture} from '../tests/helpers/current-game-ui-runner.mjs';"
+          ],
+          "before": []
+        },
+        {
+          "at": 24,
+          "after": [
+            "  if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && script.replaceAll('\\\\','/')===currentGameUiFixture) return runCurrentGameUi(runLua,script,{timeout,cwd,caseName});"
+          ],
+          "before": []
+        }
+      ]
+    },
+    "tests/lua/game_ui.lua": {
+      "afterSha256": "12fbdc283dc25f2afce288685676a7832a79c2f2b9620240f09049498445dbde",
+      "beforeSha256": "5d4c508c188b14a3ba2406d753db755a87f8bf47bff900941d580cd91febed0a",
+      "afterGitBlob": "be73db2b99520888ee4c312912c377e269fc5471",
+      "beforeGitBlob": "34c3e1f65a09e7e0520ee29a4180a124b82b1603",
+      "hunks": [
+        {
+          "at": 2,
+          "after": [
+            "local freshFixture=dofile('tests/lua/support/current_entry_fixture.lua')",
+            "local F = freshFixture()"
+          ],
+          "before": [
+            "local F = dofile(\"tests/lua/support/game_ui_fixture.lua\")"
+          ]
+        },
+        {
+          "at": 8,
+          "after": [
+            "local count,registered = 0,0",
+            "local group=ABYSS_CURRENT_ENTRY_GROUP",
+            "local selected",
+            "if group then",
+            "    assert(type(group)=='table' and #group>0)",
+            "    selected={}",
+            "    for _,index in ipairs(group)do",
+            "        assert(type(index)=='number' and index%1==0 and index>=1 and index<=16 and not selected[index])",
+            "        selected[index]=true",
+            "    end",
+            "end",
+            "local function test(name, fn)",
+            "    registered=registered+1",
+            "    if selected and not selected[registered]then return end",
+            "    F=freshFixture()",
+            "    GameUI,Combat,Nodes,Data=F.GameUI,F.Combat,F.Nodes,F.Data",
+            "    Presentation,Layout,Viewport,Theme=F.Presentation,F.Layout,F.Viewport,F.Theme",
+            "    preview,control,fixture=F.preview,F.control,F.fixture",
+            "    statValue,resultText,mapControl,click,win=F.statValue,F.resultText,F.mapControl,F.click,F.win",
+            "    local ok,why=xpcall(fn,debug.traceback)",
+            "    local cleaned,cleanupWhy=pcall(F.close)",
+            "    assert(ok,why);assert(cleaned,cleanupWhy)",
+            "    count=count+1;print(\"ok game UI \"..count..\" - \"..name)",
+            "    if group then print(\"CURRENT_GAME_UI_CASE\\t\"..registered..\"\\t\"..name)end",
+            "end"
+          ],
+          "before": [
+            "local count = 0",
+            "local function test(name, fn) fn(); count = count + 1; print(\"ok game UI \" .. count .. \" - \" .. name) end"
+          ]
+        },
+        {
+          "at": 533,
+          "after": [
+            "    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}",
+            "    game.GetDevice=function()return 'desktop'end",
+            "    game.GetCursorUIPos=function()return 0,0 end",
+            "    dofile('tests/lua/support/native_monster_engine.lua')(game)"
+          ],
+          "before": []
+        },
+        {
+          "at": 538,
+          "after": [
+            "    F.nativeWorld(OnDestroy,script)"
+          ],
+          "before": []
+        },
+        {
+          "at": 564,
+          "after": [
+            "    local actualGameUI=require('abyss_game_ui')",
+            "    local originalNew = actualGameUI.new",
+            "    actualGameUI.new = function() error(\"INJECTED_STARTUP_FAILURE\") end"
+          ],
+          "before": [
+            "    local originalNew = GameUI.new",
+            "    GameUI.new = function() error(\"INJECTED_STARTUP_FAILURE\") end"
+          ]
+        },
+        {
+          "at": 571,
+          "after": [
+            "    F.nativeWorld(OnDestroy,script)"
+          ],
+          "before": []
+        },
+        {
+          "at": 580,
+          "after": [
+            "    actualGameUI.new = originalNew"
+          ],
+          "before": [
+            "    GameUI.new = originalNew"
+          ]
+        },
+        {
+          "at": 587,
+          "after": [
+            "    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}",
+            "    game.GetDevice=function()return 'desktop'end",
+            "    game.GetCursorUIPos=function()return 0,0 end",
+            "    dofile('tests/lua/support/native_monster_engine.lua')(game)"
+          ],
+          "before": []
+        },
+        {
+          "at": 592,
+          "after": [
+            "    F.nativeWorld(OnDestroy,script)"
+          ],
+          "before": []
+        },
+        {
+          "at": 601,
+          "after": [
+            "assert(registered==16,'original current entry case inventory changed')",
+            "if group then",
+            "    assert(count==#group,'current entry group did not execute completely')",
+            "    print(\"LUA_GAME_UI_GROUP_PASS \"..count)",
+            "else assert(count==16);print(\"LUA_GAME_UI_PASS \"..count)end"
+          ],
+          "before": [
+            "print(\"LUA_GAME_UI_PASS \" .. count)"
+          ]
+        }
+      ]
+    }
+  },
+  "linkedSources": {
+    "tests/helpers/current-game-ui-runner.mjs": {
+      "sha256": "7bd1406695d3095b45492ff2cd9d9c19f77c1b9844e30f62a81bbdac2d7412b8",
+      "gitBlob": "4230e47358ea212975a896ca10929ef4f1c89c3d"
+    },
+    "tests/lua/support/current_entry_fixture.lua": {
+      "sha256": "405d642d382e1f21c7a3ed37bb817aec195c8ce979960a20a22181d9c6b78ec5",
+      "gitBlob": "ac6bcd7305e01c7a36f5bc217d98e9607c4babeb"
+    },
+    "tests/lua/support/game_ui_fixture.lua": {
+      "sha256": "5fdf49a7de6108953b64c0ff30d179d46b453944e335d8e27ec09e3f10c75b16",
+      "gitBlob": "c097822675be0d671b0f86d942ef4234d3ee9aad"
+    },
+    "tests/lua/support/native_monster_engine.lua": {
+      "sha256": "d3935852d7762c3cdd1bb3743f31b904294c0a8ceccc437fdd6cfc8429fdd678",
+      "gitBlob": "7bda5ebceb26380f237aa353a1aefec63a2c8f17"
+    }
+  }
+}
