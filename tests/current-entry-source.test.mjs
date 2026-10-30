@@ -3,7 +3,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import{read
 import{phaseFourRunnerProof as runner,prePhaseFourRunnerSource}from'./helpers/phase-four-runner-source.mjs';
 import{deathAudioSourceProof as audio,preDeathAudioSource}from'./helpers/death-audio-source.mjs';
 import{preDeliveryTargetSource}from'./helpers/delivery-source-composition.mjs';
-const read=p=>readFileSync(p,'utf8'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 import{currentEntrySourceProof as entry,preCurrentEntrySource as projectEntry}from'./helpers/current-entry-source.mjs';
 for(const [name,entries,project,owners]of [
  ['current-entry',Object.entries(entry.files),projectEntry,[...Object.keys(entry.files),...Object.keys(entry.linkedSources)]]

@@ -5,7 +5,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {postBetaRuntimeProof as proof,prePostBetaRuntimeSource as project,postBetaRuntimePaths} from './helpers/post-beta-runtime-source.mjs';
 import {preDeliveryTargetSource} from './helpers/delivery-source-composition.mjs';
-const read=p=>preArtifactRuntimeSource(p,readFileSync(p,'utf8')),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+const read=p=>preArtifactRuntimeSource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('both exact runtime repairs retreat to untouched develop98 identities without accepting foreign bytes',()=>{
  for(const[p,b]of Object.entries(proof.files)){
   const source=read(p),before=project(p,source);

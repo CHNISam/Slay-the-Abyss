@@ -11,9 +11,10 @@ import { relicCompletionInverse, requireRelicCompletionSource, preRelicCompletio
 export function launchBaselineFixture() {
   const root = mkdtempSync(join(tmpdir(), 'abyss-launch-baseline-'));
   after(() => rmSync(root, { recursive: true, force: true }));
-  for (const directory of ['data', 'src', 'scripts', 'config', 'tools'])
+  // Delivery projection includes test owners; these must never alias live tests.
+  for (const directory of ['data', 'src', 'scripts', 'config', 'tools', 'tests'])
     cpSync(directory, join(root, directory), { recursive: true });
-  for (const directory of ['tests', 'docs', 'node_modules'])
+  for (const directory of ['docs', 'node_modules'])
     symlinkSync(resolve(directory), join(root, directory), 'junction');
   materializeBeforeDelivery(root);
   const validatorPath=join(root,'scripts/verify-launch-content.mjs');

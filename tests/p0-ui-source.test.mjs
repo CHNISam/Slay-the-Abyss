@@ -3,7 +3,7 @@ import{p0UiSourceProof as proof,p0UiSourcePaths as paths,preP0UiSource}from'./he
 import{preDeliveryTargetSource}from'./helpers/delivery-source-composition.mjs';
 import{preDeckDeliverySource}from'./helpers/deck-delivery-source-composition.mjs';
 import{preIntegrationSource}from'./helpers/pr372-integration-source.mjs';
-const read=p=>readFileSync(p,'utf8'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('all seven P0 inputs retreat exactly and preserve every frozen before byte, including CRLF',()=>{
  assert.equal(paths.length,7);
  for(const p of paths){const raw=read(p),b=proof.files[p],before=preP0UiSource(p,raw);assert.equal(hash(raw),b.afterSha256);assert.equal(hash(before),b.beforeSha256);assert.equal(preP0UiSource(p,raw.replaceAll('\n','\r\n')),before);assert.equal(preP0UiSource(p,before),before);

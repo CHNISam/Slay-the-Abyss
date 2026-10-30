@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {toLua} from '../scripts/build-lua-data.mjs';
 import {currentGameUiFixture,currentGameUiGroups,currentGameUiNames,validateCurrentGameUiGroups,inspectCurrentGameUiSource,verifyCurrentGameUiGroup,runCurrentGameUi} from './helpers/current-game-ui-runner.mjs';
-const source=readFileSync(currentGameUiFixture,'utf8');
+const source=readFileSync(currentGameUiFixture,'utf8').replaceAll('\r\n','\n');
 const output=group=>group.map(i=>`CURRENT_GAME_UI_CASE\t${i}\t${currentGameUiNames[i-1]}`).join('\n')+`\nLUA_GAME_UI_GROUP_PASS ${group.length}\n`;
 test('current entry grouping locks the original exact 16 identities and full bodies including seeds',()=>{
  assert.equal(inspectCurrentGameUiSource(source).length,16);
