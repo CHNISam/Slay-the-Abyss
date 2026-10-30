@@ -7,6 +7,8 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { selectTests, parseGitChanges } from '../scripts/test-affected.mjs';
 import {frozenBattleHandFixtures} from './helpers/battle-life-frozen-hand.mjs';
+import {historicalCardInputFixtures} from './helpers/historical-card-input.mjs';
+import {historicalMonsterUiFixtures} from './helpers/historical-monster-ui-runner.mjs';
 
 const sources = {
   'src/lua/abyss_low.lua': 'return {}',
@@ -558,4 +560,14 @@ test('unresolved ordinary literal modules retain their Lua and JS roots conserva
   assert.equal(plan.full, false);
   assert.deepEqual(plan.lua, ['tests/lua/mapped.lua', 'tests/lua/consumer.lua']);
   assert.deepEqual(plan.integration, ['tests/consumer.test.mjs']);
+});
+
+for(const [helper,fixtures] of [
+ ['tests/helpers/historical-card-input.mjs',historicalCardInputFixtures],
+ ['tests/helpers/historical-monster-ui-runner.mjs',historicalMonsterUiFixtures],
+])test('conditional archive helper '+helper+' retains every actual fixture without tainting ordinary wrappers',()=>{
+ const plan=selectTests([helper],repositorySources);
+ assert.equal(plan.full,false);
+ for(const fixture of fixtures)assert.ok(plan.lua.includes(fixture),fixture);
+ assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
 });

@@ -17,9 +17,9 @@ local function unchanged(root)
  end
 end
 local function state()
- local s=C.new(F.Data,{deck={'defend'},enemies={'cultist'}})
+ local s=C.new(F.Data,{deck={'defend'},enemies={'book_of_stabbing'}})
  local e=s.enemies[1]
- e.intents={{id='test',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1
+ e.intents={{id='multi_stab',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1
  return s,e
 end
 local function test(name,fn)fn();passed=passed+1;print('PASS '..name)end
@@ -40,7 +40,13 @@ local function notes(face)
 end
 
 test('unchanged multi-hit intent always gives real base strength and rounding formula',function()
- local s,e=state();local check=unchanged(s);local face=V.intentView(s,1)
+ local s,e=state()
+ -- The arithmetic oracle varies effects, but keeps a real ATTACK/multi source identity.
+ local source=require('abyss_monster_source_intents')
+ assert(source.enum(e,e.intents[1])=='ATTACK' and source.isMulti(e,e.intents[1]))
+ local ok,why=pcall(source.enum,e,{id='unmapped_fixture_move'})
+ assert(not ok and tostring(why):find('unmapped source monster intent book_of_stabbing:unmapped_fixture_move',1,true))
+ local check=unchanged(s);local face=V.intentView(s,1)
  local text=notes(face)
  assert(face.value=='9×2' and text:find('基础 9',1,true) and text:find('力量 +0 = 9',1,true) and text:find('取整',1,true))
  projection(s,e,9,9);check()

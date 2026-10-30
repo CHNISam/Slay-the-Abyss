@@ -8,14 +8,20 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import {fixtureMapBytes,installNativeToolchainFixture,readFixtureScripts} from './helpers/native-toolchain-fixture.mjs';
 import {sha256} from '../scripts/evidence-files.mjs';
+import {monsterActorTemplate,monsterActorTemplateName,monsterPowerTemplateName} from '../scripts/monster-art.mjs';
+import {enemyPowerTemplate} from '../scripts/ui-layout.mjs';
+import {readyArtTemplates,readyArtGroupTemplate} from '../scripts/art/ready-card-runtime.mjs';
+import {toLua} from '../scripts/build-lua-data.mjs';
 
 const builder = fileURLToPath(new URL('../scripts/build-native-candidate.mjs', import.meta.url));
 const existing = { id: 1073741899, name: '_GSTS_ABYSS_SETTLEMENT', type: 20000, writable: true };
 const uiModules = Object.keys(generatedRuntimeModules).filter(name=>generatedRuntimeModules[name]==='scripts/build-ui.mjs');
 // Rebuild/ownership fixtures exercise the ordinary default-off candidate.
-// Artwork binding and template contracts have separate opt-in integration tests.
-const templates = [];
-const generatedSource = name => name === artFeatureModule ? artFeaturesSource({}) : 'return {}';
+// Dynamic actor/power surfaces remain mandatory with optional artwork disabled.
+// Reuse the real default-off producers; only MCP/generation transport is mocked.
+const templates = [...readyArtTemplates().filter(t=>t.name===readyArtGroupTemplate),monsterActorTemplate(null),enemyPowerTemplate()];
+const generatedSource = name => name === artFeatureModule ? artFeaturesSource({})
+ : name === 'abyss_monster_art_data' ? '-- Generated from the bounded native monster registry.\nreturn '+toLua({})+'\n' : 'return {}';
 // Fake only the MCP boundary: execute the actual CLI and inspect its calls.
 const sdk = `
 import {appendFileSync,readFileSync} from 'node:fs';
@@ -29,7 +35,7 @@ export class Client {
   if(name===state.failTool)return {isError:true,structuredContent:{error:{code:'FIXTURE_FAILURE',message:name}}};
   if(name===state.payloadErrorTool)return {structuredContent:{error:{code:'PAYLOAD_FAILURE',message:name}}};
   if(name===state.malformedTool)return {structuredContent:{mapPath:args.mapPath}};
-  if(name==='scene_add_client_template')return {structuredContent:{mapPath:args.mapPath,templateIndex:1073741846+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:0)}};
+  if(name==='scene_add_client_template')return {structuredContent:{mapPath:args.mapPath,templateIndex:state.duplicateActorIndices&&args.template.name==='AbyssMonsterPower'?1073741846:{AbyssMonsterActor:1073741846,AbyssMonsterPower:1073741847,AbyssReadyCardGroup:1073741848}[args.template.name]}};
   if(name==='scene_set_client_script')throw Error('Rebuild must exercise real batch writer');
   if(name==='scene_list_client_scripts')throw Error('Rebuild must exercise local complete inventory reader');
   if(name==='scene_remove_client') {
@@ -55,6 +61,7 @@ export class Client {
 }
 `;
 function run(scenario, check) {
+  const fixtureTemplates=scenario.templates??templates;
   // Keep the real CLI's Git provenance lookup inside the repository. All MCP
   // and generation boundaries are fixture-only; receipt/readback checks run.
   mkdirSync('build',{recursive:true});
@@ -68,10 +75,10 @@ function run(scenario, check) {
     put('src/lua/abyss_ui.lua','return {}');
     put('data/cards.json',readFileSync('data/cards.json'));
     put('scripts/build-lua-data.mjs',`import {writeFileSync} from 'node:fs';import {dirname,join} from 'node:path';writeFileSync(process.argv[3],'return {}');writeFileSync(join(dirname(process.argv[3]),'abyss_original_v4_data.lua'),'return {}');`);
-    put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const [name,source] of ${JSON.stringify(uiModules.map(name=>[name,generatedSource(name)]))})writeFileSync(join(out,name+'.lua'),source);writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),${JSON.stringify(JSON.stringify(templates))});`);
+    put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const [name,source] of ${JSON.stringify(uiModules.map(name=>[name,generatedSource(name)]))})writeFileSync(join(out,name+'.lua'),source);writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),${JSON.stringify(JSON.stringify(fixtureTemplates))});`);
     for(const name of Object.keys(generatedRuntimeModules))put('build/lua/'+name+'.lua',generatedSource(name));
     put('build/lua/game-ui.json',JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));
-    put('build/lua/game-ui-templates.json',JSON.stringify(templates));
+    put('build/lua/game-ui-templates.json',JSON.stringify(fixtureTemplates));
     put('scenario.json',JSON.stringify(scenario));
     put('calls.jsonl',''); put('base.gil',fixtureMapBytes(scenario.malformedTool==='scene_list_client_scripts'?[{file:'malformed.lua',source:'return {}'}]:scenario.scripts??[]));
     const result=spawnSync(process.execPath,[builder,join(dir,'base.gil'),join(dir,'out')],{cwd:dir,encoding:'utf8',env:{...process.env,MILIASTRA_MCP_ROOT:join(dir,'tool'),REBUILD_SCENARIO:join(dir,'scenario.json'),REBUILD_CALLS:join(dir,'calls.jsonl')}});
@@ -84,6 +91,9 @@ function run(scenario, check) {
      assert.deepEqual(actual.map(s=>s.name).sort(),Object.keys(receipt.moduleDigests).sort(),'final inventory must be read from the batch-written map');
      for(const row of actual)assert.equal(sha256(row.source),receipt.moduleDigests[row.name]);
      assert(calls.some(c=>c.name==='native_batch_script'),'actual production batch writer must construct records');
+     assert.deepEqual([receipt.monsterActors.templateIndex,receipt.monsterActors.powerTemplateIndex,receipt.monsterActors.containerTemplateIndex],[1073741846,1073741847,1073741848]);
+     const binding=actual.find(s=>s.name==='abyss_monster_actor_binding').source;
+     assert.match(binding,/templateIndex=1073741846,containerTemplateIndex=1073741848,powerTemplateIndex=1073741847,enabled=true/);
      assert(!calls.some(c=>c.name==='scene_set_client_script'),'legacy per-module setter must not hide missing batch support');
     }
   } finally { rmSync(dir,{recursive:true,force:true}); }
@@ -93,7 +103,9 @@ const success = result => assert.equal(result.status,0,result.stderr);
 test('rebuilding existing scene replaces UI, reuses actual graph id and preserves existing signals',()=>run({hasUi:true,graphs:[existing],signals:['ABYSS_WIN','ABYSS_LOSE']},(result,calls)=>{
   success(result);
   assert.equal(calls.find(c=>c.name==='scene_add_client_ui').args.replace,true);
-  assert.equal(calls.some(c=>c.name==='scene_add_client_template'),false,'default-off rebuild must not register optional artwork templates');
+  assert.deepEqual(calls.filter(c=>c.name==='scene_add_client_template').map(c=>c.args.template.name).sort(),
+   [monsterActorTemplateName,monsterPowerTemplateName,readyArtGroupTemplate].sort(),
+   'default-off rebuild must register only mandatory dynamic surfaces, not optional artwork templates');
   const flags=calls.find(c=>c.name==='native_batch_script'&&c.args.name===artFeatureModule);
   assert(flags,'canonical default-off configuration must reach the real candidate payload');
   assert.equal(flags.args.source,artFeaturesSource({}));
@@ -174,4 +186,17 @@ test('malformed script inventory cannot be interpreted as clean',()=>run({malfor
 test('final complete source readback refuses corruption after the static check',()=>run({corruptFinalModule:'abyss_ui'},(result,calls)=>{
  assert.notEqual(result.status,0);assert.match(result.stderr,/Candidate content digest mismatch: abyss_ui/);
  assert(calls.some(c=>c.name==='scene_check_client'));
+}));
+
+for(const [label,fixtureTemplates,message] of [
+ ['missing actor',templates.filter(t=>t.name!==monsterActorTemplateName),/Monster actor template differs/],
+ ['changed actor',templates.map(t=>t.name===monsterActorTemplateName?{...t,visible:true}:t),/Monster actor template differs/],
+ ['missing power',templates.filter(t=>t.name!==monsterPowerTemplateName),/Monster actors require exactly one AbyssMonsterPower/],
+])test('default-off rebuild rejects '+label+' before starting MCP',()=>run({templates:fixtureTemplates},(result,calls)=>{
+ assert.notEqual(result.status,0);assert.match(result.stderr,message);assert.deepEqual(calls,[]);
+}));
+test('default-off rebuild refuses duplicate actual actor/power binding indices',()=>run({duplicateActorIndices:true},(result,calls)=>{
+ assert.notEqual(result.status,0);assert.match(result.stderr,/distinct positive template indices/);
+ assert.equal(calls.filter(c=>c.name==='scene_add_client_template').length,3);
+ assert.ok(!calls.some(c=>c.name==='scene_add_client_ui'||c.name==='write_graphs'||c.name==='scene_check_client'));
 }));

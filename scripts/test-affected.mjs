@@ -4,6 +4,8 @@ import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import luaparse from 'luaparse';
 import {frozenBattleHandFixtures} from '../tests/helpers/battle-life-frozen-hand.mjs';
+import {historicalCardInputFixtures} from '../tests/helpers/historical-card-input.mjs';
+import {historicalMonsterUiFixtures} from '../tests/helpers/historical-monster-ui-runner.mjs';
 
 // This is a local feedback selector. Full check/Quality remains the merge gate.
 const slash = value => value.replaceAll('\\', '/');
@@ -12,6 +14,8 @@ const slash = value => value.replaceAll('\\', '/');
 const conditionalRunnerFixtures = new Map([
   ['tests/helpers/historical-presentation-runner.mjs', new Set(['tests/lua/presentation_responsibilities_trace.lua'])],
   ['tests/helpers/battle-life-frozen-hand.mjs', new Set(frozenBattleHandFixtures)],
+  ['tests/helpers/historical-card-input.mjs', new Set(historicalCardInputFixtures)],
+  ['tests/helpers/historical-monster-ui-runner.mjs', new Set(historicalMonsterUiFixtures)],
 ]);
 // These are virtual graph nodes, not files read from a possibly stale build/.
 // Keep the producer identities aligned with build:data/build:ui's Lua outputs.
