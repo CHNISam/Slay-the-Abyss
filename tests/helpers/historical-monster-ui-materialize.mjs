@@ -1,3 +1,5 @@
+import {prePostBetaRuntimeSource} from './post-beta-runtime-source.mjs';
+import {verifiedHistoricalMonsterNodeClosure} from './historical-monster-node-closure.mjs';
 import {preDeckDeliverySource,deckDeliveryPaths} from './deck-delivery-source-composition.mjs';
 import {deliverySourceProof,preLegacyMultiSource,preLegacyUiSupportSource} from './delivery-source-composition.mjs';
 import assert from 'node:assert/strict';
@@ -17,7 +19,7 @@ export function verifiedHistoricalMonsterSources(sourceRoot=process.cwd(),read=p
  const projected=[];
  try{
   for(const path of historicalMonsterSourcePaths){
-   const live=normalized(preDeckDeliverySource(path,read(path),'delivery',{readSource:read})),outer=deliverySourceProof.targets.legacyMulti.files[path];
+   const live=normalized(preDeckDeliverySource(path,prePostBetaRuntimeSource(path,read(path),{readSource:read}),'delivery',{readSource:read})),outer=deliverySourceProof.targets.legacyMulti.files[path];
    if(outer)assert.equal(hash(live),outer.afterSha256,'unreviewed current monster source: '+path);
    const prior=preLegacyMultiSource(path,live,{readSource:read}),entry=multiMonsterSourceLayer.files[path];
    if(entry){assert.equal(hash(prior),entry.afterSha256,'unreviewed current monster UI source: '+path);const before=preMultiMonsterArtSource(path,prior,{readSource:read});assert.equal(before,entry.beforeSource);projected.push([path,before]);}
@@ -31,10 +33,11 @@ export function verifiedHistoricalMonsterSources(sourceRoot=process.cwd(),read=p
  }catch(error){assert.fail('unreviewed current historical monster closure: '+error.message);}
  return projected;
 }
-export function materializeHistoricalMonsterUi(directory,sourceRoot=process.cwd()){
+export function materializeHistoricalMonsterUi(directory,sourceRoot=process.cwd(),{nodeClosure=false}={}){
  assert.notEqual(resolve(directory),resolve(sourceRoot),'historical projection must be isolated');
  // Verify the entire live layer and both helper closures before any writes.
  const projected=verifiedHistoricalMonsterSources(sourceRoot);
+ if(nodeClosure)projected.push(...verifiedHistoricalMonsterNodeClosure(path=>readFileSync(join(sourceRoot,path),'utf8')));
  for(const input of ['src','data','scripts','tools','config','tests/lua','tests/helpers','tests/fixtures','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
   cpSync(join(sourceRoot,input),join(directory,input),{recursive:true});
  // Input-root provenance requires real isolated files, not aliases to source.

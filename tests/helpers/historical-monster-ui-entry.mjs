@@ -1,3 +1,4 @@
+import {historicalCardInputPrelude} from './historical-card-input.mjs';
 import assert from 'node:assert/strict';
 import {mkdirSync,mkdtempSync,rmSync,writeFileSync,readFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
@@ -13,7 +14,7 @@ const remaining=()=>{const value=timeout-(Date.now()-started);assert(value>0,'hi
 mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/historical-monster-ui-'));
 console.log('Historical pre-multi monster UI replay (03266f66) only: unchanged frozen cases/scenes; not current source-port acceptance.');
 try{
- materializeHistoricalMonsterUi(directory,sourceRoot);
+ materializeHistoricalMonsterUi(directory,sourceRoot,{nodeClosure:script==='battle-refactor-render'});
  for(const builder of ['build-lua-data.mjs','build-ui.mjs']){
   const result=spawnSync(process.execPath,['scripts/'+builder],{cwd:directory,encoding:'utf8',timeout:remaining(),maxBuffer:1024*1024});
   assert.ifError(result.error);assert.equal(result.status,0,result.stdout+result.stderr);
@@ -21,7 +22,7 @@ try{
  const {luaString,toLua}=await import(pathToFileURL(join(directory,'scripts/build-lua-data.mjs')));
  const {battleLayout}=await import(pathToFileURL(join(directory,'scripts/ui-layout.mjs')));
  const cli=createRequire(import.meta.url).resolve('fengari-node-cli/src/lua-cli.js');
- const prelude=frozenBattleHandPrelude(script,{cwd:sourceRoot});
+ const prelude=historicalCardInputPrelude(script,{cwd:sourceRoot})+frozenBattleHandPrelude(script,{cwd:sourceRoot});
  const entry=join(directory,'build/historical-ui-case.lua');
  const execute=source=>{
   writeFileSync(entry,source);
