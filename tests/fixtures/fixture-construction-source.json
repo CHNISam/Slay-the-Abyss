@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "ea9a6f28180b7fb6596795f36a170073394591f8",
+  "afterCommit": "5b228913d5f5f39266d851cc395cf85434a12d59",
+  "files": {
+    "tests/lua/support/game_ui_fixture.lua": {
+      "beforeSha256": "5fdf49a7de6108953b64c0ff30d179d46b453944e335d8e27ec09e3f10c75b16",
+      "afterSha256": "585382dc559fb93c211a1a8d3a3053a9d6578917ca8025f47e9b6411b49f1450",
+      "afterUtf16Length": 13860,
+      "beforeGitBlob": "c097822675be0d671b0f86d942ef4234d3ee9aad",
+      "afterGitBlob": "19fd785242207fef472b59fe204129a0d793fb61",
+      "hunks": [
+        {
+          "at": 101,
+          "before": [
+            "    setmetatable(self, controlMethods)"
+          ],
+          "after": []
+        },
+        {
+          "at": 111,
+          "before": [],
+          "after": [
+            "    setmetatable(self, controlMethods)"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import {preFixtureConstructionSource} from './fixture-construction-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -5,7 +6,8 @@ const hash=s=>createHash('sha256').update(s).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/multi-historical-ui-tests.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
 assert.equal(hash(bytes),'2e7959e46e03f7c351d2fff0d367435dd36330003c67e2911be3813ef637d41a');
 export const multiHistoricalUiTests=JSON.parse(bytes);
-export function preMultiHistoricalUiTest(path,source){
+export function preMultiHistoricalUiTest(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preFixtureConstructionSource(path,source,{readSource});
  const b=multiHistoricalUiTests.files[path];
  if(!b||typeof source!=='string')return source;
  const normalized=source.replaceAll('\r\n','\n');

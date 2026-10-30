@@ -1,3 +1,4 @@
+import {preFixtureConstructionSource} from './fixture-construction-source.mjs';
 import {preCurrentEntrySource} from './current-entry-source.mjs';
 import {preDeathAudioSource} from './death-audio-source.mjs';
 import assert from 'node:assert/strict';
@@ -16,7 +17,7 @@ export function prePhaseFourRunnerSource(path,source,{readSource=p=>readFileSync
  const b=phaseFourRunnerProof;if(path!==b.path||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
  for(const[p,entry]of Object.entries(b.linkedSources)){
-  let actual;try{actual=readSource(p);}catch{assert.fail('runner linked source missing: '+p);}
+  let actual;try{actual=preFixtureConstructionSource(p,readSource(p),{readSource});}catch{assert.fail('runner linked source missing: '+p);}
   assert.equal(typeof actual,'string','runner linked source must exist: '+p);
   const live=normalize(actual);assert.equal(hash(live),entry.sha256,'runner linked source identity: '+p);assert.equal(blob(live),entry.gitBlob);
  }

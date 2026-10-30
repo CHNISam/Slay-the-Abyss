@@ -1,3 +1,4 @@
+import {preFixtureConstructionSource} from './fixture-construction-source.mjs';
 // Exact historical-only bridge for independently reviewed current test migrations.
 // Current test execution never imports this adapter. Unknown bytes remain exposed.
 import assert from 'node:assert/strict';
@@ -14,7 +15,8 @@ assert.equal(betaCurrentTestProof.afterCommit,'ed2251d7c538b94d13ce10a809b626f1e
 for(const path of Object.keys(betaCurrentTestProof.files)){
  assert.match(path,/^(?:tests\/lua\/(?:support\/)?[a-z0-9_]+\.lua|tests\/ui-layout\.test\.mjs)$/);
 }
-export function preBetaCurrentTestSource(path,source){
+export function preBetaCurrentTestSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preFixtureConstructionSource(path,source,{readSource});
  const b=betaCurrentTestProof.files[path];
  if(!b||typeof source!=='string')return source;
  const text=source.replaceAll('\r\n','\n');

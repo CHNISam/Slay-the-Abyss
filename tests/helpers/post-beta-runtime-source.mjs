@@ -18,7 +18,7 @@ assert.deepEqual(postBetaRuntimePaths,['src/lua/abyss_battle_render_actors.lua',
 export function prePostBetaRuntimeSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
  source=preFinalUiSource(path,source,{readSource});
  source=preP0UiSource(path,source,{readSource});
- source=preBetaCurrentTestSource(path,source);
+ source=preBetaCurrentTestSource(path,source,{readSource});
  source=preArtifactRuntimeSource(path,source,{readSource});
  const b=postBetaRuntimeProof.files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;

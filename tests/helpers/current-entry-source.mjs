@@ -1,3 +1,4 @@
+import {preFixtureConstructionSource} from './fixture-construction-source.mjs';
 import {preDeckVisibilitySource} from './deck-visibility-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -12,6 +13,7 @@ export const currentEntrySourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const currentEntrySourcePaths=Object.freeze(Object.keys(currentEntrySourceProof.files));
 assert.deepEqual(currentEntrySourcePaths,['scripts/test-lua.mjs','tests/lua/game_ui.lua']);
 export function preCurrentEntrySource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preFixtureConstructionSource(path,source,{readSource});
  source=preDeckVisibilitySource(path,source,{readSource});
  const b=currentEntrySourceProof.files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
@@ -21,7 +23,7 @@ export function preCurrentEntrySource(path,source,{readSource=p=>readFileSync(p,
   assert.equal(hash(normalize(live)),currentEntrySourceProof.files[p].afterSha256,'current-entry linked source identity: '+p);
  }
  for(const[p,entry]of Object.entries(currentEntrySourceProof.linkedSources)){
-  let actual;try{actual=readSource(p);}catch{assert.fail('current-entry linked source missing: '+p);}
+  let actual;try{actual=preFixtureConstructionSource(p,readSource(p),{readSource});}catch{assert.fail('current-entry linked source missing: '+p);}
   assert.equal(typeof actual,'string','current-entry linked source must exist: '+p);
   const live=normalize(actual);assert.equal(hash(live),entry.sha256,'current-entry linked source identity: '+p);assert.equal(blob(live),entry.gitBlob);
  }

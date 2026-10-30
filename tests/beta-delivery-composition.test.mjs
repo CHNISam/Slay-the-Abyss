@@ -1,3 +1,4 @@
+import {preFixtureConstructionSource} from './helpers/fixture-construction-source.mjs';
 import {preArtFeatureSource} from './helpers/art-feature-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ import {createHash} from 'node:crypto';
 import {preBetaSource,betaSources} from './helpers/beta-integration-source.mjs';
 import {preBetaHostSource} from './helpers/beta-delivery-host-source.mjs';
 import {preMultiHistoricalUiTest,multiHistoricalUiTests} from './helpers/multi-historical-ui-tests.mjs';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+const read=p=>preFixtureConstructionSource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('all archived beta hosts and both destinations bind current delivery without changing frozen witnesses',()=>{
  for(const[p,b]of Object.entries(betaSources)){
   assert.equal(hash(preBetaHostSource(p,read(p))),b.sha256,p);

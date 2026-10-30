@@ -10,7 +10,7 @@ const bytes=normalize(readFileSync(new URL('../fixtures/beta-ui-historical-host.
 assert.equal(hash(bytes),'7c08cd9b5ba01a0495d7272335f9bc877d9bdc509f7d9d8f9c314cb898700dfd');
 const proof=JSON.parse(bytes);
 export function preBetaHostSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
- source=preBetaCurrentTestSource(path,source);
+ source=preBetaCurrentTestSource(path,source,{readSource});
  source=preDeliverySource(path,source,{readSource});
  if(path!==proof.path||typeof source!=='string'||hash(normalize(source))!==proof.fromSha256)return source;
  const original=normalize(source),lines=original.split('\n');

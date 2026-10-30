@@ -1,3 +1,4 @@
+import {preFixtureConstructionSource} from './helpers/fixture-construction-source.mjs';
 import {preFinalUiSource} from './helpers/final-ui-source.mjs';
 import {preP0UiSource} from './helpers/p0-ui-source.mjs';
 import test from 'node:test';
@@ -14,7 +15,7 @@ test('all 33 reviewed current fixtures recover complete develop98 bytes bidirect
  assert.equal(Object.keys(betaCurrentTestProof.files).length,33);
  for(const [path,b]of Object.entries(betaCurrentTestProof.files)){
   const raw=readFileSync(path,'utf8').replaceAll('\r\n','\n');
-  const live=preP0UiSource(path,preFinalUiSource(path,raw));
+  const live=preP0UiSource(path,preFinalUiSource(path,preFixtureConstructionSource(path,raw)));
   assert.equal(hash(live),b.afterSha256,path);assert.equal(blob(live),b.afterGitBlob,path);
   const prior=preBetaCurrentTestSource(path,live);
   assert.equal(hash(prior),b.beforeSha256,path);assert.equal(blob(prior),b.beforeGitBlob,path);
@@ -26,7 +27,7 @@ test('all 33 reviewed current fixtures recover complete develop98 bytes bidirect
 test('missing, unknown, partial, appended, same-length and cross-path inputs cannot borrow a fixture projection',()=>{
  const paths=Object.keys(betaCurrentTestProof.files);
  for(const [i,path]of paths.entries()){
-  const live=preP0UiSource(path,preFinalUiSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'))),b=betaCurrentTestProof.files[path];
+  const live=preP0UiSource(path,preFinalUiSource(path,preFixtureConstructionSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n')))),b=betaCurrentTestProof.files[path];
   const h=b.hunks.find(h=>h.after.length);const lines=live.split('\n');
   if(h)lines.splice(h.at,h.after.length);else lines.push('unknown');
   for(const bad of [null,undefined,'',live.slice(1),live+'\n', (live[0]==='!'?'?':'!')+live.slice(1),lines.join('\n')]){
@@ -45,7 +46,8 @@ test('CRLF archive spelling retains canonical identity and changed archive bytes
  const directory=mkdtempSync(join(tmpdir(),'beta-test-proof-crlf-'));
  try{
   mkdirSync(join(directory,'helpers'));mkdirSync(join(directory,'fixtures'));
-  for(const file of ['beta-current-test-source.mjs','pure-source-projection-cache.mjs'])copyFileSync(new URL('./helpers/'+file,import.meta.url),join(directory,'helpers',file));
+  for(const file of ['beta-current-test-source.mjs','pure-source-projection-cache.mjs','fixture-construction-source.mjs'])copyFileSync(new URL('./helpers/'+file,import.meta.url),join(directory,'helpers',file));
+  copyFileSync(new URL('./fixtures/fixture-construction-source.json',import.meta.url),join(directory,'fixtures/fixture-construction-source.json'));
   const archive=readFileSync(new URL('./fixtures/beta-current-test-source.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
   const target=join(directory,'fixtures/beta-current-test-source.json');writeFileSync(target,archive.replaceAll('\n','\r\n'));
   const moduleUrl=pathToFileURL(join(directory,'helpers/beta-current-test-source.mjs')).href;
