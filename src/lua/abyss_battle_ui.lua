@@ -207,13 +207,27 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end, function(failure)
         self.busy, self.displayBattle, self.acting = false, nil, nil
         ownership.playbackIntents = nil
-        if self.feedbackRun == self.run and self.feedbackBattle == (self.run and self.run.combat)
-            and #self.feedbackBattle.events == self.feedbackLast then
+        local reconcileFailed,reconcileFailure=false,nil
+        local sameBattle=self.feedbackRun and self.feedbackRun==self.run
+            and self.feedbackBattle and self.feedbackBattle==self.run.combat
+        if failure and sameBattle then
+            local ok,why=pcall(host.monsterIntentParticles.reconcile,host.monsterIntentParticles,self.feedbackBattle)
+            if not ok then reconcileFailed,reconcileFailure=true,why end
+        end
+        if sameBattle and #self.feedbackBattle.events == self.feedbackLast then
             -- UI is the event consumer. Release consumed frames; the event table identity stays stable.
             for i = #self.feedbackBattle.events, 1, -1 do self.feedbackBattle.events[i] = nil end
         end
-        services.notice(failure and "演出已恢复，可继续行动。" or "")
-        services.refresh(failure ~= "cancelled")
+        local notice=""
+        if failure then notice="演出已恢复，可继续行动。" end
+        services.notice(notice)
+        local refreshed,why=pcall(services.refresh,failure ~= "cancelled")
+        if reconcileFailed then
+            local message='source intent reconciliation failed after '..tostring(failure)..': '..tostring(reconcileFailure)
+            if not refreshed then message=message..'; refresh failed: '..tostring(why)end
+            error(message)
+        end
+        if not refreshed then error(why)end
     end)
     -- An open detail panel owns the next pointer sequence: its Down closes the panel and
     -- the matching Click is swallowed, so no card, target or button acts underneath it.

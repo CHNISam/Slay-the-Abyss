@@ -85,14 +85,21 @@ test("rejected seed samples cannot replace a run and rendering cannot consume th
 end)
 
 test("native OnStart rereads wall and CPU time after script and module recreation",function()
+    local GameUI=require('abyss_game_ui')
     local saved={script=script,Enum=Enum,OnStart=OnStart,OnUpdate=OnUpdate,game=game,Color=Color,
-        wall=os.time,cpu=os.clock,new=F.GameUI.new}
+        wall=os.time,cpu=os.clock,new=GameUI.new,binding=package.loaded.abyss_monster_actor_binding}
     local seen={}
-    F.GameUI.new=function(...)local ui=saved.new(...);seen[#seen+1]=ui;return ui end
+    GameUI.new=function(...)local ui=saved.new(...);seen[#seen+1]=ui;return ui end
     os.time=function()return 1792843200 end -- Same wall-clock second, like a fast retry.
-    Enum={CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"}}
+    Enum={CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"},
+        Device={Controller='controller',MobileController='mobileController',Mobile='mobile'}}
     Color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end
-    game={GetUICanvasSize=function()return 1280,720 end}
+    local actors=F.monsterActors()
+    package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actors.templateIndex,
+        containerTemplateIndex=actors.containerTemplateIndex,powerTemplateIndex=actors.powerTemplateIndex}
+    game={GetUICanvasSize=function()return 1280,720 end,
+        GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'desktop'end,
+        InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy}
     for i=1,2 do
         os.clock=function()return 120.123456+i*0.03125 end
         package.loaded.abyss_new_run_seed=nil -- Rechallenge may recreate the Lua module world.
@@ -107,7 +114,8 @@ test("native OnStart rereads wall and CPU time after script and module recreatio
     assert(seen[1].run.seed~=seen[2].run.seed,
         "same-second platform reconstruction systematically replayed the fixed seed")
     script,Enum,OnStart,OnUpdate,game,Color=saved.script,saved.Enum,saved.OnStart,saved.OnUpdate,saved.game,saved.Color
-    os.time,os.clock,F.GameUI.new=saved.wall,saved.cpu,saved.new
+    os.time,os.clock,GameUI.new=saved.wall,saved.cpu,saved.new
+    package.loaded.abyss_monster_actor_binding=saved.binding
 end)
 
 test("clock seed stays in the production range and preserves private rule RNG states",function()

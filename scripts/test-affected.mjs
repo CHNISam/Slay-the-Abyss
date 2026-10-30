@@ -4,14 +4,23 @@ import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import luaparse from 'luaparse';
 import {frozenBattleHandFixtures} from '../tests/helpers/battle-life-frozen-hand.mjs';
+import {historicalMonsterUiFixtures} from '../tests/helpers/historical-monster-ui-runner.mjs';
+import {historicalCardInputFixtures} from '../tests/helpers/historical-card-input.mjs';
+import {historicalPresentationFixtures} from '../tests/helpers/historical-presentation-runner.mjs';
+import {eventCombatRouteFixtures,eventCombatRouteInput} from '../tests/helpers/event-combat-route-input.mjs';
+import {prepareRuntimePreviews, needsRuntimePreviews} from './ci-reviewed-lfs.mjs';
 
-// This is a local feedback selector. Full check/Quality remains the merge gate.
+// Local and PR advisory feedback share one selector. Full Quality owns coverage.
 const slash = value => value.replaceAll('\\', '/');
 // Importing runLua does not execute its conditional fixture setup. Keep these
 // helper edges on their real Lua entries, as with the historical replay port.
 const conditionalRunnerFixtures = new Map([
-  ['tests/helpers/historical-presentation-runner.mjs', new Set(['tests/lua/presentation_responsibilities_trace.lua'])],
+  ['tests/helpers/historical-presentation-runner.mjs', new Set(historicalPresentationFixtures)],
   ['tests/helpers/battle-life-frozen-hand.mjs', new Set(frozenBattleHandFixtures)],
+  ['tests/helpers/historical-monster-ui-runner.mjs', new Set(historicalMonsterUiFixtures)],
+  ['tests/helpers/historical-card-input.mjs', new Set(historicalCardInputFixtures)],
+  ['tests/helpers/event-combat-route-input.mjs', new Set(eventCombatRouteFixtures)],
+  [eventCombatRouteInput, new Set(eventCombatRouteFixtures)],
 ]);
 // These are virtual graph nodes, not files read from a possibly stale build/.
 // Keep the producer identities aligned with build:data/build:ui's Lua outputs.
@@ -166,7 +175,7 @@ function jsDiscovery(source) {
   }
   return { references, directories, dynamicLua, dynamicScript };
 }
-export function selectTests(changed, sources) {
+export function selectTests(changed, sources, {advisory = false} = {}) {
   const paths = Object.keys(sources), deps = new Map(), integration = new Set(), dynamicImports = new Set(), dynamicScripts = new Set();
   for (const [module, producer] of Object.entries(generated)) {
     if (!(producer in sources)) continue;
@@ -178,12 +187,17 @@ export function selectTests(changed, sources) {
   const roots = [...js, ...lua];
   const fallback = reason => ({ full: true, reason, fast: [], integration: [], lua: [] });
   if (!changed.length) return fallback('No explicit change set; run the complete check');
+  const eligible=[];
   for (const path of changed) {
-    if (!(path in sources) || !/^(src\/lua\/.*\.lua|scripts\/.*\.mjs|tests\/.*\.(mjs|lua))$/.test(path))
-      return fallback(`Unmodelled or deleted input: ${path}`);
-    if (/scripts\/(test-affected|test-lua|build-.*)\.mjs$/.test(path))
-      return fallback(`Shared build/test infrastructure: ${path}`);
+    let reason;
+    if (!(path in sources) || !/^(src\/lua\/.*\.lua|scripts\/.*\.mjs|tests\/.*\.(mjs|lua))$/.test(path) && path !== eventCombatRouteInput)
+      reason=`Unmodelled or deleted input: ${path}`;
+    else if (/scripts\/(test-affected|test-lua|build-.*)\.mjs$/.test(path))
+      reason=`Shared build/test infrastructure: ${path}`;
+    if (reason) { if (!advisory) return fallback(reason); }
+    else eligible.push(path);
   }
+  if (!eligible.length) return fallback('No independently mapped inputs; complete Quality is required');
   for (const [path, source] of Object.entries(sources)) {
     const references = new Set();
     // runLua's CLI discovers all fixtures, but importing runLua does not execute
@@ -259,16 +273,27 @@ export function selectTests(changed, sources) {
     }
     visit(start); return seen;
   };
-  const affected = new Set(changed), mapped = new Set(), selected = [];
-  const luaChange = changed.some(p => p.endsWith('.lua')) || [...deps.keys()]
-    .some(p => p.startsWith('build/lua/') && [...closure(p)].some(input => affected.has(input)));
-  const scriptChange = changed.some(p => p.endsWith('.mjs'));
+  const mapped = new Set(), selected = [], dependenciesByRoot = new Map();
   for (const test of roots) {
     const dependencies = closure(test);
+    dependenciesByRoot.set(test, dependencies);
+    for (const path of eligible) if (dependencies.has(path)) mapped.add(path);
+  }
+  // Dynamic candidates supplement known coverage; they cannot prove that an
+  // unmapped input is safe. Advisory ignores it; complete selection fails closed.
+  const unmapped = eligible.find(path => !mapped.has(path));
+  if (unmapped && !advisory) return fallback(`No statically mapped test for input: ${unmapped}`);
+  const inputs = advisory ? eligible.filter(path => mapped.has(path)) : eligible;
+  if (!inputs.length) return fallback('No statically mapped inputs; complete Quality is required');
+  const affected = new Set(inputs);
+  const luaChange = inputs.some(p => p.endsWith('.lua')) || [...deps.keys()]
+    .some(p => p.startsWith('build/lua/') && [...closure(p)].some(input => affected.has(input)));
+  const scriptChange = inputs.some(p => p.endsWith('.mjs'));
+  for (const test of roots) {
+    const dependencies = dependenciesByRoot.get(test);
     // The imported runner API does not execute CLI-only discovery in its own
     // scheduling helpers. Preserve static import coverage without that taint.
     const runtimeDependencies = closure(test, true);
-    for (const path of changed) if (dependencies.has(path)) mapped.add(path);
     // Dynamic Lua builders are conservatively included for every Lua change.
     // Literal dependency analysis must not silently omit generated test programs.
     const dynamicLua = luaChange && [...runtimeDependencies].some(p => dynamicImports.has(p));
@@ -277,11 +302,7 @@ export function selectTests(changed, sources) {
     const dynamicScript = scriptChange && [...runtimeDependencies].some(p => dynamicScripts.has(p));
     if ([...dependencies].some(p => affected.has(p)) || dynamicLua || dynamicScript) selected.push(test);
   }
-  // Dynamic candidates supplement known coverage; their presence cannot prove
-  // that an otherwise unmapped change is safe to leave out of the full check.
-  const unmapped = changed.find(path => !mapped.has(path));
-  if (unmapped) return fallback(`No statically mapped test for input: ${unmapped}`);
-  const isIntegration = test => [...closure(test)].some(p => integration.has(p));
+  const isIntegration = test => [...dependenciesByRoot.get(test)].some(p => integration.has(p));
   return { full: false, reason: 'Transitive imports and literal fixture references',
     fast: selected.filter(p => js.includes(p) && !isIntegration(p)),
     integration: selected.filter(p => js.includes(p) && isIntegration(p)), lua: selected.filter(p => lua.includes(p)) };
@@ -304,8 +325,14 @@ export function selectQuickPlan(changed, sources, fullPlan = selectTests(changed
   if (!fullPlan.full) return fullPlan;
   // Unknown inputs still require the complete gate. Independently mapped inputs
   // may provide advisory feedback without claiming coverage of those unknowns.
-  const mapped = changed.filter(path => !selectTests([path], sources).full);
-  return selectTests(mapped, sources);
+  return selectTests(changed, sources, {advisory: true});
+}
+
+export function executeQuickFeedback(feedback, changed, {js, lua}) {
+  const direct = new Set(changed);
+  for (const fixture of feedback.lua.filter(path => direct.has(path))) lua(fixture);
+  if (feedback.fast.length) js(feedback.fast);
+  for (const fixture of feedback.lua.filter(path => !direct.has(path))) lua(fixture);
 }
 
 function run(command, args) {
@@ -327,7 +354,9 @@ export function parseGitChanges(output) {
   return paths;
 }
 export function main(args) {
+  const planStarted = Date.now();
   const ciFast = args.includes('--ci-fast');
+  const advisory = ciFast || args.includes('--fast');
   const planOnly = args.includes('--plan'), tier = ciFast ? 'ci-fast' : args.includes('--fast') ? 'fast' : 'related';
   const at = args.indexOf('--files');
   let changed;
@@ -343,37 +372,52 @@ export function main(args) {
     changed.push(...untracked.stdout.split('\0').filter(Boolean));
   }
   const sources = Object.fromEntries(['src/lua', 'scripts', 'tests'].flatMap(files)
-    .filter(p => /\.(lua|mjs)$/.test(p)).map(p => [p, readFileSync(p, 'utf8')]));
+    .filter(p => /\.(lua|mjs)$/.test(p) || p === eventCombatRouteInput).map(p => [p, readFileSync(p, 'utf8')]));
   const plan = selectTests([...new Set(changed)], sources);
-  console.log(JSON.stringify({ tier, changed, ...plan }, null, 2));
+  const quickPlan = advisory ? selectQuickPlan(changed, sources, plan) : null;
+  const quick = advisory ? selectQuickFeedback(quickPlan, changed,
+    JSON.parse(readFileSync(new URL('./ci-test-timings.json', import.meta.url), 'utf8'))) : null;
+  const planDurationMs = Date.now() - planStarted;
+  console.log(JSON.stringify({ tier, changed, ...plan, ...(advisory ? { feedback: quick, planDurationMs } : {}) }, null, 2));
   if (planOnly) return;
   const summary = message => {
     console.log(message);
     if (ciFast && process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${message}\n\n`);
   };
-  const quickPlan = ciFast ? selectQuickPlan(changed, sources, plan) : null;
-  if (ciFast && plan.full) summary(`Complete Quality required: ${plan.reason}. Quick feedback covers only independently mapped inputs.`);
-  if (ciFast && quickPlan.full) {
-    summary('Quick feedback unavailable. No tests run here; parallel complete Quality is required.'); return;
+  const timed = (stage, execute) => {
+    const started = Date.now();
+    try { return execute(); }
+    finally { if (advisory) summary(`Feedback timing: ${stage} ${Date.now() - started} ms.`); }
+  };
+  if (advisory) summary(`Feedback timing: plan ${planDurationMs} ms.`);
+  if (advisory && plan.full) summary(`Complete Quality required: ${plan.reason}. Quick feedback covers only independently mapped inputs.`);
+  if (advisory && quickPlan.full) {
+    summary('Quick feedback unavailable. No tests run here; parallel complete Quality is required. This is not a regression pass.'); return;
   }
   const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
   const npmRun = name => process.platform === 'win32'
     ? run('cmd.exe', ['/d', '/s', '/c', `npm run ${name}`]) : run(npm, ['run', name]);
-  if (plan.full && !ciFast) { npmRun('check'); return; }
-  const quick = ciFast ? selectQuickFeedback(quickPlan, changed,
-    JSON.parse(readFileSync(new URL('./ci-test-timings.json', import.meta.url), 'utf8'))) : null;
-  const tests = ciFast ? quick.fast : tier === 'fast' ? plan.fast : [...plan.fast, ...plan.integration];
-  const fixtures = ciFast ? quick.lua : tier === 'fast' ? [] : plan.lua;
-  if (ciFast) summary(`Advisory subset: ${tests.length} fast JS and ${fixtures.length} related Lua files selected; ${quickPlan.integration.length} integration JS and ${quickPlan.lua.length - fixtures.length} Lua files deferred to complete Quality. Lua scheduling estimate ${quick.estimatedLuaMs} ms, not a deadline.`);
-  if (ciFast && !tests.length && !fixtures.length) {
+  if (plan.full && !advisory) { npmRun('check'); return; }
+  const tests = advisory ? quick.fast : [...plan.fast, ...plan.integration];
+  const fixtures = advisory ? quick.lua : plan.lua;
+  if (advisory) summary(`Advisory subset: ${tests.length} fast JS and ${fixtures.length} related Lua files selected; ${quickPlan.integration.length} integration JS and ${quickPlan.lua.length - fixtures.length} Lua files deferred to complete Quality. Lua scheduling estimate ${quick.estimatedLuaMs} ms, not a deadline.`);
+  if (advisory && !tests.length && !fixtures.length) {
     summary('No quick tests selected. Complete Quality remains required; this is not a regression pass.');
     return;
   }
   if (ciFast && tests.includes('tests/reviewed-traveler-geo-assets.test.mjs')) run(process.execPath, ['scripts/ci-reviewed-lfs.mjs']);
+  if (ciFast) prepareRuntimePreviews({needed: needsRuntimePreviews(tests)});
   if (ciFast) delete process.env.CI_LFS_TOKEN;
-  npmRun('build:data'); npmRun('build:ui');
-  if (tests.length) run(process.execPath, ['--test', '--test-concurrency=1', ...tests]);
-  for (const fixture of fixtures) run(process.execPath, ['scripts/test-lua.mjs', fixture]);
+  timed('build', () => {
+    npmRun('build:data'); npmRun('build:ui');
+    run(process.execPath, ['scripts/map-ui-layout.mjs']);
+  });
+  const js = paths => run(process.execPath, ['--test', '--test-concurrency=1', ...paths]);
+  const lua = fixture => run(process.execPath, ['scripts/test-lua.mjs', fixture]);
+  timed('tests', () => {
+    if (advisory) executeQuickFeedback(quick, changed, {js, lua});
+    else { if (tests.length) js(tests); for (const fixture of fixtures) lua(fixture); }
+  });
   summary(`Completed ${tests.length} JS and ${fixtures.length} Lua files; full Quality remains required.`);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

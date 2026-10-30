@@ -2,6 +2,9 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local Feedback=require('abyss_feedback')
 local Combat,Events=require('abyss_combat'),require('abyss_events')
 local Data,Theme,Presentation=require('abyss_data'),require('abyss_theme'),require('abyss_presentation')
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Surfaces=require('abyss_monster_surfaces')
+local EnemyView=require('abyss_battle_enemy_view')
 local function control(definition)
  local c={name=definition.name,children={},visible=definition.visible~=false}
  for _,child in ipairs(definition.children or{})do c.children[child.name]=control(child)end
@@ -16,16 +19,27 @@ end
 local function find(entries,name)
  for _,e in ipairs(entries)do if e.name==name then return e end;local found=find(e.children or{},name);if found then return found end end
 end
+local function nativeStage()
+ local stage=control(assert(find(require('abyss_ui_layout'),'battlePanel')))
+ local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
+ local surfaces=Surfaces.new(stage,platform)
+ local function bind(battle)
+  surfaces:select(EnemyView.slots(battle),battle)
+  surfaces:each(function(box)box:SetVisible(true)end)
+ end
+ return stage,platform,bind
+end
 local function same(a,b)
  assert(type(a)==type(b))
  if type(a)~='table'then assert(a==b);return end
  for k,v in pairs(a)do same(v,b[k])end;for k in pairs(b)do assert(a[k]~=nil)end
 end
 local function test(id,destination)
- local stage=control(assert(find(require('abyss_ui_layout'),'battlePanel')))
+ local stage,platform,bind=nativeStage()
  local completions=0
- local feedback=Feedback.new(stage,{imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end},function()end,function(failure)assert(not failure,tostring(failure));completions=completions+1 end)
+ local feedback=Feedback.new(stage,platform,function()end,function(failure)assert(not failure,tostring(failure));completions=completions+1 end)
  local battle=Combat.new(Data,{deck={id},enemies={'cultist'},seed=11})
+ bind(battle)
  local before,first=Events.frame(battle),#battle.events+1
  local uid=battle.hand[1].uid
  assert(Combat.play(battle,uid,1))
@@ -55,9 +69,10 @@ test('impervious','exhaust')
 test('inflame','power')
 
 -- A normal owner turn discards every old hand UID before the shuffle brings them back.
-local stage=control(assert(find(require('abyss_ui_layout'),'battlePanel')))
-local feedback=Feedback.new(stage,{imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end},function()end,function(failure)assert(not failure,tostring(failure))end)
+local stage,platform,bind=nativeStage()
+local feedback=Feedback.new(stage,platform,function()end,function(failure)assert(not failure,tostring(failure))end)
 local battle=Combat.new(Data,{deck={'strike','defend','strike','defend','strike'},enemies={'cultist'},seed=11})
+bind(battle)
 local before,first=Events.frame(battle),#battle.events+1
 assert(Combat.endTurn(battle))
 local committed=Combat.copy(battle)

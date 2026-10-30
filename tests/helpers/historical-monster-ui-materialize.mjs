@@ -1,10 +1,12 @@
 import {preDeckDeliverySource,deckDeliveryPaths} from './deck-delivery-source-composition.mjs';
 import {deliverySourceProof,preLegacyMultiSource,preLegacyUiSupportSource} from './delivery-source-composition.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync,rmSync,mkdirSync,cpSync,symlinkSync,existsSync,constants} from 'node:fs';
+import {readFileSync,writeFileSync,rmSync,mkdirSync,realpathSync} from 'node:fs';
 import {join,dirname,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {multiMonsterSourceLayer,preMultiMonsterArtSource} from './multi-monster-art-source-inverse.mjs';
+import {loadHistoricalBaselineInputs} from './historical-baseline-inputs.mjs';
+import {writeHistoricalRuntimeSnapshot} from './historical-runtime-root.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const normalized=s=>s.replaceAll('\r\n','\n');
 const bytes=normalized(readFileSync(new URL('../fixtures/historical-monster-ui-support.json',import.meta.url),'utf8'));
@@ -13,7 +15,12 @@ const support=JSON.parse(bytes);
 assert.equal(support.baseCommit,multiMonsterSourceLayer.baseCommit);
 assert.deepEqual(Object.keys(support.files),['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua']);
 export const historicalMonsterSourcePaths=Object.freeze([...new Set([...deckDeliveryPaths,...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)])].sort());
-export function verifiedHistoricalMonsterSources(sourceRoot=process.cwd(),read=path=>readFileSync(join(sourceRoot,path),'utf8')){
+function originalReader(inputs){return path=>{assert.ok(Object.hasOwn(inputs,path),'registered original monster input: '+path);return inputs[path].toString('utf8');};}
+// The complete historical input closure belongs to 98fef, independently of
+// current implementation maintenance. A supplied reader remains fresh on every
+// linked-owner read and is never replaced by the original archive.
+export function verifiedHistoricalMonsterSources(_sourceRoot=process.cwd(),read){
+ if(!read)read=originalReader(loadHistoricalBaselineInputs());
  const projected=[];
  try{
   for(const path of historicalMonsterSourcePaths){
@@ -31,15 +38,14 @@ export function verifiedHistoricalMonsterSources(sourceRoot=process.cwd(),read=p
  }catch(error){assert.fail('unreviewed current historical monster closure: '+error.message);}
  return projected;
 }
-export function materializeHistoricalMonsterUi(directory,sourceRoot=process.cwd()){
+export function materializeHistoricalMonsterUi(directory,sourceRoot=process.cwd(),{inputs}={}){
  assert.notEqual(resolve(directory),resolve(sourceRoot),'historical projection must be isolated');
- // Verify the entire live layer and both helper closures before any writes.
- const projected=verifiedHistoricalMonsterSources(sourceRoot);
- for(const input of ['src','data','scripts','tools','config','tests/lua','tests/helpers','tests/fixtures','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
-  cpSync(join(sourceRoot,input),join(directory,input),{recursive:true});
- // Input-root provenance requires real isolated files, not aliases to source.
- cpSync(join(sourceRoot,'art'),join(directory,'art'),{recursive:true,dereference:true,mode:constants.COPYFILE_FICLONE});
- if(existsSync(join(sourceRoot,'node_modules')))symlinkSync(resolve(sourceRoot,'node_modules'),join(directory,'node_modules'),process.platform==='win32'?'junction':'dir');
+ assert.notEqual(realpathSync(directory),realpathSync(sourceRoot),'historical projection aliases its source root');
+ // Load and validate once for this materialization; no result or source cache
+ // survives the call. All old hunk/hash/oracle checks still execute below.
+ const originals=inputs||loadHistoricalBaselineInputs();
+ const projected=verifiedHistoricalMonsterSources(sourceRoot,originalReader(originals));
+ writeHistoricalRuntimeSnapshot(directory,originals);
  for(const [path,source]of projected){
   const target=join(directory,path);
   if(source===null)rmSync(target,{force:true});

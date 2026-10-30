@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local first,last=...
 first,last=first or 1,last or 10
@@ -213,9 +214,9 @@ test('real Host shows shifting intent HP and both source Power details without r
  assert(testStart(host));local r=host.run;r.act,r.floor,r.encounters=3,35,Q.new('4',3)
  for _=1,2 do local _,n=Q.consume(r.encounters,'normal');r.encounters=n;r.floor=r.floor+1 end
  assert(Run.startRoomCombat(r,'normal'));host:refresh()
- local panel=root:GetChild('battlePanel');local enemy=panel:GetChild('enemy1');local _,tap=H.controls(panel)
+ local panel=root:GetChild('battlePanel');local enemy=monsterControl(panel,'enemy1');local _,tap=H.controls(panel)
  eq(enemy:GetChild('name').text,'流散之影');eq(enemy:GetChild('hp').text,'999/999');eq(enemy:GetChild('intent').text,'30')
- enemy:GetChild('statusRow'):GetChild('hit').click({touchId=81})
+ tap('enemy1',81)
  local info=panel:GetChild('statusInfo');assert(info.visible);local texts={}
  for i=1,F.Theme.layout.statusInfo.rows do
   for _,prefix in ipairs({'name','text','note'})do local control=info:GetChild(prefix..i)

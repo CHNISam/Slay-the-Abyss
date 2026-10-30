@@ -4,7 +4,7 @@ local Native=dofile('tests/lua/support/native_art_controls.lua')
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
 local Display=require('abyss_card_display')
 local DeckUI,NodeUI=require('abyss_deck_ui'),require('abyss_node_ui')
-local platform={imageSource='static',imageTypes={basic=17,stretch=23},color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
+local platform=F.withMonsterActors({imageSource='static',imageTypes={basic=17,stretch=23},color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
 local function pool()
  return {name='artSamples',kind='container',visible=false,children={{name='group000',kind='container',children={
   {name='shape0000',kind='image',size={1,1},visible=false},{name='shape0001',kind='image',size={1,1},visible=false}}}}}

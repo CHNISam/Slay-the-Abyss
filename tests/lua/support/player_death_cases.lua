@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 return function(first, last)
 local F = dofile('tests/lua/support/game_ui_fixture.lua')
 local Run = require('abyss_run')
@@ -22,7 +23,8 @@ local function setup(options)
     local battle = ui.run.combat
     local enemy = battle.enemies[1]
     enemy.ai, enemy.intentIndex = nil, 1
-    enemy.intents = {{id = 'fatal', kind = 'attack', effects = {{op = 'damage', value = 12}}}}
+    -- Isolate the lethal value while retaining an admitted source attack ID.
+    enemy.intents = {{id = 'cultist_1', kind = 'attack', effects = {{op = 'damage', value = 12}}}}
     if options.thorns then F.Combat.addStatus(enemy, 'thorns', 5) end
     ui:refresh()
     return ui, root, battle, sounds, function() return settlements end, music
@@ -92,7 +94,7 @@ test('retaliation death enters the same transition without a second enemy death 
     assert(slot)
     local panel = root:GetChild('battlePanel')
     panel:GetChild('card' .. slot):GetChild('hit').click()
-    panel:GetChild('enemy1'):GetChild('hit').click()
+    monsterControl(panel,'enemy1'):GetChild('hit').click()
     assert(ui.run.phase == 'defeat')
     until_(ui, function() return stepIs(ui, 'player_death') end)
     assert(cueCount(sounds, 'defeat') == 1)
@@ -200,8 +202,8 @@ test('standalone restart clears death ownership before rendering the new hero', 
     local spec = find(F.Layout)
     assert(spec); spec.name = 'stage'
     local root = F.control({name = 'root', children = {spec}})
-    local ui = require('abyss_battle_ui').new(root, F.Data, F.Presentation, 'click', {
-        imageSource = 'static', color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end})
+    local ui = require('abyss_battle_ui').new(root, F.Data, F.Presentation, 'click', F.withMonsterActors({
+        imageSource = 'static', color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}))
     ui:start()
     ui.run.combat.player.hp = 1
     for _ = 1, 8 do

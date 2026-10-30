@@ -11,7 +11,7 @@ local M={}
 local function call(control,name,...)assert(control[name](control,...)~=false,'intent particle native write rejected: '..name)end
 local function createIntent(state)Particles.createIntent(state);state.createPending=true end
 function M.new(platform,picture,tint)
- local self={states={},outputs={}}
+ local self={states={},outputs={},seenEvents=setmetatable({},{__mode="k"})}
  function self.release(_,box,engineDestroyed)
   local output=self.outputs[box]
   if output then
@@ -25,6 +25,7 @@ function M.new(platform,picture,tint)
   self.engineDestroyed=true
   local outputs=self.outputs;self.outputs={}
   self.states={};self.battle=nil;self.event=nil;self.shown=nil;self.failed=nil
+  self.seenEvents=setmetatable({},{__mode="k"})
   local failure
   for _,output in pairs(outputs)do for _,pool in pairs(output)do
    local ok,why=pcall(pool.onEngineDestroy,pool);if not ok then failure=why end
@@ -37,6 +38,21 @@ function M.new(platform,picture,tint)
   for box in pairs(self.outputs)do local ok,why=pcall(self.release,self,box);if not ok then failure=why end end
   if failure then error(failure)end
   self.states={};self.battle=nil;self.event=nil;self.shown=nil;self.failed=nil
+  self.seenEvents=setmetatable({},{__mode="k"})
+ end
+ local function observe(event)
+  if not event or self.seenEvents[event]then return end
+   if event.sourceIntentPowers then
+    assert(event.sourceIntentPowers.scope=='all-monsters','unknown source power refresh scope')
+    for _,state in pairs(self.states)do state.powersPending=true end
+   end
+   local d=type(event.detail)=='table' and event.detail or {}
+   if event.kind=='player_turn' then for _,state in pairs(self.states)do createIntent(state)end
+   elseif event.kind=='intent' and self.states[d.enemy]then Particles.flashIntent(self.states[d.enemy])
+   elseif self.states[d.enemy] and (event.kind=='enemy_interrupt' or event.kind=='enemy_wake' and d.reason=='hp_loss' or event.kind=='enemy_mode' and d.mode=='defense')then
+    createIntent(self.states[d.enemy])
+   end
+  self.event=event;self.seenEvents[event]=true
  end
  function self.sync(_,rows,battle,event,viewActive)
   assert(not self.engineDestroyed,'monster intent view engine destroyed')
@@ -50,19 +66,15 @@ function M.new(platform,picture,tint)
    if not self.states[row.id]then local state=Particles.newActor();state.displayed=Displayed.new();if firstShow then createIntent(state)end;self.states[row.id]=state end
   end
   if viewActive~=false then for id in pairs(self.states)do if not wanted[id]then self.states[id]=nil end end end
-  if event and event~=self.event then
-   self.event=event
-   if event.sourceIntentPowers then
-    assert(event.sourceIntentPowers.scope=='all-monsters','unknown source power refresh scope')
-    for _,state in pairs(self.states)do state.powersPending=true end
-   end
-   local d=type(event.detail)=='table' and event.detail or {}
-   if event.kind=='player_turn' then for _,state in pairs(self.states)do createIntent(state)end
-   elseif event.kind=='intent' and self.states[d.enemy]then Particles.flashIntent(self.states[d.enemy])
-   elseif self.states[d.enemy] and (event.kind=='enemy_interrupt' or event.kind=='enemy_wake' and d.reason=='hp_loss' or event.kind=='enemy_mode' and d.mode=='defense')then
-    createIntent(self.states[d.enemy])
-   end
-  end
+  observe(event)
+ end
+ function self.reconcile(_,battle)
+  assert(not self.engineDestroyed,'monster intent view engine destroyed')
+  if self.battle~=battle then return false end
+  -- Only an explicit recovery catches up skipped real source callbacks.
+  -- Ordinary render/raw status mutations never infer a power refresh.
+  for _,event in ipairs(battle.events)do observe(event)end
+  return true
  end
  function self.needsSelected(_,id)
   local state=assert(self.states[id],'missing intent instance')

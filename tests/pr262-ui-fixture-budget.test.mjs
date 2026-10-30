@@ -1,5 +1,6 @@
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest,readHistoricalPlayerDeathInput} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -17,7 +18,7 @@ const footer=s=>`assert(registered==${s.total},'original UI case discovery chang
 const ranges=s=>Array.from({length:8},(_,i)=>({first:i*s.size+1,last:Math.min((i+1)*s.size,s.total),file:`${s.name}${i===0?'':`_slice_${i+1}`}.lua`}));
 function restore(source,s){return source.replace(header(s),'').replace(registration,'').replace(inlineRegistration,'').replace(footer(s),'');}
 
-test('UI budget split restores both original complete bodies and retains the original default 30s budget',()=>{
+historicalTest('UI budget split restores both original complete bodies and retains the original default 30s budget',()=>{
  for(const s of suites){
   const source=read(`tests/lua/${s.name}.lua`);
   assert.ok(source.startsWith(header(s)),`${s.name} must explicitly select its original first slice`);
@@ -30,7 +31,10 @@ test('UI budget split restores both original complete bodies and retains the ori
  for(const [file,hash]of Object.entries({
   'battle_gesture_fixture.lua':'b92b90973b271f2a5789f9b59942263ecda7b6fb1922b1b6780b4ae8f892140e',
   'looter_potion_ui_fixture.lua':'c68bcd6d44ebbd5193875c9003e95e8643b97a083c1cbbe4eb5390f629c4c43e',
- }))assert.equal(sha(read('tests/lua/support/'+file)),hash,'original shared fixture inputs must remain unchanged');
+ })){const path='tests/lua/support/'+file;
+  const source=file==='battle_gesture_fixture.lua'?preFormalEntrySource(path,readHistoricalPlayerDeathInput(path)):read(path);
+  assert.equal(sha(source),hash,'original shared fixture inputs must remain unchanged');
+ }
  assert.match(read('scripts/test-lua.mjs'),/timeout \?\?= normalizedScript\.endsWith\('tests\/lua\/encounter_coverage\.lua'\) \? 120000 : mapProperties \? 120000 : fixture \|\| composedHost \? 60000 : 30000;/);
 });
 

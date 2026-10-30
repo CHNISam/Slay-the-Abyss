@@ -3,9 +3,9 @@ id: TASK-74
 title: 缩短完整检查并拆清超大模块职责
 status: In Progress
 assignee:
-  - '@Codex'
+  - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 06:22'
+updated_date: '2026-10-30 21:33'
 labels: []
 dependencies: []
 references:
@@ -57,6 +57,8 @@ ordinal: 118000
 第三轮从9293405d隔离：核实完整基线与在途文件，按职责移除敌人AI到Actor的反向依赖、统一构造目录所有权；保持两路出牌顺序。CI仅将两个纯汇总作业移至轻量托管池，保持测试、预算、失败传播和Required名称。主控复核真实差分、全部helper、当前HEAD及合入SHA完整Quality；实机缺失独立报告。
 
 审计发现CardActions.apply仍85且两执行器重复反应分发，另作有界切片评估：优先复用既有handler表，将有限op映射为领域命令，保留supports的玩法路由合同与暂停/返回协议；仅在真实旧新轨迹和变异证明充分时实施。
+
+2026-10-30重新测量全库热点/SCC；check:engineering同进程共享新鲜采集以去重Luacheck/架构，独立CLI保持重新采集与失败传播。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -109,4 +111,12 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 第三轮核心已同步并行PR361的1bfca626。配对固定工具基线249/23个>15/>50，当前248/22；CardActions.apply85→5且新handler max10，7常用op各少2个supports+1个require+1个ops查询；目录未注册预构造copy table2106→1871，其他路径不变，CPU样本涨跌均保留。最终SCC76/496/309→73/491/303（成员/位置/唯一边），非中间72。行为、维护成本与未解热点见docs/reviews/ENGINEERING-ROUND3.md；新HEAD完整Quality仍待，不勾最终AC。
 
 完整首轮CI因静态baseline唯一行号迁移触发历史身份合同11个断言失败；未放宽证明，保留导入/函数正常空行使baseline整体恢复与1bf逐字相同，原失败合同17+2项及quality/static/AI全过。CI切片已从实验PR370线性整合至PR371，减少先后合并的重复完整组合验证；最终新HEAD仍待Full，原失败保留。
+
+2026-10-31本轮治理：工程总入口复用一次新鲜源码发现、架构和静态采集，不持久缓存结果。单次顺序对照14.382s→6.879s，9报告除时间字段逐字节等价；有并发负载，不外推分位数。最新314模块/4598函数/4912测量，Combat热点及103成员SCC保留诊断，不机械拆事务所有权。完整工程、变异与原生合同本地通过；最终提交CI另验。
+
+2026-10-31完整CI揭示roster原source单file超过16分未完成；分离完整原变异kernel与fresh-owner桥接后5/5为74.880s。官方POSIX20m超时确认；仅成功CI记录raise-only校准425Win/333Linux，本地完整/部分lower-bound单列。统一proxy规划六片max1438014ms仍超预算，最终8Win/8POSIX为1078517ms（含首44s gate），schema3完整21身份、旧schema2 15保留、旧4/6绿色拒绝；原180s/20m/每file一次与保护不动。默认Lua从当前JS计划算preceding load，旧同长数组不再冒充当前输入。最终新HEAD完整CI仍待。
+
+2026-10-31 本轮继续收口PR391：节点逆变换在当前hosted Windows完整成功33.699秒（旧372.02秒），PR323为27.560秒（旧76.82秒）；M3历史严格79543/79757写回放完整8组本地通过402.598秒，旧174秒仅6组不可当整文件成本。f2 Full实际Windows 30分钟超时annotation已保留；成功记录按各真实平台校准，失败耗时不作通过。最终计划Windows11/POSIX9（保原30/20分钟预算、三必需汇总与inventory），等待当前最终SHA完整CI、正常合并和实际合入提交push Full；官方导入、ready与设备未测，任务整体仍未完成。技术细节与证据见CI附件及本轮产物。
+
+2026-10-31 收口补充：f7完整回归暴露raw跨VM依赖JS顺带生成向量及少量旧UI/事件夹具；改为call-local JSON preload并保独立向量、原RNG/队列断言，10个失败及50个超时缺口均已针对实测承接，最新160项相关合同通过。成功原始计时补齐后最终Windows13/POSIX9、当前27作业身份，仍保原30/20分钟与安全worker规则；独立审查通过，当前最终提交Full及实际合入push Full待验，不提前勾最终AC。
 <!-- SECTION:NOTES:END -->

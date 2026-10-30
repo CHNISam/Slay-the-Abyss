@@ -20,7 +20,7 @@ local function test(name,fn)
  sliceExecuted=sliceExecuted+1
 fn();cases=cases+1;print('ok '..cases..' '..name)end
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
-local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
+local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
 local rendered=0
 for _,id in ipairs({'ironclad','silent','defect','watcher'}) do
  test(id..' all profile cards basic and upgraded reach real battle and deck render',function()

@@ -34,7 +34,15 @@ for _=1,60 do ui:update(1/60)end
 local total=0;for _,counter in ipairs(stable)do total=total+counter.total end
 print('UI_STABLE_MENU_WRITES frames=60 calls='..total..' glow='..glow.total..' mote='..mote.total)
 expect(total==0,'settled menu must stop writing fixed native transforms and hidden veil')
-expect(glow.total==60 and mote.total==60,'approved breathing and vista motion must continue')
+expect(not menu:GetChild('vista').visible and not menu:GetChild('heroArt').visible,'approved default keeps legacy vista and hero artwork hidden')
+expect(glow.total==60 and mote.total==0,'breathing continues without writing the hidden legacy vista')
+-- Retained legacy decoration is still supported when a host explicitly shows it.
+menu:GetChild('vista'):SetVisible(true)
+local beforeMote,beforeGlow=mote.total,glow.total
+for _=1,60 do ui:update(1/60)end
+expect(mote.total-beforeMote==60 and glow.total-beforeGlow==60,'explicitly visible vista must retain all sixty animation updates')
+menu:GetChild('vista'):SetVisible(false)
+print('UI_STABLE_VISIBLE_VISTA_WRITES frames=60 glow='..(glow.total-beforeGlow)..' mote='..(mote.total-beforeMote))
 -- A fresh result must replay its entrance rather than inherit the title cache.
 assert(F.start(ui));ui.battleUI.feedback.deaths.player=true;ui.run.phase='defeat';ui:refresh()
 expect(ui.motion.deathReveal==true,'committed death must start result veil')

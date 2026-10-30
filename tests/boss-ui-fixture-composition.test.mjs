@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest,readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -8,9 +9,9 @@ import {historicalPresentationFixtures} from './helpers/historical-presentation-
 import {bossUiFaultFixture as fixture,preBossUiFaultFixtureSource as project} from './helpers/boss-ui-fault-fixture-inverse.mjs';
 import {pr323AcceptedSourceInverse as proof,requirePr323Source,preAcceptedPr323Source,preOriginalPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const current=readFileSync(fixture.path,'utf8').replaceAll('\r\n','\n');
+const current=readHistoricalBaselineSource(fixture.path);
 
-test('one exact Boss fault-input hunk restores its immutable whole source and every PR323 binding still resolves',()=>{
+historicalTest('one exact Boss fault-input hunk restores its immutable whole source and every PR323 binding still resolves',()=>{
  assert.equal(fixture.hunks.length,1);assert.equal(hash(current),fixture.afterSha256);
  const previous=project(fixture.path,current);assert.equal(hash(previous),fixture.beforeSha256);
  assert.equal(project(fixture.path,current.replaceAll('\n','\r\n')),previous);
@@ -24,7 +25,7 @@ test('one exact Boss fault-input hunk restores its immutable whole source and ev
  }
 });
 
-test('deleted duplicated moved partial and unrelated Boss edits cannot borrow the reviewed inverse',()=>{
+historicalTest('deleted duplicated moved partial and unrelated Boss edits cannot borrow the reviewed inverse',()=>{
  const hunk=fixture.hunks[0],after=hunk.after.split('\n'),lines=current.split('\n');
  const mutants=[current+'\n-- unrelated drift\n',current.slice(1),current.replace('local count = 0','local count = 1'),current.replace('assert(removed==3','assert(removed==2')];
  for(const replacement of [[],[...after,...after],[hunk.before.split('\n')[0]],['-- partial fault input']]){

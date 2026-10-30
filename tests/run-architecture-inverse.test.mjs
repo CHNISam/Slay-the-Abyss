@@ -1,6 +1,6 @@
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';

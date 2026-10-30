@@ -5,7 +5,7 @@ import { deckCardTemplate } from '../scripts/deck-ui-layout.mjs';
 import { assertNativeUiCapacity } from '../scripts/build-ui.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
 
-test('current canvas intent ordering and bounded signed status stacks run through native controls', () => {
+test('current native source intent and uncapped signed power counts run through real controls', () => {
  const result=runLua('tests/lua/ui_final_presentation.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/UI_FINAL_PRESENTATION_PASS/);

@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -8,7 +9,9 @@ import {historicalPresentationFixtures} from './helpers/historical-presentation-
 import {phaseFourCardCounts as proof,prePhaseFourCardCountSource as project} from './helpers/phase-four-card-count-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 import {phaseFourNecronomicurseCounts as eventProof,prePhaseFourNecronomicurseCountSource as projectEvent} from './helpers/phase-four-necronomicurse-count-inverse.mjs';
-const live=readFileSync(proof.path,'utf8').replaceAll('\r\n','\n');
+// Only exact additive-hunk witnesses use the original render source. The
+// prepared-data and real BattleUI/DeckUI executions below remain current.
+const live=readHistoricalBaselineSource(proof.path).replaceAll('\r\n','\n');
 const current=projectEvent(proof.path,live);
 
 test('only two positioned additive Bell counts recover the unchanged complete frozen render witness',()=>{

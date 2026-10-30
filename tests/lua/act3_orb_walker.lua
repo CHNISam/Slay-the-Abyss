@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Public room/command boundaries and focused arithmetic fixtures, not a natural
 -- Act3 playthrough. Chapter placement below does not simulate earlier victories.
@@ -208,16 +209,15 @@ test('real Host renders laser damage Burn destinations and the Growth status',fu
  local ui,panel=host.battleUI,root:GetChild('battlePanel')
  local _,tap=H.controls(panel)
  local e=r.combat.enemies[1];eq(intent(e),'laser');eq(ui.run,r)
- local box=panel:GetChild('enemy1')
+ local box=monsterControl(panel,'enemy1')
  assert(box.visible and box:GetChild('name').text==e.name);eq(box:GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
  eq(box:GetChild('intent').text,'10')
- assert(box:GetChild('intentBadge').visible,'laser must carry its Burn debuff badge')
- eq(box:GetChild('intentBadge').imageId,H.F.Theme.icon.intent.debuff)
+ dofile('tests/lua/support/intent_face_assertion.lua')(box,require('abyss_battle_intent_view').intentView(r.combat,1))
  tap('enemy1',91)
  local detail=inspectDetails(ui,panel)
  assert(detail:find(r.combat.catalog.cards.burn.name,1,true)and detail:find('抽牌堆',1,true)and detail:find('弃牌堆',1,true),detail)
  assert(not detail:find('未知',1,true),'known source Burn must not be shown as unknown')
- box:GetChild('statusRow'):GetChild('hit').click({touchId=92})
+ dofile('tests/lua/support/monster_power_control_fixture.lua')(box,'generic_strength_up'):GetChild('hit').click({touchId=92})
  assert(panel:GetChild('statusInfo').visible and ui.info.id==e.id and ui.info.index==1)
  local names={};for i=1,H.F.Theme.layout.statusInfo.rows do
   local part=panel:GetChild('statusInfo'):GetChild('name'..i)

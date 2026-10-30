@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Controller=require('abyss_run'),require('abyss_controller')
 local count=0
@@ -18,7 +19,7 @@ for _,action in ipairs({'cancel','confirm'})do for _,anonymous in ipairs({false,
  end
  local function drain()for _=1,400 do if not u.busy then return end;h:update(.05)end;assert(not u.busy)end
  local touch=not anonymous and 7 or nil
- local enemy=p:GetChild('enemy2');local hp=h.run.combat.enemies[2].hp
+ local enemy=monsterControl(p,'enemy2');local hp=h.run.combat.enemies[2].hp
  emit('potion1','down',touch);emit('potion1','drag',touch,enemy.x,enemy.y)
  assert(u.potionAim and u.potionAim.moving)
  device=true;h:syncController()

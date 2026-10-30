@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local C=H.F.Combat
 local function details(ui,panel)
@@ -19,21 +20,19 @@ local function same(a,b)
  for k,v in pairs(a)do same(v,b[k])end
  for k in pairs(b)do assert(a[k]~=nil)end
 end
-local function detail(id,move,effects,kind)
+local function detail(id,move)
  local members=id=='gremlin_leader' and {'mad_gremlin','sneaky_gremlin',id}
     or id=='bronze_orb' and {'automaton',id} or {id}
  local host,ui,panel,_,tap=H.setup({'defend'},members)
  local index=#members
  local enemy=host.run.combat.enemies[index]
- if effects then enemy.intents={{id='intent_fixture',kind=kind,effects=effects}};enemy.intentIndex=1
- else
-  for i,intent in ipairs(enemy.intents)do if intent.id==move then enemy.intentIndex=i end end
-  assert(enemy.intents[enemy.intentIndex].id==move)
- end
- local before=C.copy(host.run.combat)
+ for i,intent in ipairs(enemy.intents)do if intent.id==move then enemy.intentIndex=i end end
+ assert(enemy.intents[enemy.intentIndex].id==move)
+ -- Stage the exact source move before initializing its displayed descriptor.
+ local before=host.run.combat;host.run.combat=C.copy(before)
  host:refresh();tap('enemy'..index,1)
  same(host.run.combat,before)
- return details(ui,panel),panel:GetChild('enemy'..index),require('abyss_battle_intent_view').intentView(host.run.combat,index)
+ return details(ui,panel),monsterControl(panel,'enemy'..index),require('abyss_battle_intent_view').intentView(host.run.combat,index)
 end
 local cases={
 function()
@@ -52,20 +51,20 @@ assert(cleanse:find('移除',1,true) and cleanse:find('负面',1,true) and clean
 
 end,
 function()
-local vampire,box=detail('mystic',nil,{{op='enemyVampireDamage',value=10}},'attack')
+local vampire,box=detail('shelled_parasite','life_suck')
 assert(box:GetChild('intent').text=='10' and vampire:find('实际',1,true) and vampire:find('回复',1,true),'life-drain damage and healing must both be explained')
 
 end,
 function()
-local wake=detail('lagavulin',nil,{},'stunned')
+local wake=detail('lagavulin','lagavulin_stunned')
 assert(wake:find('惊醒',1,true))
 
 end,
 function()
-local stun,stunBox,stunFace=detail('mystic',nil,{},'stunned')
+local stun,stunBox,stunFace=detail('automaton','stunned')
 assert(not stun:find('惊醒',1,true) and stun:find('不行动',1,true))
 dofile('tests/lua/support/intent_face_assertion.lua')(stunBox,stunFace,'昏眩')
-assert(stunFace.kind=='unknown' and stunBox:GetChild('intentIcon').imageId==require('abyss_theme').icon.intent.unknown,'non-Lagavulin stun keeps the approved unknown glyph')
+assert(stunFace.kind=='unknown' and stunFace.sourceEnum=='STUN' and not stunBox:GetChild('intentIcon').visible,'source STUN uses particles instead of a world base glyph')
 
 end,
 function()

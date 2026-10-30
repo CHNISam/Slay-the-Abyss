@@ -1,5 +1,6 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -58,7 +59,7 @@ function validateRunner(source) {
   assert.match(source, /fixture \|\| composedHost \? 60000 : 30000;/, 'keep the existing 30-second default fixture budget');
 }
 
-test('two original-budget potion context fixtures preserve the full eight-case source and fresh inputs', () => {
+historicalTest('two original-budget potion context fixtures preserve the full eight-case source and fresh inputs', () => {
   validateSource(read(entry));
   validateHelper(read(helper));
   validateRunner(read('scripts/test-lua.mjs'));
@@ -68,7 +69,7 @@ test('two original-budget potion context fixtures preserve the full eight-case s
   assert.deepEqual(discovered, [entry, tail], 'raw Lua discovery contains both complete ranges without duplicates');
 });
 
-test('potion context inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift', () => {
+historicalTest('potion context inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift', () => {
   const source = read(entry);
   const lostAssertion = source.replace('assert(Run.endTurn(h.run))', 'assert(true)');
   assert.notEqual(lostAssertion, source, 'negative control must alter a real original assertion');
@@ -85,4 +86,13 @@ test('potion context inverse and coverage guards reject lost assertions, skipped
   const longerDeadline = runner.replace('60000 : 30000', '60000 : 60000');
   assert.notEqual(longerDeadline, runner, 'negative control must alter the real deadline');
   assert.throws(() => validateRunner(longerDeadline), /unchanged runner and deadlines/);
+});
+
+test('current potion context discovery and wrappers retain both complete ranges and the ordinary budget',()=>{
+  validatePartitions(ranges,read(tail));
+  const discovered=readdirSync('tests/lua').filter(name=>/^battle_ui_potion_target_context(?:_slice_\d+)?\.lua$/.test(name)).map(name=>'tests/lua/'+name).sort();
+  assert.deepEqual(discovered,[entry,tail]);
+  const runner=read('scripts/test-lua.mjs');
+  assert.doesNotMatch(runner,/battle_ui_potion_target_context/);
+  assert.match(runner,/fixture \|\| composedHost \? 60000 : 30000;/);
 });

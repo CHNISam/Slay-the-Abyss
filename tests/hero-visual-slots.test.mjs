@@ -1,5 +1,6 @@
 import {projectOpenPrSource} from './helpers/open-pr-source-composition.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
@@ -11,7 +12,7 @@ import { loadContent } from '../scripts/validate-data.mjs';
 import { createHash } from 'node:crypto';
 import { heroVisualProof, preHeroVisualSource } from './helpers/hero-visual-source-inverse.mjs';
 
-test('the complete hero layer restores prior inputs and rejects partial or cross-path drift', () => {
+historicalTest('the complete hero layer restores prior inputs and rejects partial or cross-path drift', () => {
   const hash = source => createHash('sha256').update(source).digest('hex');
   for (const [path, binding] of Object.entries(heroVisualProof.files)) {
     const source = projectOpenPrSource(path,readFileSync(path,'utf8'),'hero').replaceAll('\r\n', '\n');

@@ -3,6 +3,9 @@ local Combat, Actors = require("abyss_combat"), require("abyss_actor")
 local Effects = require("abyss_effects")
 local Events, Data = require("abyss_events"), require("abyss_data")
 local Feedback, Presentation = require("abyss_feedback"), require("abyss_presentation")
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Surfaces=require('abyss_monster_surfaces')
+local EnemyView=require('abyss_battle_enemy_view')
 
 -- Fixed community Barricade.use omits ApplyPower when already held. These are
 -- constructed sufficient-energy fixtures, not natural acquisition or PC certification.
@@ -108,8 +111,12 @@ for _, upgraded in ipairs({false, true}) do
     test("production feedback " .. tostring(upgraded) .. " keeps first status cue and never replays zero-layer feedback", function()
         local s, statusCues, completed, observed = battle(upgraded, upgraded), 0, 0, {}
         local stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")))
-        local feedback = Feedback.new(stage, {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
-            sound=function(cue) if cue == "status" then statusCues = statusCues + 1 end end}, function() end,
+        local platform=F.withMonsterActors({imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+            sound=function(cue) if cue == "status" then statusCues = statusCues + 1 end end})
+        local surfaces=Surfaces.new(stage,platform)
+        surfaces:select(EnemyView.slots(s),s)
+        surfaces:each(function(box)box:SetVisible(true)end)
+        local feedback = Feedback.new(stage,platform,function() end,
             function(failure) assert(not failure, tostring(failure)); completed = completed + 1 end)
         local function play()
             local before, first = Events.frame(s), #s.events + 1

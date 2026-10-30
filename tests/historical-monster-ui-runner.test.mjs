@@ -5,6 +5,7 @@ import childProcess from 'node:child_process';
 import {syncBuiltinESMExports} from 'node:module';
 import {historicalMonsterUiFixtures,runHistoricalMonsterUi,historicalMonsterLuaArgs} from './helpers/historical-monster-ui-runner.mjs';
 import {verifiedHistoricalMonsterSources,historicalMonsterSourcePaths} from './helpers/historical-monster-ui-materialize.mjs';
+import {loadHistoricalBaselineInputs} from './helpers/historical-baseline-inputs.mjs';
 import {multiMonsterSourceLayer} from './helpers/multi-monster-art-source-inverse.mjs';
 const helperPaths=['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua'];
 test('only twelve exact frozen fixtures and the two-capture differential are historical',()=>{
@@ -17,12 +18,16 @@ test('only twelve exact frozen fixtures and the two-capture differential are his
   assert.throws(()=>runHistoricalMonsterUi(path),/only exact/);
  assert.throws(()=>runHistoricalMonsterUi(historicalMonsterUiFixtures[0],{caseName:'skip others'}),/complete frozen/);
 });
-test('full current inverse and both historical helper closures reject every foreign edit',()=>{
+test('all original historical inputs reject foreign edits independently of current implementation maintenance',()=>{
  const paths=[...historicalMonsterSourcePaths,...helperPaths];
- const current=new Map(paths.map(p=>[p,readFileSync(p,'utf8')]));
+ const original=loadHistoricalBaselineInputs();
+ const current=new Map(paths.map(p=>{assert.ok(original[p],'registered original input: '+p);return [p,original[p].toString('utf8')];}));
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p)).length,paths.length);
  for(const dirty of paths)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>current.get(p)+(p===dirty?'\n-- foreign source drift\n':'')),/unreviewed current/);
  for(const dirty of paths)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>p===dirty?'':current.get(p)),/unreviewed current/);
+ const defaults=new Map(verifiedHistoricalMonsterSources('current-maintenance-is-not-a-historical-input'));
+ for(const [path,binding]of Object.entries(multiMonsterSourceLayer.files))
+  assert.equal(defaults.get(path),binding.beforeSource,'default replay uses the unchanged complete original oracle: '+path);
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p).replaceAll('\r\n','\n').replaceAll('\n','\r\n')).length,paths.length);
 });
 test('historical child keeps original total deadlines, buffer, signals and full error output',()=>{

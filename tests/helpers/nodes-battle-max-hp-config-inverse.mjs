@@ -11,6 +11,10 @@ assert.equal(hash(bytes),'5e130a11180cb03714f315a21f5cf90a722374c2833dda03352985
 const proof=JSON.parse(bytes);
 export function projectNodesBattleMaxHpConfig(path,source,target){
  if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
+ return projectHistoricalNodesBattleMaxHpConfig(path,source,target);
+}
+// Frozen-source contract: no later live composition or linked-owner reads.
+export function projectHistoricalNodesBattleMaxHpConfig(path,source,target){
  assert.equal(path,proof.path,'combined Nodes Battle Max HP path');
  assert.equal(typeof source,'string','combined Nodes Battle Max HP source must exist');
  assert.ok(Object.hasOwn(proof.targets,target),'combined Nodes Battle Max HP target');
@@ -28,6 +32,9 @@ export function projectNodesBattleMaxHpConfig(path,source,target){
 export function preNodesBattleMaxHpConfig(path,source,target='candidate'){
  if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
  source=preRunMaxHpConfig(path,source);
+ return preHistoricalNodesBattleMaxHpConfig(path,source,target);
+}
+export function preHistoricalNodesBattleMaxHpConfig(path,source,target='candidate'){
  if(path!==proof.path||typeof source!=='string'||hash(normalize(source))!==proof.combinedSha256LF)return source;
- return projectNodesBattleMaxHpConfig(path,source,target);
+ return projectHistoricalNodesBattleMaxHpConfig(path,source,target);
 }

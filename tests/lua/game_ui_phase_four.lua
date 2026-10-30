@@ -18,19 +18,18 @@ local function test(name,fn)
 fn();count=count+1;print('ok game_ui_phase_four '..count..' - '..name)end
 local cursor={CursorDown='down',CursorUp='up',CursorExit='exit',CursorEndDrag='enddrag'}
 local classIndex={ironclad=1,silent=2,defect=3,watcher=4}
-local function control(root,path)
- local c=root;for id in path:gmatch('[^/]+')do c=assert(c:GetChild(id),path)end;return c
-end
+local control=dofile('tests/lua/support/native_control_path_fixture.lua')
 local function hit(root,path)
  local c=control(root,path)
  return c.listeners and c.listeners.click and c or assert(c:GetChild('hit'),path)
 end
-local function click(root,path,event)
- local c=hit(root,path);local parent=c
+local function clickControl(c,path,event)
+ local parent=c
  while parent do assert(parent.visible,'hidden click '..path);parent=parent.parent end
  assert(c.raycastTarget~=false and (c.kind~='presetButton' or c.interactable~=false),'disabled click '..path)
  return assert(c.listeners.click,path)(event)
 end
+local function click(root,path,event)return clickControl(hit(root,path),path,event)end
 local function pointer(root,path,kind,id)return assert(hit(root,path).listeners[kind],path..kind)({touchId=id})end
 local function tap(root,path,id)pointer(root,path,'down',id);pointer(root,path,'up',id);return click(root,path,{touchId=id})end
 local function drain(ui)
@@ -208,12 +207,16 @@ for _,spec in ipairs(powerCases)do
   for i,e in ipairs(entries)do if e.id==id then index=i;entry=e end end
   assert(index,'new Power absent from real status view '..id)
   local owner='battlePanel/'..(enemy and 'enemy1'or 'hero')
-  local row=control(root,owner..'/statusRow');local icon=row:GetChild('icon'..index)
+  local row=control(root,owner..'/statusRow');local icon,amount,powerHit
+  if enemy then
+   local power=dofile('tests/lua/support/monster_power_control_fixture.lua')(control(root,owner),id)
+   icon,amount,powerHit=power:GetChild('icon'),power:GetChild('count'),power:GetChild('hit')
+  else icon,amount,powerHit=row:GetChild('icon'..index),row:GetChild('count'..index),row:GetChild('hit'..index)end
   local expected=Theme.icon.status[id]
   assert(type(expected)=='number'and expected>0,'missing explicit status icon '..id)
-  eq(icon.visible,true);eq(icon.imageId,expected);eq(row:GetChild('count'..index).text,tostring(value))
+  eq(icon.visible,true);eq(icon.imageId,expected);eq(amount.text,tostring(value))
   local unchanged=freeze(s)
-  click(root,owner..'/statusRow/hit'..index);local info=control(root,'battlePanel/statusInfo')
+  clickControl(powerHit,owner..' power '..id);local info=control(root,'battlePanel/statusInfo')
   eq(info.visible,true);assert(info:GetChild('name1').text:find(entry.name,1,true))
   local text=info:GetChild('text1').text;local tag=info:GetChild('tag1').text;local note=info:GetChild('note1').text
   assert(text:find('[\128-\255]')and text:find(phrase,1,true),id..': '..text)

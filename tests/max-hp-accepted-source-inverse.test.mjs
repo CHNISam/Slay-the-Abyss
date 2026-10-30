@@ -2,7 +2,7 @@ import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mj
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-inverse.mjs';
 import {projectBattleMaxHpConfig} from './helpers/battle-max-hp-config-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync}from'node:fs';
 import {createHash}from'node:crypto';

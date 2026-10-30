@@ -222,6 +222,15 @@ local function paintDying(ctx,id,box,dt,y,sx,sy,ink,flash,alpha)
     end
     return y,sx,sy,ink,flash,alpha
 end
+-- A completed visual lifecycle retires its presentation row as well as its
+-- native handle. Queued minion events may keep the same historical frame active
+-- after their leader's independent death clock has finished.
+local function retireActorRow(ctx,id)
+    for index=#(ctx.state.enemyRows or {}),1,-1 do
+        if ctx.state.enemyRows[index].id==id then table.remove(ctx.state.enemyRows,index)end
+    end
+    if ctx.surfaces then ctx.surfaces:release(id)end
+end
 -- AbstractMonster.updateDeathAnimation precedes TintEffect.update each frame.
 -- Advance even without a bound control; missing display capacity must not change death time.
 function M.advanceDeaths(ctx,dt)
@@ -233,7 +242,7 @@ function M.advanceDeaths(ctx,dt)
                 local _,box=ctx.actor(id)
                 if box then box:SetVisible(false) MonsterArt.clearBox(box) end
                 ctx.state.dying[id]=nil
-                if ctx.surfaces then ctx.surfaces:release(id)end
+                retireActorRow(ctx,id)
             end
         end
     end
@@ -245,7 +254,7 @@ function M.advanceEscapes(ctx,dt)
             if box then box:SetVisible(false);MonsterArt.clearBox(box)end
             ctx.state.escaped[id]=true
             ctx.state.escaping[id],ctx.state.effects[id],ctx.state.poses[id],ctx.state.tints[id]=nil,nil,nil,nil
-            if ctx.surfaces then ctx.surfaces:release(id)end
+            retireActorRow(ctx,id)
         end
     end
 end

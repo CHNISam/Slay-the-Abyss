@@ -23,6 +23,9 @@ for(const edit of binding.hunks){
 const source=lines.join('\n');
 assert.equal(hash(source),binding.afterSha256,'recover the complete already-approved monolithic source');
 assert.equal(binding.afterSha256,layer.approvedSourceSha256);
+// The original monolithic oracle is complete frozen source, independent of live
+// responsibility modules. Historical replays must not re-enter live adapters.
+export const approvedHistoricalBattleMonolith=source;
 export function tryApprovedBattleRefactorSource(path,value,overrides={}){
  for(const file of Object.keys(overrides))assert.ok(Object.hasOwn(layer.modules,file),'unreviewed integrated retirement source drift: unknown Battle responsibility override: '+file);
  value=preCardDragClickSource(path,preAcceptedPr323Source(path,value));

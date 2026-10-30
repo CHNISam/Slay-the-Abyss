@@ -1,5 +1,6 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -36,7 +37,7 @@ for(const slice of slices)test(`configured-source prepared UI retains original c
  assert.match(result.stdout,new RegExp(`COMPETITION_PREPARED_UI_SLICE ${slice.first} ${slice.last} ${expected.length}`));
  t.diagnostic(`Lua fixture ${slice.path}: ${Date.now()-started} ms; original cases ${expected.join(',')}`);
 });
-test('bounded prepared UI registrar reverses every reviewed byte and rejects range case seed or execution drift',()=>{
+historicalTest('bounded prepared UI registrar reverses every reviewed byte and rejects range case seed or execution drift',()=>{
  const bounded=read(entry),original=originalPreparedUiSource(bounded);
  assert.equal(hash(original),'ff9d0aa399934e599c93ef086aac9a518c9de859ee44e5a0db03ea769bf31c55');
  assert.equal(proof.originalGitBlob,'208b8c3e8944f8822211d59269a418c911172ba5');

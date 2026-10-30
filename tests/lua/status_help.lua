@@ -1,17 +1,19 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
 local Combat = H.F.Combat
 local count=0
 local function test(name,fn) fn(); count=count+1; print("ok status help "..count.." - "..name) end
 local function setup()
-    local host, ui, panel = H.setup({"bash","strike","defend"},{"cultist"})
+    local host, ui, panel = H.setup({"bash","strike","defend"},{"spike_slime_m"})
     -- Native cursorArea has no interactable property (observed on CN 7.1).
     local hit=panel:GetChild("statusInfo"):GetChild("hit")
     assert(hit.kind=='cursorArea' and hit.raycastTarget~=false)
     local ok=pcall(function()return hit.interactable end)
     assert(not ok,'shared native CursorArea fixture must reject unsupported field reads')
-    local s=host.run.combat
+    local s=Combat.new(H.F.Data,{deck={"bash","strike","defend"},enemies={"spike_slime_m"}})
+    host.run.combat=s
     s.enemies[1].ai=nil; s.enemies[1].intentIndex=1
-    s.enemies[1].intents={{id="frail",kind="debuff",effects={{op="applyStatus",status="frail",value=1}}}}
+    s.enemies[1].intents={{id="spike_slime_m_2",kind="debuff",effects={{op="applyStatus",status="frail",value=1}}}}
     ui:render()
     local function emit(box,event,touch)
         assert(box.listeners and box.listeners[event],box.name.." missing "..event)
@@ -21,13 +23,13 @@ local function setup()
 end
 test("debuff intent is an upcoming action, not an existing status or a stack count",function()
     local h,u,p,s,emit=setup()
-    assert(p:GetChild("enemy1"):GetChild("intent").text=="", "non-attack intent must not display a status stack")
-    local icon=p:GetChild('enemy1'):GetChild('intentIcon')
+    assert(monsterControl(p,"enemy1"):GetChild("intent").text=="", "non-attack intent must not display a status stack")
+    local icon=monsterControl(p,'enemy1'):GetChild('intentIcon')
     assert(icon.visible and icon.imageId==H.F.Theme.icon.intent.debuff,'non-attack debuff has its visible approved glyph')
-    assert(not p:GetChild('enemy1'):GetChild('intentLabel').visible)
+    assert(not monsterControl(p,'enemy1'):GetChild('intentLabel').visible)
     assert(require('abyss_battle_intent_view').intentView(s,1).label=='削弱')
     assert((s.player.statuses.frail or 0)==0 and (s.enemies[1].statuses.frail or 0)==0)
-    emit(p:GetChild("enemy1"):GetChild("intentHit"),"click")
+    emit(monsterControl(p,"enemy1"):GetChild("intentHit"),"click")
     local info=p:GetChild("statusInfo")
     assert(info.visible and info:GetChild("tag").text:find("下一步行动",1,true))
     assert(info:GetChild("summary").text:find("尚未执行",1,true))
@@ -40,7 +42,7 @@ end)
 test("actual Vulnerable names its owner, name, stack and effect in visible text frames",function()
     local h,u,p,s,emit=setup()
     Combat.addStatus(s.enemies[1],"vulnerable",1); u:render()
-    emit(p:GetChild("enemy1"):GetChild("statusRow"):GetChild("hit1"),"click")
+    emit(dofile('tests/lua/support/monster_power_control_fixture.lua')(monsterControl(p,'enemy1'),'vulnerable'):GetChild('hit'),"click")
     local info=p:GetChild("statusInfo")
     assert(info:GetChild("name1").text=="易伤 1")
     assert(info:GetChild("text1").text:find("50%",1,true))
@@ -71,7 +73,7 @@ test("long press opens status help and its release cannot play a selected card",
     for _,instance in ipairs(s.hand) do if instance.cardId=="strike" then card=instance end end
     u.selected=card.uid;u:render()
     local hp,energy,hand=s.enemies[1].hp,s.energy,#s.hand
-    local hit=p:GetChild("enemy1"):GetChild("statusRow"):GetChild("hit1")
+    local hit=dofile('tests/lua/support/monster_power_control_fixture.lua')(monsterControl(p,'enemy1'),'vulnerable'):GetChild('hit')
     emit(hit,"down",9);h:update(0.34);assert(not p:GetChild("statusInfo").visible)
     h:update(0.02);assert(p:GetChild("statusInfo").visible)
     emit(hit,"up",9);emit(hit,"click",9)
@@ -89,7 +91,7 @@ test("card keyword hover explains the keyword without granting its status",funct
 end)
 test("a pending hold cannot follow a replacement enemy in the same slot",function()
     local h,u,p,s,emit=setup()
-    local hit=p:GetChild("enemy1"):GetChild("intentHit")
+    local hit=monsterControl(p,"enemy1"):GetChild("intentHit")
     emit(hit,"down",11)
     s.enemies[1]=Combat.copy(s.enemies[1])
     h:update(0.4)
@@ -99,14 +101,14 @@ end)
 
 test("leaving combat for the deck cancels pending help",function()
     local h,u,p,s,emit=setup()
-    emit(p:GetChild("enemy1"):GetChild("intentHit"),"enter")
+    emit(monsterControl(p,"enemy1"):GetChild("intentHit"),"enter")
     u:setActive(false);h:update(0.4);u:setActive(true);h:update(0.4)
     assert(not p:GetChild("statusInfo").visible)
 end)
 
 test("a different finger cannot release another finger's help token",function()
     local h,u,p,s,emit=setup()
-    local hit=p:GetChild("enemy1"):GetChild("intentHit")
+    local hit=monsterControl(p,"enemy1"):GetChild("intentHit")
     emit(hit,"down",11);emit(hit,"up",12);emit(hit,"click",12)
     assert(not p:GetChild("statusInfo").visible)
 end)

@@ -11,10 +11,14 @@ function fixture(t,templateIndex=1470123456,templateOverrides={}){
  t.after(()=>rmSync(directory,{recursive:true,force:true}));
  const baseMap=join(directory,'base.gil');writeFileSync(baseMap,'offline test boundary, not a native GIL');
  const sources=new Map(),calls=[];
+ const templateOffsets={AbyssOfficialBackgroundImage:0,AbyssReadyCardImage:1,AbyssReadyCardGroup:2,AbyssMonsterActor:3,AbyssMonsterPower:4,AbyssDeckCard:5};
  const client={async readResource(){return {contents:[]}},async close(){},async callTool({name,arguments:args}){
   calls.push({name,args});let data={mapPath:args.mapPath};
-  if(name==='scene_add_client_template')data.templateIndex=Object.hasOwn(templateOverrides,args.template.name)?templateOverrides[args.template.name]:
-   templateIndex===null?null:templateIndex+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:0);
+  if(name==='scene_add_client_template'){
+   assert.ok(Object.hasOwn(templateOffsets,args.template.name),'unregistered native template '+args.template.name);
+   data.templateIndex=Object.hasOwn(templateOverrides,args.template.name)?templateOverrides[args.template.name]:
+    templateIndex===null?null:templateIndex+templateOffsets[args.template.name];
+  }
   if(name==='scene_set_client_script')sources.set(args.name,readFileSync(args.sourceFile,'utf8'));
   if(name==='scene_list_client_scripts')data.scripts=[...sources].map(([name,source])=>({name,file:name+'.lua',source}));
   if(name==='inspect_map')data.graphs=[{name:'_GSTS_ABYSS_SETTLEMENT',id:23,type:20000,writable:true}];
@@ -41,7 +45,7 @@ test('background-only budget candidate binds returned image/group templates befo
  assert.equal(receipt.officialBackground.images,4500);
  assert.equal(receipt.officialBackground.peakDynamicControls,4577);
  assert.equal(receipt.officialBackground.renderProfile,'background-budget-v1');
- assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:true,selectionAvatar:false,battlePortrait:false});
+ assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:true,selectionAvatar:false,battlePortrait:false,monsters:false});
  assert.equal(receipt.officialPortraits,undefined,'background-only candidate must not enable portrait artwork');
  assert.equal(receipt.readyCardArt,undefined,'background-only candidate must not enable card artwork');
  assert.equal(receipt.officialBackground.inputs.length,backgroundInputs.length);
@@ -69,6 +73,19 @@ test('invalid returned shared group binding refuses background-only candidate be
 test('missing template binding refuses the candidate before any runtime script can be installed',async t=>{
  const f=fixture(t,null);await assert.rejects(f.run(),/valid official background templateIndex/);
  assert.equal(f.calls.some(c=>c.name==='scene_set_client_script'),false);
+});
+
+test('missing or aliased monster bindings refuse the candidate before installing runtime scripts',async t=>{
+ for(const overrides of [
+  {AbyssMonsterActor:null},
+  {AbyssMonsterPower:null},
+  {AbyssMonsterActor:1470123458},
+  {AbyssMonsterPower:1470123459},
+ ]){
+  const f=fixture(t,1470123456,overrides);
+  await assert.rejects(f.run(),/Missing actual monster actor template index|Monster actor binding requires distinct positive template indices/);
+  assert.equal(f.calls.some(c=>c.name==='scene_set_client_script'),false);
+ }
 });
 test('template binder rejects absent, malformed, unsafe or nonpositive indexes',()=>{
  for(const templateIndex of [undefined,null,0,-1,1.5,'1234',Infinity,Number.MAX_SAFE_INTEGER+1])

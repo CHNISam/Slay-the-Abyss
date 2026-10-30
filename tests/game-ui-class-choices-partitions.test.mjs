@@ -1,5 +1,6 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -20,7 +21,7 @@ function verifyOriginal(source){
  assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),partitions.originalGitBlob);
 }
 
-test('class choice raw partitions restore every byte of the original ten registered cases and the unchanged deadline',()=>{
+historicalTest('class choice raw partitions restore every byte of the original ten registered cases and the unchanged deadline',()=>{
  assert.equal(partitions.base,'7a4910b56cb35e5221faf4523410a9100085c4ea');
  assert.equal(partitions.entry,'tests/lua/game_ui_class_choices.lua');
  assert.equal(partitions.originalSha256LF,'69060f92fe3cc24e7ace32c835621acae9874ee05390019ec78c72c6de69b04b');

@@ -7,15 +7,18 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
+import {qualityShardMatrices} from '../scripts/ci-quality-shape.mjs';
 
-const workflow = originalWorkflow(readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n'));
+const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
 const job = (name, source = workflow) => (source + '\n  end-of-workflow:\n')
   .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
 
 const lfsShardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs --shard=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
 
-test('eight Windows VMs change only the hosted matrix, preserving every gate and original deadline', () => {
-  const rules = job('rules');
+historicalTest('eight Windows VMs change only the original hosted matrix, preserving every original gate and deadline', () => {
+  const workflow=originalWorkflow(readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n'));
+  const rules = job('rules',workflow);
   assert.match(rules, /shard: \$\{\{ fromJSON\(inputs.runner_pool == 'local-special' && '\[1\]' \|\| '\[1,2,3,4,5,6,7,8\]'\) \}\}/);
   assert.match(rules, /^      fail-fast: false$/m);
   assert.match(rules, /^    timeout-minutes: \$\{\{ inputs.runner_pool == 'local-special' && 75 \|\| 30 \}\}$/m);
@@ -55,18 +58,19 @@ test('eight Windows VMs change only the hosted matrix, preserving every gate and
     'the precise partition inverse cannot hide unrelated workflow edits');
 });
 
-test('the real Lua partitioner retains every discovered raw fixture exactly once across eight VMs', () => {
+test('the real Lua partitioner retains every discovered raw fixture exactly once across the current Windows shape', () => {
   const files = readdirSync('tests/lua').filter(name => name.endsWith('.lua')).sort().map(name => `tests/lua/${name}`);
   assert.ok(files.length > 0);
-  const selected = Array.from({ length: 8 }, (_, index) => shardLuaScripts(files, `${index + 1}/8`));
+  const count=qualityShardMatrices.windows.length;
+  const selected = Array.from({ length: count }, (_, index) => shardLuaScripts(files, `${index + 1}/${count}`));
   assert.ok(selected.every(slice => slice.length > 0));
   const combined = selected.flat();
   assert.equal(new Set(combined).size, combined.length, 'no raw fixture is duplicated');
   assert.deepEqual(combined.sort(), files, 'all raw fixtures, including the previous uncompleted tails, remain selected');
 });
 
-test('required check aggregate rejects every non-success shard result', () => {
-  const check = job('check');
+historicalTest('original required check aggregate rejects every non-success shard result', () => {
+  const check = job('check',originalWorkflow(readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n')));
   assert.match(check, /^    needs: rules$/m);
   assert.match(check, /^    if: always\(\)$/m);
   assert.match(check, /^          RULES_RESULT: \$\{\{ needs.rules.result \}\}$/m);
@@ -82,6 +86,27 @@ test('required check aggregate rejects every non-success shard result', () => {
     assert.ifError(actual.error);
     assert.equal(actual.status === 0, result === 'success', `aggregate result ${String(result)}: ${actual.stderr}`);
   }
+});
+
+test('current Windows matrix consumes the shared thirteen-shard shape without changing protection or execution gates',()=>{
+  const rules=job('rules');
+  assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8,9,10,11,12,13]);
+  assert.ok(rules.includes("shard: ${{ fromJSON(inputs.runner_pool == 'local-special' && '[1]' || needs.impact.outputs.windows_shards) }}"));
+  assert.ok(rules.includes("if: ${{ needs.impact.outputs.mode == 'full' && !cancelled() && (inputs.runner_pool != 'local-special' || github.event_name == 'workflow_dispatch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')) }}"));
+  assert.ok(rules.includes("runs-on: ${{ github.event_name == 'workflow_dispatch' && inputs.runner_pool == 'local-special' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master') && fromJSON('[\"self-hosted\", \"Windows\", \"X64\", \"slay-the-abyss\"]') || 'windows-2025' }}"));
+  assert.match(workflow,/^permissions:\n  contents: read$/m);
+  assert.match(rules,/node-version: '24\.18\.0'/);
+  assert.ok(rules.includes('Pillow==12.3.0'));
+  assert.ok(rules.includes('npm run setup:lua-static'));
+  assert.match(rules,/^      fail-fast: false$/m);
+  assert.ok(rules.includes("timeout-minutes: ${{ inputs.runner_pool == 'local-special' && 75 || 30 }}"));
+  for(const gate of ['check:network','verify:backlog','check:syntax','validate:data','build:theme','check:engineering'])
+    assert.ok(rules.includes(`      - run: npm run ${gate}\n        if: matrix.shard == 1\n`),gate);
+  for(const command of ['node scripts/ci-shards.mjs --prepare=','node scripts/ci-shards.mjs --shard='])
+    assert.ok(rules.includes(command+'${{ matrix.shard }}/${{ strategy.job-total }}'));
+  assert.ok(rules.includes("node scripts/test-lua.mjs --shard ${{ matrix.shard }}/${{ strategy.job-total }} --workers ${{ inputs.runner_pool == 'local-special' && 1 || 2 }}"));
+  assert.match(job('check'),/^    needs: \[impact, rules, fast\]\n    if: always\(\)$/m);
+  assert.doesNotMatch(rules,/continue-on-error:|--test-name-pattern|--test-skip-pattern/);
 });
 
 test('native Node eight-shard selection executes every current JS file name exactly once', t => {

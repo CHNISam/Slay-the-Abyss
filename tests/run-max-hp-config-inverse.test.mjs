@@ -1,5 +1,6 @@
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -27,7 +28,7 @@ test('a historical projection cannot hide a missing MaxHP registration from the 
  assert.ok(analyzeSources(sources,missing).errors.some(error=>error.file==='src/lua/abyss_max_hp_relics.lua'&&error.message==='Module needs explicit classification'));
 });
 
-test('current union retains literal accepted Run config plus only MaxHP and the complete prior reviewed triple config',()=>{
+historicalTest('current union retains literal accepted Run config plus only MaxHP and the complete prior reviewed triple config',()=>{
  const source=read(path);assert.equal(hash(source),expected.live);
  const combined=project(source,'combined'),acceptedRun=project(source,'run');
  assert.equal(hash(combined),expected.combined);assert.equal(hash(acceptedRun),expected.run);
@@ -42,7 +43,7 @@ test('current union retains literal accepted Run config plus only MaxHP and the 
  for(const name of battle)assert.equal(live.layers[name],'ui');
 });
 
-test('exact Run outer layer composes both unchanged inner complete-source proofs and preserves their old witnesses',()=>{
+historicalTest('exact Run outer layer composes both unchanged inner complete-source proofs and preserves their old witnesses',()=>{
  const source=read(path),combined=project(source,'combined'),acceptedRun=project(source,'run');
  assert.throws(()=>projectNodesBattleMaxHpConfig(path,source,'nodes'),/unreviewed combined Nodes Battle Max HP/);
  assert.throws(()=>preCoreArchitectureSource(path,source),/unreviewed integrated core registration base/);
@@ -58,7 +59,7 @@ test('exact Run outer layer composes both unchanged inner complete-source proofs
  }
 });
 
-test('all twenty-five live additive registrations reject missing duplicate renamed wrong-layer and cross-scope drift',()=>{
+historicalTest('all twenty-five live additive registrations reject missing duplicate renamed wrong-layer and cross-scope drift',()=>{
  const source=read(path),lines=source.split('\n'),mutants=[];
  for(const name of additions){
   const line=lines.find(line=>line.includes(`"${name}":`));assert.ok(line,name);
@@ -87,7 +88,7 @@ test('all twenty-five live additive registrations reject missing duplicate renam
  assert.equal(mutants.length,107);
 });
 
-test('explicit Run proof rejects missing source wrong path unknown target and preserves all frozen prior witnesses',()=>{
+historicalTest('explicit Run proof rejects missing source wrong path unknown target and preserves all frozen prior witnesses',()=>{
  const source=read(path);
  for(const missing of [null,undefined,''])assert.throws(()=>project(missing,'combined'),/combined Run Max HP/);
  for(const wrongPath of ['config/other.json','data/presentation/ui_theme.json','src/lua/abyss_run.lua']){

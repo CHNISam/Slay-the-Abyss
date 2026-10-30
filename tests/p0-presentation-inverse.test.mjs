@@ -2,7 +2,7 @@ import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mj
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import {preNodeUiRefactorSource}from'./helpers/node-ui-refactor-inverse.mjs';
 import {maxHpAcceptedInverse,preMaxHpSource}from'./helpers/max-hp-accepted-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';

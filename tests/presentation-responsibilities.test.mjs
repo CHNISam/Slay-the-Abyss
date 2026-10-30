@@ -1,13 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {runLua} from '../scripts/test-lua.mjs';
-import {cpSync,readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {spawnSync} from 'node:child_process';
-import {materializeHistoricalPresentation} from './helpers/p0-presentation-inverse.mjs';
-import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
+import {createHistoricalRuntimeRoots} from './helpers/historical-runtime-root.mjs';
 import {integration} from './helpers/presentation-m3-integration.mjs';
 import {toLua} from '../scripts/build-lua-data.mjs';
 
@@ -87,12 +86,10 @@ function runConservedTrace(){
   order.push(ids.get(row));
  }
  assert.deepEqual(order.map(index=>rows[index-1]),expected);
- mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/announcement-retirement-'));
+ // Use the same immutable source target as the raw historical entry. The
+ // conserved-write guard below still checks every original ordered row.
+ const runtime=createHistoricalRuntimeRoots({target:'presentation',source:false}),{directory}=runtime;
  try{
-  for(const input of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
-   cpSync(input,join(directory,input),{recursive:true});
-  materializeHistoricalPresentation(directory);
-  writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
   for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
    const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:remaining()});
    assert.equal(result.status,0,result.stdout+result.stderr);
@@ -104,7 +101,7 @@ function runConservedTrace(){
   const path=join(directory,'trace.lua');
   writeFileSync(path,source.replace(binding,guard)+`\nassert(index==${expected.length},'all conserved writes executed')\n`);
   return runLua(path,{cwd:directory,timeout:remaining()}); // One original total 30s budget.
- }finally{rmSync(directory,{recursive:true,force:true});}
+ }finally{runtime.close();}
 }
 
 function runHistoricalText(){
@@ -112,18 +109,14 @@ function runHistoricalText(){
   const value=30000-(Date.now()-started);
   assert(value>0,'historical text exceeded its original total deadline');return value;
  };
- mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/presentation-wording-'));
+ const runtime=createHistoricalRuntimeRoots({target:'presentation',source:false}),{directory}=runtime;
  try{
-  for(const input of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json','.release-please-manifest.json','CHANGELOG.md'])
-   cpSync(input,join(directory,input),{recursive:true});
-  materializeHistoricalPresentation(directory);
-  writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
   for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
    const result=spawnSync(process.execPath,['scripts/'+script],{cwd:directory,encoding:'utf8',timeout:remaining()});
    assert.equal(result.status,0,result.stdout+result.stderr);
   }
   return runLua(join(directory,'tests/lua/presentation_responsibilities_text.lua'),{cwd:directory,timeout:remaining()});
- }finally{rmSync(directory,{recursive:true,force:true});}
+ }finally{runtime.close();}
 }
 
 

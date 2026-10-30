@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -45,7 +46,7 @@ function observations(stdout,first,last){
 test('routing partitions preserve exact original assertions, topology and deadlines',()=>{
  original(read(matrixPath));
  assert.equal(digest(read('tests/lua/support/unknown_event_routing_map.lua')),'dbbaf362af2e2d5eafe42584be7844f1fdee1835f1ec5c0e5872ef77477e5d3b');
- assert.equal(digest(originalLuaRunner(read('scripts/test-lua.mjs'))),'63ec149511d52b9e362f2c9210d092e4d97bd815c5b8c16e7009ade146d5d55b');
+ withHistoricalBaseline(()=>assert.equal(digest(originalLuaRunner(read('scripts/test-lua.mjs'))),'63ec149511d52b9e362f2c9210d092e4d97bd815c5b8c16e7009ade146d5d55b'));
  for(const part of parts)assert.equal(read(part[0]),wrapper(part));
  const discovered=readdirSync('tests/lua').filter(n=>n.endsWith('.lua')).map(n=>'tests/lua/'+n);
  const selected=Array.from({length:8},(_,i)=>shardLuaScripts(discovered,`${i+1}/8`)).flat();

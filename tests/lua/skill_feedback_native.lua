@@ -6,6 +6,9 @@ local Events=require('abyss_events')
 local Data=require('abyss_data')
 local Theme=require('abyss_theme')
 local Presentation=require('abyss_presentation')
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Surfaces=require('abyss_monster_surfaces')
+local EnemyView=require('abyss_battle_enemy_view')
 local function control(d)
     local c={children={},visible=d.visible~=false,x=0,y=0,sx=1,sy=1}
     for _,child in ipairs(d.children or {}) do c.children[child.name]=control(child) end
@@ -37,11 +40,19 @@ local function harness(enemyId,intentId,fast)
     local enemy=h.battle.enemies[1]
     for i,intent in ipairs(enemy.intents) do if intent.id==intentId then enemy.intentIndex=i end end
     enemy.ai=nil -- Select a real published intent without running its random policy.
-    h.feedback=Feedback.new(stage,{imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,
-        sound=function(cue)h.sounds[#h.sounds+1]=cue end},function()end,
+    local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,
+        sound=function(cue)h.sounds[#h.sounds+1]=cue end})
+    local surfaces=Surfaces.new(stage,platform)
+    function h.bindActors()
+        surfaces:select(EnemyView.slots(h.battle),h.battle)
+        surfaces:each(function(box)box:SetVisible(true)end)
+    end
+    h.bindActors()
+    h.feedback=Feedback.new(stage,platform,function()end,
         function(failure)h.failure=failure;h.done=h.done+1 end)
     h.feedback:setFastMode(fast or false)
     function h.run()
+        h.bindActors()
         local before,first=Events.frame(h.battle),#h.battle.events+1
         assert(Combat.endTurn(h.battle));h.committed=Combat.copy(h.battle)
         h.feedback:begin(before,h.battle,first,Presentation)
@@ -133,6 +144,7 @@ test('An area attack restores the shared sweep after a rotating binding cast',fu
     h.battle=Combat.new(Data,{deck={'cleave'},enemies={'cultist','cultist'},seed=11})
     local before,first=Events.frame(h.battle),#h.battle.events+1
     assert(Combat.play(h.battle,h.battle.hand[1].uid,1));h.committed=Combat.copy(h.battle);h.done=0
+    h.bindActors()
     h.feedback:begin(before,h.battle,first,Presentation)
     h.untilKind('damage');h.feedback:update(0.005)
     local row=Theme.layout.enemyRow

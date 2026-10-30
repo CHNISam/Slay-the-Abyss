@@ -1,5 +1,6 @@
 local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local UI = require("abyss_battle_ui")
 local Combat = require("abyss_combat")
 local Run = require("abyss_run")
@@ -34,9 +35,9 @@ local function setup(options)
     local stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")))
     local root = stage
     options = {embedded=true}
-    local ui = UI.new(root, Data, Presentation, "click", {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}, options)
+    local ui = UI.new(root, Data, Presentation, "click", F.withMonsterActors({imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}), options)
     local function click(name)
-        local box = stage:GetChild(name)
+        local box = F.actorControl(stage,name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
     end
     local function play(slot, target)
@@ -62,7 +63,10 @@ local function test(name, fn)
  print((ok and "ok" or "not ok").." card_feedback "..count.." - "..name..(ok and "" or ": "..tostring(err)))
 end
 local function state(id,upgraded)
- return Combat.new(Data,{deck={{cardId=id,upgraded=upgraded}},enemies={"jaw_worm","jaw_worm"}})
+ local s=Combat.new(Data,{deck={{cardId=id,upgraded=upgraded}},enemies={"jaw_worm","jaw_worm"}})
+ -- Explicit source offsets keep these two raw constructor targets distinct.
+ s.enemies[1].sourcePosition={x=-500,y=25};s.enemies[2].sourcePosition={x=100,y=25}
+ return s
 end
 local function find(s,kind)
  for _,e in ipairs(s.events) do if e.kind==kind then return e end end
@@ -97,9 +101,9 @@ test(id.." flies to selected enemy and releases committed frames once",function(
  local ui,stage,click,play=setup();ui.run=Run.new(Data,42);assert(Run.startCombat(ui.run,"cultist_solo"))
  local s=state(id);s.player.block=7;ui.run.combat=s;ui:render()
  local hp=s.enemies[2].hp;local events=s.events;play(1,2);assert(ui.busy)
- -- Main.dc.html: second of two source slots, back row with round(190*.86) portrait.
- local expectedX=(1010+(1850-1010)*.75)/1.5-640
- local expectedY=360-(180+58+16+math.floor(190*.86+.5)/2)/1.5
+ -- Pinned Jaw Worm constructor: width260/height170, source canvas1920x1080.
+ local expectedX=(1440+100)/1.5-640
+ local expectedY=(340+25)/1.5-360+260/3
  eq(math.abs(ui.feedback.flight.tx-expectedX)<1e-8,true)
  eq(math.abs(ui.feedback.flight.ty-expectedY)<1e-8,true)
  assert(s.enemies[2].hp<hp);eq(s.enemies[1].hp,s.enemies[1].maxHp)

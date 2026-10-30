@@ -9,6 +9,10 @@ Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1
 
 源码职责、生成物和测试目录先看[模块导航](ARCHITECTURE.md)；内容源与参考数据边界见[数据入口](../data/README.md)。本页保留历史实施证据，当前模块集合和诊断数量以配置及本轮报告为准。
 
+`npm run check:engineering` 在同一调用内读取完整 Lua 源码并采集一次架构、Luacheck 告警和复杂度，供原有质量、架构、静态门禁共同使用；其后仍执行关键变异与原生 UI 合同。共享仅限本次进程内存，不读取磁盘旧报告作为通过依据。三个独立 CLI 仍重新采集；工具缺失、采集或任一门禁失败均非零，质量采集失败写入本轮失败报告。
+
+历史回放使用原始完整来源及独立 oracle，不冻结当前夹具注册器的实现格式。[历史原始输入](../tests/fixtures/pr323-historical-fixtures.json.gz)保留来源提交、逐文件 SHA256 和 Git blob；原始目标源码另受完整集合身份及原正式 beforeSha 约束，运行时真实构建和执行，不缓存场景结果。历史矩阵在独立临时目录执行，当前真实 Host/manager 生命周期回归仍读取当前源码。现行实现维护不刷新原档，历史来源通过不能替代当前动态控件、输入和状态断言。
+
 全库质量基线、指定模块行数、完整构造器/函数跨度、Luacheck复杂度、包含延迟导入的完整依赖环与静态告警增减见[质量验收机制](ENGINEERING_QUALITY.md)。`npm run check:quality`每次重新采集并核对全部函数测量；新增数值指标暂为report-only，不能据其退出码0宣称热点已治理。原工程硬门槛仍由以下检查执行。
 
 渲染治理的绝对门槛已接入 `check:lua-static`：战斗主render≤10，完整战斗控制器及battle_*子视图/输入模块、商店UI与卡面展示的每个函数≤15。固定Luacheck测量，AST核对函数测量完整性，报告见build/ui-complexity.json。缺测量或缺入口会失败，不能只报告相对降幅。实际实现、当前验证范围和历史纠正见[TASK-74](backlog-details/TASK-74.md)；完成声明遵循[项目协作](../AGENTS.md)的本轮证据要求。
@@ -17,7 +21,9 @@ Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1
 
 前次架构减负以 develop `d8a26227` 为基线：实际扫描116个Lua源码模块，静态基线113条、延迟导入例外19项。战斗手牌子视图与商店四类商品/服务渲染已有独立边界；完整Windows回归使用隔离VM分片，片内保持串行。具体指标、原回归和交付状态见[TASK-74](backlog-details/TASK-74.md)；机器结果以 `config/architecture.json`、`config/luacheck-baseline.json`及生成报告为准。[TASK-68](backlog-details/task-68.md)和下文的早期计数均为当时冻结切片，不作为当前数值。
 
-日常小改动使用 `npm run test:fast -- --base origin/develop` 或 `npm run test:related -- --base origin/develop`；先加 `--plan`查看选择。也可用 `--files scripts/deck-ui-layout.mjs` 指定待验证的改动集合。快速层只执行受影响的纯JS测试；相关层另执行进程/集成与Lua测试。未知、删除、数据/配置/构建基础设施改动保守回退完整 `npm run check`。选择器是本地反馈工具，不能代替合并的完整Quality。
+日常小改动使用 `npm run test:fast -- --base origin/develop` 或 `npm run test:related -- --base origin/develop`；先加 `--plan`查看选择。也可用 `--files scripts/deck-ui-layout.mjs` 指定待验证的改动集合。本地 fast 与自动 PR advisory 共用有界的 JS、Lua 选集，直接改动的 Lua 夹具优先；相关层执行完整受影响回归。未知、删除、数据/配置/构建基础设施改动仍要求完整 `npm run check`，fast 只报告可映射部分及延期原因。零测试、部分成功均不能代替完整 Quality，覆盖层次与选择理由见 [CI-FAST](CI-FAST.md)。
+
+多代理先划分源码写入范围；同一工作树的生成目录与工程报告由一个执行者写入，独立树的产物不互借。按可用内存、CPU和已有作业安排昂贵验证，复用现有分片与 worker；每个代理不各跑一轮完整检查。主控小批集成后验证组合，独立只读评审可与 CI 并行；保留失败、取消及重跑耗时，不恢复全局任务锁。
 
 日常CI使用GitHub-hosted Windows和Ubuntu；受信分支显式`local-special`诊断入口保留，具体调度以[Quality工作流](../.github/workflows/quality.yml)为准。旧self-hosted常规调度与Remote Task Claim强制锁已按用户明确批准停用。保留Backlog、独立工作树、PR审查、精确head与全部完整质量门禁。GitHub原生每分支concurrency取消过时运行，不再把不同PR排在本机串行队列。Windows与Ubuntu覆盖不同文件系统语义；PR merge SHA和squash后的develop SHA也分别核对，不复用旧SHA的绿灯。
 

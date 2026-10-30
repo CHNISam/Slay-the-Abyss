@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -117,7 +118,7 @@ test('accepted native-art compatibility permits only its two complete identities
  }
 });
 
-test('room port retains its accepted source identities alongside the strict reviewed live interaction trace',()=>{
+historicalTest('room port retains its accepted source identities alongside the strict reviewed live interaction trace',()=>{
  assert.equal(roomSnapshot.base,'f1ab9a9c492071edd723f9285862766ad5ad289b');
  assert.deepEqual(Object.keys(roomSnapshot.afterSha256),Object.keys(review.sourceInputs));
  for(const [path,expected]of Object.entries(roomSnapshot.afterSha256)){
@@ -127,7 +128,11 @@ test('room port retains its accepted source identities alongside the strict revi
  }
  assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
  });
-test('retirement theme and fixture inverses reject unrelated drift and obsolete controls',()=>{
+test('current interaction trace retains its native interaction assertion',()=>{
+ assert.match(readFileSync('tests/lua/presentation_responsibilities_trace.lua','utf8'),/trace:assertNativeInteraction\(\)/);
+});
+
+historicalTest('retirement theme and fixture inverses reject unrelated drift and obsolete controls',()=>{
  const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
  assert.equal(digest(preRetirementSource(path,source)),integration.afterSha256[path]);
  assert.equal(preRetirementSource(path,source.replaceAll('\n','\r\n')),preRetirementSource(path,source));
@@ -211,7 +216,7 @@ test('native trace proof rejects deleted changed reordered old writes and unrevi
 });
 
 const mushroomThemeBlock="      \"odd_mushroom\": {\n        \"id\": 102028,\n        \"placeholder\": true,\n        \"note\": \"奇怪蘑菇暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。\"\n      },\n";
-test('Mushrooms exact theme inverse rejects removal, movement, replacement and unrelated changes',()=>{
+historicalTest('Mushrooms exact theme inverse rejects removal, movement, replacement and unrelated changes',()=>{
  const source=readFileSync('data/presentation/ui_theme.json','utf8').replaceAll('\r\n','\n');
  const projected=preRetirementSource('data/presentation/ui_theme.json',source);
  assert.equal(preRetirementSource('data/presentation/ui_theme.json',source.replaceAll('\n','\r\n')),projected);
@@ -224,7 +229,7 @@ test('Mushrooms exact theme inverse rejects removal, movement, replacement and u
  for(const changed of mutations){assert.notEqual(changed,source);assert.throws(()=>preRetirementSource('data/presentation/ui_theme.json',changed));}
 });
 
-test('Molten glyph cannot move intact to another valid relic mapping position',()=>{
+historicalTest('Molten glyph cannot move intact to another valid relic mapping position',()=>{
  const path='data/presentation/ui_theme.json',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
  const block=source.match(/,\n      "molten_egg": \{\n[\s\S]*?      \}/)[0];
  const without=source.replace(block,'');

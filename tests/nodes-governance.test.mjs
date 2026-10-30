@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,writeFileSync,rmSync,cpSync,mkdirSync} from 'node:fs';
 import {tmpdir} from 'node:os';
@@ -8,7 +9,7 @@ import {runLua} from '../scripts/test-lua.mjs';
 import {spawnSync} from 'node:child_process';
 import {mobileQaMigration,materializeBeforeMobileQa} from './helpers/mobile-qa-source-inverse.mjs';
 
-test('Nodes refactor preserves the frozen baseline API and state transitions',()=>{
+historicalTest('Nodes refactor preserves the frozen baseline API and state transitions',()=>{
   assert.equal(createHash('sha256').update(readFileSync('tests/nodes-governance-baseline.lua','utf8').replaceAll('\r\n','\n')).digest('hex'),
     '74ffe0af91db89dc800878d1385bddba27eeef6b232099336eccad04c2859a04');
   const directory=mkdtempSync(join(tmpdir(),'nodes-governance-'));

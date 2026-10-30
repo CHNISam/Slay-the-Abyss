@@ -4,7 +4,7 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
 local P=require('abyss_character_presentation')
 local BattleUI,DeckUI,NodeUI=require('abyss_battle_ui'),require('abyss_deck_ui'),require('abyss_node_ui')
-local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
+local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
 local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
 local run=Run.new(F.Data,42,{character='furina'})
 local presentation=P.prepare(F.Presentation,run.data)

@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local H = dofile('tests/lua/support/battle_gesture_fixture.lua')
 local Combat, Run = H.F.Combat, H.Run
 local Actor = require('abyss_actor')
@@ -49,8 +50,9 @@ end)
 test('S07 duration intent says turns before it is applied',function()
     local h,u,p=H.setup({'bash'},{'cultist'})
     local s=h.run.combat;s.enemies[1].ai=nil;s.enemies[1].intentIndex=1
-    s.enemies[1].intents={{id='weak',kind='debuff',effects={{op='applyStatus',status='weak',value=2}}}}
-    u:render();p:GetChild('enemy1'):GetChild('intentHit').click()
+    -- Synthetic effect wording keeps a legal selected source move identity.
+    s.enemies[1].intents={{id='cultist_2',kind='debuff',effects={{op='applyStatus',status='weak',value=2}}}}
+    u:render();monsterControl(p,'enemy1'):GetChild('intentHit').click()
     assert(p:GetChild('statusInfo'):GetChild('text1').text:find('2 回合虚弱',1,true),'duration must not be described as intensity')
     assert((s.player.statuses.weak or 0)==0)
 end)
@@ -81,10 +83,10 @@ test('S05 Artifact gives visible blocked-status feedback rather than implying po
     local h,u,p=H.setup({'defend'},{'cultist','jaw_worm'})
     assert(Run.obtainPotion(h.run,'poison_potion'));Combat.addStatus(h.run.combat.enemies[2],'artifact',1);h:refresh()
     p:GetChild('potion1').click();dofile('tests/lua/support/confirm_potion_popup.lua')(u,p,99)
-    p:GetChild('enemy2'):GetChild('hit').click()
+    monsterControl(p,'enemy2'):GetChild('hit').click()
     local found=false
     for _=1,20 do
-        if p:GetChild('enemy2'):GetChild('floating').text:find('人工制品抵挡',1,true) then found=true end
+        if monsterControl(p,'enemy2'):GetChild('floating').text:find('人工制品抵挡',1,true) then found=true end
         h:update(0.05)
     end
     assert(found,'blocked application needs explicit causal feedback')

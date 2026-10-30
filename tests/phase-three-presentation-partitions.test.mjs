@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -21,7 +22,8 @@ test('raw presentation slices preserve the entire four-class matrix and register
   {path:'tests/lua/phase_three_presentation_slice_2.lua',first:3,last:4},
   {path:'tests/lua/phase_three_presentation_slice_3.lua',first:5,last:12},
  ]);
- let original=read(p.entry);assert(original.startsWith(prefix));assert(original.endsWith(footer));
+ // Reconstruct the original body from its original input, while discovery and wrappers below stay current.
+ let original=readHistoricalBaselineSource(p.entry).replaceAll('\r\n','\n');assert(original.startsWith(prefix));assert(original.endsWith(footer));
  original=original.slice(prefix.length,-footer.length);
  assert.equal(original.split(after).length,2);original=original.replace(after,before);
  assert.equal(createHash('sha256').update(original).digest('hex'),p.originalSha256LF);

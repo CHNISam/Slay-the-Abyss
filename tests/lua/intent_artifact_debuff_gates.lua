@@ -2,6 +2,18 @@ local F = dofile("tests/lua/support/intent_artifact_fixture.lua")
 local H, Combat, counters = F.H, F.Combat, F.counters
 local eq, same, test = F.eq, F.same, F.test
 local setup, refresh, rejects, resolve = F.setup, F.refresh, F.rejects, F.resolve
+local first,last=...
+first,last=first or 1,last or 1
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0
+    and first>=1 and first<=last and last<=3,'invalid Artifact gate slice')
+local registered,selected=0,{}
+local function test(name,fn)
+    registered=registered+1
+    if registered>=first and registered<=last then
+        selected[#selected+1]=registered
+        F.test(name,fn)
+    end
+end
 
 test("Artifact gates each supported ordinary debuff before either recipient's stack arithmetic", function()
     for _, status in ipairs({"weak", "vulnerable", "frail", "poison", "entangled"}) do
@@ -37,4 +49,7 @@ test("Artifact does not suppress invalid power amounts before core validation", 
     end
 end)
 
+assert(registered==3,'all Artifact gate groups must remain registered')
+assert(#selected==last-first+1,'every selected Artifact gate group must execute')
+print('LUA_INTENT_ARTIFACT_DEBUFF_CASES '..table.concat(selected,','))
 F.finish("LUA_INTENT_ARTIFACT_DEBUFF_GATES")

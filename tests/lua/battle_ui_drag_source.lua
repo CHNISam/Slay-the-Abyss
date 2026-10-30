@@ -113,6 +113,7 @@ test("own card and drag layer keep normal target-sensitive preview isolated by U
     -- Choose a concrete UID, not the shuffled input deck position.
     local slot
     for i,c in ipairs(b.hand) do if c.cardId=="strike" then slot=i end end
+    local uid=b.hand[slot].uid
     local unchanged={}
     for i=1,#b.hand do unchanged[i]=text(panel,i) end
     event("card"..slot,"down",7)
@@ -122,7 +123,14 @@ test("own card and drag layer keep normal target-sensitive preview isolated by U
     for i=1,#b.hand do if i~=slot then assert(text(panel,i)==unchanged[i],"target leaked into other card") end end
     local first=actorBox(panel,host.run.combat,1)
     event("dragLayer","drag",7,first.x,first.y)
-    assert(text(panel,slot)==unchanged[slot] and reticle(panel).x==first.x)
+    assert(text(panel,slot)==unchanged[slot],"target-sensitive preview must update before reticle animation completes")
+    assert(ui.gesture.uid==uid and b.hand[slot].uid==uid and ui.gesture.drawnTarget==1,"retarget must preserve the selected UID and real actor target")
+    -- The real card view interpolates an enemy-to-enemy retarget from its
+    -- preceding endpoint. Advance exactly that source duration, not extra frames.
+    assert(reticle(panel).x~=first.x,"first retarget frame must not snap to the final actor endpoint")
+    host:update(assert(require('abyss_theme').layout.cardDrag.aimRetarget))
+    assert(text(panel,slot)==unchanged[slot] and ui.gesture.uid==uid and ui.gesture.drawnTarget==1 and reticle(panel).x==first.x,
+        "the same UID preview and reticle must reach the real target after its source retarget duration")
     local hp=b.enemies[2].hp
     -- Up changes target without a preceding final Drag.
     event("dragLayer","up",7,enemy.x,enemy.y)

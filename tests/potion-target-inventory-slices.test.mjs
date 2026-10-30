@@ -1,5 +1,6 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -58,17 +59,20 @@ function validateRunner(source) {
   assert.match(source, /fixture \|\| composedHost \? 60000 : 30000;/, 'keep the existing 30-second default fixture budget');
 }
 
-test('two original-budget potion inventory fixtures preserve the full seven-case source and fresh inputs', () => {
+historicalTest('two original-budget potion inventory fixtures preserve the full seven-case source and fresh inputs', () => {
   validateSource(read(entry));
   validateHelper(read(helper));
   validateRunner(read('scripts/test-lua.mjs'));
   validatePartitions(ranges, read(tail));
+});
+
+test('current raw discovery retains both complete potion inventory ranges', () => {
   const discovered = readdirSync('tests/lua').filter(name => /^battle_ui_potion_target_inventory(?:_slice_\d+)?\.lua$/.test(name))
     .map(name => 'tests/lua/' + name).sort();
   assert.deepEqual(discovered, [entry, tail], 'raw Lua discovery contains both complete ranges without duplicates');
 });
 
-test('potion inventory inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift', () => {
+historicalTest('potion inventory inverse and coverage guards reject lost assertions, skipped cases, inert wrappers and input drift', () => {
   const source = read(entry);
   const lostAssertion = source.replace('assert(Run.discardPotion(h.run,1))', 'assert(true)');
   assert.notEqual(lostAssertion, source, 'negative control must alter a real original assertion');

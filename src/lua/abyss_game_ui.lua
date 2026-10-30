@@ -737,12 +737,15 @@ function M.new(root, data, presentation, clickEvent, platform)
         return updated
     end
     self.disable = function(_)
-        if self.disabled then
+        local wasDisabled=self.disabled
+        self.disabled=true
+        local eggReleased,eggReason=true,nil
+        if self.easterEgg then eggReleased,eggReason=pcall(self.easterEgg.release,self.easterEgg)end
+        if wasDisabled then
             if self.monsterCleanupPending then self.battleUI:releaseMonsterSurfaces();self.monsterCleanupPending=nil end
+            assert(eggReleased,eggReason)
             return false
         end
-        if self.easterEgg then self.easterEgg:close()end
-        self.disabled=true
         if platform.background then platform.background:release() end
         if platform.portraits then platform.portraits:release() end
         if platform.cardArt then platform.cardArt.clear() end
@@ -762,6 +765,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local released,reason=pcall(self.battleUI.releaseMonsterSurfaces,self.battleUI)
         self.monsterCleanupPending=not released or nil
         assert(released,reason)
+        assert(eggReleased,eggReason)
         return true
     end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)

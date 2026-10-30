@@ -86,8 +86,15 @@ for _, upgraded in ipairs({false, true}) do
         local s = battle(upgraded, {"battle_trance"}, {"strike"}, {"defend", "defend", "defend", "defend"})
         local played, cards, events = s.hand[1].uid, inventory(s), #s.events
         assert(Combat.play(s, played)); equal(#s.hand, n); equal(#s.draw, 5 - n)
-        equal(#s.discard, 1); equal(s.discard[1].uid, played); equal(#s.events, events + 2)
-        equal(s.events[#s.events].kind, "reshuffle"); same(inventory(s), cards)
+        equal(#s.discard, 1); equal(s.discard[1].uid, played); equal(#s.events, events + 3)
+        -- NoDraw's successful Power action has its own detached callback boundary
+        -- after drawing; the reshuffle still happens before the lock is applied.
+        local play, reshuffle, locked = s.events[events + 1], s.events[events + 2], s.events[events + 3]
+        equal(play.kind, "play"); equal(reshuffle.kind, "reshuffle")
+        equal(reshuffle.frame.player.noDraw, false)
+        equal(locked.kind, "source_intent_powers"); equal(locked.frame.player.noDraw, true)
+        same(locked.sourceIntentPowers, {origin = "ApplyPowerAction.NoDraw", scope = "all-monsters", timing = "action-boundary"})
+        same(inventory(s), cards)
         for _, card in ipairs(s.hand) do assert(card.uid ~= played) end
     end)
     test(label .. " repeated zero-cost copies discard normally but cannot draw again", function()

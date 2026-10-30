@@ -243,7 +243,7 @@ export function reviewNodeUiSize(sources) {
   const errors=[],measurements=[];
   const file='src/lua/abyss_node_ui.lua';
   if (!(file in sources)) return {errors:[{file,message:'Node UI entry missing'}],measurements};
-  for (const [file,source] of Object.entries(sources).filter(([file])=>/^src\/lua\/abyss_node_ui(?:_.+)?\.lua$/.test(file))) {
+  for (const [file,source] of Object.entries(sources).sort(([a],[b])=>a<b?-1:a>b?1:0).filter(([file])=>/^src\/lua\/abyss_node_ui(?:_.+)?\.lua$/.test(file))) {
     const lines=source.split(/\r?\n/).length-(source.endsWith('\n')?1:0);
     measurements.push({file,lines});
     if(lines>1000) errors.push({file,message:'Node UI module exceeds 1000 lines'});
@@ -261,16 +261,15 @@ export function reviewNodeUiSize(sources) {
   }
   return {errors,measurements};
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
-  try{
-    const report=runStatic(),baseline=JSON.parse(readFileSync('config/luacheck-baseline.json','utf8'));
+export function main(inputs) {
+    const report=inputs?.warnings??runStatic(),baseline=JSON.parse(readFileSync('config/luacheck-baseline.json','utf8'));
     const unexpected=compareDiagnostics(report.diagnostics,baseline.diagnostics);
     // Undefined globals and syntax errors are never baseline exemptions.
     const hard=report.diagnostics.filter(row=>/^[WE]1/.test(row.code));
     mkdirSync('build',{recursive:true});writeFileSync('build/lua-static.json',JSON.stringify({...report,unexpected,hard},null,2)+'\n');
-    const complexity=runStatic(['--max-cyclomatic-complexity','0','--only','561']);
+    const complexity=inputs?.complexity??runStatic(['--max-cyclomatic-complexity','0','--only','561']);
     writeFileSync('build/lua-complexity.json',JSON.stringify(complexity,null,2)+'\n');
-    const sources=Object.fromEntries(readdirSync('src/lua').filter(file=>file.endsWith('.lua'))
+    const sources=inputs?.sources??Object.fromEntries(readdirSync('src/lua').filter(file=>file.endsWith('.lua'))
       .map(file=>[`src/lua/${file}`,readFileSync(`src/lua/${file}`,'utf8')]));
     const size=reviewNodeUiSize(sources);
     writeFileSync('build/node-ui-size.json',JSON.stringify(size,null,2)+'\n');
@@ -286,5 +285,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     if(responsibilities.errors.length)throw new Error(`Responsibility complexity check failed: ${JSON.stringify(responsibilities.errors)}`);
     if(sizes.errors.length)throw new Error(`Module size check failed: ${JSON.stringify(sizes.errors)}`);
     console.log(`Luacheck ${report.tool.version}: no new diagnostics; ${report.diagnostics.length} explicit historical warnings. Battle render <=10; every scoped function <=15; ${responsibilities.functions.length} governed responsibility measurements.`);
-  }catch(error){console.error(error.message);process.exitCode=1;}
+    return {errors:[]};
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
+  try{main();}catch(error){console.error(error.message);process.exitCode=1;}
 }

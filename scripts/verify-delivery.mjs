@@ -3,6 +3,7 @@ import { resolve, join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import {qualityShardJobs} from './ci-quality-shape.mjs';
 
 export const requiredJobs=['check','presentation','engineering-posix'];
 export const qualityWorkflowPath='.github/workflows/quality.yml';
@@ -12,7 +13,7 @@ export const fullQualityJobs=[...requiredJobs,
   ...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
   ...Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`)];
 export const deliverySchemaVersion=3;
-export const currentFullQualityJobs=[...fullQualityJobs,'impact','fast'];
+export const currentFullQualityJobs=[...requiredJobs,...qualityShardJobs,'impact','fast'];
 const validSha=value=>/^[a-f0-9]{40}$/.test(value??'');
 const positiveId=value=>Number.isSafeInteger(value)&&value>0;
 const parentShas=commit=>Array.isArray(commit?.parents)?commit.parents.map(parent=>parent?.sha):undefined;
@@ -57,15 +58,16 @@ function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
 function latestJob(jobs,name) {
   return Array.isArray(jobs)?jobs.filter(job=>job?.name===name).sort((a,b)=>b.run_attempt-a.run_attempt)[0]:undefined;
 }
-function receiptErrors(checkout,artifact,jobs,run) {
-  // Only rules (1/8) writes this artifact. Its last successful execution may
+const firstRulesJob=schemaVersion=>schemaVersion===2?'rules (1/8)':qualityShardJobs[0];
+function receiptErrors(checkout,artifact,jobs,run,schemaVersion) {
+  // Only the shape's first rules shard writes this artifact. Its execution may
   // predate the run's latest attempt; the receipt still binds the exact base,
   // head, tested commit and parents, checked separately below.
-  const attempt=latestJob(jobs,'rules (1/8)')?.run_attempt;
+  const jobName=firstRulesJob(schemaVersion),attempt=latestJob(jobs,jobName)?.run_attempt;
   if(checkout?.schemaVersion!==1||!positiveId(attempt)||checkout?.attempt!==attempt||
     !positiveId(artifact?.id)||artifact.name!==`quality-${run?.id}-${attempt}-check`||artifact.expired!==false||
     artifact.workflow_run?.id!==run?.id||artifact.workflow_run?.head_sha!==run?.head_sha)
-    return ['Checkout receipt/artifact is missing, expired or differs from the effective rules (1/8) identity'];
+    return [`Checkout receipt/artifact is missing, expired or differs from the effective ${jobName} identity`];
   return [];
 }
 function runErrors(run,{head,event,runId,attempt,branch,repo}) {
@@ -84,7 +86,7 @@ export function verifyDelivery(e) {
     if(!validSha(e[field])||e[field]!==e.base)errors.push(`Actual target ${field} is missing, malformed or differs from the verified base`);
   if(e.event!=='pull_request'||!positiveId(e.runId)||!positiveId(e.attempt)||!positiveId(e.prNumber))errors.push('Expected PR run identity');
   for(const field of ['head','base','tested','runId','event','prNumber'])if(e.checkout?.[field]!==e[field])errors.push(`Checkout ${field} is stale or mismatched`);
-  errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run));
+  errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run,e.schemaVersion));
   if(JSON.stringify(e.parents)!==JSON.stringify([e.base,e.head]))errors.push('Tested merge parents do not match current base/head');
   if(e.testedCommit?.sha!==e.tested||JSON.stringify(parentShas(e.testedCommit))!==JSON.stringify(e.parents)||e.testedCommit?.commit?.tree?.sha!==e.sourceTree)errors.push('Tested source commit/tree evidence is missing or mismatched');
   if(JSON.stringify(e.checkout?.parents)!==JSON.stringify(e.parents))errors.push('Checkout merge parents differ from tested commit');
@@ -116,7 +118,7 @@ export function verifyMergedDelivery(e) {
   errors.push(...runErrors(e.run,{head:e.commit?.sha,event:'push',runId:e.run?.id,attempt:e.run?.run_attempt,branch:preflight.baseRef,repo:e.repo}));
   errors.push(...runErrors(e.currentRun,{head:e.commit?.sha,event:'push',runId:e.run?.id,attempt:e.run?.run_attempt,branch:preflight.baseRef,repo:e.repo}));
   errors.push(...qualityErrors(e.jobs,{attempt:e.run?.run_attempt,runId:e.run?.id,head:e.commit?.sha,schemaVersion:e.schemaVersion}));
-  errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run));
+  errors.push(...receiptErrors(e.checkout,e.checkoutArtifact,e.jobs,e.run,e.schemaVersion));
   for(const [field,value] of Object.entries({event:'push',runId:e.run?.id,tested:e.commit?.sha,head:e.commit?.sha,base:preflight.base})) {
     if(value===undefined||e.checkout?.[field]!==value)errors.push(`Merged checkout ${field} is missing, stale or mismatched`);
   }
@@ -145,15 +147,15 @@ function lowRiskFiles(query,repo,number,expectedCount) {
 export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion) {
   const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion});
   if(errors.length)throw new Error(errors.join('\n'));
-  const attempt=latestJob(jobs,'rules (1/8)').run_attempt,name=`quality-${run.id}-${attempt}-check`;
+  const attempt=latestJob(jobs,firstRulesJob(schemaVersion)).run_attempt,name=`quality-${run.id}-${attempt}-check`;
   const artifacts=pages(query,`repos/${repo}/actions/runs/${run.id}/artifacts?per_page=100`,'artifacts').filter(a=>a?.name===name);
   const artifact=artifacts[0];
-  if(artifacts.length!==1||receiptErrors({schemaVersion:1,attempt},artifact,jobs,run).length)throw new Error('Missing, duplicate, expired or mismatched checkout artifact');
+  if(artifacts.length!==1||receiptErrors({schemaVersion:1,attempt},artifact,jobs,run,schemaVersion).length)throw new Error('Missing, duplicate, expired or mismatched checkout artifact');
   query('run','download',String(run.id),'--repo',repo,'--name',name,'--dir',dir);
   // Artifacts are immutable. Recheck the ID after name-based gh download so a
   // concurrent deletion/replacement cannot change the object we just accepted.
   const current=JSON.parse(query('api',`repos/${repo}/actions/artifacts/${artifact.id}`));
-  if(current.id!==artifact.id||current.name!==name||receiptErrors({schemaVersion:1,attempt},current,jobs,run).length)throw new Error('Checkout artifact changed during download');
+  if(current.id!==artifact.id||current.name!==name||receiptErrors({schemaVersion:1,attempt},current,jobs,run,schemaVersion).length)throw new Error('Checkout artifact changed during download');
   return {checkout:JSON.parse(readFileSync(join(dir,'ci-checkout.json'),'utf8')),checkoutArtifact:artifact};
 }
 function latestQualityRun(query,repo,{event,head,branch,number}) {

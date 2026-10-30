@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,C,View=require('abyss_run'),require('abyss_combat'),require('abyss_battle_intent_view')
@@ -7,7 +8,7 @@ local battle,panel=ui.run.combat,root:GetChild('battlePanel')
 assert(C.intent(battle,1),'Dome must retain the real core intent')
 local face=View.intentView(battle,1)
 assert(face.hidden and face.value==''and #View.icons(face)==0)
-local enemy=panel:GetChild('enemy1')
+local enemy=monsterControl(panel,'enemy1')
 for _,name in ipairs({'intentIcon','intentBadge','intentExtra','intent','intentLabel','intentHit'})do
  assert(not enemy:GetChild(name).visible,'Dome leaked '..name)
 end

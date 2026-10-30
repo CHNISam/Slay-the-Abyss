@@ -21,6 +21,16 @@ test('prose allowlist cannot hide additional unmodelled changes', () => {
   assert.equal(impact(['docs/CI.md'], sources, event, timing).mode, 'fast');
   assert.equal(impact(['docs/CI.md', 'unknown'], sources, event, timing).mode, 'full');
 });
+
+test('registered UI responsibilities share eligibility with their parent; unknown modules stay full', () => {
+  const module = 'src/lua/abyss_battle_render_actors.lua';
+  const input = { [module]: 'return {}', 'tests/lua/view.lua': 'require("abyss_battle_render_actors")' };
+  const plan = impact([module], input, event, timing);
+  assert.equal(plan.mode, 'fast');
+  assert.deepEqual(plan.lua, ['tests/lua/view.lua']);
+  for (const path of ['src/lua/abyss_new_unclassified.lua', 'src/lua/abyss_combat.lua', 'config/architecture.json'])
+    assert.equal(impact([path], { ...input, [path]: 'return {}' }, event, timing).mode, 'full');
+});
 test('parallel platforms budget their complete selected sets, including identical Lua cost', () => {
   const input = {
     'scripts/value.mjs': 'export const value=1;',

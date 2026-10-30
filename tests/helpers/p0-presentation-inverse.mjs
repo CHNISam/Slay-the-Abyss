@@ -6,7 +6,7 @@ import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
 import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
 import {eventProductionInverse,materializeBeforeEventProduction} from './event-production-source-inverse.mjs';
 import {preAcceptedPr323Source} from './pr323-accepted-source-inverse.mjs';
-import {pr323AcceptedSourceInverse,requirePr323Source} from './pr323-accepted-source-inverse.mjs';
+import {pr323AcceptedSourceInverse,normalizePr323HistoryInput,requireHistoricalPr323Source,projectHistoricalPr323Source} from './pr323-accepted-source-inverse.mjs';
 export {preCardDragClickSource} from './task76-drag-click-inverse.mjs';
 import {preIntegratedNodeUiSource,nodeUiAddedPaths,nodeUiCurrentRootSha256,approvedNodeFace} from './approved-node-ui-refactor.mjs';
 import {approvedUi,preApprovedUiSource} from './approved-ui-inverse.mjs';
@@ -51,16 +51,17 @@ export function materializeHistoricalPresentation(directory){
   const nodeSource=preIntegratedNodeUiSource(root,diskRoot,{[approvedNodeFace.path]:diskFace});
   // Validate the whole combined inventory before any temporary historical writes.
   const acceptedSources=Object.keys(pr323AcceptedSourceInverse.files).map(path=>{
-    const source=readFileSync(path,'utf8');requirePr323Source(path,source);
-    return [path,preAcceptedPr323Source(path,source)];
+    const source=normalizePr323HistoryInput(path,readFileSync(path,'utf8'));requireHistoricalPr323Source(path,source);
+    return [path,projectHistoricalPr323Source(path,source,'accepted')];
   });
+  const accepted=new Map(acceptedSources);
   materializeBeforeEventProduction(directory,{historicalPaths:[...new Set([...Object.keys(pr323AcceptedSourceInverse.files),...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files),...nodeUiAddedPaths])].filter(path=>eventProductionInverse.files[path]?.beforeSource!=null)});
   for(const [path,source]of acceptedSources){
     if(source===null)rmSync(join(directory,path),{force:true});
     else {mkdirSync(dirname(join(directory,path)),{recursive:true});writeFileSync(join(directory,path),source);}
   }
   for(const path of new Set([...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){
-    const source=preApprovedUiSource(path,preP0OuterSource(path,path===root?nodeSource:preAcceptedPr323Source(path,readFileSync(path,'utf8'))));
+    const source=preApprovedUiSource(path,preP0OuterSource(path,path===root?nodeSource:accepted.has(path)?accepted.get(path):preAcceptedPr323Source(path,readFileSync(path,'utf8'))));
     if(source===null)rmSync(join(directory,path),{force:true});
     else writeFileSync(join(directory,path),preAcceptedPresentation(path,source));
   }

@@ -1,75 +1,67 @@
--- This legacy artwork regression explicitly opts the candidate into background art.
 package.loaded.abyss_art_features={schemaVersion=2,flags={cards=false,menuBackground=true,selectionAvatar=false,battlePortrait=false,monsters=false}}
-local F=dofile('tests/lua/support/game_ui_fixture.lua')
-package.loaded.abyss_menu_background_asset={
- adapter=dofile('art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_adapter.lua'),
- data=dofile('art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_data.lua'),imagePrefabId=0}
+local N=dofile('tests/lua/support/official_background_native_fixture.lua')
 local Background=require('abyss_menu_background')
-local Asset=require('abyss_menu_background_asset')
-local function make()
- local canvas=F.control({children=F.Layout})
- local root=F.Viewport.apply(canvas,1280,720)
- local host=root:GetChild('officialBackground')
- function host:SetActive()end
- function host:SetAnchorMin()end
- function host:SetAnchorMax()end
- function host:SetPivot()end
- function host:SetLocalRotation()end
- return canvas,root,host
-end
-local _,root,host=make()
-Asset.imagePrefabId=0
+local factory=require('abyss_traveler_portraits').createController
+local h=N.new()
 local logs={}
-local bg=Background.new(root,function(s)logs[#logs+1]=s end)
-bg:sync('menu',false,false);assert(bg:status().phase=='failed')
-assert(root:GetChild('menuPanel'):GetChild('heroArt').visible and not host.visible)
-for i=1,10 do bg:tick();bg:sync('menu',false,false)end
-assert(#logs==1 and logs[1]:find('unbound',1,true),'fallback must state real binding failure exactly once')
-bg:release();bg:onEngineDestroy()
+N.Asset.imagePrefabId=0
+local bg=Background.new(h.root,function(s)logs[#logs+1]=s end,factory,Color,{standalone=true})
+bg:sync('menu',false,false);assert(bg:status().phase=='failed' and not h.host.visible)
+assert(not h.root:GetChild('menuPanel'):GetChild('heroArt').visible,'failure must retain approved hidden legacy art')
+for _=1,10 do bg:tick();bg:sync('menu',false,false)end
+assert(#logs==1 and logs[1]:find('unbound',1,true),'binding failure must diagnose once without retry')
+assert(h.attempts==0);bg:release();bg:onEngineDestroy()
 
-local canvas;canvas,root,host=make()
-Asset.imagePrefabId=987654
-local attempts,destroyed=0,0
-Enum={ImageSource={StaticReference='static'},ImageType={Stretch='stretch'},CursorEventType={CursorClick='click'},
- Device={Controller='controller',MobileController='mobileController',Mobile='mobile'}}
-Color=setmetatable({FromRGBA=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end},
- {__call=function(_,r,g,b,a)return {r=r,g=g,b=b,a=a}end})
-game={InstantiateClientUIControl=function(index,parent)
- assert(index==987654 and parent==host);attempts=attempts+1;error('native create diagnostic')
-end,DestroyClientUIControl=function()destroyed=destroyed+1 end,
- GetUICanvasSize=function()return 1280,720 end,IsTestPlay=function()return true end,
- GetDevice=function()return 'desktop'end,GetCursorUIPos=function()return 0,0 end}
-local updates
-script={object=canvas,GetParam=function()return false end,EnableUpdate=function(_,v)updates=v end}
-dofile('src/lua/abyss_ui.lua');OnStart();assert(updates==true,'background failure must not disable the game')
-OnUpdate(.01);assert(attempts==1)
-assert(root:GetChild('menuPanel'):GetChild('heroArt').visible and not host.visible)
-for i=1,10 do OnUpdate(.01)end;assert(attempts==1,'failed creation must not retry every frame')
-OnDestroy();assert(updates==false and destroyed==0)
-OnUpdate(.01);assert(attempts==1,'engine teardown retires callbacks')
--- Engine destruction owns a partially built subtree; old callbacks must not touch it.
-canvas,root,host=make();attempts,destroyed=0,0
-game.InstantiateClientUIControl=function(index,parent)
- assert(index==987654 and parent==host);attempts=attempts+1
- local c=F.control({name='primitive',kind='image'},parent)
- function c:SetActive()end
- function c:SetAnchorMin()end
- function c:SetAnchorMax()end
- function c:SetPivot()end
- function c:SetLocalRotation()end
- return c
-end
-script.object=canvas;dofile('src/lua/abyss_ui.lua');OnStart();OnUpdate(.01)
-assert(attempts==64 and destroyed==0 and not host.visible)
+h=N.new();h.failCreate=true;h:startEntry()
+OnUpdate(.01);assert(h.attempts==0 and h.updates,'ordinary entry must stay interactive without artwork')
+h:openVictory();OnUpdate(.01)
+assert(h.attempts==1 and h.updates and not h.host.visible)
+assert(h.root:GetChild('victoryEasterEgg'):GetChild('status').text=='彩蛋暂时无法显示，请返回结算。')
+for _=1,10 do OnUpdate(.01)end
+assert(h.attempts==1,'failed optional creation must not retry every frame')
+assert(h.ui.easterEgg:close() and h.root:GetChild('menuPanel').visible,'failed artwork must allow return to results')
+assert(h.root:GetChild('menuPanel'):GetChild('result'):GetChild('viewEasterEgg'):GetChild('hit').click())
+OnUpdate(.01);assert(h.attempts==1,'failed cached owner must not retry on reopen')
+h:engineDestroy();OnDestroy();assert(not h.updates and h.destroyed==0)
+
+-- The engine destroys a partially built subtree before invoking the script callback.
+h=N.new();h:startEntry();h:openVictory();OnUpdate(.01)
+assert(h.live>0 and h.live<=256 and not h.host.visible)
+local attempts=h.attempts
 local lateUpdate=OnUpdate
-OnDestroy();lateUpdate(.01);assert(attempts==64 and destroyed==0 and updates==false)
+h:engineDestroy()
+local function forbid(c)
+ for _,name in ipairs({'SetVisible','SetActive','SetSizeDelta','SetAnchoredPosition','SetLocalScale','SetLocalRotation','SetAsLastSibling','GetChild','GetChildren'})do
+  c[name]=function()error('native operation after engine destruction: '..name)end
+ end
+ for _,child in pairs(c.children)do forbid(child)end
+end
+forbid(h.canvas)
+game.DestroyClientUIControl=function()error('explicit destroy after engine destruction')end
+OnDestroy();lateUpdate(.01);assert(h.attempts==attempts and not h.updates and h.destroyed==0)
 
--- Unexpected native entry errors release art even when the overall game shuts down.
-canvas,root,host=make();attempts,destroyed=0,0
-script.object=canvas;dofile('src/lua/abyss_ui.lua');OnStart();OnUpdate(.01)
-assert(attempts==64)
+-- An unexpected entry error must release live artwork before dropping the view.
+h=N.new();h:startEntry();h:openVictory();OnUpdate(.01)
+local live=h.live;attempts=h.attempts;assert(live>0)
 game.GetUICanvasSize=function()error('canvas diagnostic')end
-OnUpdate(.01);assert(destroyed==64 and updates==false and not host.visible)
-OnUpdate(.01);assert(attempts==64 and destroyed==64)
-OnDestroy();assert(destroyed==64)
+OnUpdate(.01);assert(h.live==0 and h.destroyed==live and not h.updates and not h.host.visible,
+ 'global entry failure stranded the live victory artwork')
+OnUpdate(.01);assert(h.attempts==attempts and h.destroyed==live)
+OnDestroy();assert(h.destroyed==live)
+
+-- A failed release must keep the disabled view reachable for engine teardown.
+h=N.new();h:startEntry();h:openVictory();OnUpdate(.01)
+live=h.live;assert(live>0);h.failDestroy=true
+local canvasReads=0
+game.GetUICanvasSize=function()canvasReads=canvasReads+1;error('canvas diagnostic with failed cleanup')end
+OnUpdate(.01)
+assert(not h.updates and h.ui.disabled and h.live==live and h.destroyed==0 and h.ui.easterEgg:status().created,
+ 'failed release discarded the retained optional-art owner')
+local reads=canvasReads
+OnUpdate(.01);assert(canvasReads==reads,'disabled failure path must not reenter native canvas reads')
+h:engineDestroy();forbid(h.canvas)
+game.DestroyClientUIControl=function()error('native destroy after failed-cleanup engine teardown')end
+OnDestroy();assert(not h.ui.easterEgg:status().created and not h.updates and h.destroyed==0,
+ 'entry lost its disabled view before retained owner received engine teardown')
+OnUpdate(.01);assert(canvasReads==reads)
 print('OFFICIAL_BACKGROUND_ERRORS_PASS')

@@ -1,4 +1,4 @@
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {eventSnapshotComposition as proof,projectEventSnapshotSource as project} from './helpers/event-snapshot-composition.mjs';

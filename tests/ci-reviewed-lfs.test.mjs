@@ -1,4 +1,3 @@
-import { originalWorkflow } from './helpers/ci-runtime-workflow.mjs';
 import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -30,7 +29,7 @@ const fixtureModulePath=join(fixtureModuleDir,'ci-reviewed-lfs.mjs');
 writeFileSync(fixtureModulePath,fixtureSource(source));
 const fixtureLfs=await import(pathToFileURL(fixtureModulePath).href);
 
-const shardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs --shard=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
+const shardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-shards.mjs --prepare=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
 const licenseStep = `      - name: Materialize reviewed PNGs for the license audit\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs\n`;
 function temp(t) { const dir = mkdtempSync(join(tmpdir(), 'abyss-reviewed-lfs-')); t.after(() => rmSync(dir, { recursive: true, force: true })); return dir; }
 function git(cwd, ...args) {
@@ -151,10 +150,18 @@ test('a missing LFS object fails closed, and errors never echo the token or Git 
 });
 
 test('workflow contract rejects broader permissions, unconditional pulls, automatic LFS checkout, and missing skip-smudge', () => {
-  const quality=originalWorkflow(readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n'));
+  // This is current transport safety, independent of any old workflow hash or matrix.
+  const quality=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
   const licenses=readFileSync('.github/workflows/licenses.yml','utf8').replaceAll('\r\n','\n');
   workflowContract(quality,licenses);
-  for(const mutate of [q=>q.replace('contents: read','contents: write'),q=>q.replace('persist-credentials: false','persist-credentials: false\n          lfs: true'),q=>q.replace(' --shard=${{ matrix.shard }}/${{ strategy.job-total }}',''),q=>q.replace("          GIT_LFS_SKIP_SMUDGE: '1'\n",'')]) assert.throws(()=>workflowContract(mutate(quality),licenses));
+  for(const mutate of [
+    q=>q.replace('contents: read','contents: write'),
+    q=>q.replace('persist-credentials: false','persist-credentials: false\n          lfs: true'),
+    q=>q.replace('persist-credentials: false','persist-credentials: true'),
+    q=>q.replace('      - name: Materialize reviewed PNGs for this shard','      - uses: actions/cache@unreviewed\n      - name: Materialize reviewed PNGs for this shard'),
+    q=>q.replace(' --prepare=${{ matrix.shard }}/${{ strategy.job-total }}',''),
+    q=>q.replace("          GIT_LFS_SKIP_SMUDGE: '1'\n",''),
+  ]){const changed=mutate(quality);assert.notEqual(changed,quality,'negative control must change current safety wiring');assert.throws(()=>workflowContract(changed,licenses));}
 });
 
 test('negative controls reject expanded include, retained token, omitted real PNG verification and unconditional materialization', async t => {

@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local F = dofile("tests/lua/support/intent_artifact_fixture.lua")
 local H, Combat, eq = F.H, F.Combat, F.eq
 local test, setup, rejects = F.test, F.setup, F.rejects
@@ -10,13 +11,15 @@ test("cancelled playback and replacement battle cannot retain an old actor's int
         h:update(0.05)
     end
     eq(u.feedback.current.kind, "intent")
-    eq(p:GetChild("enemy1"):GetChild("intent").text, "12")
+    eq(monsterControl(p,"enemy1"):GetChild("intent").text, "10")
+    eq(F.forecast(u.displayBattle,1),"12")
     u.feedback:cancel()
     assert(not u.busy)
-    eq(p:GetChild("enemy1"):GetChild("intent").text, "14")
+    eq(monsterControl(p,"enemy1"):GetChild("intent").text, "12")
+    eq(F.forecast(h.run.combat,1),"14")
     h.run.combat = Combat.new(H.F.Data, {deck={"defend"}, enemies={"fat_gremlin"}})
     Combat.addStatus(h.run.combat.enemies[1], "strength", 3)
-    h:refresh(); eq(p:GetChild("enemy1"):GetChild("intent").text, "7")
+    h:refresh(); eq(monsterControl(p,"enemy1"):GetChild("intent").text, "7")
     Combat.addStatus(h.run.combat.player, "weak", 2147483647)
     rejects(h, "status stack overflow")
 end)

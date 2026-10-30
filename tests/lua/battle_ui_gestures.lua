@@ -1,7 +1,15 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
 local F,Run,setup = H.F,H.Run,H.setup
+local first,last=...
+first,last=first or 1,last or 6
+assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=11 and first<=last,'invalid gesture partition')
+local registered,executed=0,0
 local passed, failed = 0, 0
 local function test(name, fn)
+    registered=registered+1
+    if registered<first or registered>last then return end
+    executed=executed+1;print('BATTLE_GESTURE_CASE '..registered)
     local ok, why = pcall(fn)
     if ok then passed=passed+1; print("PASS "..name)
     else failed=failed+1; print("FAIL "..name..": "..tostring(why)) end
@@ -71,7 +79,11 @@ end)
 test("target death: held attack never redirects to surviving enemy",function()
     local host,ui,panel,event,tap=setup({"strike"},{"cultist","jaw_worm"})
     local battle=host.run.combat
-    local target=panel:GetChild("enemy1")
+    -- Independent physical targets require an explicit source formation when
+    -- constructing raw actor IDs outside MonsterHelper.
+    battle.enemies[1].sourcePosition={x=-600,y=0}
+    battle.enemies[2].sourcePosition={x=-100,y=0};ui:render()
+    local target=monsterControl(panel,"enemy1")
     local oldX,oldY=target.x,target.y
     local hp=battle.enemies[2].hp
     event("card1","down",7); event("card1","drag",7,target.x,target.y)
@@ -79,7 +91,8 @@ test("target death: held attack never redirects to surviving enemy",function()
     ui:render()
     event("dragLayer","up",7,oldX,oldY); event("card1","endDrag",7,oldX,oldY)
     assert(battle.energy==3 and #battle.hand==1 and battle.enemies[2].hp==hp)
-    local survivor=panel:GetChild("enemy1")
+    dofile('tests/lua/support/monster_death_fixture.lua')(host,ui,battle.enemies[1].id)
+    local survivor=monsterControl(panel,"enemy1")
     assert(survivor.visible and survivor:GetChild("name").text==battle.enemies[2].name)
     event("card1","down",8); event("card1","drag",8,survivor.x,survivor.y)
     event("dragLayer","up",8,survivor.x,survivor.y)
@@ -163,4 +176,5 @@ end)
 -- These cases catch missing click consumption and missing pointer identity checks,
 -- rather than relying on a global lock that any other control can clear.
 print("LUA_BATTLE_GESTURES "..passed.." passed; "..failed.." failed")
+assert(registered==11 and executed==last-first+1,'gesture partition coverage changed')
 if failed>0 then error("Interrupted gesture ownership failures: "..failed) end

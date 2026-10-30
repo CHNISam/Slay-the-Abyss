@@ -104,15 +104,21 @@ export function policyErrors(inputs,policy) {
   return files.filter(file=>inputs[file]!==policy.inputs[file]).map(file=>({file,
     message:'Active detection contract changed; review required, do not refresh the historical baseline'}));
 }
-export function collectQuality() {
-  const sources=discoverSources(),byModule={};
+// Fresh per invocation; shared only by the combined engineering process.
+export function collectEngineeringInputs({discover=discoverSources,
+  policy=()=>readJson('config/architecture.json'),analyze=analyzeSources,lint=runStatic}={}) {
+  const sources=discover(),byModule={};
   for(const [file,source] of Object.entries(sources)) {
     const name=file.slice('src/lua/'.length,-4).replaceAll('/','.');
     if(name in byModule)throw new Error(`Ambiguous Lua module identity: ${name}`);
     byModule[name]=source;
   }
-  const architecture=analyzeSources(byModule,readJson('config/architecture.json'));
-  const warnings=runStatic(),complexity=runStatic(['--max-cyclomatic-complexity','0','--only','561']);
+  const architecture=analyze(byModule,policy());
+  const warnings=lint([]),complexity=lint(['--max-cyclomatic-complexity','0','--only','561']);
+  return {sources,byModule,architecture,warnings,complexity};
+}
+export function collectQuality(collected=collectEngineeringInputs()) {
+  const {sources,byModule,architecture,warnings,complexity}=collected;
   if(warnings.tool.version!==qualityContract.luacheck||complexity.tool.version!==qualityContract.luacheck)throw new Error('Quality Luacheck contract mismatch');
   const measurements=measureSources(sources,complexity.diagnostics);
   const errors=[...architecture.errors,...measurements.errors];
@@ -123,7 +129,7 @@ export function collectQuality() {
   errors.push(...warnings.diagnostics.filter(row=>/^[WE]1/.test(row.code)));
   const inputs=Object.fromEntries(['.luacheckrc','config/lua-tools.json','config/architecture.json','config/luacheck-baseline.json',
     'scripts/check-architecture.mjs','scripts/check-lua-static.mjs','scripts/lua-quality-metrics.mjs','scripts/check-engineering-quality.mjs',
-    'package-lock.json'].map(file=>[file,digest(file)]));
+    'scripts/check-engineering.mjs','package.json','package-lock.json'].map(file=>[file,digest(file)]));
   const snapshot=qualitySnapshot(measurements,architecture,warnings.diagnostics);
   return {snapshot,errors,architecture,inputs,tools:{parser:qualityContract.parser,luacheck:warnings.tool},
     coverage:{modules:measurements.modules.length,functions:measurements.modules.reduce((n,m)=>n+m.functions.length-1,0),
@@ -161,14 +167,14 @@ export function renderQuality(report) {
     +`## 完整性或既有规则错误\n\n${report.errors.length?report.errors.map(e=>`- ${e.file??''}:${e.line??''} ${e.message}`).join('\n'):'无。'}\n`;
 }
 
-export function main(args=[]) {
+export function main(args=[],collect=collectEngineeringInputs) {
   const started=Date.now();
   if(args.length>1||args[0]?.startsWith('-'))throw new Error('Usage: check-engineering-quality.mjs [baseline.json]; no refresh/exclude/threshold overrides');
   const baselineFile=args[0]??'config/engineering-quality-baseline.json';
   mkdirSync('build',{recursive:true});
   const report={schemaVersion:1,status:'failed',mode:'report-only',revision:revision(),createdAt:new Date().toISOString(),errors:[]};
   try {
-    Object.assign(report,collectQuality());
+    Object.assign(report,collectQuality(collect()));
     const baseline=readJson(baselineFile);
     report.baselineRevision=baseline.revision;report.baselineSha256=digest(baselineFile);
     report.diff=compareQuality(report.snapshot,baseline.snapshot);

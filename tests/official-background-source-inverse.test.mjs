@@ -1,5 +1,5 @@
 import {preReadyArtSource} from './helpers/ready-art-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync} from 'node:fs';
 import {join,dirname} from 'node:path';

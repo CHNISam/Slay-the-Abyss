@@ -1,4 +1,4 @@
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import assert from 'node:assert/strict';
 import {preRelicArtFeatureCompositionSource} from './helpers/relic-art-feature-composition.mjs';

@@ -9,10 +9,29 @@ import { readFileSync, writeFileSync } from 'node:fs';
 test('composed native tree has exactly one menu, battle, map and node panel', () => {
   const layout = gameLayout();
   assert.equal(layout.script, 'abyss_ui');
-  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'characterPanel', 'choicePanel', 'combatRewards', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'potionEntry', 'potionPanel', 'prologuePanel', 'relicBar', 'relicEntry', 'relicPanel', 'runMenu']);
+  assert.deepEqual(layout.controls.map(control => control.name).sort(), ['battlePanel', 'characterPanel', 'choicePanel', 'combatRewards', 'deckEntry', 'deckPanel', 'exitEntry', 'exitPanel', 'mapPanel', 'menuPanel', 'nodePanel', 'officialBattleBackdrop', 'potionEntry', 'potionPanel', 'prologuePanel', 'relicBar', 'relicEntry', 'relicPanel', 'runMenu', 'victoryEasterEgg']);
   for (const control of layout.controls.filter(control => !['menuPanel', 'exitEntry'].includes(control.name))) {
     assert.equal(control.visible, false, `${control.name} must not bleed through during startup`);
   }
+  const backdrop = layout.controls.find(control => control.name === 'officialBattleBackdrop');
+  assert.equal(backdrop.kind, 'container');
+  assert.deepEqual(backdrop.size, nativeTheme.canvas.base);
+  assert.equal(layout.controls[0], backdrop, 'official artwork stays behind every interactive page');
+  assert.deepEqual(backdrop.children.map(control => control.name), ['act1_1', 'act1_2', 'act1_3', 'act2_1', 'act2_2', 'act2_3', 'boss1', 'boss2', 'readabilityVeil']);
+  for (const control of backdrop.children) {
+    assert.equal(control.kind, 'image', 'backgrounds must not intercept page input');
+    assert.notEqual(control.focusable, true);
+    if (control.name !== 'readabilityVeil') assert.equal(control.visible, false);
+  }
+  const egg = layout.controls.find(control => control.name === 'victoryEasterEgg');
+  assert.equal(egg.isolateNavigation, true);
+  const blocker = egg.children.find(control => control.name === 'blocker');
+  assert.equal(blocker.kind, 'cursorArea');
+  assert.deepEqual(blocker.size, nativeTheme.canvas.base);
+  assert.equal(blocker.focusable, false);
+  assert.equal(egg.children.find(control => control.name === 'close').children.find(control => control.name === 'hit').kind, 'cursorArea');
+  const result = layout.controls.find(control => control.name === 'menuPanel').children.find(control => control.name === 'result');
+  assert.equal(result.children.find(control => control.name === 'viewEasterEgg').visible, false, 'victory action starts unavailable');
 });
 
 test('title keeps one noninteractive theme-driven version label and no custom announcement', () => {

@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local first,last=...
 first,last=first or 1,last or 4
 assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=31 and first<=last,'invalid UI budget slice')
@@ -174,7 +175,7 @@ for _, boundary in ipairs({'turn','combat','run'}) do
 end
 test('movement cancels pending help and keeps drag targeting functional', function()
     local h,u,p,event,tap,s,name = setup()
-    local enemy = p:GetChild('enemy1')
+    local enemy = monsterControl(p,'enemy1')
     event(name,'down',17); h:update(0.05); event(name,'drag',17,enemy.x,enemy.y); h:update(0.4); hidden(p)
     event('dragLayer','up',17,enemy.x,enemy.y)
     assert(s.enemies[1].hp == 44 and s.energy == 1 and #s.hand == 2)

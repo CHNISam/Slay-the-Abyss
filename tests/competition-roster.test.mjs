@@ -1,6 +1,7 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {runLua} from '../scripts/test-lua.mjs';
 import {readFileSync} from 'node:fs';
@@ -8,7 +9,7 @@ import {createHash} from 'node:crypto';
 import {preRosterSource,rosterSourceBindings as proof} from './helpers/competition-roster-source-inverse.mjs';
 import {preRetirementSource} from './helpers/presentation-announcement-retirement.mjs';
 import {preAcceptedPresentation} from './helpers/p0-presentation-inverse.mjs';
-test('roster source inverse preserves the complete accepted sources and rejects current admission drift',()=>{
+historicalTest('roster source inverse preserves the complete accepted sources and rejects original admission drift',()=>{
   assert.equal(proof.base,'cec690c1701af121e370facde5c1ca2ad9beb99e');
   assert.deepEqual(Object.keys(proof.files),['src/lua/abyss_game_ui.lua','src/lua/abyss_character_select_view.lua','config/architecture.json']);
   for(const [path,binding]of Object.entries(proof.files)){

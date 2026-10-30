@@ -1,6 +1,7 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -150,7 +151,7 @@ function validateLegacyBody(source){
 }
 const readWrappers=()=>Object.fromEntries(slices.map(([file])=>[file,read('tests/lua/'+file)]));
 
-test('frozen battle UI metadata preserves all 53 case bodies and six playback seeds across seven original-budget slices',()=>{
+historicalTest('frozen battle UI metadata preserves all 53 case bodies and six playback seeds across seven original-budget slices',()=>{
   assert.equal(sha(preApprovedUiSource(support,read(support))),visualMigration.afterSha256,'complete reviewed visual assertion migration');
   const restored=restoreSupport(preApprovedUiSource(support,read(support)));
   validateLegacyBody(restored);
@@ -160,7 +161,7 @@ test('frozen battle UI metadata preserves all 53 case bodies and six playback se
   validateRunner(read('scripts/test-lua.mjs'));
 });
 
-test('battle UI seed-slice guards reject skipped/overlapping seeds, lost recursive assertions, missing markers and inert wrappers',()=>{
+historicalTest('battle UI seed-slice guards reject skipped/overlapping seeds, lost recursive assertions, missing markers and inert wrappers',()=>{
   const source=preApprovedUiSource(support,read(support));
   const assertion='assert(a == b, path)';
   const lost=source.replace(assertion,'assert(true)');
@@ -183,6 +184,14 @@ test('battle UI seed-slice guards reject skipped/overlapping seeds, lost recursi
   const longer=runner.replace('60000 : 30000','120000 : 30000');
   assert.notEqual(longer,runner,'negative control raises the actual battle fixture deadline');
   assert.throws(()=>validateRunner(longer),/unchanged runner and original deadlines/);
+});
+
+test('current battle UI discovery preserves the seven wrappers and ordinary fixture budget',()=>{
+  validatePartitions(slices,readWrappers());
+  const discovered=readdirSync('tests/lua').filter(file=>/^battle_ui(?:_slice_\d+)?\.lua$/.test(file)).sort();
+  assert.deepEqual(discovered,slices.map(([file])=>file).sort());
+  const runner=read('scripts/test-lua.mjs');
+  assert.match(runner,/fixture \|\| composedHost \? 60000 : 30000;/);
 });
 
 test('the frozen battle UI cases execute across seven slices with all six playback seeds exactly once',()=>{

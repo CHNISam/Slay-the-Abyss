@@ -1,7 +1,7 @@
 import {preHistoricalArtFeatureSource as preArtFeatureSource} from './helpers/art-feature-source-inverse.mjs';
 import {preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
 import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {preRelicArtCompositionSource} from './helpers/relic-art-composition.mjs';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync} from 'node:fs';

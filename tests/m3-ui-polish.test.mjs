@@ -1,11 +1,12 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {integration} from './helpers/presentation-m3-integration.mjs';
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 
-test('PR256 and PR268 theme changes are exactly the reviewed visual fields, with all rule and art-layout values retained',()=>{
+historicalTest('PR256 and PR268 theme changes are exactly the reviewed visual fields, with all rule and art-layout values retained',()=>{
   const expected=JSON.parse(integration.beforeSources['data/presentation/ui_theme.json']);
   Object.assign(expected.color,{cardShadow:'#00000059',cardBody:'#161820',cardWell:'#0D0E12',
     rarity:{basic:'#34363C',common:'#8C929D',uncommon:'#3F7FC6',rare:'#D4A54A',curse:'#6B4A44'},

@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import {originalLuaRunner} from './helpers/ci-lua-runner-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -70,7 +71,7 @@ function validatePartitions(rows,files){
  assert.deepEqual(rows.map(p=>p.seeds),[256,0,0,0,0],'one complete shared seed sample, never repeated or divided');
  for(const [i,p]of rows.entries())if(i)assert.equal(files[p.path],`assert(loadfile('${entry}'))(${i+1})\n`,'complete executable wrapper, not a comment');
 }
-test('encounter partitions reconstruct the exact failing public source and retain every original budget',()=>{
+historicalTest('encounter partitions reconstruct the exact failing public source and retain every original budget',()=>{
  assert.equal(original.commit,'d4a7797741595f8314ce004a671a88bf7e43cca1');
  const restored=validateSource(read(entry));
  assert.ok(restored.includes('for seed = 1, 256 do'));

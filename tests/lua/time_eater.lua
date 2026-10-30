@@ -218,14 +218,16 @@ for _,mode in ipairs({'native','advanced'})do
  end)
 end
 
-test('Haste RemoveDebuffs executes exact reverse source acquisition order before explicit Shackled and heal',function()
+test('Haste RemoveDebuffs reverses source priority order before explicit Shackled and heal',function()
  local s,e=battle();A.applyPower(s,e,'weak',2,s.player);A.applyPower(s,e,'strength',-3,s.player)
  A.applyPower(s,e,'poison',2,s.player);A.applyPower(s,e,'shackled',3,s.player);A.applyPower(s,e,'artifact',1,e)
  local start=#s.events+1;B.execute(C,s,{op='timeEater',kind='cleanse'},e,Actions)
  local removed={};for i=start,#s.events do local ev=s.events[i]
   if ev.kind=='status'and ev.detail.target==e.id then removed[#removed+1]=ev.detail.status end
  end
- eq(table.concat(removed,','),'shackled,poison,strength,weak');eq(e.statuses.artifact,1);eq(e.statuses.time_warp,0)
+ -- WeakPower has priority 99; the other three source Powers have priority 5.
+ -- ApplyPowerAction sorts new Powers before RemoveDebuffsAction pushes at TOP.
+ eq(table.concat(removed,','),'weak,shackled,poison,strength');eq(e.statuses.artifact,1);eq(e.statuses.time_warp,0)
  local n=#s.events;B.execute(C,s,{op='timeEater',kind='removeShackled'},e,Actions);eq(#s.events,n)
 end)
 test('Haste HealAction captures signed amount at takeTurn rather than forcing half HP at resolution',function()

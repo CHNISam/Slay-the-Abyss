@@ -2,6 +2,7 @@ local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Current source-card ownership and chapter context remain authoritative when
 -- native controller events are added. These use the real generated host tree.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local control=dofile('tests/lua/support/native_control_path_fixture.lua')
 local Run=require('abyss_run')
 local function setup(combat)
     local focus
@@ -25,7 +26,7 @@ local function setup(combat)
     end
     local panel=root:GetChild('battlePanel')
     local function hit(name)
-        local box=panel:GetChild(name)
+        local box=control(panel,name)
         return box:GetChild('hit') or box
     end
     local function pointer(name,kind,touch,x,y)

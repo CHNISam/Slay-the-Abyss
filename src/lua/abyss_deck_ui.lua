@@ -65,7 +65,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         end
     end
     local function canBrowse()
-        return self.visible and self.browseEnabled and not self.detailOnly and not self.detailPages
+        return self.visible == true and self.browseEnabled == true and not self.detailOnly and not self.detailPages
     end
     local function paintBrowse()
         local active=canBrowse()

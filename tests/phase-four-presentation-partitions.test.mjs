@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync, readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -9,7 +10,9 @@ const semanticFile='tests/lua/phase_four_presentation.lua';
 const renderFile='tests/lua/phase_four_presentation_render.lua';
 const restoreRenderBudget=source=>source.replace("local first,last=...\nfirst,last=first or 1,last or 1\nassert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=4 and first<=last,'invalid original fixture slice')\nlocal registered=0\n",'').replace("registered=registered+1;if registered<first or registered>last then return end;",'').replace("assert(registered==4,'class render discovery changed')\nlocal expected=0;for i=first,last do expected=expected+({160,180,180,200})[i]end\neq(cases,last-first+1);eq(rendered,expected)\n","eq(cases,4);eq(rendered,720)\n");
 const helperFile='tests/lua/support/phase_four_presentation_data.lua';
-const read=file=>prePhaseFourCardCountSource(file,readFileSync(file,'utf8').replaceAll('\r\n','\n'));
+// Only the original full-body witnesses use the original source epoch.
+// Raw discovery and hosted scheduling below continue to inspect today's entries.
+const read=file=>prePhaseFourCardCountSource(file,readHistoricalBaselineSource(file).replaceAll('\r\n','\n'));
 const digest=text=>createHash('sha256').update(text.trim()).digest('hex');
 function between(source,start,end) {
   const first=source.indexOf(start),last=source.indexOf(end,first+start.length);

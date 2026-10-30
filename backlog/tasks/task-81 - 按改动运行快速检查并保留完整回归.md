@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 15:30'
-updated_date: '2026-10-29 12:31'
+updated_date: '2026-10-30 16:53'
 labels: []
 dependencies: []
 priority: medium
@@ -47,6 +47,8 @@ PR332已复现Silent自然构筑夹具在Windows原30000ms超时；仅诊断并�
 2026-10-29已获独立小切片授权：从accepted develop ea13ede7新工作树出发，冻结原自然构筑夹具；仅把既有单次精确parent-preimage owner能力从Run传给Combat.chooseDiscard第五参数和Combat.endTurn第二参数，在原capture点消费或原样fallback。Run.endTurn按Run.play模式capture(run,combat)并在成功/拒绝/错误释放owner；不改snapshot遍历、不排除图数据、不加绕过flag。先补独立/有效/失效/复用/跨战斗owner及完整图晚失败回滚、续选/回合推进回归，再验capture180→142、174命令/两份完整签名、原30秒自然回放与相关工程。保留本任务全部历史、负责人Furinya/In Progress/AC；只本地提交待独立审查，不push/PR/合并。
 
 2026-10-29 Agent B：分析a5da67aa及真实PR Full回退，最小改善影响选择，补正反例，保留高风险与未知依赖Full及失败传播；精确PR SHA绿灯后才合并。Fast百分位样本不足只报告观测。
+
+2026-10-30系统治理：最新98fef95d隔离树；统一本地/PR advisory反馈并保留Full门禁，实测代表改动与失败传播；主控集中构建和重验证，四个Sol medium分工边界明确，完成独立审查和正常精确SHA合并。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -85,4 +87,6 @@ e22本地重放验证：相对basename参考与短模式原生CLI对当前360个
 2026-10-29独立运行时性能切片（本地待独立审查/Windows Full）：accepted develop ea13ede7新建perf/nested-command-snapshot-owner-20261029，保留docs PR332与证据提交2ca4。仅src/lua/abyss_run.lua、abyss_combat.lua复用既有精确单次owner：continuation第五参数转发，discard原两capture点消费或完整fallback；Run.endTurn按Run.play捕获完整Run+combat目标、第二参数转发并在成功/false/throw释放，Combat.endTurn仅替换原capture点。snapshot实现、图遍历、规则/RNG、独立调用边界和原30秒不变，不新增绕过flag。原Silent夹具字节不变（979708a7…cf3e5），seed177136同VM两轮及75定义/71source池完整保留；全部174命令与两份完整canonical签名逐字节等价。画像capture180→142（恰少12次discard+26次endTurn内层），capture耗时17.929→15.561秒；全部查询计数不变。Linux Node24.22.1串行原预算配对22.260→20.548秒（约7.7%，本地余量9.452秒），优化画像21.835秒/带轨迹20.934秒，不宣称Windows已修复。既有PR323/snapshot witness逐字节保留，新加两文件完整hash逆向证明，仅对PR323原登记路径外层组合，部分/漂移/跨路径负例仍拒绝。最终专项12/12无skip，新Lua切片4+4+3组约6.15/9.51/5.82秒；原基线先红、新实现绿，伪造owner绕过、未释放owner、内层不回滚、外层晚失败不回滚四个临时变异全部被目标断言杀死。33个相关Lua夹具156.17秒全部通过，含各Run choice/turn-reward rollback、owner-end/retention、复活、蜥蜴尾巴、Silent75×2实出牌矩阵及最终边界；check:engineering完整通过（258模块/3955测量、架构1441边、Luacheck无新增、4关键变异kill、4原生合同通过）。数据、Backlog、网络、语法/diff通过；仅沿用缓存依赖和固定hash Luacheck，无安装/桌面输入。首次新late-finish测试的计数假设2!=1失败原日志保留，已明确断言一个父快照+既有独立settlement快照（2次/1owner），未删除回滚断言。证据在/tmp/nested-command-owner-20261029；完整相关选择器实际为280 JS+1066 Lua，未冒称已本地全跑。新HEAD尚无独立审查/托管Windows及完整Quality，不push/PR/合并；Furinya、In Progress、全部AC不变。
 
 2026-10-29 B独立切片：只修正Fast估算为max(Windows完整选集总和,Linux完整选集总和)，保留全部选集、Lua/未知权重和180秒阈值；详见docs/backlog-details/TASK-81-fast-platform-budget.md。真实40866923323/40861929035的Backlog未知/核心回退继续Full；无自然Fast转换样本，不宣称目标达成。聚焦先红3/4证明旧算法回退，后续98/98通过且扩充影响计划失败传播负例；固定CI Node24.18验证待补。保持In Progress/性能AC未勾。
+
+2026-10-31本轮治理：本地fast与自动PR advisory共用JS/Lua选择器，直接Lua夹具优先，未知依赖显式延期并保留完整验收。正式UI子模块按架构分类，不扩大180秒全选集预算。真实render_actors样本首结果3.853s、总74.833s发现旧固定enemy路径失败；保留失败，不当成功/完整覆盖。独立复审补齐历史runner六入口漏边。自然Fast样本及P50/P90仍不足，AC保持未完成。
 <!-- SECTION:NOTES:END -->

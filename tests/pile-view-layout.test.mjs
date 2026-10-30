@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { battleLayout, theme } from '../scripts/ui-layout.mjs';
+import { battleLayout, enemyUnitTemplate, enemyPowerTemplate, theme } from '../scripts/ui-layout.mjs';
 
 test('pile view cursor areas cover their existing icons and counts within the safe canvas', () => {
   const stage = battleLayout().controls.find(c => c.name === 'stage');
@@ -29,7 +29,7 @@ test('pile view cursor areas cover their existing icons and counts within the sa
   }
 });
 
-test('pile entry additions preserve every existing stage path and the native 60-child limit', () => {
+test('pile entries coexist with the dynamic actor host and keep scene and template parents within 60 children', () => {
   const root = battleLayout();
   function visit(controls) {
     assert.ok(controls.length <= 60);
@@ -38,7 +38,17 @@ test('pile entry additions preserve every existing stage path and the native 60-
   }
   visit(root.controls);
   const stage = root.controls.find(c => c.name === 'stage');
-  assert.equal(stage.children.length, 60);
+  const actorLayer = stage.children.find(c => c.name === 'actorLayer');
+  assert.equal(actorLayer?.kind, 'container', 'runtime actors need a real native container');
+  assert.deepEqual(actorLayer.size, theme.canvas.base);
+  assert.deepEqual(actorLayer.children, [], 'actor instances belong to the runtime manager');
+  assert.ok(!stage.children.some(c => /^enemy\d+$/.test(c.name)), 'scene must not reserve a fixed enemy-slot ceiling');
+  const actor = enemyUnitTemplate(), power = enemyPowerTemplate();
+  visit([actor, power]);
+  for (const name of ['hit', 'intentHit']) {
+    assert.equal(actor.children.find(c => c.name === name)?.kind, 'cursorArea', `${name} remains a native actor-owned entry`);
+  }
+  assert.equal(power.children.find(c => c.name === 'hit')?.kind, 'cursorArea', 'runtime power details retain their own native entry');
   for (const name of ['drawIcon', 'draw', 'drawLabel', 'discardIcon', 'discard', 'discardLabel', 'exhaustIcon', 'exhaust']) {
     assert.ok(stage.children.find(c => c.name === name), name);
   }

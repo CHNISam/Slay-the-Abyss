@@ -501,12 +501,19 @@ test("native lifecycle loads every composed control and registers its listeners 
     local root = canvas:GetChild("stage")
     local oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor = script, Enum, OnStart, OnUpdate, game, Color
     script = { object = canvas, EnableUpdate = function(self, value) self.updating = value end }
-    Enum = { CursorEventType = { CursorClick = "click" }, ImageSource = { StaticReference = "static" } }
+    Enum = { CursorEventType = { CursorClick = "click" }, ImageSource = { StaticReference = "static" },
+        Device={Controller='controller',MobileController='mobileController',Mobile='mobile'} }
     Color = setmetatable({ FromRGB = function() end }, {
         __call = function(_,r,g,b,a) return {r=r,g=g,b=b,a=a} end,
     })
     local width, height = 1600, 900
-    game = { GetUICanvasSize = function() return width, height end, IsTestPlay=function()return true end }
+    local previousBinding=package.loaded.abyss_monster_actor_binding
+    local actors=F.monsterActors()
+    package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actors.templateIndex,
+        containerTemplateIndex=actors.containerTemplateIndex,powerTemplateIndex=actors.powerTemplateIndex}
+    game = { GetUICanvasSize = function() return width, height end, IsTestPlay=function()return true end,
+        GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'desktop'end,
+        InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy }
     dofile("src/lua/abyss_ui.lua")
     OnStart()
     OnStart()
@@ -528,16 +535,26 @@ test("native lifecycle loads every composed control and registers its listeners 
     OnUpdate(0.25)
     assert(root.scale[1] == 1.5 and canvas:GetChild("canvasBackdrop").sizeDeltaX == 0)
     assert(root:GetChild("mapPanel").localScaleX == nil or root:GetChild("mapPanel").localScaleX == 1)
+    package.loaded.abyss_monster_actor_binding=previousBinding
     script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)
 test("startup failure is visible without log subscription and hides the dead start button", function()
     local canvas = control({ children = Layout })
     local oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor = script, Enum, OnStart, OnUpdate, game, Color
-    local originalNew = GameUI.new
-    GameUI.new = function() error("INJECTED_STARTUP_FAILURE") end
+    -- Patch the actual native entry module, not F.GameUI's explicit-platform wrapper.
+    local NativeGameUI=require('abyss_game_ui')
+    local originalNew = NativeGameUI.new
+    NativeGameUI.new = function() error("INJECTED_STARTUP_FAILURE") end
     script = {object=canvas, EnableUpdate=function(self,value) self.updating=value end}
-    Enum = {CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"}}
-    game = {GetUICanvasSize=function() return 1280,720 end,IsTestPlay=function() return true end}
+    Enum = {CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"},
+        Device={Controller='controller',MobileController='mobileController',Mobile='mobile'}}
+    local previousBinding=package.loaded.abyss_monster_actor_binding
+    local actors=F.monsterActors()
+    package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actors.templateIndex,
+        containerTemplateIndex=actors.containerTemplateIndex,powerTemplateIndex=actors.powerTemplateIndex}
+    game = {GetUICanvasSize=function() return 1280,720 end,IsTestPlay=function() return true end,
+        GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'desktop'end,
+        InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy}
     dofile("src/lua/abyss_ui.lua")
     OnStart()
     local stage = canvas:GetChild("stage")
@@ -547,7 +564,7 @@ test("startup failure is visible without log subscription and hides the dead sta
     assert(not menu:GetChild('codeVersion').visible)
     assert(not stage:GetChild("mapPanel").visible and not stage:GetChild("battlePanel").visible)
     OnStart() OnUpdate(0.1)
-    GameUI.new = originalNew
+    NativeGameUI.new = originalNew
     -- A stale/mismatched imported tree must still show the startup diagnostic,
     -- even though a required shared panel is absent.
     local stale = control({ children = Layout })
@@ -560,6 +577,7 @@ test("startup failure is visible without log subscription and hides the dead sta
     assert(staleMenu.visible and staleMenu:GetChild('summary').visible)
     assert(staleMenu:GetChild('summary').text:match('missing game panel exitPanel'))
     assert(not staleMenu:GetChild('start').visible and script.updating == false)
+    package.loaded.abyss_monster_actor_binding=previousBinding
     script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)
 

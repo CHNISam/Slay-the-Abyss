@@ -1,5 +1,5 @@
 import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync} from 'node:fs';
 import {join} from 'node:path';

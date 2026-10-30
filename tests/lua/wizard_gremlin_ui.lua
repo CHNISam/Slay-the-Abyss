@@ -1,5 +1,6 @@
 local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local UI = require("abyss_battle_ui")
 local Combat = require("abyss_combat")
 local Run = require("abyss_run")
@@ -36,15 +37,15 @@ end
 local function setup()
     local root = control({name="root",size={1280,720},children=Layout})
     local stage = root:GetChild("stage"):GetChild("battlePanel")
-    local ui = UI.new(stage,Data,Presentation,"click",{
+    local ui = UI.new(stage,Data,Presentation,"click",F.withMonsterActors({
         imageSource="static",color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end
-    },{embedded=true})
+    }),{embedded=true})
     ui.run = Run.new(Data,1)
     ui.run.combat = Combat.new(Data,{enemies={"wizard_gremlin"},deck={"defend"},seed=42})
     ui.run.phase = "combat"
     ui:render()
     local function click(name)
-        local box = stage:GetChild(name)
+        local box = F.actorControl(stage,name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
         if ui.feedback and ui.feedback.busy then
             for _=1,400 do if not ui.busy then break end ui:update(0.05) end
@@ -54,12 +55,12 @@ local function setup()
     return ui,stage,click
 end
 local ui, stage, click = setup()
-local box = stage.children.enemy1
+local box = F.actorControl(stage,'enemy1')
 for turn=1,11 do
     local attack = turn == 3 or turn == 7 or turn == 11
     assert(box.children.intent.text == (attack and "25" or "") and not box.children.intentLabel.visible, "actual numeric face turn " .. turn)
     if not attack then assert(require('abyss_battle_intent_view').intentView(ui.run.combat,1).label=='蓄能','charge wording turn '..turn)end
-    assert(box.children.intentIcon.imageId == (attack and Theme.icon.intent.attack or Theme.icon.intent.unknown), "actual icon turn " .. turn)
+    dofile('tests/lua/support/intent_face_assertion.lua')(box,require('abyss_battle_intent_view').intentView(ui.run.combat,1))
     click("enemy1")
     assert(stage.children.statusInfo.visible and stage.children.statusInfo.children.text1.text:find(attack and "25 点伤害" or "蓄能",1,true), "detail turn " .. turn)
     stage.children.statusInfo.children.hit.click()

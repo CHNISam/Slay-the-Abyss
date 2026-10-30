@@ -1,5 +1,5 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,7 +11,7 @@ const read=file=>preAcceptedPr323Source(file,readFileSync(file,'utf8')).replaceA
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const layer=JSON.parse(read('tests/fixtures/task76-owner-composition.json'));
 const frozen=JSON.parse(read('tests/fixtures/battle-ui-approved-responsibility-layer.json'));
-const current=Object.fromEntries(task76OwnerPaths.map(file=>[file,read(file)]));
+const current=withHistoricalBaseline(()=>Object.fromEntries(task76OwnerPaths.map(file=>[file,read(file)])));
 
 test('complete sixteen-owner inverse restores every frozen311 identity and exact315 approved monolith',()=>{
  assert.deepEqual(task76OwnerPaths,Object.keys(frozen.modules));

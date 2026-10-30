@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest,withHistoricalBaseline,readHistoricalPlayerDeathInput} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {cpSync,existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
@@ -13,7 +14,7 @@ import {preMaxHpSource} from './helpers/max-hp-accepted-source-inverse.mjs';
 
 const oldTheme=JSON.parse(proof.beforeSources['data/presentation/ui_theme.json']);
 // The delta oracle describes its immutable reviewed sources, not today's layout.
-const theme=JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8')));
+const theme=withHistoricalBaseline(()=>JSON.parse(preFormalEntrySource('data/presentation/ui_theme.json',readFileSync('data/presentation/ui_theme.json','utf8'))));
 const rgba=hex=>`{a=255,b=${parseInt(hex.slice(5,7),16)},g=${parseInt(hex.slice(3,5),16)},r=${parseInt(hex.slice(1,3),16)}}`;
 const row=source=>{
   const match=/^\{1=string:([^,]+),2=string:([^,]+),3=(.*)\}$/.exec(source);
@@ -108,7 +109,7 @@ function verify(before,after,delta){
   return counts;
 }
 
-test('M3 frame and first UI batch retain every old native write except the explicitly reviewed visual delta',()=>{
+historicalTest('M3 frame and first UI batch retain every old native write except the explicitly reviewed visual delta',()=>{
   assert.equal(proof.base,'4f5bf5bb30821f88f33467585abec3caba7e6005');
   assert.deepEqual(proof.heads,{nest:'15b879f4b8d2f9771ac2b124adc8e8b7abd8ee9e',drag:'fcb18ea8345585e02cf869143ef9f85430bc8676',frame:'41dda081f46f0cbad68e88e9b8f6924a0d5b93ca',ui:'8849c853f8a2e7a43dd52fd9fee821872b077f38'});
   verify(proof.before,proof.after,proof.delta);
@@ -133,7 +134,7 @@ test('visual proof rejects changed gameplay text, missing writes, reordered writ
 for(const [count,hash,sources]of [
  [79543,1215629804,{...retirementSources.beforeSources,...proof.beforeSources}],
  [79757,1467902785,retirementSources.beforeSources],
-])test(`the accepted presentation sources still execute the original strict ${count}-write fixture`,()=>{
+])historicalTest(`the accepted presentation sources still execute the original strict ${count}-write fixture`,()=>{
   mkdirSync('build',{recursive:true});const directory=mkdtempSync(resolve('build/accepted-presentation-'));
   try{
     // Repository-local temporary tree inherits installed node_modules resolution.
@@ -141,8 +142,10 @@ for(const [count,hash,sources]of [
     for(const path of ['src','data','scripts','tools','config','tests/lua','package.json','package-lock.json',
       '.release-please-manifest.json','CHANGELOG.md'])cpSync(path,join(directory,path),{recursive:true});
     materializeHistoricalPresentation(directory);
-    for(const path of Object.keys(formalEntryInverses))
-      writeFileSync(join(directory,path),preFormalEntrySource(path,readFileSync(path,'utf8')));
+    for(const path of Object.keys(formalEntryInverses)){
+      const source=path==='tests/lua/support/battle_gesture_fixture.lua'?readHistoricalPlayerDeathInput(path):readFileSync(path,'utf8');
+      writeFileSync(join(directory,path),preFormalEntrySource(path,source));
+    }
     for(const [path,source]of Object.entries(sources))writeFileSync(join(directory,path),source);
     writeFileSync(join(directory,'data/relics.json'),preRetirementSource('data/relics.json'));
     for(const script of ['build-lua-data.mjs','build-ui.mjs','build-ui-theme.mjs']){
@@ -158,7 +161,7 @@ for(const [count,hash,sources]of [
   }finally{rmSync(directory,{recursive:true,force:true});}
 });
 
-test('historical replay inputs bind every changed build, host and version source, including the deleted module',()=>{
+historicalTest('historical replay inputs bind every changed build, host and version source, including the deleted module',()=>{
  assert.deepEqual(retirementSources.trace,{before:[79757,1467902785],removed:68,after:[79689,2034622601]});
  for(const [path,before]of Object.entries(retirementSources.beforeSources)){
   assert.equal(path==='CHANGELOG.md'?archivedRetirementChangelog():preRetirementSource(path),before);
@@ -169,7 +172,7 @@ test('historical replay inputs bind every changed build, host and version source
  assert.match(retirementSources.beforeSources['tests/lua/presentation_responsibilities_trace.lua'],/assert\(trace.count==79757 and trace.hash==1467902785/);
 });
 
-test('historical relic input is the complete frozen pre-Molten/Mushrooms source, not a reduced live dataset',()=>{
+historicalTest('historical relic input is the complete frozen pre-Molten/Mushrooms source, not a reduced live dataset',()=>{
  const path='data/relics.json',live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
  const before=readFileSync('tests/fixtures/presentation-relics-before-m3.json','utf8').replaceAll('\r\n','\n');
  assert.equal(digest(before),'76f9c76d89f57c7c0bd5c556e1813d09eecd673ec8a0a1992446059b4ec87758');
@@ -186,7 +189,7 @@ test('historical relic input is the complete frozen pre-Molten/Mushrooms source,
  ])assert.throws(()=>preRetirementSource(path,JSON.stringify(change,null,2)+'\n'),/unreviewed integrated retirement source drift/);
 });
 
-test('NodeUI refactor inverse preserves historical Mushrooms copy and rejects drift in every responsibility',()=>{
+historicalTest('NodeUI refactor inverse preserves historical Mushrooms copy and rejects drift in every responsibility',()=>{
  const path='src/lua/abyss_node_ui.lua',source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
  assert.equal(acceptedPresentationSource(path),proof.beforeSources[path]);
  assert.equal(acceptedPresentationSource(path,source.replaceAll('\n','\r\n')),proof.beforeSources[path]);

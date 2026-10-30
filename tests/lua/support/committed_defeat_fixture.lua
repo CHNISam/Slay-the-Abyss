@@ -23,8 +23,12 @@ function M.setup(options)
     if not options.map then
         assert(Run.startCombat(ui.run, 'cultist_solo'))
         local enemy = ui.run.combat.enemies[1]
-        enemy.ai, enemy.intentIndex = nil, 1
-        enemy.intents = {{id='fatal', kind='attack', effects={{op='damage', value=12}}}}
+        local attack
+        for i,intent in ipairs(enemy.intents) do if intent.id=='cultist_1' then attack=i end end
+        assert(attack,'missing published Cultist attack')
+        -- Select the real six-damage attack; the controlled three-HP run is
+        -- already lethal without inventing source intents or consuming RNG.
+        enemy.ai, enemy.intentIndex = nil, attack
     end
     ui:refresh()
     return ui, root, function() return calls end, api

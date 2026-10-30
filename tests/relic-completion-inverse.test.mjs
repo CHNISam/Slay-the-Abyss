@@ -1,5 +1,6 @@
 import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {preRelicRound2CompositionSource} from './helpers/relic-round2-composition.mjs';
 import {preNativeEnemyThemeSource} from './helpers/native-enemy-theme-inverse.mjs';
@@ -18,7 +19,7 @@ const read=path=>{
  // New outer-only modules remain actual production inputs for unregistered-source negatives.
  return preNativeEnemyThemeSource(path,preRelicRound2CompositionSource(path,preNativeMonsterArtSource(path,source)??source,'relic')).replaceAll('\r\n','\n');
 };
-test('complete relic source identities recover exact ce62 sources solely from positioned hunks',()=>{
+historicalTest('complete relic source identities recover exact ce62 sources solely from positioned hunks',()=>{
  assert.ok(Object.keys(proof.files).length>40);
  for(const [path,binding]of Object.entries(proof.files)){
   const current=read(path);requireRelicCompletionSource(path,current);
@@ -31,7 +32,7 @@ test('complete relic source identities recover exact ce62 sources solely from po
   assert.equal(previous===null,binding.beforeSha256===null,'null means genuine prior absence: '+path);
  }
 });
-test('every registered source mutation and each removed duplicated moved or altered hunk refuses',()=>{
+historicalTest('every registered source mutation and each removed duplicated moved or altered hunk refuses',()=>{
  for(const [path,binding]of Object.entries(proof.files)){
   const current=read(path);
   const mutants=[current+'\n-- unregistered extra source\n',current.slice(1),'return {}\n'];
@@ -50,7 +51,7 @@ test('every registered source mutation and each removed duplicated moved or alte
   }
  }
 });
-test('every unregistered production Lua source and arbitrary paths reject rather than projecting blind snapshots',()=>{
+historicalTest('every unregistered production Lua source and arbitrary paths reject rather than projecting blind snapshots',()=>{
  let count=0;
  for(const name of readdirSync('src/lua')){
   const path='src/lua/'+name;if(!name.endsWith('.lua')||proof.files[path])continue;
@@ -62,7 +63,7 @@ test('every unregistered production Lua source and arbitrary paths reject rather
  assert.ok(count>100);
  assert.throws(()=>requireRelicCompletionSource('../unregistered.lua','return {}'),/unregistered/);
 });
-test('historical cleanup validates all truly new module bytes before any retirement',()=>{
+historicalTest('historical cleanup validates all truly new module bytes before any retirement',()=>{
  const directory=mkdtempSync(join(tmpdir(),'relic-completion-history-'));
  try{
   for(const path of relicCompletionAddedPaths){const target=join(directory,path);mkdirSync(dirname(target),{recursive:true});writeFileSync(target,read(path));}
@@ -76,7 +77,7 @@ test('historical cleanup validates all truly new module bytes before any retirem
   retire();for(const path of relicCompletionAddedPaths)assert.equal(existsSync(join(directory,path)),false);
  }finally{rmSync(directory,{recursive:true,force:true});}
 });
-test('historical materialization restores every existing source before old builders and refuses drift before writing',()=>{
+historicalTest('historical materialization restores every existing source before old builders and refuses drift before writing',()=>{
  const directory=mkdtempSync(join(tmpdir(),'relic-completion-materialize-'));
  try{
   const paths=Object.keys(proof.files),existing=paths.filter(path=>proof.files[path].beforeSha256!==null);
@@ -102,13 +103,16 @@ test('current relic feature fixtures and production modules never use historical
  }
 });
 test('Sensory Stone direct runtime keeps the full new script while only historical proof input recovers old bytes',()=>{
- const path='tests/lua/sensory_stone_outcomes.lua',current=read(path),binding=proof.files[path];
+ const path='tests/lua/sensory_stone_outcomes.lua',current=readFileSync(path,'utf8'),binding=proof.files[path];
  assert.ok(binding,'single explicitly owned PR323 fixture source');
- assert.equal(hash(current),binding.afterSha256,'runtime script body is the full current after identity');
- assert.equal(hash(preRelicCompletionSource(path,current)),binding.beforeSha256,'historical proof alone receives exact ce62 body');
+ withHistoricalBaseline(()=>{
+  const original=read(path);
+  assert.equal(hash(original),binding.afterSha256,'original complete source remains archived');
+  assert.equal(hash(preRelicCompletionSource(path,original)),binding.beforeSha256,'historical proof alone receives exact ce62 body');
+ });
  assert.notEqual(binding.afterSha256,binding.beforeSha256);
  assert.ok(!historicalPresentationFixtures.includes(path),'ordinary runLua never historically materializes this runtime fixture');
  const result=runLua(path);
  assert.equal(result.status,0,result.stdout+result.stderr);
- assert.equal(hash(read(path)),binding.afterSha256,'direct runtime execution leaves every current assertion intact');
+ assert.equal(readFileSync(path,'utf8'),current,'direct runtime execution leaves every current assertion intact');
 });

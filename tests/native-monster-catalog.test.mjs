@@ -17,7 +17,11 @@ test('per-instance template preserves scene geometry and accepts every explicit 
  assert.equal(walk(tree).filter(n=>n.name==='actorLayer').length,1);
  assert(!walk(tree).some(n=>/^enemy\d+$/.test(n.name)),'scene must not impose a five-monster visibility cap');
  const actor=monsterActorTemplate(production);assertNativeUiCapacity(actor);
- assert.equal(walk(actor).length,645);assert.equal(actor.visible,false);
+ // Two source intent-particle layers surround the icon and precede damage text.
+ assert.equal(walk(actor).length,647);assert.equal(actor.visible,false);
+ const names=actor.children.map(child=>child.name);
+ assert(names.indexOf('intentVfxBehind')>=0&&names.indexOf('intentVfxBehind')<names.indexOf('intentIcon'));
+ assert(names.indexOf('intentVfxAfter')>names.indexOf('intentIcon')&&names.indexOf('intentVfxAfter')<names.indexOf('intent'));
  assert.equal(actor.children[0].name,'monsterArt');assert.equal(actor.children[0].visible,false);
  assert.equal(Object.keys(production.assets).length,18);assert.equal(Object.keys(production.bindings).length,19);
  assert.equal(production.surfaceAllocation,'per-drawable-actor-instance');

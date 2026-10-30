@@ -1,9 +1,10 @@
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local GameUI=require('abyss_game_ui')
 local function native(workKey)
  local canvas=F.control({children=F.Layout})
  local host
- local originalNew=F.GameUI.new
- F.GameUI.new=function(...)
+ local originalNew=GameUI.new
+ GameUI.new=function(...)
   host=originalNew(...);return host
  end
  local originalNarrative=package.loaded.abyss_narrative
@@ -13,11 +14,15 @@ local function native(workKey)
  script={object=canvas,GetParam=function()return false end,EnableUpdate=function(self,value)self.updating=value end}
  Enum={CursorEventType={CursorClick='click'},ImageSource={StaticReference='static'},Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}}
  Color=setmetatable({},{__call=function(_,r,g,b,a)return {r=r,g=g,b=b,a=a}end})
+ local actors=F.monsterActors()
+ package.loaded.abyss_monster_actor_binding={enabled=true,templateIndex=actors.templateIndex,
+  containerTemplateIndex=actors.containerTemplateIndex,powerTemplateIndex=actors.powerTemplateIndex}
  game={IsTestPlay=function()return false end,GetUICanvasSize=function()return 1280,720 end,
+  InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy,
   GetDevice=function()return 'pc' end,GetCursorUIPos=function()return 0,0 end,
   ServerSignal=function()return {SendSignal=function()end}end}
  dofile('src/lua/abyss_ui.lua');OnStart();OnStart()
- F.GameUI.new=originalNew;package.loaded.abyss_narrative=originalNarrative
+ GameUI.new=originalNew;package.loaded.abyss_narrative=originalNarrative
  assert(host and script.updating,'actual ordinary-player native startup failed')
  local root=canvas:GetChild('stage');root.ui=host
  host.seed='2' -- deterministic offline route only; not natural/device evidence
