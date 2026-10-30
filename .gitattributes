@@ -205,3 +205,7 @@ art/cards/traveler-geo/heavy_blade/native-art.lua -text
 art/cards/traveler-geo/heavy_blade/native-art.json -text
 art/cards/traveler-geo/native-source-registry.json text eol=lf
 art/cards/traveler-geo/native-runtime-registry.json text eol=lf
+art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/geovishap-hatchling/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/dendro-slime/source.png filter=lfs diff=lfs merge=lfs -text

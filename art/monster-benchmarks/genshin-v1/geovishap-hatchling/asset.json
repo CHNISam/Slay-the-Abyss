@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "assetRole": "genshin-identity-source-direction-benchmark-only",
+  "identity": "Geovishap Hatchling / 幼岩龙蜥",
+  "directionEnemyId": "jaw_worm",
+  "runtimeBinding": "none",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceAlphaBBox": [
+    0,
+    20,
+    1245,
+    1254
+  ],
+  "approvals": {
+    "ownerSourceDirection": true,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "performance": "unmeasured; source PNG bytes are not runtime load or official capacity",
+  "previewRecipe": "Full original square canvas LANCZOS RGBA resize to 106/127. No crop/stretch/trim or added margin. Source bytes immutable. Not native antialiasing or crop safety proof. Future native candidate must test inset/idle extrema.",
+  "files": {
+    "generation-provenance.json": {
+      "sha256": "f78ece47ed4faaccbf5f11ac32a37a54fddc4b5ae76a8ff80379ae7a37e5568d",
+      "bytes": 2095
+    },
+    "historical-source-review.json": {
+      "sha256": "9b65bf99f9f8f272be4b1594cfb9f59269bb093c4f466b7f8772e51a0967d327",
+      "bytes": 1851
+    },
+    "owner-direction.json": {
+      "sha256": "f9835a3bbbd82978195d3246a75805140e1bc77dc9ee640d711b9213d84bda81",
+      "bytes": 369
+    },
+    "preview-contain-106.png": {
+      "sha256": "d58d3e7ea4608a8d737e8a582a9b5d902a5c6a7ae31f5b14df5a035475d445bb",
+      "bytes": 17319
+    },
+    "preview-contain-127.png": {
+      "sha256": "45140519d35ac14a964e179eeab1d4f5b0a7ebffe536d508502e36fa1cc8a8f9",
+      "bytes": 23033
+    },
+    "prompt.txt": {
+      "sha256": "67c6761f98a80c39d8ca7c50462c9efbefe08f3de39503c3241e8d836c1cdacd",
+      "bytes": 1809
+    },
+    "source.png": {
+      "sha256": "2dcf77d1f530847c964c98c5b591c91ca76b72af6c7e730e86aa5b7c482db1d6",
+      "bytes": 1123947
+    }
+  },
+  "anatomy": "Biped: two weight-bearing hind legs, short forearms, oversized crown-like rock helmet, amber forehead crystal and ivory-spiked tail. Earlier quadruped proposal is inaccurate and superseded."
+}

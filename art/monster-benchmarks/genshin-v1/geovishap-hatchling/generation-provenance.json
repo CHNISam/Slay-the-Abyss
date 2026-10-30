@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "tool": "built-in image_gen.imagegen",
+  "dateUtc": "2026-10-30",
+  "model": "unknown-not-exposed",
+  "seed": "unknown-not-exposed",
+  "exactPrompt": "prompt.txt",
+  "sourceSha256": "2dcf77d1f530847c964c98c5b591c91ca76b72af6c7e730e86aa5b7c482db1d6",
+  "rawPreserved": true,
+  "references": [
+    {
+      "page_url": "https://www.hoyolab.com/article/4274377",
+      "image_url": "https://upload-os-bbs.hoyolab.com/upload/2022/04/15/23941667/f5794d47706935f3d709bf38bae618f9_3979446155845522350.png",
+      "role": "actual in-game archive identity reference; visible name Geovishap Hatchling",
+      "sha256": "c310316652996ffcfdefa111e82b1841803ce2804dfcfbe2be5ab0d5e6caada8",
+      "pixels_visually_inspected": true,
+      "availability": "URL and hash only; third-party image excluded"
+    },
+    {
+      "page_url": "https://www.hoyolab.com/article/30131478",
+      "image_url": "https://upload-os-bbs.hoyolab.com/upload/2024/06/21/148783598/1313362f4daf62b09bc5d3048854a3b2_8112788819157921381.png",
+      "role": "2024 actual in-game screenshot identity confirmation",
+      "sha256": "bfbb36099aae6bbe4e9a27e81f7cb6e1c813ff32cc29893bfbb40f65c1444d52",
+      "pixels_visually_inspected": true,
+      "availability": "URL and hash only; third-party image excluded"
+    }
+  ],
+  "rights": "Genshin identities and third-party references retain original rights. AI-assisted derivative source study, not project-original character IP. No commercial clearance, sublicense, or public reference-image redistribution permission claimed. Reference pixels are NOT included.",
+  "styleReferences": [
+    {
+      "repositoryPath": "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png",
+      "role": "style only, not identity/anatomy",
+      "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64"
+    },
+    {
+      "repositoryPath": "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png",
+      "role": "style only, not identity/anatomy",
+      "sha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40"
+    }
+  ]
+}

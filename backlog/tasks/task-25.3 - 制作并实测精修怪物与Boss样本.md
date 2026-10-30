@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-27 09:48'
-updated_date: '2026-10-29 21:15'
+updated_date: '2026-10-30 00:50'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -33,6 +33,8 @@ ordinal: 119000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. 依Owner夜间授权整理当前第一、二幕审计42ID的真实源图与完整提示词来源，仅纳入独立审阅通过项，明确缺口。2. 按源图逐路径Git LFS交付，保留真实contain小图和来源哈希，不绑定运行时、不放行原生批产。3. 完成源码/许可/工程与完整CI及独立审查；原生质量、官方导入、PC/安卓多敌负载和清理门槛保持未验收。
+
+2026-10-30 身份纠正切片：保留旧41张历史源图并标明方向已被取代；另存4张已接受的原神敌人源图基准、提示词和来源，仅记录源图方向认可；不改玩法或运行时绑定。补齐逐路径LFS、许可目录与专项回归，提交draft PR，原生及真机验收仍待办。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
