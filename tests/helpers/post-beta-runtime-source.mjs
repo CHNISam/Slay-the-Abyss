@@ -1,3 +1,4 @@
+import {bindEntryRecognitionLengths} from './entry-recognition-lengths.mjs';
 import {preFinalUiSource,finalUiSourcePaths} from './final-ui-source.mjs';
 import {preP0UiSource,p0UiSourcePaths} from './p0-ui-source.mjs';
 import {preBetaCurrentTestSource} from './beta-current-test-source.mjs';
@@ -15,13 +16,15 @@ export const postBetaRuntimeProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const postBetaRuntimePaths=Object.freeze(Object.keys(postBetaRuntimeProof.files));
 export const postBetaRuntimeHistoricalPaths=Object.freeze([...new Set([...finalUiSourcePaths,...p0UiSourcePaths,'scripts/test-lua.mjs','tests/lua/game_ui.lua','src/lua/abyss_feedback.lua',...artifactRuntimePaths,...postBetaRuntimePaths])].sort());
 assert.deepEqual(postBetaRuntimePaths,['src/lua/abyss_battle_render_actors.lua','src/lua/abyss_feedback_actor_painter.lua']);
+const recognitionLengths=bindEntryRecognitionLengths('post-beta-runtime',bytes,postBetaRuntimeProof.files);
 export function prePostBetaRuntimeSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
  source=preFinalUiSource(path,source,{readSource});
  source=preP0UiSource(path,source,{readSource});
  source=preBetaCurrentTestSource(path,source,{readSource});
  source=preArtifactRuntimeSource(path,source,{readSource});
  const b=postBetaRuntimeProof.files[path];if(!b||typeof source!=='string')return source;
- const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
+ // Length only rejects impossible matches; equal lengths retain every original identity and fresh-owner check.
+ const text=normalize(source);if(text.length!==recognitionLengths[path]||hash(text)!==b.afterSha256)return source;
  for(const p of postBetaRuntimePaths){
   let live;try{live=preArtifactRuntimeSource(p,readSource(p),{readSource});}catch{assert.fail('post-beta linked source missing: '+p);}
   assert.equal(typeof live,'string','post-beta linked source must exist: '+p);

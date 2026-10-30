@@ -3,10 +3,22 @@ local confirm=dofile("tests/lua/support/confirm_potion_popup.lua")
 local function setup(deck, enemies)
     local host, ui, panel, event, tap, drain, deckToggle, root = H.setup(deck, enemies)
     assert(H.Run.obtainPotion(host.run, "energy_potion")); host:refresh()
+    -- Physical releases belong to the actual control pressed, even if its actor
+    -- was retired meanwhile. Keep callbacks, never remap a dead actor to a survivor.
+    local pressed={}
     local function emit(name, kind, touch)
-        local box = panel:GetChild(name)
-        local hit = box.listeners and box or box:GetChild("hit")
-        local callback = hit.listeners and hit.listeners[kind]
+        local actor=name:match('^enemy%d+$')
+        local callbacks=actor and kind~='down' and pressed[name]
+        if not callbacks then
+            local box=H.F.actorControl(panel,name)
+            local hit=box.listeners and box or box:GetChild('hit')
+            callbacks=hit.listeners
+            if actor and kind=='down' then
+                local saved={};for event,fn in pairs(callbacks or {})do saved[event]=fn end
+                pressed[name]=saved;callbacks=saved
+            end
+        end
+        local callback=callbacks and callbacks[kind]
         -- Deliver physical events without inventing listeners missing on the baseline.
         if callback then return callback({touchId = touch}) end
     end

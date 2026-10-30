@@ -87,16 +87,24 @@ end
 end
 
 -- Actual generated control names, with platform-only drawing/audio recording.
-local function control(definition)
-    local c = {name=definition.name, children={}, text="", visible=definition.visible ~= false}
-    for _, child in ipairs(definition.children or {}) do c.children[child.name] = control(child) end
-    function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
-    function c:SetVisible(v) assert(type(v) == "boolean"); self.visible = v end
-    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(source, id) assert(source == "static" and type(id) == "number"); self.imageId = id end
-    function c:SetAsLastSibling() end
-    return c
+local F=dofile("tests/lua/support/game_ui_fixture.lua")
+local Surfaces=require("abyss_monster_surfaces")
+local EnemyView=require("abyss_battle_enemy_view")
+local control=F.control
+-- Exercise real generated actor templates, not the retired fixed enemy slots.
+local function nativeFeedback(stage,platform,complete)
+ platform=F.withMonsterActors(platform)
+ local surfaces=Surfaces.new(stage,platform)
+ local feedback
+ feedback=Feedback.new(stage,platform,function(frame)
+  local rows=EnemyView.slots(frame,feedback)
+  surfaces:select(rows,feedback.battle)
+  surfaces:each(function(box,slot,entry)
+   local x,_,_,_,y=EnemyView.position(#rows,slot,entry.actor)
+   box:SetAnchoredPosition(x,y);box:SetVisible(true)
+  end)
+ end,complete)
+ return feedback
 end
 local function find(entries, name)
     for _, entry in ipairs(entries) do
@@ -108,8 +116,8 @@ for _, upgraded in ipairs({false, true}) do
     test("production feedback " .. tostring(upgraded) .. " keeps first status cue and never replays zero-layer feedback", function()
         local s, statusCues, completed, observed = battle(upgraded, upgraded), 0, 0, {}
         local stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")))
-        local feedback = Feedback.new(stage, {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
-            sound=function(cue) if cue == "status" then statusCues = statusCues + 1 end end}, function() end,
+        local feedback = nativeFeedback(stage, {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
+            sound=function(cue) if cue == "status" then statusCues = statusCues + 1 end end},
             function(failure) assert(not failure, tostring(failure)); completed = completed + 1 end)
         local function play()
             local before, first = Events.frame(s), #s.events + 1

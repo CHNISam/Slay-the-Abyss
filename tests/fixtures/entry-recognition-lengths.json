@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "normalization": "CRLF-to-LF",
+  "measure": "UTF-16-code-units",
+  "groups": {
+    "post-beta-runtime": {
+      "proofSha256": "0609382f7314de67936162274faa7c0de381c37f39c79ed16071404b389dff0a",
+      "files": {
+        "src/lua/abyss_battle_render_actors.lua": {
+          "afterSha256": "3c9df189c57d9e3b1a68de0e687c6ce2f56d4e41e889adb45952f4beed7bfae9",
+          "afterGitBlob": "d7d61c101f59a29d379fbd21368a6ead2c774dff",
+          "utf16Length": 17444
+        },
+        "src/lua/abyss_feedback_actor_painter.lua": {
+          "afterSha256": "178d2e984cf09c9bab640aee01998ab1751dbdf48a564d739909ae95111d4bf8",
+          "afterGitBlob": "93631c3bfbc9bd775a7e180bfa2b6af371316465",
+          "utf16Length": 15357
+        }
+      }
+    },
+    "phase-four-runner": {
+      "proofSha256": "323f4f49a531c61f70691fc9cfd09f619e651bc785bec9aae8efea8d9b991360",
+      "files": {
+        "scripts/test-lua.mjs": {
+          "afterSha256": "a67830399f3279fa223486ec7990e0d5cd60ad0c9ae4af7c1e196c5508f65ab4",
+          "afterGitBlob": "7f6b57a046521aab7b3dd9dbb24b16438bb33fc8",
+          "utf16Length": 9261
+        }
+      }
+    },
+    "current-entry": {
+      "proofSha256": "4082c51d6a34d6f3e8d4971bf3fda1384ed9397bfa448cccbab163b81181a5c2",
+      "files": {
+        "scripts/test-lua.mjs": {
+          "afterSha256": "e76f0d611fa19326f77547dcf0a65a18069ef3539a945ca0d6b2fad3c338df6f",
+          "afterGitBlob": "8aaed7c6fdf6ebdda3ea44c61e02349d242531e9",
+          "utf16Length": 9556
+        },
+        "tests/lua/game_ui.lua": {
+          "afterSha256": "12fbdc283dc25f2afce288685676a7832a79c2f2b9620240f09049498445dbde",
+          "afterGitBlob": "be73db2b99520888ee4c312912c377e269fc5471",
+          "utf16Length": 33991
+        }
+      }
+    }
+  }
+}

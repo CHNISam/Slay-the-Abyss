@@ -18,7 +18,30 @@ local function test(name,fn)
 fn();count=count+1;print('ok game_ui_phase_four '..count..' - '..name)end
 local cursor={CursorDown='down',CursorUp='up',CursorExit='exit',CursorEndDrag='enddrag'}
 local classIndex={ironclad=1,silent=2,defect=3,watcher=4}
+local function monster(root,index)
+ local actor=assert(root.ui.run.combat.enemies[index],'missing real combat actor')
+ local surfaces=assert(require('abyss_monster_surfaces').get(root:GetChild('battlePanel')))
+ return assert(surfaces:find(actor.id),'missing real actor surface'),actor
+end
+local function powerControl(root,owner,id,index,name)
+ local enemy=owner:match('^battlePanel/enemy(%d+)$')
+ if enemy then
+  local box=monster(root,tonumber(enemy))
+  local pool=assert(require('abyss_monster_power_surfaces').get(box:GetChild('statusRow')))
+  return assert(pool:find(id),'missing real Power '..id):GetChild(name)
+ end
+ return root:GetChild('battlePanel'):GetChild('hero'):GetChild('statusRow'):GetChild(name..index)
+end
 local function control(root,path)
+ local enemy,suffix=path:match('^battlePanel/enemy(%d+)(.*)$')
+ if enemy then
+  local box,actor=monster(root,tonumber(enemy))
+  if suffix==''then return box end
+  local index=suffix:match('^/statusRow/hit(%d+)$')
+  assert(index,'unsupported dynamic actor path '..path)
+  local status=assert(Combat.statusView(actor)[tonumber(index)],'missing selected Power identity')
+  return powerControl(root,'battlePanel/enemy'..enemy,status.id,tonumber(index),'hit')
+ end
  local c=root;for id in path:gmatch('[^/]+')do c=assert(c:GetChild(id),path)end;return c
 end
 local function hit(root,path)
@@ -208,10 +231,10 @@ for _,spec in ipairs(powerCases)do
   for i,e in ipairs(entries)do if e.id==id then index=i;entry=e end end
   assert(index,'new Power absent from real status view '..id)
   local owner='battlePanel/'..(enemy and 'enemy1'or 'hero')
-  local row=control(root,owner..'/statusRow');local icon=row:GetChild('icon'..index)
+  local icon=powerControl(root,owner,id,index,'icon')
   local expected=Theme.icon.status[id]
   assert(type(expected)=='number'and expected>0,'missing explicit status icon '..id)
-  eq(icon.visible,true);eq(icon.imageId,expected);eq(row:GetChild('count'..index).text,tostring(value))
+  eq(icon.visible,true);eq(icon.imageId,expected);eq(powerControl(root,owner,id,index,'count').text,tostring(value))
   local unchanged=freeze(s)
   click(root,owner..'/statusRow/hit'..index);local info=control(root,'battlePanel/statusInfo')
   eq(info.visible,true);assert(info:GetChild('name1').text:find(entry.name,1,true))

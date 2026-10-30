@@ -1,3 +1,5 @@
+import {currentPresentationNativeFixtures} from '../tests/helpers/current-presentation-native.mjs';
+import {currentEventCombatVectorFixtures} from '../tests/helpers/current-event-combat-vectors.mjs';
 import {currentGameUiFixture} from '../tests/helpers/current-game-ui-runner.mjs';
 import { appendFileSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve, relative, dirname, posix } from 'node:path';
@@ -14,6 +16,8 @@ const slash = value => value.replaceAll('\\', '/');
 // Importing runLua does not execute its conditional fixture setup. Keep these
 // helper edges on their real Lua entries, as with the historical replay port.
 const conditionalRunnerFixtures = new Map([
+  ['tests/helpers/current-presentation-native.mjs', new Set(currentPresentationNativeFixtures)],
+  ['tests/helpers/current-event-combat-vectors.mjs', new Set(currentEventCombatVectorFixtures)],
   ['tests/helpers/current-game-ui-runner.mjs', new Set([currentGameUiFixture])],
   ['tests/helpers/historical-presentation-runner.mjs', new Set(['tests/lua/presentation_responsibilities_trace.lua'])],
   ['tests/helpers/battle-life-frozen-hand.mjs', new Set(frozenBattleHandFixtures)],

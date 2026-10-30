@@ -124,7 +124,22 @@ test("cancelled drags back in the hand never click through and accept the next t
     for _,point in ipairs({{0,-240},{512,-206},{-560,-200}}) do
         local ui,panel,event,tap = setup()
         local battle = ui.run.combat
-        local x,y = panel:GetChild("card1").x,panel:GetChild("card1").y
+        -- This case tests returning to the expanded hand, not grabbing a card
+        -- while it is still at the original draw-pile opening position.
+        local before=Combat.copy(battle)
+        local function same(a,b)
+            if a==b then return true end
+            if type(a)~='table' or type(b)~='table' then return false end
+            for k,v in pairs(a)do if not same(v,b[k])then return false end end
+            for k in pairs(b)do if a[k]==nil then return false end end
+            return true
+        end
+        local card=panel:GetChild('card1')
+        for _=1,80 do ui:update(1/60)end -- Existing source opening-hand replay cadence.
+        local x,y=card.x,card.y;ui:update(1/60)
+        assert(card.x==x and card.y==y,'opening card position must be source-settled')
+        assert(same(before,battle),'settling visuals must preserve the complete battle, including RNG')
+        assert(#battle.hand==2 and battle.energy==3 and battle.turn==1)
         event("card1","down",x,y) event("card1","drag",point[1],point[2])
         ui:update(0.45) -- source: a short (<.4s) out-of-zone release retains click-drag
         event("dragLayer","up",point[1],point[2])
@@ -135,6 +150,21 @@ test("cancelled drags back in the hand never click through and accept the next t
         tap("card1") tap("playArea")
         assert(#battle.hand == 1 and battle.player.block == 5)
     end
+end)
+
+test("unsettled opening drag uses its real source-relative valid drop line",function()
+    local ui,panel,event=setup()
+    local battle,card=ui.run.combat,panel:GetChild('card1')
+    local pile=require('abyss_theme').layout.drawPile.position
+    assert(card.x==pile[1] and card.y==pile[2],'negative control starts at the real draw pile')
+    local x,y=card.x,card.y
+    assert(-200>y+140*720/1080,'opening point is above the original hoverStartLine')
+    event('card1','down',x,y);event('card1','drag',-560,-200)
+    ui:update(0.45)
+    event('dragLayer','up',-560,-200)
+    event('card1','endDrag',-560,-200);event('card1','click',x,y)
+    assert(#battle.hand==1 and battle.energy==2 and battle.turn==1 and battle.player.block==5,
+        'valid opening release plays exactly one Defend; it must not be forced into cancellation')
 end)
 
 test("targeted drag pulled back to the hand cancels and commits only the aimed living enemy",function()

@@ -1,3 +1,5 @@
+import {currentPresentationNativeFixtures} from './helpers/current-presentation-native.mjs';
+import {currentEventCombatVectorFixtures} from './helpers/current-event-combat-vectors.mjs';
 import {currentGameUiFixture} from './helpers/current-game-ui-runner.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -577,5 +579,21 @@ test('current entry grouping helper selects all actual game UI cases without tai
  const plan=selectTests(['tests/helpers/current-game-ui-runner.mjs'],repositorySources);
  assert.equal(plan.full,false);assert.ok(plan.lua.includes(currentGameUiFixture));
  assert.ok(plan.integration.includes('tests/game-ui.test.mjs'));
+ assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
+test('current event vectors select only their actual fixture edges without tainting unrelated wrappers',()=>{
+ const plan=selectTests(['tests/helpers/current-event-combat-vectors.mjs'],repositorySources);
+ assert.equal(plan.full,false);
+ for(const fixture of currentEventCombatVectorFixtures)assert.ok(plan.lua.includes(fixture),fixture);
+ assert.ok(plan.integration.includes('tests/event-combat-route-enemies.test.mjs'));
+ assert.ok(plan.integration.includes('tests/event-combat-route-reducers.test.mjs'));
+ assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
+test('current presentation native helper retains every exact current fixture without tainting ordinary wrappers',()=>{
+ const plan=selectTests(['tests/helpers/current-presentation-native.mjs'],repositorySources);
+ assert.equal(plan.full,false);
+ for(const fixture of currentPresentationNativeFixtures)assert.ok(plan.lua.includes(fixture),fixture);
  assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
 });
