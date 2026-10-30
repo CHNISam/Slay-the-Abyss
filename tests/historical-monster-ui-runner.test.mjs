@@ -1,3 +1,4 @@
+import {phaseFourRunnerProof} from './helpers/phase-four-runner-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -20,10 +21,11 @@ test('only fifteen exact frozen fixtures and the two-capture differential are hi
 });
 test('full current inverse and both historical helper closures reject every foreign edit',()=>{
  const paths=[...historicalMonsterSourcePaths,...helperPaths];
- const current=new Map(paths.map(p=>[p,readFileSync(p,'utf8')]));
+ const inputs=[...new Set([...paths,...Object.keys(phaseFourRunnerProof.linkedSources)])];
+ const current=new Map(inputs.map(p=>[p,readFileSync(p,'utf8')]));
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p)).length,paths.length);
- for(const dirty of paths)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>current.get(p)+(p===dirty?'\n-- foreign source drift\n':'')),/unreviewed current/);
- for(const dirty of paths)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>p===dirty?'':current.get(p)),/unreviewed current/);
+ for(const dirty of inputs)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>current.get(p)+(p===dirty?'\n-- foreign source drift\n':'')),/unreviewed current/);
+ for(const dirty of inputs)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>p===dirty?'':current.get(p)),/unreviewed current/);
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p).replaceAll('\r\n','\n').replaceAll('\n','\r\n')).length,paths.length);
 });
 test('historical child keeps original total deadlines, buffer, signals and full error output',()=>{
