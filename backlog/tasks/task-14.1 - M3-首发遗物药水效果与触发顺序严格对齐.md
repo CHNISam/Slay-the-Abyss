@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-29 04:17'
+updated_date: '2026-10-30 13:18'
 due_date: '2026-10-28'
 labels:
   - required
@@ -33,6 +33,7 @@ references:
   - docs/backlog-details/MOBILE-QA-20261028.md
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/rules/RELIC_POOL_COMPLETION.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -252,4 +253,6 @@ PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确
 2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-30主线复核：PR #357（acb09e46）补77件遗物定义和选择流程，战士五档130个身份已有运行绑定；21项联合离线回归及独立复审后9项见 docs/rules/RELIC_POOL_COMPLETION.md。此前缺78项为历史快照；全效果逐件、自然取得及同候选平台和手机证据仍待验，不勾广义验收。
 <!-- SECTION:NOTES:END -->
