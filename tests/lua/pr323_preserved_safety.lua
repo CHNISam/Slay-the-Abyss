@@ -1,3 +1,4 @@
+local NativeActors=dofile('tests/lua/support/current_monster_controls.lua')
 -- Six offline regressions from PR323 02ea6bf. Public scope approval stays pending.
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 local R,C,D=require('abyss_run'),require('abyss_combat'),require('abyss_data')
@@ -33,7 +34,7 @@ test('resize cancellation requires fresh owned Down, never anonymous Click',func
 end)
 test('old combat drag touch cannot skip newly opened reward picker',function()
  local h,u,p,e,_,drain=H.setup({'bludgeon'},{'acid_slime_s'})
- local enemy=p:GetChild('enemy1')
+ local enemy=NativeActors.actor(p,h.run.combat.enemies[1])
  e('card1','down',7);e('card1','drag',7,enemy.x,enemy.y);e('dragLayer','up',7,enemy.x,enemy.y);drain()
  assert(h.run.phase=='reward' and u.rewardScreen=='list')
  p:GetChild('cardReward').click();assert(u.rewardScreen=='cards')

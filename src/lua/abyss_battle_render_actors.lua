@@ -99,7 +99,7 @@ function M.install(owner, ownership, host, dependencies)
         hit:SetAnchoredPosition(x,y);hit:SetSizeDelta(64*sx,64*sy)
     end
     local function enemyIntentAllowed(actor,battle)
-        return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isActive(actor) and not owner.feedback.dying[actor.id]
+        return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isPresent(actor) and not owner.feedback.dying[actor.id]
             and not owner.feedback.escaping[actor.id] and battle.player.hp>0
     end
     local function enemyAimProjection(frame)

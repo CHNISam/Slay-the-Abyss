@@ -1,3 +1,4 @@
+import {preMultiGestureFixtureSource} from './multi-gesture-fixture-source.mjs';
 import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
 import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
 import {preEventProductionSource} from './event-production-source-inverse.mjs';
@@ -21,6 +22,7 @@ function inverse(source,binding){
  return source;
 }
 export function preTask77OuterSource(path,source){
+ source=preMultiGestureFixtureSource(path,source);
  if(!currentSourceLayers.competition[path]&&!currentSourceLayers.acceptedUi[path])return source;
  return preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
 }

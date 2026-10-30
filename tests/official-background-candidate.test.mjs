@@ -14,7 +14,7 @@ function fixture(t,templateIndex=1470123456,templateOverrides={}){
  const client={async readResource(){return {contents:[]}},async close(){},async callTool({name,arguments:args}){
   calls.push({name,args});let data={mapPath:args.mapPath};
   if(name==='scene_add_client_template')data.templateIndex=Object.hasOwn(templateOverrides,args.template.name)?templateOverrides[args.template.name]:
-   templateIndex===null?null:templateIndex+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:0);
+   templateIndex===null?null:templateIndex+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:args.template.name==='AbyssMonsterActor'?3:args.template.name==='AbyssMonsterPower'?4:0);
   if(name==='scene_set_client_script')sources.set(args.name,readFileSync(args.sourceFile,'utf8'));
   if(name==='scene_list_client_scripts')data.scripts=[...sources].map(([name,source])=>({name,file:name+'.lua',source}));
   if(name==='inspect_map')data.graphs=[{name:'_GSTS_ABYSS_SETTLEMENT',id:23,type:20000,writable:true}];
@@ -41,7 +41,7 @@ test('background-only budget candidate binds returned image/group templates befo
  assert.equal(receipt.officialBackground.images,4500);
  assert.equal(receipt.officialBackground.peakDynamicControls,4577);
  assert.equal(receipt.officialBackground.renderProfile,'background-budget-v1');
- assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:true,selectionAvatar:false,battlePortrait:false});
+ assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:true,selectionAvatar:false,battlePortrait:false,monsters:false});
  assert.equal(receipt.officialPortraits,undefined,'background-only candidate must not enable portrait artwork');
  assert.equal(receipt.readyCardArt,undefined,'background-only candidate must not enable card artwork');
  assert.equal(receipt.officialBackground.inputs.length,backgroundInputs.length);

@@ -1,0 +1,27 @@
+{
+  "path": "tests/lua/support/battle_gesture_fixture.lua",
+  "afterCommit": "98fef95d047652aa6a8880241ddff28ef320a484",
+  "beforeCommit": "1fcd321ca9d6f79b4e5bbdfede48069119f5ed52",
+  "afterSha256": "0d5f78df5ce21e53d6ed1852983de3520fb0f9582889d8eac8a0a4509006eedd",
+  "beforeSha256": "134616d268298a4d3337ca5e65af2af3568a06c3cb3382e4e0fb8e0fcf3a9868",
+  "hunks": [
+    {
+      "at": 13,
+      "after": [
+        "        local box=F.actorControl(panel,name)"
+      ],
+      "before": [
+        "        local box=panel:GetChild(name)"
+      ]
+    },
+    {
+      "at": 22,
+      "after": [
+        "        local box=F.actorControl(panel,name)"
+      ],
+      "before": [
+        "        local box=panel:GetChild(name)"
+      ]
+    }
+  ]
+}

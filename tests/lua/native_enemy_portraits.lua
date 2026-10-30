@@ -1,3 +1,4 @@
+local NativeActors=dofile('tests/lua/support/current_monster_controls.lua')
 -- Source-level native UIImage SetImage coverage, not official-device evidence.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local C,Theme=H.F.Combat,H.F.Theme
@@ -66,7 +67,7 @@ for first=1,#ids,5 do
     host.run.combat=C.new(H.F.Data,{deck={'defend'},enemies=members})
     host:refresh()
     for slot,id in ipairs(members)do
-        local box=panel:GetChild('enemy'..slot)
+        local box=NativeActors.actor(panel,host.run.combat.enemies[slot])
         assert(box.visible and box:GetChild('portrait').imageId==expected[id],id..' real battle SetImage')
     end
 end
@@ -80,16 +81,22 @@ for _,pair in ipairs({{'collector','torch_head'},{'automaton','bronze_orb'},{'gr
     assert(C.summonEnemies(battle,{{id=pair[2],x=200,y=0}}))
     host:refresh()
     for i,enemy in ipairs(battle.enemies)do
-        assert(panel:GetChild('enemy'..i):GetChild('portrait').imageId==expected[enemy.definitionId],pair[2]..' summoned SetImage')
+        assert(NativeActors.actor(panel,enemy):GetChild('portrait').imageId==expected[enemy.definitionId],pair[2]..' summoned SetImage')
     end
 end
--- Future/unknown IDs keep the existing tier fallback rather than crashing.
+-- Missing portrait assets retain the tier fallback for a supported source actor.
+-- Geometry and image lookup are separate contracts: unknown source definitions
+-- are not assigned invented coordinates merely to exercise a missing image.
 for _,tier in ipairs({'normal','elite','boss'})do
     local battle=C.new(H.F.Data,{deck={'defend'},enemies={'cultist'}})
-    battle.enemies[1].definitionId='future_unmapped_enemy'
+    local saved=Theme.icon.enemy.cultist;Theme.icon.enemy.cultist=nil
     battle.enemies[1].tier=tier
     host.run.combat=battle;host:refresh()
-    assert(panel:GetChild('enemy1'):GetChild('portrait').imageId==Theme.icon.node[tier=='normal' and 'combat' or tier],tier..' fallback')
+    local shown=NativeActors.actor(panel,battle.enemies[1]):GetChild('portrait').imageId
+    Theme.icon.enemy.cultist=saved
+    assert(shown==Theme.icon.node[tier=='normal' and 'combat' or tier],tier..' fallback')
+    assert(Theme.icon.enemy.cultist==expected.cultist,'restore source portrait lookup')
 end
+assert(require('abyss_monster_source_geometry').resolve({definitionId='future_unmapped_enemy'})==nil,'unknown source geometry must not receive invented coordinates')
 assert(Theme.icon.enemy.verify==true,'device verification remains pending')
 print('LUA_NATIVE_ENEMY_PORTRAITS_PASS 42 + summons + unknown fallbacks')

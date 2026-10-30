@@ -13,6 +13,31 @@ const expected={
  'dendro-slime':['acid_slime_m','f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba'],
 };
 
+// Exact co-located native candidate bytes accepted in the merged catalog.
+const nativeCandidateHashes={
+ "pyro-abyss-mage": {
+  "PROVENANCE.json": "7f1570a1e508c33fd6624c662a49c8823ee9ab1058e2ebf3b4d691b610ca500a",
+  "README.md": "479030540c0fd193c0dac2599658474dd2b0a971d54a426e3034f2ff825b03c0",
+  "native-art.json": "f8611f996a048db8f7ebabffa749f5e5918ffac39f8fb8bc054d02e1fe444575",
+  "native-art.lua": "3baeb774f291de1061e38512c527bd0419dbcec160cdc8972edac816826c7bee",
+  "native-verification.json": "ffa087c6aeb5c16c0be5b5364620e7c9700044ec57cea5c9b5c577b6b7b29327"
+ },
+ "stonehide-lawachurl": {
+  "PROVENANCE.json": "66c3e4b546a7108b81daa7e617366d5184b46cb8a16f9cfb31f4538b788d392d",
+  "README.md": "d92cdd30db3fb886bd7c348c0e7024fe6ed254e703f971cd614abdd225bd4686",
+  "native-art.json": "813a86d887020e3987eadda32081ec8ea6fa91e4594cd4028646162b603acdef",
+  "native-art.lua": "e7146753d3290245947c86e35dff4bf3829cc67ebcc86a1c8d368df8bcedacb8",
+  "native-verification.json": "697b1779a35e1cbcb367683337d36e1cbeede2c7b6d77217377ad255892ec9cb"
+ },
+ "geovishap-hatchling": {
+  "PROVENANCE.json": "98bf5cd228257d589790605deb368104a2632932cc624e0ef7b90086ac91d32d",
+  "README.md": "f8241ad910c2279295abccd59da230e4bfcb5489e5508dc69641babfaad07f58",
+  "native-art.json": "69e184ebbfbc8f0273a3f3bdd76a1901bcf589c259476bd503eefe2b04de709f",
+  "native-art.lua": "3c637fcf1750d0a6dcd7173cf94240e677008dbeb59f9e009b21289ae0730572",
+  "native-verification.json": "64fdfd7911bc5fea319f7d471bbff646847de07466d8263e1ebe0debec7acdb8"
+ }
+};
+
 test('exact four immutable Genshin direction benchmarks, never runtime approval or blanket mapping',()=>{
  const catalog=json(root+'catalog.json'),legal=json('docs/legal/assets.json');
  assert.deepEqual(Object.keys(catalog.benchmarks).sort(),Object.keys(expected).sort());
@@ -26,7 +51,25 @@ test('exact four immutable Genshin direction benchmarks, never runtime approval 
   assert.equal(owner.sourceSha256,sha);
   for(const gate of ['native','runtime','device'])assert.equal(owner[gate],false);
   assert.match(asset.performance,/unmeasured/);
-  assert.deepEqual(readdirSync(new URL('../'+base,import.meta.url)).sort(),[...Object.keys(asset.files),'asset.json'].sort());
+  // Three reviewed native candidates were added alongside, not over, the
+  // immutable direction witness. Enumerate exactly; never ignore arbitrary files.
+  const nativeFiles=slug==='dendro-slime'?[]:['PROVENANCE.json','README.md','native-art.json','native-art.lua','native-verification.json'];
+  assert.deepEqual(readdirSync(new URL('../'+base,import.meta.url)).sort(),[...Object.keys(asset.files),'asset.json',...nativeFiles].sort());
+  if(nativeFiles.length){
+   for(const name of nativeFiles){
+    const raw=read(base+name);
+    // Native payloads are -text; metadata follows Git's platform text endings.
+    const bytes=name.startsWith('native-art.')?raw:Buffer.from(raw.toString().replaceAll('\r\n','\n'));
+    assert.equal(hash(bytes),nativeCandidateHashes[slug][name],base+name);
+   }
+   const native=json(base+'PROVENANCE.json');
+   assert.equal(native.identity,slug);assert.equal(native.source.sha256,sha);
+   assert.equal(native.source.bytesUnmodified,true);assert.equal(native.nativeOwnerAcceptance,false);
+   for(const name of ['native-art.json','native-art.lua']){
+    const bytes=read(base+name);assert.equal(hash(bytes),native.native[name].sha256,base+name);
+    assert.equal(bytes.length,native.native[name].bytes);
+   }
+  }
   for(const [name,file] of Object.entries(asset.files)){
    const raw=read(base+name),entry=legal.files[base+name];
    if(name==='source.png'&&raw.toString().startsWith('version https://git-lfs.github.com/spec/v1\n')){

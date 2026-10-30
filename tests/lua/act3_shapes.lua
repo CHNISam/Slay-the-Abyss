@@ -1,3 +1,4 @@
+local NativeActors=dofile('tests/lua/support/current_monster_controls.lua')
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Chapter/queue placement fixtures, not a natural Act3 route.
 local C,Run,Q,R,AI,A=require('abyss_combat'),require('abyss_run'),require('abyss_encounter_queue'),
@@ -219,17 +220,19 @@ test('real Host shows Shape actors Dazed destination and changing Explosive coun
  assert(Run.startRoomCombat(r,'normal'));host:refresh()
  local panel=root:GetChild('battlePanel');local ui=host.battleUI;local _,tap=H.controls(panel)
  eq(ui.run,r);eq(#r.combat.enemies,4)
- for i,e in ipairs(r.combat.enemies)do local box=panel:GetChild('enemy'..i)
+ local sourcePositions={}
+ for i,e in ipairs(r.combat.enemies)do local box=NativeActors.actor(panel,e)
+  sourcePositions[e.id]={box.x,box.y}
   assert(box.visible);eq(box:GetChild('name').text,e.name);eq(box:GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
  end
- assert(not panel:GetChild('enemy5').visible)
+ NativeActors.count(panel,4)
  tap('enemy1',71);local text=inspectDetails(ui,panel)
  assert(text:find(r.combat.catalog.cards.dazed.name,1,true)and text:find('抽牌堆',1,true)and text:find('2',1,true),text)
  assert(not text:find('未知',1,true),text)
  for turn=0,2 do
   if turn>0 then assert(Run.endTurn(r));host:refresh()end
   local e=r.combat.enemies[3];eq(e.statuses.explosive,3-turn)
-  local hit=panel:GetChild('enemy3'):GetChild('statusRow'):GetChild('hit')
+  local hit=NativeActors.power(NativeActors.actor(panel,e),'explosive'):GetChild('hit')
   hit.click({touchId=80+turn});eq(ui.info.id,e.id);eq(ui.info.index,3)
   local info=panel:GetChild('statusInfo');assert(info.visible)
   local names,details={},{}
@@ -242,14 +245,18 @@ test('real Host shows Shape actors Dazed destination and changing Explosive coun
   info:GetChild('hit').click({touchId=90+turn})
  end
  eq(intent(r.combat.enemies[3]),'wait')
- eq(panel:GetChild('enemy3'):GetChild('intentIcon').imageId,F.Theme.icon.intent.unknown)
+ local waiting=require('abyss_battle_intent_view').intentView(r.combat,3)
+ dofile('tests/lua/support/intent_face_assertion.lua')(NativeActors.actor(panel,r.combat.enemies[3]),waiting)
+ eq(waiting.kind,'unknown')
  assert(Run.endTurn(r));host:refresh();eq(r.phase,'combat')
  eq(r.combat.enemies[3].hp,0);eq(r.combat.player.hp,r.combat.player.maxHp-73)
  for slot,index in ipairs({1,2,4})do
-  local box,e=panel:GetChild('enemy'..slot),r.combat.enemies[index]
+  local e=r.combat.enemies[index];local box=NativeActors.actor(panel,e)
+  eq(box.x,sourcePositions[e.id][1]);eq(box.y,sourcePositions[e.id][2])
   assert(box.visible);eq(box:GetChild('name').text,e.name);eq(box:GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
  end
- assert(not panel:GetChild('enemy4').visible and not panel:GetChild('enemy5').visible)
+ NativeActors.count(panel,3)
+ assert(not require('abyss_monster_surfaces').get(panel):find(r.combat.enemies[3].id),'dead Exploder surface must retire')
 end)
 test('invalid Dazed UID refuses both creations and restores source RNG',function()
  local s=battle({'repulsor'});s.nextUid=9007199254740992
