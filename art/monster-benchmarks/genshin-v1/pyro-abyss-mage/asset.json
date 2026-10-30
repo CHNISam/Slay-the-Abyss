@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "assetRole": "genshin-identity-source-direction-benchmark-only",
+  "identity": "Pyro Abyss Mage / 火深渊法师",
+  "directionEnemyId": null,
+  "runtimeBinding": "none",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceAlphaBBox": [
+    0,
+    30,
+    1234,
+    1254
+  ],
+  "approvals": {
+    "ownerSourceDirection": true,
+    "native": false,
+    "runtime": false,
+    "device": false
+  },
+  "performance": "unmeasured; source PNG bytes are not runtime load or official capacity",
+  "previewRecipe": "Full original square canvas LANCZOS RGBA resize to 106/127. No crop/stretch/trim or added margin. Source bytes immutable. Not native antialiasing or crop safety proof. Future native candidate must test inset/idle extrema.",
+  "files": {
+    "generation-provenance.json": {
+      "sha256": "11323646f64348534822bf179982838a59ae6936acef8e6f12d7a4d3482f3a90",
+      "bytes": 1059
+    },
+    "owner-direction.json": {
+      "sha256": "365e010603b41cbb54de1fa505831f8e8f56c2b951a552fd1d28569b8f3448b0",
+      "bytes": 369
+    },
+    "preview-contain-106.png": {
+      "sha256": "8d32d19e93cc946885d08ec19372622ccd3acc7dc3eac9f44bd3bda52a96a3ef",
+      "bytes": 16363
+    },
+    "preview-contain-127.png": {
+      "sha256": "bb1be61db5522979634faf589192e9d8c31dec06874fb00d0e5d0bbff40e14ac",
+      "bytes": 21959
+    },
+    "prompt.txt": {
+      "sha256": "67699162d2677bd488295e633ca4d0a91bd144de40f85dbaf34a62fae5f33bc2",
+      "bytes": 1408
+    },
+    "source.png": {
+      "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "bytes": 1083869
+    }
+  },
+  "mappingLimit": "Unbound Abyss Mage family benchmark; no ordinary gremlin ID or element allocation approved here."
+}

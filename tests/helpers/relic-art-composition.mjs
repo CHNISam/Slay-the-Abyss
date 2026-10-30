@@ -1,3 +1,4 @@
+import {preIntegrationSource} from './pr372-integration-source.mjs';
 // Historical source evidence only. Current feature tests use actual production.
 import assert from 'node:assert/strict';
 import {preRelicArtFeatureCompositionSource} from './relic-art-feature-composition.mjs';
@@ -24,7 +25,7 @@ for(const target of Object.values(relicArtComposition.targets))for(const [path,b
  }
 }
 const cachedProjection=cachePureSourceProjection(relicArtComposition.targets,projectSource);
-export function preRelicArtCompositionSource(path,source,target){return cachedProjection(path,source,target);}
+export function preRelicArtCompositionSource(path,source,target){return cachedProjection(path,preIntegrationSource(path,source),target);}
 function projectSource(path,source,target){
  source=preRelicArtFeatureCompositionSource(path,source,'relic');
  assert.ok(target==='relic'||target==='art');

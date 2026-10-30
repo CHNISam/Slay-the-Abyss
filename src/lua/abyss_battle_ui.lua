@@ -149,6 +149,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     -- Source PC behavior: the card center follows the pointer, not the grab offset.
     -- Target cards require an explicit enemy hit, including a little touch padding.
     -- Open ground never substitutes the nearest enemy, even when only one remains.
+    host.monsterArt=require('abyss_monster_art').new(host.stage,host.platform)
     host.unit = UnitView.new(services.picture, services.tint, services.ink, statusKind)
     host.lines = InfoContent.lines
     host.infoContent = InfoContent.new(self, {

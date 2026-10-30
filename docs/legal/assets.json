@@ -56,12 +56,20 @@
       "evidence": "art/cards/traveler-geo/README.md; per-card prompt, generation-provenance and asset.json; docs/legal/LICENSE_AUDIT.md"
     },
     "original-monster-source": {
-      "status": "project-original AI-assisted monster source candidates; reference roles documented; source-only, no native/runtime acceptance or commercial/IP clearance",
+      "status": "historical project-original AI-assisted monster source candidates; identity direction superseded on 2026-10-30 and requires redesign; source-only, no production/native/runtime acceptance or commercial/IP clearance",
       "evidence": "art/monsters/README.md; art/monsters/catalog.json; per-enemy generation-provenance.json and source-review.json"
     },
     "compact-card-runtime-candidate": {
       "status": "Existing AI game-art sources converted to compact native rectangle candidates for this platform project; no upstream algorithm code redistributed, no game-IP sublicense or device/commercial clearance",
       "evidence": "art/cards/traveler-geo/runtime-candidate/README.md; conversion-report.json; existing source manifests and legal audit"
+    },
+    "genshin-native-monster-prototype": {
+      "status": "AI-assisted derivative of existing Genshin identity manually adapted as native primitives; platform-project test prototype only; no IP sublicense, commercial clearance, native final or device approval",
+      "evidence": "art/monsters/acid_slime_m/native-art-r02/provenance.json; art/monsters/acid_slime_m/native-art-r02/README.md"
+    },
+    "genshin-monster-direction-benchmark": {
+      "status": "AI-assisted Genshin identity derivative source-direction benchmarks; owner visual acceptance only, no native/runtime/device acceptance, game-IP sublicense, reference redistribution permission or commercial clearance",
+      "evidence": "art/monster-benchmarks/genshin-v1/README.md; per-benchmark generation-provenance.json and owner-direction.json; LICENSE-SCOPE.md"
     }
   },
   "files": {
@@ -3821,7 +3829,7 @@
     },
     "art/monsters/catalog.json": {
       "category": "original-monster-source",
-      "sha256": "03658b03279412dcf8658d4c8bbd7f9b87af7cb4b20e2bfebf94435d323cf63d"
+      "sha256": "cadc75ba582e3f6f9066ddaa0f089d4a197bd01826f4e12de2f474e4dd377c65"
     },
     "art/monsters/centurion/asset.json": {
       "category": "original-monster-source",
@@ -4691,6 +4699,138 @@
     "art/cards/traveler-geo/native-source-registry.json": {
       "sha256": "51f33edc2ce7c8fcaddda627a68bb769b9e889f7f229065fa57d97f844f95365",
       "category": "game-ip-ai-redraw"
+    },
+    "art/monsters/acid_slime_m/native-art-r02/provenance.json": {
+      "category": "genshin-native-monster-prototype",
+      "sha256": "d073d327d4465d07fbbf8a2b4870b29cdb87fbcccfc1c5cecf90f310c938d03c"
+    },
+    "art/monsters/acid_slime_m/native-art-r02/README.md": {
+      "category": "genshin-native-monster-prototype",
+      "sha256": "f609352d8784b845b4b6d65e35af197ec20593ca50f94a0464ea6fdc6580386a"
+    },
+    "art/monsters/acid_slime_m/native-art-r02/native-art.lua": {
+      "category": "genshin-native-monster-prototype",
+      "sha256": "c638fb8227ef47b6bb20c455913d079131e18f32f1eea149621f134262a774b4"
+    },
+    "art/monsters/acid_slime_m/native-art-r02/authoring-report.json": {
+      "category": "genshin-native-monster-prototype",
+      "sha256": "6d486581dbfcdc45fbb950d77b28d398aa1365bd47d3a5e4103c2cd191f674e9"
+    },
+    "art/monsters/acid_slime_m/native-art-r02/native-art.json": {
+      "category": "genshin-native-monster-prototype",
+      "sha256": "4d42bcc3314c3bd1e3eefbeaa7112703157a17716bfd84a969d2818f47e3f1a9"
+    },
+    "art/monster-benchmarks/genshin-v1/catalog.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "b5374639b9472edf00b584d82f0bb01b9c5a55633ab1394858114bccb85e88bb"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/preview-contain-106.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "d58d3e7ea4608a8d737e8a582a9b5d902a5c6a7ae31f5b14df5a035475d445bb"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/preview-contain-127.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "45140519d35ac14a964e179eeab1d4f5b0a7ebffe536d508502e36fa1cc8a8f9"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/generation-provenance.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "f78ece47ed4faaccbf5f11ac32a37a54fddc4b5ae76a8ff80379ae7a37e5568d"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/owner-direction.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "f9835a3bbbd82978195d3246a75805140e1bc77dc9ee640d711b9213d84bda81"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/source.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "2dcf77d1f530847c964c98c5b591c91ca76b72af6c7e730e86aa5b7c482db1d6",
+      "lfsBytes": 1123947
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/asset.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "4ac5ea24ea510b72ca291260d89d351a76157089c7a440fd54804cf8b1ee9424"
+    },
+    "art/monster-benchmarks/genshin-v1/geovishap-hatchling/historical-source-review.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "9b65bf99f9f8f272be4b1594cfb9f59269bb093c4f466b7f8772e51a0967d327"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/preview-contain-106.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "8d32d19e93cc946885d08ec19372622ccd3acc7dc3eac9f44bd3bda52a96a3ef"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/preview-contain-127.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "bb1be61db5522979634faf589192e9d8c31dec06874fb00d0e5d0bbff40e14ac"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/generation-provenance.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "11323646f64348534822bf179982838a59ae6936acef8e6f12d7a4d3482f3a90"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/owner-direction.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "365e010603b41cbb54de1fa505831f8e8f56c2b951a552fd1d28569b8f3448b0"
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "lfsBytes": 1083869
+    },
+    "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/asset.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "1a0e58e95e6552c5ec96c444eb3cc7a49eae69f32749b2d19e82ac06b17fe508"
+    },
+    "art/monster-benchmarks/genshin-v1/dendro-slime/preview-contain-106.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "ce57f9ff0e8cbbcb144c1d445028ce9f389b350c719a50f9f92e46e2c0696fc2"
+    },
+    "art/monster-benchmarks/genshin-v1/dendro-slime/preview-contain-127.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "1450e9d8c27dad95dcf671638704f435905a07bfea35583a4f1eaa44bab4c8c0"
+    },
+    "art/monster-benchmarks/genshin-v1/dendro-slime/generation-provenance.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "a3ff3c6c6cfbe8ca9afca4f6815a474341ad7ee40f1690a67e0f8d9a29c1e4d2"
+    },
+    "art/monster-benchmarks/genshin-v1/dendro-slime/owner-direction.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "addc8273a19a8adec5121e6c9ff57e30082e73598785716c6ac45ffc8969dbf0"
+    },
+    "art/monster-benchmarks/genshin-v1/dendro-slime/source.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba",
+      "lfsBytes": 1014472
+    },
+    "art/monster-benchmarks/genshin-v1/dendro-slime/asset.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "2625e5055a50138ed879cbc613bfb4a4031e13b722248a3a093ca87ac1a3cbd9"
+    },
+    "art/monster-benchmarks/genshin-v1/dendro-slime/historical-source-review.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "1dec01286a913d552be238bcf6f6b923d45569b802f0efc5c6a9888893b98517"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/preview-contain-106.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "07ed5c9389db82e6d071e971c8322dee4d183b1695f148c8c22625c0bdfff650"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/preview-contain-127.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "5c9e53df879d668754df344b9114bd1e960396d8f8eb09984fba296ec61c48aa"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/generation-provenance.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "a03862b14fec86cf116527d28393b1df039294836e7f45771e84aa2ba08b52fa"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/owner-direction.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "9911c0b30a7b2d23039178385a2b80d757d127e2718a22508410bfe342373c51"
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+      "lfsBytes": 1837343
+    },
+    "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/asset.json": {
+      "category": "genshin-monster-direction-benchmark",
+      "sha256": "5d342c11f82891f6399b52d06101051bde7556447acfaa27bb80b039c07a604f"
     }
   }
 }

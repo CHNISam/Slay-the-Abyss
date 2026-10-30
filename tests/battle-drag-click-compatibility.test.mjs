@@ -1,3 +1,4 @@
+import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -111,7 +112,7 @@ test('drag-only historical inverse preserves complete old identities and rejects
     assert.throws(()=>preApprovedUiSource(popupPath,mutant),/unreviewed integrated/);
   }
   const fixturePath='tests/lua/support/battle_ui_cases.lua';
-  const fixture=readFileSync(fixturePath,'utf8').replaceAll('\r\n','\n');
+  const fixture=preIntegrationSource(fixturePath,readFileSync(fixturePath,'utf8').replaceAll('\r\n','\n'));
   assert.equal(hash(fixture),'6adf9566320c60e8b68fb8854ccbf9dffb0eb34f7510d5a32309d4a3461d7590');
   const originalFixture=preCardDragClickSource(fixturePath,fixture);
   assert.equal(hash(originalFixture),'874ad3cf102493953104fe3d556e6839b5599a249d37679b5a2fad862517375d');

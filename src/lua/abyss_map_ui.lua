@@ -107,9 +107,10 @@ function M.new(root, map, onChoose, clickEvent, options)
         return colour(ink.r, ink.g, ink.b, math.floor(ink.a * opacity))
     end
     local visual = Theme.layout.map.presentation
+    -- STS MapEdge/MapRoomNode contract: taken ink, reachable bright, unreachable recessive.
     local pathColours = {
         taken = pathColour(Theme.color.node.pathTaken, visual.takenOpacity),
-        next = pathColour(Theme.color.node.path, visual.nextOpacity),
+        next = pathColour(Theme.color.node.reachable, visual.nextOpacity),
         future = pathColour(Theme.color.node.path, visual.futureOpacity),
     }
     local function controllerContextReady()

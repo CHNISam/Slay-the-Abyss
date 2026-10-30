@@ -97,7 +97,7 @@ test("normal attack: card lifts then lands on contact, hit-stop holds the knockb
     assert(h.portrait("hero").x < 0, "traveler draws back during anticipation")
     assert(count(h.sounds, "hit") == 0, "no impact cue before contact")
     h.until_(kind("damage"))
-    assert(near(card.x, h.feedback.flight.tx) and near(card.y, h.feedback.flight.ty), "card arrives at the target on the contact frame")
+    assert(near(card.x, h.feedback.flight.tx) and near(card.y, h.feedback.flight.ty - h.feedback.flight.stop) and h.feedback.flight.stop > 0, "card strikes just below the target face on the contact frame (STS-style, not plastered on portrait)")
     assert(near(h.portrait("enemy1").x, S.m) and near(h.portrait("hero").x, S.l))
     assert(h.sounds[#h.sounds] == "hit")
     local impact = h.part("enemy1", "impact")
@@ -120,8 +120,15 @@ test("heavy attack: uniform shard burst, larger knockback and number, screen sha
     local impact = h.part("enemy1", "impact")
     assert(near(impact.localScaleX, impact.localScaleY), "heavy hit bursts instead of streaking")
     assert(near(h.portrait("enemy1").x, S.l) and near(h.part("enemy1", "floating").localScaleX, 2))
+    assert(impact.imageId == Theme.image.glow and near(impact.localScaleX, 2), "heavy contact opens with a 2x white FlashAtkImg-style flash")
+    local shards, recoiled = false, false
     local shook = false
-    local _, held = h.until_(function(e) shook = shook or h.stage.x ~= 0 return e.kind ~= "damage" end, true)
+    local _, held = h.until_(function(e) shook = shook or h.stage.x ~= 0
+        shards = shards or (impact.visible and impact.imageId == Theme.image.shards and impact.localScaleX > 1)
+        recoiled = recoiled or h.portrait("enemy1").x < -0.5
+        return e.kind ~= "damage" end, true)
+    assert(shards, "flash hands off to an outward shard burst on the same pooled control")
+    assert(recoiled, "heavy knockback swings elastically past home before settling")
     assert(shook and held >= 0.2 - 0.011 and held <= 0.2 + 0.011,
         "heavy visual hold does not extend the fixed DamageAction/post-wait gate")
 end)

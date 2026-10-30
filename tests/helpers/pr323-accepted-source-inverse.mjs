@@ -1,3 +1,6 @@
+import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
+import {architectureSourceFormat} from './architecture-source-format.mjs';
+import {preCardDescOverflowSource} from './card-desc-overflow-inverse.mjs';
 import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {preBossUiFaultFixtureSource} from './boss-ui-fault-fixture-inverse.mjs';
 import {relicCompletionInverse,requireRelicCompletionSource} from './relic-completion-inverse.mjs';
@@ -21,6 +24,8 @@ const proof=pr323AcceptedSourceInverse;
 // require the original complete identity. Comparing tokens also prevents JSON.parse
 // from hiding duplicate keys, changed string escapes, or numeric spellings.
 export function normalizePr323CompositionSource(path,source){
+ source=preIntegrationSource(path,source);
+ source=preCardDescOverflowSource(path,source);
  source=preBossUiFaultFixtureSource(path,source);
  // Preserve architecture's existing token-only whitespace allowance before the
  // exact outer inverse. The live spelling must itself match the whole hash.
@@ -55,7 +60,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
- source=preBattleLifeSource(path,source);
+ source=preBattleLifeSource(path,preCardDescOverflowSource(path,source));
  if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
  source=normalizePr323CompositionSource(path,source);
  if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
@@ -69,7 +74,7 @@ export function requirePr323Source(path,source){
  return binding;
 }
 function project(path,source,target){
- source=preBattleLifeSource(path,source);
+ source=preBattleLifeSource(path,preCardDescOverflowSource(path,source));
  if(typeof source!=='string')return source;
  if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
  source=normalizePr323CompositionSource(path,source);

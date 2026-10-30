@@ -123,6 +123,7 @@
     "abyss_actor": "core",
     "abyss_battle_ui": "ui",
     "abyss_battle_card_view": "ui",
+    "abyss_battle_aim_arrow": "ui",
     "abyss_battle_info_content": "ui",
     "abyss_battle_info_view": "ui",
     "abyss_battle_intent_view": "ui",
@@ -283,7 +284,8 @@
     "abyss_card_art_runtime": "ui",
     "abyss_traveler_portraits": "platform",
     "abyss_traveler_portrait_assets": "ui",
-    "abyss_ready_card_binding": "ui"
+    "abyss_ready_card_binding": "ui",
+    "abyss_monster_art": "ui"
   },
   "dynamicExceptions": [],
   "deferredImports": [

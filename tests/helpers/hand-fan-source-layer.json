@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "1bfca6261044b92f8065bb83668c358b0a2627da",
+  "files": {
+    "src/lua/abyss_battle_card_gestures.lua": {
+      "beforeSha256": "3750e191291bd11d34d7c9b28a83d08d5a6763f17800432a3f85478fab756e0c",
+      "afterSha256": "3ec76454212c21244a116dfbfab1137ff45d148d44bdaaabf134669453f77f8c",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "local BROWSE_LIFT = 2 -- 搓牌后提起需 2×threshold 上推（估值，非拷贝）"
+          ]
+        },
+        {
+          "at": 72,
+          "before": [],
+          "after": [
+            "    -- 搓牌：Clash Royale 式“指下最近一张”。横向主导的按住滑动只换悬停牌，",
+            "    -- 不进入出牌拖拽；只有相对当前牌向上主导的位移才提起该牌。",
+            "    local function nearestSlot(count, x)",
+            "        local w = L.card.size[1]",
+            "        local spacing = count <= 1 and 0 or math.max(L.hand.spacingMin, math.min(L.hand.spacingMax, (L.hand.maxWidth - w) / (count - 1)))",
+            "        if spacing == 0 then return 1 end",
+            "        local index = math.floor(x/spacing + (count-1)/2 + 0.5)",
+            "        return math.max(0, math.min(count-1, index)) + 1",
+            "    end",
+            "    local function retargetHover(g, x)",
+            "        local hand = g.battle.hand",
+            "        local slot = nearestSlot(#hand, x)",
+            "        local instance = hand[slot]",
+            "        if instance and slot ~= g.slot then",
+            "            g.slot, g.uid, g.origin = slot, instance.uid, owner.cardPositions[instance.uid]",
+            "            g.bx = x",
+            "        end",
+            "        if owner.hover == g.slot then return end",
+            "        owner.hover = g.slot",
+            "        owner.handHover = {run=g.run,battle=g.battle,turn=g.battle.turn,slot=g.slot,uid=g.uid}",
+            "        owner:render(true)",
+            "    end",
+            "    local function startBrowse(g, x, y)",
+            "        local ax, ay = math.abs(x-g.sx), math.abs(y-g.sy)",
+            "        -- 横向先过阈值且仍在手牌带才算搓牌；竖直/斜上仍走原 8px 拖拽。",
+            "        if ax < L.cardDrag.threshold or ax <= ay or y > L.hand.y + L.card.size[2]/2 then return false end",
+            "        g.browsing, g.browsed, g.bx, g.by = true, true, x, y",
+            "        return true",
+            "    end",
+            "    local function liftBrowse(g, x, y)",
+            "        local dy = y-g.by",
+            "        -- 离开手牌带，或相对当前牌向上主导：交给原拖拽/出牌流程",
+            "        if y <= L.hand.y + L.card.size[2]/2 and (dy < L.cardDrag.threshold*BROWSE_LIFT or dy <= math.abs(x-g.bx)) then return false end",
+            "        g.browsing, g.sx, g.sy = nil, g.bx, g.by",
+            "        owner.hover, owner.handHover = nil, nil",
+            "        return true",
+            "    end",
+            "    local function browseHand(g, x, y)",
+            "        if g.moving or g.phase ~= \"combat\" or not g.battle then return false end",
+            "        if not g.browsing and not startBrowse(g, x, y) then return false end",
+            "        if liftBrowse(g, x, y) then return false end",
+            "        if y < g.by then g.by = y end -- 以最低点为上推基准，下压不累计",
+            "        retargetHover(g, x)",
+            "        return true",
+            "    end"
+          ]
+        },
+        {
+          "at": 127,
+          "before": [],
+          "after": [
+            "        if browseHand(g,x,y) then return end"
+          ]
+        },
+        {
+          "at": 165,
+          "before": [],
+          "after": [
+            "            -- 纯横向搓牌松手：保留悬停，不触发 C 模式选牌。",
+            "            if g.browsed then g.input.released, owner.suppressClick = nil, true; owner:render(true); return end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_render_state.lua": {
+      "beforeSha256": "fda20d7b031c3e06c6f668d65ecb21350416fc051424b3a3f476e0747566f2be",
+      "afterSha256": "190bc4eca4ebaa7cc0147e8ddb901975f3ee3ef28bf27f945b73f70f485d9398",
+      "hunks": [
+        {
+          "at": 71,
+          "before": [
+            "        return dependencies.canHover() and run == token.run and run.phase == 'combat' and run.combat == token.battle"
+          ],
+          "after": [
+            "        -- 搓牌中的按住手势由指下最近牌驱动悬停；其他按住/拖拽仍清悬停。",
+            "        local browsing = owner.gesture and owner.gesture.browsed and not owner.gesture.moving",
+            "        return (dependencies.canHover() or browsing) and run == token.run and run.phase == 'combat' and run.combat == token.battle"
+          ]
+        }
+      ]
+    }
+  }
+}

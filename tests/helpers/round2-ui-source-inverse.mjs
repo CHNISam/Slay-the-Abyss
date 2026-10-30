@@ -1,4 +1,7 @@
+import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
+import {preCombatVfxUpgradeSource} from './combat-vfx-upgrade-inverse.mjs';
 import {projectArtPerfSource} from './art-perf-source-composition.mjs';
+import {preNativeMonsterArtSource} from './native-monster-art-source-inverse.mjs';
 // Test-only exact outer layer for the reviewed round-two presentation extraction.
 // Old witnesses keep their full bytes; unknown edits remain visible to their guards.
 import assert from 'node:assert/strict';
@@ -26,8 +29,9 @@ for(const [path,binding]of Object.entries(round2UiSourceLayer.files)){
   assert.ok(Array.isArray(binding.hunks));
   if(binding.beforeSha256===null)assert.deepEqual(binding.hunks,[]);
 }
-export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSource(path,readFileSync(path,'utf8'),'perf')}={}){
-  source=projectArtPerfSource(path,source,'perf');
+export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSource(path,preCombatVfxUpgradeSource(path,readFileSync(path,'utf8')),'perf')}={}){
+ source=preIntegrationSource(path,source);
+  source=projectArtPerfSource(path,preNativeMonsterArtSource(path,source),'perf');
   const binding=round2UiSourceLayer.files[path];
   if(binding)source=preRelicRound2CompositionSource(path,source,'round2');
   if(!binding||typeof source!=='string')return source;
@@ -39,6 +43,7 @@ export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSo
     let actual;
     try{actual=readSource(added);}catch{assert.fail('unreviewed round-two UI linked module missing: '+added);}
     assert.equal(typeof actual,'string','complete round-two UI linked source: '+added);
+    actual=preNativeMonsterArtSource(added,actual);
     assert.equal(hash(normalize(actual)),round2UiSourceLayer.files[added].afterSha256,
       'unreviewed round-two UI linked module drift: '+added);
   }
@@ -61,7 +66,7 @@ export function prepareRound2UiModuleRetirement(directory,{sourceRoot=process.cw
   for(const path of round2UiAddedPaths){
     const target=join(directory,path);
     if(!existsSync(target))continue;
-    assert.equal(hash(normalize(projectArtPerfSource(path,readFileSync(target,'utf8'),'perf'))),round2UiSourceLayer.files[path].afterSha256,
+    assert.equal(hash(normalize(projectArtPerfSource(path,preCombatVfxUpgradeSource(path,readFileSync(target,'utf8')),'perf'))),round2UiSourceLayer.files[path].afterSha256,
       'unreviewed round-two UI added module destination: '+path);
     targets.push(target);
   }

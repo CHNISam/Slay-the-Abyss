@@ -1,6 +1,12 @@
+import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
+import {preCombatRelicsHudSource} from './combat-relics-hud-inverse.mjs';
+import {preCombatVfxUpgradeSource} from './combat-vfx-upgrade-inverse.mjs';
+import {preHandGestureAimSource,prepareHandGestureAimModuleRetirement} from './hand-gesture-aim-source-inverse.mjs';
+import {preHandFanSource} from './hand-fan-source-inverse.mjs';
 import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
 import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
+import {preNativeMonsterArtSource,prepareNativeMonsterRetirement} from './native-monster-art-source-inverse.mjs';
 import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
 import {preRelicRound2CompositionSource} from './relic-round2-composition.mjs';
 import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
@@ -31,6 +37,12 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
 }
 
 export function preBattleLifeOuterSource(path, source) {
+ source=preIntegrationSource(path,source);
+  source=preNativeMonsterArtSource(path,source);
+  source=preCombatRelicsHudSource(path,source);
+  source=preCombatVfxUpgradeSource(path,source);
+  source = preHandGestureAimSource(path, source);
+  source = preHandFanSource(path, source);
   source = preRelicRound2CompositionSource(path,source,'relic');
   source = preRound2UiSource(path,source);
   source = preNativeEnemyThemeSource(path,preBackgroundSource(path,source));
@@ -66,22 +78,25 @@ export const battleLifeAddedPaths = Object.freeze(Object.entries(battleLifeSourc
 // own full source/destination validation and exact historical ownership.
 export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = process.cwd()} = {}) {
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
+  const retireIntegration=prepareIntegrationRetirement(directory,{sourceRoot});
   const retireBackground=prepareBackgroundRetirement(directory,{sourceRoot});
   const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
+  const retireNativeMonster=prepareNativeMonsterRetirement(directory,{sourceRoot});
+  const retireHandGesture=prepareHandGestureAimModuleRetirement(directory,{sourceRoot});
   const retireRound3=prepareRound3CatalogModuleRetirement(directory,{sourceRoot});
   const retireRelics=prepareRelicCompletionModuleRetirement(directory,{sourceRoot});
   const targets = [];
   for (const path of battleLifeAddedPaths) {
     const target = join(directory, path);
     if (!existsSync(target)) continue;
-    assert.equal(hash(normalize(preRelicCompletionSource(path,readFileSync(target, 'utf8')))), battleLifeSourceLayer.files[path].afterSha256,
+    assert.equal(hash(normalize(preRelicCompletionSource(path,preCombatVfxUpgradeSource(path,readFileSync(target, 'utf8'))))), battleLifeSourceLayer.files[path].afterSha256,
       'unreviewed battle-life added module destination: ' + path);
     targets.push(target);
   }
   return () => {
     // Revalidate both newest owners before any composed historical deletion.
     prepareArtFeatureRetirement(directory,{sourceRoot});
-    retireRound3();
+    retireRound3(); retireNativeMonster(); retireHandGesture(); retireIntegration();
     for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();
   };
 }

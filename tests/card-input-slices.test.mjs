@@ -1,3 +1,4 @@
+import {historicalCardInputPrelude,historicalCardInputFixtures} from './helpers/historical-card-input.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -29,4 +30,13 @@ test('all 12 original source-input groups retain their complete body and run onc
     seen.push(...actual);
   }
   assert.deepEqual(seen, names);
+});
+
+test('only the three frozen input archives load exact pre-browsing gesture semantics',()=>{
+ assert.deepEqual(historicalCardInputFixtures,['tests/lua/card_input_port.lua','tests/lua/card_input_port_slice_2.lua','tests/lua/card_input_port_slice_3.lua']);
+ for(const path of historicalCardInputFixtures){
+  assert.match(historicalCardInputPrelude(path),/HISTORICAL_CARD_INPUT_PRE_BROWSE/);
+  assert.throws(()=>historicalCardInputPrelude(path,{readSource:p=>readFileSync(p,'utf8')+'\n-- drift'}),/unreviewed source-input gesture host/);
+ }
+ for(const path of ['tests/lua/hand_flick_intent.lua','tests/lua/battle_hand_fan_swipe.lua','tests/lua/aim_visual_parity.lua'])assert.equal(historicalCardInputPrelude(path),'');
 });

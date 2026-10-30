@@ -25,6 +25,9 @@ function M.install(owner, ownership, host, dependencies)
         local ok, reason = Combat.canPlay(battle, instance.uid, nil)
         if not ok and reason ~= "invalid_target" then return end
         g.sx, g.sy, g.x, g.y, g.origin = x, y, x, y, owner.cardPositions[instance.uid]
+        local o = g.origin
+        g.grabDx, g.grabDy = o and o[1]-x or 0, o and o[2]-y or 0
+        g.vx, g.vy, g.t = 0, 0, os.clock()
         CardInput.begin(g, Theme.canvas.base[2], host.platform.touchScreen and host.platform.touchScreen(), Theme.canvas.base[1])
         g.handCancelY = L.hand.y + Theme.motion.hoverLift
         owner.hover, owner.handHover = nil, nil

@@ -17,8 +17,15 @@ function M.install(owner, _ownership, _host, dependencies)
         assert(entry,'enemy has no visible presentation slot')
         return enemySlot(count,slot,entry.actor)
     end
+    -- STS mobile port: keep the grab offset at pickup, then ease the card to
+    -- the finger-above pose over the first 80px instead of snapping +270.
     local function dragPose(g)
-        return g.x, g.y + (g.touchScreen and 270*g.sourceScale or 0)
+        local lift = g.touchScreen and 270*g.sourceScale or 0
+        local gx, gy = g.grabDx or 0, g.grabDy or lift
+        local dist = math.sqrt((g.x-(g.sx or g.x))^2+(g.y-(g.sy or g.y))^2)
+        local t = math.max(0, math.min(1, dist/80))
+        local k = t*t*(3-2*t)
+        return g.x + gx*(1-k), g.y + gy + (lift-gy)*k
     end
     local function inPlayArea(x,y)
         local area = D.playArea

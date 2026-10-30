@@ -218,7 +218,7 @@ test("pending attack highlights valid live enemies and changing selection does n
         local _, reason = Combat.canPlay(battle, instance.uid, nil)
         if reason == "invalid_target" then
             click("card" .. i)
-            assert(stage.children.notice.text:find("点选一个敌人", 1, true))
+            assert(stage.children.notice.text == "")
             assert(stage.children.enemy1.children.border.imageColor.r == Theme.color.goldBright.r)
             local selected = ui.selected
             click("card" .. i)
@@ -236,7 +236,7 @@ test("enemy intent click never confirms a selected non-target card", function()
     assert(slot, "fixture should contain defend")
     click("card" .. slot)
     local selected = ui.selected
-    assert(stage.children.notice.text == "点击战场出牌区域；再点原牌取消")
+    assert(stage.children.notice.text == "")
     local energy, hand, block = battle.energy, #battle.hand, battle.player.block
     local discard, events, seed = #battle.discard, #battle.events, battle.seed
     click("enemy1")
@@ -244,7 +244,7 @@ test("enemy intent click never confirms a selected non-target card", function()
     assert(battle.energy == energy and #battle.hand == hand and battle.player.block == block)
     assert(#battle.discard == discard and #battle.events == events and battle.seed == seed)
     assert(inspectDetails(ui,stage):find("自身获得 3 层仪式", 1, true))
-    assert(stage.children.notice.text == "点击战场出牌区域；再点原牌取消")
+    assert(stage.children.notice.text == "")
     click("playArea")
     assert(ui.selected == nil and battle.energy == energy - 1 and #battle.hand == hand - 1)
     assert(battle.player.block == block + 5 and battle.discard[#battle.discard].uid == selected)
@@ -1067,7 +1067,7 @@ test("native drag releases representative no-target rule cards into open ground 
         local ui,stage,click,event,grab,battle = dragBattle({id})
         local uid,energy = battle.hand[1].uid,battle.energy
         grab(1) event("card1","drag",0,0)
-        assert(stage.children.dragLayer.visible and stage.children.dragLayer.children.line.visible)
+        assert(stage.children.dragLayer.visible and not stage.children.dragLayer.children.line.visible)
         assert(stage.children.card1.x == 0 and stage.children.card1.y > -100)
         event("card1","up",0,0)
         local cost = battle.catalog.cards[id].cost
@@ -1104,7 +1104,10 @@ test("aiming parks the card below the line and padded enemy hit areas support to
     local box = stage.children.card1
     event("card1","down",box.x,box.y-80)
     event("card1","drag",third.x+40,third.y-70)
-    assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, "aiming card must park below the line")
+    -- STS scaleLerpSnap 式缩放过渡：停住后若干帧收敛到拖牌缩放，位置首帧即停泊于阈线下。
+    assert(ui.gesture.moving and box.y + h/2 <= D.lineY, "aiming card must park below the line")
+    for _ = 1, 60 do ui:update(1 / 60) event("card1","drag",third.x+40,third.y-70) end
+    assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, "parked aiming card settles at drag scale")
     assert(third.children.border.imageColor.r == Theme.color.goldBright.r)
     assert(layer.children.reticle.visible and layer.children.reticle.x == third.x and layer.children.aim1.visible)
     assert(layer.children.hint.text == "", "aiming shows the reticle, not a caption over the card")

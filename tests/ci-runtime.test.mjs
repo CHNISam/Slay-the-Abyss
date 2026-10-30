@@ -109,3 +109,16 @@ test('real executor preserves test failure, continues later files, reports timin
   assert.deepEqual(records.map(record => record.file).sort(), ['tests/a.test.mjs', 'tests/b.test.mjs']);
   assert.ok(records.every(record => Number.isFinite(record.durationMs) && record.durationMs > 0));
 });
+
+
+test('current timing records preserve all measured corrections without duplicate JSON keys',()=>{
+ const raw=readFileSync('scripts/ci-test-timings.json','utf8');
+ assert.equal((raw.match(/^  "jsCorrections":/gm)||[]).length,1,'one unambiguous correction inventory');
+ assert.equal(timings.jsCorrections.length,3);
+ for(const entry of timings.jsCorrections){
+  assert.equal(timings.js[entry.platform][entry.file],Math.ceil(entry.durationMs),'measured conservative weight: '+entry.file);
+  assert.ok(Number.isSafeInteger(entry.runId)&&Number.isSafeInteger(entry.jobId));
+  assert.match(entry.headSha,/^[a-f0-9]{40}$/);
+ }
+ assert.equal(createHash('sha256').update(JSON.stringify(timings.js.linux)).digest('hex'),'3fdcb1aa1e50352a164eb3ebde77f0a01ac4b0ad76b1302939021ae7d76d8755','current accepted Linux weights remain exact');
+});

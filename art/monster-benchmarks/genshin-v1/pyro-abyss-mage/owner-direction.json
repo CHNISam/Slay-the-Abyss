@@ -1,0 +1,10 @@
+{
+  "dateUtc": "2026-10-30",
+  "status": "owner-accepted-source-direction-only",
+  "evidence": "Owner conversation approval retained privately; exact source hash binds acceptance",
+  "sourceSha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+  "scope": "source visual direction only",
+  "native": false,
+  "runtime": false,
+  "device": false
+}

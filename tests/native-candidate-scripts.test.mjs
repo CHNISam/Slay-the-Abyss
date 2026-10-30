@@ -7,7 +7,7 @@ import { candidateScriptFiles } from '../scripts/native-candidate-scripts.mjs';
 import { buildUI } from '../scripts/build-ui.mjs';
 import { buildLuaData } from '../scripts/build-lua-data.mjs';
 
-const generated = ['abyss_art_features','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];
+const generated = ['abyss_art_features','abyss_monster_art_data','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];
 function fixture(run) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-native-scripts-'));
   const source = join(root, 'src'), build = join(root, 'build');
@@ -38,7 +38,7 @@ test('native package preflight rejects missing generated modules and name collis
 test('ordinary native package declares safe default UI parameters', () => fixture((source, build) => {
   const scripts = candidateScriptFiles(source, build);
   assert.deepEqual(scripts.find(item => item.name === 'abyss_ui').variables,
-    [{ name: 'nativeBgmEnabled', type: 'boolean', value: false },
+    [{ name: 'nativeMonsterArtEnabled', type: 'boolean', value: true }, { name: 'nativeBgmEnabled', type: 'boolean', value: false },
       { name: 'experimentalCharacters', type: 'boolean', value: false }]);
   for (const item of scripts.filter(item => item.name !== 'abyss_ui')) assert.equal(item.variables, undefined);
 }));

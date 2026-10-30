@@ -84,7 +84,7 @@
       "current": "#F5D79A",
       "reachable": "#ECE6DA",
       "locked": "#4A4F63",
-      "path": "#5A6078",
+      "path": "#77707A",
       "pathTaken": "#E3B866"
     },
     "geo": "#F0B850",
@@ -108,8 +108,8 @@
       "backdrop": "#0D0708",
       "field": "#2A1013",
       "fog": "#3A2A28",
-      "far": "#C2B29A",
-      "visited": "#7E6E5C",
+      "far": "#77707A",
+      "visited": "#C99A4E",
       "kind": {
         "combat": "#C9C3B6",
         "elite": "#E8836C",
@@ -982,24 +982,35 @@
     },
     "potionDiscard": {
       "columns": [
-        -170,
+        -184,
         0,
-        170
+        184
       ],
       "rows": [
-        56,
-        -32
+        46,
+        -46
       ],
       "size": [
-        148,
-        72
+        164,
+        80
       ],
       "detail": [
         0,
-        -116,
-        576,
-        48
+        -118,
+        560,
+        44
       ],
+      "header": {
+        "note": "标题与说明分行排布：标题 30 号居上，金色细线分隔，说明 16 号在线下，杜绝叠字。",
+        "titleY": 176,
+        "ruleY": 146,
+        "ruleSize": [
+          120,
+          2
+        ],
+        "hintY": 120,
+        "textHeight": 36
+      },
       "entryVisual": {
         "size": [
           34.667,
@@ -1163,7 +1174,18 @@
         8,
         24
       ],
-      "reticlePad": 28
+      "reticlePad": 28,
+      "aimFlow": 1.6,
+      "aimBend": [
+        0.25,
+        0.2
+      ],
+      "aimRetarget": 0.12,
+      "aimLockPulse": [
+        1.25,
+        0.18,
+        0.03
+      ]
     },
     "energy": {
       "position": [
@@ -1375,10 +1397,10 @@
           -56
         ],
         "navigationSize": 48,
-        "pathWidth": 2,
-        "futureOpacity": 0.28,
-        "takenOpacity": 0.85,
-        "nextOpacity": 0.7,
+        "pathWidth": 3,
+        "futureOpacity": 0.9,
+        "takenOpacity": 1,
+        "nextOpacity": 1,
         "fogOpacity": 0.35,
         "noticeHeight": 40,
         "typeLegend": {
@@ -1436,7 +1458,8 @@
     },
     "relicView": {
       "note": "TASK-4.7 持有遗物站位：顶栏圆形遗物盘沿 prototype topBar() 32px disc / 36 步进；详情每行为图标盘+中文名+状态签+说明，美术位绑定 icon.relic，占位图标待专属美术。",
-      "bar": { "origin": [216, 316], "step": 36, "disc": 32, "face": 28, "icon": 20, "count": 3 },
+      "bar": { "origin": [222, 316], "step": 34, "disc": 30, "face": 26, "icon": 20, "count": 3, "tray": [256, 316, 108, 38], "trayBorder": 1, "more": [0, 0, 30, 24] },
+      "barNote": "顶栏遗物托盘：遗物盘收进一条凹陷胶囊托盘成组；超过 count 件时末位改为 +N 溢出盘，点开分页详情，绝不压到标题或遗物入口。",
       "panel": [0, 0, 1160, 620],
       "title": [0, 268, 760, 48],
       "close": [490, 268, 88, 48],
@@ -1457,7 +1480,7 @@
       "relicEntry": [
         352,
         316,
-        88,
+        72,
         48
       ],
       "entry": [
@@ -3426,7 +3449,8 @@
         8
       ],
       "gap": 4,
-      "padding": 7
+      "padding": 7,
+      "glyphScale": 1.35
     }
   }
 }
