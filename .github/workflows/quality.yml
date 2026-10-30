@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   impact:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     timeout-minutes: 3
     outputs:
       mode: ${{ steps.plan.outputs.mode }}

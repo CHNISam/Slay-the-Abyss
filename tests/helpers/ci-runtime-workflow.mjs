@@ -4,9 +4,9 @@ import { readFileSync } from 'node:fs';
 import { beforeQualityArtifacts } from './quality-workflow.mjs';
 export function originalWorkflow(text) {
   text = beforeQualityArtifacts(text);
-  // Only the two reviewed, shell-only summaries changed runner image. Keep all
-  // their other bytes visible to the original routing and workflow hash guards.
-  for (const name of ['check', 'engineering-posix']) {
+  // Only the lightweight planner and two reviewed summaries changed runner
+  // image. All other bytes remain visible to the original workflow hash guards.
+  for (const name of ['impact', 'check', 'engineering-posix']) {
     const jobs = [...text.matchAll(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:|(?![\\s\\S]))`, 'gm'))];
     const body = jobs[0]?.[1];
     if (jobs.length !== 1 || (body.match(/^    runs-on:/gm) ?? []).length !== 1
