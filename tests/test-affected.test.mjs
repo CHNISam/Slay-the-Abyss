@@ -1,3 +1,4 @@
+import {currentGameUiFixture} from './helpers/current-game-ui-runner.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, renameSync } from 'node:fs';
@@ -569,5 +570,12 @@ for(const [helper,fixtures] of [
  const plan=selectTests([helper],repositorySources);
  assert.equal(plan.full,false);
  for(const fixture of fixtures)assert.ok(plan.lua.includes(fixture),fixture);
+ assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
+});
+
+test('current entry grouping helper selects all actual game UI cases without tainting ordinary wrappers',()=>{
+ const plan=selectTests(['tests/helpers/current-game-ui-runner.mjs'],repositorySources);
+ assert.equal(plan.full,false);assert.ok(plan.lua.includes(currentGameUiFixture));
+ assert.ok(plan.integration.includes('tests/game-ui.test.mjs'));
  assert.ok(!plan.integration.includes('tests/reward-upgrades.test.mjs'));
 });

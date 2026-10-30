@@ -1,3 +1,4 @@
+import {runCurrentGameUi,currentGameUiFixture} from '../tests/helpers/current-game-ui-runner.mjs';
 import {currentPhaseFourNativePrelude} from '../tests/helpers/current-phase-four-native.mjs';
 import {historicalCardInputPrelude} from '../tests/helpers/historical-card-input.mjs';
 import {runHistoricalMonsterUi,historicalMonsterUiFixtures} from '../tests/helpers/historical-monster-ui-runner.mjs';
@@ -21,6 +22,7 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   if (caseName !== undefined && (typeof caseName !== 'string' || !caseName.trim())) {
     throw new Error('Selected Lua case must have a nonempty name');
   }
+  if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && script.replaceAll('\\','/')===currentGameUiFixture) return runCurrentGameUi(runLua,script,{timeout,cwd,caseName});
   if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && historicalMonsterUiFixtures.includes(script.replaceAll('\\', '/'))) return runHistoricalMonsterUi(script, { timeout, cwd, caseName });
   if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && historicalPresentationFixtures.includes(script.replaceAll('\\', '/'))) return runHistoricalPresentation(runLua, script, { timeout, cwd, caseName });
   const cli = require.resolve('fengari-node-cli/src/lua-cli.js');

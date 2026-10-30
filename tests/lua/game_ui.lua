@@ -1,12 +1,36 @@
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 local testStartButton=dofile('tests/lua/support/game_ui_fixture.lua').startButton
-local F = dofile("tests/lua/support/game_ui_fixture.lua")
+local freshFixture=dofile('tests/lua/support/current_entry_fixture.lua')
+local F = freshFixture()
 local GameUI, Combat, Nodes, Data = F.GameUI, F.Combat, F.Nodes, F.Data
 local Presentation, Layout, Viewport, Theme = F.Presentation, F.Layout, F.Viewport, F.Theme
 local preview, control, fixture = F.preview, F.control, F.fixture
 local statValue, resultText, mapControl, click, win = F.statValue, F.resultText, F.mapControl, F.click, F.win
-local count = 0
-local function test(name, fn) fn(); count = count + 1; print("ok game UI " .. count .. " - " .. name) end
+local count,registered = 0,0
+local group=ABYSS_CURRENT_ENTRY_GROUP
+local selected
+if group then
+    assert(type(group)=='table' and #group>0)
+    selected={}
+    for _,index in ipairs(group)do
+        assert(type(index)=='number' and index%1==0 and index>=1 and index<=16 and not selected[index])
+        selected[index]=true
+    end
+end
+local function test(name, fn)
+    registered=registered+1
+    if selected and not selected[registered]then return end
+    F=freshFixture()
+    GameUI,Combat,Nodes,Data=F.GameUI,F.Combat,F.Nodes,F.Data
+    Presentation,Layout,Viewport,Theme=F.Presentation,F.Layout,F.Viewport,F.Theme
+    preview,control,fixture=F.preview,F.control,F.fixture
+    statValue,resultText,mapControl,click,win=F.statValue,F.resultText,F.mapControl,F.click,F.win
+    local ok,why=xpcall(fn,debug.traceback)
+    local cleaned,cleanupWhy=pcall(F.close)
+    assert(ok,why);assert(cleaned,cleanupWhy)
+    count=count+1;print("ok game UI "..count.." - "..name)
+    if group then print("CURRENT_GAME_UI_CASE\t"..registered.."\t"..name)end
+end
 local function leavePotionRewards(ui, root)
     if ui.run.phase=='reward' and ui.run.rewards.manualContinue then
         if ui.run.rewards.goldClaimed == false then click(root,'battlePanel','goldReward') end
@@ -507,7 +531,12 @@ test("native lifecycle loads every composed control and registers its listeners 
     })
     local width, height = 1600, 900
     game = { GetUICanvasSize = function() return width, height end, IsTestPlay=function()return true end }
+    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}
+    game.GetDevice=function()return 'desktop'end
+    game.GetCursorUIPos=function()return 0,0 end
+    dofile('tests/lua/support/native_monster_engine.lua')(game)
     dofile("src/lua/abyss_ui.lua")
+    F.nativeWorld(OnDestroy,script)
     OnStart()
     OnStart()
     assert(root.scale[1] == 1.25)
@@ -533,12 +562,14 @@ end)
 test("startup failure is visible without log subscription and hides the dead start button", function()
     local canvas = control({ children = Layout })
     local oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor = script, Enum, OnStart, OnUpdate, game, Color
-    local originalNew = GameUI.new
-    GameUI.new = function() error("INJECTED_STARTUP_FAILURE") end
+    local actualGameUI=require('abyss_game_ui')
+    local originalNew = actualGameUI.new
+    actualGameUI.new = function() error("INJECTED_STARTUP_FAILURE") end
     script = {object=canvas, EnableUpdate=function(self,value) self.updating=value end}
     Enum = {CursorEventType={CursorClick="click"},ImageSource={StaticReference="static"}}
     game = {GetUICanvasSize=function() return 1280,720 end,IsTestPlay=function() return true end}
     dofile("src/lua/abyss_ui.lua")
+    F.nativeWorld(OnDestroy,script)
     OnStart()
     local stage = canvas:GetChild("stage")
     local menu = stage:GetChild("menuPanel")
@@ -547,14 +578,19 @@ test("startup failure is visible without log subscription and hides the dead sta
     assert(not menu:GetChild('codeVersion').visible)
     assert(not stage:GetChild("mapPanel").visible and not stage:GetChild("battlePanel").visible)
     OnStart() OnUpdate(0.1)
-    GameUI.new = originalNew
+    actualGameUI.new = originalNew
     -- A stale/mismatched imported tree must still show the startup diagnostic,
     -- even though a required shared panel is absent.
     local stale = control({ children = Layout })
     local staleStage = stale:GetChild('stage')
     staleStage.children.exitPanel = nil
     script = {object=stale, EnableUpdate=function(self,value) self.updating=value end}
+    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}
+    game.GetDevice=function()return 'desktop'end
+    game.GetCursorUIPos=function()return 0,0 end
+    dofile('tests/lua/support/native_monster_engine.lua')(game)
     dofile('src/lua/abyss_ui.lua')
+    F.nativeWorld(OnDestroy,script)
     OnStart()
     local staleMenu = staleStage:GetChild('menuPanel')
     assert(staleMenu.visible and staleMenu:GetChild('summary').visible)
@@ -563,4 +599,8 @@ test("startup failure is visible without log subscription and hides the dead sta
     script, Enum, OnStart, OnUpdate, game, Color = oldScript, oldEnum, oldStart, oldUpdate, oldGame, oldColor
 end)
 
-print("LUA_GAME_UI_PASS " .. count)
+assert(registered==16,'original current entry case inventory changed')
+if group then
+    assert(count==#group,'current entry group did not execute completely')
+    print("LUA_GAME_UI_GROUP_PASS "..count)
+else assert(count==16);print("LUA_GAME_UI_PASS "..count)end
