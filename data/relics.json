@@ -717,6 +717,17 @@
       "rarity": "shop",
       "trigger": "hooks",
       "effects": []
-    }
+    },
+    {"id": "cultist_mask", "sourceId": "CultistMask", "name": "邪教徒头饰", "description": "战斗开始时发出邪教徒的叫声；没有额外属性。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "face_of_cleric", "sourceId": "FaceOfCleric", "name": "圣职者之脸", "description": "每场战斗结束后，生命上限增加1，并按治疗规则回复1点生命。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "gremlin_mask", "sourceId": "GremlinMask", "name": "地精容貌", "description": "每场战斗开始时，获得1层虚弱。", "rarity": "special", "trigger": "combat_start", "effects": [{"op": "gainStatus", "status": "weak", "value": 1}]},
+    {"id": "nloths_mask", "sourceId": "NlothsMask", "name": "N'loth的饥饿之脸", "description": "下次打开非Boss宝箱时，移除其中第一件遗物奖励；只触发一次。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "ssserpent_head", "sourceId": "SsserpentHead", "name": "长蛇之首", "description": "进入问号房时，在房间转类与事件抽取前获得50金币；问号房变为战斗等房间仍会获得。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "nloths_gift", "sourceId": "Nloth's Gift", "name": "N'loth的礼物", "description": "房间卡牌稀有权重中的稀有权重乘以3；不改变稀有度偏移或额外消耗随机数。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "bloody_idol", "sourceId": "Bloody Idol", "name": "血色神像", "description": "每当你获得金币时，回复5点生命。", "rarity": "special", "trigger": "hooks", "effects": [], "replaces": "golden_idol"},
+    {"id": "mutagenic_strength", "sourceId": "MutagenicStrength", "name": "突变力量", "description": "每场战斗开始时获得3点力量，在第一回合结束时失去3点力量。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "necronomicon", "sourceId": "Necronomicon", "name": "死灵之书", "description": "每回合第一次打出本回合费用至少2的攻击牌时，将其再打出一次。取得时获得死灵诅咒。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "enchiridion", "sourceId": "Enchiridion", "name": "圣书", "description": "每场战斗开始时，生成一张随机能力牌加入手牌，本回合费用为0。", "rarity": "special", "trigger": "hooks", "effects": []},
+    {"id": "nilrys_codex", "sourceId": "Nilry's Codex", "name": "尼利宝典", "description": "每回合结束时，从三张随机牌中选择至多一张洗入抽牌堆。", "rarity": "special", "trigger": "hooks", "effects": []}
   ]
 }

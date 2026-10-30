@@ -229,15 +229,24 @@ function M.removeCard(run,uid)
         return true,card
     end)
 end
+local function publishRelicIdentity(battle,definition)
+    local position
+    if definition.id=='bloody_idol'then
+        for i,id in ipairs(battle.relics)do if RelicHooks.localId(id)=='golden_idol'then position=i;break end end
+    end
+    if position then battle.relics[position]=definition.id
+    else battle.relics[#battle.relics+1]=definition.id end
+end
 local function publishCombatRelic(staged, definition)
     -- These source relics have no onEquip benefit. External obtains during
     -- active combat only publish ownership to the existing battle hooks;
     -- DataDisk still waits for the next atBattleStart. Keep unrelated
     -- legacy relic-snapshot behavior unchanged.
     if staged.phase=='combat' and staged.combat and not RelicHooks.owns(staged.combat,definition.id) and
-        (definition.id=='snake_skull' or definition.id=='data_disk' or definition.id=='damaru' or definition.id=='lizard_tail') then
+        (definition.id=='snake_skull' or definition.id=='data_disk' or definition.id=='damaru' or definition.id=='lizard_tail' or require('abyss_act2_event_relics').is(definition.id)) then
         staged.combat.relics=staged.combat.relics or {}
-        staged.combat.relics[#staged.combat.relics+1]=definition.id
+        publishRelicIdentity(staged.combat,definition)
+        if definition.id=='necronomicon'then staged.combat.relicCombat.necronomiconActivated=true end
         if definition.id=='lizard_tail' then require('abyss_lizard_tail').onObtain(staged.combat)end
     end
 end
@@ -258,6 +267,7 @@ function M.obtainRelic(run,id)
         if position then staged.relics[position]=definition.id
         else staged.relics[#staged.relics+1]=definition.id end
         local equipped,equipReason=RelicHooks.onEquip(staged,definition.id,{
+            obtainCard=function(cardId)return M.obtainCard(staged,cardId)end,
             canUpgrade=function(card)
                 local def=cardDefinition(staged,card.cardId)
                 return def and def.upgrade and next(def.upgrade)~=nil
@@ -270,6 +280,14 @@ function M.obtainRelic(run,id)
         if equipped==false then return false,equipReason end
     publishCombatRelic(staged, definition)
         return true,definition.id
+    end)
+end
+function M.loseRelic(run,id)
+    return M.transaction(run,function(staged)
+        return require('abyss_relic_loss').lose(staged,id,{definition=function(owner,key)
+            return relicDefinition(owner,key) or relicDefinition(owner,RelicHooks.localId(key))
+        end,
+            localId=RelicHooks.localId,onUnequip=RelicHooks.onUnequip})
     end)
 end
 local function relicContextOwners(run)

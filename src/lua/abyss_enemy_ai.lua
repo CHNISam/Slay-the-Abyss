@@ -25,6 +25,7 @@ local Act3 = require('abyss_act3_ai')
 local GiantHead = require('abyss_giant_head')
 local Act2Powers = require('abyss_act2_powers')
 local Act4=require('abyss_act4_enemies')
+local EventEnemies=require('abyss_event_combat_enemies')
 
 local function select(enemy, id)
     for i, intent in ipairs(enemy.intents) do
@@ -62,6 +63,7 @@ function M.preBattle(state, enemy, random)
 end
 
 function M.initialize(state, enemy, random)
+    if EventEnemies.owns(enemy)then return EventEnemies.initialize(state,enemy,random)end
     if Act4.owns(enemy)then return Act4.initialize(state,enemy,random)end
     if Darklings.owns(enemy)then return Darklings.initialize(state,enemy,random)end
     if Awakened.owns(enemy)then return Awakened.initialize(state,enemy,random)end
@@ -148,6 +150,7 @@ function M.hpLost(state, enemy, before, damageCall)
 end
 
 function M.advance(state, enemy, random)
+    if EventEnemies.owns(enemy)then return EventEnemies.advance(state,enemy,random)end
     if Act4.owns(enemy)then return Act4.advance(state,enemy,random)end
     if enemy.ai and enemy.ai.kind=='giant_head' then return GiantHead.advance(state,enemy,random) end
     if enemy.ai and enemy.ai.kind=='nemesis'then return Nemesis.advance(state,enemy,random)end
@@ -214,6 +217,7 @@ end
 -- Acid S sets its next move directly instead; do not invent a queued roll.
 local queuedRoll = { jaw_worm=true, gremlin_nob=true, blue_slaver=true, red_slaver=true, rolled_attack=true, sentry=true, ritual_then_attack=true, sleep_then_cycle=true, spike_slime_m=true, spike_slime_l=true, acid_slime_m=true, acid_slime_l=true, fungi_beast=true, louse=true }
 function M.afterAction(state, enemy, random, executedIntent)
+    if EventEnemies.owns(enemy)then return EventEnemies.afterAction(state,enemy,random)end
     if Act4.owns(enemy)then return Act4.afterAction(state,enemy,random,executedIntent)end
     if Darklings.owns(enemy)then return Darklings.afterAction(state,enemy,random)end
     if Awakened.owns(enemy)then return Awakened.afterAction(state,enemy,random)end

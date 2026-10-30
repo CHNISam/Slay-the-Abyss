@@ -115,7 +115,11 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         end
     end
 
+    require('abyss_node_ui_event_cards').install(ctx)
+
     function ctx.nodeScreen(_view,node,result,active)
+        local grid,gridHint=ctx.eventGridScreen(node,active)
+        if grid then return grid,gridHint end
         if node and node.type=='ending_proceed' then return 'eventView','确认继续后进入真结局。' end
         local screen, hint = nil, node and "请完成当前节点。" or "请在路线中选择下一个节点。"
         if node and node.complete then hint = "本节点已完成，可以返回路线。" end
@@ -135,7 +139,9 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if active and MatchUI.isBoard(node.event) then hint=ctx.renderMatch(view,node)
         elseif screen == "shopView" then hint = ctx.renderShop(view, node)
         elseif screen == "campView" then hint, recallSource = ctx.renderCamp(view, node, result)
-        elseif screen == "pickerView" then hint = ctx.renderPicker(view, node, result)
+        elseif screen == "pickerView" then
+            if ctx.eventCardsActive(node)then hint=ctx.renderEventCards(view,node)
+            else hint = ctx.renderPicker(view, node, result)end
         elseif screen == "eventView" then
             if node.type=='ending_proceed' then hint=EndingUI.render(ctx.child('eventView'),OPTIONS)
             else hint = ctx.renderEvent(view, node, result) end
@@ -188,7 +194,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         elseif screen == "treasureView" and treasureSource then
             backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.treasureFooter(treasureSource, confirm)
         elseif screen == "pickerView" then
-            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.pickerFooter(node)
+            backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve=ctx.eventGridFooter(node)
         end
         return backLabel,confirmLabel,confirmOk,confirmFn,skipRestReward,recallObserve
     end
@@ -227,6 +233,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         local active = node and kinds[node.type] and not node.complete and view.phase == "node"
         if active then self.removeRows=snapshotDeck(node.purgeCards) end
         ctx.syncNodePicker(node,active)
+        ctx.syncEventCards(node,active)
         if not active or node.type ~= 'shop' or self.mode ~= 'main' then ctx.shopSelection:clear() end
         ctx.renderTopBar(node)
         local screen,hint,recallSource,treasureSource=ctx.renderNodePage(view,node,result,active)

@@ -45,17 +45,19 @@ end
 
 function M.exhaust(combat, state, instance, pile)
     if pile and not remove(pile, instance.uid) then return false end
-    -- Exhaust triggers Power hooks first, the card's own trigger second; both
-    -- run after movement. Dark Embrace/FNP append; Sentinel inserts at the top.
+    -- CardGroup.moveToExhaustPile dispatches relics, then Powers, then the
+    -- card hook. Dark Embrace/FNP append; Sentinel inserts at the top.
     state.exhaust[#state.exhaust+1] = instance
     Events.emit(state, "exhaust", {uid=instance.uid,cardId=instance.cardId})
+    require('abyss_rare_relics').onExhaust(state)
     local p = state.player
     for _,id in ipairs(Actors.powerSequence(p,{'dark_embrace','feel_no_pain'})) do
         if id=='dark_embrace' and not combat.outcome(state) then
             M.enqueue(state,{op="draw",value=p.statuses[id]})
         elseif id=='feel_no_pain' then M.enqueue(state,{op="block",value=p.statuses[id],fixed=true}) end
     end
-    require('abyss_rare_relics').onExhaust(state)
+    local rebirth=require('abyss_necronomicurse').exhaustPlan(instance)
+    if rebirth then M.enqueue(state,rebirth.effect)end
     local energy=combat.cardDefinition(state,instance).exhaustEnergy
     if energy then
         M.enqueue(state,{op="energy",value=energy},nil,nil,nil,true)

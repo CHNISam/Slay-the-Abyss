@@ -5,7 +5,7 @@ local A=require('abyss_actor')
 local E=require('abyss_events')
 local S=require('abyss_sts_random')
 local M={}
-local aliases={FossilizedHelix='fossilized_helix',Pantograph='pantograph',SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',['Old Coin']='old_coin',
+local aliases={['Bloody Idol']='bloody_idol',MutagenicStrength='mutagenic_strength',Necronomicon='necronomicon',Enchiridion='enchiridion',["Nilry's Codex"]='nilrys_codex',["Nloth's Gift"]="nloths_gift",NlothsGift="nloths_gift",CultistMask='cultist_mask',FaceOfCleric='face_of_cleric',GremlinMask='gremlin_mask',NlothsMask='nloths_mask',SsserpentHead='ssserpent_head',FossilizedHelix='fossilized_helix',Pantograph='pantograph',SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',['Old Coin']='old_coin',
  ['Frozen Egg 2']='frozen_egg',['Coffee Dripper']='coffee_dripper',['Fusion Hammer']='fusion_hammer',
  NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
  MealTicket='meal_ticket',MawBank='maw_bank',['Blood Vial']='blood_vial',
@@ -39,11 +39,18 @@ end
 local function counters(owner)
  owner.relicCounters=owner.relicCounters or {};return owner.relicCounters
 end
+local function healEventGold(run,amount)
+ if require('abyss_potion_health').blocked(run.relics)then return end
+ if run.phase=='combat'and M.owns(run,'magic_flower')then amount=math.floor(amount*1.5)end
+ run.hp=math.min(run.maxHp,run.hp+amount)
+end
 function M.gainGold(run,amount)
  assert(integer(amount) and integer(run.gold),'invalid gold')
  if M.owns(run,'ectoplasm')then return 0 end
  assert(run.gold+0.0+amount<=2147483647,'gold overflow')
- run.gold=run.gold+0.0+amount;return amount
+ run.gold=run.gold+0.0+amount
+ require('abyss_act2_event_relics').gainGold(run,amount,function(n)return healEventGold(run,n)end)
+ return amount
 end
 local function healRun(run,amount)if not require('abyss_potion_health').blocked(run.relics)then run.hp=math.min(run.maxHp,run.hp+amount)end end
 local function equipmentUpgrade(run,id,api)
@@ -80,7 +87,9 @@ function M.onEquip(run,id,upgradeApi)
  if not ok then return false,why end
  ok,why=require('abyss_shop_relics').onEquip(run,id)
  if ok==false then return false,why end
- if id=='lizard_tail' then require('abyss_lizard_tail').onObtain(run)
+ if id=='nloths_mask' then counters(run).nloths_mask=1
+ elseif id=='necronomicon'then return require('abyss_act2_event_relics').onEquip(run,id,upgradeApi)
+ elseif id=='lizard_tail' then require('abyss_lizard_tail').onObtain(run)
  elseif id=='neows_lament' then counters(run).neows_lament=3
  elseif id=='omamori' then counters(run).omamori=2
  elseif id=='maw_bank' then counters(run).maw_bank=0
@@ -112,6 +121,11 @@ function M.onEquip(run,id,upgradeApi)
   end
  end
  return true
+end
+function M.onUnequip(run,id)
+ id=M.localId(id)
+ if id=='necronomicon'then return require('abyss_act2_event_relics').onUnequip(run,id)end
+ return require('abyss_relic_loss').onUnequip(run,id)
 end
 function M.obtainCirclet(run)
  local c=counters(run)
@@ -234,6 +248,7 @@ function M.onEnterRoom(run,kind,phase)
  if phase~='entered' then
   for _,id in ipairs(run.relics or {})do
    if M.localId(id)=='maw_bank' and (counters(run).maw_bank or 0)~=-2 then M.gainGold(run,12)end
+   if M.localId(id)=='ssserpent_head'and kind=='event'then M.gainGold(run,50)end
   end
  end
  if phase~='enter' and kind=='shop' then
@@ -325,6 +340,7 @@ local function energy(state,id,amount)
  E.emit(state,'relic_energy',{relic=id,amount=amount})
 end
 function M.atTurnStart(state)
+ require('abyss_act2_event_relics').turnStart(state)
  for _,id in ipairs(state.relics or {})do
   if id=='ancient_tea_set' and state.turn==1 and state.relicCounters.ancient_tea_set==-2 then
    state.relicCounters.ancient_tea_set=-1;energy(state,id,2)
@@ -394,8 +410,10 @@ function M.afterCard(state)
  if c.nunchakuEnergy then c.nunchakuEnergy=nil;if A.isActive(state.player)then energy(state,'nunchaku',1)end end
 end
 function M.battleStart(state,id)
+ if id=='mutagenic_strength'then return require('abyss_act2_event_relics').battleStart(state,id)end
  id=M.localId(id)
- if id=='fossilized_helix' then A.applyPower(state,state.player,'buffer',1,state.player)
+ if id=='cultist_mask'then E.emit(state,'relic_flavor',{relic=id,text='CAW! CAAAW!'})
+ elseif id=='fossilized_helix' then A.applyPower(state,state.player,'buffer',1,state.player)
  elseif id=='pantograph' then
   local amount=require('abyss_potion_health').modifyHealing(25,state.relics,true)
   if state.originalV4 then require('abyss_original_v4_health').heal(state,state.player,amount,nil,id)
@@ -432,6 +450,7 @@ function M.battleStart(state,id)
  else error('unsupported battle hook '..tostring(id))end
 end
 function M.endTurnBlock(state)
+ if state.relicEndTurnResolved==state.turn then return end
  if not A.isActive(state.player)then return end
  -- Fixed GainBlockAction bypasses Dexterity/Frail. Eligibility is observed at
  -- hook dispatch, before end-turn cards/powers, not after their queued effects.

@@ -3,6 +3,7 @@ local Nodes = require("abyss_nodes")
 local Theme = require("abyss_theme")
 local CardDisplay = require('abyss_card_display')
 local Act2Events = require('abyss_act2_events')
+local Act1Events = require('abyss_act1_events')
 local reasons = {
     rest_blocked_by_relic='咖啡滤杯禁止在营地休息',upgrade_blocked_by_relic='聚变之锤禁止在营地升级卡牌',
     card_content_unavailable='这张卡牌的效果尚未接齐，本次未改变资源',
@@ -20,7 +21,7 @@ local reasons = {
     event_reward_content_unavailable = "当前遗物的无色奖励效果尚未接齐，本次未改变资源",
     panel_hidden = "节点界面未打开", unavailable_action = "此选项当前不可用",
 }
-local function stagedEvent(id)return id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
+local function stagedEvent(id)return Act1Events.ids[id] or id=='match_game' or id=='neow' or id=='mysterious_sphere' or id=='mind_bloom' or Act2Events.ids[id]end
 local M = {}
 
 -- Installs the lifecycle responsibility on one node UI instance.

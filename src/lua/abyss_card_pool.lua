@@ -34,11 +34,10 @@ function M.prismaticPools(run)
     end
     return pools
 end
-function M.rarity(roll,offset,tier)
+function M.rarity(roll,offset,tier,relics)
     local adjusted=roll+offset
     if tier=='boss' then return 'rare' end
-    local rare=tier=='elite' and 10 or tier=='shop' and 9 or 3
-    local uncommon=tier=='elite' and 50 or tier=='shop' and 46 or 40
+    local rare,uncommon=require('abyss_relic_rarity').thresholds(tier,relics)
     return adjusted<rare and 'rare' or adjusted<uncommon and 'uncommon' or 'common'
 end
 function M.prepareRewards(run)
@@ -47,7 +46,7 @@ function M.prepareRewards(run)
     local prismatic=require('abyss_relic_hooks').owns(run,'prismatic_shard')
     local pools=prismatic and M.prismaticPools(run)or assert(run.data.cards.sourcePools,'missing source pools').reward
     for _=1,M.rewardCount(run) do
-        local rarity=M.rarity(R.randomInt(rng,99),offset,run.encounterTier)
+        local rarity=M.rarity(R.randomInt(rng,99),offset,run.encounterTier,run.relics)
         if rarity=='common' then offset=math.max(-40,offset-1)
         elseif rarity=='rare' then offset=5 end
         local pool=assert(pools[rarity]);assert(#pool>=3,'incomplete original rarity pool')

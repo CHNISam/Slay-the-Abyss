@@ -1,5 +1,29 @@
 {
   "layers": {
+    "abyss_relic_end_turn": "core",
+    "abyss_relic_rarity": "core",
+    "abyss_relic_loss": "core",
+    "abyss_nloth_event": "core",
+    "abyss_knowing_skull_event": "core",
+    "abyss_designer_event": "core",
+
+    "abyss_necronomicurse": "core",
+    "abyss_codex_relic": "core",
+    "abyss_act2_event_relics": "core",
+    "abyss_event_card_sampling": "core",
+    "abyss_vampires_event": "core",
+    "abyss_forgotten_altar_event": "core",
+    "abyss_drug_dealer_event": "core",
+    "abyss_cursed_tome_event": "core",
+    "abyss_event_combat_enemies": "core",
+    "abyss_event_combat_routes": "core",
+    "abyss_masked_bandits_event": "core",
+    "abyss_colosseum_event": "core",
+
+    "abyss_dead_adventurer_event": "core",
+    "abyss_face_trader_event": "core",
+    "abyss_node_ui_event_cards": "ui",
+
     "abyss_combat_catalog": "core",
     "abyss_relic_card_rewards": "core",
     "abyss_boss_relics": "core",

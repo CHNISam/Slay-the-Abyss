@@ -87,7 +87,7 @@ function M.install(Run, shared)
         local valid,generation=validateEncounter(run,encounter,sourceRoom)
         if not valid then return false,generation end
         local opening, reason = Inventory.opening(run.data.relics.relics, run.relics,
-            run.relicCounters,{tier=encounter.tier})
+            run.relicCounters,{tier=encounter.tier,eliteTrigger=encounter.eliteTrigger})
         if not opening then return false, reason end
         local bonus
         bonus, reason = Inventory.energyBonus(run.data.relics.relics, run.relics, encounter.tier)

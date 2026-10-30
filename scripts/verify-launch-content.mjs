@@ -22,9 +22,20 @@ const curseEvents = {
 const specialRelicEvents = {
   mark_of_bloom: ['explicit_event:mind_bloom:upgrade'],
   neows_lament: ['explicit:Nodes.beginNeow:THREE_ENEMY_KILL'],
-  red_mask: ['explicit_event:tomb_red_mask:pay'],
+  red_mask: ['explicit_event:tomb_red_mask:pay', 'explicit_event:masked_bandits:fight'],
+  bloody_idol: ['explicit_event:forgotten_altar:offer_idol'],
+  mutagenic_strength: ['explicit_event:drug_dealer:mutagens'],
+  necronomicon: ['explicit_event:cursed_tome:claim'],
+  enchiridion: ['explicit_event:cursed_tome:claim'],
+  nilrys_codex: ['explicit_event:cursed_tome:claim'],
+  cultist_mask: ['explicit_event:face_trader:trade'],
+  face_of_cleric: ['explicit_event:face_trader:trade'],
+  gremlin_mask: ['explicit_event:face_trader:trade'],
+  nloths_mask: ['explicit_event:face_trader:trade'],
+  ssserpent_head: ['explicit_event:face_trader:trade'],
+  nloths_gift: ['explicit_event:nloth:trade_1', 'explicit_event:nloth:trade_2'],
   warped_tongs: ['explicit_event:accursed_blacksmith:rummage'],
-    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take', 'explicit_event:mushrooms:repeat_fight'],
+    spirit_poop: ['explicit_event:bonfire:curse_offer'], circlet: ['explicit_event:bonfire:repeat_curse_offer', 'explicit_event:golden_idol:repeat_take', 'explicit_event:mushrooms:repeat_fight', 'explicit_event:cursed_tome:claim', 'explicit_event:forgotten_altar:offer_idol', 'explicit_event:drug_dealer:mutagens', 'explicit_event:face_trader:trade', 'explicit_event:nloth:trade_1', 'explicit_event:nloth:trade_2', 'explicit_event:masked_bandits:fight'],
     golden_idol: ['explicit_event:golden_idol:take'],
     odd_mushroom: ['explicit_event:mushrooms:fight'],
 };
@@ -198,7 +209,8 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
     const definition = data.cards.cards.find(row => row.id === card.id);
     check(card.type === definition?.type && card.countsTowardSeventyFive === false, `generatedCards/${card.id}: classification drift`);
     const bellCurse = card.id === 'curse_of_the_bell';
-    const channels = bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']
+    const channels = card.id === 'necronomicurse' ? ["explicit_event:cursed_tome:claim", "explicit_event:duplicator:select", "explicit:Run.obtainCard", "permanent_remove:necronomicurse:rebirth", "combat_exhaust:necronomicurse:rebirth"]
+      : bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']
       : card.type === 'curse' ? [...(curseEvents[card.id] ?? []),
       'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard']
       : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))

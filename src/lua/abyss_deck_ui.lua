@@ -184,6 +184,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.pileKind=pileKind
         if pileKind then cards,catalog=pileCards(run,pileKind,presentation),run.combat.catalog end
         self.multiple,self.choiceSelected=choice and choice.multiple,choice and choice.selected
+        self.optional=choice and choice.optional
         if choice then
             cards=Combat.copy(choice.cards or {})
             for _,uid in ipairs(choice.cards and {} or choice.uids) do
@@ -199,16 +200,16 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.indexBase, self.pending, self.calibrating = nil, false, true
         root:SetVisible(true)
         root:SetAsLastSibling()
-        local prompts={silentFinal=choice and (choice.kind=='retain'and '选择本回合保留的手牌（可不选）'or choice.kind=='setup'and '选择放回牌堆顶并准备的牌'or '选择下回合复制的手牌'),watcher_final=choice and choice.kind=='wish' and '许愿：选择一种效果' or '异界之援：选择一张攻击',discover="选择加入手牌的牌，本回合费用为0",colorless='选择卡牌',exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
+        local prompts={codex='尼利宝典：选择一张牌洗入抽牌堆（可跳过）',silentFinal=choice and (choice.kind=='retain'and '选择本回合保留的手牌（可不选）'or choice.kind=='setup'and '选择放回牌堆顶并准备的牌'or '选择下回合复制的手牌'),watcher_final=choice and choice.kind=='wish' and '许愿：选择一种效果' or '异界之援：选择一张攻击',discover="选择加入手牌的牌，本回合费用为0",colorless='选择卡牌',exhaustChoose="选择要消耗的牌",recoverExhaust="选择要回收的牌",discardToDraw="选择放回抽牌堆顶的牌",
             exhaustMany='选择任意张手牌消耗（可不选）',discardRedraw='选择任意张手牌丢弃并重抽',discardToHand='选择弃牌回手，本回合费用为0',
             handToDraw="选择放回抽牌堆顶的手牌",upgradeHand="选择要升级的牌",dualWield="选择要复制的攻击或能力牌"}
         self.listTitle=(pileNames[pileKind] or "卡组").." · "..#cards.." 张"
         root:GetChild("title").text = choice and prompts[choice.op] or self.listTitle
         if self.multiple then root:GetChild('title').text=root:GetChild('title').text..' · 已选'..#choice.selected..(choice.required and '/'..choice.required or '') end
-        root:GetChild("close"):SetVisible(not choice or self.multiple == true)
+        root:GetChild("close"):SetVisible(not choice or self.multiple == true or self.optional==true)
         local close=root:GetChild('close'):GetChild('hit')
-        close.interactable=not choice or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable
-        for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.multiple and '确认选择' or '关闭' end
+        close.interactable=not choice or self.optional==true or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable
+        for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.optional and '跳过' or self.multiple and '确认选择' or '关闭' end
         grid.scrollProgress = 0
         -- Official API leaves index origin unspecified. A single-item callback
         -- reveals it without assuming a Lua (1) or native (0) convention. Fill
@@ -273,7 +274,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.visible, self.pending, self.calibrating, self.run, self.cards, self.catalog = false, false, false, nil, nil, nil
         self.choiceToken,self.onPick,self.battle=nil,nil,nil
         self.pileKind,self.listTitle=nil,nil
-        self.multiple,self.choiceSelected=nil,nil
+        self.multiple,self.choiceSelected,self.optional=nil,nil,nil
         self.detailPages,self.detailOnly=nil,nil
         if self.relicView then self.relicView:close();self.relicView=nil end
         details:SetVisible(false);detailHit:SetVisible(false)
@@ -298,7 +299,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             self.detailPages=nil;details:SetVisible(false);detailHit:SetVisible(false);grid:SetVisible(true)
             root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;return true
         end
-        if self.multiple then
+        if self.multiple or self.optional then
             if not root:GetChild('close'):GetChild('hit').interactable or not self.run or self.run.combat~=self.battle
                 or not self.battle.pendingChoice or self.battle.pendingChoice.token~=self.choiceToken then return false end
             local callback,token=self.onPick,self.choiceToken

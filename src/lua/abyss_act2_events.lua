@@ -13,7 +13,17 @@ local Duplicator=require('abyss_duplicator_event')
 local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true,nest=true,duplicator=true}}
 local GOLD_COST=75
 
-function M.prepare(run,event)
+for _,id in ipairs({'colosseum','masked_bandits','cursed_tome','forgotten_altar','drug_dealer','vampires'})do M.ids[id]=true end
+local function extension(id)
+    if id=='colosseum'then return require('abyss_colosseum_event')end
+    if id=='masked_bandits'then return require('abyss_masked_bandits_event')end
+    if id=='cursed_tome'then return require('abyss_cursed_tome_event')end
+    if id=='forgotten_altar'then return require('abyss_forgotten_altar_event')end
+    if id=='drug_dealer'then return require('abyss_drug_dealer_event')end
+    if id=='vampires'then return require('abyss_vampires_event')end
+end
+function M.prepare(run,event,miscRng,floor)
+    local extra=extension(event.id);if extra then return extra.prepare(run,event,miscRng,floor)end
     if event.id=='duplicator' then return Duplicator.prepare(run,event) end
     if event.id=='nest' then return Nest.prepare(run,event) end
     if event.id=='joust' then return Joust.prepare(run,event) end
@@ -30,6 +40,7 @@ local function row(choice,title,description,enabled,picker)
 end
 
 function M.options(run,event)
+    local extra=extension(event.id);if extra then return extra.options(run,event)end
     if event.id=='duplicator' then return Duplicator.options(run,event) end
     if event.id=='nest' then return Nest.options(run,event) end
     if event.id=='joust' then return Joust.options(run,event) end
@@ -142,6 +153,7 @@ end
 -- opens even an empty mandatory grid; its empty-group resolution is unproven.
 -- Keep this boundary pending instead of inventing zero-choice success/refunds.
 function M.view(run,event)
+    local extra=extension(event.id);if extra then if extra.view then extra.view(run,event)end;return end
     if event.id=='duplicator' then
         if event.stage=='choose_card' then
             event.copyCards=Duplicator.cards(run)
@@ -158,6 +170,7 @@ function M.view(run,event)
 end
 
 function M.choose(run,flow,choice,uid,upgradeable)
+    local extra=extension(flow.event.id);if extra then return extra.choose(run,flow,choice,uid)end
     if flow.event.id=='duplicator' then return Duplicator.choose(run,flow,choice,uid) end
     if flow.event.id=='nest' then return Nest.choose(run,flow,choice,uid) end
     if flow.event.id=='the_library' then return Library.choose(run,flow,choice,uid) end

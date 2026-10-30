@@ -16,6 +16,7 @@ local function registerList(catalog,kind,list,label)
  end
 end
 function M.register(catalog)
+ require('abyss_event_combat_enemies').register(catalog,Copy)
  require('abyss_act4_enemies').register(catalog)
  require('abyss_act1_bosses').register(catalog,Copy)
  require('abyss_act3_bosses').register(catalog,Copy)
@@ -42,6 +43,7 @@ local function specialMove(enemy,intent)
  assert(type(intent.effects)=='table'and next(intent.effects)==nil,kind..' intent has effects')
 end
 local function unknownInactive(enemy,intent)
+ if policy(enemy,'event_combat','romeo')and intent.id=='mock'then return 'Romeo Mock has effects'end
  if policy(enemy,'awakened_one')and intent.id=='rebirth'then return 'Rebirth has effects'end
  if policy(enemy,'act3','exploder')and intent.id=='wait'then return 'Exploder wait has effects'end
  if policy(enemy,'act1_boss')then return 'inactive enemy intent has effects'end
