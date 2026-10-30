@@ -208,6 +208,7 @@ function M.paint(ctx,id, dt, shakes)
     local portrait = box:GetChild("portrait")
     portrait:SetAnchoredPosition(x, y)
     portrait:SetLocalScale(sx, sy, 1)
+    if id == "player" and ctx.platform.portraits then ctx.platform.portraits:battlePose(x,y,sx,sy) end
     tint(ctx,portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)
 end
 return M

@@ -1,3 +1,4 @@
+import {buildReadyCardRegistry} from '../scripts/art/ready-card-registry.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';
@@ -9,10 +10,16 @@ import {runLua} from '../scripts/test-lua.mjs';
 import {prepareNativeCardArt,nativeArtPool} from '../scripts/card-art-samples.mjs';
 const input=process.env.ABYSS_NATIVE_ART_SOURCE_REGISTRY??'art/cards/traveler-geo/native-source-registry.json',
  literal=process.env.ABYSS_NATIVE_ART_LITERAL_REGISTRY??'art/cards/traveler-geo/native-runtime-registry.json';
-for(const id of ['cleave','heavy_blade'])test(`frozen ${id} literal equals native CardDisplay API writes (explicit local input)`,{skip:!input||!literal},()=>{
- const sources=JSON.parse(readFileSync(input)),asset=sources.assets.find(a=>a.cardId===id);
+for(const id of ['armaments','cleave','heavy_blade'])test(`frozen ${id} literal equals native CardDisplay API writes (explicit local input)`,{skip:!input||!literal},()=>{
+ const sources=JSON.parse(readFileSync(input));
+ // The legacy two-card registry remains immutable. Exercise the additional
+ // precise card against its real validated export, without rewriting that registry.
+ const extra=id==='armaments'&&!process.env.ABYSS_NATIVE_ART_SOURCE_REGISTRY;
+ const registry=extra?buildReadyCardRegistry():literal;
+ const data=prepareNativeCardArt({registry,hosts:['battlePanel/card1']});
+ const asset=extra?{cardId:id,lua:id+'/native-art.lua',json:id+'/native-art.json',
+  luaSha256:data.registry.assets[id].luaSha256,jsonSha256:data.registry.assets[id].jsonSha256}:sources.assets.find(a=>a.cardId===id);
  assert(asset,'missing frozen source');
- const data=prepareNativeCardArt({registry:literal,hosts:['battlePanel/card1']});
  for(const kind of ['lua','json']) {
   const bytes=readFileSync(resolve(dirname(input),asset[kind]));
   assert.equal(createHash('sha256').update(bytes).digest('hex'),asset[kind+'Sha256']);

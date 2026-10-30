@@ -114,6 +114,25 @@ export function compareNativeCandidate({ actual, expected, sourceSha, candidateB
   const sourceStats = controlTreeStats(sourceControls), stats = controlTreeStats(controls);
   if (!equivalent(normalizeUi(sourceControls, 'controls', true), normalizeUi(controls), 'controls')) add('UI_MISMATCH', 'Controls differ from same-source generated UI');
   if (!equivalent(normalizeUi(expected.template, 'control', true), normalizeUi(actual.template.template), 'control')) add('TEMPLATE_MISMATCH', 'Deck template differs from same-source generated template');
+  if (expected.background) {
+    if (!Number.isSafeInteger(expected.background.templateIndex) || expected.background.templateIndex<=0
+      || actual.background?.templateIndex!==expected.background.templateIndex)
+      add('BACKGROUND_TEMPLATE_BINDING', 'Background template index differs from candidate-local binding');
+    if (!equivalent(normalizeUi(expected.background.template, 'control', true), normalizeUi(actual.background?.template), 'control'))
+      add('BACKGROUND_TEMPLATE_MISMATCH', 'Background image template differs from the generated source');
+  }
+  if(expected.runtimeTemplates) {
+    const rows=actual.runtimeTemplates??[];
+    if(rows.length!==expected.runtimeTemplates.length)add('RUNTIME_TEMPLATE_BINDING','Runtime template inventory differs');
+    for(const wanted of expected.runtimeTemplates) {
+      const found=rows.filter(row=>row?.template?.name===wanted.template.name);
+      const actualTemplate=found.length===1?found[0]:undefined;
+      if(!Number.isSafeInteger(wanted.templateIndex)||wanted.templateIndex<=0||actualTemplate?.templateIndex!==wanted.templateIndex)
+        add('RUNTIME_TEMPLATE_BINDING',wanted.template.name);
+      if(!equivalent(normalizeUi(wanted.template,'control',true),normalizeUi(actualTemplate?.template),'control'))
+        add('RUNTIME_TEMPLATE_MISMATCH',wanted.template.name);
+    }
+  }
   if (!equivalent(interfaceMetadata(expected.ui), interfaceMetadata(actual.ui.interface))) add('INTERFACE_MISMATCH', 'Interface identity, flags, scripts or other root metadata differ');
   const graphContracts = expected.graphs.filter(graph => bgm || graph.name !== '_GSTS_ABYSS_BGM');
   if (actual.inspected.graphs.length !== graphContracts.length) add('GRAPH_COUNT', 'Unexpected/missing server graph');

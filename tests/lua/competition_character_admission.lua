@@ -31,7 +31,7 @@ local function host(profile)
     local ui=F.GameUI.new(root,Data,Presentation,'click',{seed='1',characterProfile=profile,
         campaign=true,campaignProfile='competition-two-act',imageSource='static',color=function()return {}end})
     assert(ui:start())
-    return ui,root:GetChild('characterPanel')
+    return ui,root:GetChild('characterPanel'),canvas
 end
 local candidate,panel=host('competition-candidate')
 for i=1,4 do assert(not panel:GetChild('character'..i).visible)end
@@ -44,7 +44,7 @@ candidate.characterSelection.info={id='hutao'}
 assert(not candidate:confirmCharacter() and not candidate.run and candidate.seed=='1')
 assert(candidate:selectCharacter('traveler') and candidate:confirmCharacter())
 assert(not candidate.run.characterProfile and not candidate.run.data.originalV4Role)
-local closed,closedPanel=host('production')
+local closed,closedPanel,nativeCanvas=host('production')
 assert(not closed:selectCharacter('raiden') and not closed.run)
 assert(closed.characterSelection.info.id=='ironclad','rejected foreign role retains the preselected legal traveler')
 assert(not closedPanel:GetChild('hint').text:find('待验收',1,true))
@@ -61,8 +61,8 @@ local function native(testValue,throwing,workKey)
         seen=platform.characterProfile
         return {resize=function()end,update=function()end}
     end}
-    package.loaded.abyss_viewport={apply=function()return {}end}
-    script={object={},GetParam=function()return false end,EnableUpdate=function(_,v)updates=v end}
+    -- Reuse the real canvas: native art adapters still inspect their actual hosts.
+    script={object=nativeCanvas,GetParam=function()return false end,EnableUpdate=function(_,v)updates=v end}
     Enum={CursorEventType={CursorClick='click'},ImageSource={StaticReference='static'}}
     game={GetUICanvasSize=function()return 1280,720 end,
         IsTestPlay=function()if throwing then error('unavailable')end return testValue end}

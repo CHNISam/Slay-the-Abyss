@@ -33,7 +33,8 @@ test('ordinary build remains byte-identical after a candidate build',()=>directo
  const first=join(output,'first'),candidate=join(output,'candidate'),last=join(output,'last');
  buildUI(first);buildUI(candidate,undefined,{nativeCardArt:{registry:registry(),hosts:['nodePanel/shopView/card1']}});buildUI(last);
  for(const name of readdirSync(first))assert.equal(readFileSync(join(first,name),'utf8'),readFileSync(join(last,name),'utf8'),name);
- assert.equal(pools(JSON.parse(readFileSync(join(first,'game-ui.json')))).length,0);
+ const readyPools=pools(JSON.parse(readFileSync(join(first,'game-ui.json'))));
+ assert.equal(readyPools.length,38);for(const [,pool] of readyPools)assert.deepEqual(pool.children,[]);
  const game=JSON.parse(readFileSync(join(candidate,'game-ui.json')));
  assert.equal(pools(game).length,1,'node art_* must not be missed');
  const sample=pools(game)[0];assert(sample[0].endsWith('/shopView/card1'));
@@ -84,7 +85,7 @@ test('CLI accepts only explicit 0/1/5/10 or chosen hosts; disabling cleans prior
  for(const args of [['--native-card-art-count=1=junk'],['--native-card-art-count=2'],['--native-card-art-count=1'],[`--native-card-art-registry=${r}`],
   ['--native-card-art-count=0','--native-card-art-host=nodePanel/shopView/card1']])assert.throws(()=>nativeCardArtArgs(args));
  const dest=join(output,'build');buildUI(dest,undefined,{nativeCardArt:{registry:registry(),hosts:['battlePanel/card1']}});
- buildUI(dest);assert(!readdirSync(dest).includes('native-card-art-receipt.json'),'disabled candidate left stale receipt');
+ buildUI(dest,undefined,nativeCardArtArgs(['--native-card-art-count=0']));assert(!readdirSync(dest).includes('native-card-art-receipt.json'),'disabled candidate left stale receipt');
  assert.equal(pools(JSON.parse(readFileSync(join(dest,'game-ui.json')))).length,0);
 }));
 
@@ -107,7 +108,7 @@ test('derived registry protects original frozen inputs from output aliases',()=>
 
 
 test('candidate layer preserves adjacent PR256-style art well and type trims',()=>directory(output=>{
- buildUI(output);const tree=JSON.parse(readFileSync(join(output,'battle-ui.json')));
+ buildUI(output,undefined,{readyCardArt:false});const tree=JSON.parse(readFileSync(join(output,'battle-ui.json')));
  const face=tree.controls.find(c=>c.name==='stage').children.find(c=>c.name==='card1');
  face.children.splice(face.children.findIndex(c=>c.name==='artPlate')+1,0,{name:'artWell',kind:'image',image:100001,size:[140,60]});
  face.children.splice(face.children.findIndex(c=>c.name==='type'),0,{name:'typeEdge',kind:'image',image:100001},{name:'typeTag',kind:'image',image:100001});

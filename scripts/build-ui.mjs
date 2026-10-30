@@ -1,3 +1,6 @@
+import {portraitInputs,portraitSources,attachOfficialPortraits,writePortraitModule} from './official-portraits.mjs';
+import {attachReadyCardHosts,readyArtTemplates,writeReadyCardAssets,prepareReadyCardAssets,writeReadyArtBinding,readyArtSourceInputs} from './art/ready-card-runtime.mjs';
+import { backgroundInputs, backgroundSources, backgroundModule, attachOfficialBackground, writeBackgroundModule } from './official-background.mjs';
 import { spawnSync } from 'node:child_process';
 import { mkdirSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
@@ -47,7 +50,8 @@ function rejectInputOutputAliases(outputDirectory, extraInputs = []) {
     stat: statSync(input, { bigint: true }) }));
   const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
     'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
-    'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json'];
+    'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json', `${backgroundModule}.lua`,
+    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua'];
   for (const file of outputs) {
     const output = join(outputDirectory, file);
     let outputStat, outputRealPath;
@@ -70,12 +74,18 @@ function rejectInputOutputAliases(outputDirectory, extraInputs = []) {
 export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYSS_PYTHON || 'python', options = {}) {
   // Preflight the entire batch before any generated file can be changed.
   const art = prepareNativeCardArt(options.nativeCardArt);
-  rejectInputOutputAliases(outputDirectory, (art?.inputPaths??[]).map(path=>resolve(path)));
+  const readyArt = !art && options.readyCardArt !== false;
+  const readyAssets = prepareReadyCardAssets();
+  backgroundSources();portraitSources();
+  rejectInputOutputAliases(outputDirectory, [...backgroundInputs,...portraitInputs, ...readyArtSourceInputs(), ...(art?.inputPaths??[])].map(path=>resolve(path)));
   const releaseNotes = loadReleaseNotes({ releaseCandidate: options.releaseCandidate, workKey: options.workKey,
     sourceIdentity: options.sourceIdentity });
   const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json', 'utf8').replace(/^\uFEFF/, ''));
   const battle = battleLayout(), layout = withViewport(gameLayout(undefined, options), theme);
   const templates = [deckCardTemplate()];
+  attachOfficialBackground(layout, templates);attachOfficialPortraits(layout);
+  templates.push(...readyArtTemplates());
+  if(readyArt){attachReadyCardHosts(battle);attachReadyCardHosts(layout);attachReadyCardHosts(templates[0]);}
   if (art) { attachNativeCardArt(battle,art,{battleOnly:true}); attachNativeCardArt(layout,art); }
   for (const tree of [battle, layout, ...templates]) assertNativeUiCapacity(tree);
   const rendered = spawnSync(python, ['tools/render_traveler_cards.py', 'data/cards.json', 'data/presentation/traveler.zh-CN.json'],
@@ -84,7 +94,10 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const source = JSON.parse(rendered.stdout);
   const cards = Object.fromEntries(source.cards.map(card => [card.id, card]));
   if (art) bindNativeArtPresentation(cards,art);
+
   mkdirSync(outputDirectory, { recursive: true });
+  writeBackgroundModule(outputDirectory);writePortraitModule(outputDirectory);
+  writeReadyArtBinding(outputDirectory);writeReadyCardAssets(outputDirectory,{prepared:readyAssets});
   buildUiTheme(undefined, undefined, join(outputDirectory, 'abyss_theme.lua'));
   buildMapUI(outputDirectory);
   const narrative = JSON.parse(readFileSync('data/presentation/narrative.zh-CN.json', 'utf8'));
@@ -105,7 +118,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     const native = nativeCardArtArgs(args.filter(arg => arg !== '--experimental-characters'));
     const { paths, options } = releaseBuildArgs(native.args);
     if (paths.length > 1) throw new Error('Expected at most one output directory');
-    buildUI(paths[0], undefined, { experimentalCharacters, ...options, nativeCardArt:native.nativeCardArt });
+    buildUI(paths[0], undefined, { experimentalCharacters, ...options, nativeCardArt:native.nativeCardArt, readyCardArt:native.readyCardArt });
     console.log('Native battle UI and Traveler display module built.');
   }
   catch (error) { console.error(error.message); process.exitCode = 1; }

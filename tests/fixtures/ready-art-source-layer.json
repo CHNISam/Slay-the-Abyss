@@ -1,0 +1,1069 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "5bc830cb259f01316791ba5e3409578d1af25cff",
+  "files": {
+    ".luacheckrc": {
+      "beforeSha256": "d65256abd0c30b05f04991b5c805dd891ffd59abc0b6457f4ebe6afd26170026",
+      "afterSha256": "f2bc756320d54d486697a0f56a701242fcefd5519d3ed37a937dbd16bbc17fc0",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "files[\"src/lua/abyss_traveler_portraits.lua\"] = {read_globals = {\"game\", \"Enum\", \"Color\"}}"
+          ]
+        }
+      ]
+    },
+    "config/architecture.json": {
+      "beforeSha256": "ad10cadf07de1d4007d6932edf47c66e54fedb613f505afebc876341589469ba",
+      "afterSha256": "0d372e38f70ececeee92f37b805c5741807a1e267906e1e24e845a7addf511d9",
+      "hunks": [
+        {
+          "at": 269,
+          "before": [
+            "    \"abyss_card_flow\": \"ui\""
+          ],
+          "after": [
+            "    \"abyss_card_flow\": \"ui\",",
+            "    \"abyss_card_art_runtime\": \"ui\",",
+            "    \"abyss_traveler_portraits\": \"platform\",",
+            "    \"abyss_traveler_portrait_assets\": \"ui\",",
+            "    \"abyss_ready_card_binding\": \"ui\""
+          ]
+        }
+      ]
+    },
+    "config/engineering-quality-policy.json": {
+      "beforeSha256": "96bb10b0d3d38aec317166a3123fb2e3dbb509e1ac2a1ad43375fbdd68c16b70",
+      "afterSha256": "fbc23b3ebe3e6f816b2862a4d72ee5b5c0f3836fe1a2bd04562501937bd25e74",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [
+            "  \"sourceRevision\": \"48cb48cef5480c6b0cfa32b6269c9390acb1d57a\","
+          ],
+          "after": [
+            "  \"sourceRevision\": \"880fb8f68565b0689ba46e6d9349e558057fd8da\","
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "    \".luacheckrc\": \"aa889903a2ed900aef4d1b48c3fce69382d703510866106d28c03ca8ae7f9b75\","
+          ],
+          "after": [
+            "    \".luacheckrc\": \"f2bc756320d54d486697a0f56a701242fcefd5519d3ed37a937dbd16bbc17fc0\","
+          ]
+        }
+      ]
+    },
+    "scripts/art/assemble-native-card-samples.py": {
+      "beforeSha256": "e979da2252ed73cf020290d3bc49250f5786eab72c88e412cc588bbe5d4dbd55",
+      "afterSha256": "e99fc9bd1d40295e6d65b56b1f952fe31d6e8f639b31a4c3bd1eb3d48c71f5c3",
+      "hunks": [
+        {
+          "at": 112,
+          "before": [
+            "        if row[0] not in (100001, 100003, 106056, 106057) or image_type not in ('basic', 'stretch'):"
+          ],
+          "after": [
+            "        if row[0] not in (100001, 100002, 100003, 106056, 106057) or image_type not in ('basic', 'stretch'):"
+          ]
+        },
+        {
+          "at": 126,
+          "before": [
+            "    if registry.get('schemaVersion') != 1 or not 1 <= len(registry.get('assets', [])) <= 2:"
+          ],
+          "after": [
+            "    if registry.get('schemaVersion') != 1 or not 1 <= len(registry.get('assets', [])) <= 3:"
+          ]
+        },
+        {
+          "at": 131,
+          "before": [
+            "        if card_id not in ('cleave', 'heavy_blade') or card_id in assets:"
+          ],
+          "after": [
+            "        if card_id not in ('armaments', 'cleave', 'heavy_blade') or card_id in assets:"
+          ]
+        }
+      ]
+    },
+    "scripts/art/converted-card-data.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "b4746bb211b4d5f3c6851f793f9e63264f009d8cbc6f5fdff5b5acb3f4277df5",
+      "hunks": []
+    },
+    "scripts/art/ready-card-registry.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "d99ec94cb596116cee1bd65baaee808dca87467a1b997222dd08a41acb69e1fa",
+      "hunks": []
+    },
+    "scripts/art/ready-card-runtime.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "c1f3cbe2cca7195b0836f7575ff9d71ec40f697311c4c7379f6467f63432d3dc",
+      "hunks": []
+    },
+    "scripts/audit-native-candidate.mjs": {
+      "beforeSha256": "9a5e6be13fd3c823d79970ae47dae4876cf3f915fa7fc47627721aae843a9fbe",
+      "afterSha256": "68f531af08a661ffff2a6c93db8f63a202712d1027803427e6eed10c544efe38",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {portraitInputs,portraitModule} from './official-portraits.mjs';",
+            "import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate} from './art/ready-card-runtime.mjs';"
+          ]
+        },
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "",
+            "export function auditUiBuildArgs(receipt) {",
+            "  return ['scripts/build-ui.mjs',...(receipt?.readyCardArt?.enabled===false?['--no-ready-card-art']:[])];",
+            "}"
+          ]
+        },
+        {
+          "at": 67,
+          "before": [],
+          "after": [
+            "    const runtimeTemplates=scripts.scripts.some(module=>module.name==='abyss_ready_card_binding')",
+            "      ? [readyArtImageTemplate,readyArtGroupTemplate].map(name=>save(name+'.json',getClientUi({mapPath,template:name}))) : undefined;"
+          ]
+        },
+        {
+          "at": 79,
+          "before": [
+            "    const assetInputs=run('git',['ls-tree','--name-only',sourceSha,'--',...backgroundInputs],{encoding:'utf8'}).trim().split('\\n').filter(Boolean);"
+          ],
+          "after": [
+            "    const assetInputs=run('git',['ls-tree','--name-only',sourceSha,'--',...backgroundInputs,...readyArtSourceInputs(repo),...portraitInputs],{encoding:'utf8'}).trim().split('\\n').filter(Boolean);"
+          ]
+        },
+        {
+          "at": 83,
+          "before": [
+            "      run(process.execPath, [`scripts/${script}`], { cwd: snapshot }));"
+          ],
+          "after": [
+            "      run(process.execPath, script==='build-ui.mjs'?auditUiBuildArgs(buildReceipt):[`scripts/${script}`], { cwd: snapshot }));"
+          ]
+        },
+        {
+          "at": 94,
+          "before": [],
+          "after": [
+            "    if(deployment.some(module=>module.name==='abyss_ready_card_binding')) {",
+            "      if(buildReceipt?.sourceCommit!==sourceSha||buildReceipt?.candidate?.sha256!==before",
+            "        ||runtimeTemplates?.[0]?.templateIndex!==buildReceipt?.readyCardArt?.imageTemplateIndex",
+            "        ||runtimeTemplates?.[1]?.templateIndex!==buildReceipt?.readyCardArt?.containerTemplateIndex)",
+            "        throw Error('Ready artwork requires matching same-candidate binding and templates');",
+            "      const {bindReadyArtTemplates}=await import(pathToFileURL(join(snapshot,'scripts/art/ready-card-runtime.mjs')));",
+            "      bindReadyArtTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],group:runtimeTemplates[1]},{enabled:buildReceipt.readyCardArt.enabled});",
+            "    }",
+            "    if(deployment.some(module=>module.name===portraitModule)) {",
+            "      if(buildReceipt?.officialPortraits?.imageTemplateIndex!==runtimeTemplates?.[0]?.templateIndex",
+            "        ||buildReceipt?.officialPortraits?.containerTemplateIndex!==runtimeTemplates?.[1]?.templateIndex)",
+            "        throw Error('Portrait runtime requires matching same-candidate template binding');",
+            "      const {bindPortraitTemplates}=await import(pathToFileURL(join(snapshot,'scripts/official-portraits.mjs')));",
+            "      bindPortraitTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],container:runtimeTemplates[1]},{root:snapshot});",
+            "    }"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [],
+          "after": [
+            "    const expectedRuntimeTemplates=runtimeTemplates? [readyArtImageTemplate,readyArtGroupTemplate].map((name,i)=>({",
+            "      template:expectedTemplates.find(row=>row.name===name),templateIndex:i===0?buildReceipt?.readyCardArt?.imageTemplateIndex:buildReceipt?.readyCardArt?.containerTemplateIndex})) : undefined;"
+          ]
+        },
+        {
+          "at": 129,
+          "before": [
+            "    report = compareNativeCandidate({ actual: { scripts, ui, template, background, inspected, parameters, checked },",
+            "      expected: { modules, ui: expectedUi, template: expectedTemplate, background:expectedBackground, graphs, uiBgmParameter }, sourceSha,"
+          ],
+          "after": [
+            "    report = compareNativeCandidate({ actual: { scripts, ui, template, background, runtimeTemplates, inspected, parameters, checked },",
+            "      expected: { modules, ui: expectedUi, template: expectedTemplate, background:expectedBackground, runtimeTemplates:expectedRuntimeTemplates, graphs, uiBgmParameter }, sourceSha,"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-audio-game.mjs": {
+      "beforeSha256": "21232c0beafbf6da08f8718d9d38701c7d291bbd698683d0fa20ff0cfc8d4266",
+      "afterSha256": "eba072bc3b278fcaad23b47a6878129ad7cd7234bc82594f311b8577b3a0eb9a",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [
+            "import { verifyNativeCardArtReceipt } from './card-art-samples.mjs';"
+          ],
+          "after": [
+            "import { nativeCardArtArgs, verifyNativeCardArtReceipt } from './card-art-samples.mjs';",
+            "",
+            "// PR356's frozen two-card candidate remains an explicit legacy opt-in. Normal",
+            "// builds leave static art unset so the full builder uses all75 dynamic assets.",
+            "export const legacyNativeCardArt = Object.freeze({",
+            "  registry: 'art/cards/traveler-geo/native-runtime-registry.json', count: 1,",
+            "});",
+            "// Preserve the old exported preset name for explicit callers, never as default.",
+            "export const defaultNativeCardArt = legacyNativeCardArt;",
+            "",
+            "export function nativeAudioBuildArgs(argv) {",
+            "  const explicit = argv.some(arg => arg.startsWith('--native-card-art-'));",
+            "  const art = nativeCardArtArgs(argv);",
+            "  const parsed = releaseBuildArgs(art.args);",
+            "  return { ...parsed, options: { ...parsed.options,",
+            "    ...(explicit ? {nativeCardArt:art.nativeCardArt ?? {count:0}} : {}),",
+            "    ...(art.readyCardArt===false ? {readyCardArt:false} : {}) } };",
+            "}"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "  releaseCandidate = false, workKey = 'alpha-test', buildFull = buildNativeCandidateFromToolchain, run = runScript } = {}) {"
+          ],
+          "after": [
+            "  releaseCandidate = false, workKey = 'alpha-test', nativeCardArt, readyCardArt, buildFull = buildNativeCandidateFromToolchain, run = runScript } = {}) {"
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "  const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey });"
+          ],
+          "after": [
+            "  const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey, ...(readyCardArt===false?{readyCardArt:false}:{}), ...(nativeCardArt ? {nativeCardArt} : {}) });"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [],
+          "after": [
+            "    ...(full.officialPortraits ? {officialPortraits:full.officialPortraits} : {}),",
+            "    ...(full.readyCardArt ? {readyCardArt:full.readyCardArt} : {}),"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            "    const { paths, options } = releaseBuildArgs(process.argv.slice(2));",
+            "    if (!paths[0] || paths.length > 2) throw new Error('Usage: npm run build:native -- <base.gil> [new-output-directory] [--release-candidate] [--work-key=alpha-test]');"
+          ],
+          "after": [
+            "    const { paths, options } = nativeAudioBuildArgs(process.argv.slice(2));",
+            "    if (!paths[0] || paths.length > 2) throw new Error('Usage: npm run build:native -- <base.gil> [new-output-directory] [--release-candidate] [--work-key=alpha-test] [--no-ready-card-art | --native-card-art-count=0 | --native-card-art-registry=<file> --native-card-art-count=1|5|10 | --native-card-art-host=<host>]');"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-bgm-candidate.mjs": {
+      "beforeSha256": "8038b13c7f0060d480c5c9aa9fb7b5c1eea8d248bdd00e529571afbbee91bc82",
+      "afterSha256": "3ee1dfa17f5babe54fa5b5c55f2749c92a511068ea92f4a66e6f8dca7b9215d1",
+      "hunks": [
+        {
+          "at": 72,
+          "before": [
+            "      ...(full.officialBackground ? {officialBackground:full.officialBackground} : {}) } : {}),"
+          ],
+          "after": [
+            "      ...(full.officialPortraits ? {officialPortraits:full.officialPortraits} : {}),",
+            "    ...(full.readyCardArt ? {readyCardArt:full.readyCardArt} : {}),",
+            "    ...(full.officialBackground ? {officialBackground:full.officialBackground} : {}) } : {}),"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-candidate.mjs": {
+      "beforeSha256": "294d54e9bec58add9bc60003b71e89ecb5352791d3680f8daaad57fd20a46ff0",
+      "afterSha256": "9d81f5b4e232153813e5d5b31692df9313ff0c98c09d14ebfc98e635912c3893",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {portraitInputs,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';",
+            "import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate,bindReadyArtTemplates,readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "  [backgroundModule]:'scripts/build-ui.mjs',"
+          ],
+          "after": [
+            "  [backgroundModule]:'scripts/build-ui.mjs', [portraitModule]:'scripts/build-ui.mjs', abyss_ready_card_binding:'scripts/build-ui.mjs', abyss_ready_card_assets:'scripts/build-ui.mjs',"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...backgroundInputs]) {"
+          ],
+          "after": [
+            "    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...backgroundInputs, ...readyArtSourceInputs(root),...portraitInputs]) {"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt}) {"
+          ],
+          "after": [
+            "function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt,readyCardArt}) {"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(releaseCandidate?['--release-candidate']:[]),"
+          ],
+          "after": [
+            "    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(readyCardArt===false?['--no-ready-card-art']:[]),...(releaseCandidate?['--release-candidate']:[]),"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            "  releaseCandidate=false,workKey='alpha-test',nativeCardArt}={}) {"
+          ],
+          "after": [
+            "  releaseCandidate=false,workKey='alpha-test',nativeCardArt,readyCardArt=true}={}) {"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [],
+          "after": [
+            "      if(nativeCardArt.count===0)readyCardArt=false;"
+          ]
+        },
+        {
+          "at": 105,
+          "before": [
+            "    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt});"
+          ],
+          "after": [
+            "    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt,readyCardArt});"
+          ]
+        },
+        {
+          "at": 118,
+          "before": [],
+          "after": [
+            "    if(modules.has('abyss_ready_card_binding'))for(const name of [readyArtImageTemplate,readyArtGroupTemplate])",
+            "      if(templates.filter(t=>t.name===name).length!==1)throw Error('Ready artwork requires exactly one '+name+' template');"
+          ]
+        },
+        {
+          "at": 128,
+          "before": [],
+          "after": [
+            "    const readyTemplates={};"
+          ]
+        },
+        {
+          "at": 131,
+          "before": [],
+          "after": [
+            "      if(template.name===readyArtImageTemplate)readyTemplates.image=result;",
+            "      if(template.name===readyArtGroupTemplate)readyTemplates.group=result;"
+          ]
+        },
+        {
+          "at": 141,
+          "before": [],
+          "after": [
+            "    if(readyTemplates.image||readyTemplates.group){",
+            "      if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');",
+            "      bindReadyArtTemplates(generated,readyTemplates,{enabled:!art&&readyCardArt!==false});",
+            "      if(modules.has(portraitModule)){",
+            "        bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root});",
+            "        receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,inputs:portraitInputs.map(path=>fileRecord(join(root,path),root))};",
+            "      }",
+            "      receipt.readyCardArt={...readyArtRuntimeInventory(),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
+            "        enabled:!art&&readyCardArt!==false,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};",
+            "    }",
+            "    if(modules.has(portraitModule)&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');"
+          ]
+        },
+        {
+          "at": 252,
+          "before": [
+            "    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,nativeCardArt:native.nativeCardArt});"
+          ],
+          "after": [
+            "    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,nativeCardArt:native.nativeCardArt,readyCardArt:native.readyCardArt});"
+          ]
+        }
+      ]
+    },
+    "scripts/build-ui.mjs": {
+      "beforeSha256": "4eb7c5c2775a1bc47ffc35d0a9d1d4082b52d6e3c5fda7e2b121f98c21f99285",
+      "afterSha256": "7873f160679d04996fbf6d91dd7a4a22326ee848e326c80c7b95236840a7a599",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {portraitInputs,portraitSources,attachOfficialPortraits,writePortraitModule} from './official-portraits.mjs';",
+            "import {attachReadyCardHosts,readyArtTemplates,writeReadyCardAssets,prepareReadyCardAssets,writeReadyArtBinding,readyArtSourceInputs} from './art/ready-card-runtime.mjs';"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "    'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json', `${backgroundModule}.lua`];"
+          ],
+          "after": [
+            "    'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json', `${backgroundModule}.lua`,",
+            "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua'];"
+          ]
+        },
+        {
+          "at": 76,
+          "before": [
+            "  backgroundSources();",
+            "  rejectInputOutputAliases(outputDirectory, [...backgroundInputs, ...(art?.inputPaths??[])].map(path=>resolve(path)));"
+          ],
+          "after": [
+            "  const readyArt = !art && options.readyCardArt !== false;",
+            "  const readyAssets = prepareReadyCardAssets();",
+            "  backgroundSources();portraitSources();",
+            "  rejectInputOutputAliases(outputDirectory, [...backgroundInputs,...portraitInputs, ...readyArtSourceInputs(), ...(art?.inputPaths??[])].map(path=>resolve(path)));"
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            "  attachOfficialBackground(layout, templates);"
+          ],
+          "after": [
+            "  attachOfficialBackground(layout, templates);attachOfficialPortraits(layout);",
+            "  templates.push(...readyArtTemplates());",
+            "  if(readyArt){attachReadyCardHosts(battle);attachReadyCardHosts(layout);attachReadyCardHosts(templates[0]);}"
+          ]
+        },
+        {
+          "at": 96,
+          "before": [],
+          "after": [
+            ""
+          ]
+        },
+        {
+          "at": 98,
+          "before": [
+            "  writeBackgroundModule(outputDirectory);"
+          ],
+          "after": [
+            "  writeBackgroundModule(outputDirectory);writePortraitModule(outputDirectory);",
+            "  writeReadyArtBinding(outputDirectory);writeReadyCardAssets(outputDirectory,{prepared:readyAssets});"
+          ]
+        },
+        {
+          "at": 120,
+          "before": [
+            "    buildUI(paths[0], undefined, { experimentalCharacters, ...options, nativeCardArt:native.nativeCardArt });"
+          ],
+          "after": [
+            "    buildUI(paths[0], undefined, { experimentalCharacters, ...options, nativeCardArt:native.nativeCardArt, readyCardArt:native.readyCardArt });"
+          ]
+        }
+      ]
+    },
+    "scripts/card-art-samples.mjs": {
+      "beforeSha256": "454d0ef915e15059976e2f556da1044e9d2dba27039244ca5306c628c66ea622",
+      "afterSha256": "e90d6d2bddef5429e344b37181da3aba09385bfc55765677797f7597b5bfed87",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            "  const args=[],hosts=[];let count,registry;"
+          ],
+          "after": [
+            "  const args=[],hosts=[];let count,registry,readyCardArt;"
+          ]
+        },
+        {
+          "at": 19,
+          "before": [],
+          "after": [
+            "    if(arg==='--no-ready-card-art'){if(readyCardArt===false)throw Error('Duplicate ready art disable');readyCardArt=false;continue;}"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            "  if(count==='0')return {args,nativeCardArt:undefined};"
+          ],
+          "after": [
+            "  if(count==='0')return {args,nativeCardArt:undefined,...(count==='0'||readyCardArt===false?{readyCardArt:false}:{})};"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "    return {args,nativeCardArt:undefined};"
+          ],
+          "after": [
+            "    return {args,nativeCardArt:undefined,...(count==='0'||readyCardArt===false?{readyCardArt:false}:{})};"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [
+            "  return {args,nativeCardArt:{registry,hosts:hosts.length?hosts:Array.from({length:Number(count)},(_,i)=>`battlePanel/card${i+1}`)}};"
+          ],
+          "after": [
+            "  return {args,...(readyCardArt===false?{readyCardArt:false}:{}),nativeCardArt:{registry,hosts:hosts.length?hosts:Array.from({length:Number(count)},(_,i)=>`battlePanel/card${i+1}`)}};"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "  if (!assets.length || assets.length > 2) throw new Error('Native art requires one or two candidate assets');"
+          ],
+          "after": [
+            "  if (!assets.length || assets.length > 3) throw new Error('Native art requires one to three reviewed candidate assets');"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "    if (!['cleave','heavy_blade'].includes(id) || asset.cardId !== id || !/^[a-f0-9]{64}$/.test(asset.luaSha256 ?? '')"
+          ],
+          "after": [
+            "    if (!['armaments','cleave','heavy_blade'].includes(id) || asset.cardId !== id || !/^[a-f0-9]{64}$/.test(asset.luaSha256 ?? '')"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "      if (![100001,100003,106056,106057].includes(slot.image) || !['basic','stretch'].includes(slot.imageType)) throw new Error('Unsupported native art image/type');"
+          ],
+          "after": [
+            "      if (![100001,100002,100003,106056,106057].includes(slot.image) || !['basic','stretch'].includes(slot.imageType)) throw new Error('Unsupported native art image/type');"
+          ]
+        }
+      ]
+    },
+    "scripts/native-candidate-audit.mjs": {
+      "beforeSha256": "ed2d67faf07200c4d1a6b2a426a6e3fec7f1743f82e0b6b3c6c88a90ca700aeb",
+      "afterSha256": "12f9c8cf41380292fd82b42c29336c4e153dd060326e13ff482f5f52452d07c0",
+      "hunks": [
+        {
+          "at": 123,
+          "before": [],
+          "after": [
+            "  if(expected.runtimeTemplates) {",
+            "    const rows=actual.runtimeTemplates??[];",
+            "    if(rows.length!==expected.runtimeTemplates.length)add('RUNTIME_TEMPLATE_BINDING','Runtime template inventory differs');",
+            "    for(const wanted of expected.runtimeTemplates) {",
+            "      const found=rows.filter(row=>row?.template?.name===wanted.template.name);",
+            "      const actualTemplate=found.length===1?found[0]:undefined;",
+            "      if(!Number.isSafeInteger(wanted.templateIndex)||wanted.templateIndex<=0||actualTemplate?.templateIndex!==wanted.templateIndex)",
+            "        add('RUNTIME_TEMPLATE_BINDING',wanted.template.name);",
+            "      if(!equivalent(normalizeUi(wanted.template,'control',true),normalizeUi(actualTemplate?.template),'control'))",
+            "        add('RUNTIME_TEMPLATE_MISMATCH',wanted.template.name);",
+            "    }",
+            "  }"
+          ]
+        }
+      ]
+    },
+    "scripts/native-candidate-scripts.mjs": {
+      "beforeSha256": "080b5fa856ebb8f2b8c2c75384c495e40947d7e48f1b3da234917d63703b89ab",
+      "afterSha256": "83bc9a50cdce7a9434c0dffef56ccad58771315b611d032b2931c37b4c6ee788",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset'];"
+          ],
+          "after": [
+            "const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'];"
+          ]
+        }
+      ]
+    },
+    "scripts/official-portraits.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "072b46c20b7a389aebb0f5c56afed5f66159c9154ccfb5e1d5d9e58ea6277f8c",
+      "hunks": []
+    },
+    "scripts/platform-load.mjs": {
+      "beforeSha256": "0739b3ebdb28721e8711c21c3888edd3fcd31f2d6a07fe70a5f304e560cea48c",
+      "afterSha256": "76617ff0b8d05f13ce8882e673603800a9015d6b03f8aa26743b7cd3f62934e2",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {portraitRuntimeInventory} from './official-portraits.mjs';",
+            "import {readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';"
+          ]
+        },
+        {
+          "at": 75,
+          "before": [],
+          "after": [
+            "    runtimeCardArt: modules.some(row=>row.name==='abyss_ready_card_binding') ? readyArtRuntimeInventory() : undefined,",
+            "    runtimePortraits: portraitRuntimeInventory(directory),"
+          ]
+        }
+      ]
+    },
+    "scripts/verify-launch-content.mjs": {
+      "beforeSha256": "e2fa5c351bafa1a6413bbab0810d55868bfcd331b4c33e20e3ec2a868cf2d617",
+      "afterSha256": "f219845a506b1384f7aaa72f0cfa25202c086d4fb4326dc5c123d3347c7a5e72",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "    for (const name of ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'])"
+          ],
+          "after": [
+            "    for (const name of ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_card_view.lua": {
+      "beforeSha256": "94c8412291f0343764f3207e90b9864868170ac7e326f1f5af20cce8957420ec",
+      "afterSha256": "da5e1d6ae515e4c06fac0adef1e81536f4cb2fbcf1f282c906946caf9e95f025",
+      "hunks": [
+        {
+          "at": 205,
+          "before": [
+            "        CardDisplay.writeNativeArt(box,definition,card.display.nativeArt,controls.platform,box:GetChild('art'))"
+          ],
+          "after": [
+            "        if view.active==false then CardDisplay.clearNativeArt(box)",
+            "        else CardDisplay.writeNativeArt(box,definition,card.display.nativeArt,controls.platform,box:GetChild('art'),",
+            "            card.instance and card.instance.uid)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_art_runtime.lua": {
+      "beforeSha256": null,
+      "afterSha256": "bd9bf4ea15ea3def721b70b249ada2924f42e49a0f852799d0c1eb18c9d156ff",
+      "hunks": []
+    },
+    "src/lua/abyss_card_display.lua": {
+      "beforeSha256": "18144409674c4b6c64804d740e7906e00ff078cb774d655d1d7a196e0c9bf9e0",
+      "afterSha256": "e7180abf0214c269c14f175fe60baeda1adb0fc3eb33dc824342d9f106c2f09f",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local NativeArtRuntime = require('abyss_card_art_runtime')"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "-- Install presentation-only art metadata atomically after real native binding.",
+            "function M.bindNativeAssets(presentation, assets)",
+            "    assert(type(presentation)=='table' and type(assets)=='table','native artwork registry required')",
+            "    for id,metadata in pairs(assets) do",
+            "        assert(type(presentation[id])=='table' and type(metadata)=='table'",
+            "            and metadata.cardId==id and metadata.runtime==true,'invalid native artwork identity')",
+            "    end",
+            "    for id,metadata in pairs(assets) do presentation[id].nativeArt=metadata end",
+            "end"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [],
+          "after": [
+            "local function hideNative(control)",
+            "    if control and control.alive~=false then pcall(control.SetVisible,control,false)end",
+            "end"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [],
+          "after": [
+            "    NativeArtRuntime.release(box)",
+            "    if box.alive==false then return end"
+          ]
+        },
+        {
+          "at": 58,
+          "before": [
+            "        pool:SetVisible(false)"
+          ],
+          "after": [
+            "        hideNative(pool)"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            "            for _,control in ipairs(previous.controls)do control:SetVisible(false)end"
+          ],
+          "after": [
+            "            for _,control in ipairs(previous.controls)do hideNative(control)end"
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            "function M.writeNativeArt(box,definition,metadata,platform,fallback)"
+          ],
+          "after": [
+            "function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)",
+            "    if box.alive==false or fallback.alive==false then NativeArtRuntime.release(box);return false end"
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            "    if not pool then return false end"
+          ],
+          "after": [
+            "    if not pool or pool.alive==false then NativeArtRuntime.release(box);pcall(fallback.SetVisible,fallback,true);return false end",
+            "    if not metadata or metadata.cardId~=definition.id then",
+            "        M.clearNativeArt(box);if fallback.alive~=false then pcall(fallback.SetVisible,fallback,true)end;return false",
+            "    end",
+            "    if metadata.runtime==true then",
+            "        return NativeArtRuntime.request(box,pool,metadata,platform,fallback,identity,writeNativeSlot)",
+            "    end"
+          ]
+        },
+        {
+          "at": 96,
+          "before": [
+            "    if not metadata or metadata.cardId~=definition.id then M.clearNativeArt(box);return false end"
+          ],
+          "after": [
+            "    NativeArtRuntime.release(box)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_deck_ui.lua": {
+      "beforeSha256": "7ce361b4690a9a425425cfff48eb7d54015f9d9da093df56917f2ad7b5762594",
+      "afterSha256": "03771e658215670de14ee523e05e5c5a9a4be23f31f14e0ad52b599bc3027b54",
+      "hunks": [
+        {
+          "at": 87,
+          "before": [],
+          "after": [
+            "        self.generation=self.generation+1;self.pending=false",
+            "        liveFaces(CardDisplay.clearNativeArt)"
+          ]
+        },
+        {
+          "at": 138,
+          "before": [
+            "        CardDisplay.writeArt(face:GetChild(\"art\"), definition, picture);CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'))"
+          ],
+          "after": [
+            "        CardDisplay.writeArt(face:GetChild(\"art\"), definition, picture);CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'),instance.uid)"
+          ]
+        },
+        {
+          "at": 245,
+          "before": [],
+          "after": [
+            "        if self.detailPages then return end"
+          ]
+        },
+        {
+          "at": 255,
+          "before": [],
+          "after": [
+            "        liveFaces(CardDisplay.clearNativeArt)"
+          ]
+        },
+        {
+          "at": 298,
+          "before": [
+            "            root:GetChild('title').text=self.listTitle;closeLabel('关闭');return true"
+          ],
+          "after": [
+            "            root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;return true"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_feedback.lua": {
+      "beforeSha256": "33f3566c8449800d4a3467a00d9f46cdf34c9ae4891fed517bc06acdadd23fa5",
+      "afterSha256": "908ce903f6e7f9bea8fb1a8b0063593710e9fba62bc775f4b839da597c8886df",
+      "hunks": [
+        {
+          "at": 201,
+          "before": [],
+          "after": [
+            "        if name == \"hero\" and platform.portraits then platform.portraits:battlePose(0,0,1,1) end"
+          ]
+        },
+        {
+          "at": 732,
+          "before": [],
+          "after": [
+            "        if id == \"player\" and platform.portraits then platform.portraits:battlePose(x,y,sx,sy) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "f91d5498f86cf9c8b4b5ff7df2e936fb4a4ac4bf5d50755e6da9f4b114e2386c",
+      "afterSha256": "f7e4ddf3b5b65b8486f3e05374aa3cdf2b0456094258325a97e2232efbb638ed",
+      "hunks": [
+        {
+          "at": 574,
+          "before": [],
+          "after": [
+            "        if platform.portraits then platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,self.run and self.run.character) end"
+          ]
+        },
+        {
+          "at": 763,
+          "before": [],
+          "after": [
+            "        if platform.portraits then platform.portraits:tick() end"
+          ]
+        },
+        {
+          "at": 791,
+          "before": [],
+          "after": [
+            "        if platform.portraits then platform.portraits:release() end",
+            "        if platform.cardArt then platform.cardArt.clear() end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_menu_background.lua": {
+      "beforeSha256": "493d535133f2cd83237632cd815ed663a8e9da907bd87dd9eba029c60089b73f",
+      "afterSha256": "d9de8655afbe87db9b1974f68347f9167e36bddf3d54bb0754ba60fb58f76e0c",
+      "hunks": [
+        {
+          "at": 28,
+          "before": [
+            "    function self:status() return adapter:status() end",
+            "    function self:sync(mode, characterOpen, stopped)"
+          ],
+          "after": [
+            "    function self.status(_) return adapter:status() end",
+            "    function self.sync(_,mode, characterOpen, stopped)"
+          ]
+        },
+        {
+          "at": 38,
+          "before": [
+            "    function self:tick()"
+          ],
+          "after": [
+            "    function self.tick(_)"
+          ]
+        },
+        {
+          "at": 45,
+          "before": [
+            "    function self:release()"
+          ],
+          "after": [
+            "    function self.release(_)"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "    function self:onEngineDestroy()"
+          ],
+          "after": [
+            "    function self.onEngineDestroy(_)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_node_ui_faces.lua": {
+      "beforeSha256": "bbd85edd19c4448881b79a6bdd2b994bea672c1b2cdcf80a4e54543eefa02f42",
+      "afterSha256": "285281e48bcd5dfeb20bc03c8c2be526eda57e169689ba2e09b10d5babd3986a",
+      "hunks": [
+        {
+          "at": 109,
+          "before": [
+            "            CardDisplay.writeArt(box:GetChild(\"art_\" .. kind), definition, ctx.picture);if CardDisplay.writeNativeArt(box,definition,display.nativeArt,ctx.options,box:GetChild('art_'..kind))then ctx.artFaces[box]=true end"
+          ],
+          "after": [
+            "            CardDisplay.writeArt(box:GetChild(\"art_\" .. kind), definition, ctx.picture)",
+            "            if ctx.self.visible then",
+            "                CardDisplay.writeNativeArt(box,definition,display.nativeArt,ctx.options,box:GetChild('art_'..kind),instance.uid)",
+            "                ctx.artFaces[box]=true -- Pending pools also belong to this page's lifetime.",
+            "            else CardDisplay.clearNativeArt(box)end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_traveler_portraits.lua": {
+      "beforeSha256": null,
+      "afterSha256": "54988379bc5baf06747bcff3c7ff1cfc99feeb6d9f820b807c38375d55ac145c",
+      "hunks": []
+    },
+    "src/lua/abyss_ui.lua": {
+      "beforeSha256": "aed417cba95589fa41f27845d58e92f4f728c9ff2704eca3f5e88bb64f9f461f",
+      "afterSha256": "c44e8839190b794c29859181a99af01f15a65e0a95ad3978a4dd2d2ba09f8e4e",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [
+            "local view, Viewport, background"
+          ],
+          "after": [
+            "local view, Viewport, background, cardArt, portraits"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "    if portraits then pcall(function()portraits:release()end) end",
+            "    if cardArt then pcall(cardArt.clear) end"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [],
+          "after": [
+            "        portraits = require(\"abyss_traveler_portraits\").new(stage, print)",
+            "        cardArt = require(\"abyss_card_art_runtime\")",
+            "        local artBinding = require(\"abyss_ready_card_binding\")",
+            "        if artBinding.enabled and artBinding.imageTemplateIndex > 0 and artBinding.containerTemplateIndex > 0 then",
+            "            cardArt.configure({instantiate=game.InstantiateClientUIControl,destroy=game.DestroyClientUIControl,",
+            "                imageTemplateIndex=artBinding.imageTemplateIndex,containerTemplateIndex=artBinding.containerTemplateIndex})",
+            "            require(\"abyss_card_display\").bindNativeAssets(Presentation,require(\"abyss_ready_card_assets\"))",
+            "        else cardArt.configure(nil) end"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "            { background = background, music = music, campaign = true, campaignProfile = \"competition-two-act\","
+          ],
+          "after": [
+            "            { background = background, portraits = portraits, cardArt = cardArt, music = music, campaign = true, campaignProfile = \"competition-two-act\","
+          ]
+        },
+        {
+          "at": 112,
+          "before": [],
+          "after": [
+            "        if cardArt then cardArt.update() end"
+          ]
+        },
+        {
+          "at": 118,
+          "before": [],
+          "after": [
+            "    if cardArt then pcall(cardArt.clear) end",
+            "    if portraits then portraits:onEngineDestroy() end"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [
+            "    background, view = nil, nil"
+          ],
+          "after": [
+            "    background, portraits, cardArt, view = nil, nil, nil, nil"
+          ]
+        }
+      ]
+    },
+    "tests/lua/competition_character_admission.lua": {
+      "beforeSha256": "e59b0737ae648f3267a79c1acbf28901d4c18808c1274a2dd741afb76045eb23",
+      "afterSha256": "a273caf8a61c1c686f5ab005a9cd5ff8aba48a1b21fcdf397358e9de0c32ec01",
+      "hunks": [
+        {
+          "at": 33,
+          "before": [
+            "    return ui,root:GetChild('characterPanel')"
+          ],
+          "after": [
+            "    return ui,root:GetChild('characterPanel'),canvas"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "local closed,closedPanel=host('production')"
+          ],
+          "after": [
+            "local closed,closedPanel,nativeCanvas=host('production')"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [
+            "    package.loaded.abyss_viewport={apply=function()return {}end}",
+            "    script={object={},GetParam=function()return false end,EnableUpdate=function(_,v)updates=v end}"
+          ],
+          "after": [
+            "    -- Reuse the real canvas: native art adapters still inspect their actual hosts.",
+            "    script={object=nativeCanvas,GetParam=function()return false end,EnableUpdate=function(_,v)updates=v end}"
+          ]
+        }
+      ]
+    },
+    "tests/lua/game_ui_classes_failure.lua": {
+      "beforeSha256": "f703c5f5c33b4a82894857b7ac06f3c3137528ac9712e31b216954aeeff1be6a",
+      "afterSha256": "2a1cac8e7931927259b327a339889d61c88e283ef28375f4568cf3b679d1db2e",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "local function canvas(withClasses)"
+          ],
+          "after": [
+            "local function canvas()"
+          ]
+        },
+        {
+          "at": 19,
+          "before": [
+            "    if not withClasses then",
+            "        root.children.characterPanel=nil;root.children.choicePanel=nil",
+            "    end"
+          ],
+          "after": []
+        },
+        {
+          "at": 22,
+          "before": [
+            "    local c,root=canvas(layoutFlag)"
+          ],
+          "after": [
+            "    local c,root=canvas()"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [],
+          "after": [
+            "        -- Inject the missing formal controls at the GameUI boundary under test;",
+            "        -- real art adapters have already captured their separate valid hosts.",
+            "        if not layoutFlag then root.children.characterPanel=nil;root.children.choicePanel=nil end"
+          ]
+        }
+      ]
+    }
+  }
+}

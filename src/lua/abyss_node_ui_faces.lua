@@ -107,7 +107,11 @@ function M.install(ctx)
         writeCardCost()
         local function writeCardArt()
             for art in pairs(Theme.icon.cardArt) do box:GetChild("art_" .. art):SetVisible(art == kind) end
-            CardDisplay.writeArt(box:GetChild("art_" .. kind), definition, ctx.picture);if CardDisplay.writeNativeArt(box,definition,display.nativeArt,ctx.options,box:GetChild('art_'..kind))then ctx.artFaces[box]=true end
+            CardDisplay.writeArt(box:GetChild("art_" .. kind), definition, ctx.picture)
+            if ctx.self.visible then
+                CardDisplay.writeNativeArt(box,definition,display.nativeArt,ctx.options,box:GetChild('art_'..kind),instance.uid)
+                ctx.artFaces[box]=true -- Pending pools also belong to this page's lifetime.
+            else CardDisplay.clearNativeArt(box)end
             ctx.tint(box:GetChild("artPlate"), look.dim and C.panelSunken or C.cardType[kind] or C.panelRaised)
         end
         writeCardArt()

@@ -41,7 +41,7 @@ function fixture(t, corrupt) {
     put(`full/payload/${name}.lua`, source); return [name, sha256(source)];
   }));
   const base = put('full/candidate.gil', 'full pre-audio candidate');
-  const sourceReceipt = put('full/candidate.json', JSON.stringify({ buildId, candidate: fileRecord(base), moduleDigests }));
+  const sourceReceipt = put('full/candidate.json', JSON.stringify({ buildId, candidate: fileRecord(base), moduleDigests, officialBackground:{templateIndex:1470123456,peakDynamicControls:13201} }));
   const tool = join(root, 'tool');
   put('tool/package.json', '{"type":"module","version":"fixture"}');
   put('tool/node_modules/@modelcontextprotocol/sdk/package.json', '{"type":"module"}');
@@ -63,6 +63,7 @@ test('real BGM CLI preserves exact packaged startup marker and all entry paramet
   const receipt = JSON.parse(readFileSync(join(f.output, 'candidate.json')));
   assert.equal(receipt.mapPath, join(f.output, 'candidate.gil'));
   assert.deepEqual(receipt.candidate, fileRecord(receipt.mapPath));
+  assert.deepEqual(receipt.officialBackground,{templateIndex:1470123456,peakDynamicControls:13201});
   assert.equal(receipt.buildId, f.buildId); assert.equal(receipt.sha256, receipt.candidate.sha256);
   assert.notEqual(receipt.candidate.sha256, fileRecord(f.base).sha256);
   assert.equal(receipt.officialImport, 'NOT_TESTED'); assert.equal(receipt.playtest, 'NOT_TESTED');

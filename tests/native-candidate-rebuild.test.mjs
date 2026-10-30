@@ -1,3 +1,7 @@
+import {portraitInputs} from '../scripts/official-portraits.mjs';
+import {readyArtSourceInputs,readyArtTemplates} from '../scripts/art/ready-card-runtime.mjs';
+import {backgroundInputs,attachOfficialBackground} from '../scripts/official-background.mjs';
+import {generatedRuntimeModules} from '../scripts/build-native-candidate.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
@@ -7,6 +11,9 @@ import { spawnSync } from 'node:child_process';
 
 const builder = fileURLToPath(new URL('../scripts/build-native-candidate.mjs', import.meta.url));
 const existing = { id: 1073741899, name: '_GSTS_ABYSS_SETTLEMENT', type: 20000, writable: true };
+const uiModules = Object.keys(generatedRuntimeModules).filter(name=>generatedRuntimeModules[name]==='scripts/build-ui.mjs');
+const templates = readyArtTemplates();
+attachOfficialBackground({controls:[{name:'stage',children:[]}]},templates);
 // Fake only the MCP boundary: execute the actual CLI and inspect its calls.
 const sdk = `
 import {appendFileSync,readFileSync} from 'node:fs';
@@ -20,6 +27,7 @@ export class Client {
   if(name===state.failTool)return {isError:true,structuredContent:{error:{code:'FIXTURE_FAILURE',message:name}}};
   if(name===state.payloadErrorTool)return {structuredContent:{error:{code:'PAYLOAD_FAILURE',message:name}}};
   if(name===state.malformedTool)return {structuredContent:{mapPath:args.mapPath}};
+  if(name==='scene_add_client_template')return {structuredContent:{mapPath:args.mapPath,templateIndex:1073741846+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:0)}};
   if(name==='scene_set_client_script')scripts.set(args.name,{name:args.name,file:args.name+'.lua',on:[],source:readFileSync(args.sourceFile,'utf8')});
   if(name==='scene_list_client_scripts')return {structuredContent:{mapPath:args.mapPath,scripts:[...scripts.values()]}};
   if(name==='scene_remove_client') {
@@ -52,11 +60,13 @@ function run(scenario, check) {
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js',sdk);
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js','export class StdioClientTransport {constructor(options) {if(options.env.MILIASTRA_ALLOW_LIVE_WRITE!=="0")throw Error("live writes enabled");}}');
     put('src/lua/abyss_ui.lua','return {}');
+    // Source inventory validates converted artwork against the real card IDs.
+    for(const file of ['data/cards.json',...backgroundInputs,...readyArtSourceInputs(),...portraitInputs])put(file,readFileSync(file));
     put('scripts/build-lua-data.mjs',`import {writeFileSync} from 'node:fs';import {dirname,join} from 'node:path';writeFileSync(process.argv[3],'return {}');writeFileSync(join(dirname(process.argv[3]),'abyss_original_v4_data.lua'),'return {}');`);
-    put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const name of ['abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])writeFileSync(join(out,name+'.lua'),'return {}');writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),'[]');`);
-    for(const name of ['abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme'])put('build/lua/'+name+'.lua','return {}');
+    put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const name of ${JSON.stringify(uiModules)})writeFileSync(join(out,name+'.lua'),'return {}');writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),${JSON.stringify(JSON.stringify(templates))});`);
+    for(const name of Object.keys(generatedRuntimeModules))put('build/lua/'+name+'.lua','return {}');
     put('build/lua/game-ui.json',JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));
-    put('build/lua/game-ui-templates.json','[]');
+    put('build/lua/game-ui-templates.json',JSON.stringify(templates));
     put('scenario.json',JSON.stringify(scenario));
     put('calls.jsonl',''); put('base.gil','fixture');
     const result=spawnSync(process.execPath,[builder,join(dir,'base.gil'),join(dir,'out')],{cwd:dir,encoding:'utf8',env:{...process.env,MILIASTRA_MCP_ROOT:join(dir,'tool'),REBUILD_SCENARIO:join(dir,'scenario.json'),REBUILD_CALLS:join(dir,'calls.jsonl')}});

@@ -85,6 +85,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             local page={};for j=i,math.min(i+rows-1,#lines) do page[#page+1]=lines[j] end
             self.detailPages[#self.detailPages+1]=table.concat(page,'\n')
         end
+        self.generation=self.generation+1;self.pending=false
+        liveFaces(CardDisplay.clearNativeArt)
         self.detailTitle=title
         self.detailPage=1;grid:SetVisible(false);details:SetVisible(true);detailHit:SetVisible(true)
         closeLabel('返回');detailPage();return true
@@ -134,7 +136,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         tint(face:GetChild("nameBand"), Theme.color.rarityBand[definition.rarity] or Theme.color.rarityBand.basic)
         tint(face:GetChild("nameRule"), Theme.color.rarity[definition.rarity] or Theme.color.line)
         tint(face:GetChild("artPlate"), Theme.color.cardType[definition.type] or Theme.color.panelRaised)
-        CardDisplay.writeArt(face:GetChild("art"), definition, picture);CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'))
+        CardDisplay.writeArt(face:GetChild("art"), definition, picture);CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'),instance.uid)
         local printed=catalog.cards[instance.cardId]
         local base=instance.upgraded and printed.upgrade and printed.upgrade.cost or printed.cost
         local selected=false
@@ -241,6 +243,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                     or name=='next' and (self.controllerPage or 1)<pages;hit.raycastTarget=hit.interactable end
             end
         end
+        if self.detailPages then return end
         liveFaces(function(face)CardSkin.tick(face,dt or 0)end)
         if not self.pending then return end
         self.pending, self.calibrating = false, false
@@ -250,6 +253,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             for i=((self.controllerPage or 1)-1)*pageSize+1,math.min((self.controllerPage or 1)*pageSize,#cards)do subset[#subset+1]=cards[i]end
             cards=subset;grid.scrollProgress=0
         end
+        liveFaces(CardDisplay.clearNativeArt)
         grid:RefreshItems(#cards, function(control, index)
             if not self.visible or self.generation ~= generation then return end
             local instance = cards[index - base + 1]
@@ -292,7 +296,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         if not self.visible then return false end
         if self.detailPages and not self.detailOnly then
             self.detailPages=nil;details:SetVisible(false);detailHit:SetVisible(false);grid:SetVisible(true)
-            root:GetChild('title').text=self.listTitle;closeLabel('关闭');return true
+            root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;return true
         end
         if self.multiple then
             if not root:GetChild('close'):GetChild('hit').interactable or not self.run or self.run.combat~=self.battle

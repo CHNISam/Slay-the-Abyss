@@ -1,3 +1,6 @@
+import {portraitInputs} from '../scripts/official-portraits.mjs';
+import {readyArtInputs,readyArtSourceInputs} from '../scripts/art/ready-card-runtime.mjs';
+import {backgroundInputs} from '../scripts/official-background.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { cpSync, mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, linkSync, symlinkSync, realpathSync } from 'node:fs';
@@ -19,6 +22,7 @@ export class Client {
  async readResource({uri}) {return {contents:[{uri,text:'MCP mock; not official compile'}]};}
  async callTool({name,arguments:args}) {
   appendFileSync(process.env.ART_CALLS,JSON.stringify({name,args})+'\\n');
+  if(name==='scene_add_client_template')return {structuredContent:{mapPath:args.mapPath,templateIndex:1073741846+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:0)}};
   if(name==='scene_set_client_script')scripts.set(args.name,{name:args.name,file:args.name+'.lua',source:readFileSync(args.sourceFile,'utf8')});
   if(name==='scene_remove_client'){scripts.delete(args.script);return {structuredContent:{removed:{script:args.script}}};}
   if(name==='scene_list_client_scripts')return {structuredContent:{scripts:[...scripts.values()]}};
@@ -37,6 +41,7 @@ function fixture(t) {
   for(const file of ['src/lua','data','scripts','tools','package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json'])
     cpSync(join(repo,file),join(root,file),{recursive:true});
   const put=(file,bytes)=>{const path=join(root,file);mkdirSync(dirname(path),{recursive:true});writeFileSync(path,bytes);return path;};
+  for(const file of [...backgroundInputs,...readyArtSourceInputs(),...portraitInputs])put(file,readFileSync(join(repo,file)));
   const registry={schemaVersion:2,editorCommit:'103025f9095d8089e3f9bf097f4d0c5fe039d546',canvas:[144,64],assets:{},sourceInputs:[]};
   for(const id of ['cleave','heavy_blade']) {
     const asset={cardId:id};
@@ -73,7 +78,7 @@ test('MCP mock: formal CLI consumes opt-in art in the actual UI and dynamic pres
   // Shared build:ui output must not be mistaken for the per-candidate payload.
   const prebuilt=spawnSync(process.execPath,['scripts/build-ui.mjs','build/lua',`--native-card-art-registry=${f.literal}`,'--native-card-art-count=1'],{cwd:f.root,encoding:'utf8'});
   assert.equal(prebuilt.status,0,prebuilt.stderr);
-  const baseline=f.cli();success(baseline);
+  const baseline=f.cli(['--no-ready-card-art']);success(baseline);
   assert.equal(pools(baseline.calls.find(c=>c.name==='scene_add_client_ui').args).length,0);
   const one=f.cli([`--native-card-art-registry=${f.literal}`,'--native-card-art-count=1']);success(one);
   const ui=one.calls.find(c=>c.name==='scene_add_client_ui').args,selected=pools(ui);
@@ -242,4 +247,21 @@ test('MCP mock: registry and original-source symlink/.. use filesystem identity,
     const run=f.cli([`--native-card-art-registry=${f.literal}`,'--native-card-art-count=1']);
     assert.notEqual(run.result.status,0);assert.match(run.result.stderr,/another root/);assert.deepEqual(run.calls,[]);
   }
+});
+
+test('MCP mock: all three reviewed drawings reach the formal candidate with independent text and bounded pools',async t=>{
+  const {buildReadyCardRegistry}=await import('../scripts/art/ready-card-registry.mjs');
+  const f=fixture(t),registry=buildReadyCardRegistry();
+  for(const source of registry.sourceInputs)source.path=f.put(`art/${source.cardId}/native-art.${source.kind}`,readFileSync(source.path));
+  writeFileSync(f.literal,JSON.stringify(registry));
+  const run=f.cli([`--native-card-art-registry=${f.literal}`,'--native-card-art-count=1']);success(run);
+  const receipt=run.receipt();
+  assert.deepEqual(Object.keys(receipt.nativeCardArt.sources),['armaments','cleave','heavy_blade']);
+  assert.deepEqual(Object.values(receipt.nativeCardArt.sources).map(a=>a.images),[1834,2657,2043]);
+  assert.equal(receipt.nativeCardArt.staticAddedControls,2703);
+  const ui=run.calls.find(c=>c.name==='scene_add_client_ui').args;
+  assert.equal(pools(ui).length,1);
+  const presentation=readFileSync(run.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_presentation').args.sourceFile,'utf8');
+  assert.equal((presentation.match(/\["path"\]=/g)??[]).length,6534);
+  assert.equal(receipt.statuses.officialImport,'not_run');
 });

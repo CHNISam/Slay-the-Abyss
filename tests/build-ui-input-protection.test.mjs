@@ -1,8 +1,11 @@
+import {portraitInputs} from '../scripts/official-portraits.mjs';
+import {readyArtInputs,readyArtSourceInputs} from '../scripts/art/ready-card-runtime.mjs';
+import {backgroundInputs} from '../scripts/official-background.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { copyFileSync, cpSync, existsSync, linkSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join, resolve, dirname } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { buildUI } from '../scripts/build-ui.mjs';
 
@@ -10,13 +13,15 @@ const inputs = ['cards.json', 'statuses.json', 'enemies.json', 'relics.json', 'p
   'presentation/ui_theme.json', 'presentation/traveler.zh-CN.json', 'presentation/narrative.zh-CN.json'];
 const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
   'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
-  'game-ui-templates.json', 'abyss_ui_templates.lua'];
+  'game-ui-templates.json', 'abyss_ui_templates.lua', 'abyss_menu_background_asset.lua',
+  'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua'];
 function fixture(action, cli = false) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-ui-input-'));
   try {
     // Every case owns fresh mutable data/output. Only CLI cases need a script
     // tree; the in-process cases use the real already-imported production code.
     cpSync(resolve('data'), join(root, 'data'), { recursive: true });
+    for(const file of [...backgroundInputs,...readyArtSourceInputs(),...portraitInputs]){mkdirSync(dirname(join(root,file)),{recursive:true});copyFileSync(resolve(file),join(root,file));}
     for (const file of ['package.json', 'package-lock.json', '.release-please-manifest.json', 'CHANGELOG.md'])
       copyFileSync(resolve(file), join(root, file));
     if (cli) cpSync(resolve('scripts'), join(root, 'scripts'), { recursive: true });
@@ -66,14 +71,14 @@ for (const mode of ['hardlink', 'symlink']) test(`UI build retains legitimate ${
   assert.deepEqual(readFileSync(target), readFileSync(backing));
 }));
 
-test('ordinary UI CLI builds without npm dependencies and preserves zero-art defaults', () => cliFixture(root => {
+test('explicit zero-art UI CLI builds without npm dependencies and preserves zero-art fallback', () => cliFixture(root => {
   assert.equal(existsSync(join(root, 'node_modules')), false, 'fixture must not borrow installed npm dependencies');
   const entry = spawnSync(process.execPath, ['--input-type=module', '-e',
     "await import('./scripts/build-native-candidate.mjs'); const {verifyNativeCardArtReceipt}=await import('./scripts/card-art-samples.mjs'); verifyNativeCardArtReceipt(undefined);"],
     { cwd: root, encoding: 'utf8' });
   assert.equal(entry.status, 0, entry.stderr);
   const before = inputs.map(file => readFileSync(join(root, 'data', file)));
-  const result = spawnSync(process.execPath, ['scripts/build-ui.mjs', 'out'], { cwd: root, encoding: 'utf8' });
+  const result = spawnSync(process.execPath, ['scripts/build-ui.mjs', 'out', '--no-ready-card-art'], { cwd: root, encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /Native battle UI and Traveler display module built/);
   assert.deepEqual(readdirSync(join(root, 'out')).sort(), [...outputs].sort());
@@ -109,6 +114,7 @@ test('UI rejection preserves existing outputs when the final batch target aliase
 test('UI CLI protects the imported module-relative theme when working in a different data directory', () => cliFixture(root => {
   const cwd = join(root, 'other');
   mkdirSync(cwd); cpSync(join(root, 'data'), join(cwd, 'data'), { recursive: true });
+  cpSync(join(root,'art'),join(cwd,'art'),{recursive:true});
   for (const file of ['package.json', 'package-lock.json', '.release-please-manifest.json', 'CHANGELOG.md'])
     copyFileSync(join(root, file), join(cwd, file));
   cpSync(join(root, 'tools'), join(cwd, 'tools'), { recursive: true }); mkdirSync(join(cwd, 'out'));
@@ -120,4 +126,10 @@ test('UI CLI protects the imported module-relative theme when working in a diffe
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Output must not overwrite an input file/);
   assert.deepEqual(readdirSync(join(cwd, 'out')), ['abyss_ui_templates.lua']);
+}));
+
+for(const input of [...backgroundInputs,...readyArtInputs,...portraitInputs])test(`UI background output cannot overwrite frozen runtime input ${input}`,()=>fixture(root=>{
+ const source=join(root,input),before=readFileSync(source);linkSync(source,join(root,'out/abyss_menu_background_asset.lua'));
+ assert.throws(()=>build(root),/Output must not overwrite an input file/);assert.deepEqual(readFileSync(source),before);
+ assert.deepEqual(readdirSync(join(root,'out')),['abyss_menu_background_asset.lua']);
 }));

@@ -205,3 +205,8 @@ art/cards/traveler-geo/heavy_blade/native-art.lua -text
 art/cards/traveler-geo/heavy_blade/native-art.json -text
 art/cards/traveler-geo/native-source-registry.json text eol=lf
 art/cards/traveler-geo/native-runtime-registry.json text eol=lf
+
+# Additional ready-art frozen inputs; exact source bytes on every host.
+art/cards/traveler-geo/armaments/native-art.lua -text
+art/cards/traveler-geo/armaments/native-art.json -text
+art/cards/traveler-geo/runtime-candidate/*.json text eol=lf

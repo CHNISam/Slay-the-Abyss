@@ -58,6 +58,10 @@
     "original-monster-source": {
       "status": "project-original AI-assisted monster source candidates; reference roles documented; source-only, no native/runtime acceptance or commercial/IP clearance",
       "evidence": "art/monsters/README.md; art/monsters/catalog.json; per-enemy generation-provenance.json and source-review.json"
+    },
+    "compact-card-runtime-candidate": {
+      "status": "Existing AI game-art sources converted to compact native rectangle candidates for this platform project; no upstream algorithm code redistributed, no game-IP sublicense or device/commercial clearance",
+      "evidence": "art/cards/traveler-geo/runtime-candidate/README.md; conversion-report.json; existing source manifests and legal audit"
     }
   },
   "files": {
@@ -4663,6 +4667,22 @@
       "category": "original-monster-source",
       "sha256": "a1a0899fe21be84a385deef462b931a4548ca0cd3e30a4633e464b6508b505d2",
       "lfsBytes": 912804
+    },
+    "art/characters/traveler-geo/portraits/current-milestone-integration.json": {
+      "sha256": "bb23ae543ac7e5cdb3f01ef2369d967dafefb3ddb1c9cd7f74d9a90e9b9d0b9f",
+      "category": "art-production-record"
+    },
+    "art/cards/traveler-geo/runtime-candidate/rectangles.json": {
+      "sha256": "1bc75286147a71c28e0f3016f554a9b5359d8d1d8766f20859c4d4a8a016d2a5",
+      "category": "compact-card-runtime-candidate"
+    },
+    "art/cards/traveler-geo/runtime-candidate/conversion-report.json": {
+      "sha256": "1b3b552043e484b20a491ffb22ad6222f04bab0a19d0d47589e1b98d8aa74991",
+      "category": "art-production-record"
+    },
+    "art/cards/traveler-geo/runtime-candidate/README.md": {
+      "sha256": "b5985b70f4dd49f43918172d48716c4112ed19c894e12e9bc6949b9d4323c654",
+      "category": "art-production-record"
     },
     "art/cards/traveler-geo/native-runtime-registry.json": {
       "sha256": "762d8abad65e6022516ab8e92c157ee06a27bdfd8448c20425fe590856344194",
