@@ -1,3 +1,4 @@
+import {preSelectorCurrentSource} from './selector-current-source.mjs';
 import {prepareBetaRetirement} from './beta-integration-source.mjs';
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
 import {preCombatRelicsHudSource} from './combat-relics-hud-inverse.mjs';
@@ -37,7 +38,8 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
   if (binding.beforeSha256 === null) assert.deepEqual(binding.hunks, [], 'genuinely new module has no historical source');
 }
 
-export function preBattleLifeOuterSource(path, source) {
+export function preBattleLifeOuterSource(path, source, options) {
+ source=preSelectorCurrentSource(path,source,options);
  source=preIntegrationSource(path,source);
   source=preNativeMonsterArtSource(path,source);
   source=preCombatRelicsHudSource(path,source);

@@ -1,3 +1,5 @@
+import {preFinalUiSource} from './helpers/final-ui-source.mjs';
+import {preP0UiSource} from './helpers/p0-ui-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,copyFileSync,rmSync} from 'node:fs';
@@ -11,19 +13,20 @@ const blob=s=>createHash('sha1').update('blob '+Buffer.byteLength(s)+'\0').updat
 test('all 33 reviewed current fixtures recover complete develop98 bytes bidirectionally without editing live tests',()=>{
  assert.equal(Object.keys(betaCurrentTestProof.files).length,33);
  for(const [path,b]of Object.entries(betaCurrentTestProof.files)){
-  const live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const raw=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+  const live=preP0UiSource(path,preFinalUiSource(path,raw));
   assert.equal(hash(live),b.afterSha256,path);assert.equal(blob(live),b.afterGitBlob,path);
   const prior=preBetaCurrentTestSource(path,live);
   assert.equal(hash(prior),b.beforeSha256,path);assert.equal(blob(prior),b.beforeGitBlob,path);
   assert.equal(preBetaCurrentTestSource(path,live.replaceAll('\n','\r\n')),prior);
   assert.equal(preBetaCurrentTestSource(path,prior),prior,'old witness stays untouched');
-  assert.equal(readFileSync(path,'utf8').replaceAll('\r\n','\n'),live,'current test bytes remain current');
+  assert.equal(readFileSync(path,'utf8').replaceAll('\r\n','\n'),raw,'current test bytes remain current');
  }
 });
 test('missing, unknown, partial, appended, same-length and cross-path inputs cannot borrow a fixture projection',()=>{
  const paths=Object.keys(betaCurrentTestProof.files);
  for(const [i,path]of paths.entries()){
-  const live=readFileSync(path,'utf8').replaceAll('\r\n','\n'),b=betaCurrentTestProof.files[path];
+  const live=preP0UiSource(path,preFinalUiSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'))),b=betaCurrentTestProof.files[path];
   const h=b.hunks.find(h=>h.after.length);const lines=live.split('\n');
   if(h)lines.splice(h.at,h.after.length);else lines.push('unknown');
   for(const bad of [null,undefined,'',live.slice(1),live+'\n', (live[0]==='!'?'?':'!')+live.slice(1),lines.join('\n')]){

@@ -1,0 +1,692 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "5752484423c8d4ddf9dcbcdd00dedc39884a7072",
+  "afterCommit": "938194c32f233e77960adea2d8e4784fd98a8d0a",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "0337d8a07bb7f38d91522adc01fde30f5c25bbd56c945704aea6f4cfcddb018b",
+      "afterSha256": "a0885db69cdda93547d1e8c623e18e69e0857f955c7eea789cc1973cc981e456",
+      "afterUtf16Length": 72350,
+      "beforeGitBlob": "a1c7207d75dfe77ebe9c740b583bb2586d49734e",
+      "afterGitBlob": "6da5558a2756833c268b2f134fc288752d96ab90",
+      "hunks": [
+        {
+          "at": 3246,
+          "before": [
+            "        210,"
+          ],
+          "after": [
+            "        196,"
+          ]
+        },
+        {
+          "at": 3248,
+          "before": [
+            "        244"
+          ],
+          "after": [
+            "        300"
+          ]
+        },
+        {
+          "at": 3250,
+          "before": [
+            "      \"map\": ["
+          ],
+          "after": [
+            "      \"title\": [490, 318, 196, 40],",
+            "      \"resume\": ["
+          ]
+        },
+        {
+          "at": 3253,
+          "before": [
+            "        286,"
+          ],
+          "after": [
+            "        264,"
+          ]
+        },
+        {
+          "at": 3259,
+          "before": [
+            "        234,"
+          ],
+          "after": [
+            "        208,"
+          ]
+        },
+        {
+          "at": 3263,
+          "before": [
+            "      \"resume\": ["
+          ],
+          "after": [
+            "      \"map\": ["
+          ]
+        },
+        {
+          "at": 3265,
+          "before": [
+            "        182,"
+          ],
+          "after": [
+            "        152,"
+          ]
+        },
+        {
+          "at": 3269,
+          "before": [],
+          "after": [
+            "      \"rule\": [",
+            "        490,",
+            "        110,",
+            "        180,",
+            "        2",
+            "      ],"
+          ]
+        },
+        {
+          "at": 3277,
+          "before": [
+            "        122,"
+          ],
+          "after": [
+            "        74,"
+          ]
+        },
+        {
+          "at": 3281,
+          "before": [],
+          "after": [
+            "      \"dismissHint\": [490, 24, 240, 40],"
+          ]
+        },
+        {
+          "at": 3303,
+          "before": [
+            "        -300,"
+          ],
+          "after": [
+            "        -304,"
+          ]
+        },
+        {
+          "at": 3305,
+          "before": [
+            "        300",
+            "      ],",
+            "      \"rows\": [",
+            "        124,",
+            "        -42",
+            "      ],",
+            "      \"tileSize\": [",
+            "        280,",
+            "        148",
+            "      ],",
+            "      \"tileTitle\": [",
+            "        22,",
+            "        42,",
+            "        204,",
+            "        40",
+            "      ],",
+            "      \"tileBody\": [",
+            "        0,",
+            "        -30,",
+            "        252,",
+            "        80"
+          ],
+          "after": [
+            "        304"
+          ]
+        },
+        {
+          "at": 3319,
+          "before": [
+            "      \"footer\": ["
+          ],
+          "after": [
+            "      \"footer\": [0, -190, 880, 40],",
+            "      \"sectionY\": 12,",
+            "      \"sectionSize\": [",
+            "        292,",
+            "        348",
+            "      ],",
+            "      \"sectionTitle\": [0, 146, 260, 40],",
+            "      \"sectionRule\": ["
+          ]
+        },
+        {
+          "at": 3328,
+          "before": [
+            "        -156,",
+            "        880,",
+            "        48"
+          ],
+          "after": [
+            "        122,",
+            "        252,",
+            "        2"
+          ]
+        },
+        {
+          "at": 3332,
+          "before": [
+            "      \"tileIcon\": [",
+            "        -104,",
+            "        42,",
+            "        36,",
+            "        36",
+            "      ]"
+          ],
+          "after": [
+            "      \"rowTop\": 92,",
+            "      \"rowStep\": 70,",
+            "      \"rowHeight\": 40,",
+            "      \"rowIcon\": 28,",
+            "      \"rowIconX\": -118,",
+            "      \"actionX\": 0,",
+            "      \"actionWidth\": 200,",
+            "      \"howX\": 0,",
+            "      \"howDrop\": 30,",
+            "      \"howWidth\": 276,",
+            "      \"dismissHint\": [340, 240, 240, 40]"
+          ]
+        }
+      ]
+    },
+    "scripts/controls-guide-layout.mjs": {
+      "beforeSha256": "fc8d94e9d25199a6b4f72529039ad613f04388553a2f2cdd2cba2247c6a9d39a",
+      "afterSha256": "17d14522d6493ee0f2fa75dd7a1e53e4c66a1906f69a5cf79604a757f9cb7e99",
+      "afterUtf16Length": 2791,
+      "beforeGitBlob": "cd1e140ae5e7a7b5b3da661d7aec1b247a66405d",
+      "afterGitBlob": "05b6d02b3c83a0f09aa0d2f5c09ee5f147d9e7e8",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [
+            "// Controls.dc.html's six instruction tiles, with copy limited to shipped inputs."
+          ],
+          "after": [
+            "// TASK-4.16: 操作说明按「场景」分三栏扫读（战斗 / 地图与药水 / 顶栏资源），",
+            "// 每行先写动作，再写触屏·鼠标做法；手柄另起一行统一说明，避免六宫格信息堆砌。",
+            "export const guideSections = [",
+            "  { name: 'battle', title: '战斗', rows: [",
+            "    ['出牌', '把牌往上拖到目标松手；或点牌再点目标'],",
+            "    ['取消', '拖回手牌区松手，或再点一次原牌'],",
+            "    ['看详情', '触屏按住 / 鼠标悬停牌或状态'],",
+            "    ['结束回合', '右下「结束回合」，与弃牌堆分开'],",
+            "  ] },",
+            "  { name: 'map', title: '地图与药水', rows: [",
+            "    ['选路线', '上下拖动地图，点亮起的节点前进'],",
+            "    ['看地图', '启程后，菜单里「查看地图」'],",
+            "    ['用药水', '点顶栏药水看效果，再选目标使用'],",
+            "    ['商店', '先点商品，再确认购买'],",
+            "  ] },",
+            "  { name: 'resources', title: '顶栏资源', rows: [",
+            "    ['生命', '归零即本局失败，战斗间不会自动回满'],",
+            "    ['金币', '在商店购买卡牌、遗物、药水'],",
+            "    ['遗物', '常驻被动效果，点图标看说明'],",
+            "    ['牌库', '查看本局完整牌组'],",
+            "  ] },",
+            "];",
+            "const iconId = icon => typeof icon === 'object' && icon ? icon.id : icon;",
+            "export const guideIcons = theme => [theme.icon.hp, theme.icon.gold, theme.icon.info, theme.icon.deck].map(iconId);",
+            ""
+          ]
+        },
+        {
+          "at": 30,
+          "before": [
+            "  const icons = [theme.icon.node.combat, theme.icon.back, theme.icon.info,",
+            "    theme.icon.potion.fire_potion, theme.icon.map, theme.icon.confirm];",
+            "  const tips = [",
+            "    ['出牌', '拖牌到合法目标松手。\\n也可点选卡牌，再点目标\\n或出牌区确认。'],",
+            "    ['取消', '拖回手牌区松手，\\n或再次点选原牌取消。'],",
+            "    ['看详情', '鼠标悬停、触屏按住\\n查看牌和状态说明。\\n牌库可查看完整牌组。'],",
+            "    ['用药水', '点顶栏药水查看效果。\\n选定合法目标后使用；\\n取消不会消耗药水。'],",
+            "    ['地图', '鼠标或触屏上下拖动。\\n手柄用方向选择节点，\\n箭头翻看，◆回到当前位置。'],",
+            "    ['手柄与回合', '方向移动焦点，确认操作，\\n返回键取消或打开菜单。\\n出牌后选择「结束回合」。'],",
+            "  ];"
+          ],
+          "after": [
+            "  const icons = guideIcons(theme);",
+            "  const section = (s, i) => ({ name: s.name, kind: 'container', position: [l.columns[i], l.sectionY], size: [...l.sectionSize], children: [",
+            "    plate('face', [0, 0, ...l.sectionSize], c.panelSunken),",
+            "    text('title', l.sectionTitle, s.title, f.heading, c.goldBright),",
+            "    plate('rule', l.sectionRule, c.goldDim),",
+            "    ...s.rows.flatMap(([action, how], r) => {",
+            "      const y = l.rowTop - r * l.rowStep, iconed = s.name === 'resources' && icons[r] != null;",
+            "      return [",
+            "        ...(iconed ? [{ name: `icon${r + 1}`, kind: 'image', position: [l.rowIconX, y], size: [l.rowIcon, l.rowIcon], image: icons[r] }] : []),",
+            "        text(`action${r + 1}`, [l.actionX, y, l.actionWidth, l.rowHeight], action, f.label, c.goldBright),",
+            "        text(`how${r + 1}`, [l.howX, y - l.howDrop, l.howWidth, l.rowHeight], how, f.small, c.text),",
+            "      ];",
+            "    }),",
+            "  ] });"
+          ]
+        },
+        {
+          "at": 45,
+          "before": [],
+          "after": [
+            "    { name: 'blocker', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },"
+          ]
+        },
+        {
+          "at": 48,
+          "before": [],
+          "after": [
+            "    { name: 'catch', kind: 'cursorArea', position: l.panel.slice(0, 2), size: l.panel.slice(2), focusable: false },"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            "    ...tips.map(([title, body], i) => ({ name: `tip${i + 1}`, kind: 'container',",
+            "      position: [l.columns[i % 3], l.rows[Math.floor(i / 3)]], size: [...l.tileSize], children: [",
+            "        plate('face', [0, 0, ...l.tileSize], c.panelSunken),",
+            "        { name: 'icon', kind: 'image', position: l.tileIcon.slice(0, 2), size: l.tileIcon.slice(2),",
+            "          image: icons[i], colour: c.goldBright },",
+            "        text('title', l.tileTitle, title, f.heading, c.goldBright),",
+            "        text('body', l.tileBody, body, f.label, c.textDim),",
+            "      ] })),",
+            "    text('footer', l.footer, '触屏先选商品，再确认购买；鼠标可悬停查看，点击购买。', f.label, c.textDim),"
+          ],
+          "after": [
+            "    ...guideSections.map(section),",
+            "    text('pad', l.footer, '手柄：方向键移动焦点 · 确认键操作 · 返回键取消 / 打开菜单', f.label, c.textDim),",
+            "    text('dismissHint', l.dismissHint, '点空白处或「返回菜单」关闭', f.small, c.textMuted),"
+          ]
+        }
+      ]
+    },
+    "scripts/exit-ui-layout.mjs": {
+      "beforeSha256": "9a4380727a5c30c328b47ee5f849381d89b548597ad8216be150b8cee773479f",
+      "afterSha256": "45a84e33e2d2b00717f6c342a5d54a4b797223e2c172f8cda6d05ebe882649f3",
+      "afterUtf16Length": 5046,
+      "beforeGitBlob": "c540c67b55ed76114fb70297687d98537a0c66f2",
+      "afterGitBlob": "ab4f4e51e75f9ff3854eb305eb7f32d259583fed",
+      "hunks": [
+        {
+          "at": 72,
+          "before": [],
+          "after": [
+            "      // TASK-4.16: 面板自身吞点击，只有面板外的空白（blocker）才关闭菜单。",
+            "      { name: 'catch', kind: 'cursorArea', position: menu.panel.slice(0, 2), size: menu.panel.slice(2), focusable: false },",
+            "      // 层级：标题 → 主操作「继续游戏」→ 次要查看 → 分隔线 → 破坏性「放弃本局」。",
+            "      text('title', menu.title, '暂停', f.heading, c.goldBright),",
+            "      button('resume', menu.resume, '继续游戏', true),",
+            "      button('help', menu.help, '操作说明'),",
+            "      // 未启程时整颗隐藏，不留灰色空头承诺；启程后出现并可进入。"
+          ]
+        },
+        {
+          "at": 80,
+          "before": [
+            "      button('help', menu.help, '操作说明'),",
+            "      button('resume', menu.resume, '继续游戏'),"
+          ],
+          "after": [
+            "      plate('rule', menu.rule, c.goldDim),"
+          ]
+        },
+        {
+          "at": 82,
+          "before": [],
+          "after": [
+            "      text('dismissHint', menu.dismissHint, '点空白处继续游戏', f.small, c.textMuted),"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_intent_view.lua": {
+      "beforeSha256": "be8f211b176523aaef08bc34c0fe0459146318c146a439f3c8d6f59a45172fba",
+      "afterSha256": "967445e76e1d9caa19482c4c986ed1161053a981570dd5a7639fbfdd015bd2cc",
+      "afterUtf16Length": 18495,
+      "beforeGitBlob": "aa4f67ce818597daf75b2a3304dce4bffb355843",
+      "afterGitBlob": "2a4346a5bc5b07d02fa486a4b2d62a1f38df499d",
+      "hunks": [
+        {
+          "at": 131,
+          "before": [
+            "local formulaNames={vigor='活力',double_damage='双倍伤害',pen_nib='钢笔尖',weak='虚弱',",
+            "    vulnerable='易伤',stance='姿态',flight='飞行',slow='迟缓',back_attack='背击',truncate='向零取整',binary32='单精度'}"
+          ],
+          "after": [
+            "local modifierNames={vigor='活力',double_damage='双倍伤害',pen_nib='钢笔尖',weak='虚弱',",
+            "    vulnerable='易伤',stance='姿态',flight='飞行',slow='迟缓',back_attack='背击',intangible='无实体'}"
+          ]
+        },
+        {
+          "at": 134,
+          "before": [
+            "local function formulaStep(step)",
+            "    local value=decimal(step.value)",
+            "    if step.kind=='base' then return '基础 '..value end"
+          ],
+          "after": [
+            "local function modifierText(step)"
+          ]
+        },
+        {
+          "at": 136,
+          "before": [
+            "        return (step.kind=='strength' and '力量' or '活力')..' '..(step.operand>=0 and '+' or '')..decimal(step.operand)..' = '..value"
+          ],
+          "after": [
+            "        if not step.operand or step.operand==0 then return nil end",
+            "        return (step.kind=='strength' and '力量' or '活力')..(step.operand>0 and '+' or '')..decimal(step.operand)"
+          ]
+        },
+        {
+          "at": 139,
+          "before": [
+            "    if step.kind=='round' then return '向下取整且不低于0 = '..value end",
+            "    if step.kind=='intangible' then return '无实体 min(当前值, 1) = '..value end",
+            "    local operator=step.operand and (' ×'..decimal(step.operand)..' = ') or ' = '",
+            "    return (formulaNames[step.kind] or step.kind)..operator..value"
+          ],
+          "after": [
+            "    if step.kind=='intangible' then return '无实体（每段至多 1）' end",
+            "    local name=modifierNames[step.kind]",
+            "    if not name then return nil end -- base / rounding / binary32 are internal",
+            "    if step.operand==1 then return nil end",
+            "    return name..(step.operand and ('×'..decimal(step.operand)) or '')"
+          ]
+        },
+        {
+          "at": 145,
+          "before": [
+            "local function attackFormula(calculation,hits,cuts,times)",
+            "    local parts,chunks={},{}"
+          ],
+          "after": [
+            "local function attackNote(calculation,cuts)",
+            "    local parts,seen={},{}"
+          ]
+        },
+        {
+          "at": 148,
+          "before": [
+            "        parts[#parts+1]=formulaStep(step)",
+            "        if #parts==5 then chunks[#chunks+1]=table.concat(parts,' → ');parts={} end"
+          ],
+          "after": [
+            "        local t=modifierText(step)",
+            "        if t and not seen[t] then seen[t]=true;parts[#parts+1]=t end"
+          ]
+        },
+        {
+          "at": 151,
+          "before": [
+            "    if #parts>0 then chunks[#chunks+1]=table.concat(parts,' → ') end",
+            "    if times>1 then chunks[1]='每段：'..chunks[1] end",
+            "    for i,cut in ipairs(cuts)do if cut>0 then",
+            "        chunks[#chunks+1]='第'..i..'段削减：'..number(calculation.amount)..' − '..number(cut)..' = '..number(hits[i])",
+            "    end end",
+            "    return chunks"
+          ],
+          "after": [
+            "    local lines={}",
+            "    if #parts>0 then lines[#lines+1]='已计入：'..table.concat(parts,'、') end",
+            "    local cutParts={}",
+            "    for i,cut in ipairs(cuts)do if cut>0 then cutParts[#cutParts+1]='第'..i..'段 −'..number(cut) end end",
+            "    if #cutParts>0 then lines[#lines+1]='削减：'..table.concat(cutParts,'、') end",
+            "    return #lines>0 and table.concat(lines,'；') or nil"
+          ]
+        },
+        {
+          "at": 178,
+          "before": [
+            "    local formula=attackFormula(calculation,hits,cuts,times)"
+          ],
+          "after": []
+        },
+        {
+          "at": 184,
+          "before": [
+            "        note = formula[1] }",
+            "    for i=2,#formula do v.rows[#v.rows+1]={icon='attack',colour=C.danger,name='伤害算式（续）',text=formula[i]} end"
+          ],
+          "after": [
+            "        note = attackNote(calculation, cuts) }"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "bbec7307a0c9d28fe7064a442c794e9ef79eeb3c8438d7bf441f08b3e58ca960",
+      "afterSha256": "e288d47be24be48fae6671f2013e0ecd433181dd5255ad6102a4480a909236e2",
+      "afterUtf16Length": 54593,
+      "beforeGitBlob": "a2582295a2c75e29c01a455e942d7dda738ef8f7",
+      "afterGitBlob": "db4a5d5b1e7bdbe4ddfd5dd4a1ef2829170fe681",
+      "hunks": [
+        {
+          "at": 452,
+          "before": [
+            "        local routeHit=runMenu:GetChild('map'):GetChild('hit')"
+          ],
+          "after": [
+            "        -- TASK-4.16 AC#2：未启程时地图入口整颗隐藏（不再挂「启程后可用」的灰按钮）。",
+            "        local routeBox=runMenu:GetChild('map')",
+            "        local routeHit=routeBox:GetChild('hit')"
+          ]
+        },
+        {
+          "at": 456,
+          "before": [],
+          "after": [
+            "        routeBox:SetVisible(routeEnabled)"
+          ]
+        },
+        {
+          "at": 458,
+          "before": [
+            "        for _,state in ipairs({'normal','hover','pressed','disabled'})do",
+            "            routeHit:GetChild(state):GetChild('label').text=routeEnabled and '查看地图' or '查看地图（启程后可用）'",
+            "        end"
+          ],
+          "after": []
+        },
+        {
+          "at": 778,
+          "before": [
+            "    runMenu:GetChild('blocker'):AddCursorEventListener(clickEvent, function() return true end)"
+          ],
+          "after": [
+            "    -- TASK-4.16 AC#1：点菜单/说明外的空白 = 非破坏性返回（继续游戏 / 回到菜单），",
+            "    -- 永不触发放弃本局；点击被吞掉，不会穿透到后台战斗或地图。",
+            "    local function dismissFromOutside()",
+            "        if Controller.pointerBlocked(controller) then return true end",
+            "        if self.settlementRequested or self.settlementBusy then return true end",
+            "        self:closeExit()",
+            "        return true",
+            "    end",
+            "    runMenu:GetChild('blocker'):AddCursorEventListener(clickEvent, function()",
+            "        if self.exitOpen and self.menuOpen and not self.controlsOpen and not self.routeOpen then return dismissFromOutside() end",
+            "        return true",
+            "    end)",
+            "    runMenu:GetChild('catch'):AddCursorEventListener(clickEvent, function() return true end)"
+          ]
+        },
+        {
+          "at": 906,
+          "before": [],
+          "after": [
+            "        guide:GetChild('blocker'):AddCursorEventListener(clickEvent, function()",
+            "            if self.exitOpen and self.controlsOpen then return dismissFromOutside() end",
+            "            return true",
+            "        end)",
+            "        guide:GetChild('catch'):AddCursorEventListener(clickEvent, function() return true end)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/intent_formula.lua": {
+      "beforeSha256": "cfc3588a37bdc313586f526ef3bac8ed828390d128d932e370207a4fb55e57b9",
+      "afterSha256": "fb842e108508c6fb03e8559363087044e651d464a9dbe05c7474fbef900016ed",
+      "afterUtf16Length": 8301,
+      "beforeGitBlob": "1600281457d627949a1e1d1b6d0230cd03bd3bc3",
+      "afterGitBlob": "17037a4f7a3c97afd807c374505d97b372cbfe07",
+      "hunks": [
+        {
+          "at": 41,
+          "before": [
+            "test('unchanged multi-hit intent always gives real base strength and rounding formula',function()"
+          ],
+          "after": [
+            "test('unmodified multi-hit intent shows only final damage without debug chain',function()"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            " assert(face.value=='9×2' and text:find('基础 9',1,true) and text:find('力量 +0 = 9',1,true) and text:find('取整',1,true))"
+          ],
+          "after": [
+            " assert(face.value=='9×2' and text:find('攻击 2 次，每次 9 点伤害',1,true))",
+            " for _,bad in ipairs({'基础','力量','取整','算式','→','单精度'})do assert(not text:find(bad,1,true),'debug chain leaked: '..bad)end"
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            " assert(notes(V.intentView(s,1)):find('力量 -12 = -3',1,true))"
+          ],
+          "after": [
+            " local text=notes(V.intentView(s,1));assert(text:find('已计入：力量-12',1,true) and not text:find('取整',1,true))"
+          ]
+        },
+        {
+          "at": 106,
+          "before": [
+            " assert(face.value=='11' and notes(face):find('力量 +2 = 11',1,true));check()"
+          ],
+          "after": [
+            " assert(face.value=='11' and notes(face):find('已计入：力量+2',1,true) and not notes(face):find('基础',1,true));check()"
+          ]
+        },
+        {
+          "at": 111,
+          "before": [
+            " assert(face.value=='7+9' and notes(face):find('第1段削减：9 − 2 = 7',1,true));check()"
+          ],
+          "after": [
+            " assert(face.value=='7+9' and notes(face):find('削减：第1段 −2',1,true));check()"
+          ]
+        },
+        {
+          "at": 117,
+          "before": [
+            " assert(face.value=='1×2' and #face.rows>1)"
+          ],
+          "after": [
+            " assert(face.value=='1×2' and #face.rows>=1 and not notes(face):find('→',1,true))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/native_ui_parity.lua": {
+      "beforeSha256": "468721fc762a240b38480136dc9ce26545c46b499f17f50d8f31363dc84eba31",
+      "afterSha256": "04d06f1c765d3080393be5461b2ad9769fd4742ddb07ca921984307f3a4c3612",
+      "afterUtf16Length": 3798,
+      "beforeGitBlob": "8e2262cb4bbe038b40c9eec586e2b17b9e8b7f68",
+      "afterGitBlob": "7071688f7691cc1b86deeb9ab55c50a76475649a",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [],
+          "after": [
+            "if ui:openMenu() then",
+            "    assert(not root:GetChild('runMenu'):GetChild('map').visible,'no grey map promise before departure')",
+            "    assert(ui:closeExit() and not ui.exitOpen)",
+            "end"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [],
+          "after": [
+            "-- TASK-4.16: tapping outside the run menu resumes; tapping the panel itself does not;",
+            "-- the guide's outside tap returns to the menu; never abandons or settles.",
+            "local runMenu=root:GetChild('runMenu')",
+            "assert(ui:openMenu() and runMenu.visible and ui.menuOpen)",
+            "assert(runMenu:GetChild('map').visible,'map entry shown once departed')",
+            "assert(runMenu:GetChild('catch').click() and ui.exitOpen and ui.menuOpen)",
+            "for _,flag in ipairs({'settlementRequested','settlementBusy'}) do",
+            "    ui[flag]=true",
+            "    assert(runMenu:GetChild('blocker').click() and ui.exitOpen and ui.menuOpen and calls==0 and ui.run,flag..' blocks menu dismissal')",
+            "    ui[flag]=false",
+            "end",
+            "assert(runMenu:GetChild('blocker').click() and not ui.exitOpen and not ui.menuOpen and calls==0 and ui.run)",
+            "assert(ui:openMenu());runMenu:GetChild('help'):GetChild('hit').click()",
+            "local guide=exit:GetChild('guide')",
+            "assert(ui.controlsOpen and guide.visible)",
+            "assert(guide:GetChild('catch').click() and ui.controlsOpen)",
+            "for _,flag in ipairs({'settlementRequested','settlementBusy'}) do",
+            "    ui[flag]=true",
+            "    assert(guide:GetChild('blocker').click() and ui.controlsOpen and ui.exitOpen and calls==0 and ui.run,flag..' blocks guide dismissal')",
+            "    ui[flag]=false",
+            "end",
+            "assert(guide:GetChild('blocker').click() and not ui.controlsOpen and ui.menuOpen and ui.exitOpen and calls==0)",
+            "assert(runMenu:GetChild('blocker').click() and not ui.exitOpen and calls==0 and ui.run)"
+          ]
+        }
+      ]
+    },
+    "tests/native-ui-parity.test.mjs": {
+      "beforeSha256": "0bfc48fea92f3ff1cbdebde85934d4599a574f5899678c7f78e371f51cf07881",
+      "afterSha256": "033fe3a1764550ec3ee23ecea51903f3d91c23b7eacd9bd4b0262f16d9ad5656",
+      "afterUtf16Length": 3156,
+      "beforeGitBlob": "2398ca126b92a98ea3f4a7e39f463f57b3695e66",
+      "afterGitBlob": "150a201cdf015f213a540b5012a0394c47506ddb",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import { readFileSync } from 'node:fs';"
+          ]
+        },
+        {
+          "at": 8,
+          "before": [
+            "test('six native instruction tiles fit the approved modal and do not promise unbound keyboard shortcuts', () => {",
+            "  const guide = controlsGuide(), tiles = guide.children.filter(c => c.name.startsWith('tip'));",
+            "  assert.equal(tiles.length, 6);"
+          ],
+          "after": [
+            "test('TASK-4.16 guide is grouped by scene, explains resources, fits the modal and promises no unbound shortcuts', () => {",
+            "  const guide = controlsGuide(), names = guide.children.map(c => c.name);",
+            "  for (const section of ['battle', 'map', 'resources']) assert(names.includes(section), section);",
+            "  assert(!names.some(n => n.startsWith('tip')), 'six-tile dump removed');",
+            "  const content0 = JSON.stringify(guide);",
+            "  for (const word of ['出牌', '取消', '看详情', '用药水', '看地图', '生命', '金币', '手柄']) assert(content0.includes(word), word);",
+            "  assert(names.includes('blocker') && names.includes('catch') && names.indexOf('blocker') < names.indexOf('catch'));"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [],
+          "after": [
+            "test('TASK-4.16 run menu: outside blocker below a panel catch, primary resume first, abandon separated, no grey map promise', () => {",
+            "  const menu = gameLayout().controls.find(c => c.name === 'runMenu'), names = menu.children.map(c => c.name);",
+            "  assert(names.indexOf('blocker') < names.indexOf('catch'));",
+            "  const y = name => menu.children.find(c => c.name === name).position[1];",
+            "  assert(y('resume') > y('help') && y('help') > y('map') && y('map') > y('rule') && y('rule') > y('abandon'));",
+            "  assert(!JSON.stringify(menu).includes('启程后可用'));",
+            "  const lua = readFileSync('src/lua/abyss_game_ui.lua', 'utf8');",
+            "  assert.match(lua, /routeBox:SetVisible\\(routeEnabled\\)/);",
+            "  assert(lua.includes('确认退出本局？目前无法保存进度，退出后本局结束。'), 'keep original quit warning');",
+            "  assert(lua.includes('喜欢的话欢迎点赞支持。帮助作者提升等级。'), 'like-support copy only appends the author-level sentence');",
+            "  assert.match(lua, /runMenu:GetChild\\('blocker'\\)[\\s\\S]{0,200}dismissFromOutside/);",
+            "  assert(!/dismissFromOutside[^\\n]*abandon/.test(lua));",
+            "});",
+            ""
+          ]
+        }
+      ]
+    }
+  }
+}

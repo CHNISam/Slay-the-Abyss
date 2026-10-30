@@ -1,3 +1,4 @@
+import {preFinalUiSource,finalUiSourcePaths} from './final-ui-source.mjs';
 import {preP0UiSource,p0UiSourcePaths} from './p0-ui-source.mjs';
 import {preBetaCurrentTestSource} from './beta-current-test-source.mjs';
 import {preArtifactRuntimeSource,artifactRuntimePaths} from './artifact-runtime-source.mjs';
@@ -12,9 +13,10 @@ const bytes=normalize(readFileSync(new URL('../fixtures/post-beta-runtime-source
 assert.equal(hash(bytes),'0609382f7314de67936162274faa7c0de381c37f39c79ed16071404b389dff0a');
 export const postBetaRuntimeProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const postBetaRuntimePaths=Object.freeze(Object.keys(postBetaRuntimeProof.files));
-export const postBetaRuntimeHistoricalPaths=Object.freeze([...new Set([...p0UiSourcePaths,'scripts/test-lua.mjs','tests/lua/game_ui.lua','src/lua/abyss_feedback.lua',...artifactRuntimePaths,...postBetaRuntimePaths])].sort());
+export const postBetaRuntimeHistoricalPaths=Object.freeze([...new Set([...finalUiSourcePaths,...p0UiSourcePaths,'scripts/test-lua.mjs','tests/lua/game_ui.lua','src/lua/abyss_feedback.lua',...artifactRuntimePaths,...postBetaRuntimePaths])].sort());
 assert.deepEqual(postBetaRuntimePaths,['src/lua/abyss_battle_render_actors.lua','src/lua/abyss_feedback_actor_painter.lua']);
 export function prePostBetaRuntimeSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preFinalUiSource(path,source,{readSource});
  source=preP0UiSource(path,source,{readSource});
  source=preBetaCurrentTestSource(path,source);
  source=preArtifactRuntimeSource(path,source,{readSource});

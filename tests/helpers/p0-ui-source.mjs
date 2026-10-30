@@ -1,3 +1,4 @@
+import {preFinalUiSource} from './final-ui-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,10 +12,11 @@ export const p0UiSourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const p0UiSourcePaths=Object.freeze(Object.keys(p0UiSourceProof.files));
 assert.deepEqual(p0UiSourcePaths,["data/presentation/ui_theme.json", "scripts/exit-ui-layout.mjs", "scripts/ui-layout.mjs", "src/lua/abyss_game_ui.lua", "tests/exit-ui-layout.test.mjs", "tests/native-ui-parity.test.mjs", "tests/ui-layout.test.mjs"]);
 export function preP0UiSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preFinalUiSource(path,source,{readSource});
  const b=p0UiSourceProof.files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
  for(const p of p0UiSourcePaths){
-  let live;try{live=readSource(p);}catch{assert.fail('p0-ui linked source missing: '+p);}
+  let live;try{live=preFinalUiSource(p,readSource(p),{readSource});}catch{assert.fail('p0-ui linked source missing: '+p);}
   assert.equal(typeof live,'string','p0-ui linked source must exist: '+p);
   assert.equal(hash(normalize(live)),p0UiSourceProof.files[p].afterSha256,'p0-ui linked source identity: '+p);
   assert.equal(blob(normalize(live)),p0UiSourceProof.files[p].afterGitBlob);

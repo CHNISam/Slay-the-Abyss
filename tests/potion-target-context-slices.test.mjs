@@ -1,3 +1,4 @@
+import {preBetaCurrentTestSource} from './helpers/beta-current-test-source.mjs';
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -6,7 +7,7 @@ import { createHash } from 'node:crypto';
 import { originalLuaRunner } from './helpers/ci-lua-runner-inverse.mjs';
 import {originalMainPotionFixture,assertMainPotionActionHelper} from './helpers/main-potion-fixture-inverse.mjs';
 
-const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
+const read = path => preBetaCurrentTestSource(path,readFileSync(path, 'utf8')).replaceAll('\r\n', '\n');
 const sha = source => createHash('sha256').update(source).digest('hex');
 const entry = 'tests/lua/battle_ui_potion_target_context.lua';
 const tail = 'tests/lua/battle_ui_potion_target_context_slice_2.lua';

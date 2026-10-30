@@ -1,3 +1,4 @@
+import {preFinalUiSource} from './final-ui-source.mjs';
 import {prePhaseFourRunnerSource} from './phase-four-runner-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -12,11 +13,12 @@ export const artifactRuntimeProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const artifactRuntimePaths=Object.freeze(Object.keys(artifactRuntimeProof.files));
 assert.deepEqual(artifactRuntimePaths,["src/lua/abyss_battle_intent_view.lua", "src/lua/abyss_battle_render_actors.lua", "src/lua/abyss_battle_ui.lua", "src/lua/abyss_monster_intent_particle_view.lua"]);
 export function preArtifactRuntimeSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preFinalUiSource(path,source,{readSource});
  source=prePhaseFourRunnerSource(path,source,{readSource});
  const b=artifactRuntimeProof.files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
  for(const p of artifactRuntimePaths){
-  let live;try{live=readSource(p);}catch{assert.fail('artifact linked source missing: '+p);}
+  let live;try{live=preFinalUiSource(p,readSource(p),{readSource});}catch{assert.fail('artifact linked source missing: '+p);}
   assert.equal(typeof live,'string','artifact linked source must exist: '+p);
   assert.equal(hash(normalize(live)),artifactRuntimeProof.files[p].afterSha256,'artifact linked source identity: '+p);
  }

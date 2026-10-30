@@ -1,10 +1,11 @@
+import {preFinalUiSource} from './helpers/final-ui-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {artifactRuntimeProof as proof,preArtifactRuntimeSource as project,artifactRuntimePaths} from './helpers/artifact-runtime-source.mjs';
 import {preDeliveryTargetSource} from './helpers/delivery-source-composition.mjs';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+const read=p=>preFinalUiSource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n'),hash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
 test('all four exact Artifact runtime repairs retreat to untouched prior b035 identities without accepting foreign bytes',()=>{
  for(const[p,b]of Object.entries(proof.files)){
   const source=read(p),before=project(p,source);

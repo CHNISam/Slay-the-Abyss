@@ -1,0 +1,66 @@
+{
+  "beforeCommit": "98fef95d047652aa6a8880241ddff28ef320a484",
+  "afterCommit": "938194c32f233e77960adea2d8e4784fd98a8d0a",
+  "path": "scripts/test-affected.mjs",
+  "beforeSha256": "f26bfdd1f2282051a5e7684ee90d09af09886d501e5fe11900e7c176964b5add",
+  "beforeGitBlob": "6e50379b1d7d83a6e88eb72371029d6649213462",
+  "afterSha256": "dc46ba70c4d046a59fad332de39ed93ae79b17dd3d855bae14b67254613c711c",
+  "afterGitBlob": "32f50e0ef72d751c6938e3a4d68f7ff81660d5dd",
+  "hunks": [
+    {
+      "at": 0,
+      "beforeAt": 0,
+      "before": [],
+      "after": [
+        "import {currentGameUiFixture} from '../tests/helpers/current-game-ui-runner.mjs';"
+      ]
+    },
+    {
+      "at": 7,
+      "beforeAt": 6,
+      "before": [],
+      "after": [
+        "import {historicalCardInputFixtures} from '../tests/helpers/historical-card-input.mjs';",
+        "import {historicalMonsterUiFixtures} from '../tests/helpers/historical-monster-ui-runner.mjs';",
+        "import {currentPhaseFourNativeFixtures} from '../tests/helpers/current-phase-four-native.mjs';"
+      ]
+    },
+    {
+      "at": 16,
+      "beforeAt": 12,
+      "before": [],
+      "after": [
+        "  ['tests/helpers/current-game-ui-runner.mjs', new Set([currentGameUiFixture])],"
+      ]
+    },
+    {
+      "at": 19,
+      "beforeAt": 14,
+      "before": [],
+      "after": [
+        "  ['tests/helpers/historical-card-input.mjs', new Set(historicalCardInputFixtures)],",
+        "  ['tests/helpers/historical-monster-ui-runner.mjs', new Set(historicalMonsterUiFixtures)],",
+        "  ['tests/helpers/current-phase-four-native.mjs', new Set(currentPhaseFourNativeFixtures)],"
+      ]
+    }
+  ],
+  "owners": {
+    "tests/helpers/current-game-ui-runner.mjs": {
+      "sha256": "7bd1406695d3095b45492ff2cd9d9c19f77c1b9844e30f62a81bbdac2d7412b8",
+      "gitBlob": "4230e47358ea212975a896ca10929ef4f1c89c3d"
+    },
+    "tests/helpers/historical-card-input.mjs": {
+      "sha256": "265a60c6f56624ebd6d030dd81741289bbb7636f752bce8e0634d5205455a223",
+      "gitBlob": "0fa0215706e0cb399408a42dd67b70c75ffb3d8b"
+    },
+    "tests/helpers/historical-monster-ui-runner.mjs": {
+      "sha256": "998faa93287943fd7e685e65d291fd41557431b50ef64e68f6faeb8257c1baad",
+      "gitBlob": "d5bf70fc91ee8e36d283fe50fe6b5d53be6b13c2"
+    },
+    "tests/helpers/current-phase-four-native.mjs": {
+      "sha256": "c1bf26c05c1e648981841e5b6c67cab26a266f0f2e4c99f5d8dead931034c9e8",
+      "gitBlob": "4499af891df97a796bc9ea732d38d98e7f426172"
+    }
+  },
+  "afterUTF16Length": 22864
+}
