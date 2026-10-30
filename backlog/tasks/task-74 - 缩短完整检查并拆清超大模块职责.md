@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 05:53'
+updated_date: '2026-10-30 06:22'
 labels: []
 dependencies: []
 references:
@@ -107,4 +107,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 第三轮已启动，独立树architecture-round3；3名Sol Medium并行审计，公共config/静态baseline/Backlog/集成由主控独占。基线267模块3841函数4108/4108测量，245函数>15、23>50；1个76模块SCC/496 require位置。成功Quality41001153119总42分16秒，最后测试片后汇总尾部9分45秒。根与11个在途PR保留。
 
 第三轮核心已同步并行PR361的1bfca626。配对固定工具基线249/23个>15/>50，当前248/22；CardActions.apply85→5且新handler max10，7常用op各少2个supports+1个require+1个ops查询；目录未注册预构造copy table2106→1871，其他路径不变，CPU样本涨跌均保留。最终SCC76/496/309→73/491/303（成员/位置/唯一边），非中间72。行为、维护成本与未解热点见docs/reviews/ENGINEERING-ROUND3.md；新HEAD完整Quality仍待，不勾最终AC。
+
+完整首轮CI因静态baseline唯一行号迁移触发历史身份合同11个断言失败；未放宽证明，保留导入/函数正常空行使baseline整体恢复与1bf逐字相同，原失败合同17+2项及quality/static/AI全过。CI切片已从实验PR370线性整合至PR371，减少先后合并的重复完整组合验证；最终新HEAD仍待Full，原失败保留。
 <!-- SECTION:NOTES:END -->

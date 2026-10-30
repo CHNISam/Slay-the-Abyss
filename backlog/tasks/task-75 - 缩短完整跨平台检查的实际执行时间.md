@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-30 06:00'
+updated_date: '2026-10-30 06:22'
 labels: []
 dependencies: []
 priority: medium
@@ -77,4 +77,6 @@ unknown路由修复：原110种子独占在Node22复现原30s超时；简单55�
 从9293405d独立切片；Node24.18原八文件59项全通过49.377秒，精确workflow逆转及漂移负例通过，独立Sol Medium审查无阻塞。基线成功41001153119共42分16秒、尾部585秒；新托管数据待。证据docs/reviews/CI-ROUND3-SUMMARIES.md。
 
 PR370首头5d66abfc的run41009713098 impact 05:40:13创建、05:52:29开始、05:52:46完成UTC。追加入口迁移的Node24原八文件59/59通过87.768秒；新hosted排队结果待。
+
+资源收敛：CI已审两提交线性整合进PR371，实验PR370关闭保留；只验一个最终完整组合再核验develop，不复用取消/旧SHA的绿灯。slim impact已真实成功：job123920658929 runner排队346秒、执行28秒；另419秒旧run级concurrency阻塞单列，不能据runner队列单项宣称端到端提速。
 <!-- SECTION:NOTES:END -->
