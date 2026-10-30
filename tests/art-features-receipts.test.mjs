@@ -1,3 +1,4 @@
+import {prepareMonsterArt} from '../scripts/monster-art.mjs';
 import {mkdtempSync,mkdirSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,dirname} from 'node:path';
@@ -9,7 +10,7 @@ import {artFeatureReceipt} from '../scripts/art-features.mjs';
 import {auditUiBuildArgs} from '../scripts/audit-native-candidate.mjs';
 const portraitReceipt=flags=>({...portraitInventory(flags),inputs:portraitSourceInputs(flags).map(path=>({path,sha256:'d'.repeat(64),bytes:1}))});
 const off={cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:false};
-const monsterRegistry=JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8'));
+const monsterRegistry=prepareMonsterArt(JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8')));
 const monsterRecords=[...monsterRegistry.sourceInputs.slice(0,2),...Object.values(monsterRegistry.additionalAssets).flatMap(asset=>asset.sourceInputs)];
 const monsterPaths=monsterRecords.map(row=>row.path);
 const monsterReceipt=()=>({enabled:true,assetCount:1+Object.keys(monsterRegistry.additionalAssets).length,bindingCount:Object.keys(monsterRegistry.bindings).length,

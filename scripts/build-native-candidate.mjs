@@ -45,7 +45,7 @@ export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
   if(flags.monsters){
-    const registry=JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8'));
+    const registry=prepareMonsterArt(JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8')));
     files.push(...monsterSourceInputs,...Object.values(registry.additionalAssets??{}).flatMap(asset=>asset.sourceInputs.map(record=>record.path)));
   }
   return files.sort().map(path=>{const {sha256,bytes}=fileRecord(join(root,path),root);return {path,sha256,bytes};});
@@ -154,7 +154,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
         if(!monster)throw Error('Enabled monster artwork requires its registry');
         for(const [index,path] of monsterSourceInputs.entries())if(registry.sourceInputs?.[index]?.path!==path
           ||registry.sourceInputs[index].sha256!==registry.asset[index===0?'luaSha256':'jsonSha256'])throw Error('Monster base source provenance differs');
-        const records=[...registry.sourceInputs.slice(0,2),...Object.values(registry.additionalAssets??{}).flatMap(asset=>asset.sourceInputs)];
+        const records=[...monster.sourceInputs.slice(0,2),...Object.values(monster.additionalAssets??{}).flatMap(asset=>asset.sourceInputs)];
         for(const record of records)if(fileRecord(join(root,record.path),root).sha256!==record.sha256)throw Error('Monster native source hash mismatch');
         monster.inputPaths=records.map(record=>record.path);monster.hostOrigin=[0,0];
         receipt.nativeMonsterArt={enabled:true,assetCount:Object.keys(monster.assets).length,bindingCount:Object.keys(monster.bindings).length,

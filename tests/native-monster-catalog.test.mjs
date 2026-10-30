@@ -10,7 +10,9 @@ import {assertNativeUiCapacity} from '../scripts/build-ui.mjs';
 import {toLua} from '../scripts/build-lua-data.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 const walk=n=>[n,...(n.children??n.controls??[]).flatMap(walk)];
-const production=prepareMonsterArt();
+const registry=JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8'));
+delete registry.candidateAssets; // Retained full-source catalog still validates every asset below.
+const production=prepareMonsterArt(registry);
 test('per-instance template preserves scene geometry and accepts every explicit enemy binding',()=>{
  const tree=battleLayout(),before=structuredClone(tree);attachMonsterArt(tree,production);assertNativeUiCapacity(tree);
  assert.deepEqual(tree,before,'template attachment cannot move the scene');

@@ -1,11 +1,11 @@
 ---
 id: TASK-25.5
 title: 核对并启用已制作的怪物美术与角色跨界面资源
-status: To Do
+status: In Progress
 assignee:
-  - '@Furinya'
+  - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:53'
 labels:
   - playtest-20261030
   - p1
@@ -32,3 +32,15 @@ Owner说明：**怪物自制美术目前在实际战斗中一点也没用起来*
 - [ ] #2 已在战斗可见的旅行者形象保持不退化；选角/开局的自制资产身份与配置可核验。
 - [ ] #3 开发开关/候选来源、性能和实际设备验收分开报告，不擅自改变用户已批准的发布安全边界。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 保留完整18资产注册表，候选运行白名单仅acid_slime_m r02。2. prepareMonsterArt先全量合法性校验再按名单派生，统一输入清单、装配和收据，缺省美术关闭。3. 负例与未选零装配定向验证，交主线程集成；官方导入、设备与最终画质仍未验。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+完整18资产及原绑定源保留，candidateAssets仅acid_slime_m；prepare先完整合法性校验，再派生实际assets/绑定/输入。完整构建、音频前源码摘要和收据同一路径，不新增远程/玩家开关；默认flags仍false。新白名单回归先红3失败后绿4/4，未知/空/重复/非串及未选非法资产均拒绝；旧无名单fixture仍18资产19绑定。32flag构建/receipt/新测试合计55项，54通过、1 Windows符号链接权限skip、零失败；完整CLI-MCP mock装配1/1通过，实际写入仅1资产1绑定2输入。当前仅准入Alpha测试，不表示官方导入、设备性能、最终美术或神像接线完成。
+<!-- SECTION:NOTES:END -->

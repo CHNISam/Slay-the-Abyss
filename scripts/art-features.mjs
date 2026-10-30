@@ -66,7 +66,7 @@ export function artBuildOptionsFromReceipt(receipt) {
   const actual=receipt.nativeMonsterArt;
   const registry=JSON.parse(readFileSync(new URL('../data/presentation/native-monster-art.json',import.meta.url),'utf8'));
   const art=prepareMonsterArt(registry);
-  const records=[...registry.sourceInputs.slice(0,2),...Object.values(registry.additionalAssets??{}).flatMap(asset=>asset.sourceInputs)];
+  const records=[...art.sourceInputs.slice(0,2),...Object.values(art.additionalAssets??{}).flatMap(asset=>asset.sourceInputs)];
   const expected={enabled:true,assetCount:Object.keys(art.assets).length,bindingCount:Object.keys(art.bindings).length,
    capacity:art.poolCapacity,allocation:'per-drawable-actor-instance'};
   if(Reflect.ownKeys(actual).some(key=>![...Object.keys(expected),'inputs'].includes(key))
