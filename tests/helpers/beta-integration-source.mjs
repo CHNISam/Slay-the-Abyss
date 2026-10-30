@@ -24,11 +24,18 @@ export function preBetaSource(path,source,target='history',{readSource=p=>readFi
   assert.deepEqual(lines.slice(h.at,h.at+h.current.length),h.current,'exact beta composition hunk: '+path);
   lines.splice(h.at,h.current.length,...h.prior);
  }
- const prior=lines.join('\n');assert.equal(hash(prior),destination.sha256,'complete beta target: '+path);return prior;
+ const prior=lines.join('\n');assert.equal(hash(prior),destination.sha256,'complete beta target: '+path);
+ let delta=0;const forward=destination.hunks.map(h=>{const at=h.at+delta;delta+=h.prior.length-h.current.length;return {...h,at};});
+ for(const h of forward.reverse()){
+  assert.deepEqual(lines.slice(h.at,h.at+h.prior.length),h.prior,'exact forward beta hunk: '+path);
+  lines.splice(h.at,h.prior.length,...h.current);
+ }
+ assert.equal(lines.join('\n'),normalize(source),'complete forward beta source: '+path);
+ return prior;
 }
 export function prepareBetaRetirement(directory,{sourceRoot=process.cwd()}={}){
  const validate=()=>{
-  const destination=realpathSync(directory),liveRoots=[sourceRoot,sourceDirectory].map(p=>realpathSync(p));
+  const destination=realpathSync(directory),liveRoots=[sourceRoot,sourceDirectory,process.cwd()].map(p=>realpathSync(p));
   for(const live of liveRoots)assert.notEqual(destination,live,'beta retirement requires a historical copy');
   const targets=[];
   for(const p of added){
