@@ -4,6 +4,15 @@ import { readFileSync } from 'node:fs';
 import { beforeQualityArtifacts } from './quality-workflow.mjs';
 export function originalWorkflow(text) {
   text = beforeQualityArtifacts(text);
+  // Only the two reviewed, shell-only summaries changed runner image. Keep all
+  // their other bytes visible to the original routing and workflow hash guards.
+  for (const name of ['check', 'engineering-posix']) {
+    const jobs = [...text.matchAll(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:|(?![\\s\\S]))`, 'gm'))];
+    const body = jobs[0]?.[1];
+    if (jobs.length !== 1 || (body.match(/^    runs-on:/gm) ?? []).length !== 1
+      || !/^    runs-on: ubuntu-slim$/m.test(body)) throw new Error('CI summary runner migration mismatch');
+    text = text.replace(body, body.replace('    runs-on: ubuntu-slim\n', '    runs-on: ubuntu-24.04\n'));
+  }
   // Invert only the added guidance gate; its placement is tested separately.
   text = text.replace('      - name: Validate concise agent entry points\n        run: npm run check:guidance\n', '');
   // Invert exact reviewed routing edits only. Existing full-suite hashes still
