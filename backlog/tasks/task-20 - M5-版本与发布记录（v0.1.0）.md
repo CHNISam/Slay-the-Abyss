@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-22 13:48'
-updated_date: '2026-10-28 05:31'
+updated_date: '2026-10-30 22:17'
 due_date: '2026-10-30'
 labels: []
 milestone: m-0
@@ -41,6 +41,8 @@ ordinal: 20000
 2. 保留CHANGELOG、版本一致性校验、候选溯源与真实publication账本；复用既有v0.11.0提案，不新建版本算法或Tag。
 3. 更新版本索引和发布操作单，记录官方奇域信息更新日志、潜在更新速报曝光不保证、减少重复维护以及集中参赛玩法投入。
 4. 串行验证版本、构建、菜单/退出/手柄/触控，再交根线程创建PR并按精确HEAD完整Quality集成；官方导入/实机/真实发布独立留待证据。
+
+2026-10-31正式候选：同步1.0.0的package、lock、manifest及玩家说明，保留Alpha历史和空发布凭证；独立工作树定向验证后交主线程集成，不创建Tag。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -69,4 +71,6 @@ PR249评审修正：负责人按现行AGENTS保持Furinya。实际14版宿主遍
 2026-10-28公告移除切片离线验证：266项相关Node检查全部通过、0失败/0跳过，覆盖release-notes版本/出版证据、候选source/notes hash、最终audio/BGM溯源、菜单真实Lua宿主和构建输入保护。另5个原始Lua夹具controller_host/controller_current/game_ui_exit/game_ui_exit_swipe/game_ui_battle_speed_gestures串行通过，native-startup/ui-mock合同2项通过。所有非公告原生控件与develop 5a27fea逐值一致（仅移除公告面板及菜单入口），菜单版本标签样式/位置保持。build:data/build:ui、JS语法、Backlog、架构213模块/1235边和固定Luacheck通过：无新增诊断、84条历史警告、418个受控测量达标。仅离线，无完整Quality、官方导入/实机或真实发布证据，AC未勾选，任务保持In Progress；随后接入PR276版本提案并重验组合。
 
 2026-10-28 PR282@2ec8caa完整Quality发现遗漏的呈现合同适配，先前267项选择检查不代表完整通过，初始日志原样保留。修复仅测试侧：从干净5a基线独立采集79543/1215629804，与当前79475/1007819925逐行比较，精确删除公告入口/面板68项visible/SetVisible写入，其余79475项值与全局顺序完全相同，0增加/0替换；专用压缩证据独立保存，不改历史archives/goldens或严格记录器。theme仅逆向恢复旧公告主题并移除版本号新归属，完整恢复旧33f78464主题hash；当前fixture仅更换有证明的断言，逆投影恢复旧9a36c85b完整源码hash。10项实际相关检查全部通过、0跳过，包含逐条真实trace比较和删除/篡改/重排/恢复公告等负例，trace单例17.922秒，原30秒预算不变。不改生产源码、CI或历史凭证，仍待新HEAD完整Quality/官方导入/实机，不勾验收、不Done。
+
+2026-10-31：准备1.0.0正式候选版本字段与玩家说明；release-notes定向27项中21通过、6项Windows符号链接EPERM跳过，非整套CI。contest-2026候选说明加载成功，发布历史为空；真实GUID、官方导入、设备与投稿证据仍待，不创建Tag。
 <!-- SECTION:NOTES:END -->
