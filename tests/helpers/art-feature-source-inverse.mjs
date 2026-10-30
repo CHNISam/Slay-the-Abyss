@@ -1,3 +1,4 @@
+import {preIntegrationSource} from './pr372-integration-source.mjs';
 // Test-only exact outer layer for the reviewed feature flags and fallback repair.
 // Historical witnesses, source guards and performance budgets remain immutable.
 import assert from 'node:assert/strict';
@@ -34,7 +35,7 @@ export const artFeatureAddedPaths=Object.freeze(Object.entries(artFeatureSourceL
  .filter(([,binding])=>binding.beforeSha256===null).map(([path])=>path));
 
 export function preArtFeatureSource(path,source,{readSource=path=>readFileSync(path,'utf8')}={}){
- source=preRelicArtFeatureCompositionSource(path,source,'artFeature');
+ source=preRelicArtFeatureCompositionSource(path,preIntegrationSource(path,source),'artFeature');
  const binding=artFeatureSourceLayer.files[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=normalize(source);
