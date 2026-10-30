@@ -99,7 +99,6 @@ local function control(spec, parent)
     local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, raycastTarget = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
-    setmetatable(self, controlMethods)
     if spec.kind~='cursorArea' then self.interactable=true end
     self.GetChild = Control.GetChild
     self.AddKeyEventListener = Control.AddKeyEventListener
@@ -110,6 +109,7 @@ local function control(spec, parent)
     self.SetImage = Control.SetImage
     self.SetAsLastSibling = Control.SetAsLastSibling
     self.AddCursorEventListener = Control.AddCursorEventListener
+    setmetatable(self, controlMethods)
     if spec.kind == "grid" then
         self.items, self.indexBase = {}, 0
         function self:recycle(slot, index)
