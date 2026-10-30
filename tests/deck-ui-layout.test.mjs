@@ -8,6 +8,17 @@ function walk(control, fn) { fn(control); for (const child of control.children ?
 test('approved deck uses a six-column vertical native scroller and a read-only reusable card template', () => {
   const panel = gameLayout().controls.find(c => c.name === 'deckPanel');
   const grid = panel.children.find(c => c.name === 'grid');
+  const filters = ['All','Attack','Skill','Power','Status','Curse'].map(id =>
+    panel.children.find(c => c.name === 'filter' + id));
+  assert.equal(filters.length, 6);
+  for (const control of filters) {
+    assert.ok(control, 'missing native card type filter');
+    assert.equal(control.visible, false, 'filters are gated by the browse lifecycle');
+    assert.equal(control.children.find(c => c.name === 'hit').kind, 'presetButton');
+    assert.equal(control.children.find(c => c.name === 'selected').visible, false);
+  }
+  assert.equal(panel.children.find(c => c.name === 'sort').children[0].kind, 'presetButton');
+  assert.equal(panel.children.find(c => c.name === 'browseTitle').visible, false);
   assert.equal(panel.visible, false);
   const veil = panel.children.find(c => c.name === 'veil');
   assert.equal(veil.colour, theme.color.backdropVeil.slice(0, 7));
@@ -58,12 +69,29 @@ test('deck overlay and close remain inside approved canvas safe areas at every d
   for (const device of Object.values(theme.canvas.devices)) {
     const k = Math.min(device[0] / theme.canvas.base[0], device[1] / theme.canvas.base[1]);
     const panel = layout.controls.find(c => c.name === 'deckPanel');
-    for (const c of ['close','grid','previous','next','pageHint'].map(name => panel.children.find(c => c.name === name)).concat([
+    for (const c of ['close','grid','browseTitle','sort',
+      'filterAll','filterAttack','filterSkill','filterPower','filterStatus','filterCurse',
+      'previous','next','pageHint'].map(name => panel.children.find(c => c.name === name)).concat([
       layout.controls.find(c => c.name === 'deckEntry').children.find(c => c.name === 'open')])) {
       assert.ok((Math.abs(c.position[0]) + c.size[0] / 2 + theme.canvas.safe.x) * k <= device[0] / 2);
       assert.ok((Math.abs(c.position[1]) + c.size[1] / 2 + theme.canvas.safe.y) * k <= device[1] / 2);
     }
   }
+});
+
+test('deck filters fit beside the normal title without covering the native grid or close button', () => {
+  const panel = gameLayout().controls.find(c => c.name === 'deckPanel');
+  const grid = panel.children.find(c => c.name === 'grid');
+  const browseTitle = panel.children.find(c => c.name === 'browseTitle');
+  const sort = panel.children.find(c => c.name === 'sort');
+  const buttons = ['filterAll','filterAttack','filterSkill','filterPower','filterStatus','filterCurse']
+    .map(name => panel.children.find(c => c.name === name));
+  const controls = [browseTitle, ...buttons, sort, panel.children.find(c => c.name === 'close')];
+  for (let i = 1; i < controls.length; i++) {
+    const a = controls[i - 1], b = controls[i];
+    assert.ok(a.position[0] + a.size[0] / 2 <= b.position[0] - b.size[0] / 2, a.name + ' overlaps ' + b.name);
+  }
+  assert.ok(Math.min(...buttons.map(c => c.position[1] - c.size[1] / 2)) > grid.position[1] + grid.size[1] / 2);
 });
 
 test('controller overlays isolate nearest-control navigation and deck pages leave the card viewport clear', () => {

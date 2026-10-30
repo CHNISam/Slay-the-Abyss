@@ -3,6 +3,27 @@ local Theme=require('abyss_theme')
 local Select=require('abyss_character_select')
 local number=require('abyss_numbers').integer
 local M={}
+local deckFilters={{id='all',control='All'},{id='attack',control='Attack'},
+    {id='skill',control='Skill'},{id='power',control='Power'},
+    {id='status',control='Status'},{id='curse',control='Curse'}}
+local function renderStarterDeck(details,info,filter)
+    local cards,count={},0
+    for _,card in ipairs(info.deck)do
+        if filter=='all' or card.type==filter then
+            cards[#cards+1]=card
+            count=count+card.count
+        end
+    end
+    details:GetChild('deckTitle').text=filter=='all' and '初始牌组 · '..number(info.deckSize)..' 张'
+        or '初始牌组 · '..number(count)..'/'..number(info.deckSize)..' 张'
+    for i=1,6 do
+        local card=cards[i]
+        details:GetChild('card'..i).text=card and card.name..' × '..number(card.count) or ''
+    end
+    for _,entry in ipairs(deckFilters)do
+        details:GetChild('deckFilter'..entry.control):GetChild('selected'):SetVisible(entry.id==filter)
+    end
+end
 local function selected(box,value)
     box:GetChild('selected'):SetVisible(value)
 end
@@ -55,11 +76,7 @@ function M.render(panel,state,platform)
     details:GetChild('stats').text='初始生命 '..number(info.maxHp)..' / '..number(info.maxHp)..'    金币 '..number(info.gold)
     local relics={};for _,r in ipairs(info.relics)do relics[#relics+1]=r.name end
     details:GetChild('relic').text='初始遗物：'..table.concat(relics,'、')
-    details:GetChild('deckTitle').text='初始牌组 · '..number(info.deckSize)..' 张'
-    for i=1,6 do
-        local card=info.deck[i]
-        details:GetChild('card'..i).text=card and card.name..' × '..number(card.count) or ''
-    end
+    renderStarterDeck(details,info,state.deckFilter or 'all')
     local large=largeSlot(state.character,state.element)
     local portraits=details:GetChild('portraits')
     local key=state.character=='traveler' and ('traveler_'..(state.element or 'ironclad')) or state.character

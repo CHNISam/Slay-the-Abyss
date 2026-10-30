@@ -68,6 +68,18 @@ export function deckControls(theme = nativeTheme) {
   };
   const entry = capsuleEntry(l.deckView.entry, '卡组', 'deckIcon', theme.icon.deck.id);
   const relicImage = theme.icon.node.treasure.id ?? theme.icon.node.treasure;
+  const browseFilters = [
+    ['All', '全部'], ['Attack', '攻击'], ['Skill', '技能'],
+    ['Power', '能力'], ['Status', '状态'], ['Curse', '诅咒'],
+  ];
+  const browseButtons = browseFilters.map(([id, label], i) => {
+    const frame = l.deckView.filters[i];
+    const control = button('filter' + id, frame, label);
+    control.visible = false;
+    control.children.push({ ...plate('selected', [0, -frame[3] / 2 + s.border * 2,
+      frame[2] - s.m * 2, s.border * 2], c.goldBright), visible: false });
+    return control;
+  });
   return [
     { name: 'relicEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
       capsuleEntry(l.deckView.relicEntry, '遗物', 'relicIcon', relicImage),
@@ -85,6 +97,9 @@ export function deckControls(theme = nativeTheme) {
       plate('header', [0, l.deckView.title[1], l.deckView.viewport[2],
         Math.max(l.deckView.title[3], l.deckView.close[3]) + s.s], c.panel),
       text('title', l.deckView.title, '', f.heading, c.goldBright),
+      { ...text('browseTitle', l.deckView.browseTitle, '', f.heading, c.goldBright), visible: false },
+      ...browseButtons,
+      { ...button('sort', l.deckView.sort, '排序·默认'), visible: false },
       { ...text('details', l.deckView.viewport, '', f.body, c.text), visible: false },
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
         size: l.deckView.viewport.slice(2), focusable: true, visible: false },
