@@ -24,7 +24,9 @@ function M.setup(options)
         assert(Run.startCombat(ui.run, 'cultist_solo'))
         local enemy = ui.run.combat.enemies[1]
         enemy.ai, enemy.intentIndex = nil, 1
-        enemy.intents = {{id='fatal', kind='attack', effects={{op='damage', value=12}}}}
+        -- Keep the published cultist attack identity and make its six damage fatal.
+        assert(enemy.intents[1].id == 'cultist_1' and enemy.intents[1].effects[1].value == 6)
+        F.Combat.addStatus(enemy, 'strength', 6)
     end
     ui:refresh()
     return ui, root, function() return calls end, api

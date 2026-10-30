@@ -6,7 +6,7 @@ const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const blob=s=>createHash('sha1').update('blob '+Buffer.byteLength(s)+'\0').update(s).digest('hex');
 const bytes=normalize(readFileSync(new URL('../fixtures/fixture-construction-source.json',import.meta.url),'utf8'));
-assert.equal(hash(bytes),'2cb2cbb1cd5952933ab99a62d6a5c1c587f9e31123d81e291a822c52fb2a9521');
+assert.equal(hash(bytes),'11b181e70433c9f6e527958bc0cd090380eb38922f76f1bf14e3e1f86b1f099e');
 export const fixtureConstructionSourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const fixtureConstructionSourcePaths=Object.freeze(Object.keys(fixtureConstructionSourceProof.files));
 assert.deepEqual(fixtureConstructionSourcePaths,["tests/lua/support/game_ui_fixture.lua"]);

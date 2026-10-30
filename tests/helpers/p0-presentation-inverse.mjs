@@ -39,20 +39,30 @@ export function preAcceptedPresentation(path,source){
   return source;
 }
 export function materializeHistoricalPresentation(directory){
+  // One invocation owns one current-input inventory; linked-owner validators
+  // still read live files themselves. Nothing is retained for the next call.
+  const inputs=new Map(),accepted=new Map();
+  const currentSource=path=>{
+    if(!inputs.has(path))inputs.set(path,readFileSync(path,'utf8'));
+    return inputs.get(path);
+  };
 
   // Validate all eleven original current files before any temporary writes/deletes.
   const root='src/lua/abyss_node_ui.lua';
-  const diskRoot=preAcceptedPr323Source(root,readFileSync(root,'utf8')).replaceAll('\r\n','\n');
+  const diskRoot=preAcceptedPr323Source(root,currentSource(root)).replaceAll('\r\n','\n');
   assert.equal(hash(diskRoot),nodeUiCurrentRootSha256,'current-only Node materialization must validate the live refactored root before any writes');
-  const diskFace=preAcceptedPr323Source(approvedNodeFace.path,readFileSync(approvedNodeFace.path,'utf8')).replaceAll('\r\n','\n');
+  const diskFace=preAcceptedPr323Source(approvedNodeFace.path,currentSource(approvedNodeFace.path)).replaceAll('\r\n','\n');
   assert.equal(hash(diskFace),approvedNodeFace.afterSha256,'current-only Node materialization must validate the approved live face before any writes');
   materializeBeforeDelivery(directory);
   materializeBeforeRelicCompletionSources(directory);
   const nodeSource=preIntegratedNodeUiSource(root,diskRoot,{[approvedNodeFace.path]:diskFace});
   // Validate the whole combined inventory before any temporary historical writes.
   const acceptedSources=Object.keys(pr323AcceptedSourceInverse.files).map(path=>{
-    const source=readFileSync(path,'utf8');requirePr323Source(path,source);
-    return [path,preAcceptedPr323Source(path,source)];
+    const binding=requirePr323Source(path,currentSource(path));
+    // requirePr323Source already runs the complete strict outer projection.
+    // Its bound accepted bytes are exactly project(..., 'accepted')'s result.
+    const source=binding.acceptedSource===null?null:binding.acceptedSource.replaceAll('\r\n','\n');
+    accepted.set(path,source);return [path,source];
   });
   materializeBeforeEventProduction(directory,{historicalPaths:[...new Set([...Object.keys(pr323AcceptedSourceInverse.files),...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files),...nodeUiAddedPaths])].filter(path=>eventProductionInverse.files[path]?.beforeSource!=null)});
   for(const [path,source]of acceptedSources){
@@ -60,7 +70,7 @@ export function materializeHistoricalPresentation(directory){
     else {mkdirSync(dirname(join(directory,path)),{recursive:true});writeFileSync(join(directory,path),source);}
   }
   for(const path of new Set([...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){
-    const source=preApprovedUiSource(path,preP0OuterSource(path,path===root?nodeSource:preAcceptedPr323Source(path,readFileSync(path,'utf8'))));
+    const source=preApprovedUiSource(path,preP0OuterSource(path,path===root?nodeSource:accepted.has(path)?accepted.get(path):preAcceptedPr323Source(path,currentSource(path))));
     if(source===null)rmSync(join(directory,path),{force:true});
     else writeFileSync(join(directory,path),preAcceptedPresentation(path,source));
   }

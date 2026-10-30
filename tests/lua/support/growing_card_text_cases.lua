@@ -41,7 +41,7 @@ local function setup(options)
     local F = dofile("tests/lua/support/game_ui_fixture.lua")
     local ui = UI.new(root, Data, Presentation, "click", F.withMonsterActors({imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}), options)
     local function click(name)
-        local box = stage:GetChild(name)
+        local box = F.actorControl(stage, name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
     end
     local function drain()

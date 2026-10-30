@@ -6,17 +6,9 @@ local Events=require('abyss_events')
 local Data=require('abyss_data')
 local Theme=require('abyss_theme')
 local Presentation=require('abyss_presentation')
-local function control(d)
-    local c={children={},visible=d.visible~=false,x=0,y=0,sx=1,sy=1}
-    for _,child in ipairs(d.children or {}) do c.children[child.name]=control(child) end
-    function c:GetChild(name) return assert(self.children[name],name) end
-    function c:SetVisible(v) self.visible=v end
-    function c:SetAnchoredPosition(x,y) self.x,self.y=x,y end
-    function c:SetLocalScale(x,y) self.sx,self.sy=x,y end
-    function c:SetImage(_,id) self.image=id end
-    function c:SetAsLastSibling() end
-    return c
-end
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Surfaces=require('abyss_monster_surfaces')
+local EnemyView=require('abyss_battle_enemy_view')
 local function find(list,name)
     for _,d in ipairs(list) do
         if d.name==name then return d end
@@ -31,14 +23,26 @@ local function same(a,b)
 end
 local function count(list,key) local n=0;for _,v in ipairs(list) do if v==key then n=n+1 end end;return n end
 local function harness(enemyId,intentId,fast)
-    local stage=control(assert(find(require('abyss_ui_layout'),'battlePanel')))
+    local stage=F.control(assert(find(require('abyss_ui_layout'),'battlePanel')))
     local h={stage=stage,sounds={},done=0}
     h.battle=Combat.new(Data,{deck={'strike','defend'},enemies={enemyId},seed=11})
     local enemy=h.battle.enemies[1]
     for i,intent in ipairs(enemy.intents) do if intent.id==intentId then enemy.intentIndex=i end end
     enemy.ai=nil -- Select a real published intent without running its random policy.
-    h.feedback=Feedback.new(stage,{imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,
-        sound=function(cue)h.sounds[#h.sounds+1]=cue end},function()end,
+    local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,
+        sound=function(cue)h.sounds[#h.sounds+1]=cue end})
+    h.surfaces=Surfaces.new(stage,platform)
+    local function present(frame)
+        local rows=EnemyView.slots(frame,h.feedback)
+        h.surfaces:select(rows,h.battle)
+        h.surfaces:each(function(box,slot,entry)
+            box:SetVisible(true)
+            local x,_,_,_,y=EnemyView.position(#rows,slot,entry.actor)
+            box:SetAnchoredPosition(x,y)
+        end)
+    end
+    present(h.battle)
+    h.feedback=Feedback.new(stage,platform,present,
         function(failure)h.failure=failure;h.done=h.done+1 end)
     h.feedback:setFastMode(fast or false)
     function h.run()
@@ -80,7 +84,7 @@ test('Sentry cast is visible before damage and contact does not replay travel',f
         assert(h.feedback.shadow.player.hp<hp)
         h.feedback:update(0.005)
         local impact=h.stage:GetChild('hero'):GetChild('impact')
-        assert(impact.visible and impact.sx>impact.sy*3,'laser contact must be long and thin')
+        assert(impact.visible and impact.localScaleX>impact.localScaleY*3,'laser contact must be long and thin')
         h.drain();assert(count(h.sounds,'hurt')==1 and count(h.sounds,'action_sentry')==1)
     end
 end)

@@ -18,3 +18,21 @@ test('every current helper and archive is reread and rejects missing or edited b
   assert.throws(()=>verifiedHistoricalMonsterNodeClosure(path=>path===changed?'':read(path)),/unreviewed historical Node/);
  }
 });
+
+test('current selector, constructor and entry dependency witnesses are covered by fresh closure guards',()=>{
+ const names=['selector-current-source','fixture-construction-source','current-entry-source',
+  'phase-four-runner-source','deck-visibility-source','death-audio-source','raw-binding-source',
+  'phase-three-memory-source','entry-recognition-lengths','runtime-recognition-lengths',
+  'source-recognition-lengths','p0-deck-recognition-lengths','final-ui-source','title-menu-source'];
+ const inputs=names.flatMap(name=>['tests/helpers/'+name+'.mjs','tests/fixtures/'+name+'.json']);
+ verifiedHistoricalMonsterNodeClosure(read);
+ for(const input of inputs){
+  assert.ok(historicalMonsterNodeInputs.includes(input),'missing current closure dependency: '+input);
+  let reads=0;
+  verifiedHistoricalMonsterNodeClosure(path=>{if(path===input)reads++;return read(path);});
+  assert.equal(reads,1,'fresh dependency read: '+input);
+  for(const replacement of ['',read(input)+'\n// drift\n']){
+   assert.throws(()=>verifiedHistoricalMonsterNodeClosure(path=>path===input?replacement:read(path)),/unreviewed historical Node/);
+  }
+ }
+});

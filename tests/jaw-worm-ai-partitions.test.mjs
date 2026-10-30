@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {preJawEventConsumerSource} from './helpers/jaw-event-consumer-source.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -22,7 +23,7 @@ test('Jaw Worm raw partitions restore the exact original Git body and cover all 
     { path: 'tests/lua/jaw_worm_ai_slice_2.lua', first: 2, last: 11 },
     { path: 'tests/lua/jaw_worm_ai_slice_3.lua', first: 12, last: 13 },
   ]);
-  let original = read(partitions.entry);
+  let original = preJawEventConsumerSource(read(partitions.entry));
   assert.ok(original.startsWith(partitions.prefix));
   assert.ok(original.endsWith(partitions.footer));
   original = original.slice(partitions.prefix.length, -partitions.footer.length);

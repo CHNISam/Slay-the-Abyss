@@ -3,7 +3,7 @@ package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local D,C,T=require('abyss_card_display'),require('abyss_combat'),require('abyss_theme')
 local data,P=require('abyss_data'),require('abyss_presentation')
 local s=C.new(data,{deck={},enemies={'cultist'},seed=1})
-local n=0
+local n,original,necronomicurse=0,0,0
 for _,definition in ipairs(data.cards.cards)do
  for _,up in ipairs({false,true})do
   local display=P[definition.id]
@@ -22,7 +22,10 @@ for _,definition in ipairs(data.cards.cards)do
    assert(body.text==text,'body was truncated');assert(body.fontSize>=T.font.minimum)
   end
   n=n+1
+  if definition.id=='necronomicurse' then necronomicurse=necronomicurse+1 else original=original+1 end
  end
 end
-assert(n==180)
-print('Card text: 180 class/status/curse variants retain full names and text at approved font bounds; native visual verification still required.')
+assert(original==180,'all original ninety card pairs remain covered')
+assert(necronomicurse==2,'the added Necronomicurse keeps both upgrade variants')
+assert(n==182)
+print('Card text: 180 original and 2 Necronomicurse variants retain full names and text at approved font bounds; native visual verification still required.')

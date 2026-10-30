@@ -3,6 +3,7 @@ sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
 local sliceRegistered=0
 package.path="src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;"..package.path
 local X=require("support.experimental_ui_fixture")
+local F=require("support.game_ui_fixture")
 local Run=require("abyss_run")
 local Combat=require("abyss_combat")
 local n=0
@@ -18,7 +19,7 @@ local cursor={CursorDown="down",CursorUp="up",CursorExit="exit",CursorEndDrag="e
 local classIndex={ironclad=1,silent=2,watcher=4}
 local function control(root,path)
     local c=root
-    for part in path:gmatch("[^/]+") do c=assert(c:GetChild(part),part) end
+    for part in path:gmatch("[^/]+") do c=assert(F.actorControl(c,part),part) end
     return c
 end
 local function hit(root,path)

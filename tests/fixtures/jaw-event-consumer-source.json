@@ -1,0 +1,10 @@
+{
+  "base": "5fc58cc4767fea595e397d15fd10784b8d2b2714",
+  "path": "tests/lua/jaw_worm_ai.lua",
+  "beforeSha256": "a08bb7702e8f43c1b7e2eff75922d4c7c70ab0a884a5609ac77d971d4a8c7082",
+  "afterSha256": "e1a795bcde6799d091c39cc02a03c06cd40554e996ddcdf2786544867a7c7e83",
+  "insertions": [
+    "    local consumeEvents=dofile(\"tests/lua/support/jaw_event_consumer.lua\").consume\n",
+    "            consumeEvents(s) -- acknowledge the complete observed batch, as the UI does\n"
+  ]
+}

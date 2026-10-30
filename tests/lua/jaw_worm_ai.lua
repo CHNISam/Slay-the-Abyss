@@ -144,6 +144,7 @@ test("lethal Thorns cancels Thrash Block but keeps its queued roll while a teamm
 end)
 
 test("separate enemies own their history and obey all repeat limits over live rounds",function()
+    local consumeEvents=dofile("tests/lua/support/jaw_event_consumer.lua").consume
     for seed=0,15 do
         local s=battle({"jaw_worm","jaw_worm"},seed)
         for _=1,24 do
@@ -155,6 +156,7 @@ test("separate enemies own their history and obey all repeat limits over live ro
                 assert(next~=B or e.jawLast~=B)
                 assert(next~=T or e.jawLast~=T or e.jawPrevious~=T)
             end
+            consumeEvents(s) -- acknowledge the complete observed batch, as the UI does
         end
     end
     local untouched=battle(); eq(untouched.enemies[1].jawLast,nil); eq(Combat.intent(untouched,1).id,C)

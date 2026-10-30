@@ -23,9 +23,11 @@ for _,upgraded in ipairs({false,true}) do
         assert(info:GetChild('name3').text:find('消耗',1,true))
         event('card1','exit',7)
         tap('card1',8);tap('playArea',8);assert(u.busy)
-        -- Area x remains the source zone center; y follows its first front-row actor.
+        -- Area x remains the source zone center; y follows the first Cultist's source root.
+        -- sts@319009d5: drawY=340-10, hitbox=230x240; native scale=2/3.
+        -- The root is at the portrait center, half max(hitbox width,height) above drawY.
         local sourceX=(1010+1850)/2/1.5-640
-        local sourceY=360-(300+58+16+190/2)/1.5
+        local sourceY=(340-10)/1.5-360+240/3
         eq(math.abs(u.feedback.flight.tx-sourceX)<1e-8,true,'area flight center')
         eq(math.abs(u.feedback.flight.ty-sourceY)<1e-8,true,'enemy row')
         eq(s.energy,1);eq(#s.exhaust,1);eq(#s.discard,0)

@@ -25,7 +25,7 @@ local function setup(combat)
     end
     local panel=root:GetChild('battlePanel')
     local function hit(name)
-        local box=panel:GetChild(name)
+        local box=F.actorControl(panel,name)
         return box:GetChild('hit') or box
     end
     local function pointer(name,kind,touch,x,y)
@@ -64,9 +64,11 @@ local living=battle.enemies[2]
 hp=living.hp
 -- Navigate the visible live actor after this deliberate out-of-command HP edit.
 -- Its Focus callback, not a numeric core slot assumption, owns the target.
-api.setFocus(hit('enemy1'));assert(ui.target==2)
+local livingBox=assert(require('abyss_monster_surfaces').get(root:GetChild('battlePanel')):find(living.id))
+local livingHit=livingBox:GetChild('hit') or livingBox
+api.setFocus(livingHit);assert(ui.target==2)
 press(hit('card1'))
-assert(api.getFocus()==hit('enemy1'),'first visible screen slot must represent the active second core enemy')
+assert(api.getFocus()==livingHit,'first visible actor must represent the active second core enemy')
 press(api.getFocus())
 for _=1,400 do if not ui.busy then break end;host:update(.05)end
 assert(battle.energy==2 and living.hp==hp-6 and battle.enemies[1].hp==0,

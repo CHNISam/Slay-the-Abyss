@@ -7,7 +7,7 @@ const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const blob=s=>createHash('sha1').update('blob '+Buffer.byteLength(s)+'\0').update(s).digest('hex');
 const bytes=normalize(readFileSync(new URL('../fixtures/raw-binding-source.json',import.meta.url),'utf8'));
-assert.equal(hash(bytes),'196617be5868a910ba3a3db91b2c9bc16f5c01f128395a2494317e488e5c78fa');
+assert.equal(hash(bytes),'0b884288a2423c14468e4be81508c12217383e79a29d7a3433e4a555289231a9');
 export const rawBindingSourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const rawBindingSourcePaths=Object.freeze(Object.keys(rawBindingSourceProof.files));
 assert.deepEqual(rawBindingSourcePaths,["scripts/test-affected.mjs", "scripts/test-lua.mjs", "tests/lua/controller_host.lua", "tests/lua/game_ui_phase_four.lua", "tests/lua/support/potion_gesture_fixture.lua"]);
@@ -25,7 +25,7 @@ export function preRawBindingSource(path,source,{readSource=p=>readFileSync(p,'u
  for(const[p,entry]of Object.entries(rawBindingSourceProof.linkedSources)){
   let actual;try{actual=readSource(p);}catch{assert.fail('raw-binding linked source missing: '+p); }
   assert.equal(typeof actual,'string','raw-binding linked source must exist: '+p);
-  const live=normalize(actual);assert.equal(live.length,entry.utf16Length);assert.equal(hash(live),entry.sha256,'raw-binding linked source identity: '+p);assert.equal(blob(live),entry.gitBlob);
+  const live=normalize(actual);assert.equal(live.length,entry.utf16Length,'raw-binding linked source length: '+p);assert.equal(hash(live),entry.sha256,'raw-binding linked source identity: '+p);assert.equal(blob(live),entry.gitBlob);
  }
  assert.equal(blob(text),b.afterGitBlob);
  const lines=text.split('\n');

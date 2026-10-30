@@ -5,7 +5,7 @@ import {gunzipSync} from 'node:zlib';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const normalize=value=>value.replaceAll('\r\n','\n');
 const bytes=gunzipSync(readFileSync(new URL('../fixtures/historical-monster-node-closure.json.gz',import.meta.url)));
-assert.equal(hash(bytes),'b869a3badab292f02f0750669dc39f5937da11a68ad36e3578f63918a9b34d05','exact historical Node closure');
+assert.equal(hash(bytes),'3f67fda06e46fa38f8f85851e13120a1bb2da67e408305fa6651bd1965239437','exact historical Node closure');
 const proof=JSON.parse(bytes);
 assert.equal(proof.baseCommit,'03266f668eb5ab6d7ed72d840fa55eafa90a819c');
 export const historicalMonsterNodeInputs=Object.freeze([...new Set([...Object.keys(proof.helperInputs),...Object.keys(proof.files)])].sort());

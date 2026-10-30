@@ -109,7 +109,6 @@ local function control(spec, parent)
     self.SetImage = Control.SetImage
     self.SetAsLastSibling = Control.SetAsLastSibling
     self.AddCursorEventListener = Control.AddCursorEventListener
-    setmetatable(self, controlMethods)
     if spec.kind == "grid" then
         self.items, self.indexBase = {}, 0
         function self:recycle(slot, index)
@@ -135,6 +134,9 @@ local function control(spec, parent)
             if not self.deferRefresh then self:flush() end
         end
     end
+    -- Trusted constructor fields are own properties; install native guards once
+    -- they are initialized, before recursive child construction or publication.
+    setmetatable(self, controlMethods)
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
     return NativeContract.control(self,spec)
 end
