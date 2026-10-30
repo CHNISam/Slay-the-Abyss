@@ -1,5 +1,5 @@
 import {preDeckDeliverySource} from './helpers/deck-delivery-source-composition.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,rmSync,existsSync} from 'node:fs';
 import {join,dirname} from 'node:path';

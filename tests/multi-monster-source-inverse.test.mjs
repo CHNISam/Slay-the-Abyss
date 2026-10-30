@@ -1,5 +1,5 @@
 import {preLegacyMultiSource} from './helpers/delivery-source-composition.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';

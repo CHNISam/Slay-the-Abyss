@@ -33,9 +33,11 @@ export function normalizePr323CompositionSource(path,source){
  // exact outer inverse. The live spelling must itself match the whole hash.
  if(path==='config/architecture.json'&&typeof source==='string'&&relicCompletionInverse.files[path]){
   try{
-   const live=readFileSync(path,'utf8');requireRelicCompletionSource(path,live);
+   const live=readFileSync(path,'utf8');
    const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
-   if(tokens(source)===tokens(live))source=live;
+   // Only token-equivalent inputs can consume this live witness. Validate its
+   // linked owners freshly before accepting it, not for unrelated mutations.
+   if(tokens(source)===tokens(live)){requireRelicCompletionSource(path,live);source=live;}
   }catch{ /* Foreign source bytes stay exposed to the strict inner guard. */ }
  }
  source=preBattleLifeSource(path,source);
@@ -62,14 +64,10 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
- source=preMultiHistoricalUiTest(path,source);
- source=preBattleLifeSource(path,preCardDescOverflowSource(path,source));
- if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
- source=normalizePr323CompositionSource(path,source);
- if(proof.files[path])source=preNestedSnapshotOwnerSource(path,source);
-
- source=preDeathSettlementGuardSource(path,source);
- source=prePlayerDeathSource(path,source);
+ return requireHistoricalPr323Source(path,normalizePr323HistoryInput(path,source));
+}
+// Original complete-source contract, independent of later production adapters.
+export function requireHistoricalPr323Source(path,source){
  const binding=proof.files[path];
  assert.ok(binding,'registered accepted20a/original323 composition source: '+path);
  assert.equal(typeof source,'string','combined composition source must exist: '+path);
@@ -77,6 +75,11 @@ export function requirePr323Source(path,source){
  return binding;
 }
 function project(path,source,target){
+ return projectHistoricalPr323Source(path,normalizePr323HistoryInput(path,source),target);
+}
+// Expose the existing full composition step so one materialization can validate
+// and project the same normalized bytes without running that step twice.
+export function normalizePr323HistoryInput(path,source){
  source=preMultiHistoricalUiTest(path,source);
  source=preBattleLifeSource(path,preCardDescOverflowSource(path,source));
  if(typeof source!=='string')return source;
@@ -86,6 +89,11 @@ function project(path,source,target){
 
  source=preDeathSettlementGuardSource(path,source);
  source=prePlayerDeathSource(path,source);
+ return source;
+}
+export function projectHistoricalPr323Source(path,source,target){
+ assert.ok(['accepted','original'].includes(target),'registered PR323 historical target');
+ if(typeof source!=='string')return source;
  const normalized=normalize(source),binding=proof.files[path];
  // Unknown/partial sources remain visible to the original strict inner guards.
  if(!binding||hash(normalized)!==binding.afterSha256)return normalized;

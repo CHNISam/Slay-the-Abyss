@@ -1,5 +1,5 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -12,7 +12,7 @@ import {preAcceptedPresentation} from './helpers/p0-presentation-inverse.mjs';
 const path='config/architecture.json',read=p=>preAcceptedPr323Source(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const project=(source,target)=>projectRosterConfigSource(path,source,target);
-const source=read(path);
+const source=withHistoricalBaseline(()=>read(path));
 test('actual complete registration union adds only roster admission and retains every accepted Nodes Battle MaxHP classification',()=>{
  assert.equal(hash(source),'45bdb013ff452b410816bcd192f5ed5de9ecc0067a75b2a113721a03c98764ba');
  const current=project(source,'current'),roster=project(source,'roster');

@@ -1,5 +1,5 @@
 import {preHeroVisualSource} from './helpers/hero-visual-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import {preRelicViewUiSource} from './helpers/relic-view-ui-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';

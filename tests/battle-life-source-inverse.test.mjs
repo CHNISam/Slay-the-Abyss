@@ -1,7 +1,7 @@
 import {preCombatRelicsHudSource} from './helpers/combat-relics-hud-inverse.mjs';
 import {preNativeEnemyThemeSource} from './helpers/native-enemy-theme-inverse.mjs';
 import {preRound2UiSource,round2UiAddedPaths,prepareRound2UiModuleRetirement} from './helpers/round2-ui-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import {preRelicCompletionSource} from './helpers/relic-completion-inverse.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';

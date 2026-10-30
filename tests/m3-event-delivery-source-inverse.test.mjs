@@ -2,7 +2,7 @@ import {preLegacyM3Source} from './helpers/delivery-source-composition.mjs';
 import {preRelicRound2CompositionSource} from './helpers/relic-round2-composition.mjs';
 import {preRelicArtCompositionSource} from './helpers/relic-art-composition.mjs';
 import {preRelicArtFeatureCompositionSource} from './helpers/relic-art-feature-composition.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,rmSync,existsSync,symlinkSync} from 'node:fs';
 import {join,dirname} from 'node:path';

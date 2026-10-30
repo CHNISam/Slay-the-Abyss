@@ -1,5 +1,5 @@
 import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {preRelicArtFeatureCompositionSource} from './helpers/relic-art-feature-composition.mjs';
 import {preRelicRound3CompositionSource} from './helpers/relic-round3-composition.mjs';

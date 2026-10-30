@@ -1,6 +1,6 @@
 import {projectOpenPrSource} from './helpers/open-pr-source-composition.mjs';
 import {projectEventSnapshotSource} from './helpers/event-snapshot-composition.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync,readdirSync} from 'node:fs';

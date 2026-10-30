@@ -1,6 +1,6 @@
 import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import {preM3EventDeliverySource} from './helpers/m3-event-delivery-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -8,7 +8,7 @@ import {relicArtFeatureComposition as proof,preRelicArtFeatureCompositionSource 
 import {artFeatureSourceLayer,preArtFeatureSource} from './helpers/art-feature-source-inverse.mjs';
 import {requireRelicCompletionSource,preRelicCompletionSource,relicCompletionInverse} from './helpers/relic-completion-inverse.mjs';
 const path='scripts/verify-launch-content.mjs';
-const current=preM3EventDeliverySource(path,preNativeMonsterArtSource(path,readFileSync(path,'utf8'))).replaceAll('\r\n','\n');
+const current=withHistoricalBaseline(()=>preM3EventDeliverySource(path,preNativeMonsterArtSource(path,readFileSync(path,'utf8'))).replaceAll('\r\n','\n'));
 const hash=s=>createHash('sha256').update(s).digest('hex');
 test('single-path art-feature/relic composition restores both complete Git-locked identities and frozen witnesses',()=>{
  for(const [target,{files}]of Object.entries(proof.targets)){

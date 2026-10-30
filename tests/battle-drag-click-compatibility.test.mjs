@@ -1,6 +1,7 @@
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -13,7 +14,7 @@ import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import {preBattleRefactorSource} from './helpers/battle-refactor-projection.mjs';
 import {task76BattleModuleLayer} from './helpers/task76-drag-click-inverse.mjs';
 const path='src/lua/abyss_battle_ui.lua';
-const source=preAcceptedPr323Source(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
+const source=withHistoricalBaseline(()=>preAcceptedPr323Source(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n'));
 const hash=value=>createHash('sha256').update(value).digest('hex');
 
 // Original315 whole-owner proofs consume exact accepted20a; live input cases above
@@ -49,7 +50,7 @@ for(const slice of slices){
     t.diagnostic(result.stdout.split('\n').filter(line=>line.startsWith('PASS ')||line.startsWith('LUA_DRAG_CLICK_COMPATIBILITY ')).join('\n'));
   });
 }
-test('bounded drag registrar preserves every original byte and rejects case, range or execution drift',()=>{
+historicalTest('bounded drag registrar preserves every original byte and rejects case, range or execution drift',()=>{
   const bounded=read(entry),original=originalDragClickSource(bounded);
   assert.equal(read(slices[1].path),`assert(loadfile("${entry}"))(8,15)\n`);
   assert.deepEqual(slices.flatMap(({first,last})=>Array.from({length:last-first+1},(_,i)=>first+i)),Array.from({length:15},(_,i)=>i+1));
@@ -89,7 +90,7 @@ test('raw and Node discovery retain both drag slices exactly once in every hoste
   }
 });
 
-test('drag-only historical inverse preserves complete old identities and rejects other drift',()=>{
+historicalTest('drag-only historical inverse preserves complete old identities and rejects other drift',()=>{
   const original=preCardDragClickSource(path,source);
   assert.equal(hash(source),task76BattleModuleLayer.files[path].afterSha256);
   assert.equal(hash(original),task76BattleModuleLayer.files[path].beforeSha256);
@@ -148,7 +149,7 @@ test('drag-only historical inverse preserves complete old identities and rejects
   }
 });
 
-test('every ported Battle responsibility restores accepted PR311 bytes and rejects drift before historical replay',()=>{
+historicalTest('every ported Battle responsibility restores accepted PR311 bytes and rejects drift before historical replay',()=>{
   assert.equal(task76BattleModuleLayer.base,'8a36c0d59781302944feb03c4ce9a2f304c62ac8');
   assert.equal(task76BattleModuleLayer.reviewedMonolithSha256,'067b6761d5f02477ec2aeb848b2a00eb2b4191517d30096f7cb8dc84e3f0b382');
   assert.equal(Object.keys(task76BattleModuleLayer.files).length,6);
@@ -181,7 +182,7 @@ test('every ported Battle responsibility restores accepted PR311 bytes and rejec
 });
 
 
-test('complete Battle composition rejects missing or unknown unchanged responsibilities before projection',()=>{
+historicalTest('complete Battle composition rejects missing or unknown unchanged responsibilities before projection',()=>{
   const layer=JSON.parse(read('tests/fixtures/battle-ui-approved-responsibility-layer.json'));
   assert.equal(Object.keys(layer.modules).length,16,'accepted coordinator and all fifteen owners stay bound');
   for(const file of Object.keys(layer.modules))

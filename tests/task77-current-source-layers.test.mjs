@@ -1,6 +1,7 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preApprovedUiSource} from './helpers/approved-ui-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -18,7 +19,7 @@ function invert(source,binding){
 }
 function acceptedSource(path){const source=preApprovedUiSource(path,read(path));return layers.competition[path]?invert(source,layers.competition[path]):source;}
 
-test('current Task77 source reverses only its owned edits and preserves the complete accepted confirmation/UI base',()=>{
+historicalTest('current Task77 source reverses only its owned edits and preserves the complete accepted confirmation/UI base',()=>{
  assert.equal(layers.acceptedBase,'77c2d5e6850f1758b821e5e2d45be60e8b5ed8a4');
  assert.equal(layers.canonicalBindingSha256,hash(read('docs/reviews/formal-entry-source-inverses-20261028.json')));
  assert.deepEqual(Object.keys(layers.competition),['src/lua/abyss_game_ui.lua','src/lua/abyss_ui.lua']);
@@ -34,7 +35,7 @@ test('current Task77 source reverses only its owned edits and preserves the comp
  assert.match(read('src/lua/abyss_game_ui.lua'),/CharacterSelect\.options\(character\)[\s\S]*selection\.campaignProfile=platform\.campaignProfile[\s\S]*Run\.new/);
 });
 
-test('accepted UI source layers recover the original immutable formal bindings and reject incomplete or duplicated changes',()=>{
+historicalTest('accepted UI source layers recover the original immutable formal bindings and reject incomplete or duplicated changes',()=>{
  assert.deepEqual(Object.keys(layers.acceptedUi),['data/presentation/ui_theme.json','scripts/character-ui-layout.mjs','scripts/game-ui-layout.mjs','src/lua/abyss_game_ui.lua']);
  for(const [path,binding]of Object.entries(layers.acceptedUi)){
   const accepted=acceptedSource(path),canonical=invert(accepted,binding);
@@ -53,7 +54,7 @@ test('new controls guide offers same-run controls only, not later acts, keys or 
  assert.doesNotMatch(JSON.stringify(controlsGuide()),/第三幕|第四幕|真结局|钥匙|存档|续玩|保留进度/);
 });
 
-test('Task77 owns complete current sources before its unchanged formal guards and rejects current drift',()=>{
+historicalTest('Task77 owns complete current sources before its unchanged formal guards and rejects current drift',()=>{
  for(const path of Object.keys(layers.acceptedUi)){
   const live=readFileSync(path,'utf8').replaceAll('\r\n','\n');
   const prior=preTask77OuterSource(path,live);

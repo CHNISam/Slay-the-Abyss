@@ -3,9 +3,9 @@ id: TASK-74
 title: 缩短完整检查并拆清超大模块职责
 status: In Progress
 assignee:
-  - '@Codex'
+  - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 06:22'
+updated_date: '2026-10-30 16:53'
 labels: []
 dependencies: []
 references:
@@ -57,6 +57,8 @@ ordinal: 118000
 第三轮从9293405d隔离：核实完整基线与在途文件，按职责移除敌人AI到Actor的反向依赖、统一构造目录所有权；保持两路出牌顺序。CI仅将两个纯汇总作业移至轻量托管池，保持测试、预算、失败传播和Required名称。主控复核真实差分、全部helper、当前HEAD及合入SHA完整Quality；实机缺失独立报告。
 
 审计发现CardActions.apply仍85且两执行器重复反应分发，另作有界切片评估：优先复用既有handler表，将有限op映射为领域命令，保留supports的玩法路由合同与暂停/返回协议；仅在真实旧新轨迹和变异证明充分时实施。
+
+2026-10-30重新测量全库热点/SCC；check:engineering同进程共享新鲜采集以去重Luacheck/架构，独立CLI保持重新采集与失败传播。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -109,4 +111,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 第三轮核心已同步并行PR361的1bfca626。配对固定工具基线249/23个>15/>50，当前248/22；CardActions.apply85→5且新handler max10，7常用op各少2个supports+1个require+1个ops查询；目录未注册预构造copy table2106→1871，其他路径不变，CPU样本涨跌均保留。最终SCC76/496/309→73/491/303（成员/位置/唯一边），非中间72。行为、维护成本与未解热点见docs/reviews/ENGINEERING-ROUND3.md；新HEAD完整Quality仍待，不勾最终AC。
 
 完整首轮CI因静态baseline唯一行号迁移触发历史身份合同11个断言失败；未放宽证明，保留导入/函数正常空行使baseline整体恢复与1bf逐字相同，原失败合同17+2项及quality/static/AI全过。CI切片已从实验PR370线性整合至PR371，减少先后合并的重复完整组合验证；最终新HEAD仍待Full，原失败保留。
+
+2026-10-31本轮治理：工程总入口复用一次新鲜源码发现、架构和静态采集，不持久缓存结果。单次顺序对照14.382s→6.879s，9报告除时间字段逐字节等价；有并发负载，不外推分位数。最新314模块/4598函数/4912测量，Combat热点及103成员SCC保留诊断，不机械拆事务所有权。完整工程、变异与原生合同本地通过；最终提交CI另验。
 <!-- SECTION:NOTES:END -->

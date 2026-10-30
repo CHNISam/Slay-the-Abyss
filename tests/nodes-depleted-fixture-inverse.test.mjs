@@ -1,11 +1,12 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {nodesDepletedFixtureRepair as binding,preNodesDepletedFixtureSource as before} from './helpers/nodes-depleted-fixture-inverse.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 const hash=source=>createHash('sha256').update(source).digest('hex');
-test('nodes depleted-owner repair restores every original byte and rejects unrelated or partial edits',()=>{
+historicalTest('nodes depleted-owner repair restores every original byte and rejects unrelated or partial edits',()=>{
  const current=readFileSync(binding.path,'utf8').replaceAll('\r\n','\n'),previous=before(binding.path,current);
  assert.equal(hash(current),binding.afterSha256);assert.equal(hash(previous),binding.beforeSha256);
  assert.equal(before(binding.path,current.replaceAll('\n','\r\n')),previous);

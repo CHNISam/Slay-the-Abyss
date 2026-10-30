@@ -1,5 +1,5 @@
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdtempSync,mkdirSync,existsSync,rmSync} from 'node:fs';
 import {join,dirname} from 'node:path';

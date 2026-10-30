@@ -26,7 +26,10 @@ test('exact four immutable Genshin direction benchmarks, never runtime approval 
   assert.equal(owner.sourceSha256,sha);
   for(const gate of ['native','runtime','device'])assert.equal(owner[gate],false);
   assert.match(asset.performance,/unmeasured/);
-  assert.deepEqual(readdirSync(new URL('../'+base,import.meta.url)).sort(),[...Object.keys(asset.files),'asset.json'].sort());
+  // The source-direction archive is immutable; later native conversions have
+  // separate manifests/acceptance. Their presence does not rewrite this archive.
+  const present = new Set(readdirSync(new URL('../'+base,import.meta.url)));
+  for (const name of [...Object.keys(asset.files), 'asset.json']) assert(present.has(name), base+name);
   for(const [name,file] of Object.entries(asset.files)){
    const raw=read(base+name),entry=legal.files[base+name];
    if(name==='source.png'&&raw.toString().startsWith('version https://git-lfs.github.com/spec/v1\n')){

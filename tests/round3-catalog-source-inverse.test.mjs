@@ -1,5 +1,5 @@
 import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {preRelicRound3CompositionSource} from './helpers/relic-round3-composition.mjs';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync,symlinkSync,renameSync} from 'node:fs';

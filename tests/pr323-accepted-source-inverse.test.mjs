@@ -5,28 +5,51 @@ import {preRelicRound2CompositionSource} from './helpers/relic-round2-compositio
 import {preRelicViewUiSource} from './helpers/relic-view-ui-inverse.mjs';
 import {preHeroVisualSource} from './helpers/hero-visual-source-inverse.mjs';
 import {preEventProductionSource} from './helpers/event-production-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import {preNestedSnapshotOwnerSource} from './helpers/nested-command-snapshot-owner-inverse.mjs';
 import {prePlayerDeathSource} from './helpers/player-death-transition-inverse.mjs';
 import {preDeathSettlementGuardSource} from './helpers/death-settlement-guard-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {pr323AcceptedSourceInverse as proof,preAcceptedPr323Source,preOriginalPr323Source,requirePr323Source,normalizePr323CompositionSource} from './helpers/pr323-accepted-source-inverse.mjs';
+import {gunzipSync} from 'node:zlib';
+import {pr323AcceptedSourceInverse as proof,preAcceptedPr323Source,preOriginalPr323Source,requirePr323Source,normalizePr323CompositionSource,requireHistoricalPr323Source,projectHistoricalPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {preRosterConfigSource} from './helpers/competition-roster-config-composition.mjs';
 import {preCompositeBattleMaxHpConfig} from './helpers/battle-max-hp-config-inverse.mjs';
 import {preNodesBattleMaxHpConfig} from './helpers/nodes-battle-max-hp-config-inverse.mjs';
 import {preRunMaxHpConfig} from './helpers/run-max-hp-config-inverse.mjs';
 import {preCoreArchitectureSource} from './helpers/core-architecture-inverse.mjs';
 const normalize=source=>source.replaceAll('\r\n','\n');
-const read=path=>preNestedSnapshotOwnerSource(path,prePlayerDeathSource(path,preDeathSettlementGuardSource(path,normalizePr323CompositionSource(path,normalize(preEventProductionSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,readFileSync(path,'utf8')))))))));
 const hash=source=>createHash('sha256').update(source).digest('hex');
+// Historical replay inputs only. Current Lua fixtures run in their normal
+// suites; later changes to their registrar are not PR323 composition inputs.
+const historicalFixtures=JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/pr323-historical-fixtures.json.gz',import.meta.url))));
+assert.equal(historicalFixtures.sourceCommit,'98fef95d047652aa6a8880241ddff28ef320a484');
+assert.deepEqual(Object.keys(historicalFixtures.files),Object.keys(proof.files).filter(path=>path.startsWith('tests/lua/')));
+assert.deepEqual(Object.keys(historicalFixtures.maintainedSources),['src/lua/abyss_battle_input_state.lua','src/lua/abyss_battle_target_bindings.lua']);
+for(const [path,binding]of Object.entries({...historicalFixtures.files,...historicalFixtures.maintainedSources})){
+ assert.equal(hash(binding.source),binding.sourceSha256,'complete original fixture input: '+path);
+ assert.equal(createHash('sha1').update(`blob ${Buffer.byteLength(binding.source)}\0`).update(binding.source).digest('hex'),binding.gitBlob,'original Git blob: '+path);
+}
+// Actor lifecycle maintenance belongs to current summon/manager scenarios.
+// The original PR323 fixture already contains its complete combined source.
+const historicalActorPath='src/lua/abyss_battle_render_actors.lua';
+const read=path=>path===historicalActorPath?normalize(proof.files[path].originalSource):preNestedSnapshotOwnerSource(path,prePlayerDeathSource(path,preDeathSettlementGuardSource(path,normalizePr323CompositionSource(path,normalize(preEventProductionSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,historicalFixtures.files[path]?.source??historicalFixtures.maintainedSources[path]?.source??readFileSync(path,'utf8')))))))));
+const historicalAccepted=(path,source)=>projectHistoricalPr323Source(path,source,'accepted');
+const historicalOriginal=(path,source)=>projectHistoricalPr323Source(path,source,'original');
 test('combined PR323 sources recover both complete accepted20a and original323 witnesses',()=>{
  for(const [path,binding]of Object.entries(proof.files)){
    const current=read(path);
-  requirePr323Source(path,current);
+  requireHistoricalPr323Source(path,current);
   assert.equal(hash(current),binding.afterSha256,path);
-  for(const [project,target]of [[preAcceptedPr323Source,'accepted'],[preOriginalPr323Source,'original']]){
+  // Keep a live bridge for production sources. The full historical matrix
+  // uses the same pure body without repeatedly revalidating unrelated owners.
+  if(path!==historicalActorPath&&!historicalFixtures.files[path]&&!historicalFixtures.maintainedSources[path])assert.equal(preAcceptedPr323Source(path,readFileSync(path,'utf8')),binding.acceptedSource===null?null:normalize(binding.acceptedSource),path+' live bridge');
+  if(path==='config/architecture.json'){
+   requirePr323Source(path,readFileSync(path,'utf8'));
+   assert.equal(preOriginalPr323Source(path,readFileSync(path,'utf8')),normalize(binding.originalSource),'public original target keeps its current-source bridge');
+  }
+  for(const [project,target]of [[historicalAccepted,'accepted'],[historicalOriginal,'original']]){
    const expected=binding[target+'Source']===null?null:normalize(binding[target+'Source']);
    assert.equal(project(path,current),expected,path+' '+target);
    assert.equal(project(path,current.replaceAll('\n','\r\n')),expected,path+' CRLF '+target);
@@ -40,16 +63,23 @@ test('partial, appended, missing and cross-path sources never acquire compositio
    const current=read(path);
   for(const changed of [current+'\n-- unrelated drift\n',current.slice(1)]){
    assert.notEqual(changed,current);
-   assert.throws(()=>requirePr323Source(path,changed),/unreviewed integrated/);
-   assert.equal(preAcceptedPr323Source(path,changed),changed,'unknown bytes stay exposed');
-   assert.equal(preOriginalPr323Source(path,changed),changed,'unknown bytes stay exposed');
+   assert.throws(()=>requireHistoricalPr323Source(path,changed),/unreviewed integrated/);
+   assert.equal(historicalAccepted(path,changed),changed,'unknown bytes stay exposed');
+   assert.equal(historicalOriginal(path,changed),changed,'unknown bytes stay exposed');
   }
-  assert.throws(()=>requirePr323Source(path,null),/must exist/);
+  assert.throws(()=>requireHistoricalPr323Source(path,null),/must exist/);
   const foreign=entries.find(([other,b])=>other!==path&&b.afterSha256!==binding.afterSha256);
-   if(foreign)assert.throws(()=>requirePr323Source(path,read(foreign[0])),/unreviewed integrated/);
+   if(foreign)assert.throws(()=>requireHistoricalPr323Source(path,read(foreign[0])),/unreviewed integrated/);
  }
  assert.throws(()=>requirePr323Source('unregistered-source.lua','return {}\n'),/registered/);
  assert.equal(preAcceptedPr323Source('unregistered-source.lua','return {}\n'),'return {}\n');
+ const path='config/architecture.json',current=read(path);
+ for(const changed of [current+'\n-- unrelated drift\n',current.slice(1)]){
+  assert.throws(()=>requirePr323Source(path,changed),/unreviewed integrated/);
+  assert.equal(preAcceptedPr323Source(path,changed),changed);
+  assert.equal(preOriginalPr323Source(path,changed),changed);
+ }
+ assert.throws(()=>projectHistoricalPr323Source(path,current,'unknown'),/registered PR323 historical target/);
 });
 test('config-only historical adapters never project away unrelated current production modules',()=>{
  const path='src/lua/abyss_relic_names.lua',current=normalize(preEventProductionSource(path,preHeroVisualSource(path,preRelicViewUiSource(path,readFileSync(path,'utf8')))));
