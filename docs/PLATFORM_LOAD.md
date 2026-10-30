@@ -26,6 +26,8 @@
 
 最新整合基线还包含 [PR350 背景运行时组件](../art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/README.md)：批准背景为13,201图元，但 `asset.json` 的生产注册仍为 pending、enabled 为 false，目录也不在默认映射清单中。本轮保留整份批准资产，不把源文件入库当成已上传。其64条分批创建、207次tick均不证明设备性能；同步释放成本未测。正式接入后必须重新计量同一候选，并覆盖菜单/选角加载、取消、重入、切战斗和释放的手机峰值，不能沿用本表或8.96MB基线批准接入。
 
+2026-10-30 单草史莱姆新画测试原型增量：普通构建默认启用一个597图元池（加10组、2容器，共609控件），另增一个源模块和一个生成数据模块；其他同类副本仍回退图库。池复用既有topBar容器并位于全部敌人效果层之下，不增加战斗stage直接子控件。此为离线结构计数，不改写上表历史基线，也不代表官方容量、峰值、帧率、PC/安卓或RC验收；具体见[原型说明](../art/monsters/acid_slime_m/native-art-r02/README.md)。
+
 ## 日常自动门禁
 
 `npm run check:platform-load` 重建数据/UI后输出 `build/platform-load-daily.json`，不连接编辑器、不启动游戏。

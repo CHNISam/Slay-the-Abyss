@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "base": "1fd94235a13d3b5b0b6c0011583652e97b44b650",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "ad7a52c5b5df717a9aa59c07bc70580d437017b95ff90a22455105b382807fd7",
+      "afterSha256": "c4affeae664c3062abae4ece6a5cd02f5fae9472fcbc704d4b8fe2c87f974dee",
+      "hunks": [
+        {
+          "at": 1438,
+          "before": [
+            "      \"bar\": { \"origin\": [216, 316], \"step\": 36, \"disc\": 32, \"face\": 28, \"icon\": 20, \"count\": 3 },"
+          ],
+          "after": [
+            "      \"bar\": { \"origin\": [222, 316], \"step\": 34, \"disc\": 30, \"face\": 26, \"icon\": 20, \"count\": 3, \"tray\": [256, 316, 108, 38], \"trayBorder\": 1, \"more\": [0, 0, 30, 24] },",
+            "      \"barNote\": \"顶栏遗物托盘：遗物盘收进一条凹陷胶囊托盘成组；超过 count 件时末位改为 +N 溢出盘，点开分页详情，绝不压到标题或遗物入口。\","
+          ]
+        },
+        {
+          "at": 1460,
+          "before": [
+            "        88,"
+          ],
+          "after": [
+            "        72,"
+          ]
+        }
+      ]
+    },
+    "scripts/deck-ui-layout.mjs": {
+      "beforeSha256": "d0c63807d83e847aa32d168518d73bc6b4e118d6429c4ed949adeed38f6eb7f0",
+      "afterSha256": "c28cf6ff94f04768f878572d29d8eed3d766b7ea00bd8d55df2d569cadf95503",
+      "hunks": [
+        {
+          "at": 42,
+          "before": [
+            "  const entry = button('open', l.deckView.entry, '卡组');"
+          ],
+          "after": [
+            "  // The 遗物 entry reuses the same capsule (relic glyph + count) so the",
+            "  // top-right utilities read as one family instead of a boxy text button."
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            "  for (const state of entry.children[0].children) {",
+            "    const colours = palette[state.name], label = state.children.find(control => control.name === 'label');",
+            "    label.visible = false;",
+            "    state.children = [capsule('border', visual.size, colours.border),",
+            "      capsule('plate', visual.size.map(value => value - visual.border * 2), colours.fill),",
+            "      { name: 'deckIcon', kind: 'image', position: visual.icon.slice(0, 2), size: visual.icon.slice(2),",
+            "        image: theme.icon.deck.id, colour: colours.ink },",
+            "      text('count', visual.count, '', f.label, state.name === 'normal' ? c.text : colours.ink), label];",
+            "  }"
+          ],
+          "after": [
+            "  const capsuleEntry = (frame, label, iconName, image) => {",
+            "    const entry = button('open', frame, label);",
+            "    for (const state of entry.children[0].children) {",
+            "      const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');",
+            "      text_.visible = false;",
+            "      state.children = [capsule('border', visual.size, colours.border),",
+            "        capsule('plate', visual.size.map(value => value - visual.border * 2), colours.fill),",
+            "        { name: iconName, kind: 'image', position: visual.icon.slice(0, 2), size: visual.icon.slice(2),",
+            "          image, colour: colours.ink },",
+            "        text('count', visual.count, '', f.label, state.name === 'normal' ? c.text : colours.ink), text_];",
+            "    }",
+            "    return entry;",
+            "  };",
+            "  const entry = capsuleEntry(l.deckView.entry, '卡组', 'deckIcon', theme.icon.deck.id);",
+            "  const relicImage = theme.icon.node.treasure.id ?? theme.icon.node.treasure;"
+          ]
+        },
+        {
+          "at": 72,
+          "before": [
+            "      button('open', l.deckView.relicEntry, '遗物'),"
+          ],
+          "after": [
+            "      capsuleEntry(l.deckView.relicEntry, '遗物', 'relicIcon', relicImage),"
+          ]
+        }
+      ]
+    },
+    "scripts/relic-view-layout.mjs": {
+      "beforeSha256": "d614fed2c8d460479388712cf19fe558021411e5fa2277d8d240b06eb7f90f01",
+      "afterSha256": "478f910769145e7efaa67ae84f2d61c4ecc40b27a67c7063e8353bbb04e3c2b1",
+      "hunks": [
+        {
+          "at": 32,
+          "before": [
+            "  const bar = Array.from({ length: b.count }, (_, i) => {"
+          ],
+          "after": [
+            "  // One sunken capsule groups every owned disc so the strip reads as a single",
+            "  // HUD element; the last disc doubles as a +N overflow chip (no wrap/occlusion).",
+            "  const capsule = (name, [w, h], colour) => { const x = (w - h) / 2; return { name, kind: 'container', size: [w, h], children: [",
+            "    { ...plate('left', [-x, 0, h, h], colour), image: theme.image.disc }, plate('middle', [0, 0, w - h, h], colour),",
+            "    { ...plate('right', [x, 0, h, h], colour), image: theme.image.disc }] }; };",
+            "  const traySize = b.tray.slice(2);",
+            "  const tray = { name: 'tray', kind: 'container', position: b.tray.slice(0, 2), size: traySize, visible: false, children: [",
+            "    capsule('border', traySize, c.line), capsule('plate', traySize.map(x => x - b.trayBorder * 2), c.panelSunken)] };",
+            "  const bar = [tray, ...Array.from({ length: b.count }, (_, i) => {"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "    slot.children.push({ name: 'hit', kind: 'cursorArea', size: [44, 44], focusable: true });"
+          ],
+          "after": [
+            "    slot.children.push({ ...text('more', b.more, '', f.label, c.goldBright), visible: false });",
+            "    slot.children.push({ name: 'hit', kind: 'cursorArea', size: [b.step, 44], focusable: true });"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "  });"
+          ],
+          "after": [
+            "  })];"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "b5a05a8426fe147bfa95b16792dcbd0e5c7f360dad4d678d13f9834253f62918",
+      "afterSha256": "52b6686888c0b4255483c5e369f7c03bf0b4b8ab453ec9a1945a9ef73c22f15c",
+      "hunks": [
+        {
+          "at": 315,
+          "before": [
+            "            child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state):GetChild('label').text=run and '遗物 '..#run.relics or '遗物'"
+          ],
+          "after": [
+            "            local variant=child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state)",
+            "            variant:GetChild('label').text=run and '遗物 '..#run.relics or '遗物'",
+            "            variant:GetChild('count').text=run and number(#run.relics) or ''"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_relic_view_ui.lua": {
+      "beforeSha256": "7589be5e8e31706791c44961f219f2102d4039849a3ed1fa9be2d53f339083fa",
+      "afterSha256": "61ab0cbdde1d0b0f553cf60e8a521726fded57f89a6d3f12598b1268a61a7490",
+      "hunks": [
+        {
+          "at": 25,
+          "before": [],
+          "after": [
+            "end",
+            "-- Pure bar plan: true = show relic i, '+N' = overflow chip, false = hidden.",
+            "function M.barCells(total,count)",
+            "    local cells={}",
+            "    for i=1,count do",
+            "        if total>count and i==count then cells[i]='+'..(total-count+1)",
+            "        else cells[i]=i<=total end",
+            "    end",
+            "    return cells"
+          ]
+        },
+        {
+          "at": 86,
+          "before": [
+            "    -- Owned-only row like the prototype topBar(); overflow is reached via the",
+            "    -- existing 遗物 N button and the paginated overlay."
+          ],
+          "after": [
+            "    -- Owned-only tray like the prototype topBar(). Beyond count the last disc",
+            "    -- becomes a +N overflow chip that opens the paginated overlay there."
+          ]
+        },
+        {
+          "at": 89,
+          "before": [],
+          "after": [
+            "        local relics=run and run.relics or {}"
+          ]
+        },
+        {
+          "at": 91,
+          "before": [
+            "        for i=1,Theme.layout.relicView.bar.count do"
+          ],
+          "after": [
+            "        bar:GetChild('tray'):SetVisible(#relics>0)",
+            "        for i,cell in ipairs(M.barCells(#relics,Theme.layout.relicView.bar.count))do"
+          ]
+        },
+        {
+          "at": 94,
+          "before": [
+            "            local id=run and run.relics[i]",
+            "            slot:SetVisible(id~=nil)",
+            "            if id then picture(slot:GetChild('icon'),M.icon(id))end"
+          ],
+          "after": [
+            "            slot:SetVisible(cell~=false)",
+            "            local more=type(cell)=='string'",
+            "            slot:GetChild('icon'):SetVisible(not more)",
+            "            slot:GetChild('more'):SetVisible(more)",
+            "            slot:GetChild('more').text=more and cell or ''",
+            "            if cell and not more then picture(slot:GetChild('icon'),M.icon(relics[i]))end"
+          ]
+        }
+      ]
+    },
+    "tests/lua/owned_relic_view.lua": {
+      "beforeSha256": "ac8c6323a225c32c4fecd009685855feaf75c8374f533417039536c91d178408",
+      "afterSha256": "eda7a6eb02641d1a2699da220d471ba1a3ff337dc9fdbccb7626247d9433d74f",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [],
+          "after": [
+            "-- Grouped tray + overflow chip: 42 relics → slot1/2 icons, slot3 '+40'.",
+            "assert(bar:GetChild('tray').visible==true,'relic tray groups the discs')",
+            "local last=bar:GetChild('slot'..Theme.layout.relicView.bar.count)",
+            "assert(last:GetChild('more').visible==true and last:GetChild('more').text=='+40',last:GetChild('more').text)",
+            "assert(last:GetChild('icon').visible==false,'overflow chip must not stack on an icon')",
+            "assert(bar:GetChild('slot1'):GetChild('more').visible==false)",
+            "local V=require('abyss_relic_view_ui')",
+            "local function same(a,b)for i=1,math.max(#a,#b)do if a[i]~=b[i]then return false end end return true end",
+            "assert(same(V.barCells(0,3),{false,false,false}))",
+            "assert(same(V.barCells(2,3),{true,true,false}))",
+            "assert(same(V.barCells(3,3),{true,true,true}))",
+            "assert(same(V.barCells(4,3),{true,true,'+2'}))"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [],
+          "after": [
+            "assert(entry:GetChild('normal'):GetChild('count').text=='42')"
+          ]
+        }
+      ]
+    },
+    "tests/relic-view-layout.test.mjs": {
+      "beforeSha256": "13d305749e85ea880f71151b3d0e284f008984588d3493e7b8344f14a50c41f5",
+      "afterSha256": "9460aa477c6ccc02ad9eaff7b844d664592642fbb955e878f8d679459fcb2793",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [
+            "  assert.equal(bar.children.length, v.bar.count);",
+            "  bar.children.forEach((slot, i) => {"
+          ],
+          "after": [
+            "  const [tray, ...slots] = bar.children;",
+            "  assert.equal(tray.name, 'tray');",
+            "  assert.equal(slots.length, v.bar.count);",
+            "  const entry = theme.layout.deckView.relicEntry, visual = theme.layout.deckView.entryVisual;",
+            "  // Tray groups the discs, clears the title, and never touches the 遗物 capsule.",
+            "  assert.ok(v.bar.tray[0] - v.bar.tray[2] / 2 >= theme.layout.nativeNode.topBar.title[2] / 2);",
+            "  assert.ok(v.bar.tray[0] + v.bar.tray[2] / 2 < entry[0] - visual.size[0] / 2);",
+            "  slots.forEach((slot, i) => {",
+            "    assert.ok(Math.abs(slot.position[0] - v.bar.tray[0]) + v.bar.disc / 2 <= v.bar.tray[2] / 2, 'disc inside tray');"
+          ]
+        },
+        {
+          "at": 19,
+          "before": [
+            "    assert.deepEqual(slot.children.map(c => c.name), ['rim', 'face', 'light', 'icon', 'hit']);"
+          ],
+          "after": [
+            "    assert.deepEqual(slot.children.map(c => c.name), ['rim', 'face', 'light', 'icon', 'more', 'hit']);"
+          ]
+        },
+        {
+          "at": 23,
+          "before": [
+            "    assert.ok(slot.position[0] + v.bar.disc / 2 <= theme.layout.deckView.relicEntry[0] - theme.layout.deckView.relicEntry[2] / 2);"
+          ],
+          "after": [
+            "    assert.ok(slot.position[0] + v.bar.disc / 2 <= entry[0] - entry[2] / 2);",
+            "    if (i) assert.ok(slot.position[0] - slots[i - 1].position[0] >= v.bar.disc, 'discs never overlap');"
+          ]
+        }
+      ]
+    }
+  }
+}

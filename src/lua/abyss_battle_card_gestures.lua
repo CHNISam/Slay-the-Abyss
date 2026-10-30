@@ -1,8 +1,69 @@
 -- Read state, issue Run commands. No damage/energy/outcome rules live in this view.
 local Theme = require("abyss_theme")
 local CardInput = require("abyss_card_input")
+local Combat = require("abyss_combat")
 local M = {}
 local L = Theme.layout
+local BROWSE_LIFT = 2 -- 搓牌后提起需 2×threshold 上推（估值，非拷贝）
+-- Hand gesture intent: separates a lateral nudge from a throw-to-play.
+-- Ported behaviour from mature mobile card games (STS mobile / Hearthstone / Snap):
+-- once motion is clearly vertical-dominant upward the gesture locks as "play" and a
+-- fast upward flick plays a no-target card on release even short of the drop line.
+-- Card rules, energy and targeting stay in CardInput / Combat; this only classifies.
+local Intent = {}
+-- Canvas units (1280x720). lockRatio: vertical must beat lateral by this factor.
+local FLICK = {lockDistance=22, lockRatio=1.4, speed=900, minRise=48, window=0.12}
+Intent.FLICK = FLICK
+local function F() return FLICK end
+M.Intent = Intent
+function Intent.sample(g, x, y)
+    local now = g.elapsed or 0
+    local s = g.intentSamples or {}
+    g.intentSamples = s
+    s[#s+1] = {t=now, x=x, y=y}
+    while #s > 12 do table.remove(s, 1) end
+    local dx, dy = x - g.sx, y - g.sy
+    local f = F()
+    if not g.playIntent and dy >= f.lockDistance and dy >= math.abs(dx)*f.lockRatio then
+        g.playIntent = true
+    end
+end
+-- Upward velocity (canvas px/s) over the recent window, plus rise from the press point.
+function Intent.velocity(g)
+    local s = g.intentSamples
+    if not s or #s < 2 then return 0, 0 end
+    local last, f = s[#s], F()
+    local first = s[1]
+    for i = #s-1, 1, -1 do
+        if last.t - s[i].t > f.window then break end
+        first = s[i]
+    end
+    -- Several native events can arrive inside one frame; treat that as one 60 Hz frame.
+    local span = math.max(last.t - first.t, 1/60)
+    return (last.y - first.y)/span, (last.x - first.x)/span
+end
+-- x, y: the release point. It joins the velocity window, and a release past the
+-- drop ceiling (top bar / off canvas) or off the sides is never upgraded to a play.
+-- Fast vertical-dominant throw, or a locked play intent still moving up decisively.
+function Intent.thrown(g)
+    local f = F()
+    local vy, vx = Intent.velocity(g)
+    local rise = (g.y or g.sy) - g.sy
+    if vy >= f.speed and rise >= f.minRise and vy >= math.abs(vx)*f.lockRatio then return true end
+    return g.playIntent == true and vy >= f.speed*0.6 and rise >= f.minRise*1.5
+end
+local function releaseOutside(g, x, y)
+    return g.dropEnd and y >= g.dropEnd or g.width and math.abs(x) > g.width/2
+end
+function Intent.flick(g, x, y)
+    if g.cancelled or g.aiming or not g.sx then return false end
+    if x and y then
+        if releaseOutside(g, x, y) then return false end
+        Intent.sample(g, x, y)
+        g.x, g.y = x, y
+    end
+    return Intent.thrown(g)
+end
 -- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, ownership, host, dependencies)
     local updateCarry
@@ -69,6 +130,62 @@ function M.install(owner, ownership, host, dependencies)
             owner:render()
         else host.cardView.renderDrag(valid, target, aiming, true) end
     end
+    -- Short EMA of finger velocity, kept on the gesture for a later fling port.
+    local function sampleVelocity(g, x, y)
+        local now = os.clock()
+        local dt = now-(g.t or now)
+        if dt > 0 then
+            g.vx = (g.vx or 0)*0.6 + (x-g.x)/dt*0.4
+            g.vy = (g.vy or 0)*0.6 + (y-g.y)/dt*0.4
+        end
+        g.t = now
+    end
+    -- 搓牌：Clash Royale 式“指下最近一张”。横向主导的按住滑动只换悬停牌，
+    -- 不进入出牌拖拽；只有相对当前牌向上主导的位移才提起该牌。
+    local function nearestSlot(count, x)
+        local w = L.card.size[1]
+        local spacing = count <= 1 and 0 or math.max(L.hand.spacingMin, math.min(L.hand.spacingMax, (L.hand.maxWidth - w) / (count - 1)))
+        if spacing == 0 then return 1 end
+        local index = math.floor(x/spacing + (count-1)/2 + 0.5)
+        return math.max(0, math.min(count-1, index)) + 1
+    end
+    local function retargetHover(g, x)
+        local hand = g.battle.hand
+        local slot = nearestSlot(#hand, x)
+        local instance = hand[slot]
+        if instance and slot ~= g.slot then
+            g.slot, g.uid, g.origin = slot, instance.uid, owner.cardPositions[instance.uid]
+            g.bx = x
+        end
+        if owner.hover == g.slot then return end
+        owner.hover = g.slot
+        owner.handHover = {run=g.run,battle=g.battle,turn=g.battle.turn,slot=g.slot,uid=g.uid}
+        owner:render(true)
+    end
+    local function startBrowse(g, x, y)
+        local ax, ay = math.abs(x-g.sx), math.abs(y-g.sy)
+        -- 横向先过阈值且仍在手牌带才算搓牌；竖直/斜上仍走原 8px 拖拽。
+        if ax < L.cardDrag.threshold or ax <= ay or y > L.hand.y + L.card.size[2]/2 then return false end
+        g.browsing, g.browsed, g.bx, g.by = true, true, x, y
+        return true
+    end
+    local function liftBrowse(g, x, y)
+        local dy = y-g.by
+        -- 离开手牌带，或相对当前牌向上主导：交给原拖拽/出牌流程
+        if y <= L.hand.y + L.card.size[2]/2 and (dy < L.cardDrag.threshold*BROWSE_LIFT or dy <= math.abs(x-g.bx)) then return false end
+        g.browsing, g.sx, g.sy = nil, g.bx, g.by
+         g.intentSamples, g.playIntent = nil, nil
+        owner.hover, owner.handHover = nil, nil
+        return true
+    end
+    local function browseHand(g, x, y)
+        if g.moving or g.phase ~= "combat" or not g.battle then return false end
+        if not g.browsing and not startBrowse(g, x, y) then return false end
+        if liftBrowse(g, x, y) then return false end
+        if y < g.by then g.by = y end -- 以最低点为上推基准，下压不累计
+        retargetHover(g, x)
+        return true
+    end
     local function move(event, input)
         if owner.potionAim and owner.potionAim.moving and dependencies.movePotion then return dependencies.movePotion(event,input) end
         local g = owner.gesture
@@ -78,7 +195,10 @@ function M.install(owner, ownership, host, dependencies)
         if input and input ~= g.input or g.input.held ~= g or not dependencies.cardReady(g) then return end
         local x,y = point(event)
         if not x then return end
+        sampleVelocity(g,x,y)
         g.x,g.y = x,y
+        if browseHand(g,x,y) then return end
+        Intent.sample(g, x, y)
         if (x-g.sx)^2+(y-g.sy)^2 >= L.cardDrag.threshold^2 then g.moving = true end
         if g.moving then renderCardMotion(g) end
     end
@@ -110,17 +230,30 @@ function M.install(owner, ownership, host, dependencies)
             input.released = nil
         end
     end
+    -- A clear upward throw plays a no-target card even short of the drop line,
+    -- instead of snapping back like a sideways nudge through the hand.
+    local function releaseAction(g, x, y, valid)
+        local action = x and CardInput.release(g, valid) or 'cancel'
+        if not x or action == 'play' or g.aiming or g.phase ~= "combat" or not g.battle then return action end
+        if Intent.flick(g, x, y) and dependencies.cardReady(g) and Combat.canPlay(g.battle, g.uid, nil) == true then
+            return 'play', true
+        end
+        return action
+    end
     local function finishCardRelease(g, event, ended)
-        local x = point(event)
+        local x, releaseY = point(event)
         local valid,target = false,nil
         if x and g.moving then valid,target = dependencies.dragTarget(g) end
         owner.gesture = nil -- consume before invoking the command or any rendering callback
         if not g.moving then
+            -- 纯横向搓牌松手：保留悬停，不触发 C 模式选牌。
+            if g.browsed then g.input.released, owner.suppressClick = nil, true; owner:render(true); return end
             g.input.released = not ended and g or nil
             return
         end
         g.input.released = nil
-        local action = x and CardInput.release(g, valid) or 'cancel'
+        local action, flicked = releaseAction(g, x, releaseY, valid)
+        if flicked then target = nil end
         owner.carry = (action == 'target' or action == 'carry') and g or nil
         -- Keep the trailing Click bound to this drag, not a persistent global lock.
         ownership.releasedDragTouch = g.touch

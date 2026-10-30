@@ -1,0 +1,49 @@
+{
+  "identity": "Geovishap Hatchling / 幼岩龙蜥",
+  "observed_anatomy": "Actual 2022 archive and 2024 gameplay show short forearms, TWO weight-bearing hind legs, oversized crown-like dark rock helmet/head, amber forehead crystal, golden ventral plates and curved ivory-spiked tail. The old proposal low quadruped description was inaccurate and NOT followed.",
+  "identity_review": "Recognizable match to actual archive; central/side head peaks, narrow pale eyes, gold forehead and belly, juvenile proportions, biped feet and spiked tail retained. Arm armor facets and gold highlights are stylized, not pixel-identical. No Lawachurl anatomy transferred.",
+  "small_size_review": "106/127px retained distinct crown, belly stripe, separate short limbs and spike-tail. Fine claw/armor facets merge; usable source direction only.",
+  "proposal_id": "jaw_worm",
+  "status": "offline-source-candidate-awaiting-owner-review",
+  "independent_per_identity_review": true,
+  "technical": {
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "alpha_nonzero_bbox": [
+      0,
+      20,
+      1245,
+      1254
+    ],
+    "alpha_gt_16_bbox": [
+      43,
+      77,
+      1242,
+      1195
+    ],
+    "alpha_gt_128_bbox": [
+      44,
+      77,
+      1241,
+      1194
+    ]
+  },
+  "edge_limitation": "Low-alpha fringe/specks extend farther than visible solid silhouette. Raw alpha preserved. Small preview is not native antialiasing/crop safety proof; later native adaptation should test 6% inset contain without trimming.",
+  "owner_approved": false,
+  "native_approved": false,
+  "runtime_enabled": false,
+  "device_approved": false,
+  "native": false,
+  "runtime": false,
+  "device": false,
+  "all_42_mapping_approved": false,
+  "gameplay_binding_changed": false,
+  "generation_fix_needed": false
+}

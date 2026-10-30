@@ -1,0 +1,770 @@
+{
+  "schemaVersion": 1,
+  "base": "e57df1d1f5f36d952c2360c8fc9add56e59d017c",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "ad7a52c5b5df717a9aa59c07bc70580d437017b95ff90a22455105b382807fd7",
+      "afterSha256": "9326e9dfa5f9245edaea6f373f395709444adf2f7320eca4cf1cac95124fba19",
+      "hunks": [
+        {
+          "at": 1165,
+          "before": [
+            "      \"reticlePad\": 28"
+          ],
+          "after": [
+            "      \"reticlePad\": 28,",
+            "      \"aimFlow\": 1.6,",
+            "      \"aimBend\": [",
+            "        0.25,",
+            "        0.2",
+            "      ],",
+            "      \"aimRetarget\": 0.12,",
+            "      \"aimLockPulse\": [",
+            "        1.25,",
+            "        0.18,",
+            "        0.03",
+            "      ]"
+          ]
+        },
+        {
+          "at": 3439,
+          "before": [
+            "      \"padding\": 7"
+          ],
+          "after": [
+            "      \"padding\": 7,",
+            "      \"glyphScale\": 1.35"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_actions.lua": {
+      "beforeSha256": "9d58b05c3c7926523b7f785abe2b2fcbf066f5b97938b656474feee2c70955f4",
+      "afterSha256": "213865b6e3c692aa2c02abc1319028b842c4deb8cbdc70abe178eff00962e2d3",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [
+            "local function needsTarget(state, instance)",
+            "    -- Ask the core to validate the same card with and without a target.",
+            "    local _, reason = Combat.canPlay(state, instance.uid, nil)",
+            "    return reason == \"invalid_target\"",
+            "end"
+          ],
+          "after": []
+        },
+        {
+          "at": 185,
+          "before": [
+            "        dependencies.notice(Controller.isController(host.platform.controller)",
+            "            and (needsTarget(run.combat,instance) and \"摇杆选择敌人 · 确认出牌 · 返回取消\" or \"确认出牌 · 返回取消\")",
+            "            or (needsTarget(run.combat,instance) and \"点选一个敌人；再点原牌取消\" or \"点击战场出牌区域；再点原牌取消\"))"
+          ],
+          "after": [
+            "        dependencies.notice(\"\")  -- STS 式：选牌只靠抬起/发光反馈，不显示任何教学字幕"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_card_bindings.lua": {
+      "beforeSha256": "0c370951117718e9f2c7247cc6ff4db7836e019d6c59a097e3b9ea9e632cbf8b",
+      "afterSha256": "add73e13c968039d9eee32dacd3d7d866c21ec6e2ccc89182d4f199d2ee9b7e7",
+      "hunks": [
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "        local o = g.origin",
+            "        g.grabDx, g.grabDy = o and o[1]-x or 0, o and o[2]-y or 0",
+            "        g.vx, g.vy, g.t = 0, 0, os.clock()"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_card_gestures.lua": {
+      "beforeSha256": "3750e191291bd11d34d7c9b28a83d08d5a6763f17800432a3f85478fab756e0c",
+      "afterSha256": "9fc7257f00ff8ae2f24e72304c1dbe720d7931084b1017708a9a46ea615bb2c6",
+      "hunks": [
+        {
+          "at": 71,
+          "before": [],
+          "after": [
+            "    -- Short EMA of finger velocity, kept on the gesture for a later fling port.",
+            "    local function sampleVelocity(g, x, y)",
+            "        local now = os.clock()",
+            "        local dt = now-(g.t or now)",
+            "        if dt > 0 then",
+            "            g.vx = (g.vx or 0)*0.6 + (x-g.x)/dt*0.4",
+            "            g.vy = (g.vy or 0)*0.6 + (y-g.y)/dt*0.4",
+            "        end",
+            "        g.t = now",
+            "    end"
+          ]
+        },
+        {
+          "at": 90,
+          "before": [],
+          "after": [
+            "        sampleVelocity(g,x,y)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_card_view.lua": {
+      "beforeSha256": "da5e1d6ae515e4c06fac0adef1e81536f4cb2fbcf1f282c906946caf9e95f025",
+      "afterSha256": "98653452a2c64bb21fa8a3461f1e9ca23f590208773490c185784c7e594bdf88",
+      "hunks": [
+        {
+          "at": 297,
+          "before": [
+            "        box:SetLocalScale(D.scale, D.scale, 1)"
+          ],
+          "after": [
+            "        local entry=handPoses[g.uid]",
+            "        local prev=entry and entry.current",
+            "        local scale=prev and prev.scale and lerpSnap(prev.scale,D.scale,1/60,7.5,0.003) or D.scale",
+            "        box:SetLocalScale(scale, scale, 1)"
+          ]
+        },
+        {
+          "at": 302,
+          "before": [
+            "        local entry=handPoses[g.uid]",
+            "        if entry then entry.current={x=x,y=y,scale=D.scale,angle=0} end"
+          ],
+          "after": [
+            "        if entry then entry.current={x=x,y=y,scale=scale,angle=0} end"
+          ]
+        },
+        {
+          "at": 306,
+          "before": [],
+          "after": [
+            "    -- STS TargetArrow 行为参考：箭头终点在换目标时平滑插值而非瞬移，",
+            "    -- 点链沿曲线持续流向目标，锁定时准星轻微收缩脉冲。只读 dragTarget 结果，不改输入规则。",
+            "    local aim = {phase = 1, lock = nil, target = nil}"
+          ]
+        },
+        {
+          "at": 312,
+          "before": [
+            "            return tx, ty or L.enemyRow.y, portrait + D.reticlePad"
+          ],
+          "after": [
+            "            ty = ty or L.enemyRow.y",
+            "            if aim.target ~= target then",
+            "                -- 首次锁定直接落点；敌人之间切换从上次画出的终点出发插值。",
+            "                aim.from = (aim.target and aim.ex) and {aim.ex, aim.ey} or nil",
+            "                aim.target, aim.lock, aim.blend = target, 0, aim.from and 0 or 1",
+            "            end",
+            "            local k = aim.blend or 1",
+            "            if aim.from and k < 1 then",
+            "                local e = 1-(1-k)*(1-k)*(1-k)",
+            "                tx, ty = aim.from[1]+(tx-aim.from[1])*e, aim.from[2]+(ty-aim.from[2])*e",
+            "            end",
+            "            aim.ex, aim.ey = tx, ty",
+            "            return tx, ty, portrait + D.reticlePad"
+          ]
+        },
+        {
+          "at": 326,
+          "before": [],
+          "after": [
+            "        -- 未锁定时终点紧贴手指，避免自由瞄准产生拖尾延迟。",
+            "        aim.target, aim.lock, aim.from, aim.ex, aim.ey = nil, nil, nil, nil, nil"
+          ]
+        },
+        {
+          "at": 337,
+          "before": [],
+          "after": [
+            "        -- 锁定脉冲：从 aimLockPulse 倍缩回 1（ease-out），之后极轻呼吸。",
+            "        local pulse = 1",
+            "        if enemy and aim.lock then",
+            "            local p = D.aimLockPulse or {1, 0.18, 0}",
+            "            local k = math.min(1, aim.lock/p[2])",
+            "            pulse = 1 + (p[1]-1)*(1-k)*(1-k) + (k >= 1 and p[3]*math.sin(aim.lock*6.283) or 0)",
+            "        end",
+            "        reticle:SetLocalScale(pulse, pulse, 1)"
+          ]
+        },
+        {
+          "at": 349,
+          "before": [
+            "            local dot, t = layer:GetChild(\"aim\" .. i), i/D.aimDots"
+          ],
+          "after": [
+            "            -- 末点固定为箭头端；其余点按 phase 沿曲线向目标流动（phase=1 时即原等距点位）。",
+            "            local dot = layer:GetChild(\"aim\" .. i)",
+            "            local t = i == D.aimDots and 1 or (i-1+aim.phase)/D.aimDots"
+          ]
+        },
+        {
+          "at": 355,
+          "before": [
+            "                -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.",
+            "                dot:SetAnchoredPosition(u*u*sx + 2*u*t*sx + t*t*ex, u*u*sy + 2*u*t*fy + t*t*fy)"
+          ],
+          "after": [
+            "                -- 二次贝塞尔：控制点取 STS TargetArrow 式偏置（起点外侧、终点上方），弧线更柔和。",
+            "                local bend = D.aimBend or {0, 0}",
+            "                local cx, cy = sx - (ex-sx)*bend[1], fy + (fy-sy)*bend[2]",
+            "                dot:SetAnchoredPosition(u*u*sx + 2*u*t*cx + t*t*ex, u*u*sy + 2*u*t*cy + t*t*fy)"
+          ]
+        },
+        {
+          "at": 392,
+          "before": [
+            "            layer:GetChild('line'):SetVisible(true)"
+          ],
+          "after": [
+            "            -- STS 不画出牌阈线：越线反馈只靠卡牌自身的 glow（AbstractCard.isGlowing 式），不再显示细长金线。",
+            "            layer:GetChild('line'):SetVisible(false)"
+          ]
+        },
+        {
+          "at": 396,
+          "before": [],
+          "after": [
+            "            -- 隐藏线仍跟随权威阈值定位（触屏卡面上移 270*scale），只作几何锚点。"
+          ]
+        },
+        {
+          "at": 398,
+          "before": [
+            "            -- Touch cards are rendered above the finger. Translate the line",
+            "            -- by the same amount so the visible card center crosses it exactly",
+            "            -- when the finger crosses the authoritative input threshold."
+          ],
+          "after": []
+        },
+        {
+          "at": 400,
+          "before": [
+            "            tint(layer:GetChild(\"line\"),valid and C.goldBright or C.line)"
+          ],
+          "after": []
+        },
+        {
+          "at": 401,
+          "before": [
+            "            -- The lit line, card glow and reticle already say \"release to play\"; no caption over the card."
+          ],
+          "after": [
+            "            -- Card glow and reticle already say \"release to play\"; no caption over the card."
+          ]
+        },
+        {
+          "at": 412,
+          "before": [],
+          "after": [
+            "    local function advanceAim(held,dt)",
+            "        if not held then aim.phase, aim.target, aim.lock, aim.from = 1, nil, nil, nil;return end",
+            "        if not (held.moving and held.drawnAiming) or view.fastMode then return end",
+            "        aim.phase = (aim.phase + dt*(D.aimFlow or 0)) % 1",
+            "        if aim.lock then aim.lock = aim.lock + dt end",
+            "        if aim.blend and aim.blend < 1 then aim.blend = math.min(1, aim.blend + dt/(D.aimRetarget or 0.12)) end",
+            "        renderDrag(held.drawnValid, held.drawnTarget, held.drawnAiming, true)",
+            "    end"
+          ]
+        },
+        {
+          "at": 424,
+          "before": [],
+          "after": [
+            "        advanceAim(held,dt)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_render_hud.lua": {
+      "beforeSha256": "cb20ad0230dce5412294dcf6679a6e4ea47901fe42e6a8945bf188b46d48c960",
+      "afterSha256": "86d04a8e2b586258a79f09fd1e00fbc48a912c81fb5327575d26af34ec8030f2",
+      "hunks": [
+        {
+          "at": 106,
+          "before": [
+            "        dependencies.child(\"playArea\"):GetChild(\"label\").text = owner.potionAim and \"点击空白处取消药水瞄准\" or \"出牌区域 · 点击出牌\""
+          ],
+          "after": [
+            "        dependencies.child(\"playArea\"):GetChild(\"label\").text = owner.potionAim and \"点击空白处取消药水瞄准\" or \"\""
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_targeting.lua": {
+      "beforeSha256": "c3cd092580e7f5392825872802665b09ae96ea9fa72d21cdb30c5fb997bcf396",
+      "afterSha256": "aca467a41dd72dc3cfdec3abab3d511fe58f4764bb44e03f2b8444d85442279b",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [],
+          "after": [
+            "    -- STS mobile port: keep the grab offset at pickup, then ease the card to",
+            "    -- the finger-above pose over the first 80px instead of snapping +270."
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "        return g.x, g.y + (g.touchScreen and 270*g.sourceScale or 0)"
+          ],
+          "after": [
+            "        local lift = g.touchScreen and 270*g.sourceScale or 0",
+            "        local gx, gy = g.grabDx or 0, g.grabDy or lift",
+            "        local dist = math.sqrt((g.x-(g.sx or g.x))^2+(g.y-(g.sy or g.y))^2)",
+            "        local t = math.max(0, math.min(1, dist/80))",
+            "        local k = t*t*(3-2*t)",
+            "        return g.x + gx*(1-k), g.y + gy + (lift-gy)*k"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_flow.lua": {
+      "beforeSha256": "2423279169fe99ab0f5b7d45de7e0e8402fb7b54f6c3cb72021eff200ba241fb",
+      "afterSha256": "dc8d127ebae4f4c7493f51fe5ae4e04d279eac635e0bfd2d4337cbe6f924a311",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "-- Exhaust burn timing (seconds / px); total is the exhaust trail lifetime.",
+            "M.burn={lift=30,scale=1.05,hold=0.25,burn=0.9,fly=0.2}",
+            "-- 弃牌错峰（秒/张）、旋转角度、终点缩放。",
+            "M.discard={stagger=0.05,spin=-120,scale=0.06}"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "            start={start[1],start[2]},finish={finish[1],finish[2]},age=0,label=label}"
+          ],
+          "after": [
+            "            start={start[1],start[2]},finish={finish[1],finish[2]},age=0,label=label,",
+            "            order=to.pile=='discard'and #self.waiting or 0}"
+          ]
+        },
+        {
+          "at": 79,
+          "before": [],
+          "after": [
+            "    -- Exhaust burn: behaviour port of Slay the Spire ExhaustCardEffect (lift + pow2Out",
+            "    -- scale, darken-to-transparent) with ExhaustEmber twinkle, rewritten on the existing",
+            "    -- trail children so no controls are allocated. Discard keeps the plain shrink-fly.",
+            "    local BURN=M.burn",
+            "    local ember=C.potionShell.fire.ink",
+            "    local function mix(a,b,t)return{r=a.r+(b.r-a.r)*t,g=a.g+(b.g-a.g)*t,b=a.b+(b.b-a.b)*t,a=255}end",
+            "    local function burn(card,entry)",
+            "        local a=entry.age",
+            "        local total=BURN.hold+BURN.burn+BURN.fly",
+            "        local s0=0.5",
+            "        if a<BURN.hold+BURN.burn then",
+            "            local h=math.min(1,a/BURN.hold);local e=1-(1-h)*(1-h) -- pow2Out",
+            "            card:SetAnchoredPosition(entry.start[1],entry.start[2]+BURN.lift*e)",
+            "            local b=math.max(0,(a-BURN.hold)/BURN.burn)",
+            "            local sc=s0*(1+(BURN.scale-1)*e)*(1-0.15*b)",
+            "            card:SetLocalScale(sc,sc,1)",
+            "            -- Plate chars from curse purple through ember to soot while fading out.",
+            "            local plate=b<0.4 and mix(C.debuff,ember,b/0.4)or mix(ember,C.backdrop,(b-0.4)/0.6)",
+            "            card:GetChild('plate').imageColor=colour(plate,1-b*b)",
+            "            local art=card:GetChild('art')",
+            "            if b>0 and not entry.ember then",
+            "                entry.ember=true;art:SetImage(platform.imageSource,Theme.image.sparkle)",
+            "                card:GetChild('name').text=''",
+            "            end",
+            "            if b>0 then",
+            "                -- ExhaustEmber twinkle: bottom-up drift with flicker.",
+            "                local tw=0.75+0.25*math.sin(a*40)",
+            "                art.imageColor=colour(ember,(1-b)*tw)",
+            "                art:SetAnchoredPosition(math.sin(a*23)*6,Theme.space.xl+b*BURN.lift)",
+            "            end",
+            "            return false",
+            "        end",
+            "        local f=math.min(1,(a-BURN.hold-BURN.burn)/BURN.fly)",
+            "        local q=f*f*(3-2*f)",
+            "        local sx,sy=entry.start[1],entry.start[2]+BURN.lift",
+            "        card:SetAnchoredPosition(sx+(entry.finish[1]-sx)*q,sy+(entry.finish[2]-sy)*q)",
+            "        local art=card:GetChild('art')",
+            "        art.imageColor=colour(ember,1-q*0.5) -- spark streaks to the exhaust pile icon",
+            "        card:SetLocalScale(0.3*(1-q)+0.16*q,0.3*(1-q)+0.16*q,1)",
+            "        return a>=total",
+            "    end",
+            "    local function discard(card,entry)",
+            "        if entry.age<0 then return false end",
+            "        card:SetVisible(true)",
+            "        local p=math.min(1,entry.age/T.slow)",
+            "        local q=p*p*(3-2*p)",
+            "        card:SetAnchoredPosition(entry.start[1]+(entry.finish[1]-entry.start[1])*q,",
+            "            entry.start[2]+(entry.finish[2]-entry.start[2])*q+math.sin(p*math.pi)*Theme.space.xxl)",
+            "        local scale=0.5+(M.discard.scale-0.5)*p*p",
+            "        card:SetLocalScale(scale,scale,1)",
+            "        card.localRotationZ=M.discard.spin*q",
+            "        return p>=1",
+            "    end"
+          ]
+        },
+        {
+          "at": 134,
+          "before": [],
+          "after": [
+            "        card:GetChild('art').imageColor=colour(C.goldBright,1)",
+            "        card:GetChild('art'):SetAnchoredPosition(0,Theme.space.xl)"
+          ]
+        },
+        {
+          "at": 144,
+          "before": [
+            "        card:SetVisible(true)"
+          ],
+          "after": [
+            "        card.localRotationZ=0",
+            "        if entry.to=='discard'then",
+            "            -- STS 回合末弃牌：逐张错峰、旋转缩入弃牌堆；小尺寸下文字不可读且会叠在按钮上，隐藏。",
+            "            card:GetChild('name').text=''",
+            "            entry.age=-M.discard.stagger*(entry.order or 0)",
+            "        end",
+            "        card:SetVisible(entry.age>=0)"
+          ]
+        },
+        {
+          "at": 172,
+          "before": [],
+          "after": [
+            "                local done",
+            "                if entry.to=='exhaust'then done=burn(card,entry)",
+            "                elseif entry.to=='discard'then done=discard(card,entry)else"
+          ]
+        },
+        {
+          "at": 180,
+          "before": [],
+          "after": [
+            "                done=p>=1 end"
+          ]
+        },
+        {
+          "at": 184,
+          "before": [
+            "                elseif p>=1 then entry.arrived=true end"
+          ],
+          "after": [
+            "                elseif done then entry.arrived=true end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_card_skin.lua": {
+      "beforeSha256": "abb11aa9ae480a45bcd0e59d62645f2206617498c5a10767d4efc728d1fac728",
+      "afterSha256": "8c96eaee01bb0cb51e539500b779b9050483b58ddce536dd3d5441b95e28621a",
+      "hunks": [
+        {
+          "at": 107,
+          "before": [],
+          "after": [
+            "    -- 原生 CJK 字形含字距/内边距，按字号直接相乘会截成「能量不」；用 glyphScale 留足宽度。"
+          ]
+        },
+        {
+          "at": 109,
+          "before": [
+            "    local width=math.min(style.pill[1],count*Theme.font.minimum+style.padding*2+style.lock[1]+style.gap)"
+          ],
+          "after": [
+            "    local width=math.min(style.pill[1],math.ceil(count*Theme.font.minimum*(style.glyphScale or 1))+style.padding*2+style.lock[1]+style.gap)"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_feedback.lua": {
+      "beforeSha256": "2f095d338c253ef2af606c858de3da6b789f5f98407510e6053c743f6d0adb61",
+      "afterSha256": "b9d3989d3ef8746ed2dcb56f54d8e00f905992f77a29eb716ebba5e0aeaf4f48",
+      "hunks": [
+        {
+          "at": 250,
+          "before": [
+            "        self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }"
+          ],
+          "after": [
+            "        -- STS 式落点：攻击牌撞到敌人身前下沿即爆开，不贴在立绘脸上。",
+            "        self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y,",
+            "            stop = (target or area) and S.xxl * 1.5 or 0 }"
+          ]
+        },
+        {
+          "at": 438,
+          "before": [
+            "            card:SetAnchoredPosition(self.flight.tx, self.flight.ty) card:SetLocalScale(0.5, 0.5, 1)",
+            "            self.dissolve = nil"
+          ],
+          "after": [
+            "            card:SetAnchoredPosition(self.flight.tx, self.flight.ty - (self.flight.stop or 0)) card:SetLocalScale(0.5, 0.5, 1)",
+            "            -- 接触帧后立即收缩消散，命中闪光接管视觉焦点。",
+            "            self.dissolve = 0"
+          ]
+        },
+        {
+          "at": 567,
+          "before": [
+            "                    card:SetAnchoredPosition(f.x + (f.tx - f.x) * q, f.y + S.l + (f.ty - f.y - S.l) * q)"
+          ],
+          "after": [
+            "                    card:SetAnchoredPosition(f.x + (f.tx - f.x) * q, f.y + S.l + (f.ty - (f.stop or 0) - f.y - S.l) * q)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/aim_visual_parity.lua": {
+      "beforeSha256": "d4795b5d06aed33c8b1ae6c2d3cb0001aa0e1c7f779c413581237c6be67f21d2",
+      "afterSha256": "ea2b873a1c501418b1cc6cc1f5a69776cb792d28d435e68c7b15210f2655e633",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  near(dot.x,q*q*sx+2*q*t*sx+t*t*r.x);near(dot.y,q*q*sy+2*q*t*fy+t*t*fy)"
+          ],
+          "after": [
+            "  local b=T.layout.cardDrag.aimBend;local cx,cy=sx-(r.x-sx)*b[1],fy+(fy-sy)*b[2]",
+            "  near(dot.x,q*q*sx+2*q*t*cx+t*t*r.x);near(dot.y,q*q*sy+2*q*t*cy+t*t*fy)"
+          ]
+        },
+        {
+          "at": 30,
+          "before": [],
+          "after": [
+            "-- STS TargetArrow 式流动：update 推进 phase 后点位沿曲线前移，末点仍钉在终点，规则状态不变。",
+            "do",
+            " local h2,u2,p2,e2=H.setup({'strike'})",
+            " local en=p2:GetChild('enemy1');e2('card1','down',7);e2('card1','drag',7,en.x,en.y)",
+            " local L2=p2:GetChild('dragLayer');local before=L2:GetChild('aim5').x;local last=L2:GetChild('aim14')",
+            " local lx,ly=last.x,last.y;local energy=h2.run.combat.energy",
+            " h2:update(0.1)",
+            " do assert(L2:GetChild('aim5').x~=before,'dots flow along the arc');near(last.x,lx);near(last.y,ly) end",
+            " assert(h2.run.combat.energy==energy,'aim animation never spends or plays')",
+            "end"
+          ]
+        }
+      ]
+    },
+    "tests/lua/card_flow.lua": {
+      "beforeSha256": "4448046eec66ec5473d597f9cbe331efe85d6b4510513631da0e716987bfc228",
+      "afterSha256": "672bae7b4835ab82a9fb0dd7e20c1528274285f84f574237459bb48ca8677b99",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            "flow:update(Theme.motion.slow,catalog,{})"
+          ],
+          "after": [
+            "local B=Flow.burn",
+            "flow:update(B.hold,catalog,{})",
+            "-- Exhaust lifts in place (ExhaustCardEffect) instead of the discard shrink-fly.",
+            "local burning=flow.active[1]",
+            "assert(trail.visible and trail.x==burning.start[1] and trail.y>=burning.start[2]+B.lift-1e-6 and trail.sx>0.5)",
+            "flow:update(B.burn*0.9,catalog,{})",
+            "assert(trail.children.plate.imageColor.a<255 and trail.children.name.text=='')",
+            "flow:update(B.burn*0.1+B.fly,catalog,{})"
+          ]
+        }
+      ]
+    },
+    "tests/lua/feedback_polish.lua": {
+      "beforeSha256": "d8f8c6a3eab2d253737d40a487eb60070536fdab41d1dd307725c7cd60a59a1e",
+      "afterSha256": "8d84c82b718e3870a4fe77b74eab7314d9489551b4bb56c289284dca34dd7b01",
+      "hunks": [
+        {
+          "at": 99,
+          "before": [
+            "    assert(near(card.x, h.feedback.flight.tx) and near(card.y, h.feedback.flight.ty), \"card arrives at the target on the contact frame\")"
+          ],
+          "after": [
+            "    assert(near(card.x, h.feedback.flight.tx) and near(card.y, h.feedback.flight.ty - h.feedback.flight.stop) and h.feedback.flight.stop > 0, \"card strikes just below the target face on the contact frame (STS-style, not plastered on portrait)\")"
+          ]
+        },
+        {
+          "at": 122,
+          "before": [],
+          "after": [
+            "    assert(impact.imageId == Theme.image.glow and near(impact.localScaleX, 2), \"heavy contact opens with a 2x white FlashAtkImg-style flash\")",
+            "    local shards, recoiled = false, false"
+          ]
+        },
+        {
+          "at": 125,
+          "before": [
+            "    local _, held = h.until_(function(e) shook = shook or h.stage.x ~= 0 return e.kind ~= \"damage\" end, true)"
+          ],
+          "after": [
+            "    local _, held = h.until_(function(e) shook = shook or h.stage.x ~= 0",
+            "        shards = shards or (impact.visible and impact.imageId == Theme.image.shards and impact.localScaleX > 1)",
+            "        recoiled = recoiled or h.portrait(\"enemy1\").x < -0.5",
+            "        return e.kind ~= \"damage\" end, true)",
+            "    assert(shards, \"flash hands off to an outward shard burst on the same pooled control\")",
+            "    assert(recoiled, \"heavy knockback swings elastically past home before settling\")"
+          ]
+        }
+      ]
+    },
+    "tests/lua/mobile_card_release.lua": {
+      "beforeSha256": "aa5b00652d53d397c495a660e1150d34fcd9f04ee44e3a9aca0f36dbce8eea4b",
+      "afterSha256": "c8ca0f43305c8b2be0ae7bf5f45620a0d30884e35665d2680470814c465f4d04",
+      "hunks": [
+        {
+          "at": 38,
+          "before": [],
+          "after": [
+            "test('mobile pickup keeps grab offset instead of snapping finger-above',function()",
+            " local h,u,p,e=H.setup({'defend'},nil,{touchScreen=function()return true end})",
+            " local card=p:GetChild('card1');local x0,y0=card.x,card.y",
+            " e('card1','down',7);e('card1','drag',7,x0,y0+10)",
+            " assert(u.gesture and u.gesture.moving,'threshold crossed')",
+            " assert(math.abs(card.y-y0)<60,'first frame after threshold must stay near grab, got dy='..(card.y-y0))",
+            " e('card1','drag',7,x0,y0+200)",
+            " assert(math.abs(card.y-(y0+200)-270*u.gesture.sourceScale)<1,'past 80px the finger-above pose is reached')",
+            "end)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/battle_ui_cases.lua": {
+      "beforeSha256": "6adf9566320c60e8b68fb8854ccbf9dffb0eb34f7510d5a32309d4a3461d7590",
+      "afterSha256": "96bebbbb73d739910c15a2ed87b5d85bc877ea0de6d378408479771d9002b25b",
+      "hunks": [
+        {
+          "at": 220,
+          "before": [
+            "            assert(stage.children.notice.text:find(\"点选一个敌人\", 1, true))"
+          ],
+          "after": [
+            "            assert(stage.children.notice.text == \"\")"
+          ]
+        },
+        {
+          "at": 238,
+          "before": [
+            "    assert(stage.children.notice.text == \"点击战场出牌区域；再点原牌取消\")"
+          ],
+          "after": [
+            "    assert(stage.children.notice.text == \"\")"
+          ]
+        },
+        {
+          "at": 246,
+          "before": [
+            "    assert(stage.children.notice.text == \"点击战场出牌区域；再点原牌取消\")"
+          ],
+          "after": [
+            "    assert(stage.children.notice.text == \"\")"
+          ]
+        },
+        {
+          "at": 1069,
+          "before": [
+            "        assert(stage.children.dragLayer.visible and stage.children.dragLayer.children.line.visible)"
+          ],
+          "after": [
+            "        assert(stage.children.dragLayer.visible and not stage.children.dragLayer.children.line.visible)"
+          ]
+        },
+        {
+          "at": 1106,
+          "before": [
+            "    assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, \"aiming card must park below the line\")"
+          ],
+          "after": [
+            "    -- STS scaleLerpSnap 式缩放过渡：停住后若干帧收敛到拖牌缩放，位置首帧即停泊于阈线下。",
+            "    assert(ui.gesture.moving and box.y + h/2 <= D.lineY, \"aiming card must park below the line\")",
+            "    for _ = 1, 60 do ui:update(1 / 60) event(\"card1\",\"drag\",third.x+40,third.y-70) end",
+            "    assert(ui.gesture.moving and box.y + h/2 <= D.lineY and box.localScaleX == D.scale, \"parked aiming card settles at drag scale\")"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_feedback_actor_painter.lua": {
+      "beforeSha256": "a2472913976a2670f4ea5cc5ca81492b666d8531e3a287bc2c77e3f508920c86",
+      "afterSha256": "b61a6b7ba40449d4e94bcc2558e369015ea9a894d445d2192fc2351accef359c",
+      "hunks": [
+        {
+          "at": 33,
+          "before": [
+            "        local amplitude = T.shakeAmplitude * (id == \"player\" and (scale + 1) / 2 or scale / 2)"
+          ],
+          "after": [
+            "        local amplitude = T.shakeAmplitude * ((id == \"player\" or heavy) and (scale + 1) / 2 or scale / 2)"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [],
+          "after": [
+            "end",
+            "local function recoil(x) x=clamp(x) return (1-x)*(1-x)*math.cos(x*math.pi*2.5) end",
+            "local function knockOut(frozen,heavy,after)",
+            " if frozen then return 1 end",
+            " if heavy then return recoil(after/(T.base*1.5)) end",
+            " return 1-easeOut(after/T.base)"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            "        local out = frozen and 1 or 1 - easeOut(after / T.base)"
+          ],
+          "after": [
+            "        local out = knockOut(frozen,heavy,after)"
+          ]
+        },
+        {
+          "at": 100,
+          "before": [],
+          "after": [
+            "    local function heavyBurst(ctx,impact,effect,sample,window)",
+            "        local frozen,after=sample.frozen,sample.after",
+            "        local flashEnd=window*0.3",
+            "        local phase=frozen and 'flash' or after<flashEnd and 'flash' or 'shards'",
+            "        if effect.burst~=phase then",
+            "            effect.burst=phase",
+            "            impact:SetImage(ctx.platform.imageSource, phase=='flash' and Theme.image.glow or Theme.image.shards)",
+            "        end",
+            "        if phase=='flash' then",
+            "            local p=frozen and 0 or easeOut(after/flashEnd)",
+            "            local s=2-p",
+            "            impact:SetLocalScale(s,s,1) impact:SetAnchoredPosition(0,0)",
+            "            tint(ctx,impact,C.text,1-p*0.4)",
+            "        else",
+            "            local p=clamp((after-flashEnd)/(window-flashEnd))",
+            "            local s=1+easeOut(p)*1.4",
+            "            impact:SetLocalScale(s,s,1) impact:SetAnchoredPosition(0,0)",
+            "            tint(ctx,impact,mix(C.goldBright,C.geo,p),(1-easeIn(p))*0.9)",
+            "        end",
+            "    end",
+            "    local burstFamily={none=true,melee=true,heavy=true}",
+            "    local function bursts(effect,sample)",
+            "        local style=effect.style",
+            "        return sample.heavy and sample.lost and not effect.icon and style.form=='single' and sample.kind=='damage'",
+            "            and (style.family==nil or burstFamily[style.family])",
+            "    end",
+            "    local function shardImpact(id,impact,effect,sample,e)",
+            "        local ix,iy,offset,iy0,alpha,key=skillImpact(effect,sample,e)",
+            "        impact:SetLocalScale(ix, iy, 1)",
+            "        impact:SetAnchoredPosition(offset or 0, iy0)",
+            "        local shardInk,shardAlpha=impactTint(id,effect,sample,e)",
+            "        tint(ctx,impact,key and C[key] or shardInk,alpha or shardAlpha)",
+            "    end",
+            ""
+          ]
+        },
+        {
+          "at": 142,
+          "before": [
+            "    if show then"
+          ],
+          "after": [
+            "    if show and bursts(effect,sample) then",
+            "        heavyBurst(ctx,impact,effect,sample,window)",
+            "    elseif show then"
+          ]
+        }
+      ]
+    }
+  }
+}

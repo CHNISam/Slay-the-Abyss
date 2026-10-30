@@ -210,3 +210,13 @@ art/cards/traveler-geo/native-runtime-registry.json text eol=lf
 art/cards/traveler-geo/armaments/native-art.lua -text
 art/cards/traveler-geo/armaments/native-art.json -text
 art/cards/traveler-geo/runtime-candidate/*.json text eol=lf
+# New native slime source/hash/provenance must retain exact export bytes on Windows.
+art/monsters/acid_slime_m/native-art-r02/native-art.lua -text
+art/monsters/acid_slime_m/native-art-r02/native-art.json -text
+art/monsters/acid_slime_m/native-art-r02/README.md text eol=lf
+data/presentation/native-monster-art.json text eol=lf
+tests/fixtures/native-monster-art-source-layer.json text eol=lf
+art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/stonehide-lawachurl/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/geovishap-hatchling/source.png filter=lfs diff=lfs merge=lfs -text
+art/monster-benchmarks/genshin-v1/dendro-slime/source.png filter=lfs diff=lfs merge=lfs -text

@@ -69,7 +69,9 @@ function M.install(owner, ownership, _host, dependencies)
         local token,run = owner.handHover,owner.run
         if not token then return false end
         local instance = token.battle.hand[token.slot]
-        return dependencies.canHover() and run == token.run and run.phase == 'combat' and run.combat == token.battle
+        -- 搓牌中的按住手势由指下最近牌驱动悬停；其他按住/拖拽仍清悬停。
+        local browsing = owner.gesture and owner.gesture.browsed and not owner.gesture.moving
+        return (dependencies.canHover() or browsing) and run == token.run and run.phase == 'combat' and run.combat == token.battle
             and token.battle.turn == token.turn and token.battle.phase == 'player'
             and instance and instance.uid == token.uid
     end

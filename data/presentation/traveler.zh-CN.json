@@ -40,7 +40,7 @@
     "body_slam": {
       "name": "格挡反击",
       "textTemplate": "对目标造成与自己当前格挡等量的伤害。",
-      "upgradeTextTemplate": "费用：{cost} 能量。对目标造成与自己当前格挡等量的伤害。"
+      "upgradeTextTemplate": "对目标造成与自己当前格挡等量的伤害。"
     },
     "clash": {
       "name": "全力进攻",
@@ -110,7 +110,7 @@
     "barricade": {
       "name": "永世的磐岩",
       "textTemplate": "自己的回合开始时，保留已有格挡。",
-      "upgradeTextTemplate": "费用：{cost} 能量。自己的回合开始时，保留已有格挡。"
+      "upgradeTextTemplate": "自己的回合开始时，保留已有格挡。"
     },
     "carnage": {
       "name": "抓住战机",
@@ -130,7 +130,7 @@
     "entrench": {
       "name": "加固防线",
       "textTemplate": "将自己当前的格挡翻倍。",
-      "upgradeTextTemplate": "费用：{cost} 能量。将自己当前的格挡翻倍。"
+      "upgradeTextTemplate": "将自己当前的格挡翻倍。"
     },
     "ghostly_armor": {
       "name": "及时招架",
@@ -150,7 +150,7 @@
     "seeing_red": {
       "name": "重整旗鼓",
       "textTemplate": "增加 {effects.0.value} 点能量。打出后消耗本牌。",
-      "upgradeTextTemplate": "费用：{cost} 能量。增加 {effects.0.value} 点能量。打出后消耗本牌。"
+      "upgradeTextTemplate": "增加 {effects.0.value} 点能量。打出后消耗本牌。"
     },
     "shockwave": {
       "name": "震慑敌阵",

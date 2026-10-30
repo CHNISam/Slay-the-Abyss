@@ -7,6 +7,7 @@ local Actors=require('abyss_actor')
 local ActorMotion=require('abyss_actor_motion')
 local SkillFeedback=require('abyss_skill_feedback')
 local ActorPainter=require("abyss_feedback_actor_painter")
+local MonsterArt=require('abyss_monster_art')
 local CardFlow=require('abyss_card_flow')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
@@ -182,6 +183,7 @@ function M.new(stage, platform, present, complete)
     end
     local function resetUnit(name)
         local box = stage:GetChild(name)
+        MonsterArt.clearBox(box)
         for _, part in ipairs({"impact", "shield", "floating"}) do pcall(function() box:GetChild(part):SetVisible(false) end) end
         for _, part in ipairs({"portrait", "impact", "shield", "blockEdge", "blockIcon", "block"}) do
             pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if not part:find("^block") then c:SetAnchoredPosition(0, 0) end end)
@@ -248,7 +250,9 @@ function M.new(stage, platform, present, complete)
         local target = (targetsEnemy or area) and self.shadow.enemies[d.target or 1]
         local _, _, x, y = actor(target and target.id or "player")
         if area then x = ROW end
-        self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y }
+        -- STS 式落点：攻击牌撞到敌人身前下沿即爆开，不贴在立绘脸上。
+        self.flight = { x = self.origin and self.origin[1] or 0, y = self.origin and self.origin[2] or L.hand.y, tx = x, ty = y,
+            stop = (target or area) and S.xxl * 1.5 or 0 }
     end
     local function contactSound(d,style)
         -- One cue per contact; an area ripple shares the first target's cue.
@@ -434,8 +438,9 @@ function M.new(stage, platform, present, complete)
         hideOverlay(landing or next(self.cardFlow.inPlay)~=nil)
         if landing then
             local card = overlay:GetChild("playedCard")
-            card:SetAnchoredPosition(self.flight.tx, self.flight.ty) card:SetLocalScale(0.5, 0.5, 1)
-            self.dissolve = nil
+            card:SetAnchoredPosition(self.flight.tx, self.flight.ty - (self.flight.stop or 0)) card:SetLocalScale(0.5, 0.5, 1)
+            -- 接触帧后立即收缩消散，命中闪光接管视觉焦点。
+            self.dissolve = 0
         end
         self.acting = entry.kind == "intent" and entry.detail.enemy or self.acting
         if entry.kind == "player_turn" then self.acting = nil end
@@ -562,7 +567,7 @@ function M.new(stage, platform, present, complete)
                 else
                     local q = easeIn((p - lift) / (1 - lift))
                     local s = (1 + OVERSHOOT) * (1 - q) + q / 2
-                    card:SetAnchoredPosition(f.x + (f.tx - f.x) * q, f.y + S.l + (f.ty - f.y - S.l) * q)
+                    card:SetAnchoredPosition(f.x + (f.tx - f.x) * q, f.y + S.l + (f.ty - (f.stop or 0) - f.y - S.l) * q)
                     card:SetLocalScale(s, s, 1)
                 end
             end

@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "9293405dfa07be95c632ac1a15cc4ebc2fb3034b",
+  "files": {
+    "src/lua/abyss_battle_card_gestures.lua": {
+      "beforeSha256": "3750e191291bd11d34d7c9b28a83d08d5a6763f17800432a3f85478fab756e0c",
+      "afterSha256": "8cef8bf1d42506d054c5ce350a10e10a4cc5aec66c002d4dce9ebd1e3f93e812",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "local Combat = require(\"abyss_combat\")"
+          ]
+        },
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "-- Hand gesture intent: separates a lateral nudge from a throw-to-play.",
+            "-- Ported behaviour from mature mobile card games (STS mobile / Hearthstone / Snap):",
+            "-- once motion is clearly vertical-dominant upward the gesture locks as \"play\" and a",
+            "-- fast upward flick plays a no-target card on release even short of the drop line.",
+            "-- Card rules, energy and targeting stay in CardInput / Combat; this only classifies.",
+            "local Intent = {}",
+            "-- Canvas units (1280x720). lockRatio: vertical must beat lateral by this factor.",
+            "local FLICK = {lockDistance=22, lockRatio=1.4, speed=900, minRise=48, window=0.12}",
+            "Intent.FLICK = FLICK",
+            "local function F() return FLICK end",
+            "M.Intent = Intent",
+            "function Intent.sample(g, x, y)",
+            "    local now = g.elapsed or 0",
+            "    local s = g.intentSamples or {}",
+            "    g.intentSamples = s",
+            "    s[#s+1] = {t=now, x=x, y=y}",
+            "    while #s > 12 do table.remove(s, 1) end",
+            "    local dx, dy = x - g.sx, y - g.sy",
+            "    local f = F()",
+            "    if not g.playIntent and dy >= f.lockDistance and dy >= math.abs(dx)*f.lockRatio then",
+            "        g.playIntent = true",
+            "    end",
+            "end",
+            "-- Upward velocity (canvas px/s) over the recent window, plus rise from the press point.",
+            "function Intent.velocity(g)",
+            "    local s = g.intentSamples",
+            "    if not s or #s < 2 then return 0, 0 end",
+            "    local last, f = s[#s], F()",
+            "    local first = s[1]",
+            "    for i = #s-1, 1, -1 do",
+            "        if last.t - s[i].t > f.window then break end",
+            "        first = s[i]",
+            "    end",
+            "    -- Several native events can arrive inside one frame; treat that as one 60 Hz frame.",
+            "    local span = math.max(last.t - first.t, 1/60)",
+            "    return (last.y - first.y)/span, (last.x - first.x)/span",
+            "end",
+            "-- x, y: the release point. It joins the velocity window, and a release past the",
+            "-- drop ceiling (top bar / off canvas) or off the sides is never upgraded to a play.",
+            "-- Fast vertical-dominant throw, or a locked play intent still moving up decisively.",
+            "function Intent.thrown(g)",
+            "    local f = F()",
+            "    local vy, vx = Intent.velocity(g)",
+            "    local rise = (g.y or g.sy) - g.sy",
+            "    if vy >= f.speed and rise >= f.minRise and vy >= math.abs(vx)*f.lockRatio then return true end",
+            "    return g.playIntent == true and vy >= f.speed*0.6 and rise >= f.minRise*1.5",
+            "end",
+            "local function releaseOutside(g, x, y)",
+            "    return g.dropEnd and y >= g.dropEnd or g.width and math.abs(x) > g.width/2",
+            "end",
+            "function Intent.flick(g, x, y)",
+            "    if g.cancelled or g.aiming or not g.sx then return false end",
+            "    if x and y then",
+            "        if releaseOutside(g, x, y) then return false end",
+            "        Intent.sample(g, x, y)",
+            "        g.x, g.y = x, y",
+            "    end",
+            "    return Intent.thrown(g)",
+            "end"
+          ]
+        },
+        {
+          "at": 141,
+          "before": [],
+          "after": [
+            "        Intent.sample(g, x, y)"
+          ]
+        },
+        {
+          "at": 173,
+          "before": [],
+          "after": [
+            "    -- A clear upward throw plays a no-target card even short of the drop line,",
+            "    -- instead of snapping back like a sideways nudge through the hand.",
+            "    local function releaseAction(g, x, y, valid)",
+            "        local action = x and CardInput.release(g, valid) or 'cancel'",
+            "        if not x or action == 'play' or g.aiming or g.phase ~= \"combat\" or not g.battle then return action end",
+            "        if Intent.flick(g, x, y) and dependencies.cardReady(g) and Combat.canPlay(g.battle, g.uid, nil) == true then",
+            "            return 'play', true",
+            "        end",
+            "        return action",
+            "    end"
+          ]
+        },
+        {
+          "at": 184,
+          "before": [
+            "        local x = point(event)"
+          ],
+          "after": [
+            "        local x, releaseY = point(event)"
+          ]
+        },
+        {
+          "at": 193,
+          "before": [
+            "        local action = x and CardInput.release(g, valid) or 'cancel'"
+          ],
+          "after": [
+            "        local action, flicked = releaseAction(g, x, releaseY, valid)",
+            "        if flicked then target = nil end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_battle_card_view.lua": {
+      "beforeSha256": "da5e1d6ae515e4c06fac0adef1e81536f4cb2fbcf1f282c906946caf9e95f025",
+      "afterSha256": "7d52e3a1ff2fc7bcdcf7af2a216fd97cd9ecd62ef99950946de26cb23033476b",
+      "hunks": [
+        {
+          "at": 320,
+          "before": [],
+          "after": [
+            "    -- STS TargetArrow port (AbstractPlayer.renderTargetingUi/drawCurvedLine): the control",
+            "    -- point sits behind the start and overshoots past the end, so the shaft arcs up and",
+            "    -- lands on the target from above. Drawn as overlapping tangent-rotated segments so it",
+            "    -- reads as one continuous shaft, tapering toward the tip, capped by a V arrowhead.",
+            "    local function control(sx, sy, ex, fy)",
+            "        return sx - (ex-sx)/4, fy + (fy-sy)/2",
+            "    end",
+            "    local function bezier(sx, sy, ex, fy, t)",
+            "        local u, cx, cy = 1-t, control(sx, sy, ex, fy)",
+            "        return u*u*sx + 2*u*t*cx + t*t*ex, u*u*sy + 2*u*t*cy + t*t*fy",
+            "    end",
+            "    -- Shaft segments are the existing aim1..aim(N-2) diamonds stretched along the tangent",
+            "    -- (a long thin diamond is a tapered stroke; overlapped they read as one line). The last",
+            "    -- two become the V head's barbs. No new controls, art, or theme keys.",
+            "    local ARROW = {width={5,11}, overlap=1.6, head={30,8}, spread=36}"
+          ]
+        },
+        {
+          "at": 336,
+          "before": [
+            "        for i = 1, D.aimDots do",
+            "            local dot, t = layer:GetChild(\"aim\" .. i), i/D.aimDots",
+            "            dot:SetVisible(aiming == true)"
+          ],
+          "after": [
+            "        local n = D.aimDots - 2",
+            "        local colour = enemy and C.danger or C.goldBright",
+            "        local headL, headR = layer:GetChild(\"aim\" .. (n+1)), layer:GetChild(\"aim\" .. (n+2))",
+            "        headL:SetVisible(aiming == true); headR:SetVisible(aiming == true)",
+            "        -- The shaft stops at the head's base so the tip is the arrowhead, not a blunt bar.",
+            "        local span = math.max(1, math.sqrt((ex-sx)^2 + (fy-sy)^2))",
+            "        local stop = math.max(0.5, 1 - ARROW.head[1]*0.5/span)",
+            "        local px, py = sx, sy",
+            "        for i = 1, n do",
+            "            local seg, t = layer:GetChild(\"aim\" .. i), stop*i/n",
+            "            seg:SetVisible(aiming == true)"
+          ]
+        },
+        {
+          "at": 348,
+          "before": [
+            "                local u, size = 1-t, D.aimDot[1] + (D.aimDot[2] - D.aimDot[1])*t",
+            "                -- Quadratic Bezier with its control point at (start x, end y): rises, then bends over.",
+            "                dot:SetAnchoredPosition(u*u*sx + 2*u*t*sx + t*t*ex, u*u*sy + 2*u*t*fy + t*t*fy)",
+            "                dot:SetSizeDelta(size, size)",
+            "                -- Gold trail; once an enemy is locked the last 40% turns red so the lock reads at a glance.",
+            "                tint(dot, (enemy and t > 0.6) and C.danger or C.goldBright)"
+          ],
+          "after": [
+            "                local x, y = bezier(sx, sy, ex, fy, t)",
+            "                local dx, dy = x-px, y-py",
+            "                local w = ARROW.width[1] + (ARROW.width[2]-ARROW.width[1])*t",
+            "                seg:SetAnchoredPosition((x+px)/2, (y+py)/2)",
+            "                seg:SetSizeDelta(math.max(w*2, math.sqrt(dx*dx+dy*dy)*ARROW.overlap + w), w)",
+            "                seg.localRotationZ = math.deg(math.atan(dy, dx))",
+            "                tint(seg, colour)",
+            "                px, py = x, y"
+          ]
+        },
+        {
+          "at": 358,
+          "before": [],
+          "after": [
+            "        if not aiming then return end",
+            "        -- Head follows the curve's tangent at the tip: dB/dt(1) = 2*(end - control).",
+            "        local cx, cy = control(sx, sy, ex, fy)",
+            "        local hx, hy = ex-cx, fy-cy",
+            "        if hx*hx + hy*hy < 1 then hx, hy = 0, 1 end",
+            "        local heading = math.deg(math.atan(hy, hx))",
+            "        local len, thick = ARROW.head[1], ARROW.head[2]",
+            "        for side, barb in ipairs({headL, headR}) do",
+            "            local r = math.rad(heading + 180 + (side == 1 and ARROW.spread or -ARROW.spread))",
+            "            barb:SetAnchoredPosition(ex + math.cos(r)*len/2, fy + math.sin(r)*len/2)",
+            "            barb:SetSizeDelta(len, thick)",
+            "            barb.localRotationZ = math.deg(r)",
+            "            tint(barb, colour)",
+            "        end"
+          ]
+        },
+        {
+          "at": 373,
+          "before": [
+            ""
+          ],
+          "after": []
+        }
+      ]
+    },
+    "tests/aim-visual-parity.test.mjs": {
+      "beforeSha256": "c2709421de924e06845515baf8d26f271a6341cc0782aa0ea9fe169bfa76f351",
+      "afterSha256": "f116db53e7e5c7f11f3a0c1f13298a420580769244af41a136ee1de97a75cf42",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [
+            "test('native aim restores fourteen diamonds and ring from 4ad01d49',()=>{"
+          ],
+          "after": [
+            "test('native aim keeps fourteen pooled controls and ring (now drawn as an STS arrow)',()=>{"
+          ]
+        },
+        {
+          "at": 17,
+          "before": [
+            "test('real card aiming restores the previous curve and ring while touch cancellation remains intact',()=>{"
+          ],
+          "after": [
+            "test('real card aiming draws a continuous STS arrow with a V head while touch cancellation remains intact',()=>{"
+          ]
+        }
+      ]
+    },
+    "tests/lua/aim_visual_parity.lua": {
+      "beforeSha256": "d4795b5d06aed33c8b1ae6c2d3cb0001aa0e1c7f779c413581237c6be67f21d2",
+      "afterSha256": "d2f64ca6b1d68168fddab6e3c62bf73cb97b6f337a2d6abcac991e22917aae13",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [
+            "local function near(a,b)assert(math.abs(a-b)<0.0001,tostring(a)..' ~= '..tostring(b))end"
+          ],
+          "after": [
+            "local function near(a,b,eps)assert(math.abs(a-b)<(eps or 0.0001),tostring(a)..' ~= '..tostring(b))end",
+            "-- STS TargetArrow: control point behind the start, overshooting past the end.",
+            "local function curve(sx,sy,ex,fy,t)",
+            " local cx,cy=sx-(ex-sx)/4,fy+(fy-sy)/2;local q=1-t",
+            " return q*q*sx+2*q*t*cx+t*t*ex,q*q*sy+2*q*t*cy+t*t*fy,cx,cy",
+            "end"
+          ]
+        },
+        {
+          "at": 15,
+          "before": [
+            " for i=1,14 do",
+            "  local t=i/14;local q=1-t;local dot=layer:GetChild('aim'..i)",
+            "  near(dot.x,q*q*sx+2*q*t*sx+t*t*r.x);near(dot.y,q*q*sy+2*q*t*fy+t*t*fy)",
+            "  near(dot.sizeDeltaX,8+16*t)",
+            "  local colour=t>0.6 and T.color.danger or T.color.goldBright",
+            "  assert(dot.imageColor.r==colour.r and dot.imageColor.g==colour.g)"
+          ],
+          "after": [
+            " local n=T.layout.cardDrag.aimDots-2",
+            " -- Continuous shaft: each segment is centred between consecutive curve points, rotated",
+            " -- along the chord and long enough to overlap its neighbour (no gaps, no star beads).",
+            " local px,py=sx,sy",
+            " local span=math.sqrt((r.x-sx)^2+(fy-sy)^2);local stop=math.max(0.5,1-15/span)",
+            " for i=1,n do",
+            "  local x,y=curve(sx,sy,r.x,fy,stop*i/n);local seg=layer:GetChild('aim'..i)",
+            "  assert(seg.visible)",
+            "  near(seg.x,(x+px)/2);near(seg.y,(y+py)/2)",
+            "  local len=math.sqrt((x-px)^2+(y-py)^2)",
+            "  assert(seg.sizeDeltaX>=len,'segments overlap into one continuous line')",
+            "  assert(seg.sizeDeltaY<=11,'shaft is a thin stroke, not a bead')",
+            "  near(seg.localRotationZ,math.deg(math.atan(y-py,x-px)),1e-6)",
+            "  assert(seg.imageColor.r==T.color.danger.r and seg.imageColor.g==T.color.danger.g,'locked arrow is red end to end')",
+            "  px,py=x,y"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [],
+          "after": [
+            " -- V head: both barbs meet at the tip and point back along the tangent, mirrored.",
+            " local _,_,cx,cy=curve(sx,sy,r.x,fy,1);local heading=math.deg(math.atan(fy-cy,r.x-cx))",
+            " local a,b=layer:GetChild('aim'..(n+1)),layer:GetChild('aim'..(n+2))",
+            " assert(a.visible and b.visible)",
+            " near(a.localRotationZ+b.localRotationZ,2*(heading+180),1e-6)",
+            " for _,barb in ipairs({a,b})do",
+            "  local rad=math.rad(barb.localRotationZ)",
+            "  near(barb.x-math.cos(rad)*barb.sizeDeltaX/2,r.x,1e-6);near(barb.y-math.sin(rad)*barb.sizeDeltaX/2,fy,1e-6)",
+            " end",
+            " assert(fy<cy,'arrow lands on the target from above')"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [],
+          "after": [
+            " assert(layer:GetChild('aim1').imageColor.r==T.color.goldBright.r,'unlocked arrow stays gold')"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "local layer=p:GetChild('dragLayer');local dot=layer:GetChild('aim14')",
+            "near(dot.x,0);near(dot.y,300)"
+          ],
+          "after": [
+            "local layer=p:GetChild('dragLayer');local a,b=layer:GetChild('aim13'),layer:GetChild('aim14')",
+            "-- Pointer-only aim: arrow tip sits on the pointer.",
+            "local ra,rb=math.rad(a.localRotationZ),math.rad(b.localRotationZ)",
+            "near(a.x-math.cos(ra)*a.sizeDeltaX/2,0,1e-6);near(a.y-math.sin(ra)*a.sizeDeltaX/2,300,1e-6)",
+            "near(b.x-math.cos(rb)*b.sizeDeltaX/2,0,1e-6);near(b.y-math.sin(rb)*b.sizeDeltaX/2,300,1e-6)"
+          ]
+        }
+      ]
+    },
+    "tests/lua/m3_ui_polish.lua": {
+      "beforeSha256": "f6dacb0aff893f2b9e17c2431ec1c8760e5c0c8f1bb998f887c66f834c8c67e0",
+      "afterSha256": "6050154c15f70875999113d2df3ad03e87da90f1eb9c2f5643739a3d96d8f4bb",
+      "hunks": [
+        {
+          "at": 35,
+          "before": [
+            "   assert(part.visible and math.abs(part.sizeDeltaX-(8+16*dot/14))<1e-9)",
+            "   colour(part.imageColor,dot/14>0.6 and Theme.color.danger or Theme.color.goldBright)"
+          ],
+          "after": [
+            "   -- STS arrow: a locked target turns the whole shaft and head red.",
+            "   assert(part.visible and part.sizeDeltaY<=30)",
+            "   colour(part.imageColor,Theme.color.danger)"
+          ]
+        }
+      ]
+    }
+  }
+}

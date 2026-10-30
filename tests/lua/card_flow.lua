@@ -27,7 +27,14 @@ flow:update(0.01,catalog,{})
 assert(not trail.visible and not flow:busy())
 flow:sync(frame({a}),frame(nil,nil,nil,{a}))
 assert(flow.waiting[1].to=='exhaust')
-flow:update(Theme.motion.slow,catalog,{})
+local B=Flow.burn
+flow:update(B.hold,catalog,{})
+-- Exhaust lifts in place (ExhaustCardEffect) instead of the discard shrink-fly.
+local burning=flow.active[1]
+assert(trail.visible and trail.x==burning.start[1] and trail.y>=burning.start[2]+B.lift-1e-6 and trail.sx>0.5)
+flow:update(B.burn*0.9,catalog,{})
+assert(trail.children.plate.imageColor.a<255 and trail.children.name.text=='')
+flow:update(B.burn*0.1+B.fly,catalog,{})
 assert(trail.x==Theme.layout.topBar.exhaustIcon[1] and trail.y==Theme.layout.topBar.y)
 flow:reset()
 flow:sync(frame(nil,nil,{a}),frame(nil,{a}), 'reshuffle')

@@ -5,21 +5,28 @@ import { potionSlotVisual } from './potion-slot-visual.mjs';
 export function potionDiscardControls(theme = nativeTheme) {
   const { plate, text }=nativeControls(theme);
   const {color:c,font:f,layout:l,space:s}=theme;
-  const button=(name,frame,label)=>{
-    const size=frame.slice(2),variants={normal:[c.panelRaised,c.goldBright,c.goldDim],
-      hover:[c.buttonHover,c.goldBright,c.goldBright],pressed:[c.goldDim,c.buttonPressedText,c.goldBright],
-      disabled:[c.panelSunken,c.textMuted,c.line]};
+  // Button tiers: primary (gold), secondary (raised neutral), ghost (quiet close),
+  // danger (destructive discard). Disabled ink stays >=4.5:1 on its sunken plate.
+  const tiers={
+    primary:{normal:[c.goldDim,c.buttonPressedText,c.gold],hover:[c.gold,c.textOnLight,c.goldBright]},
+    secondary:{normal:[c.panelRaised,c.goldBright,c.goldDim],hover:[c.buttonHover,c.goldBright,c.goldBright]},
+    ghost:{normal:[c.panel,c.text,c.line],hover:[c.panelRaised,c.goldBright,c.goldDim]},
+    danger:{normal:[c.panelRaised,c.danger,c.danger],hover:[c.buttonHover,c.text,c.danger]},
+  };
+  const button=(name,frame,label,tier='secondary',font=f.label)=>{
+    const size=frame.slice(2),variants={...tiers[tier],pressed:[c.goldDim,c.buttonPressedText,c.goldBright],
+      disabled:[c.panelSunken,c.textDim,c.line]};
     return {name,kind:'container',position:frame.slice(0,2),size,children:[{
       name:'hit',kind:'presetButton',size,focusable:true,
       states:Object.fromEntries(Object.keys(variants).map(state=>[state,state])),
       children:Object.entries(variants).map(([state,[fill,ink,border]])=>({name:state,kind:'container',size,
         scale:state==='pressed'?[l.exitMenu.pressedScale,l.exitMenu.pressedScale]:[1,1],children:[
           plate('border',[0,0,...size],border),plate('plate',[0,0,...size.map(v=>v-s.border*2)],fill),
-          text('label',[0,0,...size.map((v,i)=>v-l.exitMenu.buttonInset[i])],label,f.label,ink)]}))} ]};
+          text('label',[0,0,...size.map((v,i)=>v-l.exitMenu.buttonInset[i])],label,font,ink)]}))} ]};
   };
   const [w,h]=l.modal.size,entry=l.nativeNode.topBar.potions;
   const y=-h/2+s.l+l.exitMenu.cancel[3]/2;
-  const slots=l.potionDiscard;
+  const slots=l.potionDiscard, head=slots.header;
   const actionWidth=(w-s.xxl*2-s.m*2)/3, actionStep=actionWidth+s.m;
   // One unchanged management action; physical bottle silhouettes are not new
   // direct-use buttons. Runtime paints sparse inventory and actual 3/5 capacity.
@@ -48,16 +55,18 @@ export function potionDiscardControls(theme = nativeTheme) {
       plate('veil',[0,0,...theme.canvas.base],c.backdropVeil),
       {name:'blocker',kind:'cursorArea',size:[...theme.canvas.base],focusable:false},
       plate('border',[0,0,w,h],c.goldDim),plate('face',[0,0,w-s.border*2,h-s.border*2],c.panel),
-      text('title',[0,h/2-s.xxl-l.exitMenu.title[3]/2,w-s.xxl*2,l.exitMenu.title[3]],'药水管理',f.heading,c.goldBright),
-      text('hint',[0,l.exitMenu.title[1]+s.xxl,w-s.xxl*2,l.nativeText.lineHeight],'选择药水，可使用战外药水或确认丢弃。',f.label,c.textDim),
+      text('title',[0,head.titleY,w-s.xxl*2,head.textHeight],'药水管理',f.title,c.goldBright),
+      plate('rule',[0,head.ruleY,...head.ruleSize],c.goldDim),
+      text('hint',[0,head.hintY,w-s.xxl*2,head.textHeight],'选择一瓶药水查看效果',f.label,c.textDim),
       ...Array.from({length:l.battlePotions.count},(_,i)=>({
-        ...button(`slot${i+1}`,[slots.columns[i%slots.columns.length],slots.rows[Math.floor(i/slots.columns.length)],...slots.size],`槽 ${i+1}\n空槽`),
+        ...button(`slot${i+1}`,[slots.columns[i%slots.columns.length],slots.rows[Math.floor(i/slots.columns.length)],...slots.size],`槽 ${i+1}\n空槽`,'secondary',f.body),
         ...(i>=3?{visible:false}:{}),
       })),
+      plate('detailWell',slots.detail,c.panelSunken),
       text('detail',slots.detail,'',f.body,c.text),
-      button('cancel',[-actionStep,y,actionWidth,l.exitMenu.cancel[3]],'关闭'),
-      button('use',[0,y,actionWidth,l.exitMenu.confirm[3]],'使用药水'),
-      button('discard',[actionStep,y,actionWidth,l.exitMenu.confirm[3]],'确认丢弃'),
+      button('cancel',[-actionStep,y,actionWidth,l.exitMenu.cancel[3]],'关闭','ghost'),
+      button('use',[0,y,actionWidth,l.exitMenu.confirm[3]],'使用药水','primary'),
+      button('discard',[actionStep,y,actionWidth,l.exitMenu.confirm[3]],'确认丢弃','danger'),
     ]},
   ];
 }

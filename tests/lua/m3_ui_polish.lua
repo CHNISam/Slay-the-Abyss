@@ -33,8 +33,9 @@ for count=1,5 do
   colour(layer:GetChild('reticle').imageColor,Theme.color.danger)
   for dot=1,14 do
    local part=layer:GetChild('aim'..dot)
-   assert(part.visible and math.abs(part.sizeDeltaX-(8+16*dot/14))<1e-9)
-   colour(part.imageColor,dot/14>0.6 and Theme.color.danger or Theme.color.goldBright)
+   -- STS arrow: a locked target turns the whole shaft and head red.
+   assert(part.visible and part.sizeDeltaY<=30)
+   colour(part.imageColor,Theme.color.danger)
   end
  end
  event('dragLayer','drag',7,0,Theme.layout.hand.y)

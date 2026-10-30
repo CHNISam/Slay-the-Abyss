@@ -1,3 +1,5 @@
+import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
+import {preNativeMonsterArtSource} from './native-monster-art-source-inverse.mjs';
 // Exact outer replay of the reviewed catalog boundary. Historical bytes stay frozen.
 import assert from 'node:assert/strict';
 import {preRelicRound3CompositionSource} from './relic-round3-composition.mjs';
@@ -21,6 +23,8 @@ for(const [path,binding]of Object.entries(round3CatalogProof.files)){
  else assert.match(binding.beforeSha256,/^[a-f0-9]{64}$/);
 }
 export function preRound3CatalogSource(path,source,{readSource=path=>readFileSync(path,'utf8')}={}){
+ source=preIntegrationSource(path,source);
+  source=preNativeMonsterArtSource(path,source);
  source=preRelicRound3CompositionSource(path,source,'round3');
  const binding=round3CatalogProof.files[path];
  if(!binding||typeof source!=='string')return source;

@@ -1,3 +1,4 @@
+import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import {preArtFeatureSource} from './helpers/art-feature-source-inverse.mjs';
 import {preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
 import test from 'node:test';
@@ -11,7 +12,7 @@ import {artPerfSourceComposition as proof,projectArtPerfSource as project} from 
 import {readyArtSourceLayer} from './helpers/ready-art-source-inverse.mjs';
 import {round2UiSourceLayer,round2UiAddedPaths,preRound2UiSource} from './helpers/round2-ui-source-inverse.mjs';
 import {preBattleLifeOuterSource,prepareBattleLifeModuleRetirement} from './helpers/battle-life-source-inverse.mjs';
-const read=path=>preRelicArtCompositionSource(path,preRound3CatalogSource(path,preArtFeatureSource(path,readFileSync(path,'utf8'))),'art').replaceAll('\r\n','\n');
+const read=path=>preRelicArtCompositionSource(path,preRound3CatalogSource(path,preArtFeatureSource(path,preNativeMonsterArtSource(path,readFileSync(path,'utf8')))),'art').replaceAll('\r\n','\n');
 const hash=source=>source===null?null:createHash('sha256').update(source).digest('hex');
 
 test('two-way art/performance composition retains both original complete source identities',()=>{

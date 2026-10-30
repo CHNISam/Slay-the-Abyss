@@ -38,7 +38,7 @@ function fixture(t) {
   mkdirSync(join(repo,'build'),{recursive:true});
   const root=mkdtempSync(join(repo,'build/native-art-entry-'));
   t.after(()=>rmSync(root,{recursive:true,force:true}));
-  for(const file of ['src/lua','data','scripts','tools','package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json'])
+  for(const file of ['src/lua','data','scripts','tools','art/monsters/acid_slime_m/native-art-r02','package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json'])
     cpSync(join(repo,file),join(root,file),{recursive:true});
   const put=(file,bytes)=>{const path=join(root,file);mkdirSync(dirname(path),{recursive:true});writeFileSync(path,bytes);return path;};
   for(const file of [...backgroundInputs,...readyArtSourceInputs(),...portraitInputs])put(file,readFileSync(join(repo,file)));
@@ -101,7 +101,7 @@ test('MCP mock: formal CLI consumes opt-in art in the actual UI and dynamic pres
   assert.deepEqual(one.calls.filter(c=>c.name==='scene_remove_client').map(c=>c.args.script),['abyss_stale']);
   assert.equal(one.calls.find(c=>c.name==='write_graphs').args.graphs[0].graphId,23);
   assert.deepEqual(one.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_ui').args.variables,
-    [{name:'nativeBgmEnabled',type:'boolean',value:false},{name:'experimentalCharacters',type:'boolean',value:false}]);
+    [{name:'nativeMonsterArtEnabled',type:'boolean',value:true},{name:'nativeBgmEnabled',type:'boolean',value:false},{name:'experimentalCharacters',type:'boolean',value:false}]);
   assert(!one.calls.some(c=>c.name==='scene_add_graph'||c.name==='scene_add_signal'));
   assert(one.calls.some(c=>c.name==='scene_list_client_scripts'&&c.args.includeSource));
   const disabled=f.cli(['--native-card-art-count=0']);success(disabled);

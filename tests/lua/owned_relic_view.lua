@@ -14,6 +14,18 @@ for i=1,Theme.layout.relicView.bar.count do
   assert(slot.visible==true,'slot '..i..' should show owned relic')
   assert(slot:GetChild('rim') and slot:GetChild('face') and slot:GetChild('icon'),'disc art layers missing')
 end
+-- Grouped tray + overflow chip: 42 relics → slot1/2 icons, slot3 '+40'.
+assert(bar:GetChild('tray').visible==true,'relic tray groups the discs')
+local last=bar:GetChild('slot'..Theme.layout.relicView.bar.count)
+assert(last:GetChild('more').visible==true and last:GetChild('more').text=='+40',last:GetChild('more').text)
+assert(last:GetChild('icon').visible==false,'overflow chip must not stack on an icon')
+assert(bar:GetChild('slot1'):GetChild('more').visible==false)
+local V=require('abyss_relic_view_ui')
+local function same(a,b)for i=1,math.max(#a,#b)do if a[i]~=b[i]then return false end end return true end
+assert(same(V.barCells(0,3),{false,false,false}))
+assert(same(V.barCells(2,3),{true,true,false}))
+assert(same(V.barCells(3,3),{true,true,true}))
+assert(same(V.barCells(4,3),{true,true,'+2'}))
 local function iconOf(id)local v=Theme.icon.relic[id];return type(v)=='table' and v.id or v end
 assert(require('abyss_relic_view_ui').icon('anchor')==iconOf('anchor'))
 local panel=r:GetChild('relicPanel')
@@ -45,6 +57,7 @@ assert(not h.deckUI.visible and not h.relicUI.visible and panel.visible==false a
 assert(bar:GetChild('slot2'):GetChild('hit').click())
 assert(h.relicUI.visible and h.relicUI.page==1)
 assert(entry:GetChild('normal'):GetChild('label').text=='遗物 42')
+assert(entry:GetChild('normal'):GetChild('count').text=='42')
 assert(panel:GetChild('close'):GetChild('hit').click())
 assert(h:openDeck())
 assert(not h:openRelics())
