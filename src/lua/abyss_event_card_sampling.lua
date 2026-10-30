@@ -33,18 +33,19 @@ function M.reset(run)
  local raw=assert(run.data.cards.sourcePools.colorlessRaw,'event colorless pool unavailable')
  assert(#raw==35,'incomplete event colorless pool')
  local ids={};for i,id in ipairs(raw)do ids[i]=id end
- run.eventCardPools={act=run.act or 1,colorless=ids}
- return run.eventCardPools
+ -- Match and Keep uses this same canonical act-wide owner.
+ run.colorlessCardPool={act=run.act or 1,cards=ids}
+ return run.colorlessCardPool
 end
 local function colorlessPool(run)
- local state=run.eventCardPools
+ local state=run.colorlessCardPool
  if not state or state.act~=(run.act or 1)then state=M.reset(run)end
- assert(type(state.colorless)=='table' and #state.colorless==35,'invalid event colorless pool')
- for _,id in ipairs(state.colorless)do
+ assert(type(state.cards)=='table' and #state.cards==35,'invalid event colorless pool')
+ for _,id in ipairs(state.cards)do
   local d=M.definition(run,id)
   assert(d and d.color=='colorless' and (d.rarity=='uncommon' or d.rarity=='rare'),'event colorless identity unavailable')
  end
- return state.colorless
+ return state.cards
 end
 function M.colorless(run,tier,shuffleRng)
  assert(tier=='uncommon' or tier=='rare','invalid event colorless rarity')

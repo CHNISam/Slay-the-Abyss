@@ -131,14 +131,14 @@ F.test('KnowingSkull repeated cards shuffle the shared full35 pool with a persis
  end
  local before=F.snapshot(r);assert(choose(Skull,r,'card'));assert(choose(Skull,r,'card'))
  eq(r.hp,67);eq(r.nodeFlow.event.cardCost,8);eq(#r.deck,12);eq(r.nodeFlow.event.cards[1].cardId,expectedIds[1]);eq(r.nodeFlow.event.cards[2].cardId,expectedIds[2])
- same(r.eventCardPools.colorless,ids);same(R.snapshot(r.nodeFlow.event.shuffleRng),R.snapshot(expected))
+ same(r.colorlessCardPool.cards,ids);same(R.snapshot(r.nodeFlow.event.shuffleRng),R.snapshot(expected))
  same(r.cardRng,before.cardRng);same(r.miscRng,before.miscRng);eq(r.cardRarityOffset,before.cardRarityOffset)
 end)
 F.test('KnowingSkull late card-hook failure rolls back HP price shared pool shuffle and UID then retries',function()
  local r=F.fixture(Skull,'knowing_skull');F.ready(Skull,r);local old=Hooks.onObtainCard
  Hooks.onObtainCard=function(staged,card,d,api)old(staged,card,d,api);error('late skull card refusal')end
  local ok,why=pcall(reject,Skull,r,'card',nil,'transaction_failed');Hooks.onObtainCard=old;assert(ok,why)
- eq(r.hp,80);eq(r.nodeFlow.event.cardCost,6);eq(r.eventCardPools,nil);assert(choose(Skull,r,'card'));eq(r.hp,74);eq(r.nextDeckUid,12)
+ eq(r.hp,80);eq(r.nodeFlow.event.cardCost,6);eq(r.colorlessCardPool,nil);assert(choose(Skull,r,'card'));eq(r.hp,74);eq(r.nextDeckUid,12)
 end)
 F.test('Designer resource boundaries reject before payment and mandatory pickers cannot cancel',function()
  for _,choice in ipairs({'adjust','cleanup','full'})do

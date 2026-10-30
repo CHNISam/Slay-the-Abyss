@@ -69,3 +69,14 @@ test('historical materialization is exact, atomic on unknown targets and rejects
   const q=m3EventAddedPaths[0];symlinkSync(join(process.cwd(),q),join(root,q));assert.throws(()=>materialize(root),/inside copy|alias live/);
  }finally{rmSync(root,{recursive:true,force:true});}
 });
+test('reviewed canonical-pool witness rejects the former split-owner implementation',()=>{
+ const p='src/lua/abyss_event_card_sampling.lua',live=read(p);
+ const stale=live.replace(' -- Match and Keep uses this same canonical act-wide owner.\n','')
+  .replaceAll('run.colorlessCardPool','run.eventCardPools')
+  .replace('{act=run.act or 1,cards=ids}','{act=run.act or 1,colorless=ids}')
+  .replaceAll('state.cards','state.colorless');
+ assert.equal(hash(stale),'5bb64f332e133f829be520fe65754f1277b655244cfe11cdec63db1139af5833');
+ assert.notEqual(stale,live);assert.equal(prior(p,stale),stale);
+ assert.throws(()=>requireSource(p,stale),/M3 event/);
+ assert.equal(requireSource(p,live),null,'added module projects to the unchanged absent base');
+});

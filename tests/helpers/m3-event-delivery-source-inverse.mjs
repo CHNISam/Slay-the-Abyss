@@ -8,7 +8,7 @@ const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const blob=s=>createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
 const bytes=normalize(readFileSync(new URL('../fixtures/m3-event-delivery-source-inverse.json',import.meta.url),'utf8'));
-assert.equal(hash(bytes),'69cd0dbe5e40f1a9d4a342e89823f7411b77b9bdca6ce15f291bb0c49db0778e','complete M3 event delivery inverse');
+assert.equal(hash(bytes),'6eb79a16d9505856b5248d5e772adf6d35003773c9dbd7f4a307472af06166a4','complete M3 event delivery inverse');
 export const m3EventDeliveryProof=deepFreezeSourceProof(JSON.parse(bytes));
 const proof=m3EventDeliveryProof;
 assert.equal(proof.schemaVersion,1);
