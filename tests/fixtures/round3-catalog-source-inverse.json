@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baseCommit": "9293405dfa07be95c632ac1a15cc4ebc2fb3034b",
+  "baseCommit": "1bfca6261044b92f8065bb83668c358b0a2627da",
   "files": {
     "config/architecture.json": {
       "hunks": [
@@ -12,8 +12,8 @@
           ]
         }
       ],
-      "beforeSha256": "2a067420c4503b0efdf16ebe22eb7177a69759e4d41e50a15161422f6dcc41ed",
-      "afterSha256": "a89627237f1ad9b8b9d5fd230d4e3da69c9ca4daa685f007233ae279449c13c0"
+      "beforeSha256": "e7143d88785c45ea827532e04089c399516ca8c6759b7aaebb0535bec740b003",
+      "afterSha256": "136b60aac912d2c6cca7211c55005e6976784a9b8740893584ac097652595abc"
     },
     "src/lua/abyss_combat.lua": {
       "hunks": [

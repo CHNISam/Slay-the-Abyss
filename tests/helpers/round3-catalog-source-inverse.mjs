@@ -6,10 +6,10 @@ import {createHash} from 'node:crypto';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const bytes=normalize(readFileSync(new URL('../fixtures/round3-catalog-source-inverse.json',import.meta.url),'utf8'));
-assert.equal(hash(bytes),'4a170b62c50bbfadf3be7ef7726ed4892d7b5bd4791b2103e4dc595692e76f08');
+assert.equal(hash(bytes),'f50e2544d9cefb702cc6dac3d7e64fd4d26bba43d5d0dd801c3e13b5e24ea1b6');
 export const round3CatalogProof=JSON.parse(bytes);
 assert.equal(round3CatalogProof.schemaVersion,1);
-assert.equal(round3CatalogProof.baseCommit,'9293405dfa07be95c632ac1a15cc4ebc2fb3034b');
+assert.equal(round3CatalogProof.baseCommit,'1bfca6261044b92f8065bb83668c358b0a2627da');
 const added='src/lua/abyss_combat_catalog.lua';
 assert.deepEqual(Object.keys(round3CatalogProof.files),['config/architecture.json','src/lua/abyss_combat.lua',added]);
 for(const [path,binding]of Object.entries(round3CatalogProof.files)){

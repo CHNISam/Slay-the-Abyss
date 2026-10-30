@@ -4,12 +4,13 @@ import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync,symli
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
+import {projectArtPerfSource,artPerfSourceComposition} from './helpers/art-perf-source-composition.mjs';
 import {round3CatalogProof as proof,preRound3CatalogSource as prior,prepareRound3CatalogModuleRetirement as retire} from './helpers/round3-catalog-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const current=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const added='src/lua/abyss_combat_catalog.lua';
 for(const path of ['config/architecture.json','src/lua/abyss_combat.lua']){
- test('exact catalog delta recovers complete 9293405d identity: '+path,()=>{
+ test('exact catalog delta recovers complete rebased 1bfca626 identity: '+path,()=>{
   const source=current(path),binding=proof.files[path];
   assert.equal(hash(source),binding.afterSha256);
   const original=prior(path,source);
@@ -33,6 +34,14 @@ for(const path of ['config/architecture.json','src/lua/abyss_combat.lua']){
   }
  });
 }
+
+test('rebased config retains the exact original 9293405d performance identity through the unchanged art proof',()=>{
+ const path='config/architecture.json';
+ assert.equal(hash(prior(path,current(path))),artPerfSourceComposition.files[path].currentSha256);
+ assert.equal(hash(projectArtPerfSource(path,current(path),'perf')),
+  '2a067420c4503b0efdf16ebe22eb7177a69759e4d41e50a15161422f6dcc41ed');
+ assert.equal(hash(projectArtPerfSource(path,current(path),'art')),artPerfSourceComposition.files[path].targets.art.sha256);
+});
 test('only exact catalog module has no historical identity',()=>{
  const source=current(added);
  assert.equal(prior(added,source),null);

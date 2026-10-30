@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 05:38'
+updated_date: '2026-10-30 05:53'
 labels: []
 dependencies: []
 references:
@@ -105,4 +105,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 2026-10-30第二轮本地：三个Sol Medium切片与独立审查。canPlay86→14且九helper≤12；卡牌apply102→85且新helper≤5。GameUI/Feedback构造器942/689→815/510，所有新增展示helper≤15。60稳定帧固定菜单写840→0、舞台60→0；不作客户端帧率结论。首次PR359完整CI发现历史源码链漏接，保留旧hash/断言补精确逆转换与隔离历史模块退役，17目标文件已复验；仍待修订HEAD完整Quality与实际合入验证。微基准波动大且有变慢样本，不声称Combat提速；剩余长构造器、Combat.new等热点和76模块496调用点环保留。
 
 第三轮已启动，独立树architecture-round3；3名Sol Medium并行审计，公共config/静态baseline/Backlog/集成由主控独占。基线267模块3841函数4108/4108测量，245函数>15、23>50；1个76模块SCC/496 require位置。成功Quality41001153119总42分16秒，最后测试片后汇总尾部9分45秒。根与11个在途PR保留。
+
+第三轮核心已同步并行PR361的1bfca626。配对固定工具基线249/23个>15/>50，当前248/22；CardActions.apply85→5且新handler max10，7常用op各少2个supports+1个require+1个ops查询；目录未注册预构造copy table2106→1871，其他路径不变，CPU样本涨跌均保留。最终SCC76/496/309→73/491/303（成员/位置/唯一边），非中间72。行为、维护成本与未解热点见docs/reviews/ENGINEERING-ROUND3.md；新HEAD完整Quality仍待，不勾最终AC。
 <!-- SECTION:NOTES:END -->
