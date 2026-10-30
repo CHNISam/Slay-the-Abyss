@@ -26,8 +26,10 @@ for count=1,5 do
   local renderedX=Enemy.position(count,i,battle.enemies[i])
   assert(math.abs(renderedX-x)<1e-8,'feedback position differs from visible enemy')
   event('card1','drag',7,x,y)
+  assert(ui.gesture.drawnTarget==i,'target identity must switch before decorative interpolation')
+  for _=1,20 do host:update(1/60) end -- settle approved endpoint transition before geometric comparison
   local layer=panel:GetChild('dragLayer')
-  assert(layer.visible and math.abs(layer:GetChild('reticle').x-x)<1e-8,'actual target hitbox differs from visual slot')
+  assert(layer.visible and math.abs(layer:GetChild('reticle').x-x)<1e-8,'actual target hitbox differs from visual slot count='..count..' slot='..i..' expected='..x..' actual='..tostring(layer:GetChild('reticle').x)..' moving='..tostring(ui.gesture and ui.gesture.moving))
   assert(ui.gesture.drawnTarget==i,'target identity was replaced by presentation position')
   assert(panel:GetChild('card1').x==origin,'first UI batch broke original-column carry')
   colour(layer:GetChild('reticle').imageColor,Theme.color.danger)

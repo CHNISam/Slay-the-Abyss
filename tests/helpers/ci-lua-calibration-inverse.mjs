@@ -1,3 +1,4 @@
+import {preIntegrationSource} from './pr372-integration-source.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 
@@ -5,6 +6,7 @@ const hash = source => createHash('sha256').update(source).digest('hex');
 // Placement-only calibration above the existing frozen runner witnesses.
 // Unknown, partial or mutated sources remain visible to their strict guards.
 export function preCiLuaCalibrationSource(path, source) {
+  source=preIntegrationSource(path,source);
   if (path !== 'scripts/test-lua.mjs' || typeof source !== 'string') return source;
   const normalized = source.replaceAll('\r\n', '\n');
   if (hash(normalized) !== 'e054f34695939535e65c6f78111aed1f1f7b7418d6716497926760cfebbc0ccf') return source;

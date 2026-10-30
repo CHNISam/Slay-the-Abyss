@@ -1,3 +1,4 @@
+import {preIntegrationSource} from './pr372-integration-source.mjs';
 // Historical evidence only: exact combined bytes recover either independently
 // reviewed source. This never supplies source to current feature tests.
 import assert from 'node:assert/strict';
@@ -26,7 +27,7 @@ for(const target of Object.values(relicRound2Composition.targets))for(const [pat
  }
 }
 const cachedProjection=cachePureSourceProjection(relicRound2Composition.targets,projectSource);
-export function preRelicRound2CompositionSource(path,source,target){return cachedProjection(path,source,target);}
+export function preRelicRound2CompositionSource(path,source,target){return cachedProjection(path,preIntegrationSource(path,source),target);}
 function projectSource(path,source,target){
  source=preRelicRound3CompositionSource(path,source,'relic');
  source=preRelicArtCompositionSource(path,source,'relic');
