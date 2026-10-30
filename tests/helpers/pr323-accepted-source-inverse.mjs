@@ -1,4 +1,3 @@
-import {preCharacterLayoutSource} from './character-layout-source-inverse.mjs';
 import {preMultiHistoricalUiTest} from './multi-historical-ui-tests.mjs';
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
 import {architectureSourceFormat} from './architecture-source-format.mjs';
@@ -26,7 +25,6 @@ const proof=pr323AcceptedSourceInverse;
 // require the original complete identity. Comparing tokens also prevents JSON.parse
 // from hiding duplicate keys, changed string escapes, or numeric spellings.
 export function normalizePr323CompositionSource(path,source){
- source=preCharacterLayoutSource(path,source);
  source=preMultiHistoricalUiTest(path,source);
  source=preIntegrationSource(path,source);
  source=preCardDescOverflowSource(path,source);
@@ -82,7 +80,6 @@ function project(path,source,target){
 // Expose the existing full composition step so one materialization can validate
 // and project the same normalized bytes without running that step twice.
 export function normalizePr323HistoryInput(path,source){
- source=preCharacterLayoutSource(path,source);
  source=preMultiHistoricalUiTest(path,source);
  source=preBattleLifeSource(path,preCardDescOverflowSource(path,source));
  if(typeof source!=='string')return source;

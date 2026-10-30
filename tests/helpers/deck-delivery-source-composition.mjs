@@ -1,4 +1,3 @@
-import {preCharacterLayoutSource} from './character-layout-source-inverse.mjs';
 // Exact M4/delivery branch composition; old archives remain immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -24,12 +23,11 @@ for(const target of Object.values(proof.targets))for(const [path,b]of Object.ent
  let end=0,beforeEnd=0;for(const h of b.hunks){assert.ok(Number.isSafeInteger(h.at)&&h.at>=end&&Number.isSafeInteger(h.beforeAt)&&h.beforeAt>=beforeEnd);for(const line of [...h.before,...h.after])assert.ok(typeof line==='string'&&!/[\r\n]/.test(line));end=h.at+h.after.length;beforeEnd=h.beforeAt+h.before.length;}
 }
 export function preDeckDeliverySource(path,source,target='delivery',{readSource=p=>readFileSync(p,'utf8')}={}){
- source=preCharacterLayoutSource(path,source);
  assert.ok(proof.targets[target],'registered deck delivery target');
  const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
  // Fresh linked reads are outside every existing pure-string cache.
- for(const linked of deckDeliveryPaths){let live;try{live=readSource(linked);}catch{assert.fail('deck delivery linked source missing: '+linked);}assert.equal(typeof live,'string','deck delivery linked source must exist: '+linked);assert.equal(hash(normalize(preCharacterLayoutSource(linked,live))),proof.targets.delivery.files[linked].afterSha256,'deck delivery linked source identity: '+linked);}
+ for(const linked of deckDeliveryPaths){let live;try{live=readSource(linked);}catch{assert.fail('deck delivery linked source missing: '+linked);}assert.equal(typeof live,'string','deck delivery linked source must exist: '+linked);assert.equal(hash(normalize(live)),proof.targets.delivery.files[linked].afterSha256,'deck delivery linked source identity: '+linked);}
  assert.equal(blob(text),b.afterGitBlob);
  const lines=text.split('\n');assert.equal(lines.length,b.afterLines);
  for(const h of [...b.hunks].reverse()){assert.deepEqual(lines.slice(h.at,h.at+h.after.length),h.after,'exact deck delivery hunk: '+path);lines.splice(h.at,h.after.length,...h.before);}
