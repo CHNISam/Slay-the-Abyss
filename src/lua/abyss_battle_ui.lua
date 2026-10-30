@@ -207,6 +207,7 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     end, function(failure)
         self.busy, self.displayBattle, self.acting = false, nil, nil
         ownership.playbackIntents = nil
+        if failure then host.monsterIntentParticles:reconcileDisplayed()end
         if self.feedbackRun == self.run and self.feedbackBattle == (self.run and self.run.combat)
             and #self.feedbackBattle.events == self.feedbackLast then
             -- UI is the event consumer. Release consumed frames; the event table identity stays stable.

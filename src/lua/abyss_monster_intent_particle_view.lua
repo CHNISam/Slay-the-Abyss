@@ -64,9 +64,12 @@ function M.new(platform,picture,tint)
    end
   end
  end
+ function self.reconcileDisplayed(_)
+  for _,state in pairs(self.states)do state.createPending=true end
+ end
  function self.needsSelected(_,id)
   local state=assert(self.states[id],'missing intent instance')
-  return state.createPending or state.powersPending
+  return state.createPending or state.powersPending,state.createPending==true
  end
  function self.face(_,id,selected,calculate)
   local state=assert(self.states[id],'missing intent instance')

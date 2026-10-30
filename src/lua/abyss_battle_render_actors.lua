@@ -49,7 +49,8 @@ function M.install(owner, ownership, host, dependencies)
         local face
         if IntentView.hasSourceIntent(enemy)then
             local view=host.monsterIntentParticles
-            local selected=view:needsSelected(enemy.id) and IntentView.selectedDescriptor(frame.battle,index) or nil
+            local needed,create=view:needsSelected(enemy.id)
+            local selected=needed and IntentView.selectedDescriptor(frame.battle,index,create) or nil
             face=view:face(enemy.id,selected,function(base)
                 return Combat.intentAttackAmount(frame.battle,enemy,frame.battle.player,base)
             end)

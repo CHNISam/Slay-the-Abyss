@@ -363,9 +363,19 @@ function M.intentView(state,index)
  return sourceIntentView(state,index)
 end
 function M.hasSourceIntent(actor)return SourceIntents.hasDefinition(actor)end
-function M.selectedDescriptor(state,index)
+function M.selectedDescriptor(state,index,includeFace)
  local intent=Combat.intent(state,index)
  if not intent then return nil end
+ -- applyPowers reads the selected move's base damage; it does not execute a
+ -- future debuff preview against an in-flight action's already-consumed Artifact.
+ if includeFace==false then
+  local base,times=-1,1
+  for _,effect in ipairs(intent.effects or {})do
+   if effect.op=='damage' or effect.op=='damageAll' or effect.op=='enemyVampireDamage'then base,times=effect.value,effect.times or 1;break end
+  end
+  return {id=intent.id,intent=SourceIntents.enum(state.enemies[index],intent),baseDamage=base,
+   multiplier=times,isMultiDamage=SourceIntents.isMulti(state.enemies[index],intent)}
+ end
  local face=sourceIntentView(state,index)
  return {id=intent.id,intent=face.sourceEnum or 'NONE',baseDamage=face.worldBaseDamage or -1,
   multiplier=face.worldTimes or 1,isMultiDamage=SourceIntents.isMulti(state.enemies[index],intent),face=face}
