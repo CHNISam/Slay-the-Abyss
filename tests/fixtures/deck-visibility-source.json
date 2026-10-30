@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "be6166a42e660116d41c92682d92e5261930874e",
+  "afterCommit": "d2960f70ec62ed218a972a0b4197b09461f524ef",
+  "files": {
+    "src/lua/abyss_deck_ui.lua": {
+      "afterSha256": "c7cb621ce23b4bbbb4183eac3c38e30c197cae3c719d2c9450dfe38881874834",
+      "beforeSha256": "5115772421b007ba2e61a0f9de0cbfad54591e52741bc776878eb12d63a8d93d",
+      "afterGitBlob": "cd1e459136b6bfc77d97e27e6dcd1eb979b3928b",
+      "beforeGitBlob": "0dcacb0215715c8e07c7f11bf8b149b8e249b3d9",
+      "hunks": [
+        {
+          "at": 67,
+          "before": [
+            "        return self.visible and self.browseEnabled and not self.detailOnly and not self.detailPages"
+          ],
+          "after": [
+            "        return self.visible == true and self.browseEnabled == true and not self.detailOnly and not self.detailPages"
+          ]
+        }
+      ]
+    }
+  }
+}

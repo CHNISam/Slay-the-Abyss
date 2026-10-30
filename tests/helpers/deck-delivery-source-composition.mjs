@@ -1,3 +1,4 @@
+import {preDeckVisibilitySource} from './deck-visibility-source.mjs';
 // Exact M4/delivery branch composition; old archives remain immutable.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -24,10 +25,11 @@ for(const target of Object.values(proof.targets))for(const [path,b]of Object.ent
 }
 export function preDeckDeliverySource(path,source,target='delivery',{readSource=p=>readFileSync(p,'utf8')}={}){
  assert.ok(proof.targets[target],'registered deck delivery target');
+ source=preDeckVisibilitySource(path,source,{readSource});
  const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
  // Fresh linked reads are outside every existing pure-string cache.
- for(const linked of deckDeliveryPaths){let live;try{live=readSource(linked);}catch{assert.fail('deck delivery linked source missing: '+linked);}assert.equal(typeof live,'string','deck delivery linked source must exist: '+linked);assert.equal(hash(normalize(live)),proof.targets.delivery.files[linked].afterSha256,'deck delivery linked source identity: '+linked);}
+ for(const linked of deckDeliveryPaths){let live;try{live=preDeckVisibilitySource(linked,readSource(linked),{readSource});}catch{assert.fail('deck delivery linked source missing: '+linked);}assert.equal(typeof live,'string','deck delivery linked source must exist: '+linked);assert.equal(hash(normalize(live)),proof.targets.delivery.files[linked].afterSha256,'deck delivery linked source identity: '+linked);}
  assert.equal(blob(text),b.afterGitBlob);
  const lines=text.split('\n');assert.equal(lines.length,b.afterLines);
  for(const h of [...b.hunks].reverse()){assert.deepEqual(lines.slice(h.at,h.at+h.after.length),h.after,'exact deck delivery hunk: '+path);lines.splice(h.at,h.after.length,...h.before);}

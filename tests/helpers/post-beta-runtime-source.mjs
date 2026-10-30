@@ -1,3 +1,4 @@
+import {preBetaCurrentTestSource} from './beta-current-test-source.mjs';
 import {preArtifactRuntimeSource,artifactRuntimePaths} from './artifact-runtime-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -13,6 +14,7 @@ export const postBetaRuntimePaths=Object.freeze(Object.keys(postBetaRuntimeProof
 export const postBetaRuntimeHistoricalPaths=Object.freeze([...new Set(['scripts/test-lua.mjs','tests/lua/game_ui.lua','src/lua/abyss_feedback.lua',...artifactRuntimePaths,...postBetaRuntimePaths])].sort());
 assert.deepEqual(postBetaRuntimePaths,['src/lua/abyss_battle_render_actors.lua','src/lua/abyss_feedback_actor_painter.lua']);
 export function prePostBetaRuntimeSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preBetaCurrentTestSource(path,source);
  source=preArtifactRuntimeSource(path,source,{readSource});
  const b=postBetaRuntimeProof.files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;

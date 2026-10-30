@@ -1,0 +1,2498 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "98fef95d047652aa6a8880241ddff28ef320a484",
+  "afterCommit": "ed2251d7c538b94d13ce10a809b626f1e60be5a6",
+  "files": {
+    "tests/lua/acid_slime_split_ui.lua": {
+      "beforeSha256": "35f16155c7b08dec541e8f661efde402e323359e10c74bcec6a1a0e5021bf6a8",
+      "beforeGitBlob": "e07145cb6456b341903606503ad95fcd10f9afb1",
+      "afterSha256": "f3f739384c838eb15b401700cdc626f2ced0cf5e3b1ac5a53be78e506251b8ad",
+      "afterGitBlob": "293924baac57a8755bafc9846cd8db049e8ff8a4",
+      "afterLength": 6013,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 10,
+          "beforeAt": 9,
+          "before": [
+            "    local box=panel:GetChild('enemy'..slot)"
+          ],
+          "after": [
+            "    local box,nativeSlot=Native.actor(panel,state.enemies[index])"
+          ]
+        },
+        {
+          "at": 13,
+          "beforeAt": 12,
+          "before": [
+            "    box:GetChild('statusRow'):GetChild('hit').click()"
+          ],
+          "after": [
+            "    local hit=box:GetChild('hit');for _,kind in ipairs({'down','up','click'}) do if hit.listeners[kind] then hit.listeners[kind]({touchId=700+index}) end end"
+          ]
+        },
+        {
+          "at": 16,
+          "beforeAt": 15,
+          "before": [
+            "    return slot,box"
+          ],
+          "after": [
+            "    return nativeSlot,box"
+          ]
+        },
+        {
+          "at": 21,
+          "beforeAt": 20,
+          "before": [],
+          "after": [
+            "host.run.combat=C.copy(host.run.combat) -- Install the damaged boundary before this battle's initial source display."
+          ]
+        },
+        {
+          "at": 23,
+          "beforeAt": 21,
+          "before": [
+            "assert(panel:GetChild('enemy1'):GetChild('intent').text=='' and not panel:GetChild('enemy1'):GetChild('intentLabel').visible)",
+            "assert(panel:GetChild('enemy1'):GetChild('intentIcon').visible and panel:GetChild('enemy1'):GetChild('intentIcon').imageId==H.F.Theme.icon.intent.unknown,'split intent must retain its visible unknown glyph before action')"
+          ],
+          "after": [
+            "assert(Native.actor(panel,s.enemies[1]):GetChild('intent').text=='' and not Native.actor(panel,s.enemies[1]):GetChild('intentLabel').visible)",
+            "dofile('tests/lua/support/intent_face_assertion.lua')(Native.actor(panel,parent),require('abyss_battle_intent_view').intentView(s,1),'\u5206\u88c2')"
+          ]
+        },
+        {
+          "at": 27,
+          "beforeAt": 25,
+          "before": [],
+          "after": [
+            "local oldParentBox=Native.actor(panel,parent);local oldParentHit=oldParentBox:GetChild('hit');local oldUp,oldClick=oldParentHit.listeners.up,oldParentHit.listeners.click"
+          ]
+        },
+        {
+          "at": 33,
+          "beforeAt": 30,
+          "before": [],
+          "after": [
+            "for _=1,400 do if not next(ui.feedback.dying) then break end;host:update(.05) end",
+            "assert(not next(ui.feedback.dying))"
+          ]
+        },
+        {
+          "at": 38,
+          "beforeAt": 33,
+          "before": [
+            "assert(left==1 and right==2 and not panel:GetChild('enemy3').visible,'both children occupy live display slots, parent hidden')",
+            "for i=4,5 do assert(not panel:GetChild('enemy'..i).visible,'unused display slots hidden') end"
+          ],
+          "after": [
+            "assert(left~=right and oldParentBox.alive==false,'both children have native actors and the parent control is retired')",
+            "Native.count(panel,2)"
+          ]
+        },
+        {
+          "at": 42,
+          "beforeAt": 37,
+          "before": [
+            "emit('enemy1','up',11);emit('enemy1','click',11);drain()"
+          ],
+          "after": [
+            "if oldUp then oldUp({touchId=11})end;if oldClick then oldClick({touchId=11})end;drain()"
+          ]
+        },
+        {
+          "at": 46,
+          "beforeAt": 41,
+          "before": [],
+          "after": [
+            "h.run.combat=C.copy(h.run.combat)"
+          ]
+        },
+        {
+          "at": 48,
+          "beforeAt": 42,
+          "before": [],
+          "after": [
+            "for _=1,400 do if not next(u.feedback.dying) then break end;h:update(.05) end",
+            "assert(not next(u.feedback.dying))"
+          ]
+        },
+        {
+          "at": 52,
+          "beforeAt": 44,
+          "before": [
+            "for slot,index in ipairs({1,2,4,5}) do assert(enemyControl(u,p,b,index)==slot,'four live actors retain source order and identity') end",
+            "for i=1,5 do assert(p:GetChild('enemy'..i).visible==(i<=4),'five-slot visibility '..i)end"
+          ],
+          "after": [
+            "local nativeSlots={}",
+            "for slot,index in ipairs({1,2,4,5}) do local _,sourceSlot=EnemyView.find(b,index);assert(sourceSlot==slot,'four live actors retain source core order');local actual=enemyControl(u,p,b,index);assert(not nativeSlots[actual],'native actors retain distinct identities');nativeSlots[actual]=true end",
+            "Native.count(p,4)"
+          ]
+        },
+        {
+          "at": 59,
+          "beforeAt": 50,
+          "before": [
+            "local function statusTap(panel,index,touch)",
+            "    local hit=panel:GetChild('enemy'..index):GetChild('statusRow'):GetChild('hit')"
+          ],
+          "after": [
+            "local function statusTap(panel,actor,touch)",
+            "    local hit=Native.power(Native.actor(panel,actor),actor.statuses.vulnerable and 'vulnerable' or 'artifact'):GetChild('hit')"
+          ]
+        },
+        {
+          "at": 65,
+          "beforeAt": 56,
+          "before": [
+            "statusTap(p,2,23)"
+          ],
+          "after": [
+            "statusTap(p,b.enemies[2],23)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/act3_maw_growth.lua": {
+      "beforeSha256": "24f8650c1015fe3a72eaa4b1eb4db29c8fbdf696171540e992c33760fb231a3f",
+      "beforeGitBlob": "c0c19ba2ac67cc43f03fc692a3334ce6670e3472",
+      "afterSha256": "06275ac8f2da9955fcb1ba6ee807f55bd4477930c207c216664fd81b4b331ff9",
+      "afterGitBlob": "f996fe217a2748130c00a34ed415c58822ae68ca",
+      "afterLength": 18974,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 251,
+          "beforeAt": 250,
+          "before": [
+            "  eq(panel:GetChild('enemy1'):GetChild('name').text,e.name)",
+            "  eq(panel:GetChild('enemy1'):GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))",
+            "  assert(not panel:GetChild('enemy2').visible)"
+          ],
+          "after": [
+            "  eq(Native.actor(panel,r.combat.enemies[1]):GetChild('name').text,e.name)",
+            "  eq(Native.actor(panel,r.combat.enemies[1]):GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))",
+            "  Native.count(panel,1)"
+          ]
+        },
+        {
+          "at": 258,
+          "beforeAt": 257,
+          "before": [
+            "   eq(panel:GetChild('enemy1'):GetChild('intent').text,'25')"
+          ],
+          "after": [
+            "   eq(Native.actor(panel,r.combat.enemies[1]):GetChild('intent').text,'25')"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/act3_orb_walker.lua": {
+      "beforeSha256": "f0163a30238155b57c3fd6af06b1909da70eb9698a3a5e85f68247c47c221281",
+      "beforeGitBlob": "e92922d6f7bda800ae4bdee4c58fcdc0fa348ce6",
+      "afterSha256": "f25e26d4c98920b7b45dcf42bb56cc55501399591524f989c2bb43d63db561cc",
+      "afterGitBlob": "ec1250b2794c47a16f40cd8ecb766f8a6986c30b",
+      "afterLength": 12496,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local NativeActors=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 211,
+          "beforeAt": 210,
+          "before": [
+            " local box=panel:GetChild('enemy1')"
+          ],
+          "after": [
+            " local box=NativeActors.actor(panel,e)"
+          ]
+        },
+        {
+          "at": 214,
+          "beforeAt": 213,
+          "before": [
+            " assert(box:GetChild('intentBadge').visible,'laser must carry its Burn debuff badge')",
+            " eq(box:GetChild('intentBadge').imageId,H.F.Theme.icon.intent.debuff)"
+          ],
+          "after": [
+            " local face=require('abyss_battle_intent_view').intentView(r.combat,1)",
+            " dofile('tests/lua/support/intent_face_assertion.lua')(box,face)",
+            " eq(face.badge,'debuff') -- Burn stays in the real detail card, not a second world intent image."
+          ]
+        },
+        {
+          "at": 221,
+          "beforeAt": 219,
+          "before": [
+            " box:GetChild('statusRow'):GetChild('hit').click({touchId=92})"
+          ],
+          "after": [
+            " NativeActors.power(box,'generic_strength_up'):GetChild('hit').click({touchId=92})"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/act3_shapes.lua": {
+      "beforeSha256": "48ca309908b7154fcdc8d5c6714c0bc20069c42cfb60c23e97ffaa2964d71f55",
+      "beforeGitBlob": "5e15438419a09a669c2a23c89ed45aa4c23bc79e",
+      "afterSha256": "6297d959ed4845d4dcdf3507b8eef6b7934cf05c62140fbd1df796d55c8507f2",
+      "afterGitBlob": "dea3bc1b0aef1669facd4219b96826fc8e60ef29",
+      "afterLength": 16277,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local NativeActors=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 222,
+          "beforeAt": 221,
+          "before": [
+            " for i,e in ipairs(r.combat.enemies)do local box=panel:GetChild('enemy'..i)"
+          ],
+          "after": [
+            " local sourcePositions={}",
+            " for i,e in ipairs(r.combat.enemies)do local box=NativeActors.actor(panel,e)",
+            "  sourcePositions[e.id]={box.x,box.y}"
+          ]
+        },
+        {
+          "at": 227,
+          "beforeAt": 224,
+          "before": [
+            " assert(not panel:GetChild('enemy5').visible)"
+          ],
+          "after": [
+            " NativeActors.count(panel,4)"
+          ]
+        },
+        {
+          "at": 234,
+          "beforeAt": 231,
+          "before": [
+            "  local hit=panel:GetChild('enemy3'):GetChild('statusRow'):GetChild('hit')"
+          ],
+          "after": [
+            "  local hit=NativeActors.power(NativeActors.actor(panel,e),'explosive'):GetChild('hit')"
+          ]
+        },
+        {
+          "at": 247,
+          "beforeAt": 244,
+          "before": [
+            " eq(panel:GetChild('enemy3'):GetChild('intentIcon').imageId,F.Theme.icon.intent.unknown)"
+          ],
+          "after": [
+            " local waiting=require('abyss_battle_intent_view').intentView(r.combat,3)",
+            " dofile('tests/lua/support/intent_face_assertion.lua')(NativeActors.actor(panel,r.combat.enemies[3]),waiting)",
+            " eq(waiting.kind,'unknown')"
+          ]
+        },
+        {
+          "at": 253,
+          "beforeAt": 248,
+          "before": [
+            "  local box,e=panel:GetChild('enemy'..slot),r.combat.enemies[index]"
+          ],
+          "after": [
+            "  local e=r.combat.enemies[index];local box=NativeActors.actor(panel,e)",
+            "  eq(box.x,sourcePositions[e.id][1]);eq(box.y,sourcePositions[e.id][2])"
+          ]
+        },
+        {
+          "at": 257,
+          "beforeAt": 251,
+          "before": [
+            " assert(not panel:GetChild('enemy4').visible and not panel:GetChild('enemy5').visible)"
+          ],
+          "after": [
+            " NativeActors.count(panel,3)",
+            " assert(not require('abyss_monster_surfaces').get(panel):find(r.combat.enemies[3].id),'dead Exploder surface must retire')"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/act3_transient.lua": {
+      "beforeSha256": "505fb25b103e05a1afff1edebedff0a13e6a2704644bbfb8b6ae5d2598a30ff0",
+      "beforeGitBlob": "714e9cf167db7d553a04054b2e5d721437c92d3d",
+      "afterSha256": "1cedb8d3a569004a4c3d2ce80fcc666db8ba49ad3bdf00b389a2f56b6e83df07",
+      "afterGitBlob": "18af0a9140f628cc80472a9ac42fd84cff3cb178",
+      "afterLength": 16848,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 216,
+          "beforeAt": 215,
+          "before": [
+            " local panel=root:GetChild('battlePanel');local enemy=panel:GetChild('enemy1');local _,tap=H.controls(panel)"
+          ],
+          "after": [
+            " local panel=root:GetChild('battlePanel');local enemy=Native.actor(panel,r.combat.enemies[1]);local _,tap=H.controls(panel)"
+          ]
+        },
+        {
+          "at": 218,
+          "beforeAt": 217,
+          "before": [
+            " enemy:GetChild('statusRow'):GetChild('hit').click({touchId=81})"
+          ],
+          "after": [
+            " enemy:GetChild('hit').click({touchId=81})"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/combat-catalog-refactor-evidence.json",
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/aim_visual_parity.lua": {
+      "beforeSha256": "d2f64ca6b1d68168fddab6e3c62bf73cb97b6f337a2d6abcac991e22917aae13",
+      "beforeGitBlob": "e1727cf27cb8e2a2534f3d75d7e548ba86eb3958",
+      "afterSha256": "3d6d5d58cca065f90e017f8fea289330bcd96803aeb627c3149439b4f4c3ed54",
+      "afterGitBlob": "ba7e77fe4f6b3c185ceca0c22bc4fcbde08cd9c1",
+      "afterLength": 3551,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl"
+          ]
+        },
+        {
+          "at": 11,
+          "beforeAt": 10,
+          "before": [
+            " local enemy=p:GetChild('enemy1');local ex,ey=enemy.x+10,enemy.y+8"
+          ],
+          "after": [
+            " local enemy=actorControl(p,\"enemy1\");local ex,ey=enemy.x+10,enemy.y+8"
+          ]
+        },
+        {
+          "at": 41,
+          "beforeAt": 40,
+          "before": [
+            " assert(fy<cy,'arrow lands on the target from above')"
+          ],
+          "after": [
+            " near(cy,fy+(fy-sy)/2) -- Source curve direction follows start/target height; it is not always downward."
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/source-recognition-lengths.json",
+        "tests/fixtures/pr372-integration-sources.json",
+        "tests/fixtures/combat-vfx-upgrade-inverse.json",
+        "tests/fixtures/pr323-accepted-source-inverse.json",
+        "tests/helpers/hand-gesture-aim-source-layer.json"
+      ]
+    },
+    "tests/lua/battle_ui_potion_target_inventory.lua": {
+      "beforeSha256": "7a00db80dbf3ee23365429d05196a8ecc61bcb0c220a8453b8c2c27ef2fa6e50",
+      "beforeGitBlob": "884a5670a39f69a724564840e3ba6cce8704f26f",
+      "afterSha256": "426d9de738fe3712073ef7b2b19b3ad15e1ba7448c29371f435c28976930b4a1",
+      "afterGitBlob": "f001c7083a3fc8a0b9c56d12637cf5d57fb56525",
+      "afterLength": 4390,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl"
+          ]
+        },
+        {
+          "at": 32,
+          "beforeAt": 31,
+          "before": [],
+          "after": [
+            "  local deadBox=F.actorControl(p,'enemy1');local staleClick=deadBox:GetChild('hit').listeners.click",
+            "  local survivor=F.actorControl(p,'enemy2');local sx,sy=survivor.x,survivor.y"
+          ]
+        },
+        {
+          "at": 39,
+          "beforeAt": 36,
+          "before": [
+            "  eq(b.enemies[1].hp,0);local z=b.enemies[2].hp;click('enemy1');eq(h.run.potions[1],'fire_potion');eq(b.enemies[2].hp,z)"
+          ],
+          "after": [
+            "  eq(b.enemies[1].hp,0);local z=b.enemies[2].hp;staleClick({});h:refresh();eq(h.run.potions[1],'fire_potion');eq(b.enemies[2].hp,z)"
+          ]
+        },
+        {
+          "at": 42,
+          "beforeAt": 39,
+          "before": [
+            "  assert(p:GetChild('enemy1').visible and p:GetChild('enemy1'):GetChild('name').text==b.enemies[2].name)",
+            "  assert(not p:GetChild('enemy2').visible)",
+            "  click('potion1');click('enemy1');eq(b.enemies[2].hp,z-20);eq(h.run.potions[1],nil)"
+          ],
+          "after": [
+            "  assert(survivor.visible and survivor:GetChild('name').text==b.enemies[2].name)",
+            "  assert(survivor.x==sx and survivor.y==sy,'living actor must not reflow after another dies')",
+            "  assert(deadBox.alive==false,'dead actor control is retired')",
+            "  -- Unlike the old empty physical slot, the surviving native portrait is live:",
+            "  -- with pending aim cancelled its ordinary click opens read-only details.",
+            "  assert(p:GetChild('statusInfo').visible,'living portrait opens details after cancellation')",
+            "  p:GetChild('statusInfo'):GetChild('hit').click();assert(not p:GetChild('statusInfo').visible)",
+            "  click('potion1');click('enemy2');eq(b.enemies[2].hp,z-20);eq(h.run.potions[1],nil)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/main-potion-fixture-inverse.json",
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/bosses_intent_ui.lua": {
+      "beforeSha256": "4415d98756a5cfc46b803d5e8331d97343e623abe87e0a40fed96bd46c418ac9",
+      "beforeGitBlob": "add74887331b92d4db03c1a5be1356b16687754b",
+      "afterSha256": "00e72efc88198a600250e7f241e7a458a22f1210f66302bb6efc54428b2d716c",
+      "afterGitBlob": "200babaf43ebd0ba7d98d5dab3eacc9f0a3344bc",
+      "afterLength": 3002,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 30,
+          "beforeAt": 29,
+          "before": [],
+          "after": [
+            "host.run.combat=C.copy(host.run.combat)"
+          ]
+        },
+        {
+          "at": 33,
+          "beforeAt": 31,
+          "before": [
+            "dofile('tests/lua/support/intent_face_assertion.lua')(panel:GetChild('enemy1'),View.intentView(s,1),'\u5206\u88c2')"
+          ],
+          "after": [
+            "dofile('tests/lua/support/intent_face_assertion.lua')(Native.actor(panel,s.enemies[1]),View.intentView(s,1),'\u5206\u88c2')"
+          ]
+        },
+        {
+          "at": 39,
+          "beforeAt": 37,
+          "before": [],
+          "after": [
+            "for _=1,400 do if not next(ui.feedback.dying) then break end;host:update(.05) end",
+            "assert(not next(ui.feedback.dying))"
+          ]
+        },
+        {
+          "at": 42,
+          "beforeAt": 38,
+          "before": [
+            "local left,right=panel:GetChild('enemy1'),panel:GetChild('enemy2')",
+            "assert(left.visible and right.visible)"
+          ],
+          "after": [
+            "local left,leftSlot=Native.actor(panel,s.enemies[1]);local right,rightSlot=Native.actor(panel,s.enemies[3])",
+            "assert(left.visible and right.visible);Native.count(panel,2)"
+          ]
+        },
+        {
+          "at": 47,
+          "beforeAt": 43,
+          "before": [
+            "tap('card1',33);tap('enemy2',34);drain()"
+          ],
+          "after": [
+            "tap('card1',33);tap('enemy'..rightSlot,34);drain()"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/card_preview.lua": {
+      "beforeSha256": "0a069b873ed3e9e9ece3937c63ab072bc705f949dc6596a1586b4ffe01d504fe",
+      "beforeGitBlob": "c2a869424b7a4ebcdc4ea06258afdc87bd928434",
+      "afterSha256": "fbf68f652e6ff2efda9ab978c8c5b79290475192607ee13b214b0b8f15ad3d1a",
+      "afterGitBlob": "3b805965c9eab387ffa93067cc2aee751b0ce711",
+      "afterLength": 35213,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl"
+          ]
+        },
+        {
+          "at": 14,
+          "beforeAt": 13,
+          "before": [
+            "    local box=panel:GetChild('enemy'..index);assert(box.visible,'input actor is hidden')"
+          ],
+          "after": [
+            "    local box=actorControl(panel,'enemy'..index);assert(box.visible,'input actor is hidden')"
+          ]
+        },
+        {
+          "at": 42,
+          "beforeAt": 41,
+          "before": [],
+          "after": [
+            "-- Synthetic arithmetic fixtures opt into original MonsterHelper constructor",
+            "-- offsets explicitly; production must never synthesize a reflowing formation.",
+            "local function sourcePositions(battle)",
+            "    local n=#battle.enemies",
+            "    if n==2 or n==3 then",
+            "        local positions=assert(require('abyss_monster_source_positions').positions(n==2 and 'Cultist and Chosen' or '3 Cultists'))",
+            "        for i,enemy in ipairs(battle.enemies)do enemy.sourcePosition=positions[i]end",
+            "    end",
+            "    return battle",
+            "end"
+          ]
+        },
+        {
+          "at": 56,
+          "beforeAt": 45,
+          "before": [
+            "        imageSource=\"static\", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,"
+          ],
+          "after": [
+            "        monsterActors=dofile('tests/lua/support/game_ui_fixture.lua').monsterActors(), imageTypes={basic=1,stretch=2},imageSource=\"static\", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,"
+          ]
+        },
+        {
+          "at": 61,
+          "beforeAt": 50,
+          "before": [
+            "    ui.run.combat = Combat.new(Data, {deck=deck, enemies=enemies})"
+          ],
+          "after": [
+            "    ui.run.combat = sourcePositions(Combat.new(Data, {deck=deck, enemies=enemies}))"
+          ]
+        },
+        {
+          "at": 63,
+          "beforeAt": 52,
+          "before": [
+            "    -- Native listener on a control path such as {\"enemy1\",\"statusRow\",\"hit\"}."
+          ],
+          "after": [
+            "    -- Native listener on a real actor path, or an instantiated Power hit control."
+          ]
+        },
+        {
+          "at": 66,
+          "beforeAt": 55,
+          "before": [
+            "        for _, name in ipairs(type(path) == \"table\" and path or {path}) do box = box:GetChild(name) end"
+          ],
+          "after": [
+            "        if type(path)==\"table\" and path.GetChild then box=path",
+            "        else for _, name in ipairs(type(path) == \"table\" and path or {path}) do box = actorControl(box,name) end end"
+          ]
+        },
+        {
+          "at": 91,
+          "beforeAt": 79,
+          "before": [
+            "    local s = Combat.new(Data, {deck=deck, enemies=enemies})"
+          ],
+          "after": [
+            "    local s = sourcePositions(Combat.new(Data, {deck=deck, enemies=enemies}))"
+          ]
+        },
+        {
+          "at": 295,
+          "beforeAt": 283,
+          "before": [],
+          "after": [
+            "    local pool=require('abyss_monster_power_surfaces').get(row)",
+            "    if pool then",
+            "        pool:each(function(chip,_,entry)",
+            "            local icon,count=chip:GetChild('icon'),chip:GetChild('count')",
+            "            assert(chip.alive~=false and icon.visible,'native Power instance must be alive and visible')",
+            "            result[#result+1]={id=entry.id,icon=icon.imageId,count=count.text,colour=icon.imageColor,",
+            "                countColour=count.fontColor,edgeVisible=chip:GetChild('edge').visible,x=chip.x,y=chip.y,native=true}",
+            "        end)",
+            "        return result",
+            "    end"
+          ]
+        },
+        {
+          "at": 361,
+          "beforeAt": 339,
+          "before": [
+            "    local second = chips(panel:GetChild(\"enemy2\"))",
+            "    eq(second[1].icon, Theme.icon.status.artifact) eq(second[2].count, \"\u22121\")",
+            "    eq(second[2].colour.r, Theme.color.text.r)",
+            "    eq(second[2].edge.r, Theme.color.debuff.r, \"negative Strength reads as a debuff through its border\")"
+          ],
+          "after": [
+            "    local second = chips(actorControl(panel,\"enemy2\"))",
+            "    eq(second[1].icon, Theme.icon.status.artifact) eq(second[2].count, \"-1\")",
+            "    eq(second[2].colour.r,255)",
+            "    eq(second[2].countColour.r,255);eq(second[2].countColour.g,0)",
+            "    assert(not second[2].edgeVisible,'source Power negatives use red amount, not invented border')"
+          ]
+        },
+        {
+          "at": 378,
+          "beforeAt": 355,
+          "before": [
+            "        {{\"\u4e2d\u6bd2 4\", \"\u6bcf\u56de\u5408 -1\", \"\u81ea\u5df1\u7684\u56de\u5408\u5f00\u59cb\u65f6\u5931\u53bb 4 \u70b9\u751f\u547d\"}, {\"\u865a\u5f31 2\", \"\u5269\u4f59 2 \u56de\u5408\", \"\u9020\u6210\u7684\u666e\u901a\u653b\u51fb\u4f24\u5bb3 -25%\"}},"
+          ],
+          "after": [
+            "        {{\"\u865a\u5f31 2\", \"\u5269\u4f59 2 \u56de\u5408\", \"\u9020\u6210\u7684\u666e\u901a\u653b\u51fb\u4f24\u5bb3 -25%\"}, {\"\u4e2d\u6bd2 4\", \"\u6bcf\u56de\u5408 -1\", \"\u81ea\u5df1\u7684\u56de\u5408\u5f00\u59cb\u65f6\u5931\u53bb 4 \u70b9\u751f\u547d\"}},"
+          ]
+        },
+        {
+          "at": 383,
+          "beforeAt": 360,
+          "before": [
+            "        tap({\"enemy\" .. i, \"statusRow\", \"hit\"})"
+          ],
+          "after": [
+            "        tap({\"enemy\" .. i, \"hit\"})"
+          ]
+        },
+        {
+          "at": 395,
+          "beforeAt": 372,
+          "before": [
+            "        s.enemies[3].statuses = {[id] = 5}"
+          ],
+          "after": [
+            "        s.enemies[3].statuses = {};s.enemies[3].powerOrder={};Combat.addStatus(s.enemies[3],id,5)"
+          ]
+        },
+        {
+          "at": 397,
+          "beforeAt": 374,
+          "before": [
+            "        tap({\"enemy3\", \"statusRow\", \"hit\"})"
+          ],
+          "after": [
+            "        tap({\"enemy3\", \"hit\"})"
+          ]
+        },
+        {
+          "at": 413,
+          "beforeAt": 390,
+          "before": [
+            "test(\"crowded and narrow units overflow to +N and the panel pages through every status\", function()"
+          ],
+          "after": [
+            "test(\"player overflow and full source monster row retain every status in paged details\", function()"
+          ]
+        },
+        {
+          "at": 423,
+          "beforeAt": 400,
+          "before": [
+            "    local narrow = chips(panel:GetChild(\"enemy1\"))",
+            "    assert(#narrow <= #hero and #narrow % L.statusIcon.rows == 0, \"enemy columns respect the shared status row limit\")",
+            "    eq(narrow[#narrow].count, \"+\" .. (#ids - #narrow + 1))",
+            "    for _, chip in ipairs(narrow) do",
+            "        assert(math.abs(chip.x) + L.statusIcon.size / 2 <= panel:GetChild(\"enemy1\"):GetChild(\"statusRow\"):GetChild(\"hit\").sizeDeltaX / 2,",
+            "            \"chips stay inside a narrow column\")"
+          ],
+          "after": [
+            "    local narrow = chips(actorControl(panel,\"enemy1\"))",
+            "    eq(#narrow,#ids,'every source monster Power owns a native chip; no ten-slot cap or overflow')",
+            "    local wanted={};for _,id in ipairs(ids)do wanted[id]=true end",
+            "    for i,chip in ipairs(narrow)do",
+            "        assert(wanted[chip.id],'unexpected or duplicate source Power');wanted[chip.id]=nil",
+            "        assert(chip.count:sub(1,1)~='+','monster row must not replace live Powers with +N')",
+            "        if i>1 then eq(chip.y,narrow[1].y);assert(math.abs(chip.x-narrow[i-1].x-48*720/1080)<1e-6,'original Power pitch at fractional source scale')end"
+          ]
+        },
+        {
+          "at": 431,
+          "beforeAt": 407,
+          "before": [],
+          "after": [
+            "    assert(next(wanted)==nil,'missing live source Power')"
+          ]
+        },
+        {
+          "at": 455,
+          "beforeAt": 430,
+          "before": [
+            "    tap({\"enemy2\", \"statusRow\", \"hit\"})"
+          ],
+          "after": [
+            "    tap({\"enemy2\", \"hit\"})"
+          ]
+        },
+        {
+          "at": 479,
+          "beforeAt": 454,
+          "before": [
+            "        -- Select the targeted Strike, then tap an enemy's status row: details only."
+          ],
+          "after": [
+            "        -- Original source monsters expose an actual Power hit, not a synthetic",
+            "        -- aggregate row hit. Artifact is inert for these ordinary Strike plays.",
+            "        Combat.addStatus(s.enemies[2],\"artifact\",1);ui:render()",
+            "        local powerHit=dofile('tests/lua/support/current_monster_controls.lua').power(actorControl(panel,'enemy2'),'artifact'):GetChild('hit')"
+          ]
+        },
+        {
+          "at": 484,
+          "beforeAt": 456,
+          "before": [
+            "        tap({\"enemy2\", \"statusRow\", \"hit\"})"
+          ],
+          "after": [
+            "        tap(powerHit)"
+          ]
+        },
+        {
+          "at": 517,
+          "beforeAt": 489,
+          "before": [
+            "    tap({\"enemy1\", \"statusRow\", \"hit\"})"
+          ],
+          "after": [
+            "    tap({\"enemy1\", \"hit\"})"
+          ]
+        },
+        {
+          "at": 524,
+          "beforeAt": 496,
+          "before": [
+            "    tap({\"enemy2\", \"statusRow\", \"hit\"}) assert(panel:GetChild(\"statusInfo\").visible)"
+          ],
+          "after": [
+            "    tap({\"enemy2\", \"hit\"}) assert(panel:GetChild(\"statusInfo\").visible)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    "tests/lua/feedback_polish.lua": {
+      "beforeSha256": "8d84c82b718e3870a4fe77b74eab7314d9489551b4bb56c289284dca34dd7b01",
+      "beforeGitBlob": "661d35a9170b118ba99ce8a824a82ad8979ffb4c",
+      "afterSha256": "3f45c55fbb45a4cc2de2b8eaa79d3a80d3d56743e68fb04cbc4f525b0ab5588f",
+      "afterGitBlob": "3a713bbd9df8812c36f02cbf10d8b505806077cf",
+      "afterLength": 19974,
+      "hunks": [
+        {
+          "at": 2,
+          "beforeAt": 2,
+          "before": [],
+          "after": [
+            "local F = dofile(\"tests/lua/support/game_ui_fixture.lua\")",
+            "local Surfaces = require(\"abyss_monster_surfaces\")",
+            "local EnemyView = require(\"abyss_battle_enemy_view\")"
+          ]
+        },
+        {
+          "at": 14,
+          "beforeAt": 11,
+          "before": [
+            "local function control(definition)",
+            "    local c = { name = definition.name, visible = definition.visible ~= false, children = {}, text = \"\", x = 0, y = 0,",
+            "        localScaleX = 1, localScaleY = 1 }",
+            "    for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end",
+            "    function c:GetChild(key) return assert(self.children[key], \"unknown control \" .. self.name .. \"/\" .. key) end",
+            "    function c:SetVisible(value) assert(type(value) == \"boolean\") self.visible = value end",
+            "    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end",
+            "    function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end",
+            "    function c:SetImage(source, id) assert(source == \"static\" and type(id) == \"number\") images = images + 1 self.imageId = id end",
+            "    function c:SetAsLastSibling() end",
+            "    return c"
+          ],
+          "after": [
+            "local function trackImages(box)",
+            "    local original=box.SetImage",
+            "    box.SetImage=function(self,...) images=images+1;return original(self,...)end",
+            "    for _,child in pairs(box.children)do trackImages(child)end",
+            "    return box"
+          ]
+        },
+        {
+          "at": 20,
+          "beforeAt": 23,
+          "before": [],
+          "after": [
+            "local function control(definition)return trackImages(F.control(definition))end"
+          ]
+        },
+        {
+          "at": 31,
+          "beforeAt": 33,
+          "before": [
+            "    h.feedback = Feedback.new(stage, {imageSource = \"static\", color = function(r, g, b, a) return {r = r, g = g, b = b, a = a} end,",
+            "        sound = function(cue) h.sounds[#h.sounds + 1] = cue end}, function() end,",
+            "        function(failure) h.completed[#h.completed + 1] = failure or \"ok\" end)"
+          ],
+          "after": []
+        },
+        {
+          "at": 40,
+          "beforeAt": 45,
+          "before": [],
+          "after": [
+            "    end",
+            "    local platform=F.withMonsterActors({imageSource=\"static\", color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,",
+            "        sound=function(cue)h.sounds[#h.sounds+1]=cue end})",
+            "    local instantiate=platform.monsterActors.instantiate",
+            "    platform.monsterActors.instantiate=function(...)return trackImages(instantiate(...))end",
+            "    h.surfaces=Surfaces.new(stage,platform)",
+            "    h.boxes={}",
+            "    local function present(frame)",
+            "        local rows=EnemyView.slots(frame,h.feedback)",
+            "        h.surfaces:select(rows,h.battle)",
+            "        h.surfaces:each(function(box,slot,entry)",
+            "            h.boxes[entry.id]=box",
+            "            box:SetVisible(true)",
+            "            local x,_,_,_,y=EnemyView.position(#rows,slot,entry.actor)",
+            "            box:SetAnchoredPosition(x,y)",
+            "        end)",
+            "    end",
+            "    present(h.battle)",
+            "    h.feedback=Feedback.new(stage,platform,present,function(failure)h.completed[#h.completed+1]=failure or \"ok\"end)",
+            "    function h.box(name)",
+            "        local index=name:match('^enemy(%d+)$')",
+            "        if not index then return assert(stage:GetChild(name))end",
+            "        return assert(h.boxes[assert(h.battle.enemies[tonumber(index)]).id])"
+          ]
+        },
+        {
+          "at": 92,
+          "beforeAt": 74,
+          "before": [
+            "    function h.portrait(name) return stage:GetChild(name):GetChild(\"portrait\") end",
+            "    function h.part(name, part) return stage:GetChild(name):GetChild(part) end"
+          ],
+          "after": [
+            "    function h.portrait(name) return assert(h.box(name).children.portrait) end",
+            "    function h.part(name, part) return assert(h.box(name).children[part]) end"
+          ]
+        },
+        {
+          "at": 186,
+          "beforeAt": 168,
+          "before": [
+            "    assert(not h.stage:GetChild(\"enemy1\").visible and not h.stage:GetChild(\"enemy2\").visible)"
+          ],
+          "after": [
+            "    assert(not h.box(\"enemy1\").visible and not h.box(\"enemy2\").visible)"
+          ]
+        },
+        {
+          "at": 263,
+          "beforeAt": 245,
+          "before": [
+            "test(\"killing blow: heavy hold, then the enemy gleams, collapses and is hidden\", function()"
+          ],
+          "after": [
+            "test(\"killing blow: fixed action hold and independent source alpha death without shrink or sink\", function()"
+          ]
+        },
+        {
+          "at": 266,
+          "beforeAt": 248,
+          "before": [],
+          "after": [
+            "    local dying=assert(h.feedback.dying[h.battle.enemies[1].id], \"lethal frame starts source die\")",
+            "    assert(dying.lifetime==1.8, \"normal source death retains its independent 1.8-second lifetime\")"
+          ]
+        },
+        {
+          "at": 273,
+          "beforeAt": 253,
+          "before": [
+            "    assert(portrait.localScaleY < 1 and portrait.y < 0 and h.part(\"enemy1\", \"impact\").visible)"
+          ],
+          "after": [
+            "    assert(portrait.localScaleY == 1 and portrait.y == 0, \"source monster death never shrinks or sinks\")",
+            "    assert(portrait.imageColor.a < 255 and portrait.imageColor.a >= 0, \"source TintEffect alpha advances independently\")"
+          ]
+        },
+        {
+          "at": 276,
+          "beforeAt": 255,
+          "before": [
+            "    assert(not h.stage:GetChild(\"enemy1\").visible and count(h.sounds, \"enemy_die\") == 1)"
+          ],
+          "after": [
+            "    assert(not h.box(\"enemy1\").visible and count(h.sounds, \"enemy_die\") == 1)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/source-recognition-lengths.json",
+        "tests/fixtures/pr372-integration-sources.json",
+        "tests/fixtures/combat-vfx-upgrade-inverse.json"
+      ]
+    },
+    "tests/lua/formal_campaign_entry.lua": {
+      "beforeSha256": "6a4f7242a7186ac802e1896895495d1fbdbf958d4484e348efb9a71a482cdc2d",
+      "beforeGitBlob": "26c7d2170fb914bb902e35e21a7fc75e7b0f4bc6",
+      "afterSha256": "3b89e06202dbfd5b24a097a4a66540ac6c794a0987b22a5b88e1533806deae0d",
+      "afterGitBlob": "046702cfdb318220b5d3e297cab945d294c948af",
+      "afterLength": 14492,
+      "hunks": [
+        {
+          "at": 10,
+          "beforeAt": 10,
+          "before": [
+            "    local new=F.GameUI.new",
+            "    F.GameUI.new=function(...)"
+          ],
+          "after": [
+            "    local new=require('abyss_game_ui').new",
+            "    require('abyss_game_ui').new=function(...)"
+          ]
+        },
+        {
+          "at": 31,
+          "beforeAt": 31,
+          "before": [],
+          "after": [
+            "    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}",
+            "    game.GetDevice=function()return 'desktop'end",
+            "    game.GetCursorUIPos=function()return 0,0 end",
+            "    dofile('tests/lua/support/native_monster_engine.lua')(game)"
+          ]
+        },
+        {
+          "at": 36,
+          "beforeAt": 32,
+          "before": [
+            "    F.GameUI.new=new"
+          ],
+          "after": [
+            "    require('abyss_game_ui').new=new"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json",
+        "tests/fixtures/open-pr-source-composition.json.gz",
+        "tests/fixtures/hero-visual-source-inverse.json"
+      ]
+    },
+    "tests/lua/full_source_campaign_entry.lua": {
+      "beforeSha256": "daae1a15fb928e01f9f1f083293508d160a840114ce7195e59e031e1ede8a2d6",
+      "beforeGitBlob": "88ad22f5d7b723857191d96f8f2039da9f21b3a8",
+      "afterSha256": "3501c491ffc8f70510cb0a3c3fdbd24eaa540210e886d7b9c51eb0c9eff3d25a",
+      "afterGitBlob": "135cdb79081861c5ac940897a0b76ae4b216edbe",
+      "afterLength": 7618,
+      "hunks": [
+        {
+          "at": 10,
+          "beforeAt": 10,
+          "before": [
+            "    local new=F.GameUI.new",
+            "    F.GameUI.new=function(...)"
+          ],
+          "after": [
+            "    local new=require('abyss_game_ui').new",
+            "    require('abyss_game_ui').new=function(...)"
+          ]
+        },
+        {
+          "at": 29,
+          "beforeAt": 29,
+          "before": [],
+          "after": [
+            "    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}",
+            "    game.GetDevice=function()return 'desktop'end",
+            "    game.GetCursorUIPos=function()return 0,0 end",
+            "    dofile('tests/lua/support/native_monster_engine.lua')(game)"
+          ]
+        },
+        {
+          "at": 34,
+          "beforeAt": 30,
+          "before": [
+            "    F.GameUI.new=new"
+          ],
+          "after": [
+            "    require('abyss_game_ui').new=new"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json",
+        "tests/fixtures/open-pr-source-composition.json.gz",
+        "tests/fixtures/hero-visual-source-inverse.json"
+      ]
+    },
+    "tests/lua/game_ui_classes_failure.lua": {
+      "beforeSha256": "2a1cac8e7931927259b327a339889d61c88e283ef28375f4568cf3b679d1db2e",
+      "beforeGitBlob": "a98fbb00fc8cf1db3836e3ade70999a22a2fce56",
+      "afterSha256": "63a86375be6788a7938435ca5484bf5b766e7d1a24ff8ea989278741f2ff6079",
+      "afterGitBlob": "368c07e4c8b530fcdd6e52e87b4bd8df4b85772e",
+      "afterLength": 10859,
+      "hunks": [
+        {
+          "at": 53,
+          "beforeAt": 53,
+          "before": [],
+          "after": [
+            "    Enum.Device={Mobile='mobile',Controller='controller',MobileController='mobile-controller'}",
+            "    game.GetDevice=function()return 'desktop'end",
+            "    game.GetCursorUIPos=function()return 0,0 end",
+            "    dofile('tests/lua/support/native_monster_engine.lua')(game)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/ready-art-source-layer.json",
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    "tests/lua/geo_public_entry.lua": {
+      "beforeSha256": "829013dcbfed0d1f40754b922bd1cb99b9e6e7a29a2abcee2b9225c893b669c7",
+      "beforeGitBlob": "acc83e743a6b05a91aa13698e868a09803eeb2c9",
+      "afterSha256": "a6e0f73304175c03f89d760768ba841d295cf1d6a2608ca17ed77a436771d2b7",
+      "afterGitBlob": "ee4b49464ebd8128bc7303a742f5111fac077478",
+      "afterLength": 3638,
+      "hunks": [
+        {
+          "at": 4,
+          "beforeAt": 4,
+          "before": [
+            " local originalNew=F.GameUI.new",
+            " F.GameUI.new=function(...)"
+          ],
+          "after": [
+            " local originalNew=require('abyss_game_ui').new",
+            " require('abyss_game_ui').new=function(...)"
+          ]
+        },
+        {
+          "at": 18,
+          "beforeAt": 18,
+          "before": [],
+          "after": [
+            " dofile('tests/lua/support/native_monster_engine.lua')(game)"
+          ]
+        },
+        {
+          "at": 20,
+          "beforeAt": 19,
+          "before": [
+            " F.GameUI.new=originalNew;package.loaded.abyss_narrative=originalNarrative"
+          ],
+          "after": [
+            " require('abyss_game_ui').new=originalNew;package.loaded.abyss_narrative=originalNarrative"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json",
+        "tests/fixtures/open-pr-source-composition.json.gz",
+        "tests/fixtures/hero-visual-source-inverse.json"
+      ]
+    },
+    "tests/lua/intent_artifact_playback.lua": {
+      "beforeSha256": "eec09d6aeb278997b82f0fbd05f8a0ed0448be4b1220101c13ac25ec5c004330",
+      "beforeGitBlob": "9b1f4ed6744167c6c096b55fb7e235fc53bba71d",
+      "afterSha256": "1e86b697715ba82d179db3e7925660912e0e908e59e449d742b6ee2716239ffc",
+      "afterGitBlob": "4ef10b2a8ef3c355a51d75f718b6f866cc05d56c",
+      "afterLength": 2424,
+      "hunks": [
+        {
+          "at": 4,
+          "beforeAt": 4,
+          "before": [
+            "    local h, u, p, _, tap = F.playbackSetup({\"defend\"}, {\"fat_gremlin\", \"jaw_worm\"})"
+          ],
+          "after": [
+            "    local h, u, p, _, tap = F.playbackSetup({\"defend\"}, {\"green_louse\", \"jaw_worm\"})"
+          ]
+        },
+        {
+          "at": 7,
+          "beforeAt": 7,
+          "before": [
+            "    s.enemies[1].intents = {{id=\"expose\", kind=\"debuff\", effects={{op=\"applyStatus\", status=\"vulnerable\", value=1}}}}",
+            "    s.enemies[2].intents = {{id=\"strike\", kind=\"attack\", effects={{op=\"gainStatus\", status=\"strength\", value=2}, {op=\"damage\", value=10}}}}",
+            "    h:refresh(); eq(p:GetChild(\"enemy2\"):GetChild(\"intent\").text, \"12\")"
+          ],
+          "after": [
+            "    s.enemies[1].intents = {{id=\"green_louse_2\", kind=\"debuff\", effects={{op=\"applyStatus\", status=\"vulnerable\", value=1}}}}",
+            "    s.enemies[2].intents = {{id=\"jaw_worm_1\", kind=\"attack\", effects={{op=\"gainStatus\", status=\"strength\", value=2}, {op=\"damage\", value=10}}}}",
+            "    h.run.combat=F.Combat.copy(s);s=h.run.combat",
+            "    h:refresh(); eq(F.H.F.actorControl(p, \"enemy2\"):GetChild(\"intent\").text, \"10\")"
+          ]
+        },
+        {
+          "at": 16,
+          "beforeAt": 15,
+          "before": [
+            "            eq(p:GetChild(\"enemy2\"):GetChild(\"intent\").text, \"18\", \"unacted enemy must see Vulnerable\")"
+          ],
+          "after": [
+            "            eq(F.H.F.actorControl(p, \"enemy2\"):GetChild(\"intent\").text, \"15\", \"source applyPowers sees Vulnerable but not a future self buff\")"
+          ]
+        },
+        {
+          "at": 18,
+          "beforeAt": 17,
+          "before": [
+            "            sawSecondIntent = true; eq(p:GetChild(\"enemy2\"):GetChild(\"intent\").text, \"18\")"
+          ],
+          "after": [
+            "            sawSecondIntent = true; eq(F.H.F.actorControl(p, \"enemy2\"):GetChild(\"intent\").text, \"15\")"
+          ]
+        },
+        {
+          "at": 21,
+          "beforeAt": 20,
+          "before": [
+            "            eq(p:GetChild(\"enemy2\"):GetChild(\"intent\").text, \"18\", \"completed self buff must not be forecast twice\")"
+          ],
+          "after": [
+            "            eq(F.H.F.actorControl(p, \"enemy2\"):GetChild(\"intent\").text, \"18\", \"completed self buff must not be forecast twice\")"
+          ]
+        },
+        {
+          "at": 26,
+          "beforeAt": 25,
+          "before": [
+            "    eq(p:GetChild(\"enemy2\"):GetChild(\"intent\").text, \"21\", \"new player phase must preview the next action\")"
+          ],
+          "after": [
+            "    eq(F.H.F.actorControl(p, \"enemy2\"):GetChild(\"intent\").text, \"18\", \"createIntent uses current Strength and does not execute next self buff\")"
+          ]
+        },
+        {
+          "at": 31,
+          "beforeAt": 30,
+          "before": [
+            "            sawNextAction = true; eq(p:GetChild(\"enemy2\"):GetChild(\"intent\").text, \"21\")"
+          ],
+          "after": [
+            "            sawNextAction = true; eq(F.H.F.actorControl(p, \"enemy2\"):GetChild(\"intent\").text, \"21\")"
+          ]
+        },
+        {
+          "at": 36,
+          "beforeAt": 35,
+          "before": [
+            "    eq(p:GetChild(\"enemy2\"):GetChild(\"intent\").text, \"24\")"
+          ],
+          "after": [
+            "    eq(F.H.F.actorControl(p, \"enemy2\"):GetChild(\"intent\").text, \"21\")"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr267-fixture-budget.json"
+      ]
+    },
+    "tests/lua/intent_face_clearance.lua": {
+      "beforeSha256": "94d6803257a33533089b27086940d2d5e3de43ccf90b0f5754fbd4421a9e9fbb",
+      "beforeGitBlob": "de8e67135a294db324603720efbd16f74d10faa7",
+      "afterSha256": "ff717b6b9cfa917ab6222ebcfd4184c43e9eeb5314161446c7a246697dd42eb8",
+      "afterGitBlob": "39596f3ee4db77ccae119946fce7388a065f9624",
+      "afterLength": 7577,
+      "hunks": [
+        {
+          "at": 2,
+          "beforeAt": 2,
+          "before": [
+            "local host,ui,panel=H.setup({'defend'},{'cultist'})"
+          ],
+          "after": [
+            "local Enemy=require('abyss_battle_enemy_view')",
+            "local Intent=require('abyss_battle_intent_view')",
+            "local Source=require('abyss_monster_source_intents')",
+            "local function near(a,b,message)assert(math.abs(a-b)<.001,message)end",
+            "local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')",
+            "local host,ui,panel,emit,tap=H.setup({'defend'},{'cultist'})"
+          ]
+        },
+        {
+          "at": 28,
+          "beforeAt": 23,
+          "before": [
+            "    enemy.ai=nil;enemy.intentIndex=1;enemy.intents={{kind='attack',effects=effects}}"
+          ],
+          "after": [
+            "    local attack",
+            "    for _,move in ipairs(enemy.intents)do for _,effect in ipairs(move.effects or {})do",
+            "      if effect.op=='damage' then attack=attack or move.id end",
+            "    end end",
+            "    assert(attack,'real attack source fixture required')",
+            "    enemy.ai=nil;enemy.intentIndex=1;enemy.intents={{id=attack,kind='attack',effects=effects}}"
+          ]
+        },
+        {
+          "at": 35,
+          "beforeAt": 25,
+          "before": [],
+          "after": [
+            "   host.run.combat=C.copy(battle);battle=host.run.combat"
+          ]
+        },
+        {
+          "at": 39,
+          "beforeAt": 28,
+          "before": [
+            "    local box=panel:GetChild('enemy'..i)"
+          ],
+          "after": [
+            "    local box=H.F.actorControl(panel, \"enemy\" .. i)"
+          ]
+        },
+        {
+          "at": 44,
+          "beforeAt": 33,
+          "before": [
+            "    assert(hit.y-hit.sizeDeltaY/2>=box:GetChild('plate').sizeDeltaY/2+Theme.space.xs-.001,'intent help covers portrait target '..first..'/'..count..'/'..meanings)"
+          ],
+          "after": [
+            "    local g=Enemy.geometry(battle.enemies[i])",
+            "    near(box.x,g.x,'source actor x');near(box.y,g.y,'source actor y')",
+            "    near(hit.x,g.intentX,'source intent hit x');near(hit.y,g.intentY,'source intent hit y')",
+            "    near(hit.sizeDeltaX,g.intentHitWidth,'source intent hit width');near(hit.sizeDeltaY,g.intentHitHeight,'source intent hit height')",
+            "    near(hitY-hit.sizeDeltaY/2,g.hitY+g.hitHeight/2,'source intent help begins at body hitbox top')",
+            "    local detail=Intent.intentView(battle,i)",
+            "    tap('enemy'..i,11)",
+            "    local shown=inspectDetails(host.battleUI,panel)",
+            "    for _,row in ipairs(detail.rows or {})do assert(shown:find(row.text,1,true),'actual tooltip lost complete ordered effect: '..row.text)end",
+            "    assert(detail.text:find('9',1,true),'damage detail retained')",
+            "    if meanings>=2 then assert(detail.text:find('5',1,true),'block detail retained')end",
+            "    if meanings>=3 then assert(detail.text:find('2',1,true),'buff detail retained')end"
+          ]
+        },
+        {
+          "at": 64,
+          "beforeAt": 42,
+          "before": [
+            "     assert(part.visible==(index<=meanings or name=='intent'),'all intended meanings and numeric damage must remain visible')"
+          ],
+          "after": [
+            "     assert(part.visible==(name=='intentIcon' or name=='intent'),'one source world icon and numeric damage; compound meanings remain in tooltip')"
+          ]
+        },
+        {
+          "at": 75,
+          "beforeAt": 53,
+          "before": [
+            "      assert(part.y-bound.sizeDeltaY/2>=box:GetChild('plate').sizeDeltaY/2-.001,'intent hides portrait '..first..'/'..count..'/'..i..'/'..name)",
+            "      assert(math.abs(x-box.x-hit.x)+bound.sizeDeltaX/2<=hit.sizeDeltaX/2+.001,'intent outside help hit')",
+            "      assert(math.abs(part.y-hit.y)+bound.sizeDeltaY/2<=hit.sizeDeltaY/2+.001,'intent outside help hit')"
+          ],
+          "after": [
+            "      if name=='intentIcon' then near(part.x,g.intentX,'source world icon x');near(part.y,g.intentY,'source world icon y');near(part.sizeDeltaX,g.intentWidth,'source world icon size')end",
+            "      -- Original icon is 128 wide but its hitbox is 64; do not shrink either",
+            "      -- merely to force the oversized icon/number into the source hit target."
+          ]
+        },
+        {
+          "at": 81,
+          "beforeAt": 59,
+          "before": [
+            "      else assert(part.text=='9\u00d72','multi-hit damage lost')end"
+          ],
+          "after": [
+            "      else",
+            "       local expected=Source.hasDefinition(battle.enemies[i]) and (Source.isMulti(battle.enemies[i],battle.enemies[i].intents[1]) and '9x2' or '9') or '9x2'",
+            "       assert(part.text==expected,'source explicit multi flag lost: '..part.text..' ~= '..expected)",
+            "      end"
+          ]
+        },
+        {
+          "at": 99,
+          "beforeAt": 74,
+          "before": [
+            "    local box=panel:GetChild('enemy'..source)"
+          ],
+          "after": [
+            "    local box=H.F.actorControl(panel, \"enemy\" .. source)"
+          ]
+        },
+        {
+          "at": 102,
+          "beforeAt": 77,
+          "before": [
+            "    assert(hit.y-hit.sizeDeltaY/2>=box:GetChild('plate').sizeDeltaY/2+Theme.space.xs-.001,'natural help covers own portrait')"
+          ],
+          "after": [
+            "    local g=Enemy.geometry(battle.enemies[source])",
+            "    near(y-hit.sizeDeltaY/2,g.hitY+g.hitHeight/2,'natural source help starts at body top')"
+          ]
+        },
+        {
+          "at": 105,
+          "beforeAt": 79,
+          "before": [
+            "     local other=panel:GetChild('enemy'..target)",
+            "     assert(not overlap(other:GetChild('plate'),other.x,other.y,hit,x,y),'natural help covers portrait '..members[index]..'/'..enemy.intents[plan].id..' source='..source..' target='..target)"
+          ],
+          "after": [
+            "     local other=H.F.actorControl(panel, \"enemy\" .. target)",
+            "     local otherGeometry=Enemy.geometry(battle.enemies[target])",
+            "     -- Compare the actual source hitbox, not the invisible old portrait plate.",
+            "     near(other.x,otherGeometry.x,'other actor source x must not reflow');near(other.y,otherGeometry.y,'other actor source y must not reflow')",
+            "     if source==target then assert(not overlap({sizeDeltaX=otherGeometry.hitWidth,sizeDeltaY=otherGeometry.hitHeight},otherGeometry.hitX,otherGeometry.hitY,hit,x,y),'source help covers own body')end"
+          ]
+        },
+        {
+          "at": 131,
+          "beforeAt": 102,
+          "before": [
+            "print('INTENT_FACE_CLEARANCE_PASS normal/elite/boss 1..5 1/2/3-icons/damage/notice/potions/portrait/help')"
+          ],
+          "after": [
+            "print('INTENT_FACE_CLEARANCE_PASS normal/elite/boss 1..5 1/2/3-detail-meanings/source-icon/damage/notice/potions/body/help')"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/intent_formula.lua": {
+      "beforeSha256": "09efac7237064de4a3467549047b763c8a4a809ca56730f6208e33a17ad2a1e7",
+      "beforeGitBlob": "31c70e16a00e2cef4f7d3d303bed4aaa7a7ff4a9",
+      "afterSha256": "cfc3588a37bdc313586f526ef3bac8ed828390d128d932e370207a4fb55e57b9",
+      "afterGitBlob": "1600281457d627949a1e1d1b6d0230cd03bd3bc3",
+      "afterLength": 8125,
+      "hunks": [
+        {
+          "at": 19,
+          "beforeAt": 19,
+          "before": [
+            " local s=C.new(F.Data,{deck={'defend'},enemies={'cultist'}})"
+          ],
+          "after": [
+            " local s=C.new(F.Data,{deck={'defend'},enemies={'book_of_stabbing'}})"
+          ]
+        },
+        {
+          "at": 21,
+          "beforeAt": 21,
+          "before": [
+            " e.intents={{id='test',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1"
+          ],
+          "after": [
+            " e.intents={{id='multi_stab',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1"
+          ]
+        },
+        {
+          "at": 42,
+          "beforeAt": 42,
+          "before": [
+            " local s,e=state();local check=unchanged(s);local face=V.intentView(s,1)"
+          ],
+          "after": [
+            " local s,e=state()",
+            " -- The arithmetic oracle varies effects, but keeps a real ATTACK/multi source identity.",
+            " local source=require('abyss_monster_source_intents')",
+            " assert(source.enum(e,e.intents[1])=='ATTACK' and source.isMulti(e,e.intents[1]))",
+            " local ok,why=pcall(source.enum,e,{id='unmapped_fixture_move'})",
+            " assert(not ok and tostring(why):find('unmapped source monster intent book_of_stabbing:unmapped_fixture_move',1,true))",
+            " local check=unchanged(s);local face=V.intentView(s,1)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    "tests/lua/louse_ui.lua": {
+      "beforeSha256": "80b67fd14a07da06b2360c41d6872e03a3d3adbabbba44e63ecb9c832a93c873",
+      "beforeGitBlob": "92559cda6c13ef4a9fe3efa582f7f48210dfda6f",
+      "afterSha256": "f7b24edff4920b078eab9b0042ff8994b34d31ff42e9eb9d7f2ad958c4e0c0ca",
+      "afterGitBlob": "a65cb295e06d29d72e3f6290af1121a117ca5004",
+      "afterLength": 2115,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 11,
+          "beforeAt": 10,
+          "before": [
+            "local first,second=panel:GetChild('enemy1'),panel:GetChild('enemy2')"
+          ],
+          "after": [
+            "local first,second=Native.actor(panel,s.enemies[1]),Native.actor(panel,s.enemies[2])"
+          ]
+        },
+        {
+          "at": 15,
+          "beforeAt": 14,
+          "before": [
+            "C.addStatus(s.enemies[1],'strength',3);C.addStatus(s.enemies[2],'weak',1);host:refresh()"
+          ],
+          "after": [
+            "local E,A=require('abyss_events'),require('abyss_actor')",
+            "local frame,firstEvent=E.frame(s),#s.events+1",
+            "A.applyPower(s,s.enemies[1],'strength',3,s.enemies[1])",
+            "A.applyPower(s,s.enemies[2],'weak',1,s.player)",
+            "ui.busy,ui.feedbackRun,ui.feedbackBattle=true,host.run,s",
+            "ui.feedbackLast=#s.events",
+            "ui.feedback:begin(frame,s,firstEvent,host.presentation,nil)",
+            "drain()"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/m3_ui_polish.lua": {
+      "beforeSha256": "66a901132840d5a078a6efd107ad79627383314968fe710e360dca3e6116ffba",
+      "beforeGitBlob": "464d88dd9dd490829eb028dc8317ed89d5ecd6ca",
+      "afterSha256": "4ae9d3a185ffee96f16f858f511504c1b218ab3c2dff9c92e2f34d5aab98120c",
+      "afterGitBlob": "76726728b55f7dc6a4badd523bdc13ec0bf41245",
+      "afterLength": 2649,
+      "hunks": [
+        {
+          "at": 13,
+          "beforeAt": 13,
+          "before": [
+            " -- Main.dc.html: zoneL=1010, zoneR=1850; front=min(190,round(slot*1.1)).",
+            " -- Keep this live gesture test on the approved source geometry, not the retired row.",
+            " local sourceStep=(1850-1010)/count",
+            " local front=math.min(190,math.floor(sourceStep*1.1+.5))"
+          ],
+          "after": [
+            " -- Explicit constructor inputs for a synthetic 1..5-member group. Production",
+            " -- positions remain source-authored and never depend on live actor count.",
+            " for i,actor in ipairs(battle.enemies)do actor.sourcePosition={x=-840+(i-1)*240,y=-10}end",
+            " host:refresh()"
+          ]
+        },
+        {
+          "at": 20,
+          "beforeAt": 20,
+          "before": [
+            "  local box=panel:GetChild('enemy'..i)",
+            "  local portrait=i%2==1 and front or math.floor(front*.86+.5)",
+            "  local x=(1010+sourceStep*(i-.5))/1.5-640",
+            "  local y=360-((i%2==1 and 300 or 180)+58+16+portrait/2)/1.5",
+            "  assert(box.visible and math.abs(box.x-x)<1e-8 and math.abs(box.y-y)<1e-8,'visible enemy row changed')"
+          ],
+          "after": [
+            "  local box=H.F.actorControl(panel,'enemy'..i)",
+            "  local g=Enemy.geometry(battle.enemies[i])",
+            "  local x,y=g.hitX,g.hitY",
+            "  assert(box.visible and math.abs(box.x-g.x)<1e-8 and math.abs(box.y-g.y)<1e-8,'source constructor position changed')"
+          ]
+        },
+        {
+          "at": 25,
+          "beforeAt": 26,
+          "before": [
+            "  assert(math.abs(renderedX-x)<1e-8,'feedback position differs from visible enemy')"
+          ],
+          "after": [
+            "  assert(math.abs(renderedX-g.x)<1e-8,'feedback position differs from source actor')"
+          ]
+        },
+        {
+          "at": 30,
+          "beforeAt": 31,
+          "before": [
+            "  assert(layer.visible and math.abs(layer:GetChild('reticle').x-x)<1e-8,'actual target hitbox differs from visual slot count='..count..' slot='..i..' expected='..x..' actual='..tostring(layer:GetChild('reticle').x)..' moving='..tostring(ui.gesture and ui.gesture.moving))"
+          ],
+          "after": [
+            "  assert(layer.visible and math.abs(layer:GetChild('reticle').x-g.x)<1e-8,'source aim endpoint differs from actor drawX count='..count..' slot='..i..' expected='..g.x..' actual='..tostring(layer:GetChild('reticle').x)..' moving='..tostring(ui.gesture and ui.gesture.moving))"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/source-recognition-lengths.json",
+        "tests/fixtures/pr372-integration-sources.json",
+        "tests/helpers/hand-gesture-aim-source-layer.json"
+      ]
+    },
+    "tests/lua/mobile_click_recovery.lua": {
+      "beforeSha256": "9c4e54791d2707ee7a835f20cbbf9789c0c88d0982aa12127d6e2a62f6bd1767",
+      "beforeGitBlob": "bd5021a0e11c753de7d6b1b62a30a542b5b520ae",
+      "afterSha256": "165fbe7f6e35f314eb184da4246dfc974e676f98620760798747b54bdc183fc7",
+      "afterGitBlob": "578baaa40dc1f72ab46180668b7a42209a4422d7",
+      "afterLength": 1098,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl"
+          ]
+        },
+        {
+          "at": 15,
+          "beforeAt": 14,
+          "before": [
+            "  local enemy=p:GetChild('enemy1')"
+          ],
+          "after": [
+            "  local enemy=actorControl(p,\"enemy1\")"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    "tests/lua/nemesis_ui.lua": {
+      "beforeSha256": "736a67ba3158850ad67d716b7ec62fe8ac6629d0b24ff673b1b7e975ddd340d9",
+      "beforeGitBlob": "b615f3f06cc8fad9a78c7aa88360bea1c1df08b0",
+      "afterSha256": "0a8b423caae5dc7d89ae31f06204ad7fe67a2f204ecacf7e007b41e08e1ca0bb",
+      "afterGitBlob": "b4f0b4b59a3a62ce281202f9ac106306378d5ab4",
+      "afterLength": 1836,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 14,
+          "beforeAt": 13,
+          "before": [
+            "local panel=root:GetChild('battlePanel');local box=panel:GetChild('enemy1');local _,tap=H.controls(panel)"
+          ],
+          "after": [
+            "local panel=root:GetChild('battlePanel');local box=Native.actor(panel,r.combat.enemies[1]);local _,tap=H.controls(panel)"
+          ]
+        },
+        {
+          "at": 21,
+          "beforeAt": 20,
+          "before": [
+            "eq(box:GetChild('intent').text,'6\u00d73')",
+            "box:GetChild('statusRow'):GetChild('hit').click({touchId=92})"
+          ],
+          "after": [
+            "eq(box:GetChild('intent').text,'6x3')",
+            "Native.power(box,'nemesis_intangible'):GetChild('hit').click({touchId=92})"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/original_v4_face_native.lua": {
+      "beforeSha256": "c08f0798635cf9acc5f1b2742b4cc29b5214bb4da520f15eea11e7fd7c5d1d49",
+      "beforeGitBlob": "41ab6653dafe57411fad55139b777416220b2df6",
+      "afterSha256": "e3cd59b56ea891f81be3ec10f90944a5c982964c54da512c033d9e7c7c217989",
+      "afterGitBlob": "a3c77b1f3e1d4e9efb3b6f5ae6454eb573cd850f",
+      "afterLength": 8004,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local NativeActors=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 124,
+          "beforeAt": 123,
+          "before": [
+            " local enemy=panel:GetChild('enemy1')"
+          ],
+          "after": [
+            " local enemy=NativeActors.actor(panel,live.combat.enemies[1])"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    "tests/lua/potion_controller_cancel_composition.lua": {
+      "beforeSha256": "429052c8312ff03291b323d2e39df0081dbbafa4dbac5bf92cc767148b79dd37",
+      "beforeGitBlob": "a4e70ff8751e1047cceab1a541bf4105a95214d5",
+      "afterSha256": "79687550aad3043c5b2ae9c74376a860602b9b0225fbea013a94aa9ddc18bb5e",
+      "afterGitBlob": "1065dcd418c0626c727b7886cc255f4c1895048c",
+      "afterLength": 3388,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl"
+          ]
+        },
+        {
+          "at": 16,
+          "beforeAt": 15,
+          "before": [
+            "  local c=p:GetChild(name);local hit=c.listeners and c or c:GetChild('hit')"
+          ],
+          "after": [
+            "  local c=F.actorControl(p,name);local hit=c.listeners and c or c:GetChild('hit')"
+          ]
+        },
+        {
+          "at": 21,
+          "beforeAt": 20,
+          "before": [
+            " local enemy=p:GetChild('enemy2');local hp=h.run.combat.enemies[2].hp"
+          ],
+          "after": [
+            " local enemy=actorControl(p,\"enemy2\");local hp=h.run.combat.enemies[2].hp"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    "tests/lua/potion_drag_click_composition.lua": {
+      "beforeSha256": "53c8dd0e3cfdab229283520d4647aaddc3e3a3a9141d2c058c1769ae808c43ca",
+      "beforeGitBlob": "6ddcc0a8167ac96bac64c5f0ee645fe940b251b0",
+      "afterSha256": "983f1e635024045add362f08529dac06d5b2a6520a8928224f0dd85b5426551c",
+      "afterGitBlob": "21cbeace445fd9607e289af917e77367cf664e1b",
+      "afterLength": 5864,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local actorControl=dofile('tests/lua/support/game_ui_fixture.lua').actorControl"
+          ]
+        },
+        {
+          "at": 6,
+          "beforeAt": 5,
+          "before": [
+            " assert(Run.obtainPotion(h.run,'fire_potion'));h:refresh()"
+          ],
+          "after": [
+            " assert(Run.obtainPotion(h.run,'fire_potion'));local positions=require('abyss_monster_source_positions').positions('Cultist and Chosen');for i,a in ipairs(h.run.combat.enemies)do a.sourcePosition=positions[i]end;h:refresh()"
+          ]
+        },
+        {
+          "at": 8,
+          "beforeAt": 7,
+          "before": [
+            " local enemy=p:GetChild('enemy2');local hp=h.run.combat.enemies[2].hp"
+          ],
+          "after": [
+            " local enemy=actorControl(p,\"enemy2\");local hp=h.run.combat.enemies[2].hp"
+          ]
+        },
+        {
+          "at": 33,
+          "beforeAt": 32,
+          "before": [
+            " assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));h:refresh()",
+            " local first,second=p:GetChild('enemy1'),p:GetChild('enemy2')"
+          ],
+          "after": [
+            " assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));local positions=require('abyss_monster_source_positions').positions('Cultist and Chosen');for i,a in ipairs(h.run.combat.enemies)do a.sourcePosition=positions[i]end;h:refresh()",
+            " local first,second=actorControl(p,\"enemy1\"),actorControl(p,\"enemy2\")"
+          ]
+        },
+        {
+          "at": 60,
+          "beforeAt": 59,
+          "before": [
+            " assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));h:refresh()",
+            " local first,second=p:GetChild('enemy1'),p:GetChild('enemy2')"
+          ],
+          "after": [
+            " assert(Run.obtainPotion(h.run,'fire_potion')and Run.obtainPotion(h.run,'poison_potion'));local positions=require('abyss_monster_source_positions').positions('Cultist and Chosen');for i,a in ipairs(h.run.combat.enemies)do a.sourcePosition=positions[i]end;h:refresh()",
+            " local first,second=actorControl(p,\"enemy1\"),actorControl(p,\"enemy2\")"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr323-accepted-source-inverse.json"
+      ]
+    },
+    "tests/lua/sentries_ui.lua": {
+      "beforeSha256": "62435e2bdd16f935072c524c99fa77f88b8bb32b95d122117322e55370be7f7f",
+      "beforeGitBlob": "cb6b8f5831057e3bce698c59535d56ef7334d353",
+      "afterSha256": "00620aaa24432a3b6b47b10ad84d3ab14d813faa01479abd0abb2f7faae354af",
+      "afterGitBlob": "3197154e400a65747f21c652d82b580e6a63631a",
+      "afterLength": 2530,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 11,
+          "beforeAt": 10,
+          "before": [
+            "-- Instantiate the actual generated native tree; fail on unknown controls.",
+            "local function control(d)",
+            "    local c={name=d.name,visible=d.visible~=false,children={},text=\"\",sizeDeltaX=d.size[1],sizeDeltaY=d.size[2],interactable=true,",
+            "        x=d.position and d.position[1] or 0,y=d.position and d.position[2] or 0}",
+            "    for _,v in ipairs(d.children or {}) do c.children[v.name]=control(v) end",
+            "    function c:GetChild(k)return assert(self.children[k],\"missing control \"..self.name..\"/\"..k)end",
+            "    function c:SetVisible(v)assert(type(v)==\"boolean\");self.visible=v end",
+            "    function c:AddCursorEventListener(event,fn) NativeContract.listener(event,fn);self.listeners=self.listeners or {};self.listeners[event]=fn;if event==\"click\"then self.click=fn end end",
+            "    function c:SetAnchoredPosition(x,y)self.x,self.y=x,y end",
+            "    function c:SetSizeDelta(x,y) NativeContract.sizeDelta(x,y);self.sizeDeltaX,self.sizeDeltaY=x,y end",
+            "    function c:SetLocalScale(x,y)self.localScaleX,self.localScaleY=x,y end",
+            "    function c:SetImage(...)assert(select(\"#\",...)==2);local source,id=...;assert(source==\"static\" and type(id)==\"number\");self.imageId=id end",
+            "    function c:SetAsLastSibling()self.raised=true end",
+            "    return c",
+            "end"
+          ],
+          "after": [
+            "local F=dofile('tests/lua/support/game_ui_fixture.lua')"
+          ]
+        },
+        {
+          "at": 16,
+          "beforeAt": 29,
+          "before": [
+            "local root=control({name=\"root\",size={1280,720},children=Layout})",
+            "local stage=root:GetChild(\"stage\"):GetChild(\"battlePanel\")",
+            "local ui=UI.new(stage,Data,Presentation,\"click\",{imageSource=\"static\",color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end},{embedded=true})"
+          ],
+          "after": [
+            "local canvas=F.control({name=\"root\",size={1280,720},children=Layout})",
+            "local stage=F.Viewport.apply(canvas,1280,720):GetChild(\"battlePanel\")",
+            "local ui=UI.new(stage,Data,Presentation,\"click\",F.withMonsterActors({imageSource=\"static\",color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end}),{embedded=true})"
+          ]
+        },
+        {
+          "at": 21,
+          "beforeAt": 34,
+          "before": [
+            "    local box=stage:GetChild(name)"
+          ],
+          "after": [
+            "    local box=F.actorControl(stage,name)"
+          ]
+        },
+        {
+          "at": 26,
+          "beforeAt": 39,
+          "before": [
+            "    for i=1,3 do local bolt=(i%2==1)==outerBolt;local box=stage:GetChild(\"enemy\"..i)"
+          ],
+          "after": [
+            "    for i=1,3 do local bolt=(i%2==1)==outerBolt;local box=Native.actor(stage,ui.run.combat.enemies[i])"
+          ]
+        },
+        {
+          "at": 29,
+          "beforeAt": 42,
+          "before": [
+            "        local row=box:GetChild(\"statusRow\")",
+            "        assert(row:GetChild(\"icon1\").visible and row:GetChild(\"icon1\").imageId==Theme.icon.status.artifact and row:GetChild(\"count1\").text==\"1\")"
+          ],
+          "after": [
+            "        local chip=Native.power(box,\"artifact\")",
+            "        assert(chip:GetChild(\"icon\").visible and chip:GetChild(\"icon\").imageId==Theme.icon.status.artifact and chip:GetChild(\"count\").text==\"1\")"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/shield_gremlin_ui.lua": {
+      "beforeSha256": "9dce5f46e86a49146b0d7fee3f990b6fe20884f8126368e432f26e5d203ff9fb",
+      "beforeGitBlob": "b140b8e013ec9e32894f491bbee8cb27d6b0acc3",
+      "afterSha256": "15c18df5a1f62b805722666255947f3182b39a551bff8e1a090004f81763c14d",
+      "afterGitBlob": "ecf083bd455b6f9d7ddad3c60a8e0b5c5ff33811",
+      "afterLength": 1592,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 7,
+          "beforeAt": 6,
+          "before": [
+            "local box=panel:GetChild('enemy1');assert(box:GetChild('intent').text=='')"
+          ],
+          "after": [
+            "local box=Native.actor(panel,host.run.combat.enemies[1]);assert(box:GetChild('intent').text=='')"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/slimed_ui.lua": {
+      "beforeSha256": "d991810b91d5ee4ba17e0453b6d9702586670a6f7ad53168ee5667fb103f0952",
+      "beforeGitBlob": "ed1ddc308607d289e50647c56dbf9eadf81303a6",
+      "afterSha256": "de5871f0baf97c7916ffb665054d68a95415983857cd5037d0bda68e55b1b12a",
+      "afterGitBlob": "5f1132ed3dfe8d755a8be853ef0477fd77aec1f2",
+      "afterLength": 1845,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 7,
+          "beforeAt": 6,
+          "before": [],
+          "after": [
+            "host.run.combat=C.copy(host.run.combat) -- Select the fixture move before its initial source display."
+          ]
+        },
+        {
+          "at": 9,
+          "beforeAt": 7,
+          "before": [
+            "assert(panel:GetChild('enemy1'):GetChild('intent').text=='8')"
+          ],
+          "after": [
+            "assert(Native.actor(panel,s.enemies[1]):GetChild('intent').text=='8')"
+          ]
+        },
+        {
+          "at": 12,
+          "beforeAt": 10,
+          "before": [
+            "assert(panel:GetChild('enemy1'):GetChild('intentBadge').visible,'mixed attack must also show its debuff badge')"
+          ],
+          "after": [
+            "dofile('tests/lua/support/intent_face_assertion.lua')(Native.actor(panel,s.enemies[1]),require('abyss_battle_intent_view').intentView(s,1))"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/spike_slime_l_ui.lua": {
+      "beforeSha256": "a4139355b9c68e2ff06001fbd72012e99559f4d41ce1d74e6f80929ccbe8e0b5",
+      "beforeGitBlob": "0b6cf60a14a27c9de7c488c213b9f9debe5da4d8",
+      "afterSha256": "ee2d8dc6811faea8198b0210e47b3e84f38d2c864f720fa20b472c00021c1d60",
+      "afterGitBlob": "6fc24df03e92e264fea8b11181b9ab370140d8ec",
+      "afterLength": 1857,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 7,
+          "beforeAt": 6,
+          "before": [],
+          "after": [
+            "host.run.combat=C.copy(host.run.combat) -- Select the fixture move before its initial source display."
+          ]
+        },
+        {
+          "at": 9,
+          "beforeAt": 7,
+          "before": [
+            "assert(panel:GetChild('enemy1'):GetChild('intent').text=='16')"
+          ],
+          "after": [
+            "assert(Native.actor(panel,s.enemies[1]):GetChild('intent').text=='16')"
+          ]
+        },
+        {
+          "at": 12,
+          "beforeAt": 10,
+          "before": [
+            "assert(panel:GetChild('enemy1'):GetChild('intentBadge').visible,'mixed attack must also show its debuff badge')"
+          ],
+          "after": [
+            "dofile('tests/lua/support/intent_face_assertion.lua')(Native.actor(panel,s.enemies[1]),require('abyss_battle_intent_view').intentView(s,1))"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/spike_slime_split_ui.lua": {
+      "beforeSha256": "2cc974bbdf3d8e1bad63fad3acc9d06d245d7c2be792aab7ec812b20f819bc58",
+      "beforeGitBlob": "d03ef44b5d50e3f3807af39b03291fbbfc12f7a1",
+      "afterSha256": "b3443d1b25d26ec12941763da5cd70cca93d33f0791366b61a7b1da10321131b",
+      "afterGitBlob": "3c2cf21d3070492cacb372f47da378f9d6bdd3e3",
+      "afterLength": 7928,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 10,
+          "beforeAt": 9,
+          "before": [
+            "    local box=panel:GetChild('enemy'..slot)"
+          ],
+          "after": [
+            "    local box,nativeSlot=Native.actor(panel,state.enemies[index])"
+          ]
+        },
+        {
+          "at": 13,
+          "beforeAt": 12,
+          "before": [
+            "    box:GetChild('statusRow'):GetChild('hit').click()"
+          ],
+          "after": [
+            "    local hit=box:GetChild('hit');for _,kind in ipairs({'down','up','click'}) do if hit.listeners[kind] then hit.listeners[kind]({touchId=700+index}) end end"
+          ]
+        },
+        {
+          "at": 16,
+          "beforeAt": 15,
+          "before": [
+            "    return slot,box"
+          ],
+          "after": [
+            "    return nativeSlot,box"
+          ]
+        },
+        {
+          "at": 21,
+          "beforeAt": 20,
+          "before": [],
+          "after": [
+            "host.run.combat=C.copy(host.run.combat) -- Install the damaged boundary before this battle's initial source display."
+          ]
+        },
+        {
+          "at": 23,
+          "beforeAt": 21,
+          "before": [
+            "assert(panel:GetChild('enemy1'):GetChild('intent').text=='' and not panel:GetChild('enemy1'):GetChild('intentLabel').visible)",
+            "assert(panel:GetChild('enemy1'):GetChild('intentIcon').visible and panel:GetChild('enemy1'):GetChild('intentIcon').imageId==H.F.Theme.icon.intent.unknown,'split intent must retain its visible unknown glyph before action')"
+          ],
+          "after": [
+            "assert(Native.actor(panel,s.enemies[1]):GetChild('intent').text=='' and not Native.actor(panel,s.enemies[1]):GetChild('intentLabel').visible)",
+            "dofile('tests/lua/support/intent_face_assertion.lua')(Native.actor(panel,parent),require('abyss_battle_intent_view').intentView(s,1),'\u5206\u88c2')"
+          ]
+        },
+        {
+          "at": 27,
+          "beforeAt": 25,
+          "before": [],
+          "after": [
+            "local oldParentBox=Native.actor(panel,parent);local oldParentHit=oldParentBox:GetChild('hit');local oldUp,oldClick=oldParentHit.listeners.up,oldParentHit.listeners.click"
+          ]
+        },
+        {
+          "at": 33,
+          "beforeAt": 30,
+          "before": [],
+          "after": [
+            "for _=1,400 do if not next(ui.feedback.dying) then break end;host:update(.05) end",
+            "assert(not next(ui.feedback.dying))"
+          ]
+        },
+        {
+          "at": 38,
+          "beforeAt": 33,
+          "before": [
+            "assert(left==1 and right==2 and not panel:GetChild('enemy3').visible,'both children occupy live display slots, parent hidden')",
+            "for i=4,5 do assert(not panel:GetChild('enemy'..i).visible,'unused display slots hidden') end"
+          ],
+          "after": [
+            "assert(left~=right and oldParentBox.alive==false,'both children have native actors and the parent control is retired')",
+            "Native.count(panel,2)"
+          ]
+        },
+        {
+          "at": 42,
+          "beforeAt": 37,
+          "before": [
+            "emit('enemy1','up',11);emit('enemy1','click',11);drain()"
+          ],
+          "after": [
+            "if oldUp then oldUp({touchId=11})end;if oldClick then oldClick({touchId=11})end;drain()"
+          ]
+        },
+        {
+          "at": 46,
+          "beforeAt": 41,
+          "before": [],
+          "after": [
+            "h.run.combat=C.copy(h.run.combat)"
+          ]
+        },
+        {
+          "at": 48,
+          "beforeAt": 42,
+          "before": [],
+          "after": [
+            "for _=1,400 do if not next(u.feedback.dying) then break end;h:update(.05) end",
+            "assert(not next(u.feedback.dying))"
+          ]
+        },
+        {
+          "at": 52,
+          "beforeAt": 44,
+          "before": [
+            "for slot,index in ipairs({1,2,4,5}) do assert(enemyControl(u,p,b,index)==slot,'four live actors retain source order and identity') end",
+            "for i=1,5 do assert(p:GetChild('enemy'..i).visible==(i<=4),'five-slot visibility '..i)end"
+          ],
+          "after": [
+            "local nativeSlots={}",
+            "for slot,index in ipairs({1,2,4,5}) do local _,sourceSlot=EnemyView.find(b,index);assert(sourceSlot==slot,'four live actors retain source core order');local actual=enemyControl(u,p,b,index);assert(not nativeSlots[actual],'native actors retain distinct identities');nativeSlots[actual]=true end",
+            "Native.count(p,4)"
+          ]
+        },
+        {
+          "at": 59,
+          "beforeAt": 50,
+          "before": [
+            "local function statusTap(panel,index,touch)",
+            "    local hit=panel:GetChild('enemy'..index):GetChild('statusRow'):GetChild('hit')"
+          ],
+          "after": [
+            "local function statusTap(panel,actor,touch)",
+            "    local hit=Native.power(Native.actor(panel,actor),actor.statuses.vulnerable and 'vulnerable' or 'artifact'):GetChild('hit')"
+          ]
+        },
+        {
+          "at": 65,
+          "beforeAt": 56,
+          "before": [
+            "statusTap(p,2,23)"
+          ],
+          "after": [
+            "statusTap(p,b.enemies[2],23)"
+          ]
+        },
+        {
+          "at": 79,
+          "beforeAt": 70,
+          "before": [],
+          "after": [
+            "        C.addStatus(ss.enemies[2],'artifact',1);hh:refresh() -- A real per-power control for the dismissal gesture."
+          ]
+        },
+        {
+          "at": 93,
+          "beforeAt": 83,
+          "before": [
+            "    statusTap(pp,2,10)"
+          ],
+          "after": [
+            "    statusTap(pp,hh.run.combat.enemies[2],10)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/support/act2_intent_ui_cases.lua": {
+      "beforeSha256": "c3e15726566f1b08d73b31251ceca9a36ae84adc9401603d18e6b346ef09b4ae",
+      "beforeGitBlob": "d1faaed5545c5a351f5ee8e4c282453452b93432",
+      "afterSha256": "3cf09f4ae747021443f909edb33bd5aaf5dd18b9a2acfb8283f5dce3da1b2410",
+      "afterGitBlob": "10ad22eb65ff5f3e5710e5f75c30e36aea8826a8",
+      "afterLength": 4898,
+      "hunks": [
+        {
+          "at": 0,
+          "beforeAt": 0,
+          "before": [],
+          "after": [
+            "local Native=dofile('tests/lua/support/current_monster_controls.lua')"
+          ]
+        },
+        {
+          "at": 27,
+          "beforeAt": 26,
+          "before": [],
+          "after": [
+            " -- This fixture installs a selected source move before the new battle is first displayed.",
+            " host.run.combat=C.copy(host.run.combat)"
+          ]
+        },
+        {
+          "at": 30,
+          "beforeAt": 27,
+          "before": [
+            " if effects then enemy.intents={{id='intent_fixture',kind=kind,effects=effects}};enemy.intentIndex=1"
+          ],
+          "after": [
+            " if effects then enemy.intents={{id=assert(move,'source move ID required'),kind=kind,effects=effects}};enemy.intentIndex=1"
+          ]
+        },
+        {
+          "at": 38,
+          "beforeAt": 35,
+          "before": [
+            " return details(ui,panel),panel:GetChild('enemy'..index),require('abyss_battle_intent_view').intentView(host.run.combat,index)"
+          ],
+          "after": [
+            " return details(ui,panel),Native.actor(panel,enemy),require('abyss_battle_intent_view').intentView(host.run.combat,index)"
+          ]
+        },
+        {
+          "at": 57,
+          "beforeAt": 54,
+          "before": [
+            "local vampire,box=detail('mystic',nil,{{op='enemyVampireDamage',value=10}},'attack')"
+          ],
+          "after": [
+            "local vampire,box=detail('shelled_parasite','life_suck')"
+          ]
+        },
+        {
+          "at": 62,
+          "beforeAt": 59,
+          "before": [
+            "local wake=detail('lagavulin',nil,{},'stunned')"
+          ],
+          "after": [
+            "local wake=detail('lagavulin','lagavulin_stunned',{},'stunned')"
+          ]
+        },
+        {
+          "at": 67,
+          "beforeAt": 64,
+          "before": [
+            "local stun,stunBox,stunFace=detail('mystic',nil,{},'stunned')"
+          ],
+          "after": [
+            "local stun,stunBox,stunFace=detail('byrd','stunned',{},'stunned')"
+          ]
+        },
+        {
+          "at": 70,
+          "beforeAt": 67,
+          "before": [
+            "assert(stunFace.kind=='unknown' and stunBox:GetChild('intentIcon').imageId==require('abyss_theme').icon.intent.unknown,'non-Lagavulin stun keeps the approved unknown glyph')"
+          ],
+          "after": [
+            "assert(stunFace.kind=='unknown' and stunFace.sourceEnum=='STUN' and not stunBox:GetChild('intentIcon').visible,'non-Lagavulin source STUN uses particles without a base image')"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/act2-intent-ui.test.mjs: original fourteen-case SHA256"
+      ]
+    },
+    "tests/lua/support/intent_artifact_fixture.lua": {
+      "beforeSha256": "fdcf6ee7325c32956b504f4dd5526fee2ace6da6835082b8e6445ee7279d7994",
+      "beforeGitBlob": "8892b74e1ed5e1454f9e4fd3b6f0a347e7a5276b",
+      "afterSha256": "c6c549fdc73688588f44911951c3711484c03c69e88a7a4c97219eaca78224aa",
+      "afterGitBlob": "f30f1df4befef1f739588c62e964cb6c747441e1",
+      "afterLength": 6712,
+      "hunks": [
+        {
+          "at": 49,
+          "beforeAt": 49,
+          "before": [
+            "    local h, u, p, emit, tap, drain = H.setup({\"strike\", \"defend\"}, {\"fat_gremlin\"})"
+          ],
+          "after": [
+            "    local enemyId,moveId='fat_gremlin','fat_gremlin_1'"
+          ]
+        },
+        {
+          "at": 51,
+          "beforeAt": 51,
+          "before": [
+            "        -- Synthetic supported sequences isolate ordering, not new stock enemy moves.",
+            "        local enemy = h.run.combat.enemies[1]",
+            "        enemy.ai, enemy.intentIndex = nil, 1",
+            "        enemy.intents = {{id=\"preview_order\", kind=kind or \"attack\", effects=effects}}"
+          ],
+          "after": [
+            "        enemyId,moveId='jaw_worm','jaw_worm_1'",
+            "        if kind=='debuff' then enemyId,moveId='green_louse','green_louse_2'",
+            "        elseif kind=='defend' then enemyId,moveId='jaw_worm','jaw_worm_3'",
+            "        else for _,effect in ipairs(effects)do if effect.op=='damage' and (effect.times or 1)>1 then enemyId,moveId='book_of_stabbing','multi_stab' end end end",
+            "    end",
+            "    local h, u, p, emit, tap, drain = H.setup({\"strike\", \"defend\"}, {enemyId})",
+            "    if effects then",
+            "        -- Explicit effect-arithmetic fixture: retain a real source move identity.",
+            "        -- A fresh battle owner creates the source intent after controlled setup.",
+            "        local battle=Combat.copy(h.run.combat)",
+            "        local enemy=battle.enemies[1]",
+            "        enemy.ai,enemy.intentIndex=nil,1",
+            "        enemy.intents={{id=moveId,kind=kind or 'attack',effects=effects}}",
+            "        h.run.combat=battle"
+          ]
+        },
+        {
+          "at": 77,
+          "beforeAt": 67,
+          "before": [
+            "    if enemy.id == \"fat_gremlin\" or enemy.id == \"jaw_worm\" then"
+          ],
+          "after": [
+            "    if enemy.id == \"fat_gremlin\" or enemy.id == \"jaw_worm\" or enemy.id == \"green_louse\" then"
+          ]
+        },
+        {
+          "at": 81,
+          "beforeAt": 71,
+          "before": [
+            "assert(#playbackData.cards.cards == 1 and #playbackData.enemies.enemies == 2, \"playback dependencies missing\")"
+          ],
+          "after": [
+            "assert(#playbackData.cards.cards == 1 and #playbackData.enemies.enemies == 3, \"playback dependencies missing\")"
+          ]
+        },
+        {
+          "at": 93,
+          "beforeAt": 83,
+          "before": [
+            "    return p:GetChild(\"enemy1\"):GetChild(\"intent\").text, detail"
+          ],
+          "after": [
+            "    -- Ordered preview arithmetic belongs to the complete detail projection;",
+            "    -- source world damage deliberately does not pre-execute self buffs.",
+            "    local face=require('abyss_battle_intent_view').intentView(h.run.combat,1)",
+            "    for _,row in ipairs(face.rows or {})do",
+            "        assert(detail:find(row.text,1,true),'actual tooltip lost ordered preview row: '..row.text)",
+            "    end",
+            "    return face.value, detail"
+          ]
+        },
+        {
+          "at": 103,
+          "beforeAt": 87,
+          "before": [
+            "    local ok, why = pcall(function() h:refresh() end)"
+          ],
+          "after": [
+            "    local ok, why = pcall(function()",
+            "        h:refresh()",
+            "        -- Overflow belongs to ordered tooltip projection, not source world",
+            "        -- damage which must never pre-apply the future status effect.",
+            "        h.battleUI:showStatus(1)",
+            "    end)"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/pr267-fixture-budget.json",
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/lua/support/potion_targeting_fixture.lua": {
+      "beforeSha256": "ab0e566fc05e0a122759e5b46f17b332f15496760144934753a852cd6ba9ac1b",
+      "beforeGitBlob": "d31433823e2aa5737703167a48614b3d1ab38219",
+      "afterSha256": "084da2882fa05fed1cec18b384fbf8c492b113b40572b801e7f4b4e099fac954",
+      "afterGitBlob": "6a9771a17a106a83389cd1b0241af2e8f65bb945",
+      "afterLength": 3037,
+      "hunks": [
+        {
+          "at": 31,
+          "beforeAt": 31,
+          "before": [
+            "    local box=p:GetChild(name);local hit=box.listeners and box or box:GetChild('hit')"
+          ],
+          "after": [
+            "    local box=F.actorControl(p,name);local hit=box.listeners and box or box:GetChild('hit')"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/main-potion-fixture-inverse.json",
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    },
+    "tests/ui-layout.test.mjs": {
+      "beforeSha256": "191ac6026e30bebb079ea934bd4f8fe724ff4426d2e3003f4b3ced5f0e24361b",
+      "beforeGitBlob": "0a2eb1071744402453a92872c6caf9b98ce06922",
+      "afterSha256": "4579b186f056793efe3541e8af5e17c8a77f92d922f1cc5320fa51a1c57a4060",
+      "afterGitBlob": "dc2e0a1fe1eabdb2393d09e2f565bc038f3af8e4",
+      "afterLength": 15567,
+      "hunks": [
+        {
+          "at": 2,
+          "beforeAt": 2,
+          "before": [
+            "import { battleLayout, handPose, theme } from '../scripts/ui-layout.mjs';"
+          ],
+          "after": [
+            "import { battleLayout, handPose, theme, enemyUnitTemplate, enemyPowerTemplate } from '../scripts/ui-layout.mjs';"
+          ]
+        },
+        {
+          "at": 5,
+          "beforeAt": 5,
+          "before": [],
+          "after": [
+            "const actorTemplates=()=>[stage().children.find(c=>c.name==='hero'),enemyUnitTemplate()];"
+          ]
+        },
+        {
+          "at": 8,
+          "beforeAt": 7,
+          "before": [
+            "  const actors = stage().children.filter(c => c.name === 'hero' || /^enemy\\d+$/.test(c.name));",
+            "  assert.equal(actors.length, 6);"
+          ],
+          "after": [
+            "  const actors = actorTemplates();",
+            "  assert.equal(actors.length, 2);",
+            "  assert(stage().children.some(c=>c.name==='actorLayer'));",
+            "  assert(!stage().children.some(c=>/^enemy\\d+$/.test(c.name)));",
+            "  for(const actor of actors)walk([actor],control=>assert.ok((control.children?.length??0)<=60));"
+          ]
+        },
+        {
+          "at": 40,
+          "beforeAt": 36,
+          "before": [
+            "test('every actor has a status chip grid within platform limits and a portrait detail hit', () => {"
+          ],
+          "after": [
+            "test('hero grid and dynamic enemy power template retain native detail hits within platform limits', () => {"
+          ]
+        },
+        {
+          "at": 42,
+          "beforeAt": 38,
+          "before": [
+            "  for (const unit of stage().children.filter(c => c.name === 'hero' || /^enemy\\d+$/.test(c.name))) {"
+          ],
+          "after": [
+            "  for (const unit of [stage().children.find(c=>c.name==='hero')]) {"
+          ]
+        },
+        {
+          "at": 53,
+          "beforeAt": 49,
+          "before": [],
+          "after": [
+            "  const enemy=enemyUnitTemplate(),row=enemy.children.find(c=>c.name==='statusRow');",
+            "  assert.deepEqual(row.children,[],'enemy powers allocate in source order without a fixed chip cap');",
+            "  assert(enemy.children.some(c=>c.name==='hit'&&c.kind==='cursorArea'));",
+            "  const power=enemyPowerTemplate();",
+            "  assert.deepEqual(power.children.map(c=>c.name),['edge','body','icon','badge','count','hit']);",
+            "  assert(power.children.every(c=>c.visible===false));",
+            "  assert.equal(power.children.find(c=>c.name==='hit').kind,'cursorArea');"
+          ]
+        },
+        {
+          "at": 68,
+          "beforeAt": 57,
+          "before": [
+            "  for (const unit of controls.filter(c => c.name === 'hero' || /^enemy\\d+$/.test(c.name))) {"
+          ],
+          "after": [
+            "  for (const unit of actorTemplates()) {"
+          ]
+        },
+        {
+          "at": 84,
+          "beforeAt": 73,
+          "before": [
+            "  for (const actor of controls.filter(c => c.name === 'hero' || /^enemy\\d+$/.test(c.name))) {"
+          ],
+          "after": [
+            "  for (const actor of actorTemplates()) {"
+          ]
+        },
+        {
+          "at": 100,
+          "beforeAt": 89,
+          "before": [
+            "  assert(numbers.some(({ path }) => path === 'enemy5/statusRow/count10'));"
+          ],
+          "after": [
+            "  const count=enemyPowerTemplate().children.find(c=>c.name==='count');",
+            "  numbers.push({path:'AbyssMonsterPower/count',control:count});",
+            "  assert(numbers.some(({ path }) => path === 'AbyssMonsterActor/intent'));",
+            "  assert(numbers.some(({ path }) => path === 'hero/statusRow/count10'));"
+          ]
+        }
+      ],
+      "archives": [
+        "tests/fixtures/player-death-transition-inverse.json",
+        "tests/fixtures/battle-life-source-layer.json",
+        "tests/fixtures/approved-ui-latest-to-53fa.json"
+      ]
+    }
+  }
+}

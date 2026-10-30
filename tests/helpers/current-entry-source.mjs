@@ -1,3 +1,4 @@
+import {preDeckVisibilitySource} from './deck-visibility-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,6 +12,7 @@ export const currentEntrySourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const currentEntrySourcePaths=Object.freeze(Object.keys(currentEntrySourceProof.files));
 assert.deepEqual(currentEntrySourcePaths,['scripts/test-lua.mjs','tests/lua/game_ui.lua']);
 export function preCurrentEntrySource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preDeckVisibilitySource(path,source,{readSource});
  const b=currentEntrySourceProof.files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
  for(const p of currentEntrySourcePaths){

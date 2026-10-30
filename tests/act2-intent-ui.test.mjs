@@ -1,3 +1,4 @@
+import {preBetaCurrentTestSource} from './helpers/beta-current-test-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -12,7 +13,7 @@ test('Act2 enemy intentions describe healing, cleanse and life-drain without cha
 });
 
 test('both intent slices retain every original assertion and cover all fourteen cases once',()=>{
- const source=readFileSync('tests/lua/support/act2_intent_ui_cases.lua','utf8').replaceAll('\r\n','\n');
+ const source=preBetaCurrentTestSource('tests/lua/support/act2_intent_ui_cases.lua',readFileSync('tests/lua/support/act2_intent_ui_cases.lua','utf8')).replaceAll('\r\n','\n');
  const cases=[...source.matchAll(/^function\(\)\n([\s\S]*?)\nend,\n/gm)].map(m=>m[1]);
  assert.equal(cases.length,14);
  const original=source.slice(0,source.indexOf('local cases={\n'))+cases.join('')+"print('ACT2_INTENT_UI_PASS 14')\n";

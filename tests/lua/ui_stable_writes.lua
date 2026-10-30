@@ -29,12 +29,22 @@ for _,name in ipairs({'floor','victories','time','deck'})do
     stable[#stable+1]=countCalls(result:GetChild('stat_'..name),{'SetAnchoredPosition','SetLocalScale'})
 end
 local glow=countCalls(menu:GetChild('emblem'):GetChild('glow'),{'SetLocalScale'})
-local mote=countCalls(menu:GetChild('vista'):GetChild('mote1'),{'SetAnchoredPosition'})
+local vista=menu:GetChild('vista')
+expect(vista.visible==false,'generated official backdrop keeps legacy vista hidden')
+local mote=countCalls(vista:GetChild('mote1'),{'SetAnchoredPosition'})
 for _=1,60 do ui:update(1/60)end
 local total=0;for _,counter in ipairs(stable)do total=total+counter.total end
 print('UI_STABLE_MENU_WRITES frames=60 calls='..total..' glow='..glow.total..' mote='..mote.total)
 expect(total==0,'settled menu must stop writing fixed native transforms and hidden veil')
-expect(glow.total==60 and mote.total==60,'approved breathing and vista motion must continue')
+expect(glow.total==60 and mote.total==0,'approved breathing continues while hidden legacy vista performs no writes')
+-- Keep the original visible animation witness explicitly, without re-enabling
+-- the retired overlay in the generated title or changing production visibility.
+vista:SetVisible(true)
+for _=1,60 do ui:update(1/60)end
+expect(glow.total==120 and mote.total==60,'explicitly visible vista retains every original animation update')
+vista:SetVisible(false)
+for _=1,60 do ui:update(1/60)end
+expect(glow.total==180 and mote.total==60,'hiding vista again stops all further native motion writes')
 -- A fresh result must replay its entrance rather than inherit the title cache.
 assert(F.start(ui));ui.battleUI.feedback.deaths.player=true;ui.run.phase='defeat';ui:refresh()
 expect(ui.motion.deathReveal==true,'committed death must start result veil')
