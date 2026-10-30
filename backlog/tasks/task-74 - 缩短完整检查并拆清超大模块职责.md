@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-28 14:42'
+updated_date: '2026-10-30 01:33'
 labels: []
 dependencies: []
 references:
@@ -51,6 +51,8 @@ ordinal: 118000
 2026-10-28 P0：基于最新develop和成功run40622446002实际日志，按耗时均衡Lua分片，非测试门禁每系统执行一次，独立PR增量反馈并行完整回归；保留8 Windows/4 Ubuntu、required checks、所有测试及原超时。核对当前SHA完整CI并正常PR合入，实测排队与执行分别报告。
 
 2026-10-28用户新一轮工程优化：从4a316780隔离审查剩余长函数、语法检查启动成本和目录导航；按职责拆分选定热点并将全部helper纳入15上限。语法检查仅并行独立Node语法解析并验证失败传播；纠正文档入口；清理已合并干净工作树并保留唯一证据。保持游戏断言和原预算，当前HEAD完整Quality通过再合并并复核合入提交。
+
+2026-10-30第二轮：从a7b03825隔离三路并行核实CI/测试、Combat/Card Actions、Game UI/Feedback与UI负载；主控独占公共预算与集成，保留全部有效回归和平台边界，以同环境前后测量及当前SHA完整Quality验收。用户明确指定GPT-6.1 Sol Medium子代理，本轮按该授权执行。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
