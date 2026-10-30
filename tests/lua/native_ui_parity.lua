@@ -15,6 +15,10 @@ assert(focus==exit:GetChild('guide'):GetChild('close'):GetChild('hit'))
 assert(focus.navigationListeners.cancel())
 assert(not ui.controlsOpen and ui.exitOpen and not exit:GetChild('guide').visible)
 assert(ui:closeExit() and not ui.exitOpen and calls==0)
+if ui:openMenu() then
+    assert(not root:GetChild('runMenu'):GetChild('map').visible,'no grey map promise before departure')
+    assert(ui:closeExit() and not ui.exitOpen)
+end
 assert(ui:start())
 if ui.characterOpen then
     assert(ui:selectCharacter('traveler') and ui:selectElement('ironclad'))
@@ -38,4 +42,17 @@ assert(focus.navigationListeners.confirm());ui:update(1);assert(ui.mapUI.scroll=
 assert(ui:openExit());exit:GetChild('help'):GetChild('hit').click()
 assert(ui.controlsOpen and not ui.mapUI.navigationEnabled)
 assert(ui:closeExit() and ui:closeExit() and ui.mapUI.navigationEnabled)
+-- TASK-4.16: tapping outside the run menu resumes; tapping the panel itself does not;
+-- the guide's outside tap returns to the menu; never abandons or settles.
+local runMenu=root:GetChild('runMenu')
+assert(ui:openMenu() and runMenu.visible and ui.menuOpen)
+assert(runMenu:GetChild('map').visible,'map entry shown once departed')
+assert(runMenu:GetChild('catch').click() and ui.exitOpen and ui.menuOpen)
+assert(runMenu:GetChild('blocker').click() and not ui.exitOpen and not ui.menuOpen and calls==0 and ui.run)
+assert(ui:openMenu());runMenu:GetChild('help'):GetChild('hit').click()
+local guide=exit:GetChild('guide')
+assert(ui.controlsOpen and guide.visible)
+assert(guide:GetChild('catch').click() and ui.controlsOpen)
+assert(guide:GetChild('blocker').click() and not ui.controlsOpen and ui.menuOpen and ui.exitOpen and calls==0)
+assert(runMenu:GetChild('blocker').click() and not ui.exitOpen and calls==0 and ui.run)
 print('NATIVE_UI_PARITY_PASS')

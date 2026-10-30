@@ -450,12 +450,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         exitEntry:SetAsLastSibling()
         exitPanel:SetVisible(exitDialogOwnsForeground())
         runMenu:SetVisible(self.exitOpen == true and self.menuOpen == true and not self.controlsOpen and not self.routeOpen)
-        local routeHit=runMenu:GetChild('map'):GetChild('hit')
+        -- TASK-4.16 AC#2：未启程时地图入口整颗隐藏（不再挂「启程后可用」的灰按钮）。
+        local routeBox=runMenu:GetChild('map')
+        local routeHit=routeBox:GetChild('hit')
         local routeEnabled=canViewRoute()
+        routeBox:SetVisible(routeEnabled)
         routeHit.interactable,routeHit.raycastTarget=routeEnabled,routeEnabled
-        for _,state in ipairs({'normal','hover','pressed','disabled'})do
-            routeHit:GetChild(state):GetChild('label').text=routeEnabled and '查看地图' or '查看地图（启程后可用）'
-        end
         if runMenu.visible then runMenu:SetAsLastSibling() end
         local back = child('mapPanel'):GetChild('previewBack')
         back:SetVisible(self.routeOpen == true)
@@ -776,7 +776,19 @@ function M.new(root, data, presentation, clickEvent, platform)
     exitPanel.disableCursorEventPassthrough = true
     exitPanel:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
     runMenu.disableCursorEventPassthrough = true
-    runMenu:GetChild('blocker'):AddCursorEventListener(clickEvent, function() return true end)
+    -- TASK-4.16 AC#1：点菜单/说明外的空白 = 非破坏性返回（继续游戏 / 回到菜单），
+    -- 永不触发放弃本局；点击被吞掉，不会穿透到后台战斗或地图。
+    local function dismissFromOutside()
+        if Controller.pointerBlocked(controller) then return true end
+        if self.settlementRequested or self.settlementBusy then return true end
+        self:closeExit()
+        return true
+    end
+    runMenu:GetChild('blocker'):AddCursorEventListener(clickEvent, function()
+        if self.exitOpen and self.menuOpen and not self.controlsOpen and not self.routeOpen then return dismissFromOutside() end
+        return true
+    end)
+    runMenu:GetChild('catch'):AddCursorEventListener(clickEvent, function() return true end)
     local function bindCommand(box, kind, action, enabled, order, group, onFocus)
         local hit = box:GetChild("hit")
         local held, released, observed
@@ -892,6 +904,11 @@ function M.new(root, data, presentation, clickEvent, platform)
             return true
         end)
         bindCommand(guide:GetChild('close'), 'helpClose', function() return self:closeExit() end)
+        guide:GetChild('blocker'):AddCursorEventListener(clickEvent, function()
+            if self.exitOpen and self.controlsOpen then return dismissFromOutside() end
+            return true
+        end)
+        guide:GetChild('catch'):AddCursorEventListener(clickEvent, function() return true end)
     end
     bindCommand(runMenu:GetChild('help'), 'run_help', function()
         exitGeneration = exitGeneration + 1

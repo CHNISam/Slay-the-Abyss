@@ -1,13 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { controlsGuide } from '../scripts/controls-guide-layout.mjs';
 import { gameLayout } from '../scripts/game-ui-layout.mjs';
 import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
 import { runLua } from '../scripts/test-lua.mjs';
 
-test('six native instruction tiles fit the approved modal and do not promise unbound keyboard shortcuts', () => {
-  const guide = controlsGuide(), tiles = guide.children.filter(c => c.name.startsWith('tip'));
-  assert.equal(tiles.length, 6);
+test('TASK-4.16 guide is grouped by scene, explains resources, fits the modal and promises no unbound shortcuts', () => {
+  const guide = controlsGuide(), names = guide.children.map(c => c.name);
+  for (const section of ['battle', 'map', 'resources']) assert(names.includes(section), section);
+  assert(!names.some(n => n.startsWith('tip')), 'six-tile dump removed');
+  const content0 = JSON.stringify(guide);
+  for (const word of ['出牌', '取消', '看详情', '用药水', '看地图', '生命', '金币', '手柄']) assert(content0.includes(word), word);
+  assert(names.includes('blocker') && names.includes('catch') && names.indexOf('blocker') < names.indexOf('catch'));
   const visit = (c, x=0, y=0) => {
     x += c.position?.[0] ?? 0; y += c.position?.[1] ?? 0;
     assert(Math.abs(x) + c.size[0]/2 <= 640, c.name);
@@ -29,3 +34,16 @@ test('real host isolates guide input, returns controller focus, and retains map 
   assert.equal(result.status,0,result.stdout+result.stderr);
   assert.match(result.stdout,/NATIVE_UI_PARITY_PASS/);
 });
+
+test('TASK-4.16 run menu: outside blocker below a panel catch, primary resume first, abandon separated, no grey map promise', () => {
+  const menu = gameLayout().controls.find(c => c.name === 'runMenu'), names = menu.children.map(c => c.name);
+  assert(names.indexOf('blocker') < names.indexOf('catch'));
+  const y = name => menu.children.find(c => c.name === name).position[1];
+  assert(y('resume') > y('help') && y('help') > y('map') && y('map') > y('rule') && y('rule') > y('abandon'));
+  assert(!JSON.stringify(menu).includes('启程后可用'));
+  const lua = readFileSync('src/lua/abyss_game_ui.lua', 'utf8');
+  assert.match(lua, /routeBox:SetVisible\(routeEnabled\)/);
+  assert.match(lua, /runMenu:GetChild\('blocker'\)[\s\S]{0,200}dismissFromOutside/);
+  assert(!/dismissFromOutside[^\n]*abandon/.test(lua));
+});
+
