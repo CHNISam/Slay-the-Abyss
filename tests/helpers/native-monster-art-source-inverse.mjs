@@ -47,7 +47,7 @@ export function prepareNativeMonsterRetirement(directory,{sourceRoot=process.cwd
  const targets=[];
  for(const path of nativeMonsterAddedPaths) {
   const target=join(directory,path);if(!existsSync(target))continue;
-  assert.equal(hash(normalize(readFileSync(target,'utf8'))),nativeMonsterSourceLayer.files[path].afterSha256,'unreviewed native monster added module destination: '+path);
+  assert.equal(hash(normalize(preIntegrationSource(path,readFileSync(target,'utf8'),'monster'))),nativeMonsterSourceLayer.files[path].afterSha256,'unreviewed native monster added module destination: '+path);
   targets.push(target);
  }
  return ()=>{for(const target of targets)rmSync(target);};
