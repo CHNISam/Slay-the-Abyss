@@ -170,22 +170,42 @@ local function units(text)
     end
     return n
 end
+-- Mirror native wrapping: Latin/digit runs break only at spaces, closing CJK
+-- punctuation never starts a line and opening punctuation never ends one.
+-- Treating every glyph as a free break point under-counted lines, so long
+-- dynamic bodies (e.g. 格挡反击「（当前 N 点）」) passed fit and were clipped.
+local closing={['，']=1,['。']=1,['、']=1,['；']=1,['：']=1,['）']=1,['」']=1,['！']=1,['？']=1,['》']=1,
+    [',']=1,['.']=1,[')']=1,[';']=1,[':']=1,['!']=1,['?']=1}
+local opening={['（']=1,['「']=1,['《']=1,['(']=1}
+local function atoms(text)
+    local out,glue={},false
+    for ch in text:gmatch('[%z\1-\127\194-\244][\128-\191]*') do
+        local word=#ch==1 and ch:match('[%w%+%-%%]')
+        local last=out[#out]
+        if ch=='\n' or ch==' ' then out[#out+1]=ch;glue=false
+        elseif last and (glue or closing[ch] or word and last.word) then
+            last.text=last.text..ch;last.word=word and last.word;glue=opening[ch]~=nil
+        else out[#out+1]={text=ch,word=word};glue=opening[ch]~=nil end
+    end
+    return out
+end
 local function lines(text,width,font)
     local count,used=1,0
-    text=text:gsub('<[^>]+>','')
-    for ch in text:gmatch('[%z\1-\127\194-\244][\128-\191]*') do
-        if ch=='\n' then count=count+1;used=0
+    for _,atom in ipairs(atoms(text:gsub('<[^>]+>',''))) do
+        if atom=='\n' then count=count+1;used=0
+        elseif atom==' ' then used=used+units(' ')*font
         else
-            local advance=units(ch)*font
-            if used+advance>width then count=count+1;used=0 end
+            local advance=units(atom.text)*font
+            if used>0 and used+advance>width then count=count+1;used=0 end
+            while advance>width do count=count+1;advance=advance-width end
             used=used+advance
         end
     end
     return count
 end
-function M.fit(text,maximum,width,height,lineScale)
+function M.fit(text,maximum,width,height,lineScale,advance)
     for font=maximum,Theme.font.minimum,-1 do
-        if lines(text,width,font)*font*(lineScale or 1.3)<=height then return font,true end
+        if lines(text,width/(advance or 1),font)*font*(lineScale or 1.3)<=height then return font,true end
     end
     return Theme.font.minimum,false
 end
@@ -256,12 +276,18 @@ local function bodyFrame(box,compact)
     local typeY=card.size[2]/2-card.nameBand-height-card.typeLine/2-S.border
     for _,name in ipairs({'type','typeEdge','typeTag','tagEdge','tagBody'})do box:GetChild(name):SetAnchoredPosition(0,typeY)end
 end
+-- Body budget keeps the reviewed 1.3x line step; wrapping itself now follows
+-- native kinsoku/Latin-run breaks (see lines above).
+local bodyLine,bodyAdvance=1.3,1
+function M.fitBody(text,box)
+    return M.fit(text,Theme.font.card,box[1],box[2],bodyLine,bodyAdvance)
+end
 function M.writeBody(control,text,face)
     local card=Theme.layout.card
     local box=card.textBox
-    local font,fits=M.fit(text,Theme.font.card,box[1],box[2])
+    local font,fits=M.fitBody(text,box)
     local compact=not fits
-    if compact then box=card.longTextBox;font,fits=M.fit(text,Theme.font.card,box[1],box[2])end
+    if compact then box=card.longTextBox;font,fits=M.fitBody(text,box)end
     if control.SetSizeDelta then
         control:SetSizeDelta(box[1],box[2])
         control:SetAnchoredPosition(0,-card.size[2]/2+box[2]/2+(compact and Theme.space.xs or Theme.space.border))
