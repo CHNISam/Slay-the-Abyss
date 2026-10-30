@@ -1,3 +1,4 @@
+import {bindRuntimeRecognitionLengths} from './runtime-recognition-lengths.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -10,9 +11,11 @@ assert.equal(hash(bytes),'8bd5bd88a7fe88149309891e3967a4051f8c6c9978ca38d69ffdcc
 export const deathAudioSourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const deathAudioSourcePaths=Object.freeze(Object.keys(deathAudioSourceProof.files));
 assert.deepEqual(deathAudioSourcePaths,['src/lua/abyss_feedback.lua']);
+const recognitionLengths=bindRuntimeRecognitionLengths('death-audio',bytes,deathAudioSourceProof.files);
 export function preDeathAudioSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
  const b=deathAudioSourceProof.files[path];if(!b||typeof source!=='string')return source;
- const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
+ // Length rejects impossible matches only; all equal-length identity and fresh-owner checks remain.
+ const text=normalize(source);if(text.length!==recognitionLengths[path]||hash(text)!==b.afterSha256)return source;
  for(const p of deathAudioSourcePaths){
   let live;try{live=readSource(p);}catch{assert.fail('death-audio linked source missing: '+p);}
   assert.equal(typeof live,'string','death-audio linked source must exist: '+p);

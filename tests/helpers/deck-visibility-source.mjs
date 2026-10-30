@@ -1,3 +1,4 @@
+import {bindRuntimeRecognitionLengths} from './runtime-recognition-lengths.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -10,9 +11,11 @@ assert.equal(hash(bytes),'b81115b1c032b82d4f015f8de169eca157a9e48076c058c56b0062
 export const deckVisibilitySourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const deckVisibilitySourcePaths=Object.freeze(Object.keys(deckVisibilitySourceProof.files));
 assert.deepEqual(deckVisibilitySourcePaths,['src/lua/abyss_deck_ui.lua']);
+const recognitionLengths=bindRuntimeRecognitionLengths('deck-visibility',bytes,deckVisibilitySourceProof.files);
 export function preDeckVisibilitySource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
  const b=deckVisibilitySourceProof.files[path];if(!b||typeof source!=='string')return source;
- const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
+ // Length rejects impossible matches only; all equal-length identity and fresh-owner checks remain.
+ const text=normalize(source);if(text.length!==recognitionLengths[path]||hash(text)!==b.afterSha256)return source;
  for(const p of deckVisibilitySourcePaths){
   let live;try{live=readSource(p);}catch{assert.fail('deck-visibility linked source missing: '+p);}
   assert.equal(typeof live,'string','deck-visibility linked source must exist: '+p);

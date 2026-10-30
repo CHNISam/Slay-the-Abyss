@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "normalization": "CRLF-to-LF",
+  "measure": "UTF-16-code-units",
+  "groups": {
+    "artifact-runtime": {
+      "proofSha256": "20cba0f320fa855c3ad6a50150926a743a0cc251579d28a50bc1507b13cf9a36",
+      "files": {
+        "src/lua/abyss_battle_intent_view.lua": {
+          "afterSha256": "be8f211b176523aaef08bc34c0fe0459146318c146a439f3c8d6f59a45172fba",
+          "afterGitBlob": "aa4f67ce818597daf75b2a3304dce4bffb355843",
+          "utf16Length": 18691
+        },
+        "src/lua/abyss_battle_render_actors.lua": {
+          "afterSha256": "5de9bb702bfc5c7b91c4bea14715eba8052ad83936c47f1274a5959d980859d3",
+          "afterGitBlob": "60fa3a64a793f1c5ee91404ef17cbed8ffd3448e",
+          "utf16Length": 17490
+        },
+        "src/lua/abyss_battle_ui.lua": {
+          "afterSha256": "8ca98c75a33c062297c678b3b58d166b36741f12cee9959f37a7aa82b91269bc",
+          "afterGitBlob": "ad5848033f4236859c8bfdcf85bc98bb2839e2ee",
+          "utf16Length": 20671
+        },
+        "src/lua/abyss_monster_intent_particle_view.lua": {
+          "afterSha256": "f249e715d62356cf7ccb09a9f54c5ddebb51aa88112a358f2a50f6677a4ab57a",
+          "afterGitBlob": "cc6b75cc845a57cc416384b693068964def94d06",
+          "utf16Length": 6879
+        }
+      }
+    },
+    "deck-visibility": {
+      "proofSha256": "b81115b1c032b82d4f015f8de169eca157a9e48076c058c56b00622d5d8f401a",
+      "files": {
+        "src/lua/abyss_deck_ui.lua": {
+          "afterSha256": "c7cb621ce23b4bbbb4183eac3c38e30c197cae3c719d2c9450dfe38881874834",
+          "afterGitBlob": "cd1e459136b6bfc77d97e27e6dcd1eb979b3928b",
+          "utf16Length": 25602
+        }
+      }
+    },
+    "death-audio": {
+      "proofSha256": "8bd5bd88a7fe88149309891e3967a4051f8c6c9978ca38d69ffdccfb86458a0f",
+      "files": {
+        "src/lua/abyss_feedback.lua": {
+          "afterSha256": "3d58cbcda89105d2bfc6b69e3ebc90710c7944f0ede551a91a504c2a44355c74",
+          "afterGitBlob": "701edb9fcdb918f42bed924262c612ff97f51691",
+          "utf16Length": 38466
+        }
+      }
+    }
+  }
+}

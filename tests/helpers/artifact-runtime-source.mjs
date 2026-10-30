@@ -1,3 +1,4 @@
+import {bindRuntimeRecognitionLengths} from './runtime-recognition-lengths.mjs';
 import {preFinalUiSource} from './final-ui-source.mjs';
 import {prePhaseFourRunnerSource} from './phase-four-runner-source.mjs';
 import assert from 'node:assert/strict';
@@ -12,11 +13,13 @@ assert.equal(hash(bytes),'20cba0f320fa855c3ad6a50150926a743a0cc251579d28a50bc150
 export const artifactRuntimeProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const artifactRuntimePaths=Object.freeze(Object.keys(artifactRuntimeProof.files));
 assert.deepEqual(artifactRuntimePaths,["src/lua/abyss_battle_intent_view.lua", "src/lua/abyss_battle_render_actors.lua", "src/lua/abyss_battle_ui.lua", "src/lua/abyss_monster_intent_particle_view.lua"]);
+const recognitionLengths=bindRuntimeRecognitionLengths('artifact-runtime',bytes,artifactRuntimeProof.files);
 export function preArtifactRuntimeSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
  source=preFinalUiSource(path,source,{readSource});
  source=prePhaseFourRunnerSource(path,source,{readSource});
  const b=artifactRuntimeProof.files[path];if(!b||typeof source!=='string')return source;
- const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
+ // Length rejects impossible matches only; all equal-length identity and fresh-owner checks remain.
+ const text=normalize(source);if(text.length!==recognitionLengths[path]||hash(text)!==b.afterSha256)return source;
  for(const p of artifactRuntimePaths){
   let live;try{live=preFinalUiSource(p,readSource(p),{readSource});}catch{assert.fail('artifact linked source missing: '+p);}
   assert.equal(typeof live,'string','artifact linked source must exist: '+p);
