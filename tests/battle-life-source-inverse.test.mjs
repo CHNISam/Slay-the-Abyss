@@ -1,3 +1,4 @@
+import {preNativeEnemyThemeSource} from './helpers/native-enemy-theme-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -10,7 +11,7 @@ import {pr323AcceptedSourceInverse, requirePr323Source, preAcceptedPr323Source} 
 import {eventProductionInverse, requireEventProductionSource} from './helpers/event-production-source-inverse.mjs';
 
 const hash = value => value === null ? null : createHash('sha256').update(value).digest('hex');
-const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
+const read = path => preNativeEnemyThemeSource(path, readFileSync(path, 'utf8').replaceAll('\r\n', '\n'));
 const put = (directory, path, content) => {
   const target = join(directory, path); mkdirSync(dirname(target), {recursive: true}); writeFileSync(target, content);
 };

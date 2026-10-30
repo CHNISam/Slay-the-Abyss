@@ -1,3 +1,4 @@
+import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
 // Exact outer replay adapter for this presentation-only slice. Live tests load
 // current production modules; original historical witnesses stay immutable.
 import assert from 'node:assert/strict';
@@ -22,6 +23,7 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
 }
 
 export function preBattleLifeSource(path, source) {
+  source = preNativeEnemyThemeSource(path, source);
   const binding = battleLifeSourceLayer.files[path];
   if (!binding || typeof source !== 'string') return source;
   const normalized = normalize(source);
