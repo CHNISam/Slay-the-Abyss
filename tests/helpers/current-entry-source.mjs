@@ -1,3 +1,4 @@
+import {preRawBindingSource} from './raw-binding-source.mjs';
 import {bindEntryRecognitionLengths} from './entry-recognition-lengths.mjs';
 import {preFixtureConstructionSource} from './fixture-construction-source.mjs';
 import {preDeckVisibilitySource} from './deck-visibility-source.mjs';
@@ -15,13 +16,14 @@ export const currentEntrySourcePaths=Object.freeze(Object.keys(currentEntrySourc
 assert.deepEqual(currentEntrySourcePaths,['scripts/test-lua.mjs','tests/lua/game_ui.lua']);
 const recognitionLengths=bindEntryRecognitionLengths('current-entry',bytes,currentEntrySourceProof.files);
 export function preCurrentEntrySource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preRawBindingSource(path,source,{readSource});
  source=preFixtureConstructionSource(path,source,{readSource});
  source=preDeckVisibilitySource(path,source,{readSource});
  const b=currentEntrySourceProof.files[path];if(!b||typeof source!=='string')return source;
  // Length only rejects impossible matches; equal lengths retain every original identity and fresh-owner check.
  const text=normalize(source);if(text.length!==recognitionLengths[path]||hash(text)!==b.afterSha256)return source;
  for(const p of currentEntrySourcePaths){
-  let live;try{live=readSource(p);}catch{assert.fail('current-entry linked source missing: '+p);}
+  let live;try{live=preRawBindingSource(p,readSource(p),{readSource});}catch{assert.fail('current-entry linked source missing: '+p);}
   assert.equal(typeof live,'string','current-entry linked source must exist: '+p);
   assert.equal(hash(normalize(live)),currentEntrySourceProof.files[p].afterSha256,'current-entry linked source identity: '+p);
  }

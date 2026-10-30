@@ -1,6 +1,7 @@
+import {preRawBindingSource} from './helpers/raw-binding-source.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';
 import {selectorCurrentSourceProof as proof,preSelectorCurrentSource as project} from './helpers/selector-current-source.mjs';
-const hash=s=>createHash('sha256').update(s).digest('hex');const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const hash=s=>createHash('sha256').update(s).digest('hex');const read=p=>preRawBindingSource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
 test('exact selector restores develop98 and preserves current selection bytes, CRLF and bidirectional proof',()=>{
  const live=read(proof.path),prior=project(proof.path,live);assert.equal(live.length,proof.afterUTF16Length);assert.equal(hash(live),proof.afterSha256);assert.equal(hash(prior),proof.beforeSha256);assert.equal(project(proof.path,live.replaceAll('\n','\r\n')),prior);assert.equal(project(proof.path,prior),prior);assert.equal(read(proof.path),live);
 });

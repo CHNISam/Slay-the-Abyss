@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "88d5d7af0b882d43b0218a69ee64ff2b09b9c6c9",
+  "afterCommit": "a02dcb1aeb1cc404354c3aef945f730051935bdc",
+  "files": {
+    "scripts/test-affected.mjs": {
+      "beforeSha256": "dc46ba70c4d046a59fad332de39ed93ae79b17dd3d855bae14b67254613c711c",
+      "afterSha256": "a65804c317f42735ac9ae37c89599825ce4f673df5fffaac8f0a418569477b52",
+      "afterUtf16Length": 23258,
+      "beforeGitBlob": "32f50e0ef72d751c6938e3a4d68f7ff81660d5dd",
+      "afterGitBlob": "a929d99fabc546b1d8fdafccbcf5a759642fc00e",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {currentPresentationNativeFixtures} from '../tests/helpers/current-presentation-native.mjs';",
+            "import {currentEventCombatVectorFixtures} from '../tests/helpers/current-event-combat-vectors.mjs';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [],
+          "after": [
+            "  ['tests/helpers/current-presentation-native.mjs', new Set(currentPresentationNativeFixtures)],",
+            "  ['tests/helpers/current-event-combat-vectors.mjs', new Set(currentEventCombatVectorFixtures)],"
+          ]
+        }
+      ]
+    },
+    "scripts/test-lua.mjs": {
+      "beforeSha256": "e76f0d611fa19326f77547dcf0a65a18069ef3539a945ca0d6b2fad3c338df6f",
+      "afterSha256": "d212424b71645dcfb51dc8e08b9a73acfb6158c29b70071e629212d687a8b448",
+      "afterUtf16Length": 9873,
+      "beforeGitBlob": "8aaed7c6fdf6ebdda3ea44c61e02349d242531e9",
+      "afterGitBlob": "22eaf3831bb61a9eef991ee8a21908f845a8fcde",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {currentPresentationNativePrelude} from '../tests/helpers/current-presentation-native.mjs';",
+            "import {currentEventCombatVectorPrelude} from '../tests/helpers/current-event-combat-vectors.mjs';"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [
+            "  const frozenHand = historicalCardInputPrelude(normalizedScript,{cwd}) + frozenBattleHandPrelude(normalizedScript, {cwd}) + currentPhaseFourNativePrelude(normalizedScript, {cwd});"
+          ],
+          "after": [
+            "  const frozenHand = historicalCardInputPrelude(normalizedScript,{cwd}) + frozenBattleHandPrelude(normalizedScript, {cwd}) + currentPhaseFourNativePrelude(normalizedScript, {cwd}) + currentEventCombatVectorPrelude(normalizedScript, {cwd}) + currentPresentationNativePrelude(normalizedScript, {cwd});"
+          ]
+        }
+      ]
+    },
+    "tests/lua/controller_host.lua": {
+      "beforeSha256": "512686854a7c7a3276f2cffeb3808169d0c39e9f15f4a6a39c3c281da6ef2a40",
+      "afterSha256": "bb140e67630ab48ed2bea358ca1dd0e242ac788bda65df046862910be8419522",
+      "afterUtf16Length": 7200,
+      "beforeGitBlob": "80c523e0f39ec909337219ba0e4cb96a203d4d57",
+      "afterGitBlob": "1a8acee9dd8c40dba6afd6f11e3a3997a9ccab71",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "    for name in path:gmatch('[^/]+')do c=assert(c:GetChild(name),path)end"
+          ],
+          "after": [
+            "    for name in path:gmatch('[^/]+')do c=assert(F.actorControl(c,name),path)end"
+          ]
+        },
+        {
+          "at": 47,
+          "before": [
+            "assert(ui.controller.scope=='aim' and focus.parent.name=='enemy1')"
+          ],
+          "after": [
+            "assert(ui.controller.scope=='aim' and focus==dofile('tests/lua/support/current_monster_controls.lua').actor(root:GetChild('battlePanel'),battle.enemies[1]):GetChild('hit'))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/game_ui_phase_four.lua": {
+      "beforeSha256": "22ce9981b3ca018425ce2c31c27b73cccd9c57a6725d2ad7901661b0093804ce",
+      "afterSha256": "d746ad9dcaff3d5157e9631f32045bb37065f96eb253fde2427927740f481b40",
+      "afterUtf16Length": 13808,
+      "beforeGitBlob": "fa09318d5f5ea3adb5db0ac633da6fcafb3012ea",
+      "afterGitBlob": "559a637fb6c341d953e33626b22c1a7ceff2f183",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [],
+          "after": [
+            "local function monster(root,index)",
+            " local actor=assert(root.ui.run.combat.enemies[index],'missing real combat actor')",
+            " local surfaces=assert(require('abyss_monster_surfaces').get(root:GetChild('battlePanel')))",
+            " return assert(surfaces:find(actor.id),'missing real actor surface'),actor",
+            "end",
+            "local function powerControl(root,owner,id,index,name)",
+            " local enemy=owner:match('^battlePanel/enemy(%d+)$')",
+            " if enemy then",
+            "  local box=monster(root,tonumber(enemy))",
+            "  local pool=assert(require('abyss_monster_power_surfaces').get(box:GetChild('statusRow')))",
+            "  return assert(pool:find(id),'missing real Power '..id):GetChild(name)",
+            " end",
+            " return root:GetChild('battlePanel'):GetChild('hero'):GetChild('statusRow'):GetChild(name..index)",
+            "end"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [],
+          "after": [
+            " local enemy,suffix=path:match('^battlePanel/enemy(%d+)(.*)$')",
+            " if enemy then",
+            "  local box,actor=monster(root,tonumber(enemy))",
+            "  if suffix==''then return box end",
+            "  local index=suffix:match('^/statusRow/hit(%d+)$')",
+            "  assert(index,'unsupported dynamic actor path '..path)",
+            "  local status=assert(Combat.statusView(actor)[tonumber(index)],'missing selected Power identity')",
+            "  return powerControl(root,'battlePanel/enemy'..enemy,status.id,tonumber(index),'hit')",
+            " end"
+          ]
+        },
+        {
+          "at": 233,
+          "before": [
+            "  local row=control(root,owner..'/statusRow');local icon=row:GetChild('icon'..index)"
+          ],
+          "after": [
+            "  local icon=powerControl(root,owner,id,index,'icon')"
+          ]
+        },
+        {
+          "at": 236,
+          "before": [
+            "  eq(icon.visible,true);eq(icon.imageId,expected);eq(row:GetChild('count'..index).text,tostring(value))"
+          ],
+          "after": [
+            "  eq(icon.visible,true);eq(icon.imageId,expected);eq(powerControl(root,owner,id,index,'count').text,tostring(value))"
+          ]
+        }
+      ]
+    },
+    "tests/lua/support/potion_gesture_fixture.lua": {
+      "beforeSha256": "2b9d320d2c210c110c4b3a25510c7cd69bd32b0d9633e85e9e2a0354b057c671",
+      "afterSha256": "d41504ec4bd414269b8e6f838b550870fac9df85658498a9f625005f532d7919",
+      "afterUtf16Length": 2198,
+      "beforeGitBlob": "1113beb042ac650e35992ec0dd7f5684136f3691",
+      "afterGitBlob": "bda389cdab68100479dbf4281ffb964868368a04",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "    -- Physical releases belong to the actual control pressed, even if its actor",
+            "    -- was retired meanwhile. Keep callbacks, never remap a dead actor to a survivor.",
+            "    local pressed={}"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [
+            "        local box = panel:GetChild(name)",
+            "        local hit = box.listeners and box or box:GetChild(\"hit\")",
+            "        local callback = hit.listeners and hit.listeners[kind]"
+          ],
+          "after": [
+            "        local actor=name:match('^enemy%d+$')",
+            "        local callbacks=actor and kind~='down' and pressed[name]",
+            "        if not callbacks then",
+            "            local box=H.F.actorControl(panel,name)",
+            "            local hit=box.listeners and box or box:GetChild('hit')",
+            "            callbacks=hit.listeners",
+            "            if actor and kind=='down' then",
+            "                local saved={};for event,fn in pairs(callbacks or {})do saved[event]=fn end",
+            "                pressed[name]=saved;callbacks=saved",
+            "            end",
+            "        end",
+            "        local callback=callbacks and callbacks[kind]"
+          ]
+        }
+      ]
+    }
+  },
+  "linkedSources": {
+    "tests/helpers/current-presentation-native.mjs": {
+      "sha256": "f31a5b28fc58e91a81ff15bdba5dbdf62c007bb34f8b48f3504e1549dbf3c9cb",
+      "gitBlob": "d595b9656f1d50413b5a845f5c8235d089499d06",
+      "utf16Length": 1194
+    },
+    "tests/helpers/current-event-combat-vectors.mjs": {
+      "sha256": "d8beeaa3cf531aba9f539d10cffd20ce273ecf8a8ffa9f7b64950a9e41e424a2",
+      "gitBlob": "bf7bfa6ada6ff3564380ba118bf9e989f17b0582",
+      "utf16Length": 974
+    },
+    "tests/fixtures/event-combat-routes-vectors.json": {
+      "sha256": "f16f407a4ba82dc89b4518bc571d0e6ae09eebeff96e80963ae03033117a842d",
+      "gitBlob": "dd75dccee42f466343284588cb3e42984e97ff07",
+      "utf16Length": 12290
+    },
+    "scripts/build-lua-data.mjs": {
+      "sha256": "2a04be0449e7fd43404662e4998c7d0541761708f50043f966e66ac7c5ed67d1",
+      "gitBlob": "f418dbea667b278e87b29eab35921fee0a9bc04b",
+      "utf16Length": 3817
+    },
+    "tests/lua/support/game_ui_fixture.lua": {
+      "sha256": "585382dc559fb93c211a1a8d3a3053a9d6578917ca8025f47e9b6411b49f1450",
+      "gitBlob": "19fd785242207fef472b59fe204129a0d793fb61",
+      "utf16Length": 13860
+    }
+  }
+}

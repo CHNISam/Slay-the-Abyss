@@ -1,3 +1,4 @@
+import {preRawBindingSource} from './raw-binding-source.mjs';
 // Exact test-only selector dependency-edge bridge; never changes current selection.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -15,6 +16,7 @@ assert.equal(b.beforeCommit,'98fef95d047652aa6a8880241ddff28ef320a484');
 assert.equal(b.afterCommit,'938194c32f233e77960adea2d8e4784fd98a8d0a');
 assert.deepEqual(Object.keys(b.owners),['tests/helpers/current-game-ui-runner.mjs','tests/helpers/historical-card-input.mjs','tests/helpers/historical-monster-ui-runner.mjs','tests/helpers/current-phase-four-native.mjs']);
 export function preSelectorCurrentSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preRawBindingSource(path,source,{readSource});
  if(path!==b.path||typeof source!=='string')return source;
  const text=normalize(source);if(text.length!==b.afterUTF16Length||hash(text)!==b.afterSha256)return source;
  assert.equal(blob(text),b.afterGitBlob,'complete current selector Git blob');

@@ -1,4 +1,3 @@
-local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local UI = require("abyss_battle_ui")
 local Combat = require("abyss_combat")
@@ -7,22 +6,10 @@ local Data = require("abyss_data")
 local Theme = require("abyss_theme")
 local Presentation = require("abyss_presentation")
 
--- Compose the controller with the actual generated native tree, not a permissive mock.
-local function control(definition)
-    local c = { name = definition.name, visible = definition.visible ~= false, children = {}, text = "",
-        sizeDeltaX = definition.size[1], sizeDeltaY = definition.size[2], interactable = true,
-        x = definition.position and definition.position[1] or 0, y = definition.position and definition.position[2] or 0 }
-    for _, entry in ipairs(definition.children or {}) do c.children[entry.name] = control(entry) end
-    function c:GetChild(key) return assert(self.children[key], "unknown control " .. self.name .. "/" .. key) end
-    function c:SetVisible(value) assert(type(value) == "boolean") self.visible = value end
-    function c:AddCursorEventListener(event, fn) NativeContract.listener(event,fn); assert(event == "click") self.click = fn end
-    function c:SetAnchoredPosition(x, y) self.x, self.y = x, y end
-    function c:SetSizeDelta(x, y) NativeContract.sizeDelta(x,y); self.sizeDeltaX, self.sizeDeltaY = x, y end
-    function c:SetLocalScale(x, y) self.localScaleX, self.localScaleY = x, y end
-    function c:SetImage(source, id) assert(source == "static" and type(id) == "number") self.imageId = id end
-    function c:SetAsLastSibling() self.raised = true end
-    return c
-end
+-- Actual generated controls and full native actor/power clone boundary.
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local Current=dofile('tests/lua/support/current_monster_controls.lua')
+local control=F.control
 local function setup(options)
     local function find(entries, name)
         for _, entry in ipairs(entries) do
@@ -34,17 +21,18 @@ local function setup(options)
     local stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")))
     local root = stage
     options = {embedded=true}
-    local ui = UI.new(root, Data, Presentation, "click", {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}, options)
+    local ui = UI.new(root, Data, Presentation, "click", F.withMonsterActors({imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}), options)
     local function click(name)
-        local box = stage:GetChild(name)
-        if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
+        local box = type(name)=="string" and stage:GetChild(name) or name
+        local hit=box.click and box or box:GetChild("hit")
+        assert(hit.raycastTarget~=false,"actual control is not targetable");hit.click()
     end
     local function play(slot, target)
         click("card" .. slot)
         local instance = ui.run.phase == "combat" and ui.run.combat.hand[slot]
         if instance and ui.selected == instance.uid then
             local _, reason = Combat.canPlay(ui.run.combat, instance.uid, nil)
-            click(reason == "invalid_target" and "enemy" .. (target or 1) or "playArea")
+            click(reason == "invalid_target" and Current.actor(stage,ui.run.combat.enemies[target or 1]) or "playArea")
         end
     end
     return ui, stage, click, play, root
@@ -95,11 +83,18 @@ end)
 for _,id in ipairs({"body_slam","anger"}) do
 test(id.." flies to selected enemy and releases committed frames once",function()
  local ui,stage,click,play=setup();ui.run=Run.new(Data,42);assert(Run.startCombat(ui.run,"cultist_solo"))
- local s=state(id);s.player.block=7;ui.run.combat=s;ui:render()
+ local s=state(id);s.player.block=7
+ -- Synthetic constructor offsets distinguish the selected actor, not count-based spacing.
+ s.enemies[1].sourcePosition={x=-240,y=0};s.enemies[2].sourcePosition={x=80,y=0}
+ ui.run.combat=s;ui:render()
  local hp=s.enemies[2].hp;local events=s.events;play(1,2);assert(ui.busy)
- -- Main.dc.html: second of two source slots, back row with round(190*.86) portrait.
- local expectedX=(1010+(1850-1010)*.75)/1.5-640
- local expectedY=360-(180+58+16+math.floor(190*.86+.5)/2)/1.5
+ -- sts@319009d5 AbstractMonster drawX=1440+offsetX, drawY=340+offsetY;
+ -- JawWorm's source hitbox is 260x170. Native scale=2/3, portrait=max(width,height).
+ -- This is an explicit synthetic two-actor fixture, not a natural encounter formation.
+ local expectedX=(1440+80)/1.5-640
+ local expectedY=340/1.5-360+260/3
+ assert(Current.actor(stage,s.enemies[1]).x~=Current.actor(stage,s.enemies[2]).x,
+  "target identity must remain observable in distinct source positions")
  eq(math.abs(ui.feedback.flight.tx-expectedX)<1e-8,true)
  eq(math.abs(ui.feedback.flight.ty-expectedY)<1e-8,true)
  assert(s.enemies[2].hp<hp);eq(s.enemies[1].hp,s.enemies[1].maxHp)

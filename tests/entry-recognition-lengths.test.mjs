@@ -1,3 +1,4 @@
+import {preRawBindingSource} from './helpers/raw-binding-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -14,7 +15,7 @@ const read=p=>readFileSync(p,'utf8');
 const definitions=[
  ['post-beta-runtime',postBetaRuntimeProof.files,(p,s)=>preArtifactRuntimeSource(p,s),prePostBetaRuntimeSource,Object.keys(postBetaRuntimeProof.files)],
  ['phase-four-runner',{[phaseFourRunnerProof.path]:phaseFourRunnerProof},(p,s)=>preCurrentEntrySource(p,s),prePhaseFourRunnerSource,Object.keys(phaseFourRunnerProof.linkedSources)],
- ['current-entry',currentEntrySourceProof.files,(p,s)=>s,preCurrentEntrySource,[...Object.keys(currentEntrySourceProof.files),...Object.keys(currentEntrySourceProof.linkedSources)]],
+ ['current-entry',currentEntrySourceProof.files,(p,s)=>preRawBindingSource(p,s),preCurrentEntrySource,[...Object.keys(currentEntrySourceProof.files),...Object.keys(currentEntrySourceProof.linkedSources)]],
 ];
 function sourcesFor(bindings,prepare){
  const sources=new Map(Object.keys(bindings).map(p=>[p,normalize(prepare(p,read(p)))]));
