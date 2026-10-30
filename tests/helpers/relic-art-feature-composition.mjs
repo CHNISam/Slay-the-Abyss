@@ -1,3 +1,4 @@
+import {preM3EventDeliverySource} from './m3-event-delivery-source-inverse.mjs';
 // Single-path historical composition only; runtime loads actual production.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -28,7 +29,7 @@ for(const target of Object.values(relicArtFeatureComposition.targets)){
  }
 }
 const cachedProjection=cachePureSourceProjection(relicArtFeatureComposition.targets,projectSource);
-export function preRelicArtFeatureCompositionSource(path,source,target){return cachedProjection(path,source,target);}
+export function preRelicArtFeatureCompositionSource(path,source,target){return cachedProjection(path,preM3EventDeliverySource(path,source),target);}
 function projectSource(path,source,target){
  assert.ok(target==='relic'||target==='artFeature');
  const binding=relicArtFeatureComposition.targets[target].files[path];

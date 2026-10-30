@@ -1,3 +1,4 @@
+import {preM3EventDeliverySource} from './helpers/m3-event-delivery-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -7,7 +8,7 @@ import {relicCompletionInverse, preRelicCompletionSource, requireRelicCompletion
 import {preBattleLifeSource} from './helpers/battle-life-source-inverse.mjs';
 import {requirePr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 const hash = source => createHash('sha256').update(source).digest('hex');
-const live = readFileSync(layer.path, 'utf8').replaceAll('\r\n', '\n');
+const live = preM3EventDeliverySource(layer.path, readFileSync(layer.path, 'utf8')).replaceAll('\r\n', '\n');
 test('native enemy outer inverse exactly recovers prior complete theme without rewriting historical witnesses', () => {
   assert.equal(hash(live), composed.afterSha256);
   const before = prior(layer.path, live);

@@ -49,7 +49,7 @@ test('every unregistered production Lua source and arbitrary paths reject rather
  let count=0;
  for(const name of readdirSync('src/lua')){
   const path='src/lua/'+name;if(!name.endsWith('.lua')||proof.files[path])continue;
-  const mutant=read(path)+'\n-- unexpected future source\n';count++;
+  const mutant=readFileSync(path,'utf8')+'\n-- unexpected future source\n';count++;
   assert.throws(()=>requireRelicCompletionSource(path,mutant),/unregistered relic completion source/);
   assert.equal(tryRelicCompletionSource(path,mutant),undefined);
   assert.equal(preRelicCompletionSource(path,mutant),mutant);
@@ -88,7 +88,7 @@ test('historical materialization restores every existing source before old build
 
 test('current relic feature fixtures and production modules never use historical source projection',()=>{
  for(const name of readdirSync('src/lua').filter(name=>name.endsWith('.lua')))
-  assert.doesNotMatch(read('src/lua/'+name),/relic-completion-inverse|preRelicCompletionSource/);
+  assert.doesNotMatch(readFileSync('src/lua/'+name,'utf8'),/relic-completion-inverse|preRelicCompletionSource/);
  for(const path of ['tests/lua/shop_relics_effects.lua','tests/lua/shop_relics_acquisition.lua',
   'tests/lua/shop_relics_pending_ui.lua','tests/lua/boss_relics_missing.lua',
   'tests/lua/uncommon_relics_effects.lua','tests/lua/rare_relics_hooks.lua']){
