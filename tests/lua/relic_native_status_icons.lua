@@ -1,25 +1,21 @@
 -- Current production integration only; every native image call is strict.
-local Native=dofile('tests/lua/support/native_ui_contract.lua')
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,C,Data=require('abyss_run'),require('abyss_combat'),require('abyss_data')
 local UI,Theme,Layout=require('abyss_battle_ui'),require('abyss_theme'),require('abyss_ui_layout')
 local calls=0
-local function control(d)
- local c={name=d.name,visible=d.visible~=false,children={},text='',sizeDeltaX=d.size[1],sizeDeltaY=d.size[2],x=d.position and d.position[1]or 0,y=d.position and d.position[2]or 0}
- for _,child in ipairs(d.children or {})do c.children[child.name]=control(child)end
- function c:GetChild(name)return assert(self.children[name],self.name..'/'..name)end
- function c:SetVisible(v)assert(type(v)=='boolean');self.visible=v end
- function c:AddCursorEventListener(event,fn)Native.listener(event,fn);self.listeners=self.listeners or {};self.listeners[event]=fn end
- function c:SetAnchoredPosition(x,y)self.x,self.y=x,y end
- function c:SetSizeDelta(x,y)Native.sizeDelta(x,y);self.sizeDeltaX,self.sizeDeltaY=x,y end
- function c:SetLocalScale(x,y,z)self.scale={x,y,z}end
- function c:SetAsLastSibling()self.raised=true end
+-- Record the same strict image boundary on the real static tree and every
+-- complete actor/power template clone, without inventing static monster slots.
+local function record(c)
+ for _,child in pairs(c.children)do record(child)end
+ local setImage=c.SetImage
  function c:SetImage(...)
   assert(select('#',...)==2,'native SetImage requires source and numeric ID')
   local source,id=...;assert(source=='static'and type(id)=='number','native SetImage cannot accept metadata tables')
-  self.imageId=id;calls=calls+1
+  setImage(self,...);calls=calls+1
  end
  return c
 end
+local function control(d)return record(F.control(d))end
 local function same(a,b,seen)
  if a==b then return end;assert(type(a)==type(b));if type(a)~='table'then assert(a==b);return end
  seen=seen or {};if seen[a]then assert(seen[a]==b);return end;seen[a]=b
@@ -29,7 +25,10 @@ local r=Run.new(Data,'42');assert(Run.obtainRelic(r,'FossilizedHelix'));assert(R
 assert(Run.startCombat(r,'cultist_solo'))
 local root=control({name='root',size={1280,720},children=Layout})
 local panel=root:GetChild('stage'):GetChild('battlePanel')
-local ui=UI.new(panel,r.data,require('abyss_presentation'),'click',{imageSource='static',color=function(a,b,c,d)return {r=a,g=b,b=c,a=d}end},{embedded=true})
+local platform=F.withMonsterActors({imageSource='static',color=function(a,b,c,d)return {r=a,g=b,b=c,a=d}end})
+local instantiate=platform.monsterActors.instantiate
+platform.monsterActors.instantiate=function(index,parent)return record(instantiate(index,parent))end
+local ui=UI.new(panel,r.data,require('abyss_presentation'),'click',platform,{embedded=true})
 ui.run=r;ui:resize(1280,720)
 local function renderReadonly()
  local before=C.copy(r);local battle,player,statuses=r.combat,r.combat.player,r.combat.player.statuses

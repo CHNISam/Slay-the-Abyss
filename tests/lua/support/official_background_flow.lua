@@ -1,4 +1,16 @@
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
+-- Assert the actual generated fallback is a nonblank approved official image,
+-- not the retired hero overlay. Runtime visibility assertions below use this tree.
+local function findSpec(nodes,name)
+ for _,node in ipairs(nodes)do
+  if node.name==name then return node end
+  local found=node.children and findSpec(node.children,name);if found then return found end
+ end
+end
+local menuSpec=assert(findSpec(F.Layout,'menuPanel'))
+local backdropSpec=assert(findSpec(menuSpec.children,'backdrop'))
+assert(backdropSpec.kind=='image' and backdropSpec.image==F.Theme.image.officialBackdrops.title and backdropSpec.image>0 and backdropSpec.opacity==1)
+assert(findSpec(menuSpec.children,'heroArt').visible==false,'merged title intentionally retires the hero overlay')
 package.loaded.abyss_menu_background_asset={
  adapter=dofile('art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_adapter.lua'),
  data=dofile('art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_data.lua'),imagePrefabId=0}
@@ -31,7 +43,7 @@ local background=Background.new(root,function(s)logs[#logs+1]=s end)
 local ui=F.GameUI.new(root,F.Data,F.Presentation,'click',{seed=1,imageSource='static',
  color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,background=background})
 assert(background:status().phase=='building' and not dedicated.visible)
-assert(root:GetChild('menuPanel'):GetChild('heroArt').visible)
+assert(root:GetChild('menuPanel'):GetChild('backdrop').visible and not root:GetChild('menuPanel'):GetChild('heroArt').visible)
 ui:update(.01);assert(#created==64 and live==64 and not dedicated.visible)
 assert(ui:start() and ui.characterOpen)
 local token=background:status().generation
@@ -48,7 +60,7 @@ assert(root:GetChild('characterPanel'):GetChild('blocker').visible,'input shield
 ui:update(.01);assert(#created==13201,'ready page switch must not rebuild')
 assert(F.confirmStart(ui));assert(live==0 and not dedicated.visible,'release synchronously before any game page')
 assert(background:status().phase=='released');ui:update(.01);assert(#created==13201)
-assert(menu:GetChild('heroArt').visible,'fallback restored outside title pages')
+assert(menu:GetChild('backdrop').visible and not menu:GetChild('heroArt').visible,'official backdrop fallback restored outside title pages; obsolete hero overlay stays hidden')
 ui.run=nil;ui.battleUI.run=nil;ui:refresh();ui:update(.01)
 assert(live==64 and #created==13265,'reentry creates only fresh bounded batch')
 ui:disable();assert(live==0 and not dedicated.visible)
