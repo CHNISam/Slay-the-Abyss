@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "fd322d56c71fc33d42ddc4f5311eaf4f57779528",
+  "afterCommit": "252cb7c4dee6d9c23b89e6d86fece2d8682c6fda",
+  "files": {
+    "scripts/test-affected.mjs": {
+      "beforeSha256": "a65804c317f42735ac9ae37c89599825ce4f673df5fffaac8f0a418569477b52",
+      "afterSha256": "efe1ea849749136fa2b03ed17479d1cc252e6ce8747525b6ecd1eb87ab4b16af",
+      "beforeGitBlob": "a929d99fabc546b1d8fdafccbcf5a759642fc00e",
+      "afterGitBlob": "6d41b09f308c861fbac4c8c7d61c91b059bbd923",
+      "afterUtf16Length": 23449,
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {currentPhaseThreeMemoryFixture} from '../tests/helpers/current-phase-three-memory.mjs';"
+          ]
+        },
+        {
+          "at": 19,
+          "before": [],
+          "after": [
+            "  ['tests/helpers/current-phase-three-memory.mjs', new Set([currentPhaseThreeMemoryFixture])],"
+          ]
+        }
+      ]
+    },
+    "scripts/test-lua.mjs": {
+      "beforeSha256": "d212424b71645dcfb51dc8e08b9a73acfb6158c29b70071e629212d687a8b448",
+      "afterSha256": "293bae7357a5e03cd6825eebd26f84150ac582ab8b1758edcbf436a814d7bb87",
+      "beforeGitBlob": "22eaf3831bb61a9eef991ee8a21908f845a8fcde",
+      "afterGitBlob": "25f1de93244848457d971f3fb6b75edd0f9c2576",
+      "afterUtf16Length": 10212,
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {runCurrentPhaseThreeMemory,currentPhaseThreeMemoryFixture} from '../tests/helpers/current-phase-three-memory.mjs';"
+          ]
+        },
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "  if (resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url))) && script.replaceAll('\\\\','/')===currentPhaseThreeMemoryFixture) return runCurrentPhaseThreeMemory(runLua,script,{timeout,cwd,caseName});"
+          ]
+        }
+      ]
+    }
+  },
+  "linkedSources": {
+    "tests/helpers/current-phase-three-memory.mjs": {
+      "sha256": "fea4ce7a3f53d4602e8f601a8567b33b3c6d3a5ab861ed8bf7da5d2928ce2e8b",
+      "gitBlob": "177d4c2f52662e863adf7387a8fd8eef658d66a5",
+      "utf16Length": 3660
+    },
+    "tests/lua/phase_three_presentation.lua": {
+      "sha256": "9a99dc5dc1b7dc767f177b4f2f8d8726dee56833e46865c37a8bd874c4453515",
+      "gitBlob": "ff70bde8cf193fc6c9ce3673bfdaf576e78cb386",
+      "utf16Length": 10260
+    },
+    "tests/lua/phase_three_presentation_slice_2.lua": {
+      "sha256": "f0b310a78c9fd8c46ac9eca2fcbde14521ca0b336d06b17d58db024f8f9442b2",
+      "gitBlob": "46a75e3358aa58c039c8c4ab02c3de6887bdf613",
+      "utf16Length": 64
+    },
+    "tests/helpers/current-presentation-native.mjs": {
+      "sha256": "f31a5b28fc58e91a81ff15bdba5dbdf62c007bb34f8b48f3504e1549dbf3c9cb",
+      "gitBlob": "d595b9656f1d50413b5a845f5c8235d089499d06",
+      "utf16Length": 1194
+    },
+    "scripts/build-lua-data.mjs": {
+      "sha256": "2a04be0449e7fd43404662e4998c7d0541761708f50043f966e66ac7c5ed67d1",
+      "gitBlob": "f418dbea667b278e87b29eab35921fee0a9bc04b",
+      "utf16Length": 3817
+    }
+  }
+}

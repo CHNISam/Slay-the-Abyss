@@ -1,3 +1,4 @@
+import {preTitleMenuSource} from './helpers/title-menu-source.mjs';
 import {projectOpenPrSource} from './helpers/open-pr-source-composition.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -14,7 +15,7 @@ import { heroVisualProof, preHeroVisualSource } from './helpers/hero-visual-sour
 test('the complete hero layer restores prior inputs and rejects partial or cross-path drift', () => {
   const hash = source => createHash('sha256').update(source).digest('hex');
   for (const [path, binding] of Object.entries(heroVisualProof.files)) {
-    const source = projectOpenPrSource(path,readFileSync(path,'utf8'),'hero').replaceAll('\r\n', '\n');
+    const source = projectOpenPrSource(path,preTitleMenuSource(path,readFileSync(path,'utf8')),'hero').replaceAll('\r\n', '\n');
     assert.equal(hash(source), binding.afterSha256, path);
     assert.equal(hash(binding.before), binding.beforeSha256, path);
     assert.equal(preHeroVisualSource(path, source), binding.before, path);

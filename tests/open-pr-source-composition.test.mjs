@@ -1,3 +1,4 @@
+import {preTitleMenuSource} from './helpers/title-menu-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -10,7 +11,7 @@ test('combined source projection binds complete live sources and all reviewed sl
  assert.equal(proof.schemaVersion,1);
  assert.deepEqual(Object.keys(proof.heads),['hero','relic','event']);
  for(const[path,binding]of Object.entries(proof.files)){
-  const source=preBattleLifeSource(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');
+  const source=preBattleLifeSource(path,preTitleMenuSource(path,readFileSync(path,'utf8'))).replaceAll('\r\n','\n');
   assert.equal(source,binding.current,path+' exact live composition');
   assert.equal(hash(source),binding.currentHash,path);
   for(const[target,witness]of Object.entries(binding.targets)){

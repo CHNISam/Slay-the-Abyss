@@ -1,3 +1,4 @@
+import {prePhaseThreeMemorySource} from './phase-three-memory-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,11 +12,12 @@ export const rawBindingSourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const rawBindingSourcePaths=Object.freeze(Object.keys(rawBindingSourceProof.files));
 assert.deepEqual(rawBindingSourcePaths,["scripts/test-affected.mjs", "scripts/test-lua.mjs", "tests/lua/controller_host.lua", "tests/lua/game_ui_phase_four.lua", "tests/lua/support/potion_gesture_fixture.lua"]);
 export function preRawBindingSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=prePhaseThreeMemorySource(path,source,{readSource});
  const b=rawBindingSourceProof.files[path];if(!b||typeof source!=='string')return source;
  // Length rejects impossible matches only; all equal-length identity and fresh-owner checks remain.
  const text=normalize(source);if(text.length!==b.afterUtf16Length||hash(text)!==b.afterSha256)return source;
  for(const p of rawBindingSourcePaths){
-  let live;try{live=readSource(p);}catch{assert.fail('raw-binding linked source missing: '+p);}
+  let live;try{live=prePhaseThreeMemorySource(p,readSource(p),{readSource});}catch{assert.fail('raw-binding linked source missing: '+p);}
   assert.equal(typeof live,'string','raw-binding linked source must exist: '+p);
   assert.equal(hash(normalize(live)),rawBindingSourceProof.files[p].afterSha256,'raw-binding linked source identity: '+p);
   assert.equal(blob(normalize(live)),rawBindingSourceProof.files[p].afterGitBlob);

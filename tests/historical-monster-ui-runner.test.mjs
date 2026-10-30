@@ -1,3 +1,4 @@
+import {phaseThreeMemorySourceProof} from './helpers/phase-three-memory-source.mjs';
 import {rawBindingSourceProof} from './helpers/raw-binding-source.mjs';
 import {p0UiSourcePaths} from './helpers/p0-ui-source.mjs';
 import {currentEntrySourceProof} from './helpers/current-entry-source.mjs';
@@ -26,7 +27,7 @@ test('only twenty-five exact frozen fixtures and the two-capture differential ar
 });
 test('full current inverse and both historical helper closures reject every foreign edit',()=>{
  const paths=[...historicalMonsterSourcePaths,...helperPaths];
- const inputs=[...new Set([...Object.keys(rawBindingSourceProof.linkedSources),...p0UiSourcePaths,...paths,...Object.keys(phaseFourRunnerProof.linkedSources),...Object.keys(currentEntrySourceProof.files),...Object.keys(currentEntrySourceProof.linkedSources)])];
+ const inputs=[...new Set([...Object.keys(phaseThreeMemorySourceProof.linkedSources),...Object.keys(rawBindingSourceProof.linkedSources),...p0UiSourcePaths,...paths,...Object.keys(phaseFourRunnerProof.linkedSources),...Object.keys(currentEntrySourceProof.files),...Object.keys(currentEntrySourceProof.linkedSources)])];
  const current=new Map(inputs.map(p=>[p,readFileSync(p,'utf8')]));
  assert.equal(verifiedHistoricalMonsterSources('.',p=>current.get(p)).length,paths.length);
  for(const dirty of inputs)assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>current.get(p)+(p===dirty?'\n-- foreign source drift\n':'')),/unreviewed current/);
