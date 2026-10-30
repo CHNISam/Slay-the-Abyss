@@ -12,6 +12,7 @@ assert.equal(hash(bytes),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112
 export const integrationSources=JSON.parse(bytes).sources;
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
  if(target==='feature379')return preBetaSource(path,source,target,{readSource});
+ source=preBetaSource(path,source,'history',{readSource});
  source=preAcceptedDevelopSource(path,source,{readSource});
  source=preDeckBrowseSource(path,source);
  source=preAcceptedDevelopSource(path,source,{readSource});

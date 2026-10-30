@@ -71,9 +71,9 @@ test('recognized feature hosts bind every added owner and reject missing or drif
  for(const [path,binding]of Object.entries(proof.files)){
   if(binding.beforeSha256===null)continue;
   for(const changed of artFeatureAddedPaths){
-   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?read(key)+'\n// drift\n':read(key)}),/linked source drift/);
-   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>{if(key===changed)throw Error('missing');return read(key);}}),/linked source missing/);
-   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?null:read(key)}),/complete art-feature linked source/);
+   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?readFileSync(key,'utf8')+'\n// drift\n':readFileSync(key,'utf8')}),/linked source drift/);
+   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>{if(key===changed)throw Error('missing');return readFileSync(key,'utf8');}}),/linked source missing/);
+   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?null:readFileSync(key,'utf8')}),/complete (?:art-feature|beta) linked source/);
   }
  }
 });

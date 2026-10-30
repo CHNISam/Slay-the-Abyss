@@ -41,7 +41,7 @@ export const artFeatureAddedPaths=Object.freeze(Object.entries(artFeatureSourceL
 export function preHistoricalArtFeatureSource(path,source,options={}){return preArtFeatureSource(path,source,{...options,history:true});}
 export function preArtFeatureSource(path,source,{readSource=path=>readFileSync(path,'utf8'),history=false}={}){
  const integrationTarget=history?'base':'feature379';
- source=preRelicArtFeatureCompositionSource(path,preIntegrationSource(path,source,integrationTarget),'artFeature',{integrationTarget});
+ source=preRelicArtFeatureCompositionSource(path,preIntegrationSource(path,source,integrationTarget,{readSource}),'artFeature',{integrationTarget,readSource});
  const layer=history?legacyLayer:artFeatureSourceLayer;
  const binding=layer.files[path];
  if(!binding||typeof source!=='string')return source;
@@ -53,7 +53,7 @@ export function preArtFeatureSource(path,source,{readSource=path=>readFileSync(p
   let actual;
   try{actual=readSource(added);}catch{assert.fail('unreviewed art-feature linked source missing: '+added);}
   assert.equal(typeof actual,'string','complete art-feature linked source: '+added);
-  actual=preIntegrationSource(added,actual,integrationTarget);
+  actual=preIntegrationSource(added,actual,integrationTarget,{readSource});
   assert.equal(hash(normalize(actual)),layer.files[added].afterSha256,'unreviewed art-feature linked source drift: '+added);
  }
  if(binding.beforeSha256===null)return null;

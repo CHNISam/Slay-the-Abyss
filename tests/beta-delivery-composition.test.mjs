@@ -1,3 +1,4 @@
+import {preArtFeatureSource} from './helpers/art-feature-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -38,5 +39,18 @@ test('dynamic-monster historical UI tests retreat only exact reviewed whole sour
   assert.equal(preMultiHistoricalUiTest(p,s.replaceAll('\n','\r\n')),before);
   const mutant=s+'\n-- unknown\n';assert.equal(preMultiHistoricalUiTest(p,mutant),mutant);
   assert.equal(preMultiHistoricalUiTest('wrong/path',s),s);
+ }
+});
+
+test('public feature projections validate caller-owned beta sources in both target modes after warming',()=>{
+ const path='scripts/build-ui.mjs',source=read(path);
+ for(const history of [false,true]){
+  preArtFeatureSource(path,source,{history});
+  for(const [owner,binding]of Object.entries(betaSources).filter(([,b])=>b.targets.history.absent)){
+   for(const changed of [undefined,read(owner)+'\n-- unreviewed caller owner\n']){
+    const readSource=p=>p===owner?changed:read(p);
+    assert.throws(()=>preArtFeatureSource(path,source,{history,readSource}),undefined,owner+' '+history);
+   }
+  }
  }
 });

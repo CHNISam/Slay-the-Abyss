@@ -17,7 +17,13 @@ export function preBetaSource(path,source,target='history',{readSource=p=>readFi
  source=preBetaHostSource(path,source,{readSource});
  const b=betaSources[path];
  if(!b||typeof source!=='string'||hash(normalize(source))!==b.sha256||!b.targets[target])return source;
- for(const p of added){const actual=preBetaHostSource(p,readSource(p),{readSource});assert.equal(typeof actual,'string','missing beta linked owner: '+p);assert.equal(hash(normalize(actual)),betaSources[p].sha256,'unreviewed beta linked owner: '+p);}
+ for(const p of added){
+  let input;try{input=readSource(p);}catch{assert.fail('unreviewed beta linked source missing: '+p);}
+  assert.equal(typeof input,'string','complete beta linked source: '+p);
+  const actual=preBetaHostSource(p,input,{readSource});
+  assert.equal(typeof actual,'string','complete beta linked source: '+p);
+  assert.equal(hash(normalize(actual)),betaSources[p].sha256,'unreviewed beta linked owner; linked source drift: '+p);
+ }
  const destination=b.targets[target];if(destination.absent)return null;
  const lines=normalize(source).split('\n');
  for(const h of [...destination.hunks].reverse()){
