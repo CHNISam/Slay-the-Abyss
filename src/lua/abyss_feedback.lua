@@ -356,6 +356,15 @@ function M.new(stage, platform, present, complete)
         -- EscapeAction holds only its source .5s; the actor moves independently for3s.
         self.poses[d.enemy] = nil
     end
+    local function contactDeathSound(id)
+        -- Preserve the planned area-death group's single audible cue, but own
+        -- it at lethal contact so a long frame cannot expire the visual first.
+        for _,entry in ipairs(self.queue or {})do
+            if entry.kind=='death' and entry.detail.target==id and entry.detail.quiet then return end
+        end
+        local victim=actor(id)
+        sound(Theme.deathSound[victim and victim.definitionId] or 'enemy_die')
+    end
     local function startMonsterDeath(id)
         if self.dying[id] then return self.dying[id] end
         if self.deaths[id] then return nil end
@@ -371,19 +380,18 @@ function M.new(stage, platform, present, complete)
             self.dying.player={age=0,alpha=1}
         else
             -- The lethal frame already started die(); a deferred cue cannot restart it.
+            local newlyStarted=not self.deaths[d.target]
             local dying=startMonsterDeath(d.target)
             if not dying or dying.cued then return end
             dying.cued=true
+            if newlyStarted then contactDeathSound(d.target)end
         end
         local _, box = actor(d.target)
         if box then
             box:SetVisible(true)
             box:GetChild("impact"):SetImage(platform.imageSource, Theme.image.diamond)
         end
-        if not d.quiet then
-            local victim = actor(d.target)
-            sound(d.target == "player" and "defeat" or Theme.deathSound[victim and victim.definitionId] or "enemy_die")
-        end
+        if d.target == "player" and not d.quiet then sound("defeat")end
         if d.target == "player" then self.poses.player = nil overlay:SetAsLastSibling() end
     end
     local function damageText(d,kind,style)
@@ -455,14 +463,16 @@ function M.new(stage, platform, present, complete)
     local function startContactDeaths(old,nextView)
         -- AbstractMonster.damage calls die at lethal contact, before the action wait.
         -- Compare only frames already presented, never the future committed battle.
-        local priorActors={}
+        local priorActors,started={},{}
         for _,unit in ipairs(old.enemies) do priorActors[unit.id]=unit end
         for _,unit in ipairs(nextView.enemies) do
             local prior=priorActors[unit.id]
-            if prior and Actors.isPresent(prior) and unit.hp<=0 and not Actors.isPresent(unit) then
+            if prior and Actors.isPresent(prior) and unit.hp<=0 and not Actors.isPresent(unit) and not self.deaths[unit.id] then
                 startMonsterDeath(unit.id)
+                started[#started+1]=unit.id
             end
         end
+        return started
     end
     local function enterFrame(entry, style)
         local old = self.shadow
@@ -472,7 +482,7 @@ function M.new(stage, platform, present, complete)
         local landing = self.current and self.current.kind == "play" and entry.kind ~= "play"
         if entry.kind == "enemy_escape" and not self.escaping[entry.detail.enemy] and not self.escaped[entry.detail.enemy] then self.escaping[entry.detail.enemy] = Escape.start()end
         self.shadow, self.current, self.style, self.elapsed = nextView, entry, style, 0
-        startContactDeaths(old,nextView)
+        local contactDeaths=startContactDeaths(old,nextView)
         self.cardFlow:sync(old,nextView,entry.kind)
         self.cardFlow:update(0,self.battle.catalog,self.presentation,self.fastMode)
         hideOverlay(landing or next(self.cardFlow.inPlay)~=nil)
@@ -486,10 +496,10 @@ function M.new(stage, platform, present, complete)
         if entry.kind == "player_turn" then self.acting = nil end
         self.enemyRows=EnemyView.slots(self.shadow,self)
         present(self.shadow, self.acting, self.deaths)
-        return old
+        return old,contactDeaths
     end
     local function step(entry, style)
-        local old=enterFrame(entry,style)
+        local old,contactDeaths=enterFrame(entry,style)
         local d, kind = type(entry.detail) == "table" and entry.detail or {}, entry.kind
         print("ABYSS_FEEDBACK " .. kind .. " source=" .. tostring(d.source or d.enemy or "-") .. " target=" .. tostring(d.target or "-") .. " amount=" .. n(d.amount))
         if kind == "play" then
@@ -507,6 +517,8 @@ function M.new(stage, platform, present, complete)
         elseif d.target then
             targetStep(d,kind,style,old)
         end
+        -- Keep hit/action sound order within the same lethal presentation frame.
+        for _,id in ipairs(contactDeaths)do contactDeathSound(id)end
     end
     local function pendingMonsterExit()
         for id in pairs(self.dying)do if id~='player'then return true end end
