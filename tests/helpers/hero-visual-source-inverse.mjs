@@ -1,3 +1,4 @@
+import {preTitleMenuSource} from './title-menu-source.mjs';
 import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {projectOpenPrSource} from './open-pr-source-composition.mjs';
 // Exact outer replay for the hero-visual slice. Older witnesses keep their bytes.
@@ -12,7 +13,8 @@ assert.equal(hash(bytes), '9e0fc529d9938f512d30a9ceb32b25d3352effcabe81022f41854
 export const heroVisualProof = JSON.parse(bytes);
 assert.equal(heroVisualProof.schemaVersion, 1);
 
-export function preHeroVisualSource(path, source) {
+export function preHeroVisualSource(path, source, {readSource=p=>readFileSync(p,'utf8')}={}) {
+ source=preTitleMenuSource(path,source,{readSource});
  source=preBattleLifeSource(path,source);
  if(heroVisualProof.files[path])source=projectOpenPrSource(path,source,'hero');
   if (typeof source !== 'string') return source;

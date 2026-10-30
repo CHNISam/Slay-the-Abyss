@@ -5,6 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {finalUiSourcePaths} from './helpers/final-ui-source.mjs';
 import {p0UiSourcePaths,p0UiSourceProof} from './helpers/p0-ui-source.mjs';
 import {deckDeliveryPaths} from './helpers/deck-delivery-source-composition.mjs';
 import {multiMonsterSourceLayer} from './helpers/multi-monster-art-source-inverse.mjs';
@@ -13,8 +14,8 @@ import {historicalMonsterSourcePaths,verifiedHistoricalMonsterSources,materializ
 const read=p=>readFileSync(p,'utf8');
 test('historical monster inventory includes every exact P0 owner and restores the matching exit layout',()=>{
  const prior=[...deckDeliveryPaths,...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)];
- assert.deepEqual(historicalMonsterSourcePaths,[...new Set([...prior,...p0UiSourcePaths])].sort(),'only the existing inventory and exact P0 owners');
- for(const path of p0UiSourcePaths)assert.ok(historicalMonsterSourcePaths.includes(path),'missing historical P0 owner: '+path);
+ assert.deepEqual(historicalMonsterSourcePaths,[...new Set([...prior,...p0UiSourcePaths,...finalUiSourcePaths])].sort(),'only the existing inventory and exact P0/final UI owners');
+ for(const path of new Set([...p0UiSourcePaths,...finalUiSourcePaths]))assert.ok(historicalMonsterSourcePaths.includes(path),'missing historical P0 owner: '+path);
  const projected=new Map(verifiedHistoricalMonsterSources());
  const path='scripts/exit-ui-layout.mjs';
  assert.equal(createHash('sha256').update(projected.get(path)).digest('hex'),p0UiSourceProof.files[path].beforeSha256);
@@ -29,7 +30,7 @@ test('historical monster builders consume a coherent theme and exit layout',()=>
 });
 test('historical P0 projection rereads all current owners and rejects missing or drifting sources',()=>{
  verifiedHistoricalMonsterSources();
- for(const path of p0UiSourcePaths){
+ for(const path of new Set([...p0UiSourcePaths,...finalUiSourcePaths])){
   for(const bad of [undefined,read(path)+'\n-- drift']){
    let calls=0;
    assert.throws(()=>verifiedHistoricalMonsterSources(process.cwd(),p=>p===path?(calls++,bad):read(p)),/unreviewed current historical monster closure/);

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "1339008cac0aeb6eabccb7f8b88903810a74f39c",
+  "afterCommit": "a3b635bc31d05db5e0bb4632faf0d0c4d6c01523",
+  "files": {
+    "tests/lua/title_menu_admission.lua": {
+      "beforeSha256": "50f5f3128b58b263f25a989a3ead2af1f921197febfd9654947f85a8b4f7ba13",
+      "afterSha256": "70aeaf85733b8fb14999a4f9b45c82bdceadd60a95a2a0a8e5dd650b56079223",
+      "afterUtf16Length": 1302,
+      "beforeGitBlob": "c92353e81fc84c8041c1de47e47bc3b85de79626",
+      "afterGitBlob": "7a05600d0983463df4d2784b323b56e283497086",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            " local box=root:GetChild('runMenu'):GetChild('map')",
+            " assert(box.visible==enabled,'map entry must be hidden until a real route can be viewed')"
+          ]
+        },
+        {
+          "at": 7,
+          "before": [
+            "  assert(hit:GetChild(name):GetChild('label').text==(enabled and '查看地图' or '查看地图（启程后可用）'))"
+          ],
+          "after": [
+            "  assert(hit:GetChild(name):GetChild('label').text=='查看地图')"
+          ]
+        }
+      ]
+    }
+  }
+}
