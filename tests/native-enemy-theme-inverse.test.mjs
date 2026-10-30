@@ -4,10 +4,12 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {nativeEnemyThemeLayer as layer, nativeEnemyThemeComposedLayer as composed, preNativeEnemyThemeSource as prior} from './helpers/native-enemy-theme-inverse.mjs';
 import {relicCompletionInverse, preRelicCompletionSource, requireRelicCompletionSource} from './helpers/relic-completion-inverse.mjs';
+import {preMapPathA11ySource} from './helpers/map-path-a11y-inverse.mjs';
 import {preBattleLifeSource} from './helpers/battle-life-source-inverse.mjs';
 import {requirePr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 const hash = source => createHash('sha256').update(source).digest('hex');
-const live = readFileSync(layer.path, 'utf8').replaceAll('\r\n', '\n');
+const current = readFileSync(layer.path, 'utf8').replaceAll('\r\n', '\n');
+const live = preMapPathA11ySource(layer.path, current);
 test('native enemy outer inverse exactly recovers prior complete theme without rewriting historical witnesses', () => {
   assert.equal(hash(live), composed.afterSha256);
   const before = prior(layer.path, live);

@@ -84,7 +84,7 @@
       "current": "#F5D79A",
       "reachable": "#ECE6DA",
       "locked": "#4A4F63",
-      "path": "#5A6078",
+      "path": "#77707A",
       "pathTaken": "#E3B866"
     },
     "geo": "#F0B850",
@@ -108,8 +108,8 @@
       "backdrop": "#0D0708",
       "field": "#2A1013",
       "fog": "#3A2A28",
-      "far": "#C2B29A",
-      "visited": "#7E6E5C",
+      "far": "#77707A",
+      "visited": "#C99A4E",
       "kind": {
         "combat": "#C9C3B6",
         "elite": "#E8836C",
@@ -1375,10 +1375,10 @@
           -56
         ],
         "navigationSize": 48,
-        "pathWidth": 2,
-        "futureOpacity": 0.28,
-        "takenOpacity": 0.85,
-        "nextOpacity": 0.7,
+        "pathWidth": 3,
+        "futureOpacity": 0.9,
+        "takenOpacity": 1,
+        "nextOpacity": 1,
         "fogOpacity": 0.35,
         "noticeHeight": 40,
         "typeLegend": {

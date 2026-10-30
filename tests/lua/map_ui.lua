@@ -290,11 +290,13 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
             assert(edge.visible == expected)
             if expected then
-                local ink = taken[node.id .. ":" .. id] and Theme.color.node.pathTaken or Theme.color.node.path
+                local reachable = node.id == map.currentNodeId and index[id].available
+                local ink = taken[node.id .. ":" .. id] and Theme.color.node.pathTaken
+                    or reachable and Theme.color.node.reachable or Theme.color.node.path
                 assert(edge.imageColor.r == ink.r and edge.imageColor.g == ink.g and edge.imageColor.b == ink.b)
                 local visual = Theme.layout.map.presentation
                 local opacity = taken[node.id .. ":" .. id] and visual.takenOpacity or
-                    node.id == map.currentNodeId and index[id].available and visual.nextOpacity or visual.futureOpacity
+                    reachable and visual.nextOpacity or visual.futureOpacity
                 assert(edge.imageColor.a == math.floor(ink.a * opacity))
             end
         end end
