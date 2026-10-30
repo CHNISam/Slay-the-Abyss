@@ -1,4 +1,3 @@
-import {preEventProductionSource} from './helpers/event-production-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -234,6 +233,8 @@ test('Run public method names and named parameters preserve the pre-refactor con
   for(const value of Object.values(node))if(Array.isArray(value))value.forEach(visit);else if(value&&typeof value==='object')visit(value);
  }
  const helpers=['initialization','transition','rooms','settlement','potions'].map(name=>'abyss_run_'+name+'.lua');
- for(const file of ['abyss_run.lua',...helpers])visit(luaparse.parse(preEventProductionSource('src/lua/'+file,readFileSync('src/lua/'+file,'utf8')),{luaVersion:'5.3'}));
- assert.deepEqual(actual,expected);
+ // Inspect today's real API directly. These explicit event additions extend
+ // the old contract; every original method/parameter remains exact.
+ for(const file of ['abyss_run.lua',...helpers])visit(luaparse.parse(readFileSync('src/lua/'+file,'utf8'),{luaVersion:'5.3'}));
+ assert.deepEqual(actual,{...expected,prepareCardCopy:['run','uid'],obtainCardCopy:['run','uid'],loseRelic:['run','id']});
 });

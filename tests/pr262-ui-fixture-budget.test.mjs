@@ -1,5 +1,6 @@
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -17,7 +18,7 @@ const footer=s=>`assert(registered==${s.total},'original UI case discovery chang
 const ranges=s=>Array.from({length:8},(_,i)=>({first:i*s.size+1,last:Math.min((i+1)*s.size,s.total),file:`${s.name}${i===0?'':`_slice_${i+1}`}.lua`}));
 function restore(source,s){return source.replace(header(s),'').replace(registration,'').replace(inlineRegistration,'').replace(footer(s),'');}
 
-test('UI budget split restores both original complete bodies and retains the original default 30s budget',()=>{
+historicalTest('UI budget split restores both original complete bodies and retains the original default 30s budget',()=>{
  for(const s of suites){
   const source=read(`tests/lua/${s.name}.lua`);
   assert.ok(source.startsWith(header(s)),`${s.name} must explicitly select its original first slice`);

@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {cachePureSourceProjection,deepFreezeSourceProof} from './helpers/pure-source-projection-cache.mjs';
@@ -66,7 +67,7 @@ test('all exported composition proofs are deeply immutable, including hunk line 
  }
 });
 
-test('warm pure projections never cache catalog or extracted UI linked-file validation',()=>{
+historicalTest('warm pure projections never cache catalog or extracted UI linked-file validation',()=>{
  const path='config/architecture.json',source=readFileSync(path,'utf8');
  for(const project of [preRound3CatalogSource,preRound2UiSource]){
   project(path,source);

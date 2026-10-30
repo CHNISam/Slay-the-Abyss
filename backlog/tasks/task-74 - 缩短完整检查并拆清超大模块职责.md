@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 16:53'
+updated_date: '2026-10-30 19:25'
 labels: []
 dependencies: []
 references:
@@ -113,4 +113,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 完整首轮CI因静态baseline唯一行号迁移触发历史身份合同11个断言失败；未放宽证明，保留导入/函数正常空行使baseline整体恢复与1bf逐字相同，原失败合同17+2项及quality/static/AI全过。CI切片已从实验PR370线性整合至PR371，减少先后合并的重复完整组合验证；最终新HEAD仍待Full，原失败保留。
 
 2026-10-31本轮治理：工程总入口复用一次新鲜源码发现、架构和静态采集，不持久缓存结果。单次顺序对照14.382s→6.879s，9报告除时间字段逐字节等价；有并发负载，不外推分位数。最新314模块/4598函数/4912测量，Combat热点及103成员SCC保留诊断，不机械拆事务所有权。完整工程、变异与原生合同本地通过；最终提交CI另验。
+
+2026-10-31完整CI揭示roster原source单file超过16分未完成；分离完整原变异kernel与fresh-owner桥接后5/5为74.880s。官方POSIX20m超时确认；仅成功CI记录raise-only校准425Win/333Linux，本地完整/部分lower-bound单列。统一proxy规划六片max1438014ms仍超预算，最终8Win/8POSIX为1078517ms（含首44s gate），schema3完整21身份、旧schema2 15保留、旧4/6绿色拒绝；原180s/20m/每file一次与保护不动。默认Lua从当前JS计划算preceding load，旧同长数组不再冒充当前输入。最终新HEAD完整CI仍待。
 <!-- SECTION:NOTES:END -->

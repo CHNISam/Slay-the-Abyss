@@ -3,6 +3,7 @@ import { resolve, join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import {qualityShardJobs} from './ci-quality-shape.mjs';
 
 export const requiredJobs=['check','presentation','engineering-posix'];
 export const qualityWorkflowPath='.github/workflows/quality.yml';
@@ -12,7 +13,7 @@ export const fullQualityJobs=[...requiredJobs,
   ...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
   ...Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`)];
 export const deliverySchemaVersion=3;
-export const currentFullQualityJobs=[...fullQualityJobs,'impact','fast'];
+export const currentFullQualityJobs=[...requiredJobs,...qualityShardJobs,'impact','fast'];
 const validSha=value=>/^[a-f0-9]{40}$/.test(value??'');
 const positiveId=value=>Number.isSafeInteger(value)&&value>0;
 const parentShas=commit=>Array.isArray(commit?.parents)?commit.parents.map(parent=>parent?.sha):undefined;

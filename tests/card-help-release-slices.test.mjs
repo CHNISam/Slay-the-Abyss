@@ -1,10 +1,13 @@
 import test from 'node:test';
+import {readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
 const read = path => readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
 const entry = 'tests/lua/card_help_release.lua';
+// The full original-body proof is historical; wrappers, discovery and budgets remain current.
+const originalSource = () => readHistoricalBaselineSource(entry).replaceAll('\r\n', '\n');
 // Full original LF source at b420e8b267bbdbf2d5d7c68bc7d893faa130047c,
 // unchanged from develop d16be8db. Includes helpers, every case body and loop.
 const original = {
@@ -45,7 +48,7 @@ function validatePartitions(rows, actualWrappers) {
 }
 
 test('eight original-budget card-help fixtures preserve the full source and all 31 case identities', () => {
-  validateSource(read(entry));
+  validateSource(originalSource());
   validatePartitions(ranges, wrappers());
   const discovered = readdirSync('tests/lua').filter(name => /^card_help_release.*\.lua$/.test(name)).map(name => 'tests/lua/' + name).sort();
   assert.deepEqual(discovered, ranges.map(([path]) => path).sort(), 'raw Lua discovery includes all eight fixtures with no duplicate family');
@@ -55,7 +58,7 @@ test('eight original-budget card-help fixtures preserve the full source and all 
 });
 
 test('card-help source and coverage contracts reject deleted assertions, skipped ranges and inert wrappers', () => {
-  const source = read(entry);
+  const source = originalSource();
   const removedAssertion = source.replace("assert(same(s,before) and u.selected == nil)", 'assert(true)');
   assert.notEqual(removedAssertion, source, 'the negative control must alter a real original assertion');
   assert.throws(() => validateSource(removedAssertion), /original source byte count|original helpers/);

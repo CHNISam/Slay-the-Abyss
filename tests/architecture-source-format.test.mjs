@@ -1,9 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,writeFileSync} from 'node:fs';
 import {architectureSourceFormat} from './helpers/architecture-source-format.mjs';
 import {preRound2UiSource,round2UiAddedPaths} from './helpers/round2-ui-source-inverse.mjs';
 import {projectArtPerfSource} from './helpers/art-perf-source-composition.mjs';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 const path='config/architecture.json';
 function uncached(source){
  const formatted=JSON.stringify(JSON.parse(source),null,2)+'\n';
@@ -34,19 +35,23 @@ test('only exact architecture inputs are cached and bounded eviction changes no 
  assert.notEqual(again,first);assert.deepEqual(again,first);
  assert.notEqual(architectureSourceFormat(path,source+'\n'),again);
 });
-test('warming exact architecture formatting never hides changed linked module input',()=>{
- const source=readFileSync(path,'utf8');let reads=0,drift=false;
+historicalTest('warming exact architecture formatting never hides changed linked module input',()=>{
+ // This inverse proves the original round-two source closure. Only this group
+ // uses independent epoch files; the JSON/cache groups above still read live inputs.
+ const source=readFileSync(path,'utf8'),owner=round2UiAddedPaths[0],original=readFileSync(owner,'utf8');let reads=0;
  const readSource=file=>{
   reads++;
-  const actual=projectArtPerfSource(file,readFileSync(file,'utf8'),'perf');
-  return drift&&file===round2UiAddedPaths[0]?actual+'\n-- unreviewed linked-module drift\n':actual;
+  return projectArtPerfSource(file,readFileSync(file,'utf8'),'perf');
  };
  architectureSourceFormat(path,source);
  const before=preRound2UiSource(path,source,{readSource});
  assert.equal(typeof before,'string');assert.equal(reads,2);
- drift=true;
- assert.throws(()=>preRound2UiSource(path,source,{readSource}),/linked module drift/);
- assert.equal(reads,3,'the unchanged host must reread the first linked responsibility after cache warmup');
- drift=false;
+ const warmed=architectureSourceFormat(path,source);
+ assert.equal(architectureSourceFormat(path,source),warmed,'exact host formatting is warm before the real owner changes');
+ try{
+  writeFileSync(owner,original+'\n-- unreviewed linked-module drift\n');
+  assert.throws(()=>preRound2UiSource(path,source,{readSource}),/linked module drift/);
+  assert.equal(reads,3,'the unchanged host must reread the first linked responsibility after cache warmup');
+ }finally{writeFileSync(owner,original);}
  assert.equal(preRound2UiSource(path,source,{readSource}),before);assert.equal(reads,5);
 });

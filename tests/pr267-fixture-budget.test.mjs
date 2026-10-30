@@ -1,5 +1,6 @@
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync,mkdirSync,mkdtempSync,writeFileSync,rmSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -38,7 +39,7 @@ test('elite partition proof rejects deleted assertions, skipped groups, overlap 
  assert.throws(()=>verifyElite(source,[proof.elite.slices[0],{...proof.elite.slices[1],first:3}]));
  assert.throws(()=>verifyElite(source.replace('fn();count=count+1','count=count+1')));
 });
-test('Intent keeps the exact original coupled case, frame cadence and full checks outside the leaf-call optimization',()=>{
+historicalTest('Intent keeps the exact original coupled case, frame cadence and full checks outside the leaf-call optimization',()=>{
  assert.equal(sha(read(proof.intent.casePath)),'eec09d6aeb278997b82f0fbd05f8a0ed0448be4b1220101c13ac25ec5c004330');
  const original=inverse(read(proof.intent.path),proof.intent.before,proof.intent.after);
  assert.equal(sha(original),proof.intent.sha256);assert.equal(blob(original),proof.intent.gitBlob);

@@ -1,5 +1,6 @@
 import {currentSourceLayers} from './helpers/task77-current-source-layers.mjs';
 import test from 'node:test';
+import {readHistoricalBaselineSource,withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -7,7 +8,7 @@ import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import {preRetirementSource,retirementSources} from './helpers/presentation-announcement-retirement.mjs';
 
 const path='data/presentation/ui_theme.json';
-const current=readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const epochSource=readHistoricalBaselineSource(path).replaceAll('\r\n','\n');
 // Frozen glyph/formal witness, not a claim that today's accepted UI has old bytes.
 const source=currentSourceLayers.historicalGlyphTheme;
 const hash=s=>createHash('sha256').update(s).digest('hex');
@@ -18,7 +19,7 @@ test('frozen formal launch and content glyphs retain both original historical id
  assert.deepEqual(JSON.parse(before).icon.relic,JSON.parse(source).icon.relic);
  assert.equal(preRetirementSource(path,source),retirementSources.beforeSources[path]);
  assert.equal(preRetirementSource(path,source.replaceAll('\n','\r\n')),retirementSources.beforeSources[path]);
- assert.equal(preRetirementSource(path,current),retirementSources.beforeSources[path],'current complete UI source uses exact accepted layers');
+ withHistoricalBaseline(()=>assert.equal(preRetirementSource(path,epochSource),retirementSources.beforeSources[path],'original complete UI source uses exact accepted layers'));
 });
 test('both complete source identities reject missing renamed moved or changed content and launch fields',()=>{
  const moved=JSON.parse(source),glyph=moved.icon.relic.molten_egg;

@@ -10,6 +10,11 @@ assert.equal(hash(bytes),'a27d66f90b37bf44a9df09add3496bfcbe23dd16c0ba286deaa871
 export const rosterConfigComposition=JSON.parse(bytes);
 export function projectRosterConfigSource(path,source,target){
  if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
+ return projectHistoricalRosterConfigSource(path,source,target);
+}
+// Exact original roster union contract. Later source composition stays in the
+// public entry above; exhaustive historical mutants need only this kernel.
+export function projectHistoricalRosterConfigSource(path,source,target){
  const proof=rosterConfigComposition;
  assert.equal(path,proof.path,'roster config composition path');
  assert.equal(typeof source,'string','roster config composition source must exist');
@@ -27,6 +32,9 @@ export function projectRosterConfigSource(path,source,target){
 }
 export function preRosterConfigSource(path,source,target='current'){
  if(path==='config/architecture.json')source=preAcceptedPr323Source(path,source);
+ return preHistoricalRosterConfigSource(path,source,target);
+}
+export function preHistoricalRosterConfigSource(path,source,target='current'){
  if(path!==rosterConfigComposition.path||typeof source!=='string'||hash(normalize(source))!==rosterConfigComposition.combinedSha256LF)return source;
- return projectRosterConfigSource(path,source,target);
+ return projectHistoricalRosterConfigSource(path,source,target);
 }

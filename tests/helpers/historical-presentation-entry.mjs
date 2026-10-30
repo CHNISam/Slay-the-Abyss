@@ -10,7 +10,7 @@ const remaining=()=>{
  const value=timeout-(Date.now()-started);
  assert(value>0,'historical presentation fixture exceeded its original total deadline');return value;
 };
-const runtime=createHistoricalRuntimeRoots({target:'presentation'}),{directory}=runtime;
+const runtime=createHistoricalRuntimeRoots({target:'presentation',source:false}),{directory}=runtime;
 console.error('HISTORICAL_STAGED '+(Date.now()-started)+'ms');
 console.log(script.endsWith('_trace.lua')
  ? 'Historical presentation replay: all 81392 frozen native writes; current UI is verified separately.'

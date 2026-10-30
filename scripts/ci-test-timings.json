@@ -30,9 +30,9 @@
       "tests/acid-slime-l-data.test.mjs": 122,
       "tests/acid-slime-m-data.test.mjs": 160,
       "tests/acid-slime-s-data.test.mjs": 65,
-      "tests/acid-slime-split-data.test.mjs": 100,
+      "tests/acid-slime-split-data.test.mjs": 146,
       "tests/act1-bosses.test.mjs": 5580,
-      "tests/act2-enemies.test.mjs": 8153,
+      "tests/act2-enemies.test.mjs": 9279,
       "tests/act2-event-content.test.mjs": 2472,
       "tests/act2-event-ui.test.mjs": 16758,
       "tests/act2-intent-ui.test.mjs": 16048,
@@ -42,52 +42,52 @@
       "tests/act3-falling-source.test.mjs": 7,
       "tests/act3-maw-growth.test.mjs": 15272,
       "tests/act3-moai-source.test.mjs": 7,
-      "tests/act3-orb-walker.test.mjs": 4987,
-      "tests/act3-shapes.test.mjs": 6792,
-      "tests/act3-transient.test.mjs": 21949,
+      "tests/act3-orb-walker.test.mjs": 6881,
+      "tests/act3-shapes.test.mjs": 9143,
+      "tests/act3-transient.test.mjs": 22110,
       "tests/act3-winding-source.test.mjs": 12,
       "tests/act3-writhing-mass.test.mjs": 16027,
       "tests/addict-darkstone-interaction.test.mjs": 1774,
-      "tests/addict-event-content.test.mjs": 8572,
-      "tests/agent-guidance.test.mjs": 47,
-      "tests/aim-visual-parity.test.mjs": 4126,
+      "tests/addict-event-content.test.mjs": 11497,
+      "tests/agent-guidance.test.mjs": 91,
+      "tests/aim-visual-parity.test.mjs": 6899,
       "tests/approved-enemy-details.test.mjs": 3554,
       "tests/approved-energy-orb.test.mjs": 3746,
       "tests/approved-main-potion-shell.test.mjs": 5276,
-      "tests/approved-main-potions.test.mjs": 10780,
+      "tests/approved-main-potions.test.mjs": 13680,
       "tests/approved-main-unit.test.mjs": 7875,
-      "tests/approved-node-ui-refactor.test.mjs": 799,
+      "tests/approved-node-ui-refactor.test.mjs": 182603,
       "tests/approved-opening.test.mjs": 4607,
-      "tests/approved-ui-inverse.test.mjs": 854,
+      "tests/approved-ui-inverse.test.mjs": 220055,
       "tests/architecture-composition-format.test.mjs": 50,
-      "tests/architecture.test.mjs": 22,
+      "tests/architecture.test.mjs": 23,
       "tests/awakened-one.test.mjs": 12077,
       "tests/back-to-basics-event.test.mjs": 9018,
-      "tests/backlog-roadmap.test.mjs": 328,
+      "tests/backlog-roadmap.test.mjs": 373,
       "tests/basic-curses.test.mjs": 3579,
       "tests/battle-drag-click-compatibility.test.mjs": 27498,
       "tests/battle-life-frozen-hand.test.mjs": 6687,
-      "tests/battle-life-regression.test.mjs": 13329,
-      "tests/battle-life-source-inverse.test.mjs": 38,
-      "tests/battle-max-hp-config-inverse.test.mjs": 174,
-      "tests/battle-refactor-render.test.mjs": 22679,
+      "tests/battle-life-regression.test.mjs": 13456,
+      "tests/battle-life-source-inverse.test.mjs": 17890,
+      "tests/battle-max-hp-config-inverse.test.mjs": 20523,
+      "tests/battle-refactor-render.test.mjs": 33250,
       "tests/battle-ui-slices.test.mjs": 137575,
-      "tests/black-star.test.mjs": 45136,
+      "tests/black-star.test.mjs": 74377,
       "tests/blue-slaver-data.test.mjs": 75,
       "tests/boss-treasure-budget.test.mjs": 10,
-      "tests/bosses-intent-ui.test.mjs": 3520,
+      "tests/bosses-intent-ui.test.mjs": 4098,
       "tests/build-lua-data-protection.test.mjs": 2529,
       "tests/build-lua-data.test.mjs": 1621,
-      "tests/build-ui-input-protection.test.mjs": 236253,
-      "tests/build-ui-theme-protection.test.mjs": 2341,
-      "tests/build-ui-theme.test.mjs": 184,
+      "tests/build-ui-input-protection.test.mjs": 305656,
+      "tests/build-ui-theme-protection.test.mjs": 4383,
+      "tests/build-ui-theme.test.mjs": 242,
       "tests/card-actions-exhaust.test.mjs": 4933,
       "tests/card-blocked-source.test.mjs": 641,
       "tests/card-capability.test.mjs": 318,
       "tests/card-face-source-parity.test.mjs": 15,
       "tests/card-face.test.mjs": 47,
       "tests/card-help-release-slices.test.mjs": 17,
-      "tests/card-illustration-candidates.test.mjs": 61,
+      "tests/card-illustration-candidates.test.mjs": 71,
       "tests/card-input-slices.test.mjs": 33006,
       "tests/card-pool-catalog.test.mjs": 13,
       "tests/card-random-state.test.mjs": 1454,
@@ -96,37 +96,37 @@
       "tests/card-value-feedback.test.mjs": 10,
       "tests/character-shop-budget.test.mjs": 9,
       "tests/character-ui-layout.test.mjs": 116,
-      "tests/ci-downloads.test.mjs": 31169,
-      "tests/ci-impact.test.mjs": 1605,
-      "tests/ci-posix-shards.test.mjs": 1838,
+      "tests/ci-downloads.test.mjs": 39910,
+      "tests/ci-impact.test.mjs": 2055,
+      "tests/ci-posix-shards.test.mjs": 1855,
       "tests/ci-reviewed-lfs.test.mjs": 17471,
       "tests/ci-runtime.test.mjs": 425,
-      "tests/ci-windows-shards.test.mjs": 2340,
-      "tests/class-card-source-pools.test.mjs": 8,
-      "tests/class-common-relics.test.mjs": 33035,
+      "tests/ci-windows-shards.test.mjs": 2376,
+      "tests/class-card-source-pools.test.mjs": 10,
+      "tests/class-common-relics.test.mjs": 44238,
       "tests/class-relic-pools.test.mjs": 22024,
-      "tests/colorless-source-identities.test.mjs": 7,
-      "tests/combat-gold.test.mjs": 35600,
+      "tests/colorless-source-identities.test.mjs": 11,
+      "tests/combat-gold.test.mjs": 37818,
       "tests/combat-shuffle.test.mjs": 30210,
-      "tests/common-relic-attacks.test.mjs": 1001,
+      "tests/common-relic-attacks.test.mjs": 1052,
       "tests/common-relic-equipment.test.mjs": 2448,
-      "tests/common-relic-final.test.mjs": 1670,
+      "tests/common-relic-final.test.mjs": 2039,
       "tests/common-relic-hooks.test.mjs": 1667,
       "tests/common-relic-turns.test.mjs": 1593,
       "tests/competition-character-admission.test.mjs": 12934,
       "tests/competition-roster-config-composition.test.mjs": 14546,
       "tests/competition-roster-prepared-ui.test.mjs": 22913,
       "tests/competition-roster.test.mjs": 18113,
-      "tests/competition-two-act.test.mjs": 10749,
-      "tests/core-architecture-inverse.test.mjs": 95,
-      "tests/core-responsibilities.test.mjs": 1931,
-      "tests/cross-act.test.mjs": 12594,
+      "tests/competition-two-act.test.mjs": 10883,
+      "tests/core-architecture-inverse.test.mjs": 12631,
+      "tests/core-responsibilities.test.mjs": 2150,
+      "tests/cross-act.test.mjs": 12946,
       "tests/cultist-roll-data.test.mjs": 59,
       "tests/cultist-runtime-data.test.mjs": 74,
-      "tests/curl-up-data.test.mjs": 68,
+      "tests/curl-up-data.test.mjs": 83,
       "tests/darklings.test.mjs": 11316,
       "tests/darkstone-mausoleum-interaction.test.mjs": 2660,
-      "tests/darkstone-periapt.test.mjs": 5205,
+      "tests/darkstone-periapt.test.mjs": 9696,
       "tests/dazed-data.test.mjs": 58,
       "tests/death-power-order.test.mjs": 3314,
       "tests/death-settlement-guard-inverse.test.mjs": 55,
@@ -135,40 +135,40 @@
       "tests/defect-final-source-identities.test.mjs": 15,
       "tests/delivery.test.mjs": 113,
       "tests/discovery-action-owner.test.mjs": 3889,
-      "tests/donu-deca.test.mjs": 3605,
+      "tests/donu-deca.test.mjs": 4450,
       "tests/economy-relic-seeds.test.mjs": 13,
       "tests/emerald-combat-hooks.test.mjs": 1664,
-      "tests/emerald-elite-component.test.mjs": 650,
+      "tests/emerald-elite-component.test.mjs": 836,
       "tests/emerald-key-ui.test.mjs": 9331,
       "tests/emerald-key.test.mjs": 15578,
       "tests/emerald-map.test.mjs": 4562,
       "tests/encounter-coverage-partitions.test.mjs": 36,
-      "tests/encounter-queue.test.mjs": 2691,
-      "tests/encounter-runtime.test.mjs": 28949,
+      "tests/encounter-queue.test.mjs": 2727,
+      "tests/encounter-runtime.test.mjs": 42231,
       "tests/ending-damage-hooks.test.mjs": 716,
       "tests/ending-enemy-runtime.test.mjs": 2428,
       "tests/ending-history.test.mjs": 8307,
       "tests/ending-intent-view.test.mjs": 6299,
       "tests/ending-proceed-ui.test.mjs": 14196,
-      "tests/ending-route-api.test.mjs": 6984,
+      "tests/ending-route-api.test.mjs": 7357,
       "tests/ending-route-characters.test.mjs": 14009,
       "tests/ending-route-contracts.test.mjs": 6162,
-      "tests/enemy-ai-data.test.mjs": 64,
+      "tests/enemy-ai-data.test.mjs": 117,
       "tests/engineering-quality-policy.test.mjs": 16,
-      "tests/engineering-quality.test.mjs": 42,
+      "tests/engineering-quality.test.mjs": 106,
       "tests/event-combat-bridge.test.mjs": 12185,
       "tests/event-combat-ui.test.mjs": 8266,
       "tests/event-enemy-preparation-source.test.mjs": 10,
       "tests/event-production-source-inverse.test.mjs": 388,
       "tests/event-random.test.mjs": 1076,
-      "tests/event-snapshot-composition.test.mjs": 14,
+      "tests/event-snapshot-composition.test.mjs": 2473,
       "tests/evidence-binding.test.mjs": 22,
-      "tests/exit-ui-layout.test.mjs": 117,
+      "tests/exit-ui-layout.test.mjs": 127,
       "tests/fatal-hp-loss-callbacks.test.mjs": 8234,
       "tests/final-integration-source.test.mjs": 204,
       "tests/fixed-gremlin-data.test.mjs": 64,
       "tests/formal-campaign-entry.test.mjs": 18968,
-      "tests/fungi-beast-data.test.mjs": 62,
+      "tests/fungi-beast-data.test.mjs": 125,
       "tests/game-ui-chapters.test.mjs": 7227,
       "tests/game-ui-class-choices-partitions.test.mjs": 73,
       "tests/game-ui-class-powers-partitions.test.mjs": 10,
@@ -176,24 +176,24 @@
       "tests/ghosts-event.test.mjs": 21189,
       "tests/giant-head.test.mjs": 15288,
       "tests/golden-idol-source.test.mjs": 10,
-      "tests/golden-shrine-data.test.mjs": 104,
+      "tests/golden-shrine-data.test.mjs": 120,
       "tests/gremlin-gang-data.test.mjs": 106,
       "tests/gremlin-nob-data.test.mjs": 80,
-      "tests/guardian-ai-data.test.mjs": 49,
+      "tests/guardian-ai-data.test.mjs": 78,
       "tests/guardian-opening-roll-data.test.mjs": 63,
       "tests/guardian-reaction-completion.test.mjs": 1720,
       "tests/guardian-sharp-hide-source.test.mjs": 10,
-      "tests/heart-after-use.test.mjs": 1131,
+      "tests/heart-after-use.test.mjs": 1468,
       "tests/heart-component.test.mjs": 522,
       "tests/heart-envenom.test.mjs": 1326,
       "tests/hero-visual-slots.test.mjs": 109,
       "tests/hp-loss-action-boundaries.test.mjs": 5819,
       "tests/intent-artifact-preview.test.mjs": 52064,
-      "tests/intent-face-clearance.test.mjs": 7287,
+      "tests/intent-face-clearance.test.mjs": 9095,
       "tests/intent-formula.test.mjs": 14178,
       "tests/jaw-worm-ai-partitions.test.mjs": 11,
       "tests/jaw-worm-data.test.mjs": 87,
-      "tests/jaw-worm-horde.test.mjs": 9813,
+      "tests/jaw-worm-horde.test.mjs": 11144,
       "tests/joust-event.test.mjs": 23095,
       "tests/lagavulin-roll-data.test.mjs": 73,
       "tests/launch-content.test.mjs": 31034,
@@ -206,13 +206,13 @@
       "tests/lizard-tail-run.test.mjs": 4628,
       "tests/lizard-tail-ui.test.mjs": 18381,
       "tests/looter-ai-data.test.mjs": 53,
-      "tests/looter-potion-ui-slices.test.mjs": 11,
-      "tests/lore-v2.test.mjs": 12,
+      "tests/looter-potion-ui-slices.test.mjs": 15,
+      "tests/lore-v2.test.mjs": 21,
       "tests/louse-ai-data.test.mjs": 191,
-      "tests/louse-colors-data.test.mjs": 150,
+      "tests/louse-colors-data.test.mjs": 202,
       "tests/louse-colors-launch.test.mjs": 3974,
       "tests/lua-output-path-semantics.test.mjs": 1344,
-      "tests/lua-runner-cli-continuation.test.mjs": 1103,
+      "tests/lua-runner-cli-continuation.test.mjs": 2569,
       "tests/lua-runner-diagnostics.test.mjs": 409,
       "tests/lua-shards.test.mjs": 2610,
       "tests/lua-static.test.mjs": 21,
@@ -222,57 +222,57 @@
       "tests/m3-source-union.test.mjs": 4618,
       "tests/m3-ui-polish.test.mjs": 4726,
       "tests/m3-v2-keys-darkstone.test.mjs": 4818,
-      "tests/mad-gremlin-data.test.mjs": 73,
-      "tests/map-chapter-ui.test.mjs": 38004,
+      "tests/mad-gremlin-data.test.mjs": 111,
+      "tests/map-chapter-ui.test.mjs": 40683,
       "tests/map-gesture-ownership.test.mjs": 12301,
-      "tests/map-no-crossings.test.mjs": 15271,
+      "tests/map-no-crossings.test.mjs": 28154,
       "tests/map-node-visuals.test.mjs": 1274,
       "tests/map-page-polish.test.mjs": 93,
       "tests/map-production.test.mjs": 9386,
       "tests/map-resources.test.mjs": 3941,
-      "tests/map-type-legend.test.mjs": 10,
-      "tests/map-ui-chapters.test.mjs": 6217,
-      "tests/map-ui-layout.test.mjs": 7006,
-      "tests/map-utility-header.test.mjs": 1452,
+      "tests/map-type-legend.test.mjs": 14,
+      "tests/map-ui-chapters.test.mjs": 8553,
+      "tests/map-ui-layout.test.mjs": 12343,
+      "tests/map-utility-header.test.mjs": 1687,
       "tests/mark-of-bloom-source.test.mjs": 35,
       "tests/mark-of-bloom.test.mjs": 3162,
-      "tests/match-event.test.mjs": 16920,
+      "tests/match-event.test.mjs": 18341,
       "tests/mausoleum-event-content.test.mjs": 2426,
-      "tests/max-hp-accepted-source-inverse.test.mjs": 486,
+      "tests/max-hp-accepted-source-inverse.test.mjs": 153749,
       "tests/max-hp-competition-profiles.test.mjs": 9706,
-      "tests/max-hp-current-owners.test.mjs": 11523,
+      "tests/max-hp-current-owners.test.mjs": 12597,
       "tests/max-hp-relics.test.mjs": 85356,
       "tests/mind-bloom-source.test.mjs": 11,
       "tests/missing-relic-definitions.test.mjs": 18815,
       "tests/mobile-card-release.test.mjs": 7001,
       "tests/mobile-input-recovery.test.mjs": 10157,
       "tests/mobile-qa-source-migration.test.mjs": 286,
-      "tests/molten-egg-source.test.mjs": 16,
+      "tests/molten-egg-source.test.mjs": 30,
       "tests/monster-source-candidates.test.mjs": 81,
-      "tests/mushrooms-event.test.mjs": 19200,
+      "tests/mushrooms-event.test.mjs": 21246,
       "tests/mysterious-sphere-source.test.mjs": 88,
-      "tests/mysterious-sphere.test.mjs": 358,
+      "tests/mysterious-sphere.test.mjs": 403,
       "tests/native-audio-release-provenance.test.mjs": 3575,
-      "tests/native-bgm-build-provenance.test.mjs": 271,
+      "tests/native-bgm-build-provenance.test.mjs": 483,
       "tests/native-bgm-graph.test.mjs": 18,
       "tests/native-bloodletting-fine-strokes.test.mjs": 106,
-      "tests/native-candidate-art.test.mjs": 37904,
+      "tests/native-candidate-art.test.mjs": 54753,
       "tests/native-candidate-audit-boundaries.test.mjs": 50,
-      "tests/native-candidate-audit.test.mjs": 50,
+      "tests/native-candidate-audit.test.mjs": 66,
       "tests/native-candidate-deployment-closure.test.mjs": 27,
       "tests/native-candidate-paths.test.mjs": 353,
       "tests/native-candidate-rebuild.test.mjs": 7298,
-      "tests/native-candidate-scripts.test.mjs": 361,
-      "tests/native-candidate.test.mjs": 7168,
-      "tests/native-card-art-binding.test.mjs": 15893,
-      "tests/native-card-art-ending.test.mjs": 5950,
-      "tests/native-card-art-source-equivalence.test.mjs": 10,
-      "tests/native-cursor-fields.test.mjs": 3157,
-      "tests/native-event-ui-integration.test.mjs": 6645,
+      "tests/native-candidate-scripts.test.mjs": 6177,
+      "tests/native-candidate.test.mjs": 38818,
+      "tests/native-card-art-binding.test.mjs": 21401,
+      "tests/native-card-art-ending.test.mjs": 6661,
+      "tests/native-card-art-source-equivalence.test.mjs": 10904,
+      "tests/native-cursor-fields.test.mjs": 3334,
+      "tests/native-event-ui-integration.test.mjs": 11133,
       "tests/native-graph-audit-paths.test.mjs": 324,
       "tests/native-graph-payload.test.mjs": 29,
-      "tests/native-playtest-evidence.test.mjs": 15,
-      "tests/native-rupture-queue.test.mjs": 6986,
+      "tests/native-playtest-evidence.test.mjs": 17,
+      "tests/native-rupture-queue.test.mjs": 10081,
       "tests/native-sharp-hide-order.test.mjs": 12707,
       "tests/native-startup-contract.test.mjs": 3605,
       "tests/native-ui-parity.test.mjs": 3706,
@@ -280,56 +280,56 @@
       "tests/nemesis.test.mjs": 14356,
       "tests/neow-entry.test.mjs": 29984,
       "tests/neow-event.test.mjs": 23119,
-      "tests/nest-event-tail-combination.test.mjs": 1378,
+      "tests/nest-event-tail-combination.test.mjs": 2017,
       "tests/nest-event-ui.test.mjs": 4059,
-      "tests/nest-event.test.mjs": 1985,
-      "tests/nested-command-snapshot-owner-inverse.test.mjs": 27,
-      "tests/node-ui-layout.test.mjs": 48,
+      "tests/nest-event.test.mjs": 2191,
+      "tests/nested-command-snapshot-owner-inverse.test.mjs": 3546,
+      "tests/node-ui-layout.test.mjs": 51,
       "tests/node-ui-refactor.test.mjs": 117,
       "tests/nodes-battle-max-hp-config-inverse.test.mjs": 2416,
       "tests/nodes-budget-policy.test.mjs": 16,
       "tests/nodes-governance.test.mjs": 46533,
-      "tests/official-background-lifecycle.test.mjs": 10490,
+      "tests/official-background-lifecycle.test.mjs": 10653,
       "tests/official-key-visual-assets.test.mjs": 116,
-      "tests/open-pr-source-composition.test.mjs": 74,
-      "tests/original-v4-data.test.mjs": 1922,
-      "tests/original-v4-display.test.mjs": 242,
+      "tests/open-pr-source-composition.test.mjs": 18213,
+      "tests/original-v4-data.test.mjs": 1949,
+      "tests/original-v4-display.test.mjs": 258,
       "tests/original-v4-face-text.test.mjs": 8535,
       "tests/original-v4-integration.test.mjs": 54876,
       "tests/original-v4-runtime.test.mjs": 71447,
       "tests/owned-relic-view.test.mjs": 5574,
-      "tests/p0-card-play-partition.test.mjs": 15,
-      "tests/p0-presentation-inverse.test.mjs": 419,
+      "tests/p0-card-play-partition.test.mjs": 18,
+      "tests/p0-presentation-inverse.test.mjs": 119413,
       "tests/phase-four-presentation-partitions.test.mjs": 28,
       "tests/phase-three-presentation-partitions.test.mjs": 13,
       "tests/pile-view-layout.test.mjs": 29,
-      "tests/plated-armor-queue.test.mjs": 7091,
+      "tests/plated-armor-queue.test.mjs": 7387,
       "tests/platform-load-wiring.test.mjs": 9,
       "tests/platform-load.test.mjs": 1235,
-      "tests/player-death-inverse.test.mjs": 110,
+      "tests/player-death-inverse.test.mjs": 45229,
       "tests/playtest-input-lifecycle.test.mjs": 32,
       "tests/potion-basic-five.test.mjs": 57490,
       "tests/potion-discard-layout.test.mjs": 62,
-      "tests/potion-drag-click-composition.test.mjs": 22310,
-      "tests/potion-drag-parity.test.mjs": 32031,
-      "tests/potion-flex-speed.test.mjs": 26631,
-      "tests/potion-help-layout.test.mjs": 31,
-      "tests/potion-production-channels.test.mjs": 92798,
+      "tests/potion-drag-click-composition.test.mjs": 25421,
+      "tests/potion-drag-parity.test.mjs": 36170,
+      "tests/potion-flex-speed.test.mjs": 29504,
+      "tests/potion-help-layout.test.mjs": 56,
+      "tests/potion-production-channels.test.mjs": 106170,
       "tests/potion-shell-fidelity.test.mjs": 50,
       "tests/potion-shell-source.test.mjs": 9,
       "tests/potion-target-context-slices.test.mjs": 16,
       "tests/potion-target-inventory-slices.test.mjs": 17,
       "tests/potion-target-pointer-slices.test.mjs": 13,
-      "tests/pr-history.test.mjs": 11,
-      "tests/pr238-boss-transactions-budget.test.mjs": 10,
-      "tests/pr238-lua-budget-slices.test.mjs": 8,
+      "tests/pr-history.test.mjs": 15,
+      "tests/pr238-boss-transactions-budget.test.mjs": 12,
+      "tests/pr238-lua-budget-slices.test.mjs": 13,
       "tests/pr238-remaining-budget.test.mjs": 20,
       "tests/pr250-budget-coverage.test.mjs": 15,
       "tests/pr259-fixture-budget.test.mjs": 129529,
       "tests/pr262-ui-fixture-budget.test.mjs": 130564,
       "tests/pr266-fixture-budget.test.mjs": 17,
       "tests/pr267-fixture-budget.test.mjs": 199,
-      "tests/pr323-accepted-source-inverse.test.mjs": 264,
+      "tests/pr323-accepted-source-inverse.test.mjs": 27560,
       "tests/pr323-deck-lifecycle.test.mjs": 7754,
       "tests/pr323-preserved-safety.test.mjs": 10460,
       "tests/pr325-absorption-discovery.test.mjs": 66,
@@ -338,87 +338,87 @@
       "tests/presentation-responsibilities.test.mjs": 34987,
       "tests/prototype-card-play.test.mjs": 25,
       "tests/prototype-regret.test.mjs": 13,
-      "tests/quick-feedback.test.mjs": 129,
+      "tests/quick-feedback.test.mjs": 3263,
       "tests/red-slaver-data.test.mjs": 98,
-      "tests/release-notes.test.mjs": 1472,
-      "tests/relic-chinese-names.test.mjs": 7800,
-      "tests/relic-context-lookup.test.mjs": 116,
-      "tests/relic-view-controller-click.test.mjs": 4059,
+      "tests/release-notes.test.mjs": 10763,
+      "tests/relic-chinese-names.test.mjs": 8938,
+      "tests/relic-context-lookup.test.mjs": 132,
+      "tests/relic-view-controller-click.test.mjs": 4567,
       "tests/relic-view-layout.test.mjs": 12,
-      "tests/relic-view-ui-inverse.test.mjs": 37,
+      "tests/relic-view-ui-inverse.test.mjs": 14519,
       "tests/reptomancer.test.mjs": 27496,
-      "tests/responsibility-complexity.test.mjs": 38,
+      "tests/responsibility-complexity.test.mjs": 89,
       "tests/result-gesture-budget.test.mjs": 12,
       "tests/reviewed-traveler-geo-assets.test.mjs": 1846,
       "tests/reward-flow-parity.test.mjs": 15549,
       "tests/reward-potion-layout.test.mjs": 19,
       "tests/reward-readability.test.mjs": 21137,
-      "tests/reward-source-ui.test.mjs": 9870,
+      "tests/reward-source-ui.test.mjs": 9875,
       "tests/reward-upgrades.test.mjs": 6968,
-      "tests/ruby-nested-refusal.test.mjs": 3279,
-      "tests/ruby-recall-ui.test.mjs": 21633,
+      "tests/ruby-nested-refusal.test.mjs": 5545,
+      "tests/ruby-recall-ui.test.mjs": 24201,
       "tests/ruby-recall.test.mjs": 37674,
-      "tests/run-architecture-inverse.test.mjs": 131,
+      "tests/run-architecture-inverse.test.mjs": 30269,
       "tests/run-budget-policy.test.mjs": 16,
       "tests/run-card-catalog-source.test.mjs": 1265,
       "tests/run-choice-transactions.test.mjs": 54859,
       "tests/run-governance.test.mjs": 23,
-      "tests/run-max-hp-config-inverse.test.mjs": 3491,
+      "tests/run-max-hp-config-inverse.test.mjs": 235224,
       "tests/run-nested-snapshot-owner.test.mjs": 26784,
-      "tests/run-play-snapshot-owner.test.mjs": 7158,
+      "tests/run-play-snapshot-owner.test.mjs": 9281,
       "tests/run-play-transactions.test.mjs": 17870,
-      "tests/run-red-card-contract.test.mjs": 12,
+      "tests/run-red-card-contract.test.mjs": 17,
       "tests/sacred-bark.test.mjs": 30814,
       "tests/sapphire-modern-partition.test.mjs": 18,
-      "tests/sapphire-treasure-ui.test.mjs": 55830,
+      "tests/sapphire-treasure-ui.test.mjs": 73083,
       "tests/sapphire-treasure.test.mjs": 56929,
       "tests/sensory-stone-source.test.mjs": 1760,
-      "tests/sentry-data.test.mjs": 60,
+      "tests/sentry-data.test.mjs": 77,
       "tests/settlement-graph.test.mjs": 8,
       "tests/sfx-audition.test.mjs": 220,
-      "tests/shield-gremlin-data.test.mjs": 95,
+      "tests/shield-gremlin-data.test.mjs": 98,
       "tests/shockwave-group-data.test.mjs": 278,
-      "tests/shop-complete-source.test.mjs": 4750,
-      "tests/small-slimes-data.test.mjs": 60,
-      "tests/snapshot-traversal.test.mjs": 2307,
+      "tests/shop-complete-source.test.mjs": 7099,
+      "tests/small-slimes-data.test.mjs": 75,
+      "tests/snapshot-traversal.test.mjs": 2474,
       "tests/source-oracle-checkout.test.mjs": 9852,
-      "tests/source-treasure-owner-guards.test.mjs": 2836,
-      "tests/special-relics.test.mjs": 296,
-      "tests/spike-slime-l-data.test.mjs": 120,
+      "tests/source-treasure-owner-guards.test.mjs": 3536,
+      "tests/special-relics.test.mjs": 324,
+      "tests/spike-slime-l-data.test.mjs": 136,
       "tests/spike-slime-m-data.test.mjs": 189,
-      "tests/spike-slime-s-data.test.mjs": 36,
-      "tests/spike-slime-split-data.test.mjs": 87,
+      "tests/spike-slime-s-data.test.mjs": 39,
+      "tests/spike-slime-split-data.test.mjs": 93,
       "tests/spire-facing-hooks.test.mjs": 2741,
       "tests/spire-pair-component.test.mjs": 712,
       "tests/spore-cloud-data.test.mjs": 78,
       "tests/static-hp-top-order.test.mjs": 7568,
       "tests/sts1-ironclad-potion-pool.test.mjs": 1277,
       "tests/sts1-map-evidence.test.mjs": 841,
-      "tests/sts1-map-room-candidate.test.mjs": 5043,
+      "tests/sts1-map-room-candidate.test.mjs": 5350,
       "tests/sts1-map-topology-candidate.test.mjs": 5277,
       "tests/sts1-potion-random.test.mjs": 2053,
       "tests/sts1-random-scaled-float-candidate.test.mjs": 901,
       "tests/sts1-random-wrapper-candidate.test.mjs": 3581,
-      "tests/sts1-relic-channel-runtime.test.mjs": 2405,
-      "tests/sts1-relic-pool-catalog.test.mjs": 38,
+      "tests/sts1-relic-channel-runtime.test.mjs": 3883,
+      "tests/sts1-relic-pool-catalog.test.mjs": 104,
       "tests/sts1-relic-pool-runtime.test.mjs": 4609,
       "tests/sts1-rng-lua-candidate.test.mjs": 4218,
       "tests/sts1-shop-card-price-candidate.test.mjs": 58,
       "tests/sts1-shop-price-lua-candidate.test.mjs": 4340,
       "tests/sts1-treasure-runtime.test.mjs": 1876,
       "tests/sts1-unknown.test.mjs": 1319,
-      "tests/summon-enemy-ui.test.mjs": 9641,
+      "tests/summon-enemy-ui.test.mjs": 10706,
       "tests/syntax-check.test.mjs": 851,
-      "tests/task76-owner-composition.test.mjs": 140,
-      "tests/task77-current-source-layers.test.mjs": 715,
+      "tests/task76-owner-composition.test.mjs": 11344,
+      "tests/task77-current-source-layers.test.mjs": 394262,
       "tests/test-affected.test.mjs": 10486,
-      "tests/test-strength.test.mjs": 5970,
+      "tests/test-strength.test.mjs": 12209,
       "tests/time-eater.test.mjs": 9183,
-      "tests/title-menu-admission.test.mjs": 4589,
-      "tests/tomb-red-mask-source.test.mjs": 11,
-      "tests/toxic-egg-source.test.mjs": 17,
+      "tests/title-menu-admission.test.mjs": 4797,
+      "tests/tomb-red-mask-source.test.mjs": 12,
+      "tests/toxic-egg-source.test.mjs": 26,
       "tests/tungsten-rod-source.test.mjs": 16,
-      "tests/ui-acceptance.test.mjs": 5361,
+      "tests/ui-acceptance.test.mjs": 6281,
       "tests/ui-capacity.test.mjs": 68,
       "tests/ui-complexity.test.mjs": 32,
       "tests/ui-final-presentation.test.mjs": 7607,
@@ -429,86 +429,109 @@
       "tests/unknown-routing-partitions.test.mjs": 67426,
       "tests/validate-data.test.mjs": 555,
       "tests/validate-map-contract.test.mjs": 521,
-      "tests/verify-official-client.test.mjs": 109,
+      "tests/verify-official-client.test.mjs": 124,
       "tests/viewport-layout.test.mjs": 53,
       "tests/warrior75-names.test.mjs": 20,
       "tests/watcher-foreign-pool.test.mjs": 14,
-      "tests/wizard-gremlin-data.test.mjs": 113,
-      "tests/zh-placeholder-copy.test.mjs": 16
+      "tests/wizard-gremlin-data.test.mjs": 180,
+      "tests/zh-placeholder-copy.test.mjs": 16,
+      "tests/relic-completion-inverse.test.mjs": 23787,
+      "tests/act2-event-relics.test.mjs": 38236,
+      "tests/current-game-ui-parity.test.mjs": 146874,
+      "tests/native-monster-art.test.mjs": 44974,
+      "tests/relic-card-rewards.test.mjs": 11578,
+      "tests/round3-catalog-source-inverse.test.mjs": 18615,
+      "tests/native-card-art-runtime.test.mjs": 66261,
+      "tests/uncommon-relics.test.mjs": 16501,
+      "tests/art-features-build.test.mjs": 62632,
+      "tests/boss-ui-fixture-composition.test.mjs": 39538,
+      "tests/dynamic-monster-game-ui.test.mjs": 17397,
+      "tests/m3-event-delivery-source-inverse.test.mjs": 12613,
+      "tests/native-enemy-theme-inverse.test.mjs": 27522,
+      "tests/official-portraits-equivalence.test.mjs": 12758,
+      "tests/launch-content-current.test.mjs": 24349,
+      "tests/native-monster-multi-instance.test.mjs": 47882,
+      "tests/shop-relics-missing.test.mjs": 13202,
+      "tests/act2-choice-events.test.mjs": 10066,
+      "tests/event-combat-route-reducers.test.mjs": 16209,
+      "tests/hand-flick-intent.test.mjs": 11854,
+      "tests/rare-relics.test.mjs": 19562,
+      "tests/card-actions-registry.test.mjs": 10352,
+      "tests/relic-catalog-completeness.test.mjs": 34573
     },
     "linux": {
       "tests/acid-slime-l-data.test.mjs": 165,
-      "tests/acid-slime-m-data.test.mjs": 130,
+      "tests/acid-slime-m-data.test.mjs": 135,
       "tests/acid-slime-s-data.test.mjs": 65,
-      "tests/acid-slime-split-data.test.mjs": 102,
+      "tests/acid-slime-split-data.test.mjs": 122,
       "tests/act1-bosses.test.mjs": 5451,
-      "tests/act2-enemies.test.mjs": 7653,
-      "tests/act2-event-content.test.mjs": 3456,
+      "tests/act2-enemies.test.mjs": 8945,
+      "tests/act2-event-content.test.mjs": 3716,
       "tests/act2-event-ui.test.mjs": 24951,
       "tests/act2-intent-ui.test.mjs": 23922,
-      "tests/act2-stasis-source-order.test.mjs": 1405,
-      "tests/act3-completion-seams.test.mjs": 1807,
-      "tests/act3-event-ui-ownership.test.mjs": 12358,
+      "tests/act2-stasis-source-order.test.mjs": 1640,
+      "tests/act3-completion-seams.test.mjs": 1945,
+      "tests/act3-event-ui-ownership.test.mjs": 12775,
       "tests/act3-falling-source.test.mjs": 11,
       "tests/act3-maw-growth.test.mjs": 13340,
       "tests/act3-moai-source.test.mjs": 12,
       "tests/act3-orb-walker.test.mjs": 7789,
       "tests/act3-shapes.test.mjs": 9862,
-      "tests/act3-transient.test.mjs": 20053,
+      "tests/act3-transient.test.mjs": 20503,
       "tests/act3-winding-source.test.mjs": 11,
       "tests/act3-writhing-mass.test.mjs": 13648,
-      "tests/addict-darkstone-interaction.test.mjs": 1601,
-      "tests/addict-event-content.test.mjs": 10170,
-      "tests/agent-guidance.test.mjs": 26,
+      "tests/addict-darkstone-interaction.test.mjs": 1864,
+      "tests/addict-event-content.test.mjs": 13943,
+      "tests/agent-guidance.test.mjs": 49,
       "tests/aim-visual-parity.test.mjs": 5841,
       "tests/approved-enemy-details.test.mjs": 5166,
-      "tests/approved-energy-orb.test.mjs": 3477,
-      "tests/approved-main-potion-shell.test.mjs": 4812,
+      "tests/approved-energy-orb.test.mjs": 3697,
+      "tests/approved-main-potion-shell.test.mjs": 4823,
       "tests/approved-main-potions.test.mjs": 12589,
-      "tests/approved-main-unit.test.mjs": 7442,
-      "tests/approved-node-ui-refactor.test.mjs": 412,
+      "tests/approved-main-unit.test.mjs": 8232,
+      "tests/approved-node-ui-refactor.test.mjs": 111753,
       "tests/approved-opening.test.mjs": 3921,
-      "tests/approved-ui-inverse.test.mjs": 876,
-      "tests/architecture-composition-format.test.mjs": 54,
+      "tests/approved-ui-inverse.test.mjs": 276390,
+      "tests/architecture-composition-format.test.mjs": 6481,
       "tests/architecture.test.mjs": 21,
       "tests/awakened-one.test.mjs": 10978,
-      "tests/back-to-basics-event.test.mjs": 10341,
-      "tests/backlog-roadmap.test.mjs": 239,
+      "tests/back-to-basics-event.test.mjs": 11154,
+      "tests/backlog-roadmap.test.mjs": 249,
       "tests/basic-curses.test.mjs": 3278,
-      "tests/battle-drag-click-compatibility.test.mjs": 30751,
+      "tests/battle-drag-click-compatibility.test.mjs": 92812,
       "tests/battle-life-frozen-hand.test.mjs": 6674,
-      "tests/battle-life-regression.test.mjs": 11938,
-      "tests/battle-life-source-inverse.test.mjs": 52,
-      "tests/battle-max-hp-config-inverse.test.mjs": 220,
+      "tests/battle-life-regression.test.mjs": 12353,
+      "tests/battle-life-source-inverse.test.mjs": 9059,
+      "tests/battle-max-hp-config-inverse.test.mjs": 18751,
       "tests/battle-refactor-render.test.mjs": 21465,
       "tests/battle-ui-slices.test.mjs": 127550,
-      "tests/black-star.test.mjs": 69809,
+      "tests/black-star.test.mjs": 90139,
       "tests/blue-slaver-data.test.mjs": 62,
       "tests/boss-treasure-budget.test.mjs": 10,
       "tests/bosses-intent-ui.test.mjs": 3368,
-      "tests/build-lua-data-protection.test.mjs": 1556,
+      "tests/build-lua-data-protection.test.mjs": 1679,
       "tests/build-lua-data.test.mjs": 1276,
-      "tests/build-ui-input-protection.test.mjs": 132830,
-      "tests/build-ui-theme-protection.test.mjs": 319,
-      "tests/build-ui-theme.test.mjs": 211,
+      "tests/build-ui-input-protection.test.mjs": 155930,
+      "tests/build-ui-theme-protection.test.mjs": 332,
+      "tests/build-ui-theme.test.mjs": 214,
       "tests/card-actions-exhaust.test.mjs": 4563,
-      "tests/card-blocked-source.test.mjs": 569,
-      "tests/card-capability.test.mjs": 404,
+      "tests/card-blocked-source.test.mjs": 606,
+      "tests/card-capability.test.mjs": 449,
       "tests/card-face-source-parity.test.mjs": 14,
       "tests/card-face.test.mjs": 43,
       "tests/card-help-release-slices.test.mjs": 16,
       "tests/card-illustration-candidates.test.mjs": 41,
       "tests/card-input-slices.test.mjs": 29956,
       "tests/card-pool-catalog.test.mjs": 17,
-      "tests/card-random-state.test.mjs": 1251,
-      "tests/card-skin-preview.test.mjs": 519,
-      "tests/card-title-source-parity.test.mjs": 198,
+      "tests/card-random-state.test.mjs": 1283,
+      "tests/card-skin-preview.test.mjs": 587,
+      "tests/card-title-source-parity.test.mjs": 229,
       "tests/card-value-feedback.test.mjs": 13,
       "tests/character-shop-budget.test.mjs": 10,
       "tests/character-ui-layout.test.mjs": 114,
       "tests/ci-downloads.test.mjs": 26278,
-      "tests/ci-impact.test.mjs": 140,
-      "tests/ci-posix-shards.test.mjs": 615,
+      "tests/ci-impact.test.mjs": 165,
+      "tests/ci-posix-shards.test.mjs": 743,
       "tests/ci-reviewed-lfs.test.mjs": 3824,
       "tests/ci-runtime.test.mjs": 266,
       "tests/ci-windows-shards.test.mjs": 913,
@@ -518,38 +541,38 @@
       "tests/colorless-source-identities.test.mjs": 14,
       "tests/combat-gold.test.mjs": 50772,
       "tests/combat-shuffle.test.mjs": 28997,
-      "tests/common-relic-attacks.test.mjs": 1432,
-      "tests/common-relic-equipment.test.mjs": 2665,
-      "tests/common-relic-final.test.mjs": 2285,
-      "tests/common-relic-hooks.test.mjs": 2576,
+      "tests/common-relic-attacks.test.mjs": 1496,
+      "tests/common-relic-equipment.test.mjs": 2870,
+      "tests/common-relic-final.test.mjs": 2533,
+      "tests/common-relic-hooks.test.mjs": 2669,
       "tests/common-relic-turns.test.mjs": 1396,
       "tests/competition-character-admission.test.mjs": 12305,
       "tests/competition-roster-config-composition.test.mjs": 173509,
       "tests/competition-roster-prepared-ui.test.mjs": 34472,
       "tests/competition-roster.test.mjs": 20455,
       "tests/competition-two-act.test.mjs": 15989,
-      "tests/core-architecture-inverse.test.mjs": 145,
+      "tests/core-architecture-inverse.test.mjs": 11208,
       "tests/core-responsibilities.test.mjs": 2098,
       "tests/cross-act.test.mjs": 19989,
       "tests/cultist-roll-data.test.mjs": 57,
       "tests/cultist-runtime-data.test.mjs": 69,
-      "tests/curl-up-data.test.mjs": 98,
+      "tests/curl-up-data.test.mjs": 118,
       "tests/darklings.test.mjs": 16119,
-      "tests/darkstone-mausoleum-interaction.test.mjs": 3988,
-      "tests/darkstone-periapt.test.mjs": 8039,
+      "tests/darkstone-mausoleum-interaction.test.mjs": 4550,
+      "tests/darkstone-periapt.test.mjs": 9072,
       "tests/dazed-data.test.mjs": 69,
-      "tests/death-power-order.test.mjs": 2494,
+      "tests/death-power-order.test.mjs": 3011,
       "tests/death-settlement-guard-inverse.test.mjs": 88,
       "tests/deck-item-lifecycle.test.mjs": 7507,
       "tests/deck-ui-layout.test.mjs": 115,
-      "tests/defect-final-source-identities.test.mjs": 13,
+      "tests/defect-final-source-identities.test.mjs": 14,
       "tests/delivery.test.mjs": 106,
       "tests/discovery-action-owner.test.mjs": 3532,
-      "tests/donu-deca.test.mjs": 4121,
+      "tests/donu-deca.test.mjs": 5122,
       "tests/economy-relic-seeds.test.mjs": 12,
       "tests/emerald-combat-hooks.test.mjs": 1267,
       "tests/emerald-elite-component.test.mjs": 607,
-      "tests/emerald-key-ui.test.mjs": 8187,
+      "tests/emerald-key-ui.test.mjs": 8619,
       "tests/emerald-key.test.mjs": 15892,
       "tests/emerald-map.test.mjs": 4005,
       "tests/encounter-coverage-partitions.test.mjs": 60,
@@ -557,11 +580,11 @@
       "tests/encounter-runtime.test.mjs": 42953,
       "tests/ending-damage-hooks.test.mjs": 830,
       "tests/ending-enemy-runtime.test.mjs": 2262,
-      "tests/ending-history.test.mjs": 9607,
-      "tests/ending-intent-view.test.mjs": 5931,
-      "tests/ending-proceed-ui.test.mjs": 14165,
+      "tests/ending-history.test.mjs": 10709,
+      "tests/ending-intent-view.test.mjs": 6388,
+      "tests/ending-proceed-ui.test.mjs": 14432,
       "tests/ending-route-api.test.mjs": 6945,
-      "tests/ending-route-characters.test.mjs": 11080,
+      "tests/ending-route-characters.test.mjs": 12674,
       "tests/ending-route-contracts.test.mjs": 5781,
       "tests/enemy-ai-data.test.mjs": 92,
       "tests/engineering-quality-policy.test.mjs": 15,
@@ -569,14 +592,14 @@
       "tests/event-combat-bridge.test.mjs": 11009,
       "tests/event-combat-ui.test.mjs": 8243,
       "tests/event-enemy-preparation-source.test.mjs": 10,
-      "tests/event-production-source-inverse.test.mjs": 265,
+      "tests/event-production-source-inverse.test.mjs": 34743,
       "tests/event-random.test.mjs": 839,
       "tests/event-snapshot-composition.test.mjs": 16,
       "tests/evidence-binding.test.mjs": 15,
       "tests/exit-ui-layout.test.mjs": 117,
       "tests/fatal-hp-loss-callbacks.test.mjs": 6217,
       "tests/final-integration-source.test.mjs": 164,
-      "tests/fixed-gremlin-data.test.mjs": 62,
+      "tests/fixed-gremlin-data.test.mjs": 64,
       "tests/formal-campaign-entry.test.mjs": 28340,
       "tests/fungi-beast-data.test.mjs": 97,
       "tests/game-ui-chapters.test.mjs": 8423,
@@ -584,22 +607,22 @@
       "tests/game-ui-class-powers-partitions.test.mjs": 10,
       "tests/game-ui.test.mjs": 72962,
       "tests/ghosts-event.test.mjs": 20020,
-      "tests/giant-head.test.mjs": 14317,
+      "tests/giant-head.test.mjs": 14507,
       "tests/golden-idol-source.test.mjs": 11,
-      "tests/golden-shrine-data.test.mjs": 96,
+      "tests/golden-shrine-data.test.mjs": 106,
       "tests/gremlin-gang-data.test.mjs": 108,
-      "tests/gremlin-nob-data.test.mjs": 68,
+      "tests/gremlin-nob-data.test.mjs": 75,
       "tests/guardian-ai-data.test.mjs": 75,
       "tests/guardian-opening-roll-data.test.mjs": 61,
       "tests/guardian-reaction-completion.test.mjs": 1698,
       "tests/guardian-sharp-hide-source.test.mjs": 12,
-      "tests/heart-after-use.test.mjs": 1691,
+      "tests/heart-after-use.test.mjs": 1823,
       "tests/heart-component.test.mjs": 463,
       "tests/heart-envenom.test.mjs": 1216,
       "tests/hero-visual-slots.test.mjs": 103,
       "tests/hp-loss-action-boundaries.test.mjs": 5189,
       "tests/intent-artifact-preview.test.mjs": 79567,
-      "tests/intent-face-clearance.test.mjs": 6925,
+      "tests/intent-face-clearance.test.mjs": 8560,
       "tests/intent-formula.test.mjs": 12569,
       "tests/jaw-worm-ai-partitions.test.mjs": 10,
       "tests/jaw-worm-data.test.mjs": 83,
@@ -610,19 +633,19 @@
       "tests/library-event.test.mjs": 20325,
       "tests/living-wall-slices.test.mjs": 45831,
       "tests/lizard-tail-action-order.test.mjs": 5273,
-      "tests/lizard-tail-component.test.mjs": 283,
-      "tests/lizard-tail-definition.test.mjs": 10,
+      "tests/lizard-tail-component.test.mjs": 333,
+      "tests/lizard-tail-definition.test.mjs": 11,
       "tests/lizard-tail-persistence.test.mjs": 47374,
       "tests/lizard-tail-run.test.mjs": 4325,
       "tests/lizard-tail-ui.test.mjs": 15704,
-      "tests/looter-ai-data.test.mjs": 76,
+      "tests/looter-ai-data.test.mjs": 80,
       "tests/looter-potion-ui-slices.test.mjs": 16,
       "tests/lore-v2.test.mjs": 20,
       "tests/louse-ai-data.test.mjs": 159,
-      "tests/louse-colors-data.test.mjs": 203,
+      "tests/louse-colors-data.test.mjs": 209,
       "tests/louse-colors-launch.test.mjs": 2879,
       "tests/lua-output-path-semantics.test.mjs": 292,
-      "tests/lua-runner-cli-continuation.test.mjs": 784,
+      "tests/lua-runner-cli-continuation.test.mjs": 1631,
       "tests/lua-runner-diagnostics.test.mjs": 530,
       "tests/lua-shards.test.mjs": 1508,
       "tests/lua-static.test.mjs": 21,
@@ -633,37 +656,37 @@
       "tests/m3-ui-polish.test.mjs": 4674,
       "tests/m3-v2-keys-darkstone.test.mjs": 5494,
       "tests/mad-gremlin-data.test.mjs": 92,
-      "tests/map-chapter-ui.test.mjs": 35518,
-      "tests/map-gesture-ownership.test.mjs": 11595,
+      "tests/map-chapter-ui.test.mjs": 37171,
+      "tests/map-gesture-ownership.test.mjs": 11864,
       "tests/map-no-crossings.test.mjs": 25068,
       "tests/map-node-visuals.test.mjs": 1046,
       "tests/map-page-polish.test.mjs": 94,
       "tests/map-production.test.mjs": 7769,
       "tests/map-resources.test.mjs": 3504,
-      "tests/map-type-legend.test.mjs": 14,
+      "tests/map-type-legend.test.mjs": 15,
       "tests/map-ui-chapters.test.mjs": 9315,
       "tests/map-ui-layout.test.mjs": 10949,
-      "tests/map-utility-header.test.mjs": 1331,
+      "tests/map-utility-header.test.mjs": 1375,
       "tests/mark-of-bloom-source.test.mjs": 37,
-      "tests/mark-of-bloom.test.mjs": 3823,
+      "tests/mark-of-bloom.test.mjs": 3987,
       "tests/match-event.test.mjs": 16533,
       "tests/mausoleum-event-content.test.mjs": 2865,
-      "tests/max-hp-accepted-source-inverse.test.mjs": 375,
+      "tests/max-hp-accepted-source-inverse.test.mjs": 212182,
       "tests/max-hp-competition-profiles.test.mjs": 9086,
-      "tests/max-hp-current-owners.test.mjs": 10896,
+      "tests/max-hp-current-owners.test.mjs": 11764,
       "tests/max-hp-relics.test.mjs": 77586,
       "tests/mind-bloom-source.test.mjs": 10,
       "tests/missing-relic-definitions.test.mjs": 16988,
       "tests/mobile-card-release.test.mjs": 10509,
-      "tests/mobile-input-recovery.test.mjs": 9235,
+      "tests/mobile-input-recovery.test.mjs": 9561,
       "tests/mobile-qa-source-migration.test.mjs": 185,
-      "tests/molten-egg-source.test.mjs": 15,
-      "tests/monster-source-candidates.test.mjs": 41,
+      "tests/molten-egg-source.test.mjs": 19,
+      "tests/monster-source-candidates.test.mjs": 46,
       "tests/mushrooms-event.test.mjs": 18040,
       "tests/mysterious-sphere-source.test.mjs": 59,
       "tests/mysterious-sphere.test.mjs": 309,
       "tests/native-audio-release-provenance.test.mjs": 254,
-      "tests/native-bgm-build-provenance.test.mjs": 170,
+      "tests/native-bgm-build-provenance.test.mjs": 318,
       "tests/native-bgm-graph.test.mjs": 14,
       "tests/native-bloodletting-fine-strokes.test.mjs": 92,
       "tests/native-candidate-art.test.mjs": 22161,
@@ -688,11 +711,11 @@
       "tests/native-ui-parity.test.mjs": 3232,
       "tests/native-ui-theme.test.mjs": 233,
       "tests/nemesis.test.mjs": 13318,
-      "tests/neow-entry.test.mjs": 29490,
-      "tests/neow-event.test.mjs": 21368,
+      "tests/neow-entry.test.mjs": 30923,
+      "tests/neow-event.test.mjs": 23186,
       "tests/nest-event-tail-combination.test.mjs": 2119,
       "tests/nest-event-ui.test.mjs": 3663,
-      "tests/nest-event.test.mjs": 3168,
+      "tests/nest-event.test.mjs": 3292,
       "tests/nested-command-snapshot-owner-inverse.test.mjs": 32,
       "tests/node-ui-layout.test.mjs": 45,
       "tests/node-ui-refactor.test.mjs": 135,
@@ -701,22 +724,22 @@
       "tests/nodes-governance.test.mjs": 66273,
       "tests/official-background-lifecycle.test.mjs": 10376,
       "tests/official-key-visual-assets.test.mjs": 113,
-      "tests/open-pr-source-composition.test.mjs": 74,
+      "tests/open-pr-source-composition.test.mjs": 12089,
       "tests/original-v4-data.test.mjs": 1639,
       "tests/original-v4-display.test.mjs": 196,
       "tests/original-v4-face-text.test.mjs": 7355,
       "tests/original-v4-integration.test.mjs": 46788,
       "tests/original-v4-runtime.test.mjs": 81783,
       "tests/owned-relic-view.test.mjs": 6680,
-      "tests/p0-card-play-partition.test.mjs": 14,
+      "tests/p0-card-play-partition.test.mjs": 15,
       "tests/p0-presentation-inverse.test.mjs": 358,
       "tests/phase-four-presentation-partitions.test.mjs": 31,
       "tests/phase-three-presentation-partitions.test.mjs": 11,
       "tests/pile-view-layout.test.mjs": 25,
       "tests/plated-armor-queue.test.mjs": 10201,
       "tests/platform-load-wiring.test.mjs": 10,
-      "tests/platform-load.test.mjs": 968,
-      "tests/player-death-inverse.test.mjs": 83,
+      "tests/platform-load.test.mjs": 1004,
+      "tests/player-death-inverse.test.mjs": 53155,
       "tests/playtest-input-lifecycle.test.mjs": 35,
       "tests/potion-basic-five.test.mjs": 67826,
       "tests/potion-discard-layout.test.mjs": 84,
@@ -725,7 +748,7 @@
       "tests/potion-flex-speed.test.mjs": 25637,
       "tests/potion-help-layout.test.mjs": 53,
       "tests/potion-production-channels.test.mjs": 88926,
-      "tests/potion-shell-fidelity.test.mjs": 60,
+      "tests/potion-shell-fidelity.test.mjs": 66,
       "tests/potion-shell-source.test.mjs": 12,
       "tests/potion-target-context-slices.test.mjs": 24,
       "tests/potion-target-inventory-slices.test.mjs": 23,
@@ -735,19 +758,19 @@
       "tests/pr238-lua-budget-slices.test.mjs": 10,
       "tests/pr238-remaining-budget.test.mjs": 25,
       "tests/pr250-budget-coverage.test.mjs": 15,
-      "tests/pr259-fixture-budget.test.mjs": 120528,
+      "tests/pr259-fixture-budget.test.mjs": 127778,
       "tests/pr262-ui-fixture-budget.test.mjs": 106832,
       "tests/pr266-fixture-budget.test.mjs": 15,
       "tests/pr267-fixture-budget.test.mjs": 250,
-      "tests/pr323-accepted-source-inverse.test.mjs": 204,
+      "tests/pr323-accepted-source-inverse.test.mjs": 15486,
       "tests/pr323-deck-lifecycle.test.mjs": 8797,
       "tests/pr323-preserved-safety.test.mjs": 9162,
-      "tests/pr325-absorption-discovery.test.mjs": 58,
+      "tests/pr325-absorption-discovery.test.mjs": 64,
       "tests/presentation-m3-integration.test.mjs": 29595,
       "tests/presentation-native-m3-contract.test.mjs": 1856,
       "tests/presentation-responsibilities.test.mjs": 32865,
-      "tests/prototype-card-play.test.mjs": 26,
-      "tests/prototype-regret.test.mjs": 10,
+      "tests/prototype-card-play.test.mjs": 27,
+      "tests/prototype-regret.test.mjs": 11,
       "tests/quick-feedback.test.mjs": 114,
       "tests/red-slaver-data.test.mjs": 77,
       "tests/release-notes.test.mjs": 174,
@@ -826,7 +849,7 @@
       "tests/time-eater.test.mjs": 6941,
       "tests/title-menu-admission.test.mjs": 4391,
       "tests/tomb-red-mask-source.test.mjs": 17,
-      "tests/toxic-egg-source.test.mjs": 15,
+      "tests/toxic-egg-source.test.mjs": 20,
       "tests/tungsten-rod-source.test.mjs": 15,
       "tests/ui-acceptance.test.mjs": 5518,
       "tests/ui-capacity.test.mjs": 65,
@@ -844,7 +867,21 @@
       "tests/warrior75-names.test.mjs": 14,
       "tests/watcher-foreign-pool.test.mjs": 12,
       "tests/wizard-gremlin-data.test.mjs": 156,
-      "tests/zh-placeholder-copy.test.mjs": 15
+      "tests/zh-placeholder-copy.test.mjs": 15,
+      "tests/act2-event-relics.test.mjs": 39627,
+      "tests/event-combat-route-reducers.test.mjs": 11631,
+      "tests/launch-content-current.test.mjs": 22967,
+      "tests/native-monster-multi-instance.test.mjs": 42601,
+      "tests/rare-relics.test.mjs": 13994,
+      "tests/art-features-build.test.mjs": 29822,
+      "tests/boss-ui-fixture-composition.test.mjs": 25239,
+      "tests/dynamic-monster-game-ui.test.mjs": 12176,
+      "tests/native-enemy-theme-inverse.test.mjs": 16281,
+      "tests/relic-completion-inverse.test.mjs": 16652,
+      "tests/art-performance.test.mjs": 10925,
+      "tests/boss-relics-missing.test.mjs": 19322,
+      "tests/card-actions-registry.test.mjs": 15321,
+      "tests/relic-catalog-completeness.test.mjs": 51377
     }
   },
   "lua": {
@@ -2981,5 +3018,1170 @@
     "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40980643080",
     "headSha": "ce62e753065666fd26c9d85587a8f3ae2a580689",
     "description": "1114 unique raw Lua fixture wall times from all eight original job logs, exactly equal to source inventory. Placement only; original lua safety weights and worker eligibility remain unchanged."
+  },
+  "jsCalibration": {
+    "runId": 41097231681,
+    "runAttempt": 1,
+    "headSha": "568d47a8f51164ed9e3cfb0656f57f2d832ed546",
+    "policy": "Only hosted CI_FILE_TIMING success===true observations raise each actual platform map; failed, partial and local runs never populate these observations. Unmeasured files retain the existing unknown fallback floor.",
+    "previousMapSha256": {
+      "win32": "4bffa47b23dddea469d3cc99d7790036b4bff768a10b3af96475046bb576b0d1",
+      "linux": "3fdcb1aa1e50352a164eb3ebde77f0a01ac4b0ad76b1302939021ae7d76d8755"
+    },
+    "previousMapEntries": {
+      "win32": 408,
+      "linux": 408
+    },
+    "sourceRecords": {
+      "win32": [
+        {
+          "path": "build/pr391-rules1-first.log",
+          "sha256": "070fd6bfadabcb050af3b5c4af41707efc3978b7176b96088592ca2e92931f9d"
+        },
+        {
+          "path": "build/pr391-rules2-first.log",
+          "sha256": "2232588682362e61c577cbf8d8d09cc526a082ecd222ef1ae5dfda3fb3d33690"
+        },
+        {
+          "path": "build/pr391-rules3-first.log",
+          "sha256": "cf2ca04cc7a81ae87e9c2950f641b31bcba9fcdb078d837e8792f8d65d76d51f"
+        },
+        {
+          "path": "build/pr391-rules4-first.log",
+          "sha256": "546c5895dd80870d0569ab1f77ee035aa115987bb379a34c46ac8b26597232a6"
+        },
+        {
+          "path": "build/pr391-rules5-first.log",
+          "sha256": "3b6132765eeec536224d762a3d6768339b9cd59cc1be11f2e7b471490a76e82b"
+        },
+        {
+          "path": "build/pr391-rules6-first.log",
+          "sha256": "d37408c2419b5724e6ffc01869f8ef93d929d879386c57e4f82f3f1e41cca094"
+        },
+        {
+          "path": "build/pr391-rules7-first.log",
+          "sha256": "4b0863f783b875bb445e7c363ce0c3878ce688dce0ba9c08019cfabe59c320b3"
+        }
+      ],
+      "linux": [
+        {
+          "path": "build/pr391-posix-124207295787.log",
+          "sha256": "27858e343859fd595b5c2a556681250731f28f938da1ff57e95ac6d6f972d242"
+        },
+        {
+          "path": "build/pr391-posix-124207295923.log",
+          "sha256": "7229e7094457c150eb5fd1a69bc29de6875c2399f3aa110a6505fc7b0641f6ca"
+        },
+        {
+          "path": "build/pr391-posix-124207295935.log",
+          "sha256": "4de33123607c5bc41ee6af23925b36543d7fa6c3a1b643a622c3003ca548b724"
+        },
+        {
+          "path": "build/pr391-posix-124207295968.log",
+          "sha256": "1fd68d9c2f477e59322e78e840a1f2f794dc2c59335955343a7638b0fd8d563a"
+        }
+      ]
+    },
+    "observedFileCounts": {
+      "win32": 425,
+      "linux": 333
+    },
+    "raised": {
+      "win32": {
+        "tests/backlog-roadmap.test.mjs": {
+          "beforeMs": 328,
+          "observedMs": 373
+        },
+        "tests/battle-max-hp-config-inverse.test.mjs": {
+          "beforeMs": 174,
+          "observedMs": 20523
+        },
+        "tests/combat-gold.test.mjs": {
+          "beforeMs": 35600,
+          "observedMs": 37818
+        },
+        "tests/core-architecture-inverse.test.mjs": {
+          "beforeMs": 95,
+          "observedMs": 12631
+        },
+        "tests/curl-up-data.test.mjs": {
+          "beforeMs": 68,
+          "observedMs": 83
+        },
+        "tests/native-card-art-ending.test.mjs": {
+          "beforeMs": 5950,
+          "observedMs": 6661
+        },
+        "tests/nested-command-snapshot-owner-inverse.test.mjs": {
+          "beforeMs": 27,
+          "observedMs": 3546
+        },
+        "tests/p0-presentation-inverse.test.mjs": {
+          "beforeMs": 419,
+          "observedMs": 119413
+        },
+        "tests/player-death-inverse.test.mjs": {
+          "beforeMs": 110,
+          "observedMs": 45229
+        },
+        "tests/relic-completion-inverse.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 23787
+        },
+        "tests/responsibility-complexity.test.mjs": {
+          "beforeMs": 38,
+          "observedMs": 89
+        },
+        "tests/ruby-recall-ui.test.mjs": {
+          "beforeMs": 21633,
+          "observedMs": 24201
+        },
+        "tests/summon-enemy-ui.test.mjs": {
+          "beforeMs": 9641,
+          "observedMs": 10706
+        },
+        "tests/task76-owner-composition.test.mjs": {
+          "beforeMs": 140,
+          "observedMs": 11344
+        },
+        "tests/act2-event-relics.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 38236
+        },
+        "tests/build-ui-input-protection.test.mjs": {
+          "beforeMs": 236253,
+          "observedMs": 305656
+        },
+        "tests/colorless-source-identities.test.mjs": {
+          "beforeMs": 7,
+          "observedMs": 11
+        },
+        "tests/core-responsibilities.test.mjs": {
+          "beforeMs": 1931,
+          "observedMs": 2150
+        },
+        "tests/current-game-ui-parity.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 146874
+        },
+        "tests/donu-deca.test.mjs": {
+          "beforeMs": 3605,
+          "observedMs": 4450
+        },
+        "tests/encounter-runtime.test.mjs": {
+          "beforeMs": 28949,
+          "observedMs": 42231
+        },
+        "tests/guardian-ai-data.test.mjs": {
+          "beforeMs": 49,
+          "observedMs": 78
+        },
+        "tests/jaw-worm-horde.test.mjs": {
+          "beforeMs": 9813,
+          "observedMs": 11144
+        },
+        "tests/looter-potion-ui-slices.test.mjs": {
+          "beforeMs": 11,
+          "observedMs": 15
+        },
+        "tests/louse-colors-data.test.mjs": {
+          "beforeMs": 150,
+          "observedMs": 202
+        },
+        "tests/map-type-legend.test.mjs": {
+          "beforeMs": 10,
+          "observedMs": 14
+        },
+        "tests/map-ui-chapters.test.mjs": {
+          "beforeMs": 6217,
+          "observedMs": 8553
+        },
+        "tests/native-monster-art.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 44974
+        },
+        "tests/native-rupture-queue.test.mjs": {
+          "beforeMs": 6986,
+          "observedMs": 10081
+        },
+        "tests/nest-event-tail-combination.test.mjs": {
+          "beforeMs": 1378,
+          "observedMs": 2017
+        },
+        "tests/open-pr-source-composition.test.mjs": {
+          "beforeMs": 74,
+          "observedMs": 18213
+        },
+        "tests/release-notes.test.mjs": {
+          "beforeMs": 1472,
+          "observedMs": 10763
+        },
+        "tests/relic-card-rewards.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 11578
+        },
+        "tests/round3-catalog-source-inverse.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 18615
+        },
+        "tests/sentry-data.test.mjs": {
+          "beforeMs": 60,
+          "observedMs": 77
+        },
+        "tests/shield-gremlin-data.test.mjs": {
+          "beforeMs": 95,
+          "observedMs": 98
+        },
+        "tests/special-relics.test.mjs": {
+          "beforeMs": 296,
+          "observedMs": 324
+        },
+        "tests/sts1-relic-pool-catalog.test.mjs": {
+          "beforeMs": 38,
+          "observedMs": 104
+        },
+        "tests/toxic-egg-source.test.mjs": {
+          "beforeMs": 17,
+          "observedMs": 26
+        },
+        "tests/approved-ui-inverse.test.mjs": {
+          "beforeMs": 854,
+          "observedMs": 220055
+        },
+        "tests/competition-two-act.test.mjs": {
+          "beforeMs": 10749,
+          "observedMs": 10883
+        },
+        "tests/max-hp-accepted-source-inverse.test.mjs": {
+          "beforeMs": 486,
+          "observedMs": 153749
+        },
+        "tests/native-bgm-build-provenance.test.mjs": {
+          "beforeMs": 271,
+          "observedMs": 483
+        },
+        "tests/native-candidate-art.test.mjs": {
+          "beforeMs": 37904,
+          "observedMs": 54753
+        },
+        "tests/native-candidate.test.mjs": {
+          "beforeMs": 7168,
+          "observedMs": 38818
+        },
+        "tests/native-card-art-runtime.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 66261
+        },
+        "tests/native-card-art-source-equivalence.test.mjs": {
+          "beforeMs": 10,
+          "observedMs": 10904
+        },
+        "tests/native-cursor-fields.test.mjs": {
+          "beforeMs": 3157,
+          "observedMs": 3334
+        },
+        "tests/native-playtest-evidence.test.mjs": {
+          "beforeMs": 15,
+          "observedMs": 17
+        },
+        "tests/nest-event.test.mjs": {
+          "beforeMs": 1985,
+          "observedMs": 2191
+        },
+        "tests/potion-drag-click-composition.test.mjs": {
+          "beforeMs": 22310,
+          "observedMs": 25421
+        },
+        "tests/quick-feedback.test.mjs": {
+          "beforeMs": 129,
+          "observedMs": 3263
+        },
+        "tests/relic-view-ui-inverse.test.mjs": {
+          "beforeMs": 37,
+          "observedMs": 14519
+        },
+        "tests/sts1-map-room-candidate.test.mjs": {
+          "beforeMs": 5043,
+          "observedMs": 5350
+        },
+        "tests/ui-acceptance.test.mjs": {
+          "beforeMs": 5361,
+          "observedMs": 6281
+        },
+        "tests/uncommon-relics.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 16501
+        },
+        "tests/acid-slime-split-data.test.mjs": {
+          "beforeMs": 100,
+          "observedMs": 146
+        },
+        "tests/aim-visual-parity.test.mjs": {
+          "beforeMs": 4126,
+          "observedMs": 6899
+        },
+        "tests/approved-main-potions.test.mjs": {
+          "beforeMs": 10780,
+          "observedMs": 13680
+        },
+        "tests/art-features-build.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 62632
+        },
+        "tests/battle-life-source-inverse.test.mjs": {
+          "beforeMs": 38,
+          "observedMs": 17890
+        },
+        "tests/battle-refactor-render.test.mjs": {
+          "beforeMs": 22679,
+          "observedMs": 33250
+        },
+        "tests/boss-ui-fixture-composition.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 39538
+        },
+        "tests/bosses-intent-ui.test.mjs": {
+          "beforeMs": 3520,
+          "observedMs": 4098
+        },
+        "tests/card-illustration-candidates.test.mjs": {
+          "beforeMs": 61,
+          "observedMs": 71
+        },
+        "tests/ci-impact.test.mjs": {
+          "beforeMs": 1605,
+          "observedMs": 2055
+        },
+        "tests/ci-windows-shards.test.mjs": {
+          "beforeMs": 2340,
+          "observedMs": 2376
+        },
+        "tests/darkstone-periapt.test.mjs": {
+          "beforeMs": 5205,
+          "observedMs": 9696
+        },
+        "tests/dynamic-monster-game-ui.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 17397
+        },
+        "tests/emerald-elite-component.test.mjs": {
+          "beforeMs": 650,
+          "observedMs": 836
+        },
+        "tests/encounter-queue.test.mjs": {
+          "beforeMs": 2691,
+          "observedMs": 2727
+        },
+        "tests/fungi-beast-data.test.mjs": {
+          "beforeMs": 62,
+          "observedMs": 125
+        },
+        "tests/lua-runner-cli-continuation.test.mjs": {
+          "beforeMs": 1103,
+          "observedMs": 2569
+        },
+        "tests/m3-event-delivery-source-inverse.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 12613
+        },
+        "tests/mad-gremlin-data.test.mjs": {
+          "beforeMs": 73,
+          "observedMs": 111
+        },
+        "tests/map-chapter-ui.test.mjs": {
+          "beforeMs": 38004,
+          "observedMs": 40683
+        },
+        "tests/map-no-crossings.test.mjs": {
+          "beforeMs": 15271,
+          "observedMs": 28154
+        },
+        "tests/map-ui-layout.test.mjs": {
+          "beforeMs": 7006,
+          "observedMs": 12343
+        },
+        "tests/max-hp-current-owners.test.mjs": {
+          "beforeMs": 11523,
+          "observedMs": 12597
+        },
+        "tests/molten-egg-source.test.mjs": {
+          "beforeMs": 16,
+          "observedMs": 30
+        },
+        "tests/mushrooms-event.test.mjs": {
+          "beforeMs": 19200,
+          "observedMs": 21246
+        },
+        "tests/mysterious-sphere.test.mjs": {
+          "beforeMs": 358,
+          "observedMs": 403
+        },
+        "tests/native-enemy-theme-inverse.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 27522
+        },
+        "tests/native-event-ui-integration.test.mjs": {
+          "beforeMs": 6645,
+          "observedMs": 11133
+        },
+        "tests/node-ui-layout.test.mjs": {
+          "beforeMs": 48,
+          "observedMs": 51
+        },
+        "tests/official-portraits-equivalence.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 12758
+        },
+        "tests/p0-card-play-partition.test.mjs": {
+          "beforeMs": 15,
+          "observedMs": 18
+        },
+        "tests/potion-help-layout.test.mjs": {
+          "beforeMs": 31,
+          "observedMs": 56
+        },
+        "tests/pr238-boss-transactions-budget.test.mjs": {
+          "beforeMs": 10,
+          "observedMs": 12
+        },
+        "tests/pr323-accepted-source-inverse.test.mjs": {
+          "beforeMs": 264,
+          "observedMs": 27560
+        },
+        "tests/relic-view-controller-click.test.mjs": {
+          "beforeMs": 4059,
+          "observedMs": 4567
+        },
+        "tests/reward-source-ui.test.mjs": {
+          "beforeMs": 9870,
+          "observedMs": 9875
+        },
+        "tests/run-red-card-contract.test.mjs": {
+          "beforeMs": 12,
+          "observedMs": 17
+        },
+        "tests/spike-slime-l-data.test.mjs": {
+          "beforeMs": 120,
+          "observedMs": 136
+        },
+        "tests/spike-slime-split-data.test.mjs": {
+          "beforeMs": 87,
+          "observedMs": 93
+        },
+        "tests/act3-orb-walker.test.mjs": {
+          "beforeMs": 4987,
+          "observedMs": 6881
+        },
+        "tests/act3-shapes.test.mjs": {
+          "beforeMs": 6792,
+          "observedMs": 9143
+        },
+        "tests/addict-event-content.test.mjs": {
+          "beforeMs": 8572,
+          "observedMs": 11497
+        },
+        "tests/black-star.test.mjs": {
+          "beforeMs": 45136,
+          "observedMs": 74377
+        },
+        "tests/class-card-source-pools.test.mjs": {
+          "beforeMs": 8,
+          "observedMs": 10
+        },
+        "tests/common-relic-final.test.mjs": {
+          "beforeMs": 1670,
+          "observedMs": 2039
+        },
+        "tests/heart-after-use.test.mjs": {
+          "beforeMs": 1131,
+          "observedMs": 1468
+        },
+        "tests/intent-face-clearance.test.mjs": {
+          "beforeMs": 7287,
+          "observedMs": 9095
+        },
+        "tests/launch-content-current.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 24349
+        },
+        "tests/native-candidate-audit.test.mjs": {
+          "beforeMs": 50,
+          "observedMs": 66
+        },
+        "tests/native-monster-multi-instance.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 47882
+        },
+        "tests/relic-context-lookup.test.mjs": {
+          "beforeMs": 116,
+          "observedMs": 132
+        },
+        "tests/run-architecture-inverse.test.mjs": {
+          "beforeMs": 131,
+          "observedMs": 30269
+        },
+        "tests/run-play-snapshot-owner.test.mjs": {
+          "beforeMs": 7158,
+          "observedMs": 9281
+        },
+        "tests/sapphire-treasure-ui.test.mjs": {
+          "beforeMs": 55830,
+          "observedMs": 73083
+        },
+        "tests/shop-relics-missing.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 13202
+        },
+        "tests/snapshot-traversal.test.mjs": {
+          "beforeMs": 2307,
+          "observedMs": 2474
+        },
+        "tests/source-treasure-owner-guards.test.mjs": {
+          "beforeMs": 2836,
+          "observedMs": 3536
+        },
+        "tests/act2-choice-events.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 10066
+        },
+        "tests/act2-enemies.test.mjs": {
+          "beforeMs": 8153,
+          "observedMs": 9279
+        },
+        "tests/act3-transient.test.mjs": {
+          "beforeMs": 21949,
+          "observedMs": 22110
+        },
+        "tests/agent-guidance.test.mjs": {
+          "beforeMs": 47,
+          "observedMs": 91
+        },
+        "tests/approved-node-ui-refactor.test.mjs": {
+          "beforeMs": 799,
+          "observedMs": 182603
+        },
+        "tests/architecture.test.mjs": {
+          "beforeMs": 22,
+          "observedMs": 23
+        },
+        "tests/battle-life-regression.test.mjs": {
+          "beforeMs": 13329,
+          "observedMs": 13456
+        },
+        "tests/ci-posix-shards.test.mjs": {
+          "beforeMs": 1838,
+          "observedMs": 1855
+        },
+        "tests/class-common-relics.test.mjs": {
+          "beforeMs": 33035,
+          "observedMs": 44238
+        },
+        "tests/ending-route-api.test.mjs": {
+          "beforeMs": 6984,
+          "observedMs": 7357
+        },
+        "tests/enemy-ai-data.test.mjs": {
+          "beforeMs": 64,
+          "observedMs": 117
+        },
+        "tests/engineering-quality.test.mjs": {
+          "beforeMs": 42,
+          "observedMs": 106
+        },
+        "tests/event-combat-route-reducers.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 16209
+        },
+        "tests/event-snapshot-composition.test.mjs": {
+          "beforeMs": 14,
+          "observedMs": 2473
+        },
+        "tests/exit-ui-layout.test.mjs": {
+          "beforeMs": 117,
+          "observedMs": 127
+        },
+        "tests/golden-shrine-data.test.mjs": {
+          "beforeMs": 104,
+          "observedMs": 120
+        },
+        "tests/hand-flick-intent.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 11854
+        },
+        "tests/lore-v2.test.mjs": {
+          "beforeMs": 12,
+          "observedMs": 21
+        },
+        "tests/map-utility-header.test.mjs": {
+          "beforeMs": 1452,
+          "observedMs": 1687
+        },
+        "tests/match-event.test.mjs": {
+          "beforeMs": 16920,
+          "observedMs": 18341
+        },
+        "tests/native-card-art-binding.test.mjs": {
+          "beforeMs": 15893,
+          "observedMs": 21401
+        },
+        "tests/official-background-lifecycle.test.mjs": {
+          "beforeMs": 10490,
+          "observedMs": 10653
+        },
+        "tests/original-v4-data.test.mjs": {
+          "beforeMs": 1922,
+          "observedMs": 1949
+        },
+        "tests/original-v4-display.test.mjs": {
+          "beforeMs": 242,
+          "observedMs": 258
+        },
+        "tests/potion-drag-parity.test.mjs": {
+          "beforeMs": 32031,
+          "observedMs": 36170
+        },
+        "tests/potion-flex-speed.test.mjs": {
+          "beforeMs": 26631,
+          "observedMs": 29504
+        },
+        "tests/potion-production-channels.test.mjs": {
+          "beforeMs": 92798,
+          "observedMs": 106170
+        },
+        "tests/pr-history.test.mjs": {
+          "beforeMs": 11,
+          "observedMs": 15
+        },
+        "tests/pr238-lua-budget-slices.test.mjs": {
+          "beforeMs": 8,
+          "observedMs": 13
+        },
+        "tests/rare-relics.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 19562
+        },
+        "tests/relic-chinese-names.test.mjs": {
+          "beforeMs": 7800,
+          "observedMs": 8938
+        },
+        "tests/ruby-nested-refusal.test.mjs": {
+          "beforeMs": 3279,
+          "observedMs": 5545
+        },
+        "tests/shop-complete-source.test.mjs": {
+          "beforeMs": 4750,
+          "observedMs": 7099
+        },
+        "tests/small-slimes-data.test.mjs": {
+          "beforeMs": 60,
+          "observedMs": 75
+        },
+        "tests/sts1-relic-channel-runtime.test.mjs": {
+          "beforeMs": 2405,
+          "observedMs": 3883
+        },
+        "tests/test-strength.test.mjs": {
+          "beforeMs": 5970,
+          "observedMs": 12209
+        },
+        "tests/title-menu-admission.test.mjs": {
+          "beforeMs": 4589,
+          "observedMs": 4797
+        },
+        "tests/wizard-gremlin-data.test.mjs": {
+          "beforeMs": 113,
+          "observedMs": 180
+        },
+        "tests/build-ui-theme-protection.test.mjs": {
+          "beforeMs": 2341,
+          "observedMs": 4383
+        },
+        "tests/build-ui-theme.test.mjs": {
+          "beforeMs": 184,
+          "observedMs": 242
+        },
+        "tests/card-actions-registry.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 10352
+        },
+        "tests/ci-downloads.test.mjs": {
+          "beforeMs": 31169,
+          "observedMs": 39910
+        },
+        "tests/common-relic-attacks.test.mjs": {
+          "beforeMs": 1001,
+          "observedMs": 1052
+        },
+        "tests/cross-act.test.mjs": {
+          "beforeMs": 12594,
+          "observedMs": 12946
+        },
+        "tests/native-candidate-scripts.test.mjs": {
+          "beforeMs": 361,
+          "observedMs": 6177
+        },
+        "tests/plated-armor-queue.test.mjs": {
+          "beforeMs": 7091,
+          "observedMs": 7387
+        },
+        "tests/relic-catalog-completeness.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 34573
+        },
+        "tests/run-max-hp-config-inverse.test.mjs": {
+          "beforeMs": 3491,
+          "observedMs": 235224
+        },
+        "tests/spike-slime-s-data.test.mjs": {
+          "beforeMs": 36,
+          "observedMs": 39
+        },
+        "tests/task77-current-source-layers.test.mjs": {
+          "beforeMs": 715,
+          "observedMs": 394262
+        },
+        "tests/tomb-red-mask-source.test.mjs": {
+          "beforeMs": 11,
+          "observedMs": 12
+        },
+        "tests/verify-official-client.test.mjs": {
+          "beforeMs": 109,
+          "observedMs": 124
+        }
+      },
+      "linux": {
+        "tests/acid-slime-split-data.test.mjs": {
+          "beforeMs": 102,
+          "observedMs": 122
+        },
+        "tests/act2-enemies.test.mjs": {
+          "beforeMs": 7653,
+          "observedMs": 8945
+        },
+        "tests/act2-event-content.test.mjs": {
+          "beforeMs": 3456,
+          "observedMs": 3716
+        },
+        "tests/act2-event-relics.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 39627
+        },
+        "tests/act2-stasis-source-order.test.mjs": {
+          "beforeMs": 1405,
+          "observedMs": 1640
+        },
+        "tests/act3-completion-seams.test.mjs": {
+          "beforeMs": 1807,
+          "observedMs": 1945
+        },
+        "tests/act3-event-ui-ownership.test.mjs": {
+          "beforeMs": 12358,
+          "observedMs": 12775
+        },
+        "tests/approved-main-potion-shell.test.mjs": {
+          "beforeMs": 4812,
+          "observedMs": 4823
+        },
+        "tests/architecture-composition-format.test.mjs": {
+          "beforeMs": 54,
+          "observedMs": 6481
+        },
+        "tests/back-to-basics-event.test.mjs": {
+          "beforeMs": 10341,
+          "observedMs": 11154
+        },
+        "tests/backlog-roadmap.test.mjs": {
+          "beforeMs": 239,
+          "observedMs": 249
+        },
+        "tests/battle-life-regression.test.mjs": {
+          "beforeMs": 11938,
+          "observedMs": 12353
+        },
+        "tests/black-star.test.mjs": {
+          "beforeMs": 69809,
+          "observedMs": 90139
+        },
+        "tests/build-ui-theme.test.mjs": {
+          "beforeMs": 211,
+          "observedMs": 214
+        },
+        "tests/card-blocked-source.test.mjs": {
+          "beforeMs": 569,
+          "observedMs": 606
+        },
+        "tests/card-title-source-parity.test.mjs": {
+          "beforeMs": 198,
+          "observedMs": 229
+        },
+        "tests/common-relic-attacks.test.mjs": {
+          "beforeMs": 1432,
+          "observedMs": 1496
+        },
+        "tests/common-relic-equipment.test.mjs": {
+          "beforeMs": 2665,
+          "observedMs": 2870
+        },
+        "tests/agent-guidance.test.mjs": {
+          "beforeMs": 26,
+          "observedMs": 49
+        },
+        "tests/approved-ui-inverse.test.mjs": {
+          "beforeMs": 876,
+          "observedMs": 276390
+        },
+        "tests/build-ui-input-protection.test.mjs": {
+          "beforeMs": 132830,
+          "observedMs": 155930
+        },
+        "tests/build-ui-theme-protection.test.mjs": {
+          "beforeMs": 319,
+          "observedMs": 332
+        },
+        "tests/core-architecture-inverse.test.mjs": {
+          "beforeMs": 145,
+          "observedMs": 11208
+        },
+        "tests/event-combat-route-reducers.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 11631
+        },
+        "tests/intent-face-clearance.test.mjs": {
+          "beforeMs": 6925,
+          "observedMs": 8560
+        },
+        "tests/launch-content-current.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 22967
+        },
+        "tests/molten-egg-source.test.mjs": {
+          "beforeMs": 15,
+          "observedMs": 19
+        },
+        "tests/native-monster-multi-instance.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 42601
+        },
+        "tests/rare-relics.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 13994
+        },
+        "tests/approved-node-ui-refactor.test.mjs": {
+          "beforeMs": 412,
+          "observedMs": 111753
+        },
+        "tests/art-features-build.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 29822
+        },
+        "tests/battle-max-hp-config-inverse.test.mjs": {
+          "beforeMs": 220,
+          "observedMs": 18751
+        },
+        "tests/boss-ui-fixture-composition.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 25239
+        },
+        "tests/build-lua-data-protection.test.mjs": {
+          "beforeMs": 1556,
+          "observedMs": 1679
+        },
+        "tests/dynamic-monster-game-ui.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 12176
+        },
+        "tests/lua-runner-cli-continuation.test.mjs": {
+          "beforeMs": 784,
+          "observedMs": 1631
+        },
+        "tests/native-enemy-theme-inverse.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 16281
+        },
+        "tests/open-pr-source-composition.test.mjs": {
+          "beforeMs": 74,
+          "observedMs": 12089
+        },
+        "tests/player-death-inverse.test.mjs": {
+          "beforeMs": 83,
+          "observedMs": 53155
+        },
+        "tests/pr325-absorption-discovery.test.mjs": {
+          "beforeMs": 58,
+          "observedMs": 64
+        },
+        "tests/relic-completion-inverse.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 16652
+        },
+        "tests/toxic-egg-source.test.mjs": {
+          "beforeMs": 15,
+          "observedMs": 20
+        },
+        "tests/acid-slime-m-data.test.mjs": {
+          "beforeMs": 130,
+          "observedMs": 135
+        },
+        "tests/act3-transient.test.mjs": {
+          "beforeMs": 20053,
+          "observedMs": 20503
+        },
+        "tests/addict-darkstone-interaction.test.mjs": {
+          "beforeMs": 1601,
+          "observedMs": 1864
+        },
+        "tests/addict-event-content.test.mjs": {
+          "beforeMs": 10170,
+          "observedMs": 13943
+        },
+        "tests/approved-energy-orb.test.mjs": {
+          "beforeMs": 3477,
+          "observedMs": 3697
+        },
+        "tests/approved-main-unit.test.mjs": {
+          "beforeMs": 7442,
+          "observedMs": 8232
+        },
+        "tests/art-performance.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 10925
+        },
+        "tests/battle-drag-click-compatibility.test.mjs": {
+          "beforeMs": 30751,
+          "observedMs": 92812
+        },
+        "tests/battle-life-source-inverse.test.mjs": {
+          "beforeMs": 52,
+          "observedMs": 9059
+        },
+        "tests/boss-relics-missing.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 19322
+        },
+        "tests/card-actions-registry.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 15321
+        },
+        "tests/card-capability.test.mjs": {
+          "beforeMs": 404,
+          "observedMs": 449
+        },
+        "tests/card-random-state.test.mjs": {
+          "beforeMs": 1251,
+          "observedMs": 1283
+        },
+        "tests/card-skin-preview.test.mjs": {
+          "beforeMs": 519,
+          "observedMs": 587
+        },
+        "tests/ci-impact.test.mjs": {
+          "beforeMs": 140,
+          "observedMs": 165
+        },
+        "tests/ci-posix-shards.test.mjs": {
+          "beforeMs": 615,
+          "observedMs": 743
+        },
+        "tests/common-relic-final.test.mjs": {
+          "beforeMs": 2285,
+          "observedMs": 2533
+        },
+        "tests/common-relic-hooks.test.mjs": {
+          "beforeMs": 2576,
+          "observedMs": 2669
+        },
+        "tests/curl-up-data.test.mjs": {
+          "beforeMs": 98,
+          "observedMs": 118
+        },
+        "tests/darkstone-mausoleum-interaction.test.mjs": {
+          "beforeMs": 3988,
+          "observedMs": 4550
+        },
+        "tests/darkstone-periapt.test.mjs": {
+          "beforeMs": 8039,
+          "observedMs": 9072
+        },
+        "tests/death-power-order.test.mjs": {
+          "beforeMs": 2494,
+          "observedMs": 3011
+        },
+        "tests/defect-final-source-identities.test.mjs": {
+          "beforeMs": 13,
+          "observedMs": 14
+        },
+        "tests/donu-deca.test.mjs": {
+          "beforeMs": 4121,
+          "observedMs": 5122
+        },
+        "tests/emerald-key-ui.test.mjs": {
+          "beforeMs": 8187,
+          "observedMs": 8619
+        },
+        "tests/ending-history.test.mjs": {
+          "beforeMs": 9607,
+          "observedMs": 10709
+        },
+        "tests/ending-intent-view.test.mjs": {
+          "beforeMs": 5931,
+          "observedMs": 6388
+        },
+        "tests/ending-proceed-ui.test.mjs": {
+          "beforeMs": 14165,
+          "observedMs": 14432
+        },
+        "tests/ending-route-characters.test.mjs": {
+          "beforeMs": 11080,
+          "observedMs": 12674
+        },
+        "tests/event-production-source-inverse.test.mjs": {
+          "beforeMs": 265,
+          "observedMs": 34743
+        },
+        "tests/fixed-gremlin-data.test.mjs": {
+          "beforeMs": 62,
+          "observedMs": 64
+        },
+        "tests/giant-head.test.mjs": {
+          "beforeMs": 14317,
+          "observedMs": 14507
+        },
+        "tests/golden-shrine-data.test.mjs": {
+          "beforeMs": 96,
+          "observedMs": 106
+        },
+        "tests/gremlin-nob-data.test.mjs": {
+          "beforeMs": 68,
+          "observedMs": 75
+        },
+        "tests/heart-after-use.test.mjs": {
+          "beforeMs": 1691,
+          "observedMs": 1823
+        },
+        "tests/lizard-tail-component.test.mjs": {
+          "beforeMs": 283,
+          "observedMs": 333
+        },
+        "tests/lizard-tail-definition.test.mjs": {
+          "beforeMs": 10,
+          "observedMs": 11
+        },
+        "tests/looter-ai-data.test.mjs": {
+          "beforeMs": 76,
+          "observedMs": 80
+        },
+        "tests/louse-colors-data.test.mjs": {
+          "beforeMs": 203,
+          "observedMs": 209
+        },
+        "tests/map-chapter-ui.test.mjs": {
+          "beforeMs": 35518,
+          "observedMs": 37171
+        },
+        "tests/map-gesture-ownership.test.mjs": {
+          "beforeMs": 11595,
+          "observedMs": 11864
+        },
+        "tests/map-type-legend.test.mjs": {
+          "beforeMs": 14,
+          "observedMs": 15
+        },
+        "tests/map-utility-header.test.mjs": {
+          "beforeMs": 1331,
+          "observedMs": 1375
+        },
+        "tests/mark-of-bloom.test.mjs": {
+          "beforeMs": 3823,
+          "observedMs": 3987
+        },
+        "tests/max-hp-accepted-source-inverse.test.mjs": {
+          "beforeMs": 375,
+          "observedMs": 212182
+        },
+        "tests/max-hp-current-owners.test.mjs": {
+          "beforeMs": 10896,
+          "observedMs": 11764
+        },
+        "tests/mobile-input-recovery.test.mjs": {
+          "beforeMs": 9235,
+          "observedMs": 9561
+        },
+        "tests/monster-source-candidates.test.mjs": {
+          "beforeMs": 41,
+          "observedMs": 46
+        },
+        "tests/native-bgm-build-provenance.test.mjs": {
+          "beforeMs": 170,
+          "observedMs": 318
+        },
+        "tests/neow-entry.test.mjs": {
+          "beforeMs": 29490,
+          "observedMs": 30923
+        },
+        "tests/neow-event.test.mjs": {
+          "beforeMs": 21368,
+          "observedMs": 23186
+        },
+        "tests/nest-event.test.mjs": {
+          "beforeMs": 3168,
+          "observedMs": 3292
+        },
+        "tests/p0-card-play-partition.test.mjs": {
+          "beforeMs": 14,
+          "observedMs": 15
+        },
+        "tests/platform-load.test.mjs": {
+          "beforeMs": 968,
+          "observedMs": 1004
+        },
+        "tests/potion-shell-fidelity.test.mjs": {
+          "beforeMs": 60,
+          "observedMs": 66
+        },
+        "tests/pr259-fixture-budget.test.mjs": {
+          "beforeMs": 120528,
+          "observedMs": 127778
+        },
+        "tests/pr323-accepted-source-inverse.test.mjs": {
+          "beforeMs": 204,
+          "observedMs": 15486
+        },
+        "tests/prototype-card-play.test.mjs": {
+          "beforeMs": 26,
+          "observedMs": 27
+        },
+        "tests/prototype-regret.test.mjs": {
+          "beforeMs": 10,
+          "observedMs": 11
+        },
+        "tests/relic-catalog-completeness.test.mjs": {
+          "beforeMs": 10000,
+          "observedMs": 51377
+        }
+      }
+    }
+  },
+  "jsPlanning": {
+    "model": "Per-file maximum across the actual platform maps and explicit local lower bounds. This is a conservative placement estimate, not a Linux observation, cache, passing result, or timeout change.",
+    "localLowerBounds": {
+      "tests/presentation-native-m3-contract.test.mjs": {
+        "durationMs": 367516,
+        "environment": "local Windows",
+        "coverage": "9/9 full file passed",
+        "kind": "local complete-run lower-bound estimate; not hosted or Linux measurement"
+      },
+      "tests/final-integration-source.test.mjs": {
+        "durationMs": 118107,
+        "environment": "local Windows",
+        "coverage": "2/2 full file passed",
+        "kind": "local complete-run lower-bound estimate; not hosted or Linux measurement"
+      },
+      "tests/presentation-m3-integration.test.mjs": {
+        "durationMs": 173992,
+        "environment": "local Windows",
+        "coverage": "6/8 source-only groups; partial file",
+        "kind": "partial local lower-bound estimate; not a complete passing file or hosted/Linux measurement"
+      }
+    }
   }
 }

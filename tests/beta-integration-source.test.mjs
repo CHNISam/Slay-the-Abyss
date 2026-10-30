@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
@@ -8,7 +9,7 @@ import {betaSources,preBetaSource,prepareBetaRetirement} from './helpers/beta-in
 import {prepareBattleLifeModuleRetirement} from './helpers/battle-life-source-inverse.mjs';
 import {preBetaHostSource} from './helpers/beta-delivery-host-source.mjs';
 const hash=s=>s===null?null:createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
-test('beta composition retains both complete source targets and immutable prior witnesses',()=>{
+historicalTest('beta composition retains both complete source targets and immutable prior witnesses',()=>{
  for(const [path,binding]of Object.entries(betaSources)){
   const current=preBetaHostSource(path,readFileSync(path,'utf8')).replaceAll('\r\n','\n');assert.equal(hash(current),binding.sha256,path);
   for(const [target,destination]of Object.entries(binding.targets)){
@@ -23,7 +24,7 @@ test('beta composition retains both complete source targets and immutable prior 
  assert.equal(hash(readFileSync('tests/fixtures/pr372-integration-sources.json','utf8')),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112b4c9e00995');
  assert.equal(hash(readFileSync('tests/fixtures/art-feature-source-layer.json','utf8')),'b2bef34f482a5eca07b74a10d5ca31f04a5256a6b3a3d249ff8597a7b5962a30');
 });
-test('recognized beta hosts validate every added owner on every invocation',()=>{
+historicalTest('recognized beta hosts validate every added owner on every invocation',()=>{
  const path='config/architecture.json',current=readFileSync(path,'utf8');
  const added=Object.keys(betaSources).filter(p=>betaSources[p].targets.history.absent);
  for(const changed of added){
@@ -32,7 +33,7 @@ test('recognized beta hosts validate every added owner on every invocation',()=>
   }),/unreviewed beta linked owner/);
  }
 });
-test('beta retirement checks all owners twice and never deletes partially',()=>{
+historicalTest('beta retirement checks all owners twice and never deletes partially',()=>{
  const directory=mkdtempSync(join(tmpdir(),'abyss-beta-retirement-'));
  const paths=Object.keys(betaSources).filter(p=>betaSources[p].targets.history.absent);
  const put=(p,s)=>{mkdirSync(dirname(join(directory,p)),{recursive:true});writeFileSync(join(directory,p),s);};
@@ -50,7 +51,7 @@ test('beta retirement checks all owners twice and never deletes partially',()=>{
   assert.throws(()=>prepareBetaRetirement(process.cwd(),{sourceRoot:directory}),/historical copy/);
  }finally{rmSync(directory,{recursive:true,force:true});}
 });
-test('outer retirement refuses changed beta owners before deleting an older source owner',()=>{
+historicalTest('outer retirement refuses changed beta owners before deleting an older source owner',()=>{
  const directory=mkdtempSync(join(tmpdir(),'abyss-beta-outer-retirement-'));
  const old='src/lua/abyss_combat_catalog.lua';
  const paths=[old,...Object.keys(betaSources).filter(p=>betaSources[p].targets.history.absent)];

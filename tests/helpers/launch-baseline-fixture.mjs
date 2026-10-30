@@ -1,5 +1,7 @@
 import {materializeBeforeDelivery} from './delivery-source-composition.mjs';
 import {pathToFileURL} from 'node:url';
+import {fileURLToPath} from 'node:url';
+import {withHistoricalBaseline} from './historical-baseline-inputs.mjs';
 import { after } from 'node:test';
 import { readFileSync, cpSync, mkdtempSync, rmSync, symlinkSync, existsSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -11,10 +13,14 @@ import { relicCompletionInverse, requireRelicCompletionSource, preRelicCompletio
 export function launchBaselineFixture() {
   const root = mkdtempSync(join(tmpdir(), 'abyss-launch-baseline-'));
   after(() => rmSync(root, { recursive: true, force: true }));
-  for (const directory of ['data', 'src', 'scripts', 'config', 'tools'])
+  const implementationRoot=fileURLToPath(new URL('../..',import.meta.url));
+  // The launch ledger is a frozen replay. Execute today's inverse helpers on
+  // the registered original inputs, while current launch acceptance stays live.
+  return withHistoricalBaseline(()=>{
+  for (const directory of ['data', 'src', 'scripts', 'config', 'tools', 'tests/lua'])
     cpSync(directory, join(root, directory), { recursive: true });
-  for (const directory of ['tests', 'docs', 'node_modules'])
-    symlinkSync(resolve(directory), join(root, directory), 'junction');
+  for (const directory of ['tests/helpers', 'tests/fixtures', 'docs', 'node_modules'])
+    symlinkSync(resolve(implementationRoot,directory), join(root, directory), 'junction');
   materializeBeforeDelivery(root);
   const validatorPath=join(root,'scripts/verify-launch-content.mjs');
   const validatorSource=readFileSync(validatorPath,'utf8');
@@ -30,6 +36,7 @@ export function launchBaselineFixture() {
   // Preserve the exact outer-base validator and its current packaging contract.
   writeFileSync(validatorPath,validatorSource);
   return root;
+  });
 }
 
 // The validator constants and Lua probe must come from the same historical root.

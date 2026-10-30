@@ -1,5 +1,6 @@
 import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,7 +12,7 @@ const lum = hex => { const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 
 const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
 const over = (fg, bg, a) => '#' + [1, 3, 5].map(i => Math.round(parseInt(fg.slice(i, i + 2), 16) * a + parseInt(bg.slice(i, i + 2), 16) * (1 - a)).toString(16).padStart(2, '0')).join('');
 
-test('map path a11y outer inverse exactly recovers prior sources and rejects drift', () => {
+historicalTest('map path a11y outer inverse exactly recovers prior sources and rejects drift', () => {
   for (const [path, layer] of Object.entries(mapPathA11yLayer)) {
     const live = read(path);
     assert.equal(hash(live), layer.afterSha256, path);
@@ -26,7 +27,7 @@ test('map path a11y outer inverse exactly recovers prior sources and rejects dri
 });
 
 test('map node and path states follow STS hierarchy with WCAG 1.4.11 contrast', () => {
-  const theme = JSON.parse(read('data/presentation/ui_theme.json'));
+  const theme = JSON.parse(readFileSync('data/presentation/ui_theme.json','utf8'));
   const {node, mapCanvas} = theme.color, v = theme.layout.map.presentation, bg = mapCanvas.field;
   const locked = ratio(mapCanvas.far, bg), visited = ratio(mapCanvas.visited, bg);
   for (const ink of Object.values(mapCanvas.kind)) assert.ok(ratio(ink, bg) > Math.max(locked, 4.5), ink);
@@ -36,5 +37,5 @@ test('map node and path states follow STS hierarchy with WCAG 1.4.11 contrast', 
   const taken = ratio(over(node.pathTaken, bg, v.takenOpacity), bg);
   assert.ok(future >= 3 && next > future * 2 && taken > future * 2, `${future} ${next} ${taken}`);
   assert.ok(v.pathWidth >= 3);
-  assert.match(read('src/lua/abyss_map_ui.lua'), /next = pathColour\(Theme\.color\.node\.reachable/);
+  assert.match(readFileSync('src/lua/abyss_map_ui.lua','utf8'), /next = pathColour\(Theme\.color\.node\.reachable/);
 });

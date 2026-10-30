@@ -51,9 +51,10 @@ export function applyHistoricalRuntimeTarget(directory,target){
   else{mkdirSync(dirname(output),{recursive:true});writeFileSync(output,bytes);}
  }
 }
-export function createHistoricalRuntimeRoots({target:name}={}){
+export function createHistoricalRuntimeRoots({target:name,source:includeSource=true}={}){
+ assert.equal(typeof includeSource,'boolean','explicit historical source-root selection');
  const previous=process.cwd(),{inputs,target}=loadHistoricalRuntimeBundle(name);
- const sourceRoot=mkdtempSync(join(tmpdir(),'abyss-historical-source-'));
+ const sourceRoot=includeSource?mkdtempSync(join(tmpdir(),'abyss-historical-source-')):undefined;
  let directory;
  const close=()=>{
   process.chdir(previous);
@@ -65,7 +66,7 @@ export function createHistoricalRuntimeRoots({target:name}={}){
  };
  try{
   directory=mkdtempSync(join(tmpdir(),'abyss-historical-runtime-'));
-  writeHistoricalRuntimeSnapshot(sourceRoot,inputs);
+  if(sourceRoot)writeHistoricalRuntimeSnapshot(sourceRoot,inputs);
   writeHistoricalRuntimeSnapshot(directory,inputs);
   if(target)applyHistoricalRuntimeTarget(directory,target);
   return {sourceRoot,directory,inputs,close};

@@ -4,6 +4,7 @@ import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { verifyDelivery, verifyMergedDelivery, collectPrDelivery, collectMergedDelivery, checkoutReceipt, isLowRiskDocumentationChange, fullQualityJobs, currentFullQualityJobs, deliverySchemaVersion, qualityWorkflowPath } from '../scripts/verify-delivery.mjs';
+import {qualityShardMatrices,qualityShardJobs} from '../scripts/ci-quality-shape.mjs';
 
 const sha = letter => letter.repeat(40);
 function mergedEvidence(schemaVersion=2) {
@@ -12,7 +13,7 @@ function mergedEvidence(schemaVersion=2) {
     checkout:{head:sha('a'),base:sha('b'),tested:sha('c'),runId:7,attempt:2,event:'pull_request',prNumber:8,parents:[sha('b'),sha('a')]},
     testedCommit:{sha:sha('c'),parents:[{sha:sha('b')},{sha:sha('a')}],commit:{tree:{sha:sha('d')}}},
     run:{id:7,run_attempt:2,event:'pull_request',head_sha:sha('a'),path:qualityWorkflowPath,repository:{full_name:'owner/repo'},status:'completed',conclusion:'success',pull_requests:[{number:8}]},
-    jobs:fullQualityJobs.map((name,i)=>({id:100+i,name,status:'completed',conclusion:'success',run_attempt:2,run_id:7,head_sha:sha('a')})),
+    jobs:(schemaVersion===3?currentFullQualityJobs.filter(name=>!['impact','fast'].includes(name)):fullQualityJobs).map((name,i)=>({id:100+i,name,status:'completed',conclusion:'success',run_attempt:2,run_id:7,head_sha:sha('a')})),
     review:{reviewedHeadSha:sha('a'),reviewedBaseSha:sha('b'),reviewId:'external-session-123',conclusion:'pass',unresolved:[]}};
   const pr={number:8,merged:true,state:'closed',head:{sha:sha('a')},base:{ref:'develop',sha:sha('f')},merge_commit_sha:sha('e')};
   if(schemaVersion===3)Object.assign(preflight,{targetBeforeSha:preflight.base,targetAfterSha:preflight.base});
@@ -160,8 +161,8 @@ test('orchestration jobs retain exact identities, latest-execution semantics and
   }
 });
 
-test('current Full retains every original regression requirement rather than trusting routing or aggregate green',()=>{
-  for(const name of fullQualityJobs)for(const conclusion of ['failure','cancelled','skipped',null])for(const layer of ['preflight','push']) {
+test('current Full retains every current regression requirement rather than trusting routing or aggregate green',()=>{
+  for(const name of currentFullQualityJobs.filter(name=>!['impact','fast'].includes(name)))for(const conclusion of ['failure','cancelled','skipped',null])for(const layer of ['preflight','push']) {
     const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
     proof.jobs.find(j=>j.name===name).conclusion=conclusion;
     if(layer==='preflight')assert(verifyDelivery(proof).length,`${name}/${conclusion}`);
@@ -276,16 +277,36 @@ test('normal delivery includes the current complete hosted Quality matrices',()=
   // Windows checkout can use CRLF; enforce the same complete job contract for both forms.
   for(const newline of ['\n','\r\n']) {
     const workflow=source.replaceAll('\n',newline).replaceAll('\r\n','\n');
-    assert.match(workflow,/shard: \$\{\{ fromJSON\(inputs.runner_pool == 'local-special' && '\[1\]' \|\| '\[1,2,3,4,5,6,7,8\]'\) \}\}/);
-    assert.match(workflow,/engineering-posix-shards:[\s\S]*?shard: \[1, 2, 3, 4\]/);
+    assert.ok(workflow.includes("shard: ${{ fromJSON(inputs.runner_pool == 'local-special' && '[1]' || needs.impact.outputs.windows_shards) }}"));
+    assert.ok(workflow.includes('shard: ${{ fromJSON(needs.impact.outputs.posix_shards) }}'));
+    for(const platform of ['windows','posix'])assert.ok(workflow.includes(`${platform}_shards: \${{ steps.plan.outputs.${platform}_shards }}`));
+    const impactSource=readFileSync('scripts/ci-impact.mjs','utf8');
+    assert.ok(impactSource.includes('windows_shards=${JSON.stringify(qualityShardMatrices.windows)}'));
+    assert.ok(impactSource.includes('posix_shards=${JSON.stringify(qualityShardMatrices.posix)}'));
+    assert.deepEqual(qualityShardMatrices.windows,[1,2,3,4,5,6,7,8]);
+    assert.deepEqual(qualityShardMatrices.posix,[1,2,3,4,5,6,7,8]);
     assert.deepEqual(fullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
       Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`));
     assert.equal(fullQualityJobs.length,15);
     assert.equal(deliverySchemaVersion,3);
-    assert.deepEqual(currentFullQualityJobs,[...fullQualityJobs,'impact','fast']);
+    assert.deepEqual(currentFullQualityJobs,['check','presentation','engineering-posix',...qualityShardJobs,'impact','fast']);
+    assert.equal(currentFullQualityJobs.length,21);
+    assert.deepEqual(currentFullQualityJobs.filter(name=>name.startsWith('engineering-posix (')),
+      Array.from({length:8},(_,i)=>`engineering-posix (${i+1}/8)`));
     assert.match(workflow,/^  impact:\n/m);
     assert.match(workflow,/^  fast:\n[\s\S]*?if: needs\.impact\.outputs\.mode == 'fast'\n/m);
     assert.match(workflow,/os: \[ubuntu-24\.04, windows-2025\]/);
+  }
+});
+
+test('fully green former four- or six-POSIX schema-three runs cannot certify the current eight-shard shape',()=>{
+  for(const oldCount of [4,6])for(const layer of ['preflight','push']){
+    const e=mergedEvidence(3),proof=layer==='preflight'?e.preflight:e;
+    const example=proof.jobs.find(job=>job.name==='engineering-posix (1/8)');
+    proof.jobs=proof.jobs.filter(job=>!job.name.startsWith('engineering-posix ('));
+    proof.jobs.push(...Array.from({length:oldCount},(_,i)=>({...example,id:600+i,name:`engineering-posix (${i+1}/${oldCount})`})));
+    if(layer==='preflight')assert(verifyDelivery(proof).length);
+    else assert.equal(verifyMergedDelivery(e).state,'merged_pending');
   }
 });
 

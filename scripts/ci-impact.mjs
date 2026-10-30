@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync, writeFileSync, appendFileSync } from 'node:fs';
+import {qualityShardMatrices} from './ci-quality-shape.mjs';
 import { spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -50,7 +51,7 @@ export function main() {
     forceFull: event.pull_request?.labels?.some(l => l.name === 'ci:full') }, JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8')));
   plan.sha = process.env.GITHUB_SHA;
   writeFileSync('ci-impact.json', JSON.stringify(plan, null, 2));
-  appendFileSync(process.env.GITHUB_OUTPUT, `mode=${plan.mode}\n`);
+  appendFileSync(process.env.GITHUB_OUTPUT, `mode=${plan.mode}\nwindows_shards=${JSON.stringify(qualityShardMatrices.windows)}\nposix_shards=${JSON.stringify(qualityShardMatrices.posix)}\n`);
   appendFileSync(process.env.GITHUB_STEP_SUMMARY, `CI plan: ${JSON.stringify(plan)}\n`);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main();

@@ -1,4 +1,4 @@
-import { jsShard, discoverJs } from '../scripts/ci-shards.mjs';
+import { partition, jsShard, jsPlanningWeights, discoverJs, timings as runtimeTimings } from '../scripts/ci-shards.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -8,6 +8,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readdirSync, readFileSyn
 import { tmpdir } from 'node:os';
 import { join, resolve, sep } from 'node:path';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 
 test('sorted shards partition every fixture without omission or duplication and reject invalid bounds', () => {
   const scripts = ['d.lua', 'b.lua', 'a.lua', 'e.lua', 'c.lua'];
@@ -49,8 +50,10 @@ test('measured scheduling retains every current fixture and reduces estimated cr
   assert.equal(timings.jsSource.runId, 40980643080);
   assert.equal(timings.jsSource.runAttempt, 1);
   assert.equal(timings.jsSource.headSha, 'ce62e753065666fd26c9d85587a8f3ae2a580689');
-  assert.equal(Object.keys(timings.js.win32).length, 408);
-  assert.equal(Object.keys(timings.js.linux).length, 408);
+  assert.equal(timings.jsCalibration.previousMapEntries.win32,408);
+  assert.equal(timings.jsCalibration.previousMapEntries.linux,408);
+  assert.ok(Object.keys(timings.js.win32).length>=408);
+  assert.ok(Object.keys(timings.js.linux).length>=408);
   assert.equal(Object.keys(timings.lua).length, 974);
   const scripts = readdirSync('tests/lua').filter(file => file.endsWith('.lua')).sort().map(file => `tests/lua/${file}`);
   const weight = script => timings.luaShard?.[script] ?? timings.lua[script] ?? timings.unknownLuaMs;
@@ -64,7 +67,8 @@ test('measured scheduling retains every current fixture and reduces estimated cr
   }
   const newLoads = jsShard(discoverJs(), '1/8', 'win32').loads;
   const oldLoads = Array(8).fill(0);
-  discoverJs().sort().forEach((file, i) => { oldLoads[i % 8] += timings.js.win32[file] ?? timings.unknownJsMs; });
+  const jsWeights=jsPlanningWeights(discoverJs());
+  discoverJs().sort().forEach((file, i) => { oldLoads[i % 8] += jsWeights[file]; });
   scripts.forEach((script, i) => { oldLoads[i % 8] += weight(script); });
   for (let i = 0; i < 8; i++) for (const script of shardLuaScripts(scripts, `${i + 1}/8`)) newLoads[i] += weight(script);
   assert.ok(Math.max(...newLoads) < Math.max(...oldLoads), 'measured schedule must improve the estimated critical path');
@@ -79,6 +83,20 @@ test('dual-worker partition includes the full serial cost of deadline-sensitive 
   assert.deepEqual(shardLuaScripts(fixtures, '2/2', timings, 2), ['a.lua', 'd.lua']);
 });
 
+test('default Lua placement ignores a same-length stale aggregate and uses the current complete JS proxy',()=>{
+  const scripts=Array.from({length:16},(_,i)=>`unmeasured-${i}.lua`),current=jsShard(discoverJs(),'1/8','win32').loads;
+  const weights=Object.fromEntries(scripts.map(path=>[path,runtimeTimings.unknownLuaMs]));
+  const expected=Array.from({length:8},(_,i)=>partition(scripts,`${i+1}/8`,weights,runtimeTimings.unknownLuaMs,current).files);
+  const prior=runtimeTimings.windowsJsShardMs;
+  try{
+    runtimeTimings.windowsJsShardMs=[0,...Array(7).fill(1000000000)];
+    const actual=Array.from({length:8},(_,i)=>shardLuaScripts(scripts,`${i+1}/8`));
+    assert.deepEqual(actual,expected,'matching shard count never proves the aggregate used current files and weights');
+  }finally{
+    if(prior===undefined)delete runtimeTimings.windowsJsShardMs;else runtimeTimings.windowsJsShardMs=prior;
+  }
+});
+
 test('fresh placement measurements retain every safety classification and balance the same full measured workload', () => {
   const timings = JSON.parse(readFileSync('scripts/ci-test-timings.json', 'utf8'));
   assert.equal(createHash('sha256').update(JSON.stringify(timings.lua)).digest('hex'),
@@ -88,7 +106,7 @@ test('fresh placement measurements retain every safety classification and balanc
   assert.equal(files.length, 1114);
   const current = readdirSync('tests/lua').filter(file => file.endsWith('.lua')).map(file => `tests/lua/${file}`);
   assert.ok(files.every(file => current.includes(file)), 'complete measured inventory remains discovered');
-  const old = { ...timings };
+  const old = { ...timings, windowsJsShardMs:jsShard(discoverJs(),'1/8','win32').loads };
   delete old.luaShard;
   const short = file => (timings.lua[file] ?? timings.unknownLuaMs) < 10000;
   const js = jsShard(discoverJs(), '1/8', 'win32').loads;
@@ -103,7 +121,7 @@ test('fresh placement measurements retain every safety classification and balanc
       return js[i] + bin.filter(file => !short(file)).reduce((sum, file) => sum + timings.luaShard[file], 0) + Math.max(...pool);
     });
   }
-  const before = loads(old), after = loads(timings);
+  const before = loads(old), after = loads({...timings,windowsJsShardMs:js});
   assert.ok(Math.max(...after) < Math.max(...before) * 0.95, 'same measured workload improves projected maximum by at least 5%');
   assert.ok(Math.max(...after) - Math.min(...after) < 1000, 'projected combined spread remains under one second');
   const sample = { lua: { heavy: 20000, short: 100 }, luaShard: { heavy: 100, short: 20000 }, unknownLuaMs: 10000 };
@@ -114,7 +132,7 @@ test('fresh placement measurements retain every safety classification and balanc
   }
 });
 
-test('placement inverse preserves original runner bytes and exposes every unrelated mutation', () => {
+historicalTest('placement inverse preserves original runner bytes and exposes every unrelated mutation', () => {
   const path = 'scripts/test-lua.mjs', source = readFileSync(path, 'utf8').replaceAll('\r\n', '\n');
   const sha = value => createHash('sha256').update(value).digest('hex');
   const before = '66dc757b28cbe4a0f802d7f660299f1e91f8381bd44a08ac2e69aff2d3398ab2';

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-29 12:26'
-updated_date: '2026-10-30 17:06'
+updated_date: '2026-10-30 19:25'
 labels: []
 dependencies: []
 priority: medium
@@ -41,4 +41,6 @@ Agent C读取PR336真实失败，区分历史快照与行为回归；仅对证�
 实际将独立工作树architecture配置压成单行，相同九文件30/30通过(15477.3ms)，finally已恢复原始字节。未修改任何产品Lua/候选审计；精确PR CI未通过前保留AC3未勾。
 
 2026-10-31本轮治理：历史矩阵改在完整原始输入隔离树执行，现行动态Host另验；保留全部原source/oracle及变异负例。Nodes纯历史5/5为47.524s，PR323纯历史5/5为29.603s；原CI372.02/76.82s环境不同，不作严格倍数。原预算runtime代表4入口约5–15s通过；不再每次重复26个UI来源的重复逆变换。实际读源探针证明无关输入1次读，等价输入仍152次完整读且改脏关联owner严格拒绝；最终完整CI仍待。
+
+2026-10-31进一步明确历史责任：旧preMulti动作仍写教学字幕，与冻结fixture空提示断言本不自洽；找到Git38f4原始同body/support输入，固定1837路径整体身份，仅battle_ui七入口使用，原80frame/seeds/断言不变，主控battle1实跑33.660s通过。drag/22scene仍原032来源；单snapshot去掉重复原树写入，drag1/2为16.916/19.567s，22场景深比较26.097s通过，原30/60/120预算保留。当前input/runtime/真实validator保持当前代码，历史source不代替当前验收。
 <!-- SECTION:NOTES:END -->

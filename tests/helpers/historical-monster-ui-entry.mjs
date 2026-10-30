@@ -1,24 +1,33 @@
 import assert from 'node:assert/strict';
 import {writeFileSync,readFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {createHistoricalRuntimeRoots} from './historical-runtime-root.mjs';
+import {createHistoricalRuntimeRoots,applyHistoricalRuntimeTarget} from './historical-runtime-root.mjs';
 import {spawnSync} from 'node:child_process';
 import {createRequire} from 'node:module';
 import {pathToFileURL} from 'node:url';
 import {historicalMonsterUiFixtures,historicalMonsterLuaArgs} from './historical-monster-ui-runner.mjs';
-import {materializeHistoricalMonsterUi} from './historical-monster-ui-materialize.mjs';
+import {verifiedHistoricalMonsterSources} from './historical-monster-ui-materialize.mjs';
 import {frozenBattleHandPrelude} from './battle-life-frozen-hand.mjs';
 import {approvedHistoricalBattleMonolith} from './approved-battle-responsibilities.mjs';
 import {multiMonsterSourceLayer} from './multi-monster-art-source-inverse.mjs';
 const script=process.argv[2],timeout=Number(process.argv[3]),started=Date.now(),originalCwd=process.cwd();
 assert.ok(historicalMonsterUiFixtures.includes(script)||script==='battle-refactor-render','only exact historical monster UI fixtures');
 const remaining=()=>{const value=timeout-(Date.now()-started);assert(value>0,'historical monster UI exceeded original total deadline');return value;};
-const runtime=createHistoricalRuntimeRoots(),{directory,sourceRoot,inputs}=runtime;
+const originalBattleUi=/^tests\/lua\/battle_ui(?:_slice_[2-7])?\.lua$/.test(script);
+const runtime=createHistoricalRuntimeRoots({source:false,target:originalBattleUi?'battleUi':undefined}),{directory,inputs}=runtime;
 console.error('HISTORICAL_STAGED '+(Date.now()-started)+'ms');
-console.log('Historical pre-multi monster UI replay (03266f66) only: unchanged frozen cases/scenes; not current source-port acceptance.');
+console.log(originalBattleUi
+ ? 'Original #372 battle UI input replay (38f4dd8aea7fa77370146e616700c68fd1bea911): unchanged frozen bodies/support/seeds; not current source-port acceptance.'
+ : 'Historical pre-multi monster UI replay (03266f66) only: unchanged frozen cases/scenes; not current source-port acceptance.');
 try{
- process.chdir(sourceRoot);
- materializeHistoricalMonsterUi(directory,sourceRoot,{inputs});
+ process.chdir(directory);
+ // Validate the complete original closure before changing this private root.
+ // This reader belongs to this call; no projected or dirty input is reused.
+ if(!originalBattleUi){
+  const readOriginal=path=>{assert.ok(Object.hasOwn(inputs,path),'registered original monster input: '+path);return inputs[path].toString('utf8');};
+  const projected=verifiedHistoricalMonsterSources(directory,readOriginal);
+  applyHistoricalRuntimeTarget(directory,Object.fromEntries(projected));
+ }
  console.error('HISTORICAL_PROJECTED '+(Date.now()-started)+'ms');
  process.chdir(directory);
  for(const builder of ['build-lua-data.mjs','build-ui.mjs']){

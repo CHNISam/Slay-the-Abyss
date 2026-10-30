@@ -2,7 +2,7 @@ import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mj
 import {preNodesDepletedFixtureSource} from './helpers/nodes-depleted-fixture-inverse.mjs';
 import {preGremlinGangOwnerFixtureSource} from './helpers/gremlin-gang-owner-fixture-inverse.mjs';
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
-import test from 'node:test';
+import {historicalTest as test} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';

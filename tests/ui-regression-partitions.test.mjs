@@ -1,5 +1,6 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -32,7 +33,7 @@ function originalSource(part,source){
  assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),part.originalGitBlob);
  return source;
 }
-test('UI regression partitions keep the actual merged base and every runner deadline unchanged',()=>{
+historicalTest('UI regression partitions keep the actual merged base and every runner deadline unchanged',()=>{
  assert.equal(manifest.base,'cec690c1701af121e370facde5c1ca2ad9beb99e');
  assert.equal(manifest.timeoutMilliseconds,30000);
  assert.equal(manifest.runnerSha256LF,'7866bfbb9888417087a669dd20f524de32ccb1efe1d035a283fc1b148d26ed33');
@@ -40,7 +41,7 @@ test('UI regression partitions keep the actual merged base and every runner dead
  assert.equal(manifest.partitions.length,originals.length);
 });
 for(const [index,[name,total,last,label,sourceSha,blob]]of originals.entries()){
- test(`${name} partitions restore every original byte and reject source or range drift`,()=>{
+ historicalTest(`${name} partitions restore every original byte and reject source or range drift`,()=>{
   const part=manifest.partitions[index],entry=`tests/lua/${name}.lua`;
   assert.equal(part.entry,entry);assert.equal(part.total,total);assert.equal(part.label,label);
   assert.equal(part.originalSha256LF,sourceSha);assert.equal(part.originalGitBlob,blob);

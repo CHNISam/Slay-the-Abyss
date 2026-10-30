@@ -8,18 +8,19 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { originalLuaRunner } from './helpers/ci-lua-runner-inverse.mjs';
 import {readBeforeMobileQaSource} from './helpers/mobile-qa-source-inverse.mjs';
-import { partition, jsShard, discoverJs, timings } from '../scripts/ci-shards.mjs';
+import { partition, jsShard, jsPlanningWeights, discoverJs, timings } from '../scripts/ci-shards.mjs';
 import { shardLuaScripts } from '../scripts/test-lua.mjs';
+import {historicalTest,readHistoricalBaselineSource} from './helpers/historical-baseline-inputs.mjs';
 
-test('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes', () => {
+historicalTest('scheduler inverse preserves the frozen runner for LF/CRLF and rejects unrelated changes', () => {
   const source = readBeforeMobileQaSource('scripts/test-lua.mjs').replaceAll('\r\n', '\n');
   const sha = text => createHash('sha256').update(text).digest('hex');
   const original = '63ec149511d52b9e362f2c9210d092e4d97bd815c5b8c16e7009ade146d5d55b';
   for (const text of [source, source.replaceAll('\n', '\r\n')]) assert.equal(sha(originalLuaRunner(text)), original);
-  const live=readFileSync('scripts/test-lua.mjs','utf8').replaceAll('\r\n','\n');
-  assert.equal(sha(originalLuaRunner(live)),original,'the complete current runner traverses the exact historical layer');
-  for(const drift of [live+'\n-- unrelated drift\n',live.replace('60000 : 30000','60000 : 60000')]){
-    assert.notEqual(drift,live);
+  const epoch=readFileSync('scripts/test-lua.mjs','utf8').replaceAll('\r\n','\n');
+  assert.equal(sha(originalLuaRunner(epoch)),original,'the complete original runner traverses the exact historical layer');
+  for(const drift of [epoch+'\n-- unrelated drift\n',epoch.replace('60000 : 30000','60000 : 60000')]){
+    assert.notEqual(drift,epoch);
     assert.throws(()=>originalLuaRunner(drift),/exact original-deadline historical fixture dispatch/);
   }
   const changedDeadline = source.replace('60000 : 30000', '60000 : 60000');
@@ -46,22 +47,23 @@ test('weighted scheduling balances unequal files deterministically and rejects u
   assert.throws(() => partition(files, '1/2', weights, 1, [NaN, 0]));
 });
 
-test('platform gates reserve measured time only for the corresponding complete hosted matrix', () => {
-  for (const [platform, count] of [['win32', 8], ['linux', 4]]) {
+test('platform gates reserve their measured first-shard cost for every valid shard count', () => {
+  for (const [platform, measuredCount] of [['win32', 8], ['linux', 4]]) {
     const initial = timings.initialMs[platform];
-    assert.equal(initial.length, count);
+    assert.equal(initial.length, measuredCount);
     assert.ok(initial[0] > 0);
     assert.ok(initial.slice(1).every(value => value === 0));
-    assert.deepEqual(jsShard([], `1/${count}`, platform).loads, initial);
-    assert.deepEqual(jsShard([], '1/1', platform).loads, [0], 'local serial diagnostics do not inherit hosted matrix offsets');
+    for(const count of [1,2,4,6,8,64])assert.deepEqual(jsShard([],`1/${count}`,platform).loads,
+      [initial[0],...Array(count-1).fill(0)],'a changed matrix must not erase the measured gate');
   }
+  assert.equal(jsShard([],'1/6','linux').loads[0],44000);
 });
 
 test('all current JS and Lua files are scheduled exactly once; new unmeasured files cannot disappear', () => {
   const js = discoverJs(), lua = readdirSync('tests/lua').filter(f => f.endsWith('.lua')).map(f => `tests/lua/${f}`);
   for (const [files, count, select] of [
     [js, 8, (files, value) => jsShard(files, value, 'win32').files],
-    [js, 4, (files, value) => jsShard(files, value, 'linux').files],
+    [js, 8, (files, value) => jsShard(files, value, 'linux').files],
     [lua, 8, shardLuaScripts], [lua, 1, shardLuaScripts],
   ]) {
     const input = [...files, 'tests/unmeasured-new-file'];
@@ -70,9 +72,9 @@ test('all current JS and Lua files are scheduled exactly once; new unmeasured fi
     assert.equal(new Set(union).size, union.length);
     assert.deepEqual(union.sort(), input.sort());
   }
-  for (const [platform, count] of [['win32', 8], ['linux', 4]]) {
+  for (const [platform, count] of [['win32', 8], ['linux', 8]]) {
     const loads = jsShard(js, `1/${count}`, platform).loads;
-    const weights = timings.js[platform];
+    const weights = jsPlanningWeights(js);
     const old = Array(count).fill(0);
     [...js].sort().forEach((file, i) => old[i % count] += weights[file] ?? timings.unknownJsMs);
     assert.ok(Math.max(...loads) < Math.max(...old), `${platform}: weighted schedule must improve measured critical path`);
@@ -117,14 +119,32 @@ test('current timing records preserve all measured corrections without duplicate
  assert.equal((raw.match(/^  "jsCorrections":/gm)||[]).length,1,'one unambiguous correction inventory');
  assert.equal(timings.jsCorrections.length,3);
  for(const entry of timings.jsCorrections){
-  assert.equal(timings.js[entry.platform][entry.file],Math.ceil(entry.durationMs),'measured conservative weight: '+entry.file);
+  assert.ok(timings.js[entry.platform][entry.file]>=Math.ceil(entry.durationMs),'measured conservative floor: '+entry.file);
   assert.ok(Number.isSafeInteger(entry.runId)&&Number.isSafeInteger(entry.jobId));
   assert.match(entry.headSha,/^[a-f0-9]{40}$/);
  }
- assert.equal(createHash('sha256').update(JSON.stringify(timings.js.linux)).digest('hex'),'3fdcb1aa1e50352a164eb3ebde77f0a01ac4b0ad76b1302939021ae7d76d8755','current accepted Linux weights remain exact');
+ const previous=JSON.parse(readHistoricalBaselineSource('scripts/ci-test-timings.json'));
+ assert.equal(createHash('sha256').update(JSON.stringify(previous.js.linux)).digest('hex'),'3fdcb1aa1e50352a164eb3ebde77f0a01ac4b0ad76b1302939021ae7d76d8755','the prior observed map remains an immutable source');
+ for(const platform of ['win32','linux']){
+  assert.equal(timings.jsCalibration.previousMapSha256[platform],createHash('sha256').update(JSON.stringify(previous.js[platform])).digest('hex'));
+  for(const [file,weight]of Object.entries(previous.js[platform]))assert.ok(timings.js[platform][file]>=weight,'no observed weight may decrease: '+file);
+  for(const [file,row]of Object.entries(timings.jsCalibration.raised[platform])){
+   assert.equal(row.beforeMs,previous.js[platform][file]??previous.unknownJsMs);
+   assert.ok(row.observedMs>row.beforeMs);
+   assert.equal(timings.js[platform][file],row.observedMs);
+  }
+ }
+ assert.equal(timings.jsCalibration.runId,41097231681);assert.equal(timings.jsCalibration.runAttempt,1);
+ assert.equal(timings.jsCalibration.headSha,'568d47a8f51164ed9e3cfb0656f57f2d832ed546');
+ for(const [file,entry]of Object.entries(timings.jsPlanning.localLowerBounds)){
+  assert.match(entry.environment,/local/);assert.match(entry.kind,/not .*hosted/);
+  const expected=Math.max(...Object.values(timings.js).map(weights=>weights[file]??timings.unknownJsMs),entry.durationMs);
+  assert.equal(jsPlanningWeights([file])[file],expected);
+ }
+ assert.equal(jsPlanningWeights(['tests/task77-current-source-layers.test.mjs'])['tests/task77-current-source-layers.test.mjs'],394262);
 });
 
-test('fresh relic base retains its complete accepted scheduling measurements', () => {
+historicalTest('fresh relic base retains its complete accepted scheduling measurements', () => {
   assert.equal(createHash('sha256').update(preIntegrationSource('scripts/ci-test-timings.json',readFileSync('scripts/ci-test-timings.json','utf8')).replaceAll('\r\n','\n')).digest('hex'),
     '4039efc1bc954f541bcacac619550daa1231a4b3894ebe6568697d2f10af7ad8', 'exact acb09e46 scheduling contract; no obsolete PR366 correction reapplied');
 });

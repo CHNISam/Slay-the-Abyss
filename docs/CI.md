@@ -8,9 +8,9 @@ TASK-74正式退役已停用任务锁的源码和29项专属测试，并移除�
 
 日常使用 `npm run test:fast -- --base origin/develop` 获取 advisory 快速反馈，`npm run test:related -- --base origin/develop` 验证完整受影响集合；`--plan`只生成计划。未知输入及基础设施变更仍要求全量，fast 只报告独立可映射部分，不自动启动重复全量。自动 PR advisory 与本地 fast 共用选择器，选集、延期与零测试均显式报告，详见 [CI-FAST](CI-FAST.md)。最终集成执行完整 Quality，不能把快速层的成功当作完整验收。
 
-完整 Windows 回归分成八个独立 VM 的 `rules (i/8)`。JS 使用 `ci-shards.mjs --shard=i/8` 按逐文件实测耗时分配；Lua 使用 `--shard i/8`，计入前置 JS 负载后分配，每片内部均串行。POSIX 的完整 JS 回归分成四个独立 VM 的 `engineering-posix (i/4)`，使用同一加权分配器和 POSIX 独立耗时表，每个文件在该平台执行一次，每片保留完整工程门禁与原20分钟作业预算。每个脚本保持独立进程、原超时和完整断言，输出按文件聚合，失败仍跑完剩余文件并非零退出。`check` 与 `engineering-posix` 分别汇总各自所有分片，失败、取消或跳过均不放行；三个必需检查名称不变，完整托管Quality共15个作业。可信 local-special 手动诊断仍单片串行、保留原75分钟作业预算。细节与实际耗时见 [TASK-74](backlog-details/TASK-74.md)。
+完整 Windows 回归分成八个独立 VM 的 `rules (i/8)`。JS 使用 `ci-shards.mjs --shard=i/8` 按逐文件权重分配；Lua 使用 `--shard i/8`，计入前置 JS 负载后分配，每片内部均串行。POSIX 的完整 JS 回归也分成八个独立 VM 的 `engineering-posix (i/8)`，每个文件在该平台执行一次；第一片执行完整工程门禁，所有片保持原20分钟作业预算。调度使用两平台已观测成本与明确标注本地下界的逐文件最大值，作为保守规划代理，不把跨平台估算写成 Linux 实测。共享形状在 `scripts/ci-quality-shape.mjs` 定义，impact 输出实际矩阵，交付验证器使用同一份完整 job 名；任意片数均为第一片预留原平台门禁耗时（Linux 44秒）。每个脚本保持独立进程、原超时和完整断言，输出按文件聚合，失败仍跑完剩余文件并非零退出。`check` 与 `engineering-posix` 分别汇总各自所有分片，失败、取消或跳过均不放行；三个必需检查名称不变，标准回归16片加3个汇总作业，再加 impact 与跳过的 fast 共21个作业身份。schema 2 的旧15作业历史合同保留，旧四片或六片绿灯不能认证当前 schema 3。可信 local-special 手动诊断仍单片串行、保留原75分钟作业预算。细节与实际耗时见 [TASK-74](backlog-details/TASK-74.md)。
 
-PR252的运行40524983643中，POSIX旧第一片975项JS全部通过，耗时1192.218秒；随后工程门禁亦通过，但加上安装与取证使作业越过20分钟总预算。四片继续使用隔离VM和片内串行，减少单VM分配到的测试文件数；不增加作业或单fixture超时，也不删测试。新分片的实际完成时长仍须当前SHA官方CI验证。
+PR391 的 POSIX 官方超时 annotation 表明旧四片已越过20分钟总预算。早期六片预测仍沿用过时成本；首轮 `CI_FILE_TIMING success:true` 显示 Task77 的完整 Windows 成功耗时约394秒，旧权重仅701毫秒。现按实际平台成功记录只升不降校准，原始日志身份与校准记录保存在 timing JSON 元数据中；失败快返不用于降低成本。本地 Native-M3 全9组通过约368秒、final-integration 全2组通过约118秒、M3-integration 仅6/8组约174秒分别记为本地下界，不冒充 hosted/Linux 测量或完整通过。当前544个JS文件采用这些保守成本并计入首片44秒门禁，六片最大估算1,438,014毫秒，八片为1,078,517毫秒，因此本轮改用八片，取代先前六片预测；roster 仍保留完整纯合同矩阵与真实 public 桥接检查。所有 VM 保持片内串行，不增加作业或单fixture超时，不放宽 Formal 180秒选择预算，也不删测试。实际完成时长仍须当前SHA官方CI验证。
 
 本地 `npm run check` 保持完整串行；需要诊断某片时可用 `npm run test:lua -- --shard 1/4`，单片成功不代替完整检查。进程和文件系统测试保留独立临时目录。UI保护矩阵每个用例仍拥有新data/out目录，不共享可变状态。
 

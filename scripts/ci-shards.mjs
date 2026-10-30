@@ -27,13 +27,23 @@ export function partition(files, value, weights, fallback, initial) {
   return { files: bins[index - 1].files.sort(), loads: bins.map(bin => bin.load) };
 }
 
+export function jsPlanningWeights(files) {
+  // Placement uses the conservative cross-platform maximum. Local estimates
+  // stay separate from observed platform maps and cannot certify execution.
+  return Object.fromEntries(files.map(file=>[file,Math.max(
+    ...Object.values(timings.js).map(weights=>weights[file]??timings.unknownJsMs),
+    timings.jsPlanning?.localLowerBounds?.[file]?.durationMs??0)]));
+}
+
 export function jsShard(files, value, platform = process.platform) {
   // Only shard 1 runs the platform's non-test gates. Reserve their measured
   // cost before distributing JS, and carry it into the subsequent Lua plan.
   const initial = timings.initialMs?.[platform];
   const count = Number(String(value).split('/')[1]);
-  return partition(files, value, timings.js[platform] ?? {}, timings.unknownJsMs,
-    initial?.length === count ? initial : undefined);
+  const loads = initial && Number.isSafeInteger(count) && count > 0 && count <= 64
+    ? Array.from({length:count},(_,index)=>index===0?initial[0]:0) : undefined;
+  return partition(files, value, jsPlanningWeights(files), timings.unknownJsMs,
+    loads);
 }
 
 export function discoverJs(root = '.') {

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 11:45'
-updated_date: '2026-10-30 16:53'
+updated_date: '2026-10-30 18:37'
 labels: []
 dependencies: []
 priority: medium
@@ -45,4 +45,6 @@ ordinal: 130000
 PR377最新整合承接PR378事件与PR381必要修复：目录hash与原生怪物参数错误已由当前来源登记/五类生成flags替代，历史beta证据保留在PR381；当前使用合流的delivery-source-composition而非重新叠旧beta逆层。dot补回架构负例的真实层切换，加入Match/Skull共享池双向回归，并接入四张精确运行预览的按需LFS准备（181870逻辑字节；旧六张审批组不变）。真实只补取缺少背景预览，复用本地六张已核验牌图；当前专项结果与完整CI、候选/设备继续分列，整项不Done。
 
 2026-10-31本轮治理：修复当前意图元数据与未来效果预览混用、失败恢复丢失源回调、死亡控件退役生命周期及夹具动态API缺口；精确复用PR384 c559ed4的3个运行时修复，不吸收其它UI。回归保留HP/复活/事件/RNG/输入断言，复杂度门禁不放宽。本地完整工程门禁与死亡/恢复/召唤等重点回归已过，仍待最终组合托管CI；本轮未做GIL写入、官方导入、ready、PC/手机实机，不勾平台验收。
+
+2026-10-31补发现真实生产生命周期：永久disable仅关闭彩蛋后丢view会遗失背景缓存。新增终止release与失败保留清理者、OnUpdate禁后续访问，close仍暂停/重开复用。正负例已实测：背景完整4577控件释放、失败重试、引擎销毁后无native写；当前文字/意图/布局/louse库存共7file串行通过。首轮Full失败全部保留，历史source/当前native mock边界分别修复，不宣称旧head已绿；无官方导入/ready/设备证据。
 <!-- SECTION:NOTES:END -->

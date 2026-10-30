@@ -45,12 +45,15 @@ export function verifyOriginalRuntimeTarget(target){
  // Changes require review against the original source proofs and Git inputs.
  assert.equal(hash('sha256',JSON.stringify(target)),'29ac235c54dbc163291ddda3d3cb3940a8e3302c324b8146154f2ac67a1e3e38','immutable original historical runtime target manifest');
 }
+export function verifyOriginalBattleUiInputs(target){
+ assert.equal(hash('sha256',JSON.stringify(target)),'f35e6549b2ec2e0dc5a3581da9a3e14a09694de3834d68ed1d7cfca335bf0189','immutable original #372 battle UI input manifest');
+}
 export function loadHistoricalRuntimeBundle(name){
  const archive=sourceArchive(),inputs=baselineInputs(archive);
  if(name===undefined)return {inputs};
- assert.equal(name,'presentation','declared original runtime source target');
+ assert.ok(['presentation','battleUi'].includes(name),'declared original runtime source target');
  const target=archive.runtimeTargets?.[name];assert.ok(target,'complete original runtime source target');
- verifyOriginalRuntimeTarget(target);
+ if(name==='presentation')verifyOriginalRuntimeTarget(target);else verifyOriginalBattleUiInputs(target);
  assert.equal(target.inputCommit,archive.sourceCommit);
  const files={};
  for(const [path,binding]of Object.entries(target.files)){
@@ -60,6 +63,28 @@ export function loadHistoricalRuntimeBundle(name){
   assert.equal(hash('sha256',bytes),binding.sourceSha256,'complete original runtime source: '+path);
   assert.equal(createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),binding.gitBlob,'original runtime Git blob: '+path);
   files[path]=bytes;
+ }
+ if(name==='battleUi'){
+  assert.equal(target.historicalHead,'38f4dd8aea7fa77370146e616700c68fd1bea911');
+  // Bind the complete original epoch, including unchanged 98 input files and
+  // declared absences. Sparse storage never permits a mixed source closure.
+  for(const [path,blob]of Object.entries(target.completeGitBlobs)){
+   historicalInputPath(sourceRoot,path);
+   const bytes=Object.hasOwn(files,path)?files[path]:inputs[path];
+   assert.equal(bytes==null?null:createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex'),blob,'complete original #372 Git input: '+path);
+  }
+  for(const path of Object.keys(files))assert.ok(Object.hasOwn(target.completeGitBlobs,path),'declared complete #372 input: '+path);
+  // These pre-existing complete fixture/support witnesses remain independent
+  // of the new original-input archive and retain all their existing bytes.
+  for(const path of ['tests/lua/battle_ui.lua',...Array.from({length:6},(_,i)=>`tests/lua/battle_ui_slice_${i+2}.lua`),'tests/lua/support/battle_ui_cases.lua']){
+   const bytes=Object.hasOwn(files,path)?files[path]:inputs[path];assert.deepEqual(bytes,inputs[path],'unchanged full frozen battle UI fixture: '+path);
+  }
+  const supportBytes=readFileSync(new URL('../fixtures/historical-monster-ui-support.json',import.meta.url));
+  assert.equal(hash('sha256',supportBytes.toString('utf8').replaceAll('\r\n','\n')),'f536f06de7bea3052a7303db34ec37cc68b631704f337ae3efba2d39515821ed');
+  for(const [path,binding]of Object.entries(JSON.parse(supportBytes).files)){
+   const bytes=Object.hasOwn(files,path)?files[path]:inputs[path];assert.equal(hash('sha256',bytes),binding.beforeSha256,'existing original battle support: '+path);
+  }
+  return {inputs,target:files};
  }
  // Critical final sources are independently bound by the existing unchanged
  // source records. Their actual Git bytes matched all 26 formal beforeSha.

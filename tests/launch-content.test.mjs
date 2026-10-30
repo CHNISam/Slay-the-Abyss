@@ -2,17 +2,21 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync as readCurrentFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { launchBaselineFixture, loadLaunchBaselineValidator } from './helpers/launch-baseline-fixture.mjs';
+import {validateLaunchContent as validateCurrentLaunchContent,inspectLaunchRuntime as inspectCurrentLaunchRuntime,validateLaunchRuntimeModules} from '../scripts/verify-launch-content.mjs';
+import {launchBaselineFixture} from './helpers/launch-baseline-fixture.mjs';
 
 
-const historicalRoot = launchBaselineFixture();
-const {validateLaunchContent:validateCurrentLaunchContent,inspectLaunchRuntime:inspectCurrentLaunchRuntime,validateLaunchRuntimeModules}=await loadLaunchBaselineValidator(historicalRoot);
-const readFileSync = (path, encoding) => readCurrentFileSync(resolve(historicalRoot, path), encoding);
+const currentRoot = process.cwd();
+const readFileSync = (path, encoding) => readCurrentFileSync(resolve(currentRoot, path), encoding);
 const validateLaunchContent = (manifest, options = {}) =>
-  validateCurrentLaunchContent(manifest, { ...options, root: historicalRoot });
-const inspectLaunchRuntime = () => inspectCurrentLaunchRuntime(historicalRoot);
+  validateCurrentLaunchContent(manifest, { ...options, root: currentRoot });
+const inspectLaunchRuntime = () => inspectCurrentLaunchRuntime(currentRoot);
 
 const fresh = () => JSON.parse(readFileSync('data/release/launch-content.json', 'utf8'));
+
+test('legal current launch inventory is the positive control for all field mutations',()=>{
+  assert.deepEqual(validateLaunchContent(fresh(),{runtime:false}),[]);
+});
 
 test('shared cards cannot disappear from the inventory while remaining in the runtime',()=>{
   const missing=fresh();missing.sharedCards=[];
@@ -37,7 +41,7 @@ test('launch inventory names every formal source binding rather than the legacy 
   for (const id of ['medium_slimes', 'large_acid', 'large_spike'])
     assert.ok(!manifest.encounters.some(row => row.runtimeId === id || row.id === id), `legacy fixture admitted: ${id}`);
 });
-test('frozen inventory matches production data and actual Lua support pools', () => {
+test('current inventory matches production data and actual Lua support pools', () => {
   assert.deepEqual(validateLaunchContent(fresh()), []);
 });
 
@@ -49,7 +53,8 @@ test('expanded content records actual channels without granting natural acquisit
   assert.deepEqual(manifest.generatedCards.filter(row => row.type === 'curse').map(row => row.id).sort(),
     definitions('cards').filter(row => row.type === 'curse').map(row => row.id).sort());
   assert.equal(manifest.events.filter(row => row.poolMode === 'restricted-seven').length, 7);
-  assert.equal(manifest.events.filter(row => row.poolMode === 'explicit-only').length, 31);
+  assert.deepEqual(manifest.events.filter(row=>row.poolMode==='explicit-only').map(row=>row.id).sort(),
+    inspectLaunchRuntime().events.filter(row=>!row.random).map(row=>row.id).sort(),'every actual explicit-only production route is declared');
   for (const id of ['nest','mushrooms']) {
     const event=manifest.events.find(row=>row.id===id);
     assert.equal(event.poolMode,'explicit-only');assert.deepEqual(event.channels,['explicit:Nodes.enter']);
@@ -58,6 +63,12 @@ test('expanded content records actual channels without granting natural acquisit
   assert.equal(manifest.potions.length, 33);
   assert.deepEqual(manifest.exclusions.potions.filter(row => row.acquisitionPending).map(row => row.id).sort(),
     definitions('potions').filter(row => row.acquisitionPending).map(row => row.id).sort());
+});
+
+test('frozen formal launch retains its original thirty-one explicit event routes',()=>{
+  const root=launchBaselineFixture();
+  const original=JSON.parse(readCurrentFileSync(resolve(root,'data/release/launch-content.json'),'utf8'));
+  assert.equal(original.events.filter(row=>row.poolMode==='explicit-only').length,31);
 });
 
 test('copy and Match production routes preserve separate candidate and pending platform acceptance',()=>{

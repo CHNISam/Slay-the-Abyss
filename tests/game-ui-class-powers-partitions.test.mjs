@@ -1,10 +1,11 @@
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
+import {withHistoricalBaseline} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
-const read = path => preFormalEntrySource(path,readFileSync(path,'utf8'));
+const read = path => readFileSync(path,'utf8').replaceAll('\r\n','\n');
 const partitions = JSON.parse(read('tests/fixtures/game-ui-class-powers-partitions.json'));
 
 test('class power raw partitions restore the exact original Git body and cover every matrix case once', () => {
@@ -24,7 +25,9 @@ test('class power raw partitions restore the exact original Git body and cover e
     path: index ? `tests/lua/game_ui_class_powers_slice_${index + 1}.lua` : partitions.entry,
     first: index * 5 + 1, last: (index + 1) * 5,
   })));
-  let original = read(partitions.entry);
+  // The original whole-body proof consumes its matching epoch; discovery,
+  // wrappers and the ordinary runner checks below remain current.
+  let original = withHistoricalBaseline(()=>preFormalEntrySource(partitions.entry,read(partitions.entry)));
   assert.ok(original.startsWith(partitions.prefix));
   assert.ok(original.endsWith(partitions.footer));
   original = original.slice(partitions.prefix.length, -partitions.footer.length);

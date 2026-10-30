@@ -6,9 +6,11 @@ import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'n
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
+import {qualityShardMatrices} from '../scripts/ci-quality-shape.mjs';
 
-const workflow = originalWorkflow(readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n'));
-const job = name => (workflow + '\n  end-of-workflow:\n')
+const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
+const job = (name,source=workflow) => (source + '\n  end-of-workflow:\n')
   .match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:)`, 'm'))?.[1];
 const shards = job('engineering-posix-shards');
 const aggregate = job('engineering-posix');
@@ -24,7 +26,8 @@ const setup = `    name: engineering-posix (\${{ matrix.shard }}/\${{ strategy.j
 
 const lfsShardStep = `      - name: Materialize reviewed PNGs for this shard\n        timeout-minutes: 2\n        env:\n          CI_LFS_TOKEN: \${{ github.token }}\n        run: node scripts/ci-reviewed-lfs.mjs --shard=\${{ matrix.shard }}/\${{ strategy.job-total }}\n`;
 
-test('POSIX shards preserve the original job gates, toolchain and 20-minute budget', () => {
+historicalTest('POSIX shards preserve the original job gates, toolchain and 20-minute budget', () => {
+  const shards=job('engineering-posix-shards',originalWorkflow(readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n')));
   assert.ok(shards?.startsWith(setup));
   assert.match(shards, /^    runs-on: ubuntu-24\.04\n    timeout-minutes: 20\n/m);
   assert.doesNotMatch(shards, /^    if:|continue-on-error:|self-hosted/m);
@@ -47,7 +50,8 @@ test('POSIX shards preserve the original job gates, toolchain and 20-minute budg
   assert.equal(createHash('sha256').update(restored).digest('hex'), 'ce93ae9253a5b7ee3b7082dc977f5dc8b09e765afa23097e47804d6d42874254');
 });
 
-test('required engineering-posix aggregate runs always and rejects missing, skipped and cancelled shards', () => {
+historicalTest('original required engineering-posix aggregate runs always and rejects missing, skipped and cancelled shards', () => {
+  const aggregate=job('engineering-posix',originalWorkflow(readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n')));
   assert.match(aggregate, /^    needs: engineering-posix-shards$/m);
   assert.match(aggregate, /^    if: always\(\)$/m);
   assert.doesNotMatch(aggregate, /continue-on-error:|\|\| true/);
@@ -64,6 +68,25 @@ test('required engineering-posix aggregate runs always and rejects missing, skip
     assert.ifError(actual.error);
     assert.equal(actual.status === 0, result === 'success', `aggregate result ${String(result)}: ${actual.stderr}`);
   }
+});
+
+test('current POSIX matrix consumes eight shared shards with serial full regression and the original gate budget',()=>{
+  assert.deepEqual(qualityShardMatrices.posix,[1,2,3,4,5,6,7,8]);
+  assert.ok(shards.includes('shard: ${{ fromJSON(needs.impact.outputs.posix_shards) }}'));
+  assert.match(shards,/^    needs: impact\n    if: needs.impact.outputs.mode == 'full'$/m);
+  assert.match(shards,/^    runs-on: ubuntu-24\.04\n    timeout-minutes: 20$/m);
+  assert.match(shards,/^      fail-fast: false$/m);
+  assert.match(workflow,/^permissions:\n  contents: read$/m);
+  assert.match(shards,/node-version: '24\.18\.0'/);
+  assert.ok(shards.includes('Pillow==12.3.0'));
+  assert.ok(shards.includes('npm run setup:lua-static'));
+  assert.doesNotMatch(shards,/continue-on-error:|self-hosted|--test-name-pattern|--test-skip-pattern/);
+  for(const command of ['node scripts/ci-shards.mjs --prepare=','node scripts/ci-shards.mjs --shard='])
+    assert.ok(shards.includes(command+'${{ matrix.shard }}/${{ strategy.job-total }}'));
+  assert.ok(shards.includes('          npm run build:data\n          npm run build:ui\n          node scripts/ci-shards.mjs --shard='));
+  assert.ok(shards.includes('      - run: npm run check:engineering\n        if: matrix.shard == 1\n'));
+  assert.ok(shards.includes('        if: always() && matrix.shard == 1\n'));
+  assert.match(aggregate,/^    needs: \[impact, engineering-posix-shards, fast\]\n    if: always\(\)$/m);
 });
 
 test('native Node four-shard selection executes every current JS file name exactly once', t => {
