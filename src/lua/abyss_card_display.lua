@@ -189,13 +189,13 @@ local function atoms(text)
     end
     return out
 end
-local function lines(text,width,font)
+local function lines(pieces,width,font)
     local count,used=1,0
-    for _,atom in ipairs(atoms(text:gsub('<[^>]+>',''))) do
+    for _,atom in ipairs(pieces) do
         if atom=='\n' then count=count+1;used=0
-        elseif atom==' ' then used=used+units(' ')*font
+        elseif atom==' ' then used=used+.35*font
         else
-            local advance=units(atom.text)*font
+            local advance=atom.width*font
             if used>0 and used+advance>width then count=count+1;used=0 end
             while advance>width do count=count+1;advance=advance-width end
             used=used+advance
@@ -204,8 +204,10 @@ local function lines(text,width,font)
     return count
 end
 function M.fit(text,maximum,width,height,lineScale,advance)
+    local pieces=atoms(text:gsub('<[^>]+>',''))
+    for _,atom in ipairs(pieces) do if type(atom)=='table' then atom.width=units(atom.text) end end
     for font=maximum,Theme.font.minimum,-1 do
-        if lines(text,width/(advance or 1),font)*font*(lineScale or 1.3)<=height then return font,true end
+        if lines(pieces,width/(advance or 1),font)*font*(lineScale or 1.3)<=height then return font,true end
     end
     return Theme.font.minimum,false
 end

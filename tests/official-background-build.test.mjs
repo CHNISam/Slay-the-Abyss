@@ -9,7 +9,7 @@ import {sourceInputs} from '../scripts/build-native-candidate.mjs';
 
 test('real UI build registers one shared hidden background host and one native image template without moving controls',t=>{
  const dir=mkdtempSync(join(tmpdir(),'abyss-background-build-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
- buildUI(dir,undefined,{artFeatures:{menuBackground:true}});
+ buildUI(dir,undefined,{artFeatures:{menuBackground:true},monsterArt:{...JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8')),enabled:true}});
  const layout=JSON.parse(readFileSync(join(dir,'game-ui.json'))), stage=layout.controls.find(c=>c.name==='stage');
  const hosts=stage.children.filter(c=>c.name==='officialBackground');
  assert.equal(hosts.length,1,'one actual background host must be registered');
