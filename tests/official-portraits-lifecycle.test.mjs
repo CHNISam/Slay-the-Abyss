@@ -4,6 +4,17 @@ import {existsSync} from 'node:fs';
 import {withPortraitVm} from './helpers/portrait-runtime-vm.mjs';
 function vm(code,options){assert(existsSync('src/lua/abyss_traveler_portraits.lua'),'bounded portrait runtime missing');withPortraitVm(code,options);}
 
+for(const display of [72,32])test(`avatar uses the actual ${display}px selection bust width through release and rebuild`,()=>vm(`
+local bust=traveler:GetChild('hit'):GetChild('normal'):GetChild('bust')
+rawset(bust,'sizeDeltaX',${display})
+a=Portraits.new(stage,nil,{selectionAvatar=true});a:sync('menu',true,false,'ironclad')
+assert(avatar.SetLocalScaleValue[1]==${display}/96 and avatar.SetLocalScaleValue[2]==${display}/96,'avatar runtime overwrote the displayed bust width')
+a:release();assert(LiveCount()==0)
+a:sync('menu',true,false,'ironclad');a:tick()
+assert(avatar.SetLocalScaleValue[1]==${display}/96 and avatar.SetLocalScaleValue[2]==${display}/96,'avatar rebuild must retain the displayed width')
+a:release();assert(LiveCount()==0)
+`));
+
 test('portrait creation is globally bounded at 64 including groups, hidden until complete, and scoped to traveler',()=>vm(`
 a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',true,false,'ironclad');assert(#controls==0)
 local ticks=0
