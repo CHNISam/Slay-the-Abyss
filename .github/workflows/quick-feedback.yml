@@ -1,5 +1,7 @@
 name: Quick feedback
 on:
+  pull_request:
+    branches: [develop]
   workflow_dispatch:
     inputs:
       base_sha:
@@ -37,7 +39,7 @@ jobs:
       - name: Verify exact PR merge and comparison base
         timeout-minutes: 2
         env:
-          BASE_SHA: ${{ inputs.base_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base_sha }}
           GIT_TERMINAL_PROMPT: '0'
         run: |
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
@@ -48,7 +50,7 @@ jobs:
           git cat-file -e "${BASE_SHA}^{commit}"
       - name: Quick related subset; complete Quality runs independently
         env:
-          BASE_SHA: ${{ inputs.base_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base_sha }}
           CI_LFS_TOKEN: ${{ github.token }}
           ABYSS_PYTHON: python3
         run: node scripts/test-affected.mjs --ci-fast --base "$BASE_SHA"

@@ -1,14 +1,18 @@
 # CI 按影响选测
 
-TASK-81。当前为PR #307待验证实现，尚未完成性能验收。固定Node24.18.0的32项专项测试已通过；YAML和新增Bash步骤语法通过。Runner 40716938768首次仍在排队，未将排队记为成功。
+TASK-81。快速反馈、完整受影响回归、集成验收分层报告；性能验收仍须真实当前版本的样本，不沿用旧 PR 或取消运行的资格。
 
 普通 develop PR 使用完整受影响集合，不采用原 advisory 的90秒截断。Windows和POSIX均执行选中的完整JS文件和Lua夹具。所有原断言、子进程预算及失败语义保持。预计超过180秒的集合转完整回归，不删去超预算测试。只有明确列出的纯文字文件可免业务回归，仍执行治理、许可和presentation门禁。
 
-核心Lua、数据、配置、依赖、工作流、未建模输入、删除或未映射文件均Full。develop/master push、发版PR和手动运行均Full；PR带ci:full标签可强制Full。现有Full矩阵和步骤完整保留。标签移除不会追认旧结果，应推送新提交重新规划。
+Lua 模块按 `config/architecture.json` 的现有层分类：已登记的 UI 职责与入口同样可规划完整受影响回归，不再仅识别六个入口文件。核心、未登记模块、数据、配置、依赖、工作流、未建模输入、删除或未映射文件均 Full。develop/master push、发版 PR 和手动运行均 Full；PR 带 ci:full 标签可强制 Full。现有 Full 矩阵和步骤完整保留。标签移除不会追认旧结果，应推送新提交重新规划。
 
 Required Checks继续使用check、engineering-posix、presentation、inventory，绑定现有GitHub Actions app。前两项汇总同时依赖影响计划、Full分片及Fast矩阵；计划必须成功且选中执行必须success，失败、缺失、跳过、取消全部拒绝。无需改名或修改ruleset，核心分支禁止强推/删除及PR规则保持。
 
-Quick feedback不再自动随PR重复执行，保留手动诊断。Full路径尚未削减初始化；当前实测主耗时为测试本身，不能为了初始化优化破坏完整测试依赖。
+Quick feedback 自动随 develop PR 运行，也保留手动诊断；它是 advisory，不进入 Required Checks。`npm run test:fast -- --base <commit>` 与 `--ci-fast` 共用选集：纯 JS 和按测量权重在 90 秒估算内安排的完整 Lua 夹具，优先直接修改的夹具；执行时先跑选中的直接修改 Lua，再跑 JS，最后跑其余 Lua，任一步失败立即停止，不重复夹具。估算不是超时，不更改夹具原断言和期限。`--plan` 的 `feedback` 可查看两入口的实际选集。`test:related` 仍运行完整受影响集合，未知输入回退 `check`。
+
+fast/advisory 对未知输入只提供可独立映射部分的反馈，并明确要求完整 Quality；零测试显示未执行及非回归验收，不启动重复全量，也不声明覆盖。集成 JS 和未排入的 Lua 由完整 Quality 兜底。PR 使用精确 merge SHA 和事件 base SHA，在隔离托管 runner 上运行，只读权限且不持久化凭据；新提交取消同 PR 的旧 advisory。Node 固定 24.18.0。Full路径当前实测主耗时为测试本身，不能为了初始化优化破坏完整测试依赖。
+
+混合未知输入的 advisory 在一次图分析中求全部静态映射，不按每个变更文件重复解析全库；未映射输入不会触发额外动态扩集。只复用本次调用的内存闭包，不缓存跨调用源码或报告。CLI 的 `planDurationMs` 和 plan/build/tests 阶段耗时用于区分规划、初始化与真实执行，失败也保留阶段耗时。
 
 基准：真实GitHub run40708754842，SHA53fa164a，创建14:43:27至完成15:04:40 UTC，21分13秒（含排队）。原始jobs和ruleset保存在docs/evidence/ci-fast/。
 

@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { selectTests, parseGitChanges } from './test-affected.mjs';
+const architectureLayers = JSON.parse(readFileSync(new URL('../config/architecture.json', import.meta.url), 'utf8')).layers;
 
 export function impact(changed, sources, event, timings) {
   const full = reason => ({ mode: 'full', reason, changed, js: [], lua: [] });
@@ -15,7 +16,7 @@ export function impact(changed, sources, event, timings) {
   if (!active.length) return { mode: 'fast', reason: 'Prose only; governance gates still run', changed, js: [], lua: [] };
   // Economic, RNG, persistence and combat changes require the complete suite.
   if (active.some(p => /^(?:data\/|config\/|\.github\/|package|vendor\/)/.test(p)
-    || /^src\/lua\/(?!abyss_(?:battle_ui|game_ui|map_ui|reward_ui|shop_ui|camp_ui)\.lua$)/.test(p))) return full('High risk or shared infrastructure');
+    || p.startsWith('src/lua/') && architectureLayers[p.match(/^src\/lua\/([^/]+)\.lua$/)?.[1]] !== 'ui')) return full('High risk or shared infrastructure');
   const plan = selectTests(active, sources);
   if (plan.full) return full(plan.reason);
   const js = [...new Set([...plan.fast, ...plan.integration])].sort(), lua = [...new Set(plan.lua)].sort();
