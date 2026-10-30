@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 -- Generated-control fixture with explicit boundary HP. Not a natural route,
 -- native candidate import, or live game/desktop evidence.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
@@ -13,31 +14,45 @@ local function click(control,touch)
 end
 local unawakened
 for i,entry in ipairs(C.statusView(e))do if entry.id=='unawakened'then unawakened=i end end
-assert(unawakened and panel:GetChild('enemy1'):GetChild('statusRow'):GetChild('count'..unawakened).text=='')
+assert(unawakened and dofile('tests/lua/support/monster_power_control_fixture.lua')(monsterControl(panel,'enemy1'),'unawakened'):GetChild('count').text=='')
 e.hp=1;host:refresh()
 tap('card1',101);tap('enemy1',102);drain()
 assert(host.run.phase=='combat'and e.hp==0 and e.halfDead)
-assert(panel:GetChild('enemy1').visible)
-assert(panel:GetChild('enemy1'):GetChild('hp').text=='0/300')
-dofile('tests/lua/support/intent_face_assertion.lua')(panel:GetChild('enemy1'),View.intentView(s,1),'未知')
+assert(monsterControl(panel,'enemy1').visible)
+assert(monsterControl(panel,'enemy1'):GetChild('hp').text=='0/300')
+-- This full-source enemy currently retains legacy rendering, outside the
+-- Act1/2 source-enum registry. Presence keeps its world glyph and detail hit.
+local rebirth=View.intentView(s,1)
+assert(rebirth.sourceEnum==nil and rebirth.label=='未知')
+dofile('tests/lua/support/intent_face_assertion.lua')(monsterControl(panel,'enemy1'),rebirth,'未知')
+assert(monsterControl(panel,'enemy1'):GetChild('intentIcon').visible and monsterControl(panel,'enemy1'):GetChild('intentIcon').imageId==H.F.Theme.icon.intent.unknown,'legacy Rebirth keeps its unknown world glyph')
+assert(monsterControl(panel,'enemy1'):GetChild('intentHit').visible,'present half-dead actor retains its intent detail target')
 assert(not ui.feedback.deaths[e.id],'halfDead must not animate a terminal death')
 for _,event in ipairs(ui.feedback.queue or {})do
  assert(not(event.kind=='death'and event.detail.target==e.id),'no first-form death collapse')
 end
 assert(not A.isActive(e)and A.isPresent(e))
-click(panel:GetChild('enemy1'):GetChild('intentHit'),103)
+has(rebirth.text,'300');has(rebirth.text,'第二形态')
+click(monsterControl(panel,'enemy1'):GetChild('intentHit'),103)
 local info=panel:GetChild('statusInfo')
 assert(info.visible);has(info:GetChild('text1').text,'300');has(info:GetChild('text1').text,'第二形态')
 click(info:GetChild('hit'),104)
 assert(not info.visible)
-click(panel:GetChild('enemy1'):GetChild('statusRow'):GetChild('hit'),105)
-assert(info.visible);has(info:GetChild('summary').text,'生命 0/300')
+click(monsterControl(panel,'enemy1'):GetChild('intentHit'),105)
+-- This hit opens the next-action card, whose subtitle describes timing.
+assert(info.visible and ui.info.kind=='intent')
+has(info:GetChild('summary').text,'尚未执行');has(info:GetChild('text1').text,'300')
 click(info:GetChild('hit'),106)
 tap('endTurn',107);drain()
 assert(host.run.phase=='combat'and e.hp==300 and not e.halfDead)
-assert(panel:GetChild('enemy1').visible)
-assert(panel:GetChild('enemy1'):GetChild('hp').text=='300/300')
-assert(panel:GetChild('enemy1'):GetChild('intent').text=='40')
+assert(monsterControl(panel,'enemy1').visible)
+assert(monsterControl(panel,'enemy1'):GetChild('hp').text=='300/300')
+assert(monsterControl(panel,'enemy1'):GetChild('intent').text=='40')
+-- The revived actor is now eligible for its real body/status entry point.
+tap('enemy1',110)
+assert(info.visible and ui.info.kind==nil);has(info:GetChild('summary').text,'生命 300/300')
+click(info:GetChild('hit'),111)
+assert(not info.visible and e.hp==300 and not e.halfDead)
 -- Project the source mixed intent without mutating it during preview.
 for i,intent in ipairs(e.intents)do if intent.id=='sludge'then e.intentIndex=i end end
 local sludge=View.intentView(s,1)

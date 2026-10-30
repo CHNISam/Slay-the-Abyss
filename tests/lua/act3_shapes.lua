@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Chapter/queue placement fixtures, not a natural Act3 route.
 local C,Run,Q,R,AI,A=require('abyss_combat'),require('abyss_run'),require('abyss_encounter_queue'),
@@ -219,17 +220,17 @@ test('real Host shows Shape actors Dazed destination and changing Explosive coun
  assert(Run.startRoomCombat(r,'normal'));host:refresh()
  local panel=root:GetChild('battlePanel');local ui=host.battleUI;local _,tap=H.controls(panel)
  eq(ui.run,r);eq(#r.combat.enemies,4)
- for i,e in ipairs(r.combat.enemies)do local box=panel:GetChild('enemy'..i)
+ for i,e in ipairs(r.combat.enemies)do local box=monsterControl(panel,'enemy'..i)
   assert(box.visible);eq(box:GetChild('name').text,e.name);eq(box:GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
  end
- assert(not panel:GetChild('enemy5').visible)
+ assert(not monsterControl(panel,'enemy5'))
  tap('enemy1',71);local text=inspectDetails(ui,panel)
  assert(text:find(r.combat.catalog.cards.dazed.name,1,true)and text:find('抽牌堆',1,true)and text:find('2',1,true),text)
  assert(not text:find('未知',1,true),text)
  for turn=0,2 do
   if turn>0 then assert(Run.endTurn(r));host:refresh()end
   local e=r.combat.enemies[3];eq(e.statuses.explosive,3-turn)
-  local hit=panel:GetChild('enemy3'):GetChild('statusRow'):GetChild('hit')
+  local hit=dofile('tests/lua/support/monster_power_control_fixture.lua')(monsterControl(panel,'enemy3'),'explosive'):GetChild('hit')
   hit.click({touchId=80+turn});eq(ui.info.id,e.id);eq(ui.info.index,3)
   local info=panel:GetChild('statusInfo');assert(info.visible)
   local names,details={},{}
@@ -242,14 +243,14 @@ test('real Host shows Shape actors Dazed destination and changing Explosive coun
   info:GetChild('hit').click({touchId=90+turn})
  end
  eq(intent(r.combat.enemies[3]),'wait')
- eq(panel:GetChild('enemy3'):GetChild('intentIcon').imageId,F.Theme.icon.intent.unknown)
+ eq(monsterControl(panel,'enemy3'):GetChild('intentIcon').imageId,F.Theme.icon.intent.unknown)
  assert(Run.endTurn(r));host:refresh();eq(r.phase,'combat')
  eq(r.combat.enemies[3].hp,0);eq(r.combat.player.hp,r.combat.player.maxHp-73)
  for slot,index in ipairs({1,2,4})do
-  local box,e=panel:GetChild('enemy'..slot),r.combat.enemies[index]
+  local box,e=monsterControl(panel,'enemy'..slot),r.combat.enemies[index]
   assert(box.visible);eq(box:GetChild('name').text,e.name);eq(box:GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
  end
- assert(not panel:GetChild('enemy4').visible and not panel:GetChild('enemy5').visible)
+ assert(not monsterControl(panel,'enemy4') and not monsterControl(panel,'enemy5'))
 end)
 test('invalid Dazed UID refuses both creations and restores source RNG',function()
  local s=battle({'repulsor'});s.nextUid=9007199254740992

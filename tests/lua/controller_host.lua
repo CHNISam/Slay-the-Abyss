@@ -1,4 +1,5 @@
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
+local control=dofile('tests/lua/support/native_control_path_fixture.lua')
 local Run=require('abyss_run')
 local focus,device=nil,true
 local api={events={Confirm='confirm',Cancel='cancel',Focus='focus',LostFocus='blur'},directions={Left='left',Right='right'},
@@ -11,8 +12,7 @@ local api={events={Confirm='confirm',Cancel='cancel',Focus='focus',LostFocus='bl
 local pointer={CursorDown='down',CursorUp='up',CursorEndDrag='end',CursorDrag='drag',CursorEnter='enter',CursorExit='exit'}
 local ui,root=F.fixture(nil,nil,nil,pointer,false,nil,nil,api)
 local function hit(panel,path)
-    local c=root:GetChild(panel)
-    for name in path:gmatch('[^/]+')do c=assert(c:GetChild(name),path)end
+    local c=control(root:GetChild(panel),path)
     return c:GetChild('hit') or c
 end
 local function ready()
@@ -45,7 +45,7 @@ event(card);assert(ui.battleUI.selected==battle.hand[slot].uid)
 card.listeners.click();assert(ui.battleUI.selected==battle.hand[slot].uid,'native Click accompanying Confirm must not toggle the card back off')
 ui:update(.01);card.listeners.click({touchId=7})
 assert(ui.battleUI.selected==battle.hand[slot].uid,'a delayed click from before gamepad confirmation must not undo the selection')
-assert(ui.controller.scope=='aim' and focus.parent.name=='enemy1')
+assert(ui.controller.scope=='aim' and focus==hit('battlePanel','enemy1'))
 local energy,hp=battle.energy,battle.enemies[1].hp
 event(focus,'cancel');assert(not ui.battleUI.selected and battle.energy==energy and battle.enemies[1].hp==hp)
 assert(focus==card,'cancel restores the originating hand slot')

@@ -1,5 +1,6 @@
 local NativeContract = dofile('tests/lua/support/native_ui_contract.lua')
 package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local UI = require("abyss_battle_ui")
 local Combat = require("abyss_combat")
 local Run = require("abyss_run")
@@ -36,14 +37,14 @@ end
 local function setup()
     local root = control({name="root",size={1280,720},children=Layout})
     local stage = root:GetChild("stage"):GetChild("battlePanel")
-    local ui = UI.new(stage,Data,Presentation,"click",{
+    local ui = UI.new(stage,Data,Presentation,"click",F.withMonsterActors({
         imageSource="static",color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end
-    },{embedded=true})
+    }),{embedded=true})
     ui.run = Run.new(Data,1)
     assert(Run.startCombat(ui.run,"cultist_solo"))
     ui:render()
     local function click(name)
-        local box = stage:GetChild(name)
+        local box = F.actorControl(stage,name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
         if ui.feedback and ui.feedback.busy then
             for _=1,400 do if not ui.busy then break end ui:update(0.05) end
@@ -54,7 +55,7 @@ local function setup()
 end
 -- Read a unit's statuses the way a player does: open its detail panel, then close it.
 local function details(stage, box)
-    box.children.statusRow.children.hit.click()
+    box:GetChild('hit').click()
     local info, lines = stage.children.statusInfo, {}
     assert(info.visible)
     for i = 1, Theme.layout.statusInfo.rows do
@@ -69,7 +70,7 @@ local function test(name,fn) fn(); count=count+1; print("ok Cultist UI "..count.
 
 test("Cultist displays Ritual opener, persistent status and next modified attack", function()
     local ui, stage, click = setup()
-    local box = stage.children.enemy1
+    local box = F.actorControl(stage,'enemy1')
     assert(box.children.intent.text == "")
     assert(box.children.intentIcon.imageId == Theme.icon.intent.buff)
     click("enemy1")

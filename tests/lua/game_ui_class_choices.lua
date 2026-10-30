@@ -16,11 +16,7 @@ local function test(name,fn)
 end
 local cursor={CursorDown="down",CursorUp="up",CursorExit="exit",CursorEndDrag="enddrag"}
 local classIndex={ironclad=1,silent=2,watcher=4}
-local function control(root,path)
-    local c=root
-    for part in path:gmatch("[^/]+") do c=assert(c:GetChild(part),part) end
-    return c
-end
+local control=dofile('tests/lua/support/native_control_path_fixture.lua')
 local function hit(root,path)
     local c=control(root,path)
     return c.listeners and c.listeners.click and c or assert(c:GetChild("hit"),path)

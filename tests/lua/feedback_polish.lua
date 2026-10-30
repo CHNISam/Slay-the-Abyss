@@ -5,6 +5,7 @@ local Events = require("abyss_events")
 local Data = require("abyss_data")
 local Theme = require("abyss_theme")
 local Presentation = require("abyss_presentation")
+local NativeFixture=dofile('tests/lua/support/game_ui_fixture.lua')
 local T, S = Theme.motion, Theme.space
 
 -- Drives the production adapter against the generated native tree with a recording audio spy.
@@ -31,10 +32,25 @@ end
 local function harness(deck, enemies, prepare)
     local stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")))
     local h = {stage = stage, sounds = {}, completed = {}}
-    h.feedback = Feedback.new(stage, {imageSource = "static", color = function(r, g, b, a) return {r = r, g = g, b = b, a = a} end,
-        sound = function(cue) h.sounds[#h.sounds + 1] = cue end}, function() end,
-        function(failure) h.completed[#h.completed + 1] = failure or "ok" end)
     h.battle = Combat.new(Data, {deck = deck, enemies = enemies, seed = 11})
+    local platform={imageSource='static',monsterActors=NativeFixture.monsterActors(),nativeMonsterArtEnabled=false,
+        color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end,sound=function(cue)h.sounds[#h.sounds+1]=cue end}
+    local manager=require('abyss_monster_surfaces').new(stage,platform)
+    h.manager=manager
+    manager:select(require('abyss_battle_enemy_view').slots(h.battle),h.battle)
+    h.actorBoxes={}
+    manager:each(function(box,_,entry)
+        h.actorBoxes[entry.index]=box;box:SetVisible(true)
+        local function record(c)
+            local original=c.SetImage
+            function c:SetImage(...)images=images+1;return original(self,...)end
+            for _,child in pairs(c.children)do record(child)end
+        end
+        record(box)
+    end)
+    function h.actor(name)return name=='hero' and stage:GetChild(name) or assert(h.actorBoxes[tonumber(name:match('^enemy(%d+)$'))])end
+    h.feedback = Feedback.new(stage,platform,function()end,
+        function(failure) h.completed[#h.completed + 1] = failure or "ok" end)
     if prepare then
         local original = {}
         for i, enemy in ipairs(h.battle.enemies) do original[i] = enemy.intents end
@@ -72,8 +88,8 @@ local function harness(deck, enemies, prepare)
         end
         error("feedback never settled")
     end
-    function h.portrait(name) return stage:GetChild(name):GetChild("portrait") end
-    function h.part(name, part) return stage:GetChild(name):GetChild(part) end
+    function h.portrait(name) return h.actor(name):GetChild("portrait") end
+    function h.part(name, part) return h.actor(name):GetChild(part) end
     return h
 end
 local function kind(k) return function(entry) return entry.kind == k end end
@@ -166,7 +182,9 @@ test("area attack: one ripple across the row, one sweep, one cue; deaths wait fo
     assert(h.feedback.current.kind == "death" and h.feedback.current.detail.target == h.battle.enemies[2].id, "simultaneous kills collapse together")
     assert(count(h.sounds, "hit") == 1 and count(h.sounds, "enemy_die") == 1)
     h.drain()
-    assert(not h.stage:GetChild("enemy1").visible and not h.stage:GetChild("enemy2").visible)
+    assert(not h.actor("enemy1").visible and not h.actor("enemy2").visible)
+    assert(not h.manager:find(h.battle.enemies[1].id) and not h.manager:find(h.battle.enemies[2].id),
+        'both dead actors must release their native surfaces')
 end)
 
 test("block gain crystallises in with a block icon pop and cue", function()
@@ -243,17 +261,23 @@ test("status application stamps its icon and drifts by polarity", function()
     assert(impact.visible and impact.y < 0, "debuffs press downward")
 end)
 
-test("killing blow: heavy hold, then the enemy gleams, collapses and is hidden", function()
+test("killing blow: heavy hold, then the source enemy fades without moving and retires", function()
     local h = harness({"strike"}, {"jaw_worm"}, function(s) s.enemies[1].hp = 3 end)
     h.play() h.until_(kind("damage"))
     local _, held = h.until_(kind("death"))
     assert(held >= 0.2 - 0.011 and held <= 0.2 + 0.011,
         "a lethal visual hold does not extend the fixed DamageAction/post-wait gate")
+    local priorAlpha=assert(h.feedback.dying[h.battle.enemies[1].id]).alpha
     h.feedback:update(T.slow / 2)
     local portrait = h.portrait("enemy1")
-    assert(portrait.localScaleY < 1 and portrait.y < 0 and h.part("enemy1", "impact").visible)
+    local actor=h.actor('enemy1')
+    assert(portrait.localScaleY==1 and portrait.y==0,'source monster death must not collapse or move its geometry')
+    assert(actor.visible and portrait.imageColor.a<255 and portrait.imageColor.a>0,'source death fades native portrait alpha before retirement')
+    assert(portrait.imageColor.a==math.floor(255*math.max(0,priorAlpha*(1-3*T.slow/2))),
+        'source TintEffect preserves its per-frame alpha decay')
     h.drain()
-    assert(not h.stage:GetChild("enemy1").visible and count(h.sounds, "enemy_die") == 1)
+    assert(not h.actor("enemy1").visible and count(h.sounds, "enemy_die") == 1)
+    assert(not h.manager:find(h.battle.enemies[1].id),'completed source death releases its native surface')
     assert(table.concat(h.sounds, ","):find("hit,enemy_die,victory", 1, true), "death lands before the victory cue")
 end)
 

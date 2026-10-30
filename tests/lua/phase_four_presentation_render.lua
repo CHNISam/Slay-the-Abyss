@@ -15,7 +15,7 @@ local cases,rendered=0,0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function test(name,fn)registered=registered+1;if registered<first or registered>last then return end;fn();cases=cases+1;print('ok phase_four_presentation_render '..cases..' - '..name)end
 local prepared=dofile('tests/lua/support/phase_four_presentation_data.lua')
-local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
+local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
 -- Own process: keep all four original class cases within the unchanged 30s limit.
 for _,id in ipairs({'ironclad','silent','defect','watcher'})do
  test(id..' every basic and upgrade reaches real BattleUI and DeckUI',function()

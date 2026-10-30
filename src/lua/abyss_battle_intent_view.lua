@@ -366,8 +366,19 @@ function M.hasSourceIntent(actor)return SourceIntents.hasDefinition(actor)end
 function M.selectedDescriptor(state,index)
  local intent=Combat.intent(state,index)
  if not intent then return nil end
- local face=sourceIntentView(state,index)
- return {id=intent.id,intent=face.sourceEnum or 'NONE',baseDamage=face.worldBaseDamage or -1,
-  multiplier=face.worldTimes or 1,isMultiDamage=SourceIntents.isMulti(state.enemies[index],intent),face=face}
+ local actor=state.enemies[index]
+ local enum=SourceIntents.enum(actor,intent)
+ intent=EndingIntent.project(state,actor,intent)
+ -- Source display reads selected base metadata, never ordered future effects.
+ local base,times=-1,1
+ for _,effect in ipairs(intent.effects)do
+  if effect.op=='damage' or effect.op=='damageAll' or effect.op=='enemyVampireDamage'then
+   base,times=effect.value,effect.times or 1
+   break
+  end
+ end
+ assert(not enum or enum:sub(1,6)~='ATTACK' or base~=-1,'source attack move has no damage metadata')
+ return {id=intent.id,intent=enum or 'NONE',baseDamage=base,
+  multiplier=times,isMultiDamage=SourceIntents.isMulti(actor,intent),face={value='',kind=intent.kind,rows={}}}
 end
 return M

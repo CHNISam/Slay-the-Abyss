@@ -1,10 +1,11 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
 local host,ui,panel,emit,tap,drain=H.setup({'defend'},{'shield_gremlin','sneaky_gremlin'})
 local C=H.F.Combat
 local function same(a,b) if type(a)~='table' then assert(a==b);return end;for k,v in pairs(a)do same(v,b[k])end;for k in pairs(b)do assert(a[k]~=nil)end end
-local box=panel:GetChild('enemy1');assert(box:GetChild('intent').text=='')
+local box=monsterControl(panel,'enemy1');assert(box:GetChild('intent').text=='')
 C.addStatus(host.run.combat.enemies[1],'dexterity',20);C.addStatus(host.run.combat.enemies[1],'frail',2);host:refresh()
 assert(box:GetChild('intent').text=='','defend intent uses an icon without a block number')
 local before=C.copy(host.run.combat);tap('enemy1',1);local detail=inspectDetails(ui,panel)

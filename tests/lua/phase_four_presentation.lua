@@ -12,7 +12,7 @@ local cases=0
 local function eq(a,b)assert(a==b,tostring(a)..' ~= '..tostring(b))end
 local function test(name,fn)fn();cases=cases+1;print('ok phase_four_presentation '..cases..' - '..name)end
 local prepared=dofile('tests/lua/support/phase_four_presentation_data.lua')
-local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
+local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
 test('all sixty-nine new regular cards and required derivative are present exactly once',function()
  local ids={
   ironclad='wild_strike reckless_charge intimidate immolate limit_break sever_soul second_wind fiend_fire flame_barrier evolve fire_breathing blood_for_blood',

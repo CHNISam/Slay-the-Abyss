@@ -3,6 +3,7 @@ package.path = "src/lua/?.lua;build/lua/?.lua;" .. package.path
 local F = dofile("tests/lua/support/game_ui_fixture.lua")
 local Run = require("abyss_run")
 local Feedback = require("abyss_feedback")
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local Events = require("abyss_events")
 local count, failed = 0, 0
 local function test(name, fn)
@@ -26,6 +27,7 @@ local function find(entries, name)
 end
 local function adapter(present, complete)
     local h = {completed = {}, stage = F.control(assert(find(F.Layout, "battlePanel")))}
+    dofile('tests/lua/support/feedback_raw_stage.lua')(h.stage,F.control)
     h.feedback = Feedback.new(h.stage, {imageSource = "static", color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end},
         present or function() end, function(failure)
             h.completed[#h.completed + 1] = failure or "ok"
@@ -48,6 +50,24 @@ test("early native reset failure restores host input after a committed command",
     -- This setter fails before start reaches its first visible step. The real host
     -- has already committed the command and locked input, so it must be notified.
     local host, root = F.fixture()
+    -- Startup can fail before the Host has bound any Run/battle. The real
+    -- completion callback must unlock without treating three nils as identity.
+    local unbound,panel=host.battleUI,root:GetChild("battlePanel")
+    assert(unbound.run==nil and unbound.feedbackRun==nil and unbound.feedbackBattle==nil)
+    local before,unboundBattle,first=batch()
+    local beforeFrame,unboundEvents=Events.frame(unboundBattle),unboundBattle.events
+    local originalPosition,unboundFailures=panel.SetAnchoredPosition,0
+    panel.SetAnchoredPosition=function(self,x,y)
+        if unboundFailures==0 then unboundFailures=1;error("INJECTED_UNBOUND_START_FAILURE")end
+        return originalPosition(self,x,y)
+    end
+    unbound.feedback:begin(before,unboundBattle,first,F.Presentation)
+    panel.SetAnchoredPosition=originalPosition
+    assert(unboundFailures==1,"the unbound start failure must actually run")
+    assert(not unbound.busy and not unbound.feedback.busy and unbound.displayBattle==nil,
+        "unbound startup failure must finish without reconciling/clearing a nonexistent bound battle")
+    same(Events.frame(unboundBattle),beforeFrame)
+    assert(unboundBattle.events==unboundEvents and #unboundEvents>0,"unbound failure must not consume unrelated core frames")
     assert(testStart(host))
     assert(Run.startCombat(host.run, "cultist_solo"))
     host.run.combat = F.Combat.new(F.Data, {deck = {"strike"}, enemies = {"cultist"}, seed = 11})
@@ -62,14 +82,14 @@ test("early native reset failure restores host input after a committed command",
         if failures == 0 then failures = failures + 1 error("INJECTED_FEEDBACK_START_FAILURE") end
         return original(self, x, y)
     end
-    panel:GetChild("enemy1"):GetChild("hit").click()
+    monsterControl(panel,"enemy1"):GetChild("hit").click()
     assert(failures == 1, "the failure must occur during feedback startup")
     assert(battle.enemies[1].hp == hp - 6 and battle.energy == energy - 1 and #battle.hand == 0,
         "the successful command remains committed once")
     assert(not ui.busy and not ui.feedback.busy, "feedback startup failure must release host input")
     assert(ui.displayBattle == nil and panel:GetChild("endTurn").interactable,
         "the host must restore final state and controls after startup failure")
-    assert(panel:GetChild("enemy1"):GetChild("hp").text == battle.enemies[1].hp .. "/" .. battle.enemies[1].maxHp,
+    assert(monsterControl(panel,"enemy1"):GetChild("hp").text == battle.enemies[1].hp .. "/" .. battle.enemies[1].maxHp,
         "the recovered view must show the committed HP")
     assert(battle.events == events and #events == 0, "committed frames are consumed exactly once")
     local after = F.Combat.copy(battle)

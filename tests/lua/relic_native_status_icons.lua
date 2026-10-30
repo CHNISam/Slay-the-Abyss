@@ -1,5 +1,6 @@
 -- Current production integration only; every native image call is strict.
 local Native=dofile('tests/lua/support/native_ui_contract.lua')
+local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,C,Data=require('abyss_run'),require('abyss_combat'),require('abyss_data')
 local UI,Theme,Layout=require('abyss_battle_ui'),require('abyss_theme'),require('abyss_ui_layout')
 local calls=0
@@ -29,7 +30,7 @@ local r=Run.new(Data,'42');assert(Run.obtainRelic(r,'FossilizedHelix'));assert(R
 assert(Run.startCombat(r,'cultist_solo'))
 local root=control({name='root',size={1280,720},children=Layout})
 local panel=root:GetChild('stage'):GetChild('battlePanel')
-local ui=UI.new(panel,r.data,require('abyss_presentation'),'click',{imageSource='static',color=function(a,b,c,d)return {r=a,g=b,b=c,a=d}end},{embedded=true})
+local ui=UI.new(panel,r.data,require('abyss_presentation'),'click',F.withMonsterActors({imageSource='static',color=function(a,b,c,d)return {r=a,g=b,b=c,a=d}end}),{embedded=true})
 ui.run=r;ui:resize(1280,720)
 local function renderReadonly()
  local before=C.copy(r);local battle,player,statuses=r.combat,r.combat.player,r.combat.player.statuses

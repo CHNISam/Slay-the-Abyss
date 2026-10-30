@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Theme=require('abyss_theme')
@@ -11,15 +12,18 @@ local ui,panel=host.battleUI,root:GetChild('battlePanel')
 local feedback,battle=ui.feedback,host.run.combat
 local tests=0
 local function test(name,fn)fn();tests=tests+1;print('ok actor_idle_feedback '..tests..' - '..name)end
-local function point(control)return table.concat({control.x or 0,control.y or 0,control.localScaleX or 1,control.localScaleY or 1},',')end
+local function point(control,offset)return table.concat({(control.x or 0)+(offset or 0),control.y or 0,control.localScaleX or 1,control.localScaleY or 1},',')end
 local function geometry()
     local result={}
     for _,name in ipairs({'hero','enemy1','enemy2'})do
-        local box=panel:GetChild(name)
-        result[#result+1]=point(box)
+        local box=name=='hero' and panel:GetChild(name) or monsterControl(panel,name)
+        result[#result+1]=name..'='..point(box)
         for _,part in ipairs({'hp','intent','intentIcon','hit','name'})do
             local control=box:GetChild(part)
-            if control then result[#result+1]=point(control)end
+            -- Source renderName cancels the animated sprite X; its baseline
+            -- stays fixed even though the local label coordinate compensates.
+            local offset=part=='name' and name~='hero' and box:GetChild('portrait').x or 0
+            if control then result[#result+1]=name..'.'..part..'='..point(control,offset)end
         end
     end
     return table.concat(result,';')
@@ -48,9 +52,9 @@ test('first idle frame animates portraits without events or moving information a
     local start=point(hero)
     for _=1,30 do host:update(1/60)end
     assert(point(hero)~=start,'initial battle must breathe without playing a card first')
-    assert(point(panel:GetChild('enemy1'):GetChild('portrait'))~=point(panel:GetChild('enemy2'):GetChild('portrait')))
+    assert(point(monsterControl(panel,'enemy1'):GetChild('portrait'))~=point(monsterControl(panel,'enemy2'):GetChild('portrait')))
     assert(ruleState()==before,'idle must not mutate cards, HP, energy, turn, events or RNG')
-    assert(geometry()==positions,'only portrait transforms may move')
+    assert(geometry()==positions,'only portrait transforms may move: before='..positions..' after='..geometry())
 end)
 test('background recovery bounds only the visual clock and consumes no events',function()
     local before,clock=ruleState(),feedback.idleClock
@@ -64,7 +68,7 @@ test('real card command releases input and resumes idle instead of freezing at f
     for i,card in ipairs(battle.hand)do if card.cardId=='strike'then slot=i end end
     assert(slot)
     panel:GetChild('card'..slot):GetChild('hit').click()
-    panel:GetChild('enemy1'):GetChild('hit').click()
+    monsterControl(panel,'enemy1'):GetChild('hit').click()
     assert(feedback.busy)
     for _=1,300 do host:update(0.01);if not feedback.busy and next(feedback.effects)==nil and next(feedback.poses)==nil then break end end
     assert(not feedback.busy and not ui.busy)

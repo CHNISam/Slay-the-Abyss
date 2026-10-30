@@ -63,6 +63,9 @@ end
 local function harness(deck, enemies, fast)
     local h = {controls = {}, sounds = {}, seen = {}, sequence = {}, completions = {}}
     h.stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")), h.controls)
+    -- This isolated feedback harness exercises the explicit non-manager fallback.
+    -- Use the current actor template; the full Host suites exercise dynamic ownership.
+    dofile('tests/lua/support/feedback_raw_stage.lua')(h.stage,function(spec)return control(spec,h.controls)end)
     h.feedback = Feedback.new(h.stage, {
         imageSource = "static", color = function(r,g,b,a) return {r=r,g=g,b=b,a=a} end,
         sound = function(cue) h.sounds[#h.sounds + 1] = cue end,

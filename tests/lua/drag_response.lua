@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local H = dofile("tests/lua/support/battle_gesture_fixture.lua")
 local Combat = require("abyss_combat")
 local passed = 0
@@ -40,9 +41,13 @@ end)
 test("aiming updates damage only when the pointed enemy changes and restores it off target", function()
     local host, ui, panel, event = H.setup({"strike", "defend"}, {"cultist", "jaw_worm"})
     local battle, card = host.run.combat, panel:GetChild("card1")
-    battle.enemies[2].statuses.vulnerable = 2
+    Combat.addStatus(battle.enemies[2],'vulnerable',2)
+    -- Raw constructor IDs have no MonsterHelper formation. Stage two separated
+    -- source hitboxes so changing the pointer actually changes its target.
+    battle.enemies[1].sourcePosition={x=-600,y=0}
+    battle.enemies[2].sourcePosition={x=-100,y=0}
     ui:render()
-    local e1, e2 = panel:GetChild("enemy1"), panel:GetChild("enemy2")
+    local e1, e2 = monsterControl(panel,"enemy1"), monsterControl(panel,"enemy2")
     local function body() return card:GetChild("label").text end
     event("card1", "down", 7)
     event("card1", "drag", 7, e1.x, e1.y)
@@ -53,6 +58,8 @@ test("aiming updates damage only when the pointed enemy changes and restores it 
     assert(calls == 0, "unchanged aim recalculated the hand")
     event("dragLayer", "drag", 7, e2.x, e2.y)
     assert(body() ~= base, "changing target did not update Vulnerable damage")
+    assert(ui.gesture.drawnTarget==2,'logical target changes before cosmetic endpoint easing')
+    for _=1,20 do host:update(1/60)end
     assert(panel:GetChild("dragLayer"):GetChild("reticle").x == e2.x)
     event("dragLayer", "drag", 7, -285, 0)
     assert(body() == base and not card:GetChild("glow").visible, "leaving target retained stale damage")

@@ -10,6 +10,8 @@ local Run = require("abyss_run")
 local Data = require("abyss_data")
 local Theme = require("abyss_theme")
 local Presentation = require("abyss_presentation")
+local NativeFixture=dofile('tests/lua/support/game_ui_fixture.lua')
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 
 -- Compose the controller with the actual generated native tree, not a permissive mock.
 local function control(definition)
@@ -38,9 +40,9 @@ local function setup(options)
     local stage = control(assert(find(require("abyss_ui_layout"), "battlePanel")))
     local root = stage
     options = {embedded=true}
-    local ui = UI.new(root, Data, Presentation, "click", {imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}, options)
+    local ui = UI.new(root, Data, Presentation, "click", NativeFixture.withMonsterActors({imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}), options)
     local function click(name)
-        local box = stage:GetChild(name)
+        local box=name:match('^enemy%d+$') and assert(monsterControl(stage,name)) or stage:GetChild(name)
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
     end
     local function drain()

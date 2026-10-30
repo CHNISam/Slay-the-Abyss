@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 return function(first,last)
 first,last=assert(first),assert(last)
 local registered=0
@@ -75,7 +76,7 @@ test('released pointer moves the aim and pulling below the source floor cancels'
     local host, ui, panel, event = H.setup({'strike'}, nil, {position=function() return x,y end})
     event('card1', 'down', 7); event('card1', 'drag', 7, -285, 0)
     event('dragLayer', 'up', 7, -285, 0)
-    local enemy = panel:GetChild('enemy1')
+    local enemy = monsterControl(panel,'enemy1')
     x, y = enemy.x + 640, enemy.y + 360
     host:update(0.01)
     assert(panel:GetChild('dragLayer').visible and panel:GetChild('dragLayer'):GetChild('reticle').x == enemy.x)

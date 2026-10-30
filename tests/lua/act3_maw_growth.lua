@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- Explicit source queue/chapter boundary fixtures, not natural campaign play.
 local Run,C,D,Q,R,AI,A=require('abyss_run'),require('abyss_combat'),require('abyss_data'),
@@ -248,14 +249,14 @@ test('real Host reads Maw Roar and Growth Constricted source without mutating ru
   assert(Run.startRoomCombat(r,'normal'));host:refresh()
   local panel=root:GetChild('battlePanel');local ui=host.battleUI;local _,tap=H.controls(panel)
   local s,e=r.combat,r.combat.enemies[1];eq(ui.run,r)
-  eq(panel:GetChild('enemy1'):GetChild('name').text,e.name)
-  eq(panel:GetChild('enemy1'):GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
-  assert(not panel:GetChild('enemy2').visible)
+  eq(monsterControl(panel,'enemy1'):GetChild('name').text,e.name)
+  eq(monsterControl(panel,'enemy1'):GetChild('hp').text,string.format('%d/%d',e.hp,e.maxHp))
+  assert(not monsterControl(panel,'enemy2'))
   if seed=='2'then
    tap('enemy1',51);local detail=inspectDetails(ui,panel)
    assert(detail:find(s.catalog.statuses.weak.name,1,true)and detail:find(s.catalog.statuses.frail.name,1,true))
    assert(Run.endTurn(r));host:refresh();eq(s.player.hp,s.player.maxHp)
-   eq(panel:GetChild('enemy1'):GetChild('intent').text,'25')
+   eq(monsterControl(panel,'enemy1'):GetChild('intent').text,'25')
   else
    assert(Run.endTurn(r));host:refresh();eq(s.player.hp,s.player.maxHp-16)
    tap('enemy1',52);local detail=inspectDetails(ui,panel)

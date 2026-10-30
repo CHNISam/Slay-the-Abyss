@@ -24,7 +24,7 @@ end
 dofile('tests/lua/support/native_runtime_controls.lua').install(F,Runtime)
 local Run,Map,Nodes=require('abyss_run'),require('abyss_map'),require('abyss_nodes')
 local DeckUI,NodeUI=require('abyss_deck_ui'),require('abyss_node_ui')
-local platform={imageSource='static',imageTypes={basic=17,stretch=23},color=function(...)return {...}end}
+local platform=F.withMonsterActors({imageSource='static',imageTypes={basic=17,stretch=23},color=function(...)return {...}end})
 local r=Native.decorate(F.Viewport.apply(F.control({children=F.Layout}),1280,720))
 local function drain()for _=1,450 do Runtime.update()end end
 local function check(face,enabled,node)

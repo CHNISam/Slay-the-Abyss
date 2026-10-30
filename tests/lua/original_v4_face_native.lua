@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Display=require('abyss_card_display')
 local Presentation=require('abyss_character_presentation')
@@ -121,7 +122,7 @@ do
  live.deck={{uid=1,cardId='RD2-001'}}
  assert(Run.startCombat(live,'cultist_solo'))
  host.run=live;view.run=live;view:setData(live.data,Presentation.prepare(F.Presentation,live.data));host:refresh()
- local enemy=panel:GetChild('enemy1')
+ local enemy=monsterControl(panel,'enemy1')
  emit('card1','down',81);emit('card1','drag',81,enemy.x,enemy.y)
  assert(view.gesture and view.gesture.moving)
  local instance=live.combat.hand[1]

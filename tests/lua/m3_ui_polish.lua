@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 local Theme=require('abyss_theme')
 local Enemy=require('abyss_battle_enemy_view')
@@ -9,23 +10,27 @@ local host,ui,panel,event=H.setup({'strike','strike'},{'cultist'})
 for count=1,5 do
  local enemies={};for i=1,count do enemies[i]='cultist' end
  host.run.combat=H.F.Combat.new(H.F.Data,{deck={'strike','strike'},enemies=enemies,seed=11})
+ -- Explicit separated source offsets isolate targeting for repeated test actors;
+ -- raw C.new IDs do not invoke a MonsterHelper encounter formation.
+ for i,actor in ipairs(host.run.combat.enemies)do actor.sourcePosition={x=-795+(i-1)*240,y=(i%2==1 and -10 or 140)}end
  host:refresh()
  local battle=host.run.combat
- -- Main.dc.html: zoneL=1010, zoneR=1850; front=min(190,round(slot*1.1)).
- -- Keep this live gesture test on the approved source geometry, not the retired row.
- local sourceStep=(1850-1010)/count
- local front=math.min(190,math.floor(sourceStep*1.1+.5))
+ -- Cultist constructor: hitbox230x240, hb(-8,10), source canvas1920x1080.
  local origin=panel:GetChild('card1').x
  event('card1','down',7)
  for i=1,count do
-  local box=panel:GetChild('enemy'..i)
-  local portrait=i%2==1 and front or math.floor(front*.86+.5)
-  local x=(1010+sourceStep*(i-.5))/1.5-640
-  local y=360-((i%2==1 and 300 or 180)+58+16+portrait/2)/1.5
+  local box=monsterControl(panel,'enemy'..i)
+  local actor=battle.enemies[i]
+  local x=(1440+actor.sourcePosition.x)/1.5-640
+  local y=(340+actor.sourcePosition.y)/1.5-360+240/3
   assert(box.visible and math.abs(box.x-x)<1e-8 and math.abs(box.y-y)<1e-8,'visible enemy row changed')
   local renderedX=Enemy.position(count,i,battle.enemies[i])
   assert(math.abs(renderedX-x)<1e-8,'feedback position differs from visible enemy')
-  event('card1','drag',7,x,y)
+  local hit=box:GetChild('hit')
+  assert(math.abs(hit.sizeDeltaX-230/1.5)<1e-8 and math.abs(hit.sizeDeltaY-240/1.5)<1e-8,'source hitbox changed')
+  local hitX,hitY=x-8/1.5,(340+actor.sourcePosition.y+10+240/2)/1.5-360
+  assert(math.abs(x+hit.x-hitX)<1e-8 and math.abs(y+hit.y-hitY)<1e-8,'native hitbox differs from source constructor')
+  event('card1','drag',7,hitX,hitY)
   assert(ui.gesture.drawnTarget==i,'target identity must switch before decorative interpolation')
   for _=1,20 do host:update(1/60) end -- settle approved endpoint transition before geometric comparison
   local layer=panel:GetChild('dragLayer')

@@ -99,7 +99,7 @@ function M.install(owner, ownership, host, dependencies)
         hit:SetAnchoredPosition(x,y);hit:SetSizeDelta(64*sx,64*sy)
     end
     local function enemyIntentAllowed(actor,battle)
-        return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isActive(actor) and not owner.feedback.dying[actor.id]
+        return not require('abyss_boss_relics').hidesIntents(owner.run) and Actors.isPresent(actor) and not owner.feedback.dying[actor.id]
             and not owner.feedback.escaping[actor.id] and battle.player.hp>0
     end
     local function enemyAimProjection(frame)
@@ -150,9 +150,12 @@ function M.install(owner, ownership, host, dependencies)
     local function updateEnemyIntents(dt)
         local battle=owner.displayBattle or owner.run and owner.run.combat
         if not battle or not owner.active then return end
+        -- The surface manager owns live handles. Feedback rows may still include
+        -- a death whose independently clocked surface has already retired.
         for _,entry in ipairs(owner.feedback.enemyRows or {})do
-            local box=assert(host.monsterSurfaces:find(entry.id))
             local actor=entry.actor
+            local box=host.monsterSurfaces:find(entry.id)
+            if box then
             local face=enemyIntentFace({battle=battle,enemyPlayback=owner.feedback.busy},actor,entry.index)
             local g=EnemyView.geometry(actor)
             local dying,escaping=owner.feedback.dying[entry.id],owner.feedback.escaping[entry.id]
@@ -160,6 +163,9 @@ function M.install(owner, ownership, host, dependencies)
             renderEnemyIntent(box,face,g.portrait,g,enemyIntentAllowed(actor,battle),
                 host.monsterIntentParticles:alpha(entry.id))
             host.monsterIntentParticles:paint(box,entry.id,g,enemyIntentAllowed(actor,battle) and face.sourceEnum~='NONE')
+            else
+                assert(not Actors.isPresent(actor),'active monster intent surface missing: '..entry.id)
+            end
         end
     end
     local function nameBlocked(actor)

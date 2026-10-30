@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 -- Source-level native UIImage SetImage coverage, not official-device evidence.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local C,Theme=H.F.Combat,H.F.Theme
@@ -66,7 +67,7 @@ for first=1,#ids,5 do
     host.run.combat=C.new(H.F.Data,{deck={'defend'},enemies=members})
     host:refresh()
     for slot,id in ipairs(members)do
-        local box=panel:GetChild('enemy'..slot)
+        local box=monsterControl(panel,'enemy'..slot)
         assert(box.visible and box:GetChild('portrait').imageId==expected[id],id..' real battle SetImage')
     end
 end
@@ -80,16 +81,19 @@ for _,pair in ipairs({{'collector','torch_head'},{'automaton','bronze_orb'},{'gr
     assert(C.summonEnemies(battle,{{id=pair[2],x=200,y=0}}))
     host:refresh()
     for i,enemy in ipairs(battle.enemies)do
-        assert(panel:GetChild('enemy'..i):GetChild('portrait').imageId==expected[enemy.definitionId],pair[2]..' summoned SetImage')
+        assert(monsterControl(panel,'enemy'..i):GetChild('portrait').imageId==expected[enemy.definitionId],pair[2]..' summoned SetImage')
     end
 end
--- Future/unknown IDs keep the existing tier fallback rather than crashing.
+-- Missing portrait mappings keep the tier fallback on a legal source actor.
+-- An unknown combat definition has no constructor geometry to render.
+local cultistImage=Theme.icon.enemy.cultist
+Theme.icon.enemy.cultist=nil
 for _,tier in ipairs({'normal','elite','boss'})do
     local battle=C.new(H.F.Data,{deck={'defend'},enemies={'cultist'}})
-    battle.enemies[1].definitionId='future_unmapped_enemy'
     battle.enemies[1].tier=tier
     host.run.combat=battle;host:refresh()
-    assert(panel:GetChild('enemy1'):GetChild('portrait').imageId==Theme.icon.node[tier=='normal' and 'combat' or tier],tier..' fallback')
+    assert(monsterControl(panel,'enemy1'):GetChild('portrait').imageId==Theme.icon.node[tier=='normal' and 'combat' or tier],tier..' fallback')
 end
+Theme.icon.enemy.cultist=cultistImage
 assert(Theme.icon.enemy.verify==true,'device verification remains pending')
 print('LUA_NATIVE_ENEMY_PORTRAITS_PASS 42 + summons + unknown fallbacks')

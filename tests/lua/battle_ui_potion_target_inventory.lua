@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local first,last=...
 first,last=first or 1,last or 4
 assert(type(first)=='number'and type(last)=='number'and first%1==0 and last%1==0 and first>=1 and last<=7 and first<=last,'invalid potion inventory slice')
@@ -37,8 +38,8 @@ test('dead enemy is rejected and never retargets to survivor',function()
   eq(b.enemies[1].hp,0);local z=b.enemies[2].hp;click('enemy1');eq(h.run.potions[1],'fire_potion');eq(b.enemies[2].hp,z)
   -- The integrated controller cancels when the live roster changes.
   click('enemy2');eq(b.enemies[2].hp,z);eq(h.run.potions[1],'fire_potion')
-  assert(p:GetChild('enemy1').visible and p:GetChild('enemy1'):GetChild('name').text==b.enemies[2].name)
-  assert(not p:GetChild('enemy2').visible)
+  assert(monsterControl(p,'enemy1').visible and monsterControl(p,'enemy1'):GetChild('name').text==b.enemies[2].name)
+  assert(not monsterControl(p,'enemy2'))
   click('potion1');click('enemy1');eq(b.enemies[2].hp,z-20);eq(h.run.potions[1],nil)
 end)
 test('paired touch begins only on Click and confirms exactly once',function()

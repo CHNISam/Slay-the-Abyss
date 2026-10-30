@@ -3,6 +3,7 @@ local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run,Combat=require('abyss_run'),require('abyss_combat')
 local function eq(a,b) assert(a==b,tostring(a)..' ~= '..tostring(b)) end
 local confirm=dofile('tests/lua/support/confirm_potion_popup.lua')
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local function setup(pointer)
   -- Independent complete-pool first-drop vector: seed61 naturally offers Fire.
   -- Seed4 now correctly offers Flex; keep the actual victory/claim path.
@@ -29,11 +30,22 @@ local function setup(pointer)
   h:resize(1280,720);h:refresh()
   local u,p=h.battleUI,r:GetChild('battlePanel')
   local function emit(name,kind,touch)
-    local box=p:GetChild(name);local hit=box.listeners and box or box:GetChild('hit')
+    local box=name:match('^enemy%d+$') and monsterControl(p,name) or p:GetChild(name)
+    if not box then return false end -- No native control exists for an absent actor.
+    local hit=box.listeners and box or box:GetChild('hit')
     local fn=hit.listeners and hit.listeners[kind]
     if fn then return fn({touchId=touch}) end
   end
-  local function drain()for _=1,400 do if not u.busy then return end h:update(.05) end error('busy') end
+  local function drain()
+    for _=1,400 do
+      if not u.busy then
+        for id in pairs(u.feedback.dying)do dofile('tests/lua/support/monster_death_fixture.lua')(h,u,id)end
+        return
+      end
+      h:update(.05)
+    end
+    error('busy')
+  end
   local function click(name)
     local previous=u.potionAim
     local result=emit(name,'click')

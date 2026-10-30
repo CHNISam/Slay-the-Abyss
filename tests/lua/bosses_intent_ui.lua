@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local C=require('abyss_combat')
 local D=require('abyss_data')
 local View=require('abyss_battle_intent_view')
@@ -26,22 +27,26 @@ local circle=View.intentView(pair,2);has(circle.text,'全体');has(circle.text,'
 -- both new actors targetable, with no nil single-child metadata assumption.
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local inspectDetails=dofile('tests/lua/support/status_detail_fixture.lua')
-local host,ui,panel,_,tap,drain=H.setup({'strike'},{'slime_boss'})
+local host,ui,panel,_,tap,drain=H.setup({'strike','strike'},{'slime_boss'})
 local s=host.run.combat;local parent=s.enemies[1]
-C.damage(s,s.player,parent,80,true);host:refresh()
-dofile('tests/lua/support/intent_face_assertion.lua')(panel:GetChild('enemy1'),View.intentView(s,1),'分裂')
+-- Cross half HP through real input so selected/displayed source intent frames
+-- advance together; a direct core mutation does not run presentation playback.
+parent.hp=66;host:refresh();tap('card1',29);tap('enemy1',30);drain()
+dofile('tests/lua/support/intent_face_assertion.lua')(monsterControl(panel,'enemy1'),View.intentView(s,1),'分裂')
 tap('enemy1',31)
 local detail=inspectDetails(ui,panel)
 has(detail,s.catalog.enemies.spike_slime_l.name)
 has(detail,s.catalog.enemies.acid_slime_l.name)
 tap('endTurn',32);drain()
+dofile('tests/lua/support/monster_death_fixture.lua')(host,ui,parent.id)
 assert(#s.enemies==3 and s.enemies[2]==parent and parent.hp==0)
-local left,right=panel:GetChild('enemy1'),panel:GetChild('enemy2')
+local left=monsterControl(panel,'enemy1')
+local right,rightSlot=monsterControl(panel,'enemy2')
 assert(left.visible and right.visible)
 assert(left:GetChild('name').text==s.catalog.enemies.spike_slime_l.name)
 assert(right:GetChild('name').text==s.catalog.enemies.acid_slime_l.name)
 local hp=s.enemies[3].hp
-tap('card1',33);tap('enemy2',34);drain()
+tap('card1',33);tap('enemy'..rightSlot,34);drain()
 assert(s.enemies[3].hp==hp-6 and s.enemies[1].hp==60)
 assert(ui.active and not ui.busy)
 print('BOSSES_INTENT_UI_PASS unknown/mixed-split/burn-upgrade/group-block/real-controls/child-target')

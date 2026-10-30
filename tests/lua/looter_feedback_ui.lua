@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local H=dofile('tests/lua/support/battle_action_fixture.lua')
 local test,finish=H.suite('LOOTER_FEEDBACK_UI')
 test('gold HUD follows each displayed event frame, not committed final balance',function()
@@ -14,9 +15,9 @@ test('escape is a separate three-second presentation, never death or target',fun
   for i=1,400 do
    if not u.busy then break end
    if u.feedback.current and u.feedback.current.kind=='enemy_escape' then
-    local id=h.run.combat.enemies[1].id;assert(not u.feedback.deaths[id]);assert(p:GetChild('enemy1').visible)
-    h:update(2.9);assert(u.feedback.current.kind=='enemy_escape');assert(p:GetChild('enemy1').visible)
-    h:update(.11);assert(u.feedback.current.kind~='enemy_escape');assert(not p:GetChild('enemy1').visible);escaped=true;break
+    local id=h.run.combat.enemies[1].id;assert(not u.feedback.deaths[id]);assert(monsterControl(p,'enemy1').visible)
+    h:update(2.9);assert(u.feedback.current.kind=='enemy_escape');assert(monsterControl(p,'enemy1').visible)
+    h:update(.11);assert(u.feedback.current.kind~='enemy_escape');assert(not monsterControl(p,'enemy1'));escaped=true;break
    end
    h:update(.05)
   end

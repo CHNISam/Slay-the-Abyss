@@ -30,7 +30,7 @@ local function prepared(id,source)
  if id~='watcher' and not has(d,({ironclad='rage',silent='after_image',defect='heat_sinks'})[id]) then d=Triggers.withCards(d,id) end
  return d
 end
-local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end}
+local platform=F.withMonsterActors({imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,a=a}end})
 for _,id in ipairs({'ironclad','silent','defect','watcher'})do
  test(id..' every basic and upgrade reaches real BattleUI and DeckUI',function()
   local data=prepared(id);local text=P.prepare(Existing,data)

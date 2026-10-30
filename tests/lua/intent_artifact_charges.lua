@@ -1,3 +1,4 @@
+local monsterControl=dofile('tests/lua/support/monster_control_fixture.lua')
 local F = dofile("tests/lua/support/intent_artifact_fixture.lua")
 local Combat, eq = F.Combat, F.eq
 local test, drainChecked = F.test, F.drainChecked
@@ -11,8 +12,8 @@ test("two stock applying enemies exhaust exactly two charges without historical-
     drainChecked(h, u, function(entry, frame)
         if entry.kind == "status" and entry.detail.status == "artifact" then
             blocks[frame.player.statuses.artifact] = true
-            eq(p:GetChild("enemy1"):GetChild("intent").text, "4")
-            eq(p:GetChild("enemy2"):GetChild("intent").text, "4")
+            eq(monsterControl(p,"enemy1"):GetChild("intent").text, "4")
+            eq(monsterControl(p,"enemy2"):GetChild("intent").text, "4")
         end
     end)
     assert(blocks[1] and blocks[0])
