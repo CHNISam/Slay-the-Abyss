@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "4e93a6f22fea8fbd6c546316d9830070c58b2e80",
+  "afterCommit": "2053ac388e6b745a53cf40c77f239283e7a7894a",
+  "files": {
+    "src/lua/abyss_feedback.lua": {
+      "afterSha256": "3d58cbcda89105d2bfc6b69e3ebc90710c7944f0ede551a91a504c2a44355c74",
+      "beforeSha256": "5b8dec6c0e350dd1bfc4832c18f8bd532bf473ea93bf2db8cf1d1269e05dd0cd",
+      "afterGitBlob": "701edb9fcdb918f42bed924262c612ff97f51691",
+      "beforeGitBlob": "32201562d7f8184680b9ae6ee964fcaba902744a",
+      "hunks": [
+        {
+          "at": 358,
+          "after": [
+            "    local function contactDeathSound(id)",
+            "        -- Preserve the planned area-death group's single audible cue, but own",
+            "        -- it at lethal contact so a long frame cannot expire the visual first.",
+            "        for _,entry in ipairs(self.queue or {})do",
+            "            if entry.kind=='death' and entry.detail.target==id and entry.detail.quiet then return end",
+            "        end",
+            "        local victim=actor(id)",
+            "        sound(Theme.deathSound[victim and victim.definitionId] or 'enemy_die')",
+            "    end"
+          ],
+          "before": []
+        },
+        {
+          "at": 382,
+          "after": [
+            "            local newlyStarted=not self.deaths[d.target]"
+          ],
+          "before": []
+        },
+        {
+          "at": 386,
+          "after": [
+            "            if newlyStarted then contactDeathSound(d.target)end"
+          ],
+          "before": []
+        },
+        {
+          "at": 393,
+          "after": [
+            "        if d.target == \"player\" and not d.quiet then sound(\"defeat\")end"
+          ],
+          "before": [
+            "        if not d.quiet then",
+            "            local victim = actor(d.target)",
+            "            sound(d.target == \"player\" and \"defeat\" or Theme.deathSound[victim and victim.definitionId] or \"enemy_die\")",
+            "        end"
+          ]
+        },
+        {
+          "at": 465,
+          "after": [
+            "        local priorActors,started={},{}"
+          ],
+          "before": [
+            "        local priorActors={}"
+          ]
+        },
+        {
+          "at": 469,
+          "after": [
+            "            if prior and Actors.isPresent(prior) and unit.hp<=0 and not Actors.isPresent(unit) and not self.deaths[unit.id] then"
+          ],
+          "before": [
+            "            if prior and Actors.isPresent(prior) and unit.hp<=0 and not Actors.isPresent(unit) then"
+          ]
+        },
+        {
+          "at": 471,
+          "after": [
+            "                started[#started+1]=unit.id"
+          ],
+          "before": []
+        },
+        {
+          "at": 474,
+          "after": [
+            "        return started"
+          ],
+          "before": []
+        },
+        {
+          "at": 484,
+          "after": [
+            "        local contactDeaths=startContactDeaths(old,nextView)"
+          ],
+          "before": [
+            "        startContactDeaths(old,nextView)"
+          ]
+        },
+        {
+          "at": 498,
+          "after": [
+            "        return old,contactDeaths"
+          ],
+          "before": [
+            "        return old"
+          ]
+        },
+        {
+          "at": 501,
+          "after": [
+            "        local old,contactDeaths=enterFrame(entry,style)"
+          ],
+          "before": [
+            "        local old=enterFrame(entry,style)"
+          ]
+        },
+        {
+          "at": 519,
+          "after": [
+            "        -- Keep hit/action sound order within the same lethal presentation frame.",
+            "        for _,id in ipairs(contactDeaths)do contactDeathSound(id)end"
+          ],
+          "before": []
+        }
+      ]
+    }
+  }
+}

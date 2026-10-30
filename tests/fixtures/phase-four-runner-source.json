@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "5902631159ea7ba1235c1f2b8a0241250adf8cfb",
+  "afterCommit": "4e93a6f22fea8fbd6c546316d9830070c58b2e80",
+  "path": "scripts/test-lua.mjs",
+  "afterSha256": "a67830399f3279fa223486ec7990e0d5cd60ad0c9ae4af7c1e196c5508f65ab4",
+  "beforeSha256": "845e4fd6bb66ccd32a5a2dfd1f30360cf154bc1924a00cc295ab05bc05b5a1ca",
+  "afterGitBlob": "7f6b57a046521aab7b3dd9dbb24b16438bb33fc8",
+  "beforeGitBlob": "f5d7a8f69bf588822e2010619022b8d6b0724fbf",
+  "hunks": [
+    {
+      "at": 0,
+      "after": [
+        "import {currentPhaseFourNativePrelude} from '../tests/helpers/current-phase-four-native.mjs';"
+      ],
+      "before": []
+    },
+    {
+      "at": 29,
+      "after": [
+        "  const frozenHand = historicalCardInputPrelude(normalizedScript,{cwd}) + frozenBattleHandPrelude(normalizedScript, {cwd}) + currentPhaseFourNativePrelude(normalizedScript, {cwd});"
+      ],
+      "before": [
+        "  const frozenHand = historicalCardInputPrelude(normalizedScript,{cwd}) + frozenBattleHandPrelude(normalizedScript, {cwd});"
+      ]
+    }
+  ],
+  "linkedSources": {
+    "tests/helpers/current-phase-four-native.mjs": {
+      "sha256": "c1bf26c05c1e648981841e5b6c67cab26a266f0f2e4c99f5d8dead931034c9e8",
+      "gitBlob": "4499af891df97a796bc9ea732d38d98e7f426172"
+    },
+    "tests/lua/support/game_ui_fixture.lua": {
+      "sha256": "5fdf49a7de6108953b64c0ff30d179d46b453944e335d8e27ec09e3f10c75b16",
+      "gitBlob": "c097822675be0d671b0f86d942ef4234d3ee9aad"
+    }
+  }
+}
