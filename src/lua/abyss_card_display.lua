@@ -183,7 +183,7 @@ local function atoms(text)
         local word=#ch==1 and ch:match('[%w%+%-%%]')
         local last=out[#out]
         if ch=='\n' or ch==' ' then out[#out+1]=ch;glue=false
-        elseif last and (glue or closing[ch] or word and last.word) then
+        elseif type(last)=='table' and (glue or closing[ch] or word and last.word) then
             last.text=last.text..ch;last.word=word and last.word;glue=opening[ch]~=nil
         else out[#out+1]={text=ch,word=word};glue=opening[ch]~=nil end
     end

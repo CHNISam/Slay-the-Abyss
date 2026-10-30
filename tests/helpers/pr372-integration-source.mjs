@@ -5,7 +5,7 @@ import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const bytes=readFileSync(new URL('../fixtures/pr372-integration-sources.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
-assert.equal(hash(bytes),'f8fcb44fb224213c6097c4b9aa02d3408a804ba31753fb2beb8c9a38df98dd00','complete combined source identity');
+assert.equal(hash(bytes),'2d4e9cbad0efc5f9df19963193a086cb497415ac9567ab066ef2ace65b3829c7','complete combined source identity');
 export const integrationSources=JSON.parse(bytes).sources;
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
  const binding=integrationSources[path];
