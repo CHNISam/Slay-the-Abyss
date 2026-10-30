@@ -1,3 +1,4 @@
+import {preBetaSource,prepareBetaRetirement} from './beta-integration-source.mjs';
 import {preDeckBrowseSource} from './deck-browse-source-inverse.mjs';
 import {preAcceptedDevelopSource} from './delivery-source-composition.mjs';
 // Exact test-only projection of the reviewed combined slice. Runtime never imports this.
@@ -10,6 +11,7 @@ const bytes=readFileSync(new URL('../fixtures/pr372-integration-sources.json',im
 assert.equal(hash(bytes),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112b4c9e00995','complete combined source identity');
 export const integrationSources=JSON.parse(bytes).sources;
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
+ if(target==='feature379')return preBetaSource(path,source,target,{readSource});
  source=preAcceptedDevelopSource(path,source,{readSource});
  source=preDeckBrowseSource(path,source);
  source=preAcceptedDevelopSource(path,source,{readSource});
@@ -35,6 +37,7 @@ export function preIntegrationSource(path,source,target='base',{readSource=path=
  return previous;
 }
 export function prepareIntegrationRetirement(directory,{sourceRoot=process.cwd()}={}){
+ const retireBeta=prepareBetaRetirement(directory,{sourceRoot});
  assert.notEqual(resolve(directory),resolve(sourceRoot),'integration retirement requires separate destination');
  const targets=[];
  for(const [path,b] of Object.entries(integrationSources)){
@@ -42,5 +45,5 @@ export function prepareIntegrationRetirement(directory,{sourceRoot=process.cwd()
   const target=join(directory,path);if(!existsSync(target))continue;
   assert.equal(hash(preAcceptedDevelopSource(path,readFileSync(target,'utf8'),{readSource:p=>readFileSync(join(sourceRoot,p),'utf8')}).replaceAll('\r\n','\n')),b.sha256,'unreviewed integration module: '+path);targets.push(target);
  }
- return ()=>{for(const target of targets)if(existsSync(target))rmSync(target);};
+ return ()=>{prepareBetaRetirement(directory,{sourceRoot});retireBeta();for(const target of targets)if(existsSync(target))rmSync(target);};
 }

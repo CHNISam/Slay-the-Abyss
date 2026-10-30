@@ -1,0 +1,25 @@
+{
+  "path": "src/lua/abyss_ui.lua",
+  "fromCommit": "ef7b3e80093dd737be5496627250269532da001c",
+  "toCommit": "3df9faae3cb40f9eea0fc7aae8ee3974574d772a",
+  "fromSha256": "70f68df7d741bb31c6741133afc484d6e5d82ffc960d81bd5b8fa8e45f8ecfb7",
+  "toSha256": "57882d7a3b6f36e7932d8e8483f497c6568a1952623736f6cf72f867c9fdf7e0",
+  "hunks": [
+    {
+      "at": 130,
+      "before": [],
+      "after": [
+        "        local hasMonsterArt, monsterArt = pcall(function() return script:GetParam(\"nativeMonsterArtEnabled\") end)"
+      ]
+    },
+    {
+      "at": 142,
+      "before": [
+        "              nativeMonsterArtEnabled=script.nativeMonsterArtEnabled~=false,"
+      ],
+      "after": [
+        "              nativeMonsterArtEnabled=not hasMonsterArt or monsterArt~=false,"
+      ]
+    }
+  ]
+}

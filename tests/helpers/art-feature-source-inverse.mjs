@@ -14,6 +14,10 @@ const sourceDirectory=fileURLToPath(new URL('../..',import.meta.url));
 const bytes=normalize(readFileSync(new URL('../fixtures/art-feature-source-layer.json',import.meta.url),'utf8'));
 assert.equal(hash(bytes),'b2bef34f482a5eca07b74a10d5ca31f04a5256a6b3a3d249ff8597a7b5962a30','complete art-feature/fallback outer source identity');
 export const artFeatureSourceLayer=JSON.parse(bytes);
+const legacyBytes=normalize(readFileSync(new URL('../fixtures/art-feature-source-layer-pre379.json',import.meta.url),'utf8'));
+assert.equal(hash(legacyBytes),'33ad4cabfe6a3b678a7054f39975bca56e122ecc5ca2c3ad945392eb77b22afc','complete pre379 art-feature witness');
+export const legacyArtFeatureSourceLayer=JSON.parse(legacyBytes);
+const legacyLayer=legacyArtFeatureSourceLayer;
 assert.equal(artFeatureSourceLayer.schemaVersion,1);
 assert.equal(artFeatureSourceLayer.baseCommit,'1bfca6261044b92f8065bb83668c358b0a2627da');
 assert.ok(Object.keys(artFeatureSourceLayer.files).length>0,'complete art-feature/fallback source inventory');
@@ -34,19 +38,23 @@ for(const [path,binding]of Object.entries(artFeatureSourceLayer.files)){
 export const artFeatureAddedPaths=Object.freeze(Object.entries(artFeatureSourceLayer.files)
  .filter(([,binding])=>binding.beforeSha256===null).map(([path])=>path));
 
-export function preArtFeatureSource(path,source,{readSource=path=>readFileSync(path,'utf8')}={}){
- source=preRelicArtFeatureCompositionSource(path,preIntegrationSource(path,source),'artFeature');
- const binding=artFeatureSourceLayer.files[path];
+export function preHistoricalArtFeatureSource(path,source,options={}){return preArtFeatureSource(path,source,{...options,history:true});}
+export function preArtFeatureSource(path,source,{readSource=path=>readFileSync(path,'utf8'),history=false}={}){
+ const integrationTarget=history?'base':'feature379';
+ source=preRelicArtFeatureCompositionSource(path,preIntegrationSource(path,source,integrationTarget),'artFeature',{integrationTarget});
+ const layer=history?legacyLayer:artFeatureSourceLayer;
+ const binding=layer.files[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=normalize(source);
  if(hash(normalized)!==binding.afterSha256)return source;
  // A recognized host cannot acquire old-source permission while its added
  // feature owner is absent or drifting. Baseline/unknown sources pass unchanged.
- for(const added of artFeatureAddedPaths){
+ for(const added of Object.keys(layer.files).filter(p=>layer.files[p].beforeSha256===null)){
   let actual;
   try{actual=readSource(added);}catch{assert.fail('unreviewed art-feature linked source missing: '+added);}
   assert.equal(typeof actual,'string','complete art-feature linked source: '+added);
-  assert.equal(hash(normalize(actual)),artFeatureSourceLayer.files[added].afterSha256,'unreviewed art-feature linked source drift: '+added);
+  actual=preIntegrationSource(added,actual,integrationTarget);
+  assert.equal(hash(normalize(actual)),layer.files[added].afterSha256,'unreviewed art-feature linked source drift: '+added);
  }
  if(binding.beforeSha256===null)return null;
  const lines=normalized.split('\n');
@@ -78,7 +86,7 @@ function validateDestination(directory,sourceRoot){
  const targets=[];
  for(const path of artFeatureAddedPaths){
   const target=join(directory,path);if(!existsSync(target))continue;
-  assert.equal(hash(normalize(readFileSync(target,'utf8'))),artFeatureSourceLayer.files[path].afterSha256,'unreviewed art-feature added module destination: '+path);
+  assert.equal(hash(normalize(preIntegrationSource(path,readFileSync(target,'utf8'),'feature379'))),artFeatureSourceLayer.files[path].afterSha256,'unreviewed art-feature added module destination: '+path);
   targets.push(target);
  }
  return targets;

@@ -1,3 +1,4 @@
+import {preMultiHistoricalUiTest} from './multi-historical-ui-tests.mjs';
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
 import {architectureSourceFormat} from './architecture-source-format.mjs';
 import {preCardDescOverflowSource} from './card-desc-overflow-inverse.mjs';
@@ -24,6 +25,7 @@ const proof=pr323AcceptedSourceInverse;
 // require the original complete identity. Comparing tokens also prevents JSON.parse
 // from hiding duplicate keys, changed string escapes, or numeric spellings.
 export function normalizePr323CompositionSource(path,source){
+ source=preMultiHistoricalUiTest(path,source);
  source=preIntegrationSource(path,source);
  source=preCardDescOverflowSource(path,source);
  source=preBossUiFaultFixtureSource(path,source);
@@ -60,6 +62,7 @@ for(const [path,binding]of Object.entries(proof.files)){
  }
 }
 export function requirePr323Source(path,source){
+ source=preMultiHistoricalUiTest(path,source);
  source=preBattleLifeSource(path,preCardDescOverflowSource(path,source));
  if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
  source=normalizePr323CompositionSource(path,source);
@@ -74,6 +77,7 @@ export function requirePr323Source(path,source){
  return binding;
 }
 function project(path,source,target){
+ source=preMultiHistoricalUiTest(path,source);
  source=preBattleLifeSource(path,preCardDescOverflowSource(path,source));
  if(typeof source!=='string')return source;
  if(proof.files[path])source=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,source)));
