@@ -1,10 +1,11 @@
+import {preAcceptedDevelopSource} from './helpers/delivery-source-composition.mjs';
 import {preDeckBrowseSource} from './helpers/deck-browse-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {integrationSources,preIntegrationSource as prior} from './helpers/pr372-integration-source.mjs';
-const read=p=>preDeckBrowseSource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
+const read=p=>preAcceptedDevelopSource(p,preDeckBrowseSource(p,preAcceptedDevelopSource(p,readFileSync(p,'utf8')))).replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 test('combined presentation projection recovers exact individual and base identities only',()=>{
  for(const [path,b] of Object.entries(integrationSources)){
@@ -12,6 +13,7 @@ test('combined presentation projection recovers exact individual and base identi
   for(const [target,t] of Object.entries(b.targets)){
    const old=prior(path,live,target);
    assert.equal(old===null?null:hash(old),t.sha256,path+' '+target);
+   assert.equal(prior(path,readFileSync(path,'utf8'),target),old,'live source preserves explicit target '+path+' '+target);
    assert.equal(prior(path,live+'\n-- drift',target),live+'\n-- drift');
    assert.equal(prior('unregistered/'+path,live,target),live);
   }

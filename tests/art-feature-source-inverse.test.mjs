@@ -1,5 +1,5 @@
-import {preNativeMonsterArtSource} from './helpers/native-monster-art-source-inverse.mjs';
 import test from 'node:test';
+import {preIntegrationSource} from './helpers/pr372-integration-source.mjs';
 import assert from 'node:assert/strict';
 import {preRelicArtFeatureCompositionSource} from './helpers/relic-art-feature-composition.mjs';
 import {preRelicArtCompositionSource} from './helpers/relic-art-composition.mjs';
@@ -7,14 +7,16 @@ import {createHash} from 'node:crypto';
 import {existsSync,mkdirSync,mkdtempSync,readFileSync,rmSync,symlinkSync,writeFileSync} from 'node:fs';
 import {dirname,join} from 'node:path';
 import {tmpdir} from 'node:os';
-import {artFeatureSourceLayer as proof,artFeatureAddedPaths,preArtFeatureSource,prepareArtFeatureRetirement} from './helpers/art-feature-source-inverse.mjs';
+import {artFeatureSourceLayer as proof,legacyArtFeatureSourceLayer,preHistoricalArtFeatureSource,artFeatureAddedPaths,preArtFeatureSource,prepareArtFeatureRetirement} from './helpers/art-feature-source-inverse.mjs';
 import {artPerfSourceComposition,projectArtPerfSource} from './helpers/art-perf-source-composition.mjs';
 import {readyArtSourceLayer,preReadyArtSource} from './helpers/ready-art-source-inverse.mjs';
 import {round2UiAddedPaths} from './helpers/round2-ui-source-inverse.mjs';
 import {preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
 import {prepareBattleLifeModuleRetirement} from './helpers/battle-life-source-inverse.mjs';
 
-const read=path=>preRelicArtCompositionSource(path,preRelicArtFeatureCompositionSource(path,preNativeMonsterArtSource(path,readFileSync(path,'utf8')),'artFeature'),'art').replaceAll('\r\n','\n');
+const read=path=>(proof.files[path]
+ ?preIntegrationSource(path,readFileSync(path,'utf8'),'feature379')
+ :preRelicArtCompositionSource(path,preRelicArtFeatureCompositionSource(path,readFileSync(path,'utf8'),'artFeature'),'art')).replaceAll('\r\n','\n');
 const hash=source=>source===null?null:createHash('sha256').update(source).digest('hex');
 const put=(directory,path,source)=>{const target=join(directory,path);mkdirSync(dirname(target),{recursive:true});writeFileSync(target,source);};
 const temporary=()=>mkdtempSync(join(tmpdir(),'abyss-art-feature-inverse-'));
@@ -55,6 +57,10 @@ test('unknown, partial, duplicate, cross-path and reordered feature sources rema
   for(const mutant of mutants){
    assert.notEqual(hash(mutant),binding.afterSha256);
    assert.equal(preArtFeatureSource(path,mutant),mutant,'no wildcard feature projection: '+path);
+   if(hash(mutant)===legacyArtFeatureSourceLayer.files[path]?.afterSha256){
+    assert.equal(hash(preHistoricalArtFeatureSource(path,mutant)),legacyArtFeatureSourceLayer.files[path].beforeSha256,'exact reviewed legacy input retains its own inverse');
+    continue;
+   }
    assert.equal(projectArtPerfSource(path,mutant,'art'),mutant,'unknown stays visible to old art guards: '+path);
    assert.equal(projectArtPerfSource(path,mutant,'perf'),mutant,'unknown stays visible to old performance guards: '+path);
   }
@@ -65,9 +71,9 @@ test('recognized feature hosts bind every added owner and reject missing or drif
  for(const [path,binding]of Object.entries(proof.files)){
   if(binding.beforeSha256===null)continue;
   for(const changed of artFeatureAddedPaths){
-   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?read(key)+'\n// drift\n':read(key)}),/linked source drift/);
-   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>{if(key===changed)throw Error('missing');return read(key);}}),/linked source missing/);
-   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?null:read(key)}),/complete art-feature linked source/);
+   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?readFileSync(key,'utf8')+'\n// drift\n':readFileSync(key,'utf8')}),/linked source drift/);
+   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>{if(key===changed)throw Error('missing');return readFileSync(key,'utf8');}}),/linked source missing/);
+   assert.throws(()=>preArtFeatureSource(path,read(path),{readSource:key=>key===changed?null:readFileSync(key,'utf8')}),/complete (?:art-feature|beta) linked source/);
   }
  }
 });

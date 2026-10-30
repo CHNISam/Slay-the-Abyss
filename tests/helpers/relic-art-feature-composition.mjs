@@ -30,7 +30,7 @@ for(const target of Object.values(relicArtFeatureComposition.targets)){
  }
 }
 const cachedProjection=cachePureSourceProjection(relicArtFeatureComposition.targets,projectSource);
-export function preRelicArtFeatureCompositionSource(path,source,target){return cachedProjection(path,preM3EventDeliverySource(path,preIntegrationSource(path,source)),target);}
+export function preRelicArtFeatureCompositionSource(path,source,target,{integrationTarget='base',readSource=path=>readFileSync(path,'utf8')}={}){const integrated=preIntegrationSource(path,source,integrationTarget,{readSource});return cachedProjection(path,integrationTarget==='feature379'?integrated:preM3EventDeliverySource(path,integrated),target);}
 function projectSource(path,source,target){
  assert.ok(target==='relic'||target==='artFeature');
  const binding=relicArtFeatureComposition.targets[target].files[path];
