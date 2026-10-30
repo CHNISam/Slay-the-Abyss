@@ -41,7 +41,7 @@ BASIC_CURSES = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe',
 
 
 def cost_label(card):
-    if (card.get('type') == 'status' or (card.get('id') in BASIC_CURSES and card.get('type') == 'curse')) and type(card.get('cost')) is int and card['cost'] == -2:
+    if (card.get('type') == 'status' or ((card.get('id') in BASIC_CURSES or (card.get('id') == 'necronomicurse' and card.get('rarity') == 'special' and card.get('sourceId') == 'Necronomicurse')) and card.get('type') == 'curse')) and type(card.get('cost')) is int and card['cost'] == -2:
         require(card.get('costMode') is None, 'unplayable card has no costMode')
         return ''
     require(type(card.get('cost')) is int and card['cost'] >= 0, 'cost: expected nonnegative integer')
