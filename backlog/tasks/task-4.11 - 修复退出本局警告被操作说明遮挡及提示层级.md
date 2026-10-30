@@ -1,11 +1,11 @@
 ---
 id: TASK-4.11
 title: 修复退出本局警告被操作说明遮挡及提示层级
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:30'
 labels:
   - playtest-20261030
   - p0

@@ -413,7 +413,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             -- Lv.4 局内存档未开放：仅在进行中的一局里，用一行小字说明原因。
             local why = self.run ~= nil and self.mode ~= "victory"
             exitPanel:GetChild("whyText"):SetVisible(why)
-            exitPanel:GetChild("whyText").text = why and "存档功能需作者达到创作者 4 级后开放，喜欢的话欢迎点赞支持。" or ""
+            exitPanel:GetChild("whyText").text = why and "存档功能需作者达到创作者 4 级后开放，喜欢的话欢迎点赞支持。帮助作者提升等级。" or ""
             exitPanel:GetChild("status").text = self.settlementRequested and "结算请求已发送，等待平台结算界面。"
                 or self.exitError and "退出请求失败，请重试或继续游戏。" or ""
             local enabled = not self.settlementRequested and not self.settlementBusy

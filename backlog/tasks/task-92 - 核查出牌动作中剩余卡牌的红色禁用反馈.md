@@ -1,11 +1,11 @@
 ---
 id: TASK-92
 title: 核查出牌动作中剩余卡牌的红色禁用反馈
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:30'
 labels:
   - playtest-20261030
   - p2

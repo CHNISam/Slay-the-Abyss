@@ -82,3 +82,24 @@ test('exit geometry follows theme and safe device scaling without oversized cont
   assert.deepEqual(child(named(custom, 'exitEntry'), 'open').position, changed.layout.exitMenu.entry.slice(0, 2));
   assert.deepEqual(child(named(custom, 'exitPanel'), 'confirm').position, changed.layout.exitMenu.confirm.slice(0, 2));
 });
+
+test('TASK-4.11 exit warning hierarchy: header, consequence, note, status and actions never overlap', () => {
+  const panel = named(gameLayout().controls, 'exitPanel');
+  const frame = name => child(panel, name);
+  const box = c => ({ l: c.position[0] - c.size[0] / 2, r: c.position[0] + c.size[0] / 2,
+    b: c.position[1] - c.size[1] / 2, t: c.position[1] + c.size[1] / 2 });
+  const hit = (a, b) => { const A = box(a), B = box(b); return A.l < B.r && B.l < A.r && A.b < B.t && B.b < A.t; };
+  const order = ['title', 'help', 'rule', 'message', 'whyText', 'status', 'cancel', 'confirm'];
+  for (const a of order) for (const b of order) if (a !== b) assert.ok(!hit(frame(a), frame(b)), `${a} overlaps ${b}`);
+  // Reading order top → bottom: header above rule above consequence above note above status above actions.
+  const y = n => frame(n).position[1];
+  assert.ok(y('help') > y('rule') && y('rule') > y('message') && y('message') > y('whyText')
+    && y('whyText') > y('status') && y('status') > y('cancel'));
+  assert.equal(y('cancel'), y('confirm'));
+  // Every element stays inside the dialog face, so nothing bleeds onto the veil.
+  const p = box({ position: theme.layout.exitMenu.panel.slice(0, 2), size: theme.layout.exitMenu.panel.slice(2) });
+  for (const n of order) { const c = box(frame(n)); assert.ok(c.l >= p.l && c.r <= p.r && c.b >= p.b && c.t <= p.t, n); }
+  // The modal blocker sits below every interactive child (no click-through to the battle).
+  const blocker = panel.children.indexOf(frame('blocker'));
+  for (const n of ['help', 'cancel', 'confirm']) assert.ok(panel.children.indexOf(frame(n)) > blocker);
+});

@@ -1,11 +1,11 @@
 ---
 id: TASK-4.12
 title: 对齐七天神像恩赐页的美术和成熟开局交互
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:30'
 labels:
   - playtest-20261030
   - p1

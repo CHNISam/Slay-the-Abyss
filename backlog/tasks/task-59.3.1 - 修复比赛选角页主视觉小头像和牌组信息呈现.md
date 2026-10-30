@@ -1,11 +1,11 @@
 ---
 id: TASK-59.3.1
 title: 修复比赛选角页主视觉小头像和牌组信息呈现
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:30'
 labels:
   - playtest-20261030
   - p1

@@ -1,11 +1,11 @@
 ---
 id: TASK-4.14
 title: 校正顶栏卡组遗物图标计数与空间层级
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:30'
 labels:
   - playtest-20261030
   - p1

@@ -52,15 +52,17 @@ export function exitControls(theme = nativeTheme) {
       { name: 'blocker', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },
       plate('border', panel, c.goldDim),
       plate('face', [...panel.slice(0, 2), ...panel.slice(2).map(value => value - s.border * 2)], c.panel),
-      text('title', [l.title[0] - theme.layout.nativeGuide.entry[2] / 2, l.title[1],
-        l.title[2] - theme.layout.nativeGuide.entry[2] * 2, l.title[3]], '退出本局？', f.heading, c.goldBright),
+      // TASK-4.11: header row = title (left) + 操作说明 (right); a gold rule separates it
+      // from the consequence body so no secondary control can sit on the warning text.
+      text('title', l.title, '退出本局？', f.heading, c.goldBright),
+      plate('rule', l.rule, c.goldDim),
       text('message', l.message, '退出将结束本局，并进入平台结算。\n当前进度不会保留。', f.body, c.text),
       // 局内存档需创作者 4 级；开放前用一行小字如实说明，不打扰玩家。
       { ...text('whyText', l.whyText, '', f.small, c.textMuted), visible: false },
       text('status', l.status, '', f.small, c.textDim),
       button('cancel', l.cancel, '继续游戏'),
       button('confirm', l.confirm, '退出并结算', true),
-      button('help', theme.layout.nativeGuide.entry, '操作说明'),
+      button('help', l.help, '操作说明'),
       controlsGuide(theme),
     ] },
     { name: 'runMenu', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
