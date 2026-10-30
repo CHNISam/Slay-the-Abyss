@@ -19,6 +19,9 @@ test('formal character and card choices are present with either legacy flag', ()
   for (let i = 1; i < ys.length; i++) assert.ok(ys[i] < ys[i - 1], 'information hierarchy runs top-down');
   assert.equal(at('stats').position[1], at('gold').position[1], 'HP and gold share one scannable row');
   const frame = at('portraitFrame');
+  const shadow = at('floorShadow');
+  assert.equal(shadow.colour, '#000000', 'native importer requires RGB with separate opacity');
+  assert.equal(shadow.opacity, 0x59 / 255 * 0.55, 'theme alpha and floor tint both retain their contribution');
   assert.equal(frame.kind, 'container', 'portrait sits on the floor glow, not inside a dark rectangle');
   assert.equal(frame.size[0], frame.size[1], 'portrait slot matches the square figure/art aspect');
   const themes = panel.children.find(c => c.name === 'themes');

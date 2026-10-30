@@ -55,8 +55,10 @@ export function experimentalCharacterControls(theme = nativeTheme) {
   const slots = theme.icon.heroSlots;
   const largePortrait = (name, entry, visible = false) => ({ name, kind: 'image', position: [0, 0],
     size: d.portrait.slice(2), image: entry.id, colour: c.buttonPressedText, visible });
-  const tinted = (name, frame, colour, image, opacity) => ({ name, kind: 'image', position: frame.slice(0, 2),
-    size: frame.slice(2), image, colour, opacity });
+  const tinted = (name, frame, colour, image, opacity) => {
+    const control = plate(name, frame, colour);
+    return { ...control, image, opacity: (control.opacity ?? 1) * opacity };
+  };
   // 元素主题：每位角色/旅行者元素预置一层（立绘背后柔光 + 脚下地面光晕；不再用圆环），视图只切显隐。
   const themes = { name: 'themes', kind: 'container', size: [...theme.canvas.base], children:
     Object.entries(l.themes).map(([id, colour]) => ({ name: id, kind: 'container', size: [...theme.canvas.base], visible: false,
