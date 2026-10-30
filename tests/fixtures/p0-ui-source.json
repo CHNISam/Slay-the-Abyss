@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "5a60358be670fa50651c8ef185fd5cc23b43ba5b",
+  "afterCommit": "b3de5dbb32ac50d1a0b2e60c506b759cb7f1f0f4",
+  "files": {
+    "data/presentation/ui_theme.json": {
+      "beforeSha256": "8a8fddd95f0f5c45cdc45bc8d9e970015b5f7ce715d9777b1851342d379bc204",
+      "afterSha256": "0337d8a07bb7f38d91522adc01fde30f5c25bbd56c945704aea6f4cfcddb018b",
+      "beforeGitBlob": "4de36455db6d941985d4ceeabc4aa4c2f77ed352",
+      "afterGitBlob": "a1c7207d75dfe77ebe9c740b583bb2586d49734e",
+      "hunks": [
+        {
+          "at": 1244,
+          "before": [
+            "      \"position\": [",
+            "        -568,",
+            "        -290",
+            "      ],"
+          ],
+          "after": [
+            "      \"position\": [-568, -300],"
+          ]
+        },
+        {
+          "at": 1251,
+          "before": [
+            "      \"position\": [",
+            "        568,",
+            "        -290",
+            "      ],"
+          ],
+          "after": [
+            "      \"position\": [568, -300],"
+          ]
+        },
+        {
+          "at": 1262,
+          "before": [],
+          "after": [
+            "      \"touchGap\": 16,",
+            "      \"touchNote\": \"TASK-38.2：外观不变；弃牌堆触控区（含角标/文字）与结束回合至少隔 touchGap；结束回合保持 Main 源位置；抽/弃牌堆下移、触控区上沿截断，角标上缘落在无响应间隙。\","
+          ]
+        },
+        {
+          "at": 2528,
+          "before": [
+            "      \"title\": [",
+            "        0,",
+            "        128,",
+            "        544,",
+            "        48",
+            "      ],",
+            "      \"message\": [",
+            "        0,",
+            "        62,",
+            "        544,",
+            "        72",
+            "      ],",
+            "      \"status\": [",
+            "        0,",
+            "        -36,",
+            "        544,",
+            "        32",
+            "      ],",
+            "      \"cancel\": [",
+            "        -146,",
+            "        -112,",
+            "        248,",
+            "        56",
+            "      ],",
+            "      \"confirm\": [",
+            "        146,",
+            "        -112,",
+            "        248,",
+            "        56",
+            "      ],"
+          ],
+          "after": [
+            "      \"title\": [-60, 132, 400, 48],",
+            "      \"message\": [0, 58, 544, 72],",
+            "      \"status\": [0, -52, 544, 28],",
+            "      \"cancel\": [-146, -122, 248, 56],",
+            "      \"confirm\": [146, -122, 248, 56],"
+          ]
+        },
+        {
+          "at": 2544,
+          "before": [
+            "      \"whyText\": [",
+            "        0,",
+            "        4,",
+            "        544,",
+            "        40",
+            "      ],"
+          ],
+          "after": [
+            "      \"whyText\": [0, -6, 544, 40],",
+            "      \"help\": [204, 132, 112, 44],",
+            "      \"rule\": [0, 102, 544, 2],",
+            "      \"hierarchyNote\": \"TASK-4.11：页眉=标题+操作说明（互不遮挡），金线分隔；后果正文 → 小字存档说明 → 状态 → 取消/确认，逐层不重叠。\","
+          ]
+        }
+      ]
+    },
+    "scripts/exit-ui-layout.mjs": {
+      "beforeSha256": "608a6a8ce33531795caba19112c2d07674418bf5c7a25e3d909a1e37a9b256dd",
+      "afterSha256": "9a4380727a5c30c328b47ee5f849381d89b548597ad8216be150b8cee773479f",
+      "beforeGitBlob": "364ac1122991ee034cfea0cfa7621f72a77277fb",
+      "afterGitBlob": "c540c67b55ed76114fb70297687d98537a0c66f2",
+      "hunks": [
+        {
+          "at": 54,
+          "before": [
+            "      text('title', [l.title[0] - theme.layout.nativeGuide.entry[2] / 2, l.title[1],",
+            "        l.title[2] - theme.layout.nativeGuide.entry[2] * 2, l.title[3]], '退出本局？', f.heading, c.goldBright),"
+          ],
+          "after": [
+            "      // TASK-4.11: header row = title (left) + 操作说明 (right); a gold rule separates it",
+            "      // from the consequence body so no secondary control can sit on the warning text.",
+            "      text('title', l.title, '退出本局？', f.heading, c.goldBright),",
+            "      plate('rule', l.rule, c.goldDim),"
+          ]
+        },
+        {
+          "at": 64,
+          "before": [
+            "      button('help', theme.layout.nativeGuide.entry, '操作说明'),"
+          ],
+          "after": [
+            "      button('help', l.help, '操作说明'),"
+          ]
+        }
+      ]
+    },
+    "scripts/ui-layout.mjs": {
+      "beforeSha256": "865bd4fdc19d2971becc4e24c7e2187d38cc0607876e9e65b31c88f6f4b4b1c7",
+      "afterSha256": "1cc2edc4de2599ae09fa39e5c83732ede00b224b84c9ce581be42d72d15db18e",
+      "beforeGitBlob": "1710c57e09c030efebfae5a220b2834c36edde25",
+      "afterGitBlob": "dc4abb42e0293f2d886f1df072195a4abad3e2ea",
+      "hunks": [
+        {
+          "at": 196,
+          "before": [
+            "    const top = Math.min(height / 2 - theme.canvas.safe.y,"
+          ],
+          "after": [
+            "    let top = Math.min(height / 2 - theme.canvas.safe.y,"
+          ]
+        },
+        {
+          "at": 198,
+          "before": [],
+          "after": [
+            "    // TASK-38.2: a pile hit never reaches into the irreversible end-turn target.",
+            "    const turn = l.endTurn;",
+            "    if (right > turn.position[0] - turn.size[0] / 2 && left < turn.position[0] + turn.size[0] / 2)",
+            "      top = Math.min(top, turn.position[1] - turn.size[1] / 2 - turn.touchGap);"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "eb1fe4cf9e1c6ae359dc3310dc272cc3bf66c6050398a1abf33539e066690e9b",
+      "afterSha256": "bbec7307a0c9d28fe7064a442c794e9ef79eeb3c8438d7bf441f08b3e58ca960",
+      "beforeGitBlob": "f5cb39615a18374c4caad3724553cbb937216681",
+      "afterGitBlob": "a2582295a2c75e29c01a455e942d7dda738ef8f7",
+      "hunks": [
+        {
+          "at": 415,
+          "before": [
+            "            exitPanel:GetChild(\"whyText\").text = why and \"存档功能需作者达到创作者 4 级后开放，喜欢的话欢迎点赞支持。\" or \"\""
+          ],
+          "after": [
+            "            exitPanel:GetChild(\"whyText\").text = why and \"存档功能需作者达到创作者 4 级后开放，喜欢的话欢迎点赞支持。帮助作者提升等级。\" or \"\""
+          ]
+        }
+      ]
+    },
+    "tests/exit-ui-layout.test.mjs": {
+      "beforeSha256": "a7d546adf82425baf1a0f3bac5db85871578e63395449f87eac8d0b17306b7b5",
+      "afterSha256": "48bc1d955928bdab234ff6b64b38952f0c2e4375ae844de74dd404c9c847c260",
+      "beforeGitBlob": "17027b439e0b6c403441e6c3a6f225f3613ebd3d",
+      "afterGitBlob": "efaac5d2f2e212e2cdd7e3ca7b37308baab5cbc2",
+      "hunks": [
+        {
+          "at": 85,
+          "before": [],
+          "after": [
+            "test('TASK-4.11 exit warning hierarchy: header, consequence, note, status and actions never overlap', () => {",
+            "  const panel = named(gameLayout().controls, 'exitPanel');",
+            "  const frame = name => child(panel, name);",
+            "  const box = c => ({ l: c.position[0] - c.size[0] / 2, r: c.position[0] + c.size[0] / 2,",
+            "    b: c.position[1] - c.size[1] / 2, t: c.position[1] + c.size[1] / 2 });",
+            "  const hit = (a, b) => { const A = box(a), B = box(b); return A.l < B.r && B.l < A.r && A.b < B.t && B.b < A.t; };",
+            "  const order = ['title', 'help', 'rule', 'message', 'whyText', 'status', 'cancel', 'confirm'];",
+            "  for (const a of order) for (const b of order) if (a !== b) assert.ok(!hit(frame(a), frame(b)), `${a} overlaps ${b}`);",
+            "  // Reading order top → bottom: header above rule above consequence above note above status above actions.",
+            "  const y = n => frame(n).position[1];",
+            "  assert.ok(y('help') > y('rule') && y('rule') > y('message') && y('message') > y('whyText')",
+            "    && y('whyText') > y('status') && y('status') > y('cancel'));",
+            "  assert.equal(y('cancel'), y('confirm'));",
+            "  // Every element stays inside the dialog face, so nothing bleeds onto the veil.",
+            "  const p = box({ position: theme.layout.exitMenu.panel.slice(0, 2), size: theme.layout.exitMenu.panel.slice(2) });",
+            "  for (const n of order) { const c = box(frame(n)); assert.ok(c.l >= p.l && c.r <= p.r && c.b >= p.b && c.t <= p.t, n); }",
+            "  // The modal blocker sits below every interactive child (no click-through to the battle).",
+            "  const blocker = panel.children.indexOf(frame('blocker'));",
+            "  for (const n of ['help', 'cancel', 'confirm']) assert.ok(panel.children.indexOf(frame(n)) > blocker);",
+            "});",
+            ""
+          ]
+        }
+      ]
+    },
+    "tests/native-ui-parity.test.mjs": {
+      "beforeSha256": "be6606fa69d9a2027d0a36404874fbd6b433f910b083b5ee2bff3d6d634ba19d",
+      "afterSha256": "0bfc48fea92f3ff1cbdebde85934d4599a574f5899678c7f78e371f51cf07881",
+      "beforeGitBlob": "87bd4277fe97ae6b2444c415cd606cee0d2dcba9",
+      "afterGitBlob": "2398ca126b92a98ea3f4a7e39f463f57b3695e66",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            "  assert.deepEqual(help.position,theme.layout.nativeGuide.entry.slice(0,2));"
+          ],
+          "after": [
+            "  assert.deepEqual(help.position,theme.layout.exitMenu.help.slice(0,2)); // TASK-4.11 header slot, off the warning body"
+          ]
+        }
+      ]
+    },
+    "tests/ui-layout.test.mjs": {
+      "beforeSha256": "4579b186f056793efe3541e8af5e17c8a77f92d922f1cc5320fa51a1c57a4060",
+      "afterSha256": "2082cbb2b237d5555269e459777baaf4061590505ae8388c5d9b77b45c4c7e66",
+      "beforeGitBlob": "dc2e0a1fe1eabdb2393d09e2f565bc038f3af8e4",
+      "afterGitBlob": "968e8c8b8db468626b90e01dacb46a3e61d5d723",
+      "hunks": [
+        {
+          "at": 259,
+          "before": [],
+          "after": [
+            "test('TASK-38.2 discard pile touch target keeps a safe gap from the irreversible end-turn button', async () => {",
+            "  const { gameLayout } = await import('../scripts/game-ui-layout.mjs');",
+            "  const { nativeTheme: theme } = await import('../scripts/native-ui-theme.mjs');",
+            "  const battle = gameLayout().controls.find(c => c.name === 'battlePanel');",
+            "  const find = (c, n) => c.name === n ? c : (c.children ?? []).map(k => find(k, n)).find(Boolean);",
+            "  const turn = find(battle, 'endTurn'), icon = find(battle, 'discardIcon');",
+            "  const hitArea = (icon.children ?? []).find(k => k.kind === 'cursorArea' || k.kind === 'presetButton') ?? icon;",
+            "  const at = [icon.position[0] + (hitArea === icon ? 0 : hitArea.position[0]), icon.position[1] + (hitArea === icon ? 0 : hitArea.position[1])];",
+            "  const pileTop = at[1] + hitArea.size[1] / 2, turnBottom = turn.position[1] - turn.size[1] / 2;",
+            "  assert.ok(turnBottom - pileTop >= theme.layout.endTurn.touchGap - 1e-9, `gap ${turnBottom - pileTop}`);",
+            "  assert.ok(theme.layout.endTurn.touchGap >= 16);",
+            "  // Owner-approved end-turn look is unchanged: same size and hex construction.",
+            "  assert.deepEqual(turn.size, [280 / 1.5, 76 / 1.5]);",
+            "  assert.deepEqual(turn.position, [(1920 - 56 - 280 / 2) / 1.5 - 640, 360 - (850 + 76 / 2) / 1.5]);",
+            "  // The discard hit area covers the icon edge while preserving the measured end-turn gap.",
+            "  assert.ok(pileTop >= icon.position[1] + icon.size[1] / 2);",
+            "});",
+            ""
+          ]
+        }
+      ]
+    }
+  }
+}

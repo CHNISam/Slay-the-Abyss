@@ -1,3 +1,4 @@
+import {preP0UiSource} from './helpers/p0-ui-source.mjs';
 import {preDeckVisibilitySource} from './helpers/deck-visibility-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -8,7 +9,7 @@ const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 test('all seven current merged sources recover the exact delivery and independent M4 identities',()=>{
  for(const [target,{files}]of Object.entries(proof.targets))for(const [path,b]of Object.entries(files)){
-  const source=read(path);assert.equal(hash(preDeckVisibilitySource(path,source)),b.afterSha256);
+  const source=read(path);assert.equal(hash(preDeckVisibilitySource(path,preP0UiSource(path,source))),b.afterSha256);
   const before=project(path,source,target);assert.equal(hash(before),b.beforeSha256);
   assert.equal(project(path,source.replaceAll('\n','\r\n'),target),before);assert.equal(project(path,before,target),before);
  }
