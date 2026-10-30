@@ -64,10 +64,13 @@ export function checkArchitecture(root=process.cwd()) {
   const sources=Object.fromEntries(readdirSync(join(root,'src/lua')).filter(file=>file.endsWith('.lua')).sort().map(file=>[basename(file,'.lua'),readFileSync(join(root,'src/lua',file),'utf8')]));
   return analyzeSources(sources,JSON.parse(readFileSync(join(root,'config/architecture.json'),'utf8')));
 }
+export function main(report=checkArchitecture()) {
+  mkdirSync('build',{recursive:true});writeFileSync('build/architecture.json',JSON.stringify(report,null,2)+'\n');
+  for(const error of report.errors)console.error(`${error.file}:${error.line}: ${error.message}`);
+  if(report.errors.length)throw new Error('Architecture check failed');
+  console.log(`Architecture passed: ${report.nodes.length} modules, ${report.edges.length} edges; build/architecture.json`);
+  return report;
+}
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
-  try {
-    const report=checkArchitecture();mkdirSync('build',{recursive:true});writeFileSync('build/architecture.json',JSON.stringify(report,null,2)+'\n');
-    for(const error of report.errors)console.error(`${error.file}:${error.line}: ${error.message}`);
-    if(report.errors.length)process.exitCode=1;else console.log(`Architecture passed: ${report.nodes.length} modules, ${report.edges.length} edges; build/architecture.json`);
-  }catch(error){console.error(error.message);process.exitCode=1;}
+  try{main();}catch(error){console.error(error.message);process.exitCode=1;}
 }

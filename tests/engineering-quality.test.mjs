@@ -179,7 +179,7 @@ test('dependency and cycle changes are visible even when total module and warnin
 test('quality reports are collected by the existing gate and uploaded on failed runs without changing older CI guards',()=>{
   const scripts=JSON.parse(readFileSync('package.json','utf8')).scripts;
   assert.equal(scripts['check:quality'],'node scripts/check-engineering-quality.mjs');
-  assert.equal(scripts['check:engineering'],'npm run check:quality && npm run check:architecture && npm run check:lua-static && npm run check:test-strength && npm run check:native-ui-contract');
+  assert.equal(scripts['check:engineering'],'node scripts/check-engineering.mjs && npm run check:test-strength && npm run check:native-ui-contract');
   const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
   assert.equal(workflow.split(qualityWindowsUpload).length,2);
   assert.equal(workflow.split(qualityPosixPaths).length,2);
@@ -203,8 +203,8 @@ test('historical package replay inverts only the exact quality entry and gate wi
   const moved=live.replace(entry,'').replace('    "setup:lua-static":',entry+'    "setup:lua-static":');
   for(const bad of [live.replace(entry,''),live.replace(entry,entry+entry),moved,
     live.replace('node scripts/check-engineering-quality.mjs','node scripts/other.mjs'),
-    live.replace('npm run check:quality && npm run check:architecture','npm run check:architecture'),
-    live.replace('npm run check:lua-static && ','').replace('npm run check:quality && ',''),
+    live.replace('node scripts/check-engineering.mjs','node scripts/check-architecture.mjs'),
+    live.replace('node scripts/check-engineering.mjs && ',''),
     live+'\n',live.replace('"private": true','"private": false')]) {
     assert.notEqual(bad,live);
     assert.throws(()=>preRetirementSource('package.json',bad),/unreviewed integrated retirement source drift/);

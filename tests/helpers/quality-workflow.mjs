@@ -37,6 +37,8 @@ export function beforeQualityPackage(text) {
   // package identity. Unknown commands or unrelated edits remain hash failures.
   text=text.replace('    "check:guidance": "node scripts/check-agent-guidance.mjs",\n','')
     .replace('    "check:rules": "npm run check:guidance && ', '    "check:rules": "');
+  text=text.replace('    "check:engineering": "node scripts/check-engineering.mjs && npm run check:test-strength && npm run check:native-ui-contract",\n',
+    '    "check:engineering": "npm run check:quality && npm run check:architecture && npm run check:lua-static && npm run check:test-strength && npm run check:native-ui-contract",\n');
   const oldEntry='    "check:architecture": "node scripts/check-architecture.mjs",\n';
   const newEntry=oldEntry+'    "check:quality": "node scripts/check-engineering-quality.mjs",\n';
   const oldGate='    "check:engineering": "npm run check:architecture && npm run check:lua-static && npm run check:test-strength && npm run check:native-ui-contract",\n';

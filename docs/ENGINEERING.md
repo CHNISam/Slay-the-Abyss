@@ -9,6 +9,10 @@ Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1
 
 源码职责、生成物和测试目录先看[模块导航](ARCHITECTURE.md)；内容源与参考数据边界见[数据入口](../data/README.md)。本页保留历史实施证据，当前模块集合和诊断数量以配置及本轮报告为准。
 
+`npm run check:engineering` 在同一调用内读取完整 Lua 源码并采集一次架构、Luacheck 告警和复杂度，供原有质量、架构、静态门禁共同使用；其后仍执行关键变异与原生 UI 合同。共享仅限本次进程内存，不读取磁盘旧报告作为通过依据。三个独立 CLI 仍重新采集；工具缺失、采集或任一门禁失败均非零，质量采集失败写入本轮失败报告。
+
+历史回放使用原始完整来源及独立 oracle，不冻结当前夹具注册器的实现格式。[PR323 原始夹具](../tests/fixtures/pr323-historical-fixtures.json)保留来源提交、逐文件 SHA256 和 Git blob；历史矩阵与当前真实 Host/manager 生命周期回归分别验收。只测历史来源不能替代当前动态控件、输入和状态断言。
+
 全库质量基线、指定模块行数、完整构造器/函数跨度、Luacheck复杂度、包含延迟导入的完整依赖环与静态告警增减见[质量验收机制](ENGINEERING_QUALITY.md)。`npm run check:quality`每次重新采集并核对全部函数测量；新增数值指标暂为report-only，不能据其退出码0宣称热点已治理。原工程硬门槛仍由以下检查执行。
 
 渲染治理的绝对门槛已接入 `check:lua-static`：战斗主render≤10，完整战斗控制器及battle_*子视图/输入模块、商店UI与卡面展示的每个函数≤15。固定Luacheck测量，AST核对函数测量完整性，报告见build/ui-complexity.json。缺测量或缺入口会失败，不能只报告相对降幅。实际实现、当前验证范围和历史纠正见[TASK-74](backlog-details/TASK-74.md)；完成声明遵循[项目协作](../AGENTS.md)的本轮证据要求。
