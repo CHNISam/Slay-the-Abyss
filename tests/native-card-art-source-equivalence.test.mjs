@@ -7,7 +7,8 @@ import {tmpdir} from 'node:os';
 import {toLua} from '../scripts/build-lua-data.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 import {prepareNativeCardArt,nativeArtPool} from '../scripts/card-art-samples.mjs';
-const input=process.env.ABYSS_NATIVE_ART_SOURCE_REGISTRY,literal=process.env.ABYSS_NATIVE_ART_LITERAL_REGISTRY;
+const input=process.env.ABYSS_NATIVE_ART_SOURCE_REGISTRY??'art/cards/traveler-geo/native-source-registry.json',
+ literal=process.env.ABYSS_NATIVE_ART_LITERAL_REGISTRY??'art/cards/traveler-geo/native-runtime-registry.json';
 for(const id of ['cleave','heavy_blade'])test(`frozen ${id} literal equals native CardDisplay API writes (explicit local input)`,{skip:!input||!literal},()=>{
  const sources=JSON.parse(readFileSync(input)),asset=sources.assets.find(a=>a.cardId===id);
  assert(asset,'missing frozen source');

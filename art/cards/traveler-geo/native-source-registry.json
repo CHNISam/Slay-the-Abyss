@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "cardId": "cleave",
+      "lua": "cleave/native-art.lua",
+      "json": "cleave/native-art.json",
+      "luaSha256": "3c9eaa03741391f594846e59708563d4912a96b8757092112ce3cabb7c2e5185",
+      "jsonSha256": "f60eaf057ea4a94231525047ea9d54afda09a7857bc671209cedebd2677b6eff"
+    },
+    {
+      "cardId": "heavy_blade",
+      "lua": "heavy_blade/native-art.lua",
+      "json": "heavy_blade/native-art.json",
+      "luaSha256": "6e0b632d02e285e6412a2cfbc13c95ae6b28498259b031d0b23f5992cfd8903f",
+      "jsonSha256": "38708d271df2b168f71e90fae0f8780bb0acefc522bde1f313cb0d4a4e6fdee0"
+    }
+  ]
+}

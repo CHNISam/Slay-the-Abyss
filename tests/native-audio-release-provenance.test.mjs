@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
-import { buildNativeAudioGame } from '../scripts/build-native-audio-game.mjs';
+import { buildNativeAudioGame, defaultNativeCardArt, nativeAudioBuildArgs } from '../scripts/build-native-audio-game.mjs';
 import { sourceInputs, payloadDigest } from '../scripts/build-native-candidate.mjs';
 import { fileRecord } from '../scripts/evidence-files.mjs';
 import { gitSourceIdentity } from '../scripts/release-notes.mjs';
@@ -65,6 +65,27 @@ test('ordinary audio packaging does not opt into frozen notes or assert publicat
   assert.equal(f.observed.releaseCandidate, false);
   assert.equal('notesSha256' in result.release, false);
   assert.equal('publishedAt' in result, false); assert.equal('workId' in result, false);
+  assert.deepEqual(f.observed.nativeCardArt, defaultNativeCardArt);
+});
+test('normal build CLI enables one pool and preserves explicit art/disable and release options', async t => {
+  const ordinary = nativeAudioBuildArgs(['base.gil']);
+  assert.deepEqual(ordinary.paths, ['base.gil']);
+  assert.deepEqual(ordinary.options.nativeCardArt, {
+    registry: 'art/cards/traveler-geo/native-runtime-registry.json', count: 1,
+  });
+  const disabled = nativeAudioBuildArgs(['base.gil', '--native-card-art-count=0']);
+  assert.deepEqual(disabled.options.nativeCardArt, { count: 0 });
+  const f = fixture(t); await f.run(disabled.options);
+  assert.deepEqual(f.observed.nativeCardArt, { count: 0 });
+  const custom = nativeAudioBuildArgs(['base.gil', 'out', '--release-candidate', '--work-key=alpha-test',
+    '--native-card-art-registry=custom.json', '--native-card-art-host=battlePanel/card2']);
+  assert.deepEqual(custom.paths, ['base.gil', 'out']);
+  assert.equal(custom.options.releaseCandidate, true);
+  assert.deepEqual(custom.options.nativeCardArt, { registry: 'custom.json', hosts: ['battlePanel/card2'] });
+  await f.run({ nativeCardArt: custom.options.nativeCardArt });
+  assert.deepEqual(f.observed.nativeCardArt, custom.options.nativeCardArt);
+  for (const args of [['--native-card-art-count=10'], ['--native-card-art-registry='], ['--native-card-art-unknown=1']])
+    assert.throws(() => nativeAudioBuildArgs(['base.gil', ...args]), /native art|Native art|registry/);
 });
 for (const [name, mutate] of [
   ['wrong full artifact', ({ audio }) => { audio.baseSha256 = '0'.repeat(64); }],

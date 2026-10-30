@@ -4663,6 +4663,14 @@
       "category": "original-monster-source",
       "sha256": "a1a0899fe21be84a385deef462b931a4548ca0cd3e30a4633e464b6508b505d2",
       "lfsBytes": 912804
+    },
+    "art/cards/traveler-geo/native-runtime-registry.json": {
+      "sha256": "762d8abad65e6022516ab8e92c157ee06a27bdfd8448c20425fe590856344194",
+      "category": "game-ip-ai-redraw"
+    },
+    "art/cards/traveler-geo/native-source-registry.json": {
+      "sha256": "51f33edc2ce7c8fcaddda627a68bb769b9e889f7f229065fa57d97f844f95365",
+      "category": "game-ip-ai-redraw"
     }
   }
 }
