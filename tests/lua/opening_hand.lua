@@ -114,17 +114,34 @@ test("empty and singleton staging do not replace the mandatory prior source shuf
         eq(#arranged,n);eq(extra,0);eq(rng.counter,1)
     end
 end)
-test("all bottle flags reject without modifying any input",function()
+test("bottles bind exact instances with innate upgrade high costs and hand capacity",function()
     for _,field in ipairs({"inBottleFlame","inBottleLightning","inBottleTornado","bottled"}) do
-        for _,where in ipairs({"instance","definition","upgrade"}) do
+        local list,catalog=fixture(4,0)
+        list[1][field]=true;list[1].upgraded=true
+        catalog.opening_1.cost=5;catalog.opening_1.upgrade={cost=4}
+        catalog.opening_3.innate=true
+        local staged,extra=Opening.stage(list,catalog,2)
+        for i,uid in ipairs({2,4,1,3})do eq(staged[i],list[uid])end
+        eq(extra,0);eq(list[1][field],true);eq(list[1].upgraded,true)
+        eq(catalog.opening_1.cost,5);eq(catalog.opening_1.upgrade.cost,4)
+        for _,where in ipairs({"definition","upgrade"}) do
             local list,catalog=fixture(2,1)
-            local owner=where=="instance" and list[1] or catalog.opening_1
+            local owner=catalog.opening_1
             if where=="upgrade" then owner.upgrade={};owner=owner.upgrade;list[1].upgraded=true end
             owner[field]=true
             assert(not pcall(Opening.stage,list,catalog,5))
             eq(list[1].uid,1);eq(list[2].uid,2);eq(owner[field],true)
         end
+        for _,value in ipairs({1,'true',{}})do
+            local list,catalog=fixture(2,0);list[1][field]=value
+            assert(not pcall(Opening.stage,list,catalog,5))
+        end
     end
+    local list,catalog=fixture(15,6)
+    for i=5,12 do list[i].inBottleFlame=true end
+    local staged,extra=Opening.stage(list,catalog,5);eq(extra,7)
+    local s=drawState(staged,catalog);Combat.draw(s,extra);Combat.draw(s,5)
+    eq(#s.hand,10);eq(s.hand[1].uid,12);eq(s.hand[10].uid,3);eq(s.draw[#s.draw].uid,2)
 end)
 test("malformed arrays, IDs, duplicate UIDs and flag types fail closed",function()
     local list,catalog=fixture(2,1)

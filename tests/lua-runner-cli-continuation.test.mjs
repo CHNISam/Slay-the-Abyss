@@ -41,13 +41,18 @@ test('a same-named fixture in another workspace remains an ordinary real Lua scr
   });
 });
 
-test('historical routing permits only both complete exact fixtures without case selection',()=>{
+test('historical routing permits only two presentation and four frozen Sapphire fixtures without case selection',()=>{
   assert.deepEqual(historicalPresentationFixtures,[
     'tests/lua/presentation_responsibilities_trace.lua',
     'tests/lua/presentation_responsibilities_text.lua',
+    'tests/lua/sapphire_treasure.lua',
+    'tests/lua/sapphire_treasure_slice_2.lua',
+    'tests/lua/sapphire_treasure_slice_3.lua',
+    'tests/lua/sapphire_treasure_slice_4.lua',
   ]);
   for(const name of ['presentation_responsibilities_text.lua','tests/lua/presentation_responsibilities_text.lua.extra',
-    'other/presentation_responsibilities_trace.lua'])
+    'other/presentation_responsibilities_trace.lua','tests/lua/sapphire_treasure.lua.extra',
+    'other/sapphire_treasure.lua','tests/lua/sapphire_treasure_ui.lua','tests/lua/sapphire_current_relics.lua'])
     assert.throws(()=>runHistoricalPresentation(null,name),/only exact historical presentation fixtures/);
   for(const name of historicalPresentationFixtures)
     assert.throws(()=>runHistoricalPresentation(null,name,{caseName:'one case'}),/complete historical scenario/);

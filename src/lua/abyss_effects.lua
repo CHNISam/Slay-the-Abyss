@@ -111,6 +111,7 @@ function M.requiresQueue(effects)
     return false
 end
 function M.allowedAfterVictory(effect)
+    if effect.op=='rareRelicDamageAll'then return true end
     if require('abyss_time_eater').retained(effect)then return true end
     if effect.op=='daggerSacrifice'then return true end
     if effect.op=='capturedSharpHide' then return true end

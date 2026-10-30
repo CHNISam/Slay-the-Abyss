@@ -2,7 +2,7 @@
 -- exhaust/discard; the permanent-deck transaction must call onRemove once.
 local M={}
 local ids={regret=true,injury=true,doubt=true,pain=true,decay=true,shame=true,
-    writhe=true,clumsy=true,normality=true,parasite=true}
+    writhe=true,clumsy=true,normality=true,parasite=true,curse_of_the_bell=true}
 function M.isImplemented(card)
     return type(card)=='table' and ids[card.id]==true and card.type=='curse'
         and card.rarity=='curse' and card.cost==-2 and type(card.effects)=='table'

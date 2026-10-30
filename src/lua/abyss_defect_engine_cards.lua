@@ -212,8 +212,8 @@ function M.planEffect(state,effect,context)
   assert(effect.value==0 or effect.value==1,'invalid X upgrade bonus')
   local x=context.energyOnUse;if x==nil or x==-1 then x=state.energy end;integer(x)
   assert(context.freeToPlayOnce==nil or type(context.freeToPlayOnce)=='boolean','invalid X free flag')
-  assert(not context.chemicalX or context.chemicalX==0,'Chemical X unsupported')
-  local count=add(x,effect.value)
+  assert(not context.chemicalX or context.chemicalX==0,'Chemical X context override unsupported')
+  local count=add(add(x,effect.value),require('abyss_shop_relics').xBonus(state))
   local hasOrb=state.orbs and #state.orbs.balls>0
   if count>0 and (op=='tempestOrbs' or hasOrb)then
    p.consumeAllEnergy=context.freeToPlayOnce~=true

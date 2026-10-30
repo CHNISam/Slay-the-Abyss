@@ -74,7 +74,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if ok then changed() end
         return ok, reason
     end, clickEvent, { embedded = true, color = platform.color, imageSource = platform.imageSource,
-        cursor = platform.cursorEvents, controller = controller })
+        cursor = platform.cursorEvents, controller = controller,
+        available=function(map)return Nodes.available(self.run,map)end })
     self.nodeUI = NodeUI.new(child("nodePanel"), nil, nil,
         presentation, clickEvent, changed, { color = platform.color, imageSource = platform.imageSource,
             imageTypes = platform.imageTypes,
@@ -241,6 +242,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function selectMode(run)
         if self.battleUI.busy then self.mode = "battle"
         elseif not run then self.mode = "menu"
+        elseif require('abyss_relic_pending').owner(run)then self.mode='node'
         elseif run.phase == "defeat" then self.mode = "defeat"
         elseif run.phase == "victory" then self.mode = "victory"
         elseif run.phase == "combat" or run.phase == "reward" then self.mode = "battle"

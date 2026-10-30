@@ -47,6 +47,7 @@ function M.install(owner, ownership, host, dependencies)
         return targetable == true or potionHighlighted(enemy,index,pendingTarget) or owner.acting == enemy.id
     end
     local function enemyIntentFace(frame, enemy, index)
+        if require('abyss_boss_relics').hidesIntents(owner.run)then return IntentView.hidden()end
         local shown = ownership.playbackIntents and ownership.playbackIntents[enemy.id]
         local face = shown and Actors.isActive(enemy) and shown or intentView(frame.battle, index)
         local event = frame.enemyPlayback and owner.feedback.current
@@ -60,6 +61,13 @@ function M.install(owner, ownership, host, dependencies)
         return face
     end
     local function renderEnemyIntent(box, face, portrait)
+        if face.hidden then
+            for _,name in ipairs({'intentIcon','intentBadge','intentExtra','intent','intentLabel','intentHit'})do
+                box:GetChild(name):SetVisible(false)
+            end
+            box:GetChild('intent').text=''
+            return
+        end
         local icons = IntentView.icons(face)
         local size = L.intent.size
         local iconY = portrait / 2 + L.intent.portraitGap + size / 2

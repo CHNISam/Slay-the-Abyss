@@ -16,6 +16,14 @@ local function needsTarget(state, instance)
     local _, reason = Combat.canPlay(state, instance.uid, nil)
     return reason == "invalid_target"
 end
+local function cardRewardCaption(frame)
+    if not frame.listing then return '选择一张卡牌加入牌组'end
+    local run,remaining=frame.run,0
+    for _,group in ipairs(run.rewards.cardRewardGroups or {})do if not group.resolved then remaining=remaining+1 end end
+    local label=remaining>1 and ('查看'..remaining..'组卡牌奖励')or '选择一张卡牌加入牌组'
+    if require('abyss_relic_hooks').owns(run,'singing_bowl')then label=label..' / 生命上限+2'end
+    return label
+end
 -- Explicit ports preserve the approved implementation without a shared constructor closure.
 function M.install(owner, _ownership, host, dependencies)
     local R = L.rewardPick
@@ -55,7 +63,7 @@ function M.install(owner, _ownership, host, dependencies)
         dependencies.button('emeraldKeyReward',owner.active and frame.listing and Run.canClaimEmeraldKey(run) and not owner.busy or false,false,'领取绿钥匙')
         dependencies.button("goldReward", owner.active and frame.listing and run.rewards.goldClaimed == false, false,
             frame.listing and number(run.rewards.gold) .. " 金币" or "金币")
-        dependencies.button("cardReward", owner.active and frame.listing and not run.rewards.cardResolved, false, "选择一张卡牌加入牌组")
+        dependencies.button("cardReward", owner.active and frame.listing and not run.rewards.cardResolved, false,cardRewardCaption(frame))
         -- Full belts stay clickable so rejection can explain how to free a slot.
         dependencies.button("claimPotion", owner.active and frame.pendingPotion == true and not frame.potionReward.unavailable, false)
     end

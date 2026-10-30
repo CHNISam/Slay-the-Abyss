@@ -90,7 +90,7 @@ test('historical materialization consumes both all 26 original sources and every
   const paths=[...new Set([...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])];
   for(const path of paths){
    mkdirSync(join(directory,path,'..'),{recursive:true});
-   writeFileSync(join(directory,path),read(path));
+   writeFileSync(join(directory,path),readFileSync(path,'utf8'));
   }
   assert(existsSync(join(directory,'scripts/card-lightning.mjs')),'the added dependency must really exist before historical removal');
   materializeHistoricalPresentation(directory);

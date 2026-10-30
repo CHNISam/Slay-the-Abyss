@@ -51,6 +51,13 @@ local function atStart(map) return map.floor == (map.firstFloor or 1) - 1 end
 function M.new(root, map, onChoose, clickEvent, options)
     assert(type(onChoose) == "function", "map UI requires onChoose callback")
     options = options or {}
+    local function available(owner)return options.available and options.available(owner)or Map.available(owner)end
+    local function mapView(owner)
+        local v=Map.view(owner);local enabled={}
+        for _,node in ipairs(available(owner))do enabled[node.id]=true end
+        for _,node in ipairs(v.nodes)do node.available=enabled[node.id]==true end
+        return v
+    end
     local colour = options.color or Color
     local imageSource = options.imageSource or (Enum and Enum.ImageSource.StaticReference)
     -- Platform Color has static methods and can be a callable table/userdata.
@@ -65,7 +72,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     end
     -- The title host binds real owners only after Start succeeds.
     if map ~= nil then assert(chapterFor(map), "invalid map chapter context") end
-    local view = map and Map.view(map)
+    local view = map and mapView(map)
     local self = { root = root, map = map, visible = map ~= nil, navigationEnabled = view and atStart(view) or false,
         scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map, observedContext = view,
@@ -197,7 +204,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             for _, name in ipairs({"previous","next","focus"}) do paintButton(name) end
             return
         end
-        local current, nodes, taken = Map.view(self.map), {}, {}
+        local current, nodes, taken = mapView(self.map), {}, {}
         observeMap(current)
         if current.currentNodeId ~= self.observedNodeId or current.floor ~= self.observedFloor then
             cancelDrag()
@@ -360,7 +367,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     function self.focusCurrent(_, animated)
         if not self.map then return false, "map_unbound" end
         if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
-        local current = Map.view(self.map)
+        local current = mapView(self.map)
         observeMap(current)
         local target = Layout.firstY + (math.max(1,localFloor(current,current.floor)) - 1) * Theme.layout.map.floorGap - Layout.focusY
         if animated then return animateScrollTo(target) end
@@ -372,7 +379,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         if not enabled then cancelDrag() end
         -- An explicit coordinator grant acknowledges any external map advance.
         if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
-        local current = Map.view(self.map)
+        local current = mapView(self.map)
         observeMap(current)
         self.observedNodeId, self.observedFloor = current.currentNodeId, current.floor
         self.navigationEnabled = enabled self:render()
@@ -388,13 +395,13 @@ function M.new(root, map, onChoose, clickEvent, options)
         if not self.map then return false, "map_unbound" end
         if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
         local beforeMap = self.map
-        local before = Map.view(beforeMap)
+        local before = mapView(beforeMap)
         if observeMap(before) then self:render() end
         if not self.visible or not self.navigationEnabled or self.choosing then return false, "navigation_disabled" end
         if before.complete then return false, "map_complete" end
         if type(nodeId) ~= "string" then return false, "invalid_node" end
         local selected
-        for _, node in ipairs(Map.available(self.map)) do if node.id == nodeId then selected = node break end end
+        for _, node in ipairs(available(self.map)) do if node.id == nodeId then selected = node break end end
         if not selected then
             for _, node in ipairs(before.nodes) do if node.id == nodeId then return false, "node_unavailable" end end
             return false, "invalid_node"
@@ -404,7 +411,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         local called, accepted, reason = pcall(onChoose, selected)
         self.choosing = false
         if not chapterFor(self.map) then self:render() return false,"invalid_map_context" end
-        local after = Map.view(self.map)
+        local after = mapView(self.map)
         observeMap(after)
         local changed = self.map ~= beforeMap or not sameContext(after,before)
             or after.floor ~= before.floor or after.currentNodeId ~= before.currentNodeId
@@ -429,7 +436,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     local function selectionFor(slot, event)
         if not slot or not self.visible or not self.navigationEnabled then return end
         local nodeId = self.slots[slot]
-        for _, node in ipairs(Map.available(self.map)) do
+        for _, node in ipairs(available(self.map)) do
             if node.id == nodeId then
                 return {slot=slot, nodeId=nodeId, map=self.map, floor=self.map.floor,
                     currentNodeId=self.map.currentNodeId, context=self.observedContext, touch=touch(event)}
@@ -455,7 +462,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         -- callback cannot rearm a selection that already exited or began scrolling.
         if not self.visible or not self.map then return end
         if not chapterFor(self.map) then self:render() return end
-        if observeMap(Map.view(self.map)) then self:render() end
+        if observeMap(mapView(self.map)) then self:render() end
         if drag then
             -- A same-owner node Down can retire an abandoned background drag.
             -- Background has no node selection to steal; its delayed Up cannot

@@ -13,7 +13,7 @@ local function dense(t)
     for i=1,n do assert(rawget(t,i)~=nil,"sparse opening draw") end
     return n
 end
-local function flags(t)
+local function flags(t,allowBottle)
     assert(plain(t),"invalid opening card metadata")
     if t.innate~=nil then assert(type(t.innate)=="boolean","invalid innate flag") end
     -- The current combat ABI represents source isInnate as `innate` only.
@@ -21,7 +21,7 @@ local function flags(t)
     for _,field in ipairs(bottleFields) do
         local value=rawget(t,field)
         assert(value==nil or type(value)=="boolean","invalid bottled flag")
-        assert(value~=true,"bottled opening placement unsupported")
+        if not allowBottle then assert(value~=true,'bottle must bind a card instance')end
     end
 end
 
@@ -39,7 +39,7 @@ function M.stage(shuffledDraw,catalogCards,masterHandSize)
         seen[instance.uid]=true
         assert(type(instance.cardId)=="string" and instance.cardId~="","invalid opening card ID")
         assert(instance.upgraded==nil or type(instance.upgraded)=="boolean","invalid opening upgrade flag")
-        flags(instance)
+        flags(instance,true)
         local definition=rawget(catalogCards,instance.cardId)
         assert(plain(definition) and definition.id==instance.cardId,"unknown opening card")
         flags(definition)
@@ -49,7 +49,8 @@ function M.stage(shuffledDraw,catalogCards,masterHandSize)
             value=definition.upgrade.innate
         end
         if instance.innate~=nil then value=instance.innate end
-        local target=value and innate or ordinary
+        local bottled=instance.inBottleFlame or instance.inBottleLightning or instance.inBottleTornado or instance.bottled
+        local target=(value or bottled) and innate or ordinary
         target[#target+1]=instance
     end
     local result={}

@@ -1,4 +1,5 @@
 import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
+import {materializeBeforeRelicCompletionSources} from './relic-completion-inverse.mjs';
 import {preEventProductionSource} from './event-production-source-inverse.mjs';
 import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
 import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
@@ -37,6 +38,7 @@ export function preAcceptedPresentation(path,source){
   return source;
 }
 export function materializeHistoricalPresentation(directory){
+  materializeBeforeRelicCompletionSources(directory);
   // Validate all eleven original current files before any temporary writes/deletes.
   const root='src/lua/abyss_node_ui.lua';
   const diskRoot=preAcceptedPr323Source(root,readFileSync(root,'utf8')).replaceAll('\r\n','\n');

@@ -233,7 +233,8 @@ end)
 
 test("treasure with exhausted ordinary queues uses Circlet and source chest gold", function()
     local run, map, node = before("treasure")
-    run.relics = {}; for _, relic in ipairs(data.relics.relics) do run.relics[#run.relics + 1] = relic.id end
+    -- Queue exhaustion is the checkpoint below; retain only valid acquired owners.
+    assert(Run.obtainRelic(run, 'circlet'))
     SourceTreasure.depleted(run)
     assert(Nodes.enter(run, map, node.id)); local gold = run.gold
     assert(Nodes.openTreasure(run));equal(run.nodeFlow.reward.relicId,'circlet');equal(run.nodeFlow.reward.gold,23)

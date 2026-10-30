@@ -2,6 +2,7 @@ import {projectArtPerfSource} from './art-perf-source-composition.mjs';
 // Test-only exact outer layer for the reviewed round-two presentation extraction.
 // Old witnesses keep their full bytes; unknown edits remain visible to their guards.
 import assert from 'node:assert/strict';
+import {preRelicRound2CompositionSource} from './relic-round2-composition.mjs';
 import {readFileSync,existsSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -28,6 +29,7 @@ for(const [path,binding]of Object.entries(round2UiSourceLayer.files)){
 export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSource(path,readFileSync(path,'utf8'),'perf')}={}){
   source=projectArtPerfSource(path,source,'perf');
   const binding=round2UiSourceLayer.files[path];
+  if(binding)source=preRelicRound2CompositionSource(path,source,'round2');
   if(!binding||typeof source!=='string')return source;
   const normalized=normalize(source);
   if(hash(normalized)!==binding.afterSha256)return source;

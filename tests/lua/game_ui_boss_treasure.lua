@@ -134,8 +134,17 @@ test("exhausted source pool shows actual Circlet fallback without fabricated gol
     assert(not ui.nodeUI:press("treasureView/take"))
 end)
 
-test('real seed1 source offer keeps unavailable identities visible and rejects every claim atomically',function()
-    local ui,root=enterTreasure(nil,nil,true)
+test('real seed1 source offer keeps injected missing definitions visible and rejects every claim atomically',function()
+    local ui,root=enterTreasure(nil,function(run)
+        -- Fault input only: these effects are now implemented. Preserve the
+        -- complete source catalog/RNG while retaining the refusal regression.
+        local missing={['Snecko Eye']=true,['Calling Bell']=true,['Cursed Key']=true}
+        run.data=F.Combat.copy(run.data);local removed=0
+        for i=#run.data.relics.relics,1,-1 do
+            if missing[run.data.relics.relics[i].sourceId]then table.remove(run.data.relics.relics,i);removed=removed+1 end
+        end
+        assert(removed==3,'missing-definition adversary must start from all three implemented effects')
+    end,true)
     local expected={'Snecko Eye','Calling Bell','Cursed Key'} -- existing independent host-JDK vector.
     local displayNames={'异蛇之眼','召唤铃铛','诅咒钥匙'}
     for i,id in ipairs(expected)do

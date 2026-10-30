@@ -1,5 +1,6 @@
 -- Project display translations, not an implementation or availability catalog.
--- Existing authored Chinese names take priority. Only SacredBark/Darkstone
+-- Canonical source translations take priority, with authored Chinese fallback.
+-- Only SacredBark/Darkstone
 -- names were independently checked against the STS1 Chinese community wiki.
 local M={}
 local names={
@@ -48,6 +49,8 @@ function M.get(data,id)
     if type(id)~='string' then return '未知遗物' end
     for _,entry in ipairs(data and data.relics and data.relics.relics or {})do
         if entry.id==id or entry.sourceId==id or legacy[entry.id]==id then
+            local sourceName=names[entry.sourceId or legacy[entry.id] or id]
+            if sourceName then return sourceName end
             if chinese(entry.name) then return entry.name end
             return names[entry.sourceId or legacy[entry.id] or id] or '未知遗物'
         end

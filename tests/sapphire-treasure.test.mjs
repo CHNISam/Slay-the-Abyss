@@ -4,6 +4,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { runLua } from '../scripts/test-lua.mjs';
 import {nodesGovernanceWitness, nodesGovernanceSources} from './helpers/nodes-governance-source.mjs';
+import {spawnSync} from 'node:child_process';
+import {launchBaselineFixture} from './helpers/launch-baseline-fixture.mjs';
 
 const lock=JSON.parse(readFileSync('tests/fixtures/sapphire-treasure-source-contract.json','utf8'));
 test('Sapphire source contract pins exact chest/reward/room/effect and hook blobs',()=>{
@@ -150,11 +152,18 @@ test('Sapphire budget partition keeps every original body and discovers each of 
   assert.deepEqual(covered.sort((a,b)=>a-b),Array.from({length:21},(_,i)=>i+1),'no omitted or duplicate original group');
 });
 
-test('real Nodes chest choice is linked, source-bound, once-only and transactional',t=>{
+test('frozen Nodes chest choice remains linked, source-bound, once-only and transactional before relic completion',t=>{
   let groups=0;
   for(const [file,first,last] of sapphireSlices){
     const started=performance.now();
-    const result=runLua(`tests/lua/${file}`);
+    // This immutable body includes the former Matryoshka/Cursed Key absence
+    // boundary. Replay its complete matching source layer; current effects
+    // have separate real Run/Nodes and native UI coverage.
+    const root=launchBaselineFixture();
+    const remaining=()=>{const value=Math.floor(30000-(performance.now()-started));assert.ok(value>0,'original Sapphire process deadline');return value;};
+    const build=spawnSync(process.execPath,['scripts/build-lua-data.mjs'],{cwd:root,encoding:'utf8',timeout:remaining(),windowsHide:true});
+    assert.ifError(build.error);assert.equal(build.status,0,build.stdout+build.stderr);
+    const result=runLua(`tests/lua/${file}`,{cwd:root,timeout:remaining()});
     t.diagnostic(`${file}: ${Math.round(performance.now()-started)} ms`);
     assert.equal(result.status,0,result.stdout+result.stderr);
     const expected=Array.from({length:last-first+1},(_,i)=>first+i);

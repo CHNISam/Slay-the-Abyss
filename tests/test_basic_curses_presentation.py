@@ -14,7 +14,19 @@ class BasicCursePresentationTests(unittest.TestCase):
         overlay = json.loads((ROOT / 'data/presentation/traveler.zh-CN.json').read_text(encoding='utf8'))
         rendered = {row['id']: row for row in renderer.render_cards(source, overlay)['cards']}
         curses = [row for row in source['cards'] if row['type'] == 'curse']
-        self.assertEqual(len(curses), 10)
+        ordinary_ids = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame',
+                        'writhe', 'clumsy', 'normality', 'parasite'}
+        self.assertEqual({card['id'] for card in curses}, ordinary_ids | {'curse_of_the_bell'})
+        self.assertEqual(sum(card['id'] in ordinary_ids for card in curses), 10)
+        pools = json.loads((ROOT / 'data/reference/sts1-card-pools/pools.json').read_text(encoding='utf8'))['pools']
+        for key in ('curseRaw', 'curseLibrarySelection'):
+            self.assertEqual(len(pools[key]), 10)
+            self.assertEqual(set(pools[key]), {card['sts_name'] for card in curses if card['id'] in ordinary_ids})
+            self.assertNotIn('CurseOfTheBell', pools[key])
+        bell = next(card for card in curses if card['id'] == 'curse_of_the_bell')
+        self.assertEqual(bell['sourceId'], 'CurseOfTheBell')
+        self.assertEqual(bell['effects'], [])
+        self.assertEqual(bell['text'], '无法打出。无法从牌组中移除。')
         for card in curses:
             with self.subTest(card=card['id']):
                 row = rendered[card['id']]

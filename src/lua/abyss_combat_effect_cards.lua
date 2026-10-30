@@ -113,6 +113,7 @@ end
 function Handlers.discardEndHand(c)
     local M=c.combat
     local state=c.state
+    if require('abyss_boss_relics').retainsHand(state)then return true end
     while #state.hand>0 do
         local instance=table.remove(state.hand)
         local card=M.cardDefinition(state,instance)

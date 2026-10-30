@@ -128,6 +128,12 @@ end)
 
 test('source queue admission uses existing floor gate and never rerolls missing source definitions',function()
  local r=fresh();r.relics={};r.relicPool.queues.uncommon={'Darkstone Periapt','Blue Candle'}
+ -- All Ironclad pool effects now exist. Explicitly stage a missing definition
+ -- to retain the original no-reroll/readonly failure-path regression.
+ r.data=C.copy(r.data)
+ local removed=false
+ for i,entry in ipairs(r.data.relics.relics)do if entry.sourceId=='Blue Candle'then table.remove(r.data.relics.relics,i);removed=true;break end end
+ assert(removed,'missing-definition adversary must remove the implemented Blue Candle')
  local before=snap(r);r.floor=48;local offer,pool=Run.prepareRelic(r,{tier='uncommon',room='event',screenless=true})
  assert(offer);eq(offer.id,'darkstone_periapt');eq(offer.sourceId,'Darkstone Periapt');eq(#offer.trace,1)
  eq(#pool.queues.uncommon,1);eq(r.relicPool.queues.uncommon[1],'Darkstone Periapt')

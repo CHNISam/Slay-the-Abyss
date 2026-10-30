@@ -35,9 +35,23 @@ function M.depleted(run,remaining)
  run.relicPool=P.restore(snap,run.relicPool.catalog)
 end
 function M.goldOnly(run)
+ -- The legacy all-owned shortcut is not a valid acquired-owner checkpoint:
+ -- passive blockers and uninitialized on-equip counters change gold/opening.
+ -- Recognize only that exact set; ordinary acquired inventories stay intact.
+ local definitions=run.data.relics.relics;local allOwned=#run.relics==#definitions;local held={}
+ for _,id in ipairs(run.relics)do if held[id]then allOwned=false end;held[id]=true end
+ for _,entry in ipairs(definitions)do if not held[entry.id]then allOwned=false end end
+ if allOwned then
+  assert(held.burning_blood,'the legacy all-owned checkpoint has the default starter')
+  run.relics={'burning_blood'};run.relicCounters={}
+  M.depleted(run) -- consumed ordinary queues, complete catalog and same RNG
+ end
  -- Explicit held-relic component: the real after-hook removes base/key. This
  -- does not claim Nloth's Mask can yet be obtained in a natural campaign.
  run.relics[#run.relics+1]='nloths_mask'
  run.relicCounters=run.relicCounters or {};run.relicCounters.nloths_mask=1
+ -- A gold-only checkpoint also exhausts an owned finite extra-relic hook;
+ -- all definitions and source queue identities remain present.
+ for _,id in ipairs(run.relics)do if id=='matryoshka'or id=='Matryoshka'then run.relicCounters[id]=-2 end end
 end
 return M

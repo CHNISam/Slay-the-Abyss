@@ -24,5 +24,5 @@ for _,definition in ipairs(data.cards.cards)do
   n=n+1
  end
 end
-assert(n==178)
-print('Card text: 178 class/status/curse variants retain full names and text at approved font bounds; native visual verification still required.')
+assert(n==180)
+print('Card text: 180 class/status/curse variants retain full names and text at approved font bounds; native visual verification still required.')

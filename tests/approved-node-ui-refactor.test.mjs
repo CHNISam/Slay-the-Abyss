@@ -46,7 +46,7 @@ test('all eleven Node identities and caller overrides reject unrelated or partia
 test('temporary historical materialization removes exactly the ten genuinely added Node modules',()=>{
  const directory=mkdtempSync(join(tmpdir(),'approved-node-history-'));
  try{
-  for(const path of new Set([...paths,...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){mkdirSync(join(directory,path,'..'),{recursive:true});writeFileSync(join(directory,path),read(path));}
+  for(const path of new Set([...paths,...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files)])){mkdirSync(join(directory,path,'..'),{recursive:true});writeFileSync(join(directory,path),readFileSync(path,'utf8'));}
   for(const path of paths.filter(p=>p!==root))assert(existsSync(join(directory,path)),path);
   materializeHistoricalPresentation(directory);
   for(const path of paths.filter(p=>p!==root))assert.equal(existsSync(join(directory,path)),false,path);

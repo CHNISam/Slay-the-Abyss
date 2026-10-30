@@ -160,7 +160,9 @@ function M.applyPower(state, actor, id, amount, source, sourceIsMonster, prepare
     end
     -- Strength/Dexterity's incoming Power has DEBUFF type at amount <= 0,
     -- regardless of the target's existing signed total. Zero is not an early exit.
+    if require('abyss_rare_relics').blockPower(state,actor,id)then return false end
     if M.artifactBlocksPower(actor, id, amount) then blockDebuff(state, actor, id); return false end
+    if id=='vulnerable'and source==state.player and actor~=source then require('abyss_rare_relics').onVulnerableApplied(state,actor)end
     local firstConstricted=id=='constricted' and (actor.statuses.constricted or 0)<=0
     if id=='constricted' then
         assert(actor==state.player and source and source~=actor and source.ai and source.ai.policy=='spire_growth',
@@ -361,6 +363,9 @@ local function queueDeathPower(state, target, before, reactions)
             Awakened.deathFinish(state,target,deathReaction)
         end
         require('abyss_reptomancer').died(state,target,deathReaction)
+        if target~=state.player and not target.halfDead and not target.awakenedRebirthPending then
+            for _,effect in ipairs(require('abyss_uncommon_relics').onMonsterDeath(state,target))do reaction(state,effect)end
+        end
         require('abyss_spire_pair').died(state,target,function(effect)
             reaction(state,{op='spireDeathRemove',targetId=effect.targetId,status=effect.status})
         end)
@@ -476,6 +481,8 @@ function M.suicideTransient(state,target)
 end
 
 function M.vulnerablePercent(state,target)
+    local rare=require('abyss_uncommon_relics').vulnerablePercent(state,target)
+    if rare then return rare end
     if target==state.player then
         for _,id in ipairs(state.relics or {})do if id=='odd_mushroom'or id=='Odd Mushroom'then return 125 end end
     end
@@ -555,6 +562,7 @@ function M.retaliate(state, source, target, amount, status)
     if intangible(target) then amount=math.min(amount,1) end
     local blocked = math.min(target.block, amount)
     target.block = target.block - blocked
+    if blocked>0 and target.block==0 then require('abyss_shop_relics').onBlockBroken(state,target)end
     local reactions = {}
     local lost = directDamage(state, source, target, amount - blocked, status or "thorns", blocked, reactions)
     M.resolveDamageReactions(state, reactions)
@@ -597,6 +605,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     if intangible(target) then amount=math.min(amount,1) end
     local absorbed = math.min(target.block, amount)
     target.block = target.block - absorbed
+    if absorbed>0 and target.block==0 then require('abyss_shop_relics').onBlockBroken(state,target)end
     local unblocked=amount-absorbed
     if source==state.player and not fixed and unblocked>0 and unblocked<5 then
         for _,id in ipairs(state.relics or {})do if id=='boot' or id=='Boot'then unblocked=5;break end end
@@ -605,6 +614,7 @@ function M.damage(state, source, target, base, fixed, retaliation, normalAmount,
     unblocked=require('abyss_corrupt_heart').capDamage(target,unblocked)
     Act3Powers.attacked(state,target,unblocked,reactions)
     local playerAttackedQueued=queuePlayerAttackedReactions(state,source,target,unblocked,fixed)
+    if target==state.player then unblocked=require('abyss_rare_relics').onAttacked(state,source,fixed and 'thorns'or 'normal',unblocked)end
     if target==state.player then unblocked=require('abyss_relic_hooks').onLoseHpLast(state,unblocked)end
     local lost = math.min(target.hp, unblocked)
     -- Monster wasHPLost precedes onAttacked; the player uses the opposite
@@ -724,10 +734,11 @@ local function tick(state, actor, phase)
             if decay:find("trigger", 1, true) then
                 if id == "poison" then directDamage(state, actor, actor, amount, "poison", nil, reactions)
                 elseif id == "regen" then
-                    if state.originalV4 and actor==state.player then require('abyss_original_v4_health').heal(state,actor,amount,nil,'regen')
+                    local healing=actor==state.player and require('abyss_potion_health').modifyHealing(amount,state.relics,true)or amount
+                    if state.originalV4 and actor==state.player then require('abyss_original_v4_health').heal(state,actor,healing,nil,'regen')
                     else
                     local before=actor.hp
-                    local healed = actor==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or math.min(actor.maxHp - actor.hp, amount)
+                    local healed = math.min(actor.maxHp - actor.hp, healing)
                     actor.hp = actor.hp + healed
                     Events.emit(state, "heal", { target = actor.id, amount = healed, status = id })
                     require('abyss_relic_hooks').hpChanged(state,actor,before)
@@ -822,7 +833,7 @@ function M.resetBlock(state, actor)
         return
     end
     if (actor.statuses.barricade or 0) <= 0 and actor.block ~= 0 then
-        actor.block = 0
+        actor.block = actor==state.player and require('abyss_rare_relics').blockAtTurnStart(state,actor.block)or 0
         Events.emit(state, "block_reset", {target = actor.id})
     end
 end

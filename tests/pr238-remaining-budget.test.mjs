@@ -1,4 +1,6 @@
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
+import {preNodesDepletedFixtureSource} from './helpers/nodes-depleted-fixture-inverse.mjs';
+import {preGremlinGangOwnerFixtureSource} from './helpers/gremlin-gang-owner-fixture-inverse.mjs';
 import {preFormalEntrySource} from './support/formal-entry-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -22,7 +24,7 @@ function preSeed70Source(path,source){
  assert.equal(hash(source),binding.beforeSha256,'complete original pre-seed70-repair inventory recovered');
  return source;
 }
-const read=p=>preSeed70Source(p,preFormalEntrySource(p,readFileSync(p,'utf8')));
+const read=p=>preSeed70Source(p,preFormalEntrySource(p,preNodesDepletedFixtureSource(p,preGremlinGangOwnerFixtureSource(p,readFileSync(p,'utf8')))));
 const budget=JSON.parse(read('tests/fixtures/pr238-remaining-budget.json'));
 test('remaining PR238 budgets retain complete bodies and exact case coverage',()=>{
  assert.equal(budget.base,'7593e8272b363f06d3cdaa62f29967756b3c1102');assert.equal(budget.timeoutMilliseconds,30000);

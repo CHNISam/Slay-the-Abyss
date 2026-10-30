@@ -64,7 +64,7 @@ function M.install(Run, shared)
         if run.character and not run.characterProfile.originalV4 then
             options.cardRandomSeed=run.runSeed
             options.enableStances=true
-            options.orbSlots=run.character=='defect' and 3 or 0
+            options.orbSlots=math.max(run.character=='defect'and 3 or 0,run.masterMaxOrbs or 0)
             -- Normal rooms supply the exact room stream; explicit replay battles
             -- use an explicitly named independent stream, never the legacy LCG.
             options.orbRandomSeed = run.runSeed
@@ -95,6 +95,7 @@ function M.install(Run, shared)
         local combatData = {}
         for key, value in pairs(run.data) do combatData[key] = value end
         combatData.rules = Combat.copy(run.data.rules)
+        combatData.rules.player.drawPerTurn=combatData.rules.player.drawPerTurn+require('abyss_boss_relics').drawBonus(run)
         combatData.rules.player.energyPerTurn = combatData.rules.player.energyPerTurn + 0.0 + bonus
         if combatData.rules.player.energyPerTurn > 2147483647 then return false, "invalid_relic_energy" end
         local enemies, nextMiscRng = encounterEnemies(run, encounter, sourceRoom)
@@ -113,7 +114,11 @@ function M.install(Run, shared)
             state.potionCharacter=require('abyss_potion_random').character(run)
             state.potionInventory=Combat.copy(run.potions)
             state.potionCapacity=run.potionSlots or run.data.rules.player.potionSlots
-            if opening.preBattle then return Inventory.applyOpening(state,opening.preBattle)end
+            if opening.preBattle then
+                local ok,why=Inventory.applyOpening(state,opening.preBattle)
+                if not ok then return false,why end
+            end
+            require('abyss_boss_relics').preBattle(state,run)
             return true
         end
         configureEncounterOptions(run, encounter, sourceRoom, options)
@@ -123,6 +128,7 @@ function M.install(Run, shared)
         local ok
         ok, reason = Inventory.applyOpening(battle, opening.afterDraw)
         if not ok then return false, reason end
+        require('abyss_card_actions').drain(Combat,battle)
         run.combatGeneration = generation + 1
         battle.combatGeneration=run.combatGeneration
         run.combat, run.encounterId, run.encounterTier = battle, encounter.id, encounter.tier

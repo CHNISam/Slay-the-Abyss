@@ -58,6 +58,7 @@ local function validateEntryMap(run,map)
 end
 
 function M.enter(run,map,nodeId)
+    if require('abyss_relic_pending').owner(run)then return false,'relic_choice_pending' end
     -- Validate the original graph/continuous stream before a copy can discard
     -- metatables and before room hooks, encounter consumption or battle setup.
     local valid,why=validateEntryMap(run,map)
@@ -68,6 +69,7 @@ function M.enter(run,map,nodeId)
     local ok,reason=Run.transaction(run,function(staged)return enter(staged,stagedMap,nodeId)end)
     if not ok then return false,reason end
     map.floor,map.currentNodeId=stagedMap.floor,stagedMap.currentNodeId
+    map.wingedJumps=stagedMap.wingedJumps and Combat.copy(stagedMap.wingedJumps)or nil
     if stagedMap.mapRng then
         map.mapRng,map.emeraldBoost=Combat.copy(stagedMap.mapRng),Combat.copy(stagedMap.emeraldBoost)
     end
@@ -91,6 +93,7 @@ function M.beginNeow(run,map,history)
 end
 
 function M.advanceAct(run,map)
+    if require('abyss_relic_pending').owner(run)then return false,'relic_choice_pending' end
     if (run.act or 1)~=(map.act or 1) or run.runSeed~=map.runSeed
         or not matchingMap(run.nodeFlow,map) then return false,'map_mismatch' end
     local nextMap
@@ -151,6 +154,7 @@ function M.restoreMap(run,snapshot)
     if type(snapshot)~='table' or snapshot.runSeed~=run.runSeed or (snapshot.act or 1)~=(run.act or 1)then
         return nil,'map_mismatch'
     end
+    if snapshot.wingedJumps and #snapshot.wingedJumps>0 and not RelicHooks.owns(run,'winged_greaves')then return nil,'winged_relic_required'end
     return Map.restore(run.data,snapshot,context)
 end
 
@@ -205,8 +209,19 @@ local function eventView(run,node)
     node.event.options=M.eventOptions(run,node)
 end
 
+local function campView(run,node)
+    node.rareCampOptions=require('abyss_rare_relics').campOptions(run,#node.purgeCards>0)
+    node.upgradeCards=upgradeCards(run)
+    node.canRest=not RelicHooks.owns(run,'coffee_dripper')
+    node.canForge=not RelicHooks.owns(run,'fusion_hammer') and #node.upgradeCards>0
+    local rareAvailable=false
+    for _,option in ipairs(node.rareCampOptions)do if option.enabled then rareAvailable=true end end
+    node.canLeaveCamp=not node.canRest and not node.canForge and not endingKeyEligible(run,'ruby') and not rareAvailable
+    node.heal=healingPreview(run,RelicHooks.campHealAmount(run,math.floor(run.maxHp*run.data.rules.camp.healPercent/100)))
+    node.dreamCatcher=RelicHooks.owns(run,'dream_catcher')
+end
 function M.view(run, map)
-    local available, mapView = M.available(run, map), Map.view(map)
+    local available, mapView = M.available(run, map), Map.view(map,require('abyss_rare_relics').canWingedTravel(run))
     local enabled = #available > 0
     if not enabled then for _, node in ipairs(mapView.nodes) do node.available = false end end
     local node = run.nodeFlow and Combat.copy(run.nodeFlow) or nil
@@ -219,12 +234,7 @@ function M.view(run, map)
     if node and not node.complete then
         node.purgeCards=LivingWall.purgeCards(run)
         if node.type == "camp" then
-            node.upgradeCards = upgradeCards(run)
-            node.canRest=not RelicHooks.owns(run,'coffee_dripper')
-            node.canForge=not RelicHooks.owns(run,'fusion_hammer') and #node.upgradeCards>0
-            node.canLeaveCamp=not node.canRest and not node.canForge and not endingKeyEligible(run,'ruby')
-            node.heal = healingPreview(run,RelicHooks.campHealAmount(run,math.floor(run.maxHp * run.data.rules.camp.healPercent / 100)))
-            node.dreamCatcher=RelicHooks.owns(run,'dream_catcher')
+            campView(run,node)
         elseif node.type == "shop" then
             node.removePrice = Shop.removePrice(run)
             node.removeAvailable = not node.removalUsed
@@ -331,6 +341,9 @@ function M.leaveCamp(run)
     return Run.transaction(run,function(staged)
         local flow,reason=pending(staged,'camp');if not flow then return false,reason end
         if flow.campChoice then return false,'camp_choice_made' end
+        for _,option in ipairs(require('abyss_rare_relics').campOptions(staged,#LivingWall.purgeCards(staged)>0))do
+            if option.enabled then return false,'camp_action_available' end
+        end
         if endingKeyEligible(staged,'ruby') or not RelicHooks.owns(staged,'coffee_dripper') or
             (not RelicHooks.owns(staged,'fusion_hammer') and #upgradeCards(staged)>0) then
             return false,'camp_action_available'
@@ -688,4 +701,5 @@ function M.completeCombat(run, map)
     return complete(run, flow.type == "boss" and "boss_victory" or "victory")
 end
 
+require('abyss_nodes_rare_camp')(M)
 return M

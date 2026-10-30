@@ -10,7 +10,10 @@ test('ten basic curses retain fixed library selection order and Chinese presenta
  const pools=JSON.parse(readFileSync('data/reference/sts1-card-pools/pools.json','utf8'));
  const display=JSON.parse(readFileSync('data/presentation/traveler.zh-CN.json','utf8')).cards;
  const defs=ids.map(id=>data.cards.cards.find(c=>c.id===id));
- assert.deepEqual(data.cards.cards.filter(c=>c.type==='curse').map(c=>c.id).sort(),[...ids].sort());
+ assert.deepEqual(data.cards.cards.filter(c=>c.type==='curse').map(c=>c.id).sort(),[...ids,'curse_of_the_bell'].sort());
+ const bell=data.cards.cards.find(c=>c.id==='curse_of_the_bell');
+ assert.equal(bell.sourceId,'CurseOfTheBell');assert.equal(bell.cost,-2);assert.deepEqual(bell.effects,[]);
+ assert.ok(!pools.pools.curseLibrarySelection.includes(bell.sourceId),'Calling Bell curse must not enter the ordinary random curse library');
  assert.deepEqual(defs.map(c=>c.sts_name),pools.pools.curseLibrarySelection);
  for(const c of defs){ assert.equal(c.cost,-2);assert.deepEqual(c.effects,[]);assert.equal(c.upgrade,undefined);assert.match(display[c.id].name,/^[\p{Script=Han}·]+$/u);assert.equal(c.name,display[c.id].name);assert.ok(display[c.id].textTemplate); }
  assert.deepEqual(validateContent(data),[]);

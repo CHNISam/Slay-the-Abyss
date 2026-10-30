@@ -4,7 +4,7 @@
   "baseline": "6e8714f",
   "integratedBaseline": "d3369bb",
   "status": "scope-baseline-awaiting-per-item-acceptance",
-  "updated": "2026-10-28",
+  "updated": "2026-10-30",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
   "runtimeAdmission": {
     "enforcedBy": "src/lua/abyss_run_admission.lua#M.accepts; src/lua/abyss_character_select.lua#canConfirm (before adapters and UI seed generation)",
@@ -461,7 +461,7 @@
         "evidence": []
       },
       "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
-      "limitation": "All 33 common effects and three SPECIAL definitions/obtain behavior plus Warped Tongs turn hook are integrated offline. Treasure/shop still use restricted local selection; the complete source queue is wired to event preparation, not treasure/shop. Missing non-common definitions cause atomic refusal, never effect-based rerolls. SPECIAL are event-only legal channels and treasure candidates now admit only common/uncommon/rare, retaining the existing gold fallback when none are legal. Spirit Poop total-score deduction has only a helper and no production score consumer. Natural acquisition and platform/live evidence remain pending."
+      "limitation": "All 142 canonical relic definitions are integrated offline, including the complete 130-identity Ironclad source mother queues used by treasure, shop and event preparation with source eligibility. SPECIAL relics retain explicit channels. Spirit Poop total-score deduction has only a helper and no production score consumer. Controlled offline coverage does not establish natural acquisition, native per-item, complete-run execution or device acceptance; platform/live evidence remain pending."
     },
     "potions": {
       "tasks": [
@@ -827,7 +827,7 @@
         "evidence": []
       },
       "presentation": "existing-approved-picker-controls-with-native-device-acceptance-pending",
-      "limitation": "Four mapped full Run class catalogues only; historical prepared/original-V4 Read disabled without source mapping. Exact20 unique source offers, duplicate rarity+identity retry, unchanged pity, detached previews/fresh actual obtain and cached binary32 Sleep are locally tested. Toxic Egg shares real hooks; forced unsupported Molten/Frozen Egg Read refuses. Global cosmetic reading text is fixed rather than spending gameplay RNG. Native and natural four-class four-act acceptance NOT_RUN."
+      "limitation": "Four mapped full Run class catalogues only; historical prepared/original-V4 Read disabled without source mapping. Exact20 unique source offers, duplicate rarity+identity retry, unchanged pity, detached previews/fresh actual obtain and cached binary32 Sleep are locally tested. Toxic, Molten and Frozen Egg share real type-specific preview and permanent acquire hooks with local coverage. Global cosmetic reading text is fixed rather than spending gameplay RNG. Native and natural four-class four-act acceptance NOT_RUN."
     },
     "classCommonRelics": {
       "tasks": [
@@ -965,6 +965,38 @@
       },
       "presentation": "generated-controls-local-coverage-native-device-acceptance-pending",
       "limitation": "Independent production leaves and real Nodes/generated native controls tested locally with controlled event admission. Full natural campaign, official import, PC and physical Android acceptance remain pending. Supplied-board candidate stays separate."
+    },
+    "relicCompletion": {
+      "tasks": [
+        "TASK-14.1",
+        "TASK-47"
+      ],
+      "entryPoints": [
+        "src/lua/abyss_inventory.lua",
+        "src/lua/abyss_relic_hooks.lua",
+        "src/lua/abyss_boss_relics.lua",
+        "src/lua/abyss_shop_relics.lua",
+        "src/lua/abyss_relic_pool.lua"
+      ],
+      "local": {
+        "status": "coverage-recorded",
+        "testFiles": [
+          "tests/uncommon-relics.test.mjs",
+          "tests/rare-relics.test.mjs",
+          "tests/boss-relics-missing.test.mjs",
+          "tests/shop-relics-missing.test.mjs"
+        ]
+      },
+      "platform": {
+        "status": "pending-per-item",
+        "evidence": []
+      },
+      "live": {
+        "status": "pending-natural-acquisition-and-execution",
+        "evidence": []
+      },
+      "presentation": "production-ui-with-M4-art-and-device-acceptance-pending",
+      "limitation": "The additional 77 canonical relic definitions and their acquisition/combat/selection callbacks have controlled offline regression coverage. The full 130 Ironclad source mother-queue identities now resolve to definitions. This records local coverage only; native per-item, natural acquisition, complete-run execution and device acceptance remain pending."
     }
   },
   "cards": [
@@ -2423,6 +2455,21 @@
         "explicit:Run.obtainCard"
       ],
       "naturalAcquisitionLimitation": "Conditional curse-to-curse transformations use complete source order through explicit event routes; default full-pool admission and natural/platform evidence remain pending."
+    },
+    {
+      "id": "curse_of_the_bell",
+      "profile": "generatedCards",
+      "source": "data/cards.json#curse_of_the_bell",
+      "sourceId": "CurseOfTheBell",
+      "type": "curse",
+      "countsTowardSeventyFive": false,
+      "channels": [
+        "relic:calling_bell",
+        "explicit:Run.obtainCard"
+      ],
+      "acquisitionOwner": "src/lua/abyss_boss_relics.lua#Calling Bell permanent obtain",
+      "naturalAcquisitionLimitation": "Calling Bell obtains this permanent, unremovable curse through Run.obtainCard. CurseOfTheBell is excluded from ordinary random curse and transformation targets. Controlled boss relic fixtures are offline only; natural acquisition and platform/live acceptance remain pending.",
+      "unremovable": true
     }
   ],
   "enemies": [
@@ -3801,7 +3848,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held lizard_tail now uses the shared fatal reserve with persistent once-per-run counter; darkstone_periapt curse obtain still refuses until its real shared hook exists; Tungsten Rod final HP-loss reduction is wired. Full campaign/platform/live acceptance pending."
+      "naturalAcquisitionLimitation": "Default random pool remains restricted-seven; development campaign seed16 proves unfiltered full source selection. Held lizard_tail uses the shared fatal reserve with persistent once-per-run counter; darkstone_periapt permanent curse obtains use the shared health hook with local active/retained-combat synchronization coverage; Tungsten Rod final HP-loss reduction is wired. Full campaign/platform/live acceptance pending."
     },
     {
       "id": "sensory_stone",
@@ -3844,7 +3891,7 @@
         "explicit:Nodes.enter"
       ],
       "poolMode": "explicit-only",
-      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Toxic Egg now previews and obtains real upgraded Skills in every reward group. Molten Egg now previews and obtains real upgraded Attacks. Held unimplemented Question/Crown/Frozen Egg/Bowl reward hooks and Lizard fatal hook explicitly refuse. Whole-campaign, platform and live acceptance remain pending."
+      "naturalAcquisitionLimitation": "Outside default Act1 restricted-seven inventory. Development campaign seed1 proves unfiltered complete Act3 source selection. Toxic, Molten and Frozen Egg use real type-specific reward preview and permanent acquire upgrades. Question Card, Busted Crown and Singing Bowl reward hooks and the shared Lizard Tail fatal reserve have controlled local coverage. Whole-campaign, platform and live acceptance remain pending."
     },
     {
       "id": "tomb_red_mask",
@@ -4067,6 +4114,900 @@
   ],
   "relics": [
     {
+      "id": "bottled_tornado",
+      "source": "data/relics.json#bottled_tornado",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Bottled Tornado"
+    },
+    {
+      "id": "sundial",
+      "source": "data/relics.json#sundial",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Sundial"
+    },
+    {
+      "id": "kunai",
+      "source": "data/relics.json#kunai",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Kunai"
+    },
+    {
+      "id": "blue_candle",
+      "source": "data/relics.json#blue_candle",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Blue Candle"
+    },
+    {
+      "id": "eternal_feather",
+      "source": "data/relics.json#eternal_feather",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Eternal Feather"
+    },
+    {
+      "id": "strike_dummy",
+      "source": "data/relics.json#strike_dummy",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "StrikeDummy"
+    },
+    {
+      "id": "singing_bowl",
+      "source": "data/relics.json#singing_bowl",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Singing Bowl"
+    },
+    {
+      "id": "matryoshka",
+      "source": "data/relics.json#matryoshka",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Matryoshka"
+    },
+    {
+      "id": "ink_bottle",
+      "source": "data/relics.json#ink_bottle",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "InkBottle"
+    },
+    {
+      "id": "ornamental_fan",
+      "source": "data/relics.json#ornamental_fan",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Ornamental Fan"
+    },
+    {
+      "id": "bottled_lightning",
+      "source": "data/relics.json#bottled_lightning",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Bottled Lightning"
+    },
+    {
+      "id": "gremlin_horn",
+      "source": "data/relics.json#gremlin_horn",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Gremlin Horn"
+    },
+    {
+      "id": "horn_cleat",
+      "source": "data/relics.json#horn_cleat",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "HornCleat"
+    },
+    {
+      "id": "letter_opener",
+      "source": "data/relics.json#letter_opener",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Letter Opener"
+    },
+    {
+      "id": "question_card",
+      "source": "data/relics.json#question_card",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Question Card"
+    },
+    {
+      "id": "bottled_flame",
+      "source": "data/relics.json#bottled_flame",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Bottled Flame"
+    },
+    {
+      "id": "shuriken",
+      "source": "data/relics.json#shuriken",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Shuriken"
+    },
+    {
+      "id": "meat_on_the_bone",
+      "source": "data/relics.json#meat_on_the_bone",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Meat on the Bone"
+    },
+    {
+      "id": "mummified_hand",
+      "source": "data/relics.json#mummified_hand",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Mummified Hand"
+    },
+    {
+      "id": "mercury_hourglass",
+      "source": "data/relics.json#mercury_hourglass",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Mercury Hourglass"
+    },
+    {
+      "id": "self_forming_clay",
+      "source": "data/relics.json#self_forming_clay",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Self Forming Clay"
+    },
+    {
+      "id": "paper_frog",
+      "source": "data/relics.json#paper_frog",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Paper Frog"
+    },
+    {
+      "id": "ginger",
+      "source": "data/relics.json#ginger",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Ginger"
+    },
+    {
+      "id": "bird_faced_urn",
+      "source": "data/relics.json#bird_faced_urn",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Bird Faced Urn"
+    },
+    {
+      "id": "unceasing_top",
+      "source": "data/relics.json#unceasing_top",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Unceasing Top"
+    },
+    {
+      "id": "torii",
+      "source": "data/relics.json#torii",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Torii"
+    },
+    {
+      "id": "stone_calendar",
+      "source": "data/relics.json#stone_calendar",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "StoneCalendar"
+    },
+    {
+      "id": "shovel",
+      "source": "data/relics.json#shovel",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Shovel"
+    },
+    {
+      "id": "winged_greaves",
+      "source": "data/relics.json#winged_greaves",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "WingedGreaves"
+    },
+    {
+      "id": "thread_and_needle",
+      "source": "data/relics.json#thread_and_needle",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Thread and Needle"
+    },
+    {
+      "id": "turnip",
+      "source": "data/relics.json#turnip",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Turnip"
+    },
+    {
+      "id": "ice_cream",
+      "source": "data/relics.json#ice_cream",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Ice Cream"
+    },
+    {
+      "id": "calipers",
+      "source": "data/relics.json#calipers",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Calipers"
+    },
+    {
+      "id": "prayer_wheel",
+      "source": "data/relics.json#prayer_wheel",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Prayer Wheel"
+    },
+    {
+      "id": "girya",
+      "source": "data/relics.json#girya",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Girya"
+    },
+    {
+      "id": "dead_branch",
+      "source": "data/relics.json#dead_branch",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Dead Branch"
+    },
+    {
+      "id": "du_vu_doll",
+      "source": "data/relics.json#du_vu_doll",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Du-Vu Doll"
+    },
+    {
+      "id": "pocketwatch",
+      "source": "data/relics.json#pocketwatch",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Pocketwatch"
+    },
+    {
+      "id": "incense_burner",
+      "source": "data/relics.json#incense_burner",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Incense Burner"
+    },
+    {
+      "id": "gambling_chip",
+      "source": "data/relics.json#gambling_chip",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Gambling Chip"
+    },
+    {
+      "id": "peace_pipe",
+      "source": "data/relics.json#peace_pipe",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Peace Pipe"
+    },
+    {
+      "id": "captains_wheel",
+      "source": "data/relics.json#captains_wheel",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "CaptainsWheel"
+    },
+    {
+      "id": "magic_flower",
+      "source": "data/relics.json#magic_flower",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Magic Flower"
+    },
+    {
+      "id": "charons_ashes",
+      "source": "data/relics.json#charons_ashes",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Charon's Ashes"
+    },
+    {
+      "id": "champion_belt",
+      "source": "data/relics.json#champion_belt",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Champion Belt"
+    },
+    {
+      "id": "velvet_choker",
+      "source": "data/relics.json#velvet_choker",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Velvet Choker"
+    },
+    {
+      "id": "runic_dome",
+      "source": "data/relics.json#runic_dome",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Runic Dome"
+    },
+    {
+      "id": "snecko_eye",
+      "source": "data/relics.json#snecko_eye",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Snecko Eye"
+    },
+    {
+      "id": "pandoras_box",
+      "source": "data/relics.json#pandoras_box",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Pandora's Box"
+    },
+    {
+      "id": "cursed_key",
+      "source": "data/relics.json#cursed_key",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Cursed Key"
+    },
+    {
+      "id": "busted_crown",
+      "source": "data/relics.json#busted_crown",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Busted Crown"
+    },
+    {
+      "id": "ectoplasm",
+      "source": "data/relics.json#ectoplasm",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Ectoplasm"
+    },
+    {
+      "id": "tiny_house",
+      "source": "data/relics.json#tiny_house",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Tiny House"
+    },
+    {
+      "id": "philosophers_stone",
+      "source": "data/relics.json#philosophers_stone",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Philosopher's Stone"
+    },
+    {
+      "id": "astrolabe",
+      "source": "data/relics.json#astrolabe",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Astrolabe"
+    },
+    {
+      "id": "empty_cage",
+      "source": "data/relics.json#empty_cage",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Empty Cage"
+    },
+    {
+      "id": "runic_pyramid",
+      "source": "data/relics.json#runic_pyramid",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Runic Pyramid"
+    },
+    {
+      "id": "calling_bell",
+      "source": "data/relics.json#calling_bell",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Calling Bell"
+    },
+    {
+      "id": "mark_of_pain",
+      "source": "data/relics.json#mark_of_pain",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Mark of Pain"
+    },
+    {
+      "id": "runic_cube",
+      "source": "data/relics.json#runic_cube",
+      "profile": "relicCompletion",
+      "rarity": "boss",
+      "channels": [
+        "boss_treasure:floor17"
+      ],
+      "naturalExecutionLimitation": "Obtained at final-floor boss treasure; subsequent combat effects have only controlled follow-up fixtures, not natural launch-run execution. Native platform/live acceptance remain pending.",
+      "sourceId": "Runic Cube"
+    },
+    {
+      "id": "sling",
+      "source": "data/relics.json#sling",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Sling"
+    },
+    {
+      "id": "hand_drill",
+      "source": "data/relics.json#hand_drill",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "HandDrill"
+    },
+    {
+      "id": "toolbox",
+      "source": "data/relics.json#toolbox",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Toolbox"
+    },
+    {
+      "id": "chemical_x",
+      "source": "data/relics.json#chemical_x",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Chemical X"
+    },
+    {
+      "id": "orrery",
+      "source": "data/relics.json#orrery",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Orrery"
+    },
+    {
+      "id": "dollys_mirror",
+      "source": "data/relics.json#dollys_mirror",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "DollysMirror"
+    },
+    {
+      "id": "orange_pellets",
+      "source": "data/relics.json#orange_pellets",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "OrangePellets"
+    },
+    {
+      "id": "prismatic_shard",
+      "source": "data/relics.json#prismatic_shard",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "PrismaticShard"
+    },
+    {
+      "id": "clockwork_souvenir",
+      "source": "data/relics.json#clockwork_souvenir",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "ClockworkSouvenir"
+    },
+    {
+      "id": "frozen_eye",
+      "source": "data/relics.json#frozen_eye",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Frozen Eye"
+    },
+    {
+      "id": "the_abacus",
+      "source": "data/relics.json#the_abacus",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "TheAbacus"
+    },
+    {
+      "id": "medical_kit",
+      "source": "data/relics.json#medical_kit",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Medical Kit"
+    },
+    {
+      "id": "cauldron",
+      "source": "data/relics.json#cauldron",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Cauldron"
+    },
+    {
+      "id": "strange_spoon",
+      "source": "data/relics.json#strange_spoon",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Strange Spoon"
+    },
+    {
+      "id": "brimstone",
+      "source": "data/relics.json#brimstone",
+      "profile": "relicCompletion",
+      "rarity": "shop",
+      "channels": [
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Brimstone"
+    },
+    {
+      "id": "fossilized_helix",
+      "source": "data/relics.json#fossilized_helix",
+      "profile": "relicCompletion",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "FossilizedHelix"
+    },
+    {
+      "id": "pantograph",
+      "source": "data/relics.json#pantograph",
+      "profile": "relicCompletion",
+      "rarity": "uncommon",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "naturalExecutionLimitation": "Controlled offline acquisition and effect coverage only; natural acquisition and native platform/live acceptance remain pending.",
+      "sourceId": "Pantograph"
+    },
+    {
       "id": "sacred_bark",
       "sourceId": "SacredBark",
       "source": "data/relics.json#sacred_bark",
@@ -4161,19 +5102,6 @@
       ],
       "naturalAcquisitionLimitation": "Complete boss source queue identity preserved; natural acquisition and platform/live acceptance pending.",
       "naturalExecutionLimitation": "Prepared energy +1 and camp smith prohibition locally covered. Noncamp upgrade remains legal. Subsequent-act natural execution, art and device acceptance pending."
-    },
-    {
-      "id": "lizard_tail",
-      "sourceId": "Lizard Tail",
-      "source": "data/relics.json#lizard_tail",
-      "profile": "lizardTail",
-      "rarity": "rare",
-      "channels": [
-        "treasure",
-        "shop_relic"
-      ],
-      "prerequisite": "none",
-      "naturalExecutionLimitation": "Source rare-tier and permanent acquire/fatal APIs are tested with controlled tier, HP and route boundaries. Natural treasure/shop acquisition, device play and cross-session persistence are not granted."
     },
     {
       "id": "mark_of_bloom",
@@ -4660,8 +5588,20 @@
         "shop_relic"
       ],
       "sourceId": "Darkstone Periapt",
-      "naturalExecutionLimitation": "Permanent curse obtains only with no active or retained combat owner. Active combat or pending reward/combat health contexts reject atomically until source heal-modifier dispatch and run/combat health synchronization are integrated. Full source treasure/shop acquisition, natural play and platform evidence remain pending.",
-      "naturalAcquisitionLimitation": "Existing restricted treasure/shop candidate APIs apply only this newly admitted source max-floor gate (destination floor<=48; no supported Endless mode). This is not full original queue/probability acquisition parity."
+      "naturalExecutionLimitation": "Permanent curse obtains use shared health transactions with source heal modifiers and active/retained-combat health synchronization covered locally. Natural play and platform/live evidence remain pending.",
+      "naturalAcquisitionLimitation": "Shared full source treasure/shop queues enforce the source max-floor gate (destination floor<=48; no supported Endless mode). Controlled queue and acquisition coverage does not certify natural acquisition or platform/live parity."
+    },
+    {
+      "id": "red_mask",
+      "sourceId": "Red Mask",
+      "source": "data/relics.json#red_mask",
+      "profile": "tomb",
+      "rarity": "special",
+      "channels": [
+        "explicit_event:tomb_red_mask:pay"
+      ],
+      "naturalAcquisitionLimitation": "Actual named SPECIAL obtain from Tomb only; excluded from ordinary treasure/shop source queues. The source Masked Bandits path is unimplemented and not claimed.",
+      "naturalExecutionLimitation": "Opening BOT Weak1/Artifact/first-round expiry and repeated battles locally covered; dedicated relic art, whole campaign and platform/live acceptance pending."
     },
     {
       "id": "toxic_egg",
@@ -4673,7 +5613,7 @@
         "treasure",
         "shop_relic"
       ],
-      "naturalAcquisitionLimitation": "Seed8 actual Big Fish box selects Toxic Egg from the untouched complete source event relic queue, then equips it and obtains the real curse. Existing ordinary treasure and shop still use their explicitly restricted supported candidate sets; this slice does not certify their original full-pool distributions. Both enforce this relic's non-Endless floor48 maximum.",
+      "naturalAcquisitionLimitation": "Seed8 actual Big Fish box selects Toxic Egg from the untouched complete source event relic queue, then equips it and obtains the real curse. Ordinary treasure and shop use the shared complete source queues and enforce this relic's non-Endless floor48 maximum. Controlled source queue fixtures do not certify natural acquisition or platform/live parity.",
       "naturalExecutionLimitation": "Permanent Skill acquire and source-defined reward/shop preview upgrade once without RNG. Existing deck, shop shelves and direct Dream Catcher offers are not upgraded on equipment. Dedicated relic art, complete natural campaign and platform/live acceptance remain pending."
     },
     {
@@ -4712,18 +5652,6 @@
       ],
       "naturalAcquisitionLimitation": "Actual acquisition is through the Golden Idol event only; SPECIAL remains excluded from ordinary treasure/shop source pools. Default full-event admission, complete campaign and platform/live evidence pending.",
       "naturalExecutionLimitation": "Component proves actual event acquire, real starter source battle/ordinary GOLD freeze/claim and same-owner Moai333. Dedicated relic art/device acceptance pending."
-    },
-    {
-      "id": "red_mask",
-      "sourceId": "Red Mask",
-      "source": "data/relics.json#red_mask",
-      "profile": "tomb",
-      "rarity": "special",
-      "channels": [
-        "explicit_event:tomb_red_mask:pay"
-      ],
-      "naturalAcquisitionLimitation": "Actual named SPECIAL obtain from Tomb only; excluded from ordinary treasure/shop source queues. The source Masked Bandits path is unimplemented and not claimed.",
-      "naturalExecutionLimitation": "Opening BOT Weak1/Artifact/first-round expiry and repeated battles locally covered; dedicated relic art, whole campaign and platform/live acceptance pending."
     },
     {
       "id": "neows_lament",
@@ -4775,6 +5703,19 @@
       ],
       "sourcePoolClass": "watcher",
       "naturalAcquisitionLimitation": "Normal acquisition uses the complete shared + watcher source queues, including elite rewards; explicit Run.obtainRelic also supports external acquisition. Offline source-channel fixtures do not certify a complete natural run or platform/live acquisition."
+    },
+    {
+      "id": "lizard_tail",
+      "sourceId": "Lizard Tail",
+      "source": "data/relics.json#lizard_tail",
+      "profile": "lizardTail",
+      "rarity": "rare",
+      "channels": [
+        "treasure",
+        "shop_relic"
+      ],
+      "prerequisite": "none",
+      "naturalExecutionLimitation": "Source rare-tier and permanent acquire/fatal APIs are tested with controlled tier, HP and route boundaries. Natural treasure/shop acquisition, device play and cross-session persistence are not granted."
     },
     {
       "id": "odd_mushroom",

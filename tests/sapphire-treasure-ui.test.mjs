@@ -29,5 +29,7 @@ for (const [file,groups] of [['sapphire_treasure_ui.lua',8],['sapphire_treasure_
     const result=runLua(`tests/lua/${file}`);
     assert.equal(result.status,0,result.stderr||result.stdout);
     assert.match(result.stdout,new RegExp(`SAPPHIRE_TREASURE_UI_PASS ${groups}`));
+    if(file==='sapphire_treasure_ui.lua')assert.match(result.stdout,/SAPPHIRE_EXHAUSTED_POOL_FIXTURE 1/);
+    else assert.doesNotMatch(result.stdout,/SAPPHIRE_EXHAUSTED_POOL_FIXTURE/);
   });
 }

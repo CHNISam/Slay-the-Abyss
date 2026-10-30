@@ -205,6 +205,12 @@ function M.new(root, data, presentation, clickEvent, platform, options)
     services.bind("cardReward", function()
         if not self.active or self.busy or not self.run or self.run.phase ~= "reward"
             or self.rewardScreen ~= "list" or self.run.rewards.cardResolved then return end
+        local Cards=require('abyss_relic_card_rewards')
+        if Cards.managed(self.run)then
+            local ok=Cards.open(self.run,self.rewardOwner)
+            if ok then services.notice('');services.refresh(true)end
+            return ok
+        end
         services.rewardScreen("cards")
         services.notice("")
         services.refresh()

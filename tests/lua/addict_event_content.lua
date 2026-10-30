@@ -128,7 +128,10 @@ test('Unsupported selected uncommon and rare fail closed without reroll, payment
    local r=opening(tier=='uncommon' and 'Darkstone Periapt' or 'Bird Faced Urn',tier)
    -- This negative remains valid in separately composed dependency trees.
    r.data=C.copy(r.data)
-   for i=#r.data.relics.relics,1,-1 do if r.data.relics.relics[i].id=='darkstone_periapt' then table.remove(r.data.relics.relics,i)end end
+   for i=#r.data.relics.relics,1,-1 do
+    local d=r.data.relics.relics[i]
+    if d.id=='darkstone_periapt' or d.sourceId=='Bird Faced Urn'then table.remove(r.data.relics.relics,i)end
+   end
    assert(Run.obtainRelic(r,'Omamori'));reject(r,choice,nil,'relic_content_unavailable');eq(r.relicCounters.omamori,2)
    eq(r.nodeFlow.event.stage,'intro');eq(r.nodeFlow.event.relicOffer,nil)
   end

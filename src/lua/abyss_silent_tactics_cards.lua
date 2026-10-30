@@ -136,7 +136,7 @@ local function xAmount(state,context)
  check(n)
  assert(context.freeToPlayOnce==nil or type(context.freeToPlayOnce)=='boolean','invalid X free flag')
  assert(context.chemicalX==nil or context.chemicalX==false or context.chemicalX==0,'Chemical X not supported')
- return n
+ return check(n+require('abyss_shop_relics').xBonus(state))
 end
 -- All plan arrays are in execution order; the host reverses pushes to TOP.
 -- Context functions are call-local. Plans contain only serialisable records.

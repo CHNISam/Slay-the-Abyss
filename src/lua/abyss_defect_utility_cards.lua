@@ -155,7 +155,9 @@ function M.planEffect(state,effect,context)
         if amount==nil or amount==-1 then amount=state.energy end
         assert(integer(amount),'invalid X energy snapshot')
         assert(context.freeToPlayOnce==nil or type(context.freeToPlayOnce)=='boolean','invalid X free flag')
-        assert(context.chemicalX==nil or context.chemicalX==false or context.chemicalX==0,'Chemical X not supported')
+        assert(context.chemicalX==nil or context.chemicalX==false or context.chemicalX==0,'Chemical X context override unsupported')
+        amount=amount+require('abyss_shop_relics').xBonus(state)
+        assert(integer(amount),'invalid X bonus result')
         if amount>0 then
             plan.bottom[1]=e('xBlockRounds',effect.blockAmount,{remaining=amount,fixed=true})
             plan.consumeAllEnergy=context.freeToPlayOnce~=true

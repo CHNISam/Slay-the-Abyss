@@ -92,9 +92,7 @@ function M.eventNormalDamage(run,value)
 end
 function M.heal(run,value)
     assert(amount(value),'invalid heal')
-    for _,id in ipairs(run.relics or {})do
-        if id=='mark_of_bloom' or id=='Mark of the Bloom' then return 0 end
-    end
+    value=require('abyss_potion_health').modifyHealing(value,run.relics,run.phase=='combat')
     local before=run.hp;run.hp=math.min(run.maxHp,run.hp+0.0+value);return run.hp-before
 end
 function M.increaseMaxHp(run,value)
@@ -200,6 +198,7 @@ function M.commitCard(run,offer)
         local accepted,reason=RelicHooks.onObtainCard(staged,card,definition,{increaseMaxHp=M.increaseMaxHp})
         if accepted==false then return false,reason end
         staged.deck[#staged.deck+1]=card;staged.nextDeckUid=uid+1.0
+        require('abyss_rare_relics').onMasterDeckChange(staged)
         require('abyss_writhing_mass').externalObtain(staged,card)
         return true,uid
     end)
@@ -226,6 +225,7 @@ function M.removeCard(run,uid)
         if not cardDefinition(staged,card.cardId) then return false,'card_content_unavailable' end
         table.remove(staged.deck,position)
         require('abyss_curses').onRemove(staged,card)
+        require('abyss_rare_relics').onMasterDeckChange(staged)
         return true,card
     end)
 end
@@ -257,7 +257,7 @@ function M.obtainRelic(run,id)
         end
         if position then staged.relics[position]=definition.id
         else staged.relics[#staged.relics+1]=definition.id end
-        RelicHooks.onEquip(staged,definition.id,{
+        local equipped,equipReason=RelicHooks.onEquip(staged,definition.id,{
             canUpgrade=function(card)
                 local def=cardDefinition(staged,card.cardId)
                 return def and def.upgrade and next(def.upgrade)~=nil
@@ -267,6 +267,7 @@ function M.obtainRelic(run,id)
                 card.upgrades=(card.upgrades or (card.upgraded and 1 or 0))+1
                 card.upgraded=true;return true
             end})
+        if equipped==false then return false,equipReason end
     publishCombatRelic(staged, definition)
         return true,definition.id
     end)
@@ -307,11 +308,18 @@ local applyPermanentChanges=settlement.applyPermanentChanges
 
 function M.rewardOptions(run)
     if run.phase ~= "reward" or run.rewards.cardResolved then return {} end
+    if run.rewards.cardRewardGroups then
+        local group=require('abyss_relic_card_rewards').nextGroup(run)
+        return group and Combat.copy(group.cards)or {}
+    end
     return Combat.copy(run.rewards.cards)
 end
 
 function M.claimCardReward(run, choice)
     if run.phase ~= "reward" or run.rewards.cardResolved then return false, "no_pending_reward" end
+    if run.rewards.cardRewardGroups or require('abyss_relic_hooks').owns(run,'singing_bowl')then
+        return require('abyss_relic_card_rewards').claim(run,nil,choice)
+    end
     if type(choice) ~= "number" or choice % 1 ~= 0 or choice < 0 or choice > #run.rewards.cards then
         return false, "invalid_reward_choice"
     end
@@ -385,6 +393,7 @@ function M.claimStolenGoldReward(run)
 end
 
 function M.leaveCombatRewards(run)
+    if require('abyss_relic_pending').owner(run)then return false,'relic_choice_pending' end
     if run.phase ~= "reward" or not run.rewards or run.rewards.manualContinue ~= true then
         return false, "no_pending_reward"
     end

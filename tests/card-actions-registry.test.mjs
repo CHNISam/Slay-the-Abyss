@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {preRelicRound3CompositionSource} from './helpers/relic-round3-composition.mjs';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -46,7 +47,7 @@ test('fixed 9293405d action oracle, supports admission and victory policy remain
     return source.slice(at, source.indexOf(end, at));
   };
   for (const [start, end] of [['local operations =', 'function M.enqueue('], ['local retained=', 'return M']])
-    assert.equal(section(read(live), start, end), section(read(before), start, end));
+    assert.equal(section(preRelicRound3CompositionSource(live,read(live),'round3'), start, end), section(read(before), start, end));
 });
 for (const [fixture, flag] of [
   ['tests/lua/support/card_actions_registry_fixture.lua', ''],

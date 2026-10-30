@@ -1,8 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {validateLaunchContent} from '../scripts/verify-launch-content.mjs';
-const fresh=()=>JSON.parse(readFileSync('data/release/launch-content.json','utf8'));
+import {resolve} from 'node:path';
+import {validateLaunchContent as validateCurrentLaunchContent} from '../scripts/verify-launch-content.mjs';
+import {launchBaselineFixture} from './helpers/launch-baseline-fixture.mjs';
+const root=launchBaselineFixture();
+const validateLaunchContent=(manifest,options={})=>validateCurrentLaunchContent(manifest,{...options,root});
+const fresh=()=>JSON.parse(readFileSync(resolve(root,'data/release/launch-content.json'),'utf8'));
 test('louse pool union retains both color channels without fixed enemies',()=>{
  const manifest=fresh();assert.deepEqual(validateLaunchContent(manifest,{runtime:false}),[]);
  for(const [id,n] of [['louse_pair',2],['louse_trio',3]]){

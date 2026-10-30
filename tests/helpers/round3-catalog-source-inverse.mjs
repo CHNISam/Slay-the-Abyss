@@ -1,5 +1,6 @@
 // Exact outer replay of the reviewed catalog boundary. Historical bytes stay frozen.
 import assert from 'node:assert/strict';
+import {preRelicRound3CompositionSource} from './relic-round3-composition.mjs';
 import {readFileSync,existsSync,rmSync,realpathSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -20,6 +21,7 @@ for(const [path,binding]of Object.entries(round3CatalogProof.files)){
  else assert.match(binding.beforeSha256,/^[a-f0-9]{64}$/);
 }
 export function preRound3CatalogSource(path,source,{readSource=path=>readFileSync(path,'utf8')}={}){
+ source=preRelicRound3CompositionSource(path,source,'round3');
  const binding=round3CatalogProof.files[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=normalize(source);

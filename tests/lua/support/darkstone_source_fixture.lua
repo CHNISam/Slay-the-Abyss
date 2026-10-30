@@ -10,7 +10,7 @@ function M.queue(run,fromTail)
   if id~='Darkstone Periapt' and id~='InkBottle'then queue[#queue+1]=id end
  end
  assert(found['Darkstone Periapt'] and found.InkBottle and #queue==#before-2)
- queue[#queue+1]='InkBottle' -- Always-eligible fallback; keep its unavailable identity.
+ queue[#queue+1]='InkBottle' -- Always-eligible implemented fallback.
  if fromTail then queue[#queue+1]='Darkstone Periapt'
  else table.insert(queue,1,'Darkstone Periapt')end
  assert(#queue==#before,'fixture changed source pool size')

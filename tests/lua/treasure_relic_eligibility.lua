@@ -12,6 +12,8 @@ local function fixture(remaining)
   if ordinary[d.rarity] and d.id~=remaining then r.relics[#r.relics+1]=d.id end
  end
  Source.depleted(r,remaining and 'Anchor' or nil)
+ -- This component checkpoint exhausts the held finite chest hook as well.
+ r.relicCounters=r.relicCounters or {};r.relicCounters.matryoshka=-2
  local first=Map.available(m)[1]
  for _,n in ipairs(m.nodes)do if n.id==first.id then n.type='treasure';n.roomKind=nil end end
  assert(Nodes.enter(r,m,first.id));Source.open(r);return r,m

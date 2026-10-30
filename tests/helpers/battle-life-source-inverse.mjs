@@ -1,8 +1,9 @@
 import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
+import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
 import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
+import {preRelicRound2CompositionSource} from './relic-round2-composition.mjs';
 import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
-import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preRound2UiSource,prepareRound2UiModuleRetirement} from './round2-ui-source-inverse.mjs';
 // Exact outer replay adapter for this presentation-only slice. Live tests load
 // current production modules; original historical witnesses stay immutable.
@@ -11,6 +12,7 @@ import {preCiLuaCalibrationSource} from './ci-lua-calibration-inverse.mjs';
 import {existsSync, readFileSync, rmSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {createHash} from 'node:crypto';
+import {preRelicCompletionSource,prepareRelicCompletionModuleRetirement} from './relic-completion-inverse.mjs';
 
 const normalize = source => source.replaceAll('\r\n', '\n');
 const hash = source => createHash('sha256').update(source).digest('hex');
@@ -29,11 +31,12 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
 }
 
 export function preBattleLifeOuterSource(path, source) {
-  source = preRound2UiSource(path, source);
-  source = preNativeEnemyThemeSource(path, preBackgroundSource(path,source));
+  source = preRelicRound2CompositionSource(path,source,'relic');
+  source = preRound2UiSource(path,source);
+  source = preNativeEnemyThemeSource(path,preBackgroundSource(path,source));
   source = preCiLuaCalibrationSource(path, source);
   source = preRound2CanPlaySource(path, source);
-  return source;
+  return preRelicCompletionSource(path,source);
 }
 
 export function preBattleLifeSource(path, source) {
@@ -66,11 +69,12 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   const retireBackground=prepareBackgroundRetirement(directory,{sourceRoot});
   const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
   const retireRound3=prepareRound3CatalogModuleRetirement(directory,{sourceRoot});
+  const retireRelics=prepareRelicCompletionModuleRetirement(directory,{sourceRoot});
   const targets = [];
   for (const path of battleLifeAddedPaths) {
     const target = join(directory, path);
     if (!existsSync(target)) continue;
-    assert.equal(hash(normalize(readFileSync(target, 'utf8'))), battleLifeSourceLayer.files[path].afterSha256,
+    assert.equal(hash(normalize(preRelicCompletionSource(path,readFileSync(target, 'utf8')))), battleLifeSourceLayer.files[path].afterSha256,
       'unreviewed battle-life added module destination: ' + path);
     targets.push(target);
   }
@@ -78,6 +82,6 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
     // Revalidate both newest owners before any composed historical deletion.
     prepareArtFeatureRetirement(directory,{sourceRoot});
     retireRound3();
-    for (const target of targets) rmSync(target); retireRound2(); retireBackground();
+    for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();
   };
 }

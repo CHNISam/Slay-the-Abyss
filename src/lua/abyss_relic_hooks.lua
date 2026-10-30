@@ -5,7 +5,7 @@ local A=require('abyss_actor')
 local E=require('abyss_events')
 local S=require('abyss_sts_random')
 local M={}
-local aliases={SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',['Old Coin']='old_coin',
+local aliases={FossilizedHelix='fossilized_helix',Pantograph='pantograph',SacredBark='sacred_bark',['White Beast Statue']='white_beast_statue',['Old Coin']='old_coin',
  ['Frozen Egg 2']='frozen_egg',['Coffee Dripper']='coffee_dripper',['Fusion Hammer']='fusion_hammer',
  NeowsBlessing='neows_lament',['Darkstone Periapt']='darkstone_periapt',Omamori='omamori',CeramicFish='ceramic_fish',['Potion Belt']='potion_belt',
  MealTicket='meal_ticket',MawBank='maw_bank',['Blood Vial']='blood_vial',
@@ -18,7 +18,9 @@ local aliases={SacredBark='sacred_bark',['White Beast Statue']='white_beast_stat
  ['Tiny Chest']='tiny_chest',['Juzu Bracelet']='juzu_bracelet',['Dream Catcher']='dream_catcher',
  WarpedTongs='warped_tongs',['Spirit Poop']='spirit_poop',Circlet='circlet',TungstenRod='tungsten_rod',
  ['Red Mask']='red_mask',['Toxic Egg 2']='toxic_egg',['Molten Egg 2']='molten_egg',['Snake Skull']='snake_skull',DataDisk='data_disk',Damaru='damaru',['Mark of the Bloom']='mark_of_bloom',['Lizard Tail']='lizard_tail'}
-function M.localId(id)return aliases[id] or id end
+function M.localId(id)
+ return aliases[id] or require('abyss_shop_relics').localId(require('abyss_boss_relics').localId(require('abyss_rare_relics').localId(require('abyss_uncommon_relics').localId(id))))
+end
 function M.owns(owner,id)
  for _,held in ipairs(owner.relics or {})do if M.localId(held)==id then return true end end
  return false
@@ -67,6 +69,17 @@ local function equipmentUpgrade(run,id,api)
 end
 function M.onEquip(run,id,upgradeApi)
  id=M.localId(id)
+ require('abyss_uncommon_relics').onEquip(run,id)
+ local bottled=(id=='bottled_flame' or id=='bottled_lightning' or id=='bottled_tornado') and require('abyss_uncommon_relics').bottleCandidates(run,id)
+ if bottled and #bottled>0 then
+  if run.pendingBottledRelic then return false,'bottled_relic_pending' end
+  run.pendingBottledRelic={id=id,uids=bottled}
+ end
+ require('abyss_rare_relics').onEquip(run,id)
+ local ok,why=require('abyss_boss_relics').onEquip(run,id)
+ if not ok then return false,why end
+ ok,why=require('abyss_shop_relics').onEquip(run,id)
+ if ok==false then return false,why end
  if id=='lizard_tail' then require('abyss_lizard_tail').onObtain(run)
  elseif id=='neows_lament' then counters(run).neows_lament=3
  elseif id=='omamori' then counters(run).omamori=2
@@ -98,6 +111,7 @@ function M.onEquip(run,id,upgradeApi)
    for _,reward in ipairs(event.rewards or {})do if not reward.claimed then M.previewCardReward(run,reward)end end
   end
  end
+ return true
 end
 function M.obtainCirclet(run)
  local c=counters(run)
@@ -113,9 +127,12 @@ function M.scoreAdjustment(run)return M.owns(run,'spirit_poop') and -1 or 0 end
 -- atTurnStartPostDraw dispatches before the ordinary draw has executed: append
 -- its action behind DrawCardAction, rather than inspecting the old hand now.
 function M.enqueuePostDraw(state)
- if not M.owns(state,'warped_tongs')then return end
- state.cardActions=state.cardActions or {}
- state.cardActions[#state.cardActions+1]={effect={op='relicUpgradeRandomHand'},source=state.player}
+ for _,held in ipairs(state.relics or {})do
+  require('abyss_rare_relics').postDraw(state,held)
+  if M.localId(held)=='warped_tongs'then
+   require('abyss_card_actions').enqueueReaction(state,{op='relicUpgradeRandomHand'},false)
+  end
+ end
 end
 function M.upgradeRandomHand(combat,state)
  local eligible={}
@@ -212,6 +229,7 @@ function M.onObtainCard(run,card,definition,permanentApi)
  return true
 end
 function M.onEnterRoom(run,kind,phase)
+ require('abyss_uncommon_relics').onEnterRoom(run,kind,phase)
  -- onEnterRoom runs before justEnteredRoom; preserve those distinct phases.
  if phase~='entered' then
   for _,id in ipairs(run.relics or {})do
@@ -234,9 +252,11 @@ function M.bindBattle(state,owned,persistentCounters)
  state.relicCounters={};for k,v in pairs(persistentCounters or {})do state.relicCounters[k]=v end
  require('abyss_lizard_tail').bind(state)
  state.relicCombat={attackPlayed=false}
+ require('abyss_rare_relics').bindBattle(state)
 end
 function M.preBattle(state,context)
  context=context or {}
+ if M.owns(state,'philosophers_stone')then require('abyss_boss_relics').battleStart(state,'philosophers_stone')end
  -- NeowsLament.atBattleStart directly sets current health, before queued
  -- opening actions; this is neither damage nor an HP-loss/death callback.
  if M.owns(state,'neows_lament')then
@@ -287,6 +307,10 @@ function M.wasHpLost(state,actor,amount)
  for _,enemy in ipairs(state.enemies or {})do if A.isPresent(enemy)then inCombat=true;break end end
  local c=state.relicCombat
  if not inCombat or not c then return end
+ require('abyss_boss_relics').wasHpLost(state,actor,amount)
+ for _,effect in ipairs(require('abyss_uncommon_relics').wasHpLost(state,actor,amount))do
+  require('abyss_card_actions').enqueueReaction(state,effect,true)
+ end
  if M.owns(state,'centennial_puzzle') and not c.centennialUsed then
   c.centennialUsed=true
   -- wasHPLost queues a TOP DrawCardAction; it must not draw while the HP
@@ -321,7 +345,18 @@ end
 -- existing combat continuation owns execution, threshold removal and stance.
 function M.prepareTurnStart(state)
  local actions={}
+ require('abyss_boss_relics').atTurnStart(state)
  for _,id in ipairs(state.relics or {})do
+  require('abyss_rare_relics').atTurnStart(state,id,function(_,effect,top)
+   local action={kind='effect',effect=effect}
+   if top then table.insert(actions,1,action)else actions[#actions+1]=action end
+  end)
+  for _,effect in ipairs(require('abyss_uncommon_relics').atTurnStart(state,id))do actions[#actions+1]={kind='effect',effect=effect}end
+  local topIndex=1
+  for _,effect in ipairs(require('abyss_shop_relics').turnStartActions(state,id))do
+   local action={kind='effect',effect=effect}
+   if effect.top then table.insert(actions,topIndex,action);topIndex=topIndex+1 else actions[#actions+1]=action end
+  end
   if M.localId(id)=='damaru' then
    local effect=require('abyss_mantra').prepareGain(state,1)
    effect.nullSource=true
@@ -360,10 +395,20 @@ function M.afterCard(state)
 end
 function M.battleStart(state,id)
  id=M.localId(id)
- if id=='data_disk' then A.applyPower(state,state.player,'focus',1,state.player)
+ if id=='fossilized_helix' then A.applyPower(state,state.player,'buffer',1,state.player)
+ elseif id=='pantograph' then
+  local amount=require('abyss_potion_health').modifyHealing(25,state.relics,true)
+  if state.originalV4 then require('abyss_original_v4_health').heal(state,state.player,amount,nil,id)
+  else
+   local before=state.player.hp;state.player.hp=math.min(state.player.maxHp,before+amount)
+   E.emit(state,'heal',{target=state.player.id,amount=state.player.hp-before,relic=id})
+   M.hpChanged(state,state.player,before)
+  end
+ elseif id=='data_disk' then A.applyPower(state,state.player,'focus',1,state.player)
  elseif id=='blood_vial' then
-  if state.originalV4 then require('abyss_original_v4_health').heal(state,state.player,2,nil,id);return end
-  local before=state.player.hp;state.player.hp=math.min(state.player.maxHp,before+(require('abyss_potion_health').blocked(state.relics)and 0 or 2))
+  local amount=require('abyss_potion_health').modifyHealing(2,state.relics,true)
+  if state.originalV4 then require('abyss_original_v4_health').heal(state,state.player,amount,nil,id);return end
+  local before=state.player.hp;state.player.hp=math.min(state.player.maxHp,before+amount)
   E.emit(state,'heal',{target=state.player.id,amount=state.player.hp-before,relic=id})
   M.hpChanged(state,state.player,before)
  elseif id=='red_mask'then
@@ -382,6 +427,8 @@ function M.battleStart(state,id)
    state.relicCombat.redSkullActive=true;A.addStatus(state.player,'strength',3)
    E.emit(state,'status',{source=state.player.id,target=state.player.id,status='strength',amount=3})
   end
+ elseif id=='philosophers_stone' or id=='mark_of_pain' then require('abyss_boss_relics').battleStart(state,id)
+ elseif id=='thread_and_needle' or id=='girya' or id=='du_vu_doll' then require('abyss_rare_relics').battleStart(state,id,true)
  else error('unsupported battle hook '..tostring(id))end
 end
 function M.endTurnBlock(state)
@@ -391,6 +438,7 @@ function M.endTurnBlock(state)
  if M.owns(state,'orichalcum') and state.player.block==0 then return 6 end
 end
 function M.onPlayerEndTurn(state)
+ require('abyss_rare_relics').onPlayerEndTurn(state)
  local amount=M.endTurnBlock(state)
  if amount then A.block(state,state.player,amount,true)end
 end

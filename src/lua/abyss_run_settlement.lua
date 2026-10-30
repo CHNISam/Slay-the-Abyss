@@ -16,6 +16,7 @@ function M.install(Run, shared)
     local find,amount=shared.find,shared.amount
     local endingQualified,endingRoom=shared.endingQualified,shared.endingRoom
     local function combatEndHealing(run)
+        require('abyss_uncommon_relics').battleEnd(run)
         for _,id in ipairs(run.relics)do
             local relic=find(run.data.relics.relics,id)
             if relic and relic.trigger=='combat_end'then
@@ -120,6 +121,7 @@ function M.install(Run, shared)
         if relicReward then run.rewards.relics=relicReward end
         if emerald then run.rewards.emeraldKey=emerald end
         RelicHooks.previewCardReward(run,run.rewards,true)
+        require('abyss_relic_card_rewards').prepareExtra(run)
         if stolen > 0 then
             run.rewards.stolenGold = {type="STOLEN_GOLD", amount=stolen, claimed=false}
             run.rewards.cardResolved, run.rewards.manualContinue = false, true
