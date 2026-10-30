@@ -3,25 +3,28 @@ local Theme=require('abyss_theme')
 local Select=require('abyss_character_select')
 local number=require('abyss_numbers').integer
 local M={}
-local deckFilters={{id='all',control='All'},{id='attack',control='Attack'},
-    {id='skill',control='Skill'},{id='power',control='Power'},
-    {id='status',control='Status'},{id='curse',control='Curse'}}
-local function renderStarterDeck(details,info,filter)
-    local cards,count={},0
-    for _,card in ipairs(info.deck)do
-        if filter=='all' or card.type==filter then
-            cards[#cards+1]=card
-            count=count+card.count
-        end
-    end
-    details:GetChild('deckTitle').text=filter=='all' and '初始牌组 · '..number(info.deckSize)..' 张'
-        or '初始牌组 · '..number(count)..'/'..number(info.deckSize)..' 张'
-    for i=1,6 do
+-- 选角只做一眼扫读（对标 STS 选角页）：牌组按 攻击→技能→能力→其它 排好直接列出，不提供筛选。
+local typeOrder={attack=1,skill=2,power=3,status=4,curse=5}
+local function renderStarterDeck(details,info)
+    local cards={}
+    for i,card in ipairs(info.deck)do cards[i]=card end
+    table.sort(cards,function(a,b)
+        local x,y=typeOrder[a.type] or 9,typeOrder[b.type] or 9
+        if x~=y then return x<y end
+        if a.count~=b.count then return a.count>b.count end
+        return a.id<b.id
+    end)
+    details:GetChild('deckTitle').text='初始牌组 · '..number(info.deckSize)..' 张'
+    local slots=6
+    for i=1,slots do
         local card=cards[i]
-        details:GetChild('card'..i).text=card and card.name..' × '..number(card.count) or ''
-    end
-    for _,entry in ipairs(deckFilters)do
-        details:GetChild('deckFilter'..entry.control):GetChild('selected'):SetVisible(entry.id==filter)
+        local text=card and card.name..'  × '..number(card.count) or ''
+        -- 超出槽位时最后一格汇总剩余，绝不静默丢牌。
+        if i==slots and #cards>slots then
+            local rest=0;for k=slots,#cards do rest=rest+cards[k].count end
+            text='其余 '..number(#cards-slots+1)..' 种 · '..number(rest)..' 张'
+        end
+        details:GetChild('card'..i).text=text
     end
 end
 local function selected(box,value)
@@ -73,10 +76,13 @@ function M.render(panel,state,platform)
     confirm.interactable,confirm.raycastTarget=state:canConfirm(),state:canConfirm()
     if not info then return end
     details:GetChild('name').text=info.name
-    details:GetChild('stats').text='初始生命 '..number(info.maxHp)..' / '..number(info.maxHp)..'    金币 '..number(info.gold)
-    local relics={};for _,r in ipairs(info.relics)do relics[#relics+1]=r.name end
-    details:GetChild('relic').text='初始遗物：'..table.concat(relics,'、')
-    renderStarterDeck(details,info,state.deckFilter or 'all')
+    details:GetChild('stats').text='生命  '..number(info.maxHp)..' / '..number(info.maxHp)
+    details:GetChild('gold').text='金币  '..number(info.gold)
+    local relics,texts={},{}
+    for _,r in ipairs(info.relics)do relics[#relics+1]=r.name;if r.text and r.text~='' then texts[#texts+1]=r.text end end
+    details:GetChild('relic').text=#relics>0 and table.concat(relics,'、') or '无'
+    details:GetChild('relicText').text=table.concat(texts,' ')
+    renderStarterDeck(details,info)
     local large=largeSlot(state.character,state.element)
     local portraits=details:GetChild('portraits')
     local key=state.character=='traveler' and ('traveler_'..(state.element or 'ironclad')) or state.character

@@ -25,8 +25,9 @@ test('portrait builder adds dedicated thumbnail, selection and battle hosts with
  const stage=layout.controls[0],panel=stage.children.find(c=>c.name==='characterPanel');
  const traveler=panel.children.find(c=>c.name==='traveler'),host=traveler.children.find(c=>c.name==='officialAvatar');
  assert(host);assert.equal(host.kind,'container');assert.equal(host.visible,false);assert.deepEqual(host.children,[]);
- assert.deepEqual(host.size,[96,96]);assert.deepEqual(host.scale,[1/3,1/3]);
+ assert.deepEqual(host.size,[96,96]);
  const bust=traveler.children.find(c=>c.name==='hit').children[0].children.find(c=>c.name==='bust');
+ assert.deepEqual(host.scale,[bust.size[0]/96,bust.size[0]/96]);assert.ok(bust.size[0]>=64,'avatar fills a real card, not a 32px chip');
  assert.deepEqual(host.position,bust.position);assert.equal(traveler.children.filter(c=>c.name==='officialAvatar').length,1);
  const hero=stage.children.find(c=>c.name==='battlePanel').children.find(c=>c.name==='hero');
  const figure=hero.children.find(c=>c.name==='officialFigure');assert(figure);assert.equal(figure.visible,false);
