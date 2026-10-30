@@ -5,7 +5,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {luaString} from '../scripts/build-lua-data.mjs';
 import {monsterEnabledLua} from './helpers/monster-enabled-ui.mjs';
-const runLua=monsterEnabledLua();
+const runLua=monsterEnabledLua({fullCatalog:true});
 const fixture='tests/lua/support/native_monster_multi_instance.lua';
 for (const name of ['six-duplicate-geometry','six-mixed-exact-art','normal-middle-death','fast-contact-rgb-death','failed-dynamic-art-isolation','real-summons-no-render-rng','source-summon-insertion']) {
  test(`dynamic original monster contract: ${name}`,()=>{
