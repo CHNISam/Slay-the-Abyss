@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {historicalTest} from './helpers/historical-baseline-inputs.mjs';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -6,7 +7,7 @@ import { originalWorkflow } from './helpers/ci-runtime-workflow.mjs';
 import { beforePlatformWorkflow } from './helpers/platform-load-wiring.mjs';
 
 const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
-const job = name => workflow.match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:|(?![\\s\\S]))`, 'm'))[1];
+const job = (name,source=workflow) => source.match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:|(?![\\s\\S]))`, 'm'))[1];
 const digest = text => createHash('sha256').update(text).digest('hex');
 
 test('only the lightweight impact planner and two required summaries use slim', () => {
@@ -33,12 +34,13 @@ test('only the lightweight impact planner and two required summaries use slim', 
   assert.match(job('rules'), /\|\| 'windows-2025'/);
 });
 
-test('reviewed summary runner inverse retains the original complete workflow contract', () => {
+historicalTest('reviewed summary runner inverse retains the original complete workflow contract', () => {
+  const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
   const expected = 'd44ae4e29ef74a972f329ecdc8f8131c464d30196300a600387479945660d35d';
   assert.equal(digest(originalWorkflow(workflow)), expected);
   assert.equal(digest(originalWorkflow(workflow.replaceAll('\n', '\r\n').replaceAll('\r\n', '\n'))), expected);
   for (const name of ['impact', 'check', 'engineering-posix']) {
-    const body = job(name);
+    const body = job(name,workflow);
     const timeout = name === 'impact' ? 3 : 2;
     for (const changed of [
       body.replace(`    timeout-minutes: ${timeout}`, `    timeout-minutes: ${timeout + 1}`),
@@ -57,14 +59,15 @@ test('reviewed summary runner inverse retains the original complete workflow con
   }
 });
 
-test('direct platform projection and layered replay share the same exact runner migration', () => {
+historicalTest('direct platform projection and layered replay share the same exact runner migration', () => {
+  const workflow=readFileSync('.github/workflows/quality.yml','utf8').replaceAll('\r\n','\n');
   const historical = workflow.replaceAll('    runs-on: ubuntu-slim\n', '    runs-on: ubuntu-24.04\n');
   const expected = 'c1759c590177f4a2389fa04e700167d0948eae41b9f12e67db4b6bf48f5871ae';
   assert.equal(digest(beforePlatformWorkflow(historical)), expected, 'historical all-VM input remains accepted');
   assert.equal(beforePlatformWorkflow(workflow), beforePlatformWorkflow(historical));
   assert.equal(digest(originalWorkflow(historical)), digest(originalWorkflow(workflow)));
   for (const name of ['impact', 'check', 'engineering-posix']) {
-    const body = job(name);
+    const body = job(name,workflow);
     for (const changed of [
       body.replace('    runs-on: ubuntu-slim\n', ''),
       body.replace('    runs-on: ubuntu-slim', '    runs-on: ubuntu-24.04'),
