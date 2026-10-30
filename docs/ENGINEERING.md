@@ -32,7 +32,7 @@ Node UI 专项门禁覆盖入口与全部 abyss_node_ui_* 模块：每模块≤1
 | 副本候选 | `node scripts/build-native-candidate.mjs <base.gil> [build/candidates]` | 重新生成数据/UI、当前源码及`generatedRuntimeModules`声明的生成运行时模块完整检查、输入与最终GIL真实摘要 |
 | 启动取证 | 上一命令加 `--playtest`（仅客户端可用且允许占用输入时） | 实际MCP run/request、原始日志解码、本构建启动标记和ready；不等于完整游戏 |
 | UI实机验收 | `npm run verify:ui -- <候选目录/candidate.gil>` | 同一候选/启动/截图、当前批准稿版本、完整关键项及明确人审范围 |
-| 合并证据 | `npm run verify:delivery -- <PR> <独立审查.json>` | 当前head/base、测试merge parents、当前attempt全部必需作业；不自动合并 |
+| 合并证据 | `npm run verify:delivery -- <PR> <独立审查.json>`；纯说明文档 `--low-risk-docs` | 当前head/base、测试merge parents、当前attempt全部必需作业；不自动合并 |
 | 合入后复核 | `npm run verify:delivery -- <PR> <预审evidence.json> --merged` | 实际squash SHA、单父提交、源码树及该提交在目标分支的完整push Quality；不借PR绿灯 |
 
 需要 Python 3 和 Pillow 12.3.0，可用 `ABYSS_PYTHON` 指定已有解释器。工具缺失、下载/hash错误、解析失败、超时或空报告一律非零，不静默跳过。Luacheck安装只写仓库 `build/tools/`，不改全局工具链；来源与两个平台hash在 `config/lua-tools.json`。
@@ -62,6 +62,8 @@ CLI从候选旁收据和启动证据取得预期身份，重验原始日志与�
 ## CI与交付
 
 必需作业是 `check`、`presentation`、`engineering-posix`。日常来源运行GitHub-hosted，显式诊断入口见上文；Ubuntu作业实际跑Node文件别名回归。保持只读权限、超时、取消旧运行、7天产物保留；check产出当前event/runId/attempt/head/base/tested SHA收据。
+
+独立 Sub-agent 在功能切片稳定后、合并前聚焦状态边界、契约和 CI 盲区；与 CI 可并行，不重复完整检查。关键重构、游戏逻辑与跨模块集成深审，其余运行时/测试/配置/资产任务仍需独立评审，但可缩小范围。只有 README.md、CHANGELOG.md 或 docs/drafts|history|lore|research 下的 .md/.txt 非执行说明文件，且同一 PR 不超过20个新增/修改文件，可用 `npm run verify:delivery -- <PR> --low-risk-docs` 免独立 Sub-agent；删除、重命名及任何其他文件一律不豁免。该入口从 GitHub 分页读取完整 PR 文件清单，核对文件状态与 blob SHA、总数，绑定 head/base，合入后重新读取对比；失败退回正常独立评审，不新增 CI 作业或绕过原门禁。免审仅适用于 develop；GitHub Ruleset 目前不强制另一个账号审批，独立证据仍由协调 Agent 核验。
 
 正常交付检查读取所有分页及当前attempt作业，拒绝必需回归作业的queued/failed/cancelled/skipped/missing和旧head/base组合；Full路径未选中的fast作业按下述版本合同验证。PR合并测试SHA允许不同于head，但实际parents必须是当前base/head。独立审查记录提供 `reviewedHeadSha`、`reviewedBaseSha`、可追溯 `reviewId`、`conclusion: pass`、`unresolved: []`；字段通过不自证审查独立，须检查真实会话/审查来源。记录可放PR附属产物，避免提交记录包含自身SHA的循环。合并前再查head/base，用现成expected-head机制，并复查合并结果。唯一基础设施应急例外按[CI流程](CI.md)取得Owner对精确PR/HEAD的一次聊天批准后执行；不改本验证器、不伪造绿灯，明确记录缺失检查与独立证据。
 

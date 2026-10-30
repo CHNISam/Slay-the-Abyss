@@ -16,6 +16,16 @@ export const currentFullQualityJobs=[...fullQualityJobs,'impact','fast'];
 const validSha=value=>/^[a-f0-9]{40}$/.test(value??'');
 const positiveId=value=>Number.isSafeInteger(value)&&value>0;
 const parentShas=commit=>Array.isArray(commit?.parents)?commit.parents.map(parent=>parent?.sha):undefined;
+// Deliberately narrow: only non-executable narrative documents qualify.
+const lowRiskDocPath=/^(?:README\.md|CHANGELOG\.md|docs\/(?:drafts|history|lore|research)\/.+\.(?:md|txt))$/;
+export function isLowRiskDocumentationChange(files,count) {
+  return Number.isSafeInteger(count)&&count>0&&count<=20&&Array.isArray(files)&&files.length===count&&
+    new Set(files.map(file=>file?.filename)).size===count&&files.every(file=>
+      file&&typeof file.filename==='string'&&lowRiskDocPath.test(file.filename)&&
+      !/^(?:AGENTS(?:\.override)?|CLAUDE(?:\.local)?|SKILL)\.md$/i.test(file.filename.split('/').at(-1))&&
+      !file.filename.includes('\\')&&!file.filename.split('/').some(segment=>segment==='.'||segment==='..')&&
+      ['added','modified'].includes(file.status)&&validSha(file.sha));
+}
 function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
   // Collect filter=all, not one attempt: reruns preserve GITHUB_SHA/GITHUB_REF
   // and only reexecute selected jobs. Never search for the last *successful*
@@ -81,7 +91,12 @@ export function verifyDelivery(e) {
   if(!Array.isArray(e.run?.pull_requests)||!e.run.pull_requests.some(pr=>pr?.number===e.prNumber))errors.push('Quality run does not belong to this PR');
   errors.push(...runErrors(e.run,{head:e.head,event:e.event,runId:e.runId,attempt:e.attempt,repo:e.repo}),...qualityErrors(e.jobs,{attempt:e.attempt,runId:e.runId,head:e.head,schemaVersion:e.schemaVersion}));
   errors.push(...runErrors(e.currentRun,{head:e.head,event:e.event,runId:e.runId,attempt:e.attempt,repo:e.repo}));
-  if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base||!e.review?.reviewId||e.review?.conclusion!=='pass'||!Array.isArray(e.review?.unresolved)||e.review.unresolved.length)errors.push('Review is missing, stale, or has unresolved findings');
+  if(e.review?.disposition==='low-risk-docs') {
+    if(e.schemaVersion!==deliverySchemaVersion||e.baseRef!=='develop'||e.review.reviewedHeadSha!==e.head||
+      e.review.reviewedBaseSha!==e.base||!isLowRiskDocumentationChange(e.changedFiles,e.changedFileCount))
+      errors.push('Low-risk documentation waiver is stale, unverified or out of scope');
+  } else if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base||!e.review?.reviewId||e.review?.conclusion!=='pass'||!Array.isArray(e.review?.unresolved)||e.review.unresolved.length)
+    errors.push('Review is missing, stale, or has unresolved findings');
   return errors;
 }
 export function verifyMergedDelivery(e) {
@@ -89,6 +104,9 @@ export function verifyMergedDelivery(e) {
   const preflight=e.preflight??{},errors=verifyDelivery(preflight).map(error=>`Preflight: ${error}`);
   if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
   if(e.repo!==preflight.repo)errors.push('Merged evidence repository differs from preflight');
+  if(preflight.review?.disposition==='low-risk-docs'&&
+    (e.changedFileCount!==preflight.changedFileCount||JSON.stringify(e.changedFiles)!==JSON.stringify(preflight.changedFiles)))
+    errors.push('Post-merge GitHub files differ from the verified low-risk waiver');
   if(e.pr?.number!==preflight.prNumber||!e.pr?.merged||e.pr?.state!=='closed')errors.push('Expected the verified PR to be merged');
   if(e.pr?.head?.sha!==preflight.head||e.pr?.base?.ref!==preflight.baseRef)errors.push('Merged PR head/target differs from preflight');
   if(!validSha(e.commit?.sha)||e.commit?.sha!==e.pr?.merge_commit_sha)errors.push('Actual merged commit does not match merge_commit_sha');
@@ -113,6 +131,16 @@ function pages(query,endpoint,key) {
   const result=JSON.parse(query('api','--paginate','--slurp',endpoint));
   if(!Array.isArray(result)||result.some(page=>!Array.isArray(page[key])))throw new Error(`Malformed paginated ${key} response`);
   return result.flatMap(page=>page[key]);
+}
+function lowRiskFiles(query,repo,number,expectedCount) {
+  const response=JSON.parse(query('api','--paginate','--slurp',`repos/${repo}/pulls/${number}/files?per_page=100`));
+  if(!Array.isArray(response)||!response.length||response.some(page=>!Array.isArray(page)))
+    throw new Error('Low-risk waiver cannot read complete PR file pages');
+  const files=response.flatMap(page=>page.map(file=>({filename:file?.filename,status:file?.status,sha:file?.sha})))
+    .sort((a,b)=>a.filename<b.filename?-1:a.filename>b.filename?1:0);
+  if(!isLowRiskDocumentationChange(files,expectedCount))
+    throw new Error('Low-risk waiver denied: PR files are not exclusively eligible documentation');
+  return files;
 }
 export function checkoutReceipt(repo,run,jobs,dir,query=gh,schemaVersion=deliverySchemaVersion) {
   const errors=qualityErrors(jobs,{attempt:run.run_attempt,runId:run.id,head:run.head_sha,schemaVersion});
@@ -152,6 +180,11 @@ export function collectPrDelivery(repo,number,review,query=gh,loadCheckout=(run,
   // the actual target advances. Read the independent branch ref, not that pair.
   const targetBeforeSha=targetHead(query,repo,pr.base.ref);
   if(targetBeforeSha!==pr.base.sha)throw new Error('PR base is stale: actual target branch differs before collection');
+  const waived=review?.disposition==='low-risk-docs';
+  if(waived&&pr.base.ref!=='develop')throw new Error('Low-risk waiver is only permitted for develop');
+  const changedFileCount=waived?pr.changed_files:undefined;
+  const changedFiles=waived?lowRiskFiles(query,repo,number,changedFileCount):undefined;
+  if(waived)review={disposition:'low-risk-docs',reviewedHeadSha:pr.head.sha,reviewedBaseSha:pr.base.sha};
   const identity={event:'pull_request',head:pr.head.sha,number};
   const run=latestQualityRun(query,repo,identity);
   if(!run||run.status!=='completed'||run.conclusion!=='success')throw new Error('Current Quality run is missing or not successful');
@@ -161,7 +194,8 @@ export function collectPrDelivery(repo,number,review,query=gh,loadCheckout=(run,
   const commit=JSON.parse(query('api',`repos/${repo}/commits/${checkout.tested}`));
   const evidence={schemaVersion:deliverySchemaVersion,repo,baseRef:pr.base.ref,sourceTree:commit.commit.tree.sha,testedCommit:commit,
     head:pr.head.sha,base:pr.base.sha,tested:checkout.tested,parents:commit.parents.map(p=>p.sha),
-    runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:number,run,jobs,checkout,checkoutArtifact,review,targetBeforeSha};
+    runId:run.id,attempt:run.run_attempt,event:run.event,prNumber:number,run,jobs,checkout,checkoutArtifact,review,targetBeforeSha,
+    ...(waived?{changedFileCount,changedFiles}:{})};
   const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   evidence.currentRun=latestQualityRun(query,repo,identity);
   evidence.targetAfterSha=targetHead(query,repo,pr.base.ref);
@@ -180,12 +214,16 @@ export function collectMergedDelivery(repo,number,preflight,query=gh,loadCheckou
   const receipt=run?.status==='completed'&&run.conclusion==='success'?loadCheckout(run,jobs):{};
   const current=JSON.parse(query('api',`repos/${repo}/pulls/${number}`));
   const currentRun=latestQualityRun(query,repo,identity);
-  return {schemaVersion:deliverySchemaVersion,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun};
+  const waived=preflight.review?.disposition==='low-risk-docs';
+  const changedFileCount=waived?pr.changed_files:undefined;
+  const changedFiles=waived?lowRiskFiles(query,repo,number,changedFileCount):undefined;
+  return {schemaVersion:deliverySchemaVersion,repo,preflight,pr,commit,run,jobs,...receipt,current,currentRun,
+    ...(waived?{changedFileCount,changedFiles}:{})};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const [number,evidenceFile,mode,...extra]=process.argv.slice(2);
-    if(!/^[1-9]\d*$/.test(number??'')||!evidenceFile||mode!==undefined&&mode!=='--merged'||extra.length)throw new Error('Usage: npm run verify:delivery -- <PR-number> <independent-review.json> OR <PR-number> <preflight-evidence.json> --merged');
+    if(!/^[1-9]\d*$/.test(number??'')||!evidenceFile||mode!==undefined&&mode!=='--merged'||extra.length)throw new Error('Usage: npm run verify:delivery -- <PR-number> <independent-review.json>|--low-risk-docs OR <PR-number> <preflight-evidence.json> --merged');
     const repo=gh('repo','view','--json','nameWithOwner','--jq','.nameWithOwner').trim();
     const dir=join('build/delivery',randomUUID());mkdirSync(dir,{recursive:true});
     if(mode==='--merged') {
@@ -198,13 +236,13 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
       if(result.errors.length)throw new Error(result.errors.join('\n'));
       process.exitCode=0;
     } else {
-      const {evidence,current}=collectPrDelivery(repo,Number(number),JSON.parse(readFileSync(evidenceFile,'utf8')),gh,
+      const {evidence,current}=collectPrDelivery(repo,Number(number),evidenceFile==='--low-risk-docs'?{disposition:'low-risk-docs'}:JSON.parse(readFileSync(evidenceFile,'utf8')),gh,
         (run,jobs)=>checkoutReceipt(repo,run,jobs,dir));
       const errors=verifyDelivery(evidence);
       if(current.state!=='open'||current.merged||current.head.sha!==evidence.head||current.base.sha!==evidence.base||current.base.ref!==evidence.baseRef||current.merge_commit_sha!==evidence.tested)errors.push('PR head/base/merge combination changed during verification');
       writeFileSync(join(dir,'evidence.json'),JSON.stringify({...evidence,state:errors.length?'pr_pending':'pr_passed',errors},null,2)+'\n');
       if(errors.length)throw new Error(errors.join('\n'));
-      console.log(`Delivery state: pr_passed; evidence ${dir}; merge with --match-head-commit ${evidence.head}. Then run verify:delivery -- ${number} ${join(dir,'evidence.json')} --merged. Review provenance must still be independently inspected.`);
+      console.log(`Delivery state: pr_passed; evidence ${dir}; merge with --match-head-commit ${evidence.head}. Then run verify:delivery -- ${number} ${join(dir,'evidence.json')} --merged. External reviewer provenance must still be inspected when required.`);
     }
   }catch(error){console.error(error.message);process.exitCode=1;}
 }
