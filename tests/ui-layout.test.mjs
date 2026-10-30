@@ -242,3 +242,21 @@ test('five potion buttons follow shared tokens and clear the HUD, notice, hand a
     }
   }
 });
+
+test('TASK-38.2 discard pile touch target keeps a safe gap from the irreversible end-turn button', async () => {
+  const { gameLayout } = await import('../scripts/game-ui-layout.mjs');
+  const { nativeTheme: theme } = await import('../scripts/native-ui-theme.mjs');
+  const battle = gameLayout().controls.find(c => c.name === 'battlePanel');
+  const find = (c, n) => c.name === n ? c : (c.children ?? []).map(k => find(k, n)).find(Boolean);
+  const turn = find(battle, 'endTurn'), icon = find(battle, 'discardIcon');
+  const hitArea = (icon.children ?? []).find(k => k.kind === 'cursorArea' || k.kind === 'presetButton') ?? icon;
+  const at = [icon.position[0] + (hitArea === icon ? 0 : hitArea.position[0]), icon.position[1] + (hitArea === icon ? 0 : hitArea.position[1])];
+  const pileTop = at[1] + hitArea.size[1] / 2, turnBottom = turn.position[1] - turn.size[1] / 2;
+  assert.ok(turnBottom - pileTop >= theme.layout.endTurn.touchGap - 1e-9, `gap ${turnBottom - pileTop}`);
+  assert.ok(theme.layout.endTurn.touchGap >= 16);
+  // Owner-approved end-turn look is unchanged: same size and hex construction.
+  assert.deepEqual(turn.size, [280 / 1.5, 76 / 1.5]);
+  assert.deepEqual(turn.position, [(1920 - 56 - 280 / 2) / 1.5 - 640, 360 - (850 + 76 / 2) / 1.5]);
+  // Discard stays fully tappable on its icon and count label.
+  assert.ok(pileTop >= icon.position[1] + icon.size[1] / 2);
+});

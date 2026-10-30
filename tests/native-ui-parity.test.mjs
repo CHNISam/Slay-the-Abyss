@@ -21,7 +21,7 @@ test('six native instruction tiles fit the approved modal and do not promise unb
   const exit = gameLayout().controls.find(c=>c.name==='exitPanel');
   const help = exit.children.find(c=>c.name==='help'), title = exit.children.find(c=>c.name==='title');
   assert(Math.abs(help.position[0]-title.position[0]) >= (help.size[0]+title.size[0])/2);
-  assert.deepEqual(help.position,theme.layout.nativeGuide.entry.slice(0,2));
+  assert.deepEqual(help.position,theme.layout.exitMenu.help.slice(0,2)); // TASK-4.11 header slot, off the warning body
 });
 
 test('real host isolates guide input, returns controller focus, and retains map navigation after input switching', () => {
