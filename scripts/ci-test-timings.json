@@ -524,7 +524,7 @@
       "tests/common-relic-hooks.test.mjs": 2576,
       "tests/common-relic-turns.test.mjs": 1396,
       "tests/competition-character-admission.test.mjs": 12305,
-      "tests/competition-roster-config-composition.test.mjs": 330093,
+      "tests/competition-roster-config-composition.test.mjs": 173509,
       "tests/competition-roster-prepared-ui.test.mjs": 34472,
       "tests/competition-roster.test.mjs": 20455,
       "tests/competition-two-act.test.mjs": 15989,
@@ -2981,21 +2981,5 @@
     "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40980643080",
     "headSha": "ce62e753065666fd26c9d85587a8f3ae2a580689",
     "description": "1114 unique raw Lua fixture wall times from all eight original job logs, exactly equal to source inventory. Placement only; original lua safety weights and worker eligibility remain unchanged."
-  },
-  "jsCorrections": [
-    {
-      "platform": "linux",
-      "file": "tests/competition-roster-config-composition.test.mjs",
-      "previousMs": 22597,
-      "measuredMs": 330093,
-      "durationMs": 330092.967384,
-      "runId": 41005879261,
-      "runAttempt": 1,
-      "jobId": 123906138941,
-      "headSha": "85fedbc3f35f8ae406c26d68c75ad09a29764c97",
-      "testedMergeSha": "0c7b452a28ab4c1ca30cced219947e8ed7131d3f",
-      "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41005879261/job/123906138941",
-      "description": "Successful complete file timing from the POSIX shard before its later whole-job timeout. Corrects only this measured scheduling weight; job budgets, fixtures, deadlines and Lua safety weights are unchanged."
-    }
-  ]
+  }
 }

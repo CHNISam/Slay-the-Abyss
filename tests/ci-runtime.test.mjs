@@ -111,20 +111,14 @@ test('real executor preserves test failure, continues later files, reports timin
 });
 
 
-test('measured POSIX composition correction preserves every other scheduling weight', () => {
-  const correction = timings.jsCorrections;
-  assert.equal(correction.length, 1);
-  const entry = correction[0];
-  assert.equal(entry.platform, 'linux');
-  assert.equal(entry.file, 'tests/competition-roster-config-composition.test.mjs');
-  assert.equal(entry.runId, 41005879261);
-  assert.equal(entry.jobId, 123906138941);
-  assert.equal(entry.headSha, '85fedbc3f35f8ae406c26d68c75ad09a29764c97');
-  assert.equal(entry.previousMs, 22597);
-  assert.equal(entry.durationMs, 330092.967384);
-  assert.equal(entry.measuredMs, Math.ceil(entry.durationMs));
-  assert.equal(timings.js.linux[entry.file], entry.measuredMs);
-  const original = { ...timings.js.linux, [entry.file]: entry.previousMs };
-  assert.equal(createHash('sha256').update(JSON.stringify(original)).digest('hex'),
-    'f28bf8c1a33affa0af69732cdea899986887438b53f3ee426237c48bd899ada8', 'all other historical Linux weights remain exact');
+test('current timing records preserve all measured corrections without duplicate JSON keys',()=>{
+ const raw=readFileSync('scripts/ci-test-timings.json','utf8');
+ assert.equal((raw.match(/^  "jsCorrections":/gm)||[]).length,1,'one unambiguous correction inventory');
+ assert.equal(timings.jsCorrections.length,3);
+ for(const entry of timings.jsCorrections){
+  assert.equal(timings.js[entry.platform][entry.file],Math.ceil(entry.durationMs),'measured conservative weight: '+entry.file);
+  assert.ok(Number.isSafeInteger(entry.runId)&&Number.isSafeInteger(entry.jobId));
+  assert.match(entry.headSha,/^[a-f0-9]{40}$/);
+ }
+ assert.equal(createHash('sha256').update(JSON.stringify(timings.js.linux)).digest('hex'),'3fdcb1aa1e50352a164eb3ebde77f0a01ac4b0ad76b1302939021ae7d76d8755','current accepted Linux weights remain exact');
 });
