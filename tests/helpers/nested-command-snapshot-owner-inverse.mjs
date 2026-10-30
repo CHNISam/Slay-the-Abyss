@@ -1,3 +1,4 @@
+import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
 import {projectEventSnapshotSource} from './event-snapshot-composition.mjs';
 // Exact outer projection; existing historical composition witnesses stay frozen.
 import assert from 'node:assert/strict';
@@ -10,6 +11,7 @@ assert.equal(hash(bytes),'03e37d4a5dc922e2014fd77a456eac1c988521e4f422172494f28b
 export const nestedSnapshotOwnerProof=JSON.parse(bytes);
 assert.equal(nestedSnapshotOwnerProof.base,'ea13ede7bb4a8711d64eaf9a3ccbb3cd1fc61b8f');
 export function preNestedSnapshotOwnerSource(path,source){
+ source=preRound2CanPlaySource(path,source);
  source=projectEventSnapshotSource(path,source,'snapshot');
  source=projectEventSnapshotSource(path,source,'snapshot');
  if(typeof source!=='string')return source;

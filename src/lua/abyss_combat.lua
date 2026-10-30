@@ -652,16 +652,20 @@ function M.canPlay(state, uid, targetIndex)
     if not ok then return false,reason end
     ok,reason=playCardContent(state,card,targetIndex)
     if not ok then return false,reason end
-    ok,reason=playAdvancedMode(state,card)
-    if not ok then return false,reason end
+    if card.costMode or card.condition then
+        ok,reason=playAdvancedMode(state,card)
+        if not ok then return false,reason end
+    end
     ok,reason=playEnergy(state,card)
     if not ok then return false,reason end
     ok,reason=playEffectTarget(state,card,targetIndex)
     if not ok then return false,reason end
     ok,reason=playCardRequirements(state,instance,card,targetIndex)
     if not ok then return false,reason end
-    ok,reason=playHandRequirements(state,card)
-    if not ok then return false,reason end
+    if card.condition then
+        ok,reason=playHandRequirements(state,card)
+        if not ok then return false,reason end
+    end
     return true
 end
 
