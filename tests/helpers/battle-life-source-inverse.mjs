@@ -76,7 +76,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   for (const path of battleLifeAddedPaths) {
     const target = join(directory, path);
     if (!existsSync(target)) continue;
-    assert.equal(hash(normalize(preRelicCompletionSource(path,readFileSync(target, 'utf8')))), battleLifeSourceLayer.files[path].afterSha256,
+    assert.equal(hash(normalize(preRelicCompletionSource(path,preCombatVfxUpgradeSource(path,readFileSync(target, 'utf8'))))), battleLifeSourceLayer.files[path].afterSha256,
       'unreviewed battle-life added module destination: ' + path);
     targets.push(target);
   }
