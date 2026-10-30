@@ -60,11 +60,17 @@ test('potion candidate helpers cannot move branching outside the responsibility 
 test('every extracted card action helper is required and bounded with its nested functions',()=>{
   const path='src/lua/abyss_card_actions.lua';
   const names=['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific',
-    'upgradeAllHand','makeTemporaryCards','generateAttack','randomizeHandCost'];
-  const source=names.map(name=>`local function ${name}() return function() end end`).join('\n');
+    'upgradeAllHand','makeTemporaryCards','generateAttack','randomizeHandCost',
+    'upgradeHand','resolveCurlUp','obtainPotion','doubleStrength','spotWeakness','damageRandom',
+    'feedReward','feed','reaper','heal','applyFallback','block','M.apply',
+    ...['writhingRoll','writhingParasite','giantHeadSlow','timeEater','reptomancerSuicide',
+      'enemyAction','staticRetaliation','classPotion','silentFinal','discover','colorless','originalV4',
+      'relicUpgradeRandomHand','playTop','darklingAction','heartBeat','spireDeathRemove',
+      'awakenedAction','capturedSharpHide','dispose','effectBatch'].map(name=>'actionHandlers.'+name)];
+  const source=names.map(name=>`${name.includes('.')?'':'local '}function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){
-    diagnostics.push(row(path,i+1,7,`function '${name}'`,15));
+    diagnostics.push(row(path,i+1,source.split('\n')[i].indexOf('function')+1,`function '${name}'`,15));
     diagnostics.push(row(path,i+1,source.split('\n')[i].indexOf('function()')+1,'function',1));
   }
   const report=()=>reviewResponsibilityComplexity(diagnostics,{[path]:source});
@@ -140,6 +146,15 @@ test('Luacheck Unicode codepoint columns map to the byte AST on the same line', 
     assert.deepEqual(reviewResponsibilityComplexity(diagnostics,{[file]:source},roots).errors,[],label);
   }
 });
+test('shared combat catalog and nested helpers retain the responsibility budget', () => {
+  const file='src/lua/abyss_combat_catalog.lua';
+  const source='function M.prepare() return function() end end';
+  const diagnostics=[row(file,1,1,'main chunk',1),row(file,1,1,"function \'M.prepare\'",1),row(file,1,29,'function',16)];
+  assert.ok(reviewResponsibilityComplexity(diagnostics,{[file]:source},{}).errors.some(e=>e.message.includes('16 exceeds 15')));
+  diagnostics[2]=row(file,1,29,'function',15);
+  assert.deepEqual(reviewResponsibilityComplexity(diagnostics,{[file]:source},{}).errors,[]);
+});
+
 test('main chunk and a function at the first source position are distinct measurements', () => {
   const source='function M.apply() end';
   const diagnostics=[row(file,1,1,'main chunk',88),row(file,1,1,"function 'M.apply'",1)];

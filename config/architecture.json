@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_combat_catalog": "core",
     "abyss_duplicator_event": "core",
     "abyss_match_event": "core",
     "abyss_match_event_ui": "ui",

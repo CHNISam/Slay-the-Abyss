@@ -1,6 +1,7 @@
 // Exact outer projection for the reviewed canPlay refactor. Historical
 // snapshot-owner witnesses and their complete-source hashes stay immutable.
 import assert from 'node:assert/strict';
+import {preRound3CatalogSource} from './round3-catalog-source-inverse.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const normalize=s=>s.replaceAll('\r\n','\n');
@@ -12,6 +13,7 @@ assert.equal(round2CanPlayProof.schemaVersion,1);
 assert.equal(round2CanPlayProof.base,'a7b03825');
 assert.equal(round2CanPlayProof.path,'src/lua/abyss_combat.lua');
 export function preRound2CanPlaySource(path,source){
+ source=preRound3CatalogSource(path,source);
  if(path!==round2CanPlayProof.path||typeof source!=='string')return source;
  const normalized=normalize(source);
  // Unknown, partial and future edits must remain visible to inner guards.

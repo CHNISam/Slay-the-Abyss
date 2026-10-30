@@ -1,6 +1,5 @@
 -- Fungi Beast / A0 decisions and death power; TASK-15.8 and TASK-15.9 ledgers.
 local M = {}
-local Actors = require("abyss_actor")
 
 local function choose(ai, last, previous, roll)
     if roll < ai.biteCutoff then
@@ -17,10 +16,10 @@ local function select(enemy, id)
     error("unknown Fungi Beast intent: " .. tostring(id))
 end
 
-function M.initialize(state, enemy, random)
+function M.initialize(state, enemy, random, applyPower)
     enemy.fungiLast, enemy.fungiPrevious = nil, nil
     select(enemy, choose(enemy.ai, nil, nil, random(state, enemy.ai.rollRange) - 1))
-    Actors.applyPower(state, enemy, "spore_cloud", enemy.ai.sporeCloudStacks, enemy)
+    applyPower(state, enemy, "spore_cloud", enemy.ai.sporeCloudStacks, enemy)
 end
 
 function M.advance(state, enemy, random)

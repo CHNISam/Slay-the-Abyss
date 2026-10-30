@@ -1,7 +1,6 @@
 -- Red/Green Louse A0: actor-local Bite sampling and the shared two-move policy.
 -- Source rooms separate constructor/preBattle HP from AI; explicit fixtures may use LCG.
 local M = {}
-local Actors = require("abyss_actor")
 
 local function intent(enemy, id)
     for i, move in ipairs(enemy.intents) do
@@ -19,10 +18,10 @@ function M.prepare(state, enemy, random)
     move.effects[1].value = range.min + random(state, range.max - range.min + 1) - 1
 end
 
-function M.preBattle(state, enemy, random)
+function M.preBattle(state, enemy, random, applyPower)
     local range = enemy.ai.curlUpRange
     local amount = range.min + random(state, range.max - range.min + 1) - 1
-    Actors.applyPower(state, enemy, "curl_up", amount, enemy)
+    applyPower(state, enemy, "curl_up", amount, enemy)
 end
 
 local function choose(state, enemy, random)
