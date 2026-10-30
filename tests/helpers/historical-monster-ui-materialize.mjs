@@ -1,3 +1,4 @@
+import {preDeckDeliverySource,deckDeliveryPaths} from './deck-delivery-source-composition.mjs';
 import {deliverySourceProof,preLegacyMultiSource,preLegacyUiSupportSource} from './delivery-source-composition.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,rmSync,mkdirSync,cpSync,symlinkSync,existsSync,constants} from 'node:fs';
@@ -11,12 +12,12 @@ assert.equal(hash(bytes),'f536f06de7bea3052a7303db34ec37cc68b631704f337ae3efba2d
 const support=JSON.parse(bytes);
 assert.equal(support.baseCommit,multiMonsterSourceLayer.baseCommit);
 assert.deepEqual(Object.keys(support.files),['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua']);
-export const historicalMonsterSourcePaths=Object.freeze([...new Set([...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)])].sort());
+export const historicalMonsterSourcePaths=Object.freeze([...new Set([...deckDeliveryPaths,...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)])].sort());
 export function verifiedHistoricalMonsterSources(sourceRoot=process.cwd(),read=path=>readFileSync(join(sourceRoot,path),'utf8')){
  const projected=[];
  try{
   for(const path of historicalMonsterSourcePaths){
-   const live=normalized(read(path)),outer=deliverySourceProof.targets.legacyMulti.files[path];
+   const live=normalized(preDeckDeliverySource(path,read(path),'delivery',{readSource:read})),outer=deliverySourceProof.targets.legacyMulti.files[path];
    if(outer)assert.equal(hash(live),outer.afterSha256,'unreviewed current monster source: '+path);
    const prior=preLegacyMultiSource(path,live,{readSource:read}),entry=multiMonsterSourceLayer.files[path];
    if(entry){assert.equal(hash(prior),entry.afterSha256,'unreviewed current monster UI source: '+path);const before=preMultiMonsterArtSource(path,prior,{readSource:read});assert.equal(before,entry.beforeSource);projected.push([path,before]);}
