@@ -1,11 +1,11 @@
 ---
 id: TASK-4.13
 title: 让地图一眼识别当前位置已走路径和可选路线
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:30'
 labels:
   - playtest-20261030
   - p1

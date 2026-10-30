@@ -1,11 +1,11 @@
 ---
 id: TASK-38.2
 title: 消除结束回合与弃牌堆在手机上的误触风险
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-30 22:30'
 labels:
   - playtest-20261030
   - p0
