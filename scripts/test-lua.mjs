@@ -1,3 +1,4 @@
+import {historicalCardInputPrelude} from '../tests/helpers/historical-card-input.mjs';
 import { spawnSync } from 'node:child_process';
 import {runHistoricalPresentation,historicalPresentationFixtures} from '../tests/helpers/historical-presentation-runner.mjs';
 import {frozenBattleHandPrelude} from '../tests/helpers/battle-life-frozen-hand.mjs';
@@ -23,7 +24,7 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   // The upstream CLI's positional-script path loses Lua errors' exit status.
   // Its -e path explicitly exits nonzero when dofile raises, including syntax errors.
   const normalizedScript = script.replaceAll('\\', '/');
-  const frozenHand = frozenBattleHandPrelude(normalizedScript, {cwd});
+  const frozenHand = historicalCardInputPrelude(normalizedScript,{cwd}) + frozenBattleHandPrelude(normalizedScript, {cwd});
   const fixture = ['tests/lua/battle_ui.lua', 'tests/lua/battle_ui_slice_2.lua', 'tests/lua/battle_ui_slice_3.lua',
     'tests/lua/battle_ui_slice_4.lua', 'tests/lua/battle_ui_slice_5.lua',
     'tests/lua/battle_ui_slice_6.lua', 'tests/lua/battle_ui_slice_7.lua']

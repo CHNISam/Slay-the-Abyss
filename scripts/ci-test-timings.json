@@ -524,7 +524,7 @@
       "tests/common-relic-hooks.test.mjs": 2576,
       "tests/common-relic-turns.test.mjs": 1396,
       "tests/competition-character-admission.test.mjs": 12305,
-      "tests/competition-roster-config-composition.test.mjs": 173509,
+      "tests/competition-roster-config-composition.test.mjs": 330093,
       "tests/competition-roster-prepared-ui.test.mjs": 34472,
       "tests/competition-roster.test.mjs": 20455,
       "tests/competition-two-act.test.mjs": 15989,
