@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Codex'
 created_date: '2026-10-26 14:33'
-updated_date: '2026-10-30 01:33'
+updated_date: '2026-10-30 02:03'
 labels: []
 dependencies: []
 references:
@@ -97,4 +97,6 @@ PR259 合后 Quality 40567299031 的 card_help_release 与 looter_potion_ui 触�
 最终集成在隔离pr287-integration树同步develop d2e0baa3；唯一冲突为architecture两项新模块分类，保留run_potion_candidate与nest_event。13项syntax/responsibility检查、14类药水候选边界、架构215模块1240边、静态84历史诊断零新增/432职责度量通过。继续等待合流新HEAD完整CI，不关闭AC11。
 
 2026-10-28工程健康确定性切片：安全清理40个旧干净worktree、49条本地分支，全部独有候选与历史bundle已验证保存；292特有13文件保留。规则仅squash/linear/既有inventory，原Quality单片检查完整线性历史，Licenses原生concurrency。24项相关检查通过，未增全量CI/锁/超时。原隔离TASK79与PR302重号，退出本次交付并在恢复bundle保存，复用本任务记录治理；PR302按用户安排独立负责实际CI修复。独立dedup WIP和pr260只读商店成果保留，恢复清单见docs/evidence/engineering-health-20261028.json。合入提交和主线验证仍须实际证据。
+
+2026-10-30第二轮本地：三个Sol Medium切片与独立审查。canPlay86→14且九helper≤12；卡牌apply102→85且新helper≤5。GameUI/Feedback构造器942/689→815/510，所有新增展示helper≤15。60稳定帧固定菜单写840→0、舞台60→0；不作客户端帧率结论。首次PR359完整CI发现历史源码链漏接，保留旧hash/断言补精确逆转换与隔离历史模块退役，17目标文件已复验；仍待修订HEAD完整Quality与实际合入验证。微基准波动大且有变慢样本，不声称Combat提速；剩余长构造器、Combat.new等热点和76模块496调用点环保留。
 <!-- SECTION:NOTES:END -->
