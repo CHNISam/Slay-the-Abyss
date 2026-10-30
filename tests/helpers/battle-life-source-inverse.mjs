@@ -1,5 +1,6 @@
 import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
 import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
+import {preRound2UiSource,prepareRound2UiModuleRetirement} from './round2-ui-source-inverse.mjs';
 // Exact outer replay adapter for this presentation-only slice. Live tests load
 // current production modules; original historical witnesses stay immutable.
 import assert from 'node:assert/strict';
@@ -28,6 +29,7 @@ export function preBattleLifeSource(path, source) {
   source = preNativeEnemyThemeSource(path, source);
   source = preCiLuaCalibrationSource(path, source);
   source = preRound2CanPlaySource(path, source);
+  source = preRound2UiSource(path, source);
   const binding = battleLifeSourceLayer.files[path];
   if (!binding || typeof source !== 'string') return source;
   const normalized = normalize(source);
@@ -53,6 +55,7 @@ export const battleLifeAddedPaths = Object.freeze(Object.entries(battleLifeSourc
 // own full source/destination validation and exact historical ownership.
 export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = process.cwd()} = {}) {
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
+  const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
   const targets = [];
   for (const path of battleLifeAddedPaths) {
     const target = join(directory, path);
@@ -61,5 +64,5 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
       'unreviewed battle-life added module destination: ' + path);
     targets.push(target);
   }
-  return () => { for (const target of targets) rmSync(target); };
+  return () => { for (const target of targets) rmSync(target); retireRound2(); };
 }
