@@ -5,7 +5,7 @@ import {gunzipSync} from 'node:zlib';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync,existsSync,realpathSync,writeFileSync,rmSync} from 'node:fs';
-import {join,relative,isAbsolute} from 'node:path';
+import {join,relative,isAbsolute,win32,posix} from 'node:path';
 import {deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
@@ -103,13 +103,19 @@ export function verifiedDeliverySources(target,{sourceRoot=process.cwd(),readSou
  }
  return outputs;
 }
+export function requireIsolatedDeliveryPath(destination,actual,style='native'){
+ assert.ok(['native','win32','posix'].includes(style),'known isolated path syntax');
+ const api=style==='native'?{relative,isAbsolute}:style==='win32'?win32:posix;
+ const within=api.relative(destination,actual);
+ assert.ok(within&&!within.startsWith('..')&&!api.isAbsolute(within),'integrated destination stays in isolated copy');
+}
 export function materializeBeforeDelivery(directory,{sourceRoot=process.cwd()}={}){
  const destination=realpathSync(directory),live=realpathSync(sourceRoot);assert.notEqual(destination,live,'integrated replay requires separate historical destination');
  const outputs=verifiedDeliverySources('pre379',{sourceRoot});
  for(const [path,source]of outputs){
   const target=join(directory,path);if(!existsSync(target))continue;
-  const actual=realpathSync(target),within=relative(destination,actual);
-  assert.ok(within&&!within.startsWith('..')&&!isAbsolute(within),'integrated destination stays in isolated copy');
+  const actual=realpathSync(target);
+  requireIsolatedDeliveryPath(destination,actual);
   assert.notEqual(actual,realpathSync(join(sourceRoot,path)),'integrated destination cannot alias live source');
   const readSource=p=>readFileSync(join(sourceRoot,p),'utf8');
   const digest=hash(normalize(preDeckDeliverySource(path,prePostBetaRuntimeSource(path,readFileSync(target,'utf8'),{readSource}),'delivery',{readSource}))),raw=hash(normalize(preDeckDeliverySource(path,prePostBetaRuntimeSource(path,readSource(path),{readSource}),'delivery',{readSource})));
