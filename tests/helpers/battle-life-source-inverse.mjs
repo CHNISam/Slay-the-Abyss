@@ -1,3 +1,4 @@
+import {preHandGestureAimSource,prepareHandGestureAimModuleRetirement} from './hand-gesture-aim-source-inverse.mjs';
 import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
 import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
@@ -31,6 +32,7 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
 }
 
 export function preBattleLifeOuterSource(path, source) {
+  source = preHandGestureAimSource(path, source);
   source = preRelicRound2CompositionSource(path,source,'relic');
   source = preRound2UiSource(path,source);
   source = preNativeEnemyThemeSource(path,preBackgroundSource(path,source));
@@ -68,6 +70,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
   const retireBackground=prepareBackgroundRetirement(directory,{sourceRoot});
   const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
+  const retireHandGesture=prepareHandGestureAimModuleRetirement(directory,{sourceRoot});
   const retireRound3=prepareRound3CatalogModuleRetirement(directory,{sourceRoot});
   const retireRelics=prepareRelicCompletionModuleRetirement(directory,{sourceRoot});
   const targets = [];
@@ -81,7 +84,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   return () => {
     // Revalidate both newest owners before any composed historical deletion.
     prepareArtFeatureRetirement(directory,{sourceRoot});
-    retireRound3();
+    retireRound3(); retireHandGesture();
     for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();
   };
 }
