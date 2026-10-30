@@ -509,7 +509,7 @@ test('merged delivery rejects missing or changed documentation waiver evidence',
 });
 
 test('documentation waiver rejects agent instruction entrypoints in every allowed directory and case',()=>{
- for(const filename of ['docs/research/AGENTS.md','docs/research/SKILL.md','docs/history/CLAUDE.md','docs/lore/agents.md','docs/drafts/Skill.md']){
+ for(const filename of ['docs/research/AGENTS.md','docs/research/SKILL.md','docs/history/CLAUDE.md','docs/lore/agents.md','docs/drafts/Skill.md','docs/research/AGENTS.override.md','docs/history/CLAUDE.local.md','docs/lore/agents.OVERRIDE.md','docs/drafts/Claude.LOCAL.md']){
   assert.equal(isLowRiskDocumentationChange([{filename,status:'added',sha:'a'.repeat(40)}],1),false,filename);
  }
 });
