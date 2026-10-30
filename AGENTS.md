@@ -7,6 +7,7 @@
 - 每次会话先运行 `backlog instructions overview`；创建、执行、收口前分别读对应的 `backlog instructions task-creation`、`backlog instructions task-execution`、`backlog instructions task-finalization`。任务与里程碑只用 Backlog CLI 修改，先查重；负责人沿用 Furinya，任务正文用简洁中文，技术证据放对应附件。
 - 先核对任务、PR 和脏文件，从最新 origin/develop 建独立工作树及 feat/<slug> 短分支，保留他人的改动。Conventional Commits；当前 HEAD 的全部必需 CI 成功后 squash PR → develop。master 只接发布；release 从 develop、hotfix 从 master，均合回 master 与 develop。保护及精确 SHA 合并流程见 [CI](docs/CI.md)。不恢复旧任务锁。
 - 合并后核对分支没有新工作，保留可恢复历史并清理自己的干净工作树和分支；脏树与独立提交保留。版本与不可移动的注释 Tag 按 [PUBLISHING](docs/PUBLISHING.md)，不自动发版或创建归档 Tag。
+- 代码切片完成后按风险合并前评审：仅非执行说明文档可由交付验证器核实后免独立 Sub-agent；其余改动需可追溯独立复审，关键重构/跨模块逻辑深审；评审与 CI 可并行，不重复整套测试。详见 [ENGINEERING](docs/ENGINEERING.md)。
 - 完成须有本轮对应证据：源码检查、候选写入/读回、官方导入、真实 ready、各设备实测分别报告；未验证的要求保持未完成。可独立试玩的切片及时交付，启动失败优先修复。
 
 ## 验证入口

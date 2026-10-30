@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { verifyDelivery, verifyMergedDelivery, collectPrDelivery, collectMergedDelivery, checkoutReceipt, fullQualityJobs, currentFullQualityJobs, deliverySchemaVersion, qualityWorkflowPath } from '../scripts/verify-delivery.mjs';
+import { verifyDelivery, verifyMergedDelivery, collectPrDelivery, collectMergedDelivery, checkoutReceipt, isLowRiskDocumentationChange, fullQualityJobs, currentFullQualityJobs, deliverySchemaVersion, qualityWorkflowPath } from '../scripts/verify-delivery.mjs';
 
 const sha = letter => letter.repeat(40);
 function mergedEvidence(schemaVersion=2) {
@@ -42,13 +42,15 @@ test('current PR proof binds independent target refs even when PR, synthetic mer
   assert.deepEqual(verifyDelivery(mergedEvidence(2).preflight),[],'Historical evidence is not retroactively upgraded');
 });
 
-function prCollection(targets) {
+function prCollection(targets,{review,files,declaredCount}={}) {
   const e=mergedEvidence(3).preflight,calls=[];
-  const pr={number:e.prNumber,state:'open',merged:false,head:{sha:e.head},base:{ref:e.baseRef,sha:e.base},merge_commit_sha:e.tested};
+  const pr={number:e.prNumber,state:'open',merged:false,head:{sha:e.head},base:{ref:e.baseRef,sha:e.base},merge_commit_sha:e.tested,
+    changed_files:declaredCount??files?.length};
   let refs=0;
   const query=(...args)=>{
     calls.push(args);const endpoint=args.at(-1);
     if(endpoint===`repos/${e.repo}/pulls/${e.prNumber}`)return JSON.stringify(pr);
+    if(endpoint===`repos/${e.repo}/pulls/${e.prNumber}/files?per_page=100`)return JSON.stringify([files??[]]);
     if(endpoint===`repos/${e.repo}/git/ref/heads/${e.baseRef}`) {
       const value=targets[Math.min(refs++,targets.length-1)];
       if(value instanceof Error)throw value;
@@ -59,7 +61,7 @@ function prCollection(targets) {
     if(endpoint===`repos/${e.repo}/commits/${e.tested}`)return JSON.stringify(e.testedCommit);
     throw Error(`Unexpected PR query ${args}`);
   };
-  const collect=()=>collectPrDelivery(e.repo,e.prNumber,e.review,query,()=>{
+  const collect=()=>collectPrDelivery(e.repo,e.prNumber,review??e.review,query,()=>{
     calls.push(['receipt']);return {checkout:e.checkout,checkoutArtifact:e.checkoutArtifact};
   });
   return {collect,calls};
@@ -368,6 +370,10 @@ test('merged push jobs cannot borrow same-attempt green jobs from another run or
 
 test('post-merge collector selects only the latest exact push run and all job history pages',()=>{
   const e=mergedEvidence(3),calls=[];
+  const docFile={filename:'docs/research/overview.md',status:'modified',sha:sha('a')};
+  e.pr.changed_files=1;
+  e.preflight.review={disposition:'low-risk-docs',reviewedHeadSha:e.preflight.head,reviewedBaseSha:e.preflight.base};
+  e.preflight.changedFileCount=1;e.preflight.changedFiles=[docFile];
   e.jobs.forEach(job=>job.run_attempt=1);
   const retried=e.jobs.find(job=>job.name==='rules (8/8)');retried.conclusion='failure';
   e.jobs.push({...retried,id:500,run_attempt:2},{...retried,id:501,run_attempt:3,conclusion:'success'});
@@ -376,6 +382,7 @@ test('post-merge collector selects only the latest exact push run and all job hi
     calls.push(args);
     const endpoint=args.at(-1);
     if(endpoint.endsWith('/pulls/8'))return JSON.stringify(e.pr);
+    if(endpoint.endsWith('/pulls/8/files?per_page=100'))return JSON.stringify([[docFile]]);
     if(endpoint.endsWith(`/commits/${sha('e')}`))return JSON.stringify(e.commit);
     if(endpoint.includes('/actions/workflows/quality.yml/runs?'))return JSON.stringify([
       {workflow_runs:[{...e.run,id:8,run_attempt:1},{...e.run,id:10,event:'pull_request'}]},
@@ -389,6 +396,10 @@ test('post-merge collector selects only the latest exact push run and all job hi
   });
   assert.equal(actual.schemaVersion,3,'New collection must not infer a legacy contract from returned job names');
   assert.deepEqual(verifyMergedDelivery(actual),{state:'merged_passed',errors:[]});
+  assert.equal(actual.changedFiles[0].filename,docFile.filename);
+  assert(calls.some(args=>args.includes('--paginate')&&args.at(-1).endsWith('/pulls/8/files?per_page=100')));
+  const stale=structuredClone(actual);stale.changedFiles[0].sha=sha('f');
+  assert.equal(verifyMergedDelivery(stale).state,'merged_pending');
   assert.equal(calls.filter(args=>args.at(-1).endsWith('/pulls/8')).length,2);
   assert(calls.some(args=>args.includes('--paginate')&&args.at(-1).includes('/jobs?filter=all')));
 });
@@ -449,4 +460,50 @@ test('delivery accepts exact merge parents and rejects stale reviews, attempts a
   for(const mutate of [e=>e.head='d'.repeat(40),e=>e.base='d'.repeat(40),e=>e.jobs.pop(),e=>e.jobs[0].conclusion='skipped',e=>e.attempt++,e=>e.parents.reverse(),e=>e.review.unresolved=['open bug'],e=>e.checkout.tested=e.head]) {
     const bad=structuredClone(evidence);mutate(bad);assert(verifyDelivery(bad).length>0);
   }
+});
+
+test('low-risk waiver uses bounded actual GitHub files, never agent self-classification',()=>{
+  const allowed=[
+    {filename:'README.md',status:'modified',sha:sha('a')},
+    {filename:'docs/research/guide.md',status:'added',sha:sha('b')},
+    {filename:'docs/history/notes.txt',status:'modified',sha:sha('c')}];
+  assert(isLowRiskDocumentationChange(allowed,3));
+  const valid=prCollection([targetRef(sha('b'))],{review:{disposition:'low-risk-docs'},files:allowed});
+  const {evidence}=valid.collect();
+  assert.deepEqual(verifyDelivery(evidence),[]);
+  assert.equal(evidence.review.reviewedHeadSha,evidence.head);
+  assert.equal(evidence.review.reviewedBaseSha,evidence.base);
+  assert(valid.calls.some(args=>args.includes('--paginate')&&args.at(-1).endsWith('/pulls/8/files?per_page=100')));
+  for(const files of [
+    [{filename:'AGENTS.md',status:'modified',sha:sha('a')}],
+    [{filename:'docs/CI.md',status:'modified',sha:sha('a')}],
+    [{filename:'docs/research/a.md',status:'modified',sha:sha('a')},{filename:'src/lua/abyss_run.lua',status:'modified',sha:sha('b')}],
+    [{filename:'docs/research/a.md',status:'renamed',sha:sha('a')}],
+    [{filename:'docs/research/a.md',status:'removed',sha:sha('a')}],
+    [{filename:'docs/research/../CI.md',status:'modified',sha:sha('a')}],
+    [{filename:'docs/research/a.md',status:'modified',sha:'bad'}],
+    [{filename:'docs/research/a.md',status:'modified',sha:sha('a')},{filename:'docs/research/a.md',status:'modified',sha:sha('a')}],
+    Array.from({length:21},(_,i)=>({filename:`docs/research/n${i}.md`,status:'added',sha:sha('a')})),
+  ]) {
+    assert(!isLowRiskDocumentationChange(files,files.length));
+    assert.throws(prCollection([targetRef(sha('b'))],{review:{disposition:'low-risk-docs'},files}).collect,/Low-risk waiver denied/);
+  }
+  assert.throws(prCollection([targetRef(sha('b'))],{review:{disposition:'low-risk-docs'},files:allowed,declaredCount:4}).collect,/Low-risk waiver denied/);
+  for(const mutate of [e=>e.review.reviewedHeadSha=sha('f'),e=>e.review.reviewedBaseSha=sha('f'),
+    e=>e.changedFileCount=2,e=>e.changedFiles[0].filename='scripts/verify-delivery.mjs',
+    e=>e.changedFiles[0].status='renamed',e=>e.schemaVersion=2,e=>e.baseRef='master']) {
+    const bad=structuredClone(evidence);mutate(bad);assert(verifyDelivery(bad).length);
+  }
+});
+
+test('merged delivery rejects missing or changed documentation waiver evidence',()=>{
+  const e=mergedEvidence(3),file={filename:'docs/research/overview.md',status:'modified',sha:sha('a')};
+  e.preflight.review={disposition:'low-risk-docs',reviewedHeadSha:e.preflight.head,reviewedBaseSha:e.preflight.base};
+  e.preflight.changedFileCount=1;e.preflight.changedFiles=[file];
+  e.changedFileCount=1;e.changedFiles=[structuredClone(file)];
+  assert.deepEqual(verifyMergedDelivery(e),{state:'merged_passed',errors:[]});
+  e.changedFiles[0].sha=sha('b');
+  assert.equal(verifyMergedDelivery(e).state,'merged_pending');
+  delete e.changedFiles;
+  assert.equal(verifyMergedDelivery(e).state,'merged_pending');
 });
