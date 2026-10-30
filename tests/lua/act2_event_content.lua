@@ -189,13 +189,21 @@ test('Actual full-pool source draw reaches Beggar without altering the 13-entry 
 end)
 
 test('Unsupported full-pool content fails closed with no reroll, depletion, map or RNG commit',function()
- local counter
- for n=0,63 do local id=sourceDraw(n);if id and not Pool.contentId[id] then counter=n;break end end
- assert(counter,'bounded unsupported input missing')
+ local counter,originalId
+ for n=0,63 do local id=sourceDraw(n);if id then counter,originalId=n,id;break end end
+ assert(counter,'bounded source event input missing')
  local r,m,id=fixture(nil,100,true);r.eventRng=R.atCounter(r.eventSeed,counter)
  local before,map=snapshot(r),C.copy(m);local flow,deck,pools=r.nodeFlow,r.deck,r.unknown.pools
- local ok,why=Nodes.enter(r,m,id);eq(ok,false);eq(why,'event_not_implemented')
- same(r,before);same(m,map);eq(r.nodeFlow,flow);eq(r.deck,deck);eq(r.unknown.pools,pools)
+ -- Synthetic missing-route injection: every legal event remains mapped in
+ -- production. Restore even when an assertion fails; never shrink/reroll pools.
+ local saved=Pool.contentId[originalId];assert(saved,'known source event must be implemented')
+ Pool.contentId[originalId]=nil
+ local passed,failure=pcall(function()
+  local ok,why=Nodes.enter(r,m,id);eq(ok,false);eq(why,'event_not_implemented')
+  same(r,before);same(m,map);eq(r.nodeFlow,flow);eq(r.deck,deck);eq(r.unknown.pools,pools)
+ end)
+ Pool.contentId[originalId]=saved
+ assert(passed,failure)
 end)
 
 test('Legacy picker fallback stays fail-closed; invalid Act2 floor rejects without changing default launch',function()
