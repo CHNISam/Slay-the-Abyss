@@ -30,12 +30,21 @@ export function relicViewControls(theme = nativeTheme) {
     ] };
   };
   const b = v.bar;
-  const bar = Array.from({ length: b.count }, (_, i) => {
+  // One sunken capsule groups every owned disc so the strip reads as a single
+  // HUD element; the last disc doubles as a +N overflow chip (no wrap/occlusion).
+  const capsule = (name, [w, h], colour) => { const x = (w - h) / 2; return { name, kind: 'container', size: [w, h], children: [
+    { ...plate('left', [-x, 0, h, h], colour), image: theme.image.disc }, plate('middle', [0, 0, w - h, h], colour),
+    { ...plate('right', [x, 0, h, h], colour), image: theme.image.disc }] }; };
+  const traySize = b.tray.slice(2);
+  const tray = { name: 'tray', kind: 'container', position: b.tray.slice(0, 2), size: traySize, visible: false, children: [
+    capsule('border', traySize, c.line), capsule('plate', traySize.map(x => x - b.trayBorder * 2), c.panelSunken)] };
+  const bar = [tray, ...Array.from({ length: b.count }, (_, i) => {
     const slot = relicDisc(theme, `slot${i + 1}`, b.disc, (b.disc - b.face) / 2, b.icon, [b.origin[0] + b.step * i, b.origin[1]]);
     slot.visible = false;
-    slot.children.push({ name: 'hit', kind: 'cursorArea', size: [44, 44], focusable: true });
+    slot.children.push({ ...text('more', b.more, '', f.label, c.goldBright), visible: false });
+    slot.children.push({ name: 'hit', kind: 'cursorArea', size: [b.step, 44], focusable: true });
     return slot;
-  });
+  })];
   const [rw, rh] = v.row, discX = -rw / 2 + s.m + v.disc / 2;
   const rows = [];
   v.rows.forEach((y, r) => v.columns.forEach((x, col) => {

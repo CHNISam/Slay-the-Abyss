@@ -1,3 +1,4 @@
+import {preCombatRelicsHudSource} from './combat-relics-hud-inverse.mjs';
 import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
 import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
@@ -31,6 +32,7 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
 }
 
 export function preBattleLifeOuterSource(path, source) {
+  source=preCombatRelicsHudSource(path,source);
   source = preRelicRound2CompositionSource(path,source,'relic');
   source = preRound2UiSource(path,source);
   source = preNativeEnemyThemeSource(path,preBackgroundSource(path,source));

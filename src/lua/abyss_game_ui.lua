@@ -313,7 +313,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         child("relicEntry"):SetVisible(utilitiesVisible)
         self.relicUI:refreshBar(run,utilitiesVisible)
         for _,state in ipairs({'normal','hover','pressed','disabled'})do
-            child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state):GetChild('label').text=run and '遗物 '..#run.relics or '遗物'
+            local variant=child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state)
+            variant:GetChild('label').text=run and '遗物 '..#run.relics or '遗物'
+            variant:GetChild('count').text=run and number(#run.relics) or ''
         end
         child("potionEntry"):SetVisible(not inCombat() and utilitiesVisible)
         refreshPotionEntry(run)

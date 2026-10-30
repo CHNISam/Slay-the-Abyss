@@ -40,7 +40,8 @@ export function deckControls(theme = nativeTheme) {
   };
   // Map/Main source: 100 x 52 capsule, existing official deck glyph and count.
   // The 48px hit is separate from the scaled 66.667 x 34.667 visible surface.
-  const entry = button('open', l.deckView.entry, '卡组');
+  // The 遗物 entry reuses the same capsule (relic glyph + count) so the
+  // top-right utilities read as one family instead of a boxy text button.
   const visual = l.deckView.entryVisual;
   const capsule = (name, size, colour) => {
     const [w, h] = size, x = (w - h) / 2;
@@ -52,18 +53,24 @@ export function deckControls(theme = nativeTheme) {
   };
   const palette = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,
     pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };
-  for (const state of entry.children[0].children) {
-    const colours = palette[state.name], label = state.children.find(control => control.name === 'label');
-    label.visible = false;
-    state.children = [capsule('border', visual.size, colours.border),
-      capsule('plate', visual.size.map(value => value - visual.border * 2), colours.fill),
-      { name: 'deckIcon', kind: 'image', position: visual.icon.slice(0, 2), size: visual.icon.slice(2),
-        image: theme.icon.deck.id, colour: colours.ink },
-      text('count', visual.count, '', f.label, state.name === 'normal' ? c.text : colours.ink), label];
-  }
+  const capsuleEntry = (frame, label, iconName, image) => {
+    const entry = button('open', frame, label);
+    for (const state of entry.children[0].children) {
+      const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');
+      text_.visible = false;
+      state.children = [capsule('border', visual.size, colours.border),
+        capsule('plate', visual.size.map(value => value - visual.border * 2), colours.fill),
+        { name: iconName, kind: 'image', position: visual.icon.slice(0, 2), size: visual.icon.slice(2),
+          image, colour: colours.ink },
+        text('count', visual.count, '', f.label, state.name === 'normal' ? c.text : colours.ink), text_];
+    }
+    return entry;
+  };
+  const entry = capsuleEntry(l.deckView.entry, '卡组', 'deckIcon', theme.icon.deck.id);
+  const relicImage = theme.icon.node.treasure.id ?? theme.icon.node.treasure;
   return [
     { name: 'relicEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
-      button('open', l.deckView.relicEntry, '遗物'),
+      capsuleEntry(l.deckView.relicEntry, '遗物', 'relicIcon', relicImage),
     ] },
     { name: 'deckEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
       entry,

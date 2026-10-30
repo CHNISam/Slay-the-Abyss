@@ -6,15 +6,23 @@ import { nativeTheme as theme } from '../scripts/native-ui-theme.mjs';
 test('owned relics use disc art slots in the top bar and detail rows', () => {
   const [bar, panel] = relicViewControls(theme), v = theme.layout.relicView;
   assert.equal(bar.name, 'relicBar');
-  assert.equal(bar.children.length, v.bar.count);
-  bar.children.forEach((slot, i) => {
+  const [tray, ...slots] = bar.children;
+  assert.equal(tray.name, 'tray');
+  assert.equal(slots.length, v.bar.count);
+  const entry = theme.layout.deckView.relicEntry, visual = theme.layout.deckView.entryVisual;
+  // Tray groups the discs, clears the title, and never touches the 遗物 capsule.
+  assert.ok(v.bar.tray[0] - v.bar.tray[2] / 2 >= theme.layout.nativeNode.topBar.title[2] / 2);
+  assert.ok(v.bar.tray[0] + v.bar.tray[2] / 2 < entry[0] - visual.size[0] / 2);
+  slots.forEach((slot, i) => {
+    assert.ok(Math.abs(slot.position[0] - v.bar.tray[0]) + v.bar.disc / 2 <= v.bar.tray[2] / 2, 'disc inside tray');
     assert.deepEqual(slot.position, [v.bar.origin[0] + v.bar.step * i, v.bar.origin[1]]);
     assert.deepEqual(slot.size, [v.bar.disc, v.bar.disc]);
-    assert.deepEqual(slot.children.map(c => c.name), ['rim', 'face', 'light', 'icon', 'hit']);
+    assert.deepEqual(slot.children.map(c => c.name), ['rim', 'face', 'light', 'icon', 'more', 'hit']);
     assert.equal(slot.children[0].image, theme.image.disc);
     // Clear of the title and the 遗物 button.
     assert.ok(slot.position[0] - v.bar.disc / 2 >= theme.layout.nativeNode.topBar.title[2] / 2);
-    assert.ok(slot.position[0] + v.bar.disc / 2 <= theme.layout.deckView.relicEntry[0] - theme.layout.deckView.relicEntry[2] / 2);
+    assert.ok(slot.position[0] + v.bar.disc / 2 <= entry[0] - entry[2] / 2);
+    if (i) assert.ok(slot.position[0] - slots[i - 1].position[0] >= v.bar.disc, 'discs never overlap');
   });
   const rows = panel.children.filter(c => /^row\d+$/.test(c.name));
   assert.equal(rows.length, v.rows.length * v.columns.length);

@@ -24,6 +24,15 @@ function M.status(run,id)
     if v>=0 then return '计数 '..v end
     return nil
 end
+-- Pure bar plan: true = show relic i, '+N' = overflow chip, false = hidden.
+function M.barCells(total,count)
+    local cells={}
+    for i=1,count do
+        if total>count and i==count then cells[i]='+'..(total-count+1)
+        else cells[i]=i<=total end
+    end
+    return cells
+end
 local function perPage()return #Theme.layout.relicView.rows*#Theme.layout.relicView.columns end
 function M.new(root,bar,clickEvent,platform,describe,onClose,onSlot,barScope)
     local self={root=root,bar=bar,visible=false,page=1}
@@ -75,15 +84,20 @@ function M.new(root,bar,clickEvent,platform,describe,onClose,onSlot,barScope)
         if not self.visible or self:pages()<2 then return false end
         self.page=(self.page-1+step)%self:pages()+1;self:render();return true
     end
-    -- Owned-only row like the prototype topBar(); overflow is reached via the
-    -- existing 遗物 N button and the paginated overlay.
+    -- Owned-only tray like the prototype topBar(). Beyond count the last disc
+    -- becomes a +N overflow chip that opens the paginated overlay there.
     function self.refreshBar(_,run,visible)
+        local relics=run and run.relics or {}
         bar:SetVisible(visible and run~=nil)
-        for i=1,Theme.layout.relicView.bar.count do
+        bar:GetChild('tray'):SetVisible(#relics>0)
+        for i,cell in ipairs(M.barCells(#relics,Theme.layout.relicView.bar.count))do
             local slot=bar:GetChild('slot'..i)
-            local id=run and run.relics[i]
-            slot:SetVisible(id~=nil)
-            if id then picture(slot:GetChild('icon'),M.icon(id))end
+            slot:SetVisible(cell~=false)
+            local more=type(cell)=='string'
+            slot:GetChild('icon'):SetVisible(not more)
+            slot:GetChild('more'):SetVisible(more)
+            slot:GetChild('more').text=more and cell or ''
+            if cell and not more then picture(slot:GetChild('icon'),M.icon(relics[i]))end
         end
     end
     root.disableCursorEventPassthrough=true
