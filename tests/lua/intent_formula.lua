@@ -19,7 +19,7 @@ end
 local function state()
  local s=C.new(F.Data,{deck={'defend'},enemies={'cultist'}})
  local e=s.enemies[1]
- e.intents={{id='test',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1
+ e.intents={{id='cultist_1',kind='attack',effects={{op='damage',value=9,times=2}}}};e.intentIndex=1
  return s,e
 end
 local function test(name,fn)fn();passed=passed+1;print('PASS '..name)end
@@ -39,16 +39,17 @@ local function notes(face)
  return table.concat(result,'\n')
 end
 
-test('unchanged multi-hit intent always gives real base strength and rounding formula',function()
+test('unmodified multi-hit intent shows only final damage without debug chain',function()
  local s,e=state();local check=unchanged(s);local face=V.intentView(s,1)
  local text=notes(face)
- assert(face.value=='9×2' and text:find('基础 9',1,true) and text:find('力量 +0 = 9',1,true) and text:find('取整',1,true))
+ assert(face.value=='9×2' and text:find('攻击 2 次，每次 9 点伤害',1,true))
+ for _,bad in ipairs({'基础','力量','取整','算式','→','单精度'})do assert(not text:find(bad,1,true),'debug chain leaked: '..bad)end
  projection(s,e,9,9);check()
 end)
 test('negative strength clamps only at actual final rounding',function()
  local s,e=state();e.statuses.strength=-12
  local p=projection(s,e,9,0);has(p,'strength',-3)
- assert(notes(V.intentView(s,1)):find('力量 -12 = -3',1,true))
+ local text=notes(V.intentView(s,1));assert(text:find('已计入：力量-12',1,true) and not text:find('取整',1,true))
 end)
 test('Weak and Vulnerable show exact multipliers before final floor',function()
  local s,e=state();e.statuses.strength=3;e.statuses.weak=1;s.player.statuses.vulnerable=1
@@ -97,18 +98,18 @@ end)
 test('ordered strength effects feed later attack formulas only on the private preview',function()
  local s,e=state();e.intents[1].effects={{op='gainStatus',status='strength',value=2},{op='damage',value=9}}
  local check=unchanged(s);local face=V.intentView(s,1)
- assert(face.value=='11' and notes(face):find('力量 +2 = 11',1,true));check()
+ assert(face.value=='11' and notes(face):find('已计入：力量+2',1,true) and not notes(face):find('基础',1,true));check()
 end)
 test('original-role per-hit reduction explains unequal multi-hit final values',function()
  local s,e=state();s.originalV4={soften=2}
  local check=unchanged(s);local face=V.intentView(s,1)
- assert(face.value=='7+9' and notes(face):find('第1段削减：9 − 2 = 7',1,true));check()
+ assert(face.value=='7+9' and notes(face):find('削减：第1段 −2',1,true));check()
 end)
 test('long special-modifier formulas paginate within the existing native font and safe viewport',function()
  local s,e=state();e.statuses={strength=999,vigor=2,double_damage=1,pen_nib=1,weak=1}
  s.player.statuses={slow=4,vulnerable=1,flight=1,intangible=1};s.player.powerOrder={'slow','vulnerable'};s.player.stance='Wrath'
  local check=unchanged(s);local face=V.intentView(s,1)
- assert(face.value=='1×2' and #face.rows>1)
+ assert(face.value=='1×2' and #face.rows>=1 and not notes(face):find('→',1,true))
  local Info=require('abyss_battle_info_view');local Content=require('abyss_battle_info_content');local Theme=require('abyss_theme')
  local pages=Info.paginator(Content.lines)({sections={{label='意图',rows=face.rows}}})
  local I,L=Theme.layout.statusInfo,Theme.layout
