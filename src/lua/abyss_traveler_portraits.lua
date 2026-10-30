@@ -23,7 +23,6 @@ SOFTWARE.
 ]=]
 -- Two frozen Lumine hosts only. No rules, timers, fitting or original OnStart.
 -- Property order follows Primitive's MIT runtime, copyright 2026 LiuL.
-local Asset = require('abyss_traveler_portrait_assets')
 local M = {}
 local owners = setmetatable({}, {__mode='k'})
 local CANCELLED = {}
@@ -35,7 +34,7 @@ local function validate(data, width, count, source, json)
     assert(#r==13 and r[1]==0 and r[2]==0 and r[3]==width and r[4]==width and r[5]==.5 and r[6]==.5
         and r[7]==.5 and r[8]==.5 and r[9]==.5 and r[10]==.5 and r[11]==1 and r[12]==1 and r[13]==0,'unexpected portrait ROOT')
 end
-local function controller(host, data, display)
+local function controller(host, data, display, Asset)
     assert(host,'missing dedicated portrait host')
     local self,created={},{}
     local phase,generation,nextIndex='idle',0,1
@@ -166,17 +165,28 @@ local function controller(host, data, display)
     function self.destroy(_)generation=generation+1;phase='destroyed';pending=false;created={}end
     return self
 end
-function M.new(stage,report)
+function M.new(stage,report,flags)
+    local selection = type(flags)=='table' and flags.selectionAvatar==true
+    local fighting = type(flags)=='table' and flags.battlePortrait==true
+    if not selection and not fighting then return nil end
     if owners[stage]then return owners[stage]end
-    validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')
-    validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
-    local traveler=assert(stage:GetChild('characterPanel'):GetChild('traveler'))
-    local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))
-    local avatar=controller(traveler:GetChild('officialAvatar'),Asset.avatar96,32)
-    local battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3)
-    local rows={{name='avatar',adapter=avatar,fallback={},active=false},{name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}}
-    for _,name in ipairs({'normal','hover','pressed','disabled'})do
-        rows[1].fallback[#rows[1].fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')
+    local Asset = require('abyss_traveler_portrait_assets')
+    local avatar,battle,rows=nil,nil,{}
+    if selection then
+        validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')
+        local traveler=assert(stage:GetChild('characterPanel'):GetChild('traveler'))
+        avatar=controller(traveler:GetChild('officialAvatar'),Asset.avatar96,32,Asset)
+        local row={name='avatar',adapter=avatar,fallback={},active=false}
+        for _,name in ipairs({'normal','hover','pressed','disabled'})do
+            row.fallback[#row.fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')
+        end
+        rows[#rows+1]=row
+    end
+    if fighting then
+        validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
+        local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))
+        battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset)
+        rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}
     end
     local self,busy,destroyed,painting,epoch={},false,false,false,0
     local function paint()
@@ -197,14 +207,15 @@ function M.new(stage,report)
         end
         painting=false
     end
-    function self.status(_)return {avatar=avatar:status(),battle=battle:status(),batchSize=64}end
+    function self.status(_)return {avatar=avatar and avatar:status() or {phase='disabled',owned=0},
+        battle=battle and battle:status() or {phase='disabled',owned=0},batchSize=64}end
     function self.sync(_,mode,characterOpen,stopped,character)
         if busy or destroyed then return false end
         busy=true;local token=epoch
-        local wanted={not stopped and characterOpen==true,not stopped and mode=='battle' and character=='ironclad'}
-        for i,row in ipairs(rows)do
-            if wanted[i] and not row.active then row.active=true;row.adapter:begin()
-            elseif not wanted[i] and row.active then row.active=false;row.adapter:release()end
+        local wanted={avatar=not stopped and characterOpen==true,battle=not stopped and mode=='battle' and character=='ironclad'}
+        for _,row in ipairs(rows)do
+            if wanted[row.name] and not row.active then row.active=true;row.adapter:begin()
+            elseif not wanted[row.name] and row.active then row.active=false;row.adapter:release()end
             if epoch~=token or destroyed then busy=false;return false end
         end
         paint();busy=false;return true
@@ -220,7 +231,7 @@ function M.new(stage,report)
         paint();busy=false
     end
     function self.battlePose(_,x,y,sx,sy)
-        if busy or destroyed then return end
+        if busy or destroyed or not battle then return end
         busy=true;battle:pose(x,y,sx,sy);paint();busy=false
     end
     function self.release(_)

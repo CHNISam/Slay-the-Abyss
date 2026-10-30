@@ -5,7 +5,7 @@ import {withPortraitVm} from './helpers/portrait-runtime-vm.mjs';
 function vm(code,options){assert(existsSync('src/lua/abyss_traveler_portraits.lua'),'bounded portrait runtime missing');withPortraitVm(code,options);}
 
 test('portrait creation is globally bounded at 64 including groups, hidden until complete, and scoped to traveler',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',true,false,'ironclad');assert(#controls==0)
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',true,false,'ironclad');assert(#controls==0)
 local ticks=0
 while a:status().avatar.phase=='building' or a:status().battle.phase=='building'do
  local before=#controls;a:tick();assert(#controls-before<=64);ticks=ticks+1;assert(ticks<150)
@@ -17,7 +17,7 @@ local childCount={};for _,c in ipairs(controls)do childCount[c.parent]=(childCou
 for _,n in pairs(childCount)do assert(n<=60,'too many direct children')end
 assert(avatar.SetLocalScaleValue[1]==1/3 and avatar.SetLocalScaleValue[2]==1/3)
 assert(math.abs(figure.SetLocalScaleValue[1]-(400/3)/133)<1e-12)
-assert(a==Portraits.new(stage));a:sync('battle',true,false,'ironclad');a:tick();assert(#controls==9294)
+assert(a==Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true}));a:sync('battle',true,false,'ironclad');a:tick();assert(#controls==9294)
 a:battlePose(4,-3,1.1,.9);assert(figure.SetAnchoredPositionValue[1]==4 and figure.SetAnchoredPositionValue[2]==-3)
 assert(math.abs(figure.SetLocalScaleValue[1]-1.1*(400/3)/133)<1e-12)
 a:sync('battle',false,false,'watcher');assert(LiveCount()==0 and fallback.visible and not figure.visible)
@@ -26,7 +26,7 @@ a:tick();assert(#controls==9294)
 
 
 test('release within instantiate cancels the returned control, prevents reentry and allows clean reactivation',()=>vm(`
-a=Portraits.new(stage);a:sync('menu',true,false,nil);local create=game.InstantiateClientUIControl
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('menu',true,false,nil);local create=game.InstantiateClientUIControl
 local calls=0;game.InstantiateClientUIControl=function(...)
  calls=calls+1;a:tick();a:sync('menu',true,false,nil);local c=create(...);a:release();return c
 end
@@ -37,7 +37,7 @@ a:release();assert(LiveCount()==0)
 `));
 
 for(const mode of ['nil','setter'])test(`portrait ${mode} failure restores fallback and does not auto-retry every frame`,()=>vm(`
-a=Portraits.new(stage);a:sync('battle',false,false,'ironclad');local create=game.InstantiateClientUIControl;local calls=0
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',false,false,'ironclad');local create=game.InstantiateClientUIControl;local calls=0
 game.InstantiateClientUIControl=function(...)calls=calls+1;if calls==4 then ${mode==='nil'?'return nil':"local c=create(...);c.SetImage=function()error('setter rejected')end;return c"} end;return create(...)end
 a:tick();assert(a:status().battle.phase=='failed' and LiveCount()==0 and fallback.visible and not figure.visible)
 local total=#controls;for i=1,3 do a:sync('battle',false,false,'ironclad');a:tick()end;assert(#controls==total)
@@ -46,7 +46,7 @@ a:release()
 `));
 
 test('failed child destruction retains its ancestors and reports truthful retained counts until explicit retry',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',false,false,'ironclad');a:tick();local destroy=game.DestroyClientUIControl
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',false,false,'ironclad');a:tick();local destroy=game.DestroyClientUIControl
 local failed=controls[3];game.DestroyClientUIControl=function(c)if c==failed then return false end;return destroy(c)end
 assert(not a:release());assert(LiveCount()==3 and a:status().battle.retained==3 and not figure.visible and fallback.visible)
 a:sync('battle',false,false,'ironclad');a:tick();assert(LiveCount()==3)
@@ -55,31 +55,31 @@ a:sync('battle',false,false,'ironclad');a:tick();assert(LiveCount()==64);a:relea
 `));
 
 test('engine destruction is a no-native-write tombstone and invalid asset metadata fails closed',()=>vm(`
-local source=Asset.avatar96.sourceSha256;Asset.avatar96.sourceSha256='wrong';assert(not pcall(Portraits.new,stage));Asset.avatar96.sourceSha256=source
-a=Portraits.new(stage);a:sync('menu',true,false,nil);a:tick()
+local source=Asset.avatar96.sourceSha256;Asset.avatar96.sourceSha256='wrong';assert(not pcall(Portraits.new,stage,nil,{selectionAvatar=true,battlePortrait=true}));Asset.avatar96.sourceSha256=source
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('menu',true,false,nil);a:tick()
 local create=game.InstantiateClientUIControl;local destroy=game.DestroyClientUIControl
 for _,c in ipairs(controls)do destroy(c)end
 game.DestroyClientUIControl=function()error('engine owns destruction')end
 a:onEngineDestroy();a:onEngineDestroy();a:sync('menu',true,false,nil);a:tick();a:release()
-assert(Portraits.new(stage)==a and a:status().avatar.phase=='destroyed' and LiveCount()==0)
+assert(Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true})==a and a:status().avatar.phase=='destroyed' and LiveCount()==0)
 `));
 
 test('fallback release reentry cannot recursively paint or resurrect an in-flight host',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',false,false,'ironclad');a:tick()
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',false,false,'ironclad');a:tick()
 local set=fallback.SetVisible;local calls=0
 fallback.SetVisible=function(self,v)calls=calls+1;assert(calls==1,'recursive fallback paint');a:release();a:tick();return set(self,v)end
 assert(a:release());assert(calls==1 and LiveCount()==0 and not figure.visible)
 `));
 
 test('missing template binding, wrong ROOT and wrong native JSON identity cannot instantiate art',()=>vm(`
-local root=Asset.avatar96.root;Asset.avatar96.root={0,0,95,96,.5,.5,.5,.5,.5,.5,1,1,0};assert(not pcall(Portraits.new,stage));Asset.avatar96.root=root
-local json=Asset.battle133.jsonSha256;Asset.battle133.jsonSha256='wrong';assert(not pcall(Portraits.new,stage));Asset.battle133.jsonSha256=json
-Asset.containerPrefabId=0;a=Portraits.new(stage);a:sync('battle',true,false,'ironclad');a:tick()
+local root=Asset.avatar96.root;Asset.avatar96.root={0,0,95,96,.5,.5,.5,.5,.5,.5,1,1,0};assert(not pcall(Portraits.new,stage,nil,{selectionAvatar=true,battlePortrait=true}));Asset.avatar96.root=root
+local json=Asset.battle133.jsonSha256;Asset.battle133.jsonSha256='wrong';assert(not pcall(Portraits.new,stage,nil,{selectionAvatar=true,battlePortrait=true}));Asset.battle133.jsonSha256=json
+Asset.containerPrefabId=0;a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',true,false,'ironclad');a:tick()
 assert(#controls==0 and a:status().avatar.phase=='failed' and a:status().battle.phase=='failed' and fallback.visible)
 `));
 
 test('setter cancellation and host death stop all remaining batch writes',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',false,false,'ironclad');local create=game.InstantiateClientUIControl
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',false,false,'ironclad');local create=game.InstantiateClientUIControl
 local calls=0;game.InstantiateClientUIControl=function(...)
  local c=create(...);calls=calls+1;if calls==3 then c.SetImage=function()a:release()end end;return c
 end
@@ -89,26 +89,26 @@ assert(a:status().battle.phase=='destroyed' and #controls==3)
 `));
 
 test('release during first host begin cancels the entire owner sync',()=>vm(`
-a=Portraits.new(stage);local set=avatar.SetVisible;local once=false
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});local set=avatar.SetVisible;local once=false
 avatar.SetVisible=function(self,v)if not once then once=true;a:release()end;return set(self,v)end
 a:sync('battle',true,false,'ironclad');a:tick();assert(#controls==0,'cancelled sync restarted second host')
 `));
 test('dead-host pose retires without native setters and pose reentry is ignored',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',false,false,'ironclad');a:tick()
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',false,false,'ironclad');a:tick()
 local set=figure.SetAnchoredPosition;local calls=0
 figure.SetAnchoredPosition=function(self,...)calls=calls+1;if calls<4 then a:battlePose(1,2,1,1)end;return set(self,...)end
 a:battlePose(3,4,1,1);assert(calls==1,'recursive pose write')
 rawset(figure,'alive',false);a:battlePose(3,4,1,1);assert(calls==1 and a:status().battle.phase=='destroyed')
 `));
 test('ready-transition release restores fallback after the stale native hide returns',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',false,false,'ironclad')
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',false,false,'ironclad')
 local set=fallback.SetVisible;local once=false
 fallback.SetVisible=function(self,v)if not v and not once then once=true;a:release()end;return set(self,v)end
 while a:status().battle.phase=='building'do a:tick()end
 assert(a:status().battle.phase=='released' and LiveCount()==0 and fallback.visible,'cancelled ready snapshot hid fallback')
 `));
 test('engine destruction inside fallback paint stops all subsequent native writes',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',true,false,'ironclad')
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',true,false,'ironclad')
 local first=traveler:GetChild('hit'):GetChild('normal'):GetChild('bust')
 first.SetVisible=function()a:onEngineDestroy()end
 fallback.SetVisible=function()error('post-destroy native write')end
@@ -117,7 +117,7 @@ second.SetVisible=function()writes=writes+1 end
 a:tick();assert(writes==0,'paint continued after engine destroy')
 `));
 test('host death in position setter retires before the next native pose write',()=>vm(`
-a=Portraits.new(stage);a:sync('battle',false,false,'ironclad')
+a=Portraits.new(stage,nil,{selectionAvatar=true,battlePortrait=true});a:sync('battle',false,false,'ironclad')
 figure.SetAnchoredPosition=function()rawset(figure,'alive',false)end
 local writes=0;figure.SetLocalScale=function()writes=writes+1 end
 a:battlePose(3,4,1,1);assert(writes==0 and a:status().battle.phase=='destroyed','scale wrote a dead host')

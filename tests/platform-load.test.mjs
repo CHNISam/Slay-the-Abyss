@@ -1,3 +1,4 @@
+import {artFeatureReceipt} from '../scripts/art-features.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -88,7 +89,7 @@ test('release CLI rejects missing evidence, changed candidate, current payload d
   try {
     const path = join(directory, 'candidate.gil'), receiptPath = join(directory, 'candidate.json');
     writeFileSync(path, raw);
-    const current = {...receipt, payloadDigest: payloadDigest(sourceInputs(process.cwd())),
+    const current = {...receipt, artFeatures:artFeatureReceipt({}), payloadDigest: payloadDigest(sourceInputs(process.cwd())),
       candidate: {path, sha256: createHash('sha256').update(raw).digest('hex')}};
     const run = value => {
       writeFileSync(receiptPath, JSON.stringify(value));

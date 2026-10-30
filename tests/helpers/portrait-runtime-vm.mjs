@@ -16,7 +16,7 @@ export function withPortraitVm(code,{before=''}={}) {
  const dir=mkdtempSync(join(tmpdir(),'portrait-vm-'));
  let state;const old=lauxlib.luaL_newstate;lauxlib.luaL_newstate=()=>state=old();
  try {
-  const asset=writePortraitModule(dir,{imageTemplateIndex:1234,containerTemplateIndex:5678});
+  const asset=writePortraitModule(dir,{selectionAvatar:true,battlePortrait:true,imageTemplateIndex:1234,containerTemplateIndex:5678});
   const run=exactVm(`Asset=(function()\n${asset}\nend)()`);
   run(`
 local instantiate=game.InstantiateClientUIControl
@@ -49,7 +49,7 @@ function Images()local out={};for _,c in ipairs(controls)do if c.alive and not c
 function Equal(a,b)assert(type(a)==type(b),'type mismatch');if type(a)=='table'then assert(#a==#b,'length mismatch');for i,v in ipairs(a)do Equal(v,b[i])end else assert(a==b,tostring(a)..' ~= '..tostring(b))end end
 `);
   if(before)run(before);
-  run(`require=function(name)assert(name=='abyss_traveler_portrait_assets');return Asset end\nPortraits=(function()\n${readFileSync('src/lua/abyss_traveler_portraits.lua','utf8')}\nend)()`);
+  run(`PortraitAssetLoads=0;require=function(name)assert(name=='abyss_traveler_portrait_assets');PortraitAssetLoads=PortraitAssetLoads+1;return Asset end\nPortraits=(function()\n${readFileSync('src/lua/abyss_traveler_portraits.lua','utf8')}\nend)()`);
   run(code);
  } finally {lauxlib.luaL_newstate=old;if(state)lua.lua_close(state);rmSync(dir,{recursive:true,force:true});}
 }

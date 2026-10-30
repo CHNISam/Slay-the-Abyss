@@ -24,7 +24,7 @@ let directory,generated;
 before(()=>{
  directory=mkdtempSync(join(tmpdir(),'abyss-runtime-card-art-'));
  generated=process.env.ABYSS_READY_CARD_ART_DIRECTORY??directory;
- if(generated===directory)buildUI(directory);
+ if(generated===directory)buildUI(directory,undefined,{artFeatures:{cards:true}});
 });
 after(()=>{if(directory)rmSync(directory,{recursive:true,force:true});});
 test('bounded native runtime enforces global capacity, batching and fail-closed lifetime',()=>{

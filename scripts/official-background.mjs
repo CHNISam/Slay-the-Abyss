@@ -22,8 +22,9 @@ export function attachOfficialBackground(layout, templates) {
   stage.children.unshift({name:'officialBackground',kind:'container',size:[480,270],visible:false,children:[]});
   templates.push({name:backgroundTemplate,kind:'image',size:[20,20],image:100001});
 }
-export function writeBackgroundModule(directory, {root=process.cwd(), templateIndex=0} = {}) {
+export function writeBackgroundModule(directory, {root=process.cwd(), templateIndex=0,enabled=true} = {}) {
   if(!Number.isSafeInteger(templateIndex)||templateIndex<0)throw Error('Invalid official background templateIndex');
+  if(!enabled){const source='-- Disabled optional drawing.\nreturn {enabled=false,imagePrefabId=0}\n';writeFileSync(join(directory,`${backgroundModule}.lua`),source);return source;}
   const [adapter,data]=backgroundSources(root);
   const source=`-- Frozen official landscape; only the candidate-local template binding varies.\nlocal imagePrefabId = ${templateIndex}\nlocal adapter = (function()\n${adapter}\nend)()\nlocal data = (function()\n${data}\nend)()\nreturn {adapter=adapter,data=data,imagePrefabId=imagePrefabId}\n`;
   writeFileSync(join(directory,`${backgroundModule}.lua`),source,'utf8');
@@ -35,7 +36,7 @@ export function bindBackgroundTemplate(directory, result, options = {}) {
   return writeBackgroundModule(directory,{...options,templateIndex:index});
 }
 export function backgroundRuntimeInventory(directory) {
-  if(!existsSync(join(directory,`${backgroundModule}.lua`)))return undefined;
+  if(!existsSync(join(directory,`${backgroundModule}.lua`))||readFileSync(join(directory,`${backgroundModule}.lua`),'utf8').includes('enabled=false'))return undefined;
   return {asset:'traveler-geo/official-landscape-v1',host:'stage/officialBackground',instances:1,
     pages:['menu','character'],dynamicControlsPerInstance:13201,peakDynamicControls:13201,maxDirectDynamicChildren:13201,batchSize:64,
     sourceSha256:'fc0e4c50c0ed03a7a790731df5f5e10076d1418db615c41784210e9677c24ce3',

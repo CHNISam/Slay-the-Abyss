@@ -21,7 +21,7 @@ function fixture(t,templateIndex=1470123456){
   if(name==='scene_check_client')Object.assign(data,{ok:true,errors:0,warnings:0,checked:[...sources.keys()]});
   return {structuredContent:data};
  }};
- return {calls,sources,run:()=>buildNativeCandidate({baseMap,output:join(directory,'out'),client})};
+ return {calls,sources,run:(options={})=>buildNativeCandidate({baseMap,output:join(directory,'out'),client,artFeatures:{menuBackground:true},...options})};
 }
 test('actual candidate route binds only returned MCP template index before payload mapping and readback',async t=>{
  const f=fixture(t),receipt=await f.run();
@@ -59,4 +59,21 @@ test('readback verifies both the bound template identity and its actual image bo
  actual.background.template={...background,image:105301};
  assert(inspect().issues.some(i=>i.code==='BACKGROUND_TEMPLATE_MISMATCH'));
  delete actual.background;assert(inspect().issues.some(i=>i.code==='BACKGROUND_TEMPLATE_BINDING'));
+});
+
+
+for(const [name,artFeatures]of [['default',{}],['cards',{cards:true}],['avatar',{selectionAvatar:true}],['battle',{battlePortrait:true}],['both portraits',{selectionAvatar:true,battlePortrait:true}]])test(`candidate ${name} binds only enabled artwork and carries effective config`,async t=>{
+ const f=fixture(t),receipt=await f.run({artFeatures});
+ assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,...artFeatures});
+ const templates=f.calls.filter(c=>c.name==='scene_add_client_template').map(c=>c.args.template.name);
+ assert.equal(templates.includes('AbyssOfficialBackgroundImage'),false);
+ assert.equal(templates.includes('AbyssReadyCardImage'),name!=='default');
+ assert.equal(Boolean(receipt.readyCardArt),Boolean(artFeatures.cards));
+ assert.equal(Boolean(receipt.officialPortraits),Boolean(artFeatures.selectionAvatar||artFeatures.battlePortrait));
+ if(receipt.officialPortraits){
+  assert.equal(receipt.officialPortraits.assets.some(a=>a.asset.endsWith('avatar96')),Boolean(artFeatures.selectionAvatar));
+  assert.equal(receipt.officialPortraits.assets.some(a=>a.asset.endsWith('battle133')),Boolean(artFeatures.battlePortrait));
+ }
+ if(!artFeatures.cards)assert(f.sources.get('abyss_ready_card_binding').includes('imageTemplateIndex=0,containerTemplateIndex=0,enabled=false'));
+ assert(receipt.moduleDigests.abyss_art_features);
 });

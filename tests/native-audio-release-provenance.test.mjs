@@ -1,3 +1,4 @@
+import {artFeatureReceipt} from '../scripts/art-features.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node:fs';
@@ -24,11 +25,11 @@ function fixture(t, mutate = () => {}) {
     mkdirSync(directory, { recursive: true });
     const mapPath = join(directory, 'candidate.gil'), receiptPath = join(directory, 'candidate.json');
     writeFileSync(mapPath, 'complete game');
-    full = { mapPath, receiptPath, buildId: '7cf6f22e-2f12-44bb-9f01-aad514071a5f', candidate: fileRecord(mapPath), ...gitSourceIdentity(root),
+    full = { mapPath, receiptPath, artFeatures:artFeatureReceipt(options.artFeatures), buildId: '7cf6f22e-2f12-44bb-9f01-aad514071a5f', candidate: fileRecord(mapPath), ...gitSourceIdentity(root),
       payloadDigest: payloadDigest(sourceInputs(root)),
-      officialBackground: {templateIndex:1470123456,peakDynamicControls:13201,inputs:[{sha256:'c'.repeat(64)}]},
-      officialPortraits: {imageTemplateIndex:1470123457,containerTemplateIndex:1470123458,inputs:[{sha256:'d'.repeat(64)}]},
-      readyCardArt: {enabled:true,assetCount:75,imageTemplateIndex:1470123457,containerTemplateIndex:1470123458},
+      ...(options.artFeatures.menuBackground?{officialBackground: {templateIndex:1470123456,peakDynamicControls:13201,inputs:[{sha256:'c'.repeat(64)}]}}:{}),
+      ...(options.artFeatures.selectionAvatar||options.artFeatures.battlePortrait?{officialPortraits: {imageTemplateIndex:1470123457,containerTemplateIndex:1470123458,inputs:[{sha256:'d'.repeat(64)}]}}:{}),
+      ...(options.artFeatures.cards?{readyCardArt: {enabled:true,assetCount:75,imageTemplateIndex:1470123457,containerTemplateIndex:1470123458}}:{}),
       release: { version: 'v0.1.1', workKey: options.workKey,
         ...(options.releaseCandidate ? { notesSha256: 'b'.repeat(64) } : {}) } };
     writeFileSync(receiptPath, JSON.stringify(full)); return full;
@@ -40,7 +41,7 @@ function fixture(t, mutate = () => {}) {
     assert.equal(existsSync(join(observed.output, 'candidate.json')), false);
     mkdirSync(directory, { recursive: true }); const mapPath = join(directory, 'audio.gil');
     writeFileSync(mapPath, 'complete game plus music');
-    const audio = { mapPath, sha256: fileRecord(mapPath).sha256, baseMap,
+    const audio = { mapPath, artFeatures:full.artFeatures, sha256: fileRecord(mapPath).sha256, baseMap,
       candidate: fileRecord(mapPath), buildId: full.buildId,
       baseSha256: full.candidate.sha256, baseAfter: full.candidate.sha256,
       liveWriteEnabled: false, officialImport: 'NOT_TESTED', playtest: 'NOT_TESTED', listening: 'NOT_TESTED' };
@@ -51,7 +52,7 @@ function fixture(t, mutate = () => {}) {
 }
 
 test('actual audio entrypoint follows UUID full receipt and binds FINAL audio hash/version/source/notes', async t => {
-  const f = fixture(t), result = await f.run({ releaseCandidate: true, workKey: 'alpha-test' });
+  const f = fixture(t), result = await f.run({ releaseCandidate: true, workKey: 'alpha-test',artFeatures:{cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true} });
   assert.equal(f.observed.releaseCandidate, true); assert.equal(f.observed.workKey, 'alpha-test');
   assert.equal(result.receiptPath, join(f.root, 'build/native-audio-game/audio/candidate.json'));
   assert.equal(result.sha256, fileRecord(result.mapPath).sha256);
@@ -62,6 +63,7 @@ test('actual audio entrypoint follows UUID full receipt and binds FINAL audio ha
   assert.deepEqual(result.sourceReceipt, fileRecord(f.full.receiptPath));
   assert.deepEqual(result.officialBackground,f.full.officialBackground,'final audio candidate retains exact runtime binding/provenance');
   assert.deepEqual(result.officialPortraits,f.full.officialPortraits,'final audio candidate retains exact portrait binding/provenance');
+  assert.deepEqual(result.artFeatures,f.full.artFeatures);
   assert.deepEqual(result.readyCardArt,f.full.readyCardArt,'final audio candidate retains all75 artwork binding/provenance');
   assert.equal(JSON.parse(readFileSync(result.receiptPath)).sha256, result.sha256);
   assert.equal(result.liveWriteEnabled, false); assert.equal(result.officialImport, 'NOT_TESTED');
@@ -71,14 +73,15 @@ test('ordinary audio packaging does not opt into frozen notes or assert publicat
   assert.equal(f.observed.releaseCandidate, false);
   assert.equal('notesSha256' in result.release, false);
   assert.equal('publishedAt' in result, false); assert.equal('workId' in result, false);
-  assert.equal(f.observed.nativeCardArt, undefined,'ordinary audio build must not override the full75 dynamic route');
+  assert.equal(f.observed.nativeCardArt, undefined,'ordinary audio build must not implicitly select static card art');
   assert.notEqual(f.observed.readyCardArt,false);
 });
-test('normal build CLI leaves all75 dynamic cards enabled and preserves explicit legacy art/disable and release options', async t => {
+test('normal build CLI defaults drawings off and preserves explicit legacy art/disable and release options', async t => {
   const ordinary = nativeAudioBuildArgs(['base.gil']);
   assert.deepEqual(ordinary.paths, ['base.gil']);
   assert.equal(ordinary.options.nativeCardArt,undefined);
   assert.notEqual(ordinary.options.readyCardArt,false);
+  assert.deepEqual(ordinary.options.artFeatures,{cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false});
   const disabled = nativeAudioBuildArgs(['base.gil', '--native-card-art-count=0']);
   assert.deepEqual(disabled.options.nativeCardArt, { count: 0 });
   assert.equal(disabled.options.readyCardArt,false);
@@ -97,7 +100,7 @@ test('normal build CLI leaves all75 dynamic cards enabled and preserves explicit
   assert.deepEqual(custom.paths, ['base.gil', 'out']);
   assert.equal(custom.options.releaseCandidate, true);
   assert.deepEqual(custom.options.nativeCardArt, { registry: 'custom.json', hosts: ['battlePanel/card2'] });
-  await f.run({ nativeCardArt: custom.options.nativeCardArt });
+  await assert.rejects(f.run({ nativeCardArt: custom.options.nativeCardArt }),/ENOENT/,'forwarding cannot make a nonexistent custom registry packageable');
   assert.deepEqual(f.observed.nativeCardArt, custom.options.nativeCardArt);
   for (const args of [['--native-card-art-count=10'], ['--native-card-art-registry='], ['--native-card-art-unknown=1']])
     assert.throws(() => nativeAudioBuildArgs(['base.gil', ...args]), /native art|Native art|registry/);
@@ -108,11 +111,12 @@ for (const [name, mutate] of [
   ['wrong final hash', ({ audio }) => { audio.sha256 = '0'.repeat(64); }],
   ['pre-audio acceptance hash', ({ audio, full }) => { audio.candidate = full.candidate; }],
   ['missing startup build marker', ({ audio }) => { delete audio.buildId; }],
+  ['changed art feature config', ({audio})=>{audio.artFeatures={...audio.artFeatures,configSha256:'0'.repeat(64)};}],
   ['changed source input', ({ root }) => { writeFileSync(join(root, 'data/input.json'), '{"changed":true}'); }],
   ['new untracked source identity', ({ root }) => { writeFileSync(join(root, 'untracked.txt'), 'dirty'); }],
 ]) test(`audio candidate cannot inherit trusted release provenance with ${name}`, async t => {
   const f = fixture(t, mutate);
-  await assert.rejects(f.run({ releaseCandidate: true }), /artifact|Source changed|provenance changed/);
+  await assert.rejects(f.run({ releaseCandidate: true }), /artifact|Source changed|provenance changed|art feature configuration/);
   const receipt = JSON.parse(readFileSync(join(f.root, 'build/native-audio-game/audio/candidate.json')));
   assert.equal('sourceReceipt' in receipt, false, 'failed packaging must not claim full-source provenance');
 });

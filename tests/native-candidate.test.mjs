@@ -55,7 +55,7 @@ test('every production entry parameter is registered by both native package rout
   await f.run();
   const {candidateScriptFiles}=await import('../scripts/native-candidate-scripts.mjs');
   const generated=join(f.root,'generated');mkdirSync(generated);
-  for(const name of ['abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme','abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
+  for(const name of ['abyss_art_features','abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme','abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
     writeFileSync(join(generated,name+'.lua'),'return {}');
   const packaged=candidateScriptFiles(join(f.root,'src/lua'),generated).find(row=>row.name==='abyss_ui');
   const parameters=[...source.matchAll(/:GetParam\(["']([^"']+)["']\)/g)].map(match=>match[1]);
@@ -178,4 +178,17 @@ test('frozen native candidate rejects dirty source and misleading source SHA',as
   await assert.rejects(f.run(),/clean source checkout/);
   const concurrent=await releaseFixture(t,false,root=>writeFileSync(join(root,'untracked.txt'),'late change'));
   await assert.rejects(concurrent.run(),/source identity changed during packaging/);
+});
+
+test('custom preparation cannot smuggle disabled artwork templates or hosts into a default-off candidate',async t=>{
+ const {artFeaturesSource}=await import('../scripts/art-features.mjs');
+ for(const [label,mutate]of [
+  ['background template',dir=>writeFileSync(join(dir,'game-ui-templates.json'),JSON.stringify([{name:'AbyssOfficialBackgroundImage',kind:'image',size:[20,20],image:100001}]))],
+  ['shared template',dir=>writeFileSync(join(dir,'game-ui-templates.json'),JSON.stringify([{name:'AbyssReadyCardImage',kind:'image',size:[1,1],image:100001}]))],
+  ['avatar host',dir=>writeFileSync(join(dir,'game-ui.json'),JSON.stringify({controls:[{name:'officialAvatar',kind:'container',children:[]}]}))],
+ ]){
+  const f=await fixture(t,{prepareGenerated:dir=>{writeFileSync(join(dir,'abyss_art_features.lua'),artFeaturesSource({}));writeFileSync(join(dir,'abyss_menu_background_asset.lua'),'return {}');mutate(dir);}});
+  await assert.rejects(f.run({generatedModules:{abyss_art_features:'builder',abyss_menu_background_asset:'builder'}}),/disabled artwork/i,label);
+  assert.equal(f.calls.length,0,'reject before SDK mutations');
+ }
 });

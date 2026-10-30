@@ -358,8 +358,8 @@ for (const helper of ['abyss_run_initialization', 'abyss_run_transition', 'abyss
   });
 }
 
-test('formal deployment inventory includes all four generated art bindings without executing their data',()=>{
+test('formal deployment inventory includes generated art flags and all four art bindings without executing their data',()=>{
   const actual=inspectLaunchRuntime();
-  for(const name of ['abyss_menu_background_asset','abyss_ready_card_binding','abyss_ready_card_assets','abyss_traveler_portrait_assets'])
+  for(const name of ['abyss_art_features','abyss_menu_background_asset','abyss_ready_card_binding','abyss_ready_card_assets','abyss_traveler_portrait_assets'])
     assert.equal(actual.deployment.filter(value=>value===name).length,1,name);
 });

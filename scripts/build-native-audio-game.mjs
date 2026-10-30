@@ -1,3 +1,4 @@
+import {resolveArtFeatures,artFeatureArgs,verifyArtFeatureReceipt} from './art-features.mjs';
 // Production audio entrypoint: build every module before enabling native BGM.
 import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -9,7 +10,7 @@ import { releaseBuildArgs, gitSourceIdentity } from './release-notes.mjs';
 import { nativeCardArtArgs, verifyNativeCardArtReceipt } from './card-art-samples.mjs';
 
 // PR356's frozen two-card candidate remains an explicit legacy opt-in. Normal
-// builds leave static art unset so the full builder uses all75 dynamic assets.
+// builds leave every drawing category disabled unless explicitly opted in.
 export const legacyNativeCardArt = Object.freeze({
   registry: 'art/cards/traveler-geo/native-runtime-registry.json', count: 1,
 });
@@ -18,9 +19,11 @@ export const defaultNativeCardArt = legacyNativeCardArt;
 
 export function nativeAudioBuildArgs(argv) {
   const explicit = argv.some(arg => arg.startsWith('--native-card-art-'));
-  const art = nativeCardArtArgs(argv);
+  const features=artFeatureArgs(argv);
+  const art = nativeCardArtArgs(features.args);
   const parsed = releaseBuildArgs(art.args);
   return { ...parsed, options: { ...parsed.options,
+    artFeatures:resolveArtFeatures({artFeatures:features.artFeatures,nativeCardArt:art.nativeCardArt,readyCardArt:art.readyCardArt}),
     ...(explicit ? {nativeCardArt:art.nativeCardArt ?? {count:0}} : {}),
     ...(art.readyCardArt===false ? {readyCardArt:false} : {}) } };
 }
@@ -32,12 +35,15 @@ function runScript(script, args, root) {
 }
 
 export async function buildNativeAudioGame({ baseMap, output = 'build/native-audio-game', root = process.cwd(),
-  releaseCandidate = false, workKey = 'alpha-test', nativeCardArt, readyCardArt, buildFull = buildNativeCandidateFromToolchain, run = runScript } = {}) {
+  releaseCandidate = false, workKey = 'alpha-test', nativeCardArt, readyCardArt, artFeatures, buildFull = buildNativeCandidateFromToolchain, run = runScript } = {}) {
   if (!baseMap) throw new Error('A base .gil is required');
+  const flags=resolveArtFeatures({artFeatures,readyCardArt,nativeCardArt});
   const directory = resolve(root, output);
   // The full builder owns a unique UUID workspace. Consume its returned receipt,
   // never assume a shared full/candidate.json that could be missing or stale.
-  const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey, ...(readyCardArt===false?{readyCardArt:false}:{}), ...(nativeCardArt ? {nativeCardArt} : {}) });
+  const full = await buildFull({ baseMap: resolve(root, baseMap), output: join(directory, 'full'), root, releaseCandidate, workKey, artFeatures:flags, ...(readyCardArt===false?{readyCardArt:false}:{}), ...(nativeCardArt ? {nativeCardArt} : {}) });
+  const fullFlags=verifyArtFeatureReceipt(full.artFeatures);
+  if(JSON.stringify(fullFlags)!==JSON.stringify(flags))throw Error('Full candidate art feature configuration differs from request');
   if (fileRecord(full.mapPath).sha256 !== full.candidate.sha256) throw new Error('Full candidate changed before audio packaging');
   verifyNativeCardArtReceipt(full.nativeCardArt,{root});
   run('scripts/build-native-bgm-candidate.mjs', [full.mapPath, join(directory, 'audio'), full.receiptPath], root);
@@ -46,14 +52,15 @@ export async function buildNativeAudioGame({ baseMap, output = 'build/native-aud
   if (audio.baseSha256 !== full.candidate.sha256 || audio.baseAfter !== full.candidate.sha256
     || fileRecord(audio.mapPath).sha256 !== audio.sha256 || audio.candidate?.sha256 !== audio.sha256
     || !full.buildId || audio.buildId !== full.buildId) throw new Error('Final audio artifact/build marker is not bound to the full candidate');
-  if (payloadDigest(sourceInputs(root)) !== full.payloadDigest) throw new Error('Source changed during audio packaging');
   verifyNativeCardArtReceipt(full.nativeCardArt,{root});
+  if (payloadDigest(sourceInputs(root,{artFeatures:flags,nativeCardArt,readyCardArt})) !== full.payloadDigest) throw new Error('Source changed during audio packaging');
   if (releaseCandidate) {
     const identity = gitSourceIdentity(root);
     if (identity.sourceCommit !== full.sourceCommit || identity.sourceDirty || full.sourceDirty !== false
       || !full.release?.notesSha256) throw new Error('Release candidate provenance changed during audio packaging');
   }
-  Object.assign(audio, { sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,
+  if(JSON.stringify(audio.artFeatures)!==JSON.stringify(full.artFeatures))throw Error('Audio art feature configuration differs from full candidate');
+  Object.assign(audio, { artFeatures:full.artFeatures, sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,
     startedAt: full.startedAt, productionManifest: full.productionManifest,
     sourceReceipt: fileRecord(full.receiptPath), ...(full.release ? { release: full.release } : {}),
     ...(full.nativeCardArt ? { nativeCardArt: full.nativeCardArt } : {}),
