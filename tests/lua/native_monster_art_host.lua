@@ -1,3 +1,9 @@
+-- Enabled prototype is exercised by the explicit build in native-monster-art.test.mjs.
+if require('abyss_monster_art_data').enabled~=true then
+ assert(next(require('abyss_monster_art_data'))==nil,'disabled build must emit an empty stub')
+ print('NATIVE_MONSTER_DISABLED_BASELINE_PASS')
+ return
+end
 -- Actual generated normal-build tree + real GameUI/Combat/feedback, offline native mocks.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Native=dofile('tests/lua/support/native_art_controls.lua')

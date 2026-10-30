@@ -16,3 +16,5 @@
 纯图形独立Lua导出含固定Primitive的MIT/LiuL基础运行时，沿用[许可原文](../../../cards/shared/licenses/PRIMITIVE-SHAPE-MIT.txt)及仓库第三方声明；游戏只消费静态槽位，不挂载导出脚本或其实例化生命周期。
 
 身份为既有原神草史莱姆，不宣称完整自有IP或第三方IP再许可。平台项目用途与商用许可分开。失败的571控件历史草稿没有接入。
+
+默认构建关闭此测试原型（data/presentation/native-monster-art.json 的 enabled=false），保持已有默认关闭美术与无绘图源依赖合同。只有显式将该构建配置开启并重建同 SHA 候选后才装配597图元；运行时 nativeMonsterArtEnabled 仍可关闭。独立主机测试使用隔离的显式开启配置，默认关闭分支仅检验空模块回退。未取得官方容量与设备通过证据前不默认启用。

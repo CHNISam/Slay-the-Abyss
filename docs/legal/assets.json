@@ -4706,7 +4706,7 @@
     },
     "art/monsters/acid_slime_m/native-art-r02/README.md": {
       "category": "genshin-native-monster-prototype",
-      "sha256": "231860a11ef30a2df2d4926c2a5c48541995200afbc3e98fc16e4bfdeb6e124a"
+      "sha256": "f609352d8784b845b4b6d65e35af197ec20593ca50f94a0464ea6fdc6580386a"
     },
     "art/monsters/acid_slime_m/native-art-r02/native-art.lua": {
       "category": "genshin-native-monster-prototype",
