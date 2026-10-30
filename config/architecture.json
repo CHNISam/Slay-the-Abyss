@@ -143,6 +143,8 @@
     "abyss_events": "core",
     "abyss_external_random": "core",
     "abyss_feedback": "ui",
+    "abyss_feedback_actor_painter": "ui",
+    "abyss_game_ui_menu_view": "ui",
     "abyss_fountain": "core",
     "abyss_fungi_beast_ai": "core",
     "abyss_game_ui": "ui",
