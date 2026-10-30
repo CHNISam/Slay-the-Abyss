@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { originalWorkflow } from './helpers/ci-runtime-workflow.mjs';
+import { beforePlatformWorkflow } from './helpers/platform-load-wiring.mjs';
 
 const workflow = readFileSync('.github/workflows/quality.yml', 'utf8').replaceAll('\r\n', '\n');
 const job = name => workflow.match(new RegExp(`^  ${name}:\\n([\\s\\S]*?)(?=^  [\\w-]+:|(?![\\s\\S]))`, 'm'))[1];
@@ -54,4 +55,32 @@ test('reviewed summary runner inverse retains the original complete workflow con
       assert.equal(rejected, true, `${name} must not hide unrelated summary changes`);
     }
   }
+});
+
+test('direct platform projection and layered replay share the same exact runner migration', () => {
+  const historical = workflow.replaceAll('    runs-on: ubuntu-slim\n', '    runs-on: ubuntu-24.04\n');
+  const expected = 'c1759c590177f4a2389fa04e700167d0948eae41b9f12e67db4b6bf48f5871ae';
+  assert.equal(digest(beforePlatformWorkflow(historical)), expected, 'historical all-VM input remains accepted');
+  assert.equal(beforePlatformWorkflow(workflow), beforePlatformWorkflow(historical));
+  assert.equal(digest(originalWorkflow(historical)), digest(originalWorkflow(workflow)));
+  for (const name of ['impact', 'check', 'engineering-posix']) {
+    const body = job(name);
+    for (const changed of [
+      body.replace('    runs-on: ubuntu-slim\n', ''),
+      body.replace('    runs-on: ubuntu-slim', '    runs-on: ubuntu-24.04'),
+      body.replace('    runs-on: ubuntu-slim', '    runs-on: windows-2025'),
+      body.replace('    runs-on: ubuntu-slim', '    runs-on: ubuntu-slim\n    runs-on: ubuntu-slim'),
+    ]) assert.equal(beforePlatformWorkflow(workflow.replace(body, changed)), null, `${name} malformed or partial migration`);
+    assert.equal(beforePlatformWorkflow(workflow.replace(`  ${name}:\n`, `  ${name}:\n${body}  ${name}:\n`)), null, `${name} duplicate job`);
+    assert.equal(beforePlatformWorkflow(workflow.replace(`  ${name}:\n${body}`, '')), null, `${name} missing job`);
+    const timeout = name === 'impact' ? 3 : 2;
+    for (const changed of [
+      body.replace(`    timeout-minutes: ${timeout}`, `    timeout-minutes: ${timeout + 1}`),
+      body.replace('    steps:\n', '    steps:\n      - run: echo unreviewed\n'),
+    ]) assert.notEqual(digest(beforePlatformWorkflow(workflow.replace(body, changed))), expected, `${name} unrelated bytes stay visible`);
+  }
+  for (const changed of [
+    workflow.replace('contents: read', 'contents: write'),
+    workflow.replace('    runs-on: ubuntu-24.04', '    runs-on: ubuntu-slim'),
+  ]) assert.notEqual(digest(beforePlatformWorkflow(changed)), expected, 'external workflow drift remains visible');
 });
