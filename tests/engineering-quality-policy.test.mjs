@@ -19,16 +19,23 @@ test('active policy pins exactly the lint/tool inputs and rejects changes, missi
   assert.ok(policyErrors(inputs,null).length);
 });
 
-test('the active policy is the integrated Enum ownership move, with no new globals, ignores or exclusions',()=>{
+test('active policy preserves historical lint except exact reviewed SDK owner and callback declarations',()=>{
   const baseline=JSON.parse(readFileSync('config/engineering-quality-baseline.json','utf8'));
   const policy=JSON.parse(readFileSync('config/engineering-quality-policy.json','utf8'));
   assert.equal(baseline.revision,'1f260a71972b03dae5b63e8d6f12d055973a4c83');
-  assert.equal(policy.sourceRevision,'48cb48cef5480c6b0cfa32b6269c9390acb1d57a');
+  assert.equal(policy.sourceRevision,'880fb8f68565b0689ba46e6d9349e558057fd8da');
   const actual=Object.fromEntries(files.map(f=>[f,sha256(readFileSync(f,'utf8').replaceAll('\r\n','\n'))]));
   assert.deepEqual(policyErrors(actual,policy),[]);
   const lint=readFileSync('.luacheckrc','utf8').replaceAll('\r\n','\n');
   assert.equal(lint.split('abyss_node_ui_input.lua').length,2);
-  assert.equal(sha256(lint.replace('abyss_node_ui_input.lua','abyss_node_ui.lua')),baseline.inputs['.luacheckrc'],
-    'every other byte of the historical lint contract is preserved; the existing Enum grant moves with its owner only');
+  const portrait='files["src/lua/abyss_traveler_portraits.lua"] = {read_globals = {"game", "Enum", "Color"}}\n';
+  const callbacks='"OnStart", "OnUpdate", "OnDestroy"';
+  assert.equal(lint.split(portrait).length,2);
+  assert.equal(lint.split(callbacks).length,2);
+  const historical=lint.replace(portrait,'').replace(callbacks,'"OnStart", "OnUpdate"')
+    .replace('abyss_node_ui_input.lua','abyss_node_ui.lua');
+  assert.equal(sha256(historical),baseline.inputs['.luacheckrc'],
+    'all other historical lint bytes and semantic diagnostics remain unchanged');
+  assert.equal(JSON.parse(readFileSync('config/architecture.json','utf8')).layers.abyss_traveler_portraits,'platform');
   assert.equal(actual['config/lua-tools.json'],baseline.inputs['config/lua-tools.json']);
 });

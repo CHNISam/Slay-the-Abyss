@@ -203,7 +203,9 @@ function M.new(view, controls)
         tint(box:GetChild("nameRule"), C.rarity[definition.rarity] or C.line)
         tint(box:GetChild("artPlate"), enabled and (C.cardType[definition.type] or C.panelRaised) or C.panelSunken)
         CardDisplay.writeArt(box:GetChild("art"), definition, picture)
-        CardDisplay.writeNativeArt(box,definition,card.display.nativeArt,controls.platform,box:GetChild('art'))
+        if view.active==false then CardDisplay.clearNativeArt(box)
+        else CardDisplay.writeNativeArt(box,definition,card.display.nativeArt,controls.platform,box:GetChild('art'),
+            card.instance and card.instance.uid)end
     end
 
     local function place(box, card, context, i)

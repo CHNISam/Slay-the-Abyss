@@ -1,4 +1,12 @@
-# 已有两张卡图接入本地正常打包
+# 本地卡图打包入口
+
+## 当前75张接入
+
+Owner后续明确要求仅有源图的卡也全部接入。普通 `npm run build:native -- <base.gil> <new-output-directory>` 现在使用75张动态卡图路径，具体预算与待验范围见[当前美术接入](READY_ASSET_INTEGRATION.md)。`--native-card-art-count=0` 或 `--no-ready-card-art` 显式关闭卡图；背景/角色图仍按各自绑定处理。
+
+PR356的两卡单静态池仍可明确选择：追加 `--native-card-art-registry=art/cards/traveler-geo/native-runtime-registry.json --native-card-art-count=1`。该路径不扩为75张，也不与动态池叠加。原registry与SHA保持不变。
+
+## PR356历史有限接入记录（默认值已被上文替代）
 
 2026-10-30：按 Owner“已有成果先用起来，自己本地打包”指令，正常入口已默认启用已离线审阅的 `cleave`（星陨剑）和 `heavy_blade`（重剑斩）原生精修图：
 

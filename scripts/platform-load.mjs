@@ -1,3 +1,6 @@
+import {portraitRuntimeInventory} from './official-portraits.mjs';
+import {readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';
+import {backgroundRuntimeInventory} from './official-background.mjs';
 import { readFileSync, mkdirSync, writeFileSync, realpathSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -70,6 +73,9 @@ export function packageInventory(directory = 'build/lua') {
     layoutJsonBytes: Buffer.byteLength(JSON.stringify(layout)), templateJsonBytes: Buffer.byteLength(JSON.stringify(templates)),
     controls, hiddenControls, templates: templates.length, artPools, maxChildren,
     repeatedPrimitiveInstances: [...primitives.values()].reduce((n, count) => n + Math.max(0, count - 1), 0),
+    runtimeCardArt: modules.some(row=>row.name==='abyss_ready_card_binding') ? readyArtRuntimeInventory() : undefined,
+    runtimePortraits: portraitRuntimeInventory(directory),
+    runtimeBackgrounds: [backgroundRuntimeInventory(directory)].filter(Boolean),
     excludedModules: excludedProductionModules};
 }
 

@@ -110,7 +110,7 @@ def assemble_candidate(drawing, name):
     for row, angles, image_type in zip(rows, rotations, image_types):
         if len(row) != 18 or len(angles) != 2 or not all(type(n) in (int, float) and math.isfinite(n) for n in [*row, *angles]):
             raise ValueError(f'{name}: invalid native slot values')
-        if row[0] not in (100001, 100003, 106056, 106057) or image_type not in ('basic', 'stretch'):
+        if row[0] not in (100001, 100002, 100003, 106056, 106057) or image_type not in ('basic', 'stretch'):
             raise ValueError(f'{name}: unsupported native image or type')
         if min(row[3:5]) <= 0 or row[5:11] != [.5] * 6 or row[11:13] != [1, 1]:
             raise ValueError(f'{name}: unsupported slot geometry')
@@ -124,12 +124,12 @@ def assemble_candidate(drawing, name):
 
 def read_candidate_registry(path, read_drawing):
     registry = json.loads(path.read_text(encoding='utf-8'))
-    if registry.get('schemaVersion') != 1 or not 1 <= len(registry.get('assets', [])) <= 2:
+    if registry.get('schemaVersion') != 1 or not 1 <= len(registry.get('assets', [])) <= 3:
         raise ValueError('Invalid native candidate registry')
     assets, source_inputs = {}, []
     for entry in registry['assets']:
         card_id = entry.get('cardId')
-        if card_id not in ('cleave', 'heavy_blade') or card_id in assets:
+        if card_id not in ('armaments', 'cleave', 'heavy_blade') or card_id in assets:
             raise ValueError('Invalid or duplicate candidate card_id')
         payload = {}
         for kind in ('lua', 'json'):

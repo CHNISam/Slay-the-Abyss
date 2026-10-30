@@ -15,8 +15,9 @@ const inputRecord=(path,root)=>fileRecord(realpathSync.native(isAbsolute(path)?p
 export const nativeArtSlotPath = index => [`group${String(Math.floor(index/60)).padStart(3,'0')}`, `shape${String(index).padStart(4,'0')}`];
 
 export function nativeCardArtArgs(argv) {
-  const args=[],hosts=[];let count,registry;
+  const args=[],hosts=[];let count,registry,readyCardArt;
   for(const arg of argv) {
+    if(arg==='--no-ready-card-art'){if(readyCardArt===false)throw Error('Duplicate ready art disable');readyCardArt=false;continue;}
     if(arg.startsWith('--native-card-art-count=')) {
       if(count!==undefined)throw new Error('Duplicate native art count');
       count=arg.slice('--native-card-art-count='.length);if(!['0','1','5','10'].includes(count))throw new Error('Native art count must be 0/1/5/10');
@@ -28,27 +29,27 @@ export function nativeCardArtArgs(argv) {
     else args.push(arg);
   }
   if(count!==undefined&&hosts.length)throw new Error('Choose native art count OR explicit hosts');
-  if(count==='0')return {args,nativeCardArt:undefined};
+  if(count==='0')return {args,nativeCardArt:undefined,...(count==='0'||readyCardArt===false?{readyCardArt:false}:{})};
   if(count===undefined&&!hosts.length) {
     if(registry!==undefined)throw new Error('Native art registry requires explicit hosts/count');
-    return {args,nativeCardArt:undefined};
+    return {args,nativeCardArt:undefined,...(count==='0'||readyCardArt===false?{readyCardArt:false}:{})};
   }
   if(!registry)throw new Error('Native art candidate requires a registry');
-  return {args,nativeCardArt:{registry,hosts:hosts.length?hosts:Array.from({length:Number(count)},(_,i)=>`battlePanel/card${i+1}`)}};
+  return {args,...(readyCardArt===false?{readyCardArt:false}:{}),nativeCardArt:{registry,hosts:hosts.length?hosts:Array.from({length:Number(count)},(_,i)=>`battlePanel/card${i+1}`)}};
 }
 
 export function validateNativeCardArt(registry) {
   if (registry?.schemaVersion !== 2 || registry.editorCommit !== editorCommit || !same(registry.canvas,[144,64])) throw new Error('Invalid native art registry');
   const assets = Object.entries(registry.assets ?? {});
-  if (!assets.length || assets.length > 2) throw new Error('Native art requires one or two candidate assets');
+  if (!assets.length || assets.length > 3) throw new Error('Native art requires one to three reviewed candidate assets');
   let capacity = 0;
   for (const [id, asset] of assets) {
-    if (!['cleave','heavy_blade'].includes(id) || asset.cardId !== id || !/^[a-f0-9]{64}$/.test(asset.luaSha256 ?? '')
+    if (!['armaments','cleave','heavy_blade'].includes(id) || asset.cardId !== id || !/^[a-f0-9]{64}$/.test(asset.luaSha256 ?? '')
       || !/^[a-f0-9]{64}$/.test(asset.jsonSha256 ?? '')) throw new Error('Invalid native art identity/hash');
     if (!Array.isArray(asset.slots) || !asset.slots.length || asset.slots.length > 2657) throw new Error('Native art exceeds the explicit two-sample capacity');
     for (const slot of asset.slots) {
       if (!same(Object.keys(slot).sort(),['anchorMax','anchorMin','colour','image','imageType','pivot','position','rotation','scale','size'].sort())) throw new Error('Unexpected native art slot field');
-      if (![100001,100003,106056,106057].includes(slot.image) || !['basic','stretch'].includes(slot.imageType)) throw new Error('Unsupported native art image/type');
+      if (![100001,100002,100003,106056,106057].includes(slot.image) || !['basic','stretch'].includes(slot.imageType)) throw new Error('Unsupported native art image/type');
       if (!vector(slot.position,2) || !vector(slot.size,2) || slot.size.some(n=>n<=0) || !vector(slot.rotation,3)
         || !same(slot.scale,[1,1]) || !['pivot','anchorMin','anchorMax'].every(k=>same(slot[k],[.5,.5]))
         || !vector(slot.colour,4) || slot.colour.some(n=>!Number.isInteger(n)||n<0||n>255)) throw new Error('Invalid native art slot geometry/RGBA');

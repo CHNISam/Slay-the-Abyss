@@ -14,16 +14,13 @@ local function hit(root,path)
     return c.listeners and c.listeners.click and c or assert(c:GetChild("hit"),path)
 end
 local function click(root,path) return assert(hit(root,path).click,path)() end
-local function canvas(withClasses)
+local function canvas()
     local c=F.control({children=F.Layout})
     local root=F.Viewport.apply(c,1280,720)
-    if not withClasses then
-        root.children.characterPanel=nil;root.children.choicePanel=nil
-    end
     return c,root
 end
 local function startup(hostFlag,layoutFlag,profile)
-    local c,root=canvas(layoutFlag)
+    local c,root=canvas()
     local updates,signals,lines=nil,0,{}
     script={object=c,EnableUpdate=function(_,value)updates=value end,
         GetParam=function(_,name)
@@ -44,6 +41,9 @@ local function startup(hostFlag,layoutFlag,profile)
             eq(profile,'full-source') -- explicit legacy-class test host only
             args[5].campaignProfile=profile
         end
+        -- Inject the missing formal controls at the GameUI boundary under test;
+        -- real art adapters have already captured their separate valid hosts.
+        if not layoutFlag then root.children.characterPanel=nil;root.children.choicePanel=nil end
         ui=actualNew(table.unpack(args));return ui
     end
     print=function(...)

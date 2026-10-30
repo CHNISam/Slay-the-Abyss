@@ -1,3 +1,4 @@
+import {projectArtPerfSource} from './helpers/art-perf-source-composition.mjs';
 import {preRound2UiSource,round2UiSourceLayer,round2UiAddedPaths} from './helpers/round2-ui-source-inverse.mjs';
 import {preRelicViewUiSource} from './helpers/relic-view-ui-inverse.mjs';
 import {preHeroVisualSource} from './helpers/hero-visual-source-inverse.mjs';
@@ -58,7 +59,7 @@ test('config-only historical adapters never project away unrelated current produ
 
 test('round-two UI inverse recovers exact prior hosts and config without replacing frozen witnesses',()=>{
  for(const [path,binding]of Object.entries(round2UiSourceLayer.files)){
-  const current=normalize(readFileSync(path,'utf8'));
+  const current=normalize(projectArtPerfSource(path,readFileSync(path,'utf8'),'perf'));
   assert.equal(hash(current),binding.afterSha256,path+' complete current source');
   const previous=preRound2UiSource(path,current);
   assert.equal(previous===null?null:hash(previous),binding.beforeSha256,path+' exact a7 source');
@@ -81,9 +82,9 @@ test('round-two UI inverse recovers exact prior hosts and config without replaci
 });
 
 test('round-two UI historical permission binds both extracted modules and rejects missing or drifting responsibilities',()=>{
- const sources=Object.fromEntries(round2UiAddedPaths.map(path=>[path,normalize(readFileSync(path,'utf8'))]));
+ const sources=Object.fromEntries(round2UiAddedPaths.map(path=>[path,normalize(projectArtPerfSource(path,readFileSync(path,'utf8'),'perf'))]));
  for(const path of Object.keys(round2UiSourceLayer.files)){
-  const current=normalize(readFileSync(path,'utf8'));
+  const current=normalize(projectArtPerfSource(path,readFileSync(path,'utf8'),'perf'));
   for(const changed of round2UiAddedPaths){
    for(const mutant of [sources[changed]+'\n-- drift\n',sources[changed].slice(1),sources[changed]+sources[changed]]){
     assert.throws(()=>preRound2UiSource(path,current,{readSource:key=>key===changed?mutant:sources[key]}),/linked module drift/);

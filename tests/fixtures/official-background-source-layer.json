@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "61a1b061f066f4172ae7a427136719da7ccdf907",
+  "files": {
+    "config/architecture.json": {
+      "beforeSha256": "4eb51e51be7eebf76030adbcc376f14305acfceeaac1f61323300038fd9447fe",
+      "afterSha256": "ad10cadf07de1d4007d6932edf47c66e54fedb613f505afebc876341589469ba",
+      "hunks": [
+        {
+          "at": 187,
+          "before": [],
+          "after": [
+            "    \"abyss_menu_background\": \"ui\",",
+            "    \"abyss_menu_background_asset\": \"ui\","
+          ]
+        }
+      ]
+    },
+    "scripts/build-ui.mjs": {
+      "beforeSha256": "14549519cecd0e7f70551f9b53229a7294a089bc2b56ba1b8b71666f746ad387",
+      "afterSha256": "4eb7c5c2775a1bc47ffc35d0a9d1d4082b52d6e3c5fda7e2b121f98c21f99285",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import { backgroundInputs, backgroundSources, backgroundModule, attachOfficialBackground, writeBackgroundModule } from './official-background.mjs';"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            "    'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json'];"
+          ],
+          "after": [
+            "    'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json', `${backgroundModule}.lua`];"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [
+            "  rejectInputOutputAliases(outputDirectory, (art?.inputPaths??[]).map(path=>resolve(path)));"
+          ],
+          "after": [
+            "  backgroundSources();",
+            "  rejectInputOutputAliases(outputDirectory, [...backgroundInputs, ...(art?.inputPaths??[])].map(path=>resolve(path)));"
+          ]
+        },
+        {
+          "at": 80,
+          "before": [],
+          "after": [
+            "  attachOfficialBackground(layout, templates);"
+          ]
+        },
+        {
+          "at": 90,
+          "before": [],
+          "after": [
+            "  writeBackgroundModule(outputDirectory);"
+          ]
+        }
+      ]
+    },
+    "scripts/build-native-candidate.mjs": {
+      "beforeSha256": "610e112ed9b2fa7e2489964da15c700ce2b9f35dbfa4b5a1f6ff6804dba2b73b",
+      "afterSha256": "294d54e9bec58add9bc60003b71e89ecb5352791d3680f8daaad57fd20a46ff0",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import { backgroundInputs, backgroundModule, backgroundTemplate, bindBackgroundTemplate, backgroundRuntimeInventory } from './official-background.mjs';"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [],
+          "after": [
+            "  [backgroundModule]:'scripts/build-ui.mjs',"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json']) {"
+          ],
+          "after": [
+            "    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...backgroundInputs]) {"
+          ]
+        },
+        {
+          "at": 115,
+          "before": [],
+          "after": [
+            "    if(modules.has(backgroundModule)&&templates.filter(template=>template.name===backgroundTemplate).length!==1)",
+            "      throw Error('Official background requires exactly one native image template');"
+          ]
+        },
+        {
+          "at": 123,
+          "before": [],
+          "after": [
+            "    for(const template of templates) {",
+            "      const result=await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});",
+            "      if(template.name===backgroundTemplate) {",
+            "        if(!modules.has(backgroundModule))throw Error('Official background template has no runtime module');",
+            "        bindBackgroundTemplate(generated,result,{root});",
+            "        receipt.officialBackground={...backgroundRuntimeInventory(generated),templateIndex:result.templateIndex,",
+            "          inputs:backgroundInputs.map(path=>fileRecord(join(root,path),root))};",
+            "      }",
+            "    }",
+            "    if(modules.has(backgroundModule)&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');"
+          ]
+        },
+        {
+          "at": 142,
+          "before": [
+            "    for(const template of templates)await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "scripts/native-candidate-audit.mjs": {
+      "beforeSha256": "b537c29106727df38cc3aa484ace8a9c048ff8b6e08bbee87462dabed6dba7dc",
+      "afterSha256": "ed2d67faf07200c4d1a6b2a426a6e3fec7f1743f82e0b6b3c6c88a90ca700aeb",
+      "hunks": [
+        {
+          "at": 116,
+          "before": [],
+          "after": [
+            "  if (expected.background) {",
+            "    if (!Number.isSafeInteger(expected.background.templateIndex) || expected.background.templateIndex<=0",
+            "      || actual.background?.templateIndex!==expected.background.templateIndex)",
+            "      add('BACKGROUND_TEMPLATE_BINDING', 'Background template index differs from candidate-local binding');",
+            "    if (!equivalent(normalizeUi(expected.background.template, 'control', true), normalizeUi(actual.background?.template), 'control'))",
+            "      add('BACKGROUND_TEMPLATE_MISMATCH', 'Background image template differs from the generated source');",
+            "  }"
+          ]
+        }
+      ]
+    },
+    "scripts/native-candidate-scripts.mjs": {
+      "beforeSha256": "43d51fda83bf515809d74d1e3469aba672f5ce3ab96f073029fba85938c007dd",
+      "afterSha256": "080b5fa856ebb8f2b8c2c75384c495e40947d7e48f1b3da234917d63703b89ab",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [
+            "const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme'];"
+          ],
+          "after": [
+            "const generatedModules = ['abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset'];"
+          ]
+        }
+      ]
+    },
+    "scripts/platform-load.mjs": {
+      "beforeSha256": "4c6f793474a8e4c7340718398d651b0aaf40e212763e646a730c7e38d3d41293",
+      "afterSha256": "0739b3ebdb28721e8711c21c3888edd3fcd31f2d6a07fe70a5f304e560cea48c",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {backgroundRuntimeInventory} from './official-background.mjs';"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [],
+          "after": [
+            "    runtimeBackgrounds: [backgroundRuntimeInventory(directory)].filter(Boolean),"
+          ]
+        }
+      ]
+    },
+    "scripts/audit-native-candidate.mjs": {
+      "beforeSha256": "c69b0a559516054f30cf52046cad108596aab3b5d44881a6e45f711dc587dcc9",
+      "afterSha256": "9a5e6be13fd3c823d79970ae47dae4876cf3f915fa7fc47627721aae843a9fbe",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [],
+          "after": [
+            "import {backgroundInputs, backgroundModule, backgroundTemplate} from './official-background.mjs';"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [],
+          "after": [
+            "    const background = scripts.scripts.some(module=>module.name===backgroundModule)",
+            "      ? save('background-template.json', getClientUi({mapPath,template:backgroundTemplate})) : undefined;"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [],
+          "after": [
+            "    const assetInputs=run('git',['ls-tree','--name-only',sourceSha,'--',...backgroundInputs],{encoding:'utf8'}).trim().split('\\n').filter(Boolean);"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [
+            "      'src/lua', 'data', 'scripts', 'tools', ...releaseSourceFiles]) });"
+          ],
+          "after": [
+            "      'src/lua', 'data', 'scripts', 'tools', ...releaseSourceFiles, ...assetInputs]) });"
+          ]
+        },
+        {
+          "at": 79,
+          "before": [],
+          "after": [
+            "    if(deployment.some(module=>module.name===backgroundModule)) {",
+            "      if(buildReceipt?.sourceCommit!==sourceSha || buildReceipt?.candidate?.sha256!==before",
+            "        || buildReceipt?.officialBackground?.templateIndex!==background?.templateIndex)",
+            "        throw Error('Official background requires matching same-candidate receipt and template readback');",
+            "      const {bindBackgroundTemplate}=await import(pathToFileURL(join(snapshot,'scripts/official-background.mjs')));",
+            "      bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot});",
+            "    }"
+          ]
+        },
+        {
+          "at": 91,
+          "before": [
+            "    const expectedTemplate = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui-templates.json'), 'utf8')).find(template => template.name === 'AbyssDeckCard');"
+          ],
+          "after": [
+            "    const expectedTemplates = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui-templates.json'), 'utf8'));",
+            "    const expectedTemplate = expectedTemplates.find(template => template.name === 'AbyssDeckCard');",
+            "    const expectedBackgroundTemplate = expectedTemplates.find(template => template.name === backgroundTemplate);",
+            "    const expectedBackground = expectedBackgroundTemplate ? {template:expectedBackgroundTemplate,",
+            "      templateIndex:buildReceipt?.officialBackground?.templateIndex} : undefined;"
+          ]
+        },
+        {
+          "at": 104,
+          "before": [
+            "    report = compareNativeCandidate({ actual: { scripts, ui, template, inspected, parameters, checked },",
+            "      expected: { modules, ui: expectedUi, template: expectedTemplate, graphs, uiBgmParameter }, sourceSha,"
+          ],
+          "after": [
+            "    report = compareNativeCandidate({ actual: { scripts, ui, template, background, inspected, parameters, checked },",
+            "      expected: { modules, ui: expectedUi, template: expectedTemplate, background:expectedBackground, graphs, uiBgmParameter }, sourceSha,"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_ui.lua": {
+      "beforeSha256": "c230078dc867b9fda0760b7e2dd7eb05d140f1fb3adb4a57c8c63cf14c4303ed",
+      "afterSha256": "aed417cba95589fa41f27845d58e92f4f728c9ff2704eca3f5e88bb64f9f461f",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [
+            "local view, Viewport"
+          ],
+          "after": [
+            "local view, Viewport, background"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "    if background then pcall(function()background:release()end) end"
+          ]
+        },
+        {
+          "at": 47,
+          "before": [],
+          "after": [
+            "        background = require(\"abyss_menu_background\").new(stage, print)"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [
+            "            { music = music, campaign = true, campaignProfile = \"competition-two-act\","
+          ],
+          "after": [
+            "            { background = background, music = music, campaign = true, campaignProfile = \"competition-two-act\","
+          ]
+        },
+        {
+          "at": 106,
+          "before": [],
+          "after": [
+            "function OnDestroy()",
+            "    if background then background:onEngineDestroy() end",
+            "    background, view = nil, nil",
+            "    script:EnableUpdate(false)",
+            "end",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "0962a3b4d8bb108fdb4cfd91994e4f24693c06e1a422179f29fd1f91a0f6ea3c",
+      "afterSha256": "f91d5498f86cf9c8b4b5ff7df2e936fb4a4ac4bf5d50755e6da9f4b114e2386c",
+      "hunks": [
+        {
+          "at": 573,
+          "before": [],
+          "after": [
+            "        if platform.background then platform.background:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy) end"
+          ]
+        },
+        {
+          "at": 761,
+          "before": [],
+          "after": [
+            "        if platform.background then platform.background:tick() end"
+          ]
+        },
+        {
+          "at": 788,
+          "before": [],
+          "after": [
+            "        if platform.background then platform.background:release() end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_menu_background.lua": {
+      "beforeSha256": null,
+      "afterSha256": "493d535133f2cd83237632cd815ed663a8e9da907bd87dd9eba029c60089b73f",
+      "hunks": []
+    }
+  }
+}

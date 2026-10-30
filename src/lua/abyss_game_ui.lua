@@ -444,6 +444,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         selectMode(run)
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         syncMenuContext(run,inMenu)
+        if platform.background then platform.background:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy) end
+        if platform.portraits then platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,self.run and self.run.character) end
         syncCardChoice(run)
         closeStaleDeck(run,inMenu)
         openCardChoice(run)
@@ -631,6 +633,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
             return false, "invalid_delta"
         end
+        if platform.background then platform.background:tick() end
+        if platform.portraits then platform.portraits:tick() end
         if controller then controller:tick() end
         if self.exitOpen or self.settlementBusy then self:syncController();return true end
         if self.settlementRequested then self:animate(dt); return true end
@@ -657,6 +661,9 @@ function M.new(root, data, presentation, clickEvent, platform)
     self.disable = function(_)
         if self.disabled then return false end
         self.disabled=true
+        if platform.background then platform.background:release() end
+        if platform.portraits then platform.portraits:release() end
+        if platform.cardArt then platform.cardArt.clear() end
         if self.prologue then self.prologue:cancel() end
         if controller then controller:disable() end
         exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1

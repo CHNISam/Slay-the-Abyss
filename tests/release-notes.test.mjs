@@ -1,7 +1,10 @@
+import {backgroundInputs} from '../scripts/official-background.mjs';
+import {portraitInputs} from '../scripts/official-portraits.mjs';
+import {readyArtSourceInputs} from '../scripts/art/ready-card-runtime.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { cpSync, linkSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { join, resolve, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { loadReleaseNotes, parseChangelog, notesSha256, releaseSourceFiles, releaseBuildArgs } from '../scripts/release-notes.mjs';
 import { buildUI } from '../scripts/build-ui.mjs';
@@ -174,6 +177,7 @@ test('native source inventory binds CHANGELOG, version manifest and release conf
 for (const mode of ['hardlink', 'symlink']) for (const input of [...releaseSourceFiles, 'publication-evidence.txt']) {
   test(`UI batch preflight protects ${mode} release input ${input}`, t => {
     const f = fixture(t); cpSync(resolve('data'), join(f.root, 'data'), { recursive: true });
+    for(const file of [...readyArtSourceInputs(),...backgroundInputs,...portraitInputs]){mkdirSync(dirname(join(f.root,file)),{recursive:true});cpSync(resolve(file),join(f.root,file));}
     writeFileSync(join(f.root, 'CHANGELOG.md'), changelog()); f.ledger([receipt(f.root)]);
     mkdirSync(join(f.root, 'out'));
     const target = join(f.root, 'out/abyss_ui_templates.lua');

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "recordKind": "new_current_milestone_appearance_acceptance",
+  "ownerEvidence": {
+    "dateUTC": "2026-10-30",
+    "timeUTC": "00:18",
+    "context": "Owner viewed the five-image source/native comparison, including the explicit alpha verification failure, then accepted these existing assets for this milestone and requested actual integration.",
+    "quote": "我感觉这些可以啊难道不能用起来吗这些就算优化可以到时候再优化呗但是我们这个版本这一个milestone我觉得用这些应该是已经足够了"
+  },
+  "scope": {
+    "characterId": "traveler",
+    "elementProfile": "ironclad",
+    "avatar": "avatar96",
+    "battle": "battle133",
+    "avatarHostCount": 1,
+    "battleHostCount": 1,
+    "largeIllustration": "not changed by this portrait integration",
+    "productionScope": "current milestone traveler-only appearance integration; not a release or device acceptance"
+  },
+  "frozenRuntimeSha256": {
+    "avatar96": "c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb",
+    "battle133": "ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880"
+  },
+  "historicalEvidence": {
+    "assetJsonAndCatalog": "preserved unchanged as historical state, not retroactively rewritten",
+    "alphaVerification": "FAILED; original reports preserved unchanged",
+    "nativeAppearance": "new current-milestone acceptance only; earlier not-approved records remain historical"
+  },
+  "unverified": {
+    "officialCompile": "not_run",
+    "officialImport": "not_run",
+    "realReady": "not_run",
+    "officialCapacity": "not_measured",
+    "pc": "not_run",
+    "physicalMobile": "not_run",
+    "performance": "not_measured"
+  }
+}

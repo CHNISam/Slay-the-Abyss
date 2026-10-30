@@ -1,3 +1,6 @@
+import {portraitInputs,portraitModule} from './official-portraits.mjs';
+import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate} from './art/ready-card-runtime.mjs';
+import {backgroundInputs, backgroundModule, backgroundTemplate} from './official-background.mjs';
 // Local offline tools only. Never calls a save mutation, import or playtest API.
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
@@ -6,6 +9,10 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { compareNativeCandidate, requireSourceSha, sha256, candidateEntrySource } from './native-candidate-audit.mjs';
 import { exportedCandidatePath, newEvidenceDirectory } from './native-audit-paths.mjs';
 import { releaseSourceFiles } from './release-notes.mjs';
+
+export function auditUiBuildArgs(receipt) {
+  return ['scripts/build-ui.mjs',...(receipt?.readyCardArt?.enabled===false?['--no-ready-card-art']:[])];
+}
 
 const usage = 'node scripts/audit-native-candidate.mjs --source <full-commit-SHA> --candidate <full-game.gil> --output <new-directory> [--receipt <candidate.json>] [--bgm]';
 function argumentsOf(args) {
@@ -56,6 +63,10 @@ export async function auditNativeCandidate(options) {
     const scripts = save('scripts.json', listClientScripts({ mapPath, includeSource: true }));
     const ui = save('ui.json', getClientUi({ mapPath, ui: 'SlayTheAbyss' }));
     const template = save('template.json', getClientUi({ mapPath, template: 'AbyssDeckCard' }));
+    const background = scripts.scripts.some(module=>module.name===backgroundModule)
+      ? save('background-template.json', getClientUi({mapPath,template:backgroundTemplate})) : undefined;
+    const runtimeTemplates=scripts.scripts.some(module=>module.name==='abyss_ready_card_binding')
+      ? [readyArtImageTemplate,readyArtGroupTemplate].map(name=>save(name+'.json',getClientUi({mapPath,template:name}))) : undefined;
     const inspected = save('inspect.json', inspectFile(mapPath));
     const checked = save('static-check.json', checkClientScripts({ mapPath }));
     const uiRecord = fields(one(container(readFileSync(mapPath)), 50)).find(field => field.id === 1
@@ -66,19 +77,48 @@ export async function auditNativeCandidate(options) {
       value: fields(one(one(field.data, 4), 106)).some(value => value.id === 1 && value.value === 1n), encodedHex: field.raw.toString('hex') }));
     const parameters = save('parameters.json', { script: 'abyss_ui', records });
     const snapshot = join(output, 'source'); mkdirSync(snapshot);
+    const assetInputs=run('git',['ls-tree','--name-only',sourceSha,'--',...backgroundInputs,...readyArtSourceInputs(repo),...portraitInputs],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
     run('tar', ['-xf', '-', '-C', snapshot], { input: run('git', ['archive', sourceSha,
-      'src/lua', 'data', 'scripts', 'tools', ...releaseSourceFiles]) });
+      'src/lua', 'data', 'scripts', 'tools', ...releaseSourceFiles, ...assetInputs]) });
     for (const script of ['build-lua-data.mjs', 'build-ui.mjs']) writeFileSync(join(output, `${script}.log`),
-      run(process.execPath, [`scripts/${script}`], { cwd: snapshot }));
+      run(process.execPath, script==='build-ui.mjs'?auditUiBuildArgs(buildReceipt):[`scripts/${script}`], { cwd: snapshot }));
     const { candidateScriptFiles } = await import(pathToFileURL(join(snapshot, 'scripts/native-candidate-scripts.mjs')));
     const deployment = candidateScriptFiles(join(snapshot, 'src/lua'), join(snapshot, 'build/lua'));
     const uiBgmParameter = deployment.find(script => script.name === 'abyss_ui')?.variables?.find(variable => variable.name === 'nativeBgmEnabled');
+    if(deployment.some(module=>module.name===backgroundModule)) {
+      if(buildReceipt?.sourceCommit!==sourceSha || buildReceipt?.candidate?.sha256!==before
+        || buildReceipt?.officialBackground?.templateIndex!==background?.templateIndex)
+        throw Error('Official background requires matching same-candidate receipt and template readback');
+      const {bindBackgroundTemplate}=await import(pathToFileURL(join(snapshot,'scripts/official-background.mjs')));
+      bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot});
+    }
+    if(deployment.some(module=>module.name==='abyss_ready_card_binding')) {
+      if(buildReceipt?.sourceCommit!==sourceSha||buildReceipt?.candidate?.sha256!==before
+        ||runtimeTemplates?.[0]?.templateIndex!==buildReceipt?.readyCardArt?.imageTemplateIndex
+        ||runtimeTemplates?.[1]?.templateIndex!==buildReceipt?.readyCardArt?.containerTemplateIndex)
+        throw Error('Ready artwork requires matching same-candidate binding and templates');
+      const {bindReadyArtTemplates}=await import(pathToFileURL(join(snapshot,'scripts/art/ready-card-runtime.mjs')));
+      bindReadyArtTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],group:runtimeTemplates[1]},{enabled:buildReceipt.readyCardArt.enabled});
+    }
+    if(deployment.some(module=>module.name===portraitModule)) {
+      if(buildReceipt?.officialPortraits?.imageTemplateIndex!==runtimeTemplates?.[0]?.templateIndex
+        ||buildReceipt?.officialPortraits?.containerTemplateIndex!==runtimeTemplates?.[1]?.templateIndex)
+        throw Error('Portrait runtime requires matching same-candidate template binding');
+      const {bindPortraitTemplates}=await import(pathToFileURL(join(snapshot,'scripts/official-portraits.mjs')));
+      bindPortraitTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],container:runtimeTemplates[1]},{root:snapshot});
+    }
     const modules = deployment.map(({ name, sourceFile }) => {
       const source = readFileSync(sourceFile, 'utf8');
       return { name, source: name === 'abyss_ui' ? candidateEntrySource(source, buildReceipt, before) : source };
     });
     const expectedUi = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui.json'), 'utf8'));
-    const expectedTemplate = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui-templates.json'), 'utf8')).find(template => template.name === 'AbyssDeckCard');
+    const expectedTemplates = JSON.parse(readFileSync(join(snapshot, 'build/lua/game-ui-templates.json'), 'utf8'));
+    const expectedTemplate = expectedTemplates.find(template => template.name === 'AbyssDeckCard');
+    const expectedRuntimeTemplates=runtimeTemplates? [readyArtImageTemplate,readyArtGroupTemplate].map((name,i)=>({
+      template:expectedTemplates.find(row=>row.name===name),templateIndex:i===0?buildReceipt?.readyCardArt?.imageTemplateIndex:buildReceipt?.readyCardArt?.containerTemplateIndex})) : undefined;
+    const expectedBackgroundTemplate = expectedTemplates.find(template => template.name === backgroundTemplate);
+    const expectedBackground = expectedBackgroundTemplate ? {template:expectedBackgroundTemplate,
+      templateIndex:buildReceipt?.officialBackground?.templateIndex} : undefined;
     const graphNames = [['settlement-graph.mjs', 'settlementGraphSource', 'ABYSS_SETTLEMENT']];
     if (options.bgm) graphNames.push(['native-bgm-graph.mjs', 'nativeBgmGraphSource', 'ABYSS_BGM']);
     const graphs = [];
@@ -87,8 +127,8 @@ export async function auditNativeCandidate(options) {
       const source = generator[method]({ id: inspected.graphs.find(graph => graph.name === `_GSTS_${name}`)?.id || 1, name });
       graphs.push({ name: `_GSTS_${name}`, signals: [...source.matchAll(/\.onSignal\('([^']+)'/g)].map(match => match[1]), generatedSourceSha256: sha256(source) });
     }
-    report = compareNativeCandidate({ actual: { scripts, ui, template, inspected, parameters, checked },
-      expected: { modules, ui: expectedUi, template: expectedTemplate, graphs, uiBgmParameter }, sourceSha,
+    report = compareNativeCandidate({ actual: { scripts, ui, template, background, runtimeTemplates, inspected, parameters, checked },
+      expected: { modules, ui: expectedUi, template: expectedTemplate, background:expectedBackground, runtimeTemplates:expectedRuntimeTemplates, graphs, uiBgmParameter }, sourceSha,
       candidateBefore: before, candidateAfter: sha256(readFileSync(mapPath)), bgm: options.bgm });
     report.expectedGraphs = graphs;
     report.graphCheckScope = 'Graph identity, server type, nonempty payload, monitored signal names and enabled mount; compiled node parameters/semantics are not certified.';

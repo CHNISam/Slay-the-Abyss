@@ -69,7 +69,10 @@ try {
   if (resolve(mapPath) !== finalMap) copyFileSync(mapPath, finalMap, constants.COPYFILE_EXCL);
   mapPath = finalMap;
   writeFileSync(join(workspace, 'candidate.json'), JSON.stringify({ mapPath, sha256: hash(mapPath),
-    candidate: fileRecord(mapPath), ...(full ? { buildId: full.buildId, moduleDigests: full.moduleDigests } : {}),
+    candidate: fileRecord(mapPath), ...(full ? { buildId: full.buildId, moduleDigests: full.moduleDigests,
+      ...(full.officialPortraits ? {officialPortraits:full.officialPortraits} : {}),
+    ...(full.readyCardArt ? {readyCardArt:full.readyCardArt} : {}),
+    ...(full.officialBackground ? {officialBackground:full.officialBackground} : {}) } : {}),
     baseMap, baseSha256, baseAfter, liveWriteEnabled: false, compiled, checked,
     officialImport: 'NOT_TESTED', playtest: 'NOT_TESTED', listening: 'NOT_TESTED' }, null, 2));
   console.log(`BGM candidate compiled and copy written: ${mapPath}`);

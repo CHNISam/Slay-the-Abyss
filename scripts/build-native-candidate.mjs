@@ -1,3 +1,6 @@
+import {portraitInputs,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';
+import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate,bindReadyArtTemplates,readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';
+import { backgroundInputs, backgroundModule, backgroundTemplate, bindBackgroundTemplate, backgroundRuntimeInventory } from './official-background.mjs';
 import { readFileSync, readdirSync, mkdirSync, writeFileSync, copyFileSync, constants, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -13,6 +16,7 @@ import { nativeCardArtArgs, prepareNativeCardArt, nativeCardArtBuildReceipt, ver
 
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
+  [backgroundModule]:'scripts/build-ui.mjs', [portraitModule]:'scripts/build-ui.mjs', abyss_ready_card_binding:'scripts/build-ui.mjs', abyss_ready_card_assets:'scripts/build-ui.mjs',
   abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',
 };
 export function sourceInputs(root) {
@@ -28,15 +32,15 @@ export function sourceInputs(root) {
     try{walk(dir);}catch(error){if(error.code!=='ENOENT')throw error;}
   }
   for(const file of ['package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json',
-    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json']) {
+    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...backgroundInputs, ...readyArtSourceInputs(root),...portraitInputs]) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
   return files.sort().map(path=>{const {sha256,bytes}=fileRecord(join(root,path),root);return {path,sha256,bytes};});
 }
 export const payloadDigest = inputs => sha256(JSON.stringify(inputs));
-function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt}) {
+function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt,readyCardArt}) {
   for(const args of [['scripts/build-lua-data.mjs','data',join(directory,'abyss_data.lua')],
-    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(releaseCandidate?['--release-candidate']:[]),
+    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(readyCardArt===false?['--no-ready-card-art']:[]),...(releaseCandidate?['--release-candidate']:[]),
       ...(nativeCardArt?[`--native-card-art-registry=${nativeCardArt.registry}`,
         ...nativeCardArt.hosts.map(host=>`--native-card-art-host=${host}`)]:[])]]) {
     const result=spawnSync(process.execPath,args,{cwd:root,encoding:'utf8',timeout:60000,maxBuffer:4*1024*1024});
@@ -49,7 +53,7 @@ function checkTree(control) {
 }
 export async function buildNativeCandidate({baseMap,output='build/candidates',root=process.cwd(),client,createClient,
   prepare,generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog,
-  releaseCandidate=false,workKey='alpha-test',nativeCardArt}={}) {
+  releaseCandidate=false,workKey='alpha-test',nativeCardArt,readyCardArt=true}={}) {
   root=resolve(root);
   if(prepare && nativeCardArt!==undefined)throw new Error('Custom prepare cannot be combined with native art options');
   if(nativeCardArt!==undefined) {
@@ -57,6 +61,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       || Object.keys(nativeCardArt).some(key=>!['registry','hosts','count'].includes(key)))throw new Error('Invalid native art options');
     if(nativeCardArt.count!==undefined) {
       if(nativeCardArt.hosts!==undefined || ![0,1,5,10].includes(nativeCardArt.count))throw new Error('Native art requires count 0/1/5/10 OR hosts');
+      if(nativeCardArt.count===0)readyCardArt=false;
       nativeCardArt=nativeCardArt.count===0?undefined:{registry:nativeCardArt.registry,hosts:Array.from({length:nativeCardArt.count},(_,i)=>`battlePanel/card${i+1}`)};
     }
     if(nativeCardArt) {
@@ -98,7 +103,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     return data;
   }
   try {
-    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt});
+    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt,readyCardArt});
     if(art) {
       if(payloadDigest(art.inputPaths.map(path=>fileRecord(path,root)))!==payloadDigest(artInputs))throw new Error('Native art input changed during preparation');
       receipt.nativeCardArt=nativeCardArtBuildReceipt(art,{root,directory:generated});
@@ -111,12 +116,40 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     const modules=new Map(candidateScriptFiles(join(root,'src/lua'),generated,Object.keys(generatedModules))
       .map(({name,sourceFile})=>[name,sourceFile]));
     if(!modules.has('abyss_ui'))throw new Error('Missing entry module abyss_ui');
+    if(modules.has('abyss_ready_card_binding'))for(const name of [readyArtImageTemplate,readyArtGroupTemplate])
+      if(templates.filter(t=>t.name===name).length!==1)throw Error('Ready artwork requires exactly one '+name+' template');
+    if(modules.has(backgroundModule)&&templates.filter(template=>template.name===backgroundTemplate).length!==1)
+      throw Error('Official background requires exactly one native image template');
     if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during preparation');
     verifyNativeCardArtReceipt(receipt.nativeCardArt,{root});
     // Preflight missing/unreadable modules before starting any MCP process.
     for(const source of modules.values())fileRecord(source);
     client??=await createClient(workspace);
     for(const uri of ['miliastra://workflow','miliastra://platform-rules'])writeExclusive(join(workspace,`${uri.split('//')[1]}.json`),await client.readResource({uri}));
+    const readyTemplates={};
+    for(const template of templates) {
+      const result=await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});
+      if(template.name===readyArtImageTemplate)readyTemplates.image=result;
+      if(template.name===readyArtGroupTemplate)readyTemplates.group=result;
+      if(template.name===backgroundTemplate) {
+        if(!modules.has(backgroundModule))throw Error('Official background template has no runtime module');
+        bindBackgroundTemplate(generated,result,{root});
+        receipt.officialBackground={...backgroundRuntimeInventory(generated),templateIndex:result.templateIndex,
+          inputs:backgroundInputs.map(path=>fileRecord(join(root,path),root))};
+      }
+    }
+    if(modules.has(backgroundModule)&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');
+    if(readyTemplates.image||readyTemplates.group){
+      if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');
+      bindReadyArtTemplates(generated,readyTemplates,{enabled:!art&&readyCardArt!==false});
+      if(modules.has(portraitModule)){
+        bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root});
+        receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,inputs:portraitInputs.map(path=>fileRecord(join(root,path),root))};
+      }
+      receipt.readyCardArt={...readyArtRuntimeInventory(),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,
+        enabled:!art&&readyCardArt!==false,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};
+    }
+    if(modules.has(portraitModule)&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');
     const moduleDigests={};
     for(const [name,source] of modules) {
       const bytes=Buffer.from(readFileSync(fileRecord(source).path,'utf8').replace(/^\uFEFF/,'')),destination=join(payload,`${name}.lua`);
@@ -126,7 +159,6 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       await call('scene_set_client_script',{mapPath,name,sourceFile:destination,outputName:'abyss-full-game-test',
         ...(name==='abyss_ui'?{variables:nativeUiVariables()}:{})});
     }
-    for(const template of templates)await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});
     await call('scene_add_client_ui',{...layout,mapPath,replace:true,outputName:'abyss-full-game-test'});
     // Preserve the integrated builder's ownership checks when reusing a base.
     const expectedScripts=new Set(modules.keys());
@@ -218,7 +250,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     const {paths,options}=releaseBuildArgs(native.args);
     const [baseMap,output]=paths;
     if(!baseMap||paths.length>2)throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory] [--playtest] [--release-candidate] [--work-key=alpha-test] [--native-card-art-registry=<file> --native-card-art-count=0|1|5|10 | --native-card-art-host=<host>]');
-    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,nativeCardArt:native.nativeCardArt});
+    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,nativeCardArt:native.nativeCardArt,readyCardArt:native.readyCardArt});
     console.log(`Candidate receipt: ${receipt.receiptPath}\nStatic check passed. Official import/gameplay require separate evidence.`);
   }catch(error){console.error(error.message);process.exitCode=1;}
 }

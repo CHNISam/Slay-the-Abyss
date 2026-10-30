@@ -1,8 +1,11 @@
-local view, Viewport
+local view, Viewport, background, cardArt, portraits
 local canvasWidth, canvasHeight
 local attempted = false
 local function failed(phase, reason)
     print("ABYSS_UI failed " .. phase .. ": " .. tostring(reason))
+    if portraits then pcall(function()portraits:release()end) end
+    if cardArt then pcall(cardArt.clear) end
+    if background then pcall(function()background:release()end) end
     if view then pcall(function()view:disable()end) end
     view = nil
     script:EnableUpdate(false)
@@ -44,6 +47,15 @@ function OnStart()
         local width, height = game.GetUICanvasSize()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
+        background = require("abyss_menu_background").new(stage, print)
+        portraits = require("abyss_traveler_portraits").new(stage, print)
+        cardArt = require("abyss_card_art_runtime")
+        local artBinding = require("abyss_ready_card_binding")
+        if artBinding.enabled and artBinding.imageTemplateIndex > 0 and artBinding.containerTemplateIndex > 0 then
+            cardArt.configure({instantiate=game.InstantiateClientUIControl,destroy=game.DestroyClientUIControl,
+                imageTemplateIndex=artBinding.imageTemplateIndex,containerTemplateIndex=artBinding.containerTemplateIndex})
+            require("abyss_card_display").bindNativeAssets(Presentation,require("abyss_ready_card_assets"))
+        else cardArt.configure(nil) end
         -- Opt in only on a candidate containing the ABYSS_BGM graph/signals.
         local hasBgm, enableBgm = pcall(function() return script:GetParam("nativeBgmEnabled") end)
         local music
@@ -57,7 +69,7 @@ function OnStart()
         local build = require('abyss_narrative').build
         local alpha = type(build)=='table' and build.workKey=='alpha-test'
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
-            { music = music, campaign = true, campaignProfile = "competition-two-act",
+            { background = background, portraits = portraits, cardArt = cardArt, music = music, campaign = true, campaignProfile = "competition-two-act",
               characterProfile = (alpha or isTest and testPlay == true) and "competition-candidate" or "production",
               controllerApi = {events=Enum.ControllerNavigationEventType,directions=Enum.ControllerNavigationDir,
                   modes=Enum.ControllerNavigationMode,getFocus=game.GetControllerFocus,setFocus=game.SetControllerFocus,
@@ -98,6 +110,15 @@ function OnUpdate(dt)
             canvasWidth, canvasHeight = width, height
         end
         view:update(dt)
+        if cardArt then cardArt.update() end
     end)
     if not ok then failed("update", reason) end
+end
+
+function OnDestroy()
+    if cardArt then pcall(cardArt.clear) end
+    if portraits then portraits:onEngineDestroy() end
+    if background then background:onEngineDestroy() end
+    background, portraits, cardArt, view = nil, nil, nil, nil
+    script:EnableUpdate(false)
 end

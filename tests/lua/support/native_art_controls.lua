@@ -14,7 +14,8 @@ function M.decorate(control)
  end
  setmetatable(control,{__index=function(t,k)
   allowed(k);local index=old.__index
-  return type(index)=='function' and index(t,k) or type(index)=='table' and index[k] or nil
+  if type(index)=='function'then return index(t,k)end
+  if type(index)=='table'then return index[k]end
  end,__newindex=function(t,k,v)
   allowed(k);if old.__newindex then old.__newindex(t,k,v)else rawset(t,k,v)end
  end})

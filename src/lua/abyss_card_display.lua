@@ -1,7 +1,17 @@
 -- Read-only presentation of values already calculated by Combat.cardPreview.
 local integer = require('abyss_numbers').integer
 local Theme = require('abyss_theme')
+local NativeArtRuntime = require('abyss_card_art_runtime')
 local M = {}
+-- Install presentation-only art metadata atomically after real native binding.
+function M.bindNativeAssets(presentation, assets)
+    assert(type(presentation)=='table' and type(assets)=='table','native artwork registry required')
+    for id,metadata in pairs(assets) do
+        assert(type(presentation[id])=='table' and type(metadata)=='table'
+            and metadata.cardId==id and metadata.runtime==true,'invalid native artwork identity')
+    end
+    for id,metadata in pairs(assets) do presentation[id].nativeArt=metadata end
+end
 -- Like a card-atlas region, artwork belongs to the stable card ID. A type
 -- glyph remains an explicit placeholder until a production asset is bound.
 function M.art(definition)
@@ -38,13 +48,18 @@ local function nativePool(box)
     local ok,pool=pcall(box.GetChild,box,'artSamples')
     return ok and pool or nil
 end
+local function hideNative(control)
+    if control and control.alive~=false then pcall(control.SetVisible,control,false)end
+end
 function M.clearNativeArt(box)
+    NativeArtRuntime.release(box)
+    if box.alive==false then return end
     local pool=nativePool(box)
     if pool then
-        pool:SetVisible(false)
+        hideNative(pool)
         local previous=appliedArt[pool]
         if previous then
-            for _,control in ipairs(previous.controls)do control:SetVisible(false)end
+            for _,control in ipairs(previous.controls)do hideNative(control)end
         end
         appliedArt[pool]=nil
     end
@@ -68,11 +83,18 @@ local function writeNativeSlot(control,slot,platform)
     control.imageColor=platform.color(slot.colour[1],slot.colour[2],slot.colour[3],slot.colour[4])
     control:SetVisible(true)
 end
-function M.writeNativeArt(box,definition,metadata,platform,fallback)
+function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)
+    if box.alive==false or fallback.alive==false then NativeArtRuntime.release(box);return false end
     local pool=nativePool(box)
-    if not pool then return false end
+    if not pool or pool.alive==false then NativeArtRuntime.release(box);pcall(fallback.SetVisible,fallback,true);return false end
+    if not metadata or metadata.cardId~=definition.id then
+        M.clearNativeArt(box);if fallback.alive~=false then pcall(fallback.SetVisible,fallback,true)end;return false
+    end
+    if metadata.runtime==true then
+        return NativeArtRuntime.request(box,pool,metadata,platform,fallback,identity,writeNativeSlot)
+    end
     pool:SetVisible(false);fallback:SetVisible(true)
-    if not metadata or metadata.cardId~=definition.id then M.clearNativeArt(box);return false end
+    NativeArtRuntime.release(box)
     local previous=appliedArt[pool]
     if not previous or previous.metadata~=metadata then
         local controls={}

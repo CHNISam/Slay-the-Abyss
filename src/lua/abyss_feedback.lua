@@ -187,6 +187,7 @@ function M.new(stage, platform, present, complete)
             pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if not part:find("^block") then c:SetAnchoredPosition(0, 0) end end)
         end
         tint(box:GetChild("portrait"), name == "hero" and C.geo or C.text)
+        if name == "hero" and platform.portraits then platform.portraits:battlePose(0,0,1,1) end
     end
     function self.bindEnemySlot(slot,id)
         if self.slotOwners[slot]~=id then resetUnit('enemy'..slot) self.slotOwners[slot]=id end
