@@ -20,7 +20,7 @@ for _,control in ipairs(F.created)do
   assert(control.rotation[1]==0 and control.rotation[2]==0 and control.rotation[3]==0,'native rectangle rotation mismatch')
   assert(control.scale[1]==1 and control.scale[2]==1 and control.anchorMin[1]==.5 and control.anchorMax[2]==.5
    and control.pivot[1]==.5 and control.pivot[2]==.5,'native rectangle frame mismatch')
-  assert(control.raycastTarget==false,'native rectangle captured input')
+  assert(rawget(control,'raycastTarget')==nil,'image must not use cursor-area fields')
  end
 end
 assert(index==#source and art.slots==nil,'native rectangle count/eager expansion mismatch')

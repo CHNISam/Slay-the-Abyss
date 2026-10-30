@@ -10,7 +10,11 @@ for _,pair in ipairs({{'SetAnchorMin','anchorMin'},{'SetAnchorMax','anchorMax'},
 end
 function M.control(kind,parent)
  local c=setmetatable({kind=kind,alive=true,visible=true,parent=parent,children={}},
-  {__index=function(_,key)assert(key~='activeInHierarchy','undocumented hierarchy API');return methods[key]end})
+  {__index=function(_,key)assert(key~='activeInHierarchy','undocumented hierarchy API');return methods[key]end,
+   __newindex=function(t,key,value)
+    assert(not (kind=='image' and key=='raycastTarget'),'Native Image has no raycastTarget field')
+    rawset(t,key,value)
+   end})
  return c
 end
 function M.face()

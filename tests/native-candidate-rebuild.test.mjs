@@ -6,6 +6,8 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'nod
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import {fixtureMapBytes,installNativeToolchainFixture,readFixtureScripts} from './helpers/native-toolchain-fixture.mjs';
+import {sha256} from '../scripts/evidence-files.mjs';
 
 const builder = fileURLToPath(new URL('../scripts/build-native-candidate.mjs', import.meta.url));
 const existing = { id: 1073741899, name: '_GSTS_ABYSS_SETTLEMENT', type: 20000, writable: true };
@@ -17,8 +19,8 @@ const generatedSource = name => name === artFeatureModule ? artFeaturesSource({}
 // Fake only the MCP boundary: execute the actual CLI and inspect its calls.
 const sdk = `
 import {appendFileSync,readFileSync} from 'node:fs';
+import {readScripts,writeScripts} from __NATIVE_FIXTURE_STORE__;
 const state=JSON.parse(readFileSync(process.env.REBUILD_SCENARIO,'utf8'));
-const scripts=new Map((state.scripts??[]).map(s=>[s.name,s]));
 export class Client {
  async connect() {} async close() {}
  async readResource({uri}) {return {contents:[{uri,text:'fixture'}]};}
@@ -28,10 +30,10 @@ export class Client {
   if(name===state.payloadErrorTool)return {structuredContent:{error:{code:'PAYLOAD_FAILURE',message:name}}};
   if(name===state.malformedTool)return {structuredContent:{mapPath:args.mapPath}};
   if(name==='scene_add_client_template')return {structuredContent:{mapPath:args.mapPath,templateIndex:1073741846+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:0)}};
-  if(name==='scene_set_client_script')scripts.set(args.name,{name:args.name,file:args.name+'.lua',on:[],source:readFileSync(args.sourceFile,'utf8')});
-  if(name==='scene_list_client_scripts')return {structuredContent:{mapPath:args.mapPath,scripts:[...scripts.values()]}};
+  if(name==='scene_set_client_script')throw Error('Rebuild must exercise real batch writer');
+  if(name==='scene_list_client_scripts')throw Error('Rebuild must exercise local complete inventory reader');
   if(name==='scene_remove_client') {
-   if(!state.ignoreRemoval)scripts.delete(args.script);
+   if(!state.ignoreRemoval)writeScripts(args.mapPath,readScripts(args.mapPath).filter(s=>s.name!==args.script));
    return {structuredContent:{mapPath:args.mapPath,removed:{script:args.script,scriptId:1073741800}}};
   }
   if(name==='inspect_map')return {structuredContent:{graphs:state.graphs??[]}};
@@ -43,7 +45,11 @@ export class Client {
    return {structuredContent:{mapPath:args.mapPath,graphId:1073741900,name:'_GSTS_ABYSS_SETTLEMENT'}};
   }
   if(name==='write_graphs')return {structuredContent:{mapPath:args.mapPath,written:[{graphId:args.graphs[0].graphId}]}};
-  if(name==='scene_check_client')return {structuredContent:{mapPath:args.mapPath,ok:true,errors:0,warnings:0,checked:[...scripts.keys()]}};
+  if(name==='scene_check_client'){
+   const scripts=readScripts(args.mapPath);
+   if(state.corruptFinalModule)writeScripts(args.mapPath,scripts.map(s=>s.name===state.corruptFinalModule?{...s,source:s.source+' -- stale'}:s));
+   return {structuredContent:{mapPath:args.mapPath,ok:true,errors:0,warnings:0,checked:scripts.map(s=>s.name)}};
+  }
   return {structuredContent:{mapPath:args.mapPath}};
  }
 }
@@ -57,7 +63,7 @@ function run(scenario, check) {
   try {
     put('tool/package.json','{"type":"module","version":"fixture"}');
     put('tool/src/debug-log.mjs','export function inspectDebugLog(){throw Error("unexpected playtest decode");}');
-    put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js',sdk);
+    installNativeToolchainFixture(join(dir,'tool'),sdk);
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js','export class StdioClientTransport {constructor(options) {if(options.env.MILIASTRA_ALLOW_LIVE_WRITE!=="0")throw Error("live writes enabled");}}');
     put('src/lua/abyss_ui.lua','return {}');
     put('data/cards.json',readFileSync('data/cards.json'));
@@ -67,11 +73,19 @@ function run(scenario, check) {
     put('build/lua/game-ui.json',JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));
     put('build/lua/game-ui-templates.json',JSON.stringify(templates));
     put('scenario.json',JSON.stringify(scenario));
-    put('calls.jsonl',''); put('base.gil','fixture');
+    put('calls.jsonl',''); put('base.gil',fixtureMapBytes(scenario.malformedTool==='scene_list_client_scripts'?[{file:'malformed.lua',source:'return {}'}]:scenario.scripts??[]));
     const result=spawnSync(process.execPath,[builder,join(dir,'base.gil'),join(dir,'out')],{cwd:dir,encoding:'utf8',env:{...process.env,MILIASTRA_MCP_ROOT:join(dir,'tool'),REBUILD_SCENARIO:join(dir,'scenario.json'),REBUILD_CALLS:join(dir,'calls.jsonl')}});
     if(result.error)throw result.error;
     const calls=readFileSync(join(dir,'calls.jsonl'),'utf8').trim().split('\n').filter(Boolean).map(JSON.parse);
     check(result,calls);
+    if(result.status===0){
+     const receipt=JSON.parse(readFileSync(result.stdout.match(/Candidate receipt: (.+)/)[1],'utf8'));
+     const actual=readFixtureScripts(receipt.mapPath);
+     assert.deepEqual(actual.map(s=>s.name).sort(),Object.keys(receipt.moduleDigests).sort(),'final inventory must be read from the batch-written map');
+     for(const row of actual)assert.equal(sha256(row.source),receipt.moduleDigests[row.name]);
+     assert(calls.some(c=>c.name==='native_batch_script'),'actual production batch writer must construct records');
+     assert(!calls.some(c=>c.name==='scene_set_client_script'),'legacy per-module setter must not hide missing batch support');
+    }
   } finally { rmSync(dir,{recursive:true,force:true}); }
 }
 const success = result => assert.equal(result.status,0,result.stderr);
@@ -80,9 +94,9 @@ test('rebuilding existing scene replaces UI, reuses actual graph id and preserve
   success(result);
   assert.equal(calls.find(c=>c.name==='scene_add_client_ui').args.replace,true);
   assert.equal(calls.some(c=>c.name==='scene_add_client_template'),false,'default-off rebuild must not register optional artwork templates');
-  const flags=calls.find(c=>c.name==='scene_set_client_script'&&c.args.name===artFeatureModule);
+  const flags=calls.find(c=>c.name==='native_batch_script'&&c.args.name===artFeatureModule);
   assert(flags,'canonical default-off configuration must reach the real candidate payload');
-  assert.equal(readFileSync(flags.args.sourceFile,'utf8'),artFeaturesSource({}));
+  assert.equal(flags.args.source,artFeaturesSource({}));
   assert.equal(calls.filter(c=>c.name==='scene_add_signal'||c.name==='scene_add_graph').length,0);
   const written=calls.find(c=>c.name==='write_graphs').args.graphs[0];
   assert.equal(written.graphId,existing.id);
@@ -133,8 +147,7 @@ test('rebuild removes only stale owned modules after replacing their old UI and 
   success(result);
   assert.deepEqual(calls.filter(c=>c.name==='scene_remove_client').map(c=>c.args.script),staleScripts.map(s=>s.name));
   assert.ok(calls.findIndex(c=>c.name==='scene_add_client_ui')<calls.findIndex(c=>c.name==='scene_remove_client'));
-  assert.equal(calls.filter(c=>c.name==='scene_list_client_scripts'&&!c.args.includeSource).length,2);
-  assert.equal(calls.filter(c=>c.name==='scene_list_client_scripts'&&c.args.includeSource).length,1);
+  assert.equal(calls.filter(c=>c.name==='scene_list_client_scripts').length,0,'inventories use the local embedded reader, checked against the actual final map above');
   assert.ok(calls.filter(c=>c.name==='scene_remove_client').every(c=>!('evenIfUsed' in c.args)&&!('ui' in c.args)&&!('template' in c.args)));
 }));
 
@@ -156,4 +169,9 @@ test('malformed script inventory cannot be interpreted as clean',()=>run({malfor
   assert.notEqual(result.status,0);
   assert.match(result.stderr,/script inventory/i);
   assert.ok(!calls.some(c=>c.name==='scene_remove_client'||c.name==='write_graphs'||c.name==='scene_check_client'));
+}));
+
+test('final complete source readback refuses corruption after the static check',()=>run({corruptFinalModule:'abyss_ui'},(result,calls)=>{
+ assert.notEqual(result.status,0);assert.match(result.stderr,/Candidate content digest mismatch: abyss_ui/);
+ assert(calls.some(c=>c.name==='scene_check_client'));
 }));

@@ -56,7 +56,7 @@
       "evidence": "art/cards/traveler-geo/README.md; per-card prompt, generation-provenance and asset.json; docs/legal/LICENSE_AUDIT.md"
     },
     "original-monster-source": {
-      "status": "historical project-original AI-assisted monster source candidates; identity direction superseded on 2026-10-30 and requires redesign; source-only, no production/native/runtime acceptance or commercial/IP clearance",
+      "status": "project-original AI-assisted monster source candidates; reference roles documented; source-only, no native/runtime acceptance or commercial/IP clearance",
       "evidence": "art/monsters/README.md; art/monsters/catalog.json; per-enemy generation-provenance.json and source-review.json"
     },
     "compact-card-runtime-candidate": {
@@ -70,6 +70,10 @@
     "genshin-monster-direction-benchmark": {
       "status": "AI-assisted Genshin identity derivative source-direction benchmarks; owner visual acceptance only, no native/runtime/device acceptance, game-IP sublicense, reference redistribution permission or commercial clearance",
       "evidence": "art/monster-benchmarks/genshin-v1/README.md; per-benchmark generation-provenance.json and owner-direction.json; LICENSE-SCOPE.md"
+    },
+    "performance-art-derivative": {
+      "status": "Budgeted derivatives of existing reviewed platform-project background, portrait and card previews; no upstream algorithm code copied; source content rights and existing restrictions remain unchanged",
+      "evidence": "docs/plans/2026-10-30-art-loading-performance.md; scripts/art/build-performance-pack.py; source paths and SHA256 fields in art/performance/*.json; existing original input records in this inventory"
     }
   },
   "files": {
@@ -3829,7 +3833,7 @@
     },
     "art/monsters/catalog.json": {
       "category": "original-monster-source",
-      "sha256": "cadc75ba582e3f6f9066ddaa0f089d4a197bd01826f4e12de2f474e4dd377c65"
+      "sha256": "03658b03279412dcf8658d4c8bbd7f9b87af7cb4b20e2bfebf94435d323cf63d"
     },
     "art/monsters/centurion/asset.json": {
       "category": "original-monster-source",
@@ -4831,6 +4835,18 @@
     "art/monster-benchmarks/genshin-v1/stonehide-lawachurl/asset.json": {
       "category": "genshin-monster-direction-benchmark",
       "sha256": "5d342c11f82891f6399b52d06101051bde7556447acfaa27bb80b039c07a604f"
+    },
+    "art/performance/background-budget-v1.json": {
+      "sha256": "47c696b1b9504c1b842fea20cdf3222c098ec8bd5886f0e8f68582a0430ba980",
+      "category": "performance-art-derivative"
+    },
+    "art/performance/selection-budget-v1.json": {
+      "sha256": "df3b34983dafd051842c820e6c7bf0931926fccba00fce0cc8873cab0f803b82",
+      "category": "performance-art-derivative"
+    },
+    "art/performance/compact-v1.json": {
+      "sha256": "417cfb4f3d65c7f95f1ffcf54a091de49bf2c9d2e8b1fc90c27da2e841f7fba1",
+      "category": "performance-art-derivative"
     }
   }
 }

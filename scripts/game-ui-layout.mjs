@@ -8,6 +8,8 @@ import { exitControls } from './exit-ui-layout.mjs';
 import { potionDiscardControls } from './potion-discard-layout.mjs';
 import { vistaControl, prologueControl } from './cinematic-ui-layout.mjs';
 import { experimentalCharacterControls } from './character-ui-layout.mjs';
+import {attachVictoryEasterEgg} from './victory-easter-egg-layout.mjs';
+import {attachOfficialBackdrops} from './official-backdrop-layout.mjs';
 
 // Approved win.png shows four cells; each is backed by a stat the run already records.
 export const resultStats = ['floor', 'victories', 'time', 'deck'];
@@ -112,5 +114,9 @@ export function gameLayout(theme = nativeTheme, options = {}) {
   };
   const overlays = new Set(['deckPanel', 'relicPanel', 'potionPanel', 'choicePanel', 'characterPanel', 'exitPanel', 'runMenu', 'prologuePanel']);
   for (const control of layoutTree.controls) if (overlays.has(control.name)) control.isolateNavigation = true;
+  const menuPanel=layoutTree.controls.find(c=>c.name==='menuPanel');
+  for(const name of ['vista','heroArt']){const old=menuPanel.children.find(c=>c.name===name);if(old)old.visible=false;}
+  attachOfficialBackdrops(layoutTree,theme);
+  attachVictoryEasterEgg(layoutTree,theme);
   return layoutTree;
 }

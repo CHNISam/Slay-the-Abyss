@@ -28,20 +28,24 @@ local owners = setmetatable({}, {__mode='k'})
 local CANCELLED = {}
 local function integer(n) return type(n)=='number' and n>0 and n<math.huge and n%1==0 end
 local function validate(data, width, count, source, json)
-    assert(type(data)=='table' and data.width==width and data.count==count and #data.rows==count
+    local compact=data.renderProfile=='compact-v1' or data.renderProfile=='selection-budget-v1'
+    local expected=compact and data.count or count
+    assert(type(data)=='table' and data.width==width and expected>0 and expected<=(compact and 2304 or count) and #data.rows==expected
         and data.sourceSha256==source and data.jsonSha256==json,'unexpected frozen portrait data')
     local r=data.root
     assert(#r==13 and r[1]==0 and r[2]==0 and r[3]==width and r[4]==width and r[5]==.5 and r[6]==.5
         and r[7]==.5 and r[8]==.5 and r[9]==.5 and r[10]==.5 and r[11]==1 and r[12]==1 and r[13]==0,'unexpected portrait ROOT')
 end
-local function controller(host, data, display, Asset)
+local function controller(host, data, display, templates)
+    local Asset=templates or require('abyss_traveler_portrait_assets')
     assert(host,'missing dedicated portrait host')
     local self,created={},{}
     local phase,generation,nextIndex='idle',0,1
     local page,group,pageIndex,groupIndex=nil,nil,0,0
+    local revealGroups,revealIndex,revealedPages={},1,{}
     local working,pending,hiding=false,false,false
     local reason,cleanupFailures=nil,0
-    local function current(token)return phase=='building' and generation==token and host.alive~=false end
+    local function current(token)return (phase=='building' or phase=='revealing') and generation==token and host.alive~=false end
     local function check(token)if not current(token)then error(CANCELLED,0)end end
     local function hide()
         if phase=='destroyed' or host.alive==false or hiding then return true end
@@ -78,7 +82,7 @@ local function controller(host, data, display, Asset)
     end
     local function transform(token,c)
         call(token,c,'SetAnchorMin',.5,.5);call(token,c,'SetAnchorMax',.5,.5);call(token,c,'SetPivot',.5,.5)
-        call(token,c,'SetSizeDelta',data.width,data.width);call(token,c,'SetLocalScale',1,1,1)
+        call(token,c,'SetSizeDelta',data.width,data.height or data.width);call(token,c,'SetLocalScale',1,1,1)
         call(token,c,'SetLocalRotation',0,0,0);call(token,c,'SetAnchoredPosition',0,0)
     end
     local function create(token,prefab,parent)
@@ -89,6 +93,13 @@ local function controller(host, data, display, Asset)
     end
     local function image(token,c,r)
         assert(#r==18 and r[1]==100001,'unexpected portrait image row')
+        if data.renderProfile=='compact-v1' or data.rectanglesOnly then
+            -- Shared template supplies the white image and identity transforms.
+            c.imageType=Enum.ImageType.Stretch;check(token)
+            call(token,c,'SetSizeDelta',r[4],r[5]);call(token,c,'SetAnchoredPosition',r[2],r[3])
+            c.imageColor=Color.FromRGBA(r[15],r[16],r[17],r[18]);check(token)
+            call(token,c,'SetVisible',true);return
+        end
         call(token,c,'SetImage',Enum.ImageSource.StaticReference,r[1])
         c.imageType=Enum.ImageType.Stretch;check(token);assert(c.imageType==Enum.ImageType.Stretch,'imageType rejected')
         call(token,c,'SetAnchorMin',r[8],r[9]);call(token,c,'SetAnchorMax',r[10],r[11]);call(token,c,'SetPivot',r[6],r[7])
@@ -98,21 +109,25 @@ local function controller(host, data, display, Asset)
         call(token,c,'SetAsLastSibling');call(token,c,'SetActive',true);call(token,c,'SetVisible',true)
     end
     function self.status(_)
-        return {phase=phase,generation=generation,nextIndex=nextIndex,owned=#created,
+        return {phase=phase,generation=generation,nextIndex=nextIndex,total=#data.rows,owned=#created,
             retained=phase=='release_failed' and #created or 0,reason=reason,cleanupFailures=cleanupFailures}
     end
     function self.begin(_)
         if working or phase=='destroyed' or phase=='failed' or phase=='release_failed'then return false end
         if host.alive==false then self:destroy();return false end
-        if phase=='building' or phase=='ready'then return true end
+        if phase=='building' or phase=='revealing' or phase=='ready'then
+            if data.cache or data.renderProfile=='compact-v1' then host:SetActive(true);host:SetVisible(phase~='building')end
+            return true
+        end
         if not integer(Asset.imagePrefabId) or not integer(Asset.containerPrefabId)
             or Asset.imagePrefabId==100001 or Asset.containerPrefabId==100001 then fail('unbound portrait templateIndex');return false end
         generation=generation+1;phase='building';nextIndex=1;pageIndex=0;groupIndex=0;page=nil;group=nil;reason=nil
+        revealGroups={};revealIndex=1;revealedPages={}
         local token=generation;working=true
         local ok,err=pcall(function()
             call(token,host,'SetVisible',false);call(token,host,'SetActive',true)
             call(token,host,'SetAnchorMin',.5,.5);call(token,host,'SetAnchorMax',.5,.5);call(token,host,'SetPivot',.5,.5)
-            call(token,host,'SetSizeDelta',data.width,data.width)
+            call(token,host,'SetSizeDelta',data.width,data.height or data.width)
             call(token,host,'SetLocalScale',display/data.width,display/data.width,1);call(token,host,'SetLocalRotation',0,0,0)
             -- Keep the dedicated slot position; never import ROOT offsets into the shared hero/button.
         end)
@@ -123,24 +138,46 @@ local function controller(host, data, display, Asset)
     -- Exactly one native creation attempt. The owner shares 64 across BOTH hosts.
     function self.step(_)
         if host.alive==false then self:destroy()end
-        if working or phase~='building'then return false end
+        if working or (phase~='building' and phase~='revealing')then return false end
         local token=generation;working=true
+        if phase=='revealing' then
+            local ok,err=pcall(function()
+                for _=1,4 do
+                    local entry=revealGroups[revealIndex]
+                    if not entry then phase='ready';break end
+                    if not revealedPages[entry.page] then
+                        call(token,entry.page,'SetVisible',true);call(token,entry.page,'SetActive',true);revealedPages[entry.page]=true
+                    end
+                    call(token,entry.control,'SetVisible',true);call(token,entry.control,'SetActive',true)
+                    revealIndex=revealIndex+1
+                end
+                if revealIndex>#revealGroups then phase='ready'end
+            end)
+            if not ok and err~=CANCELLED then fail(err)end
+            if pending then cleanup()end;working=false;return ok,'reveal'
+        end
         local ok,err=pcall(function()
             local p=math.floor((nextIndex-1)/3600)+1;local g=math.floor((nextIndex-1)/60)+1
             if pageIndex~=p then
                 page=create(token,Asset.containerPrefabId,host);transform(token,page);pageIndex=p
-                call(token,page,'SetActive',true);call(token,page,'SetVisible',true)
+                call(token,page,'SetActive',not data.runtimeV2);call(token,page,'SetVisible',not data.runtimeV2)
             elseif groupIndex~=g then
                 group=create(token,Asset.containerPrefabId,page);transform(token,group);groupIndex=g
-                call(token,group,'SetActive',true);call(token,group,'SetVisible',true)
+                call(token,group,'SetActive',not data.runtimeV2);call(token,group,'SetVisible',not data.runtimeV2)
+                if data.runtimeV2 then revealGroups[#revealGroups+1]={control=group,page=page}end
             else
                 local c=create(token,Asset.imagePrefabId,group);image(token,c,data.rows[nextIndex]);nextIndex=nextIndex+1
-                if nextIndex>#data.rows then call(token,host,'SetVisible',true);phase='ready'end
+                if nextIndex>#data.rows then call(token,host,'SetVisible',true);phase=data.runtimeV2 and 'revealing' or 'ready'end
             end
         end)
         if not ok and err~=CANCELLED then fail(err)end
         if phase=='destroyed'then created={} elseif pending then cleanup()end
         working=false;return true
+    end
+    function self.pause(_)
+        if not data.cache and data.renderProfile~='compact-v1' then return self:release()end
+        if phase=='destroyed' or host.alive==false then return false end
+        host:SetVisible(false);host:SetActive(false);return true
     end
     function self.release(_)
         if phase=='destroyed'then return true end
@@ -165,21 +202,34 @@ local function controller(host, data, display, Asset)
     function self.destroy(_)generation=generation+1;phase='destroyed';pending=false;created={}end
     return self
 end
+local function activeTargets(mode,characterOpen,stopped,character,preloadSelection)
+    if stopped then return {}end
+    local choosing=characterOpen==true
+    local warm=preloadSelection==true and mode=='menu' and not choosing
+    return {avatar=choosing or warm,battle=mode=='battle' and character=='ironclad',selection=warm or choosing and character=='ironclad'}
+end
 function M.new(stage,report,flags)
-    local selection = type(flags)=='table' and flags.selectionAvatar==true
-    local fighting = type(flags)=='table' and flags.battlePortrait==true
-    if not selection and not fighting then return nil end
+    local selecting=type(flags)=='table' and flags.selectionAvatar==true
+    local fighting=type(flags)=='table' and flags.battlePortrait==true
+    if not selecting and not fighting then return nil end
     if owners[stage]then return owners[stage]end
-    local Asset = require('abyss_traveler_portrait_assets')
-    local avatar,battle,rows=nil,nil,{}
-    if selection then
+    local Asset=require('abyss_traveler_portrait_assets')
+    local avatar,battle,selection,details,rows=nil,nil,nil,nil,{}
+    if selecting then
         validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')
-        local traveler=assert(stage:GetChild('characterPanel'):GetChild('traveler'))
+        local panel=assert(stage:GetChild('characterPanel'))
+        local traveler=assert(panel:GetChild('traveler'))
         avatar=controller(traveler:GetChild('officialAvatar'),Asset.avatar96,32,Asset)
-        local row={name='avatar',adapter=avatar,fallback={},active=false}
-        for _,name in ipairs({'normal','hover','pressed','disabled'})do
-            row.fallback[#row.fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')
+        details=panel:GetChild('details')
+        local host=details and details:GetChild('officialSelectionFigure')
+        if host then
+            local figure=Asset.selection133 or Asset.battle133
+            validate(figure,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
+            selection=controller(host,figure,assert(details:GetChild('portraitFrame').sizeDeltaX),Asset)
+            rows[#rows+1]={name='selection',adapter=selection,fallback={details:GetChild('portraits'):GetChild('traveler_ironclad')},active=false}
         end
+        local row={name='avatar',adapter=avatar,fallback={},active=false}
+        for _,name in ipairs({'normal','hover','pressed','disabled'})do row.fallback[#row.fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')end
         rows[#rows+1]=row
     end
     if fighting then
@@ -188,45 +238,55 @@ function M.new(stage,report,flags)
         battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset)
         rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}
     end
+    local timeBudget=selecting and Asset.avatar96.runtimeV2 or fighting and Asset.battle133.runtimeV2
     local self,busy,destroyed,painting,epoch={},false,false,false,0
     local function paint()
         if destroyed or painting then return end
         painting=true
         for _,row in ipairs(rows)do
             local s=row.adapter:status();local ready=row.active and s.phase=='ready'
-            for _,c in ipairs(row.fallback)do
+            for _,c in ipairs((row.name~='selection' or row.active)and row.fallback or {})do
                 if destroyed then painting=false;return end
                 if c and c.alive~=false then
-                    pcall(c.SetVisible,c,not ready)
+                    pcall(c.SetVisible,c,not ready and row.name~='selection')
                     if destroyed then painting=false;return end
                     -- A native setter may synchronously release. Its old hide must not win.
                     if ready and (not row.active or row.adapter:status().phase~='ready')then pcall(c.SetVisible,c,true)end
                 end
+            end
+            if row.name=='selection' and ready then
+                local note=details:GetChild('portraitNote');note.text=note.text:gsub(' · 肖像待补','')
             end
             if row.lastPhase~=s.phase then row.lastPhase=s.phase;if report then pcall(report,'ABYSS_PORTRAIT '..row.name..' phase='..s.phase..' owned='..s.owned..' reason='..tostring(s.reason))end end
         end
         painting=false
     end
     function self.status(_)return {avatar=avatar and avatar:status() or {phase='disabled',owned=0},
-        battle=battle and battle:status() or {phase='disabled',owned=0},batchSize=64}end
-    function self.sync(_,mode,characterOpen,stopped,character)
+        battle=battle and battle:status() or {phase='disabled',owned=0},selection=selection and selection:status(),batchSize=64}end
+    function self.sync(_,mode,characterOpen,stopped,character,preloadSelection)
         if busy or destroyed then return false end
         busy=true;local token=epoch
-        local wanted={avatar=not stopped and characterOpen==true,battle=not stopped and mode=='battle' and character=='ironclad'}
+        local wanted=activeTargets(mode,characterOpen,stopped,character,preloadSelection)
         for _,row in ipairs(rows)do
             if wanted[row.name] and not row.active then row.active=true;row.adapter:begin()
-            elseif not wanted[row.name] and row.active then row.active=false;row.adapter:release()end
+            elseif not wanted[row.name] and row.active then row.active=false;row.adapter:pause()end
             if epoch~=token or destroyed then busy=false;return false end
         end
         paint();busy=false;return true
     end
+    -- Prioritize the main selection figure over the small thumbnail.
+    local buildOrder=rows
     function self.tick(_)
         if busy or destroyed then return end
         busy=true
-        for _=1,64 do
-            local progressed=false
-            for _,row in ipairs(rows)do if row.active and row.adapter:step()then progressed=true;break end end
-            if not progressed then break end
+        local start=os.clock()
+        for i=1,64 do
+            local progressed,kind=false,nil
+            for _,row in ipairs(buildOrder)do if row.active then
+                local advance,phase=row.adapter:step()
+                if advance then progressed=true;kind=phase;break end
+            end end
+            if not progressed or kind=='reveal' or timeBudget and i%8==0 and os.clock()-start>=.008 then break end
         end
         paint();busy=false
     end
@@ -246,4 +306,5 @@ function M.new(stage,report,flags)
     end
     owners[stage]=self;return self
 end
+M.createController=controller
 return M

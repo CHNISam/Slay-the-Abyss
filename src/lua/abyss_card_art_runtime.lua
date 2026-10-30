@@ -92,7 +92,7 @@ function M.guardPublication(intent,control)
     end,__newindex=function(_,key,value)verify();control[key]=value;verify()end})
 end
 local function cleanup(record)
-    if record.working or record.cleaning or not record.cleanupRequested then return end
+    if record.removed or record.working or record.cleaning or not record.cleanupRequested then return end
     record.cleaning=true;record.cleanupRequested=false;operationDepth=operationDepth+1
     local reason
     local function hide(control,value)
@@ -167,7 +167,7 @@ local function guardedControl(record,control)
     end})
 end
 local function guardedPlatform(record)
-    return setmetatable({color=function(...)
+    return setmetatable({compactRectangles=record.metadata.renderProfile=='compact-v1',color=function(...)
         check(record);local value=record.platform.color(...);check(record);return value
     end},{__index=record.platform})
 end
@@ -197,6 +197,16 @@ function M.clear()
     end
     for _,record in ipairs(pending)do cleanup(record)end
     clearing=false
+end
+-- Engine teardown owns the entire UI subtree. Calling Destroy here is forbidden
+-- by the native lifecycle and must not be confused with an ordinary page close.
+function M.onEngineDestroy()
+    generation=generation+1;api=nil;records={};intents=setmetatable({},{__mode='k'})
+    for _,record in ipairs(order)do
+        record.cancelled,record.removed,record.ready=true,true,false
+        record.cleanupRequested=false;record.groups={};record.controls={};record.allocated=false
+    end
+    order={};createdLastUpdate=0
 end
 function M.configure(value)
     if value then
@@ -290,10 +300,14 @@ local function advance(record)
     local control=assert(record.instantiate(record.imageTemplateIndex,group.control),'native image creation failed')
     group.count=group.count+1;record.controls[index]=control
     check(record)
-    local guarded=guardedControl(record,control);guarded.raycastTarget=false
+    -- Image controls do not expose CursorArea.raycastTarget on the native client.
+    local guarded=guardedControl(record,control)
     local result=record.writeSlot(guarded,drawingSlot(record.drawing,index),guardedPlatform(record))
     check(record);assert(result~=false,'native slot writer rejected')
-    if index==record.drawing.count then visibility(record,true);check(record);record.ready=true end
+    if index==record.drawing.count then
+        visibility(record,true);check(record);record.ready=true
+        print('ABYSS_NATIVE_ART ready card_id='..tostring(record.metadata.cardId)..' shapes='..index)
+    end
 end
 local function sweep()
     local kept={}

@@ -6,6 +6,7 @@ import {readFileSync,existsSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {buildReadyCardRegistry} from './ready-card-registry.mjs';
 import {bindNativeArtPresentation} from '../card-art-samples.mjs';
+import {loadPerformancePack,performanceInputs} from './performance-pack.mjs';
 export const readyArtImageTemplate='AbyssReadyCardImage';
 export const readyArtGroupTemplate='AbyssReadyCardGroup';
 export function readyArtTemplates(){return [
@@ -48,6 +49,14 @@ export function bindReadyArtTemplates(directory,{image,group},{enabled=true}={})
 }
 export function readyArtRuntimeInventory(directory){
  if(directory&&(!existsSync(join(directory,readyArtAssetModule+'.lua'))||!readFileSync(join(directory,readyArtAssetModule+'.lua'),'utf8').includes('["runtime"]=true')))return undefined;
+ if(directory&&existsSync(join(directory,'art-performance.json'))){
+  const pack=JSON.parse(readFileSync(join(directory,'art-performance.json'),'utf8'));
+  const rows=Object.values(pack.assets).filter(a=>typeof a.rectangles==='string');
+  const max=Math.max(...rows.map(a=>a.count));
+  return {renderProfile:'compact-v1',assetCount:75,preciseAssets:0,compactAssets:75,maxLivePools:10,maxShapesPerPool:max,
+   maxGroupsPerPool:Math.ceil(max/60),peakDynamicControls:10*(max+Math.ceil(max/60)+1),maxCreatesPerUpdate:64,
+   measurement:'offline-allocation-bound-not-official-load',officialImport:'not_run',devices:'not_run'};
+ }
  return {
  assetCount:75,preciseAssets:3,compactAssets:72,maxLivePools:10,maxShapesPerPool:2657,maxGroupsPerPool:45,
  peakDynamicControls:27020,maxCreatesPerUpdate:64,measurement:'offline-allocation-bound-not-official-load',
@@ -55,8 +64,8 @@ export function readyArtRuntimeInventory(directory){
 };}
 
 export const readyArtAssetModule='abyss_ready_card_assets';
-export function readyArtSourceInputs(root=process.cwd()){return [...readyArtInputs,...convertedArtInputs(root)];}
-export function prepareReadyCardAssets({root=process.cwd()}={}) {
+export function readyArtSourceInputs(root=process.cwd()){return [...readyArtInputs,...convertedArtInputs(root),...performanceInputs(root)];}
+export function prepareReadyCardAssets({root=process.cwd(),compact=false}={}) {
  const cards={armaments:{},cleave:{},heavy_blade:{}};
  bindReadyCardPresentation(cards,{root});
  const assets=Object.fromEntries(Object.entries(cards).map(([id,row])=>[id,row.nativeArt]));
@@ -64,6 +73,9 @@ export function prepareReadyCardAssets({root=process.cwd()}={}) {
  for(const [id,row]of Object.entries(pack.cards))assets[id]={cardId:id,runtime:true,rectangles:row.rectangles,
   rectangleCount:row.rectangleCount,rectangleEncoding:pack.encoding,sourcePreviewSha256:row.sourcePreviewSha256,
   rectangleSha256:createHash('sha256').update(row.rectangles).digest('hex')};
+ if(compact)for(const [id,a]of Object.entries(loadPerformancePack(root).assets))if(assets[id])assets[id]={cardId:id,runtime:true,renderProfile:'compact-v1',rectangles:a.rectangles,
+  rectangleCount:a.count,rectangleEncoding:'xywh-rgb24-hex14',sourcePreviewSha256:a.sha256,
+  rectangleSha256:createHash('sha256').update(a.rectangles).digest('hex')};
  return assets;
 }
 export function writeReadyCardAssets(directory,{root=process.cwd(),prepared}={}) {

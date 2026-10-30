@@ -72,7 +72,9 @@ function M.render(panel,state,platform)
     end
     if platform.imageSource and large then portraits:GetChild(key):SetImage(platform.imageSource,large.id) end
     local note=info.name
-    if not large or large.status=='placeholder' then note=note..' · 肖像待补' end
+    local native=platform.portraits and platform.portraits.status and platform.portraits:status().selection
+    if key=='traveler_ironclad' and native then portraits:GetChild(key):SetVisible(false)end
+    if (not large or large.status=='placeholder') and not native then note=note..' · 肖像待补' end
     if large and large.playable==false then note=note..' · 非本次正式角色' end
     details:GetChild('portraitNote').text=note
 end

@@ -107,7 +107,7 @@ export async function auditNativeCandidate(options) {
     const template = save('template.json', getClientUi({ mapPath, template: 'AbyssDeckCard' }));
     const background = flags.menuBackground
       ? save('background-template.json', getClientUi({mapPath,template:backgroundTemplate})) : undefined;
-    const runtimeTemplates=dynamicCards||portraits
+    const runtimeTemplates=dynamicCards||portraits||flags.menuBackground
       ? [readyArtImageTemplate,readyArtGroupTemplate].map(name=>save(name+'.json',getClientUi({mapPath,template:name}))) : undefined;
     const inspected = save('inspect.json', inspectFile(mapPath));
     const checked = save('static-check.json', checkClientScripts({ mapPath }));
@@ -133,9 +133,9 @@ export async function auditNativeCandidate(options) {
         || buildReceipt?.officialBackground?.templateIndex!==background?.templateIndex)
         throw Error('Official background requires matching same-candidate receipt and template readback');
       const {bindBackgroundTemplate}=await import(pathToFileURL(join(snapshot,'scripts/official-background.mjs')));
-      bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot});
+      bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot,containerTemplateIndex:runtimeTemplates?.[1]?.templateIndex});
     }
-    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:buildReceipt?.officialPortraits;
+    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:portraits?buildReceipt?.officialPortraits:buildReceipt?.officialBackground;
     if(runtimeTemplates&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');
     if(dynamicCards) {
       if(buildReceipt?.sourceCommit!==sourceSha||buildReceipt?.candidate?.sha256!==before

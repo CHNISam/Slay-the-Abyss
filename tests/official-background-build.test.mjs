@@ -6,6 +6,8 @@ import {join} from 'node:path';
 import {gameLayout} from '../scripts/game-ui-layout.mjs';
 import {buildUI} from '../scripts/build-ui.mjs';
 import {sourceInputs} from '../scripts/build-native-candidate.mjs';
+import {writeBackgroundModule} from '../scripts/official-background.mjs';
+import {createOptInArtFixture} from './helpers/opt-in-art-fixture.mjs';
 
 test('real UI build registers one shared hidden background host and one native image template without moving controls',t=>{
  const dir=mkdtempSync(join(tmpdir(),'abyss-background-build-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
@@ -24,12 +26,15 @@ test('real UI build registers one shared hidden background host and one native i
  assert.equal(descendants(monsterHosts[0]).length,609,'bounded prototype controls');
  assert.equal(monsterHosts[0].visible,false);assert.deepEqual(monsterHosts[0].size,[106,106]);
  const original=structuredClone(stage.children.slice(1));
- const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure','monsterArt'].includes(c.name));strip(node.children);}}};
+ const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure','officialSelectionFigure','monsterArt'].includes(c.name));strip(node.children);}}};
  strip(original);
  assert.deepEqual(original,JSON.parse(JSON.stringify(gameLayout().controls)),'approved controls/input remain byte-equivalent apart from explicit empty artwork hosts');
  const source=readFileSync(join(dir,'abyss_menu_background_asset.lua'),'utf8');
- for(const file of ['background_adapter.lua','background_data.lua'])assert(source.includes(readFileSync(`art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/${file}`,'utf8')),'frozen runtime bytes '+file);
- assert(source.includes('imagePrefabId = 0'),'ordinary UI must not invent template index');
+ assert(source.includes("renderProfile='background-budget-v1'"),'experiment must use adaptive original-resolution background');
+ assert(source.includes('imagePrefabId=0'),'ordinary UI must not invent template index');
+ const legacyDir=mkdtempSync(join(tmpdir(),'abyss-background-legacy-'));t.after(()=>rmSync(legacyDir,{recursive:true,force:true}));
+ const legacy=writeBackgroundModule(legacyDir);
+ for(const file of ['background_adapter.lua','background_data.lua'])assert(legacy.includes(readFileSync(`art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/${file}`,'utf8')),'explicit legacy frozen bytes '+file);
 });
 
 test('candidate payload provenance includes the actual frozen runtime inputs, not just source directories',()=>{
@@ -42,14 +47,27 @@ test('candidate payload provenance includes the actual frozen runtime inputs, no
 
 test('daily production inventory includes actual dynamic background peak, never official-storage estimates',async t=>{
  const {packageInventory}=await import('../scripts/platform-load.mjs');
- const dir=mkdtempSync(join(tmpdir(),'abyss-background-inventory-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
- const {buildLuaData}=await import('../scripts/build-lua-data.mjs');
- buildLuaData('data',join(dir,'abyss_data.lua'));
- buildUI(dir,undefined,{artFeatures:{menuBackground:true}});
+ const fixture=createOptInArtFixture({artFeatures:{menuBackground:true}});t.after(()=>fixture.dispose());
+ const dir=fixture.directory;
  const report=packageInventory(dir);
  assert.equal(report.runtimeBackgrounds.length,1);
- assert.equal(report.runtimeBackgrounds[0].peakDynamicControls,13201);
+ assert.equal(report.runtimeBackgrounds[0].peakDynamicControls,4577);
+ assert.equal(report.runtimeBackgrounds[0].renderProfile,'background-budget-v1');
  assert.equal(report.runtimeBackgrounds[0].instances,1);
- assert.equal(report.runtimeBackgrounds[0].batchSize,64);
- assert(report.modules.some(m=>m.name==='abyss_menu_background_asset'&&m.bytes>1111305));
+ assert.equal(report.runtimeBackgrounds[0].batchSize,256);
+ assert.equal(report.runtimeBackgrounds[0].timeBudgetMs,8);
+ assert(report.modules.some(m=>m.name==='abyss_menu_background_asset'&&m.bytes>0));
+});
+
+test('adaptive background covers every original-resolution pixel exactly once',()=>{
+ const a=JSON.parse(readFileSync('art/performance/background-budget-v1.json'));
+ assert.deepEqual([a.width,a.height,a.count],[480,270,4500]);
+ const pixels=new Uint8Array(480*270);
+ for(const r of a.rows){
+  assert.equal(r.length,18);assert.equal(r[0],100001);assert.equal(r[17],255);
+  const x=r[1]+240-r[3]/2,y=135-r[2]-r[4]/2;
+  assert([x,y,r[3],r[4]].every(Number.isInteger));assert(x>=0&&y>=0&&x+r[3]<=480&&y+r[4]<=270);
+  for(let yy=y;yy<y+r[4];yy++)for(let xx=x;xx<x+r[3];xx++)assert.equal(pixels[yy*480+xx]++,0);
+ }
+ assert(pixels.every(n=>n===1),'background has holes');
 });

@@ -10,12 +10,13 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { buildNativeCandidate, payloadDigest, sourceInputs } from '../scripts/build-native-candidate.mjs';
 import { fileRecord, sha256 } from '../scripts/evidence-files.mjs';
+import {fixtureMapBytes,installNativeToolchainFixture,readFixtureScripts} from './helpers/native-toolchain-fixture.mjs';
 
 const repo = fileURLToPath(new URL('..', import.meta.url));
 const builder = join(repo, 'scripts/build-native-candidate.mjs');
 const sdk = `
 import {appendFileSync,readFileSync} from 'node:fs';
-const scripts=new Map([['abyss_stale',{name:'abyss_stale',file:'abyss_stale.lua',source:'old'}]]);
+import {readScripts,writeScripts} from __NATIVE_FIXTURE_STORE__;
 export class Client {
  async connect(transport) {appendFileSync(process.env.ART_CALLS,JSON.stringify({name:'connect',liveWrite:transport.options.env.MILIASTRA_ALLOW_LIVE_WRITE})+'\\n');}
  async close() {}
@@ -23,13 +24,13 @@ export class Client {
  async callTool({name,arguments:args}) {
   appendFileSync(process.env.ART_CALLS,JSON.stringify({name,args})+'\\n');
   if(name==='scene_add_client_template')return {structuredContent:{mapPath:args.mapPath,templateIndex:1073741846+(args.template.name==='AbyssReadyCardImage'?1:args.template.name==='AbyssReadyCardGroup'?2:0)}};
-  if(name==='scene_set_client_script')scripts.set(args.name,{name:args.name,file:args.name+'.lua',source:readFileSync(args.sourceFile,'utf8')});
-  if(name==='scene_remove_client'){scripts.delete(args.script);return {structuredContent:{removed:{script:args.script}}};}
-  if(name==='scene_list_client_scripts')return {structuredContent:{scripts:[...scripts.values()]}};
+  if(name==='scene_set_client_script')throw Error('Art build must use the actual batch writer');
+  if(name==='scene_remove_client'){writeScripts(args.mapPath,readScripts(args.mapPath).filter(s=>s.name!==args.script));return {structuredContent:{removed:{script:args.script}}};}
+  if(name==='scene_list_client_scripts')throw Error('Art build must use local complete source readback');
   if(name==='inspect_map')return {structuredContent:{graphs:[{id:23,name:'_GSTS_ABYSS_SETTLEMENT',type:20000,writable:true}]}};
   if(name==='scene_list_signals')return {structuredContent:{signals:['ABYSS_WIN','ABYSS_LOSE']}};
   if(name==='write_graphs')return {structuredContent:{written:[23]}};
-  if(name==='scene_check_client')return {structuredContent:{ok:true,errors:0,warnings:0,checked:[...scripts.keys()]}};
+  if(name==='scene_check_client')return {structuredContent:{ok:true,errors:0,warnings:0,checked:readScripts(args.mapPath).map(s=>s.name)}};
   return {structuredContent:{mapPath:args.mapPath}};
  }
 }
@@ -52,17 +53,24 @@ function fixture(t) {
     asset.slots=[{image:106056,imageType:'basic',position:[1.25,2.5],size:[3,4],rotation:[11,22,33],scale:[1,1],pivot:[.5,.5],anchorMin:[.5,.5],anchorMax:[.5,.5],colour:[10,20,30,255]}];
     registry.assets[id]=asset;
   }
-  const literal=put('art/registry.json',JSON.stringify(registry)),baseMap=put('base.gil','MCP mock base, not a real GIL'),callsFile=put('calls.jsonl','');
+  const literal=put('art/registry.json',JSON.stringify(registry)),baseMap=put('base.gil',fixtureMapBytes([{name:'abyss_stale',file:'abyss_stale.lua',source:'old'}])),callsFile=put('calls.jsonl','');
   const tool=join(root,'tool');
   put('tool/package.json','{"type":"module","version":"MCP-mock"}');
   put('tool/src/debug-log.mjs','export function inspectDebugLog(){throw Error("unexpected playtest");}');
-  put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js',sdk);
+  installNativeToolchainFixture(tool,sdk);
   put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js','export class StdioClientTransport {constructor(options){this.options=options;}}');
   function execute(args) {
     writeFileSync(callsFile,'');
     const result=spawnSync(process.execPath,args,{cwd:root,encoding:'utf8',timeout:60000,maxBuffer:1024*1024,
       env:{...process.env,MILIASTRA_MCP_ROOT:tool,ART_CALLS:callsFile}});
     const calls=readFileSync(callsFile,'utf8').trim().split('\n').filter(Boolean).map(JSON.parse);
+    if(result.status===0){
+      const receipt=JSON.parse(readFileSync(result.stdout.match(/Candidate receipt: (.+)/)[1],'utf8'));
+      const actual=readFixtureScripts(receipt.mapPath);
+      assert.deepEqual(actual.map(s=>s.name).sort(),Object.keys(receipt.moduleDigests).sort());
+      for(const row of actual)assert.equal(sha256(row.source),receipt.moduleDigests[row.name],'actual batch-written source must match every receipt digest');
+      assert(calls.some(c=>c.name==='native_batch_script'));assert(!calls.some(c=>c.name==='scene_set_client_script'));
+    }
     return {result,calls,receipt:()=>JSON.parse(readFileSync(result.stdout.match(/Candidate receipt: (.+)/)[1],'utf8'))};
   }
   const cli=(args=[])=>execute([builder,baseMap,'output',...args]);
@@ -84,8 +92,8 @@ test('MCP mock: formal CLI consumes opt-in art in the actual UI and dynamic pres
   const ui=one.calls.find(c=>c.name==='scene_add_client_ui').args,selected=pools(ui);
   assert.equal(selected.length,1);assert(selected[0].path.endsWith('/battlePanel/card1'));
   assert.equal(selected[0].pool.children[0].children.length,1);
-  const script=one.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_presentation').args;
-  const presentation=readFileSync(script.sourceFile,'utf8');
+  const script=one.calls.find(c=>c.name==='native_batch_script'&&c.args.name==='abyss_presentation').args;
+  const presentation=script.source;
   assert.match(presentation,/\["nativeArt"\]/);assert.match(presentation,/\["rotation"\]=\{11,22,33\}/);
   const receipt=one.receipt();
   assert.equal(receipt.nativeCardArt.registrySha256,fileRecord(f.literal).sha256);
@@ -100,10 +108,10 @@ test('MCP mock: formal CLI consumes opt-in art in the actual UI and dynamic pres
   assert(!one.calls.some(c=>c.name.startsWith('playtest')));
   assert.deepEqual(one.calls.filter(c=>c.name==='scene_remove_client').map(c=>c.args.script),['abyss_stale']);
   assert.equal(one.calls.find(c=>c.name==='write_graphs').args.graphs[0].graphId,23);
-  assert.deepEqual(one.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_ui').args.variables,
+  assert.deepEqual(one.calls.find(c=>c.name==='native_batch_script'&&c.args.name==='abyss_ui').args.variables,
     [{name:'nativeMonsterArtEnabled',type:'boolean',value:true},{name:'nativeBgmEnabled',type:'boolean',value:false},{name:'experimentalCharacters',type:'boolean',value:false}]);
   assert(!one.calls.some(c=>c.name==='scene_add_graph'||c.name==='scene_add_signal'));
-  assert(one.calls.some(c=>c.name==='scene_list_client_scripts'&&c.args.includeSource));
+  assert.equal(one.calls.filter(c=>c.name==='scene_list_client_scripts').length,0,'full readback uses local map records, asserted above');
   const disabled=f.cli(['--native-card-art-count=0']);success(disabled);
   assert.equal(pools(disabled.calls.find(c=>c.name==='scene_add_client_ui').args).length,0);
   assert.equal(disabled.receipt().nativeCardArt,undefined);
@@ -219,7 +227,7 @@ test('MCP mock: registered Cleave/Heavy one-pool entry carries 2657/2043 slots a
   const receipt=run.receipt();assert.equal(receipt.nativeCardArt.staticAddedControls,2703);
   assert.equal(receipt.nativeCardArt.sources.cleave.images,2657);assert.equal(receipt.nativeCardArt.sources.heavy_blade.images,2043);
   assert.equal(pools(run.calls.find(c=>c.name==='scene_add_client_ui').args).length,1);
-  const presentation=readFileSync(run.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_presentation').args.sourceFile,'utf8');
+  const presentation=run.calls.find(c=>c.name==='native_batch_script'&&c.args.name==='abyss_presentation').args.source;
   assert.equal((presentation.match(/\["path"\]=/g)??[]).length,4700);
   console.log('MCP mock registered one-pool: '+JSON.stringify({registrySha256:receipt.nativeCardArt.registrySha256,sources:receipt.nativeCardArt.sources,controls:receipt.nativeCardArt.staticAddedControls}));
 });
@@ -261,7 +269,7 @@ test('MCP mock: all three reviewed drawings reach the formal candidate with inde
   assert.equal(receipt.nativeCardArt.staticAddedControls,2703);
   const ui=run.calls.find(c=>c.name==='scene_add_client_ui').args;
   assert.equal(pools(ui).length,1);
-  const presentation=readFileSync(run.calls.find(c=>c.name==='scene_set_client_script'&&c.args.name==='abyss_presentation').args.sourceFile,'utf8');
+  const presentation=run.calls.find(c=>c.name==='native_batch_script'&&c.args.name==='abyss_presentation').args.source;
   assert.equal((presentation.match(/\["path"\]=/g)??[]).length,6534);
   assert.equal(receipt.statuses.officialImport,'not_run');
 });

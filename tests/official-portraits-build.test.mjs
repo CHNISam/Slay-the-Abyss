@@ -1,12 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,readFileSync,rmSync,existsSync} from 'node:fs';
+import {mkdtempSync,readFileSync,writeFileSync,rmSync,existsSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {gameLayout} from '../scripts/game-ui-layout.mjs';
 
 const modulePath=new URL('../scripts/official-portraits.mjs',import.meta.url);
-test('portrait builder exists and preserves two dedicated hosts without four button-state copies',async()=>{
+test('native selection budget changes only selection art and preserves the frozen battle literal',async t=>{
+ const {writePortraitModule,selectionBudget,portraitRuntimeInventory}=await import(modulePath);
+ const dir=mkdtempSync(join(tmpdir(),'abyss-selection-budget-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
+ writeFileSync(join(dir,'art-render-v2.json'),'{}');
+ const pack=selectionBudget();assert.equal(pack.assets.avatar96.count,457);assert.equal(pack.assets.selection133.count,1940);
+ const source=writePortraitModule(dir);
+ const original=readFileSync('art/characters/traveler-geo/portraits/battle133/runtime-no-snapshot.lua','utf8');
+ const block=original.slice(original.indexOf('local ROOT = '),original.indexOf('\nlocal created = {}'));
+ assert(source.includes(block),'battle must keep every original row');
+ assert.match(source,/selection133=/);assert.equal(portraitRuntimeInventory(dir).peakDynamicControls,6829);
+});
+test('portrait builder adds dedicated thumbnail, selection and battle hosts without changing existing controls',async()=>{
  assert(existsSync(modulePath),'portrait helper must implement actual asset integration');
  const {attachOfficialPortraits}=await import(modulePath);
  const layout={controls:[{name:'stage',kind:'container',children:gameLayout().controls}]};
@@ -21,6 +32,11 @@ test('portrait builder exists and preserves two dedicated hosts without four but
  const figure=hero.children.find(c=>c.name==='officialFigure');assert(figure);assert.equal(figure.visible,false);
  assert.equal(hero.children.indexOf(figure),hero.children.findIndex(c=>c.name==='portrait')+1);
  assert.deepEqual(figure.size,[133,133]);assert.deepEqual(figure.scale,[(400/3)/133,(400/3)/133]);
+ const details=panel.children.find(c=>c.name==='details'),selection=details.children.find(c=>c.name==='officialSelectionFigure');
+ const frame=details.children.find(c=>c.name==='portraitFrame');assert(selection);assert.equal(selection.visible,false);
+ assert.deepEqual(selection.position,[frame.position[0],frame.position[1]-(frame.size[1]-frame.size[0])/2]);
+ assert.deepEqual(selection.scale,[frame.size[0]/133,frame.size[0]/133]);
+ details.children=details.children.filter(c=>c!==selection);
  traveler.children=traveler.children.filter(c=>c!==host);hero.children=hero.children.filter(c=>c!==figure);
  assert.deepEqual(layout,before,'no existing input, HUD or fallback may be changed by attaching hosts');
  assert.equal(templates.length,0,'parent supplies shared image/container templates, no private duplicate');

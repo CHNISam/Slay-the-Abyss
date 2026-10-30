@@ -1,6 +1,9 @@
 -- This legacy artwork regression explicitly opts the candidate into background art.
 package.loaded.abyss_art_features={schemaVersion=1,flags={cards=false,menuBackground=true,selectionAvatar=false,battlePortrait=false}}
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
+package.loaded.abyss_menu_background_asset={
+ adapter=dofile('art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_adapter.lua'),
+ data=dofile('art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_data.lua'),imagePrefabId=0}
 local Background=require('abyss_menu_background')
 local Asset=require('abyss_menu_background_asset')
 local function make()

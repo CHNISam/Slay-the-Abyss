@@ -28,6 +28,8 @@
   "color": {
     "backdrop": "#0F1117",
     "backdropVeil": "#0F1117CC",
+    "officialBackdropVeil": "#0F111780",
+    "officialBackdropTint": "#FFFFFF",
     "panel": "#1C1E27",
     "panelRaised": "#272A36",
     "buttonHover": "#353949",
@@ -282,6 +284,18 @@
     "lagavulin": "enemy_die_large"
   },
   "image": {
+    "officialBackdrops": {
+      "title": 107271,
+      "selection": 107050,
+      "act1_1": 107106,
+      "act1_2": 107107,
+      "act1_3": 107110,
+      "act2_1": 107108,
+      "act2_2": 107109,
+      "act2_3": 107105,
+      "boss1": 107280,
+      "boss2": 107279
+    },
     "rect": 100001,
     "disc": 106025,
     "discSoft": 106029,
@@ -2543,6 +2557,12 @@
         "lineHeight": 1,
         "lineStep": 4
       }
+    },
+    "victoryEgg": {
+      "open": [0, -300, 220, 48],
+      "thanks": [0, 250, 1120, 64],
+      "status": [0, 180, 1120, 44],
+      "close": [0, -280, 220, 60]
     },
     "nativeMenu": {
       "note": "主菜单与通关/失败结算，按批准稿 win.png 的徽记、大标题、四格统计、双按钮构图落地；坐标以舞台中心为原点。动效只改位置与缩放，不改可见性或输入。",

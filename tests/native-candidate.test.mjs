@@ -21,7 +21,8 @@ async function fixture(t, overrides = {}) {
   writeFileSync(join(root,'base.gil'),'ORIGINAL');
   const output=join(root,'output'); mkdirSync(output);
   const names=[],sources=new Map(),calls=[]; let workspace;
-  const {scriptContent,existingScripts=[],graphs=[],signals=[],prepareGenerated,...checkOverrides}=overrides;
+  const {scriptContent,initialSources={},existingScripts=[],graphs=[],signals=[],prepareGenerated,...checkOverrides}=overrides;
+  for(const [name,source] of Object.entries(initialSources))sources.set(name,source);
   const client={async readResource(){return {contents:[]};},async callTool({name,arguments:args}) {
     calls.push({name,args});
     let data={};
@@ -29,7 +30,7 @@ async function fixture(t, overrides = {}) {
     if(name==='scene_set_client_script'){ names.push(args.name);sources.set(args.name,readFileSync(args.sourceFile,'utf8')); writeFileSync(mapPath,'candidate'); data={mapPath}; }
     if(name==='scene_add_graph')data={graphId:7,name:'ABYSS_SETTLEMENT'};
     if(name==='write_graphs')data={written:[7]};
-    if(name==='scene_check_client')data={ok:true,errors:0,warnings:0,problems:[],checked:[...names],...checkOverrides};
+    if(name==='scene_check_client')data={ok:true,errors:0,warnings:0,problems:[],checked:[...sources.keys()],...checkOverrides};
     if(name==='scene_list_client_scripts')data={scripts:[...sources].map(([name,source])=>({name,file:name+'.lua',source:scriptContent??source})).concat(existingScripts)};
     if(name==='scene_remove_client') {const at=existingScripts.findIndex(script=>script.name===args.script);if(at>=0)existingScripts.splice(at,1);data={removed:{script:args.script}};}
     if(name==='inspect_map')data={graphs};
@@ -38,9 +39,42 @@ async function fixture(t, overrides = {}) {
   }};
   // The fake SDK has no native process; filesystem and manifest checks stay real.
   const prepare=dir=>{workspace=dirname(dir);names.length=0;writeFileSync(join(dir,'game-ui.json'),'{"controls":[]}');writeFileSync(join(dir,'game-ui-templates.json'),'[]');prepareGenerated?.(dir);};
-  return {root,output,calls,run:extra=>mod.buildNativeCandidate({root,baseMap:join(root,'base.gil'),output,client,prepare,
+  const writeScripts=async(mapPath,updates,workspace)=>{
+    calls.push({name:'batch_write',args:{updates}});
+    for(const update of updates)sources.set(update.name,readFileSync(update.sourceFile,'utf8'));
+    const destination=join(workspace,'batch.gil');writeFileSync(destination,'candidate');return destination;
+  };
+  return {root,output,calls,writeScripts,run:extra=>mod.buildNativeCandidate({root,baseMap:join(root,'base.gil'),output,client,prepare,
     generatedModules:{},sourceCommit:'f'.repeat(40),...extra})};
 }
+
+test('identical embedded modules avoid writes while changed modules and entry are rebuilt and all are verified',async t=>{
+  const f=await fixture(t,{initialSources:{abyss_same:'return 1',abyss_changed:'return 0'}});
+  writeFileSync(join(f.root,'src/lua/abyss_same.lua'),'return 1');
+  writeFileSync(join(f.root,'src/lua/abyss_changed.lua'),'return 2');
+  const receipt=await f.run();
+  assert.deepEqual(receipt.reusedModules,['abyss_same']);
+  assert.deepEqual(f.calls.filter(c=>c.name==='scene_set_client_script').map(c=>c.args.name),['abyss_changed','abyss_ui']);
+  assert.deepEqual(receipt.checkedModules,['abyss_changed','abyss_same','abyss_ui']);
+  assert.equal(f.calls.filter(c=>c.name==='scene_list_client_scripts'&&c.args.includeSource).length,2);
+});
+
+test('batch transport writes all changes once and retains full final verification',async t=>{
+  const f=await fixture(t);
+  for(let i=0;i<280;i++)writeFileSync(join(f.root,`src/lua/abyss_part_${i}.lua`),`return ${i}`);
+  const receipt=await f.run({writeScripts:f.writeScripts});
+  assert.equal(f.calls.filter(c=>c.name==='batch_write').length,1);
+  assert.equal(f.calls.filter(c=>c.name==='scene_set_client_script').length,0);
+  assert.equal(receipt.checkedModules.length,281);
+  assert.equal(f.calls.filter(c=>c.name==='scene_check_client').length,1);
+  assert.equal(receipt.statuses.staticCheck,'pass');
+});
+
+test('batch write failure cannot produce a success receipt',async t=>{
+  const f=await fixture(t);
+  await assert.rejects(f.run({writeScripts:async()=>{throw Error('batch failed');}}),/batch failed/);
+  assert.equal(f.calls.some(c=>c.name==='scene_check_client'),false);
+});
 
 test('missing fresh generated module cannot use a stale shared build',async t=>{
   const f=await fixture(t);mkdirSync(join(f.root,'build/lua'),{recursive:true});

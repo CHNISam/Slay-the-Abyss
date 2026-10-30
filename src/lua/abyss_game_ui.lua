@@ -19,6 +19,7 @@ local RunSeed = require("abyss_run_seed")
 local NeowHistory=require('abyss_neow_history')
 local EndingHistory=require('abyss_ending_history')
 local Acts=require('abyss_acts')
+local VictoryEgg=require('abyss_victory_easter_egg')
 
 function M.new(root, data, presentation, clickEvent, platform)
     -- A seed is an explicit replay/test override. Normal runs sample at Start,
@@ -133,7 +134,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     self.openMenu = function(_)
-        if self.disabled or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
+        if self.disabled or self.easterEggOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end
         exitGeneration = exitGeneration + 1
         self.exitOpen, self.menuOpen, self.exitError = true, true, nil
         self:refresh()
@@ -197,14 +198,40 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
 
     local menuView = MenuView.new(self,menu,data,platform)
+    if root:GetChild('victoryEasterEgg') then
+        self.easterEgg=VictoryEgg.new(root,{canOpen=function()
+            return type(platform.createEasterEggArt)=='function' and self.mode=='victory' and not self.disabled
+                and not self.characterOpen and not self.exitOpen and not self.settlementRequested and not self.settlementBusy and not self.motion.deathReveal
+        end,createArt=platform.createEasterEggArt,onVisibility=function(value)
+            self.easterEggOpen=value;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1;self:refresh()
+        end})
+    end
+    self.onEngineDestroy=function(_)if self.easterEgg then self.easterEgg:onEngineDestroy()end end
     local start,settlement=menuView.start,menuView.settlement
     local function present() MenuView.present(menuView) end
     self.animate=function(_,dt) MenuView.animate(menuView,dt) end
+    local menuLoading,characterLoading,originalCharacterHint=false,false,nil
+    self.paintArtLoading=function(_)
+        local bg=platform.background and platform.background:status()
+        local portraits=platform.portraits and platform.portraits:status()
+        local avatar=portraits and (portraits.selection and portraits.selection.phase~='idle' and portraits.selection or portraits.avatar)
+        local function percent(s)return math.min(99,math.floor(100*((s.nextIndex or 1)-1)/math.max(1,s.total or 1)))end
+        local summary=menu:GetChild('summary')
+        if self.mode=='menu' and not self.characterOpen and bg and (bg.phase=='building' or bg.phase=='revealing') then
+            summary.text='正在载入画面… '..percent(bg)..'%';summary:SetVisible(true);menuLoading=true
+        elseif menuLoading then summary:SetVisible(false);menuLoading=false end
+        local hint=characterPanel:GetChild('hint')
+        if self.characterOpen and avatar and (avatar.phase=='building' or avatar.phase=='revealing') then
+            if not characterLoading then originalCharacterHint=hint.text end
+            hint.text='正在载入角色画面… '..percent(avatar)..'%';characterLoading=true
+        elseif characterLoading then hint.text=originalCharacterHint or '查看初始信息，确认后开始冒险。';characterLoading=false end
+    end
 
     function self.syncController(_)
         if not controller then return end
         local scope=self.mode
         if self.disabled or self.settlementRequested or self.settlementBusy then scope='blocked'
+        elseif self.easterEggOpen then scope='easterEgg'
         elseif self.exitOpen then scope='exit'
         elseif self.motion.deathReveal then scope='blocked'
         elseif self.characterOpen then scope='characters'
@@ -216,7 +243,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         elseif self.mode=='battle' and self.battleUI.info then scope='battleInfo'
         elseif self.mode=='battle' and (self.battleUI.selected or self.battleUI.potionAim) then scope='aim' end
         controller:sync(scope,function()
-            if scope=='exit' then return self:closeExit()
+            if scope=='easterEgg' then return self.easterEgg:close()
+            elseif scope=='exit' then return self:closeExit()
             elseif scope=='characters' then return self:closeCharacters()
             elseif scope=='blocked' and openingCovered() then return false
             elseif scope=='deck' then
@@ -331,7 +359,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
     end
     local function refreshPageVisibility(run,inMenu,deckOpen,potionOpen,blocked)
-        menu:SetVisible(inMenu)
+        menu:SetVisible(inMenu and not self.characterOpen and not self.easterEggOpen)
         self.battleUI:setActive(self.mode == "battle" and not deckOpen and not potionOpen and not blocked)
         child("battlePanel"):SetVisible(self.mode == "battle")
         self.mapUI:setVisible(self.mode == "map" and not deckOpen and not potionOpen and not blocked)
@@ -389,8 +417,20 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
         end
     end
+    local function menuVersionVisible()return self.mode=='menu' and not self.characterOpen end
+    local function syncPortraits()
+        if not platform.portraits then return end
+        local character
+        if self.characterOpen and self.characterSelection.info then character=self.characterSelection.info.id
+        elseif self.run then character=self.run.character or 'ironclad'end
+        platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,character,
+            self.mode=='menu' and not self.characterOpen)
+    end
+    local function exitEntryVisible()
+        return not self.easterEggOpen and not self.exitOpen and not self.settlementRequested and not self.settlementBusy
+    end
     local function refreshForeground()
-        codeVersion:SetVisible(self.mode=='menu')
+        codeVersion:SetVisible(menuVersionVisible())
         if characterPanel then
             characterPanel:SetVisible(self.characterOpen==true)
             if self.characterOpen then
@@ -401,7 +441,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.choiceUI and self.choiceUI.visible then self.choiceUI.root:SetAsLastSibling() end
         -- Shared utilities stay above the deck overlay; the confirmation stays
         -- above every page, including an in-flight battle presentation.
-        exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)
+        exitEntry:SetVisible(exitEntryVisible())
         exitEntry:SetAsLastSibling()
         exitPanel:SetVisible(exitDialogOwnsForeground())
         runMenu:SetVisible(self.exitOpen == true and self.menuOpen == true and not self.controlsOpen and not self.routeOpen)
@@ -423,7 +463,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         refreshExitDialog()
     end
     local function overlaysBlocked()
-        local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy or self.characterOpen
+        local blocked = self.easterEggOpen or self.exitOpen or self.settlementRequested or self.settlementBusy or self.characterOpen
             or self.choiceUI and self.choiceUI.visible
         return blocked
     end
@@ -440,16 +480,31 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.menuOpen then runMenu:SetAsLastSibling()
         elseif self.exitOpen then exitPanel:SetAsLastSibling() end
     end
+    local lastBackdrop,lastBackdropVisible
+    local function syncOfficialBattleScene(run)
+        local scenes=root:GetChild('officialBattleBackdrop')
+        if not scenes then return end
+        local visible=self.mode=='battle'
+        if visible~=lastBackdropVisible then scenes:SetVisible(visible);lastBackdropVisible=visible end
+        local floor=math.max(1,run and run.floor or 1)
+        local act,row=Acts.forFloor(floor);local chapter=math.min(2,act)
+        local key=floor==Acts.get(act).boss and 'boss'..chapter or 'act'..chapter..'_'..((row-1)%3+1)
+        if key==lastBackdrop then return end
+        for _,name in ipairs({'act1_1','act1_2','act1_3','act2_1','act2_2','act2_3','boss1','boss2'})do
+            scenes:GetChild(name):SetVisible(name==key)
+        end
+        lastBackdrop=key
+    end
     self.refresh = function(_)
         if self.disabled then return false,"ui_disabled" end
         local run = self.run
         finishRunFlow(run)
         local covering = syncOpening(run)
         selectMode(run)
+        syncOfficialBattleScene(run)
         local inMenu = self.mode == "menu" or self.mode == "defeat" or self.mode == "victory"
         syncMenuContext(run,inMenu)
         if platform.background then platform.background:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy) end
-        if platform.portraits then platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,self.run and self.run.character) end
         syncCardChoice(run)
         closeStaleDeck(run,inMenu)
         openCardChoice(run)
@@ -464,6 +519,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         bgm:update(self.settlementRequested and "stop" or Bgm.scene(self.mode, run, self.battleUI.busy, bgm.cue))
         present()
         refreshForeground()
+        if self.easterEgg then self.easterEgg:refresh()end
+        syncPortraits()
         openingForeground(covering)
         self:syncController()
     end
@@ -489,6 +546,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return ok,reason
     end
     self.start = function(_,character)
+        if self.easterEggOpen then return false,'easter_egg_open' end
         if self.disabled or self.starting then return false,"ui_disabled" end
         if self.motion.deathReveal then return false,"result_revealing" end
         if self.exitOpen or self.deckUI.visible or self.settlementRequested or self.settlementBusy then return false end
@@ -586,6 +644,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         return ok, reason
     end
     self.settle = function(_)
+        if self.easterEggOpen then return false,'easter_egg_open' end
         if self.disabled then return false,"ui_disabled" end
         if self.motion.deathReveal then return false,"result_revealing" end
         if self.characterOpen then return false, "character_choice_open" end
@@ -637,8 +696,12 @@ function M.new(root, data, presentation, clickEvent, platform)
         if type(dt) ~= "number" or dt ~= dt or dt < 0 or dt == math.huge then
             return false, "invalid_delta"
         end
+        if self.easterEggOpen then
+            self.easterEgg:tick();if controller then controller:tick()end;self:syncController();return true
+        end
         if platform.background then platform.background:tick() end
         if platform.portraits then platform.portraits:tick() end
+        self:paintArtLoading()
         if controller then controller:tick() end
         if self.exitOpen or self.settlementBusy then self:syncController();return true end
         if self.settlementRequested then self:animate(dt); return true end
@@ -664,6 +727,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.disable = function(_)
         if self.disabled then return false end
+        if self.easterEgg then self.easterEgg:close()end
         self.disabled=true
         if platform.background then platform.background:release() end
         if platform.portraits then platform.portraits:release() end
@@ -699,13 +763,18 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function bindCommand(box, kind, action, enabled, order, group, onFocus)
         local hit = box:GetChild("hit")
         local held, released, observed
-        local menuAction = kind == "start" or kind == "settle"
+        local menuAction = kind == "start" or kind == "settle" or kind=='egg_open'
         local rewardAction = kind == "combatRewards"
         local characterAction = kind:match("^character_")~=nil
         local cursor = platform.cursorEvents or {}
         local runMenuAction = kind:sub(1, 4) == 'run_'
+        local function eggAvailable()
+            if self.easterEggOpen then return kind=='egg_close' end
+            return kind=='egg_open' and self.easterEgg:refresh()
+        end
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if self.easterEggOpen or kind=='egg_open' or kind=='egg_close' then return eggAvailable()end
             if menuAction and self.motion.deathReveal then return false end
             if kind == 'routeClose' then return self.exitOpen and self.routeOpen == true end
             if kind == 'helpClose' then return self.exitOpen and self.controlsOpen == true end
@@ -717,7 +786,8 @@ function M.new(root, data, presentation, clickEvent, platform)
                     and (not enabled or enabled())
                     and (self.mode=="menu" or self.mode=="defeat" or self.mode=="victory")
             end
-            if self.characterOpen and kind ~= 'open' then return false end
+            -- The exit modal owns confirmation/cancellation above selection.
+            if self.characterOpen and not self.exitOpen and kind ~= 'open' then return false end
             if rewardAction then
                 return self.rewardReturnAvailable == true and self.mode == "map" and self.run and self.run.phase == "map" and self.run.pendingCombatRewards ~= nil
                     and not self.exitOpen and not self.deckUI.visible and not self.potionUI.visible
@@ -758,6 +828,7 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
         end
         Controller.bind(controller,hit,function()
+            if kind=='egg_close' then return 'easterEgg'end
             if characterAction then return 'characters' end
             if runMenuAction or kind=='routeClose' or kind=='cancel' or kind=='confirm' or kind=='help' or kind=='helpClose' then return 'exit' end
             return self.mode
@@ -780,6 +851,12 @@ function M.new(root, data, presentation, clickEvent, platform)
     -- expire whenever their menu/run context is hidden or replaced.
     bindCommand(start, "start", function() return self:start() end)
     bindCommand(settlement, "settle", function() return self:settle() end)
+    if self.easterEgg then
+        local egg=self.easterEgg
+        egg.panel:GetChild('blocker'):AddCursorEventListener(clickEvent,function()return true end)
+        bindCommand(egg.button,'egg_open',function()return egg:open()end)
+        bindCommand(egg.panel:GetChild('close'),'egg_close',function()return egg:close()end)
+    end
     bindCommand(child("combatRewards"), "combatRewards", function()
         local ok, reason = Run.reopenCombatRewards(self.run)
         if ok then self:refresh() end

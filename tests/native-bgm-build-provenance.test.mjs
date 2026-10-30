@@ -19,9 +19,13 @@ export class Client {
  async connect() {} async close() {} async readResource(){return {contents:[]};}
  async callTool({name,arguments:args}) {
   appendFileSync(process.env.BGM_CALLS,JSON.stringify({name,args})+'\\n');
+  if(name==='scene_add_signal'&&state.signals?.includes(args.name))return {isError:true,structuredContent:{error:'duplicate signal'}};
+  if(name==='scene_add_graph'&&state.graphs?.length)return {isError:true,structuredContent:{error:'duplicate graph'}};
   if(name==='scene_set_client_script')scripts.set(args.name,args.source);
   writeFileSync(state.output,JSON.stringify([...scripts]));
   let data={mapPath:state.output};
+  if(name==='inspect_map')data.graphs=state.graphs??[];
+  if(name==='scene_list_signals')data.signals=state.signals??[];
   if(name==='scene_add_graph')Object.assign(data,{graphId:7,name:'ABYSS_BGM'});
   if(name==='write_graphs')data.written=[7];
   if(name==='scene_check_client')Object.assign(data,{ok:true,errors:0,checked:[...scripts.keys()]});
@@ -31,7 +35,7 @@ export class Client {
  }
 }
 `;
-function fixture(t, corrupt) {
+function fixture(t, corrupt, existing=false) {
   const root = mkdtempSync(join(tmpdir(), 'abyss-bgm-marker-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const put = (file, text) => { const path = join(root, file); mkdirSync(dirname(path), { recursive: true }); writeFileSync(path, text); return path; };
@@ -49,12 +53,20 @@ function fixture(t, corrupt) {
   put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js', sdk);
   put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js', `export class StdioClientTransport {constructor(options){if(options.env.MILIASTRA_ALLOW_LIVE_WRITE!=='0')throw Error('live writes');}}`);
   const calls = put('calls.jsonl', '');
-  const scenario = put('scenario.json', JSON.stringify({ scripts: Object.entries(sources).map(([name, source]) => ({ name, source })), output: join(root, 'mcp-returned-outside-audio.gil'), corrupt }));
+  const scenario = put('scenario.json', JSON.stringify({ scripts: Object.entries(sources).map(([name, source]) => ({ name, source })), output: join(root, 'mcp-returned-outside-audio.gil'), corrupt,
+    ...(existing?{graphs:[{id:42,name:'_GSTS_ABYSS_BGM',type:20000,writable:true}],signals:['ABYSS_BGM_MAP','ABYSS_BGM_BATTLE','ABYSS_BGM_ELITE','ABYSS_BGM_BOSS','ABYSS_BGM_SHOP','ABYSS_BGM_CAMP','ABYSS_BGM_VICTORY','ABYSS_BGM_DEFEAT','ABYSS_BGM_STOP']}: {}) }));
   const output = join(root, 'audio');
   const run = spawnSync(process.execPath, [builder, base, output, sourceReceipt], { encoding: 'utf8',
     env: { ...process.env, MILIASTRA_MCP_ROOT: tool, BGM_SCENARIO: scenario, BGM_CALLS: calls } });
   return { root, sources, base, buildId, output, run, calls: readFileSync(calls, 'utf8').trim().split('\n').filter(Boolean).map(JSON.parse) };
 }
+test('audio packaging reuses existing BGM graph and signals without duplicates',t=>{
+ const f=fixture(t,undefined,true);assert.equal(f.run.status,0,f.run.stderr);
+ assert.equal(f.calls.some(c=>c.name==='scene_add_signal'||c.name==='scene_add_graph'),false);
+ assert.equal(f.calls.find(c=>c.name==='write_graphs').args.graphs[0].graphId,42);
+ assert(existsSync(join(f.output,'candidate.json')));
+});
+
 test('real BGM CLI preserves exact packaged startup marker and all entry parameters, then binds final adjacent artifact', t => {
   const f = fixture(t); assert.equal(f.run.status, 0, f.run.stderr);
   const entry = f.calls.find(row => row.name === 'scene_set_client_script' && row.args.name === 'abyss_ui');
