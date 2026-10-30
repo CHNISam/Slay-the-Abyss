@@ -17,6 +17,7 @@ import { toLua } from './build-lua-data.mjs';
 import { nativeCardArtArgs, prepareNativeCardArt, nativeCardArtBuildReceipt, verifyNativeCardArtReceipt } from './card-art-samples.mjs';
 import {reusableUi} from './native-candidate-ui-cache.mjs';
 import {embeddedScripts} from './native-script-inventory.mjs';
+import {runNativeClientCheck} from './native-client-check.mjs';
 import {writeScriptBatch} from './native-script-batch.mjs';
 
 export const generatedRuntimeModules = {
@@ -332,6 +333,7 @@ export async function buildNativeCandidateFromToolchain(options) {
         await client.connect(new StdioClientTransport({command:process.execPath,args:[join(toolRoot,'src/server.mjs')],env:{...process.env,MILIASTRA_WORKSPACE:workspace,MILIASTRA_ALLOW_LIVE_WRITE:'0'}}));
         const remoteCall=client.callTool.bind(client);
         client.callTool=(request,...args)=>{
+          if(request.name==='scene_check_client')return Promise.resolve({structuredContent:runNativeClientCheck(request.arguments,toolRoot)});
           if(request.name==='scene_list_client_scripts'){
             return Promise.resolve({structuredContent:embeddedScripts(request.arguments,{container,fields,one})});
           }
