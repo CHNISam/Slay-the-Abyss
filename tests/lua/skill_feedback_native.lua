@@ -9,12 +9,6 @@ local Presentation=require('abyss_presentation')
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Surfaces=require('abyss_monster_surfaces')
 local EnemyView=require('abyss_battle_enemy_view')
-local function find(list,name)
-    for _,d in ipairs(list) do
-        if d.name==name then return d end
-        local value=find(d.children or {},name); if value then return value end
-    end
-end
 local function same(a,b)
     assert(type(a)==type(b),'state type changed')
     if type(a)~='table' then assert(a==b,'state value changed'); return end
@@ -23,7 +17,7 @@ local function same(a,b)
 end
 local function count(list,key) local n=0;for _,v in ipairs(list) do if v==key then n=n+1 end end;return n end
 local function harness(enemyId,intentId,fast)
-    local stage=F.control(assert(find(require('abyss_ui_layout'),'battlePanel')))
+    local stage=F.Viewport.apply(F.control({children=F.Layout}),1280,720):GetChild('battlePanel')
     local h={stage=stage,sounds={},done=0}
     h.battle=Combat.new(Data,{deck={'strike','defend'},enemies={enemyId},seed=11})
     local enemy=h.battle.enemies[1]

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "2db3a8c6f22810c69e2e0a8e36afbb4c985234b2",
+  "afterCommit": "c3e54b67fc339c1a23a23ec138cac1df31eee5c3",
+  "files": {
+    "tests/lua/game_ui_class_choices.lua": {
+      "beforeSha256": "c5789e68fccb9583feb7cb31f6a41e6a6854eaca5a28361d93c9804f8e9382d9",
+      "afterSha256": "c3f7efaf0b764856f55677acadb30713ae86b905a6498d29291065f197bb48e0",
+      "beforeGitBlob": "4d7d2869404b7f03a7c63572e1cfae51129dd602",
+      "afterGitBlob": "db7ec31b6602df8e1220626b9cea614d6d560b71",
+      "afterUtf16Length": 9672,
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "local Current=dofile(\"tests/lua/support/current_monster_controls.lua\")"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [
+            "    click(root,card==\"cut_through_fate\" and \"battlePanel/enemy1\" or \"battlePanel/playArea\")"
+          ],
+          "after": [
+            "    if card==\"cut_through_fate\" then",
+            "        Current.actor(root:GetChild(\"battlePanel\"),s.enemies[1]):GetChild(\"hit\").listeners.click()",
+            "    else click(root,\"battlePanel/playArea\") end"
+          ]
+        }
+      ]
+    }
+  }
+}

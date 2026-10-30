@@ -6,6 +6,16 @@ import {createHash} from 'node:crypto';
 import {nativeArtPool,validateNativeCardArt} from './card-art-samples.mjs';
 export const monsterSourceInputs=Object.freeze(['art/monsters/acid_slime_m/native-art-r02/native-art.lua','art/monsters/acid_slime_m/native-art-r02/native-art.json']);
 export function prepareMonsterArt(input) {
+  return prepareMonsterArtRegistry(input,false);
+}
+// Inventory consumers need the validated source paths, not mutable output art.
+// No cache: each invocation reads, hashes and validates the real JSON/source.
+// JSON-only input keeps omitted structuredClone calls free of observable errors.
+export function monsterArtInputPaths() {
+  const art=prepareMonsterArtRegistry(undefined,true);
+  return art===null?null:art.inputPaths;
+}
+function prepareMonsterArtRegistry(input,inventoryOnly) {
   const registry=input??JSON.parse(readFileSync('data/presentation/native-monster-art.json','utf8'));
   const inputPaths=[];
   if(!input&&registry.enabled) {
@@ -28,7 +38,7 @@ export function prepareMonsterArt(input) {
   // Keep the mature native slot/type validation, without loosening its contract.
   const capacity=validateNativeCardArt({schemaVersion:2,editorCommit:'103025f9095d8089e3f9bf097f4d0c5fe039d546',canvas:[144,64],
     assets:{cleave:{...asset,cardId:'cleave'}}});
-  const assets={[asset.enemyId]:{...structuredClone(asset),cardId:asset.enemyId,capacity}};
+  const assets={[asset.enemyId]:inventoryOnly?{capacity}:{...structuredClone(asset),cardId:asset.enemyId,capacity}};
   const bindings=registry.bindings??{[asset.enemyId]:asset.enemyId};
   if(!bindings||typeof bindings!=='object'||Array.isArray(bindings)||Object.keys(bindings).length>42||Object.keys(registry.additionalAssets??{}).length>41)throw new Error('Invalid bounded monster catalog');
   for(const [id,entry] of Object.entries(registry.additionalAssets??{})) {
@@ -41,12 +51,13 @@ export function prepareMonsterArt(input) {
       if(!input&&createHash('sha256').update(readFileSync(record.path)).digest('hex')!==record.sha256)throw new Error('Additional monster source hash mismatch');
       inputPaths.push(record.path);
     }
-    assets[id]={...structuredClone(entry),cardId:id,capacity:count};
+    assets[id]=inventoryOnly?{capacity:count}:{...structuredClone(entry),cardId:id,capacity:count};
   }
   for(const [enemy,id] of Object.entries(bindings))if(!/^[a-z][a-z0-9_]+$/.test(enemy)||!Object.hasOwn(assets,id))throw new Error('Invalid monster binding');
   if(!Object.keys(assets).every(id=>Object.values(bindings).includes(id)))throw new Error('Unbound monster art asset');
   const poolCapacity=Math.max(...Object.values(assets).map(a=>a.capacity));
   for(const entry of Object.values(assets))entry.capacity=poolCapacity;
+  if(inventoryOnly)return {inputPaths};
   return {...structuredClone(registry),inputPaths,assets,bindings,poolCapacity,asset:assets[asset.enemyId]};
 }
 export const monsterPowerTemplateName='AbyssMonsterPower';

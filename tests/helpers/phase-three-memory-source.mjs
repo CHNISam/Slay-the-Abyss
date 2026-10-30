@@ -18,12 +18,12 @@ export function prePhaseThreeMemorySource(path,source,{readSource=p=>readFileSyn
   let live;try{live=readSource(p);}catch{assert.fail('phase-three-memory linked source missing: '+p);}
   assert.equal(typeof live,'string','phase-three-memory linked source must exist: '+p);
   assert.equal(hash(normalize(live)),phaseThreeMemorySourceProof.files[p].afterSha256,'phase-three-memory linked source identity: '+p);
-  assert.equal(blob(normalize(live)),phaseThreeMemorySourceProof.files[p].afterGitBlob);
+  assert.equal(blob(normalize(live)),phaseThreeMemorySourceProof.files[p].afterGitBlob,'phase-three-memory linked source Git blob: '+p);
  }
  for(const[p,entry]of Object.entries(phaseThreeMemorySourceProof.linkedSources)){
   let actual;try{actual=readSource(p);}catch{assert.fail('phase-three-memory linked source missing: '+p); }
   assert.equal(typeof actual,'string','phase-three-memory linked source must exist: '+p);
-  const live=normalize(actual);assert.equal(live.length,entry.utf16Length);assert.equal(hash(live),entry.sha256,'phase-three-memory linked source identity: '+p);assert.equal(blob(live),entry.gitBlob);
+  const live=normalize(actual);assert.equal(live.length,entry.utf16Length,'phase-three-memory linked source length: '+p);assert.equal(hash(live),entry.sha256,'phase-three-memory linked source identity: '+p);assert.equal(blob(live),entry.gitBlob,'phase-three-memory linked source Git blob: '+p);
  }
  assert.equal(blob(text),b.afterGitBlob);
  const lines=text.split('\n');

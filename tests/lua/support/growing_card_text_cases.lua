@@ -41,7 +41,15 @@ local function setup(options)
     local F = dofile("tests/lua/support/game_ui_fixture.lua")
     local ui = UI.new(root, Data, Presentation, "click", F.withMonsterActors({imageSource="static", color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end}), options)
     local function click(name)
-        local box = F.actorControl(stage, name)
+        local enemy = name:match("^enemy(%d+)$")
+        local box
+        if enemy then
+            local actor = assert(ui.run.combat.enemies[tonumber(enemy)], "missing real combat actor")
+            local surfaces = assert(require("abyss_monster_surfaces").get(stage), "missing real actor surfaces")
+            box = assert(surfaces:find(actor.id), "missing real actor surface")
+        else
+            box = stage:GetChild(name)
+        end
         if box.click then if box.interactable then box.click() end else box:GetChild("hit").click() end
     end
     local function drain()

@@ -67,9 +67,9 @@ CLI从候选旁收据和启动证据取得预期身份，重验原始日志与�
 
 正常交付检查读取所有分页及当前attempt作业，拒绝必需回归作业的queued/failed/cancelled/skipped/missing和旧head/base组合；Full路径未选中的fast作业按下述版本合同验证。PR合并测试SHA允许不同于head，但实际parents必须是当前base/head。独立审查记录提供 `reviewedHeadSha`、`reviewedBaseSha`、可追溯 `reviewId`、`conclusion: pass`、`unresolved: []`；字段通过不自证审查独立，须检查真实会话/审查来源。记录可放PR附属产物，避免提交记录包含自身SHA的循环。合并前再查head/base，用现成expected-head机制，并复查合并结果。唯一基础设施应急例外按[CI流程](CI.md)取得Owner对精确PR/HEAD的一次聊天批准后执行；不改本验证器、不伪造绿灯，明确记录缺失检查与独立证据。
 
-保存预审收据后，合入结果必须另验。`pr_passed` 只证明PR组合；实际合入提交的完整CI尚缺时为 `merged_pending`，实际SHA、源码tree、唯一父=预审base及对应push Quality均通过才是 `merged_passed`。验证后base前移即使源码tree相同也不能沿用旧组合。历史schemaVersion 2冻结为原15项成功作业（三个必需作业、8个Windows及4个POSIX分片），不改写或升级旧收据。新采证使用schemaVersion 3：原15项仍须全部成功，另要求impact成功、未展开的fast作业completed/skipped，共17项；Fast矩阵通过不能代替Full，缺少路由作业不能回退历史合同。PR预审与实际push各按自己的版本验证。逐作业绑定run_id、head_sha和attempt；采证末尾重新核对运行与attempt，拒绝诊断运行或旧成功记录。POSIX继续按文件使用Node原生分片，片内串行，每片保留完整工程门禁与20分钟作业预算。未来调整已有matrix须同步交付合同与其回归，不能只保留聚合作业名称。
+保存预审收据后，合入结果必须另验。`pr_passed` 只证明PR组合；实际合入提交的完整CI尚缺时为 `merged_pending`，实际SHA、源码tree、唯一父=预审base及对应push Quality均通过才是 `merged_passed`。验证后base前移即使源码tree相同也不能沿用旧组合。历史schemaVersion 2冻结为原15项成功作业（三个必需作业、8个Windows及4个POSIX分片），不改写或升级旧收据。历史schemaVersion 3另要求impact成功、未展开的fast作业completed/skipped，共17项。新采证使用schemaVersion 4：三个必需作业、8个Windows及5个独立POSIX分片全部成功，impact成功、未展开的fast作业completed/skipped，共18项；Fast矩阵通过不能代替Full，缺少路由作业不能回退历史合同。PR预审与实际push各按自己的版本验证。逐作业绑定run_id、head_sha和attempt；采证末尾重新核对运行与attempt，拒绝诊断运行或旧成功记录。POSIX由五个独立托管VM按既有加权文件计划覆盖全部测试，片内串行，原有单项期限及20分钟作业预算不变；原工程门禁仍由第一片执行，聚合必须覆盖全部五片。未来调整已有matrix须同步交付合同与其回归，不能只保留聚合作业名称。
 
-schemaVersion 3预审在采证前后独立读取目标分支的Git ref，保存`targetBeforeSha`和`targetAfterSha`，两者都须等于已测base。PR API的base.sha与合成merge ref可能同时保留旧组合，不能代替实际目标引用；不一致即拒绝，不追认旧CI。该检查仅记录预审时的目标，合入后的历史验收仍按实际squash父与树验证，不要求之后的分支tip停留原位。
+schemaVersion 3及4预审在采证前后独立读取目标分支的Git ref，保存`targetBeforeSha`和`targetAfterSha`，两者都须等于已测base。PR API的base.sha与合成merge ref可能同时保留旧组合，不能代替实际目标引用；不一致即拒绝，不追认旧CI。该检查仅记录预审时的目标，合入后的历史验收仍按实际squash父与树验证，不要求之后的分支tip停留原位。
 
 ## 尚未取得的证据
 

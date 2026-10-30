@@ -87,14 +87,15 @@ for _, upgraded in ipairs({false, true}) do
         local played, cards, events = s.hand[1].uid, inventory(s), #s.events
         assert(Combat.play(s, played)); equal(#s.hand, n); equal(#s.draw, 5 - n)
         equal(#s.discard, 1); equal(s.discard[1].uid, played); equal(#s.events, events + 3)
+        -- ApplyNoDraw now emits the real eventless onModifyPower boundary after draw/reshuffle.
         equal(s.events[events + 1].kind, "play")
+        same(s.events[events + 1].detail, {uid=played, cardId="battle_trance"})
         equal(s.events[events + 2].kind, "reshuffle")
-        -- Applying NoDraw has its own source Power callback after the reshuffle.
-        local locked = s.events[events + 3]
-        equal(locked.kind, "source_intent_powers")
-        equal(locked.sourceIntentPowers.origin, "ApplyPowerAction.NoDraw")
-        equal(locked.frame.player.noDraw, true)
-        same(inventory(s), cards)
+        equal(s.events[events + 2].frame.player.noDraw, false)
+        local applied = s.events[events + 3]
+        equal(applied.kind, "source_intent_powers"); same(applied.detail, {})
+        same(applied.sourceIntentPowers, {origin="ApplyPowerAction.NoDraw", scope="all-monsters", timing="action-boundary"})
+        equal(applied.frame.player.noDraw, true); same(inventory(s), cards)
         for _, card in ipairs(s.hand) do assert(card.uid ~= played) end
     end)
     test(label .. " repeated zero-cost copies discard normally but cannot draw again", function()

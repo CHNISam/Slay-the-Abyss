@@ -11,6 +11,9 @@ for _,upgraded in ipairs({false,true}) do
     test('Shockwave text, detail and area flight '..tostring(upgraded),function()
         local h,u,p,event,tap,drain=H.setup({{cardId='shockwave',upgraded=upgraded}},{'cultist','cultist'})
         local s=h.run.combat;local amount=upgraded and 5 or 3
+        -- Explicit synthetic constructor offsets, not a natural encounter formation.
+        s.enemies[1].sourcePosition={x=-240,y=-10};s.enemies[2].sourcePosition={x=80,y=-10}
+        h:refresh()
         local card=p:GetChild('card1')
         assert(card:GetChild('label').text:find('每个敌人',1,true))
         assert(card:GetChild('label').text:find(tostring(amount)..' 回合虚弱',1,true))
@@ -23,10 +26,9 @@ for _,upgraded in ipairs({false,true}) do
         assert(info:GetChild('name3').text:find('消耗',1,true))
         event('card1','exit',7)
         tap('card1',8);tap('playArea',8);assert(u.busy)
-        -- Area x remains the source zone center; y follows the first Cultist's source root.
-        -- sts@319009d5: drawY=340-10, hitbox=230x240; native scale=2/3.
-        -- The root is at the portrait center, half max(hitbox width,height) above drawY.
+        -- Area x retains its zone center; y is the first Cultist source actor anchor.
         local sourceX=(1010+1850)/2/1.5-640
+        -- sts@319009d5: drawY=340+offsetY; Cultist hitbox230x240, scale2/3.
         local sourceY=(340-10)/1.5-360+240/3
         eq(math.abs(u.feedback.flight.tx-sourceX)<1e-8,true,'area flight center')
         eq(math.abs(u.feedback.flight.ty-sourceY)<1e-8,true,'enemy row')

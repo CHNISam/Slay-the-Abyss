@@ -3,6 +3,7 @@ local testStart=dofile('tests/lua/support/game_ui_fixture.lua').start
 -- native controller events are added. These use the real generated host tree.
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Run=require('abyss_run')
+local Current=dofile('tests/lua/support/current_monster_controls.lua')
 local function setup(combat)
     local focus
     local api={events={Confirm='confirm',Cancel='cancel',Focus='focus',LostFocus='blur'},
@@ -25,7 +26,7 @@ local function setup(combat)
     end
     local panel=root:GetChild('battlePanel')
     local function hit(name)
-        local box=F.actorControl(panel,name)
+        local box=panel:GetChild(name)
         return box:GetChild('hit') or box
     end
     local function pointer(name,kind,touch,x,y)
@@ -64,11 +65,10 @@ local living=battle.enemies[2]
 hp=living.hp
 -- Navigate the visible live actor after this deliberate out-of-command HP edit.
 -- Its Focus callback, not a numeric core slot assumption, owns the target.
-local livingBox=assert(require('abyss_monster_surfaces').get(root:GetChild('battlePanel')):find(living.id))
-local livingHit=livingBox:GetChild('hit') or livingBox
+local livingHit=Current.actor(root:GetChild('battlePanel'),living):GetChild('hit')
 api.setFocus(livingHit);assert(ui.target==2)
 press(hit('card1'))
-assert(api.getFocus()==livingHit,'first visible actor must represent the active second core enemy')
+assert(api.getFocus()==livingHit,'focused actor identity must represent the active second core enemy')
 press(api.getFocus())
 for _=1,400 do if not ui.busy then break end;host:update(.05)end
 assert(battle.energy==2 and living.hp==hp-6 and battle.enemies[1].hp==0,

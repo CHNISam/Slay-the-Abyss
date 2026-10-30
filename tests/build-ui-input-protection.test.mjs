@@ -1,4 +1,4 @@
-import {prepareMonsterArt} from '../scripts/monster-art.mjs';
+import {monsterArtInputPaths} from '../scripts/monster-art.mjs';
 import {portraitInputs} from '../scripts/official-portraits.mjs';
 import {readyArtInputs,readyArtSourceInputs} from '../scripts/art/ready-card-runtime.mjs';
 import {backgroundInputs} from '../scripts/official-background.mjs';
@@ -23,7 +23,7 @@ function fixture(action, cli = false) {
     // tree; the in-process cases use the real already-imported production code.
     cpSync(resolve('data'), join(root, 'data'), { recursive: true });
     for(const file of [...backgroundInputs,...readyArtSourceInputs(),...portraitInputs]){mkdirSync(dirname(join(root,file)),{recursive:true});copyFileSync(resolve(file),join(root,file));}
-    for(const file of prepareMonsterArt().inputPaths){mkdirSync(dirname(join(root,file)),{recursive:true});cpSync(resolve(file),join(root,file));}
+    for(const file of monsterArtInputPaths()){mkdirSync(dirname(join(root,file)),{recursive:true});cpSync(resolve(file),join(root,file));}
     for (const file of ['package.json', 'package-lock.json', '.release-please-manifest.json', 'CHANGELOG.md'])
       copyFileSync(resolve(file), join(root, file));
     if (cli) cpSync(resolve('scripts'), join(root, 'scripts'), { recursive: true });

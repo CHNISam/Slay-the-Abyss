@@ -47,7 +47,7 @@ test('weighted scheduling balances unequal files deterministically and rejects u
 });
 
 test('platform gates reserve measured time only for the corresponding complete hosted matrix', () => {
-  for (const [platform, count] of [['win32', 8], ['linux', 4]]) {
+  for (const [platform, count] of [['win32', 8], ['linux', 5]]) {
     const initial = timings.initialMs[platform];
     assert.equal(initial.length, count);
     assert.ok(initial[0] > 0);
@@ -61,7 +61,7 @@ test('all current JS and Lua files are scheduled exactly once; new unmeasured fi
   const js = discoverJs(), lua = readdirSync('tests/lua').filter(f => f.endsWith('.lua')).map(f => `tests/lua/${f}`);
   for (const [files, count, select] of [
     [js, 8, (files, value) => jsShard(files, value, 'win32').files],
-    [js, 4, (files, value) => jsShard(files, value, 'linux').files],
+    [js, 5, (files, value) => jsShard(files, value, 'linux').files],
     [lua, 8, shardLuaScripts], [lua, 1, shardLuaScripts],
   ]) {
     const input = [...files, 'tests/unmeasured-new-file'];
@@ -70,7 +70,7 @@ test('all current JS and Lua files are scheduled exactly once; new unmeasured fi
     assert.equal(new Set(union).size, union.length);
     assert.deepEqual(union.sort(), input.sort());
   }
-  for (const [platform, count] of [['win32', 8], ['linux', 4]]) {
+  for (const [platform, count] of [['win32', 8], ['linux', 5]]) {
     const loads = jsShard(js, `1/${count}`, platform).loads;
     const weights = timings.js[platform];
     const old = Array(count).fill(0);

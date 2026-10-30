@@ -1,3 +1,5 @@
+import {preFiveRunnerSource} from './five-runner-source.mjs';
+import {preMonsterInventorySource} from './monster-inventory-source.mjs';
 import {preRawBindingSource,rawBindingSourcePaths} from './raw-binding-source.mjs';
 import {bindEntryRecognitionLengths} from './entry-recognition-lengths.mjs';
 import {preFinalUiSource,finalUiSourcePaths} from './final-ui-source.mjs';
@@ -19,6 +21,8 @@ export const postBetaRuntimeHistoricalPaths=Object.freeze([...new Set([...rawBin
 assert.deepEqual(postBetaRuntimePaths,['src/lua/abyss_battle_render_actors.lua','src/lua/abyss_feedback_actor_painter.lua']);
 const recognitionLengths=bindEntryRecognitionLengths('post-beta-runtime',bytes,postBetaRuntimeProof.files);
 export function prePostBetaRuntimeSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preFiveRunnerSource(path,source,{readSource});
+ source=preMonsterInventorySource(path,source,{readSource});
  source=preRawBindingSource(path,source,{readSource});
  source=preFinalUiSource(path,source,{readSource});
  source=preP0UiSource(path,source,{readSource});

@@ -1,3 +1,4 @@
+import {preClassChoiceSource} from './helpers/class-choice-source.mjs';
 import {preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -5,17 +6,12 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {shardLuaScripts} from '../scripts/test-lua.mjs';
 import {discoverJs,jsShard,timings} from '../scripts/ci-shards.mjs';
-const read=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const read=path=>preClassChoiceSource(path,readFileSync(path,'utf8').replaceAll('\r\n','\n'));
+
 const sha=source=>createHash('sha256').update(source).digest('hex');
 const partitions=JSON.parse(read('tests/fixtures/game-ui-class-choices-partitions.json'));
 
 function verifyOriginal(source){
- // The current native surface adapter changes only control resolution, not cases.
- const binding='local F=require("support.game_ui_fixture")\n';
- const native='assert(F.actorControl(c,part),part)';
- assert.equal(source.split(binding).length,2,'one native fixture binding');
- assert.equal(source.split(native).length,2,'one dynamic actor lookup');
- source=source.replace(binding,'').replace(native,'assert(c:GetChild(part),part)');
  assert.ok(source.startsWith(partitions.prefix),'the primary raw fixture selects original cases 1 through 5');
  assert.ok(source.endsWith(partitions.footer));
  let original=source.slice(partitions.prefix.length,-partitions.footer.length);
@@ -48,8 +44,6 @@ test('class choice raw partitions restore every byte of the original ten registe
 test('negative controls reject changed original cases and any family discovery drift',()=>{
  const source=read(partitions.entry);
  for(const [before,after]of [
-  ['assert(F.actorControl(c,part),part)','assert(c:GetChild(part),part)'],
-  ['local F=require("support.game_ui_fixture")','local F={}'],
   ['eq(s.pendingDiscard,nil)','eq(nil,nil)'],
   ['for i=1,12 do','for i=1,11 do'],
   ['{"select","exit"}','{"select"}'],

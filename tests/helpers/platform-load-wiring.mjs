@@ -63,8 +63,18 @@ function beforeLightweightRunners(text) {
   for (const job of jobs) text = text.replace(job, job.replace('    runs-on: ubuntu-slim\n', '    runs-on: ubuntu-24.04\n'));
   return text;
 }
+// Only the complete current POSIX job may invert the authorized fifth VM.
+// Historical hashes still own all unchanged commands, permissions and deadlines.
+export function beforeFivePosixWorkflow(text) {
+  const matches=[...text.matchAll(/^  engineering-posix-shards:\n([\s\S]*?)(?=^  [\w-]+:|(?![\s\S]))/gm)];
+  if(matches.length!==1)return text;
+  const job=matches[0][0];
+  const after='        shard: [1, 2, 3, 4, 5]\n    runs-on: ubuntu-24.04\n    timeout-minutes: 20\n';
+  if(job.split(after).length!==2)return text;
+  return text.replace(job,job.replace(after,after.replace('[1, 2, 3, 4, 5]','[1, 2, 3, 4]')));
+}
 export function beforePlatformWorkflow(text) {
-  const runners = beforeLightweightRunners(text);
+  const runners = beforeLightweightRunners(beforeFivePosixWorkflow(text));
   return runners === null ? null : invert(runners, platformWorkflowEdits);
 }
 export const beforePlatformPackage = text => invert(text, platformPackageEdits);

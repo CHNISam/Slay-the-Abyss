@@ -11,8 +11,11 @@ export const qualityWorkflowPath='.github/workflows/quality.yml';
 export const fullQualityJobs=[...requiredJobs,
   ...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
   ...Array.from({length:4},(_,i)=>`engineering-posix (${i+1}/4)`)];
-export const deliverySchemaVersion=3;
-export const currentFullQualityJobs=[...fullQualityJobs,'impact','fast'];
+export const routedFullQualityJobs=[...fullQualityJobs,'impact','fast'];
+export const deliverySchemaVersion=4;
+export const currentFullQualityJobs=[...requiredJobs,
+  ...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),
+  ...Array.from({length:5},(_,i)=>`engineering-posix (${i+1}/5)`),'impact','fast'];
 const validSha=value=>/^[a-f0-9]{40}$/.test(value??'');
 const positiveId=value=>Number.isSafeInteger(value)&&value>0;
 const parentShas=commit=>Array.isArray(commit?.parents)?commit.parents.map(parent=>parent?.sha):undefined;
@@ -33,7 +36,7 @@ function qualityErrors(jobs,{attempt,runId,head,schemaVersion}) {
   const errors=[];
   // Version 2 remains the frozen, pre-routing fifteen-job contract. Never
   // infer a legacy contract from missing jobs in newly collected evidence.
-  const expectedJobs=schemaVersion===2?fullQualityJobs:schemaVersion===3?currentFullQualityJobs:undefined;
+  const expectedJobs=schemaVersion===2?fullQualityJobs:schemaVersion===3?routedFullQualityJobs:schemaVersion===4?currentFullQualityJobs:undefined;
   if(!expectedJobs)return ['Unknown Quality evidence schema version'];
   if(!Array.isArray(jobs))return ['Quality jobs are missing'];
   const identities=new Set(),ids=new Set();
@@ -78,9 +81,9 @@ function runErrors(run,{head,event,runId,attempt,branch,repo}) {
 export function verifyDelivery(e) {
   if(!e||typeof e!=='object')return ['Missing preflight evidence'];
   const errors=[];
-  if(![2,3].includes(e.schemaVersion)||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
+  if(![2,3,4].includes(e.schemaVersion)||!/^[-\w.]+\/[-\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');
   for(const field of ['head','base','tested','sourceTree'])if(!validSha(e[field]))errors.push(`Invalid ${field}`);
-  if(e.schemaVersion===3)for(const field of ['targetBeforeSha','targetAfterSha'])
+  if([3,4].includes(e.schemaVersion))for(const field of ['targetBeforeSha','targetAfterSha'])
     if(!validSha(e[field])||e[field]!==e.base)errors.push(`Actual target ${field} is missing, malformed or differs from the verified base`);
   if(e.event!=='pull_request'||!positiveId(e.runId)||!positiveId(e.attempt)||!positiveId(e.prNumber))errors.push('Expected PR run identity');
   for(const field of ['head','base','tested','runId','event','prNumber'])if(e.checkout?.[field]!==e[field])errors.push(`Checkout ${field} is stale or mismatched`);
@@ -92,7 +95,7 @@ export function verifyDelivery(e) {
   errors.push(...runErrors(e.run,{head:e.head,event:e.event,runId:e.runId,attempt:e.attempt,repo:e.repo}),...qualityErrors(e.jobs,{attempt:e.attempt,runId:e.runId,head:e.head,schemaVersion:e.schemaVersion}));
   errors.push(...runErrors(e.currentRun,{head:e.head,event:e.event,runId:e.runId,attempt:e.attempt,repo:e.repo}));
   if(e.review?.disposition==='low-risk-docs') {
-    if(e.schemaVersion!==deliverySchemaVersion||e.baseRef!=='develop'||e.review.reviewedHeadSha!==e.head||
+    if(![3,4].includes(e.schemaVersion)||e.baseRef!=='develop'||e.review.reviewedHeadSha!==e.head||
       e.review.reviewedBaseSha!==e.base||!isLowRiskDocumentationChange(e.changedFiles,e.changedFileCount))
       errors.push('Low-risk documentation waiver is stale, unverified or out of scope');
   } else if(e.review?.reviewedHeadSha!==e.head||e.review?.reviewedBaseSha!==e.base||!e.review?.reviewId||e.review?.conclusion!=='pass'||!Array.isArray(e.review?.unresolved)||e.review.unresolved.length)
@@ -102,7 +105,7 @@ export function verifyDelivery(e) {
 export function verifyMergedDelivery(e) {
   if(!e||typeof e!=='object')return {state:'merged_pending',errors:['Missing merged evidence']};
   const preflight=e.preflight??{},errors=verifyDelivery(preflight).map(error=>`Preflight: ${error}`);
-  if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
+  if(![2,3,4].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');
   if(e.repo!==preflight.repo)errors.push('Merged evidence repository differs from preflight');
   if(preflight.review?.disposition==='low-risk-docs'&&
     (e.changedFileCount!==preflight.changedFileCount||JSON.stringify(e.changedFiles)!==JSON.stringify(preflight.changedFiles)))

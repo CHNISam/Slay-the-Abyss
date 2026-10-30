@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "5fc58cc4767fea595e397d15fd10784b8d2b2714",
+  "afterCommit": "ae19a2aee1cd026b14d2dc42f268110910b3c2b9",
+  "files": {
+    "scripts/monster-art.mjs": {
+      "beforeSha256": "28fca7a307aee397bc3a89ad1bab2d50ca3076a5fd465db88f5340bd2db02c51",
+      "afterSha256": "590ec867cea01f1638dd9736a7718ff6b329911380f7486b33a7ad44b99a5a0c",
+      "beforeGitBlob": "2cbda8caa083b96585e6d69c66279e97e635000a",
+      "afterGitBlob": "856ceeeff18d6951990e093f788740fda928551f",
+      "afterUtf16Length": 8737,
+      "hunks": [
+        {
+          "at": 8,
+          "before": [],
+          "after": [
+            "  return prepareMonsterArtRegistry(input,false);",
+            "}",
+            "// Inventory consumers need the validated source paths, not mutable output art.",
+            "// No cache: each invocation reads, hashes and validates the real JSON/source.",
+            "// JSON-only input keeps omitted structuredClone calls free of observable errors.",
+            "export function monsterArtInputPaths() {",
+            "  const art=prepareMonsterArtRegistry(undefined,true);",
+            "  return art===null?null:art.inputPaths;",
+            "}",
+            "function prepareMonsterArtRegistry(input,inventoryOnly) {"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "  const assets={[asset.enemyId]:{...structuredClone(asset),cardId:asset.enemyId,capacity}};"
+          ],
+          "after": [
+            "  const assets={[asset.enemyId]:inventoryOnly?{capacity}:{...structuredClone(asset),cardId:asset.enemyId,capacity}};"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "    assets[id]={...structuredClone(entry),cardId:id,capacity:count};"
+          ],
+          "after": [
+            "    assets[id]=inventoryOnly?{capacity:count}:{...structuredClone(entry),cardId:id,capacity:count};"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [],
+          "after": [
+            "  if(inventoryOnly)return {inputPaths};"
+          ]
+        }
+      ]
+    }
+  }
+}

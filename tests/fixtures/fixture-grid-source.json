@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "44fdce77e02ae9357ada25ed203ed7a7f55690b0",
+  "afterCommit": "cb277a6505e9157adad15147beefbd2ed76a7521",
+  "files": {
+    "tests/lua/support/game_ui_fixture.lua": {
+      "beforeSha256": "585382dc559fb93c211a1a8d3a3053a9d6578917ca8025f47e9b6411b49f1450",
+      "afterSha256": "927e83fda7c21a15ec5807fd0362cbceb192d6606f47a0bd6906ed529d385cef",
+      "beforeGitBlob": "19fd785242207fef472b59fe204129a0d793fb61",
+      "afterGitBlob": "b1919ab7e371e81b8d993247849249564039ec26",
+      "afterUtf16Length": 14022,
+      "hunks": [
+        {
+          "at": 111,
+          "before": [
+            "    setmetatable(self, controlMethods)"
+          ],
+          "after": []
+        },
+        {
+          "at": 136,
+          "before": [],
+          "after": [
+            "    -- Trusted constructor fields are own properties; install native guards once",
+            "    -- they are initialized, before recursive child construction or publication.",
+            "    setmetatable(self, controlMethods)"
+          ]
+        }
+      ]
+    }
+  }
+}

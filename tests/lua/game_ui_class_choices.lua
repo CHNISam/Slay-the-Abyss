@@ -3,8 +3,8 @@ sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 5
 local sliceRegistered=0
 package.path="src/lua/?.lua;build/lua/?.lua;tests/lua/?.lua;"..package.path
 local X=require("support.experimental_ui_fixture")
-local F=require("support.game_ui_fixture")
 local Run=require("abyss_run")
+local Current=dofile("tests/lua/support/current_monster_controls.lua")
 local Combat=require("abyss_combat")
 local n=0
 local function eq(a,b) assert(a==b,tostring(a).." ~= "..tostring(b)) end
@@ -19,7 +19,7 @@ local cursor={CursorDown="down",CursorUp="up",CursorExit="exit",CursorEndDrag="e
 local classIndex={ironclad=1,silent=2,watcher=4}
 local function control(root,path)
     local c=root
-    for part in path:gmatch("[^/]+") do c=assert(F.actorControl(c,part),part) end
+    for part in path:gmatch("[^/]+") do c=assert(c:GetChild(part),part) end
     return c
 end
 local function hit(root,path)
@@ -58,7 +58,9 @@ local function setup(character,card,up,physical)
     -- The real rendered card and explicit target/field click invoke perform.
     click(root,"battlePanel/card"..position)
     eq(ui.battleUI.selected,used.uid)
-    click(root,card=="cut_through_fate" and "battlePanel/enemy1" or "battlePanel/playArea")
+    if card=="cut_through_fate" then
+        Current.actor(root:GetChild("battlePanel"),s.enemies[1]):GetChild("hit").listeners.click()
+    else click(root,"battlePanel/playArea") end
     eq(ui.battleUI.busy,true)
     local kind=s.pendingDiscard and "discard" or s.pendingScry and "scry" or s.pendingHandChoice and "hand"
     assert(kind,"real Run.play did not establish a core selection")

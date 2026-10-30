@@ -24,9 +24,12 @@ function M.setup(options)
         assert(Run.startCombat(ui.run, 'cultist_solo'))
         local enemy = ui.run.combat.enemies[1]
         enemy.ai, enemy.intentIndex = nil, 1
-        -- Keep the published cultist attack identity and make its six damage fatal.
-        assert(enemy.intents[1].id == 'cultist_1' and enemy.intents[1].effects[1].value == 6)
-        F.Combat.addStatus(enemy, 'strength', 6)
+        -- A controlled lethal amplitude on a real ATTACK identity, not natural Cultist damage.
+        local known=require('abyss_monster_source_intents')
+        local ok,reason=pcall(known.enum,enemy,{id='fatal'})
+        assert(not ok and tostring(reason):find('unmapped source monster intent cultist:fatal',1,true),
+            'unknown synthetic move must remain fail-closed')
+        enemy.intents = {{id='cultist_1', kind='attack', effects={{op='damage', value=12}}}}
     end
     ui:refresh()
     return ui, root, function() return calls end, api

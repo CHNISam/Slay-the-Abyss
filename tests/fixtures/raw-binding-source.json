@@ -206,9 +206,9 @@
       "utf16Length": 3817
     },
     "tests/lua/support/game_ui_fixture.lua": {
-      "sha256": "927e83fda7c21a15ec5807fd0362cbceb192d6606f47a0bd6906ed529d385cef",
-      "gitBlob": "b1919ab7e371e81b8d993247849249564039ec26",
-      "utf16Length": 14022
+      "sha256": "585382dc559fb93c211a1a8d3a3053a9d6578917ca8025f47e9b6411b49f1450",
+      "gitBlob": "19fd785242207fef472b59fe204129a0d793fb61",
+      "utf16Length": 13860
     }
   }
 }

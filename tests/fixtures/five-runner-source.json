@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "beforeCommit": "8225bbc40ad2c25451a279ab834cc0fe7856a4a2",
+  "afterCommit": "90baf81953344a9011b7fd71003f8ea83f142218",
+  "files": {
+    "scripts/ci-test-timings.json": {
+      "beforeSha256": "4039efc1bc954f541bcacac619550daa1231a4b3894ebe6568697d2f10af7ad8",
+      "afterSha256": "d6ca99460b69139cf639e03cf225a8d2f0b8d85af292a033e98de5af1d092440",
+      "beforeGitBlob": "4bd8821043e9c2ed7844253ec2140f24e6692058",
+      "afterGitBlob": "d8f6d17c456e14352f413113c23b563d5964cb1b",
+      "afterUtf16Length": 146284,
+      "hunks": [
+        {
+          "at": 22,
+          "before": [],
+          "after": [
+            "      0,"
+          ]
+        }
+      ]
+    },
+    "scripts/verify-delivery.mjs": {
+      "beforeSha256": "52573be490b3a327eb6680cca1d45cb620e38b0d1d81e6e634a711ac8fcd91e2",
+      "afterSha256": "5046ba24b9443de6a66b35d0458223f9c50a1acc5b57b8f77777ef512b0d8341",
+      "beforeGitBlob": "434c10c062e0f51ddb6746c2963ae733d215d7a2",
+      "afterGitBlob": "f8ca3a4e34f59aad29c668e4f60d0a14b338f5e2",
+      "afterUtf16Length": 20469,
+      "hunks": [
+        {
+          "at": 13,
+          "before": [
+            "export const deliverySchemaVersion=3;",
+            "export const currentFullQualityJobs=[...fullQualityJobs,'impact','fast'];"
+          ],
+          "after": [
+            "export const routedFullQualityJobs=[...fullQualityJobs,'impact','fast'];",
+            "export const deliverySchemaVersion=4;",
+            "export const currentFullQualityJobs=[...requiredJobs,",
+            "  ...Array.from({length:8},(_,i)=>`rules (${i+1}/8)`),",
+            "  ...Array.from({length:5},(_,i)=>`engineering-posix (${i+1}/5)`),'impact','fast'];"
+          ]
+        },
+        {
+          "at": 38,
+          "before": [
+            "  const expectedJobs=schemaVersion===2?fullQualityJobs:schemaVersion===3?currentFullQualityJobs:undefined;"
+          ],
+          "after": [
+            "  const expectedJobs=schemaVersion===2?fullQualityJobs:schemaVersion===3?routedFullQualityJobs:schemaVersion===4?currentFullQualityJobs:undefined;"
+          ]
+        },
+        {
+          "at": 83,
+          "before": [
+            "  if(![2,3].includes(e.schemaVersion)||!/^[-\\w.]+\\/[-\\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');"
+          ],
+          "after": [
+            "  if(![2,3,4].includes(e.schemaVersion)||!/^[-\\w.]+\\/[-\\w.]+$/.test(e.repo??'')||!['develop','master'].includes(e.baseRef))errors.push('Missing versioned repository/target evidence');"
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            "  if(e.schemaVersion===3)for(const field of ['targetBeforeSha','targetAfterSha'])"
+          ],
+          "after": [
+            "  if([3,4].includes(e.schemaVersion))for(const field of ['targetBeforeSha','targetAfterSha'])"
+          ]
+        },
+        {
+          "at": 97,
+          "before": [
+            "    if(e.schemaVersion!==deliverySchemaVersion||e.baseRef!=='develop'||e.review.reviewedHeadSha!==e.head||"
+          ],
+          "after": [
+            "    if(![3,4].includes(e.schemaVersion)||e.baseRef!=='develop'||e.review.reviewedHeadSha!==e.head||"
+          ]
+        },
+        {
+          "at": 107,
+          "before": [
+            "  if(![2,3].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');"
+          ],
+          "after": [
+            "  if(![2,3,4].includes(e.schemaVersion))errors.push('Missing versioned merged evidence');"
+          ]
+        }
+      ]
+    }
+  }
+}
