@@ -5,6 +5,7 @@ M.characters={'hutao','arlecchino','furina','raiden','traveler'}
 M.elements={'ironclad','silent','defect','watcher'}
 local names={hutao='胡桃',arlecchino='阿蕾奇诺',furina='芙宁娜',raiden='雷电将军',traveler='旅行者·荧'}
 local elements={ironclad='岩',silent='风',defect='雷',watcher='草'}
+local deckFilters={all=true,attack=true,skill=true,power=true,status=true,curse=true}
 local function contains(list,id)for _,value in ipairs(list)do if value==id then return true end end return false end
 local profiles={dev='full-source',alpha='competition-two-act',['competition-candidate']='competition-two-act',
     production='competition-two-act',['competition-two-act']='competition-two-act',['full-source']='full-source'}
@@ -38,7 +39,7 @@ function M.preview(source,presentation,id)
         cards={cards=cards,sourcePools=data.cards.sourcePools},originalV4Role=data.originalV4Role,
         experimentalCharacter=data.experimentalCharacter,runCardCatalog=data.runCardCatalog})
     local deck={}
-    for _,card in ipairs(order)do deck[#deck+1]={id=card,name=display[card].name,count=counts[card]}end
+    for _,card in ipairs(order)do deck[#deck+1]={id=card,name=display[card].name,count=counts[card],type=defs[card].type}end
     local relics={}
     for _,owned in ipairs(data.rules.player.startingRelics)do
         for _,relic in ipairs(data.relics.relics)do if relic.id==owned then
@@ -52,7 +53,7 @@ function M.preview(source,presentation,id)
 end
 function M.new(source,presentation,profile)
     profile=admissionProfile(profile)
-    local state={profile=profile}
+    local state={profile=profile,deckFilter='all'}
     local function accepts(id)
         -- The visible choice is explicit even when Geo's Run options stay nil.
         return Admission.accepts(source,{campaignProfile=profile,character=id})
@@ -67,7 +68,15 @@ function M.new(source,presentation,profile)
         return self.info~=nil and self.info.id==id and self:allowsCharacter(self.character)
             and (self.character~='traveler' or self:allowsElement(self.element)) and accepts(id)
     end
-    function state:clear()self.character,self.element,self.info=nil,nil,nil end
+    function state:clear()
+        self.character,self.element,self.info=nil,nil,nil
+        self.deckFilter='all'
+    end
+    function state:setDeckFilter(kind)
+        if not self.info or not deckFilters[kind] or self.deckFilter==kind then return false end
+        self.deckFilter=kind
+        return true
+    end
     function state:select(id)
         if not contains(M.characters,id)then return false,'unknown_character' end
         if not self:allowsCharacter(id)then return false,'competition_character_unavailable'end
@@ -77,13 +86,14 @@ function M.new(source,presentation,profile)
         self.character=id
         if id=='traveler' then self.element=self.element or 'ironclad' end
         self.info=M.preview(source,presentation,id=='traveler' and self.element or id)
+        self.deckFilter='all'
         return true
     end
     function state:selectElement(id)
         if self.character~='traveler' or not contains(M.elements,id)then return false,'element_unavailable'end
         if not self:allowsElement(id)then return false,'competition_character_unavailable'end
         if not accepts(id)then return false,'competition_character_unavailable'end
-        self.element=id;self.info=M.preview(source,presentation,id);return true
+        self.element=id;self.info=M.preview(source,presentation,id);self.deckFilter='all';return true
     end
     return state
 end

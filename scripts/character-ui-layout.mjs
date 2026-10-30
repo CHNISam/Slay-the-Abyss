@@ -79,6 +79,8 @@ export function experimentalCharacterControls(theme = nativeTheme) {
         text('relic', d.relic, '', f.body, c.gold),
         text('deckTitle', d.deckTitle, '', f.label, c.gold),
         ...d.cards.map((frame, i) => text(`card${i + 1}`, frame, '', f.body, c.text)),
+        ...d.filters.map((frame, i) => button('deckFilter' + ['All','Attack','Skill','Power','Status','Curse'][i],
+          frame, ['全部','攻击','技能','能力','状态','诅咒'][i], l, f.small)),
       ] },
       accents,
       { name: 'elements', kind: 'container', size: [...theme.canvas.base], visible: false, children:

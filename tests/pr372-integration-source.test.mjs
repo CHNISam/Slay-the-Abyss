@@ -1,9 +1,10 @@
+import {preDeckBrowseSource} from './helpers/deck-browse-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {integrationSources,preIntegrationSource as prior} from './helpers/pr372-integration-source.mjs';
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preDeckBrowseSource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 test('combined presentation projection recovers exact individual and base identities only',()=>{
  for(const [path,b] of Object.entries(integrationSources)){

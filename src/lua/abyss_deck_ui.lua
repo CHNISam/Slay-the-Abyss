@@ -9,6 +9,13 @@ local Controller = require('abyss_controller')
 local typeNames = { attack = "攻击", skill = "技能", power = "能力", status = "状态", curse = "诅咒" }
 local pileNames = {draw="抽牌堆",discard="弃牌堆",exhaust="消耗堆"}
 local rarityOrder = {basic=1,special=2,common=3,uncommon=4,rare=5,curse=6}
+-- Match the original game's display categories; never sort an actual combat pile.
+local browseFilters={{id='all',control='All'},{id='attack',control='Attack'},
+    {id='skill',control='Skill'},{id='power',control='Power'},
+    {id='status',control='Status'},{id='curse',control='Curse'}}
+local browseSorts={'original','name','rarity','cost','type'}
+local sortNames={original='原顺序',name='名称',rarity='稀有度',cost='费用',type='类型'}
+local typeOrder={attack=1,skill=2,power=3,status=4,curse=5}
 
 local function frozenEye(run)
     for _, relic in ipairs(run.relics or {}) do if relic=="frozen_eye" then return true end end
@@ -57,6 +64,28 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             root:GetChild('close'):GetChild('hit'):GetChild(state):GetChild('label').text=value
         end
     end
+    local function canBrowse()
+        return self.visible and self.browseEnabled and not self.detailOnly and not self.detailPages
+    end
+    local function paintBrowse()
+        local active=canBrowse()
+        root:GetChild('title'):SetVisible(not active)
+        local heading=root:GetChild('browseTitle')
+        heading:SetVisible(active)
+        root:GetChild('sort'):SetVisible(active)
+        if active then
+            heading.text=self.listTitle
+            local label='排序·'..sortNames[self.sortMode]
+            for _,state in ipairs({'normal','hover','pressed','disabled'})do
+                root:GetChild('sort'):GetChild('hit'):GetChild(state):GetChild('label').text=label
+            end
+        end
+        for _,filter in ipairs(browseFilters)do
+            local control=root:GetChild('filter'..filter.control)
+            control:SetVisible(active)
+            control:GetChild('selected'):SetVisible(active and self.typeFilter==filter.id)
+        end
+    end
     local function detailPage()
         root:GetChild('title').text=self.detailTitle..' · '..self.detailPage..'/'..#self.detailPages
         details.text=self.detailPages[self.detailPage]..'\n\n点按正文翻页 · 右上角返回'
@@ -89,7 +118,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         liveFaces(CardDisplay.clearNativeArt)
         self.detailTitle=title
         self.detailPage=1;grid:SetVisible(false);details:SetVisible(true);detailHit:SetVisible(true)
-        closeLabel('返回');detailPage();return true
+        closeLabel('返回');detailPage();paintBrowse();return true
     end
     function self.inspectText(_,run,title,raw)
         if self.visible then return false end
@@ -173,10 +202,84 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.bindings[control].definition,self.bindings[control].upgraded=definition,instance.upgraded
         control:SetVisible(true)
     end
+    -- Pure presentation projection. The permanent deck and the three combat
+    -- piles retain their UIDs, acquisition order and RNG state unchanged.
+    local function costRank(definition)
+        if definition.costMode=='all_energy' or definition.cost==-1 then return 1000 end
+        if type(definition.cost)~='number' or definition.cost<0 then return 1001 end
+        return definition.cost
+    end
+    local function projectCards()
+        local entries={}
+        for i,card in ipairs(self.allCards or {})do
+            local definition=Combat.cardDefinition(self.battle or {catalog=self.catalog},card)
+            if self.typeFilter=='all' or definition.type==self.typeFilter then
+                entries[#entries+1]={card=card,index=i,definition=definition}
+            end
+        end
+        if self.sortMode~='original' then
+            table.sort(entries,function(a,b)
+                local x,y
+                if self.sortMode=='type' then
+                    x,y=typeOrder[a.definition.type] or 99,typeOrder[b.definition.type] or 99
+                elseif self.sortMode=='rarity' then
+                    x,y=rarityOrder[a.definition.rarity] or 99,rarityOrder[b.definition.rarity] or 99
+                elseif self.sortMode=='cost' then
+                    x,y=costRank(a.definition),costRank(b.definition)
+                else
+                    x=assert(presentation[a.card.cardId],'missing deck name').name
+                    y=assert(presentation[b.card.cardId],'missing deck name').name
+                end
+                if x~=y then return x<y end
+                return a.index<b.index -- stable acquisition/pile display order
+            end)
+        end
+        self.cards={}
+        for _,entry in ipairs(entries)do self.cards[#self.cards+1]=entry.card end
+        local total=#(self.allCards or {})
+        local amount=self.typeFilter=='all' and tostring(total) or #self.cards..'/'..total
+        self.listTitle=(pileNames[self.pileKind] or '卡组')..' · '..amount..' 张'
+    end
+    local function refreshGrid()
+        self.generation=self.generation+1
+        local generation=self.generation
+        local cards,catalog=self.cards,self.catalog
+        self.controllerPage=1
+        self.indexBase,self.pending,self.calibrating=nil,false,true
+        grid.scrollProgress=0
+        liveFaces(CardDisplay.clearNativeArt)
+        -- Calibrate native 0/1 based indices before scheduling the complete list.
+        grid:RefreshItems(#cards>0 and 1 or 0,function(control,index)
+            if not self.visible or self.generation~=generation or not self.calibrating then return end
+            self.indexBase,self.pending=index,true
+            fill(control,cards[1],catalog)
+        end)
+    end
+    local function changeBrowse()
+        projectCards()
+        root:GetChild('title').text=self.listTitle
+        paintBrowse()
+        refreshGrid()
+        return true
+    end
+    function self.setFilter(_,kind)
+        if not canBrowse() or self.typeFilter==kind then return false end
+        local allowed=false
+        for _,entry in ipairs(browseFilters)do if entry.id==kind then allowed=true;break end end
+        if not allowed then return false end
+        self.typeFilter=kind
+        return changeBrowse()
+    end
+    function self.nextSort(_)
+        if not canBrowse() then return false end
+        for i,mode in ipairs(browseSorts)do
+            if mode==self.sortMode then self.sortMode=browseSorts[i%#browseSorts+1];break end
+        end
+        return changeBrowse()
+    end
     function self.open(_, run, choice, onPick, pileKind)
         if self.visible then return false end
         self.generation = self.generation + 1
-        local generation = self.generation
         -- A copied permanent instance never acquires temporary hand cost/growth/status.
         local cards, catalog = Combat.copy(run.deck), {cards={}}
         for _, card in ipairs(run.data.cards.cards) do catalog.cards[card.id] = card end
@@ -192,7 +295,9 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                 end
             end
         end
-        self.visible, self.run, self.cards, self.catalog = true, run, cards, catalog
+        self.visible,self.run,self.allCards,self.cards,self.catalog=true,run,cards,cards,catalog
+        self.browseEnabled=choice==nil
+        self.typeFilter,self.sortMode='all','original'
         self.controllerPage=1
         self.detailOnly,self.detailPages=nil,nil
         grid:SetVisible(true);details:SetVisible(false);detailHit:SetVisible(false)
@@ -203,21 +308,15 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             exhaustMany='选择任意张手牌消耗（可不选）',discardRedraw='选择任意张手牌丢弃并重抽',discardToHand='选择弃牌回手，本回合费用为0',
             handToDraw="选择放回抽牌堆顶的手牌",upgradeHand="选择要升级的牌",dualWield="选择要复制的攻击或能力牌"}
         self.listTitle=(pileNames[pileKind] or "卡组").." · "..#cards.." 张"
+        if self.browseEnabled then projectCards() end
         root:GetChild("title").text = choice and prompts[choice.op] or self.listTitle
         if self.multiple then root:GetChild('title').text=root:GetChild('title').text..' · 已选'..#choice.selected..(choice.required and '/'..choice.required or '') end
         root:GetChild("close"):SetVisible(not choice or self.multiple == true)
         local close=root:GetChild('close'):GetChild('hit')
         close.interactable=not choice or self.multiple and (not choice.required or #choice.selected==choice.required) or false;close.raycastTarget=close.interactable
         for _,state in ipairs({'normal','hover','pressed','disabled'}) do close:GetChild(state):GetChild('label').text=self.multiple and '确认选择' or '关闭' end
-        grid.scrollProgress = 0
-        -- Official API leaves index origin unspecified. A single-item callback
-        -- reveals it without assuming a Lua (1) or native (0) convention. Fill
-        -- the full list on the next update, outside the possibly deferred callback.
-        grid:RefreshItems(#cards > 0 and 1 or 0, function(control, index)
-            if not self.visible or self.generation ~= generation or not self.calibrating then return end
-            self.indexBase, self.pending = index, true
-            fill(control, cards[1], catalog)
-        end)
+        paintBrowse()
+        refreshGrid()
         return true
     end
     function self.openPile(_, run, kind)
@@ -271,6 +370,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         if not self.visible then return false end
         self.generation = self.generation + 1
         self.visible, self.pending, self.calibrating, self.run, self.cards, self.catalog = false, false, false, nil, nil, nil
+        self.allCards,self.browseEnabled,self.typeFilter,self.sortMode=nil,nil,nil,nil
         self.choiceToken,self.onPick,self.battle=nil,nil,nil
         self.pileKind,self.listTitle=nil,nil
         self.multiple,self.choiceSelected=nil,nil
@@ -296,7 +396,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         if not self.visible then return false end
         if self.detailPages and not self.detailOnly then
             self.detailPages=nil;details:SetVisible(false);detailHit:SetVisible(false);grid:SetVisible(true)
-            root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;return true
+            root:GetChild('title').text=self.listTitle;closeLabel('关闭');self.pending=true;paintBrowse();return true
         end
         if self.multiple then
             if not root:GetChild('close'):GetChild('hit').interactable or not self.run or self.run.combat~=self.battle
@@ -324,6 +424,24 @@ function M.new(root, presentation, clickEvent, platform, onClose)
             end)
             Controller.bind(platform.controller,box:GetChild('hit'),'deck',action,nil,80)
         end
+    end
+    for _,entry in ipairs(browseFilters)do
+        local hit=root:GetChild('filter'..entry.control):GetChild('hit')
+        local action=function()return self:setFilter(entry.id)end
+        hit:AddCursorEventListener(clickEvent,function()
+            if Controller.pointerBlocked(platform.controller)then return false end
+            return action()
+        end)
+        Controller.bind(platform.controller,hit,'deck',action,canBrowse,65)
+    end
+    do
+        local hit=root:GetChild('sort'):GetChild('hit')
+        local action=function()return self:nextSort()end
+        hit:AddCursorEventListener(clickEvent,function()
+            if Controller.pointerBlocked(platform.controller)then return false end
+            return action()
+        end)
+        Controller.bind(platform.controller,hit,'deck',action,canBrowse,65)
     end
     root:SetVisible(false)
     return self

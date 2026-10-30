@@ -11,6 +11,17 @@ test('formal character and card choices are present with either legacy flag', ()
   assert.deepEqual(normal, experimental);
   const panel = normal.controls.find(c => c.name === 'characterPanel');
   for (const name of ['character1','character2','character3','character4','traveler','confirm','details','elements']) assert.ok(panel.children.find(c => c.name === name), name);
+  const details = panel.children.find(c => c.name === 'details');
+  const filters = details.children.filter(c => /^deckFilter/.test(c.name));
+  assert.deepEqual(filters.map(c => c.name), ['deckFilterAll','deckFilterAttack','deckFilterSkill',
+    'deckFilterPower','deckFilterStatus','deckFilterCurse']);
+  for (const c of filters) {
+    assert.ok(c.children.find(x => x.name === 'selected'));
+    assert.equal(c.children.find(x => x.name === 'hit').kind, 'presetButton');
+    assert.ok(c.size[0] >= 44 && c.size[1] >= 44);
+    assert.ok(Math.abs(c.position[0]) + c.size[0] / 2 <= 600);
+    assert.ok(Math.abs(c.position[1]) + c.size[1] / 2 <= 340);
+  }
   assert.equal(experimental.controls.filter(c => ['characterPanel', 'choicePanel'].includes(c.name)).length, 2);
   assertNativeUiCapacity(experimental);
 });
