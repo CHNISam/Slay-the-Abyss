@@ -7238,9 +7238,11 @@
         "upgraded"
       ],
       "channels": [
-        "explicit:Run.obtainCard"
+        "explicit:Run.obtainCard",
+        "explicit_event:vampires:accept",
+        "explicit_event:vampires:give_vial"
       ],
-      "naturalAcquisitionLimitation": "Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending."
+      "naturalAcquisitionLimitation": "Canonical Bite mechanics and both Vampires Act2 exchanges are locally covered through real Nodes commands and generated native-control tests. Full source-pool draw preserves the original 13-entry pool and RNG; controlled room/seed fixtures are not natural acquisition. Cached max-health or Blood Vial cost, reverse starter-Strike removals, five fresh obtains with Molten Egg and late-failure rollback are tested. Natural/platform acceptance NOT_RUN."
     },
     {
       "id": "jax",

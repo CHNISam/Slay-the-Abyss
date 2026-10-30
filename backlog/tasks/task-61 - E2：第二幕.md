@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-29 01:55'
+updated_date: '2026-10-30 10:57'
 labels:
   - required
   - sts1
@@ -50,6 +50,10 @@ type: feature
 按已合入第二幕代码补真实缺口，保留原版遭遇、AI、同局奖励/事件及随机流；正式比赛在第二幕合法结束，不再把第三幕入口或跨局历史能力列为本任务依赖。源码、同候选自然流程和平台通关分别验收。
 
 2026-10-29当前角色范围仅岩系旅行者；第二幕完整内容、权重、全部三Boss、跨幕状态与同候选实机标准保持。
+
+2026-10-30 dot 独立切片：按固定319009d5的Vampires事件规则补齐第二幕真实获取链，复用Run永久事务与现有事件组件；先写正式Nodes入口失败回归，再实现缓存代价、初始打击移除、5张Bite获得、血瓶替代及拒绝/离开，覆盖钩子、失败回滚、重复输入和随机流。仅在feat/dot-vampires-event隔离树写入，不与PR372的UI/手势改动混写；来源、源码验证、官方导入与设备验收分别记录，不勾整项AC或改变负责人。
+
+并行独立切片：核实固定源Knowing Skull规则后，以单独feat/dot-skull-event工作树实现第二幕可重复交易事件；复用已有血量、金币、colorlessCardPool/shuffleRng、药水事务和四按钮事件视图。每类递增代价、满槽丢弃及Sozu禁止生成的随机消费分别测试，避免碰PR372共享UI布局。两个事件模块各自隔离，Act2分派/映射等共享接线由dot合并时单一写入并做组合回归。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -100,4 +104,8 @@ PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_
 2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-30 dot在1fcd321核实：两幕完整池仍能抽到无contentId的事件；安全原子拒绝不是玩法验收。当前独立补Vampires与Knowing Skull，组合定向4/4通过（11+5+10组），尚未PR/全CI/平台，不勾AC。其余第二幕缺口：Colosseum、Cursed Tome、Drug Dealer、Forgotten Altar、Masked Bandits，以及一次性Designer、FaceTrader、Nloth。固定源aeubanks/sts@319009d5：Tome缺三书内容；Altar缺Bloody Idol；FaceTrader缺五面具；Drug Dealer缺JAX/Mutagenic Strength及双选变换；Nloth缺Gift及任意遗物卸装；Designer需多阶段选择合同。不能只加映射或过滤缺内容。第一幕Dead Adventurer由13.1.2保留。具体已实现切片规则与边界见docs/rules/ACT2_VAMPIRES.md及KNOWING_SKULL_EVENT.md；其余源审计不等于实现。
+
+本轮两个事件已在隔离组合实现，三项独立复审无P1/P2；不改原事件池顺序/资格/概率。严格历史event来源门禁的原始拒绝保留，新增精确完整外层后历史169/169、退役23/23、根组合18/18通过，原冻结fixture/hash/预算未改。check:engineering、check:guidance、verify:backlog通过；完整托管CI、合并和设备结果仍待，不标整项Done。
 <!-- SECTION:NOTES:END -->

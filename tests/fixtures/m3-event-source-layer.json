@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "1fcd321ca9d6f79b4e5bbdfede48069119f5ed52",
+  "files": {
+    "config/architecture.json": {
+      "beforeSha256": "8eaf5e76ca026fe4ad5d5b53475b3433c9d3581d27f60afb2a73d4d1df535895",
+      "beforeGitBlob": "4d0208161ebe55c2b9ea229e43cbb77ac3acaec0",
+      "afterSha256": "14ad1f4238fb9b251009f7badc4c9ccf7611775db52b063cc3f3a09296b20015",
+      "hunks": [
+        {
+          "at": 18,
+          "beforeAt": 18,
+          "before": [],
+          "after": [
+            "    \"abyss_knowing_skull_event\": \"core\","
+          ]
+        },
+        {
+          "at": 61,
+          "beforeAt": 60,
+          "before": [],
+          "after": [
+            "    \"abyss_vampires_event\": \"core\","
+          ]
+        }
+      ]
+    },
+    "data/release/launch-content.json": {
+      "beforeSha256": "321a885eee78db283b65dd424730e1809fd95950e0b2723b299888e6c4ae2264",
+      "beforeGitBlob": "c00216a8b7589e67bcb142dcbf11d1714fe9de2e",
+      "afterSha256": "8c21b02f353ba53f9c905eff667ea762ea7867bb4f09834d0bf558c53541e4d5",
+      "hunks": [
+        {
+          "at": 7240,
+          "beforeAt": 7240,
+          "before": [
+            "        \"explicit:Run.obtainCard\""
+          ],
+          "after": [
+            "        \"explicit:Run.obtainCard\",",
+            "        \"explicit_event:vampires:accept\",",
+            "        \"explicit_event:vampires:give_vial\""
+          ]
+        },
+        {
+          "at": 7244,
+          "beforeAt": 7242,
+          "before": [
+            "      \"naturalAcquisitionLimitation\": \"Mechanics dependency with explicit obtain only; source event acquisition and natural/platform evidence remain pending.\""
+          ],
+          "after": [
+            "      \"naturalAcquisitionLimitation\": \"Canonical Bite mechanics and both Vampires Act2 exchanges are locally covered through real Nodes commands and generated native-control tests. Full source-pool draw preserves the original 13-entry pool and RNG; controlled room/seed fixtures are not natural acquisition. Cached max-health or Blood Vial cost, reverse starter-Strike removals, five fresh obtains with Molten Egg and late-failure rollback are tested. Natural/platform acceptance NOT_RUN.\""
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_act2_events.lua": {
+      "beforeSha256": "76a94420164d262054a25b29eb60b6fbc36f70d53ffbb145e4ee987307096aca",
+      "beforeGitBlob": "83d64e15deb207400b533073dc3dac61bb396ac8",
+      "afterSha256": "2d54f725033b88e5d0ad46ff63eaf6b93a9d95dc94573be88762a0c928af9992",
+      "hunks": [
+        {
+          "at": 4,
+          "beforeAt": 4,
+          "before": [],
+          "after": [
+            "local Skull=require('abyss_knowing_skull_event')"
+          ]
+        },
+        {
+          "at": 11,
+          "beforeAt": 10,
+          "before": [],
+          "after": [
+            "local Vampires=require('abyss_vampires_event')"
+          ]
+        },
+        {
+          "at": 14,
+          "beforeAt": 12,
+          "before": [
+            "local M={ids={beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true,nest=true,duplicator=true}}"
+          ],
+          "after": [
+            "local M={ids={knowing_skull=true,beggar=true,mausoleum=true,addict=true,back_to_basics=true,joust=true,the_library=true,ghosts=true,vampires=true,nest=true,duplicator=true}}"
+          ]
+        },
+        {
+          "at": 18,
+          "beforeAt": 16,
+          "before": [],
+          "after": [
+            "    if event.id=='knowing_skull' then return Skull.prepare(run,event) end"
+          ]
+        },
+        {
+          "at": 23,
+          "beforeAt": 20,
+          "before": [],
+          "after": [
+            "    if event.id=='vampires' then return Vampires.prepare(run,event) end"
+          ]
+        },
+        {
+          "at": 36,
+          "beforeAt": 32,
+          "before": [],
+          "after": [
+            "    if event.id=='knowing_skull' then return Skull.options(run,event) end"
+          ]
+        },
+        {
+          "at": 41,
+          "beforeAt": 36,
+          "before": [],
+          "after": [
+            "    if event.id=='vampires' then return Vampires.options(run,event) end"
+          ]
+        },
+        {
+          "at": 166,
+          "beforeAt": 160,
+          "before": [],
+          "after": [
+            "    if flow.event.id=='knowing_skull' then return Skull.choose(run,flow,choice,uid) end"
+          ]
+        },
+        {
+          "at": 173,
+          "beforeAt": 166,
+          "before": [],
+          "after": [
+            "    if event.id=='vampires' then return Vampires.choose(run,flow,choice,uid) end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_event_pool.lua": {
+      "beforeSha256": "690e287892447f98098230fc77df395d4e0e33b164d06d1b0e0bf0b128259dbc",
+      "beforeGitBlob": "2424e13e6c4ad9c1dbfcea79535cd1953de0adf7",
+      "afterSha256": "6cd1b090d1e0d161e45eda8027e0b82e7b37ec83ef912379f58d2c08d9c07a21",
+      "hunks": [
+        {
+          "at": 42,
+          "beforeAt": 42,
+          "before": [],
+          "after": [
+            "M.contentId.Vampires='vampires'"
+          ]
+        },
+        {
+          "at": 46,
+          "beforeAt": 45,
+          "before": [],
+          "after": [
+            "M.contentId['Knowing Skull']='knowing_skull'"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_knowing_skull_event.lua": {
+      "beforeSha256": null,
+      "beforeGitBlob": null,
+      "afterSha256": "9f77469f3ea4ca549279bab861aa221959c369be85798f5d0c140ad900737a14",
+      "hunks": []
+    },
+    "src/lua/abyss_node_ui_events.lua": {
+      "beforeSha256": "d124f8b04c5ece1e24c7ce3825c00eed0ae1484b40f436ab5a6f65ca4a02dc98",
+      "beforeGitBlob": "549f3790a812e62605bd694e85cdaa7b850b1001",
+      "afterSha256": "e54efdc2eb676df4816ecc01eb0cd9b1806ed18026ca8af7f39b7896751cd4d9",
+      "hunks": [
+        {
+          "at": 10,
+          "beforeAt": 10,
+          "before": [],
+          "after": [
+            "    knowing_skull={name='问骨回声'},"
+          ]
+        },
+        {
+          "at": 29,
+          "beforeAt": 28,
+          "before": [],
+          "after": [
+            "    vampires={name='夜行者'},"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_vampires_event.lua": {
+      "beforeSha256": null,
+      "beforeGitBlob": null,
+      "afterSha256": "b232747cab95ff74a79b05e0255623ad5a7e6a56bfce9e3391204b3adf45a618",
+      "hunks": []
+    }
+  }
+}

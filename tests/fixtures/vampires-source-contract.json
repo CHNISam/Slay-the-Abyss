@@ -1,0 +1,90 @@
+{
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "provenance": "Fixed third-party decompiled mirror actually read; not official source or PC binary verification. Independent behavior implementation, no Java/text/art copied.",
+  "sources": [
+    {
+      "path": "events/city/Vampires.java",
+      "gitBlobSha": "93701f68f89eb014c0331c25f5c966c847dc37ff",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/events/city/Vampires.java"
+    },
+    {
+      "path": "cards/colorless/Bite.java",
+      "gitBlobSha": "52a7590f87c421ac5109507f644d0f1623542a50",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/Bite.java"
+    },
+    {
+      "path": "cards/red/Strike_Red.java",
+      "gitBlobSha": "ea57b7327ab094e49e4169661411b02999635e39",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/red/Strike_Red.java"
+    },
+    {
+      "path": "cards/green/Strike_Green.java",
+      "gitBlobSha": "c16b5608193d8dd139b21d4d8c8dfe613cea89fc",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/green/Strike_Green.java"
+    },
+    {
+      "path": "cards/blue/Strike_Blue.java",
+      "gitBlobSha": "60a322445d3ce1d42598d6560e9fd04d116c1b77",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/blue/Strike_Blue.java"
+    },
+    {
+      "path": "cards/purple/Strike_Purple.java",
+      "gitBlobSha": "1341af13ba75de54d7fab210b807e8e873ed771d",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/purple/Strike_Purple.java"
+    },
+    {
+      "path": "cards/CardGroup.java",
+      "gitBlobSha": "546405eea9d7dcbd855fe47471c55c92d086987c",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/CardGroup.java"
+    },
+    {
+      "path": "characters/AbstractPlayer.java",
+      "gitBlobSha": "dc0f077c70ff36bad5d602f2128be1db1a0ee5b7",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/characters/AbstractPlayer.java"
+    },
+    {
+      "path": "relics/BloodVial.java",
+      "gitBlobSha": "48dfb0b6941453061f940a93bd97040a27788c9c",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/BloodVial.java"
+    },
+    {
+      "path": "relics/AbstractRelic.java",
+      "gitBlobSha": "a0664295b13cea89638ab4737b7ef83a2e7da5ac",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/relics/AbstractRelic.java"
+    },
+    {
+      "path": "core/AbstractCreature.java",
+      "gitBlobSha": "bee5f7d0d955528b69007376cc0465ed60e577c6",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/core/AbstractCreature.java"
+    },
+    {
+      "path": "vfx/cardManip/ShowCardAndObtainEffect.java",
+      "gitBlobSha": "1905199265294006a78eaeeb56e4ec75048236ff",
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/vfx/cardManip/ShowCardAndObtainEffect.java"
+    }
+  ],
+  "behavior": {
+    "cachedHpLoss": "min(ceil(float32(float32(maxHp) * float32(0.3))), maxHp - 1)",
+    "cachedVial": true,
+    "starterStrikeSourceIds": [
+      "Strike_R",
+      "Strike_G",
+      "Strike_B",
+      "Strike_P"
+    ],
+    "order": [
+      "cachedHealthCostOrBloodVialLoss",
+      "reverseMasterDeckStarterStrikeRemovals",
+      "fiveFreshPermanentBiteObtains",
+      "result",
+      "separateLeave"
+    ],
+    "seededActionRngDraws": 0,
+    "biteCount": 5,
+    "emptyDeckAllowed": true,
+    "bottledStarterStrikesRemoved": true,
+    "bloodVialOnUnequip": "Inherited empty AbstractRelic implementation; remove canonical ownership only"
+  },
+  "boundaries": "Production Geo Traveler Act2. Controlled source draw and generated native-control harness are not natural acquisition or device acceptance. No persisted save. Original V4 starter tags remain unresolved rather than inferred."
+}

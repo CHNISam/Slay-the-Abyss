@@ -1,3 +1,4 @@
+import {materializeBeforeM3Events,m3EventSourceLayer} from './m3-event-source-inverse.mjs';
 import { after } from 'node:test';
 import { readFileSync, cpSync, mkdtempSync, rmSync, symlinkSync, existsSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -13,14 +14,16 @@ export function launchBaselineFixture() {
     cpSync(directory, join(root, directory), { recursive: true });
   for (const directory of ['tests', 'tools', 'docs'])
     symlinkSync(resolve(directory), join(root, directory), 'junction');
+  const outputs=[];
   for (const path of Object.keys(relicCompletionInverse.files)
     .filter(path => /^(data|src|scripts|config)\//.test(path))) {
     const target = join(root, path);
     const current = existsSync(target) ? readFileSync(target, 'utf8') : null;
     requireRelicCompletionSource(path, current);
     const previous = preRelicCompletionSource(path, current);
-    if (previous === null) rmSync(target);
-    else writeFileSync(target, previous);
+    outputs.push([target,previous]);
   }
+  materializeBeforeM3Events(root,{historicalPaths:Object.keys(relicCompletionInverse.files).filter(path=>m3EventSourceLayer.files[path]?.beforeSha256!=null)});
+  for(const [target,previous]of outputs){if(previous===null)rmSync(target);else writeFileSync(target,previous);}
   return root;
 }

@@ -1,3 +1,4 @@
+import {materializeBeforeM3Events,m3EventSourceLayer} from './m3-event-source-inverse.mjs';
 // Historical source replay only. Runtime feature tests read production directly.
 import assert from 'node:assert/strict';
 import {preRelicRound2CompositionSource} from './relic-round2-composition.mjs';
@@ -81,6 +82,7 @@ export function materializeBeforeRelicCompletionSources(directory){
   const source=readFileSync(target,'utf8');requireRelicCompletionSource(path,source);
   outputs.push([target,preRelicCompletionSource(path,source)]);
  }
+ materializeBeforeM3Events(directory,{historicalPaths:Object.keys(files).filter(path=>m3EventSourceLayer.files[path]?.beforeSha256!=null)});
  for(const [target,source]of outputs){if(source===null)rmSync(target);else writeFileSync(target,source);}
 }
 export const relicCompletionAddedPaths=Object.freeze(Object.entries(files)

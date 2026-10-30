@@ -1,3 +1,4 @@
+import {prepareM3EventRetirement} from './m3-event-source-inverse.mjs';
 import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
 import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
@@ -66,6 +67,7 @@ export const battleLifeAddedPaths = Object.freeze(Object.entries(battleLifeSourc
 // own full source/destination validation and exact historical ownership.
 export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = process.cwd()} = {}) {
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
+  const retireM3=prepareM3EventRetirement(directory,{sourceRoot});
   const retireBackground=prepareBackgroundRetirement(directory,{sourceRoot});
   const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
   const retireRound3=prepareRound3CatalogModuleRetirement(directory,{sourceRoot});
@@ -81,7 +83,8 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   return () => {
     // Revalidate both newest owners before any composed historical deletion.
     prepareArtFeatureRetirement(directory,{sourceRoot});
+    retireM3.validate();
     retireRound3();
-    for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();
+    for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();retireM3();
   };
 }

@@ -1,3 +1,4 @@
+import {preM3EventSource} from './m3-event-source-inverse.mjs';
 // Exact historical evidence only; current feature execution uses production.
 import assert from 'node:assert/strict';
 import {cachePureSourceProjection,deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
@@ -28,7 +29,7 @@ for(const target of Object.values(relicRound3Composition.targets)){
  }
 }
 const cachedProjection=cachePureSourceProjection(relicRound3Composition.targets,projectSource);
-export function preRelicRound3CompositionSource(path,source,target){return cachedProjection(path,source,target);}
+export function preRelicRound3CompositionSource(path,source,target){return cachedProjection(path,preM3EventSource(path,source,{projectAdded:false}),target);}
 function projectSource(path,source,target){
  assert.ok(target==='relic'||target==='round3');
  const binding=relicRound3Composition.targets[target].files[path];

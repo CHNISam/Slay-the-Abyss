@@ -1,3 +1,4 @@
+import {preM3EventSource} from './helpers/m3-event-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -6,7 +7,7 @@ import {relicRound3Composition as proof,preRelicRound3CompositionSource as proje
 import {requireRelicCompletionSource,preRelicCompletionSource,relicCompletionInverse} from './helpers/relic-completion-inverse.mjs';
 import {round3CatalogProof,preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const read=p=>readFileSync(p,'utf8').replaceAll('\r\n','\n');
+const read=p=>preM3EventSource(p,readFileSync(p,'utf8')).replaceAll('\r\n','\n');
 test('both round-three composition arrows recover complete Git-locked target blobs and preserve frozen witnesses',()=>{
  assert.deepEqual(Object.values(proof.targets).map(target=>target.commit),[
   '7b9ba4ab9af438a1e875f1883b27469ee164eb31','157cd1a2c9d3e1cb5c40e374a49840dda7e103f1',
