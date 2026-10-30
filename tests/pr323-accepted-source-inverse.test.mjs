@@ -1,3 +1,4 @@
+import {preRound2UiSource,round2UiSourceLayer,round2UiAddedPaths} from './helpers/round2-ui-source-inverse.mjs';
 import {preRelicViewUiSource} from './helpers/relic-view-ui-inverse.mjs';
 import {preHeroVisualSource} from './helpers/hero-visual-source-inverse.mjs';
 import {preEventProductionSource} from './helpers/event-production-source-inverse.mjs';
@@ -53,4 +54,41 @@ test('config-only historical adapters never project away unrelated current produ
  assert.equal(preAcceptedPr323Source(path,current),null,'only the explicit outer historical projection removes it');
  for(const adapter of [preRosterConfigSource,preCompositeBattleMaxHpConfig,preNodesBattleMaxHpConfig,preRunMaxHpConfig,preCoreArchitectureSource])
   assert.equal(adapter(path,current),current,'thin config adapters retain their original path ownership');
+});
+
+test('round-two UI inverse recovers exact prior hosts and config without replacing frozen witnesses',()=>{
+ for(const [path,binding]of Object.entries(round2UiSourceLayer.files)){
+  const current=normalize(readFileSync(path,'utf8'));
+  assert.equal(hash(current),binding.afterSha256,path+' complete current source');
+  const previous=preRound2UiSource(path,current);
+  assert.equal(previous===null?null:hash(previous),binding.beforeSha256,path+' exact a7 source');
+  assert.equal(preRound2UiSource(path,current.replaceAll('\n','\r\n')),previous,path+' CRLF');
+  assert.equal(preRound2UiSource(path,previous),previous,path+' no repeated inverse');
+  assert.equal(preRound2UiSource(path,null),null,path+' missing source remains exposed');
+  for(const mutant of [current+'\n-- unrelated drift\n',current.slice(1),current+current]){
+   assert.equal(preRound2UiSource(path,mutant),mutant,path+' unknown bytes cannot acquire historical permission');
+  }
+  if(binding.hunks.length){
+   const hunk=binding.hunks.find(h=>h.after.length>0);
+   const after=hunk.after.join('\n'),before=hunk.before.join('\n');
+   for(const mutant of [current.replace(after,before),current.replace(after,after+'\n'+after)]){
+    assert.notEqual(mutant,current,path+' partial/duplicated inverse is a real mutation');
+    assert.equal(preRound2UiSource(path,mutant),mutant,path+' partial or duplicate patches stay exposed');
+   }
+  }
+ }
+ assert.equal(preRound2UiSource('unregistered.lua','return {}'),'return {}');
+});
+
+test('round-two UI historical permission binds both extracted modules and rejects missing or drifting responsibilities',()=>{
+ const sources=Object.fromEntries(round2UiAddedPaths.map(path=>[path,normalize(readFileSync(path,'utf8'))]));
+ for(const path of Object.keys(round2UiSourceLayer.files)){
+  const current=normalize(readFileSync(path,'utf8'));
+  for(const changed of round2UiAddedPaths){
+   for(const mutant of [sources[changed]+'\n-- drift\n',sources[changed].slice(1),sources[changed]+sources[changed]]){
+    assert.throws(()=>preRound2UiSource(path,current,{readSource:key=>key===changed?mutant:sources[key]}),/linked module drift/);
+   }
+   assert.throws(()=>preRound2UiSource(path,current,{readSource:key=>{if(key===changed)throw new Error('missing');return sources[key];}}),/linked module missing/);
+  }
+ }
 });

@@ -1,17 +1,17 @@
-import {preNativeEnemyThemeSource} from './helpers/native-enemy-theme-inverse.mjs';
+import {preRound2UiSource,round2UiAddedPaths,prepareRound2UiModuleRetirement} from './helpers/round2-ui-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {dirname, join} from 'node:path';
 import {tmpdir} from 'node:os';
-import {battleLifeSourceLayer as proof, battleLifeAddedPaths, preBattleLifeSource,
+import {battleLifeSourceLayer as proof, battleLifeAddedPaths, preBattleLifeSource, preBattleLifeOuterSource,
   prepareBattleLifeModuleRetirement} from './helpers/battle-life-source-inverse.mjs';
 import {pr323AcceptedSourceInverse, requirePr323Source, preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {eventProductionInverse, requireEventProductionSource} from './helpers/event-production-source-inverse.mjs';
 
 const hash = value => value === null ? null : createHash('sha256').update(value).digest('hex');
-const read = path => preNativeEnemyThemeSource(path, readFileSync(path, 'utf8').replaceAll('\r\n', '\n'));
+const read = path => preBattleLifeOuterSource(path,readFileSync(path, 'utf8').replaceAll('\r\n', '\n'));
 const put = (directory, path, content) => {
   const target = join(directory, path); mkdirSync(dirname(target), {recursive: true}); writeFileSync(target, content);
 };
@@ -64,4 +64,24 @@ test('historical cleanup removes only complete new modules after validating the 
     prepareBattleLifeModuleRetirement(directory)();
     assert.throws(() => prepareBattleLifeModuleRetirement(process.cwd()), /separate historical destination/);
   } finally { rmSync(directory, {recursive: true, force: true}); }
+});
+
+test('round-two copied responsibilities retire atomically with the existing historical module cleanup',()=>{
+ const directory=mkdtempSync(join(tmpdir(),'abyss-round2-ui-inverse-'));
+ try{
+  for(const path of [...battleLifeAddedPaths,...round2UiAddedPaths])put(directory,path,readFileSync(path,'utf8'));
+  put(directory,'keep.txt','keep');
+  const last=round2UiAddedPaths.at(-1);
+  put(directory,last,readFileSync(last,'utf8')+'\n-- drift\n');
+  assert.throws(()=>prepareBattleLifeModuleRetirement(directory),/unreviewed round-two UI added module destination/);
+  for(const path of [...battleLifeAddedPaths,...round2UiAddedPaths])assert.ok(existsSync(join(directory,path)),'no removal before all identities validate');
+  put(directory,last,readFileSync(last,'utf8'));
+  const retire=prepareBattleLifeModuleRetirement(directory);
+  for(const path of round2UiAddedPaths)assert.ok(existsSync(join(directory,path)),'preparation must not remove copied UI module');
+  retire();
+  for(const path of [...battleLifeAddedPaths,...round2UiAddedPaths])assert.equal(existsSync(join(directory,path)),false,'only validated new module removed');
+  assert.equal(readFileSync(join(directory,'keep.txt'),'utf8'),'keep');
+  prepareRound2UiModuleRetirement(directory)();
+  assert.throws(()=>prepareRound2UiModuleRetirement(process.cwd()),/separate historical destination/);
+ }finally{rmSync(directory,{recursive:true,force:true});}
 });

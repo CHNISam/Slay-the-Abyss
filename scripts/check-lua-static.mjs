@@ -93,28 +93,27 @@ export function reviewRenderComplexity(diagnostics, sources) {
 // Budget only this governance slice and every extracted responsibility module.
 // Unrelated pre-existing Combat/UI hotspots keep their diagnostic reports.
 const responsibilityRoots = {
-  'src/lua/abyss_card_actions.lua': ["function 'exhaustRandom'", "function 'fiendFire'", "function 'exhaustNonAttacks'", "function 'exhaustSpecific'"],
+  'src/lua/abyss_card_actions.lua': ["function 'exhaustRandom'", "function 'fiendFire'", "function 'exhaustNonAttacks'", "function 'exhaustSpecific'", "function 'upgradeAllHand'", "function 'makeTemporaryCards'", "function 'generateAttack'", "function 'randomizeHandCost'"],
   'src/lua/abyss_nodes.lua': [],
   'src/lua/abyss_run.lua': [],
   'src/lua/abyss_run_potions.lua': ["function 'potionCandidate'"],
   'src/lua/abyss_run_potion_candidate.lua': [],
   'src/lua/abyss_effects.lua': ["function 'M.apply'", "function 'continueEffects'", "function 'applyOne'"],
-  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'"],
+  'src/lua/abyss_combat.lua': ["function 'queuedHandlers.effect'", "function 'M.canPlay'", "function 'playWindow'", "function 'playEligibility'", "function 'playSupportedEffects'", "function 'playCardContent'", "function 'playAdvancedMode'", "function 'playEnergy'", "function 'playEffectTarget'", "function 'playCardRequirements'", "function 'playHandRequirements'"],
   'src/lua/abyss_act2_ai.lua': ["function 'choose'"],
   'src/lua/abyss_character_presentation.lua': [],
   'src/lua/abyss_character_presentation_text.lua': ["function 'fragments'"],
   'src/lua/abyss_feedback.lua': [
-    "function 'step'", "function 'paint'", "function 'cardShape'",
+    "function 'step'", "function 'cardShape'",
     "function 'cardFlight'", "function 'contactSound'", "function 'statusDamageLabel'",
     "function 'damageLabel'", "function 'previousActor'", "function 'playStep'",
     "function 'bannerStep'", "function 'silentIntent'", "function 'intentStep'",
     "function 'escapeStep'", "function 'deathStep'", "function 'damageText'",
     "function 'statusText'", "function 'targetText'", "function 'targetStep'",
-    "function 'enterFrame'", "function 'appendShake'", "function 'paintKnockback'",
-    "function 'paintMotion'", "function 'impactShape'", "function 'impactTint'",
-    "function 'paintImpact'", "function 'paintShield'", "function 'numberScale'",
-    "function 'paintNumber'", "function 'paintDying'",
+    "function 'enterFrame'",
   ],
+  'src/lua/abyss_feedback_actor_painter.lua': [],
+  'src/lua/abyss_game_ui_menu_view.lua': [],
   'src/lua/abyss_node_ui.lua': [
     "method 'ctx.self.render'", "function 'ctx.syncNodeIdentity'", "function 'ctx.nodeScreen'",
     "function 'ctx.renderNodePage'", "function 'ctx.refreshNodeNotice'",
@@ -157,7 +156,14 @@ export function reviewModuleSize(sources, budgets = {'src/lua/abyss_run.lua': 10
 }
 // The display adapter now aliases the extracted formatter. If a local formatter
 // is reintroduced, it must not evade the budget that governs its replacement.
-const optionalResponsibilityRoots = {'src/lua/abyss_character_presentation.lua': ["function 'fragments'"]};
+const optionalResponsibilityRoots = {
+  'src/lua/abyss_character_presentation.lua': ["function 'fragments'"],
+  // Restoring the former local painter must not escape its extracted budget.
+  'src/lua/abyss_feedback.lua': ["function 'paint'", "function 'appendShake'", "function 'paintKnockback'",
+    "function 'paintMotion'", "function 'impactShape'", "function 'impactTint'",
+    "function 'paintImpact'", "function 'paintShield'", "function 'numberScale'",
+    "function 'paintNumber'", "function 'paintDying'"],
+};
 export function reviewResponsibilityComplexity(diagnostics, sources, roots = responsibilityRoots) {
   const modules = Object.keys(sources).filter(file => file in roots || responsibilityHelper(file)).sort();
   const functions = [], errors = [];

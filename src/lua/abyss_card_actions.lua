@@ -284,6 +284,55 @@ end
 local exhaustActions={exhaustRandom=exhaustRandom,fiendFire=fiendFire,
     exhaustNonAttacks=exhaustNonAttacks,secondWind=exhaustNonAttacks,exhaustSpecific=exhaustSpecific}
 
+-- Hand mutation actions share constructors and hooks, but retain their own
+-- RNG boundaries: generated cards consume UID before their insertion roll.
+local function upgradeAllHand(combat,state)
+    for _,v in ipairs(state.hand) do if combat.canUpgrade(state,v) then combat.upgrade(state,v) end end
+end
+
+local function makeTemporaryCards(combat,state,item)
+    local e=item.effect
+    local op,value=e.op,e.value
+    for _=1,value do
+        local v=M.fresh(combat,state,e.card)
+        M.created(combat,state,v)
+        if op=='makeTempCardInHand' then M.created(combat,state,v)end
+        if op=="makeTempCardInHand" then M.toHand(state,v)
+        else table.insert(state.draw,combat.cardRandom(state,#state.draw+1),v) end
+    end
+end
+
+local function generateAttack(combat,state)
+    local pool={}
+    for _,rarity in ipairs({'common','uncommon','rare'}) do
+        for _,id in ipairs(state.sourcePools.src[rarity]) do
+            local d=state.catalog.cards[id]
+            if d.type=="attack" and not d.healing then pool[#pool+1]=id end
+        end
+    end
+    local v=M.fresh(combat,state,pool[combat.cardRandom(state,#pool)])
+    v.costForTurn=0
+    M.created(combat,state,v)
+    M.created(combat,state,v)
+    M.toHand(state,v)
+end
+
+local function randomizeHandCost(combat,state)
+    for _,card in ipairs(state.hand) do
+        local cost=combat.combatBaseCost(state,card)
+        if cost>=0 then
+            local nextCost=combat.cardRandom(state,4)-1
+            if nextCost~=cost then
+                card.costOverride,card.costForTurn=nextCost,nextCost
+                if card.cardId=='blood_for_blood' then card.costReduction=0 end
+            end
+        end
+    end
+end
+
+local handMutationActions={upgradeHand=upgradeAllHand,makeTempCardInHand=makeTemporaryCards,
+    makeTempCardInDraw=makeTemporaryCards,generateAttack=generateAttack,randomizeHandCost=randomizeHandCost}
+
 function M.apply(combat,state,item)
     local e,source,target,c=item.effect,item.source,item.target,item.instance
     local op,value=e.op,e.value
@@ -322,29 +371,8 @@ function M.apply(combat,state,item)
         or op=="dualWield" or op=="upgradeHand" and not e.all then return selection(combat,state,item)
     elseif exhaustActions[op] then
         exhaustActions[op](combat,state,item)
-    elseif op=="upgradeHand" then
-        for _,v in ipairs(state.hand) do if combat.canUpgrade(state,v) then combat.upgrade(state,v) end end
-    elseif op=="makeTempCardInHand" or op=="makeTempCardInDraw" then
-        for _=1,value do
-            local v=M.fresh(combat,state,e.card)
-            M.created(combat,state,v)
-            if op=='makeTempCardInHand' then M.created(combat,state,v)end
-            if op=="makeTempCardInHand" then M.toHand(state,v)
-            else table.insert(state.draw,combat.cardRandom(state,#state.draw+1),v) end
-        end
-    elseif op=="generateAttack" then
-        local pool={}
-        for _,rarity in ipairs({'common','uncommon','rare'}) do
-            for _,id in ipairs(state.sourcePools.src[rarity]) do
-                local d=state.catalog.cards[id]
-                if d.type=="attack" and not d.healing then pool[#pool+1]=id end
-            end
-        end
-        local v=M.fresh(combat,state,pool[combat.cardRandom(state,#pool)])
-        v.costForTurn=0
-        M.created(combat,state,v)
-        M.created(combat,state,v)
-        M.toHand(state,v)
+    elseif handMutationActions[op] then
+        handMutationActions[op](combat,state,item)
     elseif op=="doubleStrength" then
         local amount=source.statuses.strength or 0
         if amount~=0 then Actors.applyPower(state,source,"strength",amount,source) end
@@ -379,17 +407,6 @@ function M.apply(combat,state,item)
         M.enqueue(state,{op="heal",value=healed},source)
     elseif op=='relicUpgradeRandomHand' then
         require('abyss_relic_hooks').upgradeRandomHand(combat,state)
-    elseif op=='randomizeHandCost' then
-        for _,card in ipairs(state.hand) do
-            local cost=combat.combatBaseCost(state,card)
-            if cost>=0 then
-                local nextCost=combat.cardRandom(state,4)-1
-                if nextCost~=cost then
-                    card.costOverride,card.costForTurn=nextCost,nextCost
-                    if card.cardId=='blood_for_blood' then card.costReduction=0 end
-                end
-            end
-        end
     elseif op=="playTop" then
         combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)
     elseif op=="block" and e.fixed then combat.block(state,source,value,true)

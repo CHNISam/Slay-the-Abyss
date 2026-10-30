@@ -1,7 +1,10 @@
 import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
+import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
+import {preRound2UiSource,prepareRound2UiModuleRetirement} from './round2-ui-source-inverse.mjs';
 // Exact outer replay adapter for this presentation-only slice. Live tests load
 // current production modules; original historical witnesses stay immutable.
 import assert from 'node:assert/strict';
+import {preCiLuaCalibrationSource} from './ci-lua-calibration-inverse.mjs';
 import {existsSync, readFileSync, rmSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -22,8 +25,15 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
   if (binding.beforeSha256 === null) assert.deepEqual(binding.hunks, [], 'genuinely new module has no historical source');
 }
 
-export function preBattleLifeSource(path, source) {
+export function preBattleLifeOuterSource(path, source) {
   source = preNativeEnemyThemeSource(path, source);
+  source = preCiLuaCalibrationSource(path, source);
+  source = preRound2CanPlaySource(path, source);
+  return preRound2UiSource(path, source);
+}
+
+export function preBattleLifeSource(path, source) {
+  source = preBattleLifeOuterSource(path, source);
   const binding = battleLifeSourceLayer.files[path];
   if (!binding || typeof source !== 'string') return source;
   const normalized = normalize(source);
@@ -49,6 +59,7 @@ export const battleLifeAddedPaths = Object.freeze(Object.entries(battleLifeSourc
 // own full source/destination validation and exact historical ownership.
 export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = process.cwd()} = {}) {
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
+  const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
   const targets = [];
   for (const path of battleLifeAddedPaths) {
     const target = join(directory, path);
@@ -57,5 +68,5 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
       'unreviewed battle-life added module destination: ' + path);
     targets.push(target);
   }
-  return () => { for (const target of targets) rmSync(target); };
+  return () => { for (const target of targets) rmSync(target); retireRound2(); };
 }

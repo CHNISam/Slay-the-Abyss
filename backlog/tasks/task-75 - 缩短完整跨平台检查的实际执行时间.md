@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 03:47'
-updated_date: '2026-10-29 12:36'
+updated_date: '2026-10-30 02:03'
 labels: []
 dependencies: []
 priority: medium
@@ -37,6 +37,8 @@ ordinal: 120000
 本轮集成收口：固定develop d2e0baa3的失败日志，复现unknown_event_routing 110种子独占30秒超时；先测保持同一原文helper的更小独立完整种子分区，必须覆盖原220种子、四路由/七事件及所有每种子断言，不改生产逻辑或预算。独立补反向重建/分区负例，再以精确PR HEAD与合入develop完整CI验收。
 
 2026-10-29 Agent A：基于a5da67aa及最新CI原始时序检查权重与分片调度，仅最小调整ci-shards与专用测试；保持完整覆盖、原超时，不修改quality.yml。本轮必须精确PR SHA门禁全绿才合并。
+
+2026-10-30第二轮：以成功Quality 40980643080原始逐作业日志建立基线，核对旧worker/去重分支；保持全部Windows/POSIX回归与原超时，优先修复真实分配与启动成本。独立Sol Medium执行，主控复核完整测试集合与失败传播后集成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -65,4 +67,6 @@ unknown路由修复：原110种子独占在Node22复现原30s超时；简单55�
 2026-10-29 Agent A：仅校准完整JS权重（385文件/平台）与首片门禁75s/44s；原974 Lua权重、fallback、worker分类逐值不变，未修改ci-shards算法或workflow。来源40866923323 attempt2，真实checkout3cd0a668与起点a5da67aa同tree50c3882a；PR head1cdee不混作执行SHA。相邻成功40865898601独立回放仍预测Windows JS峰值降13.94%、Linux降15.49%，只是离线回放，完整新CI待。明细docs/reviews/CI-SHARDS-20261029.md。固定官方Node24.18已核验SHA256；本地22的16/18通过，2项因缺24专用CLI选项失败不计通过，24.18重验进行中。
 
 固定官方Node24.18最终定向验证：36/36通过、0失败、0跳过，25.266s；含当前385 JS/1090 raw Lua完整分配、未知文件、原workflow/runner冻结、真实失败继续执行、timing reporter、LFS与worker独占屏障。network与Backlog门禁通过。仅本地切片验证；新精确HEAD完整CI及合后实际耗时仍待，TASK75继续In Progress、不提前勾验收。
+
+2026-10-30第二轮：PR359以成功40980643080完整408JS/1114Lua实测校准分配，新增luaShard与原974条并发安全权重分离，原测试/超时/资格保持。固定同样本预计最长1428.276→1183.495秒，仅估算；Node24相关79项全过。首次完整CI因UI/config历史源码锁失败而未进入大部分rawLua，已修订等待重跑，不据估算勾选实际速度或合入验收。
 <!-- SECTION:NOTES:END -->

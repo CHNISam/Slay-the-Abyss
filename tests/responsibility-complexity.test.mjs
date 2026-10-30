@@ -6,6 +6,20 @@ const file = 'src/lua/abyss_effects.lua';
 const roots = {[file]: ["function 'M.apply'"]};
 const row = (path, line, column, subject, value) => ({file:path,line,column,code:'W561',
   message:`cyclomatic complexity of ${subject} is too high (${value} > 0)`});
+test('presentation extractions are required and their nested callbacks remain budgeted',()=>{
+  for(const path of ['src/lua/abyss_feedback_actor_painter.lua','src/lua/abyss_game_ui_menu_view.lua']){
+    const source='local function paint() return function() end end';
+    const diagnostics=[row(path,1,1,'main chunk',1),row(path,1,7,"function 'paint'",15),
+      row(path,1,source.indexOf('function()')+1,'function',16)];
+    const report=reviewResponsibilityComplexity(diagnostics,{[path]:source});
+    assert.ok(report.errors.some(e=>e.file===path&&e.message.includes('16 exceeds 15')));
+    assert.ok(reviewResponsibilityComplexity([],{}).errors.some(e=>e.file===path&&e.message.includes('missing')));
+  }
+  const path='src/lua/abyss_feedback.lua',source='local function paint() end';
+  const report=reviewResponsibilityComplexity([row(path,1,1,'main chunk',1),
+    row(path,1,7,"function 'paint'",97)],{[path]:source});
+  assert.ok(report.errors.some(e=>e.file===path&&e.message.includes('97 exceeds 15')));
+});
 function fixture() {
   const lines = ['local message="汉字"', 'function M.apply()', ' local hidden=function() end', 'end',
     'local function legacy() end', 'return M'];
@@ -43,9 +57,10 @@ test('potion candidate helpers cannot move branching outside the responsibility 
   assert.deepEqual(reviewResponsibilityComplexity(diagnostics,{[helper]:source},{}).errors,[]);
 });
 
-test('every extracted exhaustion helper is required and bounded with its nested functions',()=>{
+test('every extracted card action helper is required and bounded with its nested functions',()=>{
   const path='src/lua/abyss_card_actions.lua';
-  const names=['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific'];
+  const names=['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific',
+    'upgradeAllHand','makeTemporaryCards','generateAttack','randomizeHandCost'];
   const source=names.map(name=>`local function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){
@@ -58,6 +73,30 @@ test('every extracted exhaustion helper is required and bounded with its nested 
     const original=diagnostic.message;
     diagnostic.message=original.replace(/\(\d+ > 0\)/,'(16 > 0)');
     assert.ok(report().errors.some(e=>e.file===path&&e.message.includes('16 exceeds 15')));
+    diagnostic.message=original;
+  }
+  for(const name of names){
+    const removed=diagnostics.filter(d=>!d.message.includes(`'${name}'`));
+    assert.ok(reviewResponsibilityComplexity(removed,{[path]:source}).errors
+      .some(e=>e.file===path&&e.message.includes('entry missing')));
+  }
+});
+test('canPlay and all preflight stages are required, bounded and fully measured',()=>{
+  const path='src/lua/abyss_combat.lua';
+  const names=['queuedHandlers.effect','M.canPlay','playWindow','playEligibility','playSupportedEffects',
+    'playCardContent','playAdvancedMode','playEnergy','playEffectTarget','playCardRequirements','playHandRequirements'];
+  const source=names.map(name=>`function ${name}() return function() end end`).join('\n');
+  const diagnostics=[row(path,1,1,'main chunk',1)];
+  for(const [i,name] of names.entries()){
+    diagnostics.push(row(path,i+1,1,`function '${name}'`,15));
+    diagnostics.push(row(path,i+1,source.split('\n')[i].indexOf('function()')+1,'function',1));
+  }
+  assert.equal(reviewResponsibilityComplexity(diagnostics,{[path]:source}).errors.filter(e=>e.file===path).length,0);
+  for(const diagnostic of diagnostics.slice(1)){
+    const original=diagnostic.message;
+    diagnostic.message=original.replace(/\(\d+ > 0\)/,'(16 > 0)');
+    assert.ok(reviewResponsibilityComplexity(diagnostics,{[path]:source}).errors
+      .some(e=>e.file===path&&e.message.includes('16 exceeds 15')));
     diagnostic.message=original;
   }
   for(const name of names){

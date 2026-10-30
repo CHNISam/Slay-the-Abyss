@@ -7,12 +7,12 @@ local MapUI = require("abyss_map_ui")
 local NodeUI = require("abyss_node_ui")
 local DeckUI = require("abyss_deck_ui")
 local PotionDiscardUI = require("abyss_potion_discard_ui")
-local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Bgm = require("abyss_bgm")
 local CharacterSelect = require("abyss_character_select")
 local CharacterView = require("abyss_character_select_view")
 local Controller = require("abyss_controller")
+local MenuView=require("abyss_game_ui_menu_view")
 local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
@@ -195,137 +195,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
 
-    -- Menu/result presentation reads stats the run already records. Motion only moves and
-    -- scales controls. A defeat veil bridges battle/results before actions unlock.
-    local L, C, T = Theme.layout.nativeMenu, Theme.color, Theme.motion
-    local R = L.reveal
-    local result = menu:GetChild("result")
-    local emblem, start, settlement = menu:GetChild("emblem"), menu:GetChild("start"), menu:GetChild("settle")
-    local vista = menu:GetChild("vista")
-    local risers = { { menu:GetChild("title"), L.title }, { menu:GetChild("tagline"), L.tagline },
-        { result:GetChild("subtitle"), L.subtitle } }
-    local cards = {}
-    for i, key in ipairs({ "floor", "victories", "time", "deck" }) do cards[i] = result:GetChild("stat_" .. key) end
-    local function colour(c) return platform.color(c.r, c.g, c.b, c.a) end
-    local function clamp(value) return math.max(0, math.min(1, value)) end
-    local function easeOut(p) return 1 - (1 - p) ^ 3 end
-    local function overshoot(p) return 1 + 2.7 * (p - 1) ^ 3 + 1.7 * (p - 1) ^ 2 end
-    local function clock(seconds)
-        seconds = math.floor(seconds)
-        return string.format("%02d:%02d", math.floor(seconds / 60), seconds % 60)
-    end
-    self.motion = { t = 0, settleX = L.settle[1] }
-    local function pose()
-        local m = self.motion
-        local shade = menu:GetChild("deathShade")
-        local alpha = m.deathReveal and 1 - easeOut(clamp(m.t / T.slow)) or 0
-        shade.imageColor = platform.color(C.backdrop.r, C.backdrop.g, C.backdrop.b, math.floor(255 * alpha))
-        shade:SetVisible(alpha > 0)
-        if alpha == 0 then m.deathReveal = nil end
-        local p = easeOut(clamp(m.t / T.slow))
-        local grow = R.emblemFrom + (1 - R.emblemFrom) * overshoot(clamp(m.t / T.slow))
-        local breathe = 1 + R.breatheScale * math.sin(2 * math.pi * math.max(0, m.t - T.slow) / R.breathe)
-        emblem:SetLocalScale(grow, grow, 1)
-        emblem:GetChild("glow"):SetLocalScale(breathe, breathe, 1)
-        for _, riser in ipairs(risers) do riser[1]:SetAnchoredPosition(riser[2][1], riser[2][2] - R.rise * (1 - p)) end
-        for i, card in ipairs(cards) do
-            local q = easeOut(clamp((m.t - i * R.stagger) / T.slow))
-            local scale = R.cardFrom + (1 - R.cardFrom) * q
-            card:SetLocalScale(scale, scale, 1)
-            card:SetAnchoredPosition(L.stats.origin[1] + (i - 1) * L.stats.step, L.stats.origin[2] - R.rise * (1 - q))
-        end
-        local x = m.settleX
-        if m.slide then x = m.slide.from + (m.slide.to - m.slide.from) * easeOut(clamp(m.slide.t / T.base)) end
-        if m.shake then
-            local s = clamp(m.shake / T.shake)
-            x = x + T.shakeAmplitude * math.sin(s * math.pi * 4) * (1 - s)
-        end
-        settlement:SetAnchoredPosition(x, L.settle[2])
-        -- Title vista: embers drift up past the ruins and the seal breathes; nothing here takes input.
-        local V = Theme.layout.vista
-        for i, at in ipairs(V.motes) do
-            local rise = (m.t * V.drift + i * 53) % 220
-            local mote = vista:GetChild("mote" .. i)
-            mote:SetAnchoredPosition(at[1] + 10 * math.sin(m.t + i), at[2] + rise)
-            mote.imageColor = colour({ r = C.goldBright.r, g = C.goldBright.g, b = C.goldBright.b,
-                a = math.floor(180 * math.sin(math.pi * rise / 220)) })
-        end
-        local seal = 1 + 0.03 * math.sin(2 * math.pi * m.t / V.breathe)
-        vista:GetChild("seal"):SetLocalScale(seal, seal, 1)
-    end
-    local function present()
-        local mode, run, m = self.mode, self.run, self.motion
-        if mode ~= "menu" and mode ~= "defeat" and mode ~= "victory" then m.mode = nil return end
-        local victory, defeat = mode == "victory", mode == "defeat"
-        local outcome = victory or defeat
-        if m.mode ~= mode then
-            m.t, m.mode = 0, mode
-            m.deathReveal = defeat and self.battleUI.feedback.deaths.player or nil
-        end
-        local rules = data.rules.map
-        emblem:GetChild("icon").imageColor = colour(defeat and C.danger or C.geo)
-        emblem:GetChild("glow").imageColor = colour(defeat and C.danger or C.goldBright)
-        -- The distant seal answers the outcome: broken red after a defeat, settled gold otherwise.
-        vista:GetChild("seal"):GetChild("heart").imageColor = colour(defeat and C.danger or C.goldBright)
-        vista:GetChild("seal"):GetChild("ring").imageColor = colour(defeat and C.danger or C.gold)
-        local title = menu:GetChild("title")
-        title.text = victory and (run.ending=='two_act_complete' and '双幕挑战完成' or run.ending=='true_victory' and '真结局 · 深渊已被封印' or "深渊已被封印") or defeat and "旅途在此中断" or "杀戮原塔2"
-        title.fontColor = colour(victory and C.goldBright or defeat and C.text or C.gold)
-        menu:GetChild("tagline"):SetVisible(not outcome)
-        menu:GetChild("summary"):SetVisible(false)
-        result:SetVisible(outcome)
-        local startFrame = outcome and L.resultRestart or L.start
-        start:SetAnchoredPosition(startFrame[1], startFrame[2])
-        start:SetVisible(not self.settlementRequested and not self.settlementBusy)
-        start:GetChild("label").text = run and "重新启程" or "启程"
-        settlement:SetVisible(outcome)
-        local available = type(platform.settle) == "function"
-        local enabled = outcome and available and not self.settlementRequested and not self.settlementBusy
-        settlement:GetChild("normal"):SetVisible(enabled == true)
-        settlement:GetChild("disabled"):SetVisible(not enabled and not self.settlementBusy)
-        settlement:GetChild("selected"):SetVisible(self.settlementBusy == true)
-        settlement:GetChild("border").imageColor = colour(enabled and C.gold or C.line)
-        local label = settlement:GetChild("label")
-        label.text = self.settlementRequested and "已发送结算请求" or "结束并结算"
-        label.fontColor = colour(enabled and C.gold or C.textDim)
-        -- With the request sent, restart is gone and the remaining button settles to centre.
-        local targetX = self.settlementRequested and 0 or L.settle[1]
-        if targetX ~= m.settleX then m.slide, m.settleX = { from = m.settleX, to = targetX, t = 0 }, targetX end
-        if not outcome then
-            -- The title screen names the chapter only; the opening story belongs to the cinematic.
-            menu:GetChild("tagline").text = Narrative.title
-            menu:GetChild("summary").text = ""
-        else
-            local floor = self.map.floor
-            result:GetChild("subtitle").text = victory and run.ending=='two_act_complete'
-                and '第一幕与第二幕已完成。本局挑战到此结束。' or victory and run.ending=='true_victory'
-                and '腐化之心已击败。真结局已达成。' or Narrative.flow[mode].full
-            local finalFloor=Acts.isCompetition(run) and Acts.get(2).last or victory and run.ending=='true_victory' and (self.map.terminalFloor or rules.floors) or rules.floors
-            local values = { floor .. " / " .. finalFloor, tostring(run.victories), clock(run.elapsedSeconds), tostring(#run.deck) }
-            for i, name in ipairs({ "抵达层数", "战斗胜场", "用时", "卡组张数" }) do
-                cards[i]:GetChild("label").text, cards[i]:GetChild("value").text = name, values[i]
-            end
-            cards[1]:GetChild("value").fontColor = colour(victory and C.goldBright or C.text)
-            local hp = run.phase == "defeat" and 0 or run.hp
-            result:GetChild("detail").text = "生命 " .. number(hp) .. " / " .. number(run.maxHp) .. " · 金币 " .. number(run.gold)
-                .. " · 遗物 " .. #run.relics .. " 件"
-            local status, ink = "「结束并结算」提交本局结果并进入平台结算；「重新启程」不会提交", C.textMuted
-            if self.settlementRequested then status, ink = "结算请求已发送，等待平台结算界面", C.positive
-            elseif self.settlementError then status, ink = "结算请求失败，请重试", C.danger
-            elseif not available then status = "平台结算暂不可用，可重新启程" end
-            local line = result:GetChild("status")
-            line.text, line.fontColor = status, colour(ink)
-        end
-        pose()
-    end
-    self.animate = function(_, dt)
-        local m = self.motion
-        if not m.mode then return end
-        m.t = m.t + dt
-        if m.slide then m.slide.t = m.slide.t + dt; if m.slide.t >= T.base then m.slide = nil end end
-        if m.shake then m.shake = m.shake + dt; if m.shake >= T.shake then m.shake = nil end end
-        pose()
-    end
+    local menuView = MenuView.new(self,menu,data,platform)
+    local start,settlement=menuView.start,menuView.settlement
+    local function present() MenuView.present(menuView) end
+    self.animate=function(_,dt) MenuView.animate(menuView,dt) end
 
     function self.syncController(_)
         if not controller then return end
