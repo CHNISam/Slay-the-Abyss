@@ -94,6 +94,83 @@ export function prepareReviewedAssets({ root = process.cwd(), shard, env = proce
   return { status: 'materialized', ...verified };
 }
 
+// Independent runtime build inputs: previews only, never the reviewed source PNGs.
+// These identities are pinned to the build input contracts, not a directory glob.
+export const runtimePreviewPaths = [
+  "art/cards/traveler-geo/armaments/preview-native.png",
+  "art/cards/traveler-geo/cleave/preview-native.png",
+  "art/cards/traveler-geo/heavy_blade/preview-native.png",
+  "art/characters/key-visual/traveler-geo/official-landscape-v1/preview-native.png"
+];
+export const runtimePreviewObjects = [
+  ["b7b2cd9c4fdfa3f1d893156405a51afc8b8bd1b65a776a9f704086c97685b2ff", 30121],
+  ["271c49cc6248cf46ea029cc63387c682858b43c29288eb32b44d24175e662b39", 36567],
+  ["aefb4d2ca114a8738029249fba8b1bdc4f6235be648684cbfe348ed496388936", 34027],
+  ["e23d1daac5e7046f9119edbd6179fd16fa31abd245c24d395adfd1af31a91a43", 81155],
+];
+export const maxRuntimePreviewBytes = 181870;
+export const runtimePreviewArguments = [...lfsArguments.slice(0, -6),
+  'lfs', 'pull', '--include', runtimePreviewPaths.join(','), '--exclude', ''];
+
+function verifyRuntimePreview(root, index) {
+    const path = runtimePreviewPaths[index];
+    const [oid, size] = runtimePreviewObjects[index];
+    let bytes;
+    try { bytes = readFileSync(resolve(root, path)); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; bytes = Buffer.alloc(0); }
+    if (bytes.length !== size || !bytes.subarray(0, 8).equals(pngSignature)
+      || createHash('sha256').update(bytes).digest('hex') !== oid) {
+      const error = new Error(`File is not the frozen runtime preview PNG: ${path}`);
+      error.code = 'ERR_RUNTIME_PREVIEW_PNG'; throw error;
+    }
+    return bytes.length;
+}
+
+export function verifyRuntimePreviews(root) {
+  const bytes = runtimePreviewPaths.reduce((total, _, index) => total + verifyRuntimePreview(root, index), 0);
+  return { count: runtimePreviewPaths.length, bytes };
+}
+
+// JS consumers may launch art-enabled builds through helpers or subprocesses.
+// Conservatively cover any selected JS file; empty/Lua-only/default-off builds
+// do not need these inputs. No directory scanning expands the four-object group.
+export function needsRuntimePreviews(files) {
+  return files.some(file => /^tests\/[^/]+\.test\.mjs$/.test(file));
+}
+
+export function prepareRuntimePreviews({ root = process.cwd(), needed = false, env = process.env } = {}) {
+  if (needed !== true && needed !== false) throw new Error('Runtime preview selection must be boolean');
+  if (!needed) return { status: 'not-needed' };
+  let total = 0;
+  for (const [index, path] of runtimePreviewPaths.entries()) {
+    const shown = spawnSync('git', ['show', ':' + path], { cwd: root,
+      env: lfsEnvironment({ ...env, CI_LFS_TOKEN: '' }), encoding: 'utf8',
+      windowsHide: true, timeout: 10000, maxBuffer: 1024 });
+    const match = /^version https:\/\/git-lfs.github.com\/spec\/v1\noid sha256:([0-9a-f]{64})\nsize ([1-9]\d*)\n$/.exec(shown.stdout ?? '');
+    if (shown.error || shown.status !== 0 || !match || !Number.isSafeInteger(Number(match[2])))
+      throw new Error(`Invalid runtime preview LFS index pointer: ${path}`);
+    const [oid, size] = runtimePreviewObjects[index];
+    if (match[1] !== oid || Number(match[2]) !== size)
+      throw new Error(`LFS pointer does not match the frozen runtime preview object: ${path}`);
+    total += size;
+  }
+  if (total > maxRuntimePreviewBytes) throw new Error(`Runtime preview payload exceeds ${maxRuntimePreviewBytes} bytes; no transfer allowed`);
+  try { return { status: 'cached', ...verifyRuntimePreviews(root) }; }
+  catch (error) { if (error.code !== 'ERR_RUNTIME_PREVIEW_PNG') throw error; }
+  // Pull only missing/corrupt members of the frozen group. Shared reviewed
+  // previews already verified above need no transfer even if their cache is gone.
+  const missing = runtimePreviewPaths.filter((_, index) => {
+    try { verifyRuntimePreview(root, index); return false; }
+    catch (error) { if (error.code !== 'ERR_RUNTIME_PREVIEW_PNG') throw error; return true; }
+  });
+  if (!missing.length) return { status: 'cached', ...verifyRuntimePreviews(root) };
+  const args = [...runtimePreviewArguments];
+  args[args.indexOf('--include') + 1] = missing.join(',');
+  const pulled = spawnSync('git', args, { cwd: root, env: lfsEnvironment(env), encoding: 'utf8', windowsHide: true, timeout: 90000, maxBuffer: 1024 * 1024 });
+  if (pulled.error || pulled.status !== 0) throw new Error(`Runtime preview LFS materialization failed (exit ${pulled.status ?? 'timeout/start-error'}); no verified PNG result`);
+  return { status: 'materialized', ...verifyRuntimePreviews(root) };
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const args = process.argv.slice(2);

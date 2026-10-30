@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { prepareReviewedAssets } from './ci-reviewed-lfs.mjs';
+import { prepareReviewedAssets, prepareRuntimePreviews, needsRuntimePreviews } from './ci-reviewed-lfs.mjs';
 
 export const timings = JSON.parse(readFileSync(new URL('./ci-test-timings.json', import.meta.url), 'utf8'));
 
@@ -49,6 +49,7 @@ export function main(args) {
   if (args[0].startsWith('--prepare=')) {
     console.log(JSON.stringify(plan.files.includes('tests/reviewed-traveler-geo-assets.test.mjs')
       ? prepareReviewedAssets() : { status: 'not-needed', shard }));
+    console.log(JSON.stringify(prepareRuntimePreviews({ needed: needsRuntimePreviews(plan.files) })));
     return;
   }
   if (!plan.files.length) return;
