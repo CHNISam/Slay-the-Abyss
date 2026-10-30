@@ -20,9 +20,30 @@ test('missing, duplicate or skipped child output and a child failure cannot cert
  const r=run(()=>({status:1,stdout:receipt(3),stderr:'deliberate child failure'}),fixture);assert.equal(r.status,1);assert.doesNotMatch(r.stdout,/ORIGINAL_SLICE_PASS/);
  assert.throws(()=>run(()=>{throw Error('deliberate original signal');},fixture),/deliberate original signal/);
 });
-test('preparation and both children share the original budget, with no per-child reset or extension',()=>{
- assert.throws(()=>run(()=>{Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,20);return{status:0,stdout:receipt(3),stderr:''};},fixture,{timeout:10}),/total deadline exhausted/);
- let calls=0;assert.throws(()=>run(()=>{const group=[3,4][calls++];Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,20);return{status:0,stdout:receipt(group),stderr:''};},fixture,{timeout:35}),/total deadline exhausted/);assert.equal(calls,2,'each child fits alone but their sum must fail');
+test('preparation and both children share the original budget, with no per-child reset or extension',t=>{
+ // Advance only the monotonic clock: real preparation, deadline checks and
+ // receipt validation still run, without assuming OS sleeps wake on time.
+ for(const {timeout,preparation,childDuration,expectedTimeouts,exhausted} of [
+  {timeout:10,preparation:11,childDuration:20,expectedTimeouts:[],exhausted:true},
+  {timeout:10,preparation:0,childDuration:20,expectedTimeouts:[10],exhausted:true},
+  {timeout:35,preparation:5,childDuration:20,expectedTimeouts:[30,10],exhausted:true},
+  {timeout:35,preparation:5,childDuration:10,expectedTimeouts:[30,20],exhausted:false},
+ ]){
+  let started=false,elapsed=0;const childTimeouts=[];
+  const clock=t.mock.method(performance,'now',()=>{
+   if(!started){started=true;return 0;}
+   return preparation+elapsed;
+  });
+  try{
+   const execute=()=>run((file,opts)=>{
+    const group=[3,4][childTimeouts.length];childTimeouts.push(opts.timeout);
+    elapsed+=childDuration;return{status:0,stdout:receipt(group),stderr:''};
+   },fixture,{timeout});
+   if(exhausted)assert.throws(execute,/total deadline exhausted/);
+   else assert.match(execute().stdout,/PHASE_THREE_ORIGINAL_SLICE_PASS 3 4 2 388/);
+   assert.deepEqual(childTimeouts,expectedTimeouts,'preparation and prior children consume the same original budget');
+  }finally{clock.mock.restore();}
+ }
  for(const timeout of [0,-1,30001,Infinity])assert.throws(()=>run(()=>{},fixture,{timeout}),/deadline cannot be extended/);
  assert.throws(()=>run(()=>{},fixture,{caseName:'defect'}),/both complete original groups/);
  for(const path of [fixture+'.other','tests/lua/phase_three_presentation.lua','tests/lua/phase_three_presentation_slice_3.lua'])assert.throws(()=>run(()=>{},path),/only exact/);

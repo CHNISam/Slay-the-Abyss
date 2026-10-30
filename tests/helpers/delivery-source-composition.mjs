@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync,existsSync,realpathSync,writeFileSync,rmSync} from 'node:fs';
 import {join,relative,isAbsolute,win32,posix} from 'node:path';
-import {deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
+import {cachePureSourceProjection,deepFreezeSourceProof} from './pure-source-projection-cache.mjs';
 const normalize=s=>s.replaceAll('\r\n','\n');
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const blob=s=>createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
@@ -48,7 +48,7 @@ for(const [target,{files}]of Object.entries(proof.targets)){
  }
 }
 const readLive=p=>readFileSync(p,'utf8');
-function inverse(path,source,target){
+const inverse=cachePureSourceProjection(proof.targets,(path,source,target)=>{
  assert.ok(proof.targets[target],'registered integrated monster target');
  const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return undefined;
  const s=normalize(source);
@@ -67,7 +67,7 @@ function inverse(path,source,target){
   assert.deepEqual(forward.slice(h.beforeAt,h.beforeAt+h.before.length),h.before);forward.splice(h.beforeAt,h.before.length,...h.after);
  }
  assert.equal(forward.join('\n'),s,'exact integrated forward source: '+path);return prior;
-}
+});
 export function tryDeliverySource(path,source,target,{readSource=readLive}={}){
  source=prePostBetaRuntimeSource(path,source,{readSource});
  source=preDeckDeliverySource(path,source,'delivery',{readSource});

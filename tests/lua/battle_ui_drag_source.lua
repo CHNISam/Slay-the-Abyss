@@ -122,6 +122,12 @@ test("own card and drag layer keep normal target-sensitive preview isolated by U
     for i=1,#b.hand do if i~=slot then assert(text(panel,i)==unchanged[i],"target leaked into other card") end end
     local first=actorBox(panel,host.run.combat,1)
     event("dragLayer","drag",7,first.x,first.y)
+    assert(text(panel,slot)==unchanged[slot] and ui.gesture.uid==b.hand[slot].uid
+        and ui.gesture.drawnTarget==1,"overlay drag must immediately restore the same UID's target preview")
+    -- Numerical previews switch immediately; the source reticle eases from
+    -- its previous target over aimRetarget (also covered by drag_response).
+    assert(reticle(panel).x==enemy.x,"retarget must start at its previously drawn endpoint")
+    host:update(H.F.Theme.layout.cardDrag.aimRetarget or 0.12)
     assert(text(panel,slot)==unchanged[slot] and reticle(panel).x==first.x)
     local hp=b.enemies[2].hp
     -- Up changes target without a preceding final Drag.

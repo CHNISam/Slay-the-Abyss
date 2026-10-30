@@ -16,3 +16,8 @@ test('current generated GameUI failure and replacement boundaries',()=>{
  assert.equal(r.status,0,r.stdout+r.stderr);
  assert.match(r.stdout,/CURRENT_GAME_UI_FAILURE_BOUNDARIES_PASS/);
 });
+test('current full-state comparator preserves values and diagnostics without scalar recursion',()=>{
+ const r=runLua('tests/lua/current_game_ui_comparator.lua');
+ assert.equal(r.status,0,r.stdout+r.stderr);
+ assert.match(r.stdout,/CURRENT_GAME_UI_COMPARATOR_PASS cases=280 recursiveCalls=1/);
+});

@@ -46,8 +46,8 @@ test('CRLF archive spelling retains canonical identity and changed archive bytes
  const directory=mkdtempSync(join(tmpdir(),'beta-test-proof-crlf-'));
  try{
   mkdirSync(join(directory,'helpers'));mkdirSync(join(directory,'fixtures'));
-  for(const file of ['beta-current-test-source.mjs','pure-source-projection-cache.mjs','fixture-construction-source.mjs'])copyFileSync(new URL('./helpers/'+file,import.meta.url),join(directory,'helpers',file));
-  copyFileSync(new URL('./fixtures/fixture-construction-source.json',import.meta.url),join(directory,'fixtures/fixture-construction-source.json'));
+  for(const file of ['beta-current-test-source.mjs','pure-source-projection-cache.mjs','fixture-construction-source.mjs','fixture-grid-source.mjs'])copyFileSync(new URL('./helpers/'+file,import.meta.url),join(directory,'helpers',file));
+  for(const file of ['fixture-construction-source.json','fixture-grid-source.json'])copyFileSync(new URL('./fixtures/'+file,import.meta.url),join(directory,'fixtures',file));
   const archive=readFileSync(new URL('./fixtures/beta-current-test-source.json',import.meta.url),'utf8').replaceAll('\r\n','\n');
   const target=join(directory,'fixtures/beta-current-test-source.json');writeFileSync(target,archive.replaceAll('\n','\r\n'));
   const moduleUrl=pathToFileURL(join(directory,'helpers/beta-current-test-source.mjs')).href;

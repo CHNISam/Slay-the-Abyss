@@ -56,8 +56,11 @@ export function materializeHistoricalPresentation(directory){
   const nodeSource=preIntegratedNodeUiSource(root,diskRoot,{[approvedNodeFace.path]:diskFace});
   // Validate the whole combined inventory before any temporary historical writes.
   const acceptedSources=Object.keys(pr323AcceptedSourceInverse.files).map(path=>{
-    const source=readFileSync(path,'utf8');requirePr323Source(path,source);
-    return [path,preAcceptedPr323Source(path,source)];
+    const source=readFileSync(path,'utf8');
+    // Validate this captured input freshly and completely once, then consume
+    // the returned binding instead of repeating validation and linked reads.
+    const binding=requirePr323Source(path,source);
+    return [path,binding.acceptedSource===null?null:binding.acceptedSource.replaceAll('\r\n','\n')];
   });
   materializeBeforeEventProduction(directory,{historicalPaths:[...new Set([...Object.keys(pr323AcceptedSourceInverse.files),...Object.keys(p0Presentation.files),...Object.keys(approvedUi.files),...nodeUiAddedPaths])].filter(path=>eventProductionInverse.files[path]?.beforeSource!=null)});
   for(const [path,source]of acceptedSources){

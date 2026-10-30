@@ -161,3 +161,24 @@ test('invalid worker counts, fixture identities and weights are rejected before 
   await assert.rejects(runLuaWorkers(['a']), /CLI path/);
   await assert.rejects(runLuaWorkers(['a'], { cli: 'unused.mjs', onOutput: true }), /callback/);
 });
+
+test('historical text replay is exclusive while the short-worker pool still overlaps', async t => {
+  const text = 'tests/lua/presentation_responsibilities_text.lua';
+  assert.equal(timings.lua[text], 30000, 'conservative admission estimate, not a successful hosted duration');
+  assert.equal(timings.luaShard[text], 5384, 'placement measurements remain unchanged');
+  assert.equal(timings.lua['tests/lua/presentation_responsibilities_trace.lua'], 15174);
+  const f = fixture(t);
+  assert.equal(await runLuaWorkers([text, 'pair-a', 'pair-b'], {
+    cli: f.cli, cwd: f.root, workers: 2,
+    weights: { ...timings.lua, 'pair-a': 400, 'pair-b': 300 }, onOutput: () => {},
+  }), 0);
+  const events = f.events();
+  assert.deepEqual(events.slice(0, 2).map(e => `${e.kind}:${e.name}`), [`start:${text}`, `end:${text}`]);
+  let active = 0, maximum = 0;
+  for (const event of events) {
+    active += event.kind === 'start' ? 1 : -1;
+    maximum = Math.max(maximum, active);
+  }
+  assert.equal(active, 0);
+  assert.equal(maximum, 2);
+});

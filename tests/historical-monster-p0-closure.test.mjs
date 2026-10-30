@@ -1,3 +1,6 @@
+import {fiveRunnerSourcePaths} from './helpers/five-runner-source.mjs';
+import {monsterInventorySourcePaths} from './helpers/monster-inventory-source.mjs';
+import {postBetaRuntimeHistoricalPaths} from './helpers/post-beta-runtime-source.mjs';
 import {rawBindingSourcePaths} from './helpers/raw-binding-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -15,7 +18,7 @@ import {historicalMonsterSourcePaths,verifiedHistoricalMonsterSources,materializ
 const read=p=>readFileSync(p,'utf8');
 test('historical monster inventory includes every exact P0 owner and restores the matching exit layout',()=>{
  const prior=[...deckDeliveryPaths,...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)];
- assert.deepEqual(historicalMonsterSourcePaths,[...new Set([...prior,...p0UiSourcePaths,...finalUiSourcePaths,...rawBindingSourcePaths])].sort(),'only the existing inventory and exact P0/final UI/raw-binding owners');
+ assert.deepEqual(historicalMonsterSourcePaths,[...new Set([...prior,...fiveRunnerSourcePaths,...monsterInventorySourcePaths,...p0UiSourcePaths,...finalUiSourcePaths,...rawBindingSourcePaths])].sort(),'only the existing inventory and exact P0/final UI/raw-binding/five-runner/monster-inventory owners');
  for(const path of new Set([...p0UiSourcePaths,...finalUiSourcePaths,...rawBindingSourcePaths]))assert.ok(historicalMonsterSourcePaths.includes(path),'missing historical P0 owner: '+path);
  const projected=new Map(verifiedHistoricalMonsterSources());
  const path='scripts/exit-ui-layout.mjs';
@@ -37,5 +40,19 @@ test('historical P0 projection rereads all current owners and rejects missing or
    assert.throws(()=>verifiedHistoricalMonsterSources(process.cwd(),p=>p===path?(calls++,bad):read(p)),/unreviewed current historical monster closure/);
    assert.ok(calls>0,'fresh current owner read: '+path);
   }
+ }
+});
+
+test('post-beta and historical inventories include all newly composed owners and reject fresh missing or drifted inputs',()=>{
+ const owners=[...fiveRunnerSourcePaths,...monsterInventorySourcePaths];
+ for(const path of owners){
+  assert.ok(postBetaRuntimeHistoricalPaths.includes(path),'post-beta inventory owner: '+path);
+  assert.ok(historicalMonsterSourcePaths.includes(path),'historical inventory owner: '+path);
+ }
+ verifiedHistoricalMonsterSources();
+ for(const path of owners)for(const bad of [undefined,read(path)+'\n-- drift']){
+  let reads=0;
+  assert.throws(()=>verifiedHistoricalMonsterSources('.',p=>p===path?(reads++,bad):read(p)),/unreviewed current historical monster closure/);
+  assert.ok(reads>0,'fresh owner read: '+path);
  }
 });

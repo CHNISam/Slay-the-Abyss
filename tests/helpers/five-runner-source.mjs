@@ -1,3 +1,4 @@
+import {preTextSafetySource} from './ci-text-safety-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,10 +12,11 @@ export const fiveRunnerSourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const fiveRunnerSourcePaths=Object.freeze(Object.keys(fiveRunnerSourceProof.files));
 assert.deepEqual(fiveRunnerSourcePaths,["scripts/ci-test-timings.json", "scripts/verify-delivery.mjs"]);
 export function preFiveRunnerSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
+ source=preTextSafetySource(path,source);
  const b=fiveRunnerSourceProof.files[path];if(!b||typeof source!=='string')return source;
  const text=normalize(source);if(text.length!==b.afterUtf16Length||hash(text)!==b.afterSha256)return source;
  for(const p of fiveRunnerSourcePaths){
-  let live;try{live=readSource(p);}catch{assert.fail('five-runner linked source missing: '+p);}
+  let live;try{live=preTextSafetySource(p,readSource(p));}catch{assert.fail('five-runner linked source missing: '+p);}
   assert.equal(typeof live,'string','five-runner linked source must exist: '+p);
   assert.equal(hash(normalize(live)),fiveRunnerSourceProof.files[p].afterSha256,'five-runner linked source identity: '+p);
   assert.equal(blob(normalize(live)),fiveRunnerSourceProof.files[p].afterGitBlob);

@@ -3,7 +3,7 @@
     "runId": 40630641377,
     "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/40630641377",
     "headSha": "257d9e0c9a4f2b680b8d1fc07c26025451eb5ac8",
-    "description": "Unchanged raw Fengari step scheduling weights for 974 Lua fixtures. JS measurements are now recorded separately in jsSource. Lua weights, exclusive-worker classification and all deadlines remain unchanged."
+    "description": "Original raw Fengari step scheduling measurements for 974 Lua fixtures. JS measurements are now recorded separately in jsSource. The text replay admission estimate is conservatively 30000 ms, not a successful duration measurement; placement weights, other safety classifications and all deadlines remain unchanged."
   },
   "unknownJsMs": 10000,
   "unknownLuaMs": 10000,
@@ -1558,7 +1558,7 @@
     "tests/lua/potion_targeting_help.lua": 6355,
     "tests/lua/power_card_lifecycle.lua": 8640,
     "tests/lua/power_schedule.lua": 1062,
-    "tests/lua/presentation_responsibilities_text.lua": 1829,
+    "tests/lua/presentation_responsibilities_text.lua": 30000,
     "tests/lua/presentation_responsibilities_trace.lua": 15174,
     "tests/lua/presentation_trace_native.lua": 1255,
     "tests/lua/queued_enemy_roll.lua": 2141,

@@ -1,3 +1,5 @@
+import {fiveRunnerSourcePaths} from './five-runner-source.mjs';
+import {monsterInventorySourcePaths} from './monster-inventory-source.mjs';
 import {rawBindingSourcePaths} from './raw-binding-source.mjs';
 import {finalUiSourcePaths} from './final-ui-source.mjs';
 import {historicalBattleUiCasesProof,historicalBattleUiCases} from './historical-battle-ui-cases.mjs';
@@ -18,7 +20,7 @@ assert.equal(hash(bytes),'f536f06de7bea3052a7303db34ec37cc68b631704f337ae3efba2d
 const support=JSON.parse(bytes);
 assert.equal(support.baseCommit,multiMonsterSourceLayer.baseCommit);
 assert.deepEqual(Object.keys(support.files),['tests/lua/support/game_ui_fixture.lua','tests/lua/support/battle_gesture_fixture.lua']);
-export const historicalMonsterSourcePaths=Object.freeze([...new Set([...rawBindingSourcePaths,...finalUiSourcePaths,...p0UiSourcePaths,...deckDeliveryPaths,...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)])].sort());
+export const historicalMonsterSourcePaths=Object.freeze([...new Set([...fiveRunnerSourcePaths,...monsterInventorySourcePaths,...rawBindingSourcePaths,...finalUiSourcePaths,...p0UiSourcePaths,...deckDeliveryPaths,...Object.keys(multiMonsterSourceLayer.files),...Object.keys(deliverySourceProof.targets.legacyMulti.files)])].sort());
 export function verifiedHistoricalMonsterSources(sourceRoot=process.cwd(),read=path=>readFileSync(join(sourceRoot,path),'utf8')){
  const projected=[];
  try{

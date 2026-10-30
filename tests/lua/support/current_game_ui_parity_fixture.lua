@@ -11,7 +11,14 @@ local function difference(a,b,seen)
  end
  if seen[a]==b then return end;seen[a]=b
  for k,v in pairs(a)do
-  local mismatch=difference(v,b[k],seen)
+  -- Compare every scalar inline; only tables need recursive traversal.
+  local other=b[k]
+  local mismatch
+  if type(v)=='table'then mismatch=difference(v,other,seen)
+  elseif v~=other then
+   if type(v)~=type(other)then mismatch=' type mismatch'
+   else mismatch=': '..tostring(v)..' ~= '..tostring(other)end
+  end
   if mismatch then return '.'..tostring(k)..mismatch end
  end
  for k in pairs(b)do if a[k]==nil then return '.'..tostring(k)..' missing' end end
