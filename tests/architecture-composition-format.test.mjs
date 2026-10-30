@@ -23,7 +23,7 @@ test('architecture layout whitespace projects to the same immutable complete his
 
 test('whitespace permission never hides changed tokens, duplicate keys, array order or string content',()=>{
  const policy=JSON.parse(source),key=Object.keys(policy.layers)[0];
- const changed=structuredClone(policy);changed.layers[key]='ui';
+ const changed=structuredClone(policy);changed.layers[key]=policy.layers[key]==='ui'?'core':'ui';
  const unknown=structuredClone(policy);unknown.unreviewed=true;
  const reordered=structuredClone(policy);
  assert.ok(reordered.deferredImports.length>1,'array order negative control has distinct actual entries');

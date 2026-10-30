@@ -1,4 +1,5 @@
 import {preIntegrationSource,prepareIntegrationRetirement} from './pr372-integration-source.mjs';
+import {prepareBetaRetirement} from './beta-integration-source.mjs';
 import {preCombatRelicsHudSource} from './combat-relics-hud-inverse.mjs';
 import {preCombatVfxUpgradeSource} from './combat-vfx-upgrade-inverse.mjs';
 import {preHandGestureAimSource,prepareHandGestureAimModuleRetirement} from './hand-gesture-aim-source-inverse.mjs';
@@ -96,6 +97,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   return () => {
     // Revalidate both newest owners before any composed historical deletion.
     prepareArtFeatureRetirement(directory,{sourceRoot});
+    prepareBetaRetirement(directory,{sourceRoot});
     retireRound3(); retireNativeMonster(); retireHandGesture(); retireIntegration();
     for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();
   };

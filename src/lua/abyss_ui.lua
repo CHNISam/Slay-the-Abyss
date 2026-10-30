@@ -128,6 +128,7 @@ function OnStart()
             end
         end
         local isTest, testPlay = pcall(function()return game.IsTestPlay()end)
+        local hasMonsterArt, monsterArt = pcall(function() return script:GetParam("nativeMonsterArtEnabled") end)
         local build = require('abyss_narrative').build
         local alpha = type(build)=='table' and build.workKey=='alpha-test'
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
@@ -140,7 +141,7 @@ function OnStart()
                       local device=game.GetDevice()
                       return device==Enum.Device.Controller or device==Enum.Device.MobileController
                   end},
-              nativeMonsterArtEnabled=script.nativeMonsterArtEnabled~=false,
+              nativeMonsterArtEnabled=not hasMonsterArt or monsterArt~=false,
               color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, keyEvents = Enum.KeyEventType,
               imageTypes = Enum.ImageType and {basic=Enum.ImageType.Basic,stretch=Enum.ImageType.Stretch},
               cursorPosition = function() return game.GetCursorUIPos() end,

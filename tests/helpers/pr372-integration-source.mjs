@@ -1,5 +1,6 @@
 import {preDeckBrowseSource} from './deck-browse-source-inverse.mjs';
 // Exact test-only projection of the reviewed combined slice. Runtime never imports this.
+import {preBetaSource,prepareBetaRetirement} from './beta-integration-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync,rmSync} from 'node:fs';
 import {join,resolve} from 'node:path';
@@ -10,6 +11,8 @@ assert.equal(hash(bytes),'ea2f161779f99bc4f81c25c9087eeeb911951d52b5ff85bafec112
 export const integrationSources=JSON.parse(bytes).sources;
 export function preIntegrationSource(path,source,target='base',{readSource=path=>readFileSync(path,'utf8')}={}){
  source=preDeckBrowseSource(path,source);
+ if(target==='feature379')return preBetaSource(path,source,target,{readSource});
+ source=preBetaSource(path,source,'history',{readSource});
  const binding=integrationSources[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=source.replaceAll('\r\n','\n');
@@ -32,6 +35,7 @@ export function preIntegrationSource(path,source,target='base',{readSource=path=
  return previous;
 }
 export function prepareIntegrationRetirement(directory,{sourceRoot=process.cwd()}={}){
+ const retireBeta=prepareBetaRetirement(directory,{sourceRoot});
  assert.notEqual(resolve(directory),resolve(sourceRoot),'integration retirement requires separate destination');
  const targets=[];
  for(const [path,b] of Object.entries(integrationSources)){
@@ -39,5 +43,11 @@ export function prepareIntegrationRetirement(directory,{sourceRoot=process.cwd()
   const target=join(directory,path);if(!existsSync(target))continue;
   assert.equal(hash(readFileSync(target,'utf8').replaceAll('\r\n','\n')),b.sha256,'unreviewed integration module: '+path);targets.push(target);
  }
- return ()=>{for(const target of targets)if(existsSync(target))rmSync(target);};
+ return ()=>{
+  for(const [path,b]of Object.entries(integrationSources)){
+   const target=join(directory,path);
+   if(targets.includes(target)&&existsSync(target))assert.equal(hash(readFileSync(target,'utf8').replaceAll('\r\n','\n')),b.sha256,'unreviewed integration module: '+path);
+  }
+  retireBeta();for(const target of targets)if(existsSync(target))rmSync(target);
+ };
 }
