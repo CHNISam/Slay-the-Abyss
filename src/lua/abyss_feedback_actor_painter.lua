@@ -1,3 +1,4 @@
+local MonsterArt=require('abyss_monster_art')
 -- Composes committed actor feedback into native portrait/effect controls only.
 -- Queue timing, completion and battle ownership remain with abyss_feedback.
 local Theme = require("abyss_theme")
@@ -209,6 +210,8 @@ function M.paint(ctx,id, dt, shakes)
     portrait:SetAnchoredPosition(x, y)
     portrait:SetLocalScale(sx, sy, 1)
     if id == "player" and ctx.platform.portraits then ctx.platform.portraits:battlePose(x,y,sx,sy) end
-    tint(ctx,portrait, flash > 0 and mix(base, ink, flash * FLASH) or base, alpha)
+    local tone=flash > 0 and mix(base,ink,flash*FLASH) or base
+    tint(ctx,portrait,tone,alpha)
+    MonsterArt.pose(box,x,y,sx,sy,tone,alpha)
 end
 return M

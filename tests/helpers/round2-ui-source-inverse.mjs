@@ -1,4 +1,5 @@
 import {projectArtPerfSource} from './art-perf-source-composition.mjs';
+import {preNativeMonsterArtSource} from './native-monster-art-source-inverse.mjs';
 // Test-only exact outer layer for the reviewed round-two presentation extraction.
 // Old witnesses keep their full bytes; unknown edits remain visible to their guards.
 import assert from 'node:assert/strict';
@@ -27,7 +28,7 @@ for(const [path,binding]of Object.entries(round2UiSourceLayer.files)){
   if(binding.beforeSha256===null)assert.deepEqual(binding.hunks,[]);
 }
 export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSource(path,readFileSync(path,'utf8'),'perf')}={}){
-  source=projectArtPerfSource(path,source,'perf');
+  source=projectArtPerfSource(path,preNativeMonsterArtSource(path,source),'perf');
   const binding=round2UiSourceLayer.files[path];
   if(binding)source=preRelicRound2CompositionSource(path,source,'round2');
   if(!binding||typeof source!=='string')return source;
@@ -39,6 +40,7 @@ export function preRound2UiSource(path,source,{readSource=path=>projectArtPerfSo
     let actual;
     try{actual=readSource(added);}catch{assert.fail('unreviewed round-two UI linked module missing: '+added);}
     assert.equal(typeof actual,'string','complete round-two UI linked source: '+added);
+    actual=preNativeMonsterArtSource(added,actual);
     assert.equal(hash(normalize(actual)),round2UiSourceLayer.files[added].afterSha256,
       'unreviewed round-two UI linked module drift: '+added);
   }

@@ -73,7 +73,7 @@ export function inspectLaunchRuntime(root = process.cwd(), data = loadContent(re
     // Inspect the actual packager's source-module discovery without building a
     // candidate. Its generated-file preflight only needs isolated metadata
     // placeholders; none of these values are executed or deployed.
-    for (const name of ['abyss_art_features', 'abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
+    for (const name of ['abyss_art_features', 'abyss_monster_art_data','abyss_data', 'abyss_original_v4_data', 'abyss_map_layout', 'abyss_narrative', 'abyss_presentation', 'abyss_theme', 'abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
       writeFileSync(join(directory, `${name}.lua`), '-- deployment metadata inspection only\n');
     const deployment = candidateScriptFiles(sourceDirectory, directory).map(row => row.name);
     const script = join(directory, 'inspect.lua');

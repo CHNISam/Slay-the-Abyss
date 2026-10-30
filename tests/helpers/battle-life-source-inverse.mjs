@@ -1,6 +1,7 @@
 import {prepareArtFeatureRetirement} from './art-feature-source-inverse.mjs';
 import {prepareRound3CatalogModuleRetirement} from './round3-catalog-source-inverse.mjs';
 import {preBackgroundSource,prepareBackgroundRetirement} from './official-background-source-inverse.mjs';
+import {preNativeMonsterArtSource,prepareNativeMonsterRetirement} from './native-monster-art-source-inverse.mjs';
 import {preNativeEnemyThemeSource} from './native-enemy-theme-inverse.mjs';
 import {preRelicRound2CompositionSource} from './relic-round2-composition.mjs';
 import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
@@ -31,6 +32,7 @@ for (const [path, binding] of Object.entries(battleLifeSourceLayer.files)) {
 }
 
 export function preBattleLifeOuterSource(path, source) {
+  source=preNativeMonsterArtSource(path,source);
   source = preRelicRound2CompositionSource(path,source,'relic');
   source = preRound2UiSource(path,source);
   source = preNativeEnemyThemeSource(path,preBackgroundSource(path,source));
@@ -68,6 +70,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   assert.notEqual(resolve(directory), resolve(sourceRoot), 'battle-life retirement requires a separate historical destination');
   const retireBackground=prepareBackgroundRetirement(directory,{sourceRoot});
   const retireRound2=prepareRound2UiModuleRetirement(directory,{sourceRoot});
+  const retireNativeMonster=prepareNativeMonsterRetirement(directory,{sourceRoot});
   const retireRound3=prepareRound3CatalogModuleRetirement(directory,{sourceRoot});
   const retireRelics=prepareRelicCompletionModuleRetirement(directory,{sourceRoot});
   const targets = [];
@@ -81,7 +84,7 @@ export function prepareBattleLifeModuleRetirement(directory, {sourceRoot = proce
   return () => {
     // Revalidate both newest owners before any composed historical deletion.
     prepareArtFeatureRetirement(directory,{sourceRoot});
-    retireRound3();
+    retireRound3(); retireNativeMonster();
     for (const target of targets) rmSync(target); retireRound2(); retireBackground();retireRelics();
   };
 }

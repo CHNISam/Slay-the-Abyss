@@ -143,5 +143,11 @@
     "automaton": "automaton/asset.json",
     "bronze_orb": "bronze_orb/asset.json",
     "champ": "champ/asset.json"
+  },
+  "identityDirection": {
+    "status": "superseded-requires-redesign",
+    "dateUtc": "2026-10-30",
+    "reason": "Owner requires recognizable existing Genshin enemies, not original monster identities. Historical source readability passes are not identity or production acceptance.",
+    "benchmarks": "../monster-benchmarks/genshin-v1/catalog.json"
   }
 }

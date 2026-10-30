@@ -138,7 +138,9 @@ function M.install(owner, ownership, host, dependencies)
         host.unit(box, enemy, portrait, enemyPortraitIcon(enemy), width, selected,step)
         local dim = (aim.pendingTarget or owner.potionAim ~= nil) and not selected
         local portraitTone = C.text
-        dependencies.tint(box:GetChild('portrait'), { r = portraitTone.r, g = portraitTone.g, b = portraitTone.b, a = dim and 102 or 255 })
+        local tone={r=portraitTone.r,g=portraitTone.g,b=portraitTone.b,a=dim and 102 or 255}
+        dependencies.tint(box:GetChild('portrait'),tone)
+        host.monsterArt:write(box,x,y,portrait,tone)
         renderDamagePreview(box, enemy, portrait, width, loss)
         renderEnemyIntent(box, enemyIntentFace(frame, enemy, entry.index), portrait)
     end
@@ -146,9 +148,11 @@ function M.install(owner, ownership, host, dependencies)
         local rows = frame.fighting and EnemyView.slots(frame.battle, owner.busy and owner.feedback or nil) or {}
         owner.feedback.enemyRows = rows
         local aim = enemyAimProjection(frame)
+        -- Reset old slot owners before registering the new shared portrait owner.
+        for i = 1, 5 do owner.feedback.bindEnemySlot(i, rows[i] and rows[i].id) end
+        host.monsterArt:select(owner.active and rows or {})
         for i = 1, 5 do
             local box, entry = dependencies.child('enemy' .. i), rows[i]
-            owner.feedback.bindEnemySlot(i, entry and entry.id)
             box:SetVisible(entry ~= nil)
             if entry then renderEnemySlot(frame, box, entry, i, #rows, aim) end
         end

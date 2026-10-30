@@ -135,6 +135,7 @@ function OnStart()
                       local device=game.GetDevice()
                       return device==Enum.Device.Controller or device==Enum.Device.MobileController
                   end},
+              nativeMonsterArtEnabled=script.nativeMonsterArtEnabled~=false,
               color = Color, imageSource = Enum.ImageSource.StaticReference, cursorEvents = Enum.CursorEventType, keyEvents = Enum.KeyEventType,
               imageTypes = Enum.ImageType and {basic=Enum.ImageType.Basic,stretch=Enum.ImageType.Stretch},
               cursorPosition = function() return game.GetCursorUIPos() end,

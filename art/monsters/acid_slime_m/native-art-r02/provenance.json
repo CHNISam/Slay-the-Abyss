@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "enemyId": "acid_slime_m",
+  "revision": "r02",
+  "status": "test-prototype",
+  "source": {
+    "path": "art/monster-benchmarks/genshin-v1/dendro-slime/source.png",
+    "sha256": "f6ed0bc296c82912fb8720b7e2b8827b6e217f70ae1119d3138937c5f77442ba",
+    "repository": "CHNISam/Slay-the-Abyss",
+    "gitRef": "58d7046a99a30d8b04894f87040ea62e6f465ed3"
+  },
+  "prompt": {
+    "path": "art/monster-benchmarks/genshin-v1/dendro-slime/prompt.txt",
+    "sha256": "638de887174048ba98787a651c189e118218ef15e2dfa393140f1ee0e25281d1",
+    "repository": "CHNISam/Slay-the-Abyss",
+    "gitRef": "58d7046a99a30d8b04894f87040ea62e6f465ed3"
+  },
+  "nativeFiles": [
+    {
+      "path": "art/monsters/acid_slime_m/native-art-r02/native-art.lua",
+      "sha256": "c638fb8227ef47b6bb20c455913d079131e18f32f1eea149621f134262a774b4"
+    },
+    {
+      "path": "art/monsters/acid_slime_m/native-art-r02/native-art.json",
+      "sha256": "4d42bcc3314c3bd1e3eefbeaa7112703157a17716bfd84a969d2818f47e3f1a9"
+    }
+  ],
+  "editorCommit": "103025f9095d8089e3f9bf097f4d0c5fe039d546",
+  "method": "Manual semantic native triangles and alpha ellipses. Existing pinned exporter/literal parser; no source PNG sampling, runtime PNG import, or replacement renderer.",
+  "approval": {
+    "sourceOwnerAccepted": true,
+    "technicalCandidateReviewed": true,
+    "nativeFinalApproved": false,
+    "deviceVerified": false,
+    "performanceMeasured": false,
+    "ownerVisualCandidateAccepted": true,
+    "ownerEvidence": {
+      "at": "2026-10-30T03:22:27Z",
+      "scope": "r02 visual test candidate accepted; not final refined/native engine/device acceptance",
+      "basis": "Owner accepted the shown r02 visual test candidate and requested integration; retain native/device/final-quality distinctions."
+    }
+  },
+  "rootDecision": "Source-backed recognizable one-pool usable test prototype, root technical r02 comparison review and Owner explicit visual candidate acceptance at 2026-10-30T03:22:27Z; not refined final native art or device approval.",
+  "limitations": [
+    "Simplified broad leaf planes and body lighting differ visibly from source.",
+    "Only first visible matching acid_slime_m receives the one pool; additional copies retain existing gallery.",
+    "Official import, PC and physical Android, performance and RC capacity not verified."
+  ],
+  "rights": "AI-assisted derivative of existing Genshin Dendro Slime identity for platform-project candidate use. No claim of fully original IP, IP sublicense, or commercial clearance.",
+  "previousDraft": "571-control native-slime-benchmark failed fidelity review; not used.",
+  "sourceArchive": {
+    "pullRequest": "https://github.com/CHNISam/Slay-the-Abyss/pull/355",
+    "gitRef": "58d7046a99a30d8b04894f87040ea62e6f465ed3",
+    "status": "This combined feature PR includes the exact reviewed four-source archive delta from PR355. No separate archive merge or raw PNG/prompt read is required for the native runtime build."
+  }
+}

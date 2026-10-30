@@ -55,7 +55,7 @@ test('every production entry parameter is registered by both native package rout
   await f.run();
   const {candidateScriptFiles}=await import('../scripts/native-candidate-scripts.mjs');
   const generated=join(f.root,'generated');mkdirSync(generated);
-  for(const name of ['abyss_art_features','abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme','abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
+  for(const name of ['abyss_art_features','abyss_monster_art_data','abyss_data','abyss_original_v4_data','abyss_map_layout','abyss_narrative','abyss_presentation','abyss_theme','abyss_menu_background_asset', 'abyss_ready_card_binding', 'abyss_ready_card_assets', 'abyss_traveler_portrait_assets'])
     writeFileSync(join(generated,name+'.lua'),'return {}');
   const packaged=candidateScriptFiles(join(f.root,'src/lua'),generated).find(row=>row.name==='abyss_ui');
   const parameters=[...source.matchAll(/:GetParam\(["']([^"']+)["']\)/g)].map(match=>match[1]);
@@ -73,7 +73,7 @@ test('reused base removes only owned stale modules and reuses its writable settl
   assert.equal(f.calls.filter(c=>c.name==='scene_add_graph'||c.name==='scene_add_signal').length,0);
   assert.equal(f.calls.find(c=>c.name==='write_graphs').args.graphs[0].graphId,23);
   assert.deepEqual(f.calls.find(c=>c.name==='scene_set_client_script').args.variables,
-    [{name:'nativeBgmEnabled',type:'boolean',value:false},
+    [{name:'nativeMonsterArtEnabled',type:'boolean',value:true},{name:'nativeBgmEnabled',type:'boolean',value:false},
       {name:'experimentalCharacters',type:'boolean',value:false}]);
   assert.equal(f.calls.find(c=>c.name==='scene_add_client_ui').args.replace,true);
 });

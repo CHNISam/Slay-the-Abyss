@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "scope": "four owner-accepted source-direction benchmarks only; not the 42-ID proposal",
+  "baseCommit": "ce62e753065666fd26c9d85587a8f3ae2a580689",
+  "runtimeBinding": "none",
+  "all42MappingApproved": false,
+  "benchmarks": {
+    "pyro-abyss-mage": "pyro-abyss-mage/asset.json",
+    "stonehide-lawachurl": "stonehide-lawachurl/asset.json",
+    "geovishap-hatchling": "geovishap-hatchling/asset.json",
+    "dendro-slime": "dendro-slime/asset.json"
+  }
+}

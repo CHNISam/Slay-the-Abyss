@@ -7,6 +7,7 @@ local Actors=require('abyss_actor')
 local ActorMotion=require('abyss_actor_motion')
 local SkillFeedback=require('abyss_skill_feedback')
 local ActorPainter=require("abyss_feedback_actor_painter")
+local MonsterArt=require('abyss_monster_art')
 local CardFlow=require('abyss_card_flow')
 local M = {}
 local T, C, L, S = Theme.motion, Theme.color, Theme.layout, Theme.space
@@ -182,6 +183,7 @@ function M.new(stage, platform, present, complete)
     end
     local function resetUnit(name)
         local box = stage:GetChild(name)
+        MonsterArt.clearBox(box)
         for _, part in ipairs({"impact", "shield", "floating"}) do pcall(function() box:GetChild(part):SetVisible(false) end) end
         for _, part in ipairs({"portrait", "impact", "shield", "blockEdge", "blockIcon", "block"}) do
             pcall(function() local c = box:GetChild(part) c:SetLocalScale(1, 1, 1) if not part:find("^block") then c:SetAnchoredPosition(0, 0) end end)

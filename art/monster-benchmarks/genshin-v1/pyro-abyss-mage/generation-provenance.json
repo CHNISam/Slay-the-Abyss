@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "tool": "built-in image_gen.imagegen",
+  "dateUtc": "2026-10-30",
+  "model": "unknown-not-exposed",
+  "seed": "unknown-not-exposed",
+  "exactPrompt": "prompt.txt",
+  "sourceSha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+  "rawPreserved": true,
+  "references": [
+    {
+      "pageUrl": "https://wiki.hoyolab.com/pc/genshin/entry/2185?lang=ru-ru",
+      "imageUrl": "https://upload-static.hoyoverse.com/hoyolab-wiki/2023/05/15/237301566/359d5e23d721155799b7576b4ab46bdc_2733832945117275075.png",
+      "sha256": "a232b8aea3bca9eacb092a1605cc5ab020d7cde6c4dc4a38c2a775b541d988a2",
+      "role": "HoYoWiki identity/costume reference",
+      "availability": "URL and hash only; third-party image excluded"
+    }
+  ],
+  "rights": "Genshin identities and third-party references retain original rights. AI-assisted derivative source study, not project-original character IP. No commercial clearance, sublicense, or public reference-image redistribution permission claimed. Reference pixels are NOT included."
+}

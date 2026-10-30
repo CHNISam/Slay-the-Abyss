@@ -50,7 +50,7 @@ for i,want in ipairs(source)do
  if want.image==106056 or want.image==106057 then gallery=gallery+1 end
  assert(want.raised,'source layer order requires explicit sibling append')
 end
-assert(gallery==3,'source gallery controls must not be discarded')
+assert(gallery==(ABYSS_EXPECTED_GALLERY_COUNT or 3),'source gallery controls must not be discarded')
 assert(Display.writeNativeArt(box,{id=ABYSS_METADATA.cardId},ABYSS_METADATA,platform,box:GetChild('art')))
 for _,c in ipairs(visible)do assert(c.writes==1,'unchanged art reapplied native geometry')end
 Display.clearNativeArt(box);for _,c in ipairs(visible)do assert(not c.visible,'clear leaked active shape')end

@@ -18,7 +18,7 @@ IDS = ('heavy_blade', 'bloodletting', 'iron_wave', 'shockwave')
 CLIP_TOLERANCE = 0.0001
 
 
-def outside_canvas(row, angles):
+def outside_canvas(row, angles, canvas=(144, 34)):
     """Exact projected polygon vertices / analytic ellipse extrema, Y up."""
     image, x, y, w, h = row[:5]
     rx, ry, rz = map(math.radians, [*angles, row[13]])
@@ -38,7 +38,7 @@ def outside_canvas(row, angles):
         else:
             raise AssertionError('Unsupported native primitive')
         points = [(x + a * u + c * v, y + b * u + d * v) for u, v in local]
-    return max(max(abs(px) - 72, abs(py) - 17, 0) for px, py in points)
+    return max(max(abs(px) - canvas[0] / 2, abs(py) - canvas[1] / 2, 0) for px, py in points)
 
 
 def slot_path(index):
@@ -95,10 +95,10 @@ def reject_output_alias(output, inputs):
             raise ValueError(f'Output must not overwrite an input file: {source}')
 
 
-def assemble_candidate(drawing, name):
-    """Read-only 144x64, unmasked literal adapter; not an image exporter."""
-    if drawing.get('format') != 'gia' or drawing.get('root') != [0, 0, 144, 64, .5, .5, .5, .5, .5, .5, 1, 1, 0]:
-        raise ValueError(f'{name}: native candidate requires an identity 144x64 canvas')
+def assemble_candidate(drawing, name, canvas=(144, 64)):
+    """Read-only unmasked literal adapter; card canvas is the default."""
+    if drawing.get('format') != 'gia' or drawing.get('root') != [0, 0, *canvas, .5, .5, .5, .5, .5, .5, 1, 1, 0]:
+        raise ValueError(f'{name}: native candidate requires an identity {canvas[0]}x{canvas[1]} canvas')
     if drawing.get('textboxes') or drawing.get('bindings') or drawing.get('textMasks'):
         raise ValueError(f'{name}: candidate artwork cannot own text or prefab bindings')
     if any(mask.get('enabled') or mask.get('enableSoftEdge') for mask in drawing.get('imageMasks', [])):

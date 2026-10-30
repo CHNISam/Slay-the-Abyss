@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "tool": "built-in image_gen.imagegen",
+  "dateUtc": "2026-10-30",
+  "model": "unknown-not-exposed",
+  "seed": "unknown-not-exposed",
+  "exactPrompt": "prompt.txt",
+  "sourceSha256": "2dfbc8b20b37bc3f9cc2942fd967f9a730629fa35fbfbc257ccd20c990d8fe40",
+  "rawPreserved": true,
+  "references": [
+    {
+      "pageUrl": "https://www.hoyolab.com/article/14436669",
+      "identityConfirmationUrl": "https://wiki.hoyolab.com/pc/genshin/entry/2103",
+      "sha256": "0beb3f862600a8167230e3f03f10a5e623e9e994ac0e748709dcf200bcb520d3",
+      "role": "actual in-game TCG screenshot; left character identity only, not UI",
+      "availability": "URL and hash only; third-party screenshot excluded"
+    }
+  ],
+  "rights": "Genshin identities and third-party references retain original rights. AI-assisted derivative source study, not project-original character IP. No commercial clearance, sublicense, or public reference-image redistribution permission claimed. Reference pixels are NOT included.",
+  "styleReferences": [
+    {
+      "repositoryPath": "art/monster-benchmarks/genshin-v1/pyro-abyss-mage/source.png",
+      "sha256": "ef900cac2d1ae09874b07d9928d94259c258fb3f18686eb9150827df121aaa64",
+      "role": "style only, not identity/anatomy"
+    }
+  ]
+}

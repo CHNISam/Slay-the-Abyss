@@ -1,3 +1,4 @@
+import {preNativeMonsterArtSource} from './native-monster-art-source-inverse.mjs';
 import {preArtFeatureSource} from './art-feature-source-inverse.mjs';
 import {preRound3CatalogSource} from './round3-catalog-source-inverse.mjs';
 // Integration-only outer projection. Both source branches and frozen witnesses
@@ -13,6 +14,7 @@ assert.equal(hash(bytes),'2aba05dd108700a04347a2f357c6663409f326d5e9e9a4cf050601
 export const artPerfSourceComposition=JSON.parse(bytes);
 assert.equal(artPerfSourceComposition.schemaVersion,1);
 export function projectArtPerfSource(path,source,target){
+  source=preNativeMonsterArtSource(path,source);
   source=preArtFeatureSource(path,source);
   source=preRound3CatalogSource(path,source);
   source=preRelicArtCompositionSource(path,source,'art');

@@ -18,8 +18,13 @@ test('real UI build registers one shared hidden background host and one native i
  const images=templates.filter(t=>t.name==='AbyssOfficialBackgroundImage');assert.equal(images.length,1);
  assert.equal(images[0].kind,'image');assert.equal(images[0].image,100001);
  assert.equal(images[0].mask,undefined,'native reader omits disabled masks; retain canonical default-off template');
+ const descendants=node=>[node,...(node.children??node.controls??[]).flatMap(descendants)];
+ const monsterHosts=descendants(stage).filter(n=>n.name==='monsterArt');
+ assert.equal(monsterHosts.length,1,'exact combined monster drawing host');
+ assert.equal(descendants(monsterHosts[0]).length,609,'bounded prototype controls');
+ assert.equal(monsterHosts[0].visible,false);assert.deepEqual(monsterHosts[0].size,[106,106]);
  const original=structuredClone(stage.children.slice(1));
- const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure'].includes(c.name));strip(node.children);}}};
+ const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure','monsterArt'].includes(c.name));strip(node.children);}}};
  strip(original);
  assert.deepEqual(original,JSON.parse(JSON.stringify(gameLayout().controls)),'approved controls/input remain byte-equivalent apart from explicit empty artwork hosts');
  const source=readFileSync(join(dir,'abyss_menu_background_asset.lua'),'utf8');

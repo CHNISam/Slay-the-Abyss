@@ -1,3 +1,4 @@
+import {architectureSourceFormat} from './architecture-source-format.mjs';
 import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
 import {preBossUiFaultFixtureSource} from './boss-ui-fault-fixture-inverse.mjs';
 import {relicCompletionInverse,requireRelicCompletionSource} from './relic-completion-inverse.mjs';

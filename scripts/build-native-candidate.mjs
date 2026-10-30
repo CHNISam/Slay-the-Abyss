@@ -18,7 +18,7 @@ import { nativeCardArtArgs, prepareNativeCardArt, nativeCardArtBuildReceipt, ver
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
   [artFeatureModule]:'scripts/build-ui.mjs', [backgroundModule]:'scripts/build-ui.mjs', [portraitModule]:'scripts/build-ui.mjs', abyss_ready_card_binding:'scripts/build-ui.mjs', abyss_ready_card_assets:'scripts/build-ui.mjs',
-  abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',
+  abyss_monster_art_data:'scripts/build-ui.mjs', abyss_presentation:'scripts/build-ui.mjs', abyss_map_layout:'scripts/build-ui.mjs', abyss_narrative:'scripts/build-ui.mjs',
 };
 export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
   const flags=resolveArtFeatures({artFeatures,nativeCardArt,readyCardArt});
@@ -39,6 +39,10 @@ export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
     'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...(flags.menuBackground?backgroundInputs:[]), ...(flags.cards&&!nativeCardArt?readyArtSourceInputs(root):[]),...portraitSourceInputs(flags),...staticInputs]) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
+  try {
+    const monster=JSON.parse(readFileSync(join(root,'data/presentation/native-monster-art.json'),'utf8'));
+    if(monster.enabled)for(const record of monster.sourceInputs.slice(0,2))files.push(record.path);
+  }catch(error){if(error.code!=='ENOENT')throw error;}
   return files.sort().map(path=>{const {sha256,bytes}=fileRecord(join(root,path),root);return {path,sha256,bytes};});
 }
 export const payloadDigest = inputs => sha256(JSON.stringify(inputs));
