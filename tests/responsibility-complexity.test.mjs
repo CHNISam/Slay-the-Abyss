@@ -43,9 +43,10 @@ test('potion candidate helpers cannot move branching outside the responsibility 
   assert.deepEqual(reviewResponsibilityComplexity(diagnostics,{[helper]:source},{}).errors,[]);
 });
 
-test('every extracted exhaustion helper is required and bounded with its nested functions',()=>{
+test('every extracted card action helper is required and bounded with its nested functions',()=>{
   const path='src/lua/abyss_card_actions.lua';
-  const names=['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific'];
+  const names=['exhaustRandom','fiendFire','exhaustNonAttacks','exhaustSpecific',
+    'upgradeAllHand','makeTemporaryCards','generateAttack','randomizeHandCost'];
   const source=names.map(name=>`local function ${name}() return function() end end`).join('\n');
   const diagnostics=[row(path,1,1,'main chunk',1)];
   for(const [i,name] of names.entries()){
