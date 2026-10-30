@@ -82,6 +82,10 @@
     "genshin-monster-native-candidate": {
       "status": "AI-assisted Genshin identity derivative sources and manual native simplifications; project test use only; no game-IP sublicense, commercial clearance, reference redistribution, final-art or device acceptance",
       "evidence": "Per-asset PROVENANCE.json, source-generation.json, prompt.txt and README.md; docs/art/MULTI_MONSTER_DRAWINGS.md; existing LICENSE-SCOPE.md and THIRD_PARTY_NOTICES.md"
+    },
+    "project-layout-preview": {
+      "status": "Project layout-tree wireframe previews retained from PR389; geometric placeholders and project UI text, not official editor/client screenshots or production artwork; evidence use only, no additional asset/IP sublicense or platform acceptance",
+      "evidence": "docs/reviews/CHAR-SELECT-59.3.1.md (layout-tree generation and placeholder limitations); original PR389 commit 49d80a978acea9bfaa4e27d700c7e9765241e268; scripts/character-ui-layout.mjs and data/presentation/ui_theme.json; exact original renderer script was not retained"
     }
   },
   "files": {
@@ -5405,6 +5409,14 @@
       "sha256": "3e3d5d56f931e211e9b5d1c8e979344898fc18261f651efc4abe813181daa560",
       "category": "genshin-monster-native-candidate",
       "lfsBytes": 864403
+    },
+    "docs/reviews/assets/char-select-59.3.1-before.png": {
+      "sha256": "7e0709c8e5385c621f6b58e419e55ce339cc6915a278c382d8fdd87aa5718363",
+      "category": "project-layout-preview"
+    },
+    "docs/reviews/assets/char-select-59.3.1-after.png": {
+      "sha256": "f75fa369b5a8c56387a0923bbfdac51842ea7eadc0b429d44bd77f15839b45bd",
+      "category": "project-layout-preview"
     }
   }
 }
