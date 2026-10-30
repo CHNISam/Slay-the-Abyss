@@ -12,6 +12,7 @@ local canvas=F.control({children=F.Layout})
 local root=F.Viewport.apply(canvas,1280,720)
 root.children.officialBackground=nil
 root:GetChild('characterPanel'):GetChild('traveler').children.officialAvatar=nil
+root:GetChild('characterPanel'):GetChild('details').children.officialSelectionFigure=nil
 root:GetChild('battlePanel'):GetChild('hero').children.officialFigure=nil
 local forbidden={abyss_menu_background=true,abyss_menu_background_asset=true,
  abyss_traveler_portraits=true,abyss_traveler_portrait_assets=true,
@@ -36,7 +37,24 @@ assert(Runtime.status().livePools==0,'default-off startup stranded a prior world
 for _,control in ipairs(Old.created)do assert(not control.alive,'old custom control remained live')end
 assert(oldFace:GetChild('art').visible,'prior world official fallback not restored')
 local menu=root:GetChild('menuPanel')
-assert(menu.visible and menu:GetChild('heroArt').visible and menu:GetChild('start').visible)
+assert(menu.visible and menu:GetChild('backdrop').visible and menu:GetChild('start').visible)
+assert(not menu:GetChild('heroArt').visible and not menu:GetChild('vista').visible,'obsolete icon scenery covered the official image')
+assert(menu:GetChild('officialBackdropVeil').visible,'official title must retain its readability veil')
+local function findSpec(controls,name)
+ for _,c in ipairs(controls)do
+  if c.name==name then return c end
+  local found=c.children and findSpec(c.children,name);if found then return found end
+ end
+end
+local menuSpec=assert(findSpec(F.Layout,'menuPanel'))
+assert(findSpec(menuSpec.children,'backdrop').image==F.Theme.image.officialBackdrops.title,'official title binding was replaced by a placeholder')
+local battleSpec=assert(findSpec(F.Layout,'officialBattleBackdrop'))
+for _,name in ipairs({'act1_1','act1_2','act1_3','act2_1','act2_2','act2_3','boss1','boss2'})do
+ assert(findSpec(battleSpec.children,name).image==F.Theme.image.officialBackdrops[name],'missing native official battle image '..name)
+end
+assert(not root:GetChild('officialBattleBackdrop').visible,'battle scenery must stay hidden on the title')
+assert(not root:GetChild('victoryEasterEgg').visible,'all-off entry exposed the optional egg')
+assert(not menu:GetChild('result'):GetChild('viewEasterEgg').visible,'all-off entry exposed the optional egg button')
 OnUpdate(.01);assert(F.click(root,'menuPanel','start'))
 assert(root:GetChild('characterPanel').visible,'official selection remains interactive')
 OnUpdate(.01)

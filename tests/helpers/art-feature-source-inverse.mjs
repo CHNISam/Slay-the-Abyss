@@ -12,7 +12,7 @@ const normalize=source=>source.replaceAll('\r\n','\n');
 const hash=source=>createHash('sha256').update(source).digest('hex');
 const sourceDirectory=fileURLToPath(new URL('../..',import.meta.url));
 const bytes=normalize(readFileSync(new URL('../fixtures/art-feature-source-layer.json',import.meta.url),'utf8'));
-assert.equal(hash(bytes),'33ad4cabfe6a3b678a7054f39975bca56e122ecc5ca2c3ad945392eb77b22afc','complete art-feature/fallback outer source identity');
+assert.equal(hash(bytes),'b2bef34f482a5eca07b74a10d5ca31f04a5256a6b3a3d249ff8597a7b5962a30','complete art-feature/fallback outer source identity');
 export const artFeatureSourceLayer=JSON.parse(bytes);
 assert.equal(artFeatureSourceLayer.schemaVersion,1);
 assert.equal(artFeatureSourceLayer.baseCommit,'1bfca6261044b92f8065bb83668c358b0a2627da');

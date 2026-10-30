@@ -56,6 +56,7 @@ local function paintSettlement(ctx)
 end
 local function paintVista(ctx)
     local m,vista=ctx.owner.motion,ctx.vista
+    if not vista.visible then return end
     -- Title vista: embers drift up past the ruins and the seal breathes; nothing here takes input.
     local V = Theme.layout.vista
     for i, at in ipairs(V.motes) do

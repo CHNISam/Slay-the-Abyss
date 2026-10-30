@@ -14,6 +14,9 @@ import { nativeUiVariables, candidateScriptFiles } from './native-candidate-scri
 import { loadReleaseNotes, notesSha256, gitSourceIdentity, releaseBuildArgs } from './release-notes.mjs';
 import { toLua } from './build-lua-data.mjs';
 import { nativeCardArtArgs, prepareNativeCardArt, nativeCardArtBuildReceipt, verifyNativeCardArtReceipt } from './card-art-samples.mjs';
+import {reusableUi} from './native-candidate-ui-cache.mjs';
+import {embeddedScripts} from './native-script-inventory.mjs';
+import {writeScriptBatch} from './native-script-batch.mjs';
 
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
@@ -60,7 +63,7 @@ function checkTree(control) {
   for(const child of control.children??[])checkTree(child);
 }
 export async function buildNativeCandidate({baseMap,output='build/candidates',root=process.cwd(),client,createClient,
-  prepare,generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog,
+  prepare,writeScripts,generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog,
   releaseCandidate=false,workKey='alpha-test',nativeCardArt,readyCardArt,artFeatures}={}) {
   root=resolve(root);
   const flags=resolveArtFeatures({artFeatures,readyCardArt,nativeCardArt});
@@ -128,7 +131,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       .map(({name,sourceFile})=>[name,sourceFile]));
     if(!modules.has('abyss_ui'))throw new Error('Missing entry module abyss_ui');
     const dynamicCards=flags.cards&&!art,portraits=flags.selectionAvatar||flags.battlePortrait;
-    const sharedTemplates=dynamicCards||portraits;
+    const sharedTemplates=dynamicCards||portraits||flags.menuBackground;
     const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate,readyArtGroupTemplate]:[])];
     if(templates.some(template=>blockedTemplates.includes(template.name)))throw Error('Disabled artwork must not register templates');
     const blockedHosts=[...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];
@@ -141,7 +144,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       ...(dynamicCards?['abyss_ready_card_binding','abyss_ready_card_assets']:[]),...(portraits?[portraitModule]:[])];
     for(const name of requiredArtModules)if(!modules.has(name))throw Error('Enabled artwork missing runtime module: '+name);
 
-    if(dynamicCards||portraits)for(const name of [readyArtImageTemplate,readyArtGroupTemplate])
+    if(sharedTemplates)for(const name of [readyArtImageTemplate,readyArtGroupTemplate])
       if(templates.filter(t=>t.name===name).length!==1)throw Error('Ready artwork requires exactly one '+name+' template');
     if(flags.menuBackground&&templates.filter(template=>template.name===backgroundTemplate).length!==1)
       throw Error('Official background requires exactly one native image template');
@@ -151,24 +154,28 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     for(const source of modules.values())fileRecord(source);
     client??=await createClient(workspace);
     for(const uri of ['miliastra://workflow','miliastra://platform-rules'])writeExclusive(join(workspace,`${uri.split('//')[1]}.json`),await client.readResource({uri}));
-    const readyTemplates={};
+    const readyTemplates={},cachedUi=reusableUi(base,generated);
+    if(cachedUi)receipt.reusedUi=cachedUi.receipt;
     for(const template of templates) {
-      const result=await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});
+      const result=cachedUi?(cachedUi.templateResults[template.name]??{reused:true}):await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});
       if(template.name===readyArtImageTemplate)readyTemplates.image=result;
       if(template.name===readyArtGroupTemplate)readyTemplates.group=result;
       if(template.name===backgroundTemplate) {
         if(!modules.has(backgroundModule))throw Error('Official background template has no runtime module');
-        bindBackgroundTemplate(generated,result,{root});
-        receipt.officialBackground={...backgroundRuntimeInventory(generated),templateIndex:result.templateIndex,
-          inputs:backgroundInputs.map(path=>fileRecord(join(root,path),root))};
+        readyTemplates.background=result;
       }
+    }
+    if(readyTemplates.background){
+      bindBackgroundTemplate(generated,readyTemplates.background,{root,containerTemplateIndex:readyTemplates.group.templateIndex});
+      receipt.officialBackground={...backgroundRuntimeInventory(generated),templateIndex:readyTemplates.background.templateIndex,
+        imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,inputs:backgroundInputs.map(path=>fileRecord(join(root,path),root))};
     }
     if(flags.menuBackground&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');
     if(readyTemplates.image||readyTemplates.group){
       if(dynamicCards){
         if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');
         bindReadyArtTemplates(generated,readyTemplates,{enabled:true});
-        receipt.readyCardArt={...readyArtRuntimeInventory(),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,
+        receipt.readyCardArt={...readyArtRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,
           enabled:true,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};
       }
       if(portraits){
@@ -179,16 +186,25 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       }
     }
     if(portraits&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');
-    const moduleDigests={};
+    const reusable=await call('scene_list_client_scripts',{mapPath,includeSource:true});
+    const existingSources=new Map((reusable.scripts??[]).filter(row=>typeof row.source==='string').map(row=>[row.name,row.source]));
+    receipt.reusedModules=[];
+    const moduleDigests={},pendingScripts=[];
     for(const [name,source] of modules) {
       const bytes=Buffer.from(readFileSync(fileRecord(source).path,'utf8').replace(/^\uFEFF/,'')),destination=join(payload,`${name}.lua`);
       writeFileSync(destination,name==='abyss_ui'?Buffer.concat([Buffer.from(`print("ABYSS_BUILD ${buildId}")\n`),bytes]):bytes,{flag:'wx'});
       receipt.outputs.push(fileRecord(destination,workspace));
       moduleDigests[name]=fileRecord(destination).sha256;
-      await call('scene_set_client_script',{mapPath,name,sourceFile:destination,outputName:'abyss-full-game-test',
-        ...(name==='abyss_ui'?{variables:nativeUiVariables()}:{})});
+      if(name!=='abyss_ui'&&existingSources.get(name)===readFileSync(destination,'utf8')) {
+        receipt.reusedModules.push(name);
+        continue;
+      }
+      const update={mapPath,name,sourceFile:destination,outputName:'abyss-full-game-test',
+        ...(name==='abyss_ui'?{variables:nativeUiVariables()}:{})};
+      if(writeScripts)pendingScripts.push(update);else await call('scene_set_client_script',update);
     }
-    await call('scene_add_client_ui',{...layout,mapPath,replace:true,outputName:'abyss-full-game-test'});
+    if(writeScripts&&pendingScripts.length)mapPath=await writeScripts(mapPath,pendingScripts,workspace);
+    if(!cachedUi)await call('scene_add_client_ui',{...layout,mapPath,replace:true,outputName:'abyss-full-game-test'});
     // Preserve the integrated builder's ownership checks when reusing a base.
     const expectedScripts=new Set(modules.keys());
     async function scriptInventory() {
@@ -266,11 +282,28 @@ export async function buildNativeCandidateFromToolchain(options) {
     const sdk=join(toolRoot,'node_modules/@modelcontextprotocol/sdk/dist/esm/client');
     const {Client}=await import(pathToFileURL(join(sdk,'index.js'))),{StdioClientTransport}=await import(pathToFileURL(join(sdk,'stdio.js')));
     const {inspectDebugLog}=await import(pathToFileURL(join(toolRoot,'src/debug-log.mjs')));
+    const {luaSyntaxError}=await import(pathToFileURL(join(toolRoot,'src/client-check.mjs')));
+    const {clientScriptRecord,addClientUi}=await import(pathToFileURL(join(toolRoot,'src/scene-save.mjs')));
+    const {container,fields,field,one,replace,wrap}=await import(pathToFileURL(join(toolRoot,'src/scene/wire.mjs')));
     return buildNativeCandidate({...options,
+      writeScripts:async(mapPath,updates,workspace)=>{
+        return writeScriptBatch(mapPath,updates,workspace,{container,fields,field,one,replace,wrap,clientScriptRecord,luaSyntaxError});
+      },
       mcpVersion:JSON.parse(readFileSync(join(toolRoot,'package.json'),'utf8')).version,
       decodeLog:bytes=>inspectDebugLog(bytes,{limit:100000}),
       createClient:async workspace=>{const client=new Client({name:'abyss-native-candidate',version:'2.0'});
-        await client.connect(new StdioClientTransport({command:process.execPath,args:[join(toolRoot,'src/server.mjs')],env:{...process.env,MILIASTRA_WORKSPACE:workspace,MILIASTRA_ALLOW_LIVE_WRITE:'0'}}));return client;}});
+        await client.connect(new StdioClientTransport({command:process.execPath,args:[join(toolRoot,'src/server.mjs')],env:{...process.env,MILIASTRA_WORKSPACE:workspace,MILIASTRA_ALLOW_LIVE_WRITE:'0'}}));
+        const remoteCall=client.callTool.bind(client);
+        client.callTool=(request,...args)=>{
+          if(request.name==='scene_list_client_scripts'){
+            return Promise.resolve({structuredContent:embeddedScripts(request.arguments,{container,fields,one})});
+          }
+          // Full UI trees exceed the installed core HTTP request limit. Use the
+          // same official-toolchain encoder in process, including its checks.
+          if(request.name==='scene_add_client_ui')return Promise.resolve({structuredContent:addClientUi(request.arguments,workspace)});
+          return remoteCall(request,...args);
+        };
+        return client;}});
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try {

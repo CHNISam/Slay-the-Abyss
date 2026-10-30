@@ -12,7 +12,7 @@ Runtime.update();assert(#F.created==64 and Runtime.status().createdLastUpdate==6
 assert(box:GetChild('art').visible and not box:GetChild('artSamples').visible,'partial artwork exposed')
 drain();assert(bind(box,a,1));assert(not box:GetChild('art').visible)
 assert(#F.created==133,'only the required shapes and 60-child groups may be created')
-local first=F.created[2];assert(first.image==106057 and first.rotation[1]==11 and first.imageColor[4]==7 and first.raycastTarget==false)
+local first=F.created[2];assert(first.image==106057 and first.rotation[1]==11 and first.imageColor[4]==7 and rawget(first,'raycastTarget')==nil)
 local count=#F.created;for _=1,8 do bind(box,a,1);Runtime.update()end;assert(#F.created==count,'unchanged art rebuilt')
 local writes=first.writes;assert(bind(box,a,91),'same artwork/new UID unnecessarily returned to fallback')
 Runtime.update();assert(#F.created==count and first.alive and first.writes==writes,'same artwork/new UID rebuilt ready geometry')
@@ -58,4 +58,39 @@ end
 Runtime.configure(nil);box=F.face();assert(not bind(box,b,9));assert(box:GetChild('art').visible)
 local deadFallback=box:GetChild('art');box.alive=false;deadFallback.alive=false
 assert(not Display.writeNativeArt(box,{id=b.cardId},b,F.platform,deadFallback,9),'dead binding must fail closed')
-print('BOUNDED_NATIVE_ART_PASS batch64/pools10/fairness/metadata/uid/cancel/failure/dead')
+F.configure(Runtime);box=F.face();bind(box,a,12);Runtime.update()
+local destroys=F.destroyCalls or 0
+Runtime.onEngineDestroy();Runtime.update()
+assert((F.destroyCalls or 0)==destroys,'engine lifecycle must never recursively destroy native controls')
+assert(Runtime.status().livePools==0 and not bind(box,a,12),'engine teardown retained active pools')
+-- Native static setters can synchronously tear the world down. The guarded
+-- publication must expire before the remaining geometry/property writes resume.
+box=F.face()
+local pool,fallback=box:GetChild('artSamples'),box:GetChild('art')
+local group=F.control('container',pool);pool.children.group000=group
+local shape=F.control('image',group);group.children.shape0000=shape
+local second=F.control('image',group);group.children.shape0001=second
+local static=F.metadata('static_teardown',2);static.runtime=nil
+local teardown,staleWrites,publication=false,0,nil
+local originalImage=shape.SetImage
+local originalGuard=Runtime.guardPublication
+Runtime.guardPublication=function(intent,control)publication=intent;return originalGuard(intent,control)end
+local mt=getmetatable(shape)
+setmetatable(shape,{__index=mt.__index,__newindex=function(control,key,value)
+ if control.alive==false then staleWrites=staleWrites+1 end
+ mt.__newindex(control,key,value)
+end})
+shape.SetImage=function(self,...)
+ originalImage(self,...)
+ Runtime.onEngineDestroy();teardown=true
+ self.alive=false;second.alive=false;group.alive=false;pool.alive=false;fallback.alive=false;box.alive=false
+end
+destroys=F.destroyCalls or 0
+local published=bind(box,static,13)
+Runtime.guardPublication=originalGuard
+assert(teardown,'static setter did not re-enter engine teardown')
+assert(not published and not Runtime.owns(publication),'engine teardown left a static intent current')
+assert(staleWrites==0,'stale static publication wrote an engine-destroyed control')
+assert(second.image==nil,'old static publication continued to the next shape')
+assert((F.destroyCalls or 0)==destroys,'static teardown invoked native destruction')
+print('BOUNDED_NATIVE_ART_PASS batch64/pools10/fairness/metadata/uid/cancel/failure/dead/engine-teardown')

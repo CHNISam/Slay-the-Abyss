@@ -92,6 +92,12 @@ local function nativeSlot(pool,index)
     return assert(group:GetChild(string.format('shape%04d',index-1)),'missing native art slot')
 end
 local function writeNativeSlot(control,slot,platform)
+    if platform.compactRectangles then
+        control.imageType=assert(platform.imageTypes and platform.imageTypes.stretch,'missing native stretch enum')
+        control:SetSizeDelta(slot.size[1],slot.size[2]);control:SetAnchoredPosition(slot.position[1],slot.position[2])
+        control.imageColor=platform.color(slot.colour[1],slot.colour[2],slot.colour[3],slot.colour[4])
+        control:SetVisible(true);return
+    end
     control:SetImage(platform.imageSource,slot.image)
     local imageType=assert(platform.imageTypes and platform.imageTypes[slot.imageType],'missing native image type enum')
     control.imageType=imageType

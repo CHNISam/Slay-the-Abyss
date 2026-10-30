@@ -10,19 +10,25 @@ function vm(code){const L=lauxlib.luaL_newstate();try {lualib.luaL_openlibs(L);
  assert.equal(result,lua.LUA_OK,result===lua.LUA_OK?'':to_jsstring(lua.lua_tostring(L,-1)));
  } finally {lua.lua_close(L);}}
 const setup=`
-local modules,requested,options,updates,configured,cleared,views,dead,released,params,presentation
+local modules,requested,options,updates,configured,cleared,views,dead,released,params,presentation,backgrounds,viewDeaths,cardDeaths
 local flags={cards=false,menuBackground=false,selectionAvatar=false,battlePortrait=false}
 local function snapshot()local f={};for k,v in pairs(flags)do f[k]=v end;return {schemaVersion=1,flags=f}end
 local function start(config,broken,previous)
  requested={};updates=false;configured=0;cleared=0;views=0;dead=0;released=0;params={};options=nil
+ backgrounds={};viewDeaths=0;cardDeaths=0
  local function owner()return {release=function()released=released+1 end,onEngineDestroy=function()dead=dead+1 end}end
  modules={abyss_art_features=config,abyss_data={},abyss_presentation={},abyss_theme={sound={}},
   abyss_viewport={apply=function()return {GetChild=function()error('all-off has no custom hosts')end}end},
   abyss_narrative={build={}},abyss_game_ui={new=function(_,_,p,_,o)presentation=p;options=o;views=views+1;return {
-   resize=function()end,update=function()end,disable=function()end}end},
-  abyss_menu_background={new=owner},abyss_traveler_portraits={new=function(_,_,f)
-   assert(f.selectionAvatar==flags.selectionAvatar and f.battlePortrait==flags.battlePortrait);return owner()end},
-  abyss_card_art_runtime={configure=function(v)if v then configured=configured+1 else cleared=cleared+1 end end,clear=function()cleared=cleared+1 end,update=function()end},
+   resize=function()end,update=function()end,disable=function()end,
+   onEngineDestroy=function()viewDeaths=viewDeaths+1;for _,art in ipairs(backgrounds)do art:onEngineDestroy()end end}end},
+  abyss_menu_background={new=function(_,_,factory,_,config)
+   assert(type(factory)=='function' and config.standalone==true,'egg must use independent background templates')
+   local art=owner();backgrounds[#backgrounds+1]=art;return art end},abyss_traveler_portraits={new=function(_,_,f)
+   assert(f.selectionAvatar==flags.selectionAvatar and f.battlePortrait==flags.battlePortrait);return owner()end,
+   createController=function()error('entry mock must not create geometry')end},
+  abyss_card_art_runtime={configure=function(v)if v then configured=configured+1 else cleared=cleared+1 end end,
+   clear=function()cleared=cleared+1 end,update=function()end,onEngineDestroy=function()cardDeaths=cardDeaths+1 end},
   abyss_ready_card_binding={enabled=true,imageTemplateIndex=1234,containerTemplateIndex=5678},
   abyss_ready_card_assets={strike={runtime=true,cardId='strike'}},abyss_card_display={bindNativeAssets=function(_,a)assert(a.strike)end}}
  if broken then broken(modules)end
@@ -37,7 +43,7 @@ local function start(config,broken,previous)
  return options
 end
 local function off()
- assert(not options.background and not options.portraits and not options.cardArt)
+ assert(not options.background and not options.portraits and not options.cardArt and not options.createEasterEggArt)
  for _,n in ipairs({'abyss_menu_background','abyss_traveler_portraits','abyss_ready_card_assets','abyss_ready_card_binding'})do
   assert(not requested[n],'disabled art eagerly loaded '..n)
  end
@@ -49,17 +55,24 @@ for mask=0,15 do
  flags.cards=mask%2==1;flags.menuBackground=math.floor(mask/2)%2==1
  flags.selectionAvatar=math.floor(mask/4)%2==1;flags.battlePortrait=math.floor(mask/8)%2==1
  start(snapshot())
- assert((options.background~=nil)==flags.menuBackground)
+ assert(options.background==nil,'custom art must never bind as an eager page background')
+ assert((type(options.createEasterEggArt)=='function')==flags.menuBackground)
  assert((options.portraits~=nil)==(flags.selectionAvatar or flags.battlePortrait))
  assert((options.cardArt~=nil)==flags.cards and configured==(flags.cards and 1 or 0))
  assert((requested.abyss_ready_card_assets~=nil)==flags.cards)
  assert((requested.abyss_ready_card_binding~=nil)==flags.cards)
- assert((requested.abyss_menu_background~=nil)==flags.menuBackground)
+ assert(requested.abyss_menu_background==nil and #backgrounds==0,'victory art loaded before an explicit action')
  assert((requested.abyss_traveler_portraits~=nil)==(flags.selectionAvatar or flags.battlePortrait))
  if mask==0 then off()end
  local calls=requested.abyss_art_features;modules.abyss_art_features=snapshot();OnUpdate(.1)
  assert(requested.abyss_art_features==calls,'config must not poll')
+ assert(requested.abyss_menu_background==nil and #backgrounds==0,'update eagerly loaded victory art')
+ if flags.menuBackground then
+  assert(type(options.createEasterEggArt())=='table' and #backgrounds==1,'explicit lazy factory did not construct art')
+  assert(requested.abyss_menu_background==1 and requested.abyss_traveler_portraits~=nil)
+ end
  OnDestroy();assert(not updates and dead==(flags.menuBackground and 1 or 0)+((flags.selectionAvatar or flags.battlePortrait) and 1 or 0))
+ assert(viewDeaths==1 and cardDeaths==(flags.cards and 1 or 0),'entry must retire view and enabled card runtime')
 end
 `));
 test('missing and malformed configuration fail closed and default world retires old card runtime',()=>vm(setup+`
@@ -82,7 +95,10 @@ for _,breakIt in ipairs({
 end
 flags.menuBackground=true;flags.selectionAvatar=true;flags.battlePortrait=true
 start(snapshot(),function(m)m.abyss_menu_background=nil;m.abyss_traveler_portraits=nil end)
-assert(not options.background and not options.portraits and options.cardArt);OnDestroy()
+assert(not options.background and not options.portraits and options.cardArt)
+assert(type(options.createEasterEggArt)=='function' and #backgrounds==0,'broken optional art must remain lazy')
+assert(not pcall(options.createEasterEggArt),'missing enabled art must fail at the explicit lazy boundary')
+OnDestroy();assert(viewDeaths==1 and dead==0)
 `));
 
 test('real native entry starts without custom hosts, keeps official selection usable and loads no custom asset data',async()=>{

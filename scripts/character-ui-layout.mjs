@@ -13,7 +13,7 @@ export function experimentalCharacterControls(theme = nativeTheme) {
       disabled: [c.panelSunken, c.textMuted, c.line],
     };
     const labelFrame = bust
-      ? [0, -size[1] / 2 + bust + font / 2 + s.s, size[0] - layout.buttonInset[0], font + s.s]
+      ? [0, -size[1] / 2 + font / 2 + s.s, size[0] - layout.buttonInset[0], font + s.s]
       : [0, 0, ...size.map((value, i) => value - layout.buttonInset[i])];
     return { name, kind: 'container', position: frame.slice(0, 2), size, children: [
       { name: 'hit', kind: 'presetButton', size: [...size], focusable: true,
@@ -83,7 +83,7 @@ export function experimentalCharacterControls(theme = nativeTheme) {
       accents,
       { name: 'elements', kind: 'container', size: [...theme.canvas.base], visible: false, children:
         l.elements.map((frame, i) => button(`element${i + 1}`, frame, ['岩', '风', '雷', '草'][i], l, f.small, false,
-          slots.bust.traveler[elementIds[i]].id)) },
+          null)) },
       ...l.choices.map((frame, i) => button(`character${i + 1}`, frame, names[i], l, f.small, false, slots.bust[roles[i]].id)),
       button('traveler', l.traveler, '旅行者·荧', l, f.small, false, slots.bust.traveler.ironclad.id),
       button('cancel', l.back, '返回', l),

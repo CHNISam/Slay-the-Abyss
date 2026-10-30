@@ -21,6 +21,11 @@ const temporary=()=>mkdtempSync(join(tmpdir(),'abyss-art-feature-inverse-'));
 test('exact feature/fallback inverse binds every current source and restores complete baseline identities',()=>{
  assert.equal(proof.baseCommit,'1bfca6261044b92f8065bb83668c358b0a2627da');
  assert.ok(artFeatureAddedPaths.length>0,'added feature owner is explicitly bound');
+ for(const path of ['scripts/native-candidate-ui-cache.mjs','scripts/native-script-inventory.mjs',
+  'scripts/native-script-batch.mjs','scripts/art/performance-pack.mjs',
+  'art/performance/selection-budget-v1.json','art/performance/background-budget-v1.json']){
+  assert.ok(artFeatureAddedPaths.includes(path),'complete merged feature owner is bound: '+path);
+ }
  for(const [path,binding]of Object.entries(proof.files)){
   const current=read(path),before=preArtFeatureSource(path,current);
   assert.equal(hash(current),binding.afterSha256,'complete approved current source: '+path);

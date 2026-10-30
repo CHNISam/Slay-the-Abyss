@@ -37,11 +37,11 @@ for(let mask=0;mask<16;mask++)test(`independent category build ${mask.toString(2
  assert.equal(counts.officialFigure,artFeatures.battlePortrait?1:0);
  assert.equal(counts.artSamples,artFeatures.cards?38:0);
  assert.equal(templates.some(t=>t.name==='AbyssOfficialBackgroundImage'),artFeatures.menuBackground);
- assert.equal(templates.some(t=>t.name==='AbyssReadyCardImage'),artFeatures.cards||artFeatures.selectionAvatar||artFeatures.battlePortrait);
+ assert.equal(templates.some(t=>t.name==='AbyssReadyCardImage'),artFeatures.cards||artFeatures.menuBackground||artFeatures.selectionAvatar||artFeatures.battlePortrait);
  const cards=readFileSync(join(dir,'abyss_ready_card_assets.lua'),'utf8'),portraits=readFileSync(join(dir,'abyss_traveler_portrait_assets.lua'),'utf8');
  assert.equal((cards.match(/\["runtime"\]=true/g)??[]).length,artFeatures.cards?75:0);
- assert.equal(portraits.includes('avatar96=(function()'),artFeatures.selectionAvatar);
- assert.equal(portraits.includes('battle133=(function()'),artFeatures.battlePortrait);
+ assert.equal(/\bavatar96=/.test(portraits),artFeatures.selectionAvatar);
+ assert.equal(/\bbattle133=/.test(portraits),artFeatures.battlePortrait);
  const inputs=sourceInputs(process.cwd(),{artFeatures}).map(r=>r.path);
  assert.equal(inputs.some(p=>p.includes('runtime-candidate/rectangles.json')),artFeatures.cards);
  assert.equal(inputs.some(p=>p.endsWith('background_data.lua')),artFeatures.menuBackground);
@@ -77,11 +77,12 @@ test('default CLI is dependency-free and needs no optional drawing directory',t=
  assert.equal(sourceInputs(root).some(row=>row.path.startsWith('art/')),false);
 });
 
-test('disabled output stubs cannot overwrite optional drawings via hardlinks or symlinks',t=>{
- for(const symbolic of [false,true])for(const input of ['art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_data.lua','art/cards/traveler-geo/bash/preview-144x64.png']){
+for(const symbolic of [false,true])test('disabled output stubs cannot overwrite optional drawings via '+(symbolic?'symlinks':'hardlinks'),t=>{
+ for(const input of ['art/characters/key-visual/traveler-geo/official-landscape-v1/runtime/background_data.lua','art/cards/traveler-geo/bash/preview-144x64.png']){
   const dir=output(t),source=join(dir,input),out=join(dir,'generated');mkdirSync(out);mkdirSync(join(source,'..'),{recursive:true});writeFileSync(source,'preserved drawing source');
   for(const path of ['data','tools','package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json'])cpSync(path,join(dir,path),{recursive:true});
-  (symbolic?symlinkSync:linkSync)(source,join(out,'abyss_ready_card_assets.lua'));
+  try{(symbolic?symlinkSync:linkSync)(source,join(out,'abyss_ready_card_assets.lua'));}
+  catch(error){if(symbolic&&['EPERM','EACCES','ENOSYS'].includes(error.code)){t.skip('Symlink unavailable: '+error.code);return;}throw error;}
   const cwd=process.cwd();try{process.chdir(dir);assert.throws(()=>buildUI(out),/overwrite an input/);}finally{process.chdir(cwd);}
   assert.equal(readFileSync(source,'utf8'),'preserved drawing source');
   assert.equal(existsSync(join(out,'game-ui.json')),false);

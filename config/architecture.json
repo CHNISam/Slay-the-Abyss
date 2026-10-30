@@ -1,5 +1,6 @@
 {
   "layers": {
+    "abyss_victory_easter_egg": "ui",
     "abyss_combat_catalog": "core",
     "abyss_relic_card_rewards": "core",
     "abyss_boss_relics": "core",

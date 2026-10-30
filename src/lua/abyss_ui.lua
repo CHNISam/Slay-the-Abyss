@@ -12,7 +12,7 @@ local function failed(phase, reason)
     pcall(function()
         local stage = script.object:GetChild("stage")
         for _, name in ipairs({"battlePanel", "mapPanel", "nodePanel", "deckEntry", "deckPanel",
-            "characterPanel", "choicePanel", "potionPanel", "potionEntry", "prologuePanel", "exitPanel", "exitEntry", "combatRewards"}) do
+            "characterPanel", "choicePanel", "potionPanel", "potionEntry", "prologuePanel", "exitPanel", "exitEntry", "combatRewards", "victoryEasterEgg"}) do
             local panel=stage:GetChild(name)
             if panel then panel:SetVisible(false) end
         end
@@ -77,6 +77,7 @@ function OnStart()
         local stage = Viewport.apply(script.object, width, height)
         print("ABYSS_UI viewport_ready")
         local flags = artFeatures()
+        local createEasterEggArt
         if not flags.cards then
             -- Legacy static candidates embed nativeArt in presentation. Suppress
             -- that route too, without mutating the cached source for another world.
@@ -95,7 +96,10 @@ function OnStart()
         -- Use native require, not the desktop-only package.loaded assumption.
         require("abyss_card_art_runtime").configure(nil)
         if flags.menuBackground then
-            background = optionalArt('menuBackground', function()return require("abyss_menu_background").new(stage, print)end)
+            createEasterEggArt=function()
+                local factory=require('abyss_traveler_portraits').createController
+                return require('abyss_menu_background').new(stage,print,factory,Color,{standalone=true})
+            end
         end
         if flags.selectionAvatar or flags.battlePortrait then
             portraits = optionalArt('portraits', function()return require("abyss_traveler_portraits").new(stage, print, flags)end)
@@ -128,6 +132,7 @@ function OnStart()
         local alpha = type(build)=='table' and build.workKey=='alpha-test'
         view = GameUI.new(stage, Data, Presentation, Enum.CursorEventType.CursorClick,
             { background = background, portraits = portraits, cardArt = cardArt, music = music, campaign = true, campaignProfile = "competition-two-act",
+              createEasterEggArt=createEasterEggArt,
               characterProfile = (alpha or isTest and testPlay == true) and "competition-candidate" or "production",
               controllerApi = {events=Enum.ControllerNavigationEventType,directions=Enum.ControllerNavigationDir,
                   modes=Enum.ControllerNavigationMode,getFocus=game.GetControllerFocus,setFocus=game.SetControllerFocus,
@@ -175,7 +180,8 @@ function OnUpdate(dt)
 end
 
 function OnDestroy()
-    if cardArt then pcall(cardArt.clear) end
+    if view then view:onEngineDestroy() end
+    if cardArt then cardArt.onEngineDestroy() end
     if portraits then portraits:onEngineDestroy() end
     if background then background:onEngineDestroy() end
     background, portraits, cardArt, view = nil, nil, nil, nil

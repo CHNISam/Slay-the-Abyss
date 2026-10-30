@@ -17,6 +17,7 @@ import { deckCardTemplate } from './deck-ui-layout.mjs';
 import { contentFiles } from './validate-data.mjs';
 import { loadReleaseNotes, releaseInputPaths, releaseBuildArgs } from './release-notes.mjs';
 import { nativeCardArtArgs, prepareNativeCardArt, attachNativeCardArt, bindNativeArtPresentation, nativeArtReceipt } from './card-art-samples.mjs';
+import {loadPerformancePack} from './art/performance-pack.mjs';
 
 export function assertNativeUiCapacity(layout) {
   const checkFonts = (control, path) => {
@@ -68,7 +69,7 @@ function rejectInputOutputAliases(outputDirectory, extraInputs = []) {
   const outputs = ['abyss_theme.lua', 'map-ui.json', 'abyss_map_layout.lua', 'abyss_map_controls.lua',
     'abyss_narrative.lua', 'abyss_presentation.lua', 'battle-ui.json', 'game-ui.json', 'abyss_ui_layout.lua',
     'game-ui-templates.json', 'abyss_ui_templates.lua', 'native-card-art-receipt.json', `${backgroundModule}.lua`,
-    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_monster_art_data.lua',`${artFeatureModule}.lua`];
+    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua','abyss_monster_art_data.lua',`${artFeatureModule}.lua`,'art-performance.json','art-render-v2.json'];
   for (const file of outputs) {
     const output = join(outputDirectory, file);
     let outputStat, outputRealPath;
@@ -94,7 +95,9 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const art = prepareNativeCardArt(options.nativeCardArt?.count===0?undefined:options.nativeCardArt);
   const monsterArt=prepareMonsterArt(options.monsterArt);
   const readyArt = flags.cards && !art;
-  const readyAssets = readyArt ? prepareReadyCardAssets() : {};
+  const compact=options.performanceArt===true&&Object.values(flags).some(Boolean);
+  const readyAssets = readyArt ? prepareReadyCardAssets({compact}) : {};
+  const performance=compact?loadPerformancePack():null;
   if(flags.menuBackground)backgroundSources();
   portraitSources(process.cwd(),flags);
   rejectInputOutputAliases(outputDirectory, [...(flags.menuBackground?backgroundInputs:[]),...portraitSourceInputs(flags), ...(readyArt?readyArtSourceInputs():[]), ...(monsterArt?.inputPaths??[]), ...(art?.inputPaths??[])].map(path=>resolve(path)));
@@ -105,7 +108,7 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   const templates = [deckCardTemplate()];
   if(flags.menuBackground)attachOfficialBackground(layout, templates);
   attachOfficialPortraits(layout,flags);
-  if(readyArt||flags.selectionAvatar||flags.battlePortrait)templates.push(...readyArtTemplates());
+  if(readyArt||flags.menuBackground||flags.selectionAvatar||flags.battlePortrait)templates.push(...readyArtTemplates());
   if(readyArt){attachReadyCardHosts(battle);attachReadyCardHosts(layout);attachReadyCardHosts(templates[0]);}
   if (art) { attachNativeCardArt(battle,art,{battleOnly:true}); attachNativeCardArt(layout,art); }
   attachMonsterArt(battle,monsterArt);attachMonsterArt(layout,monsterArt);
@@ -118,6 +121,9 @@ export function buildUI(outputDirectory = 'build/lua', python = process.env.ABYS
   if (art) bindNativeArtPresentation(cards,art);
 
   mkdirSync(outputDirectory, { recursive: true });
+  if(performance)writeFileSync(join(outputDirectory,'art-performance.json'),JSON.stringify(performance));
+  else rmSync(join(outputDirectory,'art-performance.json'),{force:true});
+  writeFileSync(join(outputDirectory,'art-render-v2.json'),JSON.stringify({profile:'native-v2',hiddenBuild:true,cache:true,revealGroupsPerFrame:4}));
   writeArtFeatures(outputDirectory,flags);
   writeBackgroundModule(outputDirectory,{enabled:flags.menuBackground});writePortraitModule(outputDirectory,{...flags});
   writeReadyArtBinding(outputDirectory);writeReadyCardAssets(outputDirectory,{prepared:readyAssets});

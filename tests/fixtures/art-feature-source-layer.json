@@ -9,7 +9,7 @@
     },
     "scripts/art/ready-card-runtime.mjs": {
       "beforeSha256": "c1f3cbe2cca7195b0836f7575ff9d71ec40f697311c4c7379f6467f63432d3dc",
-      "afterSha256": "60e5580098bb10682ac7012c40e5368d4739162b163e1a21241c02ebe11b3d38",
+      "afterSha256": "326f647cb1570456e22b22ec42d429589103065803af0ab77a9a0c8c812a181e",
       "hunks": [
         {
           "at": 4,
@@ -21,21 +21,56 @@
           ]
         },
         {
-          "at": 48,
+          "at": 8,
+          "before": [],
+          "after": [
+            "import {loadPerformancePack,performanceInputs} from './performance-pack.mjs';"
+          ]
+        },
+        {
+          "at": 49,
           "before": [
             "export function readyArtRuntimeInventory(){return {"
           ],
           "after": [
             "export function readyArtRuntimeInventory(directory){",
             " if(directory&&(!existsSync(join(directory,readyArtAssetModule+'.lua'))||!readFileSync(join(directory,readyArtAssetModule+'.lua'),'utf8').includes('[\"runtime\"]=true')))return undefined;",
+            " if(directory&&existsSync(join(directory,'art-performance.json'))){",
+            "  const pack=JSON.parse(readFileSync(join(directory,'art-performance.json'),'utf8'));",
+            "  const rows=Object.values(pack.assets).filter(a=>typeof a.rectangles==='string');",
+            "  const max=Math.max(...rows.map(a=>a.count));",
+            "  return {renderProfile:'compact-v1',assetCount:75,preciseAssets:0,compactAssets:75,maxLivePools:10,maxShapesPerPool:max,",
+            "   maxGroupsPerPool:Math.ceil(max/60),peakDynamicControls:10*(max+Math.ceil(max/60)+1),maxCreatesPerUpdate:64,",
+            "   measurement:'offline-allocation-bound-not-official-load',officialImport:'not_run',devices:'not_run'};",
+            " }",
             " return {"
+          ]
+        },
+        {
+          "at": 66,
+          "before": [
+            "export function readyArtSourceInputs(root=process.cwd()){return [...readyArtInputs,...convertedArtInputs(root)];}",
+            "export function prepareReadyCardAssets({root=process.cwd()}={}) {"
+          ],
+          "after": [
+            "export function readyArtSourceInputs(root=process.cwd()){return [...readyArtInputs,...convertedArtInputs(root),...performanceInputs(root)];}",
+            "export function prepareReadyCardAssets({root=process.cwd(),compact=false}={}) {"
+          ]
+        },
+        {
+          "at": 75,
+          "before": [],
+          "after": [
+            " if(compact)for(const [id,a]of Object.entries(loadPerformancePack(root).assets))if(assets[id])assets[id]={cardId:id,runtime:true,renderProfile:'compact-v1',rectangles:a.rectangles,",
+            "  rectangleCount:a.count,rectangleEncoding:'xywh-rgb24-hex14',sourcePreviewSha256:a.sha256,",
+            "  rectangleSha256:createHash('sha256').update(a.rectangles).digest('hex')};"
           ]
         }
       ]
     },
     "scripts/audit-native-candidate.mjs": {
       "beforeSha256": "68f531af08a661ffff2a6c93db8f63a202712d1027803427e6eed10c544efe38",
-      "afterSha256": "42445d51282d69f3b7c1337109101e6f89ce55ee297e0d7b45e0720208f66af7",
+      "afterSha256": "caba037f53c06022f5b59ae4c3354fd750930b68a29fc49a3c14e22b66694bcc",
       "hunks": [
         {
           "at": 0,
@@ -131,7 +166,7 @@
             "    const runtimeTemplates=scripts.scripts.some(module=>module.name==='abyss_ready_card_binding')"
           ],
           "after": [
-            "    const runtimeTemplates=dynamicCards||portraits"
+            "    const runtimeTemplates=dynamicCards||portraits||flags.menuBackground"
           ]
         },
         {
@@ -171,12 +206,21 @@
           ]
         },
         {
+          "at": 135,
+          "before": [
+            "      bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot});"
+          ],
+          "after": [
+            "      bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot,containerTemplateIndex:runtimeTemplates?.[1]?.templateIndex});"
+          ]
+        },
+        {
           "at": 137,
           "before": [
             "    if(deployment.some(module=>module.name==='abyss_ready_card_binding')) {"
           ],
           "after": [
-            "    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:buildReceipt?.officialPortraits;",
+            "    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:portraits?buildReceipt?.officialPortraits:buildReceipt?.officialBackground;",
             "    if(runtimeTemplates&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');",
             "    if(dynamicCards) {"
           ]
@@ -310,7 +354,7 @@
     },
     "scripts/build-native-bgm-candidate.mjs": {
       "beforeSha256": "3ee1dfa17f5babe54fa5b5c55f2749c92a511068ea92f4a66e6f8dca7b9215d1",
-      "afterSha256": "95499053c2b6afc01c56c42bcc2e40eb2fbe369d70fa57c4fb656ba12f6b2a86",
+      "afterSha256": "03611cbe651fea6af3111d285a145e950d7aae304358528091b9a0b0d77ae2d5",
       "hunks": [
         {
           "at": 0,
@@ -320,7 +364,24 @@
           ]
         },
         {
-          "at": 18,
+          "at": 2,
+          "before": [
+            "import { readFileSync, mkdirSync, writeFileSync, copyFileSync, constants } from 'node:fs';"
+          ],
+          "after": [
+            "import { readFileSync, mkdirSync, writeFileSync, copyFileSync, constants, existsSync } from 'node:fs';"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "import {embeddedScripts} from './native-script-inventory.mjs';",
+            "import {writeScriptBatch} from './native-script-batch.mjs';"
+          ]
+        },
+        {
+          "at": 20,
           "before": [],
           "after": [
             "if(full){",
@@ -330,7 +391,52 @@
           ]
         },
         {
-          "at": 76,
+          "at": 42,
+          "before": [
+            "let mapPath = baseMap;"
+          ],
+          "after": [
+            "let mapPath = join(workspace,'base.gil');",
+            "copyFileSync(baseMap,mapPath,constants.COPYFILE_EXCL);",
+            "const wirePath=join(toolRoot,'src/scene/wire.mjs');",
+            "const wire=existsSync(wirePath)?await import(pathToFileURL(wirePath)):null;"
+          ]
+        },
+        {
+          "at": 47,
+          "before": [
+            "  const result = await client.callTool({ name, arguments: args }, undefined, { timeout: 120000 });"
+          ],
+          "after": [
+            "  const result = name==='scene_list_client_scripts'&&wire",
+            "    ? {structuredContent:embeddedScripts(args,wire)}",
+            "    : await client.callTool({ name, arguments: args }, undefined, { timeout: 120000 });"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [
+            "  for (const name of Object.values(nativeBgmSignals)) await call('scene_add_signal', { mapPath, name, outputName: 'abyss-bgm-test' });",
+            "  for (const script of scripts) await call('scene_set_client_script', { mapPath, ...script, outputName: 'abyss-bgm-test' });",
+            "  const graph = await call('scene_add_graph', { mapPath, name: 'ABYSS_BGM', kind: 'server', outputName: 'abyss-bgm-test' });"
+          ],
+          "after": [
+            "  const inventory=await call('inspect_map',{mapPath});",
+            "  const signals=await call('scene_list_signals',{mapPath});",
+            "  if(!Array.isArray(inventory.graphs)||!Array.isArray(signals.signals))throw Error('Cannot read BGM graph/signal inventory');",
+            "  const matches=inventory.graphs.filter(graph=>graph.name==='_GSTS_ABYSS_BGM');",
+            "  if(matches.length>1||matches.some(g=>g.type!==20000||!g.writable||!Number.isSafeInteger(g.id)||g.id<=0))throw Error('Existing BGM graph is ambiguous or incompatible');",
+            "  for (const name of Object.values(nativeBgmSignals)) if(!signals.signals.includes(name))await call('scene_add_signal', { mapPath, name, outputName: 'abyss-bgm-test' });",
+            "  if(wire){",
+            "    const {clientScriptRecord}=await import(pathToFileURL(join(toolRoot,'src/scene-save.mjs')));",
+            "    const {luaSyntaxError}=await import(pathToFileURL(join(toolRoot,'src/client-check.mjs')));",
+            "    mapPath=writeScriptBatch(mapPath,scripts,workspace,{...wire,clientScriptRecord,luaSyntaxError});",
+            "  }else for (const script of scripts) await call('scene_set_client_script', { mapPath, ...script, outputName: 'abyss-bgm-test' });",
+            "  const graph = matches.length?{graphId:matches[0].id,name:matches[0].name}:await call('scene_add_graph', { mapPath, name: 'ABYSS_BGM', kind: 'server', outputName: 'abyss-bgm-test' });"
+          ]
+        },
+        {
+          "at": 92,
           "before": [
             "    candidate: fileRecord(mapPath), ...(full ? { buildId: full.buildId, moduleDigests: full.moduleDigests,"
           ],
@@ -342,7 +448,7 @@
     },
     "scripts/build-native-candidate.mjs": {
       "beforeSha256": "9d81f5b4e232153813e5d5b31692df9313ff0c98c09d14ebfc98e635912c3893",
-      "afterSha256": "8aee3e4f12fe546a14a2a046282be664f50303d631b060a5e0bd8648c0748a79",
+      "afterSha256": "581c13f8f5793da85eb08cd85178556dc81ea8c801786b4ab423375dd21fdaf1",
       "hunks": [
         {
           "at": 0,
@@ -364,7 +470,16 @@
           ]
         },
         {
-          "at": 19,
+          "at": 16,
+          "before": [],
+          "after": [
+            "import {reusableUi} from './native-candidate-ui-cache.mjs';",
+            "import {embeddedScripts} from './native-script-inventory.mjs';",
+            "import {writeScriptBatch} from './native-script-batch.mjs';"
+          ]
+        },
+        {
+          "at": 22,
           "before": [
             "  [backgroundModule]:'scripts/build-ui.mjs', [portraitModule]:'scripts/build-ui.mjs', abyss_ready_card_binding:'scripts/build-ui.mjs', abyss_ready_card_assets:'scripts/build-ui.mjs',"
           ],
@@ -373,7 +488,7 @@
           ]
         },
         {
-          "at": 22,
+          "at": 25,
           "before": [
             "export function sourceInputs(root) {"
           ],
@@ -385,7 +500,7 @@
           ]
         },
         {
-          "at": 38,
+          "at": 41,
           "before": [
             "    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...backgroundInputs, ...readyArtSourceInputs(root),...portraitInputs]) {"
           ],
@@ -394,7 +509,7 @@
           ]
         },
         {
-          "at": 44,
+          "at": 47,
           "before": [
             "function prepareBuild(root, directory, {releaseCandidate,workKey,nativeCardArt,readyCardArt}) {"
           ],
@@ -403,7 +518,7 @@
           ]
         },
         {
-          "at": 46,
+          "at": 49,
           "before": [
             "    ['scripts/build-ui.mjs',directory,`--work-key=${workKey}`,...(readyCardArt===false?['--no-ready-card-art']:[]),...(releaseCandidate?['--release-candidate']:[]),"
           ],
@@ -412,23 +527,25 @@
           ]
         },
         {
-          "at": 59,
+          "at": 61,
           "before": [
+            "  prepare,generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog,",
             "  releaseCandidate=false,workKey='alpha-test',nativeCardArt,readyCardArt=true}={}) {"
           ],
           "after": [
+            "  prepare,writeScripts,generatedModules=generatedRuntimeModules,sourceCommit,mcpVersion='injected-test-client',playtest=false,decodeLog,",
             "  releaseCandidate=false,workKey='alpha-test',nativeCardArt,readyCardArt,artFeatures}={}) {"
           ]
         },
         {
-          "at": 61,
+          "at": 64,
           "before": [],
           "after": [
             "  const flags=resolveArtFeatures({artFeatures,readyCardArt,nativeCardArt});"
           ]
         },
         {
-          "at": 83,
+          "at": 86,
           "before": [
             "  const inputs=sourceInputs(root),digest=payloadDigest(inputs);"
           ],
@@ -438,7 +555,7 @@
           ]
         },
         {
-          "at": 88,
+          "at": 91,
           "before": [
             "  const receipt={schemaVersion:1,buildId,sourceCommit,sourceDirty:dirtyResult.status===0?Boolean(dirtyResult.stdout.trim()):null,"
           ],
@@ -447,7 +564,7 @@
           ]
         },
         {
-          "at": 111,
+          "at": 114,
           "before": [
             "    if(prepare)await prepare(generated);else prepareBuild(root,generated,{releaseCandidate,workKey,nativeCardArt,readyCardArt});"
           ],
@@ -457,13 +574,13 @@
           ]
         },
         {
-          "at": 125,
+          "at": 128,
           "before": [
             "    if(modules.has('abyss_ready_card_binding'))for(const name of [readyArtImageTemplate,readyArtGroupTemplate])"
           ],
           "after": [
             "    const dynamicCards=flags.cards&&!art,portraits=flags.selectionAvatar||flags.battlePortrait;",
-            "    const sharedTemplates=dynamicCards||portraits;",
+            "    const sharedTemplates=dynamicCards||portraits||flags.menuBackground;",
             "    const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate,readyArtGroupTemplate]:[])];",
             "    if(templates.some(template=>blockedTemplates.includes(template.name)))throw Error('Disabled artwork must not register templates');",
             "    const blockedHosts=[...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];",
@@ -476,11 +593,11 @@
             "      ...(dynamicCards?['abyss_ready_card_binding','abyss_ready_card_assets']:[]),...(portraits?[portraitModule]:[])];",
             "    for(const name of requiredArtModules)if(!modules.has(name))throw Error('Enabled artwork missing runtime module: '+name);",
             "",
-            "    if(dynamicCards||portraits)for(const name of [readyArtImageTemplate,readyArtGroupTemplate])"
+            "    if(sharedTemplates)for(const name of [readyArtImageTemplate,readyArtGroupTemplate])"
           ]
         },
         {
-          "at": 141,
+          "at": 144,
           "before": [
             "    if(modules.has(backgroundModule)&&templates.filter(template=>template.name===backgroundTemplate).length!==1)"
           ],
@@ -489,7 +606,7 @@
           ]
         },
         {
-          "at": 143,
+          "at": 146,
           "before": [
             "    if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during preparation');"
           ],
@@ -498,57 +615,113 @@
           ]
         },
         {
-          "at": 161,
+          "at": 152,
           "before": [
-            "    if(modules.has(backgroundModule)&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');"
+            "    const readyTemplates={};"
           ],
           "after": [
-            "    if(flags.menuBackground&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');"
+            "    const readyTemplates={},cachedUi=reusableUi(base,generated);",
+            "    if(cachedUi)receipt.reusedUi=cachedUi.receipt;"
+          ]
+        },
+        {
+          "at": 155,
+          "before": [
+            "      const result=await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});"
+          ],
+          "after": [
+            "      const result=cachedUi?(cachedUi.templateResults[template.name]??{reused:true}):await call('scene_add_client_template',{template,mapPath,replace:true,outputName:'abyss-full-game-test'});"
+          ]
+        },
+        {
+          "at": 160,
+          "before": [
+            "        bindBackgroundTemplate(generated,result,{root});",
+            "        receipt.officialBackground={...backgroundRuntimeInventory(generated),templateIndex:result.templateIndex,",
+            "          inputs:backgroundInputs.map(path=>fileRecord(join(root,path),root))};"
+          ],
+          "after": [
+            "        readyTemplates.background=result;"
           ]
         },
         {
           "at": 163,
           "before": [
+            "    if(modules.has(backgroundModule)&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');",
+            "    if(readyTemplates.image||readyTemplates.group){",
             "      if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');",
             "      bindReadyArtTemplates(generated,readyTemplates,{enabled:!art&&readyCardArt!==false});",
             "      if(modules.has(portraitModule)){",
             "        bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root});",
-            "        receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,inputs:portraitInputs.map(path=>fileRecord(join(root,path),root))};"
-          ],
-          "after": [
-            "      if(dynamicCards){",
-            "        if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');",
-            "        bindReadyArtTemplates(generated,readyTemplates,{enabled:true});",
-            "        receipt.readyCardArt={...readyArtRuntimeInventory(),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
-            "          enabled:true,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};"
-          ]
-        },
-        {
-          "at": 169,
-          "before": [
+            "        receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,inputs:portraitInputs.map(path=>fileRecord(join(root,path),root))};",
+            "      }",
             "      receipt.readyCardArt={...readyArtRuntimeInventory(),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
             "        enabled:!art&&readyCardArt!==false,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};"
           ],
           "after": [
+            "    if(readyTemplates.background){",
+            "      bindBackgroundTemplate(generated,readyTemplates.background,{root,containerTemplateIndex:readyTemplates.group.templateIndex});",
+            "      receipt.officialBackground={...backgroundRuntimeInventory(generated),templateIndex:readyTemplates.background.templateIndex,",
+            "        imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,inputs:backgroundInputs.map(path=>fileRecord(join(root,path),root))};"
+          ]
+        },
+        {
+          "at": 168,
+          "before": [
+            "    if(modules.has(portraitModule)&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');",
+            "    const moduleDigests={};"
+          ],
+          "after": [
+            "    if(flags.menuBackground&&!receipt.officialBackground)throw Error('Official background runtime has no bound template');",
+            "    if(readyTemplates.image||readyTemplates.group){",
+            "      if(dynamicCards){",
+            "        if(!modules.has('abyss_ready_card_binding'))throw Error('Ready card art templates lack binding module');",
+            "        bindReadyArtTemplates(generated,readyTemplates,{enabled:true});",
+            "        receipt.readyCardArt={...readyArtRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
+            "          enabled:true,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};",
+            "      }",
             "      if(portraits){",
             "        if(!modules.has(portraitModule))throw Error('Portrait templates lack runtime module');",
             "        bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root,...flags});",
             "        receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,",
             "          inputs:portraitSourceInputs(flags).map(path=>fileRecord(join(root,path),root))};",
-            "      }"
+            "      }",
+            "    }",
+            "    if(portraits&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');",
+            "    const reusable=await call('scene_list_client_scripts',{mapPath,includeSource:true});",
+            "    const existingSources=new Map((reusable.scripts??[]).filter(row=>typeof row.source==='string').map(row=>[row.name,row.source]));",
+            "    receipt.reusedModules=[];",
+            "    const moduleDigests={},pendingScripts=[];"
           ]
         },
         {
-          "at": 176,
+          "at": 193,
           "before": [
-            "    if(modules.has(portraitModule)&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');"
+            "      await call('scene_set_client_script',{mapPath,name,sourceFile:destination,outputName:'abyss-full-game-test',",
+            "        ...(name==='abyss_ui'?{variables:nativeUiVariables()}:{})});"
           ],
           "after": [
-            "    if(portraits&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');"
+            "      if(name!=='abyss_ui'&&existingSources.get(name)===readFileSync(destination,'utf8')) {",
+            "        receipt.reusedModules.push(name);",
+            "        continue;",
+            "      }",
+            "      const update={mapPath,name,sourceFile:destination,outputName:'abyss-full-game-test',",
+            "        ...(name==='abyss_ui'?{variables:nativeUiVariables()}:{})};",
+            "      if(writeScripts)pendingScripts.push(update);else await call('scene_set_client_script',update);"
           ]
         },
         {
-          "at": 235,
+          "at": 201,
+          "before": [
+            "    await call('scene_add_client_ui',{...layout,mapPath,replace:true,outputName:'abyss-full-game-test'});"
+          ],
+          "after": [
+            "    if(writeScripts&&pendingScripts.length)mapPath=await writeScripts(mapPath,pendingScripts,workspace);",
+            "    if(!cachedUi)await call('scene_add_client_ui',{...layout,mapPath,replace:true,outputName:'abyss-full-game-test'});"
+          ]
+        },
+        {
+          "at": 251,
           "before": [
             "    if(payloadDigest(sourceInputs(root))!==digest||fileRecord(base.path).sha256!==base.sha256)throw new Error('Build input changed during packaging');"
           ],
@@ -557,7 +730,45 @@
           ]
         },
         {
-          "at": 273,
+          "at": 280,
+          "before": [],
+          "after": [
+            "    const {luaSyntaxError}=await import(pathToFileURL(join(toolRoot,'src/client-check.mjs')));",
+            "    const {clientScriptRecord,addClientUi}=await import(pathToFileURL(join(toolRoot,'src/scene-save.mjs')));",
+            "    const {container,fields,field,one,replace,wrap}=await import(pathToFileURL(join(toolRoot,'src/scene/wire.mjs')));"
+          ]
+        },
+        {
+          "at": 284,
+          "before": [],
+          "after": [
+            "      writeScripts:async(mapPath,updates,workspace)=>{",
+            "        return writeScriptBatch(mapPath,updates,workspace,{container,fields,field,one,replace,wrap,clientScriptRecord,luaSyntaxError});",
+            "      },"
+          ]
+        },
+        {
+          "at": 290,
+          "before": [
+            "        await client.connect(new StdioClientTransport({command:process.execPath,args:[join(toolRoot,'src/server.mjs')],env:{...process.env,MILIASTRA_WORKSPACE:workspace,MILIASTRA_ALLOW_LIVE_WRITE:'0'}}));return client;}});"
+          ],
+          "after": [
+            "        await client.connect(new StdioClientTransport({command:process.execPath,args:[join(toolRoot,'src/server.mjs')],env:{...process.env,MILIASTRA_WORKSPACE:workspace,MILIASTRA_ALLOW_LIVE_WRITE:'0'}}));",
+            "        const remoteCall=client.callTool.bind(client);",
+            "        client.callTool=(request,...args)=>{",
+            "          if(request.name==='scene_list_client_scripts'){",
+            "            return Promise.resolve({structuredContent:embeddedScripts(request.arguments,{container,fields,one})});",
+            "          }",
+            "          // Full UI trees exceed the installed core HTTP request limit. Use the",
+            "          // same official-toolchain encoder in process, including its checks.",
+            "          if(request.name==='scene_add_client_ui')return Promise.resolve({structuredContent:addClientUi(request.arguments,workspace)});",
+            "          return remoteCall(request,...args);",
+            "        };",
+            "        return client;}});"
+          ]
+        },
+        {
+          "at": 306,
           "before": [
             "    const native=nativeCardArtArgs(args.filter(arg=>arg!=='--playtest'));"
           ],
@@ -567,7 +778,7 @@
           ]
         },
         {
-          "at": 278,
+          "at": 311,
           "before": [
             "    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,nativeCardArt:native.nativeCardArt,readyCardArt:native.readyCardArt});"
           ],
@@ -579,7 +790,7 @@
     },
     "scripts/build-ui.mjs": {
       "beforeSha256": "7873f160679d04996fbf6d91dd7a4a22326ee848e326c80c7b95236840a7a599",
-      "afterSha256": "8b807b568a95f62d19718b1e51b84ec1de326681bde7b996797ca16fede2e32e",
+      "afterSha256": "662212ce51ae570c8c02457acf1236fd5d8616fffafb384cf9db0f77a3e5a888",
       "hunks": [
         {
           "at": 0,
@@ -601,7 +812,14 @@
           ]
         },
         {
-          "at": 44,
+          "at": 18,
+          "before": [],
+          "after": [
+            "import {loadPerformancePack} from './art/performance-pack.mjs';"
+          ]
+        },
+        {
+          "at": 45,
           "before": [
             "  const inputs = [...extraInputs, ...contentFiles.map(file => resolve('data', `${file}.json`)),"
           ],
@@ -625,16 +843,16 @@
           ]
         },
         {
-          "at": 69,
+          "at": 70,
           "before": [
             "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua'];"
           ],
           "after": [
-            "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua',`${artFeatureModule}.lua`];"
+            "    'abyss_ready_card_binding.lua','abyss_ready_card_assets.lua','abyss_traveler_portrait_assets.lua',`${artFeatureModule}.lua`,'art-performance.json','art-render-v2.json'];"
           ]
         },
         {
-          "at": 91,
+          "at": 92,
           "before": [
             "  const art = prepareNativeCardArt(options.nativeCardArt);",
             "  const readyArt = !art && options.readyCardArt !== false;",
@@ -646,14 +864,16 @@
             "  const flags = resolveArtFeatures(options);",
             "  const art = prepareNativeCardArt(options.nativeCardArt?.count===0?undefined:options.nativeCardArt);",
             "  const readyArt = flags.cards && !art;",
-            "  const readyAssets = readyArt ? prepareReadyCardAssets() : {};",
+            "  const compact=options.performanceArt===true&&Object.values(flags).some(Boolean);",
+            "  const readyAssets = readyArt ? prepareReadyCardAssets({compact}) : {};",
+            "  const performance=compact?loadPerformancePack():null;",
             "  if(flags.menuBackground)backgroundSources();",
             "  portraitSources(process.cwd(),flags);",
             "  rejectInputOutputAliases(outputDirectory, [...(flags.menuBackground?backgroundInputs:[]),...portraitSourceInputs(flags), ...(readyArt?readyArtSourceInputs():[]), ...(art?.inputPaths??[])].map(path=>resolve(path)));"
           ]
         },
         {
-          "at": 103,
+          "at": 106,
           "before": [
             "  attachOfficialBackground(layout, templates);attachOfficialPortraits(layout);",
             "  templates.push(...readyArtTemplates());"
@@ -661,21 +881,24 @@
           "after": [
             "  if(flags.menuBackground)attachOfficialBackground(layout, templates);",
             "  attachOfficialPortraits(layout,flags);",
-            "  if(readyArt||flags.selectionAvatar||flags.battlePortrait)templates.push(...readyArtTemplates());"
+            "  if(readyArt||flags.menuBackground||flags.selectionAvatar||flags.battlePortrait)templates.push(...readyArtTemplates());"
           ]
         },
         {
-          "at": 117,
+          "at": 120,
           "before": [
             "  writeBackgroundModule(outputDirectory);writePortraitModule(outputDirectory);"
           ],
           "after": [
+            "  if(performance)writeFileSync(join(outputDirectory,'art-performance.json'),JSON.stringify(performance));",
+            "  else rmSync(join(outputDirectory,'art-performance.json'),{force:true});",
+            "  writeFileSync(join(outputDirectory,'art-render-v2.json'),JSON.stringify({profile:'native-v2',hiddenBuild:true,cache:true,revealGroupsPerFrame:4}));",
             "  writeArtFeatures(outputDirectory,flags);",
             "  writeBackgroundModule(outputDirectory,{enabled:flags.menuBackground});writePortraitModule(outputDirectory,{...flags});"
           ]
         },
         {
-          "at": 137,
+          "at": 143,
           "before": [
             "    const native = nativeCardArtArgs(args.filter(arg => arg !== '--experimental-characters'));"
           ],
@@ -685,7 +908,7 @@
           ]
         },
         {
-          "at": 141,
+          "at": 147,
           "before": [
             "    buildUI(paths[0], undefined, { experimentalCharacters, ...options, nativeCardArt:native.nativeCardArt, readyCardArt:native.readyCardArt });"
           ],
@@ -712,41 +935,154 @@
     },
     "scripts/official-background.mjs": {
       "beforeSha256": "e41c99bc11f92827e6fad1f649d8377852bf56fad6fc59ed06ffd1d9591b5ffc",
-      "afterSha256": "8604dd067c6ca3d23a4298154e20e2056c6c5c46a6bc1738e2b850f3d1bfc847",
+      "afterSha256": "17e92139ffc727086c6b19ed918a23d082965272dc874f03fa08a412c7d964f1",
       "hunks": [
         {
-          "at": 24,
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {toLua} from './build-lua-data.mjs';"
+          ]
+        },
+        {
+          "at": 8,
+          "before": [
+            "export const backgroundInputs = [`${directory}/background_adapter.lua`, `${directory}/background_data.lua`];"
+          ],
+          "after": [
+            "const frozenInputs = [`${directory}/background_adapter.lua`, `${directory}/background_data.lua`];",
+            "const budgetPath='art/performance/background-budget-v1.json';",
+            "const previewPath='art/characters/key-visual/traveler-geo/official-landscape-v1/preview-native.png';",
+            "export const backgroundInputs=[...frozenInputs,budgetPath,previewPath];"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [
+            "  return backgroundInputs.map((path, i) => {"
+          ],
+          "after": [
+            "  return frozenInputs.map((path, i) => {"
+          ]
+        },
+        {
+          "at": 28,
           "before": [
             "export function writeBackgroundModule(directory, {root=process.cwd(), templateIndex=0} = {}) {"
           ],
           "after": [
-            "export function writeBackgroundModule(directory, {root=process.cwd(), templateIndex=0,enabled=true} = {}) {"
+            "export function writeBackgroundModule(directory, {root=process.cwd(), templateIndex=0,containerTemplateIndex=0,enabled=true} = {}) {"
           ]
         },
         {
-          "at": 26,
+          "at": 30,
           "before": [],
           "after": [
+            "  if(!Number.isSafeInteger(containerTemplateIndex)||containerTemplateIndex<0)throw Error('Invalid official background containerTemplateIndex');",
             "  if(!enabled){const source='-- Disabled optional drawing.\\nreturn {enabled=false,imagePrefabId=0}\\n';writeFileSync(join(directory,`${backgroundModule}.lua`),source);return source;}"
           ]
         },
         {
-          "at": 38,
+          "at": 33,
+          "before": [
+            "  const source=`-- Frozen official landscape; only the candidate-local template binding varies.\\nlocal imagePrefabId = ${templateIndex}\\nlocal adapter = (function()\\n${adapter}\\nend)()\\nlocal data = (function()\\n${data}\\nend)()\\nreturn {adapter=adapter,data=data,imagePrefabId=imagePrefabId}\\n`;"
+          ],
+          "after": [
+            "  const compactPath=join(directory,'art-performance.json');",
+            "  if(existsSync(compactPath)){",
+            "    const asset=JSON.parse(readFileSync(compactPath,'utf8')).assets.background;",
+            "    const compact={width:480,height:270,count:asset.count,rows:asset.rows,renderProfile:'compact-v1',sourcePreviewSha256:asset.sha256};",
+            "    const source=`-- Compact display candidate; original frozen inputs remain validated.\\nreturn {imagePrefabId=${templateIndex},containerPrefabId=${containerTemplateIndex},renderProfile='compact-v1',data=${toLua(compact)}}\\n`;",
+            "    writeFileSync(join(directory,`${backgroundModule}.lua`),source,'utf8');return source;",
+            "  }",
+            "  const runtimeV2=existsSync(join(directory,'art-render-v2.json'));",
+            "  if(runtimeV2){",
+            "    const bytes=readFileSync(join(root,budgetPath));",
+            "    const budget=JSON.parse(bytes);",
+            "    if(hash(bytes)!=='47c696b1b9504c1b842fea20cdf3222c098ec8bd5886f0e8f68582a0430ba980'",
+            "      ||hash(readFileSync(join(root,previewPath)))!=='e23d1daac5e7046f9119edbd6179fd16fa31abd245c24d395adfd1af31a91a43'",
+            "      ||budget.width!==480||budget.height!==270||budget.count!==4500||budget.rows.length!==4500)",
+            "      throw Error('Background budget data changed');",
+            "    const native={...budget,runtimeV2:true,cache:true,rectanglesOnly:true};",
+            "    const source=`-- Full-resolution adaptive background experiment; original inputs stay frozen.\\nreturn {imagePrefabId=${templateIndex},containerPrefabId=${containerTemplateIndex},renderProfile='background-budget-v1',data=${toLua(native)}}\\n`;",
+            "    writeFileSync(join(directory,`${backgroundModule}.lua`),source,'utf8');return source;",
+            "  }",
+            "  const source=`-- Frozen official landscape; only binding/runtime ownership varies.\\nlocal imagePrefabId = ${templateIndex}\\nlocal adapter = (function()\\n${adapter}\\nend)()\\nlocal data = (function()\\n${data}\\nend)()\\n${runtimeV2?'data.runtimeV2=true;data.cache=true;data.rectanglesOnly=true;data.count=#data.rows\\n':''}return {adapter=adapter,data=data,imagePrefabId=imagePrefabId${runtimeV2?\",renderProfile='native-v2'\":''}}\\n`;"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [],
+          "after": [
+            "  if((existsSync(join(directory,'art-render-v2.json'))||existsSync(join(directory,'art-performance.json')))",
+            "    &&(!Number.isSafeInteger(options.containerTemplateIndex)||options.containerTemplateIndex<=0))throw Error('MCP did not return a valid official background containerTemplateIndex');"
+          ]
+        },
+        {
+          "at": 64,
           "before": [
             "  if(!existsSync(join(directory,`${backgroundModule}.lua`)))return undefined;"
           ],
           "after": [
-            "  if(!existsSync(join(directory,`${backgroundModule}.lua`))||readFileSync(join(directory,`${backgroundModule}.lua`),'utf8').includes('enabled=false'))return undefined;"
+            "  if(!existsSync(join(directory,`${backgroundModule}.lua`))||readFileSync(join(directory,`${backgroundModule}.lua`),'utf8').includes('enabled=false'))return undefined;",
+            "  if(existsSync(join(directory,'art-performance.json'))){",
+            "    const a=JSON.parse(readFileSync(join(directory,'art-performance.json'),'utf8')).assets.background;",
+            "    const controls=a.count+Math.ceil(a.count/60)+Math.ceil(a.count/3600);",
+            "    return {asset:'traveler-geo/official-landscape-v1',renderProfile:'compact-v1',grid:a.grid,sourcePreviewSha256:a.sha256,",
+            "      host:'stage/officialBackground',instances:1,pages:['menu','character'],dynamicControlsPerInstance:controls,",
+            "      peakDynamicControls:controls,maxDirectDynamicChildren:60,batchSize:64,measurement:'offline-runtime-control-contract-not-official-capacity'};",
+            "  }",
+            "  if(existsSync(join(directory,'art-render-v2.json')))return {asset:'traveler-geo/official-landscape-v1',renderProfile:'background-budget-v1',host:'stage/officialBackground',instances:1,",
+            "    pages:['menu','character'],images:4500,dynamicControlsPerInstance:4577,peakDynamicControls:4577,maxDirectDynamicChildren:60,",
+            "    batchSize:256,timeBudgetMs:8,hiddenBuild:true,cache:true,revealGroupsPerFrame:4,budgetSha256:'47c696b1b9504c1b842fea20cdf3222c098ec8bd5886f0e8f68582a0430ba980',",
+            "    sourcePreviewSha256:'e23d1daac5e7046f9119edbd6179fd16fa31abd245c24d395adfd1af31a91a43',grid:[480,270],",
+            "    measurement:'offline-runtime-control-contract-not-official-capacity'};"
           ]
         }
       ]
     },
     "scripts/official-portraits.mjs": {
       "beforeSha256": "072b46c20b7a389aebb0f5c56afed5f66159c9154ccfb5e1d5d9e58ea6277f8c",
-      "afterSha256": "b97e4eee18861ba17d195485be938744b017c0a7abdc9da746d125b9301e12e6",
+      "afterSha256": "967bc39e1867a0089cfb7dbccd7fe1b9ee102267d73c2391664326bdd7a9f4a4",
       "hunks": [
         {
-          "at": 18,
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {toLua} from './build-lua-data.mjs';"
+          ]
+        },
+        {
+          "at": 12,
+          "before": [
+            "export const portraitInputs=[...assets.flatMap(a=>['runtime-no-snapshot.lua','native-art.json'].map(f=>`${base}/${a.kind}/${f}`)),licensePath];"
+          ],
+          "after": [
+            "const selectionBudgetPath='art/performance/selection-budget-v1.json';",
+            "export const portraitInputs=[...assets.flatMap(a=>['runtime-no-snapshot.lua','native-art.json'].map(f=>`${base}/${a.kind}/${f}`)),licensePath,selectionBudgetPath,",
+            " `${base}/avatar96/preview-native-1x.png`,`${base}/battle133/preview-native-1x.png`];"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [],
+          "after": [
+            "export function selectionBudget(root=process.cwd()) {",
+            " const bytes=readFileSync(join(root,selectionBudgetPath));",
+            " if(hash(bytes)!=='df3b34983dafd051842c820e6c7bf0931926fccba00fce0cc8873cab0f803b82')throw Error('Selection budget data changed');",
+            " const pack=JSON.parse(bytes);",
+            " for(const [id,width,count]of [['avatar96',96,457],['selection133',133,1940]]) {",
+            "  const a=pack.assets[id];",
+            "  if(a.width!==width||a.count!==count||a.rows.length!==count||hash(readFileSync(join(root,a.source)))!==a.sourceSha256",
+            "   ||a.rows.some(r=>r.length!==18||r.some(n=>!Number.isFinite(n))||r[0]!==100001||r[3]<=0||r[4]<=0||r[13]!==0",
+            "    ||r.slice(14).some(n=>n<0||n>255)||Math.abs(r[1])+r[3]/2>width/2||Math.abs(r[2])+r[4]/2>width/2))throw Error('Invalid selection budget '+id);",
+            " }",
+            " return pack;",
+            "}"
+          ]
+        },
+        {
+          "at": 33,
           "before": [
             "export function portraitSources(root=process.cwd()) {",
             " license(root);",
@@ -754,8 +1090,10 @@
           ],
           "after": [
             "const selectedAssets=({selectionAvatar=true,battlePortrait=true}={})=>assets.filter(a=>a.kind==='avatar96'?selectionAvatar:battlePortrait);",
-            "export function portraitSourceInputs(options) {",
-            " const selected=selectedAssets(options);return selected.length?[...selected.flatMap(a=>['runtime-no-snapshot.lua','native-art.json'].map(f=>`${base}/${a.kind}/${f}`)),licensePath]:[];",
+            "export function portraitSourceInputs(options={}) {",
+            " const selected=selectedAssets(options);if(!selected.length)return [];",
+            " return [...selected.flatMap(a=>['runtime-no-snapshot.lua','native-art.json'].map(f=>`${base}/${a.kind}/${f}`)),licensePath,",
+            "  ...(selected.some(a=>a.kind==='avatar96')?[selectionBudgetPath,`${base}/avatar96/preview-native-1x.png`,`${base}/battle133/preview-native-1x.png`]:[])];",
             "}",
             "export function portraitSources(root=process.cwd(),options) {",
             " const selected=selectedAssets(options);if(selected.length)license(root);",
@@ -763,7 +1101,7 @@
           ]
         },
         {
-          "at": 34,
+          "at": 51,
           "before": [
             "export function attachOfficialPortraits(layout) {"
           ],
@@ -773,7 +1111,7 @@
           ]
         },
         {
-          "at": 38,
+          "at": 55,
           "before": [
             " const traveler=child(child(stage,'characterPanel'),'traveler'),hero=child(child(stage,'battlePanel'),'hero');",
             " if(traveler.children.some(c=>c.name==='officialAvatar')||hero.children.some(c=>c.name==='officialFigure'))throw Error('Portrait hosts already attached');",
@@ -784,10 +1122,14 @@
           ],
           "after": [
             " if(selectionAvatar){",
-            "  const traveler=child(child(stage,'characterPanel'),'traveler');",
+            "  const selection=child(stage,'characterPanel'),traveler=child(selection,'traveler');",
             "  if(traveler.children.some(c=>c.name==='officialAvatar'))throw Error('Portrait hosts already attached');",
             "  const bust=child(child(child(traveler,'hit'),'normal'),'bust');",
             "  traveler.children.push({name:'officialAvatar',kind:'container',position:[...bust.position],size:[96,96],scale:[1/3,1/3],visible:false,children:[]});",
+            "  const details=child(selection,'details'),frame=child(details,'portraitFrame');",
+            "  const position=[frame.position[0],frame.position[1]-(frame.size[1]-frame.size[0])/2];",
+            "  details.children.splice(details.children.findIndex(c=>c.name==='portraits')+1,0,",
+            "   {name:'officialSelectionFigure',kind:'container',position,size:[133,133],scale:[frame.size[0]/133,frame.size[0]/133],visible:false,children:[]});",
             " }",
             " if(battlePortrait){",
             "  const hero=child(child(stage,'battlePanel'),'hero');",
@@ -798,7 +1140,7 @@
           ]
         },
         {
-          "at": 54,
+          "at": 75,
           "before": [
             "export function writePortraitModule(directory,{root=process.cwd(),imageTemplateIndex=0,containerTemplateIndex=0}={}) {"
           ],
@@ -807,17 +1149,28 @@
           ]
         },
         {
-          "at": 56,
+          "at": 77,
           "before": [
             " const data=portraitSources(root).map(a=>`${a.kind}=(function()\\n${a.literals}\\nreturn {root=ROOT,rows=ELEMENTS,width=${a.width},count=${a.count},display=${a.display},sourceSha256='${a.runtime}',jsonSha256='${a.json}'}\\nend)()`);"
           ],
           "after": [
             " if(!selectionAvatar&&!battlePortrait){const source='-- Disabled optional drawings.\\nreturn {imagePrefabId=0,containerPrefabId=0}\\n';writeFileSync(join(directory,`${portraitModule}.lua`),source);return source;}",
-            " const data=portraitSources(root,{selectionAvatar,battlePortrait}).map(a=>`${a.kind}=(function()\\n${a.literals}\\nreturn {root=ROOT,rows=ELEMENTS,width=${a.width},count=${a.count},display=${a.display},sourceSha256='${a.runtime}',jsonSha256='${a.json}'}\\nend)()`);"
+            " const compactPath=join(directory,'art-performance.json');",
+            " const compact=existsSync(compactPath)?JSON.parse(readFileSync(compactPath,'utf8')):null;",
+            " const runtimeV2=existsSync(join(directory,'art-render-v2.json'));",
+            " const budget=selectionAvatar&&(runtimeV2||!battlePortrait)&&!compact?selectionBudget(root):null;",
+            " const budgetLiteral=(a,asset)=>toLua({root:[0,0,a.width,a.width,.5,.5,.5,.5,.5,.5,1,1,0],rows:asset.rows,width:a.width,count:asset.count,",
+            "  display:a.display,sourceSha256:a.runtime,jsonSha256:a.json,renderProfile:'selection-budget-v1',runtimeV2:true,cache:true,rectanglesOnly:true});",
+            " const data=portraitSources(root,{selectionAvatar,battlePortrait}).map(a=>{",
+            "  if(budget&&a.kind==='avatar96')return `${a.kind}=${budgetLiteral(a,budget.assets.avatar96)}`;",
+            "  if(compact){const asset=compact.assets[a.kind];return `${a.kind}=${toLua({root:[0,0,a.width,a.width,.5,.5,.5,.5,.5,.5,1,1,0],rows:asset.rows,width:a.width,count:asset.count,display:a.display,sourceSha256:a.runtime,jsonSha256:a.json,renderProfile:'compact-v1',sourcePreviewSha256:asset.sha256})}`;}",
+            "  return `${a.kind}=(function()\\n${a.literals}\\nreturn {root=ROOT,rows=ELEMENTS,width=${a.width},count=${a.count},display=${a.display},sourceSha256='${a.runtime}',jsonSha256='${a.json}'${runtimeV2?',runtimeV2=true,cache=true,rectanglesOnly=true':''}}\\nend)()`;",
+            " });",
+            " if(budget)data.push(`selection133=${budgetLiteral(assets[1],budget.assets.selection133)}`);"
           ]
         },
         {
-          "at": 68,
+          "at": 100,
           "before": [
             "export function portraitRuntimeInventory(directory) {",
             " if(!existsSync(join(directory,`${portraitModule}.lua`)))return undefined;",
@@ -825,20 +1178,36 @@
             "  instances:2,batchSize:64,peakDynamicControls:9294,maxDirectDynamicChildren:60,officialCapacity:'not_measured',"
           ],
           "after": [
-            "export function portraitInventory(options) {",
-            " const selected=selectedAssets(options);if(!selected.length)return undefined;",
-            " return {assets:selected.map(a=>({asset:`traveler-geo/portraits/${a.kind}`,images:a.count,groups:Math.ceil(a.count/60),pages:Math.ceil(a.count/3600),sourceSha256:a.runtime})),",
-            "  instances:selected.length,batchSize:64,peakDynamicControls:selected.reduce((n,a)=>n+a.count+Math.ceil(a.count/60)+Math.ceil(a.count/3600),0),maxDirectDynamicChildren:60,officialCapacity:'not_measured',"
+            "function inventoryRows(selectionAvatar,battlePortrait,budget) {",
+            " const rows=[];",
+            " if(selectionAvatar)rows.push({asset:'traveler-geo/portraits/avatar96',images:budget?457:4822,sourceSha256:assets[0].runtime});",
+            " if(selectionAvatar&&budget)rows.push({asset:'traveler-geo/portraits/selection133',images:1940,sourceSha256:assets[1].runtime});",
+            " if(battlePortrait)rows.push({asset:'traveler-geo/portraits/battle133',images:4315,sourceSha256:assets[1].runtime});",
+            " return rows.map(row=>({...row,groups:Math.ceil(row.images/60),pages:Math.ceil(row.images/3600)}));",
+            "}",
+            "export function portraitInventory({selectionAvatar=true,battlePortrait=true}={}, {budget=true}={}) {",
+            " const rows=inventoryRows(selectionAvatar,battlePortrait,budget);if(!rows.length)return undefined;",
+            " return {...(budget?{renderProfile:'selection-budget-v1',hiddenBuild:true,cache:true,revealGroupsPerFrame:4,",
+            "  ...(selectionAvatar?{selectionUses:'selection133'}:{})}:{}),assets:rows,instances:rows.length,batchSize:64,",
+            "  peakDynamicControls:rows.reduce((sum,a)=>sum+a.images+a.groups+a.pages,0),maxDirectDynamicChildren:60,officialCapacity:'not_measured',"
           ]
         },
         {
-          "at": 74,
+          "at": 114,
           "before": [],
           "after": [
             "export function portraitRuntimeInventory(directory) {",
             " if(!existsSync(join(directory,`${portraitModule}.lua`)))return undefined;",
             " const source=readFileSync(join(directory,`${portraitModule}.lua`),'utf8');",
-            " return portraitInventory({selectionAvatar:source.includes('avatar96=(function()'),battlePortrait:source.includes('battle133=(function()')});",
+            " const flags={selectionAvatar:/\\bavatar96=/.test(source),battlePortrait:/\\bbattle133=/.test(source)};",
+            " if(existsSync(join(directory,'art-performance.json'))){",
+            "  const pack=JSON.parse(readFileSync(join(directory,'art-performance.json'),'utf8'));",
+            "  const rows=selectedAssets(flags).map(a=>{const row=pack.assets[a.kind];return {asset:`traveler-geo/portraits/${a.kind}`,images:row.count,",
+            "   groups:Math.ceil(row.count/60),pages:Math.ceil(row.count/3600),sourcePreviewSha256:row.sha256,grid:row.grid};});",
+            "  if(!rows.length)return undefined;",
+            "  return {renderProfile:'compact-v1',assets:rows,instances:rows.length,batchSize:64,peakDynamicControls:rows.reduce((n,a)=>n+a.images+a.groups+a.pages,0),maxDirectDynamicChildren:60,officialCapacity:'not_measured',devicePerformance:'not_run'};",
+            " }",
+            " return portraitInventory(flags,{budget:existsSync(join(directory,'art-render-v2.json'))||source.includes('selection133=')});",
             "}"
           ]
         }
@@ -926,7 +1295,7 @@
     },
     "src/lua/abyss_card_art_runtime.lua": {
       "beforeSha256": "bd9bf4ea15ea3def721b70b249ada2924f42e49a0f852799d0c1eb18c9d156ff",
-      "afterSha256": "b19c36c3a0625351e66d1337a4660482db9658f19e9e29226c438aca08aa3611",
+      "afterSha256": "4917a9486da0ff8848b1fb1388aaac19b9011bfb671a702a47f33e729c4cb0c3",
       "hunks": [
         {
           "at": 9,
@@ -945,10 +1314,9 @@
           ]
         },
         {
-          "at": 35,
+          "at": 36,
           "before": [],
           "after": [
-            "end",
             "local function claim(box,pool,fallback)",
             "    local intent={box=box,pool=pool,fallback=fallback,ready=false}",
             "    intents[box]=intent;return intent",
@@ -1004,7 +1372,17 @@
             "            assert(result~=false,'native '..key..' rejected');return result",
             "        end end",
             "        return value",
-            "    end,__newindex=function(_,key,value)verify();control[key]=value;verify()end})"
+            "    end,__newindex=function(_,key,value)verify();control[key]=value;verify()end})",
+            "end"
+          ]
+        },
+        {
+          "at": 94,
+          "before": [
+            "    if record.working or record.cleaning or not record.cleanupRequested then return end"
+          ],
+          "after": [
+            "    if record.removed or record.working or record.cleaning or not record.cleanupRequested then return end"
           ]
         },
         {
@@ -1057,6 +1435,15 @@
           ]
         },
         {
+          "at": 169,
+          "before": [
+            "    return setmetatable({color=function(...)"
+          ],
+          "after": [
+            "    return setmetatable({compactRectangles=record.metadata.renderProfile=='compact-v1',color=function(...)"
+          ]
+        },
+        {
           "at": 173,
           "before": [
             "function M.release(box)"
@@ -1091,7 +1478,23 @@
           ]
         },
         {
-          "at": 263,
+          "at": 199,
+          "before": [],
+          "after": [
+            "end",
+            "-- Engine teardown owns the entire UI subtree. Calling Destroy here is forbidden",
+            "-- by the native lifecycle and must not be confused with an ordinary page close.",
+            "function M.onEngineDestroy()",
+            "    generation=generation+1;api=nil;records={};intents=setmetatable({},{__mode='k'})",
+            "    for _,record in ipairs(order)do",
+            "        record.cancelled,record.removed,record.ready=true,true,false",
+            "        record.cleanupRequested=false;record.groups={};record.controls={};record.allocated=false",
+            "    end",
+            "    order={};createdLastUpdate=0"
+          ]
+        },
+        {
+          "at": 273,
           "before": [
             "    if not data then M.release(box);return false,'native art drawing rejected' end"
           ],
@@ -1100,17 +1503,39 @@
           ]
         },
         {
-          "at": 267,
+          "at": 277,
           "before": [],
           "after": [
             "        intent=claim(box,pool,fallback),"
+          ]
+        },
+        {
+          "at": 302,
+          "before": [
+            "    local guarded=guardedControl(record,control);guarded.raycastTarget=false"
+          ],
+          "after": [
+            "    -- Image controls do not expose CursorArea.raycastTarget on the native client.",
+            "    local guarded=guardedControl(record,control)"
+          ]
+        },
+        {
+          "at": 306,
+          "before": [
+            "    if index==record.drawing.count then visibility(record,true);check(record);record.ready=true end"
+          ],
+          "after": [
+            "    if index==record.drawing.count then",
+            "        visibility(record,true);check(record);record.ready=true",
+            "        print('ABYSS_NATIVE_ART ready card_id='..tostring(record.metadata.cardId)..' shapes='..index)",
+            "    end"
           ]
         }
       ]
     },
     "src/lua/abyss_card_display.lua": {
       "beforeSha256": "e7180abf0214c269c14f175fe60baeda1adb0fc3eb33dc824342d9f106c2f09f",
-      "afterSha256": "49b55b73cc790cb708273f5959263fd3d2a3e9c3bb019970e55830b587dc90da",
+      "afterSha256": "3f2a58b5ff4d282cd2b81431e6d17799b7a686f36d643db9ec0d4f141f5f621c",
       "hunks": [
         {
           "at": 51,
@@ -1184,7 +1609,19 @@
           ]
         },
         {
-          "at": 108,
+          "at": 94,
+          "before": [],
+          "after": [
+            "    if platform.compactRectangles then",
+            "        control.imageType=assert(platform.imageTypes and platform.imageTypes.stretch,'missing native stretch enum')",
+            "        control:SetSizeDelta(slot.size[1],slot.size[2]);control:SetAnchoredPosition(slot.position[1],slot.position[2])",
+            "        control.imageColor=platform.color(slot.colour[1],slot.colour[2],slot.colour[3],slot.colour[4])",
+            "        control:SetVisible(true);return",
+            "    end"
+          ]
+        },
+        {
+          "at": 114,
           "before": [
             "function M.writeNativeArt(box,definition,metadata,platform,fallback,identity)",
             "    if box.alive==false or fallback.alive==false then NativeArtRuntime.release(box);return false end",
@@ -1206,7 +1643,7 @@
           ]
         },
         {
-          "at": 116,
+          "at": 122,
           "before": [
             "                controls[index]=nativeSlot(pool,index);controls[index]:SetVisible(false)"
           ],
@@ -1215,7 +1652,7 @@
           ]
         },
         {
-          "at": 119,
+          "at": 125,
           "before": [
             "                writeNativeSlot(controls[index],slot,platform)"
           ],
@@ -1224,7 +1661,7 @@
           ]
         },
         {
-          "at": 122,
+          "at": 128,
           "before": [
             "        if not ok then for _,control in ipairs(controls)do control:SetVisible(false)end end"
           ],
@@ -1242,7 +1679,7 @@
           ]
         },
         {
-          "at": 139,
+          "at": 145,
           "before": [
             "    pool:SetVisible(true);fallback:SetVisible(false)",
             "    return true"
@@ -1271,7 +1708,7 @@
     },
     "src/lua/abyss_traveler_portraits.lua": {
       "beforeSha256": "54988379bc5baf06747bcff3c7ff1cfc99feeb6d9f820b807c38375d55ac145c",
-      "afterSha256": "fa410190945402d4f32ec134d8792904a08eeb1e439e85d1d5e7473a04d11351",
+      "afterSha256": "be3e818248b409f9921a671c23c7c9a0062222f50706a1120cd9bf85e7732212",
       "hunks": [
         {
           "at": 25,
@@ -1281,28 +1718,191 @@
           "after": []
         },
         {
-          "at": 36,
+          "at": 30,
+          "before": [
+            "    assert(type(data)=='table' and data.width==width and data.count==count and #data.rows==count"
+          ],
+          "after": [
+            "    local compact=data.renderProfile=='compact-v1' or data.renderProfile=='selection-budget-v1'",
+            "    local expected=compact and data.count or count",
+            "    assert(type(data)=='table' and data.width==width and expected>0 and expected<=(compact and 2304 or count) and #data.rows==expected"
+          ]
+        },
+        {
+          "at": 38,
           "before": [
             "local function controller(host, data, display)"
           ],
           "after": [
-            "local function controller(host, data, display, Asset)"
+            "local function controller(host, data, display, templates)",
+            "    local Asset=templates or require('abyss_traveler_portrait_assets')"
           ]
         },
         {
-          "at": 167,
+          "at": 44,
+          "before": [],
+          "after": [
+            "    local revealGroups,revealIndex,revealedPages={},1,{}"
+          ]
+        },
+        {
+          "at": 47,
+          "before": [
+            "    local function current(token)return phase=='building' and generation==token and host.alive~=false end"
+          ],
+          "after": [
+            "    local function current(token)return (phase=='building' or phase=='revealing') and generation==token and host.alive~=false end"
+          ]
+        },
+        {
+          "at": 84,
+          "before": [
+            "        call(token,c,'SetSizeDelta',data.width,data.width);call(token,c,'SetLocalScale',1,1,1)"
+          ],
+          "after": [
+            "        call(token,c,'SetSizeDelta',data.width,data.height or data.width);call(token,c,'SetLocalScale',1,1,1)"
+          ]
+        },
+        {
+          "at": 95,
+          "before": [],
+          "after": [
+            "        if data.renderProfile=='compact-v1' or data.rectanglesOnly then",
+            "            -- Shared template supplies the white image and identity transforms.",
+            "            c.imageType=Enum.ImageType.Stretch;check(token)",
+            "            call(token,c,'SetSizeDelta',r[4],r[5]);call(token,c,'SetAnchoredPosition',r[2],r[3])",
+            "            c.imageColor=Color.FromRGBA(r[15],r[16],r[17],r[18]);check(token)",
+            "            call(token,c,'SetVisible',true);return",
+            "        end"
+          ]
+        },
+        {
+          "at": 111,
+          "before": [
+            "        return {phase=phase,generation=generation,nextIndex=nextIndex,owned=#created,"
+          ],
+          "after": [
+            "        return {phase=phase,generation=generation,nextIndex=nextIndex,total=#data.rows,owned=#created,"
+          ]
+        },
+        {
+          "at": 117,
+          "before": [
+            "        if phase=='building' or phase=='ready'then return true end"
+          ],
+          "after": [
+            "        if phase=='building' or phase=='revealing' or phase=='ready'then",
+            "            if data.cache or data.renderProfile=='compact-v1' then host:SetActive(true);host:SetVisible(phase~='building')end",
+            "            return true",
+            "        end"
+          ]
+        },
+        {
+          "at": 124,
+          "before": [],
+          "after": [
+            "        revealGroups={};revealIndex=1;revealedPages={}"
+          ]
+        },
+        {
+          "at": 129,
+          "before": [
+            "            call(token,host,'SetSizeDelta',data.width,data.width)"
+          ],
+          "after": [
+            "            call(token,host,'SetSizeDelta',data.width,data.height or data.width)"
+          ]
+        },
+        {
+          "at": 140,
+          "before": [
+            "        if working or phase~='building'then return false end"
+          ],
+          "after": [
+            "        if working or (phase~='building' and phase~='revealing')then return false end"
+          ]
+        },
+        {
+          "at": 142,
+          "before": [],
+          "after": [
+            "        if phase=='revealing' then",
+            "            local ok,err=pcall(function()",
+            "                for _=1,4 do",
+            "                    local entry=revealGroups[revealIndex]",
+            "                    if not entry then phase='ready';break end",
+            "                    if not revealedPages[entry.page] then",
+            "                        call(token,entry.page,'SetVisible',true);call(token,entry.page,'SetActive',true);revealedPages[entry.page]=true",
+            "                    end",
+            "                    call(token,entry.control,'SetVisible',true);call(token,entry.control,'SetActive',true)",
+            "                    revealIndex=revealIndex+1",
+            "                end",
+            "                if revealIndex>#revealGroups then phase='ready'end",
+            "            end)",
+            "            if not ok and err~=CANCELLED then fail(err)end",
+            "            if pending then cleanup()end;working=false;return ok,'reveal'",
+            "        end"
+          ]
+        },
+        {
+          "at": 162,
+          "before": [
+            "                call(token,page,'SetActive',true);call(token,page,'SetVisible',true)"
+          ],
+          "after": [
+            "                call(token,page,'SetActive',not data.runtimeV2);call(token,page,'SetVisible',not data.runtimeV2)"
+          ]
+        },
+        {
+          "at": 165,
+          "before": [
+            "                call(token,group,'SetActive',true);call(token,group,'SetVisible',true)"
+          ],
+          "after": [
+            "                call(token,group,'SetActive',not data.runtimeV2);call(token,group,'SetVisible',not data.runtimeV2)",
+            "                if data.runtimeV2 then revealGroups[#revealGroups+1]={control=group,page=page}end"
+          ]
+        },
+        {
+          "at": 169,
+          "before": [
+            "                if nextIndex>#data.rows then call(token,host,'SetVisible',true);phase='ready'end"
+          ],
+          "after": [
+            "                if nextIndex>#data.rows then call(token,host,'SetVisible',true);phase=data.runtimeV2 and 'revealing' or 'ready'end"
+          ]
+        },
+        {
+          "at": 175,
+          "before": [],
+          "after": [
+            "    end",
+            "    function self.pause(_)",
+            "        if not data.cache and data.renderProfile~='compact-v1' then return self:release()end",
+            "        if phase=='destroyed' or host.alive==false then return false end",
+            "        host:SetVisible(false);host:SetActive(false);return true"
+          ]
+        },
+        {
+          "at": 204,
           "before": [
             "function M.new(stage,report)"
           ],
           "after": [
+            "local function activeTargets(mode,characterOpen,stopped,character,preloadSelection)",
+            "    if stopped then return {}end",
+            "    local choosing=characterOpen==true",
+            "    local warm=preloadSelection==true and mode=='menu' and not choosing",
+            "    return {avatar=choosing or warm,battle=mode=='battle' and character=='ironclad',selection=warm or choosing and character=='ironclad'}",
+            "end",
             "function M.new(stage,report,flags)",
-            "    local selection = type(flags)=='table' and flags.selectionAvatar==true",
-            "    local fighting = type(flags)=='table' and flags.battlePortrait==true",
-            "    if not selection and not fighting then return nil end"
+            "    local selecting=type(flags)=='table' and flags.selectionAvatar==true",
+            "    local fighting=type(flags)=='table' and flags.battlePortrait==true",
+            "    if not selecting and not fighting then return nil end"
           ]
         },
         {
-          "at": 172,
+          "at": 215,
           "before": [
             "    validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')",
             "    validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')",
@@ -1315,37 +1915,80 @@
             "        rows[1].fallback[#rows[1].fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')"
           ],
           "after": [
-            "    local Asset = require('abyss_traveler_portrait_assets')",
-            "    local avatar,battle,rows=nil,nil,{}",
-            "    if selection then",
+            "    local Asset=require('abyss_traveler_portrait_assets')",
+            "    local avatar,battle,selection,details,rows=nil,nil,nil,nil,{}",
+            "    if selecting then",
             "        validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')",
-            "        local traveler=assert(stage:GetChild('characterPanel'):GetChild('traveler'))",
+            "        local panel=assert(stage:GetChild('characterPanel'))",
+            "        local traveler=assert(panel:GetChild('traveler'))",
             "        avatar=controller(traveler:GetChild('officialAvatar'),Asset.avatar96,32,Asset)",
-            "        local row={name='avatar',adapter=avatar,fallback={},active=false}",
-            "        for _,name in ipairs({'normal','hover','pressed','disabled'})do",
-            "            row.fallback[#row.fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')",
+            "        details=panel:GetChild('details')",
+            "        local host=details and details:GetChild('officialSelectionFigure')",
+            "        if host then",
+            "            local figure=Asset.selection133 or Asset.battle133",
+            "            validate(figure,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')",
+            "            selection=controller(host,figure,assert(details:GetChild('portraitFrame').sizeDeltaX),Asset)",
+            "            rows[#rows+1]={name='selection',adapter=selection,fallback={details:GetChild('portraits'):GetChild('traveler_ironclad')},active=false}",
             "        end",
-            "        rows[#rows+1]=row",
-            "    end",
+            "        local row={name='avatar',adapter=avatar,fallback={},active=false}",
+            "        for _,name in ipairs({'normal','hover','pressed','disabled'})do row.fallback[#row.fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')end",
+            "        rows[#rows+1]=row"
+          ]
+        },
+        {
+          "at": 234,
+          "before": [],
+          "after": [
             "    if fighting then",
             "        validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')",
             "        local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))",
             "        battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset)",
-            "        rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}"
+            "        rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}",
+            "    end",
+            "    local timeBudget=selecting and Asset.avatar96.runtimeV2 or fighting and Asset.battle133.runtimeV2"
           ]
         },
         {
-          "at": 209,
+          "at": 247,
           "before": [
-            "    function self.status(_)return {avatar=avatar:status(),battle=battle:status(),batchSize=64}end"
+            "            for _,c in ipairs(row.fallback)do"
+          ],
+          "after": [
+            "            for _,c in ipairs((row.name~='selection' or row.active)and row.fallback or {})do"
+          ]
+        },
+        {
+          "at": 250,
+          "before": [
+            "                    pcall(c.SetVisible,c,not ready)"
+          ],
+          "after": [
+            "                    pcall(c.SetVisible,c,not ready and row.name~='selection')"
+          ]
+        },
+        {
+          "at": 256,
+          "before": [],
+          "after": [
+            "            if row.name=='selection' and ready then",
+            "                local note=details:GetChild('portraitNote');note.text=note.text:gsub(' · 肖像待补','')",
+            "            end"
+          ]
+        },
+        {
+          "at": 263,
+          "before": [
+            "    function self.status(_)return {avatar=avatar:status(),battle=battle:status(),batchSize=64}end",
+            "    function self.sync(_,mode,characterOpen,stopped,character)"
           ],
           "after": [
             "    function self.status(_)return {avatar=avatar and avatar:status() or {phase='disabled',owned=0},",
-            "        battle=battle and battle:status() or {phase='disabled',owned=0},batchSize=64}end"
+            "        battle=battle and battle:status() or {phase='disabled',owned=0},selection=selection and selection:status(),batchSize=64}end",
+            "    function self.sync(_,mode,characterOpen,stopped,character,preloadSelection)"
           ]
         },
         {
-          "at": 214,
+          "at": 268,
           "before": [
             "        local wanted={not stopped and characterOpen==true,not stopped and mode=='battle' and character=='ironclad'}",
             "        for i,row in ipairs(rows)do",
@@ -1353,27 +1996,70 @@
             "            elseif not wanted[i] and row.active then row.active=false;row.adapter:release()end"
           ],
           "after": [
-            "        local wanted={avatar=not stopped and characterOpen==true,battle=not stopped and mode=='battle' and character=='ironclad'}",
+            "        local wanted=activeTargets(mode,characterOpen,stopped,character,preloadSelection)",
             "        for _,row in ipairs(rows)do",
             "            if wanted[row.name] and not row.active then row.active=true;row.adapter:begin()",
-            "            elseif not wanted[row.name] and row.active then row.active=false;row.adapter:release()end"
+            "            elseif not wanted[row.name] and row.active then row.active=false;row.adapter:pause()end"
           ]
         },
         {
-          "at": 233,
+          "at": 276,
+          "before": [],
+          "after": [
+            "    -- Prioritize the main selection figure over the small thumbnail.",
+            "    local buildOrder=rows"
+          ]
+        },
+        {
+          "at": 281,
+          "before": [
+            "        for _=1,64 do",
+            "            local progressed=false",
+            "            for _,row in ipairs(rows)do if row.active and row.adapter:step()then progressed=true;break end end",
+            "            if not progressed then break end"
+          ],
+          "after": [
+            "        local start=os.clock()",
+            "        for i=1,64 do",
+            "            local progressed,kind=false,nil",
+            "            for _,row in ipairs(buildOrder)do if row.active then",
+            "                local advance,phase=row.adapter:step()",
+            "                if advance then progressed=true;kind=phase;break end",
+            "            end end",
+            "            if not progressed or kind=='reveal' or timeBudget and i%8==0 and os.clock()-start>=.008 then break end"
+          ]
+        },
+        {
+          "at": 293,
           "before": [
             "        if busy or destroyed then return end"
           ],
           "after": [
             "        if busy or destroyed or not battle then return end"
           ]
+        },
+        {
+          "at": 308,
+          "before": [],
+          "after": [
+            "M.createController=controller"
+          ]
         }
       ]
     },
     "src/lua/abyss_ui.lua": {
       "beforeSha256": "c44e8839190b794c29859181a99af01f15a65e0a95ad3978a4dd2d2ba09f8e4e",
-      "afterSha256": "a950a0326cae669d448abaaf4afd859c081bd7e7f3799531b2344c5be4b7f755",
+      "afterSha256": "3b77ab0549a349b15274f9a393fb81d59dd2c5cf8f08d20ea13ecbe8d240a0d1",
       "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "            \"characterPanel\", \"choicePanel\", \"potionPanel\", \"potionEntry\", \"prologuePanel\", \"exitPanel\", \"exitEntry\", \"combatRewards\"}) do"
+          ],
+          "after": [
+            "            \"characterPanel\", \"choicePanel\", \"potionPanel\", \"potionEntry\", \"prologuePanel\", \"exitPanel\", \"exitEntry\", \"combatRewards\", \"victoryEasterEgg\"}) do"
+          ]
+        },
         {
           "at": 36,
           "before": [],
@@ -1424,6 +2110,7 @@
           ],
           "after": [
             "        local flags = artFeatures()",
+            "        local createEasterEggArt",
             "        if not flags.cards then",
             "            -- Legacy static candidates embed nativeArt in presentation. Suppress",
             "            -- that route too, without mutating the cached source for another world.",
@@ -1442,7 +2129,10 @@
             "        -- Use native require, not the desktop-only package.loaded assumption.",
             "        require(\"abyss_card_art_runtime\").configure(nil)",
             "        if flags.menuBackground then",
-            "            background = optionalArt('menuBackground', function()return require(\"abyss_menu_background\").new(stage, print)end)",
+            "            createEasterEggArt=function()",
+            "                local factory=require('abyss_traveler_portraits').createController",
+            "                return require('abyss_menu_background').new(stage,print,factory,Color,{standalone=true})",
+            "            end",
             "        end",
             "        if flags.selectionAvatar or flags.battlePortrait then",
             "            portraits = optionalArt('portraits', function()return require(\"abyss_traveler_portraits\").new(stage, print, flags)end)",
@@ -1461,6 +2151,1485 @@
             "                return runtime",
             "            end)",
             "        end"
+          ]
+        },
+        {
+          "at": 134,
+          "before": [],
+          "after": [
+            "              createEasterEggArt=createEasterEggArt,"
+          ]
+        },
+        {
+          "at": 181,
+          "before": [
+            "    if cardArt then pcall(cardArt.clear) end"
+          ],
+          "after": [
+            "    if view then view:onEngineDestroy() end",
+            "    if cardArt then cardArt.onEngineDestroy() end"
+          ]
+        }
+      ]
+    },
+    "scripts/native-candidate-ui-cache.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "14383770690843ff09f0bbcf8fb3e8566fa7712457140e1375115d5f45dfe996",
+      "hunks": []
+    },
+    "scripts/native-script-inventory.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "81662f3edd29dfad88e8fdd065030e520854bdff31501e7f094d620a2934dd7e",
+      "hunks": []
+    },
+    "scripts/native-script-batch.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "45a8fa31e32119b54aa9eb751fdc558df09727d34fa6fd5dc6314bf4dbbc7326",
+      "hunks": []
+    },
+    "scripts/art/performance-pack.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "d2422542367f8c02cd007b0243c314dd10904e122e30dce650deaee86890e40d",
+      "hunks": []
+    },
+    "art/performance/selection-budget-v1.json": {
+      "beforeSha256": null,
+      "afterSha256": "df3b34983dafd051842c820e6c7bf0931926fccba00fce0cc8873cab0f803b82",
+      "hunks": []
+    },
+    "art/performance/background-budget-v1.json": {
+      "beforeSha256": null,
+      "afterSha256": "47c696b1b9504c1b842fea20cdf3222c098ec8bd5886f0e8f68582a0430ba980",
+      "hunks": []
+    },
+    "src/lua/abyss_menu_background.lua": {
+      "beforeSha256": "d9de8655afbe87db9b1974f68347f9167e36bddf3d54bb0754ba60fb58f76e0c",
+      "afterSha256": "343d0e5dad14423edc2bd5495c70632a2ff4b91e04c7102cc5eab397ef27d4f4",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "local Theme=require('abyss_theme')"
+          ]
+        },
+        {
+          "at": 4,
+          "before": [
+            "function M.new(stage, report)"
+          ],
+          "after": [
+            "function M.new(stage, report, createController, makeColor, options)",
+            "    options=options or {}"
+          ]
+        },
+        {
+          "at": 7,
+          "before": [
+            "    local adapter = Asset.adapter.new(host, Asset.data, {imagePrefabId=Asset.imagePrefabId,batchSize=64})"
+          ],
+          "after": [
+            "    local native=Asset.renderProfile=='native-v2' or Asset.renderProfile=='background-budget-v1'",
+            "    local compact=Asset.renderProfile=='compact-v1' or native",
+            "    local adapter",
+            "    if compact then",
+            "        assert(Asset.data.count==#Asset.data.rows and Asset.data.count<=13201,'background capacity exceeded')",
+            "        adapter=assert(createController,'compact background requires native controller factory')(host,Asset.data,1280,",
+            "            {imagePrefabId=Asset.imagePrefabId,containerPrefabId=Asset.containerPrefabId})",
+            "        adapter.tick=function(_)",
+            "            local start=os.clock()",
+            "            local batch=Asset.renderProfile=='background-budget-v1' and 256 or 64",
+            "            for i=1,batch do",
+            "                local advanced,kind=adapter:step()",
+            "                if not advanced or kind=='reveal' or i%8==0 and os.clock()-start>=.008 then break end",
+            "            end",
+            "        end",
+            "        adapter.onEngineDestroy=adapter.destroy",
+            "    else adapter=Asset.adapter.new(host, Asset.data, {imagePrefabId=Asset.imagePrefabId,batchSize=64})end"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "    for _, entry in ipairs({{'menuPanel','backdrop','vista','heroArt'}, {'characterPanel','veil','border','face'}}) do"
+          ],
+          "after": [
+            "    for _, entry in ipairs(options.standalone and {} or {{'menuPanel','backdrop','vista','heroArt'}, {'characterPanel','veil','border','face'}}) do"
+          ]
+        },
+        {
+          "at": 29,
+          "before": [
+            "            if control then covered[#covered+1]={control=control,visible=control.visible~=false} end"
+          ],
+          "after": [
+            "            local keepVeil=native and (entry[i]=='backdrop' or entry[i]=='veil')",
+            "            if control and not keepVeil then covered[#covered+1]={control=control,visible=control.visible~=false} end"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [],
+          "after": [
+            "        if native and makeColor and not options.standalone then",
+            "            local c=ready and Theme.color.backdropVeil or Theme.color.backdrop",
+            "            local backdrop=stage:GetChild('menuPanel'):GetChild('backdrop')",
+            "            backdrop.imageColor=makeColor(c.r,c.g,c.b,c.a);backdrop:SetVisible(true)",
+            "        end"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "    function self.status(_) return adapter:status() end"
+          ],
+          "after": [
+            "    function self.status(_)",
+            "        local status=adapter:status();status.total=#Asset.data.rows;return status",
+            "    end"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [
+            "        elseif not wanted and active then self:release() end"
+          ],
+          "after": [
+            "        elseif not wanted and active then",
+            "            if compact then active=false;adapter:pause()else self:release()end",
+            "        end"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            "        if not active or state.phase~='building' then return end"
+          ],
+          "after": [
+            "        if not active or (state.phase~='building' and state.phase~='revealing')then return end"
+          ]
+        }
+      ]
+    },
+    "config/architecture.json": {
+      "beforeSha256": "136b60aac912d2c6cca7211c55005e6976784a9b8740893584ac097652595abc",
+      "afterSha256": "3d8441e269ba07d91d89362e10ae302421a6fa7e8f0972bb61a6b8ec23176ad8",
+      "hunks": [
+        {
+          "at": 0,
+          "before": [
+            "{",
+            "  \"layers\": {",
+            "    \"abyss_combat_catalog\": \"core\",",
+            "    \"abyss_duplicator_event\": \"core\",",
+            "    \"abyss_match_event\": \"core\",",
+            "    \"abyss_match_event_ui\": \"ui\",",
+            "    \"abyss_run_admission\": \"core\",",
+            "    \"abyss_run_potion_candidate\": \"core\",",
+            "    \"abyss_nest_event\": \"core\",",
+            "    \"abyss_mushrooms_event\": \"core\",",
+            "    \"abyss_player_revive\": \"core\",",
+            "    \"abyss_lizard_tail\": \"core\",",
+            "    \"abyss_battle_ending_intent\": \"ui\",",
+            "    \"abyss_node_ui_ending\": \"ui\",",
+            "    \"abyss_emerald_rewards\": \"core\",",
+            "    \"abyss_battle_reward_layout\": \"ui\",",
+            "    \"abyss_act4_enemies\": \"core\",",
+            "    \"abyss_ending_actions\": \"core\",",
+            "    \"abyss_corrupt_heart\": \"core\",",
+            "    \"abyss_spire_pair\": \"core\",",
+            "    \"abyss_emerald_elite\": \"core\",",
+            "    \"abyss_event_combat\": \"core\",",
+            "    \"abyss_mind_bloom_event\": \"core\",",
+            "    \"abyss_mysterious_sphere_event\": \"core\",",
+            "    \"abyss_combat_enemy_setup\": \"core\",",
+            "    \"abyss_ending_history\": \"core\",",
+            "    \"abyss_library_event\": \"core\",",
+            "    \"abyss_writhing_mass\": \"core\",",
+            "    \"abyss_giant_head\": \"core\",",
+            "    \"abyss_time_eater\": \"core\",",
+            "    \"abyss_nemesis\": \"core\",",
+            "    \"abyss_reptomancer\": \"core\",",
+            "    \"abyss_darklings\": \"core\",",
+            "    \"abyss_joust_event\": \"core\",",
+            "    \"abyss_tomb_red_mask_event\": \"core\",",
+            "    \"abyss_class_potions\": \"core\",",
+            "    \"abyss_potion_stance\": \"core\",",
+            "    \"abyss_run_red_card_contract\": \"core\",",
+            "    \"abyss_run_card_catalog\": \"core\",",
+            "    \"abyss_silent_potions\": \"core\",",
+            "    \"abyss_silent_final_cards\": \"core\",",
+            "    \"abyss_act3_events\": \"core\",",
+            "    \"abyss_sensory_stone_event\": \"core\",",
+            "    \"abyss_winding_event\": \"core\",",
+            "    \"abyss_act3_enemies\": \"core\",",
+            "    \"abyss_act3_ai\": \"core\",",
+            "    \"abyss_act3_powers\": \"core\",",
+            "    \"abyss_moai_event\": \"core\",",
+            "    \"abyss_battle_enemy_view\": \"ui\",",
+            "    \"abyss_act2_enemies\": \"core\",",
+            "    \"abyss_ghosts_event\": \"core\",",
+            "    \"abyss_act2_ai\": \"core\",",
+            "    \"abyss_act2_powers\": \"core\",",
+            "    \"abyss_potion_text\": \"ui\",",
+            "    \"abyss_potion_generation\": \"core\",",
+            "    \"abyss_potion_discovery\": \"core\",",
+            "    \"abyss_potion_fairy\": \"core\",",
+            "    \"abyss_class_card_pools\": \"core\",",
+            "    \"abyss_colorless_cards\": \"core\",",
+            "    \"abyss_act2_summons\": \"core\",",
+            "    \"abyss_act2_stasis\": \"core\",",
+            "    \"abyss_action_queue\": \"core\",",
+            "    \"abyss_build_actions\": \"core\",",
+            "    \"abyss_card_triggers\": \"core\",",
+            "    \"abyss_character_presentation\": \"ui\",",
+            "    \"abyss_character_profiles\": \"core\",",
+            "    \"abyss_choice_ui\": \"ui\",",
+            "    \"abyss_controller\": \"ui\",",
+            "    \"abyss_corruption\": \"core\",",
+            "    \"abyss_defect_cards\": \"core\",",
+            "    \"abyss_defect_engine_cards\": \"core\",",
+            "    \"abyss_defect_final_cards\": \"core\",",
+            "    \"abyss_defect_utility_cards\": \"core\",",
+            "    \"abyss_discard\": \"core\",",
+            "    \"abyss_exhaust\": \"core\",",
+            "    \"abyss_flow_actions\": \"core\",",
+            "    \"abyss_focus\": \"core\",",
+            "    \"abyss_hand_choice\": \"core\",",
+            "    \"abyss_hp_loss\": \"core\",",
+            "    \"abyss_mantra\": \"core\",",
+            "    \"abyss_opening_hand\": \"core\",",
+            "    \"abyss_orb_powers\": \"core\",",
+            "    \"abyss_orbs\": \"core\",",
+            "    \"abyss_pile_choice\": \"core\",",
+            "    \"abyss_poison\": \"core\",",
+            "    \"abyss_power_order\": \"core\",",
+            "    \"abyss_power_schedule\": \"core\",",
+            "    \"abyss_retained_cards\": \"core\",",
+            "    \"abyss_retrieval_cards\": \"core\",",
+            "    \"abyss_scry\": \"core\",",
+            "    \"abyss_shivs\": \"core\",",
+            "    \"abyss_silent\": \"core\",",
+            "    \"abyss_silent_attack_cards\": \"core\",",
+            "    \"abyss_silent_discard_cards\": \"core\",",
+            "    \"abyss_silent_tactics_cards\": \"core\",",
+            "    \"abyss_snapshot\": \"core\",",
+            "    \"abyss_stances\": \"core\",",
+            "    \"abyss_turn_powers\": \"core\",",
+            "    \"abyss_end_turn_powers\": \"core\",",
+            "    \"abyss_warrior_cards\": \"core\",",
+            "    \"abyss_warrior_exhaust_cards\": \"core\",",
+            "    \"abyss_warrior_status_cards\": \"core\",",
+            "    \"abyss_warrior_strength_cards\": \"core\",",
+            "    \"abyss_watcher_attack_cards\": \"core\",",
+            "    \"abyss_watcher_cards\": \"core\",",
+            "    \"abyss_watcher_final_cards\": \"core\",",
+            "    \"abyss_watcher_foreign_pool\": \"core\",",
+            "    \"abyss_watcher_flow_cards\": \"core\",",
+            "    \"abyss_acid_slime_m_ai\": \"core\",",
+            "    \"abyss_acid_slime_s_ai\": \"core\",",
+            "    \"abyss_act1_events\": \"core\",",
+            "    \"abyss_golden_idol_event\": \"core\",",
+            "    \"abyss_wheel_event\": \"core\",",
+            "    \"abyss_actor\": \"core\",",
+            "    \"abyss_battle_ui\": \"ui\",",
+            "    \"abyss_battle_card_view\": \"ui\",",
+            "    \"abyss_battle_info_content\": \"ui\",",
+            "    \"abyss_battle_info_view\": \"ui\",",
+            "    \"abyss_battle_intent_view\": \"ui\",",
+            "    \"abyss_battle_potion_view\": \"ui\",",
+            "    \"abyss_battle_reward_owner\": \"ui\",",
+            "    \"abyss_battle_status_view\": \"ui\",",
+            "    \"abyss_battle_unit_view\": \"ui\",",
+            "    \"abyss_bgm\": \"ui\",",
+            "    \"abyss_blue_slaver_ai\": \"core\",",
+            "    \"abyss_card_actions\": \"core\",",
+            "    \"abyss_card_capability\": \"core\",",
+            "    \"abyss_card_display\": \"ui\",",
+            "    \"abyss_card_input\": \"ui\",",
+            "    \"abyss_card_pool\": \"core\",",
+            "    \"abyss_card_random\": \"core\",",
+            "    \"abyss_combat\": \"core\",",
+            "    \"abyss_curses\": \"core\",",
+            "    \"abyss_deck_ui\": \"ui\",",
+            "    \"abyss_relic_view_ui\": \"ui\",",
+            "    \"abyss_relic_names\": \"ui\",",
+            "    \"abyss_effects\": \"core\",",
+            "    \"abyss_encounter_formation\": \"core\",",
+            "    \"abyss_encounter_queue\": \"core\",",
+            "    \"abyss_enemy_ai\": \"core\",",
+            "    \"abyss_enemy_random\": \"core\",",
+            "    \"abyss_event_pool\": \"core\",",
+            "    \"abyss_event_transform_context\": \"core\",",
+            "    \"abyss_events\": \"core\",",
+            "    \"abyss_external_random\": \"core\",",
+            "    \"abyss_feedback\": \"ui\",",
+            "    \"abyss_feedback_actor_painter\": \"ui\",",
+            "    \"abyss_game_ui_menu_view\": \"ui\",",
+            "    \"abyss_fountain\": \"core\",",
+            "    \"abyss_fungi_beast_ai\": \"core\",",
+            "    \"abyss_game_ui\": \"ui\",",
+            "    \"abyss_gold_rewards\": \"core\",",
+            "    \"abyss_gremlin_nob_ai\": \"core\",",
+            "    \"abyss_guardian_ai\": \"core\",",
+            "    \"abyss_inventory\": \"core\",",
+            "    \"abyss_jaw_worm_ai\": \"core\",",
+            "    \"abyss_living_wall\": \"core\",",
+            "    \"abyss_looter_ai\": \"core\",",
+            "    \"abyss_louse_ai\": \"core\",",
+            "    \"abyss_map\": \"core\",",
+            "    \"abyss_map_rooms\": \"core\",",
+            "    \"abyss_map_topology\": \"core\",",
+            "    \"abyss_map_ui\": \"ui\",",
+            "    \"abyss_merchant\": \"ui\",",
+            "    \"abyss_new_run_seed\": \"core\",",
+            "    \"abyss_node_ui\": \"ui\",",
+            "    \"abyss_nodes\": \"core\",",
+            "    \"abyss_numbers\": \"core\",",
+            "    \"abyss_potion_discard_ui\": \"ui\",",
+            "    \"abyss_potion_health\": \"core\",",
+            "    \"abyss_potion_random\": \"core\",",
+            "    \"abyss_potion_events\": \"core\",",
+            "    \"abyss_potion_rewards\": \"core\",",
+            "    \"abyss_prologue\": \"ui\",",
+            "    \"abyss_random\": \"core\",",
+            "    \"abyss_randomxs128\": \"core\",",
+            "    \"abyss_red_slaver_ai\": \"core\",",
+            "    \"abyss_relic_hooks\": \"core\",",
+            "    \"abyss_relic_pool\": \"core\",",
+            "    \"abyss_room_encounters\": \"core\",",
+            "    \"abyss_run\": \"core\",",
+            "    \"abyss_run_seed\": \"core\",",
+            "    \"abyss_sentry_ai\": \"core\",",
+            "    \"abyss_shop\": \"core\",",
+            "    \"abyss_shop_ui\": \"ui\",",
+            "    \"abyss_shop_price\": \"core\",",
+            "    \"abyss_spike_slime_m_ai\": \"core\",",
+            "    \"abyss_sts_random\": \"core\",",
+            "    \"abyss_transform_card\": \"core\",",
+            "    \"abyss_trade_event\": \"core\",",
+            "    \"abyss_menu_background\": \"ui\",",
+            "    \"abyss_menu_background_asset\": \"ui\",",
+            "    \"abyss_ui\": \"platform\",",
+            "    \"abyss_unknown\": \"core\",",
+            "    \"abyss_viewport\": \"ui\",",
+            "    \"abyss_copy\": \"core\",",
+            "    \"abyss_acts\": \"core\",",
+            "    \"abyss_original_v4\": \"core\",",
+            "    \"abyss_original_v4_profiles\": \"core\",",
+            "    \"abyss_original_v4_health\": \"core\",",
+            "    \"abyss_original_v4_data\": \"core\",",
+            "    \"abyss_original_v4_display\": \"ui\",",
+            "    \"abyss_act2_events\": \"core\",",
+            "    \"abyss_back_to_basics\": \"core\",",
+            "    \"abyss_plated_armor\": \"core\",",
+            "    \"abyss_act1_bosses\": \"core\",",
+            "    \"abyss_treasure\": \"core\",",
+            "    \"abyss_treasure_ui\": \"ui\",",
+            "    \"abyss_relic_rewards\": \"core\",",
+            "    \"abyss_neow\": \"core\",",
+            "    \"abyss_act3_bosses\": \"core\",",
+            "    \"abyss_neow_history\": \"core\",",
+            "    \"abyss_treasure_source\": \"core\",",
+            "    \"abyss_awakened_one\": \"core\",",
+            "    \"abyss_act2_ai_moves\": \"core\",",
+            "    \"abyss_combat_effect_cards\": \"core\",",
+            "    \"abyss_combat_effect_choice\": \"core\",",
+            "    \"abyss_combat_effect_damage\": \"core\",",
+            "    \"abyss_combat_effect_dispatch\": \"core\",",
+            "    \"abyss_combat_effect_powers\": \"core\",",
+            "    \"abyss_effects_cards\": \"core\",",
+            "    \"abyss_effects_damage\": \"core\",",
+            "    \"abyss_effects_enemy\": \"core\",",
+            "    \"abyss_effects_powers\": \"core\",",
+            "    \"abyss_character_presentation_text\": \"ui\",",
+            "    \"abyss_shop_selection\": \"ui\",",
+            "    \"abyss_node_ui_motion\": \"ui\",",
+            "    \"abyss_node_ui_camp\": \"ui\",",
+            "    \"abyss_node_ui_treasure_list\": \"ui\",",
+            "    \"abyss_node_ui_reward_detail\": \"ui\",",
+            "    \"abyss_character_select\": \"ui\",",
+            "    \"abyss_character_select_view\": \"ui\",",
+            "    \"abyss_battle_damage_view\": \"ui\",",
+            "    \"abyss_card_skin\": \"ui\",",
+            "    \"abyss_node_ui_feedback\": \"ui\",",
+            "    \"abyss_node_ui_faces\": \"ui\",",
+            "    \"abyss_node_ui_event_ownership\": \"ui\",",
+            "    \"abyss_node_ui_camp_actions\": \"ui\",",
+            "    \"abyss_node_ui_rewards\": \"ui\",",
+            "    \"abyss_node_ui_events\": \"ui\",",
+            "    \"abyss_node_ui_treasure\": \"ui\",",
+            "    \"abyss_node_ui_lifecycle\": \"ui\",",
+            "    \"abyss_node_ui_input\": \"ui\",",
+            "    \"abyss_node_ui_shop\": \"ui\",",
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_max_hp_relics\": \"core\",",
+            "    \"abyss_battle_actions\": \"ui\",",
+            "    \"abyss_battle_action_bindings\": \"ui\",",
+            "    \"abyss_battle_card_bindings\": \"ui\",",
+            "    \"abyss_battle_card_gestures\": \"ui\",",
+            "    \"abyss_battle_card_layout\": \"ui\",",
+            "    \"abyss_battle_details\": \"ui\",",
+            "    \"abyss_battle_detail_bindings\": \"ui\",",
+            "    \"abyss_battle_input_state\": \"ui\",",
+            "    \"abyss_battle_potion_bindings\": \"ui\",",
+            "    \"abyss_battle_render\": \"ui\",",
+            "    \"abyss_battle_render_actors\": \"ui\",",
+            "    \"abyss_battle_render_hud\": \"ui\",",
+            "    \"abyss_battle_render_state\": \"ui\",",
+            "    \"abyss_battle_targeting\": \"ui\",",
+            "    \"abyss_battle_target_bindings\": \"ui\",",
+            "    \"abyss_nodes_common\": \"core\",",
+            "    \"abyss_nodes_entry\": \"core\",",
+            "    \"abyss_nodes_events\": \"core\",",
+            "    \"abyss_nodes_sources\": \"core\",",
+            "    \"abyss_run_initialization\": \"core\",",
+            "    \"abyss_run_transition\": \"core\",",
+            "    \"abyss_run_rooms\": \"core\",",
+            "    \"abyss_run_settlement\": \"core\",",
+            "    \"abyss_run_potions\": \"core\",",
+            "    \"abyss_actor_motion\": \"ui\",",
+            "    \"abyss_skill_feedback\": \"ui\",",
+            "    \"abyss_card_flow\": \"ui\",",
+            "    \"abyss_card_art_runtime\": \"ui\",",
+            "    \"abyss_traveler_portraits\": \"platform\",",
+            "    \"abyss_traveler_portrait_assets\": \"ui\",",
+            "    \"abyss_ready_card_binding\": \"ui\"",
+            "  },",
+            "  \"dynamicExceptions\": [],",
+            "  \"deferredImports\": [",
+            "    {",
+            "      \"from\": \"abyss_class_potions\",",
+            "      \"to\": \"abyss_orbs\",",
+            "      \"reason\": \"Only a resolving Capacity potion action imports the initialized orb host; registration is data only.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_defect_final_cards\",",
+            "      \"to\": \"abyss_card_capability\",",
+            "      \"reason\": \"Random generation validates the complete candidate pool only at use/start hook runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_turn_powers\",",
+            "      \"to\": \"abyss_defect_final_cards\",",
+            "      \"reason\": \"Final random Power generation constructs actions during start hooks after initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_defect_final_cards\",",
+            "      \"reason\": \"Damage and reaction boundaries invoke final Defect defenses only after Actor initializes.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_defect_final_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Victory healing dispatches the initialized shared heal action only when a battle actually ends.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_defect_final_cards\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Recycle reads the initialized host card definition only during a real hand movement.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_hand_choice\",",
+            "      \"to\": \"abyss_defect_final_cards\",",
+            "      \"reason\": \"Recycle hand movement invokes the final card action after module initialization only.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_card_capability\",",
+            "      \"reason\": \"Only resolved Foreign Influence validates a selected complete-source candidate after all modules initialize.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_pile_choice\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Only a committed Omniscience choice creates its stat-equivalent queued duplicate; never imported at load.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_watcher_final_cards\",",
+            "      \"reason\": \"Only positive float gained-block callbacks invoke the already initialized Watcher power hook.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Only runtime Watcher exhaust/cancel callbacks use the initialized shared queue; never imported at module load.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_build_actions\",",
+            "      \"reason\": \"Only resolved Watcher generation actions call the initialized shared creation helper.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_enemy_ai\",",
+            "      \"reason\": \"Only InstantKill runtime resolution notifies the initialized enemy death callbacks.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_build_actions\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Only runtime Master Reality creation uses the initialized host upgrade API; no module-load import.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_act2_stasis\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"StasisPower death constructs Master Reality's upgrade only at runtime after Combat initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_colorless_cards\",",
+            "      \"reason\": \"Runtime Power callbacks run after Actor initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_colorless_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Generation and UID choices call the initialized host dispatcher at runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_hp_loss\",",
+            "      \"reason\": \"HP-loss callback runs after Actor initializes; notifier only queues runtime reactions.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_power_order\",",
+            "      \"reason\": \"Power application callback loads the schedule dispatcher after Actor initializes.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_focus\",",
+            "      \"reason\": \"Focus is dispatched only from runtime applyPower after module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_card_triggers\",",
+            "      \"reason\": \"Envenom reaction resolver runs after the combat engine initializes.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_stances\",",
+            "      \"reason\": \"Damage arithmetic calls the stance modifier only at runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Foundation builders and generation validation invoke Combat only after initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_discard\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Discard execution chooses the default host API at runtime, never during require.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Only enqueue callback bodies run after module initialization; Actor never invokes this import at load time.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Only runtime HP-change and Poison-construction callbacks import relic hooks; never during Actor module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_card_actions\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Potion/upgrade/HP action callbacks import hooks after the rule modules are loaded.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_relic_hooks\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Toy Ornithopter enqueues only when potionUsed is invoked after initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_original_v4\",",
+            "      \"reason\": \"Actor death notifications call the already-initialized original hero ledger only at runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_original_v4_health\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Actual original healing invokes existing HP-change hooks after module initialization only.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_original_v4\",",
+            "      \"to\": \"abyss_enemy_ai\",",
+            "      \"reason\": \"Only resolution-boundary callbacks flush the already-initialized native enemy AI; never imported while the original module loads.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_actor\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_card_triggers\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_discard\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_potions\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_potions\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_enemy_ai\",",
+            "      \"reason\": \"Choke execution notifies the initialized enemy death hooks only while resolving a card action.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_writhing_mass\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Permanent Parasite obtains dispatch loaded relic hooks only during an enemy action, after Actor initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_writhing_mass\",",
+            "      \"to\": \"abyss_inventory\",",
+            "      \"reason\": \"Darkstone uses the existing in-combat max-health/healing adapter only during a permanent obtain action.\"",
+            "    }",
+            "  ]",
+            "}",
+            ""
+          ],
+          "after": [
+            "{",
+            "  \"layers\": {",
+            "    \"abyss_victory_easter_egg\": \"ui\",",
+            "    \"abyss_combat_catalog\": \"core\",",
+            "    \"abyss_relic_card_rewards\": \"core\",",
+            "    \"abyss_boss_relics\": \"core\",",
+            "    \"abyss_uncommon_relics\": \"core\",",
+            "    \"abyss_rare_relics\": \"core\",",
+            "    \"abyss_shop_relics\": \"core\",",
+            "    \"abyss_nodes_rare_camp\": \"core\",",
+            "    \"abyss_relic_choices\": \"core\",",
+            "    \"abyss_relic_pending\": \"core\",",
+            "    \"abyss_relic_pending_ui\": \"ui\",",
+            "    \"abyss_duplicator_event\": \"core\",",
+            "    \"abyss_match_event\": \"core\",",
+            "    \"abyss_match_event_ui\": \"ui\",",
+            "    \"abyss_run_admission\": \"core\",",
+            "    \"abyss_run_potion_candidate\": \"core\",",
+            "    \"abyss_nest_event\": \"core\",",
+            "    \"abyss_mushrooms_event\": \"core\",",
+            "    \"abyss_player_revive\": \"core\",",
+            "    \"abyss_lizard_tail\": \"core\",",
+            "    \"abyss_battle_ending_intent\": \"ui\",",
+            "    \"abyss_node_ui_ending\": \"ui\",",
+            "    \"abyss_emerald_rewards\": \"core\",",
+            "    \"abyss_battle_reward_layout\": \"ui\",",
+            "    \"abyss_act4_enemies\": \"core\",",
+            "    \"abyss_ending_actions\": \"core\",",
+            "    \"abyss_corrupt_heart\": \"core\",",
+            "    \"abyss_spire_pair\": \"core\",",
+            "    \"abyss_emerald_elite\": \"core\",",
+            "    \"abyss_event_combat\": \"core\",",
+            "    \"abyss_mind_bloom_event\": \"core\",",
+            "    \"abyss_mysterious_sphere_event\": \"core\",",
+            "    \"abyss_combat_enemy_setup\": \"core\",",
+            "    \"abyss_ending_history\": \"core\",",
+            "    \"abyss_library_event\": \"core\",",
+            "    \"abyss_writhing_mass\": \"core\",",
+            "    \"abyss_giant_head\": \"core\",",
+            "    \"abyss_time_eater\": \"core\",",
+            "    \"abyss_nemesis\": \"core\",",
+            "    \"abyss_reptomancer\": \"core\",",
+            "    \"abyss_darklings\": \"core\",",
+            "    \"abyss_joust_event\": \"core\",",
+            "    \"abyss_tomb_red_mask_event\": \"core\",",
+            "    \"abyss_class_potions\": \"core\",",
+            "    \"abyss_potion_stance\": \"core\",",
+            "    \"abyss_run_red_card_contract\": \"core\",",
+            "    \"abyss_run_card_catalog\": \"core\",",
+            "    \"abyss_silent_potions\": \"core\",",
+            "    \"abyss_silent_final_cards\": \"core\",",
+            "    \"abyss_act3_events\": \"core\",",
+            "    \"abyss_sensory_stone_event\": \"core\",",
+            "    \"abyss_winding_event\": \"core\",",
+            "    \"abyss_act3_enemies\": \"core\",",
+            "    \"abyss_act3_ai\": \"core\",",
+            "    \"abyss_act3_powers\": \"core\",",
+            "    \"abyss_moai_event\": \"core\",",
+            "    \"abyss_battle_enemy_view\": \"ui\",",
+            "    \"abyss_act2_enemies\": \"core\",",
+            "    \"abyss_ghosts_event\": \"core\",",
+            "    \"abyss_act2_ai\": \"core\",",
+            "    \"abyss_act2_powers\": \"core\",",
+            "    \"abyss_potion_text\": \"ui\",",
+            "    \"abyss_potion_generation\": \"core\",",
+            "    \"abyss_potion_discovery\": \"core\",",
+            "    \"abyss_potion_fairy\": \"core\",",
+            "    \"abyss_class_card_pools\": \"core\",",
+            "    \"abyss_colorless_cards\": \"core\",",
+            "    \"abyss_act2_summons\": \"core\",",
+            "    \"abyss_act2_stasis\": \"core\",",
+            "    \"abyss_action_queue\": \"core\",",
+            "    \"abyss_build_actions\": \"core\",",
+            "    \"abyss_card_triggers\": \"core\",",
+            "    \"abyss_character_presentation\": \"ui\",",
+            "    \"abyss_character_profiles\": \"core\",",
+            "    \"abyss_choice_ui\": \"ui\",",
+            "    \"abyss_controller\": \"ui\",",
+            "    \"abyss_corruption\": \"core\",",
+            "    \"abyss_defect_cards\": \"core\",",
+            "    \"abyss_defect_engine_cards\": \"core\",",
+            "    \"abyss_defect_final_cards\": \"core\",",
+            "    \"abyss_defect_utility_cards\": \"core\",",
+            "    \"abyss_discard\": \"core\",",
+            "    \"abyss_exhaust\": \"core\",",
+            "    \"abyss_flow_actions\": \"core\",",
+            "    \"abyss_focus\": \"core\",",
+            "    \"abyss_hand_choice\": \"core\",",
+            "    \"abyss_hp_loss\": \"core\",",
+            "    \"abyss_mantra\": \"core\",",
+            "    \"abyss_opening_hand\": \"core\",",
+            "    \"abyss_orb_powers\": \"core\",",
+            "    \"abyss_orbs\": \"core\",",
+            "    \"abyss_pile_choice\": \"core\",",
+            "    \"abyss_poison\": \"core\",",
+            "    \"abyss_power_order\": \"core\",",
+            "    \"abyss_power_schedule\": \"core\",",
+            "    \"abyss_retained_cards\": \"core\",",
+            "    \"abyss_retrieval_cards\": \"core\",",
+            "    \"abyss_scry\": \"core\",",
+            "    \"abyss_shivs\": \"core\",",
+            "    \"abyss_silent\": \"core\",",
+            "    \"abyss_silent_attack_cards\": \"core\",",
+            "    \"abyss_silent_discard_cards\": \"core\",",
+            "    \"abyss_silent_tactics_cards\": \"core\",",
+            "    \"abyss_snapshot\": \"core\",",
+            "    \"abyss_stances\": \"core\",",
+            "    \"abyss_turn_powers\": \"core\",",
+            "    \"abyss_end_turn_powers\": \"core\",",
+            "    \"abyss_warrior_cards\": \"core\",",
+            "    \"abyss_warrior_exhaust_cards\": \"core\",",
+            "    \"abyss_warrior_status_cards\": \"core\",",
+            "    \"abyss_warrior_strength_cards\": \"core\",",
+            "    \"abyss_watcher_attack_cards\": \"core\",",
+            "    \"abyss_watcher_cards\": \"core\",",
+            "    \"abyss_watcher_final_cards\": \"core\",",
+            "    \"abyss_watcher_foreign_pool\": \"core\",",
+            "    \"abyss_watcher_flow_cards\": \"core\",",
+            "    \"abyss_acid_slime_m_ai\": \"core\",",
+            "    \"abyss_acid_slime_s_ai\": \"core\",",
+            "    \"abyss_act1_events\": \"core\",",
+            "    \"abyss_golden_idol_event\": \"core\",",
+            "    \"abyss_wheel_event\": \"core\",",
+            "    \"abyss_actor\": \"core\",",
+            "    \"abyss_battle_ui\": \"ui\",",
+            "    \"abyss_battle_card_view\": \"ui\",",
+            "    \"abyss_battle_info_content\": \"ui\",",
+            "    \"abyss_battle_info_view\": \"ui\",",
+            "    \"abyss_battle_intent_view\": \"ui\",",
+            "    \"abyss_battle_potion_view\": \"ui\",",
+            "    \"abyss_battle_reward_owner\": \"ui\",",
+            "    \"abyss_battle_status_view\": \"ui\",",
+            "    \"abyss_battle_unit_view\": \"ui\",",
+            "    \"abyss_bgm\": \"ui\",",
+            "    \"abyss_blue_slaver_ai\": \"core\",",
+            "    \"abyss_card_actions\": \"core\",",
+            "    \"abyss_card_capability\": \"core\",",
+            "    \"abyss_card_display\": \"ui\",",
+            "    \"abyss_card_input\": \"ui\",",
+            "    \"abyss_card_pool\": \"core\",",
+            "    \"abyss_card_random\": \"core\",",
+            "    \"abyss_combat\": \"core\",",
+            "    \"abyss_curses\": \"core\",",
+            "    \"abyss_deck_ui\": \"ui\",",
+            "    \"abyss_relic_view_ui\": \"ui\",",
+            "    \"abyss_relic_names\": \"ui\",",
+            "    \"abyss_effects\": \"core\",",
+            "    \"abyss_encounter_formation\": \"core\",",
+            "    \"abyss_encounter_queue\": \"core\",",
+            "    \"abyss_enemy_ai\": \"core\",",
+            "    \"abyss_enemy_random\": \"core\",",
+            "    \"abyss_event_pool\": \"core\",",
+            "    \"abyss_event_transform_context\": \"core\",",
+            "    \"abyss_events\": \"core\",",
+            "    \"abyss_external_random\": \"core\",",
+            "    \"abyss_feedback\": \"ui\",",
+            "    \"abyss_feedback_actor_painter\": \"ui\",",
+            "    \"abyss_game_ui_menu_view\": \"ui\",",
+            "    \"abyss_fountain\": \"core\",",
+            "    \"abyss_fungi_beast_ai\": \"core\",",
+            "    \"abyss_game_ui\": \"ui\",",
+            "    \"abyss_gold_rewards\": \"core\",",
+            "    \"abyss_gremlin_nob_ai\": \"core\",",
+            "    \"abyss_guardian_ai\": \"core\",",
+            "    \"abyss_inventory\": \"core\",",
+            "    \"abyss_jaw_worm_ai\": \"core\",",
+            "    \"abyss_living_wall\": \"core\",",
+            "    \"abyss_looter_ai\": \"core\",",
+            "    \"abyss_louse_ai\": \"core\",",
+            "    \"abyss_map\": \"core\",",
+            "    \"abyss_map_rooms\": \"core\",",
+            "    \"abyss_map_topology\": \"core\",",
+            "    \"abyss_map_ui\": \"ui\",",
+            "    \"abyss_merchant\": \"ui\",",
+            "    \"abyss_new_run_seed\": \"core\",",
+            "    \"abyss_node_ui\": \"ui\",",
+            "    \"abyss_nodes\": \"core\",",
+            "    \"abyss_numbers\": \"core\",",
+            "    \"abyss_potion_discard_ui\": \"ui\",",
+            "    \"abyss_potion_health\": \"core\",",
+            "    \"abyss_potion_random\": \"core\",",
+            "    \"abyss_potion_events\": \"core\",",
+            "    \"abyss_potion_rewards\": \"core\",",
+            "    \"abyss_prologue\": \"ui\",",
+            "    \"abyss_random\": \"core\",",
+            "    \"abyss_randomxs128\": \"core\",",
+            "    \"abyss_red_slaver_ai\": \"core\",",
+            "    \"abyss_relic_hooks\": \"core\",",
+            "    \"abyss_relic_pool\": \"core\",",
+            "    \"abyss_room_encounters\": \"core\",",
+            "    \"abyss_run\": \"core\",",
+            "    \"abyss_run_seed\": \"core\",",
+            "    \"abyss_sentry_ai\": \"core\",",
+            "    \"abyss_shop\": \"core\",",
+            "    \"abyss_shop_ui\": \"ui\",",
+            "    \"abyss_shop_price\": \"core\",",
+            "    \"abyss_spike_slime_m_ai\": \"core\",",
+            "    \"abyss_sts_random\": \"core\",",
+            "    \"abyss_transform_card\": \"core\",",
+            "    \"abyss_trade_event\": \"core\",",
+            "    \"abyss_menu_background\": \"ui\",",
+            "    \"abyss_menu_background_asset\": \"ui\",",
+            "    \"abyss_ui\": \"platform\",",
+            "    \"abyss_unknown\": \"core\",",
+            "    \"abyss_viewport\": \"ui\",",
+            "    \"abyss_copy\": \"core\",",
+            "    \"abyss_acts\": \"core\",",
+            "    \"abyss_original_v4\": \"core\",",
+            "    \"abyss_original_v4_profiles\": \"core\",",
+            "    \"abyss_original_v4_health\": \"core\",",
+            "    \"abyss_original_v4_data\": \"core\",",
+            "    \"abyss_original_v4_display\": \"ui\",",
+            "    \"abyss_act2_events\": \"core\",",
+            "    \"abyss_back_to_basics\": \"core\",",
+            "    \"abyss_plated_armor\": \"core\",",
+            "    \"abyss_act1_bosses\": \"core\",",
+            "    \"abyss_treasure\": \"core\",",
+            "    \"abyss_treasure_ui\": \"ui\",",
+            "    \"abyss_relic_rewards\": \"core\",",
+            "    \"abyss_neow\": \"core\",",
+            "    \"abyss_act3_bosses\": \"core\",",
+            "    \"abyss_neow_history\": \"core\",",
+            "    \"abyss_treasure_source\": \"core\",",
+            "    \"abyss_awakened_one\": \"core\",",
+            "    \"abyss_act2_ai_moves\": \"core\",",
+            "    \"abyss_combat_effect_cards\": \"core\",",
+            "    \"abyss_combat_effect_choice\": \"core\",",
+            "    \"abyss_combat_effect_damage\": \"core\",",
+            "    \"abyss_combat_effect_dispatch\": \"core\",",
+            "    \"abyss_combat_effect_powers\": \"core\",",
+            "    \"abyss_effects_cards\": \"core\",",
+            "    \"abyss_effects_damage\": \"core\",",
+            "    \"abyss_effects_enemy\": \"core\",",
+            "    \"abyss_effects_powers\": \"core\",",
+            "    \"abyss_character_presentation_text\": \"ui\",",
+            "    \"abyss_shop_selection\": \"ui\",",
+            "    \"abyss_node_ui_motion\": \"ui\",",
+            "    \"abyss_node_ui_camp\": \"ui\",",
+            "    \"abyss_node_ui_treasure_list\": \"ui\",",
+            "    \"abyss_node_ui_reward_detail\": \"ui\",",
+            "    \"abyss_character_select\": \"ui\",",
+            "    \"abyss_character_select_view\": \"ui\",",
+            "    \"abyss_battle_damage_view\": \"ui\",",
+            "    \"abyss_card_skin\": \"ui\",",
+            "    \"abyss_node_ui_feedback\": \"ui\",",
+            "    \"abyss_node_ui_faces\": \"ui\",",
+            "    \"abyss_node_ui_event_ownership\": \"ui\",",
+            "    \"abyss_node_ui_camp_actions\": \"ui\",",
+            "    \"abyss_node_ui_rewards\": \"ui\",",
+            "    \"abyss_node_ui_events\": \"ui\",",
+            "    \"abyss_node_ui_treasure\": \"ui\",",
+            "    \"abyss_node_ui_lifecycle\": \"ui\",",
+            "    \"abyss_node_ui_input\": \"ui\",",
+            "    \"abyss_node_ui_shop\": \"ui\",",
+            "    \"abyss_battle_potion_popup\": \"ui\",",
+            "    \"abyss_max_hp_relics\": \"core\",",
+            "    \"abyss_battle_actions\": \"ui\",",
+            "    \"abyss_battle_action_bindings\": \"ui\",",
+            "    \"abyss_battle_card_bindings\": \"ui\",",
+            "    \"abyss_battle_card_gestures\": \"ui\",",
+            "    \"abyss_battle_card_layout\": \"ui\",",
+            "    \"abyss_battle_details\": \"ui\",",
+            "    \"abyss_battle_detail_bindings\": \"ui\",",
+            "    \"abyss_battle_input_state\": \"ui\",",
+            "    \"abyss_battle_potion_bindings\": \"ui\",",
+            "    \"abyss_battle_render\": \"ui\",",
+            "    \"abyss_battle_render_actors\": \"ui\",",
+            "    \"abyss_battle_render_hud\": \"ui\",",
+            "    \"abyss_battle_render_state\": \"ui\",",
+            "    \"abyss_battle_targeting\": \"ui\",",
+            "    \"abyss_battle_target_bindings\": \"ui\",",
+            "    \"abyss_nodes_common\": \"core\",",
+            "    \"abyss_nodes_entry\": \"core\",",
+            "    \"abyss_nodes_events\": \"core\",",
+            "    \"abyss_nodes_sources\": \"core\",",
+            "    \"abyss_run_initialization\": \"core\",",
+            "    \"abyss_run_transition\": \"core\",",
+            "    \"abyss_run_rooms\": \"core\",",
+            "    \"abyss_run_settlement\": \"core\",",
+            "    \"abyss_run_potions\": \"core\",",
+            "    \"abyss_actor_motion\": \"ui\",",
+            "    \"abyss_skill_feedback\": \"ui\",",
+            "    \"abyss_card_flow\": \"ui\",",
+            "    \"abyss_card_art_runtime\": \"ui\",",
+            "    \"abyss_traveler_portraits\": \"platform\",",
+            "    \"abyss_traveler_portrait_assets\": \"ui\",",
+            "    \"abyss_ready_card_binding\": \"ui\"",
+            "  },",
+            "  \"dynamicExceptions\": [],",
+            "  \"deferredImports\": [",
+            "    {\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_run\",\"reason\":\"Meat on the Bone delegates raw victory healing to the initialized Run health owner while the room is still in combat, preserving one shared Magic Flower/Bloom modifier pass.\"},",
+            "    {\"from\":\"abyss_relic_card_rewards\",\"to\":\"abyss_run\",\"reason\":\"Card reward commands invoke the initialized Run transaction and permanent inventory only when selecting or claiming; never during module initialization.\"},",
+            "{\"from\":\"abyss_actor\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_actor\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_actor\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_build_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_living_wall\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_event_transform_context\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_transform_card\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_capability\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_potion_random\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_pool\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_relic_hooks\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_card_actions\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_card_actions\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_exhaust\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_rare_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_rare_relics\",\"to\":\"abyss_discard\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_card_pool\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_relic_hooks\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_boss_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_relic_choices\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_boss_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_relic_choices\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_potion_random\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_power_schedule\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_potion_discovery\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_potion_health\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "{\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_actor\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+            "    {",
+            "      \"from\": \"abyss_class_potions\",",
+            "      \"to\": \"abyss_orbs\",",
+            "      \"reason\": \"Only a resolving Capacity potion action imports the initialized orb host; registration is data only.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_defect_final_cards\",",
+            "      \"to\": \"abyss_card_capability\",",
+            "      \"reason\": \"Random generation validates the complete candidate pool only at use/start hook runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_turn_powers\",",
+            "      \"to\": \"abyss_defect_final_cards\",",
+            "      \"reason\": \"Final random Power generation constructs actions during start hooks after initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_defect_final_cards\",",
+            "      \"reason\": \"Damage and reaction boundaries invoke final Defect defenses only after Actor initializes.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_defect_final_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Victory healing dispatches the initialized shared heal action only when a battle actually ends.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_defect_final_cards\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Recycle reads the initialized host card definition only during a real hand movement.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_hand_choice\",",
+            "      \"to\": \"abyss_defect_final_cards\",",
+            "      \"reason\": \"Recycle hand movement invokes the final card action after module initialization only.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_card_capability\",",
+            "      \"reason\": \"Only resolved Foreign Influence validates a selected complete-source candidate after all modules initialize.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_pile_choice\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Only a committed Omniscience choice creates its stat-equivalent queued duplicate; never imported at load.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_watcher_final_cards\",",
+            "      \"reason\": \"Only positive float gained-block callbacks invoke the already initialized Watcher power hook.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Only runtime Watcher exhaust/cancel callbacks use the initialized shared queue; never imported at module load.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_build_actions\",",
+            "      \"reason\": \"Only resolved Watcher generation actions call the initialized shared creation helper.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_watcher_final_cards\",",
+            "      \"to\": \"abyss_enemy_ai\",",
+            "      \"reason\": \"Only InstantKill runtime resolution notifies the initialized enemy death callbacks.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_build_actions\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Only runtime Master Reality creation uses the initialized host upgrade API; no module-load import.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_act2_stasis\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"StasisPower death constructs Master Reality's upgrade only at runtime after Combat initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_colorless_cards\",",
+            "      \"reason\": \"Runtime Power callbacks run after Actor initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_colorless_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Generation and UID choices call the initialized host dispatcher at runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_hp_loss\",",
+            "      \"reason\": \"HP-loss callback runs after Actor initializes; notifier only queues runtime reactions.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_power_order\",",
+            "      \"reason\": \"Power application callback loads the schedule dispatcher after Actor initializes.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_focus\",",
+            "      \"reason\": \"Focus is dispatched only from runtime applyPower after module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_card_triggers\",",
+            "      \"reason\": \"Envenom reaction resolver runs after the combat engine initializes.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_stances\",",
+            "      \"reason\": \"Damage arithmetic calls the stance modifier only at runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Foundation builders and generation validation invoke Combat only after initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_discard\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Discard execution chooses the default host API at runtime, never during require.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Only enqueue callback bodies run after module initialization; Actor never invokes this import at load time.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Only runtime HP-change and Poison-construction callbacks import relic hooks; never during Actor module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_card_actions\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Potion/upgrade/HP action callbacks import hooks after the rule modules are loaded.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_relic_hooks\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Toy Ornithopter enqueues only when potionUsed is invoked after initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_actor\",",
+            "      \"to\": \"abyss_original_v4\",",
+            "      \"reason\": \"Actor death notifications call the already-initialized original hero ledger only at runtime.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_original_v4_health\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Actual original healing invokes existing HP-change hooks after module initialization only.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_original_v4\",",
+            "      \"to\": \"abyss_enemy_ai\",",
+            "      \"reason\": \"Only resolution-boundary callbacks flush the already-initialized native enemy AI; never imported while the original module loads.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_actor\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_card_triggers\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_discard\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_potions\",",
+            "      \"to\": \"abyss_combat\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_potions\",",
+            "      \"to\": \"abyss_card_actions\",",
+            "      \"reason\": \"Silent callbacks import the initialized runtime only during action execution, never at module initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_silent_final_cards\",",
+            "      \"to\": \"abyss_enemy_ai\",",
+            "      \"reason\": \"Choke execution notifies the initialized enemy death hooks only while resolving a card action.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_writhing_mass\",",
+            "      \"to\": \"abyss_relic_hooks\",",
+            "      \"reason\": \"Permanent Parasite obtains dispatch loaded relic hooks only during an enemy action, after Actor initialization.\"",
+            "    },",
+            "    {",
+            "      \"from\": \"abyss_writhing_mass\",",
+            "      \"to\": \"abyss_inventory\",",
+            "      \"reason\": \"Darkstone uses the existing in-combat max-health/healing adapter only during a permanent obtain action.\"",
+            "    }",
+            "  ]",
+            "}",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui.lua": {
+      "beforeSha256": "de356a0a6fcbde4c59d791da8dd3c0f5a047dbf122c74968b154c27931f4f159",
+      "afterSha256": "ffc59aefa40f413e7deceff3ee5ee63474825f75df5e4b10be02cfeb9b4844c8",
+      "hunks": [
+        {
+          "at": 21,
+          "before": [],
+          "after": [
+            "local VictoryEgg=require('abyss_victory_easter_egg')"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "        cursor = platform.cursorEvents, controller = controller })"
+          ],
+          "after": [
+            "        cursor = platform.cursorEvents, controller = controller,",
+            "        available=function(map)return Nodes.available(self.run,map)end })"
+          ]
+        },
+        {
+          "at": 136,
+          "before": [
+            "        if self.disabled or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end"
+          ],
+          "after": [
+            "        if self.disabled or self.easterEggOpen or self.exitOpen or self.settlementRequested or self.settlementBusy then return false end"
+          ]
+        },
+        {
+          "at": 200,
+          "before": [],
+          "after": [
+            "    if root:GetChild('victoryEasterEgg') then",
+            "        self.easterEgg=VictoryEgg.new(root,{canOpen=function()",
+            "            return type(platform.createEasterEggArt)=='function' and self.mode=='victory' and not self.disabled",
+            "                and not self.characterOpen and not self.exitOpen and not self.settlementRequested and not self.settlementBusy and not self.motion.deathReveal",
+            "        end,createArt=platform.createEasterEggArt,onVisibility=function(value)",
+            "            self.easterEggOpen=value;exitGeneration=exitGeneration+1;menuGeneration=menuGeneration+1;self:refresh()",
+            "        end})",
+            "    end",
+            "    self.onEngineDestroy=function(_)if self.easterEgg then self.easterEgg:onEngineDestroy()end end"
+          ]
+        },
+        {
+          "at": 212,
+          "before": [],
+          "after": [
+            "    local menuLoading,characterLoading,originalCharacterHint=false,false,nil",
+            "    self.paintArtLoading=function(_)",
+            "        local bg=platform.background and platform.background:status()",
+            "        local portraits=platform.portraits and platform.portraits:status()",
+            "        local avatar=portraits and (portraits.selection and portraits.selection.phase~='idle' and portraits.selection or portraits.avatar)",
+            "        local function percent(s)return math.min(99,math.floor(100*((s.nextIndex or 1)-1)/math.max(1,s.total or 1)))end",
+            "        local summary=menu:GetChild('summary')",
+            "        if self.mode=='menu' and not self.characterOpen and bg and (bg.phase=='building' or bg.phase=='revealing') then",
+            "            summary.text='正在载入画面… '..percent(bg)..'%';summary:SetVisible(true);menuLoading=true",
+            "        elseif menuLoading then summary:SetVisible(false);menuLoading=false end",
+            "        local hint=characterPanel:GetChild('hint')",
+            "        if self.characterOpen and avatar and (avatar.phase=='building' or avatar.phase=='revealing') then",
+            "            if not characterLoading then originalCharacterHint=hint.text end",
+            "            hint.text='正在载入角色画面… '..percent(avatar)..'%';characterLoading=true",
+            "        elseif characterLoading then hint.text=originalCharacterHint or '查看初始信息，确认后开始冒险。';characterLoading=false end",
+            "    end"
+          ]
+        },
+        {
+          "at": 233,
+          "before": [],
+          "after": [
+            "        elseif self.easterEggOpen then scope='easterEgg'"
+          ]
+        },
+        {
+          "at": 245,
+          "before": [
+            "            if scope=='exit' then return self:closeExit()"
+          ],
+          "after": [
+            "            if scope=='easterEgg' then return self.easterEgg:close()",
+            "            elseif scope=='exit' then return self:closeExit()"
+          ]
+        },
+        {
+          "at": 272,
+          "before": [],
+          "after": [
+            "        elseif require('abyss_relic_pending').owner(run)then self.mode='node'"
+          ]
+        },
+        {
+          "at": 359,
+          "before": [
+            "        menu:SetVisible(inMenu)"
+          ],
+          "after": [
+            "        menu:SetVisible(inMenu and not self.characterOpen and not self.easterEggOpen)"
+          ]
+        },
+        {
+          "at": 417,
+          "before": [],
+          "after": [
+            "    local function menuVersionVisible()return self.mode=='menu' and not self.characterOpen end",
+            "    local function syncPortraits()",
+            "        if not platform.portraits then return end",
+            "        local character",
+            "        if self.characterOpen and self.characterSelection.info then character=self.characterSelection.info.id",
+            "        elseif self.run then character=self.run.character or 'ironclad'end",
+            "        platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,character,",
+            "            self.mode=='menu' and not self.characterOpen)",
+            "    end",
+            "    local function exitEntryVisible()",
+            "        return not self.easterEggOpen and not self.exitOpen and not self.settlementRequested and not self.settlementBusy",
+            "    end"
+          ]
+        },
+        {
+          "at": 430,
+          "before": [
+            "        codeVersion:SetVisible(self.mode=='menu')"
+          ],
+          "after": [
+            "        codeVersion:SetVisible(menuVersionVisible())"
+          ]
+        },
+        {
+          "at": 441,
+          "before": [
+            "        exitEntry:SetVisible(not self.exitOpen and not self.settlementRequested and not self.settlementBusy)"
+          ],
+          "after": [
+            "        exitEntry:SetVisible(exitEntryVisible())"
+          ]
+        },
+        {
+          "at": 463,
+          "before": [
+            "        local blocked = self.exitOpen or self.settlementRequested or self.settlementBusy or self.characterOpen"
+          ],
+          "after": [
+            "        local blocked = self.easterEggOpen or self.exitOpen or self.settlementRequested or self.settlementBusy or self.characterOpen"
+          ]
+        },
+        {
+          "at": 480,
+          "before": [],
+          "after": [
+            "    local lastBackdrop,lastBackdropVisible",
+            "    local function syncOfficialBattleScene(run)",
+            "        local scenes=root:GetChild('officialBattleBackdrop')",
+            "        if not scenes then return end",
+            "        local visible=self.mode=='battle'",
+            "        if visible~=lastBackdropVisible then scenes:SetVisible(visible);lastBackdropVisible=visible end",
+            "        local floor=math.max(1,run and run.floor or 1)",
+            "        local act,row=Acts.forFloor(floor);local chapter=math.min(2,act)",
+            "        local key=floor==Acts.get(act).boss and 'boss'..chapter or 'act'..chapter..'_'..((row-1)%3+1)",
+            "        if key==lastBackdrop then return end",
+            "        for _,name in ipairs({'act1_1','act1_2','act1_3','act2_1','act2_2','act2_3','boss1','boss2'})do",
+            "            scenes:GetChild(name):SetVisible(name==key)",
+            "        end",
+            "        lastBackdrop=key",
+            "    end"
+          ]
+        },
+        {
+          "at": 501,
+          "before": [],
+          "after": [
+            "        syncOfficialBattleScene(run)"
+          ]
+        },
+        {
+          "at": 505,
+          "before": [
+            "        if platform.portraits then platform.portraits:sync(self.mode,self.characterOpen,self.settlementRequested or self.settlementBusy,self.run and self.run.character) end"
+          ],
+          "after": []
+        },
+        {
+          "at": 519,
+          "before": [],
+          "after": [
+            "        if self.easterEgg then self.easterEgg:refresh()end",
+            "        syncPortraits()"
+          ]
+        },
+        {
+          "at": 546,
+          "before": [],
+          "after": [
+            "        if self.easterEggOpen then return false,'easter_egg_open' end"
+          ]
+        },
+        {
+          "at": 644,
+          "before": [],
+          "after": [
+            "        if self.easterEggOpen then return false,'easter_egg_open' end"
+          ]
+        },
+        {
+          "at": 696,
+          "before": [],
+          "after": [
+            "        if self.easterEggOpen then",
+            "            self.easterEgg:tick();if controller then controller:tick()end;self:syncController();return true",
+            "        end"
+          ]
+        },
+        {
+          "at": 701,
+          "before": [],
+          "after": [
+            "        self:paintArtLoading()"
+          ]
+        },
+        {
+          "at": 727,
+          "before": [],
+          "after": [
+            "        if self.easterEgg then self.easterEgg:close()end"
+          ]
+        },
+        {
+          "at": 763,
+          "before": [
+            "        local menuAction = kind == \"start\" or kind == \"settle\""
+          ],
+          "after": [
+            "        local menuAction = kind == \"start\" or kind == \"settle\" or kind=='egg_open'"
+          ]
+        },
+        {
+          "at": 768,
+          "before": [],
+          "after": [
+            "        local function eggAvailable()",
+            "            if self.easterEggOpen then return kind=='egg_close' end",
+            "            return kind=='egg_open' and self.easterEgg:refresh()",
+            "        end"
+          ]
+        },
+        {
+          "at": 774,
+          "before": [],
+          "after": [
+            "            if self.easterEggOpen or kind=='egg_open' or kind=='egg_close' then return eggAvailable()end"
+          ]
+        },
+        {
+          "at": 786,
+          "before": [
+            "            if self.characterOpen and kind ~= 'open' then return false end"
+          ],
+          "after": [
+            "            -- The exit modal owns confirmation/cancellation above selection.",
+            "            if self.characterOpen and not self.exitOpen and kind ~= 'open' then return false end"
+          ]
+        },
+        {
+          "at": 828,
+          "before": [],
+          "after": [
+            "            if kind=='egg_close' then return 'easterEgg'end"
+          ]
+        },
+        {
+          "at": 851,
+          "before": [],
+          "after": [
+            "    if self.easterEgg then",
+            "        local egg=self.easterEgg",
+            "        egg.panel:GetChild('blocker'):AddCursorEventListener(clickEvent,function()return true end)",
+            "        bindCommand(egg.button,'egg_open',function()return egg:open()end)",
+            "        bindCommand(egg.panel:GetChild('close'),'egg_close',function()return egg:close()end)",
+            "    end"
+          ]
+        }
+      ]
+    },
+    "src/lua/abyss_game_ui_menu_view.lua": {
+      "beforeSha256": "d491220b3a74ade3db7a3916d3cd959250fb3ce9e4fae12e87e6056f8345d979",
+      "afterSha256": "3b64bca761dd460da03fa7efc5f1ac9b0590b95f24f1211eaff06d34992eedde",
+      "hunks": [
+        {
+          "at": 58,
+          "before": [],
+          "after": [
+            "    if not vista.visible then return end"
           ]
         }
       ]
