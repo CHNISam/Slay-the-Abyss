@@ -550,12 +550,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         if ok then selectionChanged()end
         return ok,reason
     end
-    self.filterCharacterDeck=function(_,kind)
-        if not self.characterOpen or self.starting or self.disabled then return false end
-        local ok=self.characterSelection:setDeckFilter(kind)
-        if ok then selectionChanged()end
-        return ok
-    end
     self.start = function(_,character)
         if self.easterEggOpen then return false,'easter_egg_open' end
         if self.disabled or self.starting then return false,"ui_disabled" end
@@ -930,13 +924,6 @@ function M.new(root, data, presentation, clickEvent, platform)
             function()return self:selectElement(id)end,function()return self.characterSelection.character=='traveler'
                 and self.characterSelection:allowsElement(id)end,
             10+i,'elements',function()if Controller.isController(controller)then return self:selectElement(id)end end)
-    end
-    for _,entry in ipairs({{'All','all'},{'Attack','attack'},{'Skill','skill'},
-        {'Power','power'},{'Status','status'},{'Curse','curse'}})do
-        local name,kind=entry[1],entry[2]
-        bindCommand(characterPanel:GetChild('details'):GetChild('deckFilter'..name),
-            'character_deck_filter_'..kind,function()return self:filterCharacterDeck(kind)end,
-            function()return self.characterSelection.info~=nil end,60,'deckFilters')
     end
     ready = true
     if controller then
