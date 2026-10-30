@@ -1,3 +1,4 @@
+import {currentPhaseThreeMemoryFixture} from '../tests/helpers/current-phase-three-memory.mjs';
 import {currentPresentationNativeFixtures} from '../tests/helpers/current-presentation-native.mjs';
 import {currentEventCombatVectorFixtures} from '../tests/helpers/current-event-combat-vectors.mjs';
 import {currentGameUiFixture} from '../tests/helpers/current-game-ui-runner.mjs';
@@ -16,6 +17,7 @@ const slash = value => value.replaceAll('\\', '/');
 // Importing runLua does not execute its conditional fixture setup. Keep these
 // helper edges on their real Lua entries, as with the historical replay port.
 const conditionalRunnerFixtures = new Map([
+  ['tests/helpers/current-phase-three-memory.mjs', new Set([currentPhaseThreeMemoryFixture])],
   ['tests/helpers/current-presentation-native.mjs', new Set(currentPresentationNativeFixtures)],
   ['tests/helpers/current-event-combat-vectors.mjs', new Set(currentEventCombatVectorFixtures)],
   ['tests/helpers/current-game-ui-runner.mjs', new Set([currentGameUiFixture])],
