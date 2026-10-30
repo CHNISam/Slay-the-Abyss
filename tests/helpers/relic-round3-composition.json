@@ -1,0 +1,1010 @@
+{
+  "schemaVersion": 1,
+  "currentCommit": "9ed3bb24cdf298d9ce8c9708f9658a1d764af12b",
+  "targets": {
+    "relic": {
+      "commit": "7b9ba4ab9af438a1e875f1883b27469ee164eb31",
+      "files": {
+        "config/architecture.json": {
+          "beforeSha256": "b2b91dde4c584331e11f2917f3da03608497761847f475edeac895e905bcf5ee",
+          "afterSha256": "8eaf5e76ca026fe4ad5d5b53475b3433c9d3581d27f60afb2a73d4d1df535895",
+          "beforeLines": 530,
+          "afterLines": 531,
+          "hunks": [
+            {
+              "at": 2,
+              "beforeAt": 2,
+              "before": [],
+              "after": [
+                "    \"abyss_combat_catalog\": \"core\","
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "150547f0859d24f57fad2d0c0ea8b780372bd079"
+        },
+        "src/lua/abyss_card_actions.lua": {
+          "beforeSha256": "ecec817b06d0fec51b66ea289e3d7fa63898bf50a1cf35793a9d7def144e393c",
+          "afterSha256": "0b3c390127fbe7bbdcd95d5a075e7ed0849656d854f979e7417c625588ae88ca",
+          "beforeLines": 477,
+          "afterLines": 519,
+          "hunks": [
+            {
+              "at": 286,
+              "beforeAt": 286,
+              "before": [
+                "local exhaustActions={exhaustRandom=exhaustRandom,fiendFire=fiendFire,",
+                "    exhaustNonAttacks=exhaustNonAttacks,secondWind=exhaustNonAttacks,exhaustSpecific=exhaustSpecific}",
+                ""
+              ],
+              "after": []
+            },
+            {
+              "at": 332,
+              "beforeAt": 335,
+              "before": [
+                "local handMutationActions={upgradeHand=upgradeAllHand,makeTempCardInHand=makeTemporaryCards,",
+                "    makeTempCardInDraw=makeTemporaryCards,generateAttack=generateAttack,randomizeHandCost=randomizeHandCost}"
+              ],
+              "after": [
+                "local function upgradeHand(combat,state,item)",
+                "    if item.effect.all then upgradeAllHand(combat,state)",
+                "    else return selection(combat,state,item)end",
+                "end",
+                "",
+                "local function resolveCurlUp(_,state,item)",
+                "    local e=item.effect",
+                "    for _,enemy in ipairs(state.enemies)do",
+                "        if enemy.id==e.targetId then Actors.resolveCurlUp(state,enemy,e.value);break end",
+                "    end",
+                "end",
+                "",
+                "local function obtainPotion(_,state,item)",
+                "    local e=item.effect",
+                "    state.generatedPotionOffers=state.generatedPotionOffers or {}",
+                "    state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}",
+                "    if e.unavailable then",
+                "        Events.emit(state,'potion_content_unavailable',{id=e.id})",
+                "        return",
+                "    end",
+                "    return require('abyss_potion_generation').obtain(state.potionInventory,state.potionCapacity,e.id,",
+                "        require('abyss_relic_hooks').owns(state,'sozu'))",
+                "end",
+                "",
+                "local function doubleStrength(_,state,item)",
+                "    local source=item.source",
+                "    local amount=source.statuses.strength or 0",
+                "    if amount~=0 then Actors.applyPower(state,source,\"strength\",amount,source)end",
+                "end",
+                "",
+                "local function spotWeakness(_,state,item)",
+                "    local target=item.target",
+                "    local intent=target and target.intents[target.intentIndex]",
+                "    local attacking=false",
+                "    for _,f in ipairs(intent and intent.effects or {})do if f.op==\"damage\" or f.op==\"damageAll\"then attacking=true end end",
+                "    if attacking then Actors.applyPower(state,item.source,\"strength\",item.effect.value,item.source)end",
+                "end",
+                "",
+                "local function damageRandom(combat,state,item)",
+                "    local e,source=item.effect,item.source",
+                "    for _=1,e.times or 1 do",
+                "        local enemies=liveEnemies(state)",
+                "        if #enemies==0 or source.hp<=0 then break end",
+                "        local victim=enemies[combat.cardRandom(state,#enemies)]",
+                "        combat.damage(state,source,victim,e.value,e.fixed,nil,e.resolved and e.resolved[victim.id])",
+                "    end",
+                "end",
+                "",
+                "local function feedReward(state,source,amount)",
+                "    source.maxHp=source.maxHp+amount",
+                "    local beforeHp=source.hp",
+                "    local healing=source==state.player and require('abyss_potion_health').modifyHealing(amount,state.relics,true)or amount",
+                "    if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,healing,nil,'feed')",
+                "    else source.hp=math.min(source.maxHp,source.hp+healing)end",
+                "    Events.emit(state,\"max_hp\",{amount=amount,target=source.id})",
+                "    require('abyss_relic_hooks').hpChanged(state,source,beforeHp)",
+                "end",
+                "",
+                "local function feed(combat,state,item)",
+                "    local e,source,target=item.effect,item.source,item.target",
+                "    local before=target.hp",
+                "    combat.damage(state,source,target,e.value,nil,nil,e.resolved and e.resolved[target.id])",
+                "    if before>0 and target.hp<=0 and not target.escaped and not target.minion and not target.halfDead",
+                "        and (target.statuses.minion or 0)<=0 and source.hp>0 then feedReward(state,source,e.maxHp)end",
+                "end",
+                "",
+                "local function reaper(combat,state,item)",
+                "    local e,source=item.effect,item.source",
+                "    local healed,reactions=0,{}",
+                "    for _,v in ipairs(state.enemies)do healed=healed+combat.damage(state,source,v,e.value,nil,reactions,e.resolved and e.resolved[v.id])end",
+                "    Actors.resolveDamageReactions(state,reactions,combat.retaliate)",
+                "    M.enqueue(state,{op=\"heal\",value=healed},source)",
+                "end",
+                "",
+                "local function heal(_,state,item)",
+                "    local e,source=item.effect,item.source",
+                "    local value=e.value",
+                "    if source==state.player then value=require('abyss_potion_health').modifyHealing(value,state.relics,true)end",
+                "    if state.originalV4 and source==state.player then",
+                "        require('abyss_original_v4_health').heal(state,source,value,nil,e.relic)",
+                "    elseif source.hp>0 then",
+                "        local amount=math.min(value,source.maxHp-source.hp)",
+                "        local beforeHp=source.hp",
+                "        source.hp=source.hp+amount",
+                "        Events.emit(state,\"heal\",{target=source.id,amount=amount})",
+                "        require('abyss_relic_hooks').hpChanged(state,source,beforeHp)",
+                "    end",
+                "end",
+                "",
+                "local function applyFallback(combat,state,item)",
+                "    combat.applyEffects(state,{item.effect},item.source,item.target,item.instance)",
+                "end",
+                "",
+                "local function block(combat,state,item)",
+                "    if item.effect.fixed then combat.block(state,item.source,item.effect.value,true)",
+                "    else applyFallback(combat,state,item)end",
+                "end",
+                "",
+                "local function rareRelic(combat,state,item)",
+                "    require('abyss_rare_relics').applyEffect(combat,state,item.effect)",
+                "end",
+                "",
+                "-- Execution is deliberately broader than supports(), which controls admission",
+                "-- to native card routing. Every known local operation has one finite lookup.",
+                "local actionHandlers={",
+                "    exhaustRandom=exhaustRandom,fiendFire=fiendFire,exhaustNonAttacks=exhaustNonAttacks,",
+                "    secondWind=exhaustNonAttacks,exhaustSpecific=exhaustSpecific,",
+                "    upgradeHand=upgradeHand,makeTempCardInHand=makeTemporaryCards,makeTempCardInDraw=makeTemporaryCards,",
+                "    generateAttack=generateAttack,randomizeHandCost=randomizeHandCost,",
+                "    exhaustMany=selection,discardRedraw=selection,discardToHand=selection,exhaustChoose=selection,",
+                "    recoverExhaust=selection,discardToDraw=selection,handToDraw=selection,dualWield=selection,",
+                "    resolveCurlUp=resolveCurlUp,obtainPotion=obtainPotion,doubleStrength=doubleStrength,",
+                "    spotWeakness=spotWeakness,damageRandom=damageRandom,feed=feed,reaper=reaper,heal=heal,block=block,",
+                "    rareGamblingChip=rareRelic,rareRelicGenerate=rareRelic,rareRelicDamageAll=rareRelic,rareRelicWeak=rareRelic,",
+                "}",
+                "function actionHandlers.shopRelic(combat,state,item)",
+                "    if item.effect.kind=='toolbox'then return require('abyss_shop_relics').beginToolbox(combat,state)end",
+                "    return require('abyss_shop_relics').execute(state,item.effect)",
+                "end",
+                "function actionHandlers.writhingRoll(_,state,item)return require('abyss_writhing_mass').roll(state,item.effect.targetId)end",
+                "function actionHandlers.writhingParasite(_,state,item)return require('abyss_writhing_mass').obtainParasite(state,item.source)end",
+                "function actionHandlers.giantHeadSlow(_,state,item)return require('abyss_giant_head').applySlow(Actors,state,item.effect)end",
+                "function actionHandlers.timeEater(combat,state,item)return TimeEater.execute(combat,state,item.effect,item.source,M)end",
+                "function actionHandlers.reptomancerSuicide(_,state,item)return require('abyss_reptomancer').cleanup(Actors,state,item.effect)end",
+                "function actionHandlers.enemyAction(combat,state,item)return combat.resolveEnemyAction(state,item.effect,item.source)end",
+                "function actionHandlers.staticRetaliation(combat,state,item)return combat.staticRetaliation(state,item.effect)end",
+                "function actionHandlers.classPotion(combat,state,item)return require('abyss_class_potions').apply(combat,state,item.effect)end",
+                "function actionHandlers.silentFinal(combat,state,item)return require('abyss_silent_final_cards').apply(combat,state,item)end",
+                "function actionHandlers.discover(combat,state,item)return require('abyss_potion_discovery').begin(combat,state,item.effect)end",
+                "function actionHandlers.colorless(combat,state,item)return require('abyss_colorless_cards').apply(combat,state,item)end",
+                "function actionHandlers.originalV4(combat,state,item)return require('abyss_original_v4').execute(combat,state,item)end",
+                "function actionHandlers.relicUpgradeRandomHand(combat,state)require('abyss_relic_hooks').upgradeRandomHand(combat,state)end",
+                "function actionHandlers.playTop(combat,state,item)",
+                "    local e=item.effect",
+                "    combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)",
+                "end",
+                "function actionHandlers.darklingAction(_,state,item)require('abyss_darklings').resolve(state,item.effect)end",
+                "function actionHandlers.heartBeat(combat,state,item)combat.heartBeat(state,item.effect)end",
+                "function actionHandlers.spireDeathRemove(_,state,item)Actors.removeSpireDeathPower(state,item.effect)end",
+                "function actionHandlers.awakenedAction(_,state,item)require('abyss_awakened_one').resolve(Actors,state,item.effect)end",
+                "function actionHandlers.capturedSharpHide(combat,state,item)combat.capturedSharpHide(state,item.effect)end",
+                "function actionHandlers.dispose(combat,state,item)combat.disposeCard(state,item)end",
+                "function actionHandlers.effectBatch(combat,state,item)",
+                "    combat.applyEffects(state,item.effect.effects,item.source,item.target,item.instance)",
+                "end"
+              ]
+            },
+            {
+              "at": 479,
+              "beforeAt": 339,
+              "before": [
+                "    local e,source,target,c=item.effect,item.source,item.target,item.instance",
+                "    local op,value=e.op,e.value",
+                "    if op=='writhingRoll'then return require('abyss_writhing_mass').roll(state,e.targetId)end",
+                "    if op=='writhingParasite'then return require('abyss_writhing_mass').obtainParasite(state,source)end",
+                "    if op=='giantHeadSlow'then return require('abyss_giant_head').applySlow(Actors,state,e)end",
+                "    if op=='timeEater'then return TimeEater.execute(combat,state,e,source,M)end",
+                "    if PlatedArmor.supports(op)then return PlatedArmor.apply(combat,state,e,M.enqueueReaction)end",
+                "    if op=='reptomancerSuicide'then return require('abyss_reptomancer').cleanup(Actors,state,e)end",
+                "    if Act2Powers.supports(op)then return Act2Powers.apply(Actors,state,e)end",
+                "    if op=='resolveCurlUp'then",
+                "        for _,enemy in ipairs(state.enemies)do",
+                "            if enemy.id==e.targetId then Actors.resolveCurlUp(state,enemy,e.value);break end",
+                "        end",
+                "        return",
+                "    end",
+                "    if op=='enemyAction'then return combat.resolveEnemyAction(state,e,source)end",
+                "    if require('abyss_rare_relics').applyEffect(combat,state,e)then return end",
+                "    if op=='shopRelic'then",
+                "        if e.kind=='toolbox'then return require('abyss_shop_relics').beginToolbox(combat,state)end",
+                "        return require('abyss_shop_relics').execute(state,e)",
+                "    end",
+                "    if op=='staticRetaliation'then return combat.staticRetaliation(state,e)end",
+                "    if op=='classPotion'then return require('abyss_class_potions').apply(combat,state,e)end",
+                "    if op=='silentFinal'then return require('abyss_silent_final_cards').apply(combat,state,item)end",
+                "    if require('abyss_watcher_final_cards').ops[op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end",
+                "    if op=='obtainPotion' then",
+                "        state.generatedPotionOffers=state.generatedPotionOffers or {}",
+                "        state.generatedPotionOffers[#state.generatedPotionOffers+1]={id=e.id,unavailable=e.unavailable==true}",
+                "        if e.unavailable then",
+                "            Events.emit(state,'potion_content_unavailable',{id=e.id})",
+                "            return",
+                "        end",
+                "        return require('abyss_potion_generation').obtain(state.potionInventory,state.potionCapacity,e.id,",
+                "            require('abyss_relic_hooks').owns(state,'sozu'))",
+                "    end",
+                "    if op=='discover' then return require('abyss_potion_discovery').begin(combat,state,e)end",
+                "    if op=='colorless' then return require('abyss_colorless_cards').apply(combat,state,item) end",
+                "    if op=='originalV4' then return require('abyss_original_v4').execute(combat,state,item) end",
+                "    if op=='exhaustMany' or op=='discardRedraw' or op=='discardToHand' or op==\"exhaustChoose\" or op==\"recoverExhaust\" or op==\"discardToDraw\" or op==\"handToDraw\"",
+                "        or op==\"dualWield\" or op==\"upgradeHand\" and not e.all then return selection(combat,state,item)",
+                "    elseif exhaustActions[op] then",
+                "        exhaustActions[op](combat,state,item)",
+                "    elseif handMutationActions[op] then",
+                "        handMutationActions[op](combat,state,item)",
+                "    elseif op==\"doubleStrength\" then",
+                "        local amount=source.statuses.strength or 0",
+                "        if amount~=0 then Actors.applyPower(state,source,\"strength\",amount,source) end",
+                "    elseif op==\"spotWeakness\" then",
+                "        local intent=target and target.intents[target.intentIndex]",
+                "        local attacking=false",
+                "        for _,f in ipairs(intent and intent.effects or {}) do if f.op==\"damage\" or f.op==\"damageAll\" then attacking=true end end",
+                "        if attacking then Actors.applyPower(state,source,\"strength\",value,source) end",
+                "    elseif op==\"damageRandom\" then",
+                "        for _=1,e.times or 1 do",
+                "            local enemies=liveEnemies(state)",
+                "            if #enemies==0 or source.hp<=0 then break end",
+                "            local victim=enemies[combat.cardRandom(state,#enemies)]",
+                "            combat.damage(state,source,victim,value,e.fixed,nil,e.resolved and e.resolved[victim.id])",
+                "        end",
+                "    elseif op==\"feed\" then",
+                "        local before=target.hp",
+                "        combat.damage(state,source,target,value,nil,nil,e.resolved and e.resolved[target.id])",
+                "        if before>0 and target.hp<=0 and not target.escaped and not target.minion and not target.halfDead",
+                "            and (target.statuses.minion or 0)<=0 and source.hp>0 then",
+                "            source.maxHp=source.maxHp+e.maxHp",
+                "            local beforeHp=source.hp",
+                "            local healing=source==state.player and require('abyss_potion_health').modifyHealing(e.maxHp,state.relics,true)or e.maxHp",
+                "            if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,healing,nil,'feed')",
+                "            else source.hp=math.min(source.maxHp,source.hp+healing)end",
+                "            Events.emit(state,\"max_hp\",{amount=e.maxHp,target=source.id})",
+                "            require('abyss_relic_hooks').hpChanged(state,source,beforeHp)",
+                "        end",
+                "    elseif op==\"reaper\" then",
+                "        local healed,reactions=0,{}",
+                "        for _,v in ipairs(state.enemies) do healed=healed+combat.damage(state,source,v,value,nil,reactions,e.resolved and e.resolved[v.id]) end",
+                "        Actors.resolveDamageReactions(state,reactions,combat.retaliate)",
+                "        M.enqueue(state,{op=\"heal\",value=healed},source)",
+                "    elseif op=='relicUpgradeRandomHand' then",
+                "        require('abyss_relic_hooks').upgradeRandomHand(combat,state)",
+                "    elseif op==\"playTop\" then",
+                "        combat.autoplayTop(state,e.targetIndex,e.exhaustCards,e.append)",
+                "    elseif op==\"block\" and e.fixed then combat.block(state,source,value,true)",
+                "    elseif op==\"heal\" then",
+                "        if source==state.player then",
+                "            value=require('abyss_potion_health').modifyHealing(value,state.relics,true)",
+                "        end",
+                "        if state.originalV4 and source==state.player then",
+                "            require('abyss_original_v4_health').heal(state,source,value,nil,e.relic)",
+                "        elseif source.hp>0 then",
+                "            local amount=math.min(value,source.maxHp-source.hp)",
+                "            local beforeHp=source.hp",
+                "            source.hp=source.hp+amount",
+                "            Events.emit(state,\"heal\",{target=source.id,amount=amount})",
+                "            require('abyss_relic_hooks').hpChanged(state,source,beforeHp)",
+                "        end",
+                "    elseif op=='darklingAction'then",
+                "        require('abyss_darklings').resolve(state,e)",
+                "    elseif op=='heartBeat'then",
+                "        combat.heartBeat(state,e)",
+                "    elseif op=='spireDeathRemove'then",
+                "        Actors.removeSpireDeathPower(state,e)",
+                "    elseif op=='awakenedAction'then",
+                "        require('abyss_awakened_one').resolve(Actors,state,e)",
+                "    elseif op=='capturedSharpHide'then",
+                "        combat.capturedSharpHide(state,e)",
+                "    elseif op==\"dispose\" then",
+                "        combat.disposeCard(state,item)",
+                "    elseif op==\"effectBatch\" then combat.applyEffects(state,e.effects,source,target,c)",
+                "    else combat.applyEffects(state,{e},source,target,c) end"
+              ],
+              "after": [
+                "    local handler=actionHandlers[item.effect.op]",
+                "    if handler then return handler(combat,state,item)end",
+                "    -- These domains own their operation sets; keep their dynamic admission",
+                "    -- checks instead of duplicating their private lists in this registry.",
+                "    local e=item.effect",
+                "    if PlatedArmor.supports(e.op)then return PlatedArmor.apply(combat,state,e,M.enqueueReaction)end",
+                "    if Act2Powers.supports(e.op)then return Act2Powers.apply(Actors,state,e)end",
+                "    if require('abyss_watcher_final_cards').ops[e.op]then return require('abyss_watcher_final_cards').execute(combat,state,e)end",
+                "    applyFallback(combat,state,item)"
+              ]
+            },
+            {
+              "at": 507,
+              "beforeAt": 467,
+              "before": [
+                "            local drew=not outcome and require('abyss_rare_relics').onRefreshHand(state,true)"
+              ],
+              "after": [
+                "            local rare=require('abyss_rare_relics')",
+                "            local drew=not outcome and not state.endTurnAfterCard and rare.owns(state,'unceasing_top')",
+                "                and rare.onRefreshHand(state,true)"
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "bf2d748c72e13396c0c0b9f2c1ea8f6d3dbd5c62"
+        },
+        "src/lua/abyss_combat.lua": {
+          "beforeSha256": "ac63354d02e2a4a0ae0c8a2a32c4a489909068435a71a36c683db99ed7f0a2a0",
+          "afterSha256": "c331fffba45cd8abcc82337a6393d4bc1b091489b96015e456f68f8b3a309f78",
+          "beforeLines": 2216,
+          "afterLines": 2210,
+          "hunks": [
+            {
+              "at": 161,
+              "beforeAt": 161,
+              "before": [
+                "    if state.player.hp>0 and not state.drainingCardActions and not state.pendingChoice",
+                "        and (state.cardActions or state.queuedCards) then CardActions.drain(M,state) end"
+              ],
+              "after": [
+                "    if state.player.hp>0 and not state.drainingCardActions and not state.pendingChoice then",
+                "        if not state.cardActions and not state.queuedCards and not state.actionQueue",
+                "            and not state.pendingPlay and not state.resolvingCard and not state.endTurnAfterCard",
+                "            and Rare.owns(state,'unceasing_top')then Rare.onRefreshHand(state,true)end",
+                "        if state.cardActions or state.queuedCards then CardActions.drain(M,state)end",
+                "    end"
+              ]
+            },
+            {
+              "at": 2070,
+              "beforeAt": 2066,
+              "before": [
+                "    data=require('abyss_colorless_cards').withCards(data)"
+              ],
+              "after": [
+                "    local catalog",
+                "    data,catalog=require('abyss_combat_catalog').prepare(data)"
+              ]
+            },
+            {
+              "at": 2075,
+              "beforeAt": 2070,
+              "before": [
+                "    -- Existing definitions remain caller-owned. Newly registered definitions",
+                "    -- already have private graphs and can be adopted without copying twice.",
+                "    local catalogData=data~=originalData and originalData or data",
+                "    local cardCatalog,statusCatalog=index(copy(catalogData.cards.cards)),index(copy(catalogData.statuses.statuses))",
+                "    if data~=originalData then",
+                "        for _,definition in ipairs(data.cards.cards)do",
+                "            if not cardCatalog[definition.id]then cardCatalog[definition.id]=definition end",
+                "        end",
+                "        for _,definition in ipairs(data.statuses.statuses)do",
+                "            if not statusCatalog[definition.id]then statusCatalog[definition.id]=definition end",
+                "        end",
+                "    end"
+              ],
+              "after": []
+            },
+            {
+              "at": 2097,
+              "beforeAt": 2104,
+              "before": [
+                "    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = { cards = cardCatalog, enemies = index(copy(data.enemies.enemies)),",
+                "              statuses = statusCatalog,potions=index(data.potions and data.potions.potions or {}) },"
+              ],
+              "after": [
+                "    catalog.enemies=require('abyss_combat_catalog').enemies(data)",
+                "    catalog.potions=index(data.potions and data.potions.potions or {})",
+                "    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,"
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "9e94da4b530a6a641133e7ad3232e065c5b7ec48"
+        }
+      }
+    },
+    "round3": {
+      "commit": "157cd1a2c9d3e1cb5c40e374a49840dda7e103f1",
+      "files": {
+        "config/architecture.json": {
+          "beforeSha256": "136b60aac912d2c6cca7211c55005e6976784a9b8740893584ac097652595abc",
+          "afterSha256": "8eaf5e76ca026fe4ad5d5b53475b3433c9d3581d27f60afb2a73d4d1df535895",
+          "beforeLines": 483,
+          "afterLines": 531,
+          "hunks": [
+            {
+              "at": 3,
+              "beforeAt": 3,
+              "before": [],
+              "after": [
+                "    \"abyss_relic_card_rewards\": \"core\",",
+                "    \"abyss_boss_relics\": \"core\",",
+                "    \"abyss_uncommon_relics\": \"core\",",
+                "    \"abyss_rare_relics\": \"core\",",
+                "    \"abyss_shop_relics\": \"core\",",
+                "    \"abyss_nodes_rare_camp\": \"core\",",
+                "    \"abyss_relic_choices\": \"core\",",
+                "    \"abyss_relic_pending\": \"core\",",
+                "    \"abyss_relic_pending_ui\": \"ui\","
+              ]
+            },
+            {
+              "at": 289,
+              "beforeAt": 280,
+              "before": [],
+              "after": [
+                "    {\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_run\",\"reason\":\"Meat on the Bone delegates raw victory healing to the initialized Run health owner while the room is still in combat, preserving one shared Magic Flower/Bloom modifier pass.\"},",
+                "    {\"from\":\"abyss_relic_card_rewards\",\"to\":\"abyss_run\",\"reason\":\"Card reward commands invoke the initialized Run transaction and permanent inventory only when selecting or claiming; never during module initialization.\"},",
+                "{\"from\":\"abyss_actor\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_actor\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_actor\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_build_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_living_wall\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_event_transform_context\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_transform_card\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_capability\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_potion_random\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_card_pool\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_boss_relics\",\"to\":\"abyss_relic_hooks\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_card_actions\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_card_actions\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_exhaust\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_rare_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_rare_relics\",\"to\":\"abyss_discard\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_card_pool\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_relic_hooks\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_choices\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_shop_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_boss_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_rare_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_hooks\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_run\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_uncommon_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_relic_choices\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_relic_pending\",\"to\":\"abyss_boss_relics\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_relic_choices\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_potion_random\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_card_actions\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_power_schedule\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_shop_relics\",\"to\":\"abyss_potion_discovery\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_potion_health\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},",
+                "{\"from\":\"abyss_uncommon_relics\",\"to\":\"abyss_actor\",\"reason\":\"Relic callbacks load the already initialized runtime only when an actual obtain, choice, damage or card action executes; no module initialization import.\"},"
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "2517cc4957a9f1a697725ef65477825ab8f87a73"
+        },
+        "src/lua/abyss_card_actions.lua": {
+          "beforeSha256": "d63bf4d304960cde8ccf65682e575d336bbe66a091a896cea135709d4b73a728",
+          "afterSha256": "0b3c390127fbe7bbdcd95d5a075e7ed0849656d854f979e7417c625588ae88ca",
+          "beforeLines": 500,
+          "afterLines": 519,
+          "hunks": [
+            {
+              "at": 14,
+              "beforeAt": 14,
+              "before": [],
+              "after": [
+                "for _,op in ipairs({'rareGamblingChip','rareRelicGenerate','rareRelicDamageAll','rareRelicWeak','shopRelic'})do operations[op]=true end"
+              ]
+            },
+            {
+              "at": 33,
+              "beforeAt": 32,
+              "before": [],
+              "after": [
+                "    if effect.op=='rareRelicDamageAll'then return true end"
+              ]
+            },
+            {
+              "at": 57,
+              "beforeAt": 55,
+              "before": [],
+              "after": [
+                "    require('abyss_rare_relics').onExhaust(state)"
+              ]
+            },
+            {
+              "at": 383,
+              "beforeAt": 380,
+              "before": [
+                "    if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,amount,nil,'feed')",
+                "    else source.hp=math.min(source.maxHp,source.hp+(source==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or amount))end"
+              ],
+              "after": [
+                "    local healing=source==state.player and require('abyss_potion_health').modifyHealing(amount,state.relics,true)or amount",
+                "    if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,healing,nil,'feed')",
+                "    else source.hp=math.min(source.maxHp,source.hp+healing)end"
+              ]
+            },
+            {
+              "at": 430,
+              "beforeAt": 426,
+              "before": [],
+              "after": [
+                "local function rareRelic(combat,state,item)",
+                "    require('abyss_rare_relics').applyEffect(combat,state,item.effect)",
+                "end",
+                ""
+              ]
+            },
+            {
+              "at": 445,
+              "beforeAt": 437,
+              "before": [],
+              "after": [
+                "    rareGamblingChip=rareRelic,rareRelicGenerate=rareRelic,rareRelicDamageAll=rareRelic,rareRelicWeak=rareRelic,"
+              ]
+            },
+            {
+              "at": 447,
+              "beforeAt": 438,
+              "before": [],
+              "after": [
+                "function actionHandlers.shopRelic(combat,state,item)",
+                "    if item.effect.kind=='toolbox'then return require('abyss_shop_relics').beginToolbox(combat,state)end",
+                "    return require('abyss_shop_relics').execute(state,item.effect)",
+                "end"
+              ]
+            },
+            {
+              "at": 505,
+              "beforeAt": 492,
+              "before": [
+                "        else break end"
+              ],
+              "after": [
+                "        else",
+                "            -- Refresh observes the empty manager, then its draw joins this owner.",
+                "            local rare=require('abyss_rare_relics')",
+                "            local drew=not outcome and not state.endTurnAfterCard and rare.owns(state,'unceasing_top')",
+                "                and rare.onRefreshHand(state,true)",
+                "            if not drew then break end",
+                "        end"
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "d9ae62230fc1ad63f73356ed4448f65e36ada4fa"
+        },
+        "src/lua/abyss_combat.lua": {
+          "beforeSha256": "d11a5661e441128d6aadc48d822eb6be0920a8ea7a3204957d8d345ba09742dd",
+          "afterSha256": "c331fffba45cd8abcc82337a6393d4bc1b091489b96015e456f68f8b3a309f78",
+          "beforeLines": 2123,
+          "afterLines": 2210,
+          "hunks": [
+            {
+              "at": 14,
+              "beforeAt": 14,
+              "before": [],
+              "after": [
+                "local Uncommon=require('abyss_uncommon_relics')",
+                "local Rare=require('abyss_rare_relics')",
+                "local Boss=require('abyss_boss_relics')",
+                "local ShopRelics=require('abyss_shop_relics')"
+              ]
+            },
+            {
+              "at": 161,
+              "beforeAt": 157,
+              "before": [
+                "    if state.player.hp>0 and not state.drainingCardActions and not state.pendingChoice",
+                "        and (state.cardActions or state.queuedCards) then CardActions.drain(M,state) end"
+              ],
+              "after": [
+                "    if state.player.hp>0 and not state.drainingCardActions and not state.pendingChoice then",
+                "        if not state.cardActions and not state.queuedCards and not state.actionQueue",
+                "            and not state.pendingPlay and not state.resolvingCard and not state.endTurnAfterCard",
+                "            and Rare.owns(state,'unceasing_top')then Rare.onRefreshHand(state,true)end",
+                "        if state.cardActions or state.queuedCards then CardActions.drain(M,state)end",
+                "    end"
+              ]
+            },
+            {
+              "at": 169,
+              "beforeAt": 161,
+              "before": [
+                "    return (state.experimentalCharacter==nil or card.silentFinalCard or card.runNativeABI) and card.target~=nil and not card.silentFinalLegacy and (card.experimental~=true or card.silentFinalCard)"
+              ],
+              "after": [
+                "    return (state.experimentalCharacter==nil or card.silentFinalCard or card.runNativeABI or card.colorlessNative and not card.colorlessSharedOwner) and card.target~=nil and not card.silentFinalLegacy and (card.experimental~=true or card.silentFinalCard)"
+              ]
+            },
+            {
+              "at": 194,
+              "beforeAt": 186,
+              "before": [
+                "        for _,id in ipairs(state.relics or {})do if id==\"Philosopher's Stone\" then Actors.applyPower(state,e,'strength',1,e) end end"
+              ],
+              "after": [
+                "        Boss.onSpawnMonster(state,e)"
+              ]
+            },
+            {
+              "at": 223,
+              "beforeAt": 215,
+              "before": [],
+              "after": [
+                "        Boss.onSpawnMonster(state,child)"
+              ]
+            },
+            {
+              "at": 314,
+              "beforeAt": 305,
+              "before": [],
+              "after": [
+                "            for _,e in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,e,false)end",
+                "            ShopRelics.onShuffle(state)"
+              ]
+            },
+            {
+              "at": 328,
+              "beforeAt": 317,
+              "before": [],
+              "after": [
+                "            for _,e in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,e,false)end",
+                "            ShopRelics.onShuffle(state)"
+              ]
+            },
+            {
+              "at": 371,
+              "beforeAt": 358,
+              "before": [],
+              "after": [
+                "    for _,e in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,e,false)end",
+                "    ShopRelics.onShuffle(state)"
+              ]
+            },
+            {
+              "at": 431,
+              "beforeAt": 416,
+              "before": [],
+              "after": [
+                "    local strikeBonus=Uncommon.strikeBonus(state,card)",
+                "    if strikeBonus>0 then",
+                "        for _,effect in ipairs(card.effects)do",
+                "            if effect.op=='damage'or effect.op=='damageAll'then effect.value=effect.value+strikeBonus end",
+                "        end",
+                "    end"
+              ]
+            },
+            {
+              "at": 465,
+              "beforeAt": 444,
+              "before": [],
+              "after": [
+                "    card=ShopRelics.medicalCard(state,card)",
+                "    if Uncommon.canPlayCurse(state,card)then card.exhaust=true;card.cost=math.max(0,card.cost)end"
+              ]
+            },
+            {
+              "at": 577,
+              "beforeAt": 554,
+              "before": [],
+              "after": [
+                "    local relicAllowed,relicReason=Boss.canPlay(state)",
+                "    if not relicAllowed then return false,relicReason end"
+              ]
+            },
+            {
+              "at": 589,
+              "beforeAt": 564,
+              "before": [
+                "local function playSupportedEffects(card)"
+              ],
+              "after": [
+                "local function playSupportedEffects(state,card)"
+              ]
+            },
+            {
+              "at": 591,
+              "beforeAt": 566,
+              "before": [
+                "    if card.id == \"slimed\" then"
+              ],
+              "after": [
+                "    if (Uncommon.canPlayCurse(state,card)or card.type=='status'and ShopRelics.owns(state,'medical_kit'))and #card.effects==0 then",
+                "        -- Source curse/status use methods are empty; their relic owns the",
+                "        -- HP-loss/exhaust callback. Keep this exception ownership/type bound.",
+                "        ok=true",
+                "    elseif card.id == \"slimed\" then"
+              ]
+            },
+            {
+              "at": 679,
+              "beforeAt": 650,
+              "before": [
+                "    ok,reason=playSupportedEffects(card)"
+              ],
+              "after": [
+                "    ok,reason=playSupportedEffects(state,card)"
+              ]
+            },
+            {
+              "at": 719,
+              "beforeAt": 690,
+              "before": [],
+              "after": [
+                "    if state.rareRelicCombat then save(state.rareRelicCombat)end",
+                "    if state.shopRelicCombat then save(state.shopRelicCombat);if state.shopRelicCombat.pellets then save(state.shopRelicCombat.pellets)end end"
+              ]
+            },
+            {
+              "at": 899,
+              "beforeAt": 868,
+              "before": [],
+              "after": [
+                "    context.exhaust=ShopRelics.exhaustAfterUse(state,{type=context.cardType},context.exhaust,context.purge)"
+              ]
+            },
+            {
+              "at": 953,
+              "beforeAt": 921,
+              "before": [],
+              "after": [
+                "    if state.pendingChoice and state.pendingChoice.op=='rareGamblingChip'then",
+                "        local restore=rollbackOwner and snapshot.ownedRestore(rollbackOwner,state)or snapshot.capture(state)",
+                "        local called,ok,why=pcall(function()",
+                "            local accepted,reason=Rare.chooseGambling(M,state,uids,token)",
+                "            if not accepted then return false,reason end",
+                "            if state.actionQueue then",
+                "                local result=require('abyss_action_queue').resume(state,queuedHandlers)",
+                "                if result~='pause'then finishQueuedPlay(state)end",
+                "            else drainNative(state);finish(state)end",
+                "            return true",
+                "        end)",
+                "        if not called then restore();error(ok,0)end",
+                "        return ok,why",
+                "    end"
+              ]
+            },
+            {
+              "at": 1053,
+              "beforeAt": 1007,
+              "before": [
+                "        targetId=target and target.id, reactions=reactions, previous=previous, energyOnUse=energyOnUse,"
+              ],
+              "after": [
+                "        targetId=target and target.id, reactions=reactions, previous=previous,",
+                "        energyOnUse=energyOnUse,"
+              ]
+            },
+            {
+              "at": 1060,
+              "beforeAt": 1013,
+              "before": [],
+              "after": [
+                "    Rare.onPlayCard(state);Boss.onPlayCard(state)",
+                "    local uncommonEffects=card.dontTriggerOnUseCard and {}or Uncommon.onUseCard(state,card,instance,M)",
+                "    if instance.exhaust then state.pendingPlay.exhaust=true end"
+              ]
+            },
+            {
+              "at": 1124,
+              "beforeAt": 1074,
+              "before": [],
+              "after": [
+                "    for _,effect in ipairs(uncommonEffects)do actions[#actions+1]={kind='effect',effect=effect}end"
+              ]
+            },
+            {
+              "at": 1131,
+              "beforeAt": 1080,
+              "before": [],
+              "after": [
+                "    if not card.dontTriggerOnUseCard then Rare.onUseCard(state,card);ShopRelics.onUseCard(state,card)end"
+              ]
+            },
+            {
+              "at": 1156,
+              "beforeAt": 1104,
+              "before": [],
+              "after": [
+                "    Rare.onPlayCard(state);Boss.onPlayCard(state)",
+                "    local uncommonEffects=card.dontTriggerOnUseCard and {}or Uncommon.onUseCard(state,card,instance,M)"
+              ]
+            },
+            {
+              "at": 1183,
+              "beforeAt": 1129,
+              "before": [
+                "            if e.times==\"X\" then e.times=x; if x==0 then e=nil end end"
+              ],
+              "after": [
+                "            if e.times==\"X\" then e.times=x+ShopRelics.xBonus(state); if e.times==0 then e=nil end end"
+              ]
+            },
+            {
+              "at": 1217,
+              "beforeAt": 1163,
+              "before": [
+                "    local exhaust=card.exhaust or forceExhaust or card.type==\"skill\" and (state.player.statuses.corruption or 0)>0"
+              ],
+              "after": [
+                "    for _,effect in ipairs(uncommonEffects)do items[#items+1]=effect end",
+                "    local exhaust=card.exhaust or instance.exhaust or forceExhaust or card.type==\"skill\" and (state.player.statuses.corruption or 0)>0"
+              ]
+            },
+            {
+              "at": 1228,
+              "beforeAt": 1173,
+              "before": [],
+              "after": [
+                "    if not card.dontTriggerOnUseCard then Rare.onUseCard(state,card);ShopRelics.onUseCard(state,card)end"
+              ]
+            },
+            {
+              "at": 1270,
+              "beforeAt": 1214,
+              "before": [],
+              "after": [
+                "    e.exhaust=ShopRelics.exhaustAfterUse(state,{type=e.cardType},e.exhaust,e.purge)"
+              ]
+            },
+            {
+              "at": 1301,
+              "beforeAt": 1244,
+              "before": [],
+              "after": [
+                "        if state.pendingChoice and state.pendingChoice.op=='toolbox'then",
+                "            local accepted,why=ShopRelics.chooseToolbox(M,state,token,uid,CardActions)",
+                "            if not accepted then return false,why end",
+                "            if state.actionQueue then",
+                "                local result=require('abyss_action_queue').resume(state,queuedHandlers)",
+                "                if result~='pause'then finishQueuedPlay(state)end",
+                "            else drainNative(state);finish(state)end",
+                "            return true",
+                "        end"
+              ]
+            },
+            {
+              "at": 1350,
+              "beforeAt": 1284,
+              "before": [
+                "    local invalid=d.cost==-2 or Curses.limitsPlay(state) or d.type==\"attack\" and (state.player.statuses.entangled or 0)>0"
+              ],
+              "after": [
+                "    local invalid=d.cost==-2 or not Boss.canPlay(state)or Curses.limitsPlay(state) or d.type==\"attack\" and (state.player.statuses.entangled or 0)>0"
+              ]
+            },
+            {
+              "at": 1384,
+              "beforeAt": 1318,
+              "before": [],
+              "after": [
+                "        for _,effect in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,effect,false)end",
+                "        ShopRelics.onShuffle(state)"
+              ]
+            },
+            {
+              "at": 1442,
+              "beforeAt": 1374,
+              "before": [
+                "        or drawHooks or autoplayHook or trigger or corrupted or hooks and require(\"abyss_exhaust\").shouldExhaust(state,card)"
+              ],
+              "after": [
+                "        or drawHooks or autoplayHook or trigger or corrupted or #(state.relics or {})>0 or hooks and require(\"abyss_exhaust\").shouldExhaust(state,card)"
+              ]
+            },
+            {
+              "at": 1497,
+              "beforeAt": 1429,
+              "before": [
+                "    state.energy = 0"
+              ],
+              "after": [
+                "    state.energy = Rare.rechargeEnergy(state,0)"
+              ]
+            },
+            {
+              "at": 1512,
+              "beforeAt": 1444,
+              "before": [],
+              "after": [
+                "    for _,action in ipairs(RelicHooks.prepareTurnStart(state))do CardActions.enqueue(state,action.effect)end"
+              ]
+            },
+            {
+              "at": 1529,
+              "beforeAt": 1460,
+              "before": [],
+              "after": [
+                "    if state.turn==1 and ShopRelics.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end"
+              ]
+            },
+            {
+              "at": 1547,
+              "beforeAt": 1477,
+              "before": [],
+              "after": [
+                "local function appendRelicActions(state,actions)",
+                "    for _,item in ipairs(state.cardActions or {})do",
+                "        assert((not item.source or item.source==state.player)and not item.target and not item.instance,'invalid turn relic action owner')",
+                "        actions[#actions+1]={kind='effect',effect=item.effect}",
+                "    end",
+                "    state.cardActions=nil",
+                "end"
+              ]
+            },
+            {
+              "at": 1561,
+              "beforeAt": 1484,
+              "before": [
+                "    state.player.noDraw=false;state.energy=0"
+              ],
+              "after": [
+                "    state.player.noDraw=false;state.energy=Rare.rechargeEnergy(state,0)"
+              ]
+            },
+            {
+              "at": 1572,
+              "beforeAt": 1495,
+              "before": [],
+              "after": [
+                "    appendRelicActions(state,actions)"
+              ]
+            },
+            {
+              "at": 1578,
+              "beforeAt": 1500,
+              "before": [],
+              "after": [
+                "    if state.turn==1 and ShopRelics.owns(state,'toolbox')then actions[#actions+1]={kind='effect',effect={op='shopRelic',kind='toolbox'}}end"
+              ]
+            },
+            {
+              "at": 1580,
+              "beforeAt": 1501,
+              "before": [],
+              "after": [
+                "    RelicHooks.enqueuePostDraw(state)",
+                "    appendRelicActions(state,actions)"
+              ]
+            },
+            {
+              "at": 1780,
+              "beforeAt": 1699,
+              "before": [],
+              "after": [
+                "    if not state.silentRetainResume then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end"
+              ]
+            },
+            {
+              "at": 1903,
+              "beforeAt": 1821,
+              "before": [],
+              "after": [
+                "    if not resumingRetain and not state.originalV4 then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end"
+              ]
+            },
+            {
+              "at": 1975,
+              "beforeAt": 1892,
+              "before": [
+                "            if instance.silentRetainTurn==state.turn and not definition.ethereal then retained[#retained+1]=instance"
+              ],
+              "after": [
+                "            if (instance.silentRetainTurn==state.turn or Boss.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance"
+              ]
+            },
+            {
+              "at": 2167,
+              "beforeAt": 2084,
+              "before": [],
+              "after": [
+                "        if type(value)=='table'then",
+                "            local instance=state.draw[#state.draw]",
+                "            instance.inBottleFlame=value.inBottleFlame;instance.inBottleLightning=value.inBottleLightning;instance.inBottleTornado=value.inBottleTornado",
+                "        end"
+              ]
+            }
+          ],
+          "beforeGitBlobSha1": "e0ef2b5083bedb63d28b3c096fb88d1662dde9d2"
+        }
+      }
+    }
+  }
+}

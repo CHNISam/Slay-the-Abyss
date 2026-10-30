@@ -32,6 +32,7 @@ end
 -- Compact icons share the detail projection; numeric detail glyphs are not intents.
 -- Stable threat priority is independent of effect execution order in the core.
 function M.icons(face)
+    if face.hidden then return {}end
     local found, result = {}, {}
     if face.kind then found[face.kind] = true end
     for _, row in ipairs(face.rows or {}) do
@@ -42,6 +43,10 @@ function M.icons(face)
     end
     if #result == 0 then result[1] = 'unknown' end
     return result
+end
+function M.hidden()
+    return {hidden=true,value='',label='意图已隐藏',text='符文圆顶隐藏敌人的下一步行动。',rows={
+        {colour=C.textDim,name='意图已隐藏',text='符文圆顶隐藏敌人的下一步行动。'}}}
 end
 
 local function special(kind, icon, text, note)
@@ -312,7 +317,7 @@ local function joinedView(v)
 end
 
 -- One ordered preview supplies the compact face, joined text and detail rows.
-function M.intentView(state, index)
+local function visibleIntent(state, index)
     local intent = Combat.intent(state, index)
     if not intent then return goneView(state, index) end
     intent=EndingIntent.project(state,state.enemies[index],intent)
@@ -339,6 +344,11 @@ function M.intentView(state, index)
         act2Row(view,'灼伤强化','升级抽牌堆和弃牌堆中的灼伤，并向弃牌堆加入3张灼伤+','debuff')
     end
     return joinedView(view)
+end
+
+function M.intentView(state,index)
+    if require('abyss_boss_relics').hidesIntents(state)then return M.hidden()end
+    return visibleIntent(state,index)
 end
 
 return M

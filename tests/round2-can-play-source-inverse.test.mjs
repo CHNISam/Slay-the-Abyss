@@ -1,12 +1,13 @@
+import {preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {preRelicRound2CompositionSource} from './helpers/relic-round2-composition.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {preRound3CatalogSource} from './helpers/round3-catalog-source-inverse.mjs';
 import {round2CanPlayProof as proof,preRound2CanPlaySource as prior} from './helpers/round2-can-play-source-inverse.mjs';
 import {preNestedSnapshotOwnerSource,nestedSnapshotOwnerProof} from './helpers/nested-command-snapshot-owner-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const current=preRound3CatalogSource(proof.path,readFileSync(proof.path,'utf8').replaceAll('\r\n','\n'));
+const current=preRound3CatalogSource(proof.path,preRelicRound2CompositionSource(proof.path,readFileSync(proof.path,'utf8'),'round2')).replaceAll('\r\n','\n');
 test('exact canPlay outer delta recovers the full prior Combat identity',()=>{
  assert.equal(hash(current),proof.afterSha256);
  const original=prior(proof.path,current);

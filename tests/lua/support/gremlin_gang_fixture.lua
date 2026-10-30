@@ -13,7 +13,7 @@ local function same(a,b,path)
  for k in pairs(b) do assert(a[k]~=nil,path..' missing '..tostring(k)) end
 end
 -- Run owns the battle generation; standalone Core.new has no Run metadata.
--- Normalize this single proven host field on a copy, then compare everything.
+-- Pin host metadata and first-turn hook owners independently, then compare everything.
 local function sameRunCombat(run,expected)
  local generation=run.combatGeneration
  assert(type(generation)=='number'and generation%1==0 and generation>=1 and generation<=2147483647,'invalid Run combat generation')
@@ -21,6 +21,8 @@ local function sameRunCombat(run,expected)
  eq(expected.combatGeneration,nil,'standalone Core generation')
  local reference=C.copy(expected)
  reference.combatGeneration=generation
+ reference.rareRelicCombat={firstPocketTurn=true,gamblingActivated=false,topCanDraw=true,topDisabled=false}
+ reference.shopRelicCombat={pellets={}}
  same(run.combat,reference)
 end
 local function freeze(...)

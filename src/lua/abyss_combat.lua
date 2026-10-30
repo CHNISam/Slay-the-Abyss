@@ -12,6 +12,10 @@ local SourceRandom = require("abyss_sts_random")
 local Formation = require("abyss_encounter_formation")
 local EnemySetup=require('abyss_combat_enemy_setup')
 local RelicHooks = require('abyss_relic_hooks')
+local Uncommon=require('abyss_uncommon_relics')
+local Rare=require('abyss_rare_relics')
+local Boss=require('abyss_boss_relics')
+local ShopRelics=require('abyss_shop_relics')
 local Awakened=require('abyss_awakened_one')
 local Darklings=require('abyss_darklings')
 local M = { addStatus = Actors.addStatus, addTemporaryStrength = Actors.addTemporaryStrength,
@@ -155,11 +159,15 @@ function M.onHpLost(state,owner,amount)
     require('abyss_hp_loss').notify(state,owner,state.player,amount)
 end
 local function drainNative(state)
-    if state.player.hp>0 and not state.drainingCardActions and not state.pendingChoice
-        and (state.cardActions or state.queuedCards) then CardActions.drain(M,state) end
+    if state.player.hp>0 and not state.drainingCardActions and not state.pendingChoice then
+        if not state.cardActions and not state.queuedCards and not state.actionQueue
+            and not state.pendingPlay and not state.resolvingCard and not state.endTurnAfterCard
+            and Rare.owns(state,'unceasing_top')then Rare.onRefreshHand(state,true)end
+        if state.cardActions or state.queuedCards then CardActions.drain(M,state)end
+    end
 end
 local function nativeDefinition(state,card)
-    return (state.experimentalCharacter==nil or card.silentFinalCard or card.runNativeABI) and card.target~=nil and not card.silentFinalLegacy and (card.experimental~=true or card.silentFinalCard)
+    return (state.experimentalCharacter==nil or card.silentFinalCard or card.runNativeABI or card.colorlessNative and not card.colorlessSharedOwner) and card.target~=nil and not card.silentFinalLegacy and (card.experimental~=true or card.silentFinalCard)
 end
 local function aiRandom(state,maximum)return EnemyRandom.integer(state,maximum,M.random)end
 local function hpRandom(state,maximum)
@@ -184,7 +192,7 @@ function M.summonEnemies(state,descriptors)
         if entry.reptomancerOwner then
             require('abyss_reptomancer').bindSummon(state,entry.reptomancerOwner,entry.reptomancerSlot,e.id)
         end
-        for _,id in ipairs(state.relics or {})do if id=="Philosopher's Stone" then Actors.applyPower(state,e,'strength',1,e) end end
+        Boss.onSpawnMonster(state,e)
     end
     for _,e in ipairs(created)do
         EnemyAI.initialize(state,e,aiRandom)
@@ -213,6 +221,7 @@ local function splitEnemy(state, parent)
     -- Complete both spawns before checking outcome (source CannotLose/CanLose).
     parent.hp = 0
     for i, child in ipairs(children) do
+        Boss.onSpawnMonster(state,child)
         EnemyAI.initialize(state, child, aiRandom)
         table.insert(state.enemies, position + (i - 1) * 2, child)
     end
@@ -303,6 +312,8 @@ local function draw(state, count, drawn)
             shuffle(state, state.discard)
             state.draw, state.discard = state.discard, {}
             event(state, "reshuffle")
+            for _,e in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,e,false)end
+            ShopRelics.onShuffle(state)
             draw(state, count - oldSize,drawn)
             return
         end
@@ -315,6 +326,8 @@ local function draw(state, count, drawn)
             state.draw, state.discard = state.discard, {}
             shuffle(state, state.draw)
             event(state, "reshuffle")
+            for _,e in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,e,false)end
+            ShopRelics.onShuffle(state)
         end
         local card = table.remove(state.draw)
         state.hand[#state.hand + 1] = card
@@ -356,6 +369,8 @@ function M.shuffleDiscardIntoDraw(state)
     shuffle(state,state.discard)
     state.draw,state.discard=state.discard,{}
     event(state,'reshuffle')
+    for _,e in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,e,false)end
+    ShopRelics.onShuffle(state)
 end
 
 function M.combatBaseCost(state, instance)
@@ -414,6 +429,12 @@ function M.cardDefinition(state, instance)
         card=require('abyss_defect_final_cards').adaptDefinition(state,instance,card)
         card=require('abyss_silent_tactics_cards').adaptDefinition(state,instance,card)
     end
+    local strikeBonus=Uncommon.strikeBonus(state,card)
+    if strikeBonus>0 then
+        for _,effect in ipairs(card.effects)do
+            if effect.op=='damage'or effect.op=='damageAll'then effect.value=effect.value+strikeBonus end
+        end
+    end
     if instance.cardId=="shiv" and state.player then
         card=require("abyss_shivs").adaptDefinition(state,instance,card)
     end
@@ -442,6 +463,8 @@ function M.cardDefinition(state, instance)
     card=require('abyss_silent_final_cards').adapt(state,instance,card)
     if card.id=='expunger' then card.expungerHits=instance.expungerHits or 0 end
     if state.player and not card.costMode and require('abyss_watcher_final_cards').freeAttack(state,card) then card.cost=0 end
+    card=ShopRelics.medicalCard(state,card)
+    if Uncommon.canPlayCurse(state,card)then card.exhaust=true;card.cost=math.max(0,card.cost)end
     return card
 end
 function M.canUpgrade(state,instance)
@@ -552,6 +575,8 @@ local function playWindow(state)
     if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.pendingPileChoice or state.actionQueue then return false, "selection_pending" end
     if state.pendingDiscard then return false, "discard_choice_pending" end
     if state.phase ~= "player" then return false, "not_player_turn" end
+    local relicAllowed,relicReason=Boss.canPlay(state)
+    if not relicAllowed then return false,relicReason end
     return true
 end
 
@@ -562,9 +587,13 @@ local function playEligibility(state,card)
     return true
 end
 
-local function playSupportedEffects(card)
+local function playSupportedEffects(state,card)
     local ok, op
-    if card.id == "slimed" then
+    if (Uncommon.canPlayCurse(state,card)or card.type=='status'and ShopRelics.owns(state,'medical_kit'))and #card.effects==0 then
+        -- Source curse/status use methods are empty; their relic owns the
+        -- HP-loss/exhaust callback. Keep this exception ownership/type bound.
+        ok=true
+    elseif card.id == "slimed" then
         -- Slimed's use is genuinely empty, not a fake zero-value effect.
         -- Keep this source-verified exception narrower than arbitrary statuses.
         ok = card.type == "status" and card.cost == 1 and card.exhaust == true
@@ -648,7 +677,7 @@ function M.canPlay(state, uid, targetIndex)
     local card = M.cardDefinition(state, instance)
     ok,reason=playEligibility(state,card)
     if not ok then return false,reason end
-    ok,reason=playSupportedEffects(card)
+    ok,reason=playSupportedEffects(state,card)
     if not ok then return false,reason end
     ok,reason=playCardContent(state,card,targetIndex)
     if not ok then return false,reason end
@@ -688,6 +717,8 @@ local function savePlayState(state, playedCard)
     save(state.hand); save(state.draw); save(state.discard); save(state.exhaust); save(state.events)
     if state.relicCombat then save(state.relicCombat) end
     if state.relicCounters then save(state.relicCounters) end
+    if state.rareRelicCombat then save(state.rareRelicCombat)end
+    if state.shopRelicCombat then save(state.shopRelicCombat);if state.shopRelicCombat.pellets then save(state.shopRelicCombat.pellets)end end
     for _,pile in ipairs({state.hand,state.draw,state.discard,state.exhaust}) do
         for _,instance in ipairs(pile) do save(instance) end
     end
@@ -866,6 +897,7 @@ queuedHandlers.useCard = function(state, _action, queue)
     afterUsePowers(state,context,instance)
     RelicHooks.afterCard(state)
     if not context.purge then instance.freeToPlayOnce=nil end
+    context.exhaust=ShopRelics.exhaustAfterUse(state,{type=context.cardType},context.exhaust,context.purge)
     local rebound=require('abyss_defect_final_cards').afterUse(state,{type=context.cardType},context.purge,context.exhaust)
     if context.cardType~="power" and not context.purge then
         if context.exhaust then
@@ -919,6 +951,20 @@ local function finishQueuedPlay(state)
 end
 function M.chooseDiscard(state,uids,token,_generation,rollbackOwner)
     local discard,snapshot=require('abyss_discard'),require('abyss_snapshot')
+    if state.pendingChoice and state.pendingChoice.op=='rareGamblingChip'then
+        local restore=rollbackOwner and snapshot.ownedRestore(rollbackOwner,state)or snapshot.capture(state)
+        local called,ok,why=pcall(function()
+            local accepted,reason=Rare.chooseGambling(M,state,uids,token)
+            if not accepted then return false,reason end
+            if state.actionQueue then
+                local result=require('abyss_action_queue').resume(state,queuedHandlers)
+                if result~='pause'then finishQueuedPlay(state)end
+            else drainNative(state);finish(state)end
+            return true
+        end)
+        if not called then restore();error(ok,0)end
+        return ok,why
+    end
     if not state.actionQueue then
         local restore=rollbackOwner and snapshot.ownedRestore(rollbackOwner,state)or snapshot.capture(state)
         local called,ok,reason=pcall(function()local accepted,why=discard.choose(state,uids,token,M);if accepted then drainNative(state);finish(state)end;return accepted,why end)
@@ -1005,12 +1051,16 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     state.cardInUse = instance
     local target = state.enemies[targetIndex]
     state.pendingPlay = {uid=uid, cardType=card.type, exhaust=require("abyss_exhaust").shouldExhaust(state,card),
-        targetId=target and target.id, reactions=reactions, previous=previous, energyOnUse=energyOnUse,
+        targetId=target and target.id, reactions=reactions, previous=previous,
+        energyOnUse=energyOnUse,
         purge=automatic and automatic.purge or nil,freeToPlayOnce=freeToPlayOnce}
     state.pendingPlay.dontTriggerOnUseCard=card.dontTriggerOnUseCard
     if automatic and automatic.exhaustCards then state.pendingPlay.exhaust=true end
     event(state, "play", {uid=uid,cardId=instance.cardId,target=targetIndex})
     RelicHooks.onUseCard(state,card)
+    Rare.onPlayCard(state);Boss.onPlayCard(state)
+    local uncommonEffects=card.dontTriggerOnUseCard and {}or Uncommon.onUseCard(state,card,instance,M)
+    if instance.exhaust then state.pendingPlay.exhaust=true end
     local actions = {}
     local triggerPlan=require('abyss_card_triggers').prepareUse(state,card)
     local colorlessTail=require('abyss_colorless_cards').onUse(state,card)
@@ -1072,12 +1122,14 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     if #enemyUse==0 and not card.dontTriggerOnUseCard then
         actions[#actions+1]={kind='effect',effect={op='onUseReactions'}}
     end
+    for _,effect in ipairs(uncommonEffects)do actions[#actions+1]={kind='effect',effect=effect}end
     actions[#actions + 1] = {kind="useCard"}
     if colorlessTail then actions[#actions+1]={kind='effect',effect=colorlessTail} end
     for _,action in ipairs(triggerPlan.afterUse) do actions[#actions+1]=action end
     queueUseCopies(state,instance,card,targetIndex,energyOnUse,automatic and automatic.purge)
     local queue = require("abyss_action_queue")
     queue.start(state, actions)
+    if not card.dontTriggerOnUseCard then Rare.onUseCard(state,card);ShopRelics.onUseCard(state,card)end
     for _,action in ipairs(triggerPlan.top) do queue.pushTop(state,action) end
     local result = queue.run(state, queuedHandlers)
     if result ~= "pause" then finishQueuedPlay(state) end
@@ -1102,6 +1154,8 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     if not purge then instance.freeToPlayOnce=nil end
     event(state, "play", { uid = uid, cardId = instance.cardId, target = targetIndex })
     RelicHooks.onUseCard(state,card)
+    Rare.onPlayCard(state);Boss.onPlayCard(state)
+    local uncommonEffects=card.dontTriggerOnUseCard and {}or Uncommon.onUseCard(state,card,instance,M)
     local items={}
     for i,effect in ipairs(card.effects) do
         if not (effect.targetGroup and card.effects[i-1] and card.effects[i-1].targetGroup) then
@@ -1127,7 +1181,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
                 end
             end
             if e.targetGroup then e={op="effectBatch",effects={e,copy(card.effects[i+1])}} end
-            if e.times=="X" then e.times=x; if x==0 then e=nil end end
+            if e.times=="X" then e.times=x+ShopRelics.xBonus(state); if e.times==0 then e=nil end end
             if e then items[#items+1]=e end
         end
     end
@@ -1161,7 +1215,8 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     end
     -- Leave non-array reactions (Hex, etc.) on their original disposal path.
     for i=#reactions,1,-1 do reactions[i]=nil end
-    local exhaust=card.exhaust or forceExhaust or card.type=="skill" and (state.player.statuses.corruption or 0)>0
+    for _,effect in ipairs(uncommonEffects)do items[#items+1]=effect end
+    local exhaust=card.exhaust or instance.exhaust or forceExhaust or card.type=="skill" and (state.player.statuses.corruption or 0)>0
     items[#items+1]={op="dispose",exhaust=exhaust,purge=purge,cardType=card.type,reactions=reactions,
         dontTriggerOnUseCard=card.dontTriggerOnUseCard}
     if colorlessTail then items[#items+1]=colorlessTail end
@@ -1171,6 +1226,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
         for i=#items,1,-1 do CardActions.enqueue(state,items[i],state.player,state.enemies[targetIndex],instance,true) end
     else for _,e in ipairs(items) do CardActions.enqueue(state,e,state.player,state.enemies[targetIndex],instance) end end
     for _,a in ipairs(triggerPlan.top)do CardActions.enqueue(state,{op='silentFinal',kind='trigger',action=a.effect},state.player,nil,instance,true)end
+    if not card.dontTriggerOnUseCard then Rare.onUseCard(state,card);ShopRelics.onUseCard(state,card)end
     -- AbstractPlayer.useCard invokes these hand callbacks after use and the
     -- UseCardAction constructor (including Enrage's TOP Strength). Each Pain
     -- then adds LoseHP to TOP, above both those reactions and card effects.
@@ -1212,6 +1268,7 @@ function M.disposeCard(state,item)
     if state.player.hp<=0 then return end
     afterUsePowers(state,e,instance)
     RelicHooks.afterCard(state)
+    e.exhaust=ShopRelics.exhaustAfterUse(state,{type=e.cardType},e.exhaust,e.purge)
     local rebound=require('abyss_defect_final_cards').afterUse(state,{type=e.cardType},e.purge,e.exhaust)
     if state.cardInUse==instance then state.cardInUse=nil end
     -- A used Power leaves the combat piles; it is not an exhausted card.
@@ -1242,6 +1299,15 @@ end
 function M.chooseCard(state,token,uid)
     local restore=require("abyss_snapshot").capture(state)
     local called,ok,reason=pcall(function()
+        if state.pendingChoice and state.pendingChoice.op=='toolbox'then
+            local accepted,why=ShopRelics.chooseToolbox(M,state,token,uid,CardActions)
+            if not accepted then return false,why end
+            if state.actionQueue then
+                local result=require('abyss_action_queue').resume(state,queuedHandlers)
+                if result~='pause'then finishQueuedPlay(state)end
+            else drainNative(state);finish(state)end
+            return true
+        end
         if state.actionQueue and state.pendingChoice and state.pendingChoice.op=='discover'then
             local accepted,why=require('abyss_potion_discovery').choose(M,state,token,uid,CardActions)
             if not accepted then return false,why end
@@ -1282,7 +1348,7 @@ function M.resolveQueuedCard(state,e)
     -- A queued targeted card whose original target died is removed from limbo;
     -- it does not retarget, execute, or emit a real exhaust event.
     if d.target=="ENEMY" and (not target or not Actors.isActive(target)) then rejected();return end
-    local invalid=d.cost==-2 or Curses.limitsPlay(state) or d.type=="attack" and (state.player.statuses.entangled or 0)>0
+    local invalid=d.cost==-2 or not Boss.canPlay(state)or Curses.limitsPlay(state) or d.type=="attack" and (state.player.statuses.entangled or 0)>0
     if d.condition=="only_attacks_in_hand" then
         for _,held in ipairs(state.hand) do if state.catalog.cards[held.cardId].type~="attack" then invalid=true end end
     end
@@ -1316,6 +1382,8 @@ function M.autoplayTop(state,targetIndex,exhaustCards,append)
     if #state.draw==0 then
         if #state.discard==0 then return end
         state.draw,state.discard=state.discard,{}; shuffle(state,state.draw); event(state,"reshuffle")
+        for _,effect in ipairs(Uncommon.onShuffle(state))do CardActions.enqueueReaction(state,effect,false)end
+        ShopRelics.onShuffle(state)
     end
     local c=table.remove(state.draw)
     -- Like the original cardQueue, activation waits until all actions from the
@@ -1372,7 +1440,7 @@ function M.play(state, uid, targetIndex, commandId, rollbackOwner)
     local queued = TimeEater.active(state) or Effects.requiresQueue(card.effects) or card.experimental==true or require('abyss_hp_loss').requiresQueue(state) or card.type=='skill'and (state.player.statuses.burst or 0)>0
         or require('abyss_defect_final_cards').needsQueue(state)
         or state.player.stance~=nil
-        or drawHooks or autoplayHook or trigger or corrupted or hooks and require("abyss_exhaust").shouldExhaust(state,card)
+        or drawHooks or autoplayHook or trigger or corrupted or #(state.relics or {})>0 or hooks and require("abyss_exhaust").shouldExhaust(state,card)
     local restore = inherited or (queued and require("abyss_snapshot").capture(state) or savePlayState(state,instance))
     local resolver = queued and beginQueuedPlay or resolvePlay
     local called, result = pcall(resolver, state, uid, targetIndex, instance, position, card)
@@ -1427,7 +1495,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     if state.originalV4 then Actors.resetBlock(state,state.player) else Actors.startTurn(state,state.player) end
     if finish(state) then return end
     state.player.noDraw = false
-    state.energy = 0
+    state.energy = Rare.rechargeEnergy(state,0)
     local originalExtra=0
     if state.originalV4 then
         originalExtra=require('abyss_original_v4').startTurn(state)
@@ -1442,6 +1510,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
         if state.energy + 0.0 + state.rules.player.energyPerTurn > 2147483647 then return false, "effect_overflow" end
     end
     RelicHooks.atTurnStart(state)
+    for _,action in ipairs(RelicHooks.prepareTurnStart(state))do CardActions.enqueue(state,action.effect)end
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy = state.energy + state.rules.player.energyPerTurn
     for _,id in ipairs({"rage","flame_barrier"}) do
@@ -1458,6 +1527,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     end
     -- The source queues ordinary draw and post-draw Powers before executing
     -- DrawCardAction. Draw hooks append behind those already queued actions.
+    if state.turn==1 and ShopRelics.owns(state,'toolbox')then CardActions.enqueue(state,{op='shopRelic',kind='toolbox'})end
     CardActions.enqueue(state,{op='draw',value=TimeEater.drawCount(state,state.rules.player.drawPerTurn+originalExtra)})
     if state.turn==1 and state.openingInnateExtra then
         CardActions.enqueue(state,{op='draw',value=state.openingInnateExtra});state.openingInnateExtra=nil
@@ -1475,6 +1545,13 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
 end
 
 
+local function appendRelicActions(state,actions)
+    for _,item in ipairs(state.cardActions or {})do
+        assert((not item.source or item.source==state.player)and not item.target and not item.instance,'invalid turn relic action owner')
+        actions[#actions+1]={kind='effect',effect=item.effect}
+    end
+    state.cardActions=nil
+end
 function M.startPlayerTurn(state, beforeOpeningDraw)
     if not state.experimentalMechanics then return startNativePlayerTurn(state,beforeOpeningDraw) end
     if finish(state) then return end
@@ -1482,7 +1559,7 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     require('abyss_silent_discard_cards').beginTurn(state)
     Actors.startTurn(state,state.player)
     if finish(state) then return end
-    state.player.noDraw=false;state.energy=0
+    state.player.noDraw=false;state.energy=Rare.rechargeEnergy(state,0)
     if beforeOpeningDraw then
         local ok,why=beforeOpeningDraw(state)
         if not ok then return false,why end
@@ -1493,12 +1570,16 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     local actions={}
     if state.player.stance=='Divinity' then actions[1]={kind='effect',effect={op='changeStance',stance='Neutral'}} end
     for _,action in ipairs(RelicHooks.prepareTurnStart(state)) do actions[#actions+1]=action end
+    appendRelicActions(state,actions)
     for _,action in ipairs(turns.prepareStart(state)) do actions[#actions+1]=action end
     if state.energy+0.0+state.rules.player.energyPerTurn>2147483647 then return false,'effect_overflow' end
     state.energy=state.energy+state.rules.player.energyPerTurn
     RelicHooks.atTurnStart(state)
     for _,action in ipairs(turns.onEnergyRecharge(state)) do actions[#actions+1]=action end
+    if state.turn==1 and ShopRelics.owns(state,'toolbox')then actions[#actions+1]={kind='effect',effect={op='shopRelic',kind='toolbox'}}end
     actions[#actions+1]={kind='effect',effect={op='draw',value=TimeEater.drawCount(state,require('abyss_defect_final_cards').drawCount(state,state.rules.player.drawPerTurn))}}
+    RelicHooks.enqueuePostDraw(state)
+    appendRelicActions(state,actions)
     for _,action in ipairs(turns.preparePostDraw(state)) do actions[#actions+1]=action end
     if (state.player.statuses.foresight or 0)>0 and #state.draw==0 then M.shuffleDiscardIntoDraw(state)end
     local queue=require('abyss_action_queue');queue.start(state,actions)
@@ -1697,6 +1778,7 @@ local function endExperimentalTurn(state)
     if state.pendingPlay or state.pendingScry or state.pendingHandChoice or state.actionQueue then return false, "selection_pending" end
     if state.pendingDiscard then return false, "discard_choice_pending" end
     if state.phase ~= "player" then return false, "not_player_turn" end
+    if not state.silentRetainResume then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
     if not state.silentRetainResume then
     for _,pile in ipairs({state.hand,state.draw,state.discard}) do for _,c in ipairs(pile) do c.costForTurn=nil end end
     local resetCosts=(state.player.statuses.corruption or 0)~=0
@@ -1819,6 +1901,7 @@ local function endNativeTurn(state)
     if state.phase ~= "player" then return false, "not_player_turn" end
     if state.pendingChoice or state.cardActions then return false,"card_choice_pending" end
     local resumingRetain=state.silentRetainResume
+    if not resumingRetain and not state.originalV4 then Rare.onPlayerEndTurn(state);CardActions.drain(M,state);if finish(state)then return true end end
     if not resumingRetain then
     if state.originalV4 then require('abyss_original_v4').endPhase(M,state);if finish(state)then return true end end
     if state.originalV4 then RelicHooks.onPlayerEndTurn(state)end
@@ -1890,7 +1973,7 @@ local function endNativeTurn(state)
         local retained={}
         for _,instance in ipairs(state.hand)do
             local definition=M.cardDefinition(state,instance)
-            if instance.silentRetainTurn==state.turn and not definition.ethereal then retained[#retained+1]=instance
+            if (instance.silentRetainTurn==state.turn or Boss.retainsHand(state))and not definition.ethereal then retained[#retained+1]=instance
             else state.discard[#state.discard+1]=instance end
         end
         state.hand=retained
@@ -2082,6 +2165,10 @@ function M.new(data, options)
             upgrades=type(value)=='table' and value.upgrades or nil,deckUid=type(value)=='table' and value.uid or nil,
             misc=type(value)=='table' and value.misc or nil,costOverride=type(value)=='table' and value.costOverride or nil,
             searingBlowCopyUpgrades=copyBase }
+        if type(value)=='table'then
+            local instance=state.draw[#state.draw]
+            instance.inBottleFlame=value.inBottleFlame;instance.inBottleLightning=value.inBottleLightning;instance.inBottleTornado=value.inBottleTornado
+        end
         assert(M.validSearingBlowCopy(state.draw[#state.draw]),'invalid Searing Blow constructor copy')
         state.nextUid = math.max(state.nextUid,uid)+1
     end

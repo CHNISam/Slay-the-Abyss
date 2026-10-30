@@ -30,7 +30,9 @@ card('master_of_strategy','运筹','Master of Strategy','skill','rare',0,{fx('dr
 card('apotheosis','升华','Apotheosis','skill','rare',2,{e('apotheosis')},{cost=1},{exhaust=true})
 card('dark_shackles','暗缚','Dark Shackles','skill','uncommon',0,{e('shackles',9)},{effects={e('shackles',15)}},{exhaust=true,target='ENEMY'})
 card('deep_breath','深呼吸','Deep Breath','skill','uncommon',0,{e('deepBreath'),fx('draw',1)},{effects={e('deepBreath'),fx('draw',2)}})
-card('discovery','发现','Discovery','skill','uncommon',1,{e('discovery')},{exhaust=false},{exhaust=true})
+-- Discovery retains the shared-character action owner while using the complete
+-- colorless definition and its presentation adapter.
+card('discovery','发现','Discovery','skill','uncommon',1,{e('discovery')},{exhaust=false},{exhaust=true,colorlessSharedOwner=true})
 card('enlightenment','启迪','Enlightenment','skill','uncommon',0,{e('enlightenment')},{effects={e('enlightenment',1)}})
 card('forethought','远虑','Forethought','skill','uncommon',0,{e('forethought')},{effects={e('forethought',1)}})
 card('impatience','急切','Impatience','skill','uncommon',0,{e('impatience',2)},{effects={e('impatience',3)}})

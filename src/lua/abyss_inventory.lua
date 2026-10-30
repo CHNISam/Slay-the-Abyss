@@ -8,7 +8,10 @@ local supported = { classPotion=true, silentGhost=true, silentShivs=true, genera
     exhaustMany=true,discardRedraw=true,discardToHand=true,randomizeHandCost=true,escape=true,playTopCards=true,
     gainStatus = true, applyStatus = true, gainTemporaryStrength = true, gainTemporaryDexterity = true }
 local maximum = 2147483647
-local bossRelics = { black_blood = true, slavers_collar = true, sozu = true, coffee_dripper=true, fusion_hammer=true, sacred_bark=true }
+local bossRelics = { black_blood = true, slavers_collar = true, sozu = true, coffee_dripper=true, fusion_hammer=true, sacred_bark=true,
+ velvet_choker=true,runic_dome=true,snecko_eye=true,pandoras_box=true,cursed_key=true,busted_crown=true,
+ ectoplasm=true,tiny_house=true,philosophers_stone=true,astrolabe=true,empty_cage=true,runic_pyramid=true,
+ calling_bell=true,mark_of_pain=true,runic_cube=true }
 
 -- AbstractPotion.getPotency doubles values, not the number of use() calls.
 -- Entropic uses total slots directly; escape and cost randomisation are fixed.
@@ -37,6 +40,7 @@ function M.energyBonus(definitions, owned, tier)
         local relic
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
         if not relic then return nil, "unknown_relic" end
+        bonus=bonus+require('abyss_boss_relics').energyBonus(id)
         if relic.trigger == "turn_start" then
             if id ~= "sozu" and id ~= "slavers_collar" and id~='coffee_dripper' and id~='fusion_hammer' then return nil, "unsupported_turn_relic:" .. id end
             local eligible = not relic.encounterTiers
@@ -67,9 +71,10 @@ function M.opening(definitions, owned, persistentCounters, context)
         local relic
         for _, entry in ipairs(definitions) do if entry.id == id then relic = entry; break end end
         if not relic then return nil, "unknown_relic" end
-        if id=='blood_vial' or id=='akabeko' or id=='data_disk' then
+        if id=='blood_vial' or id=='akabeko' or id=='data_disk' or id=='thread_and_needle' or id=='girya' or id=='du_vu_doll' or id=='pantograph' and context and context.tier=='boss' then
             table.insert(battleTop,1,{{op='relic_hook',id=id}})
-        elseif id=='bag_of_marbles' or id=='pen_nib' or id=='red_skull' or id=='red_mask' then
+        elseif id=='bag_of_marbles' or id=='pen_nib' or id=='red_skull' or id=='red_mask' or id=='fossilized_helix'
+            or id=='mark_of_pain' then
             bottom[#bottom+1]={{op='relic_hook',id=id}}
         elseif relic.trigger == "combat_start" then
             local position = openingPosition[id]
@@ -79,6 +84,9 @@ function M.opening(definitions, owned, persistentCounters, context)
             elseif position == "turn_top" then table.insert(turnTop, 1, relic.effects)
             elseif position == "battle_top" then table.insert(battleTop, 1, relic.effects)
             else bottom[#bottom + 1] = relic.effects end
+        end
+        for _,effect in ipairs(require('abyss_shop_relics').battleStartActions({relics={id}},context))do
+            if effect.top then table.insert(battleTop,1,{effect})else bottom[#bottom+1]={effect}end
         end
     end
     -- Turn-start hooks are dispatched after battle-start hooks, so their TOP

@@ -3,7 +3,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-const read=p=>preFormalEntrySource(p,readFileSync(p,'utf8'));
+import {prePhaseFourCardCountSource} from './helpers/phase-four-card-count-inverse.mjs';
+const read=p=>preFormalEntrySource(p,prePhaseFourCardCountSource(p,readFileSync(p,'utf8')));
 const sha=s=>createHash('sha256').update(s).digest('hex');
 const suites=[
   {

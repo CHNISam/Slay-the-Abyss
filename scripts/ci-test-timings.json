@@ -78,7 +78,7 @@
       "tests/bosses-intent-ui.test.mjs": 3520,
       "tests/build-lua-data-protection.test.mjs": 2529,
       "tests/build-lua-data.test.mjs": 1621,
-      "tests/build-ui-input-protection.test.mjs": 14065,
+      "tests/build-ui-input-protection.test.mjs": 236253,
       "tests/build-ui-theme-protection.test.mjs": 2341,
       "tests/build-ui-theme.test.mjs": 184,
       "tests/card-actions-exhaust.test.mjs": 4933,
@@ -488,7 +488,7 @@
       "tests/bosses-intent-ui.test.mjs": 3368,
       "tests/build-lua-data-protection.test.mjs": 1556,
       "tests/build-lua-data.test.mjs": 1276,
-      "tests/build-ui-input-protection.test.mjs": 2788,
+      "tests/build-ui-input-protection.test.mjs": 132830,
       "tests/build-ui-theme-protection.test.mjs": 319,
       "tests/build-ui-theme.test.mjs": 211,
       "tests/card-actions-exhaust.test.mjs": 4563,
@@ -524,7 +524,7 @@
       "tests/common-relic-hooks.test.mjs": 2576,
       "tests/common-relic-turns.test.mjs": 1396,
       "tests/competition-character-admission.test.mjs": 12305,
-      "tests/competition-roster-config-composition.test.mjs": 22597,
+      "tests/competition-roster-config-composition.test.mjs": 173509,
       "tests/competition-roster-prepared-ui.test.mjs": 34472,
       "tests/competition-roster.test.mjs": 20455,
       "tests/competition-two-act.test.mjs": 15989,
@@ -1830,6 +1830,35 @@
     "headSha": "ce62e753065666fd26c9d85587a8f3ae2a580689",
     "description": "408 unique successful native file summaries per platform; complete source file sets. Windows raw job logs, POSIX aggregate native summaries."
   },
+  "jsCorrections": [
+    {
+      "platform": "linux",
+      "file": "tests/competition-roster-config-composition.test.mjs",
+      "durationMs": 173509,
+      "runId": 41026676508,
+      "jobId": 123966862481,
+      "headSha": "9cb449a3c3051f2e594f2ace82485ac0ac3c491d",
+      "description": "Successful CI_FILE_TIMING 173508.69ms before pure projection caching. Retain this measured uncached cost as a conservative placement weight after caching; do not represent it as a new cached Linux measurement. Tests, shard counts, concurrency and deadlines remain unchanged."
+    },
+    {
+      "platform": "win32",
+      "file": "tests/build-ui-input-protection.test.mjs",
+      "durationMs": 236253,
+      "runId": 41015635229,
+      "jobId": 123934165534,
+      "headSha": "aaa0fad367e3f3df863a35a287e79a07b4d1bd27",
+      "description": "Successful CI_FILE_TIMING 236252.55ms for the same expanded art input fixture. Correct placement only; tests, worker eligibility, shard counts and deadlines remain unchanged. The containing job passed tests, engineering and platform load, then reached its 30-minute limit during final receipt upload."
+    },
+    {
+      "platform": "linux",
+      "file": "tests/build-ui-input-protection.test.mjs",
+      "durationMs": 132830,
+      "runId": 41012417525,
+      "jobId": 123922409237,
+      "headSha": "8dbe4f5e0836037f52df3de3d7fa90643029794d",
+      "description": "Successful CI_FILE_TIMING 132829.65ms after the complete ready-card art fixture was introduced. Correct placement only; all tests, assertions, shard counts, concurrency and deadlines remain unchanged. The containing job exceeded its 20-minute budget after all 890 tests passed."
+    }
+  ],
   "luaShard": {
     "tests/lua/acid_slime_l_matrix_a.lua": 23069,
     "tests/lua/acid_slime_l_matrix_b.lua": 13248,

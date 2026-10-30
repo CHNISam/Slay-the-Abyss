@@ -1,4 +1,6 @@
 import {preBattleLifeSource} from './battle-life-source-inverse.mjs';
+import {preBossUiFaultFixtureSource} from './boss-ui-fault-fixture-inverse.mjs';
+import {relicCompletionInverse,requireRelicCompletionSource} from './relic-completion-inverse.mjs';
 import {preHeroVisualSource} from './hero-visual-source-inverse.mjs';
 import {preRelicViewUiSource} from './relic-view-ui-inverse.mjs';
 import {preEventProductionSource} from './event-production-source-inverse.mjs';
@@ -19,12 +21,22 @@ const proof=pr323AcceptedSourceInverse;
 // require the original complete identity. Comparing tokens also prevents JSON.parse
 // from hiding duplicate keys, changed string escapes, or numeric spellings.
 export function normalizePr323CompositionSource(path,source){
+ source=preBossUiFaultFixtureSource(path,source);
+ // Preserve architecture's existing token-only whitespace allowance before the
+ // exact outer inverse. The live spelling must itself match the whole hash.
+ if(path==='config/architecture.json'&&typeof source==='string'&&relicCompletionInverse.files[path]){
+  try{
+   const live=readFileSync(path,'utf8');requireRelicCompletionSource(path,live);
+   const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
+   if(tokens(source)===tokens(live))source=live;
+  }catch{ /* Foreign source bytes stay exposed to the strict inner guard. */ }
+ }
  source=preBattleLifeSource(path,source);
  if(path!=='config/architecture.json'||typeof source!=='string')return source;
  try{
   const formatted=JSON.stringify(JSON.parse(source),null,2)+'\n';
   const tokens=text=>text.replace(/"(?:\\.|[^"\\])*"|[ \t\r\n]+/g,token=>token.startsWith('"')?token:'');
-  const projected=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,formatted)));
+  const projected=preEventProductionSource(path,preRelicViewUiSource(path,preHeroVisualSource(path,preBattleLifeSource(path,formatted))));
   if(tokens(source)===tokens(formatted)&&hash(projected)===proof.files[path].afterSha256)return projected;
  }catch{ /* Unknown syntax remains visible to the strict source guard. */ }
  return source;

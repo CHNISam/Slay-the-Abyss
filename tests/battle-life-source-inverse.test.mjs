@@ -1,5 +1,6 @@
 import {preRound2UiSource,round2UiAddedPaths,prepareRound2UiModuleRetirement} from './helpers/round2-ui-source-inverse.mjs';
 import test from 'node:test';
+import {preRelicCompletionSource} from './helpers/relic-completion-inverse.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';

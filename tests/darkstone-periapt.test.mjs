@@ -24,7 +24,10 @@ test('Darkstone definition, existing icon alias and launch record remain explici
  const theme=read('data/presentation/ui_theme.json');assert.equal(theme.icon.relic.darkstone_periapt,theme.icon.relic.oddly_smooth_stone);assert.match(theme.note,/Darkstone Periapt.*暂复用/);
  const row=read('data/release/launch-content.json').relics.find(r=>r.id===relic.id);
  const mapped=read('docs/rules/evidence/sts1-relic-pool-catalog.json').relics.find(r=>r.id===relic.sourceId);assert.equal(mapped.projectId,relic.id);assert.equal(mapped.status,'existing-local-effect-not-full-pool-parity');assert.match(mapped.implementationLimitation,/reject atomically/);
- assert.equal(row.sourceId,relic.sourceId);assert.deepEqual(row.channels,['treasure','shop_relic']);assert.match(row.naturalExecutionLimitation,/reject atomically/);
+ assert.equal(row.sourceId,relic.sourceId);assert.deepEqual(row.channels,['treasure','shop_relic']);
+ assert.match(row.naturalExecutionLimitation,/shared health transactions/);
+ assert.match(row.naturalExecutionLimitation,/active\/retained-combat health synchronization covered locally/);
+ assert.match(row.naturalExecutionLimitation,/platform\/live evidence remain pending/);
  const catalog=read('data/catalogs/sts1-relic-queues.json');assert.equal(catalog.queues.uncommon.filter(id=>id==='Darkstone Periapt').length,1);assert.deepEqual(catalog.spawnGates['Darkstone Periapt'],{kind:'max-floor',floor:48,endlessBypass:true});
 });
 

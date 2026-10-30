@@ -20,7 +20,7 @@ local platform={imageSource='static',color=function(r,g,b,a)return {r=r,g=g,b=b,
 for _,id in ipairs({'ironclad','silent','defect','watcher'})do
  test(id..' every basic and upgrade reaches real BattleUI and DeckUI',function()
   local data=prepared(id);local text=P.prepare(Existing,data)
-  eq(#data.cards.cards,({ironclad=80,silent=90,defect=90,watcher=100})[id])
+  eq(#data.cards.cards,({ironclad=81,silent=91,defect=91,watcher=101})[id])
   local root=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
   local ui=BattleUI.new(root:GetChild('battlePanel'),data,text,'click',platform,{embedded=true})
   local deck={}
@@ -52,6 +52,6 @@ for _,id in ipairs({'ironclad','silent','defect','watcher'})do
  end)
 end
 assert(registered==4,'class render discovery changed')
-local expected=0;for i=first,last do expected=expected+({160,180,180,200})[i]end
+local expected=0;for i=first,last do expected=expected+({162,182,182,202})[i]end
 eq(cases,last-first+1);eq(rendered,expected)
 print('phase_four_presentation_render: '..cases..' passed; '..rendered..' real card render variants')

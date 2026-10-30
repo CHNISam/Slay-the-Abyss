@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {preRelicCompletionSource} from './helpers/relic-completion-inverse.mjs';
 const raw=readFileSync('data/cards.json','utf8').replaceAll('\r\n','\n');
+const frozenInput=preRelicCompletionSource('data/cards.json',raw);
 const cards=JSON.parse(raw).cards.filter(c=>!['status','curse'].includes(c.type)&&c.rarity!=='special');
 const registration=JSON.parse(readFileSync('data/reference/sts1-card-pools/registration.json','utf8')).registration.filter(c=>c.color==='RED');
 const fields=['condition','cost','costMode','effects','ethereal','exhaust','exhaustEnergy','healing','innate','rarity','repeatable','sourceId','strengthMultiplier','strikeBonus','strikeTag','target','type','upgrade'];
@@ -17,7 +19,7 @@ const source=readFileSync('src/lua/abyss_run_red_card_contract.lua','utf8');
 function verify(text){
  const rows=[...text.matchAll(/^ ([a-z_]+)='([0-9a-f]{16})',/gm)].map(m=>[m[1],m[2]]);
  assert.equal(rows.length,75);const actual=new Map(rows);assert.equal(actual.size,75);
- assert.ok(text.includes(createHash('sha256').update(raw).digest('hex')),'explicit frozen native input SHA');
+ assert.ok(text.includes(createHash('sha256').update(frozenInput).digest('hex')),'explicit frozen native input SHA');
  for(const c of cards)assert.equal(actual.get(c.id),fingerprint(c),`native semantic signature for ${c.id}`);
 }
 test('Run red contract locks exactly75 native semantic signatures against frozen data and independent source identities',()=>{

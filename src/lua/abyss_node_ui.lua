@@ -217,6 +217,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         if not self.run then ctx.root:SetVisible(false);return false, "node_unbound" end
         ctx.resetButtons();local previousArt=ctx.artFaces;ctx.artFaces={}
         ctx.inspectCards={}
+        if ctx.renderRelicPending()then ctx.clearUnusedNativeArt(previousArt);return true end
         local view = Nodes.view(self.run, self.map)
         local node = view.node
         ctx.syncNodeIdentity(node)
@@ -240,6 +241,8 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
         self.failed = false
         ctx.roomMotion:paint()
     end
+
+    require('abyss_relic_pending_ui').install(ctx)
 
     require("abyss_node_ui_lifecycle").install(ctx)
 

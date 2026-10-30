@@ -53,8 +53,8 @@ function M.withCards(data)
  end
  local statuses={};for _,definition in ipairs(out.statuses.statuses)do statuses[definition.id]=true end
  for id,definition in pairs(powers)do
-  assert(not statuses[id],'duplicate final Defect Power')
-  out.statuses.statuses[#out.statuses.statuses+1]={id=id,name=definition[1],description=definition[2],kind='buff',stack='intensity',decay='none'}
+  assert(not statuses[id] or id=='buffer','duplicate final Defect Power')
+  if not statuses[id]then out.statuses.statuses[#out.statuses.statuses+1]={id=id,name=definition[1],description=definition[2],kind='buff',stack='intensity',decay='none'}end
  end
  return out
 end

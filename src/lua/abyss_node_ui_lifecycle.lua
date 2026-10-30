@@ -30,6 +30,7 @@ function M.install(ctx)
         ctx.shopSelection:clear()
         ctx.roomMotion:cancel()
         self.canvasWidth, self.canvasHeight = width, height
+        if self.pendingOwner then self:render();return end
         if self.view and self.view.node and (self.view.node.type=='shop' or ctx.options.enhancedRooms) then self:render() end
         if self.view and self.view.node and self.view.node.type=='event' and stagedEvent(self.view.node.event.id) then self:render() end
     end
@@ -74,7 +75,9 @@ function M.install(ctx)
         if value and not self.run then return false, "node_unbound" end
         if not value then ctx.resetButtons();ctx.shopSelection:clear();ctx.roomMotion:cancel();for box in pairs(ctx.artFaces)do CardDisplay.clearNativeArt(box)end;ctx.artFaces={} end
         local wasVisible = self.visible
+        if not value then self.pendingGeneration=(self.pendingGeneration or 0)+1 end
         self.visible = value ctx.root:SetVisible(value)
+        if value and not wasVisible and require('abyss_relic_pending').owner(self.run)then self:render()end
         -- Let Match's own visibility guard retire its clock, retaining a failed
         -- pair's explicit-retry state across modal hide/show.
         if not value then ctx.updateMatch(0) end
@@ -94,6 +97,11 @@ function M.install(ctx)
     function ctx.current()
         if not ctx.self.visible then return false, "panel_hidden" end
         if ctx.self.busy or ctx.self.presentationBusy then return false, "unavailable_action" end
+        if ctx.self.pendingOwner then
+            if ctx.self.renderRun~=ctx.self.run or ctx.self.renderMap~=ctx.self.map
+                or require('abyss_relic_pending').owner(ctx.self.run)~=ctx.self.pendingOwner then return false,'stale_action'end
+            return true,ctx.self.view
+        end
         local view = Nodes.view(ctx.self.run, ctx.self.map)
         if ctx.self.renderRun ~= ctx.self.run or ctx.self.renderMap ~= ctx.self.map or not view.node or view.node.id ~= ctx.self.nodeId then
             return false, "stale_action"
@@ -187,7 +195,8 @@ function M.install(ctx)
     function ctx.self:setPage(page)
         local ok, reason = ctx.current() if not ok then return false, reason end
         if type(page) ~= "number" or page % 1 ~= 0 or page < 1 or page > (self.pageCount or 1) then return false, "invalid_page" end
-        if self.mode == "picker" then self.pickPage = page else self.page = page end
+        if self.pendingOwner then self.pendingPage=page
+        elseif self.mode == "picker" then self.pickPage = page else self.page = page end
         self.notice = "" self:render() return true
     end
 end

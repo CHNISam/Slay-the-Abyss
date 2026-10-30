@@ -33,6 +33,10 @@ class PrototypeCardTests(unittest.TestCase):
         rendered = renderer.render_cards(source, overlay)['cards']
         definitions = {card['id']: card for card in source['cards']}
         self.assertEqual(set(by_id), set(definitions), 'missing or unknown prototype card IDs')
+        self.assertEqual(len(rows), 90)
+        self.assertEqual(by_id['curse_of_the_bell'], [
+            'curse_of_the_bell', '铃铛的诅咒', 'curse', 'curse', '',
+            '无法打出。无法从牌组中移除。', '', '无法打出。无法从牌组中移除。'])
         for card in rendered:
             definition = definitions[card['id']]
             expected = [card['id'], card['name'], definition['type'], definition['rarity'],

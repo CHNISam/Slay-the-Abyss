@@ -5,9 +5,9 @@ import {spawnSync} from 'node:child_process';
 import {runLua} from '../../scripts/test-lua.mjs';
 import {materializeHistoricalPresentation} from './p0-presentation-inverse.mjs';
 import {preRetirementSource} from './presentation-announcement-retirement.mjs';
-import {historicalPresentationFixtures} from './historical-presentation-runner.mjs';
+import {historicalPresentationFixtures,historicalSapphireFixtures} from './historical-presentation-runner.mjs';
 const script=process.argv[2],timeout=Number(process.argv[3]),started=Date.now();
-assert.ok(historicalPresentationFixtures.includes(script),'only exact historical presentation fixtures');
+assert.ok(historicalPresentationFixtures.includes(script)&&!historicalSapphireFixtures.includes(script),'only exact historical presentation fixtures');
 const remaining=()=>{
  const value=timeout-(Date.now()-started);
  assert(value>0,'historical presentation fixture exceeded its original total deadline');return value;

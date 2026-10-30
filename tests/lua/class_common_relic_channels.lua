@@ -74,9 +74,28 @@ test('formal shop uses the natural full-queue tail; purchase is transactional an
 end)
 test('unimplemented source identities remain unavailable with no alternate draw or queue entropy',function()
  local r=R.new(D,'113',{experimental=true,character='silent'})
+ -- Production Sundial now exists. Consume the original sequence, obtain the
+ -- selected identity through Run, then verify its third real shuffle reward.
+ local production=Pool.restore(Pool.snapshot(r.relicPool),r.relicPool.catalog)
+ local selected
+ for _=1,#production.queues.uncommon do
+  local item=Rewards.draw(r,production,'uncommon')
+  if item.sourceId=='Sundial'then selected=item;break end
+ end
+ assert(selected and not selected.unavailable)
+ assert(R.obtainRelic(r,selected.sourceId));assert(R.startRoomCombat(r,'normal'))
+ local state=r.combat;local energy=state.energy
+ state.draw,state.discard={},{}
+ for i=1,3 do
+  C.shuffleDiscardIntoDraw(state);require('abyss_card_actions').drain(C,state)
+  eq(state.energy,energy+(i==3 and 2 or 0))
+ end
+ eq(state.relicCounters.sundial,0)
+ -- The missing-definition oracle remains deliberate and independent of how
+ -- much production content is implemented; retain every refusal/RNG check.
+ r=R.new(D,'113',{experimental=true,character='silent'});removeDefinition(r,'Sundial')
  local pool=Pool.restore(Pool.snapshot(r.relicPool),r.relicPool.catalog)
- -- This known source uncommon remains unimplemented; move no queues and use
- -- the real source-ordered sequence until it is selected, never a spawn filter.
+ -- Move no queues: use the real sequence until the removed identity appears.
  local before=S.snapshot(pool.rng);local found=false
  for _=1,#pool.queues.uncommon do
   local item=Rewards.draw(r,pool,'uncommon')

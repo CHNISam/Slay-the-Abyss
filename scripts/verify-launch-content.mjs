@@ -197,16 +197,23 @@ export function validateLaunchContent(manifest, { root = process.cwd(), runtime 
   for (const card of manifest.generatedCards) {
     const definition = data.cards.cards.find(row => row.id === card.id);
     check(card.type === definition?.type && card.countsTowardSeventyFive === false, `generatedCards/${card.id}: classification drift`);
-    const channels = card.type === 'curse' ? [...(curseEvents[card.id] ?? []),
+    const bellCurse = card.id === 'curse_of_the_bell';
+    const channels = bellCurse ? ['relic:calling_bell', 'explicit:Run.obtainCard']
+      : card.type === 'curse' ? [...(curseEvents[card.id] ?? []),
       'explicit_event:transmogrifier:change', 'explicit_event:living_wall:change', 'explicit:Run.obtainCard']
       : [...data.enemies.enemies.filter(enemy => enemy.intents.some(intent => intent.effects.some(effect => effect.card === card.id)))
         .map(enemy => `enemy:${enemy.id}:intent`),
         ...data.cards.cards.filter(c => [c.effects,c.upgrade?.effects ?? []].some(list=>list.some(e=>e.card===card.id)))
           .map(c=>`card:${c.id}:effect`)];
     same(card.channels, channels, `generatedCards/${card.id} channels`);
+    if (bellCurse) {
+      check(card.sourceId === 'CurseOfTheBell' && definition?.sourceId === card.sourceId,
+        'generatedCards/curse_of_the_bell: source ID drift');
+      check(card.unremovable === true, 'generatedCards/curse_of_the_bell: unremovable boundary omitted');
+    }
     if (card.type === 'curse') {
       check(!card.acquisitionPending, `generatedCards/${card.id}: explicit transformation route omitted`);
-      check(Boolean(card.naturalAcquisitionLimitation?.includes('explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);
+      check(Boolean(card.naturalAcquisitionLimitation?.includes(bellCurse ? 'Calling Bell' : 'explicit event')), `generatedCards/${card.id}: missing explicit acquisition boundary`);
     }
   }
   same(ids(manifest.enemies), ids(data.enemies.enemies), 'enemy definitions');

@@ -15,6 +15,21 @@ local function endingReactions(combat,state,effect)
     if effect.op=='spireDeathRemove'then return true,Actors.removeSpireDeathPower(state,effect)end
     return false
 end
+local function relicActions(combat,state,effect)
+    if effect.op=='shopRelic'and effect.kind=='toolbox'then
+        require('abyss_shop_relics').beginToolbox(combat,state)
+        return true,'pause'
+    end
+    if effect.op=='relicUpgradeRandomHand'then
+        require('abyss_relic_hooks').upgradeRandomHand(combat,state)
+        return true,true
+    end
+    if effect.op=='rareGamblingChip'then
+        require('abyss_rare_relics').applyEffect(combat,state,effect)
+        return true,'pause'
+    end
+    return false
+end
 local function reactions(c)
     local M,state,action,queue=c.combat,c.state,c.action,c.queue
     local ending,result=endingReactions(M,state,action.effect)
@@ -32,6 +47,8 @@ local function reactions(c)
         require('abyss_potion_discovery').begin(M,state,action.effect)
         return true,'pause'
     end
+    local handled,relicResult=relicActions(M,state,action.effect)
+    if handled then return true,relicResult end
     if action.effect.op=='potionStanceChoice'then return true,require('abyss_potion_stance').begin(state)end
     if require('abyss_end_turn_powers').ops[action.effect.op]then return true,require('abyss_end_turn_powers').apply(M,state,action.effect,queue)end
     if action.effect.op=='ownerEndRetain'then
@@ -98,6 +115,8 @@ local function executeRounds(c,context,target)
     if effect.op == "whirlwind" then
         local rounds=context.energyOnUse
         assert(type(rounds)=="number" and rounds%1==0 and rounds>=0 and rounds<=2147483647,"invalid X snapshot")
+        rounds=rounds+require('abyss_shop_relics').xBonus(state)
+        assert(rounds<=2147483647,'X bonus overflow')
         if rounds>0 then
             queue.pushBottom(state,{kind="effect",effect={op="whirlwindRounds",remaining=rounds,matrix=effect.matrix}})
             if not context.freeToPlayOnce then state.energy=0 end

@@ -2318,6 +2318,11 @@
       "endTurnDamage": 2
     },
     {
+      "id": "curse_of_the_bell", "sourceId": "CurseOfTheBell", "name": "铃铛的诅咒",
+      "sts_name": "Curse of the Bell", "type": "curse", "rarity": "curse", "cost": -2,
+      "effects": [], "text": "无法打出。无法从牌组中移除。"
+    },
+    {
       "id": "injury",
       "name": "旧伤",
       "sts_name": "Injury",

@@ -12,6 +12,7 @@ local operations = { timeEater=true, writhingRoll=true,writhingParasite=true, cl
     discardToDraw=true, handToDraw=true, dualWield=true, generateAttack=true,
     makeTempCardInHand=true, makeTempCardInDraw=true, doubleStrength=true,
     spotWeakness=true, feed=true, reaper=true, playTop=true, damageRandom=true }
+for _,op in ipairs({'rareGamblingChip','rareRelicGenerate','rareRelicDamageAll','rareRelicWeak','shopRelic'})do operations[op]=true end
 function M.supports(op) return operations[op] == true end
 
 function M.enqueue(state, effect, source, target, instance, top)
@@ -30,6 +31,7 @@ function M.enqueueReaction(state,effect,top)
     else M.enqueue(state,effect,nil,nil,nil,top)end
 end
 function M.reactionRetained(effect)
+    if effect.op=='rareRelicDamageAll'then return true end
     if require('abyss_corrupt_heart').retained(effect)then return true end
     if effect.op=='reptomancerSuicide'then return true end
     return TimeEater.retained(effect) or effect.op=='awakenedAction' and effect.kind=='heal' or PlatedArmor.retained(effect) or Act2Powers.retained(effect) or effect.op=='resolveCurlUp'
@@ -53,6 +55,7 @@ function M.exhaust(combat, state, instance, pile)
             M.enqueue(state,{op="draw",value=p.statuses[id]})
         elseif id=='feel_no_pain' then M.enqueue(state,{op="block",value=p.statuses[id],fixed=true}) end
     end
+    require('abyss_rare_relics').onExhaust(state)
     local energy=combat.cardDefinition(state,instance).exhaustEnergy
     if energy then
         M.enqueue(state,{op="energy",value=energy},nil,nil,nil,true)
@@ -378,8 +381,9 @@ end
 local function feedReward(state,source,amount)
     source.maxHp=source.maxHp+amount
     local beforeHp=source.hp
-    if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,amount,nil,'feed')
-    else source.hp=math.min(source.maxHp,source.hp+(source==state.player and require('abyss_potion_health').blocked(state.relics)and 0 or amount))end
+    local healing=source==state.player and require('abyss_potion_health').modifyHealing(amount,state.relics,true)or amount
+    if state.originalV4 and source==state.player then require('abyss_original_v4_health').heal(state,source,healing,nil,'feed')
+    else source.hp=math.min(source.maxHp,source.hp+healing)end
     Events.emit(state,"max_hp",{amount=amount,target=source.id})
     require('abyss_relic_hooks').hpChanged(state,source,beforeHp)
 end
@@ -424,6 +428,10 @@ local function block(combat,state,item)
     else applyFallback(combat,state,item)end
 end
 
+local function rareRelic(combat,state,item)
+    require('abyss_rare_relics').applyEffect(combat,state,item.effect)
+end
+
 -- Execution is deliberately broader than supports(), which controls admission
 -- to native card routing. Every known local operation has one finite lookup.
 local actionHandlers={
@@ -435,7 +443,12 @@ local actionHandlers={
     recoverExhaust=selection,discardToDraw=selection,handToDraw=selection,dualWield=selection,
     resolveCurlUp=resolveCurlUp,obtainPotion=obtainPotion,doubleStrength=doubleStrength,
     spotWeakness=spotWeakness,damageRandom=damageRandom,feed=feed,reaper=reaper,heal=heal,block=block,
+    rareGamblingChip=rareRelic,rareRelicGenerate=rareRelic,rareRelicDamageAll=rareRelic,rareRelicWeak=rareRelic,
 }
+function actionHandlers.shopRelic(combat,state,item)
+    if item.effect.kind=='toolbox'then return require('abyss_shop_relics').beginToolbox(combat,state)end
+    return require('abyss_shop_relics').execute(state,item.effect)
+end
 function actionHandlers.writhingRoll(_,state,item)return require('abyss_writhing_mass').roll(state,item.effect.targetId)end
 function actionHandlers.writhingParasite(_,state,item)return require('abyss_writhing_mass').obtainParasite(state,item.source)end
 function actionHandlers.giantHeadSlow(_,state,item)return require('abyss_giant_head').applySlow(Actors,state,item.effect)end
@@ -490,7 +503,13 @@ function M.drain(combat,state)
             if not outcome or outcome=="victory" and keep then M.apply(combat,state,item) end
         elseif not outcome and state.queuedCards and #state.queuedCards>0 then
             combat.resolveQueuedCard(state,table.remove(state.queuedCards,1))
-        else break end
+        else
+            -- Refresh observes the empty manager, then its draw joins this owner.
+            local rare=require('abyss_rare_relics')
+            local drew=not outcome and not state.endTurnAfterCard and rare.owns(state,'unceasing_top')
+                and rare.onRefreshHand(state,true)
+            if not drew then break end
+        end
     end
     state.drainingCardActions=nil
     if not state.pendingChoice and not state.pendingDiscard and not state.actionQueue then state.cardActions=nil; state.queuedCards=nil; state.resolvingCard=nil end

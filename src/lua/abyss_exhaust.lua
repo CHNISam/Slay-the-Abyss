@@ -63,7 +63,12 @@ function M.plan(s,instance,options)
     -- Caller supplies every owned relic with an onExhaust hook. Unknown hooks
     -- are deliberately refused until their RNG/selection handlers are wired.
     local relicHooks=options.onExhaustRelics or {}
-    assert(dense(relicHooks)==0,'unsupported exhaust relic hook')
+    dense(relicHooks)
+    for _,id in ipairs(relicHooks)do
+        id=require('abyss_rare_relics').localId(id)
+        assert(id=='charons_ashes'or id=='dead_branch','unsupported exhaust relic hook')
+        assert(require('abyss_rare_relics').owns(s,id),'unowned exhaust relic hook')
+    end
     assert(instance.cardId~='necronomicurse' and not def.onExhaust and not def.exhaustEffects
         and not def.exhaustTrigger,'unsupported card exhaust hook')
     local order=s.exhaustPowerOrder or {}
@@ -83,8 +88,12 @@ function M.plan(s,instance,options)
             plan.bottom[#plan.bottom+1]=effect('draw',de,id)
         end
     end
+    require('abyss_rare_relics').onExhaust(s,function(_,e,top)
+        local list=top and plan.top or plan.bottom
+        list[#list+1]={kind='effect',effect=e}
+    end)
     if instance.cardId=='sentinel' then
-        plan.top[1]=effect('energy',instance.upgraded==true and 3 or 2,'sentinel')
+        plan.top[#plan.top+1]=effect('energy',instance.upgraded==true and 3 or 2,'sentinel')
     end
     return plan
 end

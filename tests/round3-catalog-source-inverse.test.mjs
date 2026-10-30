@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {preRelicRound3CompositionSource} from './helpers/relic-round3-composition.mjs';
 import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,existsSync,rmSync,symlinkSync,renameSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -7,7 +8,7 @@ import {createHash} from 'node:crypto';
 import {projectArtPerfSource,artPerfSourceComposition} from './helpers/art-perf-source-composition.mjs';
 import {round3CatalogProof as proof,preRound3CatalogSource as prior,prepareRound3CatalogModuleRetirement as retire} from './helpers/round3-catalog-source-inverse.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
-const current=path=>readFileSync(path,'utf8').replaceAll('\r\n','\n');
+const current=path=>preRelicRound3CompositionSource(path,readFileSync(path,'utf8'),'round3').replaceAll('\r\n','\n');
 const added='src/lua/abyss_combat_catalog.lua';
 for(const path of ['config/architecture.json','src/lua/abyss_combat.lua']){
  test('exact catalog delta recovers complete rebased 1bfca626 identity: '+path,()=>{

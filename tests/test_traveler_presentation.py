@@ -107,12 +107,19 @@ class PresentationTests(unittest.TestCase):
         data = self.m.render_cards(source_data, self.m.load_json(overlay))
         cards = {card['id']: card for card in data['cards']}
         expected_statuses = {'dazed', 'slimed', 'wound', 'burn'}
-        expected_curses = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe', 'clumsy', 'normality', 'parasite'}
+        ordinary_curses = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe', 'clumsy', 'normality', 'parasite'}
+        expected_curses = ordinary_curses | {'curse_of_the_bell'}
+        self.assertEqual(len(ordinary_curses), 10)
         self.assertEqual({c['id'] for c in source_data['cards'] if c['type'] == 'status'}, expected_statuses)
         self.assertEqual({c['id'] for c in source_data['cards'] if c['type'] == 'curse'}, expected_curses)
         self.assertEqual(len(cards), 75 + len(expected_statuses) + len(expected_curses))
         self.assertEqual(len({c['name'] for c in cards.values()}), 75 + len(expected_statuses) + len(expected_curses))
         self.assertEqual(sum(c['type'] not in ('status', 'curse') for c in source_data['cards']), 75)
+        self.assertEqual(cards['curse_of_the_bell']['cost'], '')
+        self.assertEqual(cards['curse_of_the_bell']['upgradeCost'], '')
+        self.assertEqual(cards['curse_of_the_bell']['text'], '无法打出。无法从牌组中移除。')
+        self.assertEqual(cards['curse_of_the_bell']['upgradeText'], cards['curse_of_the_bell']['text'])
+        self.assertNotIn('combatText', cards['curse_of_the_bell'])
         self.assertEqual(cards['regret']['name'], '余悔')
         self.assertEqual(cards['regret']['cost'], '')
         self.assertEqual(cards['regret']['upgradeCost'], '')

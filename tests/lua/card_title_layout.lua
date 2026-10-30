@@ -3,7 +3,7 @@ local function plainCardTitle(text)return (text:gsub('<color=#[%x]+>',''):gsub('
 package.path='src/lua/?.lua;build/lua/?.lua;'..package.path
 local D,T,P,E,Run,Data=require('abyss_card_display'),require('abyss_theme'),require('abyss_character_presentation'),require('abyss_presentation'),require('abyss_run'),require('abyss_data')
 local expected={['FR2-053']=true,['FR2-065']=true,['FR2-069']=true,['FR2-075']=true,['RD2-003']=true,['RD2-004']=true}
-local expectedCount={ironclad=366,silent=366,defect=366,watcher=366,hutao=203,arlecchino=203,furina=203,raiden=203}
+local expectedCount={ironclad=367,silent=367,defect=367,watcher=367,hutao=204,arlecchino=204,furina=204,raiden=204}
 local text,font,_,marker=D.title('恰到好处的停顿',true)
 assert(text=='恰到好处的停顿' and marker=='＋' and font==14,
  'long upgraded title must preserve its name and move only the marker out of the artwork')
@@ -32,5 +32,5 @@ for _,class in ipairs({'ironclad','silent','defect','watcher','hutao','arlecchin
   total=total+1
  end end
 end
-assert(total==4552 and moved==6,'complete current pool or six overflow titles were missed')
+assert(total==4568 and moved==6,'complete current pool or six overflow titles were missed')
 print('LUA_CARD_TITLE_LAYOUT_PASS '..total..' variants; six upgrade markers use the existing type slot')

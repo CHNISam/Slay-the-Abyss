@@ -54,12 +54,10 @@ test('actual treasure entry gates destination48/49 rather than previous run.floo
   local item=Source.base(r.nodeFlow)
   if floor==48 then eq(r.nodeFlow.reward.relicId,'darkstone_periapt');assert(Nodes.claimTreasure(r));eq(r.relics[#r.relics],'darkstone_periapt')
   else
-   eq(r.nodeFlow.reward.relicId,'InkBottle');eq(r.nodeFlow.reward.gold,nil)
+   eq(r.nodeFlow.reward.relicId,'ink_bottle');eq(r.nodeFlow.reward.gold,nil)
    eq(item.sourceId,'InkBottle');eq(#item.trace,2)
    eq(item.trace[1].id,'Darkstone Periapt');eq(item.trace[2].id,'InkBottle')
-   local before=snapshot(r);local ok,why=Nodes.claimTreasure(r)
-   eq(ok,false);eq(why,'relic_content_unavailable');same(r,before)
-   assert(Nodes.leaveTreasure(r))
+   assert(Nodes.claimTreasure(r));eq(r.relics[#r.relics],'ink_bottle')
   end
  end
 end)

@@ -141,7 +141,7 @@ local function index(map)
     local result = {}; for _, node in ipairs(map.nodes) do result[node.id] = node end; return result
 end
 
-function M.available(map)
+function M.available(map,winged)
     if map.floor == (map.terminalFloor or 17) then return {} end
     local nodes, result = index(map), {}
     if map.floor == (map.firstFloor or 1)-1 then
@@ -149,14 +149,25 @@ function M.available(map)
     else
         for _, nextId in ipairs(nodes[map.currentNodeId].nextIds) do result[#result + 1] = copy(nodes[nextId]) end
     end
+    if winged==true and map.floor>=(map.firstFloor or 1) and map.floor<(map.terminalFloor or 17)-2 then
+        result={}
+        for _,node in ipairs(map.nodes)do if node.floor==map.floor+1 then result[#result+1]=copy(node)end end
+    end
     return result
 end
 
-function M.choose(map, nodeId)
+function M.choose(map, nodeId,winged)
     if map.floor == (map.terminalFloor or 17) then return false, "map_complete" end
     if type(nodeId) ~= "string" or not index(map)[nodeId] then return false, "invalid_node" end
-    for _, node in ipairs(M.available(map)) do
+    local connected=false
+    for _,node in ipairs(M.available(map))do if node.id==nodeId then connected=true end end
+    for _, node in ipairs(M.available(map,winged)) do
         if node.id == nodeId then
+            if not connected then
+                map.wingedJumps=map.wingedJumps or {}
+                if #map.wingedJumps>=3 then return false,'winged_travel_exhausted'end
+                map.wingedJumps[#map.wingedJumps+1]=#map.path+1
+            end
             map.floor, map.currentNodeId = node.floor, node.id
             map.path[#map.path + 1] = node.id
             return true
@@ -203,9 +214,9 @@ local function prepareEmerald(map,nodeId)
         nodeId=nodeId,beforeRng=copy(map.mapRng),afterRng=copy(after),effect=effect},after
 end
 
-function M.prepareEmeraldBoost(map,nodeId)
+function M.prepareEmeraldBoost(map,nodeId,winged)
     if not emeraldNode(map,nodeId) then return nil,nil,'invalid_emerald_map_owner' end
-    local ok,available=pcall(M.available,map)
+    local ok,available=pcall(M.available,map,winged)
     if ok then
         for _,node in ipairs(available)do if node.id==nodeId then return prepareEmerald(map,nodeId) end end
     end
@@ -225,10 +236,10 @@ end
 
 function M.snapshot(map) return copy(map) end
 
-function M.view(map)
+function M.view(map,winged)
     local view, visited, available = copy(map), {}, {}
     for _, nodeId in ipairs(map.path) do visited[nodeId] = true end
-    for _, node in ipairs(M.available(map)) do available[node.id] = true end
+    for _, node in ipairs(M.available(map,winged)) do available[node.id] = true end
     for _, node in ipairs(view.nodes) do
         node.visited, node.available = visited[node.id] == true, available[node.id] == true
     end
@@ -256,13 +267,21 @@ function M.restore(data, snapshot, trustedContext)
     local ok, map = pcall(M.generate, data, snapshot.runSeed, snapshot.version==4 and snapshot.act or 1,trustedContext)
     if not ok then return nil, "invalid_configuration" end
     if snapshot.sourceSignature ~= map.sourceSignature then return nil, "configuration_mismatch" end
-    for _, nodeId in ipairs(snapshot.path) do
+    local jumps={}
+    if snapshot.wingedJumps~=nil then
+        if not array(snapshot.wingedJumps,3)or #snapshot.wingedJumps==0 then return nil,'invalid_winged_path'end
+        for _,step in ipairs(snapshot.wingedJumps)do
+            if not integer(step)or step<2 or step>#snapshot.path or jumps[step]then return nil,'invalid_winged_path'end
+            jumps[step]=true
+        end
+    end
+    for step, nodeId in ipairs(snapshot.path) do
         local boost
         if map.emeraldSelection and nodeId==map.emeraldSelection.nodeId then
-            boost=M.prepareEmeraldBoost(map,nodeId)
+            boost=M.prepareEmeraldBoost(map,nodeId,jumps[step])
             if not boost then return nil,'invalid_emerald_path' end
         end
-        if type(nodeId) ~= "string" or not M.choose(map, nodeId) then return nil, "invalid_path" end
+        if type(nodeId) ~= "string" or not M.choose(map, nodeId,jumps[step]) then return nil, "invalid_path" end
         if boost and not M.commitEmeraldBoost(map,nodeId,boost) then return nil,'invalid_emerald_path' end
     end
     if not equal(snapshot, map) then return nil, "invalid_snapshot" end

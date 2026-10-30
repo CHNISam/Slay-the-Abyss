@@ -1,6 +1,7 @@
 {
   "locale": "zh-CN",
   "cards": {
+    "curse_of_the_bell": {"name":"铃铛的诅咒","textTemplate":"无法打出。无法从牌组中移除。","upgradeTextTemplate":"无法打出。无法从牌组中移除。"},
     "strike": {
       "name": "普通攻击",
       "textTemplate": "对目标造成 {effects.0.value} 点伤害。打击类牌。",

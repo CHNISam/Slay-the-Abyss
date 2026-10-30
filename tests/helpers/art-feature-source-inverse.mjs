@@ -1,6 +1,7 @@
 // Test-only exact outer layer for the reviewed feature flags and fallback repair.
 // Historical witnesses, source guards and performance budgets remain immutable.
 import assert from 'node:assert/strict';
+import {preRelicArtFeatureCompositionSource} from './relic-art-feature-composition.mjs';
 import {createHash} from 'node:crypto';
 import {existsSync,readFileSync,realpathSync,rmSync} from 'node:fs';
 import {isAbsolute,join,relative,resolve,sep} from 'node:path';
@@ -33,6 +34,7 @@ export const artFeatureAddedPaths=Object.freeze(Object.entries(artFeatureSourceL
  .filter(([,binding])=>binding.beforeSha256===null).map(([path])=>path));
 
 export function preArtFeatureSource(path,source,{readSource=path=>readFileSync(path,'utf8')}={}){
+ source=preRelicArtFeatureCompositionSource(path,source,'artFeature');
  const binding=artFeatureSourceLayer.files[path];
  if(!binding||typeof source!=='string')return source;
  const normalized=normalize(source);

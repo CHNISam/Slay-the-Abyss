@@ -28,7 +28,9 @@ function M.install(owner, ownership, host, _dependencies)
     local function colour(value) return host.platform.color(value.r, value.g, value.b, value.a) end
     local function tint(control, value) control.imageColor = colour(value) end
     local function ink(control, value) control.fontColor = colour(value) end
-    local function picture(control, id) control:SetImage(host.platform.imageSource, id) end
+    local function picture(control, id)
+        control:SetImage(host.platform.imageSource, type(id) == "table" and id.id or id)
+    end
     local function notice(value)
         label("notice", value)
         owner.rewardNotice = value

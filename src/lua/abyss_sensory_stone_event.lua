@@ -7,13 +7,8 @@ local CardRandom=require('abyss_card_random')
 local RelicHooks=require('abyss_relic_hooks')
 local M={}
 local counts={one=1,two=2,three=3}
-local missing={question_card=true,busted_crown=true,singing_bowl=true}
 local function definition(run,id)for _,d in ipairs(run.data.cards.cards)do if d.id==id then return d end end end
 local function owns(run,id)for _,held in ipairs(run.relics)do if held==id then return true end end;return false end
-local function dependencies(run)
- for id in pairs(missing)do if owns(run,id)then return false,'event_reward_content_unavailable'end end
- return true
-end
 local function row(choice,title,description,card)
  return {choice=choice,title=title,description=description,enabled=true,cardId=card and card.cardId,
   upgraded=card and card.upgraded,rewardCard=card~=nil,rarity=card and card.rarity}
@@ -40,7 +35,8 @@ local function rewards(run,num)
  local rng,offset=owner.cardRng,owner.cardRarityOffset;local groups={}
  for group=1,num do
   local cards,used={},{}
-  for _=1,3 do
+  local count=require('abyss_uncommon_relics').rewardCardCount(run,3)
+  for _=1,require('abyss_boss_relics').cardRewardCount(run,count) do
    local rarity=R.randomBooleanChance(rng,R.float32(.3))and'rare'or'uncommon'
    local bucket=pool[rarity];local id
    repeat id=bucket[R.randomInt(rng,#bucket-1)+1]until not used[id]
@@ -58,7 +54,7 @@ function M.prepare(run,event)
  assert(run.act==3,'Sensory Stone requires act3')
  event.stage,event.body='intro','Sensory Stone之中封存着一段记忆。'
 end
-function M.options(_,event)
+function M.options(run,event)
  if event.stage=='intro'then return {row('continue','继续','查看记忆的代价。')}end
  if event.stage=='choice'then return {
   row('one','记忆1','获得1组无色卡牌奖励，不失去生命。'),
@@ -75,12 +71,12 @@ function M.options(_,event)
  elseif event.stage=='cards'then
   local group=event.rewards[event.selectedReward]
   for i,c in ipairs(group.cards)do out[#out+1]=row('take_'..group.id..'_'..i,'领取卡牌','永久加入牌组。',c)end
+  if owns(run,'singing_bowl')then out[#out+1]=row('bowl_'..group.id,'增加2点生命上限','放弃本组卡牌，增加2点生命上限并普通回复2点生命。')end
   out[#out+1]=row('skip_'..group.id,'跳过本组','返回奖励列表，不改变本组候选。')
  end
  return out
 end
 local function remember(run,event,num)
- local ok,why=dependencies(run);if not ok then return false,why end
  local memories={1,2,3,4};R.shuffle(run.miscRng,memories)
  local groups,nextRng,offset=rewards(run,num);if not groups then return false,nextRng end
  event.memory,event.rewards,event.choiceCount=memories[1],groups,num
@@ -106,9 +102,14 @@ end
 local function chooseCard(run,event,choice)
  local group=event.rewards[event.selectedReward]
  if choice=='skip_'..group.id then event.stage,event.selectedReward='rewards',nil;return true,'pending'end
+ if choice=='bowl_'..group.id then
+  if group.claimed or not owns(run,'singing_bowl')then return false,'invalid_event_choice'end
+  local ok,why=Run.increaseMaxHp(run,2);if not ok then return false,why end
+  group.claimed,group.bowled=true,true
+  event.stage,event.selectedReward='rewards',nil;return true,'pending'
+ end
  local id,index=choice:match('^take_(%d+)_(%d+)$');id,index=tonumber(id),tonumber(index)
  if id~=group.id or not index or not group.cards[index]or group.claimed then return false,'invalid_event_choice'end
- local ready,why=dependencies(run);if not ready then return false,why end
  local card=group.cards[index];local d=definition(run,card.cardId)
  if not d or d.sourceId~=card.sourceCardId or d.rarity~=card.rarity then return false,'stale_event_card'end
  local expected={upgraded=false};RelicHooks.onPreviewObtainCard(run,expected,d)

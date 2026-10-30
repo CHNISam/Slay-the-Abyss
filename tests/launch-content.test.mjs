@@ -1,7 +1,15 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { validateLaunchContent, inspectLaunchRuntime, validateLaunchRuntimeModules } from '../scripts/verify-launch-content.mjs';
+import { readFileSync as readCurrentFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { launchBaselineFixture } from './helpers/launch-baseline-fixture.mjs';
+import { validateLaunchContent as validateCurrentLaunchContent, inspectLaunchRuntime as inspectCurrentLaunchRuntime, validateLaunchRuntimeModules } from '../scripts/verify-launch-content.mjs';
+
+const historicalRoot = launchBaselineFixture();
+const readFileSync = (path, encoding) => readCurrentFileSync(resolve(historicalRoot, path), encoding);
+const validateLaunchContent = (manifest, options = {}) =>
+  validateCurrentLaunchContent(manifest, { ...options, root: historicalRoot });
+const inspectLaunchRuntime = () => inspectCurrentLaunchRuntime(historicalRoot);
 
 const fresh = () => JSON.parse(readFileSync('data/release/launch-content.json', 'utf8'));
 

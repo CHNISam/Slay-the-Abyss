@@ -97,6 +97,8 @@ export function buildUiTheme(themeFile = 'data/presentation/ui_theme.json', data
   if (errors.length) throw new Error(errors.join('\n'));
   rejectInputOutputAlias(themeFile, dataDirectory, output);
   const { note, ...runtime } = theme;
+  runtime.icon = { ...runtime.icon, status: Object.fromEntries(
+    Object.entries(runtime.icon.status).map(([key, value]) => [key, iconId(value)])) };
   const source = `-- Generated from data/presentation/ui_theme.json. Do not edit.\nreturn ${toLua(convertColours(runtime))}\n`;
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output, source, 'utf8');

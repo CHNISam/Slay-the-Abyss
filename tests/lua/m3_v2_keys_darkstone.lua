@@ -81,13 +81,16 @@ test('destination48 linked Darkstone or Sapphire is one exclusive choice; replay
 end)
 
 test('destination49 source fallback retains its identity and linked Sapphire without Darkstone benefit',function()
- local r,m=chest(49);eq(r.nodeFlow.reward.relicId,'InkBottle');eq(r.nodeFlow.reward.gold,nil)
+ local r,m=chest(49);eq(r.nodeFlow.reward.relicId,'ink_bottle');eq(r.nodeFlow.reward.gold,nil)
  local item=Source.base(r.nodeFlow);eq(item.sourceId,'InkBottle');eq(#item.trace,2)
  eq(item.trace[1].id,'Darkstone Periapt');eq(item.trace[2].id,'InkBottle')
- local token=assert(Nodes.treasureSource(r,m));eq(token.relicId,'InkBottle')
+ local token=assert(Nodes.treasureSource(r,m));eq(token.relicId,'ink_bottle')
  local gold,slots,max,hp=r.gold,#r.relics,r.maxHp,r.hp
  refusal(r,m,function()return Nodes.chooseTreasure(r,m,{},'sapphire')end)
- refusal(r,m,function()return Nodes.chooseTreasure(r,m,token,'relic')end,'relic_content_unavailable')
+ -- The fallback is implemented now. A stale token must still refuse without
+ -- claiming it, and choosing Sapphire must never grant the fallback relic.
+ local stale=C.copy(token);stale.relicId='Darkstone Periapt'
+ refusal(r,m,function()return Nodes.chooseTreasure(r,m,stale,'relic')end)
  assert(Nodes.chooseTreasure(r,m,token,'sapphire'));eq(r.gold,gold);eq(#r.relics,slots)
  assert(r.keys.sapphire and not r.keys.ruby and not r.keys.emerald)
  assert(Run.obtainCard(r,'writhe'));eq(r.maxHp,max);eq(r.hp,hp)

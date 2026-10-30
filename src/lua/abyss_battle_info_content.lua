@@ -55,6 +55,10 @@ end
 
 -- Fixed presentation dependencies stay with the existing battle description helpers.
 function M.new(self, describe, lines)
+    local function projectedIntent(battle,index)
+        if require('abyss_boss_relics').hidesIntents(self.run)then return require('abyss_battle_intent_view').hidden()end
+        return describe.intentView(battle,index)
+    end
     local function statusRow(entry, battle, actor)
         local text, tag, note = ownedStatusText(self, describe, entry, battle, actor)
         local kind = describe.statusKind(entry)
@@ -64,7 +68,7 @@ function M.new(self, describe, lines)
     end
 
     local function intentCard(card, battle, info)
-        local view = describe.intentView(battle, info.index)
+        local view = projectedIntent(battle, info.index)
         card.tag, card.accent, card.hp = "下一步行动", describe.intentColors[view.kind] or C.textDim, nil
         card.subtitle = "尚未执行 · 敌方回合时发生"
         card.sections[1] = { rows = view.rows }
@@ -236,7 +240,7 @@ function M.new(self, describe, lines)
         entries = selectedEntries(entries, info)
         if not entries then return end
         if info.index > 0 and not info.statusId and not info.offset then
-            local view = describe.intentView(battle, info.index)
+            local view = projectedIntent(battle, info.index)
             card.sections[#card.sections + 1] = {label = "意图 · 尚未执行", colour = describe.intentColors[view.kind] or C.textDim,
                 rows = view.rows}
         end

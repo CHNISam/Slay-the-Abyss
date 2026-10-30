@@ -151,7 +151,7 @@ export function validateContent(bundle) {
   }
   function card(card, path, partial = false) {
     if (!object(card, path)) return;
-    const curse = !partial && ['regret','injury','doubt','pain','decay','shame','writhe','clumsy','normality','parasite'].includes(card.id);
+    const curse = !partial && ['regret','injury','doubt','pain','decay','shame','writhe','clumsy','normality','parasite','curse_of_the_bell'].includes(card.id);
     if (!partial || card.type !== undefined) enumeration(card.type, ['attack', 'skill', 'power', 'status', 'curse'], `${path}.type`);
     if (!partial || card.rarity !== undefined) enumeration(card.rarity, curse ? ['curse'] : ['basic', 'common', 'uncommon', 'rare', 'special'], `${path}.rarity`);
     const unplayableStatus = !partial && card.type === 'status' && card.cost === -2;
@@ -622,7 +622,7 @@ export function validateContent(bundle) {
         'happy_flower', 'ancient_tea_set', 'art_of_war', 'boot', 'akabeko', 'pen_nib', 'nunchaku',
         'preserved_insect', 'red_skull', 'centennial_puzzle', 'tiny_chest', 'juzu_bracelet', 'dream_catcher',
         'warped_tongs', 'spirit_poop', 'circlet', 'golden_idol', 'tungsten_rod', 'red_mask', 'toxic_egg', 'molten_egg',
-        'snake_skull', 'data_disk', 'damaru', 'mark_of_bloom', 'black_star', 'lizard_tail', 'odd_mushroom', 'pear', 'mango', 'lees_waffle', 'white_beast_statue', 'old_coin', 'frozen_egg', 'sacred_bark'].includes(entry.id)) fail(`${p}.id`, 'unsupported relic hook');
+        'snake_skull', 'data_disk', 'damaru', 'mark_of_bloom', 'black_star', 'lizard_tail', 'odd_mushroom', 'pear', 'mango', 'lees_waffle', 'white_beast_statue', 'old_coin', 'frozen_egg', 'sacred_bark', 'fossilized_helix', 'pantograph', 'bottled_tornado', 'sundial', 'kunai', 'blue_candle', 'eternal_feather', 'strike_dummy', 'singing_bowl', 'matryoshka', 'ink_bottle', 'ornamental_fan', 'bottled_lightning', 'gremlin_horn', 'horn_cleat', 'letter_opener', 'question_card', 'bottled_flame', 'shuriken', 'meat_on_the_bone', 'mummified_hand', 'mercury_hourglass', 'self_forming_clay', 'paper_frog', 'ginger', 'bird_faced_urn', 'unceasing_top', 'torii', 'stone_calendar', 'shovel', 'winged_greaves', 'thread_and_needle', 'turnip', 'ice_cream', 'calipers', 'prayer_wheel', 'girya', 'dead_branch', 'du_vu_doll', 'pocketwatch', 'incense_burner', 'gambling_chip', 'peace_pipe', 'captains_wheel', 'magic_flower', 'charons_ashes', 'champion_belt', 'velvet_choker', 'runic_dome', 'snecko_eye', 'pandoras_box', 'cursed_key', 'busted_crown', 'ectoplasm', 'tiny_house', 'philosophers_stone', 'astrolabe', 'empty_cage', 'runic_pyramid', 'calling_bell', 'mark_of_pain', 'runic_cube', 'sling', 'hand_drill', 'toolbox', 'chemical_x', 'orrery', 'dollys_mirror', 'orange_pellets', 'prismatic_shard', 'clockwork_souvenir', 'frozen_eye', 'the_abacus', 'medical_kit', 'cauldron', 'strange_spoon', 'brimstone'].includes(entry.id)) fail(`${p}.id`, 'unsupported relic hook');
       if (!Array.isArray(entry.effects) || entry.effects.length !== 0) fail(`${p}.effects`, 'source hooks require empty generic effects');
     } else if (kind === 'relics' && entry.trigger === 'shop') {
       targetGroup(entry.effects, `${p}.effects`, false);

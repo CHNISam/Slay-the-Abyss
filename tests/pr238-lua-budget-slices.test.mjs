@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import {preSmallSlimesReferenceFixtureSource} from './helpers/small-slimes-reference-fixture-inverse.mjs';
 
-const read = file => readFileSync(file, 'utf8').replaceAll('\r\n', '\n');
+const read = file => preSmallSlimesReferenceFixtureSource(file,readFileSync(file, 'utf8')).replaceAll('\r\n', '\n');
 const hash = text => createHash('sha256').update(text).digest('hex');
 const budget = JSON.parse(read('tests/fixtures/pr238-lua-budget.json'));
 

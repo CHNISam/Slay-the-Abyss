@@ -264,6 +264,9 @@ test('other 16 static encounter groups retain their member order and consume no 
         end
         same(Data.rules.player.startingRelics,{'burning_blood'})
         reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
+        -- Pin the new first-turn hook owners independently of the actual Run.
+        reference.rareRelicCombat={firstPocketTurn=true,gamblingActivated=false,topCanDraw=true,topDisabled=false}
+        reference.shopRelicCombat={pellets={}}
         local generation=run.combatGeneration
         assert(type(generation)=='number'and generation%1==0 and generation>=1 and generation<=2147483647,'invalid Run combat generation')
         eq(run.combat.combatGeneration,generation,'Run/battle generation ownership')

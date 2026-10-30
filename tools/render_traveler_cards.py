@@ -37,7 +37,7 @@ def numeric(value):
     return type(value) is int or (type(value) is float and math.isfinite(value))
 
 
-BASIC_CURSES = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe', 'clumsy', 'normality', 'parasite'}
+BASIC_CURSES = {'regret', 'injury', 'doubt', 'pain', 'decay', 'shame', 'writhe', 'clumsy', 'normality', 'parasite', 'curse_of_the_bell'}
 
 
 def cost_label(card):

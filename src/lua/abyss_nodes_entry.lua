@@ -122,7 +122,7 @@ return function(M)
     function M.available(run, map)
         if (run.act or 1)~=(map.act or 1) or run.runSeed~=map.runSeed or run.phase ~= "map" or (run.nodeFlow and not run.nodeFlow.complete)
             or not matchingMap(run.nodeFlow, map) then return {} end
-        return Map.available(map)
+        return Map.available(map,require('abyss_rare_relics').canWingedTravel(run))
     end
 
     local function validateEntryIdentity(run,map)
@@ -143,7 +143,7 @@ return function(M)
     local function entryNode(run,map,nodeId)
         local node=find(map.nodes,nodeId)
         if not node then return nil,'invalid_node' end
-        if not find(Map.available(map),nodeId) then return nil,'node_unavailable' end
+        if not find(M.available(run,map),nodeId) then return nil,'node_unavailable' end
         if node.roomKind=='boss_treasure' and (node.floor~=Acts.get(run.act or 1).last
             or not run.nodeFlow or run.nodeFlow.type~='boss' or run.nodeFlow.result~='boss_victory') then
             return nil,'boss_treasure_unavailable'
@@ -224,7 +224,7 @@ return function(M)
 
     local function prepareEmerald(run,map,nodeId,c)
         if not c.node.hasEmeraldKey then return true end
-        local boost,_,reason=Map.prepareEmeraldBoost(map,nodeId)
+        local boost,_,reason=Map.prepareEmeraldBoost(map,nodeId,require('abyss_rare_relics').canWingedTravel(run))
         if not boost then return false,reason end
         c.emeraldBoost=boost
         local context=Run.mapContext(run)
@@ -306,7 +306,9 @@ return function(M)
         ok,reason=prepareFlow(run,c);if not ok then return false,reason end
         ok,reason=prepareEmerald(run,map,nodeId,c);if not ok then return false,reason end
         ok,reason=stageCombat(run,c);if not ok then return false,reason end
-        assert(Map.choose(map,nodeId))
+        local offPath=not find(Map.available(map),nodeId)
+        assert(Map.choose(map,nodeId,require('abyss_rare_relics').canWingedTravel(run)))
+        if offPath then assert(require('abyss_rare_relics').useWingedTravel(run))end
         ok,reason=commitEmerald(map,nodeId,c);if not ok then return false,reason end
         return commitRoom(run,map,c)
     end

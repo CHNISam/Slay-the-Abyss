@@ -26,7 +26,7 @@ do
  assert(Nodes.chooseEvent(r,'open_1'));assert(Nodes.chooseEvent(r,'take_1_1'));F.eq(r.gold,gold+9)
 end
 for _,id in ipairs({'question_card','busted_crown','toxic_egg','molten_egg','frozen_egg','singing_bowl','lizard_tail'})do
- local r,m,n=F.fixture();if id=='lizard_tail'then assert(Run.obtainRelic(r,id))else r.relics[#r.relics+1]=id end
+ local r,m,n=F.fixture();assert(Run.obtainRelic(r,id))
  assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'));local before=F.C.copy(r)
  if id=='toxic_egg'or id=='molten_egg'or id=='frozen_egg'then
   assert(Nodes.chooseEvent(r,'two'));F.eq(r.hp,75)
@@ -37,7 +37,16 @@ for _,id in ipairs({'question_card','busted_crown','toxic_egg','molten_egg','fro
  elseif id=='lizard_tail'then
   assert(Nodes.chooseEvent(r,'two'));F.eq(r.hp,75);F.eq(before.relicCounters.lizard_tail,-1);F.eq(r.relicCounters.lizard_tail,-1)
   F.eq(#r.nodeFlow.event.rewards,2);F.eq(#r.deck,#before.deck);F.eq(r.nextDeckUid,before.nextDeckUid)
- else F.eq(Nodes.chooseEvent(r,'two'),false);F.same(r,before)end
+ elseif id=='question_card'or id=='busted_crown'then
+  assert(Nodes.chooseEvent(r,'two'));F.eq(r.hp,75)
+  for _,group in ipairs(r.nodeFlow.event.rewards)do F.eq(#group.cards,id=='question_card'and 4 or 1)end
+ elseif id=='singing_bowl'then
+  assert(Nodes.chooseEvent(r,'two'));local maxHp,deck=r.maxHp,#r.deck
+  assert(Nodes.chooseEvent(r,'open_1'));assert(Nodes.chooseEvent(r,'skip_1'));assert(not r.nodeFlow.event.rewards[1].claimed)
+  assert(Nodes.chooseEvent(r,'open_1'));assert(Nodes.chooseEvent(r,'bowl_1'));F.eq(r.maxHp,maxHp+2);F.eq(#r.deck,deck)
+  assert(Nodes.chooseEvent(r,'open_2'));assert(Nodes.chooseEvent(r,'bowl_2'));F.eq(r.maxHp,maxHp+4)
+  F.eq(Nodes.chooseEvent(r,'bowl_2'),false)
+ end
 end
 do
  local r,m,n=F.fixture();assert(Run.obtainRelic(r,'lizard_tail'));assert(Nodes.enter(r,m,n));assert(Nodes.chooseEvent(r,'continue'))

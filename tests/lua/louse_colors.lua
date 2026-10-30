@@ -77,6 +77,9 @@ local function referenceBattle(run,roster)
  assert(reference.potionInventory~=run.potions,'independent constructor owns its potion snapshot')
  assert(equal(Data.rules.player.startingRelics,{'burning_blood'}))
  reference.relics={'burning_blood'};reference.relicCounters={};reference.relicCombat={attackPlayed=false}
+ -- Independently pin the new per-combat hook owners after the first turn.
+ reference.rareRelicCombat={firstPocketTurn=true,gamblingActivated=false,topCanDraw=true,topDisabled=false}
+ reference.shopRelicCombat={pellets={}}
  -- Run owns the encounter generation; these independent fixtures start once.
  assert(run.combatGeneration==1 and run.combat.combatGeneration==1,'first real encounter generation must be one')
  reference.combatGeneration=1

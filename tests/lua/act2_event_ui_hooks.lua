@@ -40,6 +40,8 @@ end)
 test('both simple event source relic misses refuse without queue truncation/reroll, gold/protection/RNG/UID mutation',function()
  for _,id in ipairs({'mausoleum','addict'})do
   local r,m=offer(id,'Bird Faced Urn','rare');assert(H.Run.obtainRelic(r,'Omamori'))
+  r.data=H.Copy(r.data)
+  for i=#r.data.relics.relics,1,-1 do if r.data.relics.relics[i].sourceId=='Bird Faced Urn'then table.remove(r.data.relics.relics,i)end end
   local ui,get,shown,click=H.setup(r,m);local before=H.snapshot(r)
   local ok,why=H.parity(r,m,id=='mausoleum' and 'open' or 'steal',nil,function()return click('eventView/option'..(id=='mausoleum' and 1 or 2))end)
   eq(ok,false);eq(why,'relic_content_unavailable');same(r,before);eq(r.relicPool.queues.rare[1],'Bird Faced Urn')

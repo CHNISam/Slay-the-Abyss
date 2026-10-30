@@ -1,5 +1,6 @@
 import {preRound2CanPlaySource} from './round2-can-play-source-inverse.mjs';
 // Exact integration-only layer; both prior source archives remain immutable.
+import {preRelicCompletionSource} from './relic-completion-inverse.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -10,6 +11,7 @@ export const eventSnapshotComposition=JSON.parse(bytes);
 for(const binding of Object.values(eventSnapshotComposition.files))for(const target of ['current','event','snapshot'])assert.equal(hash(binding[target]),binding[target+'Hash']);
 export function projectEventSnapshotSource(path,source,target){
  source=preRound2CanPlaySource(path,source);
+ source=preRelicCompletionSource(path,source);
  if(typeof source!=='string')return source;
  const binding=eventSnapshotComposition.files[path],normalized=source.replaceAll('\r\n','\n');
  if(!binding||hash(normalized)!==binding.currentHash)return source;
