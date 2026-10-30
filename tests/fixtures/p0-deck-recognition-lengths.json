@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "normalization": "CRLF-to-LF",
+  "measure": "UTF-16-code-units",
+  "groups": {
+    "p0": {
+      "proofSha256": "2f7b6e18bc22f2db81ecbf7391e1ba703f006eff67136c5169e6eedb25a71110",
+      "files": {
+        "data/presentation/ui_theme.json": {
+          "afterSha256": "0337d8a07bb7f38d91522adc01fde30f5c25bbd56c945704aea6f4cfcddb018b",
+          "afterGitBlob": "a1c7207d75dfe77ebe9c740b583bb2586d49734e",
+          "utf16Length": 72120
+        },
+        "scripts/exit-ui-layout.mjs": {
+          "afterSha256": "9a4380727a5c30c328b47ee5f849381d89b548597ad8216be150b8cee773479f",
+          "afterGitBlob": "c540c67b55ed76114fb70297687d98537a0c66f2",
+          "utf16Length": 4588
+        },
+        "scripts/ui-layout.mjs": {
+          "afterSha256": "1cc2edc4de2599ae09fa39e5c83732ede00b224b84c9ce581be42d72d15db18e",
+          "afterGitBlob": "dc4abb42e0293f2d886f1df072195a4abad3e2ea",
+          "utf16Length": 27982
+        },
+        "src/lua/abyss_game_ui.lua": {
+          "afterSha256": "bbec7307a0c9d28fe7064a442c794e9ef79eeb3c8438d7bf441f08b3e58ca960",
+          "afterGitBlob": "a2582295a2c75e29c01a455e942d7dda738ef8f7",
+          "utf16Length": 53780
+        },
+        "tests/exit-ui-layout.test.mjs": {
+          "afterSha256": "48bc1d955928bdab234ff6b64b38952f0c2e4375ae844de74dd404c9c847c260",
+          "afterGitBlob": "efaac5d2f2e212e2cdd7e3ca7b37308baab5cbc2",
+          "utf16Length": 6362
+        },
+        "tests/native-ui-parity.test.mjs": {
+          "afterSha256": "0bfc48fea92f3ff1cbdebde85934d4599a574f5899678c7f78e371f51cf07881",
+          "afterGitBlob": "2398ca126b92a98ea3f4a7e39f463f57b3695e66",
+          "utf16Length": 1716
+        },
+        "tests/ui-layout.test.mjs": {
+          "afterSha256": "2082cbb2b237d5555269e459777baaf4061590505ae8388c5d9b77b45c4c7e66",
+          "afterGitBlob": "968e8c8b8db468626b90e01dacb46a3e61d5d723",
+          "utf16Length": 16986
+        }
+      }
+    },
+    "deck": {
+      "proofSha256": "fad6258a3cf9b8d0c1062e960ae518ba6dc338bc591a6f2192f770aa0bc8d79b",
+      "files": {
+        "data/presentation/ui_theme.json": {
+          "afterSha256": "8a8fddd95f0f5c45cdc45bc8d9e970015b5f7ce715d9777b1851342d379bc204",
+          "afterGitBlob": "4de36455db6d941985d4ceeabc4aa4c2f77ed352",
+          "utf16Length": 72110
+        },
+        "scripts/character-ui-layout.mjs": {
+          "afterSha256": "4906c4c7e9e9cb981ba1f44d15f94f1221b350f8010be1c44eef4f58aeac87fe",
+          "afterGitBlob": "0ac0cf2b86c00355687edc271f0127fbc0fa1802",
+          "utf16Length": 6521
+        },
+        "scripts/deck-ui-layout.mjs": {
+          "afterSha256": "c9cda8fb473790c69923ba125f030c9cdf4e7247a1548bbb9b4d4187bb21c92e",
+          "afterGitBlob": "5fca5f97ef8bae1bf62213e74414801ee35ddc58",
+          "utf16Length": 6623
+        },
+        "src/lua/abyss_character_select.lua": {
+          "afterSha256": "b5ca936092b54fdee62a50228957fc40b407f5fa2a63d553755434a63a471813",
+          "afterGitBlob": "d87b752407b83ef6f11232c30d385faac11d1356",
+          "utf16Length": 5492
+        },
+        "src/lua/abyss_character_select_view.lua": {
+          "afterSha256": "6ade4ad7535eb0a1ae43d6946359b1356a2ebdb49aa6dd9aef8913f77c4ebaa0",
+          "afterGitBlob": "287049f16ebb803a7757230a873a54cfa4a1e4af",
+          "utf16Length": 5075
+        },
+        "src/lua/abyss_deck_ui.lua": {
+          "afterSha256": "5115772421b007ba2e61a0f9de0cbfad54591e52741bc776878eb12d63a8d93d",
+          "afterGitBlob": "0dcacb0215715c8e07c7f11bf8b149b8e249b3d9",
+          "utf16Length": 25586
+        },
+        "src/lua/abyss_game_ui.lua": {
+          "afterSha256": "eb1fe4cf9e1c6ae359dc3310dc272cc3bf66c6050398a1abf33539e066690e9b",
+          "afterGitBlob": "f5cb39615a18374c4caad3724553cbb937216681",
+          "utf16Length": 53771
+        }
+      }
+    }
+  }
+}

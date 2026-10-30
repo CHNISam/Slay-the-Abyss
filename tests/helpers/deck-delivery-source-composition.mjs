@@ -1,3 +1,4 @@
+import {bindP0DeckRecognitionLengths} from './p0-deck-recognition-lengths.mjs';
 import {preP0UiSource} from './p0-ui-source.mjs';
 import {preDeckVisibilitySource} from './deck-visibility-source.mjs';
 // Exact M4/delivery branch composition; old archives remain immutable.
@@ -24,12 +25,18 @@ for(const target of Object.values(proof.targets))for(const [path,b]of Object.ent
  assert.equal(b.afterSha256,proof.targets.delivery.files[path].afterSha256,'one real integrated source per path');
  let end=0,beforeEnd=0;for(const h of b.hunks){assert.ok(Number.isSafeInteger(h.at)&&h.at>=end&&Number.isSafeInteger(h.beforeAt)&&h.beforeAt>=beforeEnd);for(const line of [...h.before,...h.after])assert.ok(typeof line==='string'&&!/[\r\n]/.test(line));end=h.at+h.after.length;beforeEnd=h.beforeAt+h.before.length;}
 }
+const recognitionLengths=bindP0DeckRecognitionLengths('deck',bytes,proof.targets.delivery.files);
+for(const target of Object.values(proof.targets))for(const [path,b]of Object.entries(target.files)){
+ assert.equal(b.afterSha256,proof.targets.delivery.files[path].afterSha256);
+ assert.equal(b.afterGitBlob,proof.targets.delivery.files[path].afterGitBlob);
+}
 export function preDeckDeliverySource(path,source,target='delivery',{readSource=p=>readFileSync(p,'utf8')}={}){
  assert.ok(proof.targets[target],'registered deck delivery target');
  source=preP0UiSource(path,source,{readSource});
  source=preDeckVisibilitySource(path,source,{readSource});
  const b=proof.targets[target].files[path];if(!b||typeof source!=='string')return source;
- const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
+ // Length only rejects impossible matches; equal lengths retain every identity and fresh-owner check.
+ const text=normalize(source);if(text.length!==recognitionLengths[path]||hash(text)!==b.afterSha256)return source;
  // Fresh linked reads are outside every existing pure-string cache.
  for(const linked of deckDeliveryPaths){let live;try{live=preDeckVisibilitySource(linked,preP0UiSource(linked,readSource(linked),{readSource}),{readSource});}catch{assert.fail('deck delivery linked source missing: '+linked);}assert.equal(typeof live,'string','deck delivery linked source must exist: '+linked);assert.equal(hash(normalize(live)),proof.targets.delivery.files[linked].afterSha256,'deck delivery linked source identity: '+linked);}
  assert.equal(blob(text),b.afterGitBlob);

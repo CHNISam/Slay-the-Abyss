@@ -1,3 +1,4 @@
+import {bindP0DeckRecognitionLengths} from './p0-deck-recognition-lengths.mjs';
 import {preFinalUiSource} from './final-ui-source.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -11,10 +12,12 @@ assert.equal(hash(bytes),'2f7b6e18bc22f2db81ecbf7391e1ba703f006eff67136c5169e6ee
 export const p0UiSourceProof=deepFreezeSourceProof(JSON.parse(bytes));
 export const p0UiSourcePaths=Object.freeze(Object.keys(p0UiSourceProof.files));
 assert.deepEqual(p0UiSourcePaths,["data/presentation/ui_theme.json", "scripts/exit-ui-layout.mjs", "scripts/ui-layout.mjs", "src/lua/abyss_game_ui.lua", "tests/exit-ui-layout.test.mjs", "tests/native-ui-parity.test.mjs", "tests/ui-layout.test.mjs"]);
+const recognitionLengths=bindP0DeckRecognitionLengths('p0',bytes,p0UiSourceProof.files);
 export function preP0UiSource(path,source,{readSource=p=>readFileSync(p,'utf8')}={}){
  source=preFinalUiSource(path,source,{readSource});
  const b=p0UiSourceProof.files[path];if(!b||typeof source!=='string')return source;
- const text=normalize(source);if(hash(text)!==b.afterSha256)return source;
+ // Length only rejects impossible matches; equal lengths retain every identity and fresh-owner check.
+ const text=normalize(source);if(text.length!==recognitionLengths[path]||hash(text)!==b.afterSha256)return source;
  for(const p of p0UiSourcePaths){
   let live;try{live=preFinalUiSource(p,readSource(p),{readSource});}catch{assert.fail('p0-ui linked source missing: '+p);}
   assert.equal(typeof live,'string','p0-ui linked source must exist: '+p);
