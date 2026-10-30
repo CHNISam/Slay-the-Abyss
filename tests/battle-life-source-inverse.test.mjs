@@ -1,4 +1,3 @@
-import {preNativeEnemyThemeSource} from './helpers/native-enemy-theme-inverse.mjs';
 import {preRound2UiSource,round2UiAddedPaths,prepareRound2UiModuleRetirement} from './helpers/round2-ui-source-inverse.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -6,13 +5,13 @@ import {createHash} from 'node:crypto';
 import {existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {dirname, join} from 'node:path';
 import {tmpdir} from 'node:os';
-import {battleLifeSourceLayer as proof, battleLifeAddedPaths, preBattleLifeSource,
+import {battleLifeSourceLayer as proof, battleLifeAddedPaths, preBattleLifeSource, preBattleLifeOuterSource,
   prepareBattleLifeModuleRetirement} from './helpers/battle-life-source-inverse.mjs';
 import {pr323AcceptedSourceInverse, requirePr323Source, preAcceptedPr323Source} from './helpers/pr323-accepted-source-inverse.mjs';
 import {eventProductionInverse, requireEventProductionSource} from './helpers/event-production-source-inverse.mjs';
 
 const hash = value => value === null ? null : createHash('sha256').update(value).digest('hex');
-const read = path => preRound2UiSource(path,preNativeEnemyThemeSource(path,readFileSync(path, 'utf8').replaceAll('\r\n', '\n')));
+const read = path => preBattleLifeOuterSource(path,readFileSync(path, 'utf8').replaceAll('\r\n', '\n'));
 const put = (directory, path, content) => {
   const target = join(directory, path); mkdirSync(dirname(target), {recursive: true}); writeFileSync(target, content);
 };
