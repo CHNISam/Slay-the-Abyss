@@ -26,11 +26,14 @@ function M.find(battle,index,feedback)
 end
 -- AbstractMonster: drawX=WIDTH*.75+offsetX*xScale, drawY=340*yScale+offsetY*yScale.
 -- Native anchored coordinates are centered and Y-up. Control slots never enter this transform.
+-- STS floorY is 340 for a 0.7-scale hand; this hand is taller (208/720), so the
+-- monster floor rises 60 source px to keep bodies, HP bars and block above resting cards.
+M.floorY=400
 function M.geometry(actor)
  local source=SourceGeometry.resolve(actor)
  local sx,sy=Theme.canvas.base[1]/1920,Theme.canvas.base[2]/1080
  local x=(1440+source.x)*sx-Theme.canvas.base[1]/2
- local bottom=(340+source.y)*sy-Theme.canvas.base[2]/2
+ local bottom=(M.floorY+source.y)*sy-Theme.canvas.base[2]/2
  local portrait=math.max(source.width*sx,source.height*sy)
  local hitX,hitBottom=x+source.hbX*sx,bottom+source.hbY*sy
  local rootY=bottom+portrait/2

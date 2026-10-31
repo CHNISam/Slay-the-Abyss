@@ -10,7 +10,7 @@ local constructors={{0,-10,230,240},{0,0,180,140},{0,0,180,140},{0,25,260,170},{
 for slot,source in ipairs(constructors)do
  local portrait=math.max(source[3],source[4])/1.5
  local x=(1440+source[1])/1.5-640
- local y=(340+source[2])/1.5-360+portrait/2
+ local y=(400+source[2])/1.5-360+portrait/2
  local box=enemy(slot)
  near(box.x,x,'original constructor drawX')
  near(box.y,y,'original constructor drawY plus fixed new-art bounds')
@@ -26,8 +26,10 @@ assert(not hero:GetChild('plate').visible and not hero:GetChild('border').visibl
 local first=enemy(1)
 -- Cultist source: hbX=-8, hbY=10, width=230, height=240.
 near(first:GetChild('intentIcon').x,-8/1.5,'intent follows source hitbox center')
-near(first:GetChild('intentIcon').y,(10+240+32)/1.5-240/3,'source intent anchor above hitbox')
-near(first:GetChild('intentIcon').sizeDeltaX,128/1.5,'source world intent size')
+-- Full-bleed official glyph (not STS's padded 128 frame) floats clear of the head.
+local glyph=math.min(128/1.5,38.666666666666664*1.15)
+near(first:GetChild('intentIcon').y,(10+240+32)/1.5-240/3+glyph/2-38.666666666666664/4,'source intent anchor above hitbox')
+near(first:GetChild('intentIcon').sizeDeltaX,glyph,'readable intent glyph size')
 near(first:GetChild('intentHit').sizeDeltaX,64/1.5,'source intent hitbox size')
 near(first:GetChild('hpFill').y,(10-18)/1.5-240/3,'source health anchor below hitbox')
 near(first:GetChild('hpFill').sizeDeltaY,20/1.5,'source health bar height')
@@ -68,7 +70,7 @@ local boss=H.F.Combat.new(H.F.Data,{enemies={'guardian'}}).enemies[1]
 local bx,_,bossPortrait,_,bossY=EnemyView.position(1,1,boss)
 near(bx,(1440-50)/1.5-640,'Guardian constructor x')
 near(bossPortrait,440/1.5,'Guardian fixed new-art box follows original hitbox bounds')
-near(bossY,(340-100)/1.5-360+bossPortrait/2,'Guardian constructor y never notice-lifted')
+near(bossY,(400-100)/1.5-360+bossPortrait/2,'Guardian constructor y never notice-lifted')
 battle.enemies[1].statuses={strength=-123,dexterity=123}
 battle.enemies[1].powerOrder={'strength','dexterity'}
 ui:render()
@@ -102,7 +104,7 @@ for count=1,4 do
  local positions={}
  for slot,actor in ipairs(short.enemies)do
   local box=assert(surfaces:find(actor.id));positions[slot]={box.x,box.y}
-  near(box.x,320,'cultist original default x');near(box.y,(340-10)/1.5-360+240/3,'cultist original default y')
+  near(box.x,320,'cultist original default x');near(box.y,(400-10)/1.5-360+240/3,'cultist original default y')
   actor.statuses={};actor.powerOrder={}
  end
  ui:render()

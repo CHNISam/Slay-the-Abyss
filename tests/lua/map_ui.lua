@@ -287,6 +287,11 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local edge = mapControl(panel(root), "edge" .. n)
             local y1 = Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - ui.scroll
             local y2 = Layout.firstY + (index[id].floor - 1) * Theme.layout.map.floorGap - ui.scroll
+            -- STS MapEdge gap: both ends are trimmed by each room's knockout radius.
+            local gap = function(n) return (n.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node) * Layout.edgeGap end
+            local dx = (index[id].lane - node.lane) * Theme.layout.map.columnGap
+            local len = math.sqrt(dx * dx + (y2 - y1) ^ 2)
+            y1, y2 = y1 + (y2 - y1) / len * gap(node), y2 - (y2 - y1) / len * gap(index[id])
             local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
             assert(edge.visible == expected)
             if expected then

@@ -66,7 +66,26 @@ export function deckControls(theme = nativeTheme) {
     }
     return entry;
   };
-  const entry = capsuleEntry(l.deckView.entry, '卡组', 'deckIcon', theme.icon.deck.id);
+  // STS TopPanel deck button port: a fanned stack of card backs with the count on a
+  // badge, so the control reads as "your deck" at a glance instead of a generic pill.
+  const stackEntry = (frame, label) => {
+    const entry = button('open', frame, label);
+    const [cw, ch] = [22, 30];
+    const card = (name, x, y, rot, border, fill) => ({ name, kind: 'container', position: [x, y], size: [cw, ch], rotation: rot, children: [
+      plate('border', [0, 0, cw, ch], border), plate('plate', [0, 0, cw - 2, ch - 2], fill)] });
+    for (const state of entry.children[0].children) {
+      const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');
+      text_.visible = false;
+      state.children = [
+        card('back2', -14, 1, 14, colours.border, c.cardWell), card('back1', -10, 0, 6, colours.border, c.panelSunken),
+        card('front', -6, -1, -2, state.name === 'normal' ? c.goldBright : colours.border, colours.fill),
+        { name: 'deckIcon', kind: 'image', position: [-6, -1], size: [14, 14], image: theme.icon.deck.id, colour: colours.ink },
+        { ...plate('badge', [16, -8, 24, 20], c.panelSunken), image: theme.image.disc },
+        text('count', [16, -8, 28, 22], '', f.label, state.name === 'normal' ? c.goldBright : colours.ink), text_];
+    }
+    return entry;
+  };
+  const entry = stackEntry(l.deckView.entry, '卡组');
   const relicImage = theme.icon.node.treasure.id ?? theme.icon.node.treasure;
   const browseFilters = [
     ['All', '全部'], ['Attack', '攻击'], ['Skill', '技能'],

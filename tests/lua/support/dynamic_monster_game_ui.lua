@@ -20,7 +20,7 @@ surfaces:each(function(box,slot,entry)
  local shape=art:GetChild('monsterSamples'):GetChild('group000'):GetChild('shape0000')
  assert(shape.imageId and shape.rotation,'actual template native primitive was not written')
  assert(math.abs(box.x-((1440+entry.actor.sourcePosition.x)/1.5-640))<1e-8)
- local bottom=(340+entry.actor.sourcePosition.y)/1.5-360
+ local bottom=(400+entry.actor.sourcePosition.y)/1.5-360
  local health=box:GetChild('hpFill');local intent=box:GetChild('intentHit')
  assert(math.abs(health.size[1]-170/1.5)<1e-8 and math.abs(health.size[2]-20/1.5)<1e-8,'source HP bar dimensions')
  assert(math.abs(box.y+health.y-(bottom-18/1.5))<1e-8,'HP bar follows original hitbox bottom')
@@ -31,7 +31,7 @@ assert(count==6,'six actual generated full actor templates must render without t
 for _,enemy in ipairs(state.enemies)do
  local control=surfaces:find(enemy.id)
  assert(not control:GetChild('intentBadge').visible and not control:GetChild('intentExtra').visible,'world intent must not use invented horizontal tooltip composites')
- assert(math.abs(control:GetChild('intentIcon').size[1]-128/1.5)<1e-8,'original intent sprite bounding rectangle')
+ assert(math.abs(control:GetChild('intentIcon').size[1]-math.min(128/1.5,require('abyss_theme').layout.intent.size*1.15))<1e-8,'full-bleed intent glyph size')
 end
 
 local hoverActor=state.enemies[2];local hoverBox=surfaces:find(hoverActor.id)
