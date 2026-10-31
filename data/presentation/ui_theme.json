@@ -1251,12 +1251,12 @@
         -534.6666666666666,
         -216.0
       ],
-      "size": 88,
+      "size": 100,
       "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
       "rim": 2,
       "faceInset": 6,
-      "elementInset": 10,
-      "numberSize": 29,
+      "elementInset": 6,
+      "numberSize": 34,
       "shadowOffset": [
         0,
         -1.3333333333333333
@@ -1265,7 +1265,7 @@
       "shellColour": "#2A1C12",
       "faceColour": "#8E5A1E",
       "lightColour": "#F6D38E",
-      "elementColour": "#4A2C0E",
+      "elementColour": "#85531C",
       "numberColour": "#FFF8EC",
       "shadowColour": "#3A1E06"
     },
