@@ -298,3 +298,7 @@ tests/fixtures/sts1-sword-random.json text eol=lf
 # Thin Sword entry contracts compare exact LF source across checkout platforms.
 tests/sword-random-*.test.mjs text eol=lf
 tests/helpers/sword-random-cases.mjs text eol=lf
+
+# Chaos chain authenticates model/input bytes across Windows checkouts.
+tools/oracles/sts1_chaos_shared_chain.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
