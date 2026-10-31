@@ -40,9 +40,9 @@ for count=1,5 do
   colour(layer:GetChild('reticle').imageColor,Theme.color.danger)
   for dot=1,14 do
    local part=layer:GetChild('aim'..dot)
-   -- STS arrow: a locked target turns the whole shaft and head red.
-   assert(part.visible and part.sizeDeltaY<=30)
-   colour(part.imageColor,Theme.color.danger)
+   -- STS star chain: upright square beads; locked tail (last 40%) turns red.
+   assert(part.visible and part.sizeDeltaX==part.sizeDeltaY and part.sizeDeltaX<=24)
+   if dot==14 then colour(part.imageColor,Theme.color.danger) end
   end
  end
  event('dragLayer','drag',7,0,Theme.layout.hand.y)
