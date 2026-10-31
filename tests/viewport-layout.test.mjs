@@ -31,9 +31,9 @@ test('shared opaque backdrop covers its actual host independently of the content
   // Parent width can exceed GetUICanvasSize; include the reported 2556×1179 phone.
   for (const [w, h] of [[1280, 720], [1920, 1080], [2340, 1080], [2400, 1080],
     [2520, 1080], [2556, 1179], [2268, 1179], [2048, 1536], [2732, 2048]]) {
-    assert.deepEqual(bounds(backdrop, w, h), [[0, w], [0, h]], `${w}×${h}`);
+    assert.deepEqual(bounds(backdrop, w, h), [[-200, w + 200], [0, h]], `${w}×${h}`);
   }
-  assert.deepEqual(backdrop.size, [0, 0], 'stretch uses zero delta, not canvas width/height a second time');
+  assert.deepEqual(backdrop.size, [400, 0], 'background overscans horizontally by 200 UI units per side');
   assert.equal(stage.name, 'stage');
   assert.deepEqual(stage.size, [1280, 720]);
   assert.equal(stage.anchor, undefined, 'content remains centred with fixed design dimensions');
