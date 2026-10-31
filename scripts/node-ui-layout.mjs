@@ -131,7 +131,16 @@ export function nodeLayout(theme = nativeTheme) {
   const event = layout.event, option = event.options;
   const eventControls = [
     ...(event.neow ? [{ name: 'neowFigure', kind: 'container', position: [0, 0], size: [1280, 720], visible: false, children: [
-      { ...plate('scene', event.neow.figure, '#2E3A52FF'), image: image.officialBackdrops.act1_1 },
+      // Self-built geo key visual (no official backdrop): night field, gold halo behind the NPC slot,
+      // floating geo shards (diamond primitives) — same family as menu/select geo backgrounds.
+      plate('scene', event.neow.figure, '#141A2BFF'),
+      { ...plate('haloWide', [event.neow.npc[0], event.neow.npc[1] + 210, 400, 400], '#2A2A2EFF'), image: image.disc },
+      { ...plate('halo', [event.neow.npc[0], event.neow.npc[1] + 210, 280, 280], '#4A3F28FF'), image: image.disc },
+      { ...plate('haloCore', [event.neow.npc[0], event.neow.npc[1] + 210, 170, 170], '#7A6236FF'), image: image.disc },
+      ...[[383, 37, 130, '#E7C178FF'], [383, 37, 80, '#FFF1CCFF'], [215, 120, 40, '#8A7444FF'], [555, 150, 34, '#8A7444FF'],
+        [250, -60, 26, '#55688CFF'], [520, -40, 46, '#55688CFF'], [-430, 200, 60, '#2E3A55FF'], [-570, 30, 40, '#2E3A55FF'],
+        [-150, 240, 30, '#2E3A55FF'], [80, 220, 24, '#4A3F28FF']]
+        .map(([x, y, d, c], i) => ({ ...plate('shard' + i, [x, y, d, d * 1.4], c), image: image.diamond })),
       { ...plate('shade', event.neow.figure, '#000000C0'), image: image.vignette },
     ] }] : []),
 ...(event.neow ? [hidden({ ...plate('bubble', event.neow.bubble, '#E9E1CCF2'), image: image.discSoft })] : []), plate('plateBorder', event.plate, color.goldDim),
