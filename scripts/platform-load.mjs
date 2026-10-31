@@ -14,6 +14,7 @@ import { sourceInputs, payloadDigest } from './build-native-candidate.mjs';
 import { verifyNativeCardArtReceipt } from './card-art-samples.mjs';
 import { validDate } from './evidence-files.mjs';
 import { gitSourceIdentity } from './release-notes.mjs';
+import {assertCandidateArtReceipt} from './candidate-art-policy.mjs';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 export function packageInventory(directory = 'build/lua') {
@@ -178,6 +179,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
       const receipt = JSON.parse(readFileSync(directory));
       if (hash(readFileSync(receipt.candidate.path)) !== receipt.candidate.sha256) throw Error('Candidate file changed');
       verifyNativeCardArtReceipt(receipt.nativeCardArt, {root: process.cwd()});
+      assertCandidateArtReceipt(receipt);
       const artOptions=artBuildOptionsFromReceipt(receipt);
       if (payloadDigest(sourceInputs(process.cwd(),artOptions)) !== receipt.payloadDigest) throw Error('Candidate payload differs from current production inputs');
       verifyNativeCardArtReceipt(receipt.nativeCardArt, {root: process.cwd()});

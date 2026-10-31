@@ -10,6 +10,7 @@ import { nativeUiVariables } from './native-candidate-scripts.mjs';
 import {embeddedScripts} from './native-script-inventory.mjs';
 import {runNativeClientCheck} from './native-client-check.mjs';
 import {writeScriptBatch} from './native-script-batch.mjs';
+import {assertCandidateArtReceipt} from './candidate-art-policy.mjs';
 
 const [base, directory = '.artifacts/native-bgm-candidate', sourceReceiptFile] = process.argv.slice(2);
 if (!base) throw new Error('Usage: node scripts/build-native-bgm-candidate.mjs <full-game-base.gil> [output-directory] [full-candidate.json]');
@@ -17,6 +18,8 @@ const baseMap = resolve(base), workspace = resolve(directory);
 const hash = file => createHash('sha256').update(readFileSync(file)).digest('hex');
 const baseSha256 = hash(baseMap);
 const full = sourceReceiptFile ? JSON.parse(readFileSync(sourceReceiptFile, 'utf8')) : undefined;
+if(!full)throw Error('Candidate artwork policy requires a full source receipt; untracked legacy audition is not a delivery candidate');
+assertCandidateArtReceipt(full);
 if (full && (full.candidate?.sha256 !== baseSha256 || typeof full.buildId !== 'string' || !full.buildId))
   throw new Error('Full candidate receipt does not match the audio base/build');
 if(full){
