@@ -11,7 +11,7 @@ test('approved Card header centres the title and keeps the thirty-pixel cost dis
     const parts=Object.fromEntries(cardFaceChildren(nativeTheme,context).map(c=>[c.name,c]));
     assert.deepEqual(parts.name.position,[0,86],context+' source title centre');
     assert.deepEqual(parts.costCore.position,[-64,94]);
-    assert.deepEqual(parts.costCore.size,[33,33]);
+    assert.deepEqual(parts.costCore.size,[24,24]);
     assert.deepEqual(parts.costDisc.size,[30,30]);
     assert(parts.cost.size[1]>=40,'transparent native cost text remains compatible');
     assert(parts.name.size[0]>=98&&parts.name.size[1]>=40,'full seven-character name at native 14px floor');

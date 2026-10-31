@@ -14,7 +14,7 @@ test('value feedback stays inside the original description and never replaces ca
     assert.deepEqual(card.size,[148,208]);
     assert.deepEqual(card.children.find(c=>c.name==='label').size,[132,92]);
     assert.deepEqual(card.children.map(c=>c.name),['glow','shadow','border','plate','roundShadow','roundFrame','roundBody','nameBand','nameRule','artPlate','artWell','skin','name','art',
-      'typeEdge','typeTag','tagEdge','tagBody','type','label','roleRing','roleMark','blockedVeil','blockedPill','blockedLock','blockedReason','costHalo','costCore','costDisc','cost','costDirection','hit']);
+      'typeEdge','typeTag','tagEdge','tagBody','type','label','roleRing','roleMark','blockedVeil','blockedPill','blockedLock','blockedReason','costHalo','costDisc','costCore','cost','costDirection','hit']);
     assert.notEqual(card.children.find(c=>c.name==='art').visible,false);
     assert(card.children.find(c=>c.name==='label').text.minFontSize>=14);
   }

@@ -87,9 +87,10 @@ export function cardFaceChildren(theme, context, interactive = true) {
     hidden(picture('blockedLock',[-blocked.pill[0]/2+blocked.padding+blocked.lock[0]/2,blocked.pillY,...blocked.lock],icon.lock,blocked.text)),
     hidden(text('blockedReason',frame([(blocked.lock[0]+blocked.gap)/2,blocked.pillY],[blocked.pill[0]-blocked.padding*2-blocked.lock[0]-blocked.gap,l.nativeText.lineHeight]),'',f.minimum,blocked.text)),
     hidden(orb('costHalo',frame(disc,[d+12,d+12]),c.positive,image.ring)),
-    // Dark coin with a coloured ring and coloured numeral.
-    orb('costCore', frame(disc,[d+trim.costRing,d+trim.costRing]), c.cardWell),
+    // STS energy orb: thin coloured rim, the dark core covers the ring asset's thick band so the
+    // numeral dominates (Pan 2026-10-31: the 30px ring asset read as a solid gold coin).
     orb('costDisc', frame(disc,[d,d]), c.energy, image.ring),
+    orb('costCore', frame(disc,[d-trim.costRing*2,d-trim.costRing*2]), c.cardWell),
     text('cost',frame(disc,[d,l.nativeText.lineHeight]),'',f.cost,c.energy),
     hidden(text('costDirection',frame([disc[0]+d/2-2,disc[1]-d/2+2],[20,l.nativeText.lineHeight]),'',f.small,c.positive)),
     ...(node ? [
