@@ -20,16 +20,24 @@ return function(box,actor)
  local h=actor.definitionId=='guardian' and actor.aiPhase=='defense' and 250 or f[8]
  local rootY=bottom+math.max(f[7]*sx,h*sy)/2
  local iconX=f[5]*sx+(actor.definitionId=='gremlin_nob' and -30*sx or 0)
- local iconY=bottom+(f[6]+h+32)*sy-rootY
+ -- Keep source constructor/hitbox facts; native full-bleed art replaces the padded
+ -- source intent frame. Only this presentation offset differs from source +32.
+ local artTop=math.max(f[7]*sx,h*sy)/2
+ local hitTop=bottom+(f[6]+h)*sy-rootY
+ local nativeTop=math.max(artTop,hitTop)
+ local iconY=nativeTop+math.max(theme.layout.nativeText.lineHeight,theme.layout.intent.size)/2+theme.space.xs
  local function eq(got,want,label)assert(math.abs(got-want)<.001,label..': '..got..' ~= '..want)end
  eq(box.x,x,'source actor x');eq(box.y,rootY,'source actor y')
  local icon,hit=box:GetChild('intentIcon'),box:GetChild('intentHit')
- local glyph=math.min(128*sx,theme.layout.intent.size*1.15)
- eq(hit.x,iconX,'source intent x');eq(hit.y,iconY,'source intent y')
- eq(icon.x,iconX,'source intent x');eq(icon.y,iconY+glyph/2-theme.layout.intent.size/4,'glyph floats clear of head')
+ local glyph=math.min(128*sx,theme.layout.intent.size)
+ eq(hit.x,iconX,'source intent x');eq(hit.y,iconY,'native intent help y')
+ eq(icon.x,iconX,'source intent x');eq(icon.y,iconY,'native glyph floats clear of complete art')
  eq(icon.sizeDeltaX,glyph,'readable intent glyph width');eq(icon.sizeDeltaY,glyph,'readable intent glyph height')
  eq(hit.sizeDeltaX,64*sx,'source help width');eq(hit.sizeDeltaY,64*sy,'source help height')
  local value=box:GetChild('intent')
- eq(value.x,iconX-30*sx+value.sizeDeltaX/2,'source damage baseline x')
- eq(value.y,iconY-12*sy-theme.layout.nativeText.lineHeight/2,'source damage baseline y')
+ eq(value.x,iconX+theme.layout.intent.size/2+theme.space.xs+value.sizeDeltaX/2,'native horizontal damage x')
+ eq(value.y,iconY,'native horizontal damage y')
+ assert(icon.y-icon.sizeDeltaY/2>=nativeTop+theme.space.xs-.001,'full native glyph intersects art')
+ assert(value.y-value.sizeDeltaY/2>=nativeTop+theme.space.xs-.001,'native damage text intersects art')
+ assert(value.x-value.sizeDeltaX/2>=icon.x+icon.sizeDeltaX/2+theme.space.xs-.001,'native damage intersects icon')
 end
