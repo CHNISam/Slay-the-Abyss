@@ -10,7 +10,7 @@ const inputs=[...pinned,'tools/oracles/sts1_potion_pool.py','tests/fixtures/sts1
 function git(cwd,...args){
  const r=spawnSync('git',args,{cwd,encoding:'utf8'});assert.equal(r.status,0,r.stderr||r.error?.message);return r;
 }
-test('real Windows autocrlf checkout retains shared card-random oracle byte identities and passes strict regeneration',()=>{
+test('Git CRLF checkout retains shared card-random oracle byte identities and passes strict regeneration',()=>{
  const root=mkdtempSync(join(tmpdir(),'card-random-windows-checkout-'));
  try{
   const source=join(root,'source');mkdirSync(source);
