@@ -322,3 +322,13 @@ tests/fixtures/economy-relic-seeds.json text eol=lf
 # Deep Breath independent shuffle oracle authenticates exact model bytes.
 tools/oracles/sts1_deep_breath.py text eol=lf
 tools/oracles/sts1_combat_shuffle.py text eol=lf
+# Secret registration compares exact LF source bytes, including in CRLF checkouts.
+tests/secret-candidate-skill-base-small.test.mjs text eol=lf
+tests/secret-candidate-skill-base-large.test.mjs text eol=lf
+tests/secret-candidate-skill-upgraded-small.test.mjs text eol=lf
+tests/secret-candidate-skill-upgraded-large.test.mjs text eol=lf
+tests/secret-candidate-attack-base-small.test.mjs text eol=lf
+tests/secret-candidate-attack-base-large.test.mjs text eol=lf
+tests/secret-candidate-attack-upgraded-small.test.mjs text eol=lf
+tests/secret-candidate-attack-upgraded-large.test.mjs text eol=lf
+tests/helpers/secret-candidate-insertion.mjs text eol=lf
