@@ -147,9 +147,6 @@ function M.install(ctx)
             if ctx.self.picker=='neow_card'then return '开局恩赐 · 还需选择 '..node.event.selection.count..' 张卡牌，不能取消' end
             if ctx.self.picker=='basics_purge' then return '优雅 · 免费移除一张非瓶装、可清除的永久牌' end
             if ctx.self.picker=='beggar_purge' then
-                if node.event.pendingBoundary then
-                    picker:GetChild("empty").text='没有可清除的卡牌；强制选牌保持待处理，不能跳过或退款。'
-                end
                 return '已支付75金币 · 必须移除一张非瓶装、可清除的永久牌，不能取消'
             end
             if library then return '图书馆 · 从20张不同的卡牌中选择一张，不能跳过' end
@@ -201,7 +198,9 @@ function M.install(ctx)
             elseif node.event.id=='the_library' and node.event.stage=='choose_offer' then
                 ctx.syncLibraryPicker(node)
             elseif (node.event.id=='beggar' or node.event.id=='back_to_basics') and node.event.stage=='choose_card' then
-                ctx.syncAct2PurgePicker(node)
+                if node.event.id=='beggar' and #node.event.purgeCards==0 then
+                    ctx.self.mode,ctx.self.picker,ctx.self.selected='main',nil,nil
+                else ctx.syncAct2PurgePicker(node) end
             else ctx.self.mode,ctx.self.picker,ctx.self.selected='main',nil,nil end
         end
     end
