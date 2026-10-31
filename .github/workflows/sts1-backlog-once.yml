@@ -1,0 +1,60 @@
+name: One-shot STS1 Backlog CLI delta
+on:
+  push:
+    branches: [feat/sts1-backlog-gap-20261031]
+    paths: [.github/workflows/sts1-backlog-once.yml]
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.18.0'
+      - run: npm install --global backlog.md@1.55.3 --no-audit --no-fund
+      - name: Apply Owner-approved task delta with Backlog CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "feat/sts1-backlog-gap-20261031"
+          backlog instructions overview
+          backlog instructions task-creation
+          backlog instructions task-execution
+          backlog instructions task-finalization
+          backlog doctor
+          # Five existing High tasks; three broad audit owners make room for three concrete High blockers.
+          backlog task edit 59 --priority medium --append-notes '2026-10-31：让出具体High名额；范围与已完成验收保持不变，见 docs/backlog-details/STS1-DELTA-20261031.md。'
+          backlog task edit 16.1 --priority medium --append-notes '2026-10-31：让出具体High名额；规则审计及原验收保持不变。'
+          backlog task edit 14.1 --priority medium --append-notes '2026-10-31：让出具体High名额；遗物药水完整性要求仍保留。'
+          backlog task create '修复乞丐事件零张可删牌时的支付后无出口' -p 13.1.2 -m m-4 -s 'To Do' -a Furinya --priority high -l sts1-delta-20261031 --ref docs/backlog-details/STS1-DELTA-20261031.md --ref src/lua/abyss_act2_events.lua -d '施舍75金币后，空牌组或全不可删牌时进入不可取消的choose_card，唯一选项禁用。对照STS1 Beggar/GridCardSelectScreen，修复无出口而不改变正常付费、删牌与保护语义。' --ac '空牌组、全受保护组和正常可删牌组分别复现支付与选择流程。' --ac '原版空候选收尾经源码和实际边界核清；不未经验证添加退款或删池重抽。' --ac '正常路线可完成，空候选不会永久阻塞，拒绝重复扣款和非法删除。' --ac '定向红绿回归与当前候选设备结果分开记录。'
+          backlog task create '补齐旅行者普通卡点击详情与只读升级预览' -p 4 -m m-5 -s 'To Do' -a Furinya --priority high -l sts1-delta-20261031 --ref docs/backlog-details/STS1-DELTA-20261031.md --ref src/lua/abyss_deck_ui.lua -d '现有DeckUI单卡详情只支持originalV4，公开旅行者普通卡没有等价详情入口；按STS1 SingleCardViewPopup的功能行为补只读基础/升级预览，复用现有卡组和牌堆显示。' --ac '旅行者普通卡在永久卡组及抽弃耗牌堆可点开详情，原V4及选牌流程不回退。' --ac '基础/升级数值与费用来自真实定义，不可升级或重复升级牌正确处理。' --ac '查看不变更UID、升级次数、战斗临时效果、牌序和随机流，关闭返回原界面。' --ac '专项回归及同候选PC/手机点击显示独立验证。'
+          backlog task create '清除新增事件玩家界面的原作专有身份外露' -p 4 -m m-5 -s 'To Do' -a Furinya --priority high -l sts1-delta-20261031 --ref docs/backlog-details/STS1-DELTA-20261031.md --ref src/lua/abyss_nloth_event.lua --ref src/lua/abyss_node_ui_events.lua -d 'N-loth的原作角色标识直接出现在玩家可见的事件标题、开场、礼物交易说明和结束正文；使用已批准本作角色映射，不改内部sourceId、交易逻辑或随机流。' --ac '标题、开场、选项、结束四处不再暴露原版角色，遗物礼物名称同步核对。' --ac '复用批准的世界观与名字，没有批准映射不得凭空编造。' --ac '遗物候选、移除与取得顺序、重复礼物、RNG不变。' --ac '实际生产UI输出及设备截图验证，源码和日志原版身份仍保留。'
+          backlog task create '补齐局外卡牌遗物药水三类图鉴入口' -p 4 -m m-5 -s 'To Do' -a Furinya --priority medium -l sts1-delta-20261031 --ref docs/backlog-details/STS1-DELTA-20261031.md --ref src/lua/abyss_game_ui.lua -d '现有局内牌库、持有遗物与药水查看已存在；缺未开局时可用的Card Library、Relic Collection、Potion Lab完整目录入口。只读浏览只含Production开放内容，不依赖跨局存档。' --ac '未创建Run也可浏览本版卡牌目录及基础升级预览。' --ac '未创建Run也可浏览本版遗物与药水及中文详情。' --ac '不产生假Run、获取物品、修改RNG或公开未开放职业。' --ac '三入口可返回主菜单，手机电脑可操作；不扩大为事件图鉴或收藏解锁。'
+          backlog task create '接通本局计分及特殊遗物减分效果' -p 47 -m m-4 -s 'To Do' -a Furinya --priority medium -l sts1-delta-20261031 --ref docs/backlog-details/STS1-DELTA-20261031.md --ref src/lua/abyss_relic_hooks.lua -d 'Spirit Poop已有获得/显示与scoreAdjustment减1辅助函数，但未连入本局总分；只补适用于双幕的真实本局分数及显示，不加跨局历史、排行榜。' --ac '确认STS1 GameOverScreen计分分项与本版两幕适用范围，不猜未知。' --ac '从本局真实数据计算总分，特殊遗物减一分且只计算一次。' --ac '胜败、重新开始、重复结算不串局，原平台结算请求不变。' --ac '自动回归与候选PC/手机证据分别验收。'
+          backlog task edit 42 -d '在PC键鼠上同一候选仅验当前公开的岩系旅行者第一、第二幕；其他职业不计比赛标准。' --remove-ac 6 --ac '同一候选仅岩系旅行者覆盖第一和第二幕、换幕、胜败与重开，留存设备证据及通关时间。'
+          backlog task edit 47 --append-notes '2026-10-31：AC1缺项不得通过缩池/重抽改变概率，缺口阻挡候选放行；额外四Boss历史解锁由TASK-53延期，非本期M3缺陷。本轮精确差额见docs/backlog-details/STS1-DELTA-20261031.md。'
+          backlog task edit 61 --append-notes '2026-10-31：第二幕三Boss既有战斗实现保留；依赖持久历史的额外Boss正常解锁归TASK-53延期，不要将其强制列为本次M3缺陷。'
+          backlog task edit 53 --append-notes '2026-10-31 Owner再次确认：当前创作者权限无法持久存档，额外四Boss解锁延后；不伪造解锁或新建存储后端。'
+          backlog task edit 13.1.3 --append-notes '2026-10-31：首次无Boss历史时Neow两项是已有规则，历史合格时四项已有；区分首次、未到Boss重开、同会话到Boss后重开，不将两项自动诊断成随机池Bug。'
+          backlog task edit 13.1.2 --append-notes '2026-10-31：42合法事件、130遗物来源与11复杂选择已有广域证据；不重建整个池。仅乞丐零候选等已证明缺口单列。'
+          backlog task edit 4.8 --append-notes '2026-10-31：已有中文化成果不重开；原作身份玩家端泄漏由新High任务承接。'
+          backlog doctor
+          npm run verify:backlog
+          node --test tests/backlog-roadmap.test.mjs tests/release-notes.test.mjs
+          git diff --check
+      - name: Commit native CLI output to this PR branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add backlog/
+          git diff --cached --exit-code && { echo 'No new task output'; exit 1; } || true
+          git commit -m "docs(backlog): apply confirmed STS gaps through native CLI"
+          git push origin HEAD:refs/heads/feat/sts1-backlog-gap-20261031
