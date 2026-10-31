@@ -9,6 +9,8 @@ test('three scene-based instruction sections fit the approved modal and do not p
   const guide = controlsGuide();
   const sections = guide.children.filter(c => ['battle', 'map', 'resources'].includes(c.name));
   assert.equal(sections.length, 3);
+  assert.equal(sections.find(c => c.name === 'battle').children.find(c => c.name === 'how4').text.content, '点击右下角「结束回合」');
+  assert.equal(sections.find(c => c.name === 'map').children.find(c => c.name === 'how4').text.content, '先点商品查看详情，再确认购买');
   for (const section of sections) {
     assert.equal(section.children.filter(c => c.name.startsWith('action')).length, 4);
     assert.equal(section.children.filter(c => c.name.startsWith('how')).length, 4);
