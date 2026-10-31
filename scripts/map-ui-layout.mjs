@@ -18,7 +18,7 @@ export function mapGeometry(theme = loadMapTheme()) {
     breathSeconds: 1.4, breathScale: 1.5,
     // Ported constants from STS MapRoomNode/MapEdge (aeubanks/sts@319009d, TASK-40 hash).
     // iconPerScale maps STS scale 0.5 (64px of a 128px glyph) onto 0.6 of our node box.
-    sts: { baseScale: .5, iconPerScale: 1.2, circlePerScale: 1.8, oscillateRate: 5, lerpSpeed: 8, snap: .003,
+    sts: { baseScale: .5, iconPerScale: 1.2, circlePerScale: 1.35, oscillateRate: 5, lerpSpeed: 8, snap: .003,
       srcRadius: 29 / 64 * .6, dstRadius: 20 / 64 * .6, bossRadius: .5 },
     glowPadding: 0, lineWidth: theme.layout.map.presentation.pathWidth, dragThreshold: theme.layout.cardDrag.threshold };
 }
@@ -60,12 +60,13 @@ export function mapLayout(theme = loadMapTheme()) {
     // Map/Main canvas header: subdued dark band, copper hairline and title wings.
     { ...image('headerShade', ...header.shade, c.mapHeader.shade), opacity: header.shadeOpacity },
     image('headerDivider', ...header.divider, c.mapHeader.border, im.fadeLine),
-    image('titleLineLeft', ...header.titleLineLeft, c.mapHeader.title, im.fadeLine),
-    image('titleLineRight', ...header.titleLineRight, c.mapHeader.title, im.fadeLine),
+    image('titleLineLeft', ...header.titleLineLeft, c.mapHeader.border, im.fadeLine),
+    image('titleLineRight', ...header.titleLineRight, c.mapHeader.border, im.fadeLine),
     // Lowest layer: dragging anywhere on the route scrolls it; node hits sit above.
     { name: 'dragArea', kind: 'cursorArea', position: [(left + right) / 2, (bottom + top) / 2],
       size: [right - left, top - bottom], focusable: false },
-    text('title', 0, 316, 380, 40, '', f.body, c.mapHeader.title),
+    // TASK-4.13: one parchment hierarchy — act title is the only heading-size ink in the bar.
+    text('title', 0, 316, 380, 40, '', f.number, c.mapHeader.title),
     { ...text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim), visible: false },
     button('next', visual.navigationY[0], '↑'), button('focus', visual.navigationY[1], '◆'), button('previous', visual.navigationY[2], '↓'),
     typeLegend,

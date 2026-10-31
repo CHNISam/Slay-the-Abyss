@@ -70,18 +70,23 @@ export function deckControls(theme = nativeTheme) {
   // badge, so the control reads as "your deck" at a glance instead of a generic pill.
   const stackEntry = (frame, label) => {
     const entry = button('open', frame, label);
-    const [cw, ch] = [22, 30];
-    const card = (name, x, y, rot, border, fill) => ({ name, kind: 'container', position: [x, y], size: [cw, ch], rotation: rot, children: [
+    // TASK-4.13: same 36px metal disc as the 菜单 sibling, with three larger portrait card
+    // backs fanned inside it so the silhouette reads as a deck before the glyph is parsed.
+    const d = theme.layout.exitMenu.entryVisual.diameter, [dx, cw, ch] = [-12, 13, 18];
+    const disc = (name, size, colour, x = dx, y = 0) => ({ ...plate(name, [x, y, size, size], colour), image: theme.image.disc });
+    const card = (name, x, y, rot, border, fill) => ({ name, kind: 'container', position: [dx + x, y], size: [cw, ch], rotation: rot, children: [
       plate('border', [0, 0, cw, ch], border), plate('plate', [0, 0, cw - 2, ch - 2], fill)] });
     for (const state of entry.children[0].children) {
       const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');
       text_.visible = false;
       state.children = [
-        card('back2', -12, 1, 8, colours.border, c.cardWell), card('back1', -9, 0, 4, colours.border, c.panelSunken),
-        card('front', -6, -1, -2, colours.border, colours.fill),
-        { name: 'deckIcon', kind: 'image', position: [-6, -1], size: [14, 14], image: theme.icon.deck.id, colour: colours.ink },
-        { ...plate('badge', [16, -8, 24, 20], c.panelSunken), image: theme.image.disc },
-        text('count', [16, -8, 28, 22], '', f.label, colours.ink), text_];
+        disc('ring', d, colours.border), disc('face', d - 2, colours.fill),
+        card('back2', -4, 1, 16, colours.ink, c.panelSunken), card('back1', -1, 0, 6, colours.ink, c.cardWell),
+        card('front', 2, -1, -6, colours.ink, colours.fill),
+        { name: 'deckIcon', kind: 'image', position: [dx + 2, -1], size: [9, 9], image: theme.icon.deck.id, colour: colours.ink },
+        { ...disc('badgeRing', 22, colours.border, 14, -10) },
+        { ...plate('badge', [14, -10, 20, 20], c.panelSunken), image: theme.image.disc },
+        text('count', [14, -10, 24, 20], '', f.small, state.name === 'disabled' ? colours.ink : c.mapHeader.count), text_];
     }
     return entry;
   };

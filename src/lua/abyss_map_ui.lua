@@ -386,10 +386,12 @@ function M.new(root, map, onChoose, clickEvent, options)
                 if state ~= "available" then fx.alpha = 1 end
                 local ring = child(box, "ring")
                 -- render(): circle when taken, or current after the first room was chosen.
-                ring:SetVisible(state == "visited" or state == "current")
+                -- TASK-4.13 (Pan t95u): the walked path already links visited rooms, so only the
+                -- current room keeps a ring, and it is a soft translucent halo of the old circle.
+                ring:SetVisible(state == "current")
                 ring.localRotationZ = fx.angle
                 -- TASK-4.13: visited rings sink to trail gold so the current ring is the only bright one.
-                tint(ring, state == "current" and Theme.color.goldBright or Theme.color.mapCanvas.visitedRing)
+                tint(ring, Theme.color.mapCanvas.currentRing)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
                 local palette = Theme.color.mapCanvas
