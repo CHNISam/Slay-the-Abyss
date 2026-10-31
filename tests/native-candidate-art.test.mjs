@@ -102,7 +102,7 @@ test('MCP mock: formal CLI consumes opt-in art in the actual UI and dynamic pres
   const receipt=one.receipt();
   assert(receipt.officialPortraits.imageTemplateIndex>0,'static cards-only fan has a real shared image binding');
   assert.equal(receipt.officialPortraits.peakDynamicControls,1614);
-  assert(receipt.officialPortraits.inputs.some(row=>row.path.endsWith('art/lowpoly-select/select-lowpoly.json')));
+  assert(receipt.officialPortraits.inputs.some(row=>row.path.replaceAll('\\','/').endsWith('art/lowpoly-select/select-lowpoly.json')));
   assert.equal(receipt.nativeCardArt.registrySha256,fileRecord(f.literal).sha256);
   assert.equal(receipt.nativeCardArt.staticPools,1);assert.equal(receipt.nativeCardArt.staticAddedControls,3);
   assert.deepEqual(receipt.nativeCardArt.inputs.map(r=>r.sha256).sort(),[fileRecord(f.literal),...f.registry.sourceInputs.map(r=>fileRecord(r.path))].map(r=>r.sha256).sort());
