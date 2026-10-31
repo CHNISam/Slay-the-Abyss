@@ -1,0 +1,3 @@
+# Preserve the pinned upstream Git blob bytes on Windows checkouts.
+upstream/** -text
+*.gil -text

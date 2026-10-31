@@ -43,3 +43,7 @@ PORT 在同机确实解决露底，才最小改造正式 `game-ui.json` 构建�
 - [Pairs 原生样例（MIT）](https://github.com/8itlab/genshin-miliastra-mcp/tree/eb05fd35075b2635e851a2f58b202ac2eadd187b/examples/pairs)
 - [genshin-ugc-webui（MIT）](https://github.com/zmy15/genshin-ugc-webui)：`deploy/probe.lua` 的 `fitroot/fitfill` 仅作辅助诊断，不得代替原版先行验证；其 R34–R36 的其他设备结果不能冒充本机证据。
 - [PR #207：背景锚点修复](https://github.com/CHNISam/Slay-the-Abyss/pull/207)
+
+## 本轮 UPSTREAM 交付
+
+已生成原版 GIL、固定源码、逐文件哈希、部署差异与手机测试说明，入口见 [原版实验包](../../experiments/task38-upstream/README.md)。候选 SHA256 `6f7380d097ca33884fed10ef633ff86882ad7295d73142c2c7ade851c7b05923`。上游七文件逐字节核对、候选 Lua 独立读回及静态检查通过；官方导入、真实 ready 和实体手机仍 NOT_TESTED。PORT 与 INTEGRATED 未开始，TASK-38 不勾 AC。
