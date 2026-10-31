@@ -3,9 +3,9 @@ id: TASK-61
 title: 接齐第二幕敌人、事件和正式游玩流程
 status: In Progress
 assignee:
-  - '@Furinya'
+  - Furinya
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-29 01:55'
+updated_date: '2026-10-31 01:23'
 labels:
   - required
   - sts1
@@ -50,6 +50,8 @@ type: feature
 按已合入第二幕代码补真实缺口，保留原版遭遇、AI、同局奖励/事件及随机流；正式比赛在第二幕合法结束，不再把第三幕入口或跨局历史能力列为本任务依赖。源码、同候选自然流程和平台通关分别验收。
 
 2026-10-29当前角色范围仅岩系旅行者；第二幕完整内容、权重、全部三Boss、跨幕状态与同候选实机标准保持。
+
+2026-10-31 本轮排查：逐项核对前两幕事件与遗物目录、比赛裁剪和正式输入链；以Beyond Simulator及真实Lua事务复现不可选项，补红绿回归；修复后独立复审、候选读回及当前SHA CI。实机与手机证据单独保留未验收。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -100,4 +102,6 @@ PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_
 2026-10-29用户决定：本版仅岩系旅行者两幕，雷电将军验收转未来TASK-85。原AC与计划完整快照：docs/evidence/traveler-scope-before-20261029.json；历史通过项不撤销，未通过项不勾选。用户自述旅行者自然通关，候选hash未知，不作为同RC日志或设备全量证据。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-31 实际GIL对照：v13缺11事件映射，旧包真实遗物获取拒绝；PR357/377后的4c262462集成候选已含补全。本轮新增42事件、130遗物与11复杂选择的正式比赛配置广域回归；证据及验收边界见 docs/reviews/TWO-ACT-SELECTION-AUDIT-20261031.md。用户实际包身份、同候选官方与设备复验未齐，保持未完成。
 <!-- SECTION:NOTES:END -->

@@ -1,0 +1,237 @@
+{
+  "scope": "Controlled runtime/source audit, not native import/ready/devices or identification of user current version",
+  "candidate": {
+    "sha256": "7ac48c7a6e720e0abacf8b2a4d2db4ce1f732f26c77b3c6665104def8688dd05",
+    "buildId": "0d2a9e8e-3f63-4456-b212-52491d61f84b",
+    "sourceCommit": "4c262462902ed5d385af65f687e6fc792af227ff",
+    "moduleCount": 326,
+    "relatedSourcesCompared": 96
+  },
+  "nativeCheck": {
+    "errors": 0,
+    "warnings": 276,
+    "warningStatus": "276 also present in existing candidate receipt; no blanket suppression or new device acceptance"
+  },
+  "runtimeComparisons": [
+    {
+      "version": "v13",
+      "entrySource": "GIL embedded modules",
+      "simulator": "beyond-simulator-mcp@0.5.2 existing local compatibility entry",
+      "mountError": null,
+      "logs": [
+        {
+          "source": "client",
+          "level": "info",
+          "text": "DEFINITIONS 65",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC Bottled Flame false relic_content_unavailable",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC Astrolabe false relic_content_unavailable",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC DollysMirror false relic_content_unavailable",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC FossilizedHelix false relic_content_unavailable",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC Pantograph false relic_content_unavailable",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Dead Adventurer nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT FaceTrader nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Designer nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Knowing Skull nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT N'loth nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Colosseum nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Masked Bandits nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Cursed Tome nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Forgotten Altar nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Drug Dealer nil",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Vampires nil",
+          "time": 0
+        }
+      ]
+    },
+    {
+      "version": "current",
+      "entrySource": "GIL embedded modules",
+      "simulator": "beyond-simulator-mcp@0.5.2 existing local compatibility entry",
+      "mountError": null,
+      "logs": [
+        {
+          "source": "client",
+          "level": "info",
+          "text": "DEFINITIONS 153",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC Bottled Flame true bottled_flame",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC Astrolabe true astrolabe",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC DollysMirror true dollys_mirror",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC FossilizedHelix true fossilized_helix",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "RELIC Pantograph true pantograph",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Dead Adventurer dead_adventurer",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT FaceTrader face_trader",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Designer designer",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Knowing Skull knowing_skull",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT N'loth nloth",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Colosseum colosseum",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Masked Bandits masked_bandits",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Cursed Tome cursed_tome",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Forgotten Altar forgotten_altar",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Drug Dealer drug_dealer",
+          "time": 0
+        },
+        {
+          "source": "client",
+          "level": "info",
+          "text": "EVENT Vampires vampires",
+          "time": 0
+        }
+      ]
+    }
+  ]
+}
