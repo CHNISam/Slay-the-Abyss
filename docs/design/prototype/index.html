@@ -977,7 +977,9 @@ const CARDS=[
   ["normality", "平庸", "curse", "curse", "", "无法打出。在手牌中时，每回合最多打出3张牌。", "", "无法打出。在手牌中时，每回合最多打出3张牌。"],
   ["parasite", "寄生", "curse", "curse", "", "无法打出。从牌组中永久移除时，最大生命值降低3点。", "", "无法打出。从牌组中永久移除时，最大生命值降低3点。"]
 ];
-const C={};for(const[id,name,type,rarity,cost,text,ucost,utext] of CARDS)C[id]={id,name,type,rarity,cost:cost===''?'':cost==='X'?'X':+cost,text,ucost:ucost===''?'':ucost==='X'?'X':+ucost,utext};
+// Keyword membership mirrors data/cards.json; effect bodies stay presentation-only.
+const STRIKE_TAGS=new Set(["strike","perfected_strike","pommel_strike","twin_strike","wild_strike"]);
+const C={};for(const[id,name,type,rarity,cost,text,ucost,utext] of CARDS)C[id]={id,name,type,rarity,strikeTag:STRIKE_TAGS.has(id),cost:cost===''?'':cost==='X'?'X':+cost,text,ucost:ucost===''?'':ucost==='X'?'X':+ucost,utext};
 const TYPE={attack:'攻击',skill:'技能',power:'能力',status:'状态',curse:'诅咒'};
 const ICON_OF_TYPE={attack:'sword',skill:'shield',power:'geo',status:'deck',curse:'deck'};
 const cv=document.getElementById('cv'),frame=document.getElementById('frame');
@@ -1003,13 +1005,15 @@ addEventListener('resize',layout);
 /* ---------- 通用部件 ---------- */
 function cardEl(c,{up=false,cant=false}={}){
   const cost=up?c.ucost:c.cost, text=up?c.utext:c.text;
-  return $(`<div class="card${up?' up':''}${cant?' cant':''}" style="--rc:var(--r-${c.rarity});--tc:var(--t-${c.type})">
+  const el=$(`<div class="card${up?' up':''}${cant?' cant':''}" style="--rc:var(--r-${c.rarity});--tc:var(--t-${c.type})">
     <div class="fr${ann('rect 100001 · 稀有度色框')}"></div><div class="nb"></div>
     <div class="t nm">${c.name}${up?'+':''}</div>
     <div class="art${ann('图标 '+{attack:102012,skill:102014,power:102024,status:100122,curse:100122}[c.type])}"><div class="ico">${ic(ICON_OF_TYPE[c.type])}</div></div>
-    <div class="tl">${TYPE[c.type]}</div>
+    <div class="tl">${TYPE[c.type]}${c.strikeTag?' · 打击类':''}</div>
     <div class="tx"><span>${hl(text)}</span></div>
     <div class="cost num${ann('disc 106025')}">${cost}</div></div>`);
+  if(c.strikeTag)tip(el,'<b>打击类</b><br>带有打击标签，计入剑势如虹等效果。',520,80);
+  return el;
 }
 function hpBar(x,y,w,hp,max,block){
   return $(`<div class="hpbar${block?' shield':''}${ann('图片 fill horizontal')}" style="left:${x}px;top:${y}px;width:${w}px;height:16px">
