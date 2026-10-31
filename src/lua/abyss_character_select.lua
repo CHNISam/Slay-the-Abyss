@@ -46,7 +46,8 @@ function M.preview(source,presentation,id)
         cards={cards=cards,sourcePools=data.cards.sourcePools},originalV4Role=data.originalV4Role,
         experimentalCharacter=data.experimentalCharacter,runCardCatalog=data.runCardCatalog})
     local deck={}
-    for _,card in ipairs(order)do deck[#deck+1]={id=card,name=display[card].name,count=counts[card],type=defs[card].type}end
+    for _,card in ipairs(order)do local shown=display[card]
+        deck[#deck+1]={id=card,name=shown.name,count=counts[card],type=defs[card].type,cost=shown.cost or defs[card].cost,text=shown.text or defs[card].text}end
     local relics={}
     for _,owned in ipairs(data.rules.player.startingRelics)do
         for _,relic in ipairs(data.relics.relics)do if relic.id==owned then
@@ -76,7 +77,7 @@ function M.new(source,presentation,profile)
             and (self.character~='traveler' or self:allowsElement(self.element)) and accepts(id)
     end
     function state:clear()
-        self.character,self.element,self.info=nil,nil,nil
+        self.character,self.element,self.info,self.deckOpen=nil,nil,nil,false
     end
     function state:select(id)
         if not contains(M.characters,id)then return false,'unknown_character' end

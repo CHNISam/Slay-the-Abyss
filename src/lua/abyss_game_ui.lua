@@ -536,6 +536,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     end
     self.closeCharacters = function(_)
         if not self.characterOpen or self.starting then return false end
+        if self.characterSelection.deckOpen then self.characterSelection.deckOpen=false;self:refresh();return true end
         self.characterOpen=false;self.characterSelection:clear()
         selectionChanged();return true
     end
@@ -558,7 +559,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.exitOpen or self.deckUI.visible or self.settlementRequested or self.settlementBusy then return false end
         if self.mode~='menu' and self.mode~='defeat' and self.mode~='victory' then return false end
         if self.characterOpen then return false,'character_choice_open' end
-        self.characterOpen=true;self.characterSelection:clear()
+        self.characterOpen=true;self.characterSelection:clear();self.characterSelection.deckOpen=false
         -- Production keeps the select page, but the only open role is already showing.
         if self.characterSelection.profile~='full-source' then self.characterSelection:select('traveler') end
         selectionChanged()
@@ -934,7 +935,18 @@ function M.new(root, data, presentation, clickEvent, platform)
     characterPanel:GetChild("blocker"):AddCursorEventListener(clickEvent,function()return true end)
     bindCommand(characterPanel:GetChild("cancel"),"character_cancel",function() return self:closeCharacters() end,nil,90)
     bindCommand(characterPanel:GetChild('confirm'),'character_confirm',function()return self:confirmCharacter()end,
-        function()return self.characterSelection:canConfirm()end,100)
+        function()return self.characterSelection:canConfirm() and not self.characterSelection.deckOpen end,100)
+    -- 查看初始牌组（STS 式卡面网格）；返回/取消先关牌组再退选角。
+    bindCommand(characterPanel:GetChild('details'):GetChild('deckOpen'),'character_deck',function()
+        if not self.characterSelection.info then return false end
+        self.characterSelection.deckOpen=true;self:refresh();return true
+    end,function()return self.characterSelection.info~=nil and not self.characterSelection.deckOpen end,95)
+    local deckView=characterPanel:GetChild('deckView')
+    deckView:GetChild('catch'):AddCursorEventListener(clickEvent,function()return true end)
+    bindCommand(deckView:GetChild('close'),'character_deckClose',function()
+        if not self.characterSelection.deckOpen then return false end
+        self.characterSelection.deckOpen=false;self:refresh();return true
+    end,function()return self.characterSelection.deckOpen==true end,96)
     for i,id in ipairs(CharacterSelect.characters)do
         local box=characterPanel:GetChild(i==5 and 'traveler' or 'character'..i)
         bindCommand(box,'character_'..i,function()return self:selectCharacter(id)end,

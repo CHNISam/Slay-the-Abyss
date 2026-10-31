@@ -36,11 +36,11 @@ export function experimentalCharacterControls(theme = nativeTheme) {
         size: [size[0], s.m], position: [0, -size[1] / 2 + s.s] },
     ] };
   }
-  function panel(name, layout, title, hint, children, face = c.panel) {
+  function panel(name, layout, title, hint, children, face = c.panel, rim = c.goldDim) {
     return { name, kind: 'container', size: [...theme.canvas.base], visible: false, children: [
       plate('veil', [0, 0, ...theme.canvas.base], c.backdropVeil),
       { name: 'blocker', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },
-      plate('border', layout.panel, c.goldDim),
+      plate('border', layout.panel, rim),
       plate('face', [...layout.panel.slice(0, 2), ...layout.panel.slice(2).map(value => value - s.border * 2)], face),
       text('title', layout.title, title, f.heading, c.goldBright),
       text('hint', layout.hint, hint, f.label, c.textDim), ...children,
@@ -63,19 +63,37 @@ export function experimentalCharacterControls(theme = nativeTheme) {
   const themes = { name: 'themes', kind: 'container', size: [...theme.canvas.base], children:
     Object.entries(l.themes).map(([id, colour]) => ({ name: id, kind: 'container', size: [...theme.canvas.base], visible: false,
       children: [tinted('glow', l.glow, colour, theme.image.glow, 0.32), tinted('halo', l.halo, colour, theme.image.glow, 0.5)] })) };
-  // 色条必须画在信息面板之上，单独成层。
-  const accents = { name: 'accents', kind: 'container', size: [...theme.canvas.base], children:
-    Object.entries(l.themes).map(([id, colour]) => ({ ...plate(id, l.accent, colour), visible: false })) };
+  // STS CharacterSelectScreen 式：整屏无盒，左侧信息直接落在暗化地景上（scrim 只做可读性压暗）。
+  const v = l.deckView;
+  // 初始牌组卡面网格（STS「查看牌组」= 一张张卡面）：卡底 + 费用 + 名字 + 类型 + 描述，视图只填字与显隐。
+  const miniCard = i => {
+    const [cw, ch] = v.cardSize, col = i % v.columns, row = Math.floor(i / v.columns);
+    return { name: `deckCard${i + 1}`, kind: 'container', position: [v.origin[0] + col * v.step[0], v.origin[1] - row * v.step[1]],
+      size: [cw, ch], visible: false, children: [
+        plate('border', [0, 0, cw, ch], c.goldDim),
+        plate('face', [0, 0, cw - s.border * 2, ch - s.border * 2], c.panelRaised),
+        plate('art', [0, ch / 2 - 92, cw - 20, 92], c.panelSunken),
+        { ...plate('costOrb', [-cw / 2 + 18, ch / 2 - 18, 34, 34], c.gold), image: theme.image.disc },
+        text('cost', [-cw / 2 + 18, ch / 2 - 18, 34, 34], '', f.label, c.textOnLight),
+        text('name', [10, ch / 2 - 22, cw - 50, 28], '', f.label, c.goldBright),
+        text('type', [0, ch / 2 - 150, cw - 20, 22], '', f.small, c.textDim),
+        { ...text('text', [0, -ch / 2 + 40, cw - 20, 72], '', f.small, c.text) },
+      ] };
+  };
+  const deckView = { name: 'deckView', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+    { ...plate('veil', [0, 0, ...theme.canvas.base], c.backdrop), opacity: 0.94 },
+    { name: 'catch', kind: 'cursorArea', size: [...theme.canvas.base], focusable: false },
+    text('title', v.title, '初始牌组', f.heading, c.goldBright),
+    ...Array.from({ length: v.columns * v.rows }, (_, i) => miniCard(i)),
+    text('overflow', v.overflow, '', f.label, c.textDim),
+    button('close', v.close, '返回', l),
+  ] };
   return [
-    panel('characterPanel', l, '选择你的同行者', '点击下方角色查看详情，再确认出发。', [
+    panel('characterPanel', l, '选择你的同行者', '查看初始信息，确认后开始冒险。', [
       themes,
+      { ...plate('scrim', l.scrim, c.backdrop), image: theme.image.glowWide, opacity: 0.78 },
       { name: 'details', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
-        // 卡牌式信息面板：金描边 + 深底 + 抬升标题带（色条由 themes 提供）
-        plate('infoBorder', [...l.info.slice(0, 2), l.info[2] + s.border * 2, l.info[3] + s.border * 2], c.goldDim),
-        plate('infoFace', l.info, c.panel),
-        plate('header', l.header, c.panelRaised),
-        plate('headerRule', [l.header[0], l.header[1] - l.header[3] / 2, l.header[2], s.border], c.goldDim),
-        // 立绘位只是定位框（无底色），人物站在主题地面光晕上，避免「大圆底 + 黑矩形」。
+        // 立绘位只是定位框（无底色），人物站在主题地面光晕上。
         { name: 'portraitFrame', kind: 'container', position: d.portrait.slice(0, 2), size: d.portrait.slice(2), children: [] },
         tinted('floorShadow', d.floor, c.cardShadow, theme.image.glow, 0.55),
         { name: 'portraits', kind: 'container', position: d.portrait.slice(0, 2), size: d.portrait.slice(2), children: [
@@ -83,20 +101,18 @@ export function experimentalCharacterControls(theme = nativeTheme) {
           ...roles.map(id => largePortrait(id, slots.large[id])),
         ] },
         text('portraitNote', d.portraitNote, '', f.small, c.textMuted),
-        // 信息层级：名字 → 生命/金币 → 初始遗物（名+效果）→ 初始牌组（按类型排序，无筛选按钮）。
+        // 信息层级（STS）：名字 → 生命/金币 → 初始遗物（名+效果）→ 初始牌组摘要 + 查看牌组。
         left(text('name', d.name, '', f.title, c.goldBright)),
-        plate('hpChip', d.hpChip, c.panelSunken),
-        plate('goldChip', d.goldChip, c.panelSunken),
-        text('stats', d.hp, '', f.heading, c.hp),
-        text('gold', d.gold, '', f.heading, c.gold),
+        left(text('stats', d.hp, '', f.heading, c.hp)),
+        left(text('gold', d.gold, '', f.heading, c.gold)),
         left(text('relicTag', d.relicTag, '初始遗物', f.small, c.textDim)),
         left(text('relic', d.relic, '', f.body, c.goldBright)),
         left(text('relicText', d.relicText, '', f.label, c.text)),
         plate('deckRule', d.rule, c.goldDim),
         left(text('deckTitle', d.deckTitle, '', f.label, c.gold)),
-        ...d.cards.map((frame, i) => left(text(`card${i + 1}`, frame, '', f.body, c.text))),
+        left(text('deckSummary', d.deckSummary, '', f.body, c.text)),
+        button('deckOpen', d.deckButton, '查看牌组', l, f.label),
       ] },
-      accents,
       { name: 'elements', kind: 'container', size: [...theme.canvas.base], visible: false, children:
         l.elements.map((frame, i) => button(`element${i + 1}`, frame, ['岩', '风', '雷', '草'][i], l, f.small, false,
           null)) },
@@ -104,7 +120,8 @@ export function experimentalCharacterControls(theme = nativeTheme) {
       button('traveler', l.traveler, '旅行者·荧', l, f.small, false, slots.bust.traveler.ironclad.id),
       button('cancel', l.back, '返回', l),
       button('confirm', l.confirm, '开始冒险', l, f.heading, true),
-    ], c.backdrop),
+      deckView,
+    ], c.backdrop, c.backdrop),
     panel('choicePanel', q, '选择卡牌', '', [
       ...Array.from({ length: q.columns * q.rows }, (_, i) => button(`card${i + 1}`,
         [q.origin[0] + (i % q.columns) * q.step[0], q.origin[1] + Math.floor(i / q.columns) * q.step[1], ...q.cardSize], '', q, f.small)),
