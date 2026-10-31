@@ -1,0 +1,277 @@
+{
+  "sourceCommit": "e8eb72360d1a1e9eef015948e3b63bf09661f372",
+  "sourceIdentity": "detached tree supplied by coordinator; no production source modifications",
+  "simulator": "beyond-simulator-mcp@0.5.2",
+  "node": "v24.19.0",
+  "capture": "production GameUI Lua executed by Fengari native-contract fixture; resolved controls converted by existing experiments/ui-polish-sim/sim.mjs",
+  "scope": "Simulator Host PNG static frame only; scripts cleared in converted saves; no animation, official client, phone, GPU performance or final art acceptance",
+  "canvas": "pc-16-9 1600x900; source layout 1280x720",
+  "receipts": {
+    "owned-relic-detail.sim.receipt.json": {
+      "canvasId": "pc-16-9",
+      "frame": 0,
+      "time": 0,
+      "clockMode": "manual",
+      "width": 1600,
+      "height": 900,
+      "pixelWidth": 1600,
+      "pixelHeight": 900,
+      "assetWarnings": [
+        {
+          "imageId": 106025,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106029,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102005,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106059,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105046,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102018,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105077,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106091,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "select.sim.receipt.json": {
+      "canvasId": "pc-16-9",
+      "frame": 0,
+      "time": 0,
+      "clockMode": "manual",
+      "width": 1600,
+      "height": 900,
+      "pixelWidth": 1600,
+      "pixelHeight": 900,
+      "assetWarnings": [
+        {
+          "imageId": 106025,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105301,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106056,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106057,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 107050,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "select-deck.sim.receipt.json": {
+      "canvasId": "pc-16-9",
+      "frame": 0,
+      "time": 0,
+      "clockMode": "manual",
+      "width": 1600,
+      "height": 900,
+      "pixelWidth": 1600,
+      "pixelHeight": 900,
+      "assetWarnings": [
+        {
+          "imageId": 106025,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105301,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106056,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106057,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 107050,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102012,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102014,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "card-detail.sim.receipt.json": {
+      "canvasId": "pc-16-9",
+      "frame": 0,
+      "time": 0,
+      "clockMode": "manual",
+      "width": 1600,
+      "height": 900,
+      "pixelWidth": 1600,
+      "pixelHeight": 900,
+      "assetWarnings": [
+        {
+          "imageId": 106025,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106029,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102005,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106059,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105046,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105077,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102018,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106091,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "exit-confirmation.sim.receipt.json": {
+      "canvasId": "pc-16-9",
+      "frame": 0,
+      "time": 0,
+      "clockMode": "manual",
+      "width": 1600,
+      "height": 900,
+      "pixelWidth": 1600,
+      "pixelHeight": 900,
+      "assetWarnings": [
+        {
+          "imageId": 106029,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102005,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106059,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105046,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105077,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102018,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106091,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        }
+      ]
+    }
+  },
+  "hashes": {
+    "docs/evidence/m3-visual-20261031/capture.lua": "34f4afa91bea59945aa6b7b43d857f760734f06d9a02704362647b203d2fd0e2",
+    "docs/evidence/m3-visual-20261031/capture.mjs": "0517fc93c97a4f4b7a3b759c2f780e5843b908bd5e46afe3841675e567d0e8bf",
+    "docs/evidence/m3-visual-20261031/card-detail.sim.png": "3ca7045112330c2bf06681e3ba71191594d415172061cc93b2e861c12ef9bf1a",
+    "docs/evidence/m3-visual-20261031/card-detail.sim.receipt.json": "4c917305b420e53432fb9d79de35f78d49b40f6267f409e9947a29211a0426e1",
+    "docs/evidence/m3-visual-20261031/card-detail.sim.save.json": "d00a516df57126a5c2d837cf23dc85e47fff2129a368fe8a3bce1206e68462c8",
+    "docs/evidence/m3-visual-20261031/card-detail.tree.json": "c4be860b6b313d2aa85639de5292151d25749a668ee7b7e3338fe59288a70302",
+    "docs/evidence/m3-visual-20261031/exit-confirmation.sim.png": "a1d4dd5f165ba46396167175ef85846ad27ba1001d8e75bb45284fc103aed007",
+    "docs/evidence/m3-visual-20261031/exit-confirmation.sim.receipt.json": "002c5c1d35e48bc8b6a5d02ae8bff642d10af0faccc2c14b99ba04bca36d4496",
+    "docs/evidence/m3-visual-20261031/exit-confirmation.sim.save.json": "fe95a12d1b0b86e651620f0d43e18d457d5db79ddcb731bcf1125896b7b354d4",
+    "docs/evidence/m3-visual-20261031/exit-confirmation.tree.json": "06b424cc59fd22a5e339f4b6639e23b050b008b883240709ca33938c01602152",
+    "docs/evidence/m3-visual-20261031/host.log": "7328892548404bd7548b5de14c957868624f47c02f18328f0983523849a8baa3",
+    "docs/evidence/m3-visual-20261031/oss-policy.txt": "941b17d91d07d5ff484d826010c0667a308a2482fbcc2e64046312f5a1bdd1c9",
+    "docs/evidence/m3-visual-20261031/owned-relic-detail.sim.png": "c98a85566a97b5935d147e309aaa63472f56b1b9e204a6e484dd48164fa55749",
+    "docs/evidence/m3-visual-20261031/owned-relic-detail.sim.receipt.json": "907782182fa673073e2bbeb0dbbce4b9028293c6c610b27b9553039e3028fff9",
+    "docs/evidence/m3-visual-20261031/owned-relic-detail.sim.save.json": "42d775081f4aa00c2b4572f52a90cc27c466ad9ca984e9ab74a01889fa36ec3d",
+    "docs/evidence/m3-visual-20261031/owned-relic-detail.tree.json": "c584114baa7d014bb1d9c789a7aa1dcd60978f42f0785a7be32bb0d185b4e6a2",
+    "docs/evidence/m3-visual-20261031/select-deck.sim.png": "ed5ea1cd9f11bd4542ab68039d536eda1217f53242c453e925c1ee20ef521dff",
+    "docs/evidence/m3-visual-20261031/select-deck.sim.receipt.json": "78f5b0d668cfe2bc99b8171b0d951178984dc9c56545fdc056766db73dbff054",
+    "docs/evidence/m3-visual-20261031/select-deck.sim.save.json": "fa19f6582081d62334b6f479923d569f4565a0386c08b6e2f963f6c390f84e0c",
+    "docs/evidence/m3-visual-20261031/select-deck.tree.json": "316b3f58c4b518bf294bf62d3b55ed02b7c1f96ec96c57c9b86dfc2bf0a21a31",
+    "docs/evidence/m3-visual-20261031/select-initial.tree.json": "1ac91327d07d5112cf228496c4adcdba52d026ddd90790cf5a1cb675b1fb029f",
+    "docs/evidence/m3-visual-20261031/select.sim.png": "ab9a74902486fc4eab0c9aae01141d113e16988b379314a985e9039a748f970e",
+    "docs/evidence/m3-visual-20261031/select.sim.receipt.json": "cc47a05a95c2b6a247850618e2bee2d8f1b9f2b1cc233dfbc68fcf4fcd052ce7",
+    "docs/evidence/m3-visual-20261031/select.sim.save.json": "2ab16083f1c899507c6ed1466d7173542d9f1ad2db0d8efdf6d836d9fbb758bc",
+    "docs/evidence/m3-visual-20261031/select.tree.json": "1ac91327d07d5112cf228496c4adcdba52d026ddd90790cf5a1cb675b1fb029f",
+    "docs/evidence/m3-visual-20261031/simulator-tools.json": "5b89eb225d40302d2582a227632d62c0c8f6a8e3f2b2fb2f2b841c9271d9871b",
+    "docs/evidence/m3-visual-20261031/simulator.log": "ea44ddbd587ff1379e316f7c14e883b494a70beddb6c19cb36ebc7ac742055e8",
+    "docs/evidence/m3-visual-20261031/README.md": "8bc120ae95e2380bbc1d743c836293ca42f0ce21171406f25b4903c7193e1e59"
+  },
+  "portraitAssembly": "Not assembled: explicit platform has no portraits adapter or official Avatar/BattlePortrait templates; selection image is fallback layout evidence only."
+}

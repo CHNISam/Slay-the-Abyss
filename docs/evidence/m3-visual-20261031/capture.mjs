@@ -1,0 +1,10 @@
+import {writeFileSync} from 'node:fs';
+import {runLua} from '../../../scripts/test-lua.mjs';
+const dir='docs/evidence/m3-visual-20261031/';
+const host=runLua(dir+'capture.lua',{timeout:60000,maxBuffer:32*1024*1024});
+writeFileSync(dir+'host.log',host.stdout+'\n'+host.stderr);
+if(host.status!==0)throw Error(host.stderr+host.stdout.slice(-1500));
+const scenes=JSON.parse(host.stdout.split('PARITY_SCENES ')[1]);
+const fix=n=>{if(n.children&&!Array.isArray(n.children))n.children=Object.values(n.children);(n.children??[]).forEach(fix);return n};
+for(const s of scenes)writeFileSync(dir+s.name+'.tree.json',JSON.stringify(fix(s.tree)));
+console.log(scenes.map(s=>s.name).join(' '));

@@ -1,0 +1,295 @@
+{
+  "tools": [
+    {
+      "name": "qxqy_studio_export",
+      "description": "导出 GIA/JSON/Lua。list 列出客户端控件与 revision；preview 传 controlIds 预览子树；export 默认 gia-partial，以 controlIds 勾选部分组合。父子同时选自动去重，子控件在副本中提升为独立模板，原存档不变。includeScripts 默认 true（包含挂载脚本和未挂载模块）。支持原有 gia/gia-combined/save 等 format。可选 path 写入工作区新文件，不覆盖已有文件；省略则返回 base64。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "list",
+              "preview",
+              "export"
+            ]
+          },
+          "args": {
+            "type": "object",
+            "properties": {
+              "format": {
+                "type": "string"
+              },
+              "assetType": {
+                "type": "string"
+              },
+              "controlIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              },
+              "includeScripts": {
+                "type": "boolean"
+              },
+              "expectedRevision": {
+                "type": "integer"
+              },
+              "canvasId": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "handle",
+          "action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_script_sync",
+      "description": "实机 Lua 脚本目录同步：discover/status/configure/save/preview/apply。configure 需要 config(version:1, workspaceDir, clientImportRoot, clientSubdir) 与 expectedRevision；save 需要 expectedRevision，首次保存另传工作区相对 path。用户授权更新后，先保存完整存档，再 preview 核对来源与目标，最后 apply 传 planId、选定 scriptIds 和 confirmed:true。计划仅在当前 handle 有效，过期需重新预览；返回逐文件结果与备份位置，不代表真机试玩通过。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "discover",
+              "status",
+              "configure",
+              "save",
+              "preview",
+              "apply"
+            ]
+          },
+          "args": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "handle",
+          "action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_project_open",
+      "description": "在本 MCP 进程打开工作区存档，或创建一个新的空工程。不会刷新 Web 预览；显示已有存档请调用 qxqy_preview_open。返回后续工具使用的工程句柄；path 必须是工作区内相对路径。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "可选的 qxqy-simulator-save JSON 相对路径；省略则创建空工程。"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_project_save",
+      "description": "把当前工程句柄中的修改保存为工作区内的 qxqy-simulator-save JSON。保存回执只确认写盘；需切换或确认 Web 预览时，随后调用 qxqy_preview_open。path 必须是工作区内相对路径。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          },
+          "path": {
+            "type": "string",
+            "description": "可选输出路径；省略时沿用最近成功打开或保存的路径，新工程默认 qxqy-simulator.save.json。"
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_studio_get",
+      "description": "读取指定工程的无损 Authoring JSON 快照、当前 revision、脚本挂载、画布、服务端逻辑与 controlGuidChanges。若有索引变更记录，必须按控件身份同步存档 Lua source 和相关源文件中的索引引用，核对后再确认清除。写操作前应先获取最新 revision。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_studio_patch",
+      "description": "修改指定工程。op 必须包含 expectedRevision；冲突时先重新 get 再重算。客户端控件索引用 setControlGuid（id、guid），修改后必须语义核对并更新 Lua 引用；完成后用 acknowledgeControlGuidChanges（changeIds）确认记录，禁止只改索引或盲目替换全部同值数字。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          },
+          "op": {
+            "type": "object",
+            "description": "studio.patch 操作对象，例如 {\"op\":\"set\",\"id\":\"...\",\"key\":\"text\",\"value\":\"...\",\"expectedRevision\":1}。",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "handle",
+          "op"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_studio_play",
+      "description": "控制指定工程的 Lua 试玩 Worker。MCP 默认 manual 时钟，仅显式 step/用例回放推进时间；等待、get 和截图不会自动推进。start 可传 clockMode=\"realtime\" 自动运行。start 后才能输入和 step；stop 回收 Worker。工具启动的试玩默认关闭浏览器音效，显式 muteAudio:false 可打开。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "start",
+              "device",
+              "view",
+              "get",
+              "step",
+              "pointer",
+              "key",
+              "click",
+              "pause",
+              "resume",
+              "stop",
+              "serverGet",
+              "serverSet",
+              "serverSend",
+              "history",
+              "saveCase",
+              "runCase"
+            ]
+          },
+          "args": {
+            "type": "object",
+            "description": "动作参数。pointer 使用 type/x/y；step 使用 dt（秒）；start/device 使用 canvasId 和可选 clockMode=\"manual\"|\"realtime\"；device 省略模式时保留当前模式，start 省略时恢复 manual；pause/resume 不改变时钟模式；start/device 默认 muteAudio:true，传 false 才让浏览器出声；serverSet 使用 entityType/name/value。",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "handle",
+          "action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_studio_ui_screenshot",
+      "description": "获取当前编辑器舞台 PNG，用于检查静态 UI 布局和控件图元；不会启动或步进试玩。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_studio_play_screenshot",
+      "description": "获取当前试玩 Runtime 画面的 PNG；必须先 start，截图不调用 step。默认 manual 模式保持当前帧；显式 realtime 模式在调用之间仍自动运行。回执含 frame/time/clockMode。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_studio_load",
+      "description": "列出工作区内的 qxqy-simulator-save JSON，或把指定相对路径载入本 MCP 进程的已有工程句柄。不会刷新 Web 预览；显示已有存档请调用 qxqy_preview_open，无需再次保存。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "qxqy_project_open 返回的工程句柄；项目级读写和试玩工具需要它。"
+          },
+          "path": {
+            "type": "string",
+            "description": "省略时列出存档；传入工作区内相对路径时载入该存档。"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_preview_status",
+      "description": "查询独立 Web 预览服务的版本、工作区、当前存档和加载错误。连接到 --web-url / QXQY_WEB_URL（默认 http://127.0.0.1:4173），必须与 MCP 使用同一工作区。无需工程句柄。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "qxqy_preview_open",
+      "description": "让独立 Web 预览打开或重新加载已保存的存档，返回 Web 确认的路径、名称和 revision；不会保存 MCP 内未落盘的修改。path 为工作区内相对路径，不受自动列表筛选限制。需要已启动同一工作区的 Web 服务，无需工程句柄。",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "已保存的 qxqy-simulator-save JSON 工作区相对路径。"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}
