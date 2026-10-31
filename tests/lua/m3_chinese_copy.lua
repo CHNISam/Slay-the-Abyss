@@ -12,8 +12,12 @@ for _,d in ipairs(h.run.data.cards.cards)do
   end
  end
 end
+local RelicNames=require('abyss_relic_names')
+assert(RelicNames.get(h.run.data,'chemical_x')=='化学物质零号')
 for _,d in ipairs(h.run.data.relics.relics)do
- assert(d.name:find('[\228-\233]') and not d.name:find('[A-Za-z]'),'non-Chinese relic name '..d.id)
+ -- Reward/node labels use the display resolver, not the raw source label.
+ local name=RelicNames.get(h.run.data,d.id)
+ assert(name:find('[\228-\233]') and not name:find('[A-Za-z]'),'non-Chinese relic name '..d.id)
  local text=h.nodeUI:describeRelic(h.run,d.id)
  assert(text~='' and text:find('[\228-\233]') and not text:find('[A-Za-z][A-Za-z]'),'non-Chinese relic effect '..d.id)
 end
