@@ -5417,6 +5417,26 @@
     "docs/reviews/assets/char-select-59.3.1-after.png": {
       "sha256": "f75fa369b5a8c56387a0923bbfdac51842ea7eadc0b429d44bd77f15839b45bd",
       "category": "project-layout-preview"
+    },
+    ".artifacts/neow/after/neow-blessing.sim.png": {
+      "sha256": "909463bb388bac4a6c8fd44283c8eba699f5ac0f6e83711f5c6c9f949dc7c648",
+      "category": "platform-evidence",
+      "evidence": "PR403 at 153626e40; experiments/neow-sim/capture.lua and sim.mjs; project UI rendered with Beyond Simulator 0.5.2 using official platform picture IDs. Offline before/after layout evidence (pair is a comparison), not official client or device acceptance; game IP is not sublicensed. Historical render predates native RGB/opacity correction."
+    },
+    ".artifacts/neow/after/neow.sim.png": {
+      "sha256": "4cb9c9cf20ef13d70e222d169644129fcc7d8c54bb076f20416328d3c31ae6ab",
+      "category": "platform-evidence",
+      "evidence": "PR403 at 153626e40; experiments/neow-sim/capture.lua and sim.mjs; project UI rendered with Beyond Simulator 0.5.2 using official platform picture IDs. Offline before/after layout evidence (pair is a comparison), not official client or device acceptance; game IP is not sublicensed. Historical render predates native RGB/opacity correction."
+    },
+    ".artifacts/neow/after/pair.png": {
+      "sha256": "a7f889899deadfe20071ccf00e964216d63d9778388db8fd924238e9da752fa8",
+      "category": "platform-evidence",
+      "evidence": "PR403 at 153626e40; experiments/neow-sim/capture.lua and sim.mjs; project UI rendered with Beyond Simulator 0.5.2 using official platform picture IDs. Offline before/after layout evidence (pair is a comparison), not official client or device acceptance; game IP is not sublicensed. Historical render predates native RGB/opacity correction."
+    },
+    ".artifacts/neow/before-neow.sim.png": {
+      "sha256": "57c8897ac70131a2d5463efb400fcb810773dc563b4b140933386585cd1e096c",
+      "category": "platform-evidence",
+      "evidence": "PR403 at 153626e40; experiments/neow-sim/capture.lua and sim.mjs; project UI rendered with Beyond Simulator 0.5.2 using official platform picture IDs. Offline before/after layout evidence (pair is a comparison), not official client or device acceptance; game IP is not sublicensed. Historical render predates native RGB/opacity correction."
     }
   }
 }

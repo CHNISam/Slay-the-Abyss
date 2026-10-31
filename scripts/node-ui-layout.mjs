@@ -10,8 +10,8 @@ export function nodeLayout(theme = nativeTheme) {
   const layout = theme.layout.nativeNode, { color, font, space, icon, image } = theme;
   const lineHeight = theme.layout.nativeText.lineHeight;
   const iconId = entry => (typeof entry === 'object' ? entry.id : entry);
-  const picture = (name, values, id, colour = color.text) => ({ name, kind: 'image', position: values.slice(0, 2),
-    size: values.slice(2), image: iconId(id), colour });
+  const picture = (name, values, id, colour = color.text) => ({
+    ...plate(name, values, colour), image: iconId(id) });
   const hidden = control => ({ ...control, visible: false });
   const group = (name, children, visible = false) => ({ name, kind: 'container', size: [...theme.canvas.base], visible, children });
 

@@ -8,7 +8,7 @@ import { bridge } from '../art-tech-lab/rpc.mjs';
 const [dir, ...names] = process.argv.slice(2);
 const seed = JSON.parse(readFileSync('experiments/art-tech-lab/seed.save.json'));
 const base = seed.assets.server.root.children[0], samples = Object.fromEntries(base.children.map(n => [n.kind, n]));
-const argb = h => { h = String(h || '#FFFFFFFF').replace('#', ''); if (h.length === 6) h += 'FF'; return ((parseInt(h.slice(6, 8), 16) << 24) >>> 0) + parseInt(h.slice(0, 6), 16); };
+import { argb } from './colour.mjs';
 let seq = 0;
 function conv(c, parent, root, scale = 1) {
   if (c.visible === false || c.kind === 'cursorArea') return;
@@ -16,7 +16,7 @@ function conv(c, parent, root, scale = 1) {
   const n = structuredClone(kind === 'container' ? root : samples[kind]); n.children = []; n.id = 'p' + (++seq); n.guid = 1073800000 + seq; n.name = c.name; n.scriptMappingIds = []; delete n.isRootContainer;
   const [x, y] = c.position ?? [0, 0], [w, h] = c.size ?? [0, 0];
   for (const t of Object.values(n.transformByPlatform)) { t.offset = { x, y }; t.size = { x: w, y: h }; t.anchorMin = t.anchorMax = { x: .5, y: .5 }; t.scale = { x: c.scale?.[0] ?? 1, y: c.scale?.[1] ?? 1, z: 1 }; }
-  if (kind === 'image') { n.imageId = c.image; n.imageColor = argb(c.colour); }
+  if (kind === 'image') { n.imageId = c.image; n.imageColor = argb(c.colour, c.opacity); }
   if (kind === 'textbox') Object.assign(n, { text: c.text.content, fontSize: c.text.fontSize, minimumFontSize: c.text.minFontSize ?? c.text.fontSize, fontColor: argb(c.text.colour), bgColor: 0, enableOutline: false,
     horizontalAlignment: c.text.align === 'left' ? 'Left' : 'Middle', verticalAlignment: c.text.valign === 'top' ? 'Top' : 'Middle' });
   parent.children.push(n);

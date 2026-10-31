@@ -1,3 +1,4 @@
+import { argb } from '../experiments/neow-sim/colour.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { nativeControls, nativeTheme } from '../scripts/native-ui-theme.mjs';
@@ -34,6 +35,43 @@ test('native image colours serialize as RGB with independent opacity', () => {
   }
 });
 
+test('Neow library pictures preserve exact RGB and opacity without losing semantic image tokens', () => {
+  const theme = structuredClone(nativeTheme);
+  theme.image.officialBackdrops.act1_1 = 987001;
+  theme.image.vignette = 987002;
+  theme.image.discSoft = 987003;
+  theme.image.disc = 987004;
+  theme.image.glow = 987005;
+  theme.image.diamond = 987006;
+  const event = find(nodeLayout(theme).controls[0].children, 'eventView');
+  const figure = find(event.children, 'neowFigure');
+  const expected = [
+    ['scene', 987001, '#2E3A52', 1],
+    ['shade', 987002, '#000000', 192 / 255],
+  ];
+  for (const [name, image, colour, opacity] of expected) {
+    const control = find(figure.children, name);
+    assert.equal(control.image, image, name);
+    assert.equal(control.colour, colour, name);
+    assert.equal(control.opacity, opacity, name);
+  }
+  const npc = find(figure.children, 'npc');
+  assert.equal(npc.kind, 'container');
+  assert.deepEqual(npc.position, theme.layout.nativeNode.event.neow.npc.slice(0, 2));
+  assert.deepEqual(npc.size, theme.layout.nativeNode.event.neow.npc.slice(2));
+  assert.deepEqual(npc.children.map(control => [control.name, control.image]), [
+    ['aura', 987005], ['rim', 987004], ['field', 987004], ['lanternGlow', 987005],
+    ['robe', 987004], ['hoodTip', 987006], ['hood', 987004], ['face', 987004],
+    ['beard', 987006], ['eyeLeft', 987004], ['eyeRight', 987004], ['lantern', 987004],
+  ]);
+  assert.equal(find(npc.children, 'aura').opacity, 0.5);
+  assert.equal(find(npc.children, 'lanternGlow').opacity, 0.45);
+  const bubble = find(event.children, 'bubble');
+  assert.equal(bubble.image, 987003);
+  assert.equal(bubble.colour, '#E9E1CC');
+  assert.equal(bubble.opacity, 242 / 255);
+});
+
 test('node and menu layouts resolve semantic colour, font, minimum font and picture tokens', () => {
   const theme = structuredClone(nativeTheme);
   theme.color.gold = '#123456'; theme.color.text = '#ABCDEF'; theme.color.panelRaised = '#654321';
@@ -46,7 +84,8 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   assert.equal(find(node, 'hp').text.colour, theme.color.text);
   assert.equal(find(find(node, 'back').children, 'normal').colour, theme.color.panelRaised);
   const id = entry => (typeof entry === 'object' ? entry.id : entry);
-  const allowed = [theme.image.rect, theme.image.disc, theme.image.ring, theme.image.glow, ...Object.values(theme.icon.cardArt),
+  const allowed = [theme.image.officialBackdrops.act1_1, theme.image.vignette, theme.image.discSoft,
+    theme.image.rect, theme.image.disc, theme.image.ring, theme.image.glow, ...Object.values(theme.icon.cardArt),
     theme.icon.node.treasure, theme.icon.medallion.camp, theme.icon.medallion.treasure, theme.icon.medallion.chestOpen,
     theme.icon.hp, theme.icon.upgrade, theme.icon.remove, theme.icon.back, theme.icon.next, theme.icon.geo, theme.icon.lock,
     id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion),
@@ -128,4 +167,13 @@ test('all native text respects the approved readable minimum', () => {
     assert.equal(control.text.minFontSize, nativeTheme.font.minimum);
     assert.ok(control.text.fontSize >= nativeTheme.font.minimum);
   });
+});
+
+test('Neow Simulator colour bridge honors explicit native opacity without multiplying legacy alpha', () => {
+  assert.equal(argb('#2E3A52', 1), 0xFF2E3A52);
+  assert.equal(argb('#000000', 192 / 255), 0xC0000000);
+  assert.equal(argb('#E9E1CC', 242 / 255), 0xF2E9E1CC);
+  assert.equal(argb('#000000C0'), 0xC0000000);
+  assert.equal(argb('#000000C0', 192 / 255), 0xC0000000);
+  assert.equal(argb('#000000C0', 0), 0);
 });
