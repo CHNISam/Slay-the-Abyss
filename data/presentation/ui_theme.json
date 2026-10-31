@@ -45,6 +45,11 @@
     "textOnLight": "#2A2620",
     "parchment": "#EFE6D2",
     "hp": "#D2524A",
+    "topPanelHp": "#FA8072",
+    "topPanelCream": "#FFF6E2",
+    "topPanelGold": "#EFC851",
+    "topPanelRed": "#FF6563",
+    "topPanelGreen": "#7FFF00",
     "hpGhost": "#F3E2C8",
     "hpTrack": "#3A1F22",
     "block": "#5FA8E8",
@@ -1067,7 +1072,7 @@
     "topBar": {
       "height": 42.666666666666664,
       "y": 328,
-      "note": "左侧按扫视顺序 生命 → 金币 → 消耗；右端 408..600 留给共用的卡组/退出按钮行。",
+      "note": "左侧按 STS TopPanel 顺序 生命 → 金币 → 楼层（renderHP/renderGold/renderDungeonInfo），消耗堆仍在右；右端 408..600 留给共用的卡组/退出按钮行。",
       "hpIcon": [
         -597.3333333333334,
         16.0
@@ -1083,6 +1088,14 @@
       "gold": [
         -463,
         36
+      ],
+      "floorIcon": [
+        -418,
+        18
+      ],
+      "floor": [
+        -392,
+        32
       ],
       "exhaustIcon": [
         424,

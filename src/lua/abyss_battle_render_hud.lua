@@ -124,7 +124,19 @@ function M.install(owner, _ownership, host, dependencies)
         frame.player = frame.battle and frame.battle.player
         dependencies.label("player", playerHealthText(frame))
         local player, run = frame.player, frame.run
-        dependencies.label("piles", number(player and player.gold or run and run.gold or 0))
+        -- STS TopPanel.updateGold/renderGold: displayGold steps 10/3/1 toward gold;
+        -- GOLD_COLOR when settled, RED_TEXT_COLOR while falling, GREEN_TEXT_COLOR while rising.
+        local gold = player and player.gold or run and run.gold or 0
+        local shown = owner.topPanelDisplayGold or gold
+        local gap = gold - shown
+        if gap ~= 0 then
+            local step = math.abs(gap) > 99 and 10 or math.abs(gap) > 9 and 3 or 1
+            shown = shown + (gap > 0 and step or -step)
+        end
+        owner.topPanelDisplayGold = shown
+        dependencies.label("piles", number(shown))
+        dependencies.ink(dependencies.child("piles"), shown == gold and C.topPanelGold
+            or shown > gold and C.topPanelRed or C.topPanelGreen)
     end
     local function stanceHeading(frame)
         local player, run = frame.player, frame.run
@@ -158,8 +170,9 @@ function M.install(owner, _ownership, host, dependencies)
     local function renderSceneHeading(frame)
         local flow = frame.run and frame.run.nodeFlow
         local kind = flow and ({elite = "精英战斗", boss = "首领战斗"})[flow.type] or "战斗"
-        local heading = flow and flow.floor and ("第 " .. flow.floor .. " 层 · " .. kind) or kind
-        dependencies.label("title", heading .. stanceHeading(frame) .. orbHeading(frame) .. discardHeading(frame) .. originalHeading(frame))
+        -- STS TopPanel.renderDungeonInfo: the floor number is its own chip, not title text.
+        dependencies.label("floor", flow and flow.floor and tostring(flow.floor) or "")
+        dependencies.label("title", kind .. stanceHeading(frame) .. orbHeading(frame) .. discardHeading(frame) .. originalHeading(frame))
     end
     local function renderEnergy(frame)
         local battle = frame.battle
