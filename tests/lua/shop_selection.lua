@@ -107,6 +107,50 @@ local function pointerDriver(ui,get,emit)
  return tick,bounds
 end
 
+test('desktop relic and potion preview cancel freely and confirm exactly once',function()
+ for _,category in ipairs({'relics','potions'})do
+  local ui,get,emit,tap=setup(false);local run=ui.run
+  local key=category=='relics' and 'shopView/relic3' or 'shopView/potion1'
+  local slot=category=='relics' and 3 or 1
+  local offer=run.nodeFlow[category][slot];local gold=run.gold
+  local function count()return category=='relics' and #run.relics or Run.potionCount(run)end
+  local before=count();local old=ui.actions[key].handler
+  assert(tap(key,1));assert(run.gold==gold and count()==before,'item preview charged')
+  assert(get('shopView/detail').visible and #get('shopView/detail/description').text>0)
+  assert(not old(),'pre-render item callback must be stale')
+  assert(tap('back',2));assert(run.gold==gold and count()==before)
+  assert(tap(key,3));local confirm=ui.actions.confirm.handler
+  assert(tap('confirm',4));assert(run.gold==gold-offer.price and count()==before+1)
+  assert(not confirm());assert(run.gold==gold-offer.price and count()==before+1)
+ end
+end)
+test('desktop item confirmation cannot buy a Courier replacement',function()
+ for _,category in ipairs({'relics','potions'})do
+  local ui,get,emit,tap=setup(false);local run=ui.run
+  run.relics[#run.relics+1]='courier';ui:render()
+  local slot=category=='relics' and 3 or 1
+  local key=category=='relics' and 'shopView/relic3' or 'shopView/potion1'
+  local offer=run.nodeFlow[category][slot]
+  assert(tap(key,1));local stale=ui.actions.confirm.handler
+  if category=='relics' then assert(Nodes.buyRelic(run,offer.id)) else assert(Nodes.buyPotion(run,slot)) end
+  assert(run.nodeFlow[category][slot]~=offer,'Courier must replace the selected offer')
+  local before=Combat.copy(run)
+  assert(not stale(),'confirmation may not buy the replacement offer');same(before,run)
+ end
+end)
+test('hovering any card leaves every unselected card and price anchored',function()
+ local ui,get,emit=setup(false)
+ local base={}
+ for i=1,7 do base[i]={get('shopView/card'..i).y,get('shopView/price'..i).y} end
+ for focus=1,7 do
+  emit('shopView/card'..focus,'enter');ui:update(.2)
+  for i=1,7 do if i~=focus then
+   assert(get('shopView/card'..i).y==base[i][1],'unselected card moved: '..i)
+   assert(get('shopView/price'..i).y==base[i][2],'unselected price moved: '..i)
+  end end
+  emit('shopView/card'..focus,'exit');ui:update(.2)
+ end
+end)
 test('stationary pointer on either lower card top edge never cycles focus or its neighbour',function()
  for i=6,7 do
   local ui,get,emit=setup(false);local gold=ui.run.gold
@@ -186,9 +230,15 @@ test('touch relic and potion previews show complete text and require confirmatio
   assert(tap('confirm',2));assert(ui.run.gold<gold)
  end
 end)
-test('mouse click still buys directly',function()
- local ui,get,emit,tap=setup(false);local gold=ui.run.gold
- assert(tap('shopView/card1',1));assert(ui.run.gold<gold)
+test('desktop card preview cancels freely and confirmation buys exactly once',function()
+ local ui,get,emit,tap=setup(false);local gold,deck=ui.run.gold,#ui.run.deck
+ local price=ui.run.nodeFlow.cards[1].price
+ assert(tap('shopView/card1',1));assert(ui.run.gold==gold and #ui.run.deck==deck)
+ assert(get('confirm/label').text:find('购买'))
+ assert(tap('back',2));assert(ui.run.gold==gold and #ui.run.deck==deck)
+ assert(tap('shopView/card1',3));local stale=ui.actions.confirm.handler
+ assert(tap('confirm',4));assert(ui.run.gold==gold-price and #ui.run.deck==deck+1)
+ assert(not stale());assert(ui.run.gold==gold-price and #ui.run.deck==deck+1)
 end)
 
 test('touch can inspect unaffordable relics without arming a purchase',function()

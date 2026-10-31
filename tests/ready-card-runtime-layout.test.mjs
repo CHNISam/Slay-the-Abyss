@@ -1,17 +1,15 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {gameLayout}from'../scripts/game-ui-layout.mjs';import{deckCardTemplate}from'../scripts/deck-ui-layout.mjs';
 import{assertNativeUiCapacity}from'../scripts/build-ui.mjs';
+import{assertReadyCardGameHosts,expectedReadyCardGameHosts,expectedReadyCardChoiceHosts}from'./helpers/ready-card-host-contract.mjs';
 import{attachReadyCardHosts,readyArtTemplates,bindReadyCardPresentation}from'../scripts/art/ready-card-runtime.mjs';
 test('every actual card face and recyclable deck template gets only an empty bounded-runtime holder',()=>{
  const game=gameLayout(),deck=deckCardTemplate();
  const hosts=attachReadyCardHosts(game);
- const cards=(prefix,count,suffix='')=>Array.from({length:count},(_,i)=>`SlayTheAbyss/${prefix}${i+1}${suffix}`);
- const existing=[...cards('battlePanel/card',10),...cards('nodePanel/shopView/card',7),
-  ...cards('nodePanel/pickerView/card',6),...['before','after','target'].map(name=>`SlayTheAbyss/nodePanel/pickerView/${name}`),
-  ...cards('nodePanel/pickerView/forgeGrid/card',12)];
- assert.equal(existing.length,38,'existing battle, shop and picker host contract');
- const starter=cards('characterPanel/deckView/deckCard',12,'/face');
- assert.deepEqual([...hosts].sort(),[...existing,...starter].sort(),'retain every existing host and all twelve starter-deck faces, with no extra hosts');
+ assert.equal(expectedReadyCardGameHosts.length,38+12+10);
+ assert.equal(expectedReadyCardChoiceHosts.length,10);
+ assert.deepEqual([...hosts].sort(),expectedReadyCardGameHosts.map(path=>path.replace('/stage/','/')).sort());
+ assertReadyCardGameHosts(game,{staged:false});
  assert.equal(attachReadyCardHosts(deck).length,1);
  assert(hosts.includes('SlayTheAbyss/nodePanel/pickerView/forgeGrid/card12'));
  function verify(n){if(n.name==='artSamples'){assert.deepEqual(n.children,[]);assert.equal(n.visible,false);}for(const c of n.children??n.controls??[])verify(c);}
@@ -38,4 +36,22 @@ test('candidate binding needs two real positive template indices and records the
   assert.equal(m.readyArtRuntimeInventory().maxLivePools,10);
   assert.equal(m.readyArtRuntimeInventory().peakDynamicControls,27020);
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
+
+test('each combat-choice holder identity, empty payload and dormant state is required independently',()=>{
+ const game=gameLayout();attachReadyCardHosts(game);
+ const choice=game.controls.find(node=>node.name==='choicePanel');
+ assert(choice);
+ for(let slot=1;slot<=10;slot++){
+  const face=choice.children.find(node=>node.name===`card${slot}`).children.find(node=>node.name==='face');
+  const holder=face.children.find(node=>node.name==='artSamples');
+  assert(holder,`choice slot ${slot}`);
+  assert(expectedReadyCardChoiceHosts.includes(`SlayTheAbyss/stage/choicePanel/card${slot}/face`));
+  holder.name='missingHolder';assert.throws(()=>assertReadyCardGameHosts(game,{staged:false}));holder.name='artSamples';
+  face.name='wrongFace';assert.throws(()=>assertReadyCardGameHosts(game,{staged:false}));face.name='face';
+  holder.children=[{name:'unexpectedStaticImage',kind:'image'}];
+  assert.throws(()=>assertReadyCardGameHosts(game,{staged:false}),/empty/);holder.children=[];
+  holder.visible=true;assert.throws(()=>assertReadyCardGameHosts(game,{staged:false}),/dormant/);holder.visible=false;
+ }
+ assertReadyCardGameHosts(game,{staged:false});
 });

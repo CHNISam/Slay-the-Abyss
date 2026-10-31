@@ -6,6 +6,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {buildUI} from '../scripts/build-ui.mjs';
 import {sourceInputs} from '../scripts/build-native-candidate.mjs';
+import {assertReadyCardGameHosts} from './helpers/ready-card-host-contract.mjs';
 
 const off={cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:false};
 function output(t){const dir=mkdtempSync(join(tmpdir(),'abyss-flags-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));return dir;}
@@ -36,7 +37,7 @@ for(let mask=0;mask<32;mask++)test(`independent category build ${mask.toString(2
  assert.equal(counts.officialBackground,artFeatures.menuBackground?1:0);
  assert.equal(counts.officialAvatar,artFeatures.selectionAvatar?1:0);
  assert.equal(counts.officialFigure,artFeatures.battlePortrait?1:0);
- assert.equal(counts.artSamples,artFeatures.cards?50:0,'38 existing card hosts plus twelve read-only starter-deck slots');
+ assertReadyCardGameHosts(layout,{enabled:artFeatures.cards});
  assert.equal(counts.monsterArt,0,'art belongs to each dynamic actor template, not static layout');
  const actor=templates.find(t=>t.name==='AbyssMonsterActor');
  assert.equal(nodes(actor).length,artFeatures.monsters?647:35);

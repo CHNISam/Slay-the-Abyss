@@ -59,7 +59,7 @@ local function rareCampChoice(ctx,node,entry,source)
 end
 local function renderRareTiles(ctx,node,rest,forge,extras,page,source)
     local labels={dig='挖掘',lift='锻炼',toke='净化',recall='Recall'}
-    local descriptions={dig='挖出一件随机遗物',lift='锻炼后战斗开始获得力量 · 最多3次',toke='从牌组中移除一张非瓶装牌',recall='取得红宝石钥匙'}
+    local descriptions={dig='挖出一件随机遗物',lift='锻炼后战斗开始获得力量 · 最多3次',toke='移除卡牌，遗物绑定牌除外',recall='取得红宝石钥匙'}
     for i,box in ipairs({rest,forge})do
         local entry=extras[(page-2)*2+i];ctx.show(box,entry~=nil)
         if entry then

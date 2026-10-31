@@ -43,13 +43,13 @@ function M.new(owner, root, options)
             handler=handler,name=name,description=description,purchasable=enabled,reason=reason}
         self.entries[key] = q
         return function()
-            if not observe(q) then return false, 'stale_action' end
-            if not mobile() then return handler() end
+            if self.entries[key]~=q or not observe(q) then return false, 'stale_action' end
+            if enabled and owner.run.gold<q.price then return false,'insufficient_gold' end
             if self.selected and self.selected.key == key then self.selected = nil else self.selected = q end
             owner.notice=not enabled and reason or ''
             owner:render()
             return true
-        end, function() return observe(q) end
+        end, function() return self.entries[key]==q and observe(q) end
     end
     function state:footer()
         local selected = self.selected
@@ -77,34 +77,31 @@ function M.new(owner, root, options)
     end
     function state:exit(key) if self.focus == key then self.focus = nil;self.dirty=true end end
     function state:isSelected(key) return self.selected and self.selected.key == key end
-    local function paintCard(i,x,focused,cardFocus,amount)
+    local function paintCard(i,x,focused,amount)
         local key='shopView/card'..i
         local target=focused==key and L.hoverScale or 1
         local scale=(state.scales[i] or 1)+(target-(state.scales[i] or 1))*amount
         local moving=math.abs(scale-target)>=.001
         if not moving then scale=target end
         state.scales[i]=scale
-        local shift=i>5 and cardFocus and L.focusRowShift or 0
         local box=root:GetChild('card'..i)
-        box:SetLocalScale(scale,scale,1);box:SetAnchoredPosition(x,L.cardRows[i]-shift)
-        -- Hover animation must not move its own cursor boundary. In particular,
-        -- lowering the bottom row otherwise fires exit at its original top edge,
-        -- restores the row, then fires enter again (moving both bottom cards).
+        box:SetLocalScale(scale,scale,1);box:SetAnchoredPosition(x,L.cardRows[i])
+        -- Only the focused face scales; other cards keep their resting anchors.
+        -- Counter-scale its hit area so animation never churns pointer focus.
         local hit=box:GetChild('hit')
         hit:SetLocalScale(1/scale,1/scale,1)
-        hit:SetAnchoredPosition(0,shift/scale)
+        hit:SetAnchoredPosition(0,0)
         box:GetChild('glow'):SetVisible(focused==key)
-        root:GetChild('price'..i):SetAnchoredPosition(x,L.priceRows[i]-shift-(scale-1)*Theme.layout.card.size[2]/2)
+        root:GetChild('price'..i):SetAnchoredPosition(x,L.priceRows[i]-(scale-1)*Theme.layout.card.size[2]/2)
         return moving
     end
     function state:paint(dt)
         if not self.dirty then return end
         local focused = self.selected and self.selected.key or self.focus
-        local cardFocus = focused and focused:match('card%d+$') ~= nil
         local amount = math.min(1, math.max(0, dt) / L.hoverDuration)
         local moving=false
         for i, x in ipairs(L.columns) do
-            moving=paintCard(i,x,focused,cardFocus,amount) or moving
+            moving=paintCard(i,x,focused,amount) or moving
         end
         local q = focused and self.entries[focused]
         local detail = root:GetChild('detail')

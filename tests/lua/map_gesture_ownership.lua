@@ -17,7 +17,7 @@ local function same(a, b)
     for k in pairs(b) do if a[k] == nil then return false end end
     return true
 end
-local function setup(events, callback)
+local function setup(events, callback, controller)
     local root = F.control({children=require('abyss_map_controls').controls})
     local panel = root:GetChild('stage'):GetChild('mapPanel')
     local map, calls, ui = Map.generate(F.Data, 42), {}, nil
@@ -27,7 +27,7 @@ local function setup(events, callback)
         calls[#calls+1] = node.id
         if callback then return callback(ui, node) end
         return Map.choose(ui.map, node.id)
-    end, 'click', {imageSource='static', cursor=activeCursor,
+    end, 'click', {imageSource='static', cursor=activeCursor,controller=controller,
         color=function(r,g,b,a) return {r=r,g=g,b=b,a=a} end})
     local function hit(slot)
         return F.mapControl(panel, type(slot)=='number' and ('node'..slot) or slot):GetChild('hit')
@@ -295,6 +295,55 @@ for _,boundary in ipairs({'replacement','advance'}) do
         end)
     end
 end
+
+test('explicit focus recovers lost node release for same, new and mouse pointers without moving state',function()
+    for _,spec in ipairs({{old=11,new=11},{old=11,new=22},{}})do
+        local ui,map,calls,emit,tap,hit=setup()
+        local before=Map.snapshot(map)
+        assert(F.mapControl(ui.panel,'focus').visible,'focus recovery must be reachable without a controller')
+        emit(1,'down',spec.old)
+        assert(tap('focus',spec.new),'complete focus tap must be accepted')
+        unchanged(ui,before,calls)
+        emit(1,'up',spec.old);assert(not emit(1,'click',spec.old),'old node release survived focus')
+        assert(tap(2,spec.new) and #calls==1 and map.currentNodeId==map.nodes[2].id)
+        assert(not emit(2,'click',spec.new) and #calls==1,'duplicate node click committed twice')
+    end
+end)
+
+test('incomplete focus click cannot steal a held node owner',function()
+    local ui,map,calls,emit,tap=setup()
+    local before=Map.snapshot(map)
+    emit(1,'down',11);emit('focus','down',22)
+    assert(not emit('focus','click',22),'focus requires a complete tap')
+    unchanged(ui,before,calls)
+    emit(1,'up',11);assert(emit(1,'click',11) and #calls==1)
+end)
+
+test('old focus release after a visibility boundary cannot cancel a fresh node',function()
+    local ui,map,calls,emit,tap=setup()
+    emit('focus','down',11);emit('focus','up',11)
+    ui:setVisible(false);ui:setVisible(true)
+    emit(2,'down',22)
+    assert(not emit('focus','click',11),'stale focus click must be rejected')
+    emit(2,'up',22);assert(emit(2,'click',22) and #calls==1)
+end)
+
+test('controller focus confirmation remains available after pointer observation',function()
+    local focus,device=nil,false
+    local api={events={Confirm='confirm',Cancel='cancel'},directions={Left='left',Right='right'},modes={Specified='specified'},
+        getFocus=function()return focus end,setFocus=function(c)focus=c end,isController=function()return device end}
+    local manager=require('abyss_controller').new(api)
+    local ui,map,calls,emit,tap,hit=setup(nil,nil,manager)
+    emit('focus','down',11);emit('focus','up',11)
+    ui:setVisible(false);ui:setVisible(true)
+    emit(1,'down',11)
+    device=true;ui:update(0);manager:sync('map')
+    focus=hit('focus');assert(focus.canControllerFocus)
+    assert(focus.navigationListeners.confirm(),'controller confirm borrowed stale pointer requirements')
+    device=false;manager:sync('map')
+    emit(1,'up',11);assert(not emit(1,'click',11))
+    assert(tap(2,22) and #calls==1)
+end)
 
 print('LUA_MAP_GESTURE_OWNERSHIP '..passed..' passed; '..failed..' failed')
 assert(failed==0,'map gesture ownership regressions failed')

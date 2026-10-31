@@ -2,6 +2,23 @@
 local number = require("abyss_numbers").integer
 local M = {}
 
+-- Two-character native-slot captions distinguish bottles that share an atlas
+-- and tint. Keep the full name and rules in the existing explicit-use popup.
+local shortNames={entropic_brew='熵酿',fairy_in_a_bottle='精灵',distilled_chaos='混沌',
+    gamblers_brew='赌酿',liquid_memories='记忆',liquid_bronze='铜液',
+    heart_of_iron='钢心',essence_of_steel='钢甲',cultist_potion='仪式',
+    essence_of_darkness='黑暗',bottled_miracle='奇迹',ghost_in_a_jar='幽灵'}
+function M.shortName(item)
+    local stop=utf8.offset(item.name,3)or #item.name+1
+    return shortNames[item.id]or item.name:sub(1,stop-1)
+end
+function M.slotLabel(item)
+    local name=M.shortName(item)
+    -- A native text line reserves 40px; the compact slot has room for one.
+    -- The only first-glyph collisions are 能力/能量 and 钢心/钢甲.
+    return ({energy_potion='量',essence_of_steel='甲'})[item.id]or utf8.char(utf8.codepoint(name))
+end
+
 local function temporaryStatus(v)
     local status = assert(v.battle.catalog.statuses[v.effect.status])
     return v.expanded and "先获得 " .. v.value .. " 层" .. status.name

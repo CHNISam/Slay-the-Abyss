@@ -3,8 +3,10 @@ local Run=H.Run
 for _,spec in ipairs({{'flex_potion','力量'},{'speed_potion','敏捷'}}) do
  local host,ui,panel,event=H.setup({'defend'},{'cultist'})
  assert(Run.obtainPotion(host.run,spec[1]));ui:render()
- local face=panel:GetChild('potion1'):GetChild('normal'):GetChild('label').text
- -- Stored compact text is not a substitute for the visible duration/amount detail below.
+ local label=panel:GetChild('potion1'):GetChild('normal'):GetChild('label')
+ assert(label.visible and label.text==(spec[1]=='flex_potion' and '肌'or '速'))
+ local face=require('abyss_battle_potion_view').potionText(Run.potionView(host.run)[1],host.run.combat)
+ -- Keep the full compact-copy contract alongside the visible identity and detail.
  assert(face:find(spec[2]..'+5',1,true) and face:find('回合末-5',1,true),face)
  assert(panel:GetChild('potion1').visible)
  event('potion1','down',3);host:update(.4);event('potion1','up',3);event('potion1','click',3)

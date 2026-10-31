@@ -1,21 +1,24 @@
 import assert from 'node:assert/strict';
-import {readFileSync,mkdtempSync,rmSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createRequire} from 'node:module';
 import {runInThisContext} from 'node:vm';
 import {writePortraitModule} from '../../scripts/official-portraits.mjs';
+import {toLua} from '../../scripts/build-lua-data.mjs';
+import {nativeTheme} from '../../scripts/native-ui-theme.mjs';
 const require=createRequire(import.meta.url),fengari=require('fengari');
 const {lua,lauxlib,lualib,to_luastring}=fengari;
 const fixtureBytes=readFileSync('tests/fixtures/image-editor-103025-checker.cjs');
 assert.equal(createHash('sha1').update(Buffer.from(`blob ${fixtureBytes.length}\0`)).update(fixtureBytes).digest('hex'),'ced76db25cd9e386d9c2dd683ea8f0aeef1b35aa');
 const fixture=fixtureBytes.toString('utf8'),start=fixture.indexOf('function vm(script) {'),end=fixture.indexOf('\nvm(source)(');
 const exactVm=runInThisContext('(function(deps){const {assert,lua,lauxlib,lualib,to_luastring,to_jsstring,maskSlots,controlCount}=deps;'+fixture.slice(start,end)+';return vm;})')({...fengari,assert,maskSlots:[],controlCount:4822});
-export function withPortraitVm(code,{before=''}={}) {
+export function withPortraitVm(code,{before='',themePlayer={id:1,status:'native'},runtimeV2=false}={}) {
  const dir=mkdtempSync(join(tmpdir(),'portrait-vm-'));
  let state;const old=lauxlib.luaL_newstate;lauxlib.luaL_newstate=()=>state=old();
  try {
+  if(runtimeV2)writeFileSync(join(dir,'art-render-v2.json'),JSON.stringify({profile:'native-v2',hiddenBuild:true,cache:true,revealGroupsPerFrame:4}));
   const asset=writePortraitModule(dir,{selectionAvatar:true,battlePortrait:true,imageTemplateIndex:1234,containerTemplateIndex:5678});
   const run=exactVm(`Asset=(function()\n${asset}\nend)()`);
   run(`
@@ -49,7 +52,8 @@ function Images()local out={};for _,c in ipairs(controls)do if c.alive and not c
 function Equal(a,b)assert(type(a)==type(b),'type mismatch');if type(a)=='table'then assert(#a==#b,'length mismatch');for i,v in ipairs(a)do Equal(v,b[i])end else assert(a==b,tostring(a)..' ~= '..tostring(b))end end
 `);
   if(before)run(before);
-  run(`PortraitAssetLoads=0;require=function(name)assert(name=='abyss_traveler_portrait_assets');PortraitAssetLoads=PortraitAssetLoads+1;return Asset end\nPortraits=(function()\n${readFileSync('src/lua/abyss_traveler_portraits.lua','utf8')}\nend)()`);
+  run(`Theme=${toLua({...nativeTheme,icon:{...nativeTheme.icon,player:themePlayer}})}
+PortraitAssetLoads=0;require=function(name)if name=='abyss_theme' then return Theme end;assert(name=='abyss_traveler_portrait_assets');PortraitAssetLoads=PortraitAssetLoads+1;return Asset end\nPortraits=(function()\n${readFileSync('src/lua/abyss_traveler_portraits.lua','utf8')}\nend)()`);
   run(code);
  } finally {lauxlib.luaL_newstate=old;if(state)lua.lua_close(state);rmSync(dir,{recursive:true,force:true});}
 }

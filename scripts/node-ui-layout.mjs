@@ -1,6 +1,6 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { cardFaceChildren } from './card-face.mjs';
-import { merchantControl, merchantPortrait } from './cinematic-ui-layout.mjs';
+import { merchantControl } from './cinematic-ui-layout.mjs';
 import { augmentMatchEventPicker } from './match-event-layout.mjs';
 
 // Approved PR19 node screens (shop, camp/forge, event, treasure) as one native
@@ -145,8 +145,8 @@ export function nodeLayout(theme = nativeTheme) {
         [-150, 240, 30, '#2E3A55FF'], [80, 220, 24, '#4A3F28FF']]
         .map(([x, y, d, c], i) => ({ ...plate('shard' + i, [x, y, d, d * 1.4], c), image: image.diamond })),
       { ...plate('shade', event.neow.figure, '#000000C0'), image: image.vignette },
-      // Neow stand-in: reuse the old-road merchant medallion (Pan t75u), at the STS npc slot.
-      merchantPortrait(theme, [event.neow.npc[0], event.neow.npc[1] + 210, 220, 220], 'npc'),
+      // Reuse the existing geo placeholder, not the unrelated shop merchant.
+      picture('npc', [event.neow.npc[0], event.neow.npc[1] + 210, 220, 220], icon.geo, color.geo),
     ] }] : []),
 ...(event.neow ? [hidden({ ...plate('bubble', event.neow.bubble, '#E9E1CCF2'), image: image.discSoft })] : []), plate('plateBorder', event.plate, color.goldDim),
     plate('plate', [...event.plate.slice(0, 2), event.plate[2] - space.border * 2, event.plate[3] - space.border * 2], color.panelRaised),

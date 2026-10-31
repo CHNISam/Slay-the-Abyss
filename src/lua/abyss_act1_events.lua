@@ -74,10 +74,10 @@ function M.options(run,event,upgradeCards)
         return {row('forge','锻造','升级一张卡牌。',#upgradeCards(run)>0),row('rummage','搜寻','获得扭曲之钳与诅咒「疼痛」。'),row('leave','离开','放弃锻造与搜寻。')}
     elseif id=='bonfire' then
         if not stage then return {row('approach','靠近','靠近篝火中的元素。')} end
-        return {row('offer','献祭','移除一张非瓶装可清除卡牌，按稀有度获得回报。')}
+        return {row('offer','献祭','移除一张可移除卡牌，遗物绑定牌除外；按稀有度获得回报。')}
     elseif id=='transmogrifier' then
         if stage=='choose_card' then return {row('change','变换','必须选择一张卡牌变换。')} end
-        return {row('change','变换','将一张非瓶装可清除卡牌变换为随机的新卡牌。'),row('leave','离开','离开神龛。')}
+        return {row('change','变换','将一张可移除卡牌变换为随机新牌，遗物绑定牌除外。'),row('leave','离开','离开神龛。')}
     elseif id=='scrap_ooze' then
         return {row('search','继续探索','受到'..event.damage..'点伤害，显示遗物概率'..event.chance..'%。'),row('leave','离开','停止探索。')}
     end

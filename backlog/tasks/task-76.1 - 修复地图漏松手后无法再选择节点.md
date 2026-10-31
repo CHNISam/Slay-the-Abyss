@@ -1,11 +1,11 @@
 ---
 id: TASK-76.1
 title: 修复手机地图漏松手后无法选节点
-status: To Do
+status: In Progress
 assignee:
-  - '@Furinya'
+  - Furinya
 created_date: '2026-10-28 14:39'
-updated_date: '2026-10-29 04:17'
+updated_date: '2026-10-31 15:56'
 labels: []
 milestone: m-4
 dependencies: []
@@ -33,6 +33,12 @@ ordinal: 122000
 - [ ] #3 手机触屏和PC鼠标分别验证中断释放后的恢复，记录设备、候选和结果。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. 复用现有focus回当前位置按钮作为显式恢复入口，鼠标触屏可见。2. 完整点击与当前地图身份验证后取消旧拖动；不抢占节点owner、不自动超时。3. 同/异触点及鼠标漏Up后经focus恢复，保持旧事件拒绝、地图与随机流不变及单次进入。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
@@ -42,4 +48,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 同一非nil touchId的背景地图漏Up→新节点完整tap恢复已实现；延迟背景Up不能提交。原地图35组及新增回归通过。node自身漏Up/异touch恢复未证，实体手机仍待验，不关闭整项。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+c695隔离实现现有◆回当前位置显式恢复：鼠标触屏可见，完整Focus点击/手柄确认取消旧owner；不按超时或新Down抢占。新3条先红，最终原35+新4=39条通过，地图布局6/6通过；焦点动作完整地图快照不变，旧节点/Focus事件拒绝。详docs/backlog-details/TASK-76.1-focus-recovery.md，实体手机/PC设备仍待，不勾AC。
 <!-- SECTION:NOTES:END -->

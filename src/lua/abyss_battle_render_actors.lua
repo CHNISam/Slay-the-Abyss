@@ -72,12 +72,10 @@ function M.install(owner, ownership, host, dependencies)
         local kind=face.worldKind or face.kind
         local visible=allowed~=false and (face.sourceEnum and face.worldVisible or not face.sourceEnum)
         local icon=box:GetChild('intentIcon');icon:SetVisible(visible==true)
-        local mobile=host.platform.touchScreen and host.platform.touchScreen()
-        local scale=mobile and 1.2 or 1
         -- STS 128px intent frames are mostly transparent padding; the official glyphs here
         -- are full-bleed, so draw them at the glyph size and float them clear of the head.
-        local glyph=math.min(size,L.intent.size*1.15)*scale
-        icon:SetSizeDelta(glyph,glyph);icon:SetAnchoredPosition(x,y+glyph/2-L.intent.size/4)
+        local glyph=math.min(size,L.intent.size)
+        icon:SetSizeDelta(glyph,glyph);icon:SetAnchoredPosition(x,y)
         if visible then
             dependencies.picture(icon,Theme.icon.intent[kind] or Theme.icon.intent.unknown)
             dependencies.tint(icon,intentTone(alpha,kind))
@@ -90,9 +88,8 @@ function M.install(owner, ownership, host, dependencies)
         value:SetVisible(allowed~=false and attack and face.value~='')
         value.text=face.value and face.value:gsub('×','x') or ''
         local width=math.max(L.intent.valueWidth,utf8.len(value.text)*L.intent.numberSize)
-        local sx,sy=Theme.canvas.base[1]/1920,Theme.canvas.base[2]/1080
         value:SetSizeDelta(width,L.nativeText.lineHeight)
-        value:SetAnchoredPosition(x-30*sx+width/2,y-12*sy-L.nativeText.lineHeight/2)
+        value:SetAnchoredPosition(x+L.intent.size/2+S.xs+width/2,y)
         dependencies.ink(value,intentTone(alpha))
     end
     local function renderEnemyIntent(box,face,portrait,geometry,allowed,alpha)
@@ -276,9 +273,12 @@ function M.install(owner, ownership, host, dependencies)
             dependencies.tint(face:GetChild('filledShell'):GetChild('rim'),selected and tones.selected.border or tones.normal.border)
             dependencies.tint(face:GetChild('fireShell'):GetChild('rim'),selected and tones.selected.border or tones.fire.border)
             local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
+            local label=face:GetChild('label');label:SetVisible(item~=nil)
+            label.text=item and PotionView.slotLabel(item)or ''
             if item then
                 dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
-                dependencies.tint(bottle,item.id=='fire_potion' and tones.fire.ink or tones.normal.ink)
+                dependencies.tint(bottle,(Theme.icon.potionTint or {})[item.id]
+                    or (item.id=='fire_potion' and tones.fire.ink or tones.normal.ink))
             end
         end
     end

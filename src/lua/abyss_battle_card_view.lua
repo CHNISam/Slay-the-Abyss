@@ -189,7 +189,7 @@ function M.new(view, controls)
     end
 
     local function writeDetails(box, card, battle, aimUid, aimTarget)
-        local definition, enabled = card.definition, card.enabled
+        local definition, enabled = card.definition, card.playable
         local text = bodyText(card, battle, aimUid, aimTarget)
         CardDisplay.writeBody(box:GetChild("label"), text,box)
         ink(box:GetChild("label"), C.text)
@@ -199,7 +199,7 @@ function M.new(view, controls)
     end
 
     local function writeFrame(box, card, hovered)
-        local definition, enabled = card.definition, card.enabled
+        local definition, enabled = card.definition, card.playable
         tint(box:GetChild("border"), (card.selected or hovered) and C.goldBright
             or enabled and (C.rarity[definition.rarity] or C.line) or C.line)
         -- The title banner and its rule carry rarity, as on the original cards.
@@ -230,15 +230,15 @@ function M.new(view, controls)
         local missing,upgraded
         if context.reward then definition,display,missing,upgraded=rewardFace(context,definition,display,id,slot)
         else assert(display,'missing card presentation '..id);upgraded=instance and instance.upgraded end
-        local enabled,reason=not missing and context.reward,nil
+        local playable,reason=not missing and context.reward,nil
         if not missing and not context.reward then
-            enabled,reason=Combat.canPlay(context.battle,instance.uid,view.target)
-            enabled=context.active and enabled
+            playable,reason=Combat.canPlay(context.battle,instance.uid,view.target)
         end
         return {
             instance = instance,
             definition = definition,display = display,missing=missing,upgraded=upgraded,
-            enabled = enabled,blockReason=reason,
+            -- Temporary busy/overlay input locks must not invent rule warnings.
+            playable = playable,enabled = context.active and playable,blockReason=reason,
             selected = instance and instance.uid == view.selected,
         }
     end
@@ -246,7 +246,7 @@ function M.new(view, controls)
     local function writeSkin(box,card,context,hovered)
         local base=card.instance and context.battle.catalog.cards[card.instance.cardId] or card.definition
         local printed=card.upgraded and base.upgrade and base.upgrade.cost or base.cost
-        CardSkin.apply(box,card.definition,controls.platform,{dim=not card.enabled,selected=card.selected or hovered,
+        CardSkin.apply(box,card.definition,controls.platform,{dim=not card.playable,selected=card.selected or hovered,
             cost=card.definition.cost,baseCost=printed,blockReason=card.blockReason})
     end
 

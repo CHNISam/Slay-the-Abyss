@@ -118,8 +118,16 @@ export function experimentalCharacterControls(theme = nativeTheme) {
       deckView,
     ], c.backdrop, c.backdrop),
     panel('choicePanel', q, '选择卡牌', '', [
-      ...Array.from({ length: q.columns * q.rows }, (_, i) => button(`card${i + 1}`,
-        [q.origin[0] + (i % q.columns) * q.step[0], q.origin[1] + Math.floor(i / q.columns) * q.step[1], ...q.cardSize], '', q, f.small)),
+      ...Array.from({ length: q.columns * q.rows }, (_, i) => {
+        const control = button(`card${i + 1}`,
+          [q.origin[0] + (i % q.columns) * q.step[0], q.origin[1] + Math.floor(i / q.columns) * q.step[1], ...q.cardSize], '', q, f.small);
+        // One shared face, not four copies inside the native button states.
+        control.children.unshift({ name: 'face', kind: 'container', size: [...theme.layout.card.size],
+          children: cardFaceChildren(theme, 'deck', false) });
+        control.children.push({ ...plate('orderPlate', q.orderBadge, c.panelSunken), visible: false },
+          { ...text('order', [...q.orderBadge.slice(0, 3), theme.layout.nativeText.lineHeight], '', f.label, c.goldBright), visible: false });
+        return control;
+      }),
       text('status', q.status, '', f.label, c.textDim),
       button('before', q.before, '上一页', q), button('after', q.after, '下一页', q),
       button('confirm', q.confirm, '确认', q),

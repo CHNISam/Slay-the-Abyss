@@ -143,11 +143,11 @@ function M.install(ctx)
 
         end
         local function pickerHint()
-            if copying then return '映光石龛 · 选择一张永久牌复制，不能取消；复制品不继承瓶装绑定' end
+            if copying then return '映光石龛 · 选择一张永久牌复制，不能取消；复制品不继承遗物绑定' end
             if ctx.self.picker=='neow_card'then return '开局恩赐 · 还需选择 '..node.event.selection.count..' 张卡牌，不能取消' end
-            if ctx.self.picker=='basics_purge' then return '优雅 · 免费移除一张非瓶装、可清除的永久牌' end
+            if ctx.self.picker=='basics_purge' then return '优雅 · 免费移除卡牌，遗物绑定牌除外' end
             if ctx.self.picker=='beggar_purge' then
-                return '已支付75金币 · 必须移除一张非瓶装、可清除的永久牌，不能取消'
+                return '已支付75金币 · 必须移除卡牌，遗物绑定牌除外；不能取消'
             end
             if library then return '图书馆 · 从20张不同的卡牌中选择一张，不能跳过' end
             if dream then return '捕梦网 · 选择一张卡牌加入牌组，或跳过奖励' end

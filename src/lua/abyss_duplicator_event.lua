@@ -16,7 +16,7 @@ function M.options(run,event)
    row('leave','离开','不留下拓印。')}
  end
  if event.stage=='choose_card'then
-  return {row('select','选择卡牌','选择一张永久牌；复制品不继承瓶装绑定。',#run.deck>0)}
+  return {row('select','选择卡牌','选择一张永久牌；复制品不继承遗物绑定。',#run.deck>0)}
  end
  if event.stage=='result'then return {row('leave','离开','返回路线。')}end
  return {}

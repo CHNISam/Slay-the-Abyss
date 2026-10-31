@@ -192,6 +192,8 @@ test("node panels compose through Boss16, independent treasure17 then restart", 
             if ui.nodeUI.actions["shopView/card1"].enabled then
                 local before = ui.run.gold
                 click(root, "nodePanel", "shopView/card1")
+                assert(ui.run.gold == before)
+                click(root, "nodePanel", "confirm")
                 assert(ui.run.gold < before)
             end
             click(root, "nodePanel", "confirm")

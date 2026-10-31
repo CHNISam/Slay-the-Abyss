@@ -61,6 +61,8 @@ test("exit cancels old shop swipe, preserves its page and accepts fresh swipe an
     assert(not emit("shopView/card1", "click", 22))
     assert(ui.page == 1 and #host.run.deck == count and host.run.gold == gold)
     assert(tap("shopView/card1", 33))
+    assert(#host.run.deck == count and host.run.gold == gold)
+    assert(tap("confirm", 34))
     assert(#host.run.deck == count + 1 and host.run.gold < gold)
 end)
 
@@ -99,6 +101,8 @@ test("old relic hold cannot buy after exit cancel and fresh input works", functi
     assert(not emit("shopView/relic3", "click", 11))
     assert(host.run.gold == gold and #host.run.relics == count and ui.page == 1)
     assert(tap("shopView/relic3", 22))
+    assert(host.run.gold==gold and #host.run.relics==count)
+    assert(tap("confirm", 23))
     assert(#host.run.relics == count + 1 and host.run.gold < gold)
 end)
 

@@ -71,7 +71,7 @@ function M.options(run,event)
         if #Purge.purgeCards(run)==0 then
             return {row('leave','离开','没有可移除的卡牌；已支付的75金币不退还，返回路线。')}
         end
-        return {row('purge','移除卡牌','必须选择一张非瓶装、可清除的永久牌；不能跳过。',
+        return {row('purge','移除卡牌','必须选择一张可移除永久牌，遗物绑定牌除外；不能跳过。',
             #Purge.purgeCards(run)>0,'beggar_purge')}
     elseif event.stage=='leave' then
         return {row('leave','离开','返回路线。')}

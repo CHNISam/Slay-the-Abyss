@@ -2,7 +2,86 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {withPortraitVm} from './helpers/portrait-runtime-vm.mjs';
+import {nativeTheme} from '../scripts/native-ui-theme.mjs';
 function vm(code,options){assert(existsSync('src/lua/abyss_traveler_portraits.lua'),'bounded portrait runtime missing');withPortraitVm(code,options);}
+
+test('final portrait refresh never restores the shipped yellow hero placeholder across battle transitions',()=>vm(`
+assert(Theme.icon.player.status=='placeholder','regression must use the shipped player metadata')
+-- UnitView hides placeholder portraits before GameUI syncs the portrait owner.
+fallback:SetVisible(false)
+a=Portraits.new(stage,nil,{battlePortrait=true});a:sync('battle',false,false,'ironclad')
+assert(not fallback.visible,'building refresh restored the yellow placeholder')
+for i=1,100 do a:tick();if a:status().battle.phase=='ready'then break end end
+assert(a:status().battle.phase=='ready' and figure.visible and not fallback.visible)
+a:sync('map',false,false,'ironclad');assert(not figure.visible and not fallback.visible,'paused refresh restored placeholder')
+a:sync('battle',false,false,'ironclad')
+for i=1,100 do a:tick();if a:status().battle.phase=='ready'then break end end
+assert(a:status().battle.phase=='ready' and figure.visible and not fallback.visible,'next battle lost final image visibility')
+a:release();assert(not fallback.visible,'release restored placeholder')
+game.InstantiateClientUIControl=function()return nil end
+a:sync('battle',false,false,'ironclad');a:tick()
+assert(a:status().battle.phase=='failed' and not figure.visible and not fallback.visible,'failed refresh restored placeholder')
+`,{themePlayer:nativeTheme.icon.player}));
+
+test('ready setter release reentry cannot restore the shipped hero placeholder',()=>vm(`
+a=Portraits.new(stage,nil,{battlePortrait=true});a:sync('battle',false,false,'ironclad')
+local setter=fallback.SetVisible;local released=false
+fallback.SetVisible=function(self,value)
+ if not value and a:status().battle.phase=='ready' and not released then released=true;a:release()end
+ return setter(self,value)
+end
+for i=1,100 do a:tick();if released then break end end
+assert(released and a:status().battle.phase=='released','ready setter did not exercise reentrant release')
+assert(not figure.visible and not fallback.visible,'stale ready publication restored yellow placeholder')
+`,{themePlayer:nativeTheme.icon.player}));
+
+test('a native library image remains a visible battle fallback through pause and failure',()=>vm(`
+assert(type(Theme.icon.player)=='number' and Theme.icon.player>0)
+a=Portraits.new(stage,nil,{battlePortrait=true});a:sync('battle',false,false,'ironclad')
+assert(fallback.visible,'native library fallback hidden during building')
+for i=1,100 do a:tick();if a:status().battle.phase=='ready'then break end end
+assert(figure.visible and not fallback.visible)
+a:sync('map',false,false,'ironclad');assert(fallback.visible and not figure.visible)
+game.InstantiateClientUIControl=function()return nil end
+a:sync('battle',false,false,'ironclad');a:tick()
+assert(a:status().battle.phase=='failed' and fallback.visible and not figure.visible)
+`,{themePlayer:nativeTheme.icon.cardArt.attack}));
+for(const mode of ['nil','setter'])test(`production cached portrait recovers ${mode} failure at the next battle without frame retries`,()=>vm(`
+assert(Asset.battle133.runtimeV2 and Asset.battle133.cache,'must exercise production generated cache')
+local create=game.InstantiateClientUIControl;local calls=0
+game.InstantiateClientUIControl=function(...)
+ calls=calls+1
+ if calls==4 then ${mode==='nil'?'return nil':"local c=create(...);c.SetSizeDelta=function()error('transient size setter rejection')end;return c"} end
+ return create(...)
+end
+a=Portraits.new(stage,nil,{battlePortrait=true});a:sync('battle',false,false,'ironclad')
+a:tick();assert(a:status().battle.phase=='failed' and LiveCount()==0 and not figure.visible)
+local failedCalls=calls
+for i=1,3 do a:sync('battle',false,false,'ironclad');a:tick()end
+assert(calls==failedCalls,'failed portrait retried every refresh')
+game.InstantiateClientUIControl=create
+a:sync('map',false,false,'ironclad');a:sync('battle',false,false,'ironclad')
+for i=1,500 do a:tick();if a:status().battle.phase=='ready'then break end end
+assert(a:status().battle.phase=='ready' and figure.visible and not fallback.visible,'cached failure stranded formal portrait in the next battle')
+local total=#controls
+a:sync('map',false,false,'ironclad');a:sync('battle',false,false,'ironclad');a:tick()
+assert(#controls==total and figure.visible,'successful cached portrait was rebuilt or stayed hidden')
+`,{runtimeV2:true}));
+
+test('a formal cached portrait that fails after ready can rebuild on the next battle',()=>vm(`
+a=Portraits.new(stage,nil,{battlePortrait=true});a:sync('battle',false,false,'ironclad')
+for i=1,500 do a:tick();if a:status().battle.phase=='ready'then break end end
+assert(a:status().battle.phase=='ready' and figure.visible)
+local original=figure.SetLocalScale;local total=#controls
+figure.SetLocalScale=function()return false end
+a:battlePose(0,0,1,1)
+assert(a:status().battle.phase=='failed' and not figure.visible and LiveCount()==0,'ready failure must retire invalid geometry')
+figure.SetLocalScale=original
+a:sync('battle',false,false,'ironclad');a:tick();assert(#controls==total,'failed ready portrait retried without a scene boundary')
+a:sync('map',false,false,'ironclad');a:sync('battle',false,false,'ironclad')
+for i=1,500 do a:tick();if a:status().battle.phase=='ready'then break end end
+assert(a:status().battle.phase=='ready' and figure.visible and #controls>total,'failed ready cache did not rebuild in next battle')
+`,{runtimeV2:true}));
 
 for(const display of [72,32])test(`avatar uses the actual ${display}px selection bust width through release and rebuild`,()=>vm(`
 local bust=traveler:GetChild('hit'):GetChild('normal'):GetChild('bust')

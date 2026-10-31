@@ -14,7 +14,10 @@ local browseFilters={{id='all',control='All'},{id='attack',control='Attack'},
     {id='skill',control='Skill'},{id='power',control='Power'},
     {id='status',control='Status'},{id='curse',control='Curse'}}
 local browseSorts={'original','name','rarity','cost','type'}
-local sortNames={original='原顺序',name='名称',rarity='稀有度',cost='费用',type='类型'}
+local sortNames={original='初始顺序',name='名称↑',rarity='稀有度↑',cost='费用↑',type='类型序'}
+local sortHints={name='按名称文字顺序排列；同名保留初始顺序。',
+    rarity='基础→特殊→普通→罕见→稀有→诅咒',cost='费用从低到高→X费→不可打出；同费保留初始顺序。',
+    type='攻击→技能→能力→状态→诅咒；同类型保留初始顺序。'}
 local typeOrder={attack=1,skill=2,power=3,status=4,curse=5}
 
 -- Observe native click metadata only; leave drag handlers and scroll offsets
@@ -79,6 +82,12 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     end
     local function canBrowse()
         return self.visible == true and self.browseEnabled == true and not self.detailOnly and not self.detailPages
+    end
+    local function sortHint()
+        if self.sortMode=='original' then
+            return self.pileKind and '保留打开牌堆时的展示顺序。' or '保留打开牌组时的展示顺序。'
+        end
+        return sortHints[self.sortMode]
     end
     local function paintBrowse()
         local active=canBrowse()
@@ -392,8 +401,9 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         for _,name in ipairs({'previous','next','pageHint'})do
             local box=root:GetChild(name)
             if box then
-                box:SetVisible(mode and not self.detailPages and pages>1)
-                if name=='pageHint' then box.text='摇杆导航 · 确认选择 · 返回关闭 · '..(self.controllerPage or 1)..'/'..pages
+                box:SetVisible(not self.detailPages and (name=='pageHint' and canBrowse() and not mode or mode and pages>1))
+                if name=='pageHint' then box.text=canBrowse() and not mode and sortHint()
+                    or '摇杆导航 · 确认选择 · 返回关闭 · '..(self.controllerPage or 1)..'/'..pages
                 else local hit=box:GetChild('hit');hit.interactable=name=='previous' and (self.controllerPage or 1)>1
                     or name=='next' and (self.controllerPage or 1)<pages;hit.raycastTarget=hit.interactable end
             end
@@ -431,6 +441,7 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         self.pileKind,self.listTitle=nil,nil
         self.multiple,self.choiceSelected,self.optional=nil,nil,nil
         self.detailPages,self.detailOnly,self.cardDetail=nil,nil,nil
+        self.closeOnOutside=nil
         upgradePreview:SetVisible(false)
         if self.relicView then self.relicView:close();self.relicView=nil end
         details:SetVisible(false);detailHit:SetVisible(false)
@@ -446,7 +457,30 @@ function M.new(root, presentation, clickEvent, platform, onClose)
     Controller.bind(platform.controller,previewHit,'deck',function()return self:toggleUpgradePreview()end,
         function()return self.visible and self.cardDetail~=nil and Combat.canUpgrade(self.cardDetail.state,self.cardDetail.instance)==true end,80)
     root.disableCursorEventPassthrough = true
-    root:GetChild("blocker"):AddCursorEventListener(clickEvent, function() return true end)
+    local blocker=root:GetChild('blocker')
+    local outsideHeld,outsideReleased,outsideObserved
+    local cursor=platform.cursorEvents or {}
+    if cursor.CursorDown and cursor.CursorUp then
+        blocker:AddCursorEventListener(cursor.CursorDown,function(event)
+            outsideObserved=true;outsideReleased=nil
+            outsideHeld=self.visible and self.closeOnOutside and {generation=self.generation,touch=event and event.touchId} or nil
+        end)
+        blocker:AddCursorEventListener(cursor.CursorUp,function(event)
+            outsideReleased=outsideHeld and outsideHeld.touch==(event and event.touchId) and outsideHeld or nil
+            outsideHeld=nil
+        end)
+        for _,event in pairs({cursor.CursorExit,cursor.CursorEndDrag})do
+            if event then blocker:AddCursorEventListener(event,function()outsideHeld,outsideReleased=nil,nil end)end
+        end
+    end
+    blocker:AddCursorEventListener(clickEvent,function(event)
+        local token=outsideReleased;outsideHeld,outsideReleased=nil,nil
+        if Controller.pointerBlocked(platform.controller) or not self.visible or not self.closeOnOutside then return true end
+        if outsideObserved or event and event.touchId~=nil then
+            if not token or token.generation~=self.generation or token.touch~=(event and event.touchId) then return true end
+        end
+        onClose();return true
+    end)
     local function nextPage()
         if not self.visible or not self.detailPages then return false end
         self.detailPage=self.detailPage%#self.detailPages+1;detailPage();return true

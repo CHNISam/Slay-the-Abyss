@@ -56,6 +56,19 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     resourceIcon('goldIcon', bar.goldIcon, theme.icon.gold, color.text),
     text('gold', bar.gold, '', font.body, color.goldBright),
   ] });
+  const resourceBox = (icon, value) => {
+    const left = Math.min(icon[0] - icon[2] / 2, value[0] - value[2] / 2);
+    const right = Math.max(icon[0] + icon[2] / 2, value[0] + value[2] / 2);
+    return [(left + right) / 2, value[1], Math.max(48, right - left), Math.max(48, value[3])];
+  };
+  const resourceHints = (hp, gold) => ({ name: 'resourceHints', kind: 'container', size: [...theme.canvas.base], children:
+    [['hp', hp], ['gold', gold]].map(([name, box]) => ({ name, kind: 'container', position: box.slice(0, 2), size: box.slice(2), children: [
+      { name: 'hit', kind: 'cursorArea', size: box.slice(2), focusable: true },
+    ] })) });
+  const b = theme.layout.topBar;
+  battleControls.push(resourceHints(resourceBox([b.hpIcon[0], b.y, b.hpIcon[1], b.hpIcon[1]], [b.hp[0], b.y, b.hp[1], b.height]),
+    resourceBox([b.goldIcon[0], b.y, b.goldIcon[1], b.goldIcon[1]], [b.gold[0], b.y, b.gold[1], b.height])));
+  mapPanel.children.push(resourceHints(resourceBox(bar.hpIcon, bar.hp), resourceBox(bar.goldIcon, bar.gold)));
   const picture = (name, size, id, colour) => ({ name, kind: 'image', position: [...theme.layout.nativeControl.origin],
     size, image: id, colour });
   const [ex, ey, ew, eh] = layout.emblem;
