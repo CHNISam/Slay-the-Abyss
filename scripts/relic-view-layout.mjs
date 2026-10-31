@@ -41,6 +41,12 @@ export function relicViewControls(theme = nativeTheme) {
   const bar = [tray, ...Array.from({ length: b.count }, (_, i) => {
     const slot = relicDisc(theme, `slot${i + 1}`, b.disc, (b.disc - b.face) / 2, b.icon, [b.origin[0] + b.step * i, b.origin[1]]);
     slot.visible = false;
+    // TASK-4.13 judge: HUD relic disc shares the 菜单/卡组 outline and ink, not an isolated gold ring.
+    const hud = c.mapHeader.menuNormal;
+    slot.children = slot.children.filter(part => part.name !== 'light');
+    slot.children.find(part => part.name === 'rim').colour = hud.border;
+    slot.children.find(part => part.name === 'face').colour = hud.fill;
+    slot.children.find(part => part.name === 'icon').colour = hud.ink;
     slot.children.push({ ...text('more', b.more, '', f.label, c.goldBright), visible: false });
     slot.children.push({ name: 'hit', kind: 'cursorArea', size: [b.step, 44], focusable: true });
     return slot;

@@ -354,7 +354,7 @@ function M.new(view, controls)
         local enemy=target and potion.battle.enemies[target]
         local ex,ey,ring=aimEndpoint(potion,target,enemy)
         renderReticle(layer,aiming,ex,ey,ring,enemy)
-        AimArrow.render(layer,aiming,potion.origin[1],potion.origin[2],ex,ey-(enemy and ring/2 or 0),enemy, tint)
+        AimArrow.render(layer,aiming,potion.origin[1],potion.origin[2],ex,ey-(enemy and ring/2 or 0),enemy, tint, aim.phase)
         layer:SetAsLastSibling()
     end
     local function renderActivePotion(g)
@@ -387,7 +387,7 @@ function M.new(view, controls)
             local ex, ey, ring = aimEndpoint(g, target, enemy)
             renderReticle(layer, aiming, ex, ey, ring, enemy)
             local sx, sy, fy = x, y+h/2, ey-(enemy and ring/2 or 0)
-            AimArrow.render(layer, aiming, sx, sy, ex, fy, enemy, tint)
+            AimArrow.render(layer, aiming, sx, sy, ex, fy, enemy, tint, aim.phase)
             layer:SetAsLastSibling()
             g.drawn, g.drawnValid, g.drawnTarget, g.drawnAiming = true, valid, target, aiming
         end

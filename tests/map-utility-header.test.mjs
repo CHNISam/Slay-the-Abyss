@@ -11,7 +11,7 @@ const child=(c,n)=>c.children.find(v=>v.name===n);
 const entry=n=>child(gameLayout().controls.find(c=>c.name===n),'open');
 const states=['normal','hover','pressed','disabled'];
 
-test('deck entry is an STS-style fanned card stack with a count badge on the single native button',()=>{
+test('deck entry is an STS-style fanned card stack with a same-ink count pip inside the menu-sibling disc',()=>{
   const open=entry('deckEntry'),hit=child(open,'hit');
   assert.equal(hit.kind,'presetButton');assert.equal(hit.focusable,true);
   assert.deepEqual(open.size,[80,48]);
@@ -24,12 +24,14 @@ test('deck entry is an STS-style fanned card stack with a count badge on the sin
       assert.deepEqual(card.children.map(c=>c.name),['border','plate']);
     }
     assert.ok(cards[0].rotation>cards[1].rotation&&cards[1].rotation>cards[2].rotation,'stack fans out behind the front card');
-    for(const c of [...cards,child(state,'badge'),child(state,'count')]){
+    assert.equal(state.children.some(c=>c.name==='badge'),false,'no stray dark badge plate');
+    for(const c of [...cards,child(state,'ring'),child(state,'count')]){
       const [x,y]=c.position,[w,h]=c.size;
       assert.ok(Math.abs(x)+w/2<=40&&Math.abs(y)+h/2<=24,c.name+' stays inside the 80x48 hit');
     }
     assert.equal(child(state,'deckIcon').image,theme.icon.deck.id);
-    assert.equal(child(state,'badge').image,theme.image.disc);
+    assert.equal(child(state,'ring').image,theme.image.disc);
+    assert.equal(child(state,'ring').size[0],theme.layout.exitMenu.entryVisual.diameter,'deck disc is the 菜单 sibling');
     assert.equal(child(state,'label').visible,false,'retain only a hidden compatibility caption');
     assert.equal(child(state,'count').kind,'text');
   }

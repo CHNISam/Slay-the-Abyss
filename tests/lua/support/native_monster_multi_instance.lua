@@ -67,7 +67,7 @@ test('six-duplicate-geometry',function()
  local handles,poses={},{ }
  for _,row in ipairs(rows)do
   local actor=row.actor;local c=box(actor);local p=actor.sourcePosition
-  local x=320+p.x/1.5;local bottom=(400+p.y)/1.5-360;local size=170/1.5
+  local x=320+p.x/1.5;local bottom=(require('abyss_battle_enemy_view').floorY+p.y)/1.5-360;local size=170/1.5
   assert(near(c.x,x)and near(c.y,bottom+size/2),'actual instance must use exact original position')
   for count=1,8 do local px,_,w,_,py=View.position(count,9-count,actor)
    assert(near(px,x)and near(py,bottom+size/2)and near(w,size),'count/slot changed fixed source geometry')end

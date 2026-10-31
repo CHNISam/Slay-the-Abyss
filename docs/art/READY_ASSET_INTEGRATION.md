@@ -47,3 +47,30 @@ Owner 2026-10-30 06:57 UTC 明确开关由开发/发布人员控制，不给玩�
 原自制插画及减量实验源全部保留。`menuBackground` 开关继续默认关闭；开启后仅在胜利自有结算页面点击“查看彩蛋”才加载，配文“感谢您的游玩~！”，退出彩蛋暂停并缓存，普通入口不创建。选择肖像启用时在启程页预加载，先构造选角主图，再构造头像；战斗原图数据保留。卡面插画继续默认关闭，不阻塞出牌。
 
 本轮还修复选角页退出弹窗的输入拦截，并使正式装配批量写脚本、只复用来源及模板完全匹配的 UI，最终全量静态检查和源码读回保留。V13 是合并前冻结源的已交付试玩包，不能当作合入最新 develop 后重新构建的候选。
+
+### 低多边形选角精装外观（2026-10-31，Owner 认可突破实验 GIF）
+
+复用突破实验（`feat/art-breakthrough-experiment@72f13f2`）已生成的面片数据，不新增开关、玩家设置或远程配置；数据固化在 `art/lowpoly-select/select-lowpoly.json`（`extract.mjs` 从实验 pack 抽取，丢弃占位文字行）。
+
+| 开关 | 开启后 | 关闭（默认） |
+|---|---|---|
+| `--art-selection-avatar=true` | 选角主图改用低多边形荧（`lowpolyHero`，2011 面，官方图元 100003 + rotX/rotY 压扁） | 原官方/回退立绘，不生成该数据 |
+| `--art-cards=true` | 选角详情下方五张精装金框卡扇（`lowpolyCardFan`，框+插画共 1585 控件，复用官方角花/宝石/名牌精灵），模板用已绑定的 ready-card 图片/容器模板 | 原官方卡面，不生成、不加载、不创建 |
+
+两份数据只写入既有 `abyss_traveler_portrait_assets` 生成模块，并由既有肖像 owner 分批创建（每次更新共享 64 创建预算，离开选角暂停缓存）。范围边界：战斗/奖励/商店手牌的逐卡精装框与逐卡插画尚未接入，卡扇为选角展示且暂不含卡名/费用文字；收据 `officialPortraits` 清单仍按 selection133 计数，未单列低多边形控件。模拟器/源码测试通过不等于官方 PC/安卓验收：rotX+rotY 混合压扁、约 3.6k 控件性能与 GIA 导入均需正式客户端确认。
+
+#### 2026-10-31 追加：卡面金框 + 候选默认开启
+
+- `--art-cards=true` 同时把战斗手牌、奖励、商店、牌库共用的 `abyss_card_skin` 原生卡框改为突破实验金框调色（`ui_theme.json` → `cardSkin.premium`），只重新着色既有控件，名称/费用/描述文字不变；插画仍走已有 75 张自制卡图运行时。关闭时 `configure(nil)` 回到官方配色。角花/宝石等额外装饰精灵需新增布局宿主，暂缓。
+- Owner 要求本次交付候选默认看到新美术：`npm run build:native` 与 `build-native-candidate.mjs` CLI 未指定时默认 `cards=true`、`selectionAvatar=true`；`--art-cards=false --art-selection-avatar=false` 立即回到官方素材。`build:ui`/API 默认仍全关；旧 `--no-ready-card-art` / `--native-card-art-*` 继续决定 cards。
+- 未做：战斗/选角自定义低多边形场景背景（需在 battlePanel/characterPanel 底层新增宿主，与候选宿主屏蔽审计及并行 HUD/层级切片相关）；选角卡扇文字（无文字模板）。
+
+### 2026-10-31 low-poly scene backgrounds (`--art-menu-background`)
+
+- Source: breakthrough `land` group (362 triangles, 1587×1026) extracted into `art/lowpoly-select/select-lowpoly.json` → generated `lowpolyLand`.
+- Layout: `attachLowpolyScenes` adds a hidden `lowpolyScene` container (1280×720) as the first drawn child of `battlePanel` and just under `characterPanel.border` (above veils). Not created when the flag is off; candidate audit blocks the host name then.
+- Runtime: `abyss_traveler_portraits` builds `selectScene`/`battleScene` controllers (cached, budgeted); select hides official `border`/`face` only once the land is ready; battle draws behind every hand/monster/HUD control (no z-order change).
+- Candidate default: ON (with `cards`, `selectionAvatar`); `--art-menu-background=false` returns to official. Scenes need bound image/container templates (portrait module binding, also bound for cards/menuBackground-only builds).
+- Deferred: corner ornaments/gems on card faces (need new card-face layout hosts), select fan rank text.
+
+2026-10-31 Pan 覆盖：候选/真机构建（build:native、build-native-candidate）默认开启 `cards`、`menuBackground`（低多边形选人+战斗场景背景，`lowpolyScene` 为战斗面板首个子节点、位于角色之下）、`selectionAvatar`、`battlePortrait`；`monsters` 仍需 `--art-monsters=true`。API/build-ui 仍默认全关；显式 `--art-<类>=false` 恢复官方。

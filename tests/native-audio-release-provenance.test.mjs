@@ -77,12 +77,12 @@ test('ordinary audio packaging does not opt into frozen notes or assert publicat
   assert.equal(f.observed.nativeCardArt, undefined,'ordinary audio build must not implicitly select static card art');
   assert.notEqual(f.observed.readyCardArt,false);
 });
-test('normal build CLI defaults drawings off and preserves explicit legacy art/disable and release options', async t => {
+test('normal build CLI defaults the owner-chosen custom select/card art on and preserves explicit legacy art/disable and release options', async t => {
   const ordinary = nativeAudioBuildArgs(['base.gil']);
   assert.deepEqual(ordinary.paths, ['base.gil']);
   assert.equal(ordinary.options.nativeCardArt,undefined);
   assert.notEqual(ordinary.options.readyCardArt,false);
-  assert.deepEqual(ordinary.options.artFeatures,{cards:false,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:false});
+  assert.deepEqual(ordinary.options.artFeatures,{cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true,monsters:false});
   const disabled = nativeAudioBuildArgs(['base.gil', '--native-card-art-count=0']);
   assert.deepEqual(disabled.options.nativeCardArt, { count: 0 });
   assert.equal(disabled.options.readyCardArt,false);

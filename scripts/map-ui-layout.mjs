@@ -13,12 +13,12 @@ export function mapGeometry(theme = loadMapTheme()) {
   return { floors: 17, generatedRows: 15, lanes: 7, maxNodes: 92, maxEdges: 126,
     viewport: { left: -460, right: 440, bottom: -308, top: -308 + viewportHeight },
     firstY: -308 + 60, contentHeight: 17 * floorGap + 120,
-    maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -128,
+    maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -72,
     scrollStep: floorGap * theme.layout.map.scrollStepFloors, scrollSeconds: theme.motion.base,
     breathSeconds: 1.4, breathScale: 1.5,
     // Ported constants from STS MapRoomNode/MapEdge (aeubanks/sts@319009d, TASK-40 hash).
     // iconPerScale maps STS scale 0.5 (64px of a 128px glyph) onto 0.6 of our node box.
-    sts: { baseScale: .5, iconPerScale: 1.2, circlePerScale: 1.8, oscillateRate: 5, lerpSpeed: 8, snap: .003,
+    sts: { baseScale: .5, iconPerScale: 1.2, circlePerScale: 1.35, oscillateRate: 5, lerpSpeed: 8, snap: .003,
       srcRadius: 29 / 64 * .6, dstRadius: 20 / 64 * .6, bossRadius: .5 },
     glowPadding: 0, lineWidth: theme.layout.map.presentation.pathWidth, dragThreshold: theme.layout.cardDrag.threshold };
 }
@@ -37,12 +37,12 @@ export function mapLayout(theme = loadMapTheme()) {
   // Map.dc.html retains TYPE explanations. Only the old STATE key was retired.
   const legend = visual.typeLegend;
   const typeLegend = { name: 'typeLegend', kind: 'container', position: legend.position, size: legend.size,
-    children: [text('title', 0, legend.titleY, legend.size[0], legend.textHeight, '节点类型', f.label, c.gold),
+    children: [text('title', 0, legend.titleY, legend.size[0], legend.textHeight, '节点类型', f.label, c.mapHeader.title),
       ...[['combat', '普通战斗'], ['elite', '精英'], ['event', '事件'], ['shop', '商店'],
         ['camp', '营地'], ['treasure', '宝箱'], ['boss', '首领']].flatMap(([kind, label], i) => {
         const y = legend.firstY - i * legend.rowGap;
-        return [image(`${kind}Icon`, legend.iconX, y, legend.iconSize, legend.iconSize, c.textDim, theme.icon.node[kind]),
-          text(`${kind}Label`, legend.labelX, y, legend.labelWidth, legend.textHeight, label, f.label, c.textDim, 'left')];
+        return [image(`${kind}Icon`, legend.iconX, y, legend.iconSize, legend.iconSize, c.mapHeader.legendInk, theme.icon.node[kind]),
+          text(`${kind}Label`, legend.labelX, y, legend.labelWidth, legend.textHeight, label, f.label, c.mapHeader.legendInk, 'left')];
       })] };
   const button = (name, y, label) => ({ name, kind: 'container', position: [visual.navigationX, y], size: [nav, nav], visible: false, children: [
     image('frame', 0, 0, nav, nav, c.goldDim, im.disc), image('body', 0, 0, nav - 4, nav - 4, c.panel, im.disc),
@@ -60,12 +60,13 @@ export function mapLayout(theme = loadMapTheme()) {
     // Map/Main canvas header: subdued dark band, copper hairline and title wings.
     { ...image('headerShade', ...header.shade, c.mapHeader.shade), opacity: header.shadeOpacity },
     image('headerDivider', ...header.divider, c.mapHeader.border, im.fadeLine),
-    image('titleLineLeft', ...header.titleLineLeft, c.mapHeader.title, im.fadeLine),
-    image('titleLineRight', ...header.titleLineRight, c.mapHeader.title, im.fadeLine),
+    image('titleLineLeft', ...header.titleLineLeft, c.mapHeader.border, im.fadeLine),
+    image('titleLineRight', ...header.titleLineRight, c.mapHeader.border, im.fadeLine),
     // Lowest layer: dragging anywhere on the route scrolls it; node hits sit above.
     { name: 'dragArea', kind: 'cursorArea', position: [(left + right) / 2, (bottom + top) / 2],
       size: [right - left, top - bottom], focusable: false },
-    text('title', 0, 316, 380, 40, '', f.body, c.mapHeader.title),
+    // TASK-4.13: one parchment hierarchy — act title is the only heading-size ink in the bar.
+    text('title', 0, 316, 380, 40, '', f.number, c.mapHeader.title),
     { ...text('notice', 0, -324, 1160, visual.noticeHeight, '', f.small, c.textDim), visible: false },
     button('next', visual.navigationY[0], '↑'), button('focus', visual.navigationY[1], '◆'), button('previous', visual.navigationY[2], '↓'),
     typeLegend,

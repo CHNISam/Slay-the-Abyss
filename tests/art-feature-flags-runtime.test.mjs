@@ -58,12 +58,13 @@ for mask=0,31 do
  assert(options.background==nil,'custom art must never bind as an eager page background')
  assert((type(options.createEasterEggArt)=='function')==flags.menuBackground)
  assert(options.nativeMonsterArtEnabled==flags.monsters)
- assert((options.portraits~=nil)==(flags.selectionAvatar or flags.battlePortrait))
+ -- cards also owns the low-poly select fan through the portrait owner.
+ assert((options.portraits~=nil)==(flags.selectionAvatar or flags.battlePortrait or flags.cards or flags.menuBackground))
  assert((options.cardArt~=nil)==flags.cards and configured==(flags.cards and 1 or 0))
  assert((requested.abyss_ready_card_assets~=nil)==flags.cards)
  assert((requested.abyss_ready_card_binding~=nil)==flags.cards)
  assert(requested.abyss_menu_background==nil and #backgrounds==0,'victory art loaded before an explicit action')
- assert((requested.abyss_traveler_portraits~=nil)==(flags.selectionAvatar or flags.battlePortrait))
+ assert((requested.abyss_traveler_portraits~=nil)==(flags.selectionAvatar or flags.battlePortrait or flags.cards or flags.menuBackground))
  if mask==0 then off()end
  local calls=requested.abyss_art_features;modules.abyss_art_features=snapshot();OnUpdate(.1)
  assert(requested.abyss_art_features==calls,'config must not poll')
@@ -72,7 +73,7 @@ for mask=0,31 do
   assert(type(options.createEasterEggArt())=='table' and #backgrounds==1,'explicit lazy factory did not construct art')
   assert(requested.abyss_menu_background==1 and requested.abyss_traveler_portraits~=nil)
  end
- OnDestroy();assert(not updates and dead==(flags.menuBackground and 1 or 0)+((flags.selectionAvatar or flags.battlePortrait) and 1 or 0))
+ OnDestroy();assert(not updates and dead==(flags.menuBackground and 1 or 0)+((flags.selectionAvatar or flags.battlePortrait or flags.cards or flags.menuBackground) and 1 or 0))
  assert(viewDeaths==1 and cardDeaths==(flags.cards and 1 or 0),'entry must retire view and enabled card runtime')
 end
 `));

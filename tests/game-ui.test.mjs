@@ -34,23 +34,12 @@ test('composed native tree has exactly one menu, battle, map and node panel', ()
   assert.equal(result.children.find(control => control.name === 'viewEasterEgg').visible, false, 'victory action starts unavailable');
 });
 
-test('title keeps one noninteractive theme-driven version label and no custom announcement', () => {
+test('title carries no version label (Pan 2026-10-31: 首页版本号砍掉) and no custom announcement', () => {
   const theme = structuredClone(nativeTheme);
-  theme.layout.nativeMenu.codeVersion[0] = 25;
   const layout = gameLayout(theme), menu = layout.controls.find(control => control.name === 'menuPanel');
-  const version = menu.children.find(control => control.name === 'codeVersion');
-  assert.equal(version.kind, 'text');
-  assert.equal(version.text.content, '', 'validated version is injected by the existing build');
-  assert.equal(version.text.autoSize, false);
-  assert.deepEqual(version.position, theme.layout.nativeMenu.codeVersion.slice(0, 2));
+  assert.equal(menu.children.some(control => control.name === 'codeVersion'), false);
   assert.equal(menu.children.some(control => control.name === 'releaseNotes'), false);
   assert.equal(layout.controls.some(control => control.name === 'releaseNotesPanel'), false);
-  for (const device of [...Object.values(theme.canvas.devices), [2340, 1080]]) {
-    const scale = Math.min(device[0] / theme.canvas.base[0], device[1] / theme.canvas.base[1]);
-    for (const [i, margin] of [theme.canvas.safe.x, theme.canvas.safe.y].entries()) {
-      assert.ok((Math.abs(version.position[i]) + version.size[i] / 2 + margin) * scale <= device[i] / 2);
-    }
-  }
 });
 
 test('menu and result follow the approved win.png composition inside the safe area', () => {

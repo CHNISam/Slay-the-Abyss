@@ -51,7 +51,12 @@ export function runLua(script = 'tests/lua/combat.lua', { timeout, cwd = process
   // Mutation checks target one registered original regression. Each child is
   // fresh; ordinary invocations receive no selector and still run every case.
   const selection = caseName === undefined ? '' : `ABYSS_MUTATION_CASE=${luaString(caseName)};`;
-  try { result = spawnSync(process.execPath, [cli, '-e', `${selection}${frozenHand}dofile(${luaString(temporary || resolve(cwd, script))})`], {
+  const jawTail = normalizedScript === 'tests/lua/jaw_worm_ai_slice_3.lua' && caseName === undefined
+    && resolve(cwd) === resolve(fileURLToPath(new URL('..', import.meta.url)));
+  const args = jawTail
+    ? [fileURLToPath(new URL('../tests/helpers/jaw-worm-parallel.mjs', import.meta.url)), String(Date.now() + timeout), String(maxBuffer)]
+    : [cli, '-e', `${selection}${frozenHand}dofile(${luaString(temporary || resolve(cwd, script))})`];
+  try { result = spawnSync(process.execPath, args, {
     cwd, encoding: 'utf8', timeout, maxBuffer,
     env: { ...process.env, LUA_PATH: './build/lua/?.lua;./src/lua/?.lua;;', LUA_PATH_5_3: './build/lua/?.lua;./src/lua/?.lua;;', LUA_INIT: '', LUA_INIT_5_3: '' }
   }); } finally { if (temporary) unlinkSync(temporary); }

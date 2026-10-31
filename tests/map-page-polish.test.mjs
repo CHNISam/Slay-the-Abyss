@@ -21,15 +21,15 @@ test('shared menu entry matches the canvas round copper button while keeping fou
   }
   assert.equal(find(find(hit,'normal'),'plate').colour,'#241B19');
   assert.equal(find(find(hit,'normal'),'border').colour,'#6E5A42');
-  assert.equal(find(find(hit,'normal'),'menuStroke1').colour,'#BBAA8C');
+  assert.equal(find(find(hit,'normal'),'menuStroke1').colour,'#C9BDA4');
   assert.notDeepEqual(find(hit,'hover'),find(hit,'normal'));
   assert.deepEqual(find(hit,'pressed').scale,[.96,.96]);
 });
 
 test('map header and necessary return controls follow the canvas hierarchy rather than large boxed prose',()=>{
   const tree=root(),map=find(tree,'mapPanel');
-  assert.equal(find(map,'title').text.fontSize,18);
-  assert.equal(find(map,'title').text.colour,'#E9C77B');
+  assert.equal(find(map,'title').text.fontSize,22);
+  assert.equal(find(map,'title').text.colour,theme.color.mapHeader.title);
   assert.equal(find(map,'headerDivider').image,theme.image.fadeLine);
   assert.equal(find(map,'headerDivider').size[1],1);
   for(const name of ['headerShade','titleLineLeft','titleLineRight'])assert(find(map,name));

@@ -3,7 +3,7 @@ local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 local T=require('abyss_theme')
 local function near(a,b,eps)assert(math.abs(a-b)<(eps or 0.0001),tostring(a)..' ~= '..tostring(b))end
 -- STS TargetArrow: control point behind the start, overshooting past the end.
-local function curve(sx,sy,ex,fy,t)
+local function _curve(sx,sy,ex,fy,t)
  local cx,cy=sx-(ex-sx)/4,fy+(fy-sy)/2;local q=1-t
  return q*q*sx+2*q*t*cx+t*t*ex,q*q*sy+2*q*t*cy+t*t*fy,cx,cy
 end
@@ -14,31 +14,18 @@ for _,touch in ipairs({false,true})do
  local layer=p:GetChild('dragLayer');local card=p:GetChild('card1');local r=layer:GetChild('reticle')
  local sx,sy=card.x,card.y+T.layout.card.size[2]*T.layout.cardDrag.scale/2
  local fy=r.y-r.sizeDeltaY/2
- local n=T.layout.cardDrag.aimDots-2
- -- Continuous shaft: each segment is centred between consecutive curve points, rotated
- -- along the chord and long enough to overlap its neighbour (no gaps, no star beads).
- local px,py=sx,sy
- local span=math.sqrt((r.x-sx)^2+(fy-sy)^2);local stop=math.max(0.5,1-15/span)
+ -- Star chain (Pan 2026-10-31 restore of e7098ac over the dense shaft): upright
+ -- star beads on the Bezier, growing toward the target, last bead pinned on the tip.
+ local n=T.layout.cardDrag.aimDots
+ local last=layer:GetChild('aim'..n);near(last.x,r.x);near(last.y,fy)
+ local prev=0
  for i=1,n do
-  local x,y=curve(sx,sy,r.x,fy,stop*i/n);local seg=layer:GetChild('aim'..i)
-  assert(seg.visible)
-  near(seg.x,(x+px)/2);near(seg.y,(y+py)/2)
-  local len=math.sqrt((x-px)^2+(y-py)^2)
-  assert(seg.sizeDeltaX>=len,'segments overlap into one continuous line')
-  assert(seg.sizeDeltaY<=11,'shaft is a thin stroke, not a bead')
-  near(seg.localRotationZ,math.deg(math.atan(y-py,x-px)),1e-6)
-  assert(seg.imageColor.r==T.color.danger.r and seg.imageColor.g==T.color.danger.g,'locked arrow is red end to end')
-  px,py=x,y
+  local dot=layer:GetChild('aim'..i);assert(dot.visible)
+  assert(dot.sizeDeltaX==dot.sizeDeltaY,'star bead, not a stretched shaft')
+  assert(dot.sizeDeltaX>=prev);prev=dot.sizeDeltaX
+  assert((dot.localRotationZ or 0)==0,'stars stay upright')
  end
- -- V head: both barbs meet at the tip and point back along the tangent, mirrored.
- local _,_,cx,cy=curve(sx,sy,r.x,fy,1);local heading=math.deg(math.atan(fy-cy,r.x-cx))
- local a,b=layer:GetChild('aim'..(n+1)),layer:GetChild('aim'..(n+2))
- assert(a.visible and b.visible)
- near(a.localRotationZ+b.localRotationZ,2*(heading+180),1e-6)
- for _,barb in ipairs({a,b})do
-  local rad=math.rad(barb.localRotationZ)
-  near(barb.x-math.cos(rad)*barb.sizeDeltaX/2,r.x,1e-6);near(barb.y-math.sin(rad)*barb.sizeDeltaX/2,fy,1e-6)
- end
+ assert(last.imageColor.r==T.color.danger.r,'locked tail turns red')
  -- Native source positions may put this target below the carried card. The
  -- exact tangent and mirrored barb checks above cover either approach direction.
  assert(r.visible and r.kind=='image');near(r.x,enemy.x);near(r.y,enemy.y)
@@ -46,15 +33,11 @@ for _,touch in ipairs({false,true})do
  assert(r.visible,'previous visual keeps a dim ring at an untargeted pointer')
  near(r.x,-285);near(r.y,0);near(r.sizeDeltaX,T.layout.cardDrag.aimDot[2]*2)
  assert(r.imageColor.r==T.color.textDim.r and r.imageColor.g==T.color.textDim.g)
- assert(layer:GetChild('aim1').imageColor.r==T.color.goldBright.r,'unlocked arrow stays gold')
  e('dragLayer','drag',7,0,T.layout.hand.y)
  assert(not layer.visible and h.run.combat.energy==3,'cancel remains unspent and hides the whole aim layer')
 end
 local h,u,p,e=H.setup({'strike'})
 e('card1','down',7);e('card1','drag',7,0,0);e('dragLayer','drag',7,0,300)
-local layer=p:GetChild('dragLayer');local a,b=layer:GetChild('aim13'),layer:GetChild('aim14')
--- Pointer-only aim: arrow tip sits on the pointer.
-local ra,rb=math.rad(a.localRotationZ),math.rad(b.localRotationZ)
-near(a.x-math.cos(ra)*a.sizeDeltaX/2,0,1e-6);near(a.y-math.sin(ra)*a.sizeDeltaX/2,300,1e-6)
-near(b.x-math.cos(rb)*b.sizeDeltaX/2,0,1e-6);near(b.y-math.sin(rb)*b.sizeDeltaX/2,300,1e-6)
+local layer=p:GetChild('dragLayer');local dot=layer:GetChild('aim14')
+near(dot.x,0);near(dot.y,300)
 print('AIM_VISUAL_PARITY_PASS 3')

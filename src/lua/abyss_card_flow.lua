@@ -21,7 +21,7 @@ local function handPoint(index,count)
     local distance=index-1-(count-1)/2
     local radians=math.abs(distance*L.hand.arcDegrees)*math.pi/180
     local halfHeight=(h*math.cos(radians)+w*math.sin(radians))/2
-    local floor=-Theme.canvas.base[2]/2+Theme.canvas.safe.y+halfHeight
+    local floor=-Theme.canvas.base[2]/2+Theme.canvas.safe.y+halfHeight-(L.hand.overhang or 0)
     return {distance*spacing,math.max(floor,L.hand.y-math.abs(distance)*L.hand.arcDrop)}
 end
 local function point(place)

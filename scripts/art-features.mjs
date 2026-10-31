@@ -1,5 +1,5 @@
 import {prepareMonsterArt} from './monster-art.mjs';
-import {portraitInventory,portraitSourceInputs} from './official-portraits.mjs';
+import {portraitInventory,portraitRuntimeInputs} from './official-portraits.mjs';
 // Candidate-local developer flags. Never player settings or a remote service.
 import {createHash} from 'node:crypto';
 import {readFileSync,writeFileSync} from 'node:fs';
@@ -40,6 +40,15 @@ export function artFeatureArgs(argv) {
  }
  return {args,artFeatures};
 }
+// 2026-10-31 Owner candidate preference: the developer CLIs (build:native / build-native-candidate)
+// default the new custom select look, card chrome+art and low-poly scene backgrounds ON. API/build-ui defaults
+// stay false. Explicit --art-<category>=false always wins; legacy card-art switches keep deciding cards.
+export const candidateArtDefaults=Object.freeze({cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true});
+export function withCandidateArtDefaults(explicit={},{cardsDecided=false}={}) {
+ const out={...explicit};
+ for(const [key,value]of Object.entries(candidateArtDefaults))if(!Object.hasOwn(out,key)&&!(key==='cards'&&cardsDecided))out[key]=value;
+ return out;
+}
 export function artFeatureBuildArgs(flags){const normalized=normalizeArtFeatures(flags);return artFeatureKeys.map((key,i)=>`--art-${cliKeys[i]}=${normalized[key]}`);}
 export function artFeaturesSource(flags) {
  const values=normalizeArtFeatures(flags);
@@ -76,11 +85,11 @@ export function artBuildOptionsFromReceipt(receipt) {
    throw Error('Monster artwork inventory differs from art features');
  }
  if(flags.menuBackground!==Boolean(receipt.officialBackground))throw Error('Background artwork receipt conflicts with art features');
- if((flags.selectionAvatar||flags.battlePortrait)!==Boolean(receipt.officialPortraits))throw Error('Portrait artwork receipt conflicts with art features');
+ if((flags.selectionAvatar||flags.battlePortrait||flags.cards||flags.menuBackground)!==Boolean(receipt.officialPortraits))throw Error('Portrait artwork receipt conflicts with art features');
  if(receipt.officialPortraits){
   const expected=portraitInventory(flags),actual=receipt.officialPortraits;
   for(const [key,value]of Object.entries(expected))if(JSON.stringify(actual[key])!==JSON.stringify(value))throw Error('Portrait artwork inventory differs from art features: '+key);
-  const paths=portraitSourceInputs(flags);
+  const paths=portraitRuntimeInputs(flags);
   if(!Array.isArray(actual.inputs)||actual.inputs.length!==paths.length||paths.some(path=>actual.inputs.filter(row=>
    typeof row?.path==='string'&&(row.path.replaceAll('\\','/')===path||row.path.replaceAll('\\','/').endsWith('/'+path))).length!==1))
    throw Error('Portrait artwork input inventory differs from art features');
