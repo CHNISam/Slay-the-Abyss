@@ -27,8 +27,9 @@ end
 -- AbstractMonster: drawX=WIDTH*.75+offsetX*xScale, drawY=340*yScale+offsetY*yScale.
 -- Native anchored coordinates are centered and Y-up. Control slots never enter this transform.
 -- STS floorY is 340 for a 0.7-scale hand; this hand is taller (208/720), so the
--- monster floor rises 60 source px to keep bodies, HP bars and block above resting cards.
-M.floorY=400
+-- monster floor rises 155 source px so HP bars share the player HP line (STS: one
+-- floorY for player and monsters) and bodies, HP and block clear the resting hand.
+M.floorY=495
 function M.geometry(actor)
  local source=SourceGeometry.resolve(actor)
  local sx,sy=Theme.canvas.base[1]/1920,Theme.canvas.base[2]/1080
