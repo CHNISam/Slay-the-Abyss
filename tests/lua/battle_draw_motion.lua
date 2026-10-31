@@ -82,7 +82,7 @@ test('direct discard and exhaust recoveries keep their real origin and ignore an
         local committed=Combat.copy(host.run)
         ui:render()
         local box=panel:GetChild('card2')
-        local origin=pile=='discard'and Theme.layout.discardPile.position orTheme.layout.exhaustPile.position
+        local origin=pile=='discard'and Theme.layout.discardPile.position or Theme.layout.exhaustPile.position
         near(box.x,origin[1]);near(box.y,origin[2]);near(box.scale[1],0.16)
         assert(b.hand[2].uid==99 and b.hand[2].upgraded,'recovery must preserve the original card')
         for _=1,100 do ui:update(1/60)end

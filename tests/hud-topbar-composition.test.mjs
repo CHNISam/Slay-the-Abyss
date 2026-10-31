@@ -23,3 +23,17 @@ test('exhaust pile left the top bar and keeps icon, count and click target clear
  assert.ok(click[1]>=turnTop+turn.touchGap,'exhaust hit stays touchGap above end turn');
  for(const c of [icon,count]){const a=bounds(c);assert.ok(click[0]<=a[0]&&click[2]>=a[2],'exhaust click covers icon and count');}
 });
+
+test('topbar flash and disabled glyphs preserve alpha in native RGB serialization',()=>{
+ const controls=gameLayout().controls;
+ const walk=(items,fn)=>{for(const c of items){fn(c);walk(c.children??[],fn);}};
+ let flashes=0,disabled=0;
+ walk(controls,c=>{
+  if(c.name==='potionFlash'){assert.equal(c.colour,'#FF0000');assert.equal(c.opacity,0);assert.equal(c.visible,false);flashes++;}
+  if(c.name==='disabled')for(const icon of c.children??[]){
+   if(!['deckIcon','mapIcon'].includes(icon.name))continue;
+   assert.equal(icon.colour,'#FFFFFF');assert.equal(icon.opacity,102/255);disabled++;
+  }
+ });
+ assert.equal(flashes,1);assert.equal(disabled,2);
+});

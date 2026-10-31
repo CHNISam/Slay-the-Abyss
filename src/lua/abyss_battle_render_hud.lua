@@ -137,8 +137,14 @@ function M.install(owner, _ownership, host, dependencies)
     end
     -- STS TopPanel.update → updateGold (one step per frame: 10 if gap > 99, 3 if > 9, else 1) and
     -- updatePotions' flash timer. Driven from BattleUI:update so the roll animates between refreshes.
+    local function goldStep(shown, gold)
+        local gap = gold - shown
+        local step = math.abs(gap) > 99 and 10 or math.abs(gap) > 9 and 3 or 1
+        return shown + (gap > 0 and step or -step)
+    end
     local frameDebt = 0
     function owner.topPanelUpdate(dt)
+        if dt <= 0 then return end
         if (owner.topPanelFlashRed or 0) > 0 then
             owner.topPanelFlashRed = math.max(0, owner.topPanelFlashRed - dt)
             paintFlash()
@@ -148,11 +154,10 @@ function M.install(owner, _ownership, host, dependencies)
         frameDebt = frameDebt + dt * 60
         while frameDebt >= 1 and shown ~= gold do
             frameDebt = frameDebt - 1
-            local gap = gold - shown
-            local step = math.abs(gap) > 99 and 10 or math.abs(gap) > 9 and 3 or 1
-            shown = shown + (gap > 0 and step or -step)
+            shown = goldStep(shown, gold)
         end
         owner.topPanelDisplayGold = shown
+        if shown == gold then frameDebt = 0 end
         paintGold()
     end
     local function renderPlayerTotals(frame)
@@ -167,6 +172,7 @@ function M.install(owner, _ownership, host, dependencies)
         -- AbstractPlayer starts each run with displayGold = gold; only later changes roll.
         if owner.topPanelDisplayGold == nil or owner.topPanelRun ~= run then
             owner.topPanelDisplayGold, owner.topPanelRun = owner.topPanelGold, run
+            frameDebt = 0
         end
         paintGold()
     end

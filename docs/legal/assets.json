@@ -5417,6 +5417,56 @@
     "docs/reviews/assets/char-select-59.3.1-after.png": {
       "sha256": "f75fa369b5a8c56387a0923bbfdac51842ea7eadc0b429d44bd77f15839b45bd",
       "category": "project-layout-preview"
+    },
+    ".artifacts/topbar-sim/after/battle.png": {
+      "sha256": "5ac768bf464094650eb6df689a51c8ab6402f99c9a7452fb95721479640cc071",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/after/battle.html; .artifacts/topbar-sim/after/battle.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/after/battle.sim.png": {
+      "sha256": "a7a8cadc0f06901af3cb47ceac20474a8ccb50eec31c5ee950223ae1d19cb107",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/after/battle.sim.save.json; .artifacts/topbar-sim/after/battle.sim.receipt.json; experiments/topbar-sim/sim.mjs; beyond-simulator-mcp 0.5.2 static rendering of captured Lua Host control tree with official platform picture IDs; contains game IP, no IP sublicense or commercial clearance; not official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/after/character-select.png": {
+      "sha256": "46028b0cb7fe6222387c4c52f515578bf2ca62910f21ae8110b7220a7d785e29",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/after/character-select.html; .artifacts/topbar-sim/after/character-select.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/after/character-traveler.png": {
+      "sha256": "c7b02e07cf43b412fdd5857c34be528fb40ad14593b230deef0578e898807251",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/after/character-traveler.html; .artifacts/topbar-sim/after/character-traveler.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/after/map-start.png": {
+      "sha256": "fda2791590eba8d7e2ebdb3339c351995ff18c01e5dde35c2954cd7876c343ac",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/after/map-start.html; .artifacts/topbar-sim/after/map-start.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/before/battle.png": {
+      "sha256": "f0414f86ef2905cbf4ffc068ab5b3dbade61e6fa59f4fff7a4d943038b8dd70b",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/before/battle.html; .artifacts/topbar-sim/before/battle.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/before/battle.sim.png": {
+      "sha256": "44a5478bee8ccbe6a1d46577b12ada21082e957a87bb3db37a1b60d82e44f934",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/before/battle.sim.save.json; .artifacts/topbar-sim/before/battle.sim.receipt.json; experiments/topbar-sim/sim.mjs; beyond-simulator-mcp 0.5.2 static rendering of captured Lua Host control tree with official platform picture IDs; contains game IP, no IP sublicense or commercial clearance; not official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/before/character-select.png": {
+      "sha256": "46028b0cb7fe6222387c4c52f515578bf2ca62910f21ae8110b7220a7d785e29",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/before/character-select.html; .artifacts/topbar-sim/before/character-select.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/before/character-traveler.png": {
+      "sha256": "c7b02e07cf43b412fdd5857c34be528fb40ad14593b230deef0578e898807251",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/before/character-traveler.html; .artifacts/topbar-sim/before/character-traveler.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
+    },
+    ".artifacts/topbar-sim/before/map-start.png": {
+      "sha256": "57575279dd8def47799ee2c87260550ed83c3361ac13a35523a038c9410818a2",
+      "category": "platform-evidence",
+      "evidence": ".artifacts/topbar-sim/before/map-start.html; .artifacts/topbar-sim/before/map-start.tree.json; experiments/topbar-sim/render.mjs; experiments/topbar-sim/capture.lua; scripts/node-ui-preview.mjs; offline browser rendering with stand-in glyphs and system fonts; not Simulator textures, official client import or device acceptance"
     }
   }
 }

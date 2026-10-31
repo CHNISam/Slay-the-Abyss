@@ -77,7 +77,7 @@ export function deckControls(theme = nativeTheme) {
       text_.visible = false;
       if (state.name === 'hover') state.scale = [bar.hoverScale, bar.hoverScale];
       const ink = state.name === 'disabled' ? '#FFFFFF66' : '#FFFFFF';
-      state.children = [{ name: iconName, kind: 'image', position: [0, 0], size: [glyphSize, glyphSize], image, colour: ink },
+      state.children = [{ ...plate(iconName, [0, 0, glyphSize, glyphSize], ink), image },
         ...(withCount ? [{ ...text('count', [58 * 2 / 3 - bar.iconW / 2 - 12, -bar.iconW / 2 + 25 * 2 / 3 - 10,
           24, 20], '', f.label, ink), text: { ...text('x', [0, 0, 1, 1], '', f.label, ink).text, align: 'right' } }] : []), text_];
     }

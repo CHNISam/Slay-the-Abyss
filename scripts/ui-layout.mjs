@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { cardFaceChildren } from './card-face.mjs';
 import { potionSlotVisual } from './potion-slot-visual.mjs';
-import { nativeFontSize } from './native-ui-theme.mjs';
+import { nativeFontSize, nativeControls } from './native-ui-theme.mjs';
 
 // One source of tokens for both the native tree and its Lua controller.
 export const theme = JSON.parse(readFileSync(new URL('../data/presentation/ui_theme.json', import.meta.url), 'utf8'));
@@ -221,7 +221,7 @@ export function battleLayout() {
     {name: 'topBar', kind: 'container', position: [0,y], size: [width,bar.height], children: [
       panel('steel',0,0,width,bar.height,c.panelSunken),
       panel('edge',0,-bar.height/2,width-80,1,c.goldDim),
-      { ...panel('potionFlash', bar.potionX - 40 * 2 / 3 + l.battlePotions.count * 64 * 2 / 3 / 2, 0, l.battlePotions.count * 64 * 2 / 3, bar.height, '#FF000000'), visible: false },
+      { ...nativeControls(theme).plate('potionFlash', [bar.potionX - 40 * 2 / 3 + l.battlePotions.count * 64 * 2 / 3 / 2, 0, l.battlePotions.count * 64 * 2 / 3, bar.height], '#FF000000'), visible: false },
       aligned(text('characterTitle', bar.title[0], 0, bar.title[1], bar.height, '', f.small, '#BFBFBF')),
       picture('floorIcon', bar.floorIcon[0], 0, bar.floorIcon[1], bar.floorIcon[1], iconId(theme.icon.map), c.topPanelCream),
     ]},
