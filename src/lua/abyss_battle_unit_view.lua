@@ -49,6 +49,9 @@ function M.new(picture, tint, ink, statusKind)
         picture(box:GetChild("portrait"), type(icon)=='table' and icon.id or icon)
         -- The traveler bust must stay readable; dyeing it with the Geo swatch made every portrait the element icon.
         tint(box:GetChild("portrait"), box.name == "hero" and C.buttonPressedText or C.text)
+        -- STS shows the player as the character art plus powers/stance UI; never a glyph on the body.
+        -- The 105292 placeholder read as a stray stance arrow, so hide it (real art comes from battlePose).
+        box:GetChild("portrait"):SetVisible(not(box.name=="hero" and type(icon)=='table' and icon.status=="placeholder"))
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
         for _, x in ipairs({-1,1}) do for _, y in ipairs({-1,1}) do
             for _, axis in ipairs({'H','V'}) do
