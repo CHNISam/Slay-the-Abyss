@@ -30,3 +30,16 @@ node scripts/test-lua.mjs tests/lua/common_relic_final.lua
 ```
 
 状态：Snecko 独立验证 `TEST_ADDED`；昆虫标本输入 binary32 边界 `PRODUCTION_FIXED`，有源依据的公开 RED→GREEN。最终标准测试17/17通过（42059ms合计，各Lua约1.3–4秒，默认30秒不变），含真实CRLF checkout。JS语法、Python编译、`check-syntax`、`git diff --check`通过。完整标准向量日志 `/workspace/cloud-reports/m3-snecko-insect-green.log`。这不是自然长跑、官方 LuaHost 或 PC/手机证据，不关闭全部153遗物效果与全组合 AC。
+
+## 后续历史源合同窄核（实际59acf64树）
+
+没有新增源码投影层。`relic-completion-inverse`、`pr323-accepted-source-inverse` 与 `m3-event-delivery-source-inverse` 的冻结证明确实登记了 `abyss_relic_hooks.lua`，但其现行标准整源测试使用 `historicalTest` → `withHistoricalBaseline`，在独立临时目录写出固定 `98fef95` 归档源码，再运行原守卫；新增一行不会把当前 hook 冒充历史输入。当前 Toxic/Molten Egg 的生产目录测试仍读真实数据，并调用既有 `requireRelicCompletionSource` 绑定来源，实际也通过。没有出现需要增加外层的标准 RED，不能为满足预设而制造新授权层。
+
+本轮只跑以下精确来源合同，不跑长 Lua 或全套：
+
+- PR323：`combined PR323 sources recover both complete accepted20a and original323 witnesses`，1/1通过，8945ms。
+- relic-completion：`complete relic source identities recover exact ce62 sources solely from positioned hunks`；`every registered source mutation and each removed duplicated moved or altered hunk refuses`；`current relic feature fixtures and production modules never use historical source projection`，3/3通过，合计14113ms。原负控继续拒绝所有登记源码的未知、缺失、重复、移动、改变片段，不削弱旧 guard。
+- M3 delivery：`all 62 current inputs reconstruct exact accepted Git base with forward and blob checks`，1/1通过，1518ms。
+- `node --test tests/toxic-egg-source.test.mjs tests/molten-egg-source.test.mjs`，当前活目录和来源合同4/4通过，合计183ms。
+
+日志依次为 `/workspace/cloud-reports/m3-insect-history-{initial,relic,m3,live-owners}.log`。原源码与数学 owner、旧归档/expected hash/guard 均未因这次核查改变；只追加这份验证记录。这里证明已选择的现行源码合同不回归，不等同于全量 CI 或平台验收。
