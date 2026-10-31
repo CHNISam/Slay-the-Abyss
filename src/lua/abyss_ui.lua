@@ -103,8 +103,16 @@ function OnStart()
                 return require('abyss_menu_background').new(stage,print,factory,Color,{standalone=true})
             end
         end
-        if flags.selectionAvatar or flags.battlePortrait then
-            portraits = optionalArt('portraits', function()return require("abyss_traveler_portraits").new(stage, print, flags)end)
+        if flags.selectionAvatar or flags.battlePortrait or flags.cards then
+            -- cards also owns the low-poly select fan (premium frames + illustrations); off = untouched official path.
+            portraits = optionalArt('portraits', function()
+                local templates
+                if flags.cards then
+                    local ok, binding = pcall(function() return require("abyss_ready_card_binding") end)
+                    if ok and type(binding)=='table' and binding.enabled==true then templates = binding end
+                end
+                return require("abyss_traveler_portraits").new(stage, print, flags, templates)
+            end)
         end
         if flags.cards then
             cardArt = optionalArt('cards', function()

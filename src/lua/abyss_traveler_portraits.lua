@@ -27,6 +27,11 @@ local M = {}
 local owners = setmetatable({}, {__mode='k'})
 local CANCELLED = {}
 local function integer(n) return type(n)=='number' and n>0 and n<math.huge and n%1==0 end
+-- Breakthrough low-poly rows: 20 fields, official primitive/sprite IDs, rotX/rotY squash.
+local function lowpoly(data)
+    return type(data)=='table' and data.renderProfile=='lowpoly-v1' and integer(data.width) and integer(data.height)
+        and integer(data.count) and data.count<=2304 and #data.rows==data.count and type(data.jsonSha256)=='string'
+end
 local function validate(data, width, count, source, json)
     local compact=data.renderProfile=='compact-v1' or data.renderProfile=='selection-budget-v1'
     local expected=compact and data.count or count
@@ -92,7 +97,8 @@ local function controller(host, data, display, templates)
         return c
     end
     local function image(token,c,r)
-        assert(#r==18 and r[1]==100001,'unexpected portrait image row')
+        local tri=data.renderProfile=='lowpoly-v1'
+        assert(tri and #r==20 and integer(r[1]) or #r==18 and r[1]==100001,'unexpected portrait image row')
         if data.renderProfile=='compact-v1' or data.rectanglesOnly then
             -- Shared template supplies the white image and identity transforms.
             c.imageType=Enum.ImageType.Stretch;check(token)
@@ -104,7 +110,7 @@ local function controller(host, data, display, templates)
         c.imageType=Enum.ImageType.Stretch;check(token);assert(c.imageType==Enum.ImageType.Stretch,'imageType rejected')
         call(token,c,'SetAnchorMin',r[8],r[9]);call(token,c,'SetAnchorMax',r[10],r[11]);call(token,c,'SetPivot',r[6],r[7])
         call(token,c,'SetSizeDelta',r[4],r[5]);call(token,c,'SetLocalScale',r[12],r[13],1)
-        call(token,c,'SetLocalRotation',0,0,r[14]);call(token,c,'SetAnchoredPosition',r[2],r[3])
+        call(token,c,'SetLocalRotation',tri and r[19] or 0,tri and r[20] or 0,r[14]);call(token,c,'SetAnchoredPosition',r[2],r[3])
         c.imageColor=Color.FromRGBA(r[15],r[16],r[17],r[18]);check(token)
         call(token,c,'SetAsLastSibling');call(token,c,'SetActive',true);call(token,c,'SetVisible',true)
     end
@@ -206,14 +212,19 @@ local function activeTargets(mode,characterOpen,stopped,character,preloadSelecti
     if stopped then return {}end
     local choosing=characterOpen==true
     local warm=preloadSelection==true and mode=='menu' and not choosing
-    return {avatar=choosing or warm,battle=mode=='battle' and character=='ironclad',selection=warm or choosing and character=='ironclad'}
+    local selection=warm or choosing and character=='ironclad'
+    return {avatar=choosing or warm,battle=mode=='battle' and character=='ironclad',selection=selection,cardFan=selection}
 end
-function M.new(stage,report,flags)
+-- cardTemplates: ready-card image/container template indices, used when only the cards flag is on.
+function M.new(stage,report,flags,cardTemplates)
     local selecting=type(flags)=='table' and flags.selectionAvatar==true
     local fighting=type(flags)=='table' and flags.battlePortrait==true
-    if not selecting and not fighting then return nil end
+    local carding=type(flags)=='table' and flags.cards==true
+    if not selecting and not fighting and not carding then return nil end
     if owners[stage]then return owners[stage]end
     local Asset=require('abyss_traveler_portrait_assets')
+    if carding and not lowpoly(Asset.lowpolyCardFan) then carding=false end
+    if not selecting and not fighting and not carding then return nil end
     local avatar,battle,selection,details,rows=nil,nil,nil,nil,{}
     if selecting then
         validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')
@@ -224,8 +235,10 @@ function M.new(stage,report,flags)
         details=panel:GetChild('details')
         local host=details and details:GetChild('officialSelectionFigure')
         if host then
-            local figure=Asset.selection133 or Asset.battle133
-            validate(figure,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
+            local figure=lowpoly(Asset.lowpolyHero) and Asset.lowpolyHero or Asset.selection133 or Asset.battle133
+            if figure.renderProfile~='lowpoly-v1' then
+                validate(figure,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
+            end
             selection=controller(host,figure,assert(details:GetChild('portraitFrame').sizeDeltaX),Asset)
             rows[#rows+1]={name='selection',adapter=selection,fallback={details:GetChild('portraits'):GetChild('traveler_ironclad')},active=false}
         end
@@ -233,13 +246,30 @@ function M.new(stage,report,flags)
         for _,name in ipairs({'normal','hover','pressed','disabled'})do row.fallback[#row.fallback+1]=traveler:GetChild('hit'):GetChild(name):GetChild('bust')end
         rows[#rows+1]=row
     end
+    if carding then
+        -- Premium frames + low-poly illustrations fanned under the select details, like the breakthrough GIF.
+        local templates=integer(Asset.imagePrefabId) and Asset.imagePrefabId~=100001 and Asset
+            or type(cardTemplates)=='table' and {imagePrefabId=cardTemplates.imageTemplateIndex,containerPrefabId=cardTemplates.containerTemplateIndex}
+        local panel=stage:GetChild('characterPanel')
+        local parent=panel and panel:GetChild('details')
+        if templates and parent and integer(templates.containerPrefabId) then
+            local host=game.InstantiateClientUIControl(templates.containerPrefabId,parent)
+            if host then
+                pcall(host.SetVisible,host,false)
+                pcall(host.SetAnchoredPosition,host,0,-250)
+                local fan=controller(host,Asset.lowpolyCardFan,Asset.lowpolyCardFan.width,templates)
+                rows[#rows+1]={name='cardFan',adapter=fan,fallback={},active=false}
+            end
+        end
+    end
     if fighting then
         validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
         local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))
         battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset)
         rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}
     end
-    local timeBudget=selecting and Asset.avatar96.runtimeV2 or fighting and Asset.battle133.runtimeV2
+    if #rows==0 then return nil end
+    local timeBudget=selecting and Asset.avatar96.runtimeV2 or fighting and Asset.battle133.runtimeV2 or carding
     local self,busy,destroyed,painting,epoch={},false,false,false,0
     local function paint()
         if destroyed or painting then return end
