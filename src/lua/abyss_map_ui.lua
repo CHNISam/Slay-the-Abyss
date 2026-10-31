@@ -19,15 +19,21 @@ function M.drawScale(fx)
     local t = math.max(0, math.min(1, (fx.scale - .91) / (1.25 - .91)))
     return base * (1.1 + (cap - 1.1) * t)
 end
+-- Each room view owns its last successful dimensions, tied to the native handle.
+local function roomSize(fx,key,control,size)
+    local painted=fx[key]
+    if painted and painted.control==control and painted.size==size and control.alive~=false then return end
+    if control:SetSizeDelta(size,size)~=false then fx[key]={control=control,size=size} end
+end
 function M.paintRoom(fx)
     local icon, ring = fx.box:GetChild("icon"), fx.box:GetChild("ring")
     local iconSize = fx.size * Layout.sts.iconPerScale * M.drawScale(fx)
-    icon:SetSizeDelta(iconSize, iconSize)
+    roomSize(fx,"paintedIcon",icon,iconSize)
     -- oscillateColor drives color.a for reachable rooms.
     local ink = fx.ink
     if ink then icon.imageColor = fx.colour(ink.r, ink.g, ink.b, math.floor(ink.a * fx.alpha + .5)) end
     local ringSize = fx.size * Layout.sts.circlePerScale * (fx.scale * .95 + .2)
-    ring:SetSizeDelta(ringSize, ringSize)
+    roomSize(fx,"paintedRing",ring,ringSize)
 end
 -- Room ink by state: emerald > visited gold > locked faded > official type colour.
 -- Rooms beyond the next row (and routes leaving the next row) are inactive decoration:
