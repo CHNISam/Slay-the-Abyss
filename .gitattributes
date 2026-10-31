@@ -289,3 +289,8 @@ tests/fixtures/sts1-colorless-potion-vectors.json text eol=lf
 tools/oracles/sts1_snecko_insect.py text eol=lf
 tools/oracles/sts1_potion_pool.py text eol=lf
 tools/oracles/sts1_combat_shuffle.py text eol=lf
+
+# Sword random-target oracle hashes these exact independent inputs on Windows too.
+tools/oracles/sts1_sword_random.py text eol=lf
+tests/fixtures/sts1-sword-random-sources.json text eol=lf
+tests/fixtures/sts1-sword-random.json text eol=lf
