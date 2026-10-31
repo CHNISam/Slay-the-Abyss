@@ -88,11 +88,11 @@
     },
     "node": {
       "visited": "#8E7448",
-      "current": "#F5D79A",
+      "current": "#FFFAEE",
       "reachable": "#ECE6DA",
       "locked": "#4A4F63",
       "path": "#77707A",
-      "pathTaken": "#E3B866"
+      "pathTaken": "#FFD88A"
     },
     "geo": "#F0B850",
     "geoDeep": "#A8732A",
@@ -114,8 +114,10 @@
     "mapCanvas": {
       "backdrop": "#0D0708",
       "field": "#2A1013",
-      "fog": "#3A2A28",
-      "far": "#77707A",
+      "fog": "#1A0D0E",
+      "far": "#7A8292",
+      "visitedRing": "#C99A4E66",
+      "currentRing": "#E6D3A873",
       "visited": "#C99A4E",
       "kind": {
         "combat": "#C9C3B6",
@@ -131,10 +133,12 @@
       "shade": "#070303",
       "border": "#6E5A42",
       "title": "#E9C77B",
-      "ink": "#BBAA8C",
+      "ink": "#C9BDA4",
+      "legendInk": "#D9CBB0",
+      "count": "#F3ECDD",
       "menuNormal": {
         "fill": "#241B19",
-        "ink": "#BBAA8C",
+        "ink": "#C9BDA4",
         "border": "#6E5A42"
       },
       "menuHover": {
@@ -155,14 +159,14 @@
       },
       "base": "#221A17",
       "normal": {
-        "border": "#8C7454",
+        "border": "#C9A86E",
         "light": "#3A2E28",
         "ink": "#8CC4E2",
         "base": "#2C231E",
         "mid": "#312722"
       },
       "fire": {
-        "border": "#8A4A3A",
+        "border": "#C8705A",
         "light": "#4A2C24",
         "ink": "#EE9670",
         "base": "#33221D",
@@ -1439,10 +1443,16 @@
         ],
         "navigationSize": 48,
         "pathWidth": 3,
+        "lockedPathWidth": 2,
         "futureOpacity": 0.6,
+        "lockedOpacity": 0.82,
+        "farLockedOpacity": 0.5,
+        "availableScaleCap": 1.3,
+        "takenPathWidth": 10.5,
+        "farFutureOpacity": 0.2,
         "takenOpacity": 1,
         "nextOpacity": 1,
-        "fogOpacity": 0.35,
+        "fogOpacity": 0.45,
         "noticeHeight": 40,
         "typeLegend": {
           "position": [
@@ -1465,11 +1475,11 @@
         "header": {
           "shade": [
             0,
-            330,
+            328,
             1280,
-            60
+            64
           ],
-          "shadeOpacity": 0.75,
+          "shadeOpacity": 0.92,
           "divider": [
             0,
             296,
@@ -1477,15 +1487,15 @@
             1
           ],
           "titleLineLeft": [
-            -160,
+            -172,
             316,
-            30,
+            72,
             1
           ],
           "titleLineRight": [
-            160,
+            172,
             316,
-            30,
+            72,
             1
           ]
         }
