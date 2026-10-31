@@ -21,6 +21,7 @@ H.test('missing history refuses atomically while mini real rows lead back to leg
  local ok,why=H.Nodes.beginNeow(r,m,nil);H.eq(ok,false);H.eq(why,'neow_history_unavailable');H.same(r,before)
  local ui,get,shown,click
  r,m,ui,get,shown,click=setup(42,0)
+ H.eq(get('title').text,'第 0 层 · 七天神像')
  H.eq(get('eventView/name').text,'高塔恩赐');H.eq(get('eventView/option1/title').text,'［继续］')
  H.parity(r,m,'continue',nil,function()return click('eventView/option1')end)
  assert(shown('eventView/option2'));assert(not shown('eventView/option3'))
@@ -29,6 +30,7 @@ H.test('missing history refuses atomically while mini real rows lead back to leg
  H.eq(r.phase,'map');H.eq(r.neowStatus,'complete');H.eq(m.floor,0);H.eq(#m.path,0)
  -- Reuse the same renderer for a legally entered ordinary event: Neow sizes must not leak.
  local otherRun,otherMap=H.fixture('big_fish');ui.run,ui.map=otherRun,otherMap;ui:render()
+ assert(get('title').text:find('未知事件',1,true),'ordinary event heading must retain its own identity')
  local layout=require('abyss_theme').layout.nativeNode.event.options
  local title,description=get('eventView/option1/title'),get('eventView/option1/description')
  assert(description.visible and description.text~='')

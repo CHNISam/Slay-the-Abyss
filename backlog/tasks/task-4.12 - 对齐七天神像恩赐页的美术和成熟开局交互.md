@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-31 02:42'
+updated_date: '2026-10-31 03:00'
 labels:
   - playtest-20261030
   - p1
@@ -44,4 +44,6 @@ Owner截图：七天神像由矩形圆片拼成，左右空旷、恩赐选项简
 403必要修复切片：真实Host首次mini2及两幕受控结算后session-completed-run合法full4，完整奖励/代价严格对应Neow.options且说明可见；普通事件复用恢复尺寸。原生RGBA编码与布局几何回归通过；原4PNG已看图核hash登记为强制历史/无脚本静态布局，未当作本轮玩法证据。官方导入、手机与正式神像美术仍未验，AC不勾。
 
 本轮定向16项、真实Host formal4组及Neow UI8组、native契约4项通过；license inventory通过；工程quality/architecture/Luacheck无新诊断，复杂度上限不变，4个既有mutation全部被有效断言杀死。仅提取原底部notice选择满足复杂度，未改随机/池/奖励/商店规则。无全量CI、无官方/设备验收，待主集成独审。
+
+UI合流补充：开局顶栏按既有roomKind=neow显示七天神像，普通事件仍保原标识；真实mini/full及普通事件复用回归已通过。组合发现新官方背景/晕影/气泡未进旧精确图ID白名单，新增命名token逐一变异传播断言与精确白名单，未放宽RGBA或任意图ID许可。仍无官方/手机验收，不勾AC。
 <!-- SECTION:NOTES:END -->
