@@ -14,10 +14,12 @@ for i=1,Theme.layout.relicView.bar.count do
   assert(slot.visible==true,'slot '..i..' should show owned relic')
   assert(slot:GetChild('rim') and slot:GetChild('face') and slot:GetChild('icon'),'disc art layers missing')
 end
--- Grouped tray + overflow chip: 42 relics → slot1/2 icons, slot3 '+40'.
-assert(bar:GetChild('tray').visible==true,'relic tray groups the discs')
+-- Twelve-disc row: 42 relics show eleven icons and a '+31' overflow chip.
+assert(Theme.layout.relicView.bar.count==12)
+assert(bar:GetChild('tray').visible==false,'legacy grouped tray stays hidden')
+assert(r:GetChild('relicEntry').visible==false,'legacy text entry stays hidden')
 local last=bar:GetChild('slot'..Theme.layout.relicView.bar.count)
-assert(last:GetChild('more').visible==true and last:GetChild('more').text=='+40',last:GetChild('more').text)
+assert(last:GetChild('more').visible==true and last:GetChild('more').text=='+31',last:GetChild('more').text)
 assert(last:GetChild('icon').visible==false,'overflow chip must not stack on an icon')
 assert(bar:GetChild('slot1'):GetChild('more').visible==false)
 local V=require('abyss_relic_view_ui')
@@ -30,7 +32,7 @@ local function iconOf(id)local v=Theme.icon.relic[id];return type(v)=='table' an
 assert(require('abyss_relic_view_ui').icon('anchor')==iconOf('anchor'))
 local panel=r:GetChild('relicPanel')
 local entry=r:GetChild('relicEntry'):GetChild('open'):GetChild('hit')
-assert(entry.click())
+assert(bar:GetChild('slot1'):GetChild('hit').click())
 assert(h.deckUI.visible and h.deckUI.detailOnly=='relics' and h.relicUI.visible and not h.mapUI.visible)
 assert(panel.visible==true and r:GetChild('deckPanel').visible==false,'relic overlay must replace the text dump')
 assert(panel:GetChild('title').text=='持有遗物 · 42 件')
@@ -65,7 +67,7 @@ do
   local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
   local host,_,_,emit,_,_,_,root=H.setup()
   emit('endTurn','down',7)
-  assert(root:GetChild('relicEntry'):GetChild('open'):GetChild('hit').click())
+  assert(root:GetChild('relicBar'):GetChild('slot1'):GetChild('hit').click())
   assert(host.deckUI.visible and host.relicUI.visible)
   assert(root:GetChild('relicPanel'):GetChild('close'):GetChild('hit').click())
   emit('endTurn','up',7);emit('endTurn','click',7)
@@ -76,7 +78,8 @@ do
   local h2,r2=G.fixture();assert(G.start(h2))
   h2.run.relics={'neows_lament','maw_bank','anchor','ancient_tea_set'}
   h2.run.relicCounters={neows_lament=2,maw_bank=-2,ancient_tea_set=-2}
-  assert(r2:GetChild('relicEntry'):GetChild('open'):GetChild('hit').click())
+  h2:refresh()
+  assert(r2:GetChild('relicBar'):GetChild('slot1'):GetChild('hit').click())
   local p=r2:GetChild('relicPanel')
   local function chip(i)local c=p:GetChild('row'..i):GetChild('chip');return c.visible and c:GetChild('label').text or nil end
   assert(chip(1)=='剩余 2 场',tostring(chip(1)))

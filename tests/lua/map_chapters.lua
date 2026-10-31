@@ -72,8 +72,7 @@ for act=1,4 do
                     assert(b.y==Layout.firstY+(row-1)*Theme.layout.map.floorGap-ui.scroll)
                     assert(b:GetChild('icon').imageId==Theme.icon.node[node.type])
                     seen[node.id]=true
-                    local radius=(b.sizeDeltaX+Layout.glowPadding)*Layout.breathScale/2
-                    assert(b.y-radius>=Layout.viewport.bottom and b.y+radius<=Layout.viewport.top)
+                    dofile('tests/lua/support/map_draw_bounds.lua')(b,Layout.viewport)
                     assert(b:GetChild('hit').visible==(node.floor==chapter.first))
                 end
             end

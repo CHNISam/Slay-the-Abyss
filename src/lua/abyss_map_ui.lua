@@ -78,6 +78,32 @@ local function oscillate(fx, dt)
     fx.alpha = .66 + (math.cos(fx.oscillateTimer) + 1) / 6
     fx.scale = .25 + fx.alpha
 end
+-- Native clipping is not assumed: include the full animated glyph and rotated
+-- ring, while preserving the original unpainted hit target.
+function M.roomRadius(fx)
+    local scale = fx.state == 'available' and (.25 + .66 + 1/3) or math.max(Sts.baseScale,fx.scale)
+    local iconRadius=fx.size*Sts.iconPerScale*scale/2
+    local radius = math.max(fx.size/2,iconRadius+(fx.emerald and math.abs(Theme.layout.map.emeraldIconY)or 0))
+    if fx.state == 'current' or fx.state == 'visited' then
+        local angle = fx.angle*math.pi/180
+        local ring = fx.size*Sts.circlePerScale*(scale*.95+.2)/2
+        radius = math.max(radius,ring*(math.abs(math.cos(angle))+math.abs(math.sin(angle))))
+    end
+    if fx.state == 'current' then
+        local visual=Theme.layout.map.presentation
+        radius=math.max(radius,math.abs(visual.tokenOffset[1])+visual.tokenSize/2,math.abs(visual.tokenOffset[2])+visual.tokenSize/2)
+    end
+    if fx.emerald then
+        local label=Theme.layout.map.emeraldLabel
+        radius=math.max(radius,math.abs(label[1])+label[3]/2,math.abs(label[2])+label[4]/2)
+    end
+    return radius
+end
+local function roomVisible(fx)
+    local radius=M.roomRadius(fx)
+    return fx.x-radius>=Layout.viewport.left and fx.x+radius<=Layout.viewport.right
+        and fx.y-radius>=Layout.viewport.bottom and fx.y+radius<=Layout.viewport.top
+end
 M.stsScaleLerpSnap, M.stsOscillate, M.stsRoomFx = scaleLerpSnap, oscillate, newRoomFx
 local function atStart(map) return map.floor == (map.firstFloor or 1) - 1 end
 
@@ -300,26 +326,23 @@ function M.new(root, map, onChoose, clickEvent, options)
             if node then
                 local size = node.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node
                 local x, y = position(node)
-                -- Native container clipping is not established. Cull whole targets,
-                -- including glow/breath extent, so no offscreen hit area can leak.
-                local radius = (size + Layout.glowPadding) * Layout.breathScale / 2
-                if node.hasEmeraldKey then radius=math.max(radius,math.abs(Theme.layout.map.emeraldLabel[2])+Theme.layout.map.emeraldLabel[4]/2)end
-                visible = y - radius >= Layout.viewport.bottom and y + radius <= Layout.viewport.top
+                local state = node.id == current.currentNodeId and "current" or
+                    (node.visited and "visited" or (node.available and "available" or "locked"))
+                local fx = self.roomFx[node.id] or newRoomFx(node.id)
+                self.roomFx[node.id] = fx
+                fx.state,fx.size,fx.box,fx.x,fx.y,fx.emerald=state,size,box,x,y,node.hasEmeraldKey
+                visible=roomVisible(fx);fx.visible=visible
+                -- Hidden transitions still lerp to rest; otherwise a temporarily
+                -- oversized current ring could remain culled forever.
+                self.activeFx[#self.activeFx+1]=fx
+                child(box, "positionToken"):SetVisible(state == "current")
                 -- Hidden rows have no slots or focus targets. Avoid rewriting
                 -- every child of all 17 floors during each pan animation frame.
                 if visible then
                 box:SetAnchoredPosition(x, y)
                 box:SetSizeDelta(size, size)
                 box.localScaleX, box.localScaleY = 1, 1
-                local state = node.id == current.currentNodeId and "current" or
-                    (node.visited and "visited" or (node.available and "available" or "locked"))
-                local token = child(box, "positionToken")
-                token:SetVisible(state == "current")
                 local icon = child(box, "icon")
-                local fx = self.roomFx[node.id] or newRoomFx(node.id)
-                self.roomFx[node.id] = fx
-                fx.state, fx.size, fx.box = state, size, box
-                self.activeFx[#self.activeFx + 1] = fx
                 if state ~= "available" then fx.alpha = 1 end
                 local ring = child(box, "ring")
                 -- render(): circle when taken, or current after the first room was chosen.
@@ -394,14 +417,17 @@ function M.new(root, map, onChoose, clickEvent, options)
             return true
         end
         -- MapRoomNode.update: reachable rooms oscillate; all others lerp-snap to 0.5.
+        local visibilityChanged=false
         for _, fx in ipairs(self.activeFx or {}) do
             do
                 if fx.state == "available" and not self.reducedMotion then oscillate(fx, dt)
                 elseif fx.state == "available" then fx.alpha, fx.scale = 1, .91
                 else fx.scale = scaleLerpSnap(fx.scale, Sts.baseScale, dt) end
-                M.paintRoom(fx)
+                if fx.visible then M.paintRoom(fx)end
+                if dt>0 and roomVisible(fx)~=fx.visible then visibilityChanged=true end
             end
         end
+        if visibilityChanged then self:render()end
         return true
     end
     function self.setReducedMotion(_, value)

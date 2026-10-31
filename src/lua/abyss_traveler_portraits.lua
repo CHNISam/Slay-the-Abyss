@@ -206,10 +206,7 @@ local function activeTargets(mode,characterOpen,stopped,character,preloadSelecti
     if stopped then return {}end
     local choosing=characterOpen==true
     local warm=preloadSelection==true and mode=='menu' and not choosing
-    -- STS keeps the player creature loaded for the whole run; prewarm (hidden under the
-    -- inactive battlePanel) on map/node screens so combat never flashes the fallback glyph.
-    local inRun=mode=='battle' or mode=='map' or mode=='node'
-    return {avatar=choosing or warm,battle=inRun and character=='ironclad',selection=warm or choosing and character=='ironclad'}
+    return {avatar=choosing or warm,battle=mode=='battle' and character=='ironclad',selection=warm or choosing and character=='ironclad'}
 end
 function M.new(stage,report,flags)
     local selecting=type(flags)=='table' and flags.selectionAvatar==true

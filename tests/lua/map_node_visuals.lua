@@ -59,6 +59,19 @@ local function verify()
             assert(b:GetChild('ring').localRotationZ==fx.angle,'STS circle angle')
             assert(fx.scale>=.5 and fx.scale<=1.25,'STS scale bounds')
             assert(hit.size[1]==size and hit.size[2]==size,'unpainted hit target stays full sized')
+            local function inside(part,angle)
+                if not part.visible then return end
+                local x,y=table.unpack(b.position)
+                local ox,oy=table.unpack(part.position or {0,0})
+                local w,h=table.unpack(part.size or part.spec.size)
+                local a=(angle or 0)*math.pi/180
+                local rx=(math.abs(w*math.cos(a))+math.abs(h*math.sin(a)))/2
+                local ry=(math.abs(w*math.sin(a))+math.abs(h*math.cos(a)))/2
+                assert(y+oy-ry>=Layout.viewport.bottom-.00001 and y+oy+ry<=Layout.viewport.top+.00001,
+                    'animated '..part.spec.name..' overhangs map viewport')
+                assert(x+ox-rx>=Layout.viewport.left and x+ox+rx<=Layout.viewport.right,'map horizontal overhang')
+            end
+            inside(icon);inside(b:GetChild('ring'),fx.angle);inside(hit)
             local enabled=state=='available' and ui.navigationEnabled
             assert(hit.visible==enabled and hit.canControllerFocus==enabled,'only legal destinations are focusable')
         else
@@ -67,11 +80,15 @@ local function verify()
     end
 end
 verify()
+for _=1,12 do ui:update(.09);verify()end
 manager:sync('map')
 assert(focus and focus.visible and focus.canControllerFocus)
 assert(focus.navigation.confirm())
 assert(calls==1 and map.floor==1)
 verify()
+for _=1,12 do ui:update(.09);verify()end
+assert(box(1).visible and box(1):GetChild('positionToken').visible,
+    'a temporarily culled current room must reappear after its ring settles')
 assert(not focus.navigation.confirm() and calls==1,'repeated confirmation must not advance again')
 ui:setNavigationEnabled(true)
 manager:tick();manager:sync('map')

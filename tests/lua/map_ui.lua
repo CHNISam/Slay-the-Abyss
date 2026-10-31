@@ -89,9 +89,7 @@ local function visibleBounds(root, map)
     for _, node in ipairs(Map.view(map).nodes) do
         local box = boxFor(root, map, node.id)
         if box.visible then
-            local radius = (box.w + Layout.glowPadding) * Layout.breathScale / 2
-            assert(box.y - radius >= Layout.viewport.bottom and box.y + radius <= Layout.viewport.top)
-            assert(math.abs(box.x) + radius <= Theme.canvas.base[1] / 2 - Theme.canvas.safe.x)
+            dofile('tests/lua/support/map_draw_bounds.lua')(box,Layout.viewport)
         end
     end
     for i = 1, Layout.maxEdges do
