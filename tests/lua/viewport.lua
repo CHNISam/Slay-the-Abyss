@@ -36,7 +36,7 @@ for _, device in ipairs(cases) do
             local high = backdropSpec.anchor and backdropSpec.anchor.max[axis] or 0.5
             local extent = device[axis + 2]
             local actual = extent * (high - low) + backdrop.delta[axis]
-            assert(actual == extent, "background misses native host or adds canvas size twice")
+            assert(actual == extent + (axis == 1 and 400 or 0), "background must overscan host width only")
         end
         assert(stageSpec.size[1] * scale <= device[1] + 1e-9)
         assert(stageSpec.size[2] * scale <= device[2] + 1e-9)
