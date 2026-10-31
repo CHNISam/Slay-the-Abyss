@@ -28,7 +28,7 @@ function M.install(owner, _ownership, _host, _dependencies)
         local angle = -distance * L.hand.arcDegrees
         local radians = math.abs(angle) * math.pi / 180
         local halfHeight = (h * math.cos(radians) + w * math.sin(radians)) / 2
-        local floor = -Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + halfHeight
+        local floor = -Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + halfHeight - (L.hand.overhang or 0)
         local baseY = math.max(floor,L.hand.y-math.abs(distance)*L.hand.arcDrop)
         local x, y = distance * spacing, baseY + (selected and Theme.motion.hoverLift or 0)
         box:SetAnchoredPosition(x, y)

@@ -217,7 +217,7 @@
     "hitStopHeavy": 0.1,
     "heavyHitDamage": 12,
     "anticipation": 0.3,
-    "hoverLift": 36,
+    "hoverLift": 76,
     "hoverScale": 1.22
   },
   "sound": {
@@ -1159,7 +1159,9 @@
       "artIcon": 40
     },
     "hand": {
-      "y": -250,
+      "note": "STS AbstractCard 手牌：牌底可沉出画面下沿（overhang），静止时整把牌落在底部约 1/4；悬停/选中由 motion.hoverLift 抬到演员脚下之上并完整露出。",
+      "y": -296,
+      "overhang": 60,
       "maxWidth": 820,
       "spacingMax": 140,
       "spacingMin": 74,

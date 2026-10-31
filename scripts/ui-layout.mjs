@@ -174,7 +174,7 @@ export function handPose(count, index, selected = false) {
   const angle = -distance * l.hand.arcDegrees;
   const radians = Math.abs(angle) * Math.PI / 180;
   const halfHeight = (h * Math.cos(radians) + w * Math.sin(radians)) / 2;
-  const floor = -theme.canvas.base[1] / 2 + theme.canvas.safe.y + halfHeight;
+  const floor = -theme.canvas.base[1] / 2 + theme.canvas.safe.y + halfHeight - (l.hand.overhang ?? 0);
   return { position: [distance * spacing, Math.max(floor, l.hand.y - Math.abs(distance) * l.hand.arcDrop) + (selected ? theme.motion.hoverLift : 0)],
     rotation: selected ? 0 : angle, scale: [scale, scale] };
 }
