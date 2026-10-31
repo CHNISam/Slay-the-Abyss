@@ -29,7 +29,7 @@ local function native(workKey)
  F.click(root,'menuPanel','start')
  assert(host.characterOpen and not host.run)
  local panel=root:GetChild('characterPanel')
- assert(panel:GetChild('traveler').visible)
+ assert(not panel:GetChild('traveler').visible and host.characterSelection.info.id=='ironclad')
  for i=1,4 do assert(not panel:GetChild('character'..i).visible)end
  assert(not panel:GetChild('hint').text:find('待验收',1,true),'old acceptance blocker remains in player flow')
  for _,id in ipairs({'raiden','hutao','arlecchino','furina','unknown'})do assert(not host:selectCharacter(id) and not host.run)end
@@ -37,7 +37,8 @@ local function native(workKey)
  for _,id in ipairs({'silent','defect','watcher','unknown'})do assert(not host:selectElement(id))end
  host.characterSelection.info={id='raiden'}
  assert(not host:confirmCharacter() and not host.run and host.seed=='2','configuration bypass created a future character')
- F.click(root,'characterPanel','traveler');F.click(root,'characterPanel','confirm')
+ assert(host:selectCharacter('traveler'),'restore only the approved preselected identity after the forged-state negative')
+ F.click(root,'characterPanel','confirm')
  local run=host.run
  assert(run and not run.characterProfile and not run.data.originalV4Role and run.maxHp==80)
  assert(run.campaignProfile=='competition-two-act' and run.act==1)

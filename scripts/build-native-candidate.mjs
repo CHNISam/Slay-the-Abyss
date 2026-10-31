@@ -1,6 +1,6 @@
 import {monsterSourceInputs,prepareMonsterArt,monsterActorTemplate,monsterPowerTemplateName,monsterActorTemplateName,monsterActorBindingModule,bindMonsterActorTemplates,monsterActorInventory} from './monster-art.mjs';
-import {resolveArtFeatures,artFeatureArgs,artFeatureBuildArgs,artFeatureReceipt,artFeaturesSource,artFeatureModule} from './art-features.mjs';
-import {portraitSourceInputs,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';
+import {resolveArtFeatures,artFeatureArgs,artFeatureBuildArgs,artFeatureReceipt,artFeaturesSource,artFeatureModule,withCandidateArtDefaults} from './art-features.mjs';
+import {portraitSourceInputs,portraitRuntimeInputs,lowpolySelectPath,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';
 import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate,bindReadyArtTemplates,readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';
 import { backgroundInputs, backgroundModule, backgroundTemplate, bindBackgroundTemplate, backgroundRuntimeInventory } from './official-background.mjs';
 import { readFileSync, readdirSync, mkdirSync, writeFileSync, copyFileSync, constants, existsSync } from 'node:fs';
@@ -19,6 +19,7 @@ import {reusableUi} from './native-candidate-ui-cache.mjs';
 import {embeddedScripts} from './native-script-inventory.mjs';
 import {runNativeClientCheck} from './native-client-check.mjs';
 import {writeScriptBatch} from './native-script-batch.mjs';
+import {assertCandidateArtPolicy,assertCandidateArtReceipt} from './candidate-art-policy.mjs';
 
 export const generatedRuntimeModules = {
   abyss_data:'scripts/build-lua-data.mjs', abyss_original_v4_data:'scripts/build-lua-data.mjs', abyss_theme:'scripts/build-ui.mjs',
@@ -42,7 +43,7 @@ export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
     try{walk(dir);}catch(error){if(error.code!=='ENOENT')throw error;}
   }
   for(const file of ['package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json',
-    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...(flags.menuBackground?backgroundInputs:[]), ...(flags.cards&&!nativeCardArt?readyArtSourceInputs(root):[]),...portraitSourceInputs(flags),...staticInputs]) {
+    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...(flags.menuBackground?backgroundInputs:[]), ...(flags.cards&&!nativeCardArt?readyArtSourceInputs(root):[]),...portraitSourceInputs(flags),...(flags.selectionAvatar||flags.cards||flags.menuBackground?[lowpolySelectPath]:[]),...staticInputs]) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
   if(flags.monsters){
@@ -134,10 +135,10 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
       .map(({name,sourceFile})=>[name,sourceFile]));
     if(!modules.has('abyss_ui'))throw new Error('Missing entry module abyss_ui');
     const dynamicCards=flags.cards&&!art,portraits=flags.selectionAvatar||flags.battlePortrait;
-    const sharedTemplates=dynamicCards||portraits||flags.menuBackground;
+    const sharedTemplates=flags.cards||portraits||flags.menuBackground;
     const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate]:[])];
     if(templates.some(template=>blockedTemplates.includes(template.name)))throw Error('Disabled artwork must not register templates');
-    const blockedHosts=[...(!flags.monsters?['monsterArt','monsterSamples']:[]),...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];
+    const blockedHosts=[...(!flags.monsters?['monsterArt','monsterSamples']:[]),...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground','lowpolyScene']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];
     function rejectDisabledHosts(node){
       if(blockedHosts.includes(node.name))throw Error('Disabled artwork must not register hosts');
       for(const child of node.controls??node.children??[])rejectDisabledHosts(child);
@@ -213,14 +214,14 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
         receipt.readyCardArt={...readyArtRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,
           enabled:true,inputs:readyArtSourceInputs(root).map(path=>fileRecord(join(root,path),root))};
       }
-      if(portraits){
+      if(portraits||flags.cards||flags.menuBackground){
         if(!modules.has(portraitModule))throw Error('Portrait templates lack runtime module');
         bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root,...flags});
         receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,
-          inputs:portraitSourceInputs(flags).map(path=>fileRecord(join(root,path),root))};
+          inputs:portraitRuntimeInputs(flags).map(path=>fileRecord(join(root,path),root))};
       }
     }
-    if(portraits&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');
+    if((portraits||flags.cards||flags.menuBackground)&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');
     bindMonsterActorTemplates(generated,{actor:monsterTemplate,group:readyTemplates.group,power:monsterPowerTemplate});
     receipt.monsterActors={...monsterActorInventory(templates.find(t=>t.name===monsterActorTemplateName)),
       powerTemplateIndex:monsterPowerTemplate.templateIndex,templateIndex:monsterTemplate.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex};
@@ -316,6 +317,8 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
 }
 
 export async function buildNativeCandidateFromToolchain(options) {
+    const root=options?.root??process.cwd();
+    assertCandidateArtPolicy(resolveArtFeatures(options),{root});
     const toolRoot=process.env.MILIASTRA_MCP_ROOT||'D:/MiliastraTools/genshin-miliastra-mcp';
     const sdk=join(toolRoot,'node_modules/@modelcontextprotocol/sdk/dist/esm/client');
     const {Client}=await import(pathToFileURL(join(sdk,'index.js'))),{StdioClientTransport}=await import(pathToFileURL(join(sdk,'stdio.js')));
@@ -323,7 +326,7 @@ export async function buildNativeCandidateFromToolchain(options) {
     const {luaSyntaxError}=await import(pathToFileURL(join(toolRoot,'src/client-check.mjs')));
     const {clientScriptRecord,addClientUi}=await import(pathToFileURL(join(toolRoot,'src/scene-save.mjs')));
     const {container,fields,field,one,replace,wrap}=await import(pathToFileURL(join(toolRoot,'src/scene/wire.mjs')));
-    return buildNativeCandidate({...options,
+    const receipt=await buildNativeCandidate({...options,
       writeScripts:async(mapPath,updates,workspace)=>{
         return writeScriptBatch(mapPath,updates,workspace,{container,fields,field,one,replace,wrap,clientScriptRecord,luaSyntaxError});
       },
@@ -343,6 +346,8 @@ export async function buildNativeCandidateFromToolchain(options) {
           return remoteCall(request,...args);
         };
         return client;}});
+    assertCandidateArtReceipt(receipt,{root});
+    return receipt;
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
   try {
@@ -352,7 +357,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
     const {paths,options}=releaseBuildArgs(native.args);
     const [baseMap,output]=paths;
     if(!baseMap||paths.length>2)throw new Error('Usage: node scripts/build-native-candidate.mjs <base.gil> [output-directory] [--playtest] [--release-candidate] [--work-key=alpha-test] [--native-card-art-registry=<file> --native-card-art-count=0|1|5|10 | --native-card-art-host=<host>]');
-    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,artFeatures:features.artFeatures,nativeCardArt:native.nativeCardArt,readyCardArt:native.readyCardArt});
+    const receipt=await buildNativeCandidateFromToolchain({baseMap,output,playtest,...options,artFeatures:withCandidateArtDefaults(features.artFeatures,{cardsDecided:native.nativeCardArt!==undefined||native.readyCardArt!==undefined}),nativeCardArt:native.nativeCardArt,readyCardArt:native.readyCardArt});
     console.log(`Candidate receipt: ${receipt.receiptPath}\nStatic check passed. Official import/gameplay require separate evidence.`);
   }catch(error){console.error(error.message);process.exitCode=1;}
 }

@@ -5,7 +5,9 @@ export function attachOfficialBackdrops(layout,theme=nativeTheme) {
  const {plate}=nativeControls(theme),[w,h]=theme.canvas.base,ids=theme.image.officialBackdrops;
  const menu=layout.controls.find(c=>c.name==='menuPanel');
  const characters=layout.controls.find(c=>c.name==='characterPanel');
- for(const [panel,name,id]of [[menu,'backdrop',ids.title],[characters,'veil',ids.selection]]) {
+ // Pan 2026-10-31：首页不再贴平台原生标题底图（开局掉分），只保留纯色底；自研地景由 lowpolyScene 铺。
+ menu.children.find(c=>c.name==='backdrop').size=[w,h];
+ for(const [panel,name,id]of [[characters,'veil',ids.selection]]) {
   const image=panel.children.find(c=>c.name===name);if(!image)throw Error('Missing backdrop '+name);
   Object.assign(image,{image:id,colour:theme.color.officialBackdropTint,opacity:1,size:[w,h]});
   panel.children.splice(panel.children.indexOf(image)+1,0,plate('officialBackdropVeil',[0,0,w,h],theme.color.officialBackdropVeil));

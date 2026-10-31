@@ -1,5 +1,5 @@
 import {artFeatureModule,artFeaturesSource} from '../scripts/art-features.mjs';
-import {generatedRuntimeModules} from '../scripts/build-native-candidate.mjs';
+import {generatedRuntimeModules,payloadDigest} from '../scripts/build-native-candidate.mjs';
 import {monsterActorTemplate} from '../scripts/monster-art.mjs';
 import {enemyPowerTemplate} from '../scripts/ui-layout.mjs';
 import {readyArtTemplates,readyArtGroupTemplate} from '../scripts/art/ready-card-runtime.mjs';
@@ -74,7 +74,7 @@ function run(scenario, check) {
     installNativeToolchainFixture(join(dir,'tool'),sdk);
     put('tool/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js','export class StdioClientTransport {constructor(options) {if(options.env.MILIASTRA_ALLOW_LIVE_WRITE!=="0")throw Error("live writes enabled");}}');
     put('src/lua/abyss_ui.lua','return {}');
-    put('data/cards.json',readFileSync('data/cards.json'));
+    for(const file of ['data/cards.json','data/release/candidate-art-policy.json'])put(file,readFileSync(file));
     put('scripts/build-lua-data.mjs',`import {writeFileSync} from 'node:fs';import {dirname,join} from 'node:path';writeFileSync(process.argv[3],'return {}');writeFileSync(join(dirname(process.argv[3]),'abyss_original_v4_data.lua'),'return {}');`);
     put('scripts/build-ui.mjs',`import {writeFileSync} from 'node:fs';import {join} from 'node:path';const out=process.argv[2];for(const [name,source] of ${JSON.stringify(uiModules.map(name=>[name,generatedSource(name)]))})writeFileSync(join(out,name+'.lua'),source);writeFileSync(join(out,'game-ui.json'),JSON.stringify({name:'SlayTheAbyss',script:'abyss_ui',controls:[]}));writeFileSync(join(out,'game-ui-templates.json'),${JSON.stringify(JSON.stringify(templates))});`);
     for(const name of Object.keys(generatedRuntimeModules))put('build/lua/'+name+'.lua',generatedSource(name));
@@ -82,12 +82,16 @@ function run(scenario, check) {
     put('build/lua/game-ui-templates.json',JSON.stringify(templates));
     put('scenario.json',JSON.stringify(scenario));
     put('calls.jsonl',''); put('base.gil',fixtureMapBytes(scenario.malformedTool==='scene_list_client_scripts'?[{file:'malformed.lua',source:'return {}'}]:scenario.scripts??[]));
-    const result=spawnSync(process.execPath,[builder,join(dir,'base.gil'),join(dir,'out')],{cwd:dir,encoding:'utf8',env:{...process.env,MILIASTRA_MCP_ROOT:join(dir,'tool'),REBUILD_SCENARIO:join(dir,'scenario.json'),REBUILD_CALLS:join(dir,'calls.jsonl')}});
+    const result=spawnSync(process.execPath,[builder,join(dir,'base.gil'),join(dir,'out'),'--art-cards=false','--art-menu-background=false','--art-selection-avatar=false','--art-battle-portrait=false'],{cwd:dir,encoding:'utf8',env:{...process.env,MILIASTRA_MCP_ROOT:join(dir,'tool'),REBUILD_SCENARIO:join(dir,'scenario.json'),REBUILD_CALLS:join(dir,'calls.jsonl')}});
     if(result.error)throw result.error;
     const calls=readFileSync(join(dir,'calls.jsonl'),'utf8').trim().split('\n').filter(Boolean).map(JSON.parse);
     check(result,calls);
     if(result.status===0){
      const receipt=JSON.parse(readFileSync(result.stdout.match(/Candidate receipt: (.+)/)[1],'utf8'));
+     const policyPath='data/release/candidate-art-policy.json',policy=readFileSync(policyPath);
+     assert.deepEqual(receipt.inputs.filter(row=>row.path===policyPath),[{path:policyPath,sha256:sha256(policy),bytes:policy.length}],
+      'the authoritative policy remains an exact hashed candidate input');
+     assert.equal(receipt.payloadDigest,payloadDigest(receipt.inputs),'candidate digest must include the policy input');
      const actual=readFixtureScripts(receipt.mapPath);
      assert.equal(receipt.monsterActors.templateIndex,1073741849);
      assert.equal(receipt.monsterActors.containerTemplateIndex,1073741848);

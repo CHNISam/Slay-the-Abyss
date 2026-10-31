@@ -48,13 +48,26 @@ local function verify()
             local icon,hit=b:GetChild('icon'),b:GetChild('hit')
             assert(icon.image==Theme.icon.node[node.type],'existing official node icon ID retained')
             local palette=Theme.color.mapCanvas
-            equalColor(icon.imageColor,node.hasEmeraldKey and Theme.color.positive or state=='locked' and palette.far or palette.kind[node.type])
+            local expectedInk=node.hasEmeraldKey and Theme.color.positive
+                or state=='visited' and palette.visited or state=='current' and Theme.color.node.current
+                or state=='available' and Theme.color.node.pathTaken or palette.far
+            if state=='locked' and not node.hasEmeraldKey then
+                local v=Theme.layout.map.presentation
+                local alpha=math.floor(palette.far.a*(node.floor>view.floor+1 and v.farLockedOpacity or v.lockedOpacity)+.5)
+                expectedInk={r=expectedInk.r,g=expectedInk.g,b=expectedInk.b,a=alpha}
+                assert(icon.imageColor.a==alpha,'near/far disabled rooms retain the exact approved opacity')
+            end
+            equalColor(icon.imageColor,expectedInk)
+            if state=="locked" then assert(icon.imageColor.a<palette.far.a,'TASK-4.13 locked rooms recede') end
+            if state=='visited' then assert(icon.imageColor.r==palette.visited.r,'TASK-4.13 visited rooms share gold path ink') end
             assert(b:GetChild('positionToken').visible==(state=='current'),'existing token identifies only current node')
             local size=node.type=='boss' and Theme.layout.map.bossNode or Theme.layout.map.node
-            assert(b:GetChild('ring').visible==(state=='current' or state=='visited'),'STS MAP_CIRCLE_5 on current and taken rooms')
+            assert(b:GetChild('ring').visible==(state=='current'),'TASK-4.13 only current room has a halo; visited rooms keep gold path ink')
+            if state=='current' then equalColor(b:GetChild('ring').imageColor,Theme.color.mapCanvas.currentRing) end
             -- STS MapRoomNode: glyph 128*scale, MAP_CIRCLE_5 192*(scale*.95+.2), rotated by room angle.
             local fx=ui.roomFx[node.id]
-            assert(math.abs(icon.size[1]-size*Layout.sts.iconPerScale*fx.scale)<1e-6,'STS glyph scale')
+            assert(math.abs(icon.size[1]-size*Layout.sts.iconPerScale*UI.drawScale(fx))<1e-6,'STS glyph scale')
+            if state=='available' then assert(UI.drawScale(fx)<=Layout.sts.baseScale*Theme.layout.map.presentation.availableScaleCap+1e-9,'TASK-4.13 reachable pulse capped') end
             assert(math.abs(b:GetChild('ring').size[1]-size*Layout.sts.circlePerScale*(fx.scale*.95+.2))<1e-6,'STS circle scale')
             assert(b:GetChild('ring').localRotationZ==fx.angle,'STS circle angle')
             assert(fx.scale>=.5 and fx.scale<=1.25,'STS scale bounds')

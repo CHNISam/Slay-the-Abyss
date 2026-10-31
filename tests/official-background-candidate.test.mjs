@@ -46,7 +46,10 @@ test('background-only budget candidate binds returned image/group templates befo
  assert.equal(receipt.officialBackground.peakDynamicControls,4577);
  assert.equal(receipt.officialBackground.renderProfile,'background-budget-v1');
  assert.deepEqual(receipt.artFeatures.flags,{cards:false,menuBackground:true,selectionAvatar:false,battlePortrait:false,monsters:false});
- assert.equal(receipt.officialPortraits,undefined,'background-only candidate must not enable portrait artwork');
+ assert.deepEqual(receipt.officialPortraits.assets.map(a=>[a.asset,a.instances]),[['lowpolyLand',3]],'background-only owns cached land, without character portraits or card fan');
+ assert.equal(receipt.officialPortraits.peakDynamicControls,1110);
+ assert.equal(receipt.officialPortraits.imageTemplateIndex,1470123457);
+ assert.equal(receipt.officialPortraits.containerTemplateIndex,1470123458);
  assert.equal(receipt.readyCardArt,undefined,'background-only candidate must not enable card artwork');
  assert.equal(receipt.officialBackground.inputs.length,backgroundInputs.length);
  for(const path of backgroundInputs){
@@ -125,10 +128,11 @@ for(const [name,artFeatures]of [['default',{}],['cards',{cards:true}],['avatar',
  assert.equal(templates.includes('AbyssOfficialBackgroundImage'),false);
  assert.equal(templates.includes('AbyssReadyCardImage'),name!=='default');
  assert.equal(Boolean(receipt.readyCardArt),Boolean(artFeatures.cards));
- assert.equal(Boolean(receipt.officialPortraits),Boolean(artFeatures.selectionAvatar||artFeatures.battlePortrait));
+ assert.equal(Boolean(receipt.officialPortraits),Boolean(artFeatures.selectionAvatar||artFeatures.battlePortrait||artFeatures.cards||artFeatures.menuBackground));
  if(receipt.officialPortraits){
   assert.equal(receipt.officialPortraits.assets.some(a=>a.asset.endsWith('avatar96')),Boolean(artFeatures.selectionAvatar));
   assert.equal(receipt.officialPortraits.assets.some(a=>a.asset.endsWith('battle133')),Boolean(artFeatures.battlePortrait));
+  assert.equal(receipt.officialPortraits.assets.some(a=>a.asset==='lowpolyCardFan'),Boolean(artFeatures.cards));
  }
  if(!artFeatures.cards)assert(f.sources.get('abyss_ready_card_binding').includes('imageTemplateIndex=0,containerTemplateIndex=0,enabled=false'));
  assert(receipt.moduleDigests.abyss_art_features);

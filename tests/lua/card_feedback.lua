@@ -103,7 +103,7 @@ test(id.." flies to selected enemy and releases committed frames once",function(
  local hp=s.enemies[2].hp;local events=s.events;play(1,2);assert(ui.busy)
  -- Pinned Jaw Worm constructor: width260/height170, source canvas1920x1080.
  local expectedX=(1440+100)/1.5-640
- local expectedY=(400+25)/1.5-360+260/3
+ local expectedY=(require('abyss_battle_enemy_view').floorY+25)/1.5-360+260/3
  eq(math.abs(ui.feedback.flight.tx-expectedX)<1e-8,true)
  eq(math.abs(ui.feedback.flight.ty-expectedY)<1e-8,true)
  assert(s.enemies[2].hp<hp);eq(s.enemies[1].hp,s.enemies[1].maxHp)

@@ -21,7 +21,7 @@ test('actual empty shell renders a half-alpha face and separated tangent dashes,
 
 test('actual filled shells preserve source-specific border, radial light and empty/selected separation',()=>{
  const tree=controls();
- for(const [name,rim,light,base,mid]of [['filledShell','#8C7454','#3A2E28','#2C231E','#312722'],['fireShell','#8A4A3A','#4A2C24','#33221D','#3B251F']]){
+ for(const [name,rim,light,base,mid]of [['filledShell','#C9A86E','#3A2E28','#2C231E','#312722'],['fireShell','#C8705A','#4A2C24','#33221D','#3B251F']]){
   const shell=named(tree,name);assert.ok(shell);assert.equal(shell.visible,false);
   assert.equal(named(shell.children,'rim').colour,rim);
   assert.equal(named(shell.children,'base').colour,base,'base is a fitted interpolation of source endpoints');

@@ -92,11 +92,20 @@ local function opening(host,root,bossCount)
     assert(host.mapUI.navigationEnabled and host.historyCalls()==0)
     return baseMaxHp
 end
+local function selectedGeo(host,root)
+    local panel=root:GetChild('characterPanel')
+    assert(host.characterOpen and panel.visible)
+    assert(not panel:GetChild('traveler').visible and not panel:GetChild('elements').visible,
+        'single-character formal entry must hide redundant selectors')
+    assert(host.characterSelection.character=='traveler' and host.characterSelection.element=='ironclad'
+        and host.characterSelection.info.id=='ironclad','formal entry must preselect the approved Geo loadout')
+    assert(panel:GetChild('confirm'):GetChild('hit').interactable,'actual formal confirmation must be enabled')
+end
 local function start(host,root,button,element)
     F.click(root,'menuPanel','start')
     assert(host.characterOpen and not host.run)
-    F.click(root,'characterPanel',button)
-    if element then F.click(root,'characterPanel','elements/element'..element)end
+    assert(button=='traveler' and (element==nil or element==1),'formal fixture requests only approved Geo')
+    selectedGeo(host,root)
     assert(not host.run,'selection must not create a Run')
     F.click(root,'characterPanel','confirm')
     assert(not host.prologue and host.mode=='node','first confirmation opens the blessing, not the cancelled cinematic')
@@ -197,7 +206,7 @@ assert(root:GetChild('menuPanel'):GetChild('title').text=='双幕挑战完成')
 assert(F.resultText(root,'subtitle')=='第一幕与第二幕已完成。本局挑战到此结束。')
 -- Restart means a new, ephemeral run; no _SPIRITS/_WIN or saved continuation.
 local completed=host.run
-F.click(root,'menuPanel','start');F.click(root,'characterPanel','traveler')
+F.click(root,'menuPanel','start');selectedGeo(host,root)
 assert(host.run==completed,'selection preview cannot create a new run')
 F.click(root,'characterPanel','confirm')
 assert(host.run~=completed and host.run.act==1 and host.map.floor==0)

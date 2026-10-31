@@ -99,7 +99,6 @@ local function control(spec, parent)
     local self = { name = spec.name, kind=spec.kind, children = {}, visible = spec.visible ~= false,
         text = spec.text and spec.text.content or "", parent = parent, raycastTarget = true,
         sizeDeltaX = spec.size and spec.size[1], sizeDeltaY = spec.size and spec.size[2] }
-    setmetatable(self, controlMethods)
     if spec.kind~='cursorArea' then self.interactable=true end
     self.GetChild = Control.GetChild
     self.AddKeyEventListener = Control.AddKeyEventListener
@@ -136,6 +135,10 @@ local function control(spec, parent)
         end
     end
     for _, child in ipairs(spec.children or {}) do self.children[child.name] = control(child, self) end
+    -- Install native write guards after inert construction: all own methods and
+    -- children exist before any consumer can observe the control. This avoids
+    -- running __newindex for each initial method on every full scene node.
+    setmetatable(self, controlMethods)
     return NativeContract.control(self,spec)
 end
 -- Test engine implements the actual full actor template clone API, not a static five-slot fallback.

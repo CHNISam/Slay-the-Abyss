@@ -8,15 +8,52 @@ local Acts = require("abyss_acts")
 local Controller = require("abyss_controller")
 local M = {}
 -- MapRoomNode.render sizes: glyph 128*scale, MAP_CIRCLE_5 192*(scale*.95+.2).
+-- TASK-4.13: STS breathes reachable glyphs .91..1.25 (up to 2.5x rest), which on
+-- this 76px floor gap overlaps the current ring. Keep the STS rhythm but remap the
+-- reachable glyph into [rest*1.1, rest*availableScaleCap] so pulses never collide.
+function M.drawScale(fx)
+    -- TASK-4.13 judge: current beacon reads by scale/tint only (no extra chrome).
+    if fx.state == "current" then return fx.scale * 1.15 end
+    if fx.state ~= "available" then return fx.scale end
+    local base, cap = Layout.sts.baseScale, Theme.layout.map.presentation.availableScaleCap
+    local t = math.max(0, math.min(1, (fx.scale - .91) / (1.25 - .91)))
+    return base * (1.1 + (cap - 1.1) * t)
+end
 function M.paintRoom(fx)
     local icon, ring = fx.box:GetChild("icon"), fx.box:GetChild("ring")
-    local iconSize = fx.size * Layout.sts.iconPerScale * fx.scale
+    local iconSize = fx.size * Layout.sts.iconPerScale * M.drawScale(fx)
     icon:SetSizeDelta(iconSize, iconSize)
     -- oscillateColor drives color.a for reachable rooms.
     local ink = fx.ink
     if ink then icon.imageColor = fx.colour(ink.r, ink.g, ink.b, math.floor(ink.a * fx.alpha + .5)) end
     local ringSize = fx.size * Layout.sts.circlePerScale * (fx.scale * .95 + .2)
     ring:SetSizeDelta(ringSize, ringSize)
+end
+-- Room ink by state: emerald > visited gold > locked faded > official type colour.
+-- Rooms beyond the next row (and routes leaving the next row) are inactive decoration:
+-- they may fade past the WCAG 1.4.11 floor, like STS DISABLED rooms/edges on parchment.
+function M.isFar(floor, currentFloor)
+    return type(floor) == "number" and type(currentFloor) == "number" and floor > currentFloor + 1
+end
+function M.pathWidth(taken, reachable)
+    local v = Theme.layout.map.presentation
+    return taken and v.takenPathWidth or reachable and Layout.lineWidth or v.lockedPathWidth
+end
+function M.roomInk(node, state, currentFloor)
+    local palette = Theme.color.mapCanvas
+    if node.hasEmeraldKey then return Theme.color.positive end
+    if state == "visited" then return palette.visited end
+    -- TASK-4.13: current is a steady warm-white beacon, never the breathing type ink of its options.
+    if state == "current" then return Theme.color.node.current end
+    if state == "locked" then
+        local c = palette.far
+        local v = Theme.layout.map.presentation
+        local opacity = M.isFar(node.floor, currentFloor) and v.farLockedOpacity or v.lockedOpacity
+        return { r = c.r, g = c.g, b = c.b, a = math.floor(c.a * opacity + .5) }
+    end
+    -- TASK-4.13 judge: next/available rooms speak one gold language (no lavender event ink).
+    if state == "available" then return Theme.color.node.pathTaken end
+    return palette.kind[node.type]
 end
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
@@ -81,7 +118,7 @@ end
 -- Native clipping is not assumed: include the full animated glyph and rotated
 -- ring, while preserving the original unpainted hit target.
 function M.roomRadius(fx)
-    local scale = fx.state == 'available' and (.25 + .66 + 1/3) or math.max(Sts.baseScale,fx.scale)
+    local scale = fx.state == 'available' and Sts.baseScale * Theme.layout.map.presentation.availableScaleCap or math.max(Sts.baseScale,fx.scale)
     local iconRadius=fx.size*Sts.iconPerScale*scale/2
     local radius = math.max(fx.size/2,iconRadius+(fx.emerald and math.abs(Theme.layout.map.emeraldIconY)or 0))
     if fx.state == 'current' or fx.state == 'visited' then
@@ -177,6 +214,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         taken = pathColour(Theme.color.node.pathTaken, visual.takenOpacity),
         next = pathColour(Theme.color.node.reachable, visual.nextOpacity),
         future = pathColour(Theme.color.node.path, visual.futureOpacity),
+        far = pathColour(Theme.color.node.path, visual.farFutureOpacity),
     }
     local function controllerContextReady()
         return chapterFor(self.map) ~= nil and self.map == self.observedMap
@@ -240,7 +278,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
         return true
     end
-    local function line(control, source, target, taken, reachable)
+    local function line(control, source, target, taken, reachable, far)
         local x1, y1 = position(source)
         local x2, y2 = position(target)
         -- MapEdge constructor: dots start ICON_DST_RADIUS (164 for the boss) from the
@@ -254,7 +292,9 @@ function M.new(root, map, onChoose, clickEvent, options)
             x1, y1, x2, y2 = x1 + ux * r1, y1 + uy * r1, x2 - ux * r2, y2 - uy * r2
         end
         -- Clip real graph segments to viewport, with half-stroke padding.
-        local low, high = Layout.viewport.bottom + Layout.lineWidth / 2, Layout.viewport.top - Layout.lineWidth / 2
+        -- TASK-4.13: walked > reachable > unreachable stroke weights (STS taken/available/disabled).
+        local width = M.pathWidth(taken, reachable)
+        local low, high = Layout.viewport.bottom + width / 2, Layout.viewport.top - width / 2
         if y2 < low or y1 > high then control:SetVisible(false) return end
         local a, b = clamp((low - y1) / (y2 - y1), 0, 1), clamp((high - y1) / (y2 - y1), 0, 1)
         local ax, ay = x1 + (x2 - x1) * a, y1 + (y2 - y1) * a
@@ -263,9 +303,10 @@ function M.new(root, map, onChoose, clickEvent, options)
         if dy <= 0 then control:SetVisible(false) return end
         control:SetVisible(true)
         control:SetAnchoredPosition((ax + bx) / 2, (ay + by) / 2)
-        control:SetSizeDelta(math.sqrt(dx * dx + dy * dy), Layout.lineWidth)
+        -- TASK-4.13: walked routes are heavier than reachable ones (STS taken edges read first).
+        control:SetSizeDelta(math.sqrt(dx * dx + dy * dy), width)
         control.localRotationZ = math.atan(dy, dx) * 180 / math.pi
-        control.imageColor = taken and pathColours.taken or reachable and pathColours.next or pathColours.future
+        control.imageColor = taken and pathColours.taken or reachable and pathColours.next or far and pathColours.far or pathColours.future
     end
     function self.render(_)
         if not self.map then return false, "map_unbound" end
@@ -315,7 +356,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             edge = edge + 1
             assert(edge <= Layout.maxEdges, "map UI edge capacity exceeded")
             local target = assert(nodes[id], "map UI dangling route")
-            line(at("edge" .. edge), node, target, taken[node.id .. ":" .. id], node.id == current.currentNodeId and target.available)
+            line(at("edge" .. edge), node, target, taken[node.id .. ":" .. id], node.id == current.currentNodeId and target.available, M.isFar(target.floor, current.floor))
         end end
         for i = edge + 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
         assert(#current.nodes <= Layout.maxNodes, "map UI node capacity exceeded")
@@ -349,15 +390,19 @@ function M.new(root, map, onChoose, clickEvent, options)
                 if state ~= "available" then fx.alpha = 1 end
                 local ring = child(box, "ring")
                 -- render(): circle when taken, or current after the first room was chosen.
-                ring:SetVisible(state == "visited" or state == "current")
+                -- TASK-4.13 (Pan t95u): the walked path already links visited rooms, so only the
+                -- current room keeps a ring, and it is a soft translucent halo of the old circle.
+                ring:SetVisible(state == "current")
                 ring.localRotationZ = fx.angle
-                tint(ring, Theme.color.node.pathTaken)
+                -- TASK-4.13: visited rings sink to trail gold so the current ring is the only bright one.
+                tint(ring, Theme.color.mapCanvas.currentRing)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
-                local palette = Theme.color.mapCanvas
                 -- color: NOT_TAKEN for locked rooms, AVAILABLE ink for taken/current/available.
                 fx.colour = colour
-                fx.ink = node.hasEmeraldKey and Theme.color.positive or state == 'locked' and palette.far or palette.kind[node.type]
+                -- TASK-4.13: on the dark canvas, taken rooms share the gold path ink and
+                -- unreachable rooms recede by opacity, so current/visited/next read at a glance.
+                fx.ink = M.roomInk(node, state, current.floor)
                 M.paintRoom(fx)
                 icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
                 child(box,'emeraldLabel'):SetVisible(node.hasEmeraldKey==true)

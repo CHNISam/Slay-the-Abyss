@@ -4,6 +4,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, existsSync } from 'node:f
 import { resolve, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { legacyNativeCardArt } from '../scripts/build-native-audio-game.mjs';
+import {expectedReadyCardGameHosts,readyCardHolderPaths} from './helpers/ready-card-host-contract.mjs';
 import { prepareNativeCardArt, nativeCardArtBuildReceipt, verifyNativeCardArtReceipt } from '../scripts/card-art-samples.mjs';
 
 test('explicit legacy art option consumes frozen two-card inputs in exactly one static pool', t => {
@@ -41,8 +42,10 @@ test('explicit cards opt-in UI build keeps all75 assets lazy and all card contex
   assert.equal((assets.match(/\["rectangleEncoding"\]=/g)??[]).length,72);
   const holders=[];
   function visit(node){if(node.name==='artSamples')holders.push(node);for(const child of node.children??node.controls??[])visit(child);}
-  visit(JSON.parse(readFileSync(join(directory,'game-ui.json'))));
-  for(const template of JSON.parse(readFileSync(join(directory,'game-ui-templates.json'))))visit(template);
-  assert.equal(holders.length,39);for(const holder of holders)assert.deepEqual(holder.children,[]);
+  const game=JSON.parse(readFileSync(join(directory,'game-ui.json'))),templates=JSON.parse(readFileSync(join(directory,'game-ui-templates.json')));
+  visit(game);for(const template of templates)visit(template);
+  assert.deepEqual([...readyCardHolderPaths(game),...templates.flatMap(readyCardHolderPaths)].sort(),
+    [...expectedReadyCardGameHosts,'AbyssDeckCard/face'].sort(),'retain every game face and the single dormant recyclable deck face');
+  for(const holder of holders)assert.deepEqual(holder.children,[]);
   assert.equal(existsSync(join(directory,'native-card-art-receipt.json')),false,'normal build must not silently select the legacy static pool');
 });

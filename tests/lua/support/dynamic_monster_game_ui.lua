@@ -20,7 +20,7 @@ surfaces:each(function(box,slot,entry)
  local shape=art:GetChild('monsterSamples'):GetChild('group000'):GetChild('shape0000')
  assert(shape.imageId and shape.rotation,'actual template native primitive was not written')
  assert(math.abs(box.x-((1440+entry.actor.sourcePosition.x)/1.5-640))<1e-8)
- local bottom=(400+entry.actor.sourcePosition.y)/1.5-360
+ local bottom=(require('abyss_battle_enemy_view').floorY+entry.actor.sourcePosition.y)/1.5-360
  local health=box:GetChild('hpFill');local intent=box:GetChild('intentHit')
  assert(math.abs(health.size[1]-170/1.5)<1e-8 and math.abs(health.size[2]-20/1.5)<1e-8,'source HP bar dimensions')
  assert(math.abs(box.y+health.y-(bottom-18/1.5))<1e-8,'HP bar follows original hitbox bottom')

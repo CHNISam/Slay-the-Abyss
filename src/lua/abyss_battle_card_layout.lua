@@ -11,8 +11,9 @@ function M.install(owner, _ownership, _host, _dependencies)
         local c,s = math.abs(math.cos(r)),math.abs(math.sin(r))
         local restH,restW = (h*c+w*s)/2,(w*c+h*s)/2
         local hotH = h*Theme.motion.hoverScale/2
-        local low = math.min(baseY-restH,baseY+Theme.motion.hoverLift-hotH)
-        local high = math.max(baseY+restH,baseY+Theme.motion.hoverLift+hotH)
+        local hotY = math.max(baseY+Theme.motion.hoverLift,-Theme.canvas.base[2]/2+Theme.canvas.safe.y+hotH)
+        local low = math.min(baseY-restH,hotY-hotH)
+        local high = math.max(baseY+restH,hotY+hotH)
         local dy,a = (low+high)/2-y,box.localRotationZ*math.pi/180
         local hit = box:GetChild('hit')
         -- Inverse the card transform: one world-space hit rectangle covers both poses.
@@ -28,9 +29,10 @@ function M.install(owner, _ownership, _host, _dependencies)
         local angle = -distance * L.hand.arcDegrees
         local radians = math.abs(angle) * math.pi / 180
         local halfHeight = (h * math.cos(radians) + w * math.sin(radians)) / 2
-        local floor = -Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + halfHeight
+        local floor = -Theme.canvas.base[2] / 2 + Theme.canvas.safe.y + halfHeight - (L.hand.overhang or 0)
         local baseY = math.max(floor,L.hand.y-math.abs(distance)*L.hand.arcDrop)
-        local x, y = distance * spacing, baseY + (selected and Theme.motion.hoverLift or 0)
+        local hotY = math.max(baseY+Theme.motion.hoverLift,-Theme.canvas.base[2]/2+Theme.canvas.safe.y+h*Theme.motion.hoverScale/2)
+        local x, y = distance * spacing, selected and hotY or baseY
         box:SetAnchoredPosition(x, y)
         local scale = selected and Theme.motion.hoverScale or 1
         box:SetLocalScale(scale, scale, 1)
@@ -38,7 +40,7 @@ function M.install(owner, _ownership, _host, _dependencies)
         placeHandHit(box,w,h,angle,baseY,y,scale)
         box:GetChild("glow"):SetVisible(selected)
         box:SetAsLastSibling()
-        return {x, y}
+        return {x, y, baseY=baseY}
     end
     local function rewardTarget(slot)
         local hot = owner.hover == slot

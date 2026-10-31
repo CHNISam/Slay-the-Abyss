@@ -18,14 +18,23 @@ for i=1,4 do
  assert(not panel:GetChild('character'..i).visible and not control.canControllerFocus)
  assert(not control.click()and not control.navigationListeners.confirm())
 end
-assert(not panel:GetChild('character4').visible and panel:GetChild('traveler').visible)
-assert(not hit('character4').canControllerFocus and hit('traveler').canControllerFocus)
-assert(hit('traveler').navigation.right.target==hit('traveler'))
+-- Single-character release: no fake picker tile; the only role is preselected.
+assert(not panel:GetChild('character4').visible and not panel:GetChild('traveler').visible)
+assert(not hit('character4').canControllerFocus and not hit('traveler').canControllerFocus)
+assert(ui.characterSelection.info and ui.characterSelection.info.id=='ironclad')
+assert(not panel:GetChild('elements').visible)
+local deckOpen=panel:GetChild('details'):GetChild('deckOpen'):GetChild('hit')
+assert(deckOpen.click()and ui.characterSelection.deckOpen and panel:GetChild('deckView').visible)
+assert(panel:GetChild('deckView'):GetChild('deckCard10').visible and not panel:GetChild('deckView'):GetChild('deckCard11').visible)
+-- 复用局内卡面：名字/费用/正文都由 CardDisplay 填好，不是空白卡框。
+for i=1,10 do local face=panel:GetChild('deckView'):GetChild('deckCard'..i):GetChild('face')
+ assert(face:GetChild('name').text~='' and face:GetChild('cost').text~='' and face:GetChild('label').text~='','empty deck face '..i)end
+assert(ui:closeCharacters()and not ui.characterSelection.deckOpen and ui.characterOpen)
 for _,id in ipairs({'hutao','arlecchino','furina','raiden'})do assert(not ui:selectCharacter(id))end
 assert(ui:selectCharacter('traveler')and ui.characterSelection.info.id=='ironclad')
 for i,id in ipairs(Select.elements)do
  local box=panel:GetChild('elements'):GetChild('element'..i)
- if i==1 then assert(box.visible)else
+ if i==1 then assert(not panel:GetChild('elements').visible)else
   assert(not box.visible and not box:GetChild('hit').canControllerFocus)
   assert(not box:GetChild('hit').click()and not ui:selectElement(id))
  end
@@ -37,6 +46,16 @@ ui.characterSelection.info={id='silent'}
 assert(not ui:confirmCharacter()and seeds==0 and not ui.run)
 ui.characterSelection.info=valid
 local confirm=hit('confirm')
+-- A touch started behind the read-only deck must not survive either return path.
+for i,close in ipairs({function()return ui:closeCharacters()end,
+ function()return panel:GetChild('deckView'):GetChild('close'):GetChild('hit').click()end})do
+ confirm.listeners.down({touchId=20+i})
+ assert(deckOpen.click()and ui.characterSelection.deckOpen)
+ assert(not ui:confirmCharacter()and seeds==0 and not ui.run,'deck modal must reject direct confirmation')
+ assert(close()and not ui.characterSelection.deckOpen)
+ confirm.listeners.up({touchId=20+i})
+ assert(not confirm.click({touchId=20+i})and seeds==0 and not ui.run,'stale confirm crossed starter-deck modal')
+end
 confirm.listeners.down({touchId=1});assert(ui:selectElement('ironclad'))
 confirm.listeners.up({touchId=1});assert(not confirm.click({touchId=1})and seeds==0)
 confirm.listeners.down({touchId=2});ui:resize(1600,900)

@@ -40,17 +40,15 @@ local function completeRestartOpening(ui,root,previous)
     assert(ui.mode=='map' and ui.run.nodeFlow.complete and ui.run.neowStatus=='complete')
 end
 
-test("menu shows only current version and keeps start/exit available without announcements", function()
+test("menu carries no version label and keeps start/exit available without announcements", function()
     local ui, root = fixture()
     local menu = root:GetChild('menuPanel')
-    local version = menu:GetChild('codeVersion')
-    assert(version.visible and version.text == require('abyss_narrative').codeVersion)
-    assert(version.text:match('^v%d+%.%d+%.%d+$') and not version.text:match('来源'))
+    assert(menu:GetChild('codeVersion') == nil, 'home carries no version label')
     assert(not menu:GetChild('releaseNotes') and not root:GetChild('releaseNotesPanel'))
     assert(ui.releaseNotesUI == nil and ui.mode == 'menu')
     assert(ui:openExit() and ui.exitOpen)
     assert(ui:closeExit() and not ui.exitOpen and ui.mode == 'menu')
-    assert(testStart(ui) and not version.visible and ui.mode == 'map')
+    assert(testStart(ui) and ui.mode == 'map')
 end)
 
 test("new encounter resets stale target before the first attack-card tap", function()
@@ -514,14 +512,23 @@ test("native lifecycle loads every composed control and registers its listeners 
     game = { GetUICanvasSize = function() return width, height end, IsTestPlay=function()return true end,
         GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'desktop'end,
         InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy }
+    local NativeGameUI=require('abyss_game_ui')
+    local originalNew,host=NativeGameUI.new,nil
+    NativeGameUI.new=function(...) host=originalNew(...);return host end
     dofile("src/lua/abyss_ui.lua")
     OnStart()
     OnStart()
+    NativeGameUI.new=originalNew
     assert(root.scale[1] == 1.25)
     assert(script.updating)
     click(root, "menuPanel", "start")
     assert(root:GetChild("characterPanel").visible and not root:GetChild("prologuePanel").visible)
-    click(root, "characterPanel", "traveler")
+    assert(not root:GetChild("characterPanel"):GetChild("traveler").visible,
+        "ordinary native entry hides the single preselected traveler")
+    assert(host.characterSelection.character=='traveler' and host.characterSelection.info.id=='ironclad',
+        "ordinary native entry preselects the approved Geo traveler")
+    assert(root:GetChild("characterPanel"):GetChild("confirm"):GetChild("hit").interactable,
+        "ordinary native entry can confirm the preselected Geo loadout")
     assert(root:GetChild("characterPanel").visible and not root:GetChild("mapPanel").visible)
     click(root, "characterPanel", "confirm")
     assert(not root:GetChild("characterPanel").visible)
@@ -561,7 +568,6 @@ test("startup failure is visible without log subscription and hides the dead sta
     local menu = stage:GetChild("menuPanel")
     assert(menu.visible and menu:GetChild("summary").text:match("INJECTED_STARTUP_FAILURE"))
     assert(not menu:GetChild("start").visible and script.updating == false)
-    assert(not menu:GetChild('codeVersion').visible)
     assert(not stage:GetChild("mapPanel").visible and not stage:GetChild("battlePanel").visible)
     OnStart() OnUpdate(0.1)
     NativeGameUI.new = originalNew

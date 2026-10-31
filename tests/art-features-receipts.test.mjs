@@ -3,7 +3,7 @@ import {mkdtempSync,mkdirSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,dirname} from 'node:path';
 import {createHash} from 'node:crypto';
-import {portraitInventory,portraitSourceInputs} from '../scripts/official-portraits.mjs';
+import {portraitInventory,portraitRuntimeInputs as portraitSourceInputs} from '../scripts/official-portraits.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {artFeatureReceipt} from '../scripts/art-features.mjs';
@@ -19,7 +19,7 @@ const monsterReceipt=()=>({enabled:true,assetCount:1+Object.keys(monsterRegistry
 test('audit reconstructs all thirty-two exact flag snapshots, not alpha-test defaults',()=>{
  for(let mask=0;mask<32;mask++){
   const flags={cards:!!(mask&1),menuBackground:!!(mask&2),selectionAvatar:!!(mask&4),battlePortrait:!!(mask&8),monsters:!!(mask&16)};
-  const receipt={artFeatures:artFeatureReceipt(flags),...(flags.monsters?{nativeMonsterArt:monsterReceipt()}:{}),...(flags.cards?{readyCardArt:{enabled:true}}:{}),...(flags.menuBackground?{officialBackground:{}}:{}),...(flags.selectionAvatar||flags.battlePortrait?{officialPortraits:portraitReceipt(flags)}:{})};
+  const receipt={artFeatures:artFeatureReceipt(flags),...(flags.monsters?{nativeMonsterArt:monsterReceipt()}:{}),...(flags.cards?{readyCardArt:{enabled:true}}:{}),...(flags.menuBackground?{officialBackground:{}}:{}),...(flags.selectionAvatar||flags.battlePortrait||flags.cards||flags.menuBackground?{officialPortraits:portraitReceipt(flags)}:{})};
   assert.equal(receipt.artFeatures.schemaVersion,2);
   assert.deepEqual(auditUiBuildArgs(receipt),['scripts/build-ui.mjs',`--art-cards=${flags.cards}`,`--art-menu-background=${flags.menuBackground}`,`--art-selection-avatar=${flags.selectionAvatar}`,`--art-battle-portrait=${flags.battlePortrait}`,`--art-monsters=${flags.monsters}`]);
  }
@@ -32,7 +32,7 @@ test('audit rejects tampered, absent, malformed and category-inconsistent featur
 });
 test('audit preserves explicit static-card hosts while rejecting their disabled-card conflict',()=>{
  const nativeCardArt={registry:{path:'art/frozen.json'},hosts:['battlePanel/card1']};
- const args=auditUiBuildArgs({artFeatures:artFeatureReceipt({...off,cards:true}),nativeCardArt});
+ const args=auditUiBuildArgs({artFeatures:artFeatureReceipt({...off,cards:true}),officialPortraits:portraitReceipt({...off,cards:true}),nativeCardArt});
  assert(args.includes('--native-card-art-registry=art/frozen.json'));assert(args.includes('--native-card-art-host=battlePanel/card1'));
  assert.throws(()=>auditUiBuildArgs({artFeatures:artFeatureReceipt(off),nativeCardArt}),/card|artwork/i);
 });
@@ -41,10 +41,10 @@ test('audit selects enabled sources without consulting current optional drawings
  const audit=await import('../scripts/audit-native-candidate.mjs');
  assert.equal(typeof audit.auditAssetInputs,'function');
  assert.deepEqual(audit.auditAssetInputs({artFeatures:artFeatureReceipt({})}).paths,[]);
- assert.deepEqual(audit.auditAssetInputs({artFeatures:artFeatureReceipt({cards:true}),readyCardArt:{enabled:true}}).paths,['art/cards/traveler-geo']);
+ assert.deepEqual(audit.auditAssetInputs({artFeatures:artFeatureReceipt({cards:true}),officialPortraits:portraitReceipt({...off,cards:true}),readyCardArt:{enabled:true}}).paths,['art/cards/traveler-geo','art/lowpoly-select/select-lowpoly.json']);
  const registry={path:'/other/build/checkout/art/frozen.json',sha256:'a'.repeat(64),bytes:100},source={path:'/other/build/checkout/art/cleave/native-art.lua',sha256:'b'.repeat(64),bytes:200};
- const receipt={artFeatures:artFeatureReceipt({cards:true}),nativeCardArt:{registry,hosts:['battlePanel/card1'],inputs:[source,registry]},inputs:[{...source,path:'art/cleave/native-art.lua'},{...registry,path:'art/frozen.json'}]};
- assert.deepEqual(audit.auditAssetInputs(receipt).paths,['art/cleave/native-art.lua','art/frozen.json']);
+ const receipt={artFeatures:artFeatureReceipt({cards:true}),officialPortraits:portraitReceipt({...off,cards:true}),nativeCardArt:{registry,hosts:['battlePanel/card1'],inputs:[source,registry]},inputs:[{...source,path:'art/cleave/native-art.lua'},{...registry,path:'art/frozen.json'}]};
+ assert.deepEqual(audit.auditAssetInputs(receipt).paths,['art/lowpoly-select/select-lowpoly.json','art/cleave/native-art.lua','art/frozen.json']);
  assert.equal(audit.auditAssetInputs(receipt).registryPath,'art/frozen.json');
  assert.throws(()=>audit.auditAssetInputs({...receipt,inputs:[]}),/portable|provenance/i);
 });
@@ -67,7 +67,7 @@ test('static audit replays archived source from another checkout and rejects cha
  const registry={schemaVersion:2,sourceInputs:records.map((row,i)=>({path:i?row.path:'/old-symlink/../source-alias.lua',sha256:row.sha256,cardId:'cleave',kind:i?'json':'lua'})),assets:{cleave:{frozen:true}}};
  const registryBytes=JSON.stringify(registry),registryPath='art/frozen.json',registryRecord={path:original+registryPath,sha256:hash(registryBytes),bytes:Buffer.byteLength(registryBytes)};
  const inputs=[...records,registryRecord];
- const receipt={artFeatures:artFeatureReceipt({cards:true}),nativeCardArt:{registry:registryRecord,hosts:['battlePanel/card1'],inputs},inputs:inputs.map(row=>({...row,path:row.path.slice(original.length)}))};
+ const receipt={artFeatures:artFeatureReceipt({cards:true}),officialPortraits:portraitReceipt({...off,cards:true}),nativeCardArt:{registry:registryRecord,hosts:['battlePanel/card1'],inputs},inputs:inputs.map(row=>({...row,path:row.path.slice(original.length)}))};
  for(const [path,bytes]of [...paths.map((path,i)=>[path,contents[i]]),[registryPath,registryBytes]]){mkdirSync(dirname(join(root,path)),{recursive:true});writeFileSync(join(root,path),bytes);}
  const selected=auditAssetInputs(receipt);prepareAuditStaticRegistry(root,receipt,selected);
  const rebased=JSON.parse(readFileSync(join(root,registryPath)));
@@ -90,7 +90,7 @@ test('receipt paths cannot become git archive options or pathspec magic',async()
  const {auditAssetInputs}=await import('../scripts/audit-native-candidate.mjs');
  for(const path of ['--output=/tmp/not-authorized.tar',':(top)**','../outside.json']){
   const registry={path:'/former/checkout/'+path,sha256:'a'.repeat(64),bytes:10};
-  const receipt={artFeatures:artFeatureReceipt({cards:true}),nativeCardArt:{registry,hosts:['battlePanel/card1'],inputs:[registry]},inputs:[{...registry,path}]};
+  const receipt={artFeatures:artFeatureReceipt({cards:true}),officialPortraits:portraitReceipt({...off,cards:true}),nativeCardArt:{registry,hosts:['battlePanel/card1'],inputs:[registry]},inputs:[{...registry,path}]};
   assert.throws(()=>auditAssetInputs(receipt),/portable|provenance/i);
  }
 });

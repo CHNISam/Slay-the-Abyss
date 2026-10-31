@@ -11,7 +11,10 @@ const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text
   text: { content, fontSize: nativeFontSize(fontSize, f.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(f.minimum) },
 });
 const aligned = (control, align = 'left') => ({ ...control, text: { ...control.text, align } });
-const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image, colour });
+const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image,
+  ...(typeof colour === 'string' && /^#[0-9a-f]{8}$/i.test(colour)
+    ? { colour: colour.slice(0, 7), opacity: parseInt(colour.slice(7), 16) / 255 } : { colour }),
+});
 const panel = (name, x, y, w, h, colour) => picture(name, x, y, w, h, im.rect, colour);
 const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
 const clickableImage = (image, target) => {
@@ -170,12 +173,14 @@ export function handPose(count, index, selected = false) {
   const spacing = count <= 1 ? 0 : Math.max(l.hand.spacingMin, Math.min(l.hand.spacingMax, (l.hand.maxWidth - w) / (count - 1)));
   const distance = index - (count - 1) / 2;
   const scale = selected ? theme.motion.hoverScale : 1;
-  // Keep complete rotated cards inside the safe area, including ten-card hands.
+  // Idle cards retain the STS overhang; selected cards expose their complete feedback.
   const angle = -distance * l.hand.arcDegrees;
   const radians = Math.abs(angle) * Math.PI / 180;
   const halfHeight = (h * Math.cos(radians) + w * Math.sin(radians)) / 2;
-  const floor = -theme.canvas.base[1] / 2 + theme.canvas.safe.y + halfHeight;
-  return { position: [distance * spacing, Math.max(floor, l.hand.y - Math.abs(distance) * l.hand.arcDrop) + (selected ? theme.motion.hoverLift : 0)],
+  const floor = -theme.canvas.base[1] / 2 + theme.canvas.safe.y + halfHeight - (l.hand.overhang ?? 0);
+  const baseY = Math.max(floor, l.hand.y - Math.abs(distance) * l.hand.arcDrop);
+  const selectedY = Math.max(baseY + theme.motion.hoverLift, -theme.canvas.base[1] / 2 + theme.canvas.safe.y + h * scale / 2);
+  return { position: [distance * spacing, selected ? selectedY : baseY],
     rotation: selected ? 0 : angle, scale: [scale, scale] };
 }
 
@@ -200,11 +205,21 @@ export function battleLayout() {
     const turn = l.endTurn;
     if (right > turn.position[0] - turn.size[0] / 2 && left < turn.position[0] + turn.size[0] / 2)
       top = Math.min(top, turn.position[1] - turn.size[1] / 2 - turn.touchGap);
+    // Combat80 HUD (reuse of the map/deck disc from TASK-4.13): STS pile = metal disc with a
+    // fanned stack of card backs; the official glyph rides on the front card, count pip on the rim.
+    const pv = l.pileVisual, d = l.drawPile.size[0], [cw, ch] = pv.card;
+    const back = (n, bx_, by_, rot, border, fill) => ({ name: n, kind: 'container', position: [bx_ * side, by_], size: [cw, ch], rotation: rot * side, children: [
+      panel('border', 0, 0, cw, ch, border), panel('plate', 0, 0, cw - s.border * 2, ch - s.border * 2, fill)] });
+    const entry = clickableImage(picture(`${name}Icon`, x, py, d, d, im.disc, pv.rim),
+      { ...hit(right - left, top - bottom), position: [(left + right) / 2 - x, (bottom + top) / 2 - py] });
+    entry.children.splice(1, 0,
+      picture('face', 0, 0, d - pv.rimWidth * 2, d - pv.rimWidth * 2, im.disc, pv.face),
+      back('back2', -7, 2, 16, pv.cardEdge, c.cardWell), back('back1', -3, 1, 7, pv.cardEdge, c.panelSunken),
+      back('front', 2, 0, -4, pv.cardEdgeBright, pv.cardFace),
+      picture('glyph', 2 * side, 0, pv.glyph, pv.glyph, icon, pv.glyphInk));
     return [
-      clickableImage(picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
-        { ...hit(right - left, top - bottom), position: [(left + right) / 2 - x, (bottom + top) / 2 - py] },
-      ),
-      picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, c.goldDim),
+      entry,
+      picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, l.pileVisual.rim),
       picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.disc - s.border * 2, im.disc, c.panelSunken),
       text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.label, c.goldBright),
       text(`${name}Label`, x + b.label[0], py + b.label[1], b.label[2], b.label[3], caption, f.small, c.textDim),
@@ -241,7 +256,8 @@ export function battleLayout() {
     // STS TopPanel.renderHP: SALMON cur/max; renderDungeonInfo: floor icon + CREAM floor number.
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp, c.topPanelHp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.topPanelGold),
-    glyph('floorIcon', bar.floorIcon, theme.icon.map, c.topPanelCream), chip('floor', bar.floor, c.topPanelCream),
+    // Owner 2026-10-31: the white map-pin read as a stray non-potion slot beside the potion row; keep the node (contract) but never show it.
+    { ...glyph('floorIcon', bar.floorIcon, theme.icon.map, c.topPanelCream), visible: false }, chip('floor', bar.floor, c.topPanelCream),
     clickableImage(glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim),
       { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, Math.max(44,bar.height)),
         position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2,

@@ -43,6 +43,9 @@ function fixture(t,{monsterOnly=false}={}) {
   for(const file of ['src/lua','data','scripts','tools','art/monsters/acid_slime_m/native-art-r02','package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json'])
     cpSync(join(repo,file),join(root,file),{recursive:true});
   const put=(file,bytes)=>{const path=join(root,file);mkdirSync(dirname(path),{recursive:true});writeFileSync(path,bytes);return path;};
+  // This isolated experiment exercises the opt-in renderer, not production permission.
+  // The explicit test policy remains an ordinary hashed source input.
+  if(!monsterOnly)put('data/release/candidate-art-policy.json',JSON.stringify({schemaVersion:1,disabledFeatures:{}}));
   if(!monsterOnly)for(const file of [...backgroundInputs,...readyArtSourceInputs(),...portraitInputs])put(file,readFileSync(join(repo,file)));
   const monsterRegistry=JSON.parse(readFileSync(join(repo,'data/presentation/native-monster-art.json'),'utf8'));
   for(const asset of Object.values(monsterRegistry.additionalAssets??{}))for(const {path}of asset.sourceInputs)put(path,readFileSync(join(repo,path)));
@@ -76,7 +79,8 @@ function fixture(t,{monsterOnly=false}={}) {
     }
     return {result,calls,receipt:()=>JSON.parse(readFileSync(result.stdout.match(/Candidate receipt: (.+)/)[1],'utf8'))};
   }
-  const cli=(args=[])=>execute([builder,baseMap,'output',...args]);
+  // These fixtures isolate static cards or monsters; CLI defaults are verified separately.
+  const cli=(args=[])=>execute([builder,baseMap,'output','--art-menu-background=false','--art-selection-avatar=false','--art-battle-portrait=false',...(monsterOnly?['--art-cards=false']:[]),...args]);
   const api=options=>execute(['--input-type=module','-e',`import {buildNativeCandidateFromToolchain as build} from ${JSON.stringify(pathToFileURL(builder).href)};
     const receipt=await build(${JSON.stringify({root,baseMap,output:'output',...options})});console.log('Candidate receipt: '+receipt.receiptPath);`]);
   return {root,put,literal,registry,baseMap,cli,api};
@@ -99,6 +103,11 @@ test('MCP mock: formal CLI consumes opt-in art in the actual UI and dynamic pres
   const presentation=script.source;
   assert.match(presentation,/\["nativeArt"\]/);assert.match(presentation,/\["rotation"\]=\{11,22,33\}/);
   const receipt=one.receipt();
+  const testPolicy=fileRecord(join(f.root,'data/release/candidate-art-policy.json'));
+  assert(receipt.inputs.some(row=>row.path.replaceAll('\\','/').endsWith('data/release/candidate-art-policy.json')&&row.sha256===testPolicy.sha256),'experiment policy is bound into source provenance');
+  assert(receipt.officialPortraits.imageTemplateIndex>0,'static cards-only fan has a real shared image binding');
+  assert.equal(receipt.officialPortraits.peakDynamicControls,1614);
+  assert(receipt.officialPortraits.inputs.some(row=>row.path.replaceAll('\\','/').endsWith('art/lowpoly-select/select-lowpoly.json')));
   assert.equal(receipt.nativeCardArt.registrySha256,fileRecord(f.literal).sha256);
   assert.equal(receipt.nativeCardArt.staticPools,1);assert.equal(receipt.nativeCardArt.staticAddedControls,3);
   assert.deepEqual(receipt.nativeCardArt.inputs.map(r=>r.sha256).sort(),[fileRecord(f.literal),...f.registry.sourceInputs.map(r=>fileRecord(r.path))].map(r=>r.sha256).sort());

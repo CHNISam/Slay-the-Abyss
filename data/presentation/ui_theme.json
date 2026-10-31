@@ -88,11 +88,11 @@
     },
     "node": {
       "visited": "#8E7448",
-      "current": "#F5D79A",
+      "current": "#FFFAEE",
       "reachable": "#ECE6DA",
       "locked": "#4A4F63",
       "path": "#77707A",
-      "pathTaken": "#E3B866"
+      "pathTaken": "#FFD88A"
     },
     "geo": "#F0B850",
     "geoDeep": "#A8732A",
@@ -114,8 +114,10 @@
     "mapCanvas": {
       "backdrop": "#0D0708",
       "field": "#2A1013",
-      "fog": "#3A2A28",
-      "far": "#77707A",
+      "fog": "#1A0D0E",
+      "far": "#7A8292",
+      "visitedRing": "#C99A4E66",
+      "currentRing": "#E6D3A873",
       "visited": "#C99A4E",
       "kind": {
         "combat": "#C9C3B6",
@@ -131,10 +133,12 @@
       "shade": "#070303",
       "border": "#6E5A42",
       "title": "#E9C77B",
-      "ink": "#BBAA8C",
+      "ink": "#C9BDA4",
+      "legendInk": "#D9CBB0",
+      "count": "#F3ECDD",
       "menuNormal": {
         "fill": "#241B19",
-        "ink": "#BBAA8C",
+        "ink": "#C9BDA4",
         "border": "#6E5A42"
       },
       "menuHover": {
@@ -155,14 +159,14 @@
       },
       "base": "#221A17",
       "normal": {
-        "border": "#8C7454",
+        "border": "#C9A86E",
         "light": "#3A2E28",
         "ink": "#8CC4E2",
         "base": "#2C231E",
         "mid": "#312722"
       },
       "fire": {
-        "border": "#8A4A3A",
+        "border": "#C8705A",
         "light": "#4A2C24",
         "ink": "#EE9670",
         "base": "#33221D",
@@ -217,7 +221,7 @@
     "hitStopHeavy": 0.1,
     "heavyHitDamage": 12,
     "anticipation": 0.3,
-    "hoverLift": 36,
+    "hoverLift": 76,
     "hoverScale": 1.22
   },
   "sound": {
@@ -1109,17 +1113,29 @@
     },
     "pileBadge": {
       "note": "抽/弃牌堆：图标 + 角标数字 + 文字说明，数字用深底金字保证对比度。",
-      "disc": 32,
+      "disc": 28,
       "offset": [
         24,
-        22
+        -22
       ],
       "label": [
         0,
-        -34,
+        -46,
         88,
         22
       ]
+    },
+    "pileVisual": {
+      "note": "Combat80：抽/弃牌堆复用地图卡组圆盘（TASK-4.13）：金属圆盘+扇叠卡背+官方图标，数字为圆盘下角小圆片。",
+      "rimWidth": 3,
+      "rim": "#C9A86E",
+      "face": "#2A1F1A",
+      "card": [22, 30],
+      "cardEdge": "#8E7448",
+      "cardEdgeBright": "#E9C77B",
+      "cardFace": "#3A2A20",
+      "glyph": 16,
+      "glyphInk": "#F3ECDD"
     },
     "card": {
       "size": [
@@ -1159,7 +1175,9 @@
       "artIcon": 40
     },
     "hand": {
-      "y": -250,
+      "note": "STS AbstractCard 手牌：牌底可沉出画面下沿（overhang），静止时整把牌落在底部约 1/4；悬停/选中由 motion.hoverLift 抬到演员脚下之上并完整露出。",
+      "y": -296,
+      "overhang": 60,
       "maxWidth": 820,
       "spacingMax": 140,
       "spacingMin": 74,
@@ -1237,36 +1255,36 @@
         -534.6666666666666,
         -216.0
       ],
-      "size": 88,
-      "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
+      "size": 100,
+      "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标；按STS EnergyPanel层级（orb层+居中cur/max数字为主），元素图标缩为内径约40%、低透明度衬底，数字先读。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
       "rim": 2,
       "faceInset": 6,
-      "elementInset": 10,
-      "numberSize": 29,
+      "elementInset": 30,
+      "numberSize": 40,
       "shadowOffset": [
         0,
         -1.3333333333333333
       ],
       "rimColour": "#8A6A40",
       "shellColour": "#2A1C12",
-      "faceColour": "#8E5A1E",
-      "lightColour": "#F6D38E",
-      "elementColour": "#4A2C0E",
+      "faceColour": "#B8701EC0",
+      "lightColour": "#FFE9B860",
+      "elementColour": "#F6D38E38",
       "numberColour": "#FFF8EC",
       "shadowColour": "#3A1E06"
     },
     "drawPile": {
       "position": [-568, -300],
       "size": [
-        56,
-        48
+        64,
+        64
       ]
     },
     "discardPile": {
       "position": [568, -300],
       "size": [
-        56,
-        48
+        64,
+        64
       ]
     },
     "endTurn": {
@@ -1290,10 +1308,10 @@
         3.3333333333333335
       ],
       "numberSize": 18.0,
-      "rimColour": "#C9964E",
-      "innerColour": "#1A110C",
-      "faceColour": "#5E3C22",
-      "textColour": "#F7EBD6"
+      "rimColour": "#E8BE6A",
+      "innerColour": "#2A140A",
+      "faceColour": "#9A5A26",
+      "textColour": "#FFF6E0"
     },
     "player": {
       "position": [
@@ -1439,10 +1457,16 @@
         ],
         "navigationSize": 48,
         "pathWidth": 3,
+        "lockedPathWidth": 2,
         "futureOpacity": 0.6,
+        "lockedOpacity": 0.82,
+        "farLockedOpacity": 0.5,
+        "availableScaleCap": 1.3,
+        "takenPathWidth": 10.5,
+        "farFutureOpacity": 0.2,
         "takenOpacity": 1,
         "nextOpacity": 1,
-        "fogOpacity": 0.35,
+        "fogOpacity": 0.45,
         "noticeHeight": 40,
         "typeLegend": {
           "position": [
@@ -1465,11 +1489,11 @@
         "header": {
           "shade": [
             0,
-            330,
+            328,
             1280,
-            60
+            64
           ],
-          "shadeOpacity": 0.75,
+          "shadeOpacity": 0.92,
           "divider": [
             0,
             296,
@@ -1477,15 +1501,15 @@
             1
           ],
           "titleLineLeft": [
-            -160,
+            -172,
             316,
-            30,
+            72,
             1
           ],
           "titleLineRight": [
-            160,
+            172,
             316,
-            30,
+            72,
             1
           ]
         }
@@ -1984,19 +2008,19 @@
           20
         ],
         "hp": [
-        -536,
+        -524,
           316,
-        80,
+        104,
           40
         ],
         "goldIcon": [
-          -482,
+          -458,
           316,
           18,
           18
         ],
         "gold": [
-          -450,
+          -426,
           316,
           44,
           40
@@ -2342,7 +2366,7 @@
           "npc": [383, -173],
           "bubble": [190, 145, 300, 130],
           "bubbleText": [190, 145, 260, 100],
-          "options": {"x": -227, "bottom": -300, "spacing": 88, "size": [593, 80], "title": [0, 22, 561, 24], "description": [0, -12, 561, 40], "note": "保留左侧底对齐构图；按钮加高以完整显示标题、奖励与代价，两行说明不与标题重叠。"}
+          "options": {"x": -227, "bottom": -300, "spacing": 88, "size": [593, 80], "title": [0, 20, 561, 40], "description": [0, -20, 561, 40], "note": "保留左侧底对齐构图；按钮加高以完整显示标题、奖励与代价，两行说明不与标题重叠。"}
         }
       },
       "treasure": {
@@ -2906,20 +2930,20 @@
       "panel": [
         0,
         0,
-        1240,
-        700
+        1280,
+        720
       ],
       "title": [
         0,
-        306,
-        1040,
-        44
+        318,
+        800,
+        40
       ],
       "hint": [
         0,
-        266,
-        1040,
-        32
+        286,
+        800,
+        26
       ],
       "choices": [
         [
@@ -2948,10 +2972,10 @@
         ]
       ],
       "back": [
-        -500,
-        -278,
+        -520,
+        -292,
         160,
-        72
+        64
       ],
       "buttonInset": [
         16,
@@ -2971,8 +2995,8 @@
         52
       ],
       "confirm": [
-        480,
-        -278,
+        490,
+        -292,
         220,
         72
       ],
@@ -3004,141 +3028,85 @@
       ],
       "details": {
         "portrait": [
-          300,
-          40,
-          400,
-          400
+          290,
+          30,
+          440,
+          440
         ],
         "floor": [
-          300,
-          -150,
-          380,
+          290,
+          -176,
+          400,
           64
         ],
         "portraitNote": [
-          300,
-          -196,
+          290,
+          -224,
           380,
-          30
+          28
         ],
         "name": [
-          -300,
-          188,
+          -360,
+          176,
           520,
-          44
-        ],
-        "hpChip": [
-          -432,
-          128,
-          256,
-          44
-        ],
-        "goldChip": [
-          -168,
-          128,
-          256,
-          44
+          56
         ],
         "hp": [
-          -420,
-          128,
-          224,
+          -470,
+          120,
+          200,
           36
         ],
         "gold": [
-          -156,
-          128,
-          224,
+          -260,
+          120,
+          200,
           36
         ],
         "relicTag": [
-          -300,
-          84,
+          -360,
+          76,
           520,
           24
         ],
         "relic": [
-          -300,
-          58,
+          -360,
+          48,
           520,
           32
         ],
         "relicText": [
-          -300,
-          30,
+          -360,
+          16,
           520,
           28
         ],
         "rule": [
-          -300,
-          8,
+          -360,
+          -12,
           520,
           2
         ],
         "deckTitle": [
-          -300,
-          -14,
+          -360,
+          -40,
           520,
           28
         ],
-        "cards": [
-          [
-            -432,
-            -48,
-            248,
-            30
-          ],
-          [
-            -168,
-            -48,
-            248,
-            30
-          ],
-          [
-            -432,
-            -80,
-            248,
-            30
-          ],
-          [
-            -168,
-            -80,
-            248,
-            30
-          ],
-          [
-            -432,
-            -112,
-            248,
-            30
-          ],
-          [
-            -168,
-            -112,
-            248,
-            30
-          ]
+        "deckSummary": [
+          -360,
+          -72,
+          520,
+          28
+        ],
+        "deckButton": [
+          -500,
+          -130,
+          200,
+          56
         ]
       },
-      "note": "选角（TASK-59.3.1，对标 STS 选角信息架构）：右侧立绘站在地面光晕上，不再用圆环+深色矩形框；左侧信息卡按 名字→生命/金币→初始遗物→初始牌组 分层，牌组按类型排序不再给筛选按钮；底部方形头像卡头像填满内框。整屏按所选角色/元素换主题色（预置图层切换显隐，运行时不改颜色）。",
-      "info": [
-        -300,
-        44,
-        560,
-        352
-      ],
-      "header": [
-        -300,
-        188,
-        556,
-        64
-      ],
-      "accent": [
-        -574,
-        188,
-        8,
-        64
-      ],
+      "note": "选角（Pan 2026-10-31 发版重排，Port First：STS CharacterSelectScreen）：无盒子杂志框；左侧名字→生命/金币→初始遗物→初始牌组摘要+『查看牌组』入口（点开为 STS 式卡面网格）；右侧立绘落在自研低多边形地景上；底部 返回/开始冒险。只剩一个可选角色/元素时不显示假选择钮。",
       "glow": [
         300,
         60,
@@ -3165,6 +3133,46 @@
         "size": 72,
         "well": 80,
         "labelBand": 24
+      },
+      "scrim": [
+        -330,
+        0,
+        820,
+        760
+      ],
+      "deckView": {
+        "title": [
+          0,
+          300,
+          800,
+          44
+        ],
+        "columns": 6,
+        "rows": 2,
+        "cardSize": [
+          168,
+          228
+        ],
+        "origin": [
+          -460,
+          120
+        ],
+        "step": [
+          184,
+          248
+        ],
+        "overflow": [
+          0,
+          -236,
+          800,
+          28
+        ],
+        "close": [
+          0,
+          -292,
+          200,
+          60
+        ]
       }
     },
     "combatChoice": {
@@ -3420,6 +3428,7 @@
   "cardSkin": {
     "rows": 20,
     "bandSteps": 8,
+    "premium": {"note": "--art-cards=true only: breakthrough gold-frame palette on official native chrome, no new controls", "rarities": {"basic": ["#E3C07A", "#6B4A26", "#241A12", "#F6E3B4"], "common": ["#E3C07A", "#6B4A26", "#241A12", "#F6E3B4"], "uncommon": ["#E9CB86", "#5A4A2E", "#1E1A14", "#F8E9BE"], "rare": ["#F5D68C", "#7A5516", "#2E1F0E", "#FFF0C2"], "curse": ["#B98A6E", "#4A322E", "#2E1F1C", "#D9B49E"]}, "selected": "#FFF0C2", "well": "#F6ECD6"},
     "roles": {
       "traveler": {
         "accent": "#F2A93B",

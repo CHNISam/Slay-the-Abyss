@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-31 01:23'
+updated_date: '2026-10-31 10:48'
 labels:
   - required
   - sts1
@@ -104,4 +104,6 @@ PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 
 2026-10-31 实际GIL对照：v13缺11事件映射，旧包真实遗物获取拒绝；PR357/377后的4c262462集成候选已含补全。本轮新增42事件、130遗物与11复杂选择的正式比赛配置广域回归；证据及验收边界见 docs/reviews/TWO-ACT-SELECTION-AUDIT-20261031.md。用户实际包身份、同候选官方与设备复验未齐，保持未完成。
+
+2026-10-31 PR409核正：第二幕三Boss既有战斗实现保留；额外Boss依赖持久历史的正常解锁由TASK-53延期，不强制列入当前M3缺陷，现有同局流程与验收仍保留。
 <!-- SECTION:NOTES:END -->

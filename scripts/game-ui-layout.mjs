@@ -38,6 +38,10 @@ export function gameLayout(theme = nativeTheme, options = {}) {
     textLabel.position = [space.m, 0]; textLabel.size = [values[2] - space.xl, values[3]];
     action.children.splice(1, 0, { name: 'backIcon', kind: 'image', position: [-values[2] / 2 + space.s, 0],
       size: [font.label, font.label], image: theme.icon.back, colour: color.mapHeader.ink });
+    // TASK-4.13 judge: translucent dark panel + copper hairline, matching the top bar.
+    const [hw, hh] = values.slice(2);
+    action.children.unshift({ name: 'panelHairline', kind: 'image', position: [0, 0], size: [hw, hh], image: theme.image.rect ?? theme.image.disc, colour: color.mapHeader.border, opacity: 153 / 255 },
+      { name: 'panelShade', kind: 'image', position: [0, 0], size: [hw - 2, hh - 2], image: theme.image.rect ?? theme.image.disc, colour: color.mapHeader.shade, opacity: 179 / 255 });
     return { ...action, visible: false };
   };
   // Route choices need the same resources as room decisions, before entering a shop.
@@ -57,12 +61,14 @@ export function gameLayout(theme = nativeTheme, options = {}) {
   const [ex, ey, ew, eh] = layout.emblem;
   // Shared by menu and results: glow, sunken disc and Geo mark; Lua recolours it per outcome.
   const emblem = { name: 'emblem', kind: 'container', position: [ex, ey], size: [ew, eh], children: [
-    picture('glow', [ew + layout.emblemGlow, eh + layout.emblemGlow], image.glow, color.goldBright),
-    picture('disc', [ew, eh], image.disc, color.panelSunken),
-    picture('icon', [ew - layout.emblemInset, eh - layout.emblemInset], theme.icon.geo, color.geo),
+    { ...picture('glow', [ew + layout.emblemGlow, eh + layout.emblemGlow], image.glow, color.goldBright), opacity: 0.35 },
+    // Pan 2026-10-31：首页徽记改为自研「岩晶」刻面（三层菱形 + 中轴刻线），不再用原生元素圆徽。
+    { ...picture('frame', [ew * .62, eh * .62], image.rect, color.goldDim), rotation: 45 },
+    { ...picture('disc', [ew * .56, eh * .56], image.rect, color.panelSunken), rotation: 45 },
+    { ...picture('icon', [ew * .38, eh * .38], image.rect, color.geo), rotation: 45 },
+    { ...picture('core', [ew * .16, eh * .16], image.rect, color.panelSunken), rotation: 45 },
+    picture('spark', [ew * .2, eh * .2], image.diamond, color.goldBright),
   ] };
-  const codeVersion = text('codeVersion', layout.codeVersion, '', font.small, color.textDim);
-  codeVersion.text.autoSize = false;
   const stats = layout.stats, [cw, ch] = stats.size;
   const statCard = (key, i) => ({ name: `stat_${key}`, kind: 'container',
     position: [stats.origin[0] + i * stats.step, stats.origin[1]], size: [cw, ch], children: [
@@ -87,6 +93,11 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         ...(layout.hero && theme.icon.heroSlots ? [{ name: 'heroArt', kind: 'image',
           position: layout.hero.slice(0, 2), size: layout.hero.slice(2),
           image: theme.icon.heroSlots.menu.id, colour: color.buttonPressedText }] : []),
+        // Pan 2026-10-31：标题区压一条暗带 + 副标两侧金线，地景上保证可读、不显廉价。
+        { name: 'lowpolyVeil', kind: 'image', position: [0, 0], size: [...theme.canvas.base], image: image.rect, colour: color.backdrop, opacity: 0.28 },
+        { name: 'titleBand', kind: 'image', position: [0, 150], size: [1280, 230], image: image.rect, colour: color.backdrop, opacity: 0.55 },
+        { name: 'taglineRuleL', kind: 'image', position: [-150, layout.tagline[1]], size: [120, 1], image: image.rect, colour: color.goldDim },
+        { name: 'taglineRuleR', kind: 'image', position: [150, layout.tagline[1]], size: [120, 1], image: image.rect, colour: color.goldDim },
         emblem,
         text('title', layout.title, '杀戮原塔2', font.display, color.gold),
         text('tagline', layout.tagline, '', font.heading, color.goldDim),
@@ -99,7 +110,6 @@ export function gameLayout(theme = nativeTheme, options = {}) {
         ] },
         button('start', layout.start, '启程', { inset: layout.buttonInset, fontSize: font.heading,
           colour: color.textOnLight, fill: color.gold, border: color.goldBright }),
-        codeVersion,
         { ...button('settle', layout.settle, '结束并结算', { inset: layout.buttonInset, states: true,
           fontSize: font.heading, colour: color.gold, border: color.gold }), visible: false },
         { ...plate('deathShade', layout.backdrop, color.backdrop), visible: false },

@@ -22,13 +22,13 @@ for count=1,5 do
   local box=monsterControl(panel,'enemy'..i)
   local actor=battle.enemies[i]
   local x=(1440+actor.sourcePosition.x)/1.5-640
-  local y=(400+actor.sourcePosition.y)/1.5-360+240/3
+  local y=(require('abyss_battle_enemy_view').floorY+actor.sourcePosition.y)/1.5-360+240/3
   assert(box.visible and math.abs(box.x-x)<1e-8 and math.abs(box.y-y)<1e-8,'visible enemy row changed')
   local renderedX=Enemy.position(count,i,battle.enemies[i])
   assert(math.abs(renderedX-x)<1e-8,'feedback position differs from visible enemy')
   local hit=box:GetChild('hit')
   assert(math.abs(hit.sizeDeltaX-230/1.5)<1e-8 and math.abs(hit.sizeDeltaY-240/1.5)<1e-8,'source hitbox changed')
-  local hitX,hitY=x-8/1.5,(400+actor.sourcePosition.y+10+240/2)/1.5-360
+  local hitX,hitY=x-8/1.5,(require('abyss_battle_enemy_view').floorY+actor.sourcePosition.y+10+240/2)/1.5-360
   assert(math.abs(x+hit.x-hitX)<1e-8 and math.abs(y+hit.y-hitY)<1e-8,'native hitbox differs from source constructor')
   event('card1','drag',7,hitX,hitY)
   assert(ui.gesture.drawnTarget==i,'target identity must switch before decorative interpolation')
@@ -40,9 +40,9 @@ for count=1,5 do
   colour(layer:GetChild('reticle').imageColor,Theme.color.danger)
   for dot=1,14 do
    local part=layer:GetChild('aim'..dot)
-   -- STS arrow: a locked target turns the whole shaft and head red.
-   assert(part.visible and part.sizeDeltaY<=30)
-   colour(part.imageColor,Theme.color.danger)
+   -- STS star chain: upright square beads; locked tail (last 40%) turns red.
+   assert(part.visible and part.sizeDeltaX==part.sizeDeltaY and part.sizeDeltaX<=24)
+   if dot==14 then colour(part.imageColor,Theme.color.danger) end
   end
  end
  event('dragLayer','drag',7,0,Theme.layout.hand.y)

@@ -116,7 +116,7 @@ test("initial controls show legal starts, shared icons and four states across al
                 seen[node.id], types[node.type] = true, true
                 local palette = Theme.color.mapCanvas
                 assert(sameColor(box:GetChild("icon").imageColor,
-                    node.floor == 1 and palette.kind[node.type] or palette.far))
+                    MapUI.roomInk(node, node.floor == 1 and "available" or "locked", map.floor)))
                 assert(not box:GetChild("positionToken").visible)
                 assert(box:GetChild("icon").image == Theme.icon.node[node.type])
                 assert(box:GetChild("hit").visible == (node.floor == 1))
@@ -151,7 +151,7 @@ test("actual control clicks advance once, notify copied node and block reentrant
     ui:setNavigationEnabled(true)
     local nextNode = Map.available(map)[1]
     assert(clickNode(root, map, nextNode.id) and map.floor == 2)
-    assert(sameColor(boxFor(root, map, first.id):GetChild("icon").imageColor,Theme.color.mapCanvas.kind[first.type]))
+    assert(sameColor(boxFor(root, map, first.id):GetChild("icon").imageColor,Theme.color.mapCanvas.visited))
     assert(mapControl(panel(root), "edge1").imageColor.r == Theme.color.node.pathTaken.r)
     assert(boxFor(root,map,nextNode.id):GetChild("positionToken").visible)
     assert(not boxFor(root,map,first.id):GetChild("positionToken").visible)
@@ -293,7 +293,8 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local dx = (target.lane - node.lane) * Theme.layout.map.columnGap
             local len = math.sqrt(dx * dx + (y2 - y1) ^ 2)
             y1, y2 = y1 + (y2 - y1) / len * r1, y2 - (y2 - y1) / len * r2
-            local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
+            local w = MapUI.pathWidth(taken[node.id .. ":" .. id], node.id == map.currentNodeId and index[id].available)
+            local expected = y2 > Layout.viewport.bottom + w / 2 and y1 < Layout.viewport.top - w / 2
             assert(edge.visible == expected)
             if expected then
                 local reachable = node.id == map.currentNodeId and index[id].available
@@ -302,7 +303,8 @@ test("displayed edges match real topology and chosen path colours after scrollin
                 assert(edge.imageColor.r == ink.r and edge.imageColor.g == ink.g and edge.imageColor.b == ink.b)
                 local visual = Theme.layout.map.presentation
                 local opacity = taken[node.id .. ":" .. id] and visual.takenOpacity or
-                    reachable and visual.nextOpacity or visual.futureOpacity
+                    reachable and visual.nextOpacity or
+                    (MapUI.isFar(index[id].floor, map.floor) and visual.farFutureOpacity or visual.futureOpacity)
                 assert(edge.imageColor.a == math.floor(ink.a * opacity))
             end
         end end
@@ -319,7 +321,7 @@ test("reachable node breath is bounded, reduced motion stops it and stale view c
     local t0 = fx.oscillateTimer
     assert(ui:update(.1) and math.abs(fx.oscillateTimer - t0 - .5) < 1e-9)
     assert(math.abs(fx.scale - (.25 + .66 + (math.cos(t0 + .5) + 1) / 6)) < 1e-9)
-    assert(math.abs(box:GetChild("icon").w - box.w * Layout.sts.iconPerScale * fx.scale) < 1e-6)
+    assert(math.abs(box:GetChild("icon").w - box.w * Layout.sts.iconPerScale * MapUI.drawScale(fx)) < 1e-6)
     assert(box.localScaleX == 1, "oscillation scales only the glyph, not the hit target")
     ui:setReducedMotion(true); ui:update(.1); assert(fx.scale == .91 and fx.alpha == 1)
     ui:setReducedMotion(false); ui:update(.1); assert(fx.scale ~= .91 or fx.alpha ~= 1)

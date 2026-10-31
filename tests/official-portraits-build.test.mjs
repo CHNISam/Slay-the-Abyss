@@ -15,7 +15,7 @@ test('native selection budget changes only selection art and preserves the froze
  const original=readFileSync('art/characters/traveler-geo/portraits/battle133/runtime-no-snapshot.lua','utf8');
  const block=original.slice(original.indexOf('local ROOT = '),original.indexOf('\nlocal created = {}'));
  assert(source.includes(block),'battle must keep every original row');
- assert.match(source,/selection133=/);assert.equal(portraitRuntimeInventory(dir).peakDynamicControls,6829);
+ assert.match(source,/selection133=/);assert.equal(portraitRuntimeInventory(dir).peakDynamicControls,6901,'lowpolyHero replaces the unused selection133 instance');
 });
 test('portrait builder adds dedicated thumbnail, selection and battle hosts without changing existing controls',async()=>{
  assert(existsSync(modulePath),'portrait helper must implement actual asset integration');
@@ -61,6 +61,6 @@ test('candidate binding rejects placeholders and extracts frozen byte-identical 
  assert(!source.includes('function OnStart'),'must not retain synchronous original creation path');
  assert(source.includes(readFileSync('art/characters/traveler-geo/portraits/avatar96/LICENSE-runtime-MIT.txt','utf8')),'candidate runtime must carry the upstream permission notice');
  assert.throws(()=>writePortraitModule(dir,{imageTemplateIndex:100001,containerTemplateIndex:88}),/templateIndex/);
- const inventory=portraitRuntimeInventory(dir);assert.equal(inventory.batchSize,64);assert.equal(inventory.peakDynamicControls,9294);
+ const inventory=portraitRuntimeInventory(dir);assert.equal(inventory.batchSize,64);assert.equal(inventory.peakDynamicControls,11340,'full avatar/battle plus lowpolyHero selection');
  assert.equal(inventory.maxDirectDynamicChildren,60);assert.equal(inventory.officialCapacity,'not_measured');
 });

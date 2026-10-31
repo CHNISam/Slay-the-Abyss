@@ -1,10 +1,14 @@
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import {loadPerformancePack} from '../scripts/art/performance-pack.mjs';
+import {portraitRuntimeInventory} from '../scripts/official-portraits.mjs';
 import {createOptInArtFixture} from './helpers/opt-in-art-fixture.mjs';
 const fixture=createOptInArtFixture({bindTemplates:true});
 after(()=>fixture.dispose());
 test('reduced selection preserves battle art and reuses both cached selection hosts',()=>{
+ const selection=portraitRuntimeInventory(fixture.directory).assets.filter(a=>a.asset==='lowpolyHero'||a.asset.endsWith('/avatar96'));
+ assert.deepEqual(selection.map(a=>[a.asset,a.images]),[['traveler-geo/portraits/avatar96',457],['lowpolyHero',2011]]);
+ assert.equal(selection.reduce((sum,a)=>sum+a.images+a.groups+a.pages,0),2512,'current source inventory pins the full selection control count');
  const r=fixture.runLua('tests/lua/support/selection_budget_loading.lua');
  assert.equal(r.status,0,r.stdout+r.stderr);assert.match(r.stdout,/SELECTION_BUDGET_LOADING_PASS/);
 });

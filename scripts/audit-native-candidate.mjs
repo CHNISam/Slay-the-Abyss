@@ -1,6 +1,6 @@
 import {monsterPowerTemplateName,monsterActorBindingModule,monsterActorTemplateName} from './monster-art.mjs';
 import {normalizeArtFeatures,artFeatureBuildArgs,artBuildOptionsFromReceipt} from './art-features.mjs';
-import {portraitSourceInputs,portraitModule} from './official-portraits.mjs';
+import {portraitRuntimeInputs,portraitModule} from './official-portraits.mjs';
 import {readyArtImageTemplate,readyArtGroupTemplate} from './art/ready-card-runtime.mjs';
 import {backgroundInputs, backgroundModule, backgroundTemplate} from './official-background.mjs';
 // Local offline tools only. Never calls a save mutation, import or playtest API.
@@ -33,7 +33,7 @@ export function auditAssetInputs(receipt) {
   const registryPath=options.nativeCardArt?portable.get(receipt.nativeCardArt.registry.path):undefined;
   if(options.nativeCardArt&&!registryPath)throw Error('Static registry lacks portable source provenance');
   return {paths:[...(flags.monsters?receipt.nativeMonsterArt.inputs.map(row=>row.path):[]),...(flags.menuBackground?backgroundInputs:[]),...(flags.cards&&!options.nativeCardArt?['art/cards/traveler-geo']:[]),
-    ...portraitSourceInputs(flags),...portable.values()],registryPath,portable};
+    ...portraitRuntimeInputs(flags),...portable.values()],registryPath,portable};
 }
 export function prepareAuditStaticRegistry(snapshot,receipt,selection) {
   if(!selection.registryPath)return;
@@ -108,7 +108,7 @@ export async function auditNativeCandidate(options) {
     const template = save('template.json', getClientUi({ mapPath, template: 'AbyssDeckCard' }));
     const background = flags.menuBackground
       ? save('background-template.json', getClientUi({mapPath,template:backgroundTemplate})) : undefined;
-    const runtimeNames=[...(dynamicCards||portraits||flags.menuBackground?[readyArtImageTemplate]:[]),readyArtGroupTemplate,monsterActorTemplateName,monsterPowerTemplateName];
+    const runtimeNames=[...(flags.cards||portraits||flags.menuBackground?[readyArtImageTemplate]:[]),readyArtGroupTemplate,monsterActorTemplateName,monsterPowerTemplateName];
     const runtimeTemplates=runtimeNames.map(name=>save(name+'.json',getClientUi({mapPath,template:name})));
     const inspected = save('inspect.json', inspectFile(mapPath));
     const checked = save('static-check.json', checkClientScripts({ mapPath }));
@@ -136,8 +136,8 @@ export async function auditNativeCandidate(options) {
       const {bindBackgroundTemplate}=await import(pathToFileURL(join(snapshot,'scripts/official-background.mjs')));
       bindBackgroundTemplate(join(snapshot,'build/lua'),background,{root:snapshot,containerTemplateIndex:runtimeTemplates?.[1]?.templateIndex});
     }
-    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:portraits?buildReceipt?.officialPortraits:buildReceipt?.officialBackground;
-    if((dynamicCards||portraits||flags.menuBackground)&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');
+    const sharedReceipt=dynamicCards?buildReceipt?.readyCardArt:flags.cards||portraits?buildReceipt?.officialPortraits:buildReceipt?.officialBackground;
+    if((flags.cards||portraits||flags.menuBackground)&&(runtimeTemplates[0]?.templateIndex!==sharedReceipt?.imageTemplateIndex||runtimeTemplates[1]?.templateIndex!==sharedReceipt?.containerTemplateIndex))throw Error('Artwork requires matching shared template binding');
     if(dynamicCards) {
       if(buildReceipt?.sourceCommit!==sourceSha||buildReceipt?.candidate?.sha256!==before
         ||runtimeTemplates?.[0]?.templateIndex!==buildReceipt?.readyCardArt?.imageTemplateIndex
@@ -146,7 +146,7 @@ export async function auditNativeCandidate(options) {
       const {bindReadyArtTemplates}=await import(pathToFileURL(join(snapshot,'scripts/art/ready-card-runtime.mjs')));
       bindReadyArtTemplates(join(snapshot,'build/lua'),{image:runtimeTemplates[0],group:runtimeTemplates[1]},{enabled:buildReceipt.readyCardArt.enabled});
     }
-    if(portraits) {
+    if(portraits||flags.cards||flags.menuBackground) {
       if(buildReceipt?.officialPortraits?.imageTemplateIndex!==runtimeTemplates?.[0]?.templateIndex
         ||buildReceipt?.officialPortraits?.containerTemplateIndex!==runtimeTemplates?.[1]?.templateIndex)
         throw Error('Portrait runtime requires matching same-candidate template binding');

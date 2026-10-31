@@ -50,7 +50,7 @@ test('owned relics use disc art slots in the top bar and detail rows', () => {
     assert.ok(Math.abs(slot.position[0] - v.bar.tray[0]) + v.bar.disc / 2 <= v.bar.tray[2] / 2, 'disc inside tray');
     assert.deepEqual(slot.position, [v.bar.origin[0] + v.bar.step * i, v.bar.origin[1]]);
     assert.deepEqual(slot.size, [v.bar.disc, v.bar.disc]);
-    assert.deepEqual(slot.children.map(c => c.name), ['rim', 'face', 'light', 'icon', 'more', 'hit']);
+    assert.deepEqual(slot.children.map(c => c.name), ['rim', 'face', 'icon', 'more', 'hit']);
     assert.equal(slot.children[0].image, theme.image.disc);
     assert.ok(Math.abs(slot.position[1] - v.bar.tray[1]) + v.bar.disc / 2 <= v.bar.tray[3] / 2, 'disc vertically inside tray');
     if (i) assert.ok(slot.position[0] - slots[i - 1].position[0] >= v.bar.disc, 'discs never overlap');

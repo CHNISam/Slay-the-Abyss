@@ -44,7 +44,8 @@ export function cardFaceChildren(theme, context, interactive = true) {
   const picture = (name, values, id, colour = c.text) => ({...plate(name,values,colour),image:id});
   const hidden = control => ({...control, visible:false});
   const orb = (name, values, colour, id = image.disc) => ({...plate(name, values, colour), image:id});
-  const padding = node ? s.xl : s.s;
+  // STS AbstractCard.renderGlow: the hot card wears a wide soft halo; a 4px rim read as unselected.
+  const padding = s.xl;
   // Views tint border/nameBand/nameRule by rarity, artPlate/costDisc by state;
   // the remaining trim is fixed-colour.
   return [

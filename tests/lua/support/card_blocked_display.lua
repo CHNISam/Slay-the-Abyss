@@ -63,7 +63,8 @@ local boxes={};for i=1,10 do boxes['card'..i]=face()end
 local view={target=1,cardPositions={},run={combat=state},canvasWidth=1280,canvasHeight=720}
 local adapter=require('abyss_battle_card_view').new(view,{child=function(name)return boxes[name]end,show=function()end,
  ink=function(c,color)c.fontColor=color end,tint=function(c,color)c.imageColor=color end,picture=function()end,
- platform=platform,placeCard=function()return {0,0}end})
+ -- This face-only fixture anchors both the card and its idle hand pose at zero.
+ platform=platform,placeCard=function()return {0,0,baseY=0}end})
 state.phase='player'
 adapter.renderCards({cards={cards=CARD_BLOCKED_DEFS}},{defend={name='防御',text='获得 5 点格挡。'}},state,true,true,false,false)
 assert(boxes.card1:GetChild('blockedReason').text=='能量不足','adapter must forward actual core refusal')

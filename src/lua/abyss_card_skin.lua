@@ -9,6 +9,10 @@ local phases=setmetatable({},{__mode='k'})
 local activeHalos=setmetatable({},{__mode='k'})
 local decorations=setmetatable({},{__mode='k'})
 local pillWidths=setmetatable({},{__mode='k'})
+-- Native entry selects approved gold UI independently of illustration flags; nil keeps the legacy palette for isolated previews.
+local premium=nil
+function M.configure(value)premium=value=='premium' and config.premium or nil end
+function M.premium()return premium~=nil end
 function M.tick(box,dt)
     if not activeHalos[box] then return end
     local phase=(phases[box] or 0)+math.max(0,dt);phases[box]=phase
@@ -33,9 +37,10 @@ local function identity(definition)
     return 'traveler'
 end
 local function frame(box,definition,look,tint)
-    local rarity=config.rarities[definition.rarity] or config.rarities.basic
+    local rarities=premium and premium.rarities or config.rarities
+    local rarity=rarities[definition.rarity] or rarities.basic
     local edge=rarity[1]
-    if look.selected then edge=Theme.color.goldBright end
+    if look.selected then edge=premium and premium.selected or Theme.color.goldBright end
     tint(box:GetChild('border'),edge);paint(box:GetChild('roundFrame'),roundNames,edge,tint)
     tint(box:GetChild('nameRule'),rarity[4])
     local skin=box:GetChild('skin');tint(skin:GetChild('gloss'),rarity[4])
@@ -49,7 +54,7 @@ local function window(box,definition,accent,tint)
         local group=box:GetChild('skin'):GetChild(kind);group:SetVisible(kind==shape)
         if kind==shape then
             paint(group:GetChild('edge'),names,accent,tint)
-            paint(group:GetChild('well'),names,mix(Theme.color.cardWell,accent,.05),tint)
+            paint(group:GetChild('well'),names,mix(premium and premium.well or Theme.color.cardWell,accent,.05),tint)
         end
     end
     paint(box:GetChild('tagEdge'),roundNames,accent,tint)
@@ -121,12 +126,13 @@ function M.apply(box,definition,platform,look)
     local role=identity(definition)
     local accent=(config.roles[role] or config.roles.traveler).accent
     local tint=painter(platform)
-    local key=table.concat({role,definition.rarity or 'basic',definition.type or 'status',tostring(look.dim),tostring(look.selected)},':')
+    local key=table.concat({role,definition.rarity or 'basic',definition.type or 'status',tostring(look.dim),tostring(look.selected),tostring(premium~=nil)},':')
     if decorations[box]~=key then
         frame(box,definition,look,tint);window(box,definition,accent,tint)
         emblem(box,role,accent,tint);decorations[box]=key
     end
-    tint(box:GetChild('nameRule'),(config.rarities[definition.rarity] or config.rarities.basic)[4])
+    local rarities=premium and premium.rarities or config.rarities
+    tint(box:GetChild('nameRule'),(rarities[definition.rarity] or rarities.basic)[4])
     costs(box,definition,look,accent,platform,tint)
     if platform.color then box:GetChild('type').fontColor=platform.color(accent.r,accent.g,accent.b,255)end
     blockedState(box,look)

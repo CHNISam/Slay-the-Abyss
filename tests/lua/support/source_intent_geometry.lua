@@ -16,7 +16,7 @@ return function(box,actor)
  local f=assert(facts[actor.definitionId],'missing independent source geometry fact')
  local p=actor.sourcePosition or {x=f[1],y=f[2]}
  local x=(1440+p.x+f[3])*sx-width/2
- local bottom=(400+p.y+f[4])*sy-height/2
+ local bottom=(require('abyss_battle_enemy_view').floorY+p.y+f[4])*sy-height/2
  local h=actor.definitionId=='guardian' and actor.aiPhase=='defense' and 250 or f[8]
  local rootY=bottom+math.max(f[7]*sx,h*sy)/2
  local iconX=f[5]*sx+(actor.definitionId=='gremlin_nob' and -30*sx or 0)
