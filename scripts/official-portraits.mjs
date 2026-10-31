@@ -49,6 +49,24 @@ export function portraitSources(root=process.cwd(),options) {
   return {...a,literals};
  });
 }
+// menuBackground: bottom-most low-poly scene slot (select + combat). First drawn = behind every
+// hand/monster/HUD control; no existing stacking order changes. Absent when the flag is off.
+export const lowpolySceneHost='lowpolyScene';
+export function attachLowpolyScenes(layout,{menuBackground=false}={}) {
+ if(!menuBackground)return;
+ const stage=layout.controls.find(c=>c.name==='stage');
+ const panel=n=>{const c=stage?.children?.find(c=>c.name===n);if(!c)throw Error(`Missing scene parent ${n}`);return c;};
+ const host=()=>({name:lowpolySceneHost,kind:'container',position:[0,0],size:[1280,720],visible:false,children:[]});
+ const select=panel('characterPanel'),battle=panel('battlePanel'),menu=stage?.children?.find(c=>c.name==='menuPanel');
+ // Pan 2026-10-31：首页铺我们自己的低多边形几何地景（同一份 lowpolyLand），盖在纯色底之上、标题之下。
+ if(menu&&!menu.children.some(c=>c.name===lowpolySceneHost)){
+  const at=menu.children.findIndex(c=>c.name==='lowpolyVeil');
+  menu.children.splice(at<0?1:at,0,host());
+ }
+ if([select,battle].some(p=>p.children.some(c=>c.name===lowpolySceneHost)))throw Error('Scene hosts already attached');
+ select.children.splice(select.children.findIndex(c=>c.name==='border'),0,host());
+ battle.children.unshift(host());
+}
 export function attachOfficialPortraits(layout,{selectionAvatar=true,battlePortrait=true}={}) {
  if(!selectionAvatar&&!battlePortrait)return;
  const stage=layout.controls.find(c=>c.name==='stage');
@@ -73,9 +91,22 @@ export function attachOfficialPortraits(layout,{selectionAvatar=true,battlePortr
 function validIndex(index,allowUnbound=false) {
  return Number.isSafeInteger(index)&&index>=(allowUnbound?0:1)&&index!==100001;
 }
-export function writePortraitModule(directory,{root=process.cwd(),imageTemplateIndex=0,containerTemplateIndex=0,selectionAvatar=true,battlePortrait=true}={}) {
+// Breakthrough low-poly select look (art/lowpoly-select). Emitted only for the flag that owns it:
+// selectionAvatar -> lowpolyHero, cards -> lowpolyCardFan (premium frames + illustrations).
+export const lowpolySelectPath='art/lowpoly-select/select-lowpoly.json';
+export function lowpolySelectLiterals(root=process.cwd(),{selectionAvatar=false,cards=false,menuBackground=false}={}) {
+ if(!selectionAvatar&&!cards&&!menuBackground)return [];
+ const bytes=readFileSync(join(root,lowpolySelectPath)),data=JSON.parse(bytes),sha=createHash('sha256').update(bytes).digest('hex');
+ const asset=(name,a)=>`${name}=${toLua({rows:a.rows.map(r=>[r[0],r[1],r[2],r[3],r[4],.5,.5,.5,.5,.5,.5,1,1,r[7],r[8],r[9],r[10],r[11],r[5],r[6]]),
+  width:a.width,height:a.height,count:a.rows.length,renderProfile:'lowpoly-v1',cache:true,jsonSha256:sha,sourceSha256:data.sourceSha256,
+  root:[0,0,a.width,a.width,.5,.5,.5,.5,.5,.5,1,1,0]})}`;
+ return [...(selectionAvatar?[asset('lowpolyHero',data.hero)]:[]),...(cards?[asset('lowpolyCardFan',data.cardFan)]:[]),
+  ...(menuBackground?[asset('lowpolyLand',data.land)]:[])];
+}
+export function writePortraitModule(directory,{root=process.cwd(),imageTemplateIndex=0,containerTemplateIndex=0,selectionAvatar=true,battlePortrait=true,cards=false,menuBackground=false}={}) {
  if(!validIndex(imageTemplateIndex,true)||!validIndex(containerTemplateIndex,true))throw Error('Invalid portrait templateIndex');
- if(!selectionAvatar&&!battlePortrait){const source='-- Disabled optional drawings.\nreturn {imagePrefabId=0,containerPrefabId=0}\n';writeFileSync(join(directory,`${portraitModule}.lua`),source);return source;}
+ const lowpoly=lowpolySelectLiterals(root,{selectionAvatar,cards,menuBackground});
+ if(!selectionAvatar&&!battlePortrait){const source=lowpoly.length?`-- Disabled portraits; low-poly select fan / scene backgrounds only.\nreturn {imagePrefabId=0,containerPrefabId=0,\n${lowpoly.join(',\n')}\n}\n`:'-- Disabled optional drawings.\nreturn {imagePrefabId=0,containerPrefabId=0}\n';writeFileSync(join(directory,`${portraitModule}.lua`),source);return source;}
  const compactPath=join(directory,'art-performance.json');
  const compact=existsSync(compactPath)?JSON.parse(readFileSync(compactPath,'utf8')):null;
  const runtimeV2=existsSync(join(directory,'art-render-v2.json'));
@@ -88,6 +119,7 @@ export function writePortraitModule(directory,{root=process.cwd(),imageTemplateI
   return `${a.kind}=(function()\n${a.literals}\nreturn {root=ROOT,rows=ELEMENTS,width=${a.width},count=${a.count},display=${a.display},sourceSha256='${a.runtime}',jsonSha256='${a.json}'${runtimeV2?',runtimeV2=true,cache=true,rectanglesOnly=true':''}}\nend)()`;
  });
  if(budget)data.push(`selection133=${budgetLiteral(assets[1],budget.assets.selection133)}`);
+ data.push(...lowpoly);
  const source=`--[=[
 ${license(root)}]=]
 -- Frozen portrait literal bytes; no original synchronous OnStart/exporter included.\n-- Native property sequence is derived from Primitive's MIT runtime (2026 LiuL).\nreturn {imagePrefabId=${imageTemplateIndex},containerPrefabId=${containerTemplateIndex},\n${data.join(',\n')}\n}\n`;

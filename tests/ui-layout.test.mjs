@@ -141,6 +141,8 @@ function walk(controls, fn, x = 0, y = 0) {
     if (control.children) walk(control.children, fn, cx, cy);
   }
 }
+// STS AbstractCard hand: card bodies (and their halo/hit) may sink below the bottom edge (layout.hand.overhang); poses are checked separately.
+const cardParts = controls => { const out = new Set(); for (const c of controls) if (/^card\d+$/.test(c.name)) walk(c.children ?? [], d => out.add(d)); return out; };
 test('the shared theme drives a centered stage with a canvas-filling backdrop outside it', () => {
   const tree = battleLayout();
   assert.deepEqual(stage().size, theme.canvas.base);
@@ -148,7 +150,9 @@ test('the shared theme drives a centered stage with a canvas-filling backdrop ou
   assert.equal(tree.controls[0].colour, theme.color.backdrop);
   assert.equal(tree.showCursor, true);
   assert.equal(tree.blockCursor, true);
-  walk(stage().children, (c, x, y) => {
+  const root = stage(), parts = cardParts(root.children);
+  walk(root.children, (c, x, y) => {
+    if (parts.has(c)) return;
     // Rotated cards are checked separately, including runtime selected poses.
     if (!/^card\d+$/.test(c.name)) {
       assert(Math.abs(x) + c.size[0] / 2 <= 640, c.name + ' horizontal');
@@ -167,7 +171,7 @@ test('one through ten hand cards, including selection, fit the 40/20 safe area o
       const halfW = (w * Math.cos(radians) + h * Math.sin(radians)) / 2;
       const halfH = (h * Math.cos(radians) + w * Math.sin(radians)) / 2;
       assert((Math.abs(pose.position[0]) + halfW) * k <= width / 2 - 40 * k + 1e-8);
-      assert((Math.abs(pose.position[1]) + halfH) * k <= height / 2 - 20 * k + 1e-8, `${count}/${i}/${selected} vertical`);
+      assert((Math.abs(pose.position[1]) + halfH) * k <= height / 2 - 20 * k + (theme.layout.hand.overhang ?? 0) * k + 1e-8, `${count}/${i}/${selected} vertical`);
       if (i > 0) assert(pose.position[0] - handPose(count, i - 1, selected).position[0] >= 44);
     }
   }
@@ -191,6 +195,7 @@ test('native buttons retain four states, general safe targets and exact Main sou
   const bottles=new Set([...controls,...help.children].filter(c=>/^potion\d$/.test(c.name)));
   const compact=new Set([...bottles,...popup.children.filter(c=>['use','discard'].includes(c.name))]);
   const popupDismiss=popup.children.find(c=>c.name==='dismiss');
+  const parts = cardParts(controls);
   walk(controls, (c, x, y) => {
     if (c.kind === 'presetButton') {
       for (const state of ['normal', 'hover', 'pressed', 'disabled']) {
@@ -213,6 +218,7 @@ test('native buttons retain four states, general safe targets and exact Main sou
         assert(Math.abs(x)+c.size[0]/2<=640&&Math.abs(y)+c.size[1]/2<=360,'Main source right inset is 56/1.5, not generic 40');
         return;
       }
+      if (parts.has(c)) return;
       if (c === capture || c === dismiss || c === popupDismiss) return; // invisible catchers cover the canvas, ordinary touch controls stay safe
       assert(Math.abs(x) + c.size[0] / 2 <= 600 + 1e-8, c.name + ' safe x '+x+' '+c.size);
       assert(Math.abs(y) + c.size[1] / 2 <= 340 + 1e-8, c.name + ' safe y');

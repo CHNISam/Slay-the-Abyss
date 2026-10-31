@@ -27,7 +27,7 @@ test('real UI build registers one shared hidden background host and one native i
  assert.equal(descendants(actor).length,647);assert.equal(actor.children[0].name,'monsterArt');
  assert.equal(actor.visible,false);assert.equal(actor.children[0].visible,false);
  const original=structuredClone(stage.children.slice(1));
- const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure','officialSelectionFigure','monsterArt'].includes(c.name));strip(node.children);}}};
+ const strip=nodes=>{for(const node of nodes){if(node.children){node.children=node.children.filter(c=>!['artSamples','officialAvatar','officialFigure','officialSelectionFigure','monsterArt','lowpolyScene'].includes(c.name));strip(node.children);}}};
  strip(original);
  assert.deepEqual(original,JSON.parse(JSON.stringify(gameLayout().controls)),'approved controls/input remain byte-equivalent apart from explicit empty artwork hosts');
  const source=readFileSync(join(dir,'abyss_menu_background_asset.lua'),'utf8');

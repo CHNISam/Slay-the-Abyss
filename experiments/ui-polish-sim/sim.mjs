@@ -15,8 +15,8 @@ function conv(c, parent, root, scale = 1) {
   const kind = c.kind === 'image' ? 'image' : c.kind === 'text' ? 'textbox' : 'container';
   const n = structuredClone(kind === 'container' ? root : samples[kind]); n.children = []; n.id = 'p' + (++seq); n.guid = 1073800000 + seq; n.name = c.name; n.scriptMappingIds = []; delete n.isRootContainer;
   const [x, y] = c.position ?? [0, 0], [w, h] = c.size ?? [0, 0];
-  for (const t of Object.values(n.transformByPlatform)) { t.offset = { x, y }; t.size = { x: w, y: h }; t.anchorMin = t.anchorMax = { x: .5, y: .5 }; t.scale = { x: c.scale?.[0] ?? 1, y: c.scale?.[1] ?? 1, z: 1 }; t.rotation = { x: 0, y: 0, z: c.rotation ?? 0 }; }
-  if (kind === 'image') { n.imageId = c.image; n.imageColor = argb(c.colour); }
+  for (const t of Object.values(n.transformByPlatform)) { t.offset = { x, y }; t.size = { x: w, y: h }; t.anchorMin = t.anchorMax = { x: .5, y: .5 }; t.scale = { x: c.scale?.[0] ?? 1, y: c.scale?.[1] ?? 1, z: 1 }; t.rotation = Array.isArray(c.rotation) ? { x: c.rotation[0], y: c.rotation[1], z: c.rotation[2] } : { x: 0, y: 0, z: c.rotation ?? 0 }; }
+  if (kind === 'image') { n.imageId = c.image; let col = String(c.colour || '#FFFFFF'); if (c.opacity !== undefined && col.replace('#', '').length === 6) col += Math.round(c.opacity * 255).toString(16).padStart(2, '0'); n.imageColor = argb(col); }
   if (kind === 'textbox') Object.assign(n, { text: c.text.content, fontSize: c.text.fontSize, minimumFontSize: c.text.minFontSize ?? c.text.fontSize, fontColor: argb(c.text.colour), bgColor: 0, enableOutline: false,
     horizontalAlignment: c.text.align === 'left' ? 'Left' : 'Middle', verticalAlignment: c.text.valign === 'top' ? 'Top' : 'Middle' });
   parent.children.push(n);

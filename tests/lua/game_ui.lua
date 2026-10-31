@@ -40,17 +40,15 @@ local function completeRestartOpening(ui,root,previous)
     assert(ui.mode=='map' and ui.run.nodeFlow.complete and ui.run.neowStatus=='complete')
 end
 
-test("menu shows only current version and keeps start/exit available without announcements", function()
+test("menu carries no version label and keeps start/exit available without announcements", function()
     local ui, root = fixture()
     local menu = root:GetChild('menuPanel')
-    local version = menu:GetChild('codeVersion')
-    assert(version.visible and version.text == require('abyss_narrative').codeVersion)
-    assert(version.text:match('^v%d+%.%d+%.%d+$') and not version.text:match('来源'))
+    assert(menu:GetChild('codeVersion') == nil, 'home carries no version label')
     assert(not menu:GetChild('releaseNotes') and not root:GetChild('releaseNotesPanel'))
     assert(ui.releaseNotesUI == nil and ui.mode == 'menu')
     assert(ui:openExit() and ui.exitOpen)
     assert(ui:closeExit() and not ui.exitOpen and ui.mode == 'menu')
-    assert(testStart(ui) and not version.visible and ui.mode == 'map')
+    assert(testStart(ui) and ui.mode == 'map')
 end)
 
 test("new encounter resets stale target before the first attack-card tap", function()
@@ -561,7 +559,6 @@ test("startup failure is visible without log subscription and hides the dead sta
     local menu = stage:GetChild("menuPanel")
     assert(menu.visible and menu:GetChild("summary").text:match("INJECTED_STARTUP_FAILURE"))
     assert(not menu:GetChild("start").visible and script.updating == false)
-    assert(not menu:GetChild('codeVersion').visible)
     assert(not stage:GetChild("mapPanel").visible and not stage:GetChild("battlePanel").visible)
     OnStart() OnUpdate(0.1)
     NativeGameUI.new = originalNew

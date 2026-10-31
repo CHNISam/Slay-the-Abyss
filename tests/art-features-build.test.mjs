@@ -64,10 +64,14 @@ test('candidate flags CLI rejects unknown, duplicate, nonboolean and legacy conf
  const {nativeAudioBuildArgs}=await import('../scripts/build-native-audio-game.mjs');
  for(const args of [['--art-monsters=1'],['--art-monsters=true','--art-monsters=false'],['--art-cards=1'],['--art-unknown=true'],['--art-cards'],['--art-cards=true','--art-cards=true'],['--art-cards=true','--no-ready-card-art'],['--art-cards=true','--native-card-art-count=0'],['--art-cards=false','--native-card-art-registry=missing.json','--native-card-art-count=1']])
   assert.throws(()=>nativeAudioBuildArgs(['base.gil',...args]),/art feature|Conflicting/);
- const ordinary=nativeAudioBuildArgs(['base.gil']);assert.deepEqual(ordinary.options.artFeatures,off);
- const single=nativeAudioBuildArgs(['base.gil','--art-battle-portrait=true']);assert.deepEqual(single.options.artFeatures,{...off,battlePortrait:true});
- const monster=nativeAudioBuildArgs(['base.gil','--art-monsters=true']);assert.deepEqual(monster.options.artFeatures,{...off,monsters:true});
- const legacy=nativeAudioBuildArgs(['base.gil','--native-card-art-registry=missing.json','--native-card-art-count=1']);assert.deepEqual(legacy.options.artFeatures,{...off,cards:true});
+ // 2026-10-31 Owner candidate preference: new custom select look + card chrome default ON; explicit false restores official.
+ const custom={...off,cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true};
+ const ordinary=nativeAudioBuildArgs(['base.gil']);assert.deepEqual(ordinary.options.artFeatures,custom);
+ const official=nativeAudioBuildArgs(['base.gil','--art-cards=false','--art-selection-avatar=false','--art-menu-background=false','--art-battle-portrait=false']);assert.deepEqual(official.options.artFeatures,off);
+ const single=nativeAudioBuildArgs(['base.gil','--art-battle-portrait=true']);assert.deepEqual(single.options.artFeatures,{...custom,battlePortrait:true});
+ const monster=nativeAudioBuildArgs(['base.gil','--art-monsters=true']);assert.deepEqual(monster.options.artFeatures,{...custom,monsters:true});
+ const legacy=nativeAudioBuildArgs(['base.gil','--native-card-art-registry=missing.json','--native-card-art-count=1']);assert.deepEqual(legacy.options.artFeatures,custom);
+ const legacyOff=nativeAudioBuildArgs(['base.gil','--no-ready-card-art']);assert.deepEqual(legacyOff.options.artFeatures,{...off,menuBackground:true,selectionAvatar:true,battlePortrait:true});
 });
 
 test('audio forwards a complete explicit default-off snapshot without changing unrelated release flags',async()=>{

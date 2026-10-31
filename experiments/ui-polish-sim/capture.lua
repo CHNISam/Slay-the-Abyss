@@ -19,6 +19,20 @@ local function dump(c,s)
     for _,spec in ipairs(s.children or {})do
         if s.kind~='presetButton' or spec.name=='normal' then children[#children+1]=dump(c:GetChild(spec.name),spec)end
     end
+    -- Runtime monster surfaces (abyss_monster_surfaces) are cloned under actorLayer/pages
+    -- as nativeActorN; they are not in the static layout spec, so walk them explicitly.
+    local dyn={}
+    for key,child in pairs(c.children or {})do
+        if type(key)=='string' and key:match('^nativeActor%d+$')then dyn[#dyn+1]={tonumber(key:match('%d+')),child}end
+    end
+    table.sort(dyn,function(a,b)return a[1]<b[1]end)
+    for _,d in ipairs(dyn)do
+        local child=d[2]
+        local spec=Templates.AbyssMonsterActor.name==child.name and Templates.AbyssMonsterActor
+            or Templates.AbyssMonsterPower and Templates.AbyssMonsterPower.name==child.name and Templates.AbyssMonsterPower
+            or {name=child.name,kind='container',size={1280,720}}
+        children[#children+1]=dump(child,spec)
+    end
     if s.kind=='grid' then
         local template=Templates[s.itemTemplate]
         for i=0,math.min(c.itemCount or 0,12)-1 do
@@ -31,7 +45,7 @@ local function dump(c,s)
     end
     return {name=s.name,kind=s.kind,visible=c.visible,position={c.x or (s.position or {0,0})[1],c.y or (s.position or {0,0})[2]},
         size={c.sizeDeltaX or s.size[1],c.sizeDeltaY or s.size[2]},scale=c.scale,
-        image=c.imageId or s.image,colour=hex(c.imageColor)or s.colour,rotation=c.localRotationZ,opacity=s.opacity,
+        image=c.imageId or s.image,colour=hex(c.imageColor)or s.colour,rotation=c.localRotationZ or s.rotation,opacity=s.opacity,
         text=s.text and {content=c.text,fontSize=s.text.fontSize,minFontSize=s.text.minFontSize,colour=hex(c.fontColor)or s.text.colour,
             align=s.text.align,valign=s.text.valign},
         children=children}
@@ -44,6 +58,10 @@ local function capture(name)
     scenes[#scenes+1]={name=name,tree={name='root',kind='container',size={1280,720},children=controls}}
 end
 local only=ABYSS_UI_POLISH_SCENES
+for _=1,5 do ui:update(0.1)end;capture('menu')
+F.click(root,'exitEntry','open');for _=1,3 do ui:update(0.1)end;capture('menu-panel')
+F.click(root,'runMenu','resume');for _=1,3 do ui:update(0.1)end
+if os.getenv('MENU_ONLY') then print('PARITY_SCENES '..encode(scenes));return end
 assert(ui:start());capture('character-select')
 assert(ui:selectCharacter('traveler'));capture('character-traveler')
 assert(F.confirmStart(ui,'ironclad'));for _=1,5 do ui:update(0.1)end;capture('map-start')
@@ -80,4 +98,18 @@ if ui.run.phase=='combat' then
   print('DEEP '..tostring(ui.run.phase)..' '..tostring(ui.map.floor));capture('map-deep')
 end
 
+-- Multi-monster fixtures: fresh host, explicit Run encounter (same path tests use).
+local Run=require('abyss_run')
+for _,fx in ipairs({{'battle-multi','louse_pair',nil,{{-200,10},{80,30}}},{'battle-slimes','small_slimes',nil,{{-230,32},{35,8}}},
+  {'battle-trio','louse_trio',4,{{-350,25},{-125,10},{80,30}}}})do
+  ui,root=F.fixture()
+  assert(ui:start());assert(F.confirmStart(ui,'ironclad'));for _=1,5 do ui:update(0.1)end
+  if fx[3] then ui.run.floor=fx[3] end -- encounter minFloor (data/enemies.json)
+  local ok,why=Run.startCombat(ui.run,fx[2]);assert(ok,fx[2]..' '..tostring(why))
+  -- Legacy named-encounter path has no formation; apply the source MonsterHelper offsets
+  -- copied verbatim from abyss_encounter_formation.lua (map rooms get these via sourceRoom).
+  for i,p in ipairs(fx[4])do local e=ui.run.combat.enemies[i];if e then e.sourcePosition={x=p[1],y=p[2]}end end
+  ui:refresh()
+  for _=1,40 do ui:update(0.05)end;capture(fx[1])
+end
 print('PARITY_SCENES '..encode(scenes))

@@ -22,8 +22,6 @@ local function failed(phase, reason)
         menu:SetVisible(true)
         menu:SetAsLastSibling()
         menu:GetChild("start"):SetVisible(false)
-        local codeVersion = menu:GetChild('codeVersion')
-        if codeVersion then codeVersion:SetVisible(false) end
         local settle = menu:GetChild("settle")
         if settle then settle:SetVisible(false) end
         local result = menu:GetChild("result")
@@ -97,14 +95,24 @@ function OnStart()
         -- prior ownership even when off; nil cannot create or load asset data.
         -- Use native require, not the desktop-only package.loaded assumption.
         require("abyss_card_art_runtime").configure(nil)
+        -- cards flag also swaps shared card chrome to the breakthrough gold-frame palette; off resets to official.
+        optionalArt('cardChrome', function()require("abyss_card_skin").configure(flags.cards and 'premium' or nil)end)
         if flags.menuBackground then
             createEasterEggArt=function()
                 local factory=require('abyss_traveler_portraits').createController
                 return require('abyss_menu_background').new(stage,print,factory,Color,{standalone=true})
             end
         end
-        if flags.selectionAvatar or flags.battlePortrait then
-            portraits = optionalArt('portraits', function()return require("abyss_traveler_portraits").new(stage, print, flags)end)
+        if flags.selectionAvatar or flags.battlePortrait or flags.cards or flags.menuBackground then
+            -- menuBackground owns low-poly select/combat scenes; cards also owns the low-poly select fan (premium frames + illustrations); off = untouched official path.
+            portraits = optionalArt('portraits', function()
+                local templates
+                if flags.cards then
+                    local ok, binding = pcall(function() return require("abyss_ready_card_binding") end)
+                    if ok and type(binding)=='table' and binding.enabled==true then templates = binding end
+                end
+                return require("abyss_traveler_portraits").new(stage, print, flags, templates)
+            end)
         end
         if flags.cards then
             cardArt = optionalArt('cards', function()
