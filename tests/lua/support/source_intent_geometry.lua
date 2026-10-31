@@ -16,7 +16,7 @@ return function(box,actor)
  local f=assert(facts[actor.definitionId],'missing independent source geometry fact')
  local p=actor.sourcePosition or {x=f[1],y=f[2]}
  local x=(1440+p.x+f[3])*sx-width/2
- local bottom=(340+p.y+f[4])*sy-height/2
+ local bottom=(400+p.y+f[4])*sy-height/2
  local h=actor.definitionId=='guardian' and actor.aiPhase=='defense' and 250 or f[8]
  local rootY=bottom+math.max(f[7]*sx,h*sy)/2
  local iconX=f[5]*sx+(actor.definitionId=='gremlin_nob' and -30*sx or 0)
@@ -24,8 +24,10 @@ return function(box,actor)
  local function eq(got,want,label)assert(math.abs(got-want)<.001,label..': '..got..' ~= '..want)end
  eq(box.x,x,'source actor x');eq(box.y,rootY,'source actor y')
  local icon,hit=box:GetChild('intentIcon'),box:GetChild('intentHit')
- for _,part in ipairs({icon,hit})do eq(part.x,iconX,'source intent x');eq(part.y,iconY,'source intent y')end
- eq(icon.sizeDeltaX,128*sx,'source icon width');eq(icon.sizeDeltaY,128*sx,'source icon height')
+ local glyph=math.min(128*sx,theme.layout.intent.size*1.15)
+ eq(hit.x,iconX,'source intent x');eq(hit.y,iconY,'source intent y')
+ eq(icon.x,iconX,'source intent x');eq(icon.y,iconY+glyph/2-theme.layout.intent.size/4,'glyph floats clear of head')
+ eq(icon.sizeDeltaX,glyph,'readable intent glyph width');eq(icon.sizeDeltaY,glyph,'readable intent glyph height')
  eq(hit.sizeDeltaX,64*sx,'source help width');eq(hit.sizeDeltaY,64*sy,'source help height')
  local value=box:GetChild('intent')
  eq(value.x,iconX-30*sx+value.sizeDeltaX/2,'source damage baseline x')

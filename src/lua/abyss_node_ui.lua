@@ -79,7 +79,7 @@ function M.new(root, run, map, presentation, clickEvent, onChange, options)
     function ctx.renderTopBar(node)
         EndingUI.header(ctx.self,ctx.child,node and node.type=='ending_proceed')
         ctx.child("title").text = node and ("第 " .. node.floor .. " 层 · " ..
-        (node.roomKind == "boss_treasure" and "首领宝箱" or kinds[node.type] or "节点")) or "路线"
+        (node.roomKind == "neow" and "七天神像" or node.roomKind == "boss_treasure" and "首领宝箱" or kinds[node.type] or "节点")) or "路线"
         ctx.child("hp").text = number(ctx.self.run.hp) .. "/" .. number(ctx.self.run.maxHp)
         ctx.child("gold").text = number(ctx.self.run.gold)
         ctx.child("deck").text = tostring(#ctx.self.run.deck)

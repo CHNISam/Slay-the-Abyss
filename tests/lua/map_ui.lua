@@ -83,14 +83,13 @@ local function clickNode(root, map, id)
     assert(box:GetChild("hit").visible, "selected node must be clickable")
     return click(root, "node" .. i)
 end
-local function sameColor(a, b) return a.r == b.r and a.g == b.g and a.b == b.b and a.a == b.a end
+-- STS MapRoomNode.oscillateColor varies only alpha (.66..1) on reachable rooms.
+local function sameColor(a, b) return a.r == b.r and a.g == b.g and a.b == b.b and a.a <= b.a and a.a >= math.floor(b.a * .66) end
 local function visibleBounds(root, map)
     for _, node in ipairs(Map.view(map).nodes) do
         local box = boxFor(root, map, node.id)
         if box.visible then
-            local radius = (box.w + Layout.glowPadding) * Layout.breathScale / 2
-            assert(box.y - radius >= Layout.viewport.bottom and box.y + radius <= Layout.viewport.top)
-            assert(math.abs(box.x) + radius <= Theme.canvas.base[1] / 2 - Theme.canvas.safe.x)
+            dofile('tests/lua/support/map_draw_bounds.lua')(box,Layout.viewport)
         end
     end
     for i = 1, Layout.maxEdges do
@@ -152,7 +151,7 @@ test("actual control clicks advance once, notify copied node and block reentrant
     ui:setNavigationEnabled(true)
     local nextNode = Map.available(map)[1]
     assert(clickNode(root, map, nextNode.id) and map.floor == 2)
-    assert(sameColor(boxFor(root, map, first.id):GetChild("icon").imageColor,Theme.color.mapCanvas.visited))
+    assert(sameColor(boxFor(root, map, first.id):GetChild("icon").imageColor,Theme.color.mapCanvas.kind[first.type]))
     assert(mapControl(panel(root), "edge1").imageColor.r == Theme.color.node.pathTaken.r)
     assert(boxFor(root,map,nextNode.id):GetChild("positionToken").visible)
     assert(not boxFor(root,map,first.id):GetChild("positionToken").visible)
@@ -287,6 +286,13 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local edge = mapControl(panel(root), "edge" .. n)
             local y1 = Layout.firstY + (node.floor - 1) * Theme.layout.map.floorGap - ui.scroll
             local y2 = Layout.firstY + (index[id].floor - 1) * Theme.layout.map.floorGap - ui.scroll
+            -- STS MapEdge: ICON_SRC_RADIUS at the source room, ICON_DST_RADIUS (boss 164) at the destination.
+            local target = index[id]
+            local r1 = Theme.layout.map.node * Layout.sts.srcRadius
+            local r2 = target.type == "boss" and Theme.layout.map.bossNode * Layout.sts.bossRadius or Theme.layout.map.node * Layout.sts.dstRadius
+            local dx = (target.lane - node.lane) * Theme.layout.map.columnGap
+            local len = math.sqrt(dx * dx + (y2 - y1) ^ 2)
+            y1, y2 = y1 + (y2 - y1) / len * r1, y2 - (y2 - y1) / len * r2
             local expected = y2 > Layout.viewport.bottom + Layout.lineWidth / 2 and y1 < Layout.viewport.top - Layout.lineWidth / 2
             assert(edge.visible == expected)
             if expected then
@@ -308,9 +314,15 @@ test("reachable node breath is bounded, reduced motion stops it and stale view c
     local root, map, ui = fixture()
     local node = Map.available(map)[1]
     local box = boxFor(root, map, node.id)
-    assert(ui:update(Layout.breathSeconds / 2) and math.abs(box.localScaleX - Layout.breathScale) < .0001)
-    ui:setReducedMotion(true); assert(box.localScaleX == 1)
-    ui:setReducedMotion(false); assert(box.localScaleX > 1)
+    -- STS oscillateColor: timer += dt*5, a = .66 + (cos+1)/6, scale = .25 + a.
+    local fx = ui.roomFx[node.id]
+    local t0 = fx.oscillateTimer
+    assert(ui:update(.1) and math.abs(fx.oscillateTimer - t0 - .5) < 1e-9)
+    assert(math.abs(fx.scale - (.25 + .66 + (math.cos(t0 + .5) + 1) / 6)) < 1e-9)
+    assert(math.abs(box:GetChild("icon").w - box.w * Layout.sts.iconPerScale * fx.scale) < 1e-6)
+    assert(box.localScaleX == 1, "oscillation scales only the glyph, not the hit target")
+    ui:setReducedMotion(true); ui:update(.1); assert(fx.scale == .91 and fx.alpha == 1)
+    ui:setReducedMotion(false); ui:update(.1); assert(fx.scale ~= .91 or fx.alpha ~= 1)
     assert(Map.choose(map, node.id))
     assert(not click(root, "node1") and #map.path == 1)
     ui:render()
@@ -335,7 +347,7 @@ test("embedded generated mapPanel uses only the host stage scale and keeps nativ
     end
     assert(not ui:resize(0, 720) and ui.scale == 1)
     local box = boxFor(host, map, Map.available(map)[1].id)
-    assert(ui:update(Layout.breathSeconds / 2) and box.localScaleX > 1)
+    assert(ui:update(.1) and ui.roomFx[Map.available(map)[1].id].scale > .5)
     ui:setVisible(false); assert(not mapPanel.visible and host.visible and stage.visible)
     ui:setVisible(true); assert(mapPanel.visible)
     assert(clickNode(host, map, Map.available(map)[1].id) and map.floor == 1)

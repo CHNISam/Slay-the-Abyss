@@ -1,11 +1,11 @@
 ---
 id: TASK-4.13
 title: 让地图一眼识别当前位置已走路径和可选路线
-status: To Do
+status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 21:58'
+updated_date: '2026-10-31 02:48'
 labels:
   - playtest-20261030
   - p1
@@ -32,3 +32,15 @@ Owner强调地图是**整体交互体验**问题：当前节点和连线灰暗�
 - [ ] #2 不同节点/线路状态、对比度和交互反馈整体协调，PC/手机实际屏幕上可辨。
 - [ ] #3 不回退既有地图滚动、点击输入以及合法路径判定。
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+复用PR401原四提交，按真实动画绘制外包修复地图裁剪；验证路径、点击和双幕地图，不扩大美术范围。
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-10-31 独立v1-map-hud切片：保留地图/遗物栏/卡组/意图成果；撤回造成既有生命周期回归的非必要肖像预热。新增旋转ring实际外包断言已先红后绿，隐藏过渡继续收敛并重新显示。真实拖牌8组、动态敌人目标归属/多实例/1至5敌人意图几何通过；地图及双幕定向7项、12遗物条及地图窄验8项通过。PC/手机原生可辨识与官方导入仍未验证，AC不勾选。
+<!-- SECTION:NOTES:END -->

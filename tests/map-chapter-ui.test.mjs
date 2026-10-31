@@ -48,6 +48,15 @@ test('chapter-local map geometry, real same-table transitions and stale gestures
   const originalMarker="if node.id==map.currentNodeId then assert(box(i).visible and box(i):GetChild('current').visible) end";
   assert.equal(original.split(currentMarker).length,2,'one exact reviewed ring-free current-node marker');
   original=original.replace(currentMarker,originalMarker);
+  // The current fixture measures every painted child (including rotated rings).
+  // Reverse this one reviewed oracle migration only for the historical byte proof.
+  const paintedBounds="                    dofile('tests/lua/support/map_draw_bounds.lua')(b,Layout.viewport)";
+  const originalBounds=[
+    '                    local radius=(b.sizeDeltaX+Layout.glowPadding)*Layout.breathScale/2',
+    '                    assert(b.y-radius>=Layout.viewport.bottom and b.y+radius<=Layout.viewport.top)',
+  ].join('\n');
+  assert.equal(original.split(paintedBounds).length,2,'one exact reviewed painted-node bounds migration');
+  original=original.replace(paintedBounds,originalBounds);
   original=original.slice(prefix.length,-footer.length);
   assert.equal(original.split(after).length,2);original=original.replace(after,before);
   assert.equal(createHash('sha256').update(original).digest('hex'),parts.originalSha256LF);

@@ -62,8 +62,11 @@ function M.install(owner, ownership, host, dependencies)
         if geometry then return geometry.intentX,geometry.intentY,geometry.intentWidth end
         return 0,portrait/2,128*Theme.canvas.base[1]/1920
     end
-    local function intentTone(alpha)
-        return {r=C.text.r,g=C.text.g,b=C.text.b,a=255*(alpha or 1)}
+    local function intentTone(alpha,kind)
+        -- STS intent atlases are colour-coded (attack red, defend blue, buff gold,
+        -- debuff violet); white-tinted silhouettes read as one undifferentiated blob.
+        local ink=({attack=C.danger,defend=C.block,buff=C.buff,debuff=C.debuff,strong_debuff=C.debuff})[kind] or C.text
+        return {r=ink.r,g=ink.g,b=ink.b,a=255*(alpha or 1)}
     end
     local function renderIntentIcon(box,face,x,y,size,allowed,alpha)
         local kind=face.worldKind or face.kind
@@ -71,10 +74,13 @@ function M.install(owner, ownership, host, dependencies)
         local icon=box:GetChild('intentIcon');icon:SetVisible(visible==true)
         local mobile=host.platform.touchScreen and host.platform.touchScreen()
         local scale=mobile and 1.2 or 1
-        icon:SetSizeDelta(size*scale,size*scale);icon:SetAnchoredPosition(x,y)
+        -- STS 128px intent frames are mostly transparent padding; the official glyphs here
+        -- are full-bleed, so draw them at the glyph size and float them clear of the head.
+        local glyph=math.min(size,L.intent.size*1.15)*scale
+        icon:SetSizeDelta(glyph,glyph);icon:SetAnchoredPosition(x,y+glyph/2-L.intent.size/4)
         if visible then
             dependencies.picture(icon,Theme.icon.intent[kind] or Theme.icon.intent.unknown)
-            dependencies.tint(icon,intentTone(alpha))
+            dependencies.tint(icon,intentTone(alpha,kind))
         end
     end
     local function renderIntentValue(box,face,x,y,allowed,alpha)

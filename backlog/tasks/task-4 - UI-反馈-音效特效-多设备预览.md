@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-22 13:32'
-updated_date: '2026-10-29 12:33'
+updated_date: '2026-10-31 02:38'
 due_date: '2026-10-28'
 labels: []
 milestone: m-5
@@ -59,6 +59,8 @@ ordinal: 4000
 
 <!-- SECTION:PLAN:BEGIN -->
 当前范围为旅行者单角色第一幕和第二幕。保持已批准开场剧情与合法祝福、完整卡面、清晰意图算式、药水/卡牌瞄准、地图与房间操作、音画和手机性能。复验最坏合法战斗同屏、开局、卡组开关及返回战斗；同候选PC/实体手机与声音证据独立登记。历史计划和原AC保留于快照及旧备注；雷电验收见TASK-85。
+
+2026-10-31追加UI收敛：先独立复审PR400–404，保留批准资源与已有退出/触控/头像修复；分树修复恩赐说明盲选、原生RGBA与金币显示隐患，地图命中/裁剪定向回归；低风险成果统一一次CI和真实GIL，实验负载未验不默认启用。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

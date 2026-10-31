@@ -45,6 +45,11 @@
     "textOnLight": "#2A2620",
     "parchment": "#EFE6D2",
     "hp": "#D2524A",
+    "topPanelHp": "#FA8072",
+    "topPanelCream": "#FFF6E2",
+    "topPanelGold": "#EFC851",
+    "topPanelRed": "#FF6563",
+    "topPanelGreen": "#7FFF00",
     "hpGhost": "#F3E2C8",
     "hpTrack": "#3A1F22",
     "block": "#5FA8E8",
@@ -314,7 +319,8 @@
     "twinkle": 104002,
     "scroll": 111061,
     "tome": 111057,
-    "coffer": 111064
+    "coffer": 111064,
+    "merchant": 112030
   },
   "icon": {
     "hp": 102018,
@@ -1067,7 +1073,7 @@
     "topBar": {
       "height": 42.666666666666664,
       "y": 328,
-      "note": "左侧按扫视顺序 生命 → 金币 → 消耗；右端 408..600 留给共用的卡组/退出按钮行。",
+      "note": "左侧按 STS TopPanel 顺序 生命 → 金币 → 楼层（renderHP/renderGold/renderDungeonInfo），消耗堆仍在右；右端 408..600 留给共用的卡组/退出按钮行。",
       "hpIcon": [
         -597.3333333333334,
         16.0
@@ -1083,6 +1089,14 @@
       "gold": [
         -463,
         36
+      ],
+      "floorIcon": [
+        -418,
+        18
+      ],
+      "floor": [
+        -392,
+        32
       ],
       "exhaustIcon": [
         424,
@@ -1425,7 +1439,7 @@
         ],
         "navigationSize": 48,
         "pathWidth": 3,
-        "futureOpacity": 0.9,
+        "futureOpacity": 0.6,
         "takenOpacity": 1,
         "nextOpacity": 1,
         "fogOpacity": 0.35,
@@ -1485,8 +1499,8 @@
     },
     "relicView": {
       "note": "TASK-4.7 持有遗物站位：顶栏圆形遗物盘沿 prototype topBar() 32px disc / 36 步进；详情每行为图标盘+中文名+状态签+说明，美术位绑定 icon.relic，占位图标待专属美术。",
-      "bar": { "origin": [222, 316], "step": 34, "disc": 30, "face": 26, "icon": 20, "count": 3, "tray": [256, 316, 108, 38], "trayBorder": 1, "more": [0, 0, 30, 24] },
-      "barNote": "顶栏遗物托盘：遗物盘收进一条凹陷胶囊托盘成组；超过 count 件时末位改为 +N 溢出盘，点开分页详情，绝不压到标题或遗物入口。",
+      "bar": { "origin": [-584, 282], "step": 38, "disc": 34, "face": 30, "icon": 24, "count": 12, "tray": [-376, 282, 456, 38], "trayBorder": 1, "more": [0, 0, 30, 24] },
+      "barNote": "STS TopPanel/RelicPanel 移植：遗物在生命/金币行正下方从左向右单排流动（F 型扫视），每个遗物盘本身就是唯一入口；不再有托盘胶囊与右上角重复的遗物按钮。超过 count 件时末位改为 +N 溢出盘，点开分页详情。",
       "panel": [0, 0, 1160, 620],
       "title": [0, 268, 760, 48],
       "close": [490, 268, 88, 48],
@@ -2322,30 +2336,12 @@
           ]
         },
         "neow": {
-          "pedestal": [
-            0,
-            -70,
-            120,
-            18
-          ],
-          "body": [
-            0,
-            -8,
-            64,
-            118
-          ],
-          "hood": [
-            0,
-            46,
-            52,
-            52
-          ],
-          "orb": [
-            46,
-            8,
-            36,
-            36
-          ]
+          "source": "aeubanks/sts@319009d NeowEvent(ROOM)+LargeDialogOptionButton+InfiniteSpeechBubble, 1920x1080 -> 1280x720 (x*2/3-640, y*2/3-360)",
+          "figure": [0, -36, 1280, 648],
+          "npc": [383, -173],
+          "bubble": [190, 145, 300, 130],
+          "bubbleText": [190, 145, 260, 100],
+          "options": {"x": -227, "bottom": -300, "spacing": 88, "size": [593, 80], "title": [0, 22, 561, 24], "description": [0, -12, 561, 40], "note": "保留左侧底对齐构图；按钮加高以完整显示标题、奖励与代价，两行说明不与标题重叠。"}
         }
       },
       "treasure": {

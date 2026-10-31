@@ -60,12 +60,63 @@ local function find(entries, id, key)
     for _, item in ipairs(entries or {}) do if item[key or "id"] == id then return item end end
 end
 local M = {}
+-- STS NeowEvent staging (port): Neow stands right, InfiniteSpeechBubble carries name/body,
+-- LargeDialogOptionButtons stack on the left; the generic event plate/caption is not shown.
+local NEOW = layout.event.neow
+local function place(control, rect)
+    control:SetAnchoredPosition(rect[1], rect[2])
+    if rect[3] then control:SetSizeDelta(rect[3], rect[4]) end
+end
 local function renderEventFigure(event, id)
-    local neow = id == 'neow'
+    local neow = id == 'neow' and NEOW ~= nil
     local figure, art = event:GetChild('neowFigure'), event:GetChild('art')
     if figure then figure:SetVisible(neow) end
     if art then art:SetVisible(not neow) end
+    for _, name in ipairs({ 'plate', 'plateBorder', 'glow', 'caption' }) do
+        local c = event:GetChild(name); if c then c:SetVisible(not neow) end
+    end
     if neow then event:GetChild('caption').text = '七天神像' end
+    local bubble = event:GetChild('bubble'); if bubble then bubble:SetVisible(neow) end
+    if not NEOW then return end
+    local name, body = event:GetChild('name'), event:GetChild('body')
+    name:SetVisible(not neow)
+    -- talk(): Neow's line lives in the InfiniteSpeechBubble, dark ink on the light bubble.
+    place(body, neow and NEOW.bubbleText or layout.event.body)
+end
+-- LargeDialogOptionButton.calculateY (ROOM): bottom-aligned stack, -82px per slot, x = 620.
+local function placeOptions(event, neow, count)
+    local o = layout.event.options
+    for i = 1, OPTIONS do
+        local box = event:GetChild('option' .. i)
+        if box then
+            local w, h = o.size[1], o.size[2]
+            if neow then
+                local n = NEOW.options
+                w, h = n.size[1], n.size[2]
+                box:SetAnchoredPosition(n.x, n.bottom + (count - i) * n.spacing)
+                place(box:GetChild('title'), n.title)
+                place(box:GetChild('description'), n.description)
+            elseif o.rows[i] then
+                box:SetAnchoredPosition(o.x, o.rows[i])
+                place(box:GetChild('title'), o.title)
+                place(box:GetChild('description'), o.description)
+            end
+            box:SetSizeDelta(w, h)
+            for _, part in ipairs({ 'border', 'hit' }) do
+                local c = box:GetChild(part); if c then c:SetSizeDelta(w, h) end
+            end
+            for _, part in ipairs({ 'normal', 'disabled', 'hover', 'pressed', 'selected' }) do
+                local c = box:GetChild(part); if c then c:SetSizeDelta(w - 4, h - 4) end
+            end
+            box:GetChild('description'):SetVisible(true)
+        end
+    end
+end
+
+local function eventNotice(id, copy, result)
+    if id == 'neow' then return '' end
+    if (stagedEvent(id) or Act3Events.ids[id]) then return copy.name .. ' · 请选择上方选项' end
+    return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
 end
 
 -- Installs the events responsibility on one node UI instance.
@@ -102,6 +153,7 @@ function M.install(ctx)
         end
         eventOutcomeBody()
         event:GetChild("body").text = body
+        ctx.ink(event:GetChild("body"), id == 'neow' and C.panelSunken or C.text)
         local rows = {}
         local function buildEventRows()
             if not result then
@@ -207,6 +259,7 @@ function M.install(ctx)
             end
         end
         buildEventRows()
+        if NEOW then placeOptions(event, id == 'neow', math.min(#rows, OPTIONS)) end
         for i = 1, OPTIONS do
             local row, box = rows[i], event:GetChild("option" .. i)
             ctx.show(box, row)
@@ -219,8 +272,7 @@ function M.install(ctx)
                 ctx.action("eventView/option" .. i, row.enabled, row.handler, row.description)
             end
         end
-        if (stagedEvent(id) or Act3Events.ids[id]) then return copy.name .. ' · 请选择上方选项' end
-        return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
+        return eventNotice(id, copy, result)
     end
 
     function ctx.bindStagedEventActions(node)

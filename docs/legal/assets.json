@@ -86,6 +86,10 @@
     "project-layout-preview": {
       "status": "Project layout-tree wireframe previews retained from PR389; geometric placeholders and project UI text, not official editor/client screenshots or production artwork; evidence use only, no additional asset/IP sublicense or platform acceptance",
       "evidence": "docs/reviews/CHAR-SELECT-59.3.1.md (layout-tree generation and placeholder limitations); original PR389 commit 49d80a978acea9bfaa4e27d700c7e9765241e268; scripts/character-ui-layout.mjs and data/presentation/ui_theme.json; exact original renderer script was not retained"
+    },
+    "neow-static-layout-evidence": {
+      "status": "Historical project layout screenshots from PR403; official platform picture-library textures remain game IP, no sublicense or commercial clearance. Evidence-only, not runtime assets or official import/device/gameplay acceptance. capture.lua forces bossCount=1; sim.mjs strips scripts and cursor areas. Original blessing image hides descriptions and records the pre-fix defect. pair.png is a composition of static views, not an interactive playthrough.",
+      "evidence": "https://github.com/CHNISam/Slay-the-Abyss/pull/403; commits 073ed4fd486916996db11214962afe9ad3513317 and f37a4262f8d908cab4a0e1602010a779a2839e4d; experiments/neow-sim/capture.lua; experiments/neow-sim/sim.mjs; before-neow.sim.png predates the PR layout, exact generation revision not recorded"
     }
   },
   "files": {
@@ -5417,6 +5421,22 @@
     "docs/reviews/assets/char-select-59.3.1-after.png": {
       "sha256": "f75fa369b5a8c56387a0923bbfdac51842ea7eadc0b429d44bd77f15839b45bd",
       "category": "project-layout-preview"
+    },
+    ".artifacts/neow/before-neow.sim.png": {
+      "sha256": "57c8897ac70131a2d5463efb400fcb810773dc563b4b140933386585cd1e096c",
+      "category": "neow-static-layout-evidence"
+    },
+    ".artifacts/neow/after/neow.sim.png": {
+      "sha256": "73d08f76874496a9c7d42619dbe278dd5c61427af3c5360d4ad67cfef5f4e582",
+      "category": "neow-static-layout-evidence"
+    },
+    ".artifacts/neow/after/neow-blessing.sim.png": {
+      "sha256": "79243c1fb8e2f01558c67431930e15a194007d77e46cc3794c3ef136afdd2da2",
+      "category": "neow-static-layout-evidence"
+    },
+    ".artifacts/neow/after/pair.png": {
+      "sha256": "766f72f71bd4c104ca948dbe21f80839d4d4a85c55cac708c3fd17b0cd57c8fa",
+      "category": "neow-static-layout-evidence"
     }
   }
 }

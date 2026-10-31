@@ -35,7 +35,9 @@ test('map node and path states follow STS hierarchy with WCAG 1.4.11 contrast', 
   const future = ratio(over(node.path, bg, v.futureOpacity), bg);
   const next = ratio(over(node.reachable, bg, v.nextOpacity), bg);
   const taken = ratio(over(node.pathTaken, bg, v.takenOpacity), bg);
-  assert.ok(future >= 3 && next > future * 2 && taken > future * 2, `${future} ${next} ${taken}`);
+  // Unreachable routes are inactive decoration (WCAG 1.4.11 exemption) and must recede like STS
+  // DISABLED edges; live routes stay >= 4.5:1 and at least 3x the recessive stroke.
+  assert.ok(future >= 2 && future < locked && next >= 4.5 && taken >= 4.5 && next > future * 3 && taken > future * 3, `${future} ${next} ${taken}`);
   assert.ok(v.pathWidth >= 3);
   assert.match(readFileSync('src/lua/abyss_map_ui.lua','utf8'), /next = pathColour\(Theme\.color\.node\.reachable/);
 });

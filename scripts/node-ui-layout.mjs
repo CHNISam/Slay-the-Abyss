@@ -129,16 +129,15 @@ export function nodeLayout(theme = nativeTheme) {
   ])));
 
   const event = layout.event, option = event.options;
-  const eventControls = [plate('plateBorder', event.plate, color.goldDim),
+  const eventControls = [
+    ...(event.neow ? [{ name: 'neowFigure', kind: 'container', position: [0, 0], size: [1280, 720], visible: false, children: [
+      { ...plate('scene', event.neow.figure, '#2E3A52FF'), image: image.officialBackdrops.act1_1 },
+      { ...plate('shade', event.neow.figure, '#000000C0'), image: image.vignette },
+    ] }] : []),
+...(event.neow ? [hidden({ ...plate('bubble', event.neow.bubble, '#E9E1CCF2'), image: image.discSoft })] : []), plate('plateBorder', event.plate, color.goldDim),
     plate('plate', [...event.plate.slice(0, 2), event.plate[2] - space.border * 2, event.plate[3] - space.border * 2], color.panelRaised),
     { ...plate('glow', [event.art[0], event.art[1], event.art[2] * 2, event.art[3] * 2], color.goldDim), image: image.glow },
     picture('art', event.art, icon.geo, color.geo),
-    ...(event.neow ? [{ name: 'neowFigure', kind: 'container', position: event.art.slice(0, 2), size: event.art.slice(2), visible: false, children: [
-      picture('pedestal', event.neow.pedestal, image.rect, color.line),
-      picture('body', event.neow.body, image.rect, color.text),
-      picture('hood', event.neow.hood, image.disc, color.textDim),
-      picture('orb', event.neow.orb, image.glow, color.goldBright),
-    ] }] : []),
     text('caption', event.caption, '', font.label, color.textDim),
     text('name', event.name, '', font.title, color.goldBright), text('body', event.body, '', font.body, color.text),
     ...option.rows.map((y, i) => {

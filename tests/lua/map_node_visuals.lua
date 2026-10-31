@@ -30,7 +30,8 @@ local calls=0
 local ui=UI.new(root,map,function(node)calls=calls+1;return Map.choose(map,node.id)end,'click',{
     controller=manager,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
 local function equalColor(actual,want)
-    for _,key in ipairs({'r','g','b','a'}) do assert(actual[key]==want[key],'node icon state colour '..key) end
+    for _,key in ipairs({'r','g','b'}) do assert(actual[key]==want[key],'node icon state colour '..key) end
+    assert(actual.a<=want.a and actual.a>=math.floor(want.a*.66),'STS oscillateColor alpha range')
 end
 local seen={}
 local function verify()
@@ -41,16 +42,36 @@ local function verify()
             local state=node.id==view.currentNodeId and 'current' or node.visited and 'visited' or node.available and 'available' or 'locked'
             seen[state]=true
             for _,child in pairs(b.children) do
-                assert(not child.visible or child.spec.kind~='image' or child.spec.name=='icon' or child.spec.name=='positionToken',
+                assert(not child.visible or child.spec.kind~='image' or child.spec.name=='icon' or child.spec.name=='positionToken' or child.spec.name=='ring',
                     'route nodes must not repaint rings or background discs: '..child.spec.name)
             end
             local icon,hit=b:GetChild('icon'),b:GetChild('hit')
             assert(icon.image==Theme.icon.node[node.type],'existing official node icon ID retained')
             local palette=Theme.color.mapCanvas
-            equalColor(icon.imageColor,state=='locked' and palette.far or state=='visited' and palette.visited or palette.kind[node.type])
+            equalColor(icon.imageColor,node.hasEmeraldKey and Theme.color.positive or state=='locked' and palette.far or palette.kind[node.type])
             assert(b:GetChild('positionToken').visible==(state=='current'),'existing token identifies only current node')
             local size=node.type=='boss' and Theme.layout.map.bossNode or Theme.layout.map.node
+            assert(b:GetChild('ring').visible==(state=='current' or state=='visited'),'STS MAP_CIRCLE_5 on current and taken rooms')
+            -- STS MapRoomNode: glyph 128*scale, MAP_CIRCLE_5 192*(scale*.95+.2), rotated by room angle.
+            local fx=ui.roomFx[node.id]
+            assert(math.abs(icon.size[1]-size*Layout.sts.iconPerScale*fx.scale)<1e-6,'STS glyph scale')
+            assert(math.abs(b:GetChild('ring').size[1]-size*Layout.sts.circlePerScale*(fx.scale*.95+.2))<1e-6,'STS circle scale')
+            assert(b:GetChild('ring').localRotationZ==fx.angle,'STS circle angle')
+            assert(fx.scale>=.5 and fx.scale<=1.25,'STS scale bounds')
             assert(hit.size[1]==size and hit.size[2]==size,'unpainted hit target stays full sized')
+            local function inside(part,angle)
+                if not part.visible then return end
+                local x,y=table.unpack(b.position)
+                local ox,oy=table.unpack(part.position or {0,0})
+                local w,h=table.unpack(part.size or part.spec.size)
+                local a=(angle or 0)*math.pi/180
+                local rx=(math.abs(w*math.cos(a))+math.abs(h*math.sin(a)))/2
+                local ry=(math.abs(w*math.sin(a))+math.abs(h*math.cos(a)))/2
+                assert(y+oy-ry>=Layout.viewport.bottom-.00001 and y+oy+ry<=Layout.viewport.top+.00001,
+                    'animated '..part.spec.name..' overhangs map viewport')
+                assert(x+ox-rx>=Layout.viewport.left and x+ox+rx<=Layout.viewport.right,'map horizontal overhang')
+            end
+            inside(icon);inside(b:GetChild('ring'),fx.angle);inside(hit)
             local enabled=state=='available' and ui.navigationEnabled
             assert(hit.visible==enabled and hit.canControllerFocus==enabled,'only legal destinations are focusable')
         else
@@ -59,11 +80,15 @@ local function verify()
     end
 end
 verify()
+for _=1,12 do ui:update(.09);verify()end
 manager:sync('map')
 assert(focus and focus.visible and focus.canControllerFocus)
 assert(focus.navigation.confirm())
 assert(calls==1 and map.floor==1)
 verify()
+for _=1,12 do ui:update(.09);verify()end
+assert(box(1).visible and box(1):GetChild('positionToken').visible,
+    'a temporarily culled current room must reappear after its ring settles')
 assert(not focus.navigation.confirm() and calls==1,'repeated confirmation must not advance again')
 ui:setNavigationEnabled(true)
 manager:tick();manager:sync('map')

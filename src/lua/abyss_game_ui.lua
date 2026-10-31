@@ -343,7 +343,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         local utilitiesVisible=not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering
         child("combatRewards"):SetVisible(returnAvailable)
         child("deckEntry"):SetVisible(utilitiesVisible)
-        child("relicEntry"):SetVisible(utilitiesVisible)
+        -- STS has no separate relic button: the discs under the HP row are the one control.
+        child("relicEntry"):SetVisible(false)
         self.relicUI:refreshBar(run,utilitiesVisible)
         for _,state in ipairs({'normal','hover','pressed','disabled'})do
             local variant=child('relicEntry'):GetChild('open'):GetChild('hit'):GetChild(state)

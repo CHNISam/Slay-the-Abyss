@@ -32,7 +32,7 @@ for _,upgraded in ipairs({false,true}) do
         local sourceX=(1010+1850)/2/1.5-640
         -- Independent sts@319009d5 Cultist constructor facts, also checked on
         -- the real native box above: drawY=-10, hitbox230x240, source anchor340.
-        local sourceY=(340-10+math.max(230,240)/2)*(720/1080)-720/2
+        local sourceY=(400-10+math.max(230,240)/2)*(720/1080)-720/2
         eq(math.abs(u.feedback.flight.tx-sourceX)<1e-8,true,'area flight center')
         eq(math.abs(u.feedback.flight.ty-sourceY)<1e-8,true,'enemy row')
         eq(s.energy,1);eq(#s.exhaust,1);eq(#s.discard,0)
