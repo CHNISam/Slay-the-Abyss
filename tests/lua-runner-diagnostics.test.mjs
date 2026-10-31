@@ -125,3 +125,20 @@ test('injected failures restore original built-in bindings', () => {
   assert.equal(childProcess.spawnSync, spawn);
   assert.equal(Module._resolveFilename, resolve);
 });
+
+// Real byte capture/overflow and trailing-state checks live in
+// lua-runner-output-buffer.test.mjs; this only verifies routing arguments.
+test('explicit output buffer reaches ordinary and historical adapters without changing deadlines', () => {
+  for (const [script, timeout] of [
+    ['tests/lua/diagnostic.lua', 30000],
+    ['tests/lua/battle_ui.lua', 60000],
+    ['tests/lua/presentation_responsibilities_text.lua', 30000],
+  ]) {
+    withResult({ status: 0, signal: null, stdout: '', stderr: '' }, calls => {
+      runLua(script, { maxBuffer: 2 * 1024 * 1024 });
+      assert.equal(calls.length, 1);
+      assert.equal(calls[0][2].maxBuffer, 2 * 1024 * 1024);
+      assert.equal(calls[0][2].timeout, timeout);
+    });
+  }
+});
