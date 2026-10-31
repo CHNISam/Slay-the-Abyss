@@ -6,7 +6,7 @@
 当前可执行决定以 `data/release/candidate-art-policy.json` 为准；下文历史接入能力和“显式开启”示例不构成本轮许可。
 正式工具链入口在读取SDK或写存档前检查最终解析后的开关，旧registry/count/host参数也不能绕过；构建返回及正式负载验证再检查收据。
 策略文件包含在候选源码摘要中，缺失或格式错误会失败。重新启用必须先明确改变并审查该产品策略，不能仅传 `--art-cards=true` 或在UI分支改变默认值。
-实验 `build-ui` 仍可验证保留资产；实验成功不是交付许可。交付当前关闭配置使用 `--art-cards=false --no-ready-card-art`。
+实验 `build-ui` 仍可验证保留资产；实验成功不是交付许可。候选 CLI 默认 `cards=false`；`menuBackground`、`selectionAvatar`、`battlePortrait` 各自保持默认开启，仍可分别显式关闭。`--art-cards=false --no-ready-card-art` 可显式固定卡图关闭配置。
 
 2026-10-30 Owner明确要求将仅有源图的卡也全部接入，覆盖此前00:59只接三张原生卡的临时范围。构图重做与新增生图后置，不改规则、数值或批准布局。
 
@@ -44,7 +44,7 @@ Owner 2026-10-30 06:57 UTC 明确开关由开发/发布人员控制，不给玩�
 
 ### 开发人员选择候选组合
 
-普通 `npm run build:native -- <base.gil> <output-directory>` 不启用自绘。需要测试卡图时追加 `--art-cards=true`；其它三项分别为 `--art-menu-background=true`、`--art-selection-avatar=true`、`--art-battle-portrait=true`。每项也可显式传 `false`，未提供的项仍关闭，同一项重复提供会被拒绝。`alpha-test` 身份本身不启用美术。
+当前 `npm run build:native -- <base.gil> <output-directory>` 默认关闭卡图，独立开启背景与两类肖像；其它三项分别通过 `--art-menu-background=false`、`--art-selection-avatar=false`、`--art-battle-portrait=false` 关闭。卡图实验仅使用 `build-ui --art-cards=true`；正式候选拒绝显式或旧参数启用卡图，同一项重复提供也会被拒绝。`alpha-test` 身份本身不授予卡图许可。
 
 这些参数仅属于开发构建工具，不能从玩家设置、存档内容或游戏内按钮覆盖。每次候选检查其 `artFeatures` 收据与生成的 `abyss_art_features.lua` 是否一致；关闭某类后应同时检查对应数据、模板/宿主和创建调用，不只查看画面是否隐藏。要回退已导入候选，重新构建关闭组合并按原流程导入；不宣称有远程实时开关。
 
@@ -67,7 +67,7 @@ Owner 2026-10-30 06:57 UTC 明确开关由开发/发布人员控制，不给玩�
 
 两份数据只写入既有 `abyss_traveler_portrait_assets` 生成模块，并由既有肖像 owner 分批创建（每次更新共享 64 创建预算，离开选角暂停缓存）。范围边界：战斗/奖励/商店手牌的逐卡精装框与逐卡插画尚未接入，卡扇为选角展示且暂不含卡名/费用文字；收据 `officialPortraits` 清单仍按 selection133 计数，未单列低多边形控件。模拟器/源码测试通过不等于官方 PC/安卓验收：rotX+rotY 混合压扁、约 3.6k 控件性能与 GIA 导入均需正式客户端确认。
 
-#### 2026-10-31 追加：卡面金框 + 候选默认开启
+#### 2026-10-31 历史追加：卡面金框 + 候选默认开启（卡图默认已由当前策略覆盖）
 
 - `--art-cards=true` 同时把战斗手牌、奖励、商店、牌库共用的 `abyss_card_skin` 原生卡框改为突破实验金框调色（`ui_theme.json` → `cardSkin.premium`），只重新着色既有控件，名称/费用/描述文字不变；插画仍走已有 75 张自制卡图运行时。关闭时 `configure(nil)` 回到官方配色。角花/宝石等额外装饰精灵需新增布局宿主，暂缓。
 - Owner 要求本次交付候选默认看到新美术：`npm run build:native` 与 `build-native-candidate.mjs` CLI 未指定时默认 `cards=true`、`selectionAvatar=true`；`--art-cards=false --art-selection-avatar=false` 立即回到官方素材。`build:ui`/API 默认仍全关；旧 `--no-ready-card-art` / `--native-card-art-*` 继续决定 cards。
@@ -78,7 +78,7 @@ Owner 2026-10-30 06:57 UTC 明确开关由开发/发布人员控制，不给玩�
 - Source: breakthrough `land` group (362 triangles, 1587×1026) extracted into `art/lowpoly-select/select-lowpoly.json` → generated `lowpolyLand`.
 - Layout: `attachLowpolyScenes` adds a hidden `lowpolyScene` container (1280×720) as the first drawn child of `battlePanel` and just under `characterPanel.border` (above veils). Not created when the flag is off; candidate audit blocks the host name then.
 - Runtime: `abyss_traveler_portraits` builds `selectScene`/`battleScene` controllers (cached, budgeted); select hides official `border`/`face` only once the land is ready; battle draws behind every hand/monster/HUD control (no z-order change).
-- Candidate default: ON (with `cards`, `selectionAvatar`); `--art-menu-background=false` returns to official. Scenes need bound image/container templates (portrait module binding, also bound for cards/menuBackground-only builds).
+- Candidate background default: ON (with `selectionAvatar` and `battlePortrait`; cards stay OFF under current policy); `--art-menu-background=false` returns to official. Scenes need bound image/container templates (portrait module binding, also bound for cards/menuBackground-only builds).
 - Deferred: corner ornaments/gems on card faces (need new card-face layout hosts), select fan rank text.
 
-2026-10-31 Pan 覆盖：候选/真机构建（build:native、build-native-candidate）默认开启 `cards`、`menuBackground`（低多边形选人+战斗场景背景，`lowpolyScene` 为战斗面板首个子节点、位于角色之下）、`selectionAvatar`、`battlePortrait`；`monsters` 仍需 `--art-monsters=true`。API/build-ui 仍默认全关；显式 `--art-<类>=false` 恢复官方。
+2026-10-31 当前整合：候选/真机构建（build:native、build-native-candidate）默认关闭 `cards`，默认开启 `menuBackground`（低多边形选人+战斗场景背景，`lowpolyScene` 为战斗面板首个子节点、位于角色之下）、`selectionAvatar`、`battlePortrait`；`monsters` 仍需 `--art-monsters=true`。API/build-ui 仍默认全关；显式 `--art-<类>=false` 恢复官方。
