@@ -6,6 +6,8 @@ local C,R,Q=require('abyss_combat'),require('abyss_sts_random'),require('abyss_e
 local Data=require('abyss_data')
 local Policy=dofile('scripts/warrior75-autoplay-policy.lua')
 local EventCards=dofile('scripts/m3-event-card-policy.lua')
+local RelicChoices=dofile('scripts/m3-relic-choice-policy.lua')
+local Pending=require('abyss_relic_pending')
 local function json(value)
     if type(value)=='nil' then return 'null' end
     if type(value)=='boolean' or type(value)=='number' then return tostring(value) end
@@ -52,9 +54,11 @@ local function play(seed)
  local function execute()
  command('begin_neow',function()return Nodes.beginNeow(run,map,{bossCount=0,source='fresh-start'})end)
  local actions=0
- while run.phase~='defeat' and run.phase~='victory' and actions<3000 do
+ while (run.phase~='defeat' and run.phase~='victory' or Pending.owner(run)) and actions<3000 do
   actions=actions+1
-  if run.phase=='act_transition'then command('advance_act',function()return Nodes.advanceAct(run,map)end);done={}
+  local pendingToken,pendingDetails=RelicChoices.choose(run,Policy.scoreCard)
+  if pendingToken then command('mandatory_relic_choice',function()return Pending.resolve(run,pendingToken)end,pendingDetails)
+  elseif run.phase=='act_transition'then command('advance_act',function()return Nodes.advanceAct(run,map)end);done={}
   elseif run.phase=='combat'then
    local choice=run.combat.pendingChoice
    if choice then
