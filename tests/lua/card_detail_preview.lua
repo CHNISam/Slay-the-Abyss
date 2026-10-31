@@ -1,3 +1,6 @@
+local sliceFirst,sliceLast=...
+sliceFirst,sliceLast=sliceFirst or 1,sliceLast or 3
+local registered=0
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Combat=F.Combat
 local function same(a,b)
@@ -7,7 +10,12 @@ local function same(a,b)
  return true
 end
 local passed=0
-local function test(name,fn)fn();passed=passed+1;print('PASS '..name)end
+local function test(name,fn)
+ registered=registered+1
+ if registered<sliceFirst or registered>sliceLast then return end
+ fn();passed=passed+1;print('PASS '..name)
+ print('CARD_DETAIL_PREVIEW_CASE '..registered)
+end
 local function setup(cards)
  local host,root=F.fixture();assert(F.start(host));host.run.deck=cards
  assert(host:openDeck());host:update(0)
@@ -176,3 +184,5 @@ test('a new Run never inherits a previous upgrade preview',function()
  assert(not host.deckUI:toggleUpgradePreview());host:closeDeck()
 end)
 print('CARD_DETAIL_PREVIEW_PASS '..passed)
+assert(registered==11,'all original card detail groups must register')
+assert(passed==sliceLast-sliceFirst+1,'every selected card detail group must execute')

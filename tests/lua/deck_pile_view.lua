@@ -13,6 +13,21 @@ local function open(host,root,kind)
     assert(host.deckUI:openPile(host.run,kind));host.deckUI:update()
     return root:GetChild('deckPanel'):GetChild('grid')
 end
+local function scrollAndInspect(host,root,grid)
+    local hit=grid.items[0]:GetChild('hit')
+    assert(hit.visible,'read-only pile card must allow detail inspection')
+    assert(not hit.listeners.drag and not hit.listeners.endDrag,'pile details must leave native scrolling unclaimed')
+    grid.scrollProgress=.4
+    assert(not hit.click({touchId=11,dragging=true}),'dragging must not inspect a pile card')
+    assert(not hit.click({touchId=11,dragging=false,GetPressUIPos=function()return 0,0 end,
+        GetUIPos=function()return 0,100 end}),'released scroll must not inspect a pile card')
+    assert(grid.visible and not host.deckUI.cardDetail and grid.scrollProgress==.4)
+    assert(hit.click({touchId=12,dragging=false}),'ordinary tap must inspect a pile card')
+    assert(root:GetChild('deckPanel'):GetChild('details').visible and not grid.visible)
+    assert(not host.deckUI.choiceToken and not host.deckUI.onPick,'pile inspection cannot dispatch a choice')
+    assert(host.deckUI:back());host.deckUI:update()
+    assert(grid.visible and grid.scrollProgress==.4,'returning from pile detail must retain native scroll')
+end
 
 test('draw and exhaust views sort copies by source rarity and status last without revealing draw order',function()
     for _,kind in ipairs({'draw','exhaust'}) do
@@ -25,7 +40,7 @@ test('draw and exhaust views sort copies by source rarity and status last withou
         assert(grid.itemCount==5)
         for i,uid in ipairs(expected) do assert(host.deckUI.cards[i].uid==uid) end
         assert(root:GetChild('deckPanel'):GetChild('title').text:find(kind=='draw' and '抽牌堆' or '消耗堆',1,true))
-        assert(not grid.items[0]:GetChild('hit').visible,'read-only pile intercepts scrolling')
+        scrollAndInspect(host,root,grid)
         assert(same(before,host.run),'opening changed rules or RNG')
         host.deckUI:close();assert(same(before,host.run))
     end
@@ -35,8 +50,10 @@ test('discard view keeps group order and Frozen Eye permits the original reverse
     local host,ui,panel,event,tap,drain,close,root=H.setup()
     local cards={instance(71,'anger'),instance(72,'bash'),instance(73,'defend')}
     host.run.combat.discard=Combat.copy(cards)
-    open(host,root,'discard')
+    local before=Combat.copy(host.run)
+    local grid=open(host,root,'discard')
     for i,c in ipairs(cards) do assert(host.deckUI.cards[i].uid==c.uid) end
+    scrollAndInspect(host,root,grid);assert(same(before,host.run),'discard inspection changed rules or RNG')
     host.deckUI:close();host.run.relics[#host.run.relics+1]='frozen_eye'
     host.run.combat.draw=Combat.copy(cards)
     open(host,root,'draw')

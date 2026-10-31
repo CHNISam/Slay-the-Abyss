@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 11:45'
-updated_date: '2026-10-31 08:33'
+updated_date: '2026-10-31 09:10'
 labels: []
 dependencies: []
 priority: medium
@@ -55,4 +55,6 @@ PR377最新整合承接PR378事件与PR381必要修复：目录hash与原生怪�
 本轮集成补验见docs/backlog-details/TASK-88-CI-STABILITY-20261031.md。最近完整绿灯9cfb250b之后的运行时组合与96411b6c测试增量已独立复审。真实复现Jaw Worm原30秒超时后，仅将独立种子机械拆片，保留全部13组/16种子/24回合、原始完整hash与原预算；独立复审通过，覆盖负例2/2，最近历史/输出缓冲专项14/14。最终raw与当前SHA完整CI仍待，不认证候选或设备。
 
 最终七份Jaw Worm raw入口全部成功，四片活回合耗时15876/16980/18343/15229ms，原30秒预算不变；原组1/2–11和组13也成功。怪物数据/worker独占调度21/21通过。修复仅测试与证据，无生产行为变化；独立复审/root/integration_review确认完整原始hash、13组、16种子、每种子24回合保留。等待修复精确HEAD全量CI。
+
+96411b6c完整主线实际分片23成功、两个失败：Jaw Worm原30秒超时（已拆完整种子）和牌堆旧隐藏hit断言（与已合入只读详情冲突）。后者先红后绿保留原4组、排序/FrozenEye/费用/Run/RNG和上下文断言，补三牌堆真实滚动拒绝/只读点按/返回位置，26072ms通过；内存移除生产scrollClick负对照被实际断言捕获。相关检查又复现原11组预览单进程30秒超时，按完整原GitBlob/SHA机械四片后6/6通过，8–16秒且原预算不变；deck_scroll_detail成功。统一事实记录追加至TASK-88-CI-STABILITY-20261031.md，等待最终修复HEAD完整CI，不认证候选或设备。
 <!-- SECTION:NOTES:END -->
