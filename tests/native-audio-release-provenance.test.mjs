@@ -1,4 +1,4 @@
-import {portraitInventory,portraitSourceInputs} from '../scripts/official-portraits.mjs';
+import {portraitInventory,portraitRuntimeInputs as portraitSourceInputs} from '../scripts/official-portraits.mjs';
 import {artFeatureReceipt} from '../scripts/art-features.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -29,7 +29,7 @@ function fixture(t, mutate = () => {}) {
     full = { mapPath, receiptPath, artFeatures:artFeatureReceipt(options.artFeatures), buildId: '7cf6f22e-2f12-44bb-9f01-aad514071a5f', candidate: fileRecord(mapPath), ...gitSourceIdentity(root),
       payloadDigest: payloadDigest(sourceInputs(root)),
       ...(options.artFeatures.menuBackground?{officialBackground: {templateIndex:1470123456,peakDynamicControls:13201,inputs:[{sha256:'c'.repeat(64)}]}}:{}),
-      ...(options.artFeatures.selectionAvatar||options.artFeatures.battlePortrait?{officialPortraits: {...portraitInventory(options.artFeatures),imageTemplateIndex:1470123457,containerTemplateIndex:1470123458,inputs:portraitSourceInputs(options.artFeatures).map(path=>({path,sha256:'d'.repeat(64),bytes:1}))}}:{}),
+      ...(options.artFeatures.selectionAvatar||options.artFeatures.battlePortrait||options.artFeatures.cards||options.artFeatures.menuBackground?{officialPortraits: {...portraitInventory(options.artFeatures),imageTemplateIndex:1470123457,containerTemplateIndex:1470123458,inputs:portraitSourceInputs(options.artFeatures).map(path=>({path,sha256:'d'.repeat(64),bytes:1}))}}:{}),
       ...(options.artFeatures.cards?{readyCardArt: {enabled:true,assetCount:75,imageTemplateIndex:1470123457,containerTemplateIndex:1470123458}}:{}),
       release: { version: 'v0.1.1', workKey: options.workKey,
         ...(options.releaseCandidate ? { notesSha256: 'b'.repeat(64) } : {}) } };

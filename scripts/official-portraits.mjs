@@ -2,7 +2,7 @@ import {readFileSync,writeFileSync,existsSync} from 'node:fs';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {toLua} from './build-lua-data.mjs';
-import luaparse from 'luaparse';
+import {createRequire} from 'node:module';
 
 export const portraitModule='abyss_traveler_portrait_assets';
 const base='art/characters/traveler-geo/portraits';
@@ -99,6 +99,8 @@ export function portraitRuntimeInputs(flags={}) {
  return [...portraitSourceInputs(flags),...(flags.selectionAvatar||flags.cards||flags.menuBackground?[lowpolySelectPath]:[])];
 }
 function lowpolyInventory(source) {
+ if(!/\blowpoly(?:Hero|CardFan|Land)=/.test(source))return [];
+ const luaparse=createRequire(import.meta.url)('luaparse');
  const table=luaparse.parse(source).body.find(n=>n.type==='ReturnStatement')?.arguments[0];
  const rows=[];
  for(const field of table?.fields??[]) {
