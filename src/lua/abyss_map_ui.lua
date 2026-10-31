@@ -330,6 +330,9 @@ function M.new(root, map, onChoose, clickEvent, options)
                     (node.visited and "visited" or (node.available and "available" or "locked"))
                 local fx = self.roomFx[node.id] or newRoomFx(node.id)
                 self.roomFx[node.id] = fx
+                -- A newly selected room adds a rotated ring. Retire its reachable
+                -- pulse first so focus never culls that ring at the first row.
+                if state == "current" and fx.state ~= state then fx.scale = Sts.baseScale end
                 fx.state,fx.size,fx.box,fx.x,fx.y,fx.emerald=state,size,box,x,y,node.hasEmeraldKey
                 visible=roomVisible(fx);fx.visible=visible
                 -- Hidden transitions still lerp to rest; otherwise a temporarily
