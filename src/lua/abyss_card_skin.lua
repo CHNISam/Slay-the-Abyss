@@ -36,8 +36,9 @@ local function identity(definition)
     if definition.color=='colorless' then return 'colorless' end
     return 'traveler'
 end
+-- Premium chrome must not replace the grey/blue/gold rarity language.
 local function frame(box,definition,look,tint)
-    local rarities=premium and premium.rarities or config.rarities
+    local rarities=config.rarities
     local rarity=rarities[definition.rarity] or rarities.basic
     local edge=rarity[1]
     if look.selected then edge=premium and premium.selected or Theme.color.goldBright end
@@ -54,7 +55,7 @@ local function window(box,definition,accent,tint)
         local group=box:GetChild('skin'):GetChild(kind);group:SetVisible(kind==shape)
         if kind==shape then
             paint(group:GetChild('edge'),names,accent,tint)
-            paint(group:GetChild('well'),names,mix(premium and premium.well or Theme.color.cardWell,accent,.05),tint)
+            paint(group:GetChild('well'),names,mix(Theme.color.cardWell,accent,.05),tint)
         end
     end
     paint(box:GetChild('tagEdge'),roundNames,accent,tint)
@@ -131,7 +132,7 @@ function M.apply(box,definition,platform,look)
         frame(box,definition,look,tint);window(box,definition,accent,tint)
         emblem(box,role,accent,tint);decorations[box]=key
     end
-    local rarities=premium and premium.rarities or config.rarities
+    local rarities=config.rarities
     tint(box:GetChild('nameRule'),(rarities[definition.rarity] or rarities.basic)[4])
     costs(box,definition,look,accent,platform,tint)
     if platform.color then box:GetChild('type').fontColor=platform.color(accent.r,accent.g,accent.b,255)end

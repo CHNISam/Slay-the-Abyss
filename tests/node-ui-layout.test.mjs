@@ -188,8 +188,8 @@ test('each enlarged shop card keeps every price, the merchant and mobile cancel 
   for(const c of items){
    const card=/^card(\d+)$/.exec(c.name),price=/^price(\d+)$/.exec(c.name);
    const i=Number((card||price)?.[1]);
-   if(card){c.position[1]-=i>5?l.focusRowShift:0;if(i===focus)c.size=c.size.map(v=>v*l.hoverScale);}
-   if(price){c.position[1]-=i>5?l.focusRowShift:0;if(i===focus)c.position[1]-=(l.hoverScale-1)*nativeTheme.layout.card.size[1]/2;}
+   if(card && i===focus){c.size=c.size.map(v=>v*l.hoverScale);}
+   if(price && i===focus){c.position[1]-=(l.hoverScale-1)*nativeTheme.layout.card.size[1]/2;}
   }
   items.push(find(panel.children,'merchant'),find(panel.children,'notice'),find(panel.children,'confirm'),
    {name:'cancel',position:l.cancel.slice(0,2),size:l.cancel.slice(2)});
@@ -213,5 +213,16 @@ test('source reward rows and the twelve-card smithing grid fit without hiding ne
   const arrow=find(picker,name);
   for(const c of [...grid,find(panel.children,'back'),find(panel.children,'confirm')])
    assert.ok(!overlaps(bounds(arrow),bounds(c)),name+' overlaps '+c.name);
+ }
+});
+
+ test('merchant pages fit one readable line inside the dialogue panel',()=>{
+ const m=nativeTheme.layout.merchant, merchant=find(panel.children,'merchant');
+ const line=find(merchant.children,'line'), name=find(merchant.children,'name');
+ const box=find(merchant.children,'panel');
+ assert.ok(m.pageCharacters*line.text.fontSize+16<=line.size[0], 'page must fit without a second clipped line');
+ for(const text of [line,name]){
+  const a=bounds(text), b=bounds(box);
+  assert.ok(a.left>=b.left && a.right<=b.right && a.bottom>=b.bottom && a.top<=b.top,'merchant text must remain inside panel');
  }
 });

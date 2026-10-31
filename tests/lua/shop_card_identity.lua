@@ -119,7 +119,8 @@ end
 for _, slot in ipairs({2, 1}) do
     test('real Courier duplicate UI buys only slot ' .. slot, function()
         local run, map = duplicate(); local ui = uiFor(run, map); local before = C.copy(run)
-        assert(ui:press('shopView/card' .. slot))
+        assert(ui:press('shopView/card' .. slot));same(run,before)
+        assert(ui:press('confirm'))
         bought(run, before, slot, slot == 2 and 42 or 36)
     end)
 end
@@ -138,12 +139,13 @@ test('expensive slot rejects funds sufficient only for cheaper duplicate', funct
     rejected(run, map, function() return ui:press('shopView/card2') end, 'insufficient_gold')
     ui:render()
     rejected(run, map, function() return ui:press('shopView/card2') end, 'unavailable_action')
-    assert(ui:press('shopView/card1')); assert(run.gold == 0)
+    assert(ui:press('shopView/card1')); assert(ui:press('confirm')); assert(run.gold == 0)
 end)
 test('selected second-slot restock failure rolls back every resource and RNG', function()
     local run, map = duplicate(); local ui = uiFor(run, map)
     run.cardRng = {} -- same invalid authoritative-stream fault as the existing shop suite
-    rejected(run, map, function() return ui:press('shopView/card2') end, 'shop_content_unavailable')
+    assert(ui:press('shopView/card2'))
+    rejected(run, map, function() return ui:press('confirm') end, 'shop_content_unavailable')
     assert(type(Nodes.buyCardSlot) == 'function', 'explicit card-slot API is required')
     rejected(run, map, function() return Nodes.buyCardSlot(run, 2) end, 'shop_content_unavailable')
 end)
@@ -176,7 +178,7 @@ for _, boundary in ipairs({'purchase', 'external_purchase', 'render', 'overlay',
         local run, map = duplicate(); local ui, root = uiFor(run, map)
         local old = ui.actions['shopView/card2'].handler
         emit(root, 2, 'down', 11)
-        if boundary == 'purchase' then assert(ui:press('shopView/card2'))
+        if boundary == 'purchase' then assert(ui:press('shopView/card2'));assert(ui:press('confirm'))
         elseif boundary == 'external_purchase' then assert(Nodes.buyCard(run, run.nodeFlow.cards[3].id))
         elseif boundary == 'render' then ui:render()
         elseif boundary == 'overlay' then ui:setVisible(false); ui:setVisible(true); ui:render()
@@ -190,7 +192,9 @@ for _, boundary in ipairs({'purchase', 'external_purchase', 'render', 'overlay',
             ui:render()
             local price, size, gold = run.nodeFlow.cards[2].price, #run.deck, run.gold
             emit(root, 2, 'down', 12); emit(root, 2, 'up', 12)
-            assert(emit(root, 2, 'click', 12), 'fresh gesture must buy current selected offer')
+            assert(emit(root, 2, 'click', 12), 'fresh gesture must preview current selected offer')
+            assert(#run.deck==size and run.gold==gold)
+            assert(ui:press('confirm'))
             assert(#run.deck == size + 1 and gold - run.gold == price)
         end
     end)

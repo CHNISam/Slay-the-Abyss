@@ -88,7 +88,7 @@ export function enemyUnitTemplate(name = 'AbyssMonsterActor') {
     actor.children.splice(actor.children.findIndex(child => child.name === before), 0,
       {name,kind:'container',position:[0,0],size:[...actor.size],visible:true,children:[]});
   }
-  actor.children.find(child => child.name === 'intent').text.valign = 'top';
+  actor.children.find(child => child.name === 'intent').text.valign = 'middle';
   return actor;
 }
 

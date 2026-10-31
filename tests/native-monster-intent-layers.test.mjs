@@ -22,6 +22,9 @@ function assertLayers(actor) {
 test('enemy intent effect layers add exactly two empty draw-order roots without changing hero or existing actor fields',()=>{
   const actor=enemyUnitTemplate();assertLayers(actor);assert.equal(actor.children.length,34);
   actor.children=actor.children.filter(n=>!layers.has(n.name));
+  // Approved native readability delta: horizontal intent values are vertically centered.
+  const intent=actor.children.find(n=>n.name==='intent');assert.equal(intent.text.valign,'middle');
+  intent.text.valign='top'; // Retain the frozen digest for every other existing actor field.
   assert.equal(digest(actor),'e17a5a9bdaa32056b274d7b12d2a492eee381d4fc70f70c521a4d9b705232f5d');
   const hero=descendants(battleLayout()).find(n=>n.name==='hero');
   assert.equal(digest(hero),'ee457437376d90ded5fe29ce2018ed9266eda755a59779022c9571b8439a3d97');

@@ -162,9 +162,10 @@ function M.install(owner, _ownership, host, dependencies)
     local function renderSceneHeading(frame)
         local flow = frame.run and frame.run.nodeFlow
         local kind = flow and ({elite = "精英战斗", boss = "首领战斗"})[flow.type] or "战斗"
-        -- STS TopPanel.renderDungeonInfo: the floor number is its own chip, not title text.
-        dependencies.label("floor", flow and flow.floor and tostring(flow.floor) or "")
-        dependencies.label("title", kind .. stanceHeading(frame) .. orbHeading(frame) .. discardHeading(frame) .. originalHeading(frame))
+        -- Keep the floor identifiable without a naked number over the first potion slot.
+        dependencies.label("floor", "")
+        local floor=flow and flow.floor and " · 第"..tostring(flow.floor).."层" or ""
+        dependencies.label("title", kind .. floor .. stanceHeading(frame) .. orbHeading(frame) .. discardHeading(frame) .. originalHeading(frame))
     end
     local function renderEnergy(frame)
         local battle = frame.battle

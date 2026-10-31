@@ -341,6 +341,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         local ending=run and run.phase=='ending_proceed'
         local utilitiesVisible=not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering
         child("combatRewards"):SetVisible(returnAvailable)
+        -- Route preview raises the full-page map. Restore this sibling above it
+        -- when returning to navigation; visibility alone leaves it occluded.
+        if returnAvailable then child("combatRewards"):SetAsLastSibling() end
         child("deckEntry"):SetVisible(utilitiesVisible)
         -- STS has no separate relic button: the discs under the HP row are the one control.
         child("relicEntry"):SetVisible(false)
@@ -383,6 +386,18 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
             child("battlePanel"):GetChild("notice").text = guardian
                 and Narrative.flow.bossEntrance.full or ""
+            self.bossEntrance=guardian and {battle=run.combat,remaining=6} or nil
+        end
+    end
+    local function updateBossEntrance(dt)
+        local entrance=self.bossEntrance
+        if not entrance then return end
+        local notice=child("battlePanel"):GetChild("notice")
+        entrance.remaining=entrance.remaining-dt
+        if not self.run or self.run.combat~=entrance.battle or self.run.phase~="combat"
+            or notice.text~=Narrative.flow.bossEntrance.full or entrance.remaining<=0 then
+            if notice.text==Narrative.flow.bossEntrance.full then notice.text="" end
+            self.bossEntrance=nil
         end
     end
     local function renderMapPage(run,deckOpen,potionOpen,blocked,covering)
@@ -736,6 +751,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.prologue then self.prologue:update(dt) end
         if openingCovered() then self:syncController();return true end
         self.battleUI:update(dt)
+        updateBossEntrance(dt)
         if self.battleUI.busy and self.battleUI.feedback.deaths.player then bgm:update("defeat") end
         self.nodeUI:update(dt)
         self.deckUI:update(dt)

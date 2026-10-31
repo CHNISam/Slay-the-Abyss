@@ -44,7 +44,9 @@ function M.geometry(actor)
   blockX=hitX-source.width*sx/2-14*sx-x,blockY=hitBottom-14*sy-rootY,blockTextY=hitBottom-16*sy-rootY,
   blockWidth=64*sx,blockHeight=64*sy,
   intentX=hitX-x+(actor.definitionId=='gremlin_nob' and -30*sx or 0),
-  intentY=hitBottom+source.height*sy+32*sy-rootY,intentWidth=128*sx,intentHeight=128*sy,
+  -- Full-bleed native glyphs and their 40px text line must clear both art and hitbox.
+  intentY=math.max(portrait/2,hitBottom+source.height*sy-rootY)+math.max(L.nativeText.lineHeight,L.intent.size)/2+Theme.space.xs,
+  intentWidth=128*sx,intentHeight=128*sy,
   intentHitWidth=64*sx,intentHitHeight=64*sy}
 
 end
@@ -61,9 +63,10 @@ function M.exp10Out(a)return 1-(2^(-10*a)-2^-10)/(1-2^-10)end
 -- blocked: dying OR dragging a non-ENEMY hovered card.
 -- hbAlpha multiplication occurs after geometry, exactly as original renderName.
 function M.nameStep(timer,alpha,dt,bodyHovered,blocked,hbAlpha)
- timer=bodyHovered and timer+dt or fade(timer,dt,12)
+ -- Repeated inspection must reveal the complete name immediately, not replay a fade-in.
+ timer=bodyHovered and 1 or fade(timer,dt,12)
  if blocked then return timer,alpha,nil end
- alpha=timer~=0 and math.min(timer*2,1)or fade(alpha,dt,3)
+ alpha=bodyHovered and 1 or fade(alpha,dt,3)
  local yOffset=-8*M.exp10Out(alpha)
  return timer,alpha*(hbAlpha or 1),yOffset
 end
