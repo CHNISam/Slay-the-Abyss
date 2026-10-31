@@ -27,6 +27,7 @@ function M.install(owner, ownership, host, dependencies)
         local source=host.platform.imageSource
         local painted=intentImages[control]
         if painted and painted.image==image and painted.source==source and control.alive~=false then return end
+        intentImages[control]=nil
         if dependencies.picture(control,id)~=false then intentImages[control]={image=image,source=source} end
     end
     local function pendingCardTarget(frame)
@@ -98,6 +99,7 @@ function M.install(owner, ownership, host, dependencies)
         value:SetVisible(allowed~=false and attack and face.value~='')
         local text=face.value and face.value:gsub('×','x') or ''
         if intentTexts[value]~=text or value.alive==false then
+            intentTexts[value]=nil
             value.text=text
             intentTexts[value]=text
         end

@@ -19,8 +19,8 @@ local function control()
  end,__newindex=function(self,k,v)
   if k=='text'then
    state.textWrites=state.textWrites+1
-   if state.failText then state.failText=false;error('one rejected text write')end
    state.text=v
+   if state.failText then state.failText=false;error('one rejected text write')end
   else rawset(self,k,v)end
  end}),state
 end
@@ -78,6 +78,31 @@ test('rejected image and throwing text writes retry',function()
  assert(not pcall(draw,b,{kind='attack',value='7'},100,nil,true,1))
  draw(b,{kind='attack',value='7'},100,nil,true,1)
  assert(s.intent.text=='7' and s.intent.textWrites==3,'failed text write was cached')
+end)
+for _,failure in ipairs({'false','throw'})do
+ test('partially applied image '..failure..' revokes the previous successful promise',function()
+  local b,children,s=box();local draw=render(b);draw(b,face,100,nil,true,1)
+  local icon=children.intentIcon;local original=icon.SetImage;local attempts=0
+  icon.SetImage=function(self,...)
+   attempts=attempts+1;original(self,...)
+   if attempts==1 then if failure=='throw'then error('image applied then threw')end;return false end
+  end
+  local ok=pcall(draw,b,{kind='defend',value='6'},100,nil,true,1)
+  assert(ok==(failure=='false'))
+  assert(s.intentIcon.image==Theme.icon.intent.defend)
+  draw(b,face,100,nil,true,1)
+  assert(s.intentIcon.image==Theme.icon.intent.attack and attempts==2,'old image promise survived a failed replacement')
+  draw(b,face,100,nil,true,1);assert(attempts==2)
+ end)
+end
+test('partially applied throwing text replacement revokes the old text promise',function()
+ local b,_,s=box();local draw=render(b);draw(b,face,100,nil,true,1)
+ s.intent.failText=true
+ assert(not pcall(draw,b,{kind='attack',value='7'},100,nil,true,1))
+ assert(s.intent.text=='7')
+ draw(b,face,100,nil,true,1)
+ assert(s.intent.text=='6' and s.intent.textWrites==3,'old text promise survived a failed replacement')
+ draw(b,face,100,nil,true,1);assert(s.intent.textWrites==3)
 end)
 test('cached native handles still pass through dead-object guards',function()
  local b,children=box();local f=fx(b);MapUI.paintRoom(f)
