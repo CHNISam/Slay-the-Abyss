@@ -12,7 +12,9 @@ const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text
 });
 const aligned = (control, align = 'left') => ({ ...control, text: { ...control.text, align } });
 const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image,
-  colour: colour.slice(0, 7), ...(/^#[0-9a-f]{8}$/i.test(colour) ? { opacity: parseInt(colour.slice(7), 16) / 255 } : {}) });
+  ...(typeof colour === 'string' && /^#[0-9a-f]{8}$/i.test(colour)
+    ? { colour: colour.slice(0, 7), opacity: parseInt(colour.slice(7), 16) / 255 } : { colour }),
+});
 const panel = (name, x, y, w, h, colour) => picture(name, x, y, w, h, im.rect, colour);
 const hit = (w, h) => ({ name: 'hit', kind: 'cursorArea', size: [w, h], focusable: true });
 const clickableImage = (image, target) => {
@@ -171,12 +173,14 @@ export function handPose(count, index, selected = false) {
   const spacing = count <= 1 ? 0 : Math.max(l.hand.spacingMin, Math.min(l.hand.spacingMax, (l.hand.maxWidth - w) / (count - 1)));
   const distance = index - (count - 1) / 2;
   const scale = selected ? theme.motion.hoverScale : 1;
-  // Keep complete rotated cards inside the safe area, including ten-card hands.
+  // Idle cards retain the STS overhang; selected cards expose their complete feedback.
   const angle = -distance * l.hand.arcDegrees;
   const radians = Math.abs(angle) * Math.PI / 180;
   const halfHeight = (h * Math.cos(radians) + w * Math.sin(radians)) / 2;
   const floor = -theme.canvas.base[1] / 2 + theme.canvas.safe.y + halfHeight - (l.hand.overhang ?? 0);
-  return { position: [distance * spacing, Math.max(floor, l.hand.y - Math.abs(distance) * l.hand.arcDrop) + (selected ? theme.motion.hoverLift : 0)],
+  const baseY = Math.max(floor, l.hand.y - Math.abs(distance) * l.hand.arcDrop);
+  const selectedY = Math.max(baseY + theme.motion.hoverLift, -theme.canvas.base[1] / 2 + theme.canvas.safe.y + h * scale / 2);
+  return { position: [distance * spacing, selected ? selectedY : baseY],
     rotation: selected ? 0 : angle, scale: [scale, scale] };
 }
 

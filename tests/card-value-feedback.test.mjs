@@ -29,7 +29,11 @@ test('local colour contrast exceeds 4.5:1 on the description backgrounds',()=>{
    console.log(`${key}: ${ratio.toFixed(3)}:1`);
  }
 });
-test('1/5/10 cards preserve their full feedback bounds on phone, PC and 19.5:9 stage',()=>{
+test('1/5/10 cards keep approved idle overhang and complete selected feedback on phone, PC and 19.5:9 stage',t=>{
+ const original=theme.motion.hoverScale;
+ t.after(()=>{theme.motion.hoverScale=original;});
+ for(const hoverScale of [0.95,original,1.5]){
+ theme.motion.hoverScale=hoverScale;
  for(const [width,height] of [[1280,720],[1600,900],[1560,720]]) for(const count of [1,5,10]){
    const k=Math.min(width/1280,height/720);
    for(let i=0;i<count;i++)for(const selected of [false,true]){
@@ -38,7 +42,19 @@ test('1/5/10 cards preserve their full feedback bounds on phone, PC and 19.5:9 s
      const halfW=(w*Math.cos(angle)+h*Math.sin(angle))*scale/2;
      const halfH=(h*Math.cos(angle)+w*Math.sin(angle))*scale/2;
      assert((Math.abs(pose.position[0])+halfW)*k<=width/2-theme.canvas.safe.x*k);
-     assert((pose.position[1]-halfH)*k>=-height/2+theme.canvas.safe.y*k);
+     const overhang=selected ? 0 : theme.layout.hand.overhang;
+     assert((pose.position[1]-halfH)*k>=-height/2+(theme.canvas.safe.y-overhang)*k-1e-8);
+     assert((pose.position[1]+halfH)*k<=height/2-theme.canvas.safe.y*k);
+     if(selected){
+       const label=cards[0].children.find(c=>c.name==='label');
+       for(const dx of [-label.size[0]/2,label.size[0]/2])for(const dy of [-label.size[1]/2,label.size[1]/2]){
+         const x=(pose.position[0]+(label.position[0]+dx)*scale)*k;
+         const y=(pose.position[1]+(label.position[1]+dy)*scale)*k;
+         assert(Math.abs(x)<=width/2-theme.canvas.safe.x*k);
+         assert(y>=-height/2+theme.canvas.safe.y*k-1e-8 && y<=height/2-theme.canvas.safe.y*k);
+       }
+     }
    }
+ }
  }
 });

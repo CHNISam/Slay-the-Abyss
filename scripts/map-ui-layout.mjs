@@ -79,8 +79,8 @@ export function mapLayout(theme = loadMapTheme()) {
     const s = theme.layout.map.node;
     // State is carried by the official icon tint and the existing current token,
     // never an enclosing disc. Keep the full invisible pointer/focus target.
-    // STS MapRoomNode.render: MAP_CIRCLE_5 (here the inventory ring glyph) is drawn around
-    // taken rooms and the current room, rotated by the room's random angle.
+    // Retain STS MAP_CIRCLE_5 geometry and rotation for the current-room halo.
+    // TASK-4.13 uses gold path/icon ink for visited rooms instead of another ring.
     const children = [
       { ...image('ring', 0, 0, s * .95, s * .95, c.goldBright, im.ring), visible: false },
       image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s)];
