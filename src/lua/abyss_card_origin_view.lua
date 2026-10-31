@@ -15,6 +15,7 @@ function M.describe(run,instance,combat)
  end
  local text=''
  local origin=permanent and permanent.lastUpgradeOrigin or not combat and instance.lastUpgradeOrigin
+ if not require('abyss_card_origin').matches(permanent or instance,origin)then origin=nil end
  if origin then
   text=(origin.kind=='obtained_upgraded' and '获得时已升级 · 来源：' or '永久升级 · 来源：')..source(run,origin.source)
  elseif permanent and permanent.upgraded then text='永久牌组中已升级 · 来源未记录' end

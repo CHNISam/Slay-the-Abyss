@@ -91,6 +91,12 @@ local function finishSelection(run,pending)
    local d=definition(run,id)
    local upgraded=d.upgrade and next(d.upgrade)~=nil
    ok,why=Run.obtainCard(run,id,{upgraded=upgraded});if not ok then return false,why end
+   for _,obtained in ipairs(run.deck)do if obtained.uid==why and obtained.upgraded then
+    local Origin=require('abyss_card_origin')
+    if not Origin.matches(obtained,obtained.lastUpgradeOrigin)then
+     Origin.record(run,obtained,Origin.state({}),'obtained_upgraded',{kind='relic',relicId='astrolabe'})
+    end
+   end end
   end
  end
  run.pendingBossRelic=nil;return true
