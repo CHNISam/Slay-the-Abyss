@@ -1,5 +1,4 @@
 local F = dofile('tests/lua/support/game_ui_fixture.lua')
-local Help=dofile('tests/lua/support/hidden_menu_help.lua')
 local focus, usingController = nil, true
 local api = {events={Confirm='confirm',Cancel='cancel'},directions={Left='left',Right='right'},modes={Specified='specified'},
     getFocus=function()return focus end,setFocus=function(c)focus=c end,isController=function()return usingController end}
@@ -7,8 +6,7 @@ local calls=0
 local ui,root=F.fixture(nil,function()calls=calls+1;return true end,nil,nil,false,nil,nil,api)
 local exit=root:GetChild('exitPanel')
 assert(ui:openExit())
-Help.rejected(ui,root)
-Help.internalGuideFixture(ui,root)
+exit:GetChild('help'):GetChild('hit').click()
 assert(ui.controlsOpen and ui.exitOpen and exit:GetChild('guide').visible)
 assert(not ui:confirmExit() and not ui:start() and calls==0)
 assert(not exit:GetChild('confirm'):GetChild('hit').click())
@@ -45,8 +43,7 @@ api.setFocus(nextHit);ui:syncController();assert(nextHit.navigationListeners.con
 ui:update(1);assert(ui.mapUI.scroll>0)
 ui:update(.01);api.setFocus(mapControl('focus'):GetChild('hit'))
 assert(focus.navigationListeners.confirm());ui:update(1);assert(ui.mapUI.scroll==0)
-assert(ui:openExit());Help.rejected(ui,root)
-Help.internalGuideFixture(ui,root)
+assert(ui:openExit());exit:GetChild('help'):GetChild('hit').click()
 assert(ui.controlsOpen and not ui.mapUI.navigationEnabled)
 assert(ui:closeExit() and ui:closeExit() and ui.mapUI.navigationEnabled)
 print('NATIVE_UI_PARITY_PASS')

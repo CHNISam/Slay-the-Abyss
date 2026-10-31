@@ -429,8 +429,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         return self.exitOpen == true and not self.routeOpen and (not self.menuOpen or self.controlsOpen == true)
     end
     local function refreshExitDialog()
-        exitPanel:GetChild("help"):SetVisible(false)
-        runMenu:GetChild("help"):SetVisible(false)
         if exitDialogOwnsForeground() then
             exitPanel:SetAsLastSibling()
             local message = self.run and "确认退出本局？退出后本局结束，进度无法恢复。\n将进入平台结算，随后可选择离开。"
@@ -484,8 +482,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         -- Pan 2026-10-31：首页（未启程）收起「查看地图」那一格，面板与下方控件上提不留空洞。
         do
             local R=Theme.layout.runMenu
-            local gap=(R.help[2]-R.map[2])*(routeEnabled and 1 or 2)
-            routeBox:SetAnchoredPosition(R.map[1],R.help[2])
+            local gap=routeEnabled and 0 or (R.help[2]-R.map[2])
             local function at(name,spec,dy)local c=runMenu:GetChild(name);if c then c:SetAnchoredPosition(spec[1],spec[2]+dy)end end
             at('rule',R.rule,gap);at('abandon',R.abandon,gap);at('dismissHint',R.dismissHint,gap)
             local h=R.panel[4]-gap
@@ -845,7 +842,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
             if resourceAction then return not self.potionUI.visible and canManagePotions(self.run) and (not enabled or enabled()) end
-            if kind=="help" or kind=="run_help" then return false end
             if self.easterEggOpen or kind=='egg_open' or kind=='egg_close' then return eggAvailable()end
             if menuAction and self.motion.deathReveal then return false end
             if kind == 'routeClose' then return self.exitOpen and self.routeOpen == true end

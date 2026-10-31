@@ -21,7 +21,7 @@ test('all final native images use importer-safe RGB and separate alpha, includin
  for(const tree of trees){assertNativeUiCapacity(tree);visit(tree,tree.name);}
 });
 
-test('approved global menu retires help and retains internal guide isolation, map preview, resume and separate abandon confirmation', () => {
+test('approved global menu has read-only map preview, guide, resume and separate abandon confirmation', () => {
  const result=runLua('tests/lua/ui_final_menu.lua');
  assert.equal(result.status,0,result.stdout+result.stderr);
  assert.match(result.stdout,/UI_FINAL_MENU_PASS/);
