@@ -70,7 +70,7 @@ export function mapLayout(theme = loadMapTheme()) {
     button('next', visual.navigationY[0], '↑'), button('focus', visual.navigationY[1], '◆'), button('previous', visual.navigationY[2], '↓'),
     typeLegend,
   ];
-  // Runtime clips these line segments geometrically to the 600px viewport.
+  // Runtime clips these line segments geometrically to the themed viewport.
   for (let i = 1; i <= g.maxEdges; i++) controls.push({
     ...image(`edge${i}`, 0, 0, 1, g.lineWidth, c.node.path), visible: false,
   });

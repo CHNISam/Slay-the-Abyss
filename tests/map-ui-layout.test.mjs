@@ -18,7 +18,11 @@ test('map uses the approved stage, external backdrop, viewport and shared theme 
   assert.equal(layout.controls[0].name, 'mapBackdrop');
   assert.equal(layout.controls[0].colour, theme.color.backdrop);
   assert.equal(geometry.viewport.top - geometry.viewport.bottom, theme.layout.map.viewportHeight);
-  assert.equal(geometry.viewport.top - geometry.viewport.bottom, 600);
+  // Reserve the shared second-row relic clicks; keep all map content scrollable.
+  assert.equal(geometry.viewport.top - geometry.viewport.bottom, 550);
+  assert.equal(geometry.viewport.top, 242);
+  assert.ok(geometry.viewport.top < theme.layout.relicView.bar.origin[1] - 44 / 2);
+  assert.equal(geometry.maxScroll, geometry.contentHeight - 550);
   const altered = structuredClone(theme);
   altered.color.node.locked = '#123456';
   altered.icon.node.combat = 106026;
