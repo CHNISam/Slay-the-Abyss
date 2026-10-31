@@ -1,6 +1,6 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { cardFaceChildren } from './card-face.mjs';
-import { merchantControl } from './cinematic-ui-layout.mjs';
+import { merchantControl, merchantPortrait } from './cinematic-ui-layout.mjs';
 import { augmentMatchEventPicker } from './match-event-layout.mjs';
 
 // Approved PR19 node screens (shop, camp/forge, event, treasure) as one native
@@ -51,8 +51,14 @@ export function nodeLayout(theme = nativeTheme) {
   const bar = layout.topBar;
   const controls = [
     plate('backdrop', layout.backdrop, color.backdrop),
-    plate('topBar', bar.plate, color.panelSunken),
-    text('title', bar.title, '', font.heading, color.gold),
+    // TopPanel reuse: same dark band, copper hairline and title wings as the map header
+    // (layout.map.presentation.header + color.mapHeader), so map → Neow/event keeps one chrome.
+    { ...hidden(plate('topBar', bar.plate, color.panelSunken)) },
+    ...(() => { const h = theme.layout.map.presentation.header, line = (name, v, c) => ({ ...picture(name, v, image.fadeLine, c) });
+      return [{ ...plate('headerShade', h.shade, color.mapHeader.shade), opacity: h.shadeOpacity },
+        line('headerDivider', h.divider, color.mapHeader.border),
+        line('titleLineLeft', h.titleLineLeft, color.mapHeader.title), line('titleLineRight', h.titleLineRight, color.mapHeader.title)]; })(),
+    text('title', bar.title, '', font.body, color.mapHeader.title),
     picture('hpIcon', bar.hpIcon, icon.hp, color.hp), text('hp', bar.hp, '', font.body),
     picture('goldIcon', bar.goldIcon, icon.gold, color.text), text('gold', bar.gold, '', font.body, color.goldBright),
     text('potions', bar.potions, '', font.label, color.textDim), text('relics', bar.relics, '', font.label, color.textDim),
@@ -134,14 +140,13 @@ export function nodeLayout(theme = nativeTheme) {
       // Self-built geo key visual (no official backdrop): night field, gold halo behind the NPC slot,
       // floating geo shards (diamond primitives) — same family as menu/select geo backgrounds.
       plate('scene', event.neow.figure, '#141A2BFF'),
-      { ...plate('haloWide', [event.neow.npc[0], event.neow.npc[1] + 210, 400, 400], '#2A2A2EFF'), image: image.disc },
-      { ...plate('halo', [event.neow.npc[0], event.neow.npc[1] + 210, 280, 280], '#4A3F28FF'), image: image.disc },
-      { ...plate('haloCore', [event.neow.npc[0], event.neow.npc[1] + 210, 170, 170], '#7A6236FF'), image: image.disc },
-      ...[[383, 37, 130, '#E7C178FF'], [383, 37, 80, '#FFF1CCFF'], [215, 120, 40, '#8A7444FF'], [555, 150, 34, '#8A7444FF'],
+      ...[[215, 120, 40, '#8A7444FF'], [555, 150, 34, '#8A7444FF'],
         [250, -60, 26, '#55688CFF'], [520, -40, 46, '#55688CFF'], [-430, 200, 60, '#2E3A55FF'], [-570, 30, 40, '#2E3A55FF'],
         [-150, 240, 30, '#2E3A55FF'], [80, 220, 24, '#4A3F28FF']]
         .map(([x, y, d, c], i) => ({ ...plate('shard' + i, [x, y, d, d * 1.4], c), image: image.diamond })),
       { ...plate('shade', event.neow.figure, '#000000C0'), image: image.vignette },
+      // Neow stand-in: reuse the old-road merchant medallion (Pan t75u), at the STS npc slot.
+      merchantPortrait(theme, [event.neow.npc[0], event.neow.npc[1] + 210, 220, 220], 'npc'),
     ] }] : []),
 ...(event.neow ? [hidden({ ...plate('bubble', event.neow.bubble, '#E9E1CCF2'), image: image.discSoft })] : []), plate('plateBorder', event.plate, color.goldDim),
     plate('plate', [...event.plate.slice(0, 2), event.plate[2] - space.border * 2, event.plate[3] - space.border * 2], color.panelRaised),
