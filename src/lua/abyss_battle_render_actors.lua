@@ -278,7 +278,8 @@ function M.install(owner, ownership, host, dependencies)
             local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
             if item then
                 dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
-                dependencies.tint(bottle,item.id=='fire_potion' and tones.fire.ink or tones.normal.ink)
+                dependencies.tint(bottle,(Theme.icon.potionTint or {})[item.id]
+                    or (item.id=='fire_potion' and tones.fire.ink or tones.normal.ink))
             end
         end
     end

@@ -279,7 +279,11 @@ function M.new(stage,report,flags,cardTemplates)
         validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
         local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))
         battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset)
-        rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}
+        -- UnitView deliberately hides the shipped geometric player placeholder.
+        -- Publication failure or pause must not override that presentation policy.
+        local icon=require('abyss_theme').icon.player
+        rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false,
+            fallbackVisible=not(type(icon)=='table' and icon.status=='placeholder')}
     end
     if #rows==0 then return nil end
     local timeBudget=selecting and Asset.avatar96.runtimeV2 or fighting and Asset.battle133.runtimeV2 or carding or landing
@@ -289,13 +293,14 @@ function M.new(stage,report,flags,cardTemplates)
         painting=true
         for _,row in ipairs(rows)do
             local s=row.adapter:status();local ready=row.active and s.phase=='ready'
+            local fallbackVisible=row.name~='selection' and row.fallbackVisible~=false
             for _,c in ipairs((row.name~='selection' or row.active)and row.fallback or {})do
                 if destroyed then painting=false;return end
                 if c and c.alive~=false then
-                    pcall(c.SetVisible,c,not ready and row.name~='selection')
+                    pcall(c.SetVisible,c,not ready and fallbackVisible)
                     if destroyed then painting=false;return end
                     -- A native setter may synchronously release. Its old hide must not win.
-                    if ready and (not row.active or row.adapter:status().phase~='ready')then pcall(c.SetVisible,c,true)end
+                    if ready and (not row.active or row.adapter:status().phase~='ready')then pcall(c.SetVisible,c,fallbackVisible)end
                 end
             end
             if row.name=='selection' and ready then

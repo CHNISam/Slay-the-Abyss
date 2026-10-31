@@ -43,8 +43,12 @@ function M.new(root,owner,platform,clickEvent,actions)
         local item=actions.item(token.slot)
         if not item then popup:close();return end
         local effect,lines=wrap(actions.text(item,token.battle),math.floor((P.width-P.padding*2)/P.font))
-        local effectHeight=lines*P.line
-        local h=math.max(P.minimumHeight,P.padding*2+P.header+effectHeight+P.gap+P.actionHeight)
+        -- Native title/action labels retain a full text line even on the compact
+        -- source buttons. Reserve their actual frames, plus body descent room.
+        local header=math.max(P.header,L.nativeText.lineHeight)
+        local actionHeight=math.max(P.actionHeight,L.nativeText.lineHeight)
+        local effectHeight=math.max(L.nativeText.lineHeight,lines*P.line+P.line)
+        local h=math.max(P.minimumHeight,P.padding*2+header+effectHeight+P.gap+actionHeight)
         local x=L.battlePotions.origin[1]+(token.slot-1)*L.battlePotions.step[1]
         local y=P.top-h/2
         root:SetAnchoredPosition(x,y);root:SetSizeDelta(P.width,h)
@@ -54,15 +58,15 @@ function M.new(root,owner,platform,clickEvent,actions)
             size(name,0,0,P.width-inset,h-inset)
         end
         local top=h/2-P.padding
-        size('title',-P.targetWidth/2,top-P.header/2,P.width-P.padding*2-P.targetWidth,L.nativeText.lineHeight)
-        size('target',(P.width-P.padding*2-P.targetWidth)/2,top-P.header/2,P.targetWidth,L.nativeText.lineHeight)
-        size('effect',0,top-P.header-effectHeight/2,P.width-P.padding*2,math.max(L.nativeText.lineHeight,effectHeight))
+        size('title',-P.targetWidth/2,top-header/2,P.width-P.padding*2-P.targetWidth,L.nativeText.lineHeight)
+        size('target',(P.width-P.padding*2-P.targetWidth)/2,top-header/2,P.targetWidth,L.nativeText.lineHeight)
+        size('effect',0,top-header-effectHeight/2,P.width-P.padding*2,effectHeight)
         child('title').text=item.name
         child('target').text=item.targetPolicy=='enemy_one' and '对一个敌人' or item.targetPolicy=='enemy_all' and '对所有敌人' or '对自己'
         child('effect').text=effect
-        local actionY=-h/2+P.padding+P.actionHeight/2
-        size('use',-P.width/6,actionY,P.width/2,P.actionHeight)
-        size('discard',P.width/3-P.padding/2,actionY,P.width/3-P.padding,P.actionHeight)
+        local actionY=-h/2+P.padding+actionHeight/2
+        size('use',-P.width/6,actionY,P.width/2,actionHeight)
+        size('discard',P.width/3-P.padding/2,actionY,P.width/3-P.padding,actionHeight)
         enabled('use',item.canUse);enabled('discard',item.canDiscard~=false)
         root:SetVisible(true);root:SetAsLastSibling()
     end
