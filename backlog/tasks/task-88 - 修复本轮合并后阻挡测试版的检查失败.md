@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 11:45'
-updated_date: '2026-10-31 10:21'
+updated_date: '2026-10-31 10:22'
 labels: []
 dependencies: []
 priority: medium
@@ -65,4 +65,6 @@ PR377最新整合承接PR378事件与PR381必要修复：目录hash与原生怪�
 PR421修复cf05a645独立复审通过：五张静态模拟器证据图精确哈希与来源边界登记，四层具名顶栏装饰单独验证；27项专项、完整许可清单及Backlog检查通过。当前仅源码集成，尚无最终组合CI、GIL、官方导入、ready或PC/手机证据。
 
 本轮选角422净切片deac2ca8：保留单角色预选与非法身份拒绝，真实牌组不创建Run/map、不采样种子，返回/取消仅关闭牌组。确认按钮x490遵守原触控安全区。专项6项入口/布局、14项布局/英雄、3份raw及原33个prepared UI用例通过；静态历史图不认证本轮设备。最终组合CI及平台实测仍待。
+
+战斗419修复272b153f独审中：原生RGB与透明度分离，JS/Lua同步选中整牌及反馈安全区与真实hit并集，闲置STS overhang60保留；portraitParts职责提取保持原复杂度上限。31项JS、165放置Lua边界及motion/feedback/main-unit通过，Luacheck无新增。十牌最右侧与结束回合原有约10px重叠不扩改，保留手机实测；最终组合托管CI与真实候选均待。
 <!-- SECTION:NOTES:END -->

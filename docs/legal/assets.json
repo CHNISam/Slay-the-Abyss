@@ -98,6 +98,18 @@
     "select80-static-layout-evidence": {
       "status": "Retained PR422 static browser-layout and reported Beyond Simulator output showing selection and starter-deck comparisons. Screenshots include project geometric candidates and official platform picture-library IP. Evidence-only; no runtime visual approval, IP sublicense, commercial clearance, official import, device or gameplay acceptance. Original capture session and device provenance are not independently certified.",
       "evidence": "PR422 at 5460a6d4ce00ac0059204228bb7a6e1ca615e5b5; experiments/ui-polish-sim/render.mjs, sim.mjs, select-capture.lua, select-lowpoly-inject.mjs; reviewed all 8 distinct decoded images at the 12 exact file hashes, including browser placeholder glyphs and simulator text/texture discrepancies; THIRD_PARTY_NOTICES.md"
+    },
+    "combat80-static-evidence": {
+      "status": "Retained static layout/renderer/simulator previews and historical animation from PR419, including menu80 Before/After and lowpoly breakthrough comparisons. Official platform textures and Genshin character identity remain third-party game IP; project test evidence only, no IP sublicense or commercial clearance. The target-land image is a visual target, not runtime/device acceptance. Static views and a historical GIF do not certify official import, current candidate interaction, performance or device behavior.",
+      "evidence": "https://github.com/CHNISam/Slay-the-Abyss/pull/419; source head a54fa5a43e8dd5179f830fbd6fbaf69ec6289d95; .dream-loop/menu80-plan.md; experiments/ui-polish-sim/README.md, capture.lua, render.mjs and sim.mjs; docs/art/READY_ASSET_INTEGRATION.md. Original capture sessions independently unverified."
+    },
+    "combat80-historical-device-reference": {
+      "status": "Historical menu baseline image claimed by PR419 author to come from Pan device; actual capture device, candidate identity, timestamp and authorization independently unverified. Retained existing reference only, not evidence of this session or release acceptance. Genshin platform artwork remains game IP; no sublicense or commercial clearance.",
+      "evidence": "PR419 source head a54fa5a43e8dd5179f830fbd6fbaf69ec6289d95; .dream-loop/menu80-plan.md labels this image Pan device; .artifacts/menu80/baseline/pan-device-home.png; no current-device claim made."
+    },
+    "lowpoly-select-extracted-source": {
+      "status": "Project-retained geometric image rows extracted from the documented breakthrough experiment; Genshin character identity and official picture-library IDs remain game IP. Existing platform-project test use only, no new IP sublicense, commercial clearance, official import, performance or device acceptance. Source metadata is preserved, not independently re-certified as original authorship.",
+      "evidence": "art/lowpoly-select/extract.mjs documents feat/art-breakthrough-experiment@72f13f2 .artifacts/art-breakthrough/pack/sta_art_scene.lua; select-lowpoly.json retains source and sourceSha256; docs/art/READY_ASSET_INTEGRATION.md and LICENSE-SCOPE.md; PR419 a54fa5a43e8dd5179f830fbd6fbaf69ec6289d95."
     }
   },
   "files": {
@@ -5513,6 +5525,66 @@
     ".artifacts/select80/deck-before/select-deck.sim.png": {
       "sha256": "0241848f62680ea9d31deb198ec94923954108fd5d70db1a75f02579b2fa2bd1",
       "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/lowpoly-select/breakthrough-compare-card-before-after.png": {
+      "sha256": "009436f377a9da304ede6e7095c8a7b2380293171ce354a9735c37546fcc5853",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/lowpoly-select/breakthrough-sim3-demo.gif": {
+      "sha256": "51e479815cbcccf6563fd44b5f7f0f2ab0dd6b829e032c3854a55ef05a86bb11",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/lowpoly-select/breakthrough-sim3-f001-idle.png": {
+      "sha256": "0ce695fd480bf9ac00b4ff9de0ec2b184f23e9eef1b6e965380a931afb8b949e",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/lowpoly-select/breakthrough-sim3-t1.5s-select1.png": {
+      "sha256": "557b975b1f170620073a2b4142586c7dc848787f0ae5ed989844795cccf2fd9d",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/after/menu-panel.png": {
+      "sha256": "a69fb7c30c50500b279ca1e0916dc5baf5e4433f338a211e32270c9c2081a6a5",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/after/menu-panel.sim.png": {
+      "sha256": "2a8fc509dd4d9d6e4dc0834fd3d12b6b22b801aa0da1fc5d57b1094d98afbe11",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/after/menu.png": {
+      "sha256": "c958b4117af7d1803d0b700c01e33c78ef4771f2bf141571064dc1696a3dae1a",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/after/menu.sim.png": {
+      "sha256": "5bfa02cbefd49df2b21cc131d44b3d9a12f8453423f936f4feeba96cf8474e0b",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/baseline/pan-device-home.png": {
+      "sha256": "8a36e08c491f27724907004e40de6de5e6da2e90954286658907d9727f219e58",
+      "category": "combat80-historical-device-reference"
+    },
+    ".artifacts/menu80/before/menu-panel.png": {
+      "sha256": "85370c5249cd63388cdf358ef83e78beea8d4380c301aa6e7a6b14d118457ec8",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/before/menu-panel.sim.png": {
+      "sha256": "3315d511e1e3805c11636c3cc5d669ac9378bd373fc442ca984c81706b1f16e1",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/before/menu.png": {
+      "sha256": "2e8f75d9a8fb98fc535ff21891ddb0c7bc3d59e8b6d64e15ff2197924275cf0d",
+      "category": "combat80-static-evidence"
+    },
+    ".artifacts/menu80/before/menu.sim.png": {
+      "sha256": "18e30e8ea6e55eae7af4d3a865f2c361116f056a63fd1ae5e20a862c9369fbba",
+      "category": "combat80-static-evidence"
+    },
+    ".dream-loop/menu80-target-land.png": {
+      "sha256": "919be47a886dd0647967fb6067b696a254dfb3a5ac998b175d4ff87fced30130",
+      "category": "combat80-static-evidence"
+    },
+    "art/lowpoly-select/select-lowpoly.json": {
+      "sha256": "aca5ac9e2f6e1224f7aba3faa692abc2e4a5b81045756b86d7ff8c3384f36284",
+      "category": "lowpoly-select-extracted-source"
     }
   }
 }

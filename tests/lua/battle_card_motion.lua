@@ -4,6 +4,9 @@ local Theme=H.F.Theme
 local count=0
 local function near(a,b) assert(math.abs(a-b)<0.000001,tostring(a)..' ~= '..tostring(b)) end
 local function test(name,fn) fn();count=count+1;print('ok hand motion '..count..' - '..name) end
+local function selectedY(restY)
+    return math.max(restY+Theme.motion.hoverLift,-Theme.canvas.base[2]/2+Theme.canvas.safe.y+Theme.layout.card.size[2]*Theme.motion.hoverScale/2)
+end
 local function settledSetup(...)
     local host,ui,panel,event=H.setup(...)
     -- These cases measure hover/return from rest; opening draws now enter from the pile.
@@ -19,7 +22,7 @@ test('hover and return follow fixed source position scale and angle rates withou
     ui:setHover(1)
     near(box.x,x);near(box.y,y);near(box.scale[1],scale)
     host:update(0.05)
-    near(box.y,y+Theme.motion.hoverLift*0.3)
+    near(box.y,y+(selectedY(y)-y)*0.3)
     near(box.scale[1],scale+(Theme.motion.hoverScale-scale)*0.375)
     near(box.localRotationZ,angle*0.4)
     ui:setHover(nil)
@@ -39,7 +42,7 @@ test('fast mode performs the extra position step but retains scale and angle rat
     local box=panel:GetChild('card1')
     local y,angle=box.y,box.localRotationZ
     ui.fastMode=true;ui:setHover(1);host:update(0.05)
-    near(box.y,y+Theme.motion.hoverLift*(1-0.7*0.7))
+    near(box.y,y+(selectedY(y)-y)*(1-0.7*0.7))
     near(box.scale[1],1+(Theme.motion.hoverScale-1)*0.375)
     near(box.localRotationZ,angle*0.4)
 end)

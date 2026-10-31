@@ -35,6 +35,15 @@ function M.noticeLift(actor,portrait,baseY,player)
 end
 
 function M.new(picture, tint, ink, statusKind)
+    local function targetCorners(box,portrait,selected)
+    for _, x in ipairs({-1,1}) do for _, y in ipairs({-1,1}) do
+        for _, axis in ipairs({'H','V'}) do
+            local corner=box:GetChild('target'..axis..x..'_'..y)
+            corner:SetVisible(selected == true)
+            corner:SetAnchoredPosition(x*portrait/2,y*portrait/2)
+        end
+    end end
+    end
     local function portraitParts(box, actor, portrait, icon, width, selected, targetWidth)
         for _, name in ipairs({"plate", "border", "portrait"}) do
             local delta = name == "border" and S.border * 2 or 0
@@ -53,13 +62,7 @@ function M.new(picture, tint, ink, statusKind)
         -- The 105292 placeholder read as a stray stance arrow, so hide it (real art comes from battlePose).
         box:GetChild("portrait"):SetVisible(not(box.name=="hero" and type(icon)=='table' and icon.status=="placeholder"))
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
-        for _, x in ipairs({-1,1}) do for _, y in ipairs({-1,1}) do
-            for _, axis in ipairs({'H','V'}) do
-                local corner=box:GetChild('target'..axis..x..'_'..y)
-                corner:SetVisible(selected == true)
-                corner:SetAnchoredPosition(x*portrait/2,y*portrait/2)
-            end
-        end end
+        targetCorners(box,portrait,selected)
         box:GetChild("name").text = actor.name or "旅行者"
         box:GetChild("name"):SetAnchoredPosition(0,M.geometry(portrait,box.name=='hero').nameY)
         box:GetChild("name"):SetSizeDelta(width, L.nativeText.lineHeight)
