@@ -73,7 +73,7 @@ export function nodeLayout(theme = nativeTheme) {
     const [w, h] = relic.size, left = -w / 2 + space.s + relic.disc / 2;
     const tile = framed(`relic${i + 1}`, [x, relic.y, w, h], null, { children: [
       { ...plate('disc', frame([left, 0], [relic.disc, relic.disc]), color.panelSunken), image: image.disc },
-      picture('icon', [left, 0, relic.disc, relic.disc], icon.node.treasure, color.geo),
+      picture('icon', [left, 0, relic.disc, relic.disc], icon.node.treasure, color.text),
       text('name', frame([18, 0], [104, lineHeight]), '', font.small, color.text),
       hidden(text('description', frame([0, -h/6], [w-space.l, 60]), '', font.small, color.textDim)),
       hidden(plate('veil', frame([0, 0], [w, h]), color.backdropVeil)),
