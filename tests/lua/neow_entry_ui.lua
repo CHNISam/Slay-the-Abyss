@@ -27,6 +27,15 @@ H.test('missing history refuses atomically while mini real rows lead back to leg
  H.parity(r,m,'reward_2',nil,function()return click('eventView/option2')end);H.eq(r.maxHp,88);H.eq(r.hp,88)
  H.parity(r,m,'leave',nil,function()return click('eventView/option1')end)
  H.eq(r.phase,'map');H.eq(r.neowStatus,'complete');H.eq(m.floor,0);H.eq(#m.path,0)
+ -- Reuse the same renderer for a legally entered ordinary event: Neow sizes must not leak.
+ local otherRun,otherMap=H.fixture('big_fish');ui.run,ui.map=otherRun,otherMap;ui:render()
+ local layout=require('abyss_theme').layout.nativeNode.event.options
+ local title,description=get('eventView/option1/title'),get('eventView/option1/description')
+ assert(description.visible and description.text~='')
+ H.eq(title.x,layout.title[1]);H.eq(title.y,layout.title[2]);H.same(title.size,{layout.title[3],layout.title[4]})
+ H.eq(description.x,layout.description[1]);H.eq(description.y,layout.description[2]);H.same(description.size,{layout.description[3],layout.description[4]})
+ ui.run,ui.map=r,m;ui:render()
+
  local first=H.Nodes.available(r,m)[1];assert(first);assert(H.Nodes.enter(r,m,first.id));H.eq(m.floor,1);H.eq(r.phase,'combat')
 end)
 H.test('full source four offers and three-card reward route preserve every choice and separate skip',function()

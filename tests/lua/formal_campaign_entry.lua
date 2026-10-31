@@ -60,6 +60,17 @@ local function opening(host,root,bossCount)
     assert(F.click(root,'nodePanel','eventView/option1'))
     event=run.nodeFlow.event
     assert(event.stage=='neow_blessing' and #event.rewards==(bossCount==0 and 2 or 4))
+    local rows=require('abyss_neow').options(run,event)
+    local eventView=root:GetChild('nodePanel'):GetChild('eventView')
+    for i,row in ipairs(rows)do
+        local box=eventView:GetChild('option'..i)
+        local title,description=box:GetChild('title'),box:GetChild('description')
+        assert(box.visible and description.visible,'complete Neow offer must be visible')
+        assert(title.text=='［'..row.title..'］' and description.text==row.description and description.text~='','source reward and drawback preserved')
+        assert(title.y-title.size[2]/2>=description.y+description.size[2]/2,'title and description do not overlap')
+        assert(description.y-description.size[2]/2>=-box.size[2]/2,'description stays inside button')
+        if i>1 then local above=eventView:GetChild('option'..(i-1));assert(above.y-above.size[2]/2>=box.y+box.size[2]/2,'offers do not overlap')end
+    end
     -- Both source variants give category1 as the second offer. The fresh
     -- opening must choose its real +HP mini reward; a later session-qualified
     -- four-offer opening uses the real second offer, never fabricated history.

@@ -2339,9 +2339,9 @@
           "source": "aeubanks/sts@319009d NeowEvent(ROOM)+LargeDialogOptionButton+InfiniteSpeechBubble, 1920x1080 -> 1280x720 (x*2/3-640, y*2/3-360)",
           "figure": [0, -36, 1280, 648],
           "npc": [383, -173],
-          "bubble": [110, 0, 260, 130],
-          "bubbleText": [110, 0, 220, 100],
-          "options": {"x": -227, "bottom": -300, "spacing": 55, "size": [593, 51], "note": "LargeDialogOptionButton ROOM: x=620, y=OPTION_Y-500+82*(n-slot), 890x77, all *2/3"}
+          "bubble": [190, 145, 300, 130],
+          "bubbleText": [190, 145, 260, 100],
+          "options": {"x": -227, "bottom": -300, "spacing": 88, "size": [593, 80], "title": [0, 22, 561, 24], "description": [0, -12, 561, 40], "note": "保留左侧底对齐构图；按钮加高以完整显示标题、奖励与代价，两行说明不与标题重叠。"}
         }
       },
       "treasure": {

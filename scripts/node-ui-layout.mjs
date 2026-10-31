@@ -131,8 +131,8 @@ export function nodeLayout(theme = nativeTheme) {
   const event = layout.event, option = event.options;
   const eventControls = [
     ...(event.neow ? [{ name: 'neowFigure', kind: 'container', position: [0, 0], size: [1280, 720], visible: false, children: [
-      { ...picture('scene', [0, -36, 1280, 648], image.officialBackdrops.act1_1, '#2E3A52FF') },
-      { ...picture('shade', [0, -36, 1280, 648], image.vignette, '#000000C0') },
+      { ...plate('scene', event.neow.figure, '#2E3A52FF'), image: image.officialBackdrops.act1_1 },
+      { ...plate('shade', event.neow.figure, '#000000C0'), image: image.vignette },
     ] }] : []),
 ...(event.neow ? [hidden({ ...plate('bubble', event.neow.bubble, '#E9E1CCF2'), image: image.discSoft })] : []), plate('plateBorder', event.plate, color.goldDim),
     plate('plate', [...event.plate.slice(0, 2), event.plate[2] - space.border * 2, event.plate[3] - space.border * 2], color.panelRaised),

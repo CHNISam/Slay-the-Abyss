@@ -94,10 +94,12 @@ local function placeOptions(event, neow, count)
                 local n = NEOW.options
                 w, h = n.size[1], n.size[2]
                 box:SetAnchoredPosition(n.x, n.bottom + (count - i) * n.spacing)
-                box:GetChild('title'):SetAnchoredPosition(0, 0)
+                place(box:GetChild('title'), n.title)
+                place(box:GetChild('description'), n.description)
             elseif o.rows[i] then
                 box:SetAnchoredPosition(o.x, o.rows[i])
-                box:GetChild('title'):SetAnchoredPosition(o.title[1], o.title[2])
+                place(box:GetChild('title'), o.title)
+                place(box:GetChild('description'), o.description)
             end
             box:SetSizeDelta(w, h)
             for _, part in ipairs({ 'border', 'hit' }) do
@@ -106,9 +108,15 @@ local function placeOptions(event, neow, count)
             for _, part in ipairs({ 'normal', 'disabled', 'hover', 'pressed', 'selected' }) do
                 local c = box:GetChild(part); if c then c:SetSizeDelta(w - 4, h - 4) end
             end
-            box:GetChild('description'):SetVisible(not neow)
+            box:GetChild('description'):SetVisible(true)
         end
     end
+end
+
+local function eventNotice(id, copy, result)
+    if id == 'neow' then return '' end
+    if (stagedEvent(id) or Act3Events.ids[id]) then return copy.name .. ' · 请选择上方选项' end
+    return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
 end
 
 -- Installs the events responsibility on one node UI instance.
@@ -264,9 +272,7 @@ function M.install(ctx)
                 ctx.action("eventView/option" .. i, row.enabled, row.handler, row.description)
             end
         end
-        if id == 'neow' then return '' end
-        if (stagedEvent(id) or Act3Events.ids[id]) then return copy.name .. ' · 请选择上方选项' end
-        return result and copy.name or (copy.name .. " · 选择一项，或直接离开")
+        return eventNotice(id, copy, result)
     end
 
     function ctx.bindStagedEventActions(node)
