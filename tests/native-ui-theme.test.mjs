@@ -50,8 +50,8 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
     theme.icon.node.treasure, theme.icon.medallion.camp, theme.icon.medallion.treasure, theme.icon.medallion.chestOpen,
     theme.icon.hp, theme.icon.upgrade, theme.icon.remove, theme.icon.back, theme.icon.next, theme.icon.geo, theme.icon.lock,
     id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion),
-    // The shop merchant's silhouette (hood point, beard) and its next-line marker.
-    theme.image.diamond,100001,100002,100003,100004,100006];
+    // The shop merchant's official bust and its next-line marker.
+    theme.image.merchant, theme.image.diamond,100001,100002,100003,100004,100006];
   walk(nodeLayout(theme).controls, control => {
     if (control.kind === 'image') assert.ok(allowed.includes(control.image), `unexpected node image ${control.image}`);
     if (control.name === 'blockedLock') assert.equal(control.image,theme.icon.lock,'existing semantic lock token must propagate');

@@ -79,20 +79,13 @@ export function merchantControl(theme = nativeTheme) {
   const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
   const [bx, by, bw, bh] = m.box, [px, py, pw, ph] = m.portrait;
   const r = pw / 2;
-  // A hooded, bearded elder built from tinted discs and diamonds, kept inside the medallion.
+  // 千星图库官方人物胸像（盗宝团行商），替代旧的圆盘/菱形拼装剪影；灯光仍由 Lua 闪烁。
   const portrait = { name: 'portrait', kind: 'container', position: [px, py], size: [pw, ph], children: [
     picture('aura', [0, 0, pw * 1.5, ph * 1.5], im.glow, c.geoDeep, { opacity: 0.5 }),
     picture('rim', [0, 0, pw + b * 2, ph + b * 2], im.disc, c.gold),
     picture('field', [0, 0, pw, ph], im.disc, c.vista.mid),
     picture('lanternGlow', [-r * 0.5, -r * 0.42, r * 1.1, r * 1.1], im.glow, tone.lantern, { opacity: 0.45 }),
-    picture('robe', [0, -r * 0.6, r * 1.6, r * 0.8], im.disc, tone.robe),
-    picture('hoodTip', [0, r * 0.5, r * 0.78, r * 0.86], im.diamond, tone.hood),
-    picture('hood', [0, r * 0.1, r * 1.0, r * 1.08], im.disc, tone.hood),
-    picture('face', [0, r * 0.02, r * 0.56, r * 0.52], im.disc, tone.face),
-    picture('beard', [0, -r * 0.34, r * 0.5, r * 0.7], im.diamond, tone.beard),
-    picture('eyeLeft', [-r * 0.12, r * 0.08, r * 0.1, r * 0.06], im.disc, c.goldBright),
-    picture('eyeRight', [r * 0.12, r * 0.08, r * 0.1, r * 0.06], im.disc, c.goldBright),
-    picture('lantern', [-r * 0.5, -r * 0.46, r * 0.2, r * 0.24], im.disc, tone.lantern),
+    picture('bust', [0, 0, pw * 0.92, ph * 0.92], im.merchant, '#FFFFFF'),
   ] };
   // Theme frames are in node-panel units; children sit relative to the merchant's own frame.
   const [fx, fy] = m.frame, at = ([x, y, ...rest]) => [x - fx, y - fy, ...rest];
