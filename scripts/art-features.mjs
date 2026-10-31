@@ -43,7 +43,7 @@ export function artFeatureArgs(argv) {
 // 2026-10-31 Owner candidate preference: the developer CLIs (build:native / build-native-candidate)
 // default the new custom select look, card chrome+art and low-poly scene backgrounds ON. API/build-ui defaults
 // stay false. Explicit --art-<category>=false always wins; legacy card-art switches keep deciding cards.
-export const candidateArtDefaults=Object.freeze({cards:true,menuBackground:true,selectionAvatar:true});
+export const candidateArtDefaults=Object.freeze({cards:true,menuBackground:true,selectionAvatar:true,battlePortrait:true});
 export function withCandidateArtDefaults(explicit={},{cardsDecided=false}={}) {
  const out={...explicit};
  for(const [key,value]of Object.entries(candidateArtDefaults))if(!Object.hasOwn(out,key)&&!(key==='cards'&&cardsDecided))out[key]=value;

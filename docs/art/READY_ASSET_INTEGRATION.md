@@ -72,3 +72,5 @@ Owner 2026-10-30 06:57 UTC 明确开关由开发/发布人员控制，不给玩�
 - Runtime: `abyss_traveler_portraits` builds `selectScene`/`battleScene` controllers (cached, budgeted); select hides official `border`/`face` only once the land is ready; battle draws behind every hand/monster/HUD control (no z-order change).
 - Candidate default: ON (with `cards`, `selectionAvatar`); `--art-menu-background=false` returns to official. Scenes need bound image/container templates (portrait module binding, also bound for cards/menuBackground-only builds).
 - Deferred: corner ornaments/gems on card faces (need new card-face layout hosts), select fan rank text.
+
+2026-10-31 Pan 覆盖：候选/真机构建（build:native、build-native-candidate）默认开启 `cards`、`menuBackground`（低多边形选人+战斗场景背景，`lowpolyScene` 为战斗面板首个子节点、位于角色之下）、`selectionAvatar`、`battlePortrait`；`monsters` 仍需 `--art-monsters=true`。API/build-ui 仍默认全关；显式 `--art-<类>=false` 恢复官方。
