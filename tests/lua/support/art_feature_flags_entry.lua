@@ -43,7 +43,7 @@ assert(oldFace:GetChild('art').visible,'prior world official fallback not restor
 local menu=root:GetChild('menuPanel')
 assert(menu.visible and menu:GetChild('backdrop').visible and menu:GetChild('start').visible)
 assert(not menu:GetChild('heroArt').visible and not menu:GetChild('vista').visible,'obsolete icon scenery covered the official image')
-assert(menu:GetChild('officialBackdropVeil').visible,'official title must retain its readability veil')
+assert(menu:GetChild('lowpolyVeil').visible and menu:GetChild('titleBand').visible,'title must retain its readability veil and band')
 local function findSpec(controls,name)
  for _,c in ipairs(controls)do
   if c.name==name then return c end
@@ -51,7 +51,8 @@ local function findSpec(controls,name)
  end
 end
 local menuSpec=assert(findSpec(F.Layout,'menuPanel'))
-assert(findSpec(menuSpec.children,'backdrop').image==F.Theme.image.officialBackdrops.title,'official title binding was replaced by a placeholder')
+assert(findSpec(menuSpec.children,'backdrop').image==F.Theme.image.rect,'title must retain its solid fallback')
+assert(findSpec(menuSpec.children,'lowpolyVeil').opacity==0.28 and findSpec(menuSpec.children,'titleBand').opacity==0.55,'title readability opacity changed')
 local battleSpec=assert(findSpec(F.Layout,'officialBattleBackdrop'))
 for _,name in ipairs({'act1_1','act1_2','act1_3','act2_1','act2_2','act2_3','boss1','boss2'})do
  assert(findSpec(battleSpec.children,name).image==F.Theme.image.officialBackdrops[name],'missing native official battle image '..name)
