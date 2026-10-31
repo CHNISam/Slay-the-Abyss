@@ -19,8 +19,10 @@ test('Deep Breath source keys use identical Windows and POSIX path identities',(
 for(const mutation of [
  {name:'discard first long',before:"Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.discard)",after:'-- mutation omits first discard shuffle'},
  {name:'reversed Soul transfer',before:'for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}',after:'for i=#state.discard,1,-1 do state.draw[#state.draw+1]=state.discard[i]end;state.discard={}'},
+ {name:'reversed TOP effect insertion',before:'for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],true)end',after:'for i=1,#effects do actions().enqueueReaction(state,effects[i],true)end',marker:/actual relic effects retain source held order/},
+ {name:'late constructor effects',before:'for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],true)end',after:'for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],false)end',marker:/constructor effects precede first shuffle/},
 ])test(`Deep Breath independent UID/stream contract rejects ${mutation.name}`,()=>{
- const result=runSeed('7',mutation);assert.notEqual(result.status,0,result.stdout+result.stderr);assert.match(result.stderr,/Deep Breath independent shuffle sequence/);
+ const result=runSeed('7',mutation);assert.notEqual(result.status,0,result.stdout+result.stderr);assert.match(result.stderr,mutation.marker||/Deep Breath independent shuffle sequence/);
 });
 test('real CRLF checkout preserves Deep Breath raw model bytes and strict regeneration',()=>{
  const directory=mkdtempSync(join(tmpdir(),'deep-breath-checkout-'));

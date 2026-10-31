@@ -31,3 +31,11 @@
 三个种子各独立JS入口，实际进程1414/1325/1571ms；元数据/两个精确负变异/Windows与POSIX路径/真实CRLF checkout另入口1628ms。保留JS整入口10秒/Lua30秒。原五项标准11/11修后通过8431ms，39来源身份3/3通过，架构与历史整源恢复单case通过；未出现新的source guard失败，因此没有额外逆投影层。源码/模型/fixture均精确LF认证，source identity用POSIX路径，未放松hash。
 
 状态改为 `PRODUCTION_FIXED`（Deep Breath真实RED→GREEN）；其余四项仍为 `TEST_ADDED`。本修复不触及根工作树/主PR/远端/Backlog，也不据离线顺序模型声称已核准PC动画帧/global MathUtils或实体设备。独审Important的关闭应绑定本次独立复验及最终集成CI。
+
+### 928ec0c 后续：实际遗物效果必须在首洗与抽牌前结算
+
+后续独审进一步否决了928对回调效果时序的证明：928只观察callback在第一long前、最终能量7/格挡6，没有观察实际效果何时执行。原版 `DeepBreath.use` 构造 `EmptyDeckShuffleAction` 时，Sundial/Abacus已先addToBot其效果，再将EmptyDeck/Shuffle/Draw加入队列；而928在执行Deep Breath动作时BOTTOM追加效果，排到了既有draw/dispose后。新增真实 `Combat.draw` 只读观察先RED：入口能量5/格挡0，源应7/6；663ms，日志 `/workspace/cloud-reports/m3-deep-breath-effect-order-red.log`。该问题不能只用最后的计数放过。
+
+后续最小修复先按当前持有遗物正序调用两个受支持的onShuffle，收集真实效果。专用 `deepBreathShuffle` 延续动作先插TOP，再将收集效果反向插TOP；实际执行仍保持原持有顺序，且所有效果在第一洗与抽牌前完成。`Shop.onShuffle(state,effectsOnly)` 新增仅返回效果的可选模式供该入口使用；不传参数的旧调用仍按原方式BOTTOM入队，其它洗牌调用不变。两次洗牌与Soul转移算法不改。
+
+原24向量的所有数值、牌序、随机流及Java来源hash不变，只增加持有顺序/实际效果顺序字段与新生成器hash；基础牌测Sundial→Abacus，升级牌测Abacus→Sundial。新只读观察在首shuffle和真正draw入口均核7/6，并核原callback调用顺序、实际action执行顺序都与持有顺序一致。新增精确“反向TOP插入错误”和“效果仍放BOTTOM”变异，分别在实际效果顺序和首shuffle状态断言处被拒；保留前两项首次洗牌与Soul方向负控。四个标准新入口各1.31–2.67秒，预算不变。旧Shop12项通过（3627ms），包含旧默认Abacus入口；架构通过。最终独审与本批完整CI继续单独绑定，不能引用928旧批准状态掩盖本次真实源时序修复。

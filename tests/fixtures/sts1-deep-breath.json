@@ -34,7 +34,7 @@
       "gitBlob": "7dcf3160a1deabe5a9c97ffce8a610a8b2831814"
     }
   },
-  "generatorSha256": "ab2b0f4173837991d439aeb5df45f1c6d5390c81bb82b5233bac246b99d7a106",
+  "generatorSha256": "b1cf502cabd5d2c6682337904630e76caf77d3a78ad18906dbfa58ace56540c8",
   "inputSha256": {
     "tools/oracles/sts1_combat_shuffle.py": "840420950e9ecd5c2e2b81863c0ae05e16591541225e1a317a03fa8906b855a5"
   },
@@ -44,6 +44,11 @@
       "seed": "7",
       "upgraded": false,
       "shape": "draw-only",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [],
       "drawBefore": [
         2,
         3,
@@ -90,6 +95,14 @@
       "seed": "7",
       "upgraded": false,
       "shape": "mixed",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [
         5,
         6,
@@ -198,6 +211,14 @@
       "seed": "7",
       "upgraded": false,
       "shape": "discard-only",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [],
       "discardBefore": [
         2,
@@ -311,6 +332,14 @@
       "seed": "7",
       "upgraded": false,
       "shape": "singleton",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [
         3,
         4,
@@ -415,6 +444,11 @@
       "seed": "7",
       "upgraded": true,
       "shape": "draw-only",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [],
       "drawBefore": [
         2,
         3,
@@ -461,6 +495,14 @@
       "seed": "7",
       "upgraded": true,
       "shape": "mixed",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [
         5,
         6,
@@ -569,6 +611,14 @@
       "seed": "7",
       "upgraded": true,
       "shape": "discard-only",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [],
       "discardBefore": [
         2,
@@ -682,6 +732,14 @@
       "seed": "7",
       "upgraded": true,
       "shape": "singleton",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [
         3,
         4,
@@ -786,6 +844,11 @@
       "seed": "42",
       "upgraded": false,
       "shape": "draw-only",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [],
       "drawBefore": [
         2,
         3,
@@ -832,6 +895,14 @@
       "seed": "42",
       "upgraded": false,
       "shape": "mixed",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [
         5,
         6,
@@ -940,6 +1011,14 @@
       "seed": "42",
       "upgraded": false,
       "shape": "discard-only",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [],
       "discardBefore": [
         2,
@@ -1053,6 +1132,14 @@
       "seed": "42",
       "upgraded": false,
       "shape": "singleton",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [
         3,
         4,
@@ -1157,6 +1244,11 @@
       "seed": "42",
       "upgraded": true,
       "shape": "draw-only",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [],
       "drawBefore": [
         2,
         3,
@@ -1203,6 +1295,14 @@
       "seed": "42",
       "upgraded": true,
       "shape": "mixed",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [
         5,
         6,
@@ -1311,6 +1411,14 @@
       "seed": "42",
       "upgraded": true,
       "shape": "discard-only",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [],
       "discardBefore": [
         2,
@@ -1424,6 +1532,14 @@
       "seed": "42",
       "upgraded": true,
       "shape": "singleton",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [
         3,
         4,
@@ -1528,6 +1644,11 @@
       "seed": "-1",
       "upgraded": false,
       "shape": "draw-only",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [],
       "drawBefore": [
         2,
         3,
@@ -1574,6 +1695,14 @@
       "seed": "-1",
       "upgraded": false,
       "shape": "mixed",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [
         5,
         6,
@@ -1682,6 +1811,14 @@
       "seed": "-1",
       "upgraded": false,
       "shape": "discard-only",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [],
       "discardBefore": [
         2,
@@ -1795,6 +1932,14 @@
       "seed": "-1",
       "upgraded": false,
       "shape": "singleton",
+      "relics": [
+        "sundial",
+        "the_abacus"
+      ],
+      "effectOrder": [
+        "energy",
+        "block"
+      ],
       "drawBefore": [
         3,
         4,
@@ -1899,6 +2044,11 @@
       "seed": "-1",
       "upgraded": true,
       "shape": "draw-only",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [],
       "drawBefore": [
         2,
         3,
@@ -1945,6 +2095,14 @@
       "seed": "-1",
       "upgraded": true,
       "shape": "mixed",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [
         5,
         6,
@@ -2053,6 +2211,14 @@
       "seed": "-1",
       "upgraded": true,
       "shape": "discard-only",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [],
       "discardBefore": [
         2,
@@ -2166,6 +2332,14 @@
       "seed": "-1",
       "upgraded": true,
       "shape": "singleton",
+      "relics": [
+        "the_abacus",
+        "sundial"
+      ],
+      "effectOrder": [
+        "block",
+        "energy"
+      ],
       "drawBefore": [
         3,
         4,

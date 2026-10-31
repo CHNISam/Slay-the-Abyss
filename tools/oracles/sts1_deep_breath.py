@@ -26,7 +26,9 @@ def build():
                     draw.extend(discard);discard=[]
                     shuffle(draw) # ShuffleAction(draw,false) has no callback.
                 hand=[draw.pop()for _ in range(2 if upgraded else 1)]
-                cases.append(dict(seed=seed,upgraded=upgraded,shape=shape,drawBefore=original_draw,discardBefore=original_discard,initial=initial,trace=trace,hand=hand,draw=draw,discard=[1],after=rng.snapshot(),hooks=int(hooks),sundial=0 if hooks else 2,energy=7 if hooks else 5,block=6 if hooks else 0))
+                relics=['the_abacus','sundial']if upgraded else ['sundial','the_abacus']
+                order=['block','energy']if upgraded else ['energy','block']
+                cases.append(dict(seed=seed,upgraded=upgraded,shape=shape,relics=relics,effectOrder=order if hooks else [],drawBefore=original_draw,discardBefore=original_discard,initial=initial,trace=trace,hand=hand,draw=draw,discard=[1],after=rng.snapshot(),hooks=int(hooks),sundial=0 if hooks else 2,energy=7 if hooks else 5,block=6 if hooks else 0))
     return dict(sourceCommit='319009d5df0a82d9fb0f23cc22322286c6a87ec0',sourceFiles=SOURCE_FILES,
       generatorSha256=sha(Path(__file__)),inputSha256={source_identity(model,ROOT):sha(model)},
       boundary='Controlled real Combat.play and Inventory opening, not natural acquisition or PC frame timing.',cases=cases)

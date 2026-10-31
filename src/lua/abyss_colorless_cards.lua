@@ -375,15 +375,23 @@ function M.apply(combat,state,item)
         generate(combat,state,'colorless',n,'hand',a.value==1,false,true)
     elseif kind=='deepBreath'then
         if #state.discard>0 then
-            -- EmptyDeckShuffleAction constructor fires relic callbacks once;
-            -- Soul.shuffle appends each shuffled discard card to the old draw.
-            for _,effect in ipairs(require('abyss_uncommon_relics').onShuffle(state))do actions().enqueueReaction(state,effect,false)end
-            require('abyss_shop_relics').onShuffle(state)
-            Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.discard)
-            for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}
-            -- ShuffleAction(draw,false) spends a second long, without hooks.
-            Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.draw)
+            -- Constructor callbacks queue their effects before EmptyDeck/Shuffle/
+            -- Draw. Collect in held order; reverse TOP insertion preserves it.
+            local effects={};local uncommon,shop=require('abyss_uncommon_relics'),require('abyss_shop_relics')
+            for _,id in ipairs(state.relics or {})do
+                if uncommon.localId(id)=='sundial'then
+                    for _,effect in ipairs(uncommon.onShuffle(state))do effects[#effects+1]=effect end
+                elseif shop.localId(id)=='the_abacus'then effects[#effects+1]=shop.onShuffle(state,true)end
+            end
+            actions().enqueueReaction(state,e('deepBreathShuffle'),true)
+            for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],true)end
         end
+    elseif kind=='deepBreathShuffle'then
+        Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.discard)
+        -- Soul.shuffle immediately appends iterator-order cards to old draw.
+        for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}
+        -- ShuffleAction(draw,false) spends a second long, without callbacks.
+        Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.draw)
     elseif kind=='violence'then
         local tmp={}
         for _,c in ipairs(state.draw)do if state.catalog.cards[c.cardId].type=='attack'then
