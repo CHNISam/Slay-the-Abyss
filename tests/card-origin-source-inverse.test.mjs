@@ -9,7 +9,7 @@ test('card-origin projection recovers complete prior bytes and does not hide par
   ['config/architecture.json','640bb51f60c831ad2162de7907b5b7e6a241dfa6f50b15b8527234eb2da47b64'],
   ['src/lua/abyss_nodes.lua','7d9732ed7b574db7dc874c378cad49f11cd47839f8b8c6763a29dfa186b20637'],
  ]){
-  const source=readFileSync(path,'utf8');
+  const source=readFileSync(path,'utf8').replaceAll('\r\n','\n');
   assert.equal(hash(preCardOriginSource(path,source)),expected);
   assert.equal(hash(preCardOriginSource(path,source.replaceAll('\n','\r\n'))),expected);
   for(const changed of [source+'-- unrelated\n',source.replace('abyss_card_origin','abyss_card_origin_typo')])
