@@ -73,9 +73,21 @@ export function attachOfficialPortraits(layout,{selectionAvatar=true,battlePortr
 function validIndex(index,allowUnbound=false) {
  return Number.isSafeInteger(index)&&index>=(allowUnbound?0:1)&&index!==100001;
 }
-export function writePortraitModule(directory,{root=process.cwd(),imageTemplateIndex=0,containerTemplateIndex=0,selectionAvatar=true,battlePortrait=true}={}) {
+// Breakthrough low-poly select look (art/lowpoly-select). Emitted only for the flag that owns it:
+// selectionAvatar -> lowpolyHero, cards -> lowpolyCardFan (premium frames + illustrations).
+export const lowpolySelectPath='art/lowpoly-select/select-lowpoly.json';
+export function lowpolySelectLiterals(root=process.cwd(),{selectionAvatar=false,cards=false}={}) {
+ if(!selectionAvatar&&!cards)return [];
+ const bytes=readFileSync(join(root,lowpolySelectPath)),data=JSON.parse(bytes),sha=createHash('sha256').update(bytes).digest('hex');
+ const asset=(name,a)=>`${name}=${toLua({rows:a.rows.map(r=>[r[0],r[1],r[2],r[3],r[4],.5,.5,.5,.5,.5,.5,1,1,r[7],r[8],r[9],r[10],r[11],r[5],r[6]]),
+  width:a.width,height:a.height,count:a.rows.length,renderProfile:'lowpoly-v1',cache:true,jsonSha256:sha,sourceSha256:data.sourceSha256,
+  root:[0,0,a.width,a.width,.5,.5,.5,.5,.5,.5,1,1,0]})}`;
+ return [...(selectionAvatar?[asset('lowpolyHero',data.hero)]:[]),...(cards?[asset('lowpolyCardFan',data.cardFan)]:[])];
+}
+export function writePortraitModule(directory,{root=process.cwd(),imageTemplateIndex=0,containerTemplateIndex=0,selectionAvatar=true,battlePortrait=true,cards=false}={}) {
  if(!validIndex(imageTemplateIndex,true)||!validIndex(containerTemplateIndex,true))throw Error('Invalid portrait templateIndex');
- if(!selectionAvatar&&!battlePortrait){const source='-- Disabled optional drawings.\nreturn {imagePrefabId=0,containerPrefabId=0}\n';writeFileSync(join(directory,`${portraitModule}.lua`),source);return source;}
+ const lowpoly=lowpolySelectLiterals(root,{selectionAvatar,cards});
+ if(!selectionAvatar&&!battlePortrait){const source=lowpoly.length?`-- Disabled portraits; cards flag low-poly select fan only.\nreturn {imagePrefabId=0,containerPrefabId=0,\n${lowpoly.join(',\n')}\n}\n`:'-- Disabled optional drawings.\nreturn {imagePrefabId=0,containerPrefabId=0}\n';writeFileSync(join(directory,`${portraitModule}.lua`),source);return source;}
  const compactPath=join(directory,'art-performance.json');
  const compact=existsSync(compactPath)?JSON.parse(readFileSync(compactPath,'utf8')):null;
  const runtimeV2=existsSync(join(directory,'art-render-v2.json'));
@@ -88,6 +100,7 @@ export function writePortraitModule(directory,{root=process.cwd(),imageTemplateI
   return `${a.kind}=(function()\n${a.literals}\nreturn {root=ROOT,rows=ELEMENTS,width=${a.width},count=${a.count},display=${a.display},sourceSha256='${a.runtime}',jsonSha256='${a.json}'${runtimeV2?',runtimeV2=true,cache=true,rectanglesOnly=true':''}}\nend)()`;
  });
  if(budget)data.push(`selection133=${budgetLiteral(assets[1],budget.assets.selection133)}`);
+ data.push(...lowpoly);
  const source=`--[=[
 ${license(root)}]=]
 -- Frozen portrait literal bytes; no original synchronous OnStart/exporter included.\n-- Native property sequence is derived from Primitive's MIT runtime (2026 LiuL).\nreturn {imagePrefabId=${imageTemplateIndex},containerPrefabId=${containerTemplateIndex},\n${data.join(',\n')}\n}\n`;
