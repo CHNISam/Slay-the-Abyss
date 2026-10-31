@@ -445,39 +445,39 @@
     },
     "potion": {
       "attack_potion": 111046,
-      "skill_potion": 111048,
-      "power_potion": 111047,
-      "colorless_potion": 111047,
+      "skill_potion": 111126,
+      "power_potion": 111048,
+      "colorless_potion": 111127,
       "entropic_brew": 111047,
-      "fairy_in_a_bottle": 111047,
-      "fire_potion": 111046,
-      "block_potion": 111048,
-      "strength_potion": 111046,
-      "dexterity_potion": 111047,
-      "energy_potion": 111047,
+      "fairy_in_a_bottle": 111128,
+      "fire_potion": 111129,
+      "block_potion": 111130,
+      "strength_potion": 111129,
+      "dexterity_potion": 111046,
+      "energy_potion": 111126,
       "poison_potion": 111048,
-      "regen_potion": 111047,
+      "regen_potion": 111127,
       "swift_potion": 111047,
-      "weak_potion": 111048,
-      "fear_potion": 111046,
-      "ancient_potion": 111047,
-      "liquid_bronze": 111046,
-      "snecko_oil": 111047,
-      "elixir": 111047,
-      "gamblers_brew": 111047,
-      "liquid_memories": 111047,
-      "blood_potion": 111046,
-      "fruit_juice": 111047,
-      "blessing_of_the_forge": 111046,
-      "explosive_potion": 111046,
-      "heart_of_iron": 111048,
-      "essence_of_steel": 111048,
-      "cultist_potion": 111046,
-      "flex_potion": 111046,
-      "speed_potion": 111047,
+      "weak_potion": 111128,
+      "fear_potion": 111129,
+      "ancient_potion": 111130,
+      "liquid_bronze": 111129,
+      "snecko_oil": 111046,
+      "elixir": 111126,
+      "gamblers_brew": 111048,
+      "liquid_memories": 111127,
+      "blood_potion": 111047,
+      "fruit_juice": 111128,
+      "blessing_of_the_forge": 111129,
+      "explosive_potion": 111130,
+      "heart_of_iron": 111129,
+      "essence_of_steel": 111046,
+      "cultist_potion": 111126,
+      "flex_potion": 111048,
+      "speed_potion": 111127,
       "duplication_potion": 111047,
-      "distilled_chaos": 111048,
-      "smoke_bomb": 111048,
+      "distilled_chaos": 111128,
+      "smoke_bomb": 111129,
       "empty": 106026,
       "verify": true
     },
@@ -498,18 +498,18 @@
       "speed_potion": "#FFFFFF"
     },
     "relic": {
-      "bloody_idol": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
-      "mutagenic_strength": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
-      "necronomicon": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
-      "enchiridion": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
-      "nilrys_codex": {"id": 102028, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "bloody_idol": {"id": 111106, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "mutagenic_strength": {"id": 111089, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "necronomicon": {"id": 111054, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "enchiridion": {"id": 111055, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
+      "nilrys_codex": {"id": 111056, "placeholder": true, "note": "第二幕事件遗物暂沿用批准主题现有宝箱图标；专属美术与设备验收待完成。"},
 
-      "nloths_gift": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
-      "cultist_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
-      "face_of_cleric": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
-      "gremlin_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
-      "nloths_mask": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
-      "ssserpent_head": {"id": 102028, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "nloths_gift": {"id": 111050, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "cultist_mask": {"id": 111115, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "face_of_cleric": {"id": 111109, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "gremlin_mask": {"id": 111100, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "nloths_mask": {"id": 111103, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
+      "ssserpent_head": {"id": 111090, "placeholder": true, "note": "事件面孔遗物临时沿用批准主题现有图标；专属美术与实机显示待验。"},
 
 "bottled_tornado": {"id":111127,"placeholder":true,"note":"暂用千星官方道具/装备图标 111127（非专属美术）；专属美术与设备验收待完成。"},
 "sundial": {"id":111089,"placeholder":true,"note":"暂用千星官方道具/装备图标 111089（非专属美术）；专属美术与设备验收待完成。"},
@@ -589,37 +589,37 @@
 "fossilized_helix": {"id":111052,"placeholder":true,"note":"暂用千星官方道具/装备图标 111052（非专属美术）；专属美术与设备验收待完成。"},
 "pantograph": {"id":111053,"placeholder":true,"note":"暂用千星官方道具/装备图标 111053（非专属美术）；专属美术与设备验收待完成。"},
       "white_beast_statue": {
-        "id": 102028,
+        "id": 111091,
         "placeholder": true,
         "note": "白兽雕像沿用批准主题宝箱图标；专属美术与设备验收待完成。"
       },
       "pear": {
-        "id": 102028,
+        "id": 111092,
         "placeholder": true,
         "note": "梨沿用批准主题宝箱图标；专属美术与设备验收待完成。"
       },
       "mango": {
-        "id": 102028,
+        "id": 111093,
         "placeholder": true,
         "note": "芒果沿用批准主题宝箱图标；专属美术与设备验收待完成。"
       },
       "old_coin": {
-        "id": 102028,
+        "id": 111136,
         "placeholder": true,
         "note": "古旧钱币沿用批准主题宝箱图标；专属美术与设备验收待完成。"
       },
       "frozen_egg": {
-        "id": 102028,
+        "id": 111095,
         "placeholder": true,
         "note": "冰冻胎石沿用批准主题宝箱图标；专属美术与设备验收待完成。"
       },
       "coffee_dripper": {
-        "id": 102028,
+        "id": 111096,
         "placeholder": true,
         "note": "咖啡滤杯沿用批准主题宝箱图标；专属美术与设备验收待完成。"
       },
       "fusion_hammer": {
-        "id": 102028,
+        "id": 111097,
         "placeholder": true,
         "note": "聚变之锤沿用批准主题宝箱图标；专属美术与设备验收待完成。"
       },
@@ -643,15 +643,15 @@
       "smiling_mask": 102031,
       "burning_blood": 102005,
       "black_blood": 102005,
-      "slavers_collar": 102028,
-      "sozu": 102028,
+      "slavers_collar": 111098,
+      "sozu": 111099,
       "anchor": 102036,
       "vajra": 102012,
       "bag_of_preparation": 102026,
       "lantern": 102007,
       "oddly_smooth_stone": 102031,
       "bronze_scales": 102015,
-      "omamori": 102028,
+      "omamori": 111101,
       "ceramic_fish": 102031,
       "potion_belt": 102026,
       "meal_ticket": 102026,
@@ -675,32 +675,32 @@
       "red_skull": 102005,
       "centennial_puzzle": 102026,
       "tiny_chest": 102026,
-      "juzu_bracelet": 102028,
-      "dream_catcher": 102028,
+      "juzu_bracelet": 111102,
+      "dream_catcher": 111104,
       "warped_tongs": {
-        "id": 102028,
+        "id": 111105,
         "placeholder": true,
         "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
       },
       "mark_of_bloom": {
-        "id": 102028,
+        "id": 111107,
         "placeholder": true,
         "note": "绽放印记暂沿用主题现有遗物图标；专属美术与设备验收待完成。"
       },
       "spirit_poop": {
-        "id": 102028,
+        "id": 111108,
         "placeholder": true,
         "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
       },
       "circlet": {
-        "id": 102028,
+        "id": 111110,
         "placeholder": true,
         "note": "临时沿用主题现有图标；专属美术与实机显示待验。"
       },
       "verify": true,
       "darkstone_periapt": 102031,
       "red_mask": {
-        "id": 102028,
+        "id": 111111,
         "placeholder": true,
         "note": "暂沿用现有护符图标；专属美术与设备验收待完成。"
       },
@@ -725,12 +725,12 @@
         "note": "异蛇头骨（Snake Skull）暂沿用主题现有遗物图标；专属美术与设备验收待完成。"
       },
       "data_disk": {
-        "id": 102028,
+        "id": 111137,
         "placeholder": true,
         "note": "数据磁盘（DataDisk）暂沿用主题现有护符图标；专属美术与设备验收待完成。"
       },
       "damaru": {
-        "id": 102028,
+        "id": 111113,
         "placeholder": true,
         "note": "手摇鼓（Damaru）暂沿用主题现有护符图标；专属美术与设备验收待完成。"
       },
@@ -749,7 +749,7 @@
       "mango": 102005,
       "lees_waffle": 102005,
       "sacred_bark": {
-        "id": 102028,
+        "id": 111114,
         "placeholder": true,
         "note": "神圣树皮沿用批准主题宝箱图标；专属美术及设备验收待完成。"
       }
