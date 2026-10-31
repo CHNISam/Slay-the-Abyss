@@ -1,0 +1,745 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "oracle": "tools/oracles/sts1_potion_channel_chain.py",
+  "scope": "Controlled Run/shop/reward/Entropic ownership chain; no natural route or device claim.",
+  "cases": [
+    {
+      "seed": "0",
+      "records": [
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "ElixirPotion",
+            "rarity": "uncommon",
+            "attempts": [
+              1
+            ]
+          },
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          },
+          "modifier": 0
+        },
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "Block Potion",
+            "rarity": "common",
+            "attempts": [
+              19,
+              3
+            ]
+          },
+          "after": {
+            "words": [
+              "64e5fcd2a7151c1a",
+              "fee60553238444e4"
+            ],
+            "counter": 5
+          },
+          "modifier": 0
+        },
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "GamblersBrew",
+            "rarity": "uncommon",
+            "attempts": [
+              22
+            ]
+          },
+          "after": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          },
+          "modifier": 0
+        },
+        {
+          "action": "courier",
+          "result": {
+            "sourceId": "Strength Potion",
+            "rarity": "common",
+            "attempts": [
+              22,
+              8
+            ]
+          },
+          "after": {
+            "words": [
+              "88637303b25ab236",
+              "6613268d2f6823a8"
+            ],
+            "counter": 10
+          },
+          "modifier": 0
+        },
+        {
+          "action": "normal",
+          "result": {
+            "chance": 40,
+            "dropped": true,
+            "potion": {
+              "sourceId": "HeartOfIron",
+              "rarity": "rare",
+              "attempts": [
+                21,
+                2
+              ]
+            },
+            "modifier": -10
+          },
+          "after": {
+            "words": [
+              "29125afa6496e7a1",
+              "0d0561b3968b7480"
+            ],
+            "counter": 14
+          },
+          "modifier": -10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "SpeedPotion",
+            "rarity": "common",
+            "attempts": [
+              9,
+              17
+            ]
+          },
+          "after": {
+            "words": [
+              "8deb1451e6d83050",
+              "c07be8017dc1c7a6"
+            ],
+            "counter": 17
+          },
+          "modifier": -10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "FairyPotion",
+            "rarity": "rare",
+            "attempts": [
+              26,
+              18,
+              21,
+              30
+            ]
+          },
+          "after": {
+            "words": [
+              "29daa4db8e4b6167",
+              "c5a3bc273ad3a217"
+            ],
+            "counter": 22
+          },
+          "modifier": -10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "AttackPotion",
+            "rarity": "common",
+            "attempts": [
+              3,
+              2,
+              12
+            ]
+          },
+          "after": {
+            "words": [
+              "6fe903c226abc992",
+              "e524519ccb17c523"
+            ],
+            "counter": 26
+          },
+          "modifier": -10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "SkillPotion",
+            "rarity": "common",
+            "attempts": [
+              30,
+              13
+            ]
+          },
+          "after": {
+            "words": [
+              "409f8f3a0683cbaf",
+              "54629824c2632fa5"
+            ],
+            "counter": 29
+          },
+          "modifier": -10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "SteroidPotion",
+            "rarity": "common",
+            "attempts": [
+              23,
+              16
+            ]
+          },
+          "after": {
+            "words": [
+              "cffdb2b0d71daa74",
+              "563592c5af095b6e"
+            ],
+            "counter": 32
+          },
+          "modifier": -10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "Fire Potion",
+            "rarity": "common",
+            "attempts": [
+              28,
+              2,
+              29,
+              29,
+              7
+            ]
+          },
+          "after": {
+            "words": [
+              "4befdc68a2945577",
+              "3b8c3670aef423d0"
+            ],
+            "counter": 38
+          },
+          "modifier": -10
+        },
+        {
+          "action": "elite",
+          "result": {
+            "chance": 30,
+            "dropped": true,
+            "potion": {
+              "sourceId": "LiquidBronze",
+              "rarity": "uncommon",
+              "attempts": [
+                21
+              ]
+            },
+            "modifier": -20
+          },
+          "after": {
+            "words": [
+              "47e9d27ef3af9e6b",
+              "f254f121a9dfe9b7"
+            ],
+            "counter": 41
+          },
+          "modifier": -20
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "records": [
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "Fire Potion",
+            "rarity": "common",
+            "attempts": [
+              7
+            ]
+          },
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "modifier": 0
+        },
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "LiquidMemories",
+            "rarity": "uncommon",
+            "attempts": [
+              31,
+              8,
+              26
+            ]
+          },
+          "after": {
+            "words": [
+              "0d8705047342f11a",
+              "6f40089d8138d665"
+            ],
+            "counter": 6
+          },
+          "modifier": 0
+        },
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "Energy Potion",
+            "rarity": "common",
+            "attempts": [
+              5
+            ]
+          },
+          "after": {
+            "words": [
+              "e0feeb25fd467f3e",
+              "c17e6f2b3b3f39f8"
+            ],
+            "counter": 8
+          },
+          "modifier": 0
+        },
+        {
+          "action": "courier",
+          "result": {
+            "sourceId": "Ancient Potion",
+            "rarity": "uncommon",
+            "attempts": [
+              7,
+              20
+            ]
+          },
+          "after": {
+            "words": [
+              "e79dc4ebc20ce704",
+              "5472f4fa26fdbb68"
+            ],
+            "counter": 11
+          },
+          "modifier": 0
+        },
+        {
+          "action": "normal",
+          "result": {
+            "chance": 40,
+            "dropped": false,
+            "modifier": 10
+          },
+          "after": {
+            "words": [
+              "5472f4fa26fdbb68",
+              "c60e7f491b0042e3"
+            ],
+            "counter": 12
+          },
+          "modifier": 10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "SneckoOil",
+            "rarity": "rare",
+            "attempts": [
+              11,
+              0,
+              29
+            ]
+          },
+          "after": {
+            "words": [
+              "95647a8440c8b848",
+              "e648b23d916e8fa5"
+            ],
+            "counter": 16
+          },
+          "modifier": 10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "FearPotion",
+            "rarity": "common",
+            "attempts": [
+              11,
+              26,
+              11
+            ]
+          },
+          "after": {
+            "words": [
+              "47b44d5d4dd06ce1",
+              "aa0dc7a5a6dd3c95"
+            ],
+            "counter": 20
+          },
+          "modifier": 10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "SneckoOil",
+            "rarity": "rare",
+            "attempts": [
+              10,
+              3,
+              13,
+              23,
+              8,
+              16,
+              0,
+              3,
+              29
+            ]
+          },
+          "after": {
+            "words": [
+              "07af06c040b7f66a",
+              "2ecc7ee175cce2ac"
+            ],
+            "counter": 30
+          },
+          "modifier": 10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "Ancient Potion",
+            "rarity": "uncommon",
+            "attempts": [
+              5,
+              5,
+              20
+            ]
+          },
+          "after": {
+            "words": [
+              "55786a11246783f9",
+              "95dcf10963eb5521"
+            ],
+            "counter": 34
+          },
+          "modifier": 10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "EssenceOfSteel",
+            "rarity": "uncommon",
+            "attempts": [
+              23
+            ]
+          },
+          "after": {
+            "words": [
+              "c8368609e0d8f8f3",
+              "d95b8a2e9c43d61f"
+            ],
+            "counter": 36
+          },
+          "modifier": 10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "SkillPotion",
+            "rarity": "common",
+            "attempts": [
+              13
+            ]
+          },
+          "after": {
+            "words": [
+              "159d060e26c369e7",
+              "db88cac407a3f590"
+            ],
+            "counter": 38
+          },
+          "modifier": 10
+        },
+        {
+          "action": "elite",
+          "result": {
+            "chance": 50,
+            "dropped": false,
+            "modifier": 20
+          },
+          "after": {
+            "words": [
+              "db88cac407a3f590",
+              "c906a40f030f47d7"
+            ],
+            "counter": 39
+          },
+          "modifier": 20
+        }
+      ]
+    },
+    {
+      "seed": "-1",
+      "records": [
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "PowerPotion",
+            "rarity": "common",
+            "attempts": [
+              22,
+              14
+            ]
+          },
+          "after": {
+            "words": [
+              "c347fe1c7f4b1e37",
+              "336d48ad86da3b4c"
+            ],
+            "counter": 3
+          },
+          "modifier": 0
+        },
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "GamblersBrew",
+            "rarity": "uncommon",
+            "attempts": [
+              3,
+              27,
+              2,
+              18,
+              18,
+              5,
+              6,
+              16,
+              12,
+              27,
+              17,
+              6,
+              12,
+              22
+            ]
+          },
+          "after": {
+            "words": [
+              "c3fb7ba6abc7363e",
+              "28a5727644b9f95c"
+            ],
+            "counter": 18
+          },
+          "modifier": 0
+        },
+        {
+          "action": "shop",
+          "result": {
+            "sourceId": "HeartOfIron",
+            "rarity": "rare",
+            "attempts": [
+              1,
+              2
+            ]
+          },
+          "after": {
+            "words": [
+              "2b8cc551ea388135",
+              "18cda0a96a1c3341"
+            ],
+            "counter": 21
+          },
+          "modifier": 0
+        },
+        {
+          "action": "courier",
+          "result": {
+            "sourceId": "Explosive Potion",
+            "rarity": "common",
+            "attempts": [
+              24,
+              6
+            ]
+          },
+          "after": {
+            "words": [
+              "d7ccb0a8b58e76cc",
+              "4d1a67e4f7ef02b1"
+            ],
+            "counter": 24
+          },
+          "modifier": 0
+        },
+        {
+          "action": "normal",
+          "result": {
+            "chance": 40,
+            "dropped": true,
+            "potion": {
+              "sourceId": "AttackPotion",
+              "rarity": "common",
+              "attempts": [
+                31,
+                30,
+                12
+              ]
+            },
+            "modifier": -10
+          },
+          "after": {
+            "words": [
+              "3dee53778c9cd6e2",
+              "b96f5ab03d6c9d3e"
+            ],
+            "counter": 29
+          },
+          "modifier": -10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "PowerPotion",
+            "rarity": "common",
+            "attempts": [
+              4,
+              14
+            ]
+          },
+          "after": {
+            "words": [
+              "de3698df107a70b0",
+              "aa3b72346e99d3fd"
+            ],
+            "counter": 32
+          },
+          "modifier": -10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "FearPotion",
+            "rarity": "common",
+            "attempts": [
+              0,
+              11
+            ]
+          },
+          "after": {
+            "words": [
+              "ab89e9fb94d85824",
+              "237144cecd5f4b0c"
+            ],
+            "counter": 35
+          },
+          "modifier": -10
+        },
+        {
+          "action": "entropic_combat",
+          "result": {
+            "sourceId": "LiquidMemories",
+            "rarity": "uncommon",
+            "attempts": [
+              3,
+              14,
+              13,
+              29,
+              14,
+              8,
+              13,
+              10,
+              31,
+              29,
+              29,
+              14,
+              26
+            ]
+          },
+          "after": {
+            "words": [
+              "b597e673052d11e3",
+              "62f6ab2eb99fdfc9"
+            ],
+            "counter": 49
+          },
+          "modifier": -10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "BlessingOfTheForge",
+            "rarity": "common",
+            "attempts": [
+              18
+            ]
+          },
+          "after": {
+            "words": [
+              "eee39dc748e5ffd2",
+              "1b4983e89f7dff46"
+            ],
+            "counter": 51
+          },
+          "modifier": -10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "Dexterity Potion",
+            "rarity": "common",
+            "attempts": [
+              4
+            ]
+          },
+          "after": {
+            "words": [
+              "160e6a751b64aa41",
+              "f90820e4ba08567f"
+            ],
+            "counter": 53
+          },
+          "modifier": -10
+        },
+        {
+          "action": "second_shop",
+          "result": {
+            "sourceId": "Swift Potion",
+            "rarity": "common",
+            "attempts": [
+              21,
+              31,
+              9
+            ]
+          },
+          "after": {
+            "words": [
+              "d6c2df25b9dc6fdc",
+              "7db17533e5464dd0"
+            ],
+            "counter": 57
+          },
+          "modifier": -10
+        },
+        {
+          "action": "elite",
+          "result": {
+            "chance": 30,
+            "dropped": false,
+            "modifier": 0
+          },
+          "after": {
+            "words": [
+              "7db17533e5464dd0",
+              "39af6631c64e451b"
+            ],
+            "counter": 58
+          },
+          "modifier": 0
+        }
+      ]
+    }
+  ]
+}
