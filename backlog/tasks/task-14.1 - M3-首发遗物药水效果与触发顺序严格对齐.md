@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 01:23'
+updated_date: '2026-10-31 15:21'
 due_date: '2026-10-28'
 labels:
   - required
@@ -34,6 +34,7 @@ references:
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - docs/rules/RELIC_POOL_COMPLETION.md
+  - docs/reviews/M3-BACKLOG-CLOSEOUT-20261031.md
 parent_task_id: TASK-14
 priority: high
 type: enhancement
@@ -92,6 +93,8 @@ ordinal: 42000
 2026-10-28 当前真实底座更新：MaxHP独立线性分支rebase到已接受PR313的cec690c1，保留已批准UI/历史链且不并入待接受315/317。对真实Full CI暴露的PR238完整体守卫，只增认证c9seed70修复的精确外层逆变换，先恢复原字节再走原hash/12例/30秒证明。当前新主题/架构仅逆回MaxHP三图标+一个core分类，旧历史证据不改；当前专项、独立审查及精确SHA全量CI分层记录。
 
 2026-10-28 接受PR319后，只将当前五个已审查MaxHP线性提交rebase到48cb48ce；完整保留其冻结药水registrar逆变换、分片与交付合同，若严格source层相交则仅做精确组合。旧金样/hash与原MaxHP生产/数据不改；纯合同、固定来源、静态及逐字节守恒后冻结本地审查，不推送且不写PR元数据。
+
+2026-10-31 M3离线切片：先用真实宝箱奖励入口复现单项、全不可领取及仍有其他可领取奖励时的错误建议；仅修正两种宝箱展示的不可领取原因与后续操作提示。保留完整奖励池、原领取事务及资源/RNG拒绝不变断言。定向红绿后独立复审并集成；自然获取、完整池效果和同候选平台验收仍保持未完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -257,4 +260,6 @@ PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确
 2026-10-30主线复核：PR #357（acb09e46）补77件遗物定义和选择流程，战士五档130个身份已有运行绑定；21项联合离线回归及独立复审后9项见 docs/rules/RELIC_POOL_COMPLETION.md。此前缺78项为历史快照；全效果逐件、自然取得及同候选平台和手机证据仍待验，不勾广义验收。
 
 2026-10-31 旧v13实际Lua仅65遗物定义，五个代表遗物均relic_content_unavailable；PR357/377后的最新候选153定义、五项取得成功且96相关模块实际GIL读回一致。新增130来源身份与11复杂遗物后续选择广域回归。详见 docs/reviews/TWO-ACT-SELECTION-AUDIT-20261031.md；本轮无官方导入/ready/手机证据，不提升整体验收。
+
+2026-10-31 M3小切片已实现：宝箱两展示依据真实缺定义原因提示不可领，仅有其他实际可领取项时提示其他奖励。原源码红例保留，新增8/Boss7/Sapphire17/来源14组直接Fengari通过；组合重建后提示8+Boss7再次通过。标准Node包装EPERM、完整npm test未通过、Luacheck缺失分别保留；独审和精确头托管CI待验，AC10暂不勾，整任务及平台证据保持未完成。见docs/reviews/M3-BACKLOG-CLOSEOUT-20261031.md。
 <!-- SECTION:NOTES:END -->

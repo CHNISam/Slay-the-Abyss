@@ -118,7 +118,10 @@ function M.install(ctx)
 
     ctx.commit = function(command, argument, describe, choice)
         local node = ctx.self.view.node
-        local before = { hp = ctx.self.run.hp, gold = ctx.self.run.gold }
+        local receipt=ctx.self.run.lastRelicObtain
+        local before = { hp = ctx.self.run.hp, gold = ctx.self.run.gold,
+            relicSequence=receipt and receipt.sequence or 0 }
+        local sourceRun=ctx.self.run
         ctx.self.busy = true
         local called, accepted, reason = nil, nil, nil
         local function dispatchNodeCommand()
@@ -147,6 +150,11 @@ function M.install(ctx)
             end
             playCommitSound()
             local notice, hold = describe(before)
+            local obtained=ctx.self.run.lastRelicObtain
+            if ctx.self.run==sourceRun and obtained then
+                notice=notice..require('abyss_relic_names').upgradeFeedback(sourceRun,before.relicSequence,
+                    ctx.self.presentation,obtained.relicId)
+            end
             local function reactToShopTransaction()
                 if command == "buyCardSlot" or command == "buyRelic" or command == "buyPotion" or command == "removeCard" then
                     ctx.merchant:react("buy")

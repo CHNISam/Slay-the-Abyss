@@ -277,8 +277,14 @@ function M.new(root, data, presentation, clickEvent, platform, options)
         local slot=i
         services.bind('relicReward'..slot,function()
             if not self.active or self.busy or self.rewardScreen~='list' or not self.run then return false end
+            local receipt=self.run.lastRelicObtain
+            local sequence=receipt and receipt.sequence or 0
             local ok,why=Run.claimRelicReward(self.run,slot)
-            if ok then services.notice('已获得遗物。');services.refresh(true)end
+            if ok then
+                local names=require('abyss_relic_names')
+                services.notice('已获得遗物「'..names.get(self.run.data,why)..'」'..names.upgradeFeedback(self.run,sequence,presentation,why))
+                services.refresh(true)
+            end
             return ok,why
         end)
     end

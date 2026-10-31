@@ -6,5 +6,5 @@ test('five common equipment and room/potion effects retain source values and ran
   buildLuaData();
   const result = runLua('tests/lua/common_relic_equipment.lua');
   assert.equal(result.status, 0, result.stdout + result.stderr);
-  assert.match(result.stdout, /LUA_COMMON_RELIC_EQUIPMENT_PASS 6/);
+  assert.match(result.stdout, /LUA_COMMON_RELIC_EQUIPMENT_PASS 8\b/);
 });
