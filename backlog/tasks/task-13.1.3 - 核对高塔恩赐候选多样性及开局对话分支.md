@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@Furinya'
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 22:50'
+updated_date: '2026-10-31 10:47'
 labels:
   - playtest-20261030
   - p1
@@ -36,4 +36,6 @@ Owner多次重开均见同一两项恩赐（前三场敌人生命为1、增加�
 
 <!-- SECTION:NOTES:BEGIN -->
 2026-10-31只读核对：mini开局固定两项属于已批准的会话能力降级，并非本轮已证实的随机故障；完整开局对话和分支实现仍保留。当前仅源码/配置核对，不把批准降级等同于设备体验通过，不Done、不勾验收；后续与同候选会话及完整模式分别复验。
+
+2026-10-31 PR409核正：bossCount=0时两项恩赐及合格历史时四项均已有规则；核对首次、未到Boss重开、同实例到Boss后重开，不把两项自动判为随机池Bug，不伪造跨会话历史。固定来源见docs/backlog-details/STS1-DELTA-20261031.md。
 <!-- SECTION:NOTES:END -->

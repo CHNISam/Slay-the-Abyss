@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-24 02:01'
-updated_date: '2026-10-29 06:48'
+updated_date: '2026-10-31 10:47'
 due_date: '2026-10-28'
 labels: []
 milestone: m-4
@@ -256,4 +256,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 - TASK-47原AC13 [ ] 雷电将军V4机制及其合法构筑、奖励和跨幕状态逐项验证。
 - TASK-47原AC14 [ ] 雷电将军自然获取卡牌并连续战斗，保留实机证据。
 - TASK-47原AC15 [ ] 雷电将军愿力、雷眼和一心交互与回滚逐项验证。
+
+2026-10-31 PR409差额收口：AC1的未验内容不出现应理解为候选不放行，不授权删池、缺项重抽或改概率。额外四Boss持久历史解锁归TASK-53延期，不作为本期M3缺陷。乞丐、计分、普通卡详情源码分别已由PR411/412/413合入，本轮不重复建缺陷；同候选官方与设备验收仍未证明。详见docs/backlog-details/PLANNING-CONSOLIDATION-20261031.md。
 <!-- SECTION:NOTES:END -->

@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-25 03:46'
-updated_date: '2026-10-29 06:45'
+updated_date: '2026-10-31 10:47'
 labels:
   - required
   - sts1
@@ -23,7 +23,7 @@ references:
   - docs/M3-STATUS-20261028.md
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
-priority: high
+priority: medium
 type: feature
 ordinal: 95000
 ---
@@ -165,4 +165,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
 
 2026-10-29用户明确研发顺序：先集中完成并验收旅行者比赛版本及投稿准备，雷电将军待旅行者版本完成后另开下一版本规划与验收；当前不并行推进其功能、美术或发布。已完成的V4资产和代码保留。
+
+2026-10-31规划收口：按PR409固定655c500的STS1-DELTA-20261031「用户决定与排期」中明确授权，宽泛父项TASK-59依顺序让出一个必要High名额给已确认的事件身份外露TASK-4.18；验收要求、状态与全部AC不变。其余既有High不降级。
 <!-- SECTION:NOTES:END -->
