@@ -254,8 +254,8 @@
     "docs/evidence/m3-visual-20261031/exit-confirmation.sim.receipt.json": "002c5c1d35e48bc8b6a5d02ae8bff642d10af0faccc2c14b99ba04bca36d4496",
     "docs/evidence/m3-visual-20261031/exit-confirmation.sim.save.json": "fe95a12d1b0b86e651620f0d43e18d457d5db79ddcb731bcf1125896b7b354d4",
     "docs/evidence/m3-visual-20261031/exit-confirmation.tree.json": "06b424cc59fd22a5e339f4b6639e23b050b008b883240709ca33938c01602152",
-    "docs/evidence/m3-visual-20261031/host.log": "7328892548404bd7548b5de14c957868624f47c02f18328f0983523849a8baa3",
-    "docs/evidence/m3-visual-20261031/oss-policy.txt": "941b17d91d07d5ff484d826010c0667a308a2482fbcc2e64046312f5a1bdd1c9",
+    "docs/evidence/m3-visual-20261031/host.log": "cc1a519e97e06898c6c2c40de4c60c479054b3523cccc09498fe052c7d21a201",
+    "docs/evidence/m3-visual-20261031/oss-policy.txt": "c68e9115325d82fff95852b2ccd4fb179f1034e564446aa7b74972e7ae522153",
     "docs/evidence/m3-visual-20261031/owned-relic-detail.sim.png": "c98a85566a97b5935d147e309aaa63472f56b1b9e204a6e484dd48164fa55749",
     "docs/evidence/m3-visual-20261031/owned-relic-detail.sim.receipt.json": "907782182fa673073e2bbeb0dbbce4b9028293c6c610b27b9553039e3028fff9",
     "docs/evidence/m3-visual-20261031/owned-relic-detail.sim.save.json": "42d775081f4aa00c2b4572f52a90cc27c466ad9ca984e9ab74a01889fa36ec3d",
@@ -271,7 +271,25 @@
     "docs/evidence/m3-visual-20261031/select.tree.json": "1ac91327d07d5112cf228496c4adcdba52d026ddd90790cf5a1cb675b1fb029f",
     "docs/evidence/m3-visual-20261031/simulator-tools.json": "5b89eb225d40302d2582a227632d62c0c8f6a8e3f2b2fb2f2b841c9271d9871b",
     "docs/evidence/m3-visual-20261031/simulator.log": "ea44ddbd587ff1379e316f7c14e883b494a70beddb6c19cb36ebc7ac742055e8",
-    "docs/evidence/m3-visual-20261031/README.md": "8bc120ae95e2380bbc1d743c836293ca42f0ce21171406f25b4903c7193e1e59"
+    "docs/evidence/m3-visual-20261031/README.md": "d965667eaee090c8fc6d785333fbfbbd9dd5de18c35fd599a0739a1a3496741a",
+    "docs/evidence/m3-visual-20261031/host.log.raw.gz": "119cd0803fe14b9b83cbe649d55d9abac82372eb5b6af0e3ac03d0e4ccfc02ce",
+    "docs/evidence/m3-visual-20261031/oss-policy.txt.raw.gz": "788e164e726217fb2945a29bd0ce1fe0b7cdd3b99b5b6983b9920752406a680e"
   },
-  "portraitAssembly": "Not assembled: explicit platform has no portraits adapter or official Avatar/BattlePortrait templates; selection image is fallback layout evidence only."
+  "portraitAssembly": "Not assembled: explicit platform has no portraits adapter or official Avatar/BattlePortrait templates; selection image is fallback layout evidence only.",
+  "formatNormalization": [
+    {
+      "file": "docs/evidence/m3-visual-20261031/host.log",
+      "rawSha256": "7328892548404bd7548b5de14c957868624f47c02f18328f0983523849a8baa3",
+      "rawArchive": "docs/evidence/m3-visual-20261031/host.log.raw.gz",
+      "normalizedSha256": "cc1a519e97e06898c6c2c40de4c60c479054b3523cccc09498fe052c7d21a201",
+      "normalization": "LF line endings, trailing line whitespace, one terminal newline only; raw bytes preserved in gzip"
+    },
+    {
+      "file": "docs/evidence/m3-visual-20261031/oss-policy.txt",
+      "rawSha256": "941b17d91d07d5ff484d826010c0667a308a2482fbcc2e64046312f5a1bdd1c9",
+      "rawArchive": "docs/evidence/m3-visual-20261031/oss-policy.txt.raw.gz",
+      "normalizedSha256": "c68e9115325d82fff95852b2ccd4fb179f1034e564446aa7b74972e7ae522153",
+      "normalization": "LF line endings, trailing line whitespace, one terminal newline only; raw bytes preserved in gzip"
+    }
+  ]
 }

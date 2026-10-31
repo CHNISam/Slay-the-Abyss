@@ -1,0 +1,141 @@
+{
+  "productionSourceCommit": "e8eb72360d1a1e9eef015948e3b63bf09661f372",
+  "baseCommit": "af81787d40c993fba60b9416294c400c1c2289f7",
+  "productionCodeUnchanged": true,
+  "simulator": "beyond-simulator-mcp@0.5.2",
+  "workerSha256": "de72d4f80b230cfac330ab0ac6fa9d05e51bb8f51d352f08dd1ee6bcba0fe09d",
+  "scope": "offline static Host PNG; no official/device acceptance",
+  "diagnosis": "production autoSize dropped by capture and simulator converter; fixed seed false suppresses 24px line in 32px box",
+  "receipts": {
+    "after": {
+      "canvasId": "pc-16-9",
+      "frame": 0,
+      "time": 0,
+      "clockMode": "manual",
+      "width": 1600,
+      "height": 900,
+      "pixelWidth": 1600,
+      "pixelHeight": 900,
+      "assetWarnings": [
+        {
+          "imageId": 106025,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102005,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106029,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106059,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105046,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102018,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105077,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106091,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "isolated": {
+      "canvasId": "pc-16-9",
+      "frame": 0,
+      "time": 0,
+      "clockMode": "manual",
+      "width": 1600,
+      "height": 900,
+      "pixelWidth": 1600,
+      "pixelHeight": 900,
+      "assetWarnings": [
+        {
+          "imageId": 102005,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106029,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106025,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106059,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105046,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 102018,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 105077,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        },
+        {
+          "imageId": 106091,
+          "imageSource": "StaticReference",
+          "error": "fetch failed"
+        }
+      ]
+    }
+  },
+  "hashes": {
+    "docs/evidence/m3-relic-name-20261031/README.md": "d1616c4d4e8b167867d3592871a0601e24c5ef39e567f40a621e662524d2093f",
+    "docs/evidence/m3-relic-name-20261031/after.sim.png": "ddfc21478fdad264c1cb39c037bde651eaf507a78bb3c141b12be897d13a20b5",
+    "docs/evidence/m3-relic-name-20261031/after.sim.receipt.json": "ae9335c804d33caa0fda6a252291892e31e9d79ff5600eff0b71e1cc52e8447f",
+    "docs/evidence/m3-relic-name-20261031/after.sim.save.json": "ef8f8483e6358d2c188550cffc87ce7ffee62cc332a7709bd21bfe2689343f08",
+    "docs/evidence/m3-relic-name-20261031/after.tree.json": "ce5a9e66cecffa7b092e0bb8dfb205ffc1ebe21d26f7a42251c0603ce3f32327",
+    "docs/evidence/m3-relic-name-20261031/before.sim.png": "c98a85566a97b5935d147e309aaa63472f56b1b9e204a6e484dd48164fa55749",
+    "docs/evidence/m3-relic-name-20261031/before.sim.receipt.json": "907782182fa673073e2bbeb0dbbce4b9028293c6c610b27b9553039e3028fff9",
+    "docs/evidence/m3-relic-name-20261031/before.sim.save.json": "42d775081f4aa00c2b4572f52a90cc27c466ad9ca984e9ab74a01889fa36ec3d",
+    "docs/evidence/m3-relic-name-20261031/before.tree.json": "c584114baa7d014bb1d9c789a7aa1dcd60978f42f0785a7be32bb0d185b4e6a2",
+    "docs/evidence/m3-relic-name-20261031/capture.lua": "b6f04c767a992713142f5ff98933dd0a09951676380807dddc1e006c3bc7d92d",
+    "docs/evidence/m3-relic-name-20261031/capture.mjs": "46b2ec034b8da06ea448b4570cdda0ac246d11b09f5e5d4c61dffa13024b8f68",
+    "docs/evidence/m3-relic-name-20261031/host.log": "41eed3c15f5b2b3452b04963ace08645c877fabb388c0bacfc0eef054e2a977a",
+    "docs/evidence/m3-relic-name-20261031/isolated-save-diff.json": "28ba3e9df45389ee7030926de2ae08591fab3eb324022b60355c606c4405777c",
+    "docs/evidence/m3-relic-name-20261031/isolated.sim.png": "ddfc21478fdad264c1cb39c037bde651eaf507a78bb3c141b12be897d13a20b5",
+    "docs/evidence/m3-relic-name-20261031/isolated.sim.receipt.json": "841c6d2156f72a04f9e4268d4367e0a087e512a6cd38b80f15720f51b99b5047",
+    "docs/evidence/m3-relic-name-20261031/isolated.sim.save.json": "3555638aba4cc3033923ff6dade1b98639eabf021709382b03bbb33492982332",
+    "docs/evidence/m3-relic-name-20261031/isolated.tree.json": "c3ee8016e0cdbb1aa32035e6e39b8cf721eb3290c14a13043fb0d9c8a37fa2af"
+  },
+  "adapterHashes": {
+    "experiments/ui-polish-sim/capture.lua": "f9fc5715425a4cc26e54ef7cfcd48e4fc76afb7e80dbe3162b10aef9e077a7c8",
+    "experiments/ui-polish-sim/select-capture.lua": "5c479accf905a764ac9012759eb4eab28e36a9c963851c95852d61c1d3963182",
+    "experiments/ui-polish-sim/text-style.lua": "209b652972d975b3900a1d9bacf4ca77c788236731da3539ccdf11bc8eb25730",
+    "experiments/ui-polish-sim/sim.mjs": "78980208f8e5ae9098f001be09f17f5d26c531b01c99c1c62222bd2a677939d9",
+    "experiments/ui-polish-sim/sim-text.mjs": "9d6f322f91b773b51f08e57cde93acdcb4cb3826508d271cbab1b60052a6b41f"
+  }
+}

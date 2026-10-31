@@ -36,3 +36,9 @@ ART_LAB_MCP_ENTRY=/workspace/cloud-tools/m3-sim-runtime/node_modules/beyond-simu
 `capture.lua` 复用 `experiments/ui-polish-sim/select-capture.lua` 的真实控件遍历，增加实际选择旅行者、查看/关闭初始牌组、确认开局、打开持有遗物、点击卡牌详情与退出确认命令；无伪造Run状态。所有树、转换save、回执、PNG与入口哈希见 `metadata.json`；`host.log` 是本轮运行的解析树输出，`simulator.log` 是实际截图入口输出。模拟器安装在工具目录，未改项目依赖。未启动GUI、官方导入或发布，未跑重Lua测试，未操作Backlog。
 
 结论：取得选角及两类详情等五张可对照真实模拟器静帧。文字布局部分有证据，但本导出未装配可选肖像模板、遗物名称未绘出、纹理策略阻断与官方设备证据缺失仍须保留为未验收，不能将TASK-59.3.1/4.7/4.8因此全部标完成。
+
+## 后续诊断与日志格式
+
+本轮“余烬之心”未绘出已定位为离线capture/simulator适配丢失autoSize，非生产布局改动；受控重绘及修正见`../m3-relic-name-20261031/README.md`。本目录原PNG/tree/save保留为修前证据。
+
+为通过diff whitespace检查，host.log及oss-policy.txt仅规范LF、行尾空白与末尾单换行；全部原始字节另存对应`*.raw.gz`，metadata记录原文/规范文本/归档哈希。403 Forbidden及fetch failed证据完整保留，没有清除网络失败。

@@ -2,6 +2,7 @@
 local F=dofile('tests/lua/support/game_ui_fixture.lua')
 local Layout=require('abyss_ui_layout')
 local Templates=require('abyss_ui_templates')
+local captureText=dofile('experiments/ui-polish-sim/text-style.lua')
 for _,s in ipairs(Layout)do if s.name=='stage' then Layout=s.children;break end end
 local function encode(v)
     if type(v)=='string' then return '"'..v:gsub('[%c"\\]',function(c)
@@ -46,8 +47,7 @@ local function dump(c,s)
     return {name=s.name,kind=s.kind,visible=c.visible,position={c.x or (s.position or {0,0})[1],c.y or (s.position or {0,0})[2]},
         size={c.sizeDeltaX or s.size[1],c.sizeDeltaY or s.size[2]},scale=c.scale,
         image=c.imageId or s.image,colour=hex(c.imageColor)or s.colour,rotation=c.localRotationZ,opacity=s.opacity,
-        text=s.text and {content=c.text,fontSize=s.text.fontSize,minFontSize=s.text.minFontSize,colour=hex(c.fontColor)or s.text.colour,
-            align=s.text.align,valign=s.text.valign},
+        text=s.text and captureText(c,s,hex),
         children=children}
 end
 -- Select80: production competition profile (single Traveler) — the screen Pan sees.
