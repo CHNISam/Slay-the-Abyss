@@ -1441,6 +1441,8 @@
         "pathWidth": 3,
         "futureOpacity": 0.6,
         "lockedOpacity": 0.86,
+        "farLockedOpacity": 0.34,
+        "farFutureOpacity": 0.2,
         "takenOpacity": 1,
         "nextOpacity": 1,
         "fogOpacity": 0.35,

@@ -19,13 +19,20 @@ function M.paintRoom(fx)
     ring:SetSizeDelta(ringSize, ringSize)
 end
 -- Room ink by state: emerald > visited gold > locked faded > official type colour.
-function M.roomInk(node, state)
+-- Rooms beyond the next row (and routes leaving the next row) are inactive decoration:
+-- they may fade past the WCAG 1.4.11 floor, like STS DISABLED rooms/edges on parchment.
+function M.isFar(floor, currentFloor)
+    return type(floor) == "number" and type(currentFloor) == "number" and floor > currentFloor + 1
+end
+function M.roomInk(node, state, currentFloor)
     local palette = Theme.color.mapCanvas
     if node.hasEmeraldKey then return Theme.color.positive end
     if state == "visited" then return palette.visited end
     if state == "locked" then
         local c = palette.far
-        return { r = c.r, g = c.g, b = c.b, a = math.floor(c.a * Theme.layout.map.presentation.lockedOpacity + .5) }
+        local v = Theme.layout.map.presentation
+        local opacity = M.isFar(node.floor, currentFloor) and v.farLockedOpacity or v.lockedOpacity
+        return { r = c.r, g = c.g, b = c.b, a = math.floor(c.a * opacity + .5) }
     end
     return palette.kind[node.type]
 end
@@ -188,6 +195,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         taken = pathColour(Theme.color.node.pathTaken, visual.takenOpacity),
         next = pathColour(Theme.color.node.reachable, visual.nextOpacity),
         future = pathColour(Theme.color.node.path, visual.futureOpacity),
+        far = pathColour(Theme.color.node.path, visual.farFutureOpacity),
     }
     local function controllerContextReady()
         return chapterFor(self.map) ~= nil and self.map == self.observedMap
@@ -251,7 +259,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             Theme.layout.map.floorGap - Layout.focusY, 0, Layout.maxScroll)
         return true
     end
-    local function line(control, source, target, taken, reachable)
+    local function line(control, source, target, taken, reachable, far)
         local x1, y1 = position(source)
         local x2, y2 = position(target)
         -- MapEdge constructor: dots start ICON_DST_RADIUS (164 for the boss) from the
@@ -276,7 +284,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         control:SetAnchoredPosition((ax + bx) / 2, (ay + by) / 2)
         control:SetSizeDelta(math.sqrt(dx * dx + dy * dy), Layout.lineWidth)
         control.localRotationZ = math.atan(dy, dx) * 180 / math.pi
-        control.imageColor = taken and pathColours.taken or reachable and pathColours.next or pathColours.future
+        control.imageColor = taken and pathColours.taken or reachable and pathColours.next or far and pathColours.far or pathColours.future
     end
     function self.render(_)
         if not self.map then return false, "map_unbound" end
@@ -326,7 +334,7 @@ function M.new(root, map, onChoose, clickEvent, options)
             edge = edge + 1
             assert(edge <= Layout.maxEdges, "map UI edge capacity exceeded")
             local target = assert(nodes[id], "map UI dangling route")
-            line(at("edge" .. edge), node, target, taken[node.id .. ":" .. id], node.id == current.currentNodeId and target.available)
+            line(at("edge" .. edge), node, target, taken[node.id .. ":" .. id], node.id == current.currentNodeId and target.available, M.isFar(target.floor, current.floor))
         end end
         for i = edge + 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
         assert(#current.nodes <= Layout.maxNodes, "map UI node capacity exceeded")
@@ -370,7 +378,7 @@ function M.new(root, map, onChoose, clickEvent, options)
                 fx.colour = colour
                 -- TASK-4.13: on the dark canvas, taken rooms share the gold path ink and
                 -- unreachable rooms recede by opacity, so current/visited/next read at a glance.
-                fx.ink = M.roomInk(node, state)
+                fx.ink = M.roomInk(node, state, current.floor)
                 M.paintRoom(fx)
                 icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
                 child(box,'emeraldLabel'):SetVisible(node.hasEmeraldKey==true)

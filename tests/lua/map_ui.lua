@@ -116,7 +116,7 @@ test("initial controls show legal starts, shared icons and four states across al
                 seen[node.id], types[node.type] = true, true
                 local palette = Theme.color.mapCanvas
                 assert(sameColor(box:GetChild("icon").imageColor,
-                    MapUI.roomInk(node, node.floor == 1 and "available" or "locked")))
+                    MapUI.roomInk(node, node.floor == 1 and "available" or "locked", map.floor)))
                 assert(not box:GetChild("positionToken").visible)
                 assert(box:GetChild("icon").image == Theme.icon.node[node.type])
                 assert(box:GetChild("hit").visible == (node.floor == 1))
@@ -302,7 +302,8 @@ test("displayed edges match real topology and chosen path colours after scrollin
                 assert(edge.imageColor.r == ink.r and edge.imageColor.g == ink.g and edge.imageColor.b == ink.b)
                 local visual = Theme.layout.map.presentation
                 local opacity = taken[node.id .. ":" .. id] and visual.takenOpacity or
-                    reachable and visual.nextOpacity or visual.futureOpacity
+                    reachable and visual.nextOpacity or
+                    (MapUI.isFar(index[id].floor, map.floor) and visual.farFutureOpacity or visual.futureOpacity)
                 assert(edge.imageColor.a == math.floor(ink.a * opacity))
             end
         end end
