@@ -1,0 +1,39 @@
+{
+  "status": "FAIL_REAL_STRICT_SOURCE_ASSERTION",
+  "head": "16c663603140ac8cef8c9d3e31648b1d40f98d42",
+  "pullRequest": 437,
+  "runId": 41237193575,
+  "attempt": 1,
+  "jobId": 124643451916,
+  "jobName": "rules (6/13)",
+  "provider": "GitHub connector github_fetch_workflow_job_logs",
+  "log": "/workspace/cloud-reports/m3-full-closeout/aux3-ci-job-124643451916.log",
+  "logBytes": 141877,
+  "logSha256": "c834c4b9a37e74350889038ea4de589984c0de6cdb6128e8682aa0cf0e2b8c2e",
+  "failures": [
+    {
+      "name": "Secret action independent vectors regenerate exact hashes and POSIX source keys",
+      "registration": "tests/secret-candidate-oracle.test.mjs:8",
+      "assertion": "tests/secret-candidate-oracle.test.mjs:10",
+      "durationMs": 2.1345,
+      "type": "AssertionError ERR_ASSERTION strictEqual",
+      "actual": "import {registerSecret} from './helpers/secret-candidate-insertion.mjs';\r\nregisterSecret('skill',false,'small');\r\n",
+      "expected": "import {registerSecret} from './helpers/secret-candidate-insertion.mjs';\nregisterSecret('skill',false,'small');\n"
+    }
+  ],
+  "jobTotals": {
+    "tests": 719,
+    "pass": 718,
+    "fail": 1
+  },
+  "diagnosis": "Thin8JS wrappers compared as exact LF strings but .gitattributes pins Secret oracle Python/Stream only, not tests/secret-candidate-*.test.mjs. Windows autocrlf transforms thin wrappers to CRLF. This first assertion fails before the generator exec in that test; do not mislabel it a generator numeric/source-hash failure or timeout.",
+  "minimalSuggestion": [
+    "Mirror existing Sword thin-entry convention with narrow tests/secret-candidate-*.test.mjs text eol=lf; retain current strictEqual and expected two-line bodies.",
+    "Extend existing real Git CRLF checkout test to copy/check these thin entry files; current cloned test inventory omits wrappers and therefore misses this checkout condition.",
+    "No broad newline normalization, removed assertions, timeout increase, changed production behavior or blind vector refresh required. Actual fix/review belongs to controller."
+  ],
+  "boundaries": [
+    "No repo/remote mutations or reruns by monitor. Complete connector decoded log saved including original BOM/CRLF.",
+    "Other jobs still running; one business failure found in this job, no claim all other jobs passed."
+  ]
+}

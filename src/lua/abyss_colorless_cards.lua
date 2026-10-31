@@ -273,6 +273,14 @@ local function eligible(state,kind,cardType)
     for _,c in ipairs(pile)do if not cardType or state.catalog.cards[c.cardId].type==cardType then result[#result+1]=c.uid end end
     return result
 end
+local function secretOrder(state,uids)
+    local ordered={}
+    for _,uid in ipairs(uids)do
+        if #ordered==0 then ordered[1]=uid
+        else table.insert(ordered,Random.randomInt(state.cardRandomRng,#ordered-1)+1,uid)end
+    end
+    return ordered
+end
 local function applySelected(combat,state,item,uid)
     local kind=item.effect.kind
     if kind=='secret'then actions().toHand(state,assert(remove(state.draw,uid),'stale secret choice'))
@@ -287,6 +295,9 @@ end
 local function select(combat,state,item)
     local effect=item.effect;local uids=eligible(state,effect.kind,effect.cardType)
     if #uids==0 then return end
+    -- Source CardGroup.addToRandomSpot runs once when the action opens, never
+    -- while validating the cached choice or redrawing its view.
+    if effect.kind=='secret'then uids=secretOrder(state,uids)end
     local multiple=effect.kind=='purity'or effect.kind=='forethought'and effect.value==1
     if #uids==1 and not multiple then return applySelected(combat,state,item,uids[1])end
     state.choiceSerial=(state.choiceSerial or 0)+1
@@ -364,9 +375,23 @@ function M.apply(combat,state,item)
         generate(combat,state,'colorless',n,'hand',a.value==1,false,true)
     elseif kind=='deepBreath'then
         if #state.discard>0 then
-            for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}
-            Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.draw)
+            -- Constructor callbacks queue their effects before EmptyDeck/Shuffle/
+            -- Draw. Collect in held order; reverse TOP insertion preserves it.
+            local effects={};local uncommon,shop=require('abyss_uncommon_relics'),require('abyss_shop_relics')
+            for _,id in ipairs(state.relics or {})do
+                if uncommon.localId(id)=='sundial'then
+                    for _,effect in ipairs(uncommon.onShuffle(state))do effects[#effects+1]=effect end
+                elseif shop.localId(id)=='the_abacus'then effects[#effects+1]=shop.onShuffle(state,true)end
+            end
+            actions().enqueueReaction(state,e('deepBreathShuffle'),true)
+            for i=#effects,1,-1 do actions().enqueueReaction(state,effects[i],true)end
         end
+    elseif kind=='deepBreathShuffle'then
+        Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.discard)
+        -- Soul.shuffle immediately appends iterator-order cards to old draw.
+        for _,c in ipairs(state.discard)do state.draw[#state.draw+1]=c end;state.discard={}
+        -- ShuffleAction(draw,false) spends a second long, without callbacks.
+        Random.shuffle(assert(state.shuffleRng,'Deep Breath needs shuffle stream'),state.draw)
     elseif kind=='violence'then
         local tmp={}
         for _,c in ipairs(state.draw)do if state.catalog.cards[c.cardId].type=='attack'then

@@ -1,0 +1,47 @@
+{
+  "sourceCommit": "59acf64",
+  "verdict": "existing standard historical contracts unaffected; no new inverse needed",
+  "changedSource": "src/lua/abyss_relic_hooks.lua",
+  "frozenProofsRegisteringPath": [
+    "tests/fixtures/relic-completion-inverse.json",
+    "tests/fixtures/pr323-accepted-source-inverse.json",
+    "tests/fixtures/m3-event-delivery-source-inverse.json"
+  ],
+  "reason": "Selected historical whole-source tests invoke historicalTest/withHistoricalBaseline, which writes independent archived 98fef inputs into a separate cwd. They validate old full-source hashes and Git blobs without treating the changed live hook as a historical body. Current live data source-owner tests also pass.",
+  "checks": [
+    {
+      "name": "pr323",
+      "log": "/workspace/cloud-reports/m3-insect-history-initial.log",
+      "sha256": "b6e80a417b619066860187829e129c2ec05f56e357e4889470e3c7259d6c29b5",
+      "passed": 1,
+      "totalDurationMs": 9433.376203
+    },
+    {
+      "name": "relic-completion and registered source negatives",
+      "log": "/workspace/cloud-reports/m3-insect-history-relic.log",
+      "sha256": "6b0698576d1531e51836c3050e9e685a59e3472c7f6625208adfb49395d4f6dd",
+      "passed": 3,
+      "totalDurationMs": 14113.295653
+    },
+    {
+      "name": "m3 delivery full source forward and Git blob",
+      "log": "/workspace/cloud-reports/m3-insect-history-m3.log",
+      "sha256": "ceac3acf7a13716d811d497b3a6b7faacb277a5f33d3e308c45c502514f88048",
+      "passed": 1,
+      "totalDurationMs": 1687.473444
+    },
+    {
+      "name": "current live Toxic/Molten source owners",
+      "log": "/workspace/cloud-reports/m3-insect-history-live-owners.log",
+      "sha256": "931cbac60fe227b2feff29e1a2b3ce7cc7509a971cccd17323d46e8f0551c62b",
+      "passed": 4,
+      "totalDurationMs": 183.181038
+    }
+  ],
+  "negativeControls": "Existing every-registered-source mutant case passed unchanged; checks unknown, appended, removed, duplicated, moved, partial/altered hunk, and cross-path rejection with strict old guards.",
+  "newInverseLayer": false,
+  "oldGoldensArchivesExpectedHashesModified": false,
+  "productionOrMathOwnerChangedInThisVerification": false,
+  "fullSuiteOrLongLuaRun": false,
+  "limitation": "Only selected standard source contracts independently verified; not complete CI or platform evidence."
+}

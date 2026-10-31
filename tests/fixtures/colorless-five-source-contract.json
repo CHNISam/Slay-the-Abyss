@@ -1,0 +1,128 @@
+{
+  "sourceRepository": "aeubanks/sts",
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sources": [
+    {
+      "path": "cards/colorless/DeepBreath.java",
+      "gitBlobSha": "64681afcae64888129663a2e8749602cd167121f",
+      "sha256": "53a9ccecf580f8b984f28689ae7eb8709e3cbb25dcfe044e567c67bce83fe4e3",
+      "size": 1873,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/DeepBreath.java"
+    },
+    {
+      "path": "cards/colorless/Impatience.java",
+      "gitBlobSha": "4b0fa985776bb301dce69915dbc18c85de6280d9",
+      "sha256": "c6d3c985affced6ac1042c63aa5f1ca759552761c325c152bcaa3db87b07e4f6",
+      "size": 1873,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/Impatience.java"
+    },
+    {
+      "path": "cards/colorless/Metamorphosis.java",
+      "gitBlobSha": "8a4d55e4b7c299d79a3ce976b5e73cb78dd3a133",
+      "sha256": "afb75e53d82624530525407f0462b6f765ae17ba4ad85667737da7846337677e",
+      "size": 1831,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/Metamorphosis.java"
+    },
+    {
+      "path": "cards/colorless/SecretTechnique.java",
+      "gitBlobSha": "c92d06c71f958e597ec9d38d98cbe27323c751dc",
+      "sha256": "46f62e4da6f86f6ba9e36a1ede06b6e0f58588aa668e77b65a7c05bb28f98de2",
+      "size": 2040,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/SecretTechnique.java"
+    },
+    {
+      "path": "cards/colorless/Violence.java",
+      "gitBlobSha": "0b9eee8cff73e7112e8b2ffb7e59bc5cf3029a97",
+      "sha256": "55e00b1e59462445c7d9a4353f9151ef1dcb88c565f09eb6a0d8508f5502361d",
+      "size": 1400,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/cards/colorless/Violence.java"
+    },
+    {
+      "path": "actions/utility/ConditionalDrawAction.java",
+      "gitBlobSha": "e8556b2681c531c7a88fb990a2ca9e6e98fe8d6b",
+      "sha256": "1795ad1f215246f6d2dfd4e5cc92b87c2dea621d7d9506676a793fc58525779b",
+      "size": 1358,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/ConditionalDrawAction.java"
+    },
+    {
+      "path": "actions/utility/DrawPileToHandAction.java",
+      "gitBlobSha": "9f9f90da6673991d9c165b8ce87ef8f4eb527005",
+      "sha256": "b24d140691001acd880272bc05224d833ff05602d2adeb1041fa96580a06a711",
+      "size": 2492,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/utility/DrawPileToHandAction.java"
+    },
+    {
+      "path": "actions/unique/SkillFromDeckToHandAction.java",
+      "gitBlobSha": "bf7fc99c3132b65101fc70c78b9a2916af1fbd84",
+      "sha256": "8012275a388020431660827399c12ef917e256b503949e8a399e96bc067b7b4c",
+      "size": 3388,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/unique/SkillFromDeckToHandAction.java"
+    },
+    {
+      "path": "actions/common/MakeTempCardInDrawPileAction.java",
+      "gitBlobSha": "a5b9650620e6607c1b9a62369fe3eb7de2f5363e",
+      "sha256": "c00b2da9c82d6e5fed1f638312a2af46dcd586bcd76e963f859e4417629ac2fe",
+      "size": 3093,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/MakeTempCardInDrawPileAction.java"
+    },
+    {
+      "path": "actions/common/EmptyDeckShuffleAction.java",
+      "gitBlobSha": "14cb880060af4f609ab3887048c4e02518bc5671",
+      "sha256": "b4fc6be1df7caa1906705469500c40e81135a41614b54448346ddb0fec0bb2b2",
+      "size": 2368,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/EmptyDeckShuffleAction.java"
+    },
+    {
+      "path": "actions/common/ShuffleAction.java",
+      "gitBlobSha": "8def85d739f5124557cb652b9328c86658760b13",
+      "sha256": "778652e6f1d1db01ceb83b906d0c15548a14aa4464244f5e82198524fb5405c3",
+      "size": 1044,
+      "url": "https://github.com/aeubanks/sts/blob/319009d5df0a82d9fb0f23cc22322286c6a87ec0/actions/common/ShuffleAction.java"
+    }
+  ],
+  "contracts": {
+    "deep_breath": {
+      "draw": [
+        1,
+        2
+      ],
+      "shuffleOnlyWithDiscard": true
+    },
+    "impatience": {
+      "drawWithoutAttack": [
+        2,
+        3
+      ],
+      "drawWithAttack": 0
+    },
+    "metamorphosis": {
+      "generateAttacks": [
+        3,
+        5
+      ],
+      "cost": 2,
+      "generatedPermanentCost": 0,
+      "exhaust": true
+    },
+    "secret_technique": {
+      "cardType": "skill",
+      "count": 1,
+      "requiresMatchingDrawCard": true,
+      "exhaust": [
+        true,
+        false
+      ],
+      "moveExistingInstance": true
+    },
+    "violence": {
+      "cardType": "attack",
+      "count": [
+        3,
+        4
+      ],
+      "exhaust": true,
+      "fullHand": "move selected excess attacks to discard"
+    }
+  },
+  "boundary": "Independent source facts read from raw pinned Java with SHA256 and Git blob checked against GitHub. Controlled combat contracts, not complete random-stream proof, natural acquisition or official binary/device execution."
+}

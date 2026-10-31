@@ -1,0 +1,1333 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceFilesSha256": {
+    "relics/SneckoEye.java": "00edd6a0dfa78effb07ffae64138c4fd3f4312d583d6e69159b16d981289a5c8",
+    "powers/ConfusionPower.java": "b987912476db56c0521b93637717dc5bd3fd13a5a8537e7f5f19462b00a612c2",
+    "relics/PreservedInsect.java": "303c04bda8c9c7d94f540daf9db786a5cabb02761241f0680ed10a419a35abe9",
+    "actions/common/DrawCardAction.java": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18",
+    "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
+  },
+  "generatorSha256": "11c4b7f38cfbaad5e5b2a4241fe1402836c8f4a3d42a8e6dee7f1bf62bcf23f0",
+  "inputSha256": {
+    "data/reference/sts1-card-pools/registration.json": "f2a387be3b963ba9fac36a0305ef5add76862666f6055a1d8e058d8f33a53308",
+    "tools/oracles/sts1_potion_pool.py": "1878c615b71437840804ecbfaa651a378857f8f8a1bbb4e331176ebeec5727cb",
+    "tools/oracles/sts1_combat_shuffle.py": "840420950e9ecd5c2e2b81863c0ae05e16591541225e1a317a03fa8906b855a5"
+  },
+  "boundary": "Controlled public explicit-ID Run battles and draw potion; not natural acquisition or original PC execution.",
+  "deck": [
+    "Strike_R",
+    "Defend_R",
+    "Bash",
+    "Anger",
+    "Impervious",
+    "Offering",
+    "Pommel Strike",
+    "Shrug It Off",
+    "Clash",
+    "Whirlwind",
+    "Burn",
+    "Wound"
+  ],
+  "snecko": [
+    {
+      "seed": "0",
+      "steps": [
+        {
+          "phase": "opening",
+          "cards": [
+            {
+              "deckIndex": 7,
+              "sourceId": "Pommel Strike",
+              "base": 1,
+              "cost": 0,
+              "modified": true,
+              "free": false,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 6,
+              "sourceId": "Offering",
+              "base": 0,
+              "cost": 0,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 9,
+              "sourceId": "Clash",
+              "base": 0,
+              "cost": 0,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 4,
+              "sourceId": "Anger",
+              "base": 0,
+              "cost": 0,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 5,
+              "sourceId": "Impervious",
+              "base": 2,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            },
+            {
+              "deckIndex": 2,
+              "sourceId": "Defend_R",
+              "base": 1,
+              "cost": 0,
+              "modified": true,
+              "free": false,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 3,
+              "sourceId": "Bash",
+              "base": 2,
+              "cost": 2,
+              "modified": false,
+              "free": false
+            }
+          ],
+          "after": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "phase": "swift",
+          "cards": [
+            {
+              "deckIndex": 1,
+              "sourceId": "Strike_R",
+              "base": 1,
+              "cost": 0,
+              "modified": true,
+              "free": false,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 11,
+              "sourceId": "Burn",
+              "base": -2,
+              "cost": -2,
+              "modified": false,
+              "free": true,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 10,
+              "sourceId": "Whirlwind",
+              "base": -1,
+              "cost": -1,
+              "modified": false,
+              "free": true,
+              "turnCost": 0
+            }
+          ],
+          "after": {
+            "words": [
+              "a427991d6d1fcfd8",
+              "a2f2709904a41b20"
+            ],
+            "counter": 8
+          }
+        }
+      ],
+      "trace": [
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "8f780810af31a493",
+              "d1f9a22af8e83383"
+            ],
+            "counter": 0
+          },
+          "after": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "d1f9a22af8e83383",
+              "56d6714ba8506ef6"
+            ],
+            "counter": 1
+          },
+          "after": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "56d6714ba8506ef6",
+              "9253c52fcfbd932b"
+            ],
+            "counter": 2
+          },
+          "after": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "9253c52fcfbd932b",
+              "6151e5f6a4a2df86"
+            ],
+            "counter": 3
+          },
+          "after": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "6151e5f6a4a2df86",
+              "64e5fcd2a7151c1a"
+            ],
+            "counter": 4
+          },
+          "after": {
+            "words": [
+              "64e5fcd2a7151c1a",
+              "fee60553238444e4"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "64e5fcd2a7151c1a",
+              "fee60553238444e4"
+            ],
+            "counter": 5
+          },
+          "after": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 2,
+          "before": {
+            "words": [
+              "fee60553238444e4",
+              "f35075eb0b3e593c"
+            ],
+            "counter": 6
+          },
+          "after": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "f35075eb0b3e593c",
+              "a427991d6d1fcfd8"
+            ],
+            "counter": 7
+          },
+          "after": {
+            "words": [
+              "a427991d6d1fcfd8",
+              "a2f2709904a41b20"
+            ],
+            "counter": 8
+          }
+        }
+      ]
+    },
+    {
+      "seed": "1",
+      "steps": [
+        {
+          "phase": "opening",
+          "cards": [
+            {
+              "deckIndex": 3,
+              "sourceId": "Bash",
+              "base": 2,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            },
+            {
+              "deckIndex": 11,
+              "sourceId": "Burn",
+              "base": -2,
+              "cost": -2,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 5,
+              "sourceId": "Impervious",
+              "base": 2,
+              "cost": 1,
+              "modified": true,
+              "free": false,
+              "turnCost": 1
+            },
+            {
+              "deckIndex": 8,
+              "sourceId": "Shrug It Off",
+              "base": 1,
+              "cost": 0,
+              "modified": true,
+              "free": false,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 10,
+              "sourceId": "Whirlwind",
+              "base": -1,
+              "cost": -1,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 1,
+              "sourceId": "Strike_R",
+              "base": 1,
+              "cost": 0,
+              "modified": true,
+              "free": false,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 7,
+              "sourceId": "Pommel Strike",
+              "base": 1,
+              "cost": 1,
+              "modified": false,
+              "free": false
+            }
+          ],
+          "after": {
+            "words": [
+              "2c0c29df0b39a216",
+              "c80f009cd532dbfd"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "phase": "swift",
+          "cards": [
+            {
+              "deckIndex": 12,
+              "sourceId": "Wound",
+              "base": -2,
+              "cost": -2,
+              "modified": false,
+              "free": true,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 6,
+              "sourceId": "Offering",
+              "base": 0,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            },
+            {
+              "deckIndex": 9,
+              "sourceId": "Clash",
+              "base": 0,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            }
+          ],
+          "after": {
+            "words": [
+              "0b86d4640c4c5ec2",
+              "8de30ea50ab309e5"
+            ],
+            "counter": 7
+          }
+        }
+      ],
+      "trace": [
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "b456bcfc34c2cb2c",
+              "7d6e4ac38b2b1be2"
+            ],
+            "counter": 0
+          },
+          "after": {
+            "words": [
+              "7d6e4ac38b2b1be2",
+              "b722f2631cb7b14d"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "7d6e4ac38b2b1be2",
+              "b722f2631cb7b14d"
+            ],
+            "counter": 1
+          },
+          "after": {
+            "words": [
+              "b722f2631cb7b14d",
+              "ab89235541870f7d"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "b722f2631cb7b14d",
+              "ab89235541870f7d"
+            ],
+            "counter": 2
+          },
+          "after": {
+            "words": [
+              "ab89235541870f7d",
+              "2d25c9924d25b67b"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "ab89235541870f7d",
+              "2d25c9924d25b67b"
+            ],
+            "counter": 3
+          },
+          "after": {
+            "words": [
+              "2d25c9924d25b67b",
+              "2c0c29df0b39a216"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "2d25c9924d25b67b",
+              "2c0c29df0b39a216"
+            ],
+            "counter": 4
+          },
+          "after": {
+            "words": [
+              "2c0c29df0b39a216",
+              "c80f009cd532dbfd"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "2c0c29df0b39a216",
+              "c80f009cd532dbfd"
+            ],
+            "counter": 5
+          },
+          "after": {
+            "words": [
+              "c80f009cd532dbfd",
+              "0b86d4640c4c5ec2"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "c80f009cd532dbfd",
+              "0b86d4640c4c5ec2"
+            ],
+            "counter": 6
+          },
+          "after": {
+            "words": [
+              "0b86d4640c4c5ec2",
+              "8de30ea50ab309e5"
+            ],
+            "counter": 7
+          }
+        }
+      ]
+    },
+    {
+      "seed": "3",
+      "steps": [
+        {
+          "phase": "opening",
+          "cards": [
+            {
+              "deckIndex": 12,
+              "sourceId": "Wound",
+              "base": -2,
+              "cost": -2,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 10,
+              "sourceId": "Whirlwind",
+              "base": -1,
+              "cost": -1,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 6,
+              "sourceId": "Offering",
+              "base": 0,
+              "cost": 0,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 1,
+              "sourceId": "Strike_R",
+              "base": 1,
+              "cost": 1,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 11,
+              "sourceId": "Burn",
+              "base": -2,
+              "cost": -2,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 5,
+              "sourceId": "Impervious",
+              "base": 2,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            },
+            {
+              "deckIndex": 8,
+              "sourceId": "Shrug It Off",
+              "base": 1,
+              "cost": 1,
+              "modified": false,
+              "free": false
+            }
+          ],
+          "after": {
+            "words": [
+              "181b1822489d2a51",
+              "6a12b7993da8ad02"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "phase": "swift",
+          "cards": [
+            {
+              "deckIndex": 9,
+              "sourceId": "Clash",
+              "base": 0,
+              "cost": 2,
+              "modified": true,
+              "free": false,
+              "turnCost": 2
+            },
+            {
+              "deckIndex": 2,
+              "sourceId": "Defend_R",
+              "base": 1,
+              "cost": 1,
+              "modified": false,
+              "free": false,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 3,
+              "sourceId": "Bash",
+              "base": 2,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            }
+          ],
+          "after": {
+            "words": [
+              "c5a1d53a3475c898",
+              "73354a02c562aaa6"
+            ],
+            "counter": 7
+          }
+        }
+      ],
+      "trace": [
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "0b5181c509f8d8ce",
+              "ac7cb627ca2f4a0c"
+            ],
+            "counter": 0
+          },
+          "after": {
+            "words": [
+              "ac7cb627ca2f4a0c",
+              "45a9bf4f052eac4c"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "ac7cb627ca2f4a0c",
+              "45a9bf4f052eac4c"
+            ],
+            "counter": 1
+          },
+          "after": {
+            "words": [
+              "45a9bf4f052eac4c",
+              "fa30411073af5396"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "45a9bf4f052eac4c",
+              "fa30411073af5396"
+            ],
+            "counter": 2
+          },
+          "after": {
+            "words": [
+              "fa30411073af5396",
+              "181b1822489d2a51"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "fa30411073af5396",
+              "181b1822489d2a51"
+            ],
+            "counter": 3
+          },
+          "after": {
+            "words": [
+              "181b1822489d2a51",
+              "6a12b7993da8ad02"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 2,
+          "before": {
+            "words": [
+              "181b1822489d2a51",
+              "6a12b7993da8ad02"
+            ],
+            "counter": 4
+          },
+          "after": {
+            "words": [
+              "6a12b7993da8ad02",
+              "632de5ab7243d112"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "6a12b7993da8ad02",
+              "632de5ab7243d112"
+            ],
+            "counter": 5
+          },
+          "after": {
+            "words": [
+              "632de5ab7243d112",
+              "c5a1d53a3475c898"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "632de5ab7243d112",
+              "c5a1d53a3475c898"
+            ],
+            "counter": 6
+          },
+          "after": {
+            "words": [
+              "c5a1d53a3475c898",
+              "73354a02c562aaa6"
+            ],
+            "counter": 7
+          }
+        }
+      ]
+    },
+    {
+      "seed": "42",
+      "steps": [
+        {
+          "phase": "opening",
+          "cards": [
+            {
+              "deckIndex": 4,
+              "sourceId": "Anger",
+              "base": 0,
+              "cost": 0,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 11,
+              "sourceId": "Burn",
+              "base": -2,
+              "cost": -2,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 8,
+              "sourceId": "Shrug It Off",
+              "base": 1,
+              "cost": 1,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 3,
+              "sourceId": "Bash",
+              "base": 2,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            },
+            {
+              "deckIndex": 7,
+              "sourceId": "Pommel Strike",
+              "base": 1,
+              "cost": 0,
+              "modified": true,
+              "free": false,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 1,
+              "sourceId": "Strike_R",
+              "base": 1,
+              "cost": 1,
+              "modified": false,
+              "free": false
+            },
+            {
+              "deckIndex": 2,
+              "sourceId": "Defend_R",
+              "base": 1,
+              "cost": 3,
+              "modified": true,
+              "free": false,
+              "turnCost": 3
+            }
+          ],
+          "after": {
+            "words": [
+              "0d8705047342f11a",
+              "6f40089d8138d665"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "phase": "swift",
+          "cards": [
+            {
+              "deckIndex": 10,
+              "sourceId": "Whirlwind",
+              "base": -1,
+              "cost": -1,
+              "modified": false,
+              "free": true,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 12,
+              "sourceId": "Wound",
+              "base": -2,
+              "cost": -2,
+              "modified": false,
+              "free": true,
+              "turnCost": 0
+            },
+            {
+              "deckIndex": 5,
+              "sourceId": "Impervious",
+              "base": 2,
+              "cost": 1,
+              "modified": true,
+              "free": false,
+              "turnCost": 1
+            }
+          ],
+          "after": {
+            "words": [
+              "6f40089d8138d665",
+              "e0feeb25fd467f3e"
+            ],
+            "counter": 7
+          }
+        }
+      ],
+      "trace": [
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "810879608e4259cc",
+              "310dcdae81f2889b"
+            ],
+            "counter": 0
+          },
+          "after": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "310dcdae81f2889b",
+              "00428d4906e58ed6"
+            ],
+            "counter": 1
+          },
+          "after": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "00428d4906e58ed6",
+              "e60fca8540413235"
+            ],
+            "counter": 2
+          },
+          "after": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 0,
+          "before": {
+            "words": [
+              "e60fca8540413235",
+              "42ce675251912b41"
+            ],
+            "counter": 3
+          },
+          "after": {
+            "words": [
+              "42ce675251912b41",
+              "e661df094dc7e080"
+            ],
+            "counter": 4
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "42ce675251912b41",
+              "e661df094dc7e080"
+            ],
+            "counter": 4
+          },
+          "after": {
+            "words": [
+              "e661df094dc7e080",
+              "0d8705047342f11a"
+            ],
+            "counter": 5
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 3,
+          "before": {
+            "words": [
+              "e661df094dc7e080",
+              "0d8705047342f11a"
+            ],
+            "counter": 5
+          },
+          "after": {
+            "words": [
+              "0d8705047342f11a",
+              "6f40089d8138d665"
+            ],
+            "counter": 6
+          }
+        },
+        {
+          "maximum": 3,
+          "value": 1,
+          "before": {
+            "words": [
+              "0d8705047342f11a",
+              "6f40089d8138d665"
+            ],
+            "counter": 6
+          },
+          "after": {
+            "words": [
+              "6f40089d8138d665",
+              "e0feeb25fd467f3e"
+            ],
+            "counter": 7
+          }
+        }
+      ]
+    }
+  ],
+  "insect": [
+    {
+      "maximum": 1,
+      "tier": "normal",
+      "hp": 1
+    },
+    {
+      "maximum": 1,
+      "tier": "elite",
+      "hp": 0
+    },
+    {
+      "maximum": 1,
+      "tier": "boss",
+      "hp": 1
+    },
+    {
+      "maximum": 1,
+      "tier": "elite",
+      "hp": 1,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 1,
+      "tier": "normal",
+      "hp": 0,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 1,
+      "tier": "elite",
+      "neow": true,
+      "hp": 0
+    },
+    {
+      "maximum": 2,
+      "tier": "normal",
+      "hp": 2
+    },
+    {
+      "maximum": 2,
+      "tier": "elite",
+      "hp": 1
+    },
+    {
+      "maximum": 2,
+      "tier": "boss",
+      "hp": 2
+    },
+    {
+      "maximum": 2,
+      "tier": "elite",
+      "hp": 2,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 2,
+      "tier": "normal",
+      "hp": 1,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 3,
+      "tier": "normal",
+      "hp": 3
+    },
+    {
+      "maximum": 3,
+      "tier": "elite",
+      "hp": 2
+    },
+    {
+      "maximum": 3,
+      "tier": "boss",
+      "hp": 3
+    },
+    {
+      "maximum": 3,
+      "tier": "elite",
+      "hp": 3,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 3,
+      "tier": "normal",
+      "hp": 2,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 5,
+      "tier": "normal",
+      "hp": 5
+    },
+    {
+      "maximum": 5,
+      "tier": "elite",
+      "hp": 3
+    },
+    {
+      "maximum": 5,
+      "tier": "boss",
+      "hp": 5
+    },
+    {
+      "maximum": 5,
+      "tier": "elite",
+      "hp": 5,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 5,
+      "tier": "normal",
+      "hp": 3,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 50,
+      "tier": "normal",
+      "hp": 50
+    },
+    {
+      "maximum": 50,
+      "tier": "elite",
+      "hp": 37
+    },
+    {
+      "maximum": 50,
+      "tier": "boss",
+      "hp": 50
+    },
+    {
+      "maximum": 50,
+      "tier": "elite",
+      "hp": 50,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 50,
+      "tier": "normal",
+      "hp": 37,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 50,
+      "tier": "elite",
+      "neow": true,
+      "hp": 1
+    },
+    {
+      "maximum": 101,
+      "tier": "normal",
+      "hp": 101
+    },
+    {
+      "maximum": 101,
+      "tier": "elite",
+      "hp": 75
+    },
+    {
+      "maximum": 101,
+      "tier": "boss",
+      "hp": 101
+    },
+    {
+      "maximum": 101,
+      "tier": "elite",
+      "hp": 101,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 101,
+      "tier": "normal",
+      "hp": 75,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 16777215,
+      "tier": "normal",
+      "hp": 16777215
+    },
+    {
+      "maximum": 16777215,
+      "tier": "elite",
+      "hp": 12582911
+    },
+    {
+      "maximum": 16777215,
+      "tier": "boss",
+      "hp": 16777215
+    },
+    {
+      "maximum": 16777215,
+      "tier": "elite",
+      "hp": 16777215,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 16777215,
+      "tier": "normal",
+      "hp": 12582911,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 16777216,
+      "tier": "normal",
+      "hp": 16777216
+    },
+    {
+      "maximum": 16777216,
+      "tier": "elite",
+      "hp": 12582912
+    },
+    {
+      "maximum": 16777216,
+      "tier": "boss",
+      "hp": 16777216
+    },
+    {
+      "maximum": 16777216,
+      "tier": "elite",
+      "hp": 16777216,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 16777216,
+      "tier": "normal",
+      "hp": 12582912,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 16777217,
+      "tier": "normal",
+      "hp": 16777217
+    },
+    {
+      "maximum": 16777217,
+      "tier": "elite",
+      "hp": 12582912
+    },
+    {
+      "maximum": 16777217,
+      "tier": "boss",
+      "hp": 16777217
+    },
+    {
+      "maximum": 16777217,
+      "tier": "elite",
+      "hp": 16777217,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 16777217,
+      "tier": "normal",
+      "hp": 12582912,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 16777219,
+      "tier": "normal",
+      "hp": 16777219
+    },
+    {
+      "maximum": 16777219,
+      "tier": "elite",
+      "hp": 12582915
+    },
+    {
+      "maximum": 16777219,
+      "tier": "boss",
+      "hp": 16777219
+    },
+    {
+      "maximum": 16777219,
+      "tier": "elite",
+      "hp": 16777219,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 16777219,
+      "tier": "normal",
+      "hp": 12582915,
+      "eliteTrigger": true
+    },
+    {
+      "maximum": 2147483647,
+      "tier": "normal",
+      "hp": 2147483647
+    },
+    {
+      "maximum": 2147483647,
+      "tier": "elite",
+      "hp": 1610612736
+    },
+    {
+      "maximum": 2147483647,
+      "tier": "boss",
+      "hp": 2147483647
+    },
+    {
+      "maximum": 2147483647,
+      "tier": "elite",
+      "hp": 2147483647,
+      "eliteTrigger": false
+    },
+    {
+      "maximum": 2147483647,
+      "tier": "normal",
+      "hp": 1610612736,
+      "eliteTrigger": true
+    }
+  ]
+}

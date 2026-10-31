@@ -1,0 +1,7152 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "generatorSha256": "ed0301a58a5e1822201241a7e8775928a89823dc1a4cd3702011de948ee59b46",
+  "inputSha256": {
+    "tests/fixtures/sts1-merchant-sources.json": "36303a188bf81834b1cd0f28b3ac6c541fe196cc5f2c29915f941a36fbc55449",
+    "data/reference/sts1-card-pools/pools.json": "bfbafb23bca2949e6db9de1d611785b0a20d0281990749ba32993f9bc0d537d7",
+    "data/reference/sts1-card-pools/registration.json": "f2a387be3b963ba9fac36a0305ef5add76862666f6055a1d8e058d8f33a53308",
+    "tests/fixtures/sts1-relic-pool-vectors.json": "70212ad3bb19d14fc077f5955c28d3e6c2274b1b561386c5c2bf4af72393820d",
+    "docs/rules/evidence/sts1-relic-pool-catalog.json": "ecaaaa4dba5ca506e13a1b6fde5c20d939fc4966b0924fbf6d25825bd6328687",
+    "tools/oracles/sts1_potion_pool.py": "1878c615b71437840804ecbfaa651a378857f8f8a1bbb4e331176ebeec5727cb",
+    "tests/fixtures/economy-relic-seeds.json": "99c6a0e42c9a31b8a7306e4886a29de5bfb175b457061806020729dd9e96e46f"
+  },
+  "cases": [
+    {
+      "caseId": "0/ordinary",
+      "seed": "0",
+      "relicSeed": "0",
+      "courier": false,
+      "membership": false,
+      "membershipPurchase": false,
+      "steps": [
+        {
+          "label": "initial",
+          "cards": [
+            {
+              "sourceId": "Heavy Blade",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 46,
+              "sale": false
+            },
+            {
+              "sourceId": "Reckless Charge",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 81,
+              "sale": false
+            },
+            {
+              "sourceId": "Havoc",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 54,
+              "sale": false
+            },
+            {
+              "sourceId": "Warcry",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 52,
+              "sale": false
+            },
+            {
+              "sourceId": "Feel No Pain",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 36,
+              "sale": true
+            },
+            {
+              "sourceId": "Bandage Up",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 98,
+              "sale": false
+            },
+            {
+              "sourceId": "The Bomb",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 183,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 261,
+              "rejected": []
+            },
+            {
+              "sourceId": "Anchor",
+              "rarity": "common",
+              "price": 154,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 150,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "ElixirPotion",
+              "rarity": "uncommon",
+              "price": 73
+            },
+            {
+              "sourceId": "Block Potion",
+              "rarity": "common",
+              "price": 49
+            },
+            {
+              "sourceId": "GamblersBrew",
+              "rarity": "uncommon",
+              "price": 78
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "59255a296b0125cf",
+                "8deb1451e6d83050"
+              ],
+              "counter": 16
+            },
+            "card": {
+              "words": [
+                "29125afa6496e7a1",
+                "0d0561b3968b7480"
+              ],
+              "counter": 14
+            },
+            "potion": {
+              "words": [
+                "f35075eb0b3e593c",
+                "a427991d6d1fcfd8"
+              ],
+              "counter": 7
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel",
+              "Du-Vu Doll"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 16,
+            "card": 14,
+            "potion": 7
+          },
+          "externalWords": [
+            "e8b4b3b1c77c4573",
+            "14fc879e54fc55f0"
+          ]
+        }
+      ],
+      "trace": {
+        "merchant": [
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9318850040435791,
+            "before": {
+              "words": [
+                "8f780810af31a493",
+                "d1f9a22af8e83383"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "d1f9a22af8e83383",
+                "56d6714ba8506ef6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0821601152420044,
+            "before": {
+              "words": [
+                "d1f9a22af8e83383",
+                "56d6714ba8506ef6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "56d6714ba8506ef6",
+                "9253c52fcfbd932b"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0903493165969849,
+            "before": {
+              "words": [
+                "56d6714ba8506ef6",
+                "9253c52fcfbd932b"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "9253c52fcfbd932b",
+                "6151e5f6a4a2df86"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0548580884933472,
+            "before": {
+              "words": [
+                "9253c52fcfbd932b",
+                "6151e5f6a4a2df86"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "6151e5f6a4a2df86",
+                "64e5fcd2a7151c1a"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.97796630859375,
+            "before": {
+              "words": [
+                "6151e5f6a4a2df86",
+                "64e5fcd2a7151c1a"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "64e5fcd2a7151c1a",
+                "fee60553238444e4"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0892287492752075,
+            "before": {
+              "words": [
+                "64e5fcd2a7151c1a",
+                "fee60553238444e4"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "fee60553238444e4",
+                "f35075eb0b3e593c"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0183351039886475,
+            "before": {
+              "words": [
+                "fee60553238444e4",
+                "f35075eb0b3e593c"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "f35075eb0b3e593c",
+                "a427991d6d1fcfd8"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 4,
+            "value": 4,
+            "before": {
+              "words": [
+                "f35075eb0b3e593c",
+                "a427991d6d1fcfd8"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "a427991d6d1fcfd8",
+                "a2f2709904a41b20"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 79,
+            "before": {
+              "words": [
+                "a427991d6d1fcfd8",
+                "a2f2709904a41b20"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "a2f2709904a41b20",
+                "88637303b25ab236"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.043149709701538,
+            "before": {
+              "words": [
+                "a2f2709904a41b20",
+                "88637303b25ab236"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "88637303b25ab236",
+                "6613268d2f6823a8"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 24,
+            "before": {
+              "words": [
+                "88637303b25ab236",
+                "6613268d2f6823a8"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "6613268d2f6823a8",
+                "6fa97c132dd66678"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0245474576950073,
+            "before": {
+              "words": [
+                "6613268d2f6823a8",
+                "6fa97c132dd66678"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "6fa97c132dd66678",
+                "4f2dfed675af3caf"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9969731569290161,
+            "before": {
+              "words": [
+                "6fa97c132dd66678",
+                "4f2dfed675af3caf"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "4f2dfed675af3caf",
+                "29125afa6496e7a1"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9711299538612366,
+            "before": {
+              "words": [
+                "4f2dfed675af3caf",
+                "29125afa6496e7a1"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "29125afa6496e7a1",
+                "0d0561b3968b7480"
+              ],
+              "counter": 14
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9899089336395264,
+            "before": {
+              "words": [
+                "29125afa6496e7a1",
+                "0d0561b3968b7480"
+              ],
+              "counter": 14
+            },
+            "after": {
+              "words": [
+                "0d0561b3968b7480",
+                "59255a296b0125cf"
+              ],
+              "counter": 15
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0402593612670898,
+            "before": {
+              "words": [
+                "0d0561b3968b7480",
+                "59255a296b0125cf"
+              ],
+              "counter": 15
+            },
+            "after": {
+              "words": [
+                "59255a296b0125cf",
+                "8deb1451e6d83050"
+              ],
+              "counter": 16
+            }
+          }
+        ],
+        "card": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 72,
+            "before": {
+              "words": [
+                "8f780810af31a493",
+                "d1f9a22af8e83383"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "d1f9a22af8e83383",
+                "56d6714ba8506ef6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 13,
+            "value": 6,
+            "before": {
+              "words": [
+                "d1f9a22af8e83383",
+                "56d6714ba8506ef6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "56d6714ba8506ef6",
+                "9253c52fcfbd932b"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 52,
+            "before": {
+              "words": [
+                "56d6714ba8506ef6",
+                "9253c52fcfbd932b"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "9253c52fcfbd932b",
+                "6151e5f6a4a2df86"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 13,
+            "value": 6,
+            "before": {
+              "words": [
+                "9253c52fcfbd932b",
+                "6151e5f6a4a2df86"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "6151e5f6a4a2df86",
+                "64e5fcd2a7151c1a"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 31,
+            "before": {
+              "words": [
+                "6151e5f6a4a2df86",
+                "64e5fcd2a7151c1a"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "64e5fcd2a7151c1a",
+                "fee60553238444e4"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 10,
+            "value": 6,
+            "before": {
+              "words": [
+                "64e5fcd2a7151c1a",
+                "fee60553238444e4"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "fee60553238444e4",
+                "f35075eb0b3e593c"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 42,
+            "before": {
+              "words": [
+                "fee60553238444e4",
+                "f35075eb0b3e593c"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "f35075eb0b3e593c",
+                "a427991d6d1fcfd8"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 5,
+            "value": 2,
+            "before": {
+              "words": [
+                "f35075eb0b3e593c",
+                "a427991d6d1fcfd8"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "a427991d6d1fcfd8",
+                "a2f2709904a41b20"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 79,
+            "before": {
+              "words": [
+                "a427991d6d1fcfd8",
+                "a2f2709904a41b20"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "a2f2709904a41b20",
+                "88637303b25ab236"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 5,
+            "value": 5,
+            "before": {
+              "words": [
+                "a2f2709904a41b20",
+                "88637303b25ab236"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "88637303b25ab236",
+                "6613268d2f6823a8"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 24,
+            "before": {
+              "words": [
+                "88637303b25ab236",
+                "6613268d2f6823a8"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "6613268d2f6823a8",
+                "6fa97c132dd66678"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 7,
+            "value": 3,
+            "before": {
+              "words": [
+                "6613268d2f6823a8",
+                "6fa97c132dd66678"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "6fa97c132dd66678",
+                "4f2dfed675af3caf"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 19,
+            "value": 0,
+            "before": {
+              "words": [
+                "6fa97c132dd66678",
+                "4f2dfed675af3caf"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "4f2dfed675af3caf",
+                "29125afa6496e7a1"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 14,
+            "value": 11,
+            "before": {
+              "words": [
+                "4f2dfed675af3caf",
+                "29125afa6496e7a1"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "29125afa6496e7a1",
+                "0d0561b3968b7480"
+              ],
+              "counter": 14
+            }
+          }
+        ],
+        "potion": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 72,
+            "before": {
+              "words": [
+                "8f780810af31a493",
+                "d1f9a22af8e83383"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "d1f9a22af8e83383",
+                "56d6714ba8506ef6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 1,
+            "before": {
+              "words": [
+                "d1f9a22af8e83383",
+                "56d6714ba8506ef6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "56d6714ba8506ef6",
+                "9253c52fcfbd932b"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 52,
+            "before": {
+              "words": [
+                "56d6714ba8506ef6",
+                "9253c52fcfbd932b"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "9253c52fcfbd932b",
+                "6151e5f6a4a2df86"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 19,
+            "before": {
+              "words": [
+                "9253c52fcfbd932b",
+                "6151e5f6a4a2df86"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "6151e5f6a4a2df86",
+                "64e5fcd2a7151c1a"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 3,
+            "before": {
+              "words": [
+                "6151e5f6a4a2df86",
+                "64e5fcd2a7151c1a"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "64e5fcd2a7151c1a",
+                "fee60553238444e4"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 68,
+            "before": {
+              "words": [
+                "64e5fcd2a7151c1a",
+                "fee60553238444e4"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "fee60553238444e4",
+                "f35075eb0b3e593c"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 22,
+            "before": {
+              "words": [
+                "fee60553238444e4",
+                "f35075eb0b3e593c"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "f35075eb0b3e593c",
+                "a427991d6d1fcfd8"
+              ],
+              "counter": 7
+            }
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "1/courier",
+      "seed": "1",
+      "relicSeed": "0",
+      "courier": true,
+      "membership": false,
+      "membershipPurchase": false,
+      "steps": [
+        {
+          "label": "initial",
+          "cards": [
+            {
+              "sourceId": "Headbutt",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Twin Strike",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 64,
+              "sale": false
+            },
+            {
+              "sourceId": "True Grit",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Fire Breathing",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 32,
+              "sale": true
+            },
+            {
+              "sourceId": "Good Instincts",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 76,
+              "sale": false
+            },
+            {
+              "sourceId": "Mayhem",
+              "rarity": "rare",
+              "type": "POWER",
+              "price": 146,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 195,
+              "rejected": []
+            },
+            {
+              "sourceId": "Du-Vu Doll",
+              "rarity": "rare",
+              "price": 238,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 116,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "AttackPotion",
+              "rarity": "common",
+              "price": 42
+            },
+            {
+              "sourceId": "SteroidPotion",
+              "rarity": "common",
+              "price": 40
+            },
+            {
+              "sourceId": "LiquidBronze",
+              "rarity": "uncommon",
+              "price": 58
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "4fd24b8dcdb5dbe8",
+                "f85e16a13f919df7"
+              ],
+              "counter": 16
+            },
+            "card": {
+              "words": [
+                "eb860d9b4a1672c2",
+                "86ddaac99f8eb3ae"
+              ],
+              "counter": 12
+            },
+            "potion": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet",
+              "Anchor"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 16,
+            "card": 12,
+            "potion": 11
+          },
+          "externalWords": [
+            "e8b4b3b1c77c4573",
+            "14fc879e54fc55f0"
+          ]
+        },
+        {
+          "label": "colored",
+          "cards": [
+            {
+              "sourceId": "Blood for Blood",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 58,
+              "sale": false
+            },
+            {
+              "sourceId": "Twin Strike",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 64,
+              "sale": false
+            },
+            {
+              "sourceId": "True Grit",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Fire Breathing",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 32,
+              "sale": true
+            },
+            {
+              "sourceId": "Good Instincts",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 76,
+              "sale": false
+            },
+            {
+              "sourceId": "Mayhem",
+              "rarity": "rare",
+              "type": "POWER",
+              "price": 146,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 195,
+              "rejected": []
+            },
+            {
+              "sourceId": "Du-Vu Doll",
+              "rarity": "rare",
+              "price": 238,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 116,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "AttackPotion",
+              "rarity": "common",
+              "price": 42
+            },
+            {
+              "sourceId": "SteroidPotion",
+              "rarity": "common",
+              "price": 40
+            },
+            {
+              "sourceId": "LiquidBronze",
+              "rarity": "uncommon",
+              "price": 58
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "f85e16a13f919df7",
+                "716ac3655911f28a"
+              ],
+              "counter": 17
+            },
+            "card": {
+              "words": [
+                "86ddaac99f8eb3ae",
+                "a0febf5b80a36680"
+              ],
+              "counter": 13
+            },
+            "potion": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet",
+              "Anchor"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 17,
+            "card": 13,
+            "potion": 11
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        },
+        {
+          "label": "colorless",
+          "cards": [
+            {
+              "sourceId": "Blood for Blood",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 58,
+              "sale": false
+            },
+            {
+              "sourceId": "Twin Strike",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 64,
+              "sale": false
+            },
+            {
+              "sourceId": "True Grit",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Fire Breathing",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 32,
+              "sale": true
+            },
+            {
+              "sourceId": "Secret Technique",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 157,
+              "sale": false
+            },
+            {
+              "sourceId": "Mayhem",
+              "rarity": "rare",
+              "type": "POWER",
+              "price": 146,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 195,
+              "rejected": []
+            },
+            {
+              "sourceId": "Du-Vu Doll",
+              "rarity": "rare",
+              "price": 238,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 116,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "AttackPotion",
+              "rarity": "common",
+              "price": 42
+            },
+            {
+              "sourceId": "SteroidPotion",
+              "rarity": "common",
+              "price": 40
+            },
+            {
+              "sourceId": "LiquidBronze",
+              "rarity": "uncommon",
+              "price": 58
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "d9ab497628875423",
+                "1a6d633f7b8af52b"
+              ],
+              "counter": 19
+            },
+            "card": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            },
+            "potion": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet",
+              "Anchor"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 19,
+            "card": 14,
+            "potion": 11
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        },
+        {
+          "label": "potion",
+          "cards": [
+            {
+              "sourceId": "Blood for Blood",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 58,
+              "sale": false
+            },
+            {
+              "sourceId": "Twin Strike",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 64,
+              "sale": false
+            },
+            {
+              "sourceId": "True Grit",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Fire Breathing",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 32,
+              "sale": true
+            },
+            {
+              "sourceId": "Secret Technique",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 157,
+              "sale": false
+            },
+            {
+              "sourceId": "Mayhem",
+              "rarity": "rare",
+              "type": "POWER",
+              "price": 146,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 195,
+              "rejected": []
+            },
+            {
+              "sourceId": "Du-Vu Doll",
+              "rarity": "rare",
+              "price": 238,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 116,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "AttackPotion",
+              "rarity": "common",
+              "price": 40
+            },
+            {
+              "sourceId": "SteroidPotion",
+              "rarity": "common",
+              "price": 40
+            },
+            {
+              "sourceId": "LiquidBronze",
+              "rarity": "uncommon",
+              "price": 58
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "1a6d633f7b8af52b",
+                "78d258ba5cbb7255"
+              ],
+              "counter": 20
+            },
+            "card": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            },
+            "potion": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet",
+              "Anchor"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 20,
+            "card": 14,
+            "potion": 14
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        },
+        {
+          "label": "relic",
+          "cards": [
+            {
+              "sourceId": "Blood for Blood",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 58,
+              "sale": false
+            },
+            {
+              "sourceId": "Twin Strike",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 64,
+              "sale": false
+            },
+            {
+              "sourceId": "True Grit",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 38,
+              "sale": false
+            },
+            {
+              "sourceId": "Fire Breathing",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 32,
+              "sale": true
+            },
+            {
+              "sourceId": "Secret Technique",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 157,
+              "sale": false
+            },
+            {
+              "sourceId": "Mayhem",
+              "rarity": "rare",
+              "type": "POWER",
+              "price": 146,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Anchor",
+              "rarity": "common",
+              "price": 124,
+              "rejected": []
+            },
+            {
+              "sourceId": "Du-Vu Doll",
+              "rarity": "rare",
+              "price": 238,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 116,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "AttackPotion",
+              "rarity": "common",
+              "price": 40
+            },
+            {
+              "sourceId": "SteroidPotion",
+              "rarity": "common",
+              "price": 40
+            },
+            {
+              "sourceId": "LiquidBronze",
+              "rarity": "uncommon",
+              "price": 58
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "fd02bc09d5055eec",
+                "d8feabcbe11095d1"
+              ],
+              "counter": 22
+            },
+            "card": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            },
+            "potion": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 22,
+            "card": 14,
+            "potion": 14
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        }
+      ],
+      "trace": {
+        "merchant": [
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9410682320594788,
+            "before": {
+              "words": [
+                "b456bcfc34c2cb2c",
+                "7d6e4ac38b2b1be2"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "7d6e4ac38b2b1be2",
+                "b722f2631cb7b14d"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9770876169204712,
+            "before": {
+              "words": [
+                "7d6e4ac38b2b1be2",
+                "b722f2631cb7b14d"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "b722f2631cb7b14d",
+                "ab89235541870f7d"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0692838430404663,
+            "before": {
+              "words": [
+                "b722f2631cb7b14d",
+                "ab89235541870f7d"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "ab89235541870f7d",
+                "2d25c9924d25b67b"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9696836471557617,
+            "before": {
+              "words": [
+                "ab89235541870f7d",
+                "2d25c9924d25b67b"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "2d25c9924d25b67b",
+                "2c0c29df0b39a216"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0907078981399536,
+            "before": {
+              "words": [
+                "2d25c9924d25b67b",
+                "2c0c29df0b39a216"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "2c0c29df0b39a216",
+                "c80f009cd532dbfd"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0653010606765747,
+            "before": {
+              "words": [
+                "2c0c29df0b39a216",
+                "c80f009cd532dbfd"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "c80f009cd532dbfd",
+                "0b86d4640c4c5ec2"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0198544263839722,
+            "before": {
+              "words": [
+                "c80f009cd532dbfd",
+                "0b86d4640c4c5ec2"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "0b86d4640c4c5ec2",
+                "8de30ea50ab309e5"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 4,
+            "value": 4,
+            "before": {
+              "words": [
+                "0b86d4640c4c5ec2",
+                "8de30ea50ab309e5"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "8de30ea50ab309e5",
+                "b463e00d661948c3"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 80,
+            "before": {
+              "words": [
+                "8de30ea50ab309e5",
+                "b463e00d661948c3"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "b463e00d661948c3",
+                "6b05d8b2ad42be66"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9768970608711243,
+            "before": {
+              "words": [
+                "b463e00d661948c3",
+                "6b05d8b2ad42be66"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "6b05d8b2ad42be66",
+                "d9d56d691df959c2"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 90,
+            "before": {
+              "words": [
+                "6b05d8b2ad42be66",
+                "d9d56d691df959c2"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9946833848953247,
+            "before": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "eb860d9b4a1672c2",
+                "86ddaac99f8eb3ae"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9655706882476807,
+            "before": {
+              "words": [
+                "eb860d9b4a1672c2",
+                "86ddaac99f8eb3ae"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "86ddaac99f8eb3ae",
+                "a0febf5b80a36680"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0390310287475586,
+            "before": {
+              "words": [
+                "86ddaac99f8eb3ae",
+                "a0febf5b80a36680"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0073225498199463,
+            "before": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            },
+            "after": {
+              "words": [
+                "42eca3eac14a2789",
+                "4fd24b8dcdb5dbe8"
+              ],
+              "counter": 15
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9781988263130188,
+            "before": {
+              "words": [
+                "42eca3eac14a2789",
+                "4fd24b8dcdb5dbe8"
+              ],
+              "counter": 15
+            },
+            "after": {
+              "words": [
+                "4fd24b8dcdb5dbe8",
+                "f85e16a13f919df7"
+              ],
+              "counter": 16
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9826442003250122,
+            "before": {
+              "words": [
+                "4fd24b8dcdb5dbe8",
+                "f85e16a13f919df7"
+              ],
+              "counter": 16
+            },
+            "after": {
+              "words": [
+                "f85e16a13f919df7",
+                "716ac3655911f28a"
+              ],
+              "counter": 17
+            }
+          },
+          {
+            "kind": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "value": 0.2933051586151123,
+            "before": {
+              "words": [
+                "f85e16a13f919df7",
+                "716ac3655911f28a"
+              ],
+              "counter": 17
+            },
+            "after": {
+              "words": [
+                "716ac3655911f28a",
+                "d9ab497628875423"
+              ],
+              "counter": 18
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0907002687454224,
+            "before": {
+              "words": [
+                "716ac3655911f28a",
+                "d9ab497628875423"
+              ],
+              "counter": 18
+            },
+            "after": {
+              "words": [
+                "d9ab497628875423",
+                "1a6d633f7b8af52b"
+              ],
+              "counter": 19
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0075191259384155,
+            "before": {
+              "words": [
+                "d9ab497628875423",
+                "1a6d633f7b8af52b"
+              ],
+              "counter": 19
+            },
+            "after": {
+              "words": [
+                "1a6d633f7b8af52b",
+                "78d258ba5cbb7255"
+              ],
+              "counter": 20
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 20,
+            "before": {
+              "words": [
+                "1a6d633f7b8af52b",
+                "78d258ba5cbb7255"
+              ],
+              "counter": 20
+            },
+            "after": {
+              "words": [
+                "78d258ba5cbb7255",
+                "fd02bc09d5055eec"
+              ],
+              "counter": 21
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0335958003997803,
+            "before": {
+              "words": [
+                "78d258ba5cbb7255",
+                "fd02bc09d5055eec"
+              ],
+              "counter": 21
+            },
+            "after": {
+              "words": [
+                "fd02bc09d5055eec",
+                "d8feabcbe11095d1"
+              ],
+              "counter": 22
+            }
+          }
+        ],
+        "card": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 55,
+            "before": {
+              "words": [
+                "b456bcfc34c2cb2c",
+                "7d6e4ac38b2b1be2"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "7d6e4ac38b2b1be2",
+                "b722f2631cb7b14d"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 13,
+            "value": 5,
+            "before": {
+              "words": [
+                "7d6e4ac38b2b1be2",
+                "b722f2631cb7b14d"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "b722f2631cb7b14d",
+                "ab89235541870f7d"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 88,
+            "before": {
+              "words": [
+                "b722f2631cb7b14d",
+                "ab89235541870f7d"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "ab89235541870f7d",
+                "2d25c9924d25b67b"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 13,
+            "value": 12,
+            "before": {
+              "words": [
+                "ab89235541870f7d",
+                "2d25c9924d25b67b"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "2d25c9924d25b67b",
+                "2c0c29df0b39a216"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 21,
+            "before": {
+              "words": [
+                "2d25c9924d25b67b",
+                "2c0c29df0b39a216"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "2c0c29df0b39a216",
+                "c80f009cd532dbfd"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 16,
+            "value": 0,
+            "before": {
+              "words": [
+                "2c0c29df0b39a216",
+                "c80f009cd532dbfd"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "c80f009cd532dbfd",
+                "0b86d4640c4c5ec2"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 63,
+            "before": {
+              "words": [
+                "c80f009cd532dbfd",
+                "0b86d4640c4c5ec2"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "0b86d4640c4c5ec2",
+                "8de30ea50ab309e5"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 5,
+            "value": 4,
+            "before": {
+              "words": [
+                "0b86d4640c4c5ec2",
+                "8de30ea50ab309e5"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "8de30ea50ab309e5",
+                "b463e00d661948c3"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 80,
+            "before": {
+              "words": [
+                "8de30ea50ab309e5",
+                "b463e00d661948c3"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "b463e00d661948c3",
+                "6b05d8b2ad42be66"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 7,
+            "value": 4,
+            "before": {
+              "words": [
+                "b463e00d661948c3",
+                "6b05d8b2ad42be66"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "6b05d8b2ad42be66",
+                "d9d56d691df959c2"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 19,
+            "value": 10,
+            "before": {
+              "words": [
+                "6b05d8b2ad42be66",
+                "d9d56d691df959c2"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 14,
+            "value": 5,
+            "before": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "eb860d9b4a1672c2",
+                "86ddaac99f8eb3ae"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 23,
+            "before": {
+              "words": [
+                "eb860d9b4a1672c2",
+                "86ddaac99f8eb3ae"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "86ddaac99f8eb3ae",
+                "a0febf5b80a36680"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 14,
+            "value": 9,
+            "before": {
+              "words": [
+                "86ddaac99f8eb3ae",
+                "a0febf5b80a36680"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            }
+          }
+        ],
+        "potion": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 55,
+            "before": {
+              "words": [
+                "b456bcfc34c2cb2c",
+                "7d6e4ac38b2b1be2"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "7d6e4ac38b2b1be2",
+                "b722f2631cb7b14d"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 28,
+            "before": {
+              "words": [
+                "7d6e4ac38b2b1be2",
+                "b722f2631cb7b14d"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "b722f2631cb7b14d",
+                "ab89235541870f7d"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 1,
+            "before": {
+              "words": [
+                "b722f2631cb7b14d",
+                "ab89235541870f7d"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "ab89235541870f7d",
+                "2d25c9924d25b67b"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 12,
+            "before": {
+              "words": [
+                "ab89235541870f7d",
+                "2d25c9924d25b67b"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "2d25c9924d25b67b",
+                "2c0c29df0b39a216"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 21,
+            "before": {
+              "words": [
+                "2d25c9924d25b67b",
+                "2c0c29df0b39a216"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "2c0c29df0b39a216",
+                "c80f009cd532dbfd"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 27,
+            "before": {
+              "words": [
+                "2c0c29df0b39a216",
+                "c80f009cd532dbfd"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "c80f009cd532dbfd",
+                "0b86d4640c4c5ec2"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 21,
+            "before": {
+              "words": [
+                "c80f009cd532dbfd",
+                "0b86d4640c4c5ec2"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "0b86d4640c4c5ec2",
+                "8de30ea50ab309e5"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 16,
+            "before": {
+              "words": [
+                "0b86d4640c4c5ec2",
+                "8de30ea50ab309e5"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "8de30ea50ab309e5",
+                "b463e00d661948c3"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 80,
+            "before": {
+              "words": [
+                "8de30ea50ab309e5",
+                "b463e00d661948c3"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "b463e00d661948c3",
+                "6b05d8b2ad42be66"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 6,
+            "before": {
+              "words": [
+                "b463e00d661948c3",
+                "6b05d8b2ad42be66"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "6b05d8b2ad42be66",
+                "d9d56d691df959c2"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 21,
+            "before": {
+              "words": [
+                "6b05d8b2ad42be66",
+                "d9d56d691df959c2"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 20,
+            "before": {
+              "words": [
+                "d9d56d691df959c2",
+                "eb860d9b4a1672c2"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "eb860d9b4a1672c2",
+                "86ddaac99f8eb3ae"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 26,
+            "before": {
+              "words": [
+                "eb860d9b4a1672c2",
+                "86ddaac99f8eb3ae"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "86ddaac99f8eb3ae",
+                "a0febf5b80a36680"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 12,
+            "before": {
+              "words": [
+                "86ddaac99f8eb3ae",
+                "a0febf5b80a36680"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "a0febf5b80a36680",
+                "42eca3eac14a2789"
+              ],
+              "counter": 14
+            }
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "-1/both",
+      "seed": "-1",
+      "relicSeed": "0",
+      "courier": true,
+      "membership": true,
+      "membershipPurchase": false,
+      "steps": [
+        {
+          "label": "initial",
+          "cards": [
+            {
+              "sourceId": "Clothesline",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 10,
+              "sale": true
+            },
+            {
+              "sourceId": "Body Slam",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 33,
+              "sale": false
+            },
+            {
+              "sourceId": "Armaments",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Feel No Pain",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 31,
+              "sale": false
+            },
+            {
+              "sourceId": "Dark Shackles",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 34,
+              "sale": false
+            },
+            {
+              "sourceId": "Transmutation",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 79,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 97,
+              "rejected": []
+            },
+            {
+              "sourceId": "Anchor",
+              "rarity": "common",
+              "price": 58,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 58,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "PowerPotion",
+              "rarity": "common",
+              "price": 20
+            },
+            {
+              "sourceId": "GamblersBrew",
+              "rarity": "uncommon",
+              "price": 31
+            },
+            {
+              "sourceId": "HeartOfIron",
+              "rarity": "rare",
+              "price": 42
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "d8709a7601dfee30",
+                "208b7f97aa07b10b"
+              ],
+              "counter": 16
+            },
+            "card": {
+              "words": [
+                "60b06598ac93ef39",
+                "cf91e8fdd75dbfa1"
+              ],
+              "counter": 12
+            },
+            "potion": {
+              "words": [
+                "2b8cc551ea388135",
+                "18cda0a96a1c3341"
+              ],
+              "counter": 21
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel",
+              "Du-Vu Doll"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 16,
+            "card": 12,
+            "potion": 21
+          },
+          "externalWords": [
+            "e8b4b3b1c77c4573",
+            "14fc879e54fc55f0"
+          ]
+        },
+        {
+          "label": "colored",
+          "cards": [
+            {
+              "sourceId": "Clothesline",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 21,
+              "sale": false
+            },
+            {
+              "sourceId": "Body Slam",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 33,
+              "sale": false
+            },
+            {
+              "sourceId": "Armaments",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Feel No Pain",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 31,
+              "sale": false
+            },
+            {
+              "sourceId": "Dark Shackles",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 34,
+              "sale": false
+            },
+            {
+              "sourceId": "Transmutation",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 79,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 97,
+              "rejected": []
+            },
+            {
+              "sourceId": "Anchor",
+              "rarity": "common",
+              "price": 58,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 58,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "PowerPotion",
+              "rarity": "common",
+              "price": 20
+            },
+            {
+              "sourceId": "GamblersBrew",
+              "rarity": "uncommon",
+              "price": 31
+            },
+            {
+              "sourceId": "HeartOfIron",
+              "rarity": "rare",
+              "price": 42
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "208b7f97aa07b10b",
+                "c3fb7ba6abc7363e"
+              ],
+              "counter": 17
+            },
+            "card": {
+              "words": [
+                "cf91e8fdd75dbfa1",
+                "637792d21503f7e4"
+              ],
+              "counter": 13
+            },
+            "potion": {
+              "words": [
+                "2b8cc551ea388135",
+                "18cda0a96a1c3341"
+              ],
+              "counter": 21
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel",
+              "Du-Vu Doll"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 17,
+            "card": 13,
+            "potion": 21
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        },
+        {
+          "label": "colorless",
+          "cards": [
+            {
+              "sourceId": "Clothesline",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 21,
+              "sale": false
+            },
+            {
+              "sourceId": "Body Slam",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 33,
+              "sale": false
+            },
+            {
+              "sourceId": "Armaments",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Feel No Pain",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 31,
+              "sale": false
+            },
+            {
+              "sourceId": "Dramatic Entrance",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 35,
+              "sale": false
+            },
+            {
+              "sourceId": "Transmutation",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 79,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 97,
+              "rejected": []
+            },
+            {
+              "sourceId": "Anchor",
+              "rarity": "common",
+              "price": 58,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 58,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "PowerPotion",
+              "rarity": "common",
+              "price": 20
+            },
+            {
+              "sourceId": "GamblersBrew",
+              "rarity": "uncommon",
+              "price": 31
+            },
+            {
+              "sourceId": "HeartOfIron",
+              "rarity": "rare",
+              "price": 42
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "28a5727644b9f95c",
+                "380be216953c8890"
+              ],
+              "counter": 19
+            },
+            "card": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            },
+            "potion": {
+              "words": [
+                "2b8cc551ea388135",
+                "18cda0a96a1c3341"
+              ],
+              "counter": 21
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel",
+              "Du-Vu Doll"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 19,
+            "card": 14,
+            "potion": 21
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        },
+        {
+          "label": "potion",
+          "cards": [
+            {
+              "sourceId": "Clothesline",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 21,
+              "sale": false
+            },
+            {
+              "sourceId": "Body Slam",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 33,
+              "sale": false
+            },
+            {
+              "sourceId": "Armaments",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Feel No Pain",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 31,
+              "sale": false
+            },
+            {
+              "sourceId": "Dramatic Entrance",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 35,
+              "sale": false
+            },
+            {
+              "sourceId": "Transmutation",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 79,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Darkstone Periapt",
+              "rarity": "uncommon",
+              "price": 97,
+              "rejected": []
+            },
+            {
+              "sourceId": "Anchor",
+              "rarity": "common",
+              "price": 58,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 58,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "Explosive Potion",
+              "rarity": "common",
+              "price": 20
+            },
+            {
+              "sourceId": "GamblersBrew",
+              "rarity": "uncommon",
+              "price": 31
+            },
+            {
+              "sourceId": "HeartOfIron",
+              "rarity": "rare",
+              "price": 42
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "380be216953c8890",
+                "2b8cc551ea388135"
+              ],
+              "counter": 20
+            },
+            "card": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            },
+            "potion": {
+              "words": [
+                "d7ccb0a8b58e76cc",
+                "4d1a67e4f7ef02b1"
+              ],
+              "counter": 24
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2",
+              "Meat on the Bone"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel",
+              "Du-Vu Doll"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 20,
+            "card": 14,
+            "potion": 24
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        },
+        {
+          "label": "relic",
+          "cards": [
+            {
+              "sourceId": "Clothesline",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 21,
+              "sale": false
+            },
+            {
+              "sourceId": "Body Slam",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Battle Trance",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 33,
+              "sale": false
+            },
+            {
+              "sourceId": "Armaments",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 19,
+              "sale": false
+            },
+            {
+              "sourceId": "Feel No Pain",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 31,
+              "sale": false
+            },
+            {
+              "sourceId": "Dramatic Entrance",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 35,
+              "sale": false
+            },
+            {
+              "sourceId": "Transmutation",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 79,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Meat on the Bone",
+              "rarity": "uncommon",
+              "price": 102,
+              "rejected": []
+            },
+            {
+              "sourceId": "Anchor",
+              "rarity": "common",
+              "price": 58,
+              "rejected": []
+            },
+            {
+              "sourceId": "DollysMirror",
+              "rarity": "shop",
+              "price": 58,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "Explosive Potion",
+              "rarity": "common",
+              "price": 20
+            },
+            {
+              "sourceId": "GamblersBrew",
+              "rarity": "uncommon",
+              "price": 31
+            },
+            {
+              "sourceId": "HeartOfIron",
+              "rarity": "rare",
+              "price": 42
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "18cda0a96a1c3341",
+                "9bb43802c5442072"
+              ],
+              "counter": 22
+            },
+            "card": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            },
+            "potion": {
+              "words": [
+                "d7ccb0a8b58e76cc",
+                "4d1a67e4f7ef02b1"
+              ],
+              "counter": 24
+            }
+          },
+          "queues": {
+            "common": [
+              "MealTicket",
+              "Regal Pillow",
+              "Red Skull",
+              "MawBank",
+              "Omamori",
+              "CeramicFish",
+              "Art of War",
+              "Potion Belt",
+              "Toy Ornithopter",
+              "Pen Nib",
+              "Vajra",
+              "Happy Flower",
+              "Tiny Chest",
+              "Ancient Tea Set",
+              "Whetstone",
+              "Smiling Mask",
+              "War Paint",
+              "Akabeko",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Bag of Preparation",
+              "Strawberry",
+              "Boot",
+              "Blood Vial",
+              "Orichalcum",
+              "PreservedInsect",
+              "Dream Catcher",
+              "Bag of Marbles",
+              "Nunchaku",
+              "Lantern",
+              "Bronze Scales",
+              "Juzu Bracelet"
+            ],
+            "uncommon": [
+              "Bottled Flame",
+              "Blue Candle",
+              "HornCleat",
+              "Pantograph",
+              "Toxic Egg 2",
+              "Mercury Hourglass",
+              "Singing Bowl",
+              "Kunai",
+              "Self Forming Clay",
+              "InkBottle",
+              "StrikeDummy",
+              "White Beast Statue",
+              "Paper Frog",
+              "Gremlin Horn",
+              "Ornamental Fan",
+              "Pear",
+              "Question Card",
+              "Shuriken",
+              "Mummified Hand",
+              "Letter Opener",
+              "Matryoshka",
+              "The Courier",
+              "Eternal Feather",
+              "Frozen Egg 2",
+              "Bottled Tornado",
+              "Bottled Lightning",
+              "Sundial",
+              "Molten Egg 2"
+            ],
+            "rare": [
+              "Calipers",
+              "Gambling Chip",
+              "FossilizedHelix",
+              "WingedGreaves",
+              "TungstenRod",
+              "Prayer Wheel",
+              "Ice Cream",
+              "Turnip",
+              "Pocketwatch",
+              "Mango",
+              "Charon's Ashes",
+              "Bird Faced Urn",
+              "Dead Branch",
+              "Unceasing Top",
+              "Torii",
+              "Magic Flower",
+              "StoneCalendar",
+              "Incense Burner",
+              "Girya",
+              "Ginger",
+              "Peace Pipe",
+              "Old Coin",
+              "Lizard Tail",
+              "CaptainsWheel",
+              "Thread and Needle",
+              "Champion Belt",
+              "Shovel",
+              "Du-Vu Doll"
+            ],
+            "shop": [
+              "Orrery",
+              "HandDrill",
+              "Medical Kit",
+              "Sling",
+              "ClockworkSouvenir",
+              "Chemical X",
+              "Frozen Eye",
+              "Brimstone",
+              "OrangePellets",
+              "TheAbacus",
+              "Membership Card",
+              "Toolbox",
+              "Strange Spoon",
+              "Lee's Waffle",
+              "Cauldron",
+              "PrismaticShard"
+            ],
+            "boss": [
+              "Fusion Hammer",
+              "Runic Cube",
+              "Calling Bell",
+              "SacredBark",
+              "Astrolabe",
+              "Philosopher's Stone",
+              "Black Star",
+              "Cursed Key",
+              "Pandora's Box",
+              "Busted Crown",
+              "SlaversCollar",
+              "Runic Pyramid",
+              "Ectoplasm",
+              "Sozu",
+              "Snecko Eye",
+              "Tiny House",
+              "Mark of Pain",
+              "Velvet Choker",
+              "Black Blood",
+              "Runic Dome",
+              "Coffee Dripper",
+              "Empty Cage"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 22,
+            "card": 14,
+            "potion": 24
+          },
+          "externalWords": [
+            "14fc879e54fc55f0",
+            "24ab922393e84868"
+          ]
+        }
+      ],
+      "trace": {
+        "merchant": [
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0170447826385498,
+            "before": {
+              "words": [
+                "64b5720b4b825f21",
+                "fa605f44aea3667d"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "fa605f44aea3667d",
+                "9b70dcd6b42485f6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9740016460418701,
+            "before": {
+              "words": [
+                "fa605f44aea3667d",
+                "9b70dcd6b42485f6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "9b70dcd6b42485f6",
+                "c347fe1c7f4b1e37"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.092740774154663,
+            "before": {
+              "words": [
+                "9b70dcd6b42485f6",
+                "c347fe1c7f4b1e37"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "c347fe1c7f4b1e37",
+                "336d48ad86da3b4c"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9386802315711975,
+            "before": {
+              "words": [
+                "c347fe1c7f4b1e37",
+                "336d48ad86da3b4c"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "336d48ad86da3b4c",
+                "fe15758e148abc7f"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0201685428619385,
+            "before": {
+              "words": [
+                "336d48ad86da3b4c",
+                "fe15758e148abc7f"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "fe15758e148abc7f",
+                "9bbb62d6a3d5f4db"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9487295150756836,
+            "before": {
+              "words": [
+                "fe15758e148abc7f",
+                "9bbb62d6a3d5f4db"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "9bbb62d6a3d5f4db",
+                "a2a44eaffe6fe889"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0913667678833008,
+            "before": {
+              "words": [
+                "9bbb62d6a3d5f4db",
+                "a2a44eaffe6fe889"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "a2a44eaffe6fe889",
+                "524ebededd3fd087"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 4,
+            "value": 0,
+            "before": {
+              "words": [
+                "a2a44eaffe6fe889",
+                "524ebededd3fd087"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "524ebededd3fd087",
+                "a715bd3c48d252ce"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 61,
+            "before": {
+              "words": [
+                "524ebededd3fd087",
+                "a715bd3c48d252ce"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "a715bd3c48d252ce",
+                "9a3582b303998204"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9739162921905518,
+            "before": {
+              "words": [
+                "a715bd3c48d252ce",
+                "9a3582b303998204"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "9a3582b303998204",
+                "a3044a184b21ebe3"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 22,
+            "before": {
+              "words": [
+                "9a3582b303998204",
+                "a3044a184b21ebe3"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "a3044a184b21ebe3",
+                "60b06598ac93ef39"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9688511490821838,
+            "before": {
+              "words": [
+                "a3044a184b21ebe3",
+                "60b06598ac93ef39"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "60b06598ac93ef39",
+                "cf91e8fdd75dbfa1"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9699363112449646,
+            "before": {
+              "words": [
+                "60b06598ac93ef39",
+                "cf91e8fdd75dbfa1"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "cf91e8fdd75dbfa1",
+                "637792d21503f7e4"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9709062576293945,
+            "before": {
+              "words": [
+                "cf91e8fdd75dbfa1",
+                "637792d21503f7e4"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0165987014770508,
+            "before": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            },
+            "after": {
+              "words": [
+                "d20d8c55ec2bff2e",
+                "d8709a7601dfee30"
+              ],
+              "counter": 15
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0472595691680908,
+            "before": {
+              "words": [
+                "d20d8c55ec2bff2e",
+                "d8709a7601dfee30"
+              ],
+              "counter": 15
+            },
+            "after": {
+              "words": [
+                "d8709a7601dfee30",
+                "208b7f97aa07b10b"
+              ],
+              "counter": 16
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0785369873046875,
+            "before": {
+              "words": [
+                "d8709a7601dfee30",
+                "208b7f97aa07b10b"
+              ],
+              "counter": 16
+            },
+            "after": {
+              "words": [
+                "208b7f97aa07b10b",
+                "c3fb7ba6abc7363e"
+              ],
+              "counter": 17
+            }
+          },
+          {
+            "kind": "float",
+            "minimum": 0,
+            "maximum": 1,
+            "value": 0.9243305921554565,
+            "before": {
+              "words": [
+                "208b7f97aa07b10b",
+                "c3fb7ba6abc7363e"
+              ],
+              "counter": 17
+            },
+            "after": {
+              "words": [
+                "c3fb7ba6abc7363e",
+                "28a5727644b9f95c"
+              ],
+              "counter": 18
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9755411744117737,
+            "before": {
+              "words": [
+                "c3fb7ba6abc7363e",
+                "28a5727644b9f95c"
+              ],
+              "counter": 18
+            },
+            "after": {
+              "words": [
+                "28a5727644b9f95c",
+                "380be216953c8890"
+              ],
+              "counter": 19
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9889047741889954,
+            "before": {
+              "words": [
+                "28a5727644b9f95c",
+                "380be216953c8890"
+              ],
+              "counter": 19
+            },
+            "after": {
+              "words": [
+                "380be216953c8890",
+                "2b8cc551ea388135"
+              ],
+              "counter": 20
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 63,
+            "before": {
+              "words": [
+                "380be216953c8890",
+                "2b8cc551ea388135"
+              ],
+              "counter": 20
+            },
+            "after": {
+              "words": [
+                "2b8cc551ea388135",
+                "18cda0a96a1c3341"
+              ],
+              "counter": 21
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0205105543136597,
+            "before": {
+              "words": [
+                "2b8cc551ea388135",
+                "18cda0a96a1c3341"
+              ],
+              "counter": 21
+            },
+            "after": {
+              "words": [
+                "18cda0a96a1c3341",
+                "9bb43802c5442072"
+              ],
+              "counter": 22
+            }
+          }
+        ],
+        "card": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 41,
+            "before": {
+              "words": [
+                "64b5720b4b825f21",
+                "fa605f44aea3667d"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "fa605f44aea3667d",
+                "9b70dcd6b42485f6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 13,
+            "value": 4,
+            "before": {
+              "words": [
+                "fa605f44aea3667d",
+                "9b70dcd6b42485f6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "9b70dcd6b42485f6",
+                "c347fe1c7f4b1e37"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 73,
+            "before": {
+              "words": [
+                "9b70dcd6b42485f6",
+                "c347fe1c7f4b1e37"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "c347fe1c7f4b1e37",
+                "336d48ad86da3b4c"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 13,
+            "value": 1,
+            "before": {
+              "words": [
+                "c347fe1c7f4b1e37",
+                "336d48ad86da3b4c"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "336d48ad86da3b4c",
+                "fe15758e148abc7f"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 37,
+            "before": {
+              "words": [
+                "336d48ad86da3b4c",
+                "fe15758e148abc7f"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "fe15758e148abc7f",
+                "9bbb62d6a3d5f4db"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 16,
+            "value": 0,
+            "before": {
+              "words": [
+                "fe15758e148abc7f",
+                "9bbb62d6a3d5f4db"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "9bbb62d6a3d5f4db",
+                "a2a44eaffe6fe889"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 96,
+            "before": {
+              "words": [
+                "9bbb62d6a3d5f4db",
+                "a2a44eaffe6fe889"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "a2a44eaffe6fe889",
+                "524ebededd3fd087"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 5,
+            "value": 0,
+            "before": {
+              "words": [
+                "a2a44eaffe6fe889",
+                "524ebededd3fd087"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "524ebededd3fd087",
+                "a715bd3c48d252ce"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 61,
+            "before": {
+              "words": [
+                "524ebededd3fd087",
+                "a715bd3c48d252ce"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "a715bd3c48d252ce",
+                "9a3582b303998204"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 7,
+            "value": 3,
+            "before": {
+              "words": [
+                "a715bd3c48d252ce",
+                "9a3582b303998204"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "9a3582b303998204",
+                "a3044a184b21ebe3"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 19,
+            "value": 2,
+            "before": {
+              "words": [
+                "9a3582b303998204",
+                "a3044a184b21ebe3"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "a3044a184b21ebe3",
+                "60b06598ac93ef39"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 14,
+            "value": 13,
+            "before": {
+              "words": [
+                "a3044a184b21ebe3",
+                "60b06598ac93ef39"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "60b06598ac93ef39",
+                "cf91e8fdd75dbfa1"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 54,
+            "before": {
+              "words": [
+                "60b06598ac93ef39",
+                "cf91e8fdd75dbfa1"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "cf91e8fdd75dbfa1",
+                "637792d21503f7e4"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 19,
+            "value": 5,
+            "before": {
+              "words": [
+                "cf91e8fdd75dbfa1",
+                "637792d21503f7e4"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            }
+          }
+        ],
+        "potion": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 41,
+            "before": {
+              "words": [
+                "64b5720b4b825f21",
+                "fa605f44aea3667d"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "fa605f44aea3667d",
+                "9b70dcd6b42485f6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 22,
+            "before": {
+              "words": [
+                "fa605f44aea3667d",
+                "9b70dcd6b42485f6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "9b70dcd6b42485f6",
+                "c347fe1c7f4b1e37"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 14,
+            "before": {
+              "words": [
+                "9b70dcd6b42485f6",
+                "c347fe1c7f4b1e37"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "c347fe1c7f4b1e37",
+                "336d48ad86da3b4c"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 81,
+            "before": {
+              "words": [
+                "c347fe1c7f4b1e37",
+                "336d48ad86da3b4c"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "336d48ad86da3b4c",
+                "fe15758e148abc7f"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 3,
+            "before": {
+              "words": [
+                "336d48ad86da3b4c",
+                "fe15758e148abc7f"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "fe15758e148abc7f",
+                "9bbb62d6a3d5f4db"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 27,
+            "before": {
+              "words": [
+                "fe15758e148abc7f",
+                "9bbb62d6a3d5f4db"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "9bbb62d6a3d5f4db",
+                "a2a44eaffe6fe889"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 2,
+            "before": {
+              "words": [
+                "9bbb62d6a3d5f4db",
+                "a2a44eaffe6fe889"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "a2a44eaffe6fe889",
+                "524ebededd3fd087"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 18,
+            "before": {
+              "words": [
+                "a2a44eaffe6fe889",
+                "524ebededd3fd087"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "524ebededd3fd087",
+                "a715bd3c48d252ce"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 18,
+            "before": {
+              "words": [
+                "524ebededd3fd087",
+                "a715bd3c48d252ce"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "a715bd3c48d252ce",
+                "9a3582b303998204"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 5,
+            "before": {
+              "words": [
+                "a715bd3c48d252ce",
+                "9a3582b303998204"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "9a3582b303998204",
+                "a3044a184b21ebe3"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 6,
+            "before": {
+              "words": [
+                "9a3582b303998204",
+                "a3044a184b21ebe3"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "a3044a184b21ebe3",
+                "60b06598ac93ef39"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 16,
+            "before": {
+              "words": [
+                "a3044a184b21ebe3",
+                "60b06598ac93ef39"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "60b06598ac93ef39",
+                "cf91e8fdd75dbfa1"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 12,
+            "before": {
+              "words": [
+                "60b06598ac93ef39",
+                "cf91e8fdd75dbfa1"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "cf91e8fdd75dbfa1",
+                "637792d21503f7e4"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 27,
+            "before": {
+              "words": [
+                "cf91e8fdd75dbfa1",
+                "637792d21503f7e4"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 17,
+            "before": {
+              "words": [
+                "637792d21503f7e4",
+                "d20d8c55ec2bff2e"
+              ],
+              "counter": 14
+            },
+            "after": {
+              "words": [
+                "d20d8c55ec2bff2e",
+                "d8709a7601dfee30"
+              ],
+              "counter": 15
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 6,
+            "before": {
+              "words": [
+                "d20d8c55ec2bff2e",
+                "d8709a7601dfee30"
+              ],
+              "counter": 15
+            },
+            "after": {
+              "words": [
+                "d8709a7601dfee30",
+                "208b7f97aa07b10b"
+              ],
+              "counter": 16
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 12,
+            "before": {
+              "words": [
+                "d8709a7601dfee30",
+                "208b7f97aa07b10b"
+              ],
+              "counter": 16
+            },
+            "after": {
+              "words": [
+                "208b7f97aa07b10b",
+                "c3fb7ba6abc7363e"
+              ],
+              "counter": 17
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 22,
+            "before": {
+              "words": [
+                "208b7f97aa07b10b",
+                "c3fb7ba6abc7363e"
+              ],
+              "counter": 17
+            },
+            "after": {
+              "words": [
+                "c3fb7ba6abc7363e",
+                "28a5727644b9f95c"
+              ],
+              "counter": 18
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 90,
+            "before": {
+              "words": [
+                "c3fb7ba6abc7363e",
+                "28a5727644b9f95c"
+              ],
+              "counter": 18
+            },
+            "after": {
+              "words": [
+                "28a5727644b9f95c",
+                "380be216953c8890"
+              ],
+              "counter": 19
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 1,
+            "before": {
+              "words": [
+                "28a5727644b9f95c",
+                "380be216953c8890"
+              ],
+              "counter": 19
+            },
+            "after": {
+              "words": [
+                "380be216953c8890",
+                "2b8cc551ea388135"
+              ],
+              "counter": 20
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 2,
+            "before": {
+              "words": [
+                "380be216953c8890",
+                "2b8cc551ea388135"
+              ],
+              "counter": 20
+            },
+            "after": {
+              "words": [
+                "2b8cc551ea388135",
+                "18cda0a96a1c3341"
+              ],
+              "counter": 21
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 33,
+            "before": {
+              "words": [
+                "2b8cc551ea388135",
+                "18cda0a96a1c3341"
+              ],
+              "counter": 21
+            },
+            "after": {
+              "words": [
+                "18cda0a96a1c3341",
+                "9bb43802c5442072"
+              ],
+              "counter": 22
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 24,
+            "before": {
+              "words": [
+                "18cda0a96a1c3341",
+                "9bb43802c5442072"
+              ],
+              "counter": 22
+            },
+            "after": {
+              "words": [
+                "9bb43802c5442072",
+                "d7ccb0a8b58e76cc"
+              ],
+              "counter": 23
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 6,
+            "before": {
+              "words": [
+                "9bb43802c5442072",
+                "d7ccb0a8b58e76cc"
+              ],
+              "counter": 23
+            },
+            "after": {
+              "words": [
+                "d7ccb0a8b58e76cc",
+                "4d1a67e4f7ef02b1"
+              ],
+              "counter": 24
+            }
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "42/membership-purchase",
+      "seed": "42",
+      "relicSeed": "2",
+      "courier": false,
+      "membership": false,
+      "membershipPurchase": true,
+      "steps": [
+        {
+          "label": "initial",
+          "cards": [
+            {
+              "sourceId": "Searing Blow",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 70,
+              "sale": false
+            },
+            {
+              "sourceId": "Clothesline",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 53,
+              "sale": false
+            },
+            {
+              "sourceId": "Warcry",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 46,
+              "sale": false
+            },
+            {
+              "sourceId": "Bloodletting",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 34,
+              "sale": true
+            },
+            {
+              "sourceId": "Rupture",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 81,
+              "sale": false
+            },
+            {
+              "sourceId": "Mind Blast",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 89,
+              "sale": false
+            },
+            {
+              "sourceId": "Thinking Ahead",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 173,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Gremlin Horn",
+              "rarity": "uncommon",
+              "price": 253,
+              "rejected": []
+            },
+            {
+              "sourceId": "Dream Catcher",
+              "rarity": "common",
+              "price": 144,
+              "rejected": []
+            },
+            {
+              "sourceId": "Membership Card",
+              "rarity": "shop",
+              "price": 153,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "Fire Potion",
+              "rarity": "common",
+              "price": 50
+            },
+            {
+              "sourceId": "LiquidMemories",
+              "rarity": "uncommon",
+              "price": 72
+            },
+            {
+              "sourceId": "Energy Potion",
+              "rarity": "common",
+              "price": 50
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "95647a8440c8b848",
+                "e648b23d916e8fa5"
+              ],
+              "counter": 16
+            },
+            "card": {
+              "words": [
+                "5472f4fa26fdbb68",
+                "c60e7f491b0042e3"
+              ],
+              "counter": 12
+            },
+            "potion": {
+              "words": [
+                "e0feeb25fd467f3e",
+                "c17e6f2b3b3f39f8"
+              ],
+              "counter": 8
+            }
+          },
+          "queues": {
+            "common": [
+              "Blood Vial",
+              "Nunchaku",
+              "Tiny Chest",
+              "PreservedInsect",
+              "Happy Flower",
+              "Juzu Bracelet",
+              "Whetstone",
+              "Strawberry",
+              "Bronze Scales",
+              "Bag of Preparation",
+              "CeramicFish",
+              "Lantern",
+              "Bag of Marbles",
+              "Regal Pillow",
+              "Ancient Tea Set",
+              "Orichalcum",
+              "Vajra",
+              "Red Skull",
+              "Akabeko",
+              "Toy Ornithopter",
+              "Boot",
+              "Omamori",
+              "Potion Belt",
+              "War Paint",
+              "Smiling Mask",
+              "MealTicket",
+              "Art of War",
+              "MawBank",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Anchor",
+              "Pen Nib"
+            ],
+            "uncommon": [
+              "Singing Bowl",
+              "Eternal Feather",
+              "Paper Frog",
+              "Bottled Tornado",
+              "Blue Candle",
+              "Meat on the Bone",
+              "Shuriken",
+              "Molten Egg 2",
+              "Pear",
+              "InkBottle",
+              "Bottled Flame",
+              "HornCleat",
+              "Pantograph",
+              "Mercury Hourglass",
+              "StrikeDummy",
+              "Sundial",
+              "Question Card",
+              "Ornamental Fan",
+              "Matryoshka",
+              "Letter Opener",
+              "Toxic Egg 2",
+              "The Courier",
+              "White Beast Statue",
+              "Self Forming Clay",
+              "Bottled Lightning",
+              "Mummified Hand",
+              "Frozen Egg 2",
+              "Kunai",
+              "Darkstone Periapt"
+            ],
+            "rare": [
+              "Charon's Ashes",
+              "Old Coin",
+              "Pocketwatch",
+              "Girya",
+              "Mango",
+              "Ice Cream",
+              "Du-Vu Doll",
+              "Prayer Wheel",
+              "Shovel",
+              "WingedGreaves",
+              "Calipers",
+              "Gambling Chip",
+              "Peace Pipe",
+              "Incense Burner",
+              "Turnip",
+              "Dead Branch",
+              "Lizard Tail",
+              "Torii",
+              "Thread and Needle",
+              "Ginger",
+              "Bird Faced Urn",
+              "Unceasing Top",
+              "StoneCalendar",
+              "TungstenRod",
+              "Champion Belt",
+              "FossilizedHelix",
+              "CaptainsWheel",
+              "Magic Flower"
+            ],
+            "shop": [
+              "PrismaticShard",
+              "HandDrill",
+              "Medical Kit",
+              "Toolbox",
+              "Lee's Waffle",
+              "Strange Spoon",
+              "Frozen Eye",
+              "Sling",
+              "Brimstone",
+              "DollysMirror",
+              "Cauldron",
+              "ClockworkSouvenir",
+              "Orrery",
+              "Chemical X",
+              "TheAbacus",
+              "OrangePellets"
+            ],
+            "boss": [
+              "Runic Dome",
+              "Black Blood",
+              "Pandora's Box",
+              "SacredBark",
+              "Snecko Eye",
+              "Sozu",
+              "Runic Cube",
+              "Astrolabe",
+              "Fusion Hammer",
+              "Mark of Pain",
+              "Tiny House",
+              "Cursed Key",
+              "Empty Cage",
+              "Ectoplasm",
+              "Calling Bell",
+              "Busted Crown",
+              "Black Star",
+              "SlaversCollar",
+              "Philosopher's Stone",
+              "Coffee Dripper",
+              "Runic Pyramid",
+              "Velvet Choker"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 16,
+            "card": 12,
+            "potion": 8
+          },
+          "externalWords": [
+            "e8b4b3b1c77c4573",
+            "14fc879e54fc55f0"
+          ]
+        },
+        {
+          "label": "membership",
+          "cards": [
+            {
+              "sourceId": "Searing Blow",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 35,
+              "sale": false
+            },
+            {
+              "sourceId": "Clothesline",
+              "rarity": "common",
+              "type": "ATTACK",
+              "price": 27,
+              "sale": false
+            },
+            {
+              "sourceId": "Warcry",
+              "rarity": "common",
+              "type": "SKILL",
+              "price": 23,
+              "sale": false
+            },
+            {
+              "sourceId": "Bloodletting",
+              "rarity": "uncommon",
+              "type": "SKILL",
+              "price": 17,
+              "sale": true
+            },
+            {
+              "sourceId": "Rupture",
+              "rarity": "uncommon",
+              "type": "POWER",
+              "price": 41,
+              "sale": false
+            },
+            {
+              "sourceId": "Mind Blast",
+              "rarity": "uncommon",
+              "type": "ATTACK",
+              "price": 45,
+              "sale": false
+            },
+            {
+              "sourceId": "Thinking Ahead",
+              "rarity": "rare",
+              "type": "SKILL",
+              "price": 87,
+              "sale": false
+            }
+          ],
+          "relics": [
+            {
+              "sourceId": "Gremlin Horn",
+              "rarity": "uncommon",
+              "price": 127,
+              "rejected": []
+            },
+            {
+              "sourceId": "Dream Catcher",
+              "rarity": "common",
+              "price": 72,
+              "rejected": []
+            },
+            {
+              "sourceId": "Membership Card",
+              "rarity": "shop",
+              "price": 77,
+              "rejected": []
+            }
+          ],
+          "potions": [
+            {
+              "sourceId": "Fire Potion",
+              "rarity": "common",
+              "price": 25
+            },
+            {
+              "sourceId": "LiquidMemories",
+              "rarity": "uncommon",
+              "price": 36
+            },
+            {
+              "sourceId": "Energy Potion",
+              "rarity": "common",
+              "price": 25
+            }
+          ],
+          "states": {
+            "merchant": {
+              "words": [
+                "95647a8440c8b848",
+                "e648b23d916e8fa5"
+              ],
+              "counter": 16
+            },
+            "card": {
+              "words": [
+                "5472f4fa26fdbb68",
+                "c60e7f491b0042e3"
+              ],
+              "counter": 12
+            },
+            "potion": {
+              "words": [
+                "e0feeb25fd467f3e",
+                "c17e6f2b3b3f39f8"
+              ],
+              "counter": 8
+            }
+          },
+          "queues": {
+            "common": [
+              "Blood Vial",
+              "Nunchaku",
+              "Tiny Chest",
+              "PreservedInsect",
+              "Happy Flower",
+              "Juzu Bracelet",
+              "Whetstone",
+              "Strawberry",
+              "Bronze Scales",
+              "Bag of Preparation",
+              "CeramicFish",
+              "Lantern",
+              "Bag of Marbles",
+              "Regal Pillow",
+              "Ancient Tea Set",
+              "Orichalcum",
+              "Vajra",
+              "Red Skull",
+              "Akabeko",
+              "Toy Ornithopter",
+              "Boot",
+              "Omamori",
+              "Potion Belt",
+              "War Paint",
+              "Smiling Mask",
+              "MealTicket",
+              "Art of War",
+              "MawBank",
+              "Oddly Smooth Stone",
+              "Centennial Puzzle",
+              "Anchor",
+              "Pen Nib"
+            ],
+            "uncommon": [
+              "Singing Bowl",
+              "Eternal Feather",
+              "Paper Frog",
+              "Bottled Tornado",
+              "Blue Candle",
+              "Meat on the Bone",
+              "Shuriken",
+              "Molten Egg 2",
+              "Pear",
+              "InkBottle",
+              "Bottled Flame",
+              "HornCleat",
+              "Pantograph",
+              "Mercury Hourglass",
+              "StrikeDummy",
+              "Sundial",
+              "Question Card",
+              "Ornamental Fan",
+              "Matryoshka",
+              "Letter Opener",
+              "Toxic Egg 2",
+              "The Courier",
+              "White Beast Statue",
+              "Self Forming Clay",
+              "Bottled Lightning",
+              "Mummified Hand",
+              "Frozen Egg 2",
+              "Kunai",
+              "Darkstone Periapt"
+            ],
+            "rare": [
+              "Charon's Ashes",
+              "Old Coin",
+              "Pocketwatch",
+              "Girya",
+              "Mango",
+              "Ice Cream",
+              "Du-Vu Doll",
+              "Prayer Wheel",
+              "Shovel",
+              "WingedGreaves",
+              "Calipers",
+              "Gambling Chip",
+              "Peace Pipe",
+              "Incense Burner",
+              "Turnip",
+              "Dead Branch",
+              "Lizard Tail",
+              "Torii",
+              "Thread and Needle",
+              "Ginger",
+              "Bird Faced Urn",
+              "Unceasing Top",
+              "StoneCalendar",
+              "TungstenRod",
+              "Champion Belt",
+              "FossilizedHelix",
+              "CaptainsWheel",
+              "Magic Flower"
+            ],
+            "shop": [
+              "PrismaticShard",
+              "HandDrill",
+              "Medical Kit",
+              "Toolbox",
+              "Lee's Waffle",
+              "Strange Spoon",
+              "Frozen Eye",
+              "Sling",
+              "Brimstone",
+              "DollysMirror",
+              "Cauldron",
+              "ClockworkSouvenir",
+              "Orrery",
+              "Chemical X",
+              "TheAbacus",
+              "OrangePellets"
+            ],
+            "boss": [
+              "Runic Dome",
+              "Black Blood",
+              "Pandora's Box",
+              "SacredBark",
+              "Snecko Eye",
+              "Sozu",
+              "Runic Cube",
+              "Astrolabe",
+              "Fusion Hammer",
+              "Mark of Pain",
+              "Tiny House",
+              "Cursed Key",
+              "Empty Cage",
+              "Ectoplasm",
+              "Calling Bell",
+              "Busted Crown",
+              "Black Star",
+              "SlaversCollar",
+              "Philosopher's Stone",
+              "Coffee Dripper",
+              "Runic Pyramid",
+              "Velvet Choker"
+            ]
+          },
+          "traceCounts": {
+            "merchant": 16,
+            "card": 12,
+            "potion": 8
+          },
+          "externalWords": [
+            "e8b4b3b1c77c4573",
+            "14fc879e54fc55f0"
+          ]
+        }
+      ],
+      "trace": {
+        "merchant": [
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.938526451587677,
+            "before": {
+              "words": [
+                "810879608e4259cc",
+                "310dcdae81f2889b"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "310dcdae81f2889b",
+                "00428d4906e58ed6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0799387693405151,
+            "before": {
+              "words": [
+                "310dcdae81f2889b",
+                "00428d4906e58ed6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "00428d4906e58ed6",
+                "e60fca8540413235"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9319280385971069,
+            "before": {
+              "words": [
+                "00428d4906e58ed6",
+                "e60fca8540413235"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "e60fca8540413235",
+                "42ce675251912b41"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9321785569190979,
+            "before": {
+              "words": [
+                "e60fca8540413235",
+                "42ce675251912b41"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "42ce675251912b41",
+                "e661df094dc7e080"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 1.0905544757843018,
+            "before": {
+              "words": [
+                "42ce675251912b41",
+                "e661df094dc7e080"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "e661df094dc7e080",
+                "0d8705047342f11a"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9974824786186218,
+            "before": {
+              "words": [
+                "e661df094dc7e080",
+                "0d8705047342f11a"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "0d8705047342f11a",
+                "6f40089d8138d665"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.8999999761581421,
+            "maximum": 1.100000023841858,
+            "value": 0.9626920819282532,
+            "before": {
+              "words": [
+                "0d8705047342f11a",
+                "6f40089d8138d665"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "6f40089d8138d665",
+                "e0feeb25fd467f3e"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 4,
+            "value": 3,
+            "before": {
+              "words": [
+                "6f40089d8138d665",
+                "e0feeb25fd467f3e"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "e0feeb25fd467f3e",
+                "c17e6f2b3b3f39f8"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 77,
+            "before": {
+              "words": [
+                "e0feeb25fd467f3e",
+                "c17e6f2b3b3f39f8"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "c17e6f2b3b3f39f8",
+                "b37e1e0122efbd2b"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.010589361190796,
+            "before": {
+              "words": [
+                "c17e6f2b3b3f39f8",
+                "b37e1e0122efbd2b"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "b37e1e0122efbd2b",
+                "e79dc4ebc20ce704"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 34,
+            "before": {
+              "words": [
+                "b37e1e0122efbd2b",
+                "e79dc4ebc20ce704"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "e79dc4ebc20ce704",
+                "5472f4fa26fdbb68"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9603537917137146,
+            "before": {
+              "words": [
+                "e79dc4ebc20ce704",
+                "5472f4fa26fdbb68"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "5472f4fa26fdbb68",
+                "c60e7f491b0042e3"
+              ],
+              "counter": 12
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 1.0208959579467773,
+            "before": {
+              "words": [
+                "5472f4fa26fdbb68",
+                "c60e7f491b0042e3"
+              ],
+              "counter": 12
+            },
+            "after": {
+              "words": [
+                "c60e7f491b0042e3",
+                "ef6fe1efcf71e2b3"
+              ],
+              "counter": 13
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9989686012268066,
+            "before": {
+              "words": [
+                "c60e7f491b0042e3",
+                "ef6fe1efcf71e2b3"
+              ],
+              "counter": 13
+            },
+            "after": {
+              "words": [
+                "ef6fe1efcf71e2b3",
+                "8dec2ffd81bdeee3"
+              ],
+              "counter": 14
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9637949466705322,
+            "before": {
+              "words": [
+                "ef6fe1efcf71e2b3",
+                "8dec2ffd81bdeee3"
+              ],
+              "counter": 14
+            },
+            "after": {
+              "words": [
+                "8dec2ffd81bdeee3",
+                "95647a8440c8b848"
+              ],
+              "counter": 15
+            }
+          },
+          {
+            "kind": "floatBetween",
+            "minimum": 0.949999988079071,
+            "maximum": 1.0499999523162842,
+            "value": 0.9983111023902893,
+            "before": {
+              "words": [
+                "8dec2ffd81bdeee3",
+                "95647a8440c8b848"
+              ],
+              "counter": 15
+            },
+            "after": {
+              "words": [
+                "95647a8440c8b848",
+                "e648b23d916e8fa5"
+              ],
+              "counter": 16
+            }
+          }
+        ],
+        "card": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 24,
+            "before": {
+              "words": [
+                "810879608e4259cc",
+                "310dcdae81f2889b"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "310dcdae81f2889b",
+                "00428d4906e58ed6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 10,
+            "value": 7,
+            "before": {
+              "words": [
+                "310dcdae81f2889b",
+                "00428d4906e58ed6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "00428d4906e58ed6",
+                "e60fca8540413235"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 71,
+            "before": {
+              "words": [
+                "00428d4906e58ed6",
+                "e60fca8540413235"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "e60fca8540413235",
+                "42ce675251912b41"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 13,
+            "value": 4,
+            "before": {
+              "words": [
+                "e60fca8540413235",
+                "42ce675251912b41"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "42ce675251912b41",
+                "e661df094dc7e080"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 61,
+            "before": {
+              "words": [
+                "42ce675251912b41",
+                "e661df094dc7e080"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "e661df094dc7e080",
+                "0d8705047342f11a"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 5,
+            "value": 5,
+            "before": {
+              "words": [
+                "e661df094dc7e080",
+                "0d8705047342f11a"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "0d8705047342f11a",
+                "6f40089d8138d665"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 25,
+            "before": {
+              "words": [
+                "0d8705047342f11a",
+                "6f40089d8138d665"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "6f40089d8138d665",
+                "e0feeb25fd467f3e"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 16,
+            "value": 1,
+            "before": {
+              "words": [
+                "6f40089d8138d665",
+                "e0feeb25fd467f3e"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "e0feeb25fd467f3e",
+                "c17e6f2b3b3f39f8"
+              ],
+              "counter": 8
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 77,
+            "before": {
+              "words": [
+                "e0feeb25fd467f3e",
+                "c17e6f2b3b3f39f8"
+              ],
+              "counter": 8
+            },
+            "after": {
+              "words": [
+                "c17e6f2b3b3f39f8",
+                "b37e1e0122efbd2b"
+              ],
+              "counter": 9
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 7,
+            "value": 7,
+            "before": {
+              "words": [
+                "c17e6f2b3b3f39f8",
+                "b37e1e0122efbd2b"
+              ],
+              "counter": 9
+            },
+            "after": {
+              "words": [
+                "b37e1e0122efbd2b",
+                "e79dc4ebc20ce704"
+              ],
+              "counter": 10
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 19,
+            "value": 14,
+            "before": {
+              "words": [
+                "b37e1e0122efbd2b",
+                "e79dc4ebc20ce704"
+              ],
+              "counter": 10
+            },
+            "after": {
+              "words": [
+                "e79dc4ebc20ce704",
+                "5472f4fa26fdbb68"
+              ],
+              "counter": 11
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 14,
+            "value": 12,
+            "before": {
+              "words": [
+                "e79dc4ebc20ce704",
+                "5472f4fa26fdbb68"
+              ],
+              "counter": 11
+            },
+            "after": {
+              "words": [
+                "5472f4fa26fdbb68",
+                "c60e7f491b0042e3"
+              ],
+              "counter": 12
+            }
+          }
+        ],
+        "potion": [
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 24,
+            "before": {
+              "words": [
+                "810879608e4259cc",
+                "310dcdae81f2889b"
+              ],
+              "counter": 0
+            },
+            "after": {
+              "words": [
+                "310dcdae81f2889b",
+                "00428d4906e58ed6"
+              ],
+              "counter": 1
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 7,
+            "before": {
+              "words": [
+                "310dcdae81f2889b",
+                "00428d4906e58ed6"
+              ],
+              "counter": 1
+            },
+            "after": {
+              "words": [
+                "00428d4906e58ed6",
+                "e60fca8540413235"
+              ],
+              "counter": 2
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 71,
+            "before": {
+              "words": [
+                "00428d4906e58ed6",
+                "e60fca8540413235"
+              ],
+              "counter": 2
+            },
+            "after": {
+              "words": [
+                "e60fca8540413235",
+                "42ce675251912b41"
+              ],
+              "counter": 3
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 31,
+            "before": {
+              "words": [
+                "e60fca8540413235",
+                "42ce675251912b41"
+              ],
+              "counter": 3
+            },
+            "after": {
+              "words": [
+                "42ce675251912b41",
+                "e661df094dc7e080"
+              ],
+              "counter": 4
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 8,
+            "before": {
+              "words": [
+                "42ce675251912b41",
+                "e661df094dc7e080"
+              ],
+              "counter": 4
+            },
+            "after": {
+              "words": [
+                "e661df094dc7e080",
+                "0d8705047342f11a"
+              ],
+              "counter": 5
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 26,
+            "before": {
+              "words": [
+                "e661df094dc7e080",
+                "0d8705047342f11a"
+              ],
+              "counter": 5
+            },
+            "after": {
+              "words": [
+                "0d8705047342f11a",
+                "6f40089d8138d665"
+              ],
+              "counter": 6
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 99,
+            "value": 25,
+            "before": {
+              "words": [
+                "0d8705047342f11a",
+                "6f40089d8138d665"
+              ],
+              "counter": 6
+            },
+            "after": {
+              "words": [
+                "6f40089d8138d665",
+                "e0feeb25fd467f3e"
+              ],
+              "counter": 7
+            }
+          },
+          {
+            "kind": "int",
+            "minimum": 0,
+            "maximum": 32,
+            "value": 5,
+            "before": {
+              "words": [
+                "6f40089d8138d665",
+                "e0feeb25fd467f3e"
+              ],
+              "counter": 7
+            },
+            "after": {
+              "words": [
+                "e0feeb25fd467f3e",
+                "c17e6f2b3b3f39f8"
+              ],
+              "counter": 8
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

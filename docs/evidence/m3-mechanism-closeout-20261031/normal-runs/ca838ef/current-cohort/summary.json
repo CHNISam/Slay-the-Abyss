@@ -1,0 +1,25 @@
+{
+  "kind": "offline-normal-rule-campaign",
+  "platformVerified": false,
+  "dataModified": false,
+  "sourceCommit": "ca838ef6f36fedc1ed55a8eeeaafe9370149cb0d",
+  "sourceDirty": false,
+  "startedAt": "2026-10-31T17:59:04.625Z",
+  "policy": "warrior75-visible-state-v1",
+  "policySha256": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
+  "driverSha256": "bed113604921fdaaab939b9958fb939918ca3d305ee22f83ad150794522fb9df",
+  "eventCardPolicySha256": "19b85fda6be4c04785344dad0385128b7e1cba0e6c32d98687d8fd006fc16e44",
+  "relicChoicePolicySha256": "ed73d98fd30ef6b95bb103991af56a612cd79c2363ba0ef4db68ef49c1a946b7",
+  "resetVerificationKind": "fresh-Run-construction-only; not Host restart",
+  "runs": [
+    {
+      "seed": 17,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 184,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-17.json.gz"
+    }
+  ]
+}

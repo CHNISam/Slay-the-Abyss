@@ -1,0 +1,44 @@
+{
+  "reviewedCommit": "59acf646d57f1717dc5961e7e277655a90d24b21",
+  "worktree": "/workspace/m3-relic-vector-followup",
+  "verdict": "approved",
+  "findings": [],
+  "scope": "Independent narrow seven-file source/expectation/public-entry review and selected five standard tests; no full suite or long driver.",
+  "sourceReview": {
+    "production": "Single expression adds binary32 conversion of maxHp before existing binary32 multiply. Positive Java int domain makes floor equivalent to cast-to-int; .75 is exactly 1.0f-.25f. Output remains within Java int for all reviewed valid positive int inputs. Eligibility/current-HP guard, maxHp, event path unchanged.",
+    "domain": "validate-data accepts positive integer enemy.hp (hpRange upper bound2147483647); test uses copied legitimate catalog and real Run.new/obtainRelic/startCombat.16777217 is accepted public input, not asserted as existing default enemy HP.",
+    "source": "Independently fetched all five fixed Java files; every SHA256 matched fixture. Read original Insect, Snecko, Confusion and draw methods.",
+    "independentExpected": "Python struct IEEE binary32 plus existing independent XS128/Java48 shuffle and audited source registration; no production RNG/float32/card definitions imported.",
+    "publicAndControlled": "Snecko deck rebuilt using public remove/obtain APIs and relic/potion acquired publicly. Hand7 and later public Swift draw3 checked for identity, persistent/turn cost, modified/free-once, full RNG trace. Temporary later-draw cost/free flag is explicit fixture input. Insect uses public combat path with controlled catalog HP/room eligibility and real Neow acquisition.",
+    "negativeAndBoundary": "Nonnegative same-roll retains temporary0, clears free-once; negative costs skip RNG and retain free-once. Normal/boss/explicit elite false must not trigger; explicit true triggers. Neow HP1 is never raised; maximum1 may become0.",
+    "red": "Read author standard public-path failing log: HP16777217 actual12582913 expected12582912 before fix; production correction verified independently.",
+    "history": "No existing golden or source hash modified. LF additions pin new generator and already-authenticated Python model dependencies; real CRLF control/clone test retained in new wrapper."
+  },
+  "verification": {
+    "command": "node --test --test-name-pattern='seed 3$|HP 16777217 |HP 2147483647 |HP 1 |oracle regenerates' tests/snecko-insect-vectors.test.mjs",
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 12420.376318,
+    "defaultLuaTimeoutMs": 30000,
+    "gitDiffCheck": "passed"
+  },
+  "limitations": [
+    "Controlled offline explicit-ID path; not natural relic acquisition, formal source-room propagation or default-enemy balance evidence.",
+    "No official import/current-ready/PC/physical-phone proof.",
+    "Potential historical inverse-contract compatibility layer is not part of this commit and must be reviewed if subsequently changed.",
+    "Final integrated head/base and required CI remain separate."
+  ],
+  "sourceModifiedByReviewer": false,
+  "documentationFollowup": {
+    "commit": "fdefa42ee86e83c50c3f3e9f94e3ee581ff0b400",
+    "verdict": "approved",
+    "findings": [],
+    "evidence": [
+      "Only13 documentation lines added.",
+      "Read all four logs, SHA256 matched external report and9 selected tests passed.",
+      "Read historicalTest/withHistoricalBaseline fresh archive materialization implementation; claims accurately distinguish historical input from current live source.",
+      "No fabricated shim, changed inverse owner, old golden/hash or guard. No redundant9-case rerun."
+    ]
+  }
+}

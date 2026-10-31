@@ -84,9 +84,13 @@ function M.onBlockBroken(state,target)
    {op='shopRelic',kind='handDrill',targetId=target.id},false)
  end
 end
-function M.onShuffle(state)
+-- Deep Breath must place constructor reactions before its shuffle continuation.
+-- Other shuffle callers retain the existing BOTTOM enqueue by default.
+function M.onShuffle(state,effectsOnly)
  if M.owns(state,'the_abacus')then
-  require('abyss_card_actions').enqueueReaction(state,{op='block',value=6,fixed=true,relic='the_abacus'},false)
+  local effect={op='block',value=6,fixed=true,relic='the_abacus'}
+  if effectsOnly then return effect end
+  require('abyss_card_actions').enqueueReaction(state,effect,false)
  end
 end
 function M.xBonus(state)return M.owns(state,'chemical_x')and 2 or 0 end

@@ -1,0 +1,32 @@
+{
+  "final-slices/review-secret-registration-crlf.json": {
+    "originalPath": "m3-review-secret-registration-crlf.json",
+    "originalSha256": "c6e69e58dc0a9e0dae8763ae2f28bb0ee73d2460f2c146db438435656103fd7f",
+    "originalBytes": 3736,
+    "encoding": "exact original bytes"
+  },
+  "prior-ci-16c/failure-rules6.json": {
+    "originalPath": "m3-full-closeout/aux3-ci-failure-124643451916.json",
+    "originalSha256": "3bd978e058cf09c7f6a9033269b5fb37938c29c7c98d00dd85ad287e49b41c87",
+    "originalBytes": 2317,
+    "encoding": "exact original bytes"
+  },
+  "final-slices/author-secret-registration-crlf.json.gz": {
+    "originalPath": "m3-secret-registration-crlf-report.json",
+    "originalSha256": "045531291ef03d48b9440092aa21e0254d85efe05b6413f1871b53d4f9e4a69e",
+    "originalBytes": 3654,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "final-logs/secret-registration-crlf-root.log.gz": {
+    "originalPath": "m3-full-closeout/final-registration-crlf-root.log",
+    "originalSha256": "7137f4921c6c554fc8cb881c53ff505b89f1d10edfbdb9a863b8f3c13c1c1959",
+    "originalBytes": 294,
+    "encoding": "gzip, exact original on decompression"
+  },
+  "final-logs/secret-registration-crlf-red.log.gz": {
+    "originalPath": "m3-secret-registration-crlf-red.log",
+    "originalSha256": "bcbeaed4345e29c60a16b81991e754abd2c9e3d6a868fc2556fa4b19acc2fdda",
+    "originalBytes": 1833,
+    "encoding": "gzip, exact original on decompression"
+  }
+}

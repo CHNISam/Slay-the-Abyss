@@ -1,0 +1,62 @@
+{
+  "reviewedCommits": [
+    "928ec0c18a0e0529492925678ad60d3c43ed5b32",
+    "e5ce721479ebd6ee048f292dddc3add2994e35c7"
+  ],
+  "reviewedBase": "d2b5869cb33e26123f6d64c719f71fc31913e814",
+  "worktree": "/workspace/m3-deep-breath-source",
+  "verdict": "pass",
+  "blockers": [],
+  "findings": [],
+  "resolvedImportant": [
+    "Original d2 test single-shuffleexpected incorrectly certified productbehavior; actualsource requires discardshuffle then merged drawshuffle.",
+    "928 onShuffle callbackinvocation precededshuffle butactualqueuedenergy/block occurredafterdraw. e5 constructorreactioncontinuation now resolvesinheldorder beforebothshuffles/draw."
+  ],
+  "sourceReview": [
+    "Independently fetched all8fixedsourcefiles anddualSHA256/Gitblobverified, readSoulGroup.shuffle→Soul.shuffle immediateaddToTop→ArrayListendappend andEmptyDeckiteratorindex0direction.",
+    "EmptyDeckconstructor invokesrelicsonShuffle; SundialandAbacussource addToBot actions precedeEmptyDeck/Shuffle/Draw. sourceShuffle(draw,false)doesnotretriggercallbacks.",
+    "IndependentexistingXS128/Java48oracle modelsbothlongs, initialemptydeckshuffle scope, exact24fullUID/word/counter/rawLongvectors. Allold24numerical/order/source/inputfields exactlyunchanged from928 afterexcludingnewrelics/effectOrder+selfhash.",
+    "ProductiondiffscopedDeepBreath: collectsupportedcallbacksinactualheldorder, enqueueTOPdedicatedpuredata deepBreathShufflecontinuation thenreverseTOPeffects preservingexecutionorder. No synchronouseffectshortcut/recursive drain/newactionmanager.",
+    "Bothowners supported: CardActions.enqueueReaction routesactiveactionQueue viaQ.pushTop, elseCardActions.enqueue; genericEffects→CardActions.apply→Colorless.apply reachescontinuation. Queue actions arepuredata validated byexistingqueue. Actualreviewer additionalQueue.runprobe withrealInventory/realA.apply passesbothheldorders andactualdraw7/6.",
+    "Shop.onShuffle optional effectsOnly return leavesoriginaloneargumentBOTTOMenqueueunchanged; noothercaller modified. ActualoldShop12cases independentlypassed.",
+    "Actual24fixture checks callbackorder, actualA.applyeffectorder, actualR.shuffle andC.drawentryresources beforeeffect, finalresources, exactstreams/piles/originalobjectconservation. No-discardzerocallback/shuffle/effect pathpreserved.",
+    "Allfourtemporarymutants requiredexactassertionmarkers: omitfirstlong,reverseSoultransfer,wrongTOPorder andlateBOTTOMeffects. They demonstrablytest distinctidentifiedfailures, not arbitraryexceptions.",
+    "Rawsource/inputSHA andoldgoldensunchanged; exactLF+actualCRLFcontrol/strictregen+genuineWindowsPOSIXpurepathregression unchanged. No thresholds/budget expansion."
+  ],
+  "verification": [
+    {
+      "command": "node --test --test-concurrency=1 tests/deep-breath-source-contract.test.mjs tests/deep-breath-source-seed-7.test.mjs",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4009.080357,
+      "scope": "metadata/path/realCRLF+fourmutants+seed7eightvectors/baseup/bothheldorders/fourshapes"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/shop_relics_effects.lua",
+      "passedCases": 12,
+      "durationMs": 4143
+    },
+    {
+      "command": "node scripts/test-lua.mjs /tmp/m3-deep-review-actionqueue.lua",
+      "passed": "bothheldorders usingactualQ.run/A.apply/Inventory anddrawobserver",
+      "durationMs": 496,
+      "scope": "reviewer-onlycontrolledqueueprobe, not a normalpublicRunroute"
+    },
+    {
+      "command": "git diff --check d2b5869 HEAD",
+      "status": "passed"
+    }
+  ],
+  "historicalRedEvidence": [
+    "Read originalproductionRED firstshuffle startsUID5insteadsourceUID2.",
+    "Read effectorderRED actualdrawenergy5/block0; independently reproducedon928 beforee5 inreadonlyobserver.",
+    "Both earlierchanges_requested reports preserved; no claim originald2or928alreadycorrect."
+  ],
+  "limitations": [
+    "Fixedcommunitysource/controlledofflineCombat andqueueprojection; no PCframe/globalMathUtils/officialclientorphonecertification.",
+    "Currentcomplete39consumer closure maycomposewithprior34focusedtestsandthese5; legalproducer/probabilityandinstancecontracts remainseparateevidence. No producer×cardCartesianmatrixrequired.",
+    "Finalintegratedmodule includingSecretfix/exactheadCI/sourceguards separatelyreviewed byroot."
+  ],
+  "sourceModifiedByReviewer": false
+}

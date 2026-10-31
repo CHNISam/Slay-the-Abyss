@@ -1,0 +1,2683 @@
+{
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "sourceFilesSha256": {
+    "dungeons/AbstractDungeon.java": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+    "cards/CardGroup.java": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+    "shop/Merchant.java": "2722226c13cfac4ee0cb6832c6f9e0b7dd4f9af713785faa38327972f80f967e",
+    "shop/ShopScreen.java": "5637a90f12386df48a323969ddf0c17b06e0288884a1b124fa62994822853855",
+    "rooms/ShopRoom.java": "f8cadde291ebe73918166aa05ba9f5006c4aec7b80add7a39e03eb469699e988",
+    "rooms/AbstractRoom.java": "020f4a0fc3a564f6e45604e5dba582a773a5b9fdb471f8488a2bf8c2354d3a05",
+    "screens/CombatRewardScreen.java": "7929ca75599e96c076f9abe2c90576a606c87984174328d10533ada8ee37e70b",
+    "relics/Orrery.java": "fdce89eb48ad1b0239a675ca329d1369ecea9bff9d049210df4d079394562d90",
+    "relics/PrayerWheel.java": "619a8d3903cd520d4fd5c94b0c4f690865686dc7a944254ba824d31447389473",
+    "neow/NeowEvent.java": "0ac56abd6001eb1452b06b9ccaefba3de3fc9e2d88588ac907be0a0afafa5a83",
+    "neow/NeowReward.java": "b3a61dcf11b694d9dae54ad0a57f972388593051793097e5eb7204090af17f36"
+  },
+  "generatorSha256": "75c10cf03e483ae59d29497bca2b34aa99cad79ea8ccb82e1cc458ccb02a79d5",
+  "inputSha256": {
+    "tools/sts1-card-rng-oracle.py": "3c0667f93636463eb951f7df97e2f01202087a368eef3cf0a76756613bedfa56",
+    "data/reference/sts1-card-pools/pools.json": "bfbafb23bca2949e6db9de1d611785b0a20d0281990749ba32993f9bc0d537d7",
+    "data/reference/sts1-card-pools/registration.json": "f2a387be3b963ba9fac36a0305ef5add76862666f6055a1d8e058d8f33a53308"
+  },
+  "pools": {
+    "redReward": {
+      "COMMON": [
+        "Anger",
+        "Cleave",
+        "Warcry",
+        "Flex",
+        "Iron Wave",
+        "Body Slam",
+        "True Grit",
+        "Shrug It Off",
+        "Clash",
+        "Thunderclap",
+        "Pommel Strike",
+        "Twin Strike",
+        "Clothesline",
+        "Armaments",
+        "Havoc",
+        "Headbutt",
+        "Wild Strike",
+        "Heavy Blade",
+        "Perfected Strike",
+        "Sword Boomerang"
+      ],
+      "UNCOMMON": [
+        "Spot Weakness",
+        "Inflame",
+        "Power Through",
+        "Dual Wield",
+        "Infernal Blade",
+        "Reckless Charge",
+        "Hemokinesis",
+        "Intimidate",
+        "Blood for Blood",
+        "Flame Barrier",
+        "Pummel",
+        "Burning Pact",
+        "Metallicize",
+        "Shockwave",
+        "Rampage",
+        "Sever Soul",
+        "Whirlwind",
+        "Combust",
+        "Dark Embrace",
+        "Seeing Red",
+        "Disarm",
+        "Feel No Pain",
+        "Rage",
+        "Entrench",
+        "Sentinel",
+        "Battle Trance",
+        "Searing Blow",
+        "Second Wind",
+        "Rupture",
+        "Bloodletting",
+        "Carnage",
+        "Dropkick",
+        "Fire Breathing",
+        "Ghostly Armor",
+        "Uppercut",
+        "Evolve"
+      ],
+      "RARE": [
+        "Immolate",
+        "Offering",
+        "Exhume",
+        "Reaper",
+        "Brutality",
+        "Juggernaut",
+        "Impervious",
+        "Berserk",
+        "Fiend Fire",
+        "Barricade",
+        "Corruption",
+        "Limit Break",
+        "Feed",
+        "Bludgeon",
+        "Demon Form",
+        "Double Tap"
+      ]
+    },
+    "redShopTyped": {
+      "COMMON": {
+        "ATTACK": [
+          "Anger",
+          "Body Slam",
+          "Clash",
+          "Cleave",
+          "Clothesline",
+          "Headbutt",
+          "Heavy Blade",
+          "Iron Wave",
+          "Perfected Strike",
+          "Pommel Strike",
+          "Sword Boomerang",
+          "Thunderclap",
+          "Twin Strike",
+          "Wild Strike"
+        ],
+        "SKILL": [
+          "Armaments",
+          "Flex",
+          "Havoc",
+          "Shrug It Off",
+          "True Grit",
+          "Warcry"
+        ],
+        "POWER": []
+      },
+      "UNCOMMON": {
+        "ATTACK": [
+          "Blood for Blood",
+          "Carnage",
+          "Dropkick",
+          "Hemokinesis",
+          "Pummel",
+          "Rampage",
+          "Reckless Charge",
+          "Searing Blow",
+          "Sever Soul",
+          "Uppercut",
+          "Whirlwind"
+        ],
+        "SKILL": [
+          "Battle Trance",
+          "Bloodletting",
+          "Burning Pact",
+          "Disarm",
+          "Dual Wield",
+          "Entrench",
+          "Flame Barrier",
+          "Ghostly Armor",
+          "Infernal Blade",
+          "Intimidate",
+          "Power Through",
+          "Rage",
+          "Second Wind",
+          "Seeing Red",
+          "Sentinel",
+          "Shockwave",
+          "Spot Weakness"
+        ],
+        "POWER": [
+          "Combust",
+          "Dark Embrace",
+          "Evolve",
+          "Feel No Pain",
+          "Fire Breathing",
+          "Inflame",
+          "Metallicize",
+          "Rupture"
+        ]
+      },
+      "RARE": {
+        "ATTACK": [
+          "Bludgeon",
+          "Feed",
+          "Fiend Fire",
+          "Immolate",
+          "Reaper"
+        ],
+        "SKILL": [
+          "Double Tap",
+          "Exhume",
+          "Impervious",
+          "Limit Break",
+          "Offering"
+        ],
+        "POWER": [
+          "Barricade",
+          "Berserk",
+          "Brutality",
+          "Corruption",
+          "Demon Form",
+          "Juggernaut"
+        ]
+      }
+    },
+    "colorlessShopByRarity": {
+      "UNCOMMON": [
+        "Bandage Up",
+        "Blind",
+        "Dark Shackles",
+        "Deep Breath",
+        "Discovery",
+        "Dramatic Entrance",
+        "Enlightenment",
+        "Finesse",
+        "Flash of Steel",
+        "Forethought",
+        "Good Instincts",
+        "Impatience",
+        "Jack Of All Trades",
+        "Madness",
+        "Mind Blast",
+        "Panacea",
+        "PanicButton",
+        "Purity",
+        "Swift Strike",
+        "Trip"
+      ],
+      "RARE": [
+        "Apotheosis",
+        "Chrysalis",
+        "HandOfGreed",
+        "Magnetism",
+        "Master of Strategy",
+        "Mayhem",
+        "Metamorphosis",
+        "Panache",
+        "Sadistic Nature",
+        "Secret Technique",
+        "Secret Weapon",
+        "The Bomb",
+        "Thinking Ahead",
+        "Transmutation",
+        "Violence"
+      ]
+    }
+  },
+  "case": {
+    "seed": "49",
+    "initial": {
+      "cardRng": {
+        "words": [
+          "cf8ffb89367b9db1",
+          "6ceb5da532af3c3b"
+        ],
+        "counter": 0
+      },
+      "cardRarityOffset": 5
+    },
+    "stages": [
+      {
+        "phase": "neow",
+        "cards": [
+          "Finesse",
+          "Discovery",
+          "Deep Breath"
+        ],
+        "attempts": [
+          {
+            "slot": 1,
+            "sourceId": "Finesse",
+            "accepted": true
+          },
+          {
+            "slot": 2,
+            "sourceId": "Discovery",
+            "accepted": true
+          },
+          {
+            "slot": 3,
+            "sourceId": "Deep Breath",
+            "accepted": true
+          }
+        ],
+        "after": {
+          "cardRng": {
+            "words": [
+              "d98dcb68507508f6",
+              "87b0aa2ccc11c149"
+            ],
+            "counter": 3
+          },
+          "cardRarityOffset": 5
+        }
+      },
+      {
+        "phase": "orrery",
+        "groups": [
+          {
+            "cards": [
+              "Anger",
+              "Armaments",
+              "Thunderclap"
+            ],
+            "rarities": [
+              "COMMON",
+              "COMMON",
+              "COMMON"
+            ],
+            "upgrades": [
+              false,
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Anger",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "COMMON",
+                "sourceId": "Armaments",
+                "accepted": true
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "Thunderclap",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "0d5da43a04f974e8",
+                  "95b591c0a57195c4"
+                ],
+                "counter": 12
+              },
+              "cardRarityOffset": 2
+            }
+          },
+          {
+            "cards": [
+              "Anger",
+              "Ghostly Armor",
+              "Heavy Blade"
+            ],
+            "rarities": [
+              "COMMON",
+              "UNCOMMON",
+              "COMMON"
+            ],
+            "upgrades": [
+              false,
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Anger",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "UNCOMMON",
+                "sourceId": "Ghostly Armor",
+                "accepted": true
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "Heavy Blade",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "fdce98a75d967a00",
+                  "19c8c46947feddfc"
+                ],
+                "counter": 21
+              },
+              "cardRarityOffset": 0
+            }
+          },
+          {
+            "cards": [
+              "Cleave",
+              "Flame Barrier",
+              "Thunderclap"
+            ],
+            "rarities": [
+              "COMMON",
+              "UNCOMMON",
+              "COMMON"
+            ],
+            "upgrades": [
+              false,
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Cleave",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "UNCOMMON",
+                "sourceId": "Flame Barrier",
+                "accepted": true
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "Cleave",
+                "accepted": false
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "Thunderclap",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "0f923d14706bd8bb",
+                  "3118d228f9a98770"
+                ],
+                "counter": 31
+              },
+              "cardRarityOffset": -2
+            }
+          },
+          {
+            "cards": [
+              "Clothesline",
+              "Wild Strike",
+              "Cleave"
+            ],
+            "rarities": [
+              "COMMON",
+              "COMMON",
+              "COMMON"
+            ],
+            "upgrades": [
+              false,
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Clothesline",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "COMMON",
+                "sourceId": "Wild Strike",
+                "accepted": true
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "Cleave",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "2b387f1848dfeb94",
+                  "e7a9b535f88a4714"
+                ],
+                "counter": 40
+              },
+              "cardRarityOffset": -5
+            }
+          },
+          {
+            "cards": [
+              "Headbutt",
+              "Shrug It Off",
+              "Seeing Red"
+            ],
+            "rarities": [
+              "COMMON",
+              "COMMON",
+              "UNCOMMON"
+            ],
+            "upgrades": [
+              false,
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Headbutt",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "COMMON",
+                "sourceId": "Shrug It Off",
+                "accepted": true
+              },
+              {
+                "slot": 3,
+                "rarity": "UNCOMMON",
+                "sourceId": "Seeing Red",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "b3292934be52750d",
+                  "77c21b0d907f9803"
+                ],
+                "counter": 49
+              },
+              "cardRarityOffset": -7
+            }
+          }
+        ],
+        "after": {
+          "cardRng": {
+            "words": [
+              "b3292934be52750d",
+              "77c21b0d907f9803"
+            ],
+            "counter": 49
+          },
+          "cardRarityOffset": -7
+        }
+      },
+      {
+        "phase": "shop",
+        "cards": [
+          {
+            "sourceId": "Pummel",
+            "rarity": "uncommon"
+          },
+          {
+            "sourceId": "Thunderclap",
+            "rarity": "common"
+          },
+          {
+            "sourceId": "Dual Wield",
+            "rarity": "uncommon"
+          },
+          {
+            "sourceId": "Battle Trance",
+            "rarity": "uncommon"
+          },
+          {
+            "sourceId": "Dark Embrace",
+            "rarity": "uncommon"
+          },
+          {
+            "sourceId": "Mind Blast",
+            "rarity": "uncommon"
+          },
+          {
+            "sourceId": "Magnetism",
+            "rarity": "rare"
+          }
+        ],
+        "attempts": [
+          {
+            "slot": 1,
+            "rarity": "UNCOMMON",
+            "sourceId": "Pummel",
+            "accepted": true
+          },
+          {
+            "slot": 2,
+            "rarity": "UNCOMMON",
+            "sourceId": "Pummel",
+            "accepted": false
+          },
+          {
+            "slot": 2,
+            "rarity": "COMMON",
+            "sourceId": "Thunderclap",
+            "accepted": true
+          },
+          {
+            "slot": 3,
+            "rarity": "UNCOMMON",
+            "sourceId": "Dual Wield",
+            "accepted": true
+          },
+          {
+            "slot": 4,
+            "rarity": "UNCOMMON",
+            "sourceId": "Battle Trance",
+            "accepted": true
+          },
+          {
+            "slot": 5,
+            "rarity": "UNCOMMON",
+            "sourceId": "Dark Embrace",
+            "accepted": true
+          }
+        ],
+        "after": {
+          "cardRng": {
+            "words": [
+              "03b74bf4b68981ea",
+              "3dc249723d3b098b"
+            ],
+            "counter": 63
+          },
+          "cardRarityOffset": -7
+        }
+      },
+      {
+        "phase": "wheel",
+        "groups": [
+          {
+            "cards": [
+              "Clothesline",
+              "Twin Strike",
+              "True Grit",
+              "Uppercut"
+            ],
+            "rarities": [
+              "COMMON",
+              "COMMON",
+              "COMMON",
+              "UNCOMMON"
+            ],
+            "upgrades": [
+              false,
+              false,
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Clothesline",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "COMMON",
+                "sourceId": "Twin Strike",
+                "accepted": true
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "Twin Strike",
+                "accepted": false
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "True Grit",
+                "accepted": true
+              },
+              {
+                "slot": 4,
+                "rarity": "UNCOMMON",
+                "sourceId": "Uppercut",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "4803238e86112377",
+                  "a39edfa538fdb496"
+                ],
+                "counter": 76
+              },
+              "cardRarityOffset": -10
+            }
+          },
+          {
+            "cards": [
+              "Anger",
+              "Sword Boomerang",
+              "Body Slam",
+              "Immolate"
+            ],
+            "rarities": [
+              "COMMON",
+              "COMMON",
+              "COMMON",
+              "RARE"
+            ],
+            "upgrades": [
+              false,
+              false,
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Anger",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "COMMON",
+                "sourceId": "Sword Boomerang",
+                "accepted": true
+              },
+              {
+                "slot": 3,
+                "rarity": "COMMON",
+                "sourceId": "Body Slam",
+                "accepted": true
+              },
+              {
+                "slot": 4,
+                "rarity": "RARE",
+                "sourceId": "Immolate",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "529a8c08f49e630c",
+                  "7785cd900b5bc7a5"
+                ],
+                "counter": 87
+              },
+              "cardRarityOffset": 5
+            }
+          }
+        ],
+        "after": {
+          "cardRng": {
+            "words": [
+              "529a8c08f49e630c",
+              "7785cd900b5bc7a5"
+            ],
+            "counter": 87
+          },
+          "cardRarityOffset": 5
+        }
+      },
+      {
+        "phase": "elite_crown",
+        "groups": [
+          {
+            "cards": [
+              "Headbutt",
+              "Rage"
+            ],
+            "rarities": [
+              "COMMON",
+              "UNCOMMON"
+            ],
+            "upgrades": [
+              false,
+              false
+            ],
+            "attempts": [
+              {
+                "slot": 1,
+                "rarity": "COMMON",
+                "sourceId": "Headbutt",
+                "accepted": true
+              },
+              {
+                "slot": 2,
+                "rarity": "UNCOMMON",
+                "sourceId": "Rage",
+                "accepted": true
+              }
+            ],
+            "after": {
+              "cardRng": {
+                "words": [
+                  "37502770a4f2e81e",
+                  "7175efaec1cefeb6"
+                ],
+                "counter": 93
+              },
+              "cardRarityOffset": 4
+            }
+          }
+        ],
+        "after": {
+          "cardRng": {
+            "words": [
+              "37502770a4f2e81e",
+              "7175efaec1cefeb6"
+            ],
+            "counter": 93
+          },
+          "cardRarityOffset": 4
+        }
+      }
+    ],
+    "trace": [
+      {
+        "phase": "neow",
+        "kind": "between",
+        "maximum": 19,
+        "value": 7,
+        "before": {
+          "words": [
+            "cf8ffb89367b9db1",
+            "6ceb5da532af3c3b"
+          ],
+          "counter": 0
+        },
+        "after": {
+          "words": [
+            "6ceb5da532af3c3b",
+            "67ff9e7385a03fbb"
+          ],
+          "counter": 1
+        },
+        "minimum": 0
+      },
+      {
+        "phase": "neow",
+        "kind": "between",
+        "maximum": 19,
+        "value": 4,
+        "before": {
+          "words": [
+            "6ceb5da532af3c3b",
+            "67ff9e7385a03fbb"
+          ],
+          "counter": 1
+        },
+        "after": {
+          "words": [
+            "67ff9e7385a03fbb",
+            "d98dcb68507508f6"
+          ],
+          "counter": 2
+        },
+        "minimum": 0
+      },
+      {
+        "phase": "neow",
+        "kind": "between",
+        "maximum": 19,
+        "value": 3,
+        "before": {
+          "words": [
+            "67ff9e7385a03fbb",
+            "d98dcb68507508f6"
+          ],
+          "counter": 2
+        },
+        "after": {
+          "words": [
+            "d98dcb68507508f6",
+            "87b0aa2ccc11c149"
+          ],
+          "counter": 3
+        },
+        "minimum": 0
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 59,
+        "before": {
+          "words": [
+            "d98dcb68507508f6",
+            "87b0aa2ccc11c149"
+          ],
+          "counter": 3
+        },
+        "after": {
+          "words": [
+            "87b0aa2ccc11c149",
+            "ea156d33f3b85736"
+          ],
+          "counter": 4
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 0,
+        "before": {
+          "words": [
+            "87b0aa2ccc11c149",
+            "ea156d33f3b85736"
+          ],
+          "counter": 4
+        },
+        "after": {
+          "words": [
+            "ea156d33f3b85736",
+            "7bc3872e4f14eecb"
+          ],
+          "counter": 5
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 58,
+        "before": {
+          "words": [
+            "ea156d33f3b85736",
+            "7bc3872e4f14eecb"
+          ],
+          "counter": 5
+        },
+        "after": {
+          "words": [
+            "7bc3872e4f14eecb",
+            "082f0fde8fc14632"
+          ],
+          "counter": 6
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 13,
+        "before": {
+          "words": [
+            "7bc3872e4f14eecb",
+            "082f0fde8fc14632"
+          ],
+          "counter": 6
+        },
+        "after": {
+          "words": [
+            "082f0fde8fc14632",
+            "e4cb74f7a83aca10"
+          ],
+          "counter": 7
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 44,
+        "before": {
+          "words": [
+            "082f0fde8fc14632",
+            "e4cb74f7a83aca10"
+          ],
+          "counter": 7
+        },
+        "after": {
+          "words": [
+            "e4cb74f7a83aca10",
+            "03a3e8077b987aa8"
+          ],
+          "counter": 8
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 9,
+        "before": {
+          "words": [
+            "e4cb74f7a83aca10",
+            "03a3e8077b987aa8"
+          ],
+          "counter": 8
+        },
+        "after": {
+          "words": [
+            "03a3e8077b987aa8",
+            "9cbcce1a8791e17b"
+          ],
+          "counter": 9
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "03a3e8077b987aa8",
+            "9cbcce1a8791e17b"
+          ],
+          "counter": 9
+        },
+        "after": {
+          "words": [
+            "9cbcce1a8791e17b",
+            "9ca2ea0895270abe"
+          ],
+          "counter": 10
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "9cbcce1a8791e17b",
+            "9ca2ea0895270abe"
+          ],
+          "counter": 10
+        },
+        "after": {
+          "words": [
+            "9ca2ea0895270abe",
+            "0d5da43a04f974e8"
+          ],
+          "counter": 11
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "9ca2ea0895270abe",
+            "0d5da43a04f974e8"
+          ],
+          "counter": 11
+        },
+        "after": {
+          "words": [
+            "0d5da43a04f974e8",
+            "95b591c0a57195c4"
+          ],
+          "counter": 12
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 70,
+        "before": {
+          "words": [
+            "0d5da43a04f974e8",
+            "95b591c0a57195c4"
+          ],
+          "counter": 12
+        },
+        "after": {
+          "words": [
+            "95b591c0a57195c4",
+            "85ea414a54aca979"
+          ],
+          "counter": 13
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 0,
+        "before": {
+          "words": [
+            "95b591c0a57195c4",
+            "85ea414a54aca979"
+          ],
+          "counter": 13
+        },
+        "after": {
+          "words": [
+            "85ea414a54aca979",
+            "f00d5292fdc84d90"
+          ],
+          "counter": 14
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 4,
+        "before": {
+          "words": [
+            "85ea414a54aca979",
+            "f00d5292fdc84d90"
+          ],
+          "counter": 14
+        },
+        "after": {
+          "words": [
+            "f00d5292fdc84d90",
+            "d0cd55d01d3f3440"
+          ],
+          "counter": 15
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 35,
+        "value": 33,
+        "before": {
+          "words": [
+            "f00d5292fdc84d90",
+            "d0cd55d01d3f3440"
+          ],
+          "counter": 15
+        },
+        "after": {
+          "words": [
+            "d0cd55d01d3f3440",
+            "69bebfe9c0f81733"
+          ],
+          "counter": 16
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 75,
+        "before": {
+          "words": [
+            "d0cd55d01d3f3440",
+            "69bebfe9c0f81733"
+          ],
+          "counter": 16
+        },
+        "after": {
+          "words": [
+            "69bebfe9c0f81733",
+            "517d69d8774dc79c"
+          ],
+          "counter": 17
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 17,
+        "before": {
+          "words": [
+            "69bebfe9c0f81733",
+            "517d69d8774dc79c"
+          ],
+          "counter": 17
+        },
+        "after": {
+          "words": [
+            "517d69d8774dc79c",
+            "cc23e481109e8a0e"
+          ],
+          "counter": 18
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "517d69d8774dc79c",
+            "cc23e481109e8a0e"
+          ],
+          "counter": 18
+        },
+        "after": {
+          "words": [
+            "cc23e481109e8a0e",
+            "7165752ac6b7b170"
+          ],
+          "counter": 19
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "cc23e481109e8a0e",
+            "7165752ac6b7b170"
+          ],
+          "counter": 19
+        },
+        "after": {
+          "words": [
+            "7165752ac6b7b170",
+            "fdce98a75d967a00"
+          ],
+          "counter": 20
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "7165752ac6b7b170",
+            "fdce98a75d967a00"
+          ],
+          "counter": 20
+        },
+        "after": {
+          "words": [
+            "fdce98a75d967a00",
+            "19c8c46947feddfc"
+          ],
+          "counter": 21
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 93,
+        "before": {
+          "words": [
+            "fdce98a75d967a00",
+            "19c8c46947feddfc"
+          ],
+          "counter": 21
+        },
+        "after": {
+          "words": [
+            "19c8c46947feddfc",
+            "b7a8c0c541949366"
+          ],
+          "counter": 22
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 1,
+        "before": {
+          "words": [
+            "19c8c46947feddfc",
+            "b7a8c0c541949366"
+          ],
+          "counter": 22
+        },
+        "after": {
+          "words": [
+            "b7a8c0c541949366",
+            "9ac3ed5a8fd9a335"
+          ],
+          "counter": 23
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 11,
+        "before": {
+          "words": [
+            "b7a8c0c541949366",
+            "9ac3ed5a8fd9a335"
+          ],
+          "counter": 23
+        },
+        "after": {
+          "words": [
+            "9ac3ed5a8fd9a335",
+            "4fcb8d74c8f01fba"
+          ],
+          "counter": 24
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 35,
+        "value": 9,
+        "before": {
+          "words": [
+            "9ac3ed5a8fd9a335",
+            "4fcb8d74c8f01fba"
+          ],
+          "counter": 24
+        },
+        "after": {
+          "words": [
+            "4fcb8d74c8f01fba",
+            "784f972e2f8f6b11"
+          ],
+          "counter": 25
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 56,
+        "before": {
+          "words": [
+            "4fcb8d74c8f01fba",
+            "784f972e2f8f6b11"
+          ],
+          "counter": 25
+        },
+        "after": {
+          "words": [
+            "784f972e2f8f6b11",
+            "8de0189cd32735d8"
+          ],
+          "counter": 26
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 1,
+        "before": {
+          "words": [
+            "784f972e2f8f6b11",
+            "8de0189cd32735d8"
+          ],
+          "counter": 26
+        },
+        "after": {
+          "words": [
+            "8de0189cd32735d8",
+            "62b83f882463aa7a"
+          ],
+          "counter": 27
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 9,
+        "before": {
+          "words": [
+            "8de0189cd32735d8",
+            "62b83f882463aa7a"
+          ],
+          "counter": 27
+        },
+        "after": {
+          "words": [
+            "62b83f882463aa7a",
+            "a131d55270c86238"
+          ],
+          "counter": 28
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "62b83f882463aa7a",
+            "a131d55270c86238"
+          ],
+          "counter": 28
+        },
+        "after": {
+          "words": [
+            "a131d55270c86238",
+            "079b887222f0106f"
+          ],
+          "counter": 29
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "a131d55270c86238",
+            "079b887222f0106f"
+          ],
+          "counter": 29
+        },
+        "after": {
+          "words": [
+            "079b887222f0106f",
+            "0f923d14706bd8bb"
+          ],
+          "counter": 30
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "079b887222f0106f",
+            "0f923d14706bd8bb"
+          ],
+          "counter": 30
+        },
+        "after": {
+          "words": [
+            "0f923d14706bd8bb",
+            "3118d228f9a98770"
+          ],
+          "counter": 31
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 96,
+        "before": {
+          "words": [
+            "0f923d14706bd8bb",
+            "3118d228f9a98770"
+          ],
+          "counter": 31
+        },
+        "after": {
+          "words": [
+            "3118d228f9a98770",
+            "b4b29809960ac300"
+          ],
+          "counter": 32
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 12,
+        "before": {
+          "words": [
+            "3118d228f9a98770",
+            "b4b29809960ac300"
+          ],
+          "counter": 32
+        },
+        "after": {
+          "words": [
+            "b4b29809960ac300",
+            "91d68c7df870e6c1"
+          ],
+          "counter": 33
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 57,
+        "before": {
+          "words": [
+            "b4b29809960ac300",
+            "91d68c7df870e6c1"
+          ],
+          "counter": 33
+        },
+        "after": {
+          "words": [
+            "91d68c7df870e6c1",
+            "21af490d556d31ba"
+          ],
+          "counter": 34
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 16,
+        "before": {
+          "words": [
+            "91d68c7df870e6c1",
+            "21af490d556d31ba"
+          ],
+          "counter": 34
+        },
+        "after": {
+          "words": [
+            "21af490d556d31ba",
+            "8e85aa9efc48d856"
+          ],
+          "counter": 35
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 81,
+        "before": {
+          "words": [
+            "21af490d556d31ba",
+            "8e85aa9efc48d856"
+          ],
+          "counter": 35
+        },
+        "after": {
+          "words": [
+            "8e85aa9efc48d856",
+            "298006aa2a858a65"
+          ],
+          "counter": 36
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 1,
+        "before": {
+          "words": [
+            "8e85aa9efc48d856",
+            "298006aa2a858a65"
+          ],
+          "counter": 36
+        },
+        "after": {
+          "words": [
+            "298006aa2a858a65",
+            "e87be8af5ab5931d"
+          ],
+          "counter": 37
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "298006aa2a858a65",
+            "e87be8af5ab5931d"
+          ],
+          "counter": 37
+        },
+        "after": {
+          "words": [
+            "e87be8af5ab5931d",
+            "94ee92b0fe7dbeac"
+          ],
+          "counter": 38
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "e87be8af5ab5931d",
+            "94ee92b0fe7dbeac"
+          ],
+          "counter": 38
+        },
+        "after": {
+          "words": [
+            "94ee92b0fe7dbeac",
+            "2b387f1848dfeb94"
+          ],
+          "counter": 39
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "94ee92b0fe7dbeac",
+            "2b387f1848dfeb94"
+          ],
+          "counter": 39
+        },
+        "after": {
+          "words": [
+            "2b387f1848dfeb94",
+            "e7a9b535f88a4714"
+          ],
+          "counter": 40
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 54,
+        "before": {
+          "words": [
+            "2b387f1848dfeb94",
+            "e7a9b535f88a4714"
+          ],
+          "counter": 40
+        },
+        "after": {
+          "words": [
+            "e7a9b535f88a4714",
+            "40b5f66f984e2091"
+          ],
+          "counter": 41
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 15,
+        "before": {
+          "words": [
+            "e7a9b535f88a4714",
+            "40b5f66f984e2091"
+          ],
+          "counter": 41
+        },
+        "after": {
+          "words": [
+            "40b5f66f984e2091",
+            "3de038c33fb2c526"
+          ],
+          "counter": 42
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 46,
+        "before": {
+          "words": [
+            "40b5f66f984e2091",
+            "3de038c33fb2c526"
+          ],
+          "counter": 42
+        },
+        "after": {
+          "words": [
+            "3de038c33fb2c526",
+            "4a99d20f7fcd3d1f"
+          ],
+          "counter": 43
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 19,
+        "value": 7,
+        "before": {
+          "words": [
+            "3de038c33fb2c526",
+            "4a99d20f7fcd3d1f"
+          ],
+          "counter": 43
+        },
+        "after": {
+          "words": [
+            "4a99d20f7fcd3d1f",
+            "16e61d8385dbadbf"
+          ],
+          "counter": 44
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 99,
+        "value": 31,
+        "before": {
+          "words": [
+            "4a99d20f7fcd3d1f",
+            "16e61d8385dbadbf"
+          ],
+          "counter": 44
+        },
+        "after": {
+          "words": [
+            "16e61d8385dbadbf",
+            "5bc00f84d6590867"
+          ],
+          "counter": 45
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "int",
+        "maximum": 35,
+        "value": 19,
+        "before": {
+          "words": [
+            "16e61d8385dbadbf",
+            "5bc00f84d6590867"
+          ],
+          "counter": 45
+        },
+        "after": {
+          "words": [
+            "5bc00f84d6590867",
+            "8ce49455042be9c0"
+          ],
+          "counter": 46
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "5bc00f84d6590867",
+            "8ce49455042be9c0"
+          ],
+          "counter": 46
+        },
+        "after": {
+          "words": [
+            "8ce49455042be9c0",
+            "154ffba34957860a"
+          ],
+          "counter": 47
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "8ce49455042be9c0",
+            "154ffba34957860a"
+          ],
+          "counter": 47
+        },
+        "after": {
+          "words": [
+            "154ffba34957860a",
+            "b3292934be52750d"
+          ],
+          "counter": 48
+        }
+      },
+      {
+        "phase": "orrery",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "154ffba34957860a",
+            "b3292934be52750d"
+          ],
+          "counter": 48
+        },
+        "after": {
+          "words": [
+            "b3292934be52750d",
+            "77c21b0d907f9803"
+          ],
+          "counter": 49
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 99,
+        "value": 39,
+        "before": {
+          "words": [
+            "b3292934be52750d",
+            "77c21b0d907f9803"
+          ],
+          "counter": 49
+        },
+        "after": {
+          "words": [
+            "77c21b0d907f9803",
+            "5eb40fa5582c3203"
+          ],
+          "counter": 50
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 10,
+        "value": 4,
+        "before": {
+          "words": [
+            "77c21b0d907f9803",
+            "5eb40fa5582c3203"
+          ],
+          "counter": 50
+        },
+        "after": {
+          "words": [
+            "5eb40fa5582c3203",
+            "afbe53f676b08ba9"
+          ],
+          "counter": 51
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 99,
+        "value": 41,
+        "before": {
+          "words": [
+            "5eb40fa5582c3203",
+            "afbe53f676b08ba9"
+          ],
+          "counter": 51
+        },
+        "after": {
+          "words": [
+            "afbe53f676b08ba9",
+            "23a60c6dcc5668e1"
+          ],
+          "counter": 52
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 10,
+        "value": 4,
+        "before": {
+          "words": [
+            "afbe53f676b08ba9",
+            "23a60c6dcc5668e1"
+          ],
+          "counter": 52
+        },
+        "after": {
+          "words": [
+            "23a60c6dcc5668e1",
+            "77232d94023c2923"
+          ],
+          "counter": 53
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 99,
+        "value": 90,
+        "before": {
+          "words": [
+            "23a60c6dcc5668e1",
+            "77232d94023c2923"
+          ],
+          "counter": 53
+        },
+        "after": {
+          "words": [
+            "77232d94023c2923",
+            "62630070658dfaa9"
+          ],
+          "counter": 54
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 13,
+        "value": 11,
+        "before": {
+          "words": [
+            "77232d94023c2923",
+            "62630070658dfaa9"
+          ],
+          "counter": 54
+        },
+        "after": {
+          "words": [
+            "62630070658dfaa9",
+            "df416d797731864d"
+          ],
+          "counter": 55
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 99,
+        "value": 34,
+        "before": {
+          "words": [
+            "62630070658dfaa9",
+            "df416d797731864d"
+          ],
+          "counter": 55
+        },
+        "after": {
+          "words": [
+            "df416d797731864d",
+            "851086eb7521ba3f"
+          ],
+          "counter": 56
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 16,
+        "value": 4,
+        "before": {
+          "words": [
+            "df416d797731864d",
+            "851086eb7521ba3f"
+          ],
+          "counter": 56
+        },
+        "after": {
+          "words": [
+            "851086eb7521ba3f",
+            "e6ea428d1a6cae77"
+          ],
+          "counter": 57
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 99,
+        "value": 22,
+        "before": {
+          "words": [
+            "851086eb7521ba3f",
+            "e6ea428d1a6cae77"
+          ],
+          "counter": 57
+        },
+        "after": {
+          "words": [
+            "e6ea428d1a6cae77",
+            "16402cd7c146825e"
+          ],
+          "counter": 58
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 16,
+        "value": 0,
+        "before": {
+          "words": [
+            "e6ea428d1a6cae77",
+            "16402cd7c146825e"
+          ],
+          "counter": 58
+        },
+        "after": {
+          "words": [
+            "16402cd7c146825e",
+            "b627083bcacc092f"
+          ],
+          "counter": 59
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 99,
+        "value": 99,
+        "before": {
+          "words": [
+            "16402cd7c146825e",
+            "b627083bcacc092f"
+          ],
+          "counter": 59
+        },
+        "after": {
+          "words": [
+            "b627083bcacc092f",
+            "cb87b950ea83f2a0"
+          ],
+          "counter": 60
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 7,
+        "value": 1,
+        "before": {
+          "words": [
+            "b627083bcacc092f",
+            "cb87b950ea83f2a0"
+          ],
+          "counter": 60
+        },
+        "after": {
+          "words": [
+            "cb87b950ea83f2a0",
+            "604582bc613e0113"
+          ],
+          "counter": 61
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 19,
+        "value": 14,
+        "before": {
+          "words": [
+            "cb87b950ea83f2a0",
+            "604582bc613e0113"
+          ],
+          "counter": 61
+        },
+        "after": {
+          "words": [
+            "604582bc613e0113",
+            "03b74bf4b68981ea"
+          ],
+          "counter": 62
+        }
+      },
+      {
+        "phase": "shop",
+        "kind": "int",
+        "maximum": 14,
+        "value": 3,
+        "before": {
+          "words": [
+            "604582bc613e0113",
+            "03b74bf4b68981ea"
+          ],
+          "counter": 62
+        },
+        "after": {
+          "words": [
+            "03b74bf4b68981ea",
+            "3dc249723d3b098b"
+          ],
+          "counter": 63
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 78,
+        "before": {
+          "words": [
+            "03b74bf4b68981ea",
+            "3dc249723d3b098b"
+          ],
+          "counter": 63
+        },
+        "after": {
+          "words": [
+            "3dc249723d3b098b",
+            "c42e3abf09baf52a"
+          ],
+          "counter": 64
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 19,
+        "value": 12,
+        "before": {
+          "words": [
+            "3dc249723d3b098b",
+            "c42e3abf09baf52a"
+          ],
+          "counter": 64
+        },
+        "after": {
+          "words": [
+            "c42e3abf09baf52a",
+            "40f2ac1690f42f3e"
+          ],
+          "counter": 65
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 49,
+        "before": {
+          "words": [
+            "c42e3abf09baf52a",
+            "40f2ac1690f42f3e"
+          ],
+          "counter": 65
+        },
+        "after": {
+          "words": [
+            "40f2ac1690f42f3e",
+            "db580616430711ed"
+          ],
+          "counter": 66
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 19,
+        "value": 11,
+        "before": {
+          "words": [
+            "40f2ac1690f42f3e",
+            "db580616430711ed"
+          ],
+          "counter": 66
+        },
+        "after": {
+          "words": [
+            "db580616430711ed",
+            "90e2f5fcf1f23cb9"
+          ],
+          "counter": 67
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 98,
+        "before": {
+          "words": [
+            "db580616430711ed",
+            "90e2f5fcf1f23cb9"
+          ],
+          "counter": 67
+        },
+        "after": {
+          "words": [
+            "90e2f5fcf1f23cb9",
+            "409b187abe0708ab"
+          ],
+          "counter": 68
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 19,
+        "value": 11,
+        "before": {
+          "words": [
+            "90e2f5fcf1f23cb9",
+            "409b187abe0708ab"
+          ],
+          "counter": 68
+        },
+        "after": {
+          "words": [
+            "409b187abe0708ab",
+            "2e0123c533c27c04"
+          ],
+          "counter": 69
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 19,
+        "value": 6,
+        "before": {
+          "words": [
+            "409b187abe0708ab",
+            "2e0123c533c27c04"
+          ],
+          "counter": 69
+        },
+        "after": {
+          "words": [
+            "2e0123c533c27c04",
+            "53c506d255f2f020"
+          ],
+          "counter": 70
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 24,
+        "before": {
+          "words": [
+            "2e0123c533c27c04",
+            "53c506d255f2f020"
+          ],
+          "counter": 70
+        },
+        "after": {
+          "words": [
+            "53c506d255f2f020",
+            "9f5da271f40ca050"
+          ],
+          "counter": 71
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 35,
+        "value": 34,
+        "before": {
+          "words": [
+            "53c506d255f2f020",
+            "9f5da271f40ca050"
+          ],
+          "counter": 71
+        },
+        "after": {
+          "words": [
+            "9f5da271f40ca050",
+            "a5b2408b9943eef4"
+          ],
+          "counter": 72
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "9f5da271f40ca050",
+            "a5b2408b9943eef4"
+          ],
+          "counter": 72
+        },
+        "after": {
+          "words": [
+            "a5b2408b9943eef4",
+            "0215b750fbcf8244"
+          ],
+          "counter": 73
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "a5b2408b9943eef4",
+            "0215b750fbcf8244"
+          ],
+          "counter": 73
+        },
+        "after": {
+          "words": [
+            "0215b750fbcf8244",
+            "e26b2613ed5fc92f"
+          ],
+          "counter": 74
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "0215b750fbcf8244",
+            "e26b2613ed5fc92f"
+          ],
+          "counter": 74
+        },
+        "after": {
+          "words": [
+            "e26b2613ed5fc92f",
+            "4803238e86112377"
+          ],
+          "counter": 75
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "e26b2613ed5fc92f",
+            "4803238e86112377"
+          ],
+          "counter": 75
+        },
+        "after": {
+          "words": [
+            "4803238e86112377",
+            "a39edfa538fdb496"
+          ],
+          "counter": 76
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 90,
+        "before": {
+          "words": [
+            "4803238e86112377",
+            "a39edfa538fdb496"
+          ],
+          "counter": 76
+        },
+        "after": {
+          "words": [
+            "a39edfa538fdb496",
+            "2cdeb332f754e067"
+          ],
+          "counter": 77
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 19,
+        "value": 0,
+        "before": {
+          "words": [
+            "a39edfa538fdb496",
+            "2cdeb332f754e067"
+          ],
+          "counter": 77
+        },
+        "after": {
+          "words": [
+            "2cdeb332f754e067",
+            "5ddc2ac7e3ba21b2"
+          ],
+          "counter": 78
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 72,
+        "before": {
+          "words": [
+            "2cdeb332f754e067",
+            "5ddc2ac7e3ba21b2"
+          ],
+          "counter": 78
+        },
+        "after": {
+          "words": [
+            "5ddc2ac7e3ba21b2",
+            "e8796940dcc51247"
+          ],
+          "counter": 79
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 19,
+        "value": 19,
+        "before": {
+          "words": [
+            "5ddc2ac7e3ba21b2",
+            "e8796940dcc51247"
+          ],
+          "counter": 79
+        },
+        "after": {
+          "words": [
+            "e8796940dcc51247",
+            "d65481bb03cefe9f"
+          ],
+          "counter": 80
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 80,
+        "before": {
+          "words": [
+            "e8796940dcc51247",
+            "d65481bb03cefe9f"
+          ],
+          "counter": 80
+        },
+        "after": {
+          "words": [
+            "d65481bb03cefe9f",
+            "9e43ae4cec4f7dba"
+          ],
+          "counter": 81
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 19,
+        "value": 5,
+        "before": {
+          "words": [
+            "d65481bb03cefe9f",
+            "9e43ae4cec4f7dba"
+          ],
+          "counter": 81
+        },
+        "after": {
+          "words": [
+            "9e43ae4cec4f7dba",
+            "9596cd4583883639"
+          ],
+          "counter": 82
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 99,
+        "value": 14,
+        "before": {
+          "words": [
+            "9e43ae4cec4f7dba",
+            "9596cd4583883639"
+          ],
+          "counter": 82
+        },
+        "after": {
+          "words": [
+            "9596cd4583883639",
+            "2da31888138d0244"
+          ],
+          "counter": 83
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "int",
+        "maximum": 15,
+        "value": 0,
+        "before": {
+          "words": [
+            "9596cd4583883639",
+            "2da31888138d0244"
+          ],
+          "counter": 83
+        },
+        "after": {
+          "words": [
+            "2da31888138d0244",
+            "1af40a7660ec59fd"
+          ],
+          "counter": 84
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "2da31888138d0244",
+            "1af40a7660ec59fd"
+          ],
+          "counter": 84
+        },
+        "after": {
+          "words": [
+            "1af40a7660ec59fd",
+            "735ee0ac83675ee7"
+          ],
+          "counter": 85
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "1af40a7660ec59fd",
+            "735ee0ac83675ee7"
+          ],
+          "counter": 85
+        },
+        "after": {
+          "words": [
+            "735ee0ac83675ee7",
+            "529a8c08f49e630c"
+          ],
+          "counter": 86
+        }
+      },
+      {
+        "phase": "wheel",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "735ee0ac83675ee7",
+            "529a8c08f49e630c"
+          ],
+          "counter": 86
+        },
+        "after": {
+          "words": [
+            "529a8c08f49e630c",
+            "7785cd900b5bc7a5"
+          ],
+          "counter": 87
+        }
+      },
+      {
+        "phase": "elite_crown",
+        "kind": "int",
+        "maximum": 99,
+        "value": 84,
+        "before": {
+          "words": [
+            "529a8c08f49e630c",
+            "7785cd900b5bc7a5"
+          ],
+          "counter": 87
+        },
+        "after": {
+          "words": [
+            "7785cd900b5bc7a5",
+            "216525c4f92a79e4"
+          ],
+          "counter": 88
+        }
+      },
+      {
+        "phase": "elite_crown",
+        "kind": "int",
+        "maximum": 19,
+        "value": 15,
+        "before": {
+          "words": [
+            "7785cd900b5bc7a5",
+            "216525c4f92a79e4"
+          ],
+          "counter": 88
+        },
+        "after": {
+          "words": [
+            "216525c4f92a79e4",
+            "9ee51a7f49812392"
+          ],
+          "counter": 89
+        }
+      },
+      {
+        "phase": "elite_crown",
+        "kind": "int",
+        "maximum": 99,
+        "value": 45,
+        "before": {
+          "words": [
+            "216525c4f92a79e4",
+            "9ee51a7f49812392"
+          ],
+          "counter": 89
+        },
+        "after": {
+          "words": [
+            "9ee51a7f49812392",
+            "5dfccb2c2391c031"
+          ],
+          "counter": 90
+        }
+      },
+      {
+        "phase": "elite_crown",
+        "kind": "int",
+        "maximum": 35,
+        "value": 22,
+        "before": {
+          "words": [
+            "9ee51a7f49812392",
+            "5dfccb2c2391c031"
+          ],
+          "counter": 90
+        },
+        "after": {
+          "words": [
+            "5dfccb2c2391c031",
+            "fcbd4175315568eb"
+          ],
+          "counter": 91
+        }
+      },
+      {
+        "phase": "elite_crown",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "5dfccb2c2391c031",
+            "fcbd4175315568eb"
+          ],
+          "counter": 91
+        },
+        "after": {
+          "words": [
+            "fcbd4175315568eb",
+            "37502770a4f2e81e"
+          ],
+          "counter": 92
+        }
+      },
+      {
+        "phase": "elite_crown",
+        "kind": "chance",
+        "chance": 0.0,
+        "value": false,
+        "before": {
+          "words": [
+            "fcbd4175315568eb",
+            "37502770a4f2e81e"
+          ],
+          "counter": 92
+        },
+        "after": {
+          "words": [
+            "37502770a4f2e81e",
+            "7175efaec1cefeb6"
+          ],
+          "counter": 93
+        }
+      }
+    ],
+    "rewardDuplicateRetries": 2,
+    "shopDuplicateRetries": 1
+  },
+  "boundary": "Controlled public Run/Nodes chain; no PC binary/natural acquisition/current-device or arbitrary-modifier acceptance."
+}

@@ -281,3 +281,54 @@ art/monster-benchmarks/genshin-v2/hydro-samachurl/source-generation.json text eo
 tools/oracles/sts1_card_random_chain.py text eol=lf
 data/reference/sts1-card-pools/pools.json text eol=lf
 data/reference/sts1-card-pools/registration.json text eol=lf
+# ColorlessPotion oracle source identity and reproducible evidence bytes.
+tools/oracles/sts1_colorless_potion.py text eol=lf
+tests/fixtures/sts1-colorless-potion-vectors.json text eol=lf
+
+# Independent Snecko/Insect oracle authenticates exact model/input bytes.
+tools/oracles/sts1_snecko_insect.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+tools/oracles/sts1_combat_shuffle.py text eol=lf
+
+# Sword random-target oracle hashes these exact independent inputs on Windows too.
+tools/oracles/sts1_sword_random.py text eol=lf
+tests/fixtures/sts1-sword-random-sources.json text eol=lf
+tests/fixtures/sts1-sword-random.json text eol=lf
+
+# Thin Sword entry contracts compare exact LF source across checkout platforms.
+tests/sword-random-*.test.mjs text eol=lf
+tests/helpers/sword-random-cases.mjs text eol=lf
+
+# Chaos chain authenticates model/input bytes across Windows checkouts.
+tools/oracles/sts1_chaos_shared_chain.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+# Complete card identity consumers retain raw source/input hash bytes.
+tools/oracles/sts1_card_consumers.py text eol=lf
+tests/fixtures/sts1-card-consumers.json text eol=lf
+
+# Secret action oracle authenticates model and independent Stream bytes.
+tools/oracles/sts1_secret_candidate_insertion.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+
+# Merchant chain input/generator authentication uses exact raw LF bytes.
+tools/oracles/sts1_merchant_chain.py text eol=lf
+tests/fixtures/sts1-merchant-sources.json text eol=lf
+tests/fixtures/sts1-merchant-chain.json text eol=lf
+tests/fixtures/sts1-relic-pool-vectors.json text eol=lf
+docs/rules/evidence/sts1-relic-pool-catalog.json text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+tests/fixtures/economy-relic-seeds.json text eol=lf
+
+# Deep Breath independent shuffle oracle authenticates exact model bytes.
+tools/oracles/sts1_deep_breath.py text eol=lf
+tools/oracles/sts1_combat_shuffle.py text eol=lf
+# Secret registration compares exact LF source bytes, including in CRLF checkouts.
+tests/secret-candidate-skill-base-small.test.mjs text eol=lf
+tests/secret-candidate-skill-base-large.test.mjs text eol=lf
+tests/secret-candidate-skill-upgraded-small.test.mjs text eol=lf
+tests/secret-candidate-skill-upgraded-large.test.mjs text eol=lf
+tests/secret-candidate-attack-base-small.test.mjs text eol=lf
+tests/secret-candidate-attack-base-large.test.mjs text eol=lf
+tests/secret-candidate-attack-upgraded-small.test.mjs text eol=lf
+tests/secret-candidate-attack-upgraded-large.test.mjs text eol=lf
+tests/helpers/secret-candidate-insertion.mjs text eol=lf
