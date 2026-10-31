@@ -1,0 +1,38 @@
+{
+  "verdict": "PASS",
+  "blockingFindings": [],
+  "commit": "93b9b5361ae3c18870e3c749121464b5004afdac",
+  "parent": "af81787d40c993fba60b9416294c400c1c2289f7",
+  "worktree": "/workspace/m3-relic-detail-visibility",
+  "scope": "纯离线capture/simulator文字字段适配与证据；无生产UI/背景改动，不代表官方运行时或设备验收",
+  "findings": [
+    "git diff af81787d 93b9b53 -- src scripts data config为空；仅experiments适配、微测试与离线证据变化。未修改背景、生产字号、布局或游戏规则。",
+    "Lua capture优先control.adaptiveFontSize，仅nil时fallback spec.text.autoSize，因此显式false保留；fontSize/minimumFontSize采用实际runtime字段优先。Lua数值0为truthy，未被or错误吞掉。生产abyss_card_display确实使用adaptiveFontSize/fontSize字段，映射字段名匹配。",
+    "JS转换明确adaptiveFontSize=text.autoSize===true，替代seed默认false；保留fontSize与minFontSize（nullish才fallback字号），其余原有颜色/背景/outline/对齐转换未改变。不对所有文字强制自动缩小。",
+    "新增捕获脚本通过真实GameUI入口选择旅行者、confirmStart、openRelics获取已持有遗物；未改生产Run状态以制造名称。",
+    "独立比较before/isolated save，忽略生成id/guid后唯一语义diff为声明路径adaptiveFontSize false->true，与isolated-save-diff.json完全一致。",
+    "独立view_image查看before与after：before遗物名缺失；after原位置显示余烬之心。其他面板/背景保持，素材缺失红框仍可见。after和isolated PNG哈希相同。",
+    "before PNG/receipt/save/tree四项均逐字节等于父提交原owned-relic-detail证据，未替换修前基线。",
+    "m3-visual metadata全部30项文件哈希匹配；m3-relic-name metadata及adapterHashes共22项哈希匹配。after/isolated原始receipt解析对象与metadata.receipts完全一致，各8项fetch failed保留。",
+    "host.log.raw.gz与oss-policy.txt.raw.gz解压后逐字节等于父提交原文件，rawSha256匹配；规范文件确实仅LF、行尾空白与终端换行处理，未删诊断内容。403 Forbidden与fetch failed仍在。"
+  ],
+  "freshVerification": [
+    {
+      "command": "node --test tests/ui-polish-sim-text.test.mjs",
+      "result": "3/3 PASS，exit 0；覆盖生产32高名称、显式false、Lua layout fallback及runtime size overrides"
+    },
+    {
+      "check": "元数据hash、raw gzip/父版bytes、before四文件、isolated语义diff、receipt绑定",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check af81787d 93b9b53",
+      "result": "exit 0"
+    },
+    {
+      "check": "git status --short",
+      "result": "clean"
+    }
+  ],
+  "limits": "本次未重跑整套或重新启动Simulator；实际Host截图以提交的PNG/receipt及受控save检查支持。没有宣称官方导入、ready、PC/手机实机、美术素材加载或性能已验收；403网络限制仍未解决。审查未修改源码、任务或共享final。"
+}

@@ -1,0 +1,49 @@
+{
+  "worktree": "/workspace/m3-parity-contract",
+  "base": "243ae1bd888d33e500cdd868932cc09b6cb9131c",
+  "commit": "7f22bdd52f97bbc7261057da8aba3035d7774108",
+  "change": "Test-only current help contract repair; production unchanged.",
+  "red": {
+    "native_ui_parity.lua": 10,
+    "ui_final_menu.lua": 12,
+    "menu_input_boundaries_current.lua": 19
+  },
+  "redReason": "All three fixtures expected public help to activate guide despite approved M3 removal. Independently run before edits; each exit 1.",
+  "green": [
+    {
+      "command": "node --test --test-concurrency=1 tests/native-ui-parity.test.mjs tests/menu-input-boundaries-current.test.mjs tests/ui-final-presentation.test.mjs tests/m3-chinese-copy.test.mjs",
+      "result": "7/7 passed, exit0, 15363ms"
+    },
+    {
+      "command": "node --test tests/menu-input-boundaries-current.test.mjs",
+      "result": "1/1 passed, exit0, after preserving controller-confirm echo through legitimate internal-guide close control"
+    }
+  ],
+  "negativeControls": [
+    {
+      "mutation": "exit help SetVisible(false) -> true",
+      "result": "Expected RED hidden_menu_help.lua:22: exitPanel help must stay hidden"
+    },
+    {
+      "mutation": "remove explicit help/run_help availability rejection",
+      "result": "Expected RED hidden_menu_help.lua:23: exitPanel hidden help must reject direct/stale click"
+    }
+  ],
+  "preserved": [
+    "Both retired public controls hidden, direct/stale click rejected, controller ineligible, enabled predicate false, direct confirm rejected.",
+    "Whole mutable run/map/RNG and modal UI flags unchanged by denied help. Read-only shared data preserved during comparison.",
+    "Internal-guide isolation remains tested using explicitly named fixture-only precondition setup; does not imply public guide access.",
+    "Controller-confirm pointer echo, cancel focus return, layered dismissal, settlement guard, map navigation, PC return-to-current/floor conservation all retain assertions."
+  ],
+  "search": "rg search of all tests Lua/mjs finds no other old public help activation contract. m3_chinese_copy already expects removal. Static layout tests cover retained dormant template structure, not public availability.",
+  "checks": [
+    "git diff --check PASS",
+    "git diff --exit-code -- src/lua PASS"
+  ],
+  "limits": [
+    "No full suite per controller request: controller owns combined engineering/campaign runs.",
+    "No native PC/phone or official evidence claimed.",
+    "Independent review/cherry-pick/final SHA verification remains controller responsibility."
+  ],
+  "note": "Two helper-development failures were corrected: shared read-only data alias comparison and stale navigationEnabled on a hidden battle map. Neither changed production."
+}
