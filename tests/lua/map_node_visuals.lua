@@ -50,7 +50,7 @@ local function verify()
             equalColor(icon.imageColor,state=='locked' and palette.far or state=='visited' and palette.visited or palette.kind[node.type])
             assert(b:GetChild('positionToken').visible==(state=='current'),'existing token identifies only current node')
             local size=node.type=='boss' and Theme.layout.map.bossNode or Theme.layout.map.node
-            assert(b:GetChild('ring').visible==(state=='current'),'STS MAP_CIRCLE_5 only on current room')
+            assert(b:GetChild('ring').visible==(state=='current' or state=='visited'),'STS MAP_CIRCLE_5 on current and taken rooms')
             local k=(state=='current' or state=='available') and .74 or state=='visited' and .6 or .5
             assert(math.abs(icon.size[1]-size*k)<1e-6,'official icon scale carries state')
             assert(hit.size[1]==size and hit.size[2]==size,'unpainted hit target stays full sized')
