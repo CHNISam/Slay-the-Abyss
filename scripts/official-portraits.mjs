@@ -57,7 +57,12 @@ export function attachLowpolyScenes(layout,{menuBackground=false}={}) {
  const stage=layout.controls.find(c=>c.name==='stage');
  const panel=n=>{const c=stage?.children?.find(c=>c.name===n);if(!c)throw Error(`Missing scene parent ${n}`);return c;};
  const host=()=>({name:lowpolySceneHost,kind:'container',position:[0,0],size:[1280,720],visible:false,children:[]});
- const select=panel('characterPanel'),battle=panel('battlePanel');
+ const select=panel('characterPanel'),battle=panel('battlePanel'),menu=stage?.children?.find(c=>c.name==='menuPanel');
+ // Pan 2026-10-31：首页铺我们自己的低多边形几何地景（同一份 lowpolyLand），盖在纯色底之上、标题之下。
+ if(menu&&!menu.children.some(c=>c.name===lowpolySceneHost)){
+  const at=menu.children.findIndex(c=>c.name==='lowpolyVeil');
+  menu.children.splice(at<0?1:at,0,host());
+ }
  if([select,battle].some(p=>p.children.some(c=>c.name===lowpolySceneHost)))throw Error('Scene hosts already attached');
  select.children.splice(select.children.findIndex(c=>c.name==='border'),0,host());
  battle.children.unshift(host());

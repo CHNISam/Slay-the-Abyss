@@ -13,6 +13,7 @@ local CharacterSelect = require("abyss_character_select")
 local CharacterView = require("abyss_character_select_view")
 local Controller = require("abyss_controller")
 local MenuView=require("abyss_game_ui_menu_view")
+local Theme=require("abyss_theme")
 local M = {}
 local number = require("abyss_numbers").integer
 local RunSeed = require("abyss_run_seed")
@@ -37,8 +38,6 @@ function M.new(root, data, presentation, clickEvent, platform)
     local exitPanel, exitEntry = child("exitPanel"), child("exitEntry")
     local runMenu = child("runMenu")
     local exitGeneration, menuGeneration = 0, 0
-    local codeVersion = assert(menu:GetChild('codeVersion'), 'missing game menu codeVersion')
-    codeVersion.text = Narrative.codeVersion or '未知'
     local characterPanel = child("characterPanel")
     self.characterSelection=CharacterSelect.new(data,presentation,platform.campaignProfile or platform.characterProfile)
     self.fastMode=false
@@ -423,7 +422,6 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
         end
     end
-    local function menuVersionVisible()return self.mode=='menu' and not self.characterOpen end
     local function syncPortraits()
         if not platform.portraits then return end
         local character
@@ -436,7 +434,6 @@ function M.new(root, data, presentation, clickEvent, platform)
         return not self.easterEggOpen and not self.exitOpen and not self.settlementRequested and not self.settlementBusy
     end
     local function refreshForeground()
-        codeVersion:SetVisible(menuVersionVisible())
         if characterPanel then
             characterPanel:SetVisible(self.characterOpen==true)
             if self.characterOpen then
@@ -457,6 +454,20 @@ function M.new(root, data, presentation, clickEvent, platform)
         local routeEnabled=canViewRoute()
         routeBox:SetVisible(routeEnabled)
         routeHit.interactable,routeHit.raycastTarget=routeEnabled,routeEnabled
+        -- Pan 2026-10-31：首页（未启程）收起「查看地图」那一格，面板与下方控件上提不留空洞。
+        do
+            local R=Theme.layout.runMenu
+            local gap=routeEnabled and 0 or (R.help[2]-R.map[2])
+            local function at(name,spec,dy)local c=runMenu:GetChild(name);if c then c:SetAnchoredPosition(spec[1],spec[2]+dy)end end
+            at('rule',R.rule,gap);at('abandon',R.abandon,gap);at('dismissHint',R.dismissHint,gap)
+            local h=R.panel[4]-gap
+            for _,name in ipairs({'border','face','catch'})do
+                local c=runMenu:GetChild(name)
+                if c then c:SetAnchoredPosition(R.panel[1],R.panel[2]+gap/2)
+                    local inset=name=='face' and Theme.space.border*2 or 0
+                    c:SetSizeDelta(R.panel[3]-inset,h-inset)end
+            end
+        end
         if runMenu.visible then runMenu:SetAsLastSibling() end
         local back = child('mapPanel'):GetChild('previewBack')
         back:SetVisible(self.routeOpen == true)

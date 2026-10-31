@@ -45,7 +45,7 @@ local function dump(c,s)
     end
     return {name=s.name,kind=s.kind,visible=c.visible,position={c.x or (s.position or {0,0})[1],c.y or (s.position or {0,0})[2]},
         size={c.sizeDeltaX or s.size[1],c.sizeDeltaY or s.size[2]},scale=c.scale,
-        image=c.imageId or s.image,colour=hex(c.imageColor)or s.colour,rotation=c.localRotationZ,opacity=s.opacity,
+        image=c.imageId or s.image,colour=hex(c.imageColor)or s.colour,rotation=c.localRotationZ or s.rotation,opacity=s.opacity,
         text=s.text and {content=c.text,fontSize=s.text.fontSize,minFontSize=s.text.minFontSize,colour=hex(c.fontColor)or s.text.colour,
             align=s.text.align,valign=s.text.valign},
         children=children}
@@ -58,6 +58,10 @@ local function capture(name)
     scenes[#scenes+1]={name=name,tree={name='root',kind='container',size={1280,720},children=controls}}
 end
 local only=ABYSS_UI_POLISH_SCENES
+for _=1,5 do ui:update(0.1)end;capture('menu')
+F.click(root,'exitEntry','open');for _=1,3 do ui:update(0.1)end;capture('menu-panel')
+F.click(root,'runMenu','resume');for _=1,3 do ui:update(0.1)end
+if os.getenv('MENU_ONLY') then print('PARITY_SCENES '..encode(scenes));return end
 assert(ui:start());capture('character-select')
 assert(ui:selectCharacter('traveler'));capture('character-traveler')
 assert(F.confirmStart(ui,'ironclad'));for _=1,5 do ui:update(0.1)end;capture('map-start')

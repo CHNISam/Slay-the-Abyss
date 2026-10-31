@@ -22,8 +22,6 @@ local function failed(phase, reason)
         menu:SetVisible(true)
         menu:SetAsLastSibling()
         menu:GetChild("start"):SetVisible(false)
-        local codeVersion = menu:GetChild('codeVersion')
-        if codeVersion then codeVersion:SetVisible(false) end
         local settle = menu:GetChild("settle")
         if settle then settle:SetVisible(false) end
         local result = menu:GetChild("result")
