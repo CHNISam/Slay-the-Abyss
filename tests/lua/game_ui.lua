@@ -512,14 +512,23 @@ test("native lifecycle loads every composed control and registers its listeners 
     game = { GetUICanvasSize = function() return width, height end, IsTestPlay=function()return true end,
         GetCursorUIPos=function()return 0,0 end,GetDevice=function()return 'desktop'end,
         InstantiateClientUIControl=actors.instantiate,DestroyClientUIControl=actors.destroy }
+    local NativeGameUI=require('abyss_game_ui')
+    local originalNew,host=NativeGameUI.new,nil
+    NativeGameUI.new=function(...) host=originalNew(...);return host end
     dofile("src/lua/abyss_ui.lua")
     OnStart()
     OnStart()
+    NativeGameUI.new=originalNew
     assert(root.scale[1] == 1.25)
     assert(script.updating)
     click(root, "menuPanel", "start")
     assert(root:GetChild("characterPanel").visible and not root:GetChild("prologuePanel").visible)
-    click(root, "characterPanel", "traveler")
+    assert(not root:GetChild("characterPanel"):GetChild("traveler").visible,
+        "ordinary native entry hides the single preselected traveler")
+    assert(host.characterSelection.character=='traveler' and host.characterSelection.info.id=='ironclad',
+        "ordinary native entry preselects the approved Geo traveler")
+    assert(root:GetChild("characterPanel"):GetChild("confirm"):GetChild("hit").interactable,
+        "ordinary native entry can confirm the preselected Geo loadout")
     assert(root:GetChild("characterPanel").visible and not root:GetChild("mapPanel").visible)
     click(root, "characterPanel", "confirm")
     assert(not root:GetChild("characterPanel").visible)

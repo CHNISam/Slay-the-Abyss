@@ -37,6 +37,7 @@ game={InstantiateClientUIControl=function()creates=creates+1;error('disabled cus
 script={object=canvas,GetParam=function(_,name)assert(name=='nativeBgmEnabled');return false end,
  EnableUpdate=function(_,v)updates=v end}
 dofile('src/lua/abyss_ui.lua');OnStart();assert(updates,'all-off native entry did not start')
+assert(require('abyss_card_skin').premium(),'approved gold card chrome must survive cards=false without loading illustrations')
 assert(Runtime.status().livePools==0,'default-off startup stranded a prior world pool')
 for _,control in ipairs(Old.created)do assert(not control.alive,'old custom control remained live')end
 assert(oldFace:GetChild('art').visible,'prior world official fallback not restored')
@@ -62,6 +63,17 @@ assert(not root:GetChild('victoryEasterEgg').visible,'all-off entry exposed the 
 assert(not menu:GetChild('result'):GetChild('viewEasterEgg').visible,'all-off entry exposed the optional egg button')
 OnUpdate(.01);assert(F.click(root,'menuPanel','start'))
 assert(root:GetChild('characterPanel').visible,'official selection remains interactive')
+local select=root:GetChild('characterPanel')
+assert(select:GetChild('details'):GetChild('deckOpen'):GetChild('hit').click(),'starter deck remains accessible with illustrations disabled')
+local deck=select:GetChild('deckView')
+assert(deck.visible and deck:GetChild('deckCard10').visible and not deck:GetChild('deckCard11').visible)
+for i=1,10 do
+ local face=deck:GetChild('deckCard'..i):GetChild('face')
+ assert(face:GetChild('name').text~='' and face:GetChild('cost').text~='' and face:GetChild('label').text~='','starter card semantics missing')
+ local edge=face:GetChild('border').imageColor
+ assert(edge.r==227 and edge.g==192 and edge.b==122,'starter card must retain the approved gold frame')
+end
+assert(deck:GetChild('close'):GetChild('hit').click() and not deck.visible,'read-only starter deck must close back to selection')
 OnUpdate(.01)
 local hero=root:GetChild('battlePanel'):GetChild('hero'):GetChild('portrait')
 assert(hero.visible,'official hero fallback remains visible')

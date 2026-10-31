@@ -12,6 +12,8 @@ test('Neow native image encoding keeps RGB and explicit alpha',()=>{
 });
 test('four readable Neow options fit below dialogue inside the canvas',()=>{
  const n=nativeTheme.layout.nativeNode.event.neow,o=n.options;
+ assert.ok(o.title[3]>=nativeTheme.layout.nativeText.lineHeight);
+ assert.ok(o.description[3]>=nativeTheme.layout.nativeText.lineHeight);
  const highest=o.bottom+3*o.spacing+o.size[1]/2;
  assert.ok(n.bubble[1]-n.bubble[3]/2>highest);
  assert.ok(o.bottom-o.size[1]/2>=-nativeTheme.canvas.base[1]/2);

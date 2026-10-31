@@ -16,7 +16,9 @@ test('every exported UI and template uses readable integer native font fields', 
     for(const child of control.controls??control.children??[])visit(child);
   };
   visit(gameLayout());visit(deckCardTemplate());assert(count>100);
-  assert.equal(nativeTheme.layout.energy.numberSize,29);
+  // Release HUD 2f1f141 uses native 40; historical 44/1.5 rounding is tested below.
+  const battle=gameLayout().controls.find(c=>c.name==='battlePanel');
+  assert.equal(battle.children.find(c=>c.name==='energy').text.fontSize,40);
   assert.equal(nativeTheme.layout.intent.numberSize,15);
 });
 test('native text helper rounds fonts without rounding position or size',()=>{

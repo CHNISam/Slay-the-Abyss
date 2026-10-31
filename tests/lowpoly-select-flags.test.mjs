@@ -53,7 +53,7 @@ test('cards flag builds the premium low-poly card fan with squashed triangles fr
  assert.ok(Number(created)>1585,'every frame + illustration row becomes a native control');
  assert.ok(Number(rot)>1000,'triangles use rotX/rotY squash');
 });
-test('cards flag recolours shared battle/reward/shop/deck chrome gold; default stays official',()=>{
+test('pure UI palette supports approved gold chrome and explicit legacy preview reset',()=>{
  const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
  const code=`package.path='build/lua/?.lua;src/lua/?.lua;'..package.path
 local Skin=require('abyss_card_skin');local Theme=require('abyss_theme')

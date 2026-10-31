@@ -5478,10 +5478,6 @@
       "sha256": "5bfa02cbefd49df2b21cc131d44b3d9a12f8453423f936f4feeba96cf8474e0b",
       "category": "ui-integration-static-evidence"
     },
-    ".artifacts/menu80/baseline/pan-device-home.png": {
-      "sha256": "8a36e08c491f27724907004e40de6de5e6da2e90954286658907d9727f219e58",
-      "category": "ui-integration-static-evidence"
-    },
     ".artifacts/menu80/before/menu-panel.png": {
       "sha256": "85370c5249cd63388cdf358ef83e78beea8d4380c301aa6e7a6b14d118457ec8",
       "category": "ui-integration-static-evidence"

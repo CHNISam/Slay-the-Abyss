@@ -9,7 +9,7 @@ local phases=setmetatable({},{__mode='k'})
 local activeHalos=setmetatable({},{__mode='k'})
 local decorations=setmetatable({},{__mode='k'})
 local pillWidths=setmetatable({},{__mode='k'})
--- Developer art flag `cards` only (abyss_ui configures it). nil = official chrome, untouched.
+-- Native entry selects approved gold UI independently of illustration flags; nil keeps the legacy palette for isolated previews.
 local premium=nil
 function M.configure(value)premium=value=='premium' and config.premium or nil end
 function M.premium()return premium~=nil end

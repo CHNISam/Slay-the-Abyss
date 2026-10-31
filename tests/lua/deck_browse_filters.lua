@@ -96,17 +96,35 @@ test('character preview lists the starter deck by type without filters and never
     assert(host.characterSelection.setDeckFilter==nil and host.filterCharacterDeck==nil)
     assert(detail:GetChild('deckTitle').text=='初始牌组 · '..info.deckSize..' 张')
     local rank={attack=1,skill=2,power=3,status=4,curse=5}
-    local byName={};for _,card in ipairs(info.deck)do byName[card.name..'  × '..card.count]=card end
-    local last,listed=0,0
-    for i=1,6 do
-        local text=detail:GetChild('card'..i).text
-        if text~='' then
-            local card=assert(byName[text],'unexpected deck row '..text)
-            assert((rank[card.type] or 9)>=last,'deck rows are not grouped by type');last=rank[card.type] or 9
-            listed=listed+card.count
-        end
+    local byName={}
+    for _,card in ipairs(info.deck)do
+        byName[card.name]=card
+        assert(detail:GetChild('deckSummary').text:find(card.name..'×'..card.count,1,true),
+            'starter summary omitted '..card.name)
     end
-    if #info.deck<=6 then assert(listed==info.deckSize,'every starter card is visible') end
+    assert(detail:GetChild('deckOpen'):GetChild('hit').click())
+    local view=root:GetChild('characterPanel'):GetChild('deckView')
+    assert(view.visible and host.characterSelection.deckOpen and not host.run)
+    local last,listed=0,0
+    local counts={}
+    local i=1
+    while view:GetChild('deckCard'..i)do
+        local slot=view:GetChild('deckCard'..i)
+        if slot.visible then
+            local face=slot:GetChild('face')
+            local text=face:GetChild('name').text
+            local card=assert(byName[text],'unexpected starter card '..text)
+            assert((rank[card.type] or 9)>=last,'deck rows are not grouped by type');last=rank[card.type] or 9
+            assert(face:GetChild('cost').text~='' and face:GetChild('label').text~='',
+                'starter card must show its cost and rules')
+            counts[text]=(counts[text] or 0)+1;listed=listed+1
+        end
+        i=i+1
+    end
+    assert(listed==info.deckSize and view:GetChild('overflow').text=='','every starter card is visible')
+    for name,card in pairs(byName)do assert(counts[name]==card.count,'wrong starter count for '..name)end
+    assert(view:GetChild('close'):GetChild('hit').click())
+    assert(not view.visible and not host.characterSelection.deckOpen and host.characterOpen)
     assert(detail:GetChild('stats').text:find(tostring(info.maxHp),1,true))
     assert(detail:GetChild('gold').text:find(tostring(info.gold),1,true))
     assert(detail:GetChild('relic').text==info.relics[1].name and detail:GetChild('relicText').text~='')

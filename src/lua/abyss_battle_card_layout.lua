@@ -40,7 +40,7 @@ function M.install(owner, _ownership, _host, _dependencies)
         placeHandHit(box,w,h,angle,baseY,y,scale)
         box:GetChild("glow"):SetVisible(selected)
         box:SetAsLastSibling()
-        return {x, y}
+        return {x, y, baseY=baseY}
     end
     local function rewardTarget(slot)
         local hot = owner.hover == slot

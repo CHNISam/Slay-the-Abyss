@@ -19,9 +19,11 @@ end
 
 local function handTarget(count, index, hot, point)
     local restAngle=-(index-(count-1)/2)*L.hand.arcDegrees
+    -- The safe-area clamp can lift the selected pose farther than hoverLift.
+    -- Keep the real idle anchor so hover cannot shift its world hit rectangle.
     return {x=point[1],y=point[2],scale=hot and Theme.motion.hoverScale or 1,
         angle=hot and 0 or restAngle,restAngle=restAngle,
-        baseY=point[2]-(hot and Theme.motion.hoverLift or 0)}
+        baseY=point.baseY}
 end
 
 local function placeHandHit(box, pose, target)
@@ -30,8 +32,9 @@ local function placeHandHit(box, pose, target)
     local c,s=math.abs(math.cos(r)),math.abs(math.sin(r))
     local restH,restW=(h*c+w*s)/2,(w*c+h*s)/2
     local hotH=h*Theme.motion.hoverScale/2
-    local low=math.min(target.baseY-restH,target.baseY+Theme.motion.hoverLift-hotH)
-    local high=math.max(target.baseY+restH,target.baseY+Theme.motion.hoverLift+hotH)
+    local hotY=math.max(target.baseY+Theme.motion.hoverLift,-Theme.canvas.base[2]/2+Theme.canvas.safe.y+hotH)
+    local low=math.min(target.baseY-restH,hotY-hotH)
+    local high=math.max(target.baseY+restH,hotY+hotH)
     local dy,a=(low+high)/2-pose.y,pose.angle*math.pi/180
     local hit=box:GetChild('hit')
     hit:SetAnchoredPosition(math.sin(a)*dy/pose.scale,math.cos(a)*dy/pose.scale)

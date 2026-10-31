@@ -9,6 +9,21 @@ local function setup(seed,bossCount)
  local r,m=fixture(seed,bossCount);local ui,get,shown,click=H.setup(r,m)
  return r,m,ui,get,shown,click
 end
+-- Runtime SetSizeDelta must retain the native one-line text budget, not only
+-- the generated initial layout. This does not prove native font rasterization.
+local function readableOptions(get,shown,count)
+ local line=require('abyss_theme').layout.nativeText.lineHeight
+ for i=1,count do
+  local path='eventView/option'..i;assert(shown(path))
+  local box,title,description=get(path),get(path..'/title'),get(path..'/description')
+  assert(title.size[2]>=line,'Neow runtime title is below native line height')
+  assert(description.size[2]>=line,'Neow runtime description is below native line height')
+  assert(title.y-title.size[2]/2>=description.y+description.size[2]/2)
+  assert(title.y+title.size[2]/2<=box.size[2]/2)
+  assert(description.y-description.size[2]/2>=-box.size[2]/2)
+  assert(title.text~='' and description.visible)
+ end
+end
 H.test('opening outside map has no room entry effects, source consumption or fabricated map visit',function()
  local r=H.Run.new(H.Data,'42');local m=H.Map.generate(r.data,'42');local before=H.snapshot(r);local beforeMap=H.Copy(m)
  assert(H.Nodes.beginNeow(r,m,{bossCount=0}));H.eq(r.floor,0);H.eq(r.phase,'node');H.eq(r.nodeFlow.roomKind,'neow')
@@ -22,10 +37,11 @@ H.test('missing history refuses atomically while mini real rows lead back to leg
  local ui,get,shown,click
  r,m,ui,get,shown,click=setup(42,0)
  H.eq(get('title').text,'第 0 层 · 七天神像')
+ readableOptions(get,shown,1)
  H.eq(get('eventView/name').text,'高塔恩赐');H.eq(get('eventView/option1/title').text,'［继续］')
  H.parity(r,m,'continue',nil,function()return click('eventView/option1')end)
- assert(shown('eventView/option2'));assert(not shown('eventView/option3'))
- H.parity(r,m,'reward_2',nil,function()return click('eventView/option2')end);H.eq(r.maxHp,88);H.eq(r.hp,88)
+ assert(shown('eventView/option2'));assert(not shown('eventView/option3'));readableOptions(get,shown,2)
+ H.parity(r,m,'reward_2',nil,function()return click('eventView/option2')end);H.eq(r.maxHp,88);H.eq(r.hp,88);readableOptions(get,shown,1)
  H.parity(r,m,'leave',nil,function()return click('eventView/option1')end)
  H.eq(r.phase,'map');H.eq(r.neowStatus,'complete');H.eq(m.floor,0);H.eq(#m.path,0)
  -- Reuse the same renderer for a legally entered ordinary event: Neow sizes must not leak.
@@ -42,7 +58,7 @@ H.test('missing history refuses atomically while mini real rows lead back to leg
 end)
 H.test('full source four offers and three-card reward route preserve every choice and separate skip',function()
  local r,m,ui,get,shown,click=setup(3,1)
- assert(click('eventView/option1'));assert(shown('eventView/option4'));H.eq(#r.nodeFlow.event.rewards,4)
+ assert(click('eventView/option1'));assert(shown('eventView/option4'));H.eq(#r.nodeFlow.event.rewards,4);readableOptions(get,shown,4)
  assert(click('eventView/option1'));H.eq(r.nodeFlow.event.stage,'neow_card_reward');assert(shown('eventView/option4'))
  assert(get('eventView/option1/description').text:find('费用',1,true)==nil or get('eventView/option1/description').text~='')
  local cardId=r.nodeFlow.event.cardOffers[2].cardId;local uid=r.nextDeckUid
@@ -85,7 +101,7 @@ H.test('three potion rows independently claim once with visible descriptions and
 end)
 H.test('resize, visibility loss and changed run retire held Neow buttons before repair',function()
  local r,m,ui,get,shown,click=setup(42,0);local old=ui.actions['eventView/option1'].handler
- ui:resize(1280,720);H.unchanged(r,m,old);old=ui.actions['eventView/option1'].handler
+ ui:resize(1280,720);readableOptions(get,shown,1);H.unchanged(r,m,old);old=ui.actions['eventView/option1'].handler
  ui:setVisible(false);ui:setVisible(true);H.unchanged(r,m,old)
  old=ui.actions['eventView/option1'].handler;local nextRun,nextMap=fixture(42,1);ui.run,ui.map=nextRun,nextMap;ui:render()
  H.unchanged(nextRun,nextMap,old);ui.run,ui.map=r,m;ui:render();H.unchanged(r,m,old)

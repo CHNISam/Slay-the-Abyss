@@ -1,4 +1,5 @@
 import {readArtFeatures} from '../scripts/art-features.mjs';
+import {expectedReadyCardGameHosts} from './helpers/ready-card-host-contract.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync, mkdirSync, symlinkSync, linkSync } from 'node:fs';
@@ -38,7 +39,9 @@ for(const enabled of [false,true])test(`${enabled?'explicit cards-on':'ordinary 
  for(const name of readdirSync(first))assert.equal(readFileSync(join(first,name),'utf8'),readFileSync(join(last,name),'utf8'),name);
  const readyPools=pools(JSON.parse(readFileSync(join(first,'game-ui.json'))));
  assert.deepEqual(readArtFeatures(first),{cards:enabled,menuBackground:false,selectionAvatar:false,battlePortrait:false,monsters:false},'each profile must retain its canonical effective flags');
- assert.equal(readyPools.length,enabled?38:0);for(const [,pool] of readyPools)assert.deepEqual(pool.children,[]);
+ assert.deepEqual(readyPools.map(([path])=>path.slice(1)).sort(),enabled?[...expectedReadyCardGameHosts].sort():[],
+  'retain every existing and starter-deck face only in the enabled profile');
+ for(const [,pool] of readyPools)assert.deepEqual(pool.children,[]);
  const game=JSON.parse(readFileSync(join(candidate,'game-ui.json')));
  assert.equal(pools(game).length,1,'node art_* must not be missed');
  const sample=pools(game)[0];assert(sample[0].endsWith('/shopView/card1'));
