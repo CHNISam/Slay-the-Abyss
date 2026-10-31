@@ -28,6 +28,17 @@ jobs:
           backlog instructions task-execution
           backlog instructions task-finalization
           backlog doctor || echo 'Existing archived duplicate IDs: reviewed baseline, no automatic --fix'
+          # Existing archive and legacy-completed paths contain five historic duplicate IDs.
+          # Temporarily exclude them only inside this disposable runner; NEVER rename old files.
+          HOLD=$(mktemp -d)
+          mv backlog/archive "$HOLD/archive"
+          mv backlog/completed "$HOLD/completed"
+          restore_legacy() { mv "$HOLD/archive" backlog/archive; mv "$HOLD/completed" backlog/completed; }
+          trap restore_legacy EXIT
+          if find backlog/tasks -name '*修复乞丐事件零张可删牌*' -print -quit | grep -q .; then
+            echo 'The prior CLI run already created these tasks; stop without duplicating.'
+            exit 0
+          fi
           # Five existing High tasks; three broad audit owners make room for three concrete High blockers.
           backlog task edit 59 --priority medium --append-notes '2026-10-31：让出具体High名额；范围与已完成验收保持不变，见 docs/backlog-details/STS1-DELTA-20261031.md。'
           backlog task edit 16.1 --priority medium --append-notes '2026-10-31：让出具体High名额；规则审计及原验收保持不变。'
@@ -44,7 +55,9 @@ jobs:
           backlog task edit 13.1.3 --append-notes '2026-10-31：首次无Boss历史时Neow两项是已有规则，历史合格时四项已有；区分首次、未到Boss重开、同会话到Boss后重开，不将两项自动诊断成随机池Bug。'
           backlog task edit 13.1.2 --append-notes '2026-10-31：42合法事件、130遗物来源与11复杂选择已有广域证据；不重建整个池。仅乞丐零候选等已证明缺口单列。'
           backlog task edit 4.8 --append-notes '2026-10-31：已有中文化成果不重开；原作身份玩家端泄漏由新High任务承接。'
-          backlog doctor || echo 'Existing archived duplicate IDs: reviewed baseline, no automatic --fix'
+          restore_legacy
+          trap - EXIT
+          backlog doctor || echo 'Historical archive duplicates remain unchanged; final task check uses project guard'
           npm run verify:backlog
           node --test tests/backlog-roadmap.test.mjs tests/release-notes.test.mjs
           git diff --check
