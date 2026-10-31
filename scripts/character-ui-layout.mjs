@@ -1,3 +1,4 @@
+import { cardFaceChildren } from './card-face.mjs';
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 
 export function experimentalCharacterControls(theme = nativeTheme) {
@@ -65,19 +66,13 @@ export function experimentalCharacterControls(theme = nativeTheme) {
       children: [tinted('glow', l.glow, colour, theme.image.glow, 0.32), tinted('halo', l.halo, colour, theme.image.glow, 0.5)] })) };
   // STS CharacterSelectScreen 式：整屏无盒，左侧信息直接落在暗化地景上（scrim 只做可读性压暗）。
   const v = l.deckView;
-  // 初始牌组卡面网格（STS「查看牌组」= 一张张卡面）：卡底 + 费用 + 名字 + 类型 + 描述，视图只填字与显隐。
+  // 初始牌组卡面网格（STS「查看牌组」= 一张张卡面）：直接复用局内牌组的同一卡面（cardFaceChildren 'deck'），视图经 CardDisplay/CardSkin 填充。
   const miniCard = i => {
     const [cw, ch] = v.cardSize, col = i % v.columns, row = Math.floor(i / v.columns);
+    const [w, h] = theme.layout.card.size;
     return { name: `deckCard${i + 1}`, kind: 'container', position: [v.origin[0] + col * v.step[0], v.origin[1] - row * v.step[1]],
       size: [cw, ch], visible: false, children: [
-        plate('border', [0, 0, cw, ch], c.goldDim),
-        plate('face', [0, 0, cw - s.border * 2, ch - s.border * 2], c.panelRaised),
-        plate('art', [0, ch / 2 - 92, cw - 20, 92], c.panelSunken),
-        { ...plate('costOrb', [-cw / 2 + 18, ch / 2 - 18, 34, 34], c.gold), image: theme.image.disc },
-        text('cost', [-cw / 2 + 18, ch / 2 - 18, 34, 34], '', f.label, c.textOnLight),
-        text('name', [10, ch / 2 - 22, cw - 50, 28], '', f.label, c.goldBright),
-        text('type', [0, ch / 2 - 150, cw - 20, 22], '', f.small, c.textDim),
-        { ...text('text', [0, -ch / 2 + 40, cw - 20, 72], '', f.small, c.text) },
+        { name: 'face', kind: 'container', size: [w, h], children: cardFaceChildren(theme, 'deck', false) },
       ] };
   };
   const deckView = { name: 'deckView', kind: 'container', size: [...theme.canvas.base], visible: false, children: [

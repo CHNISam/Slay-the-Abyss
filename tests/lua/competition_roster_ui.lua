@@ -26,6 +26,9 @@ assert(not panel:GetChild('elements').visible)
 local deckOpen=panel:GetChild('details'):GetChild('deckOpen'):GetChild('hit')
 assert(deckOpen.click()and ui.characterSelection.deckOpen and panel:GetChild('deckView').visible)
 assert(panel:GetChild('deckView'):GetChild('deckCard10').visible and not panel:GetChild('deckView'):GetChild('deckCard11').visible)
+-- 复用局内卡面：名字/费用/正文都由 CardDisplay 填好，不是空白卡框。
+for i=1,10 do local face=panel:GetChild('deckView'):GetChild('deckCard'..i):GetChild('face')
+ assert(face:GetChild('name').text~='' and face:GetChild('cost').text~='' and face:GetChild('label').text~='','empty deck face '..i)end
 assert(ui:closeCharacters()and not ui.characterSelection.deckOpen and ui.characterOpen)
 for _,id in ipairs({'hutao','arlecchino','furina','raiden'})do assert(not ui:selectCharacter(id))end
 assert(ui:selectCharacter('traveler')and ui.characterSelection.info.id=='ironclad')

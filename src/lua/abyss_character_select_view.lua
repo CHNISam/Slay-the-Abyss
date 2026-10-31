@@ -2,6 +2,8 @@
 local Theme=require('abyss_theme')
 local Select=require('abyss_character_select')
 local number=require('abyss_numbers').integer
+local CardDisplay=require('abyss_card_display')
+local CardSkin=require('abyss_card_skin')
 local M={}
 -- 选角只做一眼扫读（对标 STS 选角页）：牌组按 攻击→技能→能力→其它 排好直接列出，不提供筛选。
 local typeOrder={attack=1,skill=2,power=3,status=4,curse=5}
@@ -24,7 +26,30 @@ local function renderStarterDeck(details,info)
     details:GetChild('deckTitle').text='初始牌组 · '..number(info.deckSize)..' 张'
     details:GetChild('deckSummary').text=table.concat(parts,'  ')
 end
-function M.renderDeck(view,info,open)
+-- 复用局内牌组卡面填充（abyss_deck_ui fill 同款）：只读展示，不建 Run、不改状态。
+local function fillFace(face,card,i,platform)
+    local definition,display=card.definition,card.display
+    if not definition or not display or not platform then
+        face:GetChild('name').text=card.name;face:GetChild('cost').text=card.cost~=nil and tostring(card.cost) or '';return
+    end
+    local instance={cardId=card.id,uid='select-'..card.id..'-'..i,upgraded=false}
+    local function colour(v)return platform.color and platform.color(v.r,v.g,v.b,v.a) end
+    local function tint(control,v)local c=colour(v);if c then control.imageColor=c end end
+    CardDisplay.writeTitle(face:GetChild('name'),display.name,false,nil,face:GetChild('type'),typeNames[definition.type] or definition.type)
+    local title=colour(Theme.cardSkin.text.title);if title then face:GetChild('name').fontColor=title end
+    CardDisplay.writeBody(face:GetChild('label'),CardDisplay.permanentText(display,definition,instance),face)
+    face:GetChild('cost').text=definition.cost==-2 and '' or definition.costMode=='all_energy' and 'X' or tostring(definition.cost)
+    tint(face:GetChild('border'),Theme.color.rarity[definition.rarity] or Theme.color.line)
+    tint(face:GetChild('nameBand'),Theme.color.rarityBand[definition.rarity] or Theme.color.rarityBand.basic)
+    tint(face:GetChild('nameRule'),Theme.color.rarity[definition.rarity] or Theme.color.line)
+    tint(face:GetChild('artPlate'),Theme.color.cardType[definition.type] or Theme.color.panelRaised)
+    if platform.imageSource then
+        CardDisplay.writeArt(face:GetChild('art'),definition,function(control,id)control:SetImage(platform.imageSource,id)end)
+        CardDisplay.writeNativeArt(face,definition,display.nativeArt,platform,face:GetChild('art'),instance.uid)
+    end
+    CardSkin.apply(face,definition,platform,{cost=definition.cost,baseCost=definition.cost})
+end
+function M.renderDeck(view,info,open,platform)
     view:SetVisible(open==true and info~=nil)
     if not open or not info then return end
     view:GetChild('title').text='初始牌组 · '..number(info.deckSize)..' 张'
@@ -34,12 +59,7 @@ function M.renderDeck(view,info,open)
     while view:GetChild('deckCard'..i)do
         local slot,card=view:GetChild('deckCard'..i),each[i]
         slot:SetVisible(card~=nil)
-        if card then
-            slot:GetChild('name').text=card.name
-            slot:GetChild('cost').text=card.cost~=nil and tostring(card.cost) or ''
-            slot:GetChild('type').text=typeNames[card.type] or ''
-            slot:GetChild('text').text=card.text or ''
-        end
+        if card then fillFace(slot:GetChild('face'),card,i,platform)end
         i=i+1
     end
     -- 超出卡位时明确汇总，绝不静默丢牌。
@@ -94,7 +114,7 @@ function M.render(panel,state,platform)
         paintBust(box,Theme.icon.heroSlots.bust.traveler[id],platform)
     end
     local details=panel:GetChild('details');details:SetVisible(info~=nil)
-    M.renderDeck(panel:GetChild('deckView'),info,state.deckOpen)
+    M.renderDeck(panel:GetChild('deckView'),info,state.deckOpen,platform)
     local confirm=panel:GetChild('confirm'):GetChild('hit')
     confirm.interactable,confirm.raycastTarget=state:canConfirm(),state:canConfirm()
     if not info then return end
