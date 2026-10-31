@@ -5,7 +5,7 @@ import {nativeTheme} from '../scripts/native-ui-theme.mjs';
 test('Neow native image encoding keeps RGB and explicit alpha',()=>{
  const event=nodeLayout().controls[0].children.find(c=>c.name==='eventView');
  const figure=event.children.find(c=>c.name==='neowFigure');
- for(const c of figure.children) assert.match(c.colour,/^#[0-9a-f]{6}$/i);
+ for(const c of figure.children.filter(c=>c.kind==='image')) assert.match(c.colour,/^#[0-9a-f]{6}$/i);
  assert.equal(figure.children.find(c=>c.name==='shade').opacity,192/255);
  assert.equal(figure.children.find(c=>c.name==='scene').opacity,1);
  assert.equal(event.children.find(c=>c.name==='bubble').opacity,242/255);

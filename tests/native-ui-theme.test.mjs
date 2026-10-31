@@ -42,8 +42,9 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   theme.image.officialBackdrops.act1_1 = 999998;
   theme.image.vignette = 999997; theme.image.discSoft = 999996;
   const node = nodeLayout(theme).controls[0].children;
-  assert.equal(find(node, 'title').text.colour, theme.color.gold);
-  assert.equal(find(node, 'title').text.fontSize, theme.font.heading);
+  // Node title reuses the map header (TopPanel) ink and size.
+  assert.equal(find(node, 'title').text.colour, theme.color.mapHeader.title);
+  assert.equal(find(node, 'title').text.fontSize, theme.font.body);
   assert.equal(find(node, 'hp').text.fontSize, theme.font.body);
   assert.equal(find(node, 'hp').text.colour, theme.color.text);
   assert.equal(find(find(node, 'back').children, 'normal').colour, theme.color.panelRaised);
@@ -60,7 +61,7 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
     id(theme.icon.gold), id(theme.icon.deck), id(theme.icon.potion.fire_potion),
     // The shop merchant's official bust and its next-line marker.
     theme.image.merchant, theme.image.officialBackdrops.act1_1, theme.image.vignette, theme.image.discSoft,
-    theme.image.diamond,100001,100002,100003,100004,100006];
+    theme.image.diamond, theme.image.fadeLine /* map header hairline, reused by node TopPanel */,100001,100002,100003,100004,100006];
   walk(nodeLayout(theme).controls, control => {
     if (control.kind === 'image') assert.ok(allowed.includes(control.image), `unexpected node image ${control.image}`);
     if (control.name === 'blockedLock') assert.equal(control.image,theme.icon.lock,'existing semantic lock token must propagate');

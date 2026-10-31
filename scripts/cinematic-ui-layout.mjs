@@ -74,20 +74,28 @@ export function prologueControl(theme = nativeTheme) {
   ] };
 }
 
-export function merchantControl(theme = nativeTheme) {
-  const { picture, plate, text, leftText, hit } = helpers(theme);
-  const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
-  const [bx, by, bw, bh] = m.box, [px, py, pw, ph] = m.portrait;
+// Old-road merchant medallion (official bust 112030); also reused as the Neow stand-in figure.
+export function merchantPortrait(theme = nativeTheme, [px, py, pw, ph], name = 'portrait') {
+  const { picture } = helpers(theme);
+  const c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
   const r = pw / 2;
   // Existing native human bust 112030 replaces the geometric silhouette; the
   // shop context supplies the merchant role, without claiming its catalog profession.
-  const portrait = { name: 'portrait', kind: 'container', position: [px, py], size: [pw, ph], children: [
+  const portrait = { name, kind: 'container', position: [px, py], size: [pw, ph], children: [
     picture('aura', [0, 0, pw * 1.5, ph * 1.5], im.glow, c.geoDeep, { opacity: 0.5 }),
     picture('rim', [0, 0, pw + b * 2, ph + b * 2], im.disc, c.gold),
     picture('field', [0, 0, pw, ph], im.disc, c.vista.mid),
     picture('lanternGlow', [-r * 0.5, -r * 0.42, r * 1.1, r * 1.1], im.glow, tone.lantern, { opacity: 0.45 }),
     picture('bust', [0, 0, pw * 0.92, ph * 0.92], im.merchant, '#FFFFFF'),
   ] };
+  return portrait;
+}
+
+export function merchantControl(theme = nativeTheme) {
+  const { picture, plate, text, leftText, hit } = helpers(theme);
+  const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
+  const [bx, by, bw, bh] = m.box, [px, py, pw, ph] = m.portrait;
+  const portrait = merchantPortrait(theme, [px, py, pw, ph]);
   // Theme frames are in node-panel units; children sit relative to the merchant's own frame.
   const [fx, fy] = m.frame, at = ([x, y, ...rest]) => [x - fx, y - fy, ...rest];
   portrait.position = at(m.portrait).slice(0, 2);
