@@ -740,6 +740,7 @@ local function savePlayState(state, playedCard)
         save(value)
         for _, child in pairs(value) do nested(child) end
     end
+    nested(state.scoreStats)
     nested(state.orbs)
     nested(state.cardRandomRng)
     nested(state.aiRng)
@@ -776,6 +777,7 @@ local function resolvePlay(state, uid, targetIndex, instance, position, card)
     local reactions = EnemyAI.cardReactions(state, card)
     state.cardsPlayedThisTurn=state.cardsPlayedThisTurn or {}
     state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}
+    require('abyss_run_scoring').played(state,card)
     state.cardsPlayedThisTurn[#state.cardsPlayedThisTurn+1]={type=card.type,cardId=card.id}
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
     state.energy = state.energy - paidCost(state,card)
@@ -1051,6 +1053,7 @@ local function beginQueuedPlay(state, uid, targetIndex, instance, position, card
     end
     state.cardsPlayedThisTurn=state.cardsPlayedThisTurn or {}
     state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}
+    require('abyss_run_scoring').played(state,card)
     state.cardsPlayedThisTurn[#state.cardsPlayedThisTurn+1]={type=card.type,cardId=card.id}
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
     -- X actions read the card's explicit free flag, not Swivel's FreeAttackPower.
@@ -1154,6 +1157,7 @@ local function queueNativePlay(state, uid, targetIndex, instance, card, free, fo
     state.resolvingCard = true
     state.cardInUse=instance
     state.cardsPlayedThisTurn=state.cardsPlayedThisTurn or {};state.cardsPlayedThisCombat=state.cardsPlayedThisCombat or {}
+    require('abyss_run_scoring').played(state,card)
     state.cardsPlayedThisTurn[#state.cardsPlayedThisTurn+1]={type=card.type,cardId=card.id}
     state.cardsPlayedThisCombat[#state.cardsPlayedThisCombat+1]={type=card.type,cardId=card.id}
     local reactions = EnemyAI.cardReactions(state, card)
@@ -1524,6 +1528,7 @@ local function startNativePlayerTurn(state, beforeOpeningDraw)
     state.turn = state.turn + 1
     state.phase = "player"
     state.cardsPlayedThisTurn={}
+    require('abyss_run_scoring').startTurn(state)
     if state.originalV4 then Actors.resetBlock(state,state.player) else Actors.startTurn(state,state.player) end
     if finish(state) then return end
     state.player.noDraw = false
@@ -1588,6 +1593,7 @@ function M.startPlayerTurn(state, beforeOpeningDraw)
     if not state.experimentalMechanics then return startNativePlayerTurn(state,beforeOpeningDraw) end
     if finish(state) then return end
     state.turn=state.turn+1;state.phase='player';state.cardsPlayedThisTurn={}
+    require('abyss_run_scoring').startTurn(state)
     require('abyss_silent_discard_cards').beginTurn(state)
     Actors.startTurn(state,state.player)
     if finish(state) then return end
@@ -2150,7 +2156,7 @@ function M.new(data, options)
     assert(goldInteger(gold), "invalid starting gold")
     catalog.enemies=require('abyss_combat_catalog').enemies(data)
     catalog.potions=index(data.potions and data.potions.potions or {})
-    local state = { stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,
+    local state = { scoreStats = require("abyss_run_score").newBattleStats(), stolenGoldReward = 0, mugged = false, rules = rules,sourcePools=sourcePools,experimentalCharacter=data.experimentalCharacter, catalog = catalog,
         seed = (options.seed or 1) % 65536, turn = 0, energy = 0, phase = "setup", nextUid = 1, nextEnemyId = 1,
         player = { id = "player", gold = gold, hp = hp, maxHp = rules.player.maxHp, block = 0, statuses = {} },
         enemies = {}, draw = {}, hand = {}, discard = {}, exhaust = {}, events = {} }

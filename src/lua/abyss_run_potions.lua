@@ -77,6 +77,7 @@ function M.install(Run, shared)
     local function stagePotionBattle(run, battle)
         local candidate = {}
         for key, value in pairs(run) do candidate[key] = value end
+        candidate.scoreStats=run.scoreStats and Combat.copy(run.scoreStats)
         candidate.combat, candidate.potions, candidate.gold = battle, Combat.copy(battle.potionInventory), battle.player.gold
         candidate.deck=(battle.ritualDaggerGrowth or battle.masterDeckChanges or battle.masterDeckObtains) and Combat.copy(run.deck) or run.deck
         candidate.hp,candidate.maxHp=battle.player.hp,battle.player.maxHp
@@ -96,6 +97,7 @@ function M.install(Run, shared)
 
     local function escapePotionBattle(run, candidate, battle)
         if battle.smoked then
+            require('abyss_run_scoring').finishBattle(candidate,battle,'escaped',Combat.allEnemiesEscaped(battle))
             candidate.emeraldCombat=nil
             battle.phase='escaped'
             local reopened=false

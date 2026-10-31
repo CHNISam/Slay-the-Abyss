@@ -49,6 +49,7 @@ function M.gainGold(run,amount)
  if M.owns(run,'ectoplasm')then return 0 end
  assert(run.gold+0.0+amount<=2147483647,'gold overflow')
  run.gold=run.gold+0.0+amount
+ if run.scoreStats then run.scoreStats.goldGained=run.scoreStats.goldGained+amount end
  require('abyss_act2_event_relics').gainGold(run,amount,function(n)return healEventGold(run,n)end)
  return amount
 end

@@ -383,7 +383,7 @@ test("result page shows only the recorded run stats in the approved four cells",
     end
     assert(table.concat(labels, "|") == "抵达层数|战斗胜场|用时|卡组张数")
     -- Defeat always reports 0 HP; untracked prototype figures (enemies slain, gold earned) never appear.
-    assert(resultText(root, "detail") == "生命 0 / " .. ui.run.maxHp .. " · 金币 211 · 遗物 " .. #ui.run.relics .. " 件")
+    assert(resultText(root, "detail") == "总分 " .. require("abyss_run").resultScore(ui.run).total .. " · 生命 0 / " .. ui.run.maxHp .. " · 金币 211 · 遗物 " .. #ui.run.relics .. " 件")
     for _, name in ipairs({"subtitle", "detail", "status"}) do
         assert(not resultText(root, name):find("击败敌人", 1, true) and not resultText(root, name):find("获得金币", 1, true))
     end

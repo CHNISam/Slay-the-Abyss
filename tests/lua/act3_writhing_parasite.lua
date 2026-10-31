@@ -80,6 +80,7 @@ test('Darkstone in-combat health uses source healing modifiers and CeramicFish r
   H.hpChanged(s,s.player,80);eq(s.player.statuses.strength,3)
   force(e,'implant');local maximum,gold=s.player.maxHp,s.player.gold;assert(C.endTurn(s))
   eq(s.player.maxHp,maximum+6);eq(s.player.hp,40+v[2]);eq(s.player.gold,gold+v[3]);eq(#s.masterDeck,2)
+  eq(s.scoreStats.goldGained,v[3])
   eq(s.potionInventory[1],'fairy_in_a_bottle');eq(s.player.statuses.strength,v[2]>0 and 0 or 3)
  end
  -- Ordinary Run.obtainCard still refuses an unadapted combat health context.

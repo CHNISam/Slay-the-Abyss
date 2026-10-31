@@ -282,6 +282,7 @@ return function(M)
         if c.nextUnknown then run.unknown,run.eventRng=c.nextUnknown,c.nextEventRng end
         run.miscRng=c.nextMiscRng
         run.nodeFlow=flow
+        if c.sourceType=='event' and run.scoreStats then run.scoreStats.mysteryRooms=run.scoreStats.mysteryRooms+1 end
         if not c.emeraldBoost then run.emeraldCombat=nil end
         if flow.type=='shop' then
             run.relicPool=flow.relicPool;flow.relicPool=nil
