@@ -170,10 +170,10 @@ function M.install(owner, _ownership, host, dependencies)
         local battle = frame.battle
         local exhausted = battle and #battle.exhaust or 0
         dependencies.label("exhaust", tostring(exhausted))
-        -- STS ExhaustPanel only shows once the exhaust pile is non-empty; an empty "0"
-        -- beside the shared deck button read as a second draw pile.
-        dependencies.show("exhaustIcon", frame.fighting == true and exhausted > 0)
-        dependencies.show("exhaust", frame.fighting == true and exhausted > 0)
+        -- Exhaust pile (消耗堆) is its own pile, distinct from discard (弃牌堆, bottom-right).
+        -- Keep it visible for the whole fight, including an empty "0" (Pan, 2026-10-31).
+        dependencies.show("exhaustIcon", frame.fighting == true)
+        dependencies.show("exhaust", frame.fighting == true)
         local value = number(battle and battle.energy or 0) .. "/" .. number(owner.data.rules.player.energyPerTurn)
         dependencies.label("energy", value)
         local charged = battle and battle.energy > 0
