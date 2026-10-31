@@ -11,6 +11,43 @@ import {candidateScriptFiles} from '../scripts/native-candidate-scripts.mjs';
 import {artBuildOptionsFromReceipt} from '../scripts/art-features.mjs';
 import {compareNativeCandidate} from '../scripts/native-candidate-audit.mjs';
 const descendants=n=>[n,...(n.children??n.controls??[]).flatMap(descendants)];
+// PR406 retained the floor icon/number from PR404. Guard identities, not the old
+// pre-floor count of 56: replacing a required control must fail even at the same count.
+const battleStageControls = Object.entries({
+ container: 'playArea topBar rewardStage rewardList exhaustIcon hero energyIcon drawIcon discardIcon potionHelp actorLayer card1 card2 card3 card4 card5 card6 card7 card8 card9 card10 dragLayer statusInfo feedback',
+ text: 'title player piles floor exhaust notice statuses energy draw drawLabel discard discardLabel result',
+ image: 'hpIcon goldIcon floorIcon energyRing energyDisc drawBadgeRing drawBadge discardBadgeRing discardBadge resultPlate',
+ presetButton: 'potion1 potion2 potion3 endTurn start continue skip goldReward cardReward claimPotion stolenGold',
+}).flatMap(([kind,names])=>names.split(' ').map(name=>`${name}:${kind}`)).sort();
+function assertBattleStageContract(stage) {
+ assert(stage,'battle stage exists');
+ assertNativeUiCapacity(stage); // The native per-parent limit remains 60, including hidden controls.
+ assert(!descendants(stage).some(n=>/^enemy\d+$/.test(n.name)||/^monsterArt\d*$/.test(n.name)),'no static enemy pool in battle stage');
+ const names=stage.children.map(n=>n.name);
+ assert.equal(new Set(names).size,names.length,'unique battle stage child names');
+ assert.deepEqual(stage.children.map(n=>`${n.name}:${n.kind}`).sort(),battleStageControls,'complete battle stage control identities');
+}
+
+test('battle stage identity contract rejects missing, duplicate, static-enemy and overflowing controls',()=>{
+ const stage=()=>structuredClone(battleLayout().controls.find(n=>n.name==='stage'));
+ assert.doesNotThrow(()=>assertBattleStageContract(stage()));
+ for(const name of ['floorIcon','floor','actorLayer','endTurn','card10']) {
+  const missing=stage();missing.children=missing.children.filter(n=>n.name!==name);
+  assert.throws(()=>assertBattleStageContract(missing),/complete battle stage control identities/,name);
+ }
+ const duplicate=stage();duplicate.children[0]=structuredClone(duplicate.children[1]);
+ assert.throws(()=>assertBattleStageContract(duplicate),/unique battle stage child names/);
+ const wrongKind=stage();wrongKind.children.find(n=>n.name==='floor').kind='image';
+ assert.throws(()=>assertBattleStageContract(wrongKind),/complete battle stage control identities/);
+ const unexpected=stage();unexpected.children[0]={name:'unexpected',kind:'container',children:[]};
+ assert.throws(()=>assertBattleStageContract(unexpected),/complete battle stage control identities/);
+ const fixedEnemy=stage();fixedEnemy.children.push({name:'enemy1',kind:'container',children:[]});
+ assert.throws(()=>assertBattleStageContract(fixedEnemy),/no static enemy pool/);
+ const overflow=stage();
+ while(overflow.children.length<=60)overflow.children.push({name:`extra${overflow.children.length}`,kind:'container',visible:false,children:[]});
+ assert.throws(()=>assertBattleStageContract(overflow),/61 direct children exceeds the platform limit of 60/);
+});
+
 
 test('real generated layout uses an empty actor layer and one complete hidden candidate template',t=>{
  const dir=mkdtempSync(join(tmpdir(),'monster-actor-build-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));
@@ -24,7 +61,7 @@ test('real generated layout uses an empty actor layer and one complete hidden ca
  assert.deepEqual(monsterActorInventory(actor),{templateName:monsterActorTemplateName,controlsPerActor:647,shapesPerActor:600,powerTemplateName:monsterPowerTemplateName,controlsPerPower:7,powerAllocation:'per-power-instance',allocation:'per-drawable-actor-instance',measurement:'offline-template-count-not-official-load',officialImport:'not_run',devices:'not_run'});
  const shapes=descendants(actor).filter(n=>/^shape\d+$/.test(n.name));assert.equal(shapes.length,600);assert(shapes.every(n=>n.visible===false&&n.opacity===0));
  for(const tree of [layout,...templates])assertNativeUiCapacity(tree);
- const stage=descendants(layout).find(n=>n.children?.some(c=>c.name==='actorLayer'));assert.equal(stage.children.length,56);
+ const stage=descendants(layout).find(n=>n.children?.some(c=>c.name==='actorLayer'));assertBattleStageContract(stage);
  assert.match(readFileSync(join(dir,monsterActorBindingModule+'.lua'),'utf8'),/templateIndex=0,containerTemplateIndex=0,powerTemplateIndex=0,enabled=false/);
  assert(generatedRuntimeModules[monsterActorBindingModule]);
  const inputs=sourceInputs(process.cwd(),{artFeatures:{monsters:true}});for(const path of prepareMonsterArt().inputPaths)assert(inputs.some(row=>row.path===path),'actual native source is in candidate provenance: '+path);

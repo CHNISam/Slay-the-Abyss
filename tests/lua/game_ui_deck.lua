@@ -40,7 +40,17 @@ test("deck overlay reads permanent UID and upgraded text and never changes the r
     local grid = openDeck(ui, root)
     assert(grid.itemCount == 40 and grid.scrollProgress == 0)
     local first = grid.items[0]
-    assert(not first:GetChild('hit').visible,'read-only deck must leave scroll gestures free')
+    local hit=first:GetChild('hit')
+    assert(hit.visible,'read-only cards keep their detail tap target')
+    grid.scrollProgress=.4 -- native scroller owns this offset, never the detail adapter
+    assert(not hit.click({dragging=true}),'scroll drag must not open detail')
+    assert(not hit.click({dragging=false,GetPressUIPos=function()return 100,100 end,
+        GetUIPos=function()return 100,180 end}),'released scroll must not open detail')
+    assert(not ui.deckUI.detailPages and grid.visible and grid.scrollProgress==.4)
+    assert(hit.click(),'ordinary tap still opens read-only detail')
+    assert(ui.deckUI.detailPages and not grid.visible)
+    assert(closeDeck(root));ui:update(0)
+    assert(grid.visible and grid.scrollProgress==.4,'detail return must retain native scroll position')
     assert(ui.deckUI.bindings[first].uid == ui.run.deck[1].uid and first:GetChild("uid").text == "")
     local face = first:GetChild("face")
     local display = Presentation[ui.run.deck[1].cardId]

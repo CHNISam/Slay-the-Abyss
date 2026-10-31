@@ -17,6 +17,18 @@ local browseSorts={'original','name','rarity','cost','type'}
 local sortNames={original='原顺序',name='名称',rarity='稀有度',cost='费用',type='类型'}
 local typeOrder={attack=1,skill=2,power=3,status=4,curse=5}
 
+-- Observe native click metadata only; leave drag handlers and scroll offsets
+-- to the native Grid rather than synthesizing scrolling. Click-only C-mode works.
+local function scrollClick(event)
+    if not event then return false end
+    if event.dragging then return true end
+    if not event.GetPressUIPos or not event.GetUIPos then return false end
+    local x,y=event:GetUIPos()
+    local startX,startY=event:GetPressUIPos()
+    if type(x)~='number' or type(y)~='number' or type(startX)~='number' or type(startY)~='number' then return false end
+    return (x-startX)^2+(y-startY)^2>=Theme.layout.cardDrag.threshold^2
+end
+
 local function frozenEye(run)
     for _, relic in ipairs(run.relics or {}) do if relic=="frozen_eye" then return true end end
     return false
@@ -231,8 +243,8 @@ function M.new(root, presentation, clickEvent, platform, onClose)
                 self:close()
                 if callback then callback(token,uid) end
             end
-            hit:AddCursorEventListener(clickEvent,function()
-                if Controller.pointerBlocked(platform.controller)then return false end
+            hit:AddCursorEventListener(clickEvent,function(event)
+                if Controller.pointerBlocked(platform.controller) or scrollClick(event) then return false end
                 return pick()
             end)
             Controller.bind(platform.controller,hit,'deck',pick,function()
