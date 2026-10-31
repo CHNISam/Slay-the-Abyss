@@ -79,7 +79,8 @@ export function merchantControl(theme = nativeTheme) {
   const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
   const [bx, by, bw, bh] = m.box, [px, py, pw, ph] = m.portrait;
   const r = pw / 2;
-  // 千星图库官方人物胸像（盗宝团行商），替代旧的圆盘/菱形拼装剪影；灯光仍由 Lua 闪烁。
+  // Existing native human bust 112030 replaces the geometric silhouette; the
+  // shop context supplies the merchant role, without claiming its catalog profession.
   const portrait = { name: 'portrait', kind: 'container', position: [px, py], size: [pw, ph], children: [
     picture('aura', [0, 0, pw * 1.5, ph * 1.5], im.glow, c.geoDeep, { opacity: 0.5 }),
     picture('rim', [0, 0, pw + b * 2, ph + b * 2], im.disc, c.gold),

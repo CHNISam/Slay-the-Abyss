@@ -3275,7 +3275,6 @@
       "typeRate": 40,
       "hold": 2.6,
       "idle": 14,
-      "idleRepeat": 40,
       "nod": 0.3,
       "nodLift": 5,
       "shake": 0.3,

@@ -37,7 +37,7 @@ function M.new(box, options)
     -- First visit in a run opens with the scene narration; later shops start at the greeting.
     function self:enter(run)
         local first = not self.met[run]
-        self.met[run], self.idleUsed, self.idleAt = true, false, nil
+        self.met[run], self.idleUsed = true, false
         self.queue = first and { "greet" } or {}
         begin(first and "encounter" or "greet")
         self:pose()
@@ -104,12 +104,11 @@ function M.new(box, options)
             if current.hold>=L.hold and pageEnd(current)<#current.chars then current.page=current.page+1;current.hold=0
             elseif #self.queue > 0 and current.hold >= L.hold then begin(table.remove(self.queue, 1)) end
         end
-        -- STS ShopScreen 闲置搭话：玩家逗留时按间隔再次开口（不新增按钮、不阻塞交易）。
+        -- One unprompted remark if the player lingers; never repeated, never a new button.
         self.idle = (self.idle or 0) + dt
-        if #self.queue == 0 and self.idle >= (self.idleAt or L.idle) and current.kind ~= "leave" then
+        if not self.idleUsed and #self.queue == 0 and self.idle >= L.idle and current.kind ~= "leave" then
             self.idleUsed = true
             begin("idle")
-            self.idleAt = L.idleRepeat or math.huge
         end
         if self.nod then self.nod = self.nod + dt; if self.nod >= L.nod then self.nod = nil end end
         if self.shake then self.shake = self.shake + dt; if self.shake >= L.shake then self.shake = nil end end
