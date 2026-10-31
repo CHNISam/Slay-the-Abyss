@@ -1,0 +1,119 @@
+{
+  "reviewer": "review_m3_ui_full",
+  "sourceWorktree": "/workspace/m3-complete-ui",
+  "base": "1a38b912",
+  "head": "85db83ed67ec55c78c4c58be3040eb7c58112d46",
+  "integratedHeadAtAssignment": "94aaf0e",
+  "verdict": "PASS_SOURCE_REVIEW_PLATFORM_UNVERIFIED",
+  "scope": "完整20文件diff、AGENTS、TASK-4.7/4.8/59.3/59.3.1全部AC、实施报告；不修改源码/任务/推送，不运行整套或重Lua。",
+  "findings": [
+    {
+      "id": "I1",
+      "severity": "Important",
+      "status": "closed_by_43041948348d513c73a2d6a5ea90b864eada3884",
+      "file": "src/lua/abyss_card_origin.lua",
+      "lines": [
+        29,
+        30
+      ],
+      "related": "src/lua/abyss_boss_relics.lua:83-96",
+      "title": "星盘实际取得的已升级牌丢失真实遗物来源",
+      "trigger": "正常取得星盘，选择三张合法牌并完成最后一次选择。finishSelection通过Run.obtainCard(...,{upgraded=true})取得三张新UID牌后清pendingBossRelic；外层observer只看到新已升级牌，使用房间context写obtained_upgraded。",
+      "actual": "详情来源为宝箱/战斗奖励/残留事件上下文，而非星盘；来源字段不含relicId=astrolabe。",
+      "expected": "获得时已升级与真实星盘来源同时可追溯；已有真实获得hook来源不得被房间归因覆盖。",
+      "fix": "在Astrolabe真实取得点按返回新UID记录obtained_upgraded、空before和relicId=astrolabe；只在没有匹配当前实体的真实hook记录时补充。补实际公开三牌选择回归和失败回滚。",
+      "ac": "TASK-4.7 #1/#4",
+      "resolution": "Astrolabe真实取得点按obtain返回新UID记录明确星盘来源，且保留已完整匹配的真实hook来源；三次真实公开select回归逐个断言新UID/upgrade/source/View星盘文本。"
+    },
+    {
+      "id": "I2",
+      "severity": "Important",
+      "status": "closed_by_43041948348d513c73a2d6a5ea90b864eada3884",
+      "file": "src/lua/abyss_card_origin.lua",
+      "lines": [
+        27,
+        37
+      ],
+      "related": "src/lua/abyss_card_origin_view.lua:17-19",
+      "title": "observer/View未完整校验来源实体与升级状态，替换或回退可显示旧来源",
+      "trigger": "Run.transaction内保留UID将已有origin的升级牌换cardId且改为未升级，或同cardId回退升级状态；另一边界是同事务回退再升级并生成与原after.upgrades相同的新显式record。",
+      "actual": "换cardId未升级不进入两个record分支，旧origin保留，View无身份/after校验直接显示旧来源；同cardId降级被记录为永久升级；新显式record可因旧after.count相同被误当陈旧。",
+      "expected": "记录只适用于匹配uid/cardId/after.upgraded/after.upgrades的当前实体；降级不能称为升级；真实新显式来源不因计数与旧记录巧合相等而被覆盖。",
+      "fix": "完整匹配身份/after状态，在替换/回退时清理不适用记录；仅升级增长发布升级记录，并可靠识别本事务显式记录。View也做防御性完整匹配。",
+      "qualification": "当前审到的真实transform均remove+fresh UID；该条是中央公开事务observer边界缺陷，不声称已由自然变换复现。",
+      "ac": "TASK-4.7 #4/#5",
+      "resolution": "Origin.matches核uid/cardId/after.upgraded/after.upgrades并要求当前已升级；observer清旧不适用记录，仅状态由未升级到升级或次数上升写permanent_upgrade；View独立匹配后显示。新同count显式来源在同身份等状态时未被observer重写，同count新身份显式来源被recorded识别并保留。"
+    }
+  ],
+  "checks": {
+    "transactions": "staged全图复制保留alias；拒绝/pcall异常/被失败子事务污染均在observer前返回，未观察到失败泄漏；observer只读旧图并改staged，正常形状下无RNG调用。嵌套只在最外层观察。",
+    "mixedSources": "4304194修后：星盘取得点显式来源与胎石已匹配来源优先，战纹/磨刀石receipt回退也经完整身份/after核验；同count新显式来源不被覆盖；无RNG或UID分配变化。",
+    "readOnlyUi": "详情复制实例；OriginView只读扫描，关键词、来源、库存status不调RNG/领取/升级/选路命令；新增Run整体值相等测试尚由主控执行，不替代实体平台。",
+    "counters": "combat状态取当前combat.relicCounters；bindBattle复制persistent且结算同步；蜥蜴尾巴-1/-2与御守/套娃/羽翼/面具次数映射匹配源码。",
+    "chinese": "仅五类strike正文删除标签尾句；strikeTag/剑势如虹计数实现未改；卡组详情及战斗长按补可发现关键词；卡HelpSpec纳入strikeTag/升级牌。",
+    "helpAndExit": "refresh隐藏菜单/退出help，available拒绝help/run_help旧或直接点击；退出进度无法恢复与取消/确认保留；Owner指定帮助作者提升等级原文保留。",
+    "cardPreviewConservation": {
+      "method": "静态Node逐字比较，不执行Lua",
+      "exactChange": "current === base.replaceAll(打击类牌。空串)",
+      "occurrences": 21,
+      "currentSha256": "97809848aac2b1b7841c225b5250439b3775ab7f52f1427279b01b4ff8967589",
+      "historicalArchiveSha256": "0a069b873ed3e9e9ece3937c63ab072bc705f949dc6596a1586b4ffe01d504fe",
+      "historicalArchiveMatchesOriginalProof": true,
+      "conclusion": "当前数值/动作/断言不变；历史archive保留原全文和标签，hash与原proof一致。ENGINEERING允许当前fixture维护且不刷新原档，无需放宽历史inverse。未宣称最终组合所有source门禁通过。"
+    }
+  },
+  "acCoverage": {
+    "TASK-4.7": {
+      "1": "源码完整库存/来源接入，I1/I2已关闭；同候选平台视觉仍未验，不整体勾。",
+      "2": "同候选PC/手机未验，不勾。",
+      "3": "共享库存入口及当前counter源码覆盖；四屏触屏未验，不勾。",
+      "4": "源码事件observer、显式遗物/camp/egg和永久/新获/临时详情覆盖；I1/I2经增量修复关闭，设备证据仍未完成。",
+      "5": "UID/before/after与战纹/磨刀取得点保留；失败事务结构安全；休息及最终组合专项由主控，不整体勾。",
+      "6": "读操作源码只读且既有模态关闭逻辑保留；新UI专项由主控；同候选手机未验，不勾。",
+      "7": "基线图标中文效果分页/共享入口保留，live counter补全；顶栏实际设备避让未验。"
+    },
+    "TASK-4.8": {
+      "1": "本片中文简化不增英文占位；最终运行态遍历由主控，不据静态认定游戏逐屏准确。",
+      "2": "同候选游戏证据未验。",
+      "3": "源码覆盖：必要正文、关键词可发现、strikeTag规则不变、禁帮助旧点击；无新增选敌长提示。",
+      "4": "退出风险取消确认、创作者表述保持；最新Owner点赞原句保留，旧AC冲突交主控按用户最新指示判断。"
+    },
+    "TASK-59.3": {
+      "1": "历史已勾；本片不改角色选择。",
+      "2": "历史已勾；本片不改输入隔离。",
+      "3": "本片不是原生构建/合入证明，精确头CI与设备仍需主控。",
+      "4": "保留基线Production单旅行者/full-source八形态；本片无准入变化。",
+      "5": "保留基线共用主视觉槽；官方显示未验。",
+      "6": "保留基线小头像与真实详情；未提供新候选视觉证明。",
+      "7": "无肖像变化，基线非102005与约133槽保留；平台未验。",
+      "8": "无官方/真机不得记通过。"
+    },
+    "TASK-59.3.1": {
+      "1": "本片未改选角视觉；官方候选头像/容器未验。",
+      "2": "本片保留初始信息与Production旅行者准入；实际可读性未验。",
+      "3": "无本轮批准稿/原版对照候选界面证据，保持未勾。"
+    }
+  },
+  "limitations": [
+    "Backlog CLI在审查shell不可用（backlog: command not found）；任务全AC从只读文件完整读取。",
+    "未重复整套测试或重Lua；仅静态源码/历史hash和21处逐字守恒检查。",
+    "无官方导入、当前ready、同候选PC/手机、容量或性能验收。"
+  ],
+  "followup": "I1/I2源码问题关闭；本域源码审查PASS。最终精确组合标准测试/完整必需CI由主控统一确认；官方导入、ready、PC/手机和平台条款保持未验证。",
+  "initialHead": "7b668efbd0443290d6af645f56053f27182dd7e5",
+  "incrementalReview": {
+    "commits": [
+      "43041948348d513c73a2d6a5ea90b864eada3884",
+      "85db83ed67ec55c78c4c58be3040eb7c58112d46"
+    ],
+    "integratedCommitsProvidedByController": [
+      "5b49576",
+      "4661ff7"
+    ],
+    "reviewedDelta": "7文件，114插入5删除；3个生产Lua只改变来源元数据与匹配，4测试文件；未更改规则、RNG调用、升级参数、UID分配、transaction提交机制。",
+    "sameCountReason": "同UID/cardId同升级状态新显式record即使recorded=false，observer无状态增长/身份替换分支，因此不重写并保留新source；同count换cardId新record对previous匹配失败，使recorded=true并保留。",
+    "testNameCorrection": "85db83e仅将raw遗物name断言改为真实Names.get解析名，保持严格ASCII拒绝并加chemical_x精确化学物质零号断言；node_ui_faces及battle奖励已使用该resolver。raw化学物X是合法技术符号，库存raw入口仍保留，未借此声称所有屏幕无ASCII。",
+    "verification": "独立静态逐行窄复审、git diff --check通过；未重跑Lua。实现者报告真实Astrolabe与8身份边界RED→GREEN，主控最终组合标准专项正在统一运行；不冒称本审查执行了它们。",
+    "remainingCriticalOrImportant": []
+  }
+}

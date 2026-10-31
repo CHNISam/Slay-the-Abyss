@@ -1,0 +1,99 @@
+{
+  "reviewer": "independent-m3-integrated-final",
+  "worktree": "/workspace/m3-final",
+  "base": "690a4a5797a6973985f04bf2c4e8f2136b848f8e",
+  "head": "243ae1bd888d33e500cdd868932cc09b6cb9131c",
+  "tree": "57577d56acfb31913fe0c2f35199c2903810b74d",
+  "verdict": "PASS_SOURCE_INTEGRATION_REVIEW_PLATFORM_UNVERIFIED",
+  "blockingFindings": [],
+  "scope": "Independent read-only review of final combination against PR435 base; production Lua diff and named cross-module interactions, informed by existing five domain reviews. No full test rerun or heavy Lua; current head CI and campaign runtime belong to controller.",
+  "reviewedInteractions": [
+    {
+      "area": "game_ui resourceAction and disabled help",
+      "assessment": "Resource hints retain resourceAction early branch and canManagePotions guard (opening cover, disabled, same run, exit/deck/choice, busy, settlement, mode and phase). Disabled help/run_help applies independently to both pointer and Controller availability; neither kind is resource_. Existing generation/run/deck/potion/mode token checks remain. Menu layout hides help and closes its row without removing map/rule/abandon actions."
+    },
+    {
+      "area": "touch card carry and PR435 recenter",
+      "assessment": "Only touchScreen aiming bypasses parking. Existing dragPose preserves pickup grab offset, eases it over first 80px toward +270*sourceScale, and continues centering toward pointer X. Mouse aiming retains g.origin[1] column and previous floor Y. Enemy hit, reticle, preview and release remain based on authoritative g.x/g.y, not lifted card pose."
+    },
+    {
+      "area": "map XY distance and Y scrolling",
+      "assessment": "X/Y use same validated canvas scale; finite missing-X compatibility remains. Euclidean start threshold cancels horizontal and diagonal taps; scroll delta remains only Y. Release samples move, including Up-only motion. touch+slot ownership, node exclusivity, same-ID background recovery, context/generation validity and one-shot released grant are retained unchanged."
+    },
+    {
+      "area": "transaction, obtain, transform and provenance",
+      "assessment": "Observer runs after pcall success and nested-failure poison checks, before staged publication. Complete mutable graph copy preserves alias; nested commands mutate same staged owner. Observer uses no RNG/UID allocation. Existing upgrade-card hooks explicitly record eggs, camp, Tiny House, War Paint/Whetstone and Astrolabe fresh UID replacement. Real transforms remove old UID and obtain new UID. Identity+upgraded/count validation clears stale provenance; view repeats validation. PR435 lastRelicUpgrade/lastRelicObtain receipt semantics remain, with origin record added beside same receipt. Failure path cannot publish staged receipt."
+    },
+    {
+      "area": "relic live counters",
+      "assessment": "UI reads current combat counters during combat and persistent counters otherwise; bindBattle copies persistent and settlement copies back. Existing localId lookup preserved. Lizard Tail -1/-2 and limited-use count labels align with source. Read-only status does not trigger effects."
+    },
+    {
+      "area": "PR435 potion renderer extraction",
+      "assessment": "Statically verified extracted paintPotionContents body equals exact PR435 baseline body after removing one indent level. Call stays in same state-face loop after shell/rim writes; captured dependencies, PotionView, Theme and tones preserved. No changed visibility, source path, tint order or label semantics found."
+    },
+    {
+      "area": "integration repair in choice_ui",
+      "assessment": "Constructor closure renamed self to view while colon-method self remains correct Lua method receiver. render/fresh/bind closures use view; handlers call view methods. No dangling constructor self reference found in changed closures."
+    }
+  ],
+  "checks": [
+    {
+      "kind": "source",
+      "result": "Full production Lua delta against base inspected; config registers origin core and origin_view UI."
+    },
+    {
+      "kind": "static extraction equality",
+      "result": "PASS: Python exact baseline/current potion body comparison after one indent removal."
+    },
+    {
+      "kind": "worktree",
+      "result": "clean"
+    },
+    {
+      "kind": "diff whitespace",
+      "result": "git diff --check base..HEAD reports raw evidence log EOF and HTTP response CRLF whitespace; no production source whitespace errors. See informational note."
+    }
+  ],
+  "nonBlockingNotes": [
+    {
+      "severity": "Low",
+      "files": [
+        "docs/evidence/m3-visual-20261031/host.log",
+        "docs/evidence/m3-visual-20261031/oss-policy.txt"
+      ],
+      "detail": "git diff --check flags EOF blank line and CRLF/trailing whitespace in captured raw logs. Informational evidence-format note, not a new runtime defect; do not silently rewrite raw evidence as part of source review."
+    }
+  ],
+  "domainReports": [
+    {
+      "path": "/workspace/cloud-reports/m3-review-ui-full.json",
+      "sha256": "84b6cb13f9361cb77b1083f2163dbd5bb43ff478ae7f1bfbd14f3347fbfd9641"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-review-input-full.json",
+      "sha256": "85c70508c45b28f0b6ce39bea74478d10e0df80c49362e82bffa5adeb17fa819"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-review-acceptance-full.json",
+      "sha256": "7cda02542e0ca67e59ea3a325a6887d7345210cf780c0da8571f17415fb88ec1"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-review-campaign-full.json",
+      "sha256": "8f4c66f0de0d535a070f040f5304c644e043f0686e81565910746becb4787b88"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-review-ci-full.json",
+      "sha256": "0871426211d6ee41408601de369ac07cb28e661a17fa6d8a8f51c41d2d611378"
+    }
+  ],
+  "boundaries": [
+    "No new Critical/Important integration finding found in reviewed scope. This is source approval only.",
+    "No official same-candidate PC/phone import, ready, native input, screenshots or platform capacity proof is supplied by this review; keep those UNVERIFIED. Simulator images remain simulator evidence.",
+    "No natural campaign result, card/relic acquisition completeness, current final CI success or Windows timeout repair is inferred from static inspection. Controller retains runtime checks.",
+    "Existing background/platform issue is outside this change and was not modified or claimed resolved.",
+    "Backlog CLI is unavailable in this reviewer environment (command not found); no Backlog changes.",
+    "No source, branch, task or push mutation; only this external review JSON written."
+  ],
+  "finalHeadRecheck": "243ae1bd888d33e500cdd868932cc09b6cb9131c"
+}

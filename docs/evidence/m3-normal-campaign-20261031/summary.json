@@ -2,13 +2,14 @@
   "kind": "offline-normal-rule-campaign",
   "platformVerified": false,
   "dataModified": false,
-  "sourceCommit": "0d8a9fe2eae6bc9c008327677fb3747e4c91044c",
+  "sourceCommit": "243ae1bd888d33e500cdd868932cc09b6cb9131c",
   "sourceDirty": false,
-  "startedAt": "2026-10-31T16:33:31.819Z",
+  "startedAt": "2026-10-31T16:59:03.482Z",
   "policy": "warrior75-visible-state-v1",
   "policySha256": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
-  "driverSha256": "c233f2fadca53bb03b3323f3373c9a012a9bca6bafe89632ddb331cd67983c12",
+  "driverSha256": "bed113604921fdaaab939b9958fb939918ca3d305ee22f83ad150794522fb9df",
   "eventCardPolicySha256": "05ba80bf35eac1a6c7c6533f36bd383c9ee7605e7ea455ca342118d34b70da47",
+  "relicChoicePolicySha256": "ed73d98fd30ef6b95bb103991af56a612cd79c2363ba0ef4db68ef49c1a946b7",
   "resetVerificationKind": "fresh-Run-construction-only; not Host restart",
   "runs": [
     {
@@ -23,13 +24,21 @@
     },
     {
       "seed": 3,
-      "status": "driver_blocked",
-      "reason": "scripts/m3-normal-campaign.lua:50: enter: relic_choice_pending",
-      "floor": 9,
-      "hp": 88,
-      "actions": 73,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 170,
       "newRunConstructionResetVerified": true,
       "artifact": "seed-3.json.gz"
+    },
+    {
+      "seed": 42,
+      "status": "defeat",
+      "floor": 16,
+      "hp": 0,
+      "actions": 216,
+      "newRunConstructionResetVerified": true,
+      "artifact": "seed-42.json.gz"
     }
   ]
 }

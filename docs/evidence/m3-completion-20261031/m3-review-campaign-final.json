@@ -1,0 +1,41 @@
+{
+  "reviewer": "independent-campaign-full",
+  "worktree": "/workspace/m3-final",
+  "reviewedCommit": "e8eb723",
+  "deltaCommits": [
+    "966550d",
+    "e72e90ab700b58bc5acaf122d45d9af4d7165411 (integrated e8eb723)"
+  ],
+  "verdict": "PASS_SOURCE_WITH_KNOWN_PROVENANCE_FOLLOWUP",
+  "blockingFindings": [],
+  "followups": [
+    {
+      "severity": "low",
+      "location": "scripts/m3-normal-campaign.mjs:15,23",
+      "detail": "New relic helper does not yet have relicChoicePolicySha256 in summary and per-run gzip. Controller already identified and will add it. Clean sourceCommit binds helper content transitively, so this is not a gameplay/source-correctness blocker; explicit helper hash should be added before new evidence is represented as the final provenance format."
+    }
+  ],
+  "checks": [
+    "Policy obtains rows from Pending.view and returns selected.token unchanged; no fabricated owner, UID, screen token, index or choice.",
+    "Only public current deck/relic inventory, public definitions, potion capacity/count, visible card offers and deterministic scoreCard are consulted. No future RNG peeking or state writes.",
+    "Full potion slots or a visible blocksPotions relic make potion claim ineligible: shopRelicRewards exposes choice=0 skip, selected legally; pendingBossRelic exposes done which legally discards unresolved potion once other visible rewards have been processed.",
+    "Driver prioritizes mandatory modal resolution before combat, rewards, act transition or room navigation. It uses Pending.resolve, the same transactional public resolver as UI, and does not clear pending owners directly.",
+    "Loop continues for a remaining pending owner even if phase is terminal. This resolves public modal obligations rather than forcing victory/defeat or moving the floor.",
+    "Controlled regression source verifies actual generated bottled relic, rejects navigation while owner pending, resolves legal bottle UID, keeps original floor/node/phase, rejects stale token with deep state equality, then navigates from the same completed chest.",
+    "Regression sources also cover mirror, Empty Cage, Tiny House, Orrery, Cauldron, card reward selection, full potion slots and Sozu. Controlled Run.obtainRelic/map changes are confined to test preconditions, absent from production campaign driver, and are not natural acquisition evidence.",
+    "Wrapper requires an exact clean git sourceCommit before running and copies source identity and driver/policy/event helper hashes into each gzip as well as summary; startedAt and explicit fresh-Run-only reset label retained.",
+    "node --check scripts/m3-normal-campaign.mjs passed; git diff --check 966550d..e8eb723 passed."
+  ],
+  "sourceHashes": {
+    "scripts/m3-normal-campaign.lua": "bed113604921fdaaab939b9958fb939918ca3d305ee22f83ad150794522fb9df",
+    "scripts/m3-relic-choice-policy.lua": "ed73d98fd30ef6b95bb103991af56a612cd79c2363ba0ef4db68ef49c1a946b7",
+    "scripts/m3-normal-campaign.mjs": "58e8437ccbb15d8855120bb5263986312ff90282a5befe0664886d0d837b926e"
+  },
+  "boundaries": [
+    "No Lua, long driver or runtime test performed by this reviewer; review is source-only per request. Author RED/GREEN or controlled PASS claims were not independently rerun.",
+    "Current evidence files were dirty due to controller runtime work; not reviewed or overwritten. No new-run outcome is inferred from this approval.",
+    "Approval does not complete natural two-act victory, actual defeat/restart Host coverage, full per-item acquisition/use, same-candidate official import/ready/log/screenshots, PC or physical-phone acceptance.",
+    "Existing old-driver failure artifacts must remain separately identifiable; final evidence must use actual recorded sourceCommit and helper hashes and retain all real failures."
+  ],
+  "mutations": "Only requested /workspace/cloud-reports/m3-review-campaign-final.json written; no repository mutation or push."
+}

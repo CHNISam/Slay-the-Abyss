@@ -1,0 +1,122 @@
+{
+  "review": "Independent static evidence-authenticity review",
+  "status": "PASS",
+  "scope": "PASS applies only to truthful, bounded test-only slices; it is not full M3 or listed-AC acceptance.",
+  "base": "1a38b912",
+  "rules": "93cb0fd",
+  "events": "8684229",
+  "combined_head_observed": "f6dca8a4dea2f0b4ce681138cd2266e54c36a646",
+  "method": [
+    "Read both cloud reports and both persistent docs/reviews reports, added tests/oracle, relevant production owners and existing专项 fixtures.",
+    "Inspected git diffs: rules 5 added files; events 9 added files; no production, source pool, test budget, or task change.",
+    "Executed only subsecond Python oracle regeneration: all 3 frozen chain cases match exactly. No heavy Lua/Node suite, remote writes, task edits or delegation."
+  ],
+  "blocking_findings": [],
+  "evidence": {
+    "independent_potion_oracle": {
+      "result": "PASS",
+      "files": [
+        "tools/oracles/sts1_potion_channel_chain.py",
+        "tools/oracles/sts1_potion_pool.py",
+        "tests/fixtures/sts1-potion-channel-chain.json"
+      ],
+      "basis": "Python owns XS128 words/counter, bounded integer rejection, fixed ordered 33-potion source pool, rarity and drop modifier. Imports only its independent Python Oracle, not production Lua/catalog/sampler. Recomputed 0/42/-1 vectors equal checked-in cases. Source provenance is pinned decompilation, not certified PC binary."
+    },
+    "potion_same_run_chain": {
+      "result": "PASS_BOUNDED",
+      "file": "tests/lua/support/potion_channel_chain.lua:15",
+      "basis": "One Run persists through normal Shop.prepare 3-potion stock, Courier full-belt atomic rejection and successful refill, normal combat reward, Entropic limited 3 draws, Smoke escape, next shop and elite reward. Exact final words+counter checked at each consumer boundary; modifier checked at rewards. Preview and failed purchase compare entire Run. Entropic checks unchanged card and merchant streams. Frozen identity map is separate from runtime sampler.",
+      "controlled_inputs": [
+        "Run.obtainRelic/Potion setup, 10000 gold",
+        "Shop.prepare result manually installed into run.phase/nodeFlow/shopRng/relicPool rather than reached by Nodes.enter",
+        "Terminal enemy HP directly set to zero; reward path production finishCombat",
+        "Rewards skipped, not all naturally claimed/used in this chain"
+      ],
+      "limits": [
+        "Exact snapshots are at consumer boundaries, not each internal rejection draw (existing sts1-potion-random tests provide sampler-level traces).",
+        "Only card and merchant noninterference asserted around Entropic; not every RNG owner.",
+        "New negative mutation proves lost Entropic persistent commit is detected; it does NOT execute an Entropic failure then rollback/retry. Existing potion_candidate_boundaries covers outside-combat prepare/available exceptions, not late in-combat generation rollback on this established chain.",
+        "Full-belt rejection and preview C.copy(run) intentionally traverse immutable data too; this adds avoidable payload comparison/copy work, but does not weaken assertions or change gameplay. Reports state 30-second fixture budgets unchanged; no performance pass rerun here."
+      ]
+    },
+    "event_routes": {
+      "result": "PASS_BOUNDED",
+      "file": "tests/lua/support/m3_full_pool_completion.lua:54",
+      "basis": "24 Act1 +31 Act2 paths, 42 unique original identities. Pool.new(full,false,act) retains all eligible source identities; Note excluded by approved cross-run rule, SecretPortal by Act3 qualification. No explicit identity eventId, handler replacement, pool truncation or runtime reroll. Fixture searches source-stream positions using production Pool.draw/Unknown reducer, then submits selected legitimate stream state to real Nodes.enter. Destination type and stream offset are controlled inputs. Public Nodes.view/chooseEvent completes at least one route, including Match tokens; combat paths use supplied real potion commands.",
+      "assertions": [
+        "actual originalId and contentId mapping",
+        "eventRng.counter exactly +1 at admission",
+        "entire act/shrine/once source queue equals previous queue with exactly selected identity removed",
+        "completion and at least one available next node",
+        "post-completion repeat leave rejected and entire Run unchanged"
+      ],
+      "limits": [
+        "This is production-integration routing coverage, not an independent probability/RNG oracle: expected identity search calls production Pool.draw.",
+        "New fixture checks counter only, not full eventRng words, selectionRng snapshot or every other source owner on admission.",
+        "Each identity clones a fresh base full pool; it does not prove a continuous Act1-to-Act2 once-queue lifecycle.",
+        "New invalid-input assertion is only repeated leave after completion; empty deck, insufficient qualification, stale token and preparation failure are delegated to older专项, not retested for all55.",
+        "At most one chosen completion path per identity; leave is preferred. It cannot prove all options/costs/results or all asset/relic combinations.",
+        "Prints act/originalId/counter; seed fixed42 and map construction inspectable in code; does not recover original user screenshot seed/identity or emit a full per-step ledger."
+      ]
+    },
+    "neow_session_boundary": {
+      "result": "PASS_BOUNDED",
+      "file": "tests/lua/neow_competition_restart.lua:28",
+      "basis": "Actual GameUI owner, generated controls, Boss mapUI entry, repeated real Run.endTurn death, refresh and restart produce fresh2/Boss4/newHost2/earlyDeath2. Provider advertises bossCount1 yet read count remains0 in competition. No direct write to private history owner, bossCount, phase defeat or hp0.",
+      "controlled_public_state": [
+        "Map.choose skips room content to floor15; ui.run.floor assigned map.floor and nodeFlow cleared at line33. This is explicit fixture setup, not natural gameplay.",
+        "Production history qualifies on terminal run.floor>=16 (abyss_neow_history.lua:29); actual Boss entry establishes floor16 and real death supplies terminal outcome."
+      ],
+      "limits": [
+        "No natural survival/traversal to Boss.",
+        "No persistent/platform history or native device input proven.",
+        "New test checks offer count, not full4-offer oracle content or every dialogue/reward branch; those are existing tests."
+      ]
+    }
+  },
+  "ac_assessment": {
+    "TASK-14.1": {
+      "offline_supported": "#1-4 prior records retained. #6 normal full33 sampling/channel implementation has existing tests; new chain adds Courier/reward/Entropic/Smoke continuity. #7 selected cross-room combination and #10 failed purchase resource/RNG atomicity supported.",
+      "not_proven_offline_by_these_slices": "#5 every numerical/effect/target/duration/hook and #7 all-item/all-combination completeness; #9 all relic normal/Boss effects; #10 complete user-facing reasons/options. Rules report explicitly still requires serial recheck of33 starter-reward channel tests after six timeouts.",
+      "natural_required": "#8 every item naturally obtained/used/triggered and #9 natural normal/Boss relic acquisition.",
+      "platform_required": "#8/#9 same-candidate platform logs/screenshots; native presentation parts of#10."
+    },
+    "TASK-16.1": {
+      "offline_supported": "#5 selected shared Run/inventory/shop/reward/combat boundaries and #6 potion stream initialization, refusal, consumer order and persistent publication for3 seeds.",
+      "not_proven_offline_by_these_slices": "Full class/item numerical combination matrix and every random source/consumer order. New lost-commit mutation is not Entropic late-failure rollback.",
+      "natural_required": "#6 corresponding real gameplay consumption records.",
+      "platform_required": "Actual native same-candidate validation remains separate."
+    },
+    "TASK-12.5": {
+      "offline_supported": "#3 honest passed/difference/unverified separation; #1 source vectors and golden maps delegated to named existing专项; #2 selected controlled transactions/rejection behavior.",
+      "not_proven_offline_by_these_slices": "Sufficient distribution/probability statistics, completed10k structural run, every route/enemy/room and all economy combinations. 12golden maps are neither10k properties nor observed probability statistics.",
+      "natural_required": "Actual route/room/enemy distribution and same-version gameplay transactions/rewards.",
+      "platform_required": "#2 same-version native ledger and forbidden-route/repeat-claim behavior, plus strict platform scope."
+    },
+    "TASK-13.1": {
+      "offline_supported": "Prior#1-3 retained. #4 every eligible two-act event identity has one full-pool public completion path. Named prior tests cover shop typed identities/prices and reward/treasure source owners for#5-6. #7 selected failure/repeat atomicity.",
+      "not_proven_offline_by_these_slices": "#4 all event options, camp results and all qualification combinations; #5 every inventory/effect/price interaction; #6 every source probability and claim order; #7 all extremes.",
+      "natural_required": "Natural event/camp/treasure and item/reward acquisition/claim sequence.",
+      "platform_required": "#7 explicitly strict platform acceptance; same-candidate actual shop/reward ledger."
+    },
+    "TASK-13.1.2": {
+      "offline_supported": "#3 one completion per24 Act1 identities; #4 full eligible source-pool admission preserved; #5 Match public route/token completion (not native platform); #7 normal-completion complement to existing missing-mapping/qualification/preparation rollback专项; #8 controlled two-act mapping-to-completion evidence.",
+      "not_proven_offline_by_these_slices": "#3 all costs/results/options; #4 independent probability proof is in existing fixed-source tests, not new production-search fixture; #6 all empty-deck/qualification failure inputs and every option; #7 existing targeted failure cases must retain own scope; #8 original user failing seed/identity remains unknown.",
+      "natural_required": "#6 all legal identities encountered/completed through real play and #8 real public two-act softlock reproduction.",
+      "platform_required": "#5 native picker/permanent transactions and#6 actual device evidence; #8 official same-candidate completion."
+    },
+    "TASK-13.1.3": {
+      "offline_supported": "#1 actual Host session2→Boss4→newHost2→earlyDeath2; existing independent Neow vectors retain candidate-rule proof. #2 generated-control intro/blessing flow retains approved cancellation of movie.",
+      "not_proven_offline_by_these_slices": "All offer identities/random outputs/dialogue/reward branches from new lifecycle test alone.",
+      "natural_required": "Natural reach-Boss/history acquisition is not shown by controlled map prefix.",
+      "platform_required": "#1-2 approved content actually experienced on same official/native candidate."
+    }
+  },
+  "full_acceptance_status": "BLOCKED_PENDING_EXISTING_AC_EVIDENCE",
+  "full_acceptance_blockers": [
+    "Natural acquisition, actual routes, real gameplay ledgers and same-candidate official/native/device evidence remain unverified; do not close mixed ACs.",
+    "Rules report retains33 starter-reward channel serial rerun pending after six original-budget timeouts. Events report retains incomplete test-strength M4 baseline and10k map properties; final combined gates belong to parent.",
+    "If the intended claim is exact all-owner RNG/queue and Entropic rollback proof on the new integrated chain, these additions do not establish that claim; require targeted late-failure rollback and full-state assertions or keep scope bounded."
+  ],
+  "recommendation": "Accept both test-only slices as bounded additional offline integration evidence. Preserve all stated limitations; never label55 happy paths as all event branches, controlled Boss prefix as natural history, or negative lost-commit detection as rollback verification."
+}
