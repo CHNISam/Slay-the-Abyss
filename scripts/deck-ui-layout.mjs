@@ -122,6 +122,7 @@ export function deckControls(theme = nativeTheme) {
       { ...text('details', l.deckView.viewport, '', f.body, c.text), visible: false },
       { name: 'detailHit', kind: 'cursorArea', position: l.deckView.viewport.slice(0, 2),
         size: l.deckView.viewport.slice(2), focusable: true, visible: false },
+      { ...button('upgradePreview', l.deckView.upgradePreview, '升级预览'), visible: false },
       button('close', l.deckView.close, '关闭'),
       { ...button('previous', l.deckView.previous, '上一页'), visible: false },
       { ...button('next', l.deckView.next, '下一页'), visible: false },
