@@ -24,7 +24,22 @@ const proof=pr323AcceptedSourceInverse;
 // Architecture consumes JSON values. Permit layout whitespace only, then still
 // require the original complete identity. Comparing tokens also prevents JSON.parse
 // from hiding duplicate keys, changed string escapes, or numeric spellings.
+// #412 registered exactly two scoring modules. Recover the complete pre-score
+// architecture bytes before applying the existing immutable history chain.
+function preRunScoreArchitecture(path,source){
+ if(path!=='config/architecture.json'||typeof source!=='string')return source;
+ try{
+  const {formatted,tokensEqual}=architectureSourceFormat(path,source);
+  if(!tokensEqual||hash(formatted)!=='009a174ae8da6d258c7631e97e8549494b5111748024b68036af5acce6fa0521')return source;
+  const live=normalize(readFileSync(new URL('../../config/architecture.json',import.meta.url),'utf8'));
+  if(hash(live)!=='640bb51f60c831ad2162de7907b5b7e6a241dfa6f50b15b8527234eb2da47b64')return source;
+  const previous=live.replace('    "abyss_run_score": "core",\n    "abyss_run_scoring": "core",\n','');
+  assert.equal(hash(previous),'1a8c11ac9930e5eab26526f2a5a1318469c39dcbabf174ba8ecba01cc127afb1','complete pre-#412 architecture identity');
+  return previous;
+ }catch{return source;}
+}
 export function normalizePr323CompositionSource(path,source){
+ source=preRunScoreArchitecture(path,source);
  source=preMultiHistoricalUiTest(path,source);
  source=preIntegrationSource(path,source);
  source=preCardDescOverflowSource(path,source);

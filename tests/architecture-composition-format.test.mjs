@@ -28,9 +28,13 @@ test('whitespace permission never hides changed tokens, duplicate keys, array or
  const reordered=structuredClone(policy);
  assert.ok(reordered.deferredImports.length>1,'array order negative control has distinct actual entries');
  reordered.deferredImports.reverse();
+ const missingScore=structuredClone(policy);delete missingScore.layers.abyss_run_score;
+ const missingScoring=structuredClone(policy);delete missingScoring.layers.abyss_run_scoring;
+ const wrongScoring=structuredClone(policy);wrongScoring.layers.abyss_run_scoring='ui';
  const first=JSON.stringify(key),value=JSON.stringify(policy.layers[key]);
  const compact=JSON.stringify(policy);
  const variants=[JSON.stringify(changed),JSON.stringify(unknown),JSON.stringify(reordered),
+  JSON.stringify(missingScore),JSON.stringify(missingScoring),JSON.stringify(wrongScoring),
   compact.replace(first+':'+value,first+':'+value+','+first+':'+value),
   compact.replace(first,JSON.stringify(key+' ')),
   compact.replace(first,first.replace('a','\\u0061')),
