@@ -10,7 +10,7 @@ test('map resources stay above the route and clear all top-bar controls', () => 
   const layout = { children: gameLayout().controls }, map = find(layout, 'mapPanel'), resources = find(map, 'resources');
   assert.ok(resources, 'money and health must be visible before choosing a room');
   const boxes = [...resources.children, find(map, 'title'),
-    find(find(layout, 'potionEntry'), 'open'), find(find(layout, 'deckEntry'), 'open'),
+    find(find(layout, 'potionEntry'), 'open'), find(find(layout, 'deckEntry'), 'open'), find(find(layout, 'mapEntry'), 'open'),
     find(find(layout, 'exitEntry'), 'open')];
   for (const [i, a] of boxes.entries()) {
     assert.ok(a.position[1] - a.size[1] / 2 >= 292, `${a.name} intrudes into the route`);

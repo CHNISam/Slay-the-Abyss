@@ -343,6 +343,10 @@ function M.new(root, data, presentation, clickEvent, platform)
         local utilitiesVisible=not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering
         child("combatRewards"):SetVisible(returnAvailable)
         child("deckEntry"):SetVisible(utilitiesVisible)
+        -- STS TopPanel.renderMapIcon: DISABLED_BTN_COLOR when the map cannot open.
+        child("mapEntry"):SetVisible(utilitiesVisible)
+        local mapHit=child("mapEntry"):GetChild("open"):GetChild("hit")
+        mapHit.interactable=canViewRoute()==true;mapHit.raycastTarget=mapHit.interactable
         child("relicEntry"):SetVisible(utilitiesVisible)
         self.relicUI:refreshBar(run,utilitiesVisible)
         for _,state in ipairs({'normal','hover','pressed','disabled'})do
@@ -763,6 +767,11 @@ function M.new(root, data, presentation, clickEvent, platform)
         return true
     end
     child("deckEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openDeck() end)
+    -- STS TopPanel.updateMapButtonLogic: the top-right map icon opens the route view.
+    child("mapEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent,function()
+        if not canViewRoute() then return false end
+        self.routeOpen=true;self:refresh();return true
+    end)
     child("relicEntry"):GetChild("open"):GetChild("hit"):AddCursorEventListener(clickEvent, function() return self:openRelics() end)
     Controller.bind(controller,child('relicEntry'):GetChild('open'):GetChild('hit'),function()return self.mode end,
         function()return self:openRelics()end)

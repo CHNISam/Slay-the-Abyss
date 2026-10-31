@@ -35,7 +35,7 @@ assert(trail.visible and trail.x==burning.start[1] and trail.y>=burning.start[2]
 flow:update(B.burn*0.9,catalog,{})
 assert(trail.children.plate.imageColor.a<255 and trail.children.name.text=='')
 flow:update(B.burn*0.1+B.fly,catalog,{})
-assert(trail.x==Theme.layout.topBar.exhaustIcon[1] and trail.y==Theme.layout.topBar.y)
+assert(trail.x==Theme.layout.exhaustPile.position[1] and trail.y==Theme.layout.exhaustPile.position[2])
 flow:reset()
 flow:sync(frame(nil,nil,{a}),frame(nil,{a}), 'reshuffle')
 assert(flow.waiting[1].from=='discard'and flow.waiting[1].to=='draw')

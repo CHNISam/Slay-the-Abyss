@@ -183,10 +183,11 @@ export function battleLayout() {
   const [width, height] = theme.canvas.base;
   const bar = l.topBar, y = bar.y, iconId = entry => (typeof entry === 'object' ? entry.id : entry);
   // Icon + number chips, as on the node top bar; the deck count lives on the shared deck button.
-  const chip = (name, [x, w], colour, fontSize = f.body) => text(name, x, y, w, bar.height, '', fontSize, colour);
+  // STS renderFontLeftTopAligned: numbers start at icon + offset, so chips are left-aligned.
+  const chip = (name, [x, w], colour, fontSize = f.body) => aligned(text(name, x, y, w, bar.height, '', fontSize, colour));
   const glyph = (name, [x, w], image, colour) => picture(name, x, y, w, w, iconId(image), colour);
   // Pile counts sit on a dark badge at the icon's inner corner, with a caption below.
-  const pile = (name, icon, [x, py], caption, side) => {
+  const pile = (name, icon, [x, py], caption, side, belowTurn = true) => {
     const b = l.pileBadge, [bx, by] = [x + side * b.offset[0], py + b.offset[1]];
     const left = Math.max(-width / 2 + theme.canvas.safe.x,
       Math.min(x - l.drawPile.size[0] / 2, bx - b.disc / 2, x + b.label[0] - b.label[2] / 2));
@@ -198,7 +199,7 @@ export function battleLayout() {
       Math.max(py + l.drawPile.size[1] / 2, by + b.disc / 2, py + b.label[1] + b.label[3] / 2));
     // TASK-38.2: a pile hit never reaches into the irreversible end-turn target.
     const turn = l.endTurn;
-    if (right > turn.position[0] - turn.size[0] / 2 && left < turn.position[0] + turn.size[0] / 2)
+    if (belowTurn && right > turn.position[0] - turn.size[0] / 2 && left < turn.position[0] + turn.size[0] / 2)
       top = Math.min(top, turn.position[1] - turn.size[1] / 2 - turn.touchGap);
     return [
       clickableImage(picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
@@ -220,7 +221,9 @@ export function battleLayout() {
     {name: 'topBar', kind: 'container', position: [0,y], size: [width,bar.height], children: [
       panel('steel',0,0,width,bar.height,c.panelSunken),
       panel('edge',0,-bar.height/2,width-80,1,c.goldDim),
-      panel('leftRule',-156,0,32,1,c.gold), panel('rightRule',156,0,32,1,c.gold),
+      { ...panel('potionFlash', bar.potionX - 40 * 2 / 3 + l.battlePotions.count * 64 * 2 / 3 / 2, 0, l.battlePotions.count * 64 * 2 / 3, bar.height, '#FF000000'), visible: false },
+      aligned(text('characterTitle', bar.title[0], 0, bar.title[1], bar.height, '', f.small, '#BFBFBF')),
+      picture('floorIcon', bar.floorIcon[0], 0, bar.floorIcon[1], bar.floorIcon[1], iconId(theme.icon.map), c.topPanelCream),
     ]},
     // Post-battle card pick: a framed stage that separates reward choosing from playing the hand.
     { name: 'rewardStage', kind: 'container', position: l.rewardPick.stage.slice(0, 2), size: l.rewardPick.stage.slice(2), visible: false, children: [
@@ -237,16 +240,18 @@ export function battleLayout() {
         ...l.battleRewards[name].slice(2), name === 'title' ? '战斗奖励' : '', name === 'title' ? f.display : f.body,
         name === 'title' ? c.goldBright : c.textDim)),
     ] },
-    text('title', 0, y, 350, bar.height, '战斗', f.heading, c.gold),
+    // STS TopPanel has no centre title; battle-specific readouts (stance/orbs/discards) sit under the bar's right half.
+    aligned(text('title', ...bar.heading, '战斗', f.small, c.textDim), 'right'),
+    // STS TopPanel.renderPotions flashRed: WHITE_SQUARE at potionX - 40, width potionSlots * 64 (×2/3), alpha from Lua.
+    // STS TopPanel.renderName: panelNameFont WHITE name, then tipBodyFont LIGHT_GRAY title.
+    aligned(text('characterName', bar.name[0], y, bar.name[1], bar.height, '', f.heading, '#FFFFFF')),
     // STS TopPanel.renderHP: SALMON cur/max; renderDungeonInfo: floor icon + CREAM floor number.
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp, c.topPanelHp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.topPanelGold),
-    glyph('floorIcon', bar.floorIcon, theme.icon.map, c.topPanelCream), chip('floor', bar.floor, c.topPanelCream),
-    clickableImage(glyph('exhaustIcon', bar.exhaustIcon, theme.icon.exhaust, c.textDim),
-      { ...hit(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] + bar.exhaustIcon[1] / 2, Math.max(44,bar.height)),
-        position: [(bar.exhaust[0] + bar.exhaust[1] / 2 - bar.exhaustIcon[0] - bar.exhaustIcon[1] / 2) / 2,
-          Math.min(0,height/2-theme.canvas.safe.y-y-Math.max(44,bar.height)/2)] },
-    ), chip('exhaust', bar.exhaust, c.textDim),
+    chip('floor', bar.floor, c.topPanelCream),
+    // STS ExhaustPanel: bottom-right pile, not a top-bar chip.
+    // No caption: ExhaustPanel only draws the icon and count circle.
+    ...pile('exhaust', theme.icon.exhaust, l.exhaustPile.position, '消耗', -1, false).filter(control => control.name !== 'exhaustLabel'),
     unit('hero', l.player.position, l.player.portrait, true),
     text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '', f.body, c.goldBright),
     text('statuses', -380, 194, 350, 26, '', f.small, c.textDim),

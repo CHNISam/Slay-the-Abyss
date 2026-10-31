@@ -120,23 +120,55 @@ function M.install(owner, _ownership, host, dependencies)
         return number(player and player.hp or run and run.hp or owner.data.rules.player.maxHp)
             .. "/" .. number(run and run.maxHp or owner.data.rules.player.maxHp)
     end
-    local function renderPlayerTotals(frame)
-        frame.player = frame.battle and frame.battle.player
-        dependencies.label("player", playerHealthText(frame))
-        local player, run = frame.player, frame.run
-        -- STS TopPanel.updateGold/renderGold: displayGold steps 10/3/1 toward gold;
-        -- GOLD_COLOR when settled, RED_TEXT_COLOR while falling, GREEN_TEXT_COLOR while rising.
-        local gold = player and player.gold or run and run.gold or 0
-        local shown = owner.topPanelDisplayGold or gold
-        local gap = gold - shown
-        if gap ~= 0 then
+    -- STS TopPanel.renderGold: GOLD_COLOR settled, RED_TEXT_COLOR falling, GREEN_TEXT_COLOR rising.
+    local function paintGold()
+        local gold, shown = owner.topPanelGold or 0, owner.topPanelDisplayGold or 0
+        dependencies.label("piles", number(shown))
+        dependencies.ink(dependencies.child("piles"), shown == gold and C.topPanelGold
+            or shown > gold and C.topPanelRed or C.topPanelGreen)
+    end
+    -- STS TopPanel.flashRed/renderPotions: WHITE_SQUARE tinted (1,0,0,timer/2) over the slots,
+    -- timer starts at FLASH_RED_TIME=1 and drains by delta.
+    local function paintFlash()
+        local t = owner.topPanelFlashRed or 0
+        local flash = dependencies.child("topBar"):GetChild("potionFlash")
+        flash:SetVisible(t > 0)
+        if t > 0 then dependencies.tint(flash, {r = 255, g = 0, b = 0, a = math.floor(255 * t / 2)}) end
+    end
+    -- STS TopPanel.update → updateGold (one step per frame: 10 if gap > 99, 3 if > 9, else 1) and
+    -- updatePotions' flash timer. Driven from BattleUI:update so the roll animates between refreshes.
+    local frameDebt = 0
+    function owner.topPanelUpdate(dt)
+        if (owner.topPanelFlashRed or 0) > 0 then
+            owner.topPanelFlashRed = math.max(0, owner.topPanelFlashRed - dt)
+            paintFlash()
+        end
+        local gold, shown = owner.topPanelGold, owner.topPanelDisplayGold
+        if gold == nil or shown == nil or gold == shown then frameDebt = 0 return end
+        frameDebt = frameDebt + dt * 60
+        while frameDebt >= 1 and shown ~= gold do
+            frameDebt = frameDebt - 1
+            local gap = gold - shown
             local step = math.abs(gap) > 99 and 10 or math.abs(gap) > 9 and 3 or 1
             shown = shown + (gap > 0 and step or -step)
         end
         owner.topPanelDisplayGold = shown
-        dependencies.label("piles", number(shown))
-        dependencies.ink(dependencies.child("piles"), shown == gold and C.topPanelGold
-            or shown > gold and C.topPanelRed or C.topPanelGreen)
+        paintGold()
+    end
+    local function renderPlayerTotals(frame)
+        frame.player = frame.battle and frame.battle.player
+        dependencies.label("player", playerHealthText(frame))
+        paintFlash()
+        local player, run = frame.player, frame.run
+        local name, title = require("abyss_character_select").topPanelName(run and run.character)
+        dependencies.label("characterName", name)
+        dependencies.child("topBar"):GetChild("characterTitle").text = title
+        owner.topPanelGold = player and player.gold or run and run.gold or 0
+        -- AbstractPlayer starts each run with displayGold = gold; only later changes roll.
+        if owner.topPanelDisplayGold == nil or owner.topPanelRun ~= run then
+            owner.topPanelDisplayGold, owner.topPanelRun = owner.topPanelGold, run
+        end
+        paintGold()
     end
     local function stanceHeading(frame)
         local player, run = frame.player, frame.run
@@ -176,7 +208,12 @@ function M.install(owner, _ownership, host, dependencies)
     end
     local function renderEnergy(frame)
         local battle = frame.battle
-        dependencies.label("exhaust", battle and tostring(#battle.exhaust) or "0")
+        -- STS ExhaustPanel.render: the pile only exists on screen while non-empty.
+        local exhausted = battle and #battle.exhaust or 0
+        dependencies.label("exhaust", tostring(exhausted))
+        for _, name in ipairs({"exhaustIcon", "exhaustBadgeRing", "exhaustBadge", "exhaust"}) do
+            dependencies.show(name, frame.fighting == true and exhausted > 0)
+        end
         local value = number(battle and battle.energy or 0) .. "/" .. number(owner.data.rules.player.energyPerTurn)
         dependencies.label("energy", value)
         local charged = battle and battle.energy > 0

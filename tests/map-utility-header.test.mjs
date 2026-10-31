@@ -11,26 +11,18 @@ const child=(c,n)=>c.children.find(v=>v.name===n);
 const entry=n=>child(gameLayout().controls.find(c=>c.name===n),'open');
 const states=['normal','hover','pressed','disabled'];
 
-test('deck entry matches the source capsule and keeps the existing single native button',()=>{
-  const open=entry('deckEntry'),hit=child(open,'hit');
+// STS TopPanel.renderDeckIcon: bare ICON_W deck glyph, 1.2x on hover, amount right-aligned at DECK_X+58.
+test('deck entry is the STS bare top-panel deck icon and keeps the existing single native button',()=>{
+  const open=entry('deckEntry'),hit=child(open,'hit'),bar=theme.layout.topBar;
   assert.equal(hit.kind,'presetButton');assert.equal(hit.focusable,true);
-  assert.deepEqual(open.size,[80,48]);
+  assert.deepEqual(open.position,bar.deck.slice(0,2));assert.deepEqual(open.size,[48,48]);
   for(const name of states){
-    const state=child(hit,name),border=child(state,'border'),face=child(state,'plate');
-    assert.equal(border.kind,'container','deck border must be a capsule, not a rectangle');
-    assert.equal(face.kind,'container');
-    assert.deepEqual(border.size,[66.667,34.667]);
-    for(const layer of [border,face]){
-      assert.equal(layer.children.length,3);
-      assert.deepEqual(layer.children.map(c=>c.image),[theme.image.disc,theme.image.rect,theme.image.disc]);
-      const [left,middle,right]=layer.children;
-      assert.equal(left.size[0],left.size[1]);assert.deepEqual(right.size,left.size);
-      assert.equal(middle.size[1],left.size[1]);
-      assert.equal(left.position[0],-right.position[0]);
-    }
+    const state=child(hit,name);
+    assert.equal(state.children.some(c=>c.name==='border'||c.name==='plate'),false,'STS draws no plate behind the deck icon');
     assert.equal(child(state,'deckIcon').image,theme.icon.deck.id);
     assert.equal(child(state,'label').visible,false,'retain only a hidden compatibility caption');
-    assert.equal(child(state,'count').kind,'text');
+    assert.equal(child(state,'count').kind,'text');assert.equal(child(state,'count').text.align,'right');
+    assert.deepEqual(state.scale,name==='hover'?[bar.hoverScale,bar.hoverScale]:name==='pressed'?[theme.layout.deckView.pressedScale,theme.layout.deckView.pressedScale]:[1,1]);
   }
   assert.match(readFileSync('src/lua/abyss_game_ui.lua','utf8'),/GetChild\('count'\)\.text=run and number\(#run\.deck\)/);
 });

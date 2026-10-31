@@ -39,6 +39,8 @@ export function exitControls(theme = nativeTheme) {
     border.size = [v.diameter, v.diameter]; border.colour = palette.border;
     face.size = [v.diameter - v.border * 2, v.diameter - v.border * 2]; face.colour = palette.fill;
     label.visible = false;
+    // STS TopPanel.renderSettingsIcon: hovered icon draws at Settings.scale * 1.2.
+    if (variant.name === 'hover') variant.scale = [theme.layout.topBar.hoverScale, theme.layout.topBar.hoverScale];
     for (let i = 0; i < 3; i++) variant.children.push(
       plate(`menuStroke${i + 1}`, [0, (1 - i) * v.lineStep, v.lineWidth, v.lineHeight], palette.ink));
   }

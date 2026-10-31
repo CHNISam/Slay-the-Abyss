@@ -53,7 +53,7 @@ local function test(id,destination)
    assert(stage:GetChild('feedback'):GetChild('cardTrail'..slot).visible)
    observed=true
    if entry.arrived then
-    local expected=destination=='discard'and Theme.layout.discardPile.position or destination=='exhaust'and{Theme.layout.topBar.exhaustIcon[1],Theme.layout.topBar.y}or Theme.layout.player.position
+    local expected=destination=='discard'and Theme.layout.discardPile.position or destination=='exhaust'andTheme.layout.exhaustPile.positionor Theme.layout.player.position
     assert(entry.finish[1]==expected[1]and entry.finish[2]==expected[2]);endpoint=true
    end
   end end

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gameLayout} from '../scripts/game-ui-layout.mjs';
+import {theme} from '../scripts/ui-layout.mjs';
 import {runLua} from '../scripts/test-lua.mjs';
 const child=(node,name)=>{const found=node.children.find(c=>c.name===name);assert.ok(found,name);return found;};
 test('map and node HP reserve native glyph room between the existing resource icons',()=>{
@@ -13,7 +14,8 @@ test('map and node HP reserve native glyph room between the existing resource ic
   assert.equal(hp.text.autoSize,true);assert.equal(hp.text.fontSize,18);assert.equal(hp.text.minFontSize,14);
  }
  const battle=child(child(root,'battlePanel'),'player');
- assert.deepEqual(battle.position,[-551,328]);assert.equal(battle.size[0],68);
+ // STS TopPanel.renderHP: hpIconX + HP_NUM_OFFSET_X (60 × 2/3), left aligned.
+ assert.deepEqual(battle.position,[theme.layout.topBar.hp[0],328]);assert.equal(battle.size[0],theme.layout.topBar.hp[1]);
  assert.equal(battle.text.autoSize,true);assert.equal(battle.text.fontSize,18);assert.equal(battle.text.minFontSize,14);
 });
 test('real host keeps exact current/max HP strings across opening and map resource refresh',()=>{

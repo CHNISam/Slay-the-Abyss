@@ -28,10 +28,7 @@ local function point(place)
     if place.pile=='hand'or place.pile=='retain'then return handPoint(place.index,place.count)end
     if place.pile=='draw'then return L.drawPile.position end
     if place.pile=='discard'then return L.discardPile.position end
-    if place.pile=='exhaust'then
-        local b=L.topBar
-        return {b.exhaustIcon[1],b.y}
-    end
+    if place.pile=='exhaust'then return L.exhaustPile.position end
     return L.player.position
 end
 function M.new(stage,platform)

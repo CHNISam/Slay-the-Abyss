@@ -131,6 +131,7 @@ function M.install(owner, _ownership, host, dependencies)
         dependencies.updateEnemyNames(dt)
         updateRewardCards(dt)
         host.cardView.update(dt)
+        if self.topPanelUpdate then self.topPanelUpdate(dt) end
     end
     function owner:setActive(active)
         assert(type(active) == "boolean", "active must be boolean")
@@ -262,6 +263,8 @@ function M.install(owner, _ownership, host, dependencies)
         if owner.rewardScreen ~= "list" then return false end
         local ok,reason=(claim and Run.claimPotionReward or Run.skipPotionReward)(owner.run)
         dependencies.notice(potionRewardNotice(ok, reason, claim))
+        -- STS RewardItem.claimReward → AbstractDungeon.topPanel.flashRed() when every slot is full.
+        if not ok and reason=='potion_slots_full' then owner.topPanelFlashRed=1.0 end
         refresh(ok)
         return ok,reason
     end

@@ -66,7 +66,25 @@ export function deckControls(theme = nativeTheme) {
     }
     return entry;
   };
-  const entry = capsuleEntry(l.deckView.entry, '卡组', 'deckIcon', theme.icon.deck.id);
+  // STS TopPanel.renderDeckIcon/renderMapIcon: a bare ICON_W glyph (no plate), WHITE normally,
+  // 1.2x when hovered, DISABLED_BTN_COLOR (alpha 0.4) when unavailable; the deck count is
+  // topPanelAmountFont right-aligned at DECK_X + 58, ICON_Y + 25 (×2/3 here).
+  const bar = l.topBar, glyphSize = bar.iconW * 0.75;
+  const stsEntry = (frame, label, iconName, image, withCount) => {
+    const entry = button('open', frame, label);
+    for (const state of entry.children[0].children) {
+      const text_ = state.children.find(control => control.name === 'label');
+      text_.visible = false;
+      if (state.name === 'hover') state.scale = [bar.hoverScale, bar.hoverScale];
+      const ink = state.name === 'disabled' ? '#FFFFFF66' : '#FFFFFF';
+      state.children = [{ name: iconName, kind: 'image', position: [0, 0], size: [glyphSize, glyphSize], image, colour: ink },
+        ...(withCount ? [{ ...text('count', [58 * 2 / 3 - bar.iconW / 2 - 12, -bar.iconW / 2 + 25 * 2 / 3 - 10,
+          24, 20], '', f.label, ink), text: { ...text('x', [0, 0, 1, 1], '', f.label, ink).text, align: 'right' } }] : []), text_];
+    }
+    return entry;
+  };
+  const entry = stsEntry(l.deckView.entry, '卡组', 'deckIcon', theme.icon.deck.id, true);
+  const mapEntry = stsEntry(l.topBar.map, '地图', 'mapIcon', theme.icon.map.id ?? theme.icon.map, false);
   const relicImage = theme.icon.node.treasure.id ?? theme.icon.node.treasure;
   const browseFilters = [
     ['All', '全部'], ['Attack', '攻击'], ['Skill', '技能'],
@@ -86,6 +104,9 @@ export function deckControls(theme = nativeTheme) {
     ] },
     { name: 'deckEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
       entry,
+    ] },
+    { name: 'mapEntry', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
+      mapEntry,
     ] },
     { name: 'deckPanel', kind: 'container', size: [...theme.canvas.base], visible: false, children: [
       { ...plate('veil', [0, 0, ...theme.canvas.base], c.backdropVeil.slice(0, 7)),

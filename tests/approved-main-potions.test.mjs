@@ -6,7 +6,8 @@ const stage=()=>battleLayout().controls.find(x=>x.name==='stage');
 const potion=(s,i)=>i<4?s.children.find(c=>c.name==='potion'+i):s.children.find(c=>c.name==='potionHelp').children.find(c=>c.name==='potion'+i);
 test('Main top bar preserves all five physical circular potion slots with official bottles and no old text row',()=>{
  const s=stage();for(let i=1;i<=5;i++){
-  const p=potion(s,i);const expected=[(362+26+(i-1)*62)/1.5-640,360-(22+26)/1.5];p.position.forEach((n,a)=>assert(Math.abs(n-expected[a])<1e-9));
+  const p=potion(s,i);// STS AbstractPotion.setAsObtained: posX = TopPanel.potionX + slot * POTION_W (56 × 2/3).
+  const bp=theme.layout.battlePotions,expected=[theme.layout.topBar.potionX+(i-1)*56*2/3,bp.origin[1]];const off=i<4?[0,0]:s.children.find(c=>c.name==='potionHelp').position??[0,0];p.position.forEach((n,a)=>assert(Math.abs(n+off[a]-expected[a])<0.01,`potion${i} axis${a}`));
   assert.deepEqual(p.size,[52/1.5,52/1.5]);
   for(const state of p.children){assert.equal(state.children.find(c=>c.name==='plate').image,theme.image.disc);assert.equal(state.children.find(c=>c.name==='border').image,theme.image.disc);assert(state.children.find(c=>c.name==='bottle'));assert.equal(state.children.find(c=>c.name==='label').visible,false);}
  }
