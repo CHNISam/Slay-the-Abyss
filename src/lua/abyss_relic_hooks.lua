@@ -268,6 +268,10 @@ function M.onSpendGold(run,roomKind)
  if roomKind~='shop' then return end
  if M.owns(run,'maw_bank')then counters(run).maw_bank=-2 end
 end
+function M.onVictory(state)
+ require('abyss_uncommon_relics').onVictory(state)
+ require('abyss_rare_relics').onVictory(state)
+end
 function M.bindBattle(state,owned,persistentCounters)
  state.relics={};for i,id in ipairs(owned)do state.relics[i]=M.localId(id)end
  state.relicCounters={};for k,v in pairs(persistentCounters or {})do state.relicCounters[k]=v end

@@ -97,6 +97,10 @@ function M.install(Run, shared)
 
     local function escapePotionBattle(run, candidate, battle)
         if battle.smoked then
+            if battle.player.hp>0 then
+                require('abyss_relic_hooks').onVictory(battle)
+                candidate.relicCounters=Combat.copy(battle.relicCounters)
+            end
             require('abyss_run_scoring').finishBattle(candidate,battle,'escaped',Combat.allEnemiesEscaped(battle))
             candidate.emeraldCombat=nil
             battle.phase='escaped'

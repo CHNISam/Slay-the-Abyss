@@ -32,6 +32,11 @@ end
 function M.battleEnd(run)
  if run.hp>0 and M.owns(run,'meat_on_the_bone')and run.hp<=run.maxHp/2 then require('abyss_run').heal(run,12)end
 end
+function M.onVictory(state)
+ for _,id in ipairs({'letter_opener','kunai','shuriken','ornamental_fan'})do
+  if M.owns(state,id)then counters(state)[id]=-1 end
+ end
+end
 function M.atTurnStart(state,singleId)
  local out,c={},counters(state)
  for _,id in ipairs(singleId and {singleId}or state.relics or {})do

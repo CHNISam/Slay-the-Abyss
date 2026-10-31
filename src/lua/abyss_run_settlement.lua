@@ -159,6 +159,7 @@ function M.install(Run, shared)
         if run.phase ~= "combat" then return false, "not_in_combat" end
         local result = Combat.outcome(run.combat)
         if not result then return false, "battle_unfinished" end
+        if result=='victory'then RelicHooks.onVictory(run.combat)end
         local allEscaped = publishBattleResult(run, result)
         if result == "defeat" then
             run.phase, run.rewards = "defeat", nil
