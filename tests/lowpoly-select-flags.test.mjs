@@ -14,6 +14,7 @@ test('flags off emit no low-poly data; each flag emits only the asset it owns',(
  assert.match(hero,/lowpolyHero=/);assert.doesNotMatch(hero,/lowpolyCardFan=/);
  assert.match(fan,/lowpolyCardFan=/);assert.doesNotMatch(fan,/lowpolyHero=|avatar96=|battle133=/);
  assert.doesNotMatch(battle,/lowpoly/);
+ const land=moduleFor({menuBackground:true});assert.match(land,/lowpolyLand=/);assert.doesNotMatch(land,/lowpolyHero=|lowpolyCardFan=/);
 });
 function run(assetSource,flags){
  const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
@@ -67,4 +68,16 @@ return a.children.border.imageColor..'|'..b.children.border.imageColor..'|'..c.c
  if(lauxlib.luaL_loadstring(L,to_luastring(code))!==0||lua.lua_pcall(L,0,1,0)!==0)throw Error(to_jsstring(lua.lua_tostring(L,-1)));
  const [official,gold,reset]=to_jsstring(lua.lua_tostring(L,-1)).split('|');
  assert.equal(official,'52,54,60');assert.equal(gold,'227,192,122');assert.equal(reset,official);
+});
+
+test('menuBackground fills the bottom-most select/combat scene slots with the low-poly land',()=>{
+ const [kind,,created,rot]=run(moduleFor({menuBackground:true}),'{menuBackground=true}').split('|');
+ assert.equal(kind,'owner');assert.ok(Number(created)>=362,'select scene land built');assert.ok(Number(rot)>100);
+});
+test('layout attaches scene slots only with the flag, as first drawn children',async()=>{
+ const {attachLowpolyScenes}=await import('../scripts/official-portraits.mjs');
+ const tree=()=>({controls:[{name:'stage',children:[{name:'characterPanel',children:[{name:'veil'},{name:'border'},{name:'face'}]},{name:'battlePanel',children:[{name:'playArea'}]}]}]});
+ const off=tree();attachLowpolyScenes(off,{menuBackground:false});assert.doesNotMatch(JSON.stringify(off),/lowpolyScene/);
+ const on=tree();attachLowpolyScenes(on,{menuBackground:true});const [select,battle]=on.controls[0].children;
+ assert.equal(battle.children[0].name,'lowpolyScene');assert.deepEqual(select.children.map(c=>c.name),['veil','lowpolyScene','border','face']);
 });

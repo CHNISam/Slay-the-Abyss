@@ -18,9 +18,12 @@ const heroW=Math.ceil(Math.max(...xs)-Math.min(...xs)),heroH=Math.ceil(Math.max(
 const S=.62,fan=[];
 for(let i=1;i<=5;i++){const off=i-3,dx=off*128,dy=-Math.abs(off)*10;
  for(const r of group('card'+i))fan.push([r[0],round(r[1]*S+dx),round(r[2]*S+dy),round(r[3]*S),round(r[4]*S),r[5],r[6],r[7],r[8],r[9],r[10],r[11]]);}
+const bg=group('bg');
+const bxs=bg.flatMap(r=>[r[1]-r[3]/2,r[1]+r[3]/2]),bys=bg.flatMap(r=>[r[2]-r[4]/2,r[2]+r[4]/2]);
 const data={source:'feat/art-breakthrough-experiment@72f13f2 .artifacts/art-breakthrough/pack/sta_art_scene.lua',
  sourceSha256:createHash('sha256').update(lua).digest('hex'),rowFormat:'[imageId,x,y,w,h,rotX,rotY,rotZ,r,g,b,a]',
  hero:{width:heroW,height:heroH,rows:hero.map(r=>[r[0],round(r[1]-cx),round(r[2]-cy),...r.slice(3)])},
+ land:{width:Math.ceil(Math.max(...bxs)-Math.min(...bxs)),height:Math.ceil(Math.max(...bys)-Math.min(...bys)),rows:bg},
  cardFan:{width:Math.ceil(4*128+226*S),height:Math.ceil(310*S+20),rows:fan}};
 writeFileSync(out,JSON.stringify(data)+'\n');
 console.log('hero',data.hero.rows.length,heroW,heroH,'cardFan',fan.length);

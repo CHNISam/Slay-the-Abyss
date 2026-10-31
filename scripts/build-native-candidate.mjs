@@ -1,5 +1,5 @@
 import {monsterSourceInputs,prepareMonsterArt,monsterActorTemplate,monsterPowerTemplateName,monsterActorTemplateName,monsterActorBindingModule,bindMonsterActorTemplates,monsterActorInventory} from './monster-art.mjs';
-import {resolveArtFeatures,artFeatureArgs,artFeatureBuildArgs,artFeatureReceipt,artFeaturesSource,artFeatureModule} from './art-features.mjs';
+import {resolveArtFeatures,artFeatureArgs,artFeatureBuildArgs,artFeatureReceipt,artFeaturesSource,artFeatureModule,withCandidateArtDefaults} from './art-features.mjs';
 import {portraitSourceInputs,lowpolySelectPath,portraitModule,bindPortraitTemplates,portraitRuntimeInventory} from './official-portraits.mjs';
 import {readyArtSourceInputs,readyArtImageTemplate,readyArtGroupTemplate,bindReadyArtTemplates,readyArtRuntimeInventory} from './art/ready-card-runtime.mjs';
 import { backgroundInputs, backgroundModule, backgroundTemplate, bindBackgroundTemplate, backgroundRuntimeInventory } from './official-background.mjs';
@@ -42,7 +42,7 @@ export function sourceInputs(root,{artFeatures,nativeCardArt,readyCardArt}={}) {
     try{walk(dir);}catch(error){if(error.code!=='ENOENT')throw error;}
   }
   for(const file of ['package.json','package-lock.json','CHANGELOG.md','.release-please-manifest.json',
-    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...(flags.menuBackground?backgroundInputs:[]), ...(flags.cards&&!nativeCardArt?readyArtSourceInputs(root):[]),...portraitSourceInputs(flags),...(flags.selectionAvatar||flags.cards?[lowpolySelectPath]:[]),...staticInputs]) {
+    'release-please-config.json','tools/render_traveler_cards.py','config/architecture.json', ...(flags.menuBackground?backgroundInputs:[]), ...(flags.cards&&!nativeCardArt?readyArtSourceInputs(root):[]),...portraitSourceInputs(flags),...(flags.selectionAvatar||flags.cards||flags.menuBackground?[lowpolySelectPath]:[]),...staticInputs]) {
     try { fileRecord(join(root,file)); files.push(file); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
   if(flags.monsters){
@@ -137,7 +137,7 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
     const sharedTemplates=dynamicCards||portraits||flags.menuBackground;
     const blockedTemplates=[...(!flags.menuBackground?[backgroundTemplate]:[]),...(!sharedTemplates?[readyArtImageTemplate]:[])];
     if(templates.some(template=>blockedTemplates.includes(template.name)))throw Error('Disabled artwork must not register templates');
-    const blockedHosts=[...(!flags.monsters?['monsterArt','monsterSamples']:[]),...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];
+    const blockedHosts=[...(!flags.monsters?['monsterArt','monsterSamples']:[]),...(!flags.cards?['artSamples']:[]),...(!flags.menuBackground?['officialBackground','lowpolyScene']:[]),...(!flags.selectionAvatar?['officialAvatar']:[]),...(!flags.battlePortrait?['officialFigure']:[])];
     function rejectDisabledHosts(node){
       if(blockedHosts.includes(node.name))throw Error('Disabled artwork must not register hosts');
       for(const child of node.controls??node.children??[])rejectDisabledHosts(child);
@@ -218,6 +218,9 @@ export async function buildNativeCandidate({baseMap,output='build/candidates',ro
         bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root,...flags});
         receipt.officialPortraits={...portraitRuntimeInventory(generated),imageTemplateIndex:readyTemplates.image.templateIndex,containerTemplateIndex:readyTemplates.group.templateIndex,
           inputs:portraitSourceInputs(flags).map(path=>fileRecord(join(root,path),root))};
+      } else if((flags.cards||flags.menuBackground)&&modules.has(portraitModule)) {
+        // Low-poly select fan / scene backgrounds only: bind the same generic image/container templates.
+        bindPortraitTemplates(generated,{image:readyTemplates.image,container:readyTemplates.group},{root,...flags});
       }
     }
     if(portraits&&!receipt.officialPortraits)throw Error('Portrait runtime has no bound templates');

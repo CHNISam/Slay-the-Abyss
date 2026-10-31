@@ -105,8 +105,8 @@ function OnStart()
                 return require('abyss_menu_background').new(stage,print,factory,Color,{standalone=true})
             end
         end
-        if flags.selectionAvatar or flags.battlePortrait or flags.cards then
-            -- cards also owns the low-poly select fan (premium frames + illustrations); off = untouched official path.
+        if flags.selectionAvatar or flags.battlePortrait or flags.cards or flags.menuBackground then
+            -- menuBackground owns low-poly select/combat scenes; cards also owns the low-poly select fan (premium frames + illustrations); off = untouched official path.
             portraits = optionalArt('portraits', function()
                 local templates
                 if flags.cards then

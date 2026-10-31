@@ -213,19 +213,34 @@ local function activeTargets(mode,characterOpen,stopped,character,preloadSelecti
     local choosing=characterOpen==true
     local warm=preloadSelection==true and mode=='menu' and not choosing
     local selection=warm or choosing and character=='ironclad'
-    return {avatar=choosing or warm,battle=mode=='battle' and character=='ironclad',selection=selection,cardFan=selection}
+    return {avatar=choosing or warm,battle=mode=='battle' and character=='ironclad',selection=selection,cardFan=selection,
+        selectScene=choosing or warm,battleScene=mode=='battle'}
 end
 -- cardTemplates: ready-card image/container template indices, used when only the cards flag is on.
 function M.new(stage,report,flags,cardTemplates)
     local selecting=type(flags)=='table' and flags.selectionAvatar==true
     local fighting=type(flags)=='table' and flags.battlePortrait==true
     local carding=type(flags)=='table' and flags.cards==true
-    if not selecting and not fighting and not carding then return nil end
+    local landing=type(flags)=='table' and flags.menuBackground==true
+    if not selecting and not fighting and not carding and not landing then return nil end
     if owners[stage]then return owners[stage]end
     local Asset=require('abyss_traveler_portrait_assets')
     if carding and not lowpoly(Asset.lowpolyCardFan) then carding=false end
-    if not selecting and not fighting and not carding then return nil end
+    if landing and not lowpoly(Asset.lowpolyLand) then landing=false end
+    if not selecting and not fighting and not carding and not landing then return nil end
     local avatar,battle,selection,details,rows=nil,nil,nil,nil,{}
+    local templates=integer(Asset.imagePrefabId) and Asset.imagePrefabId~=100001 and integer(Asset.containerPrefabId) and Asset
+        or type(cardTemplates)=='table' and {imagePrefabId=cardTemplates.imageTemplateIndex,containerPrefabId=cardTemplates.containerTemplateIndex}
+    if landing and templates then
+        -- Bottom-most layout slot (first child): behind every hand/monster/HUD control.
+        for _,entry in ipairs({{'selectScene','characterPanel',{'border','face'}},{'battleScene','battlePanel',{}}})do
+            local panel=stage:GetChild(entry[2]);local host=panel and panel:GetChild('lowpolyScene')
+            if host then
+                local cover={};for _,name in ipairs(entry[3])do cover[#cover+1]=panel:GetChild(name)end
+                rows[#rows+1]={name=entry[1],adapter=controller(host,Asset.lowpolyLand,Asset.lowpolyLand.width,templates),fallback=cover,active=false}
+            end
+        end
+    end
     if selecting then
         validate(Asset.avatar96,96,4822,'c30551e1fed1cd7f18c61b67fe0ad0cd6e52c61bfa6ae937ccd9e4c90e7f72bb','93bcf4303d370f7faac2b8289146acfe655bae6dced0abf5257e407d69f748ef')
         local panel=assert(stage:GetChild('characterPanel'))
@@ -248,8 +263,6 @@ function M.new(stage,report,flags,cardTemplates)
     end
     if carding then
         -- Premium frames + low-poly illustrations fanned under the select details, like the breakthrough GIF.
-        local templates=integer(Asset.imagePrefabId) and Asset.imagePrefabId~=100001 and Asset
-            or type(cardTemplates)=='table' and {imagePrefabId=cardTemplates.imageTemplateIndex,containerPrefabId=cardTemplates.containerTemplateIndex}
         local panel=stage:GetChild('characterPanel')
         local parent=panel and panel:GetChild('details')
         if templates and parent and integer(templates.containerPrefabId) then
@@ -269,7 +282,7 @@ function M.new(stage,report,flags,cardTemplates)
         rows[#rows+1]={name='battle',adapter=battle,fallback={hero:GetChild('portrait')},active=false}
     end
     if #rows==0 then return nil end
-    local timeBudget=selecting and Asset.avatar96.runtimeV2 or fighting and Asset.battle133.runtimeV2 or carding
+    local timeBudget=selecting and Asset.avatar96.runtimeV2 or fighting and Asset.battle133.runtimeV2 or carding or landing
     local self,busy,destroyed,painting,epoch={},false,false,false,0
     local function paint()
         if destroyed or painting then return end
