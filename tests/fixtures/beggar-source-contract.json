@@ -26,7 +26,7 @@
     "purgeGroup": "Non-bottled purgeable permanent master-deck cards",
     "success": "Permanent removal then return to map; no relic reward",
     "ignore": "Separate LEAVE screen then return to map",
-    "emptyGroupBoundary": "UNPROVEN: source opens the mandatory grid even when empty; remain pending without invented refund, zero-choice completion, cancel or donation restriction"
+    "emptyGroupBoundary": "Fixed decompiled source opens a mandatory empty grid; no normal zero-choice exit was found in Grid update/open/callOnOpen, hidden CancelButton, TopPanel settings or AbstractDungeon screen return paths. Original PC-binary behavior NOT_RUN."
   },
-  "implementationBoundary": "Local existing-controls NodeUI wired with mocked-local generated-control/public Nodes+Run tests: separate75 payment/confirm and one mandatory non-bottled purge, bound to render-time owners/stage/UID. Empty purge-group source boundary remains UNPROVEN and pending; no cancel, refund or zero-choice completion. Native-client acceptance NOT_RUN; naturally earned event/history routes, history producer/persistence and full TASK61 AC2 acceptance remain pending. PR234 existing Act2 Host/combat routes do not prove those gates."
+  "implementationBoundary": "Local existing-controls NodeUI wired with mocked-local generated-control/public Nodes+Run tests: separate75 payment/confirm and one mandatory non-bottled purge, bound to render-time owners/stage/UID. Empty purge-group local safety deviation: expose explicit leave only while live candidates remain empty, retain paid75, no removal hooks/refund/reward/RNG draw; normal nonempty mandatory selection cannot cancel or leave. Native-client acceptance NOT_RUN; naturally earned event/history routes, history producer/persistence and full TASK61 AC2 acceptance remain pending. PR234 existing Act2 Host/combat routes do not prove those gates."
 }

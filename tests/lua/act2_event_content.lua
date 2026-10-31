@@ -148,20 +148,27 @@ test('Missing card content rejects later removal without refund then recovers ag
  assert(Nodes.chooseAct2EventCard(r,7));eq(r.gold,25);eq(#r.deck,0)
 end)
 
-test('Empty purge groups still permit payment and confirmation but remain explicitly pending',function()
+test('Empty purge groups retain payment and permit only an explicit no-reward exit',function()
  for _,deck in ipairs({{},{{uid=7,cardId='strike',inBottleFlame=true}},{{uid=7,cardId='Necronomicurse'}}})do
   local r,m=selecting(deck,75);local before=snapshot(r);local event=Nodes.view(r,m).node.event
-  eq(r.gold,0);eq(r.phase,'node');eq(r.nodeFlow.complete,false);eq(event.pendingBoundary,'empty_purge_group_source_unproven')
-  eq(#event.purgeCards,0);eq(event.selection.canCancel,false);eq(event.selection.count,1);eq(event.options[1].enabled,false);same(r,before)
-  reject(r,'purge',nil,'invalid_card');reject(r,'cancel',nil,'invalid_event_choice');reject(r,'leave',nil,'invalid_event_choice');reject(r,'donate',nil,'invalid_event_choice')
+  eq(r.gold,0);eq(r.phase,'node');eq(r.nodeFlow.complete,false);eq(event.pendingBoundary,nil)
+  eq(#event.purgeCards,0);eq(event.selection.canCancel,false);eq(event.selection.count,1)
+  eq(event.options[1].enabled,true);eq(event.options[1].choice,'leave');same(r,before)
+  reject(r,'purge',nil,'invalid_card');reject(r,'cancel',nil,'invalid_event_choice')
+  reject(r,'donate',nil,'invalid_event_choice');reject(r,'leave',7,'invalid_event_choice')
+  assert(Nodes.chooseEvent(r,'leave'));eq(r.phase,'map');eq(r.nodeFlow.complete,true);eq(r.gold,0)
+  same(r.deck,before.deck);same(r.miscRng,before.miscRng);same(r.relicPool,before.relicPool)
+  eq(r.hp,before.hp);eq(r.maxHp,before.maxHp);eq(r.nodeFlow.event.removedUid,nil)
  end
 end)
 
-test('A stale bottled candidate cannot bypass current legality or end an empty mandatory picker',function()
+test('A stale bottled candidate cannot bypass legality; live eligibility governs the empty-only exit',function()
  local r,m=selecting({{uid=7,cardId='strike'}});eq(#Nodes.view(r,m).node.event.purgeCards,1)
+ reject(r,'leave',nil,'invalid_event_choice')
  r.deck[1].inBottleFlame=true;reject(r,'purge',7,'card_not_purgeable')
- eq(Nodes.view(r,m).node.event.pendingBoundary,'empty_purge_group_source_unproven')
- r.deck[1].inBottleFlame=nil;local fresh=Nodes.view(r,m);eq(#fresh.node.event.purgeCards,1);eq(fresh.node.event.pendingBoundary,nil)
+ eq(Nodes.view(r,m).node.event.options[1].choice,'leave')
+ r.deck[1].inBottleFlame=nil;local fresh=Nodes.view(r,m);eq(#fresh.node.event.purgeCards,1)
+ reject(r,'leave',nil,'invalid_event_choice')
  assert(Nodes.chooseAct2EventCard(r,7));eq(r.gold,25)
 end)
 

@@ -66,8 +66,11 @@ function M.options(run,event)
         return {row('donate','施舍75金币','支付75金币，然后选择移除一张卡牌。',run.gold>=GOLD_COST),
             row('leave','离开','不支付金币。')}
     elseif event.stage=='gave_money' then
-        return {row('confirm','继续','已支付75金币；接下来必须选择移除一张卡牌。')}
+        return {row('confirm','继续','已支付75金币；接下来查看可移除的卡牌。')}
     elseif event.stage=='choose_card' then
+        if #Purge.purgeCards(run)==0 then
+            return {row('leave','离开','没有可移除的卡牌；已支付的75金币不退还，返回路线。')}
+        end
         return {row('purge','移除卡牌','必须选择一张非瓶装、可清除的永久牌；不能跳过。',
             #Purge.purgeCards(run)>0,'beggar_purge')}
     elseif event.stage=='leave' then
@@ -150,8 +153,8 @@ local function chooseMausoleum(run,event,choice,uid)
 end
 
 -- Only enrich the detached Nodes view, never the permanent owner. The source
--- opens even an empty mandatory grid; its empty-group resolution is unproven.
--- Keep this boundary pending instead of inventing zero-choice success/refunds.
+-- opens even an empty mandatory grid. Our explicit empty-only exit prevents
+-- a softlock; it is a local safety deviation, not proven source completion.
 function M.view(run,event)
     local extra=extension(event.id);if extra then if extra.view then extra.view(run,event)end;return end
     if event.id=='duplicator' then
@@ -166,7 +169,7 @@ function M.view(run,event)
     if event.stage~='choose_card' then return end
     event.purgeCards=Purge.purgeCards(run)
     event.selection={count=1,canCancel=false,forPurge=true,anyNumber=false}
-    if #event.purgeCards==0 then event.pendingBoundary='empty_purge_group_source_unproven' end
+    if #event.purgeCards==0 then event.body='没有可移除的卡牌。已支付75金币，可以离开。' end
 end
 
 function M.choose(run,flow,choice,uid,upgradeable)
@@ -194,9 +197,14 @@ function M.choose(run,flow,choice,uid,upgradeable)
     elseif event.stage=='gave_money' then
         if choice~='confirm' then return false,'invalid_event_choice' end
         event.stage,event.choice='choose_card','purge'
-        event.body='选择一张非瓶装、可清除的永久牌移除。'
+        event.body='已支付75金币。请查看下方选项。'
         return true,'choose_card'
     elseif event.stage=='choose_card' then
+        -- Recheck live candidates: a stale empty-screen leave cannot skip a card.
+        if choice=='leave' and uid==nil and #Purge.purgeCards(run)==0 then
+            event.stage='result';event.body='没有可移除的卡牌。你离开了，已支付的75金币不退还。'
+            return true,'complete'
+        end
         if choice~='purge' then return false,'invalid_event_choice' end
         -- UIDs represent source object identity. Never remove the first of two
         -- ambiguous instances, nor reinterpret a stale position as another card.
