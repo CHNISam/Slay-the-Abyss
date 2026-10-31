@@ -36,7 +36,19 @@ function assertBattleStageContract(stage,{host=false}={}) {
  const names=stage.children.map(n=>n.name);
  assert.equal(new Set(names).size,names.length,'unique battle stage child names');
  assert.deepEqual(stage.children.map(n=>`${n.name}:${n.kind}`).sort(),[...battleStageControls,...(host?['resourceHints:container']:[])].sort(),'complete battle stage control identities');
- if(host)assert.deepEqual(stage.children.at(-1),expectedResourceHints(),'only the exact read-only HP/gold hotspots occupy the host tail layer');
+ if(host){
+  const hints=stage.children.at(-1);
+  assert.deepEqual(hints,expectedResourceHints(),'only the exact read-only HP/gold hotspots occupy the host tail layer');
+  // Exact themed hotspots must also cover the actual rendered visual controls.
+  // Comparing the input layer alone cannot detect a moved icon/value outside it.
+  for(const [name,iconName,valueName]of [['hp','hpIcon','player'],['gold','goldIcon','piles']]){
+   const box=hints.children.find(n=>n.name===name);
+   for(const id of [iconName,valueName]){
+    const visual=stage.children.find(n=>n.name===id);
+    for(let axis=0;axis<2;axis++)assert(Math.abs(visual.position[axis]-box.position[axis])+visual.size[axis]/2<=box.size[axis]/2+.001,'resource hint covers '+id);
+   }
+  }
+ }
 }
 
 test('battle stage identity contract rejects missing, duplicate, static-enemy and overflowing controls',()=>{
@@ -57,6 +69,11 @@ test('battle stage identity contract rejects missing, duplicate, static-enemy an
   value=>{value.children.at(-1).children[0].children[0].focusable=false;},
   value=>{value.children.unshift(value.children.pop());},
  ]) {const value=hostStage();mutate(value);assert.throws(()=>assertBattleStageContract(value,{host:true}),/complete battle stage control identities|exact read-only HP\/gold hotspots/);}
+ const clipped=hostStage();
+ const hpHint=clipped.children.at(-1).children.find(n=>n.name==='hp');
+ const hpIcon=clipped.children.find(n=>n.name==='hpIcon');
+ hpIcon.position[0]=hpHint.position[0]-hpHint.size[0]/2;
+ assert.throws(()=>assertBattleStageContract(clipped,{host:true}),/resource hint covers hpIcon/,'an exact hotspot must reject a clipped real visual');
  const duplicate=stage();duplicate.children[0]=structuredClone(duplicate.children[1]);
  assert.throws(()=>assertBattleStageContract(duplicate),/unique battle stage child names/);
  const wrongKind=stage();wrongKind.children.find(n=>n.name==='floor').kind='image';

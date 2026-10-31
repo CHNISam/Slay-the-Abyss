@@ -41,8 +41,9 @@ local function validate(data, width, count, source, json)
     assert(#r==13 and r[1]==0 and r[2]==0 and r[3]==width and r[4]==width and r[5]==.5 and r[6]==.5
         and r[7]==.5 and r[8]==.5 and r[9]==.5 and r[10]==.5 and r[11]==1 and r[12]==1 and r[13]==0,'unexpected portrait ROOT')
 end
-local function controller(host, data, display, templates)
+local function controller(host, data, display, templates, options)
     local Asset=templates or require('abyss_traveler_portrait_assets')
+    local retryFailedOnPause=type(options)=='table' and options.retryFailedOnPause==true
     assert(host,'missing dedicated portrait host')
     local self,created={},{}
     local phase,generation,nextIndex='idle',0,1
@@ -181,9 +182,9 @@ local function controller(host, data, display, templates)
         working=false;return true
     end
     function self.pause(_)
-        -- Cache only usable work. A failed build must get the same explicit
-        -- scene-boundary retry as the uncached runtime, never a frame retry.
-        if phase=='failed' or phase=='release_failed' then return self:release()end
+        -- Only the battle portrait opts into scene-boundary failure recovery.
+        -- Other cached adapters retain their explicit-release retry policy.
+        if retryFailedOnPause and (phase=='failed' or phase=='release_failed')then return self:release()end
         if not data.cache and data.renderProfile~='compact-v1' then return self:release()end
         if phase=='destroyed' or host.alive==false then return false end
         host:SetVisible(false);host:SetActive(false);return true
@@ -281,7 +282,7 @@ function M.new(stage,report,flags,cardTemplates)
     if fighting then
         validate(Asset.battle133,133,4315,'ae2161957033d688b1bed1c7ab2ad2891d5f7bf5e34b291f9ecaef7cfa11f880','f8a7af7b079aa5bbb7e16b502b222f1fd7dbfaa2c30f6eef1bf0d76af0a0a248')
         local hero=assert(stage:GetChild('battlePanel'):GetChild('hero'))
-        battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset)
+        battle=controller(hero:GetChild('officialFigure'),Asset.battle133,400/3,Asset,{retryFailedOnPause=true})
         -- UnitView deliberately hides the shipped geometric player placeholder.
         -- Publication failure or pause must not override that presentation policy.
         local icon=require('abyss_theme').icon.player

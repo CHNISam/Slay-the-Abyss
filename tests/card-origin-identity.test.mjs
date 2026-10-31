@@ -9,5 +9,5 @@ test('Astrolabe public selection names its real source for all three replacement
 test('upgrade origins reject stale identity and state while retaining fresh explicit records',()=>{
  const r=runLua('tests/lua/card_origin_identity.lua');
  assert.equal(r.status,0,r.stdout+r.stderr);
- assert.match(r.stdout,/CARD_ORIGIN_IDENTITY_PASS 8/);
+ assert.match(r.stdout,/CARD_ORIGIN_IDENTITY_PASS 12/);
 });

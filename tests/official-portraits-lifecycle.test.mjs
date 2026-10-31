@@ -5,6 +5,21 @@ import {withPortraitVm} from './helpers/portrait-runtime-vm.mjs';
 import {nativeTheme} from '../scripts/native-ui-theme.mjs';
 function vm(code,options){assert(existsSync('src/lua/abyss_traveler_portraits.lua'),'bounded portrait runtime missing');withPortraitVm(code,options);}
 
+test('cached selection avatar keeps failed artwork disabled on reopen by default',()=>vm(`
+assert(Asset.avatar96.runtimeV2 and Asset.avatar96.cache)
+local create=game.InstantiateClientUIControl;local calls=0
+game.InstantiateClientUIControl=function(...)
+ calls=calls+1;if calls==4 then return nil end;return create(...)
+end
+a=Portraits.new(stage,nil,{selectionAvatar=true});a:sync('menu',true,false,'ironclad')
+a:tick();assert(a:status().avatar.phase=='failed' and LiveCount()==0)
+local failedCalls=calls
+game.InstantiateClientUIControl=create
+a:sync('menu',false,false,'ironclad');assert(a:status().avatar.phase=='failed')
+a:sync('menu',true,false,'ironclad');a:tick()
+assert(a:status().avatar.phase=='failed' and #controls==failedCalls-1 and LiveCount()==0,'selection reopen retried a failed cached avatar')
+`,{runtimeV2:true}));
+
 test('final portrait refresh never restores the shipped yellow hero placeholder across battle transitions',()=>vm(`
 assert(Theme.icon.player.status=='placeholder','regression must use the shipped player metadata')
 -- UnitView hides placeholder portraits before GameUI syncs the portrait owner.

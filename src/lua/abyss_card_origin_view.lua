@@ -10,8 +10,10 @@ local function source(run,value)
 end
 function M.describe(run,instance,combat)
  local permanent
+ local uid=instance.uid
+ if combat then uid=instance.deckUid end -- Generated combat cards have no master identity.
  for _,card in ipairs(run and run.deck or {})do
-  if card.uid==(combat and instance.deckUid or instance.uid) and card.cardId==instance.cardId then permanent=card;break end
+  if uid~=nil and card.uid==uid and card.cardId==instance.cardId then permanent=card;break end
  end
  local text=''
  local origin=permanent and permanent.lastUpgradeOrigin or not combat and instance.lastUpgradeOrigin

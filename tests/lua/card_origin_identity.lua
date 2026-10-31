@@ -7,6 +7,36 @@ local function fresh()
 end
 local n,failed=0,0
 local function check(name,fn)local ok,why=pcall(fn);n=n+1;if not ok then failed=failed+1 end;print((ok and 'PASS ' or 'FAIL ')..name..(ok and '' or ': '..tostring(why)))end
+local function collisionRun()
+ local permanent={uid=3,cardId='anger',upgraded=true,upgrades=1}
+ local run={deck={{uid=1,cardId='strike',upgraded=false},permanent}}
+ O.record(run,permanent,{upgraded=false,upgrades=0},'permanent_upgrade',{kind='camp',floor=2})
+ return run,permanent
+end
+check('generated same-card UID collision cannot borrow permanent upgrade source',function()
+ local run=collisionRun()
+ -- A sparse master deck has UIDs 1/3; ordinary combat copies have UIDs 1/2.
+ -- Exercise the real stat-equivalent generator, which explicitly clears deckUid.
+ local state={catalog={cards={anger={}}},nextUid=3}
+ local generated=require('abyss_card_actions').fresh(C,state,'anger',
+  {uid=2,deckUid=3,cardId='anger',upgraded=true,upgrades=1})
+ assert(generated.uid==3 and generated.deckUid==nil)
+ assert(V.describe(run,generated,true)=='本场临时升级 · 不改变永久牌组',
+  'generated card borrowed permanent source through colliding combat UID')
+end)
+check('unupgraded generated card cannot display colliding permanent source',function()
+ local run=collisionRun()
+ assert(V.describe(run,{uid=3,cardId='anger',upgraded=false},true)=='')
+end)
+check('real combat master identity uses explicit deckUid instead of combat UID',function()
+ local run=collisionRun()
+ local text=V.describe(run,{uid=2,deckUid=3,cardId='anger',upgraded=true,upgrades=1},true)
+ assert(text=='永久升级 · 来源：营地锻造 · 第 2 层')
+end)
+check('permanent deck detail keeps its normal UID-based source',function()
+ local run,permanent=collisionRun()
+ assert(V.describe(run,permanent,false)=='永久升级 · 来源：营地锻造 · 第 2 层')
+end)
 check('same UID new unupgraded identity cannot borrow old source',function()
  local before=fresh();local r=C.copy(before);r.deck[1].cardId='defend';r.deck[1].upgraded=false;r.deck[1].upgrades=0
  O.observe(r,before)

@@ -21,14 +21,14 @@ for _=1,10 do OnUpdate(.01)end
 assert(h.attempts==1,'failed optional creation must not retry every frame')
 assert(h.ui.easterEgg:close() and h.root:GetChild('menuPanel').visible,'failed artwork must allow return to results')
 assert(h.root:GetChild('menuPanel'):GetChild('result'):GetChild('viewEasterEgg'):GetChild('hit').click())
--- Failure is not cached across an explicit close/reopen scene boundary.
-OnUpdate(.01);assert(h.attempts==2,'explicit reopen must permit exactly one fresh creation attempt')
+-- Optional background failure stays cached across close/reopen.
+OnUpdate(.01);assert(h.attempts==1,'failed cached owner must not retry on reopen')
 assert(not h.host.visible and h.live==0,'failed retry must not expose or strand artwork')
 for _=1,10 do OnUpdate(.01)end
-assert(h.attempts==2,'failed reopened owner must not retry every frame')
+assert(h.attempts==1,'failed reopened owner must not retry every frame')
 assert(h.ui.easterEgg:close())
 for _=1,10 do OnUpdate(.01)end
-assert(h.attempts==2,'closed failed owner must not retry in the background')
+assert(h.attempts==1,'closed failed owner must not retry in the background')
 h:engineDestroy();OnDestroy();assert(not h.updates and h.destroyed==0)
 
 -- The engine destroys a partially built subtree before invoking the script callback.
