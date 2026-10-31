@@ -18,7 +18,7 @@ function M.lines(text)
         local b = text:byte(i)
         width = width + (b < 128 and 0.55 or b >= 192 and 1 or 0)
     end
-    local per = math.floor((I.width - I.pad * 2 - I.icon - I.gap) / Theme.font.small)
+    local per = math.floor((I.width - I.pad * 2 - I.icon - I.gap) / Theme.font.reading)
     return math.max(1, math.ceil(width / per))
 end
 

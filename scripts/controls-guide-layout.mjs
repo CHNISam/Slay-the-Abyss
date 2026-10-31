@@ -38,7 +38,7 @@ export function controlsGuide(theme = nativeTheme) {
       return [
         ...(iconed ? [{ name: `icon${r + 1}`, kind: 'image', position: [l.rowIconX, y], size: [l.rowIcon, l.rowIcon], image: icons[r] }] : []),
         text(`action${r + 1}`, [l.actionX, y, l.actionWidth, l.rowHeight], action, f.label, c.goldBright),
-        text(`how${r + 1}`, [l.howX, y - l.howDrop, l.howWidth, l.rowHeight], how, f.small, c.text),
+        text(`how${r + 1}`, [l.howX, y - l.howDrop, l.howWidth, l.rowHeight * 2], how, f.small, c.text),
       ];
     }),
   ] });

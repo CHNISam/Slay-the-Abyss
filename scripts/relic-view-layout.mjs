@@ -19,7 +19,7 @@ export function relicViewControls(theme = nativeTheme) {
   const left = (control) => ({ ...control, text: { ...control.text, align: 'left' } });
   const button = (name, frame, label) => {
     const size = frame.slice(2), variants = { normal: [c.panelRaised, c.goldBright, c.goldDim],
-      hover: [c.panelRaised, c.goldBright, c.goldBright], pressed: [c.goldDim, c.text, c.goldBright],
+      hover: [c.panelRaised, c.goldBright, c.goldBright], pressed: [c.buttonPressedFill, c.text, c.goldBright],
       disabled: [c.panelSunken, c.textMuted, c.line] };
     return { name, kind: 'container', position: frame.slice(0, 2), size, children: [
       { name: 'hit', kind: 'presetButton', size, focusable: true,

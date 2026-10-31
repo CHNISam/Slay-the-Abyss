@@ -8,13 +8,13 @@ export function potionDiscardControls(theme = nativeTheme) {
   // Button tiers: primary (gold), secondary (raised neutral), ghost (quiet close),
   // danger (destructive discard). Disabled ink stays >=4.5:1 on its sunken plate.
   const tiers={
-    primary:{normal:[c.goldDim,c.buttonPressedText,c.gold],hover:[c.gold,c.textOnLight,c.goldBright]},
+    primary:{normal:[c.buttonPressedFill,c.buttonPressedText,c.gold],hover:[c.gold,c.textOnLight,c.goldBright]},
     secondary:{normal:[c.panelRaised,c.goldBright,c.goldDim],hover:[c.buttonHover,c.goldBright,c.goldBright]},
     ghost:{normal:[c.panel,c.text,c.line],hover:[c.panelRaised,c.goldBright,c.goldDim]},
-    danger:{normal:[c.panelRaised,c.danger,c.danger],hover:[c.buttonHover,c.text,c.danger]},
+    danger:{normal:[c.panelRaised,c.dangerText,c.danger],hover:[c.buttonHover,c.text,c.danger]},
   };
   const button=(name,frame,label,tier='secondary',font=f.label)=>{
-    const size=frame.slice(2),variants={...tiers[tier],pressed:[c.goldDim,c.buttonPressedText,c.goldBright],
+    const size=frame.slice(2),variants={...tiers[tier],pressed:[c.buttonPressedFill,c.buttonPressedText,c.goldBright],
       disabled:[c.panelSunken,c.textDim,c.line]};
     return {name,kind:'container',position:frame.slice(0,2),size,children:[{
       name:'hit',kind:'presetButton',size,focusable:true,
@@ -30,14 +30,14 @@ export function potionDiscardControls(theme = nativeTheme) {
   const actionWidth=(w-s.xxl*2-s.m*2)/3, actionStep=actionWidth+s.m;
   // One unchanged management action; physical bottle silhouettes are not new
   // direct-use buttons. Runtime paints sparse inventory and actual 3/5 capacity.
-  const open = button('open', [...entry.slice(0,3), l.topBar.height], '药水 0/3');
+  const open = button('open', [...entry], '药水 0/3');
   const visual = l.potionDiscard.entryVisual;
   const palette = { normal: c.mapHeader.menuNormal, hover: c.mapHeader.menuHover,
     pressed: c.mapHeader.menuPressed, disabled: { fill: c.panelSunken, ink: c.textMuted, border: c.line } };
   for (const state of open.children[0].children) {
     const colours = palette[state.name], label = state.children.find(control => control.name === 'label');
-    label.visible = false;
-    state.children = [label, ...Array.from({ length: l.battlePotions.count }, (_, i) => {
+    label.visible = true;
+    state.children = [plate('entryFace', [0, 0, ...entry.slice(2)], colours.fill), label, ...Array.from({ length: l.battlePotions.count }, (_, i) => {
       const children = potionSlotVisual(theme, {
         border: plate('border', [0, 0, ...visual.size], colours.border),
         plate: plate('plate', [0, 0, ...visual.size.map(value => value - visual.border * 2)], colours.fill),

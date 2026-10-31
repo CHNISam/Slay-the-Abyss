@@ -8,7 +8,7 @@ export const theme = JSON.parse(readFileSync(new URL('../data/presentation/ui_th
 const { color: c, font: f, image: im, layout: l, space: s } = theme;
 const text = (name, x, y, w, h, content = '', fontSize = f.body, colour = c.text) => ({
   name, kind: 'text', position: [x, y], size: [w, h],
-  text: { content, fontSize: nativeFontSize(fontSize, f.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(f.minimum) },
+  text: { content, fontSize: nativeFontSize(fontSize, f.minimum), colour, align: 'centre', valign: 'middle', autoSize: true, minFontSize: nativeFontSize(fontSize, f.minimum) },
 });
 const aligned = (control, align = 'left') => ({ ...control, text: { ...control.text, align } });
 const picture = (name, x, y, w, h, image, colour = c.text) => ({ name, kind: 'image', position: [x, y], size: [w, h], image,
@@ -29,7 +29,7 @@ function button(name, position, size, label, primary = false, fontSize = f.headi
   const variants = {
     normal: [primary ? c.geo : c.panelRaised, primary ? c.textOnLight : c.goldBright, c.gold],
     hover: [primary ? c.goldBright : c.panelRaised, primary ? c.textOnLight : c.goldBright, c.goldBright],
-    pressed: [c.goldDim, c.text, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line],
+    pressed: [c.buttonPressedFill, c.text, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line],
   };
   return { name, kind: 'presetButton', position, size, focusable: true,
     states: Object.fromEntries(Object.keys(variants).map(key => [key, key])),
@@ -144,8 +144,8 @@ function statusInfo() {
     rows.push(picture(`icon${i}`, 0, 0, si.icon, si.icon, theme.icon.status.strength, c.buff),
       aligned(text(`name${i}`, 0, 0, textWidth, line, '', f.label, c.goldBright)),
       aligned(text(`tag${i}`, 0, 0, si.tagWidth, line, '', f.small, c.textDim), 'right'),
-      aligned(text(`text${i}`, 0, 0, textWidth, line, '', f.small, c.text)),
-      aligned(text(`note${i}`, 0, 0, textWidth, line, '', f.small, c.textDim)));
+      aligned(text(`text${i}`, 0, 0, textWidth, line, '', f.reading, c.text)),
+      aligned(text(`note${i}`, 0, 0, textWidth, line, '', f.reading, c.textDim)));
   }
   return { name: 'statusInfo', kind: 'container', size: [width, height], visible: false, children: [
     { ...hit(width, height), focusable: false },
@@ -188,7 +188,7 @@ export function battleLayout() {
   const [width, height] = theme.canvas.base;
   const bar = l.topBar, y = bar.y, iconId = entry => (typeof entry === 'object' ? entry.id : entry);
   // Icon + number chips, as on the node top bar; the deck count lives on the shared deck button.
-  const chip = (name, [x, w], colour, fontSize = f.body) => text(name, x, y, w, bar.height, '', fontSize, colour);
+  const chip = (name, [x, w], colour, fontSize = f.hud) => text(name, x, y, w, bar.height, '', fontSize, colour);
   const glyph = (name, [x, w], image, colour) => picture(name, x, y, w, w, iconId(image), colour);
   // Pile counts sit on a dark badge at the icon's inner corner, with a caption below.
   const pile = (name, icon, [x, py], caption, side) => {
@@ -198,9 +198,9 @@ export function battleLayout() {
     const right = Math.min(width / 2 - theme.canvas.safe.x,
       Math.max(x + l.drawPile.size[0] / 2, bx + b.disc / 2, x + b.label[0] + b.label[2] / 2));
     const bottom = Math.max(-height / 2 + theme.canvas.safe.y,
-      Math.min(py - l.drawPile.size[1] / 2, by - b.disc / 2, py + b.label[1] - b.label[3] / 2));
+      Math.min(py - l.drawPile.size[1] / 2, by - b.height / 2, py + b.label[1] - b.label[3] / 2));
     let top = Math.min(height / 2 - theme.canvas.safe.y,
-      Math.max(py + l.drawPile.size[1] / 2, by + b.disc / 2, py + b.label[1] + b.label[3] / 2));
+      Math.max(py + l.drawPile.size[1] / 2, by + b.height / 2, py + b.label[1] + b.label[3] / 2));
     // TASK-38.2: a pile hit never reaches into the irreversible end-turn target.
     const turn = l.endTurn;
     if (right > turn.position[0] - turn.size[0] / 2 && left < turn.position[0] + turn.size[0] / 2)
@@ -217,11 +217,13 @@ export function battleLayout() {
       back('back2', -7, 2, 16, pv.cardEdge, c.cardWell), back('back1', -3, 1, 7, pv.cardEdge, c.panelSunken),
       back('front', 2, 0, -4, pv.cardEdgeBright, pv.cardFace),
       picture('glyph', 2 * side, 0, pv.glyph, pv.glyph, icon, pv.glyphInk));
+    // A dark label well keeps the larger caption legible over the decorative card backs.
+    entry.children.splice(-1, 0, panel('captionPlate', ...b.label, c.panelSunken));
     return [
       entry,
-      picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, l.pileVisual.rim),
-      picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.disc - s.border * 2, im.disc, c.panelSunken),
-      text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.label, c.goldBright),
+      picture(`${name}BadgeRing`, bx, by, b.disc, b.height, im.disc, l.pileVisual.rim),
+      picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.height - s.border * 2, im.disc, c.panelSunken),
+      text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.hud, c.goldBright),
       text(`${name}Label`, x + b.label[0], py + b.label[1], b.label[2], b.label[3], caption, f.small, c.textDim),
     ];
   };
@@ -252,7 +254,7 @@ export function battleLayout() {
         ...l.battleRewards[name].slice(2), name === 'title' ? '战斗奖励' : '', name === 'title' ? f.display : f.body,
         name === 'title' ? c.goldBright : c.textDim)),
     ] },
-    text('title', 0, y, 350, bar.height, '战斗', f.heading, c.gold),
+    text('title', 56, y, 360, bar.height, '战斗', f.heading, c.gold),
     // STS TopPanel.renderHP: SALMON cur/max; renderDungeonInfo: floor icon + CREAM floor number.
     glyph('hpIcon', bar.hpIcon, theme.icon.hp, c.hp), chip('player', bar.hp, c.topPanelHp),
     glyph('goldIcon', bar.goldIcon, theme.icon.gold, c.text), chip('piles', bar.gold, c.topPanelGold),
@@ -265,7 +267,7 @@ export function battleLayout() {
     ), chip('exhaust', bar.exhaust, c.textDim),
     unit('hero', l.player.position, l.player.portrait, true),
     text('notice', ...l.battleNotice.position, ...l.battleNotice.size, '', f.body, c.goldBright),
-    text('statuses', -380, 194, 350, 26, '', f.small, c.textDim),
+    text('statuses', -380, 194, 350, l.nativeText.lineHeight, '', f.small, c.textDim),
     // Main 138–144: warm circular shell, inset amber face and white shadowed value.
     // Existing soft-disc material approximates, but does not reproduce, the CSS gradient.
     picture('energyRing', ...l.energy.position, l.energy.size, l.energy.size, im.disc, l.energy.rimColour),
@@ -288,11 +290,11 @@ export function battleLayout() {
     // official bottle. Same atlas/tint bottles remain identifiable without color.
     for (const state of potion.children) {
       const label=state.children.find(c=>c.name==='label');label.visible=false;
-      label.position=[9,0];label.size=[14,l.nativeText.lineHeight];
-      label.text.fontSize=f.minimum;label.text.colour=c.goldBright;
+      label.position=[12,0];label.size=[20,l.nativeText.lineHeight];
+      label.text.fontSize=f.small;label.text.colour=c.goldBright;
       state.children=[...potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],
         bottleSize:l.battlePotions.bottleSize,ink:c.goldBright}),label];
-      state.children.find(c=>c.name==='bottle').position=[-8,0];
+      state.children.find(c=>c.name==='bottle').position=[-10,0];
     }
     // Keep the original three direct paths. Extra bottles share the existing
     // full-canvas help group so the battle parent stays at 60 direct children.

@@ -10,7 +10,7 @@ export function exitControls(theme = nativeTheme) {
     const variants = {
       normal: [primary ? c.gold : c.panelRaised, primary ? c.textOnLight : c.goldBright, c.gold],
       hover: [primary ? c.goldBright : c.buttonHover, primary ? c.textOnLight : c.goldBright, c.goldBright],
-      pressed: [c.goldDim, c.buttonPressedText, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line],
+      pressed: [c.buttonPressedFill, c.buttonPressedText, c.goldBright], disabled: [c.panelSunken, c.textMuted, c.line],
     };
     return { name, kind: 'container', position: frame.slice(0, 2), size, children: [
       { name: 'hit', kind: 'presetButton', size: [...size], focusable: true,

@@ -264,7 +264,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         child(box,"hit").canControllerFocus = enabled
         tint(child(box,"frame"), not enabled and Theme.color.line
             or (pressed or hover) and Theme.color.goldBright or Theme.color.goldDim)
-        tint(child(box,"body"), pressed and Theme.color.goldDim
+        tint(child(box,"body"), pressed and Theme.color.buttonPressedFill
             or hover and Theme.color.buttonHover or Theme.color.panel)
         local ink = not enabled and Theme.color.textMuted
             or pressed and Theme.color.buttonPressedText or Theme.color.text
