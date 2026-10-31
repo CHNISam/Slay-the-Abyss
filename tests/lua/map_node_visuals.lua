@@ -30,7 +30,8 @@ local calls=0
 local ui=UI.new(root,map,function(node)calls=calls+1;return Map.choose(map,node.id)end,'click',{
     controller=manager,imageSource='static',color=function(r,g,b,a)return{r=r,g=g,b=b,a=a}end})
 local function equalColor(actual,want)
-    for _,key in ipairs({'r','g','b','a'}) do assert(actual[key]==want[key],'node icon state colour '..key) end
+    for _,key in ipairs({'r','g','b'}) do assert(actual[key]==want[key],'node icon state colour '..key) end
+    assert(actual.a<=want.a and actual.a>=math.floor(want.a*.66),'STS oscillateColor alpha range')
 end
 local seen={}
 local function verify()
@@ -47,12 +48,16 @@ local function verify()
             local icon,hit=b:GetChild('icon'),b:GetChild('hit')
             assert(icon.image==Theme.icon.node[node.type],'existing official node icon ID retained')
             local palette=Theme.color.mapCanvas
-            equalColor(icon.imageColor,state=='locked' and palette.far or state=='visited' and palette.visited or palette.kind[node.type])
+            equalColor(icon.imageColor,node.hasEmeraldKey and Theme.color.positive or state=='locked' and palette.far or palette.kind[node.type])
             assert(b:GetChild('positionToken').visible==(state=='current'),'existing token identifies only current node')
             local size=node.type=='boss' and Theme.layout.map.bossNode or Theme.layout.map.node
             assert(b:GetChild('ring').visible==(state=='current' or state=='visited'),'STS MAP_CIRCLE_5 on current and taken rooms')
-            local k=(state=='current' or state=='available') and .74 or state=='visited' and .6 or .5
-            assert(math.abs(icon.size[1]-size*k)<1e-6,'official icon scale carries state')
+            -- STS MapRoomNode: glyph 128*scale, MAP_CIRCLE_5 192*(scale*.95+.2), rotated by room angle.
+            local fx=ui.roomFx[node.id]
+            assert(math.abs(icon.size[1]-size*Layout.sts.iconPerScale*fx.scale)<1e-6,'STS glyph scale')
+            assert(math.abs(b:GetChild('ring').size[1]-size*Layout.sts.circlePerScale*(fx.scale*.95+.2))<1e-6,'STS circle scale')
+            assert(b:GetChild('ring').localRotationZ==fx.angle,'STS circle angle')
+            assert(fx.scale>=.5 and fx.scale<=1.25,'STS scale bounds')
             assert(hit.size[1]==size and hit.size[2]==size,'unpainted hit target stays full sized')
             local enabled=state=='available' and ui.navigationEnabled
             assert(hit.visible==enabled and hit.canControllerFocus==enabled,'only legal destinations are focusable')

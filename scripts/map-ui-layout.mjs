@@ -15,8 +15,12 @@ export function mapGeometry(theme = loadMapTheme()) {
     firstY: -308 + 60, contentHeight: 17 * floorGap + 120,
     maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -128,
     scrollStep: floorGap * theme.layout.map.scrollStepFloors, scrollSeconds: theme.motion.base,
-    breathSeconds: 1.4, breathScale: 1.1,
-    glowPadding: 12, edgeGap: .45, lineWidth: theme.layout.map.presentation.pathWidth, dragThreshold: theme.layout.cardDrag.threshold };
+    breathSeconds: 1.4, breathScale: 1.5,
+    // Ported constants from STS MapRoomNode/MapEdge (aeubanks/sts@319009d, TASK-40 hash).
+    // iconPerScale maps STS scale 0.5 (64px of a 128px glyph) onto 0.6 of our node box.
+    sts: { baseScale: .5, iconPerScale: 1.2, circlePerScale: 1.8, oscillateRate: 5, lerpSpeed: 8, snap: .003,
+      srcRadius: 29 / 64 * .6, dstRadius: 20 / 64 * .6, bossRadius: .5 },
+    glowPadding: 0, lineWidth: theme.layout.map.presentation.pathWidth, dragThreshold: theme.layout.cardDrag.threshold };
 }
 
 export function mapLayout(theme = loadMapTheme()) {
@@ -74,7 +78,8 @@ export function mapLayout(theme = loadMapTheme()) {
     const s = theme.layout.map.node;
     // State is carried by the official icon tint and the existing current token,
     // never an enclosing disc. Keep the full invisible pointer/focus target.
-    // STS MapRoomNode.render: MAP_CIRCLE_5 is drawn around taken rooms and the current room
+    // STS MapRoomNode.render: MAP_CIRCLE_5 (here the inventory ring glyph) is drawn around
+    // taken rooms and the current room, rotated by the room's random angle.
     const children = [
       { ...image('ring', 0, 0, s * .95, s * .95, c.goldBright, im.ring), visible: false },
       image('icon', 0, 0, s * .6, s * .6, c.node.locked, theme.icon.node.combat), hit(s, s)];

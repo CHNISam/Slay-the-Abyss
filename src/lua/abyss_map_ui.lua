@@ -7,6 +7,17 @@ local Layout = require("abyss_map_layout")
 local Acts = require("abyss_acts")
 local Controller = require("abyss_controller")
 local M = {}
+-- MapRoomNode.render sizes: glyph 128*scale, MAP_CIRCLE_5 192*(scale*.95+.2).
+function M.paintRoom(fx)
+    local icon, ring = fx.box:GetChild("icon"), fx.box:GetChild("ring")
+    local iconSize = fx.size * Layout.sts.iconPerScale * fx.scale
+    icon:SetSizeDelta(iconSize, iconSize)
+    -- oscillateColor drives color.a for reachable rooms.
+    local ink = fx.ink
+    if ink then icon.imageColor = fx.colour(ink.r, ink.g, ink.b, math.floor(ink.a * fx.alpha + .5)) end
+    local ringSize = fx.size * Layout.sts.circlePerScale * (fx.scale * .95 + .2)
+    ring:SetSizeDelta(ringSize, ringSize)
+end
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
@@ -40,6 +51,34 @@ local function sameContext(a, b)
     return true
 end
 local function localFloor(map, floor) return floor - (map.firstFloor or 1) + 1 end
+-- ===== Port of STS MapRoomNode update/render state (aeubanks/sts@319009d map/MapRoomNode.java) =====
+local Sts = Layout.sts
+-- MathHelper.scaleLerpSnap
+local function scaleLerpSnap(value, target, dt)
+    if value ~= target then
+        value = value + (target - value) * math.min(1, dt * Sts.lerpSpeed)
+        if math.abs(value - target) < Sts.snap then value = target end
+    end
+    return value
+end
+-- MapRoomNode fields `angle = random(360)` and `oscillateTimer = random(0, 6.28)`,
+-- made deterministic per room so re-renders and replays are stable.
+local function roomSeed(id)
+    local h, text = 7, tostring(id)
+    for i = 1, #text do h = (h * 31 + text:byte(i)) % 1000003 end
+    return h
+end
+local function newRoomFx(id)
+    local h = roomSeed(id)
+    return { angle = h % 360, oscillateTimer = (h // 360 % 628) / 100.0, scale = Sts.baseScale, alpha = 1 }
+end
+-- MapRoomNode.oscillateColor (not taken branch)
+local function oscillate(fx, dt)
+    fx.oscillateTimer = fx.oscillateTimer + dt * Sts.oscillateRate
+    fx.alpha = .66 + (math.cos(fx.oscillateTimer) + 1) / 6
+    fx.scale = .25 + fx.alpha
+end
+M.stsScaleLerpSnap, M.stsOscillate, M.stsRoomFx = scaleLerpSnap, oscillate, newRoomFx
 local function atStart(map) return map.floor == (map.firstFloor or 1) - 1 end
 
 -- Standalone root holds mapBackdrop + stage/mapPanel from mapLayout(). With
@@ -74,7 +113,7 @@ function M.new(root, map, onChoose, clickEvent, options)
     if map ~= nil then assert(chapterFor(map), "invalid map chapter context") end
     local view = map and mapView(map)
     local self = { root = root, map = map, visible = map ~= nil, navigationEnabled = view and atStart(view) or false,
-        scroll = 0, slots = {}, time = 0, breathing = {}, stage = stage, panel = panel,
+        scroll = 0, slots = {}, time = 0, breathing = {}, roomFx = {}, stage = stage, panel = panel,
         embedded = embedded, scale = 1, observedMap = map, observedContext = view,
         observedNodeId = view and view.currentNodeId, observedFloor = view and view.floor }
     local drag, released, pointerObserved, scrollAnimation
@@ -178,11 +217,12 @@ function M.new(root, map, onChoose, clickEvent, options)
     local function line(control, source, target, taken, reachable)
         local x1, y1 = position(source)
         local x2, y2 = position(target)
-        -- STS MapEdge leaves a gap at both rooms; trim by each room's icon radius.
+        -- MapEdge constructor: dots start ICON_DST_RADIUS (164 for the boss) from the
+        -- destination room and stop ICON_SRC_RADIUS short of the source room.
         do
             local len = math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
-            local r1 = (source.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node) * Layout.edgeGap
-            local r2 = (target.type == "boss" and Theme.layout.map.bossNode or Theme.layout.map.node) * Layout.edgeGap
+            local r1 = Theme.layout.map.node * Sts.srcRadius
+            local r2 = target.type == "boss" and Theme.layout.map.bossNode * Sts.bossRadius or Theme.layout.map.node * Sts.dstRadius
             if len <= r1 + r2 then control:SetVisible(false) return end
             local ux, uy = (x2 - x1) / len, (y2 - y1) / len
             x1, y1, x2, y2 = x1 + ux * r1, y1 + uy * r1, x2 - ux * r2, y2 - uy * r2
@@ -253,6 +293,7 @@ function M.new(root, map, onChoose, clickEvent, options)
         end end
         for i = edge + 1, Layout.maxEdges do at("edge" .. i):SetVisible(false) end
         assert(#current.nodes <= Layout.maxNodes, "map UI node capacity exceeded")
+        self.activeFx = {}
         for i = 1, Layout.maxNodes do
             local box, node = at("node" .. i), current.nodes[i]
             local visible = false
@@ -275,18 +316,24 @@ function M.new(root, map, onChoose, clickEvent, options)
                 local token = child(box, "positionToken")
                 token:SetVisible(state == "current")
                 local icon = child(box, "icon")
-                -- Only the official icon carries state: scale + tint, no added chrome.
-                local iconScale = (state == "current" or state == "available") and .74 or (state == "visited" and .6 or .5)
-                icon:SetSizeDelta(size * iconScale, size * iconScale)
+                local fx = self.roomFx[node.id] or newRoomFx(node.id)
+                self.roomFx[node.id] = fx
+                fx.state, fx.size, fx.box = state, size, box
+                self.activeFx[#self.activeFx + 1] = fx
+                if state ~= "available" then fx.alpha = 1 end
                 local ring = child(box, "ring")
-                ring:SetSizeDelta(size * .95, size * .95)
-                ring:SetVisible(state == "current" or state == "visited")
+                -- render(): circle when taken, or current after the first room was chosen.
+                ring:SetVisible(state == "visited" or state == "current")
+                ring.localRotationZ = fx.angle
+                tint(ring, Theme.color.node.pathTaken)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
                 local palette = Theme.color.mapCanvas
-                tint(icon, state == 'locked' and palette.far or state == 'visited' and palette.visited or palette.kind[node.type])
+                -- color: NOT_TAKEN for locked rooms, AVAILABLE ink for taken/current/available.
+                fx.colour = colour
+                fx.ink = node.hasEmeraldKey and Theme.color.positive or state == 'locked' and palette.far or palette.kind[node.type]
+                M.paintRoom(fx)
                 icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
-                if node.hasEmeraldKey then tint(icon,Theme.color.positive)end
                 child(box,'emeraldLabel'):SetVisible(node.hasEmeraldKey==true)
                 local hit = child(box, "hit")
                 hit:SetSizeDelta(size, size)
@@ -346,9 +393,15 @@ function M.new(root, map, onChoose, clickEvent, options)
             self:render()
             return true
         end
-        local scale = self.reducedMotion and 1 or 1 + (Layout.breathScale - 1) *
-            (1 - math.cos(self.time * 2 * math.pi / Layout.breathSeconds)) / 2
-        for _, box in ipairs(self.breathing) do box.localScaleX, box.localScaleY = scale, scale end
+        -- MapRoomNode.update: reachable rooms oscillate; all others lerp-snap to 0.5.
+        for _, fx in ipairs(self.activeFx or {}) do
+            do
+                if fx.state == "available" and not self.reducedMotion then oscillate(fx, dt)
+                elseif fx.state == "available" then fx.alpha, fx.scale = 1, .91
+                else fx.scale = scaleLerpSnap(fx.scale, Sts.baseScale, dt) end
+                M.paintRoom(fx)
+            end
+        end
         return true
     end
     function self.setReducedMotion(_, value)
