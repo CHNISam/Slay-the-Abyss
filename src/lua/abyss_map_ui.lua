@@ -280,7 +280,7 @@ function M.new(root, map, onChoose, clickEvent, options)
                 icon:SetSizeDelta(size * iconScale, size * iconScale)
                 local ring = child(box, "ring")
                 ring:SetSizeDelta(size * .95, size * .95)
-                ring:SetVisible(state == "current")
+                ring:SetVisible(state == "current" or state == "visited")
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
                 local palette = Theme.color.mapCanvas
