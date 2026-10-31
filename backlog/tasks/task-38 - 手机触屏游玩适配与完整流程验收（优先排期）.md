@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-23 12:23'
-updated_date: '2026-10-31 03:31'
+updated_date: '2026-10-31 03:50'
 due_date: '2026-10-28'
 labels:
   - awaiting-live
@@ -51,6 +51,8 @@ ordinal: 39000
 
 <!-- SECTION:PLAN:BEGIN -->
 1. PR405：固定Pairs eb05fd35原版源码及创建流程，独立副本构建UPSTREAM GIL，仅登记必要配置替换。2. 交付哈希、源码与手机测试说明，原版透明度0.72保持原样。3. 等同机原版结果后才做PORT，PORT有效后才做INTEGRATED；本轮不改正式UI、不勾实机验收。
+
+用户同意生成UPSTREAM-DIAGNOSTIC：从已交付原版GIL副本只改dim.opacity为1，核对脚本、ID和控件差异，另交GIL与哈希；不改原版或正式UI。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -91,4 +93,6 @@ PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160�
 2026-10-29 战斗胸像槽已换成可替换的旅行者占位，手机上是否认得出仍要同一候选实机。没有本轮手机证据。
 
 PR405本轮交付UPSTREAM Pairs eb05fd35原版GIL，SHA256 6f7380d097ca33884fed10ef633ff86882ad7295d73142c2c7ade851c7b05923；七源文件Git blob逐字核验、Lua独立读回一致、静态0错0警告。部署差异和手机说明见experiments/task38-upstream/README.md。原版0.72透明度保留，官方导入/ready/手机未测，PORT及集成未开始，不勾AC。
+
+用户同意另交UPSTREAM-DIAGNOSTIC不透明背景包。SHA256 ae528eff0e5da4f8ad92ff458c9fe9505ed24d9b4256833c4bd8a9f6c9f123a1；仅PR_ui/dim alpha184→255，逆转该字段可逐字还原整个原版GIL，脚本和其余UI读回一致，静态0错0警告。待用户手机截图，不要求用户找日志，不勾AC。
 <!-- SECTION:NOTES:END -->

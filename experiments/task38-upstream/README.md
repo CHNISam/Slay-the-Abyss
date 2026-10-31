@@ -26,3 +26,14 @@
 5. 原版无画布尺寸日志，不为加探针修改 Lua；该字段本轮 unavailable。日志与截图必须关联本 GIL hash，不能借旧候选。反馈原版结果后再决定 PORT 的唯一变量。
 
 离线复现（已有本机工具，需给出空白底图）：`node experiments/task38-upstream/build.mjs <blank.gil>`。每次新建时间戳目录，保留调用收据，不自动启动游戏。
+
+## UPSTREAM-DIAGNOSTIC 不透明背景诊断包
+
+用户提供的原版截图可见十二张牌、计时条与3D场景；画面含PC按键提示，不能据此认证手机覆盖。用户本轮同意另建不透明背景诊断包。
+
+- 文件：`UPSTREAM-DIAGNOSTIC-Pairs-opaque.gil`
+- SHA256：`ae528eff0e5da4f8ad92ff458c9fe9505ed24d9b4256833c4bd8a9f6c9f123a1`
+- 从已交原版GIL副本只改 PR_ui/dim 颜色中的alpha：184→255（源0.72量化后为184/255），RGB不改。脚本、控件ID、布局及其余存档字节保留；恢复该字段可逐字节还原整个原版GIL。见 evidence/diagnostic-opaque.json。
+- `node experiments/task38-upstream/build-diagnostic.mjs` 可复现；目标存在则拒绝覆盖。静态检查0错0警告；官方导入、ready、手机均未验证。
+
+请导入为新的独立诊断存档。手机横屏打开后，看深色背景是否一直覆盖到左右边缘：若仍有天空/草地窄条，截图记录；若完整遮住场景，说明此候选背景在该设备上覆盖了对应区域。原生HUD可能叠在上层，其可见性不直接代表背景露底。只需截图反馈，无需找日志。卡牌比例、点选与暂停另作观察；本包不认证正式游戏修复，也不是PORT。

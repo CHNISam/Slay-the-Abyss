@@ -1,0 +1,36 @@
+{
+  "stage": "UPSTREAM-DIAGNOSTIC",
+  "source": "UPSTREAM-Pairs-eb05fd35.gil",
+  "sourceSha256": "6f7380d097ca33884fed10ef633ff86882ad7295d73142c2c7ade851c7b05923",
+  "candidate": "UPSTREAM-DIAGNOSTIC-Pairs-opaque.gil",
+  "sha256": "ae528eff0e5da4f8ad92ff458c9fe9505ed24d9b4256833c4bd8a9f6c9f123a1",
+  "change": {
+    "control": "PR_ui/dim",
+    "field": "opacity",
+    "before": 0.7215686274509804,
+    "after": 1,
+    "byteOffset": 18729,
+    "oldHex": "b01fa0a0acc00b",
+    "newHex": "b01fa0a0acf80f"
+  },
+  "verification": {
+    "uiOtherFieldsEqual": true,
+    "scriptsEqual": true,
+    "reversingColourFieldRestoresEntireGil": true,
+    "originalUnchanged": true,
+    "check": {
+      "mapPath": "F:\\New folder\\.worktrees\\task38-upstream\\experiments\\task38-upstream\\UPSTREAM-DIAGNOSTIC-Pairs-opaque.gil",
+      "checked": [
+        "PR_game"
+      ],
+      "ok": true,
+      "errors": 0,
+      "warnings": 0,
+      "problems": [],
+      "note": "Every name the scripts write down was found. Names put together while a script runs are not checked, and neither is what the script does."
+    }
+  },
+  "officialImport": "not_run",
+  "ready": "not_run",
+  "phone": "NOT_TESTED"
+}
