@@ -1252,20 +1252,20 @@
         -216.0
       ],
       "size": 100,
-      "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
+      "note": "Main.dc.html138–144按1920→1280等比：132外径、3边圈、9内面边距、白字44与向下2阴影；README后交接要求官方元素图标；按STS EnergyPanel层级（orb层+居中cur/max数字为主），元素图标缩为内径约40%、低透明度衬底，数字先读。原生disc/discSoft分层近似圆面亮暗，不等价CSS偏心径向渐变、弧光和模糊投影；待同源实机核验。",
       "rim": 2,
       "faceInset": 6,
-      "elementInset": 6,
-      "numberSize": 34,
+      "elementInset": 30,
+      "numberSize": 40,
       "shadowOffset": [
         0,
         -1.3333333333333333
       ],
       "rimColour": "#8A6A40",
       "shellColour": "#2A1C12",
-      "faceColour": "#8E5A1E",
-      "lightColour": "#F6D38E",
-      "elementColour": "#85531C",
+      "faceColour": "#B8701EC0",
+      "lightColour": "#FFE9B860",
+      "elementColour": "#F6D38E38",
       "numberColour": "#FFF8EC",
       "shadowColour": "#3A1E06"
     },
