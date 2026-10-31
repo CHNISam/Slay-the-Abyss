@@ -94,6 +94,10 @@
     "neow80-static-layout-evidence": {
       "status": "Static Before/After layout images reported as Beyond Simulator output in PR421; official platform picture-library textures remain game IP. Reviewed pixels and exact retained hashes only; evidence-only, no runtime approval, IP sublicense, commercial clearance, official import, device or gameplay acceptance. The Before images retain the missing option-title defect; pair.png juxtaposes static views, not an interactive playthrough.",
       "evidence": "https://github.com/CHNISam/Slay-the-Abyss/pull/421; exact source head 5fb45692047d9e3ba8b509466daf7b3e4cfa3cb3; .artifacts/neow80/before/*.sim.png, .artifacts/neow80/after/*.sim.png and pair.png; scripts/node-ui-layout.mjs and scripts/cinematic-ui-layout.mjs; original capture session and device provenance not independently certified"
+    },
+    "select80-static-layout-evidence": {
+      "status": "Retained PR422 static browser-layout and reported Beyond Simulator output showing selection and starter-deck comparisons. Screenshots include project geometric candidates and official platform picture-library IP. Evidence-only; no runtime visual approval, IP sublicense, commercial clearance, official import, device or gameplay acceptance. Original capture session and device provenance are not independently certified.",
+      "evidence": "PR422 at 5460a6d4ce00ac0059204228bb7a6e1ca615e5b5; experiments/ui-polish-sim/render.mjs, sim.mjs, select-capture.lua, select-lowpoly-inject.mjs; reviewed all 8 distinct decoded images at the 12 exact file hashes, including browser placeholder glyphs and simulator text/texture discrepancies; THIRD_PARTY_NOTICES.md"
     }
   },
   "files": {
@@ -5461,6 +5465,54 @@
     ".artifacts/neow80/pair.png": {
       "sha256": "ce782f9fba3e150813a1ee37c973bacbca80d5a3376e45e4f8629e59e5370027",
       "category": "neow80-static-layout-evidence"
+    },
+    ".artifacts/select80/after/select-deck.png": {
+      "sha256": "143642879ff6044a76f88e0b49614d573eb7d75b3a9e7309b69fd804c9b8fe73",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/after/select-deck.sim.png": {
+      "sha256": "0241848f62680ea9d31deb198ec94923954108fd5d70db1a75f02579b2fa2bd1",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/after/select.png": {
+      "sha256": "aad4fd1083a0143630674131af698296d02b09984df8c9ceb221c2c4b13cbacb",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/after/select.sim.png": {
+      "sha256": "b85e477970e44c76a4ceb8c9c1f3fa25a4934eacee947c4f104aad5d928cb858",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/before/select.png": {
+      "sha256": "8ef144ffe38ffb3ef72f2c1fd44890d9f5fe2856f3c21e72cf75b9ada3ece6ff",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/before/select.sim.png": {
+      "sha256": "ff43e1829f9cb91a53fbd1aabad241740ed9a4ac1b3531e71ca0f327fa867646",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/deck-after/select-deck.png": {
+      "sha256": "e4e25839b3321fde2757d2640deb118595b047fb0cafc27554eb2b99eb4012c1",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/deck-after/select-deck.sim.png": {
+      "sha256": "58b007986abf7a0531105245664b74944cb48f627259a0f3c79eef485e25608b",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/deck-after/select.png": {
+      "sha256": "aad4fd1083a0143630674131af698296d02b09984df8c9ceb221c2c4b13cbacb",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/deck-after/select.sim.png": {
+      "sha256": "b85e477970e44c76a4ceb8c9c1f3fa25a4934eacee947c4f104aad5d928cb858",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/deck-before/select-deck.png": {
+      "sha256": "143642879ff6044a76f88e0b49614d573eb7d75b3a9e7309b69fd804c9b8fe73",
+      "category": "select80-static-layout-evidence"
+    },
+    ".artifacts/select80/deck-before/select-deck.sim.png": {
+      "sha256": "0241848f62680ea9d31deb198ec94923954108fd5d70db1a75f02579b2fa2bd1",
+      "category": "select80-static-layout-evidence"
     }
   }
 }
