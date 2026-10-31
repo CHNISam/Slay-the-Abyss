@@ -302,3 +302,6 @@ tests/helpers/sword-random-cases.mjs text eol=lf
 # Chaos chain authenticates model/input bytes across Windows checkouts.
 tools/oracles/sts1_chaos_shared_chain.py text eol=lf
 tools/oracles/sts1_potion_pool.py text eol=lf
+# Complete card identity consumers retain raw source/input hash bytes.
+tools/oracles/sts1_card_consumers.py text eol=lf
+tests/fixtures/sts1-card-consumers.json text eol=lf
