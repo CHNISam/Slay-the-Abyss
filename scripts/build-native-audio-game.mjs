@@ -63,6 +63,7 @@ export async function buildNativeAudioGame({ baseMap, output = 'build/native-aud
   if(JSON.stringify(audio.artFeatures)!==JSON.stringify(full.artFeatures))throw Error('Audio art feature configuration differs from full candidate');
   Object.assign(audio, { artFeatures:full.artFeatures, sourceCommit: full.sourceCommit, sourceDirty: full.sourceDirty, payloadDigest: full.payloadDigest,
     startedAt: full.startedAt, productionManifest: full.productionManifest,
+    monsterActors: full.monsterActors,
     sourceReceipt: fileRecord(full.receiptPath), ...(full.release ? { release: full.release } : {}),
     ...(full.nativeMonsterArt ? {nativeMonsterArt:full.nativeMonsterArt} : {}),
     ...(full.nativeCardArt ? { nativeCardArt: full.nativeCardArt } : {}),

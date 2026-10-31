@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { buildNativeAudioGame, defaultNativeCardArt, nativeAudioBuildArgs } from '../scripts/build-native-audio-game.mjs';
 import { sourceInputs, payloadDigest } from '../scripts/build-native-candidate.mjs';
+import {monsterActorInventory,monsterActorTemplate} from '../scripts/monster-art.mjs';
 import { fileRecord } from '../scripts/evidence-files.mjs';
 import { gitSourceIdentity } from '../scripts/release-notes.mjs';
 
@@ -28,6 +29,7 @@ function fixture(t, mutate = () => {}) {
     writeFileSync(mapPath, 'complete game');
     full = { mapPath, receiptPath, artFeatures:artFeatureReceipt(options.artFeatures), buildId: '7cf6f22e-2f12-44bb-9f01-aad514071a5f', candidate: fileRecord(mapPath), ...gitSourceIdentity(root),
       payloadDigest: payloadDigest(sourceInputs(root)),
+      monsterActors:{...monsterActorInventory(monsterActorTemplate(null)),templateIndex:1470123460,containerTemplateIndex:1470123458,powerTemplateIndex:1470123461},
       ...(options.artFeatures.menuBackground?{officialBackground: {templateIndex:1470123456,peakDynamicControls:13201,inputs:[{sha256:'c'.repeat(64)}]}}:{}),
       ...(options.artFeatures.selectionAvatar||options.artFeatures.battlePortrait||options.artFeatures.cards||options.artFeatures.menuBackground?{officialPortraits: {...portraitInventory(options.artFeatures),imageTemplateIndex:1470123457,containerTemplateIndex:1470123458,inputs:portraitSourceInputs(options.artFeatures).map(path=>({path,sha256:'d'.repeat(64),bytes:1}))}}:{}),
       ...(options.artFeatures.cards?{readyCardArt: {enabled:true,assetCount:75,imageTemplateIndex:1470123457,containerTemplateIndex:1470123458}}:{}),
@@ -65,6 +67,8 @@ test('actual audio entrypoint follows UUID full receipt and binds FINAL audio ha
   assert.deepEqual(result.officialBackground,f.full.officialBackground,'final audio candidate retains exact runtime binding/provenance');
   assert.deepEqual(result.officialPortraits,f.full.officialPortraits,'final audio candidate retains exact portrait binding/provenance');
   assert.deepEqual(result.artFeatures,f.full.artFeatures);
+  assert.deepEqual(result.monsterActors,f.full.monsterActors,'audio receipt must retain full candidate actor/group/power binding and inventory');
+  assert.deepEqual(JSON.parse(readFileSync(result.receiptPath)).monsterActors,f.full.monsterActors);
   assert.deepEqual(result.readyCardArt,f.full.readyCardArt,'final audio candidate retains all75 artwork binding/provenance');
   assert.equal(JSON.parse(readFileSync(result.receiptPath)).sha256, result.sha256);
   assert.equal(result.liveWriteEnabled, false); assert.equal(result.officialImport, 'NOT_TESTED');
@@ -120,4 +124,13 @@ for (const [name, mutate] of [
   await assert.rejects(f.run({ releaseCandidate: true }), /artifact|Source changed|provenance changed|art feature configuration/);
   const receipt = JSON.parse(readFileSync(join(f.root, 'build/native-audio-game/audio/candidate.json')));
   assert.equal('sourceReceipt' in receipt, false, 'failed packaging must not claim full-source provenance');
+});
+
+test('ordinary audio retains actor bindings even when monster artwork is disabled', async t => {
+  const f=fixture(t,({audio})=>{audio.monsterActors={templateIndex:1,containerTemplateIndex:2,powerTemplateIndex:3};});
+  const result=await f.run();
+  assert.equal(result.artFeatures.flags.monsters,false);
+  assert.deepEqual(result.monsterActors,f.full.monsterActors,'full candidate, not an audio-stage claim, owns template indices');
+  assert.deepEqual(result.sourceReceipt,fileRecord(f.full.receiptPath));
+  assert.notEqual(result.candidate.sha256,f.full.candidate.sha256,'receipt remains bound to final audio bytes');
 });
