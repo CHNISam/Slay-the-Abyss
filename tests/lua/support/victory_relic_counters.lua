@@ -16,6 +16,7 @@ local function unchanged(root)
   end
  end
 end
+M.unchanged=unchanged
 local function card(r,id)
  for _,c in ipairs(r.combat.hand)do if c.cardId==id then return c end end
  error('missing actual hand card '..id)
@@ -100,9 +101,10 @@ function M.otherOutcomes()
     local battleOnly=false;for _,battleId in ipairs(battleIds)do if battleId==id then battleOnly=true end end
     if not battleOnly then assert(r.relicCounters[id]==value,'escape changed permanent counter: '..id)end
    end
-   assert(r.hp==40 and r.maxHp==80 and r.rewards==nil and r.victories==0,'counter cleanup must not alter existing Smoke resources/rewards')
+   assert(r.hp==59 and r.maxHp==81 and r.rewards==nil and r.victories==0,'source Smoke healing while preserving escape rewards/victory count')
   else
    for id,value in pairs(before)do assert(r.relicCounters[id]==value,'defeat changed existing counter: '..id)end
+   assert(r.hp==0 and r.maxHp==80 and r.victories==0,'defeat must not dispatch victory healing or Cleric')
   end
   local stable=unchanged(r);assert(not Run.finishCombat(r));stable()
  end

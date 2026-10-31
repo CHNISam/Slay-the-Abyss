@@ -15,3 +15,15 @@
 两个临时模块精准负控分别删公共胜利分派及Uncommon清理，均必须被公开七件隐藏断言拒绝，不能以任意错误冒充kill。五个JS入口各低于整入口10秒，Lua沿用30秒；根完整CI与fresh独审另外绑定。
 
 F1阶段刻意只改计数；正常Smoke缺失胜利治疗已由审计确认是独立F2。F1里Smoke旧40HP断言只是保留该阶段资源现状，**不是固定源认可**；下一独立F2提交将改为正确源预期，而不把已知错误保成golden。
+
+## F2：正常Smoke的共同胜利治疗及健康发布
+
+在F1提交后，按root明确授权独立重取MeatOnTheBone、BurningBlood、BlackBlood、FaceOfCleric、MagicFlower、MarkOfTheBloom及room/player/Smoke调用链。新增独立LF字节认证清单 `smoke-victory-healing-source.json` 保存9份原始双hash，不改F1清单或旧golden。固定source的room.endBattle无smoked治疗排除，Meat先触发，再存活玩家按持有列表onVictory；Flower要求房间仍为COMBAT并按1.5倍四舍五入，Bloom返回0。
+
+新增公开Run六项低20HP场景先真实RED：只有BurningBlood的Smoke实际仍20/80，源应26/80。其余固定源预期为Black32/80、Meat+Burn38/80、Cleric+Burn27/81；Flower+Meat+Burn47/80、Bloom+Meat+Burn20/80。`m3-smoke-victory-healing-red.log` 记录该红例（1040ms）。在复用共同治疗后，另加实际retained combat actor检查再次RED：Run已26而combat.player仍20；记录于 `m3-smoke-victory-actor-red.log`。两项都是真实可见状态差异，不能仅以Run标量通过。
+
+最小修复仅把既有event分支里的 `combatEndHealing` 移到活玩家Smoke共同暂存入口，仍用原Meat优先/持有顺序/倍率函数，不增加第二次event治疗；在提交前按既有outside-potion健康发布形式同步candidate最终HP/maxHP到escaped battle.player。F1中旧40/80的Smoke现状断言明确改成源正确59/81；Smoke金币、胜场、无奖励、map/实际event重开合同均不改。败北仍0HP/原maxHP、无胜利治疗或Cleric成长。
+
+真实Colosseum公共event入口测20→39/max81并只出现Meat12→Blood6→Cleric1一次，完成后旧瓶位/finish重放不重疗。普通Smoke在第二次实际治疗之后注入失败，完整原Run图/引用和瓶均保持；恢复后重试只提交一次。真实GameUI夹具读map原始HP HUD为27/81，retained actor亦27/81；再公开进入下一战仍27/81，未将错误combat快照藏在标量断言后。
+
+新增精准临时模块负控分别漏掉共同Smoke治疗、重复event治疗，只能由对应源数值/一次性断言拒绝。每个JS入口保持10秒、Lua30秒，正常六项入口约5.4秒，其余约2秒；原Smoke与eventSmoke/bridge专项通过，未修改其旧golden/断言。F1/F2需由非作者对最终commit统一窄审，再绑定精确HEAD完整CI；本记录不是平台或设备验收。
