@@ -77,11 +77,11 @@ export function deckControls(theme = nativeTheme) {
       const colours = palette[state.name], text_ = state.children.find(control => control.name === 'label');
       text_.visible = false;
       state.children = [
-        card('back2', -14, 1, 14, colours.border, c.cardWell), card('back1', -10, 0, 6, colours.border, c.panelSunken),
-        card('front', -6, -1, -2, state.name === 'normal' ? c.goldBright : colours.border, colours.fill),
+        card('back2', -12, 1, 8, colours.border, c.cardWell), card('back1', -9, 0, 4, colours.border, c.panelSunken),
+        card('front', -6, -1, -2, colours.border, colours.fill),
         { name: 'deckIcon', kind: 'image', position: [-6, -1], size: [14, 14], image: theme.icon.deck.id, colour: colours.ink },
         { ...plate('badge', [16, -8, 24, 20], c.panelSunken), image: theme.image.disc },
-        text('count', [16, -8, 28, 22], '', f.label, state.name === 'normal' ? c.goldBright : colours.ink), text_];
+        text('count', [16, -8, 28, 22], '', f.label, colours.ink), text_];
     }
     return entry;
   };

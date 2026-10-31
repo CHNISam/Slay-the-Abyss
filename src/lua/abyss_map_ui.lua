@@ -33,10 +33,16 @@ end
 function M.isFar(floor, currentFloor)
     return type(floor) == "number" and type(currentFloor) == "number" and floor > currentFloor + 1
 end
+function M.pathWidth(taken, reachable)
+    local v = Theme.layout.map.presentation
+    return taken and v.takenPathWidth or reachable and Layout.lineWidth or v.lockedPathWidth
+end
 function M.roomInk(node, state, currentFloor)
     local palette = Theme.color.mapCanvas
     if node.hasEmeraldKey then return Theme.color.positive end
     if state == "visited" then return palette.visited end
+    -- TASK-4.13: current is a steady warm-white beacon, never the breathing type ink of its options.
+    if state == "current" then return Theme.color.node.current end
     if state == "locked" then
         local c = palette.far
         local v = Theme.layout.map.presentation
@@ -282,7 +288,8 @@ function M.new(root, map, onChoose, clickEvent, options)
             x1, y1, x2, y2 = x1 + ux * r1, y1 + uy * r1, x2 - ux * r2, y2 - uy * r2
         end
         -- Clip real graph segments to viewport, with half-stroke padding.
-        local width = taken and Theme.layout.map.presentation.takenPathWidth or Layout.lineWidth
+        -- TASK-4.13: walked > reachable > unreachable stroke weights (STS taken/available/disabled).
+        local width = M.pathWidth(taken, reachable)
         local low, high = Layout.viewport.bottom + width / 2, Layout.viewport.top - width / 2
         if y2 < low or y1 > high then control:SetVisible(false) return end
         local a, b = clamp((low - y1) / (y2 - y1), 0, 1), clamp((high - y1) / (y2 - y1), 0, 1)
@@ -381,7 +388,8 @@ function M.new(root, map, onChoose, clickEvent, options)
                 -- render(): circle when taken, or current after the first room was chosen.
                 ring:SetVisible(state == "visited" or state == "current")
                 ring.localRotationZ = fx.angle
-                tint(ring, Theme.color.node.pathTaken)
+                -- TASK-4.13: visited rings sink to trail gold so the current ring is the only bright one.
+                tint(ring, state == "current" and Theme.color.goldBright or Theme.color.mapCanvas.visitedRing)
                 local iconId = assert(Theme.icon.node[node.type], "missing node icon")
                 icon:SetImage(imageSource, iconId)
                 local palette = Theme.color.mapCanvas

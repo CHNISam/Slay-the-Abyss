@@ -293,7 +293,7 @@ test("displayed edges match real topology and chosen path colours after scrollin
             local dx = (target.lane - node.lane) * Theme.layout.map.columnGap
             local len = math.sqrt(dx * dx + (y2 - y1) ^ 2)
             y1, y2 = y1 + (y2 - y1) / len * r1, y2 - (y2 - y1) / len * r2
-            local w = taken[node.id .. ":" .. id] and Theme.layout.map.presentation.takenPathWidth or Layout.lineWidth
+            local w = MapUI.pathWidth(taken[node.id .. ":" .. id], node.id == map.currentNodeId and index[id].available)
             local expected = y2 > Layout.viewport.bottom + w / 2 and y1 < Layout.viewport.top - w / 2
             assert(edge.visible == expected)
             if expected then

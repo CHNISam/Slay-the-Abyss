@@ -13,7 +13,7 @@ export function mapGeometry(theme = loadMapTheme()) {
   return { floors: 17, generatedRows: 15, lanes: 7, maxNodes: 92, maxEdges: 126,
     viewport: { left: -460, right: 440, bottom: -308, top: -308 + viewportHeight },
     firstY: -308 + 60, contentHeight: 17 * floorGap + 120,
-    maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -128,
+    maxScroll: 17 * floorGap + 120 - viewportHeight, focusY: -72,
     scrollStep: floorGap * theme.layout.map.scrollStepFloors, scrollSeconds: theme.motion.base,
     breathSeconds: 1.4, breathScale: 1.5,
     // Ported constants from STS MapRoomNode/MapEdge (aeubanks/sts@319009d, TASK-40 hash).
@@ -37,12 +37,12 @@ export function mapLayout(theme = loadMapTheme()) {
   // Map.dc.html retains TYPE explanations. Only the old STATE key was retired.
   const legend = visual.typeLegend;
   const typeLegend = { name: 'typeLegend', kind: 'container', position: legend.position, size: legend.size,
-    children: [text('title', 0, legend.titleY, legend.size[0], legend.textHeight, '节点类型', f.label, c.gold),
+    children: [text('title', 0, legend.titleY, legend.size[0], legend.textHeight, '节点类型', f.label, c.mapHeader.title),
       ...[['combat', '普通战斗'], ['elite', '精英'], ['event', '事件'], ['shop', '商店'],
         ['camp', '营地'], ['treasure', '宝箱'], ['boss', '首领']].flatMap(([kind, label], i) => {
         const y = legend.firstY - i * legend.rowGap;
-        return [image(`${kind}Icon`, legend.iconX, y, legend.iconSize, legend.iconSize, c.textDim, theme.icon.node[kind]),
-          text(`${kind}Label`, legend.labelX, y, legend.labelWidth, legend.textHeight, label, f.label, c.textDim, 'left')];
+        return [image(`${kind}Icon`, legend.iconX, y, legend.iconSize, legend.iconSize, c.mapHeader.ink, theme.icon.node[kind]),
+          text(`${kind}Label`, legend.labelX, y, legend.labelWidth, legend.textHeight, label, f.label, c.mapHeader.ink, 'left')];
       })] };
   const button = (name, y, label) => ({ name, kind: 'container', position: [visual.navigationX, y], size: [nav, nav], visible: false, children: [
     image('frame', 0, 0, nav, nav, c.goldDim, im.disc), image('body', 0, 0, nav - 4, nav - 4, c.panel, im.disc),
