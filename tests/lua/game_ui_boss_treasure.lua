@@ -151,12 +151,27 @@ test('real seed1 source offer keeps injected missing definitions visible and rej
         assert(ui.run.nodeFlow.reward.items[i].sourceId==id)
         assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/name').text=='遗物 · '..displayNames[i])
         assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/description').text:find('暂不可领取',1,true))
+        local description=get(root,'nodePanel/treasureView/rewardItem'..i..'/description').text
+        assert(description:find('内容缺失',1,true),'must explain missing relic definitions')
+        assert(description:find('离开',1,true) and not description:find('其他奖励',1,true))
         assert(get(root,'nodePanel/treasureView/rewardItem'..i..'/disabled').visible)
         local before=F.Combat.copy(ui.run)
         assert(not ui.nodeUI:press('treasureView/rewardItem'..i))
         assert(ui.run.phase=='node' and ui.run.gold==before.gold and #ui.run.relics==#before.relics)
         assert(ui.run.nodeFlow.reward.items[i].sourceId==id)
 
+    end
+    -- Exercise the legacy pager through its actual NodeUI entry with the same
+    -- real seed1 offers and missing-definition fault; never fabricate items.
+    local host=F.Viewport.apply(F.control({children=F.Layout}),1280,720)
+    local legacy=require('abyss_node_ui').new(host:GetChild('nodePanel'),ui.run,ui.map,F.Presentation,'click')
+    legacy:setVisible(true)
+    for i=1,3 do
+        legacy.treasureChoice=i;legacy:render()
+        local description=host:GetChild('nodePanel'):GetChild('treasureView'):GetChild('reward'):GetChild('description').text
+        assert(description:find('内容缺失',1,true) and description:find('离开',1,true))
+        assert(not description:find('其他奖励',1,true))
+        assert(not legacy:press('treasureView/take'))
     end
     assert(ui.nodeUI:press('back') and ui.mode=='victory')
 end)

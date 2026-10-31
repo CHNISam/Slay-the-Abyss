@@ -71,7 +71,7 @@ local function equipmentUpgrade(run,id,api)
  S.shuffle(run.miscRng,eligible)
  for i=1,math.min(2,#eligible)do
   if api and api.upgrade then
-   local ok,reason=api.upgrade(eligible[i]);assert(ok~=false,reason or 'permanent upgrade rejected')
+   local ok,reason=api.upgrade(eligible[i],id);assert(ok~=false,reason or 'permanent upgrade rejected')
   else eligible[i].upgraded=true end
  end
 end

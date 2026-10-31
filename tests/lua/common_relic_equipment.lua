@@ -45,4 +45,40 @@ test('equipment upgrade callback preserves repeatable card semantics and bottled
  end})
  assert(seen==original and original.upgradeCount==5)
 end)
+test('successful equipment obtain receipts retain actual UIDs and before/after levels for zero one and two targets',function()
+ for _,spec in ipairs({{'war_paint','defend'},{'whetstone','strike'}})do
+  for count=0,2 do
+   local r=R.new(data,42);r.deck={}
+   for i=1,count do r.deck[i]={uid=100+i,cardId=spec[2],upgraded=false} end
+   local before=r.miscRng.counter
+   assert(R.obtainRelic(r,spec[1]))
+   local receipt=assert(r.lastRelicObtain,'missing committed equipment receipt')
+   assert(receipt.relicId==spec[1] and #receipt.upgrades==count and r.miscRng.counter==before+1)
+   for _,change in ipairs(receipt.upgrades)do
+    assert(change.relicId==spec[1] and change.uid>=101 and change.uid<=100+count and change.cardId==spec[2])
+    assert(change.before.upgraded==false and change.before.upgrades==0 and change.after.upgraded and change.after.upgrades==1)
+    local found;for _,card in ipairs(r.deck)do if card.uid==change.uid then found=card end end
+    assert(found and found.lastRelicUpgrade.relicId==spec[1] and found.lastRelicUpgrade.uid==found.uid)
+   end
+   local sequence=receipt.sequence;local oldDeck=r.deck
+   local ok,why=R.obtainRelic(r,spec[1]);assert(not ok and why=='relic_already_owned')
+   assert(r.lastRelicObtain==receipt and r.deck==oldDeck and r.lastRelicObtain.sequence==sequence)
+  end
+ end
+end)
+test('repeatable upgrades record existing levels and rejected outer transaction preserves original source',function()
+ local r=R.new(data,42);r.deck={{uid=77,cardId='searing_blow',upgraded=true,upgrades=4}}
+ assert(R.obtainRelic(r,'whetstone'))
+ local change=r.lastRelicObtain.upgrades[1]
+ assert(change.uid==77 and change.before.upgrades==4 and change.before.upgraded and change.after.upgrades==5)
+ local receipt,deck,counter=r.lastRelicObtain,r.deck,r.miscRng.counter
+ local ok=R.transaction(r,function(staged)
+  assert(R.obtainRelic(staged,'war_paint'))
+  return false,'later_failure'
+ end)
+ assert(not ok and r.lastRelicObtain==receipt and r.deck==deck and r.miscRng.counter==counter)
+ local fresh=R.new(data,42)
+ assert(not R.transaction(fresh,function(staged)assert(R.obtainRelic(staged,'whetstone'));return false,'later_failure'end))
+ assert(fresh.lastRelicObtain==nil)
+end)
 print('LUA_COMMON_RELIC_EQUIPMENT_PASS '..n)

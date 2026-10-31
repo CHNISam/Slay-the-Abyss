@@ -9,10 +9,21 @@ local function label(c,item)
     if item.kind=='sapphire' then return '蓝钥匙' end
     return '遗物 · '..c.relicName(item.id)
 end
-local function description(c,item,boss)
+-- Treasure marks relics unavailable exactly when their content definition is absent.
+-- Inspect the remaining source rows; a disabled relic is not an alternative.
+function M.unavailableDescription(item,items)
+    local nextAction='可离开宝箱'
+    for _,other in ipairs(items)do
+        if other.slot~=item.slot and (other.kind~='relic' or other.available==true) then
+            nextAction='可领取其他奖励或离开';break
+        end
+    end
+    return '遗物内容缺失，暂不可领取 · '..nextAction
+end
+local function description(c,item,boss,items)
     if item.kind=='gold' then return '点击领取 · 不影响其他奖励' end
     if item.kind=='sapphire' then return '二选一 · 放弃「'..c.relicName(item.relicId)..'」' end
-    if not item.available then return '暂不可领取 · 可领取其他奖励或离开' end
+    if not item.available then return M.unavailableDescription(item,items) end
     local prefix = boss and '三选一 · ' or item.linkedSlot and '与蓝钥匙二选一 · ' or ''
     return prefix..c.relicText(item.id)
 end
@@ -30,7 +41,7 @@ local function binding(c,key,box,item,index,linked,boss,bind)
     return bind(c,key,box,token,projection,command,argument,
         function()return '已领取「'..label(c,item)..'」'end,choice,true,item)
 end
-local function renderRow(c,panel,item,index,y,opened,linked,boss,bind)
+local function renderRow(c,panel,item,index,y,opened,linked,boss,bind,items)
         local key='treasureView/rewardItem'..index
         local box=panel:GetChild('rewardItem'..index)
         c.show(box,opened and item~=nil)
@@ -38,11 +49,11 @@ local function renderRow(c,panel,item,index,y,opened,linked,boss,bind)
             local available=item.kind~='relic' or item.available==true
             c.state(box,available)
             box:GetChild('name').text=(available and '领取 · ' or '')..label(c,item)
-            box:GetChild('description').text=description(c,item,boss)
+            box:GetChild('description').text=description(c,item,boss,items)
             c.picture(box:GetChild('icon'),item.kind=='gold' and Theme.icon.gold or Theme.icon.relic[item.id] or Theme.icon.node.treasure)
             local handler,observe=binding(c,key,box,item,index,linked,boss,bind)
             c.action(key,opened and available,handler,nil,nil,observe)
-            c.details:set(key,label(c,item),description(c,item,boss))
+            c.details:set(key,label(c,item),description(c,item,boss,items))
         else c.action(key,false,function()return false end) end
         box:SetAnchoredPosition(L.x,y);box:SetLocalScale(1,1,1)
 end
@@ -51,7 +62,7 @@ function M.render(c,panel,items,opened,linked,bind)
     for _,name in ipairs({'reward','take','previous','next'})do
         c.show(panel:GetChild(name),false);c.action('treasureView/'..name,false,function()return false end)
     end
-    for index,y in ipairs(L.rows)do renderRow(c,panel,items[index],index,y,opened,linked,boss,bind)end
+    for index,y in ipairs(L.rows)do renderRow(c,panel,items[index],index,y,opened,linked,boss,bind,items)end
     local pose=opened and L.chest or Theme.layout.nativeNode.treasure.chest
     for _,name in ipairs({'closed','open','chest','glow'})do panel:GetChild(name):SetAnchoredPosition(pose[1],pose[2])end
     local heading,note=panel:GetChild('page'),panel:GetChild('bossDescription')

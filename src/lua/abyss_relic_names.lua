@@ -57,4 +57,23 @@ function M.get(data,id)
     end
     return names[legacy[id] or id] or '未知遗物'
 end
+-- Only the new receipt from this acquisition may contribute upgrade feedback.
+function M.upgradeFeedback(run,previousSequence,presentation,relicId)
+    local receipt=run.lastRelicObtain
+    if not receipt or receipt.sequence==previousSequence or receipt.relicId~=relicId then return '' end
+    local parts={}
+    for _,change in ipairs(receipt.upgrades)do
+        if change.relicId==relicId then
+            local definition
+            for _,card in ipairs(run.data.cards.cards)do if card.id==change.cardId then definition=card;break end end
+            local display=presentation and presentation[change.cardId]
+            local name=display and display.name or definition and definition.name or change.cardId
+            local function title(state)
+                return name..(state.upgraded and ('+'..(definition and definition.repeatable and tostring(state.upgrades) or '')) or '')
+            end
+            parts[#parts+1]='「'..title(change.before)..'」→「'..title(change.after)..'」'
+        end
+    end
+    return #parts>0 and (' · 已升级'..table.concat(parts,'、')) or ''
+end
 return M

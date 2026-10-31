@@ -255,6 +255,11 @@ function M.obtainRelic(run,id)
     return M.transaction(run,function(staged)
         local definition=relicDefinition(staged,id)
         if not definition then return false,'relic_content_unavailable' end
+        -- One current acquisition receipt; each card keeps only its latest relic upgrade.
+        -- Both live inside the enclosing transaction, including nested reward/shop obtains.
+        local receipt={sequence=(staged.lastRelicObtain and staged.lastRelicObtain.sequence or 0)+1,
+            relicId=definition.id,upgrades={}}
+        staged.lastRelicObtain=receipt
         if definition.id=='circlet' then
             RelicHooks.obtainCirclet(staged);return true,definition.id
         end
@@ -273,9 +278,20 @@ function M.obtainRelic(run,id)
                 return def and def.upgrade and next(def.upgrade)~=nil
                     and (not card.upgraded or def.repeatable==true)
             end,
-            upgrade=function(card)
+            upgrade=function(card,sourceRelic)
+                local change
+                if sourceRelic=='whetstone' or sourceRelic=='war_paint' then
+                    change={relicId=sourceRelic,uid=card.uid,cardId=card.cardId,
+                        before={upgraded=card.upgraded==true,upgrades=card.upgrades or (card.upgraded and 1 or 0)}}
+                end
                 card.upgrades=(card.upgrades or (card.upgraded and 1 or 0))+1
-                card.upgraded=true;return true
+                card.upgraded=true
+                if change then
+                    change.after={upgraded=true,upgrades=card.upgrades}
+                    card.lastRelicUpgrade=change
+                    receipt.upgrades[#receipt.upgrades+1]=change
+                end
+                return true
             end})
         if equipped==false then return false,equipReason end
     publishCombatRelic(staged, definition)

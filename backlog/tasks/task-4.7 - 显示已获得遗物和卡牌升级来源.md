@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-28 14:39'
-updated_date: '2026-10-29 14:48'
+updated_date: '2026-10-31 15:21'
 labels: []
 milestone: m-4
 dependencies: []
@@ -16,6 +16,7 @@ references:
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - docs/backlog-details/MOBILE-QA-20261029.md
   - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
+  - docs/reviews/M3-BACKLOG-CLOSEOUT-20261031.md
 parent_task_id: TASK-4
 priority: medium
 ordinal: 123000
@@ -42,6 +43,8 @@ ordinal: 123000
 
 <!-- SECTION:PLAN:BEGIN -->
 PR336收口：合入最新develop；保留完整历史见证守卫；将已复现30秒超时的20条结果手势回归分为四个独立5例脚本，保持原断言、输入与单脚本时限，验证遗物面板和历史逆向组合。
+
+2026-10-31 独立小切片：为真实取得战纹涂料/磨刀石的永久升级保留来源遗物、实际卡牌UID与升级前后状态，并在现有领取反馈显示真实中文牌名。先红例后最小实现，覆盖零/一/两张候选、重复取得及失败回滚不产生旧收据，保持既有miscRng消费、随机选择、永久/临时升级区别。不新建弹窗或存储后端；其他来源、库存完整展示及同候选设备验收保持未完成。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -58,4 +61,6 @@ PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160�
 2026-10-29 IMG_1166是已持有遗物纯文本而非完全无入口；IMG_1183有HUD被遮挡残边，1192地图缺库存入口。新增验收复用原生图标+名称+短效果/实际次数的可滚动持有列表，顶栏避让由TASK38协同。旧升级来源调查仍未获用户该局证据，不关闭。
 
 PR336收口复审：原CI40871514608仅game_ui_result_gestures.lua在30秒超时，303项JS通过；合入899f02d4后本地仍超时。原20例完整源LF SHA256 b5bf2969f4bf854251f15c2402cad8a1dac207d9479f945e310ebee5fd4b4adf冻结，四片各5例全部通过（7134/7642/6391/8436ms），时限不变。遗物面板与外层见证专项12/12通过；架构259模块1445边通过，质量3987测量通过，Lua静态无新增诊断，四项变异均被断言杀死。未做新候选实机/UI验收，AC保持未勾。
+
+2026-10-31 M3独立小切片已实现：真实取得战纹涂料/磨刀石生成有界取得收据，保留实际UID、遗物来源及前后永久升级状态；现有节点及战斗奖励反馈显示真实中文牌名，不串旧收据。原生产红例、修后核心8/永久事务13/两条真实UI入口通过；组合重建后核心8和两条入口通过。标准包装EPERM、完整npm test未通过、Luacheck缺失保留；独审和精确头托管CI待验。其他升级来源、完整库存展示及同候选设备验收仍未完成，不勾广义AC。见技术附件。
 <!-- SECTION:NOTES:END -->
