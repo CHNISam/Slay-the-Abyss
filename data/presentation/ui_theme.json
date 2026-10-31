@@ -1109,17 +1109,29 @@
     },
     "pileBadge": {
       "note": "抽/弃牌堆：图标 + 角标数字 + 文字说明，数字用深底金字保证对比度。",
-      "disc": 32,
+      "disc": 28,
       "offset": [
         24,
-        22
+        -22
       ],
       "label": [
         0,
-        -34,
+        -46,
         88,
         22
       ]
+    },
+    "pileVisual": {
+      "note": "Combat80：抽/弃牌堆复用地图卡组圆盘（TASK-4.13）：金属圆盘+扇叠卡背+官方图标，数字为圆盘下角小圆片。",
+      "rimWidth": 3,
+      "rim": "#C9A86E",
+      "face": "#2A1F1A",
+      "card": [22, 30],
+      "cardEdge": "#8E7448",
+      "cardEdgeBright": "#E9C77B",
+      "cardFace": "#3A2A20",
+      "glyph": 16,
+      "glyphInk": "#F3ECDD"
     },
     "card": {
       "size": [
@@ -1260,15 +1272,15 @@
     "drawPile": {
       "position": [-568, -300],
       "size": [
-        56,
-        48
+        64,
+        64
       ]
     },
     "discardPile": {
       "position": [568, -300],
       "size": [
-        56,
-        48
+        64,
+        64
       ]
     },
     "endTurn": {
@@ -1292,10 +1304,10 @@
         3.3333333333333335
       ],
       "numberSize": 18.0,
-      "rimColour": "#C9964E",
-      "innerColour": "#1A110C",
-      "faceColour": "#5E3C22",
-      "textColour": "#F7EBD6"
+      "rimColour": "#E8BE6A",
+      "innerColour": "#2A140A",
+      "faceColour": "#9A5A26",
+      "textColour": "#FFF6E0"
     },
     "player": {
       "position": [
@@ -1328,8 +1340,8 @@
     },
     "hpBar": {
       "size": [
-        106.66666666666667,
-        12.0
+        120,
+        14
       ]
     },
     "blockBadge": {

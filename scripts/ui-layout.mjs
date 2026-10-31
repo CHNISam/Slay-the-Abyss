@@ -200,11 +200,21 @@ export function battleLayout() {
     const turn = l.endTurn;
     if (right > turn.position[0] - turn.size[0] / 2 && left < turn.position[0] + turn.size[0] / 2)
       top = Math.min(top, turn.position[1] - turn.size[1] / 2 - turn.touchGap);
+    // Combat80 HUD (reuse of the map/deck disc from TASK-4.13): STS pile = metal disc with a
+    // fanned stack of card backs; the official glyph rides on the front card, count pip on the rim.
+    const pv = l.pileVisual, d = l.drawPile.size[0], [cw, ch] = pv.card;
+    const back = (n, bx_, by_, rot, border, fill) => ({ name: n, kind: 'container', position: [bx_ * side, by_], size: [cw, ch], rotation: rot * side, children: [
+      panel('border', 0, 0, cw, ch, border), panel('plate', 0, 0, cw - s.border * 2, ch - s.border * 2, fill)] });
+    const entry = clickableImage(picture(`${name}Icon`, x, py, d, d, im.disc, pv.rim),
+      { ...hit(right - left, top - bottom), position: [(left + right) / 2 - x, (bottom + top) / 2 - py] });
+    entry.children.splice(1, 0,
+      picture('face', 0, 0, d - pv.rimWidth * 2, d - pv.rimWidth * 2, im.disc, pv.face),
+      back('back2', -7, 2, 16, pv.cardEdge, c.cardWell), back('back1', -3, 1, 7, pv.cardEdge, c.panelSunken),
+      back('front', 2, 0, -4, pv.cardEdgeBright, pv.cardFace),
+      picture('glyph', 2 * side, 0, pv.glyph, pv.glyph, icon, pv.glyphInk));
     return [
-      clickableImage(picture(`${name}Icon`, x, py, ...l.drawPile.size, icon, c.textDim),
-        { ...hit(right - left, top - bottom), position: [(left + right) / 2 - x, (bottom + top) / 2 - py] },
-      ),
-      picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, c.goldDim),
+      entry,
+      picture(`${name}BadgeRing`, bx, by, b.disc, b.disc, im.disc, l.pileVisual.rim),
       picture(`${name}Badge`, bx, by, b.disc - s.border * 2, b.disc - s.border * 2, im.disc, c.panelSunken),
       text(name, bx, by, b.disc, l.nativeText.lineHeight, '', f.label, c.goldBright),
       text(`${name}Label`, x + b.label[0], py + b.label[1], b.label[2], b.label[3], caption, f.small, c.textDim),
