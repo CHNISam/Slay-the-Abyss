@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 16:11'
-updated_date: '2026-10-31 17:22'
+updated_date: '2026-10-31 18:53'
 due_date: '2026-10-28'
 labels:
   - p0
@@ -114,4 +114,6 @@ PR334离线CI收口：失败源为launch-content未纳入完整来源外层，�
 2026-10-31 M3最终事实核对：AC4：m3-full-pool-completion四分片在combined-acceptance.log通过，第一幕24/第二幕31路径共42身份，完整比赛源池实际抽取、资格、源顺序、精准移除与eventRNG+1；Note按已批准移TASK53，无能力过滤/缩池/重抽。AC7：已有12独占出口缺映射/资格/准备失败全引用及RNG回滚，恢复同流可完成；新增55正常公开完成链，未以拒绝代替可玩。#3全部合法选项代价/结果尚须逐项收齐；#5正式平台配对/转化原生选牌事务、#6自然遇齐合法事件及空组/资格/重复设备证据、#8用户原次seed不可恢复且两幕同类官方公开玩法软锁复验仍缺。
 
 2026-10-31 事件证据差集审计见docs/reviews/M3-EVENT-OPTIONS-AUDIT-20261031.md：保留原25目录及批准延期Note，现有资格阈值/空组/回滚与公开路径逐项区分；新增Designer公开全服务矩阵属于第二幕合证，不冒充第一幕全选项/自然/官方证据。
+
+2026-10-31 LivingWall forget/change/grow通过公开Nodes两阶段与合法UID，空/瓶装/不可升级/错阶段/迟到命令全状态原子拒绝已覆盖。正常原seed17失败保留，修后真实续玩记录单独源码ca838，不当同候选官方证据；广义全事件/平台AC不因此勾。
 <!-- SECTION:NOTES:END -->

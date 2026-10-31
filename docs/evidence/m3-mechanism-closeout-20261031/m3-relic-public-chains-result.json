@@ -1,0 +1,60 @@
+{
+  "commit": "e2db06583d1ea4abdf62f68435498a36f4a96ed3",
+  "baseCommit": "ca838ef",
+  "worktree": "/workspace/m3-relic-public-chains",
+  "changeKind": "TEST_ADDED existing production mechanisms; first-run GREEN; no claimed production RED/fix",
+  "productionChanges": false,
+  "command": "node --test --test-concurrency=1 tests/m3-relic-public-chains.test.mjs",
+  "result": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 12612.908741,
+    "perFixtureMs": [
+      7572.015711,
+      3116.338134,
+      1697.090777
+    ],
+    "perFixtureBudgetMs": 30000
+  },
+  "checks": [
+    "fixed4 upstreamJava fetched at original pinned commit and SHA256/Gitblob recorded",
+    "node --check wrapper pass",
+    "git diff --check base..HEAD pass",
+    "src/scripts/data/config diff empty",
+    "clean own worktree; frozen root/remote/Backlog untouched"
+  ],
+  "limitations": [
+    "controlled legal deck/HP/node-type/block inputs, not natural encounter/acquisition",
+    "no full suite or CI rerun; independent review pending",
+    "Brimstone asserts actual final queued strengths, not complete event ordering across all enemies",
+    "no official/native/device validation"
+  ],
+  "files": [
+    {
+      "path": "docs/reviews/M3-RELIC-PUBLIC-CHAINS-20261031.md",
+      "sha256": "20d6feff20ed4dff56b5f2c7118c97025c98c882adf10fa3c9f0793957918b55"
+    },
+    {
+      "path": "tests/fixtures/m3-relic-public-source-lock.json",
+      "sha256": "bd16e5136d177c578c93c3afd902f60fdba7fb4559a9da10c11ac18e7802d96b"
+    },
+    {
+      "path": "tests/lua/m3_relic_public_brimstone.lua",
+      "sha256": "5b70dc07fa5a51eca7d3f3fa7172e222b335f133fb5a24344927bf497fe800cf"
+    },
+    {
+      "path": "tests/lua/m3_relic_public_camp_skills.lua",
+      "sha256": "b7bf8a16c9a8c869337406a8f4254de5931c9bb8054ae724236d5e21bdfdc9e3"
+    },
+    {
+      "path": "tests/lua/m3_relic_public_hand_drill.lua",
+      "sha256": "3487b9c50e21ec1ac09b67d4c80bbd8979854779c0dc854e550478fe45062545"
+    },
+    {
+      "path": "tests/m3-relic-public-chains.test.mjs",
+      "sha256": "5a817af2831c5a81f76a94892846dd489535b1e904f80f1b1cdb011bdc3f04c8"
+    }
+  ]
+}

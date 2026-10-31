@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 17:22'
+updated_date: '2026-10-31 18:53'
 due_date: '2026-10-28'
 labels:
   - required
@@ -270,4 +270,6 @@ PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确
 2026-10-31 M3最终事实核对：AC6：combined-acceptance.log标准27/27包含33瓶真实起始牌战后领取/跨房间使用六片和33商店购买六片；独立固定oracle与连续流/拒绝不重抽共同证明来源与概率未靠门禁放行。AC10：m3-combined-review.json独立复验两套宝箱UI8组及Boss7组，单项/全不可领/其他项领取后提示正确，完整Run/Map拒绝快照不变。新增勾选仅此两条。仍缺#5逐件剩余效果全属性核对、#7全池跨域组合证明、#8同候选逐件自然使用平台证据、#9普通/Boss自然获取与实机；130定义或153运行定义不能当逐件效果/自然全通过。
 
 2026-10-31 扩展离线合证：独立cardRandom源oracle覆盖Spoon/DeadBranch/MummifiedHand/Discovery/Elixir/Snecko同流连续消费与身份，5seed及精确少消费变异标准7/7通过；原完整33药水链和普通来源保留。见docs/reviews/M3-CARD-RANDOM-CONSUMER-CHAIN-20261031.md。不是全153遗物所有效果矩阵，广义AC5/7及自然/设备仍不勾。
+
+2026-10-31 后续逐ID索引精确153遗物/33药水，并区分实际断言、公共链、独立预期与自然/设备。补Feather/LetterOpener/HandDrill/Brimstone真实公共链、Colorless原版独立source两瓶14次消费与Bark/溢出，Snecko4seed完整费用/RNG与Insect57边界；Insect合法大HP遗漏int→float32已真实RED最小修复。组合标准54/54与完整工程门禁通过，作者外各片独审通过，完整新HEAD CI待验。静态索引不是测试结果；AC5/7需逐字段/组合合证，不以153均有一断言自动全勾，AC8/9自然/平台未验。见docs/evidence/m3-mechanism-closeout-20261031/。
 <!-- SECTION:NOTES:END -->

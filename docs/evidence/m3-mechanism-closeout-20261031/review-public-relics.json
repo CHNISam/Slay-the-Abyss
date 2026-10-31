@@ -1,0 +1,29 @@
+{
+  "verdict": "approved",
+  "findings": [],
+  "scope": "Independent narrow source/expectation/public-entry/negative review; no full suite or long campaign driver.",
+  "sourceModifiedByReviewer": false,
+  "limitations": [
+    "Controlled offline public API evidence is not natural acquisition/play evidence.",
+    "No official import, current-candidate ready, PC or physical-phone acceptance.",
+    "Final integrated head/base and required CI must be reviewed separately."
+  ],
+  "reviewedCommit": "e2db06583d1ea4abdf62f68435498a36f4a96ed3",
+  "worktree": "/workspace/m3-relic-public-chains",
+  "evidence": [
+    "Read all six added files; no production, runner or threshold changes.",
+    "Read four cached fixed Java sources and independently SHA256-verified them against new source lock.",
+    "Literal independent amounts match original entry heal, third-skill AoE, queued post-hit Vulnerable and opening/subsequent strength methods.",
+    "Real Run/Nodes command chains; controlled deck/HP/block/map inputs explicitly disclosed.",
+    "Meaningful controls include no relic, zero/unbroken block, repeated entry/rest, Bloom, partial turn reset and actual reward/new-combat path.",
+    "TEST_ADDED accurately distinguishes coverage from a production RED."
+  ],
+  "verification": {
+    "command": "node --test --test-concurrency=1 tests/m3-relic-public-chains.test.mjs",
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 10996.487907,
+    "defaultLuaTimeoutMs": 30000
+  }
+}

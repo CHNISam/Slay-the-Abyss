@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 17:22'
+updated_date: '2026-10-31 18:53'
 due_date: '2026-10-28'
 labels:
   - required
@@ -131,4 +131,6 @@ ordinal: 43000
 2026-10-31 M3最终事实核对：combined-acceptance.log27/27：seed0/42/-1的Courier→奖励→Entropic→逃离→商店→精英连续potion流以及丢提交负变异通过；未改规则、池或预算。#5仍需完整职业/遗物/药水逐项新增与跨域数值顺序覆盖矩阵，#6仍需所有来源流完整消费链及对应实际游戏记录，不能用单条potion流代替全部随机源。
 
 2026-10-31 补共享cardRandomRng独立连续组合：每次bound/value/双words/counter、完整70/28池顺序、拒绝全状态原子及无关流守恒，标准7/7；真实Git CRLF clone另1/1证明认证字节固定LF，原公式/预期/hash未改。逐AC剩余来源见docs/reviews/M3-CARD-RANDOM-CONSUMER-CHAIN-20261031.md，不能据此称全部消费流或全效果完成。
+
+2026-10-31 完整16类随机owner消费者索引按独立精确向量/仅counter/生产clone/未核分列；补Colorless跨两瓶完整34非HEALING候选与unused retrieval、Snecko真实抽牌、Sword逐击活目标/击杀重选/清场停耗独立XS128。不存在统一完整ledger的部分保持未验，不以新子集勾AC5/6。组合54项通过、旧source/golden/30s不改；见m3-mechanism-closeout证据。
 <!-- SECTION:NOTES:END -->

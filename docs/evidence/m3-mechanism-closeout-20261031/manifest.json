@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "scope": "Source-identified test/audit evidence; static indexes are not dynamic or native pass claims",
+  "files": {
+    "README.md": {
+      "sha256": "fdbe0acc5945dcd686a797518d8960b6df17ee624081b1c36855ce60ba2b57bf",
+      "bytes": 4386
+    },
+    "aux-combined-focused.log.gz": {
+      "sha256": "48dce0b7021a0786074e95f2a0e23c7dadc085521492a316bbbc97df389f933c",
+      "bytes": 1350
+    },
+    "aux-engineering.log.gz": {
+      "sha256": "c3e1b6897f3b54b5e5edb13cde36f020f3523c6d1ffadfa92ff8ee198a72f7c6",
+      "bytes": 797
+    },
+    "indexes/card-75/matrix.json.gz": {
+      "sha256": "2daa70ee8935f34648cd328f96989dbb919d230d3b109da023213c0816d64d20",
+      "bytes": 109363
+    },
+    "indexes/card-75/report.md": {
+      "sha256": "8429a93a6b2401cde5c287155ec3b1feb14082524093c50928b1181eb1f89c1c",
+      "bytes": 15720
+    },
+    "indexes/card-75/report.md.raw.gz": {
+      "sha256": "9bf6aa9b67fa2a59256daa35b239319ac51b50e55b6c08c8d7baac2f6e1644af",
+      "bytes": 6324
+    },
+    "indexes/potion-rng/matrix.json.gz": {
+      "sha256": "c3cab33725101ebd998b7a89f554b9a46e3bd05ac733571b92ec43a2643ac90b",
+      "bytes": 39392
+    },
+    "indexes/potion-rng/report.md": {
+      "sha256": "60d4da59e90f906bbf370ab979b525f37711b71c56911dc1a25d9c85ba17387a",
+      "bytes": 13320
+    },
+    "indexes/potion-rng/report.md.raw.gz": {
+      "sha256": "ce631dc41958421dcbe73535f37217b790399ef23925aa6aa2614bb1bd9b22dc",
+      "bytes": 6406
+    },
+    "indexes/relic-153/matrix.json.gz": {
+      "sha256": "cce024687e94225f583c54ec3917d4a05e5e14531220ebd65bc2120e3e1ff46d",
+      "bytes": 275209
+    },
+    "indexes/relic-153/report.md": {
+      "sha256": "e76df3566ccfdf93c8e39eb0532a2079ff72b216f3c2cd338699188b2e751482",
+      "bytes": 40386
+    },
+    "indexes/relic-153/report.md.raw.gz": {
+      "sha256": "f2d2c4e78ddd6bfb5f0aba9ff8e47d8379fc32d1bbf5d68d1408f6b4284da689",
+      "bytes": 12468
+    },
+    "m3-insect-history-followup.json": {
+      "sha256": "dfb6f12e5db20adb93d91e1875bbd00bb43008c007d5dc925211e98f0ee03872",
+      "bytes": 2336
+    },
+    "m3-relic-public-chains-result.json": {
+      "sha256": "c84372cb018c9a38d4eb43be90cd84b6cda38f7fca619f7e4f58aafbd05b6937",
+      "bytes": 2154
+    },
+    "m3-snecko-insect-followup.json": {
+      "sha256": "3f9efed28346f88704ab90ab4e4d1a6c8c1dc7817b87d7335aee3c1f90bfeba4",
+      "bytes": 3032
+    },
+    "m3-sword-random-report.json": {
+      "sha256": "1e62db2212cb5a760a966e70eaa5c5c9f80e4fca25be9217a03de66cc023b1e2",
+      "bytes": 5324
+    },
+    "main-integration/exact-main-review.json.gz": {
+      "sha256": "409e685903ab6ce91430edaf635ed456ec7a7bf2ddd3667d8baac0ab8f08f63b",
+      "bytes": 6765
+    },
+    "main-integration/final-ci-result.json.gz": {
+      "sha256": "983edf83dbc0d593a6b6cacdfb7e0b2ef23314a704a56790faeba0bc940d32f1",
+      "bytes": 1175
+    },
+    "main-integration/merged-ci-result.json.gz": {
+      "sha256": "629b2e01ce2bd962504591e04d98c38881c4f9896e06fc766bfeab2fcea8bfc3",
+      "bytes": 1305
+    },
+    "main-integration/pr436-merge-verified.json.gz": {
+      "sha256": "e08ca8c7d11d4aa570994c1fbd54df0be274ea1da820c33d374f182246254552",
+      "bytes": 294735
+    },
+    "main-integration/pr436-merged-passed.json.gz": {
+      "sha256": "103f853287580e551e79d8b9556d958d29a75914cdd62a04648068f032e748ee",
+      "bytes": 607522
+    },
+    "main-integration/pr436-preflight.json.gz": {
+      "sha256": "15ef12673870c44648a3152e06a65d5d3599c70be533d27feb8fbafeb7209a8d",
+      "bytes": 302495
+    },
+    "normal-runs/c3d2654/campaign-run.log.gz": {
+      "sha256": "2e10e7473e62b2b208245358b967600d25da3c49374443e8f146f18abd1c2968",
+      "bytes": 253
+    },
+    "normal-runs/c3d2654/coverage-run.log.gz": {
+      "sha256": "9bb8c87db178a9f555ef74b21f5de51abca236e193fced4d3083599f8c2109dc",
+      "bytes": 53
+    },
+    "normal-runs/c3d2654/current-artifacts-sha256.json": {
+      "sha256": "611e2462aa3539bee65a00a92ec0e8bd0b3087ebb47ebd7f702fc174a04ef7af",
+      "bytes": 730
+    },
+    "normal-runs/c3d2654/current-cohort/card-coverage.json": {
+      "sha256": "2a281494ebe22643c345e1439f6342e4aeebe81793f97ff4d8ea1d336f65c69f",
+      "bytes": 68082
+    },
+    "normal-runs/c3d2654/current-cohort/seed-1.json.gz": {
+      "sha256": "41d5d4d08ca4d2eb5a04af8c66208d7776a192df3e7b4736ae8c3c19fd79f311",
+      "bytes": 10436
+    },
+    "normal-runs/c3d2654/current-cohort/seed-17.json.gz": {
+      "sha256": "a191738ae222645b82b1dab3671b5914b139b066d6f81e3f54a18d0201e72f3a",
+      "bytes": 3268
+    },
+    "normal-runs/c3d2654/current-cohort/seed-505.json.gz": {
+      "sha256": "51bf0e78592ed85df8153f21959f3baed689507162c6310a27b89e01fdb7d06e",
+      "bytes": 15101
+    },
+    "normal-runs/c3d2654/current-cohort/seed-75.json.gz": {
+      "sha256": "479a12d983f558108b5551dba3cccfceaadc26fd28ebba620161d8a9d623f860",
+      "bytes": 10725
+    },
+    "normal-runs/c3d2654/current-cohort/seed-99.json.gz": {
+      "sha256": "9266f629a400c8673381e3874ab900585028a4464c896c74926538f86168eba1",
+      "bytes": 12424
+    },
+    "normal-runs/c3d2654/current-cohort/summary.json": {
+      "sha256": "ba43231130399427f756b87e5eb732909068196c830286b0ca1c123bbad45823",
+      "bytes": 1795
+    },
+    "normal-runs/c3d2654/report.json": {
+      "sha256": "9b286f6552b7e6a584b1145aea604ad18350834b23d9dc30d2078d3f15b8e9cd",
+      "bytes": 8523
+    },
+    "normal-runs/c3d2654/report.md": {
+      "sha256": "98fe6676289dfa2610a9bf47e8bf78520e2bebd3d022d3e01a87ad9f12e2a919",
+      "bytes": 1774
+    },
+    "normal-runs/c3d2654/report.md.raw.gz": {
+      "sha256": "586651b10afe9fa5c194f1ac41d2c4c4d0aee0301dc59035219d789581c33190",
+      "bytes": 1246
+    },
+    "normal-runs/c3d2654/source-identity.json": {
+      "sha256": "bbc41631abd2afac1d51213b5efeeafc21f1b57623fc2259b5360e27f8244714",
+      "bytes": 1029
+    },
+    "normal-runs/ca838ef/campaign-run.log.gz": {
+      "sha256": "b02350609dc293c65325b68c3b11452ff1dab1aec9b02a14693a03432978d669",
+      "bytes": 130
+    },
+    "normal-runs/ca838ef/coverage-run.log.gz": {
+      "sha256": "6dd4a7fc646345c09de46b20c776d7150cc966cbf3fc4c1daa5ce55bcad9041b",
+      "bytes": 51
+    },
+    "normal-runs/ca838ef/current-artifacts-sha256.json": {
+      "sha256": "824134ab564dce6aacb5df4571eff381e0146a7a9862163c4b15c3d6ed24ed8e",
+      "bytes": 314
+    },
+    "normal-runs/ca838ef/current-cohort/card-coverage.json": {
+      "sha256": "d174ff1d4dfdd7e8d6fcd38ec463009fe264ba1dcd86edb5167b8fbb535c2afe",
+      "bytes": 21422
+    },
+    "normal-runs/ca838ef/current-cohort/seed-17.json.gz": {
+      "sha256": "a7c5685f6e7409672cbcb62b08affd1a81a26fcd7a174350bb1d887ab2e28e9b",
+      "bytes": 10975
+    },
+    "normal-runs/ca838ef/current-cohort/summary.json": {
+      "sha256": "de6ee0499d4580f809e91dd80c14a9f2ccdbf935d4e8bd85ec8532195874bc77",
+      "bytes": 922
+    },
+    "normal-runs/ca838ef/report.json": {
+      "sha256": "aedd90099a80fb8ce59f1bd5679087d12c4ea6adcdc102233da10e7aaacb8922",
+      "bytes": 27264
+    },
+    "normal-runs/ca838ef/report.md": {
+      "sha256": "c8533b6a30abac9549096078b88c4506d5dc59844574f8177a01df1dc9b57a3a",
+      "bytes": 1478
+    },
+    "normal-runs/ca838ef/report.md.raw.gz": {
+      "sha256": "bae722e508e8316a9e20cdd0e0cad662c0ee91022e9e5032c27cbb63b022c79a",
+      "bytes": 1105
+    },
+    "normal-runs/ca838ef/source-identity.json": {
+      "sha256": "ff85b3f3b4be889d8363c14b6aa2c5d310c6bb3ca67746682c7bd411b1aa7290",
+      "bytes": 970
+    },
+    "review-colorless.json": {
+      "sha256": "a933076edd4820781e952fa5b43937668c2eadd7cc8529f4813fd1233eda262d",
+      "bytes": 2188
+    },
+    "review-driver.json": {
+      "sha256": "7976672a94910a6592493369bfa3495524bff1443b4a1c66278315b7eef7ff3b",
+      "bytes": 1216
+    },
+    "review-public-relics.json": {
+      "sha256": "c31b73e598f76a938545ddb06b166bdf100a32d721a9f3457e0699786c2e4db3",
+      "bytes": 1495
+    },
+    "review-snecko-insect.json": {
+      "sha256": "757a39dfd0fec4379fa67a430bf97e6f37e69c61a590c199ad8f5da451453b73",
+      "bytes": 3643
+    },
+    "review-sword.json": {
+      "sha256": "ca7175f2e70603f77477b30d9f0d54b6f715ecee3c98edce1f9bb876644e4656",
+      "bytes": 3545
+    }
+  }
+}

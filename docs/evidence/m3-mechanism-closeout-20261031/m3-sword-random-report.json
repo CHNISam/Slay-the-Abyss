@@ -1,0 +1,105 @@
+{
+  "kind": "M3_SWORD_RANDOM_SOURCE_ORACLE",
+  "capability": "TEST_ADDED",
+  "status": "PASS",
+  "branch": "feat/m3-sword-random-oracle",
+  "worktree": "/workspace/m3-sword-random-oracle",
+  "base": "ca838ef6f36fedc1ed55a8eeeaafe9370149cb0d",
+  "commit": "66834507de8f902633b441081950cf38a2a0ae05",
+  "productionModified": false,
+  "original150And49Modified": false,
+  "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+  "originalAction": "AttackDamageRandomEnemyAction (DamageRandomEnemyAction separately inspected; not substituted)",
+  "sourceReceipts": "/workspace/m3-sword-random-oracle/tests/fixtures/sts1-sword-random-sources.json",
+  "sourceFileCount": 10,
+  "cases": 24,
+  "caseIdUnique": 24,
+  "independentPerHitVectors": 68,
+  "seeds": [
+    "0",
+    "1",
+    "42",
+    "-1"
+  ],
+  "modes": [
+    "base 3 hits",
+    "upgraded 4 hits"
+  ],
+  "scenarios": [
+    "all alive/repeated target",
+    "kill then ordered alive reselection 2/1/0 bounds",
+    "last death stops remaining hits/RNG"
+  ],
+  "verification": {
+    "command": "node --test --test-concurrency=1 tests/sword-random-oracle.test.mjs",
+    "runnerBudgetMs": 30000,
+    "tests": 29,
+    "pass": 29,
+    "fail": 0,
+    "log": "/workspace/cloud-reports/m3-sword-random-final.log",
+    "caseElapsedMsRange": [
+      3792.150459,
+      4897.305294
+    ],
+    "postClarification": "Initial pre-dead actor explicitly isDying=true; final short exact-LF and seed0/base/stop_after_last rerun 2/2 pass, 4.21s total.",
+    "postClarificationLog": "/workspace/cloud-reports/m3-sword-random-final-dead-flag.log",
+    "luaLint": "2 files / 0 warnings / 0 errors",
+    "static": [
+      "generator --check PASS",
+      "node --check PASS",
+      "git diff --check PASS"
+    ],
+    "negativeControls": [
+      "fixed first target rejected",
+      "singleton draw omission rejected",
+      "extra RNG after final death rejected"
+    ]
+  },
+  "publicPath": [
+    "Run.obtainCard creates permanent UID and requested upgrade",
+    "Run.startCombat returns real matching deckUid battle instance",
+    "Run.play settles one energy, per-hit damage, discard once, victory reward phase",
+    "stale/unknown UID atomically rejected",
+    "Host/BattleUI real drag listeners dispatch play; old release/click cannot play remapped next card; new touch remains usable"
+  ],
+  "controlledPrerequisites": [
+    "floor6 explicit elite_sentries prerequisite",
+    "hand/draw/discard HP/no powers/block and energy",
+    "UI fixture substitutes enemies/deck and restores oracle initial RNG"
+  ],
+  "boundaries": [
+    "Explicit replay encounter uses runSeed, not natural floor seed+floor; no natural room seed-lifecycle claim",
+    "No natural acquisition/use or upgraded/deckUid natural observation added",
+    "No powers/block/retaliation/revival/escape damage recalculation cross-product claim",
+    "No candidate official import/ready/PC/phone/controller evidence",
+    "Existing current c3d 75 index remains historical audited source; patch coverage is separate"
+  ],
+  "developmentRed": "No production RED. Early wrong-floor/incorrect assumed room-seed and a transient old-payload caseId logging error were test harness calibration; intermediate failing log not a gameplay defect or accepted final evidence.",
+  "schedulingFollowup": {
+    "commit": "822febf73c028bbb1f9630628bf76307066c6983",
+    "parent": "66834507de8f902633b441081950cf38a2a0ae05",
+    "reason": "unknownJsMs=10000 must not treat a 110s monolithic file as one 10s scheduling unit",
+    "change": "8 thin Node entries partition seed x base/up; 3 independently run Lua cases per entry; one shared registration helper; main retains 6 meta/UI/negative tests",
+    "exactCoverage": "main actually invokes registration helper with a collecting registrar, verifies 24 exact names and callable callbacks; eight wrappers must exactly call it; no empty helper alias can satisfy contract",
+    "preserved": [
+      "oracle generator bytes",
+      "source receipts bytes",
+      "24 cases and independent expectations",
+      "both Lua support implementations",
+      "original complete 29/29 log",
+      "30s Lua budgets",
+      "timing weights unchanged; no invented Windows measurement"
+    ],
+    "validation": {
+      "mainMetaUiNegative": "6/6 PASS, 7.75s",
+      "mainLog": "/workspace/cloud-reports/m3-sword-scheduling-main.log",
+      "initialThinEntrypoints": "All 8 files loaded by actual Node runner, 3 representative cases executed across survive/kill_reselect/stop_after_last with both base/up; remaining files had zero selected cases",
+      "initialEntrypointsLog": "/workspace/cloud-reports/m3-sword-scheduling-entries.log",
+      "finalThinEntrypoints": "All 8 final files loaded; seed0/base/survive executed; other 7 files had zero selected cases; TAP pass8 denotes file/test runner results, not 8 executed Lua cases",
+      "finalEntrypointsLog": "/workspace/cloud-reports/m3-sword-scheduling-final-entries.log",
+      "static": "node --check helper+9 entries PASS; generator --check PASS; diff --check PASS; exact LF attrs verified",
+      "notRerun": "Full24 not repeated after registration-only split; prior668 29/29 covers unchanged math/Lua/expectations."
+    },
+    "eol": "thin wrappers and helper explicitly text eol=lf to protect exact nonempty-wrapper source contract on Windows"
+  }
+}
