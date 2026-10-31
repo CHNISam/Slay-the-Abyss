@@ -1,0 +1,2 @@
+import {registerSecret} from './helpers/secret-candidate-insertion.mjs';
+registerSecret('attack',true,'small');

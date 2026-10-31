@@ -305,3 +305,7 @@ tools/oracles/sts1_potion_pool.py text eol=lf
 # Complete card identity consumers retain raw source/input hash bytes.
 tools/oracles/sts1_card_consumers.py text eol=lf
 tests/fixtures/sts1-card-consumers.json text eol=lf
+
+# Secret action oracle authenticates model and independent Stream bytes.
+tools/oracles/sts1_secret_candidate_insertion.py text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf

@@ -273,6 +273,14 @@ local function eligible(state,kind,cardType)
     for _,c in ipairs(pile)do if not cardType or state.catalog.cards[c.cardId].type==cardType then result[#result+1]=c.uid end end
     return result
 end
+local function secretOrder(state,uids)
+    local ordered={}
+    for _,uid in ipairs(uids)do
+        if #ordered==0 then ordered[1]=uid
+        else table.insert(ordered,Random.randomInt(state.cardRandomRng,#ordered-1)+1,uid)end
+    end
+    return ordered
+end
 local function applySelected(combat,state,item,uid)
     local kind=item.effect.kind
     if kind=='secret'then actions().toHand(state,assert(remove(state.draw,uid),'stale secret choice'))
@@ -287,6 +295,9 @@ end
 local function select(combat,state,item)
     local effect=item.effect;local uids=eligible(state,effect.kind,effect.cardType)
     if #uids==0 then return end
+    -- Source CardGroup.addToRandomSpot runs once when the action opens, never
+    -- while validating the cached choice or redrawing its view.
+    if effect.kind=='secret'then uids=secretOrder(state,uids)end
     local multiple=effect.kind=='purity'or effect.kind=='forethought'and effect.value==1
     if #uids==1 and not multiple then return applySelected(combat,state,item,uids[1])end
     state.choiceSerial=(state.choiceSerial or 0)+1
