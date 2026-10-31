@@ -74,8 +74,16 @@ test('shop inventory admission and shared counter use actual five-slot capacity'
  for i=1,#path-1 do assert(Map.choose(h.map,path[i]))end
  assert(Nodes.enter(h.run,h.map,path[#path]));h.run.gold=1000;h:refresh();counter(r,4,5)
  local offer;for _,v in ipairs(h.run.nodeFlow.potions)do if not v.unavailable then offer=v;break end end;assert(offer)
- local gold=h.run.gold;assert(r:GetChild('nodePanel'):GetChild('shopView'):GetChild('potion'..offer.slot):GetChild('hit').click())
- eq(h.run.potions[5],offer.id);eq(h.run.gold,gold-offer.price);counter(r,5,5)
+ local gold=h.run.gold
+ local tile=r:GetChild('nodePanel'):GetChild('shopView'):GetChild('potion'..offer.slot):GetChild('hit')
+ assert(tile.click());eq(h.run.potions[5],nil);eq(h.run.gold,gold);assert(not offer.sold);counter(r,4,5)
+ local cancelled=h.nodeUI.actions.confirm.handler
+ assert(r:GetChild('nodePanel'):GetChild('back'):GetChild('hit').click());eq(cancelled(),false)
+ eq(h.run.potions[5],nil);eq(h.run.gold,gold);assert(not offer.sold);counter(r,4,5)
+ assert(tile.click());local committed=h.nodeUI.actions.confirm.handler
+ assert(r:GetChild('nodePanel'):GetChild('confirm'):GetChild('hit').click())
+ eq(h.run.potions[5],offer.id);eq(h.run.gold,gold-offer.price);assert(h.run.nodeFlow.potions[offer.slot].sold);counter(r,5,5)
+ eq(committed(),false);eq(tile.click(),false);eq(h.run.gold,gold-offer.price);eq(h.run.potions[5],offer.id);counter(r,5,5)
  local nextOffer;for _,v in ipairs(h.run.nodeFlow.potions)do if not v.unavailable and not v.sold then nextOffer=v;break end end;assert(nextOffer)
  local before=C.copy(h.run);local ok,why=Nodes.buyPotion(h.run,nextOffer.slot);eq(ok,false);eq(why,'potion_slots_full');same(h.run,before)
 end)

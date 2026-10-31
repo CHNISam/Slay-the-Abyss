@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-29 00:13'
+updated_date: '2026-10-31 17:22'
 due_date: '2026-10-28'
 labels:
   - required
@@ -23,6 +23,8 @@ references:
   - docs/backlog-details/BACKLOG-UPDATE-20261027.md
   - docs/M3-STATUS-20261028.md
   - docs/backlog-details/MOBILE-QA-20261028.md
+  - docs/reviews/M3-RULES-CONSUMER-CHAIN-20261031.md
+  - docs/evidence/m3-completion-20261031/
 parent_task_id: TASK-16
 priority: high
 type: enhancement
@@ -57,6 +59,8 @@ ordinal: 43000
 2026-10-27执行中重新同步develop b164fda：复用已合入PR245致命损血/Fairy前Power和遗物回调修复，保留PR238 Masterful Stab真实损血成本通知；按新31组源预期及独立死亡队列11组组合验证，不重写或忽略在途修复。
 
 2026-10-28 独立回滚切片：在当前 develop 的四类续选入口补齐整局事务边界。先复现后续结算拒绝或异常时的状态残留，再复用已有快照与恢复机制；验证原对象、随机流、道具槽位、重试及旧请求失效。保持原规则、同局状态和测试预算，不修改持久存档或并行 UI 分支。
+
+2026-10-31 M3整批收口：对照完整效果与随机消费账本复核新增消费者组合，保留全来源和实玩差集。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -123,4 +127,8 @@ ordinal: 43000
 本轮局部验证已收口：原五份续选夹具加第一/第二幕 competition-two-act 真实房间奖励准备的两个受控异常用例，共12组通过；最初原五份夹具及新增两幕用例均在7a87de3a原生产源码实际重现失败。最终相关JS 16项、额外11份Lua回归、语法、Backlog和完整本地engineering检查均通过，原30秒夹具预算及已有断言不变。Node v24.22.1、Fengari CLI 0.1.0、固定Luacheck 1.2.0；复用既有缓存依赖。这里只证明同局事务与受控组件：没有持久存档、自然通关、新候选、导入、实机或当前完整Quality证据，AC5/6与整体In Progress保持不变。
 
 2026-10-29 范围与手机诊断承接：附件的High分工属于7a87de3诊断时快照，不覆盖本任务当前High或较新的PR303同局事务/回滚证据。全量规则与随机消费验收不因任务首页精简而降低；比赛仅岩系旅行者及现有冻结V4雷电两幕，其他职业研发证据保留但不恢复旧比赛门禁。
+
+2026-10-31 M3最终事实核对：combined-acceptance.log27/27：seed0/42/-1的Courier→奖励→Entropic→逃离→商店→精英连续potion流以及丢提交负变异通过；未改规则、池或预算。#5仍需完整职业/遗物/药水逐项新增与跨域数值顺序覆盖矩阵，#6仍需所有来源流完整消费链及对应实际游戏记录，不能用单条potion流代替全部随机源。
+
+2026-10-31 补共享cardRandomRng独立连续组合：每次bound/value/双words/counter、完整70/28池顺序、拒绝全状态原子及无关流守恒，标准7/7；真实Git CRLF clone另1/1证明认证字节固定LF，原公式/预期/hash未改。逐AC剩余来源见docs/reviews/M3-CARD-RANDOM-CONSUMER-CHAIN-20261031.md，不能据此称全部消费流或全效果完成。
 <!-- SECTION:NOTES:END -->

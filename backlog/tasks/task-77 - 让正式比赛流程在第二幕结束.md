@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 08:20'
-updated_date: '2026-10-30 14:17'
+updated_date: '2026-10-31 17:02'
 labels: []
 milestone: m-4
 dependencies: []
@@ -13,6 +13,8 @@ references:
   - docs/SCOPE.md
   - src/lua/abyss_ui.lua
   - src/lua/abyss_run.lua
+  - docs/evidence/m3-normal-campaign-20261031/summary.json
+  - docs/evidence/m3-completion-20261031/
 priority: high
 type: feature
 ordinal: 1
@@ -32,6 +34,12 @@ ordinal: 1
 - [x] #4 第二幕Boss后宝箱领取与跳过都合法结束于同一双幕终点；正式UI不显示后续幕、三钥匙或真结局可用提示，本局结果层数及文案与双幕一致。
 <!-- AC:END -->
 
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+2026-10-31 M3整批收口：复核双幕生产端点、同局资源与重复换幕边界，再补同候选官方试玩和重开。
+<!-- SECTION:PLAN:END -->
+
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
@@ -48,4 +56,6 @@ ordinal: 1
 2026-10-28后续整合：已纳入实际接受77c2d5e6及此前角色二次确认、Molten/Mushrooms、共享卡框、guide、只读地图/本局菜单；CharacterSelect.options之后仍传递比赛profile，确认前不造Run。此前完整目标批次12/12通过；77c2上的新确认后双幕OnStart与严格来源正/负例通过。source历史以完整身份和精确hunk分层，不刷新旧archive/golden；新菜单“继续游戏”只恢复同一内存Run。干净7784与组合的原始live trace同为73316/1014606304，对旧81392/1836812524门禁仍RED，作为已有基线阻塞公开保留，未冒称全部Quality或平台验收通过。当前维持In Progress、全部AC未勾；许可证证据清单问题由独立范围处理，本任务未绕过检查。
 
 2026-10-30用户反馈亲测两幕可通关，认为本任务已完成；此前受控生产接口回归覆盖正式入口、资源继承、两种Boss宝箱终点及非法换幕和回滚，见docs/reviews/TASK-77-two-act-endpoint-20261028.md。用户通关候选身份未记录，不将其写成同候选日志；AC3及最终状态暂保留，等待对应证据。
+
+2026-10-31 M3最终事实核对：保留已勾#1/#2/#4；competition_two_act生产边界7组通过，seed2正常规则离线两幕胜利到34层/669动作，本轮未改Run/HP/地图/库存/RNG。#3保留未完成：仍缺同候选官方导入/新ready、正式平台胜败重开和真实试玩日志截图；新Run构造隔离不是Host实际重开。
 <!-- SECTION:NOTES:END -->

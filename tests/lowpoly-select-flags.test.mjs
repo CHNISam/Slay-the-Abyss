@@ -53,21 +53,41 @@ test('cards flag builds the premium low-poly card fan with squashed triangles fr
  assert.ok(Number(created)>1585,'every frame + illustration row becomes a native control');
  assert.ok(Number(rot)>1000,'triangles use rotX/rotY squash');
 });
-test('pure UI palette supports approved gold chrome and explicit legacy preview reset',()=>{
+test('pure UI palette preserves rarity and dark art wells with premium highlights and explicit legacy reset',()=>{
  const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
  const code=`package.path='build/lua/?.lua;src/lua/?.lua;'..package.path
 local Skin=require('abyss_card_skin');local Theme=require('abyss_theme')
 local function node()local c={children={}};function c.GetChild(self,k)self.children[k]=self.children[k] or node();return self.children[k]end
- function c.SetVisible()end;function c.SetLocalScale()end;function c.SetSizeDelta()end;function c.SetAnchoredPosition()end;return c end
+ function c.SetVisible(self,v)self.visible=v end;function c.SetLocalScale()end;function c.SetSizeDelta()end;function c.SetAnchoredPosition()end;return c end
+local function rgb(c)return c.r..','..c.g..','..c.b end
 local platform={color=function(r,g,b)return r..','..g..','..b end}
-local def={id='x',type='attack',rarity='basic',cost=1}
-local a=node();Skin.configure(nil);Skin.apply(a,def,platform,{cost=1,baseCost=1})
-local b=node();Skin.configure('premium');Skin.apply(b,def,platform,{cost=1,baseCost=1})
-Skin.configure(nil);local c=node();Skin.apply(c,def,platform,{cost=1,baseCost=1})
-return a.children.border.imageColor..'|'..b.children.border.imageColor..'|'..c.children.border.imageColor`;
+local face=node()
+assert(rgb(Theme.cardSkin.premium.selected)~=rgb(Theme.color.goldBright),'fixture must distinguish premium and legacy highlights')
+for _,rarity in ipairs({'basic','common','uncommon','rare','curse'})do
+ local def={id='x',type='attack',rarity=rarity,cost=1}
+ local palette=Theme.cardSkin.rarities[rarity]
+ -- Recycle the same face through explicit legacy -> premium -> legacy, not fresh controls.
+ for _,mode in ipairs({'legacy','premium','legacy'})do
+  Skin.configure(mode=='premium' and mode or nil)
+  assert(Skin.premium()==(mode=='premium'),'palette mode did not reset')
+  for _,selected in ipairs({false,true,false})do
+   Skin.apply(face,def,platform,{cost=1,baseCost=1,selected=selected})
+   local edge=selected and (mode=='premium' and Theme.cardSkin.premium.selected or Theme.color.goldBright) or palette[1]
+   assert(face:GetChild('border').imageColor==rgb(edge),'border lost rarity or selection highlight')
+   assert(face:GetChild('roundFrame'):GetChild('vertical').imageColor==rgb(edge),'visible frame lost rarity or selection highlight')
+   assert(face:GetChild('nameRule').imageColor==rgb(palette[4]),'title rule lost rarity')
+   assert(face:GetChild('skin'):GetChild('band1').imageColor==rgb(palette[2]),'title band lost rarity')
+   assert(face:GetChild('costDisc').imageColor==rgb(Theme.cardSkin.roles.traveler.accent),'traveler cost chrome lost')
+   assert(face:GetChild('roleMark'):GetChild('traveler').visible,'traveler emblem lost')
+   local well=face:GetChild('skin'):GetChild('attack'):GetChild('well'):GetChild('upper').imageColor
+   local r,g,b=well:match('(%d+),(%d+),(%d+)')
+   assert(tonumber(r)<100 and tonumber(g)<100 and tonumber(b)<100,'official icon dark well lost')
+  end
+ end
+end
+return 'RARITY_PREMIUM_LEGACY_RESET_PASS'`;
  if(lauxlib.luaL_loadstring(L,to_luastring(code))!==0||lua.lua_pcall(L,0,1,0)!==0)throw Error(to_jsstring(lua.lua_tostring(L,-1)));
- const [official,gold,reset]=to_jsstring(lua.lua_tostring(L,-1)).split('|');
- assert.equal(official,'52,54,60');assert.equal(gold,'227,192,122');assert.equal(reset,official);
+ assert.equal(to_jsstring(lua.lua_tostring(L,-1)),'RARITY_PREMIUM_LEGACY_RESET_PASS');
 });
 
 test('menuBackground fills the bottom-most select/combat scene slots with the low-poly land',()=>{

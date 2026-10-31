@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 00:59'
-updated_date: '2026-10-29 06:46'
+updated_date: '2026-10-31 17:02'
 due_date: '2026-10-28'
 labels:
   - ui
@@ -31,6 +31,7 @@ references:
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - docs/backlog-details/MOBILE-QA-20261029.md
   - docs/backlog-details/MOBILE-QA-20261029-SOURCES.md
+  - docs/evidence/m3-completion-20261031/
 priority: medium
 type: enhancement
 ordinal: 36000
@@ -44,7 +45,7 @@ ordinal: 36000
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 不需要选敌人的牌，拖到战场有效空地松手就出，不用第二次点击。
+- [x] #1 不需要选敌人的牌，拖到战场有效空地松手就出，不用第二次点击。
 - [x] #2 一次拖动只出一次；费用不足或当前不能出牌时，不扣费用也不丢牌。
 - [ ] #3 电脑鼠标和手机触摸都测过，并保留点选出牌的备用方式。
 - [x] #4 记录游戏里的实际操作结果；做不到的说明原因，不能把点选可用当成拖牌已完成。
@@ -75,6 +76,8 @@ ordinal: 36000
 本轮修正原生停靠与手牌取消边界；补先红后绿的按住、松手跟随、快速回拖、跨牌和触摸回归；构建独立候选后等待新键鼠窗口实测。
 
 先按报告§3A构造手机/PC分离的目标与无目标释放回归，再修坐标/状态转换；用libGDX手势职责划分作算法参考，不直接复制原作反编译代码。实机授权和快慢各20次合同继续保留。
+
+2026-10-31 M3整批收口：对照指针权威目标与回手边界，验证无目标连续松手/取消及旧事件拒绝，再做双设备同候选轨迹。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -129,4 +132,6 @@ PR #304 手机实测暴露拖动取消问题，历史验收不代表新问题已
 
 PR327手机反馈来源增量（基于20a74da的历史观察；不认证6795160组合或新候选）：
 2026-10-29新一轮26张去重手机图与34:42录音，逐图见MOBILE-QA-20261029。源码20a74da已定位：targeting.dragPose手机上移270*scale但命中用原触点；card_view.placeDraggedCard在aiming切固定停靠；card_input.release无效触屏仍可能carry/target且updateCarry跳过触屏。先协调PR323索敌改动，保留TASK76旧触点保护；这些是当前源码事实，不冒认用户候选或手机精确复现。旧已勾验收保留历史，不能覆盖本轮新缺口。
+
+2026-10-31 M3最终事实核对：AC1：combined-focused.log最终输入7项+mobile-card-release通过，无目标防御快慢各20次有效松手真实扣1费/加5格挡、迟到EndDrag/Click不重复，无需二次点选。二维地图移动与touch瞄准边界已先红后绿。保留旧已勾项；#3/#8–12均仍缺本轮实体手机/PC对应候选轨迹、快慢20×4设备矩阵；#13长按关键词完整运行时/去线后可发现性组合仍需同候选完整核验。不能将mock持续20次写为实体设备通过。
 <!-- SECTION:NOTES:END -->

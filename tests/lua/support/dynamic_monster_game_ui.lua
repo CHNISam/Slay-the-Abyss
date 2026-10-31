@@ -24,14 +24,18 @@ surfaces:each(function(box,slot,entry)
  local health=box:GetChild('hpFill');local intent=box:GetChild('intentHit')
  assert(math.abs(health.size[1]-170/1.5)<1e-8 and math.abs(health.size[2]-20/1.5)<1e-8,'source HP bar dimensions')
  assert(math.abs(box.y+health.y-(bottom-18/1.5))<1e-8,'HP bar follows original hitbox bottom')
- assert(math.abs(box.y+intent.y-(bottom+(130+32)/1.5))<1e-8,'intent follows original hitbox top, not square art')
+ -- Native full-bleed glyphs must clear the square art as well as the source hitbox.
+ local theme=require('abyss_theme')
+ local expected=math.max(box:GetChild('portrait').sizeDeltaY/2,bottom+130/1.5-box.y)
+  +math.max(theme.layout.nativeText.lineHeight,theme.layout.intent.size)/2+theme.space.xs
+ assert(math.abs(intent.y-expected)<1e-8,'intent clears full native art and its complete text line')
  assert(math.abs(intent.size[1]-64/1.5)<1e-8,'original intent hitbox')
 end)
 assert(count==6,'six actual generated full actor templates must render without truncation')
 for _,enemy in ipairs(state.enemies)do
  local control=surfaces:find(enemy.id)
  assert(not control:GetChild('intentBadge').visible and not control:GetChild('intentExtra').visible,'world intent must not use invented horizontal tooltip composites')
- assert(math.abs(control:GetChild('intentIcon').size[1]-math.min(128/1.5,require('abyss_theme').layout.intent.size*1.15))<1e-8,'full-bleed intent glyph size')
+ assert(math.abs(control:GetChild('intentIcon').size[1]-math.min(128/1.5,require('abyss_theme').layout.intent.size))<1e-8,'full-bleed intent glyph size')
 end
 
 local hoverActor=state.enemies[2];local hoverBox=surfaces:find(hoverActor.id)

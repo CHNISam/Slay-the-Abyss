@@ -1,5 +1,7 @@
 {
   "layers": {
+    "abyss_card_origin": "core",
+    "abyss_card_origin_view": "ui",
     "abyss_run_score": "core",
     "abyss_run_scoring": "core",
     "abyss_victory_easter_egg": "ui",

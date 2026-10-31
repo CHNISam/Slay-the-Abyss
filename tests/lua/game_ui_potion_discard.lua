@@ -86,14 +86,26 @@ test('shop counter allows replacing a full belt without bypassing purchase price
     local path=dofile('tests/lua/support/map_routes.lua').to(h.map,function(node)return node.type=='shop'end)
     for i=1,#path-1 do assert(Map.choose(h.map,path[i]))end
     assert(F.Nodes.enter(h.run,h.map,path[#path]))
-    h.run.gold=1000;h:refresh();open(r)
-    assert(click(r,'potionPanel','slot2'));assert(click(r,'potionPanel','discard'));assert(click(r,'potionPanel','cancel'))
+    h.run.gold=1000;h:refresh()
     local offer
     for _,p in ipairs(h.run.nodeFlow.potions)do if not p.unavailable then offer=p;break end end
     assert(offer);local gold=h.run.gold
     local tile=r:GetChild('nodePanel'):GetChild('shopView'):GetChild('potion'..offer.slot)
-    assert(tile:GetChild('hit').click());equal(h.run.potions[2],offer.id);equal(h.run.gold,gold-offer.price)
-    assert(h.run.nodeFlow.potions[offer.slot].sold)
+    equal(tile:GetChild('hit').click(),false);equal(h.run.gold,gold);counter(r,3)
+    equal(h.run.potions[2],'block_potion');assert(not offer.sold)
+    open(r)
+    assert(click(r,'potionPanel','slot2'));assert(click(r,'potionPanel','discard'));assert(click(r,'potionPanel','cancel'))
+    counter(r,2)
+    -- A product click previews; neither preview nor cancelling replaces the bottle.
+    assert(tile:GetChild('hit').click());equal(h.run.potions[2],nil);equal(h.run.gold,gold);assert(not offer.sold)
+    local cancelled=h.nodeUI.actions.confirm.handler
+    assert(click(r,'nodePanel','back'));equal(cancelled(),false)
+    equal(h.run.potions[2],nil);equal(h.run.gold,gold);assert(not offer.sold);counter(r,2)
+    assert(tile:GetChild('hit').click());local committed=h.nodeUI.actions.confirm.handler
+    assert(click(r,'nodePanel','confirm'));equal(h.run.potions[2],offer.id);equal(h.run.gold,gold-offer.price)
+    assert(h.run.nodeFlow.potions[offer.slot].sold);counter(r,3)
+    equal(committed(),false);equal(tile:GetChild('hit').click(),false)
+    equal(h.run.gold,gold-offer.price);equal(h.run.potions[1],'fire_potion');equal(h.run.potions[3],'regen_potion');counter(r,3)
 end)
 
 test('stale selected-slot confirmation refuses a replacement bottle and a new run with the same slot',function()

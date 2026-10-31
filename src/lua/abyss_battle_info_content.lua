@@ -125,12 +125,19 @@ function M.new(self, describe, lines)
     end
 
     local function cardTraits(definition, rows)
+        if definition.strikeTag then rows[#rows+1]={intent='unknown',colour=C.goldBright,name='打击类',
+            text='带有打击标签',note='计入剑势如虹等效果'} end
         if definition.exhaust then rows[#rows + 1] = {icon = Theme.icon.exhaust, colour = C.goldBright, name = "消耗",
             text = "打出后移出本场战斗", note = "不进入弃牌堆"} end
         if definition.ethereal then rows[#rows + 1] = {intent = "unknown", colour = C.goldBright, name = "虚无",
             text = "回合结束时若仍在手中，将被消耗"} end
     end
 
+    local function originRow(info,instance,rows)
+        if info.kind~='card' or not self.run then return end
+        local origin=require('abyss_card_origin_view').describe(self.run,instance,true)
+        if origin~=''then rows[#rows+1]={intent='unknown',colour=C.goldBright,name='升级来源',text=origin}end
+    end
     local function keywordCard(card, data, presentation, battle, info, actor)
         local reward=info.reward
         if reward and not require('abyss_battle_reward_owner').ready(self,reward) then return end
@@ -146,6 +153,7 @@ function M.new(self, describe, lines)
         fullEffectRows(definition, instance, battle, rows,reward)
         keywordRows(definition.effects, battle, actor, rows)
         cardTraits(definition, rows)
+        originRow(info,instance,rows)
         if #rows == 0 then return end
         card.title, card.tag, card.hp = info.kind == "potion" and definition.name or presentation[instance.cardId].name, "关键词", nil
         card.subtitle = info.kind == "potion" and "药水说明，尚未使用 · 查看不消耗" or "卡牌效果说明，尚未生效"

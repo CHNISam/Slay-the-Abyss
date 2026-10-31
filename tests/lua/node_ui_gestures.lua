@@ -188,6 +188,8 @@ test("short, vertical and out-of-range drags never page, and edges never buy",fu
     get("shopView/card2/hit").listeners.down(at(9,300,0))
     get("shopView/card2/hit").listeners.up(at(9,310,0))
     assert(get("shopView/card2/hit").listeners.click({touchId=9}),"a short move is still a tap")
+    assert(#ui.run.deck==deck and ui.run.gold==before.gold,'short move only previews')
+    assert(tap('confirm',10))
     assert(#ui.run.deck==deck+1)
 end)
 test("relic row swipe and duplicate terminal events never page or buy",function()

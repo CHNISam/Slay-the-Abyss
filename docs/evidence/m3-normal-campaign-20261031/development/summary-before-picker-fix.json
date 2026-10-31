@@ -1,0 +1,30 @@
+{
+  "kind": "offline-normal-rule-campaign",
+  "platformVerified": false,
+  "dataModified": false,
+  "policy": "warrior75-visible-state-v1",
+  "policySha256": "5a0055c523c4ccc16db573756c87a32bd0797fddb072165830a24d45bc5d0e5b",
+  "driverSha256": "3acdab50b5665fc45f5d6d841d463a3484ed22538a826100fbeca04735e15c1f",
+  "runs": [
+    {
+      "seed": 2,
+      "status": "driver_blocked",
+      "reason": "scripts/m3-normal-campaign.lua:45: event: invalid_card",
+      "floor": 19,
+      "hp": 86,
+      "actions": 343,
+      "restartVerified": true,
+      "artifact": "seed-2.json.gz"
+    },
+    {
+      "seed": 3,
+      "status": "driver_blocked",
+      "reason": "scripts/m3-normal-campaign.lua:45: event: card_not_purgeable",
+      "floor": 3,
+      "hp": 87,
+      "actions": 41,
+      "restartVerified": true,
+      "artifact": "seed-3.json.gz"
+    }
+  ]
+}

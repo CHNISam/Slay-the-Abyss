@@ -54,7 +54,7 @@ function M.choose(run,flow,choice,uid)
             return result(event,event.curseBlocked and '诅咒已被御守阻止。' or '诅咒「腐朽」已加入牌组。')
         elseif outcome==4 then
             if #Purge.purgeCards(run)==0 then return result(event,'没有可移除的卡牌。') end
-            event.stage,event.choice='choose_card','purge';event.body='选择一张非瓶装可清除卡牌移除。'
+            event.stage,event.choice='choose_card','purge';event.body='选择一张可移除卡牌；被遗物指定为战斗起手的牌不能移除。'
             return true,'choose_card'
         elseif outcome==5 then
             local damage=math.floor(R.float32(R.float32(run.maxHp)*R.float32(.1)))

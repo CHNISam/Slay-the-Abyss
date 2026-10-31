@@ -12,6 +12,19 @@ local Presentation = require("abyss_presentation")
 local Layout = require("abyss_ui_layout")
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
+local function readMerchantLine(ui,get)
+    local pages={}
+    while true do
+        local current=ui.merchant.current
+        local last=math.min(#current.chars,current.page*Theme.layout.merchant.pageCharacters)
+        if current.shown<last then assert(get('merchant/talk/hit').click()) end
+        pages[#pages+1]=get('merchant/line').text
+        assert(utf8.len(pages[#pages])<=Theme.layout.merchant.pageCharacters)
+        if last==#current.chars then break end
+        assert(get('merchant/talk/hit').click())
+    end
+    return table.concat(pages)
+end
 local C = Theme.color
 local SourceTreasure=dofile('tests/lua/support/source_treasure_claims.lua')
 local cursorEvents = { CursorEnter="enter", CursorExit="exit", CursorDown="down", CursorUp="up", CursorEndDrag="endDrag" }
@@ -206,11 +219,13 @@ test("unaffordable goods turn the price red, grey the card and explain without c
     -- The notice states the shortfall; the merchant answers in his own dialogue box.
     assert(get("notice").text == "金币不足：需要 " .. offer.price .. "，还差 1" and is(get("notice").fontColor, C.danger))
     ui:update(5)
-    assert(get("merchant/line").text == "「" .. Narrative.merchant.insufficientGold .. "」" and ui.merchant.shake == nil)
+    assert(readMerchantLine(ui,get) == "「" .. Narrative.merchant.insufficientGold .. "」" and ui.merchant.shake == nil)
     assert(#changes == 0)
     ui.run.gold = offer.price ui:render()
     assert(is(price.children.value.fontColor, C.goldBright) and is(box.children.description.fontColor, C.text))
     local size = #ui.run.deck assert(click("shopView/card1"))
+    assert(#ui.run.deck==size and ui.run.gold==offer.price)
+    assert(click("confirm"))
     assert(#ui.run.deck == size + 1 and ui.run.deck[#ui.run.deck].cardId == offer.id and ui.run.gold == 0)
     assert(get("notice").text:find("已购买「" .. Presentation[offer.id].name .. "」", 1, true))
     assert(box.children.stamp.visible and box.children.stamp.text == "已售出" and box.children.veil.visible)
@@ -239,7 +254,8 @@ test("shop relic row shows sourced effect text and buys through Nodes", function
     end
     assert(descriptions['会员卡']=='所有商店商品半价。')
     while ui.relicPage > 1 do assert(click("shopView/relicPrevious")) end
-    assert(click("shopView/relic3") and ui.run.relics[#ui.run.relics] == first.id and ui.run.gold == 10000 - first.price)
+    assert(click("shopView/relic3") and ui.run.gold==10000)
+    assert(click("confirm") and ui.run.relics[#ui.run.relics] == first.id and ui.run.gold == 10000 - first.price)
     assert(tile.children.veil.visible and get("shopView/relicPrice3").children.value.text == "已售出")
     if #node.relics > 3 then
         assert(click("shopView/relicNext") and ui.relicPage == 2)
@@ -322,27 +338,27 @@ test("merchant opens with the scene narration once per run, then greets, and sta
     assert(shown("merchant/next"))
     assert(get("merchant/talk/hit").click() and ui.merchant.current.kind == "greet")
     ui:update(5)
-    assert(get("merchant/line").text == "「" .. m.greet .. "」" and shown("merchant/namePlate"))
+    assert(readMerchantLine(ui,get) == "「" .. m.greet .. "」" and shown("merchant/namePlate"))
     assert(get("merchant/name").text == "旧路商人" and not shown("merchant/next"))
     assert(not get("merchant/talk/hit").click(), "nothing left to advance")
     -- Repeated purchases react instantly and never wait for the previous line.
-    assert(click("shopView/card1") and ui.merchant.current.kind == "buy" and ui.merchant.nod ~= nil)
-    assert(click("shopView/card2") and ui.merchant.current.kind == "buy")
+    assert(click("shopView/card1") and click("confirm") and ui.merchant.current.kind == "buy" and ui.merchant.nod ~= nil)
+    assert(click("shopView/card2") and click("confirm") and ui.merchant.current.kind == "buy")
     ui:update(5)
-    assert(get("merchant/line").text == "「" .. m.purchaseSuccess .. "」" and ui.merchant.nod == nil)
+    assert(readMerchantLine(ui,get) == "「" .. m.purchaseSuccess .. "」" and ui.merchant.nod == nil)
     assert(get("notice").text:find("已购买「", 1, true) and not get("notice").text:find(m.purchaseSuccess, 1, true))
     -- The merchant steps aside for the removal picker and returns after it.
     assert(click("shopView/removal") and shown("pickerView") and not shown("merchant"))
     assert(click("back") and shown("merchant"))
     -- A lingering player hears the one unprompted remark, once.
     ui:update(Theme.layout.merchant.idle + 1) ui:update(3)
-    assert(get("merchant/line").text == "「" .. m.originHint .. "」")
+    assert(readMerchantLine(ui,get) == "「" .. m.originHint .. "」")
     ui:update(Theme.layout.merchant.idle + 1)
     assert(ui.merchant.current.kind == "idle")
     -- Leaving holds the farewell on screen like a camp/event result; no shelf remains.
     assert(click("confirm") and ui.merchant.current.kind == "leave" and ui:holding())
     ui:update(5)
-    assert(shown("merchant") and not shown("shopView") and get("merchant/line").text == "「" .. m.leave .. "」")
+    assert(shown("merchant") and not shown("shopView") and readMerchantLine(ui,get) == "「" .. m.leave .. "」")
     assert(get("confirm").children.label.text == "继续" and get("notice").text ~= "")
     assert(not shown("back"))
     assert(click("confirm") and not ui:holding())
@@ -368,6 +384,8 @@ test("merchant reaction sounds are requested only for sales and refusals", funct
     ui:setVisible(true)
     assert(#cues == 0, "entering and greeting are silent")
     assert(ui:press("shopView/card1"))
+    assert(#cues==0, "preview is not a sale")
+    assert(ui:press("confirm"))
     run.gold = 0 ui:render()
     assert(not ui:press("shopView/card2"))
     assert(cues[1] == "merchant_buy" and cues[2] == "merchant_deny" and #cues == 2)
@@ -781,7 +799,8 @@ test('shop potion stock buys into a vacancy and rejects full sold and missing sl
     assert(get('shopView/potion'..slot..'/description').text=='药水槽已满')
     ui.run.potions[2]=nil;ui:render()
     local offer=Combat.copy(ui.run.nodeFlow.potions[slot]);local gold=ui.run.gold
-    assert(click('shopView/potion'..slot));assert(ui.run.potions[2]==offer.id and ui.run.gold==gold-offer.price)
+    assert(click('shopView/potion'..slot));assert(ui.run.gold==gold)
+    assert(click('confirm'));assert(ui.run.potions[2]==offer.id and ui.run.gold==gold-offer.price)
     assert(ui.merchant.current.kind=='buy', 'potion transactions trigger the merchant sale reaction')
     before=Combat.copy(ui.run);assert(not click('shopView/potion'..slot));same(before,ui.run)
     assert(get('shopView/potionPrice'..slot..'/value').text=='已售出')

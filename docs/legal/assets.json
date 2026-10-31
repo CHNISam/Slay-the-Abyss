@@ -98,6 +98,10 @@
     "lowpoly-select-derived-data": {
       "status": "Project geometric derivative of the preserved breakthrough experiment; uses official platform sprite IDs and Genshin character identity. Platform-project candidate only; no game-IP sublicense, commercial clearance or device acceptance.",
       "evidence": "art/lowpoly-select/extract.mjs; select-lowpoly.json source and sourceSha256; docs/art/READY_ASSET_INTEGRATION.md; docs/backlog-details/UI-PR-CLEANUP-20261031.md"
+    },
+    "m3-static-simulator-evidence": {
+      "status": "Project UI capture rendered as static Simulator Host evidence with beyond-simulator-mcp 0.5.2; references official platform picture IDs and game identities. Project and third-party content rights remain separate from the simulator software license. No asset/IP sublicense, commercial clearance, final art, official import/ready, interaction, device or performance acceptance. Receipts retain failed texture fetches and missing-asset placeholders.",
+      "evidence": "docs/evidence/m3-visual-20261031/README.md and metadata.json (source e8eb72360d1a1e9eef015948e3b63bf09661f372); capture.lua and capture.mjs; experiments/ui-polish-sim/sim.mjs and sim-text.mjs; per-scene .tree.json, .sim.save.json and .sim.receipt.json; docs/evidence/m3-relic-name-20261031/README.md, metadata.json and isolated-save-diff.json. Relic before PNG is the identical original owned-relic-detail capture; after and isolated diagnose capture/adapter autoSize only, without a production UI change."
     }
   },
   "files": {
@@ -5569,6 +5573,38 @@
     "art/lowpoly-select/select-lowpoly.json": {
       "sha256": "aca5ac9e2f6e1224f7aba3faa692abc2e4a5b81045756b86d7ff8c3384f36284",
       "category": "lowpoly-select-derived-data"
+    },
+    "docs/evidence/m3-relic-name-20261031/after.sim.png": {
+      "sha256": "ddfc21478fdad264c1cb39c037bde651eaf507a78bb3c141b12be897d13a20b5",
+      "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/m3-relic-name-20261031/before.sim.png": {
+      "sha256": "c98a85566a97b5935d147e309aaa63472f56b1b9e204a6e484dd48164fa55749",
+      "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/m3-relic-name-20261031/isolated.sim.png": {
+      "sha256": "ddfc21478fdad264c1cb39c037bde651eaf507a78bb3c141b12be897d13a20b5",
+      "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/m3-visual-20261031/card-detail.sim.png": {
+      "sha256": "3ca7045112330c2bf06681e3ba71191594d415172061cc93b2e861c12ef9bf1a",
+      "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/m3-visual-20261031/exit-confirmation.sim.png": {
+      "sha256": "a1d4dd5f165ba46396167175ef85846ad27ba1001d8e75bb45284fc103aed007",
+      "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/m3-visual-20261031/owned-relic-detail.sim.png": {
+      "sha256": "c98a85566a97b5935d147e309aaa63472f56b1b9e204a6e484dd48164fa55749",
+      "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/m3-visual-20261031/select-deck.sim.png": {
+      "sha256": "ed5ea1cd9f11bd4542ab68039d536eda1217f53242c453e925c1ee20ef521dff",
+      "category": "m3-static-simulator-evidence"
+    },
+    "docs/evidence/m3-visual-20261031/select.sim.png": {
+      "sha256": "ab9a74902486fc4eab0c9aae01141d113e16988b379314a985e9039a748f970e",
+      "category": "m3-static-simulator-evidence"
     }
   }
 }

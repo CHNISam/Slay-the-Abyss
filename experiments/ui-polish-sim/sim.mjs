@@ -5,6 +5,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { bridge } from '../art-tech-lab/rpc.mjs';
+import { simTextProperties } from './sim-text.mjs';
 const [dir, ...names] = process.argv.slice(2);
 const seed = JSON.parse(readFileSync('experiments/art-tech-lab/seed.save.json'));
 const base = seed.assets.server.root.children[0], samples = Object.fromEntries(base.children.map(n => [n.kind, n]));
@@ -17,8 +18,7 @@ function conv(c, parent, root, scale = 1) {
   const [x, y] = c.position ?? [0, 0], [w, h] = c.size ?? [0, 0];
   for (const t of Object.values(n.transformByPlatform)) { t.offset = { x, y }; t.size = { x: w, y: h }; t.anchorMin = t.anchorMax = { x: .5, y: .5 }; t.scale = { x: c.scale?.[0] ?? 1, y: c.scale?.[1] ?? 1, z: 1 }; t.rotation = Array.isArray(c.rotation) ? { x: c.rotation[0], y: c.rotation[1], z: c.rotation[2] } : { x: 0, y: 0, z: c.rotation ?? 0 }; }
   if (kind === 'image') { n.imageId = c.image; let col = String(c.colour || '#FFFFFF'); if (c.opacity !== undefined && col.replace('#', '').length === 6) col += Math.round(c.opacity * 255).toString(16).padStart(2, '0'); n.imageColor = argb(col); }
-  if (kind === 'textbox') Object.assign(n, { text: c.text.content, fontSize: c.text.fontSize, minimumFontSize: c.text.minFontSize ?? c.text.fontSize, fontColor: argb(c.text.colour), bgColor: 0, enableOutline: false,
-    horizontalAlignment: c.text.align === 'left' ? 'Left' : 'Middle', verticalAlignment: c.text.valign === 'top' ? 'Top' : 'Middle' });
+  if (kind === 'textbox') Object.assign(n, simTextProperties(c.text, argb));
   parent.children.push(n);
   for (const ch of c.children ?? []) conv(ch, n, root);
 }

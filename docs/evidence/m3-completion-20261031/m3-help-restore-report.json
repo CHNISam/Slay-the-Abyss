@@ -1,0 +1,63 @@
+{
+  "commit": "57328ba2d961dd40979d11fdc8b96905de147d0d",
+  "baseCommit": "e248c0e31a9e2d9c462b4668db3c835205c23f8c",
+  "worktree": "/workspace/m3-help-restore",
+  "decisionAudit": "/workspace/cloud-reports/m3-help-decision-audit.json",
+  "decision": "Restore the newer approved PR388→395→396 public menu/exit guide, with Owner two-string-only update; older4.8 removal interpretation is superseded. No new approval requested or Backlog changes made.",
+  "sourceDiff": "/workspace/cloud-reports/m3-help-restore-source.diff",
+  "sourceChanges": [
+    "Only src/lua/abyss_game_ui.lua: remove two forced help visibility=false writes and help/run_help forced availability=false; restore cd2 menu gap and remove map moved into help slot. One inserted line/five removed lines.",
+    "All existing generation checks, controller/pointer ownership, modal/busy/settlement/resource guards and actual help actions retained.",
+    "Current no-restore exit warning and exact whyText remain unchanged. Source card keywords/origin, portraits, themes/background and data untouched."
+  ],
+  "testRepair": [
+    "Three current Lua fixtures restored byte-for-byte to pre-baab25b public-path tests; PC return-to-current/floor/node conservation assertions remain.",
+    "Retirement-only hidden_menu_help helper deleted; no remaining code/test references.",
+    "Formal real entry now actually opens/closes menu guide and exit guide; latest exact no-restore and Owner whyText assertions retained.",
+    "m3_chinese_copy card/relic prefix unchanged; only help portion tests public discoverability, guide-only modal ownership, both exact approved strings, blocked exit/abandon, return and resource references. No English/keyword checks weakened."
+  ],
+  "restoredTestSha256": {
+    "tests/lua/native_ui_parity.lua": "15d4c1e72a97069785b78d0779b143c821e081bda8306d0ff9cf601e80b40e85",
+    "tests/lua/menu_input_boundaries_current.lua": "f2daede46a2921bc6530e34b5f4a166ef55682d3998f9316df0b4f35fbf3df4c",
+    "tests/lua/ui_final_menu.lua": "42a2254d214bf2e8499d965eacb391fedcd56e801c37e87f028c3ee3abed3032"
+  },
+  "red": {
+    "command": "node scripts/test-lua.mjs tests/lua/ui_final_menu.lua (restored public-path expectation, before production restore)",
+    "result": "Expected RED ui_final_menu.lua:12 public help click assertion,2244ms; old source still forcibly hid/disabled help"
+  },
+  "green": [
+    {
+      "command": "node --test --test-concurrency=1 tests/native-ui-parity.test.mjs tests/menu-input-boundaries-current.test.mjs tests/ui-final-presentation.test.mjs tests/m3-chinese-copy.test.mjs",
+      "result": "7/7 PASS zero skip,14621ms; real mouse/click-only touch fallback/controller/menu/map/guide/settlement contracts"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/formal-campaign-entry.test.mjs",
+      "result": "7/7 PASS zero skip,100211ms; historical guard73970ms, actual formal OnStart10241ms, full-source scenario10816ms; no kill or budget changes, not repeated"
+    },
+    {
+      "command": "node scripts/test-lua.mjs tests/lua/game_ui_exit_swipe.lua",
+      "result": "5/5 PASS,7231ms under original30s; stale shop swipe/callback/leave/relic/picker holds reject, fresh inputs restore"
+    },
+    {
+      "command": "node --test --test-concurrency=1 tests/exit-ui-layout.test.mjs",
+      "result": "5/5 PASS zero skip,218ms; modal/guide layering, geometry, safe scaling and warning hierarchy retained"
+    },
+    {
+      "command": "npm run check:lua-static",
+      "result": "Fixed Luacheck1.2.0 no new diagnostics,21 explicit historical warnings,1138 governed responsibility measurements"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "check": "build:data/build:ui/map layout",
+      "result": "PASS; offline generated contract only"
+    }
+  ],
+  "limits": [
+    "No full npm suite or final combined SHA CI rerun. Root combines PR436 then performs final selected checks.",
+    "No official client/physical phone/desktop screenshot/device claims.",
+    "No Backlog, remote or shared m3-final source modifications."
+  ]
+}

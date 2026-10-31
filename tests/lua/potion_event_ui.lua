@@ -36,8 +36,11 @@ test('Lab displays three named bottle rewards and returns from real bag manageme
  assert(get('eventView/option2/title').text:find('火',1,true))
  assert(ui:openPotions());local bag=ui.potionUI.root
  assert(bag:GetChild('slot2'):GetChild('hit').click());assert(bag:GetChild('discard'):GetChild('hit').click());assert(ui:closePotions())
+ assert(not get('eventView/option2/description').text:find('第一个空',1,true))
  eq(ui.nodeUI.actions['eventView/option2'].enabled,true);local stale=ui.nodeUI.actions['eventView/option2'].handler
  click('eventView/option2');eq(r.potions[2],'fire_potion');eq(stale(),false)
+ assert(get('eventView/body').text:find('已领取',1,true) and get('eventView/body').text:find('火',1,true))
+ assert(get('eventView/option2/title').text:find('已领取',1,true))
  eq(ui.nodeUI.actions['eventView/option2'].enabled,false);click('eventView/option4');eq(r.nodeFlow.event.stage,'result');click('eventView/option1');eq(r.phase,'map')
  eq(get('eventView/option4').visible,false);eq(get('confirm').visible,true)
 end)
@@ -48,5 +51,8 @@ test('Woman shows all prices and Sozu rewards remain claimable as blocked items'
  assert(Run.obtainRelic(r,'Sozu'));click('eventView/option3');eq(r.gold,59);eq(#r.nodeFlow.event.potionOffers,3)
  eq(ui.nodeUI.actions['eventView/option1'].enabled,true);click('eventView/option1');eq(r.nodeFlow.event.potionOffers[1].blocked,true)
  eq(ui.nodeUI.actions['eventView/option1'].enabled,false);eq(r.phase,'node')
+ assert(get('eventView/body').text:find('遗物阻止',1,true))
+ assert(get('eventView/option1/title').text:find('已放弃',1,true))
+ assert(not get('eventView/option1/title').text:find('已领取',1,true))
 end)
 print('POTION_EVENT_UI '..count..' passed')

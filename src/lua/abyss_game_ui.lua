@@ -104,6 +104,16 @@ function M.new(root, data, presentation, clickEvent, platform)
             and (self.mode=="map" or self.mode=="battle" or self.mode=="node")
             and (run.phase=="map" or run.phase=="node" or run.phase=="reward" or run.phase=="combat")
     end
+    local function resourceHint(kind)
+        if self.potionUI.visible or not canManagePotions(self.run) then return false end
+        local run=self.run
+        local player=inCombat() and run.combat.player or run
+        local title=kind=='hp' and '生命' or '金币'
+        local text=kind=='hp' and ('当前生命 '..number(player.hp)..'/'..number(player.maxHp)..'。\n生命归零即本局失败；战斗之间不会自动回满。')
+            or ('当前金币 '..number(run.gold)..'。\n可在商店购买卡牌、遗物、药水，或支付移除卡牌等服务。')
+        if not self.deckUI:inspectText(run,title,text) then return false end
+        self.deckUI.closeOnOutside=true;self.battleUI.selected=nil;self:refresh();return true
+    end
     self.relicUI=require('abyss_relic_view_ui').new(child('relicPanel'),child('relicBar'),clickEvent,platform,
         function(run,id)return self.nodeUI:describeRelic(run,id)end,function()return self:closeDeck()end,
         function(i)return self:openRelics(i)end,function()return self.mode end)
@@ -341,6 +351,9 @@ function M.new(root, data, presentation, clickEvent, platform)
         local ending=run and run.phase=='ending_proceed'
         local utilitiesVisible=not ending and not inMenu and not deckOpen and not potionOpen and not blocked and not covering
         child("combatRewards"):SetVisible(returnAvailable)
+        -- Route preview raises the full-page map. Restore this sibling above it
+        -- when returning to navigation; visibility alone leaves it occluded.
+        if returnAvailable then child("combatRewards"):SetAsLastSibling() end
         child("deckEntry"):SetVisible(utilitiesVisible)
         -- STS has no separate relic button: the discs under the HP row are the one control.
         child("relicEntry"):SetVisible(false)
@@ -383,6 +396,18 @@ function M.new(root, data, presentation, clickEvent, platform)
             end
             child("battlePanel"):GetChild("notice").text = guardian
                 and Narrative.flow.bossEntrance.full or ""
+            self.bossEntrance=guardian and {battle=run.combat,remaining=6} or nil
+        end
+    end
+    local function updateBossEntrance(dt)
+        local entrance=self.bossEntrance
+        if not entrance then return end
+        local notice=child("battlePanel"):GetChild("notice")
+        entrance.remaining=entrance.remaining-dt
+        if not self.run or self.run.combat~=entrance.battle or self.run.phase~="combat"
+            or notice.text~=Narrative.flow.bossEntrance.full or entrance.remaining<=0 then
+            if notice.text==Narrative.flow.bossEntrance.full then notice.text="" end
+            self.bossEntrance=nil
         end
     end
     local function renderMapPage(run,deckOpen,potionOpen,blocked,covering)
@@ -406,7 +431,7 @@ function M.new(root, data, presentation, clickEvent, platform)
     local function refreshExitDialog()
         if exitDialogOwnsForeground() then
             exitPanel:SetAsLastSibling()
-            local message = self.run and "确认退出本局？目前无法保存进度，退出后本局结束。\n将进入平台结算，随后可选择离开。"
+            local message = self.run and "确认退出本局？退出后本局结束，进度无法恢复。\n将进入平台结算，随后可选择离开。"
                 or "确认结束当前关卡？\n将进入平台结算，随后可选择离开。"
             if self.mode == "victory" then message = "确认结束本局并结算胜利？\n随后可在平台结算页选择离开。" end
             exitPanel:GetChild("message").text = message
@@ -736,6 +761,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         if self.prologue then self.prologue:update(dt) end
         if openingCovered() then self:syncController();return true end
         self.battleUI:update(dt)
+        updateBossEntrance(dt)
         if self.battleUI.busy and self.battleUI.feedback.deaths.player then bgm:update("defeat") end
         self.nodeUI:update(dt)
         self.deckUI:update(dt)
@@ -806,6 +832,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         local menuAction = kind == "start" or kind == "settle" or kind=='egg_open'
         local rewardAction = kind == "combatRewards"
         local characterAction = kind:match("^character_")~=nil
+        local resourceAction = kind:match('^resource_')~=nil
         local cursor = platform.cursorEvents or {}
         local runMenuAction = kind:sub(1, 4) == 'run_'
         local function eggAvailable()
@@ -814,6 +841,7 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         local function available()
             if self.disabled or self.settlementRequested or self.settlementBusy then return false end
+            if resourceAction then return not self.potionUI.visible and canManagePotions(self.run) and (not enabled or enabled()) end
             if self.easterEggOpen or kind=='egg_open' or kind=='egg_close' then return eggAvailable()end
             if menuAction and self.motion.deathReveal then return false end
             if kind == 'routeClose' then return self.exitOpen and self.routeOpen == true end
@@ -841,6 +869,8 @@ function M.new(root, data, presentation, clickEvent, platform)
         end
         local function current(token)
             return token and token.generation == exitGeneration and token.run == self.run
+                and (not resourceAction or token.deckGeneration==self.deckUI.generation and token.mode==self.mode
+                    and token.potionGeneration==self.potionUI.generation)
                 and (not menuAction and not characterAction or token.menuGeneration == menuGeneration) and available()
                 and (not rewardAction or token.menuGeneration == menuGeneration and token.pending == self.run.pendingCombatRewards
                     and token.rewardGeneration == self.rewardReturnGeneration)
@@ -853,6 +883,7 @@ function M.new(root, data, presentation, clickEvent, platform)
                 if held and held.touch ~= touch(event) then return end
                 observed, held, released = true, nil, nil
                 if available() then held = {generation=exitGeneration,menuGeneration=menuGeneration,run=self.run,touch=touch(event),
+                    deckGeneration=self.deckUI.generation,potionGeneration=self.potionUI.generation,mode=self.mode,
                     pending=self.run and self.run.pendingCombatRewards,rewardGeneration=self.rewardReturnGeneration} end
             end)
             hit:AddCursorEventListener(cursor.CursorUp, function(event)
@@ -886,6 +917,13 @@ function M.new(root, data, presentation, clickEvent, platform)
             elseif not available() then return false end
             return action()
         end)
+    end
+    for _,entry in ipairs({{'battlePanel','battle'},{'mapPanel','map'}})do
+        local panel,mode=entry[1],entry[2]
+        for _,kind in ipairs({'hp','gold'})do
+            bindCommand(child(panel):GetChild('resourceHints'):GetChild(kind),'resource_'..kind,
+                function()return resourceHint(kind)end,function()return self.mode==mode end,20)
+        end
     end
     -- Source menu actions use the same pointer ownership as exit actions, and also
     -- expire whenever their menu/run context is hidden or replaced.

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdtempSync,mkdirSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
+import {nativeTheme} from '../scripts/native-ui-theme.mjs';
 import {buildUI,assertNativeUiCapacity} from '../scripts/build-ui.mjs';
 import {enemyUnitTemplate,enemyPowerTemplate,battleLayout} from '../scripts/ui-layout.mjs';
 import {prepareMonsterArt,monsterActorTemplate,monsterActorInventory,monsterActorTemplateName,monsterPowerTemplateName,monsterActorBindingModule,bindMonsterActorTemplates} from '../scripts/monster-art.mjs';
@@ -19,13 +20,35 @@ const battleStageControls = Object.entries({
  image: 'hpIcon goldIcon floorIcon energyRing energyDisc drawBadgeRing drawBadge discardBadgeRing discardBadge resultPlate',
  presetButton: 'potion1 potion2 potion3 endTurn start continue skip goldReward cardReward claimPotion stolenGold',
 }).flatMap(([kind,names])=>names.split(' ').map(name=>`${name}:${kind}`)).sort();
-function assertBattleStageContract(stage) {
+function expectedResourceHints() {
+ const bar=nativeTheme.layout.topBar;
+ return {name:'resourceHints',kind:'container',size:[...nativeTheme.canvas.base],children:['hp','gold'].map(name=>{
+  const icon=bar[name+'Icon'],value=bar[name];
+  const left=Math.min(icon[0]-icon[1]/2,value[0]-value[1]/2),right=Math.max(icon[0]+icon[1]/2,value[0]+value[1]/2);
+  const size=[Math.max(48,right-left),Math.max(48,bar.height)];
+  return {name,kind:'container',position:[(left+right)/2,bar.y],size,children:[{name:'hit',kind:'cursorArea',size:[...size],focusable:true}]};
+ })};
+}
+function assertBattleStageContract(stage,{host=false}={}) {
  assert(stage,'battle stage exists');
  assertNativeUiCapacity(stage); // The native per-parent limit remains 60, including hidden controls.
  assert(!descendants(stage).some(n=>/^enemy\d+$/.test(n.name)||/^monsterArt\d*$/.test(n.name)),'no static enemy pool in battle stage');
  const names=stage.children.map(n=>n.name);
  assert.equal(new Set(names).size,names.length,'unique battle stage child names');
- assert.deepEqual(stage.children.map(n=>`${n.name}:${n.kind}`).sort(),battleStageControls,'complete battle stage control identities');
+ assert.deepEqual(stage.children.map(n=>`${n.name}:${n.kind}`).sort(),[...battleStageControls,...(host?['resourceHints:container']:[])].sort(),'complete battle stage control identities');
+ if(host){
+  const hints=stage.children.at(-1);
+  assert.deepEqual(hints,expectedResourceHints(),'only the exact read-only HP/gold hotspots occupy the host tail layer');
+  // Exact themed hotspots must also cover the actual rendered visual controls.
+  // Comparing the input layer alone cannot detect a moved icon/value outside it.
+  for(const [name,iconName,valueName]of [['hp','hpIcon','player'],['gold','goldIcon','piles']]){
+   const box=hints.children.find(n=>n.name===name);
+   for(const id of [iconName,valueName]){
+    const visual=stage.children.find(n=>n.name===id);
+    for(let axis=0;axis<2;axis++)assert(Math.abs(visual.position[axis]-box.position[axis])+visual.size[axis]/2<=box.size[axis]/2+.001,'resource hint covers '+id);
+   }
+  }
+ }
 }
 
 test('battle stage identity contract rejects missing, duplicate, static-enemy and overflowing controls',()=>{
@@ -35,6 +58,22 @@ test('battle stage identity contract rejects missing, duplicate, static-enemy an
   const missing=stage();missing.children=missing.children.filter(n=>n.name!==name);
   assert.throws(()=>assertBattleStageContract(missing),/complete battle stage control identities/,name);
  }
+ const hostStage=()=>{const value=stage();value.children.push(expectedResourceHints());return value;};
+ assert.doesNotThrow(()=>assertBattleStageContract(hostStage(),{host:true}));
+ assert.throws(()=>assertBattleStageContract(hostStage()),/complete battle stage control identities/,'standalone battle must not acquire host hotspots');
+ for(const mutate of [
+  value=>{value.children.pop();},
+  value=>{value.children.push({name:'extra',kind:'container'});},
+  value=>{value.children.at(-1).children[0].name='energy';},
+  value=>{value.children.at(-1).children[0].children.push({name:'buy',kind:'cursorArea'});},
+  value=>{value.children.at(-1).children[0].children[0].focusable=false;},
+  value=>{value.children.unshift(value.children.pop());},
+ ]) {const value=hostStage();mutate(value);assert.throws(()=>assertBattleStageContract(value,{host:true}),/complete battle stage control identities|exact read-only HP\/gold hotspots/);}
+ const clipped=hostStage();
+ const hpHint=clipped.children.at(-1).children.find(n=>n.name==='hp');
+ const hpIcon=clipped.children.find(n=>n.name==='hpIcon');
+ hpIcon.position[0]=hpHint.position[0]-hpHint.size[0]/2;
+ assert.throws(()=>assertBattleStageContract(clipped,{host:true}),/resource hint covers hpIcon/,'an exact hotspot must reject a clipped real visual');
  const duplicate=stage();duplicate.children[0]=structuredClone(duplicate.children[1]);
  assert.throws(()=>assertBattleStageContract(duplicate),/unique battle stage child names/);
  const wrongKind=stage();wrongKind.children.find(n=>n.name==='floor').kind='image';
@@ -61,7 +100,7 @@ test('real generated layout uses an empty actor layer and one complete hidden ca
  assert.deepEqual(monsterActorInventory(actor),{templateName:monsterActorTemplateName,controlsPerActor:647,shapesPerActor:600,powerTemplateName:monsterPowerTemplateName,controlsPerPower:7,powerAllocation:'per-power-instance',allocation:'per-drawable-actor-instance',measurement:'offline-template-count-not-official-load',officialImport:'not_run',devices:'not_run'});
  const shapes=descendants(actor).filter(n=>/^shape\d+$/.test(n.name));assert.equal(shapes.length,600);assert(shapes.every(n=>n.visible===false&&n.opacity===0));
  for(const tree of [layout,...templates])assertNativeUiCapacity(tree);
- const stage=descendants(layout).find(n=>n.children?.some(c=>c.name==='actorLayer'));assertBattleStageContract(stage);
+ const stage=descendants(layout).find(n=>n.children?.some(c=>c.name==='actorLayer'));assertBattleStageContract(stage,{host:true});
  assert.match(readFileSync(join(dir,monsterActorBindingModule+'.lua'),'utf8'),/templateIndex=0,containerTemplateIndex=0,powerTemplateIndex=0,enabled=false/);
  assert(generatedRuntimeModules[monsterActorBindingModule]);
  const inputs=sourceInputs(process.cwd(),{artFeatures:{monsters:true}});for(const path of prepareMonsterArt().inputPaths)assert(inputs.some(row=>row.path===path),'actual native source is in candidate provenance: '+path);

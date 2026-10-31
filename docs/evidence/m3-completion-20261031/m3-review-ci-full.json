@@ -1,0 +1,63 @@
+{
+  "verdict": "PASS",
+  "scope": "CI优化的源码/语义与本地证据审查通过；不代表Windows原42秒失败已修复或正式CI已绿",
+  "reviewedCommit": "fae2044089afcd8847b9ee94f71b9db506970a20",
+  "base": "1a38b912",
+  "combinedCommit": "f6dca8a4dea2f0b4ce681138cd2266e54c36a646",
+  "blockingFindings": [],
+  "changeScope": {
+    "files": [
+      "tests/helpers/launch-baseline-fixture.mjs"
+    ],
+    "insertions": 14,
+    "deletions": 5,
+    "combinedHelperMatches": true,
+    "sourceOrBacklogEditsByReviewer": false
+  },
+  "copySemantics": {
+    "inputs": "独立读取archive确认1795完整输入，其中1779路径属于原六目录；17直接父目录去重。全部现有选中输入encoding=utf8，loader仍支持base64并将两者解码成Buffer；writeFileSync(Buffer)无字符串重编码。",
+    "pathAndDirectories": "loader对所有1795路径执行historicalInputPath校验，拒绝绝对/跨盘/反斜线/空段/点段；prefix选择与原六目录相同。全树比对目录清单与类型一致，没有丢失现有空目录或链接。",
+    "metadata": "源临时树本身是同一进程以writeFileSync和mkdirSync新建，无archive owner/executable metadata。原cp复制的mode来自此临时树，新write使用相同未变umask。本机逐条确认mode/uid/gid相同；不声称一般cp替代方案能保持任意源owner/mode，也不把Linux结果当Windows ACL证明。原cp无preserveTimestamps选项，时间戳不是该fixture合同。",
+    "links": "4链接未改，依旧指向当前implementationRoot的docs、node_modules、tests/fixtures、tests/helpers，均与旧fixture的readlink精确一致。archive源文件没有变成链接。",
+    "isolation": "改写新fixture的src/lua/abyss_nodes.lua后，旧fixture和production同路径字节均不变；每次新建根和新Buffer，未引入共享可变状态。"
+  },
+  "sourceGenerationAndGuards": {
+    "generation": "withHistoricalBaseline第一遍load的全部验证和1795文件源树仍保留；callback第二遍load读取同一个import.meta绑定archiveUrl并重新验证全部1795输入。两次之间为同步代码、无await/可调用用户hook，当前未变archive下同代。不是对任意并发外部篡改archive提供事务快照；旧版本同样不对外部篡改提供事务保证。",
+    "guardRoot": "materializeBeforeDelivery仍使用process.cwd()即第一遍生成的原始guard源树，verifiedDeliverySources逐次读取linked owners；destination比对及不alias检查未改。relic require/pre循环未改。",
+    "failClosed": "独立运行historical/delivery 10项通过，覆盖真实source drift、warm-call新增owner缺失/漂移、unknown/partial/duplicate/reorder/foreign、目标污染时atomic拒绝、live-root拒绝、非法路径和cwd清理。独立运行relic源guard与partition10项通过，覆盖全部registered hunk变异/移动/删除/复制、unregistered source、retirement和materialization拒绝。"
+  },
+  "freshVerification": [
+    {
+      "check": "原版helper以内存data URL导入，当前helper正常导入；运行两次fixture并递归lstat/readFile/readlink比较",
+      "result": "PASS",
+      "files": 1730,
+      "links": 4,
+      "directories": 19,
+      "byteEquality": true,
+      "modeUidGidEquality": true,
+      "mutationIsolation": true
+    },
+    {
+      "command": "node --test tests/historical-baseline-inputs.test.mjs tests/delivery-source-composition.test.mjs",
+      "result": "10/10 PASS, exit 0"
+    },
+    {
+      "command": "node --test --test-skip-pattern='Sensory Stone' tests/relic-completion-inverse.test.mjs tests/sapphire-modern-partition.test.mjs",
+      "result": "10/10 PASS, exit 0; direct-runtime Sensory Stone明确排除，未在此验证重Lua"
+    },
+    {
+      "command": "git diff --check",
+      "result": "exit 0"
+    }
+  ],
+  "reviewedExistingEvidence": {
+    "report": "/workspace/cloud-reports/m3-complete-ci-report.md",
+    "realFailureLog": "/workspace/cloud-reports/m3-full-closeout/merged-ci-sapphire-failure.txt",
+    "localLuaLog": "/workspace/cloud-reports/m3-sapphire-wrapper-optimized.log",
+    "failure": "Windows原日志42405.6678ms，remaining()断言位于build参数timeout求值处，故准备完成后、build/Lua启动前超预算。",
+    "localOnly": "原完整7项wrapper日志通过，4片分别13664/15583/15503/10391ms，合计55168.728ms；该完整Lua只阅读已有主控日志，不作为本审查fresh run声称。",
+    "deadlineAndBody": "git差异只有helper；wrapper每片performance.now在fixture前开始，prepare/build/Lua共同30000ms deadline原样；21组正文/hash/切片均未修改。"
+  },
+  "windowsBoundary": "必须由当前最终组合SHA在正式Node24.18.0 Windows runner重跑原切片并确认成功后，才可称原Windows deadline问题解决。当前Linux24.19.0的13–15秒和syscall减少只支持优化合理性，不证明Windows已修；此项是交付验证后续边界，不是当前代码审查发现。",
+  "reviewExecutionNote": "曾试用negative-lookahead test-name-pattern排除Sensory Stone，但Node部分匹配意外启动约6秒Lua；发现后尝试终止时已自然结束。该次输出未用作证据；随后使用明确test-skip-pattern完成纯源guard/partition验证。无推送、无任务改动、无spawn、无源码改动。"
+}

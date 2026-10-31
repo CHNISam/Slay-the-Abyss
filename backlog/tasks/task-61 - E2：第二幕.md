@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-23 01:59'
-updated_date: '2026-10-31 10:48'
+updated_date: '2026-10-31 17:22'
 labels:
   - required
   - sts1
@@ -26,6 +26,8 @@ references:
   - docs/M3-STATUS-20261028.md
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
   - docs/evidence/backlog-merge-20261029.json
+  - docs/evidence/m3-normal-campaign-20261031/summary.json
+  - docs/evidence/m3-completion-20261031/
 priority: medium
 type: feature
 ---
@@ -52,6 +54,8 @@ type: feature
 2026-10-29当前角色范围仅岩系旅行者；第二幕完整内容、权重、全部三Boss、跨幕状态与同候选实机标准保持。
 
 2026-10-31 本轮排查：逐项核对前两幕事件与遗物目录、比赛裁剪和正式输入链；以Beyond Simulator及真实Lua事务复现不可选项，补红绿回归；修复后独立复审、候选读回及当前SHA CI。实机与手机证据单独保留未验收。
+
+2026-10-31 M3整批收口：对照第二幕实际加权遭遇/事件枚举和双幕终点，补全部合法选项与同候选自然通关。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -106,4 +110,8 @@ PR267首轮完整Quality40619558644实际保留一项Windows失败：phase_four_
 2026-10-31 实际GIL对照：v13缺11事件映射，旧包真实遗物获取拒绝；PR357/377后的4c262462集成候选已含补全。本轮新增42事件、130遗物与11复杂选择的正式比赛配置广域回归；证据及验收边界见 docs/reviews/TWO-ACT-SELECTION-AUDIT-20261031.md。用户实际包身份、同候选官方与设备复验未齐，保持未完成。
 
 2026-10-31 PR409核正：第二幕三Boss既有战斗实现保留；额外Boss依赖持久历史的正常解锁由TASK-53延期，不强制列入当前M3缺陷，现有同局流程与验收仍保留。
+
+2026-10-31 M3最终事实核对：本轮16加权源/20敌人定义/三Boss绑定与55幕别事件路径已核；seed2正常规则离线第一幕→第二幕→34层胜利、669动作留同局资源轨迹。#1全Boss资格/地图遭遇与终点合证仍须逐项最终确认；默认无持久历史Champ，额外Boss历史资格依批准移TASK53未来，不能伪造已见历史。#2逐项事件全部合法选项/交易/事件战斗矩阵待统一；#4自然两幕已有离线胜利但仍缺同候选官方平台日志截图。#3保持已完成。
+
+2026-10-31 第二幕Designer公开Nodes矩阵已补全四服务构造分支与关键拒绝/回滚，标准新1/1及相关9/9通过。docs/reviews/M3-EVENT-OPTIONS-AUDIT-20261031.md逐项列既有Skull/Face/Nloth/竞技场专项边界；模块事务全130牺牲不冒充所有公开入口/自然/平台。AC2/4保持未完成。
 <!-- SECTION:NOTES:END -->

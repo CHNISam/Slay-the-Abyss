@@ -1,6 +1,7 @@
 -- Existing chest controls display source rewards; Nodes owns every transaction.
 local Nodes=require('abyss_nodes')
 local Theme=require('abyss_theme')
+local RewardList=require('abyss_node_ui_treasure_list')
 local M={}
 local kinds={small='小型宝箱',medium='中型宝箱',large='大型宝箱',boss='首领宝箱'}
 local displayed=setmetatable({},{__mode='k'})
@@ -97,7 +98,7 @@ function M.render(c)
   row:GetChild('name').text=(item.kind=='relic' and '遗物 · ' or '')..label
   row:GetChild('description').text=item.kind=='sapphire' and ('放弃关联遗物「'..c.relicName(item.relicId)..'」；保留金币和额外遗物。')
    or item.kind=='gold' and '独立领取宝箱金币。'
-   or available and c.relicText(item.id) or '此遗物尚不可领取；可以领取其他奖励或离开。'
+   or available and c.relicText(item.id) or RewardList.unavailableDescription(item,items)
   c.picture(row:GetChild('icon'),item.kind=='gold' and Theme.icon.gold or Theme.icon.relic[item.id] or Theme.icon.node.treasure)
   take:GetChild('label').text=linked and item.origin=='base' and '领取遗物' or item.kind=='sapphire' and '选择蓝钥匙' or '领取奖励'
   c.state(take,available,false,true)
@@ -135,7 +136,7 @@ function M.render(c)
  local hint=opened and '领取所需奖励，或离开宝箱。' or ((kinds[chest.kind] or '宝箱')..'就在眼前；可以打开或直接离开。')
  if linked then hint='遗物与蓝钥匙只能选一项 · 选择蓝钥匙将放弃遗物「'..c.relicName(linked.relicId)..'」' end
  if c.list then
-  require('abyss_node_ui_treasure_list').render(c,panel,items,opened,linked,bind)
+  RewardList.render(c,panel,items,opened,linked,bind)
   return hint,nil
  end
  return hint,linked

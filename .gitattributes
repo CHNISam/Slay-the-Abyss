@@ -276,3 +276,8 @@ art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/prompt.txt text eol=
 art/monster-benchmarks/genshin-v2/rock-shieldwall-mitachurl/source-generation.json text eol=lf
 art/monster-benchmarks/genshin-v2/hydro-samachurl/prompt.txt text eol=lf
 art/monster-benchmarks/genshin-v2/hydro-samachurl/source-generation.json text eol=lf
+
+# Shared card-random oracle hashes these exact source/input bytes on every OS.
+tools/oracles/sts1_card_random_chain.py text eol=lf
+data/reference/sts1-card-pools/pools.json text eol=lf
+data/reference/sts1-card-pools/registration.json text eol=lf

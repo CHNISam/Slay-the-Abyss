@@ -27,7 +27,15 @@ local function mapControl(name)
 end
 assert(mapControl('next').visible and mapControl('focus').visible)
 usingController=false;ui:update(.01)
-assert(not mapControl('next').visible and not mapControl('focus').visible)
+assert(not mapControl('next').visible and not mapControl('previous').visible)
+assert(mapControl('focus').visible,'PC retains explicit return-to-current recovery')
+local map, floor, node = assert(ui.map), ui.run.floor, ui.mapUI.map.currentNodeId
+assert(ui.mapUI:scrollBy(200) and ui.mapUI.scroll>0)
+assert(mapControl('focus'):GetChild('hit').click())
+ui:update(1)
+assert(ui.mapUI.scroll==0,'PC focus must actually return to current position')
+assert(ui.map==map and ui.mapUI.map==map and ui.run.floor==floor and ui.mapUI.map.currentNodeId==node,
+    'PC focus must not navigate to a room or advance the floor')
 usingController=true;ui:update(.01)
 assert(mapControl('next').visible)
 local nextHit=mapControl('next'):GetChild('hit')

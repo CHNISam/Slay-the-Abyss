@@ -88,7 +88,7 @@ export function enemyUnitTemplate(name = 'AbyssMonsterActor') {
     actor.children.splice(actor.children.findIndex(child => child.name === before), 0,
       {name,kind:'container',position:[0,0],size:[...actor.size],visible:true,children:[]});
   }
-  actor.children.find(child => child.name === 'intent').text.valign = 'top';
+  actor.children.find(child => child.name === 'intent').text.valign = 'middle';
   return actor;
 }
 
@@ -284,11 +284,15 @@ export function battleLayout() {
   for (let i = 0; i < l.battlePotions.count; i++) {
     const potion = button(`potion${i + 1}`, l.battlePotions.origin.map((n, axis) => n + l.battlePotions.step[axis] * i),
       l.battlePotions.size, '空药水槽', false, f.small);
-    // Main top-bar silhouettes: official bottle, not a second row of text buttons.
+    // Reuse each state label for a unique single-glyph caption beside the
+    // official bottle. Same atlas/tint bottles remain identifiable without color.
     for (const state of potion.children) {
       const label=state.children.find(c=>c.name==='label');label.visible=false;
+      label.position=[9,0];label.size=[14,l.nativeText.lineHeight];
+      label.text.fontSize=f.minimum;label.text.colour=c.goldBright;
       state.children=[...potionSlotVisual(theme,{border:state.children[0],plate:state.children[1],
         bottleSize:l.battlePotions.bottleSize,ink:c.goldBright}),label];
+      state.children.find(c=>c.name==='bottle').position=[-8,0];
     }
     // Keep the original three direct paths. Extra bottles share the existing
     // full-canvas help group so the battle parent stays at 60 direct children.

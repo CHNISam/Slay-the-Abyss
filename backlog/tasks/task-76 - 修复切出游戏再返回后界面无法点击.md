@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-28 09:38'
-updated_date: '2026-10-29 04:17'
+updated_date: '2026-10-31 17:02'
 labels: []
 milestone: m-4
 dependencies: []
@@ -15,6 +15,8 @@ references:
   - docs/backlog-details/MOBILE-QA-20261028.md
   - docs/evidence/backlog-merge-20261029.json
   - docs/backlog-details/TRAVELER-SCOPE-20261029.md
+  - docs/reviews/M3-MOBILE-FIXES-20261029.md
+  - docs/evidence/m3-completion-20261031/
 priority: high
 type: bug
 ordinal: 121000
@@ -61,6 +63,8 @@ PR315历史切片承接（原记录如下，不冒充本组合验证）：
 2026-10-28 PR315接续已合入PR313（cec690c1）：保留批准稿UI和药水瓶Click打开菜单/可见Use使用；只合成latest-origin屏障。精确TASK76逆向置于批准UI/PostNode完整身份检查之前，旧档案与golden不改；迁移药水两组断言并执行新基线相关回归/静态，旧302 Full绿灯仅作历史，不推送待独立复核。
 
 PR315当前07e4b026托管rules4实证定位：case40拖牌touch0却用无元数据Click模拟尾随事件，实际合法打开详情，后续Down只关闭详情。先保留原RED与acceptedcec对照，再只修该fixture尾随事件身份为touch0，保留全部原断言并补独立匿名敌人Click检查；以完整精确fixture逆向保全53case旧整体hash，不改生产源码/预算，待新SHA独立复核。
+
+2026-10-31 M3整批收口：对照地图、拖牌与跨模态输入回归区分已证缺陷和用户原生锁定，最后分别做手机/PC候选实测。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -105,4 +109,6 @@ PR323原39dab5e9历史实施记录承接（不认证本组合，当前公开范�
 生命周期修复替换包已交付：根.artifacts/M3卡组遗物修复-4ad01d49.gil，游戏源4ad01d49082edbcd8c7c2e3b85f5246595479391，SHA256 ff2a667d94404a122e1adfbae656da81e77aff046fcc88e24cb0cdbdbf667423。独立226模块同源、8454控件/max60、BGM及参数核对通过，静态0错误103警告未逐条人审。首轮全量UI重写工具120秒超时保留；改为整份JSON/模板与已审计旧包严格相同才复用原UI，最终完整检查不省略。新包官方导入/ready/设备仍待用户复验，原AC不勾；旧包用户失败记录已同步。
 
 合流双方完整metadata、AC、计划和实施notes见docs/evidence/backlog-merge-20261029.json；当前角色范围按旅行者单角两幕，雷电未来任务原81因上游重号经原生doctor改为TASK-85。所有原已勾AC不改，未验不勾。
+
+2026-10-31 M3最终事实核对：combined-focused.log中最终输入7项及mobile-card-release全部通过：XY地图阈值与touch跨瞄准边界修复、快慢各20有效/20取消；combined-engineering.log原生生命周期正负控4/4通过。#1手机原次偶发阻塞完整根因未确认；#2完整战斗/奖励/地图跨界面首操作矩阵待补齐；#3当前集成完整PR/CI合入未完成；#4–6真实拖牌、关卡组后首操作及PC/实体手机分端候选证据仍缺。离线矩阵不冒充原次事件根因或设备通过。
 <!-- SECTION:NOTES:END -->

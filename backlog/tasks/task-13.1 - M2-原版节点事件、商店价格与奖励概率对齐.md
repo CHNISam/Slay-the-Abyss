@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:56'
-updated_date: '2026-10-28 08:23'
+updated_date: '2026-10-31 17:22'
 due_date: '2026-10-28'
 labels:
   - required
@@ -26,6 +26,8 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/M3-EVENTS-INVENTORY-INTEGRATION.md
   - docs/M3-STATUS-20261028.md
+  - docs/reviews/M3-EVENTS-OFFLINE-COMPLETION-20261031.md
+  - docs/evidence/m3-completion-20261031/
 parent_task_id: TASK-13
 priority: medium
 type: enhancement
@@ -61,6 +63,8 @@ ordinal: 41000
 本轮完整职业来源池已接后，商店须按固定typed来源ID选择并保留未实现身份，不按Capability删池；父线程补正常/补货/失败原子性红绿，既有价格与浮点公式保持。
 
 2026-10-27并发复核：treasure独立树对固定Small/Medium/LargeChest、AbstractChest、TreasureRoomBoss实现箱型/共同roll/金币/共享遗物队列/钩子，主session接正常Nodes与蓝钥匙互斥。缺定义不缩池不重抽，严格入口与回滚定向验证。
+
+2026-10-31 M3整批收口：逐域复核完整两幕源池、经济入口和随机消费；全选项与严格平台按缺口单补验。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -86,4 +90,8 @@ M2组合复用PR163；其快递员同名卡错槽问题已由4bf1786改为精确
 
 2026-10-28用户确认范围变更：当前比赛只覆盖第一幕、第二幕，优先前10分钟体验；第三幕/隐藏第四幕/真结局及依赖退出续玩、跨局进度、历史解锁或跨局留卡的内容退出比赛必做，保留为无新截止日的未来候选。四职业及已批准原创角色要求不变。同局跨房间、第一幕到第二幕的资源与随机流、内存快照/回滚和本局结算保留；源码/候选/平台/实机仍分层，未完成状态不因范围调整改变。
 原AC4（仅保留历史要求，不再作为当前比赛必做）：补齐全部25事件选项、未知房变化及完整营地/宝箱产出规则，逐项保持原版。
+
+2026-10-31 M3最终事实核对：本轮事件55幕别路径/42身份全源池公开完成、完整typed商店身份与缺定义不漂移、价格77项及33药水两渠道/连续流通过。#4仍须逐事件全部合法选项/未知房/营地宝箱原版结果矩阵收齐；#5完整货架各类型及全部折扣删牌交互的逐项合证仍需统一；#6完整金币/卡牌/药水/遗物稀有度领取顺序与全部流组合仍需统一；#7严格同候选平台极端价格/重复/失败验收未做。现有专项不是未实现证明，也不外推全域通过。
+
+2026-10-31 补Designer真实Nodes公开服务全分支、空组/瓶装/受保护/不足金币/重复/晚onObtain失败原子回滚；新标准1/1、相关9/9通过，两真实费用/可行性变异被拒。见docs/reviews/M3-EVENT-OPTIONS-AUDIT-20261031.md。未发现新生产缺陷；55路由不冒充所有事件全选项/源hook与官方验收，广义未完成AC保留。
 <!-- SECTION:NOTES:END -->

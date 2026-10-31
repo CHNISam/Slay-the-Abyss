@@ -16,20 +16,30 @@ return function(box,actor)
  local f=assert(facts[actor.definitionId],'missing independent source geometry fact')
  local p=actor.sourcePosition or {x=f[1],y=f[2]}
  local x=(1440+p.x+f[3])*sx-width/2
- local bottom=(require('abyss_battle_enemy_view').floorY+p.y+f[4])*sy-height/2
+ -- Frozen source floor 340 plus the approved 60px native-hand clearance.
+ -- Do not borrow the geometry owner's output as this oracle's expected value.
+ local bottom=(400+p.y+f[4])*sy-height/2
  local h=actor.definitionId=='guardian' and actor.aiPhase=='defense' and 250 or f[8]
- local rootY=bottom+math.max(f[7]*sx,h*sy)/2
+ local portrait=math.max(f[7]*sx,h*sy)
+ local rootY=bottom+portrait/2
  local iconX=f[5]*sx+(actor.definitionId=='gremlin_nob' and -30*sx or 0)
- local iconY=bottom+(f[6]+h+32)*sy-rootY
+ -- The source horizontal anchor is preserved. Full-bleed native glyphs and
+ -- native 40px damage text sit above BOTH source art and source hitbox.
+ local bodyTop=math.max(rootY+portrait/2,bottom+(f[6]+h)*sy)
+ local line=theme.layout.nativeText.lineHeight
+ local iconY=bodyTop+math.max(line,theme.layout.intent.size)/2+theme.space.xs-rootY
  local function eq(got,want,label)assert(math.abs(got-want)<.001,label..': '..got..' ~= '..want)end
  eq(box.x,x,'source actor x');eq(box.y,rootY,'source actor y')
  local icon,hit=box:GetChild('intentIcon'),box:GetChild('intentHit')
- local glyph=math.min(128*sx,theme.layout.intent.size*1.15)
+ local glyph=math.min(128*sx,theme.layout.intent.size)
  eq(hit.x,iconX,'source intent x');eq(hit.y,iconY,'source intent y')
- eq(icon.x,iconX,'source intent x');eq(icon.y,iconY+glyph/2-theme.layout.intent.size/4,'glyph floats clear of head')
+ eq(icon.x,iconX,'source intent x');eq(icon.y,iconY,'native intent row clears art and hitbox')
  eq(icon.sizeDeltaX,glyph,'readable intent glyph width');eq(icon.sizeDeltaY,glyph,'readable intent glyph height')
  eq(hit.sizeDeltaX,64*sx,'source help width');eq(hit.sizeDeltaY,64*sy,'source help height')
  local value=box:GetChild('intent')
- eq(value.x,iconX-30*sx+value.sizeDeltaX/2,'source damage baseline x')
- eq(value.y,iconY-12*sy-theme.layout.nativeText.lineHeight/2,'source damage baseline y')
+ eq(value.x-value.sizeDeltaX/2,iconX+glyph/2+theme.space.xs,'damage starts after the full-bleed glyph')
+ eq(value.y,iconY,'damage shares the native intent row')
+ eq(value.sizeDeltaY,line,'complete native damage text line')
+ assert(rootY+icon.y-glyph/2>=bodyTop+theme.space.xs-.001,'intent glyph overlaps body')
+ assert(rootY+value.y-line/2>=bodyTop+theme.space.xs-.001,'intent damage overlaps body')
 end

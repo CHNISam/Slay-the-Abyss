@@ -1,0 +1,109 @@
+{
+  "auditId": "independent-m3-help-product-decision-20261031",
+  "reviewer": "/root/review_m3_delivery_exact; independent read-only decision audit",
+  "decision": "RESTORE_EXISTING_PUBLIC_HELP_ENTRYPOINTS",
+  "confidence": "high; later explicit retained-help work and later narrowly specified copy supersede older removal requirement",
+  "blockingFinding": {
+    "id": "M3-HELP-DECISION-ORDER",
+    "severity": "Important",
+    "detail": "M3 help retirement implemented the older TASK-4.8 requirement despite later TASK-4.16 approved menu/three-column guide and explicit Owner two-string-only update. No later Owner cancellation was found. The earlier final aggregate incorrectly treated the old requirement as current product authorization."
+  },
+  "timeline": [
+    {
+      "time": "2026-10-29 recording; preserved before PR383",
+      "source": "docs/backlog-details/MOBILE-QA-20261029.md:33,42,96; TASK-4.8 AC3/notes",
+      "fact": "Older recording asks to remove instructional interference; screenshot1184 includes menu help and1184 outside-close problem,1194 help covers exit warning. TASK4.8 generalized this to removing menu and exit help.",
+      "scope": "Historical requirement; not authority to undo newer approved menu work."
+    },
+    {
+      "time": "2026-10-30 new playtest; committed46fb413 at2026-10-30T14:52:56Z",
+      "source": "docs/backlog-details/PLAYTEST-20261030.md:34-37,55; TASK-4.16 description/AC3",
+      "fact": "Newer feedback asks information hierarchy to be improved so players can find controls; warns overlap with exit text. It does not request the operation guide become inaccessible."
+    },
+    {
+      "time": "2026-10-30T15:24:57Z",
+      "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/388",
+      "fact": "PR body explicitly retains operation guide in pause menu and converts six-grid guide into battle/map-potions/resources three columns; guide outside click returns to menu.",
+      "state": "Closed unmerged on2026-10-30T22:34:27Z; closure itself is not rejection or removal approval."
+    },
+    {
+      "time": "2026-10-30T22:20:15Z",
+      "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/395",
+      "fact": "PR395 ports approved residual388 work and explicitly retains pause menu/three-column guide/full exit warning.",
+      "corroboration": "Independent review395 comments6534741059 and6534751983 at22:22Z approve source boundaries."
+    },
+    {
+      "time": "2026-10-30T22:34:26Z",
+      "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/388#issuecomment-6534925704",
+      "quote": "暂停菜单/三栏说明/触控间距/完整退出警告与边界回归由395适配391并进入396 f5af0664",
+      "fact": "Explains actual transfer, so closed388 does not revoke menu guide."
+    },
+    {
+      "time": "2026-10-31T00:38:58Z",
+      "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/396#issuecomment-6536629013",
+      "quote": "Owner 刚在本 dot 会话明确要求操作说明两句改文案，其他不变：结束回合→“点击右下角「结束回合」”；商店→“先点商品查看详情，再确认购买”。",
+      "fact": "Later explicit Owner instruction, reported by agent, is to preserve guide and change only two strings. This is the strongest inspected later decision evidence."
+    },
+    {
+      "time": "2026-10-31T00:41:59Z",
+      "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/396#issuecomment-6536663062",
+      "fact": "6e5c9a0f two-file implementation delivered with exact strings, other layout/copy unchanged,18/18 and independent review reported. TASK4.16 notes47 independently preserve integration4c262462/readback and same two-string-only intent."
+    },
+    {
+      "time": "2026-10-31T01:24:36Z",
+      "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/396",
+      "fact": "PR396 actually merged todevelop as9cfb250bffa495c5cf76d76f9452368a25de9788; PR388/395 functionality was retained through integration."
+    },
+    {
+      "time": "2026-10-31T16:19:31Z",
+      "source": "git0b3667d9ca00c7c08618361009484bb456e9e5ec; TASK4.8 M3notes",
+      "fact": "M3 implementation hides both help controls, denies help/run_help available(), and collapses menu positions. Later timestamp of implementation/Backlog reconciliation is not a later Owner decision. No new cancellation evidence appears here."
+    },
+    {
+      "time": "2026-10-31T17:30:04Z",
+      "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/436#issuecomment-6546769872",
+      "fact": "Review comment identifies this conflict. Audit conclusion is based on original PR388/395/396 and repository records, not accepting this comment on its own."
+    }
+  ],
+  "recommendedActions": [
+    "Restore existing cd2e4a4-era help availability/visibility and menu geometry for both existing menu and exit entrypoints, preserving the later three-column guide and exact Owner strings. This is restoration of approved behavior, not a newly designed feature.",
+    "Retain current clearer exit progress-loss warning, Chinese card simplification/keywords, read-only guide behavior, correct layer return, outside-click consumption, controller echo and busy/settlement/stale-input guards. Add focused public entry regressions rather than keeping tests whose purpose is to enforce retirement.",
+    "Use Backlog CLI to uncheck TASK4.8#3 as currently written, or formally reconcile its obsolete mixed removal clause against TASK4.16; do not leave the mixed AC checked while restored help intentionally contradicts part of it. Preserve historical text and explain superseding decision.",
+    "Reassess help-specific parity/formal tests, retired-help helper and archived README/acceptance claims. Keep their old result files historical; new combination requires fresh source/CI binding."
+  ],
+  "evidenceLimits": [
+    "GitHub comments are statements posted under the Owner account, often by agents. Owner-specific two-string request is explicitly reported speech, not direct access to private human chat. It is independently corroborated byTASK4.16 and actual merged-source path.",
+    "No newer human cancellation was found in inspected388/395/396/436 bodies/comments/reviews or task/source notes. Search is bounded to named evidence and repository help records.",
+    "No code, Backlog, branch, remote comment or external application modified in this audit. Only external reports written."
+  ],
+  "provenance": [
+    {
+      "path": "/workspace/cloud-reports/m3-help-decision-github-raw.json",
+      "sha256": "89860427e827e1abf4f1fbab72805097c6bf4baf72be8a196c5dcd596f996cc2"
+    },
+    {
+      "path": "backlog/tasks/task-4.8 - 清理卡牌和遗物的英文占位说明.md",
+      "sha256": "3012a3c367d355f64a7924e2dcf35f327248353d233f80dac292ce3d8be0454c"
+    },
+    {
+      "path": "backlog/tasks/task-4.16 - 改善右上角菜单与操作说明的交互和信息层级.md",
+      "sha256": "6d0b32caa9c3824175dc630f835b73198275add556a505571e3f56757d1bf1b1"
+    },
+    {
+      "path": "backlog/tasks/task-4.17 - 在欢迎点赞支持后精确追加帮助作者提升等级.md",
+      "sha256": "cf5c16c9d199c20d774c0c095ebd2faba6e69671a7b6e6f9566852134066ff99"
+    },
+    {
+      "path": "docs/backlog-details/PLAYTEST-20261030.md",
+      "sha256": "509a37ea39c8280a1ff9b1058665c2d500726b670e4df8bdcdef25564234608b"
+    },
+    {
+      "path": "docs/backlog-details/MOBILE-QA-20261029.md",
+      "sha256": "23eb4340741e80535c151e5154f6dc694275dbe2ccf14b1fcff981a915a60fb6"
+    },
+    {
+      "path": "docs/backlog-details/PLAYTEST-20261030-MENU-SOURCE-AUDIT.md",
+      "sha256": "ec6373ee28e67df7742621af6ac67632dc95a36d5532031850b03c7767395746"
+    }
+  ]
+}

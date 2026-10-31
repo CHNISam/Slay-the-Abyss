@@ -71,7 +71,7 @@ local function equipmentUpgrade(run,id,api)
  S.shuffle(run.miscRng,eligible)
  for i=1,math.min(2,#eligible)do
   if api and api.upgrade then
-   local ok,reason=api.upgrade(eligible[i]);assert(ok~=false,reason or 'permanent upgrade rejected')
+   local ok,reason=api.upgrade(eligible[i],id);assert(ok~=false,reason or 'permanent upgrade rejected')
   else eligible[i].upgraded=true end
  end
 end
@@ -238,7 +238,12 @@ function M.onObtainCard(run,card,definition,permanentApi)
    assert(permanentApi and type(permanentApi.increaseMaxHp)=='function','missing permanent health API')
    local ok,why=permanentApi.increaseMaxHp(run,6)
    if not ok then return false,why end
-  elseif eggTypes[M.localId(id)] then eggUpgrade(card,definition,eggTypes[M.localId(id)])
+  elseif eggTypes[M.localId(id)] then
+   local before=require('abyss_card_origin').state(card)
+   eggUpgrade(card,definition,eggTypes[M.localId(id)])
+   if not before.upgraded and card.upgraded then
+    require('abyss_card_origin').record(run,card,before,'obtained_upgraded',{kind='relic',relicId=M.localId(id)})
+   end
   end
  end
  return true

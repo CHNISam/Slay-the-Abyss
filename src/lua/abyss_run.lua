@@ -44,6 +44,7 @@ function M.transaction(run,command)
     if not called then return false,'transaction_failed' end
     if owner.failed then return false,owner.reason end
     if not ok then return false,detail end
+    require('abyss_card_origin').observe(staged,run)
     for key in pairs(run) do if staged[key]==nil then run[key]=nil end end
     for key,value in pairs(staged) do run[key]=value end
     return true,detail
@@ -255,6 +256,11 @@ function M.obtainRelic(run,id)
     return M.transaction(run,function(staged)
         local definition=relicDefinition(staged,id)
         if not definition then return false,'relic_content_unavailable' end
+        -- One current acquisition receipt; each card keeps only its latest relic upgrade.
+        -- Both live inside the enclosing transaction, including nested reward/shop obtains.
+        local receipt={sequence=(staged.lastRelicObtain and staged.lastRelicObtain.sequence or 0)+1,
+            relicId=definition.id,upgrades={}}
+        staged.lastRelicObtain=receipt
         if definition.id=='circlet' then
             RelicHooks.obtainCirclet(staged);return true,definition.id
         end
@@ -273,9 +279,22 @@ function M.obtainRelic(run,id)
                 return def and def.upgrade and next(def.upgrade)~=nil
                     and (not card.upgraded or def.repeatable==true)
             end,
-            upgrade=function(card)
+            upgrade=function(card,sourceRelic)
+                local change
+                if sourceRelic=='whetstone' or sourceRelic=='war_paint' then
+                    change={relicId=sourceRelic,uid=card.uid,cardId=card.cardId,
+                        before={upgraded=card.upgraded==true,upgrades=card.upgrades or (card.upgraded and 1 or 0)}}
+                end
                 card.upgrades=(card.upgrades or (card.upgraded and 1 or 0))+1
-                card.upgraded=true;return true
+                card.upgraded=true
+                if change then
+                    change.after={upgraded=true,upgrades=card.upgrades}
+                    card.lastRelicUpgrade=change
+                    receipt.upgrades[#receipt.upgrades+1]=change
+                    require('abyss_card_origin').record(staged,card,change.before,'permanent_upgrade',
+                        {kind='relic',relicId=sourceRelic})
+                end
+                return true
             end})
         if equipped==false then return false,equipReason end
     publishCombatRelic(staged, definition)

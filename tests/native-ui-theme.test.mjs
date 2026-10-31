@@ -15,6 +15,20 @@ function freeze(value) {
   return value;
 }
 
+// Independent host-only input contract: resource icon/value union and 48px target.
+// Build the expectation from theme scalars, never from production host controls.
+function expectedResourceHints(theme, pairs) {
+  return { name: 'resourceHints', kind: 'container', size: [...theme.canvas.base], children:
+    pairs.map(([name, icon, value]) => {
+      const left=Math.min(icon[0]-icon[2]/2,value[0]-value[2]/2);
+      const right=Math.max(icon[0]+icon[2]/2,value[0]+value[2]/2);
+      const size=[Math.max(48,right-left),Math.max(48,value[3])];
+      return {name,kind:'container',position:[(left+right)/2,value[1]],size,children:[
+        {name:'hit',kind:'cursorArea',size:[...size],focusable:true},
+      ]};
+    }) };
+}
+
 test('native image colours serialize as RGB with independent opacity', () => {
   const plate = nativeControls().plate('veil', [0, 0, 20, 20], '#12345680');
   assert.equal(plate.colour, '#123456');
@@ -74,10 +88,19 @@ test('host preserves the approved battle and scrollable map while composing node
   theme.layout.nativeNode.confirm[2] = 220;
   theme.layout.nativeMenu.start[1] = -220;
   theme.layout.battleRewards.return = [-480, -72, 156, 56];
+  theme.color.hp='#102030';theme.color.text='#A1B2C3';
+  theme.layout.nativeNode.topBar.hp[2]+=12;
+  theme.layout.nativeNode.topBar.gold[0]+=8;
   theme.canvas.base = [1600, 900];
   const panels = gameLayout(theme).controls, battle = find(panels, 'battlePanel').children;
   const approvedBattle = find(battleLayout().controls, 'stage').children;
-  assert.deepEqual(battle, approvedBattle);
+  // Only the host's two read-only resource hit areas may extend the approved tree.
+  // Full-object equality pins identity, hit-only children and the last-drawn layer.
+  const top = theme.layout.topBar;
+  const battleHints = expectedResourceHints(theme,['hp', 'gold'].map(name =>
+    [name, [top[name + 'Icon'][0], top.y, top[name + 'Icon'][1], top[name + 'Icon'][1]],
+      [top[name][0], top.y, top[name][1], top.height]]));
+  assert.deepEqual(battle, [...approvedBattle, battleHints]);
   assert.deepEqual(find(battle, 'card1').size, nativeTheme.layout.card.size);
   assert.equal(find(battle, 'endTurn').kind, 'presetButton');
   assert.deepEqual(Object.keys(find(battle, 'endTurn').states).sort(), ['disabled', 'hover', 'normal', 'pressed']);
@@ -90,10 +113,22 @@ test('host preserves the approved battle and scrollable map while composing node
   assert.deepEqual(title(map).size, theme.layout.nativeNode.topBar.title.slice(2));
   const resources = find(map, 'resources');
   assert.deepEqual(resources.children.map(control => control.name), ['hpIcon', 'hp', 'goldIcon', 'gold']);
+  assert.equal(find(resources.children,'hpIcon').image,theme.icon.hp);
+  assert.equal(find(resources.children,'hpIcon').colour,theme.color.hp);
+  assert.equal(find(resources.children,'hp').text.colour,theme.color.text);
+  assert.equal(find(resources.children,'hp').text.fontSize,theme.font.body);
+  assert.deepEqual([...find(resources.children,'hp').position,...find(resources.children,'hp').size],theme.layout.nativeNode.topBar.hp);
+  assert.deepEqual([...find(resources.children,'gold').position,...find(resources.children,'gold').size],theme.layout.nativeNode.topBar.gold);
   const previewBack=find(map,'previewBack');
   assert.equal(previewBack.visible,false);
   assert.deepEqual([...previewBack.position,...previewBack.size],theme.layout.runMenu.mapBack);
-  const comparableMap = structuredClone(map.filter(group => !['resources','previewBack'].includes(group.name)));
+  const bar = theme.layout.nativeNode.topBar;
+  const mapHints=expectedResourceHints(theme,['hp', 'gold'].map(name => [name, bar[name + 'Icon'], bar[name]]));
+  assert.deepEqual(find(map,'resourceHints'),mapHints,'exact host map input paths and themed targets');
+  assert.deepEqual(map.at(-1),mapHints,'resource input layer remains last drawn');
+  const hostMapNames=['resources','previewBack','resourceHints'];
+  for(const name of hostMapNames)assert.equal(map.filter(group=>group.name===name).length,1,'one registered host layer '+name);
+  const comparableMap = structuredClone(map.filter(group => !hostMapNames.includes(group.name)));
   title(comparableMap).position = [...title(standaloneMap).position];
   title(comparableMap).size = [...title(standaloneMap).size];
   assert.deepEqual(comparableMap, standaloneMap);

@@ -105,7 +105,10 @@ function M.install(owner, ownership, host, dependencies)
                 if effect.status or effect.op=="gainTemporaryStrength" or effect["then"] and hasKeyword(effect["then"]) then return true end
             end
         end
-        if card.originalV4 or card.exhaust or card.ethereal or hasKeyword(card.effects) then return {kind="card",index=0,uid=instance.uid} end
+        local function annotated()
+            return card.originalV4 or card.strikeTag or instance.upgraded or card.exhaust or card.ethereal
+        end
+        if annotated() or hasKeyword(card.effects) then return {kind="card",index=0,uid=instance.uid} end
     end
     function owner:potionHelpSpec(slot)
         local run = self.run

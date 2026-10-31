@@ -1,6 +1,7 @@
 local H=dofile('tests/lua/support/battle_gesture_fixture.lua')
 local EnemyView=require('abyss_battle_enemy_view')
 local Powers=require('abyss_monster_power_surfaces')
+local Theme=require('abyss_theme')
 local host,ui,panel=H.setup({'defend'},{'cultist','red_louse','green_louse','jaw_worm','sentry'})
 local battle=host.run.combat
 local function near(a,b,message)assert(math.abs(a-b)<1e-8,message..': '..tostring(a)..' ~= '..tostring(b))end
@@ -26,10 +27,14 @@ assert(not hero:GetChild('plate').visible and not hero:GetChild('border').visibl
 local first=enemy(1)
 -- Cultist source: hbX=-8, hbY=10, width=230, height=240.
 near(first:GetChild('intentIcon').x,-8/1.5,'intent follows source hitbox center')
--- Full-bleed official glyph (not STS's padded 128 frame) floats clear of the head.
-local glyph=math.min(128/1.5,38.666666666666664*1.15)
-near(first:GetChild('intentIcon').y,(10+240+32)/1.5-240/3+glyph/2-38.666666666666664/4,'source intent anchor above hitbox')
+-- Native full-bleed glyph and horizontal damage clear both square art and source hitbox.
+-- Original constructor, help width, HP anchors and ordered source powers stay below.
+local glyph=math.min(128/1.5,Theme.layout.intent.size)
+local nativeTop=math.max(240/3,(10+240)/1.5-240/3)
+local intentY=nativeTop+math.max(Theme.layout.nativeText.lineHeight,Theme.layout.intent.size)/2+Theme.space.xs
+near(first:GetChild('intentIcon').y,intentY,'native intent anchor clears full art')
 near(first:GetChild('intentIcon').sizeDeltaX,glyph,'readable intent glyph size')
+assert(first:GetChild('intentIcon').y-glyph/2>=nativeTop+Theme.space.xs-1e-8,'full glyph body clearance')
 near(first:GetChild('intentHit').sizeDeltaX,64/1.5,'source intent hitbox size')
 near(first:GetChild('hpFill').y,(10-18)/1.5-240/3,'source health anchor below hitbox')
 near(first:GetChild('hpFill').sizeDeltaY,20/1.5,'source health bar height')
@@ -48,7 +53,10 @@ local row=normalCount(1)
 local chip=assert(Powers.get(row):find('strength'))
 near(chip:GetChild('icon').sizeDeltaX,48/1.5,'source status icon size')
 near(chip.x,(-8-230/2+10)/1.5,'source power row starts at health left plus ten')
-near(chip.y,(10-48)/1.5-240/3,'source power row below hitbox')
+-- Full-bleed status images need explicit HP clearance, not source atlas padding.
+local powerY=(10-18)/1.5-240/3-math.max(20/1.5,Theme.font.small)/2-Theme.space.s-(48/1.5)/2
+near(chip.y,powerY,'native power row below full HP bar')
+assert(chip.y+chip:GetChild('icon').sizeDeltaY/2<=first:GetChild('hpFill').y-first:GetChild('hpFill').sizeDeltaY/2-Theme.space.s+1e-8,'power never covers HP')
 print('APPROVED_MAIN_UNIT_PASS')
 -- Status overflow cannot move the original creature coordinates.
 local beforeY=first.y
@@ -60,7 +68,7 @@ local powerCount=0
 Powers.get(row):each(function(box,slot,entry)
  powerCount=powerCount+1
  near(box.x,(-8-230/2+10+(powerCount-1)*48)/1.5,'source ordered single power row')
- near(box.y,(10-48)/1.5-240/3,'powers never wrap')
+ near(box.y,powerY,'powers never wrap')
  assert(box:GetChild('count').sizeDeltaY==40,'retain native transparent text box')
  assert(entry.id==battle.enemies[1].powerOrder[powerCount],'power acquisition order changed')
 end)

@@ -15,11 +15,16 @@ end
 function M.status(run,id)
     local local_=Hooks.localId(id)
     local counters=run.relicCounters or {}
+    if run.phase=='combat' and run.combat then counters=run.combat.relicCounters or counters end
     local v=counters[local_]; if v==nil then v=counters[id] end
     if type(v)~='number' then return nil end
     if local_=='neows_lament' then return v==-2 and '已耗尽' or ('剩余 '..v..' 场') end
     if local_=='maw_bank' then return v==-2 and '已失效' or nil end
     if local_=='ancient_tea_set' then return v==-2 and '已蓄能' or nil end
+    if local_=='lizard_tail' then return v==-2 and '已耗尽' or v==-1 and '剩余 1 次' or nil end
+    if local_=='omamori' or local_=='matryoshka' or local_=='winged_greaves' or local_=='nloths_mask' then
+        return v<=0 and '已耗尽' or ('剩余 '..v..' 次')
+    end
     if v==-2 then return '已耗尽' end
     if v>=0 then return '计数 '..v end
     return nil

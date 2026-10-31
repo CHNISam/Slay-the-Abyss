@@ -22,3 +22,12 @@ test('four readable Neow options fit below dialogue inside the canvas',()=>{
  assert.ok(o.title[1]+o.title[3]/2<=o.size[1]/2);
  assert.ok(o.description[1]-o.description[3]/2>=-o.size[1]/2);
 });
+test('Neow uses the existing geo placeholder, never the shop merchant bust',()=>{
+ const panel=nodeLayout().controls[0];
+ const figure=panel.children.find(c=>c.name==='eventView').children.find(c=>c.name==='neowFigure');
+ const npc=figure.children.find(c=>c.name==='npc');
+ assert.equal(npc.image,nativeTheme.icon.geo);
+ const images=c=>[...(c.image?[c.image]:[]),...(c.children??[]).flatMap(images)];
+ assert.ok(!images(figure).includes(nativeTheme.image.merchant),'Neow is not the old-road merchant');
+ assert.ok(images(panel.children.find(c=>c.name==='merchant')).includes(nativeTheme.image.merchant),'shop merchant must remain');
+});

@@ -330,8 +330,10 @@ function M.upgrade(run, uid)
     local instance = find(run.deck, uid, "uid")
     if not instance then return false, "invalid_card" end
     if flow.upgradesLeft <= 0 or not upgradeable(run, instance) then return false, "card_not_upgradeable" end
+    local before=require('abyss_card_origin').state(instance)
     instance.upgrades=(instance.upgrades or (instance.upgraded and 1 or 0))+1
     instance.upgraded, flow.campChoice = true, "upgrade"
+    require('abyss_card_origin').record(run,instance,before,'permanent_upgrade',{kind='camp'})
     flow.upgradesLeft = flow.upgradesLeft - 1
     if flow.upgradesLeft == 0 or #upgradeCards(run) == 0 then return complete(run) end
     return true

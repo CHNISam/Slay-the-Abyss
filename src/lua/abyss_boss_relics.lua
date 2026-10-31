@@ -91,6 +91,12 @@ local function finishSelection(run,pending)
    local d=definition(run,id)
    local upgraded=d.upgrade and next(d.upgrade)~=nil
    ok,why=Run.obtainCard(run,id,{upgraded=upgraded});if not ok then return false,why end
+   for _,obtained in ipairs(run.deck)do if obtained.uid==why and obtained.upgraded then
+    local Origin=require('abyss_card_origin')
+    if not Origin.matches(obtained,obtained.lastUpgradeOrigin)then
+     Origin.record(run,obtained,Origin.state({}),'obtained_upgraded',{kind='relic',relicId='astrolabe'})
+    end
+   end end
   end
  end
  run.pendingBossRelic=nil;return true
@@ -201,7 +207,11 @@ function M.claim(run,kind,choice)
 end
 local function tinyHouse(run)
  local eligible={};for _,card in ipairs(run.deck)do if upgradeable(run,card)then eligible[#eligible+1]=card end end
- R.shuffle(run.miscRng,eligible);if #eligible>0 then upgrade(eligible[1])end
+ R.shuffle(run.miscRng,eligible);if #eligible>0 then
+  local card=eligible[1];local before=require('abyss_card_origin').state(card)
+  upgrade(card)
+  require('abyss_card_origin').record(run,card,before,'permanent_upgrade',{kind='relic',relicId='tiny_house'})
+ end
  local ok,why=require('abyss_run').increaseMaxHp(run,5);if not ok then return false,why end
  local Potions=require('abyss_potion_random')
  local pool=Potions.pool(Potions.character(run))

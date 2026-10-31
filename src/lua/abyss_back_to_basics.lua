@@ -19,11 +19,11 @@ end
 function M.options(run,event)
     if event.stage=='intro' then
         local boundary=unresolved(run)
-        return {row('elegance','优雅','免费移除一张非瓶装、可清除的永久牌。'),
+        return {row('elegance','优雅','免费移除一张可移除永久牌，遗物绑定牌除外。'),
             row('simplicity','简洁',boundary and '当前原创职业的初始打击/防御源标签映射尚未确认，暂不可用。' or
                 '升级所有尚可升级的初始打击与防御。',not boundary)}
     elseif event.stage=='choose_card' then
-        return {row('purge','移除卡牌','选择一张非瓶装、可清除的永久牌。',#Purge.purgeCards(run)>0,'basics_purge')}
+        return {row('purge','移除卡牌','选择一张可移除永久牌，遗物绑定牌除外。',#Purge.purgeCards(run)>0,'basics_purge')}
     elseif event.stage=='result' then return {row('leave','离开','返回路线。')} end
     return {}
 end
@@ -93,7 +93,7 @@ function M.choose(run,flow,choice,uid,upgradeable)
         event.stage='result';event.body='没有可移除的卡牌。古老的文字渐渐沉寂。'
         return true,'pending'
     end
-    event.stage='choose_card';event.body='选择一张非瓶装、可清除的永久牌移除。'
+    event.stage='choose_card';event.body='选择一张可移除永久牌；被遗物指定为战斗起手的牌不能移除。'
     return true,'choose_card'
 end
 return M

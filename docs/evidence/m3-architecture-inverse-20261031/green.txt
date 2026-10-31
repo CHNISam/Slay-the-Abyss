@@ -1,0 +1,10 @@
+✔ [historical 98fef source contract] architecture layout whitespace projects to the same immutable complete historical bytes (1819.388364ms)
+✔ [historical 98fef source contract] whitespace permission never hides changed tokens, duplicate keys, array order or string content (5970.071903ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8084.98553

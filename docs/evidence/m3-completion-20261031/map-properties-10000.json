@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "requested": 10000,
+  "executed": 10000,
+  "passed": 10000,
+  "failed": 0,
+  "executionErrors": 0,
+  "seedRange": {
+    "start": "0",
+    "end": "9999"
+  },
+  "examples": [],
+  "scope": "Structural invariants only; not golden parity, quota/ancestor proof, or platform verification."
+}

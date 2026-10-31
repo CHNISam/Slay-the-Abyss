@@ -1,0 +1,57 @@
+{
+  "reviewedCommit": "8dbf4e0faeb74752eb4e51e7d6432ad3bfcae304",
+  "baseCommit": "8d96a670487182a13aeeba03a2cb1a18d21ceed0",
+  "worktree": "/workspace/m3-source-inverse-ci",
+  "verdict": "PASS",
+  "findings": [],
+  "scope": "Four test-only historical adapter/proof files; source, old archives/hashes/assertions and runner budgets unchanged.",
+  "reviewChecks": [
+    {
+      "item": "Exact reviewed layer",
+      "result": "New immutable fixture is itself whole-SHA pinned. Only src/lua/abyss_nodes.lua is registered. Exactly two positioned insertion hunks undo the real 0b3667d camp provenance state/record lines. No broad regex, partial patch recognition, new-module replacement or runtime rule edits."
+    },
+    {
+      "item": "Whole identities and ancestry",
+      "result": "Independently compared live bytes to git show0b3667d:path and restored bytes to git show00529ab:path. before SHA7d9732ed.../blob82218385... and after SHAf685e7a5.../blob38336255... match; 0b3667d parent exactly00529ab. before/after line counts and complete forward round-trip are asserted."
+    },
+    {
+      "item": "Strict drift rejection",
+      "result": "Whole current SHA gate runs before inverse. Independent seven extra/partial/duplicate/moved/foreign-source/semantic mutations were returned unchanged; foreign path and null remain unchanged. Proof and nested hunk arrays are frozen. Downstream old mobile QA whole-hash rejection remains unchanged and author tests exercise it."
+    },
+    {
+      "item": "Outer composition integration",
+      "result": "All four mobile helper entrypoints compose preM3 before existing preOriginalPr323. Existing archive SHA, archived source, Ruby frozen expected hash and original Ruby body assertion untouched; repeated invocations are idempotent because only exact reviewed after bytes project."
+    },
+    {
+      "item": "Evidence boundary",
+      "result": "Helper comments and existing mobile helper explicitly limit projection to historical replay. It only removes provenance calls from archived replay inputs; it does not claim natural camp/campaign behavior, source rules/device parity or the new origin module as original upstream content."
+    }
+  ],
+  "independentValidation": [
+    {
+      "command": "direct Node import of m3-camp-upgrade-origin-inverse with git show comparisons",
+      "result": "PASS exact current/reviewed/prior whole bytes, CRLF, both Git blobs, parent, frozen proof, seven drift variants plus foreign path/null controls; under1s"
+    },
+    {
+      "command": "node --test --test-name-pattern='three original camp commands' tests/ruby-recall.test.mjs",
+      "result": "PASS1/1 zero skip;93ms case/317ms process; unchanged original frozen Ruby source assertion now succeeds through the complete existing chain"
+    },
+    {
+      "command": "git diff 8dbf4e0^ 8dbf4e0 --check",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --quiet 8dbf4e0^ 8dbf4e0 -- src scripts data config docs/reviews/mobile-qa-source-migration-20261028.json.gz",
+      "result": "PASS unchanged production/runner/source archive"
+    }
+  ],
+  "authorEvidenceRead": [
+    "/workspace/cloud-reports/m3-source-inverse-red.log",
+    "/workspace/cloud-reports/m3-source-inverse-green.log"
+  ],
+  "limits": [
+    "Did not repeat39second combined mobile/new-adapter batch or any Lua suite.",
+    "No source or test edits by reviewer.",
+    "No natural gameplay or official/device claim."
+  ]
+}

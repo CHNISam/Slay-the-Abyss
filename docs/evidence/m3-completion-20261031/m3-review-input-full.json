@@ -1,0 +1,138 @@
+{
+  "review": "m3-input-full-independent",
+  "base": "1a38b91253730a37474a75e80055bf182f147894",
+  "head": "3ac97cd2b2c9ba92085b2ce87315a91b064e6731",
+  "combined_head_context": "7f0b600",
+  "worktree": "/workspace/m3-complete-input",
+  "verdict": "PASS",
+  "scope": "12-file input diff static/deep review; does not certify runtime checks or device acceptance",
+  "blocking_findings": [],
+  "findings": [
+    {
+      "severity": "low",
+      "location": "/workspace/cloud-reports/m3-complete-input-report.md",
+      "finding": "取消20次循环的坐标仅为回手(0,-330)、上方(0,300)、右屏外(700,0)。该新增40次不能支持报告中的“左右屏外”表述。",
+      "recommendation": "将新增矩阵证据写为右屏外；左屏外由其他真实已执行用例单独引用。"
+    }
+  ],
+  "reviewed": [
+    "完整12文件diff；生产仅map_ui二维阈值与card_view触摸aim不停车。",
+    "地图X/Y均除相同min(canvas/base)缩放，阈值仍Layout.dragThreshold，滚动delta仍只来自Y；release仍调用move覆盖Up-only位移。finite(x)兼容缺X，原缺坐标tap兼容保留。",
+    "地图drag owner仍按touch+slot绑定；背景同ID特殊恢复、node排他、旧surface Up/EndDrag/Click、Released一次许可均未改。明确EndDrag或hide/show终止后新完整Down/Up/Click是合法恢复证据；未用测试写released或解除owner。",
+    "touchScreen由CardInput.begin固定为boolean；仅触屏aiming改用既有dragPose，80px平滑抬升逻辑与grab offset不变。鼠标aim停车仍原表达式；hover安全区clamp及命中矩形未改。",
+    "目标仍只用g.x/g.y与EnemyView实际hitbox，未按抬牌偏移或最近敌猜目标；preview、reticle、release读同一gesture/target链。",
+    "新增trajectory通过真实handlers跨dropStart±1；仅seed敌sourcePosition，不预设aiming/drawnTarget/释放许可。Target.install只获取真实几何/dragPose，并未替换产品dependencies或状态机。",
+    "取消20次同battle/UI，不直接清gesture/selected/carry；尾随EndDrag/Click通过真实handlers。有效20次energy=25作为一次初始资源seed，随后逐次真实提交/扣费/block/hand断言；补牌用Combat.draw；fastMode/feedback为既有播放端口，不能用作手机性能证据。",
+    "tests/lua/support两个helpers不被顶层raw Lua discovery发现；七个顶层m3 Lua entry各发现一次。JS runner与raw Lua runner各执行属于两条既有入口，不是同一发现列表重复。",
+    "原gesture两片覆盖11 identity各一次，card_help八片覆盖31 identity各一次，默认30s保持；metadata验证不能冒充实际Lua行为执行。"
+  ],
+  "verification": {
+    "executed": [
+      "git diff --check 1a38b912 3ac97cd2b2c9ba92085b2ce87315a91b064e6731: PASS",
+      "node --test tests/battle-gesture-slices.test.mjs tests/card-help-release-slices.test.mjs: 3/3 PASS (454.6ms)"
+    ],
+    "not_executed": "按主控要求没有启动新的Lua或重跑全套；原日志超时保留。backlog CLI在当前shell不可用，未修改Backlog。",
+    "known_pending": [
+      "最终m3-input-acceptance 7项标准30s逐项结果；已有有效fast原30s超时，slow未执行。",
+      "原mobile_card_release.lua原30s超时；须集中串行复验。",
+      "原gesture/action/longpress运行时各切片须主控集中串行验证。"
+    ]
+  },
+  "ac": {
+    "TASK-30": {
+      "1": {
+        "offline": "既有无目标真实拖放专项证据，最终完整释放专项待复验",
+        "device": "同候选待验"
+      },
+      "2": {
+        "offline": "新trajectory真实单次扣费、尾随事件拒绝；费用不足原用例需主控复验",
+        "device": "待验"
+      },
+      "3": {
+        "offline": "PC逻辑未改；touch取消后C档真tap保留，原aim PC证据仅报告已有",
+        "device": "新候选PC/手机均待验"
+      },
+      "4": {
+        "offline": "交接明确离线与设备边界",
+        "device": "无本轮游戏实操证据"
+      },
+      "5": {
+        "offline": "新取消循环后同卡双tap真实取消；明确playArea未改",
+        "device": "待验"
+      },
+      "6": {
+        "offline": "新trajectory跨aim边界真实渲染连续，未偷写gesture",
+        "device": "新候选跟手待验"
+      },
+      "7": {
+        "offline": "新取消循环回手清状态/旧EndDrag/Click；未重建UI解锁",
+        "device": "待验"
+      },
+      "8": {
+        "offline": "新增快慢取消各20的已有报告；本审未重跑。左屏外未在该循环覆盖",
+        "device": "待验"
+      },
+      "9": {
+        "offline": "无效40已有绿；有效fast原超时/slow待跑，不能称80次通过",
+        "device": "实体设备同候选快慢有效/取消20x4待验"
+      },
+      "10": {
+        "offline": "hand/top/right外循环覆盖；其它边界依原专项，不扩大证据",
+        "device": "待验"
+      },
+      "11": {
+        "offline": "仅触摸aim分支变化，匿名mouse地图新测与原aim PC证据已有；最终原释放待复验",
+        "device": "新候选PC待验"
+      },
+      "12": {
+        "offline": "新多敌trajectory以实际指针hitbox为目标，无nearest猜测；preview/release一致",
+        "device": "同候选轨迹与事件待采集"
+      },
+      "13": {
+        "offline": "C档/双击/清层新回归；长按31身份分片metadata本审3/3含负控，运行时仍待主控",
+        "device": "待验"
+      }
+    },
+    "TASK-76": {
+      "1": {
+        "offline": "本片证明并最小修复两个具体缺陷；未定位全部原生输入阻塞根因",
+        "device": "原生事件链待验"
+      },
+      "2": {
+        "offline": "终止恢复8组不提前许可；原跨界面专项需主控最终复验",
+        "device": "待验"
+      },
+      "3": {
+        "offline": "代码审查PASS；最终回归/CI/PR合入未由本审认证",
+        "device": "非设备条款"
+      },
+      "4": {
+        "offline": "既有mobile_click_recovery两场景由报告记载，未改变其实现；非录音Skip根因证明",
+        "device": "新候选待验"
+      },
+      "5": {
+        "offline": "deck生命周期已有正负控；卡组关闭各页首合法操作待最终专项",
+        "device": "手机留证待验"
+      },
+      "6": {
+        "offline": "touch/mouse mock按设备能力分开",
+        "device": "PC及手机各自真实复现条件待验"
+      }
+    },
+    "TASK-76.1": {
+      "1": {
+        "offline": "同ID背景既有恢复+新增touch/mouse背景/node EndDrag/overlay终止后恢复；owner未终止且无epoch不允许异ID强抢。完整任意中断恢复不能认证",
+        "device": "待验"
+      },
+      "2": {
+        "offline": "回归已保存；标准runner最终复验待主控",
+        "device": "同候选手机证据缺失"
+      },
+      "3": {
+        "offline": "touch/mouse分别8组合；非真实设备",
+        "device": "记录设备/候选/事件结果待验"
+      }
+    }
+  },
+  "release_acceptance": "UNVERIFIED: PASS只针对本片源码和测试设计审查。上述未完成运行时/设备/集成门禁不得被本审替代。"
+}

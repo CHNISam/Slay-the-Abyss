@@ -34,8 +34,8 @@ function M.options(run,event)
             local definition=find(run.data.potions.potions,offer.id)
             local text=offer.claimed and (offer.blocked and '遗物阻止了领取。' or '已经领取。')
                 or blocked and '遗物阻止获得药水，点击后放弃本项。'
-                or full and '药水槽已满，请先在药水背包腾出空间。' or '领取到第一个空药水槽。'
-            local entry=row('claim_'..i,definition and definition.name or offer.sourceId,text,
+                or full and '药水槽已满，请先在药水背包腾出空间。' or '点击领取。'
+            local entry=row('claim_'..i,(offer.claimed and (offer.blocked and '已放弃 · ' or '已领取 · ') or '')..(definition and definition.name or offer.sourceId),text,
                 not offer.claimed and (blocked or not full))
             entry.potionId=offer.id;rows[#rows+1]=entry
         end
@@ -59,10 +59,16 @@ function M.choose(run,flow,choice,uid)
         local index=type(choice)=='string' and choice:match('^claim_([123])$')
         local offer=index and event.potionOffers[tonumber(index)]
         if not offer or offer.claimed then return false,'invalid_event_choice' end
-        if not find(run.data.potions.potions,offer.id)then return false,'unknown_potion' end
-        if H.owns(run,'sozu')then offer.claimed,offer.blocked=true,true;return true,'pending' end
+        local definition=find(run.data.potions.potions,offer.id)
+        if not definition then return false,'unknown_potion' end
+        if H.owns(run,'sozu')then
+            offer.claimed,offer.blocked=true,true
+            event.body='遗物阻止了获得「'..definition.name..'」，已放弃这瓶药水。'
+            return true,'pending'
+        end
         local ok,slot=Run.obtainPotion(run,offer.id);if not ok then return false,slot end
         offer.claimed,offer.obtainedSlot=true,slot
+        event.body='已领取「'..definition.name..'」，已放入药水背包。可继续领取，或选择继续离开。'
         return true,'pending'
     elseif event.stage then return false,'invalid_event_choice'
     elseif event.id=='lab' then

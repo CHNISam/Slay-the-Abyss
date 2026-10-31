@@ -1,0 +1,94 @@
+{
+  "reviewedCommit": "57328ba2d961dd40979d11fdc8b96905de147d0d",
+  "baseCommit": "e248c0e31a9e2d9c462b4668db3c835205c23f8c",
+  "worktree": "/workspace/m3-help-restore",
+  "reviewer": "independent /root/review_m3_delivery_exact; audited decision chronology and did not implement restoration",
+  "verdict": "PASS",
+  "blockingFindings": [],
+  "scope": "10-file narrow help restoration and current test contract review; no final PR436 combination certification.",
+  "decisionBasis": {
+    "report": "/workspace/cloud-reports/m3-help-decision-audit.json",
+    "fact": "Later PR388/395/merged396 and Owner two-string-only guide instruction supersede obsolete TASK4.8 removal clause. Restoration is authorized by later existing product decisions.",
+    "source": "https://github.com/CHNISam/Slay-the-Abyss/pull/396#issuecomment-6536629013"
+  },
+  "sourceAssessment": [
+    "Only production changes undo the two hidden visibility writes, unconditional help/run_help availability refusal and retirement-specific menu gap/map reposition. Existing help binding/actions and original approved layout are reused, not reimplemented.",
+    "Restored menu geometry matches pre-retirement cd2e4a4 contract: map slot remains original position; no-route hides exactly one map row, leaving help and all other menu rows visible and correctly spaced. No layout/theme/generated assets changed.",
+    "Availability still rejects disabled, settlement busy/requested, wrong modal/menu/route and controls-open states. Controller scope/availability, generation/current Run identity, touch ownership and one-release token, cancel/end-drag, pointer echo and stale input guards are untouched. Resource-hint guards and PR435/6b PC focus behavior remain.",
+    "Guide open/close only changes modal presentation flags and generation; public help paths now reach existing read-only three-column guide. Exit warning remains exact new progress-unrecoverable copy, Lv4 reason/support wording and cancel/confirm behavior retained. No gameplay, RNG, rewards or settlement logic changes."
+  ],
+  "testAssessment": [
+    "Three retired-help contract fixtures return to real public menu/exit help entrypaths, eliminating artificial dormant-guide opening. Existing map navigation/focus restoration, pointer catch/outside-layer return, no background route, controller echo and settlement-once assertions remain.",
+    "Formal fixture retains full exact warning/whyText and current controlled two-act/restart/settlement assertions, opening both real help entrypoints and returning one layer with same active Run. Only retired helper use is removed.",
+    "Chinese fixture retains effect text/keyword/Names checks; replaces obsolete retirement assertions with visible public guide, two exact Owner-approved strings, no abandonment/confirmation while guide owns foreground, proper close return and Run/Map/resource/owner identity conservation. It does not claim a full mutable-graph snapshot.",
+    "Deleted helper was exclusively for retired-help refusal/artificial dormant-guide fixture setup. Repository search finds no remaining hidden_menu_help imports. Wrappers/runner budgets unchanged; renamed tests accurately describe restored behavior."
+  ],
+  "freshVerification": [
+    {
+      "command": "node --test --test-concurrency=1 tests/menu-input-boundaries-current.test.mjs tests/m3-chinese-copy.test.mjs",
+      "result": "2/2 PASS,0skip;3037.91ms/3827.07ms;7176.71ms total. Real public help, modal routing, controller echo and busy/requested settlement boundaries exercised."
+    },
+    {
+      "command": "git diff --check HEAD^ HEAD; git diff HEAD^ HEAD -- scripts data config; rg hidden_menu_help tests",
+      "result": "Diffcheck exit0; scripts/data/config diff empty; no residual helper import; exact reviewed worktree clean."
+    }
+  ],
+  "authorEvidenceBoundary": "Author reports4wrapper7/7,wholeformal7/7,raw exit swipe5/5,exitlayout5/5 and fixedLuacheck zero-new checks. Reviewer inspected changed source/test contracts and ran only shortest two current cases; no broad historical or formal suite repeated.",
+  "followupRequiredOutsideSlice": [
+    "Root must reconcile TASK4.8 mixedAC via Backlog CLI and keep explicit superseding decision/history; author worktree intentionally does not alter Backlog.",
+    "New PR436 final integrated head/base/source tree must be independently bound and complete required CI/verify:delivery collected. This narrow pass does not reactivate superseded e248 final review.",
+    "Official candidate/import/ready/PC/phone/device presentation remain unverified."
+  ],
+  "provenance": [
+    {
+      "path": "src/lua/abyss_game_ui.lua",
+      "sha256": "2fdc6302c75eabb4b25401afd7084a26c8e2b830081b042af6feb05cc98721b6",
+      "status": "present"
+    },
+    {
+      "path": "tests/lua/formal_campaign_entry.lua",
+      "sha256": "bba57bbd89b3c0da1eafc70dd573f75f1fc0600a07577271dab17e0a64dde437",
+      "status": "present"
+    },
+    {
+      "path": "tests/lua/m3_chinese_copy.lua",
+      "sha256": "00d02224ad9717988c3cbff7628911f177027d09e3d898b64730ae3db44f98f9",
+      "status": "present"
+    },
+    {
+      "path": "tests/lua/menu_input_boundaries_current.lua",
+      "sha256": "f2daede46a2921bc6530e34b5f4a166ef55682d3998f9316df0b4f35fbf3df4c",
+      "status": "present"
+    },
+    {
+      "path": "tests/lua/native_ui_parity.lua",
+      "sha256": "15d4c1e72a97069785b78d0779b143c821e081bda8306d0ff9cf601e80b40e85",
+      "status": "present"
+    },
+    {
+      "path": "tests/lua/support/hidden_menu_help.lua",
+      "sha256": null,
+      "status": "deleted"
+    },
+    {
+      "path": "tests/lua/ui_final_menu.lua",
+      "sha256": "42a2254d214bf2e8499d965eacb391fedcd56e801c37e87f028c3ee3abed3032",
+      "status": "present"
+    },
+    {
+      "path": "tests/m3-chinese-copy.test.mjs",
+      "sha256": "ef2ff5342833862751eadee75478036a698ea776f186157e21179ff04df17d01",
+      "status": "present"
+    },
+    {
+      "path": "tests/native-ui-parity.test.mjs",
+      "sha256": "91befc3c581280347146e7c78a6d49a40a8fcdd45d431352d297b02437fbc0e6",
+      "status": "present"
+    },
+    {
+      "path": "tests/ui-final-presentation.test.mjs",
+      "sha256": "79565fbd77369f21c1b94830df8b26c2d62aa0cddaa408ab42d2b2d48a9c59d2",
+      "status": "present"
+    }
+  ]
+}

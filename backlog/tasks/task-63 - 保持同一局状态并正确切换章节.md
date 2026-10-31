@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-26 05:05'
-updated_date: '2026-10-28 14:41'
+updated_date: '2026-10-31 17:02'
 labels:
   - partially-implemented
 milestone: m-4
@@ -19,6 +19,8 @@ references:
   - docs/BACKLOG-AUDIT-20261026.md
   - docs/reviews/TASK-63-host-chapter-ui.md
   - docs/M3-STATUS-20261028.md
+  - docs/evidence/m3-normal-campaign-20261031/summary.json
+  - docs/evidence/m3-completion-20261031/
 priority: medium
 type: feature
 ordinal: 108000
@@ -44,6 +46,8 @@ ordinal: 108000
 先参数化章节地图和随机流；通过同一事务接入Nodes换幕，再补钥匙与内容清单。保持未实现章节未开放，逐项记录真实缺口。
 
 2026-10-26本轮M3：父线程补已存在跨幕核心的Host/章节UI路由及事务恢复，保持完整内容未齐前正式入口门禁；真实Host回归覆盖宝箱后换幕和旧动作/退出边界，不把开发入口接线当全章节自然通关。
+
+2026-10-31 M3整批收口：复核Boss宝箱后接幕、同局资源随机流与双幕终点，再补同候选官方自然结局。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -67,4 +71,6 @@ ordinal: 108000
 
 2026-10-28用户确认范围变更：当前比赛只覆盖第一幕、第二幕，优先前10分钟体验；第三幕/隐藏第四幕/真结局及依赖退出续玩、跨局进度、历史解锁或跨局留卡的内容退出比赛必做，保留为无新截止日的未来候选。四职业及已批准原创角色要求不变。同局跨房间、第一幕到第二幕的资源与随机流、内存快照/回滚和本局结算保留；源码/候选/平台/实机仍分层，未完成状态不因范围调整改变。
 原AC4（仅保留历史要求，不再作为当前比赛必做）：Boss宝箱与普通结局、三钥匙门和真结局各走合法路径
+
+2026-10-31 M3最终事实核对：competition_two_act生产7组验证同Run/UID/库存/RNG、宝箱领取/跳过双终点及重复非法/回滚；seed2正常规则离线自然完成两幕34层/669动作补充合法接续轨迹。#1–3保持；#4仍缺同一候选官方导入/ready及自然通关平台日志截图，受控边界和离线自然胜利不等于平台验收。
 <!-- SECTION:NOTES:END -->

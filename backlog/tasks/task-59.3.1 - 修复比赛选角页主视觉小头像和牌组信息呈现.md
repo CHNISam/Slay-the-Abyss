@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - Furinya
 created_date: '2026-10-30 21:58'
-updated_date: '2026-10-30 23:37'
+updated_date: '2026-10-31 17:02'
 labels:
   - playtest-20261030
   - p1
@@ -15,6 +15,8 @@ dependencies: []
 references:
   - docs/backlog-details/PLAYTEST-20261030.md
   - docs/backlog-details/MOBILE-QA-20261029.md
+  - docs/evidence/m3-visual-20261031/README.md
+  - docs/evidence/m3-completion-20261031/
 parent_task_id: TASK-59.3
 priority: medium
 type: enhancement
@@ -39,6 +41,8 @@ Owner截图：选角页圆形大底叠黑色矩形包裹立绘，底部小头像
 1. 以最新develop隔离接续PR389选角成果。2. 用完整身份绑定外层inverse恢复旧源码，保持历史门禁。3. 定向验证并交独立复审，实机保持未验。
 
 补充本轮Simulator实测窄修：原生头像控制器从真实normal/bust宽度取得display，验证72px与旧32px，不改资产或布局。
+
+2026-10-31 M3整批收口：以批准设计对照真实模拟器静帧，记录装配/素材限制，再验证官方同候选视觉与初始信息。
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
@@ -51,4 +55,6 @@ Owner截图：选角页圆形大底叠黑色矩形包裹立绘，底部小头像
 2026-10-31：原389选角有效成果由394接续并进入396；最终去掉多余inverse层，保留391历史隔离。已修真实GIL颜色编码并补来源登记；本轮仅源码及候选读回证据，尚未合入develop或完成同候选设备验收，所有AC保持未勾。
 
 本轮Simulator实际发现：attach host使用72/96，但runtime avatar controller仍硬编码32/96并覆盖。新增真实宽度72断言在未修源码失败，32对照通过；修为读取normal/bust.sizeDeltaX后完整肖像生命周期16/16通过，包含72/32释放重建及原失败/取消/销毁边界。素材、布局和原始fixture不改；尚待重建候选与同候选设备验收。
+
+2026-10-31 M3最终事实核对：本轮真实Simulator Host选角/牌组/遗物/牌详情/退出共五张PNG已实看，源码e8eb723、1600×900/frame0；选择页生命金币遗物牌组及单角入口有局部文字证据。#1头像自然关系无法确认：本导出未装配可选portrait模板，不能把fallback认作正式缺陷；#2整体可读与#3批准对照最终证据仍受OSS CONNECT403缺纹理影响，且无官方PC/手机同候选证据。保留回执assetWarnings，不用HTML或离线截图冒充设备验收。
 <!-- SECTION:NOTES:END -->
