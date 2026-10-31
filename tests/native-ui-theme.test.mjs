@@ -77,7 +77,21 @@ test('host preserves the approved battle and scrollable map while composing node
   theme.canvas.base = [1600, 900];
   const panels = gameLayout(theme).controls, battle = find(panels, 'battlePanel').children;
   const approvedBattle = find(battleLayout().controls, 'stage').children;
-  assert.deepEqual(battle, approvedBattle);
+  // Only the host's two read-only resource hit areas may extend the approved tree.
+  // Full-object equality pins identity, hit-only children and the last-drawn layer.
+  const resourceHints = boxes => ({ name: 'resourceHints', kind: 'container', size: [...theme.canvas.base],
+    children: boxes.map(([name, icon, value]) => {
+      const left = Math.min(icon[0] - icon[2] / 2, value[0] - value[2] / 2);
+      const right = Math.max(icon[0] + icon[2] / 2, value[0] + value[2] / 2);
+      const size = [Math.max(48, right - left), Math.max(48, value[3])];
+      return { name, kind: 'container', position: [(left + right) / 2, value[1]], size,
+        children: [{ name: 'hit', kind: 'cursorArea', size: [...size], focusable: true }] };
+    }) });
+  const top = theme.layout.topBar;
+  const battleHints = resourceHints(['hp', 'gold'].map(name =>
+    [name, [top[name + 'Icon'][0], top.y, top[name + 'Icon'][1], top[name + 'Icon'][1]],
+      [top[name][0], top.y, top[name][1], top.height]]));
+  assert.deepEqual(battle, [...approvedBattle, battleHints]);
   assert.deepEqual(find(battle, 'card1').size, nativeTheme.layout.card.size);
   assert.equal(find(battle, 'endTurn').kind, 'presetButton');
   assert.deepEqual(Object.keys(find(battle, 'endTurn').states).sort(), ['disabled', 'hover', 'normal', 'pressed']);
@@ -93,7 +107,9 @@ test('host preserves the approved battle and scrollable map while composing node
   const previewBack=find(map,'previewBack');
   assert.equal(previewBack.visible,false);
   assert.deepEqual([...previewBack.position,...previewBack.size],theme.layout.runMenu.mapBack);
-  const comparableMap = structuredClone(map.filter(group => !['resources','previewBack'].includes(group.name)));
+  const bar = theme.layout.nativeNode.topBar;
+  assert.deepEqual(map.at(-1), resourceHints(['hp', 'gold'].map(name => [name, bar[name + 'Icon'], bar[name]])));
+  const comparableMap = structuredClone(map.slice(0, -1).filter(group => !['resources','previewBack'].includes(group.name)));
   title(comparableMap).position = [...title(standaloneMap).position];
   title(comparableMap).size = [...title(standaloneMap).size];
   assert.deepEqual(comparableMap, standaloneMap);

@@ -73,7 +73,7 @@ local function matches(cards,saved,kind)
 end
 function M.new(root,presentation,clickEvent,platform,onConfirm)
     assert(type(onConfirm)=="function","missing choice command callback")
-    local self={root=root,visible=false,generation=0,selected={},page=1}
+    local view={root=root,visible=false,generation=0,selected={},page=1}
     local cursor=platform.cursorEvents or {}
     local pointerObserved=false
     local function child(name) return assert(root:GetChild(name),"missing choice control "..name) end
@@ -82,8 +82,8 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
     end
     local function colour(c) return platform.color(c.r,c.g,c.b,c.a) end
     local function fresh(duringConfirm)
-        local c=self.context
-        if not self.visible or not self.enabled or self.confirming and not duringConfirm or not c or self.run~=c.run
+        local c=view.context
+        if not view.visible or not view.enabled or view.confirming and not duringConfirm or not c or view.run~=c.run
             or c.run.phase~="combat" or c.run.combat~=c.battle or c.battle.phase~="player"
             or c.run.combatGeneration~=c.combatGeneration or c.battle.turn~=c.turn then return false end
         local kind,choice=pending(c.run)
@@ -92,15 +92,15 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
             and #c.battle.hand==c.handSize and #c.battle.draw==c.drawSize
             and matches(candidates(c.run,kind,choice),c.cards,kind)
     end
-    local function limit() return self.context.kind=="scry" and #self.cards or self.context.count or 1 end
+    local function limit() return view.context.kind=="scry" and #view.cards or view.context.count or 1 end
     local function countAllowed()
-        return self.context.kind=="scry" or #self.selected==limit()
+        return view.context.kind=="scry" or #view.selected==limit()
     end
     local function selected(uid)
-        for i,value in ipairs(self.selected) do if value==uid then return i end end
+        for i,value in ipairs(view.selected) do if value==uid then return i end end
     end
     local function paintCard(face,instance,picked)
-        local battle=self.context.battle
+        local battle=view.context.battle
         local definition=Combat.cardDefinition(battle,instance)
         local display=assert(presentation[instance.cardId],"missing choice presentation "..instance.cardId)
         CardDisplay.writeTitle(face:GetChild('name'),display.name,instance.upgraded,
@@ -116,22 +116,22 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         CardSkin.apply(face,definition,platform,{cost=definition.cost,baseCost=base,selected=picked})
     end
     local function render()
-        if not self.visible then return end
-        local kind=self.context.kind
-        child("title").text=kind=='potion'and '姿态药水：选择姿态'or kind=='pile' and (self.context.mode=='omniscience' and '全知：选择免费打出两次的牌' or self.context.mode=='meditate' and '冥想：回收并保留' or self.context.mode=='headbutt' and '回收至牌堆顶' or '回收至手牌')
+        if not view.visible then return end
+        local kind=view.context.kind
+        child("title").text=kind=='potion'and '姿态药水：选择姿态'or kind=='pile' and (view.context.mode=='omniscience' and '全知：选择免费打出两次的牌' or view.context.mode=='meditate' and '冥想：回收并保留' or view.context.mode=='headbutt' and '回收至牌堆顶' or '回收至手牌')
             or kind=="scry" and "占卜" or kind=="discard" and "选择弃牌"
-            or self.context.mode=="put_on_deck" and "放回抽牌堆顶" or "选择消耗"
-        local pileName=({draw='抽牌堆',discard='弃牌堆',exhaust='消耗堆'})[self.context.pending.source]
+            or view.context.mode=="put_on_deck" and "放回抽牌堆顶" or "选择消耗"
+        local pileName=({draw='抽牌堆',discard='弃牌堆',exhaust='消耗堆'})[view.context.pending.source]
         local hint=kind=='potion'and '选择一种姿态，必须完成选择。'or kind=='pile' and ('从'..(pileName or '牌堆')..'选择 '..limit()..' 张牌。')
             or kind=="scry" and "按选择顺序弃置；可不弃置。首张为抽牌堆顶。"
             or kind=="discard" and "选择 "..limit().." 张手牌弃置。" or "选择 1 张手牌。"
-        child("hint").text=hint.." 已选 "..#self.selected..(kind=='potion'and ' 种。'or " 张。")
-        child("status").text=self.error and "选择未提交，请重新确认。" or ""
+        child("hint").text=hint.." 已选 "..#view.selected..(kind=='potion'and ' 种。'or " 张。")
+        child("status").text=view.error and "选择未提交，请重新确认。" or ""
         for slot=1,10 do
             local box=child("card"..slot)
-            local card=self.cards[(self.page-1)*10+slot]
+            local card=view.cards[(view.page-1)*10+slot]
             box:SetVisible(card~=nil)
-            local hit=box:GetChild("hit");hit.interactable=card~=nil and not self.confirming;hit.raycastTarget=hit.interactable
+            local hit=box:GetChild("hit");hit.interactable=card~=nil and not view.confirming;hit.raycastTarget=hit.interactable
             if card then
                 local order=selected(kind=='potion'and card.id or card.uid)
                 local picked=order~=nil
@@ -149,27 +149,27 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
                         ..' · 费用 '..face:GetChild('cost').text..'\n'..face:GetChild('label').text)
                 end
                 for _,state in ipairs(states) do
-                    local face=box:GetChild("hit"):GetChild(state)
+                    local buttonState=box:GetChild("hit"):GetChild(state)
                     for _,name in ipairs({'border','plate','label'})do
-                        face:GetChild(name):SetVisible(kind=='potion')
+                        buttonState:GetChild(name):SetVisible(kind=='potion')
                     end
-                    local border=face:GetChild("border")
+                    local border=buttonState:GetChild("border")
                     if border then border.imageColor=colour(picked and Theme.color.goldBright or Theme.color.goldDim) end
                 end
             end
         end
         local confirm=child("confirm")
-        caption(confirm,kind=="scry" and (#self.selected==0 and "全部保留" or "确认弃置") or "确认选择")
-        local confirmHit=confirm:GetChild("hit");confirmHit.interactable=countAllowed() and not self.confirming;confirmHit.raycastTarget=confirmHit.interactable
+        caption(confirm,kind=="scry" and (#view.selected==0 and "全部保留" or "确认弃置") or "确认选择")
+        local confirmHit=confirm:GetChild("hit");confirmHit.interactable=countAllowed() and not view.confirming;confirmHit.raycastTarget=confirmHit.interactable
         for _,name in ipairs({"before","after"}) do
             local box=root:GetChild(name)
             if box then
-                box:SetVisible(#self.cards>10)
-                local hit=box:GetChild("hit");hit.interactable=not self.confirming and (name=="before" and self.page>1 or name=="after" and self.page*10<#self.cards);hit.raycastTarget=hit.interactable
+                box:SetVisible(#view.cards>10)
+                local hit=box:GetChild("hit");hit.interactable=not view.confirming and (name=="before" and view.page>1 or name=="after" and view.page*10<#view.cards);hit.raycastTarget=hit.interactable
             end
         end
     end
-    function self:close()
+    function view:close()
         local visible=self.visible
         self.generation=self.generation+1
         self.visible,self.enabled,self.run,self.context=false,false,nil,nil
@@ -177,7 +177,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         root:SetVisible(false)
         return visible
     end
-    function self:refresh(run,enabled)
+    function view:refresh(run,enabled)
         local kind,choice=pending(run)
         if enabled~=true or not choice then self:close();return false end
         local cards=candidates(run,kind,choice)
@@ -198,15 +198,15 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         self.visible=true;root:SetVisible(true);root:SetAsLastSibling();render()
         return true
     end
-    function self:resize()
+    function view:resize()
         self.generation=self.generation+1
         return self.visible
     end
-    function self:setPresentation(value)
+    function view:setPresentation(value)
         assert(type(value)=="table","invalid choice presentation")
         presentation=value;self.generation=self.generation+1;render()
     end
-    function self:select(slot)
+    function view:select(slot)
         if not fresh() then return false,"stale_choice" end
         if type(slot)~="number" or slot%1~=0 or slot<1 or slot>10 then return false,"invalid_choice_slot" end
         local card=self.cards[(self.page-1)*10+slot]
@@ -219,7 +219,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         else return false,"too_many_choices" end
         self.generation=self.generation+1;self.error=nil;render();return true
     end
-    function self:confirm()
+    function view:confirm()
         if not fresh() then return false,"stale_choice" end
         if not countAllowed() then return false,"invalid_choice_count" end
         local c=self.context
@@ -243,7 +243,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
         local hit=box:GetChild("hit")
         local held,released
         local function valid(token)
-            return fresh() and hit.interactable~=false and (not token or token.generation==self.generation and token.context==self.context)
+            return fresh() and hit.interactable~=false and (not token or token.generation==view.generation and token.context==view.context)
         end
         local function touch(event) return event and event.touchId end
         if cursor.CursorDown and cursor.CursorUp then
@@ -252,7 +252,7 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
                 if held and not valid(held) then held=nil end
                 if held and held.touch~=touch(event) then return false end
                 held,released=nil,nil
-                if valid() then held={generation=self.generation,context=self.context,touch=touch(event)} end
+                if valid() then held={generation=view.generation,context=view.context,touch=touch(event)} end
             end)
             hit:AddCursorEventListener(cursor.CursorUp,function(event)
                 if not held or held.touch~=touch(event) then return false end
@@ -275,22 +275,22 @@ function M.new(root,presentation,clickEvent,platform,onConfirm)
             return action()
         end)
     end
-    for i=1,10 do local slot=i;bind(child("card"..i),function() return self:select(slot) end) end
-    bind(child("confirm"),function() return self:confirm() end)
+    for i=1,10 do local slot=i;bind(child("card"..i),function() return view:select(slot) end) end
+    bind(child("confirm"),function() return view:confirm() end)
     for _,name in ipairs({"before","after"}) do
         local box=root:GetChild(name)
         if box then
             local delta=name=="before" and -1 or 1
             bind(box,function()
-                local page=self.page+delta
-                if page<1 or (page-1)*10>=#self.cards then return false,"invalid_choice_page" end
-                self.page=page;self.generation=self.generation+1;render();return true
+                local page=view.page+delta
+                if page<1 or (page-1)*10>=#view.cards then return false,"invalid_choice_page" end
+                view.page=page;view.generation=view.generation+1;render();return true
             end)
         end
     end
     root.disableCursorEventPassthrough=true
     child("blocker"):AddCursorEventListener(clickEvent,function() return true end)
     root:SetVisible(false)
-    return self
+    return view
 end
 return M

@@ -261,6 +261,16 @@ function M.install(owner, ownership, host, dependencies)
         return owner.potionMenu and owner.potionMenu.slot==slot
             or owner.potionAim and owner.potionAim.slot==slot
     end
+    local function paintPotionContents(face,item,tones)
+        local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
+        local label=face:GetChild('label');label:SetVisible(item~=nil)
+        label.text=item and PotionView.slotLabel(item)or ''
+        if item then
+            dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
+            dependencies.tint(bottle,(Theme.icon.potionTint or {})[item.id]
+                or (item.id=='fire_potion' and tones.fire.ink or tones.normal.ink))
+        end
+    end
     local function paintPotionShell(slot,item)
         local selected=item~=nil and potionSelected(slot)==true
         local tones=C.potionShell
@@ -272,14 +282,7 @@ function M.install(owner, ownership, host, dependencies)
             face:GetChild('selectedShell'):SetVisible(selected)
             dependencies.tint(face:GetChild('filledShell'):GetChild('rim'),selected and tones.selected.border or tones.normal.border)
             dependencies.tint(face:GetChild('fireShell'):GetChild('rim'),selected and tones.selected.border or tones.fire.border)
-            local bottle=face:GetChild('bottle');bottle:SetVisible(item~=nil)
-            local label=face:GetChild('label');label:SetVisible(item~=nil)
-            label.text=item and PotionView.slotLabel(item)or ''
-            if item then
-                dependencies.picture(bottle,Theme.icon.potion[item.id] or Theme.icon.intent.unknown)
-                dependencies.tint(bottle,(Theme.icon.potionTint or {})[item.id]
-                    or (item.id=='fire_potion' and tones.fire.ink or tones.normal.ink))
-            end
+            paintPotionContents(face,item,tones)
         end
     end
     local function renderPotions(frame)
