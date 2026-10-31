@@ -309,3 +309,12 @@ tests/fixtures/sts1-card-consumers.json text eol=lf
 # Secret action oracle authenticates model and independent Stream bytes.
 tools/oracles/sts1_secret_candidate_insertion.py text eol=lf
 tools/oracles/sts1_potion_pool.py text eol=lf
+
+# Merchant chain input/generator authentication uses exact raw LF bytes.
+tools/oracles/sts1_merchant_chain.py text eol=lf
+tests/fixtures/sts1-merchant-sources.json text eol=lf
+tests/fixtures/sts1-merchant-chain.json text eol=lf
+tests/fixtures/sts1-relic-pool-vectors.json text eol=lf
+docs/rules/evidence/sts1-relic-pool-catalog.json text eol=lf
+tools/oracles/sts1_potion_pool.py text eol=lf
+tests/fixtures/economy-relic-seeds.json text eol=lf
