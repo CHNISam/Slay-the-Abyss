@@ -39,11 +39,12 @@ function M.new(box, options)
     local function ink(control, c, alpha) if options.color then control.fontColor = colour(c, alpha) end end
     local function pageEnd(s) return math.min(#s.chars, s.page * L.pageCharacters) end
 
-    -- ShopScreen.createSpeech: new bubble replaces the old one, random facing.
+    -- ShopScreen.createSpeech: new bubble replaces the old one (facing pinned right, see below).
     local function createSpeech(kind)
         self.speech = { kind = kind, chars = Prologue.chars(lines[kind]), shown = 0, page = 1,
             duration = kind == "leave" and math.huge or L.duration, scaleTimer = L.fade, alpha = 0, wavy = 0,
-            shadow = 0, right = random() < 0.5 }
+            shadow = 0, right = true }
+        -- 偏离 STS 随机左右：本商店左侧紧贴药水货架与价签，气泡固定在立像右侧空地。
         if cues[kind] and options.sound then pcall(options.sound, cues[kind]) end
     end
     function self:enter(run)

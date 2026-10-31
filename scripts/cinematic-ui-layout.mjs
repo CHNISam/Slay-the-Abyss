@@ -96,10 +96,8 @@ export function merchantControl(theme = nativeTheme) {
     // 点按气泡＝STS 悬停气泡：剩余时长缩到淡出时间；不承担任何商店操作。
     { name: 'talk', kind: 'container', position: [0, 0], size: [bw, bh], children: [hit([bw, bh])] },
   ] };
-  const rug = at(m.rug);
   return { name: 'merchant', kind: 'container', position: [ox, oy], size: m.frame.slice(2), visible: false, children: [
-    { ...plate('rug', rug, tone.robe), opacity: 0.9 },
-    plate('rugTrim', [rug[0], rug[1] + rug[3] / 2, rug[2], 2], c.goldDim),
+    // 去掉立像下的毯板（看似“木板上的断头”）；保留半身像本身不变。
     portrait,
     // 名牌置于立像右侧空地（毯外、价签下方），不压身体、货架与价签；STS 原版无名牌。
     { ...plate('nameplate', [at(m.name)[0], at(m.name)[1], 80, 22], tone.hood), opacity: 0.85 },

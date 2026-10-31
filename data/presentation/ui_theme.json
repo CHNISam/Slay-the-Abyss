@@ -3255,28 +3255,28 @@
         14
       ],
       "name": [
-        266,
+        -30,
         -312,
         96,
         40
       ],
       "bubble": [
-        280,
-        86
+        200,
+        72
       ],
       "tail": [
         0,
-        -46,
-        18
+        -24,
+        16
       ],
       "shadow": 11,
       "adjust": [
-        113,
-        77
+        156,
+        -2
       ],
       "anchor": [
-        -33,
-        47
+        0,
+        0
       ],
       "firstSpeech": 1.5,
       "idleMin": 40,
@@ -3288,7 +3288,7 @@
       "wavyRate": 4,
       "wavy": 1.3,
       "typeRate": 40,
-      "pageCharacters": 30,
+      "pageCharacters": 16,
       "nod": 0.3,
       "nodLift": 5,
       "shake": 0.3,
