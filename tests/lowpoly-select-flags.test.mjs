@@ -52,3 +52,19 @@ test('cards flag builds the premium low-poly card fan with squashed triangles fr
  assert.ok(Number(created)>1585,'every frame + illustration row becomes a native control');
  assert.ok(Number(rot)>1000,'triangles use rotX/rotY squash');
 });
+test('cards flag recolours shared battle/reward/shop/deck chrome gold; default stays official',()=>{
+ const L=lauxlib.luaL_newstate();lualib.luaL_openlibs(L);
+ const code=`package.path='build/lua/?.lua;src/lua/?.lua;'..package.path
+local Skin=require('abyss_card_skin');local Theme=require('abyss_theme')
+local function node()local c={children={}};function c.GetChild(self,k)self.children[k]=self.children[k] or node();return self.children[k]end
+ function c.SetVisible()end;function c.SetLocalScale()end;function c.SetSizeDelta()end;function c.SetAnchoredPosition()end;return c end
+local platform={color=function(r,g,b)return r..','..g..','..b end}
+local def={id='x',type='attack',rarity='basic',cost=1}
+local a=node();Skin.configure(nil);Skin.apply(a,def,platform,{cost=1,baseCost=1})
+local b=node();Skin.configure('premium');Skin.apply(b,def,platform,{cost=1,baseCost=1})
+Skin.configure(nil);local c=node();Skin.apply(c,def,platform,{cost=1,baseCost=1})
+return a.children.border.imageColor..'|'..b.children.border.imageColor..'|'..c.children.border.imageColor`;
+ if(lauxlib.luaL_loadstring(L,to_luastring(code))!==0||lua.lua_pcall(L,0,1,0)!==0)throw Error(to_jsstring(lua.lua_tostring(L,-1)));
+ const [official,gold,reset]=to_jsstring(lua.lua_tostring(L,-1)).split('|');
+ assert.equal(official,'52,54,60');assert.equal(gold,'227,192,122');assert.equal(reset,official);
+});

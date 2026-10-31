@@ -3423,6 +3423,7 @@
   "cardSkin": {
     "rows": 20,
     "bandSteps": 8,
+    "premium": {"note": "--art-cards=true only: breakthrough gold-frame palette on official native chrome, no new controls", "rarities": {"basic": ["#E3C07A", "#6B4A26", "#241A12", "#F6E3B4"], "common": ["#E3C07A", "#6B4A26", "#241A12", "#F6E3B4"], "uncommon": ["#E9CB86", "#5A4A2E", "#1E1A14", "#F8E9BE"], "rare": ["#F5D68C", "#7A5516", "#2E1F0E", "#FFF0C2"], "curse": ["#B98A6E", "#4A322E", "#2E1F1C", "#D9B49E"]}, "selected": "#FFF0C2", "well": "#F6ECD6"},
     "roles": {
       "traveler": {
         "accent": "#F2A93B",
