@@ -7,6 +7,7 @@ from sts1_potion_pool import Stream
 from sts1_combat_shuffle import ShuffleRandom,room_seed
 ROOT=Path(__file__).resolve().parents[2]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def source_identity(path,root):return path.relative_to(root).as_posix()
 def f32(x):return struct.unpack('>f',struct.pack('>f',x))[0]
 def build():
     # Printed costs read from the pinned source registration, never local data.
@@ -45,7 +46,7 @@ def build():
             insect.append(dict(maximum=maximum,tier='elite',neow=True,hp=min(1,int(f32(f32(maximum)*f32(.75))))))
     return dict(sourceCommit='319009d5df0a82d9fb0f23cc22322286c6a87ec0',
       sourceFilesSha256={'relics/SneckoEye.java':'00edd6a0dfa78effb07ffae64138c4fd3f4312d583d6e69159b16d981289a5c8','powers/ConfusionPower.java':'b987912476db56c0521b93637717dc5bd3fd13a5a8537e7f5f19462b00a612c2','relics/PreservedInsect.java':'303c04bda8c9c7d94f540daf9db786a5cabb02761241f0680ed10a419a35abe9','actions/common/DrawCardAction.java':'67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18','characters/AbstractPlayer.java':'2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95'},
-      generatorSha256=sha(__file__),inputSha256={str(p.relative_to(ROOT)):sha(p)for p in [registration,ROOT/'tools/oracles/sts1_potion_pool.py',ROOT/'tools/oracles/sts1_combat_shuffle.py']},
+      generatorSha256=sha(__file__),inputSha256={source_identity(p,ROOT):sha(p)for p in [registration,ROOT/'tools/oracles/sts1_potion_pool.py',ROOT/'tools/oracles/sts1_combat_shuffle.py']},
       boundary='Controlled public explicit-ID Run battles and draw potion; not natural acquisition or original PC execution.',deck=deck,snecko=cases,insect=insect)
 if __name__=='__main__':
     import sys

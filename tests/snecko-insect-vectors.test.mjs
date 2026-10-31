@@ -17,6 +17,17 @@ function run(body,marker){
 test('independent pinned Snecko/Insect oracle regenerates without production imports',()=>{
  execFileSync('python',['tools/oracles/sts1_snecko_insect.py','--check']);
 });
+test('oracle source identities use POSIX keys for real Windows and POSIX path semantics',()=>{
+ execFileSync('python',['-c',[
+  'import sys',
+  'from pathlib import PureWindowsPath, PurePosixPath',
+  "sys.path.insert(0, 'tools/oracles')",
+  'from sts1_snecko_insect import source_identity',
+  "expected = 'data/reference/sts1-card-pools/registration.json'",
+  "assert source_identity(PureWindowsPath('D:/checkout') / expected, PureWindowsPath('D:/checkout')) == expected",
+  "assert source_identity(PurePosixPath('/checkout') / expected, PurePosixPath('/checkout')) == expected",
+ ].join('\n')]);
+});
 test('real CRLF checkout preserves every authenticated Snecko/Insect model and input byte',()=>{
  const directory=mkdtempSync(join(tmpdir(),'snecko-insect-checkout-'));
  const pinned=['tools/oracles/sts1_snecko_insect.py',...Object.keys(vectors.inputSha256)];

@@ -7,7 +7,7 @@
     "actions/common/DrawCardAction.java": "67d02ba84c1d7e60fbb2a4a83f2b2d3ebbd81a84d29c16ccb98ecc9dd1a17e18",
     "characters/AbstractPlayer.java": "2720ba8dd7a216781a3b2fcb709f5ec67dc9b2559af25f7f6b89df1ef0947d95"
   },
-  "generatorSha256": "eaf2b8ccd11164044d26a70374e9d0a5a46ad00f7d74c68d86cee7ee84daf9a4",
+  "generatorSha256": "11c4b7f38cfbaad5e5b2a4241fe1402836c8f4a3d42a8e6dee7f1bf62bcf23f0",
   "inputSha256": {
     "data/reference/sts1-card-pools/registration.json": "f2a387be3b963ba9fac36a0305ef5add76862666f6055a1d8e058d8f33a53308",
     "tools/oracles/sts1_potion_pool.py": "1878c615b71437840804ecbfaa651a378857f8f8a1bbb4e331176ebeec5727cb",
