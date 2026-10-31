@@ -74,13 +74,13 @@ export function prologueControl(theme = nativeTheme) {
   ] };
 }
 
-export function merchantControl(theme = nativeTheme) {
-  const { picture, plate, text, leftText, hit } = helpers(theme);
-  const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
-  const [bx, by, bw, bh] = m.box, [px, py, pw, ph] = m.portrait;
+// Old-road merchant medallion (hooded elder + lantern); also reused as the Neow stand-in figure.
+export function merchantPortrait(theme = nativeTheme, [px, py, pw, ph], name = 'portrait') {
+  const { picture } = helpers(theme);
+  const c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
   const r = pw / 2;
   // A hooded, bearded elder built from tinted discs and diamonds, kept inside the medallion.
-  const portrait = { name: 'portrait', kind: 'container', position: [px, py], size: [pw, ph], children: [
+  const portrait = { name, kind: 'container', position: [px, py], size: [pw, ph], children: [
     picture('aura', [0, 0, pw * 1.5, ph * 1.5], im.glow, c.geoDeep, { opacity: 0.5 }),
     picture('rim', [0, 0, pw + b * 2, ph + b * 2], im.disc, c.gold),
     picture('field', [0, 0, pw, ph], im.disc, c.vista.mid),
@@ -94,6 +94,14 @@ export function merchantControl(theme = nativeTheme) {
     picture('eyeRight', [r * 0.12, r * 0.08, r * 0.1, r * 0.06], im.disc, c.goldBright),
     picture('lantern', [-r * 0.5, -r * 0.46, r * 0.2, r * 0.24], im.disc, tone.lantern),
   ] };
+  return portrait;
+}
+
+export function merchantControl(theme = nativeTheme) {
+  const { picture, plate, text, leftText, hit } = helpers(theme);
+  const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
+  const [bx, by, bw, bh] = m.box, [px, py, pw, ph] = m.portrait;
+  const portrait = merchantPortrait(theme, [px, py, pw, ph]);
   // Theme frames are in node-panel units; children sit relative to the merchant's own frame.
   const [fx, fy] = m.frame, at = ([x, y, ...rest]) => [x - fx, y - fy, ...rest];
   portrait.position = at(m.portrait).slice(0, 2);

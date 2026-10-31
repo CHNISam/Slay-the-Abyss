@@ -1,6 +1,6 @@
 import { nativeControls, nativeTheme } from './native-ui-theme.mjs';
 import { cardFaceChildren } from './card-face.mjs';
-import { merchantControl } from './cinematic-ui-layout.mjs';
+import { merchantControl, merchantPortrait } from './cinematic-ui-layout.mjs';
 import { augmentMatchEventPicker } from './match-event-layout.mjs';
 
 // Approved PR19 node screens (shop, camp/forge, event, treasure) as one native
@@ -133,7 +133,7 @@ export function nodeLayout(theme = nativeTheme) {
     ...(event.neow ? [{ name: 'neowFigure', kind: 'container', position: [0, 0], size: [1280, 720], visible: false, children: [
       { ...picture('scene', [0, -36, 1280, 648], image.officialBackdrops.act1_1, '#2E3A52FF') },
       { ...picture('shade', [0, -36, 1280, 648], image.vignette, '#000000C0') },
-      picture('npc', event.neow.npc, event.neow.npcImage, '#FFFFFFFF'),
+      merchantPortrait(theme, event.neow.npc, 'npc'),
     ] }] : []),
 ...(event.neow ? [hidden({ ...plate('bubble', event.neow.bubble, '#E9E1CCF2'), image: image.discSoft })] : []), plate('plateBorder', event.plate, color.goldDim),
     plate('plate', [...event.plate.slice(0, 2), event.plate[2] - space.border * 2, event.plate[3] - space.border * 2], color.panelRaised),
