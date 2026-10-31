@@ -75,32 +75,33 @@ export function prologueControl(theme = nativeTheme) {
 }
 
 export function merchantControl(theme = nativeTheme) {
+  // 移植 STS ShopScreen/Merchant/ShopSpeechBubble 的商人演出：站在毯子上的商人立像 +
+  // 在他身旁随机左右翻转弹出的对白气泡（4s、0.3s 弹入/淡出、上下浮动、投影，点按提前收起）。
   const { picture, plate, text, leftText, hit } = helpers(theme);
-  const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant, b = theme.space.border;
-  const [bx, by, bw, bh] = m.box, [px, py, pw, ph] = m.portrait;
-  const r = pw / 2;
-  // 千星图库官方人物胸像（盗宝团行商），替代旧的圆盘/菱形拼装剪影；灯光仍由 Lua 闪烁。
-  const portrait = { name: 'portrait', kind: 'container', position: [px, py], size: [pw, ph], children: [
-    picture('aura', [0, 0, pw * 1.5, ph * 1.5], im.glow, c.geoDeep, { opacity: 0.5 }),
-    picture('rim', [0, 0, pw + b * 2, ph + b * 2], im.disc, c.gold),
-    picture('field', [0, 0, pw, ph], im.disc, c.vista.mid),
-    picture('lanternGlow', [-r * 0.5, -r * 0.42, r * 1.1, r * 1.1], im.glow, tone.lantern, { opacity: 0.45 }),
-    picture('bust', [0, 0, pw * 0.92, ph * 0.92], im.merchant, '#FFFFFF'),
+  const m = theme.layout.merchant, c = theme.color, im = theme.image, tone = c.merchant;
+  const [ox, oy] = m.frame, at = ([x, y, ...rest]) => [x - ox, y - oy, ...rest];
+  const [fx, fy, fw, fh] = at(m.figure), [bw, bh] = m.bubble, t = m.tail;
+  const portrait = { name: 'portrait', kind: 'container', position: [fx, fy], size: [fw, fh], children: [
+    picture('aura', [0, 0, fw * 1.3, fh * 1.3], im.glow, c.geoDeep, { opacity: 0.3 }),
+    picture('lanternGlow', [-fw * 0.34, -fh * 0.3, fw * 0.45, fw * 0.45], im.glow, tone.lantern, { opacity: 0.45 }),
+    picture('bust', [0, 0, fw, fh], im.merchant, '#FFFFFF'),
   ] };
-  // Theme frames are in node-panel units; children sit relative to the merchant's own frame.
-  const [fx, fy] = m.frame, at = ([x, y, ...rest]) => [x - fx, y - fy, ...rest];
-  portrait.position = at(m.portrait).slice(0, 2);
-  const [nx, ny, nw] = at(m.name), line = theme.layout.nativeText.lineHeight;
-  return { name: 'merchant', kind: 'container', position: [fx, fy], size: m.frame.slice(2), visible: false, children: [
-    plate('border', at([bx, by, bw + b * 2, bh + b * 2]), c.goldDim),
-    { ...plate('panel', at(m.box), c.panelSunken), opacity: 0.96 },
-    plate('accent', at([bx + pw / 2, by + bh / 2 - b, bw - pw - theme.space.xl, b]), c.gold),
+  const bubble = { name: 'bubble', kind: 'container', position: [fx + m.anchor[0] + m.adjust[0], fy + m.anchor[1] + m.adjust[1]], size: [bw, bh], visible: false, children: [
+    { ...plate('shadow', [m.shadow, -m.shadow, bw, bh], tone.hood), opacity: 0.25 },
+    plate('border', [0, 0, bw, bh], c.goldDim),
+    { ...plate('panel', [0, 0, bw - 4, bh - 4], c.parchment), opacity: 0.97 },
+    picture('tail', [t[0], t[1], t[2], t[2]], im.diamond, c.parchment),
+    leftText('line', [0, 0, bw - theme.space.xl * 2, bh - theme.space.l], '', theme.font.body, c.panelSunken),
+    picture('next', [bw / 2 - 14, -bh / 2 + 12, 12, 12], im.diamond, c.goldDim),
+    // 点按气泡＝STS 悬停气泡：剩余时长缩到淡出时间；不承担任何商店操作。
+    { name: 'talk', kind: 'container', position: [0, 0], size: [bw, bh], children: [hit([bw, bh])] },
+  ] };
+  const rug = at(m.rug);
+  return { name: 'merchant', kind: 'container', position: [ox, oy], size: m.frame.slice(2), visible: false, children: [
+    { ...plate('rug', rug, tone.robe), opacity: 0.9 },
+    plate('rugTrim', [rug[0], rug[1] + rug[3] / 2, rug[2], 2], c.goldDim),
     portrait,
-    plate('namePlate', at(m.name), c.goldDim),
-    text('name', [nx, ny, nw - theme.space.s, line], '旧路商人', theme.font.label, c.parchment),
-    leftText('line', at(m.line), '', theme.font.body, c.text, 'top'),
-    picture('next', at(m.next), im.diamond, c.gold),
-    // Tapping the dialogue only reveals or advances text; it owns no shop action.
-    { name: 'talk', kind: 'container', position: at(m.box).slice(0, 2), size: m.box.slice(2), children: [hit(m.box.slice(2))] },
+    text('name', at(m.name), '旧路商人', theme.font.small, c.goldDim),
+    bubble,
   ] };
 }

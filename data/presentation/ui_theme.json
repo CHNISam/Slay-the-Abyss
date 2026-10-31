@@ -3235,52 +3235,64 @@
       "pressedScale": 0.96
     },
     "merchant": {
-      "note": "商店人物对话框：底部右侧紧凑肖像、名牌和分页逐字对白；不覆盖货架、价格与离开按钮，购买期间可继续操作。",
+      "note": "移植 STS ShopScreen/Merchant/ShopSpeechBubble：毯上商人立像 + 随机左右翻转对白气泡。时序常量取自反编译源码（docs/SHOP_PARITY.md 所引 ButterflyGame@fc379c8），坐标按 1920→1280 比例换算。",
       "frame": [
-        185,
+        110,
         -300,
-        370,
-        80
-      ],
-      "box": [
-        185,
-        -300,
-        366,
+        190,
         76
       ],
-      "portrait": [
-        40,
-        -300,
-        64,
-        64
+      "figure": [
+        110,
+        -296,
+        92,
+        92
       ],
-      "name": [
-        170,
-        -280,
-        180,
-        40
-      ],
-      "line": [
-        222,
-        -320,
-        280,
-        40
-      ],
-      "next": [
-        350,
-        -326,
-        14,
+      "rug": [
+        110,
+        -344,
+        190,
         14
       ],
+      "name": [
+        196,
+        -334,
+        110,
+        40
+      ],
+      "bubble": [
+        280,
+        86
+      ],
+      "tail": [
+        0,
+        -46,
+        18
+      ],
+      "shadow": 11,
+      "adjust": [
+        113,
+        77
+      ],
+      "anchor": [
+        -33,
+        47
+      ],
+      "firstSpeech": 1.5,
+      "idleMin": 40,
+      "idleMax": 60,
+      "duration": 4,
+      "fade": 0.3,
+      "scaleFrom": 0.5,
+      "alphaRate": 12,
+      "wavyRate": 4,
+      "wavy": 1.3,
       "typeRate": 40,
-      "hold": 2.6,
-      "idle": 14,
-      "idleRepeat": 40,
+      "pageCharacters": 30,
       "nod": 0.3,
       "nodLift": 5,
       "shake": 0.3,
-      "shakeAmplitude": 5,
-      "pageCharacters": 20
+      "shakeAmplitude": 5
     },
     "runMenu": {
       "panel": [

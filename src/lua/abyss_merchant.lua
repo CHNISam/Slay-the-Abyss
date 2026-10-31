@@ -1,61 +1,70 @@
--- Shop merchant portrait and RPG dialogue box. Presentation only: every line is the
--- approved Lore v2 merchant copy, said in reaction to a transaction the node UI has
--- already completed or refused. It never blocks, delays or replaces shop input.
+-- 商店商人演出，移植自 STS ShopScreen.createSpeech/updateSpeech、Merchant 与 ShopSpeechBubble
+-- （反编译源码见 docs/SHOP_PARITY.md 所引 ButterflyGame@fc379c8）。仅表现层：台词全部是已批准的
+-- Lore v2 商人文案，只在节点 UI 已完成/拒绝交易后反应，从不阻塞、延迟或替代商店输入。
+-- STS 时序：进店 speechTimer=1.5s；无气泡且计时到 0 时重置为 random(40,60)，首次说欢迎、之后说闲置话；
+-- 购买成功/金币不足都把计时重置为 random(40,60) 并立即换上新气泡。气泡 4s，前 0.3s 由 0.5 倍
+-- swingIn 弹入，透明度按 12/s 趋近、最后 0.3s 淡出，sin(t*4) 上下浮动，投影按 4/s 偏移；
+-- 悬停（触屏为点按）气泡会把剩余时长缩到 0.3s。气泡随机左右翻转，锚在商人身旁。
 local Theme = require("abyss_theme")
 local Narrative = require("abyss_narrative")
 local Prologue = require("abyss_prologue")
 local M = {}
 local L, C = Theme.layout.merchant, Theme.color
 local copy = Narrative.merchant
--- Narration is the scene-setting paragraph; everything else is the merchant speaking.
-local lines = { encounter = copy.encounter, greet = copy.greet, buy = copy.purchaseSuccess,
-    poor = copy.insufficientGold, leave = copy.leave, idle = copy.originHint }
+local lines = { welcome = copy.greet, buy = copy.purchaseSuccess, poor = copy.insufficientGold,
+    leave = copy.leave, idle = copy.originHint }
 local cues = { buy = "merchant_buy", poor = "merchant_deny" }
 
 local function clamp(value) return math.max(0, math.min(1, value)) end
-local function pageEnd(current)return math.min(#current.chars,(current.page or 1)*L.pageCharacters)end
+local function lerp(a, b, t) return a + (b - a) * clamp(t) end
+-- libGDX Interpolation.swingIn (scale 2): a^2 * ((s+1)a - s).
+local function swingIn(from, to, a) return from + (to - from) * (a * a * (3 * a - 2)) end
 
--- options.color, options.sound. box is the merchant container from merchantControl().
+-- options.color, options.sound, options.random (0..1, presentation only). box = merchantControl().
 function M.new(box, options)
     options = options or {}
-    local self = { visible = false, queue = {}, met = setmetatable({}, { __mode = "k" }) }
-    local portrait, line = box:GetChild("portrait"), box:GetChild("line")
+    local seed = 0x2545F491
+    local random = options.random or function()
+        seed = (seed * 1103515245 + 12345) % 2147483648
+        return seed / 2147483648
+    end
+    local function range(a, b) return a + (b - a) * random() end
+    local self = { visible = false }
+    local portrait, bubble = box:GetChild("portrait"), box:GetChild("bubble")
+    local line, marker, shadow = bubble:GetChild("line"), bubble:GetChild("next"), bubble:GetChild("shadow")
     local function colour(c, alpha)
         return options.color(c.r, c.g, c.b, math.floor((c.a or 255) * clamp(alpha or 1) + 0.5))
     end
-    local function tint(control, c, alpha) if options.color then control.imageColor = colour(c, alpha) end end
+    local function tint(control, c, alpha) if options.color and control then control.imageColor = colour(c, alpha) end end
     local function ink(control, c, alpha) if options.color then control.fontColor = colour(c, alpha) end end
+    local function pageEnd(s) return math.min(#s.chars, s.page * L.pageCharacters) end
 
-    local function begin(kind)
-        local narration = kind == "encounter"
-        local text = narration and lines[kind] or "「" .. lines[kind] .. "」"
-        self.current = { kind = kind, narration = narration, chars = Prologue.chars(text), shown = 0, hold = 0, page=1 }
-        self.idle = 0
+    -- ShopScreen.createSpeech: new bubble replaces the old one, random facing.
+    local function createSpeech(kind)
+        self.speech = { kind = kind, chars = Prologue.chars(lines[kind]), shown = 0, page = 1,
+            duration = kind == "leave" and math.huge or L.duration, scaleTimer = L.fade, alpha = 0, wavy = 0,
+            shadow = 0, right = random() < 0.5 }
         if cues[kind] and options.sound then pcall(options.sound, cues[kind]) end
-        if kind == "buy" then self.nod = 0 elseif kind == "poor" then self.shake = 0 end
     end
-    -- First visit in a run opens with the scene narration; later shops start at the greeting.
     function self:enter(run)
-        local first = not self.met[run]
-        self.met[run], self.idleUsed, self.idleAt = true, false, nil
-        self.queue = first and { "greet" } or {}
-        begin(first and "encounter" or "greet")
+        self.speechTimer, self.saidWelcome, self.speech = L.firstSpeech, false, nil
         self:pose()
     end
-    -- A reaction interrupts whatever is being said so repeated buying always gets instant feedback.
     function self:react(kind)
         if not lines[kind] then return false end
-        self.queue = {}
-        begin(kind)
+        if kind == "buy" then self.nod = 0 elseif kind == "poor" then self.shake = 0 end
+        self.speechTimer = range(L.idleMin, L.idleMax)
+        createSpeech(kind)
         self:pose()
         return true
     end
+    -- Tap = STS bubble hover: finish typing / next page, otherwise shorten to the fade.
     function self:tap()
-        local current = self.current
-        if not self.visible or not current then return false end
-        if current.shown < pageEnd(current) then current.shown = pageEnd(current)
-        elseif pageEnd(current)<#current.chars then current.page=current.page+1;current.hold=0
-        elseif #self.queue > 0 then begin(table.remove(self.queue, 1))
+        local s = self.speech
+        if not self.visible or not s then return false end
+        if s.shown < pageEnd(s) then s.shown = pageEnd(s)
+        elseif pageEnd(s) < #s.chars then s.page = s.page + 1
+        elseif s.duration > L.fade and s.kind ~= "leave" then s.duration = L.fade
         else return false end
         self:pose()
         return true
@@ -67,49 +76,60 @@ function M.new(box, options)
     end
 
     function self:pose()
-        local current = self.current
-        if not self.visible or not current then return end
-        local count = math.min(pageEnd(current), math.floor(current.shown))
-        line.text = table.concat(current.chars, "", (current.page-1)*L.pageCharacters+1, count)
-        ink(line, current.narration and C.textDim or C.text)
-        box:GetChild("name"):SetVisible(not current.narration)
-        box:GetChild("namePlate"):SetVisible(not current.narration)
-        local more = count >= pageEnd(current) and (pageEnd(current)<#current.chars or #self.queue > 0)
-        local marker = box:GetChild("next")
-        marker:SetVisible(more)
-        if more then
-            marker:SetAnchoredPosition(L.next[1] - L.frame[1], L.next[2] - L.frame[2] + 3 * math.sin((self.clock or 0) * 6))
-        end
-        -- Nod on a sale, a short head shake when the purse is short; both settle back to rest.
-        -- Theme frames are node-panel units; the portrait moves inside the merchant frame.
-        local x, y = L.portrait[1] - L.frame[1], L.portrait[2] - L.frame[2]
+        if not self.visible then return end
+        local clock = self.clock or 0
+        local x, y = L.figure[1] - L.frame[1], L.figure[2] - L.frame[2]
         if self.nod then y = y - L.nodLift * math.sin(math.pi * clamp(self.nod / L.nod)) end
         if self.shake then
             local p = clamp(self.shake / L.shake)
             x = x + L.shakeAmplitude * math.sin(p * math.pi * 4) * (1 - p)
         end
         portrait:SetAnchoredPosition(x, y)
-        local flicker = 0.4 + 0.08 * math.sin((self.clock or 0) * 7) + 0.05 * math.sin((self.clock or 0) * 13)
-        tint(portrait:GetChild("lanternGlow"), C.merchant.lantern, flicker)
+        tint(portrait:GetChild("lanternGlow"), C.merchant.lantern, 0.4 + 0.08 * math.sin(clock * 7) + 0.05 * math.sin(clock * 13))
+        local s = self.speech
+        bubble:SetVisible(s ~= nil)
+        if not s then return end
+        local side = s.right and 1 or -1
+        bubble:SetAnchoredPosition(L.figure[1] - L.frame[1] + L.anchor[1] + side * L.adjust[1],
+            L.figure[2] - L.frame[2] + L.anchor[2] + L.adjust[2] + s.wavy)
+        local scale = swingIn(1, L.scaleFrom, s.scaleTimer / L.fade)
+        bubble:SetLocalScale(scale, scale, 1)
+        local tail = bubble:GetChild("tail")
+        tail:SetAnchoredPosition(-side * (L.bubble[1] / 2 - 36), L.tail[2])
+        tint(bubble:GetChild("border"), C.goldDim, s.alpha)
+        tint(bubble:GetChild("panel"), C.parchment, s.alpha * 0.97)
+        tint(tail, C.parchment, s.alpha * 0.97)
+        tint(shadow, C.merchant.hood, s.alpha / 4)
+        shadow:SetAnchoredPosition(s.shadow, -s.shadow)
+        local count = math.min(pageEnd(s), math.floor(s.shown))
+        line.text = table.concat(s.chars, "", (s.page - 1) * L.pageCharacters + 1, count)
+        ink(line, C.panelSunken, s.alpha)
+        local more = count >= pageEnd(s) and pageEnd(s) < #s.chars
+        marker:SetVisible(more)
+        if more then tint(marker, C.goldDim, s.alpha) end
     end
 
     function self:update(dt)
-        if not self.visible or not self.current then return end
+        if not self.visible then return end
         self.clock = (self.clock or 0) + dt
-        local current = self.current
-        if current.shown < pageEnd(current) then
-            current.shown = math.min(pageEnd(current), current.shown + dt * L.typeRate)
-        else
-            current.hold = current.hold + dt
-            if current.hold>=L.hold and pageEnd(current)<#current.chars then current.page=current.page+1;current.hold=0
-            elseif #self.queue > 0 and current.hold >= L.hold then begin(table.remove(self.queue, 1)) end
+        local s = self.speech
+        if s then -- ShopSpeechBubble.update / SpeechTextEffect
+            s.scaleTimer = math.max(0, s.scaleTimer - dt)
+            s.wavyClock = (s.wavyClock or 0) + dt * L.wavyRate
+            s.wavy = math.sin(s.wavyClock) * L.wavy
+            s.duration = s.duration - dt
+            s.alpha = lerp(s.alpha, s.duration > L.fade and 1 or 0, dt * L.alphaRate)
+            s.shadow = lerp(s.shadow, L.shadow, dt * 4)
+            if s.shown < pageEnd(s) then s.shown = math.min(pageEnd(s), s.shown + dt * L.typeRate)
+            elseif pageEnd(s) < #s.chars and s.duration < L.duration - 2.6 * s.page then s.page = s.page + 1 end
+            if s.duration < 0 then self.speech = nil end
         end
-        -- STS ShopScreen 闲置搭话：玩家逗留时按间隔再次开口（不新增按钮、不阻塞交易）。
-        self.idle = (self.idle or 0) + dt
-        if #self.queue == 0 and self.idle >= (self.idleAt or L.idle) and current.kind ~= "leave" then
-            self.idleUsed = true
-            begin("idle")
-            self.idleAt = L.idleRepeat or math.huge
+        -- ShopScreen.updateSpeech idle cadence.
+        self.speechTimer = (self.speechTimer or L.firstSpeech) - dt
+        if not self.speech and self.speechTimer <= 0 then
+            self.speechTimer = range(L.idleMin, L.idleMax)
+            createSpeech(self.saidWelcome and "idle" or "welcome")
+            self.saidWelcome = true
         end
         if self.nod then self.nod = self.nod + dt; if self.nod >= L.nod then self.nod = nil end end
         if self.shake then self.shake = self.shake + dt; if self.shake >= L.shake then self.shake = nil end end
