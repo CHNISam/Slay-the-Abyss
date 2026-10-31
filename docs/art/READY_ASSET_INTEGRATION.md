@@ -58,3 +58,9 @@ Owner 2026-10-30 06:57 UTC 明确开关由开发/发布人员控制，不给玩�
 | `--art-cards=true` | 选角详情下方五张精装金框卡扇（`lowpolyCardFan`，框+插画共 1585 控件，复用官方角花/宝石/名牌精灵），模板用已绑定的 ready-card 图片/容器模板 | 原官方卡面，不生成、不加载、不创建 |
 
 两份数据只写入既有 `abyss_traveler_portrait_assets` 生成模块，并由既有肖像 owner 分批创建（每次更新共享 64 创建预算，离开选角暂停缓存）。范围边界：战斗/奖励/商店手牌的逐卡精装框与逐卡插画尚未接入，卡扇为选角展示且暂不含卡名/费用文字；收据 `officialPortraits` 清单仍按 selection133 计数，未单列低多边形控件。模拟器/源码测试通过不等于官方 PC/安卓验收：rotX+rotY 混合压扁、约 3.6k 控件性能与 GIA 导入均需正式客户端确认。
+
+#### 2026-10-31 追加：卡面金框 + 候选默认开启
+
+- `--art-cards=true` 同时把战斗手牌、奖励、商店、牌库共用的 `abyss_card_skin` 原生卡框改为突破实验金框调色（`ui_theme.json` → `cardSkin.premium`），只重新着色既有控件，名称/费用/描述文字不变；插画仍走已有 75 张自制卡图运行时。关闭时 `configure(nil)` 回到官方配色。角花/宝石等额外装饰精灵需新增布局宿主，暂缓。
+- Owner 要求本次交付候选默认看到新美术：`npm run build:native` 与 `build-native-candidate.mjs` CLI 未指定时默认 `cards=true`、`selectionAvatar=true`；`--art-cards=false --art-selection-avatar=false` 立即回到官方素材。`build:ui`/API 默认仍全关；旧 `--no-ready-card-art` / `--native-card-art-*` 继续决定 cards。
+- 未做：战斗/选角自定义低多边形场景背景（需在 battlePanel/characterPanel 底层新增宿主，与候选宿主屏蔽审计及并行 HUD/层级切片相关）；选角卡扇文字（无文字模板）。

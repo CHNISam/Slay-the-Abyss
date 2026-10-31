@@ -1,4 +1,4 @@
-import {resolveArtFeatures,artFeatureArgs,verifyArtFeatureReceipt,artBuildOptionsFromReceipt} from './art-features.mjs';
+import {resolveArtFeatures,artFeatureArgs,withCandidateArtDefaults,verifyArtFeatureReceipt,artBuildOptionsFromReceipt} from './art-features.mjs';
 // Production audio entrypoint: build every module before enabling native BGM.
 import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -23,7 +23,7 @@ export function nativeAudioBuildArgs(argv) {
   const art = nativeCardArtArgs(features.args);
   const parsed = releaseBuildArgs(art.args);
   return { ...parsed, options: { ...parsed.options,
-    artFeatures:resolveArtFeatures({artFeatures:features.artFeatures,nativeCardArt:art.nativeCardArt,readyCardArt:art.readyCardArt}),
+    artFeatures:resolveArtFeatures({artFeatures:withCandidateArtDefaults(features.artFeatures,{cardsDecided:art.nativeCardArt!==undefined||art.readyCardArt!==undefined}),nativeCardArt:art.nativeCardArt,readyCardArt:art.readyCardArt}),
     ...(explicit ? {nativeCardArt:art.nativeCardArt ?? {count:0}} : {}),
     ...(art.readyCardArt===false ? {readyCardArt:false} : {}) } };
 }
