@@ -201,7 +201,11 @@ function M.claim(run,kind,choice)
 end
 local function tinyHouse(run)
  local eligible={};for _,card in ipairs(run.deck)do if upgradeable(run,card)then eligible[#eligible+1]=card end end
- R.shuffle(run.miscRng,eligible);if #eligible>0 then upgrade(eligible[1])end
+ R.shuffle(run.miscRng,eligible);if #eligible>0 then
+  local card=eligible[1];local before=require('abyss_card_origin').state(card)
+  upgrade(card)
+  require('abyss_card_origin').record(run,card,before,'permanent_upgrade',{kind='relic',relicId='tiny_house'})
+ end
  local ok,why=require('abyss_run').increaseMaxHp(run,5);if not ok then return false,why end
  local Potions=require('abyss_potion_random')
  local pool=Potions.pool(Potions.character(run))

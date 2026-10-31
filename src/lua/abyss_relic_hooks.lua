@@ -238,7 +238,12 @@ function M.onObtainCard(run,card,definition,permanentApi)
    assert(permanentApi and type(permanentApi.increaseMaxHp)=='function','missing permanent health API')
    local ok,why=permanentApi.increaseMaxHp(run,6)
    if not ok then return false,why end
-  elseif eggTypes[M.localId(id)] then eggUpgrade(card,definition,eggTypes[M.localId(id)])
+  elseif eggTypes[M.localId(id)] then
+   local before=require('abyss_card_origin').state(card)
+   eggUpgrade(card,definition,eggTypes[M.localId(id)])
+   if not before.upgraded and card.upgraded then
+    require('abyss_card_origin').record(run,card,before,'obtained_upgraded',{kind='relic',relicId=M.localId(id)})
+   end
   end
  end
  return true

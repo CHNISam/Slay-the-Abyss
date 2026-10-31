@@ -4,8 +4,8 @@
     "curse_of_the_bell": {"name":"铃铛的诅咒","textTemplate":"无法打出。无法从牌组中移除。","upgradeTextTemplate":"无法打出。无法从牌组中移除。"},
     "strike": {
       "name": "普通攻击",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害。打击类牌。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害。打击类牌。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害。"
     },
     "defend": {
       "name": "防御",
@@ -59,13 +59,13 @@
     },
     "twin_strike": {
       "name": "重击",
-      "textTemplate": "对目标连续攻击 {effects.0.times} 次，每次造成 {effects.0.value} 点伤害。打击类牌。",
-      "upgradeTextTemplate": "对目标连续攻击 {effects.0.times} 次，每次造成 {effects.0.value} 点伤害。打击类牌。"
+      "textTemplate": "对目标连续攻击 {effects.0.times} 次，每次造成 {effects.0.value} 点伤害。",
+      "upgradeTextTemplate": "对目标连续攻击 {effects.0.times} 次，每次造成 {effects.0.value} 点伤害。"
     },
     "pommel_strike": {
       "name": "试探一击",
-      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再抽 {effects.1.value} 张牌。打击类牌。",
-      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再抽 {effects.1.value} 张牌。打击类牌。"
+      "textTemplate": "对目标造成 {effects.0.value} 点伤害，再抽 {effects.1.value} 张牌。",
+      "upgradeTextTemplate": "对目标造成 {effects.0.value} 点伤害，再抽 {effects.1.value} 张牌。"
     },
     "shrug_it_off": {
       "name": "伺机而动",
@@ -221,8 +221,8 @@
     },
     "perfected_strike": {
       "name": "剑势如虹",
-      "textTemplate": "造成{effects.0.value}点伤害。手牌、抽牌堆和弃牌堆中每张带打击标签的牌提升{strikeBonus}点伤害。打击类牌。",
-      "upgradeTextTemplate": "造成{effects.0.value}点伤害。手牌、抽牌堆和弃牌堆中每张带打击标签的牌提升{strikeBonus}点伤害。打击类牌。"
+      "textTemplate": "造成{effects.0.value}点伤害。手牌、抽牌堆和弃牌堆中每张带打击标签的牌提升{strikeBonus}点伤害。",
+      "upgradeTextTemplate": "造成{effects.0.value}点伤害。手牌、抽牌堆和弃牌堆中每张带打击标签的牌提升{strikeBonus}点伤害。"
     },
     "sword_boomerang": {
       "name": "回旋连斩",
@@ -231,8 +231,8 @@
     },
     "wild_strike": {
       "name": "猛进斩",
-      "textTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。打击类牌。",
-      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。打击类牌。"
+      "textTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。",
+      "upgradeTextTemplate": "造成 {effects.0.value} 点伤害，将 {effects.1.value} 张伤口洗入抽牌堆。"
     },
     "blood_for_blood": {
       "name": "负伤反击",

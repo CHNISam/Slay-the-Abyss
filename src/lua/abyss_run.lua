@@ -44,6 +44,7 @@ function M.transaction(run,command)
     if not called then return false,'transaction_failed' end
     if owner.failed then return false,owner.reason end
     if not ok then return false,detail end
+    require('abyss_card_origin').observe(staged,run)
     for key in pairs(run) do if staged[key]==nil then run[key]=nil end end
     for key,value in pairs(staged) do run[key]=value end
     return true,detail
@@ -290,6 +291,8 @@ function M.obtainRelic(run,id)
                     change.after={upgraded=true,upgrades=card.upgrades}
                     card.lastRelicUpgrade=change
                     receipt.upgrades[#receipt.upgrades+1]=change
+                    require('abyss_card_origin').record(staged,card,change.before,'permanent_upgrade',
+                        {kind='relic',relicId=sourceRelic})
                 end
                 return true
             end})

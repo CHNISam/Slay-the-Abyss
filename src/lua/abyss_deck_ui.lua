@@ -134,6 +134,11 @@ function M.new(root, presentation, clickEvent, platform, onClose)
         elseif context.combat then
             text=CardDisplay.combatText(display,definition,instance,Combat.cardPreview(context.state,instance),context.state)
         else text=CardDisplay.permanentText(display,definition,instance) end
+        local originView=require('abyss_card_origin_view')
+        local keywords=originView.keywords(definition)
+        if keywords~=''then text=text..'\n'..keywords end
+        local provenance=originView.describe(self.run,context.instance,context.combat)
+        if provenance~=''then text=text..'\n\n'..provenance end
         local suffix=instance.upgraded and ('+'..(definition.repeatable and tostring(instance.upgrades or 1) or '')) or ''
         local mode=context.preview and '升级预览' or '当前'
         local cost=definition.cost==-2 and '不可打出' or definition.costMode=='all_energy' and 'X' or tostring(definition.cost)
