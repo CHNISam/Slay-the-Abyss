@@ -1,0 +1,30 @@
+{
+  "reviewedCommit": "7b067bc149bc4f1a1081ef08252756ca5cec37ac",
+  "base": "b4f88a1f574b403f4cc68d54ee37565f3012b5ad",
+  "verdict": "pass",
+  "blockers": [],
+  "findings": [],
+  "evidence": [
+    "Read full ninefile diff; puretests/oracle/docs/attributes, production/oldgolden/budget unchanged.",
+    "Independently fetched all11 fixedJava and SHA256matched. Read reward rarity→offset→identityretry→afterallidentities upgradefloat order; rare shortcircuits upgrade, Act1zerochance stilldraw.",
+    "Merchant actual adjacentduplicate retries both rarity+identity; commonPowerfallbackUncommon, typedCardGroup sourceIDsorted;20/15colorless includebandage, not combatHEALINGexcludedpool. Full72reward/typed/colorless pools compared beforechain.",
+    "NeowReward.rollRarity source onlyCommon/Uncommon and falseColorless mapsCommon→Uncommon, so threeuncommon model is sourcejustified independently, rarityownerprivate while identityshared. Orrery fourcardrewards plusdefaultfifth and Wheel normal-only secondgroup sourcecorrect.",
+    "Python imports only established independent XS128 and frozen sourcepool data; no productioncatalog/sampler/cloneexpected. Complete93bound/value/type/words/counter interleaving,2rewardidentityretries and1shopretry.",
+    "Actual sameRun publicbeginNeow/choose/claim→obtainOrrery5modals→Nodesshop→Wheel+Questionnormal2x4→Crown+Questionelite2; claim/skip no-redraw. Observers onlytag actualowner copies, do not replacevalues/streams.",
+    "Controlledhistory/roomtypes/terminalenemyHP explicitly disclosed; no naturalroute, trustedmaprestore or playercombat win claim.",
+    "Precise temporaryfirstduplicateidentitydraw omission causes actualOrreryidentity Anger vs independentThunderclapfailure; sourceanchorunique, no unrelated failure accepted.",
+    "RealGitCRLFcontrol converted, allauthenticatedinputs exactLF/rawbytes retained andregenerationpassed; provenancePOSIXkeys literal byconstruction."
+  ],
+  "verification": {
+    "command": "node --test --test-concurrency=1 tests/card-consumers-source.test.mjs tests/card-consumers-source-mutation.test.mjs tests/card-consumers-checkout.test.mjs",
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "durationMs": 4350.247221
+  },
+  "boundaries": [
+    "A0/Act1rawcardownercontrolledprojection; not lateractupgradeprobability,Nloth,Shardshufflelong,Courierunseededidentity orallNeowrewards. Existingseparatecontracts remain.",
+    "No fullM3/RNG-allcompletion, officialimport/currentready/PC/phone certification. FinalintegratedheadCI/exactreview separate."
+  ],
+  "sourceModifiedByReviewer": false
+}

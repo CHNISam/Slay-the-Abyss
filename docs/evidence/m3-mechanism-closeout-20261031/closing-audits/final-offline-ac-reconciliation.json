@@ -1,0 +1,162 @@
+{
+  "reviewedSourceHead": "a80331a53eb0ddc7cf09eb3e049436664d625c44",
+  "reviewType": "Read-only literalACfactsreconciliation; NOT exact-headmergeapproval",
+  "scopeAuthority": "docs/SCOPE.md2026-10-29GeoonlyAct1+2;noSave/Notehistoryfuture;fullsourceoutsideprofilepreserved.",
+  "recommendations": [
+    {
+      "task": "TASK-47",
+      "acceptanceCriterion": 8,
+      "literal": "完整首发原池及合法生成依赖中的牌均可执行，保持原版概率；不能以30张最低数量替代完整75张验收。",
+      "recommendation": "check",
+      "reason": "Within approvedGeo/Act1+2/noSave scope, literal is offline executionandprobability contract. Complete75base/up plus39legaldependencies nowhave meaningfulconsumercontracts; producerpool/instance/effect composition valid. Do not require everyproducer×card rerun.",
+      "evidence": [
+        "tests/lua/warrior75.lua:75explicitbase/up150outcomes",
+        "tests/lua/warrior75_edges.lua:49specialinteractions",
+        "tests/lua/warrior75_channels*.lua +card_pool_rewards*:completelegalsourceoffer/acquisition/permanentUID/upgrade",
+        "tests/lua/colorless_cards.lua,colorless_actions.lua,colorless_powers.lua +discovery_action_owner/autoplay_identity/post_combat_actions/ritual_dagger_growth:prior34focusedmembers",
+        "tests/lua/support/colorless_five_effects.lua:new5count/filter/object/outcomes",
+        "tests/lua/support/deep_breath_vectors.lua:correcttwo-stagefullstream/UIDorderandactualreliceffectbeforedraw",
+        "tests/lua/support/secret_candidate_insertion.lua:sourcecandidateinsertiononce,publicselectionandpurevalidation",
+        "tests/lua/support/card_consumers.lua:complete72typed+20/15colorlesssourcepool and93cardRngconsumertrace;existinggenerationpoolcontracts",
+        "/workspace/cloud-reports/m3-dependency39-effect-map.json plusm3-review-colorless-five-effects.json pass andm3-review-deep-breath-source-fix.json pass"
+      ],
+      "remainingConcreteBoundary": [
+        "This is no permission tocheck47#2/#3/#7/#9/#12/#13/#14 orclaimnative/deviceavailability.",
+        "Finalintegratedcandidatechecks mustpass beforetaskfinalization;thisis factualACreconciliation not deliverysignature."
+      ]
+    },
+    {
+      "task": "TASK-13.1.2",
+      "acceptanceCriterion": 3,
+      "literal": "补齐冻结比赛清单内不依赖持久Save的第一幕事件选项、代价和结果；25项原版目录保留，A Note For Yourself跨局留卡明确移TASK-53未来，不能静默删其他缺项。",
+      "recommendation": "check",
+      "reason": "Literal is implementedfirstactcontent/options/cost/results, notnatural/officialacceptance. Approved24retainedidentities plusexplicitNotehistoricalcatalog/defer satisfycurrent25directoryrule. Actualrecursivepublicallvisibleoptions andexactmoduleoutcomes/sharedtransaction compose; no requirement everymodulequalifier replicatedthroughNodes.",
+      "evidence": [
+        "tests/lua/support/two_act_selection_audit.lua:M.cases42legaluniqueidentitydomain;M.walk clones everyvisibleenabledoption andrealgeneratedUI→Nodes.chooseEvent",
+        "tests/lua/two_act_selection_events_act1.lua andact2.lua:coversharedfirstacteventswhichalsoact2",
+        "tests/lua/support/m3_full_pool_completion.lua +m3_full_pool_completion_1_{1,13}.lua:fullsourcepooldraw/originalmapping/eligibility/lifecycle",
+        "tests/lua/act1_event_content.lua:allFish/Serpent/Bonfire/Blacksmithmainoptionsandpermanenttransactiondetails",
+        "tests/lua/unknown_events.lua;cleric.lua,living_wall*,transmogrifier*,fountain_event*,golden_idol_*,mushrooms*,scrap_ooze,wheel_event,potion_events,we_meet_again:exactlocalcost/result/qualificationassertions",
+        "tests/lua/match_event_{commands,sampling,integration,ui}.lua,duplicator_event_integration.lua:token/UID/continuation/permanentjoins",
+        "tests/lua/face_nloth_skull_events.lua andshared_special_event_fixture.lua:samerealmodulehandlerandRun.transaction;publicextensionsviaabyss_nodes_events/abyss_act1_events reviewed",
+        "docs/SCOPE.md andbacklogTASK53:NoteForYourselfpersistenthistoryexplicitlyfuture;nootherauthorizedeventremoved"
+      ],
+      "remainingConcreteBoundary": [
+        "Do notcheck13.1.2#5/#6/#8 withouttheirdistinctplatform/natural/currentfailureevidence.",
+        "Thischeckdoesnotclaimallprobabilityoutcomesnaturallyobserved."
+      ]
+    },
+    {
+      "task": "TASK-13.1",
+      "acceptanceCriterion": 4,
+      "literal": "补齐冻结比赛清单内不依赖持久Save的事件选项、未知房变化和营地/宝箱产出规则，逐项保持原版；跨局留卡与历史资格移未来，不改变保留内容的原池顺序、概率及同局事务。",
+      "recommendation": "check",
+      "reason": "Withinapprovedscope, compositional evidenceextends eventcontenttoactualunknown-roomreducers,camptransactionsandtreasureproducts. No verifiedconcreteuncoveredcontract identifiedinthisread-onlyaudit; absenceofonecombinedtableisnotreason tokeepthisofflinecriterionopen.",
+      "evidence": [
+        "Eventevidencefrom13.1.2#3above plussecondactmodule/UI/exits",
+        "tests/lua/unknown_events.lua +unknown-events-fixtures.test.mjs:independentroombucket/eligibility/poolboundaries,Shopalternation,Juzu/TinyChest,transactionfailure/savedownerno-reroll",
+        "tests/lua/unknown_event_routing*.lua:fullsource routinggroupfixtures",
+        "tests/lua/nodes.lua:camprestcap/singlechoice/upgradedUIDnextbattle,malformedselectionguards;node_transactions.lua:foreign/repeated/atomiccommands",
+        "tests/lua/rare_relics_nodes.lua andrare_relics_ui.lua:Giryaonecamp→strength,PeacePipeexactpurge/bottledreject,Shovelrarityoptionalclaim/skip/once",
+        "tests/lua/m3_relic_public_camp_skills.lua:Featherentryhealboundaries/restnorepeat/Bloom",
+        "tests/lua/treasure_rewards.lua:exhaustivechestsizeandcorrelatedtier/goldboundaries,Boss3queueheads,Matryoshka/Nloth/CursedKey/sapphirehooks",
+        "tests/lua/source_treasure_nodes.lua,source_treasure_owner_guards.lua,source_treasure_token.lua,treasure_relic_eligibility.lua:actualsourceopen/ownercommit/token/paging/rollbackandeligibility",
+        "tests/lua/relic_pool.lua:sourcequeueandraritychannelsinclShovel;existingindependenttreasuresourcelocks"
+      ],
+      "remainingConcreteBoundary": [
+        "Noofficial/nativecapacity/deviceclaim;13.1#7explicitstrictplatformcriterionremainsopen.",
+        "Noautomaticinferenceallshoppricecombinations13.1#5orallcross-domainrandomconsumers13.1#6passed."
+      ]
+    },
+    {
+      "task": "TASK-14.1",
+      "acceptanceCriterion": 5,
+      "literal": "补齐完整原版道具池中尚缺的遗物/药水效果，并逐件核对数值、对象、持续时间、限制和触发顺序。",
+      "recommendation": "no-check",
+      "reason": "Thisreviewcanconfirmnewsourcecorrectionsandmanyperitemcontracts, butdoesnotindependentlyattestalloriginalrelic/potionfield-levelrequirements. Thisis an uncompletedscopeofreview, NOT a confirmedmissingfeature/testornewcodingrequirement. No mechanicalCartesianmatrixshouldbeadded.",
+      "evidence": [
+        "153relicstaticindex points to686actualassertionblocks, butitsownmethodexplicitlydoesnotcertifyallperitemnumericalfields",
+        "NewFeather/Letter/HandDrill/Brimstonepublicchains;Snecko/Insectfullvectors;Colorless/Chaoscrosssourceflows;DeepBreathsharedreliceffecttiming",
+        "Existingcommon/uncommon/rare/boss/shop/special/reliclifecycle/potion33fixturesprovidesubstantiveeffectevidence"
+      ],
+      "remainingConcreteBoundary": [
+        "Precisedimensionnotfullyattestedbythisreview:everyitemcompleteeffectattributesincludingduration/limitandqueueexecutionorder, ratherthanatleastoneeffectassertion. ExamplecurrentBrimstonepublicfixturechecksstrength2/4/6and1/2/3,butdoesnotobserveactualreverseenemyTOPpowerapplicationsequence;sourceimplementsitandmaycomposewithgenericqueueproof, so inspectthatcompositionbeforeaddingtests.",
+        "MedicalKitexampleisolateddefinitiontransformplussharedstatusplay/disposalcancompose;doNOTlabelunimplementedormandatorypublictestgap.",
+        "Beforecheckingwholecriterion, a reviewerwithfullrelic/potionscope shouldstateallattributecontractscompositionalclosureorpointtoatrueabsentbranch. Thisauditdoesnot inventdefecttojustifyremainingcheckbox."
+      ]
+    },
+    {
+      "task": "TASK-16.1",
+      "acceptanceCriterion": 5,
+      "literal": "完整职业和遗物药水补齐后，逐项验证新增及跨域组合的原版数值、先后顺序和同一共享结算入口。",
+      "recommendation": "no-check",
+      "reason": "RespectcurrentapprovedGeo/two-actscope;futureclassesdonotblockcurrentwork. Newfive/Deep/SecretandnewRNGchainsproveidentifiedcrossdomaincontracts. Broadallnewclass/itemcrossdomainconclusionexceedsthisauditedset;noadditionalunboundedcombinationrequirementisinferred.",
+      "evidence": [
+        "75/39consumerclosure+sourceorigininstancecontracts",
+        "DeepBreathactualconstructorreactions/sharedqueueordering",
+        "CardRngNeow→Orrery→shop→Wheel/CrownpublicsameRun",
+        "Chaossharedchain/merchantconsumerreviewsownedbyseparateindependentreviewers"
+      ],
+      "remainingConcreteBoundary": [
+        "Specificremainingreviewboundary:fullcurrentitemnumerical/duration/limit/ordercoverageunder14.1#5hasnotbeenattestedhere;cannotdeduceitfromthethreelatestRNGconsumerchains.",
+        "No confirmednewproductionorconcreteexecutabletestgapidentified. Requirecomplete-domainreviewfact, not newCartesianruns."
+      ]
+    },
+    {
+      "task": "TASK-16.1",
+      "acceptanceCriterion": 6,
+      "literal": "验证完整来源池的随机抽取、流初始化与全部消费顺序，并保留对应实际游戏记录；未接入内容不能以现有子集测试替代。",
+      "recommendation": "no-check",
+      "reason": "Complete16ownerinitialization+allconsumerswithcorrespondinggame-recordobligationisbroaderthanidentifiedcompletedconsumerchains. Keepnewchainfacts;do notturnthemsubsetintoallownerpass.",
+      "evidence": [
+        "card_consumers.lua93exactwrappers/clonescommits",
+        "Secretcandidateinsertion0..4andDeepBreath2longsourceorder",
+        "Existingpotion/cardRandom/shuffle/AI/HP/sourcepoolindependentcontracts"
+      ],
+      "remainingConcreteBoundary": [
+        "ConcreteexcludedsourcepathsdeclaredbycardconsumerproofincludePrismaticShardadditionalshufflelong,NlothraritymodifierandunseededCourieridentitycontext;theirdistinctoldspecialistsmustbecheckedbeforewholepoolconsumptionclosure. Thisauditdidnotrerunorreclassifythemasunimplemented.",
+        "ActualcontrolledRunrecordscanproveboundedgameentrypaths;notnative/naturalallownersunlessseparatelyrecorded."
+      ]
+    },
+    {
+      "task": "TASK-76",
+      "acceptanceCriterion": 1,
+      "literal": "根因定位并最小修复",
+      "recommendation": "no-check",
+      "reason": "Offlinegesture/overlayrecoveryfixesandreturn-firstoperationtestsareestablished, butoriginalintermittentdeviceforegroundlockrootcausehasnotbeenidentified.",
+      "evidence": [
+        "game_ui_deck.lua actualpostclosemap/battle/camp/rewardoperations",
+        "reward_flow_parity.lua staleinputexpire/freshtouchrewardreturn",
+        "mobile_card_release/card_help_release/map_focus_selectionfixtures"
+      ],
+      "remainingConcreteBoundary": [
+        "OriginalphysicalPC/phonereproductionorOS/nativefocus/readytraceisstillmissing. DonotlabelMCPautomationfocuspatchgamefix."
+      ]
+    }
+  ],
+  "checkRecommended": [
+    "TASK-47#8",
+    "TASK-13.1.2#3",
+    "TASK-13.1#4"
+  ],
+  "noCheckRecommended": [
+    "TASK-14.1#5",
+    "TASK-16.1#5",
+    "TASK-16.1#6",
+    "TASK-76#1"
+  ],
+  "officialNaturalCriteriaRemainOpen": [
+    "TASK-47#2/#3/#7/#9/#12/#13/#14",
+    "TASK-13.1.2#5/#6/#8",
+    "TASK-13.1#7",
+    "TASK-14.1#8/#9",
+    "TASK-76#2/#4/#5/#6"
+  ],
+  "importantDiscipline": [
+    "No missingunifiedtableorunboundedCartesianmatrixas reason todenyexistingdynamiccomposition.",
+    "No staticIDcountasmultipleeffectpass.",
+    "No newrequiredimplementationisassertedbythisreconciliation;allspecificproductionissuesfoundinpreviousreviewsresolvedinseparatelyapprovedcommits.",
+    "Finalroot36entryrun/engineeringandnewexactheadmanifestreviewpending;noBacklogchangesbyreviewer."
+  ],
+  "sourceModifiedByReviewer": false
+}

@@ -1,0 +1,74 @@
+{
+  "reviewer": "independent non-author campaign/rules reviewer",
+  "worktree": "/workspace/m3-merchant-proof",
+  "reviewedCommit": "69bbe6770891aa0050ea0a273e3a850fe50de3b8",
+  "base": "b4f88a1f574b403f4cc68d54ee37565f3012b5ad",
+  "verdict": "PASS",
+  "blockers": [],
+  "sourceReview": [
+    "Independently fetched all15 pinned source files from aeubanks/sts@319009d5; verified SHA256, Git blob SHA1 and byte count against receipt. Source reads included Merchant/CardGroup pool order and retries, ShopScreen initCards/initRelics/initPotions/setPrice/applyDiscount/getNewPrice, StoreRelic and StorePotion purchase ordering.",
+    "Initial merchant sequence is7 card floatBetween calls, sale int(0,4), two relic rarity+price pairs, third shop-tier relic price only, then3 potion prices:16. Courier colored price1, colorless rarity+price2, potion price1, relic rarity+price2 extend to22; four cases total76 committed merchant calls.",
+    "Oracle is independent of production Lua and live catalog definitions: frozen source card registration/pool order, independent XS128/potion source model, source-fact relic eligibility and existing independent queues. No production-cloned RNG or current pricing function computes expected values.",
+    "Binary32 order matches source: initial card jitter products truncate before discounts; colorless multiplies1.2F first; sale integer-halves; Courier and Membership round sequentially. Restock card applies0.8F and optional0.5F before final truncate; relic/potion jitter rounds before sequential discounts. FloatBetween uses rounded binary32 subtraction/multiply/add.",
+    "Four Courier-rejected source relics OldCoin/SmilingMask/MawBank/Courier were separately fetched and read: each canSpawn excludes ShopRoom. Author correctly does not forge a supposedly natural outer-loop hit from these inaccessible ordinary-shop candidates.",
+    "Identity owners are separated correctly: initial colored/colorless uses cardRng; Courier colored uses independent replayed MathUtils primitive while rarity uses cardRng; Courier colorless rarity uses merchant float and identity uses cardRng; potions use complete33 source rejection sampling. Source explicitly uses MathUtils for colored replenishment, so treating it as a normal run-seeded identity draw would be wrong.",
+    "Independent actual host-Java execution of existing Sts1RelicPoolVectors.java, with source registration TSV and seed0/seed2 raw shuffle words, reproduced every queue in both merchant inputs. Saved output is m3-merchant-independent/host-java-queues.json; no production Pool.new used to derive expected queues.",
+    "Actual production Pool.new is compared to expected queues without filtering or reordering live queues; eligibility interpretation uses source metadata and controlled simple deck/owned prerequisites. Fixture relic seeds0/2 are explicitly distinct from run seeds1/-1/42; no single-natural-seed claim.",
+    "Actual public Nodes.enter, buyCardSlot, buyPotion and buyRelic invoke live transaction/obtain/restock code. Assertions verify full shelves, rarity/source IDs/prices/sale positions, payment and permanent UID/inventory/relic grants; view reads and rejected/duplicate commands preserve state and streams.",
+    "Late-failure cases observe the actual staged merchant price draw and card rarity draw after payment/grant staging, then require whole Run value-state and external owner including revision to roll back. Removing only observer records of discarded private attempts is appropriate; they are not represented as committed draws. Subsequent legal retry must still match full independent trace.",
+    "Meta negative control changes only the sale-slot draw in a temporary module and requires initial merchant exact draw count failure; it does not accept any arbitrary test failure as success. Production files and original goldens are unchanged."
+  ],
+  "independentVerification": {
+    "sourceReceiptsVerified": 15,
+    "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+    "standardFiles": [
+      {
+        "file": "tests/merchant-chain-ordinary.test.mjs",
+        "exitCode": 0,
+        "elapsedMs": 3427.05,
+        "log": "/workspace/cloud-reports/m3-merchant-independent/ordinary.log"
+      },
+      {
+        "file": "tests/merchant-chain-courier.test.mjs",
+        "exitCode": 0,
+        "elapsedMs": 4090.98,
+        "log": "/workspace/cloud-reports/m3-merchant-independent/courier.log"
+      },
+      {
+        "file": "tests/merchant-chain-discounts.test.mjs",
+        "exitCode": 0,
+        "elapsedMs": 3967.95,
+        "log": "/workspace/cloud-reports/m3-merchant-independent/discounts.log"
+      },
+      {
+        "file": "tests/merchant-chain-membership.test.mjs",
+        "exitCode": 0,
+        "elapsedMs": 4166.25,
+        "log": "/workspace/cloud-reports/m3-merchant-independent/membership.log"
+      },
+      {
+        "file": "tests/merchant-chain-meta.test.mjs",
+        "exitCode": 0,
+        "elapsedMs": 1776.5,
+        "log": "/workspace/cloud-reports/m3-merchant-independent/meta.log"
+      }
+    ],
+    "testsPassed": 6,
+    "testsFailed": 0,
+    "maximumWholeFileProcessMs": 4166.25,
+    "budgets": "Original Lua30000ms and unknown JS10000ms unchanged; each independently timed process under7000ms",
+    "hostJavaQueues": "PASS actual source-file execution, seed0+2 full five-tier queue equality",
+    "hostJavaArtifact": "/workspace/cloud-reports/m3-merchant-independent/host-java-queues.json",
+    "crlf": "PASS independent real Git core.autocrlf=true/core.eol=crlf clone: unpinned control really became CRLF; generator, every raw-hashed input and fixture remained identical LF bytes; oracle --check passed; keys POSIX",
+    "diffCheck": "PASS git diff --check b4f88a1..HEAD",
+    "worktreeCleanAfterReview": true
+  },
+  "limits": [
+    "Approval is for four controlled A0 Ironclad/Geo ordinary-shop traces. Funding, pre-owned discounts, path-only navigation, relic queue seed0/2 and external MathUtils seed6 are explicit fixtures, not natural acquisition or one original-game all-owner seed history.",
+    "External MathUtils verifies controlled identity results/raw words, not original PC global cosmetic/speech timing or STS wrapper counter parity. Other gameplay owner streams and original PC binary authenticity remain separate.",
+    "Bounded queues do not reach exhaustion/fallback. Forbidden Courier outer retries are not forced past source canSpawn. Daily/A16+/other class/endless and arbitrary on-equip relic interactions are not certified.",
+    "Late-failure tests deeply compare value state and external revision; this slice does not separately establish every possible Lua alias/reference-topology invariant. Existing transaction/owner regressions and unchanged source transaction publication logic remain separate evidence.",
+    "No natural shopping, official import/ready, actual Windows executable, PC/phone/controller or complete TASK13.1/16.1 blanket acceptance is inferred."
+  ],
+  "changesByReviewer": "Only this requested review JSON and separate read-only verification outputs written; no implementation/repository/remote changes."
+}

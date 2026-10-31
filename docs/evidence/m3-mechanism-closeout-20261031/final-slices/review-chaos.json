@@ -1,0 +1,129 @@
+{
+  "reviewedHeadSha": "d1b913d39fb806c27b2c0f851e52870d0911f45d",
+  "reviewedBaseSha": "b4f88a1f574b403f4cc68d54ee37565f3012b5ad",
+  "reviewId": "independent-chaos-shared-chain-d1b913d-20261031",
+  "reviewer": "/root/review_m3_delivery_exact; independent of author complete_m3_rest_provenance",
+  "worktree": "/workspace/m3-chaos-shared-rng",
+  "conclusion": "pass",
+  "verdict": "PASS",
+  "unresolved": [],
+  "blockingFindings": [],
+  "changeKind": "TEST_ADDED, existing production behavior passes; no production defect/RED claimed",
+  "scope": "12-file source/trace/portability/short publicRun and precision-mutation review; no broad suite or finalCI rerun.",
+  "sourceIndependenceAssessment": [
+    "独立从 aeubanks/sts@319009d5 实际重取全部12个 Java 文件，原始 SHA256 与 fixture 全部相等。逐方法核对 Chaos.use 先构造3个目标、PlayTopCard/NewQueue、Hand 正费用过滤、Spoon 处置布尔、Branch 消耗钩子及 common→uncommon→rare 排除 HEALING 的完整池。",
+    "Python 仅导入既有独立 XS128 Stream 与冻结原版注册/牌池，不调用生产 Lua、采样器、生产 clone 或本地运行卡定义生成预期。完整70个唯一源身份顺序另与 runtime 全数组比较。",
+    "模型/输入原始 SHA 与完整 fixture 再生已独立通过；逐调用 before/after 连续，第三次目标后状态等于 afterTargets、最后调用后等于 after。0/1/2种子分别6/5/6次消费；1为 Spoon 弃牌，0/2为真实消耗后 Branch；2的第三目标与 Hand 选择不同，能区分消费顺序。"
+  ],
+  "runtimeAssertionAssessment": [
+    "真实 Run.removeCard/obtainCard/obtainRelic/obtainPotion/startCombat 及 usePotion/chooseCard/play；仅受控调整7个已真实生成战斗副本的牌堆次序与合法显式楼层/遭遇，不伪造 UID 或替换效果。",
+    "包装观察器继续调用原 randomInt/randomBoolean/autoplayTop；每次 shape、bound、结果、双64位 words、counter 与独立全轨迹比较，并单独核三个实际目标与 afterTargets。无关 owner 消费若出现也会进入全 trace 并失败；其他流及永久牌组另保持不变。",
+    "实际 Inflame 力量2、Impervious 格挡30、自动出牌能量仍3、独立第三目标损失8、其他敌不变。Hand 只改变实际正费牌；Spoon 弃/消耗目的地、Branch 新 UID/身份及队列清空均有结果断言。",
+    "先真实完成 Elixir 空选择取得旧 token；Chaos 后旧 token、已消费瓶位、已处置自动牌 UID 均拒绝，完整 Run 深值与随机调用数不变。这是具体公共命令拒绝，不外推所有 alias/owner 事务边界。",
+    "两个精准变异只写临时模块副本且要求源锚唯一：删最后目标消费、删 Impervious 的 Spoon 布尔。独立执行均在 every Chaos shared stream draw 新断言失败，不能用任意 Lua 异常冒充 kill；生产源码未写。"
+  ],
+  "portabilityAssessment": [
+    "source_identity 使用 relative_to(...).as_posix；真实 PureWindowsPath/PurePosixPath 测试通过。模型、Stream 与两输入固定 LF；真实 Git autocrlf/eol=crlf clone 的未固定控制文件确为 CRLF，认证路径原字节保持且原 oracle --check 成功。仅 Linux 上 Git 配置模拟，不称 Windows 实机执行。",
+    "三个种子和两变异薄入口逐字核对，另元数据3项，共6文件8测试。旧 fixture、源池、hash、runner、预算、CI配置均未改变；gitattributes 只补认证模型/Stream 的 LF 属性。"
+  ],
+  "freshVerification": [
+    {
+      "command": "node --test --test-concurrency=1 tests/chaos-shared-chain.test.mjs tests/chaos-shared-chain-seed-2.test.mjs tests/chaos-shared-chain-preplan-mutation.test.mjs tests/chaos-shared-chain-spoon-mutation.test.mjs",
+      "result": "6/6PASS,0skip,12050.38ms; independentseed2case7930.68ms, preplannegative1801.52ms, Spoonnegative1570.75ms; metadata/regeneration/path/realGitCRLF3PASS."
+    },
+    {
+      "command": "node --test tests/chaos-shared-chain-seed-1.test.mjs",
+      "result": "1/1PASS,0skip; discardbranch7644.39ms, process7819.90ms."
+    },
+    {
+      "check": "Independent actualupstream12rawhash matches, fixed70unique pool,3case fulltrace continuity/model/input rawhash checks",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check HEAD^ HEAD; git diff --exit-code HEAD^ HEAD -- src scripts data config; git status --porcelain",
+      "result": "PASS; productiondiff empty; ownworktree clean."
+    }
+  ],
+  "budgetAssessment": {
+    "luaInvocationMs": 30000,
+    "jsWholeEntryMs": 10000,
+    "changed": false,
+    "freshPositiveCaseMs": [
+      7930.684711,
+      7644.389709
+    ],
+    "note": "本审查实际正向7930.68/7644.39ms，不冒用作者6833/7028/7455ms为自己的结果或上界。本机均低于原10秒整入口预算；最终 Windows hosted CI 仍须按真实head验证。"
+  },
+  "authorEvidenceRead": "/workspace/cloud-reports/m3-chaos-shared-chain-report.json anddocs/reviews/M3-CHAOS-SHARED-RNG.md; authorseed0normal not independently repeated, but vectorregen and bothseed0 precisionmutants independently run.",
+  "provenance": [
+    {
+      "path": ".gitattributes",
+      "sha256": "71b52c158ec1c1a9213374213cfe6763a6ace31cb0f565f06530cdd1546e527f"
+    },
+    {
+      "path": "docs/reviews/M3-CHAOS-SHARED-RNG.md",
+      "sha256": "65f17e9e42a7265623bbcd8ceb473212f0afc94fc4dca04a48e1417d3f275e6f"
+    },
+    {
+      "path": "tests/chaos-shared-chain-preplan-mutation.test.mjs",
+      "sha256": "f401fbfaea27d9809abf1c50a46e2c3b71a89d4e546b54533f5e33fe92fd7869"
+    },
+    {
+      "path": "tests/chaos-shared-chain-seed-0.test.mjs",
+      "sha256": "4a76a9fd0efd885de83b200281f2aacf9fbb19863fcfd2cbc438836393ef68cc"
+    },
+    {
+      "path": "tests/chaos-shared-chain-seed-1.test.mjs",
+      "sha256": "2f098d58eec72f7aff8b155db176c60f34bbc29a1d0dbdb13d63b5a57604495a"
+    },
+    {
+      "path": "tests/chaos-shared-chain-seed-2.test.mjs",
+      "sha256": "9d4a26606fa310b4e28d4e95132ba38e103723353a870c73ea4900065462d811"
+    },
+    {
+      "path": "tests/chaos-shared-chain-spoon-mutation.test.mjs",
+      "sha256": "9d9f682a287e207dbb8fd33b31f8d06bb3f32f48ac02f6dbe93e97bf7566ed1d"
+    },
+    {
+      "path": "tests/chaos-shared-chain.test.mjs",
+      "sha256": "42022cdb7b6b618191dffd003a57c83b923d41ad2c5bfb0df5560fe63f655eb7"
+    },
+    {
+      "path": "tests/fixtures/sts1-chaos-shared-chain.json",
+      "sha256": "f4779f8afd4463ba27c41c17ca5de10b04725e0b957862a03f92460018aa747a"
+    },
+    {
+      "path": "tests/helpers/chaos-shared-chain.mjs",
+      "sha256": "f2e13dd569352d872d0bdb4a119b3934c375f62c2c8471aa790e8e49366a4c44"
+    },
+    {
+      "path": "tests/lua/support/chaos_shared_chain.lua",
+      "sha256": "8c43f45df3b531aee32dfca7b201c96acafb09e72f533d5e96160a2e53e86a77"
+    },
+    {
+      "path": "tools/oracles/sts1_chaos_shared_chain.py",
+      "sha256": "b9dc73393492f907bfa14e6cc4cba229a3c20d17d98866efdc4062622921ad77"
+    }
+  ],
+  "boundaries": [
+    "受控合法库存/牌堆、显式 medium_slimes/floor4，不是自然取得或正式房间 seed 传播。",
+    "没有原版 PC 帧回放、官方客户端或设备证据；固定社区反编译镜像不等于认证官方二进制。",
+    "仅关闭 Chaos→Hand→Spoon→条件 Branch 消费交点，不宣称全部16随机 owner、153遗物或所有组合完成。",
+    "源码审查 PASS 不等于 PR437/后续组合 CI、合入后 push CI 或发布许可。",
+    "审查者未修改实现、root、remote、Backlog；只写外部审查 JSON 与上游校验缓存。"
+  ],
+  "upstreamRawSha256IndependentlyVerified": {
+    "potions/DistilledChaosPotion.java": "293b4e80fb584be6d409e3b857dc7e45f1a83f18c4234edb9191c96e2e9967d9",
+    "actions/common/PlayTopCardAction.java": "dc0bae486cfa50d1470b54917d08ae240b014d96566e5cf32f3d5b0f4aabfd34",
+    "actions/utility/NewQueueCardAction.java": "8a49f78ae34c588f8d9c0f8243d24950b4945b915e20da5ad7ec026c3e6f3747",
+    "actions/utility/UseCardAction.java": "90213939af6d7ec83dea01bb2feef4ba762a93400dc1535732e2eebcdb6cab0f",
+    "relics/MummifiedHand.java": "48d8f5909f56fdbe6cf216bd60bcabeafe10082a3d3a760a769a855428db06a8",
+    "relics/StrangeSpoon.java": "e319dca794cae7abfa9ecc18cedd3cb32ac6fd041d4c947e6ad012d03246526d",
+    "relics/DeadBranch.java": "dbace8181345b67bb9c704b83dea61c9754c3268fc5d93c192f1bd47908c2d6f",
+    "monsters/MonsterGroup.java": "535770201b8aa8de01b52b185979af537f11ad0862e7d3e71ebb20cc64234221",
+    "dungeons/AbstractDungeon.java": "8fa0712818487a360c72950d053fe77e1a35efa967080723d15c69037092fd26",
+    "cards/red/Inflame.java": "ac42810d2c107c0185b96d58fbe8f01d425f0485dcd81e2e8bd3480e57a590cc",
+    "cards/red/Impervious.java": "f2cfabe529afb63089116a31d836c616f0fc14062d765118f0d16dcc4404b74f",
+    "cards/red/Strike_Red.java": "e419fefb5b1bcc34175570fbafb8b68cc2a014ec4e7d974674586057dd22d37b"
+  }
+}

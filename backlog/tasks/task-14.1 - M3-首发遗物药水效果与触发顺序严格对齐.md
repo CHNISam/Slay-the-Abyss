@@ -5,7 +5,7 @@ status: In Progress
 assignee:
   - '@Furinya'
 created_date: '2026-10-23 01:57'
-updated_date: '2026-10-31 18:53'
+updated_date: '2026-10-31 20:02'
 due_date: '2026-10-28'
 labels:
   - required
@@ -272,4 +272,6 @@ PR #304：普通与Boss遗物不可领由手机试玩发现；离线源链路确
 2026-10-31 扩展离线合证：独立cardRandom源oracle覆盖Spoon/DeadBranch/MummifiedHand/Discovery/Elixir/Snecko同流连续消费与身份，5seed及精确少消费变异标准7/7通过；原完整33药水链和普通来源保留。见docs/reviews/M3-CARD-RANDOM-CONSUMER-CHAIN-20261031.md。不是全153遗物所有效果矩阵，广义AC5/7及自然/设备仍不勾。
 
 2026-10-31 后续逐ID索引精确153遗物/33药水，并区分实际断言、公共链、独立预期与自然/设备。补Feather/LetterOpener/HandDrill/Brimstone真实公共链、Colorless原版独立source两瓶14次消费与Bark/溢出，Snecko4seed完整费用/RNG与Insect57边界；Insect合法大HP遗漏int→float32已真实RED最小修复。组合标准54/54与完整工程门禁通过，作者外各片独审通过，完整新HEAD CI待验。静态索引不是测试结果；AC5/7需逐字段/组合合证，不以153均有一断言自动全勾，AC8/9自然/平台未验。见docs/evidence/m3-mechanism-closeout-20261031/。
+
+2026-10-31 明确差集已补：Chaos预排目标到Hand/Spoon/Branch共享消费，完整商店消费、卡奖identity/retry；另修深呼吸双洗及Sundial/Abacus先于抽牌的持有序、Secret候选初次random插入。全部独立源向量/精准负控和非作者审查通过，本地最终组合66/66零skip。宽泛全道具逐属性/跨域与逐件自然/平台条款未获整体认证，不凭数量或局部证明勾AC5/7/8/9；原始失败、两次审拒及最终修复均归档。
 <!-- SECTION:NOTES:END -->

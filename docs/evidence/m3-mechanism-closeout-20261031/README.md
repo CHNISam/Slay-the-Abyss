@@ -6,6 +6,8 @@
 
 - 昆虫标本：原版先把整数maxHealth转binary32，再乘`.75f`并转整数。旧移植遗漏输入转换，合法大HP `16777217`得到12582913，原版为12582912。最小增加输入float32，常规敌人HP结果保持；独立固定表及公开Run输入先RED后GREEN，涵盖舍入、房间资格和Neow低当前HP。没有扩大数值域或修改旧golden。
 - 正常规则取证driver：Living Wall初次forget/change/grow先不传UID，公开进入`choose_card`后再选；grow读取公开upgradeCards。旧driver在seed17第38动作过早传UID，被生产正确拒绝。修后同seed公开两步完成后正常战败16层。玩家节点算法未修改。
+- 深呼吸：有弃牌时先按原版触发一次遗物回调，再洗弃牌、按原顺序移入旧抽牌堆、第二次洗抽牌堆；两次long及全部UID序由独立向量核对。Sundial/Abacus实际效果按持有顺序在首洗和抽牌前完成，共享动作入口不变。初稿仅一次洗牌、后续仅核最终资源的两次审拒都保留，不能将当时本地绿色当作源正确。
+- 秘技与秘密武器：按原版临时候选组的随机插入构造候选，第二个候选即使bound0也消费一次；只在初始动作抽取，后续view、无效/旧token及选择验证不重抽。基础/升级、空/单/多候选真实Run及完整随机轨迹均有定向回归。
 
 ## 新增强证据
 
@@ -20,6 +22,21 @@
 
 `review-*.json`是各片非作者独审；`m3-insect-history-followup.json`保留9项既有整源/owner/负控真实通过，不因未出现历史源失败而新增宽松逆层。最终组合还需精确head/base聚合独审与正常CI集成。
 
+## 最终追加批次
+
+| 范围 | 实际内容 |
+| --- | --- |
+| merchantRng | 四链76次完整消费，初始商店16次及Courier四类补货累计22次；真实Membership购入、折扣、货架、身份、金币/UID及抽数后失败原子回滚，少sale消费定向负控 |
+| cardRng | 同一Run的Neow无色→Orrery五组→真实商店→PrayerWheel/Question→Crown精英；93次rarity/identity/retry/upgrade完整流，奖励重试只身份而商店重试稀有度及身份，精准负控 |
+| Chaos共享流 | 三目标先预排，再真实自动牌触发Hand/Spoon/Branch；源序、全部bound/value/words/counter与公开选择/旧token，两个少消费负控 |
+| 39依赖逐效 | 先保留原34项具体效果/身份/时序证据，补深呼吸、急切、蜕变、秘技、猛袭五项28受控场景；额外精确源向量补上上述两个实际生产差异，不靠78项通用烟测代替数值证明 |
+
+最终执行源码`a80331a`的一次根组合66/66、零skip（161秒）；另三个旧无色Lua夹具通过，包含35普通+4特殊的78次基础/升级实际执行。最终工程318模块、5003/5003测量、1835依赖，固定Luacheck零新增/21历史诊断，四变异和原生合同4/4均通过，指引/语法/Backlog通过。新薄JS入口沿用默认未知规划权重，Lua保留原30秒；没有提高任何期限或重写旧golden。日志在`final-logs/`，各片独审和作者原始报告在`final-slices/`。
+
+`closing-audits/`保留初始64项未勾的历史审计、事件/依赖事实映射及最终逐字AC合证。后者支持纯离线TASK47#8、13.1.2#3、13.1#4，已按CLI据实勾选；其余带自然、官方、设备及未整体认证的宽条款继续开放。没有以缺统一表制造新缺实现，也没有把局部测试扩为全部随机消费者或完整M3认证。
+
+`prior-ci-d3/`是先前`d3c148d`完整27项真实成功，说明Windows路径修复已实际验证；它明确不包含最终追加修复。最终HEAD独审、完整CI、正常合并和合后验证须重新绑定，不能拿旧绿色代替。
+
 ## 完整索引与范围
 
 `indexes/{relic-153,card-75,potion-rng}/matrix.json.gz`逐字保留只读索引，来源为主候选c3d2654；75牌/153遗物/33药水及16类RNG owner分别分列实现、具体断言、公共/受控入口、独立期望及自然/设备证据。它们是可检查的静态索引，不能把ID数、source inverse或断言引用数当作动态通过。人读报告保留原始`report.md.raw.gz`，可读版本只规范行尾空白。后续补测和Insect修复以本目录独审及新测试为准，不倒改c3d旧索引为当前结果。
@@ -30,4 +47,4 @@
 
 ## 主PR真实合后证明
 
-`main-integration/`保存PR436精确C3D的原逻辑preflight及真实squash/develop push证据。主合后b4f88a1完整Quality27项与inventory已成功，原校验结果`merged_passed`，parent/tree严格一致。原CLI因代理无法读取ZIP而失败；同一GitHub artifact由连接器下载并核digest/大小/身份，未改的原collect/receipt/verify与原CLI最终PR六守卫实际通过，不宣称CLI网络下载成功。TASK76仅“回归通过并PR合入”AC3据此勾选，真实设备相关条款保持未完成，当前M3新增已证实AC净数18。
+`main-integration/`保存PR436精确C3D的原逻辑preflight及真实squash/develop push证据。主合后b4f88a1完整Quality27项与inventory已成功，原校验结果`merged_passed`，parent/tree严格一致。原CLI因代理无法读取ZIP而失败；同一GitHub artifact由连接器下载并核digest/大小/身份，未改的原collect/receipt/verify与原CLI最终PR六守卫实际通过，不宣称CLI网络下载成功。TASK76仅“回归通过并PR合入”AC3据此勾选，真实设备相关条款保持未完成。主批净增18条AC；本次追加三个纯离线条款后累计21，不能解释为21个任务或完整M3完成。

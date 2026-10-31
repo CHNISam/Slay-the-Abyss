@@ -1,0 +1,99 @@
+{
+  "status": "PASS_EXACT_HEAD_CI_ONLY_NOT_FINAL_MERGE_APPROVAL",
+  "head": "d3c148d4c1f14545b6d628fb53ad01b76f5167b2",
+  "observedAt": "2026-10-31T19:58:08Z",
+  "runs": {
+    "quality": {
+      "id": 41234494664,
+      "event": "pull_request",
+      "pullRequest": 437,
+      "branch": "feat/m3-mechanism-closeout",
+      "head": "d3c148d4c1f14545b6d628fb53ad01b76f5167b2",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41234494664"
+    },
+    "quick": {
+      "id": 41234494699,
+      "event": "pull_request",
+      "pullRequest": 437,
+      "branch": "feat/m3-mechanism-closeout",
+      "head": "d3c148d4c1f14545b6d628fb53ad01b76f5167b2",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41234494699"
+    },
+    "licenses": {
+      "id": 41234494666,
+      "event": "pull_request",
+      "pullRequest": 437,
+      "branch": "feat/m3-mechanism-closeout",
+      "head": "d3c148d4c1f14545b6d628fb53ad01b76f5167b2",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/CHNISam/Slay-the-Abyss/actions/runs/41234494666"
+    }
+  },
+  "qualityInventory": {
+    "expected": 27,
+    "observed": 27,
+    "success": 26,
+    "contractSkipped": [
+      "fast"
+    ],
+    "failed": [],
+    "missing": [],
+    "unexpected": [],
+    "duplicate": [],
+    "required": [
+      {
+        "name": "check",
+        "id": 124641692557,
+        "conclusion": "success"
+      },
+      {
+        "name": "presentation",
+        "id": 124635601817,
+        "conclusion": "success"
+      },
+      {
+        "name": "engineering-posix",
+        "id": 124641708877,
+        "conclusion": "success"
+      }
+    ],
+    "shapeSourceCommit": "d3c148d4c1f14545b6d628fb53ad01b76f5167b2",
+    "shapeSha256": "7c36fe94241ad5002860f7b09592979db5af45f6632732890c7b773ceeaea2a6"
+  },
+  "previousFailure": "Old f968 oracle fixture drift and11 unfinished cancellations preserved separately under aux-ci-*; this new complete run is independent, not a rerun of old attempt.",
+  "boundaries": [
+    "Only d3c exact-head CI is now proven. Controller has announced newly identified DeepBreath and SecretTechnique/Weapon cardRandom fixes and dependencies still being independently reviewed/integrated. They are not in this head; fullgreen here is not final permission to merge437.",
+    "Await controller aux3 final integrated exacthead and independent review, then require original preflight/current base/checkout receipt/merge parent/tree guards and actual postmerge push CI.",
+    "No official/device/full natural-pool/M3 completion inferred; no remote/repository changes or automatic reruns by monitor."
+  ],
+  "evidence": [
+    {
+      "path": "/workspace/cloud-reports/m3-full-closeout/aux2-ci-quality-run.json",
+      "sha256": "986cca7175f447481d7c495ed6adc1751c3da7725a8f581901c36e4298fb8263"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-full-closeout/aux2-ci-quality-jobs.json",
+      "sha256": "189a45d23e41e450f51a0681d90c577817caa506be6b19316a5688fc3e77b480"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-full-closeout/aux2-ci-quick-run.json",
+      "sha256": "6fd0ac4f009ad47983b12adb80589bdd05923dddef0d399b6149961bc1c578fb"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-full-closeout/aux2-ci-licenses-run.json",
+      "sha256": "e565e737463fa38a82f8cf0afd947e12557f6cd60886328bf08b942826fb0e35"
+    },
+    {
+      "path": "/workspace/cloud-reports/m3-full-closeout/aux2-ci-status-history.jsonl",
+      "sha256": "ed829ce6f94e9893bfaf21b41196cdabddfd99f1d92aeda0967258a5a4ed7d5d"
+    }
+  ]
+}

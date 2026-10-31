@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "scope": "Source-identified test/audit evidence; static indexes are not dynamic or native pass claims",
+  "scope": "Source-identified audit/test/review evidence. Static indexes, historical CI and controlled tests are not native or full M3 pass claims.",
   "files": {
     "README.md": {
-      "sha256": "fdbe0acc5945dcd686a797518d8960b6df17ee624081b1c36855ce60ba2b57bf",
-      "bytes": 4386
+      "sha256": "3e7d28b0f6bfaa97dce873e5a311dc00951fcd2171866c77080c3c5b717e8e1c",
+      "bytes": 7236
     },
     "aux-combined-focused.log.gz": {
       "sha256": "48dce0b7021a0786074e95f2a0e23c7dadc085521492a316bbbc97df389f933c",
@@ -13,6 +13,114 @@
     "aux-engineering.log.gz": {
       "sha256": "c3e1b6897f3b54b5e5edb13cde36f020f3523c6d1ffadfa92ff8ee198a72f7c6",
       "bytes": 797
+    },
+    "closing-audits/dependency39-effect-map.json.gz": {
+      "sha256": "e2d0952aeb831f0470521db23f93a76b96c930437163e0bd77e39fdf2adf166a",
+      "bytes": 4593
+    },
+    "closing-audits/event-dependency-audit.json.gz": {
+      "sha256": "5a893eb0e909a9e0adf41b1bdd1701dc5f1ad3df2eca1e5d0ec5d30eef59bf16",
+      "bytes": 9086
+    },
+    "closing-audits/final-offline-ac-reconciliation.json": {
+      "sha256": "e545502b1f53ef5c9d6c5b01def4a8ec8bb8bf28eac07c5a802db4bd7ee4ebff",
+      "bytes": 12306
+    },
+    "closing-audits/initial-ac-audit.json.gz": {
+      "sha256": "e1987e8463cf1c4daf17473ba42f360250ccd3d84b26db32d06cc0ff326aa861",
+      "bytes": 14928
+    },
+    "final-logs/backlog.log.gz": {
+      "sha256": "182004fe33da50e5ce18a915f5ae539107a50f32a9bf529cf00f31c148aef8a4",
+      "bytes": 285
+    },
+    "final-logs/deep-order-source-red.log.gz": {
+      "sha256": "6d04f05e1a497a2fa601f8e9ffe03fd7f1862afab5dca089a83acf8e0c62097e",
+      "bytes": 691
+    },
+    "final-logs/deep-original-source-red.log.gz": {
+      "sha256": "b5a82e99c93db0d960722bde6568fd308be5f134ad0d2d5957216ebbbdf57bb8",
+      "bytes": 685
+    },
+    "final-logs/engineering.log.gz": {
+      "sha256": "83529770c810b367b4010549277a2a72e4d06898c89c1d7335246a44801e253c",
+      "bytes": 796
+    },
+    "final-logs/focused.log.gz": {
+      "sha256": "bf9a15af1790b93e379d43374cb258d1ee853c0345f1a854ce7bd486e9635508",
+      "bytes": 2488
+    },
+    "final-logs/guidance.log.gz": {
+      "sha256": "effebf7398c8daf7c3f5494cd36bd98b971648f70974d63b9e89511fb61c35be",
+      "bytes": 221
+    },
+    "final-logs/old-colorless.log.gz": {
+      "sha256": "8c7b93ddd3395def36b5633230412d5a584a16a4d945965ee4597e5e884a72e2",
+      "bytes": 151
+    },
+    "final-logs/secret-source-red.log.gz": {
+      "sha256": "53dbbb879a565ee40c52513e526a6480d14517f60f35dbe917491bae160e4317",
+      "bytes": 632
+    },
+    "final-logs/syntax.log.gz": {
+      "sha256": "dbbd3908a13b5238e0c702067a9d46fa672320fb69af6fefc88717060dcd8d00",
+      "bytes": 104
+    },
+    "final-slices/archive-provenance.json": {
+      "sha256": "b705ace02a8460aa6f1ceac18109d8e5ef9982a060c92e796de70405bc2a4427",
+      "bytes": 7669
+    },
+    "final-slices/author-chaos.json.gz": {
+      "sha256": "222fffbbd6a777ed2e3a9adcc6fdb2e4863475f80d3f4d2021fd81056b305263",
+      "bytes": 2962
+    },
+    "final-slices/author-deep-928-superseded.json.gz": {
+      "sha256": "e4ccc9bd95442ce05da06b134d7a580cf6d95a9f46a008e5b51ab8e7e5bd486f",
+      "bytes": 3002
+    },
+    "final-slices/author-deep-order.json.gz": {
+      "sha256": "7ab8b5eb1fd9cb789c7038e195b43c86e596fa201c2b7c2af5afd8de398ad5af",
+      "bytes": 2799
+    },
+    "final-slices/author-merchant.json.gz": {
+      "sha256": "cc5dc317b7d46e19ce8e7b7deb361d5452bd792c13693a4e85ceecfdb95ba39e",
+      "bytes": 2669
+    },
+    "final-slices/author-secret.json.gz": {
+      "sha256": "49098453f5bb8716d116147cb948f5f1943acac6c19406341aec28fec531874e",
+      "bytes": 3727
+    },
+    "final-slices/review-card-consumers.json": {
+      "sha256": "1b293369a43100dc8c3a503645761c71d1d8937a91eb817c44413908c1ba57bb",
+      "bytes": 2595
+    },
+    "final-slices/review-chaos.json": {
+      "sha256": "1fd93f74c1ba494b83bf2398c6f0998a29bb3a09a23563b600d1b071cc989172",
+      "bytes": 8893
+    },
+    "final-slices/review-deep-928-rejected.json": {
+      "sha256": "7eb921558bbf006d541b3cdb6488be245911eb8ff91204756fe6b0da3f056795",
+      "bytes": 5626
+    },
+    "final-slices/review-deep-breath.json": {
+      "sha256": "04f33664103933e8f69dcab7112f09b5e46a027d2af54ce5aa2183df78d04236",
+      "bytes": 4385
+    },
+    "final-slices/review-five-d2-rejected.json": {
+      "sha256": "8d426e9d65b3e6cb8d7d1ef2e0094bf40e88e5075ea31d41dedb297c542d8c8e",
+      "bytes": 4231
+    },
+    "final-slices/review-five-effects.json": {
+      "sha256": "85dfe04355acbdad7fddfd48251082bd84c52a3c726ba20dfc05d79eb270f65e",
+      "bytes": 2441
+    },
+    "final-slices/review-merchant.json": {
+      "sha256": "66a59b57775dd4a42ca92ac3c2fb9f118a4e5527c74778c92493963318756fa6",
+      "bytes": 7126
+    },
+    "final-slices/review-secret.json": {
+      "sha256": "ecfbdc1d488b778ef5b0b43cb146292dac7c5c6eaff2cefc5db1331fbf00f37c",
+      "bytes": 3192
     },
     "indexes/card-75/matrix.json.gz": {
       "sha256": "2daa70ee8935f34648cd328f96989dbb919d230d3b109da023213c0816d64d20",
@@ -185,6 +293,10 @@
     "normal-runs/ca838ef/source-identity.json": {
       "sha256": "ff85b3f3b4be889d8363c14b6aa2c5d310c6bb3ca67746682c7bd411b1aa7290",
       "bytes": 970
+    },
+    "prior-ci-d3/result.json": {
+      "sha256": "c67ca6ebc16775584e23ab052ae0e6c0d7426dac0455b147113cf53f2a788fb6",
+      "bytes": 3754
     },
     "review-colorless.json": {
       "sha256": "a933076edd4820781e952fa5b43937668c2eadd7cc8529f4813fd1233eda262d",

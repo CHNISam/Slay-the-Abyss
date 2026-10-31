@@ -1,0 +1,48 @@
+{
+  "reviewedCommit": "d2b5869cb33e26123f6d64c719f71fc31913e814",
+  "worktree": "/workspace/m3-rng-closeout",
+  "verdict": "changes_requested",
+  "findings": [
+    {
+      "severity": "Important",
+      "path": "tests/lua/support/colorless_five_effects.lua",
+      "line": 32,
+      "summary": "Deep Breath nonempty-discard source contract requires two shuffle wrapper calls; new literal +1 expectation certifies existing incomplete production behavior.",
+      "sourceFacts": [
+        "DeepBreath.use queues EmptyDeckShuffleAction then ShuffleAction(drawPile,false) before draw.",
+        "EmptyDeckShuffleAction.update first calls discardPile.shuffle(AbstractDungeon.shuffleRng).",
+        "ShuffleAction.update calls this.group.shuffle().",
+        "Independently fetched fixed CardGroup.java: both shuffle(Random) and shuffle() use Collections.shuffle(...new java.util.Random(rng.randomLong())), default owner is AbstractDungeon.shuffleRng. Thus two sequential wrapper draws; first shuffles discard before transfer, second shuffles merged draw."
+      ],
+      "productionPath": "src/lua/abyss_colorless_cards.lua deepBreath currently only merges discard then Random.shuffle once.",
+      "requestedRepair": "Coordinate with RNG-owner followup: independent original two-stage expected object order/full stream then red-green minimal production repair; update new assertion/docs. Merely setting counter+2 without first discard shuffle/transfer order is insufficient.",
+      "sourceReceipt": {
+        "path": "cards/CardGroup.java",
+        "sourceCommit": "319009d5df0a82d9fb0f23cc22322286c6a87ec0",
+        "sha256": "03de4e22ab22bedf1d90df72bdc83f033ff6aa776ad9d8f7259e1ee9293f7fa8",
+        "gitBlob": "546405eea9d7dcbd855fe47471c55c92d086987c",
+        "bytes": 45485,
+        "cachedReviewerFile": "/workspace/cloud-reports/m3-dependency39-source/CardGroup-review.java"
+      }
+    }
+  ],
+  "reviewEvidence": [
+    "All11 committed Java receipts raw bytes/size/SHA256/Gitblob independently verified against cached originals; read fivecard use/canUse/upgrade and sixaction update bodies. Source metadata lock is not treated as an execution oracle.",
+    "Independently ran eleven standardJS tests:11pass/0fail/0skip,8638.75ms. Passing tests do not resolve identified incorrect DeepBreathsource expectation.",
+    "Impatience base/up2/3 noAttack and0attack actual handcounts/topobject/noShuffle plus fullobjectconservation meaningfully close prior branch gap.",
+    "Metamorphosis base/up3/5 realgeneratednonHEALINGattack/newuniqueUID/permanent0cost, originallypositivecase,energy2/exhaust observed. Partial chosen-seed type/cost contract, not fullRNG audit.",
+    "SecretTechnique sourcecanUse correctly rejects noSkill with originalcard/energy/nextUID retained; singleauto andtwochoice actualskillobject movement/filter, staleUID/token rejection andbaseexhaust/updiscard.",
+    "Violence base/up3/4 with0/2/6eligible, initialhand1or10(card+9defends); removesplayedcard then one lastslot, remainingselectedattacksto discard. AllobjectUIDs preserved,skillretained. Legalmax10fixture, no fictitious11hand.",
+    "Five mutations each anchored exactlyonce and expectednamedresultmarker required; counts/filters/merge mutations actually exercise relevant result assertion. They are test sensitivity proof, not productionRED.",
+    "No production/oldgolden/budget change in reviewedcommit; fixture/environment initialrepairs documented transparently. Backlog addsnotesonly; noACcheckbox changed."
+  ],
+  "gapClosure": {
+    "deep_breath": "Not closed: source discrepancy blocks five-effects aggregate approval.",
+    "impatience": "Original concrete effect gap closed within audited scope.",
+    "metamorphosis": "Original concrete generation count/type/object/cost gap closed.",
+    "secret_technique": "Original concrete filtering/move/canUse/disposal gap closed.",
+    "violence": "Original concrete count/filter/insufficient/fullhand/object gap closed."
+  },
+  "task47AC8": "Four newconsumer contracts compose with existing75/34/origin/instance evidence. DeepBreathmust be corrected before claiming allfive/39 consumercontracts closed. No automaticofficial/device/naturalcompletion.",
+  "sourceModifiedByReviewer": false
+}
