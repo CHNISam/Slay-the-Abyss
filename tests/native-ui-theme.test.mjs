@@ -48,7 +48,9 @@ test('node and menu layouts resolve semantic colour, font, minimum font and pict
   assert.equal(find(node, 'hp').text.colour, theme.color.text);
   assert.equal(find(find(node, 'back').children, 'normal').colour, theme.color.panelRaised);
   const event = find(node, 'eventView'), figure = find(event.children, 'neowFigure');
-  assert.equal(find(figure.children, 'scene').image, theme.image.officialBackdrops.act1_1);
+  // Self-built geo backdrop: no official scene picture behind Neow.
+  assert.equal(find(figure.children, 'scene').image, theme.image.rect);
+  assert.equal(find(figure.children, 'shard0').image, theme.image.diamond);
   assert.equal(find(figure.children, 'shade').image, theme.image.vignette);
   assert.equal(find(event.children, 'bubble').image, theme.image.discSoft);
   const id = entry => (typeof entry === 'object' ? entry.id : entry);
