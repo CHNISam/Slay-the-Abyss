@@ -18,6 +18,17 @@ function M.paintRoom(fx)
     local ringSize = fx.size * Layout.sts.circlePerScale * (fx.scale * .95 + .2)
     ring:SetSizeDelta(ringSize, ringSize)
 end
+-- Room ink by state: emerald > visited gold > locked faded > official type colour.
+function M.roomInk(node, state)
+    local palette = Theme.color.mapCanvas
+    if node.hasEmeraldKey then return Theme.color.positive end
+    if state == "visited" then return palette.visited end
+    if state == "locked" then
+        local c = palette.far
+        return { r = c.r, g = c.g, b = c.b, a = math.floor(c.a * Theme.layout.map.presentation.lockedOpacity + .5) }
+    end
+    return palette.kind[node.type]
+end
 local function finite(n) return type(n) == "number" and n == n and math.abs(n) < math.huge end
 local function clamp(n, low, high) return math.max(low, math.min(high, n)) end
 local function child(control, name) return assert(control:GetChild(name), "missing map UI control " .. name) end
@@ -357,7 +368,9 @@ function M.new(root, map, onChoose, clickEvent, options)
                 local palette = Theme.color.mapCanvas
                 -- color: NOT_TAKEN for locked rooms, AVAILABLE ink for taken/current/available.
                 fx.colour = colour
-                fx.ink = node.hasEmeraldKey and Theme.color.positive or state == 'locked' and palette.far or palette.kind[node.type]
+                -- TASK-4.13: on the dark canvas, taken rooms share the gold path ink and
+                -- unreachable rooms recede by opacity, so current/visited/next read at a glance.
+                fx.ink = M.roomInk(node, state)
                 M.paintRoom(fx)
                 icon:SetAnchoredPosition(0,node.hasEmeraldKey and Theme.layout.map.emeraldIconY or 0)
                 child(box,'emeraldLabel'):SetVisible(node.hasEmeraldKey==true)

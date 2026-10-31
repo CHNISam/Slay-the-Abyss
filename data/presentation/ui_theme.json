@@ -1440,6 +1440,7 @@
         "navigationSize": 48,
         "pathWidth": 3,
         "futureOpacity": 0.6,
+        "lockedOpacity": 0.86,
         "takenOpacity": 1,
         "nextOpacity": 1,
         "fogOpacity": 0.35,

@@ -116,7 +116,7 @@ test("initial controls show legal starts, shared icons and four states across al
                 seen[node.id], types[node.type] = true, true
                 local palette = Theme.color.mapCanvas
                 assert(sameColor(box:GetChild("icon").imageColor,
-                    node.floor == 1 and palette.kind[node.type] or palette.far))
+                    MapUI.roomInk(node, node.floor == 1 and "available" or "locked")))
                 assert(not box:GetChild("positionToken").visible)
                 assert(box:GetChild("icon").image == Theme.icon.node[node.type])
                 assert(box:GetChild("hit").visible == (node.floor == 1))
@@ -151,7 +151,7 @@ test("actual control clicks advance once, notify copied node and block reentrant
     ui:setNavigationEnabled(true)
     local nextNode = Map.available(map)[1]
     assert(clickNode(root, map, nextNode.id) and map.floor == 2)
-    assert(sameColor(boxFor(root, map, first.id):GetChild("icon").imageColor,Theme.color.mapCanvas.kind[first.type]))
+    assert(sameColor(boxFor(root, map, first.id):GetChild("icon").imageColor,Theme.color.mapCanvas.visited))
     assert(mapControl(panel(root), "edge1").imageColor.r == Theme.color.node.pathTaken.r)
     assert(boxFor(root,map,nextNode.id):GetChild("positionToken").visible)
     assert(not boxFor(root,map,first.id):GetChild("positionToken").visible)

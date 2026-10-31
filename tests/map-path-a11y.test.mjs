@@ -38,6 +38,8 @@ test('map node and path states follow STS hierarchy with WCAG 1.4.11 contrast', 
   // Unreachable routes are inactive decoration (WCAG 1.4.11 exemption) and must recede like STS
   // DISABLED edges; live routes stay >= 4.5:1 and at least 3x the recessive stroke.
   assert.ok(future >= 2 && future < locked && next >= 4.5 && taken >= 4.5 && next > future * 3 && taken > future * 3, `${future} ${next} ${taken}`);
+  // TASK-4.13: locked rooms recede by opacity but keep the 3:1 non-text floor.
+  assert.ok(v.lockedOpacity < 1 && ratio(over(mapCanvas.far, bg, v.lockedOpacity), bg) >= 3, 'locked opacity keeps 3:1');
   assert.ok(v.pathWidth >= 3);
   assert.match(readFileSync('src/lua/abyss_map_ui.lua','utf8'), /next = pathColour\(Theme\.color\.node\.reachable/);
 });

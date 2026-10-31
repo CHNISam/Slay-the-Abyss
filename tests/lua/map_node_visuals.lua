@@ -48,7 +48,9 @@ local function verify()
             local icon,hit=b:GetChild('icon'),b:GetChild('hit')
             assert(icon.image==Theme.icon.node[node.type],'existing official node icon ID retained')
             local palette=Theme.color.mapCanvas
-            equalColor(icon.imageColor,node.hasEmeraldKey and Theme.color.positive or state=='locked' and palette.far or palette.kind[node.type])
+            equalColor(icon.imageColor,UI.roomInk(node,state))
+            if state=='locked' then assert(icon.imageColor.a<palette.far.a,'TASK-4.13 locked rooms recede') end
+            if state=='visited' then assert(icon.imageColor.r==palette.visited.r,'TASK-4.13 visited rooms share gold path ink') end
             assert(b:GetChild('positionToken').visible==(state=='current'),'existing token identifies only current node')
             local size=node.type=='boss' and Theme.layout.map.bossNode or Theme.layout.map.node
             assert(b:GetChild('ring').visible==(state=='current' or state=='visited'),'STS MAP_CIRCLE_5 on current and taken rooms')
