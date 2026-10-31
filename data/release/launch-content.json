@@ -1,10 +1,11 @@
 {
   "schemaVersion": 2,
-  "scope": "Ironclad / Geo Lumine / Act 1 / PC A0",
+  "currentInventory": {"act1HistoricalWitness": "cards/generatedCards/enemies/encounters/bosses preserve their independently frozen first-act inventory contract; not a two-act content ceiling", "currentCampaignLedger": "data/release/m3-campaign.json", "currentExecutionEvidence": "docs/evidence/m3-normal-campaign-20261031/summary.json", "acceptance": "per-item natural/platform NOT_COMPLETE"},
+  "scope": "Ironclad / Geo Traveler / Acts 1–2 / PC A0",
   "baseline": "6e8714f",
   "integratedBaseline": "d3369bb",
   "status": "scope-baseline-awaiting-per-item-acceptance",
-  "updated": "2026-10-30",
+  "updated": "2026-10-31",
   "policy": "Inventory of current production wiring, not a runtime admission switch or a claim of per-item platform acceptance. Any scope change must update this file and its evidence.",
   "runtimeAdmission": {
     "enforcedBy": "src/lua/abyss_run_admission.lua#M.accepts; src/lua/abyss_character_select.lua#canConfirm (before adapters and UI seed generation)",
@@ -53,12 +54,13 @@
       "ids": [
         "spirit-poop-score"
       ],
-      "status": "pending-production-score-consumer",
-      "evidence": "src/lua/abyss_relic_hooks.lua#scoreAdjustment",
+      "status": "implemented-production-score-consumer-local-regression",
+      "evidence": "src/lua/abyss_run_settlement.lua#result; tests/lua/run_score_calculator.lua",
       "tasks": [
         "TASK-47"
       ],
-      "detail": "Spirit Poop obtain/display is wired; -1 score helper is not consumed by a production total-score calculation."
+      "detail": "Production result passes RelicHooks.scoreAdjustment(run) into Scoring.result. Per-item platform/natural acceptance remains unverified.",
+      "historicalStatus": "pending-production-score-consumer"
     }
   ],
   "profiles": {
