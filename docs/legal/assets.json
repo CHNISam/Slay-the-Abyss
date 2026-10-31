@@ -90,6 +90,10 @@
     "neow-static-layout-evidence": {
       "status": "Historical project layout screenshots from PR403; official platform picture-library textures remain game IP, no sublicense or commercial clearance. Evidence-only, not runtime assets or official import/device/gameplay acceptance. capture.lua forces bossCount=1; sim.mjs strips scripts and cursor areas. Original blessing image hides descriptions and records the pre-fix defect. pair.png is a composition of static views, not an interactive playthrough.",
       "evidence": "https://github.com/CHNISam/Slay-the-Abyss/pull/403; commits 073ed4fd486916996db11214962afe9ad3513317 and f37a4262f8d908cab4a0e1602010a779a2839e4d; experiments/neow-sim/capture.lua; experiments/neow-sim/sim.mjs; before-neow.sim.png predates the PR layout, exact generation revision not recorded"
+    },
+    "neow80-static-layout-evidence": {
+      "status": "Static Before/After layout images reported as Beyond Simulator output in PR421; official platform picture-library textures remain game IP. Reviewed pixels and exact retained hashes only; evidence-only, no runtime approval, IP sublicense, commercial clearance, official import, device or gameplay acceptance. The Before images retain the missing option-title defect; pair.png juxtaposes static views, not an interactive playthrough.",
+      "evidence": "https://github.com/CHNISam/Slay-the-Abyss/pull/421; exact source head 5fb45692047d9e3ba8b509466daf7b3e4cfa3cb3; .artifacts/neow80/before/*.sim.png, .artifacts/neow80/after/*.sim.png and pair.png; scripts/node-ui-layout.mjs and scripts/cinematic-ui-layout.mjs; original capture session and device provenance not independently certified"
     }
   },
   "files": {
@@ -5437,6 +5441,26 @@
     ".artifacts/neow/after/pair.png": {
       "sha256": "766f72f71bd4c104ca948dbe21f80839d4d4a85c55cac708c3fd17b0cd57c8fa",
       "category": "neow-static-layout-evidence"
+    },
+    ".artifacts/neow80/after/neow-blessing.sim.png": {
+      "sha256": "1f329ff3c84e3249963fdfdf94db993b8945870e443607910fb30a31ac025386",
+      "category": "neow80-static-layout-evidence"
+    },
+    ".artifacts/neow80/after/neow.sim.png": {
+      "sha256": "7f8f8163a0fdf686111962bab814b61600b370c740f9b05519ca4f4e2a3ecb77",
+      "category": "neow80-static-layout-evidence"
+    },
+    ".artifacts/neow80/before/neow-blessing.sim.png": {
+      "sha256": "92e3056c589a24306658ed134db75359a18e85f432485bbe9de91795625a5623",
+      "category": "neow80-static-layout-evidence"
+    },
+    ".artifacts/neow80/before/neow.sim.png": {
+      "sha256": "13977391cf4b5aa2983df65764ae1054ea87a5dbc0b438459991e1c3c78c4530",
+      "category": "neow80-static-layout-evidence"
+    },
+    ".artifacts/neow80/pair.png": {
+      "sha256": "ce782f9fba3e150813a1ee37c973bacbca80d5a3376e45e4f8629e59e5370027",
+      "category": "neow80-static-layout-evidence"
     }
   }
 }

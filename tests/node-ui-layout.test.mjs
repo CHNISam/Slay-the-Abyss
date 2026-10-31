@@ -14,9 +14,10 @@ function walk(control, visit, origin = [0, 0]) {
   const next = [origin[0] + (control.position?.[0] ?? 0), origin[1] + (control.position?.[1] ?? 0)];
   for (const child of control.children ?? []) walk(child, visit, next);
 }
+const headerDecoration = ['headerShade', 'headerDivider', 'titleLineLeft', 'titleLineRight'];
 const clickable = c => c.kind === 'container' && (c.children ?? []).some(child => child.kind === 'cursorArea');
 // What the player sees together: shared chrome plus one view. The merchant appears only with the shop.
-const screen = view => [...panel.children.filter(c => (c.visible !== false || c.name==='merchant' && view==='shopView') && !views.includes(c.name) && !['backdrop', 'topBar'].includes(c.name)
+const screen = view => [...panel.children.filter(c => (c.visible !== false || c.name==='merchant' && view==='shopView') && !views.includes(c.name) && !['backdrop', 'topBar', ...headerDecoration].includes(c.name)
     && (c.name !== 'merchant' || view === 'shopView') && !(view==='shopView' && c.name==='back')),
   ...find(panel.children, view).children.filter(c => c.visible !== false && (c.kind !== 'image' || !['glow', 'plate', 'plateBorder'].includes(c.name)))];
 
@@ -71,6 +72,29 @@ test('every interactive control is a full-size focusable touch target inside the
     assert.ok(box.bottom >= -h / 2 + safe.y && box.top <= h / 2 - safe.y, control.name);
   });
   assert.ok(count >= 30);
+});
+
+test('node header decoration stays below readable content and has no input receivers', () => {
+  const header = nativeTheme.layout.map.presentation.header;
+  const specs = [
+    ['headerShade', header.shade, nativeTheme.color.mapHeader.shade, nativeTheme.image.rect],
+    ['headerDivider', header.divider, nativeTheme.color.mapHeader.border, nativeTheme.image.fadeLine],
+    ['titleLineLeft', header.titleLineLeft, nativeTheme.color.mapHeader.title, nativeTheme.image.fadeLine],
+    ['titleLineRight', header.titleLineRight, nativeTheme.color.mapHeader.title, nativeTheme.image.fadeLine],
+  ];
+  const titleIndex = panel.children.findIndex(c => c.name === 'title');
+  for (const [name, frame, colour, image] of specs) {
+    const control = find(panel.children, name);
+    assert.equal(control.kind, 'image', name);
+    assert.equal(control.image, image, name);
+    assert.equal(control.colour, colour, name);
+    assert.deepEqual(control.position, frame.slice(0, 2), name);
+    assert.deepEqual(control.size, frame.slice(2), name);
+    assert.ok(panel.children.indexOf(control) < titleIndex, name);
+    assert.equal(control.children?.length ?? 0, 0, name);
+    assert.equal(control.focusable, undefined, name);
+  }
+  assert.equal(find(panel.children, 'headerShade').opacity, header.shadeOpacity);
 });
 
 test('each screen keeps its readable elements and buttons free of sibling overlap', () => {
