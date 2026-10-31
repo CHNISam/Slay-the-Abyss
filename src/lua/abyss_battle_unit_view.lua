@@ -34,6 +34,10 @@ function M.noticeLift(actor,portrait,baseY,player)
     return math.max(0,top-baseY-lower),lower,top
 end
 
+local function portraitVisible(box, icon)
+    return not (box.name=="hero" and type(icon)=='table' and icon.status=="placeholder")
+end
+
 function M.new(picture, tint, ink, statusKind)
     local function portraitParts(box, actor, portrait, icon, width, selected, targetWidth)
         for _, name in ipairs({"plate", "border", "portrait"}) do
@@ -51,7 +55,7 @@ function M.new(picture, tint, ink, statusKind)
         tint(box:GetChild("portrait"), box.name == "hero" and C.buttonPressedText or C.text)
         -- STS shows the player as the character art plus powers/stance UI; never a glyph on the body.
         -- The 105292 placeholder read as a stray stance arrow, so hide it (real art comes from battlePose).
-        box:GetChild("portrait"):SetVisible(not(box.name=="hero" and type(icon)=='table' and icon.status=="placeholder"))
+        box:GetChild("portrait"):SetVisible(portraitVisible(box,icon))
         tint(box:GetChild("border"), selected and C.goldBright or C.line)
         for _, x in ipairs({-1,1}) do for _, y in ipairs({-1,1}) do
             for _, axis in ipairs({'H','V'}) do
