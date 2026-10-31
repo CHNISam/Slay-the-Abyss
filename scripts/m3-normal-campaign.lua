@@ -5,6 +5,7 @@ local Run,Nodes,Map=require('abyss_run'),require('abyss_nodes'),require('abyss_m
 local C,R,Q=require('abyss_combat'),require('abyss_sts_random'),require('abyss_encounter_queue')
 local Data=require('abyss_data')
 local Policy=dofile('scripts/warrior75-autoplay-policy.lua')
+local EventCards=dofile('scripts/m3-event-card-policy.lua')
 local function json(value)
     if type(value)=='nil' then return 'null' end
     if type(value)=='boolean' or type(value)=='number' then return tostring(value) end
@@ -96,18 +97,7 @@ local function play(seed)
     if flow.event.id=='neow'then choice=options[flow.event.stage=='neow_blessing' and 2 or 1]end
     if not choice then for _,o in ipairs(options)do if o.enabled~=false and not o.disabled then choice=o;break end end end
     assert(choice,'no public event option '..flow.event.id)
-    local uid
-    if choice.picker then
-     local view=Nodes.view(run,map).node
-     local candidates=view.event.purgeCards or (choice.picker:find('upgrade')and view.upgradeCards)
-     if candidates then
-      local worst
-      for _,card in ipairs(candidates)do
-       local score=Policy.scoreCard(run,card.cardId)
-       if not worst or score<worst then uid,worst=card.uid,score end
-      end
-     end
-    end
+    local uid=EventCards.uid(run,map,choice,Policy.scoreCard)
     command('event',function()return Nodes.chooseEvent(run,choice.choice,uid)end,{event=flow.event.id,choice=choice.choice,stage=flow.event.stage,uid=uid})
    else
     local plan=assert(Policy.suggestNodeAction(run,map,coverage,done),'no node plan')
@@ -137,8 +127,8 @@ local function play(seed)
  report.status=ok and run.phase or 'driver_blocked';report.reason=not ok and tostring(reason)or nil
  report.final=snap(run,map)
  local fresh,freshMap=new(seed)
- report.restartVerified=json(snap(fresh,freshMap))==json(report.initial)
- assert(report.restartVerified,'restart retained state')
+ report.newRunConstructionResetVerified=json(snap(fresh,freshMap))==json(report.initial)
+ assert(report.newRunConstructionResetVerified,'new Run construction retained state')
  print('M3_SUMMARY '..json({seed=seed,status=report.status,reason=report.reason,floor=run.floor,hp=run.hp,actions=#report.actions,ending=run.ending}))
  print('M3_EVIDENCE_JSON '..json(report))
 end

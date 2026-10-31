@@ -6,7 +6,7 @@
 
 无持久Boss已见历史时，第一幕默认Guardian、第二幕默认Champ；Hexaghost、Slime Boss、Collector、Automaton实现保留，不能把受控/历史资格测试说成新开比赛局自然取得。持久历史资格按TASK-53延期，不通过伪造历史扩开放行。
 
-[正常规则离线运行记录](evidence/m3-normal-campaign-20261031/summary.json)使用真实Run/Nodes/Combat、完整生产数据、公开固定策略和有界seed；记录全部胜败、卡UID及获得来源动作、随机轨迹、跨幕状态与重开。它不提供官方导入、ready、PC或实体手机证据，也不把全内容实现误写为每项自然获得使用过。逐项自然/平台验收仍须保留真实差集。
+[正常规则离线运行记录](evidence/m3-normal-campaign-20261031/summary.json)使用真实Run/Nodes/Combat、完整生产数据、公开固定策略和有界seed；记录全部胜败、卡UID及获得来源动作、随机轨迹、跨幕状态与重新构造Run的隔离性（并非Host重开）。它不提供官方导入、ready、PC或实体手机证据，也不把全内容实现误写为每项自然获得使用过。逐项自然/平台验收仍须保留真实差集。
 
 ## 历史离线接线盘点（以下不覆盖当前范围）
 
